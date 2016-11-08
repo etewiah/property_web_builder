@@ -9,7 +9,7 @@ module Pwb
         I18n.locale = :en
         # tag is used to group content for an admin page
         # key is camelcase (js style) - used client side to identify each item in a group of content
-        unless Pwb::Content.where(tag: "landing-carousel").count > 1
+        unless Pwb::Content.where(tag: "landing-carousel").count > 0
           Pwb::Content.create!(
             [
               { key: 'landingPageHero',
