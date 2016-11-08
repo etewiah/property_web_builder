@@ -10,9 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20161107210046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "pwb_contents", force: :cascade do |t|
+    t.string   "key"
+    t.string   "tag"
+    t.text     "raw"
+    t.string   "input_type"
+    t.string   "status"
+    t.integer  "last_updated_by_user_id"
+    t.integer  "sort_order"
+    t.string   "target_url"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.index ["key"], name: "index_pwb_contents_on_key", unique: true, using: :btree
+  end
 
 end
