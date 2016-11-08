@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  mount Pwb::Engine => "/pwb"
+  mount Pwb::Engine => "/"
 end
