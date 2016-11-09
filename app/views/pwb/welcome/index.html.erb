@@ -1,17 +1,59 @@
-<p id="notice"><%= notice %></p>
-
+<p id="notice">
+  <%= notice %>
+</p>
 <h1>Welcome</h1>
-
+<div>
+  <div class="jumbotron">
+    <div class="jumbotron-left">
+      <div id="homepageCarousel" class="carousel carousel-1 carousel-fixed-height slide" data-interval="<%= @carousel_speed %>" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <% @carousel_items.each.with_index do |carousel_item, index| %>
+            <li data-target="#homepageCarousel" data-slide-to="<%= index %>" class=""></li>
+            <% end %>
+        </ol>
+        <div class="carousel-inner">
+          <% @carousel_items.each.with_index do |carousel_item, index| %>
+            <div class="item item-dark <%= " active " if index == 0 %>" style="background-image:url(<%= carousel_item.default_photo_url %>);">
+              <% if "toimplement" == "tt" %>
+                <div class="mask mask-1"></div>
+                <% end %>
+                  <div class="container">
+                    <div class="description-left">
+                      <div class="title c-white text-uppercase strong-700">
+                      </div>
+                      <%== carousel_item.raw %>
+                    </div>
+                  </div>
+                  <!--                         <div class="ribbon dark fondo_accion">
+                          <span>
+                          </span>
+                        </div> -->
+            </div>
+            <% end %>
+        </div>
+        <!-- Controls -->
+        <% if @carousel_items.length > 1 %>
+          <a class="left carousel-control" href="#homepageCarousel" data-slide="prev">
+            <i class="fa fa-angle-left"></i>
+          </a>
+          <a class="right carousel-control" href="#homepageCarousel" data-slide="next">
+            <i class="fa fa-angle-right"></i>
+          </a>
+          <% end %>
+      </div>
+    </div>
+    <div class="jumbotron-right">
+      <!-- FIND property list WIDGET -->
+    </div>
+  </div>
+</div>
 <table>
   <thead>
     <tr>
       <th colspan="3"></th>
     </tr>
   </thead>
-
   <tbody>
   </tbody>
 </table>
-
 <br>
-
