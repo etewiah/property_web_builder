@@ -5,7 +5,8 @@ module Pwb
 
     # GET /welcomes
     def index
-      @carousel_items = Pwb::Content.where(tag: "landing-carousel").includes(:content_photos, :translations)
+      @carousel_items = Pwb::Content.where(tag: "landing-carousel")
+      # .includes(:content_photos, :translations)
     end
 
   end
