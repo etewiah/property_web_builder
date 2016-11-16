@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 20161108132035) do
   create_table "pwb_contents", force: :cascade do |t|
     t.string   "key"
     t.string   "tag"
-    t.text     "raw"
     t.string   "input_type"
     t.string   "status"
     t.integer  "last_updated_by_user_id"

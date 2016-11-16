@@ -3,7 +3,7 @@ class CreatePwbContents < ActiveRecord::Migration[5.0]
     create_table :pwb_contents do |t|
       t.string :key
       t.string :tag
-      t.text :raw
+      # t.text :raw
 
       t.string :input_type
       t.string :status
