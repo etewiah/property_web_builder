@@ -1,0 +1,17 @@
+---
+- key: landingPageHero
+  tag: landing-carousel
+  input_type:
+  status:
+  last_updated_by_user_id:
+  sort_order:
+  target_url:
+  raw_en: <span class="subtitle-sm">We are the best estate agents in our area.</span>
+      <ul class="list-carousel mb-20">
+        <li><i class="fa fa-check-square"></i> Professional staff</li>
+        <li><i class="fa fa-check-square"></i> We will find you the best property on the market</li>
+      </ul>
+  raw_es: <span class="subtitle-sm">Somos lo mejor.</span>
+      <ul class="list-carousel mb-20">
+        <li><i class="fa fa-check-square"></i>Nuestro equipo está formado por profesionales</li>
+      </ul>

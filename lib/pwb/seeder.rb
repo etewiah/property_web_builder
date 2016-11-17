@@ -19,34 +19,23 @@ module Pwb
       protected
 
       def seed_example_carousel
-        unless Pwb::Content.where(tag: "landing-carousel").count > 0
-          Pwb::Content.create!(
-            [
-              { key: 'landingPageHero',
-                tag: 'landing-carousel',
-                raw_es: '
-                        <span class="subtitle-sm">Somos lo mejor.</span>
-                        <ul class="list-carousel mb-20">
-                          <li><i class="fa fa-check-square"></i>Nuestro equipo está formado por profesionales</li>
-                        </ul>',
-                raw_en: '
-                        <span class="subtitle-sm">We are the best estate agents in our area.</span>
-                        <ul class="list-carousel mb-20">
-                          <li><i class="fa fa-check-square"></i> Professional staff</li>
-                          <li><i class="fa fa-check-square"></i> We will find you the best property on the market</li>
-                        </ul>' 
-                }
-          ])
+        carousel_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'content', 'carousel.yml')
+        carousel_yml = YAML.load_file(carousel_seed_file)
+        carousel_yml.each do |content_col_yml|
+          unless Pwb::Content.where(key: content_col_yml["key"]).count > 0
+            Pwb::Content.create!(content_col_yml)
+          end
         end
       end
 
       def seed_example_content_cols
-
-json = ActiveSupport::JSON.decode(File.read('db/json_seeds/content_area_cols.json'))
-byebug
-json.each do |a|
-  Country.create!(a['country'], without_protection: true)
-end
+        # content_cols_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'content_columns.yml')
+        # content_cols_yml = YAML.load_file(content_cols_seed_file)
+        # content_cols_yml.each do |content_col_yml|
+        #   unless Pwb::Content.where(key: content_col_yml["key"]).count > 0
+        #     Pwb::Content.create!(content_col_yml)
+        #   end
+        # end
 
         unless Content.exists?(key: "cac1")
           Content.create!(
