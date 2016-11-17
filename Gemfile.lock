@@ -67,6 +67,7 @@ GEM
       autoprefixer-rails (>= 6.0.3)
       sass (>= 3.4.19)
     builder (3.2.2)
+    byebug (9.0.6)
     capybara (2.10.1)
       addressable
       mime-types (>= 1.16)
@@ -176,6 +177,7 @@ PLATFORMS
 DEPENDENCIES
   activemodel-serializers-xml
   bootstrap (~> 4.0.0.alpha5)
+  byebug
   capybara
   carrierwave (>= 1.0.0.rc, < 2.0)
   factory_girl_rails
