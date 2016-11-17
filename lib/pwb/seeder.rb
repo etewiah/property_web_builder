@@ -41,6 +41,13 @@ module Pwb
       end
 
       def seed_example_content_cols
+
+json = ActiveSupport::JSON.decode(File.read('db/json_seeds/content_area_cols.json'))
+byebug
+json.each do |a|
+  Country.create!(a['country'], without_protection: true)
+end
+
         unless Content.exists?(key: "cac1")
           Content.create!(
             [
