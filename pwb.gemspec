@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = Pwb::VERSION
   s.authors     = ["Ed Tewiah"]
   s.email       = ["etewiah@hotmail.cim"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Pwb."
-  s.description = "TODO: Description of Pwb."
+  s.homepage    = "http://propertywebbuilder.com"
+  s.summary     = "A Rails engine for real estate agents."
+  s.description = "PropertyWebBuilder lets you build real estate websites fast."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
