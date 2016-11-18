@@ -1,7 +1,7 @@
 require "rails_helper"
 
 module Pwb
-  RSpec.describe WelcomesController, type: :routing do
+  RSpec.describe WelcomeController, type: :routing do
     describe "routing" do
 
       it "routes to #index" do

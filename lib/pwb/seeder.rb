@@ -4,16 +4,13 @@ module Pwb
     class << self
       # Called by this rake task:
       # rake app:pwb:db:seed                                  1 ↵
-      #
-      def seed!
 
+      def seed!
         I18n.locale = :en
         # tag is used to group content for an admin page
         # key is camelcase (js style) - used client side to identify each item in a group of content
-
         seed_example_carousel
         seed_example_content_cols
-
       end
 
       protected
