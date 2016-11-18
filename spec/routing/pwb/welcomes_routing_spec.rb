@@ -1,40 +1,51 @@
 require "rails_helper"
 
 module Pwb
-  RSpec.describe WelcomeController, type: :routing do
-    describe "routing" do
+  RSpec.describe "PropertyWebBuilder routing ", type: :routing do
+    routes { Pwb::Engine.routes }
+    describe "root url" do
+      it "routes to welcome_controller#index" do
+        expect({
+                 get: "/"
+        }).to route_to(
+          controller: "pwb/welcome",
+          action: "index"
+        )
+      end
+    end
+    describe "welcome routing" do
 
       it "routes to #index" do
-        expect(:get => "/welcomes").to route_to("welcomes#index")
+        expect(:get => "/welcome").to route_to("pwb/welcome#index")
       end
 
-      it "routes to #new" do
-        expect(:get => "/welcomes/new").to route_to("welcomes#new")
-      end
+      # it "routes to #new" do
+      #   expect(:get => "/welcome/new").to route_to("welcome#new")
+      # end
 
-      it "routes to #show" do
-        expect(:get => "/welcomes/1").to route_to("welcomes#show", :id => "1")
-      end
+      # it "routes to #show" do
+      #   expect(:get => "/welcome/1").to route_to("welcome#show", :id => "1")
+      # end
 
-      it "routes to #edit" do
-        expect(:get => "/welcomes/1/edit").to route_to("welcomes#edit", :id => "1")
-      end
+      # it "routes to #edit" do
+      #   expect(:get => "/welcome/1/edit").to route_to("welcome#edit", :id => "1")
+      # end
 
-      it "routes to #create" do
-        expect(:post => "/welcomes").to route_to("welcomes#create")
-      end
+      # it "routes to #create" do
+      #   expect(:post => "/welcome").to route_to("welcome#create")
+      # end
 
-      it "routes to #update via PUT" do
-        expect(:put => "/welcomes/1").to route_to("welcomes#update", :id => "1")
-      end
+      # it "routes to #update via PUT" do
+      #   expect(:put => "/welcome/1").to route_to("welcome#update", :id => "1")
+      # end
 
-      it "routes to #update via PATCH" do
-        expect(:patch => "/welcomes/1").to route_to("welcomes#update", :id => "1")
-      end
+      # it "routes to #update via PATCH" do
+      #   expect(:patch => "/welcome/1").to route_to("welcome#update", :id => "1")
+      # end
 
-      it "routes to #destroy" do
-        expect(:delete => "/welcomes/1").to route_to("welcomes#destroy", :id => "1")
-      end
+      # it "routes to #destroy" do
+      #   expect(:delete => "/welcome/1").to route_to("welcome#destroy", :id => "1")
+      # end
 
     end
   end
