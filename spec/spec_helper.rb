@@ -5,7 +5,12 @@ require 'rspec/rails'
 # require 'rspec/autorun'
 require 'factory_girl_rails'
 
-# require_relative 'factories'
+# http://stackoverflow.com/questions/24078768/argumenterror-factory-not-registered
+# as per above, need to explicitly set below
+FactoryGirl.definition_file_paths = [File.expand_path('../factories', __FILE__)]
+FactoryGirl.find_definitions
+# Oddly above does not occur if factory_girl_rails is only referrenced in pwb.gemspec
+# but not main gemfile
 
 Rails.backtrace_cleaner.remove_silencers!
 

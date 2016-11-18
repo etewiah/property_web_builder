@@ -34,15 +34,13 @@ group :development, :test do
     # gem 'redcarpet'
     gem 'pry-byebug'
     # gem 'spring'
-    gem 'spring-commands-rspec'
+    # gem 'spring-commands-rspec'
     gem 'rubocop', require: false
   end
   gem 'capybara'
   # gem 'database_cleaner', '~> 1.3'
   gem 'rails-controller-testing'
-  # If I uncomment below, I get this error in my model specs:
-  # Factory not registered: pwb_content_photo
-  # gem 'factory_girl_rails'
+  gem 'factory_girl_rails'
   # gem 'poltergeist', '~> 1.10'
   # gem 'rspec-activemodel-mocks', '~> 1.0'
   gem 'rspec-rails'
