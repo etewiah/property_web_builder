@@ -5,6 +5,8 @@ require 'rspec/rails'
 # require 'rspec/autorun'
 require 'factory_girl_rails'
 
+# require_relative 'factories'
+
 Rails.backtrace_cleaner.remove_silencers!
 
 # Load support files

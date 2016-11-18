@@ -18,3 +18,33 @@ gem 'carrierwave', '>= 1.0.0.rc', '< 2.0'
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
+group :development, :test do
+  # gem 'jasmine-rails',        github: 'searls/jasmine-rails'
+  # gem 'jasmine-jquery-rails', github: 'travisjeffery/jasmine-jquery-rails'
+  # if ENV['TRAVIS']
+  #   gem "codeclimate-test-reporter", require: false
+  # else
+  #   gem 'simplecov',                 require: false
+  # end
+  unless ENV['CI']
+    # gem 'launchy'
+    # gem 'annotate'
+    # gem 'bumpy'
+    # gem 'yard'
+    # gem 'redcarpet'
+    gem 'pry-byebug'
+    # gem 'spring'
+    gem 'spring-commands-rspec'
+    gem 'rubocop', require: false
+  end
+  gem 'capybara'
+  # gem 'database_cleaner', '~> 1.3'
+  gem 'rails-controller-testing'
+  # If I uncomment below, I get this error in my model specs:
+  # Factory not registered: pwb_content_photo
+  # gem 'factory_girl_rails'
+  # gem 'poltergeist', '~> 1.10'
+  # gem 'rspec-activemodel-mocks', '~> 1.0'
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
+end
