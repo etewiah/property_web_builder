@@ -1,0 +1,164 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+
+en:
+  selectpicker:
+    noneSelectedText: 'Nothing selected'
+    noneResultsText: 'No results found {0}'
+    countSelectedText: 'Selected {0} of {1}'
+    # maxOptionsText: ['Límite alcanzado ({n} {var} max)', 'Límite del grupo alcanzado({n} {var} max)', ['elementos', 'element']],
+    # multipleSeparator: ', '
+
+  newPassword: "New Password"
+  signOut: "Sign Out"
+  changePassword: "Change Password"
+  update: "Update"
+  back: "Back"
+  leaveBlank: "leave it blank if you don't want to change it"
+  needCurrentPwd: "we need your current password to confirm your changes"
+
+
+  legalAdvice: "Legal Notice"
+  privacyPolicy: "Privacy Policy"
+
+  contact:
+    success: "Thank you for your message. We will contact you soon!"
+    error: "Sorry, there has been an error."
+    emailSubject: "Contact from your website"
+
+  tel: "Telephone"
+  email: "Email"
+  name: "Name"
+  subject: "Subject"
+  message: "Message"
+  address: "Address"
+  contactUs: "Contact"
+  requestPropertyInfo: "Request info"
+  aboutUs: "About Us"
+  contactUsPrompt: "Fill in the following form to contact us"
+  send: "Send"
+
+  propertyNotFound: "Property not found"
+  forRent: "For Rent"
+  forSale: "For Sale"
+  propertyForRent: "Property for rent"
+  propertyForSale: "Property for sale"
+  # apartamentsForSale: "Deluxe apartaments for sale"
+
+  setup:
+    selectUrl: "Select a url"
+    selectUrlMessage: "You have successfully created an account - now select the url for your new site"
+    subdomain: "subdomain"
+    claimSubdomain: "Claim this url"
+    subdomainMissing: "Please enter a name for the subdomain"
+    urlNotAvailable: "Sorry, this url is not available"
+    goToYourSite: "Go to your site"
+    thankYouForTrusting: "Thank you for trusting %{company_name}"
+    weAreCreatingSite: "We are creating your site"
+    createdSuccessfully: "Site created successfully"
+    loggedInAs: "Logged in as "
+    logout: "Logout"
+
+  inmolite:
+    registerNow: "Register now"
+    tagLine: "Professional websites for estate agents in minutes"
+    tagLineExt: "Beautiful websites that have to be seen to be believed.<br>No one gets you online quicker."
+    getStarted: "Get started now"
+    createPrompt: "Create your estate agency website"
+    # createTagLine: "No one gets you online quicker"
+    createTagLine: "Please enter the details for your account"
+    # TODO - have a variable for company name so I can switch b/n klavado and property squares
+    copyright: "%{company_name} Inc. All rights reserved."
+
+  # nav:
+  #   description: "Description"
+  #   extras: "Extras"
+  #   map: "Map"
+
+  property:
+    price: "Price"
+    monthlyRentalPriceLowSeason: "Monthly Price (Low Season)"
+    monthlyRentalPriceStandardSeason: "Monthly Price (Standard Season)"
+    monthlyRentalPriceHighSeason: "Monthly Price (High Season)"
+    operationType: "Operation Type"
+    propertyType: "Property Type"
+    locality: "Locality"
+    ref: "Ref"
+    furniture: "Furniture"
+    highlightedProperty: "Outstanding Property"
+    goToProperty: "View Property"
+    details: "Details"
+    description: "Description"
+    extras: "Extras"
+    map: "Map"
+
+  navbar:
+    home: "Home"
+    admin: "Admin"
+    aboutUs: "About Us"
+    sell: "Sell"
+    buy: "Buy"
+    rent: "Rent"
+    contactUs: "Contact"
+
+  menu_admin: "admin"
+
+  true: "Yes"
+  false: "No"
+  editarPropiedad: "Edit a property"
+  nuevoPropiedad: "New property"
+  listadoPropiedades: "List of properties"
+  searchForProperties: "Search for properties"
+  search: "Search"
+  findByReference: "Find by reference"
+  go: "Go"
+  findAProperty: "Find a property"
+  orderBy: "Order by"
+  noResultsForSearch: "Sorry, no results found"
+
+  orderBy:
+    priceAscending: ↓ Price (ascending)
+    priceDescending: ↑ Price (descending)
+
+  placeHolders:
+    email: "Your email"
+    name: "Your name"
+    tel: "Fixed or mobile"
+    subject: "Subject"
+    message: "Write your message here"
+
+  labels: 
+    edit: "Edit"
+    new: "New"
+    save: "Save"
+    create: "Create"
+  webContentLabels: 
+    suffixEn: "in English"
+    suffixEs: "in Spanish"
+    landingPageHero: "Content for the main page"
+    tagLine: "Tag Line"
+  webContentSections:
+    aboutUs: "About us"
+    contactInformation: "Contact information" 
+    home: "Home"
+    sell: "Sell"
+    tagLine: "Tag Line"
