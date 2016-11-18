@@ -2,10 +2,10 @@
 ENV['RAILS_ENV'] ||= 'test'
 # Comment this line:
 # require File.expand_path('../../config/environment', __FILE__)
-require File.expand_path("../dummy/config/environment.rb", __FILE__)
+require File.expand_path('../dummy/config/environment.rb', __FILE__)
 
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
 require 'rails-controller-testing'
@@ -59,10 +59,9 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-
   [:controller, :view, :request].each do |type|
-    config.include ::Rails::Controller::Testing::TestProcess, :type => type
-    config.include ::Rails::Controller::Testing::TemplateAssertions, :type => type
-    config.include ::Rails::Controller::Testing::Integration, :type => type
+    config.include ::Rails::Controller::Testing::TestProcess, type: type
+    config.include ::Rails::Controller::Testing::TemplateAssertions, type: type
+    config.include ::Rails::Controller::Testing::Integration, type: type
   end
 end

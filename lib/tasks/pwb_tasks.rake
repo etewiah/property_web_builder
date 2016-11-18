@@ -7,7 +7,7 @@ require 'pwb/seeder'
 
 namespace :pwb do
   namespace :db do
-    desc "Seeds the database with Pwb defaults"
+    desc 'Seeds the database with Pwb defaults'
     task seed: [:environment] do
       Pwb::Seeder.seed!
     end

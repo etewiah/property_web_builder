@@ -1,6 +1,5 @@
 module Pwb
   class Seeder
-
     class << self
       # Called by this rake task:
       # rake app:pwb:db:seed                                  1 ↵
@@ -19,7 +18,7 @@ module Pwb
         carousel_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'content', 'carousel.yml')
         carousel_yml = YAML.load_file(carousel_seed_file)
         carousel_yml.each do |content_col_yml|
-          unless Pwb::Content.where(key: content_col_yml["key"]).count > 0
+          unless Pwb::Content.where(key: content_col_yml['key']).count > 0
             Pwb::Content.create!(content_col_yml)
           end
         end
@@ -29,12 +28,11 @@ module Pwb
         content_cols_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'content', 'content_columns.yml')
         content_cols_yml = YAML.load_file(content_cols_seed_file)
         content_cols_yml.each do |content_col_yml|
-          unless Pwb::Content.where(key: content_col_yml["key"]).count > 0
+          unless Pwb::Content.where(key: content_col_yml['key']).count > 0
             Pwb::Content.create!(content_col_yml)
           end
         end
       end
-
     end
   end
 end

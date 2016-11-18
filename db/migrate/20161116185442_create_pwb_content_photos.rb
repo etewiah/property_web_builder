@@ -6,8 +6,7 @@ class CreatePwbContentPhotos < ActiveRecord::Migration[5.0]
       t.string :description
 
       # To allow ordering of photos
-      t.integer "sort_order"
-
+      t.integer 'sort_order'
 
       t.timestamps null: false
     end

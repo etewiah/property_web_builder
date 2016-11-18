@@ -16,6 +16,6 @@ class CreatePwbContents < ActiveRecord::Migration[5.0]
       t.timestamps null: false
     end
 
-    add_index :pwb_contents, :key, :unique => true
+    add_index :pwb_contents, :key, unique: true
   end
 end

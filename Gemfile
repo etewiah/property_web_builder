@@ -16,6 +16,5 @@ gem 'activemodel-serializers-xml'
 gem 'globalize-accessors'
 gem 'carrierwave', '>= 1.0.0.rc', '< 2.0'
 
-
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
