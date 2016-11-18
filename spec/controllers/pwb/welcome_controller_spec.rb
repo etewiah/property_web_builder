@@ -7,7 +7,7 @@ module Pwb
     # Welcome. As you add validations to Welcome, be sure to
     # adjust the attributes here as well.
 
-    let(:valid_attributes) {
+    let(:carousel_content_attributes) {
       # skip("Add a hash of attributes valid for your model")
       {
         "tag" => "landing-carousel"
@@ -25,16 +25,19 @@ module Pwb
 
     describe "GET #index" do
       it "assigns all welcomes as @welcomes" do
-        welcome = Content.create! valid_attributes
-        # byebug
+        carousel_content = Content.create! carousel_content_attributes
         get :index, params: {}, session: valid_session
-        expect(assigns(:welcomes)).to eq([welcome])
+        expect(assigns(:carousel_items)).to eq([carousel_content])
+      end
+      it "renders correct template" do
+        # welcome = Content.create! carousel_content_attributes
+        expect(get :index).to render_template("pwb/welcome/index")
       end
     end
 
     # describe "GET #show" do
     #   it "assigns the requested welcome as @welcome" do
-    #     welcome = Welcome.create! valid_attributes
+    #     welcome = Welcome.create! carousel_content_attributes
     #     get :show, params: {id: welcome.to_param}, session: valid_session
     #     expect(assigns(:welcome)).to eq(welcome)
     #   end
@@ -50,7 +53,7 @@ module Pwb
 
     # describe "GET #edit" do
     #   it "assigns the requested welcome as @welcome" do
-    #     welcome = Welcome.create! valid_attributes
+    #     welcome = Welcome.create! carousel_content_attributes
     #     get :edit, params: {id: welcome.to_param}, session: valid_session
     #     expect(assigns(:welcome)).to eq(welcome)
     #   end
