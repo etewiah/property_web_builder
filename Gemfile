@@ -26,6 +26,7 @@ group :development, :test do
   # else
   #   gem 'simplecov',                 require: false
   # end
+  gem 'simplecov',                 require: false
   unless ENV['CI']
     # gem 'launchy'
     # gem 'annotate'
