@@ -9,9 +9,13 @@ module Pwb
       if content_photos.first
         content_photos.first.image_url
       else
-        # return "/images/prv/estate/item-3.jpg"
         'https://placeholdit.imgix.net/~text?txtsize=38&txt=&w=550&h=300&txttrack=0'
       end
     end
+
+    # def self.get_raw_by_key key
+    #   content = Content.find_by_key(key)
+    #   content ? content.raw : ""
+    # end
   end
 end

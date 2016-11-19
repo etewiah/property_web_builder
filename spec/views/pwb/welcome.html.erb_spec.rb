@@ -17,6 +17,7 @@ RSpec.describe 'pwb/welcome/index', type: :view do
     ])
   end
 
+
   it 'renders index successfully' do
     render
     expect(rendered).to include 'About us'

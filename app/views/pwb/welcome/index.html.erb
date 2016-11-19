@@ -47,7 +47,9 @@
 
 <%= render '/pwb/welcome/content_area_cols' %>
 
-<%= render '/pwb/welcome/about_us' %>
+<% if @about_us %>
+  <%= render '/pwb/welcome/about_us' %>  
+<% end %>
 
 
 <table>
