@@ -8,6 +8,8 @@ require 'rspec/rails'
 # require 'rspec/autorun'
 require 'factory_girl_rails'
 
+# load(Rails.root.join("db", "seeds.rb"))
+
 # http://stackoverflow.com/questions/24078768/argumenterror-factory-not-registered
 # as per above, need to explicitly set below
 FactoryGirl.definition_file_paths = [File.expand_path('../factories', __FILE__)]
