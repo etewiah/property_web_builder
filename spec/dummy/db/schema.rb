@@ -23,19 +23,28 @@ ActiveRecord::Schema.define(version: 20161118222543) do
     t.integer  "analytics_id_type"
     t.string   "company_name"
     t.string   "display_name"
-    t.string   "email"
+    t.string   "email_primary"
+    t.string   "email_for_general_contact_form"
+    t.string   "email_for_property_contact_form"
     t.string   "skype"
     t.string   "company_id"
     t.integer  "company_id_type"
     t.string   "url"
     t.integer  "primary_address_id"
     t.integer  "secondary_address_id"
-    t.integer  "flags",                default: 0,    null: false
+    t.integer  "flags",                           default: 0,    null: false
     t.integer  "payment_plan_id"
-    t.json     "social_media",         default: "{}"
-    t.json     "details",              default: "{}"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.integer  "site_template_id"
+    t.json     "site_configuration",              default: "{}"
+    t.text     "supported_locales",               default: [],                array: true
+    t.text     "supported_currencies",            default: [],                array: true
+    t.string   "default_client_locale"
+    t.string   "default_admin_locale"
+    t.string   "default_currency"
+    t.json     "social_media",                    default: "{}"
+    t.json     "details",                         default: "{}"
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
     t.index ["company_id"], name: "index_pwb_agencies_on_company_id", unique: true, using: :btree
     t.index ["company_name"], name: "index_pwb_agencies_on_company_name", using: :btree
   end

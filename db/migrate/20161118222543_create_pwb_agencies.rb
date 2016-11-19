@@ -10,7 +10,9 @@ class CreatePwbAgencies < ActiveRecord::Migration[5.0]
 
       t.string :company_name
       t.string :display_name
-      t.string :email
+      t.string :email_primary
+      t.string :email_for_general_contact_form
+      t.string :email_for_property_contact_form
       t.string :skype
       t.string :company_id
       t.integer :company_id_type
@@ -21,6 +23,16 @@ class CreatePwbAgencies < ActiveRecord::Migration[5.0]
       t.integer :flags
       t.integer :flags, :null => false, :default => 0
       t.integer :payment_plan_id
+
+      t.integer :site_template_id
+      t.json :site_configuration, default: '{}'
+
+      t.text :supported_locales, array: true, default: []
+      t.text :supported_currencies, array: true, default: []
+      t.string :default_client_locale
+      t.string :default_admin_locale
+      t.string :default_currency
+
       t.json :social_media, default: '{}'
 
       t.json :details, default: '{}'
