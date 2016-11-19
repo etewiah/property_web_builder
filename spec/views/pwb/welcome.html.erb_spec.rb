@@ -6,20 +6,30 @@ RSpec.describe 'pwb/welcome/index', type: :view do
   # end
 
   before(:each) do
+    assign(:about_us, Pwb::Content.create!({key: 'aboutUs'}))
     assign(:carousel_items, [
              Pwb::Content.create!,
              Pwb::Content.create!
-           ])
+    ])
     assign(:content_area_cols, [
              Pwb::Content.create!,
              Pwb::Content.create!
-           ])
+    ])
   end
 
   it 'renders index successfully' do
     render
+    expect(rendered).to include 'About us'
     # assert_select "form[action=?][method=?]", welcome_path(@welcome), "post" do
     # end
+  end
+
+  context 'when about_us content is not set' do
+    it 'does not render about_us section' do
+      assign(:about_us, nil)
+      render
+      expect(rendered).to_not include 'About us'
+    end
   end
 
   # context 'when the product has a url' do
