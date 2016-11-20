@@ -1,0 +1,49 @@
+---
+- reference: re1
+  year_construction: 0
+  count_bedrooms: 0
+  count_bathrooms: 0
+  count_toilets: 0
+  count_garages: 0
+  flags: 0
+  furnished:
+  sold:
+  reserved:
+  highlighted: false
+  archived: false
+  visible: false
+  for_rent_short_term: false
+  for_rent_long_term: false
+  for_sale: true
+  hide_map: false
+  obscure_map: false
+  portals_enabled: false
+  deleted_at:
+  active_from:
+  available_to_rent_from:
+  available_to_rent_till:
+  price_sale_current_cents: 0
+  commission_cents: 0
+  commission_currency: EUR
+  service_charge_yearly_cents: 0
+  service_charge_yearly_currency: EUR
+  currency:
+  prop_origin_key: ''
+  prop_state_key: ''
+  prop_type_key: ''
+  street_number:
+  street_name:
+  street_address:
+  postal_code:
+  province:
+  city:
+  region:
+  country:
+  latitude:
+  longitude:
+  plot_area: 0.0
+  constructed_area: 0.0
+  energy_rating:
+  energy_performance:
+  title: ''
+  description: ''

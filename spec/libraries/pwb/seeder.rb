@@ -19,5 +19,9 @@ module Pwb
       expect(Pwb::Content.where(tag: 'content-area-cols').count).to eq(3)
     end
 
+    it 'creates 1 prop entry' do
+      expect(Pwb::Prop.count).to eq(1)
+    end
+
   end
 end
