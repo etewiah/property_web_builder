@@ -12,6 +12,17 @@ module Pwb
       self.count_garages && (self.count_garages > 0)
     end
 
+    def for_rent
+      return self.for_rent_short_term || self.for_rent_long_term
+    end
+
+    def show_map
+      if self.latitude.present? && self.longitude.present?
+        return !self.hide_map
+      else
+        return false
+      end
+    end
 
     # def contextual_show_path rent_or_sale
     #   unless rent_or_sale
