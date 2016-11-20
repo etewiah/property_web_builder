@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161120103546) do
+ActiveRecord::Schema.define(version: 20161120122914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,17 @@ ActiveRecord::Schema.define(version: 20161120103546) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.index ["key"], name: "index_pwb_contents_on_key", unique: true, using: :btree
+  end
+
+  create_table "pwb_prop_translations", force: :cascade do |t|
+    t.integer  "pwb_prop_id",              null: false
+    t.string   "locale",                   null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "title",       default: ""
+    t.text     "description", default: ""
+    t.index ["locale"], name: "index_pwb_prop_translations_on_locale", using: :btree
+    t.index ["pwb_prop_id"], name: "index_pwb_prop_translations_on_pwb_prop_id", using: :btree
   end
 
   create_table "pwb_props", force: :cascade do |t|
