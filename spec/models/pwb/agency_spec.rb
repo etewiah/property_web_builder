@@ -2,6 +2,10 @@ require 'rails_helper'
 
 module Pwb
   RSpec.describe Agency, type: :model do
-    pending "add some examples to (or delete) #{__FILE__}"
+    let(:agency) { FactoryGirl.create(:pwb_agency) }
+
+    it 'has a valid factory' do
+      expect(agency).to be_valid
+    end
   end
 end

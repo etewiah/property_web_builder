@@ -2,6 +2,10 @@ require 'rails_helper'
 
 module Pwb
   RSpec.describe Prop, type: :model do
-    pending "add some examples to (or delete) #{__FILE__}"
+    let(:prop) { FactoryGirl.create(:pwb_prop) }
+
+    it 'has a valid factory' do
+      expect(prop).to be_valid
+    end
   end
 end
