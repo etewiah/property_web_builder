@@ -19,9 +19,9 @@ class CreatePwbProps < ActiveRecord::Migration[5.0]
       t.integer  :flags, default: 0, null: false
 
       # booleans used in scopes
-      t.boolean :furnished
-      t.boolean :sold
-      t.boolean :reserved
+      t.boolean :furnished, default: false
+      t.boolean :sold, default: false
+      t.boolean :reserved, default: false
       t.boolean :highlighted, default: false
       t.boolean :archived, default: false
       # when above is set to true, below needs to be set to false
