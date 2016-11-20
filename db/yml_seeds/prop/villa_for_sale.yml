@@ -11,7 +11,7 @@
   reserved:
   highlighted: false
   archived: false
-  visible: false
+  visible: true
   for_rent_short_term: false
   for_rent_long_term: false
   for_sale: true
@@ -45,5 +45,7 @@
   constructed_area: 0.0
   energy_rating:
   energy_performance:
-  title: ''
-  description: ''
+  title_en: Amazing villa for sale in Malaga
+  title_es: Una villa estupenda para vender en Malaga  
+  description_en: Description of the amazing villa for sale. 
+  description_es: Descripción de una villa estupenda para vender.
