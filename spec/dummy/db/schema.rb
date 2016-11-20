@@ -99,8 +99,10 @@ ActiveRecord::Schema.define(version: 20161120122914) do
     t.integer  "count_bathrooms",                               default: 0,     null: false
     t.integer  "count_toilets",                                 default: 0,     null: false
     t.integer  "count_garages",                                 default: 0,     null: false
-    t.integer  "m_parcela",                                     default: 0,     null: false
-    t.integer  "m_construidos",                                 default: 0,     null: false
+    t.float    "plot_area",                                     default: 0.0,   null: false
+    t.float    "constructed_area",                              default: 0.0,   null: false
+    t.integer  "energy_rating"
+    t.float    "energy_performance"
     t.integer  "flags",                                         default: 0,     null: false
     t.boolean  "furnished"
     t.boolean  "sold"
