@@ -104,9 +104,9 @@ ActiveRecord::Schema.define(version: 20161120122914) do
     t.integer  "energy_rating"
     t.float    "energy_performance"
     t.integer  "flags",                                         default: 0,     null: false
-    t.boolean  "furnished"
-    t.boolean  "sold"
-    t.boolean  "reserved"
+    t.boolean  "furnished",                                     default: false
+    t.boolean  "sold",                                          default: false
+    t.boolean  "reserved",                                      default: false
     t.boolean  "highlighted",                                   default: false
     t.boolean  "archived",                                      default: false
     t.boolean  "visible",                                       default: false

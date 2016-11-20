@@ -15,6 +15,8 @@ RSpec.describe 'pwb/welcome/index', type: :view do
              Pwb::Content.create!,
              Pwb::Content.create!
     ])
+    assign(:properties_for_sale, [])
+    assign(:properties_for_rent, [])
   end
 
 

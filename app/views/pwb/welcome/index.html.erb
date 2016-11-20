@@ -5,27 +5,24 @@
         <ol class="carousel-indicators">
           <% @carousel_items.each.with_index do |carousel_item, index| %>
             <li data-target="#homepageCarousel" data-slide-to="<%= index %>" class=""></li>
-            <% end %>
+          <% end %>
         </ol>
         <div class="carousel-inner">
           <% @carousel_items.each.with_index do |carousel_item, index| %>
             <div class="item item-dark <%= " active " if index == 0 %>" style="background-image:url(<%= carousel_item.default_photo_url %>);">
               <% if "toimplement" == "tt" %>
                 <div class="mask mask-1"></div>
-                <% end %>
-                  <div class="container">
-                    <div class="description-left">
-                      <div class="title c-white text-uppercase strong-700">
-                      </div>
-                      <%== carousel_item.raw %>
-                    </div>
+              <% end %>
+              <div class="container">
+                <div class="description-left">
+                  <div class="title c-white text-uppercase strong-700">
                   </div>
-                  <!--                         <div class="ribbon dark fondo_accion">
-                          <span>
-                          </span>
-                        </div> -->
+                  <%== carousel_item.raw %>
+                </div>
+              </div>
+              <!--<div class="ribbon dark fondo_accion"><span></span></div> -->
             </div>
-            <% end %>
+          <% end %>
         </div>
         <!-- Controls -->
         <% if @carousel_items.length > 1 %>
@@ -43,19 +40,13 @@
     </div>
   </div>
 </div>
-
-
 <%= render '/pwb/welcome/content_area_cols' %>
-
 <% if @about_us %>
-  <%= render '/pwb/welcome/about_us' %>  
+  <%= render '/pwb/welcome/about_us' %>
 <% end %>
-
 <% if @properties_for_sale.length > 0  %>
   <%= render :partial => '/pwb/welcome/single_property_row', :locals => { :properties => @properties_for_sale, :title_key => 'propertyForSale' }  %>
 <% end %>
-
 <% if @properties_for_rent.length > 0  %>
   <%= render :partial => '/pwb/welcome/single_property_row', :locals => { :properties => @properties_for_rent, :title_key => 'propertyForRent' }  %>
 <% end %>
-
