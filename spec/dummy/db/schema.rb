@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161118222543) do
+ActiveRecord::Schema.define(version: 20161120103546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,79 @@ ActiveRecord::Schema.define(version: 20161118222543) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.index ["key"], name: "index_pwb_contents_on_key", unique: true, using: :btree
+  end
+
+  create_table "pwb_props", force: :cascade do |t|
+    t.string   "reference"
+    t.integer  "year_construction",                             default: 0,     null: false
+    t.integer  "count_bedrooms",                                default: 0,     null: false
+    t.integer  "count_bathrooms",                               default: 0,     null: false
+    t.integer  "count_toilets",                                 default: 0,     null: false
+    t.integer  "count_garages",                                 default: 0,     null: false
+    t.integer  "m_parcela",                                     default: 0,     null: false
+    t.integer  "m_construidos",                                 default: 0,     null: false
+    t.integer  "flags",                                         default: 0,     null: false
+    t.boolean  "furnished"
+    t.boolean  "sold"
+    t.boolean  "reserved"
+    t.boolean  "highlighted",                                   default: false
+    t.boolean  "archived",                                      default: false
+    t.boolean  "visible",                                       default: false
+    t.boolean  "for_rent_short_term",                           default: false
+    t.boolean  "for_rent_long_term",                            default: false
+    t.boolean  "for_sale",                                      default: false
+    t.boolean  "hide_map",                                      default: false
+    t.boolean  "obscure_map",                                   default: false
+    t.boolean  "portals_enabled",                               default: false
+    t.datetime "deleted_at"
+    t.datetime "active_from"
+    t.datetime "available_to_rent_from"
+    t.datetime "available_to_rent_till"
+    t.integer  "price_sale_current_cents",                      default: 0,     null: false
+    t.string   "price_sale_current_currency",                   default: "EUR", null: false
+    t.integer  "price_sale_original_cents",                     default: 0,     null: false
+    t.string   "price_sale_original_currency",                  default: "EUR", null: false
+    t.integer  "price_rental_monthly_current_cents",            default: 0,     null: false
+    t.string   "price_rental_monthly_current_currency",         default: "EUR", null: false
+    t.integer  "price_rental_monthly_original_cents",           default: 0,     null: false
+    t.string   "price_rental_monthly_original_currency",        default: "EUR", null: false
+    t.integer  "price_rental_monthly_low_season_cents",         default: 0,     null: false
+    t.string   "price_rental_monthly_low_season_currency",      default: "EUR", null: false
+    t.integer  "price_rental_monthly_high_season_cents",        default: 0,     null: false
+    t.string   "price_rental_monthly_high_season_currency",     default: "EUR", null: false
+    t.integer  "price_rental_monthly_standard_season_cents",    default: 0,     null: false
+    t.string   "price_rental_monthly_standard_season_currency", default: "EUR", null: false
+    t.integer  "commission_cents",                              default: 0,     null: false
+    t.string   "commission_currency",                           default: "EUR", null: false
+    t.integer  "service_charge_yearly_cents",                   default: 0,     null: false
+    t.string   "service_charge_yearly_currency",                default: "EUR", null: false
+    t.string   "currency"
+    t.string   "prop_origin_key",                               default: "",    null: false
+    t.string   "prop_state_key",                                default: "",    null: false
+    t.string   "prop_type_key",                                 default: "",    null: false
+    t.string   "street_number"
+    t.string   "street_name"
+    t.string   "street_address"
+    t.string   "postal_code"
+    t.string   "province"
+    t.string   "city"
+    t.string   "region"
+    t.string   "country"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
+    t.index ["archived"], name: "index_pwb_props_on_archived", using: :btree
+    t.index ["flags"], name: "index_pwb_props_on_flags", using: :btree
+    t.index ["for_rent_long_term"], name: "index_pwb_props_on_for_rent_long_term", using: :btree
+    t.index ["for_rent_short_term"], name: "index_pwb_props_on_for_rent_short_term", using: :btree
+    t.index ["for_sale"], name: "index_pwb_props_on_for_sale", using: :btree
+    t.index ["highlighted"], name: "index_pwb_props_on_highlighted", using: :btree
+    t.index ["latitude", "longitude"], name: "index_pwb_props_on_latitude_and_longitude", using: :btree
+    t.index ["price_rental_monthly_current_cents"], name: "index_pwb_props_on_price_rental_monthly_current_cents", using: :btree
+    t.index ["price_sale_current_cents"], name: "index_pwb_props_on_price_sale_current_cents", using: :btree
+    t.index ["reference"], name: "index_pwb_props_on_reference", unique: true, using: :btree
+    t.index ["visible"], name: "index_pwb_props_on_visible", using: :btree
   end
 
 end

@@ -10,11 +10,11 @@ MoneyRails.configure do |config|
   # Set default bank object
   #
   # Example:
-  default_bank = EuCentralBank.new
-  config.default_bank = default_bank
+  # default_bank = EuCentralBank.new
+  # config.default_bank = default_bank
   # below will pull in rates from the internet
   # might cause problems if I network is down when I init app
-  default_bank.update_rates
+  # default_bank.update_rates
 
   # Add exchange rates to current money bank object.
   # (The conversion rate refers to one direction only)
