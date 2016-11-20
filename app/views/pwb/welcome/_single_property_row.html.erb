@@ -1,0 +1,38 @@
+<section class="slice light-gray bb">
+  <div class="wp-section">
+    <div class="container">
+      <div class="section-title-wr">
+        <h3 class="section-title left" style="text-transform: none;"><span><%= t title_key %></span></h3>
+      </div>
+      <div class="row">
+        <% properties.each_with_index do |property, index| %>
+          <div class="col-md-4">
+            <div class="wp-block white property list">
+              <div class="wp-block-footer">
+                <ul class="aux-info">
+                  <li class="hidden-xs"><i class="fa fa-bed"></i> <small>
+                           <%= property.count_bedrooms %>
+                          </small></li>
+                  <li class="hidden-xs"><i class="fa fa-tint"></i> <small>
+                            <%= property.count_bathrooms %>
+                          </small></li>
+                  <li class="hidden-xs"><i class="fa fa-arrows-alt"></i> <small>
+                           <%= property.constructed_area %>m<sup>2</sup>
+                          </small></li>
+                  <li class="hidden-xs">
+                    <% if property.has_garage %>
+                      <i class="fa fa-car"></i>
+                      <small>
+                       <%= property.count_garages %>
+                      </small>
+                      <% end %>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <% end %>
+      </div>
+    </div>
+  </div>
+</section>

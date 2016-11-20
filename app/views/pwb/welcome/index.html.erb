@@ -35,7 +35,7 @@
           <a class="right carousel-control" href="#homepageCarousel" data-slide="next">
             <i class="fa fa-angle-right"></i>
           </a>
-          <% end %>
+        <% end %>
       </div>
     </div>
     <div class="jumbotron-right">
@@ -51,14 +51,11 @@
   <%= render '/pwb/welcome/about_us' %>  
 <% end %>
 
+<% if @properties_for_sale.length > 0  %>
+  <%= render :partial => '/pwb/welcome/single_property_row', :locals => { :properties => @properties_for_sale, :title_key => 'propertyForSale' }  %>
+<% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
-<br>
+<% if @properties_for_rent.length > 0  %>
+  <%= render :partial => '/pwb/welcome/single_property_row', :locals => { :properties => @properties_for_rent, :title_key => 'propertyForRent' }  %>
+<% end %>
+
