@@ -1,0 +1,44 @@
+footer {
+  padding-top: 15px;
+  padding-bottom: 20px;
+  min-height: 30px;
+  /*background: #232323
+  replaced with fondo_secundario
+  */
+}
+
+footer:before,
+footer:after {
+  display: table;
+  content: " ";
+}
+
+footer:after {
+  clear: both;
+}
+
+footer a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: none;
+}
+
+footer .copyright {
+  color: #fff;
+}
+
+
+header.top_header {
+  color: #fff;
+  width: 100%;
+  clear: both;
+  font-size: 14px;
+  padding: 5px 0 3px 0;
+}
+
+header.top_header {
+  font-family: 'PT Sans', sans-serif;
+}

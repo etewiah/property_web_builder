@@ -24,3 +24,4 @@ spec/dummy/tmp/
 .rbenv-version
 .ruby-gemset
 .ruby-version
+app/assets/stylesheets/pwb/dummy.scss

@@ -1,0 +1,143 @@
+
+
+.services-section {
+    float: left;
+    width: 100%;
+    padding-bottom: 40px;
+    padding-top: 10px;
+    border-top: 1px solid #e0eded;
+    border-bottom: 1px solid #e0eded;
+    background: #fcfcfc;
+}
+
+.services-section .container .services-wrapper {
+    margin-top: 45px;
+    /*  float: left;
+  width: 100%;
+*/
+}
+
+.services-section .container .services-wrapper .single-service {
+    width: 100% !important;
+    /* having to use above to override col-md-4 which I foolishly
+  include in db content - impossible to add margin between cols the 
+  way it was structured */
+    height: 400px;
+    overflow: hidden;
+    /*above not the best - have to figure out solution for when users
+  enter text that exceeds height */
+    border: 1px solid #e0eded;
+    background-color: #FFF;
+    text-align: center;
+    padding: 5;
+    transition: all 300ms ease-in-out;
+    -o-transition: all 300ms ease-in-out;
+    -moz-transition: all 300ms ease-in-out;
+    -webkit-transition: all 300ms ease-in-out;
+}
+
+.services-section .container .services-wrapper .single-service h4 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 30px;
+    transition: all 300ms ease-in-out;
+    -o-transition: all 300ms ease-in-out;
+    -moz-transition: all 300ms ease-in-out;
+    -webkit-transition: all 300ms ease-in-out;
+}
+
+.services-section .container .services-wrapper .single-service p {
+    font-size: 15px;
+    font-weight: 400;
+    /*  color:#bababa;
+*/
+}
+
+.services-section .container .services-wrapper .single-service .icon-service {
+    color: #B2B2B2;
+    font-size: 45px;
+    border: 1px solid #B2B2B2;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    -ms-border-radius: 100px;
+    -o-border-radius: 100px;
+    border-radius: 100px;
+    transition: all 300ms ease-in-out;
+    -o-transition: all 300ms ease-in-out;
+    -moz-transition: all 300ms ease-in-out;
+    -webkit-transition: all 300ms ease-in-out;
+}
+
+.services-section .container .services-wrapper .single-service .bordered {
+    border: 2px solid #0095e6;
+    width: 25%;
+    margin: 13px auto -4px;
+    transition: all 300ms ease-in-out;
+    -o-transition: all 300ms ease-in-out;
+    -moz-transition: all 300ms ease-in-out;
+    -webkit-transition: all 300ms ease-in-out;
+}
+
+.services-section .container .services-wrapper .single-service .top-bordered {
+    margin: 0 auto;
+    opacity: 0;
+    transition: all 300ms ease-in-out;
+    -o-transition: all 300ms ease-in-out;
+    -moz-transition: all 300ms ease-in-out;
+    -webkit-transition: all 300ms ease-in-out;
+}
+
+.services-section .container .services-wrapper .single-service .icon-service {
+    color: #0095e6;
+    border-color: #0095e6;
+}
+
+
+/*
+.services-section .container .services-wrapper .single-service h4 {
+  color: #0095e6;
+}
+.services-section .container .services-wrapper .single-service .top-bordered {
+  opacity: 1;
+}
+
+
+
+.services-section .container .services-wrapper .single-service:hover .icon-service {
+  color: #0095e6;
+  border-color: #0095e6;
+}
+
+.services-section .container .services-wrapper .single-service:hover .readmore {
+  background-color: #0095e6;
+  color: #fff;
+}*/
+
+.services-section .container .services-wrapper .single-service:hover h4 {
+    color: #0095e6;
+}
+
+.services-section .container .services-wrapper .single-service:hover .top-bordered {
+    opacity: 1;
+}
+
+.services-section .container .services-wrapper .single-service p {
+    text-align: left;
+    padding: 2%;
+}
+
+.services-section .container .services-wrapper .single-service h4 {
+    text-align: center;
+}
+
+.services-section .container .services-wrapper .single-service .icon-service {
+    text-align: center;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    -ms-border-radius: 100px;
+    -o-border-radius: 100px;
+    border-radius: 100px;
+    width: 110px;
+    padding: 30px;
+    margin: 13px 0;
+}
