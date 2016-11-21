@@ -1,4 +1,5 @@
 require 'money-rails'
+require 'font-awesome-rails'
 module Pwb
   class Engine < ::Rails::Engine
     isolate_namespace Pwb

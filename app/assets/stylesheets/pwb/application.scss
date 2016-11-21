@@ -12,6 +12,10 @@
  *
  */
 @import "bootstrap";
+/* font-awesome import fails even though it
+is being imported in engine.rb as per:
+https://github.com/bokmann/font-awesome-rails*/
+/*@import "font-awesome";*/
 /*@import "header_footer";*/
 @import "navbar";
 @import "landing_general";

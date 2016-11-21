@@ -92,6 +92,8 @@ GEM
     factory_girl_rails (4.7.0)
       factory_girl (~> 4.7.0)
       railties (>= 3.0.0)
+    font-awesome-rails (4.7.0.0)
+      railties (>= 3.2, < 5.1)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     globalize-accessors (0.2.1)
@@ -228,6 +230,7 @@ DEPENDENCIES
   capybara
   carrierwave (>= 1.0.0.rc, < 2.0)
   factory_girl_rails
+  font-awesome-rails
   globalize!
   globalize-accessors
   pg

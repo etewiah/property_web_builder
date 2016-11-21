@@ -46,4 +46,5 @@ group :development, :test do
   # gem 'rspec-activemodel-mocks', '~> 1.0'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
+  gem 'font-awesome-rails'
 end
