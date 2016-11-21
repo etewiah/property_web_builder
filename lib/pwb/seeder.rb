@@ -12,9 +12,20 @@ module Pwb
         seed_content 'carousel.yml'
         seed_content 'about_us.yml'
         seed_prop 'villa_for_sale.yml'
+        seed_agency 'agency.yml'
       end
 
       protected
+
+      def seed_agency yml_file
+        agency_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', yml_file)
+        agency_yml = YAML.load_file(agency_seed_file)
+        agency_yml.each do |single_agency_yml|
+          unless Pwb::Agency.count > 0
+            Pwb::Agency.create!(single_agency_yml)
+          end
+        end
+      end
 
       def seed_prop yml_file
         prop_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'prop', yml_file)
