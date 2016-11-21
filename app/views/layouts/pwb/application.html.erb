@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Pwb</title>
-  <%= stylesheet_link_tag    "pwb/application", media: "all" %>
-  <%= javascript_include_tag "pwb/application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<%= yield %>
-
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <%# display_meta_tags site: @current_tenant.tenant_display_name %>
+    <%= stylesheet_link_tag    "pwb/application", media: "all" %>
+    <%= javascript_include_tag "pwb/application" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body class="tnt-body <%# @current_tenant.body_style %>">
+    <%# render @current_tenant.views_folder + '/shared/main_mobile_menu' %>
+    <!-- MAIN WRAPPER -->
+    <div class="body-wrap <%# @current_tenant.body_style %>">
+  <%= render :partial => '/pwb/header', :locals => {}  %>
+      <%= yield %>
+  <%= render :partial => '/pwb/footer', :locals => {}  %>
+    </div>
+    <%# insert_paloma_hook %>
+  </body>
 </html>

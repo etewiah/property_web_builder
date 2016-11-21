@@ -1,0 +1,82 @@
+<!-- HEADER -->
+<div id="divHeaderWrapper">
+  <header class="top_header fondo_secundario">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 hidden-xs contacto_header">
+
+          <% if @current_agency.phone_number_primary %>
+            <i class="fa fa-phone-square fa-lg"></i><%= @current_agency.phone_number_primary %> &nbsp;&nbsp;          
+          <% end %>
+          <% if @current_agency.email_primary %>
+            <i class="fa fa-envelope fa-lg"></i><%= @current_agency.email_primary %>          
+          <% end %>
+
+        </div>
+        <div class="col-sm-6">
+        <% if @is_multilingual %>
+          <div class="contenedor_idiomas" style="">
+            <ul class="idiomas">
+              <% @supported_languages.each do |language| %>
+                <li class=<%="#{'selected' if locale.to_s == language}" %>>
+                  <%= link_to "", params.merge({:locale => language}), class: language %>
+                </li>                
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        </div>
+      </div>
+    </div>
+  </header>
+  <header class="header-standard-2">
+    <!-- MAIN NAV -->
+    <div class="navbar navbar-wp navbar-arrow mega-nav" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <i class="fa fa-bars icon-custom"></i>
+          </button>
+          <%= link_to root_path(locale: locale), class: "navbar-brand" do %>
+            <% if @logo_url  %>
+                <img src="<%= @logo_url %>" alt="Ir a inicio">
+            <% else %>
+              <div style="padding-top: 22%;text-transform: uppercase;font-size: 2.5em;">             
+               <%= @tenant_display_name %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <% @sections.each do |section| %>
+              <%= section_tab(section) %>              
+            <% end %>
+
+            <% if @is_subdomain_admin  %>
+              <li class="<%= 'selected' if current_page?(admin_with_locale_path(locale: locale)) %>">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <%= t "navbar.admin" %>
+                </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale)  %>
+                </li>
+                <li>
+                <%= link_to I18n.t("changePassword"), edit_user_registration_path() %>
+                </li>
+                <li>
+                <%= link_to I18n.t("signOut"), destroy_user_session_path(), method: :delete %>
+                </li>
+              </ul>
+
+              </li>
+            <% end %>
+
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+    </div>
+  </header>
+</div>
