@@ -20,7 +20,7 @@ module Pwb
         # @page_keywords    = 'Site, Login, Members'
         return render "show"
       else
-        return render "show"
+        return render "not_found"
       end
     end
 
@@ -39,7 +39,7 @@ module Pwb
         # @page_keywords    = 'Site, Login, Members'
         return render "show"
       else
-        return render "show"
+        return render "not_found"
       end
     end
 
