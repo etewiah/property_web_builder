@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161120122914) do
+ActiveRecord::Schema.define(version: 20161122174847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,6 +165,16 @@ ActiveRecord::Schema.define(version: 20161120122914) do
     t.index ["price_sale_current_cents"], name: "index_pwb_props_on_price_sale_current_cents", using: :btree
     t.index ["reference"], name: "index_pwb_props_on_reference", unique: true, using: :btree
     t.index ["visible"], name: "index_pwb_props_on_visible", using: :btree
+  end
+
+  create_table "pwb_sections", force: :cascade do |t|
+    t.string   "link_key"
+    t.string   "link_path"
+    t.integer  "sort_order"
+    t.boolean  "visible"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["link_key"], name: "index_pwb_sections_on_link_key", unique: true, using: :btree
   end
 
 end
