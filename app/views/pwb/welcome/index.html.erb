@@ -45,8 +45,8 @@
   <%= render '/pwb/welcome/about_us' %>
 <% end %>
 <% if @properties_for_sale.length > 0  %>
-  <%= render :partial => '/pwb/welcome/single_property_row', :locals => { :properties => @properties_for_sale, :title_key => 'propertyForSale' }  %>
+  <%= render :partial => '/pwb/welcome/single_property_row', :locals => { properties: @properties_for_sale, rent_or_sale: 'for_sale', title_key: 'propertyForSale' }  %>
 <% end %>
 <% if @properties_for_rent.length > 0  %>
-  <%= render :partial => '/pwb/welcome/single_property_row', :locals => { :properties => @properties_for_rent, :title_key => 'propertyForRent' }  %>
+  <%= render :partial => '/pwb/welcome/single_property_row', :locals => { properties: @properties_for_rent, rent_or_sale: 'for_rent', title_key: 'propertyForRent' }  %>
 <% end %>

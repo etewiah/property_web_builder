@@ -8,6 +8,24 @@
         <% properties.each_with_index do |property, index| %>
           <div class="col-md-4">
             <div class="wp-block white property list">
+              <div class="figure">
+                <%= link_to property.contextual_show_path(rent_or_sale) do %>
+                  <%= property.title  %>
+                  <%# image_tag("#{property.ordered_photo_url 1}", class: 'img-responsive') %>
+                <% end %>
+              </div>
+              <div class="wp-block-body">
+                <h2 class="title overflow-elip"><a href="#"><%= link_to property.title, property.contextual_show_path(rent_or_sale)  %></a></h2>
+                <h2 class="subtitle">
+                  <div><span class="precio negrita">
+                      <%# property.contextual_price_with_currency rent_or_sale  %>
+                    </span></div>
+                </h2>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="wp-block white property list">
               <div class="wp-block-footer">
                 <ul class="aux-info">
                   <li class="hidden-xs"><i class="fa fa-bed"></i> <small>
