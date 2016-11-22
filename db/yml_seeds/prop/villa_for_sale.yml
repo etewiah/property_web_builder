@@ -23,6 +23,7 @@
   available_to_rent_from:
   available_to_rent_till:
   price_sale_current_cents: 0
+  price_rental_monthly_current_cents: 0
   commission_cents: 0
   commission_currency: EUR
   service_charge_yearly_cents: 0
