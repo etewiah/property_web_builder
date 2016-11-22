@@ -30,15 +30,19 @@ footer .copyright {
   color: #fff;
 }
 
-
-header.top_header {
-  color: #fff;
-  width: 100%;
-  clear: both;
-  font-size: 14px;
-  padding: 5px 0 3px 0;
-}
-
-header.top_header {
-  font-family: 'PT Sans', sans-serif;
+header {
+  .text-navbar-brand {
+    padding-top: 24px;
+    font-size: 2.5em;
+  }
+  .top_header {
+    color: #fff;
+    width: 100%;
+    clear: both;
+    font-size: 14px;
+    padding: 5px 0 3px 0;
+  }
+  .top_header {
+    font-family: 'PT Sans', sans-serif;
+  }
 }
