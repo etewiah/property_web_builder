@@ -47,4 +47,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
   gem 'font-awesome-rails'
+  gem 'guard'
+  gem 'zeus'
 end
