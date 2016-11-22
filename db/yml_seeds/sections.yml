@@ -1,0 +1,25 @@
+---
+- link_key: home
+  link_path: home_path
+  sort_order: 1
+  visible: true
+- link_key: buy
+  link_path: buy_path
+  sort_order: 2
+  visible: true
+- link_key: rent
+  link_path: rent_path
+  sort_order: 3
+  visible: true
+- link_key: sell
+  link_path: sell_path
+  sort_order: 4
+  visible: false
+- link_key: aboutUs
+  link_path: about_us_path
+  sort_order: 5
+  visible: true
+- link_key: contactUs
+  link_path: contact_us_path
+  sort_order: 6
+  visible: true

@@ -11,7 +11,7 @@ module Pwb
     end
 
     def sections
-      @sections ||= []
+      @sections ||= Section.where(visible: true).order("sort_order")
     end
 
   end
