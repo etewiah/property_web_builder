@@ -5,7 +5,7 @@ require 'pwb/version'
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = 'property-web-builder'
+  s.name        = 'pwb'
   s.version     = Pwb::VERSION
   s.authors     = ['Ed Tewiah']
   s.email       = ['etewiah@hotmail.cim']
