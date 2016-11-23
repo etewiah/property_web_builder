@@ -9,4 +9,12 @@ Pwb::Engine.routes.draw do
     get "/properties/for-rent/:id/:url_friendly_title" => "props#show_for_rent", as: "prop_show_for_rent"
     get "/properties/for-sale/:id/:url_friendly_title" => "props#show_for_sale", as: "prop_show_for_sale"
   end
+
+  namespace :api do
+    namespace :v1 do
+      get "/client_translations/:locale" => "client_translations#index"
+
+    end
+  end
+
 end
