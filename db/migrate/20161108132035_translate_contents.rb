@@ -1,3 +1,4 @@
+require 'globalize-accessors'
 class TranslateContents < ActiveRecord::Migration[5.0]
   def self.up
     Pwb::Content.create_translation_table!({

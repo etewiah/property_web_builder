@@ -1,4 +1,5 @@
 require 'money-rails'
+require 'globalize-accessors'
 # require 'font-awesome-rails'
 module Pwb
   class Engine < ::Rails::Engine

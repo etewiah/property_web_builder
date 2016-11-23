@@ -25,9 +25,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'activemodel-serializers-xml'
   s.add_dependency 'globalize-accessors'
   s.add_dependency 'carrierwave', '>= 1.0.0.rc', '< 2.0'
-
-
-  s.add_development_dependency 'bootstrap', '~> 4.0.0.alpha5'
+  s.add_dependency 'bootstrap', '~> 4.0.0.alpha5'
+  
   s.add_development_dependency 'byebug'
   s.add_development_dependency 'pg'
 
