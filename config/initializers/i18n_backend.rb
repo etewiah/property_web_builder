@@ -13,3 +13,15 @@ if Translation.table_exists?
   I18n.backend = I18n::Backend::Chain.new(I18n::Backend::Simple.new, I18n.backend)
 end
 
+
+
+
+# https://blog.codeship.com/the-json-api-spec/
+# https://github.com/rails-api/active_model_serializers/issues/1027
+# might need to define custom mime type at some point as per above
+# api_mime_types = %W(
+#   application/vnd.api+json
+#   text/x-json
+#   application/json
+# )
+# Mime::Type.register 'application/vnd.api+json', :json, api_mime_types
