@@ -12,8 +12,10 @@ PATH
   specs:
     pwb (0.1.0)
       activemodel-serializers-xml
+      bootstrap (~> 4.0.0.alpha5)
       carrierwave (>= 1.0.0.rc, < 2.0)
       globalize-accessors
+      i18n-active_record
       money-rails
       rails (~> 5.0.0, >= 5.0.0.1)
 
@@ -118,6 +120,8 @@ GEM
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
     i18n (0.7.0)
+    i18n-active_record (0.1.2)
+      i18n (>= 0.5.0)
     json (2.0.2)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -263,7 +267,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootstrap (~> 4.0.0.alpha5)
   byebug
   capybara
   factory_girl_rails
