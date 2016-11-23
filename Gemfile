@@ -10,11 +10,12 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-gem 'globalize', github: 'globalize/globalize'
-# below needed by above
-gem 'activemodel-serializers-xml'
-gem 'globalize-accessors'
-gem 'carrierwave', '>= 1.0.0.rc', '< 2.0'
+# below cannot be moved into gemspec as it does not accept the "git:" syntax
+gem 'globalize', git: 'https://github.com/globalize/globalize'
+# below needed by above - (in gemspec)
+# gem 'activemodel-serializers-xml'
+# gem 'globalize-accessors'
+# gem 'carrierwave', '>= 1.0.0.rc', '< 2.0'
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]

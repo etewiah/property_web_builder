@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/globalize/globalize.git
+  remote: https://github.com/globalize/globalize
   revision: abe7786f4cc7edeafbfdda2863c6d17ca7e744d0
   specs:
     globalize (5.1.0)
@@ -11,6 +11,9 @@ PATH
   remote: .
   specs:
     pwb (0.1.0)
+      activemodel-serializers-xml
+      carrierwave (>= 1.0.0.rc, < 2.0)
+      globalize-accessors
       money-rails
       rails (~> 5.0.0, >= 5.0.0.1)
 
@@ -260,15 +263,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activemodel-serializers-xml
   bootstrap (~> 4.0.0.alpha5)
   byebug
   capybara
-  carrierwave (>= 1.0.0.rc, < 2.0)
   factory_girl_rails
   font-awesome-rails
   globalize!
-  globalize-accessors
   guard
   guard-rspec
   pg
