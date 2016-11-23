@@ -3,9 +3,11 @@ require_dependency "pwb/application_controller"
 module Pwb
   class Api::V1::AgencyController < ApplicationController
 
-    # def index
-    #   return render json: []
-    # end
+    def infos
+      return render json: {
+        data: []
+      }
+    end
 
     def show
       @agency = nil
@@ -16,7 +18,9 @@ module Pwb
 
       if @agency
         return render json: {
-          tenant: {},
+          tenant: {
+            supported_languages: [:en,:es]
+            },
           # @tenant.as_json(:only => ["social_media","default_client_locale","default_admin_locale","raw_css","site_template_id"], :methods => ["style_variables","supported_languages","available_locales"]),
           agency: @agency,
           primary_address: {}
