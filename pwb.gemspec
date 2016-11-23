@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'i18n-active_record'
   # , :require => 'i18n/active_record'
   s.add_dependency 'responders'
+  s.add_dependency 'jsonapi-resources'
 
   s.add_development_dependency 'byebug'
   s.add_development_dependency 'pg'

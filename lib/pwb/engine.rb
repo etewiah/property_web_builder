@@ -3,6 +3,7 @@ require 'globalize-accessors'
 require 'bootstrap'
 require 'carrierwave'
 require 'responders'
+require 'jsonapi-resources'
 # require 'font-awesome-rails'
 module Pwb
   class Engine < ::Rails::Engine
