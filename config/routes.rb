@@ -13,7 +13,7 @@ Pwb::Engine.routes.draw do
   namespace :api do
     namespace :v1 do
       get "/client_translations/:locale" => "client_translations#index"
-
+      get "/agency" => "agency#show"
     end
   end
 
