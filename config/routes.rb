@@ -17,6 +17,8 @@ Pwb::Engine.routes.draw do
       get "/infos" => "agency#infos"
       get "/web-contents" => "agency#infos"
       jsonapi_resources :lite_properties
+      jsonapi_resources :properties
+
       # get "/lite-properties" => "lite_props#index"
     end
   end
