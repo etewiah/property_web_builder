@@ -14,6 +14,8 @@ module Pwb
         seed_prop 'villa_for_sale.yml'
         seed_agency 'agency.yml'
         seed_sections 'sections.yml'
+        load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations.rb')
+
       end
 
       protected
