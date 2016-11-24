@@ -9,6 +9,6 @@ class CreatePwbContentPhotos < ActiveRecord::Migration[5.0]
       t.integer :sort_order
       t.timestamps null: false
     end
-    add_index :pwb_content_photos, :prop_id
+    add_index :pwb_content_photos, :content_id
   end
 end
