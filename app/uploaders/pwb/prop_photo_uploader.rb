@@ -1,4 +1,4 @@
-class PropPhotoUploaderUploader < CarrierWave::Uploader::Base
+class PropPhotoUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
