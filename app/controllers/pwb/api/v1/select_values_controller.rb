@@ -14,16 +14,16 @@ module Pwb
 
       # below used to populate dropdown list to select
       # client for property
-      if field_names_string == "clients"
-        clients_array = [{:value => "", :label => ""}]
-        # TODO - have some filter for below
-        clients = Client.all
-        clients.each do |client|
-          clients_array.push( {:value => client.id,
-                               :label => client.full_name})
-        end
-        return render json: { clients: clients_array}
-      end
+      # if field_names_string == "clients"
+      #   clients_array = [{:value => "", :label => ""}]
+      #   # TODO - have some filter for below
+      #   clients = Client.all
+      #   clients.each do |client|
+      #     clients_array.push( {:value => client.id,
+      #                          :label => client.full_name})
+      #   end
+      #   return render json: { clients: clients_array}
+      # end
 
 
       field_names_array = field_names_string.split(",")

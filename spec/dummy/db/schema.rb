@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161123124639) do
+ActiveRecord::Schema.define(version: 20161123232423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,17 @@ ActiveRecord::Schema.define(version: 20161123124639) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.index ["key"], name: "index_pwb_contents_on_key", unique: true, using: :btree
+  end
+
+  create_table "pwb_field_keys", force: :cascade do |t|
+    t.string   "global_key"
+    t.string   "tag"
+    t.boolean  "visible",             default: true
+    t.integer  "props_count",         default: 0,    null: false
+    t.boolean  "show_in_search_form", default: true
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.index ["global_key"], name: "index_pwb_field_keys_on_global_key", unique: true, using: :btree
   end
 
   create_table "pwb_prop_translations", force: :cascade do |t|
