@@ -12,6 +12,7 @@
  *
  */
 @import "bootstrap";
+@import "bootstrap-sprockets";
 /* font-awesome import fails even though it
 is being imported in engine.rb as per:
 https://github.com/bokmann/font-awesome-rails*/

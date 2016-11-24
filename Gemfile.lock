@@ -12,7 +12,7 @@ PATH
   specs:
     pwb (0.1.0)
       activemodel-serializers-xml
-      bootstrap (~> 4.0.0.alpha5)
+      bootstrap-sass
       carrierwave (>= 1.0.0.rc, < 2.0)
       globalize-accessors
       i18n-active_record
@@ -72,9 +72,9 @@ GEM
     ast (2.3.0)
     autoprefixer-rails (6.5.3)
       execjs
-    bootstrap (4.0.0.alpha5)
-      autoprefixer-rails (>= 6.0.3)
-      sass (>= 3.4.19)
+    bootstrap-sass (3.3.7)
+      autoprefixer-rails (>= 5.2.1)
+      sass (>= 3.3.4)
     builder (3.2.2)
     byebug (9.0.6)
     capybara (2.10.1)
