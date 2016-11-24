@@ -7,6 +7,9 @@ class CreatePwbTranslations < ActiveRecord::Migration[5.0]
       t.text   :interpolations
       t.boolean :is_proc, :default => false
 
+      # TODO - use tag to group translations
+      t.string :tag
+
       t.timestamps
     end
   end
