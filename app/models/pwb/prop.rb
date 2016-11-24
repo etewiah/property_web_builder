@@ -26,6 +26,8 @@ module Pwb
 
     validates :reference, :uniqueness => { case_sensitive: false }
 
+    has_many :prop_photos, -> { order 'sort_order asc' }
+
 
     scope :for_rent, -> () { where('for_rent_short_term OR for_rent_long_term') }
     # couldn't do above if for_rent_short_term was a flatshihtzu boolean
@@ -50,10 +52,10 @@ module Pwb
 
     def ordered_photo_url number
       # allows me to pick an individual image according to an order
-      unless self.property_photos.length >= number
+      unless self.prop_photos.length >= number
         return "https://placeholdit.imgix.net/~text?txtsize=38&txt=&w=550&h=400&txttrack=0"
       end
-      return self.property_photos[number - 1].image.url
+      return self.prop_photos[number - 1].image.url
     end
 
     def url_friendly_title
