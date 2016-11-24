@@ -2,7 +2,8 @@ Pwb::Engine.routes.draw do
   root to: 'welcome#index'
   resources :welcome, only: :index
 
-  get "/admin_panel" => "admin_panel#show"
+  get "/admin" => "admin_panel#show"
+  get "/admin/*path" => "admin_panel#show"
 
   # TODO - get locales dynamically
   scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar/ do
@@ -10,6 +11,10 @@ Pwb::Engine.routes.draw do
 
     get "/properties/for-rent/:id/:url_friendly_title" => "props#show_for_rent", as: "prop_show_for_rent"
     get "/properties/for-sale/:id/:url_friendly_title" => "props#show_for_sale", as: "prop_show_for_sale"
+
+    get "/admin" => "admin_panel#show"
+    get "/admin/*path" => "admin_panel#show"
+
   end
 
   namespace :api do
