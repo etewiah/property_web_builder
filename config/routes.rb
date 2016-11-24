@@ -12,6 +12,14 @@ Pwb::Engine.routes.draw do
     get "/properties/for-rent/:id/:url_friendly_title" => "props#show_for_rent", as: "prop_show_for_rent"
     get "/properties/for-sale/:id/:url_friendly_title" => "props#show_for_sale", as: "prop_show_for_sale"
 
+    # get "/home" => "sections#landing", as: "tenanted_home"
+    get "/about-us" => "sections#about_us"
+    get "/sell" => "sections#sell"
+    get "/contact-us" => "sections#contact_us"
+    get "/privacy-policy" => "sections#privacy_policy"
+    get "/legal" => "sections#legal"
+
+
     get "/admin" => "admin_panel#show"
     get "/admin/*path" => "admin_panel#show"
 
