@@ -1,0 +1,49 @@
+<div class="section-title-wr" style="display:none;">
+  <h3 class="section-title left"><span>
+    <%= I18n.t("contactUs") %>
+  </span>
+  </h3>
+</div>
+<p id="contact-us-prompt" >
+  <%= I18n.t("contactUsPrompt") %>: 
+</p>
+
+<%= form_for :contact, :url => '/contact_us.js', :method => 'get', 
+  :html => { :class => 'form-light mt-20 mi_form' }, :remote => true do |f| %>
+
+  <%=  f.hidden_field :locale, :value => I18n.locale %>
+
+  <div class="form-group">
+    <%= simple_inmo_input f, "name", "name", "text", true %>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group pos_relative">
+        <%= simple_inmo_input f, "email", "email", "email", true %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group pos_relative">
+        <%= simple_inmo_input f, "tel", "tel", "text", false %>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= simple_inmo_input f, "subject", "subject", "text", false %>
+  </div>
+  <div class="form-group">
+    <%= simple_inmo_textarea f, "message", "message", "text", false %>
+  </div>
+  <div class="form-group">
+  </div>
+  <div class="form-group">
+    <div id="contact-us-result" style="display: inline-table;width: 100%;"></div>
+  </div>
+  <%=  button_tag(type: "submit", class: "btn btn-base fondo_accion") do %>
+    <i class="fa fa-envelope"></i> 
+    <%= I18n.t("send") %>
+  <% end %>
+
+
+  <div id="resp_enviar"></div>
+<% end %>
