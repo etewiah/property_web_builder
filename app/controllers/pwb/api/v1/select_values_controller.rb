@@ -28,8 +28,7 @@ module Pwb
 
       field_names_array = field_names_string.split(",")
       # above might return something like
-      # ["extras"]
-      # or
+      # ["extras"] or
       # ["provinces","property-states"]
       select_values = {}
       # a field_name_id identifies a dropdown field for
@@ -41,7 +40,7 @@ module Pwb
         field_name_id = field_name_id.strip
 
         # gets a list of translation keys for a given field:
-        translation_keys = FieldKey.where(tag: field_name_id).visible.pluck("tenant_key")
+        translation_keys = FieldKey.where(tag: field_name_id).visible.pluck("global_key")
         select_values[field_name_id] = translation_keys
       end
       return render json: select_values

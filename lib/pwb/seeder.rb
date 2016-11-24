@@ -14,11 +14,20 @@ module Pwb
         seed_prop 'villa_for_sale.yml'
         seed_agency 'agency.yml'
         seed_sections 'sections.yml'
+        seed_field_keys 'field_keys.yml'
         load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations.rb')
-
       end
 
       protected
+
+      def seed_field_keys yml_file
+        field_keys_yml = load_seed_yml yml_file
+        field_keys_yml.each do |field_key_yml|
+          unless Pwb::FieldKey.where(global_key: field_key_yml['global_key']).count > 0
+            Pwb::FieldKey.create!(field_key_yml)
+          end
+        end
+      end
 
       def seed_sections yml_file
         sections_yml = load_seed_yml yml_file
