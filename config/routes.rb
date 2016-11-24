@@ -2,6 +2,8 @@ Pwb::Engine.routes.draw do
   root to: 'welcome#index'
   resources :welcome, only: :index
 
+  get "/admin_panel" => "admin_panel#show"
+
   # TODO - get locales dynamically
   scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar/ do
     resources :welcome, only: :index
