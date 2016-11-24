@@ -10,17 +10,13 @@ module Pwb
     end
 
     def show
-      @agency = nil
-      if request.subdomain.present?
-        @agency = Agency.last
-        # @tenant = Tenant.get_from_subdomain(request.subdomain.downcase)
-      end
+      @agency = Agency.last
 
       if @agency
         return render json: {
           tenant: {
             supported_languages: [:en,:es]
-            },
+          },
           # @tenant.as_json(:only => ["social_media","default_client_locale","default_admin_locale","raw_css","site_template_id"], :methods => ["style_variables","supported_languages","available_locales"]),
           agency: @agency,
           primary_address: {}
