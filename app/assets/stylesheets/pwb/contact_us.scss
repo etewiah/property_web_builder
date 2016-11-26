@@ -1,0 +1,204 @@
+.form-control {
+  border-radius: 2px !important;
+  padding: 8px 12px
+}
+
+.form-base .form-control {
+  margin-bottom: 10px;
+  background: #217dbb;
+  border: 1px solid #1d6fa5;
+  color: #fff;
+  font-size: 13px !important
+}
+
+.form-base label {
+  color: #fff
+}
+
+.form-base label.checkbox {
+  font-size: 12px;
+  font-weight: normal;
+  cursor: pointer
+}
+
+.form-base .form-control:focus {
+  background: #217dbb;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-color: #1d6fa5
+}
+
+.form-base .form-control:-moz-placeholder {
+  color: #fff
+}
+
+.form-base .form-control::-moz-placeholder,
+.form-base .form-control[placeholder] {
+  color: #fff
+}
+
+.form-base .form-control:-ms-input-placeholder {
+  color: #fff
+}
+
+.form-base .form-control::-webkit-input-placeholder {
+  color: #fff
+}
+
+.form-light .form-control {
+  outline: none;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  color: #70808b;
+  font-size: 13px !important
+}
+
+.form-light .form-control:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  border-color: #3498db
+}
+
+.form-light label.checkbox {
+  font-size: 12px;
+  font-weight: normal;
+  cursor: pointer
+}
+
+.form-light .form-control:-moz-placeholder {
+  color: #999
+}
+
+.form-light .form-control::-moz-placeholder,
+.form-light .form-control[placeholder] {
+  color: #999
+}
+
+.form-light .form-control:-ms-input-placeholder {
+  color: #999
+}
+
+.form-light .form-control::-webkit-input-placeholder {
+  color: #999
+}
+
+.form-light .input-group .form-control.left {
+  border-right: 0 !important
+}
+
+
+/* formulario */
+
+.mi_form {
+  position: relative;
+}
+
+.mi_form .validacion {
+  float: left;
+  font-size: 12px;
+  height: 24px;
+  margin: 5px;
+  position: absolute;
+  right: 0px;
+  text-align: center;
+  width: 24px;
+}
+
+.mi_form label {
+  clear: both;
+  width: 100%;
+  display: block;
+}
+
+.mi_form input,
+.mi_form textarea,
+.mi_form select {
+  float: left;
+  clear: both;
+  margin-bottom: 15px;
+}
+
+.mi_form .ok {
+  color: #9bb314 !important;
+}
+
+.mi_form .cancel {
+  color: #ed4747 !important;
+}
+
+.mi_form .validacion i {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  height: 24px;
+  left: 0;
+  position: absolute;
+  top: 4px;
+  width: 24px;
+}
+
+.mi_form label.obligatorio {
+  font-weight: bold;
+}
+
+.mi_form label.obligatorio:before {
+  content: "(*) ";
+}
+
+.mi_form .mi_form_ayuda {
+  clear: both;
+  font-style: italic;
+  background-color: #b1dffc;
+  color: #004f80;
+  padding: 10px;
+  margin: 0 0 10px 0;
+  font-size: 12px;
+}
+
+.mi_form .fila_form {
+  position: relative;
+  clear: both;
+  overflow: hidden;
+  margin: 0;
+}
+
+
+/**/
+
+.contact-us-section {
+  padding-bottom: 100px;
+  padding-top: 40px;
+}
+
+
+/**/
+
+.btn-base {
+  color: #fff !important;
+  background-color: #3498db;
+  border: 1px solid;
+  border-color: #258cd1
+}
+
+.btn-base:hover,
+.btn-base:focus,
+.btn-base:active,
+.btn-base.active,
+.open .dropdown-toggle.btn-base {
+  color: #fff;
+  background-color: #4aa3df;
+  border-color: #4aa3df
+}
+
+.btn-base:active,
+.btn-base.active,
+.open .dropdown-toggle.btn-base {
+  background-image: none
+}
+
+.btn-base:before {
+  background-color: #217dbb
+}
