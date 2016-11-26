@@ -7,6 +7,11 @@ footer {
   */
 }
 
+/*footer {
+  padding-bottom: 5px;
+}
+*/
+
 footer:before,
 footer:after {
   display: table;
@@ -46,6 +51,41 @@ header {
     font-family: 'PT Sans', sans-serif;
   }
 }
+
+
+header.top_header {
+  min-height: 25px;
+}
+
+/*start sticky footer*/
+/*http://matthewjamestaylor.com/blog/keeping-footers-at-the-bottom-of-the-page*/
+html,
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+.body-wrap {
+   min-height:100%;
+   position:relative;
+}
+/*#header {
+   background:#ff0;
+   padding:10px;
+}
+section.slice {
+   padding:10px;
+   padding-bottom:60px;  
+}*/
+.fondo_footer {
+   position:absolute;
+   bottom:0;
+   width:100%;
+   height:60px;   /* Height of the footer */
+   /*background:#6cf;*/
+}
+/*end sticky footer*/
+
 
 
 /*breadcrumbs row - strictly speaking not header*/
@@ -96,4 +136,5 @@ header {
     padding: 20px 0 0 0
   }
 }
+
 

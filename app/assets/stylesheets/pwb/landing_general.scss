@@ -1,3 +1,106 @@
+.landing-about-us {
+  font-size: 15px;
+  margin: 10px 0px 80px 0px;
+  /*display: flex;
+  with above, 
+  for casafactory it now displays each p element
+  as a tall narrow col*/
+}
+
+
+/* line 8238, gsb */
+
+.landing-contact-info {
+  margin: 10px 0px 80px 0px;
+  h5 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+}
+
+.landing-inline-row {
+  display: inline;
+}
+
+
+/*  -  fix height of bottom row of each property on landing page*/
+
+.wp-block.white .wp-block-body {
+  height: 65px;
+}
+
+
+/*div.wp-block.white {
+    height: 400px;
+}
+*/
+
+
+/*  - title on landing list of props should not take up more than 1 line*/
+
+.overflow-elip {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+
+/*end*/
+
+
+/*  - fix for list of images on landing page */
+
+
+/*div.wp-block.white {
+  height: 450px;
+}
+*/
+
+div.figure {
+  display: block;
+  height: 300px;
+  position: relative;
+  width: 100%;
+  max-height: 300px;
+  text-align: center;
+  background: #eee;
+}
+
+div.figure img {
+  display: block;
+  max-width: 100%;
+  height: 100%;
+  max-height: 300px;
+  margin: 0 auto;
+}
+
+
+/*  - fix for search box on landing jumbo*/
+
+form.simple_form.form-base div.panel-body {
+  padding: 25px;
+  min-height: 301px;
+}
+
+.carousel-1 .description-left .title {
+  line-height: 1em;
+}
+
+@media (max-width: 991px) {
+  .carousel-1 .description-left {
+    width: auto;
+    height: auto;
+  }
+}
+
+
+
+
+
+
 .carousel {
   position: relative;
 }

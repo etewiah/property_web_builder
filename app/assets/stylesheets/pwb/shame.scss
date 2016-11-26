@@ -5,7 +5,7 @@
 .light-gray {
   /*  background: #fcfcfc;
     color: #000
-  aug 2016 - applying this color more carefully by using variable 
+    - applying this color more carefully by using variable 
   defined in light.scss
   */
 }
@@ -186,10 +186,6 @@ header {
   -webkit-transition: all .25s ease-out;
   -moz-transition: all .25s ease-out;
   transition: all 0.25s ease-out;
-}
-
-.body-wrap {
-  position: relative;
   z-index: 0;
 }
 
@@ -359,11 +355,6 @@ section.slice {
 }
 
 
-/*.panel.panel-base {
-  background-color: #3498db
-}
--replaced above with fondo_secundario (ED)
-*/
 
 .panel .panel-heading {
   border-radius: 0;
@@ -438,26 +429,6 @@ section.slice {
 }
 
 
-/*$color_accion: #f29910;
-$color_principal: #ff5b5c;
-$color_secundario: #616161;
-*/
-
-html {
-  color: #222;
-  font-size: 1em;
-  line-height: 1.4;
-}
-
-::-moz-selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
-
-::selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
 
 img {
   vertical-align: middle;
@@ -553,66 +524,12 @@ ul.idiomas li:hover {
 }
 */
 
-footer {
-  padding-bottom: 5px;
-}
+
 
 .social {
   padding-right: 20px;
   text-align: right;
   margin: -3px 0 3px 0;
-}
-
-.btn-group.bootstrap-select button {
-  border: 1px solid #ddd;
-}
-
-.tnt-body.body-boxed {
-  /*body tag will have tnt-body class for tenants
-  - where layout is narrow (boxed) will have a background color
-  - might move to tenants_css*/
-  background: #fcfcfc;
-}
-
-.body-wrap.body-boxed {
-  margin: 0px auto;
-  background-color: white;
-  border-top: 0px;
-  border-bottom: 0px;
-  border-left: 1px solid #e0eded;
-  border-right: 1px solid #e0eded;
-}
-
-.landing-about-us {
-  font-size: 15px;
-  margin: 10px 0px 80px 0px;
-  /*display: flex;
-  nov 2016: can't quite remember what above was 
-  solving but for casafactory it now displays each p element
-  as a tall narrow col*/
-}
-
-
-.landing-contact-info {
-  margin: 10px 0px 80px 0px;
-}
-
-.landing-contact-info h5 {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-
-.landing-inline-row {
-  display: inline;
-}
-
-.overflow-elip {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  display: block;
 }
 
 .wp-block.white .wp-block-body {
@@ -648,55 +565,92 @@ form.simple_form.form-base div.panel-body {
   padding-right: 5px;
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-
-.body-wrap {
-  min-height: 100%;
-  position: relative;
-}
-
-
-/*#header {
-   background:#ff0;
-   padding:10px;
-}
-section.slice {
-   padding:10px;
-   padding-bottom:60px;  
-}*/
-
-.fondo_footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  background: #6cf;
-}
-
-header.top_header {
-  min-height: 25px;
-}
-
-
-/*.btn-alt:before {
-  background-color: #d35400;  
-}*/
-
-.fondo_footer {
-  background: #333;
-  color: #fff;
-}
-
-.fondo_secundario {
-  background: #ea802d;
-  color: #fff;
-}
-
 .contact-info h5 i {
   color: #ea802d !important;
 }
+
+
+.btn-group.bootstrap-select button {
+  border: 1px solid #ddd;
+}
+
+.overflow-elip {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+
+/* below from inmo1 shame */
+
+
+/* line 1660 gsb */
+
+.navbar-wp .navbar-nav {
+  margin-bottom: -1px;
+}
+
+
+/**/
+
+header .navbar-wp .navbar-brand {
+  overflow: hidden;
+  height: 80px;
+  margin-top: 0px;
+}
+
+.tnt-body.body-boxed {
+  /*body tag will have tnt-body class for tenants
+  - where layout is narrow (boxed) will have a background color
+  - might move to tenants_css*/
+  background: $base-bg-color;
+}
+
+.body-wrap.body-boxed {
+  /*remove pointless 1px white border and ensure background remains white*/
+  margin: 0px auto;
+  background-color: white;
+  border-top: 0px;
+  border-bottom: 0px;
+  border-left: 1px solid $base-border-color;
+  border-right: 1px solid $base-border-color;
+}
+
+
+.about-us-img {
+  width: 100%;
+}
+
+.full-screen-container {
+  /* /app/views/devise/registrations/avatar.html.erb*/
+  min-height: 800px;
+}
+
+
+/*  - fix left image on search result list*/
+
+ul.list-listings .listing-image img {
+  border-bottom-left-radius: 2px;
+  max-height: 145px;
+  margin: 0 auto;
+}
+
+ul.list-listings .listing-image {
+  width: 30%;
+  display: table-cell;
+  width: 150px;
+  text-align: center;
+  background: #eee;
+}
+
+
+/* below for right side of search result list fixed above*/
+
+ul.list-listings .listing-body {
+  min-width: 400px;
+}
+
+
+
+

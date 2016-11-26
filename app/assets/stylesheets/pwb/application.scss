@@ -11,6 +11,11 @@
  * It is generally better to create a new file per style scope.
  *
  */
+
+$base-bg-color:#fcfcfc;
+/*below is slightly darker shade of above pale gray*/
+$base-border-color:#e0eded;
+
 @import "bootstrap";
 @import "bootstrap-sprockets";
 /* font-awesome import fails even though it
@@ -21,4 +26,50 @@ https://github.com/bokmann/font-awesome-rails*/
 @import "navbar";
 @import "landing_general";
 @import "landing_content_areas";
+@import "contact_us";
 @import "shame";
+
+
+/*$color_accion: #f29910;
+$color_principal: #ff5b5c;
+$color_secundario: #616161;
+*/
+
+html {
+  color: #222;
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+/*.btn-alt:before {
+  background-color: #d35400;  
+}*/
+
+.fondo_footer {
+  background: #333;
+  color: #fff;
+}
+
+.fondo_secundario {
+  background: #ea802d;
+  color: #fff;
+}
+
+/*.panel.panel-base {
+  background-color: #3498db
+}
+-replaced above with fondo_secundario (ED)
+*/
+
+
+
