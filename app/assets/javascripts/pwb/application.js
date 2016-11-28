@@ -15,12 +15,15 @@
 // require jquery.turbolinks
 //= require jquery_ujs
 //= require paloma
-// require_tree ./paloma
+//= require_tree ./paloma
 
-
-$(document).on('page:change', function() {
+// $(document).on('page:change', function() {
+// once turbolinks is activated, will have to change to above
+$(document).on('ready', function() {
   INMOAPP.pageHolder = {};
-  Paloma.executeHook();
+  // debugger;
+  Paloma.start();
+  // Paloma.executeHook();
   // Paloma.engine.start();
 });
 

@@ -39,10 +39,9 @@ module Pwb
 
     def contact_us
       # below for google map rendering via paloma:
-      # js :current_agency_primary_address => @current_agency.primary_address
-      # js :show_contact_map => @current_agency.show_contact_map
-      # js "Main/Home#contact_us"
-      # @agency = Agency.find_by_subdomain(request.subdomain.downcase)
+      js :current_agency_primary_address => @current_agency.primary_address
+      js :show_contact_map => @current_agency.show_contact_map
+      # js "Pwb/Sections#contact_us"
       # @enquiry = Message.new
       @page_title = I18n.t("contactUs")
 
