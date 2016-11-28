@@ -25,17 +25,19 @@ class CreatePwbAgencies < ActiveRecord::Migration[5.0]
       t.integer :payment_plan_id
 
       t.integer :site_template_id
-      t.json :site_configuration, default: '{}'
+      t.json :site_configuration, default: {}
 
+      t.text :available_locales, array: true, default: []
       t.text :supported_locales, array: true, default: []
+      t.text :available_currencies, array: true, default: []
       t.text :supported_currencies, array: true, default: []
       t.string :default_client_locale
       t.string :default_admin_locale
       t.string :default_currency
 
-      t.json :social_media, default: '{}'
-
-      t.json :details, default: '{}'
+      t.json :social_media, default: {}
+      t.json :details, default: {}
+      t.text :raw_css
 
       t.timestamps null: false
     end

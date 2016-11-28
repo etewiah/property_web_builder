@@ -18,11 +18,14 @@
   flags: 0
   payment_plan_id:
   site_template_id:
-  site_configuration: "{}"
+  site_configuration: {}
+  available_locales: []
+  available_currencies: []
   supported_locales: []
   supported_currencies: []
   default_client_locale:
   default_admin_locale:
   default_currency:
-  social_media: "{}"
-  details: "{}"
+  # social_media: {}
+  details: {}
+  raw_css: ""
