@@ -3,6 +3,8 @@ require_dependency "pwb/application_controller"
 module Pwb
   class Api::V1::AgencyController < ApplicationController
 
+    protect_from_forgery with: :null_session
+
     def infos
       return render json: {
         data: []
@@ -11,7 +13,6 @@ module Pwb
 
     def show
       @agency = Agency.last
-
       if @agency
         return render json: {
           #TODO - change legacy admin code to retrieve info below
@@ -57,6 +58,27 @@ module Pwb
     #   end
     #   return render json: @agency
     # end
+
+    def update
+      @agency = Agency.last
+
+      @agency.style_variables = params[:style_variables]
+      @agency.social_media = params[:social_media]
+
+      @agency.raw_css = params[:raw_css]
+
+      if params[:site_template_id].present?
+        @agency.site_template_id = params[:site_template_id]
+      end
+      # @agency.supported_languages = params[:supported_languages]
+      # might stop using above and use below exclusively
+      @agency.supported_locales = params[:supported_languages]
+      @agency.save!
+      return render json: { "success": true }, status: :ok, head: :no_content
+    end
+
+
+
 
     private
 

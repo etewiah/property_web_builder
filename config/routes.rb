@@ -45,6 +45,10 @@ Pwb::Engine.routes.draw do
 
       get "/agency" => "agency#show"
       get "/infos" => "agency#infos"
+
+      #TODO - change legacy admin code to put to /agency
+      put "tenant" => "agency#update"
+
       # get "/web-contents" => "agency#infos"
       jsonapi_resources :lite_properties
       jsonapi_resources :properties
