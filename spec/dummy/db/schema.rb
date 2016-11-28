@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 20161124214746) do
     t.integer  "sort_order"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["content_id"], name: "index_pwb_content_photos_on_content_id", using: :btree
   end
 
   create_table "pwb_content_translations", force: :cascade do |t|
@@ -218,6 +219,7 @@ ActiveRecord::Schema.define(version: 20161124214746) do
     t.text     "value"
     t.text     "interpolations"
     t.boolean  "is_proc",        default: false
+    t.string   "tag"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
   end
