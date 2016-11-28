@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161128200709) do
+ActiveRecord::Schema.define(version: 20161128221919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,29 @@ ActiveRecord::Schema.define(version: 20161128200709) do
     t.datetime "updated_at",                                   null: false
     t.index ["company_id"], name: "index_pwb_agencies_on_company_id", unique: true, using: :btree
     t.index ["company_name"], name: "index_pwb_agencies_on_company_name", using: :btree
+  end
+
+  create_table "pwb_clients", force: :cascade do |t|
+    t.string   "first_names"
+    t.string   "last_names"
+    t.string   "client_title"
+    t.string   "phone_number_primary"
+    t.string   "phone_number_other"
+    t.string   "fax"
+    t.string   "nationality"
+    t.string   "email"
+    t.string   "skype"
+    t.string   "documentation_id"
+    t.integer  "documentation_type"
+    t.integer  "user_id"
+    t.integer  "address_id"
+    t.integer  "flags",                default: 0,  null: false
+    t.json     "details",              default: {}
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.index ["documentation_id"], name: "index_pwb_clients_on_documentation_id", unique: true, using: :btree
+    t.index ["email"], name: "index_pwb_clients_on_email", unique: true, using: :btree
+    t.index ["first_names", "last_names"], name: "index_pwb_clients_on_first_names_and_last_names", using: :btree
   end
 
   create_table "pwb_content_photos", force: :cascade do |t|
