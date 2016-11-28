@@ -78,9 +78,26 @@ module Pwb
     end
 
 
-
+    def update_master_address
+      @agency = Agency.last
+      if @agency.primary_address
+        @agency.primary_address.update(address_params)
+        @agency.primary_address.save!
+      else
+        primary_address = Address.create(address_params)
+        @agency.primary_address_id = primary_address.id
+        @agency.save!
+        # @agency.primary_address = Address.create(address_params)
+      end
+      return render json: @agency.primary_address
+    end
 
     private
+
+    def address_params
+      params.require(:address).permit(:street_address, :postal_code, :city, :region, :country, :longitude, :latitude)
+    end
+
 
     def agency_params
       params.require(:agency).permit(:company_name, :display_name, :phone_number_primary, :phone_number_other)
