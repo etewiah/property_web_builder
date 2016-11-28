@@ -1,0 +1,12 @@
+<!-- <p> <div class=''><%= @flash %></div></p> -->
+<% @error_messages.each do |key| %>
+  <div class="alert alert-danger">
+    <a href="#" data-dismiss="alert" class="close">×</a>
+      <ul>
+        <li style="list-style-type: none;">
+          <%= key %>
+        </li>
+      </ul>
+  </div>
+<% end %>
+

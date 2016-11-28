@@ -22,6 +22,8 @@ Pwb::Engine.routes.draw do
     get "/privacy-policy" => "sections#privacy_policy"
     get "/legal" => "sections#legal"
 
+    get "/contact_us" => "sections#contact_us_ajax"
+
 
     get "/admin" => "admin_panel#show"
     get "/admin/*path" => "admin_panel#show"

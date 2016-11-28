@@ -41,6 +41,7 @@ module Pwb
       # below for google map rendering via paloma:
       js :current_agency_primary_address => @current_agency.primary_address
       js :show_contact_map => @current_agency.show_contact_map
+      # could explicitly set function for Paloma to use like so:
       # js "Pwb/Sections#contact_us"
       # @enquiry = Message.new
       @page_title = I18n.t("contactUs")
@@ -76,7 +77,7 @@ module Pwb
       unless @enquiry.save && @client.save
         @error_messages = @error_messages + @client.errors.full_messages
         @error_messages = @error_messages + @enquiry.errors.full_messages
-        return render "main/sections/contact_us/contact_us_ajax_errors"
+        return render "pwb/ajax/contact_us_errors"
       end
 
       @enquiry.client = @client
@@ -91,12 +92,12 @@ module Pwb
       @enquiry.save
       # flash.now[:notice] = 'Thank you for your message. We will contact you soon!'
       @flash = I18n.t "contact.success"
-      return render "main/sections/contact_us/contact_us_ajax_success"
+      return render "pwb/ajax/contact_us_success"
     rescue => e
       # TODO - log error to logger....
       # flash.now[:error] = 'Cannot send message.'
       @error_messages = [ I18n.t("contact.error") ]
-      return render "main/sections/contact_us/contact_us_ajax_errors"
+      return render "pwb/ajax/contact_us_errors"
     end
 
 
