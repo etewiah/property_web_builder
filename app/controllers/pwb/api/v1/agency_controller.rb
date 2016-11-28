@@ -14,13 +14,19 @@ module Pwb
 
       if @agency
         return render json: {
-          tenant: {
-            supported_languages: [:en,:es]
-          },
-          # @tenant.as_json(:only => ["social_media","default_client_locale","default_admin_locale","raw_css","site_template_id"], :methods => ["style_variables","supported_languages","available_locales"]),
+          #TODO - change legacy admin code to retrieve info below
+          #from agency
+          # and to use supported_locales instead of supported_languages
+          tenant:             @agency.as_json(
+            :only =>
+            ["social_media","default_client_locale",
+             "default_admin_locale","raw_css","site_template_id"],
+            :methods => ["style_variables","supported_languages",
+                         "available_locales"]),
+          # supported_languages: [:en,:es]
+
           agency: @agency,
-          primary_address: {}
-          # @agency.primary_address,
+          primary_address: @agency.primary_address
           # current_user: current_user.as_json(:only => ["email", "first_names","last_names","phone_number_primary","skype"])
         }
 
