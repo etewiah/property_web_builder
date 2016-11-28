@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161124214746) do
+ActiveRecord::Schema.define(version: 20161128200709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,6 +107,24 @@ ActiveRecord::Schema.define(version: 20161124214746) do
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.index ["global_key"], name: "index_pwb_field_keys_on_global_key", unique: true, using: :btree
+  end
+
+  create_table "pwb_messages", force: :cascade do |t|
+    t.string   "title"
+    t.text     "content"
+    t.integer  "client_id"
+    t.string   "origin_ip"
+    t.string   "user_agent"
+    t.float    "longitude"
+    t.float    "latitude"
+    t.string   "locale"
+    t.string   "host"
+    t.string   "url"
+    t.boolean  "delivery_success", default: false
+    t.string   "delivery_email"
+    t.string   "origin_email"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   create_table "pwb_prop_photos", force: :cascade do |t|
