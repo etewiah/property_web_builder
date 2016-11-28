@@ -2,22 +2,26 @@ module Pwb
   module ApplicationHelper
     def section_tab(section_info)
       begin
+        # link_path should be valid - below checks that
         target_path = send(section_info[:link_path], {locale: locale})
 
       rescue NoMethodError
-        target_path = '/'
+        # target_path = '/'
         # rescue Exception => e
       end
-      # binding.pry
-      style_class = 'selected' if current_page?( target_path )
-      # section_info['link_path'](locale: locale))
-      html = <<-HTML
-      <li class="#{style_class}">
-      #{link_to I18n.t('navbar.'+section_info[:link_key]), target_path}
-      </li>
-      HTML
+      
+      # only show section_tab where link_path is valid
+      if target_path
+        style_class = 'selected' if current_page?( target_path )
+        html = <<-HTML
+        <li class="#{style_class}">
+        #{link_to I18n.t('navbar.'+section_info[:link_key]), target_path}
+        </li>
+        HTML
 
-      html.html_safe
+        html.html_safe
+      end
+
     end
 
 
