@@ -28,4 +28,6 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
   config.order = 'random'
   # config.include Pwb::ApplicationHelper
+  # config.include Rails.application.routes.url_helpers
+  # config.include Pwb::Engine.routes.url_helpers
 end

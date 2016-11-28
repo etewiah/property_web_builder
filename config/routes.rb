@@ -15,7 +15,7 @@ Pwb::Engine.routes.draw do
     # get "/home" => "sections#landing", as: "tenanted_home"
     get "/about-us" => "sections#about_us"
     get "/sell" => "sections#sell"
-    get "/contact-us" => "sections#contact_us"
+    get "/contact-us" => "sections#contact_us", as: "contact_us" #
     get "/privacy-policy" => "sections#privacy_policy"
     get "/legal" => "sections#legal"
 
