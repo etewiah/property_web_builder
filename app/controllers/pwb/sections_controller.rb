@@ -73,7 +73,6 @@ module Pwb
           delivery_email: @current_agency.email_for_general_contact_form,
           origin_email: params[:contact][:email]
       })
-
       unless @enquiry.save && @client.save
         @error_messages = @error_messages + @client.errors.full_messages
         @error_messages = @error_messages + @enquiry.errors.full_messages
@@ -94,6 +93,8 @@ module Pwb
       @flash = I18n.t "contact.success"
       return render "pwb/ajax/contact_us_success"
     rescue => e
+byebug
+
       # TODO - log error to logger....
       # flash.now[:error] = 'Cannot send message.'
       @error_messages = [ I18n.t("contact.error") ]
