@@ -4,6 +4,8 @@ require 'bootstrap-sass'
 require 'carrierwave'
 require 'responders'
 require 'jsonapi-resources'
+require 'paloma'
+require 'jquery-rails'
 # require 'font-awesome-rails'
 module Pwb
   class Engine < ::Rails::Engine
