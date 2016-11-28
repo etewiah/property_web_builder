@@ -138,3 +138,37 @@ section.slice {
 }
 
 
+/* menu */
+
+ul.mega-nav-ul li {
+  margin-left: 10px;
+}
+
+ul.mega-nav-ul li a:hover {
+  text-decoration: underline;
+}
+
+ul.navbar-right li.selected {
+  position: relative;
+}
+
+ul.navbar-right li.selected a:after {
+  top: 0;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(136, 183, 213, 0);
+  border-top-color: #fff;
+  border-width: 10px;
+  margin: -3px 0 0 -10px;
+}
+
+ul.navbar-right li.selected a:hover:after {
+  display: none;
+}
+
+

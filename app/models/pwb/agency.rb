@@ -19,6 +19,29 @@ module Pwb
       return views_folder
     end
 
+    def custom_css_file
+      custom_css_file = "standard"
+      # if self.site_template.present? && self.site_template.custom_css_file
+      #   custom_css_file = self.site_template.custom_css_file
+      # end
+      return custom_css_file
+    end
+
+
+    def style_variables
+      default_style_variables = {
+        "primary_color" => "#e91b23", #red
+        "secondary_color" => "#3498db", #blue
+        "action_color" => "green",
+        "body_style" => "siteLayout.wide",
+        "theme" => "light"
+      }
+      return self.details["style_variables"] || default_style_variables
+    end
+
+    def style_variables=(style_variables)
+      self.details["style_variables"] = style_variables
+    end
 
     private
 

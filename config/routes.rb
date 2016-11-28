@@ -5,6 +5,9 @@ Pwb::Engine.routes.draw do
   get "/admin" => "admin_panel#show"
   get "/admin/*path" => "admin_panel#show"
 
+
+  get "/agency_css" => "css#agency_css", as: "agency_css"
+
   # TODO - get locales dynamically
   scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar/ do
     resources :welcome, only: :index
@@ -12,7 +15,6 @@ Pwb::Engine.routes.draw do
     get "/properties/for-rent/:id/:url_friendly_title" => "props#show_for_rent", as: "prop_show_for_rent"
     get "/properties/for-sale/:id/:url_friendly_title" => "props#show_for_sale", as: "prop_show_for_sale"
 
-    # get "/home" => "sections#landing", as: "tenanted_home"
     get "/about-us" => "sections#about_us"
     get "/sell" => "sections#sell"
     get "/contact-us" => "sections#contact_us", as: "contact_us" #
