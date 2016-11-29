@@ -1,0 +1,30 @@
+<h4 style="text-decoration:underline"><%= @title %></h4>
+
+<p>
+  <b>
+  <%= t('mailers.received_on') %>:
+  </b>
+  <%= @enquiry.created_at %>
+</p>
+
+<p>
+  <b>
+  <%= t('mailers.from') %>:
+  </b>
+  <%= "#{@client.first_names} (#{@client.email})" %>
+</p>
+
+<p>
+  <b>
+  <%= t('mailers.phone') %>:
+  </b>
+  <%= "#{@client.phone_number_primary}" %>
+</p>
+
+<p>
+  <b>
+  <%= t('mailers.message') %>:
+  </b>
+  <br>
+  <%= @enquiry.content %>
+</p>

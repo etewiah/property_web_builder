@@ -81,20 +81,14 @@ module Pwb
 
       @enquiry.client = @client
       @enquiry.save
-      # @enquiry.request = request
-      # above will pass through (from contact model):
-      #   append :remote_ip, :user_agent, :session
 
       EnquiryMailer.general_enquiry_targeting_agency(@client, @enquiry).deliver
 
-      @enquiry.delivery_success = true
-      @enquiry.save
-      # flash.now[:notice] = 'Thank you for your message. We will contact you soon!'
+      # @enquiry.delivery_success = true
+      # @enquiry.save
       @flash = I18n.t "contact.success"
       return render "pwb/ajax/contact_us_success"
     rescue => e
-byebug
-
       # TODO - log error to logger....
       # flash.now[:error] = 'Cannot send message.'
       @error_messages = [ I18n.t("contact.error") ]
