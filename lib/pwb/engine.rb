@@ -4,8 +4,12 @@ require 'bootstrap-sass'
 require 'carrierwave'
 require 'responders'
 require 'jsonapi-resources'
+# paloma gem results in 
+# DEPRECATION WARNING: before_filter is deprecated and will be removed in Rails 5.1
 require 'paloma'
 require 'jquery-rails'
+require 'simple_form'
+
 # require 'font-awesome-rails'
 module Pwb
   class Engine < ::Rails::Engine

@@ -1,0 +1,60 @@
+<%= javascript_tag do %>
+  $(document).ready(
+
+  );
+<% end %>
+
+  <!-- MAIN CONTENT -->
+  <div class="pg-opt">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>
+            <%= I18n.t("searchForProperties") %>
+          </h2>
+        </div>
+        <div class="col-md-6" style="">
+          <ol class="breadcrumb">
+            <li><a href="/">
+              <%= I18n.t("webContentSections.home") %>
+            </a></li>
+            <li class="active">
+              <%= I18n.t("searchForProperties") %>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="slice bg-white bb">
+    <div class="wp-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
+
+          <%# render '/pwb/themes/standard/search/search_results_header' %>
+          <!-- placeholder for ajax refresh: -->
+          <div id="inmo-search-results">
+          </div>
+
+          </div>
+
+
+          <div class="col-md-3">
+            <div class="sidebar">
+              <!-- FILTERS -->
+
+              <%= render '/pwb/themes/standard/search/search_form_for_sale' %>
+
+              <%# render '/pwb/themes/standard/search/go_to_property' %>
+
+              <!-- RECENTLY VIEWED -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- FOOTER -->

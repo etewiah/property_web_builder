@@ -1,0 +1,211 @@
+<div class="panel panel-default panel-sidebar-1">
+  <div class="panel-heading">
+    <h2>
+    <%= I18n.t("searchForProperties") %>
+    </h2></div>
+  <div class="panel-body">
+
+
+  <%= simple_form_for :search, :url => '/search_ajax_for_sale.js', :method => 'get', 
+  :html => { :class => 'form-light' }, :remote => true do |f| %>
+    <div class="row div_precios_venta" style="">
+      <div class="col-sm-6">  
+      <%= f.input :for_sale_price_from, collection: @prices_collection, :required => false,
+      selected: @search_defaults["for_sale_price_from"] %>
+      </div>
+      <div class="col-sm-6">  
+      <%= f.input :for_sale_price_till, collection: @prices_collection, :required => false,
+      selected: @search_defaults["for_sale_price_till"] %>
+      </div>
+    </div>
+
+
+    <%= f.input :property_type, collection: @property_types, label_method: :label, selected: @search_defaults["property_type"], value_method: :value, :required => false %>
+
+    <% if @zones && (@zones.length > 1) %>
+        <%= f.input :in_zone, collection: @zones, value_method: :key, :required => false, :include_blank => true %>
+    <% end %>
+
+    <% if @localities && (@localities.length > 1) %>
+      <%= f.input :in_locality, collection: @localities, value_method: :key, :required => false %>  
+    <% end %>
+
+    <div class="row div_precios_venta" style="">
+      <div class="col-sm-6">  
+      <%= f.input :num_bedrooms, collection: 0..50, :required => false,
+      selected: @search_defaults["num_bedrooms"] %>
+      </div>
+      <div class="col-sm-6">  
+      <%= f.input :num_bathrooms, collection: 0..20, :required => false,
+      selected: @search_defaults["num_bathrooms"] %>
+      </div>
+    </div>
+
+      <%= f.input :property_state, collection: @property_states, label_method: :label, value_method: :value, :required => false %>
+
+      <div>
+        </br>
+        
+        <%= f.button :button, :class=> "btn fondo_accion btn-icon", 
+        :id => "btn_buscar_inmuebles" do %>
+          <i class="fa fa-search"></i> 
+          <%= I18n.t("search") %> 
+        <% end %>
+      </div>
+  <% end %>
+
+
+
+<!--     <form id="buscar_propiedades" class="form-light" role="form">
+      <div class="form-group">
+        <label>Ref</label>
+        <input type="text" class="form-control" placeholder="..." hidefocus="true">
+      </div>
+      <div class="row div_precios_venta" style="">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Precio desde</label>
+            <select id="precio_desde_venta" class="form-control bs-select-hidden">
+              <option value="0">---</option>
+              <option value="50000">50.000</option>
+              <option>75.000</option>
+              <option>100.000</option>
+              <option>150.000</option>
+              <option>200.000</option>
+              <option>300.000</option>
+              <option>500.000</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Precio hasta</label>
+            <select id="precio_hasta_venta" class="form-control bs-select-hidden">
+              <option value="0">---</option>
+              <option value="50000">50.000</option>
+              <option>75.000</option>
+              <option>100.000</option>
+              <option>150.000</option>
+              <option>200.000</option>
+              <option>300.000</option>
+              <option>500.000</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row div_precios_alquiler" style="display: none;">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Precio desde</label>
+            <select id="precio_desde_alquiler" class="form-control bs-select-hidden">
+              <option value="0">---</option>
+              <option>300</option>
+              <option>400</option>
+              <option>500</option>
+              <option>600</option>
+              <option>800</option>
+              <option>1.000</option>
+              <option>1.500</option>
+              <option>2.000</option>
+              <option>3.000</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Precio hasta</label>
+            <select id="precio_hasta_alquiler" class="form-control bs-select-hidden">
+              <option value="0">---</option>
+              <option>300</option>
+              <option>400</option>
+              <option>500</option>
+              <option>600</option>
+              <option>800</option>
+              <option>1.000</option>
+              <option>1.500</option>
+              <option>2.000</option>
+              <option>3.000</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="">Tipo de propiedad</label>
+        <select id="tipo_propiedad" class="form-control select_styled base no-padding bs-select-hidden">
+          <option value="">---</option>
+          <option value="apartamento">Apartamento</option>
+          <option value="chalet">Chalet</option>
+          <option value="piso">Piso</option>
+          <option value="atico">Ático</option>
+          <option value="inversion">Inversión</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Localidad</label>
+        <select id="localidad" class="form-control bs-select-hidden">
+          <option value="madrid">Madrid</option>
+          <option value="asturias">Asturias</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Zona</label>
+        <select id="zona" class="form-control bs-select-hidden">
+          <option value="">---</option>
+        </select>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Núm. hab. (min)</label>
+            <select class="form-control bs-select-hidden">
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Núm. baños (min)</label>
+            <select id="num_banos" class="form-control bs-select-hidden">
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group div_estado" style="">
+        <label>Estado</label>
+        <select class="form-control bs-select-hidden">
+          <option value="">---</option>
+          <option value="segunda-mano">Segunda Mano</option>
+          <option value="nuevo">Nuevo</option>
+          <option value="a-reformar">A reformar</option>
+          <option value="en-construccion">En construcción</option>
+        </select>
+      </div>
+      <div class="form-group div_muebles" style="display: none;">
+        <label>Muebles</label>
+        <select class="form-control bs-select-hidden">
+          <option value="">---</option>
+          <option value="amueblado">Amueblado</option>
+          <option value="sin_amueblar">Sin amueblar</option>
+        </select>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-12">
+          <button id="btn_buscar_inmuebles" type="submit" class="btn fondo_accion btn-icon">
+            <i class="fa fa-search"></i> Buscar </button>
+        </div>
+      </div>
+    </form> -->
+
+    
+  </div>
+</div>

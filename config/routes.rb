@@ -18,6 +18,8 @@ Pwb::Engine.routes.draw do
 
     get "/about-us" => "sections#about_us"
     get "/sell" => "sections#sell"
+    get "/buy" => "search#buy"
+
     get "/contact-us" => "sections#contact_us", as: "contact_us" #
     get "/privacy-policy" => "sections#privacy_policy"
     get "/legal" => "sections#legal"
