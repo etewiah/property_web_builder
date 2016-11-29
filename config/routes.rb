@@ -24,7 +24,10 @@ Pwb::Engine.routes.draw do
     get "/privacy-policy" => "sections#privacy_policy"
     get "/legal" => "sections#legal"
 
-    get "/contact_us" => "sections#contact_us_ajax"
+    post "/contact_us" => "sections#contact_us_ajax"
+    post "/search_ajax_for_sale" => "search#search_ajax_for_sale"
+    post "/search_ajax_for_rent" => "search#search_ajax_for_rent"
+    # post "/ajax_find_by_ref" => "search#ajax_find_by_ref"
 
 
     get "/admin" => "admin_panel#show"

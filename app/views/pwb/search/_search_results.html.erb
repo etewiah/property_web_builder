@@ -1,0 +1,87 @@
+
+<div id="resp_buscar_inmuebles">
+  <ul class="list-listings" id="ordered-properties">
+
+  <% unless @properties && (@properties.size > 0 ) %>
+    <h4 style="margin-top: 40px;text-transform: none;">
+     <%= t "noResultsForSearch" %>
+    </h4>
+  <% end %>
+
+  <% @properties.each_with_index do |property, index| %>
+
+    <li class="property-item <%= 'featured' if property.highlighted %> cuadro_inmueble" 
+    data-price="<%= property.contextual_price @operation_type  %>" >
+    <!-- data-price above used for client side sorting with paloma -->
+    <% if property.highlighted %>
+      <div class="listing-header fondo_principal">
+        <%= t "property.highlightedProperty" %>
+      </div>
+    <% end %>
+      <div class="listing-image">
+          <%= link_to property.contextual_show_path( @operation_type ) do %>
+            <img src="<%= property.ordered_photo_url 1 %>" class="img-responsive" alt="">
+          <% end %>
+      </div>
+      <div class="listing-body" style="padding-bottom:0;">
+        <h3>
+          <%= link_to property.contextual_show_path( @operation_type ) do %>
+            <%= property.title %>
+          <% end %>
+        </h3>
+        <div>
+          <%= property.reference %>          
+        </div>
+        <div class="truncated_description" style="display:none;">
+          <%== property.description %>
+        </div>
+        <div class="meta-info">
+          <ul>
+            <li><span class="precio negrita">
+              <%= property.contextual_price_with_currency @operation_type  %>
+            </span></li>
+
+            <li class="hidden-xs"><i class="fa fa-bed"></i> <small>
+             <%= property.count_bedrooms %>
+            </small></li>
+            <li class="hidden-xs"><i class="fa fa-tint"></i> <small>
+              <%= property.count_bathrooms %>
+            </small></li>
+            <li class="hidden-xs"><i class="fa fa-arrows-alt"></i> <small>
+             <%= property.constructed_area %>m<sup>2</sup>
+            </small></li>
+            <li class="hidden-xs"><i class="fa fa-car"></i> <small>
+             <%= property.count_garages %>
+            </small></li>
+            <li class=" text-right">&nbsp;</li>
+          </ul>
+        </div>
+          <%= link_to property.contextual_show_path( @operation_type ), :class => "ver_inmueble hidden-sm" do %>
+            <i class="fa fa-chevron-right"></i> 
+            <%= t "property.goToProperty" %>
+          <% end %>
+
+        <% if property.highlighted && (property.contextual_price_with_currency @operation_type) %>
+          <div style="" class="ribbon dark fondo_accion"><span>
+            <%= property.contextual_price_with_currency @operation_type  %>
+          </span></div>
+        <% end %>
+      </div>
+    </li>
+
+  <% end %>
+
+  </ul>
+  <!-- PAGINATION & FILTERS -->
+  <div class="wp-block default product-list-filters light-gray" style="display:none;">
+    <ul class="pagination pagination pull-left">
+      <li><a href="#" hidefocus="true">«</a></li>
+      <li class="active"><a href="#" hidefocus="true">1</a></li>
+      <li><a href="#" hidefocus="true">2</a></li>
+      <li><a href="#" hidefocus="true">3</a></li>
+      <li><a href="#" hidefocus="true">4</a></li>
+      <li><a href="#" hidefocus="true">5</a></li>
+      <li><a href="#" hidefocus="true">»</a></li>
+    </ul>
+  </div>
+</div>

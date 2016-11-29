@@ -8,10 +8,6 @@ module Pwb
     #   @enquiry = Message.new
     # end
 
-    # def rent
-    #   @enquiry = Message.new
-    # end
-
     def about_us
       @content = Content.find_by_key("aboutUs")
       @page_title = I18n.t("aboutUs")

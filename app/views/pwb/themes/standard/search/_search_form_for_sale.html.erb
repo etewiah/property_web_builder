@@ -6,7 +6,8 @@
   <div class="panel-body">
 
 
-  <%= simple_form_for :search, :url => '/search_ajax_for_sale.js', :method => 'get', 
+  <%= simple_form_for :search, :url => '/search_ajax_for_sale.js', 
+  :method => 'post', 
   :html => { :class => 'form-light' }, :remote => true do |f| %>
     <div class="row div_precios_venta" style="">
       <div class="col-sm-6">  
@@ -32,12 +33,12 @@
 
     <div class="row div_precios_venta" style="">
       <div class="col-sm-6">  
-      <%= f.input :num_bedrooms, collection: 0..50, :required => false,
-      selected: @search_defaults["num_bedrooms"] %>
+      <%= f.input :count_bedrooms, collection: 0..50, :required => false,
+      selected: @search_defaults["count_bedrooms"] %>
       </div>
       <div class="col-sm-6">  
-      <%= f.input :num_bathrooms, collection: 0..20, :required => false,
-      selected: @search_defaults["num_bathrooms"] %>
+      <%= f.input :count_bathrooms, collection: 0..20, :required => false,
+      selected: @search_defaults["count_bathrooms"] %>
       </div>
     </div>
 
