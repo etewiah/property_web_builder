@@ -1,0 +1,327 @@
+ul.list-listings {
+  margin: 0 0 20px 0;
+  padding: 0;
+  list-style: none
+}
+
+ul.list-listings>li {
+  margin-bottom: 30px;
+  border: 1px solid #e0eded;
+  border-radius: 2px
+}
+
+ul.list-listings>li.featured {
+  border-color: #3498db
+}
+
+ul.list-listings>li:before,
+ul.list-listings li:after {
+  content: "";
+  display: table
+}
+
+ul.list-listings>li:after {
+  clear: both
+}
+
+ul.list-listings .listing-header {
+  display: block;
+  clear: both;
+  padding: 8px 15px;
+  font-weight: 600;
+  text-transform: uppercase
+}
+
+ul.list-listings .listing-image {
+  width: 30%;
+  display: table-cell
+}
+
+ul.list-listings .listing-image img {
+  border-bottom-left-radius: 2px
+}
+
+ul.list-listings .listing-body {
+  padding: 6px 0px 0px;
+  /*padding: 10px 15px;*/
+  display: table-cell;
+  vertical-align: top
+}
+
+/* min-height below allows me to remove 
+bottom padding above */
+.listing-text {
+  padding: 0px 15px;
+  min-height: 75px;
+}
+
+ul.list-listings .listing-body h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 25px
+}
+
+ul.list-listings .listing-body h4 {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 22px
+}
+
+ul.list-listings .listing-body p {
+  margin: 5px 0
+}
+
+ul.list-listings .listing-body .meta-info {
+  border-top: 1px solid #e0eded;
+  padding-top: 7px
+}
+
+ul.list-listings .listing-body .meta-info ul {
+  width: 100%;
+  display: table;
+  table-layout: auto
+}
+
+ul.list-listings .listing-body .meta-info ul li {
+  display: table-cell;
+  border-right: 1px solid #e0eded;
+  text-align: center
+}
+
+ul.list-listings .listing-body .meta-info ul li.stretch {
+  width: 40%
+}
+
+ul.list-listings .listing-body .meta-info ul li i {
+  color: #333;
+  margin-right: 5px
+}
+
+ul.list-listings .listing-body .meta-info ul li:first-child {
+  padding-left: 0
+}
+
+ul.list-listings .listing-body .meta-info ul li:last-child {
+  padding-right: 0;
+  border: 0
+}
+
+ul.list-listings .listing-actions {
+  width: 20%;
+  display: table-cell;
+  text-align: center;
+  vertical-align: top;
+  position: relative;
+  border-left: 1px solid #e0eded
+}
+
+ul.list-listings .listing-actions .btn {
+  margin-top: 6px
+}
+
+
+/* cuadro inmueble */
+
+.cuadro_inmueble {
+  position: relative;
+}
+
+.cuadro_inmueble .ribbon {
+  right: -6px;
+  top: 10px;
+}
+
+.cuadro_inmueble.featured .ribbon {
+  top: 12px;
+}
+
+.cuadro_inmueble .descripcion_destacado {
+  width: 300px;
+}
+
+.ver_inmueble {
+  position: absolute;
+  right: 10px;
+  bottom: 5px;
+}
+
+
+/* inmuebles */
+
+nav.venta_alquiler {
+  padding-left: 15px;
+}
+
+nav.venta_alquiler a {
+  margin-right: 10px;
+  font-size: 14px;
+  padding: 9px 0 0 0;
+  display: block;
+  float: left;
+}
+
+nav.venta_alquiler a.selected,
+nav.venta_alquiler a:hover {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+nav.venta_alquiler a.selected {
+  text-transform: uppercase;
+}
+
+#btn_buscar_inmuebles {
+  width: 100%;
+}
+
+.btn-group.bootstrap-select button {
+  border: 1px solid #ddd;
+}
+
+div.filtro_precio .btn-group.bootstrap-select button {
+  border: 0;
+}
+
+.caract_principales {
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.caract_principales label {
+  float: left;
+  width: 50%;
+}
+
+
+/*ribbon is for highlighted price*/
+
+.ribbon {
+  position: absolute;
+  top: 20px;
+  right: -5px;
+  padding: 15px
+}
+
+.ribbon.base {
+  background: #3498db;
+  color: #fff;
+  border-right: 5px solid #8bc4ea
+}
+
+.ribbon.light {
+  background: #ecf0f1;
+  color: #2c3e50;
+  border-right: 5px solid #dde4e6
+}
+
+.ribbon.dark {
+  background: #131313;
+  color: #fff;
+  border-right: 5px solid #464646
+}
+
+.ribbon.base-alt {
+  background: #9cd70e;
+  color: #fff;
+  border-right: 5px solid #c6f457
+}
+
+.ribbon.red {
+  background: #e91b23;
+  color: #fff;
+  border-right: 5px solid #f2787d
+}
+
+.ribbon.orange {
+  background: #ff8a3c;
+  color: #fff;
+  border-right: 5px solid #ffc7a2
+}
+
+.ribbon.yellow {
+  background: #ffd800;
+  color: #fff;
+  border-right: 5px solid #ffe866
+}
+
+.ribbon:before,
+.ribbon:after {
+  content: '';
+  position: absolute;
+  left: -9px;
+  border-left: 10px solid transparent
+}
+
+.ribbon:before {
+  top: 0
+}
+
+.ribbon:after {
+  bottom: 0
+}
+
+.ribbon.base:before {
+  border-top: 27px solid #3498db
+}
+
+.ribbon.base:after {
+  border-bottom: 27px solid #3498db
+}
+
+.ribbon.light:before {
+  border-top: 27px solid #ecf0f1
+}
+
+.ribbon.light:after {
+  border-bottom: 27px solid #ecf0f1
+}
+
+.ribbon.dark:before {
+  border-top: 27px solid #131313
+}
+
+.ribbon.dark:after {
+  border-bottom: 27px solid #131313
+}
+
+.ribbon.base-alt:before {
+  border-top: 27px solid #9cd70e
+}
+
+.ribbon.base-alt:after {
+  border-bottom: 27px solid #9cd70e
+}
+
+.ribbon.red:before {
+  border-top: 27px solid #e91b23
+}
+
+.ribbon.red:after {
+  border-bottom: 27px solid #e91b23
+}
+
+.ribbon.orange:before {
+  border-top: 27px solid #ff8a3c
+}
+
+.ribbon.orange:after {
+  border-bottom: 27px solid #ff8a3c
+}
+
+.ribbon.yellow:before {
+  border-top: 27px solid #ffd800
+}
+
+.ribbon.yellow:after {
+  border-bottom: 27px solid #ffd800
+}
+
+.ribbon span {
+  display: block;
+  font-size: 16px;
+  font-weight: 600
+}
