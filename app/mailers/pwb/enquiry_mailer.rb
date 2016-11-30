@@ -17,16 +17,16 @@ module Pwb
            template_name: 'general_enquiry_targeting_agency')
     end
 
-    # def property_enquiry_targeting_agency(client, enquiry, property)
-    #   @client = client
-    #   @enquiry = enquiry
-    #   @property = property
-    #   @title = enquiry.title
-    #   mail(to: enquiry.delivery_email,
-    #        subject: @title,
-    #        template_path: 'mailers',
-    #        template_name: 'property_enquiry_targeting_agency')
-    # end
+    def property_enquiry_targeting_agency(client, enquiry, property)
+      @client = client
+      @enquiry = enquiry
+      @property = property
+      @title = enquiry.title
+      mail(to: enquiry.delivery_email,
+           subject: @title,
+           template_path: 'pwb/mailers',
+           template_name: 'property_enquiry_targeting_agency')
+    end
   end
 
 end
