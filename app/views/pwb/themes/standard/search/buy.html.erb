@@ -1,9 +1,17 @@
 <%= javascript_tag do %>
   $(document).ready(
-
+    function(){
+      $('#inmo-search-results').html("<%= j (render 'search_results') %>");
+      $('select').selectpicker({
+        noneSelectedText: '<%= I18n.t("selectpicker.noneSelectedText") %>',
+        noneResultsText: '<%= I18n.t("selectpicker.noneResultsText") %>',
+        countSelectedText: '<%= I18n.t("selectpicker.countSelectedText") %>'
+      });
+      INMOAPP.truncateDescriptions();
+      INMOAPP.sortSearchResults();
+    }
   );
 <% end %>
-
   <!-- MAIN CONTENT -->
   <div class="pg-opt">
     <div class="container">

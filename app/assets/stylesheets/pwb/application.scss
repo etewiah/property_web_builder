@@ -18,6 +18,7 @@ $base-border-color:#e0eded;
 
 @import "bootstrap";
 @import "bootstrap-sprockets";
+@import "bootstrap-select";
 /* font-awesome import fails even though it
 is being imported in engine.rb as per:
 https://github.com/bokmann/font-awesome-rails*/
@@ -27,6 +28,7 @@ https://github.com/bokmann/font-awesome-rails*/
 @import "landing_general";
 @import "landing_content_areas";
 @import "contact_us";
+@import "search";
 @import "shame";
 
 

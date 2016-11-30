@@ -16,6 +16,8 @@
 //= require jquery_ujs
 //= require paloma
 //= require_tree ./paloma
+//= require bootstrap-sprockets
+//= require bootstrap-select
 
 // $(document).on('page:change', function() {
 // once turbolinks is activated, will have to change to above
@@ -101,3 +103,26 @@ INMOAPP.addMarker = function(latlng, formatted_address) {
 };
 
 
+
+
+// below 2 called after search results loaded (client side) - html would not be 
+// ready on document.ready...
+INMOAPP.sortSearchResults = function() {
+  var $wrapper = $('#ordered-properties');
+  if ($("#order-price-desc").hasClass("active")) {
+    $wrapper.find('.property-item').sort(function(a, b) {
+      return (parseInt(b.dataset.price) - parseInt(a.dataset.price));
+    }).appendTo($wrapper);
+  } else if ($("#order-price-asc").hasClass("active")) {
+    $wrapper.find('.property-item').sort(function(a, b) {
+      return (parseInt(a.dataset.price) - parseInt(b.dataset.price));
+    }).appendTo($wrapper);
+  }
+};
+INMOAPP.truncateDescriptions = function() {
+  $(".truncated_description").each(function(el) {
+    var trimmedString = $(this)[0].textContent.trim().substring(0, 200);
+    $(this).html(trimmedString);
+    $(this).show();
+  });
+};
