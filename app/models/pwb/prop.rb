@@ -73,6 +73,57 @@ module Pwb
       end
     end
 
+
+
+    # Getter
+    def get_extras
+      # binding.pry
+      return Hash[self.features.map {|key, value| [key.feature_key, true]}]
+      # http://stackoverflow.com/questions/39567/what-is-the-best-way-to-convert-an-array-to-a-hash-in-ruby
+      # returns something like {"terraza"=>true, "alarma"=>true, "gotele"=>true, "sueloMarmol"=>true}
+      # - much easier to use on the client side admin page
+    end
+
+    # Setter- called by update_extras in properties controller
+    # expects a hash with keys like "cl.casafactory.fieldLabels.extras.alarma"
+    # each with a value of true or false
+    # def set_extras=(extras_json)
+    #   extras_json.keys.each do |extra|
+    #     if extras_json[extra] == "true"
+    #       self.features.find_or_create_by( :feature_key => extra)
+    #     else
+    #       self.features.where( :feature_key => extra).delete_all
+    #     end
+    #   end
+    # end
+
+
+
+    # below will return a translated (and sorted acc to translation)
+    # list of extras for property
+    def extras_for_display
+      merged_extras = []
+      self.get_extras.keys.each do |extra|
+        # extras_field_key = "fieldLabels.extras.#{extra}"
+        translated_option_key = I18n.t extra
+        merged_extras.push translated_option_key
+
+        # below check to ensure the field has not been deleted as
+        # an available extra
+        # quite an edge case - not entirely sure its worthwhile
+        # if extras_field_configs[extras_field_key]
+        #   translated_option_key = I18n.t extras_field_key
+        #   merged_extras.push translated_option_key
+        # end
+      end
+      return merged_extras.sort{ |w1, w2| w1.casecmp(w2) }
+      # above ensures sort is case insensitive
+      # by default sort will add lowercased items to end of array
+      # http://stackoverflow.com/questions/17799871/how-do-i-alphabetize-an-array-ignoring-case
+      # return merged_extras.sort
+    end
+
+
     def ordered_photo_url number
       # allows me to pick an individual image according to an order
       unless self.prop_photos.length >= number
