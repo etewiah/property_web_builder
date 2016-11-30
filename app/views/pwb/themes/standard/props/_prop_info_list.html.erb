@@ -56,7 +56,7 @@
           <tr>
             <td><strong><%= t "property.propertyType" %>:</strong></td>
             <td>
-              <%# t @property_details.prop_type_key, :default => 'dd' %>
+              <%= t_or_unknown @property_details.prop_type_key %>
             </td>
           </tr>
 

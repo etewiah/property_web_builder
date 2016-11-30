@@ -1,5 +1,14 @@
 module Pwb
   module ApplicationHelper
+
+    def t_or_unknown key
+      if key.is_a?(String) && key.empty?
+        return t "unknown"
+      else
+        return t key
+      end
+    end
+
     def section_tab(section_info)
       begin
         # link_path should be valid - below checks that
@@ -9,7 +18,7 @@ module Pwb
         # target_path = '/'
         # rescue Exception => e
       end
-      
+
       # only show section_tab where link_path is valid
       if target_path
         style_class = 'selected' if current_page?( target_path )
