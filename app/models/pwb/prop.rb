@@ -4,6 +4,7 @@ module Pwb
     globalize_accessors locales: [:en, :ca, :es, :fr, :ar]
 
 
+
     # Use EUR as model level currency
     register_currency :eur
 
@@ -33,6 +34,27 @@ module Pwb
     # couldn't do above if for_rent_short_term was a flatshihtzu boolean
     scope :for_sale, -> () { where for_sale: true }
     scope :visible, -> () { where visible: true }
+
+
+    scope :in_zone, -> (key) { where zone_key: key}
+    scope :in_locality, -> (key) { where locality_key: key}
+
+    scope :property_type, -> (property_type) { where prop_type_key: property_type }
+    scope :property_state, -> (property_state) { where prop_state_key: property_state }
+    # scope :property_type, -> (property_type) { where property_type: property_type }
+    # scope :property_state, -> (property_state) { where property_state: property_state }
+    # below scopes used for searching
+    scope :for_rent_price_from, -> (minimum_price) { where("price_rental_monthly_for_search_cents >= ?", "#{minimum_price}")}
+    scope :for_rent_price_till, -> (maximum_price) { where("price_rental_monthly_for_search_cents <= ?", "#{maximum_price}")}
+    scope :for_sale_price_from, -> (minimum_price) { where("price_sale_current_cents >= ?", "#{minimum_price}")}
+    scope :for_sale_price_till, -> (maximum_price) { where("price_sale_current_cents <= ?", "#{maximum_price}")}
+    scope :count_bathrooms, -> (min_count_bathrooms) { where("count_bathrooms >= ?", "#{min_count_bathrooms}")}
+    scope :count_bedrooms, -> (min_count_bedrooms) { where("count_bedrooms >= ?", "#{min_count_bedrooms}")}
+    # scope :starts_with, -> (name) { where("name like ?", "#{name}%")}
+    # scope :pending, joins(:admin_request_status).where('admin_request_statuses.name = ?','Pending Approval')
+
+
+
 
     def has_garage
       self.count_garages && (self.count_garages > 0)

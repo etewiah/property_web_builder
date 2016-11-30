@@ -32,10 +32,6 @@ module Pwb
           return render js: "window.location='#{property_show_for_rent_url(locale: I18n.locale, url_friendly_title: "show", id: @property.id)}'"
         end
       else
-        # if @property
-        #   @error_message = "Prop not visible"
-        # else
-        # end
         @error_message = I18n.t "noResultsForSearch"
         # TODO - pluck similar refs to what user typed
         # and dislay as a list
@@ -133,11 +129,11 @@ module Pwb
       #  "property_type"=>"propertyTypes.bungalow",
       #  "locality"=>"#<OpenStruct value=\"provincias.cadiz\", label=\"Cádiz\">",
       #  "zone"=>"#<OpenStruct value=\"provincias.ciudadReal\", label=\"Ciudad Real\">",
-      #  "num_bedrooms"=>"6",
-      #  "num_bathrooms"=>"",
+      #  "count_bedrooms"=>"6",
+      #  "count_bathrooms"=>"",
       #  "property_state"=>"propertyStates.brandNew"}
       params[:search].slice(:in_locality, :in_zone, :for_sale_price_from, :for_sale_price_till, :for_rent_price_from,
-                            :for_rent_price_till, :property_type, :property_state, :num_bathrooms, :num_bedrooms)
+                            :for_rent_price_till, :property_type, :property_state, :count_bathrooms, :count_bedrooms)
     end
 
     def set_common_search_inputs
@@ -159,14 +155,6 @@ module Pwb
     end
 
     def apply_search_filter search_filtering_params
-      # if params[:search] && params[:search].length > 0
-      # had wanted to go over each search option and set it as
-      # an instance variable but couldn't quite figure out how..
-      # @num_bedroom = 4
-      # @num_bathrooms = 5
-      # params[:search].each do |param|
-      # end
-
       search_filtering_params.each do |key, value|
         empty_values = ["propertyTypes."]
         if (empty_values.include? value) || (value.empty?)
@@ -181,22 +169,6 @@ module Pwb
       end
       # end
     end
-
-    # def apply_search_filter
-    #   filtering_params(params).each do |key, value|
-    #     empty_values = ["propertyTypes."]
-    #     if (empty_values.include? value) || (value.empty?)
-    #       next
-    #     end
-    #     price_fields = ["for_sale_price_from", "for_sale_price_till", "for_rent_price_from", "for_rent_price_till"]
-    #     if price_fields.include? key
-    #       value = value.gsub(/\D/, '').to_i * 100
-    #       @properties = @properties.public_send(key, value) if value.present?
-    #     end
-    #     # @properties = @properties.public_send(key, value) if value.present?
-    #   end
-    # end
-
 
   end
 
