@@ -1,0 +1,69 @@
+<div class="product-gallery">
+  <div id="homepageCarousel" class="carousel carousel-1 slide" data-ride="carousel" data-interval="3000">
+      <ol class="carousel-indicators">
+      <% @property_details.prop_photos.each.with_index do |photo, index| %>
+        <li data-target="#homepageCarousel" data-slide-to="<%= index %>" class=""></li>
+      <% end %>
+      </ol>
+    <div class="carousel-inner">
+      <% @property_details.prop_photos.each.with_index do |photo, index| %>
+        <div class="item item-dark <%= "active" if index == 0 %>">
+          <img src="<%= photo.image.url %>" style="height: 100%;" />
+            <% if @property_details.contextual_price_with_currency @operation_type %>
+            <div class="ribbon dark fondo_accion">
+              <span>
+                <%= @property_details.contextual_price_with_currency @operation_type %>
+              </span>
+            </div>
+            <% end %>
+        </div>        
+      <% end %>
+    </div>
+    <!-- Controls -->
+    <a class="left carousel-control" href="#homepageCarousel" data-slide="prev">
+      <i class="fa fa-angle-left"></i>
+    </a>
+    <a class="right carousel-control" href="#homepageCarousel" data-slide="next">
+      <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+  <div class="thumbnail-images" style="display:none;">
+    <a href="#" class="theater" rel="group" hidefocus="true">
+                    <img src="<%= @property_details.ordered_photo_url 2 %>"  alt="">
+                  </a>
+    <a href="#" class="theater" rel="group" hidefocus="true">
+                    <img src="<%= @property_details.ordered_photo_url 3 %>"  alt="">
+                  </a>
+    <a href="#" class="theater" rel="group" hidefocus="true">
+                    <img src="<%= @property_details.ordered_photo_url 4 %>"  alt="">
+                  </a>
+    <a href="#" class="theater" rel="group" hidefocus="true">
+                    <img src="<%= @property_details.ordered_photo_url 5 %>"  alt="">
+                  </a>
+  </div>
+
+
+
+  <div class="wp-block property list no-border">
+    <div class="wp-block-content clearfix">
+      <div class="wp-block-footer style2">
+        <ul class="aux-info">
+          <li><i class="fa fa-arrows-alt"></i>
+            <%= @property_details.constructed_area %>m<sup>2</sup></li>
+          <li><i class="fa fa-bed"></i>
+            <%= @property_details.count_bedrooms %>
+          </li>
+          <li><i class="fa fa-tint"></i>
+            <%= @property_details.count_bathrooms %>
+          </li>
+          <li>
+          <% if @property_details.has_garage %>
+            <i class="fa fa-car"></i>
+            <%= @property_details.count_garages %>            
+          <% end %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

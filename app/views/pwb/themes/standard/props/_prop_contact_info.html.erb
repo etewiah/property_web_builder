@@ -1,0 +1,15 @@
+<div style="" class="panel panel-default panel-sidebar-1">
+  <div class="panel-heading">
+    <h2><%= I18n.t("webContentSections.contactInformation") %></h2></div>
+  <div class="panel-body">
+    <div class="contact-info">
+
+      <%= agency_info(@current_agency, "phone_number_primary", "tel", "fa-phone") %>
+      <%= agency_info(@current_agency, "email_primary", "email", "fa-envelope") %>
+
+    </div>
+  </div>
+</div>
+
+  
+

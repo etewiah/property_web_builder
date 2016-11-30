@@ -43,5 +43,56 @@ module Pwb
       end
     end
 
+
+    def request_property_info_ajax
+
+      @error_messages = []
+      I18n.locale = params["contact"]["locale"] || I18n.default_locale
+      # have a hidden field in form to pass in above
+      # if I didn't I could end up with the wrong locale
+      # @enquiry = Message.new(params[:contact])
+      @property = Property.find(params[:contact][:property_id])
+      @client = Client.find_or_initialize_by(email: params[:contact][:email])
+      @client.attributes = {
+        phone_number_primary: params[:contact][:tel],
+        first_names: params[:contact][:name],
+      }
+
+      title = I18n.t "mailers.property_enquiry_targeting_agency.title"
+      @enquiry = Message.new({
+                               title: title,
+                               content: params[:contact][:message],
+                               locale: params[:contact][:locale],
+                               url: request.referer,
+                               host: request.host,
+                               origin_ip: request.ip,
+                               user_agent: request.user_agent,
+                               # TODO - allow specific email for property enquiries:
+                               delivery_email: @current_tenant.email_for_general_contact_form,
+                               origin_email: params[:contact][:email]
+      })
+
+      unless @enquiry.save && @client.save
+        @error_messages = @error_messages + @client.errors.full_messages
+        @error_messages = @error_messages + @enquiry.errors.full_messages
+        return render "main/home/contact_us/contact_us_ajax_errors"
+      end
+
+      @enquiry.client = @client
+      @enquiry.save
+
+      EnquiryMailer.property_enquiry_targeting_agency(@client, @enquiry, @property).deliver
+
+      # @enquiry.delivery_success = true
+      @enquiry.save
+      @flash = I18n.t "contact.success"
+      return render "main/properties/request_info_ajax_success"
+    rescue => e
+      # TODO - log error to logger....
+      @error_messages = [ I18n.t("contact.error") ]
+      return render "main/properties/request_info_ajax_errors"
+
+    end
+
   end
 end

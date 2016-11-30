@@ -68,5 +68,34 @@ module Pwb
       html.html_safe
     end
 
+
+
+    # def social_media_link(agency, field_name, field_label, field_icon)
+    #   # binding.pry
+    #   if agency && agency.social_media[field_name].present?
+    #     html = <<-HTML
+    #     <a href="#{ agency.social_media[field_name] }" title="#{ field_label }" target="_blank" class="">
+    #     <i class="fa #{ field_icon }"></i>
+    #     </a>
+    #     HTML
+
+    #     html.html_safe
+    #   else
+    #     ""
+    #   end
+    # end
+
+    def agency_info(agency, field_name, field_label_key, field_icon)
+      if agency && agency[field_name].present?
+        html = <<-HTML
+        <h5><i class="fa #{ field_icon }"></i>#{I18n.t field_label_key }</h5>
+        <p>#{ agency[field_name] }</p>
+        HTML
+
+        html.html_safe
+      else
+        ""
+      end
+    end
   end
 end

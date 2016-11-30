@@ -29,6 +29,7 @@ Pwb::Engine.routes.draw do
     post "/search_ajax_for_sale" => "search#search_ajax_for_sale"
     post "/search_ajax_for_rent" => "search#search_ajax_for_rent"
     # post "/ajax_find_by_ref" => "search#ajax_find_by_ref"
+    post "/request_property_info" => "props#request_property_info_ajax"
 
 
     get "/admin" => "admin_panel#show"
