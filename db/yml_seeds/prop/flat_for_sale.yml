@@ -1,10 +1,10 @@
 ---
-- reference: sale1
+- reference: sale2
   year_construction: 0
-  count_bedrooms: 2
-  count_bathrooms: 2
+  count_bedrooms: 1
+  count_bathrooms: 1
   count_toilets: 1
-  count_garages: 1
+  count_garages: 0
   flags: 0
   furnished:
   sold:
@@ -22,7 +22,7 @@
   active_from:
   available_to_rent_from:
   available_to_rent_till:
-  price_sale_current_cents: 10000000
+  price_sale_current_cents: 5000000
   price_rental_monthly_current_cents: 0
   commission_cents: 0
   commission_currency: EUR
@@ -46,7 +46,7 @@
   constructed_area: 0.0
   energy_rating:
   energy_performance:
-  title_en: Amazing villa for sale in Malaga
-  title_es: Una villa estupenda para vender en Malaga  
-  description_en: Description of the amazing villa for sale. 
-  description_es: Descripción de una villa estupenda para vender.
+  title_en: Amazing flat for sale in Madrid
+  title_es: Una flat estupenda para vender en Madrid  
+  description_en: Description of the amazing flat for sale. 
+  description_es: Descripción de una flat estupenda para vender.
