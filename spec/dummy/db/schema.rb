@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161128221919) do
+ActiveRecord::Schema.define(version: 20161130141845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,6 +119,14 @@ ActiveRecord::Schema.define(version: 20161128221919) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.index ["key"], name: "index_pwb_contents_on_key", unique: true, using: :btree
+  end
+
+  create_table "pwb_features", force: :cascade do |t|
+    t.string   "feature_key"
+    t.integer  "prop_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["feature_key"], name: "index_pwb_features_on_feature_key", using: :btree
   end
 
   create_table "pwb_field_keys", force: :cascade do |t|
