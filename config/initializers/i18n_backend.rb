@@ -2,7 +2,10 @@ require 'i18n/backend/active_record'
 # I18n.backend = I18n::Backend::ActiveRecord.new
 Translation  = I18n::Backend::ActiveRecord::Translation
 
-if Translation.table_exists?
+# if Translation.table_exists?
+# in the context of an engine, above returns false 
+# even when the table exists
+if ActiveRecord::Base.connection.data_source_exists? 'translations'
   I18n.backend = I18n::Backend::ActiveRecord.new
 
   I18n::Backend::ActiveRecord.send(:include, I18n::Backend::Memoize)
