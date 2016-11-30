@@ -1,0 +1,51 @@
+<div class="panel panel-default panel-sidebar-1">
+  <div class="panel-heading">
+    <h2>
+      <%= I18n.t("searchForProperties") %>
+    </h2>
+  </div>
+  <div class="panel-body">
+    <%= simple_form_for :search, :url => '/search_ajax_for_rent.js', :method => 'post', 
+  :html => { :class => 'form-light' }, :remote => true do |f| %>
+      <div class="row div_precios_venta" style="">
+        <div class="col-sm-6">
+          <%= f.input :for_rent_price_from, collection: @prices_collection, :required => false,
+      selected: @search_defaults["price_from"] %>
+        </div>
+        <div class="col-sm-6">
+          <%= f.input :for_rent_price_till, collection: @prices_collection, :required => false,
+      selected: @search_defaults["price_till"] %>
+        </div>
+      </div>
+      <%= f.input :property_type, collection: @property_types, label_method: :label, selected: @search_defaults["property_type"], value_method: :value, :required => false %>
+      <% if @zones && (@zones.length > 1) %>
+        <%= f.input :in_zone, collection: @zones, value_method: :key, :required => false, :include_blank => true %>
+      <% end %>
+      <% if @localities && (@localities.length > 1) %>
+        <%= f.input :in_locality, collection: @localities, value_method: :key, :required => false %>
+      <% end %>
+
+    <div class="row div_precios_venta" style="">
+      <div class="col-sm-6">  
+      <%= f.input :count_bedrooms, collection: 0..50, :required => false,
+      selected: @search_defaults["count_bedrooms"] %>
+      </div>
+      <div class="col-sm-6">  
+      <%= f.input :count_bathrooms, collection: 0..20, :required => false,
+      selected: @search_defaults["count_bathrooms"] %>
+      </div>
+    </div>
+
+
+      <%= f.input :property_state, collection: @property_states, label_method: :label, value_method: :value, :required => false %>
+      <div>
+      </br>
+      <%= f.button :button, :class=> "btn fondo_accion btn-icon", 
+        :id => "btn_buscar_inmuebles" do %>
+        <i class="fa fa-search"></i>
+        <%= I18n.t("search") %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+</div>
