@@ -55,6 +55,13 @@ class CreatePwbProps < ActiveRecord::Migration[5.0]
       t.monetize :price_rental_monthly_standard_season
       t.monetize :commission
       t.monetize :service_charge_yearly
+
+      # below is the lowest of the 3 seasonal monthly values
+      # or the standard rental value
+      # needed to allow me to search across diff rental types
+      t.monetize :price_rental_monthly_for_search
+
+
       t.string   :currency
 
       t.string :prop_origin_key, default: "", null: false

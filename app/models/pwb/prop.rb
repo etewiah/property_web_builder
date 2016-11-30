@@ -16,6 +16,7 @@ module Pwb
     monetize :price_rental_monthly_low_season_cents, with_model_currency: :currency
     monetize :price_rental_monthly_high_season_cents, with_model_currency: :currency
     monetize :price_rental_monthly_standard_season_cents, with_model_currency: :currency
+    monetize :price_rental_monthly_for_search_cents, with_model_currency: :currency
 
     monetize :commission_cents, with_model_currency: :currency
     monetize :service_charge_yearly_cents, with_model_currency: :currency
@@ -127,10 +128,39 @@ module Pwb
       else
         return contextual_price.format(:no_cents => true)
       end
-
       # return contextual_price.zero? ? nil : contextual_price.format(:no_cents => true)
     end
 
+    def rental_price
+      # deliberately checking short_term first
+      # so that it overrides long_term price if both are set
+      if self.for_rent_short_term
+        rental_price = self.lowest_short_term_price || 0
+      elsif self.for_rent_long_term
+        rental_price = self.price_rental_monthly_current || 0
+      end
+      unless rental_price && rental_price > 0
+        return nil
+      end
+      return rental_price
+    end
+
+    def lowest_short_term_price
+      prices_array = [self.price_rental_monthly_low_season, self.price_rental_monthly_standard_season, self.price_rental_monthly_high_season]
+      # remove any prices that are 0:
+      prices_array.reject! { |a| a.cents < 1 }
+      return prices_array.min
+    end
+
+    before_save :set_rental_search_price
+
+    private
+
+    # called from before_save
+    def set_rental_search_price
+      # below for setting a value that I can use for searcing and ordering rental properties
+      self.price_rental_monthly_for_search = self.rental_price
+    end
 
 
   end

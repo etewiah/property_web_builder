@@ -218,6 +218,8 @@ ActiveRecord::Schema.define(version: 20161128221919) do
     t.string   "commission_currency",                           default: "EUR", null: false
     t.integer  "service_charge_yearly_cents",                   default: 0,     null: false
     t.string   "service_charge_yearly_currency",                default: "EUR", null: false
+    t.integer  "price_rental_monthly_for_search_cents",         default: 0,     null: false
+    t.string   "price_rental_monthly_for_search_currency",      default: "EUR", null: false
     t.string   "currency"
     t.string   "prop_origin_key",                               default: "",    null: false
     t.string   "prop_state_key",                                default: "",    null: false
