@@ -1,0 +1,80 @@
+<div class="product-info">
+  <div class="wp-block property list no-border">
+    <div class="wp-block-content clearfix">
+      <br>
+      <br>
+      <h3><%= I18n.t("property.details") %></h3>
+      <br>
+      <table class="table table-bordered table-striped ">
+        <tbody>
+          <tr>
+            <td><strong><%= t "property.ref" %>:</strong></td>
+            <td>
+              <%=  @property_details.reference %>
+            </td>
+          </tr>
+          <% unless @show_vacational_rental %>
+          <tr>
+            <td><strong><%= t "property.price" %>:</strong></td>
+            <td>
+              <%=  @property_details.contextual_price_with_currency @operation_type %>
+            </td>
+          </tr>
+          <% end %>
+
+          <% if @show_vacational_rental && @property_details.price_rental_monthly_low_season_cents? %>
+          <tr>
+            <td><strong><%= t "property.monthlyRentalPriceLowSeason" %>:</strong></td>
+            <td>
+              <%= money_without_cents_and_with_symbol  @property_details.price_rental_monthly_low_season %>
+            </td>
+          </tr>
+          <% end %>
+          <% if @show_vacational_rental && @property_details.price_rental_monthly_standard_season_cents? %>
+          <tr>
+            <td><strong><%= t "property.monthlyRentalPriceStandardSeason" %>:</strong></td>
+            <td>
+              <%= money_without_cents_and_with_symbol  @property_details.price_rental_monthly_standard_season %>
+            </td>
+          </tr>
+          <% end %>
+          <% if @show_vacational_rental && @property_details.price_rental_monthly_high_season_cents? %>
+          <tr>
+            <td><strong><%= t "property.monthlyRentalPriceHighSeason" %>:</strong></td>
+            <td>
+              <%= money_without_cents_and_with_symbol  @property_details.price_rental_monthly_high_season %>
+            </td>
+          </tr>
+          <% end %>
+
+          <tr>
+            <td><strong><%= t "property.operationType" %>:</strong></td>
+            <td>
+              <%= t @operation_type %>
+            </td>
+          </tr>
+          <tr>
+            <td><strong><%= t "property.propertyType" %>:</strong></td>
+            <td>
+              <%# t @property_details.prop_type_key, :default => 'dd' %>
+            </td>
+          </tr>
+
+          <!-- TODO - add locality and zone -->
+
+
+          <tr style="display:none;">
+            <td><strong><%= t "property.furniture" %>:</strong></td>
+            <td> ??? </td>
+          </tr>
+          <tr style="display:none;">
+            <td><strong><%= t "efficencia_energetica" %>:</strong></td>
+            <td>
+              <% %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
