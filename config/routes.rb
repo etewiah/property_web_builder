@@ -64,6 +64,9 @@ Pwb::Engine.routes.draw do
       jsonapi_resources :web_contents
       get "/select_values" => "select_values#by_field_names"
 
+
+      post "properties/update_extras" => "properties#update_extras"
+
       # get "/lite-properties" => "lite_props#index"
     end
   end

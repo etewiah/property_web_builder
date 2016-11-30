@@ -78,7 +78,6 @@ module Pwb
 
     # Getter
     def get_extras
-      # binding.pry
       return Hash[self.features.map {|key, value| [key.feature_key, true]}]
       # http://stackoverflow.com/questions/39567/what-is-the-best-way-to-convert-an-array-to-a-hash-in-ruby
       # returns something like {"terraza"=>true, "alarma"=>true, "gotele"=>true, "sueloMarmol"=>true}
@@ -88,15 +87,15 @@ module Pwb
     # Setter- called by update_extras in properties controller
     # expects a hash with keys like "cl.casafactory.fieldLabels.extras.alarma"
     # each with a value of true or false
-    # def set_extras=(extras_json)
-    #   extras_json.keys.each do |extra|
-    #     if extras_json[extra] == "true"
-    #       self.features.find_or_create_by( :feature_key => extra)
-    #     else
-    #       self.features.where( :feature_key => extra).delete_all
-    #     end
-    #   end
-    # end
+    def set_extras=(extras_json)
+      extras_json.keys.each do |extra|
+        if extras_json[extra] == "true"
+          self.features.find_or_create_by( :feature_key => extra)
+        else
+          self.features.where( :feature_key => extra).delete_all
+        end
+      end
+    end
 
 
 
