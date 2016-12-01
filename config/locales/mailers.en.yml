@@ -1,0 +1,17 @@
+en:
+  mailers:
+    welcome: "Welcome to Inmolite"
+    confirm_registration: "Please confirm your account through the link below"
+    received_on: "Received on"
+    from: "From"
+    phone: "Tel"
+    message: "Message"
+    property: "Property"
+    general_enquiry_targeting_enquirer:
+      subject: ""
+      message_title: ""
+    general_enquiry_targeting_agency:
+      title: "General enquiry from your website"
+    property_enquiry_targeting_agency:
+      title: "Enquiry regarding a property"
+
