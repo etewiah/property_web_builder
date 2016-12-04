@@ -8,7 +8,7 @@ module Pwb
     attributes :city, :region
     attributes :country, :longitude, :latitude
 
-    attributes :title_es, :title_en, :title_ar, :description_es, :description_en, :description_ar, :extras
+    attributes :title_es, :title_en, :title_ar, :description_es, :description_en, :description_ar
 
     attributes :for_sale, :for_rent_short_term, :for_rent_long_term, :obscure_map, :hide_map
 
