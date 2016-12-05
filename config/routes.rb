@@ -66,9 +66,16 @@ Pwb::Engine.routes.draw do
       get "/select_values" => "select_values#by_field_names"
 
 
+      # TODO - rename properties below to prop
       post "properties/update_extras" => "properties#update_extras"
 
-      # get "/lite-properties" => "lite_props#index"
+      delete "properties/photos/:id" => "properties#remove_photo"
+      post '/properties/:id/photo' => 'properties#add_photo'
+      post '/properties/:id/photo_from_url' => 'properties#add_photo_from_url'
+      put "properties/:id/order_photos" => "properties#order_photos"
+
+      post "properties/set_owner" => "properties#set_owner"
+      post "properties/unset_owner" => "properties#unset_owner"
     end
   end
 
