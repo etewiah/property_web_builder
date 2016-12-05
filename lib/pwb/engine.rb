@@ -9,6 +9,7 @@ require 'jsonapi-resources'
 require 'paloma'
 require 'jquery-rails'
 require 'simple_form'
+require 'devise'
 # require 'fog/aws'
 # require 'font-awesome-rails'
 module Pwb

@@ -14,6 +14,8 @@ PATH
       activemodel-serializers-xml
       bootstrap-sass
       carrierwave (>= 1.0.0.rc, < 2.0)
+      devise
+      devise-i18n
       fog-aws
       globalize-accessors
       i18n-active_record
@@ -75,8 +77,9 @@ GEM
       public_suffix (~> 2.0, >= 2.0.2)
     arel (7.1.4)
     ast (2.3.0)
-    autoprefixer-rails (6.5.3)
+    autoprefixer-rails (6.5.3.1)
       execjs
+    bcrypt (3.1.11)
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
@@ -95,6 +98,13 @@ GEM
       mime-types (>= 1.16)
     coderay (1.1.1)
     concurrent-ruby (1.0.2)
+    devise (4.2.0)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 4.1.0, < 5.1)
+      responders
+      warden (~> 1.2.3)
+    devise-i18n (1.1.1)
     diff-lcs (1.2.5)
     docile (1.1.5)
     erubis (2.7.0)
@@ -187,6 +197,7 @@ GEM
     notiffany (0.1.1)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    orm_adapter (0.5.0)
     paloma (5.0.0)
     parser (2.3.1.4)
       ast (~> 2.2)
@@ -293,6 +304,8 @@ GEM
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     unicode-display_width (1.1.1)
+    warden (1.2.6)
+      rack (>= 1.0)
     websocket-driver (0.6.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)

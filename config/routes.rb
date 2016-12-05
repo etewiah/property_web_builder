@@ -2,9 +2,14 @@ Pwb::Engine.routes.draw do
   root to: 'welcome#index'
   resources :welcome, only: :index
 
-  get "/admin" => "admin_panel#show"
-  get "/admin/*path" => "admin_panel#show"
-
+  authenticate :user do
+    get "/admin" => "admin_panel#show"
+    get "/admin/*path" => "admin_panel#show"
+    scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar/ do
+      get "/admin" => "admin_panel#show"
+      get "/admin/*path" => "admin_panel#show"
+    end
+  end
 
   get "/agency_css" => "css#agency_css", as: "agency_css"
 
