@@ -33,9 +33,13 @@ Gem::Specification.new do |s|
   s.add_dependency 'paloma'
   s.add_dependency 'jquery-rails'
   s.add_dependency 'simple_form'
+  s.add_dependency 'fog-aws'
+  # , require: 'fog-aws'
+  s.add_dependency 'pg'
+
 
   s.add_development_dependency 'byebug'
-  s.add_development_dependency 'pg'
+  # s.add_development_dependency 'pg'
 
   # s.add_development_dependency 'rspec-rails'
   # s.add_development_dependency 'capybara'

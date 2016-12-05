@@ -9,7 +9,7 @@ require 'jsonapi-resources'
 require 'paloma'
 require 'jquery-rails'
 require 'simple_form'
-
+# require 'fog/aws'
 # require 'font-awesome-rails'
 module Pwb
   class Engine < ::Rails::Engine

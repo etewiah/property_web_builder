@@ -26,3 +26,4 @@ spec/dummy/tmp/
 .ruby-version
 app/assets/stylesheets/pwb/dummy.scss
 spec/dummy/public/uploads
+spec/dummy/config/secrets.yml
