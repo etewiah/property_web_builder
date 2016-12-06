@@ -12,6 +12,7 @@ module Pwb
 
     def sections
       @sections ||= Section.where(visible: true).order("sort_order")
+      @show_admin_link = true
     end
 
   end

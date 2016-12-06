@@ -53,20 +53,20 @@
               <%= section_tab(section) %>              
             <% end %>
 
-            <% if @is_subdomain_admin  %>
-              <li class="<%= 'selected' if current_page?(admin_with_locale_path(locale: locale)) %>">
+            <% if @show_admin_link  %>
+              <li class="<%= 'selected' if current_page?(pwb.admin_with_locale_path(locale: locale)) %>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <%= t "navbar.admin" %>
                 </a>
               <ul class="dropdown-menu">
                 <li>
-                  <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale)  %>
+                  <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
                 </li>
                 <li>
-                <%= link_to I18n.t("changePassword"), edit_user_registration_path() %>
+                <%= link_to I18n.t("changePassword"), pwb.edit_user_registration_path() %>
                 </li>
                 <li>
-                <%= link_to I18n.t("signOut"), destroy_user_session_path(), method: :delete %>
+                <%= link_to I18n.t("signOut"), pwb.destroy_user_session_path(), method: :delete %>
                 </li>
               </ul>
 

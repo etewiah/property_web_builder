@@ -7,7 +7,7 @@ Pwb::Engine.routes.draw do
     get "/admin" => "admin_panel#show"
     get "/admin/*path" => "admin_panel#show"
     scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar/ do
-      get "/admin" => "admin_panel#show"
+      get "/admin" => "admin_panel#show", as: "admin_with_locale"
       get "/admin/*path" => "admin_panel#show"
     end
   end
