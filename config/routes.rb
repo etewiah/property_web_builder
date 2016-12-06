@@ -1,5 +1,5 @@
 Pwb::Engine.routes.draw do
-  devise_for :users, class_name: "Pwb::User"
+  devise_for :users, class_name: "Pwb::User", module: :devise
   root to: 'welcome#index'
   resources :welcome, only: :index
 

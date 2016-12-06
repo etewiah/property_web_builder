@@ -4,7 +4,7 @@ require 'bootstrap-sass'
 require 'carrierwave'
 require 'responders'
 require 'jsonapi-resources'
-# paloma gem results in 
+# paloma gem results in
 # DEPRECATION WARNING: before_filter is deprecated and will be removed in Rails 5.1
 require 'paloma'
 require 'jquery-rails'
@@ -22,5 +22,10 @@ module Pwb
       g.assets false
       g.helper false
     end
+
+    # config.to_prepare do
+    #   # https://github.com/plataformatec/devise/wiki/How-To:-Use-devise-inside-a-mountable-engine
+    #   Devise::SessionsController.layout "layout_for_sessions_controller"
+    # end
   end
 end

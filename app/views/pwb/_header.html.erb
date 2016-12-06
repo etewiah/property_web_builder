@@ -37,7 +37,7 @@
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <i class="fa fa-bars icon-custom"></i>
           </button>
-          <%= link_to root_path(locale: locale), class: "navbar-brand" do %>
+          <%= link_to pwb.root_path(locale: locale), class: "navbar-brand" do %>
             <% if @logo_url  %>
                 <img src="<%= @logo_url %>" alt="Ir a inicio">
             <% else %>
