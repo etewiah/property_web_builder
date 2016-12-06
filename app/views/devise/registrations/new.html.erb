@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row" style="margin: 80px;">
+    <div class="col-sm-4 col-sm-offset-4">
+      <div class="light-well border-form-div">
+        <h2 class="page-header text-center"><%= t(".sign_up") %></h2>
+        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name),
+                      html: { class: "form-horizontal center"}) do |f| %>
+          <%= f.error_notification %>
+          <%=  f.hidden_field :default_locale, :value => I18n.locale %>
+          <%= f.input :email, label: false, required: true, autofocus: true, placeholder: "Email Address", class: "form-control" %>
+          <%= f.input :password, label: false, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), placeholder: "Password"%>
+          <%= f.input :password_confirmation, label: false, required: true, placeholder: "Password Confirmation"%>
+          <div class="form-inputs">
+          </div>
+          <div class="form-actions">
+            <%= f.button :submit, t(".sign_up"), class: "btn btn-success btn-lg btn-block" %>
+          </div>
+        <% end %>
+        <div>
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+      <br>
+      <br>
+    </div>
+  </div>
+</div>
