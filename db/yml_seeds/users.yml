@@ -1,6 +1,7 @@
 ---
 - email: admin@propertywebbuilder.com
   password: pwb123456
+  admin: true
   first_names:
   last_names:
   skype:
