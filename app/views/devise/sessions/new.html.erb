@@ -1,14 +1,27 @@
-<div class="border-form-div">
-  <h2><%= t(".sign_in") %></h2>
-  <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-    <div class="form-inputs">
-      <%= f.input :email, required: false, autofocus: true %>
-      <%= f.input :password, required: false %>
-      <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+<div class="container">
+  <div class="row" style="margin: 80px;">
+    <div class="col-sm-4 col-sm-offset-4">
+      <div class="light-well border-form-div">
+        <h2 class="page-header text-center"><%= t(".sign_in") %></h2>
+        <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name),
+                      html: { class: "form-horizontal center"}) do |f| %>
+          <%= f.error_notification %>
+          <%=  f.hidden_field :default_locale, :value => I18n.locale %>
+          <%= f.input :email, label: false, required: true, autofocus: true, placeholder: "Email Address", class: "form-control" %>
+            <%= f.input :password, required: true, label: false, placeholder: "Password" %>
+            <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+          <div class="form-inputs">
+          </div>
+          <div class="form-actions">
+            <%= f.button :submit, t(".sign_in"), class: "btn btn-success btn-lg btn-block" %>
+          </div>
+        <% end %>
+        <div>
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+      <br>
+      <br>
     </div>
-    <div class="form-actions">
-      <%= f.button :submit, t(".sign_in") %>
-    </div>
-  <% end %>
-  <%= render "devise/shared/links" %>
+  </div>
 </div>
