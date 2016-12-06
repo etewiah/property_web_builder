@@ -12,8 +12,9 @@ module Pwb
     def section_tab(section_info)
       begin
         # link_path should be valid - below checks that
-        target_path = send(section_info[:link_path], {locale: locale})
-
+        target_path = self.pwb.send(section_info[:link_path], {locale: locale})
+        # below works in most routes but had to change to above to support devise routes
+        # target_path = send(section_info[:link_path], {locale: locale})
       rescue NoMethodError
         # target_path = '/'
         # rescue Exception => e
