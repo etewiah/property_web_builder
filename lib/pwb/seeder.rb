@@ -17,10 +17,20 @@ module Pwb
         seed_agency 'agency.yml'
         seed_sections 'sections.yml'
         seed_field_keys 'field_keys.yml'
+        seed_users 'users.yml'
         load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations.rb')
       end
 
       protected
+
+      def seed_users yml_file
+        users_yml = load_seed_yml yml_file
+        users_yml.each do |user_yml|
+          unless Pwb::User.where(email: user_yml['email']).count > 0
+            Pwb::User.create!(user_yml)
+          end
+        end
+      end
 
       def seed_field_keys yml_file
         field_keys_yml = load_seed_yml yml_file
