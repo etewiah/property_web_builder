@@ -8,9 +8,9 @@ module Pwb
         I18n.locale = :en
         # tag is used to group content for an admin page
         # key is camelcase (js style) - used client side to identify each item in a group of content
-        seed_content 'content_columns.yml'
+        # seed_content 'content_columns.yml'
         seed_content 'carousel.yml'
-        seed_content 'about_us.yml'
+        # seed_content 'about_us.yml'
         seed_prop 'villa_for_sale.yml'
         seed_prop 'villa_for_rent.yml'
         seed_prop 'flat_for_sale.yml'
@@ -74,7 +74,28 @@ module Pwb
         content_yml = YAML.load_file(content_seed_file)
         content_yml.each do |single_content_yml|
           unless Pwb::Content.where(key: single_content_yml['key']).count > 0
-            Pwb::Content.create!(single_content_yml)
+            if single_content_yml["photo_url"].present?
+              content_photo = create_content_photo single_content_yml["photo_url"]
+              single_content_yml.except! "photo_url"
+            end
+            new_content = Pwb::Content.create!(single_content_yml)
+            if content_photo
+              new_content.content_photos.push content_photo
+            end
+          end
+        end
+      end
+
+      def create_content_photo photo_url
+        begin
+          content_photo = Pwb::ContentPhoto.create
+          content_photo.remote_image_url = photo_url
+          content_photo.save!
+          return content_photo
+        rescue 
+          if content_photo
+            content_photo.destroy!
+            return nil
           end
         end
       end
