@@ -4,7 +4,9 @@ module Pwb
   class AdminPanelController < ApplicationController
     layout 'pwb/admin_panel'
     def show
-      # byebug
+      unless current_user && current_user.admin 
+        render 'pwb/errors/admin_required', :layout => "layouts/pwb/application"
+      end
     end
   end
 end

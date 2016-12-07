@@ -13,12 +13,12 @@ module Pwb
     #   expect(response).to redirect_to(new_user_session_path)
     # end
 
-    it "allows authenticated access" do
-      sign_in_stub
+    # it "allows authenticated access" do
+    #   sign_in_stub
 
-      get :show
-      expect(response).to be_success
-    end
+    #   get :show
+    #   expect(response).to be_success
+    # end
 
 
     context 'without signing in' do
@@ -33,8 +33,23 @@ module Pwb
 
     end
 
+    context 'with non_admin user' do
+      login_non_admin_user
+      
+      it "should have a current_user" do
+        expect(subject.current_user).to_not eq(nil)
+      end
+
+      describe 'GET #show' do
+        it 'renders correct error template' do
+          expect(get(:show)).to render_template('pwb/errors/admin_required')
+        end
+      end
+    end
+
     context 'with admin user' do
       login_admin_user
+
       # before(:each) do
       #   sign_in_stub
       # end

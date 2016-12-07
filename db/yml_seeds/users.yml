@@ -6,4 +6,12 @@
   last_names:
   skype:
   phone_number_primary:
+- email: non_admin@propertywebbuilder.com
+  password: pwb123456
+  admin: false
+  first_names:
+  last_names:
+  skype:
+  phone_number_primary:
+
 
