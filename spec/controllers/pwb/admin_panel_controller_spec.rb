@@ -5,6 +5,7 @@ module Pwb
     routes { Pwb::Engine.routes }
 
     # because auth happens in routes.rb, unable to test below from controller
+    # created a request spec for this case
     # it "blocks unauthenticated access" do
     #   sign_in_stub nil
 

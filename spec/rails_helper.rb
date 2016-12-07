@@ -72,6 +72,8 @@ RSpec.configure do |config|
   # https://github.com/plataformatec/devise/wiki/How-To:-Test-controllers-with-Rails-3-and-4-(and-RSpec)
   config.include Devise::Test::ControllerHelpers, :type => :controller
   config.extend ControllerMacros, :type => :controller
-# https://github.com/plataformatec/devise/wiki/How-To:-Stub-authentication-in-controller-specs
+  # https://github.com/plataformatec/devise/wiki/How-To:-Stub-authentication-in-controller-specs
   config.include ControllerHelpers, :type => :controller
+  # https://github.com/plataformatec/devise/wiki/How-To:-sign-in-and-out-a-user-in-Request-type-specs-(specs-tagged-with-type:-:request)
+  config.include RequestSpecHelpers, type: :request
 end
