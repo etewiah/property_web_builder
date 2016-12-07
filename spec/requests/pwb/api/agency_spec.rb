@@ -14,6 +14,11 @@ module Pwb
       expect(response).to be_success
 
       expect(response_body_as_json['agency']['company_name']).to eq(agency.company_name)
+      
+      # expect(response.status).to eq(201)
+      # expect(response.headers['Location']).to match(/\/rental_units\/\d$/)
+
+
     end
   end
 
