@@ -1,0 +1,228 @@
+/*These carousel styles only apply to the landing page 
+- not to the property carousels */
+.carousel-1 {
+  overflow: hidden;
+  margin-bottom: 20px
+}
+
+.carousel-1.carousel-fixed-height .carousel-inner {
+  height: 440px
+}
+
+.carousel-1.carousel-fixed-height .item {
+  height: 440px
+}
+
+.carousel-1 .carousel-control {
+  color: #f8f8f8
+}
+
+.carousel-1 .carousel-control.left {
+  left: -40px
+}
+
+.carousel-1 .carousel-control.right {
+  right: -40px
+}
+
+.carousel-1 .carousel-control:hover {
+  color: #fff
+}
+
+.carousel-1 .carousel-control i {
+  position: absolute;
+  top: 50%;
+  margin-top: -18px;
+  font-size: 36px;
+  font-weight: 600
+}
+
+.carousel-1 .item {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 0
+}
+
+.carousel-1 .item-dark {
+  color: #fff
+}
+
+.carousel-1 .item-light {
+  color: #fff
+}
+
+.carousel-1 .item img {
+  width: 100%
+}
+
+.carousel-1 p {
+  font-size: 16px
+}
+
+.carousel-1 .object {
+  position: absolute;
+  top: 38px;
+  right: 50%;
+  margin-left: 15px;
+  width: 568px;
+  height: 320px;
+  overflow: hidden
+}
+
+.carousel-1 .object.fluid {
+  width: 100%;
+  left: 0;
+  margin: 0
+}
+
+.carousel-1 .object iframe {
+  width: 100% !important
+}
+
+.carousel-1 .description {
+  position: absolute;
+  top: 55px;
+  left: 50%;
+  margin-left: 50px;
+  width: 514px;
+  height: 290px
+}
+
+.carousel-1 .description .title {
+  font-size: 32px;
+  margin: 0 0 15px 0;
+  padding: 8px 20px;
+  line-height: 38px;
+  background: #fff;
+  color: #616161
+}
+
+.carousel-1 .description .subtitle {
+  font-size: 24px;
+  margin: 20px 0;
+  padding: 0;
+  display: block
+}
+
+.carousel-1 .description p {
+  font-size: 16px;
+  color: #fff;
+  margin: 0
+}
+
+.carousel-1 .description-left {
+  position: absolute;
+  width: 40%;
+  top: 50px;
+  left: 80px;
+  margin-left: 20px;
+  width: 514px;
+  height: 290px
+}
+
+.carousel-1 .description-left .title {
+  font-size: 3vw;
+  margin: 0 0 15px 0;
+  padding: 0;
+  line-height: 3.5vw;
+  font-weight: 600
+}
+
+.carousel-1 .description-left .subtitle {
+  font-size: 1.8vw;
+  margin: 20px 0;
+  padding: 0;
+  display: block;
+  line-height: 2.3vw
+}
+
+.carousel-1 .description-left p {
+  font-size: 1.2vw;
+  line-height: 1.5vw;
+  color: #fff;
+  margin: 0
+}
+
+.carousel-1 .description.fluid-center {
+  width: 100%;
+  top: 50px;
+  left: 0;
+  margin: 0
+}
+
+.carousel-1 .description.fluid-center .title {
+  margin-bottom: 5px;
+  display: block;
+  text-align: center;
+  background: none;
+  color: #fff;
+  font-weight: 500;
+  text-shadow: 1px 1px 3px rgba(150, 150, 150, 0.5)
+}
+
+.carousel-1 .description.fluid-center .subtitle {
+  font-size: 20px;
+  margin: 0;
+  display: block;
+  text-align: center
+}
+
+.carousel-1 .description.fluid-center .features {
+  display: block;
+  margin-top: 40px;
+  text-align: center
+}
+
+.carousel-1 .description.fluid-center .features i {
+  width: 110px;
+  height: 110px;
+  background: #fff;
+  text-align: center;
+  line-height: 110px;
+  font-size: 54px;
+  color: #697e93;
+  font-weight: 700;
+  border-radius: 96px;
+  margin-right: 20px
+}
+
+.carousel-1 .caption-bottom {
+  width: 100%;
+  padding: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: rgba(52, 152, 219, 0.8)
+}
+
+.carousel-1 .caption-bottom .title {
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  font-weight: 600
+}
+
+.carousel-1 .caption-bottom .subtitle {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 400
+}
+
+.carousel-1 .text-shadow {
+  text-shadow: 2px 2px 2px #888
+}
+
+.carousel-1 .subtitle-sm {
+  font-size: 16px;
+  margin: 5px 0 15px 0;
+  padding: 0;
+  display: block;
+  line-height: 26px
+}
+
+
+#homepageCarousel {
+  margin-bottom: 0;
+}
