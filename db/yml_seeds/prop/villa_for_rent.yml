@@ -50,3 +50,6 @@
   title_es: Una villa estupenda para aliquilar en Valencia  
   description_en: Description of the amazing villa for rent. 
   description_es: Descripción de una villa estupenda para aliquilar.
+  photo_urls: 
+    - https://inmo-a.s3.amazonaws.com/us/gooddeals/property/18/IMG_20160311_165938_2982a36e0a.jpg
+    - https://inmo-a.s3.amazonaws.com/us/gooddeals/property/15/IMG_20160311_165813_bbb7304f64.jpg
