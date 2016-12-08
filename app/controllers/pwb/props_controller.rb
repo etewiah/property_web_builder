@@ -4,6 +4,7 @@ module Pwb
   class PropsController < ApplicationController
 
     def show_for_rent
+      @carousel_speed = 3000
       # @inmo_template = "broad"
       @property_details = Prop.find_by_id(params[:id])
       # gon.property_details =@property_details
@@ -25,6 +26,7 @@ module Pwb
     end
 
     def show_for_sale
+      @carousel_speed = 3000
       # @inmo_template = "broad"
       @operation_type = "for_sale"
       @property_details = Prop.find_by_id(params[:id])

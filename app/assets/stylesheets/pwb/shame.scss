@@ -231,38 +231,6 @@ section.slice {
 }
 
 
-.jumbotron {
-  overflow: hidden;
-  line-height: normal;
-  background: #f7fafc;
-  padding: 0 !important;
-  margin: 0;
-}
-
-.jumbotron-left,
-.jumbotron-right {
-  float: left;
-}
-
-.jumbotron-left {
-  width: 70%;
-  z-index: 1;
-  -webkit-box-shadow: 5px 0 5px rgba(0, 0, 0, 0.2);
-  box-shadow: 5px 0 5px rgba(0, 0, 0, 0.2);
-}
-
-.jumbotron-right {
-  width: 30%;
-}
-
-@media (max-width: 767px) {
-  .jumbotron-left,
-  .jumbotron-right {
-    float: none;
-    width: 100%;
-  }
-}
-
 .form-control {
   border-radius: 2px !important;
   padding: 8px 12px;
@@ -348,13 +316,10 @@ section.slice {
   font-size: 18px;
 }
 
-
 .panel {
   border-radius: 0;
   background-color: #fff;
 }
-
-
 
 .panel .panel-heading {
   border-radius: 0;
@@ -365,8 +330,6 @@ section.slice {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-
-
 
 @media (max-width: 991px) {
   .carousel-1 .description-left {
@@ -428,8 +391,6 @@ section.slice {
   }
 }
 
-
-
 img {
   vertical-align: middle;
 }
@@ -449,10 +410,6 @@ a:hover {
 
 .negrita {
   font-weight: bold;
-}
-
-.jumbotron {
-  overflow: visible;
 }
 
 
@@ -501,11 +458,9 @@ ul.idiomas li:hover {
   background: url("/images/simple-nav-arrow.png") no-repeat top center;
 }
 
-
 .input-lg {
   height: auto;
 }
-
 
 .panel-base .panel-heading {
   border-bottom: 1px solid #777 !important;
@@ -523,8 +478,6 @@ ul.idiomas li:hover {
   overflow: auto;
 }
 */
-
-
 
 .social {
   padding-right: 20px;
@@ -559,7 +512,6 @@ form.simple_form.form-base div.panel-body {
   min-height: 301px;
 }
 
-
 .ss-cont {
   padding-left: 5px;
   padding-right: 5px;
@@ -568,7 +520,6 @@ form.simple_form.form-base div.panel-body {
 .contact-info h5 i {
   color: #ea802d !important;
 }
-
 
 .btn-group.bootstrap-select button {
   border: 1px solid #ddd;
@@ -617,7 +568,6 @@ header .navbar-wp .navbar-brand {
   border-right: 1px solid $base-border-color;
 }
 
-
 .about-us-img {
   width: 100%;
 }
@@ -652,10 +602,4 @@ ul.list-listings .listing-body {
 }
 
 
-
-
 /*dddd*/
-
-
-
-

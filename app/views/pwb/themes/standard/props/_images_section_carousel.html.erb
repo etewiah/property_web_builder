@@ -1,8 +1,8 @@
 <div class="product-gallery">
-  <div id="homepageCarousel" class="carousel carousel-1 slide" data-ride="carousel" data-interval="3000">
+  <div id="propCarousel" class="carousel carousel-1 slide" data-ride="carousel" data-interval="<%= @carousel_speed %>">
       <ol class="carousel-indicators">
       <% @property_details.prop_photos.each.with_index do |photo, index| %>
-        <li data-target="#homepageCarousel" data-slide-to="<%= index %>" class=""></li>
+        <li data-target="#propCarousel" data-slide-to="<%= index %>" class=""></li>
       <% end %>
       </ol>
     <div class="carousel-inner">
@@ -20,10 +20,10 @@
       <% end %>
     </div>
     <!-- Controls -->
-    <a class="left carousel-control" href="#homepageCarousel" data-slide="prev">
+    <a class="left carousel-control" href="#propCarousel" data-slide="prev">
       <i class="fa fa-angle-left"></i>
     </a>
-    <a class="right carousel-control" href="#homepageCarousel" data-slide="next">
+    <a class="right carousel-control" href="#propCarousel" data-slide="next">
       <i class="fa fa-angle-right"></i>
     </a>
   </div>
