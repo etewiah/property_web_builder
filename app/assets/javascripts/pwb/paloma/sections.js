@@ -1,6 +1,7 @@
 var PwbSectionsController = Paloma.controller('Pwb/Sections');
 
 PwbSectionsController.prototype.contact_us = function() {
+
   var currentItemForMap = this.params.current_agency_primary_address;
   // http://stackoverflow.com/questions/2647867/how-to-determine-if-variable-is-undefined-or-null
   // if (currentItemForMap == null) {
@@ -19,10 +20,9 @@ PwbSectionsController.prototype.contact_us = function() {
 };
 
 
-var PwbPropertiesController = Paloma.controller('Pwb/Properties');
+var PwbPropsController = Paloma.controller('Pwb/Props');
 
-PwbPropertiesController.prototype.show = function() {
-
+PwbPropsController.prototype.show = function() {
   // Below for properties slider
   // don't have something similar for main landing yet
   $(".carousel-inner .item").click(function () {
