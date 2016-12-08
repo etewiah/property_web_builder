@@ -10,6 +10,7 @@ require 'paloma'
 require 'jquery-rails'
 require 'simple_form'
 require 'devise'
+require 'cloudinary'
 # require 'fog/aws'
 # require 'font-awesome-rails'
 module Pwb

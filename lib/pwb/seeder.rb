@@ -87,12 +87,20 @@ module Pwb
       end
 
       def create_content_photo photo_url
-        begin
+          content_photo = Pwb::ContentPhoto.create
+          byebug
+          content_photo.remote_image_url = photo_url
+          content_photo.save!
+          return content_photo
+
+
+                  begin
           content_photo = Pwb::ContentPhoto.create
           content_photo.remote_image_url = photo_url
           content_photo.save!
           return content_photo
-        rescue 
+        rescue Exception => e
+          byebug
           if content_photo
             content_photo.destroy!
             return nil
