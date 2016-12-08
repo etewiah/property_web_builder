@@ -203,6 +203,13 @@ module Pwb
       return prices_array.min
     end
 
+
+    # TODO - remove below when client is fixed
+    def ano_constr=(ano_constr)
+      self.year_construction = ano_constr
+    end
+
+
     before_save :set_rental_search_price
 
     private
