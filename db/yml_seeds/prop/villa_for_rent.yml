@@ -32,18 +32,18 @@
   prop_origin_key: ''
   prop_state_key: ''
   prop_type_key: ''
-  street_number:
-  street_name:
-  street_address:
-  postal_code:
+  street_number: '23'
+  street_name: Calle Sup
+  street_address: Calle Sup
+  postal_code: '29590'
   province:
-  city:
-  region:
-  country:
-  latitude:
-  longitude:
-  plot_area: 0.0
-  constructed_area: 0.0
+  city: Málaga
+  region: Andalucía
+  country: Spain
+  latitude: 36.73234
+  longitude: -4.52615000000003
+  plot_area: 150.0
+  constructed_area: 90.0
   energy_rating:
   energy_performance:
   title_en: Amazing villa for rent in Valencia
