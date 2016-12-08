@@ -53,9 +53,11 @@ module Pwb
       def seed_agency yml_file
         agency_yml = load_seed_yml yml_file
         unless Pwb::Agency.count > 0
-          agency_yml.each do |single_agency_yml|
-            Pwb::Agency.create!(single_agency_yml)
-          end
+          agency = Pwb::Agency.create!(agency_yml)
+          agency_address_yml = load_seed_yml 'agency_address.yml'
+          agency_address = Pwb::Address.create!(agency_address_yml)
+          agency.primary_address = agency_address
+          agency.save!
         end
       end
 

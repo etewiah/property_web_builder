@@ -7,22 +7,23 @@ module Pwb
     belongs_to :primary_address, :class_name => "Address", :foreign_key => 'primary_address_id'
     belongs_to :secondary_address, :class_name => "Address", :foreign_key => 'secondary_address_id'
 
+    # TODO - replace below with supported_locales
     def supported_languages
       return self.supported_locales.present? ? self.supported_locales : ["en"]
     end
 
-    # might have available_locales as a col
-    def available_locales
-      if self.details && self.details["available_locales"]
-        return self.details["available_locales"]
-      else
-        return ["en","es"]
-      end
-    end
-    def available_locales=(available_locales)
-      # TODO - check to ensure its a valid array...
-      self.details["available_locales"] = available_locales
-    end
+    # # available_locales now a col
+    # def available_locales
+    #   if self.details && self.details["available_locales"]
+    #     return self.details["available_locales"]
+    #   else
+    #     return ["en","es"]
+    #   end
+    # end
+    # def available_locales=(available_locales)
+    #   # TODO - check to ensure its a valid array...
+    #   self.details["available_locales"] = available_locales
+    # end
 
 
     def show_contact_map

@@ -1,31 +1,30 @@
----
-- phone_number_primary: +34 622 334 223
-  phone_number_mobile:
-  phone_number_other:
-  analytics_id:
-  analytics_id_type:
-  company_name:
-  display_name: Example RE
-  email_primary: contact@propertywebbuilder.com
-  email_for_general_contact_form:
-  email_for_property_contact_form:
-  skype:
-  company_id:
-  company_id_type:
-  url:
-  primary_address_id:
-  secondary_address_id:
-  flags: 0
-  payment_plan_id:
-  site_template_id:
-  site_configuration: {}
-  available_locales: []
-  available_currencies: []
-  supported_locales: []
-  supported_currencies: []
-  default_client_locale:
-  default_admin_locale:
-  default_currency:
-  # social_media: {}
-  details: {}
-  raw_css: ""
+phone_number_primary: +34 672 550 305
+phone_number_mobile:
+phone_number_other:
+analytics_id:
+analytics_id_type:
+company_name:
+display_name: Example RE
+email_primary: contact@propertywebbuilder.com
+email_for_general_contact_form:
+email_for_property_contact_form:
+skype:
+company_id:
+company_id_type:
+url:
+primary_address_id:
+secondary_address_id:
+flags: 0
+payment_plan_id:
+site_template_id:
+site_configuration: {}
+available_locales: ["en","es"]
+available_currencies: []
+supported_locales: ["en"]
+supported_currencies: []
+default_client_locale:
+default_admin_locale:
+default_currency:
+# social_media: {}
+details: {}
+raw_css: ""
