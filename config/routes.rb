@@ -82,6 +82,12 @@ Pwb::Engine.routes.draw do
 
       post "properties/set_owner" => "properties#set_owner"
       post "properties/unset_owner" => "properties#unset_owner"
+
+
+      put '/web_contents/photos/:id/:content_tag' => 'web_contents#update_photo'
+      # above is used by logo and about_me photos
+      # where only one photo is allowed
+
     end
   end
 
