@@ -21,14 +21,14 @@ module Pwb
     def privacy_policy
       @title_key = "privacyPolicy"
       @page_title = I18n.t("privacyPolicy")
-      @content = Content.find_by_key("privacyPolicy")
+      @content = Content.find_by_key("privacyPolicy") || OpenStruct.new
       return render @current_agency.views_folder + "/sections/static"
     end
 
     def legal
       @title_key = "legalAdvice"
       @page_title = I18n.t("legalAdvice")
-      @content = Content.find_by_key("legalAdvice")
+      @content = Content.find_by_key("legalAdvice") || OpenStruct.new
       return render @current_agency.views_folder + "/sections/static"
     end
 

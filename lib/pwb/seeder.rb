@@ -11,6 +11,7 @@ module Pwb
         seed_content 'content_columns.yml'
         seed_content 'carousel.yml'
         seed_content 'about_us.yml'
+        seed_content 'static.yml'
         seed_prop 'villa_for_sale.yml'
         seed_prop 'villa_for_rent.yml'
         seed_prop 'flat_for_sale.yml'
