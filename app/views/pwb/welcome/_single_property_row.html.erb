@@ -10,8 +10,7 @@
             <div class="wp-block white property list">
               <div class="figure">
                 <%= link_to property.contextual_show_path(rent_or_sale) do %>
-                  <%= property.title  %>
-                  <%# image_tag("#{property.ordered_photo_url 1}", class: 'img-responsive') %>
+                  <%= image_tag("#{property.ordered_photo_url 1}", class: 'img-responsive') %>
                 <% end %>
               </div>
               <div class="wp-block-body">

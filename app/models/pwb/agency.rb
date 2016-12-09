@@ -12,6 +12,10 @@ module Pwb
       return self.supported_locales.present? ? self.supported_locales : ["en"]
     end
 
+    def is_multilingual
+      return self.supported_languages.length > 1
+    end
+
     # # available_locales now a col
     # def available_locales
     #   if self.details && self.details["available_locales"]

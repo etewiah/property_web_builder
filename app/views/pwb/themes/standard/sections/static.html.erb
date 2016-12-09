@@ -1,0 +1,52 @@
+<!-- MAIN CONTENT -->
+<div class="pg-opt">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>
+          <%= I18n.t(@title_key) %>
+        </h2>
+      </div>
+      <div class="col-md-6" style="">
+        <ol class="breadcrumb">
+          <li><a href="/">
+              <%= I18n.t("webContentSections.home") %>
+            </a></li>
+          <li class="active">
+            <%= I18n.t(@title_key) %>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="slice bg-white bb static-content-panel">
+  <div class="wp-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-11">
+          <div class="section-title-wr mt-40">
+            <h3 class="section-title left">
+              <span>
+                <%# I18n.t(@title_key) %>
+              </span>
+            </h3>
+          </div>
+          <div>
+            <p>
+              <%== @content.raw %>
+            </p>
+          </div>
+          <div>
+            <% if @is_subdomain_admin  %>
+              <%= link_to I18n.t("labels.edit"), "#{ "/" + I18n.locale.to_s + @content.urls['adminUrl'] }"  %>
+            <% end %>
+          </div>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- FOOTER -->

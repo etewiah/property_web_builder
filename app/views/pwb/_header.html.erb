@@ -14,12 +14,12 @@
 
         </div>
         <div class="col-sm-6">
-        <% if @is_multilingual %>
+        <% if @current_agency.is_multilingual %>
           <div class="contenedor_idiomas" style="">
             <ul class="idiomas">
-              <% @supported_languages.each do |language| %>
+              <% @current_agency.supported_languages.each do |language| %>
                 <li class=<%="#{'selected' if locale.to_s == language}" %>>
-                  <%= link_to "", params.merge({:locale => language}), class: language %>
+                  <%= link_to "", params.permit(:locale,).merge({:locale => language}), class: language %>
                 </li>                
               <% end %>
             </ul>

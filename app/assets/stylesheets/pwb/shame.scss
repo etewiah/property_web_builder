@@ -451,16 +451,16 @@ ul.idiomas li a {
 }
 
 ul.idiomas .es {
-  background: url("/images/idiomas.png") 0 0 no-repeat;
+  background: url("/assets/idiomas.png") 0 0 no-repeat;
 }
 
 ul.idiomas .en {
-  background: url("/images/idiomas.png") -20px 0;
+  background: url("/assets/idiomas.png") -20px 0;
 }
 
 ul.idiomas li.selected,
 ul.idiomas li:hover {
-  background: url("/images/simple-nav-arrow.png") no-repeat top center;
+  background: url("/assets/simple-nav-arrow.png") no-repeat top center;
 }
 
 .input-lg {
