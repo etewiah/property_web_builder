@@ -2,6 +2,9 @@ require_dependency "pwb/application_controller"
 
 module Pwb
   class Api::V1::ClientTranslationsController < ApplicationController
+
+    protect_from_forgery with: :null_session
+
     respond_to :json
 
     def index
@@ -31,56 +34,52 @@ module Pwb
     end
 
     # deletes the field_key referencing the translation
-    # for the current tenant
-    # def delete_translation_values
-    #   field_key = FieldKey.find_by_tenant_key(params[:i18n_key])
-    #   field_key.visible = false
+    def delete_translation_values
+      field_key = FieldKey.find_by_global_key(params[:i18n_key])
+      field_key.visible = false
 
-    #   if field_key.is_specific_to_tenant
-    #     # only actually delete translations that are specific to tenant
-    #     phrases = I18n::Backend::ActiveRecord::Translation.where(:key => params[:i18n_key])
-    #     phrases.destroy_all
-    #   end
+      # not convinced it makes sense to delete the associated translations
+      # phrases = I18n::Backend::ActiveRecord::Translation.where(:key => params[:i18n_key])
+      # phrases.destroy_all
 
-    #   field_key.save!
-    #   return render json: { success: true }
-    # end
+      field_key.save!
+      return render json: { success: true }
+    end
 
     # # below called for completely new translations
-    # def create_translation_value
-    #   batch_key = params[:batch_key]
-    #   # batch_key might be "extra" or ..
-    #   i18n_key = params[:i18n_key].sub(/^[.]*/,"")
-    #   # regex above just incase there is a leading .
-    #   subdomain = request.subdomain.downcase
-    #   field_key = FieldKey.find_or_create_by(global_key: i18n_key)
-    #   tenant_key = "cl." + subdomain + "." + batch_key.underscore.camelize(:lower) + "." + i18n_key
-    #   field_key.tenant_key = tenant_key
-    #   # field_key.prefix =
-    #   field_key.tag = batch_key
-    #   field_key.save!
-    #   # i18n_key = params[:i18n_key]
-    #   # batch_key = params[:batch_key]
-    #   phrase = I18n::Backend::ActiveRecord::Translation.find_or_create_by(
-    #     :key => tenant_key,
-    #   :locale => params[:locale])
-    #   phrase.value = params[:i18n_value]
-    #   if phrase.save!
-    #     return render json: { success: true }
-    #   else
-    #     return render json: { error: "unable to create phrase" }
-    #   end
-    # end
+    def create_translation_value
+      batch_key = params[:batch_key]
+      # batch_key might be "extra" or ..
+      i18n_key = params[:i18n_key].sub(/^[.]*/,"")
+      # regex above just incase there is a leading .
+      subdomain = request.subdomain.downcase
 
-    # below is where the client is adding a translation for an item that exists in another locale
-    # eg arabic translation is being added for "floor" which has already been transltated into spanish
-    # - new translation is added with existing global key so new future tenants
-    # can benefit
+      # http://stackoverflow.com/questions/5917355/find-or-create-race-conditions
+      begin
+        field_key = FieldKey.find_or_initialize_by(global_key: i18n_key)
+        field_key.tag = batch_key
+        field_key.save!
+      rescue ActiveRecord::StatementInvalid => error
+        @save_retry_count =  (@save_retry_count || 5)
+        retry if( (@save_retry_count -= 1) > 0 )
+        raise error
+      end
+      phrase = I18n::Backend::ActiveRecord::Translation.find_or_create_by(
+        :key => i18n_key,
+      :locale => params[:locale])
+      phrase.value = params[:i18n_value]
+      if phrase.save!
+        return render json: { success: true }
+      else
+        return render json: { error: "unable to create phrase" }
+      end
+    end
+
 
     # def add_locale_translation
-    #   field_key = FieldKey.find_by_tenant_key(params[:i18n_key])
+    #   field_key = FieldKey.find_by_global_key(params[:i18n_key])
     #   phrase = I18n::Backend::ActiveRecord::Translation.find_or_create_by(
-    #     :key => field_key.tenant_key,
+    #     :key => field_key.global_key,
     #   :locale => params[:locale])
     #   unless phrase.value.present?
     #     phrase.value = params[:i18n_value]

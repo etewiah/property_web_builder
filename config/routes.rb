@@ -52,10 +52,10 @@ Pwb::Engine.routes.draw do
       # and returns all the locale translations so an admin
       # can manage them..
       get "/lang/admin_translations/:batch_key" => "client_translations#get_by_batch"
-      # post "/lang/admin_translations" => "client_translations#create_translation_value"
+      post "/lang/admin_translations" => "client_translations#create_translation_value"
 
       # post "/lang/admin_translations/add_locale_translation" => "client_translations#add_locale_translation"
-      # delete "/lang/admin_translations/:id" => "client_translations#delete_translation_values"
+      delete "/lang/admin_translations/:id" => "client_translations#delete_translation_values"
 
 
       get "/agency" => "agency#show"
