@@ -1,0 +1,380 @@
+    # TODO - have a variable for company name so I can switch b/n klavado and property squares
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+es:
+  selectpicker:
+    noneSelectedText: 'No hay selección'
+    noneResultsText: 'No hay resultados {0}'
+    countSelectedText: 'Seleccionados {0} de {1}'
+    # maxOptionsText: ['Límite alcanzado ({n} {var} max)', 'Límite del grupo alcanzado({n} {var} max)', ['elementos', 'element']],
+    # multipleSeparator: ', '
+
+  newPassword: "Nuevo Contraseña"
+  signOut: "Cerrar sesión"
+  changePassword: "Cambiar Contraseña"
+  update: "Actualizar"
+  back: "Volver"
+  leaveBlank: "dejar en blanco si no desea cambiarlo"
+  needCurrentPwd: "necesitamos su contraseña actual para confirmar los cambios"
+
+
+  legalAdvice: "Aviso Legal"
+  privacyPolicy: "Politica de Privacidad"
+
+  contact:
+    success: "Gracias por contactar con nosotros. En breve nos pondremos en contacto con usted."
+    error: "Lo sentimos, ha ocurrido un error."
+    emailSubject: "Contacto desde su sitio web"
+
+  tel: "Teléfono"
+  email: "Email"
+  name: "Nombre"
+  subject: "Asunto"
+  message: "Mensaje"
+  address: "Dirección"
+  contactUs: "Contacta con nosotros"
+  requestPropertyInfo: "Solicitar información"
+  aboutUs: "Sobre nosotros"
+  contactUsPrompt: "Rellena el siguiente formulario para contactar con nosotros"
+  send: "Enviar"
+
+  propertyNotFound: "Propiedad no encontrada"
+  forRent: "En alquiler"
+  forSale: "En venta"
+  propertyForRent: "Inmueble para alquiler"
+  propertyForSale: "Inmueble a la venta"
+  # apartamentsForSale: "Apartamentos a la venta"
+
+  setup:
+    selectUrl: "Selecciona un url"
+    selectUrlMessage: "Su cuenta esta listo - ahora selecciona un url para su nuevo sitio"
+    subdomain: "subdominio"
+    claimSubdomain: "Registrar este url"
+    subdomainMissing: "Introduzca un nombre para el subdominio"
+    urlNotAvailable: "Este url no está disponible"
+    goToYourSite: "Ir a su sitio web"
+    thankYouForTrusting: "Gracias por confiar en %{company_name}"
+    weAreCreatingSite: "Estamos creando su sitio web"
+    createdSuccessfully: "Site created successfully"
+    loggedInAs: "Logged in as "
+    logout: "Logout"
+
+  inmolite:
+    registerNow: "Registra ahora"
+    tagLine: "Crea una web profesional para agentes inmobiliarios en minutos"
+    tagLineExt: "Páginas web preciosas y elegantes.<br>Nadie te pone en Internet más rápido."
+    getStarted: "Empezar ahora"
+    createPrompt: "Crear mi web de agencia inmobiliaria"
+    createTagLine: "Nadie te pone en Internet mas rápido."
+    copyright: "%{company_name} Inc. Todos los derechos reservados."
+
+  # nav:
+  #   description: "Descripción"
+  #   extras: "Extras"
+  #   map: "Mapa"
+
+  property:
+    price: "Precio"
+    monthlyRentalPriceLowSeason: "Precio mensual (temporada baja)"
+    monthlyRentalPriceStandardSeason: "Precio mensual (temporada media)"
+    monthlyRentalPriceHighSeason: "Precio mensual (temporada alta)"
+    operationType: "Tipo de Operación"
+    propertyType: "Tipo de Propiedad"
+    locality: "Localidad"
+    ref: "Ref."
+    furniture: "Muebles"
+    highlightedProperty: "Propiedad destacada"
+    goToProperty: "Ver inmueble"
+    details: "Características"
+    description: "Descripción"
+    extras: "Extras"
+    map: "Mapa"
+
+  navbar:
+    home: "Inicio"
+    admin: "Admin"
+    aboutUs: "Sobre nosotros"
+    sell: "Vender"
+    buy: "Comprar"
+    rent: "Alquilar"
+    contactUs: "Contactar"
+
+  menu_admin: "admin"
+
+  true: "Si"
+  false: "No"
+  editarPropiedad: "Editar un inmueble"
+  nuevoPropiedad: "Nuevo inmueble"
+  listadoPropiedades: "Listado de inmuebles"
+  searchForProperties: "Buscar inmuebles"
+  search: "Buscar"
+  findByReference: "Buscar por referencia"
+  go: "Ir"
+  findAProperty: "Encuentra tu casa"
+  orderBy: "Ordenar por"
+  noResultsForSearch: "Ningun resueltos para la busqueda"
+
+  orderBy:
+    priceAscending: ↓ Precio (los más baratos primero)
+    priceDescending: ↑ Precio (los más caros primero)
+
+  placeHolders:
+    email: "Tu email"
+    name: "Tu nombre"
+    tel: "Fijo o móvil"
+    subject: "Asunto"
+    message: "Escribe aquí tu mensaje"
+
+  labels: 
+    edit: "Editar"
+    new: "Nuevo"
+    save: "Guardar"
+    create: "Crear"
+  webContentLabels: 
+    suffixEn: "en Inglés"
+    suffixEs: "en Español"
+    landingPageHero: "Contenido para página principal"
+    tagLine: "Lema"
+  webContentSections: 
+    home: "Inicio"
+    contactInformation: "Información de contacto" 
+    sell: "Vender"
+    tagLine: "Lema"
+
+
+
+
+  activerecord:
+    errors:
+      messages:
+        record_invalid: "La validación falló: %{errors}"
+        restrict_dependent_destroy:
+          has_one: No se puede eliminar el registro porque existe un %{record} dependiente
+          has_many: No se puede eliminar el registro porque existen %{record} dependientes
+  date:
+    abbr_day_names:
+    - dom
+    - lun
+    - mar
+    - mié
+    - jue
+    - vie
+    - sáb
+    abbr_month_names:
+    -
+    - ene
+    - feb
+    - mar
+    - abr
+    - may
+    - jun
+    - jul
+    - ago
+    - sep
+    - oct
+    - nov
+    - dic
+    day_names:
+    - domingo
+    - lunes
+    - martes
+    - miércoles
+    - jueves
+    - viernes
+    - sábado
+    formats:
+      default: "%d/%m/%Y"
+      long: "%d de %B de %Y"
+      short: "%d de %b"
+    month_names:
+    -
+    - enero
+    - febrero
+    - marzo
+    - abril
+    - mayo
+    - junio
+    - julio
+    - agosto
+    - septiembre
+    - octubre
+    - noviembre
+    - diciembre
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: alrededor de 1 hora
+        other: alrededor de %{count} horas
+      about_x_months:
+        one: alrededor de 1 mes
+        other: alrededor de %{count} meses
+      about_x_years:
+        one: alrededor de 1 año
+        other: alrededor de %{count} años
+      almost_x_years:
+        one: casi 1 año
+        other: casi %{count} años
+      half_a_minute: medio minuto
+      less_than_x_minutes:
+        one: menos de 1 minuto
+        other: menos de %{count} minutos
+      less_than_x_seconds:
+        one: menos de 1 segundo
+        other: menos de %{count} segundos
+      over_x_years:
+        one: más de 1 año
+        other: más de %{count} años
+      x_days:
+        one: 1 día
+        other: "%{count} días"
+      x_minutes:
+        one: 1 minuto
+        other: "%{count} minutos"
+      x_months:
+        one: 1 mes
+        other: "%{count} meses"
+      x_seconds:
+        one: 1 segundo
+        other: "%{count} segundos"
+    prompts:
+      day: Día
+      hour: Hora
+      minute: Minutos
+      month: Mes
+      second: Segundos
+      year: Año
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      accepted: debe ser aceptado
+      blank: no puede estar en blanco
+      present: debe estar en blanco
+      confirmation: no coincide
+      empty: no puede estar vacío
+      equal_to: debe ser igual a %{count}
+      even: debe ser par
+      exclusion: está reservado
+      greater_than: debe ser mayor que %{count}
+      greater_than_or_equal_to: debe ser mayor que o igual a %{count}
+      inclusion: no está incluido en la lista
+      invalid: no es válido
+      less_than: debe ser menor que %{count}
+      less_than_or_equal_to: debe ser menor que o igual a %{count}
+      model_invalid: "La validación falló: %{errors}"
+      not_a_number: no es un número
+      not_an_integer: debe ser un entero
+      odd: debe ser impar
+      required: debe existir
+      taken: ya está en uso
+      too_long:
+        one: "es demasiado largo (1 carácter máximo)"
+        other: "es demasiado largo (%{count} caracteres máximo)"
+      too_short:
+        one: "es demasiado corto (1 carácter mínimo)"
+        other: "es demasiado corto (%{count} caracteres mínimo)"
+      wrong_length:
+        one: "no tiene la longitud correcta (1 carácter exactos)"
+        other: "no tiene la longitud correcta (%{count} caracteres exactos)"
+      other_than: debe ser distinto de %{count}
+    template:
+      body: 'Se encontraron problemas con los siguientes campos:'
+      header:
+        one: No se pudo guardar este/a %{model} porque se encontró 1 error
+        other: No se pudo guardar este/a %{model} porque se encontraron %{count} errores
+  helpers:
+    select:
+      prompt: Por favor seleccione
+    submit:
+      create: Crear %{model}
+      submit: Guardar %{model}
+      update: Actualizar %{model}
+  number:
+    currency:
+      format:
+        delimiter: "."
+        format: "%n %u"
+        precision: 2
+        separator: ","
+        significant: false
+        strip_insignificant_zeros: false
+        unit: "€"
+    format:
+      delimiter: "."
+      precision: 3
+      separator: ","
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          billion: mil millones
+          million:
+            one: millón
+            other: millones
+          quadrillion: mil billones
+          thousand: mil
+          trillion:
+            one: billón
+            other: billones
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 1
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          gb: GB
+          kb: KB
+          mb: MB
+          tb: TB
+    percentage:
+      format:
+        delimiter: ''
+        format: "%n %"
+    precision:
+      format:
+        delimiter: ''
+  support:
+    array:
+      last_word_connector: " y "
+      two_words_connector: " y "
+      words_connector: ", "
+  time:
+    am: am
+    formats:
+      default: "%A, %d de %B de %Y %H:%M:%S %z"
+      long: "%d de %B de %Y %H:%M"
+      short: "%d de %b %H:%M"
+    pm: pm
+
+
+
