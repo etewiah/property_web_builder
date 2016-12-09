@@ -6,7 +6,7 @@ module Pwb
            :recoverable, :rememberable, :trackable, :validatable
 
     # TODO - use db col for below
-    def default_locale
+    def default_client_locale
       return :en
     end
 

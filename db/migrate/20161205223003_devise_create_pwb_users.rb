@@ -38,6 +38,9 @@ class DeviseCreatePwbUsers < ActiveRecord::Migration[5.0]
       t.string :last_names
       t.string :skype
       t.string :phone_number_primary
+      t.string :default_client_locale
+      t.string :default_admin_locale
+      t.string :default_currency
 
 
       t.timestamps null: false
