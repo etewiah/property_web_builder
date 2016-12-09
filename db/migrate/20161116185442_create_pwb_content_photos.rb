@@ -4,6 +4,8 @@ class CreatePwbContentPhotos < ActiveRecord::Migration[5.0]
       t.integer :content_id
       t.string :image
       t.string :description
+      t.string :folder
+      t.integer :file_size
 
       # To allow ordering of photos
       t.integer :sort_order

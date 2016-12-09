@@ -5,6 +5,7 @@ class CreatePwbPropPhotos < ActiveRecord::Migration[5.0]
       t.string :image
       t.string :description
       t.string :folder
+      t.integer :file_size
 
       t.integer :sort_order
       t.timestamps null: false
