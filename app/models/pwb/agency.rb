@@ -12,6 +12,11 @@ module Pwb
       return self.supported_locales.present? ? self.supported_locales : ["en"]
     end
 
+    # TODO - use db col for below
+    def default_locale
+      return :en
+    end
+
     def is_multilingual
       return self.supported_languages.length > 1
     end

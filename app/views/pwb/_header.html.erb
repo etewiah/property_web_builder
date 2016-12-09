@@ -17,7 +17,7 @@
         <% if @current_agency.is_multilingual %>
           <div class="contenedor_idiomas" style="">
             <ul class="idiomas">
-              <% @current_agency.supported_languages.each do |language| %>
+              <% @current_agency.supported_locales.each do |language| %>
                 <li class=<%="#{'selected' if locale.to_s == language}" %>>
                   <%= link_to "", params.permit(:locale,).merge({:locale => language}), class: language %>
                 </li>                
