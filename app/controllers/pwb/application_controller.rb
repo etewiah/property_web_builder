@@ -31,6 +31,11 @@ module Pwb
     end
 
 
+    # http://www.rubydoc.info/github/plataformatec/devise/master/ActionDispatch/Routing/Mapper#devise_for-instance_method
+    # below needed so devise can route links with correct locale
+    def self.default_url_options
+      { locale: I18n.locale }
+    end
 
     # considered below but decided against it
     # def favicon

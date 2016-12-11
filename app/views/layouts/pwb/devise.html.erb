@@ -15,7 +15,7 @@
     <%# render @current_tenant.views_folder + '/shared/main_mobile_menu' %>
     <!-- MAIN WRAPPER -->
     <div class="body-wrap body-boxed <%# @current_tenant.body_style %>">
-      <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
+      <%= render :partial => '/pwb/header', :locals => { not_devise: false }  %>
       <%= yield %>
       <%= render :partial => '/pwb/footer', :locals => {}  %>
     </div>

@@ -14,9 +14,9 @@
     <div class="row">
       <div class="col-lg-9 copyright">
         © <%= t 'copyright' %>.
-                <%= link_to I18n.t("legalAdvice"), legal_path(locale: locale)  %>.
-                <%= link_to I18n.t("privacyPolicy"), privacy_policy_path(locale: locale)  %>.
-                <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale)  %>.
+                <%= link_to I18n.t("legalAdvice"), pwb.legal_path(locale: locale)  %>.
+                <%= link_to I18n.t("privacyPolicy"), pwb.privacy_policy_path(locale: locale)  %>.
+                <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>.
             </div>
       <div class="col-lg-3 social">
         <%= social_media_link(@current_agency, "facebook", "Facebook", "fa-facebook fa-2x") %>

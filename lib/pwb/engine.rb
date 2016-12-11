@@ -24,9 +24,10 @@ module Pwb
       g.helper false
     end
 
-    # config.to_prepare do
-    #   # https://github.com/plataformatec/devise/wiki/How-To:-Use-devise-inside-a-mountable-engine
-    #   Devise::SessionsController.layout "layout_for_sessions_controller"
-    # end
+
+    config.to_prepare do
+      # https://github.com/plataformatec/devise/wiki/How-To:-Use-devise-inside-a-mountable-engine
+      Devise::SessionsController.layout "pwb/devise"
+    end
   end
 end

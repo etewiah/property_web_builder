@@ -14,7 +14,7 @@
 
         </div>
         <div class="col-sm-6">
-        <% if @current_agency.is_multilingual %>
+        <% if @current_agency.is_multilingual && not_devise %>
           <div class="contenedor_idiomas" style="">
             <ul class="idiomas">
               <% @current_agency.supported_locales.each do |language| %>

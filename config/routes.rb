@@ -1,5 +1,5 @@
 Pwb::Engine.routes.draw do
-  devise_for :users, class_name: "Pwb::User", module: :devise
+  # devise_for :users, class_name: "Pwb::User", module: :devise
   root to: 'welcome#index'
   resources :welcome, only: :index
 
@@ -16,7 +16,9 @@ Pwb::Engine.routes.draw do
 
   # TODO - get locales dynamically
   scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar/ do
-    # resources :welcome, only: :index
+    # https://github.com/plataformatec/devise/wiki/How-To:-Use-devise-inside-a-mountable-engine
+    devise_for :users, class_name: "Pwb::User", module: :devise
+
     get "/" => "welcome#index", as: "home"
 
     get "/properties/for-rent/:id/:url_friendly_title" => "props#show_for_rent", as: "prop_show_for_rent"
