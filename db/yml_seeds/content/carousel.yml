@@ -1,5 +1,5 @@
 ---
-- key: landingPageHero
+- key: "landingCarousel1"
   tag: landing-carousel
   input_type:
   status:
@@ -17,7 +17,7 @@
       </ul>
   photo_urls: 
     - https://inmo-a.s3.amazonaws.com/us/gooddeals/site/6/IMG_0530_580966b6aa.JPG
-- key: landingPageHero2
+- key: "landingCarousel2"
   tag: landing-carousel
   input_type:
   status:

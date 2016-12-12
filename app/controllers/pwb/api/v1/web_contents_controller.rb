@@ -26,10 +26,60 @@ module Pwb
         photo.image = params[:file]
       end
       photo.save!
-
+      photo.reload
       return render json: photo.to_json
     end
 
+    # below used when uploading carousel images
+    def create_content_with_photo
+      tag = params[:tag]
+      photo = ContentPhoto.create
+
+      key = tag.underscore.camelize + photo.id.to_s
+      new_content = Content.create(tag: tag, key: key)
+
+      # photo.subdomain = subdomain
+      # photo.folder = current_tenant_model.whitelabel_country_code
+      # photo.tenant_id = current_tenant_model.id
+      if params[:file]
+        photo.image = params[:file]
+      end
+      photo.save!
+      new_content.content_photos.push photo
+
+      # http://typeoneerror.com/labs/jsonapi-resources-ember-data/
+      # resource for model
+      resource = Api::V1::WebContentResource.new(new_content, nil)
+
+      # serializer for resource
+      serializer = JSONAPI::ResourceSerializer.new(Api::V1::WebContentResource)
+      # jsonapi-compliant hash (ready to be send to render)
+
+      photo.reload
+      # above needed to ensure image_url is available
+      # might need below if upload in prod is slow..
+
+      # upload_confirmed = false
+      # tries = 0
+      # until upload_confirmed
+      #   if photo.image_url.present?
+      #     upload_confirmed = true
+      #   else
+      #     sleep 1
+      #     photo.reload
+      #     tries += 1
+      #     if tries > 5
+      #       upload_confirmed = true
+      #     end
+      #   end
+      # end
+
+
+      return render json: serializer.serialize_to_hash(resource)
+
+      # return render json: new_content.to_json
+      # return render :json => { :error => "Sorry...", :status => "444", :data => "ssss" }, :status => 422
+    end
 
   end
 end

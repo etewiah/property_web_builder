@@ -42,24 +42,20 @@ module Pwb
       end
     end
 
-    # def update
-    #   @agency = {}
-    #   if request.subdomain.present?
-    #     @tenant = Tenant.get_from_subdomain(request.subdomain.downcase)
-    #     @agency = @tenant ? @tenant.agency : nil
-    #     if @agency
-    #       @agency.update(agency_params)
-    #       # http://patshaughnessy.net/2014/6/16/a-rule-of-thumb-for-strong-parameters
-    #       # adding :social_media to the list permitted by strong params does not work so doing below
-    #       # which is  ugly but works
-    #       @agency.social_media = params[:agency][:social_media]
-    #       @agency.save!
-    #     end
-    #   end
-    #   return render json: @agency
-    # end
-
     def update
+      @agency = Agency.last
+      if @agency
+        @agency.update(agency_params)
+        # http://patshaughnessy.net/2014/6/16/a-rule-of-thumb-for-strong-parameters
+        # adding :social_media to the list permitted by strong params does not work so doing below
+        # which is  ugly but works
+        @agency.social_media = params[:agency][:social_media]
+        @agency.save!
+      end
+      return render json: @agency
+    end
+
+    def update_legacy
       @agency = Agency.last
 
       @agency.style_variables = params[:style_variables]

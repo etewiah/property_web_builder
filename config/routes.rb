@@ -46,7 +46,6 @@ Pwb::Engine.routes.draw do
   end
 
   authenticate :user do
-
     namespace :api do
       namespace :v1 do
         get "/client_translations/:locale" => "client_translations#index"
@@ -63,10 +62,11 @@ Pwb::Engine.routes.draw do
 
 
         get "/agency" => "agency#show"
+        put "/agency" => "agency#update"
         get "/infos" => "agency#infos"
 
         #TODO - change legacy admin code to put to /agency
-        put "tenant" => "agency#update"
+        put "tenant" => "agency#update_legacy"
         put "/master_address" => "agency#update_master_address"
 
         # get "/web-contents" => "agency#infos"
@@ -91,6 +91,10 @@ Pwb::Engine.routes.draw do
         put '/web_contents/photos/:id/:content_tag' => 'web_contents#update_photo'
         # above is used by logo and about_me photos
         # where only one photo is allowed
+
+        post '/web_contents/photo/:tag' => 'web_contents#create_content_with_photo'
+        # above for carousel photos where I need to be able to 
+        # create content along with the photo
 
       end
     end
