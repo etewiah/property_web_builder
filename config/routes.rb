@@ -47,52 +47,52 @@ Pwb::Engine.routes.draw do
 
   authenticate :user do
 
-  namespace :api do
-    namespace :v1 do
-      get "/client_translations/:locale" => "client_translations#index"
+    namespace :api do
+      namespace :v1 do
+        get "/client_translations/:locale" => "client_translations#index"
 
 
-      # below gets FieldConfig values for a batch_key such as "person-titles"
-      # and returns all the locale translations so an admin
-      # can manage them..
-      get "/lang/admin_translations/:batch_key" => "client_translations#get_by_batch"
-      post "/lang/admin_translations" => "client_translations#create_translation_value"
+        # below gets FieldConfig values for a batch_key such as "person-titles"
+        # and returns all the locale translations so an admin
+        # can manage them..
+        get "/lang/admin_translations/:batch_key" => "client_translations#get_by_batch"
+        post "/lang/admin_translations" => "client_translations#create_translation_value"
 
-      # post "/lang/admin_translations/add_locale_translation" => "client_translations#add_locale_translation"
-      delete "/lang/admin_translations/:id" => "client_translations#delete_translation_values"
-
-
-      get "/agency" => "agency#show"
-      get "/infos" => "agency#infos"
-
-      #TODO - change legacy admin code to put to /agency
-      put "tenant" => "agency#update"
-      put "/master_address" => "agency#update_master_address"
-
-      # get "/web-contents" => "agency#infos"
-      jsonapi_resources :lite_properties
-      jsonapi_resources :properties
-      jsonapi_resources :web_contents
-      get "/select_values" => "select_values#by_field_names"
+        # post "/lang/admin_translations/add_locale_translation" => "client_translations#add_locale_translation"
+        delete "/lang/admin_translations/:id" => "client_translations#delete_translation_values"
 
 
-      # TODO - rename properties below to prop
-      post "properties/update_extras" => "properties#update_extras"
+        get "/agency" => "agency#show"
+        get "/infos" => "agency#infos"
 
-      delete "properties/photos/:id" => "properties#remove_photo"
-      post '/properties/:id/photo' => 'properties#add_photo'
-      post '/properties/:id/photo_from_url' => 'properties#add_photo_from_url'
-      put "properties/:id/order_photos" => "properties#order_photos"
+        #TODO - change legacy admin code to put to /agency
+        put "tenant" => "agency#update"
+        put "/master_address" => "agency#update_master_address"
 
-      post "properties/set_owner" => "properties#set_owner"
-      post "properties/unset_owner" => "properties#unset_owner"
+        # get "/web-contents" => "agency#infos"
+        jsonapi_resources :lite_properties
+        jsonapi_resources :properties
+        jsonapi_resources :web_contents
+        get "/select_values" => "select_values#by_field_names"
 
 
-      put '/web_contents/photos/:id/:content_tag' => 'web_contents#update_photo'
-      # above is used by logo and about_me photos
-      # where only one photo is allowed
+        # TODO - rename properties below to prop
+        post "properties/update_extras" => "properties#update_extras"
 
+        delete "properties/photos/:id" => "properties#remove_photo"
+        post '/properties/:id/photo' => 'properties#add_photo'
+        post '/properties/:id/photo_from_url' => 'properties#add_photo_from_url'
+        put "properties/:id/order_photos" => "properties#order_photos"
+
+        post "properties/set_owner" => "properties#set_owner"
+        post "properties/unset_owner" => "properties#unset_owner"
+
+
+        put '/web_contents/photos/:id/:content_tag' => 'web_contents#update_photo'
+        # above is used by logo and about_me photos
+        # where only one photo is allowed
+
+      end
     end
   end
-end
 end

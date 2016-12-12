@@ -22,12 +22,11 @@ module Pwb
     end
 
     context 'without signed in user' do
-      it 'sends agency details' do
+      it 'redirects to sign_in page' do
         sign_out @admin_user
         get '/api/v1/agency'
 
-        # byebug
-        expect(response.status).to eq(422)
+        expect(response.status).to eq(302)
       end
     end
 
