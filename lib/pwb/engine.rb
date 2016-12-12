@@ -28,6 +28,11 @@ module Pwb
     config.to_prepare do
       # https://github.com/plataformatec/devise/wiki/How-To:-Use-devise-inside-a-mountable-engine
       Devise::SessionsController.layout "pwb/devise"
+      Devise::RegistrationsController.layout "pwb/devise"
+      # proc{ |controller| user_signed_in? ? "application" : "pwb/devise" }
+      Devise::ConfirmationsController.layout "pwb/devise"
+      Devise::UnlocksController.layout "pwb/devise"
+      Devise::PasswordsController.layout "pwb/devise"
     end
   end
 end
