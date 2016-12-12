@@ -149,11 +149,11 @@ es:
     new: "Nuevo"
     save: "Guardar"
     create: "Crear"
-  webContentLabels: 
-    suffixEn: "en Inglés"
-    suffixEs: "en Español"
-    landingPageHero: "Contenido para página principal"
-    tagLine: "Lema"
+  # webContentLabels: 
+  #   suffixEn: "en Inglés"
+  #   suffixEs: "en Español"
+  #   landingPageHero: "Contenido para página principal"
+  #   tagLine: "Lema"
   webContentSections: 
     home: "Inicio"
     contactInformation: "Información de contacto" 

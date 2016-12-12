@@ -151,11 +151,11 @@ en:
     new: "New"
     save: "Save"
     create: "Create"
-  webContentLabels: 
-    suffixEn: "in English"
-    suffixEs: "in Spanish"
-    landingPageHero: "Content for the main page"
-    tagLine: "Tag Line"
+  # webContentLabels: 
+  #   suffixEn: "in English"
+  #   suffixEs: "in Spanish"
+  #   landingPageHero: "Content for the main page"
+  #   tagLine: "Tag Line"
   webContentSections:
     aboutUs: "About us"
     contactInformation: "Contact information" 
