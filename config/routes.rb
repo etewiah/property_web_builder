@@ -45,6 +45,8 @@ Pwb::Engine.routes.draw do
 
   end
 
+  authenticate :user do
+
   namespace :api do
     namespace :v1 do
       get "/client_translations/:locale" => "client_translations#index"
@@ -92,5 +94,5 @@ Pwb::Engine.routes.draw do
 
     end
   end
-
+end
 end
