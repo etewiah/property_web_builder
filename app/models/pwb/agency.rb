@@ -1,9 +1,7 @@
 module Pwb
   class Agency < ApplicationRecord
     before_create :confirm_singularity
-    # has_many :users
 
-    # foreign_key of primary_address_id is col here on agency
     belongs_to :primary_address, :class_name => "Address", :foreign_key => 'primary_address_id'
     belongs_to :secondary_address, :class_name => "Address", :foreign_key => 'secondary_address_id'
 
@@ -16,19 +14,14 @@ module Pwb
       return self.supported_languages.length > 1
     end
 
-    # # available_locales now a col
-    # def available_locales
-    #   if self.details && self.details["available_locales"]
-    #     return self.details["available_locales"]
-    #   else
-    #     return ["en","es"]
-    #   end
-    # end
-    # def available_locales=(available_locales)
-    #   # TODO - check to ensure its a valid array...
-    #   self.details["available_locales"] = available_locales
-    # end
-
+    def default_client_locale_to_use
+      # If only 1 language is supported, use that as default
+      locale = self.supported_locales.present? ? self.supported_locales.first : "en"
+      if (self.supported_languages.length > 1) && self.default_client_locale.present?
+        locale = self.default_client_locale
+      end
+      return locale
+    end
 
     def show_contact_map
       return self.primary_address.present?
@@ -66,10 +59,20 @@ module Pwb
       self.details["style_variables"] = style_variables
     end
 
+
+    def body_style
+      body_style = ""
+      if self.details["style_variables"] && (self.details["style_variables"]["body_style"] == "siteLayout.boxed")
+        body_style = "body-boxed"
+      end
+      return body_style
+    end
+
+
     private
 
     def confirm_singularity
-      raise Exception.new("There can be only one.") if Agency.count > 0
+      raise Exception.new("There can be only one agency.") if Agency.count > 0
     end
   end
 end
