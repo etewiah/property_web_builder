@@ -4,7 +4,7 @@ This project has been created to address a glaring gap in the rails ecosystem: t
 
 The result is that WordPress has become the dominant tool for creating real estate websites.  This is far from ideal and PropertyWebBuilder seeks to address this.
 
-Read more about this here: [https://etewiah.github.io/property-web-builder](https://etewiah.github.io/property-web-builder/)
+Read more about this here: [https://etewiah.github.io/property_web_builder](https://etewiah.github.io/property_web_builder/)
 
 ## Rails Version
 
@@ -20,7 +20,7 @@ PropertyWebBuilder runs with Ruby >= 2.0.0.
 Install into an existing Rails project by adding this line in your applications's Gemfile:
 
 ```ruby
-gem 'property-web-builder', github: 'etewiah/property-web-builder', branch: 'master'
+gem 'pwb', git: 'https://github.com/etewiah/property_web_builder', branch: 'master'
 ```
 
 And then execute:
@@ -36,6 +36,9 @@ You can use this sample project with full instructions on deploying to heroku:
 
 [https://github.com/etewiah/pwb-for-heroku](https://github.com/etewiah/pwb-for-heroku)
 
+You can see an example of a site created with PropertyWebBuilder here:
+
+[http://re-renting.propertywebbuilder.com](http://re-renting.propertywebbuilder.com)
 
 ## Contribute and spread the love
 We encourage you to contribute to this project and file issues for any problems you encounter.
