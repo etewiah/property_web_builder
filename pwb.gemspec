@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.name        = 'pwb'
   s.version     = Pwb::VERSION
   s.authors     = ['Ed Tewiah']
-  s.email       = ['etewiah@hotmail.cim']
+  s.email       = ['etewiah@hotmail.com']
   s.homepage    = 'http://propertywebbuilder.com'
   s.summary     = 'A Rails engine for real estate agents.'
   s.description = 'PropertyWebBuilder lets you build real estate websites fast.'
