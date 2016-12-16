@@ -34,11 +34,11 @@ group :development, :test do
     # gem 'bumpy'
     # gem 'yard'
     # gem 'redcarpet'
-    gem 'pry-byebug'
     # gem 'spring'
     # gem 'spring-commands-rspec'
-    gem 'rubocop', require: false
   end
+  gem 'rubocop', require: false
+  gem 'pry-byebug'
   gem 'capybara'
   # gem 'database_cleaner', '~> 1.3'
   gem 'rails-controller-testing'
