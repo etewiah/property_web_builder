@@ -1,7 +1,7 @@
 language: ruby
 sudo: false
 rvm:
-  - 2.3.0
+  - 2.3.3
 branches:
   only:
     - master
@@ -12,3 +12,6 @@ before_script:
 env:
   - DB=postgresql
   - SECRET_KEY_BASE="$(bundle exec rake secret)"
+
+addons:
+  postgresql: 9.5
