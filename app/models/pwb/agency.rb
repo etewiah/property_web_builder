@@ -59,6 +59,12 @@ module Pwb
       self.details["style_variables"] = style_variables
     end
 
+    def social_media=(social_media)
+      if social_media
+       # && social_media.keys.length > 0
+        self.details["social_media"] = social_media
+      end
+    end
 
     def body_style
       body_style = ""

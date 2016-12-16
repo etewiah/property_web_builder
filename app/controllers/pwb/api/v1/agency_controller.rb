@@ -61,13 +61,16 @@ module Pwb
       @agency.style_variables = params[:style_variables]
       @agency.social_media = params[:social_media]
 
-      @agency.raw_css = params[:raw_css]
+      # ActionController::Base.helpers.sanitize_css
+      # TODO - allow raw_css after sanitizing with above
+      # @agency.raw_css = params[:raw_css]
 
       if params[:site_template_id].present?
+        # TODO - verify site_template exists
         @agency.site_template_id = params[:site_template_id]
       end
-      # @agency.supported_languages = params[:supported_languages]
-      # might stop using above and use below exclusively
+
+      # TODO - rename supported_languages client side
       @agency.supported_locales = params[:supported_languages]
       @agency.save!
       return render json: { "success": true }, status: :ok, head: :no_content
