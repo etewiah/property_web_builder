@@ -1,7 +1,7 @@
 language: ruby
 sudo: false
 rvm:
-- 2.3.0
+  - 2.3.0
 branches:
   only:
     - master
@@ -10,4 +10,5 @@ script: bundle exec rspec
 before_script:
   - RAILS_ENV=test bundle exec rake db:create
 env:
-- DB=postgresql
+  - DB=postgresql
+  - SECRET_KEY_BASE="$(bundle exec rake secret)"
