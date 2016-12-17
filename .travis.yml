@@ -9,6 +9,7 @@ branches:
 before_script:
   - cp config/database.yml.travis config/database.yml
   - cp config/secrets.yml.travis config/secrets.yml
+  - cp spec/dummy/config/secrets.yml.travis spec/dummy/config/secrets.yml
   - psql -c 'create database pwb_dummy_test;' -U postgres
 env:
   - SECRET_KEY_BASE="$(bundle exec rake secret)"
