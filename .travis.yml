@@ -13,4 +13,4 @@ before_script:
 services:
   - postgresql
 addons:
-  postgresql: "9.5"
+  postgresql: "9.4"
