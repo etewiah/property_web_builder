@@ -1,5 +1,7 @@
 # PropertyWebBuilder
 
+[![Build Status](https://api.travis-ci.org/etewiah/property_web_builder.svg?branch=master)](https://api.travis-ci.org/etewiah/property_web_builder)
+
 This project has been created to address a glaring gap in the rails ecosystem: the lack of an open source project for real estate websites.  
 
 The result is that WordPress has become the dominant tool for creating real estate websites.  This is far from ideal and PropertyWebBuilder seeks to address this.
@@ -36,16 +38,24 @@ You can use this sample project with full instructions on deploying to heroku:
 
 [https://github.com/etewiah/pwb-for-heroku](https://github.com/etewiah/pwb-for-heroku)
 
+
+If you are too lazy to read about deploying, you can simply [sign up for Heroku](https://signup.heroku.com/identity) and click the button below:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+
 You can see an example of a site created with PropertyWebBuilder here:
 
 [http://re-renting.propertywebbuilder.com](http://re-renting.propertywebbuilder.com)
 
+
 ## Contribute and spread the love
 We encourage you to contribute to this project and file issues for any problems you encounter.
 
-If you like it, please star it and spread the word on Twitter and [Facebook](https://www.facebook.com/propertywebbuilder) and subscribe to github notifications on this project.  
+If you like it, please star it and spread the word on [Twitter](https://twitter.com/prptywebbuilder), [LinkedIn](https://www.linkedin.com/company/propertywebbuilder) and [Facebook](https://www.facebook.com/propertywebbuilder).  You can also subscribe to github notifications on this project.  
 
 Please consider making a contribution to the development of PropertyWebBuilder.  If you wish to pay for specific enhancements or to be listed as a sponsor for this project, please email me directly (opensource at propertywebbuilder.com).
+
 
 ## License
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
