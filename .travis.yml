@@ -8,10 +8,12 @@ branches:
 
 script: bundle exec rspec
 before_script:
+  - cp config/database.yml.travis config/database.yml
   - psql -c 'create database pwb_dummy_test;' -U postgres
 env:
   - DB=postgresql
   - SECRET_KEY_BASE="$(bundle exec rake secret)"
-
+services:
+  - postgresql
 addons:
   postgresql: 9.5
