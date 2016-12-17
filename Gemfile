@@ -11,7 +11,8 @@ gemspec
 # your gem to rubygems.org.
 
 # below cannot be moved into gemspec as it does not accept the "git:" syntax
-gem 'globalize', git: 'https://github.com/globalize/globalize'
+# gem 'globalize', git: 'https://github.com/globalize/globalize'
+gem 'globalize', github: 'globalize/globalize'
 # below needed by above - (in gemspec)
 # gem 'activemodel-serializers-xml'
 # gem 'globalize-accessors'

@@ -8,7 +8,7 @@ branches:
 
 script: bundle exec rspec
 before_script:
-  - RAILS_ENV=test bundle exec rake db:create
+  - psql -c 'create database pwb_dummy_test;' -U postgres
 env:
   - DB=postgresql
   - SECRET_KEY_BASE="$(bundle exec rake secret)"

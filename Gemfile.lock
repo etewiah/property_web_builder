@@ -1,6 +1,6 @@
 GIT
-  remote: https://github.com/globalize/globalize
-  revision: abe7786f4cc7edeafbfdda2863c6d17ca7e744d0
+  remote: git://github.com/globalize/globalize.git
+  revision: e1cbe4247458c13b344738a682609d23eba53f65
   specs:
     globalize (5.1.0)
       activemodel (>= 4.2, < 5.1)
