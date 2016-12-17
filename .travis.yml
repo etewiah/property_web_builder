@@ -6,7 +6,6 @@ branches:
   only:
     - master
 
-script: bundle exec rspec
 before_script:
   - cp config/database.yml.travis config/database.yml
   - psql -c 'create database pwb_dummy_test;' -U postgres
