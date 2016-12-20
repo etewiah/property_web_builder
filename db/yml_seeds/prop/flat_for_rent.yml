@@ -1,15 +1,15 @@
 ---
-- reference: re-r1
-  year_construction: 1970
-  count_bedrooms: 2
-  count_bathrooms: 2
+- reference: re-r2
+  year_construction: 1920
+  count_bedrooms: 1
+  count_bathrooms: 1
   count_toilets: 1
-  count_garages: 1
+  count_garages: 0
   flags: 0
   furnished:
   sold:
   reserved:
-  highlighted: false
+  highlighted: true
   archived: false
   visible: true
   for_rent_short_term: true
@@ -23,7 +23,7 @@
   available_to_rent_from:
   available_to_rent_till:
   price_sale_current_cents: 0
-  price_rental_monthly_current_cents: 100000
+  price_rental_monthly_current_cents: 50000
   commission_cents: 0
   commission_currency: EUR
   service_charge_yearly_cents: 0
@@ -42,14 +42,14 @@
   country: Spain
   latitude: 36.73234
   longitude: -4.52615000000003
-  plot_area: 150.0
+  plot_area: 0
   constructed_area: 90.0
   energy_rating:
   energy_performance:
-  title_en: Amazing villa for rent in Valencia
-  title_es: Una villa estupenda para aliquilar en Valencia  
-  description_en: Description of the amazing villa for rent. 
-  description_es: Descripción de una villa estupenda para aliquilar.
+  title_en: Example flat to rent.
+  title_es: Ejemplo de un piso para alquilar.  
+  description_en: Description of the amazing flat to rent. 
+  description_es: Descripción de una flat estupenda para alquilar.
   photo_urls: 
     - https://inmo-a.s3.amazonaws.com/us/gooddeals/property/18/IMG_20160311_165938_2982a36e0a.jpg
     - https://inmo-a.s3.amazonaws.com/us/gooddeals/property/15/IMG_20160311_165813_bbb7304f64.jpg

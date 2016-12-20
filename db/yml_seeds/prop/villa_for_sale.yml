@@ -1,5 +1,5 @@
 ---
-- reference: sale1
+- reference: re-s1
   year_construction: 0
   count_bedrooms: 2
   count_bathrooms: 2
@@ -22,7 +22,7 @@
   active_from:
   available_to_rent_from:
   available_to_rent_till:
-  price_sale_current_cents: 10000000
+  price_sale_current_cents: 30000000
   price_rental_monthly_current_cents: 0
   commission_cents: 0
   commission_currency: EUR
@@ -42,12 +42,12 @@
   country: Spain
   latitude: 36.73234
   longitude: -4.52615000000003
-  plot_area: 150.0
-  constructed_area: 90.0
+  plot_area: 550.0
+  constructed_area: 190.0
   energy_rating:
   energy_performance:
-  title_en: Amazing villa for sale in Malaga
-  title_es: Una villa estupenda para vender en Malaga  
+  title_en: Example villa for sale,
+  title_es: Ejemplo de villa para vender.  
   description_en: Description of the amazing villa for sale. 
   description_es: Descripción de una villa estupenda para vender.
   photo_urls: 

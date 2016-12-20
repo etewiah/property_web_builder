@@ -1,5 +1,5 @@
 ---
-- reference: sale2
+- reference: re-s2
   year_construction: 0
   count_bedrooms: 1
   count_bathrooms: 1
@@ -42,11 +42,14 @@
   country: Spain
   latitude: 36.73234
   longitude: -4.52615000000003
-  plot_area: 150.0
-  constructed_area: 90.0
+  plot_area: 0
+  constructed_area: 80.0
   energy_rating:
   energy_performance:
-  title_en: Amazing flat for sale in Madrid
-  title_es: Una flat estupenda para vender en Madrid  
+  title_en: Example flat for sale.
+  title_es: Ejemplo de un piso para vender.  
   description_en: Description of the amazing flat for sale. 
   description_es: Descripción de una flat estupenda para vender.
+  photo_urls: 
+    - https://inmo-a.s3.amazonaws.com/us/gooddeals/property/18/IMG_20160311_165938_2982a36e0a.jpg
+    - https://inmo-a.s3.amazonaws.com/us/gooddeals/property/15/IMG_20160311_165813_bbb7304f64.jpg

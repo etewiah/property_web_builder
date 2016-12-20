@@ -1,17 +1,17 @@
 ---
-- email: admin@propertywebbuilder.com
+- email: admin@example.com
   password: pwb123456
   admin: true
-  first_names:
-  last_names:
-  skype:
-  phone_number_primary:
-- email: non_admin@propertywebbuilder.com
+  first_names: Admin
+  last_names: Example
+  skype: ae_skype
+  phone_number_primary: 789 101
+- email: non_admin@example.com
   password: pwb123456
   admin: false
-  first_names:
-  last_names:
-  skype:
-  phone_number_primary:
+  first_names: Nonadm
+  last_names: Example
+  skype: na_skype
+  phone_number_primary: 123 456
 
 
