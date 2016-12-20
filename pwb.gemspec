@@ -42,6 +42,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'devise'
   s.add_dependency 'devise-i18n'
   s.add_dependency 'cloudinary'
+  s.add_dependency 'rets'
 
 
   s.add_development_dependency 'byebug'
