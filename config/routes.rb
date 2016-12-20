@@ -72,6 +72,7 @@ Pwb::Engine.routes.draw do
         # get "/web-contents" => "agency#infos"
         jsonapi_resources :lite_properties
         jsonapi_resources :properties
+        jsonapi_resources :sections
         jsonapi_resources :web_contents
         get "/select_values" => "select_values#by_field_names"
 
