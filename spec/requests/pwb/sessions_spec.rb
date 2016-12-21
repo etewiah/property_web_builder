@@ -8,8 +8,6 @@ module Pwb
     end
 
     it "signs user in and out" do
-      # user = User.create!(email: "user@example.org", password: "very-secret")
-
       sign_in @admin_user
       get pwb.admin_path
       # byebug
@@ -21,6 +19,10 @@ module Pwb
       expect(response).to redirect_to(pwb.new_user_session_path)
     end
 
-  end
 
+    after(:all) do
+      @agency.destroy
+      @admin_user.destroy
+    end
+  end
 end
