@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'pwb/themes/standard/sections/contact_us', type: :view do
+RSpec.describe 'pwb/sections/contact_us', type: :view do
   include Pwb::ApplicationHelper
 
   before do

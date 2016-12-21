@@ -13,7 +13,7 @@ module Pwb
         expect(get(:show_for_rent, params: {
                      id: prop_for_long_term_rent.id,
                      url_friendly_title: "tt"
-        })).to render_template('pwb/themes/standard/props/show')
+        })).to render_template('pwb/props/show')
       end
     end
 
@@ -23,7 +23,7 @@ module Pwb
           expect(get(:show_for_sale, params: {
                        id: prop_for_sale.id,
                        url_friendly_title: "tt"
-          })).to render_template('pwb/themes/standard/props/show')
+          })).to render_template('pwb/props/show')
         end
       end
       context 'with id of for rent prop' do

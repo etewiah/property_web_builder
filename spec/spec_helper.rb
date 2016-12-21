@@ -22,6 +22,8 @@ Rails.backtrace_cleaner.remove_silencers!
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
+ActionController::Base.prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/"
+
 RSpec.configure do |config|
   config.mock_with :rspec
   config.use_transactional_fixtures = true

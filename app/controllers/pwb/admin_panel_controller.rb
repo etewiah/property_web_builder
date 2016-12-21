@@ -5,7 +5,7 @@ module Pwb
     layout 'pwb/admin_panel'
     def show
       unless current_user && current_user.admin 
-        render 'pwb/errors/admin_required', :layout => "layouts/pwb/application"
+        render 'pwb/errors/admin_required', :layout => "layouts/pwb/devise"
       end
     end
   end
