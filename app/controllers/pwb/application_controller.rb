@@ -5,9 +5,9 @@ module Pwb
     before_filter :current_agency, :sections, :set_locale, :set_theme_path
 
     def set_theme_path
-      prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/pwb/"
+      prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/"
       # below allows themes installed in Rails app consuming Pwb to work
-      prepend_view_path "#{Rails.root}/app/themes/default/views/pwb/"
+      prepend_view_path "#{Rails.root}/app/themes/default/views/"
 
       self.class.layout "#{Pwb::Engine.root}/app/themes/default/views/layouts/pwb/application"
     end

@@ -15,21 +15,21 @@ module Pwb
       # @page_keywords    = 'Site, Login, Members'
       # @about_us_image_url = Content.get_photo_url_by_key("aboutUs")
       # @about_us_image_url = Content.find_by_key("aboutUs").content_photos.first.image_url || "http://moodleboard.com/images/prv/estate/estate-slider-bg-1.jpg"
-      return render "sections/about_us"
+      return render "/pwb/sections/about_us"
     end
 
     def privacy_policy
       @title_key = "privacyPolicy"
       @page_title = I18n.t("privacyPolicy")
       @content = Content.find_by_key("privacyPolicy") || OpenStruct.new
-      return render "sections/static"
+      return render "/pwb/sections/static"
     end
 
     def legal
       @title_key = "legalAdvice"
       @page_title = I18n.t("legalAdvice")
       @content = Content.find_by_key("legalAdvice") || OpenStruct.new
-      return render "sections/static"
+      return render "/pwb/sections/static"
     end
 
 
@@ -42,7 +42,7 @@ module Pwb
       # @enquiry = Message.new
       @page_title = I18n.t("contactUs")
 
-      return render "sections/contact_us"
+      return render "/pwb/sections/contact_us"
     end
 
     def contact_us_ajax

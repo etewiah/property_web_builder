@@ -11,7 +11,7 @@ module Pwb
       @properties_for_sale = Prop.for_sale.visible.order('highlighted DESC').limit 9
       @properties_for_rent = Prop.for_rent.visible.order('highlighted DESC').limit 9
 
-      return render "welcome/index"
+      return render "pwb/welcome/index"
 
     end
   end
