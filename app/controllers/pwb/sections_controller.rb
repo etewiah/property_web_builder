@@ -15,7 +15,7 @@ module Pwb
       # @page_keywords    = 'Site, Login, Members'
       # @about_us_image_url = Content.get_photo_url_by_key("aboutUs")
       # @about_us_image_url = Content.find_by_key("aboutUs").content_photos.first.image_url || "http://moodleboard.com/images/prv/estate/estate-slider-bg-1.jpg"
-      return render @current_agency.views_folder + "/sections/about_us"
+      return render "sections/about_us"
     end
 
     def privacy_policy
