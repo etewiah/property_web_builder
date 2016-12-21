@@ -1,7 +1,7 @@
 require_dependency "pwb/application_controller"
 
 module Pwb
-  class AdminPanelController < ApplicationController
+  class AdminPanelController < ActionController::Base
     layout 'pwb/admin_panel'
     def show
       unless current_user && current_user.admin 
