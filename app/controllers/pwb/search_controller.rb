@@ -91,7 +91,7 @@ module Pwb
       # initial client sort called by       INMOAPP.sortSearchResults();
       js 'Main/Search#sort' # trigger client-side paloma script
 
-      return render @current_agency.views_folder + "/search/buy"
+      return render  "/search/buy"
     end
 
     # TODO - avoid duplication b/n rent and buy
@@ -114,7 +114,7 @@ module Pwb
       @search_defaults = params[:search].present? ? params[:search] : {}
 
       js 'Main/Search#sort' # trigger client-side paloma script
-      return render @current_agency.views_folder + "/search/rent"
+      return render  "/search/rent"
     end
 
     private
