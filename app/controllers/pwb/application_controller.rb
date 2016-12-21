@@ -8,6 +8,8 @@ module Pwb
       prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/pwb/"
       # below allows themes installed in Rails app consuming Pwb to work
       prepend_view_path "#{Rails.root}/app/themes/default/views/pwb/"
+
+      self.class.layout "#{Pwb::Engine.root}/app/themes/default/views/layouts/pwb/application"
     end
 
     def set_locale
