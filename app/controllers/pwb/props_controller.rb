@@ -19,7 +19,7 @@ module Pwb
         @page_title = @property_details.title
         @page_description = @property_details.description
         # @page_keywords    = 'Site, Login, Members'
-        return render @current_agency.views_folder + "/props/show"
+        return render "/props/show"
       else
         return render "not_found"
       end
@@ -39,7 +39,7 @@ module Pwb
         @page_title = @property_details.title
         @page_description = @property_details.description
         # @page_keywords    = 'Site, Login, Members'
-        return render @current_agency.views_folder + "/props/show"
+        return render "/props/show"
       else
         return render "not_found"
       end
