@@ -22,14 +22,14 @@ module Pwb
       @title_key = "privacyPolicy"
       @page_title = I18n.t("privacyPolicy")
       @content = Content.find_by_key("privacyPolicy") || OpenStruct.new
-      return render @current_agency.views_folder + "/sections/static"
+      return render "sections/static"
     end
 
     def legal
       @title_key = "legalAdvice"
       @page_title = I18n.t("legalAdvice")
       @content = Content.find_by_key("legalAdvice") || OpenStruct.new
-      return render @current_agency.views_folder + "/sections/static"
+      return render "sections/static"
     end
 
 
@@ -42,7 +42,7 @@ module Pwb
       # @enquiry = Message.new
       @page_title = I18n.t("contactUs")
 
-      return render @current_agency.views_folder + "/sections/contact_us"
+      return render "sections/contact_us"
     end
 
     def contact_us_ajax
