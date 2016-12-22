@@ -1,0 +1,45 @@
+<%# render '/pwb/props/breadcrumb_row' %>
+<!-- MAIN CONTENT -->
+<section class="slice bg-white bb">
+  <div class="wp-section estate">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-12">
+              <%= render '/pwb/props/images_section_carousel' %>
+            </div>
+            <div class="col-md-12">
+              <%= render '/pwb/props/prop_info_list' %>
+            </div>
+          </div>
+          <!-- PROPERTY DESCRIPTION -->
+          <div class="row">
+            <div class="col-md-12">
+              <h3><%= I18n.t("property.description") %></h3>
+              <%== @property_details.description %>
+              <br>
+              <br>
+            </div>
+            <div class="col-md-12">
+              <h3><%= I18n.t("property.extras") %></h3>
+              <%= render '/pwb/props/extras' %>
+              <br>
+              <br>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="sidebar">
+            <%= render '/pwb/props/request_prop_info' %>
+            <%= render '/pwb/props/prop_contact_info' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<% if @property_details.show_map %>
+  <div id="inmo-map-canvas" class="map-canvas no-margin"></div>
+<% end %>
+<!-- FOOTER -->

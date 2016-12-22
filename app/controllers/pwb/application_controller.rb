@@ -5,11 +5,15 @@ module Pwb
     before_filter :current_agency, :sections, :set_locale, :set_theme_path
 
     def set_theme_path
-      prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/"
+      theme_name = "default"
+      if Agency.last && Agency.last.theme_name.present?
+        theme_name = Agency.last.theme_name
+      end
+      prepend_view_path "#{Pwb::Engine.root}/app/themes/#{theme_name}/views/"
       # below allows themes installed in Rails app consuming Pwb to work
-      prepend_view_path "#{Rails.root}/app/themes/default/views/"
+      prepend_view_path "#{Rails.root}/app/themes/#{theme_name}/views/"
 
-      self.class.layout "#{Pwb::Engine.root}/app/themes/default/views/layouts/pwb/application"
+      self.class.layout "#{Pwb::Engine.root}/app/themes/#{theme_name}/views/layouts/pwb/application"
     end
 
     def set_locale

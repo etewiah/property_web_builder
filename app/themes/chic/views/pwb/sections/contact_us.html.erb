@@ -1,0 +1,51 @@
+<!-- MAIN CONTENT -->
+<div class="pg-opt">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>
+          <%= I18n.t("contactUs") %>
+        </h2>
+      </div>
+      <div class="col-md-6" style="">
+        <ol class="breadcrumb">
+          <li><a href="/">
+            <%= I18n.t("webContentSections.home") %>
+          </a></li>
+          <li class="active">
+            <%= I18n.t("contactUs") %>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="bg-white contact-us-section">
+  <div class="wp-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7">
+          <%= render 'pwb/sections/contact_us_form' %>
+        </div>
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-sm-12">
+              <%# render '/main/home/about_us/contact_info' %>
+            </div>
+            <div class="col-sm-12" style="display:none;">
+              <%# render '/main/home/about_us/opening_hours' %>
+            </div>
+            <div class="col-sm-12">
+            <% if @current_agency.show_contact_map %>
+               <div id="inmo-map-canvas" class="map-canvas no-margin"></div>              
+            <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- FOOTER -->
