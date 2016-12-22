@@ -1,80 +1,14 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- */
-
+/*have to define variables below in other theme stylesheets too
+as they are used in shared content_areas code*/
 $base-bg-color:#fcfcfc;
 /*below is slightly darker shade of above pale gray*/
 $base-border-color:#e0eded;
 
-@import "bootstrap";
-@import "bootstrap-sprockets";
-@import "bootstrap-select";
-/* font-awesome import fails even though it
-is being imported in engine.rb as per:
-https://github.com/bokmann/font-awesome-rails*/
-/*@import "font-awesome";*/
-@import "default/header_footer";
-@import "default/navbar";
-@import "default/landing_general";
+
+@import "chic/style";
 @import "default/landing_content_areas";
-@import "default/contact_us";
-@import "default/search";
-@import "default/prop";
-@import "default/devise";
-@import "default/shame";
-@import "default/carousel";
+@import "chic/slick";
 
-
-/*$color_accion: #f29910;
-$color_principal: #ff5b5c;
-$color_secundario: #616161;
-*/
-
-html {
-  color: #222;
-  font-size: 1em;
-  line-height: 1.4;
-}
-
-::-moz-selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
-
-::selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
-
-/*.btn-alt:before {
-  background-color: #d35400;  
-}*/
-
-.fondo_footer {
-  background: #333;
-  color: #fff;
-}
-
-.fondo_secundario {
-  background: #ea802d;
-  color: #fff;
-}
-
-/*.panel.panel-base {
-  background-color: #3498db
-}
--replaced above with fondo_secundario (ED)
-*/
 
 
 
