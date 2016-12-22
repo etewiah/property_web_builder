@@ -1,7 +1,9 @@
 [{
   "name": "chic",
-  "id": 4
+  "friendly_name": "Chic Theme",
+  "id": "chic"
 }, {
   "name": "default",
-  "id": 3
+  "friendly_name": "Default Theme",
+  "id": "default"
 }]
