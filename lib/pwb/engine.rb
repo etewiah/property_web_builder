@@ -30,7 +30,7 @@ module Pwb
     # config.assets.paths << File.expand_path("../../assets/stylesheets", __FILE__)
     # config.assets.paths << File.expand_path("../../assets/javascripts", __FILE__)
     config.assets.paths << root.join("app", "assets", "stylesheets", "pwb", "themes")
-    config.assets.precompile += %w( default.css chic.css )
+    config.assets.precompile += %w( default.css chic.css oslo.css berlin.css )
 
 
     config.to_prepare do
