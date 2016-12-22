@@ -23,16 +23,16 @@ $base-border-color:#e0eded;
 is being imported in engine.rb as per:
 https://github.com/bokmann/font-awesome-rails*/
 /*@import "font-awesome";*/
-@import "themes/default/header_footer";
-@import "themes/default/navbar";
-@import "themes/default/landing_general";
-@import "themes/default/landing_content_areas";
-@import "themes/default/contact_us";
-@import "themes/default/search";
-@import "themes/default/prop";
-@import "themes/default/devise";
-@import "themes/default/shame";
-@import "themes/default/carousel";
+@import "default/header_footer";
+@import "default/navbar";
+@import "default/landing_general";
+@import "default/landing_content_areas";
+@import "default/contact_us";
+@import "default/search";
+@import "default/prop";
+@import "default/devise";
+@import "default/shame";
+@import "default/carousel";
 
 
 /*$color_accion: #f29910;

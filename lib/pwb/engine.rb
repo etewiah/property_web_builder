@@ -12,6 +12,7 @@ require 'simple_form'
 require 'devise'
 require 'cloudinary'
 require 'active_hash'
+require 'byebug'
 # require 'fog/aws'
 # require 'font-awesome-rails'
 module Pwb
@@ -24,6 +25,12 @@ module Pwb
       g.assets false
       g.helper false
     end
+
+
+    # config.assets.paths << File.expand_path("../../assets/stylesheets", __FILE__)
+    # config.assets.paths << File.expand_path("../../assets/javascripts", __FILE__)
+    config.assets.paths << root.join("app", "assets", "stylesheets", "pwb", "themes")
+    config.assets.precompile += %w( default.css chic.css )
 
 
     config.to_prepare do
