@@ -5,9 +5,13 @@ $base-bg-color:#fcfcfc;
 $base-border-color:#e0eded;
 
 
-@import "chic/style";
-@import "default/landing_content_areas";
-@import "chic/slick";
+@import "bootstrap";
+@import "berlin/colors/green-theme.css";
+@import "berlin/main";
+@import "berlin/slick";
+/*<!-- price picker slider -->*/
+@import "berlin/nouislider";
+@import "berlin/fancybox";
 
 
 

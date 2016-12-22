@@ -2,13 +2,14 @@
 
 <%= render '/pwb/welcome/adv_search' %>
 
+<%= render '/pwb/welcome/service' %>
+
 <% if @about_us %>
-  <%= render '/pwb/welcome/about_us' %>
+  <%# render '/pwb/welcome/about_us' %>
 <% end %>
 
 <%= render '/pwb/welcome/latest_properties' %>
 
-<%= render '/pwb/welcome/service' %>
 
 <% if @properties_for_sale.length > 0  %>
   <%# render :partial => '/pwb/welcome/single_property_row', :locals => { properties: @properties_for_sale, rent_or_sale: 'for_sale', title_key: 'propertyForSale' }  %>

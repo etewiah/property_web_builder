@@ -1,0 +1,281 @@
+
+/*=======================================
+Template Design By MarkUps.
+Author URI : http://www.markups.io/
+========================================*/
+h2 {
+  color: #ff871c;
+}
+
+.aa-primary-btn:hover, .aa-primary-btn:focus {
+  color: #ff871c;
+  border-color: #ff871c;
+}
+
+.aa-secondary-btn {
+  background-color: #ff871c;
+}
+
+.aa-view-btn {
+  background-color: #ff871c;
+}
+.aa-view-btn:hover, .aa-view-btn:focus {
+  color: #ff871c;
+}
+
+.scrollToTop {
+  background-color: #ff871c;
+  border: 2px solid #ff871c;
+}
+
+.scrollToTop:hover,
+.scrollToTop:focus {
+  color: #ff871c;
+}
+
+.pulse:before, .pulse:after {
+  border: 5px solid #ff871c;
+}
+
+#aa-menu-area .main-navbar .navbar-header .aa-logo span {
+  color: #ff871c;
+}
+#aa-menu-area .main-navbar .navbar-nav li a:hover, #aa-menu-area .main-navbar .navbar-nav li a:focus {
+  color: #ff871c;
+}
+#aa-menu-area .main-navbar .navbar-nav .active a {
+  color: #ff871c;
+}
+#aa-menu-area .main-navbar .navbar-nav .open a {
+  color: #ff871c;
+}
+#aa-menu-area .main-navbar .navbar-nav .dropdown-menu li a:hover, #aa-menu-area .main-navbar .navbar-nav .dropdown-menu li a:focus {
+  color: #ff871c;
+}
+
+#aa-slider .aa-slider-area .aa-top-slider .slick-prev:hover,
+#aa-slider .aa-slider-area .aa-top-slider .slick-next:hover {
+  background-color: #ff871c;
+}
+#aa-slider .aa-slider-area .aa-top-slider .aa-top-slider-price {
+  color: #ff871c;
+}
+#aa-slider .aa-slider-area .aa-top-slider .aa-top-slider-btn:hover, #aa-slider .aa-slider-area .aa-top-slider .aa-top-slider-btn:focus {
+  color: #ff871c;
+}
+
+#aa-advance-search .aa-advance-search-area .aa-advance-search-top .aa-single-advance-search .aa-search-btn {
+  background-color: #ff871c;
+}
+
+.aa-single-filter-search .noUi-connect {
+  background-color: #ff871c;
+}
+.aa-single-filter-search .noUi-handle {
+  background-color: #ff871c;
+}
+
+.aa-title span {
+  background-color: #ff871c;
+}
+.aa-title span:before {
+  background-color: #ff871c;
+}
+.aa-title span:after {
+  background-color: #ff871c;
+}
+
+.aa-properties-item .for-sale {
+  background-color: #ff871c;
+}
+
+#aa-service .aa-service-area .aa-service-content .aa-single-service .aa-service-icon span {
+  background-color: #ff871c;
+}
+#aa-service .aa-service-area .aa-service-content .aa-single-service .aa-single-service-content h4 a:hover {
+  color: #ff871c;
+}
+
+#aa-agents .aa-agents-area .aa-agents-content .aa-agents-slider li .aa-single-agents .aa-agetns-info {
+  background-color: #ff871c;
+}
+#aa-agents .aa-agents-area .aa-agents-content .aa-agents-slider li .aa-single-agents .aa-agetns-info .aa-agent-social a:hover, #aa-agents .aa-agents-area .aa-agents-content .aa-agents-slider li .aa-single-agents .aa-agetns-info .aa-agent-social a:focus {
+  color: #ff871c;
+}
+
+#aa-client-testimonial .aa-client-testimonial-area .aa-testimonial-content .aa-testimonial-slider li .aa-testimonial-single .aa-testimonial-info p:before {
+  color: #ff871c;
+}
+
+.aa-blog-single .aa-date-tag {
+  background-color: #ff871c;
+}
+.aa-blog-single .aa-blog-single-content h3 a:hover, .aa-blog-single .aa-blog-single-content h3 a:focus {
+  color: #ff871c;
+}
+.aa-blog-single .aa-blog-single-bottom .aa-blog-author:hover, .aa-blog-single .aa-blog-single-bottom .aa-blog-author:focus {
+  color: #ff871c;
+}
+.aa-blog-single .aa-blog-single-bottom .aa-blog-comments:hover, .aa-blog-single .aa-blog-single-bottom .aa-blog-comments:focus {
+  color: #ff871c;
+}
+
+#aa-footer .aa-footer-area .aa-footer-left p a:hover, #aa-footer .aa-footer-area .aa-footer-left p a:focus {
+  color: #ff871c;
+}
+#aa-footer .aa-footer-area .aa-footer-middle a:hover, #aa-footer .aa-footer-area .aa-footer-middle a:focus {
+  color: #ff871c;
+  border-color: #ff871c;
+}
+#aa-footer .aa-footer-area .aa-footer-right a:hover, #aa-footer .aa-footer-area .aa-footer-right a:focus {
+  color: #ff871c;
+}
+
+#aa-property-header .aa-property-header-inner .breadcrumb li.active {
+  color: #ff871c;
+}
+
+#aa-properties .aa-properties-content .aa-properties-content-head .aa-properties-content-head-right a:hover, #aa-properties .aa-properties-content .aa-properties-content-head .aa-properties-content-head-right a:focus {
+  color: #ff871c;
+  border-color: #ff871c;
+}
+#aa-properties .aa-properties-sidebar .aa-properties-single-sidebar .aa-single-advance-search .aa-search-btn {
+  background-color: #ff871c;
+}
+#aa-properties .aa-properties-sidebar .aa-properties-single-sidebar .media .media-body h4 a:hover {
+  color: #ff871c;
+}
+
+.aa-properties-content-bottom .pagination li a:hover, .aa-properties-content-bottom .pagination li a:focus {
+  background-color: #ff871c;
+  border-color: #ff871c;
+}
+.aa-properties-content-bottom .pagination .active a {
+  background-color: #ff871c;
+}
+
+.aa-properties-details .aa-properties-details-img .slick-prev, .aa-properties-details .aa-properties-details-img .slick-next {
+  background-color: #ff871c;
+}
+.aa-properties-details .aa-properties-info ul li:before {
+  color: #ff871c;
+}
+
+.aa-properties-social ul li a:hover, .aa-properties-social ul li a:focus {
+  color: #ff871c;
+  border-color: #ff871c;
+}
+
+#aa-blog .aa-blog-area .aa-blog-sidebar .aa-blog-sidebar-single .aa-blog-search .aa-search-text:focus {
+  border-color: #ff871c;
+}
+#aa-blog .aa-blog-area .aa-blog-sidebar .aa-blog-sidebar-single .aa-blog-search .aa-search-submit:hover, #aa-blog .aa-blog-area .aa-blog-sidebar .aa-blog-sidebar-single .aa-blog-search .aa-search-submit:focus {
+  color: #ff871c;
+}
+#aa-blog .aa-blog-area .aa-blog-sidebar .aa-blog-sidebar-single .aa-blog-catg li a:hover, #aa-blog .aa-blog-area .aa-blog-sidebar .aa-blog-sidebar-single .aa-blog-catg li a:focus {
+  color: #ff871c;
+}
+#aa-blog .aa-blog-area .aa-blog-sidebar .aa-blog-sidebar-single .tag-cloud a:hover, #aa-blog .aa-blog-area .aa-blog-sidebar .aa-blog-sidebar-single .tag-cloud a:focus {
+  background-color: #ff871c;
+  border-color: #ff871c;
+}
+#aa-blog .aa-blog-area .aa-blog-sidebar .aa-blog-sidebar-single .aa-blog-recent-post .media .media-body .media-heading a:hover, #aa-blog .aa-blog-area .aa-blog-sidebar .aa-blog-sidebar-single .aa-blog-recent-post .media .media-body .media-heading a:focus {
+  color: #ff871c;
+}
+
+.aa-blog-details .aa-blog-single-content h1,
+.aa-blog-details .aa-blog-single-content h3,
+.aa-blog-details .aa-blog-single-content h4 {
+  color: #ff871c;
+  font-weight: bold;
+}
+
+.aa-blog-navigation .aa-blog-pagination-left .aa-prev:hover, .aa-blog-navigation .aa-blog-pagination-left .aa-prev:focus {
+  color: #ff871c;
+  border-color: #ff871c;
+}
+.aa-blog-navigation .aa-blog-pagination-right .aa-next:hover, .aa-blog-navigation .aa-blog-pagination-right .aa-next:focus {
+  color: #ff871c;
+  border-color: #ff871c;
+}
+
+.aa-comments-area .comments .commentlist li .reply-btn:hover, .aa-comments-area .comments .commentlist li .reply-btn:focus {
+  color: #ff871c;
+  border-color: #ff871c;
+}
+.aa-comments-area .comments .commentlist li .author-tag {
+  background-color: #ff871c;
+}
+
+#respond input[type="text"]:focus,
+#respond input[type="email"]:focus,
+#respond input[type="url"]:focus {
+  border: 1px solid #ff871c;
+}
+#respond textarea:focus {
+  border: 1px solid #ff871c;
+}
+#respond .form-submit input:hover {
+  color: #ff871c;
+  border-color: #ff871c;
+}
+
+#aa-contact .aa-contact-area .aa-contact-bottom .aa-contact-form input[type="text"]:focus,
+#aa-contact .aa-contact-area .aa-contact-bottom .aa-contact-form input[type="email"]:focus,
+#aa-contact .aa-contact-area .aa-contact-bottom .aa-contact-form input[type="url"]:focus {
+  border: 2px solid #ff871c;
+}
+#aa-contact .aa-contact-area .aa-contact-bottom .aa-contact-form textarea:focus {
+  border: 2px solid #ff871c;
+}
+#aa-contact .aa-contact-area .aa-contact-bottom .aa-contact-form .form-submit input:hover {
+  color: #ff871c;
+  border: 2px solid #ff871c;
+}
+
+#aa-error .aa-error-area h2 {
+  border: 3px solid #ff871c;
+}
+#aa-error .aa-error-area h2:before {
+  border: 3px solid #ff871c;
+}
+#aa-error .aa-error-area a:hover, #aa-error .aa-error-area a:focus {
+  color: #ff871c;
+  border-color: #ff871c;
+}
+
+#aa-gallery .aa-gallery-area .aa-gallery-content .aa-gallery-top ul li:hover, #aa-gallery .aa-gallery-area .aa-gallery-content .aa-gallery-top ul li:focus {
+  background-color: #ff871c;
+  border-color: #ff871c;
+}
+#aa-gallery .aa-gallery-area .aa-gallery-content .aa-gallery-top ul .active {
+  background-color: #ff871c;
+  border-color: #ff871c;
+}
+#aa-gallery .aa-gallery-area .aa-gallery-content .aa-gallery-body .aa-single-gallery .aa-single-gallery-item .aa-single-gallery-info a:hover, #aa-gallery .aa-gallery-area .aa-gallery-content .aa-gallery-body .aa-single-gallery .aa-single-gallery-item .aa-single-gallery-info a:focus {
+  color: #ff871c;
+  border-color: #ff871c;
+}
+
+#aa-signin .aa-signin-area .aa-signin-form .aa-single-submit input[type="submit"] {
+  background-color: #ff871c;
+  border: 2px solid #ff871c;
+}
+#aa-signin .aa-signin-area .aa-signin-form .aa-single-submit input[type="submit"]:hover {
+  color: #ff871c;
+  border-color: #ff871c;
+}
+
+.navbar-default .navbar-toggle {
+  border-color: #ff871c;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #ff871c;
+}
+
+
+/*=======================================
+Template Design By MarkUps.
+Author URI : http://www.markups.io/
+========================================*/
