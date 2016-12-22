@@ -27,3 +27,7 @@ spec/dummy/tmp/
 app/assets/stylesheets/pwb/dummy.scss
 spec/dummy/public/uploads
 spec/dummy/config/secrets.yml
+
+spec/dummy/public/css/
+spec/dummy/public/img/
+spec/dummy/public/js/
