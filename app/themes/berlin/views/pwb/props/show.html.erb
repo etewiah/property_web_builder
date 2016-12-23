@@ -1,39 +1,68 @@
-<%# render '/pwb/props/breadcrumb_row' %>
-<!-- MAIN CONTENT -->
-<section class="slice bg-white bb">
-  <div class="wp-section estate">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-9">
-          <div class="row">
-            <div class="col-md-12">
-              <%= render '/pwb/props/images_section_carousel' %>
+  <!-- Start Property header  -->
+<section id="aa-property-header" style="background-image: url(<%= @property_details.ordered_photo_url 1 %>);">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="aa-property-header-inner">
+          <h2>Property Details</h2>
+          <ol class="breadcrumb">
+            <li><a href="#">Home</a></li>
+            <li class="active"><%= @property_details.title %>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Property header  -->
+<!-- Start Properties  -->
+<section id="aa-properties">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="aa-properties-content">
+          <!-- Start properties content body -->
+          <div class="aa-properties-details">
+            <div class="aa-properties-details-img">
+              <% @property_details.prop_photos.each.with_index do |photo, index| %>
+                <img src="<%= photo.image.url %>" alt="img">
+              <% end %>
             </div>
-            <div class="col-md-12">
+            <div class="aa-properties-info">
+              <h2>
+                <%= @property_details.title %>
+              </h2>
+              <div class="aa-price">
+                <%= @property_details.contextual_price_with_currency @operation_type %>
+              </div>
+              <div>
+                <%== @property_details.description %>
+              </div>
               <%= render '/pwb/props/prop_info_list' %>
-            </div>
-          </div>
-          <!-- PROPERTY DESCRIPTION -->
-          <div class="row">
-            <div class="col-md-12">
-              <h3><%= I18n.t("property.description") %></h3>
-              <%== @property_details.description %>
-              <br>
+              <% if  @property_details.extras_for_display.present? %>
+                <h3><%= I18n.t("property.extras") %></h3>
+                <%= render '/pwb/props/extras' %>
+              <% end %>
               <br>
             </div>
-            <div class="col-md-12">
-              <h3><%= I18n.t("property.extras") %></h3>
-              <%= render '/pwb/props/extras' %>
-              <br>
-              <br>
+            <!-- Properties social share -->
+            <div class="aa-properties-social" style="display:none;">
+              <ul>
+                <li>Share</li>
+                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+              </ul>
             </div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="sidebar">
-            <%= render '/pwb/props/request_prop_info' %>
-            <%= render '/pwb/props/prop_contact_info' %>
-          </div>
+      </div>
+      <div class="col-md-3">
+        <div class="sidebar">
+          <%= render '/pwb/props/request_prop_info' %>
+          <%= render '/pwb/props/prop_contact_info' %>
         </div>
       </div>
     </div>
