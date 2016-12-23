@@ -22,7 +22,7 @@ module Pwb
 
       # only show section_tab where link_path is valid
       if target_path
-        style_class = 'selected' if current_page?( target_path )
+        style_class = 'selected active' if current_page?( target_path )
         html = <<-HTML
         <li class="#{style_class}">
         #{link_to I18n.t('navbar.'+section_info[:link_key]), target_path}

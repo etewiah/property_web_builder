@@ -4,27 +4,25 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-6 hidden-xs contacto_header">
-
           <% if @current_agency.phone_number_primary %>
             <i class="fa fa-phone-square fa-lg"></i><%= @current_agency.phone_number_primary %> &nbsp;&nbsp;          
           <% end %>
           <% if @current_agency.email_primary %>
-            <i class="fa fa-envelope fa-lg"></i><%= @current_agency.email_primary %>          
+            <i class="fa fa-envelope fa-lg"></i><%= @current_agency.email_primary %>
           <% end %>
-
         </div>
         <div class="col-sm-6">
-        <% if @current_agency.is_multilingual && not_devise %>
-          <div class="contenedor_idiomas" style="">
-            <ul class="idiomas">
-              <% @current_agency.supported_locales.each do |language| %>
-                <li class=<%="#{'selected' if locale.to_s == language}" %>>
-                  <%= link_to "", params.permit(:locale,).merge({:locale => language}), class: language %>
-                </li>                
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
+          <% if @current_agency.is_multilingual && not_devise %>
+            <div class="contenedor_idiomas" style="">
+              <ul class="idiomas">
+                <% @current_agency.supported_locales.each do |language| %>
+                  <li class=<%="#{'selected' if locale.to_s == language}" %>>
+                    <%= link_to "", params.permit(:locale,).merge({:locale => language}), class: language %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
@@ -39,10 +37,10 @@
           </button>
           <%= link_to pwb.root_path(locale: locale), class: "navbar-brand" do %>
             <% if @logo_url  %>
-                <img src="<%= @logo_url %>" alt="Ir a inicio">
+              <img src="<%= @logo_url %>" alt="Logo">
             <% else %>
-              <div class="text-navbar-brand" style="">             
-               <%= @current_agency.display_name %>
+              <div class="text-navbar-brand" style="">
+                <%= @current_agency.display_name %>
               </div>
             <% end %>
           <% end %>
@@ -50,29 +48,26 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <% @sections.each do |section| %>
-              <%= section_tab(section) %>              
+              <%= section_tab(section) %>
             <% end %>
-
             <% if @show_admin_link  %>
               <li class="<%= 'selected' if current_page?(pwb.admin_with_locale_path(locale: locale)) %>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <%= t "navbar.admin" %>
                 </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
-                </li>
-                <li>
-                <%= link_to I18n.t("changePassword"), pwb.edit_user_registration_path() %>
-                </li>
-                <li>
-                <%= link_to I18n.t("signOut"), pwb.destroy_user_session_path(), method: :delete %>
-                </li>
-              </ul>
-
+                <ul class="dropdown-menu">
+                  <li>
+                    <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+                  </li>
+                  <li>
+                    <%= link_to I18n.t("changePassword"), pwb.edit_user_registration_path() %>
+                  </li>
+                  <li>
+                    <%= link_to I18n.t("signOut"), pwb.destroy_user_session_path(), method: :delete %>
+                  </li>
+                </ul>
               </li>
             <% end %>
-
           </ul>
         </div>
         <!--/.nav-collapse -->

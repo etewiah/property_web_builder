@@ -423,46 +423,6 @@ a:hover {
   font-size: 24px;
 }
 
-.contenedor_idiomas {
-  background: blue;
-}
-
-ul.idiomas {
-  float: right;
-  padding: 0 15px 10px 10px;
-  margin: -7px 0px -5px 10px;
-  background-color: #fff;
-}
-
-ul.idiomas li {
-  float: left;
-  list-style: none outside none;
-  margin: 0 0 0 5px;
-  padding: 11px 0 0 0;
-  width: 20px;
-}
-
-ul.idiomas li a {
-  display: block;
-  width: 20px;
-  height: 14px;
-  outline: 1px solid #555;
-  margin: 0;
-}
-
-ul.idiomas .es {
-  background: url("/assets/idiomas.png") 0 0 no-repeat;
-}
-
-ul.idiomas .en {
-  background: url("/assets/idiomas.png") -20px 0;
-}
-
-ul.idiomas li.selected,
-ul.idiomas li:hover {
-  background: url("/assets/simple-nav-arrow.png") no-repeat top center;
-}
-
 .input-lg {
   height: auto;
 }
