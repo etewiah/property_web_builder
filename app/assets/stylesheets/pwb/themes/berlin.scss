@@ -12,7 +12,12 @@ $base-border-color:#e0eded;
 /*<!-- price picker slider -->*/
 @import "berlin/nouislider";
 @import "berlin/fancybox";
-
+@import "default/landing_content_areas";
+.services-section {
+  border-top: none;
+  border-bottom: none;
+  background: white;
+}
 
 
 

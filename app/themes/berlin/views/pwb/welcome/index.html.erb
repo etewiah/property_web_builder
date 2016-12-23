@@ -1,19 +1,29 @@
 <%= render '/pwb/welcome/landing_carousel' %>
-
-<%= render '/pwb/welcome/adv_search' %>
-
+<%# render '/pwb/welcome/adv_search' %>
 <%= render '/pwb/welcome/service' %>
-
 <% if @about_us %>
   <%# render '/pwb/welcome/about_us' %>
 <% end %>
-
-<%= render '/pwb/welcome/latest_properties' %>
-
-
-<% if @properties_for_sale.length > 0  %>
-  <%# render :partial => '/pwb/welcome/single_property_row', :locals => { properties: @properties_for_sale, rent_or_sale: 'for_sale', title_key: 'propertyForSale' }  %>
-<% end %>
-<% if @properties_for_rent.length > 0  %>
-  <%# render :partial => '/pwb/welcome/single_property_row', :locals => { properties: @properties_for_rent, rent_or_sale: 'for_rent', title_key: 'propertyForRent' }  %>
-<% end %>
+<!-- Latest property -->
+<section id="aa-latest-property">
+  <div class="container">
+    <div class="aa-latest-property-area">
+      <div class="aa-title">
+        <h2>Latest Properties</h2>
+        <span></span>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum sit ea nobis quae vero voluptatibus.</p>
+      </div>
+      <div class="aa-latest-properties-content">
+        <div class="row">
+          <% if @properties_for_sale.length > 0  %>
+            <%= render :partial => '/pwb/welcome/latest_properties', :locals => { properties: @properties_for_sale, rent_or_sale: 'for_sale', title_key: 'propertyForSale' }  %>
+          <% end %>
+          <% if @properties_for_rent.length > 0  %>
+            <%= render :partial => '/pwb/welcome/latest_properties', :locals => { properties: @properties_for_rent, rent_or_sale: 'for_rent', title_key: 'propertyForRent' }  %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- / Latest property -->
