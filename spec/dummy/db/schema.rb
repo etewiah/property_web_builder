@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161205223003) do
+ActiveRecord::Schema.define(version: 20161222085708) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20161205223003) do
     t.text     "raw_css"
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
+    t.string   "theme_name"
     t.index ["company_id"], name: "index_pwb_agencies_on_company_id", unique: true, using: :btree
     t.index ["company_name"], name: "index_pwb_agencies_on_company_name", using: :btree
   end
@@ -92,6 +93,8 @@ ActiveRecord::Schema.define(version: 20161205223003) do
     t.integer  "content_id"
     t.string   "image"
     t.string   "description"
+    t.string   "folder"
+    t.integer  "file_size"
     t.integer  "sort_order"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -163,6 +166,7 @@ ActiveRecord::Schema.define(version: 20161205223003) do
     t.string   "image"
     t.string   "description"
     t.string   "folder"
+    t.integer  "file_size"
     t.integer  "sort_order"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -291,6 +295,9 @@ ActiveRecord::Schema.define(version: 20161205223003) do
     t.string   "last_names"
     t.string   "skype"
     t.string   "phone_number_primary"
+    t.string   "default_client_locale"
+    t.string   "default_admin_locale"
+    t.string   "default_currency"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
     t.index ["confirmation_token"], name: "index_pwb_users_on_confirmation_token", unique: true, using: :btree
