@@ -79,3 +79,5 @@ I would like PropertyWebBuilder to be available in as many languages as possible
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
 NB: The creator of PropertyWebBuilder is opposed to the racist statements made by Donald Trump during his presidential campaign of 2016 and would prefer that people who agree with his racist statements do not use this project ;)
+
+NB2: Turns out the above sentence attracted a lot of attention so here's a brief explanation: [https://medium.com/@weebrix/open-source-is-political-9f7fcc63c357#.oajx4zl9r](https://medium.com/@weebrix/open-source-is-political-9f7fcc63c357#.oajx4zl9r)
