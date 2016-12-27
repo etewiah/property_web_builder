@@ -43,8 +43,7 @@ You can use this sample project with full instructions on deploying to heroku:
 
 If you are too lazy to read about deploying, you can simply [sign up for Heroku](https://signup.heroku.com/identity) and click the button below:
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/etewiah/pwb-for-heroku)
 
 You can see an example of a site created with PropertyWebBuilder here:
 
