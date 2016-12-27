@@ -70,10 +70,21 @@ We encourage you to contribute to this project and file issues for any problems 
 
 If you like it, please star it and spread the word on [Twitter](https://twitter.com/prptywebbuilder), [LinkedIn](https://www.linkedin.com/company/propertywebbuilder) and [Facebook](https://www.facebook.com/propertywebbuilder).  You can also subscribe to github notifications on this project.  
 
-Please consider making a contribution to the development of PropertyWebBuilder.  If you wish to pay for specific enhancements or to be listed as a sponsor for this project, please email me directly (opensource at propertywebbuilder.com).
+Please consider making a contribution to the development of PropertyWebBuilder.  If you wish to pay for specific enhancements, please email me directly (opensource at propertywebbuilder.com).
 
 I would like PropertyWebBuilder to be available in as many languages as possible so any help with translations will be much appreciated.  A basic Spanish version of this document can be found here:
 [https://github.com/etewiah/property_web_builder/blob/master/README_es.md](https://github.com/etewiah/property_web_builder/blob/master/README_es.md)
+
+
+## Sponsors
+
+PropertyWebBuilder is currently sponsored by Coddde, Ruby On Rails consultants based in Spain and Chile:
+<a href="http://coddde.com/en/" rel="Coddde">
+![Coddde](http://coddde.com/wp-content/uploads/2016/02/free_logo_8-e1455725264385.png)
+</a>
+
+If you wish to sponsor this project please email me directly (opensource at propertywebbuilder.com).
+
 
 ## License
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
