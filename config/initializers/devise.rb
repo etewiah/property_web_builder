@@ -269,6 +269,7 @@ Devise.setup do |config|
   # The router that invoked `devise_for`, in the example above, would be:
   config.router_name = :pwb
 
+  # without below @current_agency will be null
   config.parent_controller = 'Pwb::DeviseController'
   #
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,

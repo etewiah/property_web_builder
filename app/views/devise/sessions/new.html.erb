@@ -8,14 +8,18 @@
           <%= f.error_notification %>
           <%=  f.hidden_field :default_locale, :value => I18n.locale %>
           <%= f.input :email, label: false, required: true, autofocus: true, placeholder: t("activerecord.attributes.user.email"), class: "form-control" %>
-            <%= f.input :password, required: true, label: false, placeholder: t("activerecord.attributes.user.password") %>
-            <%= f.input :remember_me, as: :boolean, label: t("activerecord.attributes.user.remember_me") if devise_mapping.rememberable? %>
+          <%= f.input :password, required: true, label: false, placeholder: t("activerecord.attributes.user.password") %>
+          <%= f.input :remember_me, as: :boolean, label: t("activerecord.attributes.user.remember_me") if devise_mapping.rememberable? %>
           <div class="form-inputs">
+          </div>
+          <div>
+            <%= render "devise/shared/messages" %>
           </div>
           <div class="form-actions">
             <%= f.button :submit, t(".sign_in"), class: "btn btn-success btn-lg btn-block" %>
           </div>
         <% end %>
+        <%# devise_error_messages! %>
         <div>
           <%= render "devise/shared/links" %>
         </div>
