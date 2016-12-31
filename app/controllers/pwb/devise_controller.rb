@@ -2,15 +2,24 @@ module Pwb
   class DeviseController < ActionController::Base
     protect_from_forgery with: :exception
 
-    before_filter :current_agency, :sections, :set_locale
+    before_filter :current_agency, :sections, :set_locale, :set_theme_path
+
+    def set_theme_path
+      theme_name = "default"
+      if Agency.last && Agency.last.theme_name.present?
+        theme_name = Agency.last.theme_name
+      end
+      prepend_view_path "#{Pwb::Engine.root}/app/themes/#{theme_name}/views/"
+      # below allows themes installed in Rails app consuming Pwb to work
+      prepend_view_path "#{Rails.root}/app/themes/#{theme_name}/views/"
+
+      self.class.layout "#{Pwb::Engine.root}/app/themes/#{theme_name}/views/layouts/pwb/application"
+    end
+    
 
     def set_locale
       agency = current_agency
       locale = agency.default_client_locale_to_use
-      # below just causes confusion for now
-      # if current_user
-      #   locale = current_user.default_client_locale
-      # end
       if params[:locale]
         # passed in params override user's default
         locale = params[:locale]

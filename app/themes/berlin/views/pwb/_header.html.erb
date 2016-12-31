@@ -28,7 +28,7 @@
                     <ul class="idiomas">
                       <% @current_agency.supported_locales.each do |language| %>
                         <li class=<%="#{'selected' if locale.to_s == language}" %>>
-                          <%= link_to "", params.permit(:locale,).merge({:locale => language}), class: language %>
+                          <%= localized_link_to "", params.permit(:locale,).merge({:locale => language}), class: language %>
                         </li>
                       <% end %>
                     </ul>

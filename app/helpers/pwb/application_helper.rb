@@ -1,6 +1,15 @@
 module Pwb
   module ApplicationHelper
 
+    def localized_link_to(name = nil, options = nil, html_options = nil)
+      if params["controller"] && params["controller"].include?("devise/")
+        link = "<a class='#{options["locale"]}' href='/#{options["locale"]}'></a>"
+        return link.html_safe
+      else
+        return link_to name, options, html_options
+      end
+    end
+
     def t_or_unknown key
       if key.is_a?(String) && key.empty?
         return t "unknown"
