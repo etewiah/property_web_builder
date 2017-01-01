@@ -23,7 +23,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body class="tnt-body aa-price-range <%= @current_agency.body_style %>">
+  <body class="tnt-body <%= @current_agency.body_style %>">
     <!-- Pre Loader -->
     <div id="aa-preloader-area">
       <div class="pulse"></div>
@@ -33,11 +33,11 @@
     <!-- END SCROLL TOP BUTTON -->
     <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
     <% if  @is_devise  %>
-      <section id="aa-property-header">
+      <section id="devise-container">
         <div class="container">
           <div class="row">
             <div class="col-md-12">
-              <div class="aa-property-header-inner">
+              <div class="devise-container-inner">
                 <%= yield %>
               </div>
             </div>

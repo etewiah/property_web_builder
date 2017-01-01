@@ -1,0 +1,55 @@
+#devise-container {
+  /*background-image: url("../img/property-header-bg.jpg");*/
+  background-attachment: fixed;
+  background-position: center center;
+  background-size: cover;
+  display: inline;
+  float: left;
+  position: relative;
+  min-height: 400px;
+  width: 100%;
+}
+
+#devise-container::before {
+  background-color: rgba(0, 0, 0, 0.4);
+  bottom: 0;
+  content: "";
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+#devise-container .devise-container-inner {
+  display: inline;
+  float: left;
+  padding: 150px 0 150px;
+  text-align: center;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  #devise-container .devise-container-inner {
+    padding: 150px 0 250px;
+  }
+}
+
+#devise-container .devise-container-inner h2 {
+  color: #fff;
+  letter-spacing: 0.5px;
+  margin-top: 65px;
+  text-transform: uppercase;
+}
+
+#devise-container .devise-container-inner .breadcrumb {
+  background: none;
+  border: none;
+}
+
+#devise-container .devise-container-inner .breadcrumb li a {
+  color: #fff;
+}
+
+#devise-container .devise-container-inner .breadcrumb li.active {
+  color: #fff;
+}

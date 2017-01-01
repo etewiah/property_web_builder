@@ -183,86 +183,88 @@ jQuery(function($){
   /* 8. ADVANCE SEARCH FILTER  (noUiSlider SLIDER)
   /* ----------------------------------------------------------- */        
 
-    jQuery(function(){
-      if(jQuery('body').is('.aa-price-range')){
-        // FOR AREA SECTION
-       var skipSlider = document.getElementById('aa-sqrfeet-range');
-        noUiSlider.create(skipSlider, {
-            range: {
-              'min': 0,
-              '10%': 100,
-              '20%': 200,
-              '30%': 300,
-              '40%': 400,
-              '50%': 500,
-              '60%': 600,
-              '70%': 700,
-              '80%': 800,
-              '90%': 900,
-              'max': 1000
-            },
-            snap: true,
-            connect: true,
-            start: [200, 700]
-        });
-        // for value print
-        var skipValues = [
-          document.getElementById('skip-value-lower'),
-          document.getElementById('skip-value-upper')
-        ];
+    // jQuery(function(){
+    //   debugger;
+    //   if(jQuery('body').is('.aa-price-range')){
+    //     // FOR AREA SECTION
+    //   debugger;
+    //    var skipSlider = document.getElementById('aa-sqrfeet-range');
+    //     noUiSlider.create(skipSlider, {
+    //         range: {
+    //           'min': 0,
+    //           '10%': 100,
+    //           '20%': 200,
+    //           '30%': 300,
+    //           '40%': 400,
+    //           '50%': 500,
+    //           '60%': 600,
+    //           '70%': 700,
+    //           '80%': 800,
+    //           '90%': 900,
+    //           'max': 1000
+    //         },
+    //         snap: true,
+    //         connect: true,
+    //         start: [200, 700]
+    //     });
+    //     // for value print
+    //     var skipValues = [
+    //       document.getElementById('skip-value-lower'),
+    //       document.getElementById('skip-value-upper')
+    //     ];
 
-        skipSlider.noUiSlider.on('update', function( values, handle ) {
-          skipValues[handle].innerHTML = values[handle];
-        });
+    //     skipSlider.noUiSlider.on('update', function( values, handle ) {
+    //       skipValues[handle].innerHTML = values[handle];
+    //     });
 
-        // FOR PRICE SECTION
+    //     // FOR PRICE SECTION
 
-        var skipSlider2 = document.getElementById('aa-price-range');
-        noUiSlider.create(skipSlider2, {
-            range: {
-                'min': 0,
-                '10%': 100,
-                '20%': 200,
-                '30%': 300,
-                '40%': 400,
-                '50%': 500,
-                '60%': 600,
-                '70%': 700,
-                '80%': 800,
-                '90%': 900,
-                'max': 1000
-            },
-            snap: true,
-            connect: true,
-            start: [200, 700]
-        });
-        // for value print
-        var skipValues2 = [
-          document.getElementById('skip-value-lower2'),
-          document.getElementById('skip-value-upper2')
-        ];
+    //     var skipSlider2 = document.getElementById('aa-price-range');
+    //     noUiSlider.create(skipSlider2, {
+    //         range: {
+    //             'min': 0,
+    //             '10%': 100,
+    //             '20%': 200,
+    //             '30%': 300,
+    //             '40%': 400,
+    //             '50%': 500,
+    //             '60%': 600,
+    //             '70%': 700,
+    //             '80%': 800,
+    //             '90%': 900,
+    //             'max': 1000
+    //         },
+    //         snap: true,
+    //         connect: true,
+    //         start: [200, 700]
+    //     });
+    //     // for value print
+    //     var skipValues2 = [
+    //       document.getElementById('skip-value-lower2'),
+    //       document.getElementById('skip-value-upper2')
+    //     ];
 
-        skipSlider2.noUiSlider.on('update', function( values, handle ) {
-          skipValues2[handle].innerHTML = values[handle];
-        });
-      }
-    });
+    //     skipSlider2.noUiSlider.on('update', function( values, handle ) {
+    //       skipValues2[handle].innerHTML = values[handle];
+    //     });
+    //   }
+    // });
 
   /* ----------------------------------------------------------- */
   /*  9. MIXIT FILTER ( FOR GALLERY ) 
   /* ----------------------------------------------------------- */  
 
-    jQuery(function(){
-      jQuery('#mixit-container').mixItUp();
-    });
+    // jQuery(function(){
+    //   jQuery('#mixit-container').mixItUp();
+    // });
 
   /* ----------------------------------------------------------- */
   /*  10. FANCYBOX ( FOR PORTFOLIO POPUP VIEW ) 
   /* ----------------------------------------------------------- */ 
       
-    jQuery(document).ready(function() {
-      jQuery(".fancybox").fancybox();
-    });  
+    // jQuery(document).ready(function() {
+    //   jQuery(".fancybox").fancybox();
+    // });  
    
     
   /* ----------------------------------------------------------- */

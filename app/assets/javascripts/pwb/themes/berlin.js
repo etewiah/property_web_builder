@@ -19,7 +19,7 @@
 //= require bootstrap-select
 //= require berlin/slick
 
-//= require berlin/nouislider
+// require berlin/nouislider
 // require berlin/jquery.mixitup.js
 // require berlin/jquery.fancybox.pack.js
 //= require berlin/custom

@@ -10,8 +10,9 @@ $base-border-color:#e0eded;
 @import "berlin/main";
 @import "berlin/slick";
 /*<!-- price picker slider -->*/
-@import "berlin/nouislider";
-@import "berlin/fancybox";
+/*@import "berlin/nouislider";*/
+/*@import "berlin/fancybox";*/
+@import "berlin/devise";
 @import "default/landing_content_areas";
 .services-section {
   border-top: none;
