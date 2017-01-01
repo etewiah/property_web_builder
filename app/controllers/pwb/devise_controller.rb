@@ -7,6 +7,7 @@ module Pwb
 
 
     def set_theme_path
+      @is_devise = true
       theme_name = "default"
       if Agency.last && Agency.last.theme_name.present?
         theme_name = Agency.last.theme_name

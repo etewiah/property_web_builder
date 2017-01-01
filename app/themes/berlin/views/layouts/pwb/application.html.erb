@@ -32,7 +32,21 @@
     <a class="scrollToTop" href="#"><i class="fa fa-angle-double-up"></i></a>
     <!-- END SCROLL TOP BUTTON -->
     <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
-    <%= yield %>
+    <% if  @is_devise  %>
+      <section id="aa-property-header">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="aa-property-header-inner">
+                <%= yield %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    <% else %>
+      <%= yield %>
+    <% end %>
     <%= render :partial => '/pwb/footer', :locals => {}  %>
     <%= insert_paloma_hook %>
     <!-- jQuery library -->
