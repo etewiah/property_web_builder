@@ -33,11 +33,11 @@
     <!-- END SCROLL TOP BUTTON -->
     <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
     <% if  @is_devise  %>
-      <section id="devise-container">
+      <section id="top-container">
         <div class="container">
           <div class="row">
             <div class="col-md-12">
-              <div class="devise-container-inner">
+              <div class="top-container-inner">
                 <%= yield %>
               </div>
             </div>

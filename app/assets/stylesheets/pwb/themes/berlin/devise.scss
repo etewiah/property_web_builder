@@ -1,4 +1,14 @@
-#devise-container {
+#aa-main .aa-main-area {
+    display: inline;
+    float: left;
+    margin-top: 50px;
+    padding: 100px 10px 130px;
+    /*text-align: center;*/
+    width: 100%;
+}
+
+
+#top-container {
   /*background-image: url("../img/property-header-bg.jpg");*/
   background-attachment: fixed;
   background-position: center center;
@@ -10,7 +20,7 @@
   width: 100%;
 }
 
-#devise-container::before {
+#top-container::before {
   background-color: rgba(0, 0, 0, 0.4);
   bottom: 0;
   content: "";
@@ -20,7 +30,7 @@
   top: 0;
 }
 
-#devise-container .devise-container-inner {
+#top-container .top-container-inner {
   display: inline;
   float: left;
   padding: 150px 0 150px;
@@ -29,27 +39,27 @@
 }
 
 @media (min-width: 1024px) {
-  #devise-container .devise-container-inner {
+  #top-container .top-container-inner {
     padding: 150px 0 250px;
   }
 }
 
-#devise-container .devise-container-inner h2 {
+#top-container .top-container-inner h2 {
   color: #fff;
   letter-spacing: 0.5px;
   margin-top: 65px;
   text-transform: uppercase;
 }
 
-#devise-container .devise-container-inner .breadcrumb {
+#top-container .top-container-inner .breadcrumb {
   background: none;
   border: none;
 }
 
-#devise-container .devise-container-inner .breadcrumb li a {
+#top-container .top-container-inner .breadcrumb li a {
   color: #fff;
 }
 
-#devise-container .devise-container-inner .breadcrumb li.active {
+#top-container .top-container-inner .breadcrumb li.active {
   color: #fff;
 }
