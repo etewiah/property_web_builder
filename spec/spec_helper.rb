@@ -8,7 +8,20 @@ require 'rspec/rails'
 # require 'rspec/autorun'
 require 'factory_girl_rails'
 
+require 'capybara/poltergeist'
+# require 'capybara/rails'
+
 # load(Rails.root.join("db", "seeds.rb"))
+
+# Configure capybara for integration testing
+# Capybara.default_driver = :rack_test
+# Capybara.default_selector = :css
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app)
+end
+Capybara.javascript_driver = :poltergeist
+# Capybara.ignore_hidden_elements = false
+
 
 # http://stackoverflow.com/questions/24078768/argumenterror-factory-not-registered
 # as per above, need to explicitly set below
@@ -32,4 +45,9 @@ RSpec.configure do |config|
   # config.include Pwb::ApplicationHelper
   # config.include Rails.application.routes.url_helpers
   # config.include Pwb::Engine.routes.url_helpers
+
+  # Make sure the database is clean and ready for test
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
 end
