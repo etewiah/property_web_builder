@@ -1,23 +1,22 @@
-<footer class="footer fondo_footer">
+<!-- <footer class="footer fondo_footer">
   <div class="container">
     <div class="row">
       <div class="col-lg-9 copyright">
-        © <%= t 'copyright' %>.
+        © <%# t 'copyright' %>.
             </div>
       <div class="col-lg-3 social">
       </div>
     </div>
   </div>
-</footer>
+</footer> -->
 <footer class="footer fondo_footer">
   <div class="container">
     <div class="row">
       <div class="col-lg-9 copyright">
-        © <%= t 'copyright' %>.
-                <%= link_to I18n.t("legalAdvice"), pwb.legal_path(locale: locale)  %>.
-                <%= link_to I18n.t("privacyPolicy"), pwb.privacy_policy_path(locale: locale)  %>.
-                <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>.
-            </div>
+        <%= link_to I18n.t("legalAdvice"), pwb.legal_path(locale: locale)  %>.
+        <%= link_to I18n.t("privacyPolicy"), pwb.privacy_policy_path(locale: locale)  %>.
+        <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>.
+      </div>
       <div class="col-lg-3 social">
         <%= social_media_link(@current_agency, "facebook", "Facebook", "fa-facebook fa-2x") %>
         <%= social_media_link(@current_agency, "twitter", "Twitter", "fa-twitter fa-2x") %>
@@ -25,6 +24,9 @@
         <%= social_media_link(@current_agency, "youtube", "YouTube", "fa-youtube fa-2x") %>
         <%= social_media_link(@current_agency, "pinterest", "Pinterest", "fa-pinterest fa-2x") %>
         <%= social_media_link(@current_agency, "gplus", "Google Plus", "fa-google-plus fa-2x") %>
+      </div>
+      <div class="col-lg-12">
+        <p>Powered by <a href="http://www.propertywebbuilder.com">PropertyWebBuilder</a></p>
       </div>
     </div>
   </div>

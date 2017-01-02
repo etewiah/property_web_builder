@@ -1,14 +1,17 @@
 /*main content section*/
+
 #aa-main .aa-main-area {
-    display: inline;
-    float: left;
-    margin-top: 50px;
-    padding: 100px 10px 130px;
-    /*text-align: center;*/
-    width: 100%;
+  display: inline;
+  float: left;
+  margin-top: 50px;
+  padding: 100px 10px 130px;
+  /*text-align: center;*/
+  width: 100%;
 }
 
+
 /*bold header at top of most pages - also container for devise forms*/
+
 #top-container {
   /*background-image: url("../img/property-header-bg.jpg");*/
   background-attachment: fixed;
@@ -34,13 +37,18 @@
 #top-container .top-container-inner {
   display: inline;
   float: left;
-  padding: 150px 0 150px;
   text-align: center;
   width: 100%;
 }
 
+#top-container .top-container-inner,
+.top-container-devise {
+  padding: 150px 0 150px;
+}
+
 @media (min-width: 1024px) {
-  #top-container .top-container-inner {
+  #top-container .top-container-inner,
+  .top-container-devise {
     padding: 150px 0 250px;
   }
 }
