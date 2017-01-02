@@ -1,39 +1,38 @@
-    <% properties.each_with_index do |property, index| %>
-      <div class="col-md-4">
-        <article class="aa-properties-item">
-          <%= link_to property.contextual_show_path(rent_or_sale), class: 
+<% properties.each_with_index do |property, index| %>
+  <div class="col-md-4">
+    <article class="aa-properties-item">
+      <%= link_to property.contextual_show_path(rent_or_sale), class: 
           "aa-properties-item-img" do %>
-            <%= image_tag("#{property.ordered_photo_url 1}", class: 'img-responsive') %>
-          <% end %>
-          <div class="aa-tag for-sale">
-            <%= t title_key %>
-          </div>
-          <div class="aa-properties-item-content">
-            <div class="aa-properties-info">
-              <span>
-              <%= property.count_bedrooms %> Bedrooms
-              </span>
-              <span>
-              <%= property.count_bathrooms %> Baths
-              </span>
-              <span>
-              <%= property.constructed_area %>m<sup>2</sup>
-              </span>
-            </div>
-            <div class="aa-properties-about">
-              <h3>
-              <%= link_to property.title, property.contextual_show_path(rent_or_sale)  %>
-              </h3>
-              <p></p>
-            </div>
-            <div class="aa-properties-detial">
-              <span class="aa-price">
-                  <%= property.contextual_price_with_currency rent_or_sale  %>
-                    </span>
-              <%= link_to "View Details", property.contextual_show_path(rent_or_sale),  class: "aa-secondary-btn"  %>
-            </div>
-          </div>
-        </article>
-
+        <%= image_tag("#{property.ordered_photo_url 1}", class: 'img-responsive') %>
+      <% end %>
+      <div class="aa-tag for-sale">
+        <%= t title_key %>
       </div>
-    <% end %>
+      <div class="aa-properties-item-content">
+        <div class="aa-properties-info">
+          <span>
+            <%= property.count_bedrooms %> Bedrooms
+              </span>
+          <span>
+            <%= property.count_bathrooms %> Baths
+              </span>
+          <span>
+            <%= property.constructed_area %>m<sup>2</sup>
+          </span>
+        </div>
+        <div class="aa-properties-about">
+          <h3>
+            <%= link_to property.title, property.contextual_show_path(rent_or_sale)  %>
+          </h3>
+          <p></p>
+        </div>
+        <div class="aa-properties-detial">
+          <span class="aa-price">
+            <%= property.contextual_price_with_currency rent_or_sale  %>
+          </span>
+          <%= link_to "View Details", property.contextual_show_path(rent_or_sale),  class: "aa-secondary-btn"  %>
+        </div>
+      </div>
+    </article>
+  </div>
+<% end %>

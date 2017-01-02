@@ -1,0 +1,96 @@
+<div class="aa-properties-content">
+  <% unless @properties && (@properties.size > 0 ) %>
+    <h4 style="margin-top: 40px;text-transform: none;">
+      <%= t "noResultsForSearch" %>
+    </h4>
+  <% end %>
+  <!-- start properties content head -->
+  <div class="aa-properties-content-head" style="display: none;">
+    <div class="aa-properties-content-head-left">
+      <form action="" class="aa-sort-form">
+        <label for="">Sort by</label>
+        <select name="">
+          <option value="1" selected="Default">Default</option>
+          <option value="2">Name</option>
+          <option value="3">Price</option>
+          <option value="4">Date</option>
+        </select>
+      </form>
+      <form action="" class="aa-show-form">
+        <label for="">Show</label>
+        <select name="">
+          <option value="1" selected="12">6</option>
+          <option value="2">12</option>
+          <option value="3">24</option>
+        </select>
+      </form>
+    </div>
+    <div class="aa-properties-content-head-right">
+      <a id="aa-grid-properties" href="#"><span class="fa fa-th"></span></a>
+      <a id="aa-list-properties" href="#"><span class="fa fa-list"></span></a>
+    </div>
+  </div>
+  <!-- Start properties content body -->
+  <div>
+    <% @properties.each_with_index do |property, index| %>
+      <div class="col-md-6">
+        <article class="aa-properties-item">
+          <%= link_to property.contextual_show_path(@operation_type), class: 
+          "aa-properties-item-img" do %>
+            <%= image_tag("#{property.ordered_photo_url 1}", class: 'img-responsive') %>
+          <% end %>
+          <div class="aa-tag for-sale" style="display: none;">
+            <%# t 'propertyForSale' %>
+          </div>
+          <div class="aa-properties-item-content">
+            <div class="aa-properties-info">
+              <span>
+                <%= property.count_bedrooms %> Bedrooms
+              </span>
+              <span>
+                <%= property.count_bathrooms %> Baths
+              </span>
+              <span>
+                <%= property.constructed_area %>m<sup>2</sup>
+              </span>
+            </div>
+            <div class="aa-properties-about">
+              <h3>
+                <%= link_to property.title, property.contextual_show_path(@operation_type)  %>
+              </h3>
+              <p></p>
+            </div>
+            <div class="aa-properties-detial">
+              <span class="aa-price">
+                <%= property.contextual_price_with_currency @operation_type  %>
+              </span>
+              <%= link_to "View Details", property.contextual_show_path(@operation_type),  class: "aa-secondary-btn"  %>
+            </div>
+          </div>
+        </article>
+      </div>
+    <% end %>
+  </div>
+  <!-- Start properties content bottom -->
+  <div class="aa-properties-content-bottom" style="display: none;">
+    <nav>
+      <ul class="pagination">
+        <li>
+          <a href="#" aria-label="Previous">
+            <span aria-hidden="true">«</span>
+          </a>
+        </li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li class="active"><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li>
+          <a href="#" aria-label="Next">
+            <span aria-hidden="true">»</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

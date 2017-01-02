@@ -1,7 +1,6 @@
 <%= javascript_tag do %>
   $(document).ready(
     function(){
-    debugger;
       $('#inmo-search-results').html("<%= j (render 'search_results') %>");
       $('select').selectpicker({
         noneSelectedText: '<%= I18n.t("selectpicker.noneSelectedText") %>',
@@ -13,7 +12,6 @@
     }
   );
 <% end %>
-
 <section id="top-container">
   <div class="container">
     <div class="row">
@@ -39,30 +37,24 @@
     </div>
   </div>
 </section>
-
-
 <!-- MAIN CONTENT -->
-
-<section class="slice bg-white bb">
-  <div class="wp-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-9">
-          <%# render '/pwb/search/search_results_header' %>
-          <!-- placeholder for ajax refresh: -->
-          <div id="inmo-search-results">
-          </div>
+<section id="aa-main">
+  <div class="container">
+    <div class="row aa-prop-list">
+      <div class="col-md-9 col-sm-12 col-xs-12">
+        <%# render '/pwb/search/search_results_b' %>
+        <!-- placeholder for ajax refresh: -->
+        <div id="inmo-search-results">
         </div>
-        <div class="col-md-3">
-          <div class="sidebar">
-            <!-- FILTERS -->
-            <%= render '/pwb/search/search_form_for_sale' %>
-            <%# render '/pwb/search/go_to_property' %>
-            <!-- RECENTLY VIEWED -->
-          </div>
+      </div>
+      <div class="col-md-3 col-sm-12 col-xs-12">
+        <div class="sidebar">
+          <!-- FILTERS -->
+          <%= render '/pwb/search/search_form_for_sale' %>
+          <%# render '/pwb/search/go_to_property' %>
+          <!-- RECENTLY VIEWED -->
         </div>
       </div>
     </div>
   </div>
 </section>
-<!-- FOOTER -->

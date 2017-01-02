@@ -8,36 +8,36 @@ module Pwb
     #   return redirect_to buy_url, locale: I18n.locale
     # end
 
-    def ajax_find_by_ref
-      query = params[:reference].upcase.strip
-      @properties = Prop.where("reference LIKE :query", query: "%#{query}%")
+    # def ajax_find_by_ref
+    #   query = params[:reference].upcase.strip
+    #   @properties = Prop.where("reference LIKE :query", query: "%#{query}%")
 
-      # it seems with active record, .size is better than .count or .length..
-      if @properties && @properties.size > 1
-        # how to know if properties are for rent or sale
+    #   # it seems with active record, .size is better than .count or .length..
+    #   if @properties && @properties.size > 1
+    #     # how to know if properties are for rent or sale
 
-        js 'Main/Search#sort' # trigger client-side paloma script
-        return render "search_ajax"
-      else
-        @property = @properties.first
-      end
+    #     js 'Main/Search#sort' # trigger client-side paloma script
+    #     return render "search_ajax"
+    #   else
+    #     @property = @properties.first
+    #   end
 
-      # Prop.visible.for_sale.order('price_sale_current_cents ASC')
-      if @property && @property.visible
-        if @property.for_sale
-          return render js: "window.location='#{property_show_for_sale_url(locale: I18n.locale, url_friendly_title: "show", id: @property.id)}'"
-          # redirect like below won't work as I'm using "remote true" on client side
-          # return redirect_to property_show_for_sale_url(locale: I18n.locale, url_friendly_title: "show", id: @property.id) , format: 'js'
-        else
-          return render js: "window.location='#{property_show_for_rent_url(locale: I18n.locale, url_friendly_title: "show", id: @property.id)}'"
-        end
-      else
-        @error_message = I18n.t "noResultsForSearch"
-        # TODO - pluck similar refs to what user typed
-        # and dislay as a list
-        return render "go_to_property_error_ajax"
-      end
-    end
+    #   # Prop.visible.for_sale.order('price_sale_current_cents ASC')
+    #   if @property && @property.visible
+    #     if @property.for_sale
+    #       return render js: "window.location='#{property_show_for_sale_url(locale: I18n.locale, url_friendly_title: "show", id: @property.id)}'"
+    #       # redirect like below won't work as I'm using "remote true" on client side
+    #       # return redirect_to property_show_for_sale_url(locale: I18n.locale, url_friendly_title: "show", id: @property.id) , format: 'js'
+    #     else
+    #       return render js: "window.location='#{property_show_for_rent_url(locale: I18n.locale, url_friendly_title: "show", id: @property.id)}'"
+    #     end
+    #   else
+    #     @error_message = I18n.t "noResultsForSearch"
+    #     # TODO - pluck similar refs to what user typed
+    #     # and dislay as a list
+    #     return render "go_to_property_error_ajax"
+    #   end
+    # end
 
     def search_ajax_for_sale
       @operation_type = "for_sale"
@@ -47,8 +47,7 @@ module Pwb
       # .order('price_sale_current_cents ASC')
       # @properties = Prop.where(nil) # creates an anonymous scope
       apply_search_filter filtering_params(params)
-
-      render "search_ajax"
+      render "/pwb/search/search_ajax.js.erb", layout: false
       #  view rendered will use js to inject results...
     end
 
@@ -59,8 +58,7 @@ module Pwb
       @properties = Prop.visible.for_rent
 
       apply_search_filter filtering_params(params)
-
-      render "search_ajax"
+      render "/pwb/search/search_ajax.js.erb", layout: false
       #  view rendered will use js to inject results...
     end
 

@@ -12,7 +12,6 @@
     }
   );
 <% end %>
-
 <section id="top-container">
   <div class="container">
     <div class="row">
@@ -38,28 +37,23 @@
     </div>
   </div>
 </section>
-
-
-<section class="slice bg-white bb">
-  <div class="wp-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-9">
-          <%# render '/pwb/search/search_results_header' %>
-          <!-- placeholder for ajax refresh: -->
-          <div id="inmo-search-results">
-          </div>
+<section id="aa-main">
+  <div class="container">
+    <div class="row aa-prop-list">
+      <div class="col-md-9 col-sm-12 col-xs-12">
+        <%# render '/pwb/search/search_results_b' %>
+        <!-- placeholder for ajax refresh: -->
+        <div id="inmo-search-results">
         </div>
-        <div class="col-md-3">
-          <div class="sidebar">
-            <!-- FILTERS -->
-            <%= render '/pwb/search/search_form_for_rent' %>
-            <%# render '/pwb/search/go_to_property' %>
-            <!-- RECENTLY VIEWED -->
-          </div>
+      </div>
+      <div class="col-md-3 col-sm-12 col-xs-12">
+        <div class="sidebar">
+          <!-- FILTERS -->
+          <%= render '/pwb/search/search_form_for_rent' %>
+          <%# render '/pwb/search/go_to_property' %>
+          <!-- RECENTLY VIEWED -->
         </div>
       </div>
     </div>
   </div>
 </section>
-<!-- FOOTER -->
