@@ -39,15 +39,39 @@ ActionController::Base.prepend_view_path "#{Pwb::Engine.root}/app/themes/default
 
 RSpec.configure do |config|
   config.mock_with :rspec
-  config.use_transactional_fixtures = true
   config.infer_base_class_for_anonymous_controllers = false
   config.order = 'random'
   # config.include Pwb::ApplicationHelper
   # config.include Rails.application.routes.url_helpers
   # config.include Pwb::Engine.routes.url_helpers
 
+  config.use_transactional_fixtures = false
+  #
   # Make sure the database is clean and ready for test
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end
+
+  config.after(:all) do
+    # http://renderedtext.com/blog/2012/10/10/cleaning-up-after-before-all-blocks/
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, :js => true) do
+    # truncation is slower but more reliable
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+
 end
