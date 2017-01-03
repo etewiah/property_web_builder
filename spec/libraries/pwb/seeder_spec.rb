@@ -21,6 +21,5 @@ module Pwb
     it 'creates 1 prop entry' do
       expect(Pwb::Prop.count).to eq(3)
     end
-
   end
 end

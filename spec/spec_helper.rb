@@ -27,7 +27,6 @@ end
 Capybara.javascript_driver = :poltergeist
 # Capybara.ignore_hidden_elements = false
 
-
 # http://stackoverflow.com/questions/24078768/argumenterror-factory-not-registered
 # as per above, need to explicitly set below
 FactoryGirl.definition_file_paths = [File.expand_path('../factories', __FILE__)]
@@ -66,7 +65,7 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :transaction
   end
 
-  config.before(:each, :js => true) do
+  config.before(:each, js: true) do
     # truncation is slower but more reliable
     DatabaseCleaner.strategy = :truncation
   end
@@ -78,5 +77,4 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
-
 end

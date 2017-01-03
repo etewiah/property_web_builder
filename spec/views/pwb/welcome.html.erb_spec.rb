@@ -19,7 +19,6 @@ RSpec.describe 'pwb/welcome/index', type: :view do
     assign(:properties_for_rent, [])
   end
 
-
   it 'renders index successfully' do
     render
     expect(rendered).to include 'About us'

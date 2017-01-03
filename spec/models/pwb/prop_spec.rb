@@ -11,11 +11,11 @@ module Pwb
     context 'scopes' do
       before(:all) do
         # @first = FactoryGirl.create(:pwb_prop, created_at: 1.day.ago)
-        @two_bedroom  = FactoryGirl.create(:pwb_prop,
+        @two_bedroom = FactoryGirl.create(:pwb_prop,
                                            reference: "ref2bbed",
                                            count_bedrooms: 2)
-        @five_bedroom  = FactoryGirl.create(:pwb_prop, :long_term_rent, :short_term_rent,
-                                            price_rental_monthly_current_cents: 100000,
+        @five_bedroom = FactoryGirl.create(:pwb_prop, :long_term_rent, :short_term_rent,
+                                            price_rental_monthly_current_cents: 100_000,
                                             reference: "ref5bbed",
                                             count_bedrooms: 5)
       end
@@ -36,8 +36,6 @@ module Pwb
       #   @two_bedroom.destroy
       #   @five_bedroom.destroy
       # end
-
     end
-
   end
 end

@@ -11,7 +11,6 @@ module Pwb
         )
       end
 
-
       context 'with locale parameter' do
         it 'routes to welcome_controller#index' do
           expect({
@@ -39,6 +38,5 @@ module Pwb
         )
       end
     end
-
   end
 end

@@ -15,6 +15,4 @@ RSpec.describe 'pwb/sections/contact_us', type: :view do
     render
     expect(rendered).to have_selector("form.mi_form")
   end
-
-
 end

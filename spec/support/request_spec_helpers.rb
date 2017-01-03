@@ -1,5 +1,4 @@
 module RequestSpecHelpers
-
   # https://github.com/plataformatec/devise/wiki/How-To:-sign-in-and-out-a-user-in-Request-type-specs-(specs-tagged-with-type:-:request)
   include Warden::Test::Helpers
 
@@ -37,5 +36,4 @@ module RequestSpecHelpers
   def warden_scope(resource)
     resource.class.name.underscore.to_sym
   end
-
 end

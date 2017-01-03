@@ -20,7 +20,6 @@ module Pwb
     #   expect(response).to be_success
     # end
 
-
     context 'without signing in' do
       before(:each) do
         # @request.env["devise.mapping"] = Devise.mappings[:user]
@@ -30,12 +29,11 @@ module Pwb
       it "should not have a current_user" do
         expect(subject.current_user).to eq(nil)
       end
-
     end
 
     context 'with non_admin user' do
       login_non_admin_user
-      
+
       it "should have a current_user" do
         expect(subject.current_user).to_not eq(nil)
       end
@@ -65,6 +63,5 @@ module Pwb
         end
       end
     end
-
   end
 end

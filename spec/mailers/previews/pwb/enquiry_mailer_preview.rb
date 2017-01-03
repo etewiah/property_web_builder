@@ -22,8 +22,5 @@ module Pwb
       @client = Client.new(first_names: "John Doe", phone_number_primary: "22 44", email: "jd@propertywebbuilder.com")
       EnquiryMailer.property_enquiry_targeting_agency(@client, @message, @property)
     end
-
   end
-
-
 end
