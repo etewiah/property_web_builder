@@ -3,9 +3,10 @@ require 'pwb/seeder'
 
 module Pwb
   RSpec.describe 'Seeder' do
-    before(:each) do
+    before(:all) do
       Pwb::Seeder.seed!
     end
+
 
     it 'creates a landing page hero entry' do
       expect(Pwb::Content.find_by_key('landingPageHero')).to be_present
@@ -20,7 +21,7 @@ module Pwb
     end
 
     it 'creates 1 prop entry' do
-      expect(Pwb::Prop.count).to eq(1)
+      expect(Pwb::Prop.count).to eq(3)
     end
 
   end

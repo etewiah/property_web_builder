@@ -6,8 +6,11 @@ module Pwb
 
       def seed!
         I18n.locale = :en
-        # tag is used to group content for an admin page
-        # key is camelcase (js style) - used client side to identify each item in a group of content
+
+        unless ENV["RAILS_ENV"] == "test"
+          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations.rb')
+        end
+
         seed_content 'content_columns.yml'
         seed_content 'carousel.yml'
         seed_content 'about_us.yml'
@@ -19,7 +22,6 @@ module Pwb
         seed_sections 'sections.yml'
         seed_field_keys 'field_keys.yml'
         seed_users 'users.yml'
-        load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations.rb')
       end
 
       protected
@@ -85,7 +87,10 @@ module Pwb
       def seed_content yml_file
         content_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'content', yml_file)
         content_yml = YAML.load_file(content_seed_file)
+        # tag is used to group content for an admin page
+        # key is camelcase (js style) - used client side to identify each item in a group of content
         content_yml.each do |single_content_yml|
+          # check content does not already exist
           unless Pwb::Content.where(key: single_content_yml['key']).count > 0
             photos = []
             if single_content_yml["photo_urls"].present?
@@ -104,6 +109,10 @@ module Pwb
 
       def create_photos photo_urls, photo_class
         photos = []
+        if ENV["RAILS_ENV"] == "test"
+          # don't create photos for tests
+          return photos
+        end
         photo_urls.each do |photo_url|
           begin
             photo = photo_class.send('create')
