@@ -2,6 +2,10 @@ require 'rails_helper'
 
 module Pwb
   RSpec.describe Address, type: :model do
-    pending "add some examples to (or delete) #{__FILE__}"
+    let(:address) { FactoryGirl.create(:pwb_address) }
+
+    it 'has a valid factory' do
+      expect(address).to be_valid
+    end
   end
 end

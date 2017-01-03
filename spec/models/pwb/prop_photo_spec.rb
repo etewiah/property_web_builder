@@ -2,6 +2,10 @@ require 'rails_helper'
 
 module Pwb
   RSpec.describe PropPhoto, type: :model do
-    pending "add some examples to (or delete) #{__FILE__}"
+    let(:prop_photo) { FactoryGirl.create(:pwb_prop_photo) }
+
+    it 'has a valid factory' do
+      expect(prop_photo).to be_valid
+    end
   end
 end
