@@ -69,10 +69,10 @@ module Pwb
         # TODO - verify site_template exists
         @agency.site_template_id = params[:site_template_id]
       end
-
       # TODO - rename supported_languages client side
       @agency.supported_locales = params[:supported_languages]
       @agency.save!
+      
       return render json: { "success": true }, status: :ok, head: :no_content
     end
 

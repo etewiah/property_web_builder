@@ -6,10 +6,8 @@ module Pwb
     before(:all) do
       Pwb::Seeder.seed!
     end
-
-
     it 'creates a landing page hero entry' do
-      expect(Pwb::Content.find_by_key('landingPageHero')).to be_present
+      expect(Pwb::Content.find_by_key('landingCarousel1')).to be_present
     end
 
     it 'creates an about_us entry' do

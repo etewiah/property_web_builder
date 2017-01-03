@@ -25,10 +25,10 @@ supported_currencies: []
 default_client_locale:
 default_admin_locale:
 default_currency:
-# social_media: {
-#   "facebook"=>"https://www.facebook.com/propertywebbuilder",
-#   "linkedin"=>"https://www.linkedin.com/company/propertywebbuilder",
-#   "twitter"=>"https://twitter.com/prptywebbuilder"
-#   }
+social_media: {
+  "facebook": "https://www.facebook.com/propertywebbuilder",
+  "linkedin": "https://www.linkedin.com/company/propertywebbuilder",
+  "twitter": "https://twitter.com/prptywebbuilder"
+  }
 details: {}
 raw_css: ""

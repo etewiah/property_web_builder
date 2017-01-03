@@ -30,6 +30,40 @@ module Pwb
       end
     end
 
+    describe "PUT /api/v1/tenant" do
+      it "updates agency" do
+        sign_in @admin_user
+
+        agency_params = {
+          "supported_languages": ["fr","es"]
+        }.to_json
+
+        request_headers = {
+          "Accept" => "application/json",
+          "Content-Type" => "application/json"
+        }
+
+
+        #  ActionDispatch::IntegrationTest HTTP request methods will accept only
+        # the following keyword arguments in future Rails versions:
+        # params, headers, env, xhr, as
+
+        # put '/profile',
+        #   params: { id: 1 },
+        #   headers: { 'X-Extra-Header' => '123' },
+        #   env: { 'action_dispatch.custom' => 'custom' },
+        #   xhr: true,
+        #   as: :json
+
+        put "/api/v1/tenant", params: agency_params, headers: request_headers
+        expect(response.status).to eq 200 # successful
+        @agency.reload
+        expect(@agency.supported_locales).to eq ["fr","es"]
+      end
+    end
+
+
+
     after(:all) do
       @agency.destroy
       @admin_user.destroy
