@@ -187,7 +187,8 @@ module Pwb
       # so that it overrides long_term price if both are set
       if self.for_rent_short_term
         rental_price = self.lowest_short_term_price || 0
-      elsif self.for_rent_long_term
+      end
+      unless rental_price && rental_price > 0
         rental_price = self.price_rental_monthly_current || 0
       end
       unless rental_price && rental_price > 0

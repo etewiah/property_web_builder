@@ -8,13 +8,13 @@ module Pwb
       # @admin_user = User.create!(email: "user@example.org", password: "very-secret", admin:true)
       @prop_for_long_term_rent =  FactoryGirl.create(
         :pwb_prop,
-        :available_for_long_term_rent,
+        :long_term_rent,
         price_rental_monthly_current_cents: 100000,
         :reference => "ref_pfltr"
       )
       # @prop_for_sale =  FactoryGirl.create(
       #   :pwb_prop,
-      #   :available_for_sale,
+      #   :sale,
       #   price_sale_current_cents: 10000000,
       #   :reference => "ref_pf"
       # )

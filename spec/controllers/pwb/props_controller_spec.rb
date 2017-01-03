@@ -3,9 +3,9 @@ require 'rails_helper'
 module Pwb
   RSpec.describe PropsController, type: :controller do
     routes { Pwb::Engine.routes }
-    let(:prop_for_long_term_rent) { FactoryGirl.create(:pwb_prop, :available_for_long_term_rent,
+    let(:prop_for_long_term_rent) { FactoryGirl.create(:pwb_prop, :long_term_rent,
                                                        price_rental_monthly_current_cents: 100000) }
-    let(:prop_for_sale) { FactoryGirl.create(:pwb_prop, :available_for_sale,
+    let(:prop_for_sale) { FactoryGirl.create(:pwb_prop, :sale,
                                              price_sale_current_cents: 10000000) }
 
     describe 'GET #show_for_rent' do
