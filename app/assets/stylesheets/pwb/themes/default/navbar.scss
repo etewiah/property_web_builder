@@ -198,7 +198,7 @@ header .navbar-wp .navbar-brand {
   height: auto;
   padding: 0 15px;
   margin-top: 14px;
-  border: 1px solid transparent;
+  /*border: 1px solid transparent;*/
   border-radius: 3px;
 }
 
@@ -213,11 +213,12 @@ header .navbar-wp .navbar-brand img {
   border-radius: 0;
   z-index: 1000;
   background: #fff;
-  border-bottom: 1px solid #e0eded;
+  /*border-bottom: 1px solid #e0eded;*/
 }
 
 .navbar-wp .navbar-nav > li > a {
-  border-top: 3px solid transparent;
+  /*border-top: 3px solid transparent;*/
+  border-top: 4px solid transparent;
   padding: 28px 16px;
   margin-right: 0;
   font-size: 14px;
@@ -301,14 +302,9 @@ header .navbar-wp .navbar-brand img {
 
 header .navbar-wp .navbar-brand {
   /*avoid white line around logo*/
-  margin-top: -1px;
-  margin-bottom: -1px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
-
-
-/*.navbar-wp .navbar-nav {
-  margin-bottom: -1px;
-}*/
 
 
 /*large screen first and then std dktp */
@@ -339,11 +335,13 @@ header .navbar-wp .navbar-brand {
     padding-top: 10px;
     padding-bottom: 10px;
   }
-  header .navbar-brand {
-    margin: 14px auto;
+  header .navbar-wp .navbar-brand {
+    /*margin: 14px auto;*/
     float: none;
     padding: 0 15px;
     display: inline-block;
+    /*avoid white line around logo*/
+    margin-bottom: -6px;
   }
   .navbar-wp .navbar-collapse {
     background-color: #fff;
@@ -372,12 +370,7 @@ header .navbar-wp .navbar-brand {
 
 /* Extra Small Devices, Phones */
 
-@media only screen and (max-width: 768px) {
-  header .navbar-wp .navbar-brand {
-    /*avoid white line around logo*/
-    margin-bottom: -6px;
-  }
-}
+@media only screen and (max-width: 768px) {}
 
 
 /* Custom, iPhone Retina */

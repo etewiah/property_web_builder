@@ -7,6 +7,7 @@ footer {
   */
 }
 
+
 /*footer {
   padding-bottom: 5px;
 }
@@ -52,23 +53,29 @@ header {
   }
 }
 
-
 header.top_header {
   min-height: 25px;
 }
 
+
 /*start sticky footer*/
+
+
 /*http://matthewjamestaylor.com/blog/keeping-footers-at-the-bottom-of-the-page*/
+
 html,
 body {
-   margin:0;
-   padding:0;
-   height:100%;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
+
 .body-wrap {
-   min-height:100%;
-   position:relative;
+  min-height: 100%;
+  position: relative;
 }
+
+
 /*#header {
    background:#ff0;
    padding:10px;
@@ -77,15 +84,21 @@ section.slice {
    padding:10px;
    padding-bottom:60px;  
 }*/
+
 .fondo_footer {
-   position:absolute;
-   bottom:0;
-   width:100%;
-   height:60px;   /* Height of the footer */
-   /*background:#6cf;*/
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /*height:60px;   */
+  /*background:#6cf;*/
 }
+
+
 /*end sticky footer*/
 
+.social-default .fa {
+  padding-right: 4px;
+}
 
 
 /*breadcrumbs row - strictly speaking not header*/
@@ -170,5 +183,3 @@ ul.navbar-right li.selected a:after {
 ul.navbar-right li.selected a:hover:after {
   display: none;
 }
-
-
