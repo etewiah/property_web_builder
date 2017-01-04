@@ -19,11 +19,7 @@ module Pwb
     end
 
     def default_client_locale_to_use
-      # If only 1 language is supported, use that as default
-      locale = self.supported_locales.present? ? self.supported_locales.first : "en"
-      if (self.supported_languages.length > 1) && self.default_client_locale.present?
-        locale = self.default_client_locale
-      end
+      locale = self.default_client_locale || :en 
       return locale
     end
 
