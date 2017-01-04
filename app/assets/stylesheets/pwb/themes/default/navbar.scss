@@ -31,10 +31,6 @@
   background-color: #eeeeee;
 }
 
-@media (min-width: 768px) {}
-
-@media (min-width: 768px) {}
-
 .navbar {
   position: relative;
   min-height: 50px;
@@ -107,8 +103,6 @@
   }
 }
 
-@media (max-device-width: 480px) and (orientation: landscape) {}
-
 .container > .navbar-header,
 .container > .navbar-collapse {
   margin-right: -15px;
@@ -122,10 +116,6 @@
     margin-left: 0;
   }
 }
-
-@media (min-width: 768px) {}
-
-@media (min-width: 768px) {}
 
 .navbar-brand {
   float: left;
@@ -182,8 +172,6 @@
   padding-bottom: 10px;
   line-height: 20px;
 }
-
-@media (max-width: 767px) {}
 
 @media (min-width: 768px) {
   .navbar-nav {
@@ -295,9 +283,40 @@ header .navbar-wp .navbar-brand img {
   background-color: #3498db;
 }
 
+header .navbar-wp .navbar-brand {
+  overflow: hidden;
+  height: 80px;
+}
+
+.navbar-wp .navbar-nav>li>a:hover,
+.navbar-wp .navbar-nav>li>a:focus,
+.panel-base .panel-heading {
+  background: #f1c40f !important;
+  color: #fff;
+}
+
+header .navbar-wp .navbar-brand img {
+  height: 81px;
+}
+
+header .navbar-wp .navbar-brand {
+  /*avoid white line around logo*/
+  margin-top: -1px;
+  margin-bottom: -1px;
+}
+
+
+/*.navbar-wp .navbar-nav {
+  margin-bottom: -1px;
+}*/
+
+
+/*large screen first and then std dktp */
+
 @media (max-width: 991px) {
   .navbar-header {
     float: none;
+    overflow: hidden;
   }
   .navbar-toggle {
     display: block;
@@ -350,27 +369,17 @@ header .navbar-wp .navbar-brand img {
   }
 }
 
-.navbar-wp .navbar-nav {
-  margin-bottom: -1px;
+
+/* Extra Small Devices, Phones */
+
+@media only screen and (max-width: 768px) {
+  header .navbar-wp .navbar-brand {
+    /*avoid white line around logo*/
+    margin-bottom: -6px;
+  }
 }
 
-header .navbar-wp .navbar-brand {
-  overflow: hidden;
-  height: 80px;
-}
 
-.navbar-wp .navbar-nav>li>a:hover,
-.navbar-wp .navbar-nav>li>a:focus,
-.panel-base .panel-heading {
-  background: #f1c40f !important;
-  color: #fff;
-}
+/* Custom, iPhone Retina */
 
-header .navbar-wp .navbar-brand img {
-  height: 81px;
-}
-
-header .navbar-wp .navbar-brand {
-  margin-top: -1px;
-  margin-bottom: -8px;
-}
+@media only screen and (max-width: 320px) {}

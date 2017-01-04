@@ -19,7 +19,7 @@ module Pwb
     end
 
     def default_client_locale_to_use
-      locale = self.default_client_locale || :en 
+      locale = self.default_client_locale || :en
       return locale
     end
 
@@ -74,6 +74,14 @@ module Pwb
       return body_style
     end
 
+    def logo_url
+      logo_url = nil
+      logo_content = Content.find_by_key("logo")
+      if logo_content && logo_content.content_photos.length > 0
+        logo_url = logo_content.content_photos.first.image_url
+      end
+      return logo_url
+    end
 
     private
 

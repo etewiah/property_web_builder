@@ -56,11 +56,11 @@
           <span class="icon-bar"></span>
         </button>
         <!-- LOGO -->
-        <% if @logo_url  %>
+        <% if @current_agency.logo_url  %>
           <!-- Image based logo -->
           <%= link_to pwb.root_path(locale: locale), 
           class: "navbar-brand aa-logo-img" do %>
-            <img src="<%= @logo_url %>" alt="logo">
+            <img src="<%= @current_agency.logo_url %>" alt="logo">
           <% end %>
         <% else %>
           <!-- Text based logo -->

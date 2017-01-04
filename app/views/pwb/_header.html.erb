@@ -36,8 +36,8 @@
             <i class="fa fa-bars icon-custom"></i>
           </button>
           <%= link_to pwb.root_path(locale: locale), class: "navbar-brand" do %>
-            <% if @logo_url  %>
-              <img src="<%= @logo_url %>" alt="Logo">
+            <% if @current_agency.logo_url  %>
+              <img src="<%= @current_agency.logo_url %>" alt="Logo">
             <% else %>
               <div class="text-navbar-brand" style="">
                 <%= @current_agency.display_name %>
