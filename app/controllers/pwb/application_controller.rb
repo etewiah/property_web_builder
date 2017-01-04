@@ -23,11 +23,11 @@ module Pwb
       # if current_user
       #   locale = current_user.default_client_locale
       # end
-      if params[:locale]
+      if params[:locale] && (I18n.locale_available? params[:locale])
         # passed in params override user's default
         locale = params[:locale]
       end
-      I18n.locale = locale
+      I18n.locale = locale.to_sym
     end
 
     # http://www.rubydoc.info/github/plataformatec/devise/master/ActionDispatch/Routing/Mapper#devise_for-instance_method
