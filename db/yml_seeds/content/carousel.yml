@@ -15,8 +15,8 @@
       <ul class="list-carousel mb-20">
         <li><i class="fa fa-check-square"></i>Nuestro equipo está formado por profesionales</li>
       </ul>
-  photo_urls: 
-    - https://inmo-a.s3.amazonaws.com/us/gooddeals/site/6/IMG_0530_580966b6aa.JPG
+  # photo_urls: 
+  #   - https://inmo-a.s3.amazonaws.com/us/gooddeals/site/6/IMG_0530_580966b6aa.JPG
 - key: "landingCarousel2"
   tag: landing-carousel
   input_type:
@@ -33,5 +33,5 @@
       <ul class="list-carousel mb-20">
         <li><i class="fa fa-check-square"></i>Nuestro equipo está formado por profesionales</li>
       </ul>
-  photo_urls: 
-    - https://inmo-a.s3.amazonaws.com/site/17/image_86261ff135.jpeg
+  # photo_urls: 
+  #   - https://inmo-a.s3.amazonaws.com/site/17/image_86261ff135.jpeg

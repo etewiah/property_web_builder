@@ -50,7 +50,7 @@
   title_es: Ejemplo de villa para vender.  
   description_en: Description of the amazing villa for sale. 
   description_es: Descripción de una villa estupenda para vender.
-  photo_urls: 
-    - https://inmo-a.s3.amazonaws.com/property/83/image_20bc779090.jpg
-    - https://inmo-a.s3.amazonaws.com/property/90/image_20ba3b5ef9.jpg
+  # photo_urls: 
+  #   - https://inmo-a.s3.amazonaws.com/property/83/image_20bc779090.jpg
+  #   - https://inmo-a.s3.amazonaws.com/property/90/image_20ba3b5ef9.jpg
 
