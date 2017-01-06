@@ -71,8 +71,12 @@ module Pwb
           unless Pwb::Prop.where(reference: single_prop_yml['reference']).count > 0
             photos = []
             if single_prop_yml["photo_urls"].present?
-              photos = create_photos single_prop_yml["photo_urls"], Pwb::PropPhoto
+              photos = create_photos_from_urls single_prop_yml["photo_urls"], Pwb::PropPhoto
               single_prop_yml.except! "photo_urls"
+            end
+            if single_prop_yml["photo_files"].present?
+              photos = create_photos_from_files single_prop_yml["photo_files"], Pwb::PropPhoto
+              single_prop_yml.except! "photo_files"
             end
             new_prop = Pwb::Prop.create!(single_prop_yml)
             if photos.length > 0
@@ -94,8 +98,12 @@ module Pwb
           unless Pwb::Content.where(key: single_content_yml['key']).count > 0
             photos = []
             if single_content_yml["photo_urls"].present?
-              photos = create_photos single_content_yml["photo_urls"], Pwb::ContentPhoto
+              photos = create_photos_from_urls single_content_yml["photo_urls"], Pwb::ContentPhoto
               single_content_yml.except! "photo_urls"
+            end
+            if single_content_yml["photo_files"].present?
+              photos = create_photos_from_files single_content_yml["photo_files"], Pwb::ContentPhoto
+              single_content_yml.except! "photo_files"
             end
             new_content = Pwb::Content.create!(single_content_yml)
             if photos.length > 0
@@ -107,7 +115,28 @@ module Pwb
         end
       end
 
-      def create_photos photo_urls, photo_class
+      def create_photos_from_files photo_files, photo_class
+        photos = []
+        if ENV["RAILS_ENV"] == "test"
+          # don't create photos for tests
+          return photos
+        end
+        photo_files.each do |photo_file|
+          begin
+            photo = photo_class.send('create')
+            photo.image = Pwb::Engine.root.join(photo_file).open
+            photo.save!
+            photos.push photo
+          rescue Exception => e
+            if photo
+              photo.destroy!
+            end
+          end
+        end
+        return photos
+      end
+
+      def create_photos_from_urls photo_urls, photo_class
         photos = []
         if ENV["RAILS_ENV"] == "test"
           # don't create photos for tests
