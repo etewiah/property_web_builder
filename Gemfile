@@ -30,7 +30,9 @@ group :development, :test do
   # end
   gem 'simplecov',                 require: false
   unless ENV['CI']
-    gem 'launchy'
+    # uncommenting below will result in travis ci prompting me to Run `bundle install` elsewhere and add the
+    # updated Gemfile.lock to version control
+    # gem 'launchy'
     # gem 'annotate'
     # gem 'bumpy'
     # gem 'yard'
