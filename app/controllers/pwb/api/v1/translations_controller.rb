@@ -55,13 +55,13 @@ module Pwb
       return render json: { success: true }
     end
 
-    # # below called for completely new translations
+    # # below called for completely new set of translations translations
     def create_translation_value
       batch_key = params[:batch_key]
       # batch_key might be "extra" or ..
       i18n_key = params[:i18n_key].sub(/^[.]*/,"")
       # regex above just incase there is a leading .
-      subdomain = request.subdomain.downcase
+      # subdomain = request.subdomain.downcase
 
       # http://stackoverflow.com/questions/5917355/find-or-create-race-conditions
       begin
@@ -85,17 +85,34 @@ module Pwb
     end
 
 
-    # def add_locale_translation
-    #   field_key = FieldKey.find_by_global_key(params[:i18n_key])
-    #   phrase = I18n::Backend::ActiveRecord::Translation.find_or_create_by(
-    #     :key => field_key.global_key,
-    #   :locale => params[:locale])
-    #   unless phrase.value.present?
-    #     phrase.value = params[:i18n_value]
-    #     phrase.save!
-    #   end
-    #   return render json: { success: true }
-    # end
+
+    def update_for_locale
+      phrase = I18n::Backend::ActiveRecord::Translation.find(params[:id])
+      phrase.value = params[:i18n_value]
+
+      if phrase.save!
+        I18n.reload!
+        # above will ensure that calls like I18n.t("extras") in list above will
+        # have updated value.  There might be a more refined way to refresh that I don't know about
+        return render json: phrase.to_json
+      else
+        return render json: { error: "unable to update phrase" }
+      end
+
+    end
+
+
+    def create_for_locale
+      field_key = FieldKey.find_by_global_key(params[:i18n_key])
+      phrase = I18n::Backend::ActiveRecord::Translation.find_or_create_by(
+        :key => field_key.global_key,
+      :locale => params[:locale])
+      unless phrase.value.present?
+        phrase.value = params[:i18n_value]
+        phrase.save!
+      end
+      return render json: { success: true }
+    end
 
   end
 end

@@ -57,7 +57,8 @@ Pwb::Engine.routes.draw do
         get "/translations/batch/:batch_key" => "translations#get_by_batch"
         post "/translations" => "translations#create_translation_value"
 
-        # post "/translations/add_locale_translation" => "translations#add_locale_translation"
+        post "/translations/create_for_locale" => "translations#create_for_locale"
+        put "/translations/:id/update_for_locale" => "translations#update_for_locale"
         delete "/translations/:id" => "translations#delete_translation_values"
 
 
