@@ -48,17 +48,17 @@ Pwb::Engine.routes.draw do
   authenticate :user do
     namespace :api do
       namespace :v1 do
-        get "/client_translations/:locale" => "client_translations#index"
+        get "/translations/list/:locale" => "translations#list"
 
 
         # below gets FieldConfig values for a batch_key such as "person-titles"
         # and returns all the locale translations so an admin
         # can manage them..
-        get "/lang/admin_translations/:batch_key" => "client_translations#get_by_batch"
-        post "/lang/admin_translations" => "client_translations#create_translation_value"
+        get "/translations/batch/:batch_key" => "translations#get_by_batch"
+        post "/translations" => "translations#create_translation_value"
 
-        # post "/lang/admin_translations/add_locale_translation" => "client_translations#add_locale_translation"
-        delete "/lang/admin_translations/:id" => "client_translations#delete_translation_values"
+        # post "/translations/add_locale_translation" => "translations#add_locale_translation"
+        delete "/translations/:id" => "translations#delete_translation_values"
 
 
         get "/agency" => "agency#show"

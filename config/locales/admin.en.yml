@@ -1,0 +1,112 @@
+en:
+  admin:
+    "true": "true"
+    "false": "false"
+    webContentLabels: 
+      suffixEn: in English
+      suffixEs: in Spanish
+      suffixAr: in Arabic
+      suffixFr: in French
+      suffixIt: in Italian
+      suffixPt: in Portuguese
+      suffixDe: in German
+      privacyPolicy: Privacy Policy
+      legalAdvice: Legal Advice
+      landingcarousel: Text for carousel image
+      cac1: Column 1
+      cac2: Column 2
+      cac3: Column 3
+      landingPageHero: "Content for the main page"
+      tagLine: "Tag Line"
+      aboutUs: "About us"
+    webContentSections:
+      aboutUs: "About us"
+      contactInformation: "Contact information" 
+      sell: "Sell"
+      tagLine: "Tag Line"
+      legal: Legal
+      general: General
+      landingCarousel: Landing Page Carousel
+      home: Home
+      contentAreaCols: Columns
+      sections: Sections
+      info:
+        contentAreaCols: Columns on the landing page giving an overview of the services
+          you provide
+
+    fieldLabels: 
+    #   yaencontre: "Yaencontre"
+    #   pisoscom: "Pisoscom"
+    #   idealista: "Idealista"
+    #   localidad: "Localidad"
+    #   zona: "Zona"
+      codigoPostal: "Codigo Postal"
+      direccion: "Direccion"
+      direccionReal: "Direccion Real"
+      direccionMapa: "Direccion Mapa"
+      ref: "REF"
+      tipo: "Type"
+      estado: "State"
+      descripcionEspanol: "Descripcion Español"
+      tituloEspanol: "Titulo Español"
+      descripcionIngles: "Descripcion Inglés"
+      tituloIngles: "Titulo Inglés"
+      precioVenta: "Precio Venta"
+      precioAntiguo: "Original Price"
+      precioAlquiler: "Precio Alquiler"
+      origen: "Origen"
+      temporadas: "Temporadas"
+      precioTa: "Precio Temp. Alta"
+      precioTm: "Precio Temp. Media"
+      precioTb: "Precio Temp. Baja"
+      eficienciaEnergia: "Eficiencia Energia"
+      anoConstr: "Año constr"
+      numHabitaciones: "Núm. habitaciones"
+      numBanos: "Núm. baños"
+      numAseos: "Núm. aseos"
+      mParcela: "m. parcela"
+      mConstruidos: "m. construidos"
+      garaje: "Garaje"
+      forSearchWidget: For search widget
+      obscureMap: Hide exact address on website?
+      hideMap: Hide map on website?
+      forSale: For Sale?
+      priceSaleCurrent: Current Price
+      saleDiscount: saleDiscount
+      priceSaleOriginal: Original Price
+      longTermRental: Available for long term rental?
+      seasonalRental: Available for seasonal rental?
+      priceRentalMonthlyHighSeason: Price for high season rental
+      priceRentalMonthlyLowSeason: Price for low season rental
+      priceRentalMonthlyStandardSeason: Price for normal season rental
+      priceRentalMonthlyCurrent: Current rental price (per month)
+      longTermRentalDiscount: longTermRentalDiscount
+      priceRentalMonthlyOriginal: Original rental price (per month)
+      firstNames: First Name
+      lastNames: Last Names
+      visible: Visible
+      highlighted: Highlighted
+      label: Label
+      companyName: Company Name
+      primaryPhone: Main phone number
+      otherPhone: Other phone number
+      nationality: Nationality
+      documentationType: Documentation Type
+      documentationId: Documentation Id
+      email: Email
+      fax: Fax
+      skype: Skype
+      personTitle: Title
+      description: Description
+      title: Title
+    # for header row in property listing
+    propertyColHeader:
+      highlighted: Highlighted
+      locality: Locality
+      actions: Actions
+      zone: Zone
+      price: Price
+      rooms: Rooms
+      visible: Visible
+      reference: Ref
+      type: Type

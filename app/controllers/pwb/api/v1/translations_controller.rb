@@ -1,19 +1,28 @@
 require_dependency "pwb/application_controller"
 
 module Pwb
-  class Api::V1::ClientTranslationsController < ApplicationApiController
+  class Api::V1::TranslationsController < ApplicationApiController
 
     # protect_from_forgery with: :null_session
 
     respond_to :json
 
-    def index
-      # return all translations for a given locale
-      # TODO - filter to subset needed by client ui
+    def list
+      # return all admin ui translations for a given locale
       locale = params[:locale]
-      phrases = I18n::Backend::ActiveRecord::Translation.where(:locale => locale)
+      # below are phrases like webContentLabels which are not managed by admin:
+      phrases = I18n.t("admin", locale: locale, :default => {})
+      # below are phrases such as extras & propertyTypes which can be
+      # managed by admin and so are in db:
+      phrases[:extras] = I18n.t("extras", locale: locale, :default => {})
+      phrases[:propertyStates] = I18n.t("propertyStates", locale: locale, :default => {})
+      phrases[:propertyTypes] = I18n.t("propertyTypes", locale: locale, :default => {})
+      phrases[:propertyOrigin] = I18n.t("propertyOrigin", locale: locale, :default => {})
+      phrases[:propertyLabels] = I18n.t("propertyLabels", locale: locale, :default => {})
+      # .limit(2)
       render :json => {
-        locale =>  phrases.as_json(:only => ["i18n_key","i18n_value"])
+        locale => phrases
+        # locale =>  phrases.as_json(:only => ["i18n_key","i18n_value"])
       }
     end
 
@@ -87,9 +96,6 @@ module Pwb
     #   end
     #   return render json: { success: true }
     # end
-
-
-
 
   end
 end
