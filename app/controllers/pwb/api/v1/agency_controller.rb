@@ -13,6 +13,7 @@ module Pwb
 
     def show
       @agency = Agency.last
+      @setup = Pwb::ClientSetup.find_by_name "default" || Pwb::ClientSetup.first
       if @agency
         return render json: {
           #TODO - change legacy admin code to retrieve info below
@@ -27,7 +28,8 @@ module Pwb
           # supported_languages: [:en,:es]
 
           agency: @agency,
-          primary_address: @agency.primary_address
+          primary_address: @agency.primary_address,
+          setup: @setup.as_json["attributes"]
           # current_user: current_user.as_json(:only => ["email", "first_names","last_names","phone_number_primary","skype"])
         }
 

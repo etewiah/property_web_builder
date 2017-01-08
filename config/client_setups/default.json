@@ -1,0 +1,12 @@
+[{
+  "name": "default",
+  "id": "default",
+  "agencyTabsList": [{
+    "tabValue": "general",
+    "tabTitleKey": "agencySections.general"
+  }, {
+    "tabValue": "location",
+    "tabTitleKey": "agencySections.location"
+  }]
+}
+]
