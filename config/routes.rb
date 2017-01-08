@@ -74,8 +74,9 @@ Pwb::Engine.routes.draw do
         jsonapi_resources :properties
         jsonapi_resources :sections
         jsonapi_resources :web_contents
-        get "/select_values" => "select_values#by_field_names"
 
+        get "/themes" => "themes#index"
+        get "/select_values" => "select_values#by_field_names"
 
         # TODO - rename properties below to prop
         post "properties/update_extras" => "properties#update_extras"

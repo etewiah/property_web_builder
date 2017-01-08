@@ -108,7 +108,11 @@ module Pwb
 
 
     def agency_params
-      params.require(:agency).permit(:company_name, :display_name, :phone_number_primary, :phone_number_other, supported_locales: [])
+      params.require(:agency).permit(
+        :company_name, :display_name,
+        :phone_number_primary, :phone_number_other,
+        :theme_name,
+      supported_locales: [])
     end
 
   end
