@@ -9,13 +9,12 @@ module Pwb
     belongs_to :primary_address, class_name: "Address", foreign_key: 'primary_address_id'
     belongs_to :secondary_address, class_name: "Address", foreign_key: 'secondary_address_id'
 
-    # TODO - replace below with supported_locales
-    def supported_languages
-      return self.supported_locales.present? ? self.supported_locales : ["en"]
-    end
+    # def supported_languages
+    #   return self.supported_locales.present? ? self.supported_locales : ["en"]
+    # end
 
     def is_multilingual
-      return self.supported_languages.length > 1
+      return self.supported_locales.length > 1
     end
 
     def default_client_locale_to_use

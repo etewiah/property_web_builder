@@ -30,6 +30,47 @@ module Pwb
       end
     end
 
+    describe "PUT /api/v1/agency" do
+      it "updates agency" do
+        sign_in @admin_user
+
+        agency_params = {
+          "agency": {
+            "company_name": 'my re',
+            "supported_locales": ["fr","es"],
+            "social_media": {
+              "twitter": "http://twitter.com",
+              "youtube": ""
+            },
+            "raw_css": "",
+            "style_variables": {
+              "primary_color": "#3498db",
+              "secondary_color": "#563d7c",
+              "action_color": "green",
+              "body_style": "siteLayout.boxed",
+              "theme": "light"
+            }
+          }
+        }.to_json
+
+        request_headers = {
+          "Accept" => "application/json",
+          "Content-Type" => "application/json"
+        }
+
+
+        put "/api/v1/agency", params: agency_params, headers: request_headers
+        expect(response.status).to eq 200 # successful
+        @agency.reload
+        expect(@agency.supported_locales).to eq ["fr","es"]
+        social_media_expectation = {"twitter"=>"http://twitter.com", "youtube"=>""}
+        style_variables_expectation = {"primary_color"=>"#3498db", "secondary_color"=>"#563d7c", "action_color"=>"green", "body_style"=>"siteLayout.boxed", "theme"=>"light"}
+        expect(@agency.social_media).to eq social_media_expectation
+        expect(@agency.style_variables).to eq style_variables_expectation
+      end
+    end
+
+
     describe "PUT /api/v1/tenant" do
       it "updates agency" do
         sign_in @admin_user

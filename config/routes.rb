@@ -66,8 +66,7 @@ Pwb::Engine.routes.draw do
         put "/agency" => "agency#update"
         get "/infos" => "agency#infos"
 
-        #TODO - change legacy admin code to put to /agency
-        put "tenant" => "agency#update_legacy"
+        # put "tenant" => "agency#update_legacy"
         put "/master_address" => "agency#update_master_address"
 
         # get "/web-contents" => "agency#infos"

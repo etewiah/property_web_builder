@@ -37,9 +37,9 @@ module Pwb
       end
 
       describe 'GET #show' do
-        let!(:agency) { FactoryGirl.create(:pwb_agency) }
+        let!(:agency) {  FactoryGirl.create(:pwb_agency, company_name: 'my re')}
 
-        it 'returns correct agency' do
+        it 'returns correct agency and default setup info' do
           get :show, params: {}
           # , format: :json
 
@@ -49,7 +49,8 @@ module Pwb
           result = JSON.parse(response.body)
 
           expect(result).to have_key('agency')
-          expect(result['agency']['id']).to eq(agency.id)
+          expect(result['agency']['company_name']).to eq(agency.company_name)
+          expect(result['setup']['name']).to eq('default')
         end
       end
     end
