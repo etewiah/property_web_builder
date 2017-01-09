@@ -7,6 +7,7 @@ module Pwb
     # attributes :ano_constr, :street_address, :street_number, :postal_code
     # attributes :locality_title, :zone_title, :city, :region, :country, :longitude, :latitude
 
+    attributes :prop_type_key, :prop_state_key, :prop_origin_key
 
     attributes :count_bedrooms, :count_bathrooms, :count_toilets, :count_garages
     attributes :constructed_area, :plot_area

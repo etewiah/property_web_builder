@@ -2,21 +2,23 @@ es:
   admin:
     "true": "true"
     "false": "false"
+    "yes": "si"
+    "no": "no" 
     webContentLabels: 
-      suffixEn: in English
-      suffixEs: in Spanish
-      suffixAr: in Arabic
-      suffixFr: in French
-      suffixIt: in Italian
-      suffixPt: in Portuguese
-      suffixDe: in German
-      privacyPolicy: Privacy Policy
-      legalAdvice: Legal Advice
-      landingcarousel: Text for carousel image
-      cac1: Column 1
-      cac2: Column 2
-      cac3: Column 3
-      landingPageHero: "Content for the main page"
+      suffixAr: en Arabe
+      suffixFr: en Francés
+      suffixIt: en Italiano
+      suffixPt: en Portugués
+      suffixDe: en Alemán
+      suffixEn: en Inglés
+      suffixEs: en Español
+      privacyPolicy: Texto de la política de privacidad
+      legalAdvice: Texto del aviso legal
+      landingcarousel: Texto del slider
+      cac1: Columna 1
+      cac2: Columna 2
+      cac3: Columna 3
+      landingPageHero: "Contenido para la pagina principal"
       tagLine: "Tag Line"
       aboutUs: "About us"
     webContentSections:
@@ -24,15 +26,14 @@ es:
       contactInformation: "Contact information" 
       sell: "Sell"
       tagLine: "Tag Line"
-      legal: Legal
+      legal: Aviso Legal
       general: General
-      landingCarousel: Landing Page Carousel
+      landingCarousel: Slider
       home: Home
-      contentAreaCols: Columns
-      sections: Sections
+      contentAreaCols: Columnas
+      sections: Secciónes
       info:
-        contentAreaCols: Columns on the landing page giving an overview of the services
-          you provide
+        contentAreaCols: Columnas del pagina principal
 
     fieldLabels: 
     #   yaencontre: "Yaencontre"
@@ -40,6 +41,7 @@ es:
     #   idealista: "Idealista"
     #   localidad: "Localidad"
     #   zona: "Zona"
+      currency: "Moneda"
       codigoPostal: "Codigo Postal"
       direccion: "Direccion"
       direccionReal: "Direccion Real"
@@ -60,53 +62,55 @@ es:
       precioTm: "Precio Temp. Media"
       precioTb: "Precio Temp. Baja"
       eficienciaEnergia: "Eficiencia Energia"
-      anoConstr: "Año constr"
-      numHabitaciones: "Núm. habitaciones"
-      numBanos: "Núm. baños"
+      yearConstruction: "Año constr"
+      countBedrooms: "Núm. habitaciones"
+      countBathrooms: "Núm. baños"
       numAseos: "Núm. aseos"
-      mParcela: "m. parcela"
-      mConstruidos: "m. construidos"
+      plotArea: "m. parcela"
+      constructedArea: "m. construidos"
       garaje: "Garaje"
-      forSearchWidget: For search widget
-      obscureMap: Hide exact address on website?
-      hideMap: Hide map on website?
-      forSale: For Sale?
-      priceSaleCurrent: Current Price
-      saleDiscount: saleDiscount
-      priceSaleOriginal: Original Price
-      longTermRental: Available for long term rental?
-      seasonalRental: Available for seasonal rental?
-      priceRentalMonthlyHighSeason: Price for high season rental
-      priceRentalMonthlyLowSeason: Price for low season rental
-      priceRentalMonthlyStandardSeason: Price for normal season rental
-      priceRentalMonthlyCurrent: Current rental price (per month)
-      longTermRentalDiscount: longTermRentalDiscount
-      priceRentalMonthlyOriginal: Original rental price (per month)
-      firstNames: First Name
-      lastNames: Last Names
+      forSearchWidget: Para la búsqueda
+      obscureMap: No mostrar dirección exacta en la web?
+      hideMap: No mostrar mapa en la web
+      forSale: Para venta?
+      priceSaleCurrent: Precio
+      saleDiscount: Descuento
+      priceSaleOriginal: Precio original
+      longTermRental: Disponible para alquiler a largo plazo?
+      seasonalRental: Disponible para alquiler vacacional?
+      priceRentalMonthlyHighSeason: Precio de temporada alta
+      priceRentalMonthlyLowSeason: Precio de temporada baja
+      priceRentalMonthlyStandardSeason: Precio de temporada media
+      priceRentalMonthlyCurrent: Precio de alquiler (mensual)
+      longTermRentalDiscount: Descuento en el alquiler
+      priceRentalMonthlyOriginal: Precio original del alquiler (mensual)
+      firstNames: Nombre
+      lastNames: Apellidos
       visible: Visible
-      highlighted: Highlighted
-      label: Label
-      companyName: Company Name
-      primaryPhone: Main phone number
-      otherPhone: Other phone number
-      nationality: Nationality
-      documentationType: Documentation Type
-      documentationId: Documentation Id
+      highlighted: Destacados
+      label: Etiqueta
+      companyName: Nombre de la empresa
+      primaryPhone: Teléfono principal
+      otherPhone: Teléfono 2
+      nationality: Nacionalidad
+      documentationType: Tipo de documento
+      documentationId: Número de documento
       email: Email
       fax: Fax
       skype: Skype
-      personTitle: Title
-      description: Description
-      title: Title
+      personTitle: Sr, Sra. o similar
+      description: Descripción
+      title: Título
+
     # for header row in property listing
     propertyColHeader:
-      highlighted: Highlighted
-      locality: Locality
-      actions: Actions
-      zone: Zone
-      price: Price
-      rooms: Rooms
+      highlighted: Destacado
+      locality: Localidad
+      actions: Acciones
+      zone: Zona
+      price: Precio
+      bedrooms: Habitaciones
+      bathrooms: Baños
       visible: Visible
       reference: Ref
-      type: Type
+      type: Tipo
