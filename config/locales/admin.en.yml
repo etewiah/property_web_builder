@@ -43,6 +43,7 @@ en:
     #   localidad: "Localidad"
     #   zona: "Zona"
       currency: "Currency"
+      defaultCurrency: "Default Currency"
       codigoPostal: "Codigo Postal"
       direccion: "Direccion"
       direccionReal: "Direccion Real"
