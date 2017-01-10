@@ -12,6 +12,19 @@ module Pwb
     # def supported_languages
     #   return self.supported_locales.present? ? self.supported_locales : ["en"]
     # end
+    def as_json(options = nil)
+      super({:only =>[
+               "display_name", "company_name", "theme_name",
+               "phone_number_primary","phone_number_mobile","phone_number_other",
+               "social_media","default_client_locale",
+               "default_admin_locale","raw_css","analytics_id",
+               "email_primary","email_for_property_contact_form", "email_for_general_contact_form",
+               "available_currencies","default_currency",
+               "supported_locales","available_locales"
+             ],
+             :methods => ["style_variables"]}.merge(options || {}))
+    end
+
 
     def is_multilingual
       return self.supported_locales.length > 1

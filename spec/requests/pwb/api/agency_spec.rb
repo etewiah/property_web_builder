@@ -59,6 +59,17 @@ module Pwb
         }
 
 
+        #  ActionDispatch::IntegrationTest HTTP request methods will accept only
+        # the following keyword arguments in future Rails versions:
+        # params, headers, env, xhr, as
+
+        # put '/profile',
+        #   params: { id: 1 },
+        #   headers: { 'X-Extra-Header' => '123' },
+        #   env: { 'action_dispatch.custom' => 'custom' },
+        #   xhr: true,
+        #   as: :json
+
         put "/api/v1/agency", params: agency_params, headers: request_headers
         expect(response.status).to eq 200 # successful
         @agency.reload
@@ -71,35 +82,24 @@ module Pwb
     end
 
 
-    describe "PUT /api/v1/tenant" do
-      it "updates agency" do
+    describe "GET /api/v1/agency" do
+      it "has correct agency json" do
         sign_in @admin_user
 
-        agency_params = {
-          "supported_languages": ["fr","es"]
-        }.to_json
-
-        request_headers = {
-          "Accept" => "application/json",
-          "Content-Type" => "application/json"
-        }
-
-
-        #  ActionDispatch::IntegrationTest HTTP request methods will accept only
-        # the following keyword arguments in future Rails versions:
-        # params, headers, env, xhr, as
-
-        # put '/profile',
-        #   params: { id: 1 },
-        #   headers: { 'X-Extra-Header' => '123' },
-        #   env: { 'action_dispatch.custom' => 'custom' },
-        #   xhr: true,
-        #   as: :json
-
-        put "/api/v1/tenant", params: agency_params, headers: request_headers
+        get "/api/v1/agency"
         expect(response.status).to eq 200 # successful
-        @agency.reload
-        expect(@agency.supported_locales).to eq ["fr","es"]
+        # @agency.reload
+        # byebug
+        expect(response.body).to have_json_path("agency")
+        expect(response.body).to have_json_path("primary_address")
+        expect(response.body).to have_json_path("agency")
+        expect(response.body).to have_json_path("agency/company_name")
+        expect(response.body).to_not have_json_path("agency/flags")
+        expect(response.body).to have_json_type(String).at_path("agency/company_name")
+        # expect(response.body).to have_json_size(1).at_path("agency/company_name")
+        # expect(response.body).to include_json({"company_name":"my re"}.to_json).at_path("agency/company_name")
+        # expect(response_body_as_json).to include_json({"company_name":"my re"}.to_json).at_path("agency")
+        # expect(@agency.supported_locales).to eq ["fr","es"]
       end
     end
 

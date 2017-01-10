@@ -27,6 +27,7 @@ module RequestSpecHelpers
     logout(scope)
   end
 
+  # http://matthewlehner.net/rails-api-testing-guidelines/
   def response_body_as_json
     JSON.parse(response.body)
   end

@@ -16,24 +16,10 @@ module Pwb
       @setup = Pwb::ClientSetup.find_by_name "default" || Pwb::ClientSetup.first
       if @agency
         return render json: {
-          # tenant:             @agency.as_json(
-          #   :only =>
-          #   ["social_media","default_client_locale",
-          #    "default_admin_locale","raw_css","site_template_id"],
-          #   :methods => ["style_variables","supported_languages",
-          #                "available_locales"]),
 
-          agency: @agency.as_json(
-            :only =>[
-              "display_name", "company_name", "theme_name",
-              "phone_number_primary","phone_number_mobile","phone_number_other",
-              "social_media","default_client_locale",
-              "default_admin_locale","raw_css","analytics_id",
-              "email_primary","email_for_property_contact_form", "email_for_general_contact_form",
-              "available_currencies","supported_currencies",
-              "supported_locales","available_locales"
-            ],
-          :methods => ["style_variables"]),
+          # supported_currencies for agency will be used when clients have the ability
+          # to instantly convert between currencies
+          agency: @agency,
           primary_address: @agency.primary_address,
           setup: @setup.as_json["attributes"]
           # current_user: current_user.as_json(:only => ["email", "first_names","last_names","phone_number_primary","skype"])
@@ -111,7 +97,7 @@ module Pwb
       params.require(:agency).permit(
         :company_name, :display_name,
         :phone_number_primary, :phone_number_other,
-        :theme_name,
+        :theme_name, :default_currency,
       supported_locales: [])
     end
 
