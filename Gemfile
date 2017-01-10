@@ -56,4 +56,5 @@ group :development, :test do
   gem 'guard'
   gem 'guard-rspec', require: false
   gem 'zeus'
+  gem 'json_spec'
 end
