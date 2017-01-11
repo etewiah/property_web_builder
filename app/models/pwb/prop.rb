@@ -6,7 +6,7 @@ module Pwb
 
 
     # Use EUR as model level currency
-    register_currency :eur
+    # register_currency :eur
 
     # monetize :precio_venta, with_model_currency: :currency, :as => "sales_price", :allow_nil => true
     monetize :price_sale_current_cents, with_model_currency: :currency, :allow_nil => true
@@ -26,7 +26,9 @@ module Pwb
     #   :less_than_or_equal_to => 10000
     # }
 
-    validates :reference, :uniqueness => { case_sensitive: false }
+    # TODO - Ensure admin client can warn of uniqueness errors 
+    # and enable below:
+    # validates :reference, :uniqueness => { case_sensitive: false }
 
     has_many :prop_photos, -> { order 'sort_order asc' }
     has_many :features
@@ -212,8 +214,21 @@ module Pwb
 
 
     before_save :set_rental_search_price
+    after_create :set_currency
 
     private
+
+    def set_currency
+
+      # This is pretty ugly - need to create a service object
+      # with DI as soon as I can:
+      default_currency = Agency.last.present? ? Agency.last.default_currency : nil
+      if default_currency.present?
+        self.currency =  default_currency
+        self.save
+      end
+
+    end
 
     # called from before_save
     def set_rental_search_price

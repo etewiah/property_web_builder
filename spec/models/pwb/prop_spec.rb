@@ -2,11 +2,17 @@ require 'rails_helper'
 
 module Pwb
   RSpec.describe Prop, type: :model do
-    let(:prop) { FactoryGirl.create(:pwb_prop) }
+    # let(:prop) { FactoryGirl.create(:pwb_prop) }
 
-    it 'has a valid factory' do
-      expect(prop).to be_valid
+    # it 'has a valid factory' do
+    #   expect(prop).to be_valid
+    # end
+
+    before(:all) do
+      @agency = FactoryGirl.create(:pwb_agency, default_currency: 'GBP')
     end
+
+
 
     context 'scopes' do
       before(:all) do
@@ -18,6 +24,10 @@ module Pwb
                                             price_rental_monthly_current_cents: 100_000,
                                             reference: "ref5bbed",
                                             count_bedrooms: 5)
+      end
+
+      it 'should have correct currency' do
+        expect(@two_bedroom.currency).to eq(@agency.default_currency)
       end
 
       it 'should have correct rental price' do
