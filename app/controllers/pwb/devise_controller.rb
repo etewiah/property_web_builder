@@ -73,7 +73,8 @@ module Pwb
 
 
     def after_sign_in_path_for(resource_or_scope)
-      pwb.home_path
+      # TODO - check for admin v standard users
+      pwb.admin_path
       # stored_location_for(resource_or_scope) || signed_in_root_path(resource_or_scope)
     end
   end
