@@ -4,6 +4,19 @@ en:
     "false": "false"
     "yes": "yes"
     "no": "no" 
+    adminSections:
+      start: Home
+      agencyDetails: Agency
+      content: Website
+      translations: Translations
+      properties: Properties
+      clientes: Clients
+      quit: Go To Site
+      list: List
+      settings: Settings
+      labels: Labels
+      about: About
+
     webContentLabels: 
       suffixEn: in English
       suffixEs: in Spanish

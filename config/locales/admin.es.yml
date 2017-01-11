@@ -4,6 +4,19 @@ es:
     "false": "false"
     "yes": "si"
     "no": "no" 
+    adminSections:
+      start: Inicio
+      agencyDetails: Agencia
+      content: Página Web
+      translations: Traduciones
+      properties: Propiedades
+      clientes: Clientes
+      quit: Ir a la web
+      list: Lista
+      settings: Configuración
+      labels: Etiquetas
+      about: Info
+
     webContentLabels: 
       suffixAr: en Arabe
       suffixFr: en Francés
