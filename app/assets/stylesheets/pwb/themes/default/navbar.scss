@@ -368,11 +368,192 @@ header .navbar-wp .navbar-brand {
 }
 
 
-/* Extra Small Devices, Phones */
+/* below ensures dropdown on mobile stays down */
 
-@media only screen and (max-width: 768px) {}
+@media (max-width:991px) {
+  .navbar-header {
+    float: none
+  }
+  .navbar-toggle {
+    display: block
+  }
+  .navbar-collapse {
+    border-top: 1px solid transparent;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1)
+  }
+  .navbar-collapse.collapse {
+    display: none !important
+  }
+  .navbar-nav {
+    float: none !important;
+    margin: 7.5px -15px
+  }
+  .navbar-nav>li {
+    float: none
+  }
+  .navbar-nav>li>a {
+    padding-top: 10px;
+    padding-bottom: 10px
+  }
+  .navbar-collapse.collapse.in {
+    display: block !important;
+    overflow-y: scroll !important;
+    max-height: 340px !important
+  }
+  .navbar-nav .open .dropdown-menu {
+    position: static;
+    float: none;
+    width: auto;
+    margin-top: 0;
+    background-color: transparent;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none
+  }
+  .text-sm-center {
+    text-align: center
+  }
+  #desktopLogo {
+    display: none
+  }
+  header .navbar-brand {
+    margin: 14px auto;
+    float: none;
+    padding: 0 15px;
+    display: inline-block
+  }
+  header .top-navbar-header .navbar-brand {
+    margin: 14px auto;
+    float: none;
+    padding: 5px 0;
+    display: inline-block
+  }
+  .navbar-wp .navbar-collapse {
+    background-color: #fff
+  }
+  .navbar-wp .navbar-nav>li {
+    border-bottom: 1px solid #e0eded
+  }
+  .navbar-wp .navbar-nav>li>a {
+    color: #333;
+    padding: 10px 20px !important;
+    margin-right: 0
+  }
+  .navbar-wp .navbar-nav>li>a:after {
+    content: "+";
+    position: relative;
+    float: right
+  }
+  .navbar-wp .navbar-nav>li>a:hover,
+  .navbar-wp .navbar-nav>li>a:focus {
+    color: #fff;
+    background-color: #3498db;
+    border-radius: 0 !important
+  }
+  .navbar-wp .navbar-nav>.active>a,
+  .navbar-wp .navbar-nav>.active>a:hover,
+  .navbar-wp .navbar-nav>.active>a:focus {
+    border-radius: 0 !important
+  }
+  .navbar-wp .dropdown-menu:after {
+    border: 0 !important;
+    margin-left: 0
+  }
+  .navbar-wp .dropdown-menu:before {
+    border: 0 !important;
+    margin-left: 0
+  }
+  .top-header .top-header-menu ul.menu>li ul.sub-menu {
+    display: none !important
+  }
+  .aside-feature {
+    text-align: center
+  }
+  .aside-feature .icon-feature {
+    text-align: center
+  }
+  .sort-list-btn .btn {
+    margin-bottom: 10px
+  }
+  .navbar-nav .open .dropdown-menu>li>a,
+  .navbar-nav .open .dropdown-menu .dropdown-header {
+    padding: 8px 30px
+  }
+  .navbar-nav .open .dropdown-submenu .divider {
+    padding-left: 50px
+  }
+  .dropdown-submenu .dropdown-menu {
+    display: block !important
+  }
+  .navbar-nav .open .dropdown-submenu>a {
+    border-bottom: 1px solid #e0eded
+  }
+  .navbar-nav .open .dropdown-submenu>a:after {
+    content: "+";
+    position: relative;
+    left: -5px;
+    float: left
+  }
+  .navbar-nav .open .dropdown-submenu .dropdown-menu>li>a,
+  .navbar-nav .open .dropdown-submenu .dropdown-menu .dropdown-header {
+    padding-left: 50px
+  }
+  .dropdown-meganav .dropdown-menu {
+    margin: 0 !important
+  }
+  .navbar-wp .dropdown-menu .mega-nav-section-wr {
+    border: 0;
+    padding: 0 !important
+  }
+  .navbar-wp .dropdown-menu .mega-nav-section-title {
+    font-size: 14px;
+    font-family: "PT Sans", sans-serif;
+    border-bottom: 1px solid #e0eded;
+    margin: 0;
+    padding: 10px 25px;
+    text-transform: none;
+    color: #333;
+    font-weight: normal
+  }
+  .navbar-wp .dropdown-menu .mega-nav-section-title:after {
+    content: "+";
+    position: relative;
+    float: left;
+    left: -5px
+  }
+  .navbar-wp .dropdown-menu .mega-nav-section-wr {
+    border-right: 0
+  }
+  .navbar-wp .dropdown-menu .mega-nav-section {
+    padding: 0 !important
+  }
+  .navbar-wp .dropdown-menu ul.mega-nav-ul {
+    margin: 0;
+    margin-bottom: 0;
+    padding: 0;
+    list-style: none
+  }
+  .navbar-wp .dropdown-menu ul.mega-nav-ul li {
+    position: relative
+  }
+  .navbar-wp .dropdown-menu ul.mega-nav-ul li a {
+    display: block;
+    padding: 8px 45px !important;
+    border-bottom: 1px solid #e0eded;
+    color: #333
+  }
+  .navbar-wp .dropdown-menu ul.mega-nav-ul.arrow-li li a {
+    padding-left: 12px
+  }
+  .navbar-wp .dropdown-menu ul.mega-nav-ul.arrow-li li a:before {
+    content: "\f105";
+    font-family: FontAwesome;
+    position: absolute;
+    left: 0;
+    color: #333
+  }
+  .navbar-wp .dropdown-menu ul.mega-nav-ul.arrow-li li a:hover {
+    color: #3498db
+  }
+}
 
-
-/* Custom, iPhone Retina */
-
-@media only screen and (max-width: 320px) {}

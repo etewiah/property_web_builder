@@ -16,8 +16,12 @@ $base-bg-color:#fcfcfc;
 /*below is slightly darker shade of above pale gray*/
 $base-border-color:#e0eded;
 
-@import "bootstrap";
+
+/* "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+*/
 @import "bootstrap-sprockets";
+@import "bootstrap";
+
 @import "bootstrap-select";
 /* font-awesome import fails even though it
 is being imported in engine.rb as per:
