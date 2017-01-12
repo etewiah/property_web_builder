@@ -56,16 +56,16 @@ module I18n
 
         class << self
           def locale(locale)
-            where(:locale => locale.to_s)
+            where(locale: locale.to_s)
           end
 
           def lookup(keys, *separator)
             column_name = connection.quote_column_name('key')
-            keys = Array(keys).map! { |key| key.to_s }
+            keys = Array(keys).map!(&:to_s)
 
             unless separator.empty?
-              warn "[DEPRECATION] Giving a separator to Translation.lookup is deprecated. " <<
-                "You can change the internal separator by overwriting FLATTEN_SEPARATOR."
+              warn "[DEPRECATION] Giving a separator to Translation.lookup is deprecated. " \
+                   "You can change the internal separator by overwriting FLATTEN_SEPARATOR."
             end
 
             namespace = "#{keys.last}#{I18n::Backend::Flatten::FLATTEN_SEPARATOR}%"
@@ -78,7 +78,7 @@ module I18n
         end
 
         def interpolates?(key)
-          self.interpolations.include?(key) if self.interpolations
+          interpolations.include?(key) if interpolations
         end
 
         def value
@@ -104,22 +104,21 @@ module I18n
           write_attribute(:value, value)
         end
 
-
         # alt names for key and value
         def i18n_key
           key
         end
+
         def i18n_value
           value
         end
 
         # https://quickleft.com/blog/keeping-your-json-response-lean-in-rails/
-        def as_json(options={})
-          super(:only => [:id,:locale,:interpolations],
-                :methods => [:i18n_key,:i18n_value]
+        def as_json(_options = {})
+          super(only: [:id, :locale, :interpolations],
+                methods: [:i18n_key, :i18n_value]
                 )
         end
-
       end
     end
   end

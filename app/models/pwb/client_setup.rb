@@ -1,6 +1,6 @@
 module Pwb
   # https://github.com/zilkey/active_hash
-  class ClientSetup <  ActiveJSON::Base
+  class ClientSetup < ActiveJSON::Base
     # self.data =
     #   { "us":
     #     {

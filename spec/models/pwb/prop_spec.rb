@@ -12,8 +12,6 @@ module Pwb
       @agency = FactoryGirl.create(:pwb_agency, default_currency: 'GBP')
     end
 
-
-
     context 'scopes' do
       before(:all) do
         # @first = FactoryGirl.create(:pwb_prop, created_at: 1.day.ago)

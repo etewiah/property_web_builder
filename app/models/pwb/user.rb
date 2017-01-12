@@ -5,10 +5,9 @@ module Pwb
     devise :database_authenticatable, :registerable,
            :recoverable, :rememberable, :trackable, :validatable
 
-    # TODO - use db col for below
+    # TODO: - use db col for below
     def default_client_locale
-      return :en
+      :en
     end
-
   end
 end

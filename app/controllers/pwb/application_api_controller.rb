@@ -4,7 +4,7 @@ module Pwb
     protect_from_forgery with: :exception, prepend: true
     # include ActionController::HttpAuthentication::Token::ControllerMethods
 
-    before_filter :authenticate_user!, :current_agency, :check_user
+    before_action :authenticate_user!, :current_agency, :check_user
     # , :authenticate_user_from_token!, :set_locale
     after_action :set_csrf_token
 

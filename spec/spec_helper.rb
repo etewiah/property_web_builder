@@ -42,7 +42,6 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 ActionController::Base.prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/"
 
 RSpec.configure do |config|
-
   config.include JsonSpec::Helpers
 
   config.mock_with :rspec

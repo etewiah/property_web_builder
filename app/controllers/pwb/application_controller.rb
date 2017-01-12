@@ -2,7 +2,7 @@ module Pwb
   class ApplicationController < ActionController::Base
     protect_from_forgery with: :exception
 
-    before_filter :current_agency, :sections, :set_locale, :set_theme_path
+    before_action :current_agency, :sections, :set_locale, :set_theme_path
 
     def set_theme_path
       theme_name = "default"

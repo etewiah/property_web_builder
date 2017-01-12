@@ -2,8 +2,8 @@ module Pwb
   class DeviseController < ActionController::Base
     protect_from_forgery with: :exception
 
-    before_filter :current_agency, :sections, :set_locale, :set_theme_path
-    # before_filter :configure_permitted_parameters, if: :devise_controller?
+    before_action :current_agency, :sections, :set_locale, :set_theme_path
+    # before_action :configure_permitted_parameters, if: :devise_controller?
 
 
     def set_theme_path
