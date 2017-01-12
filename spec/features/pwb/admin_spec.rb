@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 module Pwb
-  RSpec.describe "Prop Search", type: :feature, js: true do
+  RSpec.describe "Admin panel", type: :feature, js: true do
     before(:all) do
       @admin_user = User.create!(email: "user@example.org", password: "very-secret", admin: true)
       @prop_for_long_term_rent = FactoryGirl.create(
@@ -12,7 +12,7 @@ module Pwb
       )
     end
 
-    scenario 'admin works works' do
+    scenario 'sign in works' do
       visit('/admin')
       # puts current_url
       # require 'pry'; binding.pry
@@ -20,16 +20,12 @@ module Pwb
       fill_in('Email', with: @admin_user.email)
       fill_in('Password', with: @admin_user.password)
       click_button('Sign in')
-      visit('/admin')
-      # byebug
-      expect(page).to have_css(".main-menu", count: 1)
+      # visit('/admin')
 
-      # Capybara.ignore_hidden_elements = false
-      # passing visible: false below would be like setting above
-      # select('2000', from: 'search_for_rent_price_from', visible: false)
-      # click_button('Search')
-      # expect(page).to have_css(".property-item", count: 0)
-      # expect(current_path).to eq("/en")
+      # expect(page).to have_css(".main-menu", count: 1)
+
+      # expect(last('.card').find('h2')).to have_content('Website')
+      expect(page).to have_link('Add a property')
     end
 
     # after(:all) do

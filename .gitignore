@@ -31,4 +31,5 @@ spec/dummy/config/secrets.yml
 spec/dummy/public/css/
 spec/dummy/public/img/
 spec/dummy/public/js/
+spec/dummy/public/capybara.html
 notes
