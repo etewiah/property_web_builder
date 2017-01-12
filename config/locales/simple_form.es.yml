@@ -1,0 +1,55 @@
+es:
+  simple_form:
+    "yes": 'Si'
+    "no": 'No'
+    required:
+      text: 'required'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    labels:
+      search:
+        for_rent_price_from: 'Precio desde (Mensual)'
+        for_rent_price_till: 'Precio hasta (Mensual)'
+        for_sale_price_from: 'Precio desde'
+        for_sale_price_till: 'Precio hasta'
+        count_bedrooms: 'Habitaciones'
+        count_bathrooms: 'Baños (min)'
+        property_type: 'Tipo Propiedad'
+        property_state: 'Estado Propiedad'
+        locality: 'Localidad'
+        in_locality: 'Localidad'
+        in_zone: 'Zona'
+    error_notification:
+    #TODO - get someone to reviw below 
+      default_message: "Revisa los problemas identificado:"
+    # Examples
+    # labels:
+    #   defaults:
+    #     password: 'Password'
+    #   user:
+    #     new:
+    #       email: 'E-mail to sign in.'
+    #     edit:
+    #       email: 'E-mail.'
+    # hints:
+    #   defaults:
+    #     username: 'User name to sign in.'
+    #     password: 'No special characters, please.'
+    # include_blanks:
+    #   defaults:
+    #     age: 'Rather not say'
+    # prompts:
+    #   defaults:
+    #     age: 'Select your age'
+    # placeholders:
+    #   search:
+    #     price_from: 'Your username'
+    #     password: '****'
+    # include_blanks:
+    #   search:
+    #     age: 'Rather not say'
+    # prompts:
+    #   search:
+    #     gender: 'Select your gender'

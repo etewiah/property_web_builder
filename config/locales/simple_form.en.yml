@@ -1,0 +1,64 @@
+en:
+# https://github.com/rails/rails/blob/master/activerecord/lib/active_record/locale/en.yml
+  simple_form:
+    "yes": 'Yes'
+    "no": 'No'
+    required:
+      text: 'required'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    labels:
+      search:
+        for_rent_price_from: 'Rent From (Monthly)'
+        for_rent_price_till: 'Rent Till (Monthly)'
+        for_sale_price_from: 'Price From'
+        for_sale_price_till: 'Price Till'
+        count_bedrooms: 'Bedrooms (min)'
+        count_bathrooms: 'Bathrooms (min)'
+        property_type: 'Property Type'
+        property_state: 'Property State'
+        locality: 'Locality'
+        in_locality: 'Locality'
+        in_zone: 'Zone'
+        # 24 nov 2015 - using below as above has been saved by idioma gem
+        # and is not so easily overridable.. laziness...
+        # count_of_bedrooms: 'Bedrooms (min)'
+        # count_of_bathrooms: 'Bathrooms (min)'
+    # hints:
+    #   search:
+    #     price_from: 'User name to sign in.'
+    #     price_till: 'No special characters, please.'
+    # placeholders:
+    #   search:
+    #     price_from: 'Your username'
+    #     price_till: '****'
+    error_notification:
+      default_message: "Please review the problems below:"
+    # Examples
+    # labels:
+    #   defaults:
+    #     password: 'Password'
+    #   user:
+    #     new:
+    #       email: 'E-mail to sign in.'
+    #     edit:
+    #       email: 'E-mail.'
+    # hints:
+    #   defaults:
+    #     username: 'User name to sign in.'
+    #     password: 'No special characters, please.'
+    # include_blanks:
+    #   defaults:
+    #     age: 'Rather not say'
+    # prompts:
+    #   defaults:
+    #     age: 'Select your age'
+
+    include_blanks:
+      search:
+        age: 'Rather not say'
+    prompts:
+      search:
+        gender: 'Select your gender'
