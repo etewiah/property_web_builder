@@ -26,13 +26,13 @@ PwbPropsController.prototype.show = function() {
   // Below for properties slider
   // don't have something similar for main landing yet
   $(".carousel-inner .item").click(function () {
-    var carouselStatus = $('#homepageCarousel').data('status');
+    var carouselStatus = $('#propCarousel').data('status');
     if (carouselStatus && carouselStatus === "paused") {
-      $('#homepageCarousel').carousel('cycle');
-      $('#homepageCarousel').data('status', "cycling");    
+      $('#propCarousel').carousel('cycle');
+      $('#propCarousel').data('status', "cycling");    
     } else{
-      $('#homepageCarousel').carousel('pause');
-      $('#homepageCarousel').data('status', "paused");    
+      $('#propCarousel').carousel('pause');
+      $('#propCarousel').data('status', "paused");    
     }
   });
 

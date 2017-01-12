@@ -1,0 +1,37 @@
+<div class="pg-opt">
+  <div class="container">
+    <div class="row">
+
+      <% if @is_subdomain_admin  %>
+      <div class="col-md-12">
+        <span class="">
+          <a href="<%= @property_details.admin_url %>">
+            <i class="fa fa-pencil"></i>
+            <%= t "labels.edit" %>
+          </a>
+        </span>
+      </div>
+      <% end %>
+
+
+
+      <div class="col-md-10">
+        <h2>
+          <%= @property_details.title %>
+        </h2>
+      </div>
+      <div class="col-md-6" style="display:none;">
+        <ol class="breadcrumb">
+          <li>
+            <a href="/">
+              <%= I18n.t("webContentSections.home") %>
+            </a>
+          </li>
+          <li class="active">
+            <%= @property_details.title %>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>

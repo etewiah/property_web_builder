@@ -1,3 +1,164 @@
+.wp-block.property.list .wp-block-body .wp-block-img {
+  display: block;
+  width: auto
+}
+
+.wp-block.property.list .wp-block-body .wp-block-content {
+  display: block;
+  padding-top: 15px;
+  padding-left: 0
+}
+
+
+/*.wp-block.property.list .wp-block-footer ul.aux-info {
+  width: 100%;
+  display: table
+}
+
+.wp-block.property.list .wp-block-footer ul.aux-info li {
+  padding: 10px;
+  font-size: 11px;
+  text-align: center
+}
+
+.wp-block.property.list .wp-block-footer ul.aux-info li:last-child {
+  border: 0
+}
+
+.wp-block.property.list .wp-block-footer ul.aux-info li i {
+  display: block;
+  font-size: 18px;
+  margin-right: 0;
+  color: #333
+}*/
+
+.wp-block.property.list {
+  border: 1px solid #e0eded;
+}
+
+.wp-block.property.list .wp-block-footer ul.aux-info {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: block;
+  background: #fcfcfc;
+  border-top: 1px solid #e0eded
+}
+
+.wp-block.property.list .wp-block-footer ul.aux-info li {
+  display: table-cell;
+  padding: 10px 15px;
+  vertical-align: middle;
+  border-right: 1px solid #e0eded
+}
+
+.wp-block.property.list .wp-block-footer ul.aux-info li:last-child {
+  border: 0
+}
+
+.wp-block.property.list .wp-block-footer ul.aux-info li i {
+  font-size: 18px;
+  margin-right: 8px;
+  color: #333
+}
+
+.wp-block.property.list .wp-block-footer.style2 ul.aux-info {
+  display: table;
+  width: 100%;
+  border: 1px solid #e0eded
+}
+
+.wp-block.property.list .wp-block-footer.style2 ul.aux-info li {
+  padding: 10px 10px;
+  font-size: 11px;
+  text-align: center
+}
+
+.wp-block.property.list .wp-block-footer.style2 ul.aux-info li i {
+  display: block
+}
+
+
+/* start ces ficha */
+
+.wp-block.property.list .wp-block-content .content-title {
+  color: #333;
+}
+
+.primary-image .ribbon {
+  position: absolute;
+  right: 15px;
+}
+
+.wp-block.property.list .wp-block-footer.style2 ul.aux-info {
+  margin-top: 9px;
+}
+
+.wp-block.property.list .wp-block-footer.style2 ul.aux-info li {
+  font-size: 14px;
+  width: 25%;
+}
+
+.wp-block.property.list .wp-block-footer.style2 ul.aux-info li i {
+  display: inline;
+}
+
+.estate .thumbnail-images {
+  margin-bottom: 0;
+}
+
+#form_solicitar_info textarea {
+  min-height: 100px;
+  width: 100%;
+}
+
+#extras_ficha {
+  /*overflow: hidden;*/
+  padding: 0px;
+}
+
+#extras_ficha li {
+  float: left;
+  width: 33%;
+}
+
+#extras_ficha li i {
+  font-size: 18px;
+}
+
+#resp_enviar {
+  float: left;
+  width: 100%;
+  margin: 15px 0 0 0;
+}
+
+
+/* end ces ficha */
+
+@media (max-width: 767px) {
+  .wp-block {
+    margin-bottom: 15px !important;
+  }
+  .wp-block.property.list .wp-block-footer ul.aux-info {
+    width: 100%;
+    display: table;
+  }
+  .wp-block.property.list .wp-block-footer ul.aux-info li {
+    padding: 10px;
+    font-size: 11px;
+    text-align: center;
+  }
+  .wp-block.property.list .wp-block-footer ul.aux-info li:last-child {
+    border: 0;
+  }
+  .wp-block.property.list .wp-block-footer ul.aux-info li i {
+    display: block;
+    font-size: 18px;
+    margin-right: 0;
+    color: #333;
+  }
+}
+
 ul.list-listings {
   margin: 0 0 20px 0;
   padding: 0;
@@ -48,8 +209,10 @@ ul.list-listings .listing-body {
   vertical-align: top
 }
 
+
 /* min-height below allows me to remove 
 bottom padding above */
+
 .listing-text {
   padding: 0px 15px;
   min-height: 75px;

@@ -1,4 +1,4 @@
-<%# render '/pwb/props/breadcrumb_row' %>
+<%= render '/pwb/props/breadcrumb_row' %>
 <!-- MAIN CONTENT -->
 <section class="slice bg-white bb">
   <div class="wp-section estate">
@@ -22,10 +22,12 @@
               <br>
             </div>
             <div class="col-md-12">
+            <% if @property_details.extras_for_display.present? %>
               <h3><%= I18n.t("property.extras") %></h3>
               <%= render '/pwb/props/extras' %>
               <br>
-              <br>
+              <br>              
+            <% end %>
             </div>
           </div>
         </div>

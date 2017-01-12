@@ -1,7 +1,29 @@
+/*
+.table {
+    display: table
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0
+}
+*/
+
+
+/*below needed for property details table*/
+
+.no-border {
+  border: 0 !important;
+}
+
+/*below fixes extras list*/
+ol,
+ul {
+  list-style: none;
+}
+
 .static-content-panel {
   min-height: 600px;
 }
-
 
 .c-white {
   color: #fff !important;
@@ -132,36 +154,6 @@ header {
   color: #333 !important;
 }
 
-.wp-block.property.list {
-  border: 1px solid #e0eded;
-}
-
-.wp-block.property.list .wp-block-footer ul.aux-info {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  display: block;
-  background: #fcfcfc;
-  border-top: 1px solid #e0eded;
-}
-
-.wp-block.property.list .wp-block-footer ul.aux-info li {
-  display: table-cell;
-  padding: 10px 15px;
-  vertical-align: middle;
-  border-right: 1px solid #e0eded;
-}
-
-.wp-block.property.list .wp-block-footer ul.aux-info li:last-child {
-  border: 0;
-}
-
-.wp-block.property.list .wp-block-footer ul.aux-info li i {
-  font-size: 18px;
-  margin-right: 8px;
-  color: #333;
-}
-
 .panel-base {
   border: 0;
   background: #3498db;
@@ -234,7 +226,6 @@ section.slice {
 .wp-section:after {
   clear: both;
 }
-
 
 .form-control {
   border-radius: 2px !important;
@@ -372,30 +363,6 @@ section.slice {
   }
 }
 
-@media (max-width: 767px) {
-  .wp-block {
-    margin-bottom: 15px !important;
-  }
-  .wp-block.property.list .wp-block-footer ul.aux-info {
-    width: 100%;
-    display: table;
-  }
-  .wp-block.property.list .wp-block-footer ul.aux-info li {
-    padding: 10px;
-    font-size: 11px;
-    text-align: center;
-  }
-  .wp-block.property.list .wp-block-footer ul.aux-info li:last-child {
-    border: 0;
-  }
-  .wp-block.property.list .wp-block-footer ul.aux-info li i {
-    display: block;
-    font-size: 18px;
-    margin-right: 0;
-    color: #333;
-  }
-}
-
 img {
   vertical-align: middle;
 }
@@ -416,7 +383,6 @@ a:hover {
 .negrita {
   font-weight: bold;
 }
-
 
 .contacto_header i {
   margin: 0px 3px 0 0px;
@@ -503,12 +469,14 @@ form.simple_form.form-base div.panel-body {
 
 /* line 1660 gsb */
 
+
 /*.navbar-wp .navbar-nav {
   margin-bottom: -1px;
 }*/
 
 
 /**/
+
 
 /*header .navbar-wp .navbar-brand {
   overflow: hidden;
