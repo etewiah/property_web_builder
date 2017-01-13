@@ -30,7 +30,8 @@
                       <%= property.count_bathrooms %>
                     </small></li>
                   <li class="hidden-xs"><i class="fa fa-arrows-alt"></i> <small>
-                      <%= property.constructed_area %>m<sup>2</sup>
+                      <%= property.constructed_area %><%= area_unit property %>
+
                     </small></li>
                   <li class="hidden-xs">
                     <% if property.has_garage %>

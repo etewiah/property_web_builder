@@ -193,10 +193,17 @@ module Pwb
       prices_array.min
     end
 
-    # TODO: - remove below when client is fixed
-    def ano_constr=(ano_constr)
-      self.year_construction = ano_constr
+    # def ano_constr=(ano_constr)
+    #   self.year_construction = ano_constr
+    # end
+
+    # TODO - replace below with db col
+    def area_unit
+      return "feet"
+      # "m<sup>2</sup>"
     end
+
+
 
     before_save :set_rental_search_price
     after_create :set_currency

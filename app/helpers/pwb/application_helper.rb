@@ -1,6 +1,14 @@
 module Pwb
   module ApplicationHelper
 
+    def area_unit(property)
+      area_unit = "m<sup>2</sup>"
+      if property.area_unit && (property.area_unit == "feet")
+        area_unit = "sqft"
+      end
+      area_unit.html_safe
+    end
+
     def localized_link_to(name = nil, options = nil, html_options = nil)
       if params["controller"] && params["controller"].include?("devise/")
         link = "<a class='#{options["locale"]}' href='/#{options["locale"]}'></a>"

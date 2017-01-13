@@ -74,7 +74,7 @@ module Pwb
       # ordering happens clientside
       # .order('price_sale_current_cents ASC').limit 35
       @prices_collection = %W(#{''}
-                              25.000 50.000 75.000 100.000 150.000 250.000 500.000 1.000.000 2.000.000 5.000.000 10.000.000 )
+                              25,000 50,000 75,000 100,000 150,000 250,000 500,000 1,000,000 2,000,000 5,000,000 10,000,000 )
       # ..
 
       set_common_search_inputs
@@ -103,7 +103,7 @@ module Pwb
       @properties = Prop.visible.for_rent.limit 45
       # .order('price_rental_monthly_current_cents ASC').limit 35
       @prices_collection = %W(#{''}
-                              150 250 500 1000 1500 2000 2500 3000 4000 5.000 10.000)
+                              150 250 500 1,000 1,500 2,000 2,500 3,000 4,000 5,000 10,000)
 
       set_common_search_inputs
 

@@ -2,7 +2,7 @@ module Pwb
   class Api::V1::PropertyResource < JSONAPI::Resource
     model_name 'Pwb::Prop'
 
-    attributes :photos, :property_photos, :ano_constr, :extras
+    attributes :photos, :property_photos, :extras
     attributes :street_address, :street_number, :postal_code
     attributes :city, :region, :currency
     attributes :country, :longitude, :latitude
@@ -38,10 +38,10 @@ module Pwb
       return photos
     end
 
-    def ano_constr
-      ano_constr = @model.year_construction, :plot_area
-      return ano_constr
-    end
+    # def ano_constr
+    #   ano_constr = @model.year_construction, :plot_area
+    #   return ano_constr
+    # end
 
     # t.integer  :year_construction, :plot_area, default: 0, null: false
     # t.integer  :count_bedrooms, default: 0, null: false
