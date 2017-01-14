@@ -17,12 +17,13 @@ module Pwb
     end
 
     def set_locale
-      agency = current_agency
-      locale = agency.default_client_locale_to_use
+      # agency = current_agency
+      locale = current_agency.default_client_locale_to_use
       # below just causes confusion for now
       # if current_user
       #   locale = current_user.default_client_locale
       # end
+      # byebug
       if params[:locale] && (I18n.locale_available? params[:locale])
         # passed in params override user's default
         locale = params[:locale]

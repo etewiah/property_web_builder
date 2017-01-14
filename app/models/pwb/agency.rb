@@ -29,8 +29,13 @@ module Pwb
       supported_locales.length > 1
     end
 
+
     def default_client_locale_to_use
-      locale = default_client_locale || :en
+      if supported_locales.count == 1
+        locale = supported_locales.first
+      else
+        locale = default_client_locale || :en
+      end
       locale
     end
 
