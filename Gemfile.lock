@@ -23,12 +23,10 @@ PATH
       i18n-active_record
       jquery-rails
       jsonapi-resources
-      logster
       money-rails
       paloma
       pg
       rails (~> 5.0.0, >= 5.0.0.1)
-      redis
       responders
       rets
       simple_form
@@ -189,7 +187,6 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    logster (1.2.6)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.10)
@@ -273,7 +270,6 @@ GEM
     rb-fsevent (0.9.8)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
-    redis (3.3.2)
     request_store (1.3.1)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
