@@ -3,13 +3,12 @@ Pwb::Engine.routes.draw do
   root to: 'welcome#index'
   resources :welcome, only: :index
 
-  admin_constraint = lambda do |request|
-    request.env['warden'].authenticate? and request.env['warden'].user.admin?
-  end
-
-  constraints admin_constraint do
-    mount Logster::Web, at: "/logs"
-  end
+  # admin_constraint = lambda do |request|
+  #   request.env['warden'].authenticate? and request.env['warden'].user.admin?
+  # end
+  # constraints admin_constraint do
+  #   mount Logster::Web, at: "/logs"
+  # end
 
   authenticate :user do
     get "/admin" => "admin_panel#show"

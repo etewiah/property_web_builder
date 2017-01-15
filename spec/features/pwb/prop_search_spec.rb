@@ -24,12 +24,12 @@ module Pwb
       # puts current_url
       # require 'pry'; binding.pry
       # save_and_open_page
+      # save_and_open_screenshot
 
       expect(page).to have_css(".property-item", count: 1)
-
       # Capybara.ignore_hidden_elements = false
       # passing visible: false below would be like setting above
-      select('2000', from: 'search_for_rent_price_from', visible: false)
+      select('2,000', from: 'search_for_rent_price_from', visible: false)
       click_button('Search')
       expect(page).to have_css(".property-item", count: 0)
       # expect(current_path).to eq("/en")

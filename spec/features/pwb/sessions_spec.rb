@@ -12,7 +12,7 @@ module Pwb
       fill_in('Email', with: @admin_user.email)
       fill_in('Password', with: @admin_user.password)
       click_button('Sign in')
-      expect(current_path).to eq("/admin")
+      expect(current_path).to include("/admin")
     end
 
     scenario 'with invalid password' do
