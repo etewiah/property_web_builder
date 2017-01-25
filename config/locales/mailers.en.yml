@@ -1,6 +1,6 @@
 en:
   mailers:
-    welcome: "Welcome to Inmolite"
+    welcome: "Welcome"
     confirm_registration: "Please confirm your account through the link below"
     received_on: "Received on"
     from: "From"
