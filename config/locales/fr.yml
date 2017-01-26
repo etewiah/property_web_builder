@@ -1,0 +1,141 @@
+fr:
+  selectpicker:
+    noneSelectedText: 'Aucune sélection'
+    noneResultsText: 'Aucun résultat {0}'
+    countSelectedText: 'Seleccionés {0} de {1}'
+    # maxOptionsText: ['Límite alcanzado ({n} {var} max)', 'Límite del grupo alcanzado({n} {var} max)', ['elementos', 'element']],
+    # multipleSeparator: ', '
+
+  newPassword: "Nouveau Mot de Passe"
+  signOut: "Fermer la session"
+  changePassword: "Changer le mot de passe"
+  update: "Actualiser"
+  back: "Revenir en arrière"
+  leaveBlank: "Laissez en blanc si vous ne voulez pas changer votre mot de passe"
+  needCurrentPwd: "Nous avons besoin de votre mot de passe actuel pour confirmer les changements"
+
+
+  legalAdvice: "Informations légales"
+  privacyPolicy: "Politique de confidentialité"
+
+  contact:
+    success: "Merci d'avoir pris contact avec nous. Nous vous répondrons dès que possible."
+    error: "Désolé, une erreur est survenue"
+    emailSubject: "Contact depuis votre site"
+
+  tel: "Téléphone"
+  email: "Courriel"
+  name: "Nom"
+  subject: "Sujet"
+  message: "Message"
+  address: "Adresse"
+  contactUs: "Contactez-nous"
+  requestPropertyInfo: "Demandez des informations"
+  aboutUs: "A propos"
+  contactUsPrompt: "Complétez le formulaire suivant pour prendre contact avec nous"
+  send: "Envoyez"
+
+  propertyNotFound: "Propriété non-trouvée"
+  forRent: "En location"
+  forSale: "A vendre"
+  propertyForRent: "Immeuble en location"
+  propertyForSale: "Immeuble à vendre"
+  # apartamentsForSale: "Apartamentos a la venta"
+
+  setup:
+    selectUrl: "Selectionnez un url"
+    selectUrlMessage: "Votre compte est prêt- A présent, choisissez un url pour votre nouveau site"
+    subdomain: "sous-domaine"
+    claimSubdomain: "Enregistrez cette adresse url"
+    subdomainMissing: "Entrez un nom pour votre sous-domaine"
+    urlNotAvailable: "Cette adresse url n'est pas disponible"
+    goToYourSite: "Entrez dans votre site"
+    thankYouForTrusting: "%{company_name} vous remercie de votre confiance"
+    weAreCreatingSite: "Nous sommes en train de créer votre site"
+    createdSuccessfully: "Le site a été créé avec succés"
+    loggedInAs: "Vous êtes connecté(e) en tant que "
+    logout: "Deconnecté(e)"
+
+  inmolite:
+    registerNow: "S'enregistrer maintenant"
+    tagLine: "Créez une page web professionnelle pour agence immobilière en un instant"
+    tagLineExt: "Pages web professionnelles et élégantes.<br>On a jamais vu aussi rapide!"
+    getStarted: "Commencez dès maintenant"
+    createPrompt: "Créer ma page d'agence immobilière"
+    createTagLine: "On a jamais vu aussi rapide."
+    copyright: "%{company_name} Inc. Tous droits réservés."
+
+  # nav:
+  #   description: "Descripción"
+  #   extras: "Extras"
+  #   map: "Mapa"
+
+  property:
+    price: "Prix"
+    monthlyRentalPriceLowSeason: "Prix mensuel (basse saison)"
+    monthlyRentalPriceStandardSeason: "Prix mensuel (moyenne saison)"
+    monthlyRentalPriceHighSeason: "Prix mensuel (haute saison)"
+    operationType: "Type d'opération"
+    propertyType: "Type de propriété"
+    locality: "Localité"
+    ref: "Ref."
+    furniture: "Meubles"
+    highlightedProperty: "Propriété vedette"
+    goToProperty: "Voir immeuble"
+    details: "Caractéristiques"
+    description: "Description"
+    extras: "En plus"
+    map: "Carte"
+
+  navbar:
+    home: "Accueil"
+    admin: "Admin"
+    aboutUs: "A propos"
+    sell: "Vendre"
+    buy: "Acheter"
+    rent: "Louer"
+    contactUs: "Contacter"
+
+  menu_admin: "admin"
+
+  true: "Oui"
+  false: "Non"
+  editarPropiedad: "Editer un immeuble"
+  nuevoPropiedad: "Nouvel immeuble"
+  listadoPropiedades: "Liste d'immeubles"
+  searchForProperties: "Cherchez immeubles"
+  search: "Cherchez"
+  findByReference: "Cherchez par référence"
+  go: "Allez"
+  findAProperty: "Trouvez votre maison"
+  orderBy: "Classez par "
+  noResultsForSearch: "Aucun résultat à votre recherche"
+
+  orderBy:
+    priceAscending: ↓ Prix (les moins chers en premier)
+    priceDescending: ↑ Prix (les plus chers en premier)
+
+  placeHolders:
+    email: "Votre email"
+    name: "Votre nom"
+    tel: "Fixe ou portable"
+    subject: "Sujet"
+    message: "Ecrivez votre message"
+
+  labels: 
+    edit: "Editer"
+    new: "Nouveau"
+    save: "Enregistrer"
+    create: "Créer"
+  # webContentLabels: 
+  #   suffixEn: "en Inglés"
+  #   suffixEs: "en Español"
+  #   landingPageHero: "Contenido para página principal"
+  #   tagLine: "Lema"
+  webContentSections: 
+    home: "Accueil"
+    contactInformation: "Information de contact" 
+    sell: "Vendre"
+    tagLine: "Lema"
+
+
