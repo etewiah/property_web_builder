@@ -8,6 +8,8 @@ en:
       start: Home
       agencyDetails: Agency
       content: Website
+      websiteSettings: Settings
+      websiteContent: Content
       translations: Translations
       properties: Properties
       clientes: Clients
@@ -26,7 +28,7 @@ en:
       suffixPt: in Portuguese
       suffixDe: in German
       privacyPolicy: Privacy Policy
-      legalAdvice: Legal Advice
+      legalAdvice: Legal Notice
       landingcarousel: Text for carousel image
       cac1: Column 1
       cac2: Column 2
@@ -35,6 +37,8 @@ en:
       tagLine: "Tag Line"
       aboutUs: "About us"
     webContentSections:
+      appearance: Appearance
+      footer: Footer
       aboutUs: "About us"
       contactInformation: "Contact information" 
       sell: "Sell"

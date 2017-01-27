@@ -8,6 +8,8 @@ es:
       start: Inicio
       agencyDetails: Agencia
       content: Página Web
+      websiteSettings: Configuración
+      websiteContent: Contenido
       translations: Traduciones
       properties: Propiedades
       clientes: Clientes
@@ -35,6 +37,8 @@ es:
       tagLine: "Tag Line"
       aboutUs: "About us"
     webContentSections:
+      appearance: Aparancia
+      footer: Footer
       aboutUs: "About us"
       contactInformation: "Contact information" 
       sell: "Sell"

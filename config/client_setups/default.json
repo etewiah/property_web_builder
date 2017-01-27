@@ -7,6 +7,28 @@
   }, {
     "tabValue": "location",
     "tabTitleKey": "agencySections.location"
+  }],
+  "websiteSettingsTabsList": [{
+    "tabValue": "general",
+    "tabTitleKey": "webContentSections.general"
+  }, {
+    "tabValue": "appearance",
+    "tabTitleKey": "webContentSections.appearance"
+  }],
+  "websiteContentTabsList": [{
+    "tabValue": "landing-carousel",
+    "tabTitleKey": "webContentSections.landingCarousel"
+  }, {
+    "tabValue": "content-area-cols",
+    "tabTitleKey": "webContentSections.contentAreaCols"
+  }, {
+    "tabValue": "about-us",
+    "tabTitleKey": "webContentSections.aboutUs"
+  }, {
+    "tabValue": "legal",
+    "tabTitleKey": "webContentSections.legal"
+  }, {
+    "tabValue": "footer",
+    "tabTitleKey": "webContentSections.footer"
   }]
-}
-]
+}]
