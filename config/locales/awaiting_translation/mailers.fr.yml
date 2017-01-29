@@ -1,16 +1,16 @@
 fr:
   mailers:
-    welcome: "Bienvenido"
-    confirm_registration: "Por favor, confirme su cuenta a través del siguiente enlace"
-    received_on: "Recibido"
+    welcome: "Bienvenue"
+    confirm_registration: "Confirmez votre compte à travers de ce lien"
+    received_on: "Reçu"
     from: "De"
-    phone: "Tel"
-    message: "Mensaje"
-    property: "Propiedad"
+    phone: "Telf"
+    message: "Message"
+    property: "Propriété"
     general_enquiry_targeting_enquirer:
-      subject: "Gracias por contactar con nosotros"
+      subject: "Merci de vous être mis en contact avec nous"
       message_title: ""
     general_enquiry_targeting_agency:
-      title: "Contacto desde su sitio web"
+      title: "Contact depuis votre site web"
     property_enquiry_targeting_agency:
-      title: "Solicitud de información"
+      title: "Demandez plus d' informations"

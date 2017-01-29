@@ -23,15 +23,15 @@ fr:
     error: "Désolé, une erreur est survenue"
     emailSubject: "Contact depuis votre site"
 
-  tel: "Teléphone"
-  email: "Email"
+  tel: "Téléphone"
+  email: "Courriel"
   name: "Nom"
   subject: "Sujet"
   message: "Message"
   address: "Adresse"
-  contactUs: "Pour nous contacter"
-  requestPropertyInfo: "Pour demander des informations"
-  aboutUs: "Qui sommes-nous?"
+  contactUs: "Contactez-nous"
+  requestPropertyInfo: "Demandez des informations"
+  aboutUs: "A propos"
   contactUsPrompt: "Complétez le formulaire suivant pour prendre contact avec nous"
   send: "Envoyez"
 
@@ -88,7 +88,7 @@ fr:
     map: "Carte"
 
   navbar:
-    home: "démarrer"
+    home: "Accueil"
     admin: "Admin"
     aboutUs: "A propos"
     sell: "Vendre"
@@ -133,7 +133,7 @@ fr:
   #   landingPageHero: "Contenido para página principal"
   #   tagLine: "Lema"
   webContentSections: 
-    home: "Démarrer"
+    home: "Accueil"
     contactInformation: "Information de contact" 
     sell: "Vendre"
     tagLine: "Lema"

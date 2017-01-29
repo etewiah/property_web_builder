@@ -1,25 +1,25 @@
 fr:
   simple_form:
-    "yes": 'Yes'
-    "no": 'No'
+    "yes": 'Oui'
+    "no": 'Non'
     required:
-      text: 'required'
+      text: 'obligatoire'
       mark: '*'
       # You can uncomment the line below if you need to overwrite the whole required html.
       # When using html, text and mark won't be used.
       # html: '<abbr title="required">*</abbr>'
     labels:
       search:
-        for_rent_price_from: 'Rent From (Monthly)'
-        for_rent_price_till: 'Rent Till (Monthly)'
-        for_sale_price_from: 'Price From'
-        for_sale_price_till: 'Price Till'
-        count_bedrooms: 'Bedrooms (min)'
-        count_bathrooms: 'Bathrooms (min)'
-        property_type: 'Property Type'
-        property_state: 'Property State'
-        locality: 'Locality'
-        in_locality: 'Locality'
+        for_rent_price_from: 'Louer à partir de (Mensuel)'
+        for_rent_price_till: 'Louer jusqu'à (Mensuel)'
+        for_sale_price_from: 'Prix à partir'
+        for_sale_price_till: 'Prix jusqu'à
+        count_bedrooms: 'Chambres (min)'
+        count_bathrooms: 'Salles de bain (min)'
+        property_type: 'Type de propriété'
+        property_state: 'Etat'
+        locality: 'Localité'
+        in_locality: 'Localité'
         in_zone: 'Zone'
     # hints:
     #   search:
@@ -30,4 +30,4 @@ fr:
     #     price_from: 'Your username'
     #     price_till: '****'
     error_notification:
-      default_message: "Please review the problems below:"
+      default_message: "Veuillez corriger le problème suivant s.v.p :"
