@@ -15,7 +15,7 @@ module Pwb
       unless photo
         if content_tag
           # where photo has never been set before, associated Content will not exist
-          content = Content.find_by_key(content_tag) || Content.create({ key: content_tag, tag: 'general' })
+          content = Content.find_by_key(content_tag) || Content.create({ key: content_tag, tag: 'appearance' })
           photo = ContentPhoto.create
           content.content_photos.push photo
         end

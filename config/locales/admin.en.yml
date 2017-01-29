@@ -4,6 +4,10 @@ en:
     "false": "false"
     "yes": "yes"
     "no": "no" 
+    es-ES: Spain
+    es-MX: Mexico
+    en-UK: UK
+    en-US: USA
     adminSections:
       start: Home
       agencyDetails: Agency

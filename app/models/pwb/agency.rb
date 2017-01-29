@@ -29,10 +29,21 @@ module Pwb
       supported_locales.length > 1
     end
 
+    def supported_locales_with_variants
+      supported_locales_with_variants = []
+      self.supported_locales.each do |supported_locale|
+        slwv_array = supported_locale.split("-")
+        locale = slwv_array[0] || "en"
+        variant = slwv_array[1] || slwv_array[0]|| "UK"
+        slwv = { "locale" => locale, "variant" => variant.downcase }
+        supported_locales_with_variants.push slwv
+      end
+      return supported_locales_with_variants
+    end
 
     def default_client_locale_to_use
       if supported_locales.count == 1
-        locale = supported_locales.first
+        locale = supported_locales.first.split("-")[0]
       else
         locale = default_client_locale || :en
       end
