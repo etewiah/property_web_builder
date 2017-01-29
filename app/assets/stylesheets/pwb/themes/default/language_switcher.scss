@@ -29,7 +29,7 @@ ul.idiomas .es {
   background: url("/assets/idiomas.png") 0 0 no-repeat;
 }
 
-ul.idiomas .en {
+ul.idiomas .en, ul.idiomas .uk {
   background: url("/assets/idiomas.png") -20px 0;
 }
 
@@ -82,6 +82,16 @@ ul.idiomas .ar {
 
 ul.idiomas .ca {
   background: url('/assets/idiomas.png') -260px 0;
+}
+
+ul.idiomas .mx {
+    background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/mx.svg') no-repeat;
+    background-size: cover;
+}
+
+ul.idiomas .us {
+    background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/us.svg') no-repeat;
+    background-size: cover;
 }
 
 ul.idiomas li.selected,

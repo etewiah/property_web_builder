@@ -9,13 +9,17 @@ module Pwb
       area_unit.html_safe
     end
 
-    def localized_link_to(name = nil, options = nil, html_options = nil)
-      if params["controller"] && params["controller"].include?("devise/")
-        link = "<a class='#{options["locale"]}' href='/#{options["locale"]}'></a>"
-        return link.html_safe
-      else
-        return link_to name, options, html_options
-      end
+    def localized_link_to(locale_with_var = nil, options = nil, html_options = nil)
+      link_class =  locale_with_var["variant"]
+      link = "<a class='#{link_class}' href='/#{options["locale"]}'></a>"
+      return link.html_safe
+
+      # if params["controller"] && params["controller"].include?("devise/")
+      #   link = "<a class='#{link_class}' href='/#{options["locale"]}'></a>"
+      #   return link.html_safe
+      # else
+      #   return link_to "", options, html_options
+      # end
     end
 
     def t_or_unknown key

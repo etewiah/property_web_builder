@@ -17,7 +17,7 @@
               <ul class="idiomas">
                 <% @current_agency.supported_locales_with_variants.each do |locale_with_var| %>
                   <li class=<%="#{'selected' if locale.to_s == locale_with_var["locale"]}" %>>
-                    <%= localized_link_to "", params.permit(:locale,).merge({:locale => locale_with_var["locale"]}), class: locale_with_var["variant"] %>
+                    <%= localized_link_to locale_with_var, params.permit(:locale,).merge({:locale => locale_with_var["locale"]}), class: locale_with_var["variant"] %>
                   </li>
                 <% end %>
               </ul>
