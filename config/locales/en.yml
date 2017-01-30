@@ -56,8 +56,7 @@ en:
     loggedInAs: "Logged in as "
     logout: "Logout"
 
-  pwb
-:
+  pwb:
     registerNow: "Register now"
     tagLine: "Professional websites for estate agents in minutes"
     tagLineExt: "Beautiful websites that have to be seen to be believed.<br>No one gets you online quicker."
