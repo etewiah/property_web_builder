@@ -25,7 +25,7 @@ module Pwb
         photo.number = index
         photo.save!
       end
-      @property = Prop.find(params[:property_id])
+      @property = Prop.find(params[:prop_id])
       return render json: @property.prop_photos
       # { "success": true }, status: :ok, head: :no_content
     end
@@ -60,15 +60,26 @@ module Pwb
       files_array = params[:file]
       photos_array = []
       files_array.each do |file|
+
         photo = PropPhoto.create
         # photo.subdomain = subdomain
         # photo.folder = current_tenant_model.whitelabel_country_code
         # photo.tenant_id = current_tenant_model.id
         photo.image = file
         photo.save!
+
+        # photo.update_attributes(:url => photo.image.metadata['url'])
+        # ul = Pwb::PropPhotoUploader.new
+        # ul.store!(file)
+        # tried various options like above to ensure photo.image.url
+        # which is nil at this point gets updated
+        # - in the end it was just a reload that was needed:
+        photo.reload
+
         property.prop_photos.push photo
         photos_array.push photo
       end
+
       # if json below is not valid, success callback on client will fail
       return render json: photos_array.to_json
       # { "success": true }, status: :ok, head: :no_content
@@ -76,14 +87,14 @@ module Pwb
 
     def remove_photo
       photo = PropPhoto.find(params[:id])
-      property = Prop.find(params[:property_id])
+      property = Prop.find(params[:prop_id])
       property.prop_photos.destroy photo
       # if json below is not valid, success callback on client will fail
       return render json: { "success": true }, status: :ok, head: :no_content
     end
 
     # def set_owner
-    #   property = Prop.find(params[:property_id])
+    #   property = Prop.find(params[:prop_id])
     #   client = Client.find(params[:client_id])
     #   property.owners = [client]
     #   property.save!
@@ -91,7 +102,7 @@ module Pwb
     # end
 
     # def unset_owner
-    #   property = Prop.find(params[:property_id])
+    #   property = Prop.find(params[:prop_id])
     #   client = Client.find(params[:client_id])
     #   property.owners = []
     #   property.save!
