@@ -56,7 +56,8 @@ en:
     loggedInAs: "Logged in as "
     logout: "Logout"
 
-  inmolite:
+  pwb
+:
     registerNow: "Register now"
     tagLine: "Professional websites for estate agents in minutes"
     tagLineExt: "Beautiful websites that have to be seen to be believed.<br>No one gets you online quicker."
@@ -69,7 +70,7 @@ en:
 
   # nav:
   #   description: "Description"
-  #   extras: "Extras"
+  #   extras: "Features"
   #   map: "Map"
 
   property:
@@ -86,7 +87,7 @@ en:
     goToProperty: "View Property"
     details: "Details"
     description: "Description"
-    extras: "Extras"
+    extras: "Features"
     map: "Map"
 
   navbar:

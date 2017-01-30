@@ -56,7 +56,8 @@ fr:
     loggedInAs: "Vous êtes connecté(e) en tant que "
     logout: "Deconnecté(e)"
 
-  inmolite:
+  pwb
+:
     registerNow: "S'enregistrer maintenant"
     tagLine: "Créez une page web professionnelle pour agence immobilière en un instant"
     tagLineExt: "Pages web professionnelles et élégantes.<br>On a jamais vu aussi rapide!"

@@ -22,7 +22,7 @@ module Pwb
       ordered_array = ordered_photo_ids.split(",")
       ordered_array.each.with_index(1) do |photo_id, index|
         photo = PropPhoto.find(photo_id)
-        photo.number = index
+        photo.sort_order = index
         photo.save!
       end
       @property = Prop.find(params[:prop_id])
