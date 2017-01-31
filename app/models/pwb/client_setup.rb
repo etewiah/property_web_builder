@@ -1,3 +1,4 @@
+# TODO - rename as AdminSetup
 module Pwb
   # https://github.com/zilkey/active_hash
   class ClientSetup < ActiveJSON::Base

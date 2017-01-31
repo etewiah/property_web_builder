@@ -16,10 +16,12 @@ module Pwb
         seed_content 'about_us.yml'
         seed_content 'static.yml'
         seed_content 'footer.yml'
+        seed_agency 'agency.yml'
+        # need to seed agency first so correct currency is used
         seed_prop 'villa_for_sale.yml'
         seed_prop 'villa_for_rent.yml'
         seed_prop 'flat_for_sale.yml'
-        seed_agency 'agency.yml'
+        seed_prop 'flat_for_rent.yml'
         seed_sections 'sections.yml'
         seed_field_keys 'field_keys.yml'
         seed_users 'users.yml'
