@@ -62,8 +62,6 @@ ActiveRecord::Schema.define(version: 20170131190507) do
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
     t.string   "theme_name"
-    t.index ["company_id"], name: "index_pwb_agencies_on_company_id", unique: true, using: :btree
-    t.index ["company_name"], name: "index_pwb_agencies_on_company_name", using: :btree
   end
 
   create_table "pwb_clients", force: :cascade do |t|
