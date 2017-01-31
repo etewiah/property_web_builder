@@ -3,8 +3,10 @@
 #   # Task goes here
 # end
 require 'pwb/seeder'
-# rake app:pwb:db:seed                                  1 ↵
-
+# from root of engine:
+# bundle exec rake app:pwb:db:seed     
+# from spec/dummy folder or within an app using the engine:
+# bundle exec rake pwb:db:seed
 namespace :pwb do
   namespace :db do
     desc 'Seeds the database with Pwb defaults'

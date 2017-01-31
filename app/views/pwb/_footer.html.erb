@@ -25,7 +25,7 @@
           </ul>
         </div>
       </div>
-      <div class="col-sm-4 col-xs-6 social-default" style="display: flex;">
+      <div class="col-sm-4 col-xs-6 social-default flex-col" style="">
         <div style="display: flex;margin-top: auto;">
         <%= social_media_link(@current_agency, "facebook", "Facebook", "fa-facebook fa-2x") %>
         <%= social_media_link(@current_agency, "twitter", "Twitter", "fa-twitter fa-2x") %>
@@ -35,8 +35,10 @@
         <%= social_media_link(@current_agency, "gplus", "Google Plus", "fa-google-plus fa-2x") %>
         </div>
       </div>
-      <div class="col-sm-4 col-xs-6">
-
+      <div class="col-sm-4 col-xs-6 flex-col">
+        <div class="footer-extra">
+          <%== @footer_content.raw %>
+        </div>
       </div>
 
     </div>

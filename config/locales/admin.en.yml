@@ -37,16 +37,19 @@ en:
       cac1: Column 1
       cac2: Column 2
       cac3: Column 3
-      landingPageHero: "Content for the main page"
-      tagLine: "Tag Line"
-      aboutUs: "About us"
+      landingPageHero: Content for the main page
+      tagLine: Tag Line
+      aboutUs: About us
+      footerInfo: Extra footer content
+
+
     webContentSections:
       appearance: Appearance
       footer: Footer
-      aboutUs: "About us"
-      contactInformation: "Contact information" 
-      sell: "Sell"
-      tagLine: "Tag Line"
+      aboutUs: About us
+      contactInformation: Contact information 
+      sell: Sell
+      tagLine: Tag Line
       legal: Legal
       general: General
       landingCarousel: Landing Page Carousel
@@ -58,40 +61,40 @@ en:
           you provide
 
     fieldLabels: 
-    #   yaencontre: "Yaencontre"
-    #   pisoscom: "Pisoscom"
-    #   idealista: "Idealista"
-    #   localidad: "Localidad"
-    #   zona: "Zona"
-      currency: "Currency"
-      defaultCurrency: "Default Currency"
-      codigoPostal: "Codigo Postal"
-      direccion: "Direccion"
-      direccionReal: "Direccion Real"
-      direccionMapa: "Direccion Mapa"
-      ref: "Reference No"
-      tipo: "Type"
-      estado: "State"
-      descripcionEspanol: "Description in Spanish"
-      tituloEspanol: "Title in Spanish"
-      descripcionIngles: "Description in English"
-      tituloIngles: "Title in English"
-      precioVenta: "Sales Price"
-      precioAntiguo: "Original Price"
-      precioAlquiler: "Rental Price"
-      origen: "Origen"
-      temporadas: "Temporadas"
-      precioTa: "Temp Price. Alta"
-      precioTm: "Temp Price. Media"
-      precioTb: "Temp Price. Baja"
-      eficienciaEnergia: "Eficiencia Energia"
-      yearConstruction: "Construction Year"
-      countBedrooms: "Bedrooms"
-      countBathrooms: "Bathrooms"
-      numAseos: "Núm. aseos"
-      plotArea: "Plot Area"
-      constructedArea: "Constructed Area"
-      garaje: "Garage"
+    #   yaencontre: Yaencontre
+    #   pisoscom: Pisoscom
+    #   idealista: Idealista
+    #   localidad: Localidad
+    #   zona: Zona
+      currency: Currency
+      defaultCurrency: Default Currency
+      codigoPostal: Codigo Postal
+      direccion: Direccion
+      direccionReal: Direccion Real
+      direccionMapa: Direccion Mapa
+      ref: Reference No
+      tipo: Type
+      estado: State
+      descripcionEspanol: Description in Spanish
+      tituloEspanol: Title in Spanish
+      descripcionIngles: Description in English
+      tituloIngles: Title in English
+      precioVenta: Sales Price
+      precioAntiguo: Original Price
+      precioAlquiler: Rental Price
+      origen: Origen
+      temporadas: Temporadas
+      precioTa: Temp Price. Alta
+      precioTm: Temp Price. Media
+      precioTb: Temp Price. Baja
+      eficienciaEnergia: Eficiencia Energia
+      yearConstruction: Construction Year
+      countBedrooms: Bedrooms
+      countBathrooms: Bathrooms
+      # numAseos: Núm. aseos
+      plotArea: Plot Area
+      constructedArea: Constructed Area
+      garaje: Garage
       forSearchWidget: For search widget
       obscureMap: Hide exact address on website?
       hideMap: Hide map on website?

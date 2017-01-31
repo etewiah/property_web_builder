@@ -6,7 +6,9 @@
   last_updated_by_user_id:
   sort_order:
   target_url:
-  raw_en: We are a professional estate agents based with many years experience of delivering a great service for our clients.   
+  raw_en: 
+  <p>We are a professional estate agents with many years experience of delivering a great service 
+  for our clients.</p>
   raw_es: Llevamos muchos años comprometidos con ofrecer un servicio integral y conseguir solo transacciones con éxito y felicidad por parte de los compradores y vendedores.
   photo_files:
     - db/example_images/carousel_grass.jpg

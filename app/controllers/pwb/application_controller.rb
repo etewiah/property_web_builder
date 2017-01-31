@@ -2,7 +2,7 @@ module Pwb
   class ApplicationController < ActionController::Base
     protect_from_forgery with: :exception
 
-    before_action :current_agency, :sections, :set_locale, :set_theme_path
+    before_action :footer_content, :current_agency, :sections, :set_locale, :set_theme_path
 
     def set_theme_path
       theme_name = "default"
@@ -41,6 +41,10 @@ module Pwb
 
     def current_agency
       @current_agency ||= (Agency.last || Agency.create)
+    end
+
+    def footer_content
+      @footer_content = Content.find_by_key("footerInfo") || OpenStruct.new
     end
 
     def sections
