@@ -70,26 +70,27 @@ body {
   height: 100%;
 }
 
-.body-wrap {
+.sticky-wrap {
   min-height: 100%;
   position: relative;
+}
+
+.sticky-body {
+  /*below is enough space for footer  */
+  padding-bottom: 200px;
 }
 
 
 /*#header {
    background:#ff0;
    padding:10px;
-}
-section.slice {
-   padding:10px;
-   padding-bottom:60px;  
 }*/
 
 .fondo_footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  /*height:60px;   */
+  /*height: 160px;*/
   /*background:#6cf;*/
 }
 
@@ -107,7 +108,7 @@ footer {
   .footer-extra {
     color: #ccc;
     font-size: 13px;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
     /*display: flex;*/
     margin-top: auto;
   }

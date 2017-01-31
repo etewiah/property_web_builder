@@ -14,9 +14,11 @@
   <body class="tnt-body <%= @current_agency.body_style %>">
     <%# render @current_agency.views_folder + '/shared/main_mobile_menu' %>
     <!-- MAIN WRAPPER -->
-    <div class="body-wrap <%= @current_agency.body_style %>">
+    <div class="body-wrap sticky-wrap <%= @current_agency.body_style %>">
       <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
-      <%= yield %>
+      <div class="sticky-body">
+        <%= yield %>
+      </div>
       <%= render :partial => '/pwb/footer', :locals => {}  %>
     </div>
     <%= insert_paloma_hook %>
