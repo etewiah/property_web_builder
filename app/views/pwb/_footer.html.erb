@@ -11,23 +11,54 @@
 </footer> -->
 <footer class="footer fondo_footer">
   <div class="container">
-    <div class="row">
+    <div class="row" style="display: flex;">
       <div class="col-sm-4 col-xs-6 copyright">
-        <%= link_to I18n.t("legalAdvice"), pwb.legal_path(locale: locale)  %>.
-        <%= link_to I18n.t("privacyPolicy"), pwb.privacy_policy_path(locale: locale)  %>.
-        <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>.
+        <div class="col">
+          <h4><%= @current_agency.display_name %></h4>
+          <ul class="contact">
+            <li>      
+              <%= agency_info(@current_agency, "phone_number_primary", "tel", "fa-phone") %>
+            </li>
+            <li>
+              <%= agency_info(@current_agency, "email_primary", "email", "fa-envelope") %>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="col-sm-5 col-xs-6 social-default">
+      <div class="col-sm-4 col-xs-6 social-default" style="display: flex;">
+        <div style="display: flex;margin-top: auto;">
         <%= social_media_link(@current_agency, "facebook", "Facebook", "fa-facebook fa-2x") %>
         <%= social_media_link(@current_agency, "twitter", "Twitter", "fa-twitter fa-2x") %>
         <%= social_media_link(@current_agency, "linkedin", "Linked In", "fa-linkedin fa-2x") %>
         <%= social_media_link(@current_agency, "youtube", "YouTube", "fa-youtube fa-2x") %>
         <%= social_media_link(@current_agency, "pinterest", "Pinterest", "fa-pinterest fa-2x") %>
         <%= social_media_link(@current_agency, "gplus", "Google Plus", "fa-google-plus fa-2x") %>
+        </div>
       </div>
-      <div class="col-sm-3 col-xs-6">
-        <p>Powered by <a href="https://github.com/etewiah/property_web_builder">PropertyWebBuilder</a></p>
+      <div class="col-sm-4 col-xs-6">
+
       </div>
+
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-sm-6 copyright">
+        <%= link_to I18n.t("legalAdvice"), pwb.legal_path(locale: locale)  %>.
+        <%= link_to I18n.t("privacyPolicy"), pwb.privacy_policy_path(locale: locale)  %>.
+        <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>.
+      </div>
+      <div class="col-sm-6">
+        <p  style="float: right;">Powered by <a href="http://propertywebbuilder.com">PropertyWebBuilder</a></p>
+      </div>
+<!--       <div class="col-lg-9 copyright">
+        2014 © Web Pixels. All rights reserved.
+        <a href="#">Terms and conditions</a>
+      </div>
+      <div class="col-lg-3">
+        <a href="http://www.webpixels.ro" title="Made with love by Web Pixels" target="_blank" class="">
+          <img src="images/webpixels-footer-logo.png" alt="Web Pixels - Designing Forward | Logo" class="pull-right">
+        </a>
+      </div> -->
     </div>
   </div>
 </footer>

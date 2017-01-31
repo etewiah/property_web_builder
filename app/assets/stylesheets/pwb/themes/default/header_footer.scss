@@ -96,8 +96,82 @@ section.slice {
 
 /*end sticky footer*/
 
-.social-default .fa {
-  padding-right: 4px;
+.social-default {
+  margin-top: 25px;
+  .fa {
+    padding-right: 4px;
+  }
+}
+
+footer .social-default i {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  padding: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  color: #333;
+  border-radius: 2px;
+}
+
+footer .col.reset {
+  margin: 0
+}
+
+footer h4 {
+  margin-top: 20px;
+  color: #ccc;
+  margin-bottom: 20px;
+  text-transform: capitalize;
+  font-size: 14px;
+  font-weight: 500
+}
+
+footer .col p {
+  color: #ccc;
+  font-size: 13px;
+  margin-bottom: 10px
+}
+
+footer a {
+  color: #ccc;
+  text-decoration: none
+}
+
+footer a:hover {
+  text-decoration: none
+}
+
+footer .col ul {
+  margin: 0;
+  padding: 0;
+  list-style: none
+}
+
+footer .col ul li {
+  color: #8f8f8f
+}
+
+footer .col ul li span {
+  color: #fff
+}
+
+footer .col address {
+  color: #ddd;
+  padding: 8px 0
+}
+
+footer .company-info {
+  font-size: 10px;
+  text-align: justify
+}
+
+footer .company-info h2 {
+  font-size: 14px;
+  font-weight: 600
 }
 
 
