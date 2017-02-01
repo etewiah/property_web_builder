@@ -16,7 +16,6 @@ module Pwb
         @website.style_variables = params[:website][:style_variables]
         @website.save!
       end
-      byebug
       return render json: @website
     end
 

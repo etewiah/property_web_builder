@@ -8,8 +8,12 @@ RSpec.describe 'layouts/pwb/application', type: :view do
     view.extend Pwb::ApplicationHelper
   end
 
+
   before(:each) do
     assign(:current_agency, Pwb::Agency.create!({company_name: 'test'}))
+    assign(:current_website, Pwb::Website.unique_instance)
+    assign(:footer_content, OpenStruct.new)
+      # create!({company_name: 'test'}))
     assign(:sections, [
              Pwb::Section.create!({link_path: 'about_us_path', link_key: 'aboutUs'}),
              Pwb::Section.create!({link_path: 'contact_us_path', link_key: 'contactUs'})
@@ -18,6 +22,7 @@ RSpec.describe 'layouts/pwb/application', type: :view do
 
   it 'renders navbar-header' do
     render
+
     expect(rendered).to have_selector(".navbar-header")
   end
 end

@@ -46,7 +46,7 @@ module Pwb
         # adding :social_media to the list permitted by strong params does not work so doing below
         # which is  ugly but works
         @agency.social_media = params[:agency][:social_media]
-        @agency.style_variables = params[:agency][:style_variables]
+        # @agency.style_variables = params[:agency][:style_variables]
         @agency.save!
       end
       return render json: @agency

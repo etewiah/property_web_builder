@@ -58,5 +58,13 @@ module Pwb
       body_style
     end
 
+    def custom_css_file
+      custom_css_file = "standard"
+      # if self.site_template.present? && self.site_template.custom_css_file
+      #   custom_css_file = self.site_template.custom_css_file
+      # end
+      custom_css_file
+    end
+
   end
 end

@@ -42,14 +42,14 @@ module Pwb
               "twitter": "http://twitter.com",
               "youtube": ""
             },
-            "raw_css": "",
-            "style_variables": {
-              "primary_color": "#3498db",
-              "secondary_color": "#563d7c",
-              "action_color": "green",
-              "body_style": "siteLayout.boxed",
-              "theme": "light"
-            }
+            "raw_css": ""
+            # "style_variables": {
+            #   "primary_color": "#3498db",
+            #   "secondary_color": "#563d7c",
+            #   "action_color": "green",
+            #   "body_style": "siteLayout.boxed",
+            #   "theme": "light"
+            # }
           }
         }.to_json
 
@@ -75,9 +75,9 @@ module Pwb
         @agency.reload
         expect(@agency.supported_locales).to eq ["fr","es"]
         social_media_expectation = {"twitter"=>"http://twitter.com", "youtube"=>""}
-        style_variables_expectation = {"primary_color"=>"#3498db", "secondary_color"=>"#563d7c", "action_color"=>"green", "body_style"=>"siteLayout.boxed", "theme"=>"light"}
+        # style_variables_expectation = {"primary_color"=>"#3498db", "secondary_color"=>"#563d7c", "action_color"=>"green", "body_style"=>"siteLayout.boxed", "theme"=>"light"}
         expect(@agency.social_media).to eq social_media_expectation
-        expect(@agency.style_variables).to eq style_variables_expectation
+        # expect(@agency.style_variables).to eq style_variables_expectation
       end
     end
 

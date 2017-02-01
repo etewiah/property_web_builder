@@ -5,36 +5,36 @@
 /*below for button on contact form*/
 .btn-base:hover, .btn-base:focus, .btn-base:active, .btn-base.active, .open .dropdown-toggle.btn-base {
     color: #fff;
-    background-color: <%= @current_agency.style_variables["action_color"] %>;
-    border-color: <%= @current_agency.style_variables["action_color"] %>;
+    background-color: <%= @current_website.style_variables["action_color"] %>;
+    border-color: <%= @current_website.style_variables["action_color"] %>;
 }
 
 /*.btn-alt:before {
-  background-color: <%= @current_agency.style_variables["action_color"] %>;  
+  background-color: <%= @current_website.style_variables["action_color"] %>;  
 }*/
 
 .fondo_accion {
-  background: <%= @current_agency.style_variables["action_color"] %>;
+  background: <%= @current_website.style_variables["action_color"] %>;
   color: #fff;
 }
 
 /*.color_accion {*/
 .fondo_footer {
-  background: <%= @current_agency.style_variables["footer_color"] || "#333" %>;
+  background: <%= @current_website.style_variables["footer_color"] || "#333" %>;
   color: #fff;
 }
 
 ul.list-listings>li.featured {
-  border: 1px solid <%= @current_agency.style_variables["primary_color"] %>;
+  border: 1px solid <%= @current_website.style_variables["primary_color"] %>;
 }
 
 .fondo_principal {
-  background: <%= @current_agency.style_variables["primary_color"] %>;
+  background: <%= @current_website.style_variables["primary_color"] %>;
   color: #fff;
 }
 
 .fondo_secundario {
-  background: <%= @current_agency.style_variables["secondary_color"] %>;
+  background: <%= @current_website.style_variables["secondary_color"] %>;
   color: #fff;
 }
 
@@ -44,13 +44,13 @@ ul.list-listings>li.featured {
 ul.mega-nav-ul li a i,
 nav.venta_alquiler a.selected,
 nav.venta_alquiler a:hover {
-  color: <%= @current_agency.style_variables["primary_color"] %> !important;
+  color: <%= @current_website.style_variables["primary_color"] %> !important;
 }
 
 .contact-info h5 i,
 .color_secundario,
 .color_secundario:hover {
-  color: <%= @current_agency.style_variables["secondary_color"] %> !important;
+  color: <%= @current_website.style_variables["secondary_color"] %> !important;
 }
 
 .navbar-wp .navbar-nav>li>a:hover,
@@ -60,13 +60,13 @@ nav.venta_alquiler a:hover {
 .panel-base .panel-heading,
 .primary-image:hover,
 .thumbnail-images a:hover {
-  background: <%= @current_agency.style_variables["primary_color"] %> !important;
+  background: <%= @current_website.style_variables["primary_color"] %> !important;
   color: #fff;
 }
 
 .tabs li.active a {
-  border-bottom: 3px solid <%= @current_agency.style_variables["primary_color"] %>;
+  border-bottom: 3px solid <%= @current_website.style_variables["primary_color"] %>;
 }
 
-<%# @current_agency.raw_css %>
+<%# @current_website.raw_css %>
 

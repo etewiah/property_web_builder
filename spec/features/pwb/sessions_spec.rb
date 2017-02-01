@@ -23,6 +23,7 @@ module Pwb
       expect(page).to have_content 'Invalid email or password'
     end
 
+
     after(:all) do
       @agency.destroy
       @admin_user.destroy

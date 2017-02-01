@@ -14,6 +14,7 @@ module Pwb
     #   )
     # end
 
+
     # scenario 'sign in works' do
     #   pending "need to figure out why test below fails on travis"
     #   Capybara.raise_server_errors = false

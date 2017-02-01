@@ -21,18 +21,18 @@ RSpec.describe 'pwb/welcome/index', type: :view do
 
   it 'renders index successfully' do
     render
-    expect(rendered).to include 'About us'
+    expect(rendered).to include 'homepageCarousel'
     # assert_select "form[action=?][method=?]", welcome_path(@welcome), "post" do
     # end
   end
 
-  context 'when about_us content is not set' do
-    it 'does not render about_us section' do
-      assign(:about_us, nil)
-      render
-      expect(rendered).to_not include 'About us'
-    end
-  end
+  # context 'when about_us content is not set' do
+  #   it 'does not render about_us section' do
+  #     assign(:about_us, nil)
+  #     render
+  #     expect(rendered).to_not include 'About us'
+  #   end
+  # end
 
   # context 'when the product has a url' do
   #   it 'displays the url' do
