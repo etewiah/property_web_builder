@@ -71,6 +71,7 @@ Pwb::Engine.routes.draw do
 
         get "/agency" => "agency#show"
         put "/agency" => "agency#update"
+        put "/website" => "website#update"
         get "/infos" => "agency#infos"
 
         # put "tenant" => "agency#update_legacy"

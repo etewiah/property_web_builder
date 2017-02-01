@@ -199,7 +199,8 @@ module Pwb
 
     # TODO - replace below with db col
     def area_unit
-      return "feet"
+      return "sqft"
+      # "sqm"
       # "m<sup>2</sup>"
     end
 

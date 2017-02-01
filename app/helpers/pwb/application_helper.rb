@@ -3,7 +3,7 @@ module Pwb
 
     def area_unit(property)
       area_unit = "m<sup>2</sup>"
-      if property.area_unit && (property.area_unit == "feet")
+      if property.area_unit && (property.area_unit == "sqft")
         area_unit = "sqft"
       end
       area_unit.html_safe

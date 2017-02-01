@@ -13,15 +13,16 @@ module Pwb
 
     def show
       @agency = Agency.last
-      @setup = Pwb::ClientSetup.find_by_name "default" || Pwb::ClientSetup.first
-      if @agency
+      @website = Website.unique_instance
+      @admin_setup = Pwb::ClientSetup.find_by_name "default" || Pwb::ClientSetup.first
+      if @agency && @website
         return render json: {
-
+          website: @website,
           # supported_currencies for agency will be used when clients have the ability
           # to instantly convert between currencies
           agency: @agency,
           primary_address: @agency.primary_address,
-          setup: @setup.as_json["attributes"]
+          setup: @admin_setup.as_json["attributes"]
           # current_user: current_user.as_json(:only => ["email", "first_names","last_names","phone_number_primary","skype"])
         }
 
@@ -30,6 +31,7 @@ module Pwb
           setup: {},
           agency: {},
           primary_address: {},
+          website: @website
           # current_user: current_user.as_json(:only => ["email", "first_names","last_names","phone_number_primary","skype"])
         }
 

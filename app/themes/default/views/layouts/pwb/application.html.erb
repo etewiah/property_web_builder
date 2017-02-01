@@ -4,17 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="index, follow">
-    <%# display_meta_tags site: @current_agency.tenant_display_name %>
+    <%# display_meta_tags site: @current_website.tenant_display_name %>
     <link href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" rel="stylesheet">
     <%= stylesheet_link_tag    "pwb/themes/default", media: "all" %>
     <link rel="stylesheet" media="all" href="/agency_css.css" data-turbolinks-track="true" />
     <%= javascript_include_tag "pwb/application" %>
     <%= csrf_meta_tags %>
   </head>
-  <body class="tnt-body <%= @current_agency.body_style %>">
-    <%# render @current_agency.views_folder + '/shared/main_mobile_menu' %>
+  <body class="tnt-body <%= @current_website.body_style %>">
+    <%# render @current_website.views_folder + '/shared/main_mobile_menu' %>
     <!-- MAIN WRAPPER -->
-    <div class="body-wrap sticky-wrap <%= @current_agency.body_style %>">
+    <div class="body-wrap sticky-wrap <%= @current_website.body_style %>">
       <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
       <div class="sticky-body">
         <%= yield %>

@@ -21,8 +21,9 @@ module Pwb
                "email_primary", "email_for_property_contact_form", "email_for_general_contact_form",
                "available_currencies", "default_currency",
                "supported_locales", "available_locales"
-             ],
-             methods: ["style_variables"]}.merge(options || {}))
+             ]
+             # methods: ["style_variables"]
+             }.merge(options || {}))
     end
 
     def is_multilingual
@@ -41,14 +42,14 @@ module Pwb
       return supported_locales_with_variants
     end
 
-    def default_client_locale_to_use
-      if supported_locales.count == 1
-        locale = supported_locales.first.split("-")[0]
-      else
-        locale = default_client_locale || :en
-      end
-      locale
-    end
+    # def default_client_locale_to_use
+    #   if supported_locales.count == 1
+    #     locale = supported_locales.first.split("-")[0]
+    #   else
+    #     locale = default_client_locale || :en
+    #   end
+    #   locale
+    # end
 
     def show_contact_map
       primary_address.present?
@@ -70,20 +71,20 @@ module Pwb
       custom_css_file
     end
 
-    def style_variables
-      default_style_variables = {
-        "primary_color" => "#e91b23", # red
-        "secondary_color" => "#3498db", # blue
-        "action_color" => "green",
-        "body_style" => "siteLayout.wide",
-        "theme" => "light"
-      }
-      details["style_variables"] || default_style_variables
-    end
+    # def style_variables
+    #   default_style_variables = {
+    #     "primary_color" => "#e91b23", # red
+    #     "secondary_color" => "#3498db", # blue
+    #     "action_color" => "green",
+    #     "body_style" => "siteLayout.wide",
+    #     "theme" => "light"
+    #   }
+    #   details["style_variables"] || default_style_variables
+    # end
 
-    def style_variables=(style_variables)
-      details["style_variables"] = style_variables
-    end
+    # def style_variables=(style_variables)
+    #   details["style_variables"] = style_variables
+    # end
 
     # def social_media=(social_media)
     #   if social_media
@@ -92,13 +93,13 @@ module Pwb
     #   end
     # end
 
-    def body_style
-      body_style = ""
-      if details["style_variables"] && (details["style_variables"]["body_style"] == "siteLayout.boxed")
-        body_style = "body-boxed"
-      end
-      body_style
-    end
+    # def body_style
+    #   body_style = ""
+    #   if details["style_variables"] && (details["style_variables"]["body_style"] == "siteLayout.boxed")
+    #     body_style = "body-boxed"
+    #   end
+    #   body_style
+    # end
 
     def logo_url
       logo_url = nil

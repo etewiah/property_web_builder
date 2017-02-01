@@ -2,7 +2,8 @@ module Pwb
   class ApplicationController < ActionController::Base
     protect_from_forgery with: :exception
 
-    before_action :footer_content, :current_agency, :sections, :set_locale, :set_theme_path
+    before_action :footer_content, :current_agency_and_website, :sections, 
+    :set_locale, :set_theme_path
 
     def set_theme_path
       theme_name = "default"
@@ -18,7 +19,7 @@ module Pwb
 
     def set_locale
       # agency = current_agency
-      locale = current_agency.default_client_locale_to_use
+      locale = Website.unique_instance.default_client_locale_to_use
       # below just causes confusion for now
       # if current_user
       #   locale = current_user.default_client_locale
@@ -39,8 +40,9 @@ module Pwb
 
     private
 
-    def current_agency
+    def current_agency_and_website
       @current_agency ||= (Agency.last || Agency.create)
+      @current_website = Website.unique_instance
     end
 
     def footer_content
