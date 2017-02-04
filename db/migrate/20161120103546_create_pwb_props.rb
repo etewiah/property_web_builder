@@ -7,6 +7,8 @@ class CreatePwbProps < ActiveRecord::Migration[5.0]
       t.integer  :year_construction, default: 0, null: false
       t.integer  :count_bedrooms, default: 0, null: false
       t.integer  :count_bathrooms, default: 0, null: false
+      # turns out count_bathrooms in the US can be .5, 1.5 etc
+      # so might need a float for above
       t.integer  :count_toilets, default: 0, null: false
       t.integer  :count_garages, default: 0, null: false
       t.float    :plot_area, default: 0, null: false

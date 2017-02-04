@@ -22,12 +22,29 @@ module Pwb
                "company_display_name", "theme_name",
                "default_area_unit", "default_client_locale",
                "available_currencies", "default_currency",
+               "supported_locales", "social_media"
              ],
              methods: ["style_variables"]}.merge(options || {}))
     end
 
+    def is_multilingual
+      supported_locales.length > 1
+    end
+
+    def supported_locales_with_variants
+      supported_locales_with_variants = []
+      self.supported_locales.each do |supported_locale|
+        slwv_array = supported_locale.split("-")
+        locale = slwv_array[0] || "en"
+        variant = slwv_array[1] || slwv_array[0]|| "UK"
+        slwv = { "locale" => locale, "variant" => variant.downcase }
+        supported_locales_with_variants.push slwv
+      end
+      return supported_locales_with_variants
+    end
+
     def default_client_locale_to_use
-      if supported_locales.count == 1
+      if supported_locales && supported_locales.count == 1
         locale = supported_locales.first.split("-")[0]
       else
         locale = default_client_locale || :en
@@ -59,6 +76,9 @@ module Pwb
     end
 
     def custom_css_file
+      # used by css_controller to decide which file to compile
+      # with user set variables.
+      # 
       custom_css_file = "standard"
       # if self.site_template.present? && self.site_template.custom_css_file
       #   custom_css_file = self.site_template.custom_css_file
@@ -66,5 +86,13 @@ module Pwb
       custom_css_file
     end
 
+    def logo_url
+      logo_url = nil
+      logo_content = Content.find_by_key("logo")
+      if logo_content && !logo_content.content_photos.empty?
+        logo_url = logo_content.content_photos.first.image_url
+      end
+      logo_url
+    end
   end
 end

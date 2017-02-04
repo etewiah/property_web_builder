@@ -34,12 +34,12 @@ class CreatePwbWebsites < ActiveRecord::Migration[5.0]
         "","250", "500", "750", "1,000", "1,500", "2,500", "5,000"
       ]
       # t.text :available_locales, array: true, default: []
-      t.text :supported_locales, array: true, default: ["en"]
+      t.text :supported_locales, array: true, default: ["en-UK"]
       # t.text :available_currencies, array: true, default: []
       # supported_currencies for when instant conversions are allowed
       t.text :supported_currencies, array: true, default: []
-      t.string :default_client_locale
-      t.string :default_admin_locale
+      t.string :default_client_locale, default: "en-UK"
+      t.string :default_admin_locale, default: "en-UK"
       t.string :default_currency, default: "EUR"
       t.string :default_area_unit, default: "sqm"
 

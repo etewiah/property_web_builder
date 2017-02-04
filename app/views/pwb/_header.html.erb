@@ -12,10 +12,10 @@
           <% end %>
         </div>
         <div class="col-sm-6">
-          <% if @current_agency.is_multilingual && not_devise %>
+          <% if @current_website.is_multilingual && not_devise %>
             <div class="contenedor_idiomas" style="">
               <ul class="idiomas">
-                <% @current_agency.supported_locales_with_variants.each do |locale_with_var| %>
+                <% @current_website.supported_locales_with_variants.each do |locale_with_var| %>
                   <li class=<%="#{'selected' if locale.to_s == locale_with_var["locale"]}" %>>
                     <%= localized_link_to locale_with_var, params.permit(:locale,).merge({:locale => locale_with_var["locale"]}), class: locale_with_var["variant"] %>
                   </li>
@@ -36,11 +36,11 @@
             <i class="fa fa-bars icon-custom"></i>
           </button>
           <%= link_to pwb.root_path(locale: locale), class: "navbar-brand" do %>
-            <% if @current_agency.logo_url  %>
-              <img src="<%= @current_agency.logo_url %>" alt="Logo">
+            <% if @current_website.logo_url  %>
+              <img src="<%= @current_website.logo_url %>" alt="Logo">
             <% else %>
               <div class="text-navbar-brand" style="">
-                <%= @current_agency.display_name %>
+                <%= @current_agency.company_name %>
               </div>
             <% end %>
           <% end %>
