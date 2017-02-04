@@ -16,7 +16,6 @@ module Pwb
 
 
     # scenario 'sign in works' do
-    #   pending "need to figure out why test below fails on travis"
     #   Capybara.raise_server_errors = false
     #   # above needed to prevent this error:
     #   # No route matches [GET] "/assets/icons/ellipsis.png"

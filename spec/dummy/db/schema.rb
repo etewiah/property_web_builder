@@ -320,12 +320,12 @@ ActiveRecord::Schema.define(version: 20170131190507) do
     t.text     "sale_price_options_till",         default: ["", "25,000", "50,000", "75,000", "100,000", "150,000", "250,000", "500,000", "1,000,000", "2,000,000", "5,000,000", "10,000,000"],              array: true
     t.text     "rent_price_options_from",         default: ["", "250", "500", "750", "1,000", "1,500", "2,500", "5,000"],                                                                                    array: true
     t.text     "rent_price_options_till",         default: ["", "250", "500", "750", "1,000", "1,500", "2,500", "5,000"],                                                                                    array: true
-    t.text     "supported_locales",               default: [],                                                                                                                                               array: true
+    t.text     "supported_locales",               default: ["en-UK"],                                                                                                                                        array: true
     t.text     "supported_currencies",            default: [],                                                                                                                                               array: true
-    t.string   "default_client_locale"
-    t.string   "default_admin_locale"
-    t.string   "default_currency"
-    t.string   "default_area_unit"
+    t.string   "default_client_locale",           default: "en-UK"
+    t.string   "default_admin_locale",            default: "en-UK"
+    t.string   "default_currency",                default: "EUR"
+    t.string   "default_area_unit",               default: "sqm"
     t.json     "social_media",                    default: {}
     t.text     "raw_css"
     t.datetime "created_at",                                                                                                                                                                    null: false

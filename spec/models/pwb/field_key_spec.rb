@@ -12,7 +12,7 @@ module Pwb
     end
 
     describe 'get_options_by_tag' do
-      it 'should return ' do
+      it 'should return correct number of options' do
         ps_opts = FieldKey.get_options_by_tag "property-states"
         # byebug
         expect(ps_opts.count).to eq(1)
