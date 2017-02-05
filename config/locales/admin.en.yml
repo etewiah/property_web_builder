@@ -29,9 +29,12 @@ en:
       about: About
 
     info:
-      recLogoPhotoSize: For new properties - existing properties will not be affected
       defaultCurrency: For new properties - existing properties will not be affected
       defaultAreaUnit: For new properties - existing properties will not be affected
+      recPropPhotoSize: Recommended size for a photo is 800px X 500px,
+      recCarouselPhotoSize: Recommended size for carousel images is 900px X 400px,
+      recLogoPhotoSize: Recommended size for logo is 120px X 80px,
+      orderByDragging: Drag and drop to order - first photo will be main photo.
 
     webContentLabels: 
       suffixEn: in English
