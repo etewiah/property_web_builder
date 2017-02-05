@@ -23,7 +23,7 @@ module Pwb
 
     def website_params
       params.require(:website).permit(
-        :company_name, :display_name,
+        :company_name, :display_name, :default_area_unit,
         :phone_number_primary, :phone_number_other,
         :theme_name, :default_currency,
       supported_locales: [])

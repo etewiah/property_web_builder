@@ -8,6 +8,11 @@ es:
     es-MX: Mexico
     en-UK: UK
     en-US: USA
+    sqmt: Square Meters
+    sqft: Square Feet
+    gbp: UK Pounds
+    usd: Dollars
+    eur: Euros
     adminSections:
       start: Inicio
       agencyDetails: Agencia
@@ -59,12 +64,14 @@ es:
       info:
         contentAreaCols: Columnas del página principal
 
+
     fieldLabels: 
     #   yaencontre: Yaencontre
     #   pisoscom: Pisoscom
     #   idealista: Idealista
     #   localidad: Localidad
     #   zona: Zona
+      defaultAreaUnit: Default Area Unit
       currency: Moneda
       defaultCurrency: Moneda por defecto
       codigoPostal: Codigo Postal
