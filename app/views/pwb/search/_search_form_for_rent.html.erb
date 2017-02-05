@@ -9,11 +9,13 @@
   :html => { :class => 'form-light' }, :remote => true do |f| %>
       <div class="row div_precios_venta" style="">
         <div class="col-sm-6">
-          <%= f.input :for_rent_price_from, collection: @prices_collection, :required => false,
+          <%= f.input :for_rent_price_from, collection: 
+          @prices_from_collection, :required => false,
       selected: @search_defaults["price_from"] %>
         </div>
         <div class="col-sm-6">
-          <%= f.input :for_rent_price_till, collection: @prices_collection, :required => false,
+          <%= f.input :for_rent_price_till, collection: 
+          @prices_till_collection, :required => false,
       selected: @search_defaults["price_till"] %>
         </div>
       </div>
