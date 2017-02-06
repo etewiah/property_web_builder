@@ -188,6 +188,7 @@ footer .company-info h2 {
 /*breadcrumbs row - strictly speaking not header*/
 
 .pg-opt {
+  /*margin-top: 70px;*/
   border-bottom: 1px solid #e0eded;
   border-top: 1px solid #e0eded;
   background: #fcfcfc;
@@ -226,6 +227,11 @@ footer .company-info h2 {
 }
 
 @media only screen and (max-width:767px) {
+  /*for xs screens*/
+  .sticky-body {
+    /*below is enough space for footer  */
+    padding-bottom: 300px;
+  }
   .pg-opt .pg-nav {
     float: left;
     margin-bottom: 10px

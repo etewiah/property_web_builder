@@ -50,10 +50,10 @@
               <li class="hidden-xs"><i class="fa fa-car"></i> <small>
                   <%= property.count_garages %>
                 </small></li>
-              <li class=" text-right">&nbsp;</li>
+              <li class="hidden text-right">&nbsp;</li>
             </ul>
           </div>
-          <%= link_to property.contextual_show_path( @operation_type ), :class => "ver_inmueble hidden-sm" do %>
+          <%= link_to property.contextual_show_path( @operation_type ), :class => "ver_inmueble" do %>
             <i class="fa fa-chevron-right"></i>
             <%= t "property.goToProperty" %>
           <% end %>

@@ -136,6 +136,10 @@
 /* end ces ficha */
 
 @media (max-width: 767px) {
+  /*for xs screens*/
+  ul.list-listings .listing-body .meta-info {
+    max-width: 50%;
+  }
   .wp-block {
     margin-bottom: 15px !important;
   }

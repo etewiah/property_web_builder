@@ -103,6 +103,8 @@
 
 .mi_form {
   position: relative;
+  /*To allow some space before contact info on smaller screens*/
+  padding-bottom: 60px;
 }
 
 .mi_form .validacion {
