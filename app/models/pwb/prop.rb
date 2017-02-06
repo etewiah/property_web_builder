@@ -198,25 +198,31 @@ module Pwb
     # end
 
     # TODO - replace below with db col
-    def area_unit
-      return "sqft"
-      # "sqm"
-      # "m<sup>2</sup>"
-    end
-
-
+    # def area_unit
+    #   return "sqft"
+    #   # "sqm"
+    #   # "m<sup>2</sup>"
+    # end
+    # enum area_unit: [ :sqm, :sqft ]
+    # above method of declaring less flexible than below:
+    enum area_unit: { sqm: 0, sqft: 1 }
 
     before_save :set_rental_search_price
-    after_create :set_currency
+    after_create :set_defaults
 
     private
 
-    def set_currency
+    def set_defaults
       # This is pretty ugly - need to create a service object
       # with DI as soon as I can:
-      default_currency = Agency.last.present? ? Agency.last.default_currency : nil
-      if default_currency.present?
-        self.currency = default_currency
+      current_website = Website.unique_instance
+      # default_currency = Website.last.present? ? Website.last.default_currency : nil
+      if current_website.default_currency.present?
+        self.currency = current_website.default_currency
+        save
+      end
+      if current_website.default_area_unit.present?
+        self.area_unit = current_website.default_area_unit
         save
       end
     end

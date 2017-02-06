@@ -9,27 +9,34 @@ module Pwb
     # end
 
     before(:all) do
-      @agency = FactoryGirl.create(:pwb_agency, default_currency: 'GBP')
+      # @agency = FactoryGirl.create(:pwb_agency, default_currency: 'EUR')
+      @website = FactoryGirl.create(:pwb_website,
+                                    default_currency: 'USD',
+                                    default_area_unit: 'sqft')
     end
 
     context 'scopes' do
       before(:all) do
         # @first = FactoryGirl.create(:pwb_prop, created_at: 1.day.ago)
         @two_bedroom = FactoryGirl.create(:pwb_prop,
-                                           reference: "ref2bbed",
-                                           count_bedrooms: 2)
+                                          reference: "ref2bbed",
+                                          count_bedrooms: 2)
         @five_bedroom = FactoryGirl.create(:pwb_prop, :long_term_rent, :short_term_rent,
-                                            price_rental_monthly_current_cents: 100_000,
-                                            reference: "ref5bbed",
-                                            count_bedrooms: 5)
+                                           price_rental_monthly_current_cents: 500_000,
+                                           reference: "ref5bbed",
+                                           count_bedrooms: 5)
       end
 
       it 'should have correct currency' do
-        expect(@two_bedroom.currency).to eq(@agency.default_currency)
+        expect(@two_bedroom.currency).to eq(@website.default_currency)
+      end
+
+      it 'should have correct area_unit' do
+        expect(@two_bedroom.area_unit).to eq(@website.default_area_unit)
       end
 
       it 'should have correct rental price' do
-        expect(@five_bedroom.rental_price.to_i).to eq(1000)
+        expect(@five_bedroom.rental_price.to_i).to eq(5000)
       end
 
       it "should only return properties with correct number of bedrooms" do

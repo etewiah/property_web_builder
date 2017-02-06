@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170131190507) do
+ActiveRecord::Schema.define(version: 20170205132427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -246,6 +246,7 @@ ActiveRecord::Schema.define(version: 20170131190507) do
     t.float    "longitude"
     t.datetime "created_at",                                                    null: false
     t.datetime "updated_at",                                                    null: false
+    t.integer  "area_unit",                                     default: 0
     t.index ["archived"], name: "index_pwb_props_on_archived", using: :btree
     t.index ["flags"], name: "index_pwb_props_on_flags", using: :btree
     t.index ["for_rent_long_term"], name: "index_pwb_props_on_for_rent_long_term", using: :btree
