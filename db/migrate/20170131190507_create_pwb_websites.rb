@@ -10,8 +10,8 @@ class CreatePwbWebsites < ActiveRecord::Migration[5.0]
       t.string :email_for_property_contact_form
       # t.string :url
 
-      t.integer :primary_address_id
-      t.integer :secondary_address_id
+      # t.integer :primary_address_id
+      t.integer :contact_address_id
       t.integer :flags
       t.integer :flags, :null => false, :default => 0
       # t.integer :payment_plan_id

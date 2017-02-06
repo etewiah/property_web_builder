@@ -9,9 +9,20 @@ module Pwb
     belongs_to :primary_address, class_name: "Address", foreign_key: 'primary_address_id'
     belongs_to :secondary_address, class_name: "Address", foreign_key: 'secondary_address_id'
 
-    # def supported_languages
-    #   return self.supported_locales.present? ? self.supported_locales : ["en"]
-    # end
+    def self.unique_instance
+      # there will be only one row, and its ID must be '1'
+      begin
+        # TODO - memoize
+        find(1)
+      rescue ActiveRecord::RecordNotFound
+        # slight race condition here, but it will only happen once
+        row = Agency.new
+        row.id = 1
+        row.save!
+        row
+      end
+    end
+
     def as_json(options = nil)
       super({only: [
                "display_name", "company_name",

@@ -17,7 +17,8 @@ module Pwb
         seed_content 'static.yml'
         seed_content 'footer.yml'
         seed_agency 'agency.yml'
-        # need to seed agency first so correct currency is used
+        seed_website 'website.yml'
+        # need to seed website first so correct currency is used
         seed_prop 'villa_for_sale.yml'
         seed_prop 'villa_for_rent.yml'
         seed_prop 'flat_for_sale.yml'
@@ -56,10 +57,19 @@ module Pwb
         end
       end
 
+      def seed_website yml_file
+        website_yml = load_seed_yml yml_file
+        website = Pwb::Website.unique_instance
+        unless website.company_display_name.present?
+          website.update!(website_yml)
+        end
+      end
+
       def seed_agency yml_file
         agency_yml = load_seed_yml yml_file
-        unless Pwb::Agency.count > 0
-          agency = Pwb::Agency.create!(agency_yml)
+        agency = Pwb::Agency.unique_instance
+        unless agency.display_name.present?
+          agency.update!(agency_yml)
           agency_address_yml = load_seed_yml 'agency_address.yml'
           agency_address = Pwb::Address.create!(agency_address_yml)
           agency.primary_address = agency_address

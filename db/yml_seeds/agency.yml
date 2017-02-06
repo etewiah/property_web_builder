@@ -15,20 +15,15 @@ url:
 primary_address_id:
 secondary_address_id:
 flags: 0
-payment_plan_id:
-site_template_id:
-site_configuration: {}
-available_locales: ["en","es"]
-available_currencies: []
-supported_locales: ["en","es"]
-supported_currencies: []
-default_client_locale:
-default_admin_locale:
-default_currency:
-social_media: {
-  "facebook": "https://www.facebook.com/propertywebbuilder",
-  "linkedin": "https://www.linkedin.com/company/propertywebbuilder",
-  "twitter": "https://twitter.com/prptywebbuilder"
-  }
+# payment_plan_id:
+# site_template_id:
+# site_configuration: {}
+# available_locales: ["en","es"]
+# available_currencies: []
+# supported_locales: ["en","es"]
+# supported_currencies: []
+# default_client_locale:
+# default_admin_locale:
+# default_currency:
 details: {}
-raw_css: ""
+# raw_css: ""

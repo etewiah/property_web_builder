@@ -1,0 +1,23 @@
+analytics_id:
+analytics_id_type:
+company_display_name: Example Real Estate
+email_for_general_contact_form:
+email_for_property_contact_form:
+# contact_address_id:
+flags: 0
+configuration: {}
+style_variables_for_theme: {}
+google_font_name: 
+theme_name: 
+supported_currencies: []
+supported_locales: ["en-US","es-MX"]
+default_client_locale: "en-US"
+default_admin_locale: "en-US"
+default_currency: "USD"
+default_area_unit: 0
+social_media: {
+  "facebook": "https://www.facebook.com/propertywebbuilder",
+  "linkedin": "https://www.linkedin.com/company/propertywebbuilder",
+  "twitter": "https://twitter.com/prptywebbuilder"
+  }
+raw_css: ""
