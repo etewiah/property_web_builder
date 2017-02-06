@@ -9,10 +9,10 @@ module Pwb
     # end
 
     before(:all) do
-      # @agency = FactoryGirl.create(:pwb_agency, default_currency: 'EUR')
-      @website = FactoryGirl.create(:pwb_website,
-                                    default_currency: 'USD',
-                                    default_area_unit: 'sqft')
+      @website = Website.unique_instance
+       # FactoryGirl.create(:pwb_website,
+       #                              default_currency: 'USD',
+       #                              default_area_unit: 'sqft')
     end
 
     context 'scopes' do
