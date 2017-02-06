@@ -46,12 +46,11 @@ module Pwb
     end
 
     def default_client_locale_to_use
+      locale = default_client_locale || "en-UK"
       if supported_locales && supported_locales.count == 1
-        locale = supported_locales.first.split("-")[0]
-      else
-        locale = default_client_locale || :en
+        locale = supported_locales.first
       end
-      locale
+      locale.split("-")[0]
     end
 
     def style_variables
