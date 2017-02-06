@@ -71,6 +71,9 @@ RSpec.configure do |config|
 
   # https://github.com/plataformatec/devise/wiki/How-To:-Test-controllers-with-Rails-3-and-4-(and-RSpec)
   config.include Devise::Test::ControllerHelpers, type: :controller
+
+  config.include FeatureHelpers, type: :feature
+
   config.extend ControllerMacros, type: :controller
   # https://github.com/plataformatec/devise/wiki/How-To:-Stub-authentication-in-controller-specs
   config.include ControllerHelpers, type: :controller
