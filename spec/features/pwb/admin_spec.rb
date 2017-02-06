@@ -38,28 +38,15 @@ module Pwb
 
     end
 
-    scenario 'settings works' do
-      sign_in_as @admin_user.email, @admin_user.password  
-      Capybara.raise_server_errors = false
+    # scenario 'settings works' do
+    #   sign_in_as @admin_user.email, @admin_user.password  
+    #   Capybara.raise_server_errors = false
 
-      visit('/en/admin/website/settings/general')
-      # puts current_url
-      # require 'pry'; binding.pry
-      # save_and_open_page
-      byebug
-      fill_in('Email', with: @admin_user.email)
-      fill_in('Password', with: @admin_user.password)
-      click_button('Sign in')
-      # visit('/admin')
+    #   click_link(nil, href: '/en/admin/website/settings')
+    #   # visit('/en/admin/website/settings/general')
 
-      # expect(page).to have_css(".main-menu", count: 1)
-      # expect(last('.card').find('h2')).to have_content('Website')
-      expect(page).to have_link(nil, href: '/en/admin/properties/new')
-      # below fails in travis CI - perhaps because translations aren't loading??
-      # expect(page).to have_link('Add a property')
-
-
-    end
+    #   byebug
+    # end
 
 
 

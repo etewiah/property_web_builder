@@ -12,17 +12,20 @@ require File.expand_path('../dummy/config/environment.rb', __FILE__)
 require 'rspec/rails'
 # require 'rspec/autorun'
 require 'factory_girl_rails'
-
 require 'capybara/poltergeist'
 # require 'capybara/rails'
+require 'pwb/seeder'
 
 # load(Rails.root.join("db", "seeds.rb"))
 
 # Configure capybara for integration testing
 # Capybara.default_driver = :rack_test
 # Capybara.default_selector = :css
+# js_options = {js_errors: false}
+# above is sometimes useful to troubleshoot errors with tests
+js_options = {}
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app)
+  Capybara::Poltergeist::Driver.new(app, js_options)
 end
 Capybara.javascript_driver = :poltergeist
 # Capybara.ignore_hidden_elements = false
@@ -41,6 +44,9 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 ActionController::Base.prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/"
 
+
+
+
 RSpec.configure do |config|
   config.include JsonSpec::Helpers
 
@@ -56,6 +62,7 @@ RSpec.configure do |config|
   # Make sure the database is clean and ready for test
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
+    Pwb::Seeder.seed!
   end
 
   config.after(:all) do
