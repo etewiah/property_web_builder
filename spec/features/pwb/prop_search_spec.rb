@@ -26,12 +26,12 @@ module Pwb
       # save_and_open_page
       # save_and_open_screenshot
 
-      expect(page).to have_css(".property-item", count: 1)
+      expect(page).to have_css(".property-item", count: Prop.visible.for_rent.count)
       # Capybara.ignore_hidden_elements = false
       # passing visible: false below would be like setting above
       select('2,500', from: 'search_for_rent_price_from', visible: false)
       click_button('Search')
-      expect(page).to have_css(".property-item", count: 0)
+      expect(page).to have_css(".property-item", count:  Prop.visible.for_rent.for_rent_price_from(250000).count)
       # expect(current_path).to eq("/en")
     end
 
