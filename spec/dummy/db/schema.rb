@@ -326,7 +326,7 @@ ActiveRecord::Schema.define(version: 20170205132427) do
     t.string   "default_client_locale",           default: "en-UK"
     t.string   "default_admin_locale",            default: "en-UK"
     t.string   "default_currency",                default: "EUR"
-    t.string   "default_area_unit",               default: "sqm"
+    t.integer  "default_area_unit",               default: 0
     t.json     "social_media",                    default: {}
     t.text     "raw_css"
     t.datetime "created_at",                                                                                                                                                                    null: false

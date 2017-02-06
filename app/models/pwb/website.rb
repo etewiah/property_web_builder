@@ -27,6 +27,8 @@ module Pwb
              methods: ["style_variables"]}.merge(options || {}))
     end
 
+    enum area_unit: { sqm: 0, sqft: 1 }
+
     def is_multilingual
       supported_locales.length > 1
     end
@@ -74,6 +76,7 @@ module Pwb
       end
       body_style
     end
+
 
     def custom_css_file
       # used by css_controller to decide which file to compile

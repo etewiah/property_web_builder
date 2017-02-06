@@ -41,7 +41,7 @@ class CreatePwbWebsites < ActiveRecord::Migration[5.0]
       t.string :default_client_locale, default: "en-UK"
       t.string :default_admin_locale, default: "en-UK"
       t.string :default_currency, default: "EUR"
-      t.string :default_area_unit, default: "sqm"
+      t.integer :default_area_unit, default: 0
 
       t.json :social_media, default: {}
       t.text :raw_css
