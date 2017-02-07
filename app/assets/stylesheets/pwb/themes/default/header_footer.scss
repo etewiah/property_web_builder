@@ -90,7 +90,7 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
-  /*height: 160px;*/
+  height: 200px;
   /*background:#6cf;*/
 }
 
@@ -228,16 +228,16 @@ footer .company-info h2 {
 
 @media only screen and (max-width:767px) {
   /*for xs screens*/
-  .sticky-body {
-    /*below is enough space for footer  */
+/*  .sticky-body {
+    below is enough space for footer  
     padding-bottom: 300px;
-  }
+  }*/
   .pg-opt .pg-nav {
     float: left;
     margin-bottom: 10px
   }
   .pg-opt h2 {
-    padding: 20px 0 0 0
+    /*padding: 20px 0 0 0*/
   }
 }
 

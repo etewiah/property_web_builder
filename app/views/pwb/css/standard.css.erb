@@ -23,6 +23,11 @@
   background: <%= @current_website.style_variables["footer_color"] || "#333" %>;
   color: #fff;
 }
+.fondo_footer>.pusher {
+  /*allows setting of bg color for footer overflow */
+  background: <%= @current_website.style_variables["footer_color"] || "#333" %>;
+}
+
 
 ul.list-listings>li.featured {
   border: 1px solid <%= @current_website.style_variables["primary_color"] %>;

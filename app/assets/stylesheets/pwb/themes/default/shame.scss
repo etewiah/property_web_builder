@@ -1,8 +1,17 @@
+@media only screen and (min-width: 767px) {
+  /*flex display only needed for larger screens*/
+  .flex-md {
+    display: flex;
+  }
+}
 
-.flex-row, .flex-col {
-/*used in footer to push social links down*/
+.flex-row,
+.flex-col {
+  /*used in footer to push social links down*/
   display: flex;
 }
+
+
 /*
 .table {
     display: table
@@ -20,7 +29,9 @@ table {
   border: 0 !important;
 }
 
+
 /*below fixes extras list*/
+
 ol,
 ul {
   list-style: none;
