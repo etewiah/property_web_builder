@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe 'pwb/sections/contact_us', type: :view do
   include Pwb::ApplicationHelper
-
   before do
     view.extend Pwb::ApplicationHelper
   end

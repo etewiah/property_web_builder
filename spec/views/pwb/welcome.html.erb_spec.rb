@@ -1,12 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe 'pwb/welcome/index', type: :view do
+  include Pwb::ApplicationHelper
+  before do
+    view.extend Pwb::ApplicationHelper
+  end
   # before(:each) do
   #   @content = assign(:content, Pwb::Content.create!())
   # end
 
   before(:each) do
-    assign(:about_us, Pwb::Content.create!({key: 'aboutUs'}))
+    assign(:current_agency, Pwb::Agency.unique_instance)
+    # assign(:about_us, Pwb::Content.create!({key: 'aboutUs'}))
     assign(:carousel_items, [
              Pwb::Content.create!,
              Pwb::Content.create!

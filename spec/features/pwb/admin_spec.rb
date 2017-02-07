@@ -29,7 +29,6 @@ module Pwb
       # fill_in('Password', with: @admin_user.password)
       # click_button('Sign in')
 
-
       # expect(page).to have_css(".main-menu", count: 1)
       # expect(last('.card').find('h2')).to have_content('Website')
       expect(page).to have_link(nil, href: '/en/admin/properties/new')
