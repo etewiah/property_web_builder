@@ -10,6 +10,7 @@
     <link rel="stylesheet" media="all" href="/agency_css.css" data-turbolinks-track="true" />
     <%= javascript_include_tag "pwb/application" %>
     <%= csrf_meta_tags %>
+    <title><%= yield(:page_title) %></title>
   </head>
   <body class="tnt-body <%= @current_website.body_style %>">
     <%# render @current_website.views_folder + '/shared/main_mobile_menu' %>

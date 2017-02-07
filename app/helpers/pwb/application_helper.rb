@@ -1,6 +1,10 @@
 module Pwb
   module ApplicationHelper
 
+    def page_title(title_val)
+      content_for :page_title, title_val.to_s
+    end
+
     def area_unit(property)
       area_unit = "m<sup>2</sup>"
       if property.area_unit && (property.area_unit == "sqft")
