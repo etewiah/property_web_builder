@@ -52,6 +52,12 @@ Pwb::Engine.routes.draw do
 
   end
 
+  namespace :api_public do
+    namespace :v1 do
+      jsonapi_resources :props
+    end
+  end
+
   authenticate :user do
     namespace :api do
       namespace :v1 do
@@ -103,7 +109,7 @@ Pwb::Engine.routes.draw do
         # where only one photo is allowed
 
         post '/web_contents/photo/:tag' => 'web_contents#create_content_with_photo'
-        # above for carousel photos where I need to be able to 
+        # above for carousel photos where I need to be able to
         # create content along with the photo
 
       end
