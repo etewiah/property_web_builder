@@ -6,9 +6,15 @@ This project has been created to address a glaring gap in the rails ecosystem: t
 
 The result is that WordPress has become the dominant tool for creating real estate websites.  This is far from ideal and PropertyWebBuilder seeks to address this.
 
-Read more about this here: [https://etewiah.github.io/property_web_builder](https://etewiah.github.io/property_web_builder/)
+Read more about this here: [http://propertywebbuilder.com](http://propertywebbuilder.com)
 
 ##[Demo](https://propertywebbuilder.herokuapp.com/)
+
+You can try out a demo at [https://propertywebbuilder.herokuapp.com](https://propertywebbuilder.herokuapp.com/)
+
+To see the admin panel, login as user admin@example.com with a password of "pwb123456".
+
+![pwb_iphone_landing](https://cloud.githubusercontent.com/assets/1741198/22990222/bfec0168-f3b8-11e6-89df-b950c4979970.png)
 
 ## Rails Version
 
@@ -47,7 +53,21 @@ If you are too lazy to read about deploying, you can simply [sign up for Heroku]
 
 You can see an example of a site created with PropertyWebBuilder here:
 
-[http://re-renting.propertywebbuilder.com](http://re-renting.propertywebbuilder.com)
+[http://re-renting.com](http://re-renting.com)
+
+
+## Features
+
+* Multilingual
+* Multi-currency
+* Powerful search component
+* Fully featured admin panel
+* Google maps integration
+* Customisable look and feel
+* Easily extendable
+* Search engine friendly
+* Mobile friendly responsive layout
+* Fully open source
 
 ## Coming soon
 
