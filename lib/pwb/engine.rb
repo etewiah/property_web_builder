@@ -29,7 +29,9 @@ module Pwb
       g.helper false
     end
 
-
+    config.action_dispatch.default_headers = {
+      'X-Frame-Options' => 'ALLOWALL'
+    }
     # config.assets.paths << File.expand_path("../../assets/stylesheets", __FILE__)
     # config.assets.paths << File.expand_path("../../assets/javascripts", __FILE__)
     config.assets.paths << root.join("app", "assets", "stylesheets", "pwb", "themes")
