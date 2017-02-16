@@ -4,8 +4,13 @@ module Pwb
   class ApiPublic::V1::PropsController < JSONAPI::ResourceController
     # Skipping action below allows me to browse to endpoint
     # without having set mime type
-    skip_before_action :ensure_valid_accept_media_type
-
+    # skip_before_action :ensure_valid_accept_media_type
+    # feb 2017 - seems above has been replaced
+    # https://github.com/cerebris/jsonapi-resources/pull/806/files
+    # https://github.com/cerebris/jsonapi-resources/commit/05f873c284f3c084b32140ffdae975667df011fb
+    # by below
+    # verify_content_type_header
+    # verify_accept_header
 
     before_filter :cors_preflight_check
     after_filter :cors_set_access_control_headers
