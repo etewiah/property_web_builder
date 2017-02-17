@@ -310,8 +310,7 @@ ActiveRecord::Schema.define(version: 20170205132427) do
     t.string   "company_display_name"
     t.string   "email_for_general_contact_form"
     t.string   "email_for_property_contact_form"
-    t.integer  "primary_address_id"
-    t.integer  "secondary_address_id"
+    t.integer  "contact_address_id"
     t.integer  "flags",                           default: 0,                                                                                                                                   null: false
     t.string   "theme_name"
     t.string   "google_font_name"
