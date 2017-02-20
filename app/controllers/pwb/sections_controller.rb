@@ -78,16 +78,18 @@ module Pwb
       @enquiry.client = @client
       @enquiry.save
 
-      EnquiryMailer.general_enquiry_targeting_agency(@client, @enquiry).deliver
+      # @enquiry.delivery_email = ""
+      EnquiryMailer.general_enquiry_targeting_agency(@client, @enquiry).deliver_now
 
       # @enquiry.delivery_success = true
       # @enquiry.save
+
       @flash = I18n.t "contact.success"
       return render "pwb/ajax/contact_us_success", layout: false
     rescue => e
       # TODO - log error to logger....
       # flash.now[:error] = 'Cannot send message.'
-      @error_messages = [ I18n.t("contact.error") ]
+      @error_messages = [ I18n.t("contact.error"), e ]
       return render "pwb/ajax/contact_us_errors", layout: false
     end
 

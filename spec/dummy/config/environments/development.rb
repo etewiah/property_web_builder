@@ -26,10 +26,42 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { :address => '127.0.0.1', :port => 1025 }
+  config.action_mailer.perform_deliveries = true
+  # install mailcatcher to test deliveries locally
+  # https://mailcatcher.me/
+
+  #  care if the mailer can't send.
+  config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.perform_caching = false
+
+
+  # config.action_mailer.delivery_method = :aws_sdk
+  # disabling mails for now
+  # config.action_mailer.delivery_method = :test
+  # should place emails here:
+  # ActionMailer::Base.deliveries
+
+
+  # config.action_mailer.smtp_settings = {
+  #   address: "smtp.mandrillapp.com",
+  #   authentication: :plain,
+  #   domain: "start.inmolite.com",
+  #   enable_starttls_auto: true,
+  #   password: Rails.application.secrets.smtp_pwd,
+  #   port: "587",
+  #   user_name: Rails.application.secrets.smtp_user
+  # }
+  # config.action_mailer.default_url_options = { host: "propertysquares.com" }
+  # to allow links in template like:
+  # <%= link_to 'welcome', welcome_url %>
+  # config.action_mailer.asset_host = 'http://propertysquares.com'
+  # Now you can display an image inside your email.
+  # <%= image_tag 'image.jpg' %>
+
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
