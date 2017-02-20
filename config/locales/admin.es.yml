@@ -132,6 +132,9 @@ es:
       companyName: Nombre de la empresa
       primaryPhone: Teléfono principal
       otherPhone: Teléfono 2
+      primaryEmail: Display email
+      propertyContactEmail: Property enquiry email
+      generalContactEmail: General enquiry email
       nationality: Nacionalidad
       documentationType: Tipo de documento
       documentationId: Número de documento
@@ -141,6 +144,11 @@ es:
       personTitle: Sr, Sra. o similar
       description: Descripción
       title: Título
+      info:
+        primaryEmail: Email displayed in page header
+        primaryPhone: Phone no displayed in page header
+        propertyContactEmail: Enquiries about specific properties will be sent here
+        generalContactEmail: Enquiries from 'contact us' page will be sent here
 
     # for header row in property listing
     propertyColHeader:

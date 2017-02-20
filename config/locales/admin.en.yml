@@ -130,8 +130,11 @@ en:
       highlighted: Highlighted
       label: Label
       companyName: Company Name
-      primaryPhone: Main phone number
+      primaryPhone: Display phone number
       otherPhone: Other phone number
+      primaryEmail: Display email
+      propertyContactEmail: Property enquiry email
+      generalContactEmail: General enquiry email
       nationality: Nationality
       documentationType: Documentation Type
       documentationId: Documentation Id
@@ -141,6 +144,12 @@ en:
       personTitle: Title
       description: Description
       title: Title
+      info:
+        primaryEmail: Email displayed in page header
+        primaryPhone: Phone no displayed in page header
+        propertyContactEmail: Enquiries about specific properties will be sent here
+        generalContactEmail: Enquiries from 'contact us' page will be sent here
+
     # for header row in property listing
     propertyColHeader:
       highlighted: Highlighted
