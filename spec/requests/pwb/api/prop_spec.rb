@@ -38,7 +38,13 @@ module Pwb
       it 'sends agency details' do
         sign_in @admin_user
 
-        get "/api/v1/properties/#{@prop_for_long_term_rent.id}"
+        # request.env['CONTENT_TYPE'] = 'application/vnd.api+json'
+        request_headers = {
+          "Accept" => "application/vnd.api+json"
+          # "Content-Type" => "application/vnd.api+json"
+        }
+
+        get "/api/v1/properties/#{@prop_for_long_term_rent.id}", headers: request_headers
 
         expect(response).to be_success
         expect(response_body_as_json['data']['id']).to eq(@prop_for_long_term_rent.id.to_s)
