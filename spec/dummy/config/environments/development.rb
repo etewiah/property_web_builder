@@ -22,20 +22,30 @@ Rails.application.configure do
     }
   else
     config.action_controller.perform_caching = false
-
     config.cache_store = :null_store
   end
 
 
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = { :address => '127.0.0.1', :port => 1025 }
-  config.action_mailer.perform_deliveries = true
+  # config.action_mailer.smtp_settings = {
+  #   :address => '127.0.0.1',
+  #   :port => 1025
+  # }
   # install mailcatcher to test deliveries locally
   # https://mailcatcher.me/
 
+
+  config.action_mailer.smtp_settings = {
+    :address => "smtp.sendgrid.net",
+    :port => 25,
+    :domain => "propertywebbuilder.com",
+    :authentication => :plain,
+    :user_name => Rails.application.secrets.sendgrid_username,
+    :password => Rails.application.secrets.sendgrid_password
+  }
   #  care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
-
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.perform_caching = false
 
 
@@ -55,10 +65,10 @@ Rails.application.configure do
   #   port: "587",
   #   user_name: Rails.application.secrets.smtp_user
   # }
-  # config.action_mailer.default_url_options = { host: "propertysquares.com" }
+  # config.action_mailer.default_url_options = { host: "propertywebbuilder.com" }
   # to allow links in template like:
   # <%= link_to 'welcome', welcome_url %>
-  # config.action_mailer.asset_host = 'http://propertysquares.com'
+  # config.action_mailer.asset_host = 'http://propertywebbuilder.com'
   # Now you can display an image inside your email.
   # <%= image_tag 'image.jpg' %>
 
