@@ -66,13 +66,18 @@ module Pwb
           host: request.host,
           origin_ip: request.ip,
           user_agent: request.user_agent,
-          delivery_email: @current_agency.email_for_general_contact_form,
-          origin_email: params[:contact][:email]
+          delivery_email: @current_agency.email_for_general_contact_form
+          # origin_email: params[:contact][:email]
       })
       unless @enquiry.save && @client.save
         @error_messages = @error_messages + @client.errors.full_messages
         @error_messages = @error_messages + @enquiry.errors.full_messages
         return render "pwb/ajax/contact_us_errors"
+      end
+
+      unless @current_agency.email_for_general_contact_form.present?
+        # in case a delivery email has not been set
+        @enquiry.delivery_email = "no_delivery_email@propertywebbuilder.com"
       end
 
       @enquiry.client = @client

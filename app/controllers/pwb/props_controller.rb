@@ -69,9 +69,8 @@ module Pwb
                                host: request.host,
                                origin_ip: request.ip,
                                user_agent: request.user_agent,
-                               # TODO - allow specific email for property enquiries:
-                               delivery_email: @current_agency.email_for_property_contact_form,
-                               origin_email: params[:contact][:email]
+                               delivery_email: @current_agency.email_for_property_contact_form
+                               # origin_email: params[:contact][:email]
       })
 
       unless @enquiry.save && @client.save
@@ -80,19 +79,24 @@ module Pwb
         return render "pwb/ajax/request_info_errors"
       end
 
+      unless @current_agency.email_for_property_contact_form.present?
+        # in case a delivery email has not been set
+        @enquiry.delivery_email = "no_delivery_email@propertywebbuilder.com"
+      end
+
       @enquiry.client = @client
       @enquiry.save
 
       EnquiryMailer.property_enquiry_targeting_agency(@client, @enquiry, @property).deliver
-
       # @enquiry.delivery_success = true
       @enquiry.save
       @flash = I18n.t "contact.success"
-      return render "pwb/ajax/request_info_success"
+      return render "pwb/ajax/request_info_success", layout: false
     rescue => e
+
       # TODO - log error to logger....
-      @error_messages = [ I18n.t("contact.error") ]
-      return render "pwb/ajax/request_info_errors"
+      @error_messages = [ I18n.t("contact.error"), e ]
+      return render "pwb/ajax/request_info_errors", layout: false
 
     end
 
