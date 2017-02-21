@@ -351,18 +351,6 @@ section.slice {
   box-shadow: none;
 }
 
-@media (max-width: 991px) {
-  .carousel-1 .description-left {
-    position: absolute;
-    width: 40%;
-    top: 50px;
-    left: 20px;
-    margin-left: 20px;
-    width: 514px;
-    height: 290px;
-  }
-}
-
 @media (min-width: 1200px) {
   .body-wrap.body-boxed {
     width: 1230px;

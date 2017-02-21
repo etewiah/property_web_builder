@@ -1,5 +1,6 @@
 /*These carousel styles only apply to the landing page 
 - not to the property carousels */
+
 .carousel-1 {
   overflow: hidden;
   margin-bottom: 20px
@@ -78,6 +79,85 @@
 .carousel-1 .object iframe {
   width: 100% !important
 }
+
+.carousel-1 .caption-bottom {
+  width: 100%;
+  padding: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: rgba(52, 152, 219, 0.8)
+}
+
+.carousel-1 .caption-bottom .title {
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  font-weight: 600
+}
+
+.carousel-1 .caption-bottom .subtitle {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 400
+}
+
+.carousel-1 .text-shadow {
+  text-shadow: 2px 2px 2px #888
+}
+
+#homepageCarousel {
+  margin-bottom: 0;
+}
+
+.carousel-1 {
+  .subtitle-sm,
+  .subtitle {
+    font-size: 24px;
+    margin: 5px 0 15px 0;
+    padding: 0;
+    display: block;
+    /*line-height: 26px*/
+  }
+  .list-carousel {
+    padding: 0px;
+    font-size: 20px;
+  }
+  .carousel-content {
+    padding: 50px 40px;
+  }
+  .shade {
+    background: gray;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .6;
+  }
+  .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .6;
+  }
+  .mask.mask-1 {
+    /* background:url(../images/patterns/slash-it.png); */
+    background: gray;
+  }
+  .mask.mask-2 {
+    background: url(../images/patterns/dark-exa.png);
+    opacity: .4
+  }
+}
+
+
+/*
+
 
 .carousel-1 .description {
   position: absolute;
@@ -186,43 +266,17 @@
   margin-right: 20px
 }
 
-.carousel-1 .caption-bottom {
-  width: 100%;
-  padding: 20px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  background: rgba(52, 152, 219, 0.8)
-}
 
-.carousel-1 .caption-bottom .title {
-  margin: 0;
-  padding: 0;
-  font-size: 20px;
-  font-weight: 600
-}
+*/
 
-.carousel-1 .caption-bottom .subtitle {
-  display: block;
-  margin: 0;
-  padding: 0;
-  font-size: 13px;
-  font-weight: 400
-}
-
-.carousel-1 .text-shadow {
-  text-shadow: 2px 2px 2px #888
-}
-
-.carousel-1 .subtitle-sm {
-  font-size: 16px;
-  margin: 5px 0 15px 0;
-  padding: 0;
-  display: block;
-  line-height: 26px
-}
-
-
-#homepageCarousel {
-  margin-bottom: 0;
+@media (max-width: 991px) {
+  /*  .carousel-1 .description-left {
+    position: absolute;
+    width: 40%;
+    top: 50px;
+    left: 20px;
+    margin-left: 20px;
+    width: 514px;
+    height: 290px;
+  }*/
 }
