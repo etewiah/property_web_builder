@@ -91,7 +91,11 @@ module Pwb
     private
 
     def address_params
-      params.require(:address).permit(:street_address, :postal_code, :city, :region, :country, :longitude, :latitude)
+      params.require(:address).permit(
+        :street_address, :street_number,
+        :postal_code, :city,
+        :region, :country,
+      :longitude, :latitude)
     end
 
 

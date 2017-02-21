@@ -285,7 +285,15 @@ section.slice {
 }
 
 .contact-info {
-  margin-bottom: 20px;
+  /*margin-bottom: 20px;*/
+}
+
+.contact-info-panel-body {
+  padding: 0px 15px;
+}
+
+.contact-info h4 {
+  margin-bottom: 2px;
 }
 
 .contact-info h5 {

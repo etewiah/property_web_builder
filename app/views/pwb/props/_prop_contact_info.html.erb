@@ -1,8 +1,16 @@
 <div style="" class="panel panel-default panel-sidebar-1">
   <div class="panel-heading">
     <h2><%= I18n.t("webContentSections.contactInformation") %></h2></div>
-  <div class="panel-body">
+  <div class="contact-info-panel-body">
     <div class="contact-info">
+      <h4><%= @current_agency.display_name %></h4>
+      <p><%= @current_agency.primary_address.street_number %>, <%= @current_agency.primary_address.street_address %>
+        <br>
+        <%= @current_agency.primary_address.city %>
+        <% if @current_agency.primary_address.postal_code.present? %>
+          , <%= @current_agency.primary_address.postal_code %>
+        <% end %>
+      </p>
 
       <%= agency_info(@current_agency, "phone_number_primary", "tel", "fa-phone") %>
       <%= agency_info(@current_agency, "email_primary", "email", "fa-envelope") %>
