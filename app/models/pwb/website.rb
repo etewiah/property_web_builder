@@ -27,7 +27,7 @@ module Pwb
              methods: ["style_variables"]}.merge(options || {}))
     end
 
-    enum default_area_unit: { sqm: 0, sqft: 1 }
+    enum default_area_unit: { sqmt: 0, sqft: 1 }
 
     def is_multilingual
       supported_locales.length > 1

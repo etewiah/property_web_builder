@@ -200,12 +200,12 @@ module Pwb
     # TODO - replace below with db col
     # def area_unit
     #   return "sqft"
-    #   # "sqm"
+    #   # "sqmt"
     #   # "m<sup>2</sup>"
     # end
-    # enum area_unit: [ :sqm, :sqft ]
+    # enum area_unit: [ :sqmt, :sqft ]
     # above method of declaring less flexible than below:
-    enum area_unit: { sqm: 0, sqft: 1 }
+    enum area_unit: { sqmt: 0, sqft: 1 }
 
     before_save :set_rental_search_price
     after_create :set_defaults
