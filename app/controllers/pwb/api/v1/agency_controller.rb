@@ -101,6 +101,9 @@ module Pwb
 
     def agency_params
       params.require(:agency).permit(
+        :email_for_property_contact_form,
+        :email_for_general_contact_form,
+        :email_primary,
         :company_name, :display_name,
         :phone_number_primary, :phone_number_other,
         :theme_name, :default_currency,
