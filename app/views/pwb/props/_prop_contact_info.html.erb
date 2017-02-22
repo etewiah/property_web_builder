@@ -4,11 +4,11 @@
   <div class="contact-info-panel-body">
     <div class="contact-info">
       <h4><%= @current_agency.display_name %></h4>
-      <p><%= @current_agency.primary_address.street_number %>, <%= @current_agency.primary_address.street_address %>
+      <p><%= @current_agency.street_number %>, <%= @current_agency.street_address %>
         <br>
-        <%= @current_agency.primary_address.city %>
-        <% if @current_agency.primary_address.postal_code.present? %>
-          , <%= @current_agency.primary_address.postal_code %>
+        <%= @current_agency.city %>
+        <% if @current_agency.postal_code.present? %>
+          , <%= @current_agency.postal_code %>
         <% end %>
       </p>
 

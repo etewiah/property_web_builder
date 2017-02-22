@@ -38,6 +38,18 @@ module Pwb
              }.merge(options || {}))
     end
 
+    def street_number
+      primary_address.present? ? primary_address.street_number : nil
+    end
+    def street_address
+      primary_address.present? ? primary_address.street_address : nil
+    end
+    def city
+      primary_address.present? ? primary_address.city : nil
+    end
+    def postal_code
+      primary_address.present? ? primary_address.postal_code : nil
+    end
     # def default_client_locale_to_use
     #   if supported_locales.count == 1
     #     locale = supported_locales.first.split("-")[0]
