@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170205132427) do
+ActiveRecord::Schema.define(version: 20170222100759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -186,7 +186,7 @@ ActiveRecord::Schema.define(version: 20170205132427) do
     t.string   "reference"
     t.integer  "year_construction",                             default: 0,     null: false
     t.integer  "count_bedrooms",                                default: 0,     null: false
-    t.integer  "count_bathrooms",                               default: 0,     null: false
+    t.float    "count_bathrooms",                               default: 0.0,   null: false
     t.integer  "count_toilets",                                 default: 0,     null: false
     t.integer  "count_garages",                                 default: 0,     null: false
     t.float    "plot_area",                                     default: 0.0,   null: false
