@@ -2,7 +2,7 @@ module Pwb
   class ApiPublic::V1::PropResource < JSONAPI::Resource
     model_name 'Pwb::Prop'
 
-    attributes :photos, :property_photos, :extras
+    attributes :area_unit, :photos, :property_photos, :extras
     attributes :street_address, :street_number, :postal_code
     attributes :city, :region, :currency
     attributes :country, :longitude, :latitude

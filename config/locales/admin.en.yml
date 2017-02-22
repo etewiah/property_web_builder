@@ -79,6 +79,8 @@ en:
     #   idealista: Idealista
     #   localidad: Localidad
     #   zona: Zona
+      deleteProp: Delete Property
+      areaUnit: Area Unit
       defaultAreaUnit: Default Area Unit
       currency: Currency
       defaultCurrency: Default Currency
@@ -127,6 +129,7 @@ en:
       firstNames: First Name
       lastNames: Last Names
       visible: Visible
+      visibleOnWeb: Visible on website
       highlighted: Highlighted
       label: Label
       companyName: Company Name
