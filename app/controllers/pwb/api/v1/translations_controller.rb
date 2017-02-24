@@ -9,6 +9,11 @@ module Pwb
 
     def list
       # return all admin ui translations for a given locale
+
+      # start by ensuring that new translations get loaded
+      # I18n.backend.reload!
+      # - makes more sense to call above after each update
+
       locale = params[:locale]
       # below are phrases like webContentLabels which are not managed by admin:
       phrases = I18n.t("admin", locale: locale, :default => {})
@@ -55,17 +60,19 @@ module Pwb
       return render json: { success: true }
     end
 
-    # # below called for completely new set of translations translations
+    # # below called for completely new set of translations 
     def create_translation_value
       batch_key = params[:batch_key]
       # batch_key might be "extra" or ..
       i18n_key = params[:i18n_key].sub(/^[.]*/,"")
       # regex above just incase there is a leading .
+      full_i18n_key = batch_key.underscore.camelcase(:lower) + "." + i18n_key
+      # eg propertyTypes.flat
       # subdomain = request.subdomain.downcase
 
       # http://stackoverflow.com/questions/5917355/find-or-create-race-conditions
       begin
-        field_key = FieldKey.find_or_initialize_by(global_key: i18n_key)
+        field_key = FieldKey.find_or_initialize_by(global_key: full_i18n_key)
         field_key.tag = batch_key
         field_key.save!
       rescue ActiveRecord::StatementInvalid => error
@@ -74,10 +81,11 @@ module Pwb
         raise error
       end
       phrase = I18n::Backend::ActiveRecord::Translation.find_or_create_by(
-        :key => i18n_key,
+        :key => full_i18n_key,
       :locale => params[:locale])
       phrase.value = params[:i18n_value]
       if phrase.save!
+        I18n.backend.reload!
         return render json: { success: true }
       else
         return render json: { error: "unable to create phrase" }
@@ -91,7 +99,7 @@ module Pwb
       phrase.value = params[:i18n_value]
 
       if phrase.save!
-        I18n.reload!
+        I18n.backend.reload!
         # above will ensure that calls like I18n.t("extras") in list above will
         # have updated value.  There might be a more refined way to refresh that I don't know about
         return render json: phrase.to_json
@@ -101,13 +109,14 @@ module Pwb
 
     end
 
-
+    # below for adding new locale to an existing translation
     def create_for_locale
       field_key = FieldKey.find_by_global_key(params[:i18n_key])
       phrase = I18n::Backend::ActiveRecord::Translation.find_or_create_by(
         :key => field_key.global_key,
       :locale => params[:locale])
       unless phrase.value.present?
+        I18n.backend.reload!
         phrase.value = params[:i18n_value]
         phrase.save!
       end

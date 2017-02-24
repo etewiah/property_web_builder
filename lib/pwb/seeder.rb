@@ -7,9 +7,10 @@ module Pwb
       def seed!
         I18n.locale = :en
 
-        unless ENV["RAILS_ENV"] == "test"
-          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations.rb')
-        end
+        # unless ENV["RAILS_ENV"] == "test"
+        #   load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations.rb')
+        # end
+        load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations.rb')
 
         seed_content 'content_columns.yml'
         seed_content 'carousel.yml'
