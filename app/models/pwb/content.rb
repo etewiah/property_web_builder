@@ -13,6 +13,18 @@ module Pwb
       end
     end
 
+    class << self
+      def to_csv export_column_names=nil
+        # http://railscasts.com/episodes/362-exporting-csv-and-excel?view=asciicast
+        export_column_names = export_column_names || column_names
+        CSV.generate do |csv|
+          csv << export_column_names
+          all.each do |content|
+            csv << content.attributes.values_at(*export_column_names)
+          end
+        end
+      end
+    end
     # def self.get_raw_by_key key
     #   content = Content.find_by_key(key)
     #   content ? content.raw : ""

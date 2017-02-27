@@ -61,6 +61,7 @@ Pwb::Engine.routes.draw do
   authenticate :user do
     namespace :export do
       get "/translations/all" => "translations#all"
+      get "/web_contents/all" => "web_contents#all"
     end
  
     namespace :api do

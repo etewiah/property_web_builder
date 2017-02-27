@@ -55,12 +55,13 @@ module I18n
         serialize :interpolations, Array
 
         class << self
-          def to_csv
+          def to_csv export_column_names=nil
             # http://railscasts.com/episodes/362-exporting-csv-and-excel?view=asciicast
+            export_column_names = export_column_names || column_names
             CSV.generate do |csv|
-              csv << column_names
+              csv << export_column_names
               all.each do |translation|
-                csv << translation.attributes.values_at(*column_names)
+                csv << translation.attributes.values_at(*export_column_names)
               end
             end
           end
