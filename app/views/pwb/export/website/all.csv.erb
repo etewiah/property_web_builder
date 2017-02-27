@@ -1,0 +1,3 @@
+<%- headers = ['Co disp name', 'Analytics id'] -%>
+<%= CSV.generate_line headers %>
+<%= CSV.generate_line([@website.company_display_name, @website.analytics_id]) -%>
