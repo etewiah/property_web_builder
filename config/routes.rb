@@ -59,6 +59,10 @@ Pwb::Engine.routes.draw do
   end
 
   authenticate :user do
+    namespace :export do
+      get "/translations/all" => "translations#all"
+    end
+ 
     namespace :api do
       namespace :v1 do
         get "/translations/list/:locale" => "translations#list"

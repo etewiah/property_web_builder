@@ -55,6 +55,16 @@ module I18n
         serialize :interpolations, Array
 
         class << self
+          def to_csv
+            # http://railscasts.com/episodes/362-exporting-csv-and-excel?view=asciicast
+            CSV.generate do |csv|
+              csv << column_names
+              all.each do |translation|
+                csv << translation.attributes.values_at(*column_names)
+              end
+            end
+          end
+
           def locale(locale)
             where(locale: locale.to_s)
           end
@@ -65,7 +75,7 @@ module I18n
 
             unless separator.empty?
               warn "[DEPRECATION] Giving a separator to Translation.lookup is deprecated. " \
-                   "You can change the internal separator by overwriting FLATTEN_SEPARATOR."
+                "You can change the internal separator by overwriting FLATTEN_SEPARATOR."
             end
 
             namespace = "#{keys.last}#{I18n::Backend::Flatten::FLATTEN_SEPARATOR}%"
