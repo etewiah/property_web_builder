@@ -1,0 +1,4 @@
+<%= CSV.generate_line @prop_fields %>
+<%- @props_array.each do |prop| -%>
+<%= CSV.generate_line(prop) -%>
+<%- end -%>

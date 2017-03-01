@@ -63,6 +63,7 @@ Pwb::Engine.routes.draw do
       get "/translations/all" => "translations#all"
       get "/web_contents/all" => "web_contents#all"
       get "/website/all" => "website#all"
+      get "/properties" => "properties#all"
     end
  
     namespace :api do
