@@ -5,8 +5,10 @@ module Pwb
     include CarrierWave::Test::Matchers
 
     # let(:prop_photo) { double('prop_photo') }
+    Rails.application.secrets.cloudinary_url = nil
     let(:prop_photo) { FactoryGirl.create(:pwb_prop_photo) }
-    let(:uploader) { PropPhotoUploader.new(prop_photo, :image) }
+
+    # let(:uploader) { PropPhotoUploader.new(prop_photo, :image) }
 
     # before do
     #   PropPhotoUploader.enable_processing = true
@@ -23,12 +25,13 @@ module Pwb
       # prop_photo.destroy
     end
 
-    it 'has a valid factory' do
-      expect(prop_photo).to be_valid
+    context 'with ' do
+      it 'has a valid factory' do
+        expect(prop_photo).to be_valid
+      end
     end
 
     it 'uses File storage' do
-byebug
       expect(prop_photo.image._storage).to eq(CarrierWave::Storage::File)
     end
     # context 'the thumb version' do
