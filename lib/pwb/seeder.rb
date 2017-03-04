@@ -142,6 +142,8 @@ module Pwb
             photo.save!
             photos.push photo
           rescue Exception => e
+            # log exception to console
+            p e
             if photo
               photo.destroy!
             end

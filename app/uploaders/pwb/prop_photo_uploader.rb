@@ -2,7 +2,8 @@ class Pwb::PropPhotoUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
-  include Cloudinary::CarrierWave
+  # include Cloudinary::CarrierWave
+  include Cloudinary::CarrierWave if Rails.application.secrets.cloudinary_url
 
   # Choose what kind of storage to use for this uploader:
   # storage :file
@@ -14,6 +15,16 @@ class Pwb::PropPhotoUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
+  # https://github.com/carrierwaveuploader/carrierwave/wiki/How-to:-Dynamically-set-storage-type
+  def self.set_storage
+    unless Rails.application.secrets.cloudinary_url
+      :file
+    end
+  end
+
+  storage set_storage
+
+
   # Provide a default URL as a default if there hasn't been a file uploaded:
   # def default_url
   #   # For Rails 3.1+ asset pipeline compatibility:
@@ -24,7 +35,11 @@ class Pwb::PropPhotoUploader < CarrierWave::Uploader::Base
 
   # Process files as they are uploaded:
   # process scale: [200, 300]
-  process resize_to_limit: [1400, 1000]
+
+
+  # - below works with cloudinary but disabling for now
+  # till I find a non-cloudinary solution
+  # process resize_to_limit: [1400, 1000]
   #
   # def scale(width, height)
   #   # do something
