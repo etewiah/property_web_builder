@@ -59,6 +59,9 @@ Pwb::Engine.routes.draw do
   end
 
   authenticate :user do
+    namespace :import do
+      post "/translations" => "translations#multiple"
+    end
     namespace :export do
       get "/translations/all" => "translations#all"
       get "/web_contents/all" => "web_contents#all"

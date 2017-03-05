@@ -55,6 +55,20 @@ module I18n
         serialize :interpolations, Array
 
         class << self
+
+
+          def import(file)
+            byebug
+            CSV.foreach(file.path, headers: true) do |row|
+              if row.to_hash["locale"].present? && row.to_hash["key"].present?
+                Translation.create! row.to_hash                
+              end
+            end
+          end
+
+
+
+
           def to_csv export_column_names=nil
             # http://railscasts.com/episodes/362-exporting-csv-and-excel?view=asciicast
             export_column_names = export_column_names || column_names
