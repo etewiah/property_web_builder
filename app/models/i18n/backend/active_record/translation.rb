@@ -58,27 +58,28 @@ module I18n
 
 
           def import(file)
-            byebug
+            # byebug
             CSV.foreach(file.path, headers: true) do |row|
               if row.to_hash["locale"].present? && row.to_hash["key"].present?
-                Translation.create! row.to_hash                
+                # Translation.create! row.to_hash
+                trsl = find_by_key(row["key"]) || new
+                trsl.attributes = row.to_hash.slice("key","value","locale")
+                  # *accessible_attributes)
+                trsl.save!
               end
             end
           end
 
-
-
-
-          def to_csv export_column_names=nil
-            # http://railscasts.com/episodes/362-exporting-csv-and-excel?view=asciicast
-            export_column_names = export_column_names || column_names
-            CSV.generate do |csv|
-              csv << export_column_names
-              all.each do |translation|
-                csv << translation.attributes.values_at(*export_column_names)
-              end
-            end
-          end
+          # def to_csv export_column_names=nil
+          #   # http://railscasts.com/episodes/362-exporting-csv-and-excel?view=asciicast
+          #   export_column_names = export_column_names || column_names
+          #   CSV.generate do |csv|
+          #     csv << export_column_names
+          #     all.each do |translation|
+          #       csv << translation.attributes.values_at(*export_column_names)
+          #     end
+          #   end
+          # end
 
           def locale(locale)
             where(locale: locale.to_s)

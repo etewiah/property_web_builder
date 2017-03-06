@@ -1,0 +1,4 @@
+<%= CSV.generate_line @header_cols %>
+<%- @translations_array.each do |prop| -%>
+<%= CSV.generate_line(prop) -%>
+<%- end -%>
