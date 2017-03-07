@@ -28,6 +28,9 @@ en:
       labels: Labels
       about: About
 
+    btnLabels:
+      importTranslations: Import translations
+
     info:
       defaultCurrency: For new properties - existing properties will not be affected
       defaultAreaUnit: For new properties - existing properties will not be affected
