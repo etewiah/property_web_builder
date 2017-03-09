@@ -27,15 +27,30 @@ PropertyWebBuilder runs with Ruby >= 2.0.0.
 
 ## Installation
 
-Install into an existing Rails project by adding this line in your applications's Gemfile:
+Install into an existing Rails project by adding these lines in your applications's Gemfile:
 
 ```ruby
 gem 'pwb', git: 'https://github.com/etewiah/property_web_builder', branch: 'master'
+gem 'globalize', git: 'https://github.com/globalize/globalize'
+
 ```
 
 And then execute:
 ```bash
 $ bundle
+```
+
+After fixing the above, add the following to your routes.rb file:
+```ruby
+mount Pwb::Engine => '/'
+```
+
+and run the ff commands from the console:
+```bash
+rails pwb:install:migrations
+rails db:create
+rails db:migrate
+rails pwb:db:seed
 ```
 
 ## Deploying to Heroku
@@ -99,7 +114,7 @@ I would like PropertyWebBuilder to be available in as many languages as possible
 
 PropertyWebBuilder is currently sponsored by Coddde, Ruby On Rails consultants based in Spain and Chile:
 <a href="http://coddde.com/en/" rel="Coddde">
-![Coddde](http://coddde.com/wp-content/uploads/2016/02/free_logo_8-e1455725264385.png)
+![Coddde](http://coddde.com/wp-content/uploads/2017/01/coddde_logo.png)
 </a>
 
 If you wish to sponsor this project please email me directly (opensource at propertywebbuilder.com).
