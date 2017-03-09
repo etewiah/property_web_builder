@@ -15,6 +15,17 @@
     "tabValue": "appearance",
     "tabTitleKey": "webContentSections.appearance"
   }],
+  "importExportTabsList": [{
+    "tabValue": "translations",
+    "tabTitleKey": "adminSections.translations",
+    "importLabelKey": "btnLabels.importTranslations",
+    "importUrl": "/import/translations"
+  }, {
+    "tabValue": "content",
+    "tabTitleKey": "adminSections.content",
+    "importLabelKey": "btnLabels.importSiteContent",
+    "importUrl": "/import/web_contents"
+  }],
   "websiteContentTabsList": [{
     "tabValue": "landing-carousel",
     "tabTitleKey": "webContentSections.landingCarousel"

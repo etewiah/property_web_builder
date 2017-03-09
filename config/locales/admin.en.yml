@@ -30,6 +30,7 @@ en:
 
     btnLabels:
       importTranslations: Import translations
+      importSiteContent: Import website content
 
     info:
       defaultCurrency: For new properties - existing properties will not be affected
