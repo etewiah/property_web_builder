@@ -23,10 +23,10 @@
             </div>
             <div class="col-md-6 col-sm-6 col-xs-6">
               <div class="aa-header-right">
-                <% if @current_agency.is_multilingual && not_devise %>
+                <% if @current_website.is_multilingual && not_devise %>
                   <div class="contenedor_idiomas" style="">
                     <ul class="idiomas">
-                      <% @current_agency.supported_locales.each do |language| %>
+                      <% @current_website.supported_locales.each do |language| %>
                         <li class=<%="#{'selected' if locale.to_s == language}" %>>
                           <%= localized_link_to "", params.permit(:locale,).merge({:locale => language}), class: language %>
                         </li>
@@ -56,11 +56,11 @@
           <span class="icon-bar"></span>
         </button>
         <!-- LOGO -->
-        <% if @current_agency.logo_url  %>
+        <% if @current_website.logo_url  %>
           <!-- Image based logo -->
           <%= link_to pwb.root_path(locale: locale), 
           class: "navbar-brand aa-logo-img" do %>
-            <img src="<%= @current_agency.logo_url %>" alt="logo">
+            <img src="<%= @current_website.logo_url %>" alt="logo">
           <% end %>
         <% else %>
           <!-- Text based logo -->

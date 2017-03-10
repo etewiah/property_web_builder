@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="index, follow">
-    <%# display_meta_tags site: @current_agency.tenant_display_name %>
+    <%# display_meta_tags site: @current_website.tenant_display_name %>
     <link href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" rel="stylesheet">
     <%= stylesheet_link_tag    "pwb/themes/berlin", media: "all" %>
     <link rel="stylesheet" media="all" href="/agency_css.css" data-turbolinks-track="true" />
@@ -23,7 +23,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body class="tnt-body <%= @current_agency.body_style %>">
+  <body class="tnt-body <%= @current_website.body_style %>">
     <!-- Pre Loader -->
     <div id="aa-preloader-area">
       <div class="pulse"></div>
