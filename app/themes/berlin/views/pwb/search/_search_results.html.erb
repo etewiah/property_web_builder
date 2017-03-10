@@ -34,7 +34,7 @@
   <div>
     <% @properties.each_with_index do |property, index| %>
       <div class="col-md-6">
-        <article class="aa-properties-item">
+        <article class="aa-properties-item property-item">
           <%= link_to property.contextual_show_path(@operation_type), class: 
           "aa-properties-item-img" do %>
             <%= image_tag("#{property.ordered_photo_url 1}", class: 'img-responsive') %>
