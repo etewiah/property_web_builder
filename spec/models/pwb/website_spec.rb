@@ -10,10 +10,10 @@ module Pwb
       expect(Website.unique_instance.id).to eq(1)
     end
 
-    it 'has correct defaults' do
-      expect(Website.unique_instance.supported_locales).to eq(["en-UK"])
-      
-    end
+    # not a useful test (and will be wrong if seed data is used)
+    # it 'has correct defaults' do
+    #   expect(Website.unique_instance.supported_locales).to eq(["en-UK"])
+    # end
 
     it 'has a valid factory' do
       expect(website).to be_valid
