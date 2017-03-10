@@ -35,12 +35,13 @@ gem 'globalize', git: 'https://github.com/globalize/globalize'
 
 ```
 
+Also, be sure to use Postgres as your database (by having the "pg" gem and Postgres installed locally 
 And then execute:
 ```bash
 $ bundle
 ```
 
-After fixing the above, add the following to your routes.rb file:
+Mount the PropertyWebBuilder by adding the following to your routes.rb file:
 ```ruby
 mount Pwb::Engine => '/'
 ```
