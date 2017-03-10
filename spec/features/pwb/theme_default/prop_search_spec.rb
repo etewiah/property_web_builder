@@ -1,5 +1,5 @@
 require 'rails_helper'
-
+# TODO - use page object here too
 module Pwb
   RSpec.describe "Default theme property search", type: :feature, js: true do
     before(:all) do
