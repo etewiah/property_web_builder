@@ -6,10 +6,10 @@ module Pwb
     :set_locale, :set_theme_path
 
     def set_theme_path
-      theme_name = "default"
-      if Agency.last && Agency.last.theme_name.present?
-        theme_name = Agency.last.theme_name
-      end
+      theme_name = Agency.unique_instance.theme_name || "default"
+      # if Agency.last && Agency.last.theme_name.present?
+      #   theme_name = Agency.last.theme_name
+      # end
       prepend_view_path "#{Pwb::Engine.root}/app/themes/#{theme_name}/views/"
       # below allows themes installed in Rails app consuming Pwb to work
       prepend_view_path "#{Rails.root}/app/themes/#{theme_name}/views/"
@@ -41,7 +41,8 @@ module Pwb
     private
 
     def current_agency_and_website
-      @current_agency ||= (Agency.last || Agency.create)
+      @current_agency ||= Agency.unique_instance
+      # (Agency.last || Agency.create)
       @current_website = Website.unique_instance
     end
 
