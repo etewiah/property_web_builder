@@ -71,6 +71,9 @@ You can see an example of a site created with PropertyWebBuilder here:
 
 [http://re-renting.com](http://re-renting.com)
 
+And a video about how to deploy to heroku here:
+
+[![Depoly PWB to heroku](http://img.youtube.com/vi/hyapXTwGyr4/0.jpg)](http://www.youtube.com/watch?v=hyapXTwGyr4 "Deploy PWB to heroku")
 
 ## Features
 
