@@ -31,6 +31,8 @@ en:
     btnLabels:
       importTranslations: Import translations
       importSiteContent: Import website content
+      setThemePrompt: Set as website theme
+      activatedThemeInfo: Currently active website theme
 
     info:
       defaultCurrency: For new properties - existing properties will not be affected
