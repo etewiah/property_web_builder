@@ -59,6 +59,12 @@ en:
       aboutUs: About us
       footerInfo: Extra footer content
 
+    siteSections: 
+      aboutUs: About us
+      contactUs: Contact
+      buy: Buy
+      rent: Rent
+      sell: Sell
 
     webContentSections:
       appearance: Appearance
