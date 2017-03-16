@@ -1,6 +1,7 @@
 module Pwb
   class Content < ApplicationRecord
     has_many :content_photos, dependent: :destroy
+    belongs_to :section, foreign_key: "section_key"
 
     translates :raw, fallbacks_for_empty_translations: true
     globalize_accessors locales: [:en, :ca, :es, :fr, :ar]
