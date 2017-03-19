@@ -60,7 +60,8 @@ Pwb::Engine.routes.draw do
 
   authenticate :user do
     namespace :import do
-      post "/properties" => "properties#multiple"
+      post "/properties" => "properties#standard"
+      post "/properties/from_mls" => "properties#from_mls"
       post "/translations" => "translations#multiple"
       post "/web_contents" => "web_contents#multiple"
     end
