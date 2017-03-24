@@ -10,7 +10,10 @@ module Pwb
         # unless ENV["RAILS_ENV"] == "test"
         #   load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations.rb')
         # end
-        load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations.rb')
+        unless I18n::Backend::ActiveRecord::Translation.all.length > 10
+          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_en.rb')
+          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_es.rb')
+        end
 
         seed_content 'content_columns.yml'
         seed_content 'carousel.yml'
