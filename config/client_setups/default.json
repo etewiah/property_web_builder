@@ -1,6 +1,72 @@
 [{
   "name": "default",
   "id": "default",
+  // https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx
+  "availableLocaleFields": [{
+      "labelTextTKey": "es",
+      "fieldName": "es",
+      "localeVariants": ["es-ES", "es-MX"]
+    }, {
+      "labelTextTKey": "en",
+      "fieldName": "en",
+      "localeVariants": ["en-UK", "en-US"]
+    }, {
+      "labelTextTKey": "fr",
+      "fieldName": "fr",
+      "localeVariants": ["fr-FR"]
+    // }, {
+    //   "labelTextTKey": "de",
+    //   "fieldName": "de",
+    //   "localeVariants": ["de-DE"]
+    // }, {
+    //   "labelTextTKey": "hi",
+    //   "fieldName": "hi",
+    //   "localeVariants": ["hi-IN"]
+    // }, {
+    //   "labelTextTKey": "it",
+    //   "fieldName": "it",
+    //   "localeVariants": ["it-IT"]
+    // }, {
+    //   "labelTextTKey": "pt",
+    //   "fieldName": "pt",
+    //   "localeVariants": ["pt-PT"]
+    // }, {
+    //   "labelTextTKey": "ru",
+    //   "fieldName": "ru",
+    //   "localeVariants": ["ru-RU"]
+    }
+    // , {
+    //   "labelTextTKey": "fr",
+    //   "fieldName": "fr",
+    //   "localeVariants": ["fr-FR"]
+    // }
+  ],
+  // http://www.xe.com/iso4217.php
+  "currencyFieldKeys": [{
+    "value": "CLP",
+    "labelTextTKey": "clp"
+  },{
+    "value": "CNY",
+    "labelTextTKey": "cny"
+  },{
+    "value": "EUR",
+    "labelTextTKey": "eur"
+  }, {
+    "value": "USD",
+    "labelTextTKey": "usd"
+  },{
+    "value": "INR",
+    "labelTextTKey": "inr"
+  }, {
+    "value": "CHF",
+    "labelTextTKey": "chf"
+  }, {
+    "value": "RUB",
+    "labelTextTKey": "rub"
+  }, {
+    "value": "GBP",
+    "labelTextTKey": "gbp"
+  }],
   "agencyTabsList": [{
     "tabValue": "general",
     "tabTitleKey": "agencySections.general"

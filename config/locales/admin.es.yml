@@ -8,11 +8,31 @@ es:
     es-MX: Mexico
     en-UK: UK
     en-US: USA
+    fr-FR: France
+    pt-PT: Portugal
+    it-IT: Italy
+    de-DE: Germany
+    ru-RU: Russia
+    ne-NE: Netherlands
+    po-PO: Poland
+    fi-FI: Finland
+    no-NO: Norway
+    ca-CA: Catalunia
+    hi-IN: India
+    hi: Hindi
     sqmt: Square Meters
     sqft: Square Feet
     gbp: UK Pounds
-    usd: Dollars
+    usd: US Dollars
     eur: Euros
+    inr: Indian Rupee
+    chf: Swiss Franc
+    cny: China Yuan Renminbi
+    clp: Chile Peso
+    rub: Russia Ruble
+    brl: Brazil Real
+    zar: South Africa Rand
+    hkd: Hong Kong Dollar
     adminSections:
       start: Inicio
       agencyDetails: Agencia
