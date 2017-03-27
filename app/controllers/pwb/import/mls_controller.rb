@@ -3,11 +3,12 @@ module Pwb
 
     # http://localhost:3000/import/Properties/standard
     def exp
-      imported_properties = Pwb::ImportProperties.new(params[:file]).import_csv
+      property = Pwb::MlsConnector.new("interealty").get_property("(ListPrice=0+)")
 
-      return render json: {
-        imported_items: imported_properties.to_json
-      }
+      return render json: property
+      #  {
+      #   imported_items: property.to_json
+      # }
       # return render json: { "success": true }, status: :ok, head: :no_content
     end
 
