@@ -1,23 +1,16 @@
 require 'Rets'
 module Pwb
   class ImportMapper
-    attr_accessor :mapping_data
+    attr_accessor :mls_mapping
 
-    def initialize(mapping_data)
-      self.mapping_data = mapping_data
+    def initialize(mls_name)
+      mls_mapping = Pwb::ImportMapping.find_by_name(mls_name)
+      self.mls_mapping = mls_mapping
     end
 
     def map_property mls_property
-      mappings = {
-        "ListingKey" => "reference"
-      }
-      # mappings = {
-      #   "ML Number" => "reference", "Street Name" => "street_name",
-      #   "Latitude" => "latitude", "Longitude" => "longitude",
-      #   "List Price" => "price_sale_current",
-      #   "Age" => "year_construction", "Street Number 1" => "street_number",
-      #   "City Name" => "city", "State" => "province"
-      # }
+      mappings = mls_mapping.mappings
+
       mapped_property = mls_property.to_hash.map {|k, v| [mappings[k], v] }.to_h
 
       return mapped_property.except(nil)
