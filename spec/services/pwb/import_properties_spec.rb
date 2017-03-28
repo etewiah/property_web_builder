@@ -13,6 +13,8 @@ module Pwb
         "/to_import/pwb-properties.csv",
         'text/csv'
       )
+      # above uses below config setting
+      #   config.fixture_path = "#{Pwb::Engine.root}/spec/fixtures"
     end
 
 
