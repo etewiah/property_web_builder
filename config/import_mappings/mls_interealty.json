@@ -1,6 +1,17 @@
 [{
   "name": "mls_interealty",
   "mappings": {
-    "ListingID": "reference"
+    "ListingID": "reference",
+    "Appliances": "Appliances",
+    "AddressStreetName": "street_name",
+    "AddressStreetNumber": "street_number",
+    "CityName": "city",
+    "State": "province",
+    "Latitude": "latitude",
+    "Longitude": "longitude",
+    "ListPrice": "price_sale_current",
+    "Age": "year_construction",
+    "PublicRemarks": "description_en",
+    "Beds": "count_bedrooms"
   }
 }]

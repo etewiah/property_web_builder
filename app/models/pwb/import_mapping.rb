@@ -11,7 +11,7 @@ module Pwb
     set_root_path "#{Pwb::Engine.root}/config/import_mappings"
     # set_filename "client_setups"
     use_multiple_files
-    set_filenames "mls_interealty", "mls_mris"
+    set_filenames "mls_interealty", "mls_mris", "mls_csv_jon"
 
   end
 end

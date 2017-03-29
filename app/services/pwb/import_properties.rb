@@ -21,27 +21,30 @@ module Pwb
     end
 
     def import_mls_tsv
-      imported_properties = []
+      parsed_properties = []
       csv_options = { headers: true, col_sep: "\t" }
       CSV.foreach(csv_file.path, csv_options) do |row|
-        reference = row.to_hash["ML Number"]
-        if reference.present? && !Pwb::Prop.exists?(reference: reference)
-          mappings = {
-            "ML Number" => "reference", "Street Name" => "street_name",
-            "Latitude" => "latitude", "Longitude" => "longitude",
-            "List Price" => "price_sale_current",
-            "Age" => "year_construction", "Street Number 1" => "street_number",
-            "City Name" => "city", "State" => "province"
-          }
-          pwb_prop_hash = row.to_hash.map {|k, v| [mappings[k], v] }.to_h
+        mapped_property = ImportMapper.new("mls_csv_jon").map_property(row)
+        parsed_properties.push mapped_property
+        # reference = row.to_hash["ML Number"]
+        # byebug
+        # if reference.present? && !Pwb::Prop.exists?(reference: reference)
+        #   mappings = {
+        #     "ML Number" => "reference", "Street Name" => "street_name",
+        #     "Latitude" => "latitude", "Longitude" => "longitude",
+        #     "List Price" => "price_sale_current",
+        #     "Age" => "year_construction", "Street Number 1" => "street_number",
+        #     "City Name" => "city", "State" => "province"
+        #   }
+        #   pwb_prop_hash = row.to_hash.map {|k, v| [mappings[k], v] }.to_h
 
-          # byebug
+        #   # byebug
 
-          new_prop = Prop.create! pwb_prop_hash.except(nil)
-          imported_properties.push new_prop
-        end
+        #   new_prop = Prop.create! pwb_prop_hash.except(nil)
+        #   parsed_properties.push new_prop
+        # end
       end
-      imported_properties
+      return parsed_properties
     end
 
 

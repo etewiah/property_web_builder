@@ -10,7 +10,6 @@ module Pwb
 
     def map_property mls_property
       mappings = mls_mapping.mappings
-
       mapped_property = mls_property.to_hash.map {|k, v| [mappings[k], v] }.to_h
 
       return mapped_property.except(nil)

@@ -1,6 +1,15 @@
 [{
   "name": "mls_mris",
   "mappings": {
-    "ListingKey": "reference"
+    "ListingKey": "reference",
+    "FullStreetAddress": "street_name",
+    "Street Number 1": "street_number",
+    "CityName": "city",
+    "State": "province",
+    "Latitude": "latitude",
+    "Longitude": "longitude",
+    "ListPrice": "price_sale_current",
+    "Age": "year_construction",
+    "InternetRemarks": "description_en"
   }
 }]

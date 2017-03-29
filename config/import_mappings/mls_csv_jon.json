@@ -1,0 +1,14 @@
+[{
+  "name": "mls_csv_jon",
+  "mappings": {
+    "ML Number": "reference",
+    "Street Name": "street_name",
+    "Latitude": "latitude",
+    "Longitude": "longitude",
+    "List Price": "price_sale_current",
+    "Age": "year_construction",
+    "Street Number 1": "street_number",
+    "City Name": "city",
+    "State": "province"
+  }
+}]
