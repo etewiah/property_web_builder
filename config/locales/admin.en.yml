@@ -111,6 +111,9 @@ en:
     #   idealista: Idealista
     #   localidad: Localidad
     #   zona: Zona
+      propCsvUploadPrompt: Select the type of file to import from
+      pwbCsvFile: A csv file exported from PropertyWebBuilder
+      mlsCsvFile: A csv file exported from your MLS
       deleteProp: Delete Property
       areaUnit: Area Unit
       defaultAreaUnit: Default Area Unit
