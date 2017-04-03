@@ -34,6 +34,7 @@ es:
     zar: South Africa Rand
     hkd: Hong Kong Dollar
     adminSections:
+      import: Importar Datos
       start: Inicio
       agencyDetails: Agencia
       content: Página Web
