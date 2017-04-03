@@ -1,8 +1,14 @@
 module Pwb
   class Import::MlsController < ApplicationApiController
 
-    # http://localhost:3000/import/Properties/standard
-    def exp
+    def retrieve
+      # TODO - implement this
+      return render json: {
+        error: "Unable to retrieve MLS properties"
+      }, status: :error
+    end
+
+    def experiment
       # property = Pwb::MlsConnector.new("interealty").get_property("(ListPrice=0+)")
 
       property = JSON.parse( File.read("#{Pwb::Engine.root}/spec/fixtures/mls/property_mris.json") )

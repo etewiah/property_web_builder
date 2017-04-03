@@ -60,7 +60,8 @@ Pwb::Engine.routes.draw do
 
   authenticate :user do
     namespace :import do
-      get "/mls_exp" => "mls#exp"
+      get "/mls_experiment" => "mls#experiment"
+      get "/mls" => "mls#retrieve"
       post "/properties/retrieve_from_pwb" => "properties#retrieve_from_pwb"
       post "/properties/retrieve_from_mls" => "properties#retrieve_from_mls"
       post "/translations" => "translations#multiple"
