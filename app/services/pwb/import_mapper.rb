@@ -1,4 +1,4 @@
-require 'Rets'
+require 'rets'
 module Pwb
   class ImportMapper
     attr_accessor :mls_mapping
