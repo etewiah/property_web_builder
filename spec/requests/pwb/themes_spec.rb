@@ -30,6 +30,15 @@ module Pwb
       end
     end
 
+    context 'when theme_name is empty' do
+      it 'uses default theme' do
+        @website.theme_name = ""
+        @website.save!
+        get "/"
+        view_paths =  @controller.view_paths.map {|vp| vp.to_s}
+        expect(view_paths).to include  "#{Pwb::Engine.root}/app/themes/default/views"
+      end
+    end
 
 
     after(:all) do
