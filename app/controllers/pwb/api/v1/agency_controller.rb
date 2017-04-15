@@ -14,7 +14,8 @@ module Pwb
     def show
       @agency = Agency.last
       @website = Website.unique_instance
-      @admin_setup = Pwb::ClientSetup.find_by_name "default" || Pwb::ClientSetup.first
+      # ocassionaly get error below when I used ClientSetup.find_by_name
+      @admin_setup = Pwb::ClientSetup.where(name: "default").first || Pwb::ClientSetup.first
       if @agency && @website
         return render json: {
           website: @website,
