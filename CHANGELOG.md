@@ -3,12 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+
+## 0.1.0 / 2017-04-10
+
 * Add ability to change currency through admin panel
 * Initial support for uploading CSV file
 * Allow image upload to file system where cloudinary is not used
 * Support for sending emails via SendGrid
 
-## 0.0.2 / 2016-02-16
+## 0.0.2 / 2017-02-16
 
 * Add tests
 * Add api_public/v1/props endpoint that can be used for a client app
