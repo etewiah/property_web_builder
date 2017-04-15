@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+* Fix bug where invalid theme_name could be set
 
 ## 0.1.0 / 2017-04-10
 

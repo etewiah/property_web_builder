@@ -18,5 +18,19 @@ module Pwb
     it 'has a valid factory' do
       expect(website).to be_valid
     end
+
+    it 'sets theme_name to default if invalid_name is provided' do
+      current_theme_name = website.theme_name
+      website.theme_name = "invalid_name"
+      website.save!
+      expect(website.theme_name).to eq(current_theme_name)
+    end
+
+    it 'sets theme_name correctly if valid_name is provided' do
+      website.theme_name = "berlin"
+      website.save!
+      expect(website.theme_name).to eq("berlin")
+    end
+
   end
 end

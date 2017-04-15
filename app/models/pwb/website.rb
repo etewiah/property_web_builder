@@ -80,7 +80,7 @@ module Pwb
     def custom_css_file
       # used by css_controller to decide which file to compile
       # with user set variables.
-      # 
+      #
       custom_css_file = "standard"
       # if self.site_template.present? && self.site_template.custom_css_file
       #   custom_css_file = self.site_template.custom_css_file
@@ -95,6 +95,14 @@ module Pwb
         logo_url = logo_content.content_photos.first.image_url
       end
       logo_url
+    end
+
+    def theme_name=(theme_name_value)
+      theme_with_name_exists = Pwb::Theme.where(name: theme_name_value).count > 0
+      if theme_with_name_exists
+        write_attribute(:theme_name, theme_name_value)
+        # this is same as self[:theme_name] = theme_name_value
+      end
     end
   end
 end
