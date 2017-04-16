@@ -13,7 +13,8 @@
     }, {
       "labelTextTKey": "fr",
       "fieldName": "fr",
-      "localeVariants": ["fr-FR"]
+      "localeVariants": ["fr-FR"],
+      "isNotComplete": true
     // }, {
     //   "labelTextTKey": "de",
     //   "fieldName": "de",
