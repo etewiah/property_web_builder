@@ -105,6 +105,7 @@ Pwb::Engine.routes.draw do
         jsonapi_resources :web_contents
 
         get "/themes" => "themes#index"
+        get "/mls" => "mls#index"
         get "/select_values" => "select_values#by_field_names"
 
         # TODO - rename properties below to prop

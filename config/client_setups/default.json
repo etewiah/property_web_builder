@@ -98,22 +98,31 @@
     "tabValue": "contact_us",
     "tabTitleKey": "siteSections.contactUs"
   }],
-  "importExportTabsList": [{
-    "tabValue": "translations",
-    "tabTitleKey": "adminSections.translations",
-    "importLabelKey": "btnLabels.importTranslations",
-    "importUrl": "/import/translations"
+  "importPropertiesTabsList": [{
+    "tabValue": "from_upload",
+    "tabTitleKey": "adminSections.from_upload",
+    "importLabelKey": "btnLabels.importTranslations"
   }, {
-    "tabValue": "content",
-    "tabTitleKey": "adminSections.content",
-    "importLabelKey": "btnLabels.importSiteContent",
-    "importUrl": "/import/web_contents"
-  }, {
-    "tabValue": "properties",
-    "tabTitleKey": "adminSections.properties",
-    "importLabelKey": "btnLabels.importProperties",
-    "importUrl": "/import/properties"
+    "tabValue": "from_mls",
+    "tabTitleKey": "adminSections.from_mls",
+    "importLabelKey": "btnLabels.importSiteContent"
   }],
+  // "importExportTabsList": [{
+  //   "tabValue": "translations",
+  //   "tabTitleKey": "adminSections.translations",
+  //   "importLabelKey": "btnLabels.importTranslations",
+  //   "importUrl": "/import/translations"
+  // }, {
+  //   "tabValue": "content",
+  //   "tabTitleKey": "adminSections.content",
+  //   "importLabelKey": "btnLabels.importSiteContent",
+  //   "importUrl": "/import/web_contents"
+  // }, {
+  //   "tabValue": "properties",
+  //   "tabTitleKey": "adminSections.properties",
+  //   "importLabelKey": "btnLabels.importProperties",
+  //   "importUrl": "/import/properties"
+  // }],
   "websiteContentTabsList": [{
     "tabValue": "landing-carousel",
     "tabTitleKey": "webContentSections.landingCarousel"
