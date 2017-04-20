@@ -1,15 +1,67 @@
 [{
   "name": "mls_mris",
   "mappings": {
-    "ListingKey": "reference",
-    "FullStreetAddress": "street_name",
-    "Street Number 1": "street_number",
-    "CityName": "city",
-    "State": "province",
-    "Latitude": "latitude",
-    "Longitude": "longitude",
-    "ListPrice": "price_sale_current",
-    "Age": "year_construction",
-    "InternetRemarks": "description_en"
+   "ListingKey": {
+      "fieldName": "reference",
+      "default": null
+    },
+    "FullStreetAddress": {
+      "fieldName": "street_name",
+      "default": ""
+    },
+    "Street Number 1": {
+      "fieldName": "street_number",
+      "default": ""
+    },
+    "CityName": {
+      "fieldName": "city",
+      "default": ""
+    },
+    "State": {
+      "fieldName": "province",
+      "default": ""
+    },
+    "Latitude": {
+      "fieldName": "latitude",
+      "default": 0
+    },
+    "Longitude": {
+      "fieldName": "longitude",
+      "default": 0
+    },
+    "ListPrice": {
+      "fieldName": "price_sale_current",
+      "default": 0
+    },
+    "YearBuilt": {
+      "fieldName": "year_construction",
+      "default": 0
+    },
+    "InternetRemarks": {
+      "fieldName": "description_en",
+      "default": ""
+    },
+    "Beds": {
+      "fieldName": "count_bedrooms",
+      "default": 0
+    },
+    "Baths": {
+      "fieldName": "count_bathrooms",
+      "default": 0
+    },
+    "GrossSQFT": {
+      "fieldName": "constructed_area",
+      "default": 0
+    },
+    "areaunit": {
+      "fieldName": "area_unit",
+      "default": "sqft"
+    },
+    "currency": {
+      "fieldName": "currency",
+      "default": "USD"
+    }
+
+
   }
 }]

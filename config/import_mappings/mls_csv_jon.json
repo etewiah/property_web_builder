@@ -1,14 +1,68 @@
 [{
   "name": "mls_csv_jon",
   "mappings": {
-    "ML Number": "reference",
-    "Street Name": "street_name",
-    "Latitude": "latitude",
-    "Longitude": "longitude",
-    "List Price": "price_sale_current",
-    "Age": "year_construction",
-    "Street Number 1": "street_number",
-    "City Name": "city",
-    "State": "province"
+    "ML Number": {
+      "fieldName": "reference",
+      "default": null
+    },
+    // "Appliances": "Appliances",
+    "Street Name": {
+      "fieldName": "street_name",
+      "default": ""
+    },
+    "Street Number 1": {
+      "fieldName": "street_number",
+      "default": ""
+    },
+    "City Name": {
+      "fieldName": "city",
+      "default": ""
+    },
+    "State": {
+      "fieldName": "province",
+      "default": ""
+    },
+    "Latitude": {
+      "fieldName": "latitude",
+      "default": 0
+    },
+    "Longitude": {
+      "fieldName": "longitude",
+      "default": 0
+    },
+    "List Price": {
+      "fieldName": "price_sale_current",
+      "default": 0
+    },
+    "Age": {
+      "fieldName": "year_construction",
+      "default": 0
+    },
+    "Remarks": {
+      "fieldName": "description_en",
+      "default": ""
+    },
+    "Bedrooms": {
+      "fieldName": "count_bedrooms",
+      "default": 0
+    },
+    "Bathrooms": {
+      "fieldName": "count_bathrooms",
+      "default": 0
+    },
+    "Sq Foot": {
+      "fieldName": "constructed_area",
+      "default": 0
+    },
+    "areaunit": {
+      "fieldName": "area_unit",
+      "default": "sqft"
+    },
+    "currency": {
+      "fieldName": "currency",
+      "default": "USD"
+    }
   }
 }]
+
+
