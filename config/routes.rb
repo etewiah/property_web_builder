@@ -112,6 +112,7 @@ Pwb::Engine.routes.draw do
         post "properties/update_extras" => "properties#update_extras"
 
         delete "properties/photos/:id" => "properties#remove_photo"
+        post '/properties/bulk_create' => 'properties#bulk_create'
         post '/properties/:id/photo' => 'properties#add_photo'
         post '/properties/:id/photo_from_url' => 'properties#add_photo_from_url'
         put "properties/:id/order_photos" => "properties#order_photos"

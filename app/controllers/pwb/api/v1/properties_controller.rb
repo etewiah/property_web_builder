@@ -9,6 +9,30 @@ module Pwb
     #   @model
     # end
 
+    def bulk_create
+      propertiesRaw = params["propertiesJSON"]
+      propertiesJSON = JSON.parse propertiesRaw
+      new_props = []
+      existing_props = []
+
+      propertiesJSON.each do |propertyJSON|
+        if Pwb::Prop.where(reference: propertyJSON["reference"]).exists?
+          existing_props.push propertyJSON
+        else
+          begin
+            new_prop = Pwb::Prop.create propertyJSON
+            new_props.push new_prop
+          rescue => err
+            # logger.error err.message
+          end
+        end
+      end
+
+      return render json: {
+        new_props: new_props,
+        existing_props: existing_props
+      }
+    end
 
     def update_extras
       property = Prop.find(params[:id])
