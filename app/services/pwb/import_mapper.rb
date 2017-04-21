@@ -16,6 +16,7 @@ module Pwb
       # return mapped_property_old.except(nil)
 
       mapped_property = {}
+      # byebug
       mappings.each do |mapping|
         mapped_property[mapping[1]["fieldName"]] = mls_property[mapping[0]].blank? ? mapping[1]["default"] : mls_property[mapping[0]]
       end
