@@ -100,12 +100,12 @@
   }],
   "importPropertiesTabsList": [{
     "tabValue": "from_upload",
-    "tabTitleKey": "adminSections.from_upload",
-    "importLabelKey": "btnLabels.importTranslations"
+    "tabTitleKey": "ioSections.fromUpload"
+    // "importLabelKey": "btnLabels.importTranslations"
   }, {
     "tabValue": "from_mls",
-    "tabTitleKey": "adminSections.from_mls",
-    "importLabelKey": "btnLabels.importSiteContent"
+    "tabTitleKey": "ioSections.fromMls"
+    // "importLabelKey": "btnLabels.importSiteContent"
   }],
   // "importExportTabsList": [{
   //   "tabValue": "translations",

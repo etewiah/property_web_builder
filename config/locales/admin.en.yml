@@ -89,6 +89,10 @@ en:
       rent: Rent
       sell: Sell
 
+    ioSections:
+      fromMls: Import from MLS
+      fromUpload: Import from file
+
     webContentSections:
       appearance: Appearance
       footer: Footer
@@ -112,6 +116,7 @@ en:
     #   idealista: Idealista
     #   localidad: Localidad
     #   zona: Zona
+      pickMlsPrompt: Select your MLS
       propCsvUploadPrompt: Select the type of file to import from
       pwbCsvFile: A csv file exported from PropertyWebBuilder
       mlsCsvFile: A csv file exported from your MLS
