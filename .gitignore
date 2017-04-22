@@ -33,4 +33,3 @@ spec/dummy/public/img/
 spec/dummy/public/js/
 spec/dummy/public/capybara.html
 notes
-app/models/pwb/import_source.rb
