@@ -3,11 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+* Experimental support for import of properties from web pages
 
 ## 0.1.1 / 2017-04-25
 
 * Fix bug where invalid theme_name could be set
-* Add experimental RETS integration
+* Experimental RETS integration
 
 ## 0.1.0 / 2017-04-10
 

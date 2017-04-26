@@ -24,6 +24,7 @@ PATH
       jquery-rails
       jsonapi-resources (= 0.8.1)
       money-rails (~> 1)
+      nokogiri
       paloma
       pg
       rails (~> 5.0.0, >= 5.0.0.1)

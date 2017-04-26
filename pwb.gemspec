@@ -44,6 +44,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'cloudinary'
   s.add_dependency 'rets'
   s.add_dependency 'active_hash'
+  s.add_dependency 'nokogiri'
 
   # s.add_dependency 'redis'
   # # logster gem has to be after redis..
