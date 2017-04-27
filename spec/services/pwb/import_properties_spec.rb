@@ -17,7 +17,6 @@ module Pwb
       #   config.fixture_path = "#{Pwb::Engine.root}/spec/fixtures"
     end
 
-
     let(:tsv_file) do
       fixture_file_upload(
         "/to_import/mls-listings-1.tsv",
@@ -31,7 +30,6 @@ module Pwb
       expect(parsed_properties.count).to eq(3)
     end
 
-
     it "imports a valid csv file" do
       # allow(ImportProperties).to_receive(:add_meal_to_order)
       # expect(prop).to receive(:update_attributes).with(status: "served", customer_id: 123)
@@ -40,6 +38,5 @@ module Pwb
       expect(parsed_properties[0]).to include("title_en")
       expect(parsed_properties.count).to eq(4)
     end
-
   end
 end

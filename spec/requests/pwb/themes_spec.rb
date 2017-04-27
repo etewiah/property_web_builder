@@ -9,14 +9,13 @@ module Pwb
       # factorygirl ensures unique_instance of website is used
     end
 
-
     context 'when theme is set' do
       it 'uses correct theme' do
         @website.theme_name = "berlin"
         @website.save!
         get "/"
-        view_paths =  @controller.view_paths.map {|vp| vp.to_s}
-        expect(view_paths).to include  "#{Pwb::Engine.root}/app/themes/berlin/views"
+        view_paths = @controller.view_paths.map(&:to_s)
+        expect(view_paths).to include "#{Pwb::Engine.root}/app/themes/berlin/views"
       end
     end
 
@@ -25,8 +24,8 @@ module Pwb
         @website.theme_name = nil
         @website.save!
         get "/"
-        view_paths =  @controller.view_paths.map {|vp| vp.to_s}
-        expect(view_paths).to include  "#{Pwb::Engine.root}/app/themes/default/views"
+        view_paths = @controller.view_paths.map(&:to_s)
+        expect(view_paths).to include "#{Pwb::Engine.root}/app/themes/default/views"
       end
     end
 
@@ -35,11 +34,10 @@ module Pwb
         @website.theme_name = ""
         @website.save!
         get "/"
-        view_paths =  @controller.view_paths.map {|vp| vp.to_s}
-        expect(view_paths).to include  "#{Pwb::Engine.root}/app/themes/default/views"
+        view_paths = @controller.view_paths.map(&:to_s)
+        expect(view_paths).to include "#{Pwb::Engine.root}/app/themes/default/views"
       end
     end
-
 
     after(:all) do
       @website.destroy

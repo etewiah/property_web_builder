@@ -2,8 +2,7 @@ require 'rails_helper'
 
 module Pwb
   RSpec.describe Website, type: :model do
-    
-    let(:website) {  Website.unique_instance || FactoryGirl.create(:pwb_website) }
+    let(:website) { Website.unique_instance || FactoryGirl.create(:pwb_website) }
     # let(:website2) { FactoryGirl.create(:pwb_website) }
 
     it 'has correct unique_instance' do
@@ -31,6 +30,5 @@ module Pwb
       website.save!
       expect(website.theme_name).to eq("berlin")
     end
-
   end
 end

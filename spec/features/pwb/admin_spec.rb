@@ -14,9 +14,8 @@ module Pwb
       )
     end
 
-
     scenario 'sign in works' do
-      sign_in_as @admin_user.email, @admin_user.password  
+      sign_in_as @admin_user.email, @admin_user.password
       # Capybara.raise_server_errors = false
       # # above needed to prevent this error:
       # # No route matches [GET] "/assets/icons/ellipsis.png"
@@ -34,11 +33,10 @@ module Pwb
       expect(page).to have_link(nil, href: '/en/admin/properties/new')
       # below fails in travis CI - perhaps because translations aren't loading??
       # expect(page).to have_link('Add a property')
-
     end
 
     # scenario 'settings works' do
-    #   sign_in_as @admin_user.email, @admin_user.password  
+    #   sign_in_as @admin_user.email, @admin_user.password
     #   Capybara.raise_server_errors = false
 
     #   click_link(nil, href: '/en/admin/website/settings')
@@ -46,8 +44,6 @@ module Pwb
 
     #   byebug
     # end
-
-
 
     after(:all) do
       @prop_for_long_term_rent.destroy

@@ -1,5 +1,5 @@
 require 'rails_helper'
-# TODO - use page object here too
+# TODO: - use page object here too
 module Pwb
   RSpec.describe "Default theme property search", type: :feature, js: true do
     before(:all) do
@@ -16,7 +16,6 @@ module Pwb
     end
 
     scenario 'property search works' do
-
       visit('/en/rent')
       # puts current_url
       # require 'pry'; binding.pry
@@ -28,7 +27,7 @@ module Pwb
       select('2,500', from: 'search_for_rent_price_from', visible: false)
 
       click_button('Search')
-      expect(page).to have_css(".property-item", count:  Prop.visible.for_rent.for_rent_price_from(250000).count)
+      expect(page).to have_css(".property-item", count: Prop.visible.for_rent.for_rent_price_from(250_000).count)
       # expect(current_path).to eq("/en")
     end
 

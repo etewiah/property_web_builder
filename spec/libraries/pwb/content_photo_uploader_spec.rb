@@ -7,7 +7,7 @@ module Pwb
     # let(:content_photo) { double('content_photo') }
     Rails.application.secrets.cloudinary_url = nil
     let(:content_photo) { FactoryGirl.create(:pwb_content_photo) }
-    
+
     let(:uploader) { ContentPhotoUploader.new(content_photo, :avatar) }
 
     before do

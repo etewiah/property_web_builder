@@ -17,8 +17,8 @@ require 'capybara/poltergeist'
 require 'pwb/seeder'
 # http://www.thegreatcodeadventure.com/stubbing-with-vcr/
 require 'vcr'
-require 'webmock/rspec' 
-WebMock.disable_net_connect!(allow_localhost: true)  
+require 'webmock/rspec'
+WebMock.disable_net_connect!(allow_localhost: true)
 # load(Rails.root.join("db", "seeds.rb"))
 
 # Configure capybara for integration testing
@@ -46,9 +46,6 @@ Rails.backtrace_cleaner.remove_silencers!
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 ActionController::Base.prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/"
-
-
-
 
 RSpec.configure do |config|
   config.include JsonSpec::Helpers

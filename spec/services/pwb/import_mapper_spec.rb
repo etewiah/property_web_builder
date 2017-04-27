@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 module Pwb
   RSpec.describe "ImportMapper" do
     # include ActionDispatch::TestProcess
@@ -22,7 +21,6 @@ module Pwb
     #   mapped_property = ImportMapper.new("mls_csv_jon").map_property(property_tsv)
     #   expect(mapped_property).to include("reference" => property_tsv["ML Number"])
     # end
-
 
     it "maps mris data correctly" do
       mapped_property = ImportMapper.new("mls_mris").map_property(property_mris)

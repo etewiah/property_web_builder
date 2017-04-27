@@ -28,9 +28,8 @@ module Pwb
       # (".property-item", count: Prop.visible.for_rent.count)
 
       property_search_page.search_rentals('2,500')
-      expect(property_search_page).to have_search_result_count(Prop.visible.for_rent.for_rent_price_from(250000).count)
+      expect(property_search_page).to have_search_result_count(Prop.visible.for_rent.for_rent_price_from(250_000).count)
       # expect(page).to have_css(".property-item", count:  Prop.visible.for_rent.for_rent_price_from(250000).count)
-
     end
 
     after(:all) do

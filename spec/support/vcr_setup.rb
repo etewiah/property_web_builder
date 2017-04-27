@@ -1,5 +1,5 @@
 VCR.configure do |vc|
-  #the directory where your cassettes will be saved
+  # the directory where your cassettes will be saved
   vc.cassette_library_dir = 'spec/fixtures/vcr'
 
   # https://relishapp.com/vcr/vcr/v/3-0-3/docs/configuration/ignore-request

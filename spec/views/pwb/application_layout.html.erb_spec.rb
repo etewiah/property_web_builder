@@ -8,7 +8,6 @@ RSpec.describe 'layouts/pwb/application', type: :view do
     view.extend Pwb::ApplicationHelper
   end
 
-
   before(:each) do
     assign(:current_agency, FactoryGirl.create(:pwb_agency, company_name: 'my re'))
     # Pwb::Agency.create!({company_name: 'test'}))

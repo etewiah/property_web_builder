@@ -12,7 +12,7 @@ module Pwb
       es_translations = I18n::Backend::ActiveRecord::Translation.where(locale: "es")
       en_translations = I18n::Backend::ActiveRecord::Translation.where(locale: "en")
       expect(es_translations.count).to eq(en_translations.count)
-      expect(es_translations.count).to be >(0)
+      expect(es_translations.count).to be > 0
     end
 
     it 'creates a landing page hero entry' do
