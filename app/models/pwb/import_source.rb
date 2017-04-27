@@ -17,7 +17,7 @@ module Pwb
         default_property_class: 'ALL',
         displayName: "MRIS",
         # value: "mris"
-      },{
+      }, {
         id: 2,
         source_type: "rets",
         unique_name: "interealty",
@@ -32,7 +32,7 @@ module Pwb
         default_property_class: 'PROPERTY',
         displayName: "InterRealty",
         # value: "interealty"
-      },{
+      }, {
         id: 3,
         source_type: "odata",
         unique_name: "olr",
@@ -42,7 +42,7 @@ module Pwb
           username: '',
           password: ''
         },
-        displayName: "OLR",
+        displayName: "OLR"
       }
     ]
 

@@ -197,7 +197,7 @@ module Pwb
     #   self.year_construction = ano_constr
     # end
 
-    # TODO - replace below with db col
+    # TODO: - replace below with db col
     # def area_unit
     #   return "sqft"
     #   # "sqmt"

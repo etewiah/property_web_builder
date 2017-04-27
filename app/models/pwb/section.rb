@@ -5,6 +5,5 @@ module Pwb
     globalize_accessors locales: [:en, :ca, :es, :fr, :ar]
 
     has_many :contents, foreign_key: "section_key"
-
   end
 end
