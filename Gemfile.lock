@@ -112,6 +112,8 @@ GEM
       rest-client
     coderay (1.1.1)
     concurrent-ruby (1.0.2)
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
     database_cleaner (1.5.3)
     devise (4.2.1)
       bcrypt (~> 3.0)
@@ -171,6 +173,7 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
+    hashdiff (0.3.2)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     httpclient (2.7.2)
@@ -322,6 +325,7 @@ GEM
       backports (~> 2.3.0)
       nokogiri (>= 1.4.2)
       rest-client (>= 1.5.1)
+    safe_yaml (1.0.4)
     sass (3.4.23)
     shellany (0.0.1)
     shoulda-matchers (3.1.1)
@@ -351,8 +355,13 @@ GEM
       unf_ext
     unf_ext (0.0.7.4)
     unicode-display_width (1.1.1)
+    vcr (3.0.3)
     warden (1.2.7)
       rack (>= 1.0)
+    webmock (3.0.1)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
     websocket-driver (0.6.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
@@ -382,6 +391,8 @@ DEPENDENCIES
   rubocop
   shoulda-matchers
   simplecov
+  vcr
+  webmock
   zeus
 
 BUNDLED WITH

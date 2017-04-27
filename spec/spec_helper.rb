@@ -15,7 +15,10 @@ require 'factory_girl_rails'
 require 'capybara/poltergeist'
 # require 'capybara/rails'
 require 'pwb/seeder'
-
+# http://www.thegreatcodeadventure.com/stubbing-with-vcr/
+require 'vcr'
+require 'webmock/rspec' 
+WebMock.disable_net_connect!(allow_localhost: true)  
 # load(Rails.root.join("db", "seeds.rb"))
 
 # Configure capybara for integration testing
