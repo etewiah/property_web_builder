@@ -45,6 +45,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'rets'
   s.add_dependency 'active_hash'
   s.add_dependency 'nokogiri'
+  s.add_dependency 'faraday'
+  s.add_dependency 'ruby_odata'
 
   # s.add_dependency 'redis'
   # # logster gem has to be after redis..

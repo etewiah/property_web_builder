@@ -1,0 +1,67 @@
+[{
+  "name": "mls_olr",
+  "mappings": {
+   "ListingID": {
+      "fieldName": "reference",
+      "default": null
+    },
+    "FullStreetAddress": {
+      "fieldName": "street_name",
+      "default": ""
+    },
+    "Street Number 1": {
+      "fieldName": "street_number",
+      "default": ""
+    },
+    "CityName": {
+      "fieldName": "city",
+      "default": ""
+    },
+    "State": {
+      "fieldName": "province",
+      "default": ""
+    },
+    "Latitude": {
+      "fieldName": "latitude",
+      "default": 0
+    },
+    "Longitude": {
+      "fieldName": "longitude",
+      "default": 0
+    },
+    "Price": {
+      "fieldName": "price_sale_current",
+      "default": 0
+    },
+    "YearBuilt": {
+      "fieldName": "year_construction",
+      "default": 0
+    },
+    "Description": {
+      "fieldName": "description_en",
+      "default": ""
+    },
+    "Bedrooms": {
+      "fieldName": "count_bedrooms",
+      "default": 0
+    },
+    "Baths": {
+      "fieldName": "count_bathrooms",
+      "default": 0
+    },
+    "GrossSQFT": {
+      "fieldName": "constructed_area",
+      "default": 0
+    },
+    "areaunit": {
+      "fieldName": "area_unit",
+      "default": "sqft"
+    },
+    "currency": {
+      "fieldName": "currency",
+      "default": "USD"
+    }
+
+
+  }
+}]

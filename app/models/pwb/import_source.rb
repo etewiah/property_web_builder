@@ -4,6 +4,7 @@ module Pwb
     self.data = [
       {
         id: 1,
+        source_type: "rets",
         unique_name: "mris",
         import_mapper_name: "mls_mris",
         details: {
@@ -18,6 +19,7 @@ module Pwb
         # value: "mris"
       },{
         id: 2,
+        source_type: "rets",
         unique_name: "interealty",
         import_mapper_name: "mls_interealty",
         details: {
@@ -30,21 +32,19 @@ module Pwb
         default_property_class: 'PROPERTY',
         displayName: "InterRealty",
         # value: "interealty"
+      },{
+        id: 3,
+        source_type: "odata",
+        unique_name: "olr",
+        import_mapper_name: "mls_olr",
+        details: {
+          login_url: 'http://dmm-api.olrdev.com/Service.svc',
+          username: '',
+          password: ''
+        },
+        displayName: "OLR",
       }
     ]
-    #   self.data = {
-    #   "us":
-    #   {
-    #     "id": 1,
-    #     "name": "US",
-    #     "custom_field_1": "value1"
-    #   }
-    # },{ "canada":
-    #     {
-    #       "id": 2,
-    #       "name": "Canada",
-    #       "custom_field_2": "value2"
-    # }   }
 
     # set_root_path "#{Pwb::Engine.root}/config/client_setups"
     # # set_filename "client_setups"
