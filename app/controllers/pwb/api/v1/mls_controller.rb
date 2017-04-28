@@ -11,7 +11,8 @@ module Pwb
           labelText: mls.as_json["attributes"]["displayName"],
           mls_unique_name: mls.as_json["attributes"]["unique_name"],
           username: mls.as_json["attributes"]["details"]["username"],
-          password: mls.as_json["attributes"]["details"]["password"]          
+          password: mls.as_json["attributes"]["details"]["password"],   
+          login_url: mls.as_json["attributes"]["details"]["login_url"]                 
         })
         # when I stop displaying username above I can just use:
         # mls.as_json["attributes"].slice("value","labelText")
