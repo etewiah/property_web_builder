@@ -3,7 +3,7 @@ module Pwb
     model_name 'Pwb::Prop'
 
     attributes :area_unit, :photos, :property_photos, :extras
-    attributes :street_address, :street_number, :postal_code
+    attributes :street_address, :street_name, :street_number, :postal_code
     attributes :city, :region, :currency
     attributes :country, :longitude, :latitude
 
