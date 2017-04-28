@@ -92,6 +92,7 @@ es:
     ioSections:
       fromMls: Import from MLS
       fromUpload: Import from file
+      fromWebpage: Import from a webpage
 
     webContentSections:
       appearance: Aparancia

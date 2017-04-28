@@ -105,7 +105,9 @@
   }, {
     "tabValue": "from_mls",
     "tabTitleKey": "ioSections.fromMls"
-    // "importLabelKey": "btnLabels.importSiteContent"
+  }, {
+    "tabValue": "from_webpage",
+    "tabTitleKey": "ioSections.fromWebpage"
   }],
   // "importExportTabsList": [{
   //   "tabValue": "translations",
