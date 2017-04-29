@@ -13,8 +13,23 @@
     }, {
       "labelTextTKey": "fr",
       "fieldName": "fr",
-      "localeVariants": ["fr-FR"],
+      "localeVariants": ["fr-FR"]
+    }, {
+      "labelTextTKey": "de",
+      "fieldName": "de",
+      "localeVariants": ["de-DE"],
       "isNotComplete": true
+    }, {
+      "labelTextTKey": "pt",
+      "fieldName": "pt",
+      "localeVariants": ["pt-PT"],
+      "isNotComplete": true
+    }, {
+      "labelTextTKey": "ru",
+      "fieldName": "ru",
+      "localeVariants": ["ru-RU"],
+      "isNotComplete": true
+    }
     // }, {
     //   "labelTextTKey": "de",
     //   "fieldName": "de",
@@ -35,7 +50,6 @@
     //   "labelTextTKey": "ru",
     //   "fieldName": "ru",
     //   "localeVariants": ["ru-RU"]
-    }
     // , {
     //   "labelTextTKey": "fr",
     //   "fieldName": "fr",

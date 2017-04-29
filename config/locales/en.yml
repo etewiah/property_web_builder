@@ -3,9 +3,6 @@ en:
     noneSelectedText: 'Nothing selected'
     noneResultsText: 'No results found {0}'
     countSelectedText: 'Selected {0} of {1}'
-    # maxOptionsText: ['Límite alcanzado ({n} {var} max)', 'Límite del grupo alcanzado({n} {var} max)', ['elementos', 'element']],
-    # multipleSeparator: ', '
-
   newPassword: "New Password"
   signOut: "Sign Out"
   changePassword: "Change Password"
@@ -13,16 +10,12 @@ en:
   back: "Back"
   leaveBlank: "leave it blank if you don't want to change it"
   needCurrentPwd: "we need your current password to confirm your changes"
-
-
   legalAdvice: "Legal Notice"
   privacyPolicy: "Privacy Policy"
-
   contact:
     success: "Thank you for your message. We will contact you soon!"
     error: "Sorry, there has been an error."
     emailSubject: "Contact from your website"
-
   tel: "Telephone"
   email: "Email"
   name: "Name"
@@ -34,14 +27,11 @@ en:
   aboutUs: "About Us"
   contactUsPrompt: "Fill in the following form to contact us"
   send: "Send"
-
   propertyNotFound: "Property not found"
   forRent: "For Rent"
   forSale: "For Sale"
   propertyForRent: "Property for rent"
   propertyForSale: "Property for sale"
-  # apartamentsForSale: "Deluxe apartaments for sale"
-
   setup:
     selectUrl: "Select a url"
     selectUrlMessage: "You have successfully created an account - now select the url for your new site"
@@ -55,7 +45,6 @@ en:
     createdSuccessfully: "Site created successfully"
     loggedInAs: "Logged in as "
     logout: "Logout"
-
   pwb:
     registerNow: "Register now"
     tagLine: "Professional websites for estate agents in minutes"
@@ -66,12 +55,6 @@ en:
     createTagLine: "Please enter the details for your account"
     # TODO - have a variable for company name so I can switch b/n klavado and property squares
     copyright: "%{company_name} Inc. All rights reserved."
-
-  # nav:
-  #   description: "Description"
-  #   extras: "Features"
-  #   map: "Map"
-
   property:
     price: "Price"
     monthlyRentalPriceLowSeason: "Monthly Price (Low Season)"
@@ -88,7 +71,6 @@ en:
     description: "Description"
     extras: "Features"
     map: "Map"
-
   navbar:
     home: "Home"
     admin: "Admin"
@@ -97,9 +79,7 @@ en:
     buy: "Buy"
     rent: "Rent"
     contactUs: "Contact"
-
   menu_admin: "admin"
-
   true: "Yes"
   false: "No"
   editarPropiedad: "Edit a property"
@@ -112,31 +92,71 @@ en:
   findAProperty: "Find a property"
   orderBy: "Order by"
   noResultsForSearch: "Sorry, no results found"
-
   orderBy:
     priceAscending: ↓ Price (ascending)
     priceDescending: ↑ Price (descending)
-
   placeHolders:
     email: "Your email"
     name: "Your name"
     tel: "Fixed or mobile"
     subject: "Subject"
     message: "Write your message here"
-
   labels: 
     edit: "Edit"
     new: "New"
     save: "Save"
     create: "Create"
-  # webContentLabels: 
-  #   suffixEn: "in English"
-  #   suffixEs: "in Spanish"
-  #   landingPageHero: "Content for the main page"
-  #   tagLine: "Tag Line"
   webContentSections:
     aboutUs: "About us"
     contactInformation: "Contact information" 
     home: "Home"
     sell: "Sell"
     tagLine: "Tag Line"
+  mailers:
+    welcome: "Welcome"
+    confirm_registration: "Please confirm your account through the link below"
+    received_on: "Received on"
+    from: "From"
+    phone: "Tel"
+    message: "Message"
+    property: "Property"
+    general_enquiry_targeting_enquirer:
+      subject: ""
+      message_title: ""
+    general_enquiry_targeting_agency:
+      title: "General enquiry from your website"
+    property_enquiry_targeting_agency:
+      title: "Enquiry regarding a property"
+
+  simple_form:
+    "yes": 'Yes'
+    "no": 'No'
+    required:
+      text: 'required'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    labels:
+      search:
+        for_rent_price_from: 'Rent From (Monthly)'
+        for_rent_price_till: 'Rent Till (Monthly)'
+        for_sale_price_from: 'Price From'
+        for_sale_price_till: 'Price Till'
+        count_bedrooms: 'Bedrooms (min)'
+        count_bathrooms: 'Bathrooms (min)'
+        property_type: 'Property Type'
+        property_state: 'Property State'
+        locality: 'Locality'
+        in_locality: 'Locality'
+        in_zone: 'Zone'
+    # hints:
+    #   search:
+    #     price_from: 'User name to sign in.'
+    #     price_till: 'No special characters, please.'
+    # placeholders:
+    #   search:
+    #     price_from: 'Your username'
+    #     price_till: '****'
+    error_notification:
+      default_message: "Please review the problems below:"

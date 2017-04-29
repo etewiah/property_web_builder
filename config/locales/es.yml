@@ -1,141 +1,152 @@
+---
 es:
-  selectpicker:
-    noneSelectedText: 'No hay selección'
-    noneResultsText: 'No hay resultados {0}'
-    countSelectedText: 'Seleccionados {0} de {1}'
-    # maxOptionsText: ['Límite alcanzado ({n} {var} max)', 'Límite del grupo alcanzado({n} {var} max)', ['elementos', 'element']],
-    # multipleSeparator: ', '
-
-  newPassword: "Nuevo Contraseña"
-  signOut: "Cerrar sesión"
-  changePassword: "Cambiar Contraseña"
-  update: "Actualizar"
-  back: "Volver"
-  leaveBlank: "dejar en blanco si no desea cambiarlo"
-  needCurrentPwd: "necesitamos su contraseña actual para confirmar los cambios"
-
-
-  legalAdvice: "Aviso Legal"
-  privacyPolicy: "Politica de Privacidad"
-
+  aboutUs: Sobre nosotros
+  address: Dirección
+  back: Volver
+  changePassword: Cambiar Contraseña
   contact:
-    success: "Gracias por contactar con nosotros. En breve nos pondremos en contacto con usted."
-    error: "Lo sentimos, ha ocurrido un error."
-    emailSubject: "Contacto desde su sitio web"
-
-  tel: "Teléfono"
-  email: "Email"
-  name: "Nombre"
-  subject: "Asunto"
-  message: "Mensaje"
-  address: "Dirección"
-  contactUs: "Contacta con nosotros"
-  requestPropertyInfo: "Solicitar información"
-  aboutUs: "Sobre nosotros"
-  contactUsPrompt: "Rellena el siguiente formulario para contactar con nosotros"
-  send: "Enviar"
-
-  propertyNotFound: "Propiedad no encontrada"
-  forRent: "En alquiler"
-  forSale: "En venta"
-  propertyForRent: "Inmueble para alquiler"
-  propertyForSale: "Inmueble a la venta"
-  # apartamentsForSale: "Apartamentos a la venta"
-
-  setup:
-    selectUrl: "Selecciona un url"
-    selectUrlMessage: "Su cuenta esta listo - ahora selecciona un url para su nuevo sitio"
-    subdomain: "subdominio"
-    claimSubdomain: "Registrar este url"
-    subdomainMissing: "Introduzca un nombre para el subdominio"
-    urlNotAvailable: "Este url no está disponible"
-    goToYourSite: "Ir a su sitio web"
-    thankYouForTrusting: "Gracias por confiar en %{company_name}"
-    weAreCreatingSite: "Estamos creando su sitio web"
-    createdSuccessfully: "Site created successfully"
-    loggedInAs: "Logged in as "
-    logout: "Logout"
-
-  pwb:
-    registerNow: "Registra ahora"
-    tagLine: "Crea una web profesional para agentes inmobiliarios en minutos"
-    tagLineExt: "Páginas web preciosas y elegantes.<br>Nadie te pone en Internet más rápido."
-    getStarted: "Empezar ahora"
-    createPrompt: "Crear mi web de agencia inmobiliaria"
-    createTagLine: "Nadie te pone en Internet mas rápido."
-    copyright: "%{company_name} Inc. Todos los derechos reservados."
-
-  # nav:
-  #   description: "Descripción"
-  #   extras: "Extras"
-  #   map: "Mapa"
-
-  property:
-    price: "Precio"
-    monthlyRentalPriceLowSeason: "Precio mensual (temporada baja)"
-    monthlyRentalPriceStandardSeason: "Precio mensual (temporada media)"
-    monthlyRentalPriceHighSeason: "Precio mensual (temporada alta)"
-    operationType: "Tipo de Operación"
-    propertyType: "Tipo de Propiedad"
-    locality: "Localidad"
-    ref: "Ref."
-    furniture: "Muebles"
-    highlightedProperty: "Propiedad destacada"
-    goToProperty: "Ver inmueble"
-    details: "Características"
-    description: "Descripción"
-    extras: "Extras"
-    map: "Mapa"
-
+    emailSubject: Contacto desde su sitio web
+    error: Lo sentimos, ha ocurrido un error.
+    success: Gracias por contactar con nosotros. En breve nos pondremos en contacto con usted.
+  contactUs: Contacta con nosotros
+  contactUsPrompt: Rellena el siguiente formulario para contactar con nosotros
+  editarPropiedad: Editar un inmueble
+  email: Email
+  'false': 'No'
+  findAProperty: Encuentra tu casa
+  findByReference: Buscar por referencia
+  forRent: En alquiler
+  forSale: En venta
+  go: Ir
+  labels:
+    create: Crear
+    edit: Editar
+    new: Nuevo
+    save: Guardar
+  leaveBlank: dejar en blanco si no desea cambiarlo
+  legalAdvice: Aviso Legal
+  listadoPropiedades: Listado de inmuebles
+  mailers:
+    welcome: "Bienvenido"
+    confirm_registration: "Por favor, confirme su cuenta a través del siguiente enlace"
+    received_on: "Recibido"
+    from: "De"
+    phone: "Tel"
+    message: "Mensaje"
+    property: "Propiedad"
+    general_enquiry_targeting_enquirer:
+      subject: "Gracias por contactar con nosotros"
+      message_title: ""
+    general_enquiry_targeting_agency:
+      title: "Contacto desde su sitio web"
+    property_enquiry_targeting_agency:
+      title: "Solicitud de información"
+  menu_admin: admin
+  message: Mensaje
+  name: Nombre
   navbar:
-    home: "Inicio"
-    admin: "Admin"
-    aboutUs: "Sobre nosotros"
-    sell: "Vender"
-    buy: "Comprar"
-    rent: "Alquilar"
-    contactUs: "Contactar"
-
-  menu_admin: "admin"
-
-  true: "Si"
-  false: "No"
-  editarPropiedad: "Editar un inmueble"
-  nuevoPropiedad: "Nuevo inmueble"
-  listadoPropiedades: "Listado de inmuebles"
-  searchForProperties: "Buscar inmuebles"
-  search: "Buscar"
-  findByReference: "Buscar por referencia"
-  go: "Ir"
-  findAProperty: "Encuentra tu casa"
-  orderBy: "Ordenar por"
-  noResultsForSearch: "Ningun resueltos para la busqueda"
-
+    aboutUs: Sobre nosotros
+    admin: Admin
+    buy: Comprar
+    contactUs: Contactar
+    home: Inicio
+    rent: Alquilar
+    sell: Vender
+  needCurrentPwd: necesitamos su contraseña actual para confirmar los cambios
+  newPassword: Nuevo Contraseña
+  noResultsForSearch: Ningun resueltos para la busqueda
+  nuevoPropiedad: Nuevo inmueble
   orderBy:
-    priceAscending: ↓ Precio (los más baratos primero)
-    priceDescending: ↑ Precio (los más caros primero)
-
+    priceAscending: "↓ Precio (los más baratos primero)"
+    priceDescending: "↑ Precio (los más caros primero)"
   placeHolders:
-    email: "Tu email"
-    name: "Tu nombre"
-    tel: "Fijo o móvil"
-    subject: "Asunto"
-    message: "Escribe aquí tu mensaje"
-
-  labels: 
-    edit: "Editar"
-    new: "Nuevo"
-    save: "Guardar"
-    create: "Crear"
-  # webContentLabels: 
-  #   suffixEn: "en Inglés"
-  #   suffixEs: "en Español"
-  #   landingPageHero: "Contenido para página principal"
-  #   tagLine: "Lema"
-  webContentSections: 
-    home: "Inicio"
-    contactInformation: "Información de contacto" 
-    sell: "Vender"
-    tagLine: "Lema"
+    email: Tu email
+    message: Escribe aquí tu mensaje
+    name: Tu nombre
+    subject: Asunto
+    tel: Fijo o móvil
+  privacyPolicy: Politica de Privacidad
+  property:
+    description: Descripción
+    details: Características
+    extras: Extras
+    furniture: Muebles
+    goToProperty: Ver inmueble
+    highlightedProperty: Propiedad destacada
+    locality: Localidad
+    map: Mapa
+    monthlyRentalPriceHighSeason: Precio mensual (temporada alta)
+    monthlyRentalPriceLowSeason: Precio mensual (temporada baja)
+    monthlyRentalPriceStandardSeason: Precio mensual (temporada media)
+    operationType: Tipo de Operación
+    price: Precio
+    propertyType: Tipo de Propiedad
+    ref: Ref.
+  propertyForRent: Inmueble para alquiler
+  propertyForSale: Inmueble a la venta
+  propertyNotFound: Propiedad no encontrada
+  pwb:
+    copyright: "%{company_name} Inc. Todos los derechos reservados."
+    createPrompt: Crear mi web de agencia inmobiliaria
+    createTagLine: Nadie te pone en Internet mas rápido.
+    getStarted: Empezar ahora
+    registerNow: Registra ahora
+    tagLine: Crea una web profesional para agentes inmobiliarios en minutos
+    tagLineExt: Páginas web preciosas y elegantes.<br>Nadie te pone en Internet más
+      rápido.
+  requestPropertyInfo: Solicitar información
+  search: Buscar
+  searchForProperties: Buscar inmuebles
+  selectpicker:
+    countSelectedText: Seleccionados {0} de {1}
+    noneResultsText: No hay resultados {0}
+    noneSelectedText: No hay selección
+  send: Enviar
+  setup:
+    claimSubdomain: Registrar este url
+    createdSuccessfully: Site created successfully
+    goToYourSite: Ir a su sitio web
+    loggedInAs: 'Logged in as '
+    logout: Logout
+    selectUrl: Selecciona un url
+    selectUrlMessage: Su cuenta esta listo - ahora selecciona un url para su nuevo
+      sitio
+    subdomain: subdominio
+    subdomainMissing: Introduzca un nombre para el subdominio
+    thankYouForTrusting: Gracias por confiar en %{company_name}
+    urlNotAvailable: Este url no está disponible
+    weAreCreatingSite: Estamos creando su sitio web
+  signOut: Cerrar sesión
+  simple_form:
+    "yes": 'Si'
+    "no": 'No'
+    required:
+      text: 'required'
+      mark: '*'
+    labels:
+      search:
+        for_rent_price_from: 'Precio desde (Mensual)'
+        for_rent_price_till: 'Precio hasta (Mensual)'
+        for_sale_price_from: 'Precio desde'
+        for_sale_price_till: 'Precio hasta'
+        count_bedrooms: 'Habitaciones'
+        count_bathrooms: 'Baños (min)'
+        property_type: 'Tipo Propiedad'
+        property_state: 'Estado Propiedad'
+        locality: 'Localidad'
+        in_locality: 'Localidad'
+        in_zone: 'Zona'
+    error_notification:
+      default_message: "Revisa los problemas identificado:"
+  subject: Asunto
+  tel: Teléfono
+  'true': Si
+  update: Actualizar
+  webContentSections:
+    aboutUs: Sobre nosotros
+    contactInformation: Información de contacto
+    home: Inicio
+    sell: Vender
+    tagLine: Lema
 
 
