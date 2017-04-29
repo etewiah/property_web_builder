@@ -5,7 +5,7 @@
   "availableLocaleFields": [{
       "labelTextTKey": "es",
       "fieldName": "es",
-      "localeVariants": ["es-ES", "es-MX"]
+      "localeVariants": ["es-ES", "es-MX", "es-CL"]
     }, {
       "labelTextTKey": "en",
       "fieldName": "en",
@@ -22,7 +22,7 @@
     }, {
       "labelTextTKey": "pt",
       "fieldName": "pt",
-      "localeVariants": ["pt-PT"],
+      "localeVariants": ["pt-PT","pt-BR"],
       "isNotComplete": true
     }, {
       "labelTextTKey": "ru",
