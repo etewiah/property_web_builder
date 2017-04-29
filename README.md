@@ -127,3 +127,15 @@ If you wish to sponsor this project please email me directly (opensource at prop
 ## License
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
+
+---
+
+A ruby translation project managed on [Locale](http://www.localeapp.com/) that's open to all!
+
+## Contributing to property_web_builder
+
+- Edit the translations directly on the [property_web_builder](http://www.localeapp.com/projects/public?search=property_web_builder) project on Locale.
+- **That's it!**
+- The maintainer will then pull translations from the Locale project and push to Github.
+
+Happy translating!

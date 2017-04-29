@@ -58,3 +58,4 @@ group :development, :test do
   gem 'zeus'
   gem 'json_spec'
 end
+gem 'localeapp'

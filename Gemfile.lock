@@ -155,6 +155,7 @@ GEM
     font-awesome-rails (4.7.0.0)
       railties (>= 3.2, < 5.1)
     formatador (0.2.5)
+    gli (2.16.0)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     globalize-accessors (0.2.1)
@@ -196,6 +197,11 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
+    localeapp (2.1.1)
+      gli
+      i18n (~> 0.4)
+      json
+      rest-client
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.10)
@@ -383,6 +389,7 @@ DEPENDENCIES
   guard
   guard-rspec
   json_spec
+  localeapp
   poltergeist
   pry-byebug
   pwb!
