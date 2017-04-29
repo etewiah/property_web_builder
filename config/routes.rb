@@ -13,7 +13,7 @@ Pwb::Engine.routes.draw do
   authenticate :user do
     get "/admin" => "admin_panel#show"
     get "/admin/*path" => "admin_panel#show"
-    scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar/ do
+    scope "(:locale)", locale: /en|nl|es|fr|de|pt|it/ do
       get "/admin" => "admin_panel#show", as: "admin_with_locale"
       get "/admin/*path" => "admin_panel#show"
     end
@@ -22,7 +22,7 @@ Pwb::Engine.routes.draw do
   get "/agency_css" => "css#agency_css", as: "agency_css"
 
   # TODO - get locales dynamically
-  scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar/ do
+  scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar|ru/ do
     # https://github.com/plataformatec/devise/wiki/How-To:-Use-devise-inside-a-mountable-engine
     devise_for :users, class_name: "Pwb::User", module: :devise
 
