@@ -128,10 +128,11 @@ es:
       defaultAreaUnit: Default Area Unit
       currency: Moneda
       defaultCurrency: Moneda por defecto
-      codigoPostal: Codigo Postal
-      direccion: Direccion
-      direccionReal: Direccion Real
-      direccionMapa: Direccion Mapa
+      defaultLocale: Idioma por defecto
+      # codigoPostal: Codigo Postal
+      # direccion: Direccion
+      # direccionReal: Direccion Real
+      # direccionMapa: Direccion Mapa
       ref: REF
       tipo: Type
       estado: State
