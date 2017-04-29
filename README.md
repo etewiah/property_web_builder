@@ -92,10 +92,10 @@ And a video about how to deploy to heroku here:
 
 These are some features I plan to add over the coming months.  If there is something you need which is not on the list, please let me know.  I am also interested in knowing which of these features I should prioritize.
 
-* More languages
-* More themes
+* [More languages](https://github.com/etewiah/property_web_builder/issues/4)
+* [More themes](https://github.com/etewiah/property_web_builder/issues/3)
 * Mobile app (iOS and android)
-* RETS support (to allow synchronizing MLS content)
+* [RETS support (to allow synchronizing MLS content)](https://github.com/etewiah/property_web_builder/issues/2)
 * Integration with third party apps such as Insightly and Basecamp
 * Full calendering functionality for rental properties
 * Ability to import WordPress blogs
@@ -113,6 +113,14 @@ Please consider making a contribution to the development of PropertyWebBuilder. 
 I would like PropertyWebBuilder to be available in as many languages as possible so any help with translations will be much appreciated.  A basic Spanish version of this document can be found here:
 [https://github.com/etewiah/property_web_builder/blob/master/README_es.md](https://github.com/etewiah/property_web_builder/blob/master/README_es.md)
 
+---
+
+Thanks to the awesome [Locale](http://www.localeapp.com/) contributing to the translations is super easy!
+
+- Edit the translations directly on the [property_web_builder](http://www.localeapp.com/projects/public?search=property_web_builder) project on Locale.
+- **That's it!**
+- The maintainer will then pull translations from the Locale project and push to Github.
+
 
 ## Sponsors
 
@@ -127,15 +135,3 @@ If you wish to sponsor this project please email me directly (opensource at prop
 ## License
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
-
----
-
-A ruby translation project managed on [Locale](http://www.localeapp.com/) that's open to all!
-
-## Contributing to property_web_builder
-
-- Edit the translations directly on the [property_web_builder](http://www.localeapp.com/projects/public?search=property_web_builder) project on Locale.
-- **That's it!**
-- The maintainer will then pull translations from the Locale project and push to Github.
-
-Happy translating!
