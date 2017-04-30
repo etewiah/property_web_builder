@@ -19,7 +19,7 @@ module Pwb
       sections = []
       sectionsJSON.each do |sectionJSON|
         section = Section.find sectionJSON["id"]
-        section.update(sectionJSON.slice("visible","sort_order"))
+        section.update(sectionJSON.slice("show_in_top_nav","show_in_footer","sort_order"))
         sections.push section
       end
       
