@@ -102,8 +102,11 @@ Pwb::Engine.routes.draw do
         # get "/web-contents" => "agency#infos"
         jsonapi_resources :lite_properties
         jsonapi_resources :properties
-        jsonapi_resources :sections
+        # jsonapi_resources :sections
         jsonapi_resources :web_contents
+
+        get "/sections" => "sections#index"
+        put "/sections" => "sections#bulk_update"
 
         get "/themes" => "themes#index"
         get "/mls" => "mls#index"

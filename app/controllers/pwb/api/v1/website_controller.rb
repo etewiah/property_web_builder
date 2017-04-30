@@ -25,7 +25,7 @@ module Pwb
       params.require(:website).permit(
         :company_name, :display_name, :default_area_unit,
         :phone_number_primary, :phone_number_other,
-        :theme_name, :default_currency,
+        :theme_name, :default_currency, :default_client_locale,
       supported_locales: [])
     end
 
