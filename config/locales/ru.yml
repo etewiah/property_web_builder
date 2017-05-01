@@ -52,6 +52,8 @@ ru:
     home: Главная
     rent: Аренда
     sell: продавать
+    legalAdvice: надлежащее уведомление
+    privacyPolicy: политика конфиденциальности
   needCurrentPwd: нам нужен текущий пароль, чтобы подтвердить изменения
   newPassword: новый пароль
   noResultsForSearch: К сожалению, не найдено

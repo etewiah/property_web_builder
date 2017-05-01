@@ -79,6 +79,8 @@ en:
     buy: "Buy"
     rent: "Rent"
     contactUs: "Contact"
+    legalAdvice: "Legal Notice"
+    privacyPolicy: "Privacy Policy"
   menu_admin: "admin"
   true: "Yes"
   false: "No"

@@ -22,7 +22,7 @@ pt:
     create: Crio
     edit: Editar
     new: Novo
-    save: Salve 
+    save: Salve
   leaveBlank: deixe em branco se você não quer mudá-lo
   legalAdvice: Notícia legal
   listadoPropiedades: Lista de propriedades
@@ -52,6 +52,8 @@ pt:
     home: Casa
     rent: Aluguel
     sell: Vender
+    legalAdvice: Notícia legal
+    privacyPolicy: Política de Privacidade
   needCurrentPwd: precisamos de sua senha atual para confirmar as alterações
   newPassword: Nova senha
   noResultsForSearch: Desculpe, nenhum resultado encontrado

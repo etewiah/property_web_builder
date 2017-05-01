@@ -52,6 +52,8 @@ es:
     home: Inicio
     rent: Alquilar
     sell: Vender
+    legalAdvice: Aviso Legal
+    privacyPolicy: Politica de Privacidad
   needCurrentPwd: necesitamos su contraseña actual para confirmar los cambios
   newPassword: Nuevo Contraseña
   noResultsForSearch: Ningun resueltos para la busqueda

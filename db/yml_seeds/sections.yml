@@ -44,21 +44,21 @@
   page_title_es: Alquilar
   page_title_fr: Louer
   page_title_de: Miete
-- link_key: sell
-  link_path: sell
-  sort_order: 4
-  visible: false
-  is_page: true
-  show_in_top_nav: true
-  show_in_footer: false
-  link_title_en: Sell
-  link_title_es: Vender
-  link_title_fr: Vendre
-  link_title_de: Verkaufen
-  page_title_en: Sell
-  page_title_es: Vender
-  page_title_fr: Vendre
-  page_title_de: Verkaufen
+# - link_key: sell
+#   link_path: sell
+#   sort_order: 4
+#   visible: false
+#   is_page: true
+#   show_in_top_nav: true
+#   show_in_footer: false
+#   link_title_en: Sell
+#   link_title_es: Vender
+#   link_title_fr: Vendre
+#   link_title_de: Verkaufen
+#   page_title_en: Sell
+#   page_title_es: Vender
+#   page_title_fr: Vendre
+#   page_title_de: Verkaufen
 - link_key: aboutUs
   link_path: about_us_path
   sort_order: 5

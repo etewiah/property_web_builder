@@ -53,6 +53,8 @@ de:
     home: Zuhause
     rent: Miete
     sell: Verkaufen
+    legalAdvice: Impressum
+    privacyPolicy: Datenschutz-Bestimmungen
   needCurrentPwd: Wir brauchen Ihr aktuelles Passwort, um die Änderungen zu bestätigen
   newPassword: Neues Kennwort
   noResultsForSearch: Leider keine Ergebnisse

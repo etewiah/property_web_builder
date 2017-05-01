@@ -11,6 +11,8 @@ module Pwb
     attributes :constructed_area, :year_construction, :plot_area
     attributes :prop_type_key, :prop_state_key, :prop_origin_key
 
+    attributes :title_fr, :title_de, :title_ru, :title_pt
+    attributes :description_fr, :description_de, :description_ru, :description_pt
     attributes :title_es, :title_en, :title_ar, :description_es, :description_en, :description_ar
 
     attributes :for_sale, :for_rent_short_term, :for_rent_long_term, :obscure_map, :hide_map

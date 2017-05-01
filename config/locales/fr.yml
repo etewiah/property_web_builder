@@ -95,6 +95,8 @@ fr:
     buy: "Acheter"
     rent: "Louer"
     contactUs: "Contacter"
+    legalAdvice: "Informations légales"
+    privacyPolicy: "Politique de confidentialité"
 
   menu_admin: "admin"
 
