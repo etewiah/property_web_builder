@@ -6,8 +6,8 @@ module Pwb
     def generic_page
       page_slug = params[:page_slug]
       section = Pwb::Section.find_by_link_path page_slug
-      @title_key = page_slug
-      @page_title = I18n.t(page_slug)
+      @title_key = section.link_key
+      @page_title = I18n.t(section.link_key)
       if section && section.contents.first
         @content = section.contents.first       
       else
