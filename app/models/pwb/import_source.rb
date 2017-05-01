@@ -38,7 +38,7 @@ module Pwb
         unique_name: "olr",
         import_mapper_name: "mls_olr",
         details: {
-          login_url: 'http://dmm-api.olrdev.com/Service.svc',
+          login_url: 'http://api.olr.com/Service.svc',
           username: '',
           password: ''
         },
