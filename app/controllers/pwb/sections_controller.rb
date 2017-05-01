@@ -3,10 +3,18 @@ require_dependency 'pwb/application_controller'
 module Pwb
   class SectionsController < ApplicationController
 
-    # def sell
-    #   # @agency = Agency.find_by_subdomain(request.subdomain.downcase)
-    #   @enquiry = Message.new
-    # end
+    def generic_page
+      page_slug = params[:page_slug]
+      section = Pwb::Section.find_by_link_path page_slug
+      @title_key = page_slug
+      @page_title = I18n.t(page_slug)
+      if section && section.contents.first
+        @content = section.contents.first       
+      else
+        @content = OpenStruct.new 
+      end
+      return render "/pwb/sections/static"
+    end
 
     def about_us
       @content = Content.find_by_key("aboutUs")

@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 
 * Experimental support for import of properties from web pages
+* Add German, Russian and Portuguese translations
+* Enable management of navigation links
 
 ## 0.1.1 / 2017-04-25
 
@@ -16,6 +18,7 @@ All notable changes to this project will be documented in this file.
 * Initial support for uploading CSV file
 * Allow image upload to file system where cloudinary is not used
 * Support for sending emails via SendGrid
+* Add French translations
 
 ## 0.0.2 / 2017-02-16
 

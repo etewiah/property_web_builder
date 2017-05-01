@@ -1,0 +1,17 @@
+---
+- key: 
+  tag: 
+  # below links it to a section
+  section_key: sell
+  input_type:
+  status:
+  last_updated_by_user_id:
+  sort_order:
+  target_url:
+  raw_en: >
+    <p>Why you should sell with us.</p>
+  raw_es: Llevamos muchos años comprometidos con ofrecer un servicio integral y conseguir solo transacciones con éxito y felicidad por parte de los compradores y vendedores.
+  photo_files:
+    - db/example_images/carousel_grass.jpg
+  # photo_urls: 
+  #   - https://c1.staticflickr.com/4/3461/3207629320_745d9fb55f.jpg
