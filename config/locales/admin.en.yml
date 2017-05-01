@@ -35,6 +35,28 @@ en:
     brl: Brazil Real
     zar: South Africa Rand
     hkd: Hong Kong Dollar
+    inTabLabels:
+      topNav: Top Navigation
+      footer: Footer
+      currency: Currency
+      colors: Colours
+      socialLinks: Social Links
+      siteLayout: Site Layout
+      colorPrimary: Primary Color
+      colorSecondary: Secondary Color
+      colorActions: Actions Color
+      supportedLanguages: Supported Languages
+      visibility: Visibility
+    navbar:
+      home: "Home"
+      admin: "Admin"
+      aboutUs: "About Us"
+      sell: "Sell"
+      buy: "Buy"
+      rent: "Rent"
+      contactUs: "Contact"
+      legalAdvice: "Legal Notice"
+      privacyPolicy: "Privacy Policy"
     adminSections:
       import: Import Data
       start: Home
@@ -100,6 +122,7 @@ en:
       fromWebpage: Import from a webpage
 
     webContentSections:
+      navigation: Navigation
       appearance: Appearance
       footer: Footer
       aboutUs: About us

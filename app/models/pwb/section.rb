@@ -6,6 +6,18 @@ module Pwb
 
     has_many :contents, foreign_key: "section_key", primary_key: "link_path"
 
+    def as_json(options = nil)
+      super({only: [
+               :link_key, :link_path, :visible, :sort_order, :id,
+               :show_in_top_nav, :show_in_footer, :is_page
+             ],
+             methods: [:translation_key, :link_title_es, :page_title_es]
+             }.merge(options || {}))
+    end
+
+    def translation_key
+      return "navbar." + self.link_key
+    end
 
     # t.string :link_key
     # t.string :link_path

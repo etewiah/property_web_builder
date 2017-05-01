@@ -95,6 +95,9 @@
   }, {
     "tabValue": "appearance",
     "tabTitleKey": "webContentSections.appearance"
+  }, {
+    "tabValue": "navigation",
+    "tabTitleKey": "webContentSections.navigation"
   }],
   "websiteSectionsTabsList": [{
     "tabValue": "buy",
