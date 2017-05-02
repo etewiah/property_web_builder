@@ -3,6 +3,8 @@ require_dependency 'pwb/application_controller'
 module Pwb
   class SectionsController < ApplicationController
 
+    before_action :header_image_url 
+
     def generic_page
       page_slug = params[:page_slug]
       section = Pwb::Section.find_by_link_path page_slug
@@ -106,6 +108,13 @@ module Pwb
       return render "pwb/ajax/contact_us_errors", layout: false
     end
 
+    private
+
+    def header_image_url
+      # used by berlin theme
+      @header_image_url = Content.where(tag: 'landing-carousel')[0].default_photo_url
+    end
+    
 
   end
 end

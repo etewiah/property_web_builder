@@ -3,6 +3,8 @@ require_dependency 'pwb/application_controller'
 module Pwb
   class SearchController < ApplicationController
 
+    before_action :header_image_url 
+
     def search_ajax_for_sale
       @operation_type = "for_sale"
       # above used to decide if link to result should be to buy or rent path
@@ -174,6 +176,13 @@ module Pwb
     #     return render "go_to_property_error_ajax"
     #   end
     # end
+
+    private
+
+    def header_image_url
+      # used by berlin theme
+      @header_image_url = Content.where(tag: 'landing-carousel')[0].default_photo_url
+    end
 
 
   end

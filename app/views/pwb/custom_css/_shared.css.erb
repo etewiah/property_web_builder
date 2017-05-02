@@ -1,3 +1,11 @@
+footer .col h5 {
+  color: <%= @current_website.style_variables["footer_sec_text_color"] || "#ccc" %>;  
+}
+
+footer .col p {
+  color: <%= @current_website.style_variables["footer_main_text_color"] || "#fff" %>;  
+}
+
 .footer-extra {
   color: <%= @current_website.style_variables["footer_main_text_color"] || "#fff" %>;  
 }
