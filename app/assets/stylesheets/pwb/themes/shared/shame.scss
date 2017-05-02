@@ -1,3 +1,28 @@
+@media only screen and (min-width: 767px) {
+  /*flex display only needed for larger screens*/
+  .flex-md {
+    display: flex;
+  }
+}
+
+.flex-row,
+.flex-col {
+  /*used in footer to push social links down*/
+  display: flex;
+}
+
+
+
+.contact {
+  .fa {
+    padding: 0px 4px 4px 0px;
+  }
+  h5 {
+    margin: 0px;
+  }
+}
+
+
 .contact-info-panel-body {
   padding: 0px 15px;
 }

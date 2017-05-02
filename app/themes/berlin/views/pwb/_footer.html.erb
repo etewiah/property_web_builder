@@ -5,27 +5,54 @@
       <div class="col-md-12">
         <div class="aa-footer-area">
           <div class="row">
-            <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <div class="aa-footer-left">
+        <div class="col">
+          <h4><%= @current_agency.company_name %></h4>
+          <ul class="contact">
+            <li>      
+              <%= agency_info(@current_agency, "phone_number_primary", "tel", "fa-phone") %>
+            </li>
+            <li>
+              <%= agency_info(@current_agency, "email_primary", "email", "fa-envelope") %>
+            </li>
+          </ul>
+        </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12 flex-col">
+              <div class="aa-footer-middle" style="display: flex;margin-top: auto;">
+                <%= social_media_link(@current_website, "facebook", "Facebook", "fa-facebook") %>
+                <%= social_media_link(@current_website, "twitter", "Twitter", "fa-twitter") %>
+                <%= social_media_link(@current_website, "linkedin", "Linked In", "fa-linkedin") %>
+                <%= social_media_link(@current_website, "youtube", "YouTube", "fa-youtube") %>
+                <%= social_media_link(@current_website, "pinterest", "Pinterest", "fa-pinterest") %>
+                <%= social_media_link(@current_website, "gplus", "Google Plus", "fa-google-plus") %>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <div class="">
+        <div class="footer-extra">
+          <%== @footer_content.raw %>
+        </div>
+              </div>
+            </div>
+          </div>
+      
+          <hr>
+
+          <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12">
               <div class="aa-footer-left">
                 <p>Powered by <a href="http://www.propertywebbuilder.com">PropertyWebBuilder</a></p>
               </div>
             </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-              <div class="aa-footer-middle">
-                <%= social_media_link(@current_agency, "facebook", "Facebook", "fa-facebook") %>
-                <%= social_media_link(@current_agency, "twitter", "Twitter", "fa-twitter") %>
-                <%= social_media_link(@current_agency, "linkedin", "Linked In", "fa-linkedin") %>
-                <%= social_media_link(@current_agency, "youtube", "YouTube", "fa-youtube") %>
-                <%= social_media_link(@current_agency, "pinterest", "Pinterest", "fa-pinterest") %>
-                <%= social_media_link(@current_agency, "gplus", "Google Plus", "fa-google-plus") %>
-              </div>
-            </div>
             <div class="col-md-6 col-sm-12 col-xs-12">
               <div class="aa-footer-right">
-                <%= link_to I18n.t("legalAdvice"), pwb.legal_path(locale: locale)  %>.
-                <%= link_to I18n.t("privacyPolicy"), pwb.privacy_policy_path(locale: locale)  %>.
+                <% @sections.each do |section| %>
+                  <%= footer_link(section) %>
+                <% end %>
                 <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>.
-
               </div>
             </div>
           </div>

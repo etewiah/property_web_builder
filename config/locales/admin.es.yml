@@ -42,6 +42,9 @@ es:
       colors: Colores
       socialLinks: Redes sociales
       siteLayout: Modo de visualización
+      colorFooterBg: Color de fondo del footer
+      colorFooterMainText: Color principal del texto del footer 
+      colorFooterSecText: Color secundario del texto del footer
       colorPrimary: Color principal
       colorSecondary: Color secundario
       colorActions: Color acciones

@@ -272,32 +272,26 @@ h2 {
 }
 
 
-
-
-
-
-
-
-
-
-/* below shared across themes*/
-
-.services-section .container .services-wrapper .single-service .bordered {
-  border: 2px solid <%= @current_website.style_variables["primary_color"] %>;
-}
-.services-section .container .services-wrapper .single-service .icon-service {
-  color: <%= @current_website.style_variables["primary_color"] %>;
-  border-color: <%= @current_website.style_variables["primary_color"] %>;
-}
-.services-section .container .services-wrapper .single-service:hover h4 {
-  color: <%= @current_website.style_variables["primary_color"] %>;
+#aa-footer {
+  background-color: <%= @current_website.style_variables["footer_bg_color"] || "#333" %>;
 }
 
 
-/*header.top_header{
-  min-height: 25px;
+
+#aa-footer .aa-footer-area .aa-footer-left a,
+#aa-footer .aa-footer-area .aa-footer-right a,
+#aa-footer .aa-footer-area .aa-footer-left,
+#aa-footer .aa-footer-area .aa-footer-right{
+  color: <%= @current_website.style_variables["footer_main_text_color"] || "#fff" %>;  
 }
-*/
+
+
+
+<%= render :partial => '/pwb/custom_css/shared.css', :locals => {}  %>
+
+
+
+
 /*below for button on contact form*/
 .btn-base:hover, .btn-base:focus, .btn-base:active, .btn-base.active, .open .dropdown-toggle.btn-base {
     color: #fff;
@@ -305,24 +299,13 @@ h2 {
     border-color: <%= @current_website.style_variables["action_color"] %>;
 }
 
-/*.btn-alt:before {
-  background-color: <%= @current_website.style_variables["action_color"] %>;  
-}*/
 
+/*
 .fondo_accion {
   background: <%= @current_website.style_variables["action_color"] %>;
   color: #fff;
 }
 
-/*.color_accion {*/
-.fondo_footer {
-  background: <%= @current_website.style_variables["footer_color"] || "#333" %>;
-  color: #fff;
-}
-.fondo_footer>.pusher {
-  /*allows setting of bg color for footer overflow */
-  background: <%= @current_website.style_variables["footer_color"] || "#333" %>;
-}
 
 
 ul.list-listings>li.featured {
@@ -363,11 +346,11 @@ nav.venta_alquiler a:hover {
 .thumbnail-images a:hover {
   background: <%= @current_website.style_variables["primary_color"] %> !important;
   color: #fff;
-}
+}*/
 
-.tabs li.active a {
+/*.tabs li.active a {
   border-bottom: 3px solid <%= @current_website.style_variables["primary_color"] %>;
 }
-
+*/
 <%# @current_website.raw_css %>
 

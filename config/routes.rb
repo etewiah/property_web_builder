@@ -19,7 +19,7 @@ Pwb::Engine.routes.draw do
     end
   end
 
-  get "/agency_css" => "css#agency_css", as: "agency_css"
+  get "/custom_css" => "css#custom_css", as: "custom_css"
 
   # TODO - get locales dynamically
   scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar|ru/ do

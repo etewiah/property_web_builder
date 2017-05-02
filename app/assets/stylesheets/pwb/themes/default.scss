@@ -38,6 +38,7 @@ https://github.com/bokmann/font-awesome-rails*/
 @import "default/language_switcher";
 @import "default/shame";
 @import "default/carousel";
+@import "shared/header_footer";
 @import "shared/shame";
 
 /*@import "default/flags";*/
@@ -68,11 +69,11 @@ html {
   background-color: #d35400;  
 }*/
 
-.fondo_footer {
+/*.fondo_footer {
   background: #333;
   color: #fff;
 }
-
+*/
 .fondo_secundario {
   background: #ea802d;
   color: #fff;

@@ -42,9 +42,12 @@ en:
       colors: Colours
       socialLinks: Social Links
       siteLayout: Site Layout
-      colorPrimary: Primary Color
-      colorSecondary: Secondary Color
-      colorActions: Actions Color
+      colorFooterBg: Footer background color
+      colorFooterMainText: Footer main text color
+      colorFooterSecText: Footer secondary text color
+      colorPrimary: Primary color
+      colorSecondary: Secondary color
+      colorActions: Actions color
       supportedLanguages: Supported Languages
       visibility: Visibility
     navbar:
