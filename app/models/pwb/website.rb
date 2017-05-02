@@ -77,16 +77,16 @@ module Pwb
     end
 
 
-    def custom_css_file
-      # used by css_controller to decide which file to compile
-      # with user set variables.
-      #
-      custom_css_file = "standard"
-      # if self.site_template.present? && self.site_template.custom_css_file
-      #   custom_css_file = self.site_template.custom_css_file
-      # end
-      custom_css_file
-    end
+    # def custom_css_file
+    #   # used by css_controller to decide which file to compile
+    #   # with user set variables.
+    #   #
+    #   custom_css_file = "standard"
+    #   # if self.site_template.present? && self.site_template.custom_css_file
+    #   #   custom_css_file = self.site_template.custom_css_file
+    #   # end
+    #   custom_css_file
+    # end
 
     def logo_url
       logo_url = nil

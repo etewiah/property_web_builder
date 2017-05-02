@@ -4,9 +4,15 @@
     <div class="row">
       <div class="col-md-12">
         <div class="aa-property-header-inner">
-          <h2>Property Details</h2>
+          <h2>
+          <%= I18n.t("property.details") %>
+          </h2>
           <ol class="breadcrumb">
-            <li><a href="#">Home</a></li>
+            <li>
+              <%= link_to pwb.root_path(locale: locale), class: "" do %>
+                <%= I18n.t("webContentSections.home") %>
+              <% end %>  
+            </li>
             <li class="active"><%= @property_details.title %>
             </li>
           </ol>

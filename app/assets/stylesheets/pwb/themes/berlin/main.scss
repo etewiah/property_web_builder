@@ -1419,20 +1419,22 @@ img {
 }
 
 .aa-properties-details .aa-properties-info ul {
-  margin-left: 20px;
+  /*margin-left: 20px;*/
 }
 
 .aa-properties-details .aa-properties-info ul li {
   margin-bottom: 10px;
 }
 
+/*
+-tick before each extra
 .aa-properties-details .aa-properties-info ul li:before {
   content: '\f046';
   font-family: fontAwesome;
   left: 0;
   top: 0;
   margin-right: 10px;
-}
+}*/
 
 .aa-properties-details .aa-properties-info iframe {
   margin-top: 15px;
