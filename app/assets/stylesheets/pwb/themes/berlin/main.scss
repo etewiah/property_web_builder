@@ -1622,6 +1622,12 @@ img {
 }
 
 @media (max-width: 991px) {
+  .aa-properties-item .aa-properties-item-img img {
+    /*Ed - for mobile show full length photos */
+    height: 100%;
+  }
+
+
   #aa-menu-area .main-navbar .navbar-nav li a {
     padding-left: 8px;
     padding-right: 8px;
@@ -1926,6 +1932,8 @@ img {
   #aa-properties .aa-properties-content .aa-properties-content-body .aa-list-view li .aa-properties-item .aa-properties-item-img {
     width: 100%;
   }
+
+
   #aa-properties .aa-properties-content .aa-properties-content-body .aa-list-view li .aa-properties-item .aa-properties-item-content {
     border-top: medium none;
     width: 100%;
