@@ -47,7 +47,16 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 ActionController::Base.prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/"
 
+
+
 RSpec.configure do |config|
+
+  # TODO - consider precompiling assets to speed up tests
+  # config.before(:suite) do
+  #   Rails.application.load_tasks
+  #   Rake::Task["assets:precompile"].invoke
+  # end
+
   config.include JsonSpec::Helpers
 
   config.mock_with :rspec
