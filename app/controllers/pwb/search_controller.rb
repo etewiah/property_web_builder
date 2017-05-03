@@ -132,7 +132,11 @@ module Pwb
         end
         price_fields = ["for_sale_price_from", "for_sale_price_till", "for_rent_price_from", "for_rent_price_till"]
         if price_fields.include? key
-          value = value.gsub(/\D/, '').to_i * 100
+          currency_string = @current_website.default_currency || "usd"
+          currency =  Money::Currency.find currency_string
+          # above needed as some currencies like Chilean peso 
+          # don't have the cents field multiplied by 100
+          value = value.gsub(/\D/, '').to_i * currency.subunit_to_unit
           # @properties = @properties.public_send(key, value) if value.present?
         end
         @properties = @properties.public_send(key, value) if value.present?
