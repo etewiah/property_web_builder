@@ -181,7 +181,8 @@ module Pwb
 
     def header_image_url
       # used by berlin theme
-      @header_image_url = Content.where(tag: 'landing-carousel')[0].default_photo_url
+      hi_content = Content.where(tag: 'landing-carousel')[0]
+      @header_image_url = hi_content.present? ? hi_content.default_photo_url : ""
     end
 
 
