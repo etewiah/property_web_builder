@@ -389,11 +389,11 @@
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: propertyTypes.nave
-  tag: property-types
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: propertyTypes.nave
+#   tag: property-types
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: propertyTypes.piso
   tag: property-types
   visible: true
@@ -444,36 +444,36 @@
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: propertyTypes.semiatico
-  tag: property-types
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: propertyTypes.posesion
-  tag: property-types
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: propertyTypes.majorcanPosesion
-  tag: property-types
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: propertyTypes.semiatico
+#   tag: property-types
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: propertyTypes.posesion
+#   tag: property-types
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: propertyTypes.majorcanPosesion
+#   tag: property-types
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: propertyTypes.edificioResidencial
   tag: property-types
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: propertyTypes.plantaBajaConJardin
-  tag: property-types
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: propertyTypes.fincaRustica
-  tag: property-types
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: propertyTypes.plantaBajaConJardin
+#   tag: property-types
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: propertyTypes.fincaRustica
+#   tag: property-types
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: propertyOrigin.bank
   tag: property-origins
   visible: true

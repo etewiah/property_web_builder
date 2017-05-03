@@ -1,11 +1,22 @@
 # load File.join(Rails.root, 'db', 'seeds', 'translations.rb')
 I18n::Backend::ActiveRecord::Translation.create!(
   [
+    {locale: "en", key: "propertyStates.underConstruction", value: "Under construction"},
+    {locale: "en", key: "propertyStates.brandNew", value: "Brand new"},
+    {locale: "en", key: "propertyStates.segundaMano", value: "Second hand"},
+    {locale: "en", key: "propertyStates.nuevo", value: "New"},
+    {locale: "en", key: "propertyStates.enConstruccion", value: "Under construction"},
+    {locale: "en", key: "propertyStates.aReformar", value: "Needs refurbishing"},
+    {locale: "en", key: "extras.porche", value: "Porch"},
+    {locale: "en", key: "propertyTypes.edificioResidencial", value: "Residential building"},
+    {locale: "en", key: "propertyTypes.villa", value: "Villa"},
+
     {locale: "en", key: "propertyOrigin.bank", value: "Bank repossesion"},
     {locale: "en", key: "propertyOrigin.new", value: "New build"},
     {locale: "en", key: "propertyOrigin.private", value: "Private sale"},
     {locale: "en", key: "propertyLabels.sold", value: "Sold"},
     {locale: "en", key: "propertyLabels.reserved", value: "Reserved"},
+
     {locale: "en", key: "extras.aireAcondicionado", value: "Air conditioning", interpolations: [], is_proc: false},
     {locale: "en", key: "extras.alarma", value: "Alarm", interpolations: [], is_proc: false},
     {locale: "en", key: "extras.amueblado", value: "Furniture", interpolations: [], is_proc: false},
@@ -76,16 +87,6 @@ I18n::Backend::ActiveRecord::Translation.create!(
     {locale: "en", key: "propertyTypes.local", value: "Commercial premises", interpolations: [], is_proc: false},
     {locale: "en", key: "propertyTypes.trastero", value: "Warehouse", interpolations: [], is_proc: false},
     {locale: "en", key: "propertyTypes.casaRural", value: "Country House", interpolations: [], is_proc: false},
-
-    {locale: "en", key: "propertyStates.underConstruction", value: "Under construction"},
-    {locale: "en", key: "propertyStates.brandNew", value: "Brand new"},
-    {locale: "en", key: "propertyStates.segundaMano", value: "Second hand"},
-    {locale: "en", key: "propertyStates.nuevo", value: "New"},
-    {locale: "en", key: "propertyStates.enConstruccion", value: "Under construction"},
-    {locale: "en", key: "propertyStates.aReformar", value: "Needs refurbishing"},
-    {locale: "en", key: "extras.porche", value: "Porch"},
-    {locale: "en", key: "propertyTypes.edificioResidencial", value: "Residential building"},
-    {locale: "en", key: "propertyTypes.villa", value: "Villa"},
 
 
     # {locale: "en", key: "navbar.home", value: "Home"},

@@ -1,5 +1,5 @@
 # load File.join(Rails.root, 'db', 'seeds', 'translations.rb')
-unless I18n::Backend::ActiveRecord::Translation.all.length > 10
+# unless I18n::Backend::ActiveRecord::Translation.all.length > 10
   I18n::Backend::ActiveRecord::Translation.create!(
     [
       {locale: "ru", key: "extras.aireAcondicionado", value: "Кондиционер", interpolations: [], is_proc: false},
@@ -211,8 +211,5 @@ unless I18n::Backend::ActiveRecord::Translation.all.length > 10
 
       {locale: "ru", key: "propertyTypes.casaRural", value: "undefined", interpolations: [], is_proc: false},
       {locale: "ca", key: "propertyTypes.casaRural", value: "Casa Rural", interpolations: [], is_proc: false},
-
   ])
-
-
-end
+# end

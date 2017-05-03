@@ -10,9 +10,13 @@ module Pwb
         # unless ENV["RAILS_ENV"] == "test"
         #   load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations.rb')
         # end
-        unless I18n::Backend::ActiveRecord::Translation.all.length > 10
+        unless I18n::Backend::ActiveRecord::Translation.all.length > 20
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_en.rb')
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_es.rb')
+          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_de.rb')
+          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_fr.rb')
+          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_pt.rb')
+          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_others.rb')
         end
 
         seed_content 'content_columns.yml'
