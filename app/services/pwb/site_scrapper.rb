@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
+require 'faraday'
 
 
 module Pwb
@@ -11,7 +12,25 @@ module Pwb
     end
 
     def retrieve_from_api
-      
+      conn = Faraday.new(:url => target_url) do |faraday|
+        # faraday.basic_auth('', '')
+        faraday.request  :url_encoded             # form-encode POST params
+        faraday.response :logger                  # log requests to STDOUT
+        faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+      end
+      response = conn.get "/api_public/v1/props.json"
+
+      response_as_json = JSON.parse response.body
+      retrieved_properties = []
+      count = 0
+      response_as_json["data"].each do |property|
+        if count < 100
+          mapped_property = ImportMapper.new("api_pwb").map_property(property["attributes"])
+          retrieved_properties.push mapped_property
+        end
+        count += 1
+      end
+      return retrieved_properties
     end
 
     def retrieve_from_webpage
