@@ -11,7 +11,7 @@ module Pwb
 
       target_url = params[:url]
 
-      retrieved_properties = Pwb::SiteScrapper.new(target_url).retrieve()
+      retrieved_properties = Pwb::SiteScrapper.new(target_url).retrieve_from_webpage()
 
       return render json: retrieved_properties
     end
