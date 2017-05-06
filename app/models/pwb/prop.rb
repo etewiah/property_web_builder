@@ -82,7 +82,7 @@ module Pwb
     # each with a value of true or false
     def set_extras=(extras_json)
       extras_json.keys.each do |extra|
-        if extras_json[extra] == "true"
+        if extras_json[extra] == "true" || extras_json[extra] == true
           features.find_or_create_by( feature_key: extra)
         else
           features.where( feature_key: extra).delete_all

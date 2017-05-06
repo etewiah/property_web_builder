@@ -23,7 +23,19 @@ module Pwb
           existing_props.push propertyJSON
         else
           begin
-            new_prop = Pwb::Prop.create propertyJSON
+            new_prop = Pwb::Prop.create propertyJSON.except "extras", "property_photos"
+            if propertyJSON["extras"]
+              new_prop.set_extras=propertyJSON["extras"]
+            end
+            if propertiesJSON["property_photos"]
+              propertyJSON["property_photos"].each do |property_photo|
+                photo = PropPhoto.create
+                photo.remote_image_url = property_photo["image"]["url"]
+                photo.save!
+                new_prop.prop_photos.push photo
+              end
+            end
+
             new_props.push new_prop
           rescue => err
             errors.push err.message

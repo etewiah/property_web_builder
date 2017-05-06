@@ -63,8 +63,10 @@ Pwb::Engine.routes.draw do
     namespace :import do
       get "/mls_experiment" => "mls#experiment"
       get "/mls" => "mls#retrieve"
-      get "/scrapper" => "scrapper#retrieve"
+      get "/scrapper" => "scrapper#from_webpage"
+      get "/scrapper/from_api" => "scrapper#from_api"
       post "/properties/retrieve_from_pwb" => "properties#retrieve_from_pwb"
+      post "/properties/retrieve_from_mls" => "properties#retrieve_from_mls"
       post "/properties/retrieve_from_mls" => "properties#retrieve_from_mls"
       post "/translations" => "translations#multiple"
       post "/web_contents" => "web_contents#multiple"

@@ -9,6 +9,6 @@ module Pwb
     use_multiple_files
     # when adding new files, need to restart server and ensure correct name
     # is used in corresponding json file
-    set_filenames "mls_interealty", "mls_mris", "mls_csv_jon", "mls_olr"
+    set_filenames "mls_interealty", "mls_mris", "mls_csv_jon", "mls_olr", "api_pwb"
   end
 end
