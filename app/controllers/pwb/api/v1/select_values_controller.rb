@@ -25,7 +25,6 @@ module Pwb
       #   return render json: { clients: clients_array}
       # end
 
-
       field_names_array = field_names_string.split(",")
       # above might return something like
       # ["extras"] or
@@ -43,9 +42,7 @@ module Pwb
         translation_keys = FieldKey.where(tag: field_name_id).visible.pluck("global_key")
         select_values[field_name_id] = translation_keys
       end
-      return render json: select_values
+      render json: select_values
     end
-
   end
 end
-

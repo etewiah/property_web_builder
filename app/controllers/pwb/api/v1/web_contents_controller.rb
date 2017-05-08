@@ -4,7 +4,6 @@ module Pwb
     # without having set mime type
     skip_before_action :ensure_valid_accept_media_type
 
-
     # below is used by logo_photo and about_us_photo,
     # where only one photo is allowed
     def update_photo
@@ -19,7 +18,7 @@ module Pwb
           photo = ContentPhoto.create
           content.content_photos.push photo
         end
-        # TODO - handle where no photo or content_tag..
+        # TODO: - handle where no photo or content_tag..
       end
 
       if params[:file]
@@ -27,7 +26,7 @@ module Pwb
       end
       photo.save!
       photo.reload
-      return render json: photo.to_json
+      render json: photo.to_json
     end
 
     # below used when uploading carousel images
@@ -74,12 +73,10 @@ module Pwb
       #   end
       # end
 
-
-      return render json: serializer.serialize_to_hash(resource)
+      render json: serializer.serialize_to_hash(resource)
 
       # return render json: new_content.to_json
       # return render :json => { :error => "Sorry...", :status => "444", :data => "ssss" }, :status => 422
     end
-
   end
 end

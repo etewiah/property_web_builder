@@ -2,11 +2,10 @@ require_dependency "pwb/application_controller"
 
 module Pwb
   class Api::V1::AgencyController < ApplicationApiController
-
     # protect_from_forgery with: :null_session
 
     def infos
-      return render json: {
+      render json: {
         data: []
       }
     end
@@ -50,7 +49,7 @@ module Pwb
         # @agency.style_variables = params[:agency][:style_variables]
         @agency.save!
       end
-      return render json: @agency
+      render json: @agency
     end
 
     # def update_legacy
@@ -74,7 +73,6 @@ module Pwb
     #   return render json: { "success": true }, status: :ok, head: :no_content
     # end
 
-
     def update_master_address
       @agency = Agency.last
       if @agency.primary_address
@@ -86,7 +84,7 @@ module Pwb
         @agency.save!
         # @agency.primary_address = Address.create(address_params)
       end
-      return render json: @agency.primary_address
+      render json: @agency.primary_address
     end
 
     private
@@ -96,9 +94,9 @@ module Pwb
         :street_address, :street_number,
         :postal_code, :city,
         :region, :country,
-      :longitude, :latitude)
+      :longitude, :latitude
+)
     end
-
 
     def agency_params
       params.require(:agency).permit(
@@ -108,8 +106,8 @@ module Pwb
         :company_name, :display_name,
         :phone_number_primary, :phone_number_other,
         :theme_name, :default_currency,
-      supported_locales: [])
+      supported_locales: []
+)
     end
-
   end
 end

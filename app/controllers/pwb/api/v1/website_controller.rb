@@ -2,7 +2,6 @@ require_dependency "pwb/application_controller"
 
 module Pwb
   class Api::V1::WebsiteController < ApplicationApiController
-
     # protect_from_forgery with: :null_session
 
     def update
@@ -16,7 +15,7 @@ module Pwb
         @website.style_variables = params[:website][:style_variables]
         @website.save!
       end
-      return render json: @website
+      render json: @website
     end
 
     private
@@ -26,8 +25,8 @@ module Pwb
         :company_name, :display_name, :default_area_unit,
         :phone_number_primary, :phone_number_other,
         :theme_name, :default_currency, :default_client_locale,
-      supported_locales: [])
+      supported_locales: []
+)
     end
-
   end
 end

@@ -7,7 +7,7 @@ module Pwb
       themes.each do |theme|
         @themes_array.push theme.as_json["attributes"]
       end
-      return render json: @themes_array
+      render json: @themes_array
     end
   end
 end

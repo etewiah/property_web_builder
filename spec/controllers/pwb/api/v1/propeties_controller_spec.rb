@@ -19,7 +19,7 @@ module Pwb
 
           expect{
             post :bulk_create, params: propertiesJSON
-          }.to change(Prop,:count).by(2)
+          }.to change(Prop,:count).by(4)
           expect(response.status).to eq(200)
           expect(response.content_type).to eq('application/json')
 

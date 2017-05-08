@@ -21,8 +21,7 @@ module Pwb
         return render json: { :error => "Please provide url."}, :status => 422
       end
       target_url = params[:url]
-
-      "https://propertywebbuilder.herokuapp.com"
+      # "https://propertywebbuilder.herokuapp.com"
 
       retrieved_properties = Pwb::SiteScrapper.new(target_url).retrieve_from_api()
 
