@@ -73,11 +73,11 @@
 
     "property-photos": {
       "fieldName": "property_photos",
-      "default": 0
+      "default": []
     },
     "extras": {
       "fieldName": "extras",
-      "default": 0
+      "default": []
     },
 
 
