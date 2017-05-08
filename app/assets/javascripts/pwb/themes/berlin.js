@@ -125,9 +125,9 @@ INMOAPP.sortSearchResults = function() {
   }
 };
 INMOAPP.truncateDescriptions = function() {
-  $(".truncated_description").each(function(el) {
-    var trimmedString = $(this)[0].textContent.trim().substring(0, 200);
-    $(this).html(trimmedString);
-    $(this).show();
-  });
+  // $(".truncated_description").each(function(el) {
+  //   var trimmedString = $(this)[0].textContent.trim().substring(0, 200);
+  //   $(this).html(trimmedString);
+  //   $(this).show();
+  // });
 };
