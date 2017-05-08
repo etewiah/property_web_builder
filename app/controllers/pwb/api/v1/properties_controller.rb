@@ -27,10 +27,11 @@ module Pwb
             if propertyJSON["extras"]
               new_prop.set_extras=propertyJSON["extras"]
             end
-            if propertiesJSON["property_photos"]
+            if propertyJSON["property_photos"]
               propertyJSON["property_photos"].each do |property_photo|
                 photo = PropPhoto.create
-                photo.remote_image_url = property_photo["image"]["url"]
+                photo.sort_order = property_photo["sort_order"] || nil
+                photo.remote_image_url = property_photo["image"]["url"] || property_photo["url"]
                 photo.save!
                 new_prop.prop_photos.push photo
               end
@@ -38,6 +39,7 @@ module Pwb
 
             new_props.push new_prop
           rescue => err
+            # binding.pry
             errors.push err.message
             # logger.error err.message
           end

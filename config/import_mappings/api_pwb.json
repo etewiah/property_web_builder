@@ -83,31 +83,31 @@
 
     "street-number": {
       "fieldName": "street_number",
-      "default": 0
+      "default": ""
     },
     "street-address": {
       "fieldName": "street_address",
-      "default": 0
+      "default": ""
     },
     "postal-code": {
       "fieldName": "postal_code",
-      "default": 0
+      "default": ""
     },
     "street-name": {
       "fieldName": "street_name",
-      "default": 0
+      "default": ""
     },
     "city": {
       "fieldName": "city",
-      "default": 0
+      "default": ""
     },
     "region": {
       "fieldName": "region",
-      "default": 0
+      "default": ""
     },
     "country": {
       "fieldName": "country",
-      "default": 0
+      "default": ""
     },
     "longitude": {
       "fieldName": "longitude",
@@ -120,15 +120,15 @@
 
     "prop-origin-key": {
       "fieldName": "prop_origin_key",
-      "default": 0
+      "default": ""
     },
     "prop-state-key": {
       "fieldName": "prop_state_key",
-      "default": 0
+      "default": ""
     },
     "prop-type-key": {
       "fieldName": "prop_type_key",
-      "default": 0
+      "default": ""
     },
     "for-sale": {
       "fieldName": "for_sale",

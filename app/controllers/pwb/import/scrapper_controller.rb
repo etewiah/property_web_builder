@@ -20,8 +20,9 @@ module Pwb
       unless params[:url].present?
         return render json: { :error => "Please provide url."}, :status => 422
       end
-      target_url = "https://propertywebbuilder.herokuapp.com"
-      # params[:url]
+      target_url = params[:url]
+
+      "https://propertywebbuilder.herokuapp.com"
 
       retrieved_properties = Pwb::SiteScrapper.new(target_url).retrieve_from_api()
 

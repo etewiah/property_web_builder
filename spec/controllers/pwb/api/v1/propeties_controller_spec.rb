@@ -16,6 +16,7 @@ module Pwb
             propertiesJSON: bulk_create_input
           }
 
+
           expect{
             post :bulk_create, params: propertiesJSON
           }.to change(Prop,:count).by(2)
