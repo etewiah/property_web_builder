@@ -79,16 +79,16 @@
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.domotica
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: extras.electrodomesticos
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.domotica
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: extras.electrodomesticos
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: extras.energiaSolar
   tag: extras
   visible: true
@@ -114,11 +114,11 @@
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.internet
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.internet
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: extras.jacuzzi
   tag: extras
   visible: true
@@ -234,16 +234,16 @@
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.cercaDelMar
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: extras.cercaDelAeropuerto
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.cercaDelMar
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: extras.cercaDelAeropuerto
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 # - global_key: extras.cercaDeServicios
 #   tag: extras
 #   visible: true

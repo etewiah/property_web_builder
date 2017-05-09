@@ -6,7 +6,15 @@ email_for_property_contact_form:
 # contact_address_id:
 flags: 0
 configuration: {}
-style_variables_for_theme: {}
+style_variables_for_theme: {      
+  default:  {
+      primary_color: "#e91b23", # red
+      secondary_color: "#3498db", # blue
+      action_color: "green",
+      body_style: "siteLayout.wide",
+      theme: "light"
+    }
+  }
 google_font_name: 
 theme_name: 
 supported_currencies: []
