@@ -3,6 +3,12 @@
 }
 */
 /*below for button on contact form*/
+/*.btn-base {
+  color: #fff !important;
+  background-color: #3498db;
+  border: 1px solid;
+  border-color: #258cd1
+}*/
 .btn-base:hover, .btn-base:focus, .btn-base:active, .btn-base.active, .open .dropdown-toggle.btn-base {
     color: #fff;
     background-color: <%= @current_website.style_variables["action_color"] %>;
@@ -59,8 +65,32 @@ nav.venta_alquiler a:hover {
 .panel-base .panel-heading,
 .primary-image:hover,
 .thumbnail-images a:hover {
-  background: <%= @current_website.style_variables["primary_color"] %> !important;
+  background: <%= @current_website.style_variables["secondary_color"] %> !important;
   color: #fff;
+}
+
+.navbar-wp .navbar-nav > li > a:hover,
+.navbar-wp .navbar-nav > li > a:focus {
+  color: #fff;
+  background-color: <%= @current_website.style_variables["primary_color"] %>;
+  border-top: 4px solid <%= @current_website.style_variables["primary_color"] %>;
+}
+
+/*.navbar-toggle:hover,
+.navbar-toggle:focus {
+  background-color: #3498db;
+  border-color: #3498db;
+}*/
+
+header .text-navbar-brand {
+  color: <%= @current_website.style_variables["secondary_color"] %>
+}
+.ver_inmueble, .action_link {
+  color: <%= @current_website.style_variables["action_color"] %>
+}
+
+.precio {
+  color: <%= @current_website.style_variables["action_color"] %>;
 }
 
 .tabs li.active a {

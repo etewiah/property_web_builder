@@ -3,7 +3,7 @@
     data-price="<%= property.contextual_price @operation_type  %>" >
         <!-- data-price above used for client side sorting with paloma -->
         <% if property.highlighted %>
-          <div class="prop-listing-header fondo_principal">
+          <div class="prop-listing-header fondo_secundario">
             <%= t "property.highlightedProperty" %>
           </div>
         <% end %>
@@ -17,7 +17,7 @@
         <div class="prop-listing-body col-xs-12 col-sm-7 col-md-8" style="padding-bottom:0;">
           <div class="prop-listing-text">
             <h3>
-              <%= link_to property.contextual_show_path( @operation_type ) do %>
+              <%= link_to property.contextual_show_path( @operation_type ), class: "action_link" do %>
                 <%= property.title %>
               <% end %>
             </h3>
@@ -30,7 +30,7 @@
           </div>
           <div class="meta-info">
             <div>
-                          <%= link_to property.contextual_show_path( @operation_type ), :class => "ver_inmueble" do %>
+             <%= link_to property.contextual_show_path( @operation_type ), :class => "ver_inmueble" do %>
               <i class="fa fa-chevron-right"></i>
               <%= t "property.goToProperty" %>
             <% end %>

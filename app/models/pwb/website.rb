@@ -53,6 +53,9 @@ module Pwb
       locale.split("-")[0]
     end
 
+
+    # admin client & default.css.erb uses style_variables
+    # but it is stored as style_variables_for_theme
     def style_variables
       default_style_variables = {
         "primary_color" => "#e91b23", # red
@@ -61,16 +64,16 @@ module Pwb
         "body_style" => "siteLayout.wide",
         "theme" => "light"
       }
-      style_variables_for_theme["style_variables"] || default_style_variables
+      style_variables_for_theme["default"] || default_style_variables
     end
 
     def style_variables=(style_variables)
-      style_variables_for_theme["style_variables"] = style_variables
+      style_variables_for_theme["default"] = style_variables
     end
 
     def body_style
       body_style = ""
-      if style_variables_for_theme["style_variables"] && (style_variables_for_theme["style_variables"]["body_style"] == "siteLayout.boxed")
+      if style_variables_for_theme["default"] && (style_variables_for_theme["default"]["body_style"] == "siteLayout.boxed")
         body_style = "body-boxed"
       end
       body_style
