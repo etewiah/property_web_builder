@@ -41,3 +41,16 @@ gem 'globalize', git: 'https://github.com/globalize/globalize'
 ```bash
 $ bundle
 ```
+Установитe PropertyWebBuilder, добавив следующие строки в файл routes.rb
+
+```ruby
+mount Pwb::Engine => '/'
+```
+И запустите следующие команды из коносоли:
+
+```bash
+rails pwb:install:migrations
+rails db:create
+rails db:migrate
+rails pwb:db:seed
+```
