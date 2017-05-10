@@ -1,0 +1,28 @@
+footer .col p {
+  color: #ccc;
+  font-size: 13px;
+  margin-bottom: 10px
+}
+
+footer {
+  .footer-extra {
+    /*color: #ccc;*/
+    font-size: 13px;
+    /*margin-bottom: 10px;*/
+    /*display: flex;*/
+    margin-top: auto;
+  }
+  .social-default i {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    color: #333;
+    border-radius: 2px;
+  }
+}

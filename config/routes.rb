@@ -13,26 +13,27 @@ Pwb::Engine.routes.draw do
   authenticate :user do
     get "/admin" => "admin_panel#show"
     get "/admin/*path" => "admin_panel#show"
-    scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar/ do
+    scope "(:locale)", locale: /en|nl|es|fr|de|pt|it/ do
       get "/admin" => "admin_panel#show", as: "admin_with_locale"
       get "/admin/*path" => "admin_panel#show"
     end
   end
 
-  get "/agency_css" => "css#agency_css", as: "agency_css"
+  get "/custom_css" => "css#custom_css", as: "custom_css"
 
   # TODO - get locales dynamically
-  scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar/ do
+  scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar|ru/ do
     # https://github.com/plataformatec/devise/wiki/How-To:-Use-devise-inside-a-mountable-engine
     devise_for :users, class_name: "Pwb::User", module: :devise
 
     get "/" => "welcome#index", as: "home"
+    get "/p/:page_slug" => "sections#generic_page", as: "generic_page"
 
     get "/properties/for-rent/:id/:url_friendly_title" => "props#show_for_rent", as: "prop_show_for_rent"
     get "/properties/for-sale/:id/:url_friendly_title" => "props#show_for_sale", as: "prop_show_for_sale"
 
     get "/about-us" => "sections#about_us"
-    get "/sell" => "sections#sell"
+    # get "/sell" => "sections#sell"
     get "/buy" => "search#buy"
     get "/rent" => "search#rent"
 
@@ -60,6 +61,13 @@ Pwb::Engine.routes.draw do
 
   authenticate :user do
     namespace :import do
+      get "/mls_experiment" => "mls#experiment"
+      get "/mls" => "mls#retrieve"
+      get "/scrapper" => "scrapper#from_webpage"
+      get "/scrapper/from_api" => "scrapper#from_api"
+      post "/properties/retrieve_from_pwb" => "properties#retrieve_from_pwb"
+      post "/properties/retrieve_from_mls" => "properties#retrieve_from_mls"
+      post "/properties/retrieve_from_mls" => "properties#retrieve_from_mls"
       post "/translations" => "translations#multiple"
       post "/web_contents" => "web_contents#multiple"
     end
@@ -97,16 +105,21 @@ Pwb::Engine.routes.draw do
         # get "/web-contents" => "agency#infos"
         jsonapi_resources :lite_properties
         jsonapi_resources :properties
-        jsonapi_resources :sections
+        # jsonapi_resources :sections
         jsonapi_resources :web_contents
 
+        get "/sections" => "sections#index"
+        put "/sections" => "sections#bulk_update"
+
         get "/themes" => "themes#index"
+        get "/mls" => "mls#index"
         get "/select_values" => "select_values#by_field_names"
 
         # TODO - rename properties below to prop
         post "properties/update_extras" => "properties#update_extras"
 
         delete "properties/photos/:id" => "properties#remove_photo"
+        post '/properties/bulk_create' => 'properties#bulk_create'
         post '/properties/:id/photo' => 'properties#add_photo'
         post '/properties/:id/photo_from_url' => 'properties#add_photo_from_url'
         put "properties/:id/order_photos" => "properties#order_photos"

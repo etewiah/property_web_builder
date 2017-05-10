@@ -1,16 +1,13 @@
 [{
-  "name": "chic",
-  "friendly_name": "Chic Theme",
-  "id": "chic"
-}, {
   "name": "default",
   "friendly_name": "Default Theme",
-  "id": "default"
+  "id": "default",
+  "screenshots": [
+    "http://propertywebbuilder.com/images/rerenting-landing_framed.png",
+    "http://propertywebbuilder.com/images/rerenting-landing_framed.png"
+  ]
 }, {
-  "name": "oslo",
-  "friendly_name": "Oslo Theme",
-  "id": "oslo"
-}, {
+
   "name": "berlin",
   "friendly_name": "Berlin Theme",
   "id": "berlin"

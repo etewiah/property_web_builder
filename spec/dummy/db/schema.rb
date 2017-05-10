@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170222100759) do
+ActiveRecord::Schema.define(version: 20170428170615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(version: 20170222100759) do
     t.string   "target_url"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.string   "section_key"
     t.index ["key"], name: "index_pwb_contents_on_key", unique: true, using: :btree
   end
 
@@ -210,9 +211,9 @@ ActiveRecord::Schema.define(version: 20170222100759) do
     t.datetime "active_from"
     t.datetime "available_to_rent_from"
     t.datetime "available_to_rent_till"
-    t.integer  "price_sale_current_cents",                      default: 0,     null: false
+    t.bigint   "price_sale_current_cents",                      default: 0,     null: false
     t.string   "price_sale_current_currency",                   default: "EUR", null: false
-    t.integer  "price_sale_original_cents",                     default: 0,     null: false
+    t.bigint   "price_sale_original_cents",                     default: 0,     null: false
     t.string   "price_sale_original_currency",                  default: "EUR", null: false
     t.integer  "price_rental_monthly_current_cents",            default: 0,     null: false
     t.string   "price_rental_monthly_current_currency",         default: "EUR", null: false
@@ -260,13 +261,30 @@ ActiveRecord::Schema.define(version: 20170222100759) do
     t.index ["visible"], name: "index_pwb_props_on_visible", using: :btree
   end
 
+  create_table "pwb_section_translations", force: :cascade do |t|
+    t.integer  "pwb_section_id",              null: false
+    t.string   "locale",                      null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.string   "page_title",     default: ""
+    t.string   "link_title",     default: ""
+    t.index ["locale"], name: "index_pwb_section_translations_on_locale", using: :btree
+    t.index ["pwb_section_id"], name: "index_pwb_section_translations_on_pwb_section_id", using: :btree
+  end
+
   create_table "pwb_sections", force: :cascade do |t|
     t.string   "link_key"
     t.string   "link_path"
     t.integer  "sort_order"
     t.boolean  "visible"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "flags",           default: 0,     null: false
+    t.json     "details",         default: {}
+    t.boolean  "is_page",         default: false
+    t.boolean  "show_in_top_nav", default: false
+    t.boolean  "show_in_footer",  default: false
+    t.string   "key"
     t.index ["link_key"], name: "index_pwb_sections_on_link_key", unique: true, using: :btree
   end
 

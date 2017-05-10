@@ -274,7 +274,7 @@ jQuery(function($){
   //Check to see if the window is top if not then display button
 
     jQuery(window).scroll(function(){
-      if (jQuery(this).scrollTop() > 300) {
+      if (jQuery(this).scrollTop() > 900) {
         jQuery('.scrollToTop').fadeIn();
       } else {
         jQuery('.scrollToTop').fadeOut();

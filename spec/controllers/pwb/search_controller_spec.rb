@@ -32,6 +32,5 @@ module Pwb
       #   })).to render_template(["pwb/search/buy", "pwb/_header", "pwb/_footer", "paloma/_hook"])
       # end
     end
-
   end
 end

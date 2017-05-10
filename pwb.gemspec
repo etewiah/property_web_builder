@@ -44,13 +44,19 @@ Gem::Specification.new do |s|
   s.add_dependency 'cloudinary'
   s.add_dependency 'rets'
   s.add_dependency 'active_hash'
+  s.add_dependency 'nokogiri'
+  s.add_dependency 'faraday'
+  s.add_dependency 'ruby_odata'
 
   # s.add_dependency 'redis'
   # # logster gem has to be after redis..
   # s.add_dependency 'logster'
 
   s.add_development_dependency 'byebug'
-  # s.add_development_dependency 'pg'
+  s.add_development_dependency 'vcr'
+  s.add_development_dependency 'webmock'
+  # s.add_development_dependency 'airborne'
+  # s.add_development_dependency 'json_matchers'
 
   # s.add_development_dependency 'rspec-rails'
   # s.add_development_dependency 'capybara'

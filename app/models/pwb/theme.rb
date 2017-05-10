@@ -10,6 +10,7 @@ module Pwb
     # self.primary_key = :name
 
     include ActiveHash::Associations
-    has_one :agency, foreign_key: "theme_name", class_name: "Pwb::Agency", primary_key: "name"
+    # has_one :agency, foreign_key: "theme_name", class_name: "Pwb::Agency", primary_key: "name"
+    has_one :website, foreign_key: "theme_name", class_name: "Pwb::Website", primary_key: "name"
   end
 end

@@ -95,6 +95,8 @@ fr:
     buy: "Acheter"
     rent: "Louer"
     contactUs: "Contacter"
+    legalAdvice: "Informations légales"
+    privacyPolicy: "Politique de confidentialité"
 
   menu_admin: "admin"
 
@@ -137,5 +139,52 @@ fr:
     contactInformation: "Information de contact" 
     sell: "Vendre"
     tagLine: "Lema"
+  mailers:
+    welcome: "Bienvenue"
+    confirm_registration: "Confirmez votre compte à travers de ce lien"
+    received_on: "Reçu"
+    from: "De"
+    phone: "Telf"
+    message: "Message"
+    property: "Propriété"
+    general_enquiry_targeting_enquirer:
+      subject: "Merci de vous être mis en contact avec nous"
+      message_title: ""
+    general_enquiry_targeting_agency:
+      title: "Contact depuis votre site web"
+    property_enquiry_targeting_agency:
+      title: "Demandez plus d' informations"
+  simple_form:
+    "yes": "Oui"
+    "no": "Non"
+    required:
+      text: "obligatoire"
+      mark: "*"
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>''
+    labels:
+      search:
+        for_rent_price_from: "Louer à partir de (Mensuel)"
+        for_rent_price_till: "Louer jusqu'à (Mensuel)"
+        for_sale_price_from: "Prix à partir"
+        for_sale_price_till: "Prix jusqu'à"
+        count_bedrooms: "Chambres (min)"
+        count_bathrooms: "Salles de bain (min)"
+        property_type: "Type de propriété"
+        property_state: "Etat"
+        locality: "Localité"
+        in_locality: "Localité"
+        in_zone: "Zone"
+    # hints:
+    #   search:
+    #     price_from: "User name to sign in."
+    #     price_till: "No special characters, please."
+    # placeholders:
+    #   search:
+    #     price_from: "Your username"
+    #     price_till: "****"
+    error_notification:
+      default_message: "Veuillez corriger le problème suivant s.v.p :"
 
 

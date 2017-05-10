@@ -11,10 +11,10 @@ module Pwb
           # below will throw an error if no translations exist
           # original_pt_count = I18n.t("propertyTypes").count
           new_translation_params = {
-            locale:"en",
-            i18n_value:"Flat",
-            i18n_key:"flat",
-            batch_key:"property-types"
+            locale: "en",
+            i18n_value: "Flat",
+            i18n_key: "flat",
+            batch_key: "property-types"
           }
           put :create_translation_value, params: new_translation_params
           expect(response.status).to eq(200)
@@ -23,9 +23,8 @@ module Pwb
           expect(I18n::Backend::ActiveRecord::Translation.last.key).to eq(new_translation_params[:batch_key].underscore.camelcase(:lower) + "." + new_translation_params[:i18n_key])
           # result = JSON.parse(response.body)
           # expect(I18n.t("propertyTypes").count).to eq(original_pt_count + 1)
-          expect(I18n.t(I18n::Backend::ActiveRecord::Translation.last.key)).to eq(new_translation_params[:i18n_value])    
+          expect(I18n.t(I18n::Backend::ActiveRecord::Translation.last.key)).to eq(new_translation_params[:i18n_value])
         end
-
       end
       describe 'GET #get_by_batch' do
         it 'renders correct json' do
@@ -41,7 +40,6 @@ module Pwb
           expect(result).to have_key('batch_key')
           expect(result).to have_key('translations')
           # expect(result['agency']['company_name']).to eq(agency.company_name)
-
         end
       end
     end

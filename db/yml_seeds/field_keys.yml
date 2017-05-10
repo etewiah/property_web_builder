@@ -29,11 +29,11 @@
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.armariosEmpotrados
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.armariosEmpotrados
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: extras.ascensor
   tag: extras
   visible: true
@@ -44,16 +44,16 @@
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.banoTurco
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: extras.buenaOrientacion
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.banoTurco
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: extras.buenaOrientacion
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: extras.calefaccionCentral
   tag: extras
   visible: true
@@ -69,26 +69,26 @@
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.cocinaAmericana
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.cocinaAmericana
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: extras.cocinaIndependiente
   tag: extras
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.domotica
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: extras.electrodomesticos
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.domotica
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: extras.electrodomesticos
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: extras.energiaSolar
   tag: extras
   visible: true
@@ -104,21 +104,21 @@
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.gresCeramica
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.gresCeramica
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: extras.horno
   tag: extras
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.internet
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.internet
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: extras.jacuzzi
   tag: extras
   visible: true
@@ -174,11 +174,11 @@
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.puertaBlindada
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.puertaBlindada
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: extras.sauna
   tag: extras
   visible: true
@@ -224,31 +224,31 @@
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.zComunitaria
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.zComunitaria
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: extras.zonaDeportiva
   tag: extras
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.cercaDelMar
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: extras.cercaDelAeropuerto
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: extras.cercaDeServicios
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.cercaDelMar
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: extras.cercaDelAeropuerto
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: extras.cercaDeServicios
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: extras.calefaccionGasCiudad
   tag: extras
   visible: true
@@ -264,46 +264,46 @@
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.sueloRadiante
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: extras.tarimaFlotante
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: extras.paredesLisas
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: extras.gotele
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.sueloRadiante
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: extras.tarimaFlotante
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: extras.paredesLisas
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: extras.gotele
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: extras.semiamueblado
   tag: extras
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.vistasALaSierra
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.vistasALaSierra
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: extras.chimenea
   tag: extras
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.cocinaFrancesa
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.cocinaFrancesa
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: extras.barbacoa
   tag: extras
   visible: true
@@ -329,31 +329,31 @@
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: extras.vistasAlJardin
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: extras.urbanizacion
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: extras.zonaTranquila
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: extras.escaparate
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: extras.techoDeMas3Mtos
-  tag: extras
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: extras.vistasAlJardin
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: extras.urbanizacion
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: extras.zonaTranquila
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: extras.escaparate
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: extras.techoDeMas3Mtos
+#   tag: extras
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: extras.aireAcondicionado
   tag: extras
   visible: true
@@ -384,16 +384,16 @@
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: propertyTypes.duplex
-  tag: property-types
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: propertyTypes.nave
-  tag: property-types
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: propertyTypes.duplex
+#   tag: property-types
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: propertyTypes.nave
+#   tag: property-types
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: propertyTypes.piso
   tag: property-types
   visible: true
@@ -444,36 +444,36 @@
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: propertyTypes.semiatico
-  tag: property-types
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: propertyTypes.posesion
-  tag: property-types
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: propertyTypes.majorcanPosesion
-  tag: property-types
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: propertyTypes.semiatico
+#   tag: property-types
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: propertyTypes.posesion
+#   tag: property-types
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: propertyTypes.majorcanPosesion
+#   tag: property-types
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: propertyTypes.edificioResidencial
   tag: property-types
   visible: true
   props_count: 0
   show_in_search_form: true
-- global_key: propertyTypes.plantaBajaConJardin
-  tag: property-types
-  visible: true
-  props_count: 0
-  show_in_search_form: true
-- global_key: propertyTypes.fincaRustica
-  tag: property-types
-  visible: true
-  props_count: 0
-  show_in_search_form: true
+# - global_key: propertyTypes.plantaBajaConJardin
+#   tag: property-types
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
+# - global_key: propertyTypes.fincaRustica
+#   tag: property-types
+#   visible: true
+#   props_count: 0
+#   show_in_search_form: true
 - global_key: propertyOrigin.bank
   tag: property-origins
   visible: true

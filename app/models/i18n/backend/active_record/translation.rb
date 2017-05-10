@@ -55,16 +55,14 @@ module I18n
         serialize :interpolations, Array
 
         class << self
-
-
           def import(file)
             # byebug
             CSV.foreach(file.path, headers: true) do |row|
               if row.to_hash["locale"].present? && row.to_hash["key"].present?
                 # Translation.create! row.to_hash
                 trsl = find_by_key(row["key"]) || new
-                trsl.attributes = row.to_hash.slice("key","value","locale")
-                  # *accessible_attributes)
+                trsl.attributes = row.to_hash.slice("key", "value", "locale")
+                # *accessible_attributes)
                 trsl.save!
               end
             end

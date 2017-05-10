@@ -1,0 +1,56 @@
+<!-- TODO - delete - not in use from may 2017 -->
+      <li class="property-item <%= 'featured' if property.highlighted %> cuadro_inmueble" 
+    data-price="<%= property.contextual_price @operation_type  %>" >
+        <!-- data-price above used for client side sorting with paloma -->
+        <% if property.highlighted %>
+          <div class="listing-header fondo_principal">
+            <%= t "property.highlightedProperty" %>
+          </div>
+        <% end %>
+        <div class="listing-image">
+          <%= link_to property.contextual_show_path( @operation_type ) do %>
+            <img src="<%= property.ordered_photo_url 1 %>" class="img-responsive" alt="">
+          <% end %>
+        </div>
+        <div class="listing-body" style="padding-bottom:0;">
+          <div class="listing-text">
+            <h3>
+              <%= link_to property.contextual_show_path( @operation_type ) do %>
+                <%= property.title %>
+              <% end %>
+            </h3>
+            <div>
+              <%= property.reference %>
+            </div>
+            <div class="truncated_description" style="display:none;">
+              <%== property.description %>
+            </div>
+          </div>
+          <div class="meta-info">
+            <ul>
+              <li><span class="precio negrita">
+                  <%= property.contextual_price_with_currency @operation_type  %>
+                </span></li>
+              <li class="hidden-xs"><i class="fa fa-bed"></i> <small>
+                  <%= property.count_bedrooms %>
+                </small></li>
+              <li class="hidden-xs"><i class="fa fa-tint"></i> <small>
+                  <%= property.count_bathrooms %>
+                </small></li>
+              <li class="hidden-xs"><i class="fa fa-arrows-alt"></i> <small>
+                  <%= property.constructed_area %> <%= area_unit property %>
+                </small></li>
+              <li class="hidden-xs"><i class="fa fa-car"></i> <small>
+                  <%= property.count_garages %>
+                </small></li>
+              <li class="hidden text-right">&nbsp;</li>
+            </ul>
+            </div>
+
+          <% if property.highlighted && (property.contextual_price_with_currency @operation_type) %>
+            <div style="" class="ribbon dark fondo_accion"><span>
+                <%= property.contextual_price_with_currency @operation_type  %>
+              </span></div>
+          <% end %>
+        </div>
+      </li>

@@ -53,6 +53,9 @@ module Pwb
       locale.split("-")[0]
     end
 
+
+    # admin client & default.css.erb uses style_variables
+    # but it is stored as style_variables_for_theme
     def style_variables
       default_style_variables = {
         "primary_color" => "#e91b23", # red
@@ -61,32 +64,32 @@ module Pwb
         "body_style" => "siteLayout.wide",
         "theme" => "light"
       }
-      style_variables_for_theme["style_variables"] || default_style_variables
+      style_variables_for_theme["default"] || default_style_variables
     end
 
     def style_variables=(style_variables)
-      style_variables_for_theme["style_variables"] = style_variables
+      style_variables_for_theme["default"] = style_variables
     end
 
     def body_style
       body_style = ""
-      if style_variables_for_theme["style_variables"] && (style_variables_for_theme["style_variables"]["body_style"] == "siteLayout.boxed")
+      if style_variables_for_theme["default"] && (style_variables_for_theme["default"]["body_style"] == "siteLayout.boxed")
         body_style = "body-boxed"
       end
       body_style
     end
 
 
-    def custom_css_file
-      # used by css_controller to decide which file to compile
-      # with user set variables.
-      # 
-      custom_css_file = "standard"
-      # if self.site_template.present? && self.site_template.custom_css_file
-      #   custom_css_file = self.site_template.custom_css_file
-      # end
-      custom_css_file
-    end
+    # def custom_css_file
+    #   # used by css_controller to decide which file to compile
+    #   # with user set variables.
+    #   #
+    #   custom_css_file = "standard"
+    #   # if self.site_template.present? && self.site_template.custom_css_file
+    #   #   custom_css_file = self.site_template.custom_css_file
+    #   # end
+    #   custom_css_file
+    # end
 
     def logo_url
       logo_url = nil
@@ -95,6 +98,14 @@ module Pwb
         logo_url = logo_content.content_photos.first.image_url
       end
       logo_url
+    end
+
+    def theme_name=(theme_name_value)
+      theme_with_name_exists = Pwb::Theme.where(name: theme_name_value).count > 0
+      if theme_with_name_exists
+        write_attribute(:theme_name, theme_name_value)
+        # this is same as self[:theme_name] = theme_name_value
+      end
     end
   end
 end

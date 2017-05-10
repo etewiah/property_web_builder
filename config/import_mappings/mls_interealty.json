@@ -1,0 +1,50 @@
+[{
+  "name": "mls_interealty",
+  "mappings": {
+    "ListingID": {
+      "fieldName": "reference",
+      "default": null
+    },
+    // "Appliances": "Appliances",
+    "AddressStreetName": {
+      "fieldName": "street_name",
+      "default": ""
+    },
+    "AddressStreetNumber": {
+      "fieldName": "street_number",
+      "default": ""
+    },
+    "CityName": {
+      "fieldName": "city",
+      "default": ""
+    },
+    "State": {
+      "fieldName": "province",
+      "default": ""
+    },
+    "Latitude": {
+      "fieldName": "latitude",
+      "default": 0
+    },
+    "Longitude": {
+      "fieldName": "longitude",
+      "default": 0
+    },
+    "ListPrice": {
+      "fieldName": "price_sale_current",
+      "default": 0
+    },
+    "Age": {
+      "fieldName": "year_construction",
+      "default": 0
+    },
+    "PublicRemarks": {
+      "fieldName": "description_en",
+      "default": ""
+    },
+    "Beds": {
+      "fieldName": "count_bedrooms",
+      "default": 0
+    }
+  }
+}]

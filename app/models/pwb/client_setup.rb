@@ -1,4 +1,7 @@
-# TODO - rename as AdminSetup
+# TODO: - rename as AdminSetup
+# Idea is to allow different configs of admin interface
+# eg - I might have an "experimental" config with an
+# option to hide links to github..
 module Pwb
   # https://github.com/zilkey/active_hash
   class ClientSetup < ActiveJSON::Base

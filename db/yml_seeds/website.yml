@@ -6,14 +6,26 @@ email_for_property_contact_form:
 # contact_address_id:
 flags: 0
 configuration: {}
-style_variables_for_theme: {}
+style_variables_for_theme: {      
+  default:  {
+      primary_color: "#008000",
+      secondary_color: "#8ec449", 
+      labels_text_color: "#fff",
+      footer_bg_color: "#333",
+      footer_main_text_color: "#fff",
+      footer_sec_text_color: "#ccc",
+      action_color: "#563d7c",
+      body_style: "siteLayout.wide"
+      # theme: "light"
+    }
+  }
 google_font_name: 
 theme_name: 
 supported_currencies: []
 supported_locales: ["en-US","es-MX"]
 default_client_locale: "en-US"
 default_admin_locale: "en-US"
-default_currency: "USD"
+default_currency: "EUR"
 default_area_unit: 0
 social_media: {
   "facebook": "https://www.facebook.com/propertywebbuilder",

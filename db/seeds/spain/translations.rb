@@ -452,7 +452,7 @@ unless I18n::Backend::ActiveRecord::Translation.all.length > 10
       # {locale: "ru", key: "extras.vistasALaSierra", value: "Вид на Горы", interpolations: [], is_proc: false},
       # {locale: "ca", key: "extras.vistasALaSierra", value: "Vistes a la serra", interpolations: [], is_proc: false},
       {locale: "es", key: "extras.chimenea", value: "Chimenea", interpolations: [], is_proc: false},
-      {locale: "en", key: "extras.chimenea", value: "Hearth", interpolations: [], is_proc: false},
+      {locale: "en", key: "extras.chimenea", value: "Fireplace", interpolations: [], is_proc: false},
       {locale: "ru", key: "extras.chimenea", value: "Камин", interpolations: [], is_proc: false},
       {locale: "ca", key: "extras.chimenea", value: "Xemeneia", interpolations: [], is_proc: false},
       {locale: "es", key: "extras.cocinaFrancesa", value: "Cocina francesa", interpolations: [], is_proc: false},

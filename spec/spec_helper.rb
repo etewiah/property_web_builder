@@ -15,7 +15,10 @@ require 'factory_girl_rails'
 require 'capybara/poltergeist'
 # require 'capybara/rails'
 require 'pwb/seeder'
-
+# http://www.thegreatcodeadventure.com/stubbing-with-vcr/
+require 'vcr'
+require 'webmock/rspec'
+WebMock.disable_net_connect!(allow_localhost: true)
 # load(Rails.root.join("db", "seeds.rb"))
 
 # Configure capybara for integration testing
@@ -46,8 +49,14 @@ ActionController::Base.prepend_view_path "#{Pwb::Engine.root}/app/themes/default
 
 
 
-
 RSpec.configure do |config|
+
+  # TODO - consider precompiling assets to speed up tests
+  # config.before(:suite) do
+  #   Rails.application.load_tasks
+  #   Rake::Task["assets:precompile"].invoke
+  # end
+
   config.include JsonSpec::Helpers
 
   config.mock_with :rspec

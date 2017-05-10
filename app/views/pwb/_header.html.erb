@@ -1,6 +1,6 @@
 <!-- HEADER -->
 <div id="divHeaderWrapper">
-  <header class="top_header fondo_secundario">
+  <header class="top_header fondo_principal">
     <div class="container">
       <div class="row">
         <div class="col-sm-6 hidden-xs contacto_header">
@@ -48,7 +48,7 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <% @sections.each do |section| %>
-              <%= section_tab(section) %>
+              <%= top_nav_link(section) %>
             <% end %>
             <% if @show_admin_link  %>
               <% if current_user %>

@@ -1,7 +1,7 @@
 module Pwb
   class Prop < ApplicationRecord
     translates :title, :description
-    globalize_accessors locales: [:en, :ca, :es, :fr, :ar]
+    globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
 
     # Use EUR as model level currency
     # register_currency :eur
@@ -81,11 +81,13 @@ module Pwb
     # expects a hash with keys like "cl.casafactory.fieldLabels.extras.alarma"
     # each with a value of true or false
     def set_extras=(extras_json)
-      extras_json.keys.each do |extra|
-        if extras_json[extra] == "true"
-          features.find_or_create_by( feature_key: extra)
+      return unless extras_json.class == Hash
+      extras_json.keys.each do |feature_key|
+        # TODO - create feature_key if its missing
+        if extras_json[feature_key] == "true" || extras_json[feature_key] == true
+          features.find_or_create_by( feature_key: feature_key)
         else
-          features.where( feature_key: extra).delete_all
+          features.where( feature_key: feature_key).delete_all
         end
       end
     end
@@ -197,7 +199,7 @@ module Pwb
     #   self.year_construction = ano_constr
     # end
 
-    # TODO - replace below with db col
+    # TODO: - replace below with db col
     # def area_unit
     #   return "sqft"
     #   # "sqmt"

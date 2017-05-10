@@ -6,7 +6,9 @@ module Pwb
     :set_locale, :set_theme_path
 
     def set_theme_path
-      theme_name = Agency.unique_instance.theme_name || "default"
+      theme_name = Website.unique_instance.theme_name
+      theme_name = theme_name.present? ? theme_name : "default"
+       # || "default"
       # if Agency.last && Agency.last.theme_name.present?
       #   theme_name = Agency.last.theme_name
       # end
@@ -51,7 +53,7 @@ module Pwb
     end
 
     def sections
-      @sections ||= Section.where(visible: true).order("sort_order")
+      @sections ||= Section.order("sort_order")
       @show_admin_link = true
     end
 

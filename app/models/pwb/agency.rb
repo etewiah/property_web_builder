@@ -4,7 +4,7 @@ module Pwb
 
     extend ActiveHash::Associations::ActiveRecordExtensions
 
-    belongs_to_active_hash :theme, foreign_key: "theme_name", class_name: "Pwb::Theme", shortcuts: [:friendly_name], primary_key: "name"
+    # belongs_to_active_hash :theme, foreign_key: "theme_name", class_name: "Pwb::Theme", shortcuts: [:friendly_name], primary_key: "name"
 
     belongs_to :primary_address, class_name: "Address", foreign_key: 'primary_address_id'
     belongs_to :secondary_address, class_name: "Address", foreign_key: 'secondary_address_id'

@@ -1,0 +1,33 @@
+[{
+  "name": "pwb",
+  "textFields": {
+    "reference": {
+      "cssLocator": ".table-striped tbody tr td",
+      "cssCountId": "1"
+    },
+    "property_type": {
+      "cssLocator": ".table-striped tbody tr td",
+      "cssCountId": "7"
+    },
+    "city": {
+      "cssLocator": ".table-striped tbody tr td",
+      "cssCountId": "9"
+    },
+    "region": {
+      "cssLocator": ".table-striped tbody tr td",
+      "cssCountId": "11"
+    },
+    "description_en": {
+      "cssLocator": ".col-md-9 .col-md-12 > span"
+      // "cssCountId": "1"
+    }
+  },
+  "booleanFields": {
+    "for_rent": {
+      "cssLocator": ".table-striped tbody tr td",
+      "cssCountId": "5",
+      "evaluator": "include?",
+      "evaluatorParam": "Rent"
+    }
+  }
+}]

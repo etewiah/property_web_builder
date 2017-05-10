@@ -1,0 +1,72 @@
+[{
+  "name": "mls_olr",
+  "nested_mappings": {
+    "key": "Building",
+    "mappings": {
+      "City": {
+        "fieldName": "city",
+        "default": ""
+      },
+      "ZipCode": {
+        "fieldName": "postal_code",
+        "default": null
+      },
+      "Address": {
+        "fieldName": "street_name",
+        "default": ""
+      },
+      "State": {
+        "fieldName": "province",
+        "default": ""
+      },
+      "Latitude": {
+        "fieldName": "latitude",
+        "default": 0
+      },
+      "Longitude": {
+        "fieldName": "longitude",
+        "default": 0
+      },
+      "YearBuilt": {
+        "fieldName": "year_construction",
+        "default": 0
+      },
+      "SquareFootage": {
+        "fieldName": "constructed_area",
+        "default": 0
+      }
+    }
+  },
+  "mappings": {
+    "ListingID": {
+      "fieldName": "reference",
+      "default": null
+    },
+    "Price": {
+      "fieldName": "price_sale_current",
+      "default": 0
+    },
+    "Description": {
+      "fieldName": "description_en",
+      "default": ""
+    },
+    "Bedrooms": {
+      "fieldName": "count_bedrooms",
+      "default": 0
+    },
+    "Baths": {
+      "fieldName": "count_bathrooms",
+      "default": 0
+    },
+    "areaunit": {
+      "fieldName": "area_unit",
+      "default": "sqft"
+    },
+    "currency": {
+      "fieldName": "currency",
+      "default": "USD"
+    }
+
+
+  }
+}]

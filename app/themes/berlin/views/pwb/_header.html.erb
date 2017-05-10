@@ -73,7 +73,7 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul id="top-menu" class="nav navbar-nav navbar-right aa-main-nav">
           <% @sections.each do |section| %>
-            <%= section_tab(section) %>
+            <%= top_nav_link(section) %>
           <% end %>
           <% if @show_admin_link  %>
             <% if current_user %>

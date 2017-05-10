@@ -3,7 +3,7 @@ require 'rails_helper'
 module Pwb
   RSpec.describe 'Export web contents' do
     before(:all) do
-      @admin_user = User.create!(email: "user@example.org", password: "very-secret", admin:true)
+      @admin_user = User.create!(email: "user@example.org", password: "very-secret", admin: true)
     end
 
     context 'with signed in admin user' do

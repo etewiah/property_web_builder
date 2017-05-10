@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 module Pwb
   RSpec.describe Agency, type: :model do
     before(:each) do

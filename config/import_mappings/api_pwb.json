@@ -1,0 +1,161 @@
+[{
+  "name": "api_pwb",
+  "mappings": {
+    "reference": {
+      "fieldName": "reference",
+      "default": null
+    },
+    "price-sale-current-cents": {
+      "fieldName": "price_sale_current_cents",
+      "default": 0
+    },
+    "price-sale-original-cents": {
+      "fieldName": "price_sale_original_cents",
+      "default": 0
+    },
+    "price-rental-monthly-current-cents": {
+      "fieldName": "price_rental_monthly_current_cents",
+      "default": 0
+    },
+    "price-rental-monthly-original-cents": {
+      "fieldName": "price_rental_monthly_original_cents",
+      "default": 0
+    },
+    "price-rental-monthly-standard-season-cents": {
+      "fieldName": "price_rental_monthly_standard_season_cents",
+      "default": 0
+    },
+    "price-rental-monthly-high-season-cents": {
+      "fieldName": "price_rental_monthly_high_season_cents",
+      "default": 0
+    },
+    "price-rental-monthly-low-season-cents": {
+      "fieldName": "price_rental_monthly_low_season_cents",
+      "default": 0
+    },
+    "description-en": {
+      "fieldName": "description_en",
+      "default": ""
+    },
+    "description-es": {
+      "fieldName": "description_de",
+      "default": ""
+    },
+    "title-en": {
+      "fieldName": "title_en",
+      "default": ""
+    },
+    "title-es": {
+      "fieldName": "title_es",
+      "default": ""
+    },
+    "constructed-area": {
+      "fieldName": "constructed_area",
+      "default": ""
+    },
+    "count-bedrooms": {
+      "fieldName": "count_bedrooms",
+      "default": 0
+    },
+    "count-bathrooms": {
+      "fieldName": "count_bathrooms",
+      "default": 0
+    },
+    "count-toilets": {
+      "fieldName": "count_toilets",
+      "default": 0
+    },
+    "count-garages": {
+      "fieldName": "count_garages",
+      "default": 0
+    },
+
+
+    "property-photos": {
+      "fieldName": "property_photos",
+      "default": []
+    },
+    "extras": {
+      "fieldName": "extras",
+      "default": []
+    },
+
+
+    "street-number": {
+      "fieldName": "street_number",
+      "default": ""
+    },
+    "street-address": {
+      "fieldName": "street_address",
+      "default": ""
+    },
+    "postal-code": {
+      "fieldName": "postal_code",
+      "default": ""
+    },
+    "street-name": {
+      "fieldName": "street_name",
+      "default": ""
+    },
+    "city": {
+      "fieldName": "city",
+      "default": ""
+    },
+    "region": {
+      "fieldName": "region",
+      "default": ""
+    },
+    "country": {
+      "fieldName": "country",
+      "default": ""
+    },
+    "longitude": {
+      "fieldName": "longitude",
+      "default": 0
+    },
+    "latitude": {
+      "fieldName": "latitude",
+      "default": 0
+    },
+
+    "prop-origin-key": {
+      "fieldName": "prop_origin_key",
+      "default": ""
+    },
+    "prop-state-key": {
+      "fieldName": "prop_state_key",
+      "default": ""
+    },
+    "prop-type-key": {
+      "fieldName": "prop_type_key",
+      "default": ""
+    },
+    "for-sale": {
+      "fieldName": "for_sale",
+      "default": 0
+    },
+    "for-rent-long-term": {
+      "fieldName": "for_rent_long_term",
+      "default": 0
+    },
+    "for-rent-short-term": {
+      "fieldName": "for_rent_short_term",
+      "default": 0
+    },
+    "visible": {
+      "fieldName": "visible",
+      "default": false
+    },
+
+    "area-unit": {
+      "fieldName": "area_unit",
+      "default": "sqft"
+    },
+    "currency": {
+      "fieldName": "currency",
+      "default": "USD"
+    }
+
+
+  }
+}]

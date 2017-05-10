@@ -5,15 +5,63 @@ es:
     "yes": "si"
     "no": "no" 
     es-ES: Spain
+    es-CL: Chile
     es-MX: Mexico
     en-UK: UK
     en-US: USA
+    fr-FR: France
+    pt-PT: Portugal
+    pt-BR: Brazil
+    it-IT: Italy
+    de-DE: Germany
+    ru-RU: Russia
+    ne-NE: Netherlands
+    po-PO: Poland
+    fi-FI: Finland
+    no-NO: Norway
+    ca-CA: Catalunia
+    hi-IN: India
+    hi: Hindi
     sqmt: Square Meters
     sqft: Square Feet
     gbp: UK Pounds
-    usd: Dollars
+    usd: US Dollars
     eur: Euros
+    inr: Indian Rupee
+    chf: Swiss Franc
+    cny: China Yuan Renminbi
+    clp: Chile Peso
+    rub: Russia Ruble
+    brl: Brazil Real
+    zar: South Africa Rand
+    hkd: Hong Kong Dollar
+    inTabLabels:
+      topNav: Top Navigacion
+      footer: Footer
+      currency: Currency
+      colors: Colores
+      socialLinks: Redes sociales
+      siteLayout: Modo de visualización
+      colorFooterBg: Color de fondo del footer
+      colorFooterMainText: Color principal del texto del footer 
+      colorFooterSecText: Color secundario del texto del footer
+      colorPrimary: Color principal
+      colorSecondary: Color secundario
+      colorActions: Color acciones
+      supportedLanguages: Idiomas
+      visibility: Visibilidad
+    navbar:
+      aboutUs: Sobre nosotros
+      admin: Admin
+      buy: Comprar
+      contactUs: Contactar
+      home: Inicio
+      rent: Alquilar
+      sell: Vender
+      legalAdvice: Aviso Legal
+      privacyPolicy: Politica de Privacidad
     adminSections:
+      import: Importar Datos
       start: Inicio
       agencyDetails: Agencia
       content: Página Web
@@ -27,6 +75,12 @@ es:
       settings: Configuración
       labels: Etiquetas
       about: Info
+
+    btnLabels:
+      importTranslations: Importar traduciones
+      importSiteContent: Importar contenido del web 
+      setThemePrompt: Set as website theme
+      activatedThemeInfo: Currently active website theme
 
     info:
       defaultCurrency: For new properties - existing properties will not be affected
@@ -44,6 +98,9 @@ es:
       suffixDe: en Alemán
       suffixEn: en Inglés
       suffixEs: en Español
+      suffixRu: en Ruso
+      suffixCa: en Catalan
+      suffixNl: en Hollandés
       privacyPolicy: Texto de la política de privacidad
       legalAdvice: Texto del aviso legal
       landingcarousel: Texto del slider
@@ -55,13 +112,25 @@ es:
       aboutUs: Sobre nosotros
       footerInfo: Contenido para el pie de página
 
+    siteSections: 
+      aboutUs: Sobre nosotros
+      contactUs: Contacto
+      buy: Comprar
+      rent: Alquiler
+      sell: Vender
+
+    ioSections:
+      fromMls: Import from MLS
+      fromUpload: Import from file
+      fromWebpage: Import from a webpage
 
     webContentSections:
+      navigation: Navigacion
       appearance: Aparancia
       footer: Footer
       aboutUs: Sobre nosotros
       contactInformation: Contact information 
-      sell: Sell
+      sell: Vender
       tagLine: Tag Line
       legal: Aviso Legal
       general: General
@@ -79,15 +148,20 @@ es:
     #   idealista: Idealista
     #   localidad: Localidad
     #   zona: Zona
+      pickMlsPrompt: Select your MLS
+      propCsvUploadPrompt: Select the type of file to import from
+      pwbCsvFile: A csv file exported from PropertyWebBuilder
+      mlsCsvFile: A csv file exported from your MLS
       deleteProp: Delete Property
       areaUnit: Area Unit
       defaultAreaUnit: Default Area Unit
       currency: Moneda
       defaultCurrency: Moneda por defecto
-      codigoPostal: Codigo Postal
-      direccion: Direccion
-      direccionReal: Direccion Real
-      direccionMapa: Direccion Mapa
+      defaultLocale: Idioma por defecto
+      # codigoPostal: Codigo Postal
+      # direccion: Direccion
+      # direccionReal: Direccion Real
+      # direccionMapa: Direccion Mapa
       ref: REF
       tipo: Type
       estado: State

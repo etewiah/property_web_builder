@@ -3,10 +3,20 @@ require_dependency 'pwb/application_controller'
 module Pwb
   class SectionsController < ApplicationController
 
-    # def sell
-    #   # @agency = Agency.find_by_subdomain(request.subdomain.downcase)
-    #   @enquiry = Message.new
-    # end
+    before_action :header_image_url 
+
+    def generic_page
+      page_slug = params[:page_slug]
+      section = Pwb::Section.find_by_link_path page_slug
+      @title_key = section.link_key
+      @page_title = I18n.t(section.link_key)
+      if section && section.contents.first
+        @content = section.contents.first       
+      else
+        @content = OpenStruct.new 
+      end
+      return render "/pwb/sections/static"
+    end
 
     def about_us
       @content = Content.find_by_key("aboutUs")
@@ -98,6 +108,13 @@ module Pwb
       return render "pwb/ajax/contact_us_errors", layout: false
     end
 
+    private
+
+    def header_image_url
+      # used by berlin theme
+      @header_image_url = Content.where(tag: 'landing-carousel')[0].default_photo_url
+    end
+    
 
   end
 end

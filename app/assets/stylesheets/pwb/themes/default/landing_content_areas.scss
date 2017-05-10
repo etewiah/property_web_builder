@@ -69,7 +69,7 @@
 }
 
 .services-section .container .services-wrapper .single-service .bordered {
-  border: 2px solid #0095e6;
+  /*border: 2px solid #0095e6;*/
   width: 25%;
   margin: 13px auto -4px;
   transition: all 300ms ease-in-out;
@@ -87,36 +87,18 @@
   -webkit-transition: all 300ms ease-in-out;
 }
 
-.services-section .container .services-wrapper .single-service .icon-service {
+/*.services-section .container .services-wrapper .single-service .icon-service {
   color: #0095e6;
   border-color: #0095e6;
 }
+*/
 
 
-/*
-.services-section .container .services-wrapper .single-service h4 {
+
+/*.services-section .container .services-wrapper .single-service:hover h4 {
   color: #0095e6;
 }
-.services-section .container .services-wrapper .single-service .top-bordered {
-  opacity: 1;
-}
-
-
-
-.services-section .container .services-wrapper .single-service:hover .icon-service {
-  color: #0095e6;
-  border-color: #0095e6;
-}
-
-.services-section .container .services-wrapper .single-service:hover .readmore {
-  background-color: #0095e6;
-  color: #fff;
-}*/
-
-.services-section .container .services-wrapper .single-service:hover h4 {
-  color: #0095e6;
-}
-
+*/
 .services-section .container .services-wrapper .single-service:hover .top-bordered {
   opacity: 1;
 }

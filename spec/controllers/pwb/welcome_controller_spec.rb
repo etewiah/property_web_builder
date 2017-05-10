@@ -27,7 +27,7 @@ module Pwb
       it 'assigns all carousel_items correctly' do
         carousel_content = Content.create! carousel_content_attributes
         get :index, params: {}, session: valid_session
-        expect(assigns(:carousel_items)).to eq([carousel_content])
+        expect(assigns(:carousel_items)).to eq(Content.where(tag: "landing-carousel"))
       end
       it 'renders correct template' do
         # welcome = Content.create! carousel_content_attributes
@@ -46,7 +46,6 @@ module Pwb
     # describe "GET #new" do
     #   it "assigns a new welcome as @welcome" do
     #     get :new, params: {}, session: valid_session
-    #     byebug
     #     expect(assigns(:welcome)).to be_a_new(Welcome)
     #   end
     # end

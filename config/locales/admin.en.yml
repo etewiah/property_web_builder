@@ -5,15 +5,63 @@ en:
     "yes": "yes"
     "no": "no" 
     es-ES: Spain
+    es-CL: Chile
     es-MX: Mexico
     en-UK: UK
     en-US: USA
+    fr-FR: France
+    pt-PT: Portugal
+    pt-BR: Brazil
+    it-IT: Italy
+    de-DE: Germany
+    ru-RU: Russia
+    ne-NE: Netherlands
+    po-PO: Poland
+    fi-FI: Finland
+    no-NO: Norway
+    ca-CA: Catalunia
+    hi-IN: India
+    hi: Hindi
     sqmt: Square Meters
     sqft: Square Feet
     gbp: UK Pounds
-    usd: Dollars
+    usd: US Dollars
     eur: Euros
+    inr: Indian Rupee
+    chf: Swiss Franc
+    cny: China Yuan Renminbi
+    clp: Chile Peso
+    rub: Russia Ruble
+    brl: Brazil Real
+    zar: South Africa Rand
+    hkd: Hong Kong Dollar
+    inTabLabels:
+      topNav: Top Navigation
+      footer: Footer
+      currency: Currency
+      colors: Colours
+      socialLinks: Social Links
+      siteLayout: Site Layout
+      colorFooterBg: Footer background color
+      colorFooterMainText: Footer main text color
+      colorFooterSecText: Footer secondary text color
+      colorPrimary: Primary color
+      colorSecondary: Secondary color
+      colorActions: Actions color
+      supportedLanguages: Supported Languages
+      visibility: Visibility
+    navbar:
+      home: "Home"
+      admin: "Admin"
+      aboutUs: "About Us"
+      sell: "Sell"
+      buy: "Buy"
+      rent: "Rent"
+      contactUs: "Contact"
+      legalAdvice: "Legal Notice"
+      privacyPolicy: "Privacy Policy"
     adminSections:
+      import: Import Data
       start: Home
       agencyDetails: Agency
       content: Website
@@ -31,10 +79,12 @@ en:
     btnLabels:
       importTranslations: Import translations
       importSiteContent: Import website content
+      setThemePrompt: Set as website theme
+      activatedThemeInfo: Currently active website theme
 
     info:
-      defaultCurrency: For new properties - existing properties will not be affected
-      defaultAreaUnit: For new properties - existing properties will not be affected
+      defaultCurrency: Will only apply to newly added properties
+      defaultAreaUnit: Will only apply to newly added properties
       recPropPhotoSize: Recommended size for a photo is 800px X 500px,
       recCarouselPhotoSize: Recommended size for carousel images is 900px X 400px,
       recLogoPhotoSize: Recommended size for logo is 120px X 80px,
@@ -48,6 +98,9 @@ en:
       suffixIt: in Italian
       suffixPt: in Portuguese
       suffixDe: in German
+      suffixRu: in Russian
+      suffixCa: in Catalan
+      suffixNl: in Dutch
       privacyPolicy: Privacy Policy
       legalAdvice: Legal Notice
       landingcarousel: Text for carousel image
@@ -59,8 +112,20 @@ en:
       aboutUs: About us
       footerInfo: Extra footer content
 
+    siteSections: 
+      aboutUs: About us
+      contactUs: Contact
+      buy: Buy
+      rent: Rent
+      sell: Sell
+
+    ioSections:
+      fromMls: Import from MLS
+      fromUpload: Import from file
+      fromWebpage: Import from a webpage
 
     webContentSections:
+      navigation: Navigation
       appearance: Appearance
       footer: Footer
       aboutUs: About us
@@ -83,15 +148,20 @@ en:
     #   idealista: Idealista
     #   localidad: Localidad
     #   zona: Zona
+      pickMlsPrompt: Select your MLS
+      propCsvUploadPrompt: Select the type of file to import from
+      pwbCsvFile: A csv file exported from PropertyWebBuilder
+      mlsCsvFile: A csv file exported from your MLS
       deleteProp: Delete Property
       areaUnit: Area Unit
       defaultAreaUnit: Default Area Unit
       currency: Currency
       defaultCurrency: Default Currency
-      codigoPostal: Codigo Postal
-      direccion: Direccion
-      direccionReal: Direccion Real
-      direccionMapa: Direccion Mapa
+      defaultLocale: Default Website Language
+      # codigoPostal: Codigo Postal
+      # direccion: Direccion
+      # direccionReal: Direccion Real
+      # direccionMapa: Direccion Mapa
       ref: Reference No
       tipo: Type
       estado: State

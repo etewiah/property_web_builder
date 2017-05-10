@@ -1,3 +1,231 @@
+.truncated_description {
+  display: block;
+  overflow: hidden;
+  height: 45%;
+  position: absolute;
+}
+
+.prop-listing-body {
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+  .meta-info {
+    padding: 0px;
+    border-top: 1px solid #e0eded;
+    ul {
+      display: flex;
+      padding-left: 0px;
+    }
+    ul li {
+      border-right: 1px solid #e0eded;
+      padding: 3px 25px;
+    }
+    ul li:last-child {
+      border: 0
+    }
+  }
+}
+
+.prop-listing-image {
+  padding: 0px;
+  div.prop-figure {
+    display: block;
+    height: 200px;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    background: #eee;
+  }
+  div.prop-figure img {
+    display: block;
+    min-height: 100%;
+    margin: 0 auto;
+    object-fit: cover;
+    overflow: hidden;
+  }
+}
+
+.prop-listing-text {
+  padding: 0px 10px;
+  h3 {
+    margin-top: 10px;
+  }
+  min-height: 165px;
+}
+
+@media (max-width: 1199px) {
+  .prop-listing-text {
+    min-height: 148px;
+  }
+  .prop-listing-image {
+    div.prop-figure {
+      height: 175px;
+    }
+  }
+}
+
+@media (max-width:991px) {
+  .prop-listing-text {
+    min-height: 145px;
+  }
+  .prop-listing-body {
+    .meta-info {
+      ul li {
+        padding: 3px 12px;
+      }
+    }
+  }
+  .prop-listing-image {
+    div.prop-figure {
+      height: 175px;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .prop-listing-text {
+    min-height: 125px;
+  }
+  .prop-listing-image {
+    div.prop-figure {
+      height: 100%;
+    }
+  }
+}
+
+
+ul.list-listings {
+  margin: 0 0 20px 0;
+  padding: 0;
+  list-style: none
+}
+
+ul.list-listings>li {
+  margin-bottom: 30px;
+  border: 1px solid #e0eded;
+  border-radius: 2px
+}
+
+ul.list-listings>li.featured {
+  border-color: #3498db
+}
+
+
+/*may 2017 - replaced listings code below with above */
+
+
+/*
+
+ul.list-listings>li:before,
+ul.list-listings li:after {
+  content: "";
+  display: table
+}
+
+ul.list-listings>li:after {
+  clear: both
+}
+
+ul.list-listings .listing-header {
+  display: block;
+  clear: both;
+  padding: 8px 15px;
+  font-weight: 600;
+  text-transform: uppercase
+}
+
+ul.list-listings .listing-image {
+  width: 30%;
+  display: table-cell
+}
+
+ul.list-listings .listing-image img {
+  border-bottom-left-radius: 2px
+}
+
+ul.list-listings .listing-body {
+  padding: 6px 0px 0px;
+  display: table-cell;
+  vertical-align: top
+}
+
+
+.listing-text {
+  padding: 0px 15px;
+  min-height: 75px;
+}
+
+ul.list-listings .listing-body h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 25px
+}
+
+ul.list-listings .listing-body h4 {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 22px
+}
+
+ul.list-listings .listing-body p {
+  margin: 5px 0
+}
+
+ul.list-listings .listing-body .meta-info {
+  border-top: 1px solid #e0eded;
+  padding-top: 7px
+}
+
+ul.list-listings .listing-body .meta-info ul {
+  width: 100%;
+  display: table;
+  table-layout: auto
+}
+
+ul.list-listings .listing-body .meta-info ul li {
+  display: table-cell;
+  border-right: 1px solid #e0eded;
+  text-align: center
+}
+
+ul.list-listings .listing-body .meta-info ul li.stretch {
+  width: 40%
+}
+
+ul.list-listings .listing-body .meta-info ul li i {
+  color: #333;
+  margin-right: 5px
+}
+
+ul.list-listings .listing-body .meta-info ul li:first-child {
+  padding-left: 0
+}
+
+ul.list-listings .listing-body .meta-info ul li:last-child {
+  padding-right: 0;
+  border: 0
+}
+
+ul.list-listings .listing-actions {
+  width: 20%;
+  display: table-cell;
+  text-align: center;
+  vertical-align: top;
+  position: relative;
+  border-left: 1px solid #e0eded
+}
+
+ul.list-listings .listing-actions .btn {
+  margin-top: 6px
+}*/
+
+
+
+
 .wp-block.property.list .wp-block-body .wp-block-img {
   display: block;
   width: auto
@@ -8,29 +236,6 @@
   padding-top: 15px;
   padding-left: 0
 }
-
-
-/*.wp-block.property.list .wp-block-footer ul.aux-info {
-  width: 100%;
-  display: table
-}
-
-.wp-block.property.list .wp-block-footer ul.aux-info li {
-  padding: 10px;
-  font-size: 11px;
-  text-align: center
-}
-
-.wp-block.property.list .wp-block-footer ul.aux-info li:last-child {
-  border: 0
-}
-
-.wp-block.property.list .wp-block-footer ul.aux-info li i {
-  display: block;
-  font-size: 18px;
-  margin-right: 0;
-  color: #333
-}*/
 
 .wp-block.property.list {
   border: 1px solid #e0eded;
@@ -163,132 +368,7 @@
   }
 }
 
-ul.list-listings {
-  margin: 0 0 20px 0;
-  padding: 0;
-  list-style: none
-}
 
-ul.list-listings>li {
-  margin-bottom: 30px;
-  border: 1px solid #e0eded;
-  border-radius: 2px
-}
-
-ul.list-listings>li.featured {
-  border-color: #3498db
-}
-
-ul.list-listings>li:before,
-ul.list-listings li:after {
-  content: "";
-  display: table
-}
-
-ul.list-listings>li:after {
-  clear: both
-}
-
-ul.list-listings .listing-header {
-  display: block;
-  clear: both;
-  padding: 8px 15px;
-  font-weight: 600;
-  text-transform: uppercase
-}
-
-ul.list-listings .listing-image {
-  width: 30%;
-  display: table-cell
-}
-
-ul.list-listings .listing-image img {
-  border-bottom-left-radius: 2px
-}
-
-ul.list-listings .listing-body {
-  padding: 6px 0px 0px;
-  /*padding: 10px 15px;*/
-  display: table-cell;
-  vertical-align: top
-}
-
-
-/* min-height below allows me to remove 
-bottom padding above */
-
-.listing-text {
-  padding: 0px 15px;
-  min-height: 75px;
-}
-
-ul.list-listings .listing-body h3 {
-  margin: 0;
-  padding: 0;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 25px
-}
-
-ul.list-listings .listing-body h4 {
-  margin: 0;
-  padding: 0;
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 22px
-}
-
-ul.list-listings .listing-body p {
-  margin: 5px 0
-}
-
-ul.list-listings .listing-body .meta-info {
-  border-top: 1px solid #e0eded;
-  padding-top: 7px
-}
-
-ul.list-listings .listing-body .meta-info ul {
-  width: 100%;
-  display: table;
-  table-layout: auto
-}
-
-ul.list-listings .listing-body .meta-info ul li {
-  display: table-cell;
-  border-right: 1px solid #e0eded;
-  text-align: center
-}
-
-ul.list-listings .listing-body .meta-info ul li.stretch {
-  width: 40%
-}
-
-ul.list-listings .listing-body .meta-info ul li i {
-  color: #333;
-  margin-right: 5px
-}
-
-ul.list-listings .listing-body .meta-info ul li:first-child {
-  padding-left: 0
-}
-
-ul.list-listings .listing-body .meta-info ul li:last-child {
-  padding-right: 0;
-  border: 0
-}
-
-ul.list-listings .listing-actions {
-  width: 20%;
-  display: table-cell;
-  text-align: center;
-  vertical-align: top;
-  position: relative;
-  border-left: 1px solid #e0eded
-}
-
-ul.list-listings .listing-actions .btn {
-  margin-top: 6px
-}
 
 
 /* cuadro inmueble */
@@ -312,8 +392,8 @@ ul.list-listings .listing-actions .btn {
 
 .ver_inmueble {
   position: absolute;
-  right: 10px;
-  bottom: 5px;
+  right: 40px;
+  bottom: 35px;
 }
 
 

@@ -3,6 +3,8 @@ require_dependency 'pwb/application_controller'
 module Pwb
   class SearchController < ApplicationController
 
+    before_action :header_image_url 
+
     def search_ajax_for_sale
       @operation_type = "for_sale"
       # above used to decide if link to result should be to buy or rent path
@@ -130,7 +132,11 @@ module Pwb
         end
         price_fields = ["for_sale_price_from", "for_sale_price_till", "for_rent_price_from", "for_rent_price_till"]
         if price_fields.include? key
-          value = value.gsub(/\D/, '').to_i * 100
+          currency_string = @current_website.default_currency || "usd"
+          currency =  Money::Currency.find currency_string
+          # above needed as some currencies like Chilean peso 
+          # don't have the cents field multiplied by 100
+          value = value.gsub(/\D/, '').to_i * currency.subunit_to_unit
           # @properties = @properties.public_send(key, value) if value.present?
         end
         @properties = @properties.public_send(key, value) if value.present?
@@ -174,6 +180,14 @@ module Pwb
     #     return render "go_to_property_error_ajax"
     #   end
     # end
+
+    private
+
+    def header_image_url
+      # used by berlin theme
+      hi_content = Content.where(tag: 'landing-carousel')[0]
+      @header_image_url = hi_content.present? ? hi_content.default_photo_url : ""
+    end
 
 
   end

@@ -1,6 +1,8 @@
 ---
 - key: privacyPolicy
   tag: legal
+  # below links it to a section
+  section_key: privacy
   input_type:
   status:
   last_updated_by_user_id:
@@ -10,6 +12,8 @@
   raw_es: Este es nuestro politica de privacidad.
 - key: legalAdvice
   tag: legal
+  # below links it to a section
+  section_key: legal
   input_type:
   status:
   last_updated_by_user_id:

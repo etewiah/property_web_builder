@@ -1,0 +1,35 @@
+footer .col h5 {
+  color: <%= @current_website.style_variables["footer_sec_text_color"] || "#ccc" %>;  
+}
+
+footer .col p {
+  color: <%= @current_website.style_variables["footer_main_text_color"] || "#fff" %>;  
+}
+
+.footer-extra {
+  color: <%= @current_website.style_variables["footer_main_text_color"] || "#fff" %>;  
+}
+
+footer .col ul li {
+  color: <%= @current_website.style_variables["footer_sec_text_color"] || "#ccc" %>;  
+}
+
+.fondo_accion {
+  background: <%= @current_website.style_variables["action_color"] %>;
+  color: <%= @current_website.style_variables["labels_text_color"] || "#fff" %>;  
+}
+
+
+.services-section .container .services-wrapper .single-service .bordered {
+  border: 2px solid <%= @current_website.style_variables["primary_color"] %>;
+}
+.services-section .container .services-wrapper .single-service .icon-service {
+  color: <%= @current_website.style_variables["primary_color"] %>;
+  border-color: <%= @current_website.style_variables["primary_color"] %>;
+}
+.services-section .container .services-wrapper .single-service:hover h4 {
+  color: <%= @current_website.style_variables["primary_color"] %>;
+}
+
+
+

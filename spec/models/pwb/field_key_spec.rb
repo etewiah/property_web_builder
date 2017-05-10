@@ -3,6 +3,7 @@ require 'rails_helper'
 module Pwb
   RSpec.describe FieldKey, type: :model do
     before(:each) do
+      FieldKey.destroy_all
       @fk1 = FactoryGirl.create(
         :pwb_field_key,
         global_key: "propertyStates.nuevo",
@@ -18,6 +19,7 @@ module Pwb
         expect(ps_opts.count).to eq(1)
       end
     end
+
 
     # it "should only return properties with correct number of bedrooms" do
     #   expect(Prop.count_bedrooms(3)).to eq([@five_bedroom])
