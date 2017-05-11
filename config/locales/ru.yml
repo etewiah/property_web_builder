@@ -5,42 +5,42 @@ ru:
   back: назад
   changePassword: Изменить пароль
   contact:
-    emailSubject: Контакт с вашего сайта
+    emailSubject: Тема письма
     error: К сожалению, произошла ошибка.
     success: Спасибо за ваше сообщение. Мы свяжемся с Вами в ближайшее время!
-  contactUs: контакт
-  contactUsPrompt: Заполните следующую форму, чтобы связаться с нами
-  editarPropiedad: Редактировать свойство
-  email: Эл. адрес
+  contactUs: Связаться с нами
+  contactUsPrompt: Чтобы связаться с нами, заполните форму
+  editarPropiedad: Редактировать недвижимость
+  email: e-mail
   'false': нет
   findAProperty: Найти недвижимость
-  findByReference: Поиск по ссылке
+  findByReference: Поиск по рекомендациям
   forRent: Аренда
-  forSale: Продается
-  go: Идти
+  forSale: Продажа
+  go: ok
   labels:
-    create: Создайте
-    edit: редактировать
-    new: новый
+    create: Создать
+    edit: Редактировать
+    new: Новый
     save: Сохранить
-  leaveBlank: оставьте это поле пустым, если вы не хотите, чтобы изменить его
-  legalAdvice: надлежащее уведомление
-  listadoPropiedades: Список свойств
+  leaveBlank: оставьте это поле пустым, если вы не хотите заполнять
+  legalAdvice: Официальное уведомление
+  listadoPropiedades: Список недвижимости
   mailers:
-    confirm_registration: Пожалуйста, подтвердите свой счет через ссылку ниже
+    confirm_registration: Пожалуйста, подтвердите регистрацию по ссылке ниже
     from: Из
     general_enquiry_targeting_agency:
-      title: Общий запрос с вашего сайта
+      title: Запрос с вашего сайта
     general_enquiry_targeting_enquirer:
       message_title: ''
       subject: ''
     message: Сообщение
     phone: телефон
-    property: Имущество
+    property: Недвижимость
     property_enquiry_targeting_agency:
-      title: Запрос о собственности
+      title: Запрос на недвижимость
     received_on: Получено
-    welcome: желанный
+    welcome: Добро пожаловать!
   menu_admin: админ
   message: Сообщение
   name: имя
@@ -48,13 +48,13 @@ ru:
     aboutUs: О нас
     admin: Администратор
     buy: купить
-    contactUs: контакт
+    contactUs: связаться с нами
     home: Главная
     rent: Аренда
-    sell: продавать
-    legalAdvice: надлежащее уведомление
-    privacyPolicy: политика конфиденциальности
-  needCurrentPwd: нам нужен текущий пароль, чтобы подтвердить изменения
+    sell: Продажа
+    legalAdvice: Официальное уведомление
+    privacyPolicy: Политика конфиденциальности
+  needCurrentPwd: Нужно ввести текущий пароль, чтобы подтвердить изменения
   newPassword: новый пароль
   noResultsForSearch: К сожалению, не найдено
   nuevoPropiedad: Новая недвижимость
@@ -63,85 +63,85 @@ ru:
     priceDescending: "↑ Цена (по убыванию)"
   placeHolders:
     email: Ваш адрес электронной почты
-    message: Напишите ваше сообщение здесь
+    message: Напишите здесь ваше сообщение
     name: Ваше имя
-    subject: Предмет
-    tel: Фиксированный или мобильный
-  privacyPolicy: политика конфиденциальности
+    subject: Тема письма
+    tel: Городской или мобильный
+  privacyPolicy: Политика конфиденциальности
   property:
     description: Описание
-    details: Детали
+    details: Подробнее
     extras: Особенности
     furniture: Мебель
     goToProperty: Вид недвижимости
     highlightedProperty: Выдающаяся недвижимость
     locality: Местонахождение
     map: карта
-    monthlyRentalPriceHighSeason: Месячная Цена (высокий сезон)
-    monthlyRentalPriceLowSeason: Стоимость в месяц (низкий сезон)
-    monthlyRentalPriceStandardSeason: Стоимость в месяц (Стандартный сезон)
+    monthlyRentalPriceHighSeason: Цена за месяц (горячий сезон)
+    monthlyRentalPriceLowSeason: Цена в месяц (холодный сезон)
+    monthlyRentalPriceStandardSeason: Цена в месяц (Стандартный сезон)
     operationType: Вид
     price: Цена
     propertyType: Тип недвижимости
     ref: ссылка
   propertyForRent: Недвижимость в аренду
-  propertyForSale: Собственность на продажу
-  propertyNotFound: Свойство не найдено
+  propertyForSale: Недвижимость на продажу
+  propertyNotFound: Недвижимость не найдена
   pwb:
     copyright: "%{company_name} Inc. Все права защищены."
-    createPrompt: Создать свой сайт агентства недвижимости
+    createPrompt: Создать свой сайт для агентства недвижимости
     createTagLine: Пожалуйста, введите данные для вашей учетной записи
-    getStarted: Начать сейчас
+    getStarted: Начать прямо сейчас
     registerNow: Зарегистрируйтесь сейчас
-    tagLine: Профессиональные сайты для агентов по недвижимости в течение нескольких
+    tagLine: Профессиональный сайт для агенств недвижимости в течение нескольких
       минут
-    tagLineExt: Красивые сайты, которые должны быть увидеть, чтобы поверить. <br>
-      Никто не получает вас в Интернете быстрее.
-  requestPropertyInfo: Запрос информации
+    tagLineExt: Красивые сайты, которые Вы должны увидеть, чтобы поверить. <br>
+      Получите быстрый результат он-лайн быстрее всех остальных.
+  requestPropertyInfo: Запрос информации о недвижимости
   search: Поиск
   searchForProperties: Поиск недвижимости
   selectpicker:
     countSelectedText: Выбранный {0} {1}
     noneResultsText: Не найдено {0}
     noneSelectedText: Ничего не выбрано
-  send: послать
+  send: отправить
   setup:
-    claimSubdomain: Утверждают этот адрес
-    createdSuccessfully: Сайт создан успешно
+    claimSubdomain: Добавьте адрес сайта
+    createdSuccessfully: Сайт успешно создан
     goToYourSite: Перейти на ваш сайт
     loggedInAs: Вы вошли как
     logout: Выйти
     selectUrl: Выберите URL
-    selectUrlMessage: Вы успешно создали учетную запись - теперь выберите URL для
+    selectUrlMessage: Вы успешно создали учетную запись - теперь выберите имя домена для
       своего нового сайта
-    subdomain: подобласть
+    subdomain: поддомен
     subdomainMissing: Пожалуйста, введите имя поддомена
     thankYouForTrusting: Спасибо за доверие %{company_name}
     urlNotAvailable: К сожалению, этот URL не доступен
-    weAreCreatingSite: Мы создаем свой сайт
+    weAreCreatingSite: Ваш сайт создан
   signOut: Выход
   simple_form:
     error_notification:
       default_message: 'Пожалуйста, ознакомьтесь с проблемами ниже:'
     labels:
       search:
-        count_bathrooms: Ванные (мин)
-        count_bedrooms: Спальни (мин)
+        count_bathrooms: Количество ванн
+        count_bedrooms: Количество спален
         for_rent_price_from: Аренда от (Ежемесячно)
-        for_rent_price_till: Аренда Till (Ежемесячно)
+        for_rent_price_till: Аренда до (Ежемесячно)
         for_sale_price_from: Цена от
         for_sale_price_till: Цена До
         in_locality: Местонахождение
-        in_zone: зона
+        in_zone: регион
         locality: Местонахождение
         property_state: Состояние недвижимости
         property_type: Тип недвижимости
     'no': нет
     required:
       mark: "*"
-      text: обязательный
+      text: обязательно
     'yes': да
-  subject: Предмет
+  subject: Тема
   tel: телефон
   'true': да
   update: Обновить
@@ -149,5 +149,5 @@ ru:
     aboutUs: О нас
     contactInformation: Контактная информация
     home: Главная
-    sell: продавать
-    tagLine: Tag Line
+    sell: продать
+    tagLine: Тэг
