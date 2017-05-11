@@ -1,5 +1,8 @@
 ---
 es:
+  devise:
+    user_update_success_title: Congratulations
+    user_update_success: You have successfully updated your account.
   aboutUs: Sobre nosotros
   address: Dirección
   back: Volver

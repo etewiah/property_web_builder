@@ -1,5 +1,12 @@
 module Pwb
   class DeviseController < ApplicationController
+
+    # This controller is registered in
+    # pwb/config/initializers/devise.rb
+    # with:
+    #   config.parent_controller = 'Pwb::DeviseController'
+
+
     # # ActionController::Base
     #  protect_from_forgery with: :exception
 

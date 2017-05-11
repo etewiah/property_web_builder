@@ -1,4 +1,7 @@
 fr:
+  devise:
+    user_update_success_title: Congratulations
+    user_update_success: You have successfully updated your account.
   selectpicker:
     noneSelectedText: 'Aucune sélection'
     noneResultsText: 'Aucun résultat {0}'

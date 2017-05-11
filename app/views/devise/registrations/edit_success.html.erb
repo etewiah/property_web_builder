@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row" style="margin: 80px;">
+    <div class="col-sm-6 col-sm-offset-2">
+      <div class="light-well border-form-div">
+        <h2><%= t("devise.user_update_success_title") %></h2>
+        <div>
+          <%= t("devise.user_update_success") %>          
+        </div>
+        <div>
+        <div class="pull-right">
+        <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+        </div>
+        </div>
+      </div>
+      <br>
+      <br>
+    </div>
+  </div>
+</div>

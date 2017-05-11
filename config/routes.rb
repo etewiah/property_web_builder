@@ -23,8 +23,16 @@ Pwb::Engine.routes.draw do
 
   # TODO - get locales dynamically
   scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar|ru/ do
+
+    devise_scope :user do 
+      get "/users/edit_success" => "devise/registrations#edit_success", as: "user_edit_success"
+    end
     # https://github.com/plataformatec/devise/wiki/How-To:-Use-devise-inside-a-mountable-engine
-    devise_for :users, class_name: "Pwb::User", module: :devise
+    devise_for :users, class_name: "Pwb::User", module: :devise, :controllers => { :registrations => "pwb/devise/registrations" }
+    # specifying controllers above is from:
+    # https://github.com/plataformatec/devise/wiki/How-To:-Customize-the-redirect-after-a-user-edits-their-profile
+
+
 
     get "/" => "welcome#index", as: "home"
     get "/p/:page_slug" => "sections#generic_page", as: "generic_page"
