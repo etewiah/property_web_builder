@@ -1,4 +1,6 @@
 Pwb::Engine.routes.draw do
+
+
   # devise_for :users, class_name: "Pwb::User", module: :devise
   root to: 'welcome#index'
   resources :welcome, only: :index
@@ -24,7 +26,7 @@ Pwb::Engine.routes.draw do
   # TODO - get locales dynamically
   scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar|ru/ do
 
-    devise_scope :user do 
+    devise_scope :user do
       get "/users/edit_success" => "devise/registrations#edit_success", as: "user_edit_success"
     end
     # https://github.com/plataformatec/devise/wiki/How-To:-Use-devise-inside-a-mountable-engine
@@ -42,6 +44,7 @@ Pwb::Engine.routes.draw do
 
     get "/about-us" => "sections#about_us"
     # get "/sell" => "sections#sell"
+    get "/sell" => "comfy#show"
     get "/buy" => "search#buy"
     get "/rent" => "search#rent"
 
@@ -85,7 +88,7 @@ Pwb::Engine.routes.draw do
       get "/website/all" => "website#all"
       get "/properties" => "properties#all"
     end
- 
+
     namespace :api do
       namespace :v1 do
         get "/translations/list/:locale" => "translations#list"
@@ -146,5 +149,11 @@ Pwb::Engine.routes.draw do
 
       end
     end
+
+    # comfy_route :cms_admin, :path => '/comfy-admin'
+
+    # # Make sure this routeset is defined last
+    # comfy_route :cms, :path => '/comfy', :sitemap => false
+
   end
 end
