@@ -49,7 +49,7 @@ module Pwb
 
     def load_cms_site
       # TODO - load diff sites depending on locale//
-      @cms_site = ::Comfy::Cms::Site.first
+      @cms_site = (::Comfy::Cms::Site.find_by_locale I18n.locale) || (::Comfy::Cms::Site.find_by_locale :en)
     end
 
     # def render_page(status = 200)

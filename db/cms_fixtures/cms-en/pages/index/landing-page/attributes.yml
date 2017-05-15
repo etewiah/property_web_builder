@@ -1,0 +1,8 @@
+---
+label: landing_page
+layout: landing-layout
+parent: index
+target_page: 
+categories: []
+is_published: true
+position: 0
