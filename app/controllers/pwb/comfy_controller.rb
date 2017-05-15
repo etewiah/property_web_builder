@@ -1,8 +1,8 @@
 require_dependency 'pwb/application_controller'
 
 module Pwb
-
-
+# based on
+# comfortable-mexican-sofa/app/controllers/comfy/cms/content_controller.rb
   class ComfyController < ApplicationController
     # Comfy::Cms::BaseController
 
@@ -14,7 +14,7 @@ module Pwb
 
     before_action :load_cms_site
     # before_action :load_fixtures
-    # before_action :load_cms_page,
+    # before_action :load_cms_page
     #   :authenticate,
     #   :authorize,
     #   :only => :show
@@ -22,20 +22,15 @@ module Pwb
     rescue_from ActiveRecord::RecordNotFound, :with => :page_not_found
 
     def show
-      # byebug
-      @content = Content.find_by_key("aboutUs")
-      @page_title = I18n.t("aboutUs")
-
-      # @agency = Agency.find_by_subdomain(request.subdomain.downcase)
-      # @enquiry = Message.new
-      # return render "/pwb/sections/about_us"
-      # return render_page
-      # byebug
-      return render :cms_page => "/", :layout => "pwb/application"
+      cms_page_path =  "/#{params[:page_slug]}-page"
+      # render_page
+      # https://github.com/comfy/comfortable-mexican-sofa/wiki/View-rendering
+      # below makes use of Comfy view rendering:
+      return render :cms_page => cms_page_path, :layout => "pwb/application"
       # return render @cms_page.content_cache
       # , layout: "application"
 
-            # if false 
+      # if false
       #  # @cms_page.target_page.present?
       #   redirect_to @cms_page.target_page.url(:relative)
       # else
@@ -53,22 +48,23 @@ module Pwb
     protected
 
     def load_cms_site
+      # TODO - load diff sites depending on locale//
       @cms_site = ::Comfy::Cms::Site.first
     end
 
-    def render_page(status = 200)
-      if @cms_layout = @cms_page.layout
-        # app_layout = (@cms_layout.app_layout.blank? || request.xhr?) ? false : @cms_layout.app_layout
-        # byebug
-        app_layout = "application"
-        render  :inline       => @cms_page.content_cache,
-          :layout       => app_layout,
-          :status       => status,
-          :content_type => mime_type
-      else
-        render :plain => I18n.t('comfy.cms.content.layout_not_found'), :status => 404
-      end
-    end
+    # def render_page(status = 200)
+    #   # below will ren
+    #   if @cms_layout = @cms_page.layout
+    #     # app_layout = (@cms_layout.app_layout.blank? || request.xhr?) ? false : @cms_layout.app_layout
+    #     app_layout = "application"
+    #     render  :inline       => @cms_page.content_cache,
+    #       :layout       => app_layout,
+    #       :status       => status,
+    #       :content_type => mime_type
+    #   else
+    #     render :plain => I18n.t('comfy.cms.content.layout_not_found'), :status => 404
+    #   end
+    # end
 
     # it's possible to control mimetype of a page by creating a `mime_type` field
     def mime_type
@@ -81,8 +77,8 @@ module Pwb
       ComfortableMexicanSofa::Fixture::Importer.new(@cms_site.identifier).import!
     end
 
-    def load_cms_page
-      @cms_page = @cms_site.pages.published.find_by_full_path!("/#{params[:cms_path]}")
+    def load_cms_page page_key
+      @cms_page = @cms_site.pages.published.find_by_full_path!("/#{ [:cms_path]}")
     end
 
     def page_not_found
@@ -96,5 +92,5 @@ module Pwb
     end
   end
 
- 
+
 end

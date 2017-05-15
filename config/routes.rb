@@ -38,13 +38,14 @@ Pwb::Engine.routes.draw do
 
     get "/" => "welcome#index", as: "home"
     get "/p/:page_slug" => "sections#generic_page", as: "generic_page"
+    get "/c/:page_slug" => "comfy#show"
 
     get "/properties/for-rent/:id/:url_friendly_title" => "props#show_for_rent", as: "prop_show_for_rent"
     get "/properties/for-sale/:id/:url_friendly_title" => "props#show_for_sale", as: "prop_show_for_sale"
 
     get "/about-us" => "sections#about_us"
     # get "/sell" => "sections#sell"
-    get "/sell" => "comfy#show"
+    # get "/sell" => "comfy#show"
     get "/buy" => "search#buy"
     get "/rent" => "search#rent"
 
