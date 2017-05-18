@@ -1,8 +1,8 @@
 require_dependency 'pwb/application_controller'
 
 module Pwb
-# based on
-# comfortable-mexican-sofa/app/controllers/comfy/cms/content_controller.rb
+  # based on
+  # comfortable-mexican-sofa/app/controllers/comfy/cms/content_controller.rb
   class ComfyController < ApplicationController
     # Comfy::Cms::BaseController
 
@@ -22,23 +22,26 @@ module Pwb
     rescue_from ActiveRecord::RecordNotFound, :with => :page_not_found
 
     def show
-      cms_page_path =  "/#{params[:page_slug]}-page"
-      # render_page
+      @cms_page = @cms_site.pages.published.find_by_full_path!("/about-us/services")
+      # ("/#{params[:page_slug]}")
+      @cms_pages = [@cms_page]
+
+      @content_area_cols =  Content.where(tag: 'content-area-cols').order('sort_order')
+
+      return render "/pwb/sections/cms"
+
+      # cms_page_path =  "/#{params[:page_slug]}-page"
       # https://github.com/comfy/comfortable-mexican-sofa/wiki/View-rendering
       # below makes use of Comfy view rendering:
-      return render :cms_page => cms_page_path, :layout => "pwb/application"
+
+      # return render :cms_page => cms_page_path, :layout => "pwb/application", :cms_blocks => {
+      #   :jumbotron => 'Content About Events'
+      #   # :column_b => { :template => '/events/index' },
+      #   # :column_c => { :partial  => '/events/calendar' }
+      # }
       # return render @cms_page.content_cache
       # , layout: "application"
 
-      # if false
-      #  # @cms_page.target_page.present?
-      #   redirect_to @cms_page.target_page.url(:relative)
-      # else
-      #   respond_to do |format|
-      #     format.html { render_page }
-      #     format.json { render :json => @cms_page }
-      #   end
-      # end
     end
 
     def render_sitemap
