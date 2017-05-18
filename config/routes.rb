@@ -92,6 +92,7 @@ Pwb::Engine.routes.draw do
 
     namespace :api do
       namespace :v1 do
+        # get "/cms/tag/:tag_name" => "cms#tag"
         get "/translations/list/:locale" => "translations#list"
 
 
@@ -113,6 +114,8 @@ Pwb::Engine.routes.draw do
 
         # put "tenant" => "agency#update_legacy"
         put "/master_address" => "agency#update_master_address"
+
+        jsonapi_resources :cms_pages
 
         # get "/web-contents" => "agency#infos"
         jsonapi_resources :lite_properties
