@@ -1,0 +1,54 @@
+[{
+  "name": "about-us",
+  "id": "about-us",
+  "tabValue": "about-us",
+  "tabTitleKey": "webContentSections.aboutUs",
+  "cmsPartsList": [{
+    "tabValue": "services",
+    "tabTitleKey": "webContentSections.services",
+    "label": "about_us_services",
+    "editorBlocks": [
+      [{
+        "label": "title_a",
+        "isSingleLineText": "true"
+      }, {
+        "label": "content_a",
+        "isMultipleLineText": "true"
+      }],
+      [{
+        "label": "title_b",
+        "isSingleLineText": "true"
+      }, {
+        "label": "content_b",
+        "isMultipleLineText": "true"
+      }],
+      [{
+        "label": "title_c",
+        "isSingleLineText": "true"
+      }, {
+        "label": "content_c",
+        "isMultipleLineText": "true"
+      }]
+    ]
+  }, {
+    "tabValue": "people",
+    "tabTitleKey": "webContentSections.people",
+    "label": "about_us_people",
+    "editorBlocks": [
+      [
+        "title_a",
+        "content_a"
+      ],
+      [
+        "title_b",
+        "content_b"
+      ],
+      [
+        "title_c",
+        "content_c"
+      ]
+
+    ]
+  }]
+
+}]

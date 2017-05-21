@@ -22,9 +22,17 @@ module Pwb
     rescue_from ActiveRecord::RecordNotFound, :with => :page_not_found
 
     def show
-      @cms_page = @cms_site.pages.published.find_by_full_path!("/about-us/services")
-      # ("/#{params[:page_slug]}")
-      @cms_pages = [@cms_page]
+      @cms_pages = []
+
+      begin
+        cms_page_container = Pwb::CmsPageContainer.find(params[:page_slug])
+        cms_page_container.cmsPartsList.each do |cms_part|
+          @cms_page = Comfy::Cms::Page.where({label: cms_part["label"], slug: I18n.locale}).first
+          # @cms_site.pages.published.find_by_full_path!("/about-us/services")
+          @cms_pages.push @cms_page if @cms_page
+        end
+      rescue ActiveHash::RecordNotFound
+      end
 
       @content_area_cols =  Content.where(tag: 'content-area-cols').order('sort_order')
 
@@ -52,7 +60,8 @@ module Pwb
 
     def load_cms_site
       # TODO - load diff sites depending on locale//
-      @cms_site = (::Comfy::Cms::Site.find_by_locale I18n.locale) || (::Comfy::Cms::Site.find_by_locale :en)
+      @cms_site = ::Comfy::Cms::Site.find_by_locale :es
+      # (::Comfy::Cms::Site.find_by_locale I18n.locale) || (::Comfy::Cms::Site.find_by_locale :en)
     end
 
     # def render_page(status = 200)
