@@ -1,7 +1,7 @@
 ---
-label: people
-layout: people
-parent: about-us
+label: about_us_services
+layout: services
+parent: services
 target_page: 
 categories: []
 is_published: true

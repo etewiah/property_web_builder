@@ -4,17 +4,18 @@ module Pwb
       # Called by this rake task:
       # rake app:pwb:db:seed                                  1 ↵
 
-      def load_site_by_locale! locale
-        site_key = "cms-#{locale}"
-        from  = site_key
-        to    = site_key
-
+      def load_site_data! 
+        locale = "en"
+        # site_key = "cms"
+        from  = "cms"
+        to    = "cms-site"
+byebug
         cms = Comfy::Cms::Site.find_or_create_by(
           {
             locale: locale,
-            label: site_key,
+            label: to,
             hostname: "default",
-            identifier: site_key,
+            identifier: to,
             path: "/#{locale}"
           }
         )

@@ -16,7 +16,8 @@ module Pwb
       end
       page = Comfy::Cms::Page.find cms_pages_params[:id]
       page.clear_content_cache
-      # byebug - might need to call content_cache again for refresh
+      # need to call content_cache again for refresh
+      page.content_cache
       # should also return valid json_api here
       render json: blocks.as_json
     end
