@@ -1,7 +1,12 @@
 # Change Log for PropertyWebBuilder
 All notable changes to this project will be documented in this file.
 
-## 0.2.0
+## Unreleased
+
+* Minor fixes for admin UI
+* Russian translation improvements
+
+## 0.2.0 / 2017-05-03
 
 * Experimental support for import of properties from web pages
 * Add German, Russian and Portuguese translations
