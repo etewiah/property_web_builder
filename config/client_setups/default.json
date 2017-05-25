@@ -96,6 +96,27 @@
   ],
   // http://www.xe.com/iso4217.php
   "currencyFieldKeys": [{
+    "value": "CAD",
+    "labelTextTKey": "cad"
+  },{
+    "value": "AUD",
+    "labelTextTKey": "aud"
+  },{
+    "value": "ARS",
+    "labelTextTKey": "ars"
+  },{
+    "value": "MXN",
+    "labelTextTKey": "mxn"
+  },{
+    "value": "HKD",
+    "labelTextTKey": "hkd"
+  },{
+    "value": "BRL",
+    "labelTextTKey": "brl"
+  },{
+    "value": "ZAR",
+    "labelTextTKey": "zar"
+  },{
     "value": "CLP",
     "labelTextTKey": "clp"
   }, {
