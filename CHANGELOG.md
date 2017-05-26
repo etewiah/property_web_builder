@@ -3,8 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-* Minor fixes for admin UI
+## 1.0.0 / 2017-05-25
+
+* Minor fixes for admin UI (#16 & #17)
 * Russian translation improvements
+* Stable version tried and tested in production
 
 ## 0.2.0 / 2017-05-03
 
