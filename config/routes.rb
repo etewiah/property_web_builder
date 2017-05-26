@@ -1,4 +1,6 @@
 Pwb::Engine.routes.draw do
+
+
   # devise_for :users, class_name: "Pwb::User", module: :devise
   root to: 'welcome#index'
   resources :welcome, only: :index
@@ -24,7 +26,7 @@ Pwb::Engine.routes.draw do
   # TODO - get locales dynamically
   scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar|ru/ do
 
-    devise_scope :user do 
+    devise_scope :user do
       get "/users/edit_success" => "devise/registrations#edit_success", as: "user_edit_success"
     end
     # https://github.com/plataformatec/devise/wiki/How-To:-Use-devise-inside-a-mountable-engine
@@ -36,12 +38,14 @@ Pwb::Engine.routes.draw do
 
     get "/" => "welcome#index", as: "home"
     get "/p/:page_slug" => "sections#generic_page", as: "generic_page"
+    get "/c/:page_slug" => "comfy#show"
 
     get "/properties/for-rent/:id/:url_friendly_title" => "props#show_for_rent", as: "prop_show_for_rent"
     get "/properties/for-sale/:id/:url_friendly_title" => "props#show_for_sale", as: "prop_show_for_sale"
 
     get "/about-us" => "sections#about_us"
     # get "/sell" => "sections#sell"
+    # get "/sell" => "comfy#show"
     get "/buy" => "search#buy"
     get "/rent" => "search#rent"
 
@@ -85,9 +89,10 @@ Pwb::Engine.routes.draw do
       get "/website/all" => "website#all"
       get "/properties" => "properties#all"
     end
- 
+
     namespace :api do
       namespace :v1 do
+        # get "/cms/tag/:tag_name" => "cms#tag"
         get "/translations/list/:locale" => "translations#list"
 
 
@@ -109,6 +114,8 @@ Pwb::Engine.routes.draw do
 
         # put "tenant" => "agency#update_legacy"
         put "/master_address" => "agency#update_master_address"
+
+        jsonapi_resources :cms_pages
 
         # get "/web-contents" => "agency#infos"
         jsonapi_resources :lite_properties
@@ -146,5 +153,11 @@ Pwb::Engine.routes.draw do
 
       end
     end
+
+    # comfy_route :cms_admin, :path => '/comfy-admin'
+
+    # # Make sure this routeset is defined last
+    # comfy_route :cms, :path => '/comfy', :sitemap => false
+
   end
 end

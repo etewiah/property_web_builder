@@ -3,6 +3,7 @@
 #   # Task goes here
 # end
 require 'pwb/seeder'
+require 'pwb/cms_data_loader'
 # from root of engine:
 # bundle exec rake app:pwb:db:seed     
 # from spec/dummy folder or within an app using the engine:
