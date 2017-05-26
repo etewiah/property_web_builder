@@ -35,19 +35,46 @@
     "tabTitleKey": "webContentSections.people",
     "label": "about_us_people",
     "editorBlocks": [
-      [
-        "title_a",
-        "content_a"
-      ],
-      [
-        "title_b",
-        "content_b"
-      ],
-      [
-        "title_c",
-        "content_c"
-      ]
-
+      [{
+        "label": "person_name_a",
+        "isSingleLineText": "true"
+      },{
+        "label": "person_title_a",
+        "isSingleLineText": "true"
+      }, {
+        "label": "person_details_a",
+        "isMultipleLineText": "true"
+      }],
+      [{
+        "label": "person_name_b",
+        "isSingleLineText": "true"
+      },{
+        "label": "person_title_b",
+        "isSingleLineText": "true"
+      }, {
+        "label": "person_details_b",
+        "isMultipleLineText": "true"
+      }],
+      [{
+        "label": "person_name_c",
+        "isSingleLineText": "true"
+      },{
+        "label": "person_title_c",
+        "isSingleLineText": "true"
+      }, {
+        "label": "person_details_c",
+        "isMultipleLineText": "true"
+      }],
+      [{
+        "label": "person_name_d",
+        "isSingleLineText": "true"
+      },{
+        "label": "person_title_d",
+        "isSingleLineText": "true"
+      }, {
+        "label": "person_details_d",
+        "isMultipleLineText": "true"
+      }]
     ]
   }]
 

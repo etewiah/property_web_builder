@@ -2,14 +2,17 @@ module Pwb
   class CmsDataLoader
     class << self
       # Called by this rake task:
-      # rake app:pwb:db:seed                                  1 ↵
+      # rake app:pwb:db:seed    
+      # or from console:
+      # require 'pwb/cms_data_loader'
+      # Pwb::CmsDataLoader.load_site_data!
 
       def load_site_data! 
         locale = "en"
         # site_key = "cms"
         from  = "cms"
         to    = "cms-site"
-byebug
+# byebug
         cms = Comfy::Cms::Site.find_or_create_by(
           {
             locale: locale,
