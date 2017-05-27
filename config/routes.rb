@@ -115,6 +115,7 @@ Pwb::Engine.routes.draw do
         # put "tenant" => "agency#update_legacy"
         put "/master_address" => "agency#update_master_address"
 
+        get "/cms-pages/meta/:page_name" => "cms_pages#meta"
         jsonapi_resources :cms_pages
 
         # get "/web-contents" => "agency#infos"

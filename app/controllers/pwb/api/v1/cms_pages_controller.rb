@@ -7,6 +7,11 @@ module Pwb
     skip_before_action :ensure_valid_accept_media_type
     # skip_before_action :verify_accept_header
 
+    def meta
+      @admin_setup = Pwb::CmsPageContainer.where(name: params[:page_name]).first || {}
+      return render json: @admin_setup.as_json["attributes"]
+    end
+
     def update
       blocks = []
       cms_pages_params[:attributes][:blocks].each do |block_params|
@@ -23,7 +28,7 @@ module Pwb
     end
 
     def cms_pages_params
-     params.require(:data).permit(:id, :attributes => [ :blocks => [ :content, :id ] ])
+      params.require(:data).permit(:id, :attributes => [ :blocks => [ :content, :id ] ])
     end
 
   end
