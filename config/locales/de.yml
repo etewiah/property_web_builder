@@ -136,7 +136,7 @@ de:
         in_locality: Gegend
         in_zone: Gebiet
         locality: Gegend
-        property_state:Bundesland der immobilie
+        property_state: Bundesland der immobilie
         property_type: Art der Immobilie
     'no': Nein
     required:
