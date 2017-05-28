@@ -36,6 +36,9 @@
     "label": "about_us_people",
     "editorBlocks": [
       [{
+        "label": "person_img_url_a",
+        "isImage": "true"
+      },{
         "label": "person_name_a",
         "isSingleLineText": "true"
       },{
@@ -46,6 +49,9 @@
         "isMultipleLineText": "true"
       }],
       [{
+        "label": "person_img_url_b",
+        "isImage": "true"
+      },{
         "label": "person_name_b",
         "isSingleLineText": "true"
       },{
@@ -56,6 +62,9 @@
         "isMultipleLineText": "true"
       }],
       [{
+        "label": "person_img_url_c",
+        "isImage": "true"
+      },{
         "label": "person_name_c",
         "isSingleLineText": "true"
       },{
@@ -66,6 +75,9 @@
         "isMultipleLineText": "true"
       }],
       [{
+        "label": "person_img_url_d",
+        "isImage": "true"
+      },{
         "label": "person_name_d",
         "isSingleLineText": "true"
       },{
