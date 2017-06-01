@@ -1,6 +1,6 @@
 id,title_en,title_es,description_en,description_es,price_sale_current_cents,price_rental_monthly_current_cents,count_bedrooms,count_bathrooms,count_toilets,count_garages,street_address,street_number,postal_code,city,country,longitude,latitude
 
 57,Example flat for sale.,Ejemplo de un piso para vender.,Description of the amazing flat for sale.,Descripción de una flat estupenda para vender.,5000000,0,1,1.0,1,0,Calle Sup,23,29590,Málaga,Spain,-4.52615000000003,36.73234
-58,Example flat to rent.,Ejemplo de un piso para alquilar.,Description of the amazing flat to rent.,Descripción de una flat estupenda para alquilar.,0,50000,1,1.0,1,0,Calle Sup,23,29590,Málaga,Spain,-4.52615000000003,36.73234
+58,Example flat to rent.,Ejemplo de un piso para arrendar.,Description of the amazing flat to rent.,Descripción de una flat estupenda para arrendar.,0,50000,1,1.0,1,0,Calle Sup,23,29590,Málaga,Spain,-4.52615000000003,36.73234
 55,Example villa for sale.,Ejemplo de villa para vender.,Description of the amazing villa for sale.,Descripción de una villa estupenda para vender.,30000000,0,2,2.0,1,1,Calle Sup,23,29590,Málaga,Spain,-4.52615000000003,36.73234
-56,Example mansion for rent.,Una villa estupenda para aliquilar.,Description of the amazing mansion for rent.,Descripción de una villa estupenda para aliquilar.,0,100000,2,2.0,1,1,Calle Sup,23,29590,Málaga,Spain,-4.52615000000003,36.73234
+56,Example mansion for rent.,Una villa estupenda para arrendar.,Description of the amazing mansion for rent.,Descripción de una villa estupenda para aliquilar.,0,100000,2,2.0,1,1,Calle Sup,23,29590,Málaga,Spain,-4.52615000000003,36.73234
