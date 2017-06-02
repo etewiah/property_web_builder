@@ -25,7 +25,7 @@ module Pwb
         :company_name, :display_name, :default_area_unit,
         :phone_number_primary, :phone_number_other,
         :theme_name, :default_currency, :default_client_locale,
-        :raw_css,
+        :raw_css, :analytics_id_type, :analytics_id,
       supported_locales: []
 )
     end

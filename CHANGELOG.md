@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 
 * Support for adding CSS directly
+* Support for Google Analytics script
 
 ## 1.0.0 / 2017-05-25
 

@@ -23,7 +23,7 @@ module Pwb
                "default_area_unit", "default_client_locale",
                "available_currencies", "default_currency",
                "supported_locales", "social_media",
-               "raw_css"
+               "raw_css", "analytics_id", "analytics_id_type"
              ],
              methods: ["style_variables"]}.merge(options || {}))
     end
@@ -107,6 +107,16 @@ module Pwb
         write_attribute(:theme_name, theme_name_value)
         # this is same as self[:theme_name] = theme_name_value
       end
+    end
+
+    def render_google_analytics
+      return false unless Rails.env == "production"
+      if self.analytics_id.present?
+        return true
+      else
+        return false
+      end
+
     end
   end
 end
