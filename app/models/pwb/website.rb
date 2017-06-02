@@ -22,7 +22,8 @@ module Pwb
                "company_display_name", "theme_name",
                "default_area_unit", "default_client_locale",
                "available_currencies", "default_currency",
-               "supported_locales", "social_media"
+               "supported_locales", "social_media",
+               "raw_css"
              ],
              methods: ["style_variables"]}.merge(options || {}))
     end

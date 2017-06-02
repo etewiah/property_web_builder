@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+* Support for adding CSS directly
+
 ## 1.0.0 / 2017-05-25
 
 * Minor fixes for admin UI (#16 & #17)
