@@ -47,12 +47,12 @@
   energy_rating:
   energy_performance:
   title_en: Example flat to rent.
-  title_es: Ejemplo de un piso para alquilar.  
-  description_en: Description of the amazing flat to rent. 
-  description_es: Descripción de una flat estupenda para alquilar.
+  title_es: Ejemplo de un piso para arrendar.
+  description_en: Description of the amazing flat to rent.
+  description_es: Descripción de una flat estupenda para arrendar
   photo_files:
     - db/example_images/flat_balcony.jpg
     - db/example_images/lounge_cosy.jpg
-  # photo_urls: 
+  # photo_urls:
   #   - https://inmo-a.s3.amazonaws.com/us/gooddeals/property/18/IMG_20160311_165938_2982a36e0a.jpg
   #   - https://inmo-a.s3.amazonaws.com/us/gooddeals/property/15/IMG_20160311_165813_bbb7304f64.jpg
