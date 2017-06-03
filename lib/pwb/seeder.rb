@@ -28,10 +28,12 @@ module Pwb
         seed_agency 'agency.yml'
         seed_website 'website.yml'
         # need to seed website first so correct currency is used
-        seed_prop 'villa_for_sale.yml'
-        seed_prop 'villa_for_rent.yml'
-        seed_prop 'flat_for_sale.yml'
-        seed_prop 'flat_for_rent.yml'
+        unless Pwb::Prop.count > 3
+          seed_prop 'villa_for_sale.yml'
+          seed_prop 'villa_for_rent.yml'
+          seed_prop 'flat_for_sale.yml'
+          seed_prop 'flat_for_rent.yml'
+        end
         seed_sections 'sections.yml'
         seed_field_keys 'field_keys.yml'
         seed_users 'users.yml'
