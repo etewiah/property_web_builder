@@ -13,6 +13,10 @@ module Pwb
         # which is  ugly but works
         @website.social_media = params[:website][:social_media]
         @website.style_variables = params[:website][:style_variables]
+        @website.sale_price_options_from = params[:website][:sale_price_options_from]
+        @website.sale_price_options_till = params[:website][:sale_price_options_till]
+        @website.rent_price_options_from = params[:website][:rent_price_options_from]
+        @website.rent_price_options_till = params[:website][:rent_price_options_till]
         @website.save!
       end
       render json: @website
@@ -26,6 +30,8 @@ module Pwb
         :phone_number_primary, :phone_number_other,
         :theme_name, :default_currency, :default_client_locale,
         :raw_css, :analytics_id_type, :analytics_id,
+        :sale_price_options_from, :sale_price_options_till,
+        :rent_price_options_from, :rent_price_options_till,        
       supported_locales: []
 )
     end

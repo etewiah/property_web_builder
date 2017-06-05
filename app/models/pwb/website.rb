@@ -23,7 +23,9 @@ module Pwb
                "default_area_unit", "default_client_locale",
                "available_currencies", "default_currency",
                "supported_locales", "social_media",
-               "raw_css", "analytics_id", "analytics_id_type"
+               "raw_css", "analytics_id", "analytics_id_type",
+               "sale_price_options_from", "sale_price_options_till",
+               "rent_price_options_from", "rent_price_options_till"
              ],
              methods: ["style_variables"]}.merge(options || {}))
     end
