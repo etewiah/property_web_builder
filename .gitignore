@@ -38,4 +38,6 @@ spec/dummy/public/system
 
 notes
 
+spec/features/pwb/admin_spec_tmp.rb
+
 .localeapp
