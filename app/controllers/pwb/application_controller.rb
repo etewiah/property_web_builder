@@ -2,13 +2,13 @@ module Pwb
   class ApplicationController < ActionController::Base
     protect_from_forgery with: :exception
 
-    before_action :footer_content, :current_agency_and_website, :sections, 
+    before_action :footer_content, :current_agency_and_website, :sections,
     :set_locale, :set_theme_path
 
     def set_theme_path
       theme_name = Website.unique_instance.theme_name
       theme_name = theme_name.present? ? theme_name : "default"
-       # || "default"
+      # || "default"
       # if Agency.last && Agency.last.theme_name.present?
       #   theme_name = Agency.last.theme_name
       # end
@@ -56,6 +56,5 @@ module Pwb
       @sections ||= Section.order("sort_order")
       @show_admin_link = true
     end
-
   end
 end

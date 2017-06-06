@@ -1,6 +1,5 @@
 module Pwb
   class Export::TranslationsController < ApplicationApiController
-
     # http://localhost:3000/export/translations/all
     def all
       # render plain: I18n::Backend::ActiveRecord::Translation.to_csv
@@ -8,8 +7,7 @@ module Pwb
       # above results in below message in chrome:
       # Resource interpreted as Document but transferred with MIME type application/octet-stream
 
-
-      translations = I18n::Backend::ActiveRecord::Translation.where(id: [1,2,3])
+      translations = I18n::Backend::ActiveRecord::Translation.where(id: [1, 2, 3])
       @header_cols = ["translation-id", "key", "value", "locale"]
       @translation_fields = [:id, :key, :value, :locale]
       @translations_array = []
@@ -27,8 +25,6 @@ module Pwb
       headers['Content-Disposition'] = "attachment; filename=\"pwb-translations.csv\""
       headers['Content-Type'] ||= 'text/csv'
       render "all.csv"
-
     end
-
   end
 end

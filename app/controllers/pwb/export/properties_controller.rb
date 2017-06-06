@@ -10,11 +10,11 @@ module Pwb
       #                 "Street Address", "Street Number", "Postal Code",
       #                 "City", "Country", "Longitude", "Latitude"]
       @prop_fields = [:id, :title_en, :title_es,
-                     :description_en, :description_es,
-                     :price_sale_current_cents, :price_rental_monthly_current_cents,
-                     :count_bedrooms, :count_bathrooms,  :count_toilets,  :count_garages,
-                     :street_address, :street_number, :postal_code,
-                     :city, :country, :longitude, :latitude]
+                      :description_en, :description_es,
+                      :price_sale_current_cents, :price_rental_monthly_current_cents,
+                      :count_bedrooms, :count_bathrooms, :count_toilets, :count_garages,
+                      :street_address, :street_number, :postal_code,
+                      :city, :country, :longitude, :latitude]
       @props_array = []
       properties.each do |prop|
         prop_field_values = []
@@ -31,6 +31,5 @@ module Pwb
       headers['Content-Type'] ||= 'text/csv'
       render "all.csv"
     end
-
   end
 end

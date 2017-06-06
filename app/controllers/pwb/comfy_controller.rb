@@ -19,7 +19,7 @@ module Pwb
     #   :authorize,
     #   :only => :show
 
-    rescue_from ActiveRecord::RecordNotFound, :with => :page_not_found
+    rescue_from ActiveRecord::RecordNotFound, with: :page_not_found
 
     def show
       @cms_pages = []
@@ -34,9 +34,9 @@ module Pwb
       rescue ActiveHash::RecordNotFound
       end
 
-      @content_area_cols =  Content.where(tag: 'content-area-cols').order('sort_order')
+      @content_area_cols = Content.where(tag: 'content-area-cols').order('sort_order')
 
-      return render "/pwb/sections/cms"
+      render "/pwb/sections/cms"
 
       # cms_page_path =  "/#{params[:page_slug]}-page"
       # https://github.com/comfy/comfortable-mexican-sofa/wiki/View-rendering
@@ -49,7 +49,6 @@ module Pwb
       # }
       # return render @cms_page.content_cache
       # , layout: "application"
-
     end
 
     def render_sitemap
@@ -59,7 +58,7 @@ module Pwb
     protected
 
     def load_cms_site
-      # TODO - load diff sites depending on locale//
+      # TODO: - load diff sites depending on locale//
       @cms_site = ::Comfy::Cms::Site.find_by_locale :es
       # (::Comfy::Cms::Site.find_by_locale I18n.locale) || (::Comfy::Cms::Site.find_by_locale :en)
     end
@@ -89,8 +88,8 @@ module Pwb
       ComfortableMexicanSofa::Fixture::Importer.new(@cms_site.identifier).import!
     end
 
-    def load_cms_page page_key
-      @cms_page = @cms_site.pages.published.find_by_full_path!("/#{ [:cms_path]}")
+    def load_cms_page(_page_key)
+      @cms_page = @cms_site.pages.published.find_by_full_path!("/[:cms_path]")
     end
 
     def page_not_found
@@ -100,9 +99,7 @@ module Pwb
         format.html { render_page(404) }
       end
     rescue ActiveRecord::RecordNotFound
-      raise ActionController::RoutingError.new("Page Not Found at: \"#{params[:cms_path]}\"")
+      raise ActionController::RoutingError, "Page Not Found at: \"#{params[:cms_path]}\""
     end
   end
-
-
 end

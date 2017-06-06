@@ -31,7 +31,7 @@ module Pwb
         :theme_name, :default_currency, :default_client_locale,
         :raw_css, :analytics_id_type, :analytics_id,
         :sale_price_options_from, :sale_price_options_till,
-        :rent_price_options_from, :rent_price_options_till,        
+        :rent_price_options_from, :rent_price_options_till,
       supported_locales: []
 )
     end

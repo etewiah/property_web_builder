@@ -7,12 +7,11 @@ module Pwb
     skip_before_action :ensure_valid_accept_media_type
     # skip_before_action :verify_accept_header
 
-
     def set_photo
       # This only creates a content photo
       # - does not associate it with a cms page yet
       photo = ContentPhoto.create
-      # TODO - figure out how to remove orphaned photos
+      # TODO: - figure out how to remove orphaned photos
       if params[:file]
         photo.image = params[:file]
       end
@@ -23,7 +22,7 @@ module Pwb
 
     def meta
       @admin_setup = Pwb::CmsPageContainer.where(name: params[:page_name]).first || {}
-      return render json: @admin_setup.as_json["attributes"]
+      render json: @admin_setup.as_json["attributes"]
     end
 
     def update
@@ -33,7 +32,7 @@ module Pwb
         block = Comfy::Cms::Block.find block_params[:id]
         if block_params[:is_image]
           # for images I want to update all language variants of the block
-          cross_locale_blocks = Comfy::Cms::Block.where(identifier:  block_params[:identifier])
+          cross_locale_blocks = Comfy::Cms::Block.where(identifier: block_params[:identifier])
           cross_locale_blocks.each do |cross_locale_block|
             cross_locale_block.update block_params.slice :content
           end
@@ -66,12 +65,11 @@ module Pwb
       updated_caches.push {}
       serialized_page[:data]["attributes"]["updated-caches"] = updated_caches
       # [{id: 22, cc: "dddd"}]
-      return render json: serialized_page
+      render json: serialized_page
     end
 
     def cms_pages_params
-      params.require(:data).permit(:id, :attributes => [ :label, :blocks => [ :content, :id, :identifier, :info, :is_image  ] ])
+      params.require(:data).permit(:id, attributes: [:label, blocks: [:content, :id, :identifier, :info, :is_image]])
     end
-
   end
 end

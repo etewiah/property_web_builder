@@ -1,18 +1,15 @@
 module Pwb
   class DeviseController < ApplicationController
-
     # This controller is registered in
     # pwb/config/initializers/devise.rb
     # with:
     #   config.parent_controller = 'Pwb::DeviseController'
-
 
     # # ActionController::Base
     #  protect_from_forgery with: :exception
 
     #  # before_action :current_agency, :sections, :set_locale, :set_theme_path
     #  # before_action :configure_permitted_parameters, if: :devise_controller?
-
 
     #  def set_theme_path
     #    @is_devise = true
@@ -26,7 +23,6 @@ module Pwb
 
     #    self.class.layout "#{Pwb::Engine.root}/app/themes/#{theme_name}/views/layouts/pwb/application"
     #  end
-
 
     #  def set_locale
     #    agency = current_agency
@@ -71,7 +67,7 @@ module Pwb
     #
     # Overwriting the sign_out redirect path method
     # By default it is the root_path.
-    def after_sign_out_path_for(resource_or_scope)
+    def after_sign_out_path_for(_resource_or_scope)
       # scope = Devise::Mapping.find_scope!(resource_or_scope)
       # router_name = Devise.mappings[scope].router_name
       # context = router_name ? send(router_name) : self
@@ -79,9 +75,8 @@ module Pwb
       pwb.home_path
     end
 
-
-    def after_sign_in_path_for(resource_or_scope)
-      # TODO - check for admin v standard users
+    def after_sign_in_path_for(_resource_or_scope)
+      # TODO: - check for admin v standard users
       pwb.admin_path
       # stored_location_for(resource_or_scope) || signed_in_root_path(resource_or_scope)
     end
