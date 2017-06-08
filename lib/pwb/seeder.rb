@@ -16,7 +16,8 @@ module Pwb
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_de.rb')
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_fr.rb')
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_pt.rb')
-          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_others.rb')
+          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_ru.rb')
+          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_ca.rb')
         end
 
         seed_content 'content_columns.yml'
