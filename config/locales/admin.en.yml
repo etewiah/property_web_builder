@@ -24,16 +24,20 @@ en:
     hi: Hindi
     sqmt: Square Meters
     sqft: Square Feet
+    cad: Canadian Dollar
+    ars: Argentinan Peso
+    aud: Australian Dollar
+    mxn: Mexican Peso
     gbp: UK Pounds
     usd: US Dollars
     eur: Euros
     inr: Indian Rupee
     chf: Swiss Franc
-    cny: China Yuan Renminbi
-    clp: Chile Peso
-    rub: Russia Ruble
-    brl: Brazil Real
-    zar: South Africa Rand
+    cny: Chinese Yuan Renminbi
+    clp: Chilean Peso
+    rub: Russian Ruble
+    brl: Brazilian Real
+    zar: South African Rand
     hkd: Hong Kong Dollar
     inTabLabels:
       topNav: Top Navigation

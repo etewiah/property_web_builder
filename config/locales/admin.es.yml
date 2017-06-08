@@ -3,7 +3,7 @@ es:
     "true": "true"
     "false": "false"
     "yes": "si"
-    "no": "no" 
+    "no": "no"
     es-ES: Spain
     es-CL: Chile
     es-MX: Mexico
@@ -24,16 +24,20 @@ es:
     hi: Hindi
     sqmt: Square Meters
     sqft: Square Feet
+    cad: Canadian Dollar
+    ars: Argentinan Peso
+    aud: Australian Dollar
+    mxn: Mexican Peso
     gbp: UK Pounds
     usd: US Dollars
     eur: Euros
     inr: Indian Rupee
     chf: Swiss Franc
-    cny: China Yuan Renminbi
-    clp: Chile Peso
-    rub: Russia Ruble
-    brl: Brazil Real
-    zar: South Africa Rand
+    cny: Chinese Yuan Renminbi
+    clp: Chilean Peso
+    rub: Russian Ruble
+    brl: Brazilian Real
+    zar: South African Rand
     hkd: Hong Kong Dollar
     inTabLabels:
       topNav: Top Navigacion
@@ -43,7 +47,7 @@ es:
       socialLinks: Redes sociales
       siteLayout: Modo de visualización
       colorFooterBg: Color de fondo del footer
-      colorFooterMainText: Color principal del texto del footer 
+      colorFooterMainText: Color principal del texto del footer
       colorFooterSecText: Color secundario del texto del footer
       colorPrimary: Color principal
       colorSecondary: Color secundario
@@ -56,7 +60,7 @@ es:
       buy: Comprar
       contactUs: Contactar
       home: Inicio
-      rent: Alquilar
+      rent: Arrendar
       sell: Vender
       legalAdvice: Aviso Legal
       privacyPolicy: Politica de Privacidad
@@ -78,7 +82,7 @@ es:
 
     btnLabels:
       importTranslations: Importar traduciones
-      importSiteContent: Importar contenido del web 
+      importSiteContent: Importar contenido del web
       setThemePrompt: Set as website theme
       activatedThemeInfo: Currently active website theme
 
@@ -90,7 +94,7 @@ es:
       recLogoPhotoSize: Recommended size for logo is 120px X 80px,
       orderByDragging: Pinche y arrastre sobre la fila para ordenar - la primera foto es la foto principal
 
-    webContentLabels: 
+    webContentLabels:
       suffixAr: en Arabe
       suffixFr: en Francés
       suffixIt: en Italiano
@@ -112,11 +116,11 @@ es:
       aboutUs: Sobre nosotros
       footerInfo: Contenido para el pie de página
 
-    siteSections: 
+    siteSections:
       aboutUs: Sobre nosotros
       contactUs: Contacto
       buy: Comprar
-      rent: Alquiler
+      rent: Arrendar
       sell: Vender
 
     ioSections:
@@ -129,7 +133,7 @@ es:
       appearance: Aparancia
       footer: Footer
       aboutUs: Sobre nosotros
-      contactInformation: Contact information 
+      contactInformation: Contact information
       sell: Vender
       tagLine: Tag Line
       legal: Aviso Legal
@@ -142,7 +146,7 @@ es:
         contentAreaCols: Columnas del página principal
 
 
-    fieldLabels: 
+    fieldLabels:
     #   yaencontre: Yaencontre
     #   pisoscom: Pisoscom
     #   idealista: Idealista
@@ -171,7 +175,7 @@ es:
       tituloIngles: Titulo Inglés
       precioVenta: Precio Venta
       precioAntiguo: Original Price
-      precioAlquiler: Precio Alquiler
+      precioAlquiler: Precio Arriendo
       origen: Origen
       temporadas: Temporadas
       precioTa: Precio Temp. Alta
@@ -192,14 +196,14 @@ es:
       priceSaleCurrent: Precio
       saleDiscount: Descuento
       priceSaleOriginal: Precio original
-      longTermRental: Disponible para alquiler a largo plazo?
-      seasonalRental: Disponible para alquiler vacacional?
+      longTermRental: Disponible para arriendo a largo plazo?
+      seasonalRental: Disponible para arriendo vacacional?
       priceRentalMonthlyHighSeason: Precio de temporada alta
       priceRentalMonthlyLowSeason: Precio de temporada baja
       priceRentalMonthlyStandardSeason: Precio de temporada media
-      priceRentalMonthlyCurrent: Precio de alquiler (mensual)
-      longTermRentalDiscount: Descuento en el alquiler
-      priceRentalMonthlyOriginal: Precio original del alquiler (mensual)
+      priceRentalMonthlyCurrent: Precio de arriendo (mensual)
+      longTermRentalDiscount: Descuento en el arriendo
+      priceRentalMonthlyOriginal: Precio original del arriendo (mensual)
       firstNames: Nombre
       lastNames: Apellidos
       visible: Visible

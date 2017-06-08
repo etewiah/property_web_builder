@@ -1,5 +1,8 @@
 ---
 es:
+  devise:
+    user_update_success_title: Congratulations
+    user_update_success: You have successfully updated your account.
   aboutUs: Sobre nosotros
   address: Dirección
   back: Volver
@@ -15,7 +18,7 @@ es:
   'false': 'No'
   findAProperty: Encuentra tu casa
   findByReference: Buscar por referencia
-  forRent: En alquiler
+  forRent: En arriendo
   forSale: En venta
   go: Ir
   labels:
@@ -50,7 +53,7 @@ es:
     buy: Comprar
     contactUs: Contactar
     home: Inicio
-    rent: Alquilar
+    rent: Arrendar
     sell: Vender
     legalAdvice: Aviso Legal
     privacyPolicy: Politica de Privacidad
@@ -84,7 +87,7 @@ es:
     price: Precio
     propertyType: Tipo de Propiedad
     ref: Ref.
-  propertyForRent: Inmueble para alquiler
+  propertyForRent: Inmueble para arrendar
   propertyForSale: Inmueble a la venta
   propertyNotFound: Propiedad no encontrada
   pwb:
@@ -150,5 +153,3 @@ es:
     home: Inicio
     sell: Vender
     tagLine: Lema
-
-

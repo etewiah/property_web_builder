@@ -1,13 +1,12 @@
 module Pwb
   class Import::MlsController < ApplicationApiController
-
     def retrieve
       [:username, :password, :login_url, :mls_unique_name].each do |param_name|
         unless params[param_name].present?
-          return render json: { :error => "Please provide #{param_name}."}, :status => 422
+          return render json: { error: "Please provide #{param_name}."}, status: 422
         end
       end
-      mls_name = params[:mls_unique_name] 
+      mls_name = params[:mls_unique_name]
       # || "mris"
       import_source = Pwb::ImportSource.find_by_unique_name mls_name
 
@@ -29,8 +28,7 @@ module Pwb
         count += 1
       end
 
-      return render json: retrieved_properties
-
+      render json: retrieved_properties
     end
 
     # def retrieve2
@@ -46,6 +44,5 @@ module Pwb
     #   end
     #   return render json: retrieved_properties
     # end
-
   end
 end

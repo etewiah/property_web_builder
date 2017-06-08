@@ -32,4 +32,6 @@ social_media: {
   "linkedin": "https://www.linkedin.com/company/propertywebbuilder",
   "twitter": "https://twitter.com/prptywebbuilder"
   }
-raw_css: ""
+raw_css: "body  {
+    background: white;
+}"

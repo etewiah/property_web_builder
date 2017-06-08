@@ -1,6 +1,60 @@
 [{
   "name": "default",
   "id": "default",
+  // "cmsSections": [{
+  //   "tabValue": "about-us",
+  //   "tabTitleKey": "webContentSections.aboutUs",
+  //   "cmsPartsList": [{
+  //     "tabValue": "services",
+  //     "tabTitleKey": "webContentSections.services",
+  //     "label": "about_us_services",
+  //     "editorBlocks": [
+  //       [{
+  //         "label": "title_a",
+  //         "isSingleLineText": "true"
+  //       }, {
+  //         "label": "content_a",
+  //         "isMultipleLineText": "true"
+  //       }],
+  //       [{
+  //         "label": "title_b",
+  //         "isSingleLineText": "true"
+  //       }, {
+  //         "label": "content_b",
+  //         "isMultipleLineText": "true"
+  //       }],
+  //       [{
+  //         "label": "title_c",
+  //         "isSingleLineText": "true"
+  //       }, {
+  //         "label": "content_c",
+  //         "isMultipleLineText": "true"
+  //       }]
+  //     ]
+  //   }, {
+  //     "tabValue": "people",
+  //     "tabTitleKey": "webContentSections.people",
+  //     "label": "about_us_people",
+  //     "editorBlocks": [
+  //       [
+  //         "title_a",
+  //         "content_a"
+  //       ],
+  //       [
+  //         "title_b",
+  //         "content_b"
+  //       ],
+  //       [
+  //         "title_c",
+  //         "content_c"
+  //       ]
+
+  //     ]
+  //   }]
+  // }, {
+  //   "tabValue": "legal",
+  //   "tabTitleKey": "webContentSections.legal"
+  // }],
   // https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx
   "availableLocaleFields": [{
       "labelTextTKey": "es",
@@ -22,7 +76,7 @@
     }, {
       "labelTextTKey": "pt",
       "fieldName": "pt",
-      "localeVariants": ["pt-PT","pt-BR"],
+      "localeVariants": ["pt-PT", "pt-BR"],
       "isNotComplete": true
     }, {
       "labelTextTKey": "ru",
@@ -31,10 +85,6 @@
       "isNotComplete": true
     }
     // }, {
-    //   "labelTextTKey": "de",
-    //   "fieldName": "de",
-    //   "localeVariants": ["de-DE"]
-    // }, {
     //   "labelTextTKey": "hi",
     //   "fieldName": "hi",
     //   "localeVariants": ["hi-IN"]
@@ -42,34 +92,43 @@
     //   "labelTextTKey": "it",
     //   "fieldName": "it",
     //   "localeVariants": ["it-IT"]
-    // }, {
-    //   "labelTextTKey": "pt",
-    //   "fieldName": "pt",
-    //   "localeVariants": ["pt-PT"]
-    // }, {
-    //   "labelTextTKey": "ru",
-    //   "fieldName": "ru",
-    //   "localeVariants": ["ru-RU"]
-    // , {
-    //   "labelTextTKey": "fr",
-    //   "fieldName": "fr",
-    //   "localeVariants": ["fr-FR"]
     // }
   ],
   // http://www.xe.com/iso4217.php
   "currencyFieldKeys": [{
+    "value": "CAD",
+    "labelTextTKey": "cad"
+  },{
+    "value": "AUD",
+    "labelTextTKey": "aud"
+  },{
+    "value": "ARS",
+    "labelTextTKey": "ars"
+  },{
+    "value": "MXN",
+    "labelTextTKey": "mxn"
+  },{
+    "value": "HKD",
+    "labelTextTKey": "hkd"
+  },{
+    "value": "BRL",
+    "labelTextTKey": "brl"
+  },{
+    "value": "ZAR",
+    "labelTextTKey": "zar"
+  },{
     "value": "CLP",
     "labelTextTKey": "clp"
-  },{
+  }, {
     "value": "CNY",
     "labelTextTKey": "cny"
-  },{
+  }, {
     "value": "EUR",
     "labelTextTKey": "eur"
   }, {
     "value": "USD",
     "labelTextTKey": "usd"
-  },{
+  }, {
     "value": "INR",
     "labelTextTKey": "inr"
   }, {
@@ -118,7 +177,7 @@
   "importPropertiesTabsList": [{
     "tabValue": "from_upload",
     "tabTitleKey": "ioSections.fromUpload"
-    // "importLabelKey": "btnLabels.importTranslations"
+      // "importLabelKey": "btnLabels.importTranslations"
   }, {
     "tabValue": "from_mls",
     "tabTitleKey": "ioSections.fromMls"

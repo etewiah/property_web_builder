@@ -6,6 +6,5 @@ module Pwb
       headers['Content-Type'] ||= 'text/csv'
       render "all.csv"
     end
-
   end
 end

@@ -1,0 +1,245 @@
+ru:
+  admin:
+    "true": "true"
+    "false": "false"
+    "yes": "yes"
+    "no": "no" 
+    es-ES: Spain
+    es-CL: Chile
+    es-MX: Mexico
+    en-UK: UK
+    en-US: USA
+    fr-FR: France
+    pt-PT: Portugal
+    pt-BR: Brazil
+    it-IT: Italy
+    de-DE: Germany
+    ru-RU: Russia
+    ne-NE: Netherlands
+    po-PO: Poland
+    fi-FI: Finland
+    no-NO: Norway
+    ca-CA: Catalunia
+    hi-IN: India
+    hi: Hindi
+    sqmt: Square Meters
+    sqft: Square Feet
+    cad: Canadian Dollar
+    ars: Argentinan Peso
+    aud: Australian Dollar
+    mxn: Mexican Peso
+    gbp: UK Pounds
+    usd: US Dollars
+    eur: Euros
+    inr: Indian Rupee
+    chf: Swiss Franc
+    cny: Chinese Yuan Renminbi
+    clp: Chilean Peso
+    rub: Russian Ruble
+    brl: Brazilian Real
+    zar: South African Rand
+    hkd: Hong Kong Dollar
+    inTabLabels:
+      topNav: Top Navigation
+      footer: Footer
+      currency: Currency
+      colors: Colours
+      socialLinks: Social Links
+      siteLayout: Site Layout
+      colorFooterBg: Footer background color
+      colorFooterMainText: Footer main text color
+      colorFooterSecText: Footer secondary text color
+      colorPrimary: Primary color
+      colorSecondary: Secondary color
+      colorActions: Actions color
+      supportedLanguages: Supported Languages
+      visibility: Visibility
+    navbar:
+      home: "Home"
+      admin: "Admin"
+      aboutUs: "About Us"
+      sell: "Sell"
+      buy: "Buy"
+      rent: "Rent"
+      contactUs: "Contact"
+      legalAdvice: "Legal Notice"
+      privacyPolicy: "Privacy Policy"
+    adminSections:
+      import: Import Data
+      start: Home
+      agencyDetails: Agency
+      content: Website
+      websiteSettings: Settings
+      websiteContent: Content
+      translations: Translations
+      properties: Properties
+      clientes: Clients
+      quit: Go To Site
+      list: List
+      settings: Settings
+      labels: Labels
+      about: About
+
+    btnLabels:
+      importTranslations: Import translations
+      importSiteContent: Import website content
+      setThemePrompt: Set as website theme
+      activatedThemeInfo: Currently active website theme
+
+    info:
+      defaultCurrency: Will only apply to newly added properties
+      defaultAreaUnit: Will only apply to newly added properties
+      recPropPhotoSize: Recommended size for a photo is 800px X 500px,
+      recCarouselPhotoSize: Recommended size for carousel images is 900px X 400px,
+      recLogoPhotoSize: Recommended size for logo is 120px X 80px,
+      orderByDragging: Drag and drop to order - first photo will be main photo.
+
+    webContentLabels: 
+      suffixEn: in English
+      suffixEs: in Spanish
+      suffixAr: in Arabic
+      suffixFr: in French
+      suffixIt: in Italian
+      suffixPt: in Portuguese
+      suffixDe: in German
+      suffixRu: in Russian
+      suffixCa: in Catalan
+      suffixNl: in Dutch
+      privacyPolicy: Privacy Policy
+      legalAdvice: Legal Notice
+      landingcarousel: Text for carousel image
+      cac1: Column 1
+      cac2: Column 2
+      cac3: Column 3
+      landingPageHero: Content for the main page
+      tagLine: Tag Line
+      aboutUs: About us
+      footerInfo: Extra footer content
+
+    siteSections: 
+      aboutUs: About us
+      contactUs: Contact
+      buy: Buy
+      rent: Rent
+      sell: Sell
+
+    ioSections:
+      fromMls: Import from MLS
+      fromUpload: Import from file
+      fromWebpage: Import from a webpage
+
+    webContentSections:
+      navigation: Navigation
+      appearance: Appearance
+      footer: Footer
+      aboutUs: About us
+      contactInformation: Contact information 
+      sell: Sell
+      tagLine: Tag Line
+      legal: Legal
+      general: General
+      landingCarousel: Landing Page Carousel
+      home: Home
+      contentAreaCols: Columns
+      sections: Sections
+      info:
+        contentAreaCols: Columns on the landing page giving an overview of the services
+          you provide
+
+    fieldLabels: 
+    #   yaencontre: Yaencontre
+    #   pisoscom: Pisoscom
+    #   idealista: Idealista
+    #   localidad: Localidad
+    #   zona: Zona
+      pickMlsPrompt: Select your MLS
+      propCsvUploadPrompt: Select the type of file to import from
+      pwbCsvFile: A csv file exported from PropertyWebBuilder
+      mlsCsvFile: A csv file exported from your MLS
+      deleteProp: Delete Property
+      areaUnit: Area Unit
+      defaultAreaUnit: Default Area Unit
+      currency: Currency
+      defaultCurrency: Default Currency
+      defaultLocale: Default Website Language
+      # codigoPostal: Codigo Postal
+      # direccion: Direccion
+      # direccionReal: Direccion Real
+      # direccionMapa: Direccion Mapa
+      ref: Reference No
+      tipo: Type
+      estado: State
+      descripcionEspanol: Description in Spanish
+      tituloEspanol: Title in Spanish
+      descripcionIngles: Description in English
+      tituloIngles: Title in English
+      precioVenta: Sales Price
+      precioAntiguo: Original Price
+      precioAlquiler: Rental Price
+      origen: Origen
+      temporadas: Temporadas
+      precioTa: Temp Price. Alta
+      precioTm: Temp Price. Media
+      precioTb: Temp Price. Baja
+      eficienciaEnergia: Eficiencia Energia
+      yearConstruction: Construction Year
+      countBedrooms: Bedrooms
+      countBathrooms: Bathrooms
+      # numAseos: Núm. aseos
+      plotArea: Plot Area
+      constructedArea: Constructed Area
+      garaje: Garage
+      forSearchWidget: For search widget
+      obscureMap: Hide exact address on website?
+      hideMap: Hide map on website?
+      forSale: For Sale?
+      priceSaleCurrent: Current Price
+      saleDiscount: saleDiscount
+      priceSaleOriginal: Original Price
+      longTermRental: Available for long term rental?
+      seasonalRental: Available for seasonal rental?
+      priceRentalMonthlyHighSeason: Price for high season rental
+      priceRentalMonthlyLowSeason: Price for low season rental
+      priceRentalMonthlyStandardSeason: Price for normal season rental
+      priceRentalMonthlyCurrent: Current rental price (per month)
+      longTermRentalDiscount: longTermRentalDiscount
+      priceRentalMonthlyOriginal: Original rental price (per month)
+      firstNames: First Name
+      lastNames: Last Names
+      visible: Visible
+      visibleOnWeb: Visible on website
+      highlighted: Highlighted
+      label: Label
+      companyName: Company Name
+      primaryPhone: Display phone number
+      otherPhone: Other phone number
+      primaryEmail: Display email
+      propertyContactEmail: Property enquiry email
+      generalContactEmail: General enquiry email
+      nationality: Nationality
+      documentationType: Documentation Type
+      documentationId: Documentation Id
+      email: Email
+      fax: Fax
+      skype: Skype
+      personTitle: Title
+      description: Description
+      title: Title
+      info:
+        primaryEmail: Email displayed in page header
+        primaryPhone: Phone no displayed in page header
+        propertyContactEmail: Enquiries about specific properties will be sent here
+        generalContactEmail: Enquiries from 'contact us' page will be sent here
+
+    # for header row in property listing
+    propertyColHeader:
+      highlighted: Highlighted
+      locality: Locality
+      actions: Actions
+      zone: Zone
+      price: Price
+      bedrooms: Bedrooms
+      bathrooms: Bathrooms
+      visible: Visible
+      reference: Ref
+      type: Type

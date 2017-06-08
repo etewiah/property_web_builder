@@ -9,7 +9,7 @@ module Pwb
     def as_json(options = nil)
       super({only: [
                :link_key, :link_path, :visible, :sort_order, :id,
-               :show_in_top_nav, :show_in_footer, :is_page
+               :show_in_top_nav, :show_in_footer, :is_page, :details
              ],
              methods: [:translation_key, :link_title_es, :page_title_es]
              }.merge(options || {}))

@@ -37,11 +37,11 @@
   show_in_top_nav: true
   show_in_footer: false
   link_title_en: Rent
-  link_title_es: Alquilar
+  link_title_es: Arrendar
   link_title_fr: Louer
   link_title_de: Miete
   page_title_en: Rent
-  page_title_es: Alquilar
+  page_title_es: Arrendar
   page_title_fr: Louer
   page_title_de: Miete
 # - link_key: sell

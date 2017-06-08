@@ -1,7 +1,7 @@
 /* content areas:; */
 
 .services-section {
-  float: left;
+  /*float: left;*/
   width: 100%;
   padding-bottom: 40px;
   padding-top: 10px;
@@ -22,6 +22,8 @@
   /* having to use above to override col-md-4 which I foolishly
   include in db content - impossible to add margin between cols the 
   way it was structured */
+  padding-left: 15px;
+  padding-right: 15px;
   height: 400px;
   overflow: hidden;
   /*above not the best - have to figure out solution for when users
@@ -87,6 +89,7 @@
   -webkit-transition: all 300ms ease-in-out;
 }
 
+
 /*.services-section .container .services-wrapper .single-service .icon-service {
   color: #0095e6;
   border-color: #0095e6;
@@ -94,11 +97,11 @@
 */
 
 
-
 /*.services-section .container .services-wrapper .single-service:hover h4 {
   color: #0095e6;
 }
 */
+
 .services-section .container .services-wrapper .single-service:hover .top-bordered {
   opacity: 1;
 }

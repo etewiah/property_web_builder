@@ -1,15 +1,18 @@
 ---
 de:
+  devise:
+    user_update_success_title: Herzlichen Glückwunsch
+    user_update_success: Du hast dein Konto erfolgreich aktualisiert
   aboutUs: Über uns
   address: Adresse
   back: Zurück
   changePassword: Passwort ändern
   contact:
-    emailSubject: Kontaktieren Sie von Ihrer Website
+    emailSubject: Kontaktiere uns von deiner Website
     error: Sorry, es ist ein Fehler aufgetreten.
-    success: Danke für deine Nachricht. Wir werden Sie umgehend kontaktieren!
+    success: Danke für deine Nachricht. Wir werden dich umgehend kontaktieren!
   contactUs: Kontakt
-  contactUsPrompt: Füllen Sie das untenstehende Formular aus, um uns
+  contactUsPrompt: Füllen Sie das untenstehende Formular aus, um uns zu kontaktieren
   editarPropiedad: Bearbeiten einer Eigenschaft
   email: Email
   'false': Nein
@@ -22,22 +25,22 @@ de:
     create: Erstellen
     edit: Bearbeiten
     new: Neu
-    save: sparen
-  leaveBlank: leer lassen, wenn Sie es nicht ändern wollen
+    save: Speichern
+  leaveBlank: leer lassen, wenn du es nicht ändern wollen
   legalAdvice: Impressum
-  listadoPropiedades: Liste der Eigenschaften
+  listadoPropiedades: Liste der Inmobilien
   mailers:
-    confirm_registration: Bitte bestätigen Sie Ihr Konto über den unten stehenden
+    confirm_registration: Bitte bestätigen dein Ihr Konto über den unten stehenden
       Link
     from: Von
     general_enquiry_targeting_agency:
-      title: Allgemeine Anfrage von Ihrer Website
+      title: Allgemeine Anfrage von diner Website
     general_enquiry_targeting_enquirer:
       message_title: ''
       subject: ''
     message: Nachricht
     phone: Tel
-    property: Eigentum
+    property: Inmobilie
     property_enquiry_targeting_agency:
       title: Anfrage bezüglich einer Immobilie
     received_on: Eingegangen am
@@ -55,7 +58,7 @@ de:
     sell: Verkaufen
     legalAdvice: Impressum
     privacyPolicy: Datenschutz-Bestimmungen
-  needCurrentPwd: Wir brauchen Ihr aktuelles Passwort, um die Änderungen zu bestätigen
+  needCurrentPwd: Wir brauchen dein aktuelles Passwort, um die Änderungen zu bestätigen
   newPassword: Neues Kennwort
   noResultsForSearch: Leider keine Ergebnisse
   nuevoPropiedad: neue Immobilien
@@ -66,37 +69,36 @@ de:
     email: Deine E-Mail
     message: Schreibe deine Nachricht hier
     name: Dein Name
-    subject: Fach
-    tel: Feste oder mobile
+    subject: Betreff
+    tel: Telefon
   privacyPolicy: Datenschutz-Bestimmungen
   property:
     description: Beschreibung
     details: Details
-    extras: Eigenschaften
+    extras: Exras
     furniture: Möbel
     goToProperty: Ansicht der Immobilie
-    highlightedProperty: herausragende Eigenschaft
+    highlightedProperty: herausragende Immbilie
     locality: Gegend
     map: Karte
-    monthlyRentalPriceHighSeason: Monatlicher Preis (Hochsaison)
-    monthlyRentalPriceLowSeason: Monatlicher Preis (Nebensaison)
-    monthlyRentalPriceStandardSeason: Monatlicher Preis (Standard Saison)
-    operationType: Der Betrieb Typ
+    monthlyRentalPriceHighSeason: Monatlicher Miete (Hochsaison)
+    monthlyRentalPriceLowSeason: Monatlicher Miete (Nebensaison)
+    monthlyRentalPriceStandardSeason: Monatlicher Miete (Standard Saison)
+    operationType: Operationstyp
     price: Preis
     propertyType: Art der Immobilie
     ref: Ref
   propertyForRent: Immobilien zu vermieten
   propertyForSale: Eigentum zum verkauf
-  propertyNotFound: Eigenschaft nicht gefunden
+  propertyNotFound: Immobilie nicht gefunden
   pwb:
     copyright: "%{company_name} Inc. Alle Rechte vorbehalten."
-    createPrompt: Erstellen Sie Ihre Immobilienbüro Website
-    createTagLine: Bitte geben Sie die Details für Ihr Konto
+    createPrompt: Erstellen deine Webseite Ihre Immobilienbüro
+    createTagLine: Bitte geben Sie die Details für dein Konto
     getStarted: Jetzt loslegen
     registerNow: Jetzt registrieren
     tagLine: Professionelle Websites für Immobilienmakler in Minuten
-    tagLineExt: Schöne Websites, die gesehen werden geglaubt werden müssen. <br> niemand
-      Sie online schneller bekommt.
+    tagLineExt: Schöne und elegante Websites, die gesehen werden müssen. <br> Niemand bringt dich schneller online.
   requestPropertyInfo: Infos anfordern
   search: Suche
   searchForProperties: Suche nach Immobilien
@@ -106,7 +108,7 @@ de:
     noneSelectedText: Nichts ausgewählt
   send: Senden
   setup:
-    claimSubdomain: Diesen Eintrag url
+    claimSubdomain: Diese URL registrieren
     createdSuccessfully: Web-Site erstellt erfolgreich
     goToYourSite: Gehen Sie zu Ihrer Website
     loggedInAs: Angemeldet als
@@ -115,10 +117,10 @@ de:
     selectUrlMessage: Jetzt wählen Sie die URL für Ihre neue Website - Sie haben erfolgreich
       ein Konto erstellt
     subdomain: Sub-Domain
-    subdomainMissing: Bitte geben Sie einen Namen für die Sub-Domain
-    thankYouForTrusting: Vielen Dank für Ihr Vertrauen %{company_name}
+    subdomainMissing: Bitte gib einen Namen für die Sub-Domain ein
+    thankYouForTrusting: Vielen Dank für dein Vertrauen %{company_name}
     urlNotAvailable: Leider ist diese URL ist nicht verfügbar
-    weAreCreatingSite: Wir schaffen Ihre Website
+    weAreCreatingSite: Wir erstellen deine Website
   signOut: Ausloggen
   simple_form:
     error_notification:
@@ -132,16 +134,16 @@ de:
         for_sale_price_from: Preis von
         for_sale_price_till: Preis Bis
         in_locality: Gegend
-        in_zone: Zone
+        in_zone: Gebiet
         locality: Gegend
-        property_state: Eigenschaft State
+        property_state: Bundesland der immobilie
         property_type: Art der Immobilie
     'no': Nein
     required:
       mark: "*"
       text: erforderlich
     'yes': Ja
-  subject: Fach
+  subject: Betreff
   tel: Telefon
   'true': Ja
   update: Aktualisieren

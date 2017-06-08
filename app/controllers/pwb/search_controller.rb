@@ -2,8 +2,7 @@ require_dependency 'pwb/application_controller'
 
 module Pwb
   class SearchController < ApplicationController
-
-    before_action :header_image_url 
+    before_action :header_image_url
 
     def search_ajax_for_sale
       @operation_type = "for_sale"
@@ -43,7 +42,7 @@ module Pwb
       @prices_till_collection = @current_website.sale_price_options_till
       # @prices_collection = @current_website.sale_price_options_from
 
-       # %W(#{''} 25,000 50,000 75,000 100,000 150,000 250,000 500,000 1,000,000 2,000,000 5,000,000 )
+      # %W(#{''} 25,000 50,000 75,000 100,000 150,000 250,000 500,000 1,000,000 2,000,000 5,000,000 )
       # ..
 
       set_common_search_inputs
@@ -58,10 +57,10 @@ module Pwb
       # initial client sort called by       INMOAPP.sortSearchResults();
       js 'Main/Search#sort' # trigger client-side paloma script
 
-      return render  "/pwb/search/buy"
+      render "/pwb/search/buy"
     end
 
-    # TODO - avoid duplication b/n rent and buy
+    # TODO: - avoid duplication b/n rent and buy
     def rent
       @page_title = I18n.t("searchForProperties")
       # in erb template for this action, I have js that will render search_results template
@@ -84,7 +83,7 @@ module Pwb
       @search_defaults = params[:search].present? ? params[:search] : {}
 
       js 'Main/Search#sort' # trigger client-side paloma script
-      return render  "/pwb/search/rent"
+      render "/pwb/search/rent"
     end
 
     private
@@ -124,17 +123,17 @@ module Pwb
       @property_states = FieldKey.get_options_by_tag("property-states")
     end
 
-    def apply_search_filter search_filtering_params
+    def apply_search_filter(search_filtering_params)
       search_filtering_params.each do |key, value|
         empty_values = ["propertyTypes."]
-        if (empty_values.include? value) || (value.empty?)
+        if (empty_values.include? value) || value.empty?
           next
         end
         price_fields = ["for_sale_price_from", "for_sale_price_till", "for_rent_price_from", "for_rent_price_till"]
         if price_fields.include? key
           currency_string = @current_website.default_currency || "usd"
-          currency =  Money::Currency.find currency_string
-          # above needed as some currencies like Chilean peso 
+          currency = Money::Currency.find currency_string
+          # above needed as some currencies like Chilean peso
           # don't have the cents field multiplied by 100
           value = value.gsub(/\D/, '').to_i * currency.subunit_to_unit
           # @properties = @properties.public_send(key, value) if value.present?
@@ -143,7 +142,6 @@ module Pwb
       end
       # end
     end
-
 
     # def search_redirect
     #   # todo - allow choosing between buying or renting
@@ -188,8 +186,5 @@ module Pwb
       hi_content = Content.where(tag: 'landing-carousel')[0]
       @header_image_url = hi_content.present? ? hi_content.default_photo_url : ""
     end
-
-
   end
-
 end
