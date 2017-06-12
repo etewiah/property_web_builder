@@ -1,0 +1,34 @@
+<% page_title @current_agency.company_name  %>
+<!-- MAIN CONTENT -->
+<div class="pg-opt">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>
+          <%= I18n.t(@title_key) %>
+        </h2>
+      </div>
+      <div class="col-md-6" style="">
+        <ol class="breadcrumb">
+          <li><a href="/">
+              <%= I18n.t("webContentSections.home") %>
+            </a></li>
+          <li class="active">
+            <%= I18n.t(@title_key) %>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%# render '/pwb/welcome/content_area_cols' %>
+
+
+<% @cms_pages.each do |cms_page| %>
+  <%== cms_page.content_cache %>  
+<% end %>
+
+
+
+<!-- FOOTER -->

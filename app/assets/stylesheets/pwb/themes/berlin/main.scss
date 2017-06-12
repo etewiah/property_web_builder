@@ -234,7 +234,8 @@ img {
 
 #aa-menu-area {
   left: 0;
-  padding-top: 20px;
+  /*Ed - reduced below from 20px*/
+  padding-top: 2px;
   position: absolute;
   right: 0;
   top: 35px;
@@ -268,8 +269,9 @@ img {
 }
 
 #aa-menu-area .main-navbar .navbar-header .aa-logo-img img {
-  width: 100%;
+  /*width: 100%;*/
   height: 100%;
+  object-fit: cover;
 }
 
 #aa-menu-area .main-navbar .navbar-nav li a {
@@ -306,7 +308,7 @@ img {
 
 #aa-menu-area .navbar-fixed-top {
   background-color: #FFF;
-  padding: 15px 0;
+  /*padding: 15px 0;*/
   -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
   -ms-transition: all 0.5s;
