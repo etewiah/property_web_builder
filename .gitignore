@@ -39,5 +39,6 @@ spec/dummy/public/system
 notes
 
 spec/features/pwb/admin_spec_tmp.rb
+config/locales/admin.zh.yml.tmp
 
 .localeapp

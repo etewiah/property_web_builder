@@ -1,0 +1,154 @@
+---
+# automatically generated file - awaiting correction
+zh:
+  aboutUs: 关于我们
+  address: 地址
+  back: 背部
+  changePassword: 更改密码
+  contact:
+    emailSubject: 联系您的网站
+    error: 对不起，有一个错误。
+    success: 感谢您的留言。我们会尽快与您联系！
+  contactUs: 联系
+  contactUsPrompt: 填写以下表格与我们联系
+  devise:
+    user_update_success: 您已成功更新您的帐户。
+    user_update_success_title: 祝贺
+  editarPropiedad: 修改属性
+  email: 电子邮件
+  'false': 没有
+  findAProperty: 查找酒店
+  findByReference: 通过参考查找
+  forRent: 出租
+  forSale: 出售
+  go: 走
+  labels:
+    create: 创建
+    edit: 编辑
+    new: 新
+    save: 保存
+  leaveBlank: 如果你不想改变它，请留空
+  legalAdvice: 法律声明
+  listadoPropiedades: 属性列表
+  mailers:
+    confirm_registration: 请通过以下链接确认您的帐户
+    from: 从
+    general_enquiry_targeting_agency:
+      title: 从您的网站的一般查询
+    general_enquiry_targeting_enquirer:
+      message_title: ''
+      subject: ''
+    message: 信息
+    phone: 联系电话
+    property: 属性
+    property_enquiry_targeting_agency:
+      title: 有关物业的查询
+    received_on: 收到了
+    welcome: 欢迎
+  menu_admin: 管理
+  message: 信息
+  name: 名称
+  navbar:
+    aboutUs: 关于我们
+    admin: 管理员
+    buy: 购买
+    contactUs: 联系
+    home: 家
+    legalAdvice: 法律声明
+    privacyPolicy: 隐私政策
+    rent: 出租
+    sell: 卖
+  needCurrentPwd: 我们需要您当前的密码来确认您的更改
+  newPassword: 新密码
+  noResultsForSearch: 对不起，没有找到结果
+  nuevoPropiedad: 新的财产
+  orderBy:
+    priceAscending: "↓价格（升序）"
+    priceDescending: "↑价格（降）"
+  placeHolders:
+    email: 你的邮件
+    message: 在这里写下你的消息
+    name: 你的名字
+    subject: 学科
+    tel: 固定或移动
+  privacyPolicy: 隐私政策
+  property:
+    description: 描述
+    details: 细节
+    extras: 特征
+    furniture: 家具
+    goToProperty: 查看属性
+    highlightedProperty: 优秀财产
+    locality: 局部性
+    map: 地图
+    monthlyRentalPriceHighSeason: 月价（旺季）
+    monthlyRentalPriceLowSeason: 月价（淡季）
+    monthlyRentalPriceStandardSeason: 月价（标准季）
+    operationType: 操作类型
+    price: 价钱
+    propertyType: 财产种类
+    ref: 参考
+  propertyForRent: 物业出租
+  propertyForSale: 物业出售
+  propertyNotFound: 找不到物业
+  pwb:
+    copyright: "%{company_name} Inc.保留所有权利。"
+    createPrompt: 创建您的房地产代理网站
+    createTagLine: 请输入您的帐户的详细信息
+    getStarted: 现在就开始
+    registerNow: 现在注册
+    tagLine: 地产代理专业网站在几分钟内
+    tagLineExt: 美丽的网站必须被视为相信。<br>没有人能更快地上网。
+  requestPropertyInfo: 请求信息
+  search: 搜索
+  searchForProperties: 搜索属性
+  selectpicker:
+    countSelectedText: "{1}的{0}"
+    noneResultsText: 找不到结果{0}
+    noneSelectedText: 没有选择
+  send: 发送
+  setup:
+    claimSubdomain: 声明此网址
+    createdSuccessfully: 站点创建成功
+    goToYourSite: 去你的网站
+    loggedInAs: 登录为
+    logout: 登出
+    selectUrl: 选择一个网址
+    selectUrlMessage: 您已经成功创建了一个帐户 - 现在选择您的新网站的网址
+    subdomain: 子域
+    subdomainMissing: 请输入子域名
+    thankYouForTrusting: 感谢您信任%{company_name}
+    urlNotAvailable: 对不起，此网址不可用
+    weAreCreatingSite: 我们正在创建您的网站
+  signOut: 登出
+  simple_form:
+    error_notification:
+      default_message: 请查看以下问题：
+    labels:
+      search:
+        count_bathrooms: 浴室（分钟）
+        count_bedrooms: 卧室（分）
+        for_rent_price_from: 租金（每月）
+        for_rent_price_till: 租金（每月）
+        for_sale_price_from: 价格从
+        for_sale_price_till: 价格直到
+        in_locality: 局部性
+        in_zone: 区
+        locality: 局部性
+        property_state: 财产状况
+        property_type: 财产种类
+    'no': 没有
+    required:
+      mark: "*"
+      text: 需要
+    'yes': 是
+  subject: 学科
+  tel: 电话
+  'true': 是
+  update: 更新
+  webContentSections:
+    aboutUs: 关于我们
+    contactInformation: 联系信息
+    home: 家
+    sell: 卖
+    tagLine: 标语
