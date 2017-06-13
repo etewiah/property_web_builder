@@ -5,7 +5,8 @@
   "tabTitleKey": "webContentSections.aboutUs",
   "cmsPartsList": [{
     "tabValue": "services",
-    "tabTitleKey": "webContentSections.services",
+    "tabTitleKey": "pageSections.services.title",
+    "tabInfoKey": "pageSections.services.info",
     "label": "about_us_services",
     "editorBlocks": [
       [{
@@ -32,7 +33,8 @@
     ]
   }, {
     "tabValue": "people",
-    "tabTitleKey": "webContentSections.people",
+    "tabTitleKey": "pageSections.people.title",
+    "tabInfoKey": "pageSections.people.info",
     "label": "about_us_people",
     "editorBlocks": [
       [{

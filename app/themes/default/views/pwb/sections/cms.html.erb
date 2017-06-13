@@ -21,14 +21,10 @@
     </div>
   </div>
 </div>
-
-<%= render '/pwb/welcome/content_area_cols' %>
-
-
-<% @cms_pages.each do |cms_page| %>
-  <%== cms_page.content_cache %>  
-<% end %>
-
-
-
+<div class="comfy-content-panel">
+  <%# render '/pwb/welcome/content_area_cols' %>
+  <% @cms_pages.each do |cms_page| %>
+    <%== cms_page.content_cache %>
+  <% end %>
+</div>
 <!-- FOOTER -->

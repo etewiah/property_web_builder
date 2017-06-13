@@ -39,6 +39,15 @@ en:
     brl: Brazilian Real
     zar: South African Rand
     hkd: Hong Kong Dollar
+    pageSections:
+      services: 
+        title: Services you offer
+        info: An overview of the services you offer
+      people: 
+        title: Your team
+        info: Summary info about your team
+    editor:
+      pickPhoto: Pick photo
     inTabLabels:
       topNav: Top Navigation
       footer: Footer
