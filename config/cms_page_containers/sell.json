@@ -1,9 +1,9 @@
 [{
-  "name": "about-us",
-  "id": "about-us",
-  "tabValue": "about-us",
-  "pageTitleKey": "pages.aboutUs",
-  // "tabTitleKey": "webContentSections.aboutUs",
+  "name": "sell",
+  "id": "sell",
+  "tabValue": "sell",
+  "pageTitleKey": "pages.sell",
+  // "tabTitleKey": "webContentSections.sell",
   "cmsPartsList": [{
     "tabValue": "services",
     "tabTitleKey": "pageSections.services.title",

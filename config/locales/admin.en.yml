@@ -39,6 +39,9 @@ en:
     brl: Brazilian Real
     zar: South African Rand
     hkd: Hong Kong Dollar
+    pages:
+      aboutUs: About us
+      sell: Sell
     pageSections:
       services: 
         title: Services you offer
@@ -74,6 +77,7 @@ en:
       legalAdvice: "Legal Notice"
       privacyPolicy: "Privacy Policy"
     adminSections:
+      pages: Pages
       import: Import Data
       start: Home
       agencyDetails: Agency

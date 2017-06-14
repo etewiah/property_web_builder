@@ -26,6 +26,7 @@ module Pwb
 
       begin
         cms_page_container = Pwb::CmsPageContainer.find(params[:page_slug])
+        @title_key = cms_page_container.pageTitleKey
         cms_page_container.cmsPartsList.each do |cms_part|
           @cms_page = Comfy::Cms::Page.where({label: cms_part["label"], slug: I18n.locale}).first
           # @cms_site.pages.published.find_by_full_path!("/about-us/services")
