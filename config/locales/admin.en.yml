@@ -42,6 +42,8 @@ en:
     pages:
       aboutUs: About us
       sell: Sell
+      landing: Landing
+      legal: Legal
     pageSections:
       services: 
         title: Services you offer

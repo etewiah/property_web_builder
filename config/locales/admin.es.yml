@@ -42,6 +42,8 @@ es:
     pages:
       aboutUs: Sobre nosotros
       sell: Vender
+      landing: Inicio
+      legal: Legal
     pageSections:
       services: 
         title: Vuestro servicios

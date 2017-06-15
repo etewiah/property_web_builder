@@ -1,0 +1,96 @@
+[{
+  "name": "about",
+  "id": "about",
+  "tabValue": "about",
+  "pageTitleKey": "pages.aboutUs",
+  // "tabTitleKey": "webContentSections.aboutUs",
+  "cmsPartsList": [{
+    "tabValue": "services",
+    "tabTitleKey": "pageSections.services.title",
+    "tabInfoKey": "pageSections.services.info",
+    "label": "about_us_services",
+    "editorBlocks": [
+      [{
+        "label": "title_a",
+        "isSingleLineText": "true"
+      }, {
+        "label": "content_a",
+        "isMultipleLineText": "true"
+      }],
+      [{
+        "label": "title_b",
+        "isSingleLineText": "true"
+      }, {
+        "label": "content_b",
+        "isMultipleLineText": "true"
+      }],
+      [{
+        "label": "title_c",
+        "isSingleLineText": "true"
+      }, {
+        "label": "content_c",
+        "isMultipleLineText": "true"
+      }]
+    ]
+  }, {
+    "tabValue": "people",
+    "tabTitleKey": "pageSections.people.title",
+    "tabInfoKey": "pageSections.people.info",
+    "label": "about_us_people",
+    "editorBlocks": [
+      [{
+        "label": "person_img_url_a",
+        "isImage": "true"
+      },{
+        "label": "person_name_a",
+        "isSingleLineText": "true"
+      },{
+        "label": "person_title_a",
+        "isSingleLineText": "true"
+      }, {
+        "label": "person_details_a",
+        "isMultipleLineText": "true"
+      }],
+      [{
+        "label": "person_img_url_b",
+        "isImage": "true"
+      },{
+        "label": "person_name_b",
+        "isSingleLineText": "true"
+      },{
+        "label": "person_title_b",
+        "isSingleLineText": "true"
+      }, {
+        "label": "person_details_b",
+        "isMultipleLineText": "true"
+      }],
+      [{
+        "label": "person_img_url_c",
+        "isImage": "true"
+      },{
+        "label": "person_name_c",
+        "isSingleLineText": "true"
+      },{
+        "label": "person_title_c",
+        "isSingleLineText": "true"
+      }, {
+        "label": "person_details_c",
+        "isMultipleLineText": "true"
+      }],
+      [{
+        "label": "person_img_url_d",
+        "isImage": "true"
+      },{
+        "label": "person_name_d",
+        "isSingleLineText": "true"
+      },{
+        "label": "person_title_d",
+        "isSingleLineText": "true"
+      }, {
+        "label": "person_details_d",
+        "isMultipleLineText": "true"
+      }]
+    ]
+  }]
+
+}]

@@ -1,0 +1,19 @@
+// legacy landing
+[{
+  "name": "landing",
+  "id": "landing",
+  "tabValue": "landing",
+  "pageTitleKey": "pages.landing",
+  "isLegacy": true,
+  // "tabTitleKey": "webContentSections.about",
+  "cmsPartsList": [{
+    "tabValue": "landing-carousel",
+    "tabTitleKey": "webContentSections.landingCarousel",
+    "editorBlocks": []
+  }, {
+    "tabValue": "content-area-cols",
+    "tabTitleKey": "webContentSections.contentAreaCols",
+    "editorBlocks": []
+  }]
+
+}]

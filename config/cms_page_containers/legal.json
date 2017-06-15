@@ -1,0 +1,17 @@
+[{
+  "name": "legal",
+  "id": "legal",
+  "tabValue": "legal",
+  "pageTitleKey": "pages.legal",
+  "isLegacy": true,
+  // "tabTitleKey": "webContentSections.legal",
+  "cmsPartsList": [{
+    "tabValue": "legal",
+    "tabTitleKey": "pages.legal",
+    // "tabInfoKey": "pageSections.people.info",
+    // "label": "about_us_people",
+    "editorBlocks": [
+    ]
+  }]
+
+}]
