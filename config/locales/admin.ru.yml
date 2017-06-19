@@ -2,8 +2,8 @@ ru:
   admin:
     "true": "true"
     "false": "false"
-    "yes": "yes"
-    "no": "no" 
+    "yes": "да"
+    "no": "нет" 
     es-ES: Spain
     es-CL: Chile
     es-MX: Mexico
@@ -22,8 +22,8 @@ ru:
     ca-CA: Catalunia
     hi-IN: India
     hi: Hindi
-    sqmt: Square Meters
-    sqft: Square Feet
+    sqmt: Квадратные метры
+    sqft: Квадратный фут
     cad: Canadian Dollar
     ars: Argentinan Peso
     aud: Australian Dollar
@@ -35,116 +35,114 @@ ru:
     chf: Swiss Franc
     cny: Chinese Yuan Renminbi
     clp: Chilean Peso
-    rub: Russian Ruble
+    rub: Российский рубль
     brl: Brazilian Real
     zar: South African Rand
     hkd: Hong Kong Dollar
     inTabLabels:
-      topNav: Top Navigation
-      footer: Footer
-      currency: Currency
-      colors: Colours
-      socialLinks: Social Links
-      siteLayout: Site Layout
-      colorFooterBg: Footer background color
-      colorFooterMainText: Footer main text color
-      colorFooterSecText: Footer secondary text color
-      colorPrimary: Primary color
-      colorSecondary: Secondary color
-      colorActions: Actions color
-      supportedLanguages: Supported Languages
-      visibility: Visibility
+      topNav: Верхнее меню
+      footer: Нижнее меню
+      currency: Валюта
+      colors: Цвета
+      socialLinks: Социальные сети
+      siteLayout: Шаблон сайта
+      colorFooterBg: Основной цвет подвала
+      colorFooterMainText: Основной цвет текста подвала
+      colorFooterSecText: Дополнительный цвет текста
+      colorPrimary: Основной цвет
+      colorSecondary: Дополнительный цвет
+      colorActions: Цветовые действия
+      supportedLanguages: Поддержка языков
+      visibility: Видимость
     navbar:
-      home: "Home"
-      admin: "Admin"
-      aboutUs: "About Us"
-      sell: "Sell"
-      buy: "Buy"
-      rent: "Rent"
-      contactUs: "Contact"
-      legalAdvice: "Legal Notice"
-      privacyPolicy: "Privacy Policy"
+      home: "Главная"
+      admin: "Админ"
+      aboutUs: "О нас"
+      sell: "Продажа"
+      buy: "Покупка"
+      rent: "Аренда"
+      contactUs: "Свяжитесь с нами"
+      legalAdvice: "Соглашение с пользователем"
+      privacyPolicy: "Политика конфиденциальности"
     adminSections:
-      import: Import Data
-      start: Home
-      agencyDetails: Agency
-      content: Website
-      websiteSettings: Settings
-      websiteContent: Content
-      translations: Translations
-      properties: Properties
-      clientes: Clients
-      quit: Go To Site
-      list: List
-      settings: Settings
-      labels: Labels
-      about: About
+      import: Импорт данных
+      start: Главная
+      agencyDetails: Агенство
+      content: Вебсайт
+      websiteSettings: Настройки
+      websiteContent: Контент
+      translations: Переводы
+      properties: Свойства
+      clientes: Клиенты
+      quit: Перейти на сайт
+      list: Список
+      settings: Настройки
+      labels: Метки
+      about: О нас
 
     btnLabels:
-      importTranslations: Import translations
-      importSiteContent: Import website content
-      setThemePrompt: Set as website theme
-      activatedThemeInfo: Currently active website theme
+      importTranslations: Импорт переводов
+      importSiteContent: Импорт контента сайта
+      setThemePrompt: Установить шаблон сайта
+      activatedThemeInfo: Текущий шаблон сайта
 
     info:
-      defaultCurrency: Will only apply to newly added properties
-      defaultAreaUnit: Will only apply to newly added properties
-      recPropPhotoSize: Recommended size for a photo is 800px X 500px,
-      recCarouselPhotoSize: Recommended size for carousel images is 900px X 400px,
-      recLogoPhotoSize: Recommended size for logo is 120px X 80px,
-      orderByDragging: Drag and drop to order - first photo will be main photo.
+      defaultCurrency: Будет применяться только к вновь добавленным свойствам
+      defaultAreaUnit: Будет применяться только к вновь добавленным свойствам
+      recPropPhotoSize: Рекомендованный размер фотографий 800px X 500px,
+      recCarouselPhotoSize: Рекомендованный размер для фотографий слайдера 900px X 400px,
+      recLogoPhotoSize: Рекомендованный размер для логотипа 120px X 80px,
+      orderByDragging: Выделите и перетащите в объявление - первая фотография будет главной фотографией.
 
     webContentLabels: 
-      suffixEn: in English
-      suffixEs: in Spanish
-      suffixAr: in Arabic
-      suffixFr: in French
-      suffixIt: in Italian
-      suffixPt: in Portuguese
-      suffixDe: in German
-      suffixRu: in Russian
-      suffixCa: in Catalan
-      suffixNl: in Dutch
-      privacyPolicy: Privacy Policy
-      legalAdvice: Legal Notice
-      landingcarousel: Text for carousel image
-      cac1: Column 1
-      cac2: Column 2
-      cac3: Column 3
-      landingPageHero: Content for the main page
-      tagLine: Tag Line
-      aboutUs: About us
-      footerInfo: Extra footer content
+      suffixEn: на английском
+      suffixEs: на испанском
+      suffixAr: на арабском
+      suffixIt: на итальянском
+      suffixPt: на португальском
+      suffixDe: на немецком
+      suffixRu: на русском
+      suffixCa: на каталонском
+      suffixNl: на датском
+      privacyPolicy: Политика конфиденциальности
+      legalAdvice: Соглашение с пользователем
+      landingcarousel: Текст для фотографии слайдера
+      cac1: Колонка 1
+      cac2: Колонка 2
+      cac3: Колонка 3
+      landingPageHero: Контент для главной страницы
+      tagLine: Поле тэга
+      aboutUs: О нас
+      footerInfo: Дополнительный контент для футера
 
     siteSections: 
-      aboutUs: About us
-      contactUs: Contact
-      buy: Buy
-      rent: Rent
-      sell: Sell
+      aboutUs: О нас
+      contactUs: Связаться с нами
+      buy: Купить 
+      rent: Аренда
+      sell: Продать
 
     ioSections:
-      fromMls: Import from MLS
-      fromUpload: Import from file
-      fromWebpage: Import from a webpage
+      fromMls: Импорт из MLS
+      fromUpload: Импорт из файла
+      fromWebpage: Импорт из веб страницы 
 
     webContentSections:
-      navigation: Navigation
-      appearance: Appearance
-      footer: Footer
-      aboutUs: About us
-      contactInformation: Contact information 
-      sell: Sell
-      tagLine: Tag Line
-      legal: Legal
-      general: General
-      landingCarousel: Landing Page Carousel
-      home: Home
-      contentAreaCols: Columns
-      sections: Sections
+      navigation: Навигация
+      appearance: Внешний вид
+      footer: Футер
+      aboutUs: О нас
+      contactInformation: Контактная информация 
+      sell: Продать
+      tagLine: поле тэга
+      legal: Официальная информация
+      general: Главная
+      landingCarousel: Слайдер
+      home: Главная
+      contentAreaCols: Колонки
+      sections: Разделы
       info:
-        contentAreaCols: Columns on the landing page giving an overview of the services
-          you provide
+        contentAreaCols: Колонки на главной странице, с информацией об оказываемых услугах
 
     fieldLabels: 
     #   yaencontre: Yaencontre
@@ -152,94 +150,94 @@ ru:
     #   idealista: Idealista
     #   localidad: Localidad
     #   zona: Zona
-      pickMlsPrompt: Select your MLS
-      propCsvUploadPrompt: Select the type of file to import from
-      pwbCsvFile: A csv file exported from PropertyWebBuilder
-      mlsCsvFile: A csv file exported from your MLS
-      deleteProp: Delete Property
-      areaUnit: Area Unit
-      defaultAreaUnit: Default Area Unit
-      currency: Currency
-      defaultCurrency: Default Currency
-      defaultLocale: Default Website Language
+      pickMlsPrompt: Выберите MLS
+      propCsvUploadPrompt: Выберите тип файла для импорта
+      pwbCsvFile: Экспорт cvs файла из PropertyWebBuilder
+      mlsCsvFile: Экспорт cvs файла из PropertyWebBuilder
+      deleteProp: Удалить свойство
+      areaUnit: Единица площади
+      defaultAreaUnit: По умолчанию единица площади
+      currency: Валюта
+      defaultCurrency: Валюта по умолчанию
+      defaultLocale: Языка сайта по умолчанию
       # codigoPostal: Codigo Postal
       # direccion: Direccion
       # direccionReal: Direccion Real
       # direccionMapa: Direccion Mapa
-      ref: Reference No
-      tipo: Type
-      estado: State
-      descripcionEspanol: Description in Spanish
-      tituloEspanol: Title in Spanish
-      descripcionIngles: Description in English
-      tituloIngles: Title in English
-      precioVenta: Sales Price
-      precioAntiguo: Original Price
-      precioAlquiler: Rental Price
+      ref: No сcылки
+      tipo: Тип
+      estado: Состояние
+      descripcionEspanol: Описание
+      tituloEspanol: Заголовок
+      descripcionIngles: Описание на английском
+      tituloIngles: Заголовок на английском
+      precioVenta: Цена продажи
+      precioAntiguo: Изначальная цена
+      precioAlquiler: Стоймость аренды
       origen: Origen
-      temporadas: Temporadas
-      precioTa: Temp Price. Alta
-      precioTm: Temp Price. Media
-      precioTb: Temp Price. Baja
-      eficienciaEnergia: Eficiencia Energia
-      yearConstruction: Construction Year
-      countBedrooms: Bedrooms
-      countBathrooms: Bathrooms
+      temporadas: период года(сезон)
+      precioTa:  Предельный уровень цены 
+      precioTm: Средний уровень цены
+      precioTb: Нижний уровень цены
+      eficienciaEnergia: Энергосбережение
+      yearConstruction: Дата постройки
+      countBedrooms: Спальни
+      countBathrooms: Ванные комнаты
       # numAseos: Núm. aseos
-      plotArea: Plot Area
-      constructedArea: Constructed Area
-      garaje: Garage
-      forSearchWidget: For search widget
-      obscureMap: Hide exact address on website?
-      hideMap: Hide map on website?
-      forSale: For Sale?
-      priceSaleCurrent: Current Price
-      saleDiscount: saleDiscount
-      priceSaleOriginal: Original Price
-      longTermRental: Available for long term rental?
-      seasonalRental: Available for seasonal rental?
-      priceRentalMonthlyHighSeason: Price for high season rental
-      priceRentalMonthlyLowSeason: Price for low season rental
-      priceRentalMonthlyStandardSeason: Price for normal season rental
-      priceRentalMonthlyCurrent: Current rental price (per month)
-      longTermRentalDiscount: longTermRentalDiscount
-      priceRentalMonthlyOriginal: Original rental price (per month)
-      firstNames: First Name
-      lastNames: Last Names
-      visible: Visible
-      visibleOnWeb: Visible on website
-      highlighted: Highlighted
-      label: Label
-      companyName: Company Name
-      primaryPhone: Display phone number
-      otherPhone: Other phone number
-      primaryEmail: Display email
-      propertyContactEmail: Property enquiry email
-      generalContactEmail: General enquiry email
-      nationality: Nationality
-      documentationType: Documentation Type
-      documentationId: Documentation Id
+      plotArea: Площадь недвижимости
+      constructedArea: Планировка
+      garaje: Гараж
+      forSearchWidget: Поиск
+      obscureMap: Скрыть точный адрес на веб-сайте?
+      hideMap: Скрыть карту на веб-сайте?
+      forSale: Для продажи?
+      priceSaleCurrent: Текущая цена
+      saleDiscount: Скидка
+      priceSaleOriginal: Первоначальная цена
+      longTermRental: Возможность для долгосрочной аренды?
+      seasonalRental: Возможность для сезонной аренды?
+      priceRentalMonthlyHighSeason: Стоймость аренды для горячего сезона
+      priceRentalMonthlyLowSeason: Стоймость аренды для холодного сезона
+      priceRentalMonthlyStandardSeason: Стоймость аренды для обычного сезона
+      priceRentalMonthlyCurrent: Текущая стоймость аренды (в месяц)
+      longTermRentalDiscount: Скидка для долгосрочной аренды
+      priceRentalMonthlyOriginal: Первоначальная стоймость аренды (в месяц)
+      firstNames: Имя
+      lastNames: Фамилия
+      visible: Видимость
+      visibleOnWeb: Видимость на сайте
+      highlighted: Выделенные
+      label: Метка
+      companyName: Название компании
+      primaryPhone: Показать телефонный номер
+      otherPhone: Показать другие телефонные номера
+      primaryEmail: Показать email
+      propertyContactEmail: Реквизиты email о запросе недвижимости
+      generalContactEmail: Запрос email на недвижимость
+      nationality: Национальность
+      documentationType: Тип документа
+      documentationId: Идентификатор документа
       email: Email
       fax: Fax
       skype: Skype
-      personTitle: Title
-      description: Description
-      title: Title
+      personTitle: Заголовок
+      description: Описание
+      title: Заголовок
       info:
-        primaryEmail: Email displayed in page header
-        primaryPhone: Phone no displayed in page header
-        propertyContactEmail: Enquiries about specific properties will be sent here
-        generalContactEmail: Enquiries from 'contact us' page will be sent here
+        primaryEmail: Электронная почта, отображаемая в заголовке страницы
+        primaryPhone: Телефонный номер, отображаемый в заголовке страницы
+        propertyContactEmail: Запросы о конкретных недвижимостях будут отправлены здесь
+        generalContactEmail: Запросы из страницы "связаться с нами" будут отправлены здесь
 
     # for header row in property listing
     propertyColHeader:
-      highlighted: Highlighted
-      locality: Locality
-      actions: Actions
-      zone: Zone
-      price: Price
-      bedrooms: Bedrooms
-      bathrooms: Bathrooms
-      visible: Visible
-      reference: Ref
-      type: Type
+      highlighted: Выделенные
+      locality: Местонахождение
+      actions: Действия
+      zone: Зона
+      price: Цена
+      bedrooms: Спальни
+      bathrooms: Ванные комнаты
+      visible: Видимость
+      reference: Ссылка
+      type: Тип
