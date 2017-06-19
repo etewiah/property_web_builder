@@ -1,8 +1,8 @@
 ---
 ru:
   devise:
-    user_update_success_title: Congratulations
-    user_update_success: You have successfully updated your account.
+    user_update_success_title: Поздравляем
+    user_update_success: Вы успешно обновили ваш личный кабинет
   aboutUs: О нас
   address: Адрес
   back: назад
@@ -16,7 +16,7 @@ ru:
   editarPropiedad: Редактировать недвижимость
   email: e-mail
   'false': нет
-  findAProperty: Найти недвижимость
+  findAProperty:  Найти недвижимость
   findByReference: Поиск по рекомендациям
   forRent: Аренда
   forSale: Продажа
