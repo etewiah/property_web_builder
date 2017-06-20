@@ -145,11 +145,6 @@ ru:
         contentAreaCols: Колонки на главной странице, с информацией об оказываемых услугах
 
     fieldLabels: 
-    #   yaencontre: Yaencontre
-    #   pisoscom: Pisoscom
-    #   idealista: Idealista
-    #   localidad: Localidad
-    #   zona: Zona
       pickMlsPrompt: Выберите MLS
       propCsvUploadPrompt: Выберите тип файла для импорта
       pwbCsvFile: Экспорт cvs файла из PropertyWebBuilder
@@ -160,10 +155,6 @@ ru:
       currency: Валюта
       defaultCurrency: Валюта по умолчанию
       defaultLocale: Языка сайта по умолчанию
-      # codigoPostal: Codigo Postal
-      # direccion: Direccion
-      # direccionReal: Direccion Real
-      # direccionMapa: Direccion Mapa
       ref: No сcылки
       tipo: Тип
       estado: Состояние
@@ -183,7 +174,6 @@ ru:
       yearConstruction: Дата постройки
       countBedrooms: Спальни
       countBathrooms: Ванные комнаты
-      # numAseos: Núm. aseos
       plotArea: Площадь недвижимости
       constructedArea: Планировка
       garaje: Гараж
@@ -241,3 +231,201 @@ ru:
       visible: Видимость
       reference: Ссылка
       type: Тип
+
+    save: Save
+    cancel: Cancel
+    edit: Edit
+    preview: Preview
+    close: Close
+    addLogo: Add Logo
+    addPhotos: Add Photos
+    create: Create
+    delete: Delete
+    show: Show
+    hide: Hide
+    logo: Logo
+    aboutUsPhoto: About Us photo
+    addAboutUsPhoto: Add About Us photo
+
+    visible: Visible
+    hidden: Hidden
+
+    editWebsite: Edit Website
+    settingsForWebsite: Settings for Website
+    contentForWebsite: Content for Website 
+    sectionsForWebsite: Website Sections
+    themesForWebsite: Website Themes
+    importExport: Import and export data
+    returnToWebsite: Return to web
+    settingsForProperties: Settings for properties
+    returnToProperties: Return to properties
+    addProperty: Add property
+    addClient: Add client
+    newProperty: New Property
+    newClient: New Client
+    propertiesList: Properties list
+    clientsList: Clients list
+
+    prompts: 
+      fixErrors: Please correct the errors below
+
+    todos: 
+      createContent: Create some content
+      companyDetails: Set up your company details
+
+    locationTab: 
+      confirmAddress: Confirm new location
+
+    agencySections: 
+      general: Agency Details
+      location: Location
+      user: User Details
+
+    siteLayout: 
+      wide: Wide
+      boxed: Boxed
+
+    propertySections: 
+      general: General
+      location: Location
+      text: Text
+      extras: Features
+      photos: Photos
+      sale: Sale / Rental
+      owner: Owner
+
+    propertyGeneralSections: 
+      sale: Sale
+      longtermRental: Long term rental
+      seasonalRental: Seasonal rental
+      visibility: Visibility
+      generalData: General Data
+      characteristics: Characteristics
+      portals: Web Portals
+      extras: Features
+
+    translationsSections: 
+      extras: Features
+      propertyTypes: Property Types
+      propertyOrigins: Property Origins
+      propertyStates: Property States
+      propertyLabels: Property Labels
+      provinces: Provinces
+
+    toolTips: 
+      forSale: Select if property is available for sale
+      priceSaleCurrent: Current selling price
+      saleDiscount: saleDiscount
+      priceSaleOriginal: Original selling price
+      longTermRental: Select 'Yes' if property is available for long term rental
+      priceRentalMonthlyCurrent: Current rental price
+      priceRentalMonthlyOriginal: Original rental price
+
+      addNewEntry: Add New Entry
+      visible: Select 'Yes' to publish property on the website
+      highlighted: Select 'Yes' to highlight property on the website
+      seasonalRental: Select 'Yes' if property is rentened seasonaly
+      ref: Reference number for property
+
+    alerts: 
+      changesDetected: You have unsaved changes.
+      deletingProperty: Are you sure you want to delete this property.  This action cannot be undone.
+      navigatingFromChanges: You have unsaved changes. Please save or cancel your changes.
+      visibleProperties: These properties are visible on your website
+      hiddenProperties: These properties will not be shown on your website
+      clickMapToUpdate: Click on map to select address or type directly below.
+
+    datatables: 
+      sInfo: Showing items from _START_ al _END_ from a total of _TOTAL_ properties
+      sInfoEmpty: Showing items from 0 al 0 from a total of 0 properties
+      sInfoPostFix: ""
+      sSearch: Search
+      sUrl: ""
+      sInfoThousands: ","
+      oPaginate: 
+        sFirst: "<<"
+        sLast: ">>"
+        sNext: ">"
+        sPrevious: "<"
+
+    alert: 
+      deleteItem: Are you sure you want to delete this item?
+      deleteButton: Yes, delete it!
+
+    street: Street
+    streetAddress: Street Address
+    streetNumber: Street Number
+    city: City
+    postCode: Post Code
+    region: Region
+    zone: Zone
+    locality: Locality
+    country: Country
+
+    properties: Properties
+
+    cards: 
+      website: Website
+      websitePrompt: Website actions
+      websiteLink: Go to web control panel
+      properties: Properties
+      propertiesPrompt: Property actions
+      propertiesLink: Go to properties
+    tasks: 
+      addProperty: Add a property
+      addPropertyPrompt: properties / Add property
+      manageProperties: Manage properties
+      managePropertiesPrompt: Properties / Edit property
+      changeLogo: Manage logo, languages and appearance
+      changeLogoPrompt: Web Configuration
+      changeLang: Change web language
+      changeLangPrompt: Web Configuration
+      changeLegalText: Change 'Legal' texts
+      manageLandingCarousel: Manage landing page carousel
+      changeAboutUsText: Change 'About Us' text
+      managePropertyTypes: Manage property types
+      managePropertyExtras: Manage property features
+
+    buttonLabels: 
+      configureAvailableExtras: Configure available features
+      selectImagesToAdd: Select images to add
+      selectRemoteImages: Add images from urls
+
+    errors:
+      genericServerError: Sorry, there has been an error
+      languageRequired: You must select at least one language
+      inclusion: is not included in the list
+      exclusion: is reserved
+      invalid: is invalid
+      confirmation: "doesn't match {{attribute}}"
+      accepted: must be accepted
+      empty: "can't be empty"
+      blank: "can't be blank"
+      present: must be blank
+      tooLong: is too long (maximum is {{count}} characters)
+      tooShort: is too short (minimum is {{count}} characters)
+      wrongLength: is the wrong length (should be {{count}} characters)
+      notANumber: is not a number
+      notAnInteger: must be an integer
+      greaterThan: must be greater than {{count}}
+      greaterThanOrEqualTo: must be greater than or equal to {{count}}
+      equalTo: must be equal to {{count}}
+      lessThan: must be less than {{count}}
+      lessThanOrEqualTo: must be less than or equal to {{count}}
+      otherThan: must be other than {{count}}
+      odd: must be odd
+      even: must be even
+      tooShortVjs: is too short
+      notAUrlVjs: is not a valid URL
+
+    ar: Arabic
+    en: English
+    es: Spanish
+    ca: Catalan
+    fr: French
+    ru: Russian
+    nl: Dutch
+    it: Italian
+    de: German
+    pt: Portuguese
+

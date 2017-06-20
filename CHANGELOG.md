@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 * Support for Google Analytics script
 * Increase valid price range in admin UI (#21)
 * Allow setting of search widget price options
+* Add Russian as an admin language
 
 ## 1.0.0 / 2017-05-25
 
