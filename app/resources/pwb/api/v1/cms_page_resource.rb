@@ -5,15 +5,23 @@ module Pwb
 
     attributes :label, :slug, :full_path,
       :blocks, :tags, :categories,
-      :locale, :content_cache
+      :locale, :content_cache, 
+      # below 2 are not used in admin panel
+      # but need to be populated when creating new page
+      :site_id, :layout
 
     filters :label, :full_path
     has_many :cms_blocks
 
+    # TODO - add locale col to Cms::Page
     def locale
       # return @model.site.locale
       return @model.slug
     end
 
+
+    def self.creatable_fields(context)
+      super - [:locale]
+    end
   end
 end
