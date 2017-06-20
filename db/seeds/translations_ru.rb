@@ -82,11 +82,11 @@ I18n::Backend::ActiveRecord::Translation.create!(
     {locale: "ru", key: "propertyTypes.atico", value: "Пент хаус"},
     {locale: "ru", key: "propertyTypes.estudio", value: "Студия"},
     {locale: "ru", key: "propertyTypes.garaje", value: "Гараж"},
-    {locale: "en", key: "propertyTypes.local", value: "Коммерческая недвижимость"},
-    {locale: "en", key: "propertyTypes.trastero", value: "Склад"},
-    {locale: "en", key: "propertyTypes.casaRural", value: "Деревенский дом"},
-    {locale: "en", key: "propertyTypes.edificioResidencial", value: "Жилое здание"},
-    {locale: "en", key: "propertyTypes.villa", value: "Вилла"},
+    {locale: "ru", key: "propertyTypes.local", value: "Коммерческая недвижимость"},
+    {locale: "ru", key: "propertyTypes.trastero", value: "Склад"},
+    {locale: "ru", key: "propertyTypes.casaRural", value: "Деревенский дом"},
+    {locale: "ru", key: "propertyTypes.edificioResidencial", value: "Жилое здание"},
+    {locale: "ru", key: "propertyTypes.villa", value: "Вилла"},
 
 ])
 # end
