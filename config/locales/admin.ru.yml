@@ -233,67 +233,67 @@ ru:
       reference: Ссылка
       type: Тип
 
-    save: Save
-    cancel: Cancel
-    edit: Edit
-    preview: Preview
-    close: Close
-    addLogo: Add Logo
-    addPhotos: Add Photos
-    create: Create
-    delete: Delete
-    show: Show
-    hide: Hide
-    logo: Logo
-    aboutUsPhoto: About Us photo
-    addAboutUsPhoto: Add About Us photo
+    save: Сохранить
+    cancel: Отмена
+    edit: Редактировать
+    preview: Предварительный просмотр
+    close: Закрыть
+    addLogo: Добавить логотип
+    addPhotos: Добавить фотографии
+    create: Создать
+    delete: Удалить
+    show: Показать
+    hide: Скрыть
+    logo: Логотип
+    aboutUsPhoto: О нас фотография
+    addAboutUsPhoto: Добавить о нас фотография
 
-    visible: Visible
-    hidden: Hidden
+    visible: Видимый
+    hidden: Скрыть
 
-    editWebsite: Edit Website
-    settingsForWebsite: Settings for Website
-    contentForWebsite: Content for Website 
-    sectionsForWebsite: Website Sections
-    themesForWebsite: Website Themes
-    importExport: Import and export data
-    returnToWebsite: Return to web
-    settingsForProperties: Settings for properties
-    returnToProperties: Return to properties
-    addProperty: Add property
-    addClient: Add client
-    newProperty: New Property
-    newClient: New Client
-    propertiesList: Properties list
-    clientsList: Clients list
+    editWebsite: Редактировать веб сайт
+    settingsForWebsite: Настройки для веб сайта
+    contentForWebsite: Контент для веб сайта 
+    sectionsForWebsite: Разделы сайта
+    themesForWebsite: Темы сайта
+    importExport: Импорт и экспорт данных
+    returnToWebsite: Вернуться на сайт
+    settingsForProperties: Настройка для недвижимости
+    returnToProperties: Вернуться к недвижимости
+    addProperty: Добавить недвижимость
+    addClient: Добавить клиента
+    newProperty: Новая недвижимость
+    newClient: Новый клиент
+    propertiesList: Список недвижимости
+    clientsList: Список клиентов
 
     prompts: 
-      fixErrors: Please correct the errors below
+      fixErrors: Пожалуйста, исправьте ошибки выше
 
     todos: 
-      createContent: Create some content
-      companyDetails: Set up your company details
+      createContent: Создать контент
+      companyDetails: Настроить данные о компании
 
     locationTab: 
-      confirmAddress: Confirm new location
+      confirmAddress: Подтвердить новое местоположение
 
     agencySections: 
-      general: Agency Details
-      location: Location
-      user: User Details
+      general: Детали агенства
+      location: Расположение
+      user: Информация пользователя
 
     siteLayout: 
-      wide: Wide
-      boxed: Boxed
+      wide: широкий
+      boxed: Коробочный
 
     propertySections: 
-      general: General
-      location: Location
-      text: Text
-      extras: Features
-      photos: Photos
-      sale: Sale / Rental
-      owner: Owner
+      general: Общий
+      location: Местонахождение
+      text: Текст
+      extras: Характеристики
+      photos: Фотографии
+      sale: Продать / Аренда
+      owner: Собственник
 
     propertyGeneralSections: 
       sale: Sale

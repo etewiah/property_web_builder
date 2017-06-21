@@ -122,7 +122,7 @@ ru:
     thankYouForTrusting: Спасибо за доверие %{company_name}
     urlNotAvailable: К сожалению, этот URL не доступен
     weAreCreatingSite: Ваш сайт создан
-  signOut: Выход
+  signOut: Выйти
   simple_form:
     error_notification:
       default_message: 'Пожалуйста, ознакомьтесь с проблемами ниже:'
