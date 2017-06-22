@@ -314,7 +314,7 @@ ru:
       provinces: Регионы
 
     toolTips: 
-      forSale:Выбрать если недвижимость доступна для продажи
+      forSale: Выбрать если недвижимость доступна для продажи
       priceSaleCurrent: Текущая цена продажи
       saleDiscount: Скидка
       priceSaleOriginal: Первоначальная цена продажи
