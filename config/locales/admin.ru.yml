@@ -233,114 +233,114 @@ ru:
       reference: Ссылка
       type: Тип
 
-    save: Save
-    cancel: Cancel
-    edit: Edit
-    preview: Preview
-    close: Close
-    addLogo: Add Logo
-    addPhotos: Add Photos
-    create: Create
-    delete: Delete
-    show: Show
-    hide: Hide
-    logo: Logo
-    aboutUsPhoto: About Us photo
-    addAboutUsPhoto: Add About Us photo
+    save: Сохранить
+    cancel: Отмена
+    edit: Редактировать
+    preview: Предварительный просмотр
+    close: Закрыть
+    addLogo: Добавить логотип
+    addPhotos: Добавить фотографии
+    create: Создать
+    delete: Удалить
+    show: Показать
+    hide: Скрыть
+    logo: Логотип
+    aboutUsPhoto: О нас фотография
+    addAboutUsPhoto: Добавить о нас фотография
 
-    visible: Visible
-    hidden: Hidden
+    visible: Видимый
+    hidden: Скрыть
 
-    editWebsite: Edit Website
-    settingsForWebsite: Settings for Website
-    contentForWebsite: Content for Website 
-    sectionsForWebsite: Website Sections
-    themesForWebsite: Website Themes
-    importExport: Import and export data
-    returnToWebsite: Return to web
-    settingsForProperties: Settings for properties
-    returnToProperties: Return to properties
-    addProperty: Add property
-    addClient: Add client
-    newProperty: New Property
-    newClient: New Client
-    propertiesList: Properties list
-    clientsList: Clients list
+    editWebsite: Редактировать веб сайт
+    settingsForWebsite: Настройки для веб сайта
+    contentForWebsite: Контент для веб сайта 
+    sectionsForWebsite: Разделы сайта
+    themesForWebsite: Темы сайта
+    importExport: Импорт и экспорт данных
+    returnToWebsite: Вернуться на сайт
+    settingsForProperties: Настройка для недвижимости
+    returnToProperties: Вернуться к недвижимости
+    addProperty: Добавить недвижимость
+    addClient: Добавить клиента
+    newProperty: Новая недвижимость
+    newClient: Новый клиент
+    propertiesList: Список недвижимости
+    clientsList: Список клиентов
 
     prompts: 
-      fixErrors: Please correct the errors below
+      fixErrors: Пожалуйста, исправьте ошибки выше
 
     todos: 
-      createContent: Create some content
-      companyDetails: Set up your company details
+      createContent: Создать контент
+      companyDetails: Настроить данные о компании
 
     locationTab: 
-      confirmAddress: Confirm new location
+      confirmAddress: Подтвердить новое местоположение
 
     agencySections: 
-      general: Agency Details
-      location: Location
-      user: User Details
+      general: Детали агенства
+      location: Расположение
+      user: Информация пользователя
 
     siteLayout: 
-      wide: Wide
-      boxed: Boxed
+      wide: широкий
+      boxed: Коробочный
 
     propertySections: 
-      general: General
-      location: Location
-      text: Text
-      extras: Features
-      photos: Photos
-      sale: Sale / Rental
-      owner: Owner
+      general: Общий
+      location: Местонахождение
+      text: Текст
+      extras: Характеристики
+      photos: Фотографии
+      sale: Продать / Аренда
+      owner: Собственник
 
     propertyGeneralSections: 
       sale: Sale
-      longtermRental: Long term rental
-      seasonalRental: Seasonal rental
-      visibility: Visibility
-      generalData: General Data
-      characteristics: Characteristics
-      portals: Web Portals
-      extras: Features
+      longtermRental: Долгосрочная аренда
+      seasonalRental: Сезонная аренда
+      visibility: Актуально
+      generalData: Общая информация
+      characteristics: Характеристики
+      portals: Веб порталы
+      extras: Особенности
 
     translationsSections: 
-      extras: Features
-      propertyTypes: Property Types
-      propertyOrigins: Property Origins
-      propertyStates: Property States
-      propertyLabels: Property Labels
-      provinces: Provinces
+      extras: Особенности
+      propertyTypes: Типы недвижимости
+      propertyOrigins: происхождение недвижимости
+      propertyStates: Состояние недвижимости
+      propertyLabels: Метки недвижимости
+      provinces: Регионы
 
     toolTips: 
-      forSale: Select if property is available for sale
-      priceSaleCurrent: Current selling price
-      saleDiscount: saleDiscount
-      priceSaleOriginal: Original selling price
-      longTermRental: Select 'Yes' if property is available for long term rental
-      priceRentalMonthlyCurrent: Current rental price
-      priceRentalMonthlyOriginal: Original rental price
+      forSale: Выбрать если недвижимость доступна для продажи
+      priceSaleCurrent: Текущая цена продажи
+      saleDiscount: Скидка
+      priceSaleOriginal: Первоначальная цена продажи
+      longTermRental: Выбрать 'Да' если недвижимость доступна для долгосрочной аренды
+      priceRentalMonthlyCurrent: Текущая цена аренды
+      priceRentalMonthlyOriginal: Первоначальная цена аренды
 
-      addNewEntry: Add New Entry
-      visible: Select 'Yes' to publish property on the website
-      highlighted: Select 'Yes' to highlight property on the website
-      seasonalRental: Select 'Yes' if property is rentened seasonaly
-      ref: Reference number for property
+      addNewEntry: Добавить новую запись
+      visible: Выберите 'Да' чтобы добавить недвижимость на сайт
+      highlighted: Выберите 'Да' чтобы выделить недвижимость на сайте      
+      seasonalRental: Выберите 'Да' если недвижимость сдается в арнеду посезонно
+      ref: Номер ссылки для недвижимости
 
     alerts: 
-      changesDetected: You have unsaved changes.
-      deletingProperty: Are you sure you want to delete this property.  This action cannot be undone.
-      navigatingFromChanges: You have unsaved changes. Please save or cancel your changes.
-      visibleProperties: These properties are visible on your website
-      hiddenProperties: These properties will not be shown on your website
-      clickMapToUpdate: Click on map to select address or type directly below.
+      changesDetected: Вы не сохранили изменения.
+      deletingProperty: Вы уверены, что хотите удалить это свойство. Это действие не может быть отменено.
+      navigatingFromChanges: У вас есть несохраненные изменения. Сохраните или отмените свои изменения.
+      visibleProperties: Эти свойства будут отображены на вашем сайте
+      hiddenProperties: Эти свойства не будут отображены на вашем сайте
+      clickMapToUpdate: Нажмите на карту, чтобы выбрать адрес или введите ниже.
 
     datatables: 
-      sInfo: Showing items from _START_ al _END_ from a total of _TOTAL_ properties
-      sInfoEmpty: Showing items from 0 al 0 from a total of 0 properties
+      sInfo: Отображение элементов из _START_ al _END_ из общего количества свойств _TOTAL_
+      sInfoEmpty: Отображение элементов из 0 al 0 из общего количества 0 свойств
       sInfoPostFix: ""
-      sSearch: Search
+      sSearch: Поиск
       sUrl: ""
       sInfoThousands: ","
       oPaginate: 
@@ -350,81 +350,81 @@ ru:
         sPrevious: "<"
 
     alert: 
-      deleteItem: Are you sure you want to delete this item?
-      deleteButton: Yes, delete it!
+      deleteItem: Вы уверены что хотите удалить данный элемент?
+      deleteButton: Да, удалить!
 
-    street: Street
-    streetAddress: Street Address
-    streetNumber: Street Number
-    city: City
-    postCode: Post Code
-    region: Region
-    zone: Zone
-    locality: Locality
-    country: Country
+    street: Улица
+    streetAddress: Название улицы
+    streetNumber: Номер дома
+    city: Город
+    postCode: индекс
+    region: Регион
+    zone: Зона
+    locality: Населенный пункт
+    country: Страна
 
-    properties: Properties
+    properties: Список недвижимости
 
     cards: 
-      website: Website
-      websitePrompt: Website actions
-      websiteLink: Go to web control panel
-      properties: Properties
-      propertiesPrompt: Property actions
-      propertiesLink: Go to properties
+      website: Вебсайт
+      websitePrompt: Действия сайта
+      websiteLink: Перейти в панель администратора
+      properties: Список недвижимости
+      propertiesPrompt: Действия недвижимости
+      propertiesLink: Перейти к списку недвижимости
     tasks: 
-      addProperty: Add a property
-      addPropertyPrompt: properties / Add property
-      manageProperties: Manage properties
-      managePropertiesPrompt: Properties / Edit property
-      changeLogo: Manage logo, languages and appearance
-      changeLogoPrompt: Web Configuration
-      changeLang: Change web language
-      changeLangPrompt: Web Configuration
-      changeLegalText: Change 'Legal' texts
-      manageLandingCarousel: Manage landing page carousel
-      changeAboutUsText: Change 'About Us' text
-      managePropertyTypes: Manage property types
-      managePropertyExtras: Manage property features
+      addProperty: Добавить недвижимость
+      addPropertyPrompt: список недвижимости / Добавить недвижимость
+      manageProperties: Управление списком недвижимости
+      managePropertiesPrompt: Список недвижимости / Редактировать недвижимость
+      changeLogo: Управление логотоипом, языками и внешним видом
+      changeLogoPrompt: Веб конфигурация
+      changeLang: Изменить язык
+      changeLangPrompt: Изменить язык
+      changeLegalText: Изменить текст Публичного соглашения
+      manageLandingCarousel: Управлять слайдером-каруселью 
+      changeAboutUsText: Изменить тект "О нас"
+      managePropertyTypes: Упралвение типами недвижимости
+      managePropertyExtras: Управление характеристиками недвижимости
 
     buttonLabels: 
-      configureAvailableExtras: Configure available features
-      selectImagesToAdd: Select images to add
-      selectRemoteImages: Add images from urls
+      configureAvailableExtras: Конфигурация доступных характеристик
+      selectImagesToAdd: Выбрать изображение для добавления
+      selectRemoteImages: Выбрать изображение из ссылок
 
     errors:
-      genericServerError: Sorry, there has been an error
-      languageRequired: You must select at least one language
-      inclusion: is not included in the list
-      exclusion: is reserved
-      invalid: is invalid
-      confirmation: "doesn't match {{attribute}}"
-      accepted: must be accepted
-      empty: "can't be empty"
-      blank: "can't be blank"
-      present: must be blank
-      tooLong: is too long (maximum is {{count}} characters)
-      tooShort: is too short (minimum is {{count}} characters)
-      wrongLength: is the wrong length (should be {{count}} characters)
-      notANumber: is not a number
-      notAnInteger: must be an integer
-      greaterThan: must be greater than {{count}}
-      greaterThanOrEqualTo: must be greater than or equal to {{count}}
-      equalTo: must be equal to {{count}}
-      lessThan: must be less than {{count}}
-      lessThanOrEqualTo: must be less than or equal to {{count}}
-      otherThan: must be other than {{count}}
-      odd: must be odd
-      even: must be even
-      tooShortVjs: is too short
-      notAUrlVjs: is not a valid URL
+      genericServerError: Извините, произошла ошибка
+      languageRequired: Вы должны выбрать хотя бы один из языков
+      inclusion: это не входит в список
+      exclusion: зарезервировано
+      invalid: не допустимо
+      confirmation: "не соответствует {{attribute}}"
+      accepted: должен быть принят
+      empty: "не может быть пустым"
+      blank: "не может быть пустым"
+      present: должен быть пустым
+      tooLong: слишком длинное (максимум {{count}} символов)
+      tooShort: слишком короткое (минимум {{count}} символов)
+      wrongLength: неправильная длина (долэно быть {{count}} символов)
+      notANumber: это не номер
+      notAnInteger: должно быть число
+      greaterThan: должно быть больше чем {{count}}
+      greaterThanOrEqualTo: должно быть больше или равно {{count}}
+      equalTo: должно быть равно {{count}}
+      lessThan: должно быть меньше чем {{count}}
+      lessThanOrEqualTo: должно быть меньше или равно {{count}}
+      otherThan: Должyj быть иное, чем {{count}}
+      odd: должно быть нечетное
+      even: должно быть четное
+      tooShortVjs: слишком короткое
+      notAUrlVjs: не правильный формат URL
 
     ar: Arabic
     en: English
     es: Spanish
     ca: Catalan
     fr: French
-    ru: Russian
+    ru: Русский
     nl: Dutch
     it: Italian
     de: German

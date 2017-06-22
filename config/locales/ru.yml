@@ -27,7 +27,7 @@ ru:
     new: Новый
     save: Сохранить
   leaveBlank: оставьте это поле пустым, если вы не хотите заполнять
-  legalAdvice: Официальное уведомление
+  legalAdvice: публичное соглашение
   listadoPropiedades: Список недвижимости
   mailers:
     confirm_registration: Пожалуйста, подтвердите регистрацию по ссылке ниже
@@ -77,7 +77,7 @@ ru:
     extras: Особенности
     furniture: Мебель
     goToProperty: Вид недвижимости
-    highlightedProperty: Выдающаяся недвижимость
+    highlightedProperty: Популярная недвижимость
     locality: Местонахождение
     map: карта
     monthlyRentalPriceHighSeason: Цена за месяц (горячий сезон)
@@ -86,13 +86,13 @@ ru:
     operationType: Вид
     price: Цена
     propertyType: Тип недвижимости
-    ref: ссылка
-  propertyForRent: Недвижимость в аренду
-  propertyForSale: Недвижимость на продажу
+    ref: номер объявления
+  propertyForRent: Аренда
+  propertyForSale: Продажа
   propertyNotFound: Недвижимость не найдена
   pwb:
     copyright: "%{company_name} Inc. Все права защищены."
-    createPrompt: Создать свой сайт для агентства недвижимости
+    createPrompt: Создать свой сайт для агенства недвижимости
     createTagLine: Пожалуйста, введите данные для вашей учетной записи
     getStarted: Начать прямо сейчас
     registerNow: Зарегистрируйтесь сейчас
@@ -100,7 +100,7 @@ ru:
       минут
     tagLineExt: Красивые сайты, которые Вы должны увидеть, чтобы поверить. <br>
       Получите быстрый результат он-лайн быстрее всех остальных.
-  requestPropertyInfo: Запрос информации о недвижимости
+  requestPropertyInfo: Запросить информацию о недвижимости
   search: Поиск
   searchForProperties: Поиск недвижимости
   selectpicker:
@@ -122,7 +122,7 @@ ru:
     thankYouForTrusting: Спасибо за доверие %{company_name}
     urlNotAvailable: К сожалению, этот URL не доступен
     weAreCreatingSite: Ваш сайт создан
-  signOut: Выход
+  signOut: Выйти
   simple_form:
     error_notification:
       default_message: 'Пожалуйста, ознакомьтесь с проблемами ниже:'
