@@ -8,6 +8,7 @@ module Pwb
       @property_details = Prop.find_by_id(params[:id])
       # gon.property_details =@property_details
       @operation_type = "for_rent"
+      @operation_type_key = @operation_type.camelize(:lower)
       if @property_details && @property_details.visible && @property_details.for_rent
         # below lets me know what prices to display
         @show_vacational_rental = @property_details.for_rent_short_term
@@ -28,6 +29,7 @@ module Pwb
       @carousel_speed = 3000
       # @inmo_template = "broad"
       @operation_type = "for_sale"
+      @operation_type_key = @operation_type.camelize(:lower)
       @property_details = Prop.find_by_id(params[:id])
 
       if @property_details && @property_details.visible && @property_details.for_sale
