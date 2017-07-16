@@ -5,12 +5,12 @@ module Pwb
     before_action :header_image_url
 
     def generic_page
-      page_slug = params[:page_slug]
+      page_slug = params[:page_slug] || "home_path"
       section = Pwb::Section.find_by_link_path page_slug
-      @title_key = section.link_key
-      @page_title = I18n.t(section.link_key)
       if section && section.contents.first
         @content = section.contents.first
+        @title_key = section.link_key
+        @page_title = I18n.t(section.link_key)
       else
         @content = OpenStruct.new
       end
@@ -75,9 +75,9 @@ module Pwb
           origin_ip: request.ip,
           user_agent: request.user_agent,
           delivery_email: @current_agency.email_for_general_contact_form
-        # origin_email: params[:contact][:email]
-      }
-)
+          # origin_email: params[:contact][:email]
+        }
+      )
       unless @enquiry.save && @client.save
         @error_messages += @client.errors.full_messages
         @error_messages += @enquiry.errors.full_messages

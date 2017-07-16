@@ -1,11 +1,11 @@
-<% page_title @current_agency.company_name  %>
+<% page_title @page.page_title  %>
 <!-- MAIN CONTENT -->
 <div class="pg-opt">
   <div class="container">
     <div class="row">
       <div class="col-md-6">
         <h2>
-          <%= I18n.t(@title_key) %>
+          <%= @page.link_title %>
         </h2>
       </div>
       <div class="col-md-6" style="">
@@ -14,7 +14,7 @@
               <%= I18n.t("webContentSections.home") %>
             </a></li>
           <li class="active">
-            <%= I18n.t(@title_key) %>
+            <%= @page.link_title %>
           </li>
         </ol>
       </div>
@@ -26,8 +26,11 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <%== @content.raw %>
+          <%== @page.raw_html %>
         </div>
+        <% @page.details["cmsPartsList"].each do |cmspart| %>
+          <%== cmspart["content_cache"] %>          
+        <% end %>
       </div>
     </div>
   </div>

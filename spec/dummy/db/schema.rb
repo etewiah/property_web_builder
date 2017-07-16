@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170513221300) do
+ActiveRecord::Schema.define(version: 20170716110121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -268,6 +268,37 @@ ActiveRecord::Schema.define(version: 20170513221300) do
     t.string   "origin_email"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+  end
+
+  create_table "pwb_page_translations", force: :cascade do |t|
+    t.integer  "pwb_page_id",              null: false
+    t.string   "locale",                   null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.text     "raw_html",    default: ""
+    t.string   "page_title",  default: ""
+    t.string   "link_title",  default: ""
+    t.index ["locale"], name: "index_pwb_page_translations_on_locale", using: :btree
+    t.index ["pwb_page_id"], name: "index_pwb_page_translations_on_pwb_page_id", using: :btree
+  end
+
+  create_table "pwb_pages", force: :cascade do |t|
+    t.string   "slug"
+    t.string   "link_key"
+    t.string   "link_path"
+    t.integer  "sort_order"
+    t.boolean  "visible"
+    t.integer  "flags",           default: 0,     null: false
+    t.json     "details",         default: {}
+    t.boolean  "show_in_top_nav", default: false
+    t.boolean  "show_in_footer",  default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.index ["flags"], name: "index_pwb_pages_on_flags", using: :btree
+    t.index ["link_key"], name: "index_pwb_pages_on_link_key", unique: true, using: :btree
+    t.index ["show_in_footer"], name: "index_pwb_pages_on_show_in_footer", using: :btree
+    t.index ["show_in_top_nav"], name: "index_pwb_pages_on_show_in_top_nav", using: :btree
+    t.index ["slug"], name: "index_pwb_pages_on_slug", unique: true, using: :btree
   end
 
   create_table "pwb_prop_photos", force: :cascade do |t|

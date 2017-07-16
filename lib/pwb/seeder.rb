@@ -1,3 +1,5 @@
+# To reload from console:
+# load "#{Pwb::Engine.root}/lib/pwb/seeder.rb"
 module Pwb
   class Seeder
     class << self
@@ -40,7 +42,23 @@ module Pwb
         seed_users 'users.yml'
       end
 
+      def seed_pages!
+        page_yml_filenames = ["sell.yml", "about.yml"]
+        page_yml_filenames.each do |page_yml_filename|
+          seed_page page_yml_filename
+        end
+      end
+
       protected
+
+
+      def seed_page yml_file
+        page_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'pages', yml_file)
+        page_yml = YAML.load_file(page_seed_file)
+        unless Pwb::Page.where(slug: page_yml[0]['slug']).count > 0
+          Pwb::Page.create!(page_yml)
+        end
+      end
 
       def seed_users yml_file
         users_yml = load_seed_yml yml_file

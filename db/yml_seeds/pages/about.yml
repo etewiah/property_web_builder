@@ -1,0 +1,127 @@
+---
+- link_key: about
+  link_path: about
+  slug: about
+  sort_order: 4
+  visible: false
+  show_in_top_nav: true
+  show_in_footer: false
+  link_title_en: About Us
+  link_title_es: Sobre Nosotros
+  link_title_fr: A propos
+  link_title_de: Über uns
+  page_title_en: About Us
+  page_title_es: Sobre Nosotros
+  page_title_fr: A propos
+  page_title_de: Über uns
+  details: {
+    "name": "about",
+    "id": "about",
+    "tabValue": "about",
+    "pageTitleKey": "pages.aboutUs",
+    // "tabTitleKey": "webContentSections.aboutUs",
+    "cmsPartsList": [{
+      "tabValue": "raw",
+      "tabTitleKey": "pageSections.raw.title",
+      "tabInfoKey": "pageSections.raw.info",
+      "label": "about_us_raw",
+      "editorBlocks": [
+        [{
+          "label": "content_a",
+          "isMultipleLineText": "true"
+        }]
+      ]
+    }, {
+      "tabValue": "services",
+      "tabTitleKey": "pageSections.services.title",
+      "tabInfoKey": "pageSections.services.info",
+      "label": "about_us_services",
+      "editorBlocks": [
+        [{
+          "label": "title_a",
+          "isSingleLineText": "true"
+        }, {
+          "label": "content_a",
+          "isMultipleLineText": "true"
+        }],
+        [{
+          "label": "title_b",
+          "isSingleLineText": "true"
+        }, {
+          "label": "content_b",
+          "isMultipleLineText": "true"
+        }],
+        [{
+          "label": "title_c",
+          "isSingleLineText": "true"
+        }, {
+          "label": "content_c",
+          "isMultipleLineText": "true"
+        }]
+      ]
+    }, {
+      "tabValue": "people",
+      "tabTitleKey": "pageSections.people.title",
+      "tabInfoKey": "pageSections.people.info",
+      "label": "about_us_people",
+      "editorBlocks": [
+        [{
+          "label": "person_img_url_a",
+          "isImage": "true"
+        }, {
+          "label": "person_name_a",
+          "isSingleLineText": "true"
+        }, {
+          "label": "person_title_a",
+          "isSingleLineText": "true"
+        }, {
+          "label": "person_details_a",
+          "isMultipleLineText": "true"
+        }],
+        [{
+          "label": "person_img_url_b",
+          "isImage": "true"
+        }, {
+          "label": "person_name_b",
+          "isSingleLineText": "true"
+        }, {
+          "label": "person_title_b",
+          "isSingleLineText": "true"
+        }, {
+          "label": "person_details_b",
+          "isMultipleLineText": "true"
+        }],
+        [{
+          "label": "person_img_url_c",
+          "isImage": "true"
+        }, {
+          "label": "person_name_c",
+          "isSingleLineText": "true"
+        }, {
+          "label": "person_title_c",
+          "isSingleLineText": "true"
+        }, {
+          "label": "person_details_c",
+          "isMultipleLineText": "true"
+        }],
+        [{
+          "label": "person_img_url_d",
+          "isImage": "true"
+        }, {
+          "label": "person_name_d",
+          "isSingleLineText": "true"
+        }, {
+          "label": "person_title_d",
+          "isSingleLineText": "true"
+        }, {
+          "label": "person_details_d",
+          "isMultipleLineText": "true"
+        }]
+      ]
+    }]
+
+  }
+  raw_html_en: >
+    <p>We are a professional estate agents with many years experience of delivering a great service 
+    for our clients.</p>
+  raw_html_es: Llevamos muchos años comprometidos con ofrecer un servicio integral y conseguir solo transacciones con éxito y felicidad por parte de los compradores y vendedores.
