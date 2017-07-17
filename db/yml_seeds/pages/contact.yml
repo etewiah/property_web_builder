@@ -1,0 +1,56 @@
+---
+- link_key: contact
+  link_path: contact_us_path
+  slug: contact
+  sort_order_top_nav: 6
+  visible: true
+  show_in_top_nav: true
+  show_in_footer: false
+  link_title_en: Contact Us
+  link_title_es: Contactar
+  link_title_fr: Contacter
+  link_title_de: Kontact
+  page_title_en: Contact Us
+  page_title_es: Contactar
+  page_title_fr: Contacter
+  page_title_de: Kontact
+  details: {
+    "name": "contact",
+    "id": "contact",
+    "tabValue": "contact",
+    "pageTitleKey": "pages.contactUs",
+    "cmsPartsList": [ {
+      "tabValue": "services",
+      "tabTitleKey": "pageSections.services.title",
+      "tabInfoKey": "pageSections.services.info",
+      "label": "about_us_services",
+      "editorBlocks": [
+        [{
+          "label": "title_a",
+          "isSingleLineText": "true"
+        }, {
+          "label": "content_a",
+          "isMultipleLineText": "true"
+        }],
+        [{
+          "label": "title_b",
+          "isSingleLineText": "true"
+        }, {
+          "label": "content_b",
+          "isMultipleLineText": "true"
+        }],
+        [{
+          "label": "title_c",
+          "isSingleLineText": "true"
+        }, {
+          "label": "content_c",
+          "isMultipleLineText": "true"
+        }]
+      ]
+    }]
+
+  }
+  raw_html_en: >
+    <p>We are a professional estate agents with many years experience of delivering a great service 
+    for our clients.</p>
+  raw_html_es: Llevamos muchos años comprometidos con ofrecer un servicio integral y conseguir solo transacciones con éxito y felicidad por parte de los compradores y vendedores.

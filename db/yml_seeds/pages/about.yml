@@ -1,9 +1,9 @@
 ---
 - link_key: about
-  link_path: about
+  link_path: about_us_path
   slug: about
-  sort_order: 4
-  visible: false
+  sort_order_top_nav: 5
+  visible: true
   show_in_top_nav: true
   show_in_footer: false
   link_title_en: About Us

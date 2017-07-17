@@ -286,14 +286,16 @@ ActiveRecord::Schema.define(version: 20170716110121) do
     t.string   "slug"
     t.string   "link_key"
     t.string   "link_path"
-    t.integer  "sort_order"
-    t.boolean  "visible"
-    t.integer  "flags",           default: 0,     null: false
-    t.json     "details",         default: {}
-    t.boolean  "show_in_top_nav", default: false
-    t.boolean  "show_in_footer",  default: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.boolean  "visible",                 default: false
+    t.integer  "last_updated_by_user_id"
+    t.integer  "flags",                   default: 0,     null: false
+    t.json     "details",                 default: {}
+    t.integer  "sort_order_top_nav",      default: 0
+    t.integer  "sort_order_footer",       default: 0
+    t.boolean  "show_in_top_nav",         default: false
+    t.boolean  "show_in_footer",          default: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.index ["flags"], name: "index_pwb_pages_on_flags", using: :btree
     t.index ["link_key"], name: "index_pwb_pages_on_link_key", unique: true, using: :btree
     t.index ["show_in_footer"], name: "index_pwb_pages_on_show_in_footer", using: :btree

@@ -47,9 +47,7 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <% @sections.each do |section| %>
-              <%= top_nav_link(section) %>
-            <% end %>
+            <%= top_navigation %>
             <% if @show_admin_link  %>
               <% if current_user %>
                 <li class="<%= 'selected' if current_page?(pwb.admin_with_locale_path(locale: locale)) %>">

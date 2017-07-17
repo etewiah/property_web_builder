@@ -34,57 +34,6 @@ module Pwb
       end
     end
 
-    def top_nav_link(section_info)
-      unless section_info.show_in_top_nav
-        return
-      end
-      begin
-        if section_info.is_page
-          target_path = self.pwb.send("generic_page_path", section_info[:link_path], {locale: locale})
-        else
-
-          # link_path should be valid - below checks that
-          target_path = self.pwb.send(section_info[:link_path], {locale: locale})
-          # below works in most routes but had to change to above to support devise routes
-          # target_path = send(section_info[:link_path], {locale: locale})
-        end
-      rescue NoMethodError
-        # target_path = '/'
-        # rescue Exception => e
-      end
-      # only show top_nav_link where link_path is valid
-      if target_path
-        style_class = 'selected active' if current_page?( target_path )
-        html = <<-HTML
-        <li class="#{style_class}">
-        #{link_to I18n.t('navbar.'+section_info[:link_key]), target_path}
-        </li>
-        HTML
-
-        html.html_safe
-      end
-    end
-
-    def footer_link(section_info)
-      unless section_info.show_in_footer
-        return
-      end
-      begin
-        if section_info.is_page
-          target_path = self.pwb.send("generic_page_path", section_info[:link_path], {locale: locale})
-        else
-          target_path = self.pwb.send(section_info[:link_path], {locale: locale})
-        end
-      rescue NoMethodError
-      end
-
-      if target_path
-        html = <<-HTML
-        #{ link_to I18n.t('navbar.'+section_info[:link_key]), target_path}.
-        HTML
-        html.html_safe
-      end
-    end
 
     # http://railscasts.com/episodes/75-complex-forms-part-3
     def simple_inmo_input(f, field_key, placeholder_key, input_type, required)

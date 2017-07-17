@@ -4,12 +4,12 @@ class CreatePwbPages < ActiveRecord::Migration[5.0]
       t.string :slug
       t.string :link_key
       t.string :link_path
-      t.integer :sort_order
-      t.boolean :visible
+      t.boolean :visible, default: false
       t.integer :last_updated_by_user_id
       t.integer :flags, default: 0, index: true, null: false
       t.json :details, default: {}
-      # t.boolean :is_page, default: false, index: true
+      t.integer :sort_order_top_nav, default: 0
+      t.integer :sort_order_footer, default: 0
       t.boolean :show_in_top_nav, default: false, index: true
       t.boolean :show_in_footer, default: false, index: true
       # t.boolean :key, :string, index: true

@@ -43,7 +43,11 @@ module Pwb
       end
 
       def seed_pages!
-        page_yml_filenames = ["sell.yml", "about.yml"]
+        page_yml_filenames = [
+          "sell.yml", "about.yml", "buy.yml",
+          "rent.yml", "home.yml", "legal_notice.yml",
+          "contact.yml", "privacy_policy.yml"
+        ]
         page_yml_filenames.each do |page_yml_filename|
           seed_page page_yml_filename
         end

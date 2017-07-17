@@ -1,0 +1,55 @@
+---
+- link_key: privacy
+  link_path: ""
+  slug: privacy_policy
+  sort_order_top_nav: 11
+  sort_order_footer: 2
+  visible: true
+  show_in_top_nav: false
+  show_in_footer: true
+  link_title_en: Privacy Policy
+  link_title_es: Privacy
+  link_title_fr: Privacy
+  link_title_de: Privacy
+  page_title_en: Privacy Policy
+  page_title_es: Privacy
+  page_title_fr: Privacy
+  page_title_de: Privacy
+  details: {
+    "name": "privacy",
+    "id": "privacy",
+    "tabValue": "privacy",
+    "pageTitleKey": "pages.privacy",
+    "cmsPartsList": [ {
+      "tabValue": "services",
+      "tabTitleKey": "pageSections.services.title",
+      "tabInfoKey": "pageSections.services.info",
+      "label": "about_us_services",
+      "editorBlocks": [
+        [{
+          "label": "title_a",
+          "isSingleLineText": "true"
+        }, {
+          "label": "content_a",
+          "isMultipleLineText": "true"
+        }],
+        [{
+          "label": "title_b",
+          "isSingleLineText": "true"
+        }, {
+          "label": "content_b",
+          "isMultipleLineText": "true"
+        }],
+        [{
+          "label": "title_c",
+          "isSingleLineText": "true"
+        }, {
+          "label": "content_c",
+          "isMultipleLineText": "true"
+        }]
+      ]
+    }]
+
+  }
+  raw_html_en: This is our privacy policy.
+  raw_html_es: Este es nuestro politica de privacidad.

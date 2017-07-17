@@ -1,9 +1,10 @@
 ---
 - link_key: sell
-  link_path: sell
+  # leaving below empty will result in slug being used to construct link
+  link_path: ""
   slug: sell
-  sort_order: 4
-  visible: false
+  sort_order_top_nav: 4
+  visible: true
   show_in_top_nav: true
   show_in_footer: false
   link_title_en: Sell

@@ -1,0 +1,56 @@
+---
+- link_key: home
+  link_path: home_path
+  slug: home
+  sort_order_top_nav: 1
+  visible: true
+  show_in_top_nav: true
+  show_in_footer: false
+  link_title_en: Home
+  link_title_es: Inicio
+  link_title_fr: Accueil
+  link_title_de: Zuhause
+  page_title_en: Home
+  page_title_es: Inicio
+  page_title_fr: Accueil
+  page_title_de: Zuhause
+  details: {
+    "name": "home",
+    "id": "home",
+    "tabValue": "home",
+    "pageTitleKey": "pages.home",
+    "cmsPartsList": [ {
+      "tabValue": "services",
+      "tabTitleKey": "pageSections.services.title",
+      "tabInfoKey": "pageSections.services.info",
+      "label": "about_us_services",
+      "editorBlocks": [
+        [{
+          "label": "title_a",
+          "isSingleLineText": "true"
+        }, {
+          "label": "content_a",
+          "isMultipleLineText": "true"
+        }],
+        [{
+          "label": "title_b",
+          "isSingleLineText": "true"
+        }, {
+          "label": "content_b",
+          "isMultipleLineText": "true"
+        }],
+        [{
+          "label": "title_c",
+          "isSingleLineText": "true"
+        }, {
+          "label": "content_c",
+          "isMultipleLineText": "true"
+        }]
+      ]
+    }]
+
+  }
+  raw_html_en: >
+    <p>We are a professional estate agents with many years experience of delivering a great service 
+    for our clients.</p>
+  raw_html_es: Llevamos muchos años comprometidos con ofrecer un servicio integral y conseguir solo transacciones con éxito y felicidad por parte de los compradores y vendedores.
