@@ -6,9 +6,9 @@ module Pwb
     attributes :label, :slug, :full_path,
       :blocks, :tags, :categories,
       :locale, :content_cache, 
-      # below 2 are not used in admin panel
+      # below 3 are not used in admin panel
       # but need to be populated when creating new page
-      :site_id, :layout
+      :site_id, :layout_id, :parent_id
 
     filters :label, :full_path
     has_many :cms_blocks

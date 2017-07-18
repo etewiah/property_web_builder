@@ -21,24 +21,33 @@ module Pwb
     end
 
     def meta
-      @admin_setup = Pwb::CmsPageContainer.where(name: params[:page_name]).first || {}
-      render json: @admin_setup.as_json["attributes"]
+      # admin_setup = Pwb::CmsPageContainer.where(name: params[:page_name]).first || {}
+      # render json: admin_setup.as_json["attributes"]
+      page = Pwb::Page.find_by_slug(params[:page_name])
+      if page
+        render json: page.as_json
+      else
+        render json: {}
+      end
     end
 
     def create
       new_page = Comfy::Cms::Page.new(cms_page_create_params["attributes"].except("blocks"))
+      # Have to manually set below because jsonapi and ember-data
+      # change underscores to hyphens
+      new_page.site_id = params["data"]["attributes"]["site-id"]
+      new_page.layout_id = params["data"]["attributes"]["layout-id"]
+      new_page.parent_id = params["data"]["attributes"]["parent-id"]
+
+      new_page.save!
+      # need to have page.id before associating blocks
       cms_page_create_params[:attributes][:blocks].each do |block_params|
         new_block = Comfy::Cms::Block.new block_params
-        new_block.identifier = "idd"
-        new_block.save!
         new_page.blocks << new_block
+        # need to associate block with page before saving
+        # (uniqueness is validated witin scope of page)
+        new_block.save!
       end
-
-      new_page.site_id = 1
-      new_page.layout_id = 1
-      # new_page.slug = "en"
-      byebug
-      new_page.label = "lbl"
 
       new_page.save!
 
@@ -93,7 +102,7 @@ module Pwb
     end
 
     def cms_page_create_params
-      params.require(:data).permit(attributes: [:slug, :site_id, :label, blocks: [:content, :identifier, :info, :is_image]])
+      params.require(:data).permit(attributes: [:slug, :label, blocks: [:content, :identifier, :info, :is_image]])
     end
     def cms_page_update_params
       params.require(:data).permit(:id, attributes: [:label, blocks: [:content, :id, :identifier, :info, :is_image]])

@@ -3,6 +3,9 @@ module Pwb
     extend ActiveHash::Associations::ActiveRecordExtensions
     belongs_to_active_hash :theme, foreign_key: "theme_name", class_name: "Pwb::Theme", shortcuts: [:friendly_name], primary_key: "name"
 
+    # TODO - add favicon image (and logo image directly)
+    # as well as details hash for storing pages..
+
     def self.unique_instance
       # there will be only one row, and its ID must be '1'
       begin
@@ -17,6 +20,27 @@ module Pwb
       end
     end
 
+    def pages_summary
+      if self.configuration["pages_summary"].present?
+        return configuration["pages_summary"]
+      else
+        return update_pages_summary
+      end
+    end
+
+    # TODO - call this each time a page is added,
+    # deleted or has key attr changed
+    def update_pages_summary
+      pages_summary = []
+      # Pwb::Page.all.as_json_summary
+      # above returns "undefined method"
+      Pwb::Page.all.each do |page|
+        pages_summary.push page.as_json_summary
+      end
+      self.configuration["pages_summary"] = pages_summary
+      return pages_summary
+    end
+
     def as_json(options = nil)
       super({only: [
                "company_display_name", "theme_name",
@@ -27,7 +51,7 @@ module Pwb
                "sale_price_options_from", "sale_price_options_till",
                "rent_price_options_from", "rent_price_options_till"
              ],
-             methods: ["style_variables"]}.merge(options || {}))
+             methods: ["style_variables","pages_summary"]}.merge(options || {}))
     end
 
     enum default_area_unit: { sqmt: 0, sqft: 1 }
@@ -58,7 +82,9 @@ module Pwb
 
 
     # admin client & default.css.erb uses style_variables
-    # but it is stored as style_variables_for_theme
+    # but it is stored in style_variables_for_theme json col
+    # In theory, could have different style_variables per theme but not
+    # doing that right now
     def style_variables
       default_style_variables = {
         "primary_color" => "#e91b23", # red
