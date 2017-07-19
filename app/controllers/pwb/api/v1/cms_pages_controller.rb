@@ -20,16 +20,16 @@ module Pwb
       render json: photo.to_json
     end
 
-    def meta
-      # admin_setup = Pwb::CmsPageContainer.where(name: params[:page_name]).first || {}
-      # render json: admin_setup.as_json["attributes"]
-      page = Pwb::Page.find_by_slug(params[:page_name])
-      if page
-        render json: page.as_json
-      else
-        render json: {}
-      end
-    end
+    # def meta
+    #   # admin_setup = Pwb::CmsPageContainer.where(name: params[:page_name]).first || {}
+    #   # render json: admin_setup.as_json["attributes"]
+    #   page = Pwb::Page.find_by_slug(params[:page_name])
+    #   if page
+    #     render json: page.as_json
+    #   else
+    #     render json: {}
+    #   end
+    # end
 
     def create
       new_page = Comfy::Cms::Page.new(cms_page_create_params["attributes"].except("blocks"))

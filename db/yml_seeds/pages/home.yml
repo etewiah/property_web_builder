@@ -19,36 +19,58 @@
     "id": "home",
     "tabValue": "home",
     "pageTitleKey": "pages.home",
-    "cmsPartsList": [ {
-      "tabValue": "services",
-      "tabTitleKey": "pageSections.services.title",
-      "tabInfoKey": "pageSections.services.info",
-      "label": "about_us_services",
-      "editorBlocks": [
-        [{
-          "label": "title_a",
-          "isSingleLineText": "true"
-        }, {
-          "label": "content_a",
-          "isMultipleLineText": "true"
-        }],
-        [{
-          "label": "title_b",
-          "isSingleLineText": "true"
-        }, {
-          "label": "content_b",
-          "isMultipleLineText": "true"
-        }],
-        [{
-          "label": "title_c",
-          "isSingleLineText": "true"
-        }, {
-          "label": "content_c",
-          "isMultipleLineText": "true"
-        }]
-      ]
-    }]
-
+    "cmsPartsList": [
+      {
+        "tabValue": "landing-carousel",
+        "tabTitleKey": "pageSections.landingCarousel.title",
+        "tabInfoKey": "pageSections.landingCarousel.info",
+        "label": "about_us_raw",
+        "isLegacy": "true",
+        "isEditable": "true",
+        "componentName": "landing-carousel",
+      },
+      {
+        "tabValue": "raw",
+        "tabTitleKey": "pageSections.rawHtml.title",
+        "tabInfoKey": "pageSections.rawHtml.info",
+        "label": "about_us_raw",
+        "editorBlocks": [
+          [{
+            "label": "content_a",
+            "isRawHtml": "true"
+          }]
+        ]
+      },
+      {
+        "tabValue": "services",
+        "tabTitleKey": "pageSections.services.title",
+        "tabInfoKey": "pageSections.services.info",
+        "label": "about_us_services",
+        "editorBlocks": [
+          [{
+            "label": "title_a",
+            "isSingleLineText": "true"
+          }, {
+            "label": "content_a",
+            "isMultipleLineText": "true"
+          }],
+          [{
+            "label": "title_b",
+            "isSingleLineText": "true"
+          }, {
+            "label": "content_b",
+            "isMultipleLineText": "true"
+          }],
+          [{
+            "label": "title_c",
+            "isSingleLineText": "true"
+          }, {
+            "label": "content_c",
+            "isMultipleLineText": "true"
+          }]
+        ]
+      }
+    ]
   }
   raw_html_en: >
     <p>We are a professional estate agents with many years experience of delivering a great service 

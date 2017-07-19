@@ -5,21 +5,21 @@ module Pwb
     # protect_from_forgery with: :null_session
 
     def update
-      @website = Website.unique_instance
-      if @website
-        @website.update(website_params)
+      website = Website.unique_instance
+      if website
+        website.update(website_params)
         # http://patshaughnessy.net/2014/6/16/a-rule-of-thumb-for-strong-parameters
         # adding :social_media to the list permitted by strong params does not work so doing below
         # which is  ugly but works
-        @website.social_media = params[:website][:social_media]
-        @website.style_variables = params[:website][:style_variables]
-        @website.sale_price_options_from = params[:website][:sale_price_options_from]
-        @website.sale_price_options_till = params[:website][:sale_price_options_till]
-        @website.rent_price_options_from = params[:website][:rent_price_options_from]
-        @website.rent_price_options_till = params[:website][:rent_price_options_till]
-        @website.save!
+        website.social_media = params[:website][:social_media]
+        website.style_variables = params[:website][:style_variables]
+        website.sale_price_options_from = params[:website][:sale_price_options_from]
+        website.sale_price_options_till = params[:website][:sale_price_options_till]
+        website.rent_price_options_from = params[:website][:rent_price_options_from]
+        website.rent_price_options_till = params[:website][:rent_price_options_till]
+        website.save!
       end
-      render json: @website
+      render json: website
     end
 
     private

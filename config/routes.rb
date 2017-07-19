@@ -106,17 +106,17 @@ Pwb::Engine.routes.draw do
         put "/translations/:id/update_for_locale" => "translations#update_for_locale"
         delete "/translations/:id" => "translations#delete_translation_values"
 
+        # put "tenant" => "agency#update_legacy"
+        put "/master_address" => "agency#update_master_address"
 
         get "/agency" => "agency#show"
         put "/agency" => "agency#update"
         put "/website" => "website#update"
         get "/infos" => "agency#infos"
 
-        # put "tenant" => "agency#update_legacy"
-        put "/master_address" => "agency#update_master_address"
-
+        put "/pwb_page" => "page#update"
+        get "/pwb_page/:page_name" => "page#get"
         post '/cms-pages/photos/:page_id/:block_label' => 'cms_pages#set_photo'
-        get "/cms-pages/meta/:page_name" => "cms_pages#meta"
         jsonapi_resources :cms_pages
 
         # get "/web-contents" => "agency#infos"
