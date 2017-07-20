@@ -15,31 +15,22 @@
   page_title_fr: Accueil
   page_title_de: Zuhause
   details: {
-    "name": "home",
-    "id": "home",
-    "tabValue": "home",
-    "pageTitleKey": "pages.home",
+    "visiblePageParts": ["raw_html","about_us_services"],
     "cmsPartsList": [
       {
         "tabValue": "landing-carousel",
         "tabTitleKey": "pageSections.landingCarousel.title",
         "tabInfoKey": "pageSections.landingCarousel.info",
-        "label": "about_us_raw",
+        "label": "landing_carousel",
         "isLegacy": "true",
         "isEditable": "true",
         "componentName": "landing-carousel",
       },
       {
-        "tabValue": "raw",
+        "tabValue": "html",
         "tabTitleKey": "pageSections.rawHtml.title",
         "tabInfoKey": "pageSections.rawHtml.info",
-        "label": "about_us_raw",
-        "editorBlocks": [
-          [{
-            "label": "content_a",
-            "isRawHtml": "true"
-          }]
-        ]
+        "label": "raw_html"
       },
       {
         "tabValue": "services",
@@ -72,7 +63,9 @@
       }
     ]
   }
-  raw_html_en: >
-    <p>We are a professional estate agents with many years experience of delivering a great service 
-    for our clients.</p>
-  raw_html_es: Llevamos muchos años comprometidos con ofrecer un servicio integral y conseguir solo transacciones con éxito y felicidad por parte de los compradores y vendedores.
+  raw_html_en: 
+    <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.
+    Call us now to take advantage of this special offer.</p>
+  raw_html_es: 
+    <p><b>Noticia importante:</b>&nbsp; Para este mes estamos haciendo evaluaciones de viviendas 
+    gratis. &nbsp;Llamanos para mas información.</p>

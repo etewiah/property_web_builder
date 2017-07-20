@@ -14,43 +14,19 @@
   page_title_es: Comprar
   page_title_fr: Acheter
   page_title_de: Kaufen
-  details: {
-    "name": "buy",
-    "id": "buy",
-    "tabValue": "buy",
-    "pageTitleKey": "pages.buy",
-    "cmsPartsList": [ {
-      "tabValue": "services",
-      "tabTitleKey": "pageSections.services.title",
-      "tabInfoKey": "pageSections.services.info",
-      "label": "about_us_services",
-      "editorBlocks": [
-        [{
-          "label": "title_a",
-          "isSingleLineText": "true"
-        }, {
-          "label": "content_a",
-          "isMultipleLineText": "true"
-        }],
-        [{
-          "label": "title_b",
-          "isSingleLineText": "true"
-        }, {
-          "label": "content_b",
-          "isMultipleLineText": "true"
-        }],
-        [{
-          "label": "title_c",
-          "isSingleLineText": "true"
-        }, {
-          "label": "content_c",
-          "isMultipleLineText": "true"
-        }]
-      ]
-    }]
 
+  details: {
+    "visiblePageParts": [],
+    "cmsPartsList": [
+      {
+        "tabValue": "html",
+        "tabTitleKey": "pageSections.rawHtml.title",
+        "tabInfoKey": "pageSections.rawHtml.info",
+        "label": "raw_html"
+      }
+    ]
   }
-  raw_html_en: >
-    <p>We are a professional estate agents with many years experience of delivering a great service 
-    for our clients.</p>
-  raw_html_es: Llevamos muchos años comprometidos con ofrecer un servicio integral y conseguir solo transacciones con éxito y felicidad por parte de los compradores y vendedores.
+
+
+  raw_html_en: 
+  raw_html_es: 

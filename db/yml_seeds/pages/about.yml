@@ -15,113 +15,57 @@
   page_title_fr: A propos
   page_title_de: Über uns
   details: {
-    "name": "about",
-    "id": "about",
-    "tabValue": "about",
-    "pageTitleKey": "pages.aboutUs",
-    // "tabTitleKey": "webContentSections.aboutUs",
-    "cmsPartsList": [{
-      "tabValue": "raw",
-      "tabTitleKey": "pageSections.raw.title",
-      "tabInfoKey": "pageSections.raw.info",
-      "label": "about_us_raw",
-      "editorBlocks": [
-        [{
-          "label": "content_a",
-          "isMultipleLineText": "true"
-        }]
-      ]
-    }, {
-      "tabValue": "services",
-      "tabTitleKey": "pageSections.services.title",
-      "tabInfoKey": "pageSections.services.info",
-      "label": "about_us_services",
-      "editorBlocks": [
-        [{
-          "label": "title_a",
-          "isSingleLineText": "true"
-        }, {
-          "label": "content_a",
-          "isMultipleLineText": "true"
-        }],
-        [{
-          "label": "title_b",
-          "isSingleLineText": "true"
-        }, {
-          "label": "content_b",
-          "isMultipleLineText": "true"
-        }],
-        [{
-          "label": "title_c",
-          "isSingleLineText": "true"
-        }, {
-          "label": "content_c",
-          "isMultipleLineText": "true"
-        }]
-      ]
-    }, {
-      "tabValue": "people",
-      "tabTitleKey": "pageSections.people.title",
-      "tabInfoKey": "pageSections.people.info",
-      "label": "about_us_people",
-      "editorBlocks": [
-        [{
-          "label": "person_img_url_a",
-          "isImage": "true"
-        }, {
-          "label": "person_name_a",
-          "isSingleLineText": "true"
-        }, {
-          "label": "person_title_a",
-          "isSingleLineText": "true"
-        }, {
-          "label": "person_details_a",
-          "isMultipleLineText": "true"
-        }],
-        [{
-          "label": "person_img_url_b",
-          "isImage": "true"
-        }, {
-          "label": "person_name_b",
-          "isSingleLineText": "true"
-        }, {
-          "label": "person_title_b",
-          "isSingleLineText": "true"
-        }, {
-          "label": "person_details_b",
-          "isMultipleLineText": "true"
-        }],
-        [{
-          "label": "person_img_url_c",
-          "isImage": "true"
-        }, {
-          "label": "person_name_c",
-          "isSingleLineText": "true"
-        }, {
-          "label": "person_title_c",
-          "isSingleLineText": "true"
-        }, {
-          "label": "person_details_c",
-          "isMultipleLineText": "true"
-        }],
-        [{
-          "label": "person_img_url_d",
-          "isImage": "true"
-        }, {
-          "label": "person_name_d",
-          "isSingleLineText": "true"
-        }, {
-          "label": "person_title_d",
-          "isSingleLineText": "true"
-        }, {
-          "label": "person_details_d",
-          "isMultipleLineText": "true"
-        }]
-      ]
-    }]
-
+    "visiblePageParts": ["raw_html","about_us_services"],
+    "cmsPartsList": [
+      {
+        "tabValue": "about-us",
+        "tabTitleKey": "pageSections.aboutUs.title",
+        "tabInfoKey": "pageSections.aboutUs.info",
+        "label": "about_us",
+        "isLegacy": "true",
+        "isEditable": "true",
+        "componentName": "about-us",
+      },
+      {
+        "tabValue": "html",
+        "tabTitleKey": "pageSections.rawHtml.title",
+        "tabInfoKey": "pageSections.rawHtml.info",
+        "label": "raw_html"
+      },
+      {
+        "tabValue": "services",
+        "tabTitleKey": "pageSections.services.title",
+        "tabInfoKey": "pageSections.services.info",
+        "label": "about_us_services",
+        "editorBlocks": [
+          [{
+            "label": "title_a",
+            "isSingleLineText": "true"
+          }, {
+            "label": "content_a",
+            "isMultipleLineText": "true"
+          }],
+          [{
+            "label": "title_b",
+            "isSingleLineText": "true"
+          }, {
+            "label": "content_b",
+            "isMultipleLineText": "true"
+          }],
+          [{
+            "label": "title_c",
+            "isSingleLineText": "true"
+          }, {
+            "label": "content_c",
+            "isMultipleLineText": "true"
+          }]
+        ]
+      }
+    ]
   }
-  raw_html_en: >
-    <p>We are a professional estate agents with many years experience of delivering a great service 
-    for our clients.</p>
-  raw_html_es: Llevamos muchos años comprometidos con ofrecer un servicio integral y conseguir solo transacciones con éxito y felicidad por parte de los compradores y vendedores.
+  raw_html_en: 
+    <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.
+    Call us now to take advantage of this special offer.</p>
+  raw_html_es: 
+    <p><b>Noticia importante:</b>&nbsp; Para este mes estamos haciendo evaluaciones de viviendas 
+    gratis. &nbsp;Llamanos para mas información.</p>
