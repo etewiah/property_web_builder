@@ -5,6 +5,9 @@ module Pwb
     translates :link_title, fallbacks_for_empty_translations: true
     globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
 
+    # TODO - change col in migration
+    scope :visible_in_admin, -> () { where visible: true  }
+
     # TODO - replace visible col with renderRawHtml
     def as_json(options = nil)
       super({only: [

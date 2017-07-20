@@ -3,7 +3,7 @@
   link_path: contact_us_path
   slug: contact
   sort_order_top_nav: 6
-  visible: true
+  visible: false
   show_in_top_nav: true
   show_in_footer: false
   link_title_en: Contact Us

@@ -3,7 +3,7 @@
   link_path: buy_path
   slug: buy
   sort_order_top_nav: 2
-  visible: true
+  visible: false
   show_in_top_nav: true
   show_in_footer: false
   link_title_en: Buy

@@ -34,7 +34,7 @@ module Pwb
       pages_summary = []
       # Pwb::Page.all.as_json_summary
       # above returns "undefined method"
-      Pwb::Page.all.each do |page|
+      Pwb::Page.all.visible_in_admin.each do |page|
         pages_summary.push page.as_json_summary
       end
       self.configuration["pages_summary"] = pages_summary

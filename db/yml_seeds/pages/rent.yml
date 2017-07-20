@@ -3,7 +3,7 @@
   link_path: rent_path
   slug: rent
   sort_order_top_nav: 3
-  visible: true
+  visible: false
   show_in_top_nav: true
   show_in_footer: false
   link_title_en: Rent
