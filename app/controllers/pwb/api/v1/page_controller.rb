@@ -24,7 +24,8 @@ module Pwb
     private
 
     def page_params
-      page_fields = ["sort_order_top_nav"]
+      page_fields = ["sort_order_top_nav","visible"]
+      # TODO - replace below with i18n available locales..
       locales = ["en","es"]
       locales.each do |locale|
         page_fields.push("link_title_#{locale}")

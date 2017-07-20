@@ -115,6 +115,7 @@ Pwb::Engine.routes.draw do
         get "/infos" => "agency#infos"
 
         put "/pwb_page" => "page#update"
+        put "/pwb_page/page_part_visibility" => "page#update_page_part_visibility"
         get "/pwb_page/:page_name" => "page#get"
         post '/cms-pages/photos/:page_id/:block_label' => 'cms_pages#set_photo'
         jsonapi_resources :cms_pages

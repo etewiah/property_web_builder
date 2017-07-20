@@ -5,12 +5,12 @@ module Pwb
     translates :link_title, fallbacks_for_empty_translations: true
     globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
 
-
+    # TODO - replace visible col with renderRawHtml
     def as_json(options = nil)
       super({only: [
                "sort_order_top_nav", "show_in_top_nav",
                "sort_order_footer", "show_in_footer",
-               "slug", "link_path","details"
+               "slug", "link_path","details","visible"
              ],
              methods: [
                "link_title_en","link_title_es",

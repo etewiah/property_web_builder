@@ -1,5 +1,5 @@
 <% page_title @page.page_title  %>
-<!-- MAIN CONTENT -->
+<!-- MAIN CONTENT... -->
 <div class="pg-opt">
   <div class="container">
     <div class="row">
@@ -21,18 +21,16 @@
     </div>
   </div>
 </div>
-<section class="slice bg-white bb static-content-panel">
-  <div class="wp-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <%== @page.raw_html %>
-        </div>
-        <% @page.details["cmsPartsList"].each do |cmspart| %>
-          <%== cmspart["content_cache"] %>          
-        <% end %>
-      </div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="container" style="padding: 30px 0px;">
+      <%== @page.raw_html %>
     </div>
   </div>
-</section>
+  <% @content_to_show.each do |content| %>
+  <div class="col-md-12">
+    <%== content %>
+  </div>
+  <% end %>
+</div>
 <!-- FOOTER -->
