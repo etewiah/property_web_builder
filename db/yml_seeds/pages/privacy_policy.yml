@@ -8,13 +8,14 @@
   show_in_top_nav: false
   show_in_footer: true
   link_title_en: Privacy Policy
-  link_title_es: Privacy
-  link_title_fr: Privacy
-  link_title_de: Privacy
+  link_title_es: Privacy Policy
+  link_title_fr: Privacy Policy
+  link_title_de: Privacy Policy
+  link_title_ru: Privacy Policy
   page_title_en: Privacy Policy
-  page_title_es: Privacy
-  page_title_fr: Privacy
-  page_title_de: Privacy
+  page_title_es: Privacy Policy
+  page_title_fr: Privacy Policy
+  page_title_de: Privacy Policy
   details: {
     "visiblePageParts": ["raw_html"],
     "cmsPartsList": [

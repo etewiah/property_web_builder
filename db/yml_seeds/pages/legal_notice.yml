@@ -8,13 +8,14 @@
   show_in_top_nav: false
   show_in_footer: true
   link_title_en: Legal Notice
-  link_title_es: Legal
-  link_title_fr: Legal
-  link_title_de: Legal
+  link_title_es: Legal Notice
+  link_title_fr: Legal Notice
+  link_title_de: Legal Notice
+  link_title_ru: Legal Notice
   page_title_en: Legal Notice
-  page_title_es: Legal
-  page_title_fr: Legal
-  page_title_de: Legal
+  page_title_es: Legal Notice
+  page_title_fr: Legal Notice
+  page_title_de: Legal Notice
   details: {
     "visiblePageParts": ["raw_html"],
     "cmsPartsList": [

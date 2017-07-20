@@ -1,5 +1,36 @@
 ru:
   admin:
+    pages:
+      aboutUs: About us
+      sell: Sell
+      landing: Landing
+      legal: Legal
+    pageSections:
+      pageTitle: Page title
+      services: 
+        title: Services you offer
+        info: An overview of the services you offer
+      people: 
+        title: Your team
+        info: Summary info about your team
+      landingCarousel: 
+        title: Home page carousel
+        info: Main section displaying images and text
+      rawHtml: 
+        title: HTML Content
+        info: You can add extra HTML here
+      topRentals: 
+        title: Top Rentals
+        info: Summary list of properties to rent
+      topSales: 
+        title: Top Sales
+        info: Summary list of properties for sale
+      contactUsForm: 
+        title: Contact us form
+        info: Form to allow visitors to send you a message
+      aboutUs:
+        title: Text and photo
+        info: A little bit about your business
     "true": "true"
     "false": "false"
     "yes": "да"
@@ -65,6 +96,7 @@ ru:
       legalAdvice: "Соглашение с пользователем"
       privacyPolicy: "Политика конфиденциальности"
     adminSections:
+      pages: Pages
       import: Импорт данных
       start: Главная
       agencyDetails: Агенство
