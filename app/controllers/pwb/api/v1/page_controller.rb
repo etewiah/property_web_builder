@@ -21,6 +21,14 @@ module Pwb
       render json: page
     end
 
+    def update_page_part_visibility
+      page = Page.find_by_slug params[:page_slug]
+      page.details["visiblePageParts"] = params[:visible_page_parts]
+      page.save!
+      render json: page
+    end
+
+
     private
 
     def page_params
