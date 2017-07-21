@@ -6,15 +6,17 @@
   visible: true
   show_in_top_nav: true
   show_in_footer: false
-  link_title_en: About Us
-  link_title_es: Sobre Nosotros
-  link_title_fr: A propos
-  link_title_de: Über uns
-  link_title_ru: About Us
+  # link_title_en: About Us
+  # link_title_es: Sobre Nosotros
+  # link_title_fr: A propos
+  # link_title_de: Über uns
+  # link_title_ru: About Us
   page_title_en: About Us
   page_title_es: Sobre Nosotros
   page_title_fr: A propos
   page_title_de: Über uns
+  page_title_ru: О нас
+  page_title_pt: About Us
   details: {
     "visiblePageParts": ["raw_html","about_us_services"],
     "cmsPartsList": [

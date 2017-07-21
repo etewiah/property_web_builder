@@ -32,6 +32,8 @@ module Pwb
         locale = params[:locale]
       end
       I18n.locale = locale.to_sym
+
+      # Globalize.fallbacks = {:de => [:en],:es => [:en], :ru => [:en]}
     end
 
     # http://www.rubydoc.info/github/plataformatec/devise/master/ActionDispatch/Routing/Mapper#devise_for-instance_method

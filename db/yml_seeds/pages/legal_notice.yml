@@ -13,9 +13,11 @@
   # link_title_de: Legal Notice
   # link_title_ru: Legal Notice
   page_title_en: Legal Notice
-  page_title_es: Legal Notice
+  page_title_es: Aviso Legal
   page_title_fr: Legal Notice
-  page_title_de: Legal Notice
+  page_title_de: Impressum
+  page_title_ru: Официальное уведомление
+  page_title_pt: Legal Notice
   details: {
     "visiblePageParts": ["raw_html"],
     "cmsPartsList": [

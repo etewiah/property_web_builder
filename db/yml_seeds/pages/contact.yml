@@ -6,15 +6,12 @@
   visible: false
   show_in_top_nav: true
   show_in_footer: false
-  link_title_en: Contact Us
-  link_title_es: Contactar
-  link_title_fr: Contacter
-  link_title_de: Kontact
-  link_title_ru: Contact Us
   page_title_en: Contact Us
   page_title_es: Contactar
   page_title_fr: Contacter
   page_title_de: Kontact
+  page_title_ru: связаться с нами
+  page_title_pt: Contact Us
   details: {
     "visiblePageParts": [],
     "cmsPartsList": [
