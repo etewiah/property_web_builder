@@ -6,7 +6,9 @@ module Pwb
       @links ||= Pwb::Link.ordered_visible_top_nav
       # TODO - cache here
       @links.each do |page|
-          html += (top_nav_link_for page) || ""
+        unless page.slug == "top_nav_admin"
+          html += (top_nav_link_for page) || ""          
+        end
       end
       html.html_safe
     end

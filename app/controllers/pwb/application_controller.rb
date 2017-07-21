@@ -3,7 +3,7 @@ module Pwb
     protect_from_forgery with: :exception
 
     before_action :footer_content, :current_agency_and_website, :sections,
-    :set_locale, :set_theme_path
+      :set_locale, :set_theme_path
 
     def set_theme_path
       theme_name = Website.unique_instance.theme_name
@@ -56,7 +56,13 @@ module Pwb
 
     def sections
       @sections ||= Section.order("sort_order")
-      @show_admin_link = true
+      if current_user
+        # where user is signed in, special admin link is shown
+        # so no need to render standard one
+        @show_admin_link = false
+      else
+        @show_admin_link = Pwb::Link.find_by_slug("top_nav_admin").visible
+      end
     end
   end
 end
