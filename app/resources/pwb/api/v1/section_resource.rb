@@ -1,3 +1,4 @@
+# july 2017 - no longer in use
 module Pwb
   class Api::V1::SectionResource < JSONAPI::Resource
     model_name 'Pwb::Section'

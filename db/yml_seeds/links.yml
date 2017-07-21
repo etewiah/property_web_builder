@@ -205,18 +205,18 @@
   link_title_es: Admin
   link_title_fr: Admin
   link_title_de: Admin 
-- slug: top_nav_facebook
-  link_url: "https://www.facebook.com/propertywebbuilder"
-  sort_order: 1
-  visible: true
-  icon_class: "fa-facebook fa"
-  href_target: "_blank"
-  is_external: true
-  placement: :top_nav
-  link_title_en: Facebook
-  link_title_es: Facebook
-  link_title_fr: Facebook
-  link_title_de: Facebook 
+# - slug: top_nav_facebook
+#   link_url: "https://www.facebook.com/propertywebbuilder"
+#   sort_order: 1
+#   visible: true
+#   icon_class: "fa-facebook fa"
+#   href_target: "_blank"
+#   is_external: true
+#   placement: :top_nav
+#   link_title_en: Facebook
+#   link_title_es: Facebook
+#   link_title_fr: Facebook
+#   link_title_de: Facebook 
 - slug: social_media_facebook
   link_url: "https://www.facebook.com/propertywebbuilder"
   sort_order: 1
