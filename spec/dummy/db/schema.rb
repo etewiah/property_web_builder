@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170716110121) do
+ActiveRecord::Schema.define(version: 20170720201601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -250,6 +250,40 @@ ActiveRecord::Schema.define(version: 20170716110121) do
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.index ["global_key"], name: "index_pwb_field_keys_on_global_key", unique: true, using: :btree
+  end
+
+  create_table "pwb_link_translations", force: :cascade do |t|
+    t.integer  "pwb_link_id",              null: false
+    t.string   "locale",                   null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "link_title",  default: ""
+    t.index ["locale"], name: "index_pwb_link_translations_on_locale", using: :btree
+    t.index ["pwb_link_id"], name: "index_pwb_link_translations_on_pwb_link_id", using: :btree
+  end
+
+  create_table "pwb_links", force: :cascade do |t|
+    t.string   "slug"
+    t.string   "parent_slug"
+    t.string   "page_slug"
+    t.string   "icon_class"
+    t.string   "href_class"
+    t.string   "href_target"
+    t.boolean  "is_external",      default: false
+    t.string   "link_url"
+    t.string   "link_path"
+    t.string   "link_path_params"
+    t.boolean  "visible",          default: true
+    t.boolean  "is_deletable",     default: false
+    t.integer  "flags",            default: 0,     null: false
+    t.integer  "sort_order",       default: 0
+    t.integer  "placement",        default: 0
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.index ["flags"], name: "index_pwb_links_on_flags", using: :btree
+    t.index ["page_slug"], name: "index_pwb_links_on_page_slug", using: :btree
+    t.index ["placement"], name: "index_pwb_links_on_placement", using: :btree
+    t.index ["slug"], name: "index_pwb_links_on_slug", unique: true, using: :btree
   end
 
   create_table "pwb_messages", force: :cascade do |t|

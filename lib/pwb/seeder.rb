@@ -53,6 +53,10 @@ module Pwb
         end
       end
 
+      def seed_links!
+        seed_links 'links.yml'
+      end
+
       protected
 
 
@@ -81,6 +85,16 @@ module Pwb
           end
         end
       end
+
+      def seed_links yml_file
+        links_yml = load_seed_yml yml_file
+        links_yml.each do |single_link_yml|
+          unless Pwb::Link.where(slug: single_link_yml['slug']).count > 0
+            Pwb::Link.create!(single_link_yml)
+          end
+        end
+      end
+
 
       def seed_sections yml_file
         sections_yml = load_seed_yml yml_file
