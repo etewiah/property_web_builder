@@ -20,25 +20,25 @@ module Pwb
       end
     end
 
-    def pages_summary
-      if self.configuration["pages_summary"].present?
-        return configuration["pages_summary"]
+    def admin_page_links
+      return update_admin_page_links
+      if self.configuration["admin_page_links"].present?
+        return configuration["admin_page_links"]
       else
-        return update_pages_summary
+        return update_admin_page_links
       end
     end
 
-    # TODO - call this each time a page is added,
-    # deleted or has key attr changed
-    def update_pages_summary
-      pages_summary = []
-      # Pwb::Page.all.as_json_summary
-      # above returns "undefined method"
-      Pwb::Page.all.visible_in_admin.each do |page|
-        pages_summary.push page.as_json_summary
+    # TODO - call this each time a page
+    # needs to be added or
+    # deleted from admin
+    def update_admin_page_links
+      admin_page_links = []
+      Pwb::Link.ordered_visible_admin.each do |link|
+        admin_page_links.push link.as_json
       end
-      self.configuration["pages_summary"] = pages_summary
-      return pages_summary
+      self.configuration["admin_page_links"] = admin_page_links
+      return admin_page_links
     end
 
     def as_json(options = nil)
@@ -51,7 +51,7 @@ module Pwb
                "sale_price_options_from", "sale_price_options_till",
                "rent_price_options_from", "rent_price_options_till"
              ],
-             methods: ["style_variables","pages_summary"]}.merge(options || {}))
+             methods: ["style_variables","admin_page_links"]}.merge(options || {}))
     end
 
     enum default_area_unit: { sqmt: 0, sqft: 1 }

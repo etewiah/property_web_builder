@@ -8,7 +8,6 @@ module Pwb
     # TODO - change col in migration
     scope :visible_in_admin, -> () { where visible: true  }
 
-    # TODO - replace visible col with renderRawHtml
     def as_json(options = nil)
       super({only: [
                "sort_order_top_nav", "show_in_top_nav",

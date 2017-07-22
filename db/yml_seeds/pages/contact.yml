@@ -1,11 +1,6 @@
 ---
-- link_key: contact
-  link_path: contact_us_path
-  slug: contact
-  sort_order_top_nav: 6
-  visible: false
-  show_in_top_nav: true
-  show_in_footer: false
+- slug: contact-us
+  visible: true
   page_title_en: Contact Us
   page_title_es: Contactar
   page_title_fr: Contacter

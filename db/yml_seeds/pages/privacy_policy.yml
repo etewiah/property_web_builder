@@ -1,17 +1,6 @@
 ---
-- link_key: privacy
-  link_path: ""
-  slug: privacy_policy
-  sort_order_top_nav: 11
-  sort_order_footer: 2
+- slug: privacy
   visible: true
-  show_in_top_nav: false
-  show_in_footer: true
-  # link_title_en: Privacy Policy
-  # link_title_es: Privacy Policy
-  # link_title_fr: Privacy Policy
-  # link_title_de: Privacy Policy
-  # link_title_ru: Privacy Policy
   page_title_en: Privacy Policy
   page_title_es: Politica de Privacidad
   page_title_fr: Privacy Policy
@@ -29,6 +18,39 @@
       }
     ]
   }
+  raw_html_de: 
+    <P> <b> Privacy Policy </b> </p> <p>
+    We are committed to the security of your users' data. Therefore, our Privacy Policy sets forth the terms in which Example RE uses and protects information that is provided by its customers. </p> <p>
+    <b>
+    Use Collected Information </b> </p> <p>
+    Our website may collect personal information such as your email address and demographic information. Also, when necessary, specific information may be required to process an order or make a delivery or billing.
+    Example RE will not sell, cede or distribute personal information that is collected without your consent, unless required by a court with a court order.
+    </p> 
+    <p><b>Links to Third Parties </b> </p> <p>
+    This website may contain links to other sites that may be of interest to you. Once you click on these links and leave our page, we no longer have control over the site to which you are redirected and therefore we are not responsible for the terms or privacy or protection of your data on those other third sites. These sites are subject to their own privacy policies so it is recommended that you consult them to confirm that you agree with them.
+    </p> 
+  raw_html_ru: 
+    <P> <b> Privacy Policy </b> </p> <p>
+    We are committed to the security of your users' data. Therefore, our Privacy Policy sets forth the terms in which Example RE uses and protects information that is provided by its customers. </p> <p>
+    <b>
+    Use Collected Information </b> </p> <p>
+    Our website may collect personal information such as your email address and demographic information. Also, when necessary, specific information may be required to process an order or make a delivery or billing.
+    Example RE will not sell, cede or distribute personal information that is collected without your consent, unless required by a court with a court order.
+    </p> 
+    <p><b>Links to Third Parties </b> </p> <p>
+    This website may contain links to other sites that may be of interest to you. Once you click on these links and leave our page, we no longer have control over the site to which you are redirected and therefore we are not responsible for the terms or privacy or protection of your data on those other third sites. These sites are subject to their own privacy policies so it is recommended that you consult them to confirm that you agree with them.
+    </p> 
+  raw_html_fr: 
+    <P> <b> Privacy Policy </b> </p> <p>
+    We are committed to the security of your users' data. Therefore, our Privacy Policy sets forth the terms in which Example RE uses and protects information that is provided by its customers. </p> <p>
+    <b>
+    Use Collected Information </b> </p> <p>
+    Our website may collect personal information such as your email address and demographic information. Also, when necessary, specific information may be required to process an order or make a delivery or billing.
+    Example RE will not sell, cede or distribute personal information that is collected without your consent, unless required by a court with a court order.
+    </p> 
+    <p><b>Links to Third Parties </b> </p> <p>
+    This website may contain links to other sites that may be of interest to you. Once you click on these links and leave our page, we no longer have control over the site to which you are redirected and therefore we are not responsible for the terms or privacy or protection of your data on those other third sites. These sites are subject to their own privacy policies so it is recommended that you consult them to confirm that you agree with them.
+    </p> 
   raw_html_en: 
     <P> <b> Privacy Policy </b> </p> <p>
     We are committed to the security of your users' data. Therefore, our Privacy Policy sets forth the terms in which Example RE uses and protects information that is provided by its customers. </p> <p>

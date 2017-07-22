@@ -53,7 +53,7 @@
   link_title_ru: Продажа
   link_title_pt: Sell
 - slug: top_nav_about_us
-  page_slug: about_us
+  page_slug: about-us
   link_path: about_us_path
   sort_order: 5
   visible: true
@@ -66,7 +66,7 @@
   link_title_ru: О нас
   link_title_pt: About Us
 - slug: top_nav_contact_us
-  page_slug: contact_us
+  page_slug: contact-us
   link_path: contact_us_path
   sort_order: 6
   visible: true
@@ -79,7 +79,7 @@
   link_title_ru: связаться с нами
   link_title_pt: Contact Us
 - slug: top_nav_legal_notice
-  page_slug: legal_notice
+  page_slug: legal
   link_path: show_page_path
   link_path_params: legal
   sort_order: 7
@@ -93,7 +93,7 @@
   link_title_ru: Официальное уведомление
   link_title_pt: Legal Notice
 - slug: top_nav_privacy_policy
-  page_slug: privacy_policy
+  page_slug: privacy
   link_path: show_page_path
   link_path_params: privacy
   sort_order: 8
@@ -172,7 +172,7 @@
   link_title_ru: Продажа
   link_title_pt: Sell
 - slug: footer_about_us
-  page_slug: about_us
+  page_slug: about-us
   link_path: about_us_path
   sort_order: 5
   visible: false
@@ -185,7 +185,7 @@
   link_title_ru: О нас
   link_title_pt: About Us
 - slug: footer_contact_us
-  page_slug: contact_us
+  page_slug: contact-us
   link_path: contact_us_path
   sort_order: 6
   visible: true
@@ -198,7 +198,7 @@
   link_title_ru: связаться с нами
   link_title_pt: Contact Us
 - slug: footer_legal_notice
-  page_slug: legal_notice
+  page_slug: legal
   link_path: show_page_path
   link_path_params: legal
   sort_order: 7
@@ -212,7 +212,7 @@
   link_title_ru: Официальное уведомление
   link_title_pt: Legal Notice
 - slug: footer_privacy_policy
-  page_slug: privacy_policy
+  page_slug: privacy
   link_path: show_page_path
   link_path_params: privacy
   sort_order: 8
@@ -273,7 +273,113 @@
   link_title_es: Twitter
   link_title_fr: Twitter
   link_title_de: Twitter 
-
+- slug: admin_home
+  page_slug: home
+  link_path: home_path
+  sort_order: 1
+  visible: true
+  is_external: false
+  placement: :admin
+  link_title_en: Home
+  link_title_es: Inicio
+  link_title_fr: Accueil
+  link_title_de: Zuhause
+  link_title_ru: Главная
+  link_title_pt: Home
+- slug: admin_buy
+  page_slug: buy
+  link_path: buy_path
+  sort_order: 2
+  visible: false
+  is_external: false
+  placement: :admin
+  link_title_en: Buy
+  link_title_es: Comprar
+  link_title_fr: Acheter
+  link_title_de: Kaufen
+  link_title_ru: купить
+  link_title_pt: Buy
+- slug: admin_rent
+  page_slug: rent
+  link_path: rent_path
+  sort_order: 3
+  visible: false
+  is_external: false
+  placement: :admin
+  link_title_en: Rent
+  link_title_es: Arrendar
+  link_title_fr: Louer
+  link_title_de: Miete
+  link_title_ru: Аренда
+  link_title_pt: Rent
+- slug: admin_sell
+  page_slug: sell
+  link_path: show_page_path
+  link_path_params: sell
+  sort_order: 4
+  visible: true
+  is_external: false
+  placement: :admin
+  link_title_en: Sell
+  link_title_es: Vender
+  link_title_fr: Vendre
+  link_title_de: Verkaufen
+  link_title_ru: Продажа
+  link_title_pt: Sell
+- slug: admin_about_us
+  page_slug: about-us
+  link_path: about_us_path
+  sort_order: 5
+  visible: true
+  is_external: false
+  placement: :admin
+  link_title_en: About Us
+  link_title_es: Sobre Nosotros
+  link_title_fr: A propos
+  link_title_de: Über uns
+  link_title_ru: О нас
+  link_title_pt: About Us
+- slug: admin_contact_us
+  page_slug: contact-us
+  link_path: contact_us_path
+  sort_order: 6
+  visible: false
+  is_external: false
+  placement: :admin
+  link_title_en: Contact Us
+  link_title_es: Contactar
+  link_title_fr: Contacter
+  link_title_de: Kontact
+  link_title_ru: связаться с нами
+  link_title_pt: Contact Us
+- slug: admin_legal_notice
+  page_slug: legal
+  link_path: show_page_path
+  link_path_params: legal
+  sort_order: 7
+  visible: true
+  is_external: false
+  placement: :admin
+  link_title_en: Legal Notice
+  link_title_es: Aviso Legal
+  link_title_fr: Legal Notice
+  link_title_de: Impressum
+  link_title_ru: Официальное уведомление
+  link_title_pt: Legal Notice
+- slug: admin_privacy_policy
+  page_slug: privacy
+  link_path: show_page_path
+  link_path_params: privacy
+  sort_order: 8
+  visible: true
+  is_external: false
+  placement: :admin
+  link_title_en: Privacy Policy
+  link_title_es: Politica de Privacidad
+  link_title_fr: Privacy Policy
+  link_title_de: Datenschutz-Bestimmungen
+  link_title_pt: Privacy Policy
+  link_title_ru: Политика конфиденциальности
 
 
 
