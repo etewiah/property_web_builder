@@ -21,7 +21,7 @@ Pwb::Engine.routes.draw do
     end
   end
 
-  get "/custom_css" => "css#custom_css", as: "custom_css"
+  get "/custom_css/:theme_name" => "css#custom_css", as: "custom_css"
 
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
 

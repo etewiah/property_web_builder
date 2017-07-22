@@ -7,11 +7,12 @@ module Pwb
 
     def set_theme_path
       theme_name = Website.unique_instance.theme_name
+      if params[:theme].present?
+        if %w( berlin default ).include? params[:theme]
+          theme_name = params[:theme]
+        end
+      end
       theme_name = theme_name.present? ? theme_name : "default"
-      # || "default"
-      # if Agency.last && Agency.last.theme_name.present?
-      #   theme_name = Agency.last.theme_name
-      # end
       prepend_view_path "#{Pwb::Engine.root}/app/themes/#{theme_name}/views/"
       # below allows themes installed in Rails app consuming Pwb to work
       prepend_view_path "#{Rails.root}/app/themes/#{theme_name}/views/"
