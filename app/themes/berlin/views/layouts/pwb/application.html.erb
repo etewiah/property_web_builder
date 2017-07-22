@@ -6,7 +6,7 @@
     <meta name="robots" content="index, follow">
     <%# display_meta_tags site: @current_website.tenant_display_name %>
     <%= stylesheet_link_tag    "pwb/themes/berlin", media: "all" %>
-    <%= javascript_include_tag "pwb/themes/berlin" %>
+    <%= javascript_include_tag "pwb/themes/berlin", async: Rails.env.production? %>
     <%= csrf_meta_tags %>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
