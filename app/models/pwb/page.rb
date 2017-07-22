@@ -5,6 +5,10 @@ module Pwb
     translates :link_title, fallbacks_for_empty_translations: true
     globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
 
+    has_many :links, foreign_key: "page_slug", primary_key: "slug"
+    has_one :main_link, -> { where(placement: :top_nav) }, foreign_key: "page_slug", primary_key: "slug", class_name: "Pwb::Link"
+    # , :conditions => ['placement = ?', :admin]
+
     # TODO - change col in migration
     scope :visible_in_admin, -> () { where visible: true  }
 

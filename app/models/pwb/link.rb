@@ -2,6 +2,9 @@ module Pwb
   class Link < ApplicationRecord
     translates :link_title, fallbacks_for_empty_translations: true
     globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
+
+    belongs_to :page, foreign_key: "page_slug", primary_key: "slug"
+
     # enum placement: [ :top_nav, :footer ]
     # above method of declaring less flexible than below:
     enum placement: { top_nav: 0, footer: 1, social_media: 2, admin: 3}
