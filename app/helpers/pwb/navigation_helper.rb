@@ -1,52 +1,38 @@
 module Pwb
   module NavigationHelper
 
-    def top_navigation_links
+    def render_top_navigation_links
       html = ""
-      @links ||= Pwb::Link.ordered_visible_top_nav
-      # TODO - cache here
-      @links.each do |page|
+      @tn_links ||= Pwb::Link.ordered_visible_top_nav
+      @tn_links.each do |page|
         unless page.slug == "top_nav_admin"
-          html += (top_nav_link_for page) || ""          
+          html += (top_nav_link_for page) || ""
         end
       end
       html.html_safe
     end
 
-    # def top_navigation
-    #   html = ""
-    #   @pages ||= Pwb::Page.all
-    #   # TODO - cache here
-    #   @pages.order("sort_order_top_nav").each do |page|
-    #     if page.show_in_top_nav
-    #       html += (top_nav_link_for page) || ""
-    #     end
-    #   end
-    #   html.html_safe
-    # end
-
-    def footer_links
+    def render_footer_links
       html = ""
-      @pages ||= Pwb::Page.all
-      # TODO - cache here
-      @pages.order("sort_order_footer").each do |page|
-        if page.show_in_footer
-          html += (footer_link page) || ""
-        end
+      @ftr_links ||= Pwb::Link.ordered_visible_footer
+      @ftr_links.each do |page|
+        html += (footer_link_for page) || ""
       end
       html.html_safe
     end
 
-    def footer_link(page)
+    def footer_link_for(page)
       html = ""
       begin
         if page[:link_path].present?
           # link_path should be valid - below checks that
-          target_path = self.pwb.send(page[:link_path], {locale: locale})
+          target_path = self.pwb.send(page[:link_path], [page[:link_path_params]], {locale: locale})
           # below works in most routes but had to change to above to support devise routes
           # target_path = send(page[:link_path], {locale: locale})
-        else
-          target_path = self.pwb.send("show_page_path", page[:slug], {locale: locale})
+          # else
+          #   target_path = self.pwb.send("show_page_path", page[:slug], {locale: locale})
+        elsif page[:link_url].present?
+          target_path = page[:link_url]
         end
       rescue NoMethodError
         # target_path = '/'
@@ -68,8 +54,8 @@ module Pwb
           target_path = self.pwb.send(page[:link_path], [page[:link_path_params]], {locale: locale})
           # below works in most routes but had to change to above to support devise routes
           # target_path = send(page[:link_path], {locale: locale})
-        # else
-        #   target_path = self.pwb.send("show_page_path", page[:slug], {locale: locale})
+          # else
+          #   target_path = self.pwb.send("show_page_path", page[:slug], {locale: locale})
         elsif page[:link_url].present?
           target_path = page[:link_url]
         end

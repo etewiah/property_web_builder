@@ -48,7 +48,7 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <%# top_navigation %>
-            <%= top_navigation_links %>
+            <%= render_top_navigation_links %>
             <% if @show_admin_link  %>
               <li class="">
                 <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
