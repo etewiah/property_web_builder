@@ -2,6 +2,9 @@ module Pwb
   module ApplicationHelper
 
     def bg_image(photo, options = {})
+      unless photo && photo.image.present?
+        return ""
+      end
       if Rails.application.config.use_cloudinary
         image_url = cl_image_path photo, :quality => "auto"
       else
@@ -13,7 +16,7 @@ module Pwb
 
     def opt_image_tag(photo, options = {})
       unless photo && photo.image.present?
-        return
+        return nil
       end
       if Rails.application.config.use_cloudinary
         cl_image_tag photo.image.file.public_id, options
