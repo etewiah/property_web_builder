@@ -1,6 +1,28 @@
 module Pwb
   module ApplicationHelper
 
+    def bg_image(photo, options = {})
+      if Rails.application.config.use_cloudinary
+        image_url = cl_image_path photo, :quality => "auto"
+      else
+        image_url = image_path photo.image.url
+      end
+      #style="background-image:linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1) ),url(<%= carousel_item.default_photo %>);"
+      "background-image: linear-gradient(#{options[:gradient]}), url(#{image_url});".html_safe
+    end
+
+    def opt_image_tag(photo, options = {})
+      unless photo
+        return
+      end
+      if Rails.application.config.use_cloudinary
+        cl_image_tag photo.image.file.public_id, options
+      else
+        image_tag photo.image.url, options
+      end
+    end
+
+
     def page_title(title_val)
       content_for :page_title, title_val.to_s
     end

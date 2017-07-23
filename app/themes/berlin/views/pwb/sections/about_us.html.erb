@@ -1,4 +1,4 @@
-<section id="top-container" style="background-image: url(<%= @header_image_url %>);">
+<section id="top-container" style="<%= bg_image @header_image %>">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -30,7 +30,7 @@
         <div class="aa-main-area">
           <div class="row">
             <div class="col-md-6">
-              <img src="<%= @content.default_photo_url%>" alt="" class="img-responsive about-us-img">
+              <%= opt_image_tag(@content.default_photo, :quality => "auto", class: "img-responsive about-us-img") %>
             </div>
             <div class="col-md-6">
               <div class="section-title-wr mt-40">

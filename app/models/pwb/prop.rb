@@ -116,13 +116,21 @@ module Pwb
       # return merged_extras.sort
     end
 
-    def ordered_photo_url(number)
+    def ordered_photo(number)
       # allows me to pick an individual image according to an order
-      unless prop_photos.length >= number
-        return "https://placeholdit.imgix.net/~text?txtsize=38&txt=&w=550&h=400&txttrack=0"
+      if prop_photos.length >= number
+        prop_photos[number - 1]
       end
-      prop_photos[number - 1].image.url
     end
+
+
+    # def ordered_photo_url(number)
+    #   # allows me to pick an individual image according to an order
+    #   unless prop_photos.length >= number
+    #     return "https://placeholdit.imgix.net/~text?txtsize=38&txt=&w=550&h=400&txttrack=0"
+    #   end
+    #   prop_photos[number - 1].image.url
+    # end
 
     def url_friendly_title
       # used in constructing seo friendly url

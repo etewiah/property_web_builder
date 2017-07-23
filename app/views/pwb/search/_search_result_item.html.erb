@@ -1,66 +1,63 @@
-
-      <li class="property-item row <%= 'featured' if property.highlighted %> cuadro_inmueble" 
+<li class="property-item row <%= 'featured' if property.highlighted %> cuadro_inmueble" 
     data-price="<%= property.contextual_price @operation_type  %>" >
-        <!-- data-price above used for client side sorting with paloma -->
-        <% if property.highlighted %>
-          <div class="prop-listing-header fondo_secundario">
-            <%= t "property.highlightedProperty" %>
-          </div>
+  <!-- data-price above used for client side sorting with paloma -->
+  <% if property.highlighted %>
+    <div class="prop-listing-header fondo_secundario">
+      <%= t "property.highlightedProperty" %>
+    </div>
+  <% end %>
+  <div class="prop-listing-image col-xs-12 col-sm-5 col-md-4">
+    <div class="prop-figure">
+      <%= link_to property.contextual_show_path( @operation_type ) do %>
+        <%= opt_image_tag((property.ordered_photo 1), :quality => "auto", class: "img-responsive", alt: "") %>
+      <% end %>
+    </div>
+  </div>
+  <div class="prop-listing-body col-xs-12 col-sm-7 col-md-8" style="padding-bottom:0;">
+    <div class="prop-listing-text">
+      <h3>
+        <%= link_to property.contextual_show_path( @operation_type ), class: "action_link" do %>
+          <%= property.title %>
         <% end %>
-        <div class="prop-listing-image col-xs-12 col-sm-5 col-md-4">
-        <div class="prop-figure">
-          <%= link_to property.contextual_show_path( @operation_type ) do %>
-            <img src="<%= property.ordered_photo_url 1 %>" class="img-responsive" alt="">
-          <% end %>
-        </div>
-        </div>
-        <div class="prop-listing-body col-xs-12 col-sm-7 col-md-8" style="padding-bottom:0;">
-          <div class="prop-listing-text">
-            <h3>
-              <%= link_to property.contextual_show_path( @operation_type ), class: "action_link" do %>
-                <%= property.title %>
-              <% end %>
-            </h3>
-            <div>
-              <%= property.reference %>
-            </div>
-            <div class="truncated_description" style="display:none;">
-              <%# property.description %>
-            </div>
-          </div>
-          <div class="meta-info">
-            <div>
-             <%= link_to property.contextual_show_path( @operation_type ), :class => "ver_inmueble" do %>
-              <i class="fa fa-chevron-right"></i>
-              <%= t "property.goToProperty" %>
-            <% end %>
-
-            </div>
-            <ul>
-              <li><span class="precio negrita">
-                  <%= property.contextual_price_with_currency @operation_type  %>
-                </span></li>
-              <li class=""><i class="fa fa-bed"></i> <small>
-                  <%= property.count_bedrooms %>
-                </small></li>
-              <li class=""><i class="fa fa-tint"></i> <small>
-                  <%= property.count_bathrooms %>
-                </small></li>
-              <li class=""><i class="fa fa-arrows-alt"></i> <small>
-                  <%= property.constructed_area %> <%= area_unit property %>
-                </small></li>
-              <li class=""><i class="fa fa-car"></i> <small>
-                  <%= property.count_garages %>
-                </small>
-              </li>
-              <!-- <li class="hidden text-right">&nbsp;</li> -->
-            </ul>
-            </div>
-
-          <% if property.highlighted && (property.contextual_price_with_currency @operation_type) %>
-            <div style="" class="ribbon dark fondo_accion"><span>
-                <%= property.contextual_price_with_currency @operation_type  %>
-              </span></div>
-          <% end %>
-        </div>
-      </li>
+      </h3>
+      <div>
+        <%= property.reference %>
+      </div>
+      <div class="truncated_description" style="display:none;">
+        <%# property.description %>
+      </div>
+    </div>
+    <div class="meta-info">
+      <div>
+        <%= link_to property.contextual_show_path( @operation_type ), :class => "ver_inmueble" do %>
+          <i class="fa fa-chevron-right"></i>
+          <%= t "property.goToProperty" %>
+        <% end %>
+      </div>
+      <ul>
+        <li><span class="precio negrita">
+            <%= property.contextual_price_with_currency @operation_type  %>
+          </span></li>
+        <li class=""><i class="fa fa-bed"></i> <small>
+            <%= property.count_bedrooms %>
+          </small></li>
+        <li class=""><i class="fa fa-tint"></i> <small>
+            <%= property.count_bathrooms %>
+          </small></li>
+        <li class=""><i class="fa fa-arrows-alt"></i> <small>
+            <%= property.constructed_area %> <%= area_unit property %>
+          </small></li>
+        <li class=""><i class="fa fa-car"></i> <small>
+            <%= property.count_garages %>
+          </small>
+        </li>
+        <!-- <li class="hidden text-right">&nbsp;</li> -->
+      </ul>
+    </div>
+    <% if property.highlighted && (property.contextual_price_with_currency @operation_type) %>
+      <div style="" class="ribbon dark fondo_accion"><span>
+          <%= property.contextual_price_with_currency @operation_type  %>
+        </span></div>
+    <% end %>
+  </div>
+</li>

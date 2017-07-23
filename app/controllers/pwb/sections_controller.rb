@@ -2,7 +2,7 @@ require_dependency 'pwb/application_controller'
 
 module Pwb
   class SectionsController < ApplicationController
-    before_action :header_image_url
+    before_action :header_image
 
     def generic_page
       page_slug = params[:page_slug]
@@ -109,9 +109,11 @@ module Pwb
 
     private
 
-    def header_image_url
+    def header_image
       # used by berlin theme
-      @header_image_url = Content.where(tag: 'landing-carousel')[0].default_photo_url
+      hi_content = Content.where(tag: 'landing-carousel')[0]
+      @header_image = hi_content.present? ? hi_content.default_photo : nil
     end
+
   end
 end
