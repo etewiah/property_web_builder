@@ -6,7 +6,7 @@
       <% @carousel_items.each.with_index do |carousel_item, index| %>
         <!-- Top slider single slide -->
         <div class="aa-top-slider-single">
-          <img src="<%= carousel_item.default_photo_url %>" alt="img">
+          <%= opt_image_tag((carousel_item.default_photo), :quality => "auto", class: "") %>
           <!-- Top slider content -->
           <% if carousel_item.raw  %>
             <div class="aa-top-slider-content" style="">

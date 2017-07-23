@@ -2,7 +2,7 @@ require_dependency 'pwb/application_controller'
 
 module Pwb
   class SearchController < ApplicationController
-    before_action :header_image_url
+    before_action :header_image
 
     def search_ajax_for_sale
       @operation_type = "for_sale"
@@ -180,11 +180,16 @@ module Pwb
     # end
 
     private
+    # def header_image_url
+    #   # used by berlin theme
+    #   hi_content = Content.where(tag: 'landing-carousel')[0]
+    #   @header_image_url = hi_content.present? ? hi_content.default_photo_url : ""
+    # end
 
-    def header_image_url
+    def header_image
       # used by berlin theme
       hi_content = Content.where(tag: 'landing-carousel')[0]
-      @header_image_url = hi_content.present? ? hi_content.default_photo_url : ""
+      @header_image = hi_content.present? ? hi_content.default_photo : nil
     end
   end
 end

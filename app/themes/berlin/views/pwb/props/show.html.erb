@@ -33,7 +33,7 @@
           <div class="aa-properties-details">
             <div class="aa-properties-details-img">
               <% @property_details.prop_photos.each.with_index do |photo, index| %>
-                <img src="<%= photo.image.url %>" alt="img">
+                <%= opt_image_tag(photo, :quality => "auto", class: "", alt: "img") %>
               <% end %>
             </div>
             <div class="aa-properties-info">

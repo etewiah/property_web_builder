@@ -6,13 +6,17 @@ module Pwb
     translates :raw, fallbacks_for_empty_translations: true
     globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
 
-    def default_photo_url
-      if content_photos.first
-        content_photos.first.image_url
-      else
-        'https://placeholdit.imgix.net/~text?txtsize=38&txt=&w=550&h=300&txttrack=0'
-      end
+    def default_photo
+      content_photos.first
     end
+
+    # def default_photo_url
+    #   if content_photos.first
+    #     content_photos.first.image_url
+    #   else
+    #     'https://placeholdit.imgix.net/~text?txtsize=38&txt=&w=550&h=300&txttrack=0'
+    #   end
+    # end
 
     class << self
       def import(file)

@@ -9,14 +9,14 @@
       <% @property_details.prop_photos.each.with_index do |photo, index| %>
         <div class="item item-dark <%= "active" if index == 0 %>">
           <img src="<%= photo.image.url %>" style="height: 100%;" />
-            <% if @property_details.contextual_price_with_currency @operation_type %>
+          <% if @property_details.contextual_price_with_currency @operation_type %>
             <div class="ribbon dark fondo_accion">
               <span>
                 <%= @property_details.contextual_price_with_currency @operation_type %>
               </span>
             </div>
-            <% end %>
-        </div>        
+          <% end %>
+        </div>
       <% end %>
     </div>
     <!-- Controls -->
@@ -29,28 +29,22 @@
   </div>
   <div class="thumbnail-images" style="display:none;">
     <a href="#" class="theater" rel="group" hidefocus="true">
-                    <img src="<%= @property_details.ordered_photo_url 2 %>"  alt="">
-                  </a>
+      <%= opt_image_tag((@property_details.ordered_photo 2), :quality => "auto", class: "", alt: "") %>
+    </a>
     <a href="#" class="theater" rel="group" hidefocus="true">
-                    <img src="<%= @property_details.ordered_photo_url 3 %>"  alt="">
-                  </a>
+      <%= opt_image_tag((@property_details.ordered_photo 3), :quality => "auto", class: "", alt: "") %>
+    </a>
     <a href="#" class="theater" rel="group" hidefocus="true">
-                    <img src="<%= @property_details.ordered_photo_url 4 %>"  alt="">
-                  </a>
-    <a href="#" class="theater" rel="group" hidefocus="true">
-                    <img src="<%= @property_details.ordered_photo_url 5 %>"  alt="">
-                  </a>
+      <%= opt_image_tag((@property_details.ordered_photo 4), :quality => "auto", class: "", alt: "") %>
+    </a>
   </div>
-
-
-
   <div class="wp-block property list no-border">
     <div class="wp-block-content clearfix">
       <div class="wp-block-footer style2">
         <ul class="aux-info">
           <li><i class="fa fa-arrows-alt"></i>
             <%= @property_details.constructed_area %><%= area_unit @property_details %>
-</li>
+          </li>
           <li><i class="fa fa-bed"></i>
             <%= @property_details.count_bedrooms %>
           </li>
@@ -58,10 +52,10 @@
             <%= @property_details.count_bathrooms %>
           </li>
           <li>
-          <% if @property_details.has_garage %>
-            <i class="fa fa-car"></i>
-            <%= @property_details.count_garages %>            
-          <% end %>
+            <% if @property_details.has_garage %>
+              <i class="fa fa-car"></i>
+              <%= @property_details.count_garages %>
+            <% end %>
           </li>
         </ul>
       </div>
