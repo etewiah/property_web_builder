@@ -12,7 +12,7 @@ module Pwb
     end
 
     def opt_image_tag(photo, options = {})
-      unless photo
+      unless photo && photo.image.present?
         return
       end
       if Rails.application.config.use_cloudinary
