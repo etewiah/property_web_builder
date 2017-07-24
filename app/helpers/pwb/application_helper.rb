@@ -6,7 +6,7 @@ module Pwb
         return ""
       end
       if Rails.application.config.use_cloudinary
-        image_url = cl_image_path photo, :quality => "auto"
+        image_url = cl_image_path photo.image, :quality => "auto"
       else
         image_url = image_path photo.image.url
       end
@@ -19,7 +19,7 @@ module Pwb
         return nil
       end
       if Rails.application.config.use_cloudinary
-        cl_image_tag photo.image.file.public_id, options
+        cl_image_tag photo.image, options
       else
         image_tag photo.image.url, options
       end

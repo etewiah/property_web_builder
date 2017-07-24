@@ -6,6 +6,9 @@
     <meta name="robots" content="index, follow">
     <%# display_meta_tags site: @current_website.tenant_display_name %>
     <%= stylesheet_link_tag    "pwb/themes/berlin", media: "all" %>
+    <style>
+      <%= custom_styles "berlin" %>
+    </style>
     <%= javascript_include_tag "pwb/themes/berlin", async: Rails.env.production? %>
     <%= csrf_meta_tags %>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -59,7 +62,6 @@
     <!-- Custom js -->
     <!-- <script src="js/custom.js"></script> -->
     <noscript id="deferred-styles">
-      <link rel="stylesheet" media="all" href="/custom_css/berlin.css" data-turbolinks-track="true" />
       <link href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" rel="stylesheet">
       <!-- Google Font -->
       <link href='https://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
