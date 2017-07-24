@@ -6,12 +6,16 @@ module Pwb
         return ""
       end
       if Rails.application.config.use_cloudinary
-        image_url = cl_image_path photo.image, :quality => "auto"
+        image_url = cl_image_path photo.image, options
       else
         image_url = image_path photo.image.url
       end
       #style="background-image:linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1) ),url(<%= carousel_item.default_photo %>);"
-      "background-image: linear-gradient(#{options[:gradient]}), url(#{image_url});".html_safe
+      if options[:gradient]
+        "background-image: linear-gradient(#{options[:gradient]}), url(#{image_url});".html_safe
+      else
+        "background-image: url(#{image_url});".html_safe
+      end
     end
 
     def opt_image_tag(photo, options = {})

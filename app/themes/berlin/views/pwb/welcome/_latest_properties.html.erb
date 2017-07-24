@@ -3,7 +3,8 @@
     <article class="aa-properties-item">
       <%= link_to property.contextual_show_path(rent_or_sale), class: 
           "aa-properties-item-img" do %>
-        <%= opt_image_tag((property.ordered_photo 1), :quality => "auto", class: "img-responsive") %>
+        <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
+        height: 240, crop: "fit", class: "img-responsive") %>
       <% end %>
       <div class="aa-tag for-sale">
         <%= t title_key %>

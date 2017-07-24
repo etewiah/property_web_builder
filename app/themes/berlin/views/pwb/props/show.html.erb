@@ -1,5 +1,5 @@
   <!-- Start Property header  -->
-<section id="aa-property-header" style="background-image: url(<%= @property_details.ordered_photo_url 1 %>);">
+<section id="aa-property-header" style="<%= bg_image((@property_details.ordered_photo 1), height: 800, crop: "scale", quality: "auto") %>">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -32,7 +32,7 @@
           <div class="aa-properties-details">
             <div class="aa-properties-details-img">
               <% @property_details.prop_photos.each.with_index do |photo, index| %>
-                <%= opt_image_tag(photo, :quality => "auto", class: "", alt: "img") %>
+                <%= opt_image_tag(photo, height: 800, crop: "scale", :quality => "auto", class: "", alt: "img") %>
               <% end %>
             </div>
             <div class="aa-properties-info">
