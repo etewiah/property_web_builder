@@ -1,14 +1,14 @@
 <div class="product-gallery">
   <div id="propCarousel" class="carousel carousel-1 slide" data-ride="carousel" data-interval="<%= @carousel_speed %>">
-      <ol class="carousel-indicators">
+    <ol class="carousel-indicators">
       <% @property_details.prop_photos.each.with_index do |photo, index| %>
         <li data-target="#propCarousel" data-slide-to="<%= index %>" class=""></li>
       <% end %>
-      </ol>
+    </ol>
     <div class="carousel-inner">
       <% @property_details.prop_photos.each.with_index do |photo, index| %>
         <div class="item item-dark <%= "active" if index == 0 %>">
-          <img src="<%= photo.image.url %>" style="height: 100%;" />
+          <%= opt_image_tag((photo ), :quality => "auto", height: 600, crop: "scale", class: "", alt: "") %>
           <% if @property_details.contextual_price_with_currency @operation_type %>
             <div class="ribbon dark fondo_accion">
               <span>
@@ -28,15 +28,7 @@
     </a>
   </div>
   <div class="thumbnail-images" style="display:none;">
-    <a href="#" class="theater" rel="group" hidefocus="true">
-      <%= opt_image_tag((@property_details.ordered_photo 2), :quality => "auto", class: "", alt: "") %>
-    </a>
-    <a href="#" class="theater" rel="group" hidefocus="true">
-      <%= opt_image_tag((@property_details.ordered_photo 3), :quality => "auto", class: "", alt: "") %>
-    </a>
-    <a href="#" class="theater" rel="group" hidefocus="true">
-      <%= opt_image_tag((@property_details.ordered_photo 4), :quality => "auto", class: "", alt: "") %>
-    </a>
+    <%# properties_carousel_footer @property_details.prop_photos %>
   </div>
   <div class="wp-block property list no-border">
     <div class="wp-block-content clearfix">

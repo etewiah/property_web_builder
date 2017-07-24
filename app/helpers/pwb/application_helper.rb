@@ -1,6 +1,14 @@
 module Pwb
   module ApplicationHelper
 
+    def properties_carousel_footer
+      # TODO - diplay array of thumbnails below main 
+      # properties carousel is images count > ...
+      # <a href="#" class="theater" rel="group" hidefocus="true">
+      # <%= opt_image_tag((@property_details.ordered_photo 3), :quality => "auto", class: "", alt: "") %>
+      # </a>
+    end
+
     def bg_image(photo, options = {})
       unless photo && photo.image.present?
         return ""

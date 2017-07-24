@@ -30,16 +30,13 @@
           <%== @footer_content.raw %>
         </div>
       </div>
-
     </div>
     <hr>
     <div class="row">
       <div class="col-sm-6 copyright">
-
         <% @sections.each do |section| %>
           <%= footer_link(section) %>
         <% end %>
-
         <%# link_to I18n.t("legalAdvice"), pwb.legal_path(locale: locale)  %>
         <%# link_to I18n.t("privacyPolicy"), pwb.privacy_policy_path(locale: locale)  %>
         <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>.
@@ -47,15 +44,6 @@
       <div class="col-sm-6">
         <p  style="float: right;">Powered by <a href="http://propertywebbuilder.com">PropertyWebBuilder</a></p>
       </div>
-<!--       <div class="col-lg-9 copyright">
-        2014 © Web Pixels. All rights reserved.
-        <a href="#">Terms and conditions</a>
-      </div>
-      <div class="col-lg-3">
-        <a href="http://www.webpixels.ro" title="Made with love by Web Pixels" target="_blank" class="">
-          <img src="images/webpixels-footer-logo.png" alt="Web Pixels - Designing Forward | Logo" class="pull-right">
-        </a>
-      </div> -->
     </div>
   </div>
 </div>

@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+* Optimise cloudinary images
+* Google PageSpeed improvements
 * Support for adding CSS directly
 * Support for Google Analytics script
 * Increase valid price range in admin UI (#21)
