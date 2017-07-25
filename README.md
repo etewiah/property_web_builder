@@ -32,7 +32,7 @@ Install into an existing Rails project by adding these lines in your application
 ```ruby
 gem 'pwb', git: 'https://github.com/etewiah/property_web_builder', branch: 'master'
 gem 'globalize', git: 'https://github.com/globalize/globalize'
-
+gem 'paloma', github: 'fredngo/paloma'
 ```
 
 Also, be sure to use Postgres as your database (by having the "pg" gem and Postgres installed locally 

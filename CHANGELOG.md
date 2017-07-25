@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+
+## 1.1.0 / 2017-07-25
+
+* Fix Rails 5.1.0 issue with paloma gem (#28)
 * Optimise cloudinary images
 * Google PageSpeed improvements
 * Support for adding CSS directly
