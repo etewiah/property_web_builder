@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 1.1.1 / 2017-07-25
+
+* Yanked previous release and re-released due to error in cleaning up tmp files
 
 ## 1.1.0 / 2017-07-25
 
