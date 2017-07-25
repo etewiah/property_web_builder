@@ -12,8 +12,8 @@ module Pwb
     # verify_content_type_header
     # verify_accept_header
 
-    before_filter :cors_preflight_check
-    after_filter :cors_set_access_control_headers
+    before_action :cors_preflight_check
+    after_action :cors_set_access_control_headers
 
     # For all responses in this controller, return the CORS access control headers.
 

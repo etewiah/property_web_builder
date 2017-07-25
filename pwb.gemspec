@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   # , :require => 'i18n/active_record'
   s.add_dependency 'responders'
   s.add_dependency 'jsonapi-resources', '0.8.1'
-  s.add_dependency 'paloma'
+  # s.add_dependency 'paloma'
   s.add_dependency 'jquery-rails'
   s.add_dependency 'simple_form'
   s.add_dependency 'fog-aws'
