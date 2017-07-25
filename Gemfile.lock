@@ -16,7 +16,7 @@ GIT
 PATH
   remote: .
   specs:
-    pwb (1.0.0)
+    pwb (1.1.0)
       active_hash
       activemodel-serializers-xml
       bootstrap-sass
