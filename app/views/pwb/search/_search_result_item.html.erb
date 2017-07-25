@@ -9,7 +9,8 @@
   <div class="prop-listing-image col-xs-12 col-sm-5 col-md-4">
     <div class="prop-figure">
       <%= link_to property.contextual_show_path( @operation_type ) do %>
-        <%= opt_image_tag((property.ordered_photo 1), :quality => "auto", class: "img-responsive", alt: "") %>
+        <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
+            height: 240, crop: "scale", class: "img-responsive") %>
       <% end %>
     </div>
   </div>

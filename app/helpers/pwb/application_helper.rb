@@ -1,22 +1,37 @@
 module Pwb
   module ApplicationHelper
 
+    def properties_carousel_footer
+      # TODO - diplay array of thumbnails below main 
+      # properties carousel is images count > ...
+      # <a href="#" class="theater" rel="group" hidefocus="true">
+      # <%= opt_image_tag((@property_details.ordered_photo 3), :quality => "auto", class: "", alt: "") %>
+      # </a>
+    end
+
     def bg_image(photo, options = {})
+      unless photo && photo.image.present?
+        return ""
+      end
       if Rails.application.config.use_cloudinary
-        image_url = cl_image_path photo, :quality => "auto"
+        image_url = cl_image_path photo.image, options
       else
         image_url = image_path photo.image.url
       end
       #style="background-image:linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1) ),url(<%= carousel_item.default_photo %>);"
-      "background-image: linear-gradient(#{options[:gradient]}), url(#{image_url});".html_safe
+      if options[:gradient]
+        "background-image: linear-gradient(#{options[:gradient]}), url(#{image_url});".html_safe
+      else
+        "background-image: url(#{image_url});".html_safe
+      end
     end
 
     def opt_image_tag(photo, options = {})
-      unless photo
-        return
+      unless photo && photo.image.present?
+        return nil
       end
       if Rails.application.config.use_cloudinary
-        cl_image_tag photo.image.file.public_id, options
+        cl_image_tag photo.image, options
       else
         image_tag photo.image.url, options
       end

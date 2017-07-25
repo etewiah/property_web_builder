@@ -6,6 +6,7 @@ RSpec.describe 'layouts/pwb/application', type: :view do
   before do
     view.extend Pwb::Engine.routes.url_helpers
     view.extend Pwb::ApplicationHelper
+    view.extend Pwb::CssHelper
   end
 
   before(:each) do

@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 
 * Theme can be changed via query string
+* Optimise cloudinary images
+* Google PageSpeed improvements
 * Support for adding CSS directly
 * Support for Google Analytics script
 * Increase valid price range in admin UI (#21)

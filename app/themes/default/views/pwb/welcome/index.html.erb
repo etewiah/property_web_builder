@@ -11,7 +11,8 @@
         <div class="carousel-inner">
           <% @carousel_items.each.with_index do |carousel_item, index| %>
             <div class="item item-dark <%= " active " if index == 0 %>"
-            style="<%= bg_image carousel_item.default_photo, gradient: "rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1)" %>">
+            style="<%= bg_image carousel_item.default_photo, quality: "auto",
+        height: 800, crop: "fit", gradient: "rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1)" %>">
               <div class="container">
                 <div class="carousel-content">
                   <%== carousel_item.raw %>

@@ -61,3 +61,5 @@ end
 # /Users/me/.rbenv/versions/2.3.3/lib/ruby/gems/2.3.0/gems/localeapp-2.1.1/lib/localeapp/default_value_handler.rb
 # below overwrites I18n::Backend::Base above which causes seeder to break in specs
 # gem 'localeapp'
+
+gem 'paloma', github: 'fredngo/paloma'

@@ -1,5 +1,10 @@
-/*main content section*/
+.map-canvas {
+  /*when map is displayed, we don't want 
+  padding between it and footer*/
+  margin-bottom: -100px;
+}
 
+/*main content section*/
 #aa-main .aa-main-area {
   display: inline;
   float: left;
