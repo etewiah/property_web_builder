@@ -20,6 +20,7 @@ module Pwb
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_ca.rb')
         end
 
+        seed_sections 'sections.yml'
         seed_content 'content_columns.yml'
         seed_content 'carousel.yml'
         seed_content 'about_us.yml'
@@ -35,7 +36,6 @@ module Pwb
           seed_prop 'flat_for_sale.yml'
           seed_prop 'flat_for_rent.yml'
         end
-        seed_sections 'sections.yml'
         seed_field_keys 'field_keys.yml'
         seed_users 'users.yml'
       end
