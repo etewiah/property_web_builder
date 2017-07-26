@@ -18,7 +18,8 @@ To see the admin panel, login as user admin@example.com with a password of "pwb1
 
 ## Rails Version
 
-PropertyWebBuilder runs with Rails >= 5.0
+PropertyWebBuilder runs with Rails '>= 5.0.0', '< 5.1'
+Support for Rails 5.1.0 will come soon
 
 ## Ruby Version
 
