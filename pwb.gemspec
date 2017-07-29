@@ -53,7 +53,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'ruby_odata'
 
 
-  # s.add_dependency 'comfortable_mexican_sofa', '~> 1.12.0'
+  s.add_dependency 'comfortable_mexican_sofa', '~> 1.12.0'
   # s.add_dependency 'redis'
   # # logster gem has to be after redis..
   # s.add_dependency 'logster'
