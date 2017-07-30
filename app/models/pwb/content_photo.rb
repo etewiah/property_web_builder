@@ -1,7 +1,7 @@
 module Pwb
   class ContentPhoto < ApplicationRecord
     mount_uploader :image, ContentPhotoUploader
-    belongs_to :content
+    belongs_to :content, optional: true
 
     # validates_processing_of :image
     # validate :image_size_validation

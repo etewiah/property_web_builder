@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+* Fix Rails 5.1.0 issue with seed task (#29)
+* Support Rails 5.1.0
+
 ## 1.1.1 / 2017-07-25
 
 * Yanked previous release and re-released due to error in cleaning up tmp files
