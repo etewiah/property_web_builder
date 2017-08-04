@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 
 * Theme can be changed via query string
+* Fix Rails 5.1.0 issue with seed task (#29)
+* Support Rails 5.1.0
+
+## 1.1.1 / 2017-07-25
+
+* Yanked previous release and re-released due to error in cleaning up tmp files
+
+## 1.1.0 / 2017-07-25
+
+* Fix Rails 5.1.0 issue with paloma gem (#28)
 * Optimise cloudinary images
 * Google PageSpeed improvements
 * Support for adding CSS directly

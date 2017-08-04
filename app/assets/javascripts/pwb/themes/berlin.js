@@ -15,7 +15,7 @@
 //= require jquery_ujs
 //= require paloma
 //= require_tree ../paloma
-//= require bootstrap-sprockets
+// require bootstrap-sprockets
 //= require bootstrap-select
 //= require berlin/slick
 

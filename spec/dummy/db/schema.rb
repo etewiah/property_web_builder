@@ -20,9 +20,10 @@ ActiveRecord::Schema.define(version: 20170720201601) do
     t.text     "content"
     t.string   "blockable_type"
     t.integer  "blockable_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.index ["blockable_id", "blockable_type"], name: "index_comfy_cms_blocks_on_blockable_id_and_blockable_type", using: :btree
+    t.index ["blockable_type", "blockable_id"], name: "index_comfy_cms_blocks_on_blockable_type_and_blockable_id", using: :btree
     t.index ["identifier"], name: "index_comfy_cms_blocks_on_identifier", using: :btree
   end
 
@@ -49,8 +50,8 @@ ActiveRecord::Schema.define(version: 20170720201601) do
     t.integer  "file_file_size",                             null: false
     t.string   "description",       limit: 2048
     t.integer  "position",                       default: 0, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.index ["site_id", "block_id"], name: "index_comfy_cms_files_on_site_id_and_block_id", using: :btree
     t.index ["site_id", "file_file_name"], name: "index_comfy_cms_files_on_site_id_and_file_file_name", using: :btree
     t.index ["site_id", "label"], name: "index_comfy_cms_files_on_site_id_and_label", using: :btree
@@ -68,8 +69,8 @@ ActiveRecord::Schema.define(version: 20170720201601) do
     t.text     "js"
     t.integer  "position",   default: 0,     null: false
     t.boolean  "is_shared",  default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.index ["parent_id", "position"], name: "index_comfy_cms_layouts_on_parent_id_and_position", using: :btree
     t.index ["site_id", "identifier"], name: "index_comfy_cms_layouts_on_site_id_and_identifier", unique: true, using: :btree
   end
@@ -87,8 +88,8 @@ ActiveRecord::Schema.define(version: 20170720201601) do
     t.integer  "children_count", default: 0,     null: false
     t.boolean  "is_published",   default: true,  null: false
     t.boolean  "is_shared",      default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.index ["parent_id", "position"], name: "index_comfy_cms_pages_on_parent_id_and_position", using: :btree
     t.index ["site_id", "full_path"], name: "index_comfy_cms_pages_on_site_id_and_full_path", using: :btree
   end
@@ -119,8 +120,8 @@ ActiveRecord::Schema.define(version: 20170720201601) do
     t.text     "content"
     t.integer  "position",   default: 0,     null: false
     t.boolean  "is_shared",  default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.index ["site_id", "identifier"], name: "index_comfy_cms_snippets_on_site_id_and_identifier", unique: true, using: :btree
     t.index ["site_id", "position"], name: "index_comfy_cms_snippets_on_site_id_and_position", using: :btree
   end

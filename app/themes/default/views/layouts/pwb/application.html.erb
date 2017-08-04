@@ -10,7 +10,8 @@
       <%= custom_styles "default" %>
     </style>
     <%= javascript_include_tag "pwb/application", async: false %>
-    <%= csrf_meta_tags %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" async: true ></script>
+     <%= csrf_meta_tags %>
     <title><%= yield(:page_title) %></title>
   </head>
   <body class="tnt-body <%= @current_website.body_style %>">

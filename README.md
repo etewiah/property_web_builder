@@ -18,7 +18,8 @@ To see the admin panel, login as user admin@example.com with a password of "pwb1
 
 ## Rails Version
 
-PropertyWebBuilder runs with Rails >= 5.0
+PropertyWebBuilder runs with Rails '>= 5.0.0', '< 5.1'
+Support for Rails 5.1.0 will come soon
 
 ## Ruby Version
 
@@ -32,7 +33,7 @@ Install into an existing Rails project by adding these lines in your application
 ```ruby
 gem 'pwb', git: 'https://github.com/etewiah/property_web_builder', branch: 'master'
 gem 'globalize', git: 'https://github.com/globalize/globalize'
-
+gem 'paloma', github: 'fredngo/paloma'
 ```
 
 Also, be sure to use Postgres as your database (by having the "pg" gem and Postgres installed locally 

@@ -14,6 +14,10 @@ Gem::Specification.new do |s|
   s.description = 'PropertyWebBuilder lets you build real estate websites fast.'
   s.license     = 'MIT'
 
+  # s.files = `git ls-files`.split($/).reject { |fn| fn.start_with? "spec" }
+  # below advices using above but I'm not convinced
+  # https://stackoverflow.com/questions/25544137/how-to-reduce-the-size-of-a-gem
+
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
   s.test_files = Dir['spec/**/*']
 
