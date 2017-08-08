@@ -4,7 +4,8 @@ module Pwb
     belongs_to :section, optional: true, foreign_key: "section_key", primary_key: "link_path"
 
     translates :raw, fallbacks_for_empty_translations: true
-    globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
+    globalize_accessors locales: I18n.available_locales
+    # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
 
     def default_photo
       content_photos.first

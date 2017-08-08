@@ -1,7 +1,8 @@
 module Pwb
   class Prop < ApplicationRecord
     translates :title, :description
-    globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
+    globalize_accessors locales: I18n.available_locales
+    # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
 
     # Use EUR as model level currency
     # register_currency :eur
