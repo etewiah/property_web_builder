@@ -1,0 +1,160 @@
+---
+vi:
+  aboutUs: Về chúng tôi
+  address: Địa chỉ nhà
+  back: Trở lại
+  changePassword: Đổi mật khẩu
+  contact:
+    emailSubject: Liên hệ từ trang web của bạn
+    error: Rất tiếc, đã xảy ra lỗi.
+    success: Cảm ơn tin nhắn của bạn. Chúng tôi sẽ liên hệ lại với bạn sớm!
+  contactUs: Tiếp xúc
+  contactUsPrompt: Điền vào biểu mẫu sau để liên hệ với chúng tôi
+  devise:
+    user_update_success: Bạn đã cập nhật thành công tài khoản của mình.
+    user_update_success_title: Xin chúc mừng
+  editarPropiedad: Chỉnh sửa thuộc tính
+  email: E-mail
+  'false': Không
+  findAProperty: Tìm một tài sản
+  findByReference: Tìm theo tham chiếu
+  forRent: Cho thuê
+  forSale: Rao bán
+  go: Đi
+  labels:
+    create: Tạo nên
+    edit: Chỉnh sửa
+    new: Mới
+    save: Tiết kiệm
+  leaveBlank: Để trống nếu bạn không muốn thay đổi nó
+  legalAdvice: Thông báo pháp lý
+  listadoPropiedades: Danh sách tài sản
+  mailers:
+    confirm_registration: Vui lòng xác nhận tài khoản của bạn thông qua liên kết bên
+      dưới
+    from: Từ
+    general_enquiry_targeting_agency:
+      title: Yêu cầu chung từ trang web của bạn
+    general_enquiry_targeting_enquirer:
+      message_title: ''
+      subject: ''
+    message: Thông điệp
+    phone: Tel
+    property: Bất động sản
+    property_enquiry_targeting_agency:
+      title: Yêu cầu về tài sản
+    received_on: Nhận được trên
+    welcome: Chào mừng
+  menu_admin: quản trị viên
+  message: Thông điệp
+  name: Tên
+  navbar:
+    aboutUs: Về chúng tôi
+    admin: quản trị viên
+    buy: Mua
+    contactUs: Tiếp xúc
+    home: Nhà
+    legalAdvice: Thông báo pháp lý
+    privacyPolicy: Chính sách bảo mật
+    rent: Thuê
+    sell: Bán
+  needCurrentPwd: Chúng tôi cần mật khẩu hiện tại của bạn để xác nhận thay đổi của
+    bạn
+  newPassword: mật khẩu mới
+  noResultsForSearch: Xin lỗi, không tìm thấy kết quả
+  nuevoPropiedad: Tài sản mới
+  orderBy:
+    priceAscending: "↓ Giá (tăng dần)"
+    priceDescending: "↑ Giá (giảm dần)"
+  pages:
+    aboutUs: Về chúng tôi
+    sell: Bán
+  placeHolders:
+    email: Email của bạn
+    message: Viết tin nhắn của bạn ở đây
+    name: Tên của bạn
+    subject: Môn học
+    tel: Cố định hoặc di động
+  privacyPolicy: Chính sách bảo mật
+  property:
+    description: Sự miêu tả
+    details: Chi tiết
+    extras: Tính năng, đặc điểm
+    furniture: Đồ nội thất
+    goToProperty: Xem thuộc tính
+    highlightedProperty: Tài sản nổi bật
+    locality: Địa bàn
+    map: Bản đồ
+    monthlyRentalPriceHighSeason: Giá hàng tháng (Mùa cao điểm)
+    monthlyRentalPriceLowSeason: Giá hàng tháng (Mùa thấp điểm)
+    monthlyRentalPriceStandardSeason: Giá hàng tháng (Mùa chuẩn)
+    operationType: Loại hoạt động
+    price: Giá bán
+    propertyType: Loại Bất Động Sản
+    ref: Ref
+  propertyForRent: Bất động sản cho thuê
+  propertyForSale: Bất động sản để bán
+  propertyNotFound: Không tìm thấy tài sản
+  pwb:
+    copyright: "%{company_name} Inc. Mọi quyền được bảo lưu."
+    createPrompt: Tạo trang web đại lý bất động sản của bạn
+    createTagLine: Vui lòng nhập chi tiết cho tài khoản của bạn
+    getStarted: Bắt đầu ngay bây giờ
+    registerNow: Đăng ký ngay bây giờ
+    tagLine: Trang web chuyên nghiệp cho các đại lý bất động sản trong vài phút
+    tagLineExt: Các trang web đẹp mà phải được nhìn thấy để được tin tưởng. <br> Không
+      ai giúp bạn trực tuyến nhanh hơn.
+  requestPropertyInfo: Yêu cầu thông tin
+  search: Tìm kiếm
+  searchForProperties: Tìm kiếm tài sản
+  selectpicker:
+    countSelectedText: Đã chọn {0} trong tổng số {1}
+    noneResultsText: Không tìm thấy kết quả {0}
+    noneSelectedText: Không có gì được chọn
+  send: Gửi
+  setup:
+    claimSubdomain: Yêu cầu url này
+    createdSuccessfully: Trang web được tạo thành công
+    goToYourSite: Đi tới trang web của bạn
+    loggedInAs: Đăng nhập như
+    logout: Đăng xuất
+    selectUrl: Chọn một url
+    selectUrlMessage: Bạn đã tạo thành công tài khoản - bây giờ chọn url cho trang
+      web mới của bạn
+    subdomain: Tên miền phụ
+    subdomainMissing: Vui lòng nhập tên cho tên miền phụ
+    thankYouForTrusting: Cảm ơn bạn đã tin tưởng %{company_name}
+    urlNotAvailable: Xin lỗi, url này không có sẵn
+    weAreCreatingSite: Chúng tôi đang tạo trang web của bạn
+  signOut: Đăng xuất
+  simple_form:
+    error_notification:
+      default_message: 'Vui lòng xem lại các vấn đề dưới đây:'
+    labels:
+      search:
+        count_bathrooms: Phòng tắm (phút)
+        count_bedrooms: Phòng ngủ (phút)
+        for_rent_price_from: Thuê Từ (Hàng tháng)
+        for_rent_price_till: Tiền thuê (Hàng tháng)
+        for_sale_price_from: Giá từ
+        for_sale_price_till: Giá đến
+        in_locality: Địa bàn
+        in_zone: Khu
+        locality: Địa bàn
+        property_state: Trạng thái Tài sản
+        property_type: Loại Bất Động Sản
+    'no': Không
+    required:
+      mark: "*"
+      text: cần thiết
+    'yes': Vâng
+  subject: Môn học
+  tel: Điện thoại
+  'true': Vâng
+  update: Cập nhật
+  webContentSections:
+    aboutUs: Về chúng tôi
+    contactInformation: Thông tin liên lạc
+    home: Nhà
+    sell: Bán
+    tagLine: Dòng thẻ

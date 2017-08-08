@@ -15,7 +15,7 @@ Pwb::Engine.routes.draw do
   authenticate :user do
     get "/admin" => "admin_panel#show"
     get "/admin/*path" => "admin_panel#show"
-    scope "(:locale)", locale: /en|nl|es|fr|de|pt|it/ do
+    scope "(:locale)", locale: /en|nl|es|fr|de|ru/ do
       get "/admin" => "admin_panel#show", as: "admin_with_locale"
       get "/admin/*path" => "admin_panel#show"
     end
@@ -24,7 +24,7 @@ Pwb::Engine.routes.draw do
   get "/custom_css" => "css#custom_css", as: "custom_css"
 
   # TODO - get locales dynamically
-  scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|ca|ar|ru/ do
+  scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|vi|tr|ru/ do
 
     devise_scope :user do
       get "/users/edit_success" => "devise/registrations#edit_success", as: "user_edit_success"
