@@ -1,28 +1,28 @@
 ---
 vi:
   aboutUs: Về chúng tôi
-  address: Địa chỉ nhà
+  address: Địa chỉ
   back: Trở lại
   changePassword: Đổi mật khẩu
   contact:
     emailSubject: Liên hệ từ trang web của bạn
     error: Rất tiếc, đã xảy ra lỗi.
     success: Cảm ơn tin nhắn của bạn. Chúng tôi sẽ liên hệ lại với bạn sớm!
-  contactUs: Tiếp xúc
+  contactUs: Liên hệ với chúng tôi
   contactUsPrompt: Điền vào biểu mẫu sau để liên hệ với chúng tôi
   devise:
     user_update_success: Bạn đã cập nhật thành công tài khoản của mình.
     user_update_success_title: Xin chúc mừng
-  editarPropiedad: Chỉnh sửa thuộc tính
+  editarPropiedad: Chỉnh sửa tài sản
   email: E-mail
   'false': Không
   findAProperty: Tìm một tài sản
-  findByReference: Tìm theo tham chiếu
+  findByReference: Tìm theo sự liên quan
   forRent: Cho thuê
   forSale: Rao bán
   go: Đi
   labels:
-    create: Tạo nên
+    create: Tạo mới
     edit: Chỉnh sửa
     new: Mới
     save: Tiết kiệm
@@ -38,21 +38,21 @@ vi:
     general_enquiry_targeting_enquirer:
       message_title: ''
       subject: ''
-    message: Thông điệp
-    phone: Tel
+    message: Tin nhắn
+    phone: Điện thoại
     property: Bất động sản
     property_enquiry_targeting_agency:
       title: Yêu cầu về tài sản
-    received_on: Nhận được trên
+    received_on: Đã nhận
     welcome: Chào mừng
-  menu_admin: quản trị viên
-  message: Thông điệp
+  menu_admin: Menu quản trị
+  message: Tin nhắn
   name: Tên
   navbar:
     aboutUs: Về chúng tôi
-    admin: quản trị viên
+    admin: quản trị
     buy: Mua
-    contactUs: Tiếp xúc
+    contactUs: Liên hệ với chúng tôi
     home: Nhà
     legalAdvice: Thông báo pháp lý
     privacyPolicy: Chính sách bảo mật
@@ -73,8 +73,8 @@ vi:
     email: Email của bạn
     message: Viết tin nhắn của bạn ở đây
     name: Tên của bạn
-    subject: Môn học
-    tel: Cố định hoặc di động
+    subject: Tiêu đề
+    tel: Điện thoại cố định hoặc di động
   privacyPolicy: Chính sách bảo mật
   property:
     description: Sự miêu tả
@@ -87,7 +87,7 @@ vi:
     map: Bản đồ
     monthlyRentalPriceHighSeason: Giá hàng tháng (Mùa cao điểm)
     monthlyRentalPriceLowSeason: Giá hàng tháng (Mùa thấp điểm)
-    monthlyRentalPriceStandardSeason: Giá hàng tháng (Mùa chuẩn)
+    monthlyRentalPriceStandardSeason: Giá hàng tháng (Mùa bình thường)
     operationType: Loại hoạt động
     price: Giá bán
     propertyType: Loại Bất Động Sản
@@ -96,12 +96,12 @@ vi:
   propertyForSale: Bất động sản để bán
   propertyNotFound: Không tìm thấy tài sản
   pwb:
-    copyright: "%{company_name} Inc. Mọi quyền được bảo lưu."
-    createPrompt: Tạo trang web đại lý bất động sản của bạn
+    copyright: "%{company_name} Inc. All rights reserved."
+    createPrompt: Tạo mới website môi giới bất động sản của bạn
     createTagLine: Vui lòng nhập chi tiết cho tài khoản của bạn
     getStarted: Bắt đầu ngay bây giờ
     registerNow: Đăng ký ngay bây giờ
-    tagLine: Trang web chuyên nghiệp cho các đại lý bất động sản trong vài phút
+    tagLine: Trang web chuyên nghiệp cho các môi giới bất động sản trong vài phút
     tagLineExt: Các trang web đẹp mà phải được nhìn thấy để được tin tưởng. <br> Không
       ai giúp bạn trực tuyến nhanh hơn.
   requestPropertyInfo: Yêu cầu thông tin
@@ -116,7 +116,7 @@ vi:
     claimSubdomain: Yêu cầu url này
     createdSuccessfully: Trang web được tạo thành công
     goToYourSite: Đi tới trang web của bạn
-    loggedInAs: Đăng nhập như
+    loggedInAs: Đăng nhập với
     logout: Đăng xuất
     selectUrl: Chọn một url
     selectUrlMessage: Bạn đã tạo thành công tài khoản - bây giờ chọn url cho trang
@@ -132,8 +132,8 @@ vi:
       default_message: 'Vui lòng xem lại các vấn đề dưới đây:'
     labels:
       search:
-        count_bathrooms: Phòng tắm (phút)
-        count_bedrooms: Phòng ngủ (phút)
+        count_bathrooms: Phòng tắm (min)
+        count_bedrooms: Phòng ngủ (min)
         for_rent_price_from: Thuê Từ (Hàng tháng)
         for_rent_price_till: Tiền thuê (Hàng tháng)
         for_sale_price_from: Giá từ
@@ -148,7 +148,7 @@ vi:
       mark: "*"
       text: cần thiết
     'yes': Vâng
-  subject: Môn học
+  subject: Tiêu đề
   tel: Điện thoại
   'true': Vâng
   update: Cập nhật
