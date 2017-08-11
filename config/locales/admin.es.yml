@@ -21,6 +21,20 @@ es:
     no-NO: Norway
     ca-CA: Catalunia
     hi-IN: India
+    vi-VI: Vietnam
+    tr-TR: Turkey
+    ar: Arabic
+    en: English
+    es: Spanish
+    ca: Catalan
+    fr: French
+    ru: Russian
+    nl: Dutch
+    it: Italian
+    de: German
+    pt: Portuguese
+    vi: Vietnamese
+    tr: Turko
     hi: Hindi
     sqmt: Square Meters
     sqft: Square Feet
@@ -39,6 +53,8 @@ es:
     brl: Brazilian Real
     zar: South African Rand
     hkd: Hong Kong Dollar
+    vnd: Vietnamese Dong
+    try: Turkish Lira
     pages:
       aboutUs: Sobre nosotros
       sell: Vender
@@ -120,6 +136,8 @@ es:
       suffixRu: en Ruso
       suffixCa: en Catalan
       suffixNl: en Hollandés
+      suffixVi: en Vietnamese
+      suffixTr: en Turko
       privacyPolicy: Texto de la política de privacidad
       legalAdvice: Texto del aviso legal
       landingcarousel: Texto del slider
