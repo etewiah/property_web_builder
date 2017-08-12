@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+* Add Vue.js
+* Add social sharing buttons
+* Add Turkish and Vietnamese
 * Fix Rails 5.1.0 issue with seed task (#29)
 * Support Rails 5.1.0
 

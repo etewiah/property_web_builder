@@ -18,6 +18,9 @@
 //= require_tree ./paloma
 // require bootstrap-sprockets
 //= require bootstrap-select
+//= require vue-2.4.2
+//= require vue-social-sharing
+//= require ./shared/vue-main
 
 // $(document).on('page:change', function() {
 // once turbolinks is activated, will have to change to above

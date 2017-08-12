@@ -23,12 +23,12 @@
               <br>
             </div>
             <div class="col-md-12">
-            <% if @property_details.extras_for_display.present? %>
-              <h3><%= I18n.t("property.extras") %></h3>
-              <%= render '/pwb/props/extras' %>
-              <br>
-              <br>              
-            <% end %>
+              <% if @property_details.extras_for_display.present? %>
+                <h3><%= I18n.t("property.extras") %></h3>
+                <%= render '/pwb/props/extras' %>
+                <br>
+                <br>
+              <% end %>
             </div>
           </div>
         </div>
@@ -41,6 +41,22 @@
       </div>
     </div>
   </div>
+  <social-sharing  class="center"  inline-template>
+    <div class="social-icons icon-circle">
+      <network network="facebook">
+        <i class="fa fa-facebook"></i>
+      </network>
+      <network network="googleplus">
+        <i class="fa fa-google-plus"></i>
+      </network>
+      <network network="linkedin">
+        <i class="fa fa-linkedin"></i>
+      </network>
+      <network network="twitter">
+        <i class="fa fa-twitter"></i>
+      </network>
+    </div>
+  </social-sharing>
 </section>
 <% if @property_details.show_map %>
   <div id="inmo-map-canvas" class="map-canvas no-margin"></div>

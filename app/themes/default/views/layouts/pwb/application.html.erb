@@ -17,7 +17,7 @@
   <body class="tnt-body <%= @current_website.body_style %>">
     <%# render @current_website.views_folder + '/shared/main_mobile_menu' %>
     <!-- MAIN WRAPPER -->
-    <div class="body-wrap sticky-wrap <%= @current_website.body_style %>">
+    <div id="main-vue" class="body-wrap sticky-wrap <%= @current_website.body_style %>">
       <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
       <div class="sticky-body">
         <%= yield %>
@@ -33,6 +33,7 @@
       <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     </noscript>
     <script>
+
       var loadDeferredStyles = function() {
         var addStylesNode = document.getElementById("deferred-styles");
         var replacement = document.createElement("div");
