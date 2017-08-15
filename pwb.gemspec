@@ -57,6 +57,7 @@ Gem::Specification.new do |s|
   # s.add_dependency 'redis'
   # # logster gem has to be after redis..
   # s.add_dependency 'logster'
+  # s.add_dependency 'google-cloud-translate'
 
   s.add_development_dependency 'byebug'
   s.add_development_dependency 'vcr'

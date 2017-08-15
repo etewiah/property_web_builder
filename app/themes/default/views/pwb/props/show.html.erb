@@ -59,6 +59,22 @@
   </social-sharing>
 </section>
 <% if @property_details.show_map %>
-  <div id="inmo-map-canvas" class="map-canvas no-margin"></div>
+  <div id="inmo-map-canvas" class="map-canvas no-margin">
+    <gmap-map style="min-height: 600px;"
+        :center="{lat: <%= @property_details.latitude %>, lng: <%= @property_details.longitude %>}"
+        :zoom="15" :data="{markers:[]}">
+      <gmap-marker  v-for="m in markers" :position="m.position" :clickable="true" :draggable="true" @click="center=m.position"></gmap-marker>
+    </gmap-map>
+  </div>
 <% end %>
-<!-- FOOTER -->
+<% content_for :page_script do %>
+  <%= javascript_tag do %>
+    var INMOAPP = INMOAPP || {};
+    INMOAPP.markers = [{
+        position: {
+          lat: <%= @property_details.latitude %>,
+          lng: <%= @property_details.longitude %>
+        }
+      }]
+  <% end %>
+<% end %>

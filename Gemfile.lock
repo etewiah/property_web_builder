@@ -163,7 +163,7 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     erubi (1.6.1)
     erubis (2.7.0)
-    excon (0.57.1)
+    excon (0.58.0)
     execjs (2.7.0)
     factory_girl (4.7.0)
       activesupport (>= 3.0.0)
@@ -209,7 +209,7 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    haml (5.0.1)
+    haml (5.0.2)
       temple (>= 0.8.0)
       tilt
     haml-rails (1.0.0)

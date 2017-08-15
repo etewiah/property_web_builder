@@ -15,13 +15,13 @@ PwbPropsController.prototype.show = function() {
   });
 
   var currentItemForMap = this.params.property_details;
-  if (typeof google === "undefined") {
-    var self = this;
-    window.map_callback = function() {
-      INMOAPP.showMap(currentItemForMap);
-    };
-    $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyCPorm8YzIaUGhKfe5cvpgofZ_gdT8hdZw&v=3.exp&sensor=false&callback=map_callback&libraries=places');
-  } else {
-    INMOAPP.showMap(currentItemForMap);
-  }
+  // if (typeof google === "undefined") {
+  //   var self = this;
+  //   window.map_callback = function() {
+  //     INMOAPP.showMap(currentItemForMap);
+  //   };
+  //   $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyCPorm8YzIaUGhKfe5cvpgofZ_gdT8hdZw&v=3.exp&sensor=false&callback=map_callback&libraries=places');
+  // } else {
+  //   INMOAPP.showMap(currentItemForMap);
+  // }
 };
