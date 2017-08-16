@@ -24,6 +24,24 @@
 // require berlin/jquery.fancybox.pack.js
 //= require berlin/custom
 
+//= require lodash-4.16.4
+// lodash used for google maps
+<%
+# ...
+if Rails.env.development?
+  require_asset ("vue-2.4.2")
+else
+  require_asset ("vue-2.4.2.prod")
+end
+
+require_asset ("vue-social-sharing")
+require_asset ("vue-google-maps")
+require_asset ("../shared/vue-main")
+%>
+
+
+
+
 // $(document).on('page:change', function() {
 // once turbolinks is activated, will have to change to above
 $(document).on('ready', function() {

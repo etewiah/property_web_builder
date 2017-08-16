@@ -41,7 +41,9 @@
         </div>
       </section>
     <% else %>
-      <%= yield %>
+      <div id="main-vue">
+        <%= yield %>        
+      </div>
     <% end %>
     <%= render :partial => '/pwb/footer', :locals => {}  %>
     <%= render :partial => '/pwb/analytics', :locals => {}  %>
@@ -80,5 +82,6 @@
       if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
       else window.addEventListener('load', loadDeferredStyles);
     </script>
+    <%= yield(:page_script) %>
   </body>
 </html>

@@ -5,13 +5,13 @@
       <div class="col-md-12">
         <div class="aa-property-header-inner">
           <h2>
-          <%= I18n.t("property.details") %>
+            <%= I18n.t("property.details") %>
           </h2>
           <ol class="breadcrumb">
             <li>
               <%= link_to pwb.root_path(locale: locale), class: "" do %>
                 <%= I18n.t("webContentSections.home") %>
-              <% end %>  
+              <% end %>
             </li>
             <li class="active"><%= @property_details.title %>
             </li>
@@ -71,10 +71,44 @@
           <%= render '/pwb/props/prop_contact_info' %>
         </div>
       </div>
+      <div class="col-md-12 m-b-10" style="margin-bottom: 10px;">
+        <social-sharing  class="center"  inline-template>
+          <div class="social-icons icon-circle">
+            <network network="facebook">
+              <i class="fa fa-facebook"></i>
+            </network>
+            <network network="googleplus">
+              <i class="fa fa-google-plus"></i>
+            </network>
+            <network network="linkedin">
+              <i class="fa fa-linkedin"></i>
+            </network>
+            <network network="twitter">
+              <i class="fa fa-twitter"></i>
+            </network>
+          </div>
+        </social-sharing>
+      </div>
     </div>
   </div>
   <% if @property_details.show_map %>
-    <div id="inmo-map-canvas" class="map-canvas no-margin"></div>
+    <div id="inmo-map-canvas" class="map-canvas no-margin">
+      <gmap-map style="min-height: 600px;"
+        :center="{lat: <%= @property_details.latitude %>, lng: <%= @property_details.longitude %>}"
+        :zoom="15" :data="{markers:[]}">
+        <gmap-marker  v-for="m in markers" :position="m.position" :clickable="true" :draggable="true" @click="center=m.position"></gmap-marker>
+      </gmap-map>
+    </div>
+  <% end %>
+  <% content_for :page_script do %>
+    <%= javascript_tag do %>
+      var INMOAPP = INMOAPP || {};
+    INMOAPP.markers = [{
+        position: {
+          lat: <%= @property_details.latitude %>,
+          lng: <%= @property_details.longitude %>
+      }
+      }]
+    <% end %>
   <% end %>
 </section>
-<!-- FOOTER -->
