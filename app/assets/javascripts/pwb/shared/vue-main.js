@@ -1,5 +1,27 @@
 var INMOAPP = INMOAPP || {};
+
+
 window.onload = function() {
+
+
+  Vue.component('select-picker', {
+    template: '<select class="" >' +
+      '<option  v-for="option in selectoptions">{{ option }}</option>' +
+      '</select>',
+    mounted: function() {
+      var vm = this;
+      $(this.$el).selectpicker()
+        // .trigger('change')
+        // // emit event on change.
+        // .on('change', function() {
+        //   vm.$emit('input', this.value)
+        // });
+    },
+    props: ['selectoptions', 'inputname', 'selected'],
+  });
+
+
+
   var pwbSS = Vue.component('social-sharing', SocialSharing);
   // var pwbGM = Vue.component('gmap-map', VueGoogleMaps);
   Vue.use(VueGoogleMaps, {
@@ -13,14 +35,16 @@ window.onload = function() {
   INMOAPP.pwbVue = new Vue({
     el: '#main-vue',
     data: {
-      markers: markers
+      markers: markers,
+      selected: 2,
+      selectoptions: [
+        2, 3, 4
+      ],
+      options: [
+        { id: 1, text: 'Hello' },
+        { id: 2, text: 'World' }
+      ]
     }
   });
-  // INMOAPP.pwbVue.$data.markers = [{
-  //   position: {
-  //     lat: 36.73234,
-  //     lng: -4.52615000000003
-  //   }
-  // }]
 
 }
