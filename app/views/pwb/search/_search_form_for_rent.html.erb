@@ -11,14 +11,14 @@
         <div class="col-sm-6">
           <div class="form-group select optional search_for_sale_price_from">
             <label class="control-label select optional" for="search_for_sale_price_from"><%= I18n.t("simple_form.labels.search.for_rent_price_from") %></label>
-            <select-picker  :selectoptions="<%= @prices_from_collection %>" class="form-control" 
+            <select-picker :select-picker-texts="<%= @select_picker_texts %>" :select-options="<%= @prices_from_collection %>" class="form-control" 
             id="search_for_rent_price_from" name="search[for_rent_price_from]" v-once></select-picker>
           </div>
         </div>
         <div class="col-sm-6">
           <div class="form-group select optional search_for_sale_price_till">
             <label class="control-label select optional" for="search_for_sale_price_till"><%= I18n.t("simple_form.labels.search.for_rent_price_till") %></label>
-            <select-picker  :selectoptions="<%= @prices_till_collection %>" class="form-control" 
+            <select-picker :select-picker-texts="<%= @select_picker_texts %>" :select-options="<%= @prices_till_collection %>" class="form-control" 
             id="search_for_rent_price_till" name="search[for_rent_price_till]"></select-picker>
           </div>
         </div>

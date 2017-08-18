@@ -46,7 +46,7 @@ module Pwb
       # ..
 
       set_common_search_inputs
-
+      set_select_picker_texts
       apply_search_filter filtering_params(params)
 
       # below allows setting in form of any input values that might have been passed by param
@@ -77,9 +77,8 @@ module Pwb
       #                         150 250 500 1,000 1,500 2,000 2,500 3,000 4,000 5,000 10,000)
 
       set_common_search_inputs
-
+      set_select_picker_texts
       apply_search_filter filtering_params(params)
-
       @search_defaults = params[:search].present? ? params[:search] : {}
 
       js 'Main/Search#sort' # trigger client-side paloma script
@@ -103,6 +102,14 @@ module Pwb
       #  "property_state"=>"propertyStates.brandNew"}
       params[:search].slice(:in_locality, :in_zone, :for_sale_price_from, :for_sale_price_till, :for_rent_price_from,
                             :for_rent_price_till, :property_type, :property_state, :count_bathrooms, :count_bedrooms)
+    end
+
+    def set_select_picker_texts
+      @select_picker_texts = {
+        noneSelectedText: I18n.t("selectpicker.noneSelectedText"),
+        noneResultsText: I18n.t("selectpicker.noneResultsText"),
+        countSelectedText: I18n.t("selectpicker.countSelectedText")
+      }.to_json
     end
 
     def set_common_search_inputs
