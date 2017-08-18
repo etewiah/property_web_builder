@@ -60,21 +60,9 @@
 </section>
 <% if @property_details.show_map %>
   <div id="inmo-map-canvas" class="map-canvas no-margin">
-    <gmap-map style="min-height: 600px;"
-        :center="{lat: <%= @property_details.latitude %>, lng: <%= @property_details.longitude %>}"
-        :zoom="15" :data="{markers:[]}">
-      <gmap-marker  v-for="m in markers" :position="m.position" :clickable="true" :draggable="true" @click="center=m.position"></gmap-marker>
-    </gmap-map>
+    <inmo-map style="min-height: 600px;"
+    :markers="<%= @map_markers.to_json %>"
+        :zoom="15">
+    </inmo-map>
   </div>
-<% end %>
-<% content_for :page_script do %>
-  <%= javascript_tag do %>
-    var INMOAPP = INMOAPP || {};
-    INMOAPP.markers = [{
-        position: {
-          lat: <%= @property_details.latitude %>,
-          lng: <%= @property_details.longitude %>
-        }
-      }]
-  <% end %>
 <% end %>

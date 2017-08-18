@@ -31,10 +31,21 @@ module Pwb
       @operation_type = "for_sale"
       @operation_type_key = @operation_type.camelize(:lower)
       @property_details = Prop.find_by_id(params[:id])
+      @map_markers = []
 
       if @property_details && @property_details.visible && @property_details.for_sale
+        if @property_details.show_map
+          @map_markers.push(
+            {
+              id: @property_details.id,
+              position: {
+                lat: @property_details.latitude,
+                lng: @property_details.longitude
+              }
+            }
+          )
+        end
         # gon.property_details =@property_details
-
         js property_details: @property_details
         js 'Pwb/Props#show'
         @page_title = @property_details.title
@@ -69,7 +80,7 @@ module Pwb
                                origin_ip: request.ip,
                                user_agent: request.user_agent,
                                delivery_email: @current_agency.email_for_property_contact_form
-        # origin_email: params[:contact][:email]
+                               # origin_email: params[:contact][:email]
       })
 
       unless @enquiry.save && @client.save
