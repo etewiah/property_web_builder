@@ -55,4 +55,22 @@
     </div>
   </div>
 </section>
-<!-- FOOTER -->
+<% if @map_markers.length > 0 %>
+  <div id="inmo-map-canvas" class="map-canvas no-margin">
+    <inmo-map ref="inmomap" style="min-height: 600px;"
+    :markers="<%= @map_markers.to_json %>"
+        :zoom="15">
+    </inmo-map>
+  </div>
+<% end %>
+<% content_for :page_script do %>
+  <%= javascript_tag do %>
+    var INMOAPP = INMOAPP || {};
+    INMOAPP.markers = [{
+        position: {
+          lat: <%= @current_agency.primary_address.latitude %>,
+          lng: <%= @current_agency.primary_address.longitude %>
+        }
+      }]
+  <% end %>
+<% end %>

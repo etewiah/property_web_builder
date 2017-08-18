@@ -14,11 +14,14 @@ Vue.component('inmo-map', {
   mounted: function() {
     this.$refs.mmm.$mapCreated.then(() => {
       if (this.mapkers.length > 1) {
-        const bounds = new google.maps.LatLngBounds()
+        const bounds = new google.maps.LatLngBounds();
         for (let m of this.mapkers) {
           bounds.extend(m.position)
         }
-        this.$refs.mmm.$mapObject.fitBounds(bounds)
+        this.$refs.mmm.$mapObject.fitBounds(bounds);
+        // where markers are too close together, I need below
+        // to ensure they are not too zoomed in
+        this.$refs.mmm.$mapObject.setOptions({maxZoom: this.$refs.mmm.$mapObject.getZoom()});
       }
     })
   },

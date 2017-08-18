@@ -24,6 +24,7 @@ module Pwb
       @properties = Prop.visible.for_rent
 
       apply_search_filter filtering_params(params)
+      set_map_markers
       render "/pwb/search/search_ajax.js.erb", layout: false
       #  view rendered will use js to inject results...
     end
@@ -49,7 +50,6 @@ module Pwb
       set_common_search_inputs
       set_select_picker_texts
       apply_search_filter filtering_params(params)
-
       set_map_markers
 
       # below allows setting in form of any input values that might have been passed by param
@@ -82,6 +82,7 @@ module Pwb
       set_common_search_inputs
       set_select_picker_texts
       apply_search_filter filtering_params(params)
+      set_map_markers
       @search_defaults = params[:search].present? ? params[:search] : {}
 
       js 'Main/Search#sort' # trigger client-side paloma script

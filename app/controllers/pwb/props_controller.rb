@@ -9,7 +9,9 @@ module Pwb
       # gon.property_details =@property_details
       @operation_type = "for_rent"
       @operation_type_key = @operation_type.camelize(:lower)
+      @map_markers = []
       if @property_details && @property_details.visible && @property_details.for_rent
+        set_map_marker
         # below lets me know what prices to display
         @show_vacational_rental = @property_details.for_rent_short_term
 
@@ -34,17 +36,7 @@ module Pwb
       @map_markers = []
 
       if @property_details && @property_details.visible && @property_details.for_sale
-        if @property_details.show_map
-          @map_markers.push(
-            {
-              id: @property_details.id,
-              position: {
-                lat: @property_details.latitude,
-                lng: @property_details.longitude
-              }
-            }
-          )
-        end
+        set_map_marker
         # gon.property_details =@property_details
         js property_details: @property_details
         js 'Pwb/Props#show'
@@ -108,5 +100,22 @@ module Pwb
       @error_messages = [I18n.t("contact.error"), e]
       return render "pwb/ajax/request_info_errors", layout: false
     end
+
+    private
+
+    def set_map_marker
+      if @property_details.show_map
+        @map_markers.push(
+          {
+            id: @property_details.id,
+            position: {
+              lat: @property_details.latitude,
+              lng: @property_details.longitude
+            }
+          }
+        )
+      end
+    end
+
   end
 end
