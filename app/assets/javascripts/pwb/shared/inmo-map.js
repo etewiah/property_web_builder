@@ -1,43 +1,60 @@
 Vue.component('inmo-map', {
   template: '<gmap-map style="min-height: 600px;"' +
-    ':zoom="15" :center="center">' +
-    '<gmap-marker  v-for="m in markers"  :key="m.id" :position="m.position" :clickable="true"' +
+    ':zoom="15" :center="center" ref="mmm">' +
+    '<gmap-marker  v-for="m in mapkers"  :key="m.id" :position="m.position" :clickable="true"' +
     ':draggable="true" @click="center=m.position"></gmap-marker></gmap-map>',
-
-  mounted: function() {
-    // debugger;
-    var vm = this;
-    // $(this.$el).selectpicker(this.selectPickerTexts);
-    // .trigger('change')
-    // // emit event on change.
-    // .on('change', function() {
-    //   vm.$emit('input', this.value)
-    // });
+  data() {
+    return {
+      newMarkers: [],
+      useNewMarkers: false
+    };
   },
+  // created() {
+  // },
+  mounted: function() {
+    this.$refs.mmm.$mapCreated.then(() => {
+      if (this.mapkers.length > 1) {
+        const bounds = new google.maps.LatLngBounds()
+        for (let m of this.mapkers) {
+          bounds.extend(m.position)
+        }
+        this.$refs.mmm.$mapObject.fitBounds(bounds)
+      }
+    })
+  },
+  methods: {
+    resetMarkers: function(newMarkers) {
+      this.newMarkers = newMarkers;
+      this.useNewMarkers = true;
+      // return 'Got it!'
+    }
+  },
+  // watch: {
+  //   mapkers(mapkers) {
+  //   }
+  // },
   computed: {
-    // markers: function() {
-    //   var markers = [];
-    //   if (this.props) {
-    //     var lat = this.props.latitude;
-    //     var lng = this.props.longitude;
-    //     var marker = {
-    //       position: {
-    //         lat: lat,
-    //         lng: lng
-    //       }
-    //     };
-    //     markers.push(marker);
-    //   }
-    //   return markers;
-    // },
+    mapkers: function() {
+      if (this.useNewMarkers) {
+        return this.newMarkers;
+      } else {
+        return this.markers;
+      }
+    },
     center: function() {
-      // debugger;
-      if (this.markers.length > 0) {
+      if (this.markers) {
         var lat = this.markers[0].position.lat;
         var lng = this.markers[0].position.lng;
         return { lat: lat, lng: lng };
-      } else {
-        return { lat: 1, lng: 1 };
+
+        // if (this.mapkers.length < 2) {
+        // } else {
+        //   // const bounds = new google.maps.LatLngBounds()
+        //   // for (let m of mapkers) {
+        //   //   bounds.extend(m.latLng)
+        //   // }
+        //   // this.$refs.map.$mapObject.fitBounds(bounds)
+        // }
       }
       // `this` points to the vm instance
     }

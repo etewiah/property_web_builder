@@ -12,6 +12,7 @@ module Pwb
       # .order('price_sale_current_cents ASC')
       # @properties = Prop.where(nil) # creates an anonymous scope
       apply_search_filter filtering_params(params)
+      set_map_markers
       render "/pwb/search/search_ajax.js.erb", layout: false
       #  view rendered will use js to inject results...
     end
@@ -48,6 +49,8 @@ module Pwb
       set_common_search_inputs
       set_select_picker_texts
       apply_search_filter filtering_params(params)
+
+      set_map_markers
 
       # below allows setting in form of any input values that might have been passed by param
       @search_defaults = params[:search].present? ? params[:search] : {}
@@ -86,6 +89,23 @@ module Pwb
     end
 
     private
+
+    def set_map_markers
+      @map_markers = []
+      @properties.each do |property|
+        if property.show_map
+          @map_markers.push(
+            {
+              id: property.id,
+              position: {
+                lat: property.latitude,
+                lng: property.longitude
+              }
+            }
+          )
+        end
+      end
+    end
 
     # A list of the param names that can be used for filtering the Product list
     def filtering_params(params)

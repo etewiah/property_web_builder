@@ -1,5 +1,7 @@
 $('#inmo-search-results').html("<%= j (render 'search_results') %>");
-
+var markers = <%= @map_markers.to_json.html_safe %>;
+INMOAPP.pwbVue.$refs.inmomap.resetMarkers(markers);
+// .markers = markers;
 INMOAPP.truncateDescriptions();
 INMOAPP.sortSearchResults();
 // $('#inmo-search-results').slideDown(350);
