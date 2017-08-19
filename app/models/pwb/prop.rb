@@ -125,6 +125,14 @@ module Pwb
     end
 
 
+    def primary_image_url
+      if prop_photos.length > 0
+        ordered_photo(1).image.url
+      else
+        ""
+      end
+    end
+
     # def ordered_photo_url(number)
     #   # allows me to pick an individual image according to an order
     #   unless prop_photos.length >= number

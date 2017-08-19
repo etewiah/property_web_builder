@@ -1,12 +1,33 @@
 Vue.component('inmo-map', {
   template: '<gmap-map style="min-height: 600px;"' +
     ':zoom="15" :center="center" ref="mmm">' +
-    '<gmap-marker  v-for="m in mapkers"  :key="m.id" :position="m.position" :clickable="true"' +
-    ':draggable="true" @click="center=m.position"></gmap-marker></gmap-map>',
+    '<gmap-info-window ref="infwin" :options="infoOptions" :position="infoWindowPos"' +
+    ':opened="infoWinOpen" @closeclick="infoWinOpen=false">' +
+    '</gmap-info-window>' +
+    '<gmap-marker  v-for="(m,i) in mapkers"  :key="m.id" :position="m.position" ' +
+    '@mouseover="toggleInfoWindow(m,i)" @mouseout="statusText = null"' +
+    ':clickable="true" :draggable="true" @click=""></gmap-marker>' +
+    '</gmap-map>',
   data() {
     return {
       newMarkers: [],
-      useNewMarkers: false
+      useNewMarkers: false,
+      infoContent: '',
+      statusText: '',
+      infoWindowPos: {
+        lat: 0,
+        lng: 0
+      },
+      infoWinOpen: false,
+      currentMidx: null,
+      //optional: offset infowindow so it visually sits nicely on top of our marker
+      infoOptions: {
+        content: "hey",
+        pixelOffset: {
+          width: 0,
+          height: -35
+        }
+      }
     };
   },
   // created() {
@@ -21,7 +42,7 @@ Vue.component('inmo-map', {
         this.$refs.mmm.$mapObject.fitBounds(bounds);
         // where markers are too close together, I need below
         // to ensure they are not too zoomed in
-        this.$refs.mmm.$mapObject.setOptions({maxZoom: this.$refs.mmm.$mapObject.getZoom()});
+        this.$refs.mmm.$mapObject.setOptions({ maxZoom: this.$refs.mmm.$mapObject.getZoom() });
       }
     })
   },
@@ -29,7 +50,29 @@ Vue.component('inmo-map', {
     resetMarkers: function(newMarkers) {
       this.newMarkers = newMarkers;
       this.useNewMarkers = true;
-      // return 'Got it!'
+    },
+    toggleInfoWindow: function(marker, idx) {
+      this.infoWindowPos = marker.position;
+
+      var infoWindowContent = '<div id="iw-container">' +
+      '<a href="'+ marker.show_url + '" class="">' +
+        '<div class="iw-title">' + marker.title + '</div>' +
+        '<div class="iw-content">' +
+        '<div class="iw-subTitle">'+ marker.display_price + '</div>' +
+        '<img src="'+  marker.image_url +'" alt="" width="225">' +
+        '</div></a>' +
+        '</div>';
+
+      this.infoOptions.content = infoWindowContent;
+      //check if its the same marker that was selected if yes toggle
+      if (this.currentMidx == idx) {
+        this.infoWinOpen = !this.infoWinOpen;
+      }
+      //if different marker set infowindow to open and reset current marker index
+      else {
+        this.infoWinOpen = true;
+        this.currentMidx = idx;
+      }
     }
   },
   // watch: {

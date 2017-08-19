@@ -98,6 +98,10 @@ module Pwb
           @map_markers.push(
             {
               id: property.id,
+              title: property.title,
+              show_url: property.contextual_show_path(@operation_type),
+              image_url: property.primary_image_url,
+              display_price: property.contextual_price_with_currency(@operation_type),
               position: {
                 lat: property.latitude,
                 lng: property.longitude
