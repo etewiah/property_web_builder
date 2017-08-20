@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="index, follow">
+    <title><%= yield(:page_title) %></title>
+    <%= yield(:page_head) %>
     <%# display_meta_tags site: @current_website.tenant_display_name %>
     <%= stylesheet_link_tag    "pwb/themes/default", media: "all" %>
     <style>
@@ -12,7 +14,6 @@
     <%= javascript_include_tag "pwb/application", async: false %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" async: true ></script>
     <%= csrf_meta_tags %>
-    <title><%= yield(:page_title) %></title>
   </head>
   <body class="tnt-body <%= @current_website.body_style %>">
     <%# render @current_website.views_folder + '/shared/main_mobile_menu' %>

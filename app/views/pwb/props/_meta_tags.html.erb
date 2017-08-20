@@ -1,0 +1,8 @@
+<% content_for :page_head do %>
+  <link rel="image_src" href="<%= opt_image_url((@property_details.ordered_photo 1), height: 800, crop: "scale", quality: "auto") %>" />
+  <meta property="og:image" content="<%= opt_image_url((@property_details.ordered_photo 1), height: 800, crop: "scale", quality: "auto") %>" />
+  <% if @property_details.show_map %>
+    <meta property="place:location:latitude"  content="<%= @property_details.latitude %>"> 
+    <meta property="place:location:longitude"  content="<%= @property_details.longitude %>"> 
+  <% end %>
+<% end %>

@@ -9,38 +9,18 @@ module Pwb
       # </a>
     end
 
-    def bg_image(photo, options = {})
-      unless photo && photo.image.present?
-        return ""
-      end
-      if Rails.application.config.use_cloudinary
-        image_url = cl_image_path photo.image, options
-      else
-        image_url = image_path photo.image.url
-      end
-      #style="background-image:linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1) ),url(<%= carousel_item.default_photo %>);"
-      if options[:gradient]
-        "background-image: linear-gradient(#{options[:gradient]}), url(#{image_url});".html_safe
-      else
-        "background-image: url(#{image_url});".html_safe
-      end
-    end
-
-    def opt_image_tag(photo, options = {})
-      unless photo && photo.image.present?
-        return nil
-      end
-      if Rails.application.config.use_cloudinary
-        cl_image_tag photo.image, options
-      else
-        image_tag photo.image.url, options
-      end
-    end
-
-
     def page_title(title_val)
       content_for :page_title, title_val.to_s
     end
+
+    # def meta_tags(tags_array = [])
+    #   tags_string = ""
+    #   tags_array.each do |tag|
+    #     tags_string += "<meta property='#{tag[:property]}' content='#{tag[:content]}' />"
+    #   end
+    #   content_for :page_head, tags_string
+    #   # <meta property="og:image" content="http://examples.opengraphprotocol.us/media/images/75.png">
+    # end
 
     def area_unit(property)
       area_unit = "m<sup>2</sup>"

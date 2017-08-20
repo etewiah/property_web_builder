@@ -17,7 +17,6 @@ module Pwb
 
         js property_details: @property_details
         js 'Pwb/Props#show'
-        # page_title gets picked up automatically by meta-tags gem
         @page_title = @property_details.title
         @page_description = @property_details.description
         # @page_keywords    = 'Site, Login, Members'
