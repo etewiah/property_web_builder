@@ -1,5 +1,5 @@
+<% page_title @current_agency.company_name  %>
 <section id="top-container" style="<%= bg_image @header_image, height: 800, crop: "scale", quality: "auto" %>">
-
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -26,33 +26,31 @@
 </section>
 <section id="aa-main">
   <div class="container">
-    <row>
-      <div class="col-md-12">
-        <div class="aa-main-area">
-          <div class="row">
-            <div class="col-md-7">
-              <%= render 'pwb/sections/contact_us_form' %>
-            </div>
-            <div class="col-md-1">
-            </div>
-            <div class="col-md-4">
-              <div class="row">
-                <div class="col-sm-12">
-                  <%# render '/main/home/about_us/contact_info' %>
-                </div>
-                <div class="col-sm-12" style="display:none;">
-                  <%# render '/main/home/about_us/opening_hours' %>
-                </div>
-                <div class="col-sm-12">
-                  <% if @current_agency.show_contact_map %>
-                    <div id="inmo-map-canvas" class="map-canvas no-margin"></div>
-                  <% end %>
-                </div>
+    <div class="col-md-12">
+      <div class="aa-main-area">
+        <div class="row">
+          <div class="col-md-7">
+            <%= render 'pwb/sections/contact_us_form' %>
+          </div>
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-sm-12">
+                <%# render '/main/home/about_us/contact_info' %>
+              </div>
+              <div class="col-sm-12" style="display:none;">
+                <%# render '/main/home/about_us/opening_hours' %>
+              </div>
+              <div class="col-sm-12">
+                <% if @current_agency.show_contact_map %>
+                  <div id="inmo-map-canvas" class="map-canvas no-margin"></div>
+                <% end %>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </row>
+    </div>
   </div>
 </section>

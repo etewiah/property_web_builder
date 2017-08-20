@@ -1,4 +1,5 @@
-<section id="top-container" style="background-image: url(<%= @header_image_url %>);">
+<% page_title @current_agency.company_name  %>
+<section id="top-container" style="<%= bg_image @header_image, height: 800, crop: "scale", quality: "auto" %>">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -25,34 +26,32 @@
 </section>
 <section id="aa-main">
   <div class="container">
-    <row>
-      <div class="col-md-12">
-        <div class="aa-main-area">
-          <div class="row">
-            <div class="col-md-11">
-              <div class="section-title-wr mt-40">
-                <h3 class="section-title left">
-                  <span>
-                    <%# I18n.t(@title_key) %>
-                  </span>
-                </h3>
-              </div>
-              <div>
-                <p>
-                  <%== @content.raw %>
-                </p>
-              </div>
-              <div>
-                <% if @is_subdomain_admin  %>
-                  <%= link_to I18n.t("labels.edit"), "#{ "/" + I18n.locale.to_s + @content.urls['adminUrl'] }"  %>
-                <% end %>
-              </div>
+    <div class="col-md-12">
+      <div class="aa-main-area">
+        <div class="row">
+          <div class="col-md-11">
+            <div class="section-title-wr mt-40">
+              <h3 class="section-title left">
+                <span>
+                  <%# I18n.t(@title_key) %>
+                </span>
+              </h3>
             </div>
-            <div class="col-md-1">
+            <div>
+              <p>
+                <%== @content.raw %>
+              </p>
             </div>
+            <div>
+              <% if @is_subdomain_admin  %>
+                <%= link_to I18n.t("labels.edit"), "#{ "/" + I18n.locale.to_s + @content.urls['adminUrl'] }"  %>
+              <% end %>
+            </div>
+          </div>
+          <div class="col-md-1">
           </div>
         </div>
       </div>
-    </row>
+    </div>
   </div>
 </section>
