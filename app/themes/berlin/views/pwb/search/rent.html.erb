@@ -1,13 +1,9 @@
+<% page_title @current_agency.company_name  %>
 <% content_for :page_script do %>
 <%= javascript_tag do %>
   $(document).ready(
     function(){
       $('#inmo-search-results').html("<%= j (render 'search_results') %>");
-      $('select').selectpicker({
-        noneSelectedText: '<%= I18n.t("selectpicker.noneSelectedText") %>',
-        noneResultsText: '<%= I18n.t("selectpicker.noneResultsText") %>',
-        countSelectedText: '<%= I18n.t("selectpicker.countSelectedText") %>'
-      });
       INMOAPP.truncateDescriptions();
       INMOAPP.sortSearchResults();
     }
@@ -60,3 +56,12 @@
     </div>
   </div>
 </section>
+
+<% if @map_markers.length > 0 %>
+  <div id="inmo-map-canvas" class="map-canvas no-margin">
+    <inmo-map ref="inmomap" style="min-height: 600px;"
+    :markers="<%= @map_markers.to_json %>"
+        :zoom="15">
+    </inmo-map>
+  </div>
+<% end %>

@@ -16,15 +16,15 @@ window.onload = function() {
   INMOAPP.pwbVue = new Vue({
     el: '#main-vue',
     data: {
-      markers: markers,
-      selected: 2,
-      selectoptions: [
-        2, 3, 4
-      ],
-      options: [
-        { id: 1, text: 'Hello' },
-        { id: 2, text: 'World' }
-      ]
+      // markers: markers,
+      // selected: 2,
+      // selectoptions: [
+      //   2, 3, 4
+      // ],
+      // options: [
+      //   { id: 1, text: 'Hello' },
+      //   { id: 2, text: 'World' }
+      // ]
     }
   });
 

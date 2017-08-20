@@ -63,14 +63,3 @@
     </inmo-map>
   </div>
 <% end %>
-<% content_for :page_script do %>
-  <%= javascript_tag do %>
-    var INMOAPP = INMOAPP || {};
-    INMOAPP.markers = [{
-        position: {
-          lat: <%= @current_agency.primary_address.latitude %>,
-          lng: <%= @current_agency.primary_address.longitude %>
-        }
-      }]
-  <% end %>
-<% end %>
