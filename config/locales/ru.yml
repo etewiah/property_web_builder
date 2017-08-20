@@ -1,8 +1,5 @@
 ---
 ru:
-  devise:
-    user_update_success_title: Поздравляем
-    user_update_success: Вы успешно обновили ваш личный кабинет
   aboutUs: О нас
   address: Адрес
   back: назад
@@ -13,10 +10,13 @@ ru:
     success: Спасибо за ваше сообщение. Мы свяжемся с Вами в ближайшее время!
   contactUs: Связаться с нами
   contactUsPrompt: Чтобы связаться с нами, заполните форму
+  devise:
+    user_update_success: Вы успешно обновили ваш личный кабинет
+    user_update_success_title: Поздравляем
   editarPropiedad: Редактировать недвижимость
   email: e-mail
   'false': нет
-  findAProperty:  Найти недвижимость
+  findAProperty: Найти недвижимость
   findByReference: Поиск по рекомендациям
   forRent: Аренда
   forSale: Продажа
@@ -24,10 +24,10 @@ ru:
   labels:
     create: Создать
     edit: Редактировать
-    new: Новый
-    save: Сохранить
     latestProperties: Latest properties
+    new: Новый
     ourServices: Our services
+    save: Сохранить
   leaveBlank: оставьте это поле пустым, если вы не хотите заполнять
   legalAdvice: публичное соглашение
   listadoPropiedades: Список недвижимости
@@ -55,10 +55,10 @@ ru:
     buy: купить
     contactUs: связаться с нами
     home: Главная
-    rent: Аренда
-    sell: Продажа
     legalAdvice: Официальное уведомление
     privacyPolicy: Политика конфиденциальности
+    rent: Аренда
+    sell: Продажа
   needCurrentPwd: Нужно ввести текущий пароль, чтобы подтвердить изменения
   newPassword: новый пароль
   noResultsForSearch: К сожалению, не найдено
@@ -98,10 +98,9 @@ ru:
     createTagLine: Пожалуйста, введите данные для вашей учетной записи
     getStarted: Начать прямо сейчас
     registerNow: Зарегистрируйтесь сейчас
-    tagLine: Профессиональный сайт для агенств недвижимости в течение нескольких
-      минут
-    tagLineExt: Красивые сайты, которые Вы должны увидеть, чтобы поверить. <br>
-      Получите быстрый результат он-лайн быстрее всех остальных.
+    tagLine: Профессиональный сайт для агенств недвижимости в течение нескольких минут
+    tagLineExt: Красивые сайты, которые Вы должны увидеть, чтобы поверить. <br> Получите
+      быстрый результат он-лайн быстрее всех остальных.
   requestPropertyInfo: Запросить информацию о недвижимости
   search: Поиск
   searchForProperties: Поиск недвижимости
@@ -117,8 +116,8 @@ ru:
     loggedInAs: Вы вошли как
     logout: Выйти
     selectUrl: Выберите URL
-    selectUrlMessage: Вы успешно создали учетную запись - теперь выберите имя домена для
-      своего нового сайта
+    selectUrlMessage: Вы успешно создали учетную запись - теперь выберите имя домена
+      для своего нового сайта
     subdomain: поддомен
     subdomainMissing: Пожалуйста, введите имя поддомена
     thankYouForTrusting: Спасибо за доверие %{company_name}

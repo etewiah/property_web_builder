@@ -24,10 +24,10 @@ tr:
   labels:
     create: yaratmak
     edit: Düzenleme
-    new: Yeni
-    save: Kayıt etmek
     latestProperties: Latest properties
+    new: Yeni
     ourServices: Our services
+    save: Kayıt etmek
   leaveBlank: Değiştirmek istemiyorsan boş bırak
   legalAdvice: Yasal Uyarı
   listadoPropiedades: Mülklerin listesi
