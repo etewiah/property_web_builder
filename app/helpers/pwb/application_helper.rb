@@ -52,7 +52,7 @@ module Pwb
 
     def localized_link_to(locale_with_var = nil, options = nil, html_options = nil)
       link_class =  locale_with_var["variant"]
-      link = "<a class='#{link_class}' href='/#{options["locale"]}'></a>"
+      link = "<a class='#{link_class}' href='#{url_for(options)}'></a>"
       return link.html_safe
 
       # if params["controller"] && params["controller"].include?("devise/")
