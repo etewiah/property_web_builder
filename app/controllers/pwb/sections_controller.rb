@@ -110,7 +110,7 @@ module Pwb
     private
 
     def header_image
-      # used by berlin theme
+      # used by berlin theme and meta tags
       hi_content = Content.where(tag: 'landing-carousel')[0]
       @header_image = hi_content.present? ? hi_content.default_photo : nil
     end

@@ -1,0 +1,10 @@
+<% content_for :page_head do %>
+  <% if @carousel_items %>
+    <link rel="image_src" href="<%= opt_image_url((@carousel_items[0].default_photo), height: 800, crop: "scale", quality: "auto") %>" />
+    <meta property="og:image" content="<%= opt_image_url((@carousel_items[0].default_photo), height: 800, crop: "scale", quality: "auto") %>" />
+  <% end %>
+  <% if @header_image %>
+    <link rel="image_src" href="<%= opt_image_url((@header_image), height: 800, crop: "scale", quality: "auto") %>" />
+    <meta property="og:image" content="<%= opt_image_url((@header_image), height: 800, crop: "scale", quality: "auto") %>" />
+  <% end %>
+<% end %>
