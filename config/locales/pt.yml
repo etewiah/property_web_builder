@@ -26,6 +26,8 @@ pt:
     edit: Editar
     new: Novo
     save: Salve
+    latestProperties: "Latest properties"
+    ourServices: "Our services"
   leaveBlank: deixe em branco se você não quer mudá-lo
   legalAdvice: Notícia legal
   listadoPropiedades: Lista de propriedades
@@ -49,10 +51,10 @@ pt:
   name: Nome
   navbar:
     aboutUs: Sobre nós
-    admin: administrador
+    admin: Admin
     buy: Comprar
     contactUs: Contato
-    home: Casa
+    home: Inicio
     rent: Aluguel
     sell: Vender
     legalAdvice: Notícia legal
@@ -150,6 +152,6 @@ pt:
   webContentSections:
     aboutUs: Sobre nós
     contactInformation: Informações de contato
-    home: Casa
+    home: Inicio
     sell: Vender
     tagLine: Linha tag

@@ -132,6 +132,8 @@ fr:
     new: "Nouveau"
     save: "Enregistrer"
     create: "Créer"
+    latestProperties: "Latest properties"
+    ourServices: "Our services"
   # webContentLabels: 
   #   suffixEn: "en Inglés"
   #   suffixEs: "en Español"

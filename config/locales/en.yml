@@ -114,6 +114,8 @@ en:
     new: "New"
     save: "Save"
     create: "Create"
+    latestProperties: Latest properties
+    ourServices: Our services
   webContentSections:
     aboutUs: "About us"
     contactInformation: "Contact information" 
