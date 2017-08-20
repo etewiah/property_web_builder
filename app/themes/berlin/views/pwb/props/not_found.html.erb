@@ -1,0 +1,37 @@
+<% page_title @page_title  %>
+<!-- Start Property header  -->
+<section id="aa-property-header" style="<%= bg_image @header_image, height: 800, crop: "scale", quality: "auto" %>">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="aa-property-header-inner">
+          <h2>
+            <%= I18n.t("property.details") %>
+          </h2>
+          <ol class="breadcrumb">
+            <li>
+              <%= link_to pwb.root_path(locale: locale), class: "" do %>
+                <%= I18n.t("webContentSections.home") %>
+              <% end %>
+            </li>
+            <li class="active"><%= t "propertyNotFound" %>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Property header  -->
+<!-- Start Properties  -->
+<section id="aa-properties">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9" style="min-height:300px;">
+        <h2>
+          <%= t "propertyNotFound" %>
+        </h2>
+      </div>
+    </div>
+  </div>
+</section>

@@ -23,6 +23,9 @@ module Pwb
         # @page_keywords    = 'Site, Login, Members'
         return render "/pwb/props/show"
       else
+        @page_title = I18n.t("propertyNotFound")
+        hi_content = Content.where(tag: 'landing-carousel')[0]
+        @header_image = hi_content.present? ? hi_content.default_photo : nil
         return render "not_found"
       end
     end
@@ -45,6 +48,9 @@ module Pwb
         # @page_keywords    = 'Site, Login, Members'
         return render "/pwb/props/show"
       else
+        @page_title = I18n.t("propertyNotFound")
+        hi_content = Content.where(tag: 'landing-carousel')[0]
+        @header_image = hi_content.present? ? hi_content.default_photo : nil
         return render "not_found"
       end
     end
