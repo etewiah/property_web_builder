@@ -32,11 +32,20 @@
         <div class="aa-properties-content">
           <!-- Start properties content body -->
           <div class="aa-properties-details">
-            <div class="aa-properties-details-img">
-              <% @property_details.prop_photos.each.with_index do |photo, index| %>
-                <%= opt_image_tag(photo, height: 800, crop: "scale", :quality => "auto", class: "", alt: "img") %>
-              <% end %>
-            </div>
+            <slick-carousel inline-template :slick-options="{
+                  dots: false,
+                  infinite: true,
+                  arrows: true,
+                  speed: 500,
+                  fade: true,
+                  cssEase: 'linear'
+                }" style="visibility: hidden">
+              <div class="aa-properties-details-img">
+                <% @property_details.prop_photos.each.with_index do |photo, index| %>
+                  <%= opt_image_tag(photo, height: 800, crop: "scale", :quality => "auto", class: "", alt: "img") %>
+                <% end %>
+              </div>
+            </slick-carousel>
             <div class="aa-properties-info">
               <h2>
                 <%= @property_details.title %>

@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 * Add Turkish and Vietnamese translations
 * Fix Rails 5.1.0 issue with seed task (#29)
 * Fix language picker redirecting to root
+* Set open graph meta tags
 * Support Rails 5.1.0
 
 ## 1.1.1 / 2017-07-25
