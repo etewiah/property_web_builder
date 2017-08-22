@@ -53,13 +53,21 @@ Vue.component('inmo-map', {
     },
     toggleInfoWindow: function(marker, idx) {
       this.infoWindowPos = marker.position;
+      var display_price_html = "";
+      if (marker.display_price) {
+        display_price_html = '<div class="iw-subTitle">' + marker.display_price + '</div>';
+      }
+      var image_html = "";
+      if (marker.image_url) {
+        image_html = '<img src="' + marker.image_url + '" alt="" width="225">';
+      }
 
       var infoWindowContent = '<div id="iw-container">' +
-      '<a href="'+ marker.show_url + '" class="">' +
+        '<a href="' + marker.show_url + '" class="">' +
         '<div class="iw-title">' + marker.title + '</div>' +
         '<div class="iw-content">' +
-        '<div class="iw-subTitle">'+ marker.display_price + '</div>' +
-        '<img src="'+  marker.image_url +'" alt="" width="225">' +
+        display_price_html +
+        image_html +
         '</div></a>' +
         '</div>';
 

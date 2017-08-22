@@ -42,13 +42,30 @@ module Pwb
     end
 
     def contact_us
-      # below for google map rendering via paloma:
-      js current_agency_primary_address: @current_agency.primary_address
-      js show_contact_map: @current_agency.show_contact_map
+      # below was for google map rendering via paloma:
+      # js current_agency_primary_address: @current_agency.primary_address
+      # js show_contact_map: @current_agency.show_contact_map
       # could explicitly set function for Paloma to use like so:
       # js "Pwb/Sections#contact_us"
       # @enquiry = Message.new
       @page_title = I18n.t("contactUs")
+
+      @map_markers = []
+      if @current_agency.show_contact_map
+        @map_markers.push(
+          {
+            id: @current_agency.id,
+            title: @current_agency.display_name,
+            show_url: "#",
+            image_url: @current_website.logo_url,
+            # display_price: @current_agency.contextual_price_with_currency(@operation_type),
+            position: {
+              lat: @current_agency.primary_address.latitude,
+              lng: @current_agency.primary_address.longitude
+            }
+          }
+        )
+      end
 
       render "/pwb/sections/contact_us"
     end
@@ -75,9 +92,9 @@ module Pwb
           origin_ip: request.ip,
           user_agent: request.user_agent,
           delivery_email: @current_agency.email_for_general_contact_form
-        # origin_email: params[:contact][:email]
-      }
-)
+          # origin_email: params[:contact][:email]
+        }
+      )
       unless @enquiry.save && @client.save
         @error_messages += @client.errors.full_messages
         @error_messages += @enquiry.errors.full_messages

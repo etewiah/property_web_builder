@@ -41,6 +41,9 @@
             </div>
             <div class="col-sm-12">
             <% if @current_agency.show_contact_map %>
+              <inmo-map style="min-height: 600px;" :markers="<%= @map_markers.to_json %>"
+                  :zoom="15">
+              </inmo-map>
                <div id="inmo-map-canvas" class="map-canvas no-margin"></div>              
             <% end %>
             </div>
