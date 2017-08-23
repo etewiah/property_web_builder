@@ -9,6 +9,7 @@ module Pwb
       # factorygirl ensures unique_instance of website is used
     end
 
+
     context 'when theme is set' do
       it 'uses correct theme' do
         @website.theme_name = "berlin"
