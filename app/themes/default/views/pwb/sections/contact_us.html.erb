@@ -1,4 +1,5 @@
 <% page_title @current_agency.company_name  %>
+<%= render '/pwb/meta_tags' %>
 <!-- MAIN CONTENT -->
 <div class="pg-opt">
   <div class="container">
@@ -40,6 +41,9 @@
             </div>
             <div class="col-sm-12">
             <% if @current_agency.show_contact_map %>
+              <inmo-map style="min-height: 600px;" :markers="<%= @map_markers.to_json %>"
+                  :zoom="15">
+              </inmo-map>
                <div id="inmo-map-canvas" class="map-canvas no-margin"></div>              
             <% end %>
             </div>

@@ -1,4 +1,5 @@
 <% page_title @property_details.title  %>
+<%= render '/pwb/props/meta_tags' %>
 <%= render '/pwb/props/breadcrumb_row' %>
 <!-- MAIN CONTENT -->
 <section class="slice bg-white bb">
@@ -59,6 +60,10 @@
   </social-sharing>
 </section>
 <% if @property_details.show_map %>
-  <div id="inmo-map-canvas" class="map-canvas no-margin"></div>
+  <div id="inmo-map-canvas" class="map-canvas no-margin">
+    <inmo-map style="min-height: 600px;"
+    :markers="<%= @map_markers.to_json %>"
+        :zoom="15">
+    </inmo-map>
+  </div>
 <% end %>
-<!-- FOOTER -->

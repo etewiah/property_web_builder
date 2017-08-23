@@ -12,6 +12,7 @@ module Pwb
       # .order('price_sale_current_cents ASC')
       # @properties = Prop.where(nil) # creates an anonymous scope
       apply_search_filter filtering_params(params)
+      set_map_markers
       render "/pwb/search/search_ajax.js.erb", layout: false
       #  view rendered will use js to inject results...
     end
@@ -23,6 +24,7 @@ module Pwb
       @properties = Prop.visible.for_rent
 
       apply_search_filter filtering_params(params)
+      set_map_markers
       render "/pwb/search/search_ajax.js.erb", layout: false
       #  view rendered will use js to inject results...
     end
@@ -46,8 +48,9 @@ module Pwb
       # ..
 
       set_common_search_inputs
-
+      set_select_picker_texts
       apply_search_filter filtering_params(params)
+      set_map_markers
 
       # below allows setting in form of any input values that might have been passed by param
       @search_defaults = params[:search].present? ? params[:search] : {}
@@ -77,9 +80,9 @@ module Pwb
       #                         150 250 500 1,000 1,500 2,000 2,500 3,000 4,000 5,000 10,000)
 
       set_common_search_inputs
-
+      set_select_picker_texts
       apply_search_filter filtering_params(params)
-
+      set_map_markers
       @search_defaults = params[:search].present? ? params[:search] : {}
 
       js 'Main/Search#sort' # trigger client-side paloma script
@@ -87,6 +90,27 @@ module Pwb
     end
 
     private
+
+    def set_map_markers
+      @map_markers = []
+      @properties.each do |property|
+        if property.show_map
+          @map_markers.push(
+            {
+              id: property.id,
+              title: property.title,
+              show_url: property.contextual_show_path(@operation_type),
+              image_url: property.primary_image_url,
+              display_price: property.contextual_price_with_currency(@operation_type),
+              position: {
+                lat: property.latitude,
+                lng: property.longitude
+              }
+            }
+          )
+        end
+      end
+    end
 
     # A list of the param names that can be used for filtering the Product list
     def filtering_params(params)
@@ -103,6 +127,14 @@ module Pwb
       #  "property_state"=>"propertyStates.brandNew"}
       params[:search].slice(:in_locality, :in_zone, :for_sale_price_from, :for_sale_price_till, :for_rent_price_from,
                             :for_rent_price_till, :property_type, :property_state, :count_bathrooms, :count_bedrooms)
+    end
+
+    def set_select_picker_texts
+      @select_picker_texts = {
+        noneSelectedText: I18n.t("selectpicker.noneSelectedText"),
+        noneResultsText: I18n.t("selectpicker.noneResultsText"),
+        countSelectedText: I18n.t("selectpicker.countSelectedText")
+      }.to_json
     end
 
     def set_common_search_inputs

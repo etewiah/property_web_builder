@@ -1,8 +1,5 @@
 ---
 de:
-  devise:
-    user_update_success_title: Herzlichen Glückwunsch
-    user_update_success: Du hast dein Konto erfolgreich aktualisiert
   aboutUs: Über uns
   address: Adresse
   back: Zurück
@@ -13,6 +10,9 @@ de:
     success: Danke für deine Nachricht. Wir werden dich umgehend kontaktieren!
   contactUs: Kontakt
   contactUsPrompt: Füllen Sie das untenstehende Formular aus, um uns zu kontaktieren
+  devise:
+    user_update_success: Du hast dein Konto erfolgreich aktualisiert
+    user_update_success_title: Herzlichen Glückwunsch
   editarPropiedad: Bearbeiten einer Eigenschaft
   email: Email
   'false': Nein
@@ -24,7 +24,9 @@ de:
   labels:
     create: Erstellen
     edit: Bearbeiten
+    latestProperties: Latest properties
     new: Neu
+    ourServices: Our services
     save: Speichern
   leaveBlank: leer lassen, wenn du es nicht ändern wollen
   legalAdvice: Impressum
@@ -54,10 +56,10 @@ de:
     buy: Kaufen
     contactUs: Kontakt
     home: Zuhause
-    rent: Miete
-    sell: Verkaufen
     legalAdvice: Impressum
     privacyPolicy: Datenschutz-Bestimmungen
+    rent: Miete
+    sell: Verkaufen
   needCurrentPwd: Wir brauchen dein aktuelles Passwort, um die Änderungen zu bestätigen
   newPassword: Neues Kennwort
   noResultsForSearch: Leider keine Ergebnisse
@@ -98,7 +100,8 @@ de:
     getStarted: Jetzt loslegen
     registerNow: Jetzt registrieren
     tagLine: Professionelle Websites für Immobilienmakler in Minuten
-    tagLineExt: Schöne und elegante Websites, die gesehen werden müssen. <br> Niemand bringt dich schneller online.
+    tagLineExt: Schöne und elegante Websites, die gesehen werden müssen. <br> Niemand
+      bringt dich schneller online.
   requestPropertyInfo: Infos anfordern
   search: Suche
   searchForProperties: Suche nach Immobilien

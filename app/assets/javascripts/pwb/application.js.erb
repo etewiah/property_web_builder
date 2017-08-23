@@ -15,9 +15,11 @@
 // require jquery.turbolinks
 //= require jquery_ujs
 //= require paloma
-//= require_tree ./paloma
+// require_tree ./paloma
 // require bootstrap-sprockets
 //= require bootstrap-select
+//= require lodash-4.16.4
+// lodash used for google maps
 <%
 # ...
 if Rails.env.development?
@@ -27,6 +29,9 @@ else
 end
 
 require_asset ("vue-social-sharing")
+require_asset ("vue-google-maps")
+require_asset ("./shared/select-picker")
+require_asset ("./shared/inmo-map")
 require_asset ("./shared/vue-main")
 %>
 

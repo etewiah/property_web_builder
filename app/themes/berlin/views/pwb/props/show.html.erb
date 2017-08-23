@@ -1,18 +1,19 @@
 <% page_title @property_details.title  %>
-  <!-- Start Property header  -->
+<%= render '/pwb/props/meta_tags' %>
+<!-- Start Property header  -->
 <section id="aa-property-header" style="<%= bg_image((@property_details.ordered_photo 1), height: 800, crop: "scale", quality: "auto") %>">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
         <div class="aa-property-header-inner">
           <h2>
-          <%= I18n.t("property.details") %>
+            <%= I18n.t("property.details") %>
           </h2>
           <ol class="breadcrumb">
             <li>
               <%= link_to pwb.root_path(locale: locale), class: "" do %>
                 <%= I18n.t("webContentSections.home") %>
-              <% end %>  
+              <% end %>
             </li>
             <li class="active"><%= @property_details.title %>
             </li>
@@ -31,11 +32,20 @@
         <div class="aa-properties-content">
           <!-- Start properties content body -->
           <div class="aa-properties-details">
-            <div class="aa-properties-details-img">
-              <% @property_details.prop_photos.each.with_index do |photo, index| %>
-                <%= opt_image_tag(photo, height: 800, crop: "scale", :quality => "auto", class: "", alt: "img") %>
-              <% end %>
-            </div>
+            <slick-carousel inline-template :slick-options="{
+                  dots: false,
+                  infinite: true,
+                  arrows: true,
+                  speed: 500,
+                  fade: true,
+                  cssEase: 'linear'
+                }" style="visibility: hidden">
+              <div class="aa-properties-details-img">
+                <% @property_details.prop_photos.each.with_index do |photo, index| %>
+                  <%= opt_image_tag(photo, height: 800, crop: "scale", :quality => "auto", class: "", alt: "img") %>
+                <% end %>
+              </div>
+            </slick-carousel>
             <div class="aa-properties-info">
               <h2>
                 <%= @property_details.title %>
@@ -72,10 +82,32 @@
           <%= render '/pwb/props/prop_contact_info' %>
         </div>
       </div>
+      <div class="col-md-12 m-b-10" style="margin-bottom: 10px;">
+        <social-sharing  class="center"  inline-template>
+          <div class="social-icons icon-circle">
+            <network network="facebook">
+              <i class="fa fa-facebook"></i>
+            </network>
+            <network network="googleplus">
+              <i class="fa fa-google-plus"></i>
+            </network>
+            <network network="linkedin">
+              <i class="fa fa-linkedin"></i>
+            </network>
+            <network network="twitter">
+              <i class="fa fa-twitter"></i>
+            </network>
+          </div>
+        </social-sharing>
+      </div>
     </div>
   </div>
   <% if @property_details.show_map %>
-    <div id="inmo-map-canvas" class="map-canvas no-margin"></div>
+    <div id="inmo-map-canvas" class="map-canvas no-margin">
+      <inmo-map style="min-height: 600px;"
+    :markers="<%= @map_markers.to_json %>"
+        :zoom="15">
+      </inmo-map>
+    </div>
   <% end %>
 </section>
-<!-- FOOTER -->

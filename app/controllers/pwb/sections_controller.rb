@@ -42,13 +42,30 @@ module Pwb
     end
 
     def contact_us
-      # below for google map rendering via paloma:
-      js current_agency_primary_address: @current_agency.primary_address
-      js show_contact_map: @current_agency.show_contact_map
+      # below was for google map rendering via paloma:
+      # js current_agency_primary_address: @current_agency.primary_address
+      # js show_contact_map: @current_agency.show_contact_map
       # could explicitly set function for Paloma to use like so:
       # js "Pwb/Sections#contact_us"
       # @enquiry = Message.new
       @page_title = I18n.t("contactUs")
+
+      @map_markers = []
+      if @current_agency.show_contact_map
+        @map_markers.push(
+          {
+            id: @current_agency.id,
+            title: @current_agency.display_name,
+            show_url: "#",
+            image_url: @current_website.logo_url,
+            # display_price: @current_agency.contextual_price_with_currency(@operation_type),
+            position: {
+              lat: @current_agency.primary_address.latitude,
+              lng: @current_agency.primary_address.longitude
+            }
+          }
+        )
+      end
 
       render "/pwb/sections/contact_us"
     end
@@ -110,7 +127,7 @@ module Pwb
     private
 
     def header_image
-      # used by berlin theme
+      # used by berlin theme and meta tags
       hi_content = Content.where(tag: 'landing-carousel')[0]
       @header_image = hi_content.present? ? hi_content.default_photo : nil
     end

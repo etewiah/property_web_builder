@@ -1,0 +1,35 @@
+<div class="panel panel-base no-margin">
+  <div class="panel-heading panel-heading-lg"><%= t "findAProperty"%> </div>
+  <%= simple_form_for :search, :url => "/#{I18n.locale}/buy", :method => 'get', 
+  :html => { :class => 'form-base' }, :remote => false do |f| %>
+    <div class="panel-body" style="padding:25px;">
+      <div class="form-group" style="display:none;">
+        <input type="text" class="form-control input-lg" placeholder="I would like to buy ...">
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :for_sale_price_from, collection: @prices_collection, :required => false, selected: '50.000', input_html: { maxlength: 20 } %>
+        </div>
+        <div class="col-md-6">
+          <%= f.input :for_sale_price_till, collection: @prices_collection, :required => false , selected: '150.000', input_html: { maxlength: 20 } %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :property_type, collection: @property_types, label_method: :label, value_method: :value, selected: "", :required => false %>
+        </div>
+        <div class="col-md-6">
+          <%= f.input :num_bedrooms, collection: 0..50, :required => false,
+          selected: '2' %>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <%= f.button :button, :class=> "btn fondo_accion btn-icon", 
+        :id => "btn_buscar_inmuebles" do %>
+        <i class="fa fa-search"></i>
+        <%= I18n.t("search") %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

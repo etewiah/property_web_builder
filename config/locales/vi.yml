@@ -24,7 +24,9 @@ vi:
   labels:
     create: Tạo mới
     edit: Chỉnh sửa
+    latestProperties: Latest properties
     new: Mới
+    ourServices: Our services
     save: Tiết kiệm
   leaveBlank: Để trống nếu bạn không muốn thay đổi nó
   legalAdvice: Thông báo pháp lý

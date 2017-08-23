@@ -1,0 +1,62 @@
+#btn_buscar_inmuebles {
+  width: 100%;
+}
+
+.landing-search-container {
+  #btn_buscar_inmuebles {
+    width: 30%;
+  }
+
+  .panel,
+  .panel-footer {
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+  }
+
+  .panel .panel-heading {
+    border-radius: 0;
+    padding: 15px;
+  }
+
+  .panel-footer {
+    text-align: center;
+  }
+
+  .panel {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .panel-base {
+    border: 0;
+    background: transparent;
+  }
+
+  .panel-base .panel-heading {
+    background: #2a8ed1;
+    padding: 25px 15px;
+    color: #fff;
+    border-bottom: 1px solid #2084c7;
+  }
+
+  .panel-base .panel-heading.panel-heading-lg {
+    padding: 25px;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .panel-base .form-base label {
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .panel-default>.panel-heading h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: capitalize;
+    color: #333
+  }
+}

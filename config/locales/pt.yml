@@ -1,8 +1,5 @@
 ---
 pt:
-  devise:
-    user_update_success_title: Congratulations
-    user_update_success: You have successfully updated your account.
   aboutUs: Sobre nós
   address: Endereço
   back: Costas
@@ -13,6 +10,9 @@ pt:
     success: Obrigado pela sua mensagem. Entraremos em contato em breve!
   contactUs: Contato
   contactUsPrompt: Preencha o seguinte formulário para entrar em contato conosco
+  devise:
+    user_update_success: You have successfully updated your account.
+    user_update_success_title: Congratulations
   editarPropiedad: Editar uma propriedade
   email: O email
   'false': Não
@@ -24,7 +24,9 @@ pt:
   labels:
     create: Crio
     edit: Editar
+    latestProperties: Latest properties
     new: Novo
+    ourServices: Our services
     save: Salve
   leaveBlank: deixe em branco se você não quer mudá-lo
   legalAdvice: Notícia legal
@@ -49,14 +51,14 @@ pt:
   name: Nome
   navbar:
     aboutUs: Sobre nós
-    admin: administrador
+    admin: Admin
     buy: Comprar
     contactUs: Contato
-    home: Casa
-    rent: Aluguel
-    sell: Vender
+    home: Inicio
     legalAdvice: Notícia legal
     privacyPolicy: Política de Privacidade
+    rent: Aluguel
+    sell: Vender
   needCurrentPwd: precisamos de sua senha atual para confirmar as alterações
   newPassword: Nova senha
   noResultsForSearch: Desculpe, nenhum resultado encontrado
@@ -150,6 +152,6 @@ pt:
   webContentSections:
     aboutUs: Sobre nós
     contactInformation: Informações de contato
-    home: Casa
+    home: Inicio
     sell: Vender
     tagLine: Linha tag

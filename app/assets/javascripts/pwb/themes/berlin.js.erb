@@ -19,10 +19,31 @@
 //= require bootstrap-select
 //= require berlin/slick
 
-// require berlin/nouislider
-// require berlin/jquery.mixitup.js
-// require berlin/jquery.fancybox.pack.js
-//= require berlin/custom
+// below needed for bootstrap-select to work
+//= require berlin/bootstrap
+// require berlin/custom
+
+//= require lodash-4.16.4
+// lodash used for google maps
+<%
+# ...
+if Rails.env.development?
+  require_asset ("vue-2.4.2")
+else
+  require_asset ("vue-2.4.2.prod")
+end
+
+require_asset ("vue-social-sharing")
+require_asset ("vue-google-maps")
+require_asset ("../shared/select-picker")
+require_asset ("../shared/inmo-map")
+require_asset ("../shared/slick-carousel")
+require_asset ("../shared/vue-main")
+
+%>
+
+
+
 
 // $(document).on('page:change', function() {
 // once turbolinks is activated, will have to change to above
@@ -32,6 +53,41 @@ $(document).on('ready', function() {
   Paloma.start();
   // Paloma.executeHook();
   // Paloma.engine.start();
+
+  /* ----------------------------------------------------------- */
+  /*   FIXED NAVBAR 
+  /* ----------------------------------------------------------- */
+    
+
+  jQuery(window).bind('scroll', function() {
+    if (jQuery(window).scrollTop() > 200) {
+      jQuery('.main-navbar').addClass('navbar-fixed-top');
+
+    } else {
+      jQuery('.main-navbar').removeClass('navbar-fixed-top');
+    }
+  });
+
+  /* ----------------------------------------------------------- */
+  /*   SCROLL TOP BUTTON
+  /* ----------------------------------------------------------- */
+
+  //Check to see if the window is top if not then display button
+
+  jQuery(window).scroll(function() {
+    if (jQuery(this).scrollTop() > 900) {
+      jQuery('.scrollToTop').fadeIn();
+    } else {
+      jQuery('.scrollToTop').fadeOut();
+    }
+  });
+
+  //Click event to scroll to top
+
+  jQuery('.scrollToTop').click(function() {
+    jQuery('html, body').animate({ scrollTop: 0 }, 800);
+    return false;
+  });
 });
 
 // global namespace

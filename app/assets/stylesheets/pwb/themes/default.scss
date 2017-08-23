@@ -32,7 +32,6 @@ https://github.com/bokmann/font-awesome-rails*/
 @import "default/landing_general";
 @import "default/landing_content_areas";
 @import "default/contact_us";
-@import "default/search";
 @import "default/prop";
 @import "default/devise";
 @import "default/language_switcher";
@@ -40,6 +39,8 @@ https://github.com/bokmann/font-awesome-rails*/
 @import "default/carousel";
 @import "shared/header_footer";
 @import "shared/social";
+@import "shared/gmap";
+@import "shared/search_box";
 @import "shared/shame";
 
 /*@import "default/flags";*/

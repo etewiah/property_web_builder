@@ -2,24 +2,33 @@
 <section id="aa-slider">
   <div class="aa-slider-area">
     <!-- Top slider -->
-    <div class="aa-top-slider">
-      <% @carousel_items.each.with_index do |carousel_item, index| %>
-        <!-- Top slider single slide -->
-        <div class="aa-top-slider-single">
-          <%= opt_image_tag((carousel_item.default_photo), :quality => "auto", height: 800, crop: "scale", class: "") %>
-          <!-- Top slider content -->
-          <% if carousel_item.raw  %>
-            <div class="aa-top-slider-content" style="">
-              <h3>
-                <%== carousel_item.raw %>
-              </h3>
-            </div>
-          <% end %>
-          <!-- / Top slider content -->
-        </div>
-        <!-- / Top slider single slide -->
-      <% end %>
-    </div>
+    <slick-carousel inline-template :slick-options="{
+      dots: false,
+      infinite: true,
+      arrows: true,
+      speed: 500,
+      fade: true,
+      cssEase: 'linear'
+    }" style="visibility: hidden">
+      <div class="aa-top-slider">
+        <% @carousel_items.each.with_index do |carousel_item, index| %>
+          <!-- Top slider single slide -->
+          <div class="aa-top-slider-single">
+            <%= opt_image_tag((carousel_item.default_photo), :quality => "auto", height: 800, crop: "scale", class: "") %>
+            <!-- Top slider content -->
+            <% if carousel_item.raw  %>
+              <div class="aa-top-slider-content" style="">
+                <h3>
+                  <%== carousel_item.raw %>
+                </h3>
+              </div>
+            <% end %>
+            <!-- / Top slider content -->
+          </div>
+          <!-- / Top slider single slide -->
+        <% end %>
+      </div>
+    </slick-carousel>
   </div>
 </section>
 <!-- End slider  -->

@@ -1,69 +1,65 @@
 <% page_title @current_agency.company_name  %>
-<%= javascript_tag do %>
-  $(document).ready(
+<% content_for :page_script do %>
+  <%= javascript_tag do %>
+    $(document).ready(
     function(){
       $('#inmo-search-results').html("<%= j (render 'search_results') %>");
-      $('select').selectpicker({
-        noneSelectedText: '<%= I18n.t("selectpicker.noneSelectedText") %>',
-        noneResultsText: '<%= I18n.t("selectpicker.noneResultsText") %>',
-        countSelectedText: '<%= I18n.t("selectpicker.countSelectedText") %>'
-      });
+
       INMOAPP.truncateDescriptions();
       INMOAPP.sortSearchResults();
     }
   );
+  <% end %>
 <% end %>
-  <!-- MAIN CONTENT -->
-  <div class="pg-opt">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <h2>
-            <%= I18n.t("searchForProperties") %>
-          </h2>
-        </div>
-        <div class="col-md-6" style="">
-          <ol class="breadcrumb">
-            <li><a href="/">
+<!-- MAIN CONTENT -->
+<div class="pg-opt">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>
+          <%= I18n.t("searchForProperties") %>
+        </h2>
+      </div>
+      <div class="col-md-6" style="">
+        <ol class="breadcrumb">
+          <li><a href="/">
               <%= I18n.t("webContentSections.home") %>
             </a></li>
-            <li class="active">
-              <%= I18n.t("searchForProperties") %>
-            </li>
-          </ol>
-        </div>
+          <li class="active">
+            <%= I18n.t("searchForProperties") %>
+          </li>
+        </ol>
       </div>
     </div>
   </div>
-
-  <section class="slice bg-white bb">
-    <div class="wp-section">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-9">
-
+</div>
+<section class="slice bg-white bb">
+  <div class="wp-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
           <%# render '/pwb/search/search_results_header' %>
           <!-- placeholder for ajax refresh: -->
           <div id="inmo-search-results">
           </div>
-
-          </div>
-
-
-          <div class="col-md-3">
-            <div class="sidebar">
-              <!-- FILTERS -->
-
-              <%= render '/pwb/search/search_form_for_sale' %>
-
-              <%# render '/pwb/search/go_to_property' %>
-
-              <!-- RECENTLY VIEWED -->
-
-            </div>
+        </div>
+        <div class="col-md-3">
+          <div class="sidebar">
+            <!-- FILTERS -->
+            <%= render '/pwb/search/search_form_for_sale' %>
+            <%# render '/pwb/search/go_to_property' %>
+            <!-- RECENTLY VIEWED -->
           </div>
         </div>
       </div>
     </div>
-  </section>
-  <!-- FOOTER -->
+  </div>
+</section>
+<% if @map_markers.length > 0 %>
+  <div id="inmo-map-canvas" class="map-canvas no-margin">
+    <inmo-map ref="inmomap" style="min-height: 600px;"
+    :markers="<%= @map_markers.to_json %>"
+        :zoom="15">
+    </inmo-map>
+  </div>
+<% end %>

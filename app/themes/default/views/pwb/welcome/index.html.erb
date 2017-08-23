@@ -1,4 +1,5 @@
 <% page_title @current_agency.company_name  %>
+<%= render '/pwb/meta_tags' %>
 <div>
   <div class="jumbotron">
     <div class="jumbotron-left">
@@ -34,7 +35,6 @@
       </div>
     </div>
     <div class="jumbotron-right">
-      <!-- FIND property list WIDGET -->
     </div>
   </div>
 </div>
@@ -50,6 +50,17 @@
     </div>
   <% end %>
 </div>
+<% if @current_website.configuration["show_landing_searchbar"]  %>
+  <div class="landing-search-container row fondo_secundario">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <%= render '/pwb/search/search_form_landing' %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+<% end  %>
+
+
 <%= render '/pwb/welcome/content_area_cols' %>
 <% if @properties_for_sale.length > 0  %>
   <%= render :partial => '/pwb/welcome/single_property_row', :locals => { properties: @properties_for_sale, rent_or_sale: 'for_sale', title_key: 'propertyForSale' }  %>

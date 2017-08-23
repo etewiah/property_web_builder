@@ -1,8 +1,5 @@
 ---
 es:
-  devise:
-    user_update_success_title: Congratulations
-    user_update_success: You have successfully updated your account.
   aboutUs: Sobre nosotros
   address: Dirección
   back: Volver
@@ -13,6 +10,9 @@ es:
     success: Gracias por contactar con nosotros. En breve nos pondremos en contacto con usted.
   contactUs: Contacta con nosotros
   contactUsPrompt: Rellena el siguiente formulario para contactar con nosotros
+  devise:
+    user_update_success: You have successfully updated your account.
+    user_update_success_title: Congratulations
   editarPropiedad: Editar un inmueble
   email: Email
   'false': 'No'
@@ -24,26 +24,28 @@ es:
   labels:
     create: Crear
     edit: Editar
+    latestProperties: Latest properties
     new: Nuevo
+    ourServices: Our services
     save: Guardar
   leaveBlank: dejar en blanco si no desea cambiarlo
   legalAdvice: Aviso Legal
   listadoPropiedades: Listado de inmuebles
   mailers:
-    welcome: "Bienvenido"
-    confirm_registration: "Por favor, confirme su cuenta a través del siguiente enlace"
-    received_on: "Recibido"
-    from: "De"
-    phone: "Tel"
-    message: "Mensaje"
-    property: "Propiedad"
-    general_enquiry_targeting_enquirer:
-      subject: "Gracias por contactar con nosotros"
-      message_title: ""
+    confirm_registration: Por favor, confirme su cuenta a través del siguiente enlace
+    from: De
     general_enquiry_targeting_agency:
-      title: "Contacto desde su sitio web"
+      title: Contacto desde su sitio web
+    general_enquiry_targeting_enquirer:
+      message_title: ''
+      subject: Gracias por contactar con nosotros
+    message: Mensaje
+    phone: Tel
+    property: Propiedad
     property_enquiry_targeting_agency:
-      title: "Solicitud de información"
+      title: Solicitud de información
+    received_on: Recibido
+    welcome: Bienvenido
   menu_admin: admin
   message: Mensaje
   name: Nombre
@@ -53,10 +55,10 @@ es:
     buy: Comprar
     contactUs: Contactar
     home: Inicio
-    rent: Arrendar
-    sell: Vender
     legalAdvice: Aviso Legal
     privacyPolicy: Politica de Privacidad
+    rent: Arrendar
+    sell: Vender
   needCurrentPwd: necesitamos su contraseña actual para confirmar los cambios
   newPassword: Nuevo Contraseña
   noResultsForSearch: Ningun resueltos para la busqueda
@@ -123,26 +125,26 @@ es:
     weAreCreatingSite: Estamos creando su sitio web
   signOut: Cerrar sesión
   simple_form:
-    "yes": 'Si'
-    "no": 'No'
-    required:
-      text: 'required'
-      mark: '*'
+    error_notification:
+      default_message: 'Revisa los problemas identificado:'
     labels:
       search:
-        for_rent_price_from: 'Precio desde (Mensual)'
-        for_rent_price_till: 'Precio hasta (Mensual)'
-        for_sale_price_from: 'Precio desde'
-        for_sale_price_till: 'Precio hasta'
-        count_bedrooms: 'Habitaciones'
-        count_bathrooms: 'Baños (min)'
-        property_type: 'Tipo Propiedad'
-        property_state: 'Estado Propiedad'
-        locality: 'Localidad'
-        in_locality: 'Localidad'
-        in_zone: 'Zona'
-    error_notification:
-      default_message: "Revisa los problemas identificado:"
+        count_bathrooms: Baños (min)
+        count_bedrooms: Habitaciones
+        for_rent_price_from: Precio desde (Mensual)
+        for_rent_price_till: Precio hasta (Mensual)
+        for_sale_price_from: Precio desde
+        for_sale_price_till: Precio hasta
+        in_locality: Localidad
+        in_zone: Zona
+        locality: Localidad
+        property_state: Estado Propiedad
+        property_type: Tipo Propiedad
+    'no': 'No'
+    required:
+      mark: "*"
+      text: required
+    'yes': Si
   subject: Asunto
   tel: Teléfono
   'true': Si

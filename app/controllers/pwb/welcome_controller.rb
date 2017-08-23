@@ -26,6 +26,8 @@ module Pwb
       @properties_for_sale = Prop.for_sale.visible.order('highlighted DESC').limit 9
       @properties_for_rent = Prop.for_rent.visible.order('highlighted DESC').limit 9
 
+      @search_defaults = params[:search].present? ? params[:search] : {}
+
       render "pwb/welcome/index"
     end
   end
