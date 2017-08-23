@@ -8,7 +8,7 @@ tr:
     emailSubject: Web sitenizdeki iletişim
     error: Maalesef bir hata oldu.
     success: Mesajın için teşekkürler. Yakında sizinle iletişim kuracağız!
-  contactUs: Temas
+  contactUs: İletişim
   contactUsPrompt: Bizimle iletişime geçmek için aşağıdaki formu doldurun
   devise:
     user_update_success: Hesabınızı başarıyla güncellediniz.
@@ -16,7 +16,7 @@ tr:
   editarPropiedad: Mülkü düzenle
   email: E-posta
   'false': Yok hayır
-  findAProperty: Bir mülk bulun
+  findAProperty: Emlak bul
   findByReference: Referansa göre bulun
   forRent: Kiralık
   forSale: Satılık
@@ -40,8 +40,8 @@ tr:
       message_title: ''
       subject: ''
     message: Mesaj
-    phone: Tel
-    property: özellik
+    phone: Telefon
+    property: Emlak
     property_enquiry_targeting_agency:
       title: Emlak hakkında soruşturma
     received_on: Üzerinde alındı
