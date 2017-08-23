@@ -2,7 +2,7 @@ module Pwb
   module ApplicationHelper
 
     def properties_carousel_footer
-      # TODO - diplay array of thumbnails below main 
+      # TODO - diplay array of thumbnails below main
       # properties carousel is images count > ...
       # <a href="#" class="theater" rel="group" hidefocus="true">
       # <%= opt_image_tag((@property_details.ordered_photo 3), :quality => "auto", class: "", alt: "") %>
@@ -32,7 +32,12 @@ module Pwb
 
     def localized_link_to(locale_with_var = nil, options = nil, html_options = nil)
       link_class =  locale_with_var["variant"]
-      link = "<a class='#{link_class}' href='#{url_for(options)}'></a>"
+      href = "/#{options["locale"]}"
+      begin
+        href = url_for(options)
+      rescue ActionController::UrlGenerationError
+      end
+      link = "<a class='#{link_class}' href='#{href}'></a>"
       return link.html_safe
 
       # if params["controller"] && params["controller"].include?("devise/")
