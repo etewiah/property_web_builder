@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 1.2.0 / 2017-08-23
+
 * Add Vue.js
 * Add search results map
 * Display infowindow on maps
