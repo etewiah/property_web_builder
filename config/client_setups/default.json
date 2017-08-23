@@ -1,4 +1,5 @@
-[{
+[
+{
   "name": "default",
   "id": "default",
   // "cmsSections": [{
@@ -56,32 +57,48 @@
   //   "tabTitleKey": "webContentSections.legal"
   // }],
   // https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx
-  "availableLocaleFields": [{
-      "labelTextTKey": "es",
-      "fieldName": "es",
-      "localeVariants": ["es-ES", "es-MX", "es-CL"]
-    }, {
+  "availableLocaleFields": [
+    {
       "labelTextTKey": "en",
       "fieldName": "en",
       "localeVariants": ["en-UK", "en-US"]
-    }, {
+    },
+    {
       "labelTextTKey": "fr",
       "fieldName": "fr",
       "localeVariants": ["fr-FR"]
-    }, {
+    },
+    {
       "labelTextTKey": "de",
       "fieldName": "de",
-      "localeVariants": ["de-DE"],
-      "isNotComplete": true
-    }, {
+      "localeVariants": ["de-DE"]
+    },
+    {
       "labelTextTKey": "pt",
       "fieldName": "pt",
       "localeVariants": ["pt-PT", "pt-BR"],
       "isNotComplete": true
-    }, {
+    },
+    {
+      "labelTextTKey": "es",
+      "fieldName": "es",
+      "localeVariants": ["es-ES", "es-MX", "es-CL"]
+    },
+    {
       "labelTextTKey": "ru",
       "fieldName": "ru",
-      "localeVariants": ["ru-RU"],
+      "localeVariants": ["ru-RU"]
+    },
+    {
+      "labelTextTKey": "vi",
+      "fieldName": "vi",
+      "localeVariants": ["vi-VI"],
+      "isNotComplete": true
+    },
+    {
+      "labelTextTKey": "tr",
+      "fieldName": "tr",
+      "localeVariants": ["tr-TR"],
       "isNotComplete": true
     }
     // }, {
@@ -95,93 +112,129 @@
     // }
   ],
   // http://www.xe.com/iso4217.php
-  "currencyFieldKeys": [{
-    "value": "CAD",
-    "labelTextTKey": "cad"
-  },{
+  "currencyFieldKeys": [
+  {
     "value": "AUD",
     "labelTextTKey": "aud"
-  },{
+  },
+  {
     "value": "ARS",
     "labelTextTKey": "ars"
-  },{
-    "value": "MXN",
-    "labelTextTKey": "mxn"
-  },{
+  },
+  {
+    "value": "CAD",
+    "labelTextTKey": "cad"
+  },
+  {
     "value": "HKD",
     "labelTextTKey": "hkd"
-  },{
+  },
+  {
     "value": "BRL",
     "labelTextTKey": "brl"
-  },{
-    "value": "ZAR",
-    "labelTextTKey": "zar"
-  },{
-    "value": "CLP",
-    "labelTextTKey": "clp"
-  }, {
-    "value": "CNY",
-    "labelTextTKey": "cny"
-  }, {
-    "value": "EUR",
-    "labelTextTKey": "eur"
-  }, {
-    "value": "USD",
-    "labelTextTKey": "usd"
-  }, {
-    "value": "INR",
-    "labelTextTKey": "inr"
-  }, {
+  },
+  {
     "value": "CHF",
     "labelTextTKey": "chf"
-  }, {
+  },
+  {
+    "value": "CLP",
+    "labelTextTKey": "clp"
+  },
+  {
+    "value": "CNY",
+    "labelTextTKey": "cny"
+  },
+  {
+    "value": "EUR",
+    "labelTextTKey": "eur"
+  },
+  {
+    "value": "USD",
+    "labelTextTKey": "usd"
+  },
+  {
+    "value": "INR",
+    "labelTextTKey": "inr"
+  },
+  {
     "value": "RUB",
     "labelTextTKey": "rub"
-  }, {
+  },
+  {
     "value": "GBP",
     "labelTextTKey": "gbp"
+  },
+  {
+    "value": "TRY",
+    "labelTextTKey": "try"
+  },
+  {
+    "value": "MXN",
+    "labelTextTKey": "mxn"
+  },
+  {
+    "value": "VND",
+    "labelTextTKey": "vnd"
+  },
+  {
+    "value": "ZAR",
+    "labelTextTKey": "zar"
   }],
-  "agencyTabsList": [{
+  "agencyTabsList": [
+  {
     "tabValue": "general",
     "tabTitleKey": "agencySections.general"
-  }, {
+  },
+  {
     "tabValue": "location",
     "tabTitleKey": "agencySections.location"
   }],
-  "websiteSettingsTabsList": [{
+  "websiteSettingsTabsList": [
+  {
     "tabValue": "general",
     "tabTitleKey": "webContentSections.general"
-  }, {
+  },
+  {
     "tabValue": "appearance",
     "tabTitleKey": "webContentSections.appearance"
-  }, {
+  },
+  {
     "tabValue": "navigation",
     "tabTitleKey": "webContentSections.navigation"
   }],
-  "websiteSectionsTabsList": [{
+  "websiteSectionsTabsList": [
+  {
     "tabValue": "buy",
     "tabTitleKey": "siteSections.buy"
-  }, {
+  },
+  {
     "tabValue": "rent",
     "tabTitleKey": "siteSections.rent"
-  }, {
+  },
+  {
     "tabValue": "sell",
     "tabTitleKey": "siteSections.sell"
-  }, {
+  },
+  {
     "tabValue": "about_us",
     "tabTitleKey": "siteSections.aboutUs"
-  }, {
+  },
+  {
     "tabValue": "contact_us",
     "tabTitleKey": "siteSections.contactUs"
   }],
-  "importPropertiesTabsList": [{
+  "importPropertiesTabsList": [
+  {
     "tabValue": "from_upload",
     "tabTitleKey": "ioSections.fromUpload"
-      // "importLabelKey": "btnLabels.importTranslations"
-  }, {
+    // "importLabelKey": "btnLabels.importTranslations"
+  },
+  {
     "tabValue": "from_mls",
     "tabTitleKey": "ioSections.fromMls"
-  }, {
+  },
+  {
     "tabValue": "from_webpage",
     "tabTitleKey": "ioSections.fromWebpage"
   }],

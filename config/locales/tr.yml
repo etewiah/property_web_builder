@@ -1,0 +1,158 @@
+---
+tr:
+  aboutUs: Hakkımızda
+  address: Adres
+  back: Geri
+  changePassword: Şifre değiştir
+  contact:
+    emailSubject: Web sitenizdeki iletişim
+    error: Maalesef bir hata oldu.
+    success: Mesajın için teşekkürler. Yakında sizinle iletişim kuracağız!
+  contactUs: Temas
+  contactUsPrompt: Bizimle iletişime geçmek için aşağıdaki formu doldurun
+  devise:
+    user_update_success: Hesabınızı başarıyla güncellediniz.
+    user_update_success_title: Tebrik ederiz
+  editarPropiedad: Mülkü düzenle
+  email: E-posta
+  'false': Yok hayır
+  findAProperty: Bir mülk bulun
+  findByReference: Referansa göre bulun
+  forRent: Kiralık
+  forSale: Satılık
+  go: Gitmek
+  labels:
+    create: yaratmak
+    edit: Düzenleme
+    new: Yeni
+    save: Kayıt etmek
+  leaveBlank: Değiştirmek istemiyorsan boş bırak
+  legalAdvice: Yasal Uyarı
+  listadoPropiedades: Mülklerin listesi
+  mailers:
+    confirm_registration: Lütfen hesabınızı aşağıdaki bağlantıyı kullanarak onaylayın
+    from: itibaren
+    general_enquiry_targeting_agency:
+      title: Web sitenizden genel soruşturma
+    general_enquiry_targeting_enquirer:
+      message_title: ''
+      subject: ''
+    message: Mesaj
+    phone: Tel
+    property: özellik
+    property_enquiry_targeting_agency:
+      title: Emlak hakkında soruşturma
+    received_on: Üzerinde alındı
+    welcome: Hoşgeldiniz
+  menu_admin: yönetim
+  message: Mesaj
+  name: isim
+  navbar:
+    aboutUs: Hakkımızda
+    admin: yönetim
+    buy: satın almak
+    contactUs: Temas
+    home: Ev
+    legalAdvice: Yasal Uyarı
+    privacyPolicy: Gizlilik Politikası
+    rent: Kira
+    sell: Satmak
+  needCurrentPwd: Değişikliklerinizi onaylamak için mevcut şifrenize ihtiyacımız var
+  newPassword: Yeni Şifre
+  noResultsForSearch: Üzgünüz, sonuç bulunamadı
+  nuevoPropiedad: Yeni mülk
+  orderBy:
+    priceAscending: "↓ Fiyat (artan)"
+    priceDescending: "↑ Fiyat (azalan)"
+  pages:
+    aboutUs: Hakkımızda
+    sell: Satmak
+  placeHolders:
+    email: E-posta adresiniz
+    message: Mesajınızı buraya yazın
+    name: Adınız
+    subject: konu
+    tel: Sabit veya mobil
+  privacyPolicy: Gizlilik Politikası
+  property:
+    description: Açıklama
+    details: ayrıntılar
+    extras: Özellikler
+    furniture: Mobilya
+    goToProperty: Mülkü Görüntüle
+    highlightedProperty: Olağanüstü Mülk
+    locality: mekân
+    map: Harita
+    monthlyRentalPriceHighSeason: Aylık Ücret (Yüksek Sezon)
+    monthlyRentalPriceLowSeason: Aylık Fiyat (Düşük Sezon)
+    monthlyRentalPriceStandardSeason: Aylık Ücret (Standart Sezon)
+    operationType: Çalışma Şekli
+    price: Fiyat
+    propertyType: Emlak Tipi
+    ref: Ref
+  propertyForRent: Kiralık mülk
+  propertyForSale: Satılık mülk
+  propertyNotFound: Emlak bulunamadı
+  pwb:
+    copyright: "%{company_name} Inc. Tüm hakları saklıdır."
+    createPrompt: Emlak acentesi web sitenizi oluşturun
+    createTagLine: Lütfen hesabınızın ayrıntılarını giriniz
+    getStarted: Şimdi başla
+    registerNow: Şimdi üye Ol
+    tagLine: Emlakçılar için birkaç dakika içinde profesyonel web siteleri
+    tagLineExt: İnanılmaya değer güzel web siteleri. <br> Kimse sizi internette daha
+      çabuk yakalayamaz.
+  requestPropertyInfo: Bilgi talep et
+  search: Arama
+  searchForProperties: Mülk ara ara
+  selectpicker:
+    countSelectedText: "{1} 'den seçilen {0}"
+    noneResultsText: Sonuç bulunamadı {0}
+    noneSelectedText: Seçilmiş bir şey yok
+  send: göndermek
+  setup:
+    claimSubdomain: Bu URL'yi isteyin
+    createdSuccessfully: Site başarıyla oluşturuldu
+    goToYourSite: Sitenize git
+    loggedInAs: olarak giriş yaptı
+    logout: Çıkış Yap
+    selectUrl: Bir URL seçin
+    selectUrlMessage: Başarıyla bir hesap oluşturdunuz - şimdi yeni siteniz için url
+      seçin
+    subdomain: Alt alan
+    subdomainMissing: Lütfen alt alan adı için bir ad girin
+    thankYouForTrusting: "%{company_name}'e güven verdiğiniz için teşekkür ederiz"
+    urlNotAvailable: Maalesef bu url kullanılamıyor
+    weAreCreatingSite: Sitenizi oluşturuyoruz
+  signOut: Oturumu Kapat
+  simple_form:
+    error_notification:
+      default_message: 'Lütfen aşağıdaki sorunları inceleyin:'
+    labels:
+      search:
+        count_bathrooms: Banyo (dk)
+        count_bedrooms: Yatak odası (dk)
+        for_rent_price_from: Kiralık (Aylık)
+        for_rent_price_till: Kiralık Kiralık (Aylık)
+        for_sale_price_from: Dan başlayan fiyatlar
+        for_sale_price_till: Fiyat till
+        in_locality: mekân
+        in_zone: bölge
+        locality: mekân
+        property_state: Mülkiyet Durumu
+        property_type: Emlak Tipi
+    'no': Yok hayır
+    required:
+      mark: "*"
+      text: gereklidir
+    'yes': Evet
+  subject: konu
+  tel: Telefon
+  'true': Evet
+  update: Güncelleştirme
+  webContentSections:
+    aboutUs: Hakkımızda
+    contactInformation: İletişim bilgileri
+    home: Ev
+    sell: Satmak
+    tagLine: Etiket Hattı

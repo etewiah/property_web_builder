@@ -1,3 +1,7 @@
+.center {
+  text-align: center;
+}
+
 @media only screen and (min-width: 767px) {
   /*flex display only needed for larger screens*/
   .flex-md {
@@ -26,6 +30,7 @@
 .contact-info-panel-body {
   padding: 0px 15px;
 }
+
 .contact-info h4 {
   margin-bottom: 2px;
 }

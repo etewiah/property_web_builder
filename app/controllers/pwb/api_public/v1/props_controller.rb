@@ -1,7 +1,8 @@
 require_dependency "pwb/application_controller"
 
 module Pwb
-  class ApiPublic::V1::PropsController < JSONAPI::ResourceController
+  class ApiPublic::V1::PropsController < ActionController::Base
+  # class ApiPublic::V1::PropsController < JSONAPI::ResourceController
     # Skipping action below allows me to browse to endpoint
     # without having set mime type
     # skip_before_action :ensure_valid_accept_media_type
@@ -36,5 +37,50 @@ module Pwb
         render text: '', content_type: 'text/plain'
       end
     end
+
+    def bulk_create_with_token
+      propertiesJSON = params["propertiesJSON"]
+      unless propertiesJSON.is_a? Array
+        propertiesJSON = JSON.parse propertiesJSON
+      end
+      new_props = []
+      existing_props = []
+      errors = []
+
+      propertiesJSON.each do |propertyJSON|
+        if Pwb::Prop.where(reference: propertyJSON["reference"]).exists?
+          existing_props.push propertyJSON
+        else
+          begin
+            new_prop = Pwb::Prop.create propertyJSON.except "extras", "property_photos"
+            if propertyJSON["extras"]
+              new_prop.set_extras=propertyJSON["extras"]
+            end
+            if propertyJSON["property_photos"]
+              propertyJSON["property_photos"].each do |property_photo|
+                photo = PropPhoto.create
+                photo.sort_order = property_photo["sort_order"] || nil
+                photo.remote_image_url = property_photo["image"]["url"] || property_photo["url"]
+                photo.save!
+                new_prop.prop_photos.push photo
+              end
+            end
+
+            new_props.push new_prop
+          rescue => err
+            # binding.pry
+            errors.push err.message
+            # logger.error err.message
+          end
+        end
+      end
+
+      return render json: {
+        new_props: new_props,
+        existing_props: existing_props,
+        errors: errors
+      }
+    end
+
   end
 end

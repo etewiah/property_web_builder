@@ -66,7 +66,8 @@ Pwb::Engine.routes.draw do
 
   namespace :api_public do
     namespace :v1 do
-      jsonapi_resources :props
+      # jsonapi_resources :props
+      # post '/properties/bulk_create_with_token' => 'props#bulk_create_with_token'
     end
   end
 

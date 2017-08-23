@@ -105,6 +105,26 @@ ul.idiomas .us {
     background-size: cover;
 }
 
+ul.idiomas .vi {
+    background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/vn.svg') no-repeat;
+    background-size: cover;
+}
+
+ul.idiomas .tr {
+    background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/tr.svg') no-repeat;
+    background-size: cover;
+}
+
+ul.idiomas .hi {
+    background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/hi.svg') no-repeat;
+    background-size: cover;
+}
+
+ul.idiomas .it {
+    background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/it.svg') no-repeat;
+    background-size: cover;
+}
+
 ul.idiomas li.selected,
 ul.idiomas li:hover {
   background: url("/assets/simple-nav-arrow.png") no-repeat top center;
