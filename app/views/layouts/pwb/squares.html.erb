@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
   </head>
   <body class="">
-    <div id="squares-vue">
+    <div id="squares-vue" style="width:100%;">
       <squares-container inline-template>
         <div class="container">
           <md-sidenav class="main-sidebar md-left md-fixed" md-swipeable ref="main-sidebar">
@@ -29,27 +29,23 @@
               </md-list>
             </div>
           </md-sidenav>
-          <page-content></page-content>
-          <div class="page-content">
-            <div data-v-abcb0686="" class="md-toolbar md-whiteframe main-header md-theme-default md-whiteframe-1dp"></div>
-            <div data-v-73787fd6="" data-v-223f266a="" class="main-content component-docs" data-v-abcb0686="">
-              <div data-v-73787fd6="" class="usage-content">
-                <section data-v-73787fd6="" class="component-description">
-                  <h2 data-v-73787fd6="" class="md-headline">Description</h2>
-                  <div data-v-223f266a="" data-v-73787fd6="">
-                    <p data-v-223f266a="" data-v-73787fd6="">The sidenav spans the height of the screen, with everything behind it visible but darkened by a backdrop.</p>
-                  </div>
-                </section>
-                <section data-v-73787fd6="" class="api-documentation">
-                  <h2 data-v-73787fd6="" class="md-headline">API Options</h2>
-                  <div data-v-223f266a="" data-v-73787fd6=""></div>
-                          <%= yield %>s
+          <page-content inline-template>
+            <div class="page-content">
+              <md-whiteframe md-tag="md-toolbar" md-elevation="1" class="main-header">
+                <md-button class="md-icon-button nav-trigger" @click="toggleSidenav">
+                  <md-icon>menu</md-icon>
+                </md-button>
+                <div class="md-title">{{ pageTitle }}</div>
+                <md-button href="https://github.com/marcosmoura/vue-material" target="_blank" rel="noopener" class="md-icon-button github">
+                  <md-icon md-src="assets/icon-github.svg"></md-icon>
+                </md-button>
+              </md-whiteframe>
+              <%= yield %>s
 
-                </div>
-              </div>
             </div>
-          </div>
-        </squares-container>
-      </div>
-    </body>
-  </html>
+          </page-content>
+        </div>
+      </squares-container>
+    </div>
+  </body>
+</html>
