@@ -2,7 +2,7 @@ require_dependency "pwb/application_controller"
 
 module Pwb
   class SquaresController < ActionController::Base
-    # layout 'pwb/admin_panel'
+    layout 'pwb/squares'
 
     def show_prop
       fb_instance_id = Rails.application.secrets.fb_instance_id

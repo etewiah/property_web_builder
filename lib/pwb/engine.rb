@@ -39,7 +39,7 @@ module Pwb
     # config.assets.paths << File.expand_path("../../assets/javascripts", __FILE__)
     config.assets.paths << root.join("app", "assets", "stylesheets", "pwb", "themes")
     config.assets.paths << root.join("app", "assets", "javascripts", "pwb", "themes")
-    config.assets.precompile += %w( default.css chic.css oslo.css berlin.css default.js chic.js oslo.js berlin.js )
+    config.assets.precompile += %w( squares.css default.css chic.css berlin.css squares.js default.js chic.js berlin.js )
 
     config.to_prepare do
       # https://github.com/plataformatec/devise/wiki/How-To:-Use-devise-inside-a-mountable-engine
