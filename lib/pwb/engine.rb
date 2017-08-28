@@ -12,7 +12,9 @@ require 'simple_form'
 require 'devise'
 require 'cloudinary'
 require 'active_hash'
+require 'firebase'
 require 'comfortable_mexican_sofa'
+
 # require 'redis'
 # # logster gem has to be after redis..
 # require 'logster'

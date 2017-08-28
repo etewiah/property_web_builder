@@ -26,6 +26,7 @@ PATH
       devise
       devise-i18n
       faraday
+      firebase
       fog-aws
       globalize-accessors
       i18n-active_record
@@ -174,6 +175,9 @@ GEM
     faraday (0.13.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
+    firebase (0.2.6)
+      httpclient
+      json
     fog-aws (1.4.0)
       fog-core (~> 1.38)
       fog-json (~> 1.0)
