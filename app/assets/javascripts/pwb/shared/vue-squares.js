@@ -3,7 +3,7 @@ var INMOAPP = INMOAPP || {};
 
 window.onload = function() {
 
-  var pwbSS = Vue.component('social-sharing', SocialSharing);
+  // var pwbSC = Vue.component('squares-container', SquaresContainer);
   // var pwbGM = Vue.component('gmap-map', VueGoogleMaps);
   Vue.use(VueGoogleMaps, {
     load: {
@@ -23,24 +23,7 @@ window.onload = function() {
   var markers = INMOAPP.markers || [];
   INMOAPP.pwbVue = new Vue({
     el: '#squares-vue',
-    data: {},
-    methods: {
-      toggleLeftSidenav() {
-        this.$refs.leftSidenav.toggle();
-      },
-      toggleRightSidenav() {
-        this.$refs.rightSidenav.toggle();
-      },
-      closeRightSidenav() {
-        this.$refs.rightSidenav.close();
-      },
-      open(ref) {
-        console.log('Opened: ' + ref);
-      },
-      close(ref) {
-        console.log('Closed: ' + ref);
-      }
-    }
+    data: {}
   });
 
 }
