@@ -37,6 +37,8 @@ window.onload = function() {
   // You can pass in additional options here, but let's
   // keep it simple for now.
   const router = new VueRouter({
+    mode: 'history',
+    base: '/propertysquares/',
     routes // short for `routes: routes`
   })
   // var VueMaterial = Vue.component('vue-material');
