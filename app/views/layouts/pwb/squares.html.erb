@@ -23,6 +23,22 @@
             </md-toolbar>
             <div class="main-sidebar-links">
               <md-list class="md-dense">
+                <div v-for="prop in props">
+                  <md-list-item>
+                    <router-link :to="prop.url" >{{prop[".key"]}}</router-link>
+                  </md-list-item>
+                </div>
+                <div v-for="prop in props">
+                  <div>key: {{prop.key}}
+                  </div>
+                  <div>key2: {{prop[".key"]}}
+                  </div>
+                  <div>data[0]: {{prop.data[0] }}
+                  </div>
+                  <div>{{prop}}
+                  </div>
+                  <div> ------  </div>
+                </div>
                 <md-list-item>
                   <router-link to="/foo">Introduction</router-link>
                 </md-list-item>
@@ -52,13 +68,12 @@
                 </md-button>
                 <div class="md-title">{{ pageTitle }}</div>
                 <md-button href="https://github.com/marcosmoura/vue-material" target="_blank" rel="noopener" class="md-icon-button github">
-                github
+                  github
                 </md-button>
               </md-whiteframe>
               <transition name="md-router" appear>
                 <router-view></router-view>
               </transition>
-
             </div>
           </page-content>
         </div>

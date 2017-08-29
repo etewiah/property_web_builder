@@ -6,13 +6,13 @@ window.onload = function() {
   // var pwbSC = Vue.component('squares-container', SquaresContainer);
   // var pwbGM = Vue.component('gmap-map', VueGoogleMaps);
   Vue.use(VueRouter);
-  Vue.use(VueGoogleMaps, {
-    load: {
-      key: 'AIzaSyCPorm8YzIaUGhKfe5cvpgofZ_gdT8hdZw'
-      // v: '3.26', // Google Maps API version
-      // libraries: 'places',   // If you want to use places input
-    }
-  });
+  // Vue.use(VueGoogleMaps, {
+  //   load: {
+  //     key: 'AIzaSyCPorm8YzIaUGhKfe5cvpgofZ_gdT8hdZw'
+  //     // v: '3.26', // Google Maps API version
+  //     // libraries: 'places',   // If you want to use places input
+  //   }
+  // });
 
   // var markers = INMOAPP.markers || [];
 
@@ -47,10 +47,37 @@ window.onload = function() {
   // Vue.use(VueMaterial.mdSidenav)
   // Vue.use(VueMaterial.mdToolbar)
 
+  var firebaseApp = firebase.initializeApp({
+    // apiKey: process.env.FIREBASE_API,
+    authDomain: 'real-estate-data-40611.firebaseapp.com',
+    databaseURL: 'https://real-estate-data-40611.firebaseio.com',
+    projectId: 'real-estate-data-40611',
+    storageBucket: ''
+    // messagingSenderId: process.env.FIREBASE_SENDER
+  }) 
+  INMOAPP.fbDb = firebaseApp.database()
+
+
   INMOAPP.pwbVue = new Vue({
     el: '#squares-vue',
     data: {},
     router
+    // firebase: {
+    //   // simple syntax, bind as an array by default
+    //   anArray: INMOAPP.fbDb.ref('props'),
+    //   // can also bind to a query
+    //   // anArray: INMOAPP.fbDb.ref('url/to/my/collection').limitToLast(25)
+    //   // full syntax
+    //   anObject: {
+    //     source: INMOAPP.fbDb.ref('url/to/my/object'),
+    //     // optionally bind as an object
+    //     asObject: true,
+    //     // optionally provide the cancelCallback
+    //     cancelCallback: function() {},
+    //     // this is called once the data has been retrieved from firebase
+    //     readyCallback: function() {}
+    //   }
+    // }
   });
 
 }
