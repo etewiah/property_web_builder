@@ -35,9 +35,7 @@ Vue.component('squares-container', {
   },
   data: () => {
     return {
-      props: [],
-      percentage: 0,
-      events: {},
+      props: []
     }
   },
   methods: {

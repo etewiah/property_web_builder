@@ -28,17 +28,6 @@
                     <router-link :to="prop.url" >{{prop[".key"]}}</router-link>
                   </md-list-item>
                 </div>
-                <div v-for="prop in props">
-                  <div>key: {{prop.key}}
-                  </div>
-                  <div>key2: {{prop[".key"]}}
-                  </div>
-                  <div>data[0]: {{prop.data[0] }}
-                  </div>
-                  <div>{{prop}}
-                  </div>
-                  <div> ------  </div>
-                </div>
                 <md-list-item>
                   <router-link to="/foo">Introduction</router-link>
                 </md-list-item>
