@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
   </head>
   <body class="">
-    <div id="squares-vue" style="width:100%;">
+    <div id="squares-vue" style="width:100%;display: flex;">
       <squares-container inline-template>
         <div class="container">
           <md-sidenav class="main-sidebar md-left md-fixed" md-swipeable ref="main-sidebar">
@@ -23,6 +23,21 @@
             </md-toolbar>
             <div class="main-sidebar-links">
               <md-list class="md-dense">
+                <md-list-item>
+                  <router-link to="/foo">Introduction</router-link>
+                </md-list-item>
+                <md-list-item>
+                  <router-link to="/bar">Bar</router-link>
+                </md-list-item>
+                <md-list-item>
+                  <router-link to="/tabs">tabs</router-link>
+                </md-list-item>
+                <md-list-item>
+                  <router-link to="/tabs/1">tabs 1</router-link>
+                </md-list-item>
+                <md-list-item>
+                  <router-link to="/tabs/2">tabs 2</router-link>
+                </md-list-item>
                 <md-list-item>
                   intro
               </md-list-item>
@@ -37,10 +52,12 @@
                 </md-button>
                 <div class="md-title">{{ pageTitle }}</div>
                 <md-button href="https://github.com/marcosmoura/vue-material" target="_blank" rel="noopener" class="md-icon-button github">
-                  <md-icon md-src="assets/icon-github.svg"></md-icon>
+                github
                 </md-button>
               </md-whiteframe>
-              <%= yield %>s
+              <transition name="md-router" appear>
+                <router-view></router-view>
+              </transition>
 
             </div>
           </page-content>

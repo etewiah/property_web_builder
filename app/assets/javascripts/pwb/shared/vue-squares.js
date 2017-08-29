@@ -13,13 +13,6 @@ window.onload = function() {
       // libraries: 'places',   // If you want to use places input
     }
   });
-  // var VueMaterial = Vue.component('vue-material');
-  Vue.use(VueMaterial);
-  // Vue.use(VueMaterial.mdCore) //Required to boot vue material
-  // Vue.use(VueMaterial.mdButton)
-  // Vue.use(VueMaterial.mdIcon)
-  // Vue.use(VueMaterial.mdSidenav)
-  // Vue.use(VueMaterial.mdToolbar)
 
   // var markers = INMOAPP.markers || [];
 
@@ -35,7 +28,9 @@ window.onload = function() {
   // We'll talk about nested routes later.
   const routes = [
     { path: '/foo', component: Foo },
-    { path: '/bar', component: Bar }
+    { path: '/bar', component: INMOAPP.TabableSection },
+    { path: '/tabs/:id', component: INMOAPP.TabableSection },
+    // { path: '/tabs/', component: INMOAPP.TabableSection }
   ]
 
   // 3. Create the router instance and pass the `routes` option
@@ -44,11 +39,18 @@ window.onload = function() {
   const router = new VueRouter({
     routes // short for `routes: routes`
   })
-
+  // var VueMaterial = Vue.component('vue-material');
+  Vue.use(VueMaterial);
+  // Vue.use(VueMaterial.mdCore) //Required to boot vue material
+  // Vue.use(VueMaterial.mdButton)
+  // Vue.use(VueMaterial.mdIcon)
+  // Vue.use(VueMaterial.mdSidenav)
+  // Vue.use(VueMaterial.mdToolbar)
 
   INMOAPP.pwbVue = new Vue({
     el: '#squares-vue',
-    data: {}
+    data: {},
+    router
   });
 
 }
