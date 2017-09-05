@@ -1,20 +1,9 @@
 var INMOAPP = INMOAPP || {};
-
-
 window.onload = function() {
 
-  // var pwbSC = Vue.component('squares-container', SquaresContainer);
   // var pwbGM = Vue.component('gmap-map', VueGoogleMaps);
   Vue.use(VueRouter);
-  // Vue.use(VueGoogleMaps, {
-  //   load: {
-  //     key: 'AIzaSyCPorm8YzIaUGhKfe5cvpgofZ_gdT8hdZw'
-  //     // v: '3.26', // Google Maps API version
-  //     // libraries: 'places',   // If you want to use places input
-  //   }
-  // });
-
-  // var markers = INMOAPP.markers || [];
+  // var pwbHH = Vue.component('Hello', Hello.default);
 
   // 1. Define route components.
   // These can be imported from other files
@@ -27,7 +16,7 @@ window.onload = function() {
   // `Vue.extend()`, or just a component options object.
   // We'll talk about nested routes later.
   const routes = [
-    { path: '/foo', component: Foo },
+    // { path: '/foo', component: Hello.default },
     { path: '/bar', component: INMOAPP.TabableSection },
     { path: '/tabs/:id', component: INMOAPP.TabableSection },
     // { path: '/tabs/', component: INMOAPP.TabableSection }

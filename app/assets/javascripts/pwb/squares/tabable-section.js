@@ -9,7 +9,7 @@ INMOAPP.TabableSection = Vue.component('tabable-section', {
     `</div>`,
   watch: {
     listing(val) {
-      debugger;
+      // debugger;
       // val.forEach(function(prop){
       //   prop.url = "/tabs/" + prop[".key"];
       // });
@@ -22,7 +22,7 @@ INMOAPP.TabableSection = Vue.component('tabable-section', {
         // asObject: true,
         // Optional, allows you to handle any errors.
         cancelCallback(err) {
-          debugger;
+          // debugger;
           console.error(err);
         }
       }
