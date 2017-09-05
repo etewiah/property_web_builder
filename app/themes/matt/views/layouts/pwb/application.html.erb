@@ -13,30 +13,33 @@
   </head>
   <body>
     <div id="app">
-      <v-app light>
+      <v-app light fixed-footer fill-height footer>
+        <v-container style="padding: 0px">
         <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
-
         <v-toolbar class="white">
           <v-toolbar-title v-text="title"></v-toolbar-title>
         </v-toolbar>
         <main>
-          <%= yield %>
+          <v-container fill-height>
+            <%= yield %>
+          </v-container>
         </main>
         <%= render :partial => '/pwb/footer', :locals => {}  %>
         <%= render :partial => '/pwb/analytics', :locals => {}  %>
+        </v-container>
       </v-app>
     </div>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
     <script>
       new Vue({
-                el: '#app',
-                data () {
-                  return {
-                    title: 'Your Logo'
-                  }
-                }
-              })
+                      el: '#app',
+                      data () {
+                        return {
+                          title: 'Your Logo'
+                        }
+                      }
+                    })
     </script>
   </body>
 </html>
