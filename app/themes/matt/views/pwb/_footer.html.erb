@@ -1,0 +1,60 @@
+<v-footer class="blue darken-2 white--text" style="height: 100%;">
+  <v-layout row wrap align-center>
+    <v-flex xs4>
+      <v-card class="blue darken-2 white--text">
+        <v-card-title primary-title>
+          <div class="headline"><%= @current_agency.company_name %></div>
+        </v-card-title>
+        <v-list class="transparent">
+          <v-list-tile>
+            <v-list-tile-action>
+              <v-icon class="blue--text text--lighten-2">phone</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="white--text">
+                <%= @current_agency["phone_number_primary"] %>
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile>
+            <v-list-tile-action>
+              <v-icon class="blue--text text--lighten-2">email</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="white--text" >
+                <%= @current_agency["email_primary"] %>
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-card>
+    </v-flex>
+    <v-flex xs4>
+      <div style="display: flex;margin-top: auto;">
+        <%= social_media_link(@current_website, "facebook", "Facebook", "fa-facebook fa-2x") %>
+        <%= social_media_link(@current_website, "twitter", "Twitter", "fa-twitter fa-2x") %>
+        <%= social_media_link(@current_website, "linkedin", "Linked In", "fa-linkedin fa-2x") %>
+        <%= social_media_link(@current_website, "youtube", "YouTube", "fa-youtube fa-2x") %>
+        <%= social_media_link(@current_website, "pinterest", "Pinterest", "fa-pinterest fa-2x") %>
+        <%= social_media_link(@current_website, "gplus", "Google Plus", "fa-google-plus fa-2x") %>
+      </div>
+    </v-flex>
+    <v-flex xs4>
+      <div class="footer-extra">
+        <%== @footer_content.raw %>
+      </div>
+    </v-flex>
+    <v-flex xs12>
+      <hr>
+    </v-flex>
+    <v-flex class="white--text" xs6>
+      <% @sections.each do |section| %>
+        <%= footer_link(section, "white--text") %>
+      <% end %>
+      <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale), class: "white--text"  %>.
+    </v-flex>
+    <v-flex xs6>
+      <p  style="float: right;margin: 10px;">Powered by <a class="white--text" href="http://propertywebbuilder.com">PropertyWebBuilder</a></p>
+    </v-flex>
+  </v-layout>
+</v-footer>

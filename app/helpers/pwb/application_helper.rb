@@ -87,7 +87,7 @@ module Pwb
       end
     end
 
-    def footer_link(section_info)
+    def footer_link(section_info, class_name="")
       unless section_info.show_in_footer
         return
       end
@@ -102,7 +102,7 @@ module Pwb
 
       if target_path
         html = <<-HTML
-        #{ link_to I18n.t('navbar.'+section_info[:link_key]), target_path}.
+        #{ link_to I18n.t('navbar.'+section_info[:link_key]), target_path, class: class_name}.
         HTML
         html.html_safe
       end
