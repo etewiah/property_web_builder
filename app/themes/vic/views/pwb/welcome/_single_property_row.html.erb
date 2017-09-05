@@ -1,0 +1,53 @@
+<section class="slice light-gray bb">
+  <div class="wp-section">
+    <div class="container">
+      <div class="section-title-wr">
+        <h3 class="section-title left" style="text-transform: none;"><span><%= t title_key %></span></h3>
+      </div>
+      <div class="row">
+        <% properties.each_with_index do |property, index| %>
+          <div class="col-md-4">
+            <div class="wp-block white property list">
+              <div class="figure">
+                <%= link_to property.contextual_show_path(rent_or_sale) do %>
+                  <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
+                    height: 300, crop: "scale", class: "img-responsive") %>
+                <% end %>
+              </div>
+              <div class="wp-block-body">
+                <h2 class="title overflow-elip"><a href="#"><%= link_to property.title, property.contextual_show_path(rent_or_sale)  %></a></h2>
+                <h2 class="subtitle">
+                  <div><span class="precio negrita">
+                      <%= property.contextual_price_with_currency rent_or_sale  %>
+                    </span></div>
+                </h2>
+              </div>
+              <div class="wp-block-footer">
+                <ul class="aux-info">
+                  <li class="hidden-xs"><i class="fa fa-bed"></i> <small>
+                      <%= property.count_bedrooms %>
+                    </small></li>
+                  <li class="hidden-xs"><i class="fa fa-tint"></i> <small>
+                      <%= property.count_bathrooms %>
+                    </small></li>
+                  <li class="hidden-xs"><i class="fa fa-arrows-alt"></i> <small>
+                      <%= property.constructed_area %><%= area_unit property %>
+
+                    </small></li>
+                  <li class="hidden-xs">
+                    <% if property.has_garage %>
+                      <i class="fa fa-car"></i>
+                      <small>
+                        <%= property.count_garages %>
+                      </small>
+                    <% end %>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

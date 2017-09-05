@@ -1,0 +1,21 @@
+.service-panel {
+  min-height: 300px;
+}
+.section .icon-service {
+  color: #B2B2B2;
+  font-size: 45px;
+  border: 1px solid #B2B2B2;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  -ms-border-radius: 100px;
+  -o-border-radius: 100px;
+  border-radius: 100px;
+  transition: all 300ms ease-in-out;
+  -o-transition: all 300ms ease-in-out;
+  -moz-transition: all 300ms ease-in-out;
+  -webkit-transition: all 300ms ease-in-out;
+  text-align: center;
+  width: 110px;
+  padding: 30px;
+  margin: 13px 0;
+}
