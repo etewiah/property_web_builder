@@ -53,32 +53,22 @@ p {
   color: #26a69a;
 }
 
-.parallax-container {
-  min-height: 380px;
-  line-height: 0;
-  height: auto;
-  color: rgba(255, 255, 255, .9);
-}
 
-.parallax-container .section {
-  width: 100%;
-}
+/*main container*/
+.main-container {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 100%; }
 
-@media only screen and (max-width: 992px) {
-  .parallax-container .section {
-    position: absolute;
-    top: 40%;
-  }
-  #index-banner .section {
-    top: 10%;
-  }
-}
+@media only screen and (min-width : 601px) {
+  .main-container {
+    width: 95%; } }
 
-@media only screen and (max-width: 600px) {
-  #index-banner .section {
-    top: 0;
-  }
-}
+@media only screen and (min-width : 993px) {
+  .main-container {
+    width: 70%; } }
+
+
 
 .icon-block {
   padding: 0 15px;

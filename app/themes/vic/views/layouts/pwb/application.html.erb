@@ -9,23 +9,16 @@
     <%# display_meta_tags site: @current_website.tenant_display_name %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <%= stylesheet_link_tag    "pwb/themes/vic", media: "all" %>
+    <style>
+      <%= custom_styles "vic" %>
+    </style>
+
     <%= javascript_include_tag "pwb/themes/vic", async: false %>
     <%= csrf_meta_tags %>
   </head>
-  <body class="container">
+  <body class="main-container">
     <header>
-      <nav class="white" role="navigation">
-        <div class="nav-wrapper container-off">
-          <a id="logo-container" href="#" class="brand-logo">Logo</a>
-          <ul class="right hide-on-med-and-down">
-            <li><a href="#">Navbar Link</a></li>
-          </ul>
-          <ul id="nav-mobile" class="side-nav">
-            <li><a href="#">Navbar Link</a></li>
-          </ul>
-          <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-        </div>
-      </nav>
+      <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
     </header>
     <main id="main-vue">
       <%= yield %>
