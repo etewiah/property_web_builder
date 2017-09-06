@@ -1,28 +1,24 @@
-<section class="slice light-gray bb">
-  <div class="wp-section">
-    <div class="container">
-      <div class="section-title-wr">
+<div class="section">
+  <div class="row">
+      <div class="col s12 m12">
         <h3 class="section-title left" style="text-transform: none;"><span><%= t title_key %></span></h3>
       </div>
-      <div class="row">
-        <% properties.each_with_index do |property, index| %>
-          <div class="col-md-4">
-            <div class="wp-block white property list">
-              <div class="figure">
-                <%= link_to property.contextual_show_path(rent_or_sale) do %>
-                  <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
-                    height: 300, crop: "scale", class: "img-responsive") %>
-                <% end %>
-              </div>
-              <div class="wp-block-body">
-                <h2 class="title overflow-elip"><a href="#"><%= link_to property.title, property.contextual_show_path(rent_or_sale)  %></a></h2>
-                <h2 class="subtitle">
-                  <div><span class="precio negrita">
-                      <%= property.contextual_price_with_currency rent_or_sale  %>
-                    </span></div>
-                </h2>
-              </div>
-              <div class="wp-block-footer">
+
+    <% properties.each_with_index do |property, index| %>
+      <div class="col s12 m4">
+        <div class="">
+          <div class="listing-card card">
+            <div class="card-image waves-effect waves-block waves-light">
+              <img class="activator" src="<%= opt_image_url((property.ordered_photo 1), :quality => "auto", crop: "scale", class: "") %>">
+            </div>
+            <div class="card-content">
+              <%= link_to property.contextual_show_path(rent_or_sale) do %>
+                <span class="card-title activator grey-text text-darken-4">
+                  <%= property.title  %>
+                </span>
+                <p><%= property.contextual_price_with_currency rent_or_sale  %></p>
+                            </div>
+
                 <ul class="aux-info">
                   <li class="hidden-xs"><i class="fa fa-bed"></i> <small>
                       <%= property.count_bedrooms %>
@@ -32,7 +28,6 @@
                     </small></li>
                   <li class="hidden-xs"><i class="fa fa-arrows-alt"></i> <small>
                       <%= property.constructed_area %><%= area_unit property %>
-
                     </small></li>
                   <li class="hidden-xs">
                     <% if property.has_garage %>
@@ -43,11 +38,14 @@
                     <% end %>
                   </li>
                 </ul>
-              </div>
+              <% end %>
+            <div class="card-reveal">
+              <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+              <p>Here is some more information about this product that is only revealed once clicked on.</p>
             </div>
           </div>
-        <% end %>
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
-</section>
+</div>

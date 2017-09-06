@@ -1,6 +1,144 @@
-.service-panel {
-  min-height: 300px;
+/* listings */
+
+.listing-card .card-image {
+  max-height: 250px;
 }
+
+ ul.aux-info {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: block;
+  background: #fcfcfc;
+  border-top: 1px solid #e0eded
+}
+
+ ul.aux-info li {
+  display: table-cell;
+  padding: 10px 15px;
+  vertical-align: middle;
+  border-right: 1px solid #e0eded
+}
+
+ ul.aux-info li:last-child {
+  border: 0
+}
+
+ ul.aux-info li i {
+  font-size: 18px;
+  margin-right: 8px;
+  color: #333
+}
+
+ ul.aux-info {
+  display: table;
+  width: 100%;
+  border: 1px solid #e0eded
+}
+
+ ul.aux-info li {
+  padding: 10px 10px;
+  font-size: 11px;
+  text-align: center
+}
+
+ ul.aux-info li i {
+  display: block
+}
+
+
+/* start ces ficha */
+
+.wp-block.property.list .wp-block-content .content-title {
+  color: #333;
+}
+
+.primary-image .ribbon {
+  position: absolute;
+  right: 15px;
+}
+
+ ul.aux-info {
+  margin-top: 9px;
+}
+
+ ul.aux-info li {
+  font-size: 14px;
+  width: 25%;
+}
+
+ ul.aux-info li i {
+  display: inline;
+}
+
+.estate .thumbnail-images {
+  margin-bottom: 0;
+}
+
+#form_solicitar_info textarea {
+  min-height: 100px;
+  width: 100%;
+}
+
+#extras_ficha {
+  /*overflow: hidden;*/
+  padding: 0px;
+}
+
+#extras_ficha li {
+  float: left;
+  width: 33%;
+}
+
+#extras_ficha li i {
+  font-size: 18px;
+}
+
+#resp_enviar {
+  float: left;
+  width: 100%;
+  margin: 15px 0 0 0;
+}
+
+
+/* end ces ficha */
+
+@media (max-width: 767px) {
+  /*for xs screens*/
+  ul.list-listings .listing-body .meta-info {
+    max-width: 50%;
+  }
+  .wp-block {
+    margin-bottom: 15px !important;
+  }
+   ul.aux-info {
+    width: 100%;
+    display: table;
+  }
+   ul.aux-info li {
+    padding: 10px;
+    font-size: 11px;
+    text-align: center;
+  }
+   ul.aux-info li:last-child {
+    border: 0;
+  }
+   ul.aux-info li i {
+    display: block;
+    font-size: 18px;
+    margin-right: 0;
+    color: #333;
+  }
+}
+
+
+
+/*services section*/
+
+.service-panel {
+  min-height: 400px;
+}
+
 .section .icon-service {
   color: #B2B2B2;
   font-size: 45px;
