@@ -16,8 +16,8 @@
     <%= javascript_include_tag "pwb/themes/vic", async: false %>
     <%= csrf_meta_tags %>
   </head>
-  <body class="main-container">
-    <header>
+  <body class="main-container z-depth-3">
+    <header style="margin: 0px 1px 0px 1px;">
       <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
     </header>
     <main id="main-vue">
