@@ -9,11 +9,11 @@
         <div class="">
           <div class="listing-card card">
             <div class="card-image waves-effect waves-block waves-light">
-              <img class="activator" src="<%= opt_image_url((property.ordered_photo 1), :quality => "auto", crop: "scale", class: "") %>">
+              <img class="" src="<%= opt_image_url((property.ordered_photo 1), :quality => "auto", crop: "scale", class: "") %>">
             </div>
             <div class="card-content">
               <%= link_to property.contextual_show_path(rent_or_sale) do %>
-                <span class="card-title activator grey-text text-darken-4">
+                <span class="card-title  grey-text text-darken-4">
                   <%= property.title  %>
                 </span>
                 <p><%= property.contextual_price_with_currency rent_or_sale  %></p>

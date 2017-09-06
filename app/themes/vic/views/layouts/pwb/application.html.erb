@@ -9,6 +9,8 @@
     <%# display_meta_tags site: @current_website.tenant_display_name %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <%= stylesheet_link_tag    "pwb/themes/vic", media: "all" %>
+    <%= javascript_include_tag "pwb/themes/vic", async: false %>
+    <%= csrf_meta_tags %>
   </head>
   <body class="container">
     <header>
@@ -25,7 +27,7 @@
         </div>
       </nav>
     </header>
-    <main>
+    <main id="main-vue">
       <%= yield %>
     </main>
     <footer class="page-footer teal">
@@ -83,7 +85,6 @@
     <%= yield(:page_script) %>
 
     <!--  Scripts-->
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script>
       (function($){
