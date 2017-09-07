@@ -21,6 +21,7 @@
     <header style="margin: 0px 1px 0px 1px;">
       <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
     </header>
+    <%= yield(:breadcrumb_row) %>
     <main id="main-vue">
       <%= yield %>
     </main>

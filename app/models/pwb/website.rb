@@ -74,6 +74,19 @@ module Pwb
       style_variables_for_theme["default"] = style_variables
     end
 
+
+    # style_assocs give me one more level of abstraction
+    def get_element_class element_name
+      style_details = style_variables_for_theme["vic"] || Pwb::PresetStyle.default
+      style_details[:associations][element_name] || ""
+    end
+
+    # below used by custom stylesheet generator
+    def get_style_var var_name
+      style_details = style_variables_for_theme["vic"] || Pwb::PresetStyle.default
+      style_details[:variables][var_name] || ""
+    end
+
     def body_style
       body_style = ""
       if style_variables_for_theme["default"] && (style_variables_for_theme["default"]["body_style"] == "siteLayout.boxed")

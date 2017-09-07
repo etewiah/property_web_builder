@@ -1,44 +1,24 @@
 <% page_title @current_agency.company_name  %>
 <%= render '/pwb/meta_tags' %>
-<!-- MAIN CONTENT -->
-<nav class="blue lighten-3">
-  <div class="nav-wrapper row">
-    <div class="col s6">
-      <h4>
-        <%= I18n.t(@title_key) %>
-      </h4>
-    </div>
-    <div class="col s6">
-      <div>
-        <a href="/" >
-          <%= I18n.t("webContentSections.home") %>
-        </a>
-        <a href="#!" class="breadcrumb"><%= I18n.t(@title_key) %></a>
-      </div>
-    </div>
-  </div>
-</nav>
-<div class="pg-opt">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <h2>
+<% content_for :breadcrumb_row do %>
+  <nav class="<%= element_classes "breadcrumb_color" %>">
+    <div class="nav-wrapper row">
+      <div class="col s6">
+        <h4>
           <%= I18n.t(@title_key) %>
-        </h2>
+        </h4>
       </div>
-      <div class="col-md-6" style="">
-        <ol class="breadcrumb">
-          <li><a href="/">
-              <%= I18n.t("webContentSections.home") %>
-            </a></li>
-          <li class="active">
-            <%= I18n.t(@title_key) %>
-          </li>
-        </ol>
+      <div class="col s6">
+        <div class="breadcrumb-container right-align">
+          <a href="/" >
+            <%= I18n.t("webContentSections.home") %>
+          </a>
+          <a href="#" class="breadcrumb"><%= I18n.t(@title_key) %></a>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </nav>
+<% end %>
 <section class="slice bg-white bb static-content-panel">
   <div class="wp-section">
     <div class="container">
