@@ -73,19 +73,40 @@ module Pwb
     def style_variables=(style_variables)
       style_variables_for_theme["default"] = style_variables
     end
+    # spt 2017 - above 2 will be redundant once vic becomes default layout
 
 
-    # style_assocs give me one more level of abstraction
+
+    # below used when rendering to decide which class names
+    # to use for which elements
     def get_element_class element_name
-      style_details = style_variables_for_theme["vic"] || Pwb::PresetStyle.default
-      style_details[:associations][element_name] || ""
+      style_details = style_variables_for_theme["vic"] || Pwb::PresetStyle.default_values
+      style_associations = style_details["associations"] || []
+      style_associations[element_name] || ""
     end
 
-    # below used by custom stylesheet generator
+    # below used by custom stylesheet generator to decide
+    # values for various class names (mainly colors)
     def get_style_var var_name
-      style_details = style_variables_for_theme["vic"] || Pwb::PresetStyle.default
-      style_details[:variables][var_name] || ""
+      style_details = style_variables_for_theme["vic"] || Pwb::PresetStyle.default_values
+      style_vars = style_details["variables"] || []
+      style_vars[var_name] || ""
     end
+
+    # allow direct bulk setting of styles from admin UI
+    def style_settings=(style_settings)
+      style_variables_for_theme["vic"] = style_settings
+    end
+
+    # allow setting of styles to a preset config from admin UI
+    def style_settings_from_preset=(preset_style_name)
+      preset_style = Pwb::PresetStyle.where(name: preset_style_name).first
+      if preset_style
+        style_variables_for_theme["vic"] = preset_style.attributes.as_json
+      end
+    end
+
+
 
     def body_style
       body_style = ""

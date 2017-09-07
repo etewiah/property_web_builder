@@ -1,0 +1,23 @@
+[
+{
+  "name": "green_amber",
+  "id": "green_amber",
+  "variables":
+  {
+    "primary-color-dark": "#388E3C",
+    "primary-background-dark": "#388E3C",
+    "primary-color": "#4CAF50",
+    "primary-color-light": "#C8E6C9",
+    "primary-color-text": "#FFFFFF",
+    "accent-color": "#FFC107",
+    "primary-text-color": "#212121",
+    "secondary-text-color": "#757575",
+    "divider-color": "#BDBDBD"
+  },
+  "associations":
+  {
+    "breadcrumb_color": "primary-background-light",
+    "page_top_strip_background": "primary-background-dark",
+    "page_top_strip_color": "primary-color-text"
+  }
+}]
