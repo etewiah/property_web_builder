@@ -1,0 +1,5 @@
+.material-icons {
+  /*below to prevent flash of unstyled content */
+  max-width: 30px;
+  overflow: hidden;
+}
