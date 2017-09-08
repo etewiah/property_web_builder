@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 
 * Theme can be changed via query string
 
+* Add preset color palettes
+
+## 1.2.0 / 2017-08-23
 
 * Add Vue.js
 * Add search results map

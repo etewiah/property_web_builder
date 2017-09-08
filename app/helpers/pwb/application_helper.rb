@@ -2,7 +2,7 @@ module Pwb
   module ApplicationHelper
 
     def properties_carousel_footer
-      # TODO - diplay array of thumbnails below main 
+      # TODO - diplay array of thumbnails below main
       # properties carousel is images count > ...
       # <a href="#" class="theater" rel="group" hidefocus="true">
       # <%= opt_image_tag((@property_details.ordered_photo 3), :quality => "auto", class: "", alt: "") %>
@@ -32,7 +32,12 @@ module Pwb
 
     def localized_link_to(locale_with_var = nil, options = nil, html_options = nil)
       link_class =  locale_with_var["variant"]
-      link = "<a class='#{link_class}' href='#{url_for(options)}'></a>"
+      href = "/#{options["locale"]}"
+      begin
+        href = url_for(options)
+      rescue ActionController::UrlGenerationError
+      end
+      link = "<a class='#{link_class}' href='#{href}'></a>"
       return link.html_safe
 
       # if params["controller"] && params["controller"].include?("devise/")
@@ -51,6 +56,58 @@ module Pwb
       end
     end
 
+    # below replaced with methods in navigation_helper file (spt 2017)
+    # def top_nav_link(section_info)
+    #   unless section_info.show_in_top_nav
+    #     return
+    #   end
+    #   begin
+    #     if section_info.is_page
+    #       target_path = self.pwb.send("generic_page_path", section_info[:link_path], {locale: locale})
+    #     else
+
+    #       # link_path should be valid - below checks that
+    #       target_path = self.pwb.send(section_info[:link_path], {locale: locale})
+    #       # below works in most routes but had to change to above to support devise routes
+    #       # target_path = send(section_info[:link_path], {locale: locale})
+    #     end
+    #   rescue NoMethodError
+    #     # target_path = '/'
+    #     # rescue Exception => e
+    #   end
+    #   # only show top_nav_link where link_path is valid
+    #   if target_path
+    #     style_class = 'selected active' if current_page?( target_path )
+    #     html = <<-HTML
+    #     <li class="#{style_class}">
+    #     #{link_to I18n.t('navbar.'+section_info[:link_key]), target_path}
+    #     </li>
+    #     HTML
+
+    #     html.html_safe
+    #   end
+    # end
+
+    # def footer_link(section_info, class_name="")
+    #   unless section_info.show_in_footer
+    #     return
+    #   end
+    #   begin
+    #     if section_info.is_page
+    #       target_path = self.pwb.send("generic_page_path", section_info[:link_path], {locale: locale})
+    #     else
+    #       target_path = self.pwb.send(section_info[:link_path], {locale: locale})
+    #     end
+    #   rescue NoMethodError
+    #   end
+
+    #   if target_path
+    #     html = <<-HTML
+    #     #{ link_to I18n.t('navbar.'+section_info[:link_key]), target_path, class: class_name}.
+    #     HTML
+    #     html.html_safe
+    #   end
+    # end
 
     # http://railscasts.com/episodes/75-complex-forms-part-3
     def simple_inmo_input(f, field_key, placeholder_key, input_type, required)

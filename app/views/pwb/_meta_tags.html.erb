@@ -1,5 +1,5 @@
 <% content_for :page_head do %>
-  <% if @carousel_items %>
+  <% if @carousel_items && @carousel_items.length > 0 %>
     <link rel="image_src" href="<%= opt_image_url((@carousel_items[0].default_photo), height: 800, crop: "scale", quality: "auto") %>" />
     <meta property="og:image" content="<%= opt_image_url((@carousel_items[0].default_photo), height: 800, crop: "scale", quality: "auto") %>" />
   <% end %>

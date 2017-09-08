@@ -1,0 +1,23 @@
+[
+{
+  "name": "purple_teal",
+  "id": "purple_teal",
+  "variables":
+  {
+    "primary-color-dark": "#7B1FA2",
+    "primary-background-dark": "#7B1FA2",
+    "primary-color": "#9C27B0",
+    "primary-color-light": "#E1BEE7",
+    "primary-color-text": "#FFFFFF",
+    "accent-color": "#009688",
+    "primary-text-color": "#212121",
+    "secondary-text-color": "#757575",
+    "divider-color": "#BDBDBD"
+  },
+  "associations":
+  {
+    "breadcrumb_color": "primary-background-light",
+    "page_top_strip_background": "primary-background-dark",
+    "page_top_strip_color": "primary-color-text"
+  }
+}]

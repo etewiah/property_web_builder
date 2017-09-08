@@ -1,0 +1,43 @@
+<slick-carousel inline-template :slick-options="{
+                  dots: false,
+                  infinite: true,
+                  arrows: true,
+                  speed: 500,
+                  fade: true,
+                  cssEase: 'linear'
+                }" style="visibility: hidden">
+  <div class="slick-slider">
+    <% @property_details.prop_photos.each.with_index do |photo, index| %>
+      <%= opt_image_tag(photo, height: 800, crop: "scale", :quality => "auto", class: "", alt: "img") %>
+    <% end %>
+  </div>
+</slick-carousel>
+<div class="product-gallery">
+  <div class="thumbnail-images" style="display:none;">
+    <%# properties_carousel_footer @property_details.prop_photos %>
+  </div>
+  <div class="wp-block property list no-border">
+    <div class="wp-block-content clearfix">
+      <div class="wp-block-footer style2">
+        <ul class="aux-info">
+          <li><i class="fa fa-arrows-alt"></i>
+            <%= @property_details.constructed_area %>
+            <%= area_unit @property_details %>
+          </li>
+          <li><i class="fa fa-bed"></i>
+            <%= @property_details.count_bedrooms %>
+          </li>
+          <li><i class="fa fa-tint"></i>
+            <%= @property_details.count_bathrooms %>
+          </li>
+          <li>
+            <% if @property_details.has_garage %>
+              <i class="fa fa-car"></i>
+              <%= @property_details.count_garages %>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

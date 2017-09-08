@@ -1,0 +1,10 @@
+<% @text_color_style_vars.each do |style_var| %>
+  .<%= "#{style_var}" %> {
+    color: <%= @current_website.get_style_var(style_var) || "#fff" %>;  
+  }
+<% end  %>
+<% @bg_style_vars.each do |style_var| %>
+  .<%= "#{style_var}" %> {
+    background: <%= @current_website.get_style_var(style_var) || "#fff" %>;  
+  }
+<% end  %>

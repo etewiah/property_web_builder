@@ -13,12 +13,17 @@ Pwb::Engine.routes.draw do
   # end
 
   authenticate :user do
+    get '/propertysquares' => 'squares#vue'
+    get '/propertysquares/*path' => 'squares#vue'
+    get '/squares/:client_id' => 'squares#show_client'
+    get '/squares/:client_id/:prop_id' => 'squares#show_prop'
     get "/admin" => "admin_panel#show"
     get "/admin/*path" => "admin_panel#show"
     scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
       get "/admin" => "admin_panel#show", as: "admin_with_locale"
       get "/admin/*path" => "admin_panel#show"
     end
+
   end
 
   get "/custom_css/:theme_name" => "css#custom_css", as: "custom_css"

@@ -2,9 +2,15 @@ require 'rails_helper'
 
 RSpec.describe 'pwb/welcome/index', type: :view do
   include Pwb::ApplicationHelper
+  include Pwb::ImagesHelper
   before do
     view.extend Pwb::ApplicationHelper
+    view.extend Pwb::ImagesHelper
+    @current_website = FactoryGirl.create(:pwb_website)
+    # factorygirl ensures unique_instance of website is used
   end
+
+
   # before(:each) do
   #   @content = assign(:content, Pwb::Content.create!())
   # end
@@ -48,4 +54,5 @@ RSpec.describe 'pwb/welcome/index', type: :view do
   #     expect(rendered).to have_link 'Product', href: 'http://example.com'
   #   end
   # end
+
 end

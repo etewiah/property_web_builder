@@ -1,0 +1,105 @@
+<v-toolbar class="red">
+  <v-toolbar-title>
+    <v-chip class="white--text">
+      <v-icon class="blue--text text--lighten-2">phone</v-icon>
+      <%= @current_agency["phone_number_primary"] %>
+    </v-chip>
+    <v-chip class="orange white--text">
+      Premium
+      <v-icon right>star</v-icon>
+    </v-chip>
+    <% if @current_agency.email_primary %>
+      <i class="fa fa-envelope fa-lg"></i>
+      <%= @current_agency.email_primary %>
+    <% end %>
+  </v-toolbar-title>
+  <v-spacer></v-spacer>
+  <div>
+    <% if @current_website.is_multilingual && not_devise %>
+      <div class="contenedor_idiomas" style="">
+        <ul class="idiomas">
+          <% @current_website.supported_locales_with_variants.each do |locale_with_var| %>
+            <li class=<%="#{'selected' if locale.to_s == locale_with_var[" locale "]}" %>>
+              <%= localized_link_to locale_with_var, params.permit(:locale,).merge({:locale => locale_with_var["locale"]}), class: locale_with_var["variant"] %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</v-toolbar>
+<v-toolbar>
+  <v-toolbar-title>
+    <%= link_to pwb.root_path(locale: locale), class: "navbar-brand" do %>
+      <% if @current_website.logo_url  %>
+        <img src="<%= @current_website.logo_url %>" alt="Logo">
+      <% else %>
+        <div class="text-navbar-brand" style="">
+          <%= @current_agency.company_name %>
+        </div>
+      <% end %>
+    <% end %>
+  </v-toolbar-title>
+  <v-spacer></v-spacer>
+  <v-toolbar-side-icon class="hidden-md-and-up"></v-toolbar-side-icon>
+  <v-toolbar-items class="hidden-sm-and-down">
+    <% @sections.each do |section| %>
+      <div class="btn btn--flat">
+        <%= top_nav_link(section) %>
+      </div>
+    <% end %>
+    <% if @show_admin_link  %>
+      <% if current_user %>
+        <li class="<%= 'selected' if current_page?(pwb.admin_with_locale_path(locale: locale)) %>">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <%= t "navbar.admin" %>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+            </li>
+            <li>
+              <%= link_to I18n.t("changePassword"), pwb.edit_user_registration_path() %>
+            </li>
+            <li>
+              <%= link_to I18n.t("signOut"), pwb.destroy_user_session_path(), method: :delete %>
+            </li>
+          </ul>
+        </li>
+      <% else %>
+        <%= link_to pwb.admin_with_locale_path(locale: locale), class: "btn btn--flat" do %>
+          link_to I18n.t("navbar.admin")
+        <% end %>
+      <% end %>
+    <% end %>
+    <v-btn flat>Link One</v-btn>
+    <v-btn flat>Link Two</v-btn>
+    <%= link_to pwb.admin_with_locale_path(locale: locale) do %>
+      <v-btn flat>
+        admin
+                        </v-btn>
+    <% end %>
+    <%= link_to pwb.admin_with_locale_path(locale: locale), class: "btn btn--flat" do %>
+      admin 2
+                            <% end %>
+    <div class="btn btn--flat">
+      <v-menu offset-y>
+        <div class="btn btn--flat" slot="activator"> <%= t "navbar.admin" %></div>
+        <v-list>
+          <v-list-tile @click="">
+            <v-list-tile-title>
+                          <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+            </v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile @click="">
+                          <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+          </v-list-tile>
+          <v-list-tile @click="">
+            <v-list-tile-title>Item 3</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
+    </div>
+  </v-toolbar-items>
+</v-toolbar>
+<!-- HEADER -->

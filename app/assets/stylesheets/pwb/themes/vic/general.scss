@@ -1,0 +1,15 @@
+.breadcrumb-container {
+  margin-right: 20px;
+}
+
+.breadcrumb-nav {
+  /*fit within boxed site container*/
+  margin: 0px 1px 0px 1px;
+  width: auto;
+}
+
+.material-icons {
+  /*below to prevent flash of unstyled content */
+  max-width: 30px;
+  overflow: hidden;
+}

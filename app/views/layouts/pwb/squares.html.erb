@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PropertyWebBuilder Squares</title>
+    <!-- <meta name="robots" content="index, follow"> -->
+    <%# display_meta_tags site: @current_agency.tenant_display_name %>
+    <%= stylesheet_link_tag    "pwb/themes/squares", media: "all" %>
+    <%= javascript_include_tag "pwb/themes/squares", async: false %>
+    <%= csrf_meta_tags %>
+    <base href="/" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  </head>
+  <body class="">
+    <div id="squares-vue" style="width:100%;display: flex;">
+      <squares-container inline-template>
+        <div class="container">
+          <md-sidenav class="main-sidebar md-left md-fixed" md-swipeable ref="main-sidebar">
+            <md-toolbar class="vue-material-logo" md-theme="white">
+            </md-toolbar>
+            <div class="main-sidebar-links">
+              <md-list class="md-dense">
+                <div v-for="prop in props">
+                  <md-list-item>
+                    <router-link :to="prop.url" >{{prop[".key"]}}</router-link>
+                  </md-list-item>
+                </div>
+                <md-list-item>
+                  <router-link to="/foo">Introduction</router-link>
+                </md-list-item>
+                <md-list-item>
+                  <router-link to="/bar">Bar</router-link>
+                </md-list-item>
+                <md-list-item>
+                  <router-link to="/tabs">tabs</router-link>
+                </md-list-item>
+                <md-list-item>
+                  <router-link to="/tabs/1">tabs 1</router-link>
+                </md-list-item>
+                <md-list-item>
+                  <router-link to="/tabs/2">tabs 2</router-link>
+                </md-list-item>
+                <md-list-item>
+                  intro
+              </md-list-item>
+              </md-list>
+            </div>
+          </md-sidenav>
+          <page-content inline-template>
+            <div class="page-content">
+              <md-whiteframe md-tag="md-toolbar" md-elevation="1" class="main-header">
+                <md-button class="md-icon-button nav-trigger" @click="toggleSidenav">
+                  <md-icon>menu</md-icon>
+                </md-button>
+                <div class="md-title">{{ pageTitle }}</div>
+                <md-button href="https://github.com/marcosmoura/vue-material" target="_blank" rel="noopener" class="md-icon-button github">
+                  github
+                </md-button>
+              </md-whiteframe>
+              <transition name="md-router" appear>
+                <router-view></router-view>
+              </transition>
+            </div>
+          </page-content>
+        </div>
+      </squares-container>
+    </div>
+  </body>
+</html>

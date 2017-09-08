@@ -1,0 +1,104 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ */
+
+@import "default/language_switcher";
+@import "berlin/slick";
+
+@import "default/language_switcher";
+/*@import "shared/header_footer";*/
+@import "shared/social";
+@import "shared/gmap";
+/*@import "shared/search_box";
+@import "shared/shame";
+*/
+@import "vic/slider";
+@import "vic/landing";
+@import "vic/general";
+
+
+
+/*@import '../../src/core/stylesheets/variables.scss';*/
+
+
+/* Custom Stylesheet */
+
+
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+nav ul a,
+nav .brand-logo {
+  color: #444;
+}
+
+p {
+  line-height: 2rem;
+}
+
+.button-collapse {
+  color: #26a69a;
+}
+
+
+/*main container*/
+.main-container {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 100%; }
+
+@media only screen and (min-width : 601px) {
+  .main-container {
+    width: 95%; } }
+
+@media only screen and (min-width : 993px) {
+  .main-container {
+    width: 70%; } }
+
+
+
+.icon-block {
+  padding: 0 15px;
+}
+
+.icon-block .material-icons {
+  font-size: inherit;
+}
+
+footer.page-footer {
+  margin: 0;
+}
+
+
+
+
+/*keep footer down*/
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+/*pad container when disabled*/
+.container-off {
+  padding: 0px 15px;
+}

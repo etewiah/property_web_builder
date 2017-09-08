@@ -8,7 +8,7 @@ Vue.component('inmo-map', {
     '@mouseover="toggleInfoWindow(m,i)" @mouseout="statusText = null"' +
     ':clickable="true" :draggable="true" @click=""></gmap-marker>' +
     '</gmap-map>',
-  data() {
+  data: function() {
     return {
       newMarkers: [],
       useNewMarkers: false,
@@ -33,16 +33,20 @@ Vue.component('inmo-map', {
   // created() {
   // },
   mounted: function() {
-    this.$refs.mmm.$mapCreated.then(() => {
-      if (this.mapkers.length > 1) {
-        const bounds = new google.maps.LatLngBounds();
-        for (let m of this.mapkers) {
-          bounds.extend(m.position)
-        }
-        this.$refs.mmm.$mapObject.fitBounds(bounds);
+    var that = this;
+    this.$refs.mmm.$mapCreated.then(function() {
+      if (that.mapkers.length > 1) {
+        var bounds = new google.maps.LatLngBounds();
+        that.mapkers.forEach(function(mapker){
+          bounds.extend(mapker.position);
+        });
+        // for (let m of that.mapkers) {
+        //   bounds.extend(m.position)
+        // }
+        that.$refs.mmm.$mapObject.fitBounds(bounds);
         // where markers are too close together, I need below
         // to ensure they are not too zoomed in
-        this.$refs.mmm.$mapObject.setOptions({ maxZoom: this.$refs.mmm.$mapObject.getZoom() });
+        that.$refs.mmm.$mapObject.setOptions({ maxZoom: that.$refs.mmm.$mapObject.getZoom() });
       }
     })
   },
