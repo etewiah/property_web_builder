@@ -1,4 +1,5 @@
 module Pwb
+# added July 2017
   class Link < ApplicationRecord
     translates :link_title, fallbacks_for_empty_translations: true
     globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]

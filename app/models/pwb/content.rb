@@ -11,13 +11,13 @@ module Pwb
       content_photos.first
     end
 
-    # def default_photo_url
-    #   if content_photos.first
-    #     content_photos.first.image_url
-    #   else
-    #     'https://placeholdit.imgix.net/~text?txtsize=38&txt=&w=550&h=300&txttrack=0'
-    #   end
-    # end
+    def default_photo_url
+      if content_photos.first
+        content_photos.first.image_url
+      else
+        'https://placeholdit.imgix.net/~text?txtsize=38&txt=&w=550&h=300&txttrack=0'
+      end
+    end
 
     class << self
       def import(file)

@@ -1,4 +1,5 @@
 module Pwb
+# added July 2017
   class Page < ApplicationRecord
     translates :raw_html, fallbacks_for_empty_translations: true
     translates :page_title, fallbacks_for_empty_translations: true
