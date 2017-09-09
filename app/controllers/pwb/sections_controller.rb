@@ -27,20 +27,6 @@ module Pwb
       render "/pwb/sections/about_us"
     end
 
-    def privacy_policy
-      @title_key = "privacyPolicy"
-      @page_title = I18n.t("privacyPolicy")
-      @content = Content.find_by_key("privacyPolicy") || OpenStruct.new
-      render "/pwb/sections/static"
-    end
-
-    def legal
-      @title_key = "legalAdvice"
-      @page_title = I18n.t("legalAdvice")
-      @content = Content.find_by_key("legalAdvice") || OpenStruct.new
-      render "/pwb/sections/static"
-    end
-
     def contact_us
       # below was for google map rendering via paloma:
       # js current_agency_primary_address: @current_agency.primary_address
@@ -123,6 +109,22 @@ module Pwb
       @error_messages = [I18n.t("contact.error"), e]
       return render "pwb/ajax/contact_us_errors", layout: false
     end
+
+
+    # spt 2017 - below now rendered by pages controller
+    # def privacy_policy
+    #   @title_key = "privacyPolicy"
+    #   @page_title = I18n.t("privacyPolicy")
+    #   @content = Content.find_by_key("privacyPolicy") || OpenStruct.new
+    #   render "/pwb/sections/static"
+    # end
+
+    # def legal
+    #   @title_key = "legalAdvice"
+    #   @page_title = I18n.t("legalAdvice")
+    #   @content = Content.find_by_key("legalAdvice") || OpenStruct.new
+    #   render "/pwb/sections/static"
+    # end
 
     private
 

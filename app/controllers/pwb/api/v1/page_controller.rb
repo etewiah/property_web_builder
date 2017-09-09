@@ -28,8 +28,30 @@ module Pwb
       render json: page
     end
 
+    def save_page_fragment
+      page = Page.find_by_slug params[:page_slug]
+      locale = params[:fragment_details]["locale"]
+      label = params[:fragment_details]["label"]
+# byebug
+      # fl = "about_us_services"
+      fragment_html = render_to_string :partial => "pwb/fragments/#{label}",  :locals => { page_part: params[:fragment_details][:blocks]}
+      # , formats: :css
+
+      # TODO - add page model method that safely sets below
+      page.details["fragments"][label][locale] = params[:fragment_details]
+      page.details["fragments"][label][locale]["html"] = fragment_html
+
+      # page.update(page_params)
+      page.save!
+      render json: page.details["fragments"][label][locale]
+    end
 
     private
+
+    def page_fragment_params
+      params.require(:fragment_details).permit(:label, :locale, blocks: [:content, :identifier, :is_image])
+    end
+
 
     def page_params
       page_fields = ["sort_order_top_nav","visible"]
