@@ -5,6 +5,9 @@ module Pwb
     globalize_accessors locales: I18n.available_locales
     # [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
 
+    attribute :link_title
+    attribute :page_title
+
     has_many :contents, foreign_key: "section_key", primary_key: "link_path"
 
     def as_json(options = nil)

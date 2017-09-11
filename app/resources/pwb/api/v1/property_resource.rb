@@ -13,7 +13,7 @@ module Pwb
 
     attributes :title_fr, :title_de, :title_ru, :title_pt
     attributes :description_fr, :description_de, :description_ru, :description_pt
-    attributes :title_es, :title_en, :title_ar, :description_es, :description_en, :description_ar
+    attributes :title_es, :title_en, :title, :description_es, :description_en, :description
 
     attributes :for_sale, :for_rent_short_term, :for_rent_long_term, :obscure_map, :hide_map
 

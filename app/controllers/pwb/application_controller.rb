@@ -27,7 +27,6 @@ module Pwb
       # if current_user
       #   locale = current_user.default_client_locale
       # end
-      # byebug
       if params[:locale] && (I18n.locale_available? params[:locale])
         # passed in params override user's default
         locale = params[:locale]
@@ -62,7 +61,11 @@ module Pwb
         # so no need to render standard one
         @show_admin_link = false
       else
-        @show_admin_link = Pwb::Link.find_by_slug("top_nav_admin").visible
+        @show_admin_link = false
+        top_nav_admin_link = Pwb::Link.find_by_slug("top_nav_admin")
+        if top_nav_admin_link && top_nav_admin_link.visible
+          @show_admin_link = true
+        end
       end
     end
   end

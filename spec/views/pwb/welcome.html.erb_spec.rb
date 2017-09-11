@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+
+
 RSpec.describe 'pwb/welcome/index', type: :view do
   include Pwb::ApplicationHelper
   include Pwb::ImagesHelper
@@ -31,6 +33,7 @@ RSpec.describe 'pwb/welcome/index', type: :view do
   end
 
   it 'renders index successfully' do
+    assign(:content_to_show, [])
     render
     expect(rendered).to include 'homepageCarousel'
     # assert_select "form[action=?][method=?]", welcome_path(@welcome), "post" do

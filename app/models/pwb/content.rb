@@ -7,6 +7,9 @@ module Pwb
     globalize_accessors locales: I18n.available_locales
     # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
 
+    attribute :raw
+
+
     def default_photo
       content_photos.first
     end

@@ -5,7 +5,7 @@ module Pwb
     def index
       @page = Pwb::Page.find_by_slug "home"
 
-      visible_page_fragments = @page.details["visiblePageParts"]
+      visible_page_fragments = @page.present? ? page.details["visiblePageParts"] : []
       @content_to_show = []
 
       # TODO - order below:
@@ -25,7 +25,7 @@ module Pwb
         # end
       end
 
-      
+
       @carousel_items = Content.where(tag: 'landing-carousel')
       @carousel_speed = 3000
       # .includes(:content_photos, :translations)
