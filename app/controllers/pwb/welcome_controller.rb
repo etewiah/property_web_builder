@@ -5,11 +5,11 @@ module Pwb
     def index
       @page = Pwb::Page.find_by_slug "home"
 
-      visible_page_fragments = @page.present? ? page.details["visiblePageParts"] : []
+      visible_page_fragment_names = @page.present? ? @page.details["visiblePageParts"] : []
       @content_to_show = []
 
       # TODO - order below:
-      visible_page_fragments.each do |page_fragment_label|
+      visible_page_fragment_names.each do |page_fragment_label|
         if page_fragment_label == "raw_html"
           fragment_html = @page.raw_html
         else

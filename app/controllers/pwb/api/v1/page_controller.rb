@@ -5,10 +5,10 @@ module Pwb
     # protect_from_forgery with: :null_session
     def get
       # admin_setup = Pwb::CmsPageContainer.where(name: params[:page_name]).first || {}
-      # render json: admin_setup.as_json["attributes"]
+      # render json: admin_setup.as_json_for_admin["attributes"]
       page = Pwb::Page.find_by_slug(params[:page_name])
       if page
-        render json: page.as_json
+        render json: page.as_json_for_admin
       else
         render json: {}
       end
@@ -18,9 +18,8 @@ module Pwb
       page = Page.find_by_slug params[:page][:slug]
       page.update(page_params)
       page.save!
-      render json: page
+      render json: page.as_json_for_admin
     end
-
     def update_page_part_visibility
       page = Page.find_by_slug params[:page_slug]
       page.details["visiblePageParts"] = params[:visible_page_parts]
@@ -32,16 +31,13 @@ module Pwb
       page = Page.find_by_slug params[:page_slug]
       locale = params[:fragment_details]["locale"]
       label = params[:fragment_details]["label"]
-# byebug
-      # fl = "about_us_services"
+      fragment_blocks = params[:fragment_details]["blocks"]
+
       fragment_html = render_to_string :partial => "pwb/fragments/#{label}",  :locals => { page_part: params[:fragment_details][:blocks]}
       # , formats: :css
 
-      # TODO - add page model method that safely sets below
-      page.details["fragments"][label][locale] = params[:fragment_details]
-      page.details["fragments"][label][locale]["html"] = fragment_html
+      page.set_fragment_details label, locale, fragment_blocks, fragment_html
 
-      # page.update(page_params)
       page.save!
       render json: page.details["fragments"][label][locale]
     end
@@ -55,8 +51,7 @@ module Pwb
 
     def page_params
       page_fields = ["sort_order_top_nav","visible"]
-      # TODO - replace below with i18n available locales..
-      locales = ["en","es"]
+      locales = I18n.available_locales
       locales.each do |locale|
         page_fields.push("link_title_#{locale}")
         page_fields.push("page_title_#{locale}")
