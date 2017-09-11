@@ -42,7 +42,7 @@ Pwb::Engine.routes.draw do
 
     get "/" => "welcome#index", as: "home"
     get "/p/:page_slug" => "pages#show_page", as: "show_page"
-    get "/c/:page_slug" => "comfy#show"
+    # get "/c/:page_slug" => "comfy#show"
 
     get "/properties/for-rent/:id/:url_friendly_title" => "props#show_for_rent", as: "prop_show_for_rent"
     get "/properties/for-sale/:id/:url_friendly_title" => "props#show_for_sale", as: "prop_show_for_sale"
@@ -124,11 +124,11 @@ Pwb::Engine.routes.draw do
         put "/pwb_page/page_fragment" => "page#save_page_fragment"
         get "/pwb_page/:page_name" => "page#get"
 
-        post '/page_fragments/photos/:page_id/:block_label' => 'page_fragments#set_photo'
-        get "page_fragments/:fragment_slug" => "page_fragments#show"
+        # post '/page_fragments/photos/:page_id/:block_label' => 'page_fragments#set_photo'
+        # get "page_fragments/:fragment_slug" => "page_fragments#show"
 
-        patch '/cms-pages/:id' => 'page_fragments#update'
-        patch '/cms_pages/:id' => 'page_fragments#update'
+        # patch '/cms-pages/:id' => 'page_fragments#update'
+        # patch '/cms_pages/:id' => 'page_fragments#update'
 
         # above to replace below
 

@@ -5,16 +5,24 @@ module Pwb
     def index
       @page = Pwb::Page.find_by_slug "home"
 
-      cmsparts_info = @page.details["cmsPartsList"] || []
+      visible_page_fragments = @page.details["visiblePageParts"]
       @content_to_show = []
+
       # TODO - order below:
-      cmsparts_info.each do |cmspart_info|
-        cmspart_label = cmspart_info["label"]
-        comfy_page = Comfy::Cms::Page.where(label: cmspart_label, slug: locale).first
-        if comfy_page.present?
-          @content_to_show.push comfy_page.content_cache
-          # cmspart_info["content_cache"] = comfy_page.content_cache
+      visible_page_fragments.each do |page_fragment_label|
+        if page_fragment_label == "raw_html"
+          fragment_html = @page.raw_html
+        else
+          fragment_html =  @page["details"]["fragments"][page_fragment_label][I18n.locale.to_s]["html"]
         end
+        @content_to_show.push fragment_html
+
+        # cmspart_label = cmspart_info["label"]
+        # comfy_page = Comfy::Cms::Page.where(label: cmspart_label, slug: locale).first
+        # if comfy_page.present?
+        #   @content_to_show.push comfy_page.content_cache
+        #   # cmspart_info["content_cache"] = comfy_page.content_cache
+        # end
       end
 
       
