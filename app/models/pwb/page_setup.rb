@@ -3,7 +3,7 @@ module Pwb
   class PageSetup < ActiveJSON::Base
     set_root_path "#{Pwb::Engine.root}/config/pwb/page_setups"
     use_multiple_files
-    set_filenames "home","about-us"
+    set_filenames "home","about-us","sell","rent","buy","legal","privacy","contact"
     # , "green_light"
 
     # def class_name element_name

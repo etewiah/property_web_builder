@@ -76,14 +76,18 @@ module Pwb
 
     def admin_globalize_attribute_names
 
-      self.globalize_attribute_names.push :page_fragments, :fragment_configs, :page_setup
+      self.globalize_attribute_names.push :page_fragments, :setup
       # return "link_title_en","link_title_es", "link_title_de",
       #                    "link_title_ru", "link_title_fr"
     end
 
-    def fragment_configs
-      return details["cmsPartsList"]
+    def setup
+      return page_setup.present? ? page_setup.attributes.slice(:fragment_configs) : {}
     end
+
+    # def fragment_configs
+    #   return details["cmsPartsList"]
+    # end
 
     def page_fragments
       return details["fragments"]

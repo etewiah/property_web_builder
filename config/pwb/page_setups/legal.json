@@ -1,8 +1,8 @@
 [
 {
-  "name": "about-us",
-  "id": "about-us",
-  "tabValue": "about-us",
+  "name": "legal",
+  "id": "legal",
+  "tabValue": "legal",
   "fragment_configs": [
   {
     "tabValue": "html",

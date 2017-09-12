@@ -1,8 +1,8 @@
 [
 {
-  "name": "about-us",
-  "id": "about-us",
-  "tabValue": "about-us",
+  "name": "rent",
+  "id": "rent",
+  "tabValue": "rent",
   "fragment_configs": [
   {
     "tabValue": "html",

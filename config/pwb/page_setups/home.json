@@ -2,17 +2,56 @@
 {
   "name": "home",
   "id": "home",
-  "variables":
+  "tabValue": "home",
+  "fragment_configs": [
   {
-    "primary_color": "#e91b23",
-    "secondary_color": "#3498db",
-    "action_color": "green",
-    "body_style": "siteLayout.wide",
-    "theme": "light"
+    "tabValue": "landing-carousel",
+    "tabTitleKey": "pageSections.landingCarousel.title",
+    "tabInfoKey": "pageSections.landingCarousel.info",
+    "label": "landing_carousel",
+    "isLegacy": "true",
+    "isEditable": "true",
+    "componentName": "landing-carousel"
   },
-  "associations":
   {
-    "breadcrumb_color": "yellow",
-    "page_top_strip_color": "secondary_color"
-  }
+    "tabValue": "html",
+    "tabTitleKey": "pageSections.rawHtml.title",
+    "tabInfoKey": "pageSections.rawHtml.info",
+    "label": "raw_html"
+  },
+  {
+    "tabValue": "services",
+    "tabTitleKey": "pageSections.services.title",
+    "tabInfoKey": "pageSections.services.info",
+    "label": "about_us_services",
+    "editorBlocks": [
+      [
+      {
+        "label": "title_a",
+        "isSingleLineText": "true"
+      },
+      {
+        "label": "content_a",
+        "isMultipleLineText": "true"
+      }],
+      [
+      {
+        "label": "title_b",
+        "isSingleLineText": "true"
+      },
+      {
+        "label": "content_b",
+        "isMultipleLineText": "true"
+      }],
+      [
+      {
+        "label": "title_c",
+        "isSingleLineText": "true"
+      },
+      {
+        "label": "content_c",
+        "isMultipleLineText": "true"
+      }]
+    ]
+  }]
 }]
