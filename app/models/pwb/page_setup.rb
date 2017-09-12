@@ -3,19 +3,10 @@ module Pwb
   class PageSetup < ActiveJSON::Base
     set_root_path "#{Pwb::Engine.root}/config/pwb/page_setups"
     use_multiple_files
-    set_filenames "home","about-us","sell","rent","buy","legal","privacy","contact"
-    # , "green_light"
-
-    # def class_name element_name
-    #   self[:associations][element_name] || ""
-    # end
-
-    # def self.default_values
-    #   Pwb::PageSetup.first.attributes.as_json
-    # end
+    set_filenames "home","about-us","sell","rent","buy","default"
 
     include ActiveHash::Associations
-    has_one :page, foreign_key: "slug", class_name: "Pwb::Page", primary_key: "name"
+    has_many :pages, foreign_key: "setup_id", class_name: "Pwb::Page", primary_key: "id"
 
   end
 end

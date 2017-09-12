@@ -8,7 +8,6 @@ module Pwb
 
       def seed!
         I18n.locale = :en
-
         # unless ENV["RAILS_ENV"] == "test"
         #   load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations.rb')
         # end
@@ -40,22 +39,26 @@ module Pwb
         end
         seed_field_keys 'field_keys.yml'
         seed_users 'users.yml'
+        seed_pages
+        seed_links 'links.yml'
+
       end
 
-      def seed_pages!
+      def seed_pages
         page_yml_filenames = [
           "sell.yml", "about.yml", "buy.yml",
           "rent.yml", "home.yml", "legal_notice.yml",
           "contact.yml", "privacy_policy.yml"
         ]
+
         page_yml_filenames.each do |page_yml_filename|
           seed_page page_yml_filename
         end
       end
 
-      def seed_links!
-        seed_links 'links.yml'
-      end
+      # def seed_links
+      #   seed_links 'links.yml'
+      # end
 
       protected
 

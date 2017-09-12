@@ -3,7 +3,7 @@ module Pwb
   # has details json col where page_fragment info is stored
   class Page < ApplicationRecord
     extend ActiveHash::Associations::ActiveRecordExtensions
-    belongs_to_active_hash :page_setup, optional: true, foreign_key: "slug", class_name: "Pwb::PageSetup", shortcuts: [:friendly_name], primary_key: "name"
+    belongs_to_active_hash :page_setup, optional: true, foreign_key: "setup_id", class_name: "Pwb::PageSetup", shortcuts: [:friendly_name], primary_key: "id"
     has_many :links, foreign_key: "page_slug", primary_key: "slug"
     has_one :main_link, -> { where(placement: :top_nav) }, foreign_key: "page_slug", primary_key: "slug", class_name: "Pwb::Link"
     # , :conditions => ['placement = ?', :admin]
@@ -22,6 +22,17 @@ module Pwb
     # without above, Rails 5.1 will give deprecation warnings in my specs
 
     # scope :visible_in_admin, -> () { where visible: true  }
+
+    def get_fragment_html label, locale
+      fragments = details["fragments"] || {}
+      # @page["details"]["fragments"][page_fragment_label][I18n.locale.to_s]["html"]
+      if fragments[label] && fragments[label][locale]
+        fragments[label][locale]["html"]
+      else
+        nil
+      end
+    end
+
 
     def set_fragment_details label, locale, fragment_details, new_fragment_html
 

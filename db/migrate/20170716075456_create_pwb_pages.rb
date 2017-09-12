@@ -2,8 +2,9 @@ class CreatePwbPages < ActiveRecord::Migration[5.0]
   def change
     create_table :pwb_pages do |t|
       t.string :slug
-      t.string :link_key
-      t.string :link_path
+      t.string :setup_id
+      # t.string :link_key
+      # t.string :link_path
       t.boolean :visible, default: false
       t.integer :last_updated_by_user_id
       t.integer :flags, default: 0, index: true, null: false
@@ -16,7 +17,7 @@ class CreatePwbPages < ActiveRecord::Migration[5.0]
       t.timestamps null: false
     end
 
-    add_index :pwb_pages, :link_key, :unique => true
+    # add_index :pwb_pages, :link_key, :unique => true
     add_index :pwb_pages, :slug, :unique => true
   end
 end

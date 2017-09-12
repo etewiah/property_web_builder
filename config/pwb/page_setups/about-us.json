@@ -2,7 +2,6 @@
 {
   "name": "about-us",
   "id": "about-us",
-  "tabValue": "about-us",
   "fragment_configs": [
   {
     "tabValue": "html",

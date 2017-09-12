@@ -319,8 +319,7 @@ ActiveRecord::Schema.define(version: 20170720201601) do
 
   create_table "pwb_pages", id: :serial, force: :cascade do |t|
     t.string "slug"
-    t.string "link_key"
-    t.string "link_path"
+    t.string "setup_id"
     t.boolean "visible", default: false
     t.integer "last_updated_by_user_id"
     t.integer "flags", default: 0, null: false
@@ -332,7 +331,6 @@ ActiveRecord::Schema.define(version: 20170720201601) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["flags"], name: "index_pwb_pages_on_flags"
-    t.index ["link_key"], name: "index_pwb_pages_on_link_key", unique: true
     t.index ["show_in_footer"], name: "index_pwb_pages_on_show_in_footer"
     t.index ["show_in_top_nav"], name: "index_pwb_pages_on_show_in_top_nav"
     t.index ["slug"], name: "index_pwb_pages_on_slug", unique: true

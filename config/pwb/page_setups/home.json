@@ -2,7 +2,6 @@
 {
   "name": "home",
   "id": "home",
-  "tabValue": "home",
   "fragment_configs": [
   {
     "tabValue": "landing-carousel",

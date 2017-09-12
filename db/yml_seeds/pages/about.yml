@@ -1,6 +1,7 @@
 ---
 - slug: about-us
   visible: true
+  setup_id: about-us
   page_title_en: About Us
   page_title_es: Sobre Nosotros
   page_title_fr: A propos
@@ -8,53 +9,7 @@
   page_title_ru: О нас
   page_title_pt: About Us
   details: {
-    "visiblePageParts": [],
-    "cmsPartsList": [
-      {
-        "tabValue": "about-us",
-        "tabTitleKey": "pageSections.aboutUs.title",
-        "tabInfoKey": "pageSections.aboutUs.info",
-        "label": "about_us",
-        "isLegacy": "true",
-        "isEditable": "true",
-        "componentName": "about-us",
-      },
-      {
-        "tabValue": "html",
-        "tabTitleKey": "pageSections.rawHtml.title",
-        "tabInfoKey": "pageSections.rawHtml.info",
-        "label": "raw_html"
-      },
-      {
-        "tabValue": "services",
-        "tabTitleKey": "pageSections.services.title",
-        "tabInfoKey": "pageSections.services.info",
-        "label": "about_us_services",
-        "editorBlocks": [
-          [{
-            "label": "title_a",
-            "isSingleLineText": "true"
-          }, {
-            "label": "content_a",
-            "isMultipleLineText": "true"
-          }],
-          [{
-            "label": "title_b",
-            "isSingleLineText": "true"
-          }, {
-            "label": "content_b",
-            "isMultipleLineText": "true"
-          }],
-          [{
-            "label": "title_c",
-            "isSingleLineText": "true"
-          }, {
-            "label": "content_c",
-            "isMultipleLineText": "true"
-          }]
-        ]
-      }
-    ]
+    "visiblePageParts": []
   }
   raw_html_en: 
     <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.

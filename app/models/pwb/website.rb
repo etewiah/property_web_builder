@@ -21,7 +21,7 @@ module Pwb
     end
 
     def admin_page_links
-      return update_admin_page_links
+      # return update_admin_page_links
       if self.configuration["admin_page_links"].present?
         return configuration["admin_page_links"]
       else
@@ -38,6 +38,7 @@ module Pwb
         admin_page_links.push link.as_json
       end
       self.configuration["admin_page_links"] = admin_page_links
+      self.save!
       return admin_page_links
     end
 

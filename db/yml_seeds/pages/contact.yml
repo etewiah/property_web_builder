@@ -1,5 +1,6 @@
 ---
 - slug: contact-us
+  setup_id: default
   visible: true
   page_title_en: Contact Us
   page_title_es: Contactar
@@ -8,15 +9,7 @@
   page_title_ru: связаться с нами
   page_title_pt: Contact Us
   details: {
-    "visiblePageParts": [],
-    "cmsPartsList": [
-      {
-        "tabValue": "html",
-        "tabTitleKey": "pageSections.rawHtml.title",
-        "tabInfoKey": "pageSections.rawHtml.info",
-        "label": "raw_html"
-      }
-    ]
+    "visiblePageParts": []
   }
 
 

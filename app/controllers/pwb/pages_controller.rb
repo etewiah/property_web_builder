@@ -45,8 +45,9 @@ module Pwb
     private
 
     def header_image_url
+      lc_content = Content.where(tag: 'landing-carousel')[0]
       # used by berlin theme
-      @header_image_url = Content.where(tag: 'landing-carousel')[0].default_photo_url
+      @header_image_url = lc_content.present? ? lc_content.default_photo_url : nil
     end
   end
 end

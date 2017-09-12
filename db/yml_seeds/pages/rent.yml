@@ -1,8 +1,9 @@
 ---
-- link_key: rent
-  link_path: rent_path
-  slug: rent
+  # link_key: rent
+  # link_path: rent_path
+- slug: rent
   sort_order_top_nav: 3
+  setup_id: default
   visible: false
   show_in_top_nav: true
   show_in_footer: false
@@ -18,15 +19,7 @@
   page_title_ru: Аренда
   page_title_pt: Rent
   details: {
-    "visiblePageParts": [],
-    "cmsPartsList": [
-      {
-        "tabValue": "html",
-        "tabTitleKey": "pageSections.rawHtml.title",
-        "tabInfoKey": "pageSections.rawHtml.info",
-        "label": "raw_html"
-      }
-    ]
+    "visiblePageParts": []
   }
 
 

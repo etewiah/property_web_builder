@@ -1,6 +1,7 @@
 ---
 - slug: sell
   visible: true
+  setup_id: default
   page_title_en: Sell your property with us
   page_title_es: Vender
   page_title_fr: Vendre
@@ -8,15 +9,7 @@
   page_title_ru: Продажа
   page_title_pt: Sell your property with us
   details: {
-    "visiblePageParts": ["raw_html"],
-    "cmsPartsList": [
-      {
-        "tabValue": "html",
-        "tabTitleKey": "pageSections.rawHtml.title",
-        "tabInfoKey": "pageSections.rawHtml.info",
-        "label": "raw_html"
-      }
-    ]
+    "visiblePageParts": ["raw_html"]
   }
   raw_html_en: 
     <h2>Sell Your Property with Us</h2>

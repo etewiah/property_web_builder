@@ -1,8 +1,7 @@
 [
 {
-  "name": "legal",
-  "id": "legal",
-  "tabValue": "legal",
+  "name": "default",
+  "id": "default",
   "fragment_configs": [
   {
     "tabValue": "html",
