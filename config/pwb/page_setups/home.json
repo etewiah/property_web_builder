@@ -1,0 +1,18 @@
+[
+{
+  "name": "home",
+  "id": "home",
+  "variables":
+  {
+    "primary_color": "#e91b23",
+    "secondary_color": "#3498db",
+    "action_color": "green",
+    "body_style": "siteLayout.wide",
+    "theme": "light"
+  },
+  "associations":
+  {
+    "breadcrumb_color": "yellow",
+    "page_top_strip_color": "secondary_color"
+  }
+}]
