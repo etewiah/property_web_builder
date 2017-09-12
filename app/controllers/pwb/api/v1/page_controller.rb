@@ -29,17 +29,27 @@ module Pwb
 
     def save_page_fragment
       page = Page.find_by_slug params[:page_slug]
-      locale = params[:fragment_details]["locale"]
-      label = params[:fragment_details]["label"]
-      fragment_blocks = params[:fragment_details]["blocks"]
+      fragment_details = params[:fragment_details]
+      unless fragment_details["locale"]
+        return render_json_error 'Please provide locale'
+      end
+      locale = fragment_details["locale"]
+      unless fragment_details["label"]
+        return render_json_error 'Please provide label'
+      end
+      label = fragment_details["label"]
 
-      fragment_html = render_to_string :partial => "pwb/fragments/#{label}",  :locals => { page_part: params[:fragment_details][:blocks]}
-      # , formats: :css
 
-      page.set_fragment_details label, locale, fragment_blocks, fragment_html
+      begin
+        fragment_html = render_to_string :partial => "pwb/fragments/#{label}",  :locals => { page_part: params[:fragment_details][:blocks]}
+        # , formats: :css
+        updated_details = page.set_fragment_details label, locale, fragment_details, fragment_html
+        page.save!
+      rescue StandardError => error
+        return render_json_error error.message
+      end
 
-      page.save!
-      render json: page.details["fragments"][label][locale]
+      return render json: updated_details
     end
 
     private

@@ -14,6 +14,7 @@ module Pwb
       page.save!
       # byebug
       expect(page.details.to_json).to have_json_path("fragments")
+      expect(page.details.to_json).to have_json_path("fragments/label/en/blocks")
     end
 
   end

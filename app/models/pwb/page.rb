@@ -23,12 +23,24 @@ module Pwb
 
     # scope :visible_in_admin, -> () { where visible: true  }
 
-    def set_fragment_details label, locale, fragment_blocks, fragment_html
-      fragments = details["fragments"].present? ? details["fragments"] : {}
-      label_fragments = fragments["label"].present? ? fragments["label"] : { label => {}}
-      locale_label_fragments = label_fragments[locale].present? ? label_fragments[locale] : { label => { locale => fragment_blocks  }}
-      details["fragments"] = locale_label_fragments 
-      details["fragments"][label][locale]["html"] = fragment_html
+    def set_fragment_details label, locale, fragment_details, new_fragment_html
+
+      # ensure path exists in details col
+      unless details["fragments"].present?
+        details["fragments"] = {}
+      end
+      unless details["fragments"][label].present?
+        details["fragments"][label] = {}
+      end
+
+
+      # fragments = details["fragments"].present? ? details["fragments"] : {}
+      # label_fragments = fragments[label].present? ? fragments[label] : { label => {}}
+
+      # locale_label_fragments = label_fragments[locale].present? ? label_fragments[locale] : { label => { locale => fragment_details  }}
+      details["fragments"][label][locale] = fragment_details
+      details["fragments"][label][locale]["html"] = new_fragment_html
+      return details["fragments"][label][locale]
     end
 
     # def as_json(options = nil)
