@@ -24,6 +24,13 @@
     </div>
   </div>
 </div>
+<div class="row">
+  <% @content_to_show.each do |content| %>
+    <div class="col-md-12">
+      <%== content %>
+    </div>
+  <% end %>
+</div>
 <section class="slice bg-white bb">
   <div class="wp-section">
     <div class="container">
@@ -44,13 +51,6 @@
             <%== @content.raw %>
           </p>
           </div>
-          <div>
-            <% if @is_subdomain_admin  %>
-              <%= link_to I18n.t("labels.edit"), "#{ "/" + I18n.locale.to_s + @content.urls['adminUrl'] }"  %>
-                <% end %>
-          </div>
-
-
         </div>
       </div>
     </div>

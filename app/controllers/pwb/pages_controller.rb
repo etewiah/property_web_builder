@@ -21,7 +21,8 @@ module Pwb
         if page_fragment_label == "raw_html"
           fragment_html = @page.raw_html
         else
-          fragment_html =  @page["details"]["fragments"][page_fragment_label][I18n.locale.to_s]["html"]
+          fragment_html = @page.get_fragment_html page_fragment_label, I18n.locale.to_s
+          # fragment_html =  @page["details"]["fragments"][page_fragment_label][I18n.locale.to_s]["html"]
         end
         @content_to_show.push fragment_html
       end

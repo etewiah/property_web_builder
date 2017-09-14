@@ -24,7 +24,25 @@ module Pwb
       # @page_keywords    = 'Site, Login, Members'
       # @about_us_image_url = Content.get_photo_url_by_key("aboutUs")
       # @about_us_image_url = Content.find_by_key("aboutUs").content_photos.first.image_url || "http://moodleboard.com/images/prv/estate/estate-slider-bg-1.jpg"
+
+      @page = Pwb::Page.find_by_slug "about-us"
+
+      visible_page_fragments = @page.details["visiblePageParts"]
+      @content_to_show = []
+
+      # TODO - order below:
+      visible_page_fragments.each do |page_fragment_label|
+        if page_fragment_label == "raw_html"
+          fragment_html = @page.raw_html
+        else
+          fragment_html = @page.get_fragment_html page_fragment_label, I18n.locale.to_s
+          # fragment_html =  @page["details"]["fragments"][page_fragment_label][I18n.locale.to_s]["html"]
+        end
+        @content_to_show.push fragment_html
+      end
+
       render "/pwb/sections/about_us"
+
     end
 
     def contact_us

@@ -26,6 +26,7 @@ module Pwb
       end
       photo.save!
       photo.reload
+      # byebug
       render json: photo.to_json
     end
 

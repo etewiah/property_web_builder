@@ -2,75 +2,111 @@
 {
   "name": "about-us",
   "id": "about-us",
-  "fragment_configs": [{
-    "tabValue": "raw",
-    "tabTitleKey": "pageSections.raw.title",
-    "tabInfoKey": "pageSections.raw.info",
-    "label": "about_us_raw",
-    "editorBlocks": [
-      [{
-        "label": "content_a",
-        "isMultipleLineText": "true"
-      }]
-    ]
-  }, {
-    "tabValue": "people",
-    "tabTitleKey": "pageSections.people.title",
-    "tabInfoKey": "pageSections.people.info",
-    "label": "about_us_people",
-    "editorBlocks": [
-      [{
-        "label": "person_img_url_a",
-        "isImage": "true"
-      }, {
-        "label": "person_name_a",
-        "isSingleLineText": "true"
-      }, {
-        "label": "person_title_a",
-        "isSingleLineText": "true"
-      }, {
-        "label": "person_details_a",
-        "isMultipleLineText": "true"
-      }],
-      [{
-        "label": "person_img_url_b",
-        "isImage": "true"
-      }, {
-        "label": "person_name_b",
-        "isSingleLineText": "true"
-      }, {
-        "label": "person_title_b",
-        "isSingleLineText": "true"
-      }, {
-        "label": "person_details_b",
-        "isMultipleLineText": "true"
-      }],
-      [{
-        "label": "person_img_url_c",
-        "isImage": "true"
-      }, {
-        "label": "person_name_c",
-        "isSingleLineText": "true"
-      }, {
-        "label": "person_title_c",
-        "isSingleLineText": "true"
-      }, {
-        "label": "person_details_c",
-        "isMultipleLineText": "true"
-      }],
-      [{
-        "label": "person_img_url_d",
-        "isImage": "true"
-      }, {
-        "label": "person_name_d",
-        "isSingleLineText": "true"
-      }, {
-        "label": "person_title_d",
-        "isSingleLineText": "true"
-      }, {
-        "label": "person_details_d",
-        "isMultipleLineText": "true"
-      }]
-    ]
-  }]
+  "fragment_configs": [
+    {
+      "tabValue": "html",
+      "tabTitleKey": "pageSections.rawHtml.title",
+      "tabInfoKey": "pageSections.rawHtml.info",
+      "label": "raw_html"
+
+    },
+    {
+      "tabValue": "our_agency",
+      "tabTitleKey": "pageSections.our_agency.title",
+      "tabInfoKey": "pageSections.our_agency.info",
+      "label": "our_agency",
+      "editorBlocks": [
+        [
+        {
+          "label": "title_a",
+          "isSingleLineText": "true"
+        },
+        {
+          "label": "content_a",
+          "isMultipleLineText": "true"
+        }],
+        [
+        {
+          "label": "our_agency_img",
+          "isImage": "true"
+        }]
+      ]
+    }
+    // {
+    //   "tabValue": "people",
+    //   "tabTitleKey": "pageSections.people.title",
+    //   "tabInfoKey": "pageSections.people.info",
+    //   "label": "about_us_people",
+    //   "editorBlocks": [
+    //     [
+    //     {
+    //       "label": "person_img_url_a",
+    //       "isImage": "true"
+    //     },
+    //     {
+    //       "label": "person_name_a",
+    //       "isSingleLineText": "true"
+    //     },
+    //     {
+    //       "label": "person_title_a",
+    //       "isSingleLineText": "true"
+    //     },
+    //     {
+    //       "label": "person_details_a",
+    //       "isMultipleLineText": "true"
+    //     }],
+    //     [
+    //     {
+    //       "label": "person_img_url_b",
+    //       "isImage": "true"
+    //     },
+    //     {
+    //       "label": "person_name_b",
+    //       "isSingleLineText": "true"
+    //     },
+    //     {
+    //       "label": "person_title_b",
+    //       "isSingleLineText": "true"
+    //     },
+    //     {
+    //       "label": "person_details_b",
+    //       "isMultipleLineText": "true"
+    //     }],
+    //     [
+    //     {
+    //       "label": "person_img_url_c",
+    //       "isImage": "true"
+    //     },
+    //     {
+    //       "label": "person_name_c",
+    //       "isSingleLineText": "true"
+    //     },
+    //     {
+    //       "label": "person_title_c",
+    //       "isSingleLineText": "true"
+    //     },
+    //     {
+    //       "label": "person_details_c",
+    //       "isMultipleLineText": "true"
+    //     }],
+    //     [
+    //     {
+    //       "label": "person_img_url_d",
+    //       "isImage": "true"
+    //     },
+    //     {
+    //       "label": "person_name_d",
+    //       "isSingleLineText": "true"
+    //     },
+    //     {
+    //       "label": "person_title_d",
+    //       "isSingleLineText": "true"
+    //     },
+    //     {
+    //       "label": "person_details_d",
+    //       "isMultipleLineText": "true"
+    //     }]
+    //   ]
+    // }
+  ]
 }]
