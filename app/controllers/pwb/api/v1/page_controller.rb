@@ -37,7 +37,6 @@ module Pwb
     end
     def update_page_part_visibility
       page = Page.find_by_slug params[:page_slug]
-      byebug
       page.details["visiblePageParts"] = params[:visible_page_parts]
       page.save!
       render json: page
