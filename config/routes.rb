@@ -119,21 +119,17 @@ Pwb::Engine.routes.draw do
         put "/website" => "website#update"
         get "/infos" => "agency#infos"
 
-        put "/pwb_page" => "page#update"
-        put "/pwb_page/page_part_visibility" => "page#update_page_part_visibility"
-        put "/pwb_page/page_fragment" => "page#save_page_fragment"
-        get "/pwb_page/:page_name" => "page#get"
+        put "/pages" => "page#update"
+        put "/pages/page_part_visibility" => "page#update_page_part_visibility"
+        put "/pages/page_fragment" => "page#save_page_fragment"
+        get "/pages/:page_name" => "page#get"
 
         # post '/page_fragments/photos/:page_id/:block_label' => 'page_fragments#set_photo'
         # get "page_fragments/:fragment_slug" => "page_fragments#show"
 
-        # patch '/cms-pages/:id' => 'page_fragments#update'
-        # patch '/cms_pages/:id' => 'page_fragments#update'
-
-        # above to replace below
-
-        post '/cms-pages/photos/:page_id/:block_label' => 'cms_pages#set_photo'
-        jsonapi_resources :cms_pages
+        post '/pages/photos/:page_id/:block_label' => 'page#set_photo'
+        # post '/cms-pages/photos/:page_id/:block_label' => 'cms_pages#set_photo'
+        # jsonapi_resources :cms_pages
 
 
         # get "/web-contents" => "agency#infos"

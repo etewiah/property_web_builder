@@ -14,6 +14,21 @@ module Pwb
       end
     end
 
+
+
+    def set_photo
+      # This only creates a content photo
+      # - does not associate it with a cms page yet
+      photo = ContentPhoto.create
+      # TODO: - figure out how to remove orphaned photos
+      if params[:file]
+        photo.image = params[:file]
+      end
+      photo.save!
+      photo.reload
+      render json: photo.to_json
+    end
+
     def update
       page = Page.find_by_slug params[:page][:slug]
       page.update(page_params)
@@ -22,6 +37,7 @@ module Pwb
     end
     def update_page_part_visibility
       page = Page.find_by_slug params[:page_slug]
+      byebug
       page.details["visiblePageParts"] = params[:visible_page_parts]
       page.save!
       render json: page
@@ -40,14 +56,14 @@ module Pwb
       label = fragment_details["label"]
 
 
-      begin
+      # begin
         fragment_html = render_to_string :partial => "pwb/fragments/#{label}",  :locals => { page_part: params[:fragment_details][:blocks]}
         # , formats: :css
         updated_details = page.set_fragment_details label, locale, fragment_details, fragment_html
         page.save!
-      rescue StandardError => error
-        return render_json_error error.message
-      end
+      # rescue StandardError => error
+      #   return render_json_error error.message
+      # end
 
       return render json: updated_details
     end
