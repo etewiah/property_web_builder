@@ -26,8 +26,9 @@ module Pwb
       end
       photo.save!
       photo.reload
-      # byebug
-      render json: photo.to_json
+      render json: {
+        image_url: photo.optimized_image_url
+      }
     end
 
     def update
@@ -57,10 +58,10 @@ module Pwb
 
 
       # begin
-        fragment_html = render_to_string :partial => "pwb/fragments/#{label}",  :locals => { page_part: params[:fragment_details][:blocks]}
-        # , formats: :css
-        updated_details = page.set_fragment_details label, locale, fragment_details, fragment_html
-        page.save!
+      fragment_html = render_to_string :partial => "pwb/fragments/#{label}",  :locals => { page_part: params[:fragment_details][:blocks]}
+      # , formats: :css
+      updated_details = page.set_fragment_details label, locale, fragment_details, fragment_html
+      page.save!
       # rescue StandardError => error
       #   return render_json_error error.message
       # end
