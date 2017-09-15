@@ -92,7 +92,7 @@ module Pwb
 
     def admin_globalize_attribute_names
 
-      self.globalize_attribute_names.push :page_fragments, :setup, :visible_page_parts
+      self.globalize_attribute_names.push :page_fragments, :setup, :visible_page_parts, :page_contents
       # return "link_title_en","link_title_es", "link_title_de",
       #                    "link_title_ru", "link_title_fr"
     end
@@ -100,6 +100,10 @@ module Pwb
     def setup
       # gets config info for fragments from associated page_setup model (which reads from json config files)
       return page_setup.present? ? page_setup.attributes.slice(:fragment_configs) : {}
+    end
+
+    def page_contents
+      return contents
     end
 
     def visible_page_parts

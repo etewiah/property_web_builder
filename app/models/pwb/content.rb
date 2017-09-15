@@ -12,6 +12,18 @@ module Pwb
 
     attribute :raw
 
+    def as_json(options = nil)
+      super({only: [
+               "key"
+             ],
+             methods: globalize_attribute_names
+             }.merge(options || {}))
+    end
+
+    def admin_globalize_attribute_names
+      self.globalize_attribute_names
+    end
+
 
     def default_photo
       content_photos.first
