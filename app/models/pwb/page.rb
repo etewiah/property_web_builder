@@ -27,7 +27,8 @@ module Pwb
     # scope :visible_in_admin, -> () { where visible: true  }
 
     def get_fragment_html label, locale
-      content = self.contents.find_by_key label
+      content_key = slug + "_" + label
+      content = self.contents.find_by_key content_key
       # fragments = details["fragments"] || {}
       # if fragments[label] && fragments[label][locale]
       #   fragments[label][locale]["html"]
@@ -40,8 +41,9 @@ module Pwb
 
 
     def set_fragment_html label, locale, new_fragment_html
+      content_key = slug + "_" + label
       # save in content model associated with page
-      page_fragment_content = contents.find_or_create_by(key: label)
+      page_fragment_content = contents.find_or_create_by(key: content_key)
       content_html_col = "raw_" + locale + "="
       # above is the col used by globalize gem to store localized data
       # page_fragment_content[content_html_col] = fragment_html

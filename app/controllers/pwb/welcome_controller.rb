@@ -10,19 +10,11 @@ module Pwb
 
       # TODO - order below:
       visible_page_fragment_names.each do |page_fragment_label|
-        if page_fragment_label == "raw_html"
-          fragment_html = @page.raw_html
-        else
+        unless page_fragment_label == "raw_html"
+          # fragment_html = @page.raw_html
           fragment_html = @page.get_fragment_html page_fragment_label, I18n.locale.to_s
+          @content_to_show.push fragment_html
         end
-        @content_to_show.push fragment_html
-
-        # cmspart_label = cmspart_info["label"]
-        # comfy_page = Comfy::Cms::Page.where(label: cmspart_label, slug: locale).first
-        # if comfy_page.present?
-        #   @content_to_show.push comfy_page.content_cache
-        #   # cmspart_info["content_cache"] = comfy_page.content_cache
-        # end
       end
 
 

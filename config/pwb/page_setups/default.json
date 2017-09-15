@@ -7,6 +7,13 @@
     "tabValue": "html",
     "tabTitleKey": "pageSections.rawHtml.title",
     "tabInfoKey": "pageSections.rawHtml.info",
-    "label": "raw_html"
+    "label": "content_html",
+    "editorBlocks": [
+      [
+      {
+        "label": "main_content",
+        "isHtml": "true"
+      }]
+    ]
   }]
 }]

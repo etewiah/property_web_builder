@@ -1,6 +1,21 @@
 ---
 en:
+  sell:
+    content_html:
+      main_content:
+        <h2>Sell Your Property with Us</h2>
+        Our commitment to you is to uphold the highest standards of professionalism while helping you make your best real estate decisions. You want to sell your property with full confidence. In doing so, you deserve our very best. Our goal at Example Real Estate is to provide you with exceptional service while meeting your needs at each step of the selling process. 
+        <h2>Regional Expertise
+        </h2>
+        Our clients and our business affiliates will tell you, no listings in our market region of Birmingham receive more exposure to buyers than those listed with Example Real Estate. Our Internet-based marketing, print advertising, and collateral marketing efforts allow our listings unequaled exposure to buyers who are looking for real estate in Birmingham. The strength of our online marketing, print advertising, and direct broker contacts drive significant traffic to our website, which provides detailed information on all of our property listings.
+        <h2>Ready to Help You
+        </h2>
+        Our Qualified Brokerage Professionals and Staff at Example Real Estate have the experience, the knowledge and the discretion to represent your property throughout Birmingham. Our team of dedicated and professional brokers and staff are committed to providing extraordinary service. You may be assured that Example RE provides the tools and assists your broker in marketing your property efficiently and expertly to local, regional and national markets. It takes more than a sign on your home or property to attract buyers. We create a complete marketing plan to meet your needs.
+
   home:
+    content_html:
+      main_content: <p><b>Noticia importante:</b>&nbsp; Para este mes estamos haciendo evaluaciones de viviendas gratis. &nbsp;Llamanos para mas información.</p>
+
     about_us_services:
       title_a: Find you home
       content_a: <p>Explain to us exactly what you are looking for and we will do our best to find that ideal property that meets your needs.</p>
@@ -8,6 +23,7 @@ en:
       content_b: <p>We are professional estate agents.  We will help you with all the paperwork and save you money along the way.</p>
       title_c: Sell your property
       content_c: <p>If you need to sell your property, get in touch with us.  With our experience in the industry and the local area we will get it done in the quickest and simplest way.</p>
+  
   about-us:
     our_agency:
       title_a:

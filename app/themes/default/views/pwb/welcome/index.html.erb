@@ -61,7 +61,7 @@
 <% end  %>
 
 
-<%= render '/pwb/welcome/content_area_cols' %>
+<%# render '/pwb/welcome/content_area_cols' %>
 <% if @properties_for_sale.length > 0  %>
   <%= render :partial => '/pwb/welcome/single_property_row', :locals => { properties: @properties_for_sale, rent_or_sale: 'for_sale', title_key: 'propertyForSale' }  %>
 <% end %>

@@ -1,6 +1,9 @@
 ---
 es:
   home:
+    content_html:
+      main_content: <p><b>Noticia importante:</b>&nbsp; Para este mes estamos haciendo evaluaciones de viviendas gratis. &nbsp;Llamanos para mas información.</p>
+
     about_us_services:
       title_a: Encuentra tu hogar
       content_a: <p>Explícanos exactamente lo que estás buscando, tus necesidades, estamos seguros de que encontraremos el hogar que necesitáis tú y tu familia.</p>
