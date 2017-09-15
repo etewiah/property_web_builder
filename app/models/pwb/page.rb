@@ -27,10 +27,12 @@ module Pwb
     # scope :visible_in_admin, -> () { where visible: true  }
 
     def get_fragment_html label, locale
-      fragments = details["fragments"] || {}
-      # @page["details"]["fragments"][page_fragment_label][I18n.locale.to_s]["html"]
-      if fragments[label] && fragments[label][locale]
-        fragments[label][locale]["html"]
+      content = self.contents.find_by_key label
+      # fragments = details["fragments"] || {}
+      # if fragments[label] && fragments[label][locale]
+      #   fragments[label][locale]["html"]
+      if content.present?
+        content.raw
       else
         nil
       end

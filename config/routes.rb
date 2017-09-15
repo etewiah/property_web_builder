@@ -54,8 +54,8 @@ Pwb::Engine.routes.draw do
     get "/rent" => "search#rent"
 
     get "/contact-us" => "sections#contact_us", as: "contact_us" #
-    get "/privacy-policy" => "sections#privacy_policy"
-    get "/legal" => "sections#legal"
+    # get "/privacy-policy" => "sections#privacy_policy"
+    # get "/legal" => "sections#legal"
 
     post "/contact_us" => "sections#contact_us_ajax"
     post "/search_ajax_for_sale" => "search#search_ajax_for_sale"

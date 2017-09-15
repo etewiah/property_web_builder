@@ -4,26 +4,23 @@ module Pwb
   class SectionsController < ApplicationController
     before_action :header_image
 
-    def generic_page
-      page_slug = params[:page_slug] || "home_path"
-      section = Pwb::Section.find_by_link_path page_slug
-      if section && section.contents.first
-        @content = section.contents.first
-        @title_key = section.link_key
-        @page_title = I18n.t(section.link_key)
-      else
-        @content = OpenStruct.new
-      end
-      render "/pwb/sections/static"
-    end
+    # def generic_page
+    #   page_slug = params[:page_slug] || "home_path"
+    #   section = Pwb::Section.find_by_link_path page_slug
+    #   if section && section.contents.first
+    #     @content = section.contents.first
+    #     @title_key = section.link_key
+    #     @page_title = I18n.t(section.link_key)
+    #   else
+    #     @content = OpenStruct.new
+    #   end
+    #   render "/pwb/sections/static"
+    # end
 
     def about_us
-      @content = Content.find_by_key("aboutUs")
-      @page_title = I18n.t("aboutUs")
-      @page_description = @content.present? ? @content.raw : ""
-      # @page_keywords    = 'Site, Login, Members'
-      # @about_us_image_url = Content.get_photo_url_by_key("aboutUs")
-      # @about_us_image_url = Content.find_by_key("aboutUs").content_photos.first.image_url || "http://moodleboard.com/images/prv/estate/estate-slider-bg-1.jpg"
+      # @content = Content.find_by_key("aboutUs")
+      # @page_title = I18n.t("aboutUs")
+      # @page_description = @content.present? ? @content.raw : ""
 
       @page = Pwb::Page.find_by_slug "about-us"
 
@@ -41,8 +38,8 @@ module Pwb
         @content_to_show.push fragment_html
       end
 
-      render "/pwb/sections/about_us"
-
+      render "/pwb/pages/show"
+      # render "/pwb/sections/about_us"
     end
 
     def contact_us

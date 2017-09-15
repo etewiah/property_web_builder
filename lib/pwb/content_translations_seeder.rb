@@ -87,7 +87,6 @@ module Pwb
         page_fragment_content.send content_html_col, fragment_html
         page_fragment_content.save!
 
-
         page.details["fragments"][fragment_label][locale] = content_for_pf_locale
         page.save!
 
