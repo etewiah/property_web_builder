@@ -59,14 +59,18 @@ module Pwb
 
       # begin
       fragment_html = render_to_string :partial => "pwb/fragments/#{label}",  :locals => { page_part: params[:fragment_details][:blocks]}
+      page.set_fragment_html label, locale, fragment_html
       # , formats: :css
-      updated_details = page.set_fragment_details label, locale, fragment_details, fragment_html
+      updated_details = page.set_fragment_details label, locale, fragment_details
       page.save!
       # rescue StandardError => error
       #   return render_json_error error.message
       # end
 
-      return render json: updated_details
+      return render json: {
+        blocks: updated_details,
+        html: fragment_html
+      }
     end
 
     private

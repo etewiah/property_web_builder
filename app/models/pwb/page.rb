@@ -39,8 +39,19 @@ module Pwb
     end
 
 
-    def set_fragment_details label, locale, fragment_details, new_fragment_html
+    def set_fragment_html label, locale, new_fragment_html
+      # save in content model associated with page
+      page_fragment_content = contents.find_or_create_by(key: label)
+      content_html_col = "raw_" + locale + "="
+      # above is the col used by globalize gem to store localized data
+      # page_fragment_content[content_html_col] = fragment_html
+      page_fragment_content.send content_html_col, new_fragment_html
+      page_fragment_content.save!
 
+      return page_fragment_content
+    end
+
+    def set_fragment_details label, locale, fragment_details
       # ensure path exists in details col
       unless details["fragments"].present?
         details["fragments"] = {}
@@ -49,13 +60,8 @@ module Pwb
         details["fragments"][label] = {}
       end
 
-
-      # fragments = details["fragments"].present? ? details["fragments"] : {}
-      # label_fragments = fragments[label].present? ? fragments[label] : { label => {}}
-
       # locale_label_fragments = label_fragments[locale].present? ? label_fragments[locale] : { label => { locale => fragment_details  }}
       details["fragments"][label][locale] = fragment_details
-      details["fragments"][label][locale]["html"] = new_fragment_html
       return details["fragments"][label][locale]
     end
 

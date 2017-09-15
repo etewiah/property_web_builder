@@ -1,5 +1,13 @@
 ---
 es:
+  home:
+    about_us_services:
+      title_a: Encuentra tu hogar
+      content_a: <p>Explícanos exactamente lo que estás buscando, tus necesidades, estamos seguros de que encontraremos el hogar que necesitáis tú y tu familia.</p>
+      title_b: Agentes Inmobiliarios
+      content_b: <p>Somos agentes inmobiliarios profesionales. Te ayudamos con todos los trámites, y te ahorramos dinero con las transacciones. Vamos de la mano durante todo el proceso, te guiamos y asesoramos desde el primer momento hasta el último.</p>
+      title_c: Vende tu vivienda
+      content_c: <p>Si necesitas vender una vivienda, ponte en contacto con nosotros. Con nuestra experiencia en el sector y en la zona haremos este trámite de forma rápida y sencilla.</p>
   about-us:
     our_agency:
       title_a:
