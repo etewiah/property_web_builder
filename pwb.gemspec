@@ -28,10 +28,12 @@ Gem::Specification.new do |s|
   # compatible tag
   s.add_dependency 'activemodel-serializers-xml'
   s.add_dependency 'globalize-accessors'
-  # need to fix carrierwave at 1.0.0.beta because of this issue:
+
+  # s.add_dependency 'carrierwave', '1.0.0.beta'
+  # had to fix carrierwave at 1.0.0.beta because of this issue:
   # https://github.com/cloudinary/cloudinary_gem/issues/221
-  s.add_dependency 'carrierwave', '1.0.0.beta'
-  # , '>= 1.0.0.rc', '< 2.0'
+  # spt 2017 - above has now been fixed
+  s.add_dependency 'carrierwave'
   s.add_dependency 'bootstrap-sass'
   s.add_dependency 'i18n-active_record'
   # , :require => 'i18n/active_record'
