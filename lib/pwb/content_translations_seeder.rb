@@ -76,10 +76,17 @@ module Pwb
 
 
         ac = ActionController::Base.new()
+        # render html for fragment with associated partial
         fragment_html = ac.render_to_string :partial => "pwb/fragments/#{fragment_label}",  :locals => { page_part: content_for_pf_locale["blocks"]}
 
-        # below might be moved to be saved in associated content model
-        content_for_pf_locale["html"] = fragment_html
+        # and save in content model associated with page
+        page_fragment_content = page.contents.find_or_create_by(key: fragment_label)
+        content_html_col = "raw_" + locale + "="
+        # above is the col used by globalize gem to store localized data
+        # page_fragment_content[content_html_col] = fragment_html
+        page_fragment_content.send content_html_col, fragment_html
+        page_fragment_content.save!
+
 
         page.details["fragments"][fragment_label][locale] = content_for_pf_locale
         page.save!

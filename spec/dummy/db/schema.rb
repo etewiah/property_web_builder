@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170720201601) do
+ActiveRecord::Schema.define(version: 20170915094326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -303,6 +303,17 @@ ActiveRecord::Schema.define(version: 20170720201601) do
     t.string "origin_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "pwb_page_contents", force: :cascade do |t|
+    t.string "label"
+    t.integer "sort_order"
+    t.bigint "page_id"
+    t.bigint "content_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["content_id"], name: "index_pwb_page_contents_on_content_id"
+    t.index ["page_id"], name: "index_pwb_page_contents_on_page_id"
   end
 
   create_table "pwb_page_translations", force: :cascade do |t|

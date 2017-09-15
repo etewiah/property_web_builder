@@ -8,6 +8,9 @@ module Pwb
     has_one :main_link, -> { where(placement: :top_nav) }, foreign_key: "page_slug", primary_key: "slug", class_name: "Pwb::Link"
     # , :conditions => ['placement = ?', :admin]
 
+    has_many :page_contents
+    has_many :contents, :through => :page_contents
+
     translates :raw_html, fallbacks_for_empty_translations: true
     translates :page_title, fallbacks_for_empty_translations: true
     translates :link_title, fallbacks_for_empty_translations: true

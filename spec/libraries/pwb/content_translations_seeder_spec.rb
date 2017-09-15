@@ -9,12 +9,17 @@ module Pwb
       Pwb::ContentTranslationsSeeder.seed_content_translations!
     end
 
-    it 'creates our_agency content' do
+    it 'creates our_agency content blocks' do
       about_us_page = Pwb::Page.find_by_slug "about-us"
       expect(about_us_page.details["fragments"]["our_agency"]["en"]["blocks"].count).to eq(3)
       expect(about_us_page.details["fragments"]["our_agency"]["es"]["blocks"].count).to eq(3)
     end
 
+    it 'creates our_agency html content' do
+      about_us_page = Pwb::Page.find_by_slug "about-us"
+      about_us_page_content = about_us_page.contents.find_by_key "our_agency"
+      expect(about_us_page_content.raw_en).to include("professional")
+    end
 
  
     # it 'creates i18n translations' do
