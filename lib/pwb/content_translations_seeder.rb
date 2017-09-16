@@ -32,7 +32,7 @@ module Pwb
                   set_page_block_content locale, page.slug, fragment_config, yml[locale][page.slug][fragment_label]
                 end
               rescue NoMethodError => e
-
+byebug
               end
             end
           end
@@ -82,12 +82,6 @@ module Pwb
         # # and save in content model associated with page
         page.set_fragment_html fragment_label, locale, fragment_html
 
-        # page_fragment_content = page.contents.find_or_create_by(key: fragment_label)
-        # content_html_col = "raw_" + locale + "="
-        # # above is the col used by globalize gem to store localized data
-        # # page_fragment_content[content_html_col] = fragment_html
-        # page_fragment_content.send content_html_col, fragment_html
-        # page_fragment_content.save!
 
         page.details["fragments"][fragment_label][locale] = content_for_pf_locale
         page.save!

@@ -22,12 +22,12 @@ module Pwb
         end
 
         seed_sections 'sections.yml'
-        seed_content 'content_columns.yml'
+        # seed_content 'content_columns.yml'
         seed_content 'carousel.yml'
-        seed_content 'about_us.yml'
-        seed_content 'static.yml'
-        seed_content 'footer.yml'
-        seed_content 'sell.yml'
+        # seed_content 'about_us.yml'
+        # seed_content 'static.yml'
+        # seed_content 'footer.yml'
+        # seed_content 'sell.yml'
         seed_agency 'agency.yml'
         seed_website 'website.yml'
         # need to seed website first so correct currency is used
