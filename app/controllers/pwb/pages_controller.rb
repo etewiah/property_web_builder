@@ -18,13 +18,11 @@ module Pwb
 
       # TODO - order below:
       visible_page_fragments.each do |page_fragment_label|
-        if page_fragment_label == "raw_html"
-          fragment_html = @page.raw_html
-        else
+        unless page_fragment_label == "raw_html"
+          # fragment_html = @page.raw_html
           fragment_html = @page.get_fragment_html page_fragment_label, I18n.locale.to_s
-          # fragment_html =  @page["details"]["fragments"][page_fragment_label][I18n.locale.to_s]["html"]
+          @content_to_show.push fragment_html
         end
-        @content_to_show.push fragment_html
       end
 
       # cmsparts_info = @page.details["cmsPartsList"] || []
