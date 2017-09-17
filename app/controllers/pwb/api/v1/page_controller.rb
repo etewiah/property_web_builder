@@ -29,7 +29,6 @@ module Pwb
       fragment_label = params["fragment_label"]
 
       photo = page.create_fragment_photo fragment_label, block_label, params[:file]
-      byebug
       photo.reload
       render json: {
         image_url: photo.optimized_image_url

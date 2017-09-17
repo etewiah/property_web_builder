@@ -19,57 +19,11 @@
   page_title_ru: Главная
   page_title_pt: Home
   details: {
-    "visiblePageParts": ["raw_html","about_us_services"],
-    "cmsPartsList": [
-      {
-        "tabValue": "landing-carousel",
-        "tabTitleKey": "pageSections.landingCarousel.title",
-        "tabInfoKey": "pageSections.landingCarousel.info",
-        "label": "landing_carousel",
-        "isLegacy": "true",
-        "isEditable": "true",
-        "componentName": "landing-carousel",
-      },
-      {
-        "tabValue": "html",
-        "tabTitleKey": "pageSections.rawHtml.title",
-        "tabInfoKey": "pageSections.rawHtml.info",
-        "label": "raw_html"
-      },
-      {
-        "tabValue": "services",
-        "tabTitleKey": "pageSections.services.title",
-        "tabInfoKey": "pageSections.services.info",
-        "label": "about_us_services",
-        "editorBlocks": [
-          [{
-            "label": "title_a",
-            "isSingleLineText": "true"
-          }, {
-            "label": "content_a",
-            "isMultipleLineText": "true"
-          }],
-          [{
-            "label": "title_b",
-            "isSingleLineText": "true"
-          }, {
-            "label": "content_b",
-            "isMultipleLineText": "true"
-          }],
-          [{
-            "label": "title_c",
-            "isSingleLineText": "true"
-          }, {
-            "label": "content_c",
-            "isMultipleLineText": "true"
-          }]
-        ]
-      }
-    ]
+    "visiblePageParts": ["content_html","about_us_services","landing_hero"]
   }
-  raw_html_en: 
-    <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.
-    Call us now to take advantage of this special offer.</p>
-  raw_html_es: 
-    <p><b>Noticia importante:</b>&nbsp; Para este mes estamos haciendo evaluaciones de viviendas 
-    gratis. &nbsp;Llamanos para mas información.</p>
+  # raw_html_en: 
+  #   <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.
+  #   Call us now to take advantage of this special offer.</p>
+  # raw_html_es: 
+  #   <p><b>Noticia importante:</b>&nbsp; Para este mes estamos haciendo evaluaciones de viviendas 
+  #   gratis. &nbsp;Llamanos para mas información.</p>

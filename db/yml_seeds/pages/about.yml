@@ -9,11 +9,11 @@
   page_title_ru: О нас
   page_title_pt: About Us
   details: {
-    "visiblePageParts": []
+    "visiblePageParts": ["content_html","our_agency"]
   }
-  raw_html_en: 
-    <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.
-    Call us now to take advantage of this special offer.</p>
-  raw_html_es: 
-    <p><b>Noticia importante:</b>&nbsp; Para este mes estamos haciendo evaluaciones de viviendas 
-    gratis. &nbsp;Llamanos para mas información.</p>
+  # raw_html_en: 
+  #   <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.
+  #   Call us now to take advantage of this special offer.</p>
+  # raw_html_es: 
+  #   <p><b>Noticia importante:</b>&nbsp; Para este mes estamos haciendo evaluaciones de viviendas 
+  #   gratis. &nbsp;Llamanos para mas información.</p>

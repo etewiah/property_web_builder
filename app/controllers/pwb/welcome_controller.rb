@@ -17,7 +17,6 @@ module Pwb
         end
       end
 
-
       @carousel_items = Content.where(tag: 'landing-carousel')
       @carousel_speed = 3000
       # .includes(:content_photos, :translations)

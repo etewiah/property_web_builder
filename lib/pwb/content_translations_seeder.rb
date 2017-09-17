@@ -4,7 +4,7 @@ module Pwb
   class ContentTranslationsSeeder
     class << self
       # Called by this rake task:
-      # rake app:pwb:db:seed_content_translations                                  1 ↵
+      # rake app:pwb:db:seed_pages                                  1 ↵
 
       def seed_content_translations!
         I18n.available_locales.each do |locale|

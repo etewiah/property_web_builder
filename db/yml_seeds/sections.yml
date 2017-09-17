@@ -1,121 +1,121 @@
----
-- link_key: home
-  link_path: home_path
-  sort_order: 1
-  visible: true
-  is_page: false
-  show_in_top_nav: true
-  show_in_footer: false
-  link_title_en: Home
-  link_title_es: Inicio
-  link_title_fr: Accueil
-  link_title_de: Zuhause
-  page_title_en: Home
-  page_title_es: Inicio
-  page_title_fr: Accueil
-  page_title_de: Zuhause
-- link_key: buy
-  link_path: buy_path
-  sort_order: 2
-  visible: true
-  is_page: false
-  show_in_top_nav: true
-  show_in_footer: false
-  link_title_en: Buy
-  link_title_es: Comprar
-  link_title_fr: Acheter
-  link_title_de: Kaufen
-  page_title_en: Buy
-  page_title_es: Comprar
-  page_title_fr: Acheter
-  page_title_de: Kaufen
-- link_key: rent
-  link_path: rent_path
-  sort_order: 3
-  visible: true
-  is_page: false
-  show_in_top_nav: true
-  show_in_footer: false
-  link_title_en: Rent
-  link_title_es: Arrendar
-  link_title_fr: Louer
-  link_title_de: Miete
-  page_title_en: Rent
-  page_title_es: Arrendar
-  page_title_fr: Louer
-  page_title_de: Miete
-# - link_key: sell
-#   link_path: sell
-#   sort_order: 4
-#   visible: false
-#   is_page: true
+# ---
+# - link_key: home
+#   link_path: home_path
+#   sort_order: 1
+#   visible: true
+#   is_page: false
 #   show_in_top_nav: true
 #   show_in_footer: false
-#   link_title_en: Sell
-#   link_title_es: Vender
-#   link_title_fr: Vendre
-#   link_title_de: Verkaufen
-#   page_title_en: Sell
-#   page_title_es: Vender
-#   page_title_fr: Vendre
-#   page_title_de: Verkaufen
-- link_key: aboutUs
-  link_path: about_us_path
-  sort_order: 5
-  visible: true
-  is_page: false
-  show_in_top_nav: true
-  show_in_footer: false
-  link_title_en: About Us
-  link_title_es: Sobre Nosotros
-  link_title_fr: A propos
-  link_title_de: Über uns
-  page_title_en: About Us
-  page_title_es: Sobre Nosotros
-  page_title_fr: A propos
-  page_title_de: Über uns
-- link_key: contactUs
-  link_path: contact_us_path
-  sort_order: 6
-  visible: true
-  is_page: false
-  show_in_top_nav: true
-  show_in_footer: false
-  link_title_en: Contact Us
-  link_title_es: Contactar
-  link_title_fr: Contacter
-  link_title_de: Kontact
-  page_title_en: Contact Us
-  page_title_es: Contactar
-  page_title_fr: Contacter
-  page_title_de: Kontact
-- link_key: legalAdvice
-  link_path: legal
-  sort_order: 7
-  visible: true
-  is_page: true
-  show_in_top_nav: false
-  show_in_footer: true
-  link_title_en: Contact Us
-  link_title_es: Contactar
-  link_title_fr: Contacter
-  link_title_de: Kontact
-  page_title_en: Contact Us
-  page_title_es: Contactar
-  page_title_fr: Contacter
-  page_title_de: Kontact
-- link_key: privacyPolicy
-  link_path: privacy
-  sort_order: 8
-  visible: true
-  is_page: true
-  show_in_top_nav: false
-  show_in_footer: true
-  link_title_en: Contact Us
-  link_title_es: Contactar
-  link_title_fr: Contacter
-  link_title_de: Kontact
-  page_title_en: Contact Us
-  page_title_es: Contactar
-  page_title_fr: Contacter
-  page_title_de: Kontact
+#   link_title_en: Home
+#   link_title_es: Inicio
+#   link_title_fr: Accueil
+#   link_title_de: Zuhause
+#   page_title_en: Home
+#   page_title_es: Inicio
+#   page_title_fr: Accueil
+#   page_title_de: Zuhause
+# - link_key: buy
+#   link_path: buy_path
+#   sort_order: 2
+#   visible: true
+#   is_page: false
+#   show_in_top_nav: true
+#   show_in_footer: false
+#   link_title_en: Buy
+#   link_title_es: Comprar
+#   link_title_fr: Acheter
+#   link_title_de: Kaufen
+#   page_title_en: Buy
+#   page_title_es: Comprar
+#   page_title_fr: Acheter
+#   page_title_de: Kaufen
+# - link_key: rent
+#   link_path: rent_path
+#   sort_order: 3
+#   visible: true
+#   is_page: false
+#   show_in_top_nav: true
+#   show_in_footer: false
+#   link_title_en: Rent
+#   link_title_es: Arrendar
+#   link_title_fr: Louer
+#   link_title_de: Miete
+#   page_title_en: Rent
+#   page_title_es: Arrendar
+#   page_title_fr: Louer
+#   page_title_de: Miete
+# # - link_key: sell
+# #   link_path: sell
+# #   sort_order: 4
+# #   visible: false
+# #   is_page: true
+# #   show_in_top_nav: true
+# #   show_in_footer: false
+# #   link_title_en: Sell
+# #   link_title_es: Vender
+# #   link_title_fr: Vendre
+# #   link_title_de: Verkaufen
+# #   page_title_en: Sell
+# #   page_title_es: Vender
+# #   page_title_fr: Vendre
+# #   page_title_de: Verkaufen
+# - link_key: aboutUs
+#   link_path: about_us_path
+#   sort_order: 5
+#   visible: true
+#   is_page: false
+#   show_in_top_nav: true
+#   show_in_footer: false
+#   link_title_en: About Us
+#   link_title_es: Sobre Nosotros
+#   link_title_fr: A propos
+#   link_title_de: Über uns
+#   page_title_en: About Us
+#   page_title_es: Sobre Nosotros
+#   page_title_fr: A propos
+#   page_title_de: Über uns
+# - link_key: contactUs
+#   link_path: contact_us_path
+#   sort_order: 6
+#   visible: true
+#   is_page: false
+#   show_in_top_nav: true
+#   show_in_footer: false
+#   link_title_en: Contact Us
+#   link_title_es: Contactar
+#   link_title_fr: Contacter
+#   link_title_de: Kontact
+#   page_title_en: Contact Us
+#   page_title_es: Contactar
+#   page_title_fr: Contacter
+#   page_title_de: Kontact
+# - link_key: legalAdvice
+#   link_path: legal
+#   sort_order: 7
+#   visible: true
+#   is_page: true
+#   show_in_top_nav: false
+#   show_in_footer: true
+#   link_title_en: Contact Us
+#   link_title_es: Contactar
+#   link_title_fr: Contacter
+#   link_title_de: Kontact
+#   page_title_en: Contact Us
+#   page_title_es: Contactar
+#   page_title_fr: Contacter
+#   page_title_de: Kontact
+# - link_key: privacyPolicy
+#   link_path: privacy
+#   sort_order: 8
+#   visible: true
+#   is_page: true
+#   show_in_top_nav: false
+#   show_in_footer: true
+#   link_title_en: Contact Us
+#   link_title_es: Contactar
+#   link_title_fr: Contacter
+#   link_title_de: Kontact
+#   page_title_en: Contact Us
+#   page_title_es: Contactar
+#   page_title_fr: Contacter
+#   page_title_de: Kontact

@@ -1,6 +1,5 @@
 ---
 en:
-
   legal:
     content_html:
       main_content:
@@ -37,7 +36,7 @@ en:
 
   home:
     content_html:
-      main_content: <p><b>Noticia importante:</b>&nbsp; Para este mes estamos haciendo evaluaciones de viviendas gratis. &nbsp;Llamanos para mas información.</p>
+      main_content: <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.  Call us now to take advantage of this special offer.</p>
 
     about_us_services:
       title_a: Find your home
@@ -48,6 +47,8 @@ en:
       content_c: <p>If you need to sell your property, get in touch with us.  With our experience in the industry and the local area we will get it done in the quickest and simplest way.</p>
   
   about-us:
+    content_html:
+      main_content: <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.  Call us now to take advantage of this special offer.</p>
     our_agency:
       title_a:
         About Us

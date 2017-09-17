@@ -21,12 +21,12 @@ module Pwb
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_ca.rb')
         end
 
-        seed_sections 'sections.yml'
+        # seed_sections 'sections.yml'
         # seed_content 'content_columns.yml'
-        seed_content 'carousel.yml'
+        # seed_content 'carousel.yml'
         # seed_content 'about_us.yml'
         # seed_content 'static.yml'
-        # seed_content 'footer.yml'
+        seed_content 'footer.yml'
         # seed_content 'sell.yml'
         seed_agency 'agency.yml'
         seed_website 'website.yml'
@@ -55,10 +55,6 @@ module Pwb
           seed_page page_yml_filename
         end
       end
-
-      # def seed_links
-      #   seed_links 'links.yml'
-      # end
 
       protected
 
@@ -99,14 +95,14 @@ module Pwb
       end
 
 
-      def seed_sections yml_file
-        sections_yml = load_seed_yml yml_file
-        sections_yml.each do |single_section_yml|
-          unless Pwb::Section.where(link_key: single_section_yml['link_key']).count > 0
-            Pwb::Section.create!(single_section_yml)
-          end
-        end
-      end
+      # def seed_sections yml_file
+      #   sections_yml = load_seed_yml yml_file
+      #   sections_yml.each do |single_section_yml|
+      #     unless Pwb::Section.where(link_key: single_section_yml['link_key']).count > 0
+      #       Pwb::Section.create!(single_section_yml)
+      #     end
+      #   end
+      # end
 
       def seed_website yml_file
         website_yml = load_seed_yml yml_file
@@ -153,7 +149,7 @@ module Pwb
       end
 
       def seed_content yml_file
-        content_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'content', yml_file)
+        content_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', yml_file)
         content_yml = YAML.load_file(content_seed_file)
         # tag is used to group content for an admin page
         # key is camelcase (js style) - used client side to identify each item in a group of content
