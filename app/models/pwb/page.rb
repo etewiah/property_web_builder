@@ -40,8 +40,91 @@ module Pwb
     end
 
 
-    def set_fragment_html label, locale, new_fragment_html
-      content_key = slug + "_" + label
+    # # from admin ui, when image is updated for a given locale I need to
+    # # update it on all fragments
+    # # - also need to delete all other photos associated with the fragment_block
+    # def update_fragment_image_url fragment_label, block_label, new_image_url
+    #   content_key = self.slug + "_" + fragment_label
+    #   # get in content model associated with page and fragment
+    #   page_fragment_content = contents.find_or_create_by(key: content_key)
+    #   # get all images associated with this fragment block
+    #   fragment_photos = page_fragment_content.content_photos.where(description: block_label)
+    #   fragment_photos.each do |fragment_photo|
+    #     byebug
+    #     # delete other images
+    #   end
+    #   #
+    # end
+
+    # used by page_controller to create a photo (from upload) that can
+    # later be used in fragment html
+    def create_fragment_photo fragment_label, block_label, photo_file
+      content_key = self.slug + "_" + fragment_label
+      # get content model associated with page and fragment
+      page_fragment_content = contents.find_or_create_by(key: content_key)
+
+      if ENV["RAILS_ENV"] == "test"
+        # don't create photos for tests
+        return nil
+      end
+      begin
+        photo = page_fragment_content.content_photos.create(description: block_label)
+        #TODO change description above to key
+
+        photo.image = photo_file
+        # photo.image = Pwb::Engine.root.join(photo_file).open
+        photo.save!
+      rescue Exception => e
+        # log exception to console
+        p e
+        # if photo
+        #   photo.destroy!
+        # end
+      end
+      return photo
+    end
+
+
+    # when seeding I only need to ensure that a photo exists for the fragment
+    # so will return existing photo if it can be found
+    def seed_fragment_photo fragment_label, block_label, photo_file
+      content_key = self.slug + "_" + fragment_label
+      # get in content model associated with page and fragment
+      page_fragment_content = contents.find_or_create_by(key: content_key)
+      # change description below to key
+      photo = page_fragment_content.content_photos.find_by_description(block_label)
+      if photo.present?
+        return photo
+      else
+        photo = page_fragment_content.content_photos.create(description: block_label)
+      end
+      # photo = page_fragment_content.content_photos.find_or_initialize_by(description: block_label)
+
+      if ENV["RAILS_ENV"] == "test"
+        # don't create photos for tests
+        return nil
+      end
+      begin
+
+        photo.image = photo_file
+        # photo.image = Pwb::Engine.root.join(photo_file).open
+        photo.save!
+      rescue Exception => e
+        # log exception to console
+        p e
+        # if photo
+        #   photo.destroy!
+        # end
+      end
+      # if photo
+      #   photo.content = page_fragment_content
+      # end
+      return photo
+    end
+
+
+    def set_fragment_html fragment_label, locale, new_fragment_html
+      content_key = slug + "_" + fragment_label
       # save in content model associated with page
       page_fragment_content = contents.find_or_create_by(key: content_key)
       content_html_col = "raw_" + locale + "="
@@ -53,18 +136,18 @@ module Pwb
       return page_fragment_content
     end
 
-    def set_fragment_details label, locale, fragment_details
+    def set_fragment_details fragment_label, locale, fragment_details
       # ensure path exists in details col
       unless details["fragments"].present?
         details["fragments"] = {}
       end
-      unless details["fragments"][label].present?
-        details["fragments"][label] = {}
+      unless details["fragments"][fragment_label].present?
+        details["fragments"][fragment_label] = {}
       end
 
       # locale_label_fragments = label_fragments[locale].present? ? label_fragments[locale] : { label => { locale => fragment_details  }}
-      details["fragments"][label][locale] = fragment_details
-      return details["fragments"][label][locale]
+      details["fragments"][fragment_label][locale] = fragment_details
+      return details["fragments"][fragment_label][locale]
     end
 
     # def as_json(options = nil)

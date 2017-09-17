@@ -125,9 +125,8 @@ Pwb::Engine.routes.draw do
         get "/pages/:page_name" => "page#get"
 
         # post '/page_fragments/photos/:page_id/:block_label' => 'page_fragments#set_photo'
-        # get "page_fragments/:fragment_slug" => "page_fragments#show"
 
-        post '/pages/photos/:page_id/:block_label' => 'page#set_photo'
+        post '/pages/photos/:page_slug/:fragment_label/:block_label' => 'page#set_photo'
         # post '/cms-pages/photos/:page_id/:block_label' => 'cms_pages#set_photo'
         # jsonapi_resources :cms_pages
 

@@ -32,7 +32,7 @@ module Pwb
                   set_page_block_content locale, page.slug, fragment_config, yml[locale][page.slug][fragment_label]
                 end
               rescue NoMethodError => e
-byebug
+# byebug
               end
             end
           end

@@ -16,15 +16,20 @@ module Pwb
 
 
 
-    def set_photo
-      # This only creates a content photo
-      # - does not associate it with a cms page yet
-      photo = ContentPhoto.create
-      # TODO: - figure out how to remove orphaned photos
-      if params[:file]
-        photo.image = params[:file]
+    def set_photo 
+      page = Page.find_by_slug params[:page_slug]
+
+      unless params["block_label"]
+        return render_json_error 'Please provide block_label'
       end
-      photo.save!
+      block_label = params["block_label"]
+      unless params["fragment_label"]
+        return render_json_error 'Please provide label'
+      end
+      fragment_label = params["fragment_label"]
+
+      photo = page.create_fragment_photo fragment_label, block_label, params[:file]
+      byebug
       photo.reload
       render json: {
         image_url: photo.optimized_image_url
@@ -62,6 +67,17 @@ module Pwb
       page.set_fragment_html label, locale, fragment_html
       # , formats: :css
       updated_details = page.set_fragment_details label, locale, fragment_details
+
+      # binding.pry 
+      # # Check if an image url has been set
+      # fragment_details.each do |fragment_detail|
+      #   update_all_images = true
+      # end
+
+      # if update_all_images
+        
+      # end
+
       page.save!
       # rescue StandardError => error
       #   return render_json_error error.message
