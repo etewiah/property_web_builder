@@ -178,10 +178,10 @@ module Pwb
                  "sort_order_footer", "show_in_footer",
                  "slug", "link_path","visible"
                ],
-               methods: admin_globalize_attribute_names}.merge(options || {}))
+               methods: admin_attribute_names}.merge(options || {}))
     end
 
-    def admin_globalize_attribute_names
+    def admin_attribute_names
 
       self.globalize_attribute_names.push :page_fragments, :setup, :visible_page_parts, :page_contents
       # return "link_title_en","link_title_es", "link_title_de",

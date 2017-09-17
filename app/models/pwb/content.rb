@@ -16,12 +16,12 @@ module Pwb
       super({only: [
                "key"
              ],
-             methods: globalize_attribute_names
+             methods: admin_attribute_names
              }.merge(options || {}))
     end
 
-    def admin_globalize_attribute_names
-      self.globalize_attribute_names
+    def admin_attribute_names
+      self.globalize_attribute_names.push :content_photos
     end
 
 
