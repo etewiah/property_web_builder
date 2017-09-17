@@ -13,9 +13,9 @@ ru:
       people: 
         title: Your team
         info: Summary info about your team
-      landingCarousel: 
-        title: Home page carousel
-        info: Main section displaying images and text
+      # landingCarousel: 
+      #   title: Home page carousel
+      #   info: Main section displaying images and text
       rawHtml: 
         title: HTML Content
         info: You can add extra HTML here
@@ -28,9 +28,15 @@ ru:
       contactUsForm: 
         title: Contact us form
         info: Form to allow visitors to send you a message
-      aboutUs:
-        title: Text and photo
+      # aboutUs:
+      #   title: Text and photo
+      #   info: A little bit about your business
+      ourAgency:
+        title: About our agency
         info: A little bit about your business
+      landingHero:
+        title: Main header
+        info: Large image and text highlighting your busi
     "true": "true"
     "false": "false"
     "yes": "да"
@@ -139,12 +145,12 @@ ru:
       suffixFr: in French
       privacyPolicy: Политика конфиденциальности
       legalAdvice: Соглашение с пользователем
-      landingcarousel: Текст для фотографии слайдера
-      cac1: Колонка 1
-      cac2: Колонка 2
-      cac3: Колонка 3
-      landingPageHero: Контент для главной страницы
-      tagLine: Поле тэга
+      # landingcarousel: Текст для фотографии слайдера
+      # cac1: Колонка 1
+      # cac2: Колонка 2
+      # cac3: Колонка 3
+      # landingPageHero: Контент для главной страницы
+      # tagLine: Поле тэга
       aboutUs: О нас
       footerInfo: Дополнительный контент для футера
 

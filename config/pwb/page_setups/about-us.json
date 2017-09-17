@@ -18,8 +18,8 @@
     },
     {
       "tabValue": "our_agency",
-      "tabTitleKey": "pageSections.our_agency.title",
-      "tabInfoKey": "pageSections.our_agency.info",
+      "tabTitleKey": "pageSections.ourAgency.title",
+      "tabInfoKey": "pageSections.ourAgency.info",
       "label": "our_agency",
       "editorBlocks": [
         [

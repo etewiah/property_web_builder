@@ -68,9 +68,9 @@ en:
       people: 
         title: Your team
         info: Summary info about your team
-      landingCarousel: 
-        title: Home page carousel
-        info: Main section displaying images and text
+      # landingCarousel: 
+      #   title: Home page carousel
+      #   info: Main section displaying images and text
       rawHtml: 
         title: HTML Content
         info: You can add extra HTML here
@@ -83,11 +83,18 @@ en:
       contactUsForm: 
         title: Contact us form
         info: Form to allow visitors to send you a message
-      aboutUs:
-        title: Text and photo
+      # aboutUs:
+      #   title: Text and photo
+      #   info: A little bit about your business
+      ourAgency:
+        title: About our agency
         info: A little bit about your business
+      landingHero:
+        title: Main header
+        info: Large image and text highlighting your busi
     editor:
       pickPhoto: Pick photo
+      uploadPhoto: Upload photo
     inTabLabels:
       topNav: Top Navigation
       footer: Footer
@@ -159,12 +166,12 @@ en:
       suffixTr: in Turkish
       privacyPolicy: Privacy Policy
       legalAdvice: Legal Notice
-      landingcarousel: Text for carousel image
-      cac1: Column 1
-      cac2: Column 2
-      cac3: Column 3
-      landingPageHero: Content for the main page
-      tagLine: Tag Line
+      # landingcarousel: Text for carousel image
+      # cac1: Column 1
+      # cac2: Column 2
+      # cac3: Column 3
+      # landingPageHero: Content for the main page
+      # tagLine: Tag Line
       aboutUs: About us
       footerInfo: Extra footer content
 
@@ -187,7 +194,7 @@ en:
       aboutUs: About us
       contactInformation: Contact information 
       sell: Sell
-      tagLine: Tag Line
+      # tagLine: Tag Line
       legal: Legal
       general: General
       landingCarousel: Landing Page Carousel

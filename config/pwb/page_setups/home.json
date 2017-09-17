@@ -4,6 +4,28 @@
   "id": "home",
   "fragment_configs": [
   {
+    "tabValue": "landing_hero",
+    "tabTitleKey": "pageSections.landingHero.title",
+    "tabInfoKey": "pageSections.landingHero.info",
+    "label": "landing_hero",
+    "editorBlocks": [
+      [
+      {
+        "label": "landing_title_a",
+        "isSingleLineText": "true"
+      },
+      {
+        "label": "landing_content_a",
+        "isHtml": "true"
+      }],
+      [
+      {
+        "label": "landing_img",
+        "isImage": "true"
+      }]
+    ]
+  },
+  {
     "tabValue": "landing-carousel",
     "tabTitleKey": "pageSections.landingCarousel.title",
     "tabInfoKey": "pageSections.landingCarousel.info",
@@ -33,6 +55,10 @@
     "editorBlocks": [
       [
       {
+        "label": "icon_a",
+        "isIcon": "true"
+      },
+      {
         "label": "title_a",
         "isSingleLineText": "true"
       },
@@ -42,6 +68,10 @@
       }],
       [
       {
+        "label": "icon_b",
+        "isIcon": "true"
+      },
+      {
         "label": "title_b",
         "isSingleLineText": "true"
       },
@@ -50,6 +80,10 @@
         "isMultipleLineText": "true"
       }],
       [
+      {
+        "label": "icon_c",
+        "isIcon": "true"
+      },
       {
         "label": "title_c",
         "isSingleLineText": "true"

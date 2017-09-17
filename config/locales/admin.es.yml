@@ -68,9 +68,9 @@ es:
       people: 
         title: Vuestro equipo
         info: Detalles de vuestro equipo
-      landingCarousel: 
-        title: Home page carousel
-        info: Main section displaying images and text
+      # landingCarousel: 
+      #   title: Home page carousel
+      #   info: Main section displaying images and text
       rawHtml: 
         title: HTML Content
         info: You can add extra HTML here
@@ -83,11 +83,18 @@ es:
       contactUsForm: 
         title: Contact us form
         info: Form to allow visitors to send you a message
-      aboutUs:
-        title: Text and photo
+      # aboutUs:
+      #   title: Text and photo
+      #   info: A little bit about your business
+      ourAgency:
+        title: About our agency
         info: A little bit about your business
+      landingHero:
+        title: Main header
+        info: Large image and text highlighting your busi
     editor:
       pickPhoto: Selecciona foto
+      uploadPhoto: Subir foto
     inTabLabels:
       topNav: Navigacion
       footer: Footer
@@ -159,12 +166,12 @@ es:
       suffixTr: en Turko
       privacyPolicy: Texto de la política de privacidad
       legalAdvice: Texto del aviso legal
-      landingcarousel: Texto del slider
-      cac1: Columna 1
-      cac2: Columna 2
-      cac3: Columna 3
-      landingPageHero: Contenido para la página principal
-      tagLine: Tag Line
+      # landingcarousel: Texto del slider
+      # cac1: Columna 1
+      # cac2: Columna 2
+      # cac3: Columna 3
+      # landingPageHero: Contenido para la página principal
+      # tagLine: Tag Line
       aboutUs: Sobre nosotros
       footerInfo: Contenido para el pie de página
 
