@@ -8,6 +8,7 @@
       "tabTitleKey": "pageSections.rawHtml.title",
       "tabInfoKey": "pageSections.rawHtml.info",
       "label": "content_html",
+      "sort_order": 3,
       "editorBlocks": [
         [
         {
@@ -21,6 +22,7 @@
       "tabTitleKey": "pageSections.ourAgency.title",
       "tabInfoKey": "pageSections.ourAgency.info",
       "label": "our_agency",
+      "sort_order": 3,
       "editorBlocks": [
         [
         {

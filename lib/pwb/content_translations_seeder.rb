@@ -64,7 +64,7 @@ module Pwb
             # find the content for current block from within the seed content
             if seed_content[row_block_label]
               if configRowBlock["isImage"]
-                photo = create_fragment_photo seed_content[row_block_label]
+                photo = page.seed_fragment_photo fragment_label, row_block_label, seed_content[row_block_label]
                 row_block_content = photo.present? ? photo.image.url : ""
               else
                 row_block_content = seed_content[row_block_label]
@@ -89,24 +89,24 @@ module Pwb
       end
 
 
-      def create_fragment_photo photo_file
-        if ENV["RAILS_ENV"] == "test"
-          # don't create photos for tests
-          return nil
-        end
-        begin
-          photo = Pwb::ContentPhoto.create
-          photo.image = Pwb::Engine.root.join(photo_file).open
-          photo.save!
-        rescue Exception => e
-          # log exception to console
-          p e
-          if photo
-            photo.destroy!
-          end
-        end
-        return photo
-      end
+      # def create_fragment_photo photo_file
+      #   if ENV["RAILS_ENV"] == "test"
+      #     # don't create photos for tests
+      #     return nil
+      #   end
+      #   begin
+      #     photo = Pwb::ContentPhoto.create
+      #     photo.image = Pwb::Engine.root.join(photo_file).open
+      #     photo.save!
+      #   rescue Exception => e
+      #     # log exception to console
+      #     p e
+      #     if photo
+      #       photo.destroy!
+      #     end
+      #   end
+      #   return photo
+      # end
 
 
     end

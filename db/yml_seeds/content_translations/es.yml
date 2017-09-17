@@ -38,6 +38,12 @@ es:
         Nuestros profesionales de corretaje y personal calificados en Example RE tienen la experiencia, el conocimiento y la discreción para representar su propiedad en Birmingham. Nuestro equipo de corredores dedicados y profesionales y el personal están comprometidos a proporcionar un servicio extraordinario. Puede estar seguro de que Example RE proporciona las herramientas y ayuda a su corredor en la comercialización de su propiedad de manera eficiente y experta a los mercados locales, regionales y nacionales. Se necesita más de una señal en su casa o propiedad para atraer a los compradores. Creamos un plan de marketing completo para satisfacer sus necesidades.
 
   home:
+    landing_hero:
+      landing_content_a:
+        We rock
+      landing_img:
+        db/example_images/carousel_grass.jpg
+
     content_html:
       main_content: <p><b>Noticia importante:</b>&nbsp; Para este mes estamos haciendo evaluaciones de viviendas gratis. &nbsp;Llamanos para mas información.</p>
 

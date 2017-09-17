@@ -35,6 +35,12 @@ en:
         Our Qualified Brokerage Professionals and Staff at Example Real Estate have the experience, the knowledge and the discretion to represent your property throughout Birmingham. Our team of dedicated and professional brokers and staff are committed to providing extraordinary service. You may be assured that Example RE provides the tools and assists your broker in marketing your property efficiently and expertly to local, regional and national markets. It takes more than a sign on your home or property to attract buyers. We create a complete marketing plan to meet your needs.
 
   home:
+    landing_hero:
+      landing_content_a:
+        We rock
+      landing_img:
+        db/example_images/carousel_grass.jpg
+
     content_html:
       main_content: <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.  Call us now to take advantage of this special offer.</p>
 
