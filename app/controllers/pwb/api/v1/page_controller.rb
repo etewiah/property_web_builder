@@ -41,10 +41,19 @@ module Pwb
       page.save!
       render json: page.as_json_for_admin
     end
+
     def update_page_part_visibility
       page = Page.find_by_slug params[:page_slug]
-      page.details["visiblePageParts"] = params[:visible_page_parts]
-      page.save!
+
+      if params["cmd"] == "setAsHidden"
+        page.set_fragment_visibility params[:page_fragment_label], false        
+      end
+      if params["cmd"] == "setAsVisible"
+        page.set_fragment_visibility params[:page_fragment_label], true        
+      end
+
+      # page.details["visiblePageParts"] = params[:visible_page_parts]
+      # page.save!
       render json: page
     end
 

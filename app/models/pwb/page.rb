@@ -26,25 +26,22 @@ module Pwb
 
     # scope :visible_in_admin, -> () { where visible: true  }
 
-    def get_fragment_html label, locale
-      content_key = slug + "_" + label
-      content = self.contents.find_by_key content_key
-      # fragments = details["fragments"] || {}
-      # if fragments[label] && fragments[label][locale]
-      #   fragments[label][locale]["html"]
-      if content.present?
-        content.raw
-      else
-        nil
-      end
-    end
+    # def get_fragment_html label, locale
+    #   content_key = slug + "_" + label
+    #   content = self.contents.find_by_key content_key
+    #   if content.present?
+    #     content.raw
+    #   else
+    #     nil
+    #   end
+    # end
 
     # used by page_controller to create a photo (from upload) that can
     # later be used in fragment html
     def create_fragment_photo fragment_label, block_label, photo_file
-      content_key = self.slug + "_" + fragment_label
+      # content_key = self.slug + "_" + fragment_label
       # get content model associated with page and fragment
-      page_fragment_content = contents.find_or_create_by(key: content_key)
+      page_fragment_content = contents.find_or_create_by(fragment_key: fragment_label)
 
       if ENV["RAILS_ENV"] == "test"
         # don't create photos for tests
@@ -69,9 +66,9 @@ module Pwb
     # when seeding I only need to ensure that a photo exists for the fragment
     # so will return existing photo if it can be found
     def seed_fragment_photo fragment_label, block_label, photo_file
-      content_key = self.slug + "_" + fragment_label
+      # content_key = self.slug + "_" + fragment_label
       # get in content model associated with page and fragment
-      page_fragment_content = contents.find_or_create_by(key: content_key)
+      page_fragment_content = contents.find_or_create_by(fragment_key: fragment_label)
       photo = page_fragment_content.content_photos.find_by_block_key(block_label)
       if photo.present?
         return photo
@@ -95,11 +92,18 @@ module Pwb
       return photo
     end
 
+    def set_fragment_visibility fragment_label, visible_on_page
+      page_fragment_content = contents.find_by_fragment_key fragment_label
+      page_content_join_model = page_fragment_content.page_contents.find_by_page_id self.id
+      page_content_join_model.visible_on_page = visible_on_page
+      byebug
+      page_content_join_model.save!
+    end
 
     def set_fragment_html fragment_label, locale, new_fragment_html
-      content_key = slug + "_" + fragment_label
+      # content_key = slug + "_" + fragment_label
       # save in content model associated with page
-      page_fragment_content = contents.find_or_create_by(key: content_key)
+      page_fragment_content = contents.find_or_create_by(fragment_key: fragment_label)
       content_html_col = "raw_" + locale + "="
       # above is the col used by globalize gem to store localized data
       # page_fragment_content[content_html_col] = fragment_html
@@ -143,7 +147,7 @@ module Pwb
 
     def admin_attribute_names
 
-      self.globalize_attribute_names.push :page_fragments, :setup, :visible_page_parts, :page_contents
+      self.globalize_attribute_names.push :page_fragment_blocks, :setup, :visible_page_parts, :page_contents
       # return "link_title_en","link_title_es", "link_title_de",
       #                    "link_title_ru", "link_title_fr"
     end
@@ -153,15 +157,15 @@ module Pwb
       return page_setup.present? ? page_setup.attributes.slice(:fragment_configs) : {}
     end
 
-    def page_contents
-      return contents
-    end
+    # def page_contents
+    #   return page_contents
+    # end
 
     def visible_page_parts
       return details["visiblePageParts"]
     end
 
-    def page_fragments
+    def page_fragment_blocks
       return details["fragments"]
     end
   end

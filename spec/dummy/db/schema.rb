@@ -233,7 +233,6 @@ ActiveRecord::Schema.define(version: 20170919134945) do
     t.datetime "updated_at", null: false
     t.string "section_key"
     t.string "fragment_key"
-    t.boolean "visible_on_page", default: true
     t.index ["key"], name: "index_pwb_contents_on_key", unique: true
   end
 
@@ -311,6 +310,7 @@ ActiveRecord::Schema.define(version: 20170919134945) do
   create_table "pwb_page_contents", force: :cascade do |t|
     t.string "label"
     t.integer "sort_order"
+    t.boolean "visible_on_page", default: true
     t.bigint "page_id"
     t.bigint "content_id"
     t.datetime "created_at", null: false

@@ -17,7 +17,7 @@ module Pwb
 
     def as_json(options = nil)
       super({only: [
-               "key","fragment_key"
+               "key","fragment_key", "visible_on_page"
              ],
              methods: admin_attribute_names
              }.merge(options || {}))

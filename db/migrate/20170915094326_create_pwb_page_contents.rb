@@ -3,6 +3,8 @@ class CreatePwbPageContents < ActiveRecord::Migration[5.1]
     create_table :pwb_page_contents do |t|
       t.string :label
       t.integer :sort_order
+      # t.string :fragment_key, index: true
+      t.boolean :visible_on_page, default: true
       # t.integer :page_id
       # t.integer :content_id
       t.belongs_to :page, index: true

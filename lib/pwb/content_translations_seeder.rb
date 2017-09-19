@@ -24,15 +24,15 @@ module Pwb
         Pwb::PageSetup.all.each do |page_setup|
           page_setup.pages.each do |page|
             page_setup.fragment_configs.each do |fragment_config|
-              begin
-                fragment_label = fragment_config["label"]
-                # Items in each locale seed file are nested as
-                # page_slug/fragment_label and then the block labels
-                if yml[locale][page.slug][fragment_label]
-                  set_page_block_content locale, page.slug, fragment_config, yml[locale][page.slug][fragment_label]
-                end
-              rescue NoMethodError => e
-# byebug
+              fragment_label = fragment_config["label"]
+              # Items in each locale seed file are nested as
+              # page_slug/fragment_label and then the block labels
+              unless yml[locale] && yml[locale][page.slug] && yml[locale][page.slug][fragment_label]
+                # skip if there is no content to populate
+                next
+              end
+              if yml[locale][page.slug][fragment_label]
+                set_page_block_content locale, page.slug, fragment_config, yml[locale][page.slug][fragment_label]
               end
             end
           end
@@ -41,7 +41,6 @@ module Pwb
 
       def set_page_block_content locale, page_slug, fragment_config, seed_content
         page = Pwb::Page.find_by_slug page_slug
-
         # fragment_label uniquely identifies a fragment
         # and is also the name of the corresponding partial
         fragment_label = fragment_config["label"]
@@ -80,18 +79,26 @@ module Pwb
         fragment_html = ac.render_to_string :partial => "pwb/fragments/#{fragment_label}",  :locals => { page_part: content_for_pf_locale["blocks"]}
 
         # # and save in content model associated with page
-        pf_content = page.set_fragment_html fragment_label, locale, fragment_html
-        pf_content.sort_order = fragment_config["default_sort_order"] || 1
+        content_for_page = page.set_fragment_html fragment_label, locale, fragment_html
+        page_content_join_model = content_for_page.page_contents.find_by_page_id page.id
+        # using join model for sorting and visibility as it
+        # will allow use of same content by different pages
+        # with different settings for sorting and visibility
+        page_content_join_model.sort_order = fragment_config["default_sort_order"] || 1
+
+        # content_for_page.sort_order = fragment_config["default_sort_order"] || 1
         visible_on_page = false
         if fragment_config["default_visible_on_page"]
           visible_on_page = true
         end
-        pf_content.visible_on_page = visible_on_page
-        pf_content.save!
+        page_content_join_model.visible_on_page = visible_on_page
+        # content_for_page.visible_on_page = visible_on_page
+        content_for_page.save!
 
         page.details["fragments"][fragment_label][locale] = content_for_pf_locale
         page.save!
 
+        p "#{page.slug} page content set."
       end
 
 
