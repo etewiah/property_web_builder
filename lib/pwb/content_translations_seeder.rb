@@ -80,8 +80,14 @@ module Pwb
         fragment_html = ac.render_to_string :partial => "pwb/fragments/#{fragment_label}",  :locals => { page_part: content_for_pf_locale["blocks"]}
 
         # # and save in content model associated with page
-        page.set_fragment_html fragment_label, locale, fragment_html
-
+        pf_content = page.set_fragment_html fragment_label, locale, fragment_html
+        pf_content.sort_order = fragment_config["default_sort_order"] || 1
+        visible_on_page = false
+        if fragment_config["default_visible_on_page"]
+          visible_on_page = true
+        end
+        pf_content.visible_on_page = visible_on_page
+        pf_content.save!
 
         page.details["fragments"][fragment_label][locale] = content_for_pf_locale
         page.save!

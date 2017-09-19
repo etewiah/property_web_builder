@@ -51,8 +51,7 @@ module Pwb
         return nil
       end
       begin
-        photo = page_fragment_content.content_photos.create(description: block_label)
-        #TODO change description above to key
+        photo = page_fragment_content.content_photos.create(block_key: block_label)
         photo.image = photo_file
         # photo.image = Pwb::Engine.root.join(photo_file).open
         photo.save!
@@ -73,12 +72,11 @@ module Pwb
       content_key = self.slug + "_" + fragment_label
       # get in content model associated with page and fragment
       page_fragment_content = contents.find_or_create_by(key: content_key)
-      # change description below to key
-      photo = page_fragment_content.content_photos.find_by_description(block_label)
+      photo = page_fragment_content.content_photos.find_by_block_key(block_label)
       if photo.present?
         return photo
       else
-        photo = page_fragment_content.content_photos.create(description: block_label)
+        photo = page_fragment_content.content_photos.create(block_key: block_label)
       end
 
       if ENV["RAILS_ENV"] == "test"

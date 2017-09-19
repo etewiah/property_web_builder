@@ -2,6 +2,8 @@ module Pwb
   class ContentPhoto < ApplicationRecord
     mount_uploader :image, ContentPhotoUploader
     belongs_to :content, optional: true
+    # I use block_key col to indicate if there is a fragment block associated
+    # with this photo 
 
     # validates_processing_of :image
     # validate :image_size_validation

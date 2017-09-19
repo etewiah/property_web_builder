@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170915094326) do
+ActiveRecord::Schema.define(version: 20170919134945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -207,6 +207,7 @@ ActiveRecord::Schema.define(version: 20170915094326) do
     t.integer "sort_order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "block_key"
     t.index ["content_id"], name: "index_pwb_content_photos_on_content_id"
   end
 
@@ -231,6 +232,8 @@ ActiveRecord::Schema.define(version: 20170915094326) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "section_key"
+    t.string "fragment_key"
+    t.boolean "visible_on_page", default: true
     t.index ["key"], name: "index_pwb_contents_on_key", unique: true
   end
 

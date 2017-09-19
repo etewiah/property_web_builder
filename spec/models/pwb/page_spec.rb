@@ -10,7 +10,7 @@ module Pwb
     end
 
     it 'updates fragment correctly' do
-      page.set_fragment_details "label", "en", {"blocks": {}}, "fragment_html"
+      page.set_fragment_details "label", "en", {"blocks": {}}
       page.save!
       # byebug
       expect(page.details.to_json).to have_json_path("fragments")

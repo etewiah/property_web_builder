@@ -16,8 +16,8 @@ module Pwb
       content_html_content_key = about_us_page.slug + "_content_html"
       content_html_content = about_us_page.contents.find_by_key content_html_content_key
 
-      expect(our_agency_content.sort_order).to eq(3)
-      expect(content_html_content.sort_order).to eq(3)
+      expect(our_agency_content.sort_order).to eq(2)
+      expect(content_html_content.sort_order).to eq(1)
     end
 
     it 'creates our_agency content blocks' do
