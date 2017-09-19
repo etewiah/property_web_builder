@@ -5,17 +5,19 @@ module Pwb
     def index
       @page = Pwb::Page.find_by_slug "home"
 
-      visible_page_fragment_names = @page.present? ? @page.details["visiblePageParts"] : []
+      # visible_page_fragment_names = @page.present? ? @page.details["visiblePageParts"] : []
       @content_to_show = []
 
-      # TODO - order below:
-      visible_page_fragment_names.each do |page_fragment_label|
-        unless page_fragment_label == "raw_html"
-          # fragment_html = @page.raw_html
-          fragment_html = @page.get_fragment_html page_fragment_label, I18n.locale.to_s
-          @content_to_show.push fragment_html
-        end
+      @page.contents.ordered_visible.each do |page_content|
+        @content_to_show.push page_content.raw
       end
+      # visible_page_fragment_names.each do |page_fragment_label|
+      #   unless page_fragment_label == "raw_html"
+      #     # fragment_html = @page.raw_html
+      #     fragment_html = @page.get_fragment_html page_fragment_label, I18n.locale.to_s
+      #     @content_to_show.push fragment_html
+      #   end
+      # end
 
       @carousel_items = Content.where(tag: 'landing-carousel')
       @carousel_speed = 3000

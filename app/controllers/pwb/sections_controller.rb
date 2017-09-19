@@ -17,30 +17,30 @@ module Pwb
     #   render "/pwb/sections/static"
     # end
 
-    def about_us
-      # @content = Content.find_by_key("aboutUs")
-      # @page_title = I18n.t("aboutUs")
-      # @page_description = @content.present? ? @content.raw : ""
+    # def about_us
+    #   # @content = Content.find_by_key("aboutUs")
+    #   # @page_title = I18n.t("aboutUs")
+    #   # @page_description = @content.present? ? @content.raw : ""
 
-      @page = Pwb::Page.find_by_slug "about-us"
+    #   @page = Pwb::Page.find_by_slug "about-us"
 
-      visible_page_fragments = @page.details["visiblePageParts"]
-      @content_to_show = []
+    #   visible_page_fragments = @page.details["visiblePageParts"]
+    #   @content_to_show = []
 
-      # TODO - order below:
-      visible_page_fragments.each do |page_fragment_label|
-        if page_fragment_label == "raw_html"
-          fragment_html = @page.raw_html
-        else
-          fragment_html = @page.get_fragment_html page_fragment_label, I18n.locale.to_s
-          # fragment_html =  @page["details"]["fragments"][page_fragment_label][I18n.locale.to_s]["html"]
-        end
-        @content_to_show.push fragment_html
-      end
+    #   # TODO - order below:
+    #   visible_page_fragments.each do |page_fragment_label|
+    #     if page_fragment_label == "raw_html"
+    #       fragment_html = @page.raw_html
+    #     else
+    #       fragment_html = @page.get_fragment_html page_fragment_label, I18n.locale.to_s
+    #       # fragment_html =  @page["details"]["fragments"][page_fragment_label][I18n.locale.to_s]["html"]
+    #     end
+    #     @content_to_show.push fragment_html
+    #   end
 
-      render "/pwb/pages/show"
-      # render "/pwb/sections/about_us"
-    end
+    #   render "/pwb/pages/show"
+    #   # render "/pwb/sections/about_us"
+    # end
 
     def contact_us
       # below was for google map rendering via paloma:

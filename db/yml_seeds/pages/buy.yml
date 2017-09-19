@@ -3,15 +3,10 @@
 #   link_path: buy_path
 - slug: buy
   setup_id: default
-  sort_order_top_nav: 2
-  visible: false
-  show_in_top_nav: true
-  show_in_footer: false
-  # link_title_en: Buy
-  # link_title_es: Comprar
-  # link_title_fr: Acheter
-  # link_title_de: Kaufen
-  # link_title_ru: Buy
+  # sort_order_top_nav: 2
+  # visible: false
+  # show_in_top_nav: true
+  # show_in_footer: false
   page_title_en: Buy
   page_title_es: Comprar
   page_title_fr: Acheter

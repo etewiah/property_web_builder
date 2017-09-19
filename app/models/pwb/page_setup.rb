@@ -3,7 +3,7 @@ module Pwb
   class PageSetup < ActiveJSON::Base
     set_root_path "#{Pwb::Engine.root}/config/pwb/page_setups"
     use_multiple_files
-    set_filenames "home","about-us","rent","buy","default"
+    set_filenames "home","about-us","default"
 
     include ActiveHash::Associations
     has_many :pages, foreign_key: "setup_id", class_name: "Pwb::Page", primary_key: "id"

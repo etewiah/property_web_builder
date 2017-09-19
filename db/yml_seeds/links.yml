@@ -54,7 +54,9 @@
   link_title_pt: Sell
 - slug: top_nav_about_us
   page_slug: about-us
-  link_path: about_us_path
+  # link_path: about_us_path
+  link_path: show_page_path
+  link_path_params: about-us
   sort_order: 5
   visible: true
   is_external: false

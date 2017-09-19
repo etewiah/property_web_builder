@@ -8,6 +8,8 @@
     "tabTitleKey": "pageSections.rawHtml.title",
     "tabInfoKey": "pageSections.rawHtml.info",
     "label": "content_html",
+    "default_sort_order": 1,
+    "default_visible_on_page": true,
     "editorBlocks": [
       [
       {
