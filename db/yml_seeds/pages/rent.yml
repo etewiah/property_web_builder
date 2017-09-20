@@ -1,27 +1,15 @@
 ---
-  # link_key: rent
-  # link_path: rent_path
 - slug: rent
-  sort_order_top_nav: 3
+  # sort_order_top_nav: 3
   setup_id: default
   visible: false
-  show_in_top_nav: true
-  show_in_footer: false
+  # show_in_top_nav: true
+  # show_in_footer: false
   # link_title_en: Rent
-  # link_title_es: Arrendar
-  # link_title_fr: Louer
-  # link_title_de: Miete
-  # link_title_ru: Rent
   page_title_en: Rent
   page_title_es: Arrendar
   page_title_fr: Louer
   page_title_de: Miete
   page_title_ru: Аренда
-  page_title_pt: Rent
-  details: {
-    "visiblePageParts": []
-  }
-
-
-  raw_html_en: 
-  raw_html_es: 
+  page_title_pt: Aluguel
+  details: {}

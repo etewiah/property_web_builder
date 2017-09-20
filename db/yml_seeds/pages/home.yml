@@ -1,29 +1,15 @@
 ---
-# - link_key: home
-#   link_path: home_path
 - slug: home
   setup_id: home
-  sort_order_top_nav: 1
+  # sort_order_top_nav: 1
   visible: true
-  show_in_top_nav: true
-  show_in_footer: false
+  # show_in_top_nav: true
+  # show_in_footer: false
   # link_title_en: Home
-  # link_title_es: Inicio
-  # link_title_fr: Accueil
-  # link_title_de: Zuhause
-  # link_title_ru: Home
   page_title_en: Home
   page_title_es: Inicio
   page_title_fr: Accueil
   page_title_de: Zuhause
   page_title_ru: Главная
-  page_title_pt: Home
-  details: {
-    "visiblePageParts": ["content_html","about_us_services","landing_hero"]
-  }
-  # raw_html_en: 
-  #   <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.
-  #   Call us now to take advantage of this special offer.</p>
-  # raw_html_es: 
-  #   <p><b>Noticia importante:</b>&nbsp; Para este mes estamos haciendo evaluaciones de viviendas 
-  #   gratis. &nbsp;Llamanos para mas información.</p>
+  page_title_pt: Iníco
+  details: {}

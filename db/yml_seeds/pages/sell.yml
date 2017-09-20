@@ -7,27 +7,7 @@
   page_title_fr: Vendre
   page_title_de: Verkaufen
   page_title_ru: Продажа
-  page_title_pt: Sell your property with us
-  details: {
-    "visiblePageParts": ["content_html"]
-  }
-  # raw_html_en: 
-  #   <h2>Sell Your Property with Us</h2>
-  #   Our commitment to you is to uphold the highest standards of professionalism while helping you make your best real estate decisions. You want to sell your property with full confidence. In doing so, you deserve our very best. Our goal at Example Real Estate is to provide you with exceptional service while meeting your needs at each step of the selling process. 
-  #   <h2>Regional Expertise
-  #   </h2>
-  #   Our clients and our business affiliates will tell you, no listings in our market region of Birmingham receive more exposure to buyers than those listed with Example Real Estate. Our Internet-based marketing, print advertising, and collateral marketing efforts allow our listings unequaled exposure to buyers who are looking for real estate in Birmingham. The strength of our online marketing, print advertising, and direct broker contacts drive significant traffic to our website, which provides detailed information on all of our property listings.
-  #   <h2>Ready to Help You
-  #   </h2>
-  #   Our Qualified Brokerage Professionals and Staff at Example Real Estate have the experience, the knowledge and the discretion to represent your property throughout Birmingham. Our team of dedicated and professional brokers and staff are committed to providing extraordinary service. You may be assured that Example RE provides the tools and assists your broker in marketing your property efficiently and expertly to local, regional and national markets. It takes more than a sign on your home or property to attract buyers. We create a complete marketing plan to meet your needs.
-  # raw_html_es:
-  #   <h2> Vender tu propiedad con nosotros </h2>
-  #   Nuestro compromiso con usted es mantener los más altos estándares de profesionalidad mientras le ayuda a tomar sus mejores decisiones de bienes raíces. Desea vender su propiedad con total confianza. Al hacerlo, usted se merece lo mejor. Nuestra meta en Example RE es proveerle un servicio excepcional mientras satisface sus necesidades en cada paso del proceso de venta.
-  #   <h2> Experiencia regional
-  #   </h2>
-  #   Nuestros clientes y nuestros afiliados de negocios le dirán, no hay listados en nuestra región de mercado de Birmingham que recibe más exposición a los compradores que los que figuran con nosotros. Nuestro marketing basado en Internet, publicidad impresa y esfuerzos de marketing colateral permiten a nuestros listados una exposición inigualable a los compradores que están buscando bienes raíces en Birmingham. La fuerza de nuestro marketing en línea, publicidad impresa y contactos directos de los corredores impulsan un tráfico significativo a nuestro sitio web, que proporciona información detallada sobre todos nuestros listados de propiedades.
-  #   <h2> Listo para ayudarte
-  #   </h2>
-  #   Nuestros profesionales de corretaje y personal calificados en Example RE tienen la experiencia, el conocimiento y la discreción para representar su propiedad en Birmingham. Nuestro equipo de corredores dedicados y profesionales y el personal están comprometidos a proporcionar un servicio extraordinario. Puede estar seguro de que Example RE proporciona las herramientas y ayuda a su corredor en la comercialización de su propiedad de manera eficiente y experta a los mercados locales, regionales y nacionales. Se necesita más de una señal en su casa o propiedad para atraer a los compradores. Creamos un plan de marketing completo para satisfacer sus necesidades.
+  page_title_pt: Vender
+  details: {}
 
 

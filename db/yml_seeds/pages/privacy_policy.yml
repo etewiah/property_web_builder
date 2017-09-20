@@ -6,34 +6,6 @@
   page_title_es: Nuestro Politica de Privacidad
   page_title_fr: Privacy Policy
   page_title_de: Datenschutz-Bestimmungen
-  page_title_pt: Privacy Policy
+  page_title_pt: Política de Privacidade
   page_title_ru: Политика конфиденциальности
-  details: {
-    "visiblePageParts": ["content_html"]
-  }
-  # raw_html_en: 
-  #   <P> <b> Privacy Policy </b> </p> <p>
-  #   We are committed to the security of your users' data. Therefore, our Privacy Policy sets forth the terms in which Example RE uses and protects information that is provided by its customers. </p> <p>
-  #   <b>
-  #   Use Collected Information </b> </p> <p>
-  #   Our website may collect personal information such as your email address and demographic information. Also, when necessary, specific information may be required to process an order or make a delivery or billing.
-  #   Example RE will not sell, cede or distribute personal information that is collected without your consent, unless required by a court with a court order.
-  #   </p> 
-  #   <p><b>Links to Third Parties </b> </p> <p>
-  #   This website may contain links to other sites that may be of interest to you. Once you click on these links and leave our page, we no longer have control over the site to which you are redirected and therefore we are not responsible for the terms or privacy or protection of your data on those other third sites. These sites are subject to their own privacy policies so it is recommended that you consult them to confirm that you agree with them.
-  #   </p> 
-  # raw_html_es: 
-    # <p><b>Política de Privacidad</b></p><p> 
-    # Estamos comprometidas con la seguridad de los datos de sus usuarios. Por esto, nuestra política de Privacidad establece los términos en que Example RE usa y protege la información que es proporcionada por sus clientes. </p><p>
-    # <b>
-    # Uso Información recogida</b></p><p> 
-    # Nuestro sitio web podrá recoger información personal por ejemplo; Nombre, información de contacto como tu dirección de correo electrónica e información demográfica. Así mismo cuando sea necesario podrá ser requerida información específica para procesar algún pedido o realizar una entrega o facturación.
-    # Example RE no venderá, cederá ni distribuirá la información personal que es recopilada sin tu consentimiento, salvo que sea requerido por un juez con una orden judicial.
-    # </p><p>
-    # <b>
-    # Enlaces a Terceros</b></p><p> 
-    # Este sitio web pudiera contener enlaces a otros sitios que pudieran ser de su interés. Una vez que haces clic en estos enlaces y abandones nuestra página, ya no tenemos control sobre el sitio al que seas redirigido y por lo tanto no somos responsables de los términos o privacidad ni de la protección de tus datos en esos otros sitios terceros. Dichos sitios están sujetos a sus propias políticas de privacidad por lo cual es recomendable que los consultes para confirmar que estás de acuerdo con estas.
-    # </p><p>
-    # <b>
-    # Cambios de la Política</b></p><p> 
-    # Para mantenernos actualizados, nuestra Política de Privacidad puede cambiar con el tiempo por lo que te recomendamos y enfatizamos revisar esta página para asegurarte que estás de acuerdo con dichos cambios.</p>
+  details: {}
