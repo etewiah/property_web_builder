@@ -3,6 +3,16 @@ require 'rails_helper'
 module Pwb
   RSpec.describe WelcomeController, type: :controller do
     routes { Pwb::Engine.routes }
+
+    before(:all) do
+      @page = Pwb::Page.find_by_slug "home"
+      unless @page.present?
+        @page = FactoryGirl.create(:pwb_page, slug: "home")
+      end
+      # TODO - figure out how to do below with FactoryGirl
+      @page.set_fragment_html "test", "en", "<h2>Sell Your Property with Us</h2>"
+    end
+
     # This should return the minimal set of attributes required to create a valid
     # Welcome. As you add validations to Welcome, be sure to
     # adjust the attributes here as well.
@@ -24,10 +34,10 @@ module Pwb
     let(:valid_session) { {} }
 
     describe 'GET #index' do
-      it 'assigns all carousel_items correctly' do
-        carousel_content = Content.create! carousel_content_attributes
+      it 'assigns all content_to_show correctly' do
+        # carousel_content = Content.create! carousel_content_attributes
         get :index, params: {}, session: valid_session
-        expect(assigns(:carousel_items)).to eq(Content.where(tag: "landing-carousel"))
+        expect(assigns(:content_to_show)).to eq([Content.where(fragment_key: "test").first.raw])
       end
       it 'renders correct template' do
         # welcome = Content.create! carousel_content_attributes
@@ -57,5 +67,9 @@ module Pwb
     #     expect(assigns(:welcome)).to eq(welcome)
     #   end
     # end
+    after(:all) do
+      @page.destroy
+    end
+
   end
 end

@@ -6,6 +6,10 @@ module Pwb
 
     belongs_to :page, foreign_key: "page_slug", primary_key: "slug"
 
+    # below needed to avoid "... is not an attribute known to Active Record" warnings
+    attribute :link_title
+
+
     # enum placement: [ :top_nav, :footer ]
     # above method of declaring less flexible than below:
     enum placement: { top_nav: 0, footer: 1, social_media: 2, admin: 3}

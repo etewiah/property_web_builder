@@ -4,6 +4,7 @@ module Pwb
     globalize_accessors locales: I18n.available_locales
     # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
 
+    # below needed to avoid "... is not an attribute known to Active Record" warnings
     attribute :title
     attribute :description
 

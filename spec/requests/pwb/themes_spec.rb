@@ -7,18 +7,22 @@ module Pwb
       # in /pwb/app/controllers/pwb/application_controller.rb, theme gets set against website instance
       @website = FactoryGirl.create(:pwb_website)
       # factorygirl ensures unique_instance of website is used
-    end
-
-
-    context 'when theme is set' do
-      it 'uses correct theme' do
-        @website.theme_name = "berlin"
-        @website.save!
-        get "/"
-        view_paths = @controller.view_paths.map(&:to_s)
-        expect(view_paths).to include "#{Pwb::Engine.root}/app/themes/berlin/views"
+      @page = Pwb::Page.find_by_slug "home"
+      unless @page.present?
+        @page = FactoryGirl.create(:pwb_page, slug: "home")
       end
+
     end
+
+    # context 'when theme is set' do
+    #   it 'uses correct theme' do
+    #     @website.theme_name = "berlin"
+    #     @website.save!
+    #     get "/"
+    #     view_paths = @controller.view_paths.map(&:to_s)
+    #     expect(view_paths).to include "#{Pwb::Engine.root}/app/themes/berlin/views"
+    #   end
+    # end
 
     context 'when no theme is set' do
       it 'uses default theme' do
@@ -42,6 +46,7 @@ module Pwb
 
     after(:all) do
       @website.destroy
+      @page.destroy
     end
   end
 end
