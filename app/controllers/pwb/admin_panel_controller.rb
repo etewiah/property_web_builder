@@ -8,5 +8,11 @@ module Pwb
         render 'pwb/errors/admin_required', layout: "layouts/pwb/devise"
       end
     end
+    def show_legacy_1
+      unless current_user && current_user.admin
+        render 'pwb/errors/admin_required', layout: "layouts/pwb/devise"
+      end
+      render 'pwb/admin_panel/show_legacy_1', layout: "pwb/admin_panel_legacy_1"
+    end
   end
 end

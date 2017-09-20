@@ -19,9 +19,13 @@ Pwb::Engine.routes.draw do
     get '/squares/:client_id/:prop_id' => 'squares#show_prop'
     get "/admin" => "admin_panel#show"
     get "/admin/*path" => "admin_panel#show"
+    get "/admin-1" => "admin_panel#show_legacy_1"
+    get "/admin-1/*path" => "admin_panel#show_legacy_1"
     scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
       get "/admin" => "admin_panel#show", as: "admin_with_locale"
       get "/admin/*path" => "admin_panel#show"
+      get "/admin-1" => "admin_panel#show_legacy_1", as: "admin_with_locale_legacy"
+      get "/admin-1/*path" => "admin_panel#show_legacy_1"
     end
 
   end
