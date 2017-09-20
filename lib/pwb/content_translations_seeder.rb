@@ -80,18 +80,19 @@ module Pwb
 
         # # and save in content model associated with page
         content_for_page = page.set_fragment_html fragment_label, locale, fragment_html
-        page_content_join_model = content_for_page.page_contents.find_by_page_id page.id
-        # using join model for sorting and visibility as it
-        # will allow use of same content by different pages
-        # with different settings for sorting and visibility
-        page_content_join_model.sort_order = fragment_config["default_sort_order"] || 1
+        # page_content_join_model = content_for_page.page_contents.find_by_page_id page.id
+        sort_order = fragment_config["default_sort_order"] || 1
+        page.set_fragment_sort_order fragment_label, sort_order
+
 
         # content_for_page.sort_order = fragment_config["default_sort_order"] || 1
         visible_on_page = false
         if fragment_config["default_visible_on_page"]
           visible_on_page = true
         end
-        page_content_join_model.visible_on_page = visible_on_page
+
+        page.set_fragment_visibility fragment_label, visible_on_page
+        # page_content_join_model.visible_on_page = visible_on_page
         # content_for_page.visible_on_page = visible_on_page
         content_for_page.save!
 

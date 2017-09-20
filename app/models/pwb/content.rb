@@ -12,9 +12,6 @@ module Pwb
 
     attribute :raw
 
-    scope :ordered_visible, -> () { where(visible_on_page: true).order('sort_order asc')  }
-
-
     def as_json(options = nil)
       super({only: [
                "key","fragment_key", "visible_on_page"

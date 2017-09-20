@@ -8,7 +8,7 @@ module Pwb
       # visible_page_fragment_names = @page.present? ? @page.details["visiblePageParts"] : []
       @content_to_show = []
 
-      @page.contents.ordered_visible.each do |page_content|
+      @page.ordered_visible_contents.each do |page_content|
         @content_to_show.push page_content.raw
       end
       # visible_page_fragment_names.each do |page_fragment_label|

@@ -10,6 +10,9 @@ module Pwb
 
     has_many :page_contents
     has_many :contents, :through => :page_contents
+    # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
+    has_many :ordered_visible_page_contents, -> { ordered_visible }, :class_name => 'PageContent'
+    has_many :ordered_visible_contents, :source => :content, :through => :ordered_visible_page_contents
 
     translates :raw_html, fallbacks_for_empty_translations: true
     translates :page_title, fallbacks_for_empty_translations: true
@@ -92,11 +95,20 @@ module Pwb
       return photo
     end
 
+    def set_fragment_sort_order fragment_label, sort_order
+      page_fragment_content = contents.find_by_fragment_key fragment_label
+      # using join model for sorting and visibility as it
+      # will allow use of same content by different pages
+      # with different settings for sorting and visibility
+      page_content_join_model = page_fragment_content.page_contents.find_by_page_id self.id
+      page_content_join_model.sort_order = sort_order
+      page_content_join_model.save!
+    end
+
     def set_fragment_visibility fragment_label, visible_on_page
       page_fragment_content = contents.find_by_fragment_key fragment_label
       page_content_join_model = page_fragment_content.page_contents.find_by_page_id self.id
       page_content_join_model.visible_on_page = visible_on_page
-      byebug
       page_content_join_model.save!
     end
 
