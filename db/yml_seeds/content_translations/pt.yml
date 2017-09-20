@@ -1,0 +1,66 @@
+---
+pt:
+  legal:
+    content_html:
+      main_content:
+        <b> DISCLAIMER</b> </br>
+        The Example RE Internet team strives to provide you with useful, accurate, and timely information on this website. Accordingly, Example RE has attempted to provide accurate information and materials on this website on this website but assumes no responsibility for the accuracy and completeness of that information and materials on this website but assumes no responsibility for the accuracy and comleteness of that information or materials. Example RE may change the content of any information or materials available at this webite, or to the products described in them, at any time without notice. However, Example RE makes no commitment to update the information or materials on this website which, as a result, may be out of date. Information and opinions expressed in bulletion boards or other forums are not necessarily those of Example RE. Neither Example RE, nor its officer, directors, employees, agents, distributors, or affiliates are responsible or liable for any loss damage (including, but not limited to, actual, consequential, or punitive), liability, claim, or other injury or cause related to or resulting from any information posted on Example RE’s website. Example RE reserves the right to revise these terms and/or legal restriction at any time. You are responsible for reviewing this page from time to time to ensure compliance with the then-current terms and legal restrictions because they will be binding on you. Certain provisions of these terms and legal restrictions may be superseded by expressly designated legal notices or terms located on particular pages of this website.
+
+
+  privacy:
+    content_html:
+      main_content:
+        <P> <b> Privacy Policy </b> </p> <p>
+        We are committed to the security of your users' data. Therefore, our Privacy Policy sets forth the terms in which Example RE uses and protects information that is provided by its customers. </p> <p>
+        <b>
+        Use Collected Information </b> </p> <p>
+        Our website may collect personal information such as your email address and demographic information. Also, when necessary, specific information may be required to process an order or make a delivery or billing.
+        Example RE will not sell, cede or distribute personal information that is collected without your consent, unless required by a court with a court order.
+        </p> 
+        <p><b>Links to Third Parties </b> </p> <p>
+        This website may contain links to other sites that may be of interest to you. Once you click on these links and leave our page, we no longer have control over the site to which you are redirected and therefore we are not responsible for the terms or privacy or protection of your data on those other third sites. These sites are subject to their own privacy policies so it is recommended that you consult them to confirm that you agree with them.
+        </p> 
+
+
+  sell:
+    content_html:
+      main_content:
+        <h2>Sell Your Property with Us</h2>
+        Our commitment to you is to uphold the highest standards of professionalism while helping you make your best real estate decisions. You want to sell your property with full confidence. In doing so, you deserve our very best. Our goal at Example Real Estate is to provide you with exceptional service while meeting your needs at each step of the selling process. 
+        <h2>Regional Expertise
+        </h2>
+        Our clients and our business affiliates will tell you, no listings in our market region of Birmingham receive more exposure to buyers than those listed with Example Real Estate. Our Internet-based marketing, print advertising, and collateral marketing efforts allow our listings unequaled exposure to buyers who are looking for real estate in Birmingham. The strength of our online marketing, print advertising, and direct broker contacts drive significant traffic to our website, which provides detailed information on all of our property listings.
+        <h2>Ready to Help You
+        </h2>
+        Our Qualified Brokerage Professionals and Staff at Example Real Estate have the experience, the knowledge and the discretion to represent your property throughout Birmingham. Our team of dedicated and professional brokers and staff are committed to providing extraordinary service. You may be assured that Example RE provides the tools and assists your broker in marketing your property efficiently and expertly to local, regional and national markets. It takes more than a sign on your home or property to attract buyers. We create a complete marketing plan to meet your needs.
+
+  home:
+    landing_hero:
+      landing_content_a:
+        We rock
+      landing_img:
+        db/example_images/carousel_grass.jpg
+
+    content_html:
+      main_content: <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.  Call us now to take advantage of this special offer.</p>
+
+    about_us_services:
+      title_a: Find your home
+      content_a: <p>Explain to us exactly what you are looking for and we will do our best to find that ideal property that meets your needs.</p>
+      title_b: Professional estate agents
+      content_b: <p>We are professional estate agents.  We will help you with all the paperwork and save you money along the way.</p>
+      title_c: Sell your property
+      content_c: <p>If you need to sell your property, get in touch with us.  With our experience in the industry and the local area we will get it done in the quickest and simplest way.</p>
+  
+  about-us:
+    content_html:
+      main_content: <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.  Call us now to take advantage of this special offer.</p>
+    our_agency:
+      title_a:
+        About Us
+      content_a:
+        <p>We are a professional estate agents with many years experience of delivering a great service 
+        for our clients.</p>
+      our_agency_img:
+        db/example_images/carousel_grass.jpg
+

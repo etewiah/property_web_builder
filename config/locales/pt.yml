@@ -124,6 +124,7 @@ pt:
     urlNotAvailable: Desculpe, esta URL não está disponível
     weAreCreatingSite: Estamos criando o seu site
   signOut: Sair
+
   simple_form:
     error_notification:
       default_message: 'Reveja os problemas abaixo:'
@@ -145,6 +146,7 @@ pt:
       mark: "*"
       text: requeridos
     'yes': sim
+
   subject: Sujeito
   tel: Telefone
   'true': sim

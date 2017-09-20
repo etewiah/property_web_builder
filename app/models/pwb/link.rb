@@ -28,13 +28,13 @@ module Pwb
                "slug", "link_path","visible",
                "link_title", "page_slug"
              ],
-             methods: [
-               "link_title_en","link_title_es",
-               "link_title_de", "link_title_fr",
-               "link_title_ru"
-      ]}.merge(options || {}))
+             methods: admin_attribute_names}.merge(options || {}))
     end
 
+    def admin_attribute_names
+      self.globalize_attribute_names
+      # self.globalize_attribute_names.push :content_photos
+    end
 
   end
 end
