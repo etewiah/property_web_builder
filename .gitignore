@@ -33,8 +33,6 @@ spec/dummy/public/img/
 spec/dummy/public/js/
 spec/dummy/public/capybara.html
 
-#below used by comfy#
-spec/dummy/public/system
 
 notes
 
