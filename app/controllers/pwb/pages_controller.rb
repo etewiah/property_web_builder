@@ -13,8 +13,10 @@ module Pwb
       end
       @content_to_show = []
 
-      @page.ordered_visible_contents.each do |page_content|
-        @content_to_show.push page_content.raw
+      # @page.ordered_visible_contents.each do |page_content|
+      # above does not get ordered correctly
+      @page.ordered_visible_page_contents.each do |page_content|
+        @content_to_show.push page_content.content.raw
       end
 
 

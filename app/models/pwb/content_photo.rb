@@ -11,7 +11,7 @@ module Pwb
     def optimized_image_url
       if Rails.application.config.use_cloudinary
         options = {height: 800, crop: "scale", quality: "auto"}
-        image_url = Cloudinary::Utils.cloudinary_url self, options
+        image_url = Cloudinary::Utils.cloudinary_url self.image, options
       else
         image_url = self.image.url
       end

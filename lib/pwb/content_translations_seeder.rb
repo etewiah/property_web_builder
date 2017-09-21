@@ -64,7 +64,7 @@ module Pwb
             if seed_content[row_block_label]
               if configRowBlock["isImage"]
                 photo = page.seed_fragment_photo fragment_label, row_block_label, seed_content[row_block_label]
-                row_block_content = photo.present? ? photo.image.url : ""
+                row_block_content = photo.present? ? photo.optimized_image_url : ""
               else
                 row_block_content = seed_content[row_block_label]
               end

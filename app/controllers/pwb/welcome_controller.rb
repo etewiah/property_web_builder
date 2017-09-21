@@ -8,10 +8,11 @@ module Pwb
       # visible_page_fragment_names = @page.present? ? @page.details["visiblePageParts"] : []
       @content_to_show = []
 
-      @page.ordered_visible_contents.each do |page_content|
-        @content_to_show.push page_content.raw
+      # @page.ordered_visible_contents.each do |page_content|
+      # above does not get ordered correctly
+      @page.ordered_visible_page_contents.each do |page_content|
+        @content_to_show.push page_content.content.raw
       end
-
       # @carousel_items = Content.where(tag: 'landing-carousel')
       # @carousel_speed = 3000
       # @content_area_cols = Content.where(tag: 'content-area-cols').order('sort_order')
