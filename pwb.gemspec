@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email       = ['etewiah@hotmail.com']
   s.homepage    = 'http://propertywebbuilder.com'
   s.summary     = 'A Rails engine for real estate agents.'
-  s.description = 'PropertyWebBuilder lets you build real estate websites fast.'
+  s.description = 'PropertyWebBuilder lets you build great real estate websites fast.'
   s.license     = 'MIT'
 
   # s.files = `git ls-files`.split($/).reject { |fn| fn.start_with? "spec" }
@@ -21,11 +21,12 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
   s.test_files = Dir['spec/**/*']
 
-  s.add_dependency 'rails', '>= 5.0.0'
+  s.add_dependency 'rails', '>= 5.1.0'
   s.add_dependency 'money-rails', '~>1'
-  # s.add_dependency 'globalize', '~> 5.0.0'
+  s.add_dependency 'globalize', '~> 5.1.0.beta2'
   # cannot add globalize here till there is a rails 5
   # compatible tag
+  # spt 2017 - rails 5 now supported by globalize
   s.add_dependency 'activemodel-serializers-xml'
   s.add_dependency 'globalize-accessors'
 

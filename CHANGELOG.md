@@ -3,9 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-* Theme can be changed via query string
-
+* New CMS functionality
+* Add Portuguese as an admin language
 * Add preset color palettes
+* Require Rails 5.1.0 or above
 
 ## 1.2.0 / 2017-08-23
 
