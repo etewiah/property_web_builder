@@ -1,9 +1,7 @@
-# july 2017 - no longer in use
 module Pwb
-  class Api::V1::SectionResource < JSONAPI::Resource
-    model_name 'Pwb::Section'
-    attributes :link_key, :link_path, :visible, :sort_order, :id
-    # attributes :link_title_es, :link_title_en, :link_title_ar
+  class Api::V1::ClientResource < JSONAPI::Resource
+    model_name 'Pwb::Client'
+    attributes :first_names, :last_names
     # attributes :page_title_es, :page_title_en, :page_title_ar
     # attributes :show_in_top_nav, :show_in_footer, :is_page
     # attributes :key, :contents

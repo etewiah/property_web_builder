@@ -135,10 +135,10 @@ Pwb::Engine.routes.draw do
         # jsonapi_resources :cms_pages
 
 
-        # get "/web-contents" => "agency#infos"
+        get "/web-contents" => "agency#infos"
         jsonapi_resources :lite_properties
         jsonapi_resources :properties
-        # jsonapi_resources :sections
+        jsonapi_resources :clients
         jsonapi_resources :web_contents
 
         get "/links" => "links#index"
