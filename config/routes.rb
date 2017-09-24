@@ -140,6 +140,7 @@ Pwb::Engine.routes.draw do
         jsonapi_resources :properties
         jsonapi_resources :clients
         jsonapi_resources :web_contents
+        resources :contacts
 
         get "/links" => "links#index"
         put "/links" => "links#bulk_update"
