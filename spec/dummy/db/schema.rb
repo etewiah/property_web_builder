@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170919134945) do
+ActiveRecord::Schema.define(version: 20170923195321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -196,6 +196,40 @@ ActiveRecord::Schema.define(version: 20170919134945) do
     t.index ["documentation_id"], name: "index_pwb_clients_on_documentation_id", unique: true
     t.index ["email"], name: "index_pwb_clients_on_email", unique: true
     t.index ["first_names", "last_names"], name: "index_pwb_clients_on_first_names_and_last_names"
+  end
+
+  create_table "pwb_contacts", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "other_names"
+    t.integer "title", default: 0
+    t.string "primary_phone_number"
+    t.string "other_phone_number"
+    t.string "fax"
+    t.string "nationality"
+    t.string "primary_email"
+    t.string "other_email"
+    t.string "skype_id"
+    t.string "facebook_id"
+    t.string "linkedin_id"
+    t.string "twitter_id"
+    t.string "website"
+    t.string "documentation_id"
+    t.integer "documentation_type"
+    t.integer "user_id"
+    t.integer "primary_address_id"
+    t.integer "secondary_address_id"
+    t.integer "flags", default: 0, null: false
+    t.json "details", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["documentation_id"], name: "index_pwb_contacts_on_documentation_id"
+    t.index ["first_name", "last_name"], name: "index_pwb_contacts_on_first_name_and_last_name"
+    t.index ["first_name"], name: "index_pwb_contacts_on_first_name"
+    t.index ["last_name"], name: "index_pwb_contacts_on_last_name"
+    t.index ["primary_email"], name: "index_pwb_contacts_on_primary_email"
+    t.index ["primary_phone_number"], name: "index_pwb_contacts_on_primary_phone_number"
+    t.index ["title"], name: "index_pwb_contacts_on_title"
   end
 
   create_table "pwb_content_photos", id: :serial, force: :cascade do |t|
