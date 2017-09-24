@@ -39,6 +39,7 @@ module Pwb
         end
         seed_field_keys 'field_keys.yml'
         seed_users 'users.yml'
+        seed_contacts 'contacts.yml'
         seed_pages
         seed_links 'links.yml'
 
@@ -64,6 +65,15 @@ module Pwb
         page_yml = YAML.load_file(page_seed_file)
         unless Pwb::Page.where(slug: page_yml[0]['slug']).count > 0
           Pwb::Page.create!(page_yml)
+        end
+      end
+
+      def seed_contacts yml_file
+        contacts_yml = load_seed_yml yml_file
+        contacts_yml.each do |contact_yml|
+          unless Pwb::Contact.where(primary_email: contact_yml['email']).count > 0
+            Pwb::Contact.create!(contact_yml)
+          end
         end
       end
 
