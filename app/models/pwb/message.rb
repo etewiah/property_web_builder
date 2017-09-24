@@ -1,5 +1,5 @@
 module Pwb
   class Message < ApplicationRecord
-    belongs_to :client, optional: true
+    belongs_to :contact, optional: true
   end
 end

@@ -31,13 +31,13 @@ class CreatePwbProps < ActiveRecord::Migration[5.0]
 
       t.boolean :for_rent_short_term, default: false
       t.boolean :for_rent_long_term, default: false
+      # if I used flag shih tzu for above, I couldn't make queries like:
+      # Property.where('for_rent_short_term OR for_rent_long_term')
+
       t.boolean :for_sale, default: false
       t.boolean :hide_map, default: false
       t.boolean :obscure_map, default: false
       t.boolean :portals_enabled, default: false
-      # if I used flag shih tzu for above, I couldn't make queries like:
-      # Property.where('for_rent_short_term OR for_rent_long_term')
-
 
       t.datetime :deleted_at
       t.datetime :active_from

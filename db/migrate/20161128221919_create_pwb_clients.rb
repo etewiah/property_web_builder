@@ -1,3 +1,4 @@
+# spt 2017 - superseeded by contacts
 class CreatePwbClients < ActiveRecord::Migration[5.0]
   def change
     create_table :pwb_clients do |t|
