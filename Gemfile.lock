@@ -15,8 +15,10 @@ PATH
       cloudinary
       devise
       devise-i18n
+      faker
       faraday
       firebase
+      flag_shih_tzu
       fog-aws
       globalize (~> 5.1.0.beta2)
       globalize-accessors
@@ -131,12 +133,15 @@ GEM
     factory_girl_rails (4.8.0)
       factory_girl (~> 4.8.0)
       railties (>= 3.0.0)
+    faker (1.4.3)
+      i18n (~> 0.5)
     faraday (0.13.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
     firebase (0.2.6)
       httpclient
       json
+    flag_shih_tzu (0.3.19)
     fog-aws (1.4.1)
       fog-core (~> 1.38)
       fog-json (~> 1.0)
