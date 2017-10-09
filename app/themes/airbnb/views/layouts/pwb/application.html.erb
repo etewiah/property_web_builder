@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:esi="http://www.edge-delivery.org/esi/1.0" prefix="og: http://ogp.me/ns#">
+<head>
+  <title><%= content_for?( :title ) ? "#{ yield :title } | StayBay" : 'Corporate Housing Marketplace | Furnished Rentals | StayBay' %></title>
+    <%# include_gon %>
+    <% if content_for? :og_title %>
+        <meta property="og:title" content="<%= yield :og_title %>" />
+    <% else %>
+        <meta property="og:title" content="<%= content_for?( :title ) ? "#{ yield :title } | StayBay" : 'Corporate Housing Marketplace | Furnished Rentals | StayBay' %>" />
+    <% end %>
+    <% if content_for? :og_type %>
+        <meta property="og:type" content="<%= yield :og_type %>" />
+    <% end %>
+    <% if content_for? :og_url %>
+        <meta property="og:url" content="<%= yield :og_url %>" />
+    <% else %>
+        <meta property="og:url" content="<%= root_url protocol: 'https' %>" />
+    <% end %>
+    <% if content_for? :og_image %>
+        <meta property="og:image" content="<%= yield :og_image %>" />
+    <% else %>
+        <meta property="og:image" content="<%= asset_path( 'staybay-logo-for-fbgraph.png' ) %>" />
+        <meta property="og:image:secure_url" content="<%= asset_path( 'staybay-logo-for-fbgraph.png' ) %>" />
+    <% end %>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="shortcut icon" href="<%= asset_path("favicon.ico") %>" />
+
+  <link type="text/css" rel="stylesheet" href="http<%= 's' if Rails.env.production? %>://fast.fonts.net/cssapi/8716b186-e069-4784-9261-004ba0e392fc.css"/>
+    <%= stylesheet_link_tag    "pwb/themes/airbnb", media: "all" %>
+    <style>
+      <%# custom_styles "airbnb" %>
+    </style>
+    <%= csrf_meta_tags %>
+
+
+  <%=  javascript_include_tag "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-52b326503e2b18e6" %>
+  <script type="text/javascript">
+    var stayBayIsIE = false;
+  </script>
+
+  <!--[if lt IE 9]>
+  <script type="text/javascript">
+    var stayBayIsIE = true;
+  </script>
+  <%= javascript_include_tag "polyfill/selectivzr.min.js" %>
+  <%= javascript_include_tag "polyfill/respond.min.js" %>
+  <![endif]-->
+
+  <%# javascript_include_tag "modernizr-2.6.2.js" %>
+
+</head>
+
+<!-- body -->
+<body class="<%= yield :body_class if content_for? :body_class %> <%# 'logged-in' if logged_in? %>">
+
+    <%= yield %>
+
+    <% if @cached %>
+        <!-- Last rendered on <%= Time.now.to_s %>  -->
+    <% end %>
+
+    <%# render partial: 'layouts/impostor' %>
+
+
+    <%= yield :body if content_for?( :body ) %>
+
+    <%= render partial: '/pwb/footer' %>
+
+    <%= render partial: 'layouts/pwb/login_modal' %>
+
+    <%= render partial: 'layouts/pwb/generic_modal' %>
+
+    <%= javascript_include_tag "application" %>
+
+    <%= yield :footer_scripts if content_for?( :footer_scripts ) %>
+
+</body>
+</html>
