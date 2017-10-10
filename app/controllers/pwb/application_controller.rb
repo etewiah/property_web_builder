@@ -46,7 +46,6 @@ module Pwb
 
     def current_agency_and_website
       @current_agency ||= Agency.unique_instance
-      # (Agency.last || Agency.create)
       @current_website = Website.unique_instance
     end
 
