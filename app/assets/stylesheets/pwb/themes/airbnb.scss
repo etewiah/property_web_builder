@@ -14,6 +14,19 @@
 
 @import "bourbon";
 @import "airbnb/h5bp";
+@import "airbnb/jquery-ui";
+@import "airbnb/jquery-ui-theme";
 @import "airbnb/base";
 
 
+.site-content:before, .site-content:after {
+  content: " ";
+  display: table;
+}
+/* The lines above from bourbon 3.1.8 are needed to allow search results to poke above background image */
+/* line 18, ../../../../../.rbenv/versions/1.9.3-p551/lib/ruby/gems/1.9.1/gems/bourbon-3.1.8/app/assets/stylesheets/addons/_clearfix.scss */
+
+#results section:before, #results section:after {
+  content: " ";
+  display: table;
+}

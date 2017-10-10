@@ -32,10 +32,11 @@
     <style>
       <%# custom_styles "airbnb" %>
     </style>
+    <%= javascript_include_tag "pwb/themes/vic", async: false %>
     <%= csrf_meta_tags %>
 
 
-  <%=  javascript_include_tag "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-52b326503e2b18e6" %>
+  <%#  javascript_include_tag "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-52b326503e2b18e6" %>
   <script type="text/javascript">
     var stayBayIsIE = false;
   </script>
@@ -53,9 +54,11 @@
 </head>
 
 <!-- body -->
-<body class="<%= yield :body_class if content_for? :body_class %> <%# 'logged-in' if logged_in? %>">
+<body class=" <%= yield :body_class if content_for? :body_class %> <%# 'logged-in' if logged_in? %>">
 
-    <%= yield %>
+    <main id="main-vue">
+      <%= yield %>
+    </main>
 
     <% if @cached %>
         <!-- Last rendered on <%= Time.now.to_s %>  -->
@@ -72,9 +75,8 @@
 
     <%= render partial: 'layouts/pwb/generic_modal' %>
 
-    <%= javascript_include_tag "application" %>
 
-    <%= yield :footer_scripts if content_for?( :footer_scripts ) %>
+    <%= yield :page_script if content_for?( :page_script ) %>
 
 </body>
 </html>

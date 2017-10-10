@@ -713,7 +713,7 @@ img {
 -------------------------------------------------------------------------------- */
 
 #hero {
-    background: image-url("bg-results-brooklyn-bridge.jpg") no-repeat;
+    /*background: image-url("bg-results-brooklyn-bridge.jpg") no-repeat;*/
     background-size: cover;
     background-position: 50% 50%;
     figure {
@@ -975,9 +975,11 @@ img {
     figure {
         float: left;
         width: 43.041%;
-        margin-right: 0.75em;
+        /*margin-right: 0.75em;*/
+        margin: 0em 0.75em 0em 0em;
         @media (min-width: $break-4) {
-            margin-right: 2em;
+            /*margin-right: 2em;*/
+            margin: 0em 2em 0em 0em;
             border-radius: 5px;
             overflow: hidden;
         }
