@@ -1,3 +1,4 @@
+# oct 2017 - no longer in use - to_delete
 module Pwb
   class Api::V1::SectionsController < JSONAPI::ResourceController
     # # Skipping action below allows me to browse to endpoint

@@ -1,3 +1,4 @@
+# oct 2017 - TODO - deprecate this
 require_dependency 'pwb/application_controller'
 
 module Pwb
