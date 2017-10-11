@@ -1,0 +1,17 @@
+- page_slug: about-us
+  fragment_slug: content_html
+  block_contents: {}
+  editor_setup: {
+        "editorBlocks": [
+        [
+        {
+          "label": "main_content",
+          "isHtml": "true"
+        }]
+      ]
+    }
+  template: 
+    <h1>db liq 2</h1>
+    <div class="container m-t-25 m-b-25">
+      {{ page_part["main_content"]["content"] %> }}
+    </div>

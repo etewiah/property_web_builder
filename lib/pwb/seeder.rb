@@ -40,34 +40,13 @@ module Pwb
         seed_field_keys 'field_keys.yml'
         seed_users 'users.yml'
         seed_contacts 'contacts.yml'
-        seed_pages
+        # seed_pages
         seed_links 'links.yml'
 
       end
 
-      def seed_pages
-        page_yml_filenames = [
-          "sell.yml", "about.yml", "buy.yml",
-          "rent.yml", "home.yml", "legal_notice.yml",
-          "contact.yml", "privacy_policy.yml"
-        ]
-
-        page_yml_filenames.each do |page_yml_filename|
-          seed_page page_yml_filename
-        end
-      end
-
       protected
-
-
-      def seed_page yml_file
-        page_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'pages', yml_file)
-        page_yml = YAML.load_file(page_seed_file)
-        unless Pwb::Page.where(slug: page_yml[0]['slug']).count > 0
-          Pwb::Page.create!(page_yml)
-        end
-      end
-
+      
       def seed_contacts yml_file
         contacts_yml = load_seed_yml yml_file
         contacts_yml.each do |contact_yml|

@@ -1,0 +1,80 @@
+- page_slug: home
+  fragment_slug: about_us_services
+  block_contents: {}
+  editor_setup: {
+      "editorBlocks": [
+        [
+        {
+          "label": "icon_a",
+          "isIcon": "true"
+        },
+        {
+          "label": "title_a",
+          "isSingleLineText": "true"
+        },
+        {
+          "label": "content_a",
+          "isMultipleLineText": "true"
+        }],
+        [
+        {
+          "label": "icon_b",
+          "isIcon": "true"
+        },
+        {
+          "label": "title_b",
+          "isSingleLineText": "true"
+        },
+        {
+          "label": "content_b",
+          "isMultipleLineText": "true"
+        }],
+        [
+        {
+          "label": "icon_c",
+          "isIcon": "true"
+        },
+        {
+          "label": "title_c",
+          "isSingleLineText": "true"
+        },
+        {
+          "label": "content_c",
+          "isMultipleLineText": "true"
+        }]
+      ]
+    }  
+  template: 
+    <h1>db liq 2</h1>
+    <section class="slice light-gray bb">
+      <div class="wp-section services-section">
+        <div class="container">
+          <div class="row services-wrapper">
+            <div class="col-md-4 ss-cont">
+              <div class="single-service">
+                <div class="bordered top-bordered"> </div>
+                <div class="fa fa-home icon-service"> </div>
+                <h4>{{ page_part["title_a"]["content"] }}</h4>
+                <p>{{  page_part["content_a"]["content"] }}</p>
+              </div>
+            </div>
+            <div class="col-md-4 ss-cont">
+              <div class="single-service">
+                <div class="bordered top-bordered"> </div>
+                <div class="fa fa-user icon-service"> </div>
+                <h4>{{ page_part["title_b"]["content"] }}</h4>
+                <p>{{  page_part["content_b"]["content"] }}</p>
+              </div>
+            </div>
+            <div class="col-md-4 ss-cont">
+              <div class="single-service">
+                <div class="bordered top-bordered"> </div>
+                <div class="fa fa-money icon-service"> </div>
+                <h4>{{ page_part["title_c"]["content"] }}</h4>
+                <p>{{  page_part["content_c"]["content"] }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>

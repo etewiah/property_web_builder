@@ -4,6 +4,9 @@ module Pwb
   class Page < ApplicationRecord
     extend ActiveHash::Associations::ActiveRecordExtensions
     belongs_to_active_hash :page_setup, optional: true, foreign_key: "setup_id", class_name: "Pwb::PageSetup", shortcuts: [:friendly_name], primary_key: "id"
+
+    has_many :liquid_fragments, foreign_key: "page_slug", primary_key: "slug"
+
     has_many :links, foreign_key: "page_slug", primary_key: "slug"
     has_one :main_link, -> { where(placement: :top_nav) }, foreign_key: "page_slug", primary_key: "slug", class_name: "Pwb::Link"
     # , :conditions => ['placement = ?', :admin]
@@ -127,6 +130,33 @@ module Pwb
       page_fragment_content.save!
 
       return page_fragment_content
+    end
+
+    # generates html from template and blocks of content (stored as json in liquid_fragment)
+    def parse_liquid_fragment fragment_slug, content_for_pf_locale
+      # l_template_file_name = fragment_slug
+      # l_template_file = Pwb::Engine.root.join('app', 'views', 'pwb', 'liquid', "#{l_template_file_name}.html")
+      # l_template = Liquid::Template.parse(l_template_file.read) # Parses and compiles the template
+      # l_template = Liquid::Template.parse("hi {{name}}") # Parses and compiles the template
+      # fragment_html = l_template.render('name' => 'tobi')
+
+      liquid_fragment = self.liquid_fragments.find_by_fragment_slug fragment_slug
+
+      if liquid_fragment.present?
+        l_template = Liquid::Template.parse(liquid_fragment.template)
+        fragment_html = l_template.render('page_part' => content_for_pf_locale["blocks"] )
+        # binding.pry
+        p "#{fragment_slug} content for #{self.slug} page parsed."
+
+      else
+        fragment_html = ""
+      end
+
+      # fragment_html = l_template.render('page_part' => content_for_pf_locale["blocks"] )
+      # ac = ActionController::Base.new()
+      # # render html for fragment with associated partial
+      # fragment_html = ac.render_to_string :partial => "pwb/fragments/#{fragment_slug}",  :locals => { page_part: content_for_pf_locale["blocks"]}
+      return fragment_html
     end
 
     def set_fragment_details fragment_label, locale, fragment_details

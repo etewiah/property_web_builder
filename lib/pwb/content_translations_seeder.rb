@@ -5,14 +5,55 @@ module Pwb
     class << self
       # Called by this rake task:
       # rake app:pwb:db:seed_pages                                  1 ↵
+      def seed_liquid_fragments!
+        liquid_fragment_yml_filenames = [
+          "about-us__content_html.yml", "home__about_us_services.yml",
+          "privacy__content_html.yml", "legal__content_html.yml"
+        ]
 
-      def seed_content_translations!
+        liquid_fragment_yml_filenames.each do |filename|
+          seed_liquid_fragment filename
+        end
+      end
+
+
+      def seed_page_content_translations!
         I18n.available_locales.each do |locale|
           seed_locale locale.to_s
         end
       end
 
+      def seed_page_basics!
+        page_yml_filenames = [
+          "sell.yml", "about.yml", "buy.yml",
+          "rent.yml", "home.yml", "legal_notice.yml",
+          "contact.yml", "privacy_policy.yml"
+        ]
+
+        page_yml_filenames.each do |page_yml_filename|
+          seed_page page_yml_filename
+        end
+      end
+
       protected
+
+
+      def seed_page yml_file
+        page_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'pages', yml_file)
+        page_yml = YAML.load_file(page_seed_file)
+        unless Pwb::Page.where(slug: page_yml[0]['slug']).count > 0
+          Pwb::Page.create!(page_yml)
+        end
+      end
+
+
+      def seed_liquid_fragment yml_file
+        lf_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'liquid_fragments', yml_file)
+        lf_yml = YAML.load_file(lf_seed_file)
+        unless Pwb::LiquidFragment.where({fragment_slug: lf_yml[0]['fragment_slug'],page_slug: lf_yml[0]['page_slug']}).count > 0
+          Pwb::LiquidFragment.create!(lf_yml)
+        end
+      end
 
       def seed_locale locale
         locale_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'content_translations', locale + '.yml')
@@ -74,9 +115,8 @@ module Pwb
         end
 
 
-        ac = ActionController::Base.new()
-        # render html for fragment with associated partial
-        fragment_html = ac.render_to_string :partial => "pwb/fragments/#{fragment_label}",  :locals => { page_part: content_for_pf_locale["blocks"]}
+        fragment_html = page.parse_liquid_fragment fragment_label, content_for_pf_locale
+
 
         # # and save in content model associated with page
         content_for_page = page.set_fragment_html fragment_label, locale, fragment_html
@@ -99,7 +139,7 @@ module Pwb
         page.details["fragments"][fragment_label][locale] = content_for_pf_locale
         page.save!
 
-        p "#{page.slug} page content set."
+        # p "#{page.slug} page content set."
       end
 
 
