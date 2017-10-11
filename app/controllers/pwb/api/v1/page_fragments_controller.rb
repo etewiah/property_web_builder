@@ -3,7 +3,6 @@ module Pwb
   # comfy mex sofa
   class Api::V1::PageFragmentsController < ApplicationApiController
     def show
-      # fragment_slug
       page = Page.find_by_slug "home"
       render json: page.details["fragments"]      
     end

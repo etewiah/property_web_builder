@@ -1,5 +1,5 @@
 - page_slug: home
-  fragment_slug: about_us_services
+  fragment_key: about_us_services
   block_contents: {}
   editor_setup: {
       "editorBlocks": [
@@ -45,7 +45,6 @@
       ]
     }  
   template: 
-    <h1>db liq 2</h1>
     <section class="slice light-gray bb">
       <div class="wp-section services-section">
         <div class="container">

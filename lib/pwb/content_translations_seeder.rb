@@ -5,14 +5,14 @@ module Pwb
     class << self
       # Called by this rake task:
       # rake app:pwb:db:seed_pages                                  1 ↵
-      def seed_liquid_fragments!
-        liquid_fragment_yml_filenames = [
+      def seed_page_parts!
+        page_part_yml_filenames = [
           "about-us__content_html.yml", "home__about_us_services.yml",
           "privacy__content_html.yml", "legal__content_html.yml"
         ]
 
-        liquid_fragment_yml_filenames.each do |filename|
-          seed_liquid_fragment filename
+        page_part_yml_filenames.each do |filename|
+          seed_page_part filename
         end
       end
 
@@ -47,11 +47,11 @@ module Pwb
       end
 
 
-      def seed_liquid_fragment yml_file
-        lf_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'liquid_fragments', yml_file)
+      def seed_page_part yml_file
+        lf_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'page_parts', yml_file)
         lf_yml = YAML.load_file(lf_seed_file)
-        unless Pwb::LiquidFragment.where({fragment_slug: lf_yml[0]['fragment_slug'],page_slug: lf_yml[0]['page_slug']}).count > 0
-          Pwb::LiquidFragment.create!(lf_yml)
+        unless Pwb::PagePart.where({fragment_key: lf_yml[0]['fragment_key'],page_slug: lf_yml[0]['page_slug']}).count > 0
+          Pwb::PagePart.create!(lf_yml)
         end
       end
 
@@ -115,7 +115,7 @@ module Pwb
         end
 
 
-        fragment_html = page.parse_liquid_fragment fragment_label, content_for_pf_locale
+        fragment_html = page.parse_page_part fragment_label, content_for_pf_locale
 
 
         # # and save in content model associated with page

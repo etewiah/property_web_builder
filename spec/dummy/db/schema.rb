@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171011122212) do
+ActiveRecord::Schema.define(version: 20171011212930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -364,6 +364,22 @@ ActiveRecord::Schema.define(version: 20171011122212) do
     t.datetime "updated_at", null: false
     t.index ["content_id"], name: "index_pwb_page_contents_on_content_id"
     t.index ["page_id"], name: "index_pwb_page_contents_on_page_id"
+  end
+
+  create_table "pwb_page_parts", force: :cascade do |t|
+    t.string "fragment_key"
+    t.string "page_slug"
+    t.text "template"
+    t.json "editor_setup", default: {}
+    t.json "block_contents", default: {}
+    t.string "theme_name"
+    t.string "locale"
+    t.integer "flags", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fragment_key", "page_slug"], name: "index_pwb_page_parts_on_fragment_key_and_page_slug"
+    t.index ["fragment_key"], name: "index_pwb_page_parts_on_fragment_key"
+    t.index ["page_slug"], name: "index_pwb_page_parts_on_page_slug"
   end
 
   create_table "pwb_page_translations", force: :cascade do |t|

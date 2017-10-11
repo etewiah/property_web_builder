@@ -1,10 +1,9 @@
-class CreatePwbLiquidFragments < ActiveRecord::Migration[5.1]
+class CreatePwbPageParts < ActiveRecord::Migration[5.1]
   def change
-    create_table :pwb_liquid_fragments do |t|
+    create_table :pwb_page_parts do |t|
 
       t.string :fragment_key, index: true
       t.string :page_slug, index: true
-      # t.string :fragment_slug, index: true
       t.text :template
 
       # used to decide how to lay out the editor 
@@ -22,6 +21,7 @@ class CreatePwbLiquidFragments < ActiveRecord::Migration[5.1]
       t.integer :flags, null: false, default: 0
       t.timestamps
     end
-    add_index :pwb_liquid_fragments, [:fragment_key, :page_slug]
+    add_index :pwb_page_parts, [:fragment_key, :page_slug]
+
   end
 end

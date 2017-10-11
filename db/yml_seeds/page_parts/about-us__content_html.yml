@@ -1,5 +1,5 @@
-- page_slug: legal
-  fragment_slug: content_html
+- page_slug: about-us
+  fragment_key: content_html
   block_contents: {}
   editor_setup: {
         "editorBlocks": [
