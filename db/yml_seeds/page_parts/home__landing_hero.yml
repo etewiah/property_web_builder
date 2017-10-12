@@ -1,0 +1,48 @@
+- page_slug: home
+  fragment_key: landing_hero
+  block_contents: {}
+  order_in_editor: 1,
+  show_in_editor: true,
+  editor_setup: {
+      "tabTitleKey": "pageSections.landingHero.title",
+      "tabInfoKey": "pageSections.landingHero.info",
+      "default_sort_order": 1,
+      "default_visible_on_page": true,
+      "editorBlocks": [
+        [
+        {
+          "label": "landing_title_a",
+          "isSingleLineText": "true"
+        },
+        {
+          "label": "landing_content_a",
+          "isHtml": "true"
+        }],
+        [
+        {
+          "label": "landing_img",
+          "isImage": "true"
+        }
+        ]
+      ]
+    }  
+  template: >
+    <div class="jumbotron">
+      <div class="jumbotron-left">
+        <div id="landingHero" class="carousel carousel-1 carousel-fixed-height slide">
+          <div class="carousel-inner">
+              <div class="item item-dark active"
+              style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1)), url({{page_part["landing_img"]["content"] }});" >
+                <div class="">
+                  <div class="carousel-content">
+                    {{ page_part["landing_content_a"]["content"] }}
+                  </div>
+                </div>
+              </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="jumbotron-right">
+      </div>
+    </div>

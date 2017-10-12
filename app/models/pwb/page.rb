@@ -134,26 +134,25 @@ module Pwb
       return page_fragment_content
     end
 
-    # generates html from template and blocks of content (stored as json in page_part)
-    def parse_page_part fragment_key, content_for_pf_locale
+    # def parse_page_part fragment_key, content_for_pf_locale
 
-      page_part = self.page_parts.find_by_fragment_key fragment_key
+    #   page_part = self.page_parts.find_by_fragment_key fragment_key
 
-      if page_part.present?
-        l_template = Liquid::Template.parse(page_part.template)
-        fragment_html = l_template.render('page_part' => content_for_pf_locale["blocks"] )
-        p "#{fragment_key} content for #{self.slug} page parsed."
+    #   if page_part.present?
+    #     l_template = Liquid::Template.parse(page_part.template)
+    #     fragment_html = l_template.render('page_part' => content_for_pf_locale["blocks"] )
+    #     p "#{fragment_key} content for #{self.slug} page parsed."
 
-      else
-        fragment_html = ""
-      end
+    #   else
+    #     fragment_html = ""
+    #   end
 
-      # fragment_html = l_template.render('page_part' => content_for_pf_locale["blocks"] )
-      # ac = ActionController::Base.new()
-      # # render html for fragment with associated partial
-      # fragment_html = ac.render_to_string :partial => "pwb/fragments/#{fragment_key}",  :locals => { page_part: content_for_pf_locale["blocks"]}
-      return fragment_html
-    end
+    #   # fragment_html = l_template.render('page_part' => content_for_pf_locale["blocks"] )
+    #   # ac = ActionController::Base.new()
+    #   # # render html for fragment with associated partial
+    #   # fragment_html = ac.render_to_string :partial => "pwb/fragments/#{fragment_key}",  :locals => { page_part: content_for_pf_locale["blocks"]}
+    #   return fragment_html
+    # end
 
     # Will retrieve saved page_part blocks and use that along with template
     # to rebuild page_content html
@@ -163,7 +162,7 @@ module Pwb
       if page_part.present?
         l_template = Liquid::Template.parse(page_part.template)
         new_fragment_html = l_template.render('page_part' => page_part.block_contents[locale]["blocks"] )
-        p "#{fragment_key} content for #{self.slug} page parsed."
+        # p "#{fragment_key} content for #{self.slug} page parsed."
         # save in content model associated with page
         page_fragment_content = contents.find_or_create_by(fragment_key: fragment_key)
         content_html_col = "raw_" + locale + "="
@@ -230,12 +229,10 @@ module Pwb
       #                    "link_title_ru", "link_title_fr"
     end
 
-    def setup
-      # gets config info for fragments from associated page_setup model (which reads from json config files)
-      return page_setup.present? ? page_setup.attributes.slice(:fragment_configs) : {}
-    end
-
-
+    # def setup
+    #   # gets config info for fragments from associated page_setup model (which reads from json config files)
+    #   return page_setup.present? ? page_setup.attributes.slice(:fragment_configs) : {}
+    # end
 
     # def visible_page_parts
     #   return details["visiblePageParts"]

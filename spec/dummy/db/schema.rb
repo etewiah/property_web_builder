@@ -367,6 +367,8 @@ ActiveRecord::Schema.define(version: 20171011212930) do
   end
 
   create_table "pwb_page_parts", force: :cascade do |t|
+    t.boolean "show_in_editor", default: true
+    t.integer "order_in_editor"
     t.string "fragment_key"
     t.string "page_slug"
     t.text "template"

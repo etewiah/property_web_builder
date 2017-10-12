@@ -7,8 +7,9 @@ module Pwb
       # rake app:pwb:db:seed_pages                                  1 ↵
       def seed_page_parts!
         page_part_yml_filenames = [
-          "about-us__our_agency.yml",
-          "about-us__content_html.yml", "home__about_us_services.yml",
+          "about-us__our_agency.yml", "about-us__content_html.yml",
+          "home__landing_hero.yml", "home__about_us_services.yml", "home__content_html.yml",
+          "sell__content_html.yml",
           "privacy__content_html.yml", "legal__content_html.yml"
         ]
 
@@ -63,37 +64,63 @@ module Pwb
         end
         yml = YAML.load_file(locale_seed_file)
 
-        Pwb::PageSetup.all.each do |page_setup|
-          page_setup.pages.each do |page|
-            page_setup.fragment_configs.each do |fragment_config|
-              fragment_label = fragment_config["label"]
-              # Items in each locale seed file are nested as
-              # page_slug/fragment_label and then the block labels
-              unless yml[locale] && yml[locale][page.slug] && yml[locale][page.slug][fragment_label]
-                # skip if there is no content to populate
-                next
-              end
-              if yml[locale][page.slug][fragment_label]
-                set_page_block_content locale, page.slug, fragment_config, yml[locale][page.slug][fragment_label]
-              end
+        Pwb::Page.all.each do |page|
+          page.page_parts.each do |page_part|
+            fragment_key = page_part.fragment_key
+            # Items in each locale seed file are nested as
+            # page_slug/fragment_key and then the block labels
+            unless yml[locale] && yml[locale][page.slug] && yml[locale][page.slug][fragment_key]
+              # skip if there is no content to populate
+              next
+            end
+            if yml[locale][page.slug][fragment_key]
+              seed_content = yml[locale][page.slug][fragment_key]
+              set_page_block_content locale, page_part, seed_content
             end
           end
         end
+
+        # Pwb::PageSetup.all.each do |page_setup|
+        #   page_setup.pages.each do |page|
+        #     page_setup.fragment_configs.each do |fragment_config|
+        #       fragment_label = fragment_config["label"]
+        #       # Items in each locale seed file are nested as
+        #       # page_slug/fragment_label and then the block labels
+        #       unless yml[locale] && yml[locale][page.slug] && yml[locale][page.slug][fragment_label]
+        #         # skip if there is no content to populate
+        #         next
+        #       end
+        #       if yml[locale][page.slug][fragment_label]
+        #         set_page_block_content locale, page.slug, fragment_config, yml[locale][page.slug][fragment_label]
+        #       end
+        #     end
+        #   end
+        # end
+
       end
 
-      def set_page_block_content locale, page_slug, fragment_config, seed_content
-        page = Pwb::Page.find_by_slug page_slug
+      def set_page_block_content locale, page_part, seed_content
+        unless page_part.editor_setup
+          binding.pry
+          return
+        end
+
+        fragment_config = page_part.editor_setup
+
+        page = page_part.page
+        # Pwb::Page.find_by_slug page_part
         # fragment_label uniquely identifies a fragment
         # and is also the name of the corresponding partial
-        fragment_label = fragment_config["label"]
+        fragment_label = page_part.fragment_key
+
 
         # ensure path exists in details col of page
-        unless page.details["fragments"].present?
-          page.details["fragments"] = {}
-        end
-        unless page.details["fragments"][fragment_label].present?
-          page.details["fragments"][fragment_label] = {}
-        end
+        # unless page.details["fragments"].present?
+        #   page.details["fragments"] = {}
+        # end
+        # unless page.details["fragments"][fragment_label].present?
+        #   page.details["fragments"][fragment_label] = {}
+        # end
 
         # container for json to be attached to page details
         content_for_pf_locale = {"blocks" => {}}
@@ -143,32 +170,11 @@ module Pwb
 
         # content_for_page.save!
 
-        page.details["fragments"][fragment_label][locale] = content_for_pf_locale
-        page.save!
+        # page.details["fragments"][fragment_label][locale] = content_for_pf_locale
+        # page.save!
 
-        # p "#{page.slug} page content set."
+        p "#{page.slug} page #{fragment_label} content set for #{locale}."
       end
-
-
-      # def create_fragment_photo photo_file
-      #   if ENV["RAILS_ENV"] == "test"
-      #     # don't create photos for tests
-      #     return nil
-      #   end
-      #   begin
-      #     photo = Pwb::ContentPhoto.create
-      #     photo.image = Pwb::Engine.root.join(photo_file).open
-      #     photo.save!
-      #   rescue Exception => e
-      #     # log exception to console
-      #     p e
-      #     if photo
-      #       photo.destroy!
-      #     end
-      #   end
-      #   return photo
-      # end
-
 
     end
   end

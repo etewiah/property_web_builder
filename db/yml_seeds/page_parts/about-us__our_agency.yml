@@ -1,7 +1,13 @@
 - page_slug: about-us
   fragment_key: our_agency
   block_contents: {}
+  order_in_editor: 2,
+  show_in_editor: true,
   editor_setup: {
+      "tabTitleKey": "pageSections.ourAgency.title",
+      "tabInfoKey": "pageSections.ourAgency.info",
+      "default_sort_order": 2,
+      "default_visible_on_page": true,
       "editorBlocks": [
         [
         {

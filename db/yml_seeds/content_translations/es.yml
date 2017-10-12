@@ -40,7 +40,7 @@ es:
   home:
     landing_hero:
       landing_content_a:
-        We rock
+        El mejor inmobiliario en Springfield
       landing_img:
         db/example_images/carousel_grass.jpg
 
@@ -59,10 +59,9 @@ es:
       main_content: <p><b>Noticia importante:</b>&nbsp; Para este mes estamos haciendo evaluaciones de viviendas gratis. &nbsp;Llamanos para mas información.</p>
     our_agency:
       title_a:
-        About Us
+        Sobre nosotros
       content_a:
-        <p>We are a professional estate agents with many years experience of delivering a great service 
-        for our clients.</p>
+        <p>Llevamos muchos años comprometidos con ofrecer un servicio integral y conseguir solo transacciones con éxito y felicidad por parte de los compradores y vendedores.</p>
       our_agency_img:
         db/example_images/carousel_grass.jpg
 
