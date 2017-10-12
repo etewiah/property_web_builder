@@ -7,6 +7,7 @@ module Pwb
       # rake app:pwb:db:seed_pages                                  1 ↵
       def seed_page_parts!
         page_part_yml_filenames = [
+          "about-us__our_agency.yml",
           "about-us__content_html.yml", "home__about_us_services.yml",
           "privacy__content_html.yml", "legal__content_html.yml"
         ]
@@ -19,7 +20,7 @@ module Pwb
 
       def seed_page_content_translations!
         I18n.available_locales.each do |locale|
-          seed_locale locale.to_s
+          seed_content_for_locale locale.to_s
         end
       end
 
@@ -55,7 +56,7 @@ module Pwb
         end
       end
 
-      def seed_locale locale
+      def seed_content_for_locale locale
         locale_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'content_translations', locale + '.yml')
         unless File.exist? locale_seed_file
           return

@@ -5,11 +5,11 @@ module Pwb
     extend ActiveHash::Associations::ActiveRecordExtensions
     belongs_to_active_hash :page_setup, optional: true, foreign_key: "setup_id", class_name: "Pwb::PageSetup", shortcuts: [:friendly_name], primary_key: "id"
 
-    has_many :page_parts, foreign_key: "page_slug", primary_key: "slug"
-
     has_many :links, foreign_key: "page_slug", primary_key: "slug"
     has_one :main_link, -> { where(placement: :top_nav) }, foreign_key: "page_slug", primary_key: "slug", class_name: "Pwb::Link"
     # , :conditions => ['placement = ?', :admin]
+
+    has_many :page_parts, foreign_key: "page_slug", primary_key: "slug"
 
     has_many :page_contents
     has_many :contents, :through => :page_contents
@@ -119,6 +119,8 @@ module Pwb
       page_content_join_model.save!
     end
 
+    # currently only used in
+    # /Users/etewiah/Ed/sites-2016-oct-pwb/pwb/spec/controllers/pwb/welcome_controller_spec.rb
     def set_fragment_html fragment_label, locale, new_fragment_html
       # content_key = slug + "_" + fragment_label
       # save in content model associated with page
@@ -134,18 +136,12 @@ module Pwb
 
     # generates html from template and blocks of content (stored as json in page_part)
     def parse_page_part fragment_key, content_for_pf_locale
-      # l_template_file_name = fragment_key
-      # l_template_file = Pwb::Engine.root.join('app', 'views', 'pwb', 'liquid', "#{l_template_file_name}.html")
-      # l_template = Liquid::Template.parse(l_template_file.read) # Parses and compiles the template
-      # l_template = Liquid::Template.parse("hi {{name}}") # Parses and compiles the template
-      # fragment_html = l_template.render('name' => 'tobi')
 
       page_part = self.page_parts.find_by_fragment_key fragment_key
 
       if page_part.present?
         l_template = Liquid::Template.parse(page_part.template)
         fragment_html = l_template.render('page_part' => content_for_pf_locale["blocks"] )
-        # binding.pry
         p "#{fragment_key} content for #{self.slug} page parsed."
 
       else
@@ -159,19 +155,55 @@ module Pwb
       return fragment_html
     end
 
-    def set_fragment_details fragment_label, locale, fragment_details
-      # ensure path exists in details col
-      unless details["fragments"].present?
-        details["fragments"] = {}
-      end
-      unless details["fragments"][fragment_label].present?
-        details["fragments"][fragment_label] = {}
+    # Will retrieve saved page_part blocks and use that along with template
+    # to rebuild page_content html
+    def rebuild_page_content fragment_key, locale
+      page_part = self.page_parts.find_by_fragment_key fragment_key
+
+      if page_part.present?
+        l_template = Liquid::Template.parse(page_part.template)
+        new_fragment_html = l_template.render('page_part' => page_part.block_contents[locale]["blocks"] )
+        p "#{fragment_key} content for #{self.slug} page parsed."
+        # save in content model associated with page
+        page_fragment_content = contents.find_or_create_by(fragment_key: fragment_key)
+        content_html_col = "raw_" + locale + "="
+        # above is the col used by globalize gem to store localized data
+        # page_fragment_content[content_html_col] = new_fragment_html
+        page_fragment_content.send content_html_col, new_fragment_html
+        page_fragment_content.save!
+
+      else
+        new_fragment_html = ""
       end
 
-      # locale_label_fragments = label_fragments[locale].present? ? label_fragments[locale] : { label => { locale => fragment_details  }}
-      details["fragments"][fragment_label][locale] = fragment_details
-      return details["fragments"][fragment_label][locale]
+      return new_fragment_html
     end
+
+    def set_page_part_block_contents fragment_key, locale, fragment_details
+      page_part = self.page_parts.find_by_fragment_key fragment_key
+      if page_part.present?
+        page_part.block_contents[locale] = fragment_details
+        page_part.save!
+        # fragment_details passed in might be a params object
+        # - retrieving what has just been saved will return it as JSON
+        fragment_details = page_part.block_contents[locale]
+      end
+      return fragment_details
+    end
+
+    # def set_fragment_details fragment_label, locale, fragment_details
+    #   # ensure path exists in details col
+    #   unless details["fragments"].present?
+    #     details["fragments"] = {}
+    #   end
+    #   unless details["fragments"][fragment_label].present?
+    #     details["fragments"][fragment_label] = {}
+    #   end
+
+    #   # locale_label_fragments = label_fragments[locale].present? ? label_fragments[locale] : { label => { locale => fragment_details  }}
+    #   details["fragments"][fragment_label][locale] = fragment_details
+    #   return details["fragments"][fragment_label][locale]
+    # end
 
     # def as_json(options = nil)
     #   super({only: ["sort_order_top_nav", "show_in_top_nav"],

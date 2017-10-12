@@ -67,16 +67,19 @@ module Pwb
       unless fragment_details["label"]
         return render_json_error 'Please provide label'
       end
-      label = fragment_details["label"]
+      fragment_label = fragment_details["label"]
+
+      # updated_details = page.set_fragment_details fragment_label, locale, fragment_details
+      # fragment_html = render_to_string :partial => "pwb/fragments/#{fragment_label}",  :locals => { page_part: params[:fragment_details][:blocks]}
+
+      updated_details = page.set_page_part_block_contents fragment_label, locale, fragment_details
+      fragment_html = page.rebuild_page_content fragment_label, locale
 
 
-      # begin
-      fragment_html = render_to_string :partial => "pwb/fragments/#{label}",  :locals => { page_part: params[:fragment_details][:blocks]}
-      page.set_fragment_html label, locale, fragment_html
+
+      # page.set_fragment_html fragment_label, locale, fragment_html
       # , formats: :css
-      updated_details = page.set_fragment_details label, locale, fragment_details
 
-      # binding.pry 
       # # Check if an image url has been set
       # fragment_details.each do |fragment_detail|
       #   update_all_images = true
@@ -86,7 +89,7 @@ module Pwb
         
       # end
 
-      page.save!
+      # page.save!
       # rescue StandardError => error
       #   return render_json_error error.message
       # end
