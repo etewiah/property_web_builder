@@ -1,7 +1,9 @@
 class CreatePwbPageParts < ActiveRecord::Migration[5.1]
   def change
     create_table :pwb_page_parts do |t|
-
+      t.boolean :show_in_editor, default: true
+      t.boolean :order_in_editor
+      
       t.string :fragment_key, index: true
       t.string :page_slug, index: true
       t.text :template

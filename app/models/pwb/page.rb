@@ -225,7 +225,7 @@ module Pwb
 
     def admin_attribute_names
 
-      self.globalize_attribute_names.push :page_fragment_blocks, :setup, :visible_page_parts, :page_contents
+      self.globalize_attribute_names.push :page_contents, :page_parts
       # return "link_title_en","link_title_es", "link_title_de",
       #                    "link_title_ru", "link_title_fr"
     end
@@ -235,16 +235,14 @@ module Pwb
       return page_setup.present? ? page_setup.attributes.slice(:fragment_configs) : {}
     end
 
-    # def page_contents
-    #   return page_contents
+
+
+    # def visible_page_parts
+    #   return details["visiblePageParts"]
     # end
 
-    def visible_page_parts
-      return details["visiblePageParts"]
-    end
-
-    def page_fragment_blocks
-      return details["fragments"]
-    end
+    # def page_fragment_blocks
+    #   return details["fragments"]
+    # end
   end
 end

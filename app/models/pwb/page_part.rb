@@ -4,5 +4,14 @@
 module Pwb
   class PagePart < ApplicationRecord
     belongs_to :page, foreign_key: "page_slug", primary_key: "slug"
+
+    def as_json(options = nil)
+      super({only: [
+               "fragment_key", "page_slug", "editor_setup", "block_contents"
+             ],
+             methods: []
+             }.merge(options || {}))
+    end
+
   end
 end
