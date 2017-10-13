@@ -6,7 +6,10 @@ module Pwb
     before(:all) do
       # I18n::Backend::ActiveRecord::Translation.destroy_all
       Pwb::Seeder.seed!
-      Pwb::ContentTranslationsSeeder.seed_content_translations!
+      Pwb::ContentTranslationsSeeder.seed_page_parts!
+      Pwb::ContentTranslationsSeeder.seed_page_basics!
+      Pwb::ContentTranslationsSeeder.seed_page_content_translations!
+      # Pwb::ContentTranslationsSeeder.seed_content_translations!
     end
 
     it 'sets sort order correctly' do
@@ -24,8 +27,12 @@ module Pwb
 
     it 'creates our_agency content blocks' do
       about_us_page = Pwb::Page.find_by_slug "about-us"
-      expect(about_us_page.details["fragments"]["our_agency"]["en"]["blocks"].count).to eq(3)
-      expect(about_us_page.details["fragments"]["our_agency"]["es"]["blocks"].count).to eq(3)
+      html_web_part = about_us_page.page_parts.find_by_fragment_key "content_html"
+
+      expect(html_web_part.block_contents.to_json).to have_json_path("en/blocks")
+      expect(html_web_part.block_contents["en"]["blocks"].count).to eq(1)
+      expect(about_us_page.page_parts.count).to eq(2)
+      # expect(about_us_page.details["fragments"]["our_agency"]["es"]["blocks"].count).to eq(3)
     end
 
     it 'creates our_agency html content' do
@@ -40,17 +47,10 @@ module Pwb
       home_page = Pwb::Page.find_by_slug "home"
       content_key = "landing_hero"
       home_page_content = home_page.contents.find_by_fragment_key content_key
-      expect(home_page_content.raw_en).to include("rock")
+      expect(home_page_content.raw_en).to include("The best realtor")
       expect(home_page_content.content_photos.count).to eq(1)
-      expect(home_page.details["fragments"]["landing_hero"]["en"]["blocks"].count).to eq(3)
-
+      # expect(home_page.details["fragments"]["landing_hero"]["en"]["blocks"].count).to eq(3)
     end
-    # it 'creates 3 content-area-cols' do
-    #   expect(Pwb::Content.where(tag: 'content-area-cols').count).to eq(3)
-    # end
 
-    # it 'creates 4 prop entries' do
-    #   expect(Pwb::Prop.count).to eq(4)
-    # end
   end
 end
