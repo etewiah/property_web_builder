@@ -15,117 +15,6 @@ ActiveRecord::Schema.define(version: 20171011212930) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "comfy_cms_blocks", id: :serial, force: :cascade do |t|
-    t.string "identifier", null: false
-    t.text "content"
-    t.string "blockable_type"
-    t.integer "blockable_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["blockable_id", "blockable_type"], name: "index_comfy_cms_blocks_on_blockable_id_and_blockable_type"
-    t.index ["blockable_type", "blockable_id"], name: "index_comfy_cms_blocks_on_blockable_type_and_blockable_id"
-    t.index ["identifier"], name: "index_comfy_cms_blocks_on_identifier"
-  end
-
-  create_table "comfy_cms_categories", id: :serial, force: :cascade do |t|
-    t.integer "site_id", null: false
-    t.string "label", null: false
-    t.string "categorized_type", null: false
-    t.index ["site_id", "categorized_type", "label"], name: "index_cms_categories_on_site_id_and_cat_type_and_label", unique: true
-  end
-
-  create_table "comfy_cms_categorizations", id: :serial, force: :cascade do |t|
-    t.integer "category_id", null: false
-    t.string "categorized_type", null: false
-    t.integer "categorized_id", null: false
-    t.index ["category_id", "categorized_type", "categorized_id"], name: "index_cms_categorizations_on_cat_id_and_catd_type_and_catd_id", unique: true
-  end
-
-  create_table "comfy_cms_files", id: :serial, force: :cascade do |t|
-    t.integer "site_id", null: false
-    t.integer "block_id"
-    t.string "label", null: false
-    t.string "file_file_name", null: false
-    t.string "file_content_type", null: false
-    t.integer "file_file_size", null: false
-    t.string "description", limit: 2048
-    t.integer "position", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["site_id", "block_id"], name: "index_comfy_cms_files_on_site_id_and_block_id"
-    t.index ["site_id", "file_file_name"], name: "index_comfy_cms_files_on_site_id_and_file_file_name"
-    t.index ["site_id", "label"], name: "index_comfy_cms_files_on_site_id_and_label"
-    t.index ["site_id", "position"], name: "index_comfy_cms_files_on_site_id_and_position"
-  end
-
-  create_table "comfy_cms_layouts", id: :serial, force: :cascade do |t|
-    t.integer "site_id", null: false
-    t.integer "parent_id"
-    t.string "app_layout"
-    t.string "label", null: false
-    t.string "identifier", null: false
-    t.text "content"
-    t.text "css"
-    t.text "js"
-    t.integer "position", default: 0, null: false
-    t.boolean "is_shared", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["parent_id", "position"], name: "index_comfy_cms_layouts_on_parent_id_and_position"
-    t.index ["site_id", "identifier"], name: "index_comfy_cms_layouts_on_site_id_and_identifier", unique: true
-  end
-
-  create_table "comfy_cms_pages", id: :serial, force: :cascade do |t|
-    t.integer "site_id", null: false
-    t.integer "layout_id"
-    t.integer "parent_id"
-    t.integer "target_page_id"
-    t.string "label", null: false
-    t.string "slug"
-    t.string "full_path", null: false
-    t.text "content_cache"
-    t.integer "position", default: 0, null: false
-    t.integer "children_count", default: 0, null: false
-    t.boolean "is_published", default: true, null: false
-    t.boolean "is_shared", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["parent_id", "position"], name: "index_comfy_cms_pages_on_parent_id_and_position"
-    t.index ["site_id", "full_path"], name: "index_comfy_cms_pages_on_site_id_and_full_path"
-  end
-
-  create_table "comfy_cms_revisions", id: :serial, force: :cascade do |t|
-    t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.text "data"
-    t.datetime "created_at"
-    t.index ["record_type", "record_id", "created_at"], name: "index_cms_revisions_on_rtype_and_rid_and_created_at"
-  end
-
-  create_table "comfy_cms_sites", id: :serial, force: :cascade do |t|
-    t.string "label", null: false
-    t.string "identifier", null: false
-    t.string "hostname", null: false
-    t.string "path"
-    t.string "locale", default: "en", null: false
-    t.boolean "is_mirrored", default: false, null: false
-    t.index ["hostname"], name: "index_comfy_cms_sites_on_hostname"
-    t.index ["is_mirrored"], name: "index_comfy_cms_sites_on_is_mirrored"
-  end
-
-  create_table "comfy_cms_snippets", id: :serial, force: :cascade do |t|
-    t.integer "site_id", null: false
-    t.string "label", null: false
-    t.string "identifier", null: false
-    t.text "content"
-    t.integer "position", default: 0, null: false
-    t.boolean "is_shared", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["site_id", "identifier"], name: "index_comfy_cms_snippets_on_site_id_and_identifier", unique: true
-    t.index ["site_id", "position"], name: "index_comfy_cms_snippets_on_site_id_and_position"
-  end
-
   create_table "pwb_addresses", id: :serial, force: :cascade do |t|
     t.float "longitude"
     t.float "latitude"
@@ -323,19 +212,6 @@ ActiveRecord::Schema.define(version: 20171011212930) do
     t.index ["slug"], name: "index_pwb_links_on_slug", unique: true
   end
 
-  create_table "pwb_liquid_fragments", force: :cascade do |t|
-    t.string "page_slug"
-    t.string "fragment_slug"
-    t.text "template"
-    t.integer "flags", default: 0, null: false
-    t.json "editor_setup", default: {}
-    t.json "block_contents", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["fragment_slug"], name: "index_pwb_liquid_fragments_on_fragment_slug"
-    t.index ["page_slug"], name: "index_pwb_liquid_fragments_on_page_slug"
-  end
-
   create_table "pwb_messages", id: :serial, force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -514,33 +390,6 @@ ActiveRecord::Schema.define(version: 20171011212930) do
     t.index ["price_sale_current_cents"], name: "index_pwb_props_on_price_sale_current_cents"
     t.index ["reference"], name: "index_pwb_props_on_reference", unique: true
     t.index ["visible"], name: "index_pwb_props_on_visible"
-  end
-
-  create_table "pwb_section_translations", force: :cascade do |t|
-    t.integer "pwb_section_id", null: false
-    t.string "locale", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "page_title", default: ""
-    t.string "link_title", default: ""
-    t.index ["locale"], name: "index_pwb_section_translations_on_locale"
-    t.index ["pwb_section_id"], name: "index_pwb_section_translations_on_pwb_section_id"
-  end
-
-  create_table "pwb_sections", id: :serial, force: :cascade do |t|
-    t.string "link_key"
-    t.string "link_path"
-    t.integer "sort_order"
-    t.boolean "visible"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "flags", default: 0, null: false
-    t.json "details", default: {}
-    t.boolean "is_page", default: false
-    t.boolean "show_in_top_nav", default: false
-    t.boolean "show_in_footer", default: false
-    t.string "key"
-    t.index ["link_key"], name: "index_pwb_sections_on_link_key", unique: true
   end
 
   create_table "pwb_users", id: :serial, force: :cascade do |t|
