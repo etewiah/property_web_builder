@@ -1,8 +1,14 @@
 - page_slug: legal
   fragment_key: content_html
   block_contents: {}
+  order_in_editor: 1,
+  show_in_editor: true,
   editor_setup: {
-        "editorBlocks": [
+      "tabTitleKey": "pageSections.rawHtml.title",
+      "tabInfoKey": "pageSections.rawHtml.info",
+      "default_sort_order": 1,
+      "default_visible_on_page": true,
+      "editorBlocks": [
         [
         {
           "label": "main_content",

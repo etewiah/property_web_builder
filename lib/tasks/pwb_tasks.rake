@@ -10,22 +10,21 @@ require 'pwb/content_translations_seeder'
 # bundle exec rake pwb:db:seed
 namespace :pwb do
   namespace :db do
-    desc 'Seeds the database with seed data for I18n, properties and field_keys'
-    task seed: [:environment] do
-      Pwb::Seeder.seed!
-    end
-
     desc 'Seeds the database with all seed data.'
-    task seed_all: [:environment] do
+    task seed: [:environment] do
       Pwb::Seeder.seed!
       Pwb::ContentTranslationsSeeder.seed_page_parts!
       Pwb::ContentTranslationsSeeder.seed_page_basics!
       Pwb::ContentTranslationsSeeder.seed_page_content_translations!
     end
 
+    desc 'Seeds the database with seed data for I18n, properties and field_keys'
+    task seed_base: [:environment] do
+      Pwb::Seeder.seed!
+    end
+
     desc 'Seeds the database with PropertyWebBuilder default page content seed data. Will override existing content.'
     task seed_pages: [:environment] do
-
       Pwb::ContentTranslationsSeeder.seed_page_parts!
       Pwb::ContentTranslationsSeeder.seed_page_basics!
       Pwb::ContentTranslationsSeeder.seed_page_content_translations!
