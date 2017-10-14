@@ -1,49 +1,11 @@
-# oct 2017 - TODO - deprecate this
 require_dependency 'pwb/application_controller'
 
 module Pwb
-  class SectionsController < ApplicationController
+  class ContactUsController < ApplicationController
     before_action :header_image
 
-    # def generic_page
-    #   page_slug = params[:page_slug] || "home_path"
-    #   section = Pwb::Section.find_by_link_path page_slug
-    #   if section && section.contents.first
-    #     @content = section.contents.first
-    #     @title_key = section.link_key
-    #     @page_title = I18n.t(section.link_key)
-    #   else
-    #     @content = OpenStruct.new
-    #   end
-    #   render "/pwb/sections/static"
-    # end
 
-    # def about_us
-    #   # @content = Content.find_by_key("aboutUs")
-    #   # @page_title = I18n.t("aboutUs")
-    #   # @page_description = @content.present? ? @content.raw : ""
-
-    #   @page = Pwb::Page.find_by_slug "about-us"
-
-    #   visible_page_fragments = @page.details["visiblePageParts"]
-    #   @content_to_show = []
-
-    #   # TODO - order below:
-    #   visible_page_fragments.each do |page_fragment_label|
-    #     if page_fragment_label == "raw_html"
-    #       fragment_html = @page.raw_html
-    #     else
-    #       fragment_html = @page.get_fragment_html page_fragment_label, I18n.locale.to_s
-    #       # fragment_html =  @page["details"]["fragments"][page_fragment_label][I18n.locale.to_s]["html"]
-    #     end
-    #     @content_to_show.push fragment_html
-    #   end
-
-    #   render "/pwb/pages/show"
-    #   # render "/pwb/sections/about_us"
-    # end
-
-    def contact_us
+    def index
       # below was for google map rendering via paloma:
       # js current_agency_primary_address: @current_agency.primary_address
       # js show_contact_map: @current_agency.show_contact_map
@@ -126,21 +88,6 @@ module Pwb
       return render "pwb/ajax/contact_us_errors", layout: false
     end
 
-
-    # spt 2017 - below now rendered by pages controller
-    # def privacy_policy
-    #   @title_key = "privacyPolicy"
-    #   @page_title = I18n.t("privacyPolicy")
-    #   @content = Content.find_by_key("privacyPolicy") || OpenStruct.new
-    #   render "/pwb/sections/static"
-    # end
-
-    # def legal
-    #   @title_key = "legalAdvice"
-    #   @page_title = I18n.t("legalAdvice")
-    #   @content = Content.find_by_key("legalAdvice") || OpenStruct.new
-    #   render "/pwb/sections/static"
-    # end
 
     private
 

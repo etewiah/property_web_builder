@@ -83,16 +83,6 @@ module Pwb
         end
       end
 
-
-      # def seed_sections yml_file
-      #   sections_yml = load_seed_yml yml_file
-      #   sections_yml.each do |single_section_yml|
-      #     unless Pwb::Section.where(link_key: single_section_yml['link_key']).count > 0
-      #       Pwb::Section.create!(single_section_yml)
-      #     end
-      #   end
-      # end
-
       def seed_website yml_file
         website_yml = load_seed_yml yml_file
         website = Pwb::Website.unique_instance

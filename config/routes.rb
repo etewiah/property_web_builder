@@ -51,17 +51,13 @@ Pwb::Engine.routes.draw do
     get "/properties/for-rent/:id/:url_friendly_title" => "props#show_for_rent", as: "prop_show_for_rent"
     get "/properties/for-sale/:id/:url_friendly_title" => "props#show_for_sale", as: "prop_show_for_sale"
 
-    get "/about-us" => "sections#about_us"
-    # get "/sell" => "sections#sell"
-    # get "/sell" => "comfy#show"
+    get "/about-us" => "pages#show_page", page_slug: "about-us"
+    get "/contact-us" => "contact_us#index", as: "contact_us" #
+    post "/contact_us" => "contact_us#contact_us_ajax"
+
     get "/buy" => "search#buy"
     get "/rent" => "search#rent"
 
-    get "/contact-us" => "sections#contact_us", as: "contact_us" #
-    # get "/privacy-policy" => "sections#privacy_policy"
-    # get "/legal" => "sections#legal"
-
-    post "/contact_us" => "sections#contact_us_ajax"
     post "/search_ajax_for_sale" => "search#search_ajax_for_sale"
     post "/search_ajax_for_rent" => "search#search_ajax_for_rent"
     # post "/ajax_find_by_ref" => "search#ajax_find_by_ref"
