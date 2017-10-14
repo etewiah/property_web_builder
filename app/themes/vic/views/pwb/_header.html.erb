@@ -76,9 +76,7 @@
       <% end %>
     </ul>
     <ul id="nav-mobile" class="side-nav">
-      <% @sections.each do |section| %>
-        <%= top_nav_link(section) %>
-      <% end %>
+      <%= render_top_navigation_links %>
       <% if @show_admin_link  %>
         <% if current_user %>
           <li>

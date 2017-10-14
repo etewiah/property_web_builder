@@ -2,7 +2,7 @@ module Pwb
   class ApplicationController < ActionController::Base
     protect_from_forgery with: :exception
 
-    before_action :footer_content, :current_agency_and_website, :sections,
+    before_action :footer_content, :current_agency_and_website, :nav_links,
       :set_locale, :set_theme_path
 
     def set_theme_path
@@ -53,8 +53,8 @@ module Pwb
       @footer_content = Content.find_by_key("footerInfo") || OpenStruct.new
     end
 
-    def sections
-      @sections ||= Section.order("sort_order")
+    def nav_links
+      # @sections ||= Section.order("sort_order")
       if current_user
         # where user is signed in, special admin link is shown
         # so no need to render standard one
