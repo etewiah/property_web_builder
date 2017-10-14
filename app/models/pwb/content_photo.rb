@@ -9,6 +9,12 @@ module Pwb
     # validate :image_size_validation
 
     def optimized_image_url
+      unless self.image.url.present?
+        # if this method is called too soon after an image is 
+        # uploaded, might need to reload the record to
+        # have the url available
+        self.reload
+      end
       if Rails.application.config.use_cloudinary
         options = {height: 800, crop: "scale", quality: "auto"}
         image_url = Cloudinary::Utils.cloudinary_url self.image, options

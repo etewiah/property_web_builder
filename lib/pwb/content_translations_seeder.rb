@@ -133,7 +133,13 @@ module Pwb
             if seed_content[row_block_label]
               if configRowBlock["isImage"]
                 photo = page.seed_fragment_photo fragment_label, row_block_label, seed_content[row_block_label]
-                row_block_content = photo.present? ? photo.optimized_image_url : ""
+                if photo.present? && photo.optimized_image_url.present?
+                  # optimized_image_url is defined in content_photo and will
+                  # return cloudinary url or filesystem url depending on settings
+                  row_block_content = photo.optimized_image_url
+                else
+                  row_block_content = "http://via.placeholder.com/350x250"
+                end
               else
                 row_block_content = seed_content[row_block_label]
               end
