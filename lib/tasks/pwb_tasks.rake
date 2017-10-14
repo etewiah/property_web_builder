@@ -15,6 +15,7 @@ namespace :pwb do
       Pwb::Seeder.seed!
       Pwb::PagesSeeder.seed_page_parts!
       Pwb::PagesSeeder.seed_page_basics!
+      # below need to have page_parts populated to work correctly
       Pwb::PagesSeeder.seed_page_content_translations!
     end
 
@@ -27,6 +28,7 @@ namespace :pwb do
     task seed_pages: [:environment] do
       Pwb::PagesSeeder.seed_page_parts!
       Pwb::PagesSeeder.seed_page_basics!
+      # below need to have page_parts populated to work correctly
       Pwb::PagesSeeder.seed_page_content_translations!
     end
   end

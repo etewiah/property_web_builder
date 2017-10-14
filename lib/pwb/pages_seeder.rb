@@ -1,5 +1,6 @@
 # To reload from console:
 # load "#{Pwb::Engine.root}/lib/pwb/pages_seeder.rb"
+# Pwb::PagesSeeder.seed_page_content_translations!
 module Pwb
   class PagesSeeder
     class << self
@@ -19,13 +20,6 @@ module Pwb
         end
       end
 
-
-      def seed_page_content_translations!
-        I18n.available_locales.each do |locale|
-          seed_content_for_locale locale.to_s
-        end
-      end
-
       def seed_page_basics!
         page_yml_filenames = [
           "sell.yml", "about.yml", "buy.yml",
@@ -38,10 +32,16 @@ module Pwb
         end
       end
 
+      # below need to have page_parts populated to work correctly
+      def seed_page_content_translations!
+        I18n.available_locales.each do |locale|
+          seed_content_for_locale locale.to_s
+        end
+      end
 
       # def seed_rails_parts
       #   contact_us_page = Pwb::Page.find_by_slug "contact-us"
-      #   contact_us_rails_part = contact_us_page.page_contents.find_or_create_by(label: "contact_us__form_and_map")        
+      #   contact_us_rails_part = contact_us_page.page_contents.find_or_create_by(label: "contact_us__form_and_map")
       # end
 
       protected
@@ -77,69 +77,63 @@ module Pwb
             # Items in each locale seed file are nested as
             # page_slug/fragment_key and then the block labels
             unless yml[locale] && yml[locale][page.slug] && yml[locale][page.slug][fragment_key]
+              if page_part.is_rails_part
+                page_fragment_content = page.contents.find_or_create_by(fragment_key: fragment_key)
+                page_content_join_model = page_fragment_content.page_contents.find_by_page_id page.id
+                page_content_join_model.label = fragment_key
+                page_content_join_model.is_rails_part = true
+                page_content_join_model.save!
+
+                return
+              end
               # skip if there is no content to populate
               next
             end
             if yml[locale][page.slug][fragment_key]
               seed_content = yml[locale][page.slug][fragment_key]
               set_page_block_content locale, page_part, seed_content
+              set_page_content_order_and_visibility locale, page_part, seed_content
             end
           end
         end
 
-        # Pwb::PageSetup.all.each do |page_setup|
-        #   page_setup.pages.each do |page|
-        #     page_setup.fragment_configs.each do |fragment_config|
-        #       fragment_label = fragment_config["label"]
-        #       # Items in each locale seed file are nested as
-        #       # page_slug/fragment_label and then the block labels
-        #       unless yml[locale] && yml[locale][page.slug] && yml[locale][page.slug][fragment_label]
-        #         # skip if there is no content to populate
-        #         next
-        #       end
-        #       if yml[locale][page.slug][fragment_label]
-        #         set_page_block_content locale, page.slug, fragment_config, yml[locale][page.slug][fragment_label]
-        #       end
-        #     end
-        #   end
-        # end
+      end
 
+      def set_page_content_order_and_visibility locale, page_part, seed_content
+
+        page_part_editor_setup = page_part.editor_setup
+        page = page_part.page
+        # page_part_key uniquely identifies a fragment
+        page_part_key = page_part.fragment_key
+
+        sort_order = page_part_editor_setup["default_sort_order"] || 1
+        page.set_fragment_sort_order page_part_key, sort_order
+
+        visible_on_page = false
+        if page_part_editor_setup["default_visible_on_page"]
+          visible_on_page = true
+        end
+        page.set_fragment_visibility page_part_key, visible_on_page
       end
 
       def set_page_block_content locale, page_part, seed_content
-        unless page_part.editor_setup
-          binding.pry
-          return
-        end
 
-        fragment_config = page_part.editor_setup
-
+        page_part_editor_setup = page_part.editor_setup
         page = page_part.page
-        # Pwb::Page.find_by_slug page_part
-        # fragment_label uniquely identifies a fragment
-        # and is also the name of the corresponding partial
-        fragment_label = page_part.fragment_key
-
-
-        # ensure path exists in details col of page
-        # unless page.details["fragments"].present?
-        #   page.details["fragments"] = {}
-        # end
-        # unless page.details["fragments"][fragment_label].present?
-        #   page.details["fragments"][fragment_label] = {}
-        # end
+        # page_part_key uniquely identifies a fragment
+        page_part_key = page_part.fragment_key
 
         # container for json to be attached to page details
-        content_for_pf_locale = {"blocks" => {}}
+        locale_block_content_json = {"blocks" => {}}
         # {"blocks"=>{"title_a"=>{"content"=>"about our agency"}, "content_a"=>{"content"=>""}}}
-        fragment_config["editorBlocks"].each do |configColBlocks|
+        page_part_editor_setup["editorBlocks"].each do |configColBlocks|
           configColBlocks.each do |configRowBlock|
             row_block_label = configRowBlock["label"]
             row_block_content = ""
             # find the content for current block from within the seed content
             if seed_content[row_block_label]
               if configRowBlock["isImage"]
-                photo = page.seed_fragment_photo fragment_label, row_block_label, seed_content[row_block_label]
+                photo = page.seed_fragment_photo page_part_key, row_block_label, seed_content[row_block_label]
                 if photo.present? && photo.optimized_image_url.present?
                   # optimized_image_url is defined in content_photo and will
                   # return cloudinary url or filesystem url depending on settings
@@ -151,42 +145,17 @@ module Pwb
                 row_block_content = seed_content[row_block_label]
               end
             end
-            content_for_pf_locale["blocks"][row_block_label] = {"content"=>row_block_content}
+            locale_block_content_json["blocks"][row_block_label] = {"content"=>row_block_content}
           end
         end
 
-
         # save the block contents (in associated page_part model)
-        updated_details = page.set_page_part_block_contents fragment_label, locale, content_for_pf_locale
+        updated_details = page.set_page_part_block_contents page_part_key, locale, locale_block_content_json
         # retrieve the contents saved above and use to rebuild html for that page_part
         # (and save it in associated page_content model)
-        fragment_html = page.rebuild_page_content fragment_label, locale
+        fragment_html = page.rebuild_page_content page_part_key, locale
 
-
-        # fragment_html = page.parse_page_part fragment_label, content_for_pf_locale
-
-
-        # # and save in content model associated with page
-        # content_for_page = page.set_fragment_html fragment_label, locale, fragment_html
-
-        sort_order = fragment_config["default_sort_order"] || 1
-        page.set_fragment_sort_order fragment_label, sort_order
-
-
-
-        visible_on_page = false
-        if fragment_config["default_visible_on_page"]
-          visible_on_page = true
-        end
-
-        page.set_fragment_visibility fragment_label, visible_on_page
-
-        # content_for_page.save!
-
-        # page.details["fragments"][fragment_label][locale] = content_for_pf_locale
-        # page.save!
-
-        p "#{page.slug} page #{fragment_label} content set for #{locale}."
+        p "#{page.slug} page #{page_part_key} content set for #{locale}."
       end
 
     end

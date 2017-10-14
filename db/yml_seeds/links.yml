@@ -347,7 +347,7 @@
   page_slug: contact-us
   link_path: contact_us_path
   sort_order: 6
-  visible: false
+  visible: true
   is_external: false
   placement: :admin
   link_title_en: Contact Us

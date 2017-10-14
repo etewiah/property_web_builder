@@ -231,6 +231,8 @@ ActiveRecord::Schema.define(version: 20171011212930) do
   end
 
   create_table "pwb_page_contents", force: :cascade do |t|
+    t.boolean "is_rails_part", default: false
+    t.string "page_part_key"
     t.string "label"
     t.integer "sort_order"
     t.boolean "visible_on_page", default: true
@@ -243,6 +245,7 @@ ActiveRecord::Schema.define(version: 20171011212930) do
   end
 
   create_table "pwb_page_parts", force: :cascade do |t|
+    t.boolean "is_rails_part", default: false
     t.boolean "show_in_editor", default: true
     t.integer "order_in_editor"
     t.string "fragment_key"

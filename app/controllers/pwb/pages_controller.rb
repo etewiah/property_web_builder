@@ -15,10 +15,11 @@ module Pwb
 
       # @page.ordered_visible_contents.each do |page_content|
       # above does not get ordered correctly
-      @page.ordered_visible_page_contents.each do |page_content|
-        @content_to_show.push page_content.content.raw
+      if @page.present?
+        @page.ordered_visible_page_contents.each do |page_content|
+          @content_to_show.push page_content.content.raw
+        end
       end
-
 
       # visible_page_fragments = @page.details["visiblePageParts"]
       # @content_to_show = []

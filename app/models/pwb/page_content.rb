@@ -10,11 +10,11 @@ module Pwb
     # else will return the raw html
     def get_html_or_page_part_key
       # byebug
-      if content.present?
-        return content.raw
-      else
+      if self.is_rails_part
         # page_part_key
         return label
+      else
+        return content.present? ? content.raw : nil
       end
     end
 
