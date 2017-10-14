@@ -1,15 +1,16 @@
 
-
-/*
-.table {
-    display: table
+/*for section defined in liquid template*/
+.content-html-section {
+  padding-top: 40px;
+  padding-bottom: 40px;  
 }
-table {
-  border-collapse: collapse;
-  border-spacing: 0
+.about-us-img {
+  width: 100%;
 }
-*/
-
+.about-us-section {
+  padding-bottom: 100px;
+  padding-top: 40px;
+}
 
 /*below needed for property details table*/
 
@@ -426,9 +427,6 @@ a:hover {
   border-right: 1px solid $base-border-color;
 }
 
-.about-us-img {
-  width: 100%;
-}
 
 .full-screen-container {
   /* /app/views/devise/registrations/avatar.html.erb*/

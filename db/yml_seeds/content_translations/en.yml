@@ -61,6 +61,7 @@ en:
       content_a:
         <p>We are a professional estate agents with many years experience of delivering a great service 
         for our clients.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
       our_agency_img:
-        db/example_images/carousel_grass.jpg
+        db/example_images/carousel_villa_with_pool.jpg
 
