@@ -6,6 +6,18 @@ module Pwb
 
     scope :ordered_visible, -> () { where(visible_on_page: true).order('sort_order asc')  }
 
+    # if the page_content represents a rails_page_part, will return the page_part_key
+    # else will return the raw html
+    def get_html_or_page_part_key
+      # byebug
+      if content.present?
+        return content.raw
+      else
+        # page_part_key
+        return label
+      end
+    end
+
     def as_json(options = nil)
       super({only: [
                "sort_order", "visible_on_page"
@@ -15,7 +27,7 @@ module Pwb
     end
 
     def content_fragment_key
-      content.fragment_key
+      content.present? ? content.fragment_key : "rails_page_part"
     end
 
   end

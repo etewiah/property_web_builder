@@ -1,6 +1,7 @@
 class CreatePwbPageParts < ActiveRecord::Migration[5.1]
   def change
     create_table :pwb_page_parts do |t|
+      t.boolean :is_rails_part, default: false
       t.boolean :show_in_editor, default: true
       t.integer :order_in_editor
 

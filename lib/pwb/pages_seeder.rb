@@ -8,6 +8,7 @@ module Pwb
       def seed_page_parts!
         page_part_yml_filenames = [
           "about-us__our_agency.yml", "about-us__content_html.yml",
+          "contact-us__form_and_map.yml", "contact-us__content_html.yml",
           "home__landing_hero.yml", "home__about_us_services.yml", "home__content_html.yml",
           "sell__content_html.yml",
           "privacy__content_html.yml", "legal__content_html.yml"
@@ -36,6 +37,12 @@ module Pwb
           seed_page page_yml_filename
         end
       end
+
+
+      # def seed_rails_parts
+      #   contact_us_page = Pwb::Page.find_by_slug "contact-us"
+      #   contact_us_rails_part = contact_us_page.page_contents.find_or_create_by(label: "contact_us__form_and_map")        
+      # end
 
       protected
 

@@ -12,6 +12,16 @@ module Pwb
       # could explicitly set function for Paloma to use like so:
       # js "Pwb/Sections#contact_us"
       # @enquiry = Message.new
+
+
+      @content_to_show = []
+      @page = Pwb::Page.find_by_slug "contact-us"
+      if @page.present?
+        @page.ordered_visible_page_contents.each do |page_content|
+          @content_to_show.push page_content.get_html_or_page_part_key
+        end
+      end
+
       @page_title = I18n.t("contactUs")
 
       @map_markers = []
