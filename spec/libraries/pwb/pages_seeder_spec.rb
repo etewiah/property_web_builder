@@ -1,15 +1,15 @@
 require 'spec_helper'
-require 'pwb/content_translations_seeder'
+require 'pwb/pages_seeder'
 
 module Pwb
-  RSpec.describe 'ContentTranslationsSeeder' do
+  RSpec.describe 'PagesSeeder' do
     before(:all) do
       # I18n::Backend::ActiveRecord::Translation.destroy_all
       Pwb::Seeder.seed!
-      Pwb::ContentTranslationsSeeder.seed_page_parts!
-      Pwb::ContentTranslationsSeeder.seed_page_basics!
-      Pwb::ContentTranslationsSeeder.seed_page_content_translations!
-      # Pwb::ContentTranslationsSeeder.seed_content_translations!
+      Pwb::PagesSeeder.seed_page_parts!
+      Pwb::PagesSeeder.seed_page_basics!
+      Pwb::PagesSeeder.seed_page_content_translations!
+      # Pwb::PagesSeeder.seed_content_translations!
     end
 
     it 'sets sort order correctly' do

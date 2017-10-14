@@ -1,7 +1,7 @@
 # To reload from console:
-# load "#{Pwb::Engine.root}/lib/pwb/content_translations_seeder.rb"
+# load "#{Pwb::Engine.root}/lib/pwb/pages_seeder.rb"
 module Pwb
-  class ContentTranslationsSeeder
+  class PagesSeeder
     class << self
       # Called by this rake task:
       # rake app:pwb:db:seed_pages                                  1 ↵

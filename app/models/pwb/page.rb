@@ -16,8 +16,8 @@ module Pwb
     # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
     has_many :ordered_visible_page_contents, -> { ordered_visible }, :class_name => 'PageContent'
     # below would get me the correct items but the order gets lost:
-    has_many :ordered_visible_contents, :source => :content, :through => :ordered_visible_page_contents
-    # note, even were ordered_visible_contents exist,
+    # has_many :ordered_visible_contents, :source => :content, :through => :ordered_visible_page_contents
+    # note, even where ordered_visible_contents exist,
     # @page.ordered_visible_contents.first will return nill
     # @page.ordered_visible_contents.all.first will return content
 
