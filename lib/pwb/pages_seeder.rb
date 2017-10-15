@@ -59,7 +59,7 @@ module Pwb
       def seed_page_part yml_file
         lf_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'page_parts', yml_file)
         lf_yml = YAML.load_file(lf_seed_file)
-        unless Pwb::PagePart.where({fragment_key: lf_yml[0]['fragment_key'],page_slug: lf_yml[0]['page_slug']}).count > 0
+        unless Pwb::PagePart.where({page_part_key: lf_yml[0]['page_part_key'],page_slug: lf_yml[0]['page_slug']}).count > 0
           Pwb::PagePart.create!(lf_yml)
         end
       end
@@ -73,14 +73,15 @@ module Pwb
 
         Pwb::Page.all.each do |page|
           page.page_parts.each do |page_part|
-            fragment_key = page_part.fragment_key
+            page_part_key = page_part.page_part_key
             # Items in each locale seed file are nested as
-            # page_slug/fragment_key and then the block labels
-            unless yml[locale] && yml[locale][page.slug] && yml[locale][page.slug][fragment_key]
+            # page_slug/page_part_key and then the block labels
+            unless yml[locale] && yml[locale][page.slug] && yml[locale][page.slug][page_part_key]
               if page_part.is_rails_part
-                page_fragment_content = page.contents.find_or_create_by(fragment_key: fragment_key)
+                page_fragment_content = page.contents.find_or_create_by(page_part_key: page_part_key)
                 page_content_join_model = page_fragment_content.page_contents.find_by_page_id page.id
-                page_content_join_model.label = fragment_key
+
+                page_content_join_model.page_part_key = page_part_key
                 page_content_join_model.is_rails_part = true
                 page_content_join_model.save!
 
@@ -89,8 +90,8 @@ module Pwb
               # skip if there is no content to populate
               next
             end
-            if yml[locale][page.slug][fragment_key]
-              seed_content = yml[locale][page.slug][fragment_key]
+            if yml[locale][page.slug][page_part_key]
+              seed_content = yml[locale][page.slug][page_part_key]
               set_page_block_content locale, page_part, seed_content
               set_page_content_order_and_visibility locale, page_part, seed_content
             end
@@ -104,7 +105,7 @@ module Pwb
         page_part_editor_setup = page_part.editor_setup
         page = page_part.page
         # page_part_key uniquely identifies a fragment
-        page_part_key = page_part.fragment_key
+        page_part_key = page_part.page_part_key
 
         sort_order = page_part_editor_setup["default_sort_order"] || 1
         page.set_fragment_sort_order page_part_key, sort_order
@@ -121,7 +122,7 @@ module Pwb
         page_part_editor_setup = page_part.editor_setup
         page = page_part.page
         # page_part_key uniquely identifies a fragment
-        page_part_key = page_part.fragment_key
+        page_part_key = page_part.page_part_key
 
         # container for json to be attached to page details
         locale_block_content_json = {"blocks" => {}}

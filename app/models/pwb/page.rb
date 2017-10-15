@@ -48,10 +48,10 @@ module Pwb
 
     # used by page_controller to create a photo (from upload) that can
     # later be used in fragment html
-    def create_fragment_photo fragment_key, block_label, photo_file
-      # content_key = self.slug + "_" + fragment_key
+    def create_fragment_photo page_part_key, block_label, photo_file
+      # content_key = self.slug + "_" + page_part_key
       # get content model associated with page and fragment
-      page_fragment_content = contents.find_or_create_by(fragment_key: fragment_key)
+      page_fragment_content = contents.find_or_create_by(page_part_key: page_part_key)
 
       if ENV["RAILS_ENV"] == "test"
         # don't create photos for tests
@@ -75,10 +75,10 @@ module Pwb
 
     # when seeding I only need to ensure that a photo exists for the fragment
     # so will return existing photo if it can be found
-    def seed_fragment_photo fragment_key, block_label, photo_file
-      # content_key = self.slug + "_" + fragment_key
+    def seed_fragment_photo page_part_key, block_label, photo_file
+      # content_key = self.slug + "_" + page_part_key
       # get in content model associated with page and fragment
-      page_fragment_content = contents.find_or_create_by(fragment_key: fragment_key)
+      page_fragment_content = contents.find_or_create_by(page_part_key: page_part_key)
       photo = page_fragment_content.content_photos.find_by_block_key(block_label)
 
       if photo.present?
@@ -96,10 +96,10 @@ module Pwb
         # photo.image = photo_file
         photo.image = Pwb::Engine.root.join(photo_file).open
         photo.save!
-        print "#{self.slug}--#{fragment_key} image created: #{photo.optimized_image_url}\n"
+        print "#{self.slug}--#{page_part_key} image created: #{photo.optimized_image_url}\n"
         # reload the record to ensure that url is available
         photo.reload
-        print "#{self.slug}--#{fragment_key} image created: #{photo.optimized_image_url}(after reload..)"
+        print "#{self.slug}--#{page_part_key} image created: #{photo.optimized_image_url}(after reload..)"
       rescue Exception => e
         # log exception to console
         print e
@@ -107,8 +107,8 @@ module Pwb
       return photo
     end
 
-    def set_fragment_sort_order fragment_key, sort_order
-      page_fragment_content = contents.find_by_fragment_key fragment_key
+    def set_fragment_sort_order page_part_key, sort_order
+      page_fragment_content = contents.find_by_page_part_key page_part_key
       # using join model for sorting and visibility as it
       # will allow use of same content by different pages
       # with different settings for sorting and visibility
@@ -117,8 +117,8 @@ module Pwb
       page_content_join_model.save!
     end
 
-    def set_fragment_visibility fragment_key, visible_on_page
-      page_fragment_content = contents.find_by_fragment_key fragment_key
+    def set_fragment_visibility page_part_key, visible_on_page
+      page_fragment_content = contents.find_by_page_part_key page_part_key
       page_content_join_model = page_fragment_content.page_contents.find_by_page_id self.id
       page_content_join_model.visible_on_page = visible_on_page
       page_content_join_model.save!
@@ -126,10 +126,10 @@ module Pwb
 
     # currently only used in
     # /Users/etewiah/Ed/sites-2016-oct-pwb/pwb/spec/controllers/pwb/welcome_controller_spec.rb
-    def set_fragment_html fragment_key, locale, new_fragment_html
-      # content_key = slug + "_" + fragment_key
+    def set_fragment_html page_part_key, locale, new_fragment_html
+      # content_key = slug + "_" + page_part_key
       # save in content model associated with page
-      page_fragment_content = contents.find_or_create_by(fragment_key: fragment_key)
+      page_fragment_content = contents.find_or_create_by(page_part_key: page_part_key)
       content_html_col = "raw_" + locale + "="
       # above is the col used by globalize gem to store localized data
       # page_fragment_content[content_html_col] = fragment_html
@@ -139,14 +139,14 @@ module Pwb
       return page_fragment_content
     end
 
-    # def parse_page_part fragment_key, content_for_pf_locale
+    # def parse_page_part page_part_key, content_for_pf_locale
 
-    #   page_part = self.page_parts.find_by_fragment_key fragment_key
+    #   page_part = self.page_parts.find_by_page_part_key page_part_key
 
     #   if page_part.present?
     #     l_template = Liquid::Template.parse(page_part.template)
     #     fragment_html = l_template.render('page_part' => content_for_pf_locale["blocks"] )
-    #     p "#{fragment_key} content for #{self.slug} page parsed."
+    #     p "#{page_part_key} content for #{self.slug} page parsed."
 
     #   else
     #     fragment_html = ""
@@ -155,21 +155,21 @@ module Pwb
     #   # fragment_html = l_template.render('page_part' => content_for_pf_locale["blocks"] )
     #   # ac = ActionController::Base.new()
     #   # # render html for fragment with associated partial
-    #   # fragment_html = ac.render_to_string :partial => "pwb/fragments/#{fragment_key}",  :locals => { page_part: content_for_pf_locale["blocks"]}
+    #   # fragment_html = ac.render_to_string :partial => "pwb/fragments/#{page_part_key}",  :locals => { page_part: content_for_pf_locale["blocks"]}
     #   return fragment_html
     # end
 
     # Will retrieve saved page_part blocks and use that along with template
     # to rebuild page_content html
-    def rebuild_page_content fragment_key, locale
-      page_part = self.page_parts.find_by_fragment_key fragment_key
+    def rebuild_page_content page_part_key, locale
+      page_part = self.page_parts.find_by_page_part_key page_part_key
 
       if page_part.present?
         l_template = Liquid::Template.parse(page_part.template)
         new_fragment_html = l_template.render('page_part' => page_part.block_contents[locale]["blocks"] )
-        # p "#{fragment_key} content for #{self.slug} page parsed."
+        # p "#{page_part_key} content for #{self.slug} page parsed."
         # save in content model associated with page
-        page_fragment_content = contents.find_or_create_by(fragment_key: fragment_key)
+        page_fragment_content = contents.find_or_create_by(page_part_key: page_part_key)
         content_html_col = "raw_" + locale + "="
         # above is the col used by globalize gem to store localized data
         # page_fragment_content[content_html_col] = new_fragment_html
@@ -183,8 +183,8 @@ module Pwb
       return new_fragment_html
     end
 
-    def set_page_part_block_contents fragment_key, locale, fragment_details
-      page_part = self.page_parts.find_by_fragment_key fragment_key
+    def set_page_part_block_contents page_part_key, locale, fragment_details
+      page_part = self.page_parts.find_by_page_part_key page_part_key
       if page_part.present?
         page_part.block_contents[locale] = fragment_details
         page_part.save!
@@ -195,18 +195,18 @@ module Pwb
       return fragment_details
     end
 
-    # def set_fragment_details fragment_key, locale, fragment_details
+    # def set_fragment_details page_part_key, locale, fragment_details
     #   # ensure path exists in details col
     #   unless details["fragments"].present?
     #     details["fragments"] = {}
     #   end
-    #   unless details["fragments"][fragment_key].present?
-    #     details["fragments"][fragment_key] = {}
+    #   unless details["fragments"][page_part_key].present?
+    #     details["fragments"][page_part_key] = {}
     #   end
 
     #   # locale_label_fragments = label_fragments[locale].present? ? label_fragments[locale] : { label => { locale => fragment_details  }}
-    #   details["fragments"][fragment_key][locale] = fragment_details
-    #   return details["fragments"][fragment_key][locale]
+    #   details["fragments"][page_part_key][locale] = fragment_details
+    #   return details["fragments"][page_part_key][locale]
     # end
 
     # def as_json(options = nil)

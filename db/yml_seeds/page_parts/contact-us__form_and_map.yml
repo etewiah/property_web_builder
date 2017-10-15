@@ -1,6 +1,6 @@
 - page_slug: contact-us
   is_rails_part: true
-  fragment_key: form_and_map
+  page_part_key: form_and_map
   block_contents: {}
   order_in_editor: 1,
   show_in_editor: true,

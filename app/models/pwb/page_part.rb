@@ -7,7 +7,7 @@ module Pwb
 
     def as_json(options = nil)
       super({only: [
-               "fragment_key", "page_slug", "editor_setup", "block_contents"
+               "page_part_key", "page_slug", "editor_setup", "block_contents"
              ],
              methods: []
              }.merge(options || {}))

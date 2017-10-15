@@ -64,19 +64,19 @@ module Pwb
         return render_json_error 'Please provide locale'
       end
       locale = fragment_details["locale"]
-      unless fragment_details["fragment_key"]
-        return render_json_error 'Please provide fragment_key'
+      unless fragment_details["page_part_key"]
+        return render_json_error 'Please provide page_part_key'
       end
-      fragment_key = fragment_details["fragment_key"]
+      page_part_key = fragment_details["page_part_key"]
 
-      # updated_details = page.set_fragment_details fragment_key, locale, fragment_details
-      # fragment_html = render_to_string :partial => "pwb/fragments/#{fragment_key}",  :locals => { page_part: params[:fragment_details][:blocks]}
+      # updated_details = page.set_fragment_details page_part_key, locale, fragment_details
+      # fragment_html = render_to_string :partial => "pwb/fragments/#{page_part_key}",  :locals => { page_part: params[:fragment_details][:blocks]}
 
       # save the block contents (in associated page_part model)
-      updated_details = page.set_page_part_block_contents fragment_key, locale, fragment_details
+      updated_details = page.set_page_part_block_contents page_part_key, locale, fragment_details
       # retrieve the contents saved above and use to rebuild html for that page_part
       # (and save it in associated page_content model)
-      fragment_html = page.rebuild_page_content fragment_key, locale
+      fragment_html = page.rebuild_page_content page_part_key, locale
 
       # # Check if an image url has been set
       # fragment_details.each do |fragment_detail|

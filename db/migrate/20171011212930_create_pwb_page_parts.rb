@@ -5,7 +5,7 @@ class CreatePwbPageParts < ActiveRecord::Migration[5.1]
       t.boolean :show_in_editor, default: true
       t.integer :order_in_editor
 
-      t.string :fragment_key, index: true
+      t.string :page_part_key, index: true
       t.string :page_slug, index: true
       t.text :template
 
@@ -24,7 +24,7 @@ class CreatePwbPageParts < ActiveRecord::Migration[5.1]
       t.integer :flags, null: false, default: 0
       t.timestamps
     end
-    add_index :pwb_page_parts, [:fragment_key, :page_slug]
+    add_index :pwb_page_parts, [:page_part_key, :page_slug]
 
   end
 end

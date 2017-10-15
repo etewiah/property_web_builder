@@ -1,5 +1,5 @@
 - page_slug: home
-  fragment_key: about_us_services
+  page_part_key: about_us_services
   block_contents: {}
   order_in_editor: 3,
   show_in_editor: true,

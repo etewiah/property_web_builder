@@ -155,7 +155,7 @@ ActiveRecord::Schema.define(version: 20171011212930) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "section_key"
-    t.string "fragment_key"
+    t.string "page_part_key"
     t.index ["key"], name: "index_pwb_contents_on_key", unique: true
   end
 
@@ -248,7 +248,7 @@ ActiveRecord::Schema.define(version: 20171011212930) do
     t.boolean "is_rails_part", default: false
     t.boolean "show_in_editor", default: true
     t.integer "order_in_editor"
-    t.string "fragment_key"
+    t.string "page_part_key"
     t.string "page_slug"
     t.text "template"
     t.json "editor_setup", default: {}
@@ -258,8 +258,8 @@ ActiveRecord::Schema.define(version: 20171011212930) do
     t.integer "flags", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["fragment_key", "page_slug"], name: "index_pwb_page_parts_on_fragment_key_and_page_slug"
-    t.index ["fragment_key"], name: "index_pwb_page_parts_on_fragment_key"
+    t.index ["page_part_key", "page_slug"], name: "index_pwb_page_parts_on_page_part_key_and_page_slug"
+    t.index ["page_part_key"], name: "index_pwb_page_parts_on_page_part_key"
     t.index ["page_slug"], name: "index_pwb_page_parts_on_page_slug"
   end
 

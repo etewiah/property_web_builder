@@ -1,5 +1,5 @@
 - page_slug: about-us
-  fragment_key: our_agency
+  page_part_key: our_agency
   block_contents: {}
   order_in_editor: 2,
   show_in_editor: true,

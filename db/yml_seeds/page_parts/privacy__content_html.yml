@@ -1,5 +1,5 @@
 - page_slug: privacy
-  fragment_key: content_html
+  page_part_key: content_html
   block_contents: {}
   order_in_editor: 1,
   show_in_editor: true,

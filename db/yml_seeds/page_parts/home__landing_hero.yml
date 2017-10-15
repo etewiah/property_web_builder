@@ -1,5 +1,5 @@
 - page_slug: home
-  fragment_key: landing_hero
+  page_part_key: landing_hero
   block_contents: {}
   order_in_editor: 1,
   show_in_editor: true,
