@@ -6,6 +6,11 @@ ru:
       landing: Landing
       legal: Legal
     pageSections:
+      notEditable:
+        This section cannot be edited
+      contactUsFormAndMap: 
+        title: Form and Map
+        info: Contact us form and map
       pageTitle: Page title
       services: 
         title: Services you offer

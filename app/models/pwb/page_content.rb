@@ -11,7 +11,7 @@ module Pwb
     def get_html_or_page_part_key
       if self.is_rails_part
         # page_part_key
-        return label
+        return page_part_key
       else
         return content.present? ? content.raw : nil
       end

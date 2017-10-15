@@ -5,8 +5,8 @@
   order_in_editor: 1,
   show_in_editor: true,
   editor_setup: {
-      "tabTitleKey": "pageSections.rawHtml.title",
-      "tabInfoKey": "pageSections.rawHtml.info",
+      "tabTitleKey": "pageSections.contactUsFormAndMap.title",
+      "tabInfoKey": "pageSections.contactUsFormAndMap.info",
       "default_sort_order": 1,
       "default_visible_on_page": true,
       "editorBlocks": [
