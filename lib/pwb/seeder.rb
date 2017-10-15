@@ -36,6 +36,8 @@ module Pwb
           seed_prop 'villa_for_rent.yml'
           seed_prop 'flat_for_sale.yml'
           seed_prop 'flat_for_rent.yml'
+          seed_prop 'flat_for_sale_2.yml'
+          seed_prop 'flat_for_rent_2.yml'
         end
         seed_field_keys 'field_keys.yml'
         seed_users 'users.yml'

@@ -39,7 +39,7 @@ pt:
       landing_content_a:
         The best realtor in Springfield
       landing_img:
-        db/example_images/carousel_grass.jpg
+        db/example_images/carousel_villa_with_pool.jpg
 
     content_html:
       main_content: <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.  Call us now to take advantage of this special offer.</p>
@@ -62,5 +62,5 @@ pt:
         <p>We are a professional estate agents with many years experience of delivering a great service 
         for our clients.</p>
       our_agency_img:
-        db/example_images/carousel_villa_with_pool.jpg
+        db/example_images/carousel_grass.jpg
 

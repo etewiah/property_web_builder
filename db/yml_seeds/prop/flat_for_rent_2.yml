@@ -1,5 +1,5 @@
 ---
-- reference: re-r2
+- reference: re-r3
   year_construction: 1920
   count_bedrooms: 1
   count_bathrooms: 1
@@ -28,30 +28,29 @@
   commission_currency: USD
   service_charge_yearly_cents: 0
   service_charge_yearly_currency: USD
-  currency:
+  currency: USD
   prop_origin_key: ''
   prop_state_key: ''
   prop_type_key: ''
-  street_address: Dunhams Corner Road
-  street_name: Calle Sup
-  street_number: 57
-  postal_code: 08816
-  city: East Brunswick
+  street_address: Old Water Works Road
+  street_name: 
+  street_number: 9-13
+  postal_code: 08857
+  city: Old Bridge Township
   region: New Jersey
-  currency: USD
   country: United States
-  longitude: -74.4063889
-  latitude: 40.4306235
+  longitude: -74.3508907
+  latitude: 40.4148037
   plot_area: 0
   constructed_area: 90.0
   energy_rating:
   energy_performance:
-  title_en: Example flat to rent.
-  title_es: Ejemplo de un piso para arrendar.
-  description_en: Description of the amazing flat to rent.
-  description_es: Descripción de una flat estupenda para arrendar
+  title_en: Example luxury flat to rent 2.
+  title_es: Ejemplo de un piso para arrendar 2.
+  description_en: Description of the amazing flat to rent 2.
+  description_es: Descripción de una flat estupenda para arrendar 2.
   photo_files:
-    - db/example_images/flat_balcony.jpg
+    - db/example_images/flat_luxury_living_area.jpg
     - db/example_images/lounge_cosy.jpg
   # photo_urls:
   #   - https://inmo-a.s3.amazonaws.com/us/gooddeals/property/18/IMG_20160311_165938_2982a36e0a.jpg
