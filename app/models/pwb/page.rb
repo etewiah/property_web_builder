@@ -3,7 +3,7 @@ module Pwb
   # has details json col where page_fragment info is stored
   class Page < ApplicationRecord
     extend ActiveHash::Associations::ActiveRecordExtensions
-    belongs_to_active_hash :page_setup, optional: true, foreign_key: "setup_id", class_name: "Pwb::PageSetup", shortcuts: [:friendly_name], primary_key: "id"
+    # belongs_to_active_hash :page_setup, optional: true, foreign_key: "setup_id", class_name: "Pwb::PageSetup", shortcuts: [:friendly_name], primary_key: "id"
 
     has_many :links, foreign_key: "page_slug", primary_key: "slug"
     has_one :main_link, -> { where(placement: :top_nav) }, foreign_key: "page_slug", primary_key: "slug", class_name: "Pwb::Link"
@@ -195,19 +195,6 @@ module Pwb
       return fragment_details
     end
 
-    # def set_fragment_details page_part_key, locale, fragment_details
-    #   # ensure path exists in details col
-    #   unless details["fragments"].present?
-    #     details["fragments"] = {}
-    #   end
-    #   unless details["fragments"][page_part_key].present?
-    #     details["fragments"][page_part_key] = {}
-    #   end
-
-    #   # locale_label_fragments = label_fragments[locale].present? ? label_fragments[locale] : { label => { locale => fragment_details  }}
-    #   details["fragments"][page_part_key][locale] = fragment_details
-    #   return details["fragments"][page_part_key][locale]
-    # end
 
     # def as_json(options = nil)
     #   super({only: ["sort_order_top_nav", "show_in_top_nav"],
@@ -231,17 +218,7 @@ module Pwb
 
       self.globalize_attribute_names.push :page_contents, :page_parts
       # return "link_title_en","link_title_es", "link_title_de",
-      #                    "link_title_ru", "link_title_fr"
     end
-
-    # def setup
-    #   # gets config info for fragments from associated page_setup model (which reads from json config files)
-    #   return page_setup.present? ? page_setup.attributes.slice(:fragment_configs) : {}
-    # end
-
-    # def visible_page_parts
-    #   return details["visiblePageParts"]
-    # end
 
     # def page_fragment_blocks
     #   return details["fragments"]
