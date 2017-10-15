@@ -36,7 +36,7 @@ module Pwb
     describe 'GET #index' do
       # it 'assigns all content_to_show correctly' do
       #   get :index, params: {}, session: valid_session
-      #   expect(assigns(:content_to_show)).to eq([Content.where(fragment_key: "test").first.raw])
+      #   expect(assigns(:content_to_show)).to eq([Content.where(page_part_key: "test").first.raw])
       # end
       it 'renders correct template' do
         # welcome = Content.create! carousel_content_attributes

@@ -21,16 +21,6 @@ module Pwb
         end
       end
 
-      # visible_page_fragments = @page.details["visiblePageParts"]
-      # @content_to_show = []
-      # visible_page_fragments.each do |page_fragment_label|
-      #   unless page_fragment_label == "raw_html"
-      #     # fragment_html = @page.raw_html
-      #     fragment_html = @page.get_fragment_html page_fragment_label, I18n.locale.to_s
-      #     @content_to_show.push fragment_html
-      #   end
-      # end
-
       render "/pwb/pages/show"
     end
 

@@ -15,9 +15,9 @@ module Pwb
 
 
     it 'sets page_page block contents correctly' do
-      fragment_key = "content_html"
-      about_us_page.set_page_part_block_contents  fragment_key, "en", {"blocks": {}}
-      about_us__content_html__page_part  = about_us_page.page_parts.find_by_fragment_key fragment_key
+      page_part_key = "content_html"
+      about_us_page.set_page_part_block_contents  page_part_key, "en", {"blocks": {}}
+      about_us__content_html__page_part  = about_us_page.page_parts.find_by_page_part_key page_part_key
 
 
       # expect(about_us_page.details.to_json).to have_json_path("fragments")

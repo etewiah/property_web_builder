@@ -23,12 +23,12 @@ module Pwb
         return render_json_error 'Please provide block_label'
       end
       block_label = params["block_label"]
-      unless params["fragment_label"]
+      unless params["page_part_key"]
         return render_json_error 'Please provide label'
       end
-      fragment_label = params["fragment_label"]
+      page_part_key = params["page_part_key"]
 
-      photo = page.create_fragment_photo fragment_label, block_label, params[:file]
+      photo = page.create_fragment_photo page_part_key, block_label, params[:file]
       photo.reload
       render json: {
         image_url: photo.optimized_image_url
@@ -46,10 +46,10 @@ module Pwb
       page = Page.find_by_slug params[:page_slug]
 
       if params["cmd"] == "setAsHidden"
-        page.set_fragment_visibility params[:page_fragment_label], false        
+        page.set_fragment_visibility params[:page_part_key], false        
       end
       if params["cmd"] == "setAsVisible"
-        page.set_fragment_visibility params[:page_fragment_label], true        
+        page.set_fragment_visibility params[:page_part_key], true        
       end
 
       # page.details["visiblePageParts"] = params[:visible_page_parts]
