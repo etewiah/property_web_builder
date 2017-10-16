@@ -1,6 +1,4 @@
 <% page_title @current_agency.company_name  %>
-<%= javascript_tag do %>
-  $(document).ready(
 <% content_for :page_script do %>
   <%= javascript_tag do %>
     $(document).ready(
@@ -12,7 +10,7 @@
   );
   <% end %>
 <% end %>
-<section id="top-container" style="<%= bg_image @header_image, height: 800, crop: "scale", quality: "auto" %>">
+<section id="top-container" style="background-image: url(<%= @header_image_url %>);">
   <div class="container">
     <div class="row">
       <div class="col-md-12">

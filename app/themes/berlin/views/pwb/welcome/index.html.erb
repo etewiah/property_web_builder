@@ -1,13 +1,57 @@
 <% page_title @current_agency.company_name  %>
 <%= render '/pwb/meta_tags' %>
 
-<%= render '/pwb/welcome/landing_carousel' %>
-<%# render '/pwb/welcome/adv_search' %>
-<%= render '/pwb/welcome/service' %>
-<% if @about_us %>
-  <%# render '/pwb/welcome/about_us' %>
-<% end %>
-<!-- Latest property -->
+<section id="top-container" style="background-image: url(<%= @header_image_url %>);">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="top-container-inner">
+          <h2>
+            <%= I18n.t("contactUs") %>
+          </h2>
+          <div>
+            <ol class="breadcrumb">
+              <li>
+                <a href="/">
+                  <%= I18n.t("webContentSections.home") %>
+                </a>
+              </li>
+              <li class="active">
+                <%= I18n.t("contactUs") %>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="row">
+  <% @content_to_show.each do |content| %>
+    <div class="col-md-12">
+      <%== content %>
+    </div>
+  <% end %>
+</div>
+<% if @current_website.configuration["show_landing_searchbar"]  %>
+  <div class="landing-search-container row fondo_secundario">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <%= render '/pwb/search/search_form_landing' %>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+<% end  %>
+
+
+<%# render '/pwb/welcome/landing_carousel' %>
+
+<%# render '/pwb/welcome/service' %>
+
+
+<!-- Latest properties -->
 <section id="aa-latest-property">
   <div class="container">
     <div class="aa-latest-property-area">

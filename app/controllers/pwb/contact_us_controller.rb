@@ -2,7 +2,7 @@ require_dependency 'pwb/application_controller'
 
 module Pwb
   class ContactUsController < ApplicationController
-    before_action :header_image
+    before_action :header_image_url
 
 
     def index
@@ -100,11 +100,11 @@ module Pwb
 
 
     private
-
-    def header_image
-      # used by berlin theme and meta tags
-      hi_content = Content.where(tag: 'landing-carousel')[0]
-      @header_image = hi_content.present? ? hi_content.default_photo : nil
+    def header_image_url
+      # lc_content = Content.where(tag: 'landing-carousel')[0]
+      lc_photo = ContentPhoto.find_by_block_key "landing_img"
+      # used by berlin theme
+      @header_image_url = lc_photo.present? ? lc_photo.optimized_image_url : nil
     end
 
   end

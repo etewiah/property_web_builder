@@ -28,6 +28,10 @@ $base-border-color:#e0eded;
 @import "shared/social";
 @import "shared/gmap";
 @import "shared/search_box";
+@import "shared/liquid_templates";
 @import "shared/shame";
 
 
+.jumbotron {
+  display: none;
+}
