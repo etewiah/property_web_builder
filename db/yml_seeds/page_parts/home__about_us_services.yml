@@ -53,7 +53,7 @@
   template: 
     <section class="light-gray bb">
       <div class="wp-section services-section">
-        <div class="container">
+        <div class="bst-container">
           <div class="row services-wrapper">
             <div class="col-md-4 ss-cont">
               <div class="single-service">

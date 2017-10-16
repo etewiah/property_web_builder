@@ -35,6 +35,9 @@
               style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1)), url({{page_part["landing_img"]["content"] }});" >
                 <div class="">
                   <div class="carousel-content">
+                    <h1>
+                      {{ page_part["landing_title_a"]["content"] }}
+                    </h1>
                     {{ page_part["landing_content_a"]["content"] }}
                   </div>
                 </div>

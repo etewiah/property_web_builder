@@ -39,8 +39,14 @@ es:
 
   home:
     landing_hero:
-      landing_content_a:
+      landing_title_a:
         El mejor inmobiliario en Springfield
+      landing_content_a: >
+        <ul class="list-carousel">
+          <li><i class="fa fa-check-square">
+            </i>Nuestro equipo está formado por profesionales</li>   
+          <li><i class="fa fa-check-square"></i>Encontraremos lo mejor para usted</li>
+        </ul>
       landing_img:
         db/example_images/carousel_villa_with_pool.jpg
 

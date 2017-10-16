@@ -26,7 +26,8 @@
       ]
     }
   template: 
-    <div class="container">
+    <section class="our-agency-section" >
+    <div class="bst-container">
       <div class="row">
         <div class="col-md-6">
           <div class="section-title-wr mt-40">
@@ -47,3 +48,4 @@
         </div>
       </div>
     </div>
+    </section>

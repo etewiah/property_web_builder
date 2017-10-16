@@ -36,8 +36,14 @@ en:
 
   home:
     landing_hero:
-      landing_content_a:
+      landing_title_a:
         The best realtor in Springfield
+      landing_content_a: >
+        <ul class="list-carousel">
+          <li><i class="fa fa-check-square">
+            </i> Professional staff</li>   
+          <li><i class="fa fa-check-square"></i> We will find you the best property on the market</li>
+        </ul>
       landing_img:
         db/example_images/carousel_villa_with_pool.jpg
 
