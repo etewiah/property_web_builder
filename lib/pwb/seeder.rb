@@ -29,8 +29,10 @@ module Pwb
         seed_content 'footer.yml'
         # seed_content 'sell.yml'
         seed_agency 'agency.yml'
-        seed_website 'website.yml'
         # need to seed website first so correct currency is used
+        seed_website 'website.yml'
+        # currency passed in for properties is ignored in favour
+        # of default website currency
         unless Pwb::Prop.count > 3
           seed_prop 'villa_for_sale.yml'
           seed_prop 'villa_for_rent.yml'
