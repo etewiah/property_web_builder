@@ -1,24 +1,8 @@
-/*header.top_header{
-  min-height: 25px;
-}
-*/
-/*below for button on contact form*/
-/*.btn-base {
-  color: #fff !important;
-  background-color: #3498db;
-  border: 1px solid;
-  border-color: #258cd1
-}*/
 .btn-base:hover, .btn-base:focus, .btn-base:active, .btn-base.active, .open .dropdown-toggle.btn-base {
     color: #fff;
     background-color: <%= @current_website.style_variables["action_color"] %>;
     border-color: <%= @current_website.style_variables["action_color"] %>;
 }
-
-/*.btn-alt:before {
-  background-color: <%= @current_website.style_variables["action_color"] %>;  
-}*/
-
 
 .fondo_footer {
   background: <%= @current_website.style_variables["footer_bg_color"] || "#333" %>;
@@ -75,12 +59,6 @@ nav.venta_alquiler a:hover {
   background-color: <%= @current_website.style_variables["primary_color"] %>;
   border-top: 4px solid <%= @current_website.style_variables["primary_color"] %>;
 }
-
-/*.navbar-toggle:hover,
-.navbar-toggle:focus {
-  background-color: #3498db;
-  border-color: #3498db;
-}*/
 
 header .text-navbar-brand {
   color: <%= @current_website.style_variables["secondary_color"] %>

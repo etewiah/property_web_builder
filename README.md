@@ -18,8 +18,7 @@ To see the admin panel, login as user admin@example.com with a password of "pwb1
 
 ## Rails Version
 
-PropertyWebBuilder runs with Rails '>= 5.0.0', '< 5.1'
-Support for Rails 5.1.0 will come soon
+PropertyWebBuilder runs with Rails '>= 5.1.0'
 
 ## Ruby Version
 
@@ -53,6 +52,7 @@ rails pwb:install:migrations
 rails db:create
 rails db:migrate
 rails pwb:db:seed
+rails pwb:db:seed_pages
 ```
 
 ## Deploying to Heroku

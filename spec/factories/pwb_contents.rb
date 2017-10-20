@@ -3,6 +3,9 @@ FactoryGirl.define do
     key 'MyString'
     tag 'MyString'
     raw 'MyText'
+    trait :main_content do
+      raw_en "<h2>Sell Your Property with Us</h2>"
+    end
     # trait :completed do
     #   # complete true
     #   completed_at { Time.now }

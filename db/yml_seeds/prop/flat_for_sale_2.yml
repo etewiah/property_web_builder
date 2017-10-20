@@ -1,0 +1,56 @@
+---
+- reference: re-s3
+  year_construction: 0
+  count_bedrooms: 1
+  count_bathrooms: 1
+  count_toilets: 1
+  count_garages: 0
+  flags: 0
+  furnished:
+  sold:
+  reserved:
+  highlighted: false
+  archived: false
+  visible: true
+  for_rent_short_term: false
+  for_rent_long_term: false
+  for_sale: true
+  hide_map: false
+  obscure_map: false
+  portals_enabled: false
+  deleted_at:
+  active_from:
+  available_to_rent_from:
+  available_to_rent_till:
+  price_sale_current_cents: 5000000
+  price_rental_monthly_current_cents: 0
+  commission_cents: 0
+  commission_currency: USD
+  service_charge_yearly_cents: 0
+  service_charge_yearly_currency: USD
+  prop_origin_key: ''
+  prop_state_key: ''
+  prop_type_key: ''
+  street_address: Old Water Works Road
+  street_name: 
+  street_number: 9-13
+  postal_code: 08857
+  city: Old Bridge Township
+  region: New Jersey
+  country: United States
+  longitude: -74.3508907
+  latitude: 40.4148037
+  plot_area: 0
+  constructed_area: 80.0
+  energy_rating:
+  energy_performance:
+  title_en: Example flat for sale 2.
+  title_es: Ejemplo de un piso para vender 2.  
+  description_en: Description of the amazing flat for sale 2. 
+  description_es: Descripción de una flat estupenda para vender 2.
+  photo_files:
+    - db/example_images/flat_luxury_dining_area.jpg
+    - db/example_images/kitchen_classic.jpg
+  # photo_urls: 
+  #   - https://inmo-a.s3.amazonaws.com/us/gooddeals/property/18/IMG_20160311_165938_2982a36e0a.jpg
+  #   - https://inmo-a.s3.amazonaws.com/us/gooddeals/property/15/IMG_20160311_165813_bbb7304f64.jpg

@@ -1,0 +1,13 @@
+---
+- primary_email: bob_a@example.com
+  first_name: Bob
+  last_name: Adamson
+  skype_id: ae_skype
+  primary_phone_number: 789 101
+- primary_email: tina_@example.com
+  first_name: Tina
+  last_name: Adamson
+  skype_id: na_skype
+  primary_phone_number: 123 456
+
+

@@ -1,0 +1,74 @@
+---
+es:
+  legal:
+    content_html:
+      main_content:
+        <b> RENUNCIA </b></br>
+        El equipo de Example RE Internet se esfuerza por proporcionarle información útil, precisa y oportuna en este sitio web. En consecuencia, Example RE ha intentado proporcionar información y materiales precisos en este sitio web en este sitio web, pero no asume ninguna responsabilidad por la exactitud y la integridad de esa información y materiales en este sitio web, pero no asume ninguna responsabilidad por la exactitud y compatibilidad de esa información o materiales. Example RE puede cambiar el contenido de cualquier información o material disponible en esta webite, o en los productos descritos en ellos, en cualquier momento sin previo aviso. Sin embargo, Example RE no se compromete a actualizar la información o los materiales de este sitio web que, como resultado, pueden estar desactualizados. La información y opiniones expresadas en tablas de boletines u otros foros no son necesariamente las del Example RE. Ni Example RE, ni sus ejecutivos, directores, empleados, agentes, distribuidores o afiliados son responsables o responsables por cualquier daño por pérdida (incluyendo, pero no limitado a, real, consecuencial o punitivo), responsabilidad, reclamo u otra lesión o daño Causa relacionada o resultante de cualquier información publicada en el sitio web de Example RE. Example RE se reserva el derecho de revisar estos términos y / o restricciones legales en cualquier momento. Usted es responsable de revisar esta página de vez en cuando para asegurar el cumplimiento de los términos vigentes y las restricciones legales porque serán vinculantes para usted. Ciertas cláusulas de estos términos y restricciones legales pueden ser reemplazadas por avisos legales expresamente designados o términos ubicados en páginas particulares de este sitio web.
+
+  privacy:
+    content_html:
+      main_content:
+        <p><b>Política de Privacidad</b></p><p> 
+        Estamos comprometidas con la seguridad de los datos de sus usuarios. Por esto, nuestra política de Privacidad establece los términos en que Example RE usa y protege la información que es proporcionada por sus clientes. </p><p>
+        <b>
+        Uso Información recogida</b></p><p> 
+        Nuestro sitio web podrá recoger información personal por ejemplo; Nombre, información de contacto como tu dirección de correo electrónica e información demográfica. Así mismo cuando sea necesario podrá ser requerida información específica para procesar algún pedido o realizar una entrega o facturación.
+        Example RE no venderá, cederá ni distribuirá la información personal que es recopilada sin tu consentimiento, salvo que sea requerido por un juez con una orden judicial.
+        </p><p>
+        <b>
+        Enlaces a Terceros</b></p><p> 
+        Este sitio web pudiera contener enlaces a otros sitios que pudieran ser de su interés. Una vez que haces clic en estos enlaces y abandones nuestra página, ya no tenemos control sobre el sitio al que seas redirigido y por lo tanto no somos responsables de los términos o privacidad ni de la protección de tus datos en esos otros sitios terceros. Dichos sitios están sujetos a sus propias políticas de privacidad por lo cual es recomendable que los consultes para confirmar que estás de acuerdo con estas.
+        </p><p>
+        <b>
+        Cambios de la Política</b></p><p> 
+        Para mantenernos actualizados, nuestra Política de Privacidad puede cambiar con el tiempo por lo que te recomendamos y enfatizamos revisar esta página para asegurarte que estás de acuerdo con dichos cambios.</p>
+
+
+  sell:
+    content_html:
+      main_content:
+        <h2> Vender tu propiedad con nosotros </h2>
+        Nuestro compromiso con usted es mantener los más altos estándares de profesionalidad mientras le ayuda a tomar sus mejores decisiones de bienes raíces. Desea vender su propiedad con total confianza. Al hacerlo, usted se merece lo mejor. Nuestra meta en Example RE es proveerle un servicio excepcional mientras satisface sus necesidades en cada paso del proceso de venta.
+        <h2> Experiencia regional
+        </h2>
+        Nuestros clientes y nuestros afiliados de negocios le dirán, no hay listados en nuestra región de mercado de Birmingham que recibe más exposición a los compradores que los que figuran con nosotros. Nuestro marketing basado en Internet, publicidad impresa y esfuerzos de marketing colateral permiten a nuestros listados una exposición inigualable a los compradores que están buscando bienes raíces en Birmingham. La fuerza de nuestro marketing en línea, publicidad impresa y contactos directos de los corredores impulsan un tráfico significativo a nuestro sitio web, que proporciona información detallada sobre todos nuestros listados de propiedades.
+        <h2> Listo para ayudarte
+        </h2>
+        Nuestros profesionales de corretaje y personal calificados en Example RE tienen la experiencia, el conocimiento y la discreción para representar su propiedad en Birmingham. Nuestro equipo de corredores dedicados y profesionales y el personal están comprometidos a proporcionar un servicio extraordinario. Puede estar seguro de que Example RE proporciona las herramientas y ayuda a su corredor en la comercialización de su propiedad de manera eficiente y experta a los mercados locales, regionales y nacionales. Se necesita más de una señal en su casa o propiedad para atraer a los compradores. Creamos un plan de marketing completo para satisfacer sus necesidades.
+
+  home:
+    landing_hero:
+      landing_title_a:
+        El mejor inmobiliario en Springfield
+      landing_content_a: >
+        <ul class="list-carousel">
+          <li><i class="fa fa-check-square">
+            </i>Nuestro equipo está formado por profesionales</li>   
+          <li><i class="fa fa-check-square"></i>Encontraremos lo mejor para usted</li>
+        </ul>
+      landing_img:
+        db/example_images/carousel_villa_with_pool.jpg
+
+    content_html:
+      main_content: <p><b>Noticia importante:</b>&nbsp; Para este mes estamos haciendo evaluaciones de viviendas gratis. &nbsp;Llamanos para mas información.</p>
+
+    about_us_services:
+      title_a: Encuentra tu hogar
+      content_a: <p>Explícanos exactamente lo que estás buscando, tus necesidades, estamos seguros de que encontraremos el hogar que necesitáis tú y tu familia.</p>
+      title_b: Agentes Inmobiliarios
+      content_b: <p>Somos agentes inmobiliarios profesionales. Te ayudamos con todos los trámites, y te ahorramos dinero con las transacciones. Vamos de la mano durante todo el proceso, te guiamos y asesoramos desde el primer momento hasta el último.</p>
+      title_c: Vende tu vivienda
+      content_c: <p>Si necesitas vender una vivienda, ponte en contacto con nosotros. Con nuestra experiencia en el sector y en la zona haremos este trámite de forma rápida y sencilla.</p>
+  about-us:
+    content_html:
+      main_content: <p><b>Noticia importante:</b>&nbsp; Para este mes estamos haciendo evaluaciones de viviendas gratis. &nbsp;Llamanos para mas información.</p>
+    our_agency:
+      title_a:
+        Sobre nosotros
+      content_a:
+        <p>Llevamos muchos años comprometidos con ofrecer un servicio integral y conseguir solo transacciones con éxito y felicidad por parte de los compradores y vendedores.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      our_agency_img:
+        db/example_images/carousel_grass.jpg
+

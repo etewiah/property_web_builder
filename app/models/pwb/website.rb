@@ -3,6 +3,9 @@ module Pwb
     extend ActiveHash::Associations::ActiveRecordExtensions
     belongs_to_active_hash :theme, optional: true, foreign_key: "theme_name", class_name: "Pwb::Theme", shortcuts: [:friendly_name], primary_key: "name"
 
+    # TODO - add favicon image (and logo image directly)
+    # as well as details hash for storing pages..
+
     def self.unique_instance
       # there will be only one row, and its ID must be '1'
       begin
@@ -17,6 +20,28 @@ module Pwb
       end
     end
 
+    def admin_page_links
+      # return update_admin_page_links
+      if self.configuration["admin_page_links"].present?
+        return configuration["admin_page_links"]
+      else
+        return update_admin_page_links
+      end
+    end
+
+    # TODO - call this each time a page
+    # needs to be added or
+    # deleted from admin
+    def update_admin_page_links
+      admin_page_links = []
+      Pwb::Link.ordered_visible_admin.each do |link|
+        admin_page_links.push link.as_json
+      end
+      self.configuration["admin_page_links"] = admin_page_links
+      self.save!
+      return admin_page_links
+    end
+
     def as_json(options = nil)
       super({only: [
                "company_display_name", "theme_name",
@@ -27,7 +52,7 @@ module Pwb
                "sale_price_options_from", "sale_price_options_till",
                "rent_price_options_from", "rent_price_options_till"
              ],
-             methods: ["style_variables"]}.merge(options || {}))
+             methods: ["style_variables","admin_page_links"]}.merge(options || {}))
     end
 
     enum default_area_unit: { sqmt: 0, sqft: 1 }
@@ -58,7 +83,9 @@ module Pwb
 
 
     # admin client & default.css.erb uses style_variables
-    # but it is stored as style_variables_for_theme
+    # but it is stored in style_variables_for_theme json col
+    # In theory, could have different style_variables per theme but not
+    # doing that right now
     def style_variables
       default_style_variables = {
         "primary_color" => "#e91b23", # red
@@ -73,6 +100,40 @@ module Pwb
     def style_variables=(style_variables)
       style_variables_for_theme["default"] = style_variables
     end
+    # spt 2017 - above 2 will be redundant once vic becomes default layout
+
+
+
+    # below used when rendering to decide which class names
+    # to use for which elements
+    def get_element_class element_name
+      style_details = style_variables_for_theme["vic"] || Pwb::PresetStyle.default_values
+      style_associations = style_details["associations"] || []
+      style_associations[element_name] || ""
+    end
+
+    # below used by custom stylesheet generator to decide
+    # values for various class names (mainly colors)
+    def get_style_var var_name
+      style_details = style_variables_for_theme["vic"] || Pwb::PresetStyle.default_values
+      style_vars = style_details["variables"] || []
+      style_vars[var_name] || ""
+    end
+
+    # allow direct bulk setting of styles from admin UI
+    def style_settings=(style_settings)
+      style_variables_for_theme["vic"] = style_settings
+    end
+
+    # allow setting of styles to a preset config from admin UI
+    def style_settings_from_preset=(preset_style_name)
+      preset_style = Pwb::PresetStyle.where(name: preset_style_name).first
+      if preset_style
+        style_variables_for_theme["vic"] = preset_style.attributes.as_json
+      end
+    end
+
+
 
     def body_style
       body_style = ""

@@ -7,17 +7,17 @@
           <div class="row">
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="aa-footer-left">
-        <div class="col">
-          <h4><%= @current_agency.company_name %></h4>
-          <ul class="contact">
-            <li>      
-              <%= agency_info(@current_agency, "phone_number_primary", "tel", "fa-phone") %>
-            </li>
-            <li>
-              <%= agency_info(@current_agency, "email_primary", "email", "fa-envelope") %>
-            </li>
-          </ul>
-        </div>
+                <div class="col">
+                  <h4><%= @current_agency.company_name %></h4>
+                  <ul class="contact">
+                    <li>
+                      <%= agency_info(@current_agency, "phone_number_primary", "tel", "fa-phone") %>
+                    </li>
+                    <li>
+                      <%= agency_info(@current_agency, "email_primary", "email", "fa-envelope") %>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
             <div class="col-md-4 col-sm-4 col-xs-12 flex-col">
@@ -32,15 +32,13 @@
             </div>
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="">
-        <div class="footer-extra">
-          <%== @footer_content.raw %>
-        </div>
+                <div class="footer-extra">
+                  <%== @footer_content.raw %>
+                </div>
               </div>
             </div>
           </div>
-      
           <hr>
-
           <div class="row">
             <div class="col-md-6 col-sm-12 col-xs-12">
               <div class="aa-footer-left">
@@ -49,10 +47,7 @@
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12">
               <div class="aa-footer-right">
-                <% @sections.each do |section| %>
-                  <%= footer_link(section) %>
-                <% end %>
-                <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>.
+                <%= render_footer_links %>
               </div>
             </div>
           </div>

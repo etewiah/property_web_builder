@@ -1,5 +1,28 @@
 es:
   admin:
+    properties: Properties
+    cards: 
+      website: Website
+      websitePrompt: Website actions
+      websiteLink: Go to web control panel
+      properties: Properties
+      propertiesPrompt: Property actions
+      propertiesLink: Go to properties
+    tasks: 
+      addProperty: Add a property
+      addPropertyPrompt: properties / Add property
+      manageProperties: Manage properties
+      managePropertiesPrompt: Properties / Edit property
+      changeLogo: Manage logo, languages and appearance
+      changeLogoPrompt: Web Configuration
+      changeLang: Change web language
+      changeLangPrompt: Web Configuration
+      changeLegalText: Change 'Legal' texts
+      manageLandingCarousel: Manage landing page carousel
+      changeAboutUsText: Change 'About Us' text
+      managePropertyTypes: Manage property types
+      managePropertyExtras: Manage property features
+
     "true": "true"
     "false": "false"
     "yes": "si"
@@ -61,14 +84,45 @@ es:
       landing: Inicio
       legal: Legal
     pageSections:
+      notEditable:
+        This section cannot be edited
+      contactUsFormAndMap: 
+        title: Form and Map
+        info: Contact us form and map
+      pageTitle: Page title
       services: 
         title: Vuestro servicios
         info: Detalles de vuestro servicios
       people: 
         title: Vuestro equipo
         info: Detalles de vuestro equipo
+      # landingCarousel: 
+      #   title: Home page carousel
+      #   info: Main section displaying images and text
+      rawHtml: 
+        title: HTML Content
+        info: You can add extra HTML here
+      topRentals: 
+        title: Top Rentals
+        info: Summary list of properties to rent
+      topSales: 
+        title: Top Sales
+        info: Summary list of properties for sale
+      contactUsForm: 
+        title: Contact us form
+        info: Form to allow visitors to send you a message
+      # aboutUs:
+      #   title: Text and photo
+      #   info: A little bit about your business
+      ourAgency:
+        title: About our agency
+        info: A little bit about your business
+      landingHero:
+        title: Main header
+        info: Large image and text highlighting your busi
     editor:
       pickPhoto: Selecciona foto
+      uploadPhoto: Subir foto
     inTabLabels:
       topNav: Navigacion
       footer: Footer
@@ -140,12 +194,12 @@ es:
       suffixTr: en Turko
       privacyPolicy: Texto de la política de privacidad
       legalAdvice: Texto del aviso legal
-      landingcarousel: Texto del slider
-      cac1: Columna 1
-      cac2: Columna 2
-      cac3: Columna 3
-      landingPageHero: Contenido para la página principal
-      tagLine: Tag Line
+      # landingcarousel: Texto del slider
+      # cac1: Columna 1
+      # cac2: Columna 2
+      # cac3: Columna 3
+      # landingPageHero: Contenido para la página principal
+      # tagLine: Tag Line
       aboutUs: Sobre nosotros
       footerInfo: Contenido para el pie de página
 

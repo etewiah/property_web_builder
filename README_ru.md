@@ -19,7 +19,7 @@
 
 ## Версия Rails
 
-PropertyWebBuilder должна быть запущена с Rails >= 5.0
+PropertyWebBuilder должна быть запущена с Rails >= 5.1.0
 
 ## Версия Ruby
 
@@ -53,4 +53,5 @@ rails pwb:install:migrations
 rails db:create
 rails db:migrate
 rails pwb:db:seed
+rails pwb:db:seed_pages
 ```

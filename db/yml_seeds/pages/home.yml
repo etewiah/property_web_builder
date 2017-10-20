@@ -1,0 +1,15 @@
+---
+- slug: home
+  setup_id: home
+  # sort_order_top_nav: 1
+  visible: true
+  # show_in_top_nav: true
+  # show_in_footer: false
+  # link_title_en: Home
+  page_title_en: Home
+  page_title_es: Inicio
+  page_title_fr: Accueil
+  page_title_de: Zuhause
+  page_title_ru: Главная
+  page_title_pt: Iníco
+  details: {}

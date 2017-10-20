@@ -1,0 +1,11 @@
+---
+- slug: privacy
+  visible: true
+  setup_id: default
+  page_title_en: Our Privacy Policy
+  page_title_es: Nuestro Politica de Privacidad
+  page_title_fr: Privacy Policy
+  page_title_de: Datenschutz-Bestimmungen
+  page_title_pt: Política de Privacidade
+  page_title_ru: Политика конфиденциальности
+  details: {}

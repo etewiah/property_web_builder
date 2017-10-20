@@ -19,17 +19,20 @@ Pwb::Engine.routes.draw do
     get '/squares/:client_id/:prop_id' => 'squares#show_prop'
     get "/admin" => "admin_panel#show"
     get "/admin/*path" => "admin_panel#show"
-    scope "(:locale)", locale: /en|nl|es|fr|de|ru/ do
+    get "/admin-1" => "admin_panel#show_legacy_1"
+    get "/admin-1/*path" => "admin_panel#show_legacy_1"
+    scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
       get "/admin" => "admin_panel#show", as: "admin_with_locale"
       get "/admin/*path" => "admin_panel#show"
+      get "/admin-1" => "admin_panel#show_legacy_1", as: "admin_with_locale_legacy"
+      get "/admin-1/*path" => "admin_panel#show_legacy_1"
     end
 
   end
 
-  get "/custom_css" => "css#custom_css", as: "custom_css"
+  get "/custom_css/:theme_name" => "css#custom_css", as: "custom_css"
 
-  # TODO - get locales dynamically
-  scope "(:locale)", locale: /en|nl|es|fr|de|pt|it|vi|tr|ru/ do
+  scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
 
     devise_scope :user do
       get "/users/edit_success" => "devise/registrations#edit_success", as: "user_edit_success"
@@ -42,23 +45,19 @@ Pwb::Engine.routes.draw do
 
 
     get "/" => "welcome#index", as: "home"
-    get "/p/:page_slug" => "sections#generic_page", as: "generic_page"
-    get "/c/:page_slug" => "comfy#show"
+    get "/p/:page_slug" => "pages#show_page", as: "show_page"
+    # get "/c/:page_slug" => "comfy#show"
 
     get "/properties/for-rent/:id/:url_friendly_title" => "props#show_for_rent", as: "prop_show_for_rent"
     get "/properties/for-sale/:id/:url_friendly_title" => "props#show_for_sale", as: "prop_show_for_sale"
 
-    get "/about-us" => "sections#about_us"
-    # get "/sell" => "sections#sell"
-    # get "/sell" => "comfy#show"
+    get "/about-us" => "pages#show_page", page_slug: "about-us"
+    get "/contact-us" => "contact_us#index", as: "contact_us" #
+    post "/contact_us" => "contact_us#contact_us_ajax"
+
     get "/buy" => "search#buy"
     get "/rent" => "search#rent"
 
-    get "/contact-us" => "sections#contact_us", as: "contact_us" #
-    get "/privacy-policy" => "sections#privacy_policy"
-    get "/legal" => "sections#legal"
-
-    post "/contact_us" => "sections#contact_us_ajax"
     post "/search_ajax_for_sale" => "search#search_ajax_for_sale"
     post "/search_ajax_for_rent" => "search#search_ajax_for_rent"
     # post "/ajax_find_by_ref" => "search#ajax_find_by_ref"
@@ -112,27 +111,35 @@ Pwb::Engine.routes.draw do
         put "/translations/:id/update_for_locale" => "translations#update_for_locale"
         delete "/translations/:id" => "translations#delete_translation_values"
 
+        # put "tenant" => "agency#update_legacy"
+        put "/master_address" => "agency#update_master_address"
 
         get "/agency" => "agency#show"
         put "/agency" => "agency#update"
         put "/website" => "website#update"
         get "/infos" => "agency#infos"
 
-        # put "tenant" => "agency#update_legacy"
-        put "/master_address" => "agency#update_master_address"
+        put "/pages" => "page#update"
+        put "/pages/page_part_visibility" => "page#update_page_part_visibility"
+        put "/pages/page_fragment" => "page#save_page_fragment"
+        get "/pages/:page_name" => "page#get"
 
-        post '/cms-pages/photos/:page_id/:block_label' => 'cms_pages#set_photo'
-        get "/cms-pages/meta/:page_name" => "cms_pages#meta"
-        jsonapi_resources :cms_pages
+        # post '/page_fragments/photos/:page_id/:block_label' => 'page_fragments#set_photo'
 
-        # get "/web-contents" => "agency#infos"
+        post '/pages/photos/:page_slug/:page_part_key/:block_label' => 'page#set_photo'
+        # post '/cms-pages/photos/:page_id/:block_label' => 'cms_pages#set_photo'
+        # jsonapi_resources :cms_pages
+
+
+        get "/web-contents" => "agency#infos"
         jsonapi_resources :lite_properties
         jsonapi_resources :properties
-        # jsonapi_resources :sections
+        jsonapi_resources :clients
         jsonapi_resources :web_contents
+        resources :contacts
 
-        get "/sections" => "sections#index"
-        put "/sections" => "sections#bulk_update"
+        get "/links" => "links#index"
+        put "/links" => "links#bulk_update"
 
         get "/themes" => "themes#index"
         get "/mls" => "mls#index"

@@ -1,0 +1,11 @@
+---
+- slug: legal
+  visible: true
+  setup_id: default
+  page_title_en: Our Legal Notice
+  page_title_es: Nuestro Aviso Legal
+  page_title_fr: Legal Notice
+  page_title_de: Impressum
+  page_title_ru: Официальное уведомление
+  page_title_pt: Notícia legal
+  details: {}

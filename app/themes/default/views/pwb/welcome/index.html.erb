@@ -1,42 +1,11 @@
 <% page_title @current_agency.company_name  %>
 <%= render '/pwb/meta_tags' %>
-<div>
-  <div class="jumbotron">
-    <div class="jumbotron-left">
-      <div id="homepageCarousel" class="carousel carousel-1 carousel-fixed-height slide" data-interval="<%= @carousel_speed %>" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <% @carousel_items.each.with_index do |carousel_item, index| %>
-            <li data-target="#homepageCarousel" data-slide-to="<%= index %>" class=""></li>
-          <% end %>
-        </ol>
-        <div class="carousel-inner">
-          <% @carousel_items.each.with_index do |carousel_item, index| %>
-            <div class="item item-dark <%= " active " if index == 0 %>"
-            style="<%= bg_image carousel_item.default_photo, quality: "auto",
-        height: 800, crop: "fit", gradient: "rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1)" %>">
-              <div class="container">
-                <div class="carousel-content">
-                  <%== carousel_item.raw %>
-                </div>
-              </div>
-              <!--<div class="ribbon dark fondo_accion"><span></span></div> -->
-            </div>
-          <% end %>
-        </div>
-        <!-- Controls -->
-        <% if @carousel_items.length > 1 %>
-          <a class="left carousel-control" href="#homepageCarousel" data-slide="prev">
-            <i class="fa fa-angle-left"></i>
-          </a>
-          <a class="right carousel-control" href="#homepageCarousel" data-slide="next">
-            <i class="fa fa-angle-right"></i>
-          </a>
-        <% end %>
-      </div>
+<div class="row ">
+  <% @content_to_show.each do |content| %>
+    <div class="col-md-12">
+      <%== content %>
     </div>
-    <div class="jumbotron-right">
-    </div>
-  </div>
+  <% end %>
 </div>
 <% if @current_website.configuration["show_landing_searchbar"]  %>
   <div class="landing-search-container row fondo_secundario">
@@ -49,7 +18,7 @@
 <% end  %>
 
 
-<%= render '/pwb/welcome/content_area_cols' %>
+<%# render '/pwb/welcome/content_area_cols' %>
 <% if @properties_for_sale.length > 0  %>
   <%= render :partial => '/pwb/welcome/single_property_row', :locals => { properties: @properties_for_sale, rent_or_sale: 'for_sale', title_key: 'propertyForSale' }  %>
 <% end %>

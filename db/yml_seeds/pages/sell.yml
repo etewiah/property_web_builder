@@ -1,0 +1,13 @@
+---
+- slug: sell
+  visible: true
+  setup_id: default
+  page_title_en: Sell your property with us
+  page_title_es: Vender
+  page_title_fr: Vendre
+  page_title_de: Verkaufen
+  page_title_ru: Продажа
+  page_title_pt: Vender
+  details: {}
+
+

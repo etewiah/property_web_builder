@@ -1,3 +1,4 @@
+<!-- spt 2017 no longer in use -->
 <% page_title @current_agency.company_name  %>
 <%= render '/pwb/meta_tags' %>
 <!-- MAIN CONTENT -->
@@ -26,26 +27,8 @@
   <div class="wp-section">
     <div class="container">
       <div class="row">
-        <div class="col-md-11">
-          <div class="section-title-wr mt-40">
-            <h3 class="section-title left">
-              <span>
-                <%# I18n.t(@title_key) %>
-              </span>
-            </h3>
-          </div>
-          <div>
-            <p>
-              <%== @content.raw %>
-            </p>
-          </div>
-          <div>
-            <% if @is_subdomain_admin  %>
-              <%= link_to I18n.t("labels.edit"), "#{ "/" + I18n.locale.to_s + @content.urls['adminUrl'] }"  %>
-            <% end %>
-          </div>
-        </div>
-        <div class="col-md-1">
+        <div class="col-md-12">
+          <%== @content.raw %>
         </div>
       </div>
     </div>

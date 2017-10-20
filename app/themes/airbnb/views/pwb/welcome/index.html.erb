@@ -1,0 +1,66 @@
+<%# specify a body class (if you want one) %>
+<% content_for :body_class, 'home' %>
+
+
+<div id="main" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1)), url(https://images.unsplash.com/photo-1470082719408-b2843ab5c9ab?dpr=1&auto=compress,format&fit=crop&w=1782&h=&q=80&cs=tinysrgb&crop=);">
+  <div class="site-content">
+    <p class="site-tagline">The easiest way to book corporate apartments.</p>
+    <form accept-charset="UTF-8" action="/apartments" class="home-page-search-form" id="search" method="get">
+      <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div>
+      <div class="search-location">
+        <label for="City">City</label>
+        <input class="autocomplete" id="city" name="city" placeholder="Where would you like to stay?" required="required" type="text">
+      </div>
+      <div class="search-from">
+        <label for="from">From</label>
+        <input class="date-picker check-in" id="check_in" name="check_in" readonly type="text">
+      </div>
+      <div class="search-to">
+        <label for="to">To</label>
+        <input class="date-picker check-out" id="check_out" name="check_out" readonly type="text">
+      </div>
+      <div class="search-submit">
+        <label><br>
+        </label>
+        <input class="btn" name="commit" type="submit" value="SEARCH">
+      </div>
+    </form>
+    <div id="messaging">
+      <div class="column">
+        <h3>Book with Safety &amp; Trust</h3>
+        <p>Housing providers on StayBay adhere to strict guidelines. They are CHPA approved and are each personally vetted and approved.</p>
+      </div>
+      <div class="column">
+        <h3>Save Time &amp; Money</h3>
+        <p>Tired of endless phone calls with brokers, sending emails and photos back and forth? With StayBay you can quickly and easily find and book extended stay apartments for your company.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="index-banner" class="parallax-container">
+  <div class="section no-pad-bot">
+    <div class="container-off">
+      <br>
+      <br>
+      <h1 class="header center teal-text text-lighten-2">Parallax Template</h1>
+      <div class="row center">
+        <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+      </div>
+      <div class="row center">
+        <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
+      </div>
+      <br>
+      <br>
+    </div>
+  </div>
+  <div class="parallax"><img src="" alt="Unsplashed background img 1"></div>
+</div>
+<div class="container-off-off">
+  <%# render '/pwb/welcome/content_area_cols' %>
+</div>
+<% if @properties_for_sale.length > 0  %>
+  <%= render :partial => '/pwb/welcome/single_property_row', :locals => { properties: @properties_for_sale, rent_or_sale: 'for_sale', title_key: 'propertyForSale' }  %>
+<% end %>
+<% if @properties_for_rent.length > 0  %>
+  <%= render :partial => '/pwb/welcome/single_property_row', :locals => { properties: @properties_for_rent, rent_or_sale: 'for_rent', title_key: 'propertyForRent' }  %>
+<% end %>

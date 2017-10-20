@@ -1,0 +1,23 @@
+---
+# - link_key: buy
+#   link_path: buy_path
+- slug: buy
+  setup_id: default
+  # sort_order_top_nav: 2
+  # visible: false
+  # show_in_top_nav: true
+  # show_in_footer: false
+  page_title_en: Buy
+  page_title_es: Comprar
+  page_title_fr: Acheter
+  page_title_de: Kaufen
+  page_title_ru: купить
+  page_title_pt: Comprar
+
+  details: {
+    "visiblePageParts": []
+  }
+
+
+  raw_html_en: 
+  raw_html_es: 

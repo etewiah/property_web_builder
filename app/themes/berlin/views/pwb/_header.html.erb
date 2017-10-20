@@ -72,10 +72,13 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul id="top-menu" class="nav navbar-nav navbar-right aa-main-nav">
-          <% @sections.each do |section| %>
-            <%= top_nav_link(section) %>
-          <% end %>
-          <% if @show_admin_link  %>
+
+            <%= render_top_navigation_links %>
+            <% if @show_admin_link  %>
+              <li class="">
+                <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+              </li>
+            <% end %>
             <% if current_user %>
               <li class="<%= 'selected' if current_page?(pwb.admin_with_locale_path(locale: locale)) %>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -93,12 +96,7 @@
                   </li>
                 </ul>
               </li>
-            <% else %>
-              <li class="">
-                <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
-              </li>
             <% end %>
-          <% end %>
         </ul>
       </div>
       <!--/.nav-collapse -->

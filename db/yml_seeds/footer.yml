@@ -1,0 +1,15 @@
+---
+- key: footerInfo
+  tag: footer
+  input_type:
+  status:
+  last_updated_by_user_id:
+  sort_order:
+  target_url:
+  raw_en: >-
+    <p>We are registered with the national association of realtors.</p>
+    <p>Registration number: 12121212</p>
+  raw_es: >-
+    Llevamos muchos años comprometidos con ofrecer un servicio integral y conseguir solo transacciones con éxito y felicidad por parte de los compradores y vendedores.
+    <p>Estamos registrado con el colegio de inmobiliarios.</p>
+    <p>Numero de registracion: 12121212</p>

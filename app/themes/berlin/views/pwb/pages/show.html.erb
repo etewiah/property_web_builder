@@ -1,0 +1,50 @@
+<% page_title @page.page_title  %>
+<section id="top-container" style="background-image: url(<%= @header_image_url %>);">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="top-container-inner">
+          <h2>
+            <%= @page.main_link.link_title %>
+          </h2>
+          <div>
+            <ol class="breadcrumb">
+              <li>
+                <a href="/">
+                  <%= I18n.t("webContentSections.home") %>
+                </a>
+              </li>
+              <li class="active">
+                <%= @page.main_link.link_title %>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="aa-main">
+  <div class="container">
+    <div class="row ">
+      <div class="col-md-12">
+        <div class="container" style="padding: 30px 0px;">
+          <%== @page.raw_html %>
+        </div>
+      </div>
+      <% @content_to_show.each do |content| %>
+        <div class="col-md-12">
+          <%== content %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+<!-- <section class="slice bg-white bb min-height-600 margin50">
+  <div class="wp-section">
+    <div class="container">
+      <div class="row">
+      </div>
+    </div>
+  </div>
+</section> -->

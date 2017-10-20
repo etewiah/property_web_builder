@@ -1,0 +1,85 @@
+- page_slug: home
+  page_part_key: about_us_services
+  block_contents: {}
+  order_in_editor: 3,
+  show_in_editor: true,
+  editor_setup: {
+      "tabTitleKey": "pageSections.services.title",
+      "tabInfoKey": "pageSections.services.info",
+      "default_sort_order": 3,
+      "default_visible_on_page": true,
+      "editorBlocks": [
+        [
+        {
+          "label": "icon_a",
+          "isIcon": "true"
+        },
+        {
+          "label": "title_a",
+          "isSingleLineText": "true"
+        },
+        {
+          "label": "content_a",
+          "isMultipleLineText": "true"
+        }],
+        [
+        {
+          "label": "icon_b",
+          "isIcon": "true"
+        },
+        {
+          "label": "title_b",
+          "isSingleLineText": "true"
+        },
+        {
+          "label": "content_b",
+          "isMultipleLineText": "true"
+        }],
+        [
+        {
+          "label": "icon_c",
+          "isIcon": "true"
+        },
+        {
+          "label": "title_c",
+          "isSingleLineText": "true"
+        },
+        {
+          "label": "content_c",
+          "isMultipleLineText": "true"
+        }]
+      ]
+    }  
+  template: 
+    <section class="light-gray bb">
+      <div class="wp-section services-section">
+        <div class="bst-container">
+          <div class="row services-wrapper">
+            <div class="col-md-4 ss-cont">
+              <div class="single-service">
+                <div class="bordered top-bordered"> </div>
+                <div class="fa fa-home icon-service"> </div>
+                <h4>{{ page_part["title_a"]["content"] }}</h4>
+                <p>{{  page_part["content_a"]["content"] }}</p>
+              </div>
+            </div>
+            <div class="col-md-4 ss-cont">
+              <div class="single-service">
+                <div class="bordered top-bordered"> </div>
+                <div class="fa fa-user icon-service"> </div>
+                <h4>{{ page_part["title_b"]["content"] }}</h4>
+                <p>{{  page_part["content_b"]["content"] }}</p>
+              </div>
+            </div>
+            <div class="col-md-4 ss-cont">
+              <div class="single-service">
+                <div class="bordered top-bordered"> </div>
+                <div class="fa fa-money icon-service"> </div>
+                <h4>{{ page_part["title_c"]["content"] }}</h4>
+                <p>{{  page_part["content_c"]["content"] }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>

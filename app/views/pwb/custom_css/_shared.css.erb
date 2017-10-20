@@ -1,3 +1,4 @@
+body { font-family: 'Open Sans', sans-serif;}
 footer .col h5 {
   color: <%= @current_website.style_variables["footer_sec_text_color"] || "#ccc" %>;  
 }
@@ -20,14 +21,14 @@ footer .col ul li {
 }
 
 
-.services-section .container .services-wrapper .single-service .bordered {
+.services-section .bst-container .services-wrapper .single-service .bordered {
   border: 2px solid <%= @current_website.style_variables["primary_color"] %>;
 }
-.services-section .container .services-wrapper .single-service .icon-service {
+.services-section .bst-container .services-wrapper .single-service .icon-service {
   color: <%= @current_website.style_variables["primary_color"] %>;
   border-color: <%= @current_website.style_variables["primary_color"] %>;
 }
-.services-section .container .services-wrapper .single-service:hover h4 {
+.services-section .bst-container .services-wrapper .single-service:hover h4 {
   color: <%= @current_website.style_variables["primary_color"] %>;
 }
 

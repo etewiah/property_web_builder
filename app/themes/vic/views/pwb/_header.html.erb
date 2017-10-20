@@ -1,5 +1,5 @@
 <!-- HEADER -->
-<div class="fondo_principal">
+<div class="<%= element_classes "page_top_strip_color", "page_top_strip_background" %>">
   <div class="container-off-off">
     <div class="row">
       <div class="col s6 hidden-xs contacto_header">
@@ -41,47 +41,42 @@
         <% if @current_website.logo_url  %>
           <img src="<%= @current_website.logo_url %>" alt="Logo">
         <% else %>
-          <span class="text-navbar-brand" style="">
+          <span class="text-navbar-brand" style="color:black;">
             <%= @current_agency.company_name %>
           </span>
         <% end %>
       <% end %>
     </span>
     <ul class="right hide-on-med-and-down">
-      <% @sections.each do |section| %>
-        <%= top_nav_link(section) %>
-      <% end %>
+      <%= render_top_navigation_links %>
       <% if @show_admin_link  %>
-        <% if current_user %>
-          <!-- Dropdown Trigger -->
-          <li class="<%= 'selected' if current_page?(pwb.admin_with_locale_path(locale: locale)) %>">
-            <a class="dropdown-button" href="#!" data-activates="admin-dropdown">
-              <%= t "navbar.admin" %>
-              <i class="material-icons right">arrow_drop_down</i></a></li>
-          <li >
-            <ul id="admin-dropdown" class="dropdown-content">
-              <li>
-                <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
-              </li>
-              <li>
-                <%= link_to I18n.t("changePassword"), pwb.edit_user_registration_path() %>
-              </li>
-              <li>
-                <%= link_to I18n.t("signOut"), pwb.destroy_user_session_path(), method: :delete %>
-              </li>
-            </ul>
-          </li>
-        <% else %>
-          <li class="">
-            <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
-          </li>
-        <% end %>
+        <li class="">
+          <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+        </li>
+      <% end %>
+      <% if current_user %>
+        <!-- Dropdown Trigger -->
+        <li class="<%= 'selected' if current_page?(pwb.admin_with_locale_path(locale: locale)) %>">
+          <a class="dropdown-button" href="#!" data-activates="admin-dropdown">
+            <%= t "navbar.admin" %>
+            <i class="material-icons right">arrow_drop_down</i></a></li>
+        <li >
+          <ul id="admin-dropdown" class="dropdown-content">
+            <li>
+              <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+            </li>
+            <li>
+              <%= link_to I18n.t("changePassword"), pwb.edit_user_registration_path() %>
+            </li>
+            <li>
+              <%= link_to I18n.t("signOut"), pwb.destroy_user_session_path(), method: :delete %>
+            </li>
+          </ul>
+        </li>
       <% end %>
     </ul>
     <ul id="nav-mobile" class="side-nav">
-      <% @sections.each do |section| %>
-        <%= top_nav_link(section) %>
-      <% end %>
+      <%= render_top_navigation_links %>
       <% if @show_admin_link  %>
         <% if current_user %>
           <li>

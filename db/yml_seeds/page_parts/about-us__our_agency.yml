@@ -1,0 +1,51 @@
+- page_slug: about-us
+  page_part_key: our_agency
+  block_contents: {}
+  order_in_editor: 2,
+  show_in_editor: true,
+  editor_setup: {
+      "tabTitleKey": "pageSections.ourAgency.title",
+      "tabInfoKey": "pageSections.ourAgency.info",
+      "default_sort_order": 2,
+      "default_visible_on_page": true,
+      "editorBlocks": [
+        [
+        {
+          "label": "title_a",
+          "isSingleLineText": "true"
+        },
+        {
+          "label": "content_a",
+          "isMultipleLineText": "true"
+        }],
+        [
+        {
+          "label": "our_agency_img",
+          "isImage": "true"
+        }]
+      ]
+    }
+  template: 
+    <section class="our-agency-section" >
+    <div class="bst-container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="section-title-wr mt-40">
+            <h3 class="section-title left">
+              <span>
+                {{ page_part["title_a"]["content"] }}
+              </span>
+            </h3>
+          </div>
+          <div>
+            <p>
+              {{  page_part["content_a"]["content"] }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <img alt="" src="{{ page_part["our_agency_img"]["content"] }}" class="img-responsive">
+        </div>
+      </div>
+    </div>
+    </section>

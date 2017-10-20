@@ -1,0 +1,11 @@
+---
+- slug: about-us
+  visible: true
+  setup_id: about-us
+  page_title_en: About Us
+  page_title_es: Sobre Nosotros
+  page_title_fr: A propos
+  page_title_de: Über uns
+  page_title_ru: О нас
+  page_title_pt: Sobre nós
+  details: {}

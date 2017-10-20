@@ -1,0 +1,15 @@
+---
+- slug: rent
+  # sort_order_top_nav: 3
+  setup_id: default
+  visible: false
+  # show_in_top_nav: true
+  # show_in_footer: false
+  # link_title_en: Rent
+  page_title_en: Rent
+  page_title_es: Arrendar
+  page_title_fr: Louer
+  page_title_de: Miete
+  page_title_ru: Аренда
+  page_title_pt: Aluguel
+  details: {}

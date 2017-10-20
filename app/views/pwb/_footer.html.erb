@@ -34,12 +34,8 @@
     <hr>
     <div class="row">
       <div class="col-sm-6 copyright">
-        <% @sections.each do |section| %>
-          <%= footer_link(section) %>
-        <% end %>
-        <%# link_to I18n.t("legalAdvice"), pwb.legal_path(locale: locale)  %>
-        <%# link_to I18n.t("privacyPolicy"), pwb.privacy_policy_path(locale: locale)  %>
-        <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>.
+        <%= render_footer_links %>
+        <%# link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>.
       </div>
       <div class="col-sm-6">
         <p  style="float: right;">Powered by <a href="http://propertywebbuilder.com">PropertyWebBuilder</a></p>

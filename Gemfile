@@ -11,9 +11,8 @@ gem 'rails', '~> 5.1.1'
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-# below cannot be moved into gemspec as it does not accept the "git:" syntax
 # gem 'globalize', git: 'https://github.com/globalize/globalize'
-gem 'globalize', github: 'globalize/globalize'
+# gem 'globalize', github: 'globalize/globalize'
 # below needed by above - (in gemspec)
 # gem 'activemodel-serializers-xml'
 # gem 'globalize-accessors'
@@ -64,3 +63,4 @@ end
 # gem 'localeapp'
 
 gem 'paloma', github: 'fredngo/paloma'
+# gem 'bourbon'

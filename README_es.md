@@ -18,7 +18,7 @@ Para ver el panel de administrador, ingresa como el usuario admin@example.com co
 
 ## Versión de Rails
 
-PropertyWebBuilder funciona con Rails >= 5.0
+PropertyWebBuilder funciona con Rails >= 5.1
 
 ## Versión de Ruby
 
@@ -50,6 +50,7 @@ rails pwb:install:migrations
 rails db:create
 rails db:migrate
 rails pwb:db:seed
+rails pwb:db:seed_pages
 ```
 
 

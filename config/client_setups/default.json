@@ -254,24 +254,19 @@
   //   "importLabelKey": "btnLabels.importProperties",
   //   "importUrl": "/import/properties"
   // }],
-  "websiteContentTabsList": [
-  {
-    "tabValue": "landing-carousel",
-    "tabTitleKey": "webContentSections.landingCarousel"
-  },
-  {
-    "tabValue": "content-area-cols",
-    "tabTitleKey": "webContentSections.contentAreaCols"
-  },
-  {
-    "tabValue": "about-us",
-    "tabTitleKey": "webContentSections.aboutUs"
-  },
-  {
-    "tabValue": "legal",
-    "tabTitleKey": "webContentSections.legal"
-  },
-  {
+  "websiteContentTabsList": [{
+  //   "tabValue": "landing-carousel",
+  //   "tabTitleKey": "webContentSections.landingCarousel"
+  // }, {
+  //   "tabValue": "content-area-cols",
+  //   "tabTitleKey": "webContentSections.contentAreaCols"
+  // }, {
+  //   "tabValue": "about-us",
+  //   "tabTitleKey": "webContentSections.aboutUs"
+  // }, {
+  //   "tabValue": "legal",
+  //   "tabTitleKey": "webContentSections.legal"
+  // }, {
     "tabValue": "footer",
     "tabTitleKey": "webContentSections.footer"
   }]

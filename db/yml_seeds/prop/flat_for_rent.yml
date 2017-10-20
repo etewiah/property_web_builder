@@ -25,23 +25,23 @@
   price_sale_current_cents: 0
   price_rental_monthly_current_cents: 50000
   commission_cents: 0
-  commission_currency: EUR
+  commission_currency: USD
   service_charge_yearly_cents: 0
-  service_charge_yearly_currency: EUR
+  service_charge_yearly_currency: USD
   currency:
   prop_origin_key: ''
   prop_state_key: ''
   prop_type_key: ''
-  street_number: '23'
+  street_address: Dunhams Corner Road
   street_name: Calle Sup
-  street_address: Calle Sup
-  postal_code: '29590'
-  province:
-  city: Málaga
-  region: Andalucía
-  country: Spain
-  latitude: 36.73234
-  longitude: -4.52615000000003
+  street_number: 57
+  postal_code: 08816
+  city: East Brunswick
+  region: New Jersey
+  currency: USD
+  country: United States
+  longitude: -74.4063889
+  latitude: 40.4306235
   plot_area: 0
   constructed_area: 90.0
   energy_rating:

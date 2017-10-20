@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PropertyWebBuilder Admin</title>
+    <!-- <meta name="robots" content="index, follow"> -->
+    <%# display_meta_tags site: @current_agency.tenant_display_name %>
+    <%= csrf_meta_tags %>
+
+    <base href="/" />
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  </head>
+  <body class="">
+    <%= yield %>
+  </body>
+</html>

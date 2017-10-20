@@ -1,0 +1,58 @@
+---
+- reference: re-r2
+  year_construction: 1920
+  count_bedrooms: 1
+  count_bathrooms: 1
+  count_toilets: 1
+  count_garages: 0
+  flags: 0
+  furnished:
+  sold:
+  reserved:
+  highlighted: true
+  archived: false
+  visible: true
+  for_rent_short_term: true
+  for_rent_long_term: true
+  for_sale: false
+  hide_map: false
+  obscure_map: false
+  portals_enabled: false
+  deleted_at:
+  active_from:
+  available_to_rent_from:
+  available_to_rent_till:
+  price_sale_current_cents: 0
+  price_rental_monthly_current_cents: 50000
+  commission_cents: 0
+  commission_currency: EUR
+  service_charge_yearly_cents: 0
+  service_charge_yearly_currency: EUR
+  currency:
+  prop_origin_key: ''
+  prop_state_key: ''
+  prop_type_key: ''
+  street_number: '23'
+  street_name: Calle Sup
+  street_address: Calle Sup
+  postal_code: '29590'
+  province:
+  city: Málaga
+  region: Andalucía
+  country: Spain
+  latitude: 36.73234
+  longitude: -4.52615000000003
+  plot_area: 0
+  constructed_area: 90.0
+  energy_rating:
+  energy_performance:
+  title_en: Example flat to rent.
+  title_es: Ejemplo de un piso para arrendar.
+  description_en: Description of the amazing flat to rent.
+  description_es: Descripción de una flat estupenda para arrendar
+  photo_files:
+    - db/example_images/flat_balcony.jpg
+    - db/example_images/lounge_cosy.jpg
+  # photo_urls:
+  #   - https://inmo-a.s3.amazonaws.com/us/gooddeals/property/18/IMG_20160311_165938_2982a36e0a.jpg
+  #   - https://inmo-a.s3.amazonaws.com/us/gooddeals/property/15/IMG_20160311_165813_bbb7304f64.jpg
