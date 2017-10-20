@@ -3,7 +3,12 @@ module Pwb
     protect_from_forgery with: :exception
 
     before_action :footer_content, :current_agency_and_website, :nav_links,
-      :set_locale, :set_theme_path
+      :set_locale, :set_theme_path, :set_currency
+
+    private
+    def set_currency
+      @current_currency = "usd"
+    end
 
     def set_theme_path
       theme_name = Website.unique_instance.theme_name
@@ -42,7 +47,7 @@ module Pwb
       { locale: I18n.locale }
     end
 
-    private
+
 
     def current_agency_and_website
       @current_agency ||= Agency.unique_instance

@@ -178,14 +178,16 @@ module Pwb
       else
         contextual_price = price_sale_current
       end
-      contextual_price
+      Money.add_rate("USD", "EUR", 2.3456)
+      contextual_price.exchange_to("EUR")
       # .zero? ? nil : contextual_price.format(:no_cents => true)
     end
 
     # will return nil if price is 0
-    def contextual_price_with_currency(rent_or_sale)
+    def contextual_price_with_currency(rent_or_sale, current_currency = nil)
       contextual_price = self.contextual_price rent_or_sale
-
+      if current_currency != nil
+      end
       if contextual_price.zero?
         return nil
       else
