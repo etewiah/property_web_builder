@@ -138,6 +138,7 @@ module Pwb
             end
           end
         end
+        print("success!")
       end
 
       def create_photos_from_files photo_files, photo_class
