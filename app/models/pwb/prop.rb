@@ -178,9 +178,18 @@ module Pwb
       else
         contextual_price = price_sale_current
       end
-      Money.add_rate("USD", "EUR", 2.3456)
-      contextual_price.exchange_to("EUR")
+      currency_converter(contextual_price)
       # .zero? ? nil : contextual_price.format(:no_cents => true)
+    end
+
+    def currency_converter(price_to_convert)
+      Money.add_rate("USD", "YEN", 2.3456)
+      Money.add_rate("USD", "EUR", 5.3456)
+      if price_to_convert.currency == "USD"
+        price_to_convert.exchange_to("EUR")
+      else
+        price_to_convert.exchange_to("YEN")
+      end  
     end
 
     # will return nil if price is 0

@@ -7,7 +7,7 @@ module Pwb
 
     private
     def set_currency
-      @current_currency = "usd"
+      @current_currency = "YEN"
     end
 
     def set_theme_path
