@@ -1,0 +1,160 @@
+---
+it:
+  aboutUs: Su di noi
+  address: Indirizzo
+  back: Indietro
+  changePassword: Cambia Password
+  contact:
+    emailSubject: Contatto dal tuo sito
+    error: Spiacenti, è avvenuto un errore.
+    success: Grazie per il vostro messaggio. Vi ricontatteremo presto!
+  contactUs: Contattaci
+  contactUsPrompt: Compilate il seguente modulo per contattarci
+  devise:
+    user_update_success: Avete aggiornato il vostro account con successo.
+    user_update_success_title: Congratulazioni
+  editarPropiedad: Modifica una proprietà
+  email: Email
+  'false': 'No'
+  findAProperty: Trova una proprità
+  findByReference: Trova tramite riferimento
+  forRent: In Affitto
+  forSale: In Vendita
+  go: Vai
+  labels:
+    create: Crea
+    edit: Modifica
+    latestProperties: Proprietà più recenti
+    new: Nuova
+    ourServices: I nostri servizi
+    save: Salva
+  leaveBlank: Lascia in bianco se non vuoi modificarlo
+  legalAdvice: Informazioni legali
+  listadoPropiedades: Lista delle proprietà
+  mailers:
+    confirm_registration: Vi preghiamo di confermare il vostro account attraverso il LINK sottostante
+    from: Da
+    general_enquiry_targeting_agency:
+      title: Richiesta di informazioni generiche dal vostro sito
+    general_enquiry_targeting_enquirer:
+      message_title: ''
+      subject: ''
+    message: Messaggio
+    phone: Tel
+    property: Proprietà
+    property_enquiry_targeting_agency:
+      title: Richiesta di informazioni su una proprietà
+    received_on: Ricevuto su
+    welcome: Benvenuti
+  menu_admin: amministratore
+  message: Messaggio
+  name: Nome
+  navbar:
+    aboutUs: Su di noi
+    admin: Amministratore
+    buy: Compra
+    contactUs: Contattaci
+    home: Home
+    legalAdvice: Informazioni legali
+    privacyPolicy: Politica sulla riservatezza
+    rent: Affitta
+    sell: Vendi
+  needCurrentPwd: abbiamo bisogno della vostra password attuale per confermare i cambiamenti
+  newPassword: Nuova Password
+  noResultsForSearch: Spiacenti, nessun risultato
+  nuevoPropiedad: Nuova proprietà
+  orderBy:
+    priceAscending: "↓ Prezzo (ascendente)"
+    priceDescending: "↑ Prezzo (decrescente)"
+  pages:
+    aboutUs: Su di noi
+    sell: Vendi
+  placeHolders:
+    email: La vostra email
+    message: Scrivete qui il vostro messaggio
+    name: Il vostro nome
+    subject: Suggetto
+    tel: Fisso o mobile
+  privacyPolicy: Politica sulla riservatezza
+  property:
+    description: Descrizione
+    details: Dettagli
+    extras: Specifiche
+    furniture: Arredo
+    goToProperty: Vai alla proprietà
+    highlightedProperty: Proprietà in risalto
+    locality: Località
+    map: Mappa
+    monthlyRentalPriceHighSeason: Prezzo Mensile (Alta Stagione)
+    monthlyRentalPriceLowSeason: Prezzo Mensile (Bassa Stagione)
+    monthlyRentalPriceStandardSeason: Prezzo Mensile (Media Stagione)
+    operationType: Tipo di operazione
+    price: Prezzo
+    propertyType: Tipo di proprietà
+    ref: Ref
+  propertyForRent: Proprietà in affitto
+  propertyForSale: Propietà in vendita
+  propertyNotFound: Proprietà non trovata
+  pwb:
+    copyright: "%{company_name}. Tutti i diritti riservati."
+    createPrompt: Crea il sito della tua agenzia
+    createTagLine: Perfavore inserisci i dettagli del tuo account
+    getStarted: Inizia adesso
+    registerNow: Registrati ora
+    tagLine: Siti professionali per agenzie immobiliari in pochi minuti
+    tagLineExt: Siti internet stupendi che devono essere visti per poterci credere.<br>Nessuno
+      ti mette online più velocemente.
+  requestPropertyInfo: Richiedi informazioni
+  search: Cerca
+  searchForProperties: Cerca proprietà
+  selectpicker:
+    countSelectedText: Selezionati {0} di {1}
+    noneResultsText: Nessun risultato trovato {0}
+    noneSelectedText: Nessuna selezione
+  send: Invia
+  setup:
+    claimSubdomain: Ottienu questo URL
+    createdSuccessfully: Sito creato con successo
+    goToYourSite: Vai al tuo sito
+    loggedInAs: 'Accesso effettuato come '
+    logout: Esci
+    selectUrl: Seleziona un url
+    selectUrlMessage: Hai creato un account con successo - adesso scegli l'url
+      del tuo nuovo sito
+    subdomain: sottodominio
+    subdomainMissing: Vi preghiamo di inserire un nome per il sottodominio
+    thankYouForTrusting: Grazie per aver scelto %{company_name}
+    urlNotAvailable: Spiacenti, questo url  non è disponibile
+    weAreCreatingSite: Stiamo creando il vostro sito
+  signOut: Esci
+  simple_form:
+    error_notification:
+      default_message: 'Vi preghiamo di revisionare i problemi qui sotto:'
+    labels:
+      search:
+        count_bathrooms: Bagni (min)
+        count_bedrooms: Camere (min)
+        for_rent_price_from: Affitto da (Mensile)
+        for_rent_price_till: Affitto a (Mensile)
+        for_sale_price_from: Prezzi da
+        for_sale_price_till: Prezzi a
+        in_locality: Località
+        in_zone: Zona
+        locality: Località
+        property_state: Stato della proprietà
+        property_type: Tipologia della proprietà
+    'no': 'No'
+    required:
+      mark: "*"
+      text: mandatorio
+    'yes': 'Si'
+  subject: Soggetto
+  tel: Telefono
+  'true': 'Si'
+  update: Aggiorna
+  webContentSections:
+    aboutUs: Su di noi
+    contactInformation: Contatti per Informazioni
+    home: Home
+    sell: Vendi
+    tagLine: sotto titolo
