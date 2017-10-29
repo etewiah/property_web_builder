@@ -114,6 +114,7 @@ Please consider making a contribution to the development of PropertyWebBuilder. 
 I would like PropertyWebBuilder to be available in as many languages as possible so any help with translations will be much appreciated.  A basic Spanish version of this document can be found here:
 [https://github.com/etewiah/property_web_builder/blob/master/README_es.md](https://github.com/etewiah/property_web_builder/blob/master/README_es.md)
 
+<!-- 
 ---
 
 Thanks to the awesome [Locale](http://www.localeapp.com/) contributing to the translations is super easy!
@@ -121,7 +122,7 @@ Thanks to the awesome [Locale](http://www.localeapp.com/) contributing to the tr
 - Edit the translations directly on the [property_web_builder](http://www.localeapp.com/projects/public?search=property_web_builder) project on Locale.
 - **That's it!**
 - The maintainer will then pull translations from the Locale project and push to Github.
-
+-->
 
 ## Contributors
 
