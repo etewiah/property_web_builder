@@ -51,13 +51,13 @@ vi:
   message: Tin nhắn
   name: Tên
   navbar:
-    aboutUs: Về chúng tôi
+    about-us: Về chúng tôi
     admin: quản trị
     buy: Mua
-    contactUs: Liên hệ với chúng tôi
+    contact-us: Liên hệ với chúng tôi
     home: Nhà
-    legalAdvice: Thông báo pháp lý
-    privacyPolicy: Chính sách bảo mật
+    legal: Thông báo pháp lý
+    privacy: Chính sách bảo mật
     rent: Thuê
     sell: Bán
   needCurrentPwd: Chúng tôi cần mật khẩu hiện tại của bạn để xác nhận thay đổi của
@@ -77,7 +77,7 @@ vi:
     name: Tên của bạn
     subject: Tiêu đề
     tel: Điện thoại cố định hoặc di động
-  privacyPolicy: Chính sách bảo mật
+  # privacyPolicy: Chính sách bảo mật
   property:
     description: Sự miêu tả
     details: Chi tiết

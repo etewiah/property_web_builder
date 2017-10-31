@@ -50,13 +50,13 @@ it:
   message: Messaggio
   name: Nome
   navbar:
-    aboutUs: Su di noi
+    about-us: Su di noi
     admin: Amministratore
     buy: Compra
-    contactUs: Contattaci
+    contact-us: Contattaci
     home: Home
-    legalAdvice: Informazioni legali
-    privacyPolicy: Politica sulla riservatezza
+    legal: Informazioni legali
+    privacy: Politica sulla riservatezza
     rent: Affitta
     sell: Vendi
   needCurrentPwd: abbiamo bisogno della vostra password attuale per confermare i cambiamenti
@@ -75,7 +75,7 @@ it:
     name: Il vostro nome
     subject: Suggetto
     tel: Fisso o mobile
-  privacyPolicy: Politica sulla riservatezza
+  # privacyPolicy: Politica sulla riservatezza
   property:
     description: Descrizione
     details: Dettagli
