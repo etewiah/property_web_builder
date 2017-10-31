@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-* New CMS functionality
+* New CMS functionality (#22)
 * Add Portuguese as an admin language
 * Add preset color palettes
 * Require Rails 5.1.0 or above

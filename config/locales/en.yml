@@ -50,13 +50,13 @@ en:
   message: Message
   name: Name
   navbar:
-    aboutUs: About Us
+    about-us: About Us
     admin: Admin
     buy: Buy
-    contactUs: Contact
+    contact-us: Contact
     home: Home
-    legalAdvice: Legal Notice
-    privacyPolicy: Privacy Policy
+    legal: Legal Notice
+    privacy: Privacy Policy
     rent: Rent
     sell: Sell
   needCurrentPwd: we need your current password to confirm your changes
@@ -75,7 +75,7 @@ en:
     name: Your name
     subject: Subject
     tel: Fixed or mobile
-  privacyPolicy: Privacy Policy
+  # privacyPolicy: Privacy Policy
   property:
     description: Description
     details: Details
