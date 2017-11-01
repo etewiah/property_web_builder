@@ -104,9 +104,6 @@ module Pwb
               # in case translation cannot be found or link not associated with a page
               # take default link_title (English value)
               title_value = title_value || link_record.link_title
-              if title_value.blank?
-                byebug
-              end
               # set title_value as link_title
               link_record.update_attribute title_accessor, title_value
             end
