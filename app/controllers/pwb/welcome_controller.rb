@@ -6,13 +6,14 @@ module Pwb
 
     def index
       @page = Pwb::Page.find_by_slug "home"
-
+      @page_title = @current_agency.company_name
       # visible_page_fragment_names = @page.present? ? @page.details["visiblePageParts"] : []
       @content_to_show = []
 
       # @page.ordered_visible_contents.each do |page_content|
       # above does not get ordered correctly
       if @page.present?
+        @page_title = @page.page_title + ' - ' + @current_agency.company_name        
         @page.ordered_visible_page_contents.each do |page_content|
           @content_to_show.push page_content.content.raw
         end

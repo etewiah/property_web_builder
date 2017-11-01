@@ -52,12 +52,12 @@ en:
   navbar:
     about-us: About Us
     admin: Admin
-    buy: Buy
+    buy: Properties to buy
     contact-us: Contact
     home: Home
     legal: Legal Notice
     privacy: Privacy Policy
-    rent: Rent
+    rent: Properties to rent
     sell: Sell
   needCurrentPwd: we need your current password to confirm your changes
   newPassword: New Password
