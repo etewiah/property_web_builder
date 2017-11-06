@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 * Add Portuguese as an admin language
 * Add preset color palettes
 * Require Rails 5.1.0 or above
+* Fix issue with seeding content (#38)
 
 ## 1.2.0 / 2017-08-23
 

@@ -5,7 +5,7 @@ module Pwb
     # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
     globalize_accessors locales: I18n.available_locales
 
-    belongs_to :page, foreign_key: "page_slug", primary_key: "slug"
+    belongs_to :page, optional: true, foreign_key: "page_slug", primary_key: "slug"
 
     # below needed to avoid "... is not an attribute known to Active Record" warnings
     attribute :link_title
