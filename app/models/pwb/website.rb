@@ -173,13 +173,7 @@ module Pwb
     end
 
     def render_google_analytics
-      return false unless Rails.env == "production"
-      if self.analytics_id.present?
-        return true
-      else
-        return false
-      end
-
+      Rails.env.production? && analytics_id.present?
     end
   end
 end
