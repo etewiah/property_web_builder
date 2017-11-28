@@ -176,8 +176,11 @@ module Pwb
         contextual_price = price_rental_monthly_for_search
         # contextual_price = self.rental_price
       else
+        # byebug a essayer
         contextual_price = price_sale_current
+
       end
+
       currency_converter(contextual_price)
       # .zero? ? nil : contextual_price.format(:no_cents => true)
     end
@@ -195,7 +198,8 @@ module Pwb
     # will return nil if price is 0
     def contextual_price_with_currency(rent_or_sale, current_currency = nil)
       contextual_price = self.contextual_price rent_or_sale
-      if current_currency != nil
+      if @current_currency != nil
+        
       end
       if contextual_price.zero?
         return nil

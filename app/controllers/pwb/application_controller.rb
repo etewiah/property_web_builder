@@ -7,7 +7,11 @@ module Pwb
 
     private
     def set_currency
-      @current_currency = "YEN"
+     
+      # currency entered by the agency
+      @current_currency = params["currency"]
+      
+      # original_currency = Pwb::Prop.price_sale_original_currency
     end
 
     def set_theme_path

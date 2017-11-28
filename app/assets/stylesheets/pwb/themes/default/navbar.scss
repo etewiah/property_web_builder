@@ -1,3 +1,7 @@
+.col-sm-2 .hidden-xs .dropdown .open {
+  z-index: 99999;  
+}
+
 .nav {
   margin-bottom: 0;
   padding-left: 0;
@@ -541,6 +545,7 @@ header .navbar-wp .navbar-brand {
     padding: 8px 45px !important;
     border-bottom: 1px solid #e0eded;
     color: #333
+
   }
   .navbar-wp .dropdown-menu ul.mega-nav-ul.arrow-li li a {
     padding-left: 12px
@@ -551,9 +556,11 @@ header .navbar-wp .navbar-brand {
     position: absolute;
     left: 0;
     color: #333
+    
   }
   .navbar-wp .dropdown-menu ul.mega-nav-ul.arrow-li li a:hover {
     color: #3498db
   }
+  
 }
 

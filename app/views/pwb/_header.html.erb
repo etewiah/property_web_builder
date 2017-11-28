@@ -11,7 +11,16 @@
             <i class="fa fa-envelope fa-lg"></i><%= @current_agency.email_primary %>
           <% end %>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-2 hidden-xs dropdown" style="
+    z-index: 99999;" >
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Currency
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li><a href="">EUROS</a></li>
+            <li><a href="?curr=usd">DOLLARS</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-4">
           <% if @current_website.is_multilingual && not_devise %>
             <div class="contenedor_idiomas" style="">
               <ul class="idiomas">
@@ -32,6 +41,7 @@
     <div class="navbar navbar-wp navbar-arrow mega-nav" role="navigation">
       <div class="container">
         <div class="navbar-header">
+
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <i class="fa fa-bars icon-custom"></i>
           </button>
