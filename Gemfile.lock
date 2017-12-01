@@ -1,4 +1,19 @@
 GIT
+  remote: git://github.com/RealEstateWebTools/property_web_scraper.git
+  revision: 3ba8ae070ad886a0668c663a1fbc12e2fc918eb8
+  specs:
+    property_web_scraper (0.1.0)
+      active_hash
+      faraday
+      firebase
+      flag_shih_tzu
+      jquery-rails
+      money-rails (~> 1)
+      nokogiri
+      rack-cors
+      rails (>= 5.0.0)
+
+GIT
   remote: git://github.com/fredngo/paloma.git
   revision: 40a84f5dfa5d1ba6b515cecc87470428333f81d6
   specs:
@@ -257,6 +272,7 @@ GEM
       pry (~> 0.10)
     public_suffix (2.0.5)
     rack (2.0.3)
+    rack-cors (1.0.2)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.1.3)
@@ -401,6 +417,7 @@ DEPENDENCIES
   json_spec
   paloma!
   poltergeist
+  property_web_scraper!
   pry-byebug
   pwb!
   rails (~> 5.1.1)

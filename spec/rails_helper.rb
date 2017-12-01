@@ -38,7 +38,7 @@ RSpec.configure do |config|
   config.fixture_path = "#{Pwb::Engine.root}/spec/fixtures"
   # above used by fixture_file_upload
   # eg in:
-  # /Users/etewiah/Ed/sites-2016-oct-pwb/pwb/spec/services/pwb/import_properties_spec.rb
+  # /pwb/spec/services/pwb/import_properties_spec.rb
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
