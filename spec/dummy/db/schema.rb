@@ -10,10 +10,91 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171011212930) do
+ActiveRecord::Schema.define(version: 20171201161324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "property_web_scraper_import_hosts", id: :serial, force: :cascade do |t|
+    t.integer "flags", default: 0, null: false
+    t.string "scraper_name"
+    t.string "host"
+    t.boolean "is_https"
+    t.json "details", default: {}
+    t.string "slug"
+    t.text "example_urls", default: [], array: true
+    t.text "invalid_urls", default: [], array: true
+    t.datetime "last_retrieval_at"
+    t.string "valid_url_regex"
+    t.string "pause_between_calls", default: "5.seconds"
+    t.string "stale_age", default: "1.day"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["host"], name: "index_property_web_scraper_import_hosts_on_host", unique: true
+  end
+
+  create_table "property_web_scraper_listings", id: :serial, force: :cascade do |t|
+    t.integer "flags", default: 0, null: false
+    t.integer "area_unit", default: 0, null: false
+    t.string "reference"
+    t.integer "year_construction", default: 0, null: false
+    t.integer "count_bedrooms", default: 0, null: false
+    t.float "count_bathrooms", default: 0.0, null: false
+    t.integer "count_toilets", default: 0, null: false
+    t.integer "count_garages", default: 0, null: false
+    t.float "plot_area", default: 0.0, null: false
+    t.float "constructed_area", default: 0.0, null: false
+    t.integer "energy_rating"
+    t.float "energy_performance"
+    t.string "title"
+    t.text "description"
+    t.string "locale_code"
+    t.boolean "furnished", default: false
+    t.boolean "sold", default: false
+    t.boolean "reserved", default: false
+    t.boolean "for_rent_short_term", default: false
+    t.boolean "for_rent_long_term", default: false
+    t.boolean "for_sale", default: false
+    t.boolean "for_rent", default: false
+    t.datetime "available_to_rent_from"
+    t.datetime "available_to_rent_till"
+    t.string "price_string"
+    t.float "price_float"
+    t.integer "price_sale_cents", default: 0, null: false
+    t.string "price_sale_currency", default: "EUR", null: false
+    t.integer "price_rental_cents", default: 0, null: false
+    t.string "price_rental_currency", default: "EUR", null: false
+    t.string "currency"
+    t.string "address_string"
+    t.string "street_number"
+    t.string "street_name"
+    t.string "street_address"
+    t.string "postal_code"
+    t.string "province"
+    t.string "city"
+    t.string "region"
+    t.string "country"
+    t.float "latitude"
+    t.float "longitude"
+    t.datetime "last_retrieved_at"
+    t.string "import_host_slug"
+    t.integer "re_agent_id"
+    t.string "import_url"
+    t.json "import_history", default: {}
+    t.string "main_image_url"
+    t.text "image_urls", default: [], array: true
+    t.text "related_urls", default: [], array: true
+    t.text "features", default: [], array: true
+    t.text "unknown_fields", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flags"], name: "index_property_web_scraper_listings_on_flags"
+    t.index ["import_url"], name: "index_property_web_scraper_listings_on_import_url"
+    t.index ["price_float"], name: "index_property_web_scraper_listings_on_price_float"
+    t.index ["price_rental_cents"], name: "index_property_web_scraper_listings_on_price_rental_cents"
+    t.index ["price_sale_cents"], name: "index_property_web_scraper_listings_on_price_sale_cents"
+    t.index ["reference"], name: "index_property_web_scraper_listings_on_reference"
+  end
 
   create_table "pwb_addresses", id: :serial, force: :cascade do |t|
     t.float "longitude"
