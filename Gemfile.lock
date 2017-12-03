@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/RealEstateWebTools/property_web_scraper.git
-  revision: 84391cc8925f47b2274aca961647dd61922c3eb8
+  revision: 6f6d25ef2014338d25abbbf5462d1d57ed278135
   specs:
     property_web_scraper (0.1.0)
       active_hash
