@@ -22,7 +22,7 @@ module Pwb
           # propertyJSON
         else
           begin
-            new_prop = Pwb::Prop.create(propertyJSON.except( "features", "property_photos"))
+            new_prop = Pwb::Prop.create(propertyJSON.except( "features", "property_photos", "locale_code"))
             # new_prop = Pwb::Prop.create(propertyJSON.except("features", "property_photos", "image_urls", "last_retrieved_at"))
             
             # create will use website defaults for currency and area_unit
