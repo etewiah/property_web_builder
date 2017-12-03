@@ -24,6 +24,21 @@ module Pwb
           begin
             new_prop = Pwb::Prop.create(propertyJSON.except( "features", "property_photos"))
             # new_prop = Pwb::Prop.create(propertyJSON.except("features", "property_photos", "image_urls", "last_retrieved_at"))
+            
+            # create will use website defaults for currency and area_unit
+            # need to override that
+            if propertyJSON["currency"]
+              new_prop.currency = propertyJSON["currency"]
+              new_prop.save!
+            end
+            if propertyJSON["area_unit"]
+              new_prop.area_unit = propertyJSON["area_unit"]
+              new_prop.save!
+            end
+
+            # TODO - go over supported locales and save title and description 
+            # into them
+
             if propertyJSON["features"]
               new_prop.set_extras=propertyJSON["features"]
             end
