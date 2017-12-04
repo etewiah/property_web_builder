@@ -2,6 +2,15 @@ module Pwb
   class ApiPublic::V1::PropResource < JSONAPI::Resource
     model_name 'Pwb::Prop'
 
+    attributes :title, :description
+    attributes :title_en, :description_en
+    attributes :title_es, :description_es
+    attributes :title_it, :description_it
+    attributes :title_de, :description_de
+    attributes :title_ru, :description_ru
+    attributes :title_pt, :description_pt
+    attributes :title_fr, :description_fr
+
     attributes :area_unit, :photos, :property_photos, :extras
     attributes :street_address, :street_number, :postal_code
     attributes :city, :region, :currency
@@ -10,8 +19,6 @@ module Pwb
     attributes :count_bathrooms, :count_bedrooms, :count_garages, :count_toilets
     attributes :constructed_area, :year_construction, :plot_area
     attributes :prop_type_key, :prop_state_key, :prop_origin_key
-
-    attributes :title_es, :title_en, :title_ar, :description_es, :description_en, :description_ar
 
     attributes :for_sale, :for_rent_short_term, :for_rent_long_term, :obscure_map, :hide_map
 

@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 * Add preset color palettes
 * Require Rails 5.1.0 or above
 * Fix issue with seeding content (#38)
+* Add Italian translations
+* Use property-web-scraper to import from web pages
 
 ## 1.2.0 / 2017-08-23
 
