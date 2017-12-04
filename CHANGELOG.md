@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 1.3.0 / 2017-12-04
+
 * New CMS functionality (#22)
 * Add Portuguese as an admin language
 * Add preset color palettes
