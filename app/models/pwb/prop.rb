@@ -196,10 +196,10 @@ module Pwb
     end
 
     # will return nil if price is 0
-    def contextual_price_with_currency(rent_or_sale, current_currency = nil)
+    def contextual_price_with_currency(rent_or_sale, current_currency)
       contextual_price = self.contextual_price rent_or_sale
-      if @current_currency != nil
-        
+      if current_currency != nil
+        return current_currency
       end
       if contextual_price.zero?
         return nil

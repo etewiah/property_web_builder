@@ -7,9 +7,10 @@ module Pwb
 
     private
     def set_currency
-     
+     # binding.pry
       # currency entered by the agency
       @current_currency = params["currency"]
+      # @myvariable="hello super world!"
       
       # original_currency = Pwb::Prop.price_sale_original_currency
     end
