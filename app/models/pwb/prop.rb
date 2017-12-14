@@ -178,33 +178,37 @@ module Pwb
       else
         # byebug a essayer
         contextual_price = price_sale_current
-
       end
-
-      currency_converter(contextual_price)
+      # byebug
+      # currency_converter(contextual_price)
       # .zero? ? nil : contextual_price.format(:no_cents => true)
     end
 
-    def currency_converter(price_to_convert)
-      Money.add_rate("USD", "YEN", 2.3456)
-      Money.add_rate("USD", "EUR", 5.3456)
-      if price_to_convert.currency == "USD"
-        price_to_convert.exchange_to("EUR")
-      else
-        price_to_convert.exchange_to("YEN")
+    def currency_converter(price_to_convert, current_currency)
+      # byebug
+      if current_currency.upcase == price_to_convert.currency.iso_code
+        return price_to_convert
+      else  
+        Money.add_rate("EUR", "USD", 2.3456)
+        Money.add_rate("USD", "EUR", 5.3456)
+        
+        price_to_convert.exchange_to(current_currency)
       end  
     end
 
     # will return nil if price is 0
     def contextual_price_with_currency(rent_or_sale, current_currency)
+      # byebug
       contextual_price = self.contextual_price rent_or_sale
-      if current_currency != nil
-        return current_currency
-      end
       if contextual_price.zero?
         return nil
       else
-        return contextual_price.format(no_cents: true)
+        # contextual_price.format(no_cents: true)
+        if current_currency != nil
+          new_val = self.currency_converter(contextual_price, current_currency)
+          # launch the currency converter 
+          return new_val.format(no_cents: true)
+        end
       end
       # return contextual_price.zero? ? nil : contextual_price.format(:no_cents => true)
     end
