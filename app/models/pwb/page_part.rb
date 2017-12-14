@@ -3,7 +3,7 @@
 # Resulting html content is stored in page content model
 module Pwb
   class PagePart < ApplicationRecord
-    belongs_to :page, foreign_key: "page_slug", primary_key: "slug"
+    belongs_to :page, optional: true, foreign_key: "page_slug", primary_key: "slug"
 
     def as_json(options = nil)
       super({only: [

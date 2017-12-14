@@ -50,13 +50,13 @@ tr:
   message: Mesaj
   name: isim
   navbar:
-    aboutUs: Hakkımızda
+    about-us: Hakkımızda
     admin: Panel
     buy: Satın Al
-    contactUs: İletişim
+    contact-us: İletişim
     home: Anasayfa
-    legalAdvice: Yasal Uyarı
-    privacyPolicy: Gizlilik Politikası
+    legal: Yasal Uyarı
+    privacy: Gizlilik Politikası
     rent: Kirala
     sell: Sat
   needCurrentPwd: Değişikliklerinizi onaylamak için mevcut şifrenize ihtiyacımız var
@@ -75,7 +75,7 @@ tr:
     name: Adınız
     subject: konu
     tel: Sabit veya cep telefonunuz
-  privacyPolicy: Gizlilik Politikası
+  # privacyPolicy: Gizlilik Politikası
   property:
     description: Açıklama
     details: Ayrıntılar

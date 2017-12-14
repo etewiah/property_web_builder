@@ -125,7 +125,7 @@ module Pwb
     end
 
     # currently only used in
-    # /Users/etewiah/Ed/sites-2016-oct-pwb/pwb/spec/controllers/pwb/welcome_controller_spec.rb
+    # /pwb/spec/controllers/pwb/welcome_controller_spec.rb
     def set_fragment_html page_part_key, locale, new_fragment_html
       # content_key = slug + "_" + page_part_key
       # save in content model associated with page

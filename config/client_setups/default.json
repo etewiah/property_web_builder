@@ -74,15 +74,15 @@
       "localeVariants": ["de-DE"]
     },
     {
+      "labelTextTKey": "it",
+      "fieldName": "it",
+      "localeVariants": ["it-IT"]
+    },
+    {
       "labelTextTKey": "pt",
       "fieldName": "pt",
       "localeVariants": ["pt-PT", "pt-BR"],
       "isNotComplete": true
-    },
-    {
-      "labelTextTKey": "es",
-      "fieldName": "es",
-      "localeVariants": ["es-ES", "es-MX", "es-CL"]
     },
     {
       "labelTextTKey": "ru",
@@ -90,17 +90,23 @@
       "localeVariants": ["ru-RU"]
     },
     {
-      "labelTextTKey": "vi",
-      "fieldName": "vi",
-      "localeVariants": ["vi-VI"],
-      "isNotComplete": true
+      "labelTextTKey": "es",
+      "fieldName": "es",
+      "localeVariants": ["es-ES", "es-MX", "es-CL"]
     },
     {
       "labelTextTKey": "tr",
       "fieldName": "tr",
       "localeVariants": ["tr-TR"],
       "isNotComplete": true
+    },
+    {
+      "labelTextTKey": "vi",
+      "fieldName": "vi",
+      "localeVariants": ["vi-VI"],
+      "isNotComplete": true
     }
+
     // }, {
     //   "labelTextTKey": "hi",
     //   "fieldName": "hi",
