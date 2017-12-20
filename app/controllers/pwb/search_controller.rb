@@ -31,7 +31,18 @@ module Pwb
 
     # ordering of results happens client-side with paloma search.js
     def buy
-      @page_title = I18n.t("searchForProperties")
+      @page = Pwb::Page.find_by_slug "buy"
+      @page_title = @current_agency.company_name
+      # @content_to_show = []
+      if @page.present?
+        @page_title = @page.page_title + ' - ' + @current_agency.company_name        
+        # TODO - allow addition of custom content
+        # @page.ordered_visible_page_contents.each do |page_content|
+        #   @content_to_show.push page_content.content.raw
+        # end
+      end
+
+      # @page_title = I18n.t("searchForProperties")
       # in erb template for this action, I have js that will render search_results template
       # for properties - like search_ajax action does
       @operation_type = "for_sale"
@@ -65,7 +76,17 @@ module Pwb
 
     # TODO: - avoid duplication b/n rent and buy
     def rent
-      @page_title = I18n.t("searchForProperties")
+      @page = Pwb::Page.find_by_slug "rent"
+      @page_title = @current_agency.company_name
+      # @content_to_show = []
+      if @page.present?
+        @page_title = @page.page_title + ' - ' + @current_agency.company_name        
+        # TODO - allow addition of custom content
+        # @page.ordered_visible_page_contents.each do |page_content|
+        #   @content_to_show.push page_content.content.raw
+        # end
+      end
+      # @page_title = I18n.t("searchForProperties")
       # in erb template for this action, I have js that will render search_results template
       # for properties - like search_ajax action does
       @operation_type = "for_rent"

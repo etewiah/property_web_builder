@@ -50,7 +50,7 @@ module Pwb
       end
 
       protected
-      
+
       def seed_contacts yml_file
         contacts_yml = load_seed_yml yml_file
         contacts_yml.each do |contact_yml|
@@ -81,8 +81,32 @@ module Pwb
       def seed_links yml_file
         links_yml = load_seed_yml yml_file
         links_yml.each do |single_link_yml|
-          unless Pwb::Link.where(slug: single_link_yml['slug']).count > 0
-            Pwb::Link.create!(single_link_yml)
+          link_record = Pwb::Link.find_by_slug(single_link_yml['slug'])
+          # unless Pwb::Link.where(slug: single_link_yml['slug']).count > 0
+          unless link_record.present?
+            link_record = Pwb::Link.create!(single_link_yml)
+          end
+
+          # below sets the link title text from I18n translations
+          # because setting the value in links.yml for each language
+          # is not feasible
+          I18n.available_locales.each do |locale|
+            title_accessor = 'link_title_' + locale.to_s
+            # if link_title has not been set for this locale
+            if link_record.send(title_accessor).blank?
+              # if link is associated with a page
+              if single_link_yml['page_slug']
+                translation_key = 'navbar.' + single_link_yml['page_slug']
+                # get the I18n translation
+                title_value = I18n.t(translation_key, :locale => locale, :default => nil)
+                title_value = title_value || I18n.t(translation_key, :locale => :en, :default => 'Unknown')
+              end
+              # in case translation cannot be found or link not associated with a page
+              # take default link_title (English value)
+              title_value = title_value || link_record.link_title
+              # set title_value as link_title
+              link_record.update_attribute title_accessor, title_value
+            end
           end
         end
       end

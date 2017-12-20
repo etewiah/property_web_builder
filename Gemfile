@@ -64,3 +64,5 @@ end
 
 gem 'paloma', github: 'fredngo/paloma'
 # gem 'bourbon'
+gem 'property_web_scraper', github: 'RealEstateWebTools/property_web_scraper'
+

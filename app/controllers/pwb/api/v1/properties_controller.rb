@@ -5,7 +5,6 @@ module Pwb
     skip_before_action :ensure_valid_accept_media_type
 
     # def set_default_currency
-    #   binding.pry
     #   @model
     # end
 
@@ -17,21 +16,44 @@ module Pwb
       new_props = []
       existing_props = []
       errors = []
-
       propertiesJSON.each do |propertyJSON|
         if Pwb::Prop.where(reference: propertyJSON["reference"]).exists?
-          existing_props.push propertyJSON
+          existing_props.push Pwb::Prop.find_by_reference propertyJSON["reference"]
+          # propertyJSON
         else
           begin
-            new_prop = Pwb::Prop.create propertyJSON.except "extras", "property_photos"
-            if propertyJSON["extras"]
-              new_prop.set_extras=propertyJSON["extras"]
+            new_prop = Pwb::Prop.create(propertyJSON.except( "features", "property_photos", "locale_code"))
+            # new_prop = Pwb::Prop.create(propertyJSON.except("features", "property_photos", "image_urls", "last_retrieved_at"))
+            
+            # create will use website defaults for currency and area_unit
+            # need to override that
+            if propertyJSON["currency"]
+              new_prop.currency = propertyJSON["currency"]
+              new_prop.save!
+            end
+            if propertyJSON["area_unit"]
+              new_prop.area_unit = propertyJSON["area_unit"]
+              new_prop.save!
+            end
+
+            # TODO - go over supported locales and save title and description 
+            # into them
+
+            if propertyJSON["features"]
+              new_prop.set_extras=propertyJSON["features"]
             end
             if propertyJSON["property_photos"]
-              propertyJSON["property_photos"].each do |property_photo|
+              # uploading images can slow things down so worth setting a limit
+              max_photos_to_process = 1
+              # TODO - retrieve above as a param
+              propertyJSON["property_photos"].each_with_index do |property_photo, index|
+                if index > max_photos_to_process
+                  return
+                end
                 photo = PropPhoto.create
                 photo.sort_order = property_photo["sort_order"] || nil
-                photo.remote_image_url = property_photo["image"]["url"] || property_photo["url"]
+                photo.remote_image_url = property_photo["url"]
+                # photo.remote_image_url = property_photo["image"]["url"] || property_photo["url"]
                 photo.save!
                 new_prop.prop_photos.push photo
               end
@@ -39,7 +61,6 @@ module Pwb
 
             new_props.push new_prop
           rescue => err
-            # binding.pry
             errors.push err.message
             # logger.error err.message
           end
