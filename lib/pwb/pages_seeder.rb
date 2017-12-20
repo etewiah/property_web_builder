@@ -50,8 +50,34 @@ module Pwb
       def seed_page yml_file
         page_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'pages', yml_file)
         page_yml = YAML.load_file(page_seed_file)
-        unless Pwb::Page.where(slug: page_yml[0]['slug']).count > 0
-          Pwb::Page.create!(page_yml)
+        # unless Pwb::Page.where(slug: page_yml[0]['slug']).count > 0
+        #   Pwb::Page.create!(page_yml)
+        # end
+
+        page_record = Pwb::Page.find_by_slug(page_yml[0]['slug'])
+        # unless Pwb::Page.where(slug: page_yml[0]['slug']).count > 0
+        unless page_record.present?
+          page_record = Pwb::Page.create!(page_yml[0])
+        end
+
+
+        # below sets the page title text from I18n translations
+        # because setting the value in each page yml for each language
+        # is not feasible
+        I18n.available_locales.each do |locale|
+          title_accessor = 'page_title_' + locale.to_s
+          # if page_title has not been set for this locale
+          if page_record.send(title_accessor).blank?
+            translation_key = 'navbar.' + page_record.slug
+            # get the I18n translation
+            title_value = I18n.t(translation_key, :locale => locale, :default => nil)
+            title_value = title_value || I18n.t(translation_key, :locale => :en, :default => 'Unknown')
+            # in case translation cannot be found
+            # take default page_title (English value)
+            title_value = title_value || page_record.page_title
+            # set title_value as page_title
+            page_record.update_attribute title_accessor, title_value
+          end
         end
       end
 

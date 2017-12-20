@@ -1,1 +1,0 @@
-I18n.available_locales = [:en, :ca, :es, :fr, :ar, :de, :ru, :pt, :vi, :tr]

@@ -16,14 +16,18 @@ module Pwb
 
       @content_to_show = []
       @page = Pwb::Page.find_by_slug "contact-us"
+      @page_title = @current_agency.company_name
+
       if @page.present?
+        if @page.page_title.present?
+          @page_title = @page.page_title + ' - ' + @current_agency.company_name.to_s                  
+        end
         @page.ordered_visible_page_contents.each do |page_content|
           @content_to_show.push page_content.get_html_or_page_part_key
         end
       end
 
-      @page_title = I18n.t("contactUs")
-
+      # @page_title = I18n.t("contactUs")
       @map_markers = []
       if @current_agency.show_contact_map
         @map_markers.push(

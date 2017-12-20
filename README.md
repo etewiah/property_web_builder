@@ -8,7 +8,7 @@ The result is that WordPress has become the dominant tool for creating real esta
 
 Read more about this here: [http://propertywebbuilder.com](http://propertywebbuilder.com)
 
-##[Demo](https://propertywebbuilder.herokuapp.com/)
+## [Demo](https://propertywebbuilder.herokuapp.com/)
 
 You can try out a demo at [https://propertywebbuilder.herokuapp.com](https://propertywebbuilder.herokuapp.com/)
 
@@ -16,16 +16,42 @@ To see the admin panel, login as user admin@example.com with a password of "pwb1
 
 ![pwb_iphone_landing](https://cloud.githubusercontent.com/assets/1741198/22990222/bfec0168-f3b8-11e6-89df-b950c4979970.png)
 
-## Rails Version
+You can see an example of a production site created with PropertyWebBuilder here:
 
-PropertyWebBuilder runs with Rails '>= 5.1.0'
+[http://re-renting.com](http://re-renting.com)
 
-## Ruby Version
+## Create your own real estate website with no technical knowledge
 
-PropertyWebBuilder runs with Ruby >= 2.0.0.
+The simplest way to create a website with PropertyWebBuilder is to use Heroku, a trusted service provider which has a free plan that you can use.
+
+Just [sign up for Heroku](https://signup.heroku.com/identity), click the button below and in a few minutes your site will be ready
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/etewiah/pwb-for-heroku)
+
+You may be asked for credit card details when you create an account but you will not be charged for creating and trying the website. You will only need to pay if you upgrade the service.  Here is a video about how to deploy to heroku:
+
+[![Depoly PWB to heroku](http://img.youtube.com/vi/hyapXTwGyr4/0.jpg)](http://www.youtube.com/watch?v=hyapXTwGyr4 "Deploy PWB to heroku")
 
 
-## Installation
+## Install as a standalone site
+
+PWB has been designed to be included as an engine in an existing Ruby on Rails app.  In this repo I have a Ruby on Rails app that includes PWB.  
+
+[https://github.com/etewiah/pwb-for-heroku](https://github.com/etewiah/pwb-for-heroku)
+
+As the name suggests, the project can be deployed to heroku but it can also be installed locally as follows:
+
+```bash
+git clone https://github.com/etewiah/pwb-for-heroku.git
+cd pwb-for-heroku
+rails db:create
+rails db:migrate
+rails pwb:db:seed
+rails pwb:db:seed_pages
+```
+
+
+## Installation within an existing Rails app
 
 Install into an existing Rails project by adding these lines in your applications's Gemfile:
 
@@ -35,7 +61,7 @@ gem 'globalize', git: 'https://github.com/globalize/globalize'
 gem 'paloma', github: 'fredngo/paloma'
 ```
 
-Also, be sure to use Postgres as your database (by having the "pg" gem and Postgres installed locally 
+Also, be sure to use Postgres as your database (by having the "pg" gem and Postgres installed locally - version 9.5 or above)
 And then execute:
 ```bash
 $ bundle
@@ -55,26 +81,14 @@ rails pwb:db:seed
 rails pwb:db:seed_pages
 ```
 
-## Deploying to Heroku
+## Rails Version
 
-PropertyWebBuilder can be deployed to heroku in a few minutes.
+PropertyWebBuilder runs with Rails '>= 5.1.0'
 
-You can use this sample project with full instructions on deploying to heroku:
+## Ruby Version
 
-[https://github.com/etewiah/pwb-for-heroku](https://github.com/etewiah/pwb-for-heroku)
+PropertyWebBuilder runs with Ruby >= 2.0.0.
 
-
-If you are too lazy to read about deploying, you can simply [sign up for Heroku](https://signup.heroku.com/identity) and click the button below:
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/etewiah/pwb-for-heroku)
-
-You can see an example of a site created with PropertyWebBuilder here:
-
-[http://re-renting.com](http://re-renting.com)
-
-And a video about how to deploy to heroku here:
-
-[![Depoly PWB to heroku](http://img.youtube.com/vi/hyapXTwGyr4/0.jpg)](http://www.youtube.com/watch?v=hyapXTwGyr4 "Deploy PWB to heroku")
 
 ## Features
 
@@ -114,6 +128,7 @@ Please consider making a contribution to the development of PropertyWebBuilder. 
 I would like PropertyWebBuilder to be available in as many languages as possible so any help with translations will be much appreciated.  A basic Spanish version of this document can be found here:
 [https://github.com/etewiah/property_web_builder/blob/master/README_es.md](https://github.com/etewiah/property_web_builder/blob/master/README_es.md)
 
+<!-- 
 ---
 
 Thanks to the awesome [Locale](http://www.localeapp.com/) contributing to the translations is super easy!
@@ -121,7 +136,7 @@ Thanks to the awesome [Locale](http://www.localeapp.com/) contributing to the tr
 - Edit the translations directly on the [property_web_builder](http://www.localeapp.com/projects/public?search=property_web_builder) project on Locale.
 - **That's it!**
 - The maintainer will then pull translations from the Locale project and push to Github.
-
+-->
 
 ## Contributors
 
