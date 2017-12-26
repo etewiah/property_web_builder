@@ -6,6 +6,12 @@ module Pwb
     # TODO - add favicon image (and logo image directly)
     # as well as details hash for storing pages..
 
+    include FlagShihTzu
+
+    has_flags 1 => :landing_hide_for_rent,
+      2 => :landing_hide_for_sale,
+      3 => :landing_hide_search_bar
+
     def self.unique_instance
       # there will be only one row, and its ID must be '1'
       begin

@@ -14,6 +14,7 @@ require 'cloudinary'
 require 'active_hash'
 require 'firebase'
 require "liquid"
+require "flag_shih_tzu"
 # require 'comfortable_mexican_sofa'
 
 # require 'redis'
