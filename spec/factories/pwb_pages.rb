@@ -8,7 +8,7 @@ FactoryGirl.define do
     # about_us will create page_part data after the page has been created
     # alternative discussed here:
     # https://stackoverflow.com/questions/10846732/factory-girl-create-association-with-existing-object
-    factory :about_us_page do
+    factory :about_us_page_with_page_part do
       # page_parts_count is declared as a transient attribute and available in
       # attributes on the factory, as well as the callback via the evaluator
       transient do
