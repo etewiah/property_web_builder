@@ -7,16 +7,12 @@ module Pwb
       # Called by this rake task:
       # rake app:pwb:db:seed_pages                                  1 ↵
       def seed_page_parts!
-        page_part_yml_filenames = [
-          "about-us__our_agency.yml", "about-us__content_html.yml",
-          "contact-us__form_and_map.yml", "contact-us__content_html.yml",
-          "home__landing_hero.yml", "home__about_us_services.yml", "home__content_html.yml",
-          "sell__content_html.yml",
-          "privacy__content_html.yml", "legal__content_html.yml"
-        ]
+        page_parts_dir = Pwb::Engine.root.join('db', 'yml_seeds', 'page_parts')
 
-        page_part_yml_filenames.each do |filename|
-          seed_page_part filename
+        page_parts_dir.children.each do |file|
+          if file.extname == ".yml"
+            seed_page_part file
+          end
         end
       end
 
@@ -82,9 +78,9 @@ module Pwb
       end
 
 
-      def seed_page_part yml_file
-        lf_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'page_parts', yml_file)
-        lf_yml = YAML.load_file(lf_seed_file)
+      def seed_page_part page_part_seed_file
+        # page_part_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'page_parts', yml_file)
+        lf_yml = YAML.load_file(page_part_seed_file)
         unless Pwb::PagePart.where({page_part_key: lf_yml[0]['page_part_key'],page_slug: lf_yml[0]['page_slug']}).count > 0
           Pwb::PagePart.create!(lf_yml)
         end

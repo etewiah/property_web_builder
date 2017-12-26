@@ -119,6 +119,9 @@ module Pwb
 
     def set_fragment_visibility page_part_key, visible_on_page
       page_fragment_content = contents.find_by_page_part_key page_part_key
+      unless page_fragment_content.present
+        return
+      end
       page_content_join_model = page_fragment_content.page_contents.find_by_page_id self.id
       page_content_join_model.visible_on_page = visible_on_page
       page_content_join_model.save!
