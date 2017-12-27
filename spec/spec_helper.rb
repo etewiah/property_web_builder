@@ -46,7 +46,7 @@ Rails.backtrace_cleaner.remove_silencers!
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 # ActionController::Base.prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/"
-# replaced above with below
+# replaced above with below in view specs so I can test diff themes
 # @controller.prepend_view_path "#{Pwb::Engine.root}/app/themes/berlin/views/"
 
 

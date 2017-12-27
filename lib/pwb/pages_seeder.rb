@@ -178,11 +178,14 @@ module Pwb
           end
         end
 
-        # save the block contents (in associated page_part model)
-        updated_details = page.set_page_part_block_contents page_part_key, locale, locale_block_content_json
-        # retrieve the contents saved above and use to rebuild html for that page_part
-        # (and save it in associated page_content model)
-        fragment_html = page.rebuild_page_content page_part_key, locale
+        # # save the block contents (in associated page_part model)
+        # updated_details = page.set_page_part_block_contents page_part_key, locale, locale_block_content_json
+        # # retrieve the contents saved above and use to rebuild html for that page_part
+        # # (and save it in associated page_content model)
+        # fragment_html = page.rebuild_page_content page_part_key, locale
+
+        result = page.update_page_part_content page_part_key, locale, locale_block_content_json
+
 
         p "#{page.slug} page #{page_part_key} content set for #{locale}."
       end
