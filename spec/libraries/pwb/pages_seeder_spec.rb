@@ -43,6 +43,8 @@ module Pwb
       expect(about_us_page_content.content_photos.count).to eq(1)
     end
 
+
+
     it 'creates home html content' do
       home_page = Pwb::Page.find_by_slug "home"
       content_key = "landing_hero"

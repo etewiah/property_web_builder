@@ -100,6 +100,7 @@ module Pwb
             # page_slug/page_part_key and then the block labels
 
             unless yml[locale] && yml[locale][page.slug] && yml[locale][page.slug][page_part_key]
+              p "no content for #{page.slug} page #{page_part_key} #{locale}."
               # where there is no content to populate
               # check if this is a rails_part (content is saved in a rails template)
               if page_part.is_rails_part
@@ -112,7 +113,7 @@ module Pwb
                 page_content_join_model.is_rails_part = true
                 page_content_join_model.save!
 
-                return
+                # return
               end
               # skip if there is no content to populate
               next
