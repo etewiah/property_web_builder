@@ -17,7 +17,8 @@ module Pwb
           @page_title = @page.page_title + ' - ' + @current_agency.company_name.to_s                  
         end
         @page.ordered_visible_page_contents.each do |page_content|
-          @content_to_show.push page_content.content.raw
+          @content_to_show.push page_content.get_html_or_page_part_key
+          # @content_to_show.push page_content.content.raw
         end
       end
       # @carousel_items = Content.where(tag: 'landing-carousel')

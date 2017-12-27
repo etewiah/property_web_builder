@@ -34,9 +34,7 @@ module Pwb
         # if I pass in a locale key and a blocks json element to the right method on the page
         # (the below method is called by admin page via API that passes in correctly
         # formated fragment_block)
-        @about_us_page.set_page_part_block_contents  @page_part_key, "en", @fragment_block
-
-
+        @about_us_page.update_page_part_content  @page_part_key, "en", @fragment_block
         about_us__content_html__page_part  = @about_us_page.page_parts.find_by_page_part_key @page_part_key
 
         # the corresponding page_part will have that json element correctly set
@@ -44,13 +42,12 @@ module Pwb
       end
 
       it 'builds page content correctly' do
-        @about_us_page.set_page_part_block_contents  @page_part_key, "en", @fragment_block
         about_us__content_html__page_part  = @about_us_page.page_parts.find_by_page_part_key @page_part_key
         about_us__content_html__page_part.template = '<div>{{ page_part["main_content"]["content"] %> }}</div>'
         about_us__content_html__page_part.save!
+        @about_us_page.update_page_part_content  @page_part_key, "en", @fragment_block
 
-        @about_us_page.rebuild_page_content @page_part_key, "en"
-
+        expect(@about_us_page.page_contents.first.page_part_key).to eq(@page_part_key)
         expect(@about_us_page.contents.first.raw_en).to eq("<div><p>Hola.</p></div>")
       end
 

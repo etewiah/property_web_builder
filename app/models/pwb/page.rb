@@ -144,6 +144,17 @@ module Pwb
       return page_fragment_content
     end
 
+
+    def update_page_part_content  page_part_key, locale, fragment_block
+      # save the block contents (in associated page_part model)
+      json_fragment_block = set_page_part_block_contents page_part_key, locale, fragment_block
+      # retrieve the contents saved above and use to rebuild html for that page_part
+      # (and save it in associated page_content model)
+      fragment_html = rebuild_page_content page_part_key, locale
+
+      return { json_fragment_block: json_fragment_block, fragment_html: fragment_html }
+    end
+
     # def parse_page_part page_part_key, content_for_pf_locale
 
     #   page_part = self.page_parts.find_by_page_part_key page_part_key
@@ -164,41 +175,6 @@ module Pwb
     #   return fragment_html
     # end
 
-    # Will retrieve saved page_part blocks and use that along with template
-    # to rebuild page_content html
-    def rebuild_page_content page_part_key, locale
-      page_part = self.page_parts.find_by_page_part_key page_part_key
-
-      if page_part.present?
-        l_template = Liquid::Template.parse(page_part.template)
-        new_fragment_html = l_template.render('page_part' => page_part.block_contents[locale]["blocks"] )
-        # p "#{page_part_key} content for #{self.slug} page parsed."
-        # save in content model associated with page
-        page_fragment_content = contents.find_or_create_by(page_part_key: page_part_key)
-        content_html_col = "raw_" + locale + "="
-        # above is the col used by globalize gem to store localized data
-        # page_fragment_content[content_html_col] = new_fragment_html
-        page_fragment_content.send content_html_col, new_fragment_html
-        page_fragment_content.save!
-
-      else
-        new_fragment_html = ""
-      end
-
-      return new_fragment_html
-    end
-
-    def set_page_part_block_contents page_part_key, locale, fragment_details
-      page_part = self.page_parts.find_by_page_part_key page_part_key
-      if page_part.present?
-        page_part.block_contents[locale] = fragment_details
-        page_part.save!
-        # fragment_details passed in might be a params object
-        # - retrieving what has just been saved will return it as JSON
-        fragment_details = page_part.block_contents[locale]
-      end
-      return fragment_details
-    end
 
 
     # def as_json(options = nil)
@@ -228,5 +204,56 @@ module Pwb
     # def page_fragment_blocks
     #   return details["fragments"]
     # end
+
+    private
+
+
+
+
+    # called by seeder and Api::V1::PageController to set block contents
+    # on page_part model
+    def set_page_part_block_contents page_part_key, locale, fragment_details
+      page_part = self.page_parts.find_by_page_part_key page_part_key
+      if page_part.present?
+        page_part.block_contents[locale] = fragment_details
+        page_part.save!
+        # fragment_details passed in might be a params object
+        # - retrieving what has just been saved will return it as JSON
+        fragment_details = page_part.block_contents[locale]
+      end
+
+      return fragment_details
+    end
+
+    # Will retrieve saved page_part blocks and use that along with template
+    # to rebuild page_content html
+    def rebuild_page_content page_part_key, locale
+      page_part = self.page_parts.find_by_page_part_key page_part_key
+
+      if page_part.present?
+        l_template = Liquid::Template.parse(page_part.template)
+        new_fragment_html = l_template.render('page_part' => page_part.block_contents[locale]["blocks"] )
+        # p "#{page_part_key} content for #{self.slug} page parsed."
+        # save in content model associated with page
+        page_fragment_content = contents.find_or_create_by(page_part_key: page_part_key)
+        content_html_col = "raw_" + locale + "="
+        # above is the col used by globalize gem to store localized data
+        # page_fragment_content[content_html_col] = new_fragment_html
+        page_fragment_content.send content_html_col, new_fragment_html
+        page_fragment_content.save!
+
+      else
+        new_fragment_html = ""
+      end
+
+      # set page_part_key value on join model
+      page_content_join_model = page_fragment_content.page_contents.find_by_page_id self.id
+      page_content_join_model.page_part_key = page_part_key
+      page_content_join_model.save!
+
+      return new_fragment_html
+    end
+
+
   end
 end
