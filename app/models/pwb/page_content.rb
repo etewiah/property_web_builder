@@ -1,8 +1,14 @@
 module Pwb
   class PageContent < ApplicationRecord
+    # join model for retrieving content for page
     belongs_to :page
     belongs_to :content
     # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
+
+    # this join model is used for sorting and visibility
+    # (instead of a value on the content itself) as it
+    # will allow use of same content by different pages
+    # with different settings for sorting and visibility
 
     scope :ordered_visible, -> () { where(visible_on_page: true).order('sort_order asc')  }
 

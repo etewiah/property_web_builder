@@ -98,12 +98,17 @@ module Pwb
             page_part_key = page_part.page_part_key
             # Items in each locale seed file are nested as
             # page_slug/page_part_key and then the block labels
+
             unless yml[locale] && yml[locale][page.slug] && yml[locale][page.slug][page_part_key]
+              # where there is no content to populate
+              # check if this is a rails_part (content is saved in a rails template)
               if page_part.is_rails_part
+
                 page_fragment_content = page.contents.find_or_create_by(page_part_key: page_part_key)
                 page_content_join_model = page_fragment_content.page_contents.find_by_page_id page.id
 
                 page_content_join_model.page_part_key = page_part_key
+                # set is_rails_part on join_model too
                 page_content_join_model.is_rails_part = true
                 page_content_join_model.save!
 
