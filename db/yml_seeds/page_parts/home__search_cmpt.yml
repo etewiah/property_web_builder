@@ -1,24 +1,18 @@
 - page_slug: home
+  is_rails_part: true
+  # is_vue_component: true
   page_part_key: search_cmpt
   block_contents: {}
-  order_in_editor: 2,
+  order_in_editor: 1,
   show_in_editor: true,
   editor_setup: {
-      "tabTitleKey": "pageSections.rawHtml.title",
-      "tabInfoKey": "pageSections.rawHtml.info",
-      "default_sort_order": 2,
-      "default_visible_on_page": false,
+      "tabTitleKey": "pageSections.contactUsFormAndMap.title",
+      "tabInfoKey": "pageSections.contactUsFormAndMap.info",
+      "default_sort_order": 1,
+      "default_visible_on_page": true,
       "editorBlocks": [
-        [
-        {
-          "label": "main_content",
-          "isHtml": "true"
-        }]
       ]
     }
   template: 
-    <section class="content-html-section" >
-      <div class="bst-container">
-        {{ page_part["main_content"]["content"] %> }}
-      </div>
-    </section>
+    <div>
+    </div>
