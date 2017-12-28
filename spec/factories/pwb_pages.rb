@@ -4,6 +4,18 @@ FactoryGirl.define do
     #   association :page_parts, factory: :pwb_page_part, page_part_key: "our_agency"
     # end
 
+    # trait :home_page do
+    #   slug "home"
+    # end
+
+
+    factory :home_page_with_page_part do
+      slug "home"
+      after(:create) do |page, evaluator|
+        # content_html is a pwb_page_part trait
+        create(:pwb_page_part, :content_html, page: page)
+      end
+    end
 
     # about_us will create page_part data after the page has been created
     # alternative discussed here:

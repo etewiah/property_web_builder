@@ -242,14 +242,15 @@ module Pwb
         page_fragment_content.send content_html_col, new_fragment_html
         page_fragment_content.save!
 
+        # set page_part_key value on join model
+        page_content_join_model = page_fragment_content.page_contents.find_by_page_id self.id
+        page_content_join_model.page_part_key = page_part_key
+        page_content_join_model.save!
+
+
       else
         new_fragment_html = ""
       end
-
-      # set page_part_key value on join model
-      page_content_join_model = page_fragment_content.page_contents.find_by_page_id self.id
-      page_content_join_model.page_part_key = page_part_key
-      page_content_join_model.save!
 
       return new_fragment_html
     end

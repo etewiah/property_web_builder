@@ -11,7 +11,10 @@
       "default_sort_order": 1,
       "default_visible_on_page": true,
       "editorBlocks": [
-      ]
+      ],
+      "defaultVueData": {
+        "fromPricesRent" : [100]
+      }
     }
   template: 
     <div>
