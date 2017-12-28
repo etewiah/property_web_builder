@@ -7,15 +7,8 @@
     </div>
   <% end %>
 </div>
-<% if @current_website.configuration["show_landing_searchbar"]  %>
-  <div class="landing-search-container row fondo_secundario">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-      <%= render '/pwb/search/search_form_landing' %>
-    </div>
-    <div class="col-md-1"></div>
-  </div>
-<% end  %>
+
+<%= page_component "search_cmpt", @composed_content[:components] %>
 
 
 <%# render '/pwb/welcome/content_area_cols' %>

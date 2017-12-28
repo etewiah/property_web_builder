@@ -14,14 +14,14 @@ module Pwb
 
     # if the page_content represents a rails_page_part, will return the page_part_key
     # else will return the raw html
-    def get_html_or_page_part_key
-      if self.is_rails_part
-        # page_part_key
-        return page_part_key
-      else
-        return content.present? ? content.raw : nil
-      end
-    end
+    # def get_html_or_page_part_key
+    #   if self.is_rails_part
+    #     # page_part_key
+    #     return page_part_key
+    #   else
+    #     return content.present? ? content.raw : nil
+    #   end
+    # end
 
     def as_json(options = nil)
       super({only: [
