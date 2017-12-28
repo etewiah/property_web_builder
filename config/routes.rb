@@ -122,7 +122,7 @@ Pwb::Engine.routes.draw do
         put "/pages" => "page#update"
         put "/pages/page_part_visibility" => "page#update_page_part_visibility"
         put "/pages/page_fragment" => "page#save_page_fragment"
-        get "/pages/:page_name" => "page#get"
+        get "/pages/:page_name" => "page#show"
 
         # post '/page_fragments/photos/:page_id/:block_label' => 'page_fragments#set_photo'
 

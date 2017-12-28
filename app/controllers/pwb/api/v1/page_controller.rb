@@ -3,7 +3,7 @@ require_dependency "pwb/application_controller"
 module Pwb
   class Api::V1::PageController < ApplicationApiController
     # protect_from_forgery with: :null_session
-    def get
+    def show
       # admin_setup = Pwb::CmsPageContainer.where(name: params[:page_name]).first || {}
       # render json: admin_setup.as_json_for_admin["attributes"]
       page = Pwb::Page.find_by_slug(params[:page_name])
@@ -60,7 +60,7 @@ module Pwb
     def save_page_fragment
       page = Page.find_by_slug params[:page_slug]
       fragment_details = params[:fragment_details]
-      unless fragment_details["locale"]
+      unless fragment_details && fragment_details["locale"]
         return render_json_error 'Please provide locale'
       end
       locale = fragment_details["locale"]
@@ -78,7 +78,7 @@ module Pwb
       # # (and save it in associated page_content model)
       # fragment_html = page.rebuild_page_content page_part_key, locale
 
-      result = page.update_page_part_content page_part_key, locale, fragment_details
+      result_to_return = page.update_page_part_content page_part_key, locale, fragment_details
 
       # # Check if an image url has been set
       # fragment_details.each do |fragment_detail|
@@ -91,8 +91,8 @@ module Pwb
       # end
 
       return render json: {
-        blocks: result[:json_fragment_block],
-        html: result[:fragment_html]
+        blocks: result_to_return[:json_fragment_block],
+        html: result_to_return[:fragment_html]
       }
     end
 
