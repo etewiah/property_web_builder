@@ -13,11 +13,62 @@
 
   Vue.component('simple-form', {
     template: '#simple-form',
+    // props: ['items'],
     data: function() {
       return {
         dialog: false,
 
+      rightDrawer: false,
+      right: true,
+      search: '',
+      errText: '',
+      pagination: {},
+      snackbar: false,
+        headers: [
+          {
+            text: 'Dessert (100g serving)',
+            align: 'left',
+            sortable: false,
+            value: 'name'
+          },
+          { text: 'Calories', value: 'calories' },
+          { text: 'Fat (g)', value: 'fat' },
+          { text: 'Carbs (g)', value: 'carbs' },
+          { text: 'Protein (g)', value: 'protein' },
+          { text: 'Sodium (mg)', value: 'sodium' },
+          { text: 'Calcium (%)', value: 'calcium' },
+          { text: 'Iron (%)', value: 'iron' }
+        ],
+        items: [
+          {
+            value: false,
+            name: 'Frozen Yogurt',
+            calories: 159,
+            fat: 6.0,
+            carbs: 24,
+            protein: 4.0,
+            sodium: 87,
+            calcium: '14%',
+            iron: '1%'
+          },
+          {
+            value: false,
+            name: 'Ice cream sandwich',
+            calories: 237,
+            fat: 9.0,
+            carbs: 37,
+            protein: 4.3,
+            sodium: 129,
+            calcium: '8%',
+            iron: '1%'
+          }
+        ]
       }
+    },
+    computed: {},
+    mounted: function() {
+      // debugger
+      // this.getCustomers()
     }
   })    
 
@@ -45,6 +96,8 @@
           { avatar: '/static/doc-images/lists/3.jpg', title: 'Oui oui', subtitle: "<span class='grey--text text--darken-2'>Sandra Adams</span> — Do you have Paris recommendations? Have you ever been?" }
         ],
 
+
+        props: [],
         rightDrawer: false,
         right: true,
         search: '',
@@ -63,68 +116,6 @@
           { text: 'Order Record', value: 'orderRecord' },
           { text: 'Active', value: 'isActive' },
           { text: '', value: '' }
-        ],
-        items: [{
-            "isActive": false,
-            "age": 21,
-            "id": 2,
-            "firstName": "Larsen",
-            "lastName": "Shaw",
-            "email": "abc@test.com",
-            "avatar": "/assets/img/avatar3.png",
-            "orders": [{
-                "id": 2,
-                "reference": "order-2-2-1-2",
-                "customerId": 2,
-                "products": [{
-                    "id": 1,
-                    "productName": "Product HHYDP",
-                    "categoryId": 1,
-                    "unitInStock": null,
-                    "unitPrice": 18
-                  },
-                  {
-                    "id": 2,
-                    "productName": "Product RECZE",
-                    "categoryId": 1,
-                    "unitInStock": null,
-                    "unitPrice": 19
-                  }
-                ],
-                "amount": 9.99,
-                "orderDate": "2017-01-01",
-                "shippedDate": "2017-01-01",
-                "shipAddress": {
-                  "address": "Gran Vía, 0123",
-                  "city": "Madrid",
-                  "zipcode": "10298",
-                  "country": "Spain"
-                }
-              },
-              {
-                "id": 12,
-                "reference": "order-2-12-1-2",
-                "customerId": 2,
-                "products": [{
-                  "id": 5,
-                  "productName": "Product EPEIM",
-                  "categoryId": 2,
-                  "unitInStock": null,
-                  "unitPrice": 21.5
-                }],
-                "amount": 49.99,
-                "orderDate": "2017-01-01",
-                "shippedDate": "2017-01-01",
-                "shipAddress": {
-                  "address": "Gran Vía, 0123",
-                  "city": "Madrid",
-                  "zipcode": "10298",
-                  "country": "Spain"
-                }
-              }
-            ]
-          }
-
         ],
         searchVm: {
           contains: {
@@ -223,10 +214,6 @@
         //   console.log(err)
         // })
       }
-    },
-    computed: {},
-    mounted: function() {
-      this.getCustomers()
     }
 
 
