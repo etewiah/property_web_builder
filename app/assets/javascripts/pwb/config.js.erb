@@ -31,6 +31,11 @@ const router = new VueRouter({
       name: 'form',
       component: simpleForm,
     }, {
+      path: '/list',
+      name: 'list',
+      component: simpleList,
+      props: true
+    }, {
       path: '/about',
       name: 'about',
       component: aboutPage,
@@ -51,6 +56,7 @@ new Vue({
     source: String
   },
   data: {
+    props: [],
     errText: 'none',
     dark: false,
     theme: 'primary',
@@ -69,13 +75,19 @@ new Vue({
         router: true
       },
       {
-        icon: 'form',
+        icon: 'list',
+        text: 'list',
+        href: 'list',
+        router: true
+      },
+      {
+        icon: 'content_copy',
         text: 'form',
         href: 'form',
         router: true
       },
       {
-        icon: 'about',
+        icon: 'content_copy',
         text: 'about',
         href: 'about',
         router: true
