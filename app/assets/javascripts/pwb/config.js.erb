@@ -1,137 +1,126 @@
-  Vue.component('about-page', {
-    template: '#about-page',
-    data: function() {
-      return {
-        dialog: false,
+//= require pwb/config/components
 
-      }
-    }
-  })
-
-  Vue.component('images-page', {
-    template: '#images-page',
-    data: function() {
-      return {
-        dialog: false,
-
-      }
-    }
-  })
-
-  // imagesPage 
-  const imagesPage = {
-    template: `<images-page></images-page>`
-  }
+// simpleForm 
+const simpleForm = {
+  template: `<simple-form></simple-form>`
+}
 
 
-  // aboutPage 
-  const aboutPage = {
-    template: `<about-page></about-page>`
-  }
+// aboutPage 
+const aboutPage = {
+  template: `<about-page></about-page>`
+}
 
-  // Dog page
-  const dog = {
-    template: `<v-card>
+// Dog page
+const dog = {
+  template: `<v-card>
     <img src="http://loremflickr.com/320/240/dog" />
   </v-card>`
-  }
+}
 
-  // Vue Router
-  Vue.use(VueRouter);
-  const router = new VueRouter({
-    routes: [{
-        path: '/',
-        name: 'home',
-        component: aboutPage
+// Vue Router
+Vue.use(VueRouter);
+const router = new VueRouter({
+  routes: [{
+      path: '/',
+      name: 'home',
+      component: aboutPage
+    },
+    {
+      path: '/form',
+      name: 'form',
+      component: simpleForm,
+    }, {
+      path: '/about',
+      name: 'about',
+      component: aboutPage,
+    }, {
+      path: '/dog',
+      name: 'dog',
+      component: dog
+    }
+  ]
+})
+
+
+
+new Vue({
+  router,
+  el: '#app',
+  props: {
+    source: String
+  },
+  data: {
+    errText: 'none',
+    dark: false,
+    theme: 'primary',
+    mini: false,
+    drawer: true,
+    locales: ['en-US', 'zh-CN'],
+    colors: ['blue', 'green', 'purple', 'red'],
+    dialog: false,
+    clipped: false,
+    drawer: true,
+    fixed: false,
+    items: [{
+        icon: 'bubble_chart',
+        title: 'Inspire',
+        href: 'home',
+        router: true
       },
       {
-        path: '/images',
-        name: 'images',
-        component: imagesPage,
-      }, {
-        path: '/about',
-        name: 'about',
-        component: aboutPage,
-      }, {
-        path: '/dog',
-        name: 'dog',
-        component: dog
-      }
-    ]
-  })
+        icon: 'form',
+        text: 'form',
+        href: 'form',
+        router: true
+      },
+      {
+        icon: 'about',
+        text: 'about',
+        href: 'about',
+        router: true
+      },
+      {
+        icon: 'contacts',
+        text: 'Contacts',
+        href: 'dog',
+        router: true
+      },
+      { icon: 'history', text: 'Frequently contacted' },
+      { icon: 'content_copy', text: 'Duplicates' },
+      {
+        icon: 'keyboard_arrow_up',
+        'icon-alt': 'keyboard_arrow_down',
+        text: 'Labels',
+        model: true,
+        children: [
+          { icon: 'add', text: 'Create label' }
+        ]
+      },
+      {
+        icon: 'keyboard_arrow_up',
+        'icon-alt': 'keyboard_arrow_down',
+        text: 'More',
+        model: false,
+        children: [
+          { text: 'Import' },
+          { text: 'Export' },
+          { text: 'Print' },
+          { text: 'Undo changes' },
+          { text: 'Other contacts' }
+        ]
+      },
+      { icon: 'settings', text: 'Settings' },
+      { icon: 'chat_bubble', text: 'Send feedback' },
+      { icon: 'help', text: 'Help' },
+      { icon: 'phonelink', text: 'App downloads' },
+      { icon: 'keyboard', text: 'Go to the old version' }
 
 
-
-  new Vue({
-    router,
-    el: '#app',
-    props: {
-      source: String
-    },
-    data: {
-      dialog: false,
-      clipped: false,
-      drawer: true,
-      fixed: false,
-      items: [{
-          icon: 'bubble_chart',
-          title: 'Inspire',
-          href: 'home',
-          router: true
-        },
-        {
-          icon: 'images',
-          text: 'images',
-          href: 'images',
-          router: true
-        },
-        {
-          icon: 'about',
-          text: 'about',
-          href: 'about',
-          router: true
-        },
-        {
-          icon: 'contacts',
-          text: 'Contacts',
-          href: 'dog',
-          router: true
-        },
-        { icon: 'history', text: 'Frequently contacted' },
-        { icon: 'content_copy', text: 'Duplicates' },
-        {
-          icon: 'keyboard_arrow_up',
-          'icon-alt': 'keyboard_arrow_down',
-          text: 'Labels',
-          model: true,
-          children: [
-            { icon: 'add', text: 'Create label' }
-          ]
-        },
-        {
-          icon: 'keyboard_arrow_up',
-          'icon-alt': 'keyboard_arrow_down',
-          text: 'More',
-          model: false,
-          children: [
-            { text: 'Import' },
-            { text: 'Export' },
-            { text: 'Print' },
-            { text: 'Undo changes' },
-            { text: 'Other contacts' }
-          ]
-        },
-        { icon: 'settings', text: 'Settings' },
-        { icon: 'chat_bubble', text: 'Send feedback' },
-        { icon: 'help', text: 'Help' },
-        { icon: 'phonelink', text: 'App downloads' },
-        { icon: 'keyboard', text: 'Go to the old version' }
-
-
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
-    }
-  })
+    ],
+    miniVariant: false,
+    right: true,
+    rightDrawer: false,
+    title: 'Config for PWB'
+  }
+})
