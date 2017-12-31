@@ -18,13 +18,30 @@
                 <v-icon light>print</v-icon>
               </v-btn>
         </v-card-title>
-        <v-data-table v-bind:headers="headers" v-bind:items="items" v-bind:search="search" v-bind:pagination.sync="pagination" hide-actions
-          class="elevation-1">
+
+ <v-data-table
+      v-bind:headers="headers"
+      v-bind:items="items"
+      hide-actions
+      class="elevation-1"
+    >
 
 
 
+    <template slot="items" slot-scope="props">
+  
+      <td class="text-xs-right">{{ props.item }}</td>    
+    </template>
 
-        </v-data-table>
+
+   <template slot="no-data">
+      <v-alert :value="true" color="error" icon="warning">
+        Sorry, nothing to display here :(
+      </v-alert>
+    </template>
+  </v-data-table>
+
+
         <div class="text-xs-center pt-2">
           <v-pagination v-model="pagination.page" ></v-pagination>
         </div>
