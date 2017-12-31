@@ -1,0 +1,40 @@
+<script type="text/x-template" id="simple-form">
+  <v-container fluid>
+    <v-flex xs12>
+      <v-card>
+        <v-card-title>
+          Customers
+          <v-spacer></v-spacer>
+              <v-btn floating small light class="blue-grey" @click.native.stop="rightDrawer = !rightDrawer">
+                          <v-icon light>search</v-icon>
+                        </v-btn>
+                        &nbsp;
+               <v-btn floating small class="purple" @click.native="add">
+                <v-icon light>add</v-icon>
+              </v-btn>
+              &nbsp;
+           
+                <v-btn floating small class="grey" @click.native="print">
+                <v-icon light>print</v-icon>
+              </v-btn>
+        </v-card-title>
+        <v-data-table v-bind:headers="headers" v-bind:items="items" v-bind:search="search" v-bind:pagination.sync="pagination" hide-actions
+          class="elevation-1">
+
+
+
+
+        </v-data-table>
+        <div class="text-xs-center pt-2">
+          <v-pagination v-model="pagination.page" ></v-pagination>
+        </div>
+      </v-card>
+    </v-flex>
+
+
+        <v-snackbar :timeout="2500" :top="true" :error="true" :multi-line="true" v-model="snackbar">
+                  {{ errText }}
+            <v-btn flat light @click.native="snackbar = false">Close</v-btn>
+        </v-snackbar>
+  </v-container>
+</script>
