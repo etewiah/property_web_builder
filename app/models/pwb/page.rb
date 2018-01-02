@@ -36,22 +36,22 @@ module Pwb
 
     # scope :visible_in_admin, -> () { where visible: true  }
 
-    def compose_contents
-      content_to_show = []
-      components = []
-      ordered_visible_page_contents.each do |page_content|
-        if page_content.is_rails_part
-          components.push page_content.page_part_key
-        else
-          content = page_content.content.present? ? page_content.content.raw : ""
-          content_to_show.push content
-        end
-      end
-      return {
-        content_to_show: content_to_show,
-        components: components
-      }
-    end
+    # def compose_contents
+    #   content_to_show = []
+    #   components = []
+    #   ordered_visible_page_contents.each do |page_content|
+    #     if page_content.is_rails_part
+    #       components.push page_content.page_part_key
+    #     else
+    #       content = page_content.content.present? ? page_content.content.raw : ""
+    #       content_to_show.push content
+    #     end
+    #   end
+    #   return {
+    #     content_to_show: content_to_show,
+    #     components: components
+    #   }
+    # end
 
     # used by page_controller to create a photo (from upload) that can
     # later be used in fragment html

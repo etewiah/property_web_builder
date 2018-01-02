@@ -1,14 +1,12 @@
 <% page_title @page_title  %>
 <%= render '/pwb/meta_tags' %>
 <div class="row ">
-  <% @content_to_show.each do |content| %>
-    <div class="col-md-12">
-      <%== content %>
-    </div>
+  <% @page.ordered_visible_page_contents.each do |page_content| %>
+    <%= page_part page_content %>
   <% end %>
 </div>
 
-<%= page_component "search_cmpt", @composed_content[:components] %>
+<%= page_component "search_cmpt", @page %>
 
 
 <%# render '/pwb/welcome/content_area_cols' %>

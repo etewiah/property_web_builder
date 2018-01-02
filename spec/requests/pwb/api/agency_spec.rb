@@ -90,6 +90,8 @@ module Pwb
         expect(response.status).to eq 200 # successful
         # @agency.reload
         # byebug
+        expect(response.body).to have_json_path("setup/currencyFieldKeys")
+
         expect(response.body).to have_json_path("agency")
         expect(response.body).to have_json_path("primary_address")
         expect(response.body).to have_json_path("agency")
