@@ -28,6 +28,7 @@ Pwb::Engine.routes.draw do
       get "/admin-1/*path" => "admin_panel#show_legacy_1"
     end
     get '/config' => 'config#show'
+    get '/config/:params' => 'config#show'
 
   end
 

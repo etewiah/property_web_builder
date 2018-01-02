@@ -117,6 +117,13 @@
         }
       }
     },
+    mounted() {
+      axios.get("/api/v1/agency")
+        .then(response => {
+          // debugger
+          this.listItems = response.data.website.admin_page_links
+        })
+    },
     methods: {
       print() {
         window.print()
@@ -138,70 +145,6 @@
             this.errText = 'Status has not be deleted successfully. Please try again.'
           })
         })
-      },
-      changeStatus(item) {
-        item.isActive = !item.isActive
-        this.api.putData('customers/' + item.id.toString(), item).then((res) => {
-          // this.$router.push('Customers')
-        }, (err) => {
-          console.log(err)
-          this.snackbar = true
-          this.errText = 'Status has not be updated successfully. Please try again.'
-          item.isActive = !item.isActive
-        })
-      },
-      searchCustomers() {
-        this.rightDrawer = !this.rightDrawer
-        this.appUtil.buildSearchFilters(this.searchVm)
-        let query = this.appUtil.buildJsonServerQuery(this.searchVm)
-
-        this.api.getData('customers?' + query).then((res) => {
-
-          this.items = res.data
-          this.items.forEach((item) => {
-            if (item.orders && item.orders.length) {
-              item.orderRecord = item.orders.length
-            } else {
-              item.orderRecord = 0
-            }
-          })
-        }, (err) => {
-          console.log(err)
-        })
-      },
-      clearSearchFilters() {
-
-        this.rightDrawer = !this.rightDrawer
-        this.appUtil.clearSearchFilters(this.searchVm)
-
-        this.api.getData('customers').then((res) => {
-          this.items = res.data
-          this.items.forEach((item) => {
-            if (item.orders && item.orders.length) {
-              item.orderRecord = item.orders.length
-            } else {
-              item.orderRecord = 0
-            }
-          })
-          console.log(this.items)
-        }, (err) => {
-          console.log(err)
-        })
-      },
-      getCustomers() {
-        // this.api.getData('customers?_embed=orders').then((res) => {
-        //   this.items = res.data
-        //   this.items.forEach((item) => {
-        //     // item.avatar = '/assets/' + item.avatar
-        //     if (item.orders && item.orders.length) {
-        //       item.orderRecord = item.orders.length
-        //     } else {
-        //       item.orderRecord = 0
-        //     }
-        //   })
-        // }, (err) => {
-        //   console.log(err)
-        // })
       }
     }
 
