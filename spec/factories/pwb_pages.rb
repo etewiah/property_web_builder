@@ -14,6 +14,7 @@ FactoryGirl.define do
       after(:create) do |page, evaluator|
         # content_html is a pwb_page_part trait
         create(:pwb_page_part, :content_html, page: page)
+        create(:page_content_with_content, page: page)
       end
     end
 

@@ -28,22 +28,13 @@
 </section>
 
 
-<div class="row">
-  <% @content_to_show.each do |content| %>
-    <div class="col-md-12">
-      <%== content %>
-    </div>
+<div class="row ">
+  <% @page.ordered_visible_page_contents.each do |page_content| %>
+    <%= page_part page_content %>
   <% end %>
 </div>
-<% if @current_website.configuration["show_landing_searchbar"]  %>
-  <div class="landing-search-container row fondo_secundario">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-      <%= render '/pwb/search/search_form_landing' %>
-    </div>
-    <div class="col-md-1"></div>
-  </div>
-<% end  %>
+
+<%= page_component "search_cmpt", @page %>
 
 
 <%# render '/pwb/welcome/landing_carousel' %>
