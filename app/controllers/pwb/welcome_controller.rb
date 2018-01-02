@@ -7,14 +7,12 @@ module Pwb
     def index
       @page = Pwb::Page.find_by_slug "home"
       @page_title = @current_agency.company_name
-      @content_to_show = []
+      # @content_to_show = []
 
       if @page.present?
         if @page.page_title.present?
           @page_title = @page.page_title + ' - ' + @current_agency.company_name.to_s
         end
-
-        # @composed_content = @page.compose_contents
 
         @properties_for_sale = Prop.for_sale.visible.order('highlighted DESC').limit 9
         @properties_for_rent = Prop.for_rent.visible.order('highlighted DESC').limit 9
