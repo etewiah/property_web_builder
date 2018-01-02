@@ -13,19 +13,18 @@
 
   Vue.component('simple-form', {
     template: '#simple-form',
-    // props: ['items'],
+    props: ['dtItems', 'sectionName'],
     data: function() {
       return {
         dialog: false,
-
-      rightDrawer: false,
-      right: true,
-      search: '',
-      errText: '',
-      pagination: {},
-      snackbar: false,
-        headers: [
-          {
+        sectionName: "zero",
+        rightDrawer: false,
+        right: true,
+        search: '',
+        errText: '',
+        pagination: {},
+        snackbar: false,
+        headers: [{
             text: 'Dessert (100g serving)',
             align: 'left',
             sortable: false,
@@ -39,55 +38,45 @@
           { text: 'Calcium (%)', value: 'calcium' },
           { text: 'Iron (%)', value: 'iron' }
         ],
-        items: [
-          {
-            value: false,
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            sodium: 87,
-            calcium: '14%',
-            iron: '1%'
-          },
-          {
-            value: false,
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-            sodium: 129,
-            calcium: '8%',
-            iron: '1%'
-          }
-        ]
+        dtItems: []
       }
     },
-    computed: {},
+    computed: {
+      dtItems: {
+        get() {
+          return this.$store.state.itemsForDataTable || []
+        },
+        set(value) {
+          this.$store.commit('updateDtItems', value)
+        }
+      }
+    },
+
+
     mounted: function() {
+      // this.sectionName = "one"
       // debugger
+      // this.dtItems = []
       // this.getCustomers()
     }
-  })    
+  })
 
   const simpleList = Vue.component('simple-list', {
     template: '#simple-list',
-  //   data: function() {
-  //     return {
-  //       dialog: false,
+    //   data: function() {
+    //     return {
+    //       dialog: false,
 
-  //     }
-  //   }
-  // })
+    //     }
+    //   }
+    // })
 
-  // Vue.component('simple-form', {
-  //   template: '#simple-form',
+    // Vue.component('simple-form', {
+    //   template: '#simple-form',
     data: function() {
       return {
         props: null,
-       listItems: [
+        listItems: [
           { header: 'Today' },
           { avatar: '/static/doc-images/lists/1.jpg', title: 'Brunch this weekend?', subtitle: "<span class='grey--text text--darken-2'>Ali Connors</span> — I'll be in your neighborhood doing errands this weekend. Do you want to hang out?" },
           { divider: true, inset: true },

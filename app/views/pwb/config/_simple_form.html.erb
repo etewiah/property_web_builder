@@ -19,9 +19,11 @@
               </v-btn>
         </v-card-title>
 
+{{ this.sectionName  }}
+
  <v-data-table
       v-bind:headers="headers"
-      v-bind:items="items"
+      :items="dtItems"
       hide-actions
       class="elevation-1"
     >
@@ -29,7 +31,6 @@
 
 
     <template slot="items" slot-scope="props">
-  
       <td class="text-xs-right">{{ props.item }}</td>    
     </template>
 
