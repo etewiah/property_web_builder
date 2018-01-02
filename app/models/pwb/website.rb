@@ -26,8 +26,11 @@ module Pwb
       end
     end
 
+    # These are a list of links for pages to be 
+    # displayed in the pages section of the 
+    # admin site
     def admin_page_links
-      # return update_admin_page_links
+      # 
       if self.configuration["admin_page_links"].present?
         return configuration["admin_page_links"]
       else
@@ -38,6 +41,9 @@ module Pwb
     # TODO - call this each time a page
     # needs to be added or
     # deleted from admin
+    # jan 2018 - currently if a link title is updated
+    # the admin_page_links cached in configuration
+    # do not get updated
     def update_admin_page_links
       admin_page_links = []
       Pwb::Link.ordered_visible_admin.each do |link|

@@ -4,12 +4,12 @@
   page_part_key: search_cmpt
   block_contents: {}
   order_in_editor: 1,
-  show_in_editor: true,
+  show_in_editor: false,
   editor_setup: {
-      "tabTitleKey": "pageSections.contactUsFormAndMap.title",
-      "tabInfoKey": "pageSections.contactUsFormAndMap.info",
+      "tabTitleKey": "pageSections.homeSearchComponent.title",
+      "tabInfoKey": "pageSections.homeSearchComponent.info",
       "default_sort_order": 1,
-      "default_visible_on_page": true,
+      "default_visible_on_page": false,
       "editorBlocks": [
       ],
       "defaultVueData": {

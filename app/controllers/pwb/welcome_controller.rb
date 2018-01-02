@@ -13,15 +13,8 @@ module Pwb
         if @page.page_title.present?
           @page_title = @page.page_title + ' - ' + @current_agency.company_name.to_s
         end
-        # TODO - move below into a service class
-        @composed_content = @page.compose_contents
-        # @page.ordered_visible_page_contents.each do |page_content|
-        #   @content_to_show.push page_content.get_html_or_page_part_key
-        #   # @content_to_show.push page_content.content.raw
-        # end
-        # @carousel_items = Content.where(tag: 'landing-carousel')
-        # @carousel_speed = 3000
-        # @content_area_cols = Content.where(tag: 'content-area-cols').order('sort_order')
+
+        # @composed_content = @page.compose_contents
 
         @properties_for_sale = Prop.for_sale.visible.order('highlighted DESC').limit 9
         @properties_for_rent = Prop.for_rent.visible.order('highlighted DESC').limit 9
