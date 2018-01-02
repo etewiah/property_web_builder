@@ -1,4 +1,5 @@
 //= require pwb/config/components
+//= require pwb/config/store
 
 // simpleForm 
 const simpleForm = {
@@ -47,9 +48,9 @@ const router = new VueRouter({
 })
 
 
-
-new Vue({
+var vm = new Vue({
   router,
+  store,
   el: '#app',
   props: {
     source: String
