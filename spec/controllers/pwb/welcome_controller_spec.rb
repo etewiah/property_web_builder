@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 module Pwb
   RSpec.describe WelcomeController, type: :controller do
     routes { Pwb::Engine.routes }

@@ -51,25 +51,35 @@
         }
       }
     },
-
-
     mounted: function() {
       // this.sectionName = "one"
-      // debugger
       // this.dtItems = []
       // this.getCustomers()
     }
   })
 
+  const fbImport = Vue.component('fb-import', {
+    template: '#fb-import',
+    firebase: function() {
+      return {
+        listItems: {
+          source: fbDb.ref('client-props'),
+          // asObject: true,
+          // Optional, allows you to handle any errors.
+          cancelCallback(err) {
+            console.error(err);
+          }
+        }
+      }
+    },
+    updated() {
+      // debugger
+      // a breakpoint here will let me inspect the contents returned from firebase
+    }
+  })
   const simpleList = Vue.component('simple-list', {
     template: '#simple-list',
-    //   data: function() {
-    //     return {
-    //       dialog: false,
 
-    //     }
-    //   }
-    // })
 
     // Vue.component('simple-form', {
     //   template: '#simple-form',
@@ -120,7 +130,6 @@
     mounted() {
       axios.get("/api/v1/agency")
         .then(response => {
-          // debugger
           this.listItems = response.data.website.admin_page_links
         })
     },
