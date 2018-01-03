@@ -1,3 +1,4 @@
+//= require firebase-4.0.0
 //= require pwb/config/components
 //= require pwb/config/store
 
@@ -22,6 +23,8 @@ const dog = {
 // Vue Router
 Vue.use(VueRouter);
 const router = new VueRouter({
+  mode: 'history',
+  base: '/config/',
   routes: [{
       path: '/',
       name: 'home',
@@ -36,6 +39,10 @@ const router = new VueRouter({
       name: 'list',
       component: simpleList
     }, {
+      path: '/fb-import',
+      name: 'fb-import',
+      component: fbImport
+    }, {
       path: '/about',
       name: 'about',
       component: aboutPage,
@@ -46,6 +53,17 @@ const router = new VueRouter({
     }
   ]
 })
+
+
+var firebaseApp = firebase.initializeApp({
+  // apiKey: process.env.FIREBASE_API,
+  authDomain: '<%= Rails.application.secrets.fb_instance_id %>.firebaseapp.com',
+  databaseURL: 'https://<%= Rails.application.secrets.fb_instance_id %>.firebaseio.com',
+  projectId: '<%= Rails.application.secrets.fb_instance_id %>',
+  storageBucket: ''
+  // messagingSenderId: process.env.FIREBASE_SENDER
+})
+const fbDb = firebaseApp.database()
 
 
 var vm = new Vue({
@@ -81,6 +99,12 @@ var vm = new Vue({
         router: true
       },
       {
+        icon: 'list',
+        text: 'fb import',
+        href: 'fb-import',
+        router: true
+      },
+      {
         icon: 'content_copy',
         text: 'form',
         href: 'form',
@@ -98,8 +122,6 @@ var vm = new Vue({
         href: 'dog',
         router: true
       },
-      { icon: 'history', text: 'Frequently contacted' },
-      { icon: 'content_copy', text: 'Duplicates' },
       {
         icon: 'keyboard_arrow_up',
         'icon-alt': 'keyboard_arrow_down',
@@ -121,12 +143,7 @@ var vm = new Vue({
           { text: 'Undo changes' },
           { text: 'Other contacts' }
         ]
-      },
-      { icon: 'settings', text: 'Settings' },
-      { icon: 'chat_bubble', text: 'Send feedback' },
-      { icon: 'help', text: 'Help' },
-      { icon: 'phonelink', text: 'App downloads' },
-      { icon: 'keyboard', text: 'Go to the old version' }
+      }
 
 
     ],
