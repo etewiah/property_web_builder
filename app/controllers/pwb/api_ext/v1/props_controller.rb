@@ -130,7 +130,8 @@ module Pwb
 
     def property_params
       params.require(:property).permit(
-        :reference
+        :reference, :street_address, :city,
+        :postal_code, :price_rental_monthly_current
       )
     end
 
