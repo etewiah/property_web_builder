@@ -14,7 +14,7 @@ module Pwb
       context 'with locale parameter' do
         it 'routes to welcome_controller#index' do
           expect({
-            get: '/en'
+                   get: '/en'
           }).to route_to(
             controller: 'pwb/welcome',
             action: 'index',
@@ -23,9 +23,20 @@ module Pwb
         end
       end
     end
+
     describe 'welcome routing' do
       it 'routes to welcome_controller#index' do
         expect(get: '/welcome').to route_to('pwb/welcome#index')
+      end
+    end
+
+    describe 'about-us routing' do
+      it 'routes to pages_controller#show_page' do
+        expect(get: '/about-us').to route_to(
+          controller: 'pwb/pages',
+          action: 'show_page',
+          page_slug: "about-us"
+        )
       end
     end
 

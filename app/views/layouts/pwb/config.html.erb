@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PWB Config</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
+  <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css"></link>
+</head>
+
+<body>
+  <div id="app">
+    <v-app id="inspire" :dark="dark" standalone>
+      <v-navigation-drawer fixed clipped app v-model="drawer">
+        <v-list dense>
+          <v-list-tile>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                <span>Menu</span>
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+
+<div style="padding-left:5em">
+  <v-switch :label="(!dark ? 'Light' : 'Dark') + ' Theme'"  v-model="dark" :dark="dark" hide-details></v-switch>
+</div>
+
+          <v-divider></v-divider>
+          <template v-for="(item, index) in items">
+            <v-list-tile :href="item.href" :to="{name: item.href}">
+              <v-list-tile-action>
+                <v-icon light v-html="item.icon"></v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title v-html="item.text"></v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </template>
+        </v-list>
+      </v-navigation-drawer>
+      <v-toolbar color="blue darken-3" dark app clipped-left fixed>
+        <v-toolbar-title :style="$vuetify.breakpoint.smAndUp ? 'width: 300px; min-width: 250px' : 'min-width: 72px'" class="ml-0 pl-3">
+          <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+          <span class="hidden-xs-only">PWB Config</span>
+        </v-toolbar-title>
+        <v-text-field light solo prepend-icon="search" placeholder="Search" style="max-width: 500px; min-width: 128px"></v-text-field>
+        <div class="d-flex align-center" style="margin-left: auto">
+          <v-btn icon>
+            <v-icon>apps</v-icon>
+          </v-btn>
+          <v-btn icon>
+            <v-icon>notifications</v-icon>
+          </v-btn>
+          <v-btn icon large>
+            <v-avatar size="32px" tile>
+              <img src="https://vuetifyjs.com/static/doc-images/logo.svg" alt="Vuetify">
+            </v-avatar>
+          </v-btn>
+        </div>
+      </v-toolbar>
+
+
+      <%= yield %>
+    </v-app>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.17.0/vuetify.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.1/vue-router.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
+  <%= javascript_include_tag "pwb/config" %>
+
+  <script>
+
+  </script>
+</body>
+
+</html>

@@ -4,11 +4,24 @@ FactoryGirl.define do
     #   association :page_parts, factory: :pwb_page_part, page_part_key: "our_agency"
     # end
 
+    # trait :home_page do
+    #   slug "home"
+    # end
+
+
+    factory :home_page_with_page_part do
+      slug "home"
+      after(:create) do |page, evaluator|
+        # content_html is a pwb_page_part trait
+        create(:pwb_page_part, :content_html, page: page)
+        create(:page_content_with_content, page: page)
+      end
+    end
 
     # about_us will create page_part data after the page has been created
     # alternative discussed here:
     # https://stackoverflow.com/questions/10846732/factory-girl-create-association-with-existing-object
-    factory :about_us_page do
+    factory :about_us_page_with_page_part do
       # page_parts_count is declared as a transient attribute and available in
       # attributes on the factory, as well as the callback via the evaluator
       transient do

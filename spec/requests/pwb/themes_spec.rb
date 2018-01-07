@@ -14,15 +14,15 @@ module Pwb
 
     end
 
-    # context 'when theme is set' do
-    #   it 'uses correct theme' do
-    #     @website.theme_name = "berlin"
-    #     @website.save!
-    #     get "/"
-    #     view_paths = @controller.view_paths.map(&:to_s)
-    #     expect(view_paths).to include "#{Pwb::Engine.root}/app/themes/berlin/views"
-    #   end
-    # end
+    context 'when theme is set' do
+      it 'uses correct theme' do
+        @website.theme_name = "berlin"
+        @website.save!
+        get "/"
+        view_paths = @controller.view_paths.map(&:to_s)
+        expect(view_paths).to include "#{Pwb::Engine.root}/app/themes/berlin/views"
+      end
+    end
 
     context 'when no theme is set' do
       it 'uses default theme' do
@@ -43,6 +43,18 @@ module Pwb
         expect(view_paths).to include "#{Pwb::Engine.root}/app/themes/default/views"
       end
     end
+
+
+    # context 'when theme_name is berlin' do
+    #   it 'uses default theme' do
+    #     @website.theme_name = "berlin"
+    #     @website.save!
+    #     get "/"
+    #     view_paths = @controller.view_paths.map(&:to_s)
+    #     expect(view_paths).to include "#{Pwb::Engine.root}/app/themes/default/views"
+    #   end
+    # end
+
 
     after(:all) do
       @website.destroy

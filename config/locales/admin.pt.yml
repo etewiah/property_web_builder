@@ -48,6 +48,9 @@ pt:
     pageSections:
       notEditable:
         This section cannot be edited
+      homeSearchComponent: 
+        title: Search bar
+        info: Enable property search on the home page
       contactUsFormAndMap: 
         title: Form and Map
         info: Contact us form and map
