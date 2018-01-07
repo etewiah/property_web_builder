@@ -3,7 +3,7 @@ require_dependency "pwb/application_controller"
 module Pwb
   class Api::V1::PageController < ApplicationApiController
     # protect_from_forgery with: :null_session
-    def get
+    def show
       # admin_setup = Pwb::CmsPageContainer.where(name: params[:page_name]).first || {}
       # render json: admin_setup.as_json_for_admin["attributes"]
       page = Pwb::Page.find_by_slug(params[:page_name])
@@ -60,7 +60,7 @@ module Pwb
     def save_page_fragment
       page = Page.find_by_slug params[:page_slug]
       fragment_details = params[:fragment_details]
-      unless fragment_details["locale"]
+      unless fragment_details && fragment_details["locale"]
         return render_json_error 'Please provide locale'
       end
       locale = fragment_details["locale"]
@@ -69,14 +69,16 @@ module Pwb
       end
       page_part_key = fragment_details["page_part_key"]
 
-      # updated_details = page.set_fragment_details page_part_key, locale, fragment_details
+      # json_fragment_block = page.set_fragment_details page_part_key, locale, fragment_details
       # fragment_html = render_to_string :partial => "pwb/fragments/#{page_part_key}",  :locals => { page_part: params[:fragment_details][:blocks]}
 
-      # save the block contents (in associated page_part model)
-      updated_details = page.set_page_part_block_contents page_part_key, locale, fragment_details
-      # retrieve the contents saved above and use to rebuild html for that page_part
-      # (and save it in associated page_content model)
-      fragment_html = page.rebuild_page_content page_part_key, locale
+      # # save the block contents (in associated page_part model)
+      # json_fragment_block = page.set_page_part_block_contents page_part_key, locale, fragment_details
+      # # retrieve the contents saved above and use to rebuild html for that page_part
+      # # (and save it in associated page_content model)
+      # fragment_html = page.rebuild_page_content page_part_key, locale
+
+      result_to_return = page.update_page_part_content page_part_key, locale, fragment_details
 
       # # Check if an image url has been set
       # fragment_details.each do |fragment_detail|
@@ -89,8 +91,8 @@ module Pwb
       # end
 
       return render json: {
-        blocks: updated_details,
-        html: fragment_html
+        blocks: result_to_return[:json_fragment_block],
+        html: result_to_return[:fragment_html]
       }
     end
 

@@ -1,5 +1,5 @@
 module Pwb
-  class ApiPublic::V1::PropResource < JSONAPI::Resource
+  class ApiExt::V1::PropResource < JSONAPI::Resource
     model_name 'Pwb::Prop'
 
     attributes :title, :description

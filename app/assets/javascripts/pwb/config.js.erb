@@ -1,0 +1,155 @@
+//= require firebase-4.0.0
+//= require pwb/config/components
+//= require pwb/config/store
+
+// simpleForm 
+const simpleForm = {
+  template: `<simple-form></simple-form>`
+}
+
+
+// aboutPage 
+const aboutPage = {
+  template: `<about-page></about-page>`
+}
+
+// Dog page
+const dog = {
+  template: `<v-card>
+    <img src="http://loremflickr.com/320/240/dog" />
+  </v-card>`
+}
+
+// Vue Router
+Vue.use(VueRouter);
+const router = new VueRouter({
+  mode: 'history',
+  base: '/config/',
+  routes: [{
+      path: '/',
+      name: 'home',
+      component: aboutPage
+    },
+    {
+      path: '/form',
+      name: 'form',
+      component: simpleForm,
+    }, {
+      path: '/list',
+      name: 'list',
+      component: simpleList
+    }, {
+      path: '/fb-import',
+      name: 'fb-import',
+      component: fbImport
+    }, {
+      path: '/about',
+      name: 'about',
+      component: aboutPage,
+    }, {
+      path: '/dog',
+      name: 'dog',
+      component: dog
+    }
+  ]
+})
+
+
+var firebaseApp = firebase.initializeApp({
+  // apiKey: process.env.FIREBASE_API,
+  authDomain: '<%= Rails.application.secrets.fb_instance_id %>.firebaseapp.com',
+  databaseURL: 'https://<%= Rails.application.secrets.fb_instance_id %>.firebaseio.com',
+  projectId: '<%= Rails.application.secrets.fb_instance_id %>',
+  storageBucket: ''
+  // messagingSenderId: process.env.FIREBASE_SENDER
+})
+const fbDb = firebaseApp.database()
+
+
+var vm = new Vue({
+  router,
+  store,
+  el: '#app',
+  props: {
+    source: String
+  },
+  data: {
+    props: [],
+    errText: 'none',
+    dark: false,
+    theme: 'primary',
+    mini: false,
+    drawer: true,
+    locales: ['en-US', 'zh-CN'],
+    colors: ['blue', 'green', 'purple', 'red'],
+    dialog: false,
+    clipped: false,
+    drawer: true,
+    fixed: false,
+    items: [{
+        icon: 'bubble_chart',
+        title: 'Inspire',
+        href: 'home',
+        router: true
+      },
+      {
+        icon: 'list',
+        text: 'list',
+        href: 'list',
+        router: true
+      },
+      {
+        icon: 'list',
+        text: 'fb import',
+        href: 'fb-import',
+        router: true
+      },
+      {
+        icon: 'content_copy',
+        text: 'form',
+        href: 'form',
+        router: true
+      },
+      {
+        icon: 'content_copy',
+        text: 'about',
+        href: 'about',
+        router: true
+      },
+      {
+        icon: 'contacts',
+        text: 'Contacts',
+        href: 'dog',
+        router: true
+      },
+      {
+        icon: 'keyboard_arrow_up',
+        'icon-alt': 'keyboard_arrow_down',
+        text: 'Labels',
+        model: true,
+        children: [
+          { icon: 'add', text: 'Create label' }
+        ]
+      },
+      {
+        icon: 'keyboard_arrow_up',
+        'icon-alt': 'keyboard_arrow_down',
+        text: 'More',
+        model: false,
+        children: [
+          { text: 'Import' },
+          { text: 'Export' },
+          { text: 'Print' },
+          { text: 'Undo changes' },
+          { text: 'Other contacts' }
+        ]
+      }
+
+
+    ],
+    miniVariant: false,
+    right: true,
+    rightDrawer: false,
+    title: 'Config for PWB'
+  }
+})

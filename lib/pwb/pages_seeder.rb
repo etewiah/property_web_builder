@@ -7,16 +7,12 @@ module Pwb
       # Called by this rake task:
       # rake app:pwb:db:seed_pages                                  1 ↵
       def seed_page_parts!
-        page_part_yml_filenames = [
-          "about-us__our_agency.yml", "about-us__content_html.yml",
-          "contact-us__form_and_map.yml", "contact-us__content_html.yml",
-          "home__landing_hero.yml", "home__about_us_services.yml", "home__content_html.yml",
-          "sell__content_html.yml",
-          "privacy__content_html.yml", "legal__content_html.yml"
-        ]
+        page_parts_dir = Pwb::Engine.root.join('db', 'yml_seeds', 'page_parts')
 
-        page_part_yml_filenames.each do |filename|
-          seed_page_part filename
+        page_parts_dir.children.each do |file|
+          if file.extname == ".yml"
+            seed_page_part file
+          end
         end
       end
 
@@ -82,9 +78,9 @@ module Pwb
       end
 
 
-      def seed_page_part yml_file
-        lf_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'page_parts', yml_file)
-        lf_yml = YAML.load_file(lf_seed_file)
+      def seed_page_part page_part_seed_file
+        # page_part_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'page_parts', yml_file)
+        lf_yml = YAML.load_file(page_part_seed_file)
         unless Pwb::PagePart.where({page_part_key: lf_yml[0]['page_part_key'],page_slug: lf_yml[0]['page_slug']}).count > 0
           Pwb::PagePart.create!(lf_yml)
         end
@@ -102,16 +98,22 @@ module Pwb
             page_part_key = page_part.page_part_key
             # Items in each locale seed file are nested as
             # page_slug/page_part_key and then the block labels
+
             unless yml[locale] && yml[locale][page.slug] && yml[locale][page.slug][page_part_key]
+              p "no content for #{page.slug} page #{page_part_key} #{locale}."
+              # where there is no content to populate
+              # check if this is a rails_part (content is saved in a rails template)
               if page_part.is_rails_part
+
                 page_fragment_content = page.contents.find_or_create_by(page_part_key: page_part_key)
                 page_content_join_model = page_fragment_content.page_contents.find_by_page_id page.id
 
                 page_content_join_model.page_part_key = page_part_key
+                # set is_rails_part on join_model too
                 page_content_join_model.is_rails_part = true
                 page_content_join_model.save!
 
-                return
+                # return
               end
               # skip if there is no content to populate
               next
@@ -176,11 +178,14 @@ module Pwb
           end
         end
 
-        # save the block contents (in associated page_part model)
-        updated_details = page.set_page_part_block_contents page_part_key, locale, locale_block_content_json
-        # retrieve the contents saved above and use to rebuild html for that page_part
-        # (and save it in associated page_content model)
-        fragment_html = page.rebuild_page_content page_part_key, locale
+        # # save the block contents (in associated page_part model)
+        # updated_details = page.set_page_part_block_contents page_part_key, locale, locale_block_content_json
+        # # retrieve the contents saved above and use to rebuild html for that page_part
+        # # (and save it in associated page_content model)
+        # fragment_html = page.rebuild_page_content page_part_key, locale
+
+        result = page.update_page_part_content page_part_key, locale, locale_block_content_json
+
 
         p "#{page.slug} page #{page_part_key} content set for #{locale}."
       end

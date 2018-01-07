@@ -27,6 +27,8 @@ Pwb::Engine.routes.draw do
       get "/admin-1" => "admin_panel#show_legacy_1", as: "admin_with_locale_legacy"
       get "/admin-1/*path" => "admin_panel#show_legacy_1"
     end
+    get '/config' => 'config#show'
+    get '/config/:params' => 'config#show'
 
   end
 
@@ -69,9 +71,10 @@ Pwb::Engine.routes.draw do
 
   end
 
-  namespace :api_public do
+  namespace :api_ext do
     namespace :v1 do
-      # jsonapi_resources :props
+      jsonapi_resources :props
+      post '/properties/create_with_token' => 'props#create_with_token'
       # post '/properties/bulk_create_with_token' => 'props#bulk_create_with_token'
     end
   end
@@ -122,7 +125,7 @@ Pwb::Engine.routes.draw do
         put "/pages" => "page#update"
         put "/pages/page_part_visibility" => "page#update_page_part_visibility"
         put "/pages/page_fragment" => "page#save_page_fragment"
-        get "/pages/:page_name" => "page#get"
+        get "/pages/:page_name" => "page#show"
 
         # post '/page_fragments/photos/:page_id/:block_label' => 'page_fragments#set_photo'
 

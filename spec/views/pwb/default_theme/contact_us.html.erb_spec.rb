@@ -9,9 +9,8 @@ RSpec.describe 'pwb/sections/contact_us', type: :view do
     # https://github.com/rspec/rspec-rails/issues/396
     # https://stackoverflow.com/questions/19282240/rspec-view-tests-cant-find-partials-that-are-in-base-namespace
     # can use below to test other views
-    # view.lookup_context.view_paths.push 'app/themes/berlin/views/'
-    # -already add below in spec_helper
-    # ActionController::Base.prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/"
+    # view.lookup_context.view_paths.push 'app/themes/default/views/'
+    @controller.prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/"
   end
 
 
