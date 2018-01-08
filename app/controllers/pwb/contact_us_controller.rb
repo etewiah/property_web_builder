@@ -14,7 +14,7 @@ module Pwb
       # @enquiry = Message.new
 
 
-      @content_to_show = []
+      # @content_to_show = []
       @page = Pwb::Page.find_by_slug "contact-us"
       @page_title = @current_agency.company_name
 
@@ -22,9 +22,9 @@ module Pwb
         if @page.page_title.present?
           @page_title = @page.page_title + ' - ' + @current_agency.company_name.to_s
         end
-        @page.ordered_visible_page_contents.each do |page_content|
-          @content_to_show.push page_content.get_html_or_page_part_key
-        end
+        # @page.ordered_visible_page_contents.each do |page_content|
+        #   @content_to_show.push page_content.get_html_or_page_part_key
+        # end
       end
 
       # @page_title = I18n.t("contactUs")
@@ -84,7 +84,7 @@ module Pwb
         @enquiry.delivery_email = "no_delivery_email@propertywebbuilder.com"
       end
 
-      @enquiry.client = @client
+      # @enquiry.client = @client
       @enquiry.save
 
       # @enquiry.delivery_email = ""
@@ -96,6 +96,7 @@ module Pwb
       @flash = I18n.t "contact.success"
       return render "pwb/ajax/contact_us_success", layout: false
     rescue => e
+      # byebug
       # TODO: - log error to logger....
       # flash.now[:error] = 'Cannot send message.'
       @error_messages = [I18n.t("contact.error"), e]

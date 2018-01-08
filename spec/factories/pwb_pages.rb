@@ -8,6 +8,16 @@ FactoryGirl.define do
     #   slug "home"
     # end
 
+    factory :contact_us_with_rails_page_part do
+      slug "contact-us"
+      after(:create) do |page, evaluator|
+        # form_and_map is a pwb_page_part trait
+        # create(:pwb_page_part, :form_and_map, page: page)
+        # below ensures there is some visible content
+        create(:form_and_map_rails_part_content, page: page)
+      end
+    end
+
 
     factory :home_page_with_page_part do
       slug "home"
