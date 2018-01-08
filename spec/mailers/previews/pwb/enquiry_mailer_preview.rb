@@ -10,7 +10,7 @@ module Pwb
     # end
 
     def general_enquiry_targeting_agency
-      @message = Message.new(origin_email: "jd@propertywebbuilder.com")
+      @message = Message.new(origin_email: "jd@propertywebbuilder.com", delivery_email: "test@test.com")
       @client = Client.new(first_names: "John Doe", phone_number_primary: "22 44", email: "jd@propertywebbuilder.com")
       EnquiryMailer.general_enquiry_targeting_agency(@client, @message)
     end
