@@ -11,6 +11,8 @@ module Pages
       click_button('Search')
     end
 
+    # below used by calling
+    # have_search_result_count
     def has_search_result_count?(expected_count)
       has_css?(".property-item", count: expected_count)
       # search_result_list.count.eql? expected_count
