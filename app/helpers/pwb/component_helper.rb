@@ -10,6 +10,7 @@ module Pwb
     def page_component(component_name, page)
       components = []
       page.ordered_visible_page_contents.each do |page_content|
+        # check for visible page contents
         if page_content.is_rails_part && (page_content.page_part_key == component_name)
           components.push page_content.page_part_key
         end
