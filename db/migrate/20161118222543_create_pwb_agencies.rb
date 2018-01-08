@@ -21,7 +21,7 @@ class CreatePwbAgencies < ActiveRecord::Migration[5.0]
       t.integer :primary_address_id
       t.integer :secondary_address_id
       # t.integer :flags
-      t.integer :flags, :null => false, :default => 0
+      t.integer :flags, null: false, default: 0
       t.integer :payment_plan_id
 
       t.integer :site_template_id

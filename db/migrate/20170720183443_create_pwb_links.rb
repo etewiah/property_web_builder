@@ -23,7 +23,7 @@ class CreatePwbLinks < ActiveRecord::Migration[5.0]
       t.integer :placement, default: 0, index: true
       t.timestamps
     end
-    add_index :pwb_links, :slug, :unique => true
+    add_index :pwb_links, :slug, unique: true
 
   end
 end

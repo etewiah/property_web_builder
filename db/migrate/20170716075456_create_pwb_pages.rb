@@ -18,6 +18,6 @@ class CreatePwbPages < ActiveRecord::Migration[5.0]
     end
 
     # add_index :pwb_pages, :link_key, :unique => true
-    add_index :pwb_pages, :slug, :unique => true
+    add_index :pwb_pages, :slug, unique: true
   end
 end
