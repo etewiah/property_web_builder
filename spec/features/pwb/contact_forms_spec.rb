@@ -10,18 +10,27 @@ module Pwb
     # calling above :page would clash with page object
 
 
-    scenario 'with valid credentials' do
+    scenario 'when general contact form is filled' do
       visit('/contact-us')
-      # byebug
+
       # contact_name below is the id of the field
-
-
       fill_in('contact_name', with: "Ed")
       # fill_in('Password', with: @admin_user.password)
       click_button('Send')
 
       expect(page).to have_content 'Thank you for your message'
+      # expect(current_path).to include("/contact-us")
+    end
+    
+    scenario 'when general contact form is filled' do
+      visit('/contact-us')
 
+      # contact_name below is the id of the field
+      fill_in('contact_name', with: "Ed")
+      # fill_in('Password', with: @admin_user.password)
+      click_button('Send')
+
+      expect(page).to have_content 'Thank you for your message'
       # expect(current_path).to include("/contact-us")
     end
 

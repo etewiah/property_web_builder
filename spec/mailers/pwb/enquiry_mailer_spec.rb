@@ -1,5 +1,6 @@
 require "rails_helper"
 
+
 module Pwb
   RSpec.describe EnquiryMailer, type: :mailer do
 
@@ -7,15 +8,15 @@ module Pwb
     #   ActionMailer::Base.delivery_method = :test
     #   ActionMailer::Base.perform_deliveries = true
     #   ActionMailer::Base.deliveries = []
-    #   # @client = Factory.create(:client)
+    #   # @contact = Factory.create(:contact)
     #   # @enquiry = Factory.create(:enquiry)
-    #   # EnquiryMailer.general_enquiry_targeting_agency(@client, @enquiry).deliver_now
+    #   # EnquiryMailer.general_enquiry_targeting_agency(@contact, @enquiry).deliver_now
     # end
 
     describe 'general enquiry' do
-      let(:client) { Client.new(first_names: "John Doe", phone_number_primary: "22 44", email: "jd@propertywebbuilder.com") }
+      let(:contact) { Contact.new(first_name: "John Doe", primary_phone_number: "22 44", primary_email: "jd@propertywebbuilder.com") }
       let(:message) {Message.new(origin_email: "jd@propertywebbuilder.com", delivery_email: "test@test.com")}
-      let(:mail) { EnquiryMailer.general_enquiry_targeting_agency(client, message).deliver_now }
+      let(:mail) { EnquiryMailer.general_enquiry_targeting_agency(contact, message).deliver_now }
 
       it "sends enquiry successfully" do
         expect(mail.subject).to eq("General enquiry from your website")
@@ -25,11 +26,11 @@ module Pwb
     end
 
     describe 'property enquiry' do
-      let(:client) { Client.new(first_names: "John Doe", phone_number_primary: "22 44", email: "jd@propertywebbuilder.com") }
+      let(:contact) { Contact.new(first_name: "John Doe", primary_phone_number: "22 44", primary_email: "jd@propertywebbuilder.com") }
       let(:message) {Message.new(origin_email: "jd@propertywebbuilder.com", delivery_email: "test@test.com")}
       let(:prop) { FactoryGirl.create(:pwb_prop, title: "Charming flat for sale") }
 
-      let(:mail) { EnquiryMailer.property_enquiry_targeting_agency(client, message, prop).deliver_now }
+      let(:mail) { EnquiryMailer.property_enquiry_targeting_agency(contact, message, prop).deliver_now }
 
 
 
