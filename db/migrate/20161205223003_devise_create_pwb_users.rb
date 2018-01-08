@@ -32,7 +32,7 @@ class DeviseCreatePwbUsers < ActiveRecord::Migration[5.0]
 
       t.string :authentication_token
 
-      t.boolean :admin, :default => false
+      t.boolean :admin, default: false
       # t.integer :agency_id
       t.string :first_names
       t.string :last_names
