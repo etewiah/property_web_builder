@@ -2,7 +2,7 @@ class CreatePwbFieldKeys < ActiveRecord::Migration[5.0]
   def change
     create_table :pwb_field_keys do |t|
 
-      t.string :global_key #i18n lookup key 
+      t.string :global_key #i18n lookup key
       t.string :tag
       t.boolean :visible, :default => true
 

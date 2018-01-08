@@ -3,14 +3,14 @@ module Pwb
     mount_uploader :image, ContentPhotoUploader
     belongs_to :content, optional: true
     # I use block_key col to indicate if there is a fragment block associated
-    # with this photo 
+    # with this photo
 
     # validates_processing_of :image
     # validate :image_size_validation
 
     def optimized_image_url
       unless self.image.url.present?
-        # if this method is called too soon after an image is 
+        # if this method is called too soon after an image is
         # uploaded, might need to reload the record to
         # have the url available
         self.reload

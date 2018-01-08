@@ -26,11 +26,11 @@ module Pwb
       end
     end
 
-    # These are a list of links for pages to be 
-    # displayed in the pages section of the 
+    # These are a list of links for pages to be
+    # displayed in the pages section of the
     # admin site
     def admin_page_links
-      # 
+      #
       if self.configuration["admin_page_links"].present?
         return configuration["admin_page_links"]
       else

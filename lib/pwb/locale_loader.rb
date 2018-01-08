@@ -24,7 +24,7 @@ module Pwb
 
       protected
 
-      def update_single_record item_to_update, col_prefixes, from_locale, to_locale 
+      def update_single_record item_to_update, col_prefixes, from_locale, to_locale
         col_prefixes.each do |col_prefix|
           source_col = col_prefix + from_locale # eg title_en
           dest_col = col_prefix + to_locale # eg title_de

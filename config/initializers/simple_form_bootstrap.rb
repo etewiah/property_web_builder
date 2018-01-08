@@ -4,7 +4,7 @@ SimpleForm.setup do |config|
   # config.button_class = 'btn btn-default'
 
   # config.label_text = lambda { |label, required| "#{label}" }
-  
+
   config.boolean_label_class = nil
 
   config.wrappers :vertical_form, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|

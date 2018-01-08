@@ -6,6 +6,6 @@ FactoryGirl.define do
         create(:pwb_content, :main_content, pages: [page_content.page])
       end
     end
-    
+
   end
 end
