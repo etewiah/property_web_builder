@@ -5,7 +5,13 @@ AllCops:
     - 'bin/rspec'
     - 'vendor/**/*'
     - 'spec/dummy/**/*'
+    - 'db/migrate'
   TargetRubyVersion: 2.1
+
+
+Layout/EmptyLines:
+  Enabled: false
+
 
 # Sometimes I believe this reads better
 # This also causes spacing issues on multi-line fixes
@@ -42,34 +48,34 @@ Performance/Count:
 Lint/EndAlignment:
   Enabled: false
 
-Style/ElseAlignment:
+Layout/ElseAlignment:
   Enabled: false
 
-Style/IndentationWidth:
+Layout/IndentationWidth:
   Enabled: false
 
-Style/AlignParameters:
+Layout/AlignParameters:
   Enabled: false
 
-Style/ClosingParenthesisIndentation:
+Layout/ClosingParenthesisIndentation:
   Enabled: false
 
-Style/CollectionMethods:
+Layout/CollectionMethods:
   Enabled: false
 
-Style/MultilineMethodCallIndentation:
+Layout/MultilineMethodCallIndentation:
   Enabled: false
 
-Style/IndentArray:
+Layout/IndentArray:
   Enabled: false
 
-Style/IndentHash:
+Layout/IndentHash:
   Enabled: false
 
 Style/AlignHash:
   Enabled: false
 
-Style/AccessorMethodName:
+Naming/AccessorMethodName:
   Enabled: false
 
 Style/Alias:
