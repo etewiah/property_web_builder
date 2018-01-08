@@ -123,3 +123,11 @@ end
 #   # watch(%r|^app/controllers/(.*)\.rb$|) { |m| "test/functional/#{m[1]}_test.rb" }
 #   # watch(%r|^app/models/(.*)\.rb$|)      { |m| "test/unit/#{m[1]}_test.rb" }
 # end
+
+guard :rubocop, all_on_start: true, cli: %w(-c .rubocop.yml) do
+# rubocop app/controllers/pwb/api -c .rubocop.yml
+# guard :rubocop, cli: %w(--format fuubar --format html -o ./tmp/rubocop_results.html), launchy: './tmp/rubocop_results.html' do
+  # watch(%r{.+\.rb$})
+  watch(%r|^app/(.*)\.rb$|)
+  watch(%r{(?:.+/)?\.rubocop(?:_todo)?\.yml$}) { |m| File.dirname(m[0]) }
+end
