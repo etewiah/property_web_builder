@@ -3,6 +3,6 @@ FactoryGirl.define do
     trait :content_html do
       page_part_key "content_html"
     end
-    
+
   end
 end

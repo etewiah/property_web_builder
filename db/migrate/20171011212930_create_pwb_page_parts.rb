@@ -5,7 +5,7 @@ class CreatePwbPageParts < ActiveRecord::Migration[5.1]
       # use rails template instead of content from db
       # also in page_content model
       t.boolean :is_rails_part, default: false
-      # considering replacing with is_vue_component 
+      # considering replacing with is_vue_component
       # t.boolean :is_vue_component, default: false
       t.boolean :show_in_editor, default: true
       t.integer :order_in_editor
@@ -14,7 +14,7 @@ class CreatePwbPageParts < ActiveRecord::Migration[5.1]
       t.string :page_slug, index: true
       t.text :template
 
-      # used to decide how to lay out the editor 
+      # used to decide how to lay out the editor
       t.json :editor_setup, default: {}
 
       # contains the text strings (for each locale)

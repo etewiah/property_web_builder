@@ -5,7 +5,7 @@ class CreatePwbPageContents < ActiveRecord::Migration[5.1]
       # use rails template instead of content from db
       # also in page part model
       t.boolean :is_rails_part, default: false
-      # considering replacing with is_vue_component 
+      # considering replacing with is_vue_component
       # t.boolean :is_vue_component, default: false
       t.string :page_part_key
       t.string :label

@@ -16,7 +16,7 @@ module Pwb
 
 
 
-    def set_photo 
+    def set_photo
       page = Page.find_by_slug params[:page_slug]
 
       unless params["block_label"]
@@ -46,10 +46,10 @@ module Pwb
       page = Page.find_by_slug params[:page_slug]
 
       if params["cmd"] == "setAsHidden"
-        page.set_fragment_visibility params[:page_part_key], false        
+        page.set_fragment_visibility params[:page_part_key], false
       end
       if params["cmd"] == "setAsVisible"
-        page.set_fragment_visibility params[:page_part_key], true        
+        page.set_fragment_visibility params[:page_part_key], true
       end
 
       # page.details["visiblePageParts"] = params[:visible_page_parts]
