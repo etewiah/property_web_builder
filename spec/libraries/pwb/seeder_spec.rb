@@ -34,5 +34,11 @@ module Pwb
     it 'creates 6 prop entries' do
       expect(Pwb::Prop.count).to eq(6)
     end
+
+    # Db is cleaned after each test in spec_helper
+    # after(:all) do
+    #   DatabaseCleaner.clean_with(:truncation)
+    # end
+
   end
 end
