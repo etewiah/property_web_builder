@@ -54,10 +54,10 @@ module Pwb
       # have a hidden field in form to pass in above
       # @enquiry = Message.new(params[:contact])
 
-      @client = Client.find_or_initialize_by(email: params[:contact][:email])
-      @client.attributes = {
-        phone_number_primary: params[:contact][:tel],
-        first_names: params[:contact][:name]
+      @contact = Contact.find_or_initialize_by(primary_email: params[:contact][:email])
+      @contact.attributes = {
+        primary_phone_number: params[:contact][:tel],
+        first_name: params[:contact][:name]
       }
 
       @enquiry = Message.new(
@@ -73,8 +73,8 @@ module Pwb
           # origin_email: params[:contact][:email]
         }
       )
-      unless @enquiry.save && @client.save
-        @error_messages += @client.errors.full_messages
+      unless @enquiry.save && @contact.save
+        @error_messages += @contact.errors.full_messages
         @error_messages += @enquiry.errors.full_messages
         return render "pwb/ajax/contact_us_errors"
       end
@@ -84,11 +84,11 @@ module Pwb
         @enquiry.delivery_email = "no_delivery_email@propertywebbuilder.com"
       end
 
-      # @enquiry.client = @client
+      @enquiry.contact = @contact
       @enquiry.save
 
       # @enquiry.delivery_email = ""
-      EnquiryMailer.general_enquiry_targeting_agency(@client, @enquiry).deliver_now
+      EnquiryMailer.general_enquiry_targeting_agency(@contact, @enquiry).deliver_now
 
       # @enquiry.delivery_success = true
       # @enquiry.save
