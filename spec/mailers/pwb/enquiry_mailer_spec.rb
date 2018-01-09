@@ -25,6 +25,7 @@ module Pwb
       end
     end
 
+
     describe 'property enquiry' do
       let(:contact) { Contact.new(first_name: "John Doe", primary_phone_number: "22 44", primary_email: "jd@propertywebbuilder.com") }
       let(:message) {Message.new(origin_email: "jd@propertywebbuilder.com", delivery_email: "test@test.com")}

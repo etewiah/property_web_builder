@@ -21,7 +21,8 @@ module Pwb
       expect(page).to have_content 'Thank you for your message'
       # expect(current_path).to include("/contact-us")
     end
-    
+
+
     scenario 'when general contact form is filled' do
       visit('/contact-us')
 
