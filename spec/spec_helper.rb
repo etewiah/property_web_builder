@@ -73,7 +73,7 @@ RSpec.configure do |config|
   # Make sure the database is clean and ready for test
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-    Pwb::Seeder.seed!
+    # Pwb::Seeder.seed!
   end
 
   config.after(:all) do
