@@ -1,0 +1,317 @@
+pl:
+  admin:
+    "true": "prawdziwe"
+    "false": "falszywy"
+    "yes": "tak"
+    "no": "nie" 
+    es-ES: Spain
+    es-CL: Chile
+    es-MX: Mexico
+    en-UK: UK
+    en-US: USA
+    fr-FR: France
+    pt-PT: Portugal
+    pt-BR: Brazil
+    it-IT: Italy
+    de-DE: Germany
+    ru-RU: Russia
+    ro-RO: Romanian
+    ne-NE: Netherlands
+    po-PO: Poland
+    fi-FI: Finland
+    no-NO: Norway
+    ca-CA: Catalunia
+    hi-IN: India
+    vi-VI: Vietnam
+    tr-TR: Turkey
+    ar: Arabic
+    en: English
+    es: Spanish
+    ca: Catalan
+    fr: French
+    ru: Russian
+    ro: Romanian
+    nl: Dutch
+    it: Italian
+    de: German
+    pt: Portuguese
+    po: Polish
+    vi: Vietnamese
+    tr: Turkish
+    hi: Hindi
+    sqmt: Metry kwadratowe
+    sqft: Kwadratowe stopy
+    cad: Canadian Dollar
+    ars: Argentinan Peso
+    aud: Australian Dollar
+    mxn: Mexican Peso
+    gbp: UK Pounds
+    usd: US Dollars
+    eur: Euros
+    inr: Indian Rupee
+    chf: Swiss Franc
+    cny: Chinese Yuan Renminbi
+    clp: Chilean Peso
+    rub: Russian Ruble
+    brl: Brazilian Real
+    zar: South African Rand
+    hkd: Hong Kong Dollar
+    vnd: Vietnamese Dong
+    try: Turkish Lira
+    pages:
+      aboutUs: O nas
+      sell: Sprzedac
+      landing: Ladowanie
+      legal: Prawny
+    pageSections:
+      notEditable:
+        Ta sekcja nie moze byc edytowana
+      contactUsFormAndMap: 
+        title: Formularz i mapa
+        info: Skontaktuj sie z nami, formularz i mape
+      pageTitle: Tytul strony
+      services: 
+        title: Oferowane uslugi
+        info: Przeglad oferowanych uslug
+      people: 
+        title: TwÛj zespÛl
+        info: Podsumowanie informacji o zespole
+      # landingCarousel: 
+      #   title: Karuzela strony glÛwnej
+      #   info: GlÛwna sekcja wyswietlajaca obrazy i tekst
+      rawHtml: 
+        title: Tresc HTML
+        info: You can add extra HTML here
+      topRentals: 
+        title: Top Rentals
+        info: Summary list of properties to rent
+      topSales: 
+        title: Top Sales
+        info: Summary list of properties for sale
+      contactUsForm: 
+        title: Contact us form
+        info: Form to allow visitors to send you a message
+      # aboutUs:
+      #   title: Text and photo
+      #   info: A little bit about your business
+      ourAgency:
+        title: About our agency
+        info: A little bit about your business
+      landingHero:
+        title: Main header
+        info: Large image and text highlighting your busi
+    editor:
+      pickPhoto: Wybierz zdjecie
+      uploadPhoto: Przeslij zdjecie
+    inTabLabels:
+      topNav: Najlepsza nawigacja
+      footer: Stopka
+      currency: Waluta
+      colors: Zabarwienie
+      socialLinks: Lacza spolecznosciowe
+      siteLayout: Uklad strony
+      colorFooterBg: Kolor tla stopki
+      colorFooterMainText: Kolor glÛwnego tekstu w stopce
+      colorFooterSecText: Stopka dodatkowego koloru tekstu
+      colorPrimary: Kolor podstawowy
+      colorSecondary: Drugi kolor
+      colorActions: Kolor akcji
+      supportedLanguages: Obslugiwane jezyki
+      visibility: Widocznosc
+    navbar:
+      home: "Dom"
+      admin: "Admin"
+      aboutUs: "O Nas"
+      sell: "Sprzedac"
+      buy: "Kupowac"
+      rent: "Wynajem"
+      contactUs: "Kontakt"
+      legalAdvice: "Nota prawna"
+      privacyPolicy: "Polityka prywatnosci"
+    adminSections:
+      pages: Strony
+      import: Zaimportowac dane
+      start: Dom
+      agencyDetails: Agencja
+      content: Stronie internetowej
+      websiteSettings: Ustawienia
+      websiteContent: Zadowolony
+      translations: Tlumaczenia
+      properties: Nieruchomosci
+      clientes: Klienci
+      quit: Przejdz do witryny
+      list: Lista
+      settings: Ustawienia
+      labels: Etykiety
+      about: Dookola
+
+    btnLabels:
+      importTranslations: Importuj tlumaczenia
+      importSiteContent: Importuj zawartosc witryny
+      setThemePrompt: Ustaw jako motyw strony internetowej
+      activatedThemeInfo: Obecnie aktywny motyw strony internetowej
+
+    info:
+      defaultCurrency: Dotyczy tylko nowo dodanych wlasciwosci
+      defaultAreaUnit: Dotyczy tylko nowo dodanych wlasciwosci
+      recPropPhotoSize: Zalecany rozmiar zdjecia to 800 x Xpx,
+      recCarouselPhotoSize: Zalecany rozmiar zdjec karuzelowych to 900 x 400 pikseli,
+      recLogoPhotoSize: Zalecany rozmiar logo to 120px X 80px,
+      orderByDragging: Przeciagnij i upusc na zamÛwienie - pierwsze zdjecie bedzie zdjeciem glÛwnym.
+
+    webContentLabels: 
+      suffixEn: po Angielsku
+      suffixEs: po Hiszpanski
+      suffixAr: po Arabski
+      suffixFr: po Francuski
+      suffixIt: po Wloski
+      suffixPt: po Portugalski
+      suffixDe: po Niemiecki
+      suffixRu: po Rosyjski
+      suffixCa: po Katalonski
+      suffixNl: po Holenderski
+      suffixVi: po Wietnamczyk
+      suffixTr: po Turecki
+      suffixPo: po Polskie
+      suffixRo: po Rumunski 
+      privacyPolicy: Polityka prywatnosci
+      legalAdvice: Nota prawna
+      # landingcarousel: Tekst dla obrazu karuzeli
+      # cac1: Kolumna 1
+      # cac2: Kolumna 2
+      # cac3: Kolumna 3
+      # landingPageHero: Tresc strony glÛwnej
+      # tagLine: Linia tagÛw
+      aboutUs: O nas
+      footerInfo: Dodatkowa zawartosc stopki
+
+    siteSections: 
+      aboutUs: O nas
+      contactUs: Kontakt
+      buy: Kupowac
+      rent: Wynajem
+      sell: Sprzedac
+
+    ioSections:
+      fromMls: Import from MLS
+      fromUpload: Import from file
+      fromWebpage: Import from a webpage
+
+    webContentSections:
+      navigation: Nawigacja
+      appearance: Wyglad
+      footer: Stopka
+      aboutUs: O nas
+      contactInformation: Informacje kontaktowe
+      sell: Sprzedac
+      # tagLine: Linia tagÛw
+      legal: Prawny
+      general: General
+      landingCarousel: Karuzela strony docelowej
+      home: Dom
+      contentAreaCols: Kolumny
+      sections: Sekcje
+      info:
+        contentAreaCols: Kolumny na stronie docelowej dajace przeglad uslug, ktÛre oferujesz
+
+    fieldLabels: 
+    #   yaencontre: Yaencontre
+    #   pisoscom: Pisoscom
+    #   idealista: Idealista
+    #   localidad: Localidad
+    #   zona: Zona
+      pickMlsPrompt: Select your MLS
+      propCsvUploadPrompt: Select the type of file to import from
+      pwbCsvFile: A csv file exported from PropertyWebBuilder
+      mlsCsvFile: A csv file exported from your MLS
+      deleteProp: Delete Property
+      areaUnit: Area Unit
+      defaultAreaUnit: Default Area Unit
+      currency: Waluta
+      defaultCurrency: Domyslna waluta
+      defaultLocale: Domyslny jezyk witryny
+      # codigoPostal: Codigo Postal
+      # direccion: Direccion
+      # direccionReal: Direccion Real
+      # direccionMapa: Direccion Mapa
+      ref: Nr referencyjny
+      tipo: Rodzaj
+      estado: Stan
+      descripcionEspanol: Opis w jezyku hiszpanskim
+      tituloEspanol: Tytul w jezyku hiszpanskim
+      descripcionIngles: Opis w jezyku angielskim
+      tituloIngles: Tytul w jezyku angielskim
+      precioVenta: Cena sprzedazy
+      precioAntiguo: Cena oryginalna
+      precioAlquiler: Cena wynajmu
+      origen: Pochodzenie
+      temporadas: Pory roku
+      precioTa: Cena Temp. Alta
+      precioTm: Cena Temp. Media
+      precioTb: Cena Temp. Baja
+      eficienciaEnergia: Efektywnosc energetyczna
+      yearConstruction: Rok budowy
+      countBedrooms: Sypialnie
+      countBathrooms: Lazienki
+      # numAseos: N√∫m. aseos
+      plotArea: Powierzchnia dzialki
+      constructedArea: Zbudowany obszar
+      garaje: Garaz
+      forSearchWidget: Dla widgetu wyszukiwania
+      obscureMap: Ukryj dokladny adres na stronie internetowej?
+      hideMap: Ukryj mape na stronie internetowej?
+      forSale: Na sprzedaz?
+      priceSaleCurrent: Aktualna cena
+      saleDiscount: Wyprzedaz Rabat
+      priceSaleOriginal: Cena oryginalna
+      longTermRental: Dostepne do wynajecia dlugoterminowego?
+      seasonalRental: Dostepne dla sezonowego wynajmu?
+      priceRentalMonthlyHighSeason: Cena za wynajem w sezonie
+      priceRentalMonthlyLowSeason: Cena za wynajem w sezonie
+      priceRentalMonthlyStandardSeason: Cena za wynajem w sezonie normalnym
+      priceRentalMonthlyCurrent: Aktualna cena wynajmu (za miesiac)
+      longTermRentalDiscount: Rabat na wynajem dlugoterminowy
+      priceRentalMonthlyOriginal: Oryginalna cena wynajmu (na miesiac)
+      firstNames: Imie
+      lastNames: Nazwiska
+      visible: Widoczny
+      visibleOnWeb: Widoczny na stronie internetowej
+      highlighted: Podswietlony
+      label: Label
+      companyName: Nazwa firmy
+      primaryPhone: Wyswietl numer telefonu
+      otherPhone: Inny numer telefonu
+      primaryEmail: Wyswietl e-mail
+      propertyContactEmail: Email z zapytaniem o nieruchomosc
+      generalContactEmail: Email z zapytaniem ogÛlnym
+      nationality: Narodowosc
+      documentationType: Typ dokumentacji
+      documentationId: ID dokumentacji
+      email: E-mail
+      fax: Faks
+      skype: Skype
+      personTitle: Tytul
+      description: Opis
+      title: Tytul
+      info:
+        primaryEmail: Email displayed in page header
+        primaryPhone: Phone no displayed in page header
+        propertyContactEmail: Enquiries about specific properties will be sent here
+        generalContactEmail: Enquiries from 'contact us' page will be sent here
+
+    # for header row in property listing
+    propertyColHeader:
+      highlighted: Podswietlony
+      locality: Miejscowosc
+      actions: Dzialania
+      zone: Strefa
+      price: Cena
+      bedrooms: Sypialnie
+      bathrooms: Lazienki
+      visible: Widoczny
+      reference: Ref
+      type: Rodzaj
+
+    
+
+

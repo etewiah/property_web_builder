@@ -94,11 +94,31 @@ ul.idiomas .cl {
     background-size: cover;
 }
 
+ul.idiomas .hi {
+    background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/hi.svg') no-repeat;
+    background-size: cover;
+}
+
+ul.idiomas .it {
+    background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/it.svg') no-repeat;
+    background-size: cover;
+}
 
 ul.idiomas .mx {
     background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/mx.svg') no-repeat;
     background-size: cover;
 }
+
+ul.idiomas .pl {
+    background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/pl.svg') no-repeat;
+    background-size: cover;
+}
+
+ul.idiomas .ro {
+    background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/ro.svg') no-repeat;
+    background-size: cover;
+}
+
 
 ul.idiomas .us {
     background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/us.svg') no-repeat;
@@ -115,15 +135,7 @@ ul.idiomas .tr {
     background-size: cover;
 }
 
-ul.idiomas .hi {
-    background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/hi.svg') no-repeat;
-    background-size: cover;
-}
 
-ul.idiomas .it {
-    background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/it.svg') no-repeat;
-    background-size: cover;
-}
 
 ul.idiomas li.selected,
 ul.idiomas li:hover {

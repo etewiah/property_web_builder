@@ -79,11 +79,21 @@
       "localeVariants": ["it-IT"]
     },
     {
+      "labelTextTKey": "pl",
+      "fieldName": "pl",
+      "localeVariants": ["pl-PL"]
+    },
+    {
       "labelTextTKey": "pt",
       "fieldName": "pt",
       "localeVariants": ["pt-PT", "pt-BR"],
       "isNotComplete": true
     },
+    // {
+    //   "labelTextTKey": "ro",
+    //   "fieldName": "ro",
+    //   "localeVariants": ["ro-RO"]
+    // },
     {
       "labelTextTKey": "ru",
       "fieldName": "ru",
@@ -132,10 +142,6 @@
     "labelTextTKey": "cad"
   },
   {
-    "value": "HKD",
-    "labelTextTKey": "hkd"
-  },
-  {
     "value": "BRL",
     "labelTextTKey": "brl"
   },
@@ -154,6 +160,10 @@
   {
     "value": "EUR",
     "labelTextTKey": "eur"
+  },
+  {
+    "value": "HKD",
+    "labelTextTKey": "hkd"
   },
   {
     "value": "USD",
@@ -178,6 +188,18 @@
   {
     "value": "MXN",
     "labelTextTKey": "mxn"
+  },
+  {
+    "value": "PLN",
+    "labelTextTKey": "pln"
+  },
+  {
+    "value": "HKD",
+    "labelTextTKey": "hkd"
+  },
+  {
+    "value": "RON",
+    "labelTextTKey": "ron"
   },
   {
     "value": "VND",
