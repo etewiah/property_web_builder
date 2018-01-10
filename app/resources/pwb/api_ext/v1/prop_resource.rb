@@ -10,6 +10,14 @@ module Pwb
     attributes :title_ru, :description_ru
     attributes :title_pt, :description_pt
     attributes :title_fr, :description_fr
+    attributes :title_tr, :description_tr
+    attributes :title_nl, :description_nl
+    attributes :title_vi, :description_vi
+    attributes :title_ar, :description_ar
+    attributes :title_ca, :description_ca
+    attributes :title_pl, :description_pl
+    attributes :title_ro, :description_ro
+
 
     attributes :area_unit, :photos, :property_photos, :extras
     attributes :street_address, :street_number, :postal_code

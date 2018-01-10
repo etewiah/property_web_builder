@@ -23,6 +23,8 @@ module Pwb
     attributes :title_vi, :description_vi
     attributes :title_ar, :description_ar
     attributes :title_ca, :description_ca
+    attributes :title_pl, :description_pl
+    attributes :title_ro, :description_ro
 
 
     attributes :area_unit, :photos, :property_photos, :extras
