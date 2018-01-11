@@ -158,8 +158,28 @@
     "labelTextTKey": "cny"
   },
   {
+    "value": "CZK",
+    "labelTextTKey": "czk"
+  },
+  {
+    "value": "DKK",
+    "labelTextTKey": "dkk"
+  },
+  {
     "value": "EUR",
     "labelTextTKey": "eur"
+  },
+  {
+    "value": "EGP",
+    "labelTextTKey": "egp"
+  },
+  {
+    "value": "GBP",
+    "labelTextTKey": "gbp"
+  },
+  {
+    "value": "GHS",
+    "labelTextTKey": "ghs"
   },
   {
     "value": "HKD",
@@ -174,32 +194,40 @@
     "labelTextTKey": "inr"
   },
   {
-    "value": "RUB",
-    "labelTextTKey": "rub"
-  },
-  {
-    "value": "GBP",
-    "labelTextTKey": "gbp"
-  },
-  {
-    "value": "TRY",
-    "labelTextTKey": "try"
+    "value": "MAD",
+    "labelTextTKey": "mad"
   },
   {
     "value": "MXN",
     "labelTextTKey": "mxn"
   },
   {
+    "value": "NGN",
+    "labelTextTKey": "ngn"
+  },
+  {
     "value": "PLN",
     "labelTextTKey": "pln"
   },
   {
-    "value": "HKD",
-    "labelTextTKey": "hkd"
-  },
-  {
     "value": "RON",
     "labelTextTKey": "ron"
+  },
+  {
+    "value": "RUB",
+    "labelTextTKey": "rub"
+  },
+  {
+    "value": "SEK",
+    "labelTextTKey": "sek"
+  },
+  {
+    "value": "THB",
+    "labelTextTKey": "thb"
+  },
+  {
+    "value": "TRY",
+    "labelTextTKey": "try"
   },
   {
     "value": "VND",

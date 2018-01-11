@@ -17,7 +17,8 @@ pl:
     ru-RU: Russia
     ro-RO: Romanian
     ne-NE: Netherlands
-    po-PO: Poland
+    pl-PL: Poland
+    ro-RO: Romania
     fi-FI: Finland
     no-NO: Norway
     ca-CA: Catalunia
@@ -35,7 +36,8 @@ pl:
     it: Italian
     de: German
     pt: Portuguese
-    po: Polish
+    pl: Polish
+    ro: Romanian
     vi: Vietnamese
     tr: Turkish
     hi: Hindi
@@ -58,6 +60,16 @@ pl:
     hkd: Hong Kong Dollar
     vnd: Vietnamese Dong
     try: Turkish Lira
+    pln: Polish Zloty
+    ron: Romanian Leu
+    ngn: Nigerian Naira
+    ghs: Ghanaian Cedi
+    dkk: Danish Krone
+    czk: Czech Koruna
+    sek: Swedish Krona
+    thb: Thai Baht
+    mad: Moroccan Dirham
+    egp: Egyptian Pound
     pages:
       aboutUs: O nas
       sell: Sprzedac
