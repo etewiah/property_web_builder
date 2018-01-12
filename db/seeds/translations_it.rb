@@ -89,4 +89,5 @@ I18n::Backend::ActiveRecord::Translation.create!(
     {locale: "it", key: "propertyTypes.edificioResidencial", value: "Edificio residencial"},
     {locale: "it", key: "propertyTypes.villa", value: "Villa"}
 
-])
+]
+)
