@@ -1,5 +1,7 @@
 # PropertyWebBuilder
 
+Please help support this project by making a contribution to PropertyWebBuilder here: https://opencollective.com/property_web_builder
+
 [![Backers on Open Collective](https://opencollective.com/property_web_builder/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/property_web_builder/sponsors/badge.svg)](#sponsors)[![Build Status](https://api.travis-ci.org/etewiah/property_web_builder.svg?branch=master)](https://api.travis-ci.org/etewiah/property_web_builder)
 
 This project has been created to address a glaring gap in the rails ecosystem: the lack of an open source project for real estate websites.  
@@ -128,6 +130,8 @@ Please consider making a contribution to the development of PropertyWebBuilder. 
 I would like PropertyWebBuilder to be available in as many languages as possible so any help with translations will be much appreciated.  A basic Spanish version of this document can be found here:
 [https://github.com/etewiah/property_web_builder/blob/master/README_es.md](https://github.com/etewiah/property_web_builder/blob/master/README_es.md)
 
+For instructions on how to add a new language, please see:
+[https://github.com/etewiah/property_web_builder/wiki/Adding-translations-for-a-new-language](https://github.com/etewiah/property_web_builder/wiki/Adding-translations-for-a-new-language)
 <!-- 
 ---
 
@@ -152,12 +156,6 @@ Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com
 
 
 ## Sponsors
-
-PropertyWebBuilder is currently sponsored by Coddde, Ruby On Rails consultants based in Spain and Chile:
-<a href="http://coddde.com/en/" rel="Coddde">
-![Coddde](http://coddde.com/wp-content/uploads/2017/01/coddde_logo.png)
-</a>
-
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/property_web_builder#sponsor)]
 
