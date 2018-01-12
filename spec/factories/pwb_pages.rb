@@ -18,6 +18,14 @@ FactoryGirl.define do
       end
     end
 
+    factory :contact_us_page_with_page_part do
+      slug "contact-us"
+      after(:create) do |page, evaluator|
+        # content_html is a pwb_page_part trait
+        create(:pwb_page_part, :content_html, page: page)
+        create(:page_content_with_content, page: page)
+      end
+    end
 
     factory :home_page_with_page_part do
       slug "home"
