@@ -40,6 +40,10 @@ group :development, :test do
     # gem 'spring'
     # gem 'spring-commands-rspec'
   end
+
+  gem 'launchy'
+  # launchy allows me to use save_and_open_page
+  # in feature specs to see current page being tested
   gem 'rubocop', require: false
   gem 'pry-byebug'
   gem 'capybara'
@@ -62,6 +66,8 @@ end
 group :development do
   gem 'guard-rubocop'
 end
+
+
 # /Users/me/.rbenv/versions/2.3.3/lib/ruby/gems/2.3.0/gems/localeapp-2.1.1/lib/localeapp/default_value_handler.rb
 # below overwrites I18n::Backend::Base above which causes seeder to break in specs
 # gem 'localeapp'
@@ -69,4 +75,3 @@ end
 gem 'paloma', github: 'fredngo/paloma'
 # gem 'bourbon'
 gem 'property_web_scraper', github: 'RealEstateWebTools/property_web_scraper'
-

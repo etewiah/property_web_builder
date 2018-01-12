@@ -7,9 +7,9 @@ FactoryGirl.define do
     end
 
     factory :page_content_with_content do
-      # page_part_key "content_html"
+      page_part_key "content_html"
       after(:create) do |page_content, evaluator|
-        create(:pwb_content, :main_content, pages: [page_content.page])
+        create(:pwb_content, :main_content, page_part_key: "content_html", pages: [page_content.page])
       end
     end
 
