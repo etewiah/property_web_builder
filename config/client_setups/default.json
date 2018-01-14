@@ -89,11 +89,11 @@
       "localeVariants": ["pt-PT", "pt-BR"],
       "isNotComplete": true
     },
-    // {
-    //   "labelTextTKey": "ro",
-    //   "fieldName": "ro",
-    //   "localeVariants": ["ro-RO"]
-    // },
+    {
+      "labelTextTKey": "ro",
+      "fieldName": "ro",
+      "localeVariants": ["ro-RO"]
+    },
     {
       "labelTextTKey": "ru",
       "fieldName": "ru",

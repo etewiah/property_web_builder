@@ -1,0 +1,513 @@
+ro:
+  admin:
+    "true": "Adevarat"
+    "false": "fals"
+    "yes": "da"
+    "no": "nu" 
+    es-ES: Spania
+    es-CL: Chile
+    es-MX: Mexic
+    en-UK: UK
+    en-US: USA
+    fr-FR: Franta
+    pt-PT: Portugalia
+    pt-BR: Brazilia
+    it-IT: Italia
+    de-DE: Germania
+    ru-RU: Rusia
+    ro-RO: Rom‚na
+    ne-NE: Olanda
+    pl-PL: Polonia
+    fi-FI: Finlanda
+    no-NO: Norvegia
+    ca-CA: Catalonia
+    hi-IN: India
+    vi-VI: Vietnam
+    tr-TR: Curcan
+    ar: Arabic
+    en: Engleza
+    es: Spaniola
+    ca: Catalan
+    fr: Franceza
+    ru: Rusa
+    ro: Rom‚na
+    nl: Olandeza
+    it: Italiana
+    de: German
+    pt: Portughez
+    po: Polonez
+    vi: Vietnameza
+    tr: Turc
+    hi: Hindi
+    sqmt: Metri Patrati
+    sqft: Patru Picioare
+    cad: Dolarul Canadian
+    ars: Peso Argentinian
+    aud: Dolarul Australian
+    mxn: Peso Mexican
+    gbp: UK Pounds
+    usd: Dolari Americani
+    eur: Euro
+    inr: Indian Rupee
+    chf: Franc Elvetian
+    cny: Chineza Yuan Renminbi
+    clp: Peso Chilian
+    rub: Ruble Ruse?ti
+    brl: Realitatea Braziliana
+    zar: Randul Africii de Sud
+    hkd: Dolarul Hong Kong
+    vnd: Vietnamezul Dong
+    try: Lira Turceasca
+    pln: Polish Zloty
+    ron: Romanian Leu
+    ngn: Nigerian Naira
+    ghs: Ghanaian Cedi
+    dkk: Danish Krone
+    czk: Czech Koruna
+    sek: Swedish Krona
+    thb: Thai Baht
+    mad: Moroccan Dirham
+    egp: Egyptian Pound
+    pages:
+      aboutUs: Despre noi
+      sell: Vinde
+      landing: Aterizare
+      legal: Legal
+    pageSections:
+      notEditable:
+        Aceasta sec?iune nu poate fi editata
+      contactUsFormAndMap: 
+        title: Forma ?i harta
+        info: Contacta?i-ne formularul ?i harta
+      pageTitle: Titlul paginii
+      services: 
+        title: Serviciile pe care le oferi?i
+        info: O prezentare generala a serviciilor pe care le oferi?i
+      people: 
+        title: Echipa ta
+        info: Informa?ii generale despre echipa dvs.
+      # landingCarousel: 
+      #   title: Acasa carusel
+      #   info: Sec?iunea principala care afi?eaza imagini ?i text
+      rawHtml: 
+        title: Con?inutul HTML
+        info: Pute?i adauga HTML suplimentar aici
+      topRentals: 
+        title: Inchirieri de top
+        info: Lista completa a proprieta?ilor de Ónchiriat
+      topSales: 
+        title: Cele mai vandute
+        info: Lista rezumat de proprieta?i de v‚nzare
+      contactUsForm: 
+        title: Contacta?i-ne formularul
+        info: Formular pentru a permite vizitatorilor sa va trimita un mesaj
+      # aboutUs:
+      #   title: Text ?i fotografie
+      #   info: Pu?in despre afacerea dvs.
+      ourAgency:
+        title: Despre agen?ia noastra
+        info: Pu?in despre afacerea dvs.
+      landingHero:
+        title: Antetul principal
+        info: Imagine mare ?i text care eviden?iaza afacerea dvs.
+    editor:
+      pickPhoto: Alege?i fotografia
+      uploadPhoto: Œncarca fotografie
+    inTabLabels:
+      topNav: Navigare de top
+      footer: Subsol
+      currency: Valuta
+      colors: Colorate
+      socialLinks: Link-uri sociale
+      siteLayout: Aspectul site-ului
+      colorFooterBg: Culoarea fundalului subsolului
+      colorFooterMainText: Culoarea textului principal din subsol
+      colorFooterSecText: Culoarea textului secundar din subsol
+      colorPrimary: Culoare primara
+      colorSecondary: Culoare secundara
+      colorActions: Ac?ioneaza culoarea
+      supportedLanguages: Limbi suportate
+      visibility: Vizibilitate
+    navbar:
+      home: "Acasa"
+      admin: "Admin"
+      aboutUs: "Despre Noi"
+      sell: "Vinde"
+      buy: "Cumpara"
+      rent: "Chirie"
+      contactUs: "Contact"
+      legalAdvice: "Aviz juridic"
+      privacyPolicy: "Politica de confidentialitate"
+    adminSections:
+      pages: Pagini
+      import: Importa?i Date
+      start: Acasa
+      agencyDetails: Agentie
+      content: Website
+      websiteSettings: Setari
+      websiteContent: Continut
+      translations: Traduceri
+      properties: Proprieta?i
+      clientes: Clien?i
+      quit: Du-te la site
+      list: Lista
+      settings: Setari
+      labels: Etichete
+      about: Despre
+
+    btnLabels:
+      importTranslations: Traduceri de import
+      importSiteContent: Importa?i con?inut de pe site
+      setThemePrompt: Seta?i ca tema a site-ului web
+      activatedThemeInfo: Tema site-ului actual activa
+
+    info:
+      defaultCurrency: Se va aplica numai pentru proprieta?ile nou adaugate
+      defaultAreaUnit: Se va aplica numai pentru proprieta?ile nou adaugate
+      recPropPhotoSize: Dimensiunea recomandata pentru o fotografie este 800px X 500px,
+      recCarouselPhotoSize: Dimensiunea recomandata pentru imaginile carusel este 900px X 400px,
+      recLogoPhotoSize: Dimensiunea recomandata pentru logo este 120px X 80px,
+      orderByDragging: Glisa?i ?i plasa?i la comanda - prima fotografie va fi fotografia principala.
+
+    webContentLabels: 
+      suffixEn: in Engleza
+      suffixEs: in Spaniola
+      suffixAr: in Arabic
+      suffixFr: in Franceza
+      suffixIt: in Italiana
+      suffixPt: in Portughez
+      suffixDe: in German
+      suffixRu: in Rusa
+      suffixCa: in Catalan
+      suffixNl: in Olandeza
+      suffixVi: in Vietnameza
+      suffixTr: in Turc
+      suffixPl: in Polonez
+      suffixRo: in Rom‚na
+      privacyPolicy: Politica de confidentialitate
+      legalAdvice: Aviz juridic
+      # landingcarousel: Text pentru imaginea caruselului
+      # cac1: Coloana 1
+      # cac2: Coloana 2
+      # cac3: Coloana 3
+      # landingPageHero: Con?inut pentru pagina principala
+      # tagLine: Linia de etichetare
+      aboutUs: Despre noi
+      footerInfo: Supliment la subsol
+
+    siteSections: 
+      aboutUs: Despre noi
+      contactUs: Contact
+      buy: Cumpara
+      rent: Chirie
+      sell: Vinde
+
+    ioSections:
+      fromMls: Importul din MLS
+      fromUpload: Importa?i din fi?ier
+      fromWebpage: Importa?i dintr-o pagina web
+
+    webContentSections:
+      navigation: Navigare
+      appearance: Aspect
+      footer: Subsol
+      aboutUs: Despre noi
+      contactInformation: Informatii de contact
+      sell: Vinde
+      # tagLine: Linia de etichetare
+      legal: Legal
+      general: General
+      landingCarousel: Caruselul paginii de destina?ie
+      home: Acasa
+      contentAreaCols: Coloane
+      sections: Sectiuni
+      info:
+        contentAreaCols: Coloanele de pe pagina de destina?ie ofera o imagine de ansamblu a serviciilor
+           pe care le oferi?i
+
+    fieldLabels: 
+    #   yaencontre: Yaencontre
+    #   pisoscom: Pisoscom
+    #   idealista: Idealista
+    #   localidad: Localidad
+    #   zona: Zona
+      pickMlsPrompt: Selecta?i-va MLS
+      propCsvUploadPrompt: Selecta?i tipul de fi?ier de importat
+      pwbCsvFile: Un fi?ier csv exportat din PropertyWebBuilder
+      mlsCsvFile: Un fi?ier csv exportat din MLS
+      deleteProp: ?terge?i proprietatea
+      areaUnit: Unitate de suprafa?a
+      defaultAreaUnit: Unitatea zonei implicite
+      currency: Valuta
+      defaultCurrency: Valuta prestabilita
+      defaultLocale: Limba de web implicita
+      # codigoPostal: Codigo Postal
+      # direccion: Direccion
+      # direccionReal: Direccion Real
+      # direccionMapa: Direccion Mapa
+      ref: Numarul de referin?a
+      tipo: Tip
+      estado: Stat
+      descripcionEspanol: Descriere Ón limba spaniola
+      tituloEspanol: Titlu Ón limba spaniola
+      descripcionIngles: Descriere Ón limba engleza
+      tituloIngles: Titlu Ón limba engleza
+      precioVenta: Sales Price
+      precioAntiguo: Pret original
+      precioAlquiler: Pre?ul de Ónchiriere
+      origen: Origen
+      temporadas: Temporadas
+      precioTa: Pre?ul Temp. Alta
+      precioTm: Pre?ul Temp. Mass-media
+      precioTb: Pre?ul Temp. Baja
+      eficienciaEnergia: Eficien?a Energetica
+      yearConstruction: Anul Construc?iilor
+      countBedrooms: Dormitoare
+      countBathrooms: Bai
+      # numAseos: N√∫m. aseos
+      plotArea: Suprafa?a terenului
+      constructedArea: Zona Construita
+      garaje: Garaj
+      forSearchWidget: Pentru widget-ul de cautare
+      obscureMap: Ascunde adresa exacta pe site?
+      hideMap: Ascunde?i harta pe site?
+      forSale: De V‚nzare?
+      priceSaleCurrent: Pretul Curent
+      saleDiscount: V‚nzare Reducere
+      priceSaleOriginal: Pret Original
+      longTermRental: Disponibil pentru Ónchiriere pe termen lung?
+      seasonalRental: Disponibil pentru Ónchiriere de sezon?
+      priceRentalMonthlyHighSeason: Pre? pentru Ónchiriere de sezon Ón v‚rsta
+      priceRentalMonthlyLowSeason: Pre?ul pentru Ónchirierea sezonului mic
+      priceRentalMonthlyStandardSeason: Pre?ul pentru Ónchirierea sezonului normal
+      priceRentalMonthlyCurrent: Pre?ul curent de Ónchiriere (pe luna)
+      longTermRentalDiscount: Reducere pe termen lung de Ónchiriere
+      priceRentalMonthlyOriginal: Pre? ini?ial de Ónchiriere (pe luna)
+      firstNames: Prenume
+      lastNames: Nume
+      visible: Vizibil
+      visibleOnWeb: Vizibil pe site
+      highlighted: Eviden?iat
+      label: Eticheta
+      companyName: Numele Companiei
+      primaryPhone: Afi?eaza numarul de telefon
+      otherPhone: Alt numar de telefon
+      primaryEmail: Afi?a?i e-mail
+      propertyContactEmail: Ancheta de ancheta a proprietarilor
+      generalContactEmail: E-mail de ancheta generala
+      nationality: Nationalitate
+      documentationType: Tipul Documenta?iei
+      documentationId: Identificarea Documenta?iei
+      email: E-mail
+      fax: Fax
+      skype: Skype
+      personTitle: Titlu
+      description: Descriere
+      title: Titlu
+      info:
+        primaryEmail: E-mail afi?at Ón antetul paginii
+        primaryPhone: Telefonul nu este afi?at Ón antetul paginii
+        propertyContactEmail: Anchetele despre proprieta?i specifice vor fi trimise aici
+        generalContactEmail: Anchetele de la pagina 'contacta?i-ne' vor fi trimise aici
+
+    # for header row in property listing
+    propertyColHeader:
+      highlighted: Eviden?iat
+      locality: Localitate
+      actions: Actiuni
+      zone: Zona
+      price: Pre?
+      bedrooms: Dormitoare
+      bathrooms: Bai
+      visible: Vizibil
+      reference: Referinta
+      type: Tip
+
+    # TODO - move Spanish versions of below to server side
+    save: Salva?i
+    cancel: Anulare
+    edit: Edita
+    preview: Previzualizare
+    close: Œnchide
+    addLogo: Adauga?i Un Logo
+    addPhotos: Adauga Poze
+    create: Crea
+    delete: ?terge
+    show: Spectacol
+    hide: Ascunde
+    logo: Sigla
+    aboutUsPhoto: Despre noi fotografie
+    addAboutUsPhoto: Adauga?i o fotografie despre noi
+
+    visible: Vizibil
+    hidden: Ascuns
+
+    editWebsite: Edita?i site-ul
+    settingsForWebsite: Setari pentru site
+    contentForWebsite: Con?inut pentru site
+    sectionsForWebsite: Sec?iuni de site
+    themesForWebsite: Teme pentru site-uri web
+    importExport: Importa?i ?i exporta?i date
+    returnToWebsite: Reveni?i la web
+    settingsForProperties: Setari pentru proprieta?i
+    returnToProperties: Reveni?i la proprieta?i
+    addProperty: Adauga?i proprietatea
+    addClient: Adauga?i clientul
+    newProperty: Nou Proprietate
+    newClient: Nou Client
+    propertiesList: Lista de proprietati
+    clientsList: Lista clientilor
+
+    prompts: 
+      fixErrors: Va rog sa corectati urmatoarele greseli
+
+    todos: 
+      createContent: Crea?i un anumit con?inut
+      companyDetails: Configura?i detaliile companiei
+
+    locationTab: 
+      confirmAddress: Confirma?i o noua loca?ie
+
+    agencySections: 
+      general: Detalii ale agen?iei
+      location: Loca?ie
+      user: Detalii utilizator
+
+    siteLayout: 
+      wide: Lat
+      boxed: Cutie
+
+    propertySections: 
+      general: General
+      location: Loca?ie
+      text: Text
+      extras: Caracteristici
+      photos: Fotografii
+      sale: V‚nzare / Inchiriere
+      owner: Proprietar
+
+    propertyGeneralSections: 
+      sale: V‚nzare
+      longtermRental: Œnchiriere pe termen lung
+      seasonalRental: Œnchiriere sezoniera
+      visibility: Vizibilitate
+      generalData: Date Generale
+      characteristics: Caracteristici
+      portals: Portaluri web
+      extras: Caracteristici
+
+    translationsSections: 
+      extras: Caracteristici
+      propertyTypes: Tipuri de Proprietate
+      propertyOrigins: Proprietatea Origins
+      propertyStates: Proprietatea Statele
+      propertyLabels: Proprietatea Etichete
+      provinces: Provinciile
+
+    toolTips:
+      forSale: Selecta?i daca proprietatea este disponibila pentru v‚nzare
+      priceSaleCurrent: Pre? curent de v‚nzare
+      saleDiscount: V‚nzare Reducere
+      priceSaleOriginal: Pre?ul original de v‚nzare
+      longTermRental: Selecta?i 'Da' daca proprietatea este disponibila pentru Ónchiriere pe termen lung
+      priceRentalMonthlyCurrent: Pre?ul curent de Ónchiriere
+      priceRentalMonthlyOriginal: Pre? ini?ial de Ónchiriere
+
+      addNewEntry: Adauga?i o intrare noua
+      visible: Selecta?i 'Da' pentru a publica proprietatea pe site
+      highlighted: Selecta?i 'Da' pentru a eviden?ia proprietatea de pe site
+      seasonalRental: Selecta?i 'Da' daca proprietatea este Ónchiriata sezonier
+      ref: Numar de referin?a pentru proprietate
+
+    alerts: 
+      changesDetected: Ave?i modificari nesalvate.
+      deletingProperty: Are you sure you want to delete this property.  This action cannot be undone.
+      navigatingFromChanges: Sigur dori?i sa ?terge?i aceasta proprietate. Aceasta ac?iune nu poate fi anulata.
+      visibleProperties: Aceste proprieta?i sunt vizibile pe site-ul dvs. web
+      hiddenProperties: Aceste proprieta?i nu vor fi afi?ate pe site-ul dvs. web
+      clickMapToUpdate: Face?i clic pe harta pentru a selecta adresa sau tasta?i direct mai jos.
+
+    datatables: 
+      sInfo: Showing items from _START_ al _END_ from a total of _TOTAL_ properties
+      sInfoEmpty: Showing items from 0 al 0 from a total of 0 properties
+      sInfoPostFix: ""
+      sSearch: Search
+      sUrl: ""
+      sInfoThousands: ","
+      oPaginate: 
+        sFirst: "<<"
+        sLast: ">>"
+        sNext: ">"
+        sPrevious: "<"
+
+    alert: 
+      deleteItem: Sigur dori?i sa ?terge?i acest articol?
+      deleteButton: Da, ?terge-o!
+
+    street: Strada
+    streetAddress: Adresa strazii
+    streetNumber: Numarul strazii
+    city: Ora?
+    postCode: Codul po?tal
+    region: Regiune
+    zone: Zona
+    locality: Localitate
+    country: ?ara
+
+    properties: Proprieta?i
+
+    cards: 
+      website: Website
+      websitePrompt: Ac?iuni de pe site
+      websiteLink: Accesa?i panoul de control web
+      properties: Proprieta?i
+      propertiesPrompt: Proprietate ac?iuni
+      propertiesLink: Merge?i la proprieta?i
+    tasks: 
+      addProperty: Adauga?i o proprietate
+      addPropertyPrompt: proprieta?i / Adauga?i proprietatea
+      manageProperties: Gestiona?i proprieta?ile
+      managePropertiesPrompt: proprieta?i / Edita?i proprieta?ile
+      changeLogo: Gestiona?i logo-ul, limbile ?i aspectul
+      changeLogoPrompt: Configurarea Web
+      changeLang: Modifica?i limba web
+      changeLangPrompt: Configurarea Web
+      changeLegalText: Modifica?i textele 'Juridice'
+      manageLandingCarousel: Gestiona?i caruselul paginii de destina?ie
+      changeAboutUsText: Schimba?i textul 'Despre Noi'
+      managePropertyTypes: Gestiona?i tipurile de proprieta?i
+      managePropertyExtras: Gestiona?i caracteristicile proprieta?ii
+
+    buttonLabels: 
+      configureAvailableExtras: Configura?i caracteristicile disponibile
+      selectImagesToAdd: Selecta?i imaginile pe care dori?i sa le adauga?i
+      selectRemoteImages: Adauga?i imagini din adrese URL
+
+    errors:
+      genericServerError: Ne pare rau, a aparut o eroare
+      languageRequired: Trebuie sa selecta?i cel pu?in o limba
+      inclusion: nu este inclus Ón lista
+      exclusion: este rezervat
+      invalid: este nevalid
+      confirmation: "nu se potrive?te {{attribute}}"
+      accepted: trebuie sa fie acceptata
+      empty: "nu poate fi gol"
+      blank: "nu poate fi gol"
+      present: trebuie sa fie necompletat
+      tooLong: este prea lung (maximum este {{count}} caractere)
+      tooShort: este prea scurt (minim este {{count}} caractere)
+      wrongLength: este lungimea gre?ita (ar trebui sa fie {{count}} caractere)
+      notANumber: nu este un numar
+      notAnInteger: trebuie sa fie un numar Óntreg
+      greaterThan: trebuie sa fie mai mare dec‚t {{count}}
+      greaterThanOrEqualTo: trebuie sa fie mai mare sau egala cu {{count}}
+      equalTo: trebuie sa fie egal cu {{count}}
+      lessThan: trebuie sa fie mai mica dec‚t {{count}}
+      lessThanOrEqualTo: trebuie sa fie mai mica sau egala cu {{count}}
+      otherThan: trebuie sa fie altul dec‚t {{count}}
+      odd: trebuie sa fie ciudat
+      even: trebuie sa fie echilibrat
+      tooShortVjs: e prea scurt
+      notAUrlVjs: nu este o adresa URL valida
+
+
