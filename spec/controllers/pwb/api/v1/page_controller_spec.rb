@@ -38,7 +38,7 @@ module Pwb
         # let!(:page) { FactoryGirl.create(:pwb_page, :home_page) }
         @page = FactoryGirl.create(:page_with_content_html_page_part,
                                    slug: "home")
-        page_part =  @page.page_parts.first
+        page_part = @page.page_parts.first
         page_part.template = '<div>{{ page_part["main_content"]["content"] %> }}</div>'
         page_part.save!
       end
@@ -77,7 +77,6 @@ module Pwb
 
 
       describe 'GET #show' do
-
         it 'returns correct agency and default setup info' do
           get :show, params: {
             page_name: "home"
