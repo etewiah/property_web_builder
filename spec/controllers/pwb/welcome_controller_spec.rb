@@ -10,7 +10,7 @@ module Pwb
       unless @page.present?
         @page = FactoryGirl.create(:pwb_page, slug: "home")
       end
-      # TODO - figure out how to do below with FactoryGirl
+      # TODO: - figure out how to do below with FactoryGirl
       # @page.set_fragment_html "test", "en", "<h2>Sell Your Property with Us</h2>"
     end
 
@@ -70,6 +70,5 @@ module Pwb
     after(:all) do
       @page.destroy
     end
-
   end
 end
