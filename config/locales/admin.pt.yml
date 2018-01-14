@@ -121,6 +121,8 @@ pt:
       suffixNl: in Dutch
       suffixVi: in Vietnamese
       suffixTr: in Turkish
+      suffixPl: in Polish
+      suffixRo: in Romanian
       privacyPolicy: Privacy Policy
       legalAdvice: Legal Notice
       # landingcarousel: Text for carousel image
