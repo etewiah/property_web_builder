@@ -1,0 +1,22 @@
+<div class="col-md-7">
+  <%= render 'pwb/sections/contact_us_form' %>
+</div>
+<div class="col-md-1">
+</div>
+<div class="col-md-4">
+  <div class="row">
+    <div class="col-sm-12">
+      <%= render '/pwb/props/prop_contact_info' %>
+    </div>
+    <div class="col-sm-12" style="display:none;">
+      <%# render '/main/home/about_us/opening_hours' %>
+    </div>
+    <div class="col-sm-12">
+      <% if @current_agency.show_contact_map %>
+        <inmo-map style="min-height: 600px;" :markers="<%= @map_markers.to_json %>" :zoom="15">
+        </inmo-map>
+        <div id="inmo-map-canvas" class="map-canvas no-margin"></div>
+      <% end %>
+    </div>
+  </div>
+</div>

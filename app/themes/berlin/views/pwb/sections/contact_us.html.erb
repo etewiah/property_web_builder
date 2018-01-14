@@ -28,28 +28,14 @@
 <section id="aa-main">
   <div class="container">
     <div class="col-md-12">
-      <div class="aa-main-area">
+      <div class="">
         <div class="row">
-          <div class="col-md-7">
-            <%= render 'pwb/sections/contact_us_form' %>
-          </div>
-          <div class="col-md-1">
-          </div>
-          <div class="col-md-4">
-            <div class="row">
-              <div class="col-sm-12">
-                <%# render '/main/home/about_us/contact_info' %>
-              </div>
-              <div class="col-sm-12" style="display:none;">
-                <%# render '/main/home/about_us/opening_hours' %>
-              </div>
-              <div class="col-sm-12">
-                <% if @current_agency.show_contact_map %>
-                  <div id="inmo-map-canvas" class="map-canvas no-margin"></div>
-                <% end %>
-              </div>
-            </div>
-          </div>
+          <% @page.ordered_visible_page_contents.each do |page_content| %>
+            <%= page_part page_content %>
+          <% end %>
+        </div>
+        <div class="row">
+          <%= page_component "form_and_map", @page %>
         </div>
       </div>
     </div>
