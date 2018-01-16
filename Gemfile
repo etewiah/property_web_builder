@@ -65,6 +65,9 @@ end
 
 group :development do
   gem 'guard-rubocop'
+  # below 2 for precompiling assets
+  gem 'closure-compiler'
+  gem 'yui-compressor'
 end
 
 
