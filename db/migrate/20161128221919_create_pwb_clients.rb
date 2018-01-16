@@ -15,7 +15,7 @@ class CreatePwbClients < ActiveRecord::Migration[5.0]
       t.integer :documentation_type
       t.integer :user_id
       t.integer :address_id
-      t.integer :flags, :null => false, :default => 0
+      t.integer :flags, null: false, default: 0
       t.json :details, default: {}
 
       t.timestamps null: false

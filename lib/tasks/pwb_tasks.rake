@@ -5,7 +5,7 @@
 require 'pwb/seeder'
 require 'pwb/pages_seeder'
 # from root of engine:
-# bundle exec rake app:pwb:db:seed     
+# bundle exec rake app:pwb:db:seed
 # from spec/dummy folder or within an app using the engine:
 # bundle exec rake pwb:db:seed
 namespace :pwb do

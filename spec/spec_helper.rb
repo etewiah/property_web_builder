@@ -45,7 +45,9 @@ Rails.backtrace_cleaner.remove_silencers!
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
-ActionController::Base.prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/"
+# ActionController::Base.prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/"
+# replaced above with below in view specs so I can test diff themes
+# @controller.prepend_view_path "#{Pwb::Engine.root}/app/themes/berlin/views/"
 
 
 
@@ -71,7 +73,7 @@ RSpec.configure do |config|
   # Make sure the database is clean and ready for test
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-    Pwb::Seeder.seed!
+    # Pwb::Seeder.seed!
   end
 
   config.after(:all) do

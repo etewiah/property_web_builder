@@ -1,0 +1,21 @@
+- page_slug: home
+  is_rails_part: true
+  # is_vue_component: true
+  page_part_key: search_cmpt
+  block_contents: {}
+  order_in_editor: 1,
+  show_in_editor: false,
+  editor_setup: {
+      "tabTitleKey": "pageSections.homeSearchComponent.title",
+      "tabInfoKey": "pageSections.homeSearchComponent.info",
+      "default_sort_order": 1,
+      "default_visible_on_page": false,
+      "editorBlocks": [
+      ],
+      "defaultVueData": {
+        "fromPricesRent" : [100]
+      }
+    }
+  template: 
+    <div>
+    </div>

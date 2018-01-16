@@ -12,7 +12,7 @@ module Pwb
       contact.update update_contact_params
       return render json: contact.as_json
     end
-    
+
     def show
       contact = Pwb::Contact.find_by_id params[:id]
       return render json: contact.as_json

@@ -35,7 +35,7 @@ module Pwb
       @page_title = @current_agency.company_name
       # @content_to_show = []
       if @page.present?
-        @page_title = @page.page_title + ' - ' + @current_agency.company_name        
+        @page_title = @page.page_title + ' - ' + @current_agency.company_name
         # TODO - allow addition of custom content
         # @page.ordered_visible_page_contents.each do |page_content|
         #   @content_to_show.push page_content.content.raw
@@ -80,7 +80,7 @@ module Pwb
       @page_title = @current_agency.company_name
       # @content_to_show = []
       if @page.present?
-        @page_title = @page.page_title + ' - ' + @current_agency.company_name        
+        @page_title = @page.page_title + ' - ' + @current_agency.company_name
         # TODO - allow addition of custom content
         # @page.ordered_visible_page_contents.each do |page_content|
         #   @content_to_show.push page_content.content.raw

@@ -11,10 +11,10 @@ class CreatePwbMessages < ActiveRecord::Migration[5.0]
       t.string :locale
       t.string :host
       t.string :url
-      t.boolean :delivery_success, :default => false
+      t.boolean :delivery_success, default: false
       t.string :delivery_email
       t.string :origin_email
-      
+
       t.timestamps null: false
     end
   end

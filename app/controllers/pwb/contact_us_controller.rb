@@ -14,17 +14,17 @@ module Pwb
       # @enquiry = Message.new
 
 
-      @content_to_show = []
+      # @content_to_show = []
       @page = Pwb::Page.find_by_slug "contact-us"
       @page_title = @current_agency.company_name
 
       if @page.present?
         if @page.page_title.present?
-          @page_title = @page.page_title + ' - ' + @current_agency.company_name.to_s                  
+          @page_title = @page.page_title + ' - ' + @current_agency.company_name.to_s
         end
-        @page.ordered_visible_page_contents.each do |page_content|
-          @content_to_show.push page_content.get_html_or_page_part_key
-        end
+        # @page.ordered_visible_page_contents.each do |page_content|
+        #   @content_to_show.push page_content.get_html_or_page_part_key
+        # end
       end
 
       # @page_title = I18n.t("contactUs")
@@ -54,10 +54,10 @@ module Pwb
       # have a hidden field in form to pass in above
       # @enquiry = Message.new(params[:contact])
 
-      @client = Client.find_or_initialize_by(email: params[:contact][:email])
-      @client.attributes = {
-        phone_number_primary: params[:contact][:tel],
-        first_names: params[:contact][:name]
+      @contact = Contact.find_or_initialize_by(primary_email: params[:contact][:email])
+      @contact.attributes = {
+        primary_phone_number: params[:contact][:tel],
+        first_name: params[:contact][:name]
       }
 
       @enquiry = Message.new(
@@ -73,8 +73,8 @@ module Pwb
           # origin_email: params[:contact][:email]
         }
       )
-      unless @enquiry.save && @client.save
-        @error_messages += @client.errors.full_messages
+      unless @enquiry.save && @contact.save
+        @error_messages += @contact.errors.full_messages
         @error_messages += @enquiry.errors.full_messages
         return render "pwb/ajax/contact_us_errors"
       end
@@ -84,11 +84,11 @@ module Pwb
         @enquiry.delivery_email = "no_delivery_email@propertywebbuilder.com"
       end
 
-      @enquiry.client = @client
+      @enquiry.contact = @contact
       @enquiry.save
 
       # @enquiry.delivery_email = ""
-      EnquiryMailer.general_enquiry_targeting_agency(@client, @enquiry).deliver_now
+      EnquiryMailer.general_enquiry_targeting_agency(@contact, @enquiry).deliver_now
 
       # @enquiry.delivery_success = true
       # @enquiry.save
@@ -96,6 +96,7 @@ module Pwb
       @flash = I18n.t "contact.success"
       return render "pwb/ajax/contact_us_success", layout: false
     rescue => e
+      # byebug
       # TODO: - log error to logger....
       # flash.now[:error] = 'Cannot send message.'
       @error_messages = [I18n.t("contact.error"), e]

@@ -1,0 +1,20 @@
+<script type="text/x-template" id="fb-import">
+  <v-container fluid>
+    <v-flex xs12>
+      <v-list two-line>
+        <template v-for="item in listItems">
+          <v-subheader v-if="item.header" v-text="item.header"></v-subheader>
+          <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider>
+          <v-list-tile avatar v-else v-bind:key="item.title" @click="">
+            <v-list-tile-avatar>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title v-html="item['.key']"></v-list-tile-title>
+              <v-list-tile-sub-title v-html="item"></v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+      </v-list>
+    </v-flex>
+  </v-container>
+</script>

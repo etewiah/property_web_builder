@@ -15,7 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" async: true ></script>
     <%= csrf_meta_tags %>
   </head>
-  <body class="tnt-body <%= @current_website.body_style %>">
+  <body class="tnt-body default-theme <%= @current_website.body_style %>">
     <%# render @current_website.views_folder + '/shared/main_mobile_menu' %>
     <!-- MAIN WRAPPER -->
     <div id="main-vue" class="body-wrap sticky-wrap <%= @current_website.body_style %>">

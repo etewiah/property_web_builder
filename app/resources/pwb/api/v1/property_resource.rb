@@ -3,7 +3,7 @@ module Pwb
     model_name 'Pwb::Prop'
 
     # http://jsonapi-resources.com/v0.9/guide/resources.html#Callbacks
-    # thought of using below to dynamically set globalize attributes dynamically but 
+    # thought of using below to dynamically set globalize attributes dynamically but
     # it doesn't get called when resource is just being retrieved...
     # after_create :add_attributes
     # def add_attributes
@@ -23,6 +23,8 @@ module Pwb
     attributes :title_vi, :description_vi
     attributes :title_ar, :description_ar
     attributes :title_ca, :description_ca
+    attributes :title_pl, :description_pl
+    attributes :title_ro, :description_ro
 
 
     attributes :area_unit, :photos, :property_photos, :extras

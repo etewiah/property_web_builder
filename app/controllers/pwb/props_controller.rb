@@ -61,10 +61,10 @@ module Pwb
       # if I didn't I could end up with the wrong locale
       # @enquiry = Message.new(params[:contact])
       @property = Prop.find(params[:contact][:property_id])
-      @client = Client.find_or_initialize_by(email: params[:contact][:email])
-      @client.attributes = {
-        phone_number_primary: params[:contact][:tel],
-        first_names: params[:contact][:name]
+      @contact = Contact.find_or_initialize_by(primary_email: params[:contact][:email])
+      @contact.attributes = {
+        primary_phone_number: params[:contact][:tel],
+        first_name: params[:contact][:name]
       }
 
       title = I18n.t "mailers.property_enquiry_targeting_agency.title"
@@ -80,8 +80,8 @@ module Pwb
                                # origin_email: params[:contact][:email]
       })
 
-      unless @enquiry.save && @client.save
-        @error_messages += @client.errors.full_messages
+      unless @enquiry.save && @contact.save
+        @error_messages += @contact.errors.full_messages
         @error_messages += @enquiry.errors.full_messages
         return render "pwb/ajax/request_info_errors"
       end
@@ -91,10 +91,10 @@ module Pwb
         @enquiry.delivery_email = "no_delivery_email@propertywebbuilder.com"
       end
 
-      @enquiry.client = @client
+      @enquiry.contact = @contact
       @enquiry.save
 
-      EnquiryMailer.property_enquiry_targeting_agency(@client, @enquiry, @property).deliver
+      EnquiryMailer.property_enquiry_targeting_agency(@contact, @enquiry, @property).deliver
       # @enquiry.delivery_success = true
       @enquiry.save
       @flash = I18n.t "contact.success"
