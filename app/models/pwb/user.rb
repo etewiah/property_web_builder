@@ -3,7 +3,9 @@ module Pwb
     # Include default devise modules. Others available are:
     # :confirmable, :lockable, :timeoutable and :omniauthable
     devise :database_authenticatable, :registerable,
-           :recoverable, :rememberable, :trackable, :validatable
+           :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook]
+
+    has_many :authorizations
 
     # TODO: - use db col for below
     def default_client_locale
