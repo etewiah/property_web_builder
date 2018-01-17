@@ -40,7 +40,7 @@ Pwb::Engine.routes.draw do
       get "/users/edit_success" => "devise/registrations#edit_success", as: "user_edit_success"
     end
     # https://github.com/plataformatec/devise/wiki/How-To:-Use-devise-inside-a-mountable-engine
-    devise_for :users, class_name: "Pwb::User", module: :devise, :controllers => { :registrations => "pwb/devise/registrations" }
+    devise_for :users, class_name: "Pwb::User", module: :devise, :controllers => { :registrations => "pwb/devise/registrations", omniauth_callbacks: 'omniauth_callbacks' }
     # specifying controllers above is from:
     # https://github.com/plataformatec/devise/wiki/How-To:-Customize-the-redirect-after-a-user-edits-their-profile
 
