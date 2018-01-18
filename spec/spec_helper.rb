@@ -52,8 +52,7 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 
 RSpec.configure do |config|
-
-  # TODO - consider precompiling assets to speed up tests
+  # TODO: - consider precompiling assets to speed up tests
   # config.before(:suite) do
   #   Rails.application.load_tasks
   #   Rake::Task["assets:precompile"].invoke

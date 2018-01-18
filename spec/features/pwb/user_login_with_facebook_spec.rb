@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 module Pwb
-
   RSpec.feature "user logs in" do
     # http://www.jessespevack.com/blog/2016/10/16/how-to-test-drive-omniauth-google-oauth2-for-your-rails-app
     scenario "using facebook oauth2" do
@@ -40,5 +39,4 @@ module Pwb
       })
     end
   end
-
 end
