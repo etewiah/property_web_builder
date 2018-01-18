@@ -5,6 +5,9 @@ module Pwb
   RSpec.feature "user logs in" do
     # http://www.jessespevack.com/blog/2016/10/16/how-to-test-drive-omniauth-google-oauth2-for-your-rails-app
     scenario "using facebook oauth2" do
+      Rails.application.secrets.facebook_app_id = 123
+      Rails.application.secrets.facebook_app_secret = 456
+      # if secrets are not set above, sign in link will not display
       stub_omniauth
       # visit root_path
       visit('/admin')
@@ -22,18 +25,18 @@ module Pwb
       # then, provide a set of fake oauth data that
       # omniauth will use when a user tries to authenticate:
       OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
-                                                                    provider: "facebook",
-                                                                    uid: "12345678910",
-                                                                    info: {
-                                                                      email: "dummy@dummy.com",
-                                                                      first_name: "Ed",
-                                                                      last_name: "Tee"
-                                                                    },
-                                                                    credentials: {
-                                                                      token: "abcdefg12345",
-                                                                      refresh_token: "12345abcdefg",
-                                                                      expires_at: DateTime.now
-                                                                    }
+                                                                      provider: "facebook",
+                                                                      uid: "12345678910",
+                                                                      info: {
+                                                                        email: "dummy@dummy.com",
+                                                                        first_name: "Ed",
+                                                                        last_name: "Tee"
+                                                                      },
+                                                                      credentials: {
+                                                                        token: "abcdefg12345",
+                                                                        refresh_token: "12345abcdefg",
+                                                                        expires_at: DateTime.now
+                                                                      }
       })
     end
   end
