@@ -83,3 +83,8 @@ production:
   database: pwb_dummy_production
   username: dummy
   password: <%= ENV['DUMMY_DATABASE_PASSWORD'] %>
+
+# below is to allow me to test precompiling assets:
+precompile:
+  <<: *default
+  database: pwb_dummy_development

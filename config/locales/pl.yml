@@ -1,0 +1,160 @@
+---
+pl:
+  aboutUs: O nas
+  address: Adres
+  back: Wstecz
+  changePassword: Zmien haslo
+  contact:
+    emailSubject: Skontaktuj sie ze swoja witryna
+    error: Niestety wystapil blad.
+    success: Dziekuje za Twoja wiadomosc. Skontaktujemy sie z Toba wkrÛtce!
+  contactUs: Kontakt
+  contactUsPrompt: Wypelnij ponizszy formularz, aby sie z nami skontaktowac
+  devise:
+    user_update_success: Pomyslnie zaktualizowales swoje konto.
+    user_update_success_title: Gratulacje
+  editarPropiedad: Edytuj wlasciwosc
+  email: E-mail
+  'false': 'Nie'
+  findAProperty: Znajdz nieruchomosc
+  findByReference: Znajdz przez odniesienie
+  forRent: Do wynajecia
+  forSale: Na sprzedaz
+  go: Udac sie
+  labels:
+    create: StwÛrz
+    edit: Edytowac
+    latestProperties: Najnowsze wlasciwosci
+    new: Nowy
+    ourServices: Nasze Uslugi
+    save: Zapisac
+  leaveBlank: pozostaw to pole puste, jesli nie chcesz tego zmieniac
+  legalAdvice: Nota prawna
+  listadoPropiedades: Lista wlasciwosci
+  mailers:
+    confirm_registration: Potwierdz swoje konto za pomoca ponizszego linku
+    from: Od
+    general_enquiry_targeting_agency:
+      title: OgÛlne zapytanie z Twojej strony internetowej
+    general_enquiry_targeting_enquirer:
+      message_title: ''
+      subject: ''
+    message: Wiadomosc
+    phone: Tel
+    property: Wlasnosc
+    property_enquiry_targeting_agency:
+      title: Zapytanie dotyczace nieruchomosci
+    received_on: Otrzymana w dniu
+    welcome: Witamy
+  menu_admin: administracja
+  message: Wiadomosc
+  name: Nazwa
+  navbar:
+    about-us: O nas
+    admin: Administracja
+    buy: Wlasciwosci do kupienia
+    contact-us: Kontakt
+    home: Dom
+    legal: Nota prawna
+    privacy: Polityka prywatnosci
+    rent: Wlasciwosci do wynajecia
+    sell: Sprzedac
+  needCurrentPwd: potrzebujemy Twojego obecnego hasla, aby potwierdzic twoje zmiany
+  newPassword: nowe haslo
+  noResultsForSearch: Niestety, nie znaleziono wynikÛw
+  nuevoPropiedad: Nowa nieruchomosc
+  orderBy:
+    priceAscending: "‚Üì Cena (rosnaco)"
+    priceDescending: "‚Üë Cena (rosnaco)"
+  pages:
+    aboutUs: O nas
+    sell: Sprzedac
+  placeHolders:
+    email: TwÛj email
+    message: Napisz swoja wiadomosc tutaj
+    name: Twoje imie
+    subject: Przedmiot
+    tel: Naprawione lub mobilne
+  # privacyPolicy: Polityka prywatnosci
+  property:
+    description: Opis
+    details: Detale
+    extras: Cechy
+    furniture: Meble
+    goToProperty: Wyswietl wlasciwosc
+    highlightedProperty: Znakomita wlasnosc
+    locality: Miejscowosc
+    map: Mapa
+    monthlyRentalPriceHighSeason: Cena miesieczna (w sezonie)
+    monthlyRentalPriceLowSeason: Cena miesieczna (poza sezonem)
+    monthlyRentalPriceStandardSeason: Cena miesieczna (sezon standardowy)
+    operationType: Rodzaj operacji
+    price: Cena
+    propertyType: Typ nieruchomosci
+    ref: Odniesienie
+  propertyForRent: Nieruchomosc do wynajecia
+  propertyForSale: Nieruchomosc na sprzedaz
+  propertyNotFound: Nie znaleziono nieruchomosci
+  pwb:
+    copyright: "%{company_name} Inc. Wszelkie prawa zastrzezone."
+    createPrompt: StwÛrz strone internetowa agencji nieruchomosci
+    createTagLine: Wprowadz dane konta
+    getStarted: Zacznij teraz
+    registerNow: Zarejestruj sie teraz
+    tagLine: Profesjonalne strony internetowe dla agentÛw nieruchomosci w kilka minut
+    tagLineExt: Piekne strony internetowe, o ktÛrych trzeba wierzyc.<br>Nikt
+      szybciej Cie online.
+  requestPropertyInfo: Popros o informacje
+  search: Szukaj
+  searchForProperties: Wyszukaj wlasciwosci
+  selectpicker:
+    countSelectedText: Wybrany {0} z {1}
+    noneResultsText: Nie znaleziono wynikÛw {0}
+    noneSelectedText: Nic nie wybrano
+  send: Wyslac
+  setup:
+    claimSubdomain: Zglos sie do tego adresu URL
+    createdSuccessfully: Strona utworzona pomyslnie
+    goToYourSite: Przejdz do swojej witryny
+    loggedInAs: 'Zalogowany jako '
+    logout: Wyloguj
+    selectUrl: Wybierz adres URL
+    selectUrlMessage: Udalo Ci sie utworzyc konto - teraz wybierz adres URL
+      dla twojej nowej strony
+    subdomain: poddomena
+    subdomainMissing: Wpisz nazwe subdomeny
+    thankYouForTrusting: Dziekuje za zaufanie %{company_name}
+    urlNotAvailable: Przepraszamy, ten URL nie jest dostepny
+    weAreCreatingSite: Tworzymy Twoja witryne
+  signOut: Wyloguj sie
+  simple_form:
+    error_notification:
+      default_message: 'Sprawdz problemy ponizej:'
+    labels:
+      search:
+        count_bathrooms: Lazienki (min)
+        count_bedrooms: Sypialnie (min)
+        for_rent_price_from: Czynsz od (co miesiac)
+        for_rent_price_till: Czynsz do (co miesiac)
+        for_sale_price_from: Cena od
+        for_sale_price_till: Cena do
+        in_locality: Miejscowosc
+        in_zone: Strefa
+        locality: Miejscowosc
+        property_state: Stan nieruchomosci
+        property_type: Typ nieruchomosci
+    'no': 'Nie'
+    required:
+      mark: "*"
+      text: wymagany
+    'yes': 'Tak'
+  subject: Przedmiot
+  tel: Telefon
+  'true': 'Tak'
+  update: Aktualizacja
+  webContentSections:
+    aboutUs: O nas
+    contactInformation: Informacje kontaktowe
+    home: Dom
+    sell: Sprzedac
+    tagLine: Linia tagÛw

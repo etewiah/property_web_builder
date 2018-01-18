@@ -121,6 +121,8 @@ pt:
       suffixNl: in Dutch
       suffixVi: in Vietnamese
       suffixTr: in Turkish
+      suffixPl: in Polish
+      suffixRo: in Romanian
       privacyPolicy: Privacy Policy
       legalAdvice: Legal Notice
       # landingcarousel: Text for carousel image
@@ -304,6 +306,20 @@ pt:
     es-CL: Chile
     es-ES: Espanha
     es-MX: México
+    pl-PL: Polónia
+    ro-RO: Romania
+    pl: Polish
+    ro: Romanian
+    pln: Polish Zloty
+    ron: Romanian Leu
+    ngn: Nigerian Naira
+    ghs: Ghanaian Cedi
+    dkk: Danish Krone
+    czk: Czech Koruna
+    sek: Swedish Krona
+    thb: Thai Baht
+    mad: Moroccan Dirham
+    egp: Egyptian Pound
     eur: Euros
     'false': falso
     fi-FI: Finlândia
@@ -407,7 +423,6 @@ pt:
     ne-NE: Holanda
     'no': Não
     no-NO: Noruega
-    po-PO: Polónia
     propertyColHeader:
       actions: Acções
       bathrooms: Casas de Banho

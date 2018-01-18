@@ -11,7 +11,8 @@ RSpec.describe 'pwb/welcome/index', type: :view do
     view.extend Pwb::ImagesHelper
     view.extend Pwb::ComponentHelper
     # @current_website = FactoryGirl.create(:pwb_website)
-    @page = FactoryGirl.create(:home_page_with_page_part)
+    @page = FactoryGirl.create(:page_with_content_html_page_part,
+                               slug: "home")
     # @page_content = FactoryGirl.create(:pwb_content, :main_content)
     # factorygirl ensures unique_instance of website is used
 

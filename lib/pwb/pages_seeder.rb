@@ -43,7 +43,7 @@ module Pwb
       protected
 
 
-      def seed_page yml_file
+      def seed_page(yml_file)
         page_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'pages', yml_file)
         page_yml = YAML.load_file(page_seed_file)
         # unless Pwb::Page.where(slug: page_yml[0]['slug']).count > 0
@@ -63,30 +63,28 @@ module Pwb
         I18n.available_locales.each do |locale|
           title_accessor = 'page_title_' + locale.to_s
           # if page_title has not been set for this locale
-          if page_record.send(title_accessor).blank?
-            translation_key = 'navbar.' + page_record.slug
-            # get the I18n translation
-            title_value = I18n.t(translation_key, :locale => locale, :default => nil)
-            title_value = title_value || I18n.t(translation_key, :locale => :en, :default => 'Unknown')
-            # in case translation cannot be found
-            # take default page_title (English value)
-            title_value = title_value || page_record.page_title
-            # set title_value as page_title
-            page_record.update_attribute title_accessor, title_value
-          end
+          next unless page_record.send(title_accessor).blank?
+          translation_key = 'navbar.' + page_record.slug
+          # get the I18n translation
+          title_value = I18n.t(translation_key, locale: locale, default: nil)
+          title_value ||= I18n.t(translation_key, locale: :en, default: 'Unknown')
+          # in case translation cannot be found
+          # take default page_title (English value)
+          title_value ||= page_record.page_title
+          # set title_value as page_title
+          page_record.update_attribute title_accessor, title_value
         end
       end
 
-
-      def seed_page_part page_part_seed_file
+      def seed_page_part(page_part_seed_file)
         # page_part_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'page_parts', yml_file)
         lf_yml = YAML.load_file(page_part_seed_file)
-        unless Pwb::PagePart.where({page_part_key: lf_yml[0]['page_part_key'],page_slug: lf_yml[0]['page_slug']}).count > 0
+        unless Pwb::PagePart.where({page_part_key: lf_yml[0]['page_part_key'], page_slug: lf_yml[0]['page_slug']}).count > 0
           Pwb::PagePart.create!(lf_yml)
         end
       end
 
-      def seed_content_for_locale locale
+      def seed_content_for_locale(locale)
         locale_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'content_translations', locale + '.yml')
         unless File.exist? locale_seed_file
           return
@@ -118,18 +116,15 @@ module Pwb
               # skip if there is no content to populate
               next
             end
-            if yml[locale][page.slug][page_part_key]
-              seed_content = yml[locale][page.slug][page_part_key]
-              set_page_block_content locale, page_part, seed_content
-              set_page_content_order_and_visibility locale, page_part, seed_content
-            end
+            next unless yml[locale][page.slug][page_part_key]
+            seed_content = yml[locale][page.slug][page_part_key]
+            set_page_block_content locale, page_part, seed_content
+            set_page_content_order_and_visibility locale, page_part, seed_content
           end
         end
-
       end
 
-      def set_page_content_order_and_visibility locale, page_part, seed_content
-
+      def set_page_content_order_and_visibility(_locale, page_part, _seed_content)
         page_part_editor_setup = page_part.editor_setup
         page = page_part.page
         # page_part_key uniquely identifies a fragment
@@ -145,8 +140,7 @@ module Pwb
         page.set_fragment_visibility page_part_key, visible_on_page
       end
 
-      def set_page_block_content locale, page_part, seed_content
-
+      def set_page_block_content(locale, page_part, seed_content)
         page_part_editor_setup = page_part.editor_setup
         page = page_part.page
         # page_part_key uniquely identifies a fragment
@@ -174,7 +168,7 @@ module Pwb
                 row_block_content = seed_content[row_block_label]
               end
             end
-            locale_block_content_json["blocks"][row_block_label] = {"content"=>row_block_content}
+            locale_block_content_json["blocks"][row_block_label] = {"content" => row_block_content}
           end
         end
 
@@ -189,7 +183,6 @@ module Pwb
 
         p "#{page.slug} page #{page_part_key} content set for #{locale}."
       end
-
     end
   end
 end

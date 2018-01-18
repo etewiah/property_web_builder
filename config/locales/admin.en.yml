@@ -14,9 +14,10 @@ en:
     pt-BR: Brazil
     it-IT: Italy
     de-DE: Germany
-    ru-RU: Russia
     ne-NE: Netherlands
-    po-PO: Poland
+    pl-PL: Poland
+    ro-RO: Romania
+    ru-RU: Russia
     fi-FI: Finland
     no-NO: Norway
     ca-CA: Catalunia
@@ -36,6 +37,8 @@ en:
     vi: Vietnamese
     tr: Turkish
     hi: Hindi
+    pl: Polish
+    ro: Romanian
     sqmt: Square Meters
     sqft: Square Feet
     cad: Canadian Dollar
@@ -55,6 +58,16 @@ en:
     hkd: Hong Kong Dollar
     vnd: Vietnamese Dong
     try: Turkish Lira
+    pln: Polish Zloty
+    ron: Romanian Leu
+    ngn: Nigerian Naira
+    ghs: Ghanaian Cedi
+    dkk: Danish Krone
+    czk: Czech Koruna
+    sek: Swedish Krona
+    thb: Thai Baht
+    mad: Moroccan Dirham
+    egp: Egyptian Pound
     pages:
       aboutUs: About us
       sell: Sell
@@ -172,6 +185,8 @@ en:
       suffixNl: in Dutch
       suffixVi: in Vietnamese
       suffixTr: in Turkish
+      suffixPl: in Polish
+      suffixRo: in Romanian
       privacyPolicy: Privacy Policy
       legalAdvice: Legal Notice
       # landingcarousel: Text for carousel image
