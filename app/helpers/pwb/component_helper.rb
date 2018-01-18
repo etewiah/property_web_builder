@@ -3,7 +3,7 @@ module Pwb
     def page_part(page_content)
       unless page_content.is_rails_part
         content = page_content.content.present? ? page_content.content.raw : ""
-        render :partial => "pwb/components/generic_page_part", :locals => { content: content }
+        render partial: "pwb/components/generic_page_part", locals: { content: content }
       end
     end
 
@@ -16,9 +16,8 @@ module Pwb
         end
       end
       if components.include? component_name
-       render :partial => "pwb/components/#{component_name}", :locals => {}
+       render partial: "pwb/components/#{component_name}", locals: {}
       end
     end
-
   end
 end

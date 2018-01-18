@@ -1,5 +1,19 @@
 module Pwb
   module NavigationHelper
+    def render_omniauth_sign_in(provider)
+      # will only render sign_in link for a provider for which config is present
+      app_id_present = Rails.application.secrets["#{provider}_app_id"].present?
+      app_secret_present = Rails.application.secrets["#{provider}_app_secret"].present?
+      unless app_id_present && app_secret_present
+        return
+      end
+      link_title = t('.sign_in_with_provider', provider: provider.to_s.titleize)
+      link_path = pwb.send("localized_omniauth_path", provider)
+      # link_path has to adapted to localised scope
+      # https://github.com/plataformatec/devise/wiki/How-To:-OmniAuth-inside-localized-scope
+      link_to link_title, link_path
+      # pwb.localized_omniauth_path(provider)
+    end
 
     def render_top_navigation_links
       html = ""
@@ -26,7 +40,7 @@ module Pwb
       begin
         if page[:link_path].present?
           # link_path should be valid - below checks that
-          target_path = self.pwb.send(page[:link_path], [page[:link_path_params]], {locale: locale})
+          target_path = pwb.send(page[:link_path], [page[:link_path_params]], {locale: locale})
           # below works in most routes but had to change to above to support devise routes
           # target_path = send(page[:link_path], {locale: locale})
           # else
@@ -40,7 +54,7 @@ module Pwb
       end
       if target_path
         html = <<-HTML
-        #{ link_to page.link_title, target_path}.
+        #{link_to page.link_title, target_path}.
         HTML
       end
       html
@@ -51,7 +65,7 @@ module Pwb
       begin
         if page[:link_path].present?
           # link_path should be valid - below checks that
-          target_path = self.pwb.send(page[:link_path], [page[:link_path_params]], {locale: locale})
+          target_path = pwb.send(page[:link_path], [page[:link_path_params]], {locale: locale})
           # below works in most routes but had to change to above to support devise routes
           # target_path = send(page[:link_path], {locale: locale})
           # else
@@ -77,6 +91,5 @@ module Pwb
       end
       html
     end
-
   end
 end

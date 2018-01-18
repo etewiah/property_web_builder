@@ -15,6 +15,7 @@ require 'active_hash'
 require 'firebase'
 require "liquid"
 require "flag_shih_tzu"
+require "omniauth-facebook"
 # require 'comfortable_mexican_sofa'
 
 # require 'redis'

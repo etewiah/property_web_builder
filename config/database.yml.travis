@@ -1,3 +1,6 @@
 test:
   adapter: postgresql
   database: pwb_dummy_test
+  username: borowskiy
+  password: 123
+

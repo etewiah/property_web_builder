@@ -3,8 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+* Add support for facebook authentication using omniauth
 * Fix issue with sending emails (#48)
-* Add Polish translations
+* Add Polish and Romanian translations
 
 ## 1.3.0 / 2017-12-04
 
