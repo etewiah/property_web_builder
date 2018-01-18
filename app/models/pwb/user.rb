@@ -17,6 +17,11 @@ module Pwb
       return authorization.user if authorization
  
       email = auth.info[:email]
+      unless email.present?
+        # below is a workaround for when email is not available from auth provider
+        email = "#{SecureRandom.urlsafe_base64}@example.com"
+        # in future might redirect to a page where email can be requested
+      end
       user = User.where(email: email).first
       if user
         user.create_authorization(auth)
