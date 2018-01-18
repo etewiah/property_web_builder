@@ -7,9 +7,9 @@ module Pwb
       expect(user).to be_valid
     end
 
-    #tests authorization with omniauth
+    # tests authorization with omniauth
     describe '.find_for_oauth' do
-      let!(:user) { FactoryGirl.create(:pwb_user,  email: "user@example.org", password: "very-secret") }
+      let!(:user) { FactoryGirl.create(:pwb_user, email: "user@example.org", password: "very-secret") }
       let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }
 
       context 'user already has authorization' do

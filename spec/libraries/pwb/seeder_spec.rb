@@ -39,6 +39,5 @@ module Pwb
     # after(:all) do
     #   DatabaseCleaner.clean_with(:truncation)
     # end
-
   end
 end
