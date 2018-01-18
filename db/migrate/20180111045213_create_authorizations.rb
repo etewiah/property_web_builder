@@ -1,6 +1,6 @@
 class CreateAuthorizations < ActiveRecord::Migration[5.1]
   def change
-    create_table :authorizations do |t|
+    create_table :pwb_authorizations do |t|
       t.references :user, index: true
       t.string :provider
       t.string :uid
