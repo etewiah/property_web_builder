@@ -1,0 +1,160 @@
+---
+ro:
+  aboutUs: Despre noi
+  address: Adresa
+  back: Œnapoi
+  changePassword: Schimbati parola
+  contact:
+    emailSubject: Contacta?i-va de pe site-ul dvs.
+    error: Ne pare rau, a aparut o eroare.
+    success: Multumesc pentru mesajul tau. Va vom contacta Ón cur‚nd!
+  contactUs: Contact
+  contactUsPrompt: Completa?i formularul de mai jos pentru a ne contacta
+  devise:
+    user_update_success: A?i actualizat contul.
+    user_update_success_title: Felicitari
+  editarPropiedad: Edita?i o proprietate
+  email: E-mail
+  'false': 'Nu'
+  findAProperty: Gasi?i o proprietate
+  findByReference: Gasi?i prin referin?a
+  forRent: De inchiriat
+  forSale: De v‚nzare
+  go: Merge
+  labels:
+    create: Crea
+    edit: Edita
+    latestProperties: Ultimele proprietati
+    new: Nou
+    ourServices: Serviciile noastre
+    save: Salva?i
+  leaveBlank: lasa?i-l gol daca nu dori?i sa-l schimba?i
+  legalAdvice: Aviz juridic
+  listadoPropiedades: Lista proprieta?ilor
+  mailers:
+    confirm_registration: Confirma?i contul dvs. prin intermediul link-ului de mai jos
+    from: Din
+    general_enquiry_targeting_agency:
+      title: Ancheta generala de pe site-ul dvs.
+    general_enquiry_targeting_enquirer:
+      message_title: ''
+      subject: ''
+    message: Mesaj
+    phone: Telefon
+    property: Proprietate
+    property_enquiry_targeting_agency:
+      title: Ancheta privind o proprietate
+    received_on: Primit pe
+    welcome: Bun venit
+  menu_admin: admin
+  message: Mesaj
+  name: Nume
+  navbar:
+    about-us: Despre noi
+    admin: Admin
+    buy: Proprieta?i de cumparare
+    contact-us: contact
+    home: Acasa
+    legal: Aviz juridic
+    privacy: Politica de confidentialitate
+    rent: Proprieta?i de Ónchiriat
+    sell: Vinde
+  needCurrentPwd: avem nevoie de parola actuala pentru a confirma modificarile
+  newPassword: Parola Noua
+  noResultsForSearch: Ne pare rau, nu s-au gasit rezultate
+  nuevoPropiedad: Noua proprietate
+  orderBy:
+    priceAscending: "‚Üì Pre? (crescator)"
+    priceDescending: "‚Üë Pre? (descrescator)"
+  pages:
+    aboutUs: Despre noi
+    sell: Vinde
+  placeHolders:
+    email: Email-ul tau
+    message: Scrie?i mesajul dvs. aici
+    name: Numele dumneavoastra
+    subject: Subiect
+    tel: Fix sau mobil
+  # privacyPolicy: Politica de confidentialitate
+  property:
+    description: Descriere
+    details: Detalii
+    extras: Caracteristici
+    furniture: Mobila
+    goToProperty: Vizualiza?i proprietatea
+    highlightedProperty: Proprietate remarcabila
+    locality: Localitate
+    map: Harta
+    monthlyRentalPriceHighSeason: Pre?ul Lunar (Sezonul Ónalt)
+    monthlyRentalPriceLowSeason: Pre?ul Lunar (Sezonul Scazut)
+    monthlyRentalPriceStandardSeason: Pre?ul Lunar (Sezonul Standard)
+    operationType: Tipul de operare
+    price: Pre?
+    propertyType: tipul de proprietate
+    ref: Ref
+  propertyForRent: Imobil de inchiriat
+  propertyForSale: Proprietate de vanzare
+  propertyNotFound: Proprietatea nu a fost gasita
+  pwb:
+    copyright: "%{company_name} Inc. Toate drepturile rezervate."
+    createPrompt: Crea?i site-ul web al agen?iei imobiliare
+    createTagLine: Introduce?i detaliile contului dvs.
+    getStarted: Incepe acum
+    registerNow: Œnregistreaza-te acum
+    tagLine: Site-uri web profesionale pentru agen?ii imobiliari Ón c‚teva minute
+    tagLineExt: Site-uri frumoase care trebuie vazute a fi crezute.<br>Nimeni
+      te te online mai repede..
+  requestPropertyInfo: Solicita?i informa?ii
+  search: Cautare
+  searchForProperties: Cauta?i proprieta?i
+  selectpicker:
+    countSelectedText: Au fost selecta?i {0} din {1}
+    noneResultsText: Nici un rezultat gasit {0}
+    noneSelectedText: Nimic nu a fost selectat
+  send: Trimite
+  setup:
+    claimSubdomain: Revendica?i aceasta adresa URL
+    createdSuccessfully: Site-ul a fost creat cu succes
+    goToYourSite: Accesa?i site-ul dvs.
+    loggedInAs: 'Conectat ca '
+    logout: Deconectare
+    selectUrl: Selecta?i o adresa URL
+    selectUrlMessage: A?i creat un cont cu succes - acum selecta?i adresa URL
+      pentru noul dvs. site
+    subdomain: subdomeniu
+    subdomainMissing: Introduce?i un nume pentru subdomeniu
+    thankYouForTrusting: Va mul?umim pentru Óncredere %{company_name}
+    urlNotAvailable: Ne pare rau, aceasta adresa URL nu este disponibila
+    weAreCreatingSite: Crea?i site-ul dvs.
+  signOut: Sign Out
+  simple_form:
+    error_notification:
+      default_message: 'Consulta?i problemele de mai jos:'
+    labels:
+      search:
+        count_bathrooms: Bai (min)
+        count_bedrooms: Dormitoare (min)
+        for_rent_price_from: Œnchiriere de la (lunar)
+        for_rent_price_till: Œnchirieri p‚na la (lunar)
+        for_sale_price_from: Pret de la
+        for_sale_price_till: Pre? p‚na la
+        in_locality: Localitate
+        in_zone: Zona
+        locality: Localitate
+        property_state: Statul de proprietate
+        property_type: tipul de proprietate
+    'no': 'Nu'
+    required:
+      mark: "*"
+      text: necesar
+    'yes': 'Da'
+  subject: Subiect
+  tel: Telefon
+  'true': 'Da'
+  update: Actualiza?i
+  webContentSections:
+    aboutUs: Despre noi
+    contactInformation: Informatii de contact
+    home: domiciliu
+    sell: Vinde
+    tagLine: Linia de etichetare

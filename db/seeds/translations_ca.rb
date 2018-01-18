@@ -87,6 +87,7 @@ I18n::Backend::ActiveRecord::Translation.create!(
     {locale: "ca", key: "propertyTypes.garaje", value: "Garaje"},
     {locale: "ca", key: "propertyTypes.local", value: "Local"},
     {locale: "ca", key: "propertyTypes.trastero", value: "Trastero"},
-    {locale: "ca", key: "propertyTypes.casaRural", value: "Casa Rural"},
-])
+    {locale: "ca", key: "propertyTypes.casaRural", value: "Casa Rural"}
+]
+)
 # end
