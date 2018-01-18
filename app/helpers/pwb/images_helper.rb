@@ -1,9 +1,8 @@
 module Pwb
   module ImagesHelper
-
     def bg_image(photo, options = {})
       image_url = get_opt_image_url photo, options
-      #style="background-image:linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1) ),url(<%= carousel_item.default_photo %>);"
+      # style="background-image:linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1) ),url(<%= carousel_item.default_photo %>);"
       if options[:gradient]
         "background-image: linear-gradient(#{options[:gradient]}), url(#{image_url});".html_safe
       else
@@ -38,6 +37,5 @@ module Pwb
         image_url = image_url photo.image.url
       end
     end
-
   end
 end

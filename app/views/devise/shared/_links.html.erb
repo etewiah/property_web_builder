@@ -20,8 +20,9 @@
 
 <%- if devise_mapping.omniauthable? %>
   <%- resource_class.omniauth_providers.each do |provider| %>
+    <%= render_omniauth_sign_in provider %>
     <!--   # https://github.com/plataformatec/devise/wiki/How-To:-OmniAuth-inside-localized-scope -->
-    <%= link_to t('.sign_in_with_provider', provider: provider.to_s.titleize), pwb.localized_omniauth_path(provider)  %>
+    <%# link_to t('.sign_in_with_provider', provider: provider.to_s.titleize), pwb.localized_omniauth_path(provider)  %>
     <%# link_to t('.sign_in_with_provider', provider: provider.to_s.titleize), omniauth_authorize_path(resource_name, provider) %><br />
   <% end -%>
 <% end -%>
