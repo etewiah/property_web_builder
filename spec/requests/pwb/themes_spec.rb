@@ -11,7 +11,6 @@ module Pwb
       unless @page.present?
         @page = FactoryGirl.create(:pwb_page, slug: "home")
       end
-
     end
 
     context 'when theme is set' do

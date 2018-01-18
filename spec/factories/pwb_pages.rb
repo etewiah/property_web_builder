@@ -10,7 +10,7 @@ FactoryGirl.define do
 
     factory :contact_us_with_rails_page_part do
       slug "contact-us"
-      after(:create) do |page, evaluator|
+      after(:create) do |page, _evaluator|
         # form_and_map is a pwb_page_part trait
         # create(:pwb_page_part, :form_and_map, page: page)
         # below ensures there is some visible content
@@ -19,7 +19,7 @@ FactoryGirl.define do
     end
 
     factory :page_with_content_html_page_part do
-      after(:create) do |page, evaluator|
+      after(:create) do |page, _evaluator|
         # content_html is a pwb_page_part trait
         create(:pwb_page_part, :content_html, page: page)
         create(:page_content_with_content, page: page)
@@ -41,11 +41,10 @@ FactoryGirl.define do
       # evaluator, which stores all values from the factory, including transient
       # attributes; `create_list`'s second argument is the number of records
       # to create and we make sure the page is associated properly to the page_part
-      after(:create) do |page, evaluator|
+      after(:create) do |page, _evaluator|
         create(:pwb_page_part, :content_html, page: page)
         # create_list(:pwb_page_part, evaluator.page_parts_count, page: page)
       end
     end
-
   end
 end

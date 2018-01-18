@@ -36,5 +36,4 @@ RSpec.describe 'pwb/welcome/index', type: :view do
     # assert_select "form[action=?][method=?]", welcome_path(@welcome), "post" do
     # end
   end
-
 end

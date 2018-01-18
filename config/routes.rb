@@ -34,13 +34,25 @@ Pwb::Engine.routes.draw do
 
   get "/custom_css/:theme_name" => "css#custom_css", as: "custom_css"
 
+
+  # We need to define devise_for just omniauth_callbacks:auth_callbacks otherwise it does not work with scoped locales
+  # see https://github.com/plataformatec/devise/issues/2813 &
+  # https://github.com/plataformatec/devise/wiki/How-To:-OmniAuth-inside-localized-scope
+  devise_for :users, class_name: "Pwb::User", only: :omniauth_callbacks, controllers: { omniauth_callbacks: 'pwb/omniauth_callbacks' }
+
+
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
 
     devise_scope :user do
       get "/users/edit_success" => "devise/registrations#edit_success", as: "user_edit_success"
     end
+
+    # We define here a route inside the locale thats just saves the current locale in the session
+    get 'omniauth/:provider' => 'omniauth#localized', as: :localized_omniauth
+
+
     # https://github.com/plataformatec/devise/wiki/How-To:-Use-devise-inside-a-mountable-engine
-    devise_for :users, class_name: "Pwb::User", module: :devise, :controllers => { :registrations => "pwb/devise/registrations" }
+    devise_for :users, skip: :omniauth_callbacks, class_name: "Pwb::User", module: :devise, :controllers => { :registrations => "pwb/devise/registrations", omniauth_callbacks: 'pwb/omniauth_callbacks' }
     # specifying controllers above is from:
     # https://github.com/plataformatec/devise/wiki/How-To:-Customize-the-redirect-after-a-user-edits-their-profile
 

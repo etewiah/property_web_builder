@@ -10,14 +10,12 @@ module Pwb
 
     def custom_styles(theme_name)
       @bg_style_vars = ["primary-color-light", "primary-color-dark",
-                     "primary-color",
-                     "accent-color", "divider-color",
-                     "primary-background-dark"]
+                        "primary-color",
+                        "accent-color", "divider-color",
+                        "primary-background-dark"]
       @text_color_style_vars = ["primary-color-text",
-                     "primary-text-color","secondary-text-color",
-                     ]
-      render :partial => "pwb/custom_css/#{theme_name}", :locals => {}, formats: :css
+                                "primary-text-color", "secondary-text-color"]
+      render partial: "pwb/custom_css/#{theme_name}", locals: {}, formats: :css
     end
-
   end
 end

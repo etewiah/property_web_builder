@@ -1,8 +1,7 @@
 module Pwb
   module ApplicationHelper
-
     def properties_carousel_footer
-      # TODO - diplay array of thumbnails below main
+      # TODO: - diplay array of thumbnails below main
       # properties carousel is images count > ...
       # <a href="#" class="theater" rel="group" hidefocus="true">
       # <%= opt_image_tag((@property_details.ordered_photo 3), :quality => "auto", class: "", alt: "") %>
@@ -30,15 +29,15 @@ module Pwb
       area_unit.html_safe
     end
 
-    def localized_link_to(locale_with_var = nil, options = nil, html_options = nil)
-      link_class =  locale_with_var["variant"]
-      href = "/#{options["locale"]}"
+    def localized_link_to(locale_with_var = nil, options = nil, _html_options = nil)
+      link_class = locale_with_var["variant"]
+      href = "/#{options['locale']}"
       begin
         href = url_for(options)
       rescue ActionController::UrlGenerationError
       end
       link = "<a class='#{link_class}' href='#{href}'></a>"
-      return link.html_safe
+      link.html_safe
 
       # if params["controller"] && params["controller"].include?("devise/")
       #   link = "<a class='#{link_class}' href='/#{options["locale"]}'></a>"
@@ -48,11 +47,11 @@ module Pwb
       # end
     end
 
-    def t_or_unknown key
+    def t_or_unknown(key)
       if key.is_a?(String) && key.empty?
-        return t "unknown"
+        t "unknown"
       else
-        return t key
+        t key
       end
     end
 
@@ -114,35 +113,34 @@ module Pwb
       placeholder = placeholder_key.present? ? I18n.t("placeHolders." + placeholder_key) : ""
       label_class = required ? "obligatorio" : ""
       html = <<-HTML
-      <label class=#{ label_class }>
-        #{ I18n.t(field_key) }
+      <label class=#{label_class}>
+        #{I18n.t(field_key)}
         </label>
-      #{ f.text_field field_key, :class => 'form-control texto',
+      #{f.text_field field_key, :class => 'form-control texto',
       :type => input_type,
-        :required => required, :"aria-required" => required, :placeholder => placeholder }
+        :required => required, :"aria-required" => required, :placeholder => placeholder}
       <div class="validacion"></div>
       HTML
 
       html.html_safe
     end
 
-    def simple_inmo_textarea(f, field_key, placeholder_key, input_type, required, height=150)
+    def simple_inmo_textarea(f, field_key, placeholder_key, _input_type, required, height = 150)
       placeholder = placeholder_key.present? ? I18n.t("placeHolders." + placeholder_key) : ""
       label_class = required ? "obligatorio" : ""
       style = "height:#{height}px"
       html = <<-HTML
-      <label class=#{ label_class }>
-        #{ I18n.t(field_key) }
+      <label class=#{label_class}>
+        #{I18n.t(field_key)}
         </label>
-      #{ f.text_area field_key, :class => 'form-control',
+      #{f.text_area field_key, :class => 'form-control',
       :style => style, :required => required,
-        :"aria-required" => required, :placeholder => placeholder }
+        :"aria-required" => required, :placeholder => placeholder}
       <div class="validacion"></div>
       HTML
 
       html.html_safe
     end
-
 
     def social_media_link(agency, field_name, field_label, field_icon)
       social_media = nil
@@ -152,8 +150,8 @@ module Pwb
       end
       if social_media
         html = <<-HTML
-        <a href="#{ agency.social_media[field_name] }" title="#{ field_label }" target="_blank" class="">
-        <i class="fa #{ field_icon }"></i>
+        <a href="#{agency.social_media[field_name]}" title="#{field_label}" target="_blank" class="">
+        <i class="fa #{field_icon}"></i>
         </a>
         HTML
 
@@ -163,12 +161,11 @@ module Pwb
       end
     end
 
-
     def agency_info(agency, field_name, field_label_key, field_icon)
       if agency && agency[field_name].present?
         html = <<-HTML
-        <h5><i class="fa #{ field_icon }"></i>#{I18n.t field_label_key }</h5>
-        <p>#{ agency[field_name] }</p>
+        <h5><i class="fa #{field_icon}"></i>#{I18n.t field_label_key}</h5>
+        <p>#{agency[field_name]}</p>
         HTML
 
         html.html_safe

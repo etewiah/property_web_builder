@@ -3,7 +3,6 @@ require "rails_helper"
 
 module Pwb
   RSpec.describe EnquiryMailer, type: :mailer do
-
     # before(:each) do
     #   ActionMailer::Base.delivery_method = :test
     #   ActionMailer::Base.perform_deliveries = true
@@ -15,7 +14,7 @@ module Pwb
 
     describe 'general enquiry' do
       let(:contact) { Contact.new(first_name: "John Doe", primary_phone_number: "22 44", primary_email: "jd@propertywebbuilder.com") }
-      let(:message) {Message.new(origin_email: "jd@propertywebbuilder.com", delivery_email: "test@test.com")}
+      let(:message) { Message.new(origin_email: "jd@propertywebbuilder.com", delivery_email: "test@test.com") }
       let(:mail) { EnquiryMailer.general_enquiry_targeting_agency(contact, message).deliver_now }
 
       it "sends enquiry successfully" do
@@ -28,7 +27,7 @@ module Pwb
 
     describe 'property enquiry' do
       let(:contact) { Contact.new(first_name: "John Doe", primary_phone_number: "22 44", primary_email: "jd@propertywebbuilder.com") }
-      let(:message) {Message.new(origin_email: "jd@propertywebbuilder.com", delivery_email: "test@test.com")}
+      let(:message) { Message.new(origin_email: "jd@propertywebbuilder.com", delivery_email: "test@test.com") }
       let(:prop) { FactoryGirl.create(:pwb_prop, title: "Charming flat for sale") }
 
       let(:mail) { EnquiryMailer.property_enquiry_targeting_agency(contact, message, prop).deliver_now }
@@ -48,7 +47,6 @@ module Pwb
       # it 'should send an email' do
       #   ActionMailer::Base.deliveries.count.should == 1
       # end
-
     end
 
     # after(:each) do
