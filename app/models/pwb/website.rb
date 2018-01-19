@@ -3,6 +3,15 @@ module Pwb
     extend ActiveHash::Associations::ActiveRecordExtensions
     belongs_to_active_hash :theme, optional: true, foreign_key: "theme_name", class_name: "Pwb::Theme", shortcuts: [:friendly_name], primary_key: "name"
 
+
+    has_many :page_contents
+    has_many :contents, :through => :page_contents
+    # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
+    has_many :ordered_visible_page_contents, -> { ordered_visible }, :class_name => 'PageContent'
+    # has_many :page_parts, -> { where(page_slug: :footer) }
+    # , foreign_key: "page_slug", primary_key: "slug", class_name: "Pwb::Link"
+
+
     # TODO - add favicon image (and logo image directly)
     # as well as details hash for storing pages..
 
@@ -25,6 +34,11 @@ module Pwb
         row
       end
     end
+
+    def page_parts 
+      return Pwb::PagePart.where(page_slug: "website")
+    end
+
 
     # These are a list of links for pages to be
     # displayed in the pages section of the

@@ -91,6 +91,10 @@ module Pwb
         end
         yml = YAML.load_file(locale_seed_file)
 
+        Pwb::Website.last.page_parts.each do |page_part|
+          # byebug
+        end
+
         Pwb::Page.all.each do |page|
           page.page_parts.each do |page_part|
             page_part_key = page_part.page_part_key

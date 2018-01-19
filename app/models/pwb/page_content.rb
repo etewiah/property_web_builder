@@ -3,6 +3,7 @@ module Pwb
     # join model for retrieving content for page
     belongs_to :page
     belongs_to :content
+    belongs_to :website
     # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
 
     # this join model is used for sorting and visibility
