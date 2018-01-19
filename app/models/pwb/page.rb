@@ -129,6 +129,10 @@ module Pwb
       # page_fragment_content = contents.find_or_create_by(page_part_key: page_part_key)
 
       unless page_fragment_content.present?
+        # Right now visibility does not get set 
+        # for page_parts without content like search cmpt.
+        # Better to get join_model so:
+        # self.page_contents.find_by_page_part_key page_part_key
         return
       end
       page_content_join_model = page_fragment_content.page_contents.find_by_page_id self.id

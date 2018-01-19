@@ -12,6 +12,10 @@ module Pwb
       # Pwb::PagesSeeder.seed_content_translations!
     end
 
+    # it 'sets visibility correctly' do
+    #   byebug      
+    # end
+
     it 'sets sort order correctly' do
       about_us_page = Pwb::Page.find_by_slug "about-us"
       our_agency_content_key = "our_agency"
