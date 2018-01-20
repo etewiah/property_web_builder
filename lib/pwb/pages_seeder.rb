@@ -122,7 +122,9 @@ module Pwb
           end
           next unless yml[locale]["website"][page_part_key]
           seed_content = yml[locale]["website"][page_part_key]
-          page_part_manager.seed_container_block_content locale, seed_content, current_website
+          page_part_manager.seed_container_block_content locale, seed_content
+          p "website #{page_part_key} content set for #{locale}."
+
           # set_page_content_order_and_visibility locale, page_part, seed_content
         end
 

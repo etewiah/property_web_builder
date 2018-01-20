@@ -3,21 +3,23 @@ module Pwb
     attr_accessor :page_part_key, :page_part, :container
 
     def initialize(page_part_key, container)
+      raise "Please provide valid container" unless container.present? 
       self.page_part_key = page_part_key
       self.container = container
       self.page_part = PagePart.find_by_page_part_key page_part_key
+      raise "Please provide valid page_part_key" unless page_part.present? 
     end
 
     def find_or_create_content
       # right now each time this is called, new content is created
       # -need to TDD prevent this...
       page_content_join_model = container.page_contents.find_or_create_by(page_part_key: page_part_key)
-# byebug
-      if page_content_join_model.content.present?
-        page_content_join_model.content
-      else
+      unless page_content_join_model.content.present?
         page_content_join_model.create_content(page_part_key: page_part_key)
+        # without calling save! below, content and page_content will not be associated
+        page_content_join_model.save!
       end
+        page_content_join_model.content
       # just creating contents like below will result in join_model without page_part_key
       # page_fragment_content = container.contents.find_or_create_by(page_part_key: page_part_key)
     end
@@ -28,8 +30,9 @@ module Pwb
     end
 
     # container can be either a page or the website
-    def seed_container_block_content(locale, seed_content, container)
+    def seed_container_block_content(locale, seed_content)
       page_part_editor_setup = page_part.editor_setup
+      raise "Invalid editorBlocks for page_part_editor_setup" unless (page_part_editor_setup && page_part_editor_setup["editorBlocks"].present?)
       # page = page_part.page
       # page_part_key uniquely identifies a fragment
       # page_part_key = page_part.page_part_key
@@ -59,16 +62,13 @@ module Pwb
           locale_block_content_json["blocks"][row_block_label] = {"content" => row_block_content}
         end
       end
-
       # # save the block contents (in associated page_part model)
       # updated_details = container.set_page_part_block_contents page_part_key, locale, locale_block_content_json
       # # retrieve the contents saved above and use to rebuild html for that page_part
       # # (and save it in associated page_content model)
       # fragment_html = container.rebuild_page_content page_part_key, locale
 
-      result = update_page_part_content page_part_key, locale, locale_block_content_json
-
-      p "website #{page_part_key} content set for #{locale}."
+      update_page_part_content page_part_key, locale, locale_block_content_json
 
       # p "#{container.slug} page #{page_part_key} content set for #{locale}."
     end
@@ -81,7 +81,6 @@ module Pwb
       # retrieve the contents saved above and use to rebuild html for that page_part
       # (and save it in associated page_content model)
       fragment_html = rebuild_page_content locale
-
       return { json_fragment_block: json_fragment_block, fragment_html: fragment_html }
     end
 
@@ -105,6 +104,9 @@ module Pwb
     # Will retrieve saved page_part blocks and use that along with template
     # to rebuild page_content html
     def rebuild_page_content locale
+      unless page_part && page_part.template
+        raise "page_part with valid template not available"
+      end
       # page_part = self.page_parts.find_by_page_part_key page_part_key
 
       if page_part.present?
@@ -112,7 +114,6 @@ module Pwb
         new_fragment_html = l_template.render('page_part' => page_part.block_contents[locale]["blocks"] )
         # p "#{page_part_key} content for #{self.slug} page parsed."
         # save in content model associated with page
-        # byebug
         page_fragment_content = find_or_create_content
          # container.contents.find_or_create_by(page_part_key: page_part_key)
         content_html_col = "raw_" + locale + "="
@@ -126,8 +127,6 @@ module Pwb
          # page_fragment_content.page_contents.find_by_page_id self.id
         page_content_join_model.page_part_key = page_part_key
         page_content_join_model.save!
-
-
       else
         new_fragment_html = ""
       end
