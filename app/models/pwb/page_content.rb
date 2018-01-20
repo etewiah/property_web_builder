@@ -6,6 +6,8 @@ module Pwb
     belongs_to :website
     # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
 
+    # validates_presence_of :page_part_key
+
     # this join model is used for sorting and visibility
     # (instead of a value on the content itself) as it
     # will allow use of same content by different pages

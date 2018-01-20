@@ -91,8 +91,39 @@ module Pwb
         end
         yml = YAML.load_file(locale_seed_file)
 
-        Pwb::Website.last.page_parts.each do |page_part|
-          # byebug
+
+        current_website = Pwb::Website.last
+        current_website.page_parts.each do |page_part|
+          page_part_key = page_part.page_part_key
+
+          page_part_manager = Pwb::PagePartManager.new page_part_key, current_website
+
+          unless yml[locale] && yml[locale]["website"] && yml[locale]["website"][page_part_key]
+            p "no content for website.... #{page_part_key} #{locale}."
+            # where there is no content to populate
+            # check if this is a rails_part (content is saved in a rails template)
+            if page_part.is_rails_part
+              # current_website.page_contents.find_or_create_by(page_part_key: page_part_key)
+
+              page_fragment_content = page_part_manager.find_or_create_content 
+              # current_website.contents.find_or_create_by(page_part_key: page_part_key)
+              page_content_join_model = page_part_manager.get_join_model current_website
+              # page_fragment_content.page_contents.find_by_page_id current_website.id
+
+              page_content_join_model.page_part_key = page_part_key
+              # set is_rails_part on join_model too
+              page_content_join_model.is_rails_part = true
+              page_content_join_model.save!
+
+              # return
+            end
+            # skip if there is no content to populate
+            next
+          end
+          next unless yml[locale]["website"][page_part_key]
+          seed_content = yml[locale]["website"][page_part_key]
+          page_part_manager.seed_container_block_content locale, seed_content, current_website
+          # set_page_content_order_and_visibility locale, page_part, seed_content
         end
 
         Pwb::Page.all.each do |page|
