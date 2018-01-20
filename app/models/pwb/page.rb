@@ -166,27 +166,6 @@ module Pwb
       return { json_fragment_block: json_fragment_block, fragment_html: fragment_html }
     end
 
-    # def parse_page_part page_part_key, content_for_pf_locale
-
-    #   page_part = self.page_parts.find_by_page_part_key page_part_key
-
-    #   if page_part.present?
-    #     l_template = Liquid::Template.parse(page_part.template)
-    #     fragment_html = l_template.render('page_part' => content_for_pf_locale["blocks"] )
-    #     p "#{page_part_key} content for #{self.slug} page parsed."
-
-    #   else
-    #     fragment_html = ""
-    #   end
-
-    #   # fragment_html = l_template.render('page_part' => content_for_pf_locale["blocks"] )
-    #   # ac = ActionController::Base.new()
-    #   # # render html for fragment with associated partial
-    #   # fragment_html = ac.render_to_string :partial => "pwb/fragments/#{page_part_key}",  :locals => { page_part: content_for_pf_locale["blocks"]}
-    #   return fragment_html
-    # end
-
-
 
     # def as_json(options = nil)
     #   super({only: ["sort_order_top_nav", "show_in_top_nav"],
