@@ -11,20 +11,11 @@ module Pwb
       Pwb::PagesSeeder.seed_page_content_translations!
       # Pwb::PagesSeeder.seed_content_translations!
     end
+    
 
     # it 'sets visibility correctly' do
     #   byebug      
     # end
-
-
-
-
-
-
-
-
-
-
 
 
 

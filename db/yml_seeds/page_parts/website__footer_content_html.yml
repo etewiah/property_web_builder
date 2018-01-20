@@ -19,4 +19,5 @@
     }
   template: 
     <div>
+      {{ page_part["main_content"]["content"] %> }}
     </div>
