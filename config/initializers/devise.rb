@@ -250,7 +250,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   config.omniauth :facebook,
     Rails.application.secrets.facebook_app_id,
-    Rails.application.secrets.facebook_app_secret, 
+    Rails.application.secrets.facebook_app_secret,
     scope: "email",
     token_params: { parse: :json }
   # ==> Warden configuration
