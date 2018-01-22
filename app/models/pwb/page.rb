@@ -12,9 +12,9 @@ module Pwb
     has_many :page_parts, foreign_key: "page_slug", primary_key: "slug"
 
     has_many :page_contents
-    has_many :contents, :through => :page_contents
+    has_many :contents, through: :page_contents
     # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
-    has_many :ordered_visible_page_contents, -> { ordered_visible }, :class_name => 'PageContent'
+    has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: 'PageContent'
     # below would get me the correct items but the order gets lost:
     # has_many :ordered_visible_contents, :source => :content, :through => :ordered_visible_page_contents
     # note, even where ordered_visible_contents exist,
@@ -37,7 +37,7 @@ module Pwb
     # scope :visible_in_admin, -> () { where visible: true  }
 
     def get_page_part page_part_key
-      page_parts.where(page_part_key: page_part_key).first 
+      page_parts.where(page_part_key: page_part_key).first
     end
 
     # def compose_contents
@@ -137,7 +137,7 @@ module Pwb
       # page_fragment_content = contents.find_or_create_by(page_part_key: page_part_key)
 
       unless page_fragment_content.present?
-        # Right now visibility does not get set 
+        # Right now visibility does not get set
         # for page_parts without content like search cmpt.
         # Better to get join_model so:
         # self.page_contents.find_by_page_part_key page_part_key

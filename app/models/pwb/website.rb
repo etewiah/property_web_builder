@@ -5,9 +5,9 @@ module Pwb
 
 
     has_many :page_contents
-    has_many :contents, :through => :page_contents
+    has_many :contents, through: :page_contents
     # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
-    has_many :ordered_visible_page_contents, -> { ordered_visible }, :class_name => 'PageContent'
+    has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: 'PageContent'
     # has_many :page_parts, -> { where(page_slug: :footer) }
     # , foreign_key: "page_slug", primary_key: "slug", class_name: "Pwb::Link"
 
@@ -35,13 +35,13 @@ module Pwb
       end
     end
 
-    def page_parts 
+    def page_parts
       return Pwb::PagePart.where(page_slug: "website")
     end
 
     def get_page_part page_part_key
       # byebug
-      page_parts.where(page_part_key: page_part_key).first 
+      page_parts.where(page_part_key: page_part_key).first
     end
 
     # These are a list of links for pages to be

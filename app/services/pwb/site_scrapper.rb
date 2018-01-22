@@ -12,7 +12,7 @@ module Pwb
     end
 
     def retrieve_from_api
-      conn = Faraday.new(:url => target_url) do |faraday|
+      conn = Faraday.new(url: target_url) do |faraday|
         # faraday.basic_auth('', '')
         faraday.request  :url_encoded             # form-encode POST params
         faraday.response :logger                  # log requests to STDOUT

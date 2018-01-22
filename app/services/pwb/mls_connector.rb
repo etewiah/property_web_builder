@@ -29,8 +29,8 @@ module Pwb
       # response.body
 
       svc = OData::Service.new import_source.details[:login_url],
-        { :username => import_source.details[:username],
-          :password=> import_source.details[:password]
+        { username: import_source.details[:username],
+          password: import_source.details[:password]
         }
 
       svc.Listings.expand('Building')
