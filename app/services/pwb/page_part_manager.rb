@@ -3,23 +3,24 @@ module Pwb
     attr_accessor :page_part_key, :page_part, :container
 
     def initialize(page_part_key, container)
-      raise "Please provide valid container" unless container.present? 
+      raise "Please provide valid container" unless container.present?
       self.page_part_key = page_part_key
       self.container = container
-      self.page_part = PagePart.find_by_page_part_key page_part_key
-      raise "Please provide valid page_part_key" unless page_part.present? 
+      self.page_part = container.get_page_part page_part_key
+      # PagePart.find_by_page_part_key page_part_key
+      raise "Please provide valid page_part_key" unless page_part.present?
     end
 
     def find_or_create_content
-      # right now each time this is called, new content is created
-      # -need to TDD prevent this...
+      # sets up the connection between a container and content model
+      # ensuring the intermediate page_content join is created too
       page_content_join_model = container.page_contents.find_or_create_by(page_part_key: page_part_key)
       unless page_content_join_model.content.present?
         page_content_join_model.create_content(page_part_key: page_part_key)
         # without calling save! below, content and page_content will not be associated
         page_content_join_model.save!
       end
-        page_content_join_model.content
+      page_content_join_model.content
       # just creating contents like below will result in join_model without page_part_key
       # page_fragment_content = container.contents.find_or_create_by(page_part_key: page_part_key)
     end
@@ -47,7 +48,7 @@ module Pwb
           # find the content for current block from within the seed content
           if seed_content[row_block_label]
             if configRowBlock["isImage"]
-              photo = container.seed_fragment_photo page_part_key, row_block_label, seed_content[row_block_label]
+              photo = seed_fragment_photo row_block_label, seed_content[row_block_label]
               if photo.present? && photo.optimized_image_url.present?
                 # optimized_image_url is defined in content_photo and will
                 # return cloudinary url or filesystem url depending on settings
@@ -70,7 +71,7 @@ module Pwb
 
       update_page_part_content page_part_key, locale, locale_block_content_json
 
-      # p "#{container.slug} page #{page_part_key} content set for #{locale}."
+      p " #{page_part_key} content set for #{locale}."
     end
 
     private
@@ -114,8 +115,9 @@ module Pwb
         new_fragment_html = l_template.render('page_part' => page_part.block_contents[locale]["blocks"] )
         # p "#{page_part_key} content for #{self.slug} page parsed."
         # save in content model associated with page
+
         page_fragment_content = find_or_create_content
-         # container.contents.find_or_create_by(page_part_key: page_part_key)
+        # container.contents.find_or_create_by(page_part_key: page_part_key)
         content_html_col = "raw_" + locale + "="
         # above is the col used by globalize gem to store localized data
         # page_fragment_content[content_html_col] = new_fragment_html
@@ -124,7 +126,7 @@ module Pwb
 
         # set page_part_key value on join model
         page_content_join_model = get_join_model container
-         # page_fragment_content.page_contents.find_by_page_id self.id
+        # page_fragment_content.page_contents.find_by_page_id self.id
         page_content_join_model.page_part_key = page_part_key
         page_content_join_model.save!
       else
@@ -132,6 +134,46 @@ module Pwb
       end
 
       return new_fragment_html
+    end
+
+    # when seeding I only need to ensure that a photo exists for the fragment
+    # so will return existing photo if it can be found
+    def seed_fragment_photo block_label, photo_file
+      # content_key = self.slug + "_" + page_part_key
+      # get in content model associated with page and fragment
+      # join_model = page_contents.find_or_create_by(page_part_key: page_part_key)
+      # page_fragment_content = join_model.create_content(page_part_key: page_part_key)
+      # join_model.save!
+      # page_fragment_content = contents.find_or_create_by(page_part_key: page_part_key)
+
+      page_fragment_content = find_or_create_content
+
+      photo = page_fragment_content.content_photos.find_by_block_key(block_label)
+
+      if photo.present?
+        return photo
+      else
+        photo = page_fragment_content.content_photos.create(block_key: block_label)
+      end
+
+      if ENV["RAILS_ENV"] == "test"
+        # don't create photos for tests
+        return nil
+      end
+      begin
+        # if photo_file.is_a?(String)
+        # photo.image = photo_file
+        photo.image = Pwb::Engine.root.join(photo_file).open
+        photo.save!
+        print "#{self.slug}--#{page_part_key} image created: #{photo.optimized_image_url}\n"
+        # reload the record to ensure that url is available
+        photo.reload
+        print "#{self.slug}--#{page_part_key} image created: #{photo.optimized_image_url}(after reload..)"
+      rescue Exception => e
+        # log exception to console
+        print e
+      end
+      return photo
     end
 
   end

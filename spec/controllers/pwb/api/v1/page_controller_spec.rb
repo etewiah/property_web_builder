@@ -5,6 +5,7 @@ module Pwb
     routes { Pwb::Engine.routes }
 
 
+
     context 'without signing in' do
       before(:each) do
         sign_in_stub nil

@@ -22,7 +22,11 @@ FactoryGirl.define do
       after(:create) do |page, _evaluator|
         # content_html is a pwb_page_part trait
         create(:pwb_page_part, :content_html, page: page)
-        create(:page_content_with_content, page: page)
+        # create(:page_content_with_content, page: page)
+        page_part_manager = Pwb::PagePartManager.new "content_html", page
+        content = page_part_manager.find_or_create_content
+        content.raw = "Sell Your Property"
+        content.save!
       end
     end
 

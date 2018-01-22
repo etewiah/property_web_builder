@@ -105,7 +105,7 @@ module Pwb
             if page_part.is_rails_part
               # current_website.page_contents.find_or_create_by(page_part_key: page_part_key)
 
-              page_fragment_content = page_part_manager.find_or_create_content 
+              page_fragment_content = page_part_manager.find_or_create_content
               # current_website.contents.find_or_create_by(page_part_key: page_part_key)
               page_content_join_model = page_part_manager.get_join_model current_website
               # page_fragment_content.page_contents.find_by_page_id current_website.id
@@ -131,6 +131,9 @@ module Pwb
         Pwb::Page.all.each do |page|
           page.page_parts.each do |page_part|
             page_part_key = page_part.page_part_key
+
+            page_part_manager = Pwb::PagePartManager.new page_part_key, page
+
             # Items in each locale seed file are nested as
             # page_slug/page_part_key and then the block labels
 
@@ -140,7 +143,15 @@ module Pwb
               # check if this is a rails_part (content is saved in a rails template)
               if page_part.is_rails_part
 
-                page_fragment_content = page.contents.find_or_create_by(page_part_key: page_part_key)
+
+                # join_model = page.page_contents.find_or_create_by(page_part_key: page_part_key)
+                # page_fragment_content = join_model.create_content(page_part_key: page_part_key)
+                # join_model.save!
+                # page_fragment_content = page.contents.find_or_create_by(page_part_key: page_part_key)
+
+                page_fragment_content = page_part_manager.find_or_create_content
+
+
                 page_content_join_model = page_fragment_content.page_contents.find_by_page_id page.id
 
                 page_content_join_model.page_part_key = page_part_key
@@ -155,8 +166,17 @@ module Pwb
             end
             next unless yml[locale][page.slug][page_part_key]
             seed_content = yml[locale][page.slug][page_part_key]
-            set_page_block_content locale, page_part, seed_content
+
+            page_part_manager.seed_container_block_content locale, seed_content
+
+            # p "website #{page_part_key} content set for #{locale}."
+            # set_page_block_content locale, page_part, seed_content
+
             set_page_content_order_and_visibility locale, page_part, seed_content
+            if page.slug == "about-us"
+              # byebug
+              p "about-us"
+            end
           end
         end
       end

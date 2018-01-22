@@ -39,6 +39,10 @@ module Pwb
       return Pwb::PagePart.where(page_slug: "website")
     end
 
+    def get_page_part page_part_key
+      # byebug
+      page_parts.where(page_part_key: page_part_key).first 
+    end
 
     # These are a list of links for pages to be
     # displayed in the pages section of the
