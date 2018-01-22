@@ -5,14 +5,16 @@ module Pwb
     feature 'for contact-us page' do
       let!(:contact_us_page) {
         FactoryGirl.create(:page_with_content_html_page_part,
-                                                  slug: "contact-us")
+                           slug: "contact-us")
       }
       # calling above :page would clash with page object
+      let(:page_part_manager) { Pwb::PagePartManager.new "content_html", contact_us_page }
 
       let(:prop) { FactoryGirl.create(:pwb_prop, :sale) }
 
       scenario 'correct content html is rendered' do
-        page_content_html = contact_us_page.contents.find_by_page_part_key "content_html"
+        page_content_html = page_part_manager.find_or_create_content
+        # page_content_html = contact_us_page.contents.find_by_page_part_key "content_html"
         page_content_html.raw = "Content html raw"
         page_content_html.save!
 

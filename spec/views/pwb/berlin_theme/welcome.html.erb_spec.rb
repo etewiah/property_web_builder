@@ -12,8 +12,7 @@ RSpec.describe 'pwb/welcome/index', type: :view do
     # @current_website = FactoryGirl.create(:pwb_website)
     @page = FactoryGirl.create(:page_with_content_html_page_part,
                                slug: "home")
-    # @page_content = FactoryGirl.create(:pwb_content, :main_content)
-    # factorygirl ensures unique_instance of website is used
+
 
     # ActionController::Base.prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/"
     # replaced above in spec_helper with below
@@ -29,9 +28,7 @@ RSpec.describe 'pwb/welcome/index', type: :view do
   it 'renders index successfully' do
     # assign(:content_to_show, [@page_content.raw])
     assign(:page, @page)
-    # byebug
     render
-
     expect(rendered).to include 'Sell Your Property'
     # assert_select "form[action=?][method=?]", welcome_path(@welcome), "post" do
     # end

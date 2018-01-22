@@ -11,11 +11,13 @@ module Pwb
       Pwb::PagesSeeder.seed_page_content_translations!
       # Pwb::PagesSeeder.seed_content_translations!
     end
-    
+
 
     # it 'sets visibility correctly' do
-    #   byebug      
+    #   byebug
     # end
+
+
 
 
 
@@ -46,7 +48,13 @@ module Pwb
       about_us_page = Pwb::Page.find_by_slug "about-us"
       content_key =   "our_agency"
       about_us_page_content = about_us_page.contents.find_by_page_part_key content_key
+
+
+      # byebug
+
+
       expect(about_us_page_content.raw_en).to include("professional")
+      expect(about_us_page_content.raw_es).to include("Llevamos muchos años comprometidos")
       expect(about_us_page_content.content_photos.count).to eq(1)
     end
 
