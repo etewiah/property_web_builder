@@ -40,23 +40,6 @@ module Pwb
       page_parts.where(page_part_key: page_part_key).first
     end
 
-    # def compose_contents
-    #   content_to_show = []
-    #   components = []
-    #   ordered_visible_page_contents.each do |page_content|
-    #     if page_content.is_rails_part
-    #       components.push page_content.page_part_key
-    #     else
-    #       content = page_content.content.present? ? page_content.content.raw : ""
-    #       content_to_show.push content
-    #     end
-    #   end
-    #   return {
-    #     content_to_show: content_to_show,
-    #     components: components
-    #   }
-    # end
-
     # used by page_controller to create a photo (from upload) that can
     # later be used in fragment html
     def create_fragment_photo page_part_key, block_label, photo_file
@@ -84,43 +67,43 @@ module Pwb
     end
 
 
-#     # when seeding I only need to ensure that a photo exists for the fragment
-#     # so will return existing photo if it can be found
-#     def seed_fragment_photo page_part_key, block_label, photo_file
-#       # content_key = self.slug + "_" + page_part_key
-#       # get in content model associated with page and fragment
-# join_model = page_contents.find_or_create_by(page_part_key: page_part_key)
-# page_fragment_content = join_model.create_content(page_part_key: page_part_key)
-# join_model.save!
-# # page_fragment_content = contents.find_or_create_by(page_part_key: page_part_key)
+    #     # when seeding I only need to ensure that a photo exists for the fragment
+    #     # so will return existing photo if it can be found
+    #     def seed_fragment_photo page_part_key, block_label, photo_file
+    #       # content_key = self.slug + "_" + page_part_key
+    #       # get in content model associated with page and fragment
+    # join_model = page_contents.find_or_create_by(page_part_key: page_part_key)
+    # page_fragment_content = join_model.create_content(page_part_key: page_part_key)
+    # join_model.save!
+    # # page_fragment_content = contents.find_or_create_by(page_part_key: page_part_key)
 
-#       photo = page_fragment_content.content_photos.find_by_block_key(block_label)
+    #       photo = page_fragment_content.content_photos.find_by_block_key(block_label)
 
-#       if photo.present?
-#         return photo
-#       else
-#         photo = page_fragment_content.content_photos.create(block_key: block_label)
-#       end
+    #       if photo.present?
+    #         return photo
+    #       else
+    #         photo = page_fragment_content.content_photos.create(block_key: block_label)
+    #       end
 
-#       if ENV["RAILS_ENV"] == "test"
-#         # don't create photos for tests
-#         return nil
-#       end
-#       begin
-#         # if photo_file.is_a?(String)
-#         # photo.image = photo_file
-#         photo.image = Pwb::Engine.root.join(photo_file).open
-#         photo.save!
-#         print "#{self.slug}--#{page_part_key} image created: #{photo.optimized_image_url}\n"
-#         # reload the record to ensure that url is available
-#         photo.reload
-#         print "#{self.slug}--#{page_part_key} image created: #{photo.optimized_image_url}(after reload..)"
-#       rescue Exception => e
-#         # log exception to console
-#         print e
-#       end
-#       return photo
-#     end
+    #       if ENV["RAILS_ENV"] == "test"
+    #         # don't create photos for tests
+    #         return nil
+    #       end
+    #       begin
+    #         # if photo_file.is_a?(String)
+    #         # photo.image = photo_file
+    #         photo.image = Pwb::Engine.root.join(photo_file).open
+    #         photo.save!
+    #         print "#{self.slug}--#{page_part_key} image created: #{photo.optimized_image_url}\n"
+    #         # reload the record to ensure that url is available
+    #         photo.reload
+    #         print "#{self.slug}--#{page_part_key} image created: #{photo.optimized_image_url}(after reload..)"
+    #       rescue Exception => e
+    #         # log exception to console
+    #         print e
+    #       end
+    #       return photo
+    #     end
 
     def set_fragment_sort_order page_part_key, sort_order
       page_fragment_content = contents.find_by_page_part_key page_part_key
@@ -164,15 +147,15 @@ module Pwb
     end
 
 
-    def update_page_part_content  page_part_key, locale, fragment_block
-      # save the block contents (in associated page_part model)
-      json_fragment_block = set_page_part_block_contents page_part_key, locale, fragment_block
-      # retrieve the contents saved above and use to rebuild html for that page_part
-      # (and save it in associated page_content model)
-      fragment_html = rebuild_page_content page_part_key, locale
+    # def update_page_part_content  page_part_key, locale, fragment_block
+    #   # save the block contents (in associated page_part model)
+    #   json_fragment_block = set_page_part_block_contents page_part_key, locale, fragment_block
+    #   # retrieve the contents saved above and use to rebuild html for that page_part
+    #   # (and save it in associated page_content model)
+    #   fragment_html = rebuild_page_content page_part_key, locale
 
-      return { json_fragment_block: json_fragment_block, fragment_html: fragment_html }
-    end
+    #   return { json_fragment_block: json_fragment_block, fragment_html: fragment_html }
+    # end
 
 
     # def as_json(options = nil)
@@ -208,56 +191,56 @@ module Pwb
 
 
 
-    # called by seeder and Api::V1::PageController to set block contents
-    # on page_part model
-    def set_page_part_block_contents page_part_key, locale, fragment_details
-      page_part = self.page_parts.find_by_page_part_key page_part_key
-      if page_part.present?
-        page_part.block_contents[locale] = fragment_details
-        page_part.save!
-        # fragment_details passed in might be a params object
-        # - retrieving what has just been saved will return it as JSON
-        fragment_details = page_part.block_contents[locale]
-      end
+    # # called by seeder and Api::V1::PageController to set block contents
+    # # on page_part model
+    # def set_page_part_block_contents page_part_key, locale, fragment_details
+    #   page_part = self.page_parts.find_by_page_part_key page_part_key
+    #   if page_part.present?
+    #     page_part.block_contents[locale] = fragment_details
+    #     page_part.save!
+    #     # fragment_details passed in might be a params object
+    #     # - retrieving what has just been saved will return it as JSON
+    #     fragment_details = page_part.block_contents[locale]
+    #   end
 
-      return fragment_details
-    end
+    #   return fragment_details
+    # end
 
-    # Will retrieve saved page_part blocks and use that along with template
-    # to rebuild page_content html
-    def rebuild_page_content page_part_key, locale
-      page_part = self.page_parts.find_by_page_part_key page_part_key
+    # # Will retrieve saved page_part blocks and use that along with template
+    # # to rebuild page_content html
+    # def rebuild_page_content page_part_key, locale
+    #   page_part = self.page_parts.find_by_page_part_key page_part_key
 
-      if page_part.present?
-        l_template = Liquid::Template.parse(page_part.template)
-        new_fragment_html = l_template.render('page_part' => page_part.block_contents[locale]["blocks"] )
-        # p "#{page_part_key} content for #{self.slug} page parsed."
-        # save in content model associated with page
-# byebug
+    #   if page_part.present?
+    #     l_template = Liquid::Template.parse(page_part.template)
+    #     new_fragment_html = l_template.render('page_part' => page_part.block_contents[locale]["blocks"] )
+    #     # p "#{page_part_key} content for #{self.slug} page parsed."
+    #     # save in content model associated with page
+    #     # byebug
 
-join_model = page_contents.find_or_create_by(page_part_key: page_part_key)
-page_fragment_content = join_model.create_content(page_part_key: page_part_key)
-join_model.save!
-# page_fragment_content = contents.find_or_create_by(page_part_key: page_part_key)
+    #     join_model = page_contents.find_or_create_by(page_part_key: page_part_key)
+    #     page_fragment_content = join_model.create_content(page_part_key: page_part_key)
+    #     join_model.save!
+    #     # page_fragment_content = contents.find_or_create_by(page_part_key: page_part_key)
 
-        content_html_col = "raw_" + locale + "="
-        # above is the col used by globalize gem to store localized data
-        # page_fragment_content[content_html_col] = new_fragment_html
-        page_fragment_content.send content_html_col, new_fragment_html
-        page_fragment_content.save!
+    #     content_html_col = "raw_" + locale + "="
+    #     # above is the col used by globalize gem to store localized data
+    #     # page_fragment_content[content_html_col] = new_fragment_html
+    #     page_fragment_content.send content_html_col, new_fragment_html
+    #     page_fragment_content.save!
 
-        # set page_part_key value on join model
-        page_content_join_model = page_fragment_content.page_contents.find_by_page_id self.id
-        page_content_join_model.page_part_key = page_part_key
-        page_content_join_model.save!
+    #     # set page_part_key value on join model
+    #     page_content_join_model = page_fragment_content.page_contents.find_by_page_id self.id
+    #     page_content_join_model.page_part_key = page_part_key
+    #     page_content_join_model.save!
 
 
-      else
-        new_fragment_html = ""
-      end
+    #   else
+    #     new_fragment_html = ""
+    #   end
 
-      return new_fragment_html
-    end
+    #   return new_fragment_html
+    # end
 
 
   end

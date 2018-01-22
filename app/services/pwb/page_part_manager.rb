@@ -69,14 +69,13 @@ module Pwb
       # # (and save it in associated page_content model)
       # fragment_html = container.rebuild_page_content page_part_key, locale
 
-      update_page_part_content page_part_key, locale, locale_block_content_json
+      update_page_part_content locale, locale_block_content_json
 
       p " #{page_part_key} content set for #{locale}."
     end
 
-    private
 
-    def update_page_part_content  page_part_key, locale, fragment_block
+    def update_page_part_content locale, fragment_block
       # save the block contents (in associated page_part model)
       json_fragment_block = set_page_part_block_contents page_part_key, locale, fragment_block
       # retrieve the contents saved above and use to rebuild html for that page_part
@@ -86,6 +85,7 @@ module Pwb
     end
 
 
+    private
 
     # set block contents
     # on page_part model
