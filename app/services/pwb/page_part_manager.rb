@@ -25,10 +25,6 @@ module Pwb
       # page_fragment_content = container.contents.find_or_create_by(page_part_key: page_part_key)
     end
 
-    def get_join_model(container)
-      page_content_join_model = container.page_contents.find_by_page_part_key page_part_key
-      # current_website.id
-    end
 
     # container can be either a page or the website
     def seed_container_block_content(locale, seed_content)
@@ -85,7 +81,33 @@ module Pwb
     end
 
 
+    def set_default_page_content_order_and_visibility
+      join_model = get_join_model
+      unless join_model
+        puts "Unable to set_default_page_content_order_and_visibility for #{page_part_key}"
+        return
+      end
+      page_part_editor_setup = page_part.editor_setup
+      # page = page_part.page
+      # # page_part_key uniquely identifies a fragment
+      # page_part_key = page_part.page_part_key
+
+      sort_order = page_part_editor_setup["default_sort_order"] || 1
+      join_model.sort_order = sort_order
+
+      visible_on_page = false
+      if page_part_editor_setup["default_visible_on_page"]
+        visible_on_page = true
+      end
+      join_model.visible_on_page = visible_on_page
+      join_model.save!
+    end
+
     private
+
+    def get_join_model
+      container.page_contents.find_by_page_part_key page_part_key
+    end
 
     # set block contents
     # on page_part model
@@ -125,7 +147,7 @@ module Pwb
         page_fragment_content.save!
 
         # set page_part_key value on join model
-        page_content_join_model = get_join_model container
+        page_content_join_model = get_join_model 
         # page_fragment_content.page_contents.find_by_page_id self.id
         page_content_join_model.page_part_key = page_part_key
         page_content_join_model.save!

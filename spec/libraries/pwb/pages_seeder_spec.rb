@@ -64,5 +64,8 @@ module Pwb
       expect(home_page_content.content_photos.count).to eq(1)
       # expect(home_page.details["fragments"]["landing_hero"]["en"]["blocks"].count).to eq(3)
     end
+
+
+
   end
 end
