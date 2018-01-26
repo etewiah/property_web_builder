@@ -139,8 +139,8 @@ module I18n
 
         # https://quickleft.com/blog/keeping-your-json-response-lean-in-rails/
         def as_json(_options = {})
-          super(only: [:id, :locale, :interpolations],
-                methods: [:i18n_key, :i18n_value]
+          super(only: %i[id locale interpolations],
+                methods: %i[i18n_key i18n_value]
                 )
         end
       end

@@ -35,6 +35,7 @@ PATH
       firebase
       flag_shih_tzu
       fog-aws
+      geocoder
       globalize (~> 5.1.0.beta2)
       globalize-accessors
       i18n-active_record
@@ -134,7 +135,7 @@ GEM
       safe_yaml (~> 1.0.0)
     crass (1.0.3)
     database_cleaner (1.6.1)
-    devise (4.4.0)
+    devise (4.4.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 5.2)
@@ -181,6 +182,7 @@ GEM
     font-awesome-rails (4.7.0.2)
       railties (>= 3.2, < 5.2)
     formatador (0.2.5)
+    geocoder (1.4.1)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     globalize (5.1.0)

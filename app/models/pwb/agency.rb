@@ -10,23 +10,22 @@ module Pwb
     belongs_to :secondary_address, optional: true, class_name: "Address", foreign_key: 'secondary_address_id'
 
     def self.unique_instance
-      # there will be only one row, and its ID must be '1'
-      begin
-        # TODO - memoize
+        # there will be only one row, and its ID must be '1'
+
+        # TODO: - memoize
         find(1)
-      rescue ActiveRecord::RecordNotFound
+    rescue ActiveRecord::RecordNotFound
         # slight race condition here, but it will only happen once
         row = Agency.new
         row.id = 1
         row.save!
         row
-      end
     end
 
     def as_json(options = nil)
       super({only: [
                "display_name", "company_name",
-                # "theme_name",
+               # "theme_name",
                "phone_number_primary", "phone_number_mobile", "phone_number_other",
                # "social_media", "default_client_locale",
                # "default_admin_locale", "raw_css", "analytics_id",
@@ -34,19 +33,22 @@ module Pwb
                # "available_currencies", "default_currency",
                # "supported_locales", "available_locales"
              ]
-             # methods: ["style_variables"]
+               # methods: ["style_variables"]
              }.merge(options || {}))
     end
 
     def street_number
       primary_address.present? ? primary_address.street_number : nil
     end
+
     def street_address
       primary_address.present? ? primary_address.street_address : nil
     end
+
     def city
       primary_address.present? ? primary_address.city : nil
     end
+
     def postal_code
       primary_address.present? ? primary_address.postal_code : nil
     end

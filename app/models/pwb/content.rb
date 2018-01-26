@@ -14,16 +14,15 @@ module Pwb
 
     def as_json(options = nil)
       super({only: [
-               "key","page_part_key", "visible_on_page"
+               "key", "page_part_key", "visible_on_page"
              ],
              methods: admin_attribute_names
              }.merge(options || {}))
     end
 
     def admin_attribute_names
-      self.globalize_attribute_names.push :content_photos
+      globalize_attribute_names.push :content_photos
     end
-
 
     def default_photo
       content_photos.first
