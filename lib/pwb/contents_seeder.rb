@@ -79,7 +79,7 @@ module Pwb
             page_part_manager = Pwb::PagePartManager.new page_part_key, page
 
             set_page_part_content yml, page_part_key, page_part_manager, page.slug, locale
-            set_page_content_order_and_visibility page_part
+            page_part_manager.set_default_page_content_order_and_visibility
 
           end
         end
@@ -113,21 +113,21 @@ module Pwb
 
       end
 
-      def set_page_content_order_and_visibility(page_part)
-        page_part_editor_setup = page_part.editor_setup
-        page = page_part.page
-        # page_part_key uniquely identifies a fragment
-        page_part_key = page_part.page_part_key
+      # def set_page_content_order_and_visibility(page_part)
+      #   page_part_editor_setup = page_part.editor_setup
+      #   page = page_part.page
+      #   # page_part_key uniquely identifies a fragment
+      #   page_part_key = page_part.page_part_key
 
-        sort_order = page_part_editor_setup["default_sort_order"] || 1
-        page.set_fragment_sort_order page_part_key, sort_order
+      #   sort_order = page_part_editor_setup["default_sort_order"] || 1
+      #   page.set_fragment_sort_order page_part_key, sort_order
 
-        visible_on_page = false
-        if page_part_editor_setup["default_visible_on_page"]
-          visible_on_page = true
-        end
-        page.set_fragment_visibility page_part_key, visible_on_page
-      end
+      #   visible_on_page = false
+      #   if page_part_editor_setup["default_visible_on_page"]
+      #     visible_on_page = true
+      #   end
+      #   page.set_fragment_visibility page_part_key, visible_on_page
+      # end
 
       # def set_page_block_content(locale, page_part, seed_content)
       #   page_part_editor_setup = page_part.editor_setup
