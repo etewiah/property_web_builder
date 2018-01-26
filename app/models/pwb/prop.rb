@@ -4,6 +4,24 @@ module Pwb
     globalize_accessors locales: I18n.available_locales
     # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
 
+    # geocoded_by :address, :lookup => lambda{ |obj| obj.geocoder_lookup }
+    # reverse_geocoded_by :latitude, :longitude do |obj,results|
+    geocoded_by :geocodeable_address do |obj, results|
+      if geo = results.first
+        obj.city    = geo.city
+        obj.street_number = geo.street_number
+        obj.street_name = geo.street_name
+        obj.street_address = geo.street_address
+        obj.postal_code = geo.postal_code
+        obj.province = geo.province
+        obj.region = geo.state
+        obj.country = geo.country
+        # TODO - add neighborhood (google spelling)
+      end
+    end
+
+    after_validation :geocode
+
     # below needed to avoid "... is not an attribute known to Active Record" warnings
     attribute :title
     attribute :description
@@ -57,6 +75,11 @@ module Pwb
     scope :count_bedrooms, ->(min_count_bedrooms) { where("count_bedrooms >= ?", min_count_bedrooms.to_s) }
     # scope :starts_with, -> (name) { where("name like ?", "#{name}%")}
     # scope :pending, joins(:admin_request_status).where('admin_request_statuses.name = ?','Pending Approval')
+
+    def geocodeable_address
+      # [street, city, state, country].compact.join(', ')
+      street_address.to_s + " , " + city.to_s + " , " + province.to_s + " , " + postal_code.to_s
+    end
 
     def has_garage
       count_garages && (count_garages > 0)

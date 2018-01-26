@@ -62,7 +62,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'faker'
   s.add_dependency 'flag_shih_tzu'
   s.add_dependency 'liquid'
-
+  s.add_dependency 'geocoder'
 
   # s.add_dependency 'comfortable_mexican_sofa', '~> 1.12.0'
   # s.add_dependency 'redis'

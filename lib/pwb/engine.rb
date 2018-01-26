@@ -16,7 +16,7 @@ require 'firebase'
 require "liquid"
 require "flag_shih_tzu"
 require "omniauth-facebook"
-# require 'comfortable_mexican_sofa'
+require 'geocoder'
 
 # require 'redis'
 # # logster gem has to be after redis..
