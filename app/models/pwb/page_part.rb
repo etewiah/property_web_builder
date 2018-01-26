@@ -12,6 +12,5 @@ module Pwb
              methods: []
              }.merge(options || {}))
     end
-
   end
 end
