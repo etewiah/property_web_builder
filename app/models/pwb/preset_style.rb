@@ -3,10 +3,10 @@ module Pwb
   class PresetStyle < ActiveJSON::Base
     set_root_path "#{Pwb::Engine.root}/config/preset_styles"
     use_multiple_files
-    set_filenames "purple_teal","green_amber"
+    set_filenames "purple_teal", "green_amber"
     # , "green_light"
 
-    def class_name element_name
+    def class_name(element_name)
       self[:associations][element_name] || ""
     end
 

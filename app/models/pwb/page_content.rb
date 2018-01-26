@@ -25,7 +25,7 @@ module Pwb
     # will allow use of same content by different pages
     # with different settings for sorting and visibility
 
-    scope :ordered_visible, -> () { where(visible_on_page: true).order('sort_order asc')  }
+    scope :ordered_visible, -> () { where(visible_on_page: true).order('sort_order asc') }
 
     # if the page_content represents a rails_page_part, will return the page_part_key
     # else will return the raw html
@@ -42,14 +42,13 @@ module Pwb
       super({only: [
                "sort_order", "visible_on_page"
              ],
-             methods: ["content","content_page_part_key"]
+             methods: ["content", "content_page_part_key"]
              }.merge(options || {}))
     end
 
     def content_page_part_key
       content.present? ? content.page_part_key : ""
     end
-
 
     private
 
