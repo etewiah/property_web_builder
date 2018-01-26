@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'pwb/pages_seeder'
+require 'pwb/contents_seeder'
 
 module Pwb
   RSpec.describe 'PagesSeeder' do
@@ -8,7 +9,7 @@ module Pwb
       Pwb::Seeder.seed!
       Pwb::PagesSeeder.seed_page_parts!
       Pwb::PagesSeeder.seed_page_basics!
-      Pwb::PagesSeeder.seed_page_content_translations!
+      Pwb::ContentsSeeder.seed_page_content_translations!
       # Pwb::PagesSeeder.seed_content_translations!
     end
 
@@ -16,8 +17,6 @@ module Pwb
     # it 'sets visibility correctly' do
     #   byebug
     # end
-
-
 
 
 
@@ -44,17 +43,17 @@ module Pwb
       # expect(about_us_page.details["fragments"]["our_agency"]["es"]["blocks"].count).to eq(3)
     end
 
+
+
     it 'creates our_agency html content' do
       about_us_page = Pwb::Page.find_by_slug "about-us"
       content_key =   "our_agency"
       about_us_page_content = about_us_page.contents.find_by_page_part_key content_key
 
-
       expect(about_us_page_content.raw_en).to include("professional")
       expect(about_us_page_content.raw_es).to include("Llevamos muchos años comprometidos")
       expect(about_us_page_content.content_photos.count).to eq(1)
     end
-
 
 
     it 'creates home html content' do
