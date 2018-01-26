@@ -10,7 +10,7 @@ module Pwb
       if geo = results.first
         obj.city    = geo.city
         obj.street_number = geo.street_number
-        obj.street_name = geo.street_name
+        # obj.street_name = geo.street_name
         obj.street_address = geo.street_address
         obj.postal_code = geo.postal_code
         obj.province = geo.province
