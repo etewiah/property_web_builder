@@ -54,9 +54,9 @@ module Pwb
     private
 
     def content_id_not_changed
-      if content_id_changed? && self.persisted?
+      if content_id_changed? && persisted?
         if content_id_was.blank?
-          return
+          nil
         else
           errors.add(:content_id, "Change of content_id not allowed!")
         end

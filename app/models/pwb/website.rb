@@ -11,7 +11,7 @@ module Pwb
     # , foreign_key: "page_slug", primary_key: "slug", class_name: "Pwb::Link"
 
 
-    # TODO - add favicon image (and logo image directly)
+    # TODO: - add favicon image (and logo image directly)
 
     # as well as details hash for storing pages..
 
@@ -35,10 +35,10 @@ module Pwb
     end
 
     def page_parts
-      return Pwb::PagePart.where(page_slug: "website")
+      Pwb::PagePart.where(page_slug: "website")
     end
 
-    def get_page_part page_part_key
+    def get_page_part(page_part_key)
       # byebug
       page_parts.where(page_part_key: page_part_key).first
     end
