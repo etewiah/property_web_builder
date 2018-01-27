@@ -69,11 +69,12 @@ module Pwb
       end
 
       def seed_page_part(page_part_seed_file)
-        # page_part_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'page_parts', yml_file)
-        lf_yml = YAML.load_file(page_part_seed_file)
-        unless Pwb::PagePart.where({page_part_key: lf_yml[0]['page_part_key'], page_slug: lf_yml[0]['page_slug']}).count > 0
-          Pwb::PagePart.create!(lf_yml)
-        end
+        Pwb::PagePart.create_from_seed_yml page_part_seed_file.basename.to_s
+        # yml_file_contents = YAML.load_file(page_part_seed_file)
+        # byebug
+        # unless Pwb::PagePart.where({page_part_key: yml_file_contents[0]['page_part_key'], page_slug: yml_file_contents[0]['page_slug']}).count > 0
+        #   Pwb::PagePart.create!(yml_file_contents)
+        # end
       end
 
     end
