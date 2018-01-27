@@ -77,7 +77,7 @@ module Pwb
                                origin_ip: request.ip,
                                user_agent: request.user_agent,
                                delivery_email: @current_agency.email_for_property_contact_form
-                               # origin_email: params[:contact][:email]
+        # origin_email: params[:contact][:email]
       })
 
       unless @enquiry.save && @contact.save
@@ -100,7 +100,6 @@ module Pwb
       @flash = I18n.t "contact.success"
       return render "pwb/ajax/request_info_success", layout: false
     rescue => e
-
       # TODO: - log error to logger....
       @error_messages = [I18n.t("contact.error"), e]
       return render "pwb/ajax/request_info_errors", layout: false
@@ -125,6 +124,5 @@ module Pwb
         )
       end
     end
-
   end
 end

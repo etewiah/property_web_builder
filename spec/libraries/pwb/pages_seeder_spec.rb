@@ -69,9 +69,8 @@ module Pwb
     it 'creates website footer content' do
       current_website = Pwb::Website.last
       content_key = "footer_content_html"
-      footer_html_content =  current_website.contents.find_by_page_part_key content_key
+      footer_html_content = current_website.contents.find_by_page_part_key content_key
       expect(footer_html_content.raw_en).to include("We are proud to be registered")
     end
-
   end
 end

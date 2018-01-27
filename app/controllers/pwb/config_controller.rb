@@ -20,7 +20,5 @@ module Pwb
     end
 
     private
-
-
   end
 end

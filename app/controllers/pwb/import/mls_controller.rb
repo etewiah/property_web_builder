@@ -1,7 +1,7 @@
 module Pwb
   class Import::MlsController < ApplicationApiController
     def retrieve
-      [:username, :password, :login_url, :mls_unique_name].each do |param_name|
+      %i[username password login_url mls_unique_name].each do |param_name|
         unless params[param_name].present?
           return render json: { error: "Please provide #{param_name}."}, status: 422
         end

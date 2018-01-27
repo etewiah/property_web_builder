@@ -105,12 +105,12 @@ module Pwb
 
 
     private
+
     def header_image_url
       # lc_content = Content.where(tag: 'landing-carousel')[0]
       lc_photo = ContentPhoto.find_by_block_key "landing_img"
       # used by berlin theme
       @header_image_url = lc_photo.present? ? lc_photo.optimized_image_url : nil
     end
-
   end
 end

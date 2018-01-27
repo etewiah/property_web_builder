@@ -14,8 +14,6 @@ module Pwb
       end
     end
 
-
-
     def set_photo
       page = Page.find_by_slug params[:page_slug]
 
@@ -83,7 +81,7 @@ module Pwb
       #   return render_json_error error.message
       # end
 
-      return render json: {
+      render json: {
         blocks: result_to_return[:json_fragment_block],
         html: result_to_return[:fragment_html]
       }
@@ -92,12 +90,11 @@ module Pwb
     private
 
     def page_fragment_params
-      params.require(:fragment_details).permit(:label, :locale, blocks: [:content, :identifier, :is_image])
+      params.require(:fragment_details).permit(:label, :locale, blocks: %i[content identifier is_image])
     end
 
-
     def page_params
-      page_fields = ["sort_order_top_nav","visible"]
+      page_fields = ["sort_order_top_nav", "visible"]
       locales = I18n.available_locales
       locales.each do |locale|
         page_fields.push("link_title_#{locale}")
