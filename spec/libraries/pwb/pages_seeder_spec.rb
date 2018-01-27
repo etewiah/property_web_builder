@@ -14,10 +14,14 @@ module Pwb
     end
 
 
-    # it 'sets visibility correctly' do
-    #   byebug
-    # end
+    it 'sets visibility correctly' do
+      home_page = Pwb::Page.find_by_slug "home"
+      rails_part_key = "search_cmpt"
+      # A rails part can be found in page_contents not contents:
+      search_cmpt_placeholder = home_page.page_contents.find_by_page_part_key rails_part_key
 
+      expect(search_cmpt_placeholder.visible_on_page).to eq(false)
+    end
 
 
     it 'sets sort order correctly' do
@@ -43,8 +47,6 @@ module Pwb
       # expect(about_us_page.details["fragments"]["our_agency"]["es"]["blocks"].count).to eq(3)
     end
 
-
-
     it 'creates our_agency html content' do
       about_us_page = Pwb::Page.find_by_slug "about-us"
       content_key =   "our_agency"
@@ -55,7 +57,6 @@ module Pwb
       expect(about_us_page_content.content_photos.count).to eq(1)
     end
 
-
     it 'creates home html content' do
       home_page = Pwb::Page.find_by_slug "home"
       content_key = "landing_hero"
@@ -65,7 +66,12 @@ module Pwb
       # expect(home_page.details["fragments"]["landing_hero"]["en"]["blocks"].count).to eq(3)
     end
 
-
+    it 'creates website footer content' do
+      current_website = Pwb::Website.last
+      content_key = "footer_content_html"
+      footer_html_content =  current_website.contents.find_by_page_part_key content_key
+      expect(footer_html_content.raw_en).to include("We are proud to be registered")
+    end
 
   end
 end

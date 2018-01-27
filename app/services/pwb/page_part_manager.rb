@@ -14,7 +14,7 @@ module Pwb
     def find_or_create_content
       # sets up the connection between a container and content model
       # ensuring the intermediate page_content join is created too
-      page_content_join_model = container.page_contents.find_or_create_by(page_part_key: page_part_key)
+      page_content_join_model = find_or_create_join_model
       unless page_content_join_model.content.present?
         page_content_join_model.create_content(page_part_key: page_part_key)
         # without calling save! below, content and page_content will not be associated
@@ -25,6 +25,18 @@ module Pwb
       # page_fragment_content = container.contents.find_or_create_by(page_part_key: page_part_key)
     end
 
+    def find_or_create_join_model
+      # Particularly important for rails_parts 
+      # They may may not have content to seed but this 
+      # call is needed when seeding to set up r/n between 
+      # container (page or website) and content
+      page_content_join_model = container.page_contents.find_or_create_by(page_part_key: page_part_key)
+      if page_part.is_rails_part
+        page_content_join_model.is_rails_part = true
+        page_content_join_model.save!
+      end
+      page_content_join_model
+    end
 
     # container can be either a page or the website
     def seed_container_block_content(locale, seed_content)

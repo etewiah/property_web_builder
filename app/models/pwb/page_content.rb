@@ -6,6 +6,7 @@ module Pwb
     # This join table provides flexibility in the long run to allow the
     # same content to be used by different pages
     # with different settings for sorting and visibility
+    # Might have been better to call this model PagePlaceholder
     belongs_to :page
     belongs_to :content
     belongs_to :website
