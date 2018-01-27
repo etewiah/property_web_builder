@@ -9,7 +9,7 @@ module Pwb
 
       translations = I18n::Backend::ActiveRecord::Translation.where(id: [1, 2, 3])
       @header_cols = ["translation-id", "key", "value", "locale"]
-      @translation_fields = [:id, :key, :value, :locale]
+      @translation_fields = %i[id key value locale]
       @translations_array = []
       translations.each do |translation|
         translation_field_values = []

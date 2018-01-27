@@ -38,9 +38,8 @@ module Pwb
       end
     end
 
-
     def create_with_token
-      unless (params["token"] == "20182018")
+      unless params["token"] == "20182018"
         return render_json_error "Invalid Token"
       end
       propertyJSON = params["property"]
@@ -64,7 +63,7 @@ module Pwb
       end
 
       if params["extras"]
-        pwb_prop.set_extras=params["extras"]
+        pwb_prop.set_extras = params["extras"]
       end
       if params["property_photos"] && (pwb_prop.prop_photos.count < 1)
         params["property_photos"].each do |property_photo|
@@ -78,7 +77,7 @@ module Pwb
       end
 
       message = "Property published"
-      return render json: {
+      render json: {
         pwb_prop: pwb_prop,
         message: message
       }
@@ -100,7 +99,7 @@ module Pwb
           begin
             new_prop = Pwb::Prop.create propertyJSON.except "extras", "property_photos"
             if propertyJSON["extras"]
-              new_prop.set_extras=propertyJSON["extras"]
+              new_prop.set_extras = propertyJSON["extras"]
             end
             if propertyJSON["property_photos"]
               propertyJSON["property_photos"].each do |property_photo|
@@ -120,7 +119,7 @@ module Pwb
         end
       end
 
-      return render json: {
+      render json: {
         new_props: new_props,
         existing_props: existing_props,
         errors: errors
@@ -142,6 +141,5 @@ module Pwb
         :count_bedrooms, :count_bathrooms
       )
     end
-
   end
 end
