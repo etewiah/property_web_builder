@@ -36,7 +36,7 @@ module Pwb
 
     # scope :visible_in_admin, -> () { where visible: true  }
 
-    def get_page_part page_part_key
+    def get_page_part(page_part_key)
       page_parts.where(page_part_key: page_part_key).first
     end
 
@@ -110,7 +110,6 @@ module Pwb
       page_fragment_content
     end
 
-
     def update_page_part_content(page_part_key, locale, fragment_block)
       # save the block contents (in associated page_part model)
       json_fragment_block = set_page_part_block_contents page_part_key, locale, fragment_block
@@ -157,6 +156,5 @@ module Pwb
     # end
 
     private
-
   end
 end
