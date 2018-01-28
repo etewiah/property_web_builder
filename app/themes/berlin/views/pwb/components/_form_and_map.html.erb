@@ -1,4 +1,4 @@
-<div class="contact-us-section row">
+<div class="contact-us-section row" style="margin-bottom: 20px;margin-top: 20px;">
   <div class="col-md-7">
     <%= render 'pwb/sections/contact_us_form' %>
   </div>
@@ -16,7 +16,7 @@
         <% if @current_agency.show_contact_map %>
           <inmo-map style="min-height: 600px;" :markers="<%= @map_markers.to_json %>" :zoom="15">
           </inmo-map>
-          <div id="inmo-map-canvas" class="map-canvas no-margin"></div>
+          <div id="inmo-map-canvas" class=""></div>
         <% end %>
       </div>
     </div>

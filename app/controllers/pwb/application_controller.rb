@@ -2,8 +2,8 @@ module Pwb
   class ApplicationController < ActionController::Base
     protect_from_forgery with: :exception
 
-    before_action :footer_content, :current_agency_and_website, :nav_links,
-      :set_locale, :set_theme_path
+    before_action :current_agency_and_website, :nav_links,
+      :set_locale, :set_theme_path, :footer_content
 
     def set_theme_path
       theme_name = Website.unique_instance.theme_name
@@ -50,7 +50,10 @@ module Pwb
     end
 
     def footer_content
-      @footer_content = Content.find_by_key("footerInfo") || OpenStruct.new
+      # @footer_content = Content.find_by_key("footerInfo") || OpenStruct.new
+      footer_page_content = Website.unique_instance.ordered_visible_page_contents.find_by_page_part_key "footer_content_html"
+      @footer_content = footer_page_content.present? ? footer_page_content.content : OpenStruct.new
+      # TODO: Cache above
     end
 
     def nav_links

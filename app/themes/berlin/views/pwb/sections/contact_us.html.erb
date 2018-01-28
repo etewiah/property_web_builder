@@ -28,14 +28,12 @@
 <section id="aa-main">
   <div class="container">
     <div class="col-md-12">
-      <div class="">
         <div class="row">
           <% @page.ordered_visible_page_contents.each do |page_content| %>
             <%= page_part page_content %>
           <% end %>
         </div>
         <%= page_component "form_and_map", @page %>
-      </div>
     </div>
   </div>
 </section>
