@@ -26,7 +26,7 @@ module Pwb
         # seed_content 'carousel.yml'
         # seed_content 'about_us.yml'
         # seed_content 'static.yml'
-        seed_content 'footer.yml'
+        # seed_content 'footer.yml'
         # seed_content 'sell.yml'
         seed_agency 'agency.yml'
         # need to seed website first so correct currency is used
@@ -151,31 +151,31 @@ module Pwb
         end
       end
 
-      def seed_content(yml_file)
-        content_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', yml_file)
-        content_yml = YAML.load_file(content_seed_file)
-        # tag is used to group content for an admin page
-        # key is camelcase (js style) - used client side to identify each item in a group of content
-        content_yml.each do |single_content_yml|
-          # check content does not already exist
-          next if Pwb::Content.where(key: single_content_yml['key']).count > 0
-          photos = []
-          if single_content_yml["photo_urls"].present?
-            photos = create_photos_from_urls single_content_yml["photo_urls"], Pwb::ContentPhoto
-            single_content_yml.except! "photo_urls"
-          end
-          if single_content_yml["photo_files"].present?
-            photos = create_photos_from_files single_content_yml["photo_files"], Pwb::ContentPhoto
-            single_content_yml.except! "photo_files"
-          end
-          new_content = Pwb::Content.create!(single_content_yml)
-          next unless !photos.empty?
-          photos.each do |photo|
-            new_content.content_photos.push photo
-          end
-        end
-        print("success!")
-      end
+      # def seed_content(yml_file)
+      #   content_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', yml_file)
+      #   content_yml = YAML.load_file(content_seed_file)
+      #   # tag is used to group content for an admin page
+      #   # key is camelcase (js style) - used client side to identify each item in a group of content
+      #   content_yml.each do |single_content_yml|
+      #     # check content does not already exist
+      #     next if Pwb::Content.where(key: single_content_yml['key']).count > 0
+      #     photos = []
+      #     if single_content_yml["photo_urls"].present?
+      #       photos = create_photos_from_urls single_content_yml["photo_urls"], Pwb::ContentPhoto
+      #       single_content_yml.except! "photo_urls"
+      #     end
+      #     if single_content_yml["photo_files"].present?
+      #       photos = create_photos_from_files single_content_yml["photo_files"], Pwb::ContentPhoto
+      #       single_content_yml.except! "photo_files"
+      #     end
+      #     new_content = Pwb::Content.create!(single_content_yml)
+      #     next unless !photos.empty?
+      #     photos.each do |photo|
+      #       new_content.content_photos.push photo
+      #     end
+      #   end
+      #   print("success!")
+      # end
 
       def create_photos_from_files(photo_files, photo_class)
         photos = []

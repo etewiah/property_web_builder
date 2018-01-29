@@ -18,11 +18,17 @@ module Pwb
       let(:prop) { FactoryGirl.create(:pwb_prop, :sale) }
 
       scenario 'correct content html is rendered' do
+        # TODO: move all of the setting up below into
+        # a helper or factory
         page_content_html = content_html_ppm.find_or_create_content
         page_content_html.raw = "Content html raw"
         page_content_html.save!
 
         footer_content_html = footer_content_ppm.find_or_create_content
+
+        # TODO - use get_seed_content here
+        # seed_content = footer_content_ppm.get_seed_content
+
         footer_content_html.raw = "We are registered with the national association "
         footer_content_html.save!
 
