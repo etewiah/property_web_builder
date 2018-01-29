@@ -8,6 +8,8 @@ module Pwb
     # reverse_geocoded_by :latitude, :longitude do |obj,results|
     geocoded_by :geocodeable_address do |obj, results|
       if geo = results.first
+        obj.longitude    = geo.longitude
+        obj.latitude    = geo.latitude
         obj.city    = geo.city
         obj.street_number = geo.street_number
         # obj.street_name = geo.street_name
