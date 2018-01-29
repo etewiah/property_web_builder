@@ -8,12 +8,12 @@
         <% properties.each_with_index do |property, index| %>
           <div class="col-md-4">
             <div class="wp-block white property list">
+              <%= link_to property.contextual_show_path(rent_or_sale) do %>
               <div class="figure">
-                <%= link_to property.contextual_show_path(rent_or_sale) do %>
                   <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
                     height: 300, crop: "scale", class: "img-responsive") %>
-                <% end %>
               </div>
+              <% end %>
               <div class="wp-block-body">
                 <h2 class="title overflow-elip"><a href="#"><%= link_to property.title, property.contextual_show_path(rent_or_sale)  %></a></h2>
                 <h2 class="subtitle">

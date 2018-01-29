@@ -73,7 +73,9 @@ module Pwb
           # photo.remote_image_url = property_photo["image"]["url"] || property_photo["url"]
           photo.remote_image_url = property_photo
           photo.save!
-          pwb_prop.prop_photos.push photo
+          if photo.image.present?
+            pwb_prop.prop_photos.push photo            
+          end
         end
       end
 
