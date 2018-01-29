@@ -1,5 +1,10 @@
 ---
 es:
+  website:
+    footer_content_html:
+      main_content:
+        <p>Estamos registrado con el colegio de inmobiliarios.</p>
+        <p>Numero de registracion 12121212</p>
   legal:
     content_html:
       main_content:

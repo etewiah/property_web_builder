@@ -5,6 +5,7 @@ module Pwb
     def initialize(page_part_key, container)
       raise "Please provide valid container" unless container.present?
       self.page_part_key = page_part_key
+      # container can be either a page or the website
       self.container = container
       self.page_part = container.get_page_part page_part_key
       # PagePart.find_by_page_part_key page_part_key
@@ -26,9 +27,9 @@ module Pwb
     end
 
     def find_or_create_join_model
-      # Particularly important for rails_parts 
-      # They may may not have content to seed but this 
-      # call is needed when seeding to set up r/n between 
+      # Particularly important for rails_parts
+      # They may may not have content to seed but this
+      # call is needed when seeding to set up r/n between
       # container (page or website) and content
       page_content_join_model = container.page_contents.find_or_create_by(page_part_key: page_part_key)
       if page_part.is_rails_part
@@ -38,7 +39,20 @@ module Pwb
       page_content_join_model
     end
 
-    # container can be either a page or the website
+    # TODO: Use below for page_part_content_spec
+    def get_seed_content(locale)
+      locale_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'content_translations', locale.to_s + '.yml')
+      raise Exception, "Contents seed for #{locale} not found" unless File.exist? locale_seed_file
+      yml = YAML.load_file(locale_seed_file)
+  
+      if yml[locale] && yml[locale][container_label] && yml[locale][container_label][page_part_key]
+        seed_content = yml[locale][container_label][page_part_key]
+        page_part_manager.seed_container_block_content locale, seed_content
+        p "#{container_label} #{page_part_key} content set for #{locale}."
+      end
+    end
+
+    # seed_content is ...
     def seed_container_block_content(locale, seed_content)
       page_part_editor_setup = page_part.editor_setup
       raise "Invalid editorBlocks for page_part_editor_setup" unless (page_part_editor_setup && page_part_editor_setup["editorBlocks"].present?)
@@ -159,7 +173,7 @@ module Pwb
         page_fragment_content.save!
 
         # set page_part_key value on join model
-        page_content_join_model = get_join_model 
+        page_content_join_model = get_join_model
         # page_fragment_content.page_contents.find_by_page_id self.id
         page_content_join_model.page_part_key = page_part_key
         page_content_join_model.save!
