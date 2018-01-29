@@ -67,12 +67,17 @@ module Pwb
       end
       if params["property_photos"] && (pwb_prop.prop_photos.count < 1)
         params["property_photos"].each do |property_photo|
-          photo = PropPhoto.create
-          # photo.sort_order = property_photo["sort_order"] || nil
-          # photo.remote_image_url = property_photo["image"]["url"] || property_photo["url"]
-          photo.remote_image_url = property_photo
-          photo.save!
-          pwb_prop.prop_photos.push photo
+          begin
+            photo = PropPhoto.create
+            # photo.sort_order = property_photo["sort_order"] || nil
+            # photo.remote_image_url = property_photo["image"]["url"] || property_photo["url"]
+            photo.remote_image_url = property_photo
+            photo.save!
+            pwb_prop.prop_photos.push photo
+          rescue Exception => err
+            logger.error err.message
+          end
+
         end
       end
 
