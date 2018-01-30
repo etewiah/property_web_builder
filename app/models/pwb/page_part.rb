@@ -3,11 +3,13 @@
 # Resulting html content is stored in page content model
 module Pwb
   class PagePart < ApplicationRecord
+    # validate as unique on page_slug and page_part_key???
     belongs_to :page, optional: true, foreign_key: "page_slug", primary_key: "slug"
+    # as well as belonging to pages, can be used by website (for footer html etc)
 
     def as_json(options = nil)
       super({only: [
-               "is_rails_part", "page_part_key", "page_slug", "editor_setup", "block_contents"
+               "is_rails_part", "page_part_key", "page_slug", "editor_setup", "block_contents", "show_in_editor", "id", "order_in_editor"
              ],
              methods: []
              }.merge(options || {}))
