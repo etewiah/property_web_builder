@@ -1,0 +1,32 @@
+module Pwb
+  # jan 2018 - to remove
+  # grew out of Api::V1::CmsPagesController which had used
+  # comfy mex sofa
+  class Api::V1::PageFragmentsController < ApplicationApiController
+    # def show
+    #   page = Page.find_by_slug "home"
+    #   render json: page.details["fragments"]      
+    # end
+
+    # def update
+    #   page = Page.find_by_slug "home"
+
+    #   services_fragment = {
+    #     "about_us_services": {
+    #       "en": cms_page_update_params[:attributes]
+    #     }
+    #   }
+    #   page.details["fragments"] = services_fragment.as_json
+
+    #   # page.update(page_params)
+    #   page.save!
+    #   render json: page.details["fragments"]      
+
+    # end
+
+
+    # def cms_page_update_params
+    #   params.require(:data).permit(:id, attributes: [:label, blocks: [:content, :id, :identifier, :info, :is_image]])
+    # end
+  end
+end

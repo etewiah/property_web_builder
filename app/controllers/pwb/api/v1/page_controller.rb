@@ -4,8 +4,10 @@ module Pwb
   class Api::V1::PageController < ApplicationApiController
     # protect_from_forgery with: :null_session
     def show
-      # admin_setup = Pwb::CmsPageContainer.where(name: params[:page_name]).first || {}
-      # render json: admin_setup.as_json_for_admin["attributes"]
+      if params[:page_name] == "website"
+        return render json: Website.unique_instance.as_json_for_page
+      end
+
       page = Pwb::Page.find_by_slug(params[:page_name])
       if page
         render json: page.as_json_for_admin
@@ -56,7 +58,11 @@ module Pwb
     end
 
     def save_page_fragment
-      page = Page.find_by_slug params[:page_slug]
+      if params[:page_slug] == "website"
+        container = Website.unique_instance
+      else
+        container = Page.find_by_slug params[:page_slug]
+      end
       fragment_details = params[:fragment_details]
       unless fragment_details && fragment_details["locale"]
         return render_json_error 'Please provide locale'
@@ -66,8 +72,7 @@ module Pwb
         return render_json_error 'Please provide page_part_key'
       end
       page_part_key = fragment_details["page_part_key"]
-
-      page_part_manager = Pwb::PagePartManager.new page_part_key, page
+      page_part_manager = Pwb::PagePartManager.new page_part_key, container
 
       result_to_return = page_part_manager.update_page_part_content locale, fragment_details
 

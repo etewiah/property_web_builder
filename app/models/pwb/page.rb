@@ -136,7 +136,8 @@ module Pwb
     # above can be called on a result set from a query like so:
     # Page.all.as_json
     # Below can only be called on a single record like so:
-    # Page.first.as_json
+    # Page.first.as_json_for_admin
+    # Is used to retrieve details by api/v1/page controller 
     def as_json_for_admin(options = nil)
       as_json({only: [
                  "sort_order_top_nav", "show_in_top_nav",

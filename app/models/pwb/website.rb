@@ -22,16 +22,16 @@ module Pwb
       3 => :landing_hide_search_bar
 
     def self.unique_instance
-        # there will be only one row, and its ID must be '1'
+      # there will be only one row, and its ID must be '1'
 
-        # TODO: - memoize
-        find(1)
+      # TODO: - memoize
+      find(1)
     rescue ActiveRecord::RecordNotFound
-        # slight race condition here, but it will only happen once
-        row = Website.new
-        row.id = 1
-        row.save!
-        row
+      # slight race condition here, but it will only happen once
+      row = Website.new
+      row.id = 1
+      row.save!
+      row
     end
 
     def page_parts
@@ -46,6 +46,8 @@ module Pwb
     # These are a list of links for pages to be
     # displayed in the pages section of the
     # admin site
+    # TODO: feb 2018 - enable management of
+    # below via /config path
     def admin_page_links
       #
       if configuration["admin_page_links"].present?
@@ -70,6 +72,20 @@ module Pwb
       save!
       admin_page_links
     end
+
+    def slug
+      # slug is needed for
+      # admin client side page model
+      "website"
+    end
+
+    def as_json_for_page(options = nil)
+      # Sends data to admin in format compatible 
+      # with client side page model
+      as_json({only: [],
+               methods: ["slug", "page_parts","page_contents"]}.merge(options || {}))
+    end
+
 
     def as_json(options = nil)
       super({only: [
