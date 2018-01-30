@@ -44,7 +44,7 @@ module Pwb
       locale_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'content_translations', locale.to_s + '.yml')
       raise Exception, "Contents seed for #{locale} not found" unless File.exist? locale_seed_file
       yml = YAML.load_file(locale_seed_file)
-  
+
       if yml[locale] && yml[locale][container_label] && yml[locale][container_label][page_part_key]
         seed_content = yml[locale][container_label][page_part_key]
         page_part_manager.seed_container_block_content locale, seed_content
@@ -55,7 +55,7 @@ module Pwb
     # seed_content is ...
     def seed_container_block_content(locale, seed_content)
       page_part_editor_setup = page_part.editor_setup
-      raise "Invalid editorBlocks for page_part_editor_setup" unless (page_part_editor_setup && page_part_editor_setup["editorBlocks"].present?)
+      raise "Invalid editorBlocks for page_part_editor_setup" unless page_part_editor_setup && page_part_editor_setup["editorBlocks"].present?
       # page = page_part.page
       # page_part_key uniquely identifies a fragment
       # page_part_key = page_part.page_part_key
@@ -96,16 +96,14 @@ module Pwb
       p " #{page_part_key} content set for #{locale}."
     end
 
-
-    def update_page_part_content locale, fragment_block
+    def update_page_part_content(locale, fragment_block)
       # save the block contents (in associated page_part model)
       json_fragment_block = set_page_part_block_contents page_part_key, locale, fragment_block
       # retrieve the contents saved above and use to rebuild html for that page_part
       # (and save it in associated page_content model)
       fragment_html = rebuild_page_content locale
-      return { json_fragment_block: json_fragment_block, fragment_html: fragment_html }
+      { json_fragment_block: json_fragment_block, fragment_html: fragment_html }
     end
-
 
     def set_default_page_content_order_and_visibility
       join_model = get_join_model
@@ -137,7 +135,7 @@ module Pwb
 
     # set block contents
     # on page_part model
-    def set_page_part_block_contents page_part_key, locale, fragment_details
+    def set_page_part_block_contents(_page_part_key, locale, fragment_details)
       # page_part = self.page_parts.find_by_page_part_key page_part_key
       if page_part.present?
         page_part.block_contents[locale] = fragment_details
@@ -147,12 +145,12 @@ module Pwb
         fragment_details = page_part.block_contents[locale]
       end
 
-      return fragment_details
+      fragment_details
     end
 
     # Will retrieve saved page_part blocks and use that along with template
     # to rebuild page_content html
-    def rebuild_page_content locale
+    def rebuild_page_content(locale)
       unless page_part && page_part.template
         raise "page_part with valid template not available"
       end
@@ -181,12 +179,12 @@ module Pwb
         new_fragment_html = ""
       end
 
-      return new_fragment_html
+      new_fragment_html
     end
 
     # when seeding I only need to ensure that a photo exists for the fragment
     # so will return existing photo if it can be found
-    def seed_fragment_photo block_label, photo_file
+    def seed_fragment_photo(block_label, photo_file)
       # content_key = self.slug + "_" + page_part_key
       # get in content model associated with page and fragment
       # join_model = page_contents.find_or_create_by(page_part_key: page_part_key)
@@ -213,16 +211,15 @@ module Pwb
         # photo.image = photo_file
         photo.image = Pwb::Engine.root.join(photo_file).open
         photo.save!
-        print "#{self.slug}--#{page_part_key} image created: #{photo.optimized_image_url}\n"
+        print "#{slug}--#{page_part_key} image created: #{photo.optimized_image_url}\n"
         # reload the record to ensure that url is available
         photo.reload
-        print "#{self.slug}--#{page_part_key} image created: #{photo.optimized_image_url}(after reload..)"
+        print "#{slug}--#{page_part_key} image created: #{photo.optimized_image_url}(after reload..)"
       rescue Exception => e
         # log exception to console
         print e
       end
-      return photo
+      photo
     end
-
   end
 end

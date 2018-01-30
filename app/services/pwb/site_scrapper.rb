@@ -30,7 +30,7 @@ module Pwb
         end
         count += 1
       end
-      return retrieved_properties
+      retrieved_properties
     end
 
     def retrieve_from_webpage
@@ -71,24 +71,21 @@ module Pwb
 
 
       properties.push property_hash
-      return properties
+      properties
     end
 
     private
 
-    def retrieve_target_text doc, mapping
+    def retrieve_target_text(doc, mapping)
       target_elements = doc.css(mapping["cssLocator"]) || []
       target_text = ""
       if target_elements.present? && mapping["cssCountId"].present?
         begin
           target_text = target_elements[mapping["cssCountId"].to_i].text || ""
         rescue Exception => e
-
         end
       end
-      return target_text
+      target_text
     end
-
-
   end
 end

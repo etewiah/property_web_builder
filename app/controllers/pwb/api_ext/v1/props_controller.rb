@@ -77,7 +77,6 @@ module Pwb
           rescue Exception => err
             logger.error err.message
           end
-
         end
       end
 
