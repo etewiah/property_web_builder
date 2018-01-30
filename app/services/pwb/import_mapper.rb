@@ -8,7 +8,7 @@ module Pwb
       self.mls_mapping = mls_mapping
     end
 
-    def map_property mls_property
+    def map_property(mls_property)
       mapped_property = {}
 
       # direct_mappings is a hash of MLS fieldnames and the equivalent fieldname in pwb
@@ -44,10 +44,8 @@ module Pwb
       end
 
 
-      # TODO - figure out way of importing extras
-      return mapped_property
+      # TODO: - figure out way of importing extras
+      mapped_property
     end
-
-
   end
 end

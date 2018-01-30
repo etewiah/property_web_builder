@@ -80,12 +80,11 @@ module Pwb
     end
 
     def as_json_for_page(options = nil)
-      # Sends data to admin in format compatible 
+      # Sends data to admin in format compatible
       # with client side page model
       as_json({only: [],
-               methods: ["slug", "page_parts","page_contents"]}.merge(options || {}))
+               methods: ["slug", "page_parts", "page_contents"]}.merge(options || {}))
     end
-
 
     def as_json(options = nil)
       super({only: [

@@ -10,7 +10,7 @@ module Pwb
       self.import_source = import_source
     end
 
-    def retrieve query, limit
+    def retrieve(query, limit)
       if import_source.source_type == "odata"
         properties = retrieve_via_odata query, limit
       else
@@ -18,7 +18,7 @@ module Pwb
       end
     end
 
-    def retrieve_via_odata query, limit
+    def retrieve_via_odata(_query, _limit)
       # conn = Faraday.new(:url => 'http://dmm-api.olrdev.com/Service.svc') do |faraday|
       #   faraday.basic_auth('', '')
       #   faraday.request  :url_encoded             # form-encode POST params
@@ -35,10 +35,10 @@ module Pwb
 
       svc.Listings.expand('Building')
       listings = svc.execute
-      return JSON.parse(listings.to_json)
+      JSON.parse(listings.to_json)
     end
 
-    def retrieve_via_rets query, limit
+    def retrieve_via_rets(query, limit)
       client = Rets::Client.new(import_source.details)
 
       # $ver = "RETS/1.7.2";
@@ -58,8 +58,7 @@ module Pwb
       #   resource_id: '242502823'
       # }
 
-      return properties
+      properties
     end
-
   end
 end

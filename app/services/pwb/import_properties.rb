@@ -11,7 +11,7 @@ module Pwb
       parsed_properties = []
       csv_options = { headers: true}
       CSV.foreach(csv_file.path, csv_options) do |row|
-        # TODO - more robust check for valid cols
+        # TODO: - more robust check for valid cols
         if row.to_hash["title_en"].present?
           # && row.to_hash["key"].present?
           # new_prop = Prop.create! row.to_hash.except("id")
@@ -19,7 +19,7 @@ module Pwb
           parsed_properties.push row.to_hash.except("id")
         end
       end
-      return parsed_properties
+      parsed_properties
     end
 
     def import_mls_tsv
@@ -46,9 +46,7 @@ module Pwb
         #   parsed_properties.push new_prop
         # end
       end
-      return parsed_properties
+      parsed_properties
     end
-
-
   end
 end

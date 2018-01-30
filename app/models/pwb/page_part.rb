@@ -15,15 +15,13 @@ module Pwb
              }.merge(options || {}))
     end
 
-
-    def self.create_from_seed_yml yml_file_name
+    def self.create_from_seed_yml(yml_file_name)
       # page_parts_dir = Pwb::Engine.root.join('db', 'yml_seeds', 'page_parts')
       page_part_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'page_parts', yml_file_name)
       yml_file_contents = YAML.load_file(page_part_seed_file)
       unless Pwb::PagePart.where({page_part_key: yml_file_contents[0]['page_part_key'], page_slug: yml_file_contents[0]['page_slug']}).count > 0
         Pwb::PagePart.create!(yml_file_contents)
       end
-
     end
   end
 end
