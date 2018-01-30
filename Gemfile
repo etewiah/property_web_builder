@@ -61,6 +61,9 @@ group :development, :test do
   gem 'guard-rspec', require: false
   gem 'zeus'
   gem 'json_spec'
+
+  gem 'rails-perftest'
+  gem 'ruby-prof', '0.15.9'
 end
 
 group :development do
