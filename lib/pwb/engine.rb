@@ -28,6 +28,15 @@ module Pwb
   class Engine < ::Rails::Engine
     isolate_namespace Pwb
 
+    # Want the public folder in the engine to be valid
+    # https://stackoverflow.com/questions/38182554/how-to-copy-over-public-folder-of-rails-engine-to-a-rails-application-in-produc?rq=1
+    # if config.serve_static_assets
+    initializer "static assets" do |app|
+      app.middleware.insert_before(::ActionDispatch::Static, ::ActionDispatch::Static, "#{root}/public")
+    end
+    # end
+
+
     config.generators do |g|
       g.test_framework :rspec, fixture: false
       g.fixture_replacement :factory_girl, dir: 'spec/factories'

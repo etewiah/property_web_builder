@@ -29,6 +29,8 @@ Pwb::Engine.routes.draw do
     end
     get '/config' => 'config#show'
     get '/config/:params' => 'config#show'
+    get "/setup" => "setup_panel#show"
+    get "/setup/*path" => "setup_panel#show"
 
   end
 
