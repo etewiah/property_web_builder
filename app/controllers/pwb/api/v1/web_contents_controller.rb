@@ -16,11 +16,16 @@ module Pwb
           # where photo has never been set before, associated Content will not exist
           content = Content.find_by_key(content_tag) || Content.create({ key: content_tag, tag: 'appearance' })
           photo = ContentPhoto.create
+          if content_tag == "logo"
+            # TODO: This is a workaround
+            # need to have a way of determining content that should only have
+            # one photo and enforcing that
+            content.content_photos.destroy_all
+          end
           content.content_photos.push photo
         end
         # TODO: - handle where no photo or content_tag..
       end
-
       if params[:file]
         photo.image = params[:file]
       end
