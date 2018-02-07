@@ -113,6 +113,10 @@ Pwb::Engine.routes.draw do
     end
 
     namespace :api do
+      namespace :v2 do
+        resources :properties
+        get "/agency" => "agency#show"
+      end
       namespace :v1 do
         # get "/cms/tag/:tag_name" => "cms#tag"
         get "/translations/list/:locale" => "translations#list"
