@@ -241,19 +241,44 @@ module Pwb
       prices_array.min
     end
 
-    # def ano_constr=(ano_constr)
-    #   self.year_construction = ano_constr
-    # end
-
-    # TODO: - replace below with db col
-    # def area_unit
-    #   return "sqft"
-    #   # "sqmt"
-    #   # "m<sup>2</sup>"
-    # end
     # enum area_unit: [ :sqmt, :sqft ]
     # above method of declaring less flexible than below:
     enum area_unit: { sqmt: 0, sqft: 1 }
+
+
+    # Below can only be called on a single record like so:
+    # Page.first.as_json_for_admin
+    # Is used to retrieve details by api/v2/properties controller
+    def as_json_for_admin(options = nil)
+      as_json(
+        {only: [
+           "id", "reference", "year_construction", "count_bedrooms", "count_bathrooms", "count_toilets", "count_garages",
+           "plot_area", "constructed_area", "energy_rating", "energy_performance", "flags", "furnished", "sold", "reserved",
+           "highlighted", "archived", "visible", "for_rent_short_term", "for_rent_long_term", "for_sale",
+           "hide_map", "obscure_map", "portals_enabled", "deleted_at", "active_from", "available_to_rent_from",
+           "available_to_rent_till",
+           "price_sale_current_cents", "price_sale_current_currency",
+           "price_sale_original_cents",
+           "price_sale_original_currency",
+           "price_rental_monthly_current_cents", "price_rental_monthly_current_currency",
+           "price_rental_monthly_original_cents", "price_rental_monthly_original_currency",
+           "price_rental_monthly_low_season_cents", "price_rental_monthly_low_season_currency",
+           "price_rental_monthly_high_season_cents", "price_rental_monthly_high_season_currency",
+           "price_rental_monthly_standard_season_cents", "price_rental_monthly_standard_season_currency",
+           "commission_cents",
+           "commission_currency", "service_charge_yearly_cents", "service_charge_yearly_currency",
+           "price_rental_monthly_for_search_cents", "price_rental_monthly_for_search_currency", "currency", "prop_origin_key",
+           "prop_state_key", "prop_type_key", "street_number", "street_name", "street_address", "postal_code", "province",
+           "city", "region", "country", "latitude", "longitude", "created_at", "updated_at", "area_unit",
+         ],
+         methods: admin_attribute_names}.merge(options || {}))
+    end
+
+    def admin_attribute_names
+      globalize_attribute_names.push :prop_photos, :features
+      # globalize_attribute_names.push :page_contents, :page_parts
+    end
+
 
     before_save :set_rental_search_price
     after_create :set_defaults
