@@ -160,7 +160,7 @@ Pwb::Engine.routes.draw do
         get "/mls" => "mls#index"
         get "/select_values" => "select_values#by_field_names"
 
-        # TODO - rename properties below to prop
+        # TODO: rename to update_features:
         post "properties/update_extras" => "properties#update_extras"
 
         delete "properties/photos/:id" => "properties#remove_photo"
