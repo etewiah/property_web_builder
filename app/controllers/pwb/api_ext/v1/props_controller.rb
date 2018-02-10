@@ -63,7 +63,7 @@ module Pwb
       end
 
       if params["extras"]
-        pwb_prop.set_extras = params["extras"]
+        pwb_prop.set_features = params["extras"]
       end
       if params["property_photos"] && (pwb_prop.prop_photos.count < 1)
         params["property_photos"].each do |property_photo|
@@ -103,7 +103,7 @@ module Pwb
           begin
             new_prop = Pwb::Prop.create propertyJSON.except "extras", "property_photos"
             if propertyJSON["extras"]
-              new_prop.set_extras = propertyJSON["extras"]
+              new_prop.set_features = propertyJSON["extras"]
             end
             if propertyJSON["property_photos"]
               propertyJSON["property_photos"].each do |property_photo|

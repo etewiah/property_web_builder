@@ -40,7 +40,7 @@ module Pwb
             # into them
 
             if propertyJSON["features"]
-              new_prop.set_extras=propertyJSON["features"]
+              new_prop.set_features=propertyJSON["features"]
             end
             if propertyJSON["property_photos"]
               # uploading images can slow things down so worth setting a limit
@@ -74,9 +74,11 @@ module Pwb
       }
     end
 
+    # TODO: rename to update_features:
     def update_extras
       property = Prop.find(params[:id])
-      property.set_extras = params[:extras]
+      # The set_features method goes through ea
+      property.set_features = params[:extras].to_unsafe_hash
       property.save!
       return render json: property.features
     end
