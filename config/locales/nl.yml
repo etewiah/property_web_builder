@@ -1,0 +1,161 @@
+# awaiting translation
+---
+nl:
+  aboutUs: About Us
+  address: Address
+  back: Back
+  changePassword: Change Password
+  contact:
+    emailSubject: Contact from your website
+    error: Sorry, there has been an error.
+    success: Thank you for your message. We will contact you soon!
+  contactUs: Contact
+  contactUsPrompt: Fill in the following form to contact us
+  devise:
+    user_update_success: You have successfully updated your account.
+    user_update_success_title: Congratulations
+  editarPropiedad: Edit a property
+  email: Email
+  'false': 'No'
+  findAProperty: Find a property
+  findByReference: Find by reference
+  forRent: For Rent
+  forSale: For Sale
+  go: Go
+  labels:
+    create: Create
+    edit: Edit
+    latestProperties: Latest properties
+    new: New
+    ourServices: Our services
+    save: Save
+  leaveBlank: leave it blank if you don't want to change it
+  legalAdvice: Legal Notice
+  listadoPropiedades: List of properties
+  mailers:
+    confirm_registration: Please confirm your account through the link below
+    from: From
+    general_enquiry_targeting_agency:
+      title: General enquiry from your website
+    general_enquiry_targeting_enquirer:
+      message_title: ''
+      subject: ''
+    message: Message
+    phone: Tel
+    property: Property
+    property_enquiry_targeting_agency:
+      title: Enquiry regarding a property
+    received_on: Received on
+    welcome: Welcome
+  menu_admin: admin
+  message: Message
+  name: Name
+  navbar:
+    about-us: About Us
+    admin: Admin
+    buy: Properties to buy
+    contact-us: Contact
+    home: Home
+    legal: Legal Notice
+    privacy: Privacy Policy
+    rent: Properties to rent
+    sell: Sell
+  needCurrentPwd: we need your current password to confirm your changes
+  newPassword: New Password
+  noResultsForSearch: Sorry, no results found
+  nuevoPropiedad: New property
+  orderBy:
+    priceAscending: "↓ Price (ascending)"
+    priceDescending: "↑ Price (descending)"
+  pages:
+    aboutUs: About us
+    sell: Sell
+  placeHolders:
+    email: Your email
+    message: Write your message here
+    name: Your name
+    subject: Subject
+    tel: Fixed or mobile
+  # privacyPolicy: Privacy Policy
+  property:
+    description: Description
+    details: Details
+    extras: Features
+    furniture: Furniture
+    goToProperty: View Property
+    highlightedProperty: Outstanding Property
+    locality: Locality
+    map: Map
+    monthlyRentalPriceHighSeason: Monthly Price (High Season)
+    monthlyRentalPriceLowSeason: Monthly Price (Low Season)
+    monthlyRentalPriceStandardSeason: Monthly Price (Standard Season)
+    operationType: Operation Type
+    price: Price
+    propertyType: Property Type
+    ref: Ref
+  propertyForRent: Property for rent
+  propertyForSale: Property for sale
+  propertyNotFound: Property not found
+  pwb:
+    copyright: "%{company_name} Inc. All rights reserved."
+    createPrompt: Create your estate agency website
+    createTagLine: Please enter the details for your account
+    getStarted: Get started now
+    registerNow: Register now
+    tagLine: Professional websites for estate agents in minutes
+    tagLineExt: Beautiful websites that have to be seen to be believed.<br>No one
+      gets you online quicker.
+  requestPropertyInfo: Request info
+  search: Search
+  searchForProperties: Search for properties
+  selectpicker:
+    countSelectedText: Selected {0} of {1}
+    noneResultsText: No results found {0}
+    noneSelectedText: Nothing selected
+  send: Send
+  setup:
+    claimSubdomain: Claim this url
+    createdSuccessfully: Site created successfully
+    goToYourSite: Go to your site
+    loggedInAs: 'Logged in as '
+    logout: Logout
+    selectUrl: Select a url
+    selectUrlMessage: You have successfully created an account - now select the url
+      for your new site
+    subdomain: subdomain
+    subdomainMissing: Please enter a name for the subdomain
+    thankYouForTrusting: Thank you for trusting %{company_name}
+    urlNotAvailable: Sorry, this url is not available
+    weAreCreatingSite: We are creating your site
+  signOut: Sign Out
+  simple_form:
+    error_notification:
+      default_message: 'Please review the problems below:'
+    labels:
+      search:
+        count_bathrooms: Bathrooms (min)
+        count_bedrooms: Bedrooms (min)
+        for_rent_price_from: Rent From (Monthly)
+        for_rent_price_till: Rent Till (Monthly)
+        for_sale_price_from: Price From
+        for_sale_price_till: Price Till
+        in_locality: Locality
+        in_zone: Zone
+        locality: Locality
+        property_state: Property State
+        property_type: Property Type
+    'no': 'No'
+    required:
+      mark: "*"
+      text: required
+    'yes': 'Yes'
+  subject: Subject
+  tel: Telephone
+  'true': 'Yes'
+  update: Update
+  webContentSections:
+    aboutUs: About us
+    contactInformation: Contact information
+    home: Home
+    sell: Sell
+    tagLine: Tag Line
