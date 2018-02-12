@@ -1,161 +1,161 @@
 # awaiting translation
 ---
 nl:
-  aboutUs: About Us
-  address: Address
-  back: Back
-  changePassword: Change Password
+  aboutUs: Over ons
+  address: Adres
+  back: Terug
+  changePassword: Wachtwoord instellen
   contact:
-    emailSubject: Contact from your website
-    error: Sorry, there has been an error.
-    success: Thank you for your message. We will contact you soon!
+    emailSubject: Contact via de website
+    error: Sorry, er is een fout opgetreden.
+    success: Bedankt voor uw bericht. We nemen spoedig contact op!
   contactUs: Contact
-  contactUsPrompt: Fill in the following form to contact us
+  contactUsPrompt: Vul het volgende formulier in om met ons contact op te nemen
   devise:
-    user_update_success: You have successfully updated your account.
-    user_update_success_title: Congratulations
-  editarPropiedad: Edit a property
+    user_update_success: Uw account is succesvol geupdate.
+    user_update_success_title: Gefeliciteerd
+  editarPropiedad: Wijzig een object
   email: Email
-  'false': 'No'
-  findAProperty: Find a property
-  findByReference: Find by reference
-  forRent: For Rent
-  forSale: For Sale
-  go: Go
+  'false': 'Nee'
+  findAProperty: Vind een object
+  findByReference: Vind via referentie
+  forRent: Te huur
+  forSale: Te koop
+  go: Gaan
   labels:
-    create: Create
-    edit: Edit
-    latestProperties: Latest properties
-    new: New
-    ourServices: Our services
-    save: Save
-  leaveBlank: leave it blank if you don't want to change it
-  legalAdvice: Legal Notice
-  listadoPropiedades: List of properties
+    create: Aanmaken
+    edit: Wijzig
+    latestProperties: Laatste objecten
+    new: Nieuw
+    ourServices: Onze services
+    save: Opslaan
+  leaveBlank: Laat leeg als u het niet wilt wijzigen
+  legalAdvice: Legaal advies
+  listadoPropiedades: Lijst met objecten
   mailers:
-    confirm_registration: Please confirm your account through the link below
-    from: From
+    confirm_registration: Bevestig uw account via de onderstaande link
+    from: Van
     general_enquiry_targeting_agency:
       title: General enquiry from your website
     general_enquiry_targeting_enquirer:
       message_title: ''
       subject: ''
-    message: Message
-    phone: Tel
-    property: Property
+    message: Bericht
+    phone: Telefoon
+    property: Object
     property_enquiry_targeting_agency:
       title: Enquiry regarding a property
-    received_on: Received on
-    welcome: Welcome
+    received_on: Ontvangen op
+    welcome: Welkom
   menu_admin: admin
-  message: Message
-  name: Name
+  message: Bericht
+  name: Naam
   navbar:
-    about-us: About Us
+    about-us: Over ons
     admin: Admin
-    buy: Properties to buy
+    buy: Koopobjecten
     contact-us: Contact
     home: Home
-    legal: Legal Notice
-    privacy: Privacy Policy
-    rent: Properties to rent
-    sell: Sell
-  needCurrentPwd: we need your current password to confirm your changes
-  newPassword: New Password
-  noResultsForSearch: Sorry, no results found
-  nuevoPropiedad: New property
+    legal: Legaal advies
+    privacy: Privacybeleid
+    rent: Huurobjecten
+    sell: Verkoop
+  needCurrentPwd: we hebben het huidige wachtwoord nodig om uw wijzigingen te bevestigen
+  newPassword: Nieuw wachtwoord
+  noResultsForSearch: Sorry, geen resultaat gevonden
+  nuevoPropiedad: Nieuw object
   orderBy:
-    priceAscending: "↓ Price (ascending)"
-    priceDescending: "↑ Price (descending)"
+    priceAscending: "↓ Prijs (oplopend)"
+    priceDescending: "↑ Prijs (aflopend)"
   pages:
-    aboutUs: About us
-    sell: Sell
+    aboutUs: Over ons
+    sell: Verkoop
   placeHolders:
-    email: Your email
-    message: Write your message here
-    name: Your name
-    subject: Subject
-    tel: Fixed or mobile
-  # privacyPolicy: Privacy Policy
+    email: Uw email
+    message: Schrijf uw bericht hier
+    name: Uw naam
+    subject: Onderwerp
+    tel: Vast of mobiel
+  # privacyPolicy: Privacybeleid
   property:
-    description: Description
+    description: Beschrijving
     details: Details
-    extras: Features
-    furniture: Furniture
-    goToProperty: View Property
-    highlightedProperty: Outstanding Property
-    locality: Locality
+    extras: Kenmerken
+    furniture: Meubels
+    goToProperty: Bekijk object
+    highlightedProperty: Uitstekend object
+    locality: Locatie
     map: Map
-    monthlyRentalPriceHighSeason: Monthly Price (High Season)
-    monthlyRentalPriceLowSeason: Monthly Price (Low Season)
-    monthlyRentalPriceStandardSeason: Monthly Price (Standard Season)
-    operationType: Operation Type
-    price: Price
-    propertyType: Property Type
+    monthlyRentalPriceHighSeason: Maandelijkse Prijs (Hoogseizoen)
+    monthlyRentalPriceLowSeason: Maandelijkse Prijs (Laagseizoen)
+    monthlyRentalPriceStandardSeason: Maandelijkse Prijs (Middenseizoen)
+    operationType: Type bewerking
+    price: Prijs
+    propertyType: Type object
     ref: Ref
-  propertyForRent: Property for rent
-  propertyForSale: Property for sale
-  propertyNotFound: Property not found
+  propertyForRent: Huurobject
+  propertyForSale: Koopobject
+  propertyNotFound: Object niet gevonden
   pwb:
     copyright: "%{company_name} Inc. All rights reserved."
-    createPrompt: Create your estate agency website
-    createTagLine: Please enter the details for your account
-    getStarted: Get started now
-    registerNow: Register now
-    tagLine: Professional websites for estate agents in minutes
-    tagLineExt: Beautiful websites that have to be seen to be believed.<br>No one
-      gets you online quicker.
-  requestPropertyInfo: Request info
-  search: Search
-  searchForProperties: Search for properties
+    createPrompt: Maak uw eigen makelaardij website
+    createTagLine: Voer de details voor uw account in
+    getStarted: Begin nu
+    registerNow: Registreer nu
+    tagLine: Professionele websites voor makelaars in een paar minuten
+    tagLineExt: Prachtige websites die gezien moeten worden om te geloven.<br>Niemand
+      krijgt u sneller online.
+  requestPropertyInfo: Vraag informatie aan
+  search: Zoeken
+  searchForProperties: Zoek objecten
   selectpicker:
-    countSelectedText: Selected {0} of {1}
-    noneResultsText: No results found {0}
-    noneSelectedText: Nothing selected
-  send: Send
+    countSelectedText: Geselecteerd {0} van de {1}
+    noneResultsText: Geen resultaat gevonden {0}
+    noneSelectedText: Niets geselecteerd
+  send: Verzenden
   setup:
-    claimSubdomain: Claim this url
-    createdSuccessfully: Site created successfully
-    goToYourSite: Go to your site
-    loggedInAs: 'Logged in as '
-    logout: Logout
-    selectUrl: Select a url
-    selectUrlMessage: You have successfully created an account - now select the url
-      for your new site
-    subdomain: subdomain
-    subdomainMissing: Please enter a name for the subdomain
-    thankYouForTrusting: Thank you for trusting %{company_name}
-    urlNotAvailable: Sorry, this url is not available
-    weAreCreatingSite: We are creating your site
-  signOut: Sign Out
+    claimSubdomain: Claim deze url
+    createdSuccessfully: Site met succes aangemaakt
+    goToYourSite: Ga naar uw site
+    loggedInAs: 'Ingelogd als '
+    logout: Uitloggen
+    selectUrl: Selecteer een url
+    selectUrlMessage: U heeft met succes een account aangemaakt - Selecteer nu de url
+      voor uw nieuwe site
+    subdomain: subdomein
+    subdomainMissing: Voer een naam in voor het subdomein
+    thankYouForTrusting: Bedankt voor het vertrouwen in %{company_name}
+    urlNotAvailable: Sorry, deze url is niet beschikbaar
+    weAreCreatingSite: Uw site wordt aangemaakt
+  signOut: uitloggen
   simple_form:
     error_notification:
-      default_message: 'Please review the problems below:'
+      default_message: 'Bekijk de onderstaande problemen:'
     labels:
       search:
-        count_bathrooms: Bathrooms (min)
-        count_bedrooms: Bedrooms (min)
-        for_rent_price_from: Rent From (Monthly)
-        for_rent_price_till: Rent Till (Monthly)
-        for_sale_price_from: Price From
-        for_sale_price_till: Price Till
-        in_locality: Locality
-        in_zone: Zone
-        locality: Locality
-        property_state: Property State
-        property_type: Property Type
-    'no': 'No'
+        count_bathrooms: Badkamers (min)
+        count_bedrooms: Slaapkamers (min)
+        for_rent_price_from: Huur vanaf (Monthly)
+        for_rent_price_till: Huur tot (Monthly)
+        for_sale_price_from: Prijs vanaf
+        for_sale_price_till: Prijs tot
+        in_locality: Locatie
+        in_zone: Gebied
+        locality: Locatie
+        property_state: Staat van object
+        property_type: Object type
+    'no': 'Nee'
     required:
       mark: "*"
-      text: required
-    'yes': 'Yes'
-  subject: Subject
-  tel: Telephone
-  'true': 'Yes'
+      text: verplicht
+    'yes': 'Ja'
+  subject: Onderwerp
+  tel: Telefoon
+  'true': 'Ja'
   update: Update
   webContentSections:
-    aboutUs: About us
-    contactInformation: Contact information
-    home: Home
-    sell: Sell
+    aboutUs: Over ons
+    contactInformation: Contactgegevens
+    home: Thuis
+    sell: Verkoop
     tagLine: Tag Line
