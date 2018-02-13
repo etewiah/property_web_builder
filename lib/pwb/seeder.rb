@@ -11,14 +11,19 @@ module Pwb
         # unless ENV["RAILS_ENV"] == "test"
         #   load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations.rb')
         # end
-        unless I18n::Backend::ActiveRecord::Translation.all.length > 20
+        unless I18n::Backend::ActiveRecord::Translation.all.length > 600
+          # TODO: look in a directory and load all the files there
+          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_ca.rb')
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_en.rb')
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_es.rb')
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_de.rb')
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_fr.rb')
+          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_it.rb')
+          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_nl.rb')
+          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_pl.rb')
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_pt.rb')
+          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_ro.rb')
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_ru.rb')
-          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_ca.rb')
         end
 
         # seed_sections 'sections.yml'
