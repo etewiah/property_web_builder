@@ -1,5 +1,4 @@
 # load File.join(Rails.root, 'db', 'seeds', 'translations.rb')
-# load File.join(Rails.root, 'db', 'seeds', 'translations.rb')
 I18n::Backend::ActiveRecord::Translation.create!(
   [
     {locale: "nl", key: "propertyStates.underConstruction", value: "In aanbouw"},
