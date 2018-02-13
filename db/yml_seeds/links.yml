@@ -20,6 +20,7 @@
   is_external: false
   placement: :top_nav
   link_title_en: Buy
+  link_title_nl: Koop
   link_title_es: Comprar
   link_title_fr: Acheter
   link_title_de: Kaufen

@@ -53,12 +53,12 @@ nl:
   navbar:
     about-us: Over ons
     admin: Admin
-    buy: Koopobjecten
+    buy: Koop
     contact-us: Contact
     home: Home
     legal: Legaal advies
     privacy: Privacybeleid
-    rent: Huurobjecten
+    rent: Huur
     sell: Verkoop
   needCurrentPwd: we hebben het huidige wachtwoord nodig om uw wijzigingen te bevestigen
   newPassword: Nieuw wachtwoord
@@ -93,8 +93,8 @@ nl:
     price: Prijs
     propertyType: Type object
     ref: Ref
-  propertyForRent: Huurobject
-  propertyForSale: Koopobject
+  propertyForRent: Huur
+  propertyForSale: Koop
   propertyNotFound: Object niet gevonden
   pwb:
     copyright: "%{company_name} Inc. All rights reserved."
