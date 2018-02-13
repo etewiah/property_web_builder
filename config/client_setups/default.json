@@ -79,6 +79,11 @@
       "localeVariants": ["it-IT"]
     },
     {
+      "labelTextTKey": "nl",
+      "fieldName": "nl",
+      "localeVariants": ["nl-Nl"]
+    },
+    {
       "labelTextTKey": "pl",
       "fieldName": "pl",
       "localeVariants": ["pl-PL"]

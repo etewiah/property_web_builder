@@ -47,7 +47,7 @@ module Pwb
     def extras
       # override needed here as I have an extras has_many r/n on property
       # which is not yet in use..
-      return @model.get_extras
+      return @model.get_features
     end
 
     # TODO - fix client side so I don't have to use these legacy names

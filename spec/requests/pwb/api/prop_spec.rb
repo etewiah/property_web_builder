@@ -35,9 +35,23 @@ module Pwb
     end
 
     context 'with signed in admin user' do
-      it 'sends agency details' do
+      before do
         sign_in @admin_user
+      end
+      it 'updates features correctly' do
 
+        post "/api/v1/properties/update_extras", params: {
+          id: "#{@prop_for_long_term_rent.id}",
+          extras: {aireAcondicionado: true}
+        }
+        expect(response).to be_success
+        expect(@prop_for_long_term_rent.features.find_by(feature_key: "aireAcondicionado")).to be_present
+        expect(@prop_for_long_term_rent.features.count).to eq(1)
+        expect(response_body_as_json[0]["feature_key"]).to eq("aireAcondicionado")
+        # expect(response.body).to have_json_path("feature_key")
+      end
+
+      it 'sends agency details' do
         # request.env['CONTENT_TYPE'] = 'application/vnd.api+json'
         request_headers = {
           "Accept" => "application/vnd.api+json"

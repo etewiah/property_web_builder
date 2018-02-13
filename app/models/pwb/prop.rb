@@ -100,7 +100,7 @@ module Pwb
     end
 
     # Getter
-    def get_extras
+    def get_features
       Hash[features.map { |key, _value| [key.feature_key, true] }]
       # http://stackoverflow.com/questions/39567/what-is-the-best-way-to-convert-an-array-to-a-hash-in-ruby
       # returns something like {"terraza"=>true, "alarma"=>true, "gotele"=>true, "sueloMarmol"=>true}
@@ -110,11 +110,11 @@ module Pwb
     # Setter- called by update_extras in properties controller
     # expects a hash with keys like "cl.casafactory.fieldLabels.extras.alarma"
     # each with a value of true or false
-    def set_extras=(extras_json)
-      return unless extras_json.class == Hash
-      extras_json.keys.each do |feature_key|
+    def set_features=(features_json)
+      # return unless features_json.class == Hash
+      features_json.keys.each do |feature_key|
         # TODO - create feature_key if its missing
-        if extras_json[feature_key] == "true" || extras_json[feature_key] == true
+        if features_json[feature_key] == "true" || features_json[feature_key] == true
           features.find_or_create_by( feature_key: feature_key)
         else
           features.where( feature_key: feature_key).delete_all
@@ -126,7 +126,7 @@ module Pwb
     # list of extras for property
     def extras_for_display
       merged_extras = []
-      get_extras.keys.each do |extra|
+      get_features.keys.each do |extra|
         # extras_field_key = "fieldLabels.extras.#{extra}"
         translated_option_key = I18n.t extra
         merged_extras.push translated_option_key

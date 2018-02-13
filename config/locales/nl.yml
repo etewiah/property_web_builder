@@ -1,0 +1,161 @@
+# awaiting translation
+---
+nl:
+  aboutUs: Over ons
+  address: Adres
+  back: Terug
+  changePassword: Wachtwoord instellen
+  contact:
+    emailSubject: Contact via de website
+    error: Sorry, er is een fout opgetreden.
+    success: Bedankt voor uw bericht. We nemen spoedig contact op!
+  contactUs: Contact
+  contactUsPrompt: Vul het volgende formulier in om met ons contact op te nemen
+  devise:
+    user_update_success: Uw account is succesvol geupdate.
+    user_update_success_title: Gefeliciteerd
+  editarPropiedad: Wijzig een object
+  email: Email
+  'false': 'Nee'
+  findAProperty: Vind een object
+  findByReference: Vind via referentie
+  forRent: Te huur
+  forSale: Te koop
+  go: Gaan
+  labels:
+    create: Aanmaken
+    edit: Wijzig
+    latestProperties: Laatste objecten
+    new: Nieuw
+    ourServices: Onze services
+    save: Opslaan
+  leaveBlank: Laat leeg als u het niet wilt wijzigen
+  legalAdvice: Legaal advies
+  listadoPropiedades: Lijst met objecten
+  mailers:
+    confirm_registration: Bevestig uw account via de onderstaande link
+    from: Van
+    general_enquiry_targeting_agency:
+      title: General enquiry from your website
+    general_enquiry_targeting_enquirer:
+      message_title: ''
+      subject: ''
+    message: Bericht
+    phone: Telefoon
+    property: Object
+    property_enquiry_targeting_agency:
+      title: Enquiry regarding a property
+    received_on: Ontvangen op
+    welcome: Welkom
+  menu_admin: admin
+  message: Bericht
+  name: Naam
+  navbar:
+    about-us: Over ons
+    admin: Admin
+    buy: Koop
+    contact-us: Contact
+    home: Home
+    legal: Legaal advies
+    privacy: Privacybeleid
+    rent: Huur
+    sell: Verkoop
+  needCurrentPwd: we hebben het huidige wachtwoord nodig om uw wijzigingen te bevestigen
+  newPassword: Nieuw wachtwoord
+  noResultsForSearch: Sorry, geen resultaat gevonden
+  nuevoPropiedad: Nieuw object
+  orderBy:
+    priceAscending: "↓ Prijs (oplopend)"
+    priceDescending: "↑ Prijs (aflopend)"
+  pages:
+    aboutUs: Over ons
+    sell: Verkoop
+  placeHolders:
+    email: Uw email
+    message: Schrijf uw bericht hier
+    name: Uw naam
+    subject: Onderwerp
+    tel: Vast of mobiel
+  # privacyPolicy: Privacybeleid
+  property:
+    description: Beschrijving
+    details: Details
+    extras: Kenmerken
+    furniture: Meubels
+    goToProperty: Bekijk object
+    highlightedProperty: Uitstekend object
+    locality: Locatie
+    map: Map
+    monthlyRentalPriceHighSeason: Maandelijkse Prijs (Hoogseizoen)
+    monthlyRentalPriceLowSeason: Maandelijkse Prijs (Laagseizoen)
+    monthlyRentalPriceStandardSeason: Maandelijkse Prijs (Middenseizoen)
+    operationType: Type bewerking
+    price: Prijs
+    propertyType: Type object
+    ref: Ref
+  propertyForRent: Huur
+  propertyForSale: Koop
+  propertyNotFound: Object niet gevonden
+  pwb:
+    copyright: "%{company_name} Inc. All rights reserved."
+    createPrompt: Maak uw eigen makelaardij website
+    createTagLine: Voer de details voor uw account in
+    getStarted: Begin nu
+    registerNow: Registreer nu
+    tagLine: Professionele websites voor makelaars in een paar minuten
+    tagLineExt: Prachtige websites die gezien moeten worden om te geloven.<br>Niemand
+      krijgt u sneller online.
+  requestPropertyInfo: Vraag informatie aan
+  search: Zoeken
+  searchForProperties: Zoek objecten
+  selectpicker:
+    countSelectedText: Geselecteerd {0} van de {1}
+    noneResultsText: Geen resultaat gevonden {0}
+    noneSelectedText: Niets geselecteerd
+  send: Verzenden
+  setup:
+    claimSubdomain: Claim deze url
+    createdSuccessfully: Site met succes aangemaakt
+    goToYourSite: Ga naar uw site
+    loggedInAs: 'Ingelogd als '
+    logout: Uitloggen
+    selectUrl: Selecteer een url
+    selectUrlMessage: U heeft met succes een account aangemaakt - Selecteer nu de url
+      voor uw nieuwe site
+    subdomain: subdomein
+    subdomainMissing: Voer een naam in voor het subdomein
+    thankYouForTrusting: Bedankt voor het vertrouwen in %{company_name}
+    urlNotAvailable: Sorry, deze url is niet beschikbaar
+    weAreCreatingSite: Uw site wordt aangemaakt
+  signOut: uitloggen
+  simple_form:
+    error_notification:
+      default_message: 'Bekijk de onderstaande problemen:'
+    labels:
+      search:
+        count_bathrooms: Badkamers (min)
+        count_bedrooms: Slaapkamers (min)
+        for_rent_price_from: Huur vanaf (Monthly)
+        for_rent_price_till: Huur tot (Monthly)
+        for_sale_price_from: Prijs vanaf
+        for_sale_price_till: Prijs tot
+        in_locality: Locatie
+        in_zone: Gebied
+        locality: Locatie
+        property_state: Staat van object
+        property_type: Object type
+    'no': 'Nee'
+    required:
+      mark: "*"
+      text: verplicht
+    'yes': 'Ja'
+  subject: Onderwerp
+  tel: Telefoon
+  'true': 'Ja'
+  update: Update
+  webContentSections:
+    aboutUs: Over ons
+    contactInformation: Contactgegevens
+    home: Thuis
+    sell: Verkoop
+    tagLine: Tag Line
