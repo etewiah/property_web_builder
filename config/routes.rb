@@ -86,6 +86,7 @@ Pwb::Engine.routes.draw do
   namespace :api_ext do
     namespace :v1 do
       jsonapi_resources :props
+      # below for habitat:
       post '/properties/create_with_token' => 'props#create_with_token'
       # post '/properties/bulk_create_with_token' => 'props#bulk_create_with_token'
     end
