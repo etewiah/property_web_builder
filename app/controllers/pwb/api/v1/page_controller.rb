@@ -17,8 +17,6 @@ module Pwb
     end
 
     def set_photo
-      page = Page.find_by_slug params[:page_slug]
-
       unless params["block_label"]
         return render_json_error 'Please provide block_label'
       end
@@ -27,6 +25,7 @@ module Pwb
         return render_json_error 'Please provide label'
       end
       page_part_key = params["page_part_key"]
+      page = Page.find_by_slug params[:page_slug]
 
       photo = page.create_fragment_photo page_part_key, block_label, params[:file]
       photo.reload
@@ -44,6 +43,9 @@ module Pwb
 
     def update_page_part_visibility
       page = Page.find_by_slug params[:page_slug]
+      unless page
+        return render_json_error 'Please provide valid page slug'
+      end
 
       if params["cmd"] == "setAsHidden"
         page.set_fragment_visibility params[:page_part_key], false

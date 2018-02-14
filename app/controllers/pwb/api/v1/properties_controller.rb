@@ -8,6 +8,7 @@ module Pwb
     #   @model
     # end
 
+
     def bulk_create
       propertiesJSON = params["propertiesJSON"]
       unless propertiesJSON.is_a? Array
@@ -16,15 +17,16 @@ module Pwb
       new_props = []
       existing_props = []
       errors = []
-      propertiesJSON.each do |propertyJSON|
+      properties_params(propertiesJSON).each_with_index do |property_params, index|
+        propertyJSON = propertiesJSON[index]
         if Pwb::Prop.where(reference: propertyJSON["reference"]).exists?
           existing_props.push Pwb::Prop.find_by_reference propertyJSON["reference"]
           # propertyJSON
         else
           begin
-            new_prop = Pwb::Prop.create(propertyJSON.except( "features", "property_photos", "locale_code"))
+            new_prop = Pwb::Prop.create(property_params)
             # new_prop = Pwb::Prop.create(propertyJSON.except("features", "property_photos", "image_urls", "last_retrieved_at"))
-            
+
             # create will use website defaults for currency and area_unit
             # need to override that
             if propertyJSON["currency"]
@@ -36,15 +38,16 @@ module Pwb
               new_prop.save!
             end
 
-            # TODO - go over supported locales and save title and description 
+            # TODO - go over supported locales and save title and description
             # into them
 
-            if propertyJSON["features"]
-              new_prop.set_features=propertyJSON["features"]
-            end
+            # if propertyJSON["features"]
+            # TODO - process feature (currently not retrieved by PWS so not important) 
+            #   new_prop.set_features=propertyJSON["features"]
+            # end
             if propertyJSON["property_photos"]
               # uploading images can slow things down so worth setting a limit
-              max_photos_to_process = 1
+              max_photos_to_process = 20
               # TODO - retrieve above as a param
               propertyJSON["property_photos"].each_with_index do |property_photo, index|
                 if index > max_photos_to_process
@@ -175,5 +178,28 @@ module Pwb
     #   return render json: "success"
     # end
 
+    private
+
+    def properties_params propertiesJSON
+      # propertiesJSON = params["propertiesJSON"]
+      # unless propertiesJSON.is_a? Array
+      #   propertiesJSON = JSON.parse propertiesJSON
+      # end
+      # pp = ActionController::Parameters.new(propertiesJSON)
+      pp = ActionController::Parameters.new({propertiesJSON: propertiesJSON})
+      # https://github.com/rails/strong_parameters/issues/140
+      # params.require(:propertiesJSON).map do |p|
+      pp.require(:propertiesJSON).map do |p|
+        p.permit(
+          :title, :description,
+          :reference, :street_address, :city,
+          :postal_code, :price_rental_monthly_current,
+          :for_rent_short_term, :visible,
+          :count_bedrooms, :count_bathrooms,
+          :longitude, :latitude
+        )
+        # ActionController::Parameters.new(p.to_hash).permit(:title, :description)
+      end
+    end
   end
 end
