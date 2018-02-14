@@ -79,21 +79,16 @@ module Pwb
     #   page_content_join_model.save!
     # end
 
-    # def set_fragment_visibility(page_part_key, visible_on_page)
-    #   page_fragment_content = contents.find_by_page_part_key page_part_key
-    #   # page_fragment_content = contents.find_or_create_by(page_part_key: page_part_key)
+    def set_fragment_visibility(page_part_key, visible_on_page)
+      # TODO: enable this 
+      # for page_parts without content like search cmpt.
 
-    #   unless page_fragment_content.present?
-    #     # Right now visibility does not get set
-    #     # for page_parts without content like search cmpt.
-    #     # Better to get join_model so:
-    #     # self.page_contents.find_by_page_part_key page_part_key
-    #     return
-    #   end
-    #   page_content_join_model = page_fragment_content.page_contents.find_by_page_id id
-    #   page_content_join_model.visible_on_page = visible_on_page
-    #   page_content_join_model.save!
-    # end
+      page_content_join_model = self.page_contents.find_or_create_by(page_part_key: page_part_key)
+      # page_fragment_content.page_contents.find_by_page_id id
+
+      page_content_join_model.visible_on_page = visible_on_page
+      page_content_join_model.save!
+    end
 
     # currently only used in
     # /pwb/spec/controllers/pwb/welcome_controller_spec.rb
