@@ -38,6 +38,30 @@ module Pwb
       before do
         sign_in @admin_user
       end
+      it 'creates property correctly' do
+
+        post "/api/v1/properties/bulk_create", params: {
+          propertiesJSON: [
+            {"area_unit":"sqft","reference":"71450225","count_bedrooms":1,"count_bathrooms":0,"count_toilets":0,"count_garages":0,
+             "plot_area":0,"constructed_area":0,"title":"1 bedroom flat to rent in Carlyle Road, Birmingham, B16, B16",
+             "description":"GLENWOOD PROPERTY SERVICES are proud to present this double bedroom",
+             "locale_code":"en","for_rent_short_term":false,"for_rent_long_term":true,"for_sale":false,"currency":"GBP","street_number":nil,
+             "street_name":nil,"street_address":"Carlyle Road, Birmingham, B16","postal_code":"B16 9BH","province":nil,"city":nil,
+             "region":nil,"country":"UK","latitude":52.4745271399802,"longitude":-1.93576729748747,"features":[],
+             "property_photos":[{"url":"http://media.rightmove.co.uk/dir/147k/146672/71450225/146672_F4_Carl_rd_IMG_00_0000.JPG"}],
+             "price_rental_monthly_current":600,"price_sale_current":0}
+          ]
+        }
+        expect(response).to be_success
+
+
+        expect(response_body_as_json["new_props"][0]["title"]).to eq("1 bedroom flat to rent in Carlyle Road, Birmingham, B16, B16")
+
+
+        # expect(response.body).to have_json_path("feature_key")
+      end
+
+
       it 'updates features correctly' do
 
         post "/api/v1/properties/update_extras", params: {
