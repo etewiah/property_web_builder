@@ -275,10 +275,15 @@ module Pwb
     end
 
     def admin_attribute_names
-      globalize_attribute_names.push :prop_photos, :features
+      globalize_attribute_names.push :prop_photos, :features_list
       # globalize_attribute_names.push :page_contents, :page_parts
     end
 
+    def features_list
+      # used by vue admin to list features
+      features.map { |key, _value| key.feature_key }
+      # Hash[features.map { |key, _value| [key.feature_key, true] }]
+    end
 
     before_save :set_rental_search_price
     after_create :set_defaults

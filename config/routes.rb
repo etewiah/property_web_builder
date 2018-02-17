@@ -117,6 +117,7 @@ Pwb::Engine.routes.draw do
       namespace :v2 do
         resources :properties
         get "/agency" => "agency#show"
+        put "properties/:id/update_features" => "properties#update_features"
       end
       namespace :v1 do
         # get "/cms/tag/:tag_name" => "cms#tag"

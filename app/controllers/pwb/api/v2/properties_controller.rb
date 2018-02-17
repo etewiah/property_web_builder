@@ -21,6 +21,29 @@ module Pwb
       render json: @property.as_json_for_admin
     end
 
+    def update_features
+      property = Prop.find(params[:id])
+      property.set_features = params[:features].to_unsafe_hash
+      # The set_features method goes through each feature to ensure it
+      # is valid so okay to byepass strong params as above
+      property.save!
+      return render json: property.features_list
+    end
+
+    def create
+      @property = Pwb::Prop.create create_property_params
+      render json: @property.as_json_for_admin
+    end
+
+    private
+
+    def create_property_params
+      params.require(:new_property).permit(
+        :reference, :title,
+        :prop_type_key, :prop_state_key, :prop_origin_key,
+      )
+    end
+
     def property_params
       permitted = Prop.globalize_attribute_names +
         [:street_address, :street_number, :street_name,
