@@ -9,6 +9,13 @@ module Pwb
       end
     end
 
+    def show_admin_vue
+      unless current_user && current_user.admin
+        render 'pwb/errors/admin_required', layout: "layouts/pwb/admin_panel_error"
+      end
+      render 'pwb/admin_panel/show', layout: "pwb/admin_vue_panel"
+    end
+
     def show_legacy_1
       unless current_user && current_user.admin
         render 'pwb/errors/admin_required', layout: "layouts/pwb/admin_panel_error"

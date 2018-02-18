@@ -27,6 +27,8 @@ Pwb::Engine.routes.draw do
       get "/admin-1" => "admin_panel#show_legacy_1", as: "admin_with_locale_legacy"
       get "/admin-1/*path" => "admin_panel#show_legacy_1"
     end
+    get "/admin-vue" => "admin_panel#show_admin_vue"
+    get "/admin-vue/*path" => "admin_panel#show_admin_vue"
     get '/config' => 'config#show'
     get '/config/:params' => 'config#show'
     get "/setup" => "setup_panel#show"
