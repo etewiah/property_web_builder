@@ -25,6 +25,7 @@ module Pwb
     attributes :title_ca, :description_ca
     attributes :title_pl, :description_pl
     attributes :title_ro, :description_ro
+    attributes :title_ko, :description_ko
 
 
     attributes :area_unit, :photos, :property_photos, :extras

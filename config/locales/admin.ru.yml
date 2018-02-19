@@ -60,7 +60,9 @@ ru:
     it-IT: Italy
     de-DE: Germany
     ru-RU: Russia
+    ko-KR: Korea
     nl-Nl: Netherlands
+    nl-NL: Netherlands
     pl-PL: Poland
     ro-RO: Romania
     fi-FI: Finland
@@ -70,6 +72,7 @@ ru:
     hi: Hindi
     pl: Polish
     ro: Romanian
+    ko: Korean
     sqmt: Квадратные метры
     sqft: Квадратный фут
     cad: Canadian Dollar

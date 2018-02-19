@@ -15,7 +15,9 @@ nl:
     pt-BR: Brazil
     it-IT: Italy
     de-DE: Germany
+    ko-KR: Korea
     nl-Nl: Netherlands
+    nl-NL: Netherlands
     pl-PL: Poland
     ro-RO: Romania
     ru-RU: Russia
@@ -40,6 +42,7 @@ nl:
     hi: Hindi
     pl: Polish
     ro: Romanian
+    ko: Korea
     sqmt: Square Meters
     sqft: Square Feet
     cad: Canadian Dollar
