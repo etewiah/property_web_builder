@@ -120,6 +120,8 @@ Pwb::Engine.routes.draw do
         resources :properties
         get "/agency" => "agency#show"
         put "properties/:id/update_features" => "properties#update_features"
+        get "/translations/batch/:batch_key/:locales" => "translations#get_by_batch"
+        put "/translations/update" => "translations#update"
       end
       namespace :v1 do
         # get "/cms/tag/:tag_name" => "cms#tag"
