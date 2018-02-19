@@ -16,7 +16,9 @@ pl:
     de-DE: Germany
     ru-RU: Russia
     ro-RO: Romanian
+    ko-KR: Korea
     nl-Nl: Netherlands
+    nl-NL: Netherlands
     pl-PL: Poland
     ro-RO: Romania
     fi-FI: Finland
@@ -41,6 +43,7 @@ pl:
     vi: Vietnamese
     tr: Turkish
     hi: Hindi
+    ko: Korea
     sqmt: Metry kwadratowe
     sqft: Kwadratowe stopy
     cad: Canadian Dollar

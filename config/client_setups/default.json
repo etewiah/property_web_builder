@@ -59,6 +59,11 @@
   // https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx
   "availableLocaleFields": [
     {
+      "labelTextTKey": "nl",
+      "fieldName": "nl",
+      "localeVariants": ["nl-Nl"]
+    },
+    {
       "labelTextTKey": "en",
       "fieldName": "en",
       "localeVariants": ["en-UK", "en-US"]
@@ -79,9 +84,9 @@
       "localeVariants": ["it-IT"]
     },
     {
-      "labelTextTKey": "nl",
-      "fieldName": "nl",
-      "localeVariants": ["nl-Nl"]
+      "labelTextTKey": "ko",
+      "fieldName": "ko",
+      "localeVariants": ["ko-KR"]
     },
     {
       "labelTextTKey": "pl",

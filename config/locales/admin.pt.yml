@@ -14,7 +14,7 @@ pt:
     vi: Vietnamese
     tr: Turkish
     hi: Hindi
-    
+    ko: Korea
     street: Street
     streetAddress: Street Address
     streetNumber: Street Number
@@ -306,6 +306,9 @@ pt:
     es-CL: Chile
     es-ES: Espanha
     es-MX: México
+    ko-KR: Korea
+    nl-Nl: Netherlands
+    nl-NL: Netherlands
     pl-PL: Polónia
     ro-RO: Romania
     pl: Polish
