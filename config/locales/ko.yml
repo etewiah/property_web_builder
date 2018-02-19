@@ -1,161 +1,159 @@
-# awaiting translation
 ---
 ko:
-  aboutUs: About Us
-  address: Address
-  back: Back
-  changePassword: Change Password
+  aboutUs: 우리 소개
+  address: 주소
+  back: 뒤로
+  changePassword: 비밀번호 변경
   contact:
-    emailSubject: Contact from your website
-    error: Sorry, there has been an error.
-    success: Thank you for your message. We will contact you soon!
-  contactUs: Contact
-  contactUsPrompt: Fill in the following form to contact us
+    emailSubject: 이메일 제목
+    error: 죄송합니다, 오류가 있습니다.
+    success: 메일 주셔서 감사합니다. 곧, 연락드리겠습니다!
+  contactUs: 메시지 남겨주십시오.
+  contactUsPrompt: 다음 폼을 기입하여 주십시오.
   devise:
-    user_update_success: You have successfully updated your account.
-    user_update_success_title: Congratulations
-  editarPropiedad: Edit a property
-  email: Email
-  'false': 'No'
-  findAProperty: Find a property
-  findByReference: Find by reference
-  forRent: For Rent
-  forSale: For Sale
-  go: Go
+    user_update_success: 계정 수정이 완료 되었습니다.
+    user_update_success_title: 축하합니다.
+  editarPropiedad: 건물정보수정
+  email: 이메일
+  'false': '아니오'
+  findAProperty: 건물정보 찾기
+  findByReference: 참조로 찾기
+  forRent: 렌트용
+  forSale: 매매용
+  go: 가기
   labels:
-    create: Create
-    edit: Edit
-    latestProperties: Latest properties
-    new: New
-    ourServices: Our services
-    save: Save
-  leaveBlank: leave it blank if you don't want to change it
-  legalAdvice: Legal Notice
-  listadoPropiedades: List of properties
+    create: 생성
+    edit: 수정
+    latestProperties: 최근 건물들
+    new: 신규
+    ourServices: 제공 서비스
+    save: 저장
+  leaveBlank: 수정하기 원하지 않으면, 빈공간으로 남겨주세요.
+  legalAdvice: 법률적 조언
+  listadoPropiedades: 건물 리스트
   mailers:
-    confirm_registration: Please confirm your account through the link below
-    from: From
+    confirm_registration: 아래 링크를 통해서, 계정 정보를 확인 해주십시오.
+    from: 발신자
     general_enquiry_targeting_agency:
-      title: General enquiry from your website
+      title: 일반요청
     general_enquiry_targeting_enquirer:
       message_title: ''
       subject: ''
-    message: Message
-    phone: Tel
-    property: Property
+    message: 메시지
+    phone: 전화
+    property: 건물
     property_enquiry_targeting_agency:
-      title: Enquiry regarding a property
-    received_on: Received on
-    welcome: Welcome
-  menu_admin: admin
-  message: Message
-  name: Name
+      title: 건물정보 요청
+    received_on: 수신
+    welcome: 환영합니다.
+  menu_admin: 어드민
+  message: 메시지
+  name: 이름
   navbar:
-    about-us: About Us
-    admin: Admin
-    buy: Properties to buy
-    contact-us: Contact
-    home: Home
-    legal: Legal Notice
-    privacy: Privacy Policy
-    rent: Properties to rent
-    sell: Sell
-  needCurrentPwd: we need your current password to confirm your changes
-  newPassword: New Password
-  noResultsForSearch: Sorry, no results found
-  nuevoPropiedad: New property
+    about-us: 우리 소개
+    admin: 어드민
+    buy: 매매용 건물
+    contact-us: 연락처
+    home: 홈
+    legal: 법적 공지
+    privacy: 사생활보호 방침
+    rent: 렌트용 건물
+    sell: 매매
+  needCurrentPwd: 변경확인을 위하여 현재 비밀번호가 필요합니다.
+  newPassword: 신규 비밀번호
+  noResultsForSearch: 죄송합니다. 검색 결과가 없습니다.
+  nuevoPropiedad: 신규 건물
   orderBy:
-    priceAscending: "↓ Price (ascending)"
-    priceDescending: "↑ Price (descending)"
+    priceAscending: "↓ 가격 (오름차순)"
+    priceDescending: "↑ 가격 (내림차순)"
   pages:
-    aboutUs: About us
-    sell: Sell
+    aboutUs: 우리 소개
+    sell: 매매
   placeHolders:
-    email: Your email
-    message: Write your message here
-    name: Your name
-    subject: Subject
-    tel: Fixed or mobile
+    email: 이메일은 여기에..
+    message: 메시지는 여기에..
+    name: 이름은 여기에..
+    subject: 제목은 여기에..
+    tel: 전화 번호는..
   # privacyPolicy: Privacy Policy
   property:
-    description: Description
-    details: Details
-    extras: Features
-    furniture: Furniture
-    goToProperty: View Property
-    highlightedProperty: Outstanding Property
-    locality: Locality
-    map: Map
-    monthlyRentalPriceHighSeason: Monthly Price (High Season)
-    monthlyRentalPriceLowSeason: Monthly Price (Low Season)
-    monthlyRentalPriceStandardSeason: Monthly Price (Standard Season)
-    operationType: Operation Type
-    price: Price
-    propertyType: Property Type
-    ref: Ref
-  propertyForRent: Property for rent
-  propertyForSale: Property for sale
-  propertyNotFound: Property not found
+    description: 기본설명
+    details: 상세내용
+    extras: 특징
+    furniture: 가구
+    goToProperty: 건물보기
+    highlightedProperty: 눈에 띄는 건물
+    locality: 충실
+    map: 지도
+    monthlyRentalPriceHighSeason: 월세 (성수기)
+    monthlyRentalPriceLowSeason: 월세 (비수기)
+    monthlyRentalPriceStandardSeason: 월세 (평상시)
+    operationType: 운영 형태
+    price: 가격
+    propertyType: 건물 형태
+    ref: 참조
+  propertyForRent: 렌트용 건물
+  propertyForSale: 매매용 건물
+  propertyNotFound: 건물을 찾을 수 없습니다.
   pwb:
     copyright: "%{company_name} Inc. All rights reserved."
-    createPrompt: Create your estate agency website
-    createTagLine: Please enter the details for your account
-    getStarted: Get started now
-    registerNow: Register now
-    tagLine: Professional websites for estate agents in minutes
-    tagLineExt: Beautiful websites that have to be seen to be believed.<br>No one
-      gets you online quicker.
-  requestPropertyInfo: Request info
-  search: Search
-  searchForProperties: Search for properties
+    createPrompt: 부동산 회사 웹사이트 생성
+    createTagLine: 상세 계정 정보 입력해주십시오.
+    getStarted: 지금 시작하세요
+    registerNow: 지금 등록
+    tagLine: 수 분내에, 부동산 전문 사이트를 생성하십시오.
+    tagLineExt: 멋진 웹사이트로 신속히 정보를 교환하고, <br>보여줌으로써, 신뢰를 줄 수 있을 것입니다.
+  requestPropertyInfo: 정보요청
+  search: 검색
+  searchForProperties: 건물 검색
   selectpicker:
-    countSelectedText: Selected {0} of {1}
-    noneResultsText: No results found {0}
-    noneSelectedText: Nothing selected
-  send: Send
+    countSelectedText: 선택됨 {0} 중 {1}
+    noneResultsText: 검색결과 {0}
+    noneSelectedText: 선택된 것이 업습니다.
+  send: 보내기
   setup:
-    claimSubdomain: Claim this url
-    createdSuccessfully: Site created successfully
-    goToYourSite: Go to your site
-    loggedInAs: 'Logged in as '
-    logout: Logout
-    selectUrl: Select a url
-    selectUrlMessage: You have successfully created an account - now select the url
-      for your new site
-    subdomain: subdomain
-    subdomainMissing: Please enter a name for the subdomain
-    thankYouForTrusting: Thank you for trusting %{company_name}
-    urlNotAvailable: Sorry, this url is not available
-    weAreCreatingSite: We are creating your site
-  signOut: Sign Out
+    claimSubdomain: 웹주소 요청
+    createdSuccessfully: 사이트가 성공적으로 생성 되었습니다.
+    goToYourSite: 사이트로 가기
+    loggedInAs: '로그인 하셨습니다. '
+    logout: 로그아웃
+    selectUrl: 웹주소 선택
+    selectUrlMessage: 성공적으로 계정을 생성하셨습니다- 이제 사이트를 웹 주소를 선택하십시오.
+    subdomain: 부가도메인
+    subdomainMissing: 부가도메인을 입력하세요.
+    thankYouForTrusting: 믿고 맡겨 주셔서 감사합니다. %{company_name}
+    urlNotAvailable: 죄송합니다, 선택하신 웹주소는 사용할 수 없습니다.
+    weAreCreatingSite: 웹사이틀 생성 중입니다.
+  signOut: 사인아웃
   simple_form:
     error_notification:
-      default_message: 'Please review the problems below:'
+      default_message: '아래 문제를 검토해 주세요:'
     labels:
       search:
-        count_bathrooms: Bathrooms (min)
-        count_bedrooms: Bedrooms (min)
-        for_rent_price_from: Rent From (Monthly)
-        for_rent_price_till: Rent Till (Monthly)
-        for_sale_price_from: Price From
-        for_sale_price_till: Price Till
-        in_locality: Locality
-        in_zone: Zone
-        locality: Locality
-        property_state: Property State
-        property_type: Property Type
-    'no': 'No'
+        count_bathrooms: 화장실 (최소)
+        count_bedrooms: 침실 (최소)
+        for_rent_price_from: 렌트 시작 (매월)
+        for_rent_price_till: 렌트 종료 (매월)
+        for_sale_price_from: 가격 하한
+        for_sale_price_till: 가격 상한
+        in_locality: 충성도
+        in_zone: 지역용도
+        locality: 충성도
+        property_state: 건물 상태
+        property_type: 건물 형태
+    'no': '아니오'
     required:
       mark: "*"
-      text: required
-    'yes': 'Yes'
-  subject: Subject
-  tel: Telephone
-  'true': 'Yes'
-  update: Update
+      text: 필수
+    'yes': '예'
+  subject: 제목
+  tel: 전화
+  'true': '예'
+  update: 수정
   webContentSections:
-    aboutUs: About us
-    contactInformation: Contact information
-    home: Home
-    sell: Sell
-    tagLine: Tag Line
+    aboutUs: 우리 소개
+    contactInformation: 연락처 정보
+    home: 홈
+    sell: 매매
+    tagLine: 태그 라인
+
