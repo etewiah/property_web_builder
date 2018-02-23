@@ -59,6 +59,11 @@
   // https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx
   "availableLocaleFields": [
     {
+      "labelTextTKey": "bg",
+      "fieldName": "bg",
+      "localeVariants": ["bg-BG"]
+    },
+    {
       "labelTextTKey": "nl",
       "fieldName": "nl",
       "localeVariants": ["nl-Nl"]
