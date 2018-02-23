@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 * Enable geocoding of addresses with geocoder gem
 * Add support for facebook authentication using omniauth
 * Fix issue with sending emails (#48)
-* Add Dutch, Korean, Polish and Romanian translations
+* Add Dutch, Korean, Polish, Bulgarian and Romanian translations
 * Fix issue with updating logo
 
 ## 1.3.0 / 2017-12-04
