@@ -25,6 +25,7 @@ module Pwb
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_ro.rb')
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_ru.rb')
           load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_ko.rb')
+          load File.join(Pwb::Engine.root, 'db', 'seeds', 'translations_bg.rb')
         end
 
         # seed_sections 'sections.yml'
