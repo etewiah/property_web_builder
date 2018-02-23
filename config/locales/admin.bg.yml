@@ -1,0 +1,520 @@
+en:
+  admin:
+    "true": "Да"
+    "false": "Не"
+    "yes": "да"
+    "no": "не"
+    es-ES: Испания
+    es-CL: Чили
+    es-MX: Мексико
+    en-UK: Великобритания
+    en-US: САЩ
+    fr-FR: Франция
+    pt-PT: Португалия
+    pt-BR: Бразилия
+    it-IT: Италия
+    de-DE: Германия
+    ko-KR: Корея
+    nl-Nl: Холандия
+    nl-NL: Холандия
+    pl-PL: Полша
+    ro-RO: Румъния
+    ru-RU: Русия
+    fi-FI: Финландия
+    no-NO: Норвегия
+    ca-CA: Каталуния
+    hi-IN: Индия
+    vi-VI: Виетнам
+    tr-TR: Турция
+    bg-BG: България
+    ar: Арабски
+    en: Английски
+    es: Испански
+    ca: Каталонски
+    fr: Френски
+    ru: Руски
+    nl: Холандски
+    it: Италиански
+    de: Германски
+    pt: Португалски
+    vi: Виетнамски
+    tr: Турски
+    hi: Хинди
+    pl: Полски
+    ro: Румънски
+    ko: Корейски
+    bg: Български
+    sqmt: кв. м
+    sqft: кв. футове
+    cad: Canadian Dollar
+    ars: Argentinan Peso
+    aud: Australian Dollar
+    mxn: Mexican Peso
+    gbp: UK Pounds
+    usd: US Dollars
+    eur: Евро
+    inr: Indian Rupee
+    chf: Swiss Franc
+    cny: Chinese Yuan Renminbi
+    clp: Chilean Peso
+    rub: Russian Ruble
+    brl: Brazilian Real
+    zar: South African Rand
+    hkd: Hong Kong Dollar
+    vnd: Vietnamese Dong
+    try: Turkish Lira
+    pln: Polish Zloty
+    ron: Romanian Leu
+    ngn: Nigerian Naira
+    ghs: Ghanaian Cedi
+    dkk: Danish Krone
+    czk: Czech Koruna
+    sek: Swedish Krona
+    thb: Thai Baht
+    mad: Moroccan Dirham
+    egp: Egyptian Pound
+    pages:
+      aboutUs: За нас
+      sell: Продай имот
+      landing: Landing
+      legal: Правна информация
+    pageSections:
+      notEditable:
+        Тази секция не може да се редактира
+      homeSearchComponent:
+        title: Лента за търсене
+        info: Показване на лентата за търсене на главната страница
+      contactUsFormAndMap:
+        title: Контакти и карта
+        info: Контакти и карта
+      pageTitle: Заглавие на станицата
+      services:
+        title: Услуги
+        info: Описание на услугите, които предлагате
+      people:
+        title: Екип
+        info: Описания на вашият екип
+      # landingCarousel:
+      #   title: Home page carousel
+      #   info: Main section displaying images and text
+      rawHtml:
+        title: HTML код
+        info: Добавете допълнителен HTML код тук
+      topRentals:
+        title: Топ наеми
+        info: Списък на имотите под наем
+      topSales:
+        title: Топ продажби
+        info: Списък на имотите за продажба
+      contactUsForm:
+        title: Форма за обратна връзка
+        info: Тази форма позволява на потребителите да Ви пратят съобщение
+      # aboutUs:
+      #   title: Text and photo
+      #   info: A little bit about your business
+      ourAgency:
+        title: За нашата агенция
+        info: Кажете малко за вашият бизнес
+      landingHero:
+        title: Заглавна лента
+        info: Логото и името/слогана на Вашата компания
+    editor:
+      pickPhoto: Избиране снимка
+      uploadPhoto: Качване снимка
+    inTabLabels:
+      topNav: Навигация
+      footer: Долен колонтитул
+      currency: Валута
+      colors: Цветове
+      socialLinks: Връзки
+      siteLayout: Оформление на сайта
+      colorFooterBg: Фон на долен колонтитул
+      colorFooterMainText: Основен текст на долен колонтитул
+      colorFooterSecText: Допълнителен текст на долен колонтитул
+      colorPrimary: Основен цвят
+      colorSecondary: Допълнителен цвят
+      colorActions: Цвят на бутоните
+      supportedLanguages: Поддържани езици
+      visibility: Видиммост
+    navbar:
+      home: "Начало"
+      admin: "Администрация"
+      aboutUs: "За нас"
+      sell: "Продажби"
+      buy: "Покупки"
+      rent: "Наеми"
+      contactUs: "Контакти"
+      legalAdvice: "Правна информация"
+      privacyPolicy: "Лични данни"
+    adminSections:
+      pages: Страници
+      import: Импортиране на данни
+      start: Начало
+      agencyDetails: Агенция
+      content: Web сайт
+      websiteSettings: Настройки
+      websiteContent: Съдържание
+      translations: Преводи
+      properties: Имоти
+      clientes: Клиенти
+      quit: Преглед на сайта
+      list: Списък
+      settings: Настройки
+      labels: Етикети
+      about: Относно
+
+    btnLabels:
+      importTranslations: Добавяне на превод
+      importSiteContent: Добавяне на web съдържание
+      setThemePrompt: Избиране цветова схема
+      activatedThemeInfo: Текуща цветова схема
+
+    info:
+      defaultCurrency: Промените ще бъдат приложени само за новите имоти, които добавите
+      defaultAreaUnit: Промените ще бъдат приложени само за новите имоти, които добавите
+      recPropPhotoSize: Препоръчителен размер на снимките е 800x500 пиксела,
+      recCarouselPhotoSize: Препоръчителен размер на снимките е 900x400 пиксела,
+      recLogoPhotoSize: Препоръчителен размер на логото е 120x80px,
+      orderByDragging: Използвайте влачене-и-пускане за да пренаредите снимките. Първата ще бъде избрана като главна.
+
+    webContentLabels:
+      suffixEn: in English
+      suffixEs: in Spanish
+      suffixAr: in Arabic
+      suffixFr: in French
+      suffixIt: in Italian
+      suffixPt: in Portuguese
+      suffixDe: in German
+      suffixRu: in Russian
+      suffixCa: in Catalan
+      suffixNl: in Dutch
+      suffixVi: in Vietnamese
+      suffixTr: in Turkish
+      suffixPl: in Polish
+      suffixRo: in Romanian
+      suffixKo: in Korean
+      suffixBg: in Bulgarian
+      privacyPolicy: Лични данни
+      legalAdvice: Правна информация
+      # landingcarousel: Text for carousel image
+      # cac1: Column 1
+      # cac2: Column 2
+      # cac3: Column 3
+      # landingPageHero: Content for the main page
+      # tagLine: Tag Line
+      aboutUs: За нас
+      footerInfo: Долен колонтитул допълнително
+
+    siteSections:
+      aboutUs: За нас
+      contactUs: Контакти
+      buy: Покупки
+      rent: Наеми
+      sell: Продажби
+
+    ioSections:
+      fromMls: Импортиране от MLS
+      fromUpload: Импортиране от файл
+      fromWebpage: Импортиране от web страница
+
+    webContentSections:
+      navigation: Навигация
+      appearance: Изглед
+      footer: Долен колонтитул
+      aboutUs: За нас
+      contactInformation: Контакти
+      sell: Продажби
+      # tagLine: Tag Line
+      legal: Правна информация
+      general: General
+      landingCarousel: Landing Page Carousel
+      home: Начало
+      contentAreaCols: Колони
+      sections: Секции
+      info:
+        contentAreaCols: Колоните на главната страница показват описание на услугите, които предлагате.
+
+    fieldLabels:
+    #   yaencontre: Yaencontre
+    #   pisoscom: Pisoscom
+    #   idealista: Idealista
+    #   localidad: Localidad
+    #   zona: Zona
+      pickMlsPrompt: Избор на MLS
+      propCsvUploadPrompt: Избиране тип на файла от който се импортира
+      pwbCsvFile: CSV файл от PropertyWebBuilder
+      mlsCsvFile: CSV файл от вашият MLS
+      deleteProp: Изтриване
+      areaUnit: Мерна единица за площ
+      defaultAreaUnit: По подразбиране
+      currency: Валута
+      defaultCurrency: По подразбиране
+      defaultLocale: По подразбиране
+      # codigoPostal: Codigo Postal
+      # direccion: Direccion
+      # direccionReal: Direccion Real
+      # direccionMapa: Direccion Mapa
+      ref: №
+      tipo: Тип
+      estado: Статус
+      descripcionEspanol: Description in Spanish
+      tituloEspanol: Title in Spanish
+      descripcionIngles: Description in English
+      tituloIngles: Title in English
+      precioVenta: Sales Price
+      precioAntiguo: Original Price
+      precioAlquiler: Rental Price
+      origen: Origen
+      temporadas: Temporadas
+      precioTa: Temp Price. Alta
+      precioTm: Temp Price. Media
+      precioTb: Temp Price. Baja
+      eficienciaEnergia: Eficiencia Energia
+      yearConstruction: Година на построяване
+      countBedrooms: Спални
+      countBathrooms: Бани
+      # numAseos: Núm. aseos
+      plotArea: Площ на парцела
+      constructedArea: Застроена площ
+      garaje: Гараж
+      forSearchWidget: For search widget
+      obscureMap: Скрий точният адрес?
+      hideMap: Скрий картата?
+      forSale: За продажба?
+      priceSaleCurrent: Текуща цена
+      saleDiscount: Отстъпка
+      priceSaleOriginal: Оригинална цена
+      longTermRental: За дългосрочен наем?
+      seasonalRental: За сезонен наем?
+      priceRentalMonthlyHighSeason: Наем за висок сезон
+      priceRentalMonthlyLowSeason: Наем за нисък сезон
+      priceRentalMonthlyStandardSeason: Наем
+      priceRentalMonthlyCurrent: Текущ наем (месечно)
+      longTermRentalDiscount: Отстъпка при дългосрочен наем
+      priceRentalMonthlyOriginal: Оригинален наем (месечно)
+      firstNames: Име
+      lastNames: Фамилия
+      visible: Видим
+      visibleOnWeb: Видим на web сайта
+      highlighted: Специална оферта
+      label: Етикет
+      companyName: Име на фирма
+      primaryPhone: Основен телефон
+      otherPhone: Друг телефон
+      primaryEmail: Основен email
+      propertyContactEmail: Email - информация за имот
+      generalContactEmail: Email - основен
+      nationality: Националност
+      documentationType: Тип на документа
+      documentationId: Номер на документа
+      email: Email
+      fax: Факс
+      skype: Skype
+      personTitle: Титла
+      description: Описание
+      title: Заглавие
+      info:
+        primaryEmail: Основен email, който е видим на сайта
+        primaryPhone: Основен телефон, който е видим на сайта
+        propertyContactEmail: Въпроси пратени от страница на имоти ще бъдат поллучавани тук
+        generalContactEmail: Въпроси пратени от 'Контакти'ще бъдат получавани тук
+
+    # for header row in property listing
+    propertyColHeader:
+      highlighted: Highlighted
+      locality: Местоположение
+      actions: Действия
+      zone: Зона
+      price: Цена
+      bedrooms: Спални
+      bathrooms: Бани
+      visible: Видимост
+      reference: №
+      type: Тип
+
+    # TODO - move Spanish versions of below to server side
+    save: Запис
+    cancel: Отказ
+    edit: Редактиране
+    preview: Преглед
+    close: Затваряне
+    addLogo: Добавяне лого
+    addPhotos: Добавяне снимка
+    create: Създаване
+    delete: Изтриване
+    show: Показване
+    hide: Скриване
+    logo: Лого
+    aboutUsPhoto: За нас - снимка
+    addAboutUsPhoto: Добавяне на снимка 'за нас'
+
+    visible: Видимост
+    hidden: Скрит
+
+    editWebsite: Редактиране на сайта
+    settingsForWebsite: Настройки на сайта
+    contentForWebsite: Съдържание на сайта
+    sectionsForWebsite: Секции на сайта
+    themesForWebsite: Цветова схема
+    importExport: Импортиране/експортиране на данни
+    returnToWebsite: Към сайта
+    settingsForProperties: Настройки за имоти
+    returnToProperties: Към имоти
+    addProperty: Добавяне на имот
+    addClient: Добавяне на клиент
+    newProperty: Нов имот
+    newClient: Нов клиент
+    propertiesList: Списък с имоти
+    clientsList: Списък с клиенти
+
+    prompts:
+      fixErrors: Моля поправете грешките по-долу
+
+    todos:
+      createContent: Създаване на съдържание
+      companyDetails: Попълнете детайли за вашата компания
+
+    locationTab:
+      confirmAddress: Потвърдете новото местоположение
+
+    agencySections:
+      general: Детайли за агенцията
+      location: Местоположение
+      user: Потребителски детайли
+
+    siteLayout:
+      wide: широк
+      boxed: тесен
+
+    propertySections:
+      general: Основна
+      location: Местоположение
+      text: Текст
+      extras: Екстри
+      photos: Снимки
+      sale: Продажба / Под наем
+      owner: Собственик
+
+    propertyGeneralSections:
+      sale: За продажба
+      longtermRental: За дългосрочен наем
+      seasonalRental: За сезонен наем
+      visibility: Видимост
+      generalData: Основни данни
+      characteristics: Характеристики
+      portals: Web Портали
+      extras: Екстри
+
+    translationsSections:
+      extras: Екстри
+      propertyTypes: Имот типове
+      propertyOrigins: Property Origins
+      propertyStates: Имот статус
+      propertyLabels: Имот етикети
+      provinces: Провинции
+
+    toolTips:
+      forSale: Изберете, ако имота е за продажба
+      priceSaleCurrent: Текуща продажна цена
+      saleDiscount: Отстъпка
+      priceSaleOriginal: Оригинална продажна цена
+      longTermRental: Изберете 'Да' ако имота е за дългосрочен наем
+      priceRentalMonthlyCurrent: Текуща наемна цена
+      priceRentalMonthlyOriginal: Оригинална наемна цена
+
+      addNewEntry: Add New Entry
+      visible: Изберете 'Да' за да публикувате имота на web сайта
+      highlighted: Изберете 'Да' за да направите имота 'специална оферта''
+      seasonalRental: Изберете 'Да' ако имота се предлага за сезонен наем
+      ref: №
+
+    alerts:
+      changesDetected: Имате незапазени промени.
+      deletingProperty: Наистина ли искате да изтриете този имот. Това действие е окончателно и безвъзвратно.
+      navigatingFromChanges: Имате незапазени промени. Моля запазете или откажете промените.
+      visibleProperties: Тези имоти са видими на вашият web сайт
+      hiddenProperties: Тези имоти няма да се виждат на вашият web сайт
+      clickMapToUpdate: Кликнете на картата за да изберете адрес или го въведете по-долу.
+
+    datatables:
+      sInfo: Показване на _START_ до _END_ от общо _TOTAL_ имота
+      sInfoEmpty: Няма данни
+      sInfoPostFix: ""
+      sSearch: Търсене
+      sUrl: ""
+      sInfoThousands: ","
+      oPaginate:
+        sFirst: "<<"
+        sLast: ">>"
+        sNext: ">"
+        sPrevious: "<"
+
+    alert:
+      deleteItem: Наистина ли изкате да изтриете тези данни?
+      deleteButton: Да! Изтриване!
+
+    street: Улица
+    streetAddress: Име на улица
+    streetNumber: Номер
+    city: Град
+    postCode: Пощенски код
+    region: Регион
+    zone: Квартал
+    locality: Местоположение
+    country: Страна
+
+    properties: Имоти
+
+    cards:
+      website: web сайт
+      websitePrompt: Действия
+      websiteLink: Към контролен панел
+      properties: Имоти
+      propertiesPrompt: Действия имоти
+      propertiesLink: Към имоти
+    tasks:
+      addProperty: Добавяне на имот
+      addPropertyPrompt: имоти / добавяне
+      manageProperties: Редактиране на имоти
+      managePropertiesPrompt: имоти / редактиране
+      changeLogo: Лого, език и изглед
+      changeLogoPrompt: Web конфигурация
+      changeLang: Смяна на езика
+      changeLangPrompt: Web конфигурация
+      changeLegalText: Рдактиране 'правна информация'
+      manageLandingCarousel: Редактиране главна страница
+      changeAboutUsText: Редактиране 'За нас'
+      managePropertyTypes: Редактиране типове имоти
+      managePropertyExtras: Редактиране екстри на имоти
+
+    buttonLabels:
+      configureAvailableExtras: Конфигуриране на достъпните екстри
+      selectImagesToAdd: Избор на сними
+      selectRemoteImages: Добавяне на снимки от URL
+
+    errors:
+      genericServerError: За съжаление бяха открити грешки
+      languageRequired: Трябва да изберете поне еин език
+      inclusion: не е включен в списъка
+      exclusion: е резервиран
+      invalid: е невалиден
+      confirmation: "doesn't match {{attribute}}"
+      accepted: must be accepted
+      empty: "трябва да бъде зададено"
+      blank: "не може да е празно"
+      present: трябва да е празно
+      tooLong: е твърде дълго (максимумът е {{count}} символа)
+      tooShort: е твърде късо (минимума is {{count}} символа)
+      wrongLength: има невалидна дължина (трябва да е {{count}} символа)
+      notANumber: не е номер
+      notAnInteger: трябва да бъде номер
+      greaterThan: трябва да е повече от {{count}}
+      greaterThanOrEqualTo: трябва да е повече или равно на {{count}}
+      equalTo: трябва да е {{count}}
+      lessThan: трябва да е по-малко от {{count}}
+      lessThanOrEqualTo: трябва да е по-малко или равно на {{count}}
+      otherThan: не трябва да е {{count}}
+      odd: трябва да е нечетно
+      even: трябва да е четно
+      tooShortVjs: е твърде късо
+      notAUrlVjs: е невалидно URL
