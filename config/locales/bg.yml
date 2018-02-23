@@ -1,0 +1,158 @@
+---
+en:
+  aboutUs: За нас
+  address: Адрес
+  back: Назад
+  changePassword: Промяна на паролата
+  contact:
+    emailSubject: Contact from your website
+    error: Съжаляваме, но се получи някаква грешка!
+    success: Благодарим за съобщението Ви. Ще се свържем с Вас възможно най-скоро!
+  contactUs: Контакти
+  contactUsPrompt: Моля попълнете следната форма за да се свържете с нас
+  devise:
+    user_update_success: Успешно обновихте своят акаунт.
+    user_update_success_title: Поздравления
+  editarPropiedad: Редактиране на имот
+  email: Email
+  'false': 'Не'
+  findAProperty: Търсене на имот
+  findByReference: Търсене по номер на имота
+  forRent: Наем
+  forSale: Продажби
+  go: Go
+  labels:
+    create: Създаване
+    edit: Редактиране
+    latestProperties: Нови предложения
+    new: Нов
+    ourServices: Нашите услуги
+    save: Запазване
+  leaveBlank: оставете празно, ако не искате да промените
+  legalAdvice: Правни детайли
+  listadoPropiedades: Спсък на имотите
+  mailers:
+    confirm_registration: Моля потвърдете вашият акаунт, като използвате линк по-долу
+    from: От
+    general_enquiry_targeting_agency:
+      title: Връзка от web сайта
+    general_enquiry_targeting_enquirer:
+      message_title: ''
+      subject: ''
+    message: Съобщение
+    phone: Телефон
+    property: Имот
+    property_enquiry_targeting_agency:
+      title: Информация относно имот
+    received_on: Получено на
+    welcome: Добре дошли
+  menu_admin: Управление
+  message: Съобщение
+  name: Име
+  navbar:
+    about-us: За нас
+    admin: Управление
+    buy: Купи имот
+    contact-us: Контакти
+    home: Начало
+    legal: Правна информация
+    privacy: Лични данни
+    rent: Под наем
+    sell: Продай имот
+  needCurrentPwd: нуждаем се от Вашата парола за да потвърдите промените
+  newPassword: Нова парола
+  noResultsForSearch: Съжаляваме, няма намерени резултати
+  nuevoPropiedad: Нов имот
+  orderBy:
+    priceAscending: "↓ Цена (намаляваща)"
+    priceDescending: "↑ Цена (увеличаваща)"
+  pages:
+    aboutUs: За нас
+    sell: Продай имот
+  placeHolders:
+    email: Your email
+    message: Съобщение
+    name: Вашето име
+    subject: Тема
+    tel: Стационарен или мобилен
+  # privacyPolicy: Privacy Policy
+  property:
+    description: Описание
+    details: Детайли
+    extras: Екстри
+    furniture: Обзавеждане
+    goToProperty: Разглеждане на имота
+    highlightedProperty: Изключителни предложения
+    locality: Местоположение
+    map: Карта
+    monthlyRentalPriceHighSeason: Месечен наем (Силен сезон)
+    monthlyRentalPriceLowSeason: Месечен наем (Слаб сезон)
+    monthlyRentalPriceStandardSeason: Месечен наем
+    operationType: Operation Type
+    price: Цена
+    propertyType: Тип на имота
+    ref: Ref
+  propertyForRent: под наем
+  propertyForSale: за продажба
+  propertyNotFound: Този имот не е открит!
+  pwb:
+    copyright: "%{company_name} Inc. All rights reserved."
+    createPrompt: Създайте своят web сайт
+    createTagLine: Моля, въведете вашите детайли
+    getStarted: Започнете сега
+    registerNow: Регистриране
+    tagLine: Професионални сайтове за агенции създадени за минути
+    tagLineExt: Красиви и функционални сайтове, които трябва да видиш за да повярваш.<br>Без аналог! - Стартирайте своят агенция с минимални усилия и минимално време.
+  requestPropertyInfo: Поискайте повече информация
+  search: Търсене
+  searchForProperties: Търсене на имот
+  selectpicker:
+    countSelectedText: Избран {0} от {1}
+    noneResultsText: Няма намерени резултати {0}
+    noneSelectedText: Нищо не е избрано
+  send: Изпращане
+  setup:
+    claimSubdomain: Използвайте този домейн
+    createdSuccessfully: Сайта Ви е създаден успешно
+    goToYourSite: Отидете на Вашият сайт
+    loggedInAs: 'Потребител: '
+    logout: Изход
+    selectUrl: Изберете адрес
+    selectUrlMessage: Успешно създадохте свой акаунт. Моля избере адреса на вашият нов сайт.
+    subdomain: subdomain
+    subdomainMissing: Моля, въведете subdomain
+    thankYouForTrusting: Благодарим, че се доверихте на %{company_name}
+    urlNotAvailable: Съжаляваме, този адрес не е достъпен
+    weAreCreatingSite: Вашият сайт е в процес на създаване
+  signOut: Изход
+  simple_form:
+    error_notification:
+      default_message: 'Открити са следните проблеми:'
+    labels:
+      search:
+        count_bathrooms: Бани (мин)
+        count_bedrooms: Спални (макс)
+        for_rent_price_from: Наем от (месечно)
+        for_rent_price_till: Наем до (месечно)
+        for_sale_price_from: Цена от
+        for_sale_price_till: Цена до
+        in_locality: Местоположение
+        in_zone: Зона
+        locality: Местоположение
+        property_state: Статус
+        property_type: Тип
+    'no': 'Не'
+    required:
+      mark: "*"
+      text: задължителен
+    'yes': 'Да'
+  subject: Тема
+  tel: Телефон
+  'true': 'Да'
+  update: Обновяване
+  webContentSections:
+    aboutUs: За нас
+    contactInformation: Контакти
+    home: Начало
+    sell: Продай имот
+    tagLine: Етикети
