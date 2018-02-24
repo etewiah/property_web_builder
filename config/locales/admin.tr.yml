@@ -1,0 +1,520 @@
+tr:
+  admin:
+    "true": "doğru"
+    "false": "yanlış"
+    "yes": "evet"
+    "no": "hayır" 
+    es-ES: İspanya
+    es-CL: Şili
+    es-MX: Meksika
+    en-UK: İngiltere
+    en-US: ABD
+    fr-FR: Fransa
+    pt-PT: Portekiz
+    pt-BR: Brezilya
+    it-IT: İtalya
+    de-DE: Almanya
+    ko-KR: Kore
+    nl-Nl: Hollanda
+    nl-NL: Hollanda
+    pl-PL: Polonya
+    ro-RO: Romanya
+    ru-RU: Rusya
+    fi-FI: Finlandiya
+    no-NO: Norveç
+    ca-CA: Katalunya
+    hi-IN: Hindistan
+    vi-VI: Vietnam
+    tr-TR: Türkiye
+    bg-BG: Bulgaristan
+    ar: Arapça
+    en: İngilizce
+    es: İspanyolca
+    ca: Katalanca
+    fr: Fransızca
+    ru: Rusça
+    nl: Flemenkçe
+    it: İtalyanca
+    de: Almanca
+    pt: Portekizce
+    vi: Vietnamca
+    tr: Türkçe
+    hi: Hintçe
+    pl: Polonca
+    ro: Romence
+    ko: Korece
+    bg: Bulgarca
+    sqmt: Metre Kare
+    sqft: Feet Kare
+    cad: Kanada Doları
+    ars: Arjantin Pesosu
+    aud: Avustralya Doları
+    mxn: Meksika Pesosu
+    gbp: İngiliz Poundu
+    usd: Amerikan Doları
+    eur: Euro
+    inr: Hint Rupisi
+    chf: İsviçre Frangı
+    cny: Çin Yuanı
+    clp: Şili Pesosu
+    rub: Rus Rublesi
+    brl: Brezilya Reali
+    zar: Güney Afrika Randı
+    hkd: Hong Kong Doları
+    vnd: Vietnam Dongu
+    try: Türk Lirası
+    pln: Polon Zilotisi
+    ron: Romen Leusu
+    ngn: Nijerya Nairası
+    ghs: Gana Cedisi
+    dkk: Danimarka Kronu
+    czk: Çek Korunası
+    sek: İsveç Kronası
+    thb: Tai Bahtı
+    mad: Fas Dirhemi
+    egp: Mısır Poundu
+    pages:
+      aboutUs: Hakkımızda
+      sell: Sat
+      landing: Landing
+      legal: Legal
+    pageSections:
+      notEditable:
+        Bu bölüm düzenlenemez
+      homeSearchComponent: 
+        title: Arama çubuğu
+        info: Ana sayfada mülk aramayı etkinleştir
+      contactUsFormAndMap: 
+        title: Form ve Planlama
+        info: Form ve planlama için bizimle iletişime geçin
+      pageTitle: Sayfa başlığı
+      services: 
+        title: Sunduğunuz hizmetler
+        info: Sunduğunuz hizmetlere bir genel bakış
+      people: 
+        title: Takımınız
+        info: Takımınız hakkında özet bilgi
+      # landingCarousel: 
+      #   title: Home page carousel
+      #   info: Main section displaying images and text
+      rawHtml: 
+        title: HTML İçeriği
+        info: Buraya fazladan HTML ekleyebilirsiniz
+      topRentals: 
+        title: En Çok Kiralananlar
+        info: Kiralık mülklerin özet listesi
+      topSales: 
+        title: En Çok Satılanlar
+        info: Satılık mülklerin özet listesi
+      contactUsForm: 
+        title: Bize ulaşın formu
+        info: Ziyaretçilerin size bir mesaj göndermesine izin vermek için form
+      # aboutUs:
+      #   title: Metin ve fotoğraf
+      #   info: İşiniz hakkında kısaca
+      ourAgency:
+        title: Acentamız hakkında
+        info: İşiniz hakkında kısaca
+      landingHero:
+        title: Ana başlık
+        info: İşinizin önemini belirten büyük görsel ve metin
+    editor:
+      pickPhoto: Fotoğraf seç
+      uploadPhoto: Fotoğraf yükle
+    inTabLabels:
+      topNav: Üst Navigasyon
+      footer: Altbilgi
+      currency: Para Birimi
+      colors: Renkler
+      socialLinks: Sosyal Bağlantılar
+      siteLayout: Site Düzeni
+      colorFooterBg: Altbilgi arkaplan rengi
+      colorFooterMainText: Altbilgi ana metin rengi
+      colorFooterSecText: Altbilgi ikincil metin rengi
+      colorPrimary: Birincil renk
+      colorSecondary: İkincil renk
+      colorActions: Eylemlerin rengi
+      supportedLanguages: Desteklenen Diller
+      visibility: Görünürlük
+    navbar:
+      home: "Anasayfa"
+      admin: "Admin"
+      aboutUs: "Hakkımızda"
+      sell: "Sat"
+      buy: "Satın Al"
+      rent: "Kirala"
+      contactUs: "İletişim"
+      legalAdvice: "Yasal Uyarı"
+      privacyPolicy: "Gizlilik Politikası"
+    adminSections:
+      pages: Sayfalar
+      import: Veri Al
+      start: Anasayfa
+      agencyDetails: Acenta
+      content: Website
+      websiteSettings: Ayarlar
+      websiteContent: İçerik
+      translations: Çeviriler
+      properties: Özellikler
+      clientes: İstemciler
+      quit: Siteye Git
+      list: Liste
+      settings: Ayarlar
+      labels: Etiketler
+      about: Hakkında
+
+    btnLabels:
+      importTranslations: Çevirileri al
+      importSiteContent: Website içeriğini al
+      setThemePrompt: Website teması olarak ayarla
+      activatedThemeInfo: Şu anki aktif website teması
+
+    info:
+      defaultCurrency: Sadece yeni eklenen mülkler için geçerli olacak
+      defaultAreaUnit: Sadece yeni eklenen mülkler için geçerli olacak
+      recPropPhotoSize: Bir fotoğraf için önerilene boyut 800px X 500px,
+      recCarouselPhotoSize: Karusel görseller için önerilen boyut 900px X 400px,
+      recLogoPhotoSize: Logo için önerilen boyut 120px X 80px,
+      orderByDragging: Düzen için sürükle ve bırak - ilk fotoğraf ana fotoğraf olacak.
+
+    webContentLabels: 
+      suffixEn: in English
+      suffixEs: in Spanish
+      suffixAr: in Arabic
+      suffixFr: in French
+      suffixIt: in Italian
+      suffixPt: in Portuguese
+      suffixDe: in German
+      suffixRu: in Russian
+      suffixCa: in Catalan
+      suffixNl: in Dutch
+      suffixVi: in Vietnamese
+      suffixTr: in Turkish
+      suffixPl: in Polish
+      suffixRo: in Romanian
+      suffixKo: in Korean
+      privacyPolicy: Gizlilik Politikası
+      legalAdvice: Yasal Uyarı
+      # landingcarousel: Text for carousel image
+      # cac1: Column 1
+      # cac2: Column 2
+      # cac3: Column 3
+      # landingPageHero: Content for the main page
+      # tagLine: Tag Line
+      aboutUs: Hakkımızda
+      footerInfo: Fazladan altbilgi içeriği
+
+    siteSections: 
+      aboutUs: Hakkımızda
+      contactUs: İletişim
+      buy: Satın Al
+      rent: Kirala
+      sell: Sat
+
+    ioSections:
+      fromMls: MLS'den al
+      fromUpload: Dosyadan al
+      fromWebpage: Bir websayfasından al
+
+    webContentSections:
+      navigation: Navigasyon
+      appearance: Görünüm
+      footer: Altbilgi
+      aboutUs: Hakkımızda
+      contactInformation: İletişim Bilgileri 
+      sell: Sat
+      # tagLine: Etiket Satırı
+      legal: Yasal
+      general: Genel
+      landingCarousel: Açılış Sayfası Karoseli
+      home: Ansayfa
+      contentAreaCols: Sütunlar
+      sections: Bölümler
+      info: 
+        contentAreaCols: Açılış sayfasındaki sütunlar sağladığınız servislerin 
+          bir genel görünümünü verir
+
+    fieldLabels: 
+    #   yaencontre: Yaencontre
+    #   pisoscom: Pisoscom
+    #   idealista: Idealista
+    #   localidad: Localidad
+    #   zona: Zona
+      pickMlsPrompt: MLS'nizi seçin
+      propCsvUploadPrompt: Alınacak dosya türünü seçin
+      pwbCsvFile: PropertyWebBuilder'dan dışa aktarılan bir csv dosyası
+      mlsCsvFile: MLS'den dışa aktarılan bir csv dosyası
+      deleteProp: Mülk Sil
+      areaUnit: Alan Birimi
+      defaultAreaUnit: Varsayılan Alan Birimi
+      currency: Para Birimi
+      defaultCurrency: Varsayılan Para Birimi
+      defaultLocale: Varsayılan Website Dili
+      # codigoPostal: Codigo Postal
+      # direccion: Direccion
+      # direccionReal: Direccion Real
+      # direccionMapa: Direccion Mapa
+      ref: Referans Hayır
+      tipo: Tür
+      estado: Durum
+      descripcionEspanol: Description in Spanish
+      tituloEspanol: Title in Spanish
+      descripcionIngles: Description in English
+      tituloIngles: Title in English
+      precioVenta: Sales Price
+      precioAntiguo: Original Price
+      precioAlquiler: Rental Price
+      origen: Origen
+      temporadas: Temporadas
+      precioTa: Temp Price. Alta
+      precioTm: Temp Price. Media
+      precioTb: Temp Price. Baja
+      eficienciaEnergia: Eficiencia Energia
+      yearConstruction: Yapım Yılı
+      countBedrooms: Yatak Odası
+      countBathrooms: Banyo
+      # numAseos: Núm. aseos
+      plotArea: Plot Area
+      constructedArea: Bitmiş Alan
+      garaje: Garaj
+      forSearchWidget: Widget aramak için
+      obscureMap: Websitede tam adres gizlensin mi?
+      hideMap: Websitede harita gizlensin mi?
+      forSale: Satılık mı?
+      priceSaleCurrent: Güncel Fiyat
+      saleDiscount: saleDiscount
+      priceSaleOriginal: Orijinal Fiyat
+      longTermRental: Uzun dönem için kiralamaya uygun mu?
+      seasonalRental: Sezonluk kiralamaya uygun mu?
+      priceRentalMonthlyHighSeason: Yüksek sezon kira fiyatı
+      priceRentalMonthlyLowSeason: Düşük sezon kira fiyatı
+      priceRentalMonthlyStandardSeason: Normal sezon kira fiyatı
+      priceRentalMonthlyCurrent: Şimdiki kira fiyatı (aylık)
+      longTermRentalDiscount: longTermRentalDiscount
+      priceRentalMonthlyOriginal: Orijinal kira fiyatı (aylık)
+      firstNames: İsim
+      lastNames: Soyisim
+      visible: Görünür
+      visibleOnWeb: Websitede görünür
+      highlighted: Vurgulanmış
+      label: Etiket
+      companyName: Şirket İsmi
+      primaryPhone: Telefon numarasını görüntüle
+      otherPhone: Diğer telefon numarası
+      primaryEmail: Emaili görüntüle
+      propertyContactEmail: Mülk danışma emaili
+      generalContactEmail: Genel danışma emaili
+      nationality: Uyruk
+      documentationType: Belgeleme Türü
+      documentationId: Belgeleme Kimliği
+      email: Email
+      fax: Faks
+      skype: Skype
+      personTitle: Başlık
+      description: Açıklama
+      title: Başlık
+      info:
+        primaryEmail: Sayfa başlığında görüntülenen email
+        primaryPhone: Sayfa başlığında görüntülenen telefon numarası
+        propertyContactEmail: Özel mülkler hakkında sorularınız burada gönderilecek
+        generalContactEmail: 'Bize ulaşın' sayfasından gelen sorular burada gönderilecek
+
+    # for header row in property listing
+    propertyColHeader:
+      highlighted: Öne Çıkan
+      locality: Mevki
+      actions: Eylemler
+      zone: Bölge
+      price: Fiyat
+      bedrooms: Yatak Odası
+      bathrooms: Banyo
+      visible: Görünür
+      reference: Ref
+      type: Tür
+
+    # TODO - move Spanish versions of below to server side
+    save: Kaydet
+    cancel: İptal
+    edit: Düzenle
+    preview: Önizleme
+    close: Kapat
+    addLogo: Logo Ekle
+    addPhotos: Fotoğraf Ekle
+    create: Oluştur
+    delete: Sil
+    show: Göster
+    hide: Gizle
+    logo: Logo
+    aboutUsPhoto: Hakkımızda fotoğrafı
+    addAboutUsPhoto: Hakkımızda fotoğrafı ekle
+
+    visible: Görünür
+    hidden: Gizli
+
+    editWebsite: Websiteyi Düzenle
+    settingsForWebsite: Website Ayarları
+    contentForWebsite: Website İçeriği 
+    sectionsForWebsite: Website Bölümleri
+    themesForWebsite: Website Temaları
+    importExport: İçe ve dışa aktarım verisi
+    returnToWebsite: Webe dön
+    settingsForProperties: Mülkler için ayarlar
+    returnToProperties: Mülklere dön
+    addProperty: Mülk ekle
+    addClient: Müşteri ekle
+    newProperty: Yeni Mülk
+    newClient: Yeni Müşteri
+    propertiesList: Mülklerin listesi
+    clientsList: Müşterilerin listesi
+
+    prompts: 
+      fixErrors: Lütfen aşağıdaki hataları düzeltin
+
+    todos: 
+      createContent: Bir içerik oluştur
+      companyDetails: Şirket detaylarınızı ayarlayın
+
+    locationTab: 
+      confirmAddress: Yeni konum doğrula
+
+    agencySections: 
+      general: Acenta Detayları
+      location: Konum
+      user: Kullanıcı Deetayları
+
+    siteLayout: 
+      wide: Geniş
+      boxed: Ambalajlı
+
+    propertySections: 
+      general: Genel
+      location: Konum
+      text: Metin
+      extras: Özellikler
+      photos: Fotoğraflar
+      sale: Satılık / Kiralık
+      owner: Sahibi
+
+    propertyGeneralSections: 
+      sale: Sat
+      longtermRental: Uzun dönem kiralık
+      seasonalRental: Sezonluk kiralık
+      visibility: Görünürlük
+      generalData: Genel Veri
+      characteristics: Karakteristikler
+      portals: Web Portalları
+      extras: Özellikler
+
+    translationsSections: 
+      extras: Özellikler
+      propertyTypes: Mülk Türleri
+      propertyOrigins: Mülk Kaynakları
+      propertyStates: Mülk Devletleri
+      propertyLabels: Mülk Etiketleri
+      provinces: Vilayetler
+
+    toolTips: 
+      forSale: Mülk satış için uygunsa seçin
+      priceSaleCurrent: Şu anki satış fiyatı
+      saleDiscount: saleDiscount
+      priceSaleOriginal: Orijinal satış fiyatı
+      longTermRental: Mülk uzun dönem kiralama için uygunsa 'Evet'i seçin
+      priceRentalMonthlyCurrent: Şu anki kira fiyatı
+      priceRentalMonthlyOriginal: Orijinal kira fiyatı
+
+      addNewEntry: Yeni Girdi Ekle
+      visible: Mülkü websitede yayınlamak için 'Evet'i seçin
+      highlighted: Mülkü websitede öne çıkarmak için 'Evet'i seçin
+      seasonalRental: Mülk sezonluk kiralandıysa 'Evet'i seçin
+      ref: Mülk için referans sayısı
+
+    alerts: 
+      changesDetected: Kaydedilmemiş değişiklikleriniz var.
+      deletingProperty: Bu mülkü silmek istediğinizden emin misiniz.  Bu eylem geri alınamaz.
+      navigatingFromChanges: Kaydedilmemiş değişiklikleriniz var. Lütfen değişikliklerinizi kaydedin veya iptal edin.
+      visibleProperties: Bu mülkler websitenizde görünürdür
+      hiddenProperties: Bu mülkler websitenizde görünmeyecek
+      clickMapToUpdate: Adres seçmek veya doğrudan alta yazmak için haritaya tıkla
+
+    datatables: 
+      sInfo: Showing items from _START_ al _END_ from a total of _TOTAL_ properties
+      sInfoEmpty: Showing items from 0 al 0 from a total of 0 properties
+      sInfoPostFix: ""
+      sSearch: Search
+      sUrl: ""
+      sInfoThousands: ","
+      oPaginate: 
+        sFirst: "<<"
+        sLast: ">>"
+        sNext: ">"
+        sPrevious: "<"
+
+    alert: 
+      deleteItem: Nu öğeyi silmek istediğinize emin misiniz? 
+      deleteButton: Evet, onu sil!
+
+    street: Sokak
+    streetAddress: Sokak Adresi
+    streetNumber: Sokak Numarası
+    city: Şehir
+    postCode: Posta Kodu
+    region: Bölge
+    zone: Alan
+    locality: Mevki
+    country: Ülke
+
+    properties: Mülkler
+
+    cards: 
+      website: Website
+      websitePrompt: Website eylemleri
+      websiteLink: Web kontrol paneline git
+      properties: Mülkler
+      propertiesPrompt: Mülk eylemleri
+      propertiesLink: Mülklere git
+    tasks: 
+      addProperty: Bir mülk ekle
+      addPropertyPrompt: mülkler / Mülk ekle
+      manageProperties: Mülkleri yönet
+      managePropertiesPrompt: Mülkler / Mülkü düzenle
+      changeLogo: Logo, diller ve görünümü yönet
+      changeLogoPrompt: Web Yapılandırma
+      changeLang: Web dilini değiştir
+      changeLangPrompt: Web Yapılandırma
+      changeLegalText: 'Yasal' metinleri değiştir
+      manageLandingCarousel: Başlangıç sayfasını düzenle
+      changeAboutUsText: 'Hakkımızda' metnini düzenle
+      managePropertyTypes: Mülk türlerini yönet
+      managePropertyExtras: Mülk özelliklerini yönet
+
+    buttonLabels: 
+      configureAvailableExtras: Mevcut özellikleri yapılandır
+      selectImagesToAdd: Eklemek için görseller seç
+      selectRemoteImages: Url'lerden görseller ekle
+
+    errors:
+      genericServerError: Üzgünüz, bir hata oldu
+      languageRequired: En az bir dil seçmelisiniz
+      inclusion: listeye dahil değil
+      exclusion: rezerve
+      invalid: geçersiz
+      confirmation: "eşleşmiyor {{attribute}}"
+      accepted: kabul edilmiş olmalı
+      empty: "boş olamaz"
+      blank: "boşluk olamaz"
+      present: boşluk olmalı
+      tooLong: çok uzun (maksimum {{count}} karakter)
+      tooShort: çok kısa (minimum {{count}} karakter)
+      wrongLength: yanlış uzunluk ({{count}} karakter olmalı)
+      notANumber: bir sayı değil
+      notAnInteger: bir tam sayı olmalı
+      greaterThan: {{count}}'den büyük olmalı
+      greaterThanOrEqualTo: {{count}}'den büyük veya eşit olmalı
+      equalTo: {{count}}'e eşit olmalı
+      lessThan: {{count}}'den küçük olmalı
+      lessThanOrEqualTo: {{count}}'den küçük veya eşit olmalı
+      otherThan: {{count}}'den farklı olmalı
+      odd: tek sayı olmalı
+      even: çift sayı olmalı
+      tooShortVjs: çok kısa
+      notAUrlVjs: geçerli bir URL değil
