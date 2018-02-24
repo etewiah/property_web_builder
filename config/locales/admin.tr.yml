@@ -317,7 +317,7 @@ tr:
         primaryEmail: Sayfa başlığında görüntülenen email
         primaryPhone: Sayfa başlığında görüntülenen telefon numarası
         propertyContactEmail: Özel mülkler hakkında sorularınız burada gönderilecek
-        generalContactEmail: 'Bize ulaşın' sayfasından gelen sorular burada gönderilecek
+        generalContactEmail: "'Bize ulaşın' sayfasından gelen sorular burada gönderilecek"
 
     # for header row in property listing
     propertyColHeader:
@@ -481,9 +481,9 @@ tr:
       changeLogoPrompt: Web Yapılandırma
       changeLang: Web dilini değiştir
       changeLangPrompt: Web Yapılandırma
-      changeLegalText: 'Yasal' metinleri değiştir
+      changeLegalText: "'Yasal' metinleri değiştir"
       manageLandingCarousel: Başlangıç sayfasını düzenle
-      changeAboutUsText: 'Hakkımızda' metnini düzenle
+      changeAboutUsText: "'Hakkımızda' metnini düzenle"
       managePropertyTypes: Mülk türlerini yönet
       managePropertyExtras: Mülk özelliklerini yönet
 
@@ -508,12 +508,12 @@ tr:
       wrongLength: yanlış uzunluk ({{count}} karakter olmalı)
       notANumber: bir sayı değil
       notAnInteger: bir tam sayı olmalı
-      greaterThan: {{count}}'den büyük olmalı
-      greaterThanOrEqualTo: {{count}}'den büyük veya eşit olmalı
-      equalTo: {{count}}'e eşit olmalı
-      lessThan: {{count}}'den küçük olmalı
-      lessThanOrEqualTo: {{count}}'den küçük veya eşit olmalı
-      otherThan: {{count}}'den farklı olmalı
+      greaterThan: "{{count}}'den büyük olmalı"
+      greaterThanOrEqualTo: "{{count}}'den büyük veya eşit olmalı"
+      equalTo: "{{count}}'e eşit olmalı"
+      lessThan: "{{count}}'den küçük olmalı"
+      lessThanOrEqualTo: "{{count}}'den küçük veya eşit olmalı"
+      otherThan: "{{count}}'den farklı olmalı"
       odd: tek sayı olmalı
       even: çift sayı olmalı
       tooShortVjs: çok kısa
