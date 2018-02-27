@@ -80,7 +80,7 @@ module Pwb
     # end
 
     def set_fragment_visibility(page_part_key, visible_on_page)
-      # TODO: enable this 
+      # TODO: enable this
       # for page_parts without content like search cmpt.
 
       page_content_join_model = self.page_contents.find_or_create_by(page_part_key: page_part_key)
@@ -147,9 +147,14 @@ module Pwb
       # return "link_title_en","link_title_es", "link_title_de",
     end
 
-    # def page_fragment_blocks
-    #   return details["fragments"]
-    # end
+    def as_json_for_fe(options = nil)
+      as_json({only: [
+                 "title", "description",
+                 "sort_order_footer", "show_in_footer",
+                 "slug", "link_path", "visible"
+               ],
+               methods: :page_parts}.merge(options || {}))
+    end
 
     private
   end

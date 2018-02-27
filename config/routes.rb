@@ -87,7 +87,15 @@ Pwb::Engine.routes.draw do
 
   end
 
+  namespace :api_public do
+    # API endpoints for client-side rendering of website 
+    namespace :v1 do
+      get "/home" => "home#index"
+    end
+  end
+
   namespace :api_ext do
+    # API endpoints for external services
     namespace :v1 do
       jsonapi_resources :props
       # below for habitat:
