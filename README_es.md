@@ -83,7 +83,7 @@ Puede ver un ejemplo de un sitio creado con PropertyWebBuilder aquí:
 * Mobile friendly responsive layout
 * Fully open source
 
-## Próximamente  
+## Próximamente
 
 Estas son algunas características que planeo añadir en los próximos meses. Si hay algo que te gustaría y no está en la lista, por favor házmelo saber. También estoy interesado en saber cuales de estas caracteristicas debería priorizar.
 
@@ -100,7 +100,7 @@ Estas son algunas características que planeo añadir en los próximos meses. Si
 ## Contribuir y difundir el amor
 Los animamos a que contribuyan a este proyecto y reporten issues para cualquier problema que encuentren.
 
-Si te gusta, por favor dale una estrella al proyecto y corre la voz en [Twitter](https://twitter.com/prptywebbuilder), [LinkedIn](https://www.linkedin.com/company/propertywebbuilder) y [Facebook](https://www.facebook.com/propertywebbuilder).  También te puedes suscribir a las notificaciones de este proyecto en github.  
+Si te gusta, por favor dale una estrella al proyecto y corre la voz en [Twitter](https://twitter.com/prptywebbuilder), [LinkedIn](https://www.linkedin.com/company/propertywebbuilder) y [Facebook](https://www.facebook.com/propertywebbuilder).  También te puedes suscribir a las notificaciones de este proyecto en github.
 
 Por favor considera hacer una contribución al desarrollo de PropertyWebBuilder. Si deseas pagar por una mejora específica, por favor envíame un correo directamente (opensource en propertywebbuilder.com).
 
@@ -108,7 +108,7 @@ Me gustaría que PropertyWebBuilder esté disponible en la mayor cantidad de idi
 [https://github.com/etewiah/property_web_builder/blob/master/README_es.md](https://github.com/etewiah/property_web_builder/blob/master/README_es.md)
 
 
-## Patrocnadores
+## Patrocinadores
 
 PropertyWebBuilder actualmente es patrocinado por Coddde, consultores de Ruby On Rails basados en España y Chile:
 <a href="http://coddde.com/en/" rel="Coddde">
