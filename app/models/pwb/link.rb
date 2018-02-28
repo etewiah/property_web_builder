@@ -1,6 +1,8 @@
 module Pwb
   # added July 2017
   class Link < ApplicationRecord
+    # include Rails.application.routes.url_helpers
+
     translates :link_title, fallbacks_for_empty_translations: true
     # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
     globalize_accessors locales: I18n.available_locales
@@ -20,6 +22,20 @@ module Pwb
     scope :ordered_visible_footer, -> () { where(visible: true, placement: :footer).order('sort_order asc') }
     scope :ordered_top_nav, -> () { where(placement: :top_nav).order('sort_order asc') }
     scope :ordered_footer, -> () { where(placement: :footer).order('sort_order asc') }
+
+    def target_path
+      begin
+        if link_path.present?
+          # link_path should be valid - below checks that
+          target_path = Pwb::Engine.routes.url_helpers.send(link_path, [link_path_params], {locale: I18n.locale})
+        elsif link_url.present?
+          target_path = link_url
+        end
+      rescue NoMethodError
+        # target_path = '/'
+        # rescue Exception => e
+      end
+    end
 
 
     def as_json(options = nil)

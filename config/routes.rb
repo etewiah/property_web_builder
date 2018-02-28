@@ -91,6 +91,7 @@ Pwb::Engine.routes.draw do
     # API endpoints for client-side rendering of website 
     namespace :v1 do
       get "/home" => "home#index"
+      get "/display_settings" => "home#display_settings"
     end
   end
 

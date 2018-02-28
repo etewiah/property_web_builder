@@ -3,6 +3,31 @@ require_dependency "pwb/application_controller"
 module Pwb
   class ApiPublic::V1::HomeController < ApplicationApiController
 
+    def display_settings
+      I18n.locale = "es"
+      @top_nav_links ||= Pwb::Link.ordered_visible_top_nav.as_json({only: [
+               "sort_order",
+               "href_class", "link_path_params",
+               "slug", "link_path", "visible",
+               "link_title", "page_slug"
+             ],
+             methods: ["target_path"]})
+      @footer_links ||= Pwb::Link.ordered_visible_footer.as_json({only: [
+               "sort_order",
+               "href_class", "link_path_params",
+               "slug", "link_path", "visible",
+               "link_title", "page_slug"
+             ],
+             methods: ["target_path"]})
+
+      return render json: {
+        display_settings: {
+          top_nav_links: @top_nav_links,
+          footer_links: @footer_links
+        }
+      }
+    end
+
     def index
       locale = "en"
       current_page = Pwb::Page.find_by_slug "home"
@@ -20,15 +45,16 @@ module Pwb
           public_page_parts[page_part.page_part_key] = page_part.block_contents[locale]
         end
 
-
-        @properties_for_sale = Prop.for_sale.visible.order('highlighted DESC').limit 9
-        @properties_for_rent = Prop.for_rent.visible.order('highlighted DESC').limit 9
-
-        # @search_defaults = params[:search].present? ? params[:search] : {}
+        properties_for_sale = DisplayPropertiesQuery.new().for_sale
+        properties_for_rent = DisplayPropertiesQuery.new().for_rent
 
         return render json: {
           page_parts: public_page_parts,
-          page: current_page.as_json_for_fe
+          page: current_page.as_json_for_fe,
+          properties: {
+            for_sale: properties_for_sale,
+            for_rent: properties_for_rent
+          }
         }
       else
         return render json: {
