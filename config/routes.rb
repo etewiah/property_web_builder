@@ -92,6 +92,10 @@ Pwb::Engine.routes.draw do
     namespace :v1 do
       get "/home" => "home#index"
       get "/display_settings" => "home#display_settings"
+      scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
+        get "/pages/home" => "pages#show_home_page"
+        get "/pages/:page_slug" => "pages#show"
+      end
     end
   end
 
