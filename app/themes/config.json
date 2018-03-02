@@ -6,23 +6,26 @@
     "http://propertywebbuilder.com/images/rerenting-landing_framed.png",
     "http://propertywebbuilder.com/images/rerenting-landing_framed.png"
   ]
-}, {
+},
+{
 
   "name": "berlin",
   "friendly_name": "Berlin Theme",
   "id": "berlin"
-// }, {
-
-// //   "name": "matt",
-// //   "friendly_name": "Matt Theme",
-// //   "id": "matt"
-// // }, {
+},
+// {
+//   "name": "matt",
+//   "friendly_name": "Matt Theme",
+//   "id": "matt"
+// },
+// {
 //   "name": "airbnb",
 //   "friendly_name": "Airbnb Theme",
 //   "id": "airbnb"
-// }, {
+// },
+{
 
-//   "name": "vic",
-//   "friendly_name": "Vic Theme",
-//   "id": "vic"
+  "name": "vic",
+  "friendly_name": "Vic Theme",
+  "id": "vic"
 }]
