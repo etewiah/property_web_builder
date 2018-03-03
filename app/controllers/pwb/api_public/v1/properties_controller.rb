@@ -1,7 +1,7 @@
 require_dependency "pwb/application_controller"
 
 module Pwb
-  class ApiPublic::V1::PropertiesController < ApplicationApiController
+  class ApiPublic::V1::PropertiesController < ApplicationApiPublicController
 
     def show
       I18n.locale = params[:locale]

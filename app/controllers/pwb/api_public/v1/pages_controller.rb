@@ -1,19 +1,18 @@
 require_dependency "pwb/application_controller"
 
 module Pwb
-  class ApiPublic::V1::PagesController < ApplicationApiController
+  class ApiPublic::V1::PagesController < ApplicationApiPublicController
 
     def show
       locale = params[:locale]
       I18n.locale = locale
       current_page = Pwb::Page.find_by_slug params[:page_slug]
-      current_page_title = @current_agency.company_name
-      # @content_to_show = []
+      # current_page_title = @current_agency.company_name
 
       if current_page.present?
-        if current_page.page_title.present?
-          current_page_title = current_page.page_title + ' - ' + @current_agency.company_name.to_s
-        end
+        # if current_page.page_title.present?
+        #   current_page_title = current_page.page_title + ' - ' + @current_agency.company_name.to_s
+        # end
 
 
         public_page_parts = {}
@@ -37,13 +36,12 @@ module Pwb
       locale = params[:locale]
       I18n.locale = locale
       current_page = Pwb::Page.find_by_slug "home"
-      current_page_title = @current_agency.company_name
-      # @content_to_show = []
+      # current_page_title = @current_agency.company_name
 
       if current_page.present?
-        if current_page.page_title.present?
-          current_page_title = current_page.page_title + ' - ' + @current_agency.company_name.to_s
-        end
+        # if current_page.page_title.present?
+        #   current_page_title = current_page.page_title + ' - ' + @current_agency.company_name.to_s
+        # end
 
 
         public_page_parts = {}

@@ -1,7 +1,7 @@
 require_dependency "pwb/application_controller"
 
 module Pwb
-  class ApiPublic::V1::ClientController < ApplicationApiController
+  class ApiPublic::V1::ClientController < ApplicationApiPublicController
 
     respond_to :json
 
