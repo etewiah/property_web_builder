@@ -246,6 +246,39 @@ module Pwb
     enum area_unit: { sqmt: 0, sqft: 1 }
 
 
+    def as_json_detailed(options = nil)
+      as_json(
+        {only: [
+           "title", "description",
+           "id", "reference", "year_construction", "count_bedrooms",
+           "count_bathrooms", "count_toilets", "count_garages",
+           "plot_area", "constructed_area",
+           # "energy_rating", "energy_performance", "flags", "furnished", "sold", "reserved",
+           "highlighted", "archived", "visible", "for_rent_short_term", "for_rent_long_term", "for_sale",
+           "hide_map", "obscure_map",
+           # "portals_enabled", "deleted_at", "active_from", "available_to_rent_from",
+           # "available_to_rent_till",
+           "price_sale_current_cents", "price_sale_current_currency",
+           "price_sale_original_cents",
+           "price_sale_original_currency",
+           "price_rental_monthly_current_cents", "price_rental_monthly_current_currency",
+           "price_rental_monthly_original_cents", "price_rental_monthly_original_currency",
+           "price_rental_monthly_low_season_cents", "price_rental_monthly_low_season_currency",
+           "price_rental_monthly_high_season_cents", "price_rental_monthly_high_season_currency",
+           "price_rental_monthly_standard_season_cents", "price_rental_monthly_standard_season_currency",
+           # "commission_cents",
+           # "commission_currency", "service_charge_yearly_cents", "service_charge_yearly_currency",
+           "price_rental_monthly_for_search_cents", "price_rental_monthly_for_search_currency",
+           "currency", "prop_origin_key",
+           "prop_state_key", "prop_type_key", "street_number", "street_name", "street_address",
+           "postal_code", "province",
+           "city", "region", "country", "latitude", "longitude", "area_unit",
+         ],
+         methods: :primary_image_url}.merge(options || {}))
+    end
+
+
+
     # Below can only be called on a single record like so:
     # Page.first.as_json_for_admin
     # Is used to retrieve details by api/v2/properties controller

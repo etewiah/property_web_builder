@@ -21,14 +21,16 @@ Pwb::Engine.routes.draw do
     get "/admin/*path" => "admin_panel#show"
     get "/admin-1" => "admin_panel#show_legacy_1"
     get "/admin-1/*path" => "admin_panel#show_legacy_1"
+    get "/admin-vue" => "admin_panel#show_admin_vue"
+    get "/admin-vue/*path" => "admin_panel#show_admin_vue"
     scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
       get "/admin" => "admin_panel#show", as: "admin_with_locale"
       get "/admin/*path" => "admin_panel#show"
       get "/admin-1" => "admin_panel#show_legacy_1", as: "admin_with_locale_legacy"
       get "/admin-1/*path" => "admin_panel#show_legacy_1"
+      get "/admin-vue" => "admin_panel#show_admin_vue"
+      get "/admin-vue/*path" => "admin_panel#show_admin_vue"
     end
-    get "/admin-vue" => "admin_panel#show_admin_vue"
-    get "/admin-vue/*path" => "admin_panel#show_admin_vue"
     get '/config' => 'config#show'
     get '/config/:params' => 'config#show'
     get "/setup" => "setup_panel#show"
@@ -95,6 +97,7 @@ Pwb::Engine.routes.draw do
       scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
         get "/pages/home" => "pages#show_home_page"
         get "/pages/:page_slug" => "pages#show"
+        get "/properties/:id" => "properties#show"
       end
     end
   end
