@@ -4,7 +4,8 @@ module Pwb
   class ApiPublic::V1::PagesController < ApplicationApiController
 
     def show
-      locale = "en"
+      locale = params[:locale]
+      I18n.locale = locale
       current_page = Pwb::Page.find_by_slug params[:page_slug]
       current_page_title = @current_agency.company_name
       # @content_to_show = []
@@ -33,7 +34,8 @@ module Pwb
 
 
     def show_home_page
-      locale = "en"
+      locale = params[:locale]
+      I18n.locale = locale
       current_page = Pwb::Page.find_by_slug "home"
       current_page_title = @current_agency.company_name
       # @content_to_show = []

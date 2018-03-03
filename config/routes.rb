@@ -92,9 +92,11 @@ Pwb::Engine.routes.draw do
   namespace :api_public do
     # API endpoints for client-side rendering of website 
     namespace :v1 do
-      get "/home" => "home#index"
-      get "/display_settings" => "home#display_settings"
+      # get "/home" => "home#index"
+      # get "/client_settings" => "home#client_settings"
       scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
+        get "/client_settings" => "client#client_settings"
+        get "/translations" => "client#translations"
         get "/pages/home" => "pages#show_home_page"
         get "/pages/:page_slug" => "pages#show"
         get "/properties/:id" => "properties#show"

@@ -4,7 +4,7 @@ module Pwb
   class ApiPublic::V1::PropertiesController < ApplicationApiController
 
     def show
-      locale = "en"
+      I18n.locale = params[:locale]
       property = Pwb::Prop.find params[:id]
       # property_title = @current_agency.company_name
       # @content_to_show = []
