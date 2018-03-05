@@ -11,11 +11,13 @@ module Pwb
       # apply_search_filter filtering_params(params)
       # set_map_markers
       # render "/pwb/search/search_ajax.js.erb", layout: false
-      if params[:page_slug] == "rent"
-        prop_search_results = DisplayPropertiesQuery.new().from_params
-      else
-        prop_search_results = DisplayPropertiesQuery.new().from_params
-      end
+
+      # byebug
+
+      prop_search_results = DisplayPropertiesQuery.new(search_params: params).from_params
+      # else
+      #   prop_search_results = DisplayPropertiesQuery.new().from_params
+      # end
       # properties_for_rent = DisplayPropertiesQuery.new().for_rent
 
       return render json: {

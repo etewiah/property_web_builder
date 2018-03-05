@@ -1,12 +1,47 @@
 module Pwb
   class DisplayPropertiesQuery
     # TODO: make better use of this class
+    # TODO: add tests
     attr_reader :relation
+    attr_reader :filtering_params
+    attr_reader :currency_string
 
     # having the first param as a relation means
     # I can chain queries
-    def initialize(relation = Prop.all)
+    # def initialize(relation: Prop.all, search_params: [])
+    def initialize(search_params: {})
+      if search_params["op"] == "rent"
+        relation = Prop.visible.for_rent
+      else
+        relation = Prop.visible.for_sale
+      end
+      @currency_string = "usd"
+
+      filtering_params = {}
+
+      params_mapping = {
+        price_from: "for_sale_price_from",
+        price_till: "for_sale_price_till",
+      }
+
+      if search_params["op"] == "rent"
+        params_mapping[:price_from] = "for_rent_price_from"
+        params_mapping[:price_till] = "for_rent_price_till"
+      end
+
+      params_mapping.each do |mapping_key, mapping_value|
+        if search_params[mapping_key]
+          filtering_params[mapping_value] = search_params[mapping_key]
+        end
+      end
+      # byebug
+      # search_params.each do |search_param_key, search_param_value|
+      #   if search_param_key == "price_from"
+      #     filtering_params["for_sale_price_from"] = search_param_value
+      #   end
+      # end
       @relation = relation
+      @filtering_params = filtering_params
     end
 
     def for_sale
@@ -20,21 +55,43 @@ module Pwb
     end
 
     def from_params
-      result = relation.public_send("for_rent").visible.order('highlighted DESC').limit 1
+      result = apply_search_filter(filtering_params)
       as_json_for_fe(result)
     end
 
     private
 
+    def apply_search_filter(search_filtering_params)
+      result = relation
+      # relation is not available below if I try
+      # to access it directly without above
+      search_filtering_params.each do |key, value|
+        empty_values = ["propertyTypes."]
+        if (empty_values.include? value) || value.empty?
+          next
+        end
+        price_fields = ["for_sale_price_from", "for_sale_price_till", "for_rent_price_from", "for_rent_price_till"]
+        if price_fields.include? key
+          currency = Money::Currency.find currency_string
+          # above needed as some currencies like Chilean peso
+          # don't have the cents field multiplied by 100
+          value = value.gsub(/\D/, '').to_i * currency.subunit_to_unit
+          # @properties = @properties.public_send(key, value) if value.present?
+        end
+        result = result.public_send(key, value) if value.present?
+      end
+      result
+    end
+
     def as_json_for_fe(result, options = nil)
       result.as_json(
         {only: [
            "id", "reference", "year_construction", "count_bedrooms", "count_bathrooms", "count_toilets", "count_garages",
-           "plot_area", "constructed_area", 
+           "plot_area", "constructed_area",
            # "energy_rating", "energy_performance", "flags", "furnished", "sold", "reserved",
            "highlighted", "archived", "visible", "for_rent_short_term", "for_rent_long_term", "for_sale",
            "hide_map", "obscure_map",
-            # "portals_enabled", "deleted_at", "active_from", "available_to_rent_from",
+           # "portals_enabled", "deleted_at", "active_from", "available_to_rent_from",
            # "available_to_rent_till",
            "price_sale_current_cents", "price_sale_current_currency",
            "price_sale_original_cents",

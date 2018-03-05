@@ -101,7 +101,7 @@ Pwb::Engine.routes.draw do
         # get "/pages/buy" => "pages#show_search_page"
         get "/pages/rent" => "pages#show_search_page"
         get "/pages/:page_slug" => "pages#show"
-        get "/search_page/:page_slug" => "pages#show_search_page"
+        get "/search_page" => "pages#show_search_page"
         get "/properties/search" => "properties#search"
         get "/properties/:id" => "properties#show"
       end

@@ -35,7 +35,9 @@ module Pwb
     def show_search_page
       locale = params[:locale]
       I18n.locale = locale
-      current_page = Pwb::Page.find_by_slug params[:page_slug]
+      # op below is operation
+      # Can be either rent or buy
+      current_page = Pwb::Page.find_by_slug params[:op]
       # current_page_title = @current_agency.company_name
 
       if current_page.present?
@@ -44,11 +46,13 @@ module Pwb
           public_page_parts[page_part.page_part_key] = page_part.block_contents[locale]
         end
 
-        if params[:page_slug] == "rent"
-          prop_search_results = DisplayPropertiesQuery.new().for_rent
-        else
-          prop_search_results = DisplayPropertiesQuery.new().for_sale
-        end
+        prop_search_results = DisplayPropertiesQuery.new(search_params: params).from_params
+
+        # if params[:page_slug] == "rent"
+        #   prop_search_results = DisplayPropertiesQuery.new().for_rent
+        # else
+        #   prop_search_results = DisplayPropertiesQuery.new().for_sale
+        # end
         # properties_for_rent = DisplayPropertiesQuery.new().for_rent
 
         return render json: {
