@@ -3,6 +3,8 @@ module Pwb
     # TODO: make better use of this class
     attr_reader :relation
 
+    # having the first param as a relation means
+    # I can chain queries
     def initialize(relation = Prop.all)
       @relation = relation
     end
@@ -14,6 +16,11 @@ module Pwb
 
     def for_rent
       result = relation.public_send("for_rent").visible.order('highlighted DESC').limit 9
+      as_json_for_fe(result)
+    end
+
+    def from_params
+      result = relation.public_send("for_rent").visible.order('highlighted DESC').limit 1
       as_json_for_fe(result)
     end
 

@@ -6,7 +6,6 @@ module Pwb
     respond_to :json
 
     def translations
-
       locale = params[:locale]
       translations = I18n.t("client", locale: locale, default: {})
 
@@ -16,6 +15,7 @@ module Pwb
     end
 
 
+    # TODO - add a cache key for this
     def client_settings
       # locale = "en"
       locale = params[:locale]
@@ -42,6 +42,8 @@ module Pwb
                                                                   ],
                                                                   methods: ["target_path"]})
 
+      @search_field_options = get_common_search_inputs
+
       if @current_agency.show_contact_map
         agency_map_marker = {
           id: @current_agency.id,
@@ -57,6 +59,7 @@ module Pwb
       end
 
       return render json: {
+        search_field_options: @search_field_options,
         translations: @translations,
         agency_map_marker: agency_map_marker,
         display_settings: {
@@ -68,5 +71,25 @@ module Pwb
 
     private
 
+
+    def get_common_search_inputs
+
+      property_types = FieldKey.where(tag: "property-types").visible.pluck("global_key")
+      property_states = FieldKey.where(tag: "property-states").visible.pluck("global_key")
+      sale_prices_from = @current_website.sale_price_options_from
+      sale_prices_till = @current_website.sale_price_options_till
+      rent_prices_from = @current_website.rent_price_options_from
+      rent_prices_till = @current_website.rent_price_options_till
+
+
+      return {
+        property_types: property_types,
+        property_states: property_states,
+        rent_prices_from: rent_prices_from,
+        rent_prices_till: rent_prices_till,
+        sale_prices_from: sale_prices_from,
+        sale_prices_till: sale_prices_till
+      }
+    end
   end
 end

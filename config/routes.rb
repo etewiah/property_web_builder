@@ -97,8 +97,12 @@ Pwb::Engine.routes.draw do
       scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
         get "/client_settings" => "client#client_settings"
         get "/translations" => "client#translations"
-        get "/pages/home" => "pages#show_home_page"
+        # get "/pages/home" => "pages#show_home_page"
+        # get "/pages/buy" => "pages#show_search_page"
+        get "/pages/rent" => "pages#show_search_page"
         get "/pages/:page_slug" => "pages#show"
+        get "/search_page/:page_slug" => "pages#show_search_page"
+        get "/properties/search" => "properties#search"
         get "/properties/:id" => "properties#show"
       end
     end
