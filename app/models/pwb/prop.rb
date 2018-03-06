@@ -75,6 +75,11 @@ module Pwb
     scope :for_sale_price_till, ->(maximum_price) { where("price_sale_current_cents <= ?", maximum_price.to_s) }
     scope :count_bathrooms, ->(min_count_bathrooms) { where("count_bathrooms >= ?", min_count_bathrooms.to_s) }
     scope :count_bedrooms, ->(min_count_bedrooms) { where("count_bedrooms >= ?", min_count_bedrooms.to_s) }
+    # From version 2.0 above 2 scopes will no longer be used
+    scope :count_bathrooms_from, ->(min_count_bathrooms) { where("count_bathrooms >= ?", min_count_bathrooms.to_s) }
+    scope :count_bedrooms_from, ->(min_count_bedrooms) { where("count_bedrooms >= ?", min_count_bedrooms.to_s) }
+    scope :count_bathrooms_till, ->(max_count_bathrooms) { where("count_bathrooms <= ?", max_count_bathrooms.to_s) }
+    scope :count_bedrooms_till, ->(max_count_bedrooms) { where("count_bedrooms <= ?", max_count_bedrooms.to_s) }
     # scope :starts_with, -> (name) { where("name like ?", "#{name}%")}
     # scope :pending, joins(:admin_request_status).where('admin_request_statuses.name = ?','Pending Approval')
 

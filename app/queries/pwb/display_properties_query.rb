@@ -19,22 +19,28 @@ module Pwb
 
       filtering_params = {}
 
+      # below is a mapping of the keys I use as query string keys
+      # on client front end to the internal filters on prop.rb model
       params_mapping = {
-        price_from: "for_sale_price_from",
-        price_till: "for_sale_price_till",
+        bedrooms_min: "count_bedrooms_from",
+        bedrooms_max: "count_bedrooms_till",
+        bathrooms_min: "count_bathrooms_from",
+        bathrooms_max: "count_bathrooms_till",
+        price_min: "for_sale_price_from",
+        price_max: "for_sale_price_till",
       }
 
       if search_params["op"] == "rent"
-        params_mapping[:price_from] = "for_rent_price_from"
-        params_mapping[:price_till] = "for_rent_price_till"
+        params_mapping[:price_min] = "for_rent_price_from"
+        params_mapping[:price_max] = "for_rent_price_till"
       end
 
       params_mapping.each do |mapping_key, mapping_value|
+        # 
         if search_params[mapping_key]
           filtering_params[mapping_value] = search_params[mapping_key]
         end
       end
-      # byebug
       # search_params.each do |search_param_key, search_param_value|
       #   if search_param_key == "price_from"
       #     filtering_params["for_sale_price_from"] = search_param_value
@@ -72,8 +78,9 @@ module Pwb
         end
         price_fields = ["for_sale_price_from", "for_sale_price_till", "for_rent_price_from", "for_rent_price_till"]
         if price_fields.include? key
+          # TODO handle situations where invalid value is passed here
           currency = Money::Currency.find currency_string
-          # above needed as some currencies like Chilean peso
+          # needed as some currencies like Chilean peso
           # don't have the cents field multiplied by 100
           value = value.gsub(/\D/, '').to_i * currency.subunit_to_unit
           # @properties = @properties.public_send(key, value) if value.present?
