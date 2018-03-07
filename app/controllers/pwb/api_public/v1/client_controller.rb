@@ -21,7 +21,16 @@ module Pwb
       locale = params[:locale]
       I18n.locale = locale
 
-      @translations ||= I18n.t("client", locale: locale, default: {})
+      @translations = {}
+      @translations[:client] = I18n.t("client", locale: locale, default: {})
+      @translations[:common] = I18n.t("common", locale: locale, default: {})
+      # TODO - prefix all of below with "fe" and use English keys
+      @translations[:extras] = I18n.t("extras", locale: locale, default: {})
+      @translations[:propertyStates] = I18n.t("propertyStates", locale: locale, default: {})
+      @translations[:propertyTypes] = I18n.t("propertyTypes", locale: locale, default: {})
+      @translations[:propertyOrigin] = I18n.t("propertyOrigin", locale: locale, default: {})
+      @translations[:propertyLabels] = I18n.t("propertyLabels", locale: locale, default: {})
+
 
       @current_agency ||= Agency.unique_instance
       @current_website = Website.unique_instance
@@ -44,6 +53,7 @@ module Pwb
 
       @search_field_options = get_common_search_inputs
 
+      agency_map_marker = {}
       if @current_agency.show_contact_map
         agency_map_marker = {
           id: @current_agency.id,
@@ -76,19 +86,19 @@ module Pwb
 
       property_types = FieldKey.where(tag: "property-types").visible.pluck("global_key")
       property_states = FieldKey.where(tag: "property-states").visible.pluck("global_key")
-      sale_prices_from = @current_website.sale_price_options_from
-      sale_prices_till = @current_website.sale_price_options_till
-      rent_prices_from = @current_website.rent_price_options_from
-      rent_prices_till = @current_website.rent_price_options_till
+      # sale_prices_from = @current_website.sale_price_options_from
+      # sale_prices_till = @current_website.sale_price_options_till
+      # rent_prices_from = @current_website.rent_price_options_from
+      # rent_prices_till = @current_website.rent_price_options_till
 
 
       return {
-        property_types: property_types,
-        property_states: property_states,
-        rent_prices_from: rent_prices_from,
-        rent_prices_till: rent_prices_till,
-        sale_prices_from: sale_prices_from,
-        sale_prices_till: sale_prices_till
+        propertyTypes: property_types,
+        propertyStates: property_states,
+        # rent_prices_from: rent_prices_from,
+        # rent_prices_till: rent_prices_till,
+        # sale_prices_from: sale_prices_from,
+        # sale_prices_till: sale_prices_till
       }
     end
   end

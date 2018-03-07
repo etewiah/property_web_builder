@@ -1,0 +1,11 @@
+---
+# used by both client and admin
+en:
+  common:
+    fieldLabels: 
+      propertyType: Property Type
+      propertyType: Property Type
+      salePrice: Price
+      rentalPricePerMonth: Price per month
+      bedrooms: Bedrooms
+      bathrooms: Bathrooms
