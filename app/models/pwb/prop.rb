@@ -66,6 +66,8 @@ module Pwb
 
     scope :property_type, ->(property_type) { where prop_type_key: property_type }
     scope :property_state, ->(property_state) { where prop_state_key: property_state }
+    scope :property_type_without_prefix, ->(property_type) { where prop_type_key: "propertyTypes.#{property_type}" }
+    scope :property_state_without_prefix, ->(property_state) { where prop_state_key: "propertyStates.#{property_state}" }
     # scope :property_type, -> (property_type) { where property_type: property_type }
     # scope :property_state, -> (property_state) { where property_state: property_state }
     # below scopes used for searching

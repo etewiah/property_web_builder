@@ -22,6 +22,8 @@ module Pwb
       # below is a mapping of the keys I use as query string keys
       # on client front end to the internal filters on prop.rb model
       params_mapping = {
+        type: "property_type_without_prefix",
+        state: "property_state_without_prefix",
         bedrooms_min: "count_bedrooms_from",
         bedrooms_max: "count_bedrooms_till",
         bathrooms_min: "count_bathrooms_from",
