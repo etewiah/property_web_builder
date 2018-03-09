@@ -1,7 +1,7 @@
 require_dependency "pwb/application_controller"
 
 module Pwb
-  class Api::V2::AgencyController < ApplicationApiController
+  class Api::V2::AgencyController < ApplicationApiV2Controller
 
     def show
       @agency = Agency.unique_instance
