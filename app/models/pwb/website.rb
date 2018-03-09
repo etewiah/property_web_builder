@@ -86,6 +86,17 @@ module Pwb
                methods: ["slug", "page_parts", "page_contents"]}.merge(options || {}))
     end
 
+    def as_json_for_fe(options = nil)
+      as_json({only: [
+               "company_display_name", "theme_name",
+               "default_area_unit", "default_client_locale",
+               "available_currencies", "default_currency",
+               "supported_locales", "social_media",
+               "raw_css", "analytics_id", "analytics_id_type",
+             ],
+             methods: ["style_variables"]}.merge(options || {}))
+    end
+
     def as_json(options = nil)
       super({only: [
                "company_display_name", "theme_name",
@@ -93,8 +104,8 @@ module Pwb
                "available_currencies", "default_currency",
                "supported_locales", "social_media",
                "raw_css", "analytics_id", "analytics_id_type",
-               "sale_price_options_from", "sale_price_options_till",
-               "rent_price_options_from", "rent_price_options_till"
+               # "sale_price_options_from", "sale_price_options_till",
+               # "rent_price_options_from", "rent_price_options_till"
              ],
              methods: ["style_variables", "admin_page_links"]}.merge(options || {}))
     end

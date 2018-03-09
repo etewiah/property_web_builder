@@ -68,14 +68,20 @@ module Pwb
         }
       end
 
+      display_settings = @current_website.as_json_for_fe
+      display_settings[:top_nav_links] = @top_nav_links
+      display_settings[:footer_links] = @footer_links
+
       return render json: {
+        # current_website: @current_website,
+        display_settings: display_settings,
         search_field_options: @search_field_options,
         translations: @translations,
         agency_map_marker: agency_map_marker,
-        display_settings: {
-          top_nav_links: @top_nav_links,
-          footer_links: @footer_links
-        },
+        # display_settings: {
+        #   top_nav_links: @top_nav_links,
+        #   footer_links: @footer_links
+        # },
       }
     end
 
