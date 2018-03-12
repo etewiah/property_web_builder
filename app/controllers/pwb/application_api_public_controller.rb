@@ -6,6 +6,16 @@ module Pwb
     # before_action :current_agency, :check_user
     after_action :set_csrf_token
 
+    after_action :cors_set_access_control_headers
+    # For all responses in this controller, return the CORS access control headers.
+
+    def cors_set_access_control_headers
+      headers['Access-Control-Allow-Origin'] = '*'
+      headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
+      headers['Access-Control-Max-Age'] = "1728000"
+    end
+    
+
     def self.default_url_options
       { locale: I18n.locale }
     end
