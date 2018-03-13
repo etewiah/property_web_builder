@@ -20,9 +20,16 @@ module Pwb
           public_page_parts[page_part.page_part_key] = page_part.block_contents[locale]
         end
 
+        properties = {}
+        if params[:page_slug] == "home"
+          properties[:for_sale] = DisplayPropertiesQuery.new().for_sale
+          properties[:for_rent] = DisplayPropertiesQuery.new().for_rent
+        end
+
         return render json: {
           page_parts: public_page_parts,
-          page: current_page.as_json_for_fe
+          page: current_page.as_json_for_fe,
+          properties: properties
         }
       else
         return render json: {
