@@ -41,20 +41,6 @@ module Pwb
         @footer_html = @footer_page_content.raw
       end
 
-      @top_nav_links ||= Pwb::Link.ordered_visible_top_nav.as_json({only: [
-                                                                      "sort_order",
-                                                                      "href_class", "link_path_params",
-                                                                      "slug", "link_path", "visible",
-                                                                      "link_title", "page_slug"
-                                                                    ],
-                                                                    methods: ["target_path"]})
-      @footer_links ||= Pwb::Link.ordered_visible_footer.as_json({only: [
-                                                                    "sort_order",
-                                                                    "href_class", "link_path_params",
-                                                                    "slug", "link_path", "visible",
-                                                                    "link_title", "page_slug"
-                                                                  ],
-                                                                  methods: ["target_path"]})
 
       @search_field_options = get_common_search_inputs
 
@@ -74,9 +60,9 @@ module Pwb
       end
 
       display_settings = @current_website.as_json_for_fe
-      display_settings[:top_nav_links] = @top_nav_links
-      display_settings[:footer_links] = @footer_links
-      display_settings[:footer_html] = @footer_html
+      # display_settings[:top_nav_links] = @top_nav_links
+      # display_settings[:footer_links] = @footer_links
+      # display_settings[:footer_html] = @footer_html
 
       return render json: {
         current_agency: @current_agency.as_json_for_fe,

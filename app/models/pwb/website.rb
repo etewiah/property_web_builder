@@ -88,14 +88,43 @@ module Pwb
 
     def as_json_for_fe(options = nil)
       as_json({only: [
-               "company_display_name", "theme_name",
-               "default_area_unit", "default_client_locale",
-               "available_currencies", "default_currency",
-               "supported_locales", "social_media",
-               "raw_css", "analytics_id", "analytics_id_type",
-             ],
-             methods: ["style_variables"]}.merge(options || {}))
+                 "company_display_name", "theme_name",
+                 "default_area_unit", "default_client_locale",
+                 "available_currencies", "default_currency",
+                 "supported_locales", "social_media",
+                 "raw_css", "analytics_id", "analytics_id_type",
+               ],
+               methods: ["style_variables", "footer_html", "top_nav_links", "footer_links"]}.merge(options || {}))
     end
+
+    def footer_links
+      @footer_links ||= Pwb::Link.ordered_visible_footer.as_json({only: [
+                                                                    "sort_order",
+                                                                    "href_class", "link_path_params",
+                                                                    "slug", "link_path", "visible",
+                                                                    "link_title", "page_slug"
+                                                                  ],
+                                                                  methods: ["target_path"]})      
+    end
+
+    def top_nav_links
+      @top_nav_links ||= Pwb::Link.ordered_visible_top_nav.as_json({only: [
+                                                                      "sort_order",
+                                                                      "href_class", "link_path_params",
+                                                                      "slug", "link_path", "visible",
+                                                                      "link_title", "page_slug"
+                                                                    ],
+                                                                    methods: ["target_path"]})
+    end
+
+    def footer_html
+      @footer_page_content ||= contents.find_by_page_part_key "footer_content_html"
+      @footer_html = ""
+      if @footer_page_content.present?
+        @footer_html = @footer_page_content.raw
+      end
+    end
+
 
     def as_json(options = nil)
       super({only: [
