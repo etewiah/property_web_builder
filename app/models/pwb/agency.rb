@@ -10,16 +10,16 @@ module Pwb
     belongs_to :secondary_address, optional: true, class_name: "Address", foreign_key: 'secondary_address_id'
 
     def self.unique_instance
-        # there will be only one row, and its ID must be '1'
+      # there will be only one row, and its ID must be '1'
 
-        # TODO: - memoize
-        find(1)
+      # TODO: - memoize
+      find(1)
     rescue ActiveRecord::RecordNotFound
-        # slight race condition here, but it will only happen once
-        row = Agency.new
-        row.id = 1
-        row.save!
-        row
+      # slight race condition here, but it will only happen once
+      row = Agency.new
+      row.id = 1
+      row.save!
+      row
     end
 
     def as_json(options = nil)
@@ -33,8 +33,40 @@ module Pwb
                # "available_currencies", "default_currency",
                # "supported_locales", "available_locales"
              ]
-               # methods: ["style_variables"]
+             # methods: ["style_variables"]
              }.merge(options || {}))
+    end
+
+    def as_json_for_fe(options = nil)
+      as_json({only: [
+               "display_name", "company_name",
+               # "theme_name",
+               "phone_number_primary", "phone_number_mobile", "phone_number_other",
+               # "social_media", "default_client_locale",
+               # "default_admin_locale", "raw_css", "analytics_id",
+               "email_primary", "email_for_property_contact_form", "email_for_general_contact_form"
+               # "available_currencies", "default_currency",
+               # "supported_locales", "available_locales"
+             ],
+             methods: ["agency_map_marker"]
+             }.merge(options || {}))
+    end
+
+    def agency_map_marker
+      agency_map_marker = {}
+      if show_contact_map
+        agency_map_marker = {
+          id: id,
+          title: display_name,
+          show_url: "#",
+          # image_url: @current_website.logo_url,
+          # display_price: contextual_price_with_currency(@operation_type),
+          position: {
+            lat: primary_address.latitude,
+            lng: primary_address.longitude
+          }
+        }
+      end
     end
 
     def street_number

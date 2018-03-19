@@ -32,9 +32,14 @@ module Pwb
       @translations[:propertyLabels] = I18n.t("propertyLabels", locale: locale, default: {})
 
 
+      # TODO - move most of below to models:
       @current_agency ||= Agency.unique_instance
       @current_website = Website.unique_instance
-      footer_page_content = @current_website.ordered_visible_page_contents.find_by_page_part_key "footer_content_html"
+      @footer_page_content ||= @current_website.contents.find_by_page_part_key "footer_content_html"
+      @footer_html = ""
+      if @footer_page_content.present?
+        @footer_html = @footer_page_content.raw
+      end
 
       @top_nav_links ||= Pwb::Link.ordered_visible_top_nav.as_json({only: [
                                                                       "sort_order",
@@ -71,13 +76,15 @@ module Pwb
       display_settings = @current_website.as_json_for_fe
       display_settings[:top_nav_links] = @top_nav_links
       display_settings[:footer_links] = @footer_links
+      display_settings[:footer_html] = @footer_html
 
       return render json: {
-        # current_website: @current_website,
+        current_agency: @current_agency.as_json_for_fe,
+        # footer_html: @footer_html,
         display_settings: display_settings,
         search_field_options: @search_field_options,
         translations: @translations,
-        agency_map_marker: agency_map_marker,
+        # agency_map_marker: agency_map_marker,
         # display_settings: {
         #   top_nav_links: @top_nav_links,
         #   footer_links: @footer_links

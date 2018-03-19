@@ -1,0 +1,10 @@
+---
+# used by both client and admin
+nl:
+  common:
+    fieldLabels: 
+      propertyType: Type van object
+      salePrice: Prijs
+      rentalPricePerMonth: Huur prijs 
+      bedrooms: Slaapkamers
+      bathrooms: Badkamers
