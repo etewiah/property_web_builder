@@ -32,37 +32,41 @@ module Pwb
       @translations[:propertyLabels] = I18n.t("propertyLabels", locale: locale, default: {})
 
 
-      # TODO - move most of below to models:
       @current_agency ||= Agency.unique_instance
       @current_website = Website.unique_instance
-      @footer_page_content ||= @current_website.contents.find_by_page_part_key "footer_content_html"
-      @footer_html = ""
-      if @footer_page_content.present?
-        @footer_html = @footer_page_content.raw
-      end
+      # @footer_page_content ||= @current_website.contents.find_by_page_part_key "footer_content_html"
+      # @footer_html = ""
+      # if @footer_page_content.present?
+      #   @footer_html = @footer_page_content.raw
+      # end
 
 
       @search_field_options = get_common_search_inputs
 
-      agency_map_marker = {}
-      if @current_agency.show_contact_map
-        agency_map_marker = {
-          id: @current_agency.id,
-          title: @current_agency.display_name,
-          show_url: "#",
-          image_url: @current_website.logo_url,
-          # display_price: @current_agency.contextual_price_with_currency(@operation_type),
-          position: {
-            lat: @current_agency.primary_address.latitude,
-            lng: @current_agency.primary_address.longitude
-          }
-        }
-      end
+      # agency_map_marker = {}
+      # if @current_agency.show_contact_map
+      #   agency_map_marker = {
+      #     id: @current_agency.id,
+      #     title: @current_agency.display_name,
+      #     show_url: "#",
+      #     image_url: @current_website.logo_url,
+      #     # display_price: @current_agency.contextual_price_with_currency(@operation_type),
+      #     position: {
+      #       lat: @current_agency.primary_address.latitude,
+      #       lng: @current_agency.primary_address.longitude
+      #     }
+      #   }
+      # end
 
       display_settings = @current_website.as_json_for_fe
       # display_settings[:top_nav_links] = @top_nav_links
       # display_settings[:footer_links] = @footer_links
       # display_settings[:footer_html] = @footer_html
+
+      # below is saved on the client to be used when
+      # posting forms
+      response.headers['X-CSRF-Token'] = form_authenticity_token.to_s
+      response.headers['X-CSRF-Param'] = "authenticity_token"
 
       return render json: {
         current_agency: @current_agency.as_json_for_fe,

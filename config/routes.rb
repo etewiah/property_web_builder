@@ -104,6 +104,8 @@ Pwb::Engine.routes.draw do
         get "/search_page" => "pages#show_search_page"
         get "/properties/search" => "properties#search"
         get "/properties/:id" => "properties#show"
+        post "/request_property_info" => "properties#request_property_info"
+
       end
     end
   end
