@@ -71,6 +71,9 @@ Pwb::Engine.routes.draw do
     get "/properties/for-rent/:id/:url_friendly_title" => "props#show_for_rent", as: "prop_show_for_rent"
     get "/properties/for-sale/:id/:url_friendly_title" => "props#show_for_sale", as: "prop_show_for_sale"
 
+    get "/properties/rent/:id/:url_friendly_title" => "props#show_for_rent"
+    get "/properties/buy/:id/:url_friendly_title" => "props#show_for_sale"
+
     get "/about-us" => "pages#show_page", page_slug: "about-us"
     get "/contact-us" => "contact_us#index", as: "contact_us" #
     post "/contact_us" => "contact_us#contact_us_ajax"
@@ -105,6 +108,7 @@ Pwb::Engine.routes.draw do
         get "/properties/search" => "properties#search"
         get "/properties/:id" => "properties#show"
         post "/request_property_info" => "properties#request_property_info"
+        post "/contact_us" => "client#contact_us"
 
       end
     end

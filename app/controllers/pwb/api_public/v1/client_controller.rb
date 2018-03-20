@@ -5,6 +5,70 @@ module Pwb
 
     respond_to :json
 
+    def contact_us
+      @error_messages = []
+      I18n.locale = params["locale"] || I18n.default_locale
+      @current_agency ||= Agency.unique_instance
+
+      @contact = Contact.find_or_initialize_by(primary_email: params[:contact][:email])
+      @contact.attributes = {
+        primary_phone_number: params[:contact][:tel],
+        first_name: params[:contact][:name]
+      }
+
+      @enquiry = Message.new(
+        {
+          title: params[:contact][:subject],
+          content: params[:contact][:message],
+          locale: I18n.locale,
+          url: request.referer,
+          host: request.host,
+          origin_ip: request.ip,
+          user_agent: request.user_agent,
+          delivery_email: @current_agency.email_for_general_contact_form
+          # origin_email: params[:contact][:email]
+        }
+      )
+      unless @enquiry.save && @contact.save
+        @error_messages += @contact.errors.full_messages
+        @error_messages += @enquiry.errors.full_messages
+        return render json: {
+          success: false,
+          errors: @error_messages
+        }
+      end
+
+      unless @current_agency.email_for_general_contact_form.present?
+        # in case a delivery email has not been set
+        @enquiry.delivery_email = "no_delivery_email@propertywebbuilder.com"
+      end
+
+      @enquiry.contact = @contact
+      @enquiry.save
+
+      # @enquiry.delivery_email = ""
+      EnquiryMailer.general_enquiry_targeting_agency(@contact, @enquiry).deliver_now
+
+
+      # EnquiryMailer.property_enquiry_targeting_agency(@contact, @enquiry, @property).deliver
+      # @enquiry.delivery_success = true
+
+      @enquiry.save
+      success_message = I18n.t "contact.success"
+      return render json: {
+        success: true,
+        success_message: success_message
+      }
+    rescue => e
+      # TODO: - log error to logger....
+      @error_messages = [I18n.t("contact.error"), e]
+      return render json: {
+        success: false,
+        errors: @error_messages
+      }
+    end
+
+
     def translations
       locale = params[:locale]
       translations = I18n.t("client", locale: locale, default: {})

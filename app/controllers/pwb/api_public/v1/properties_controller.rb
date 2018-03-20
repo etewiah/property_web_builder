@@ -6,10 +6,9 @@ module Pwb
 
     def request_property_info
       @error_messages = []
-      I18n.locale = params["contact"]["locale"] || I18n.default_locale
-      # have a hidden field in form to pass in above
-      # if I didn't I could end up with the wrong locale
-      # @enquiry = Message.new(params[:contact])
+      I18n.locale = params["locale"] || I18n.default_locale
+
+      @current_agency ||= Agency.unique_instance
       @property = Prop.find(params[:contact][:property_id])
       @contact = Contact.find_or_initialize_by(primary_email: params[:contact][:email])
       @contact.attributes = {
@@ -21,7 +20,7 @@ module Pwb
       @enquiry = Message.new({
                                title: title,
                                content: params[:contact][:message],
-                               locale: params[:contact][:locale],
+                               locale: I18n.locale,
                                url: request.referer,
                                host: request.host,
                                origin_ip: request.ip,
@@ -47,12 +46,13 @@ module Pwb
       @enquiry.contact = @contact
       @enquiry.save
 
-      EnquiryMailer.property_enquiry_targeting_agency(@contact, @enquiry, @property).deliver
+      # EnquiryMailer.property_enquiry_targeting_agency(@contact, @enquiry, @property).deliver
       # @enquiry.delivery_success = true
       @enquiry.save
-      @flash = I18n.t "contact.success"
+      success_message = I18n.t "contact.success"
       return render json: {
-        success: true
+        success: true,
+        success_message: success_message
       }
     rescue => e
       # TODO: - log error to logger....
