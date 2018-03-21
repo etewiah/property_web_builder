@@ -160,6 +160,14 @@ module Pwb
       end
     end
 
+    def image_urls
+      image_urls = []
+      prop_photos.each do |photo|
+        image_urls.push photo.image.url
+      end
+      return image_urls
+      # return prop_photos.pluck "image"
+    end
 
     def primary_image_url
       if prop_photos.length > 0
@@ -281,7 +289,7 @@ module Pwb
            "postal_code", "province",
            "city", "region", "country", "latitude", "longitude", "area_unit",
          ],
-         methods: :primary_image_url}.merge(options || {}))
+         methods: [:image_urls, :primary_image_url, :extras_for_display]}.merge(options || {}))
     end
 
 
