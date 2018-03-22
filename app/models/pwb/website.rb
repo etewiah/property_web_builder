@@ -79,6 +79,21 @@ module Pwb
       "website"
     end
 
+
+    def as_json(options = nil)
+      super({only: [
+               "company_display_name", "theme_name",
+               "default_area_unit", "default_client_locale",
+               "available_currencies", "default_currency",
+               "supported_locales", "social_media",
+               "raw_css", "analytics_id", "analytics_id_type",
+               # "sale_price_options_from", "sale_price_options_till",
+               # "rent_price_options_from", "rent_price_options_till"
+             ],
+             methods: ["style_variables", "admin_page_links"]}.merge(options || {}))
+    end
+
+
     def as_json_for_page(options = nil)
       # Sends data to admin in format compatible
       # with client side page model
@@ -94,7 +109,7 @@ module Pwb
                  "supported_locales", "social_media",
                  "raw_css", "analytics_id", "analytics_id_type",
                ],
-               methods: ["style_variables", "footer_html", "top_nav_links", "footer_links"]}.merge(options || {}))
+               methods: ["logo_url", "style_variables", "footer_html", "top_nav_links", "footer_links"]}.merge(options || {}))
     end
 
     def footer_links
@@ -123,20 +138,6 @@ module Pwb
       if @footer_page_content.present?
         @footer_html = @footer_page_content.raw
       end
-    end
-
-
-    def as_json(options = nil)
-      super({only: [
-               "company_display_name", "theme_name",
-               "default_area_unit", "default_client_locale",
-               "available_currencies", "default_currency",
-               "supported_locales", "social_media",
-               "raw_css", "analytics_id", "analytics_id_type",
-               # "sale_price_options_from", "sale_price_options_till",
-               # "rent_price_options_from", "rent_price_options_till"
-             ],
-             methods: ["style_variables", "admin_page_links"]}.merge(options || {}))
     end
 
     enum default_area_unit: { sqmt: 0, sqft: 1 }
