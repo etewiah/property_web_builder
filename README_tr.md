@@ -2,13 +2,13 @@
 
 Lütfen burada PropertyWebBuilder'a bir katkı yaparak bu projeyi desteklemeye yardımcı olun: https://opencollective.com/property_web_builder
 
-[![Backers on Open Collective](https://opencollective.com/property_web_builder/backers/badge.svg)](#backers) 
+[![Backers on Open Collective](https://opencollective.com/property_web_builder/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/property_web_builder/sponsors/badge.svg)](#sponsors)
 [![Build Status](https://api.travis-ci.org/etewiah/property_web_builder.svg?branch=master)](https://api.travis-ci.org/etewiah/property_web_builder)
 [![Gitter](https://badges.gitter.im/dev-1pr/1pr.svg)](https://gitter.im/property_web_builder/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
-Bu proje raylar ekosisteminde göze batan bir boşluğa hitaben oluşturuldu: emlak web siteleri için açık kaynaklı bir proje eksikliği.  
+Bu proje raylar ekosisteminde göze batan bir boşluğa hitaben oluşturuldu: emlak web siteleri için açık kaynaklı bir proje eksikliği.
 
 Netice, WordPress'in emlak web siteleri oluşturmak için baskın bir araç haline geldiğidir. Bu idealden uzaktır ve PropertyWebBuilder buna hitap etmek istiyor.
 
@@ -41,7 +41,7 @@ Bir hesap oluşturduğunuz sırada kredi kartı bilgileri sorulabilir fakat webs
 
 ## Bağımsız bir site olarak kurun
 
-PWB, Rails uygulamada mevcut bir Ruby içinde bir motor olarak dahil edilmek için tasarlandı. Bu repoda, PWB içeren Rails uygulamasında bir Ruby’m var. 
+PWB, Rails uygulamada mevcut bir Ruby içinde bir motor olarak dahil edilmek için tasarlandı. Bu repoda, PWB içeren Rails uygulamasında bir Ruby’m var.
 
 [https://github.com/etewiah/pwb-for-heroku](https://github.com/etewiah/pwb-for-heroku)
 
@@ -111,7 +111,7 @@ PropertyWebBuilder Ruby >= 2.0.0 ile çalışır.
 
 ## Çok yakında
 
-Bunlar aylar geçtikçe eeklemeyi planladığım bazı özellikler. Listede olmayan ihtiyacınız olan birşey varsa, lütfen bana bildirin. Ayrıca, bu özelliklerden hangisine öncelik vermem gerektiğini bilmekle ilgileniyorum. 
+Bunlar aylar geçtikçe eeklemeyi planladığım bazı özellikler. Listede olmayan ihtiyacınız olan birşey varsa, lütfen bana bildirin. Ayrıca, bu özelliklerden hangisine öncelik vermem gerektiğini bilmekle ilgileniyorum.
 
 * [Daha fazla dil](https://github.com/etewiah/property_web_builder/issues/4)
 * [Daha fazla tema](https://github.com/etewiah/property_web_builder/issues/3)
@@ -127,7 +127,7 @@ Bunlar aylar geçtikçe eeklemeyi planladığım bazı özellikler. Listede olma
 ## Katkıda bulun ve sevgiyi yay
 Karşılaştığınız herhangi bir problem için bu projeye ve dosya sorunlarına katkıda bulunmanız için teşvik ediyoruz.
 
-Hoşunuza gittiyse, yıldızlayın ve haberi [Twitter](https://twitter.com/prptywebbuilder), [LinkedIn](https://www.linkedin.com/company/propertywebbuilder) ve [Facebook](https://www.facebook.com/propertywebbuilder)'da yayın.  Ayrıca bu projede github bildirimlerine de abone olabilirsiniz.  
+Hoşunuza gittiyse, yıldızlayın ve haberi [Twitter](https://twitter.com/prptywebbuilder), [LinkedIn](https://www.linkedin.com/company/propertywebbuilder) ve [Facebook](https://www.facebook.com/propertywebbuilder)'da yayın.  Ayrıca bu projede github bildirimlerine de abone olabilirsiniz.
 
 Lütfen PropertyWebBuilder'ın geliştirilmesine katkıda bulunmayı göz önünde bulundurun. Özel artırmalar için ödeme yapmak isterseniz, lütfen bana doğrudan email gönderin (propertywebbuilder.com’da açık kaynak).
 
@@ -136,7 +136,7 @@ PropertyWebBuilder'ın mümkün olduğunca çok dilde kullanışlı olmasını i
 
 Yeni bir dilin nasıl ekleneceği ile ilgili açıklamalar için, lütfen şuraya bakın:
 [https://github.com/etewiah/property_web_builder/wiki/Adding-translations-for-a-new-language](https://github.com/etewiah/property_web_builder/wiki/Adding-translations-for-a-new-language)
-<!-- 
+<!--
 ---
 
 Thanks to the awesome [Locale](http://www.localeapp.com/) contributing to the translations is super easy!
@@ -149,7 +149,7 @@ Thanks to the awesome [Locale](http://www.localeapp.com/) contributing to the tr
 ## Katkıda Bulunanlar
 
 Bu projenin katkıda bulunan tüm insanlara teşekkürü vardır. [[Contribute]](CONTRIBUTING.md).
-<a href="graphs/contributors"><img src="https://opencollective.com/property_web_builder/contributors.svg?width=890" /></a>
+<a href="https://github.com/etewiah/property_web_builder/graphs/contributors"><img src="https://opencollective.com/property_web_builder/contributors.svg?width=890" /></a>
 
 
 ## Destekleyenler
