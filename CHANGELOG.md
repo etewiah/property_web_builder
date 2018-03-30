@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 * Fix issue with sending emails (#48)
 * Add Dutch, Korean, Polish, Bulgarian and Romanian translations
 * Fix issue with updating logo
+* Update Loofah gem to address CVE-2018-8048
 
 ## 1.3.0 / 2017-12-04
 
