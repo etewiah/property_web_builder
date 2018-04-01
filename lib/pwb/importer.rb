@@ -6,30 +6,41 @@ module Pwb
     class << self
 
       def import!
-        existing_props = []
-        # import_host_data = { slug: 'laventa', scraper_name: 'pwb', host: 'www.laventa-mallorca.com' }
-        import_host_data = { slug: 're-renting', scraper_name: 'inmo1', host: 're-renting.com' }
-        unless PropertyWebScraper::ImportHost.exists?(host: import_host_data[:host])
-          PropertyWebScraper::ImportHost.create!(import_host_data)
+
+        import_sources_dir = Pwb::Engine.root.join('db', 'import_sources', 'enabled')
+        import_sources_dir.children.each do |file|
+          if file.extname == ".yml"
+            # page_part_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'page_parts', yml_file_name)
+            yml_file_contents = YAML.load_file(file)
+
+            existing_props = []
+            import_host_data = yml_file_contents["import_host_data"]
+            import_urls = yml_file_contents["import_urls"]
+            # import_host_data = { slug: 'laventa', scraper_name: 'pwb', host: 'www.laventa-mallorca.com' }
+            # import_host_data = { slug: 're-renting', scraper_name: 'inmo1', host: 're-renting.com' }
+
+            import_host = PropertyWebScraper::ImportHost.find_by_host(import_host_data[:host])
+            unless import_host
+              import_host = PropertyWebScraper::ImportHost.create!(import_host_data)
+            end
+
+            # url = "http://re-renting.com/en/properties/for-rent/1/acogedor-piso-en-anton-martin"
+
+            import_urls.each do |import_url|
+              import_single_page import_url, import_host              
+            end
+
+          end
         end
-
-        error = {}
-        url = "http://re-renting.com/en/properties/for-rent/1/acogedor-piso-en-anton-martin"
+      end
 
 
+      def import_single_page url, import_host
         uri = uri_from_url url.strip
         unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
           error = {
             success: false,
             error_message: "Please provide a valid url"
-          }
-          return error
-        end
-        import_host = PropertyWebScraper::ImportHost.find_by_host(uri.host)
-        unless import_host
-          error = {
-            success: false,
-            error_message: "Sorry, the url provided is currently not supported"
           }
           return error
         end
@@ -48,8 +59,7 @@ module Pwb
           # prop = PropFromPwsListing pws_listing.as_json
           # TODO - have some logic for when to make visible
           prop.visible = true
-          prop.save!
-        end
+          prop.save!        end
       end
 
       protected

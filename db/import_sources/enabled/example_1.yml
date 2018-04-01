@@ -1,0 +1,8 @@
+import_host_data: { 
+  slug: 're-renting', 
+  scraper_name: 'inmo1', 
+  host: 're-renting.com' 
+}
+import_urls: [
+  "http://re-renting.com/en/properties/for-rent/1/acogedor-piso-en-anton-martin"
+]

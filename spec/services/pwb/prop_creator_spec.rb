@@ -9,15 +9,6 @@ module Pwb
        JSON.parse(bulk_create_input)
     end
 
-    # let(:csv_file) do
-    #   fixture_file_upload(
-    #     "/to_import/pwb-properties.csv",
-    #     'text/csv'
-    #   )
-    #   # above uses below config setting
-    #   #   config.fixture_path = "#{Pwb::Engine.root}/spec/fixtures"
-    # end
-
     it "imports a valid csv file" do
       prop_creator = Pwb::PropCreator.new(bulk_create_json[0])
       prop = prop_creator.create
