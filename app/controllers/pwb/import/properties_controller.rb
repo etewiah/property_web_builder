@@ -1,4 +1,5 @@
 module Pwb
+  # For importing from files
   class Import::PropertiesController < ApplicationApiController
     # http://localhost:3000/import/Properties/retrieve_from_pwb
     def retrieve_from_pwb

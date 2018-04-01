@@ -2,29 +2,30 @@ require 'faraday'
 
 module Pwb
   class Import::ScrapperController < ApplicationApiController
-    def from_webpage
-      # just a proof of concept at this stage
-      unless params[:url].present?
-        return render json: { error: "Please provide url."}, status: 422
-      end
+    # TODO: remove - functionality moved to PWS
+    # def from_webpage
+    #   # just a proof of concept at this stage
+    #   unless params[:url].present?
+    #     return render json: { error: "Please provide url."}, status: 422
+    #   end
 
-      target_url = params[:url]
+    #   target_url = params[:url]
 
-      retrieved_properties = Pwb::SiteScrapper.new(target_url).retrieve_from_webpage
+    #   retrieved_properties = Pwb::SiteScrapper.new(target_url).retrieve_from_webpage
 
-      render json: retrieved_properties
-    end
+    #   render json: retrieved_properties
+    # end
 
-    def from_api
-      unless params[:url].present?
-        return render json: { error: "Please provide url."}, status: 422
-      end
-      target_url = params[:url]
-      # "https://propertywebbuilder.herokuapp.com"
+    # def from_api
+    #   unless params[:url].present?
+    #     return render json: { error: "Please provide url."}, status: 422
+    #   end
+    #   target_url = params[:url]
+    #   # "https://propertywebbuilder.herokuapp.com"
 
-      retrieved_properties = Pwb::SiteScrapper.new(target_url).retrieve_from_api
+    #   retrieved_properties = Pwb::SiteScrapper.new(target_url).retrieve_from_api
 
-      render json: retrieved_properties
-    end
+    #   render json: retrieved_properties
+    # end
   end
 end
