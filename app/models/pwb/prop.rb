@@ -22,6 +22,8 @@ module Pwb
       end
     end
 
+    # TODO - limit when geocoding gets applied
+    # perhaps by using a PropCreator service object...
     after_validation :geocode
 
     # below needed to avoid "... is not an attribute known to Active Record" warnings
