@@ -51,8 +51,9 @@ module Pwb
       @properties = Prop.visible.for_sale.limit 45
       # ordering happens clientside
       # .order('price_sale_current_cents ASC').limit 35
-      @prices_from_collection = @current_website.sale_price_options_from
-      @prices_till_collection = @current_website.sale_price_options_till
+      @prices_from_collection = @current_website.sale_price_options_from || %W(#{''} 25,000 50,000 75,000 100,000 150,000 250,000 500,000 1,000,000 2,000,000 5,000,000 )
+      @prices_till_collection = @current_website.sale_price_options_till || %W(#{''} 25,000 50,000 75,000 100,000 150,000 250,000 500,000 1,000,000 2,000,000 5,000,000 )
+
       # @prices_collection = @current_website.sale_price_options_from
 
       # %W(#{''} 25,000 50,000 75,000 100,000 150,000 250,000 500,000 1,000,000 2,000,000 5,000,000 )
@@ -70,7 +71,6 @@ module Pwb
       # and so won't be ready for sorting when below is called - but will wire up for sorting button
       # initial client sort called by       INMOAPP.sortSearchResults();
       js 'Main/Search#sort' # trigger client-side paloma script
-
       render "/pwb/search/buy"
     end
 
@@ -95,10 +95,9 @@ module Pwb
       @properties = Prop.visible.for_rent.limit 45
       # .order('price_rental_monthly_current_cents ASC').limit 35
 
-      @prices_from_collection = @current_website.rent_price_options_from
-      @prices_till_collection = @current_website.rent_price_options_till
-      # @prices_collection = %W(#{''}
-      #                         150 250 500 1,000 1,500 2,000 2,500 3,000 4,000 5,000 10,000)
+      @prices_from_collection = @current_website.rent_price_options_from ||  %W(#{''} 150 250 500 1,000 1,500 2,000 2,500 3,000 4,000 5,000 10,000)
+      @prices_till_collection = @current_website.rent_price_options_till ||  %W(#{''} 150 250 500 1,000 1,500 2,000 2,500 3,000 4,000 5,000 10,000)
+      # @prices_collection = %W(#{''} 150 250 500 1,000 1,500 2,000 2,500 3,000 4,000 5,000 10,000)
 
       set_common_search_inputs
       set_select_picker_texts
