@@ -2,17 +2,28 @@ module Pwb
   class PropCreator
     attr_accessor :propertyJSON, :locales, :max_photos_to_process
 
-    def initialize(propertyJSON, *args, **keyword_args)
+    def initialize(propertyJSON, **keyword_args)
       # https://www.justinweiss.com/articles/fun-with-keyword-arguments/
       self.propertyJSON = propertyJSON
-      self.locales = keyword_args["locales"] || ["en","nl"]
-      self.max_photos_to_process = keyword_args["max_photos_to_process"] || 2
+      self.locales = keyword_args["locales"] || keyword_args[:locales] || ["en","nl"]
+      self.max_photos_to_process = keyword_args["max_photos_to_process"] || keyword_args[:max_photos_to_process] || 2
     end
 
-    def create 
+    # TODO: move logic for below (currently in prop model) to here:
+    # before_save :set_rental_search_price
+    # after_create :set_defaults
+
+    def create_from_json 
       # TODO: ensure reference is created (calculate from lat lng if necessary)
-      # and add geocoding option
       new_prop = Pwb::Prop.create(propertyJSON.except("locale_code","features","property_photos"))
+
+      if propertyJSON["latitude"] && propertyJSON["longitude"]
+        unless propertyJSON["street_address"] && propertyJSON["postal_code"]
+          new_prop.reverse_geocode
+        end
+      else
+        new_prop.geocode
+      end
 
       # create will use website defaults for currency and area_unit
       # need to override that
@@ -34,7 +45,6 @@ module Pwb
         new_prop.update_attribute("title_" + locale, propertyJSON["title"])
       end
       new_prop.save!
-      byebug
 
       if propertyJSON["features"]
         # new_prop.set_features=propertyJSON["features"]
@@ -57,7 +67,7 @@ module Pwb
       if propertyJSON["property_photos"]
         # uploading images can slow things down so worth setting a limit
         propertyJSON["property_photos"].each_with_index do |property_photo, index|
-          if index > max_photos_to_process
+          if (index + 1) > max_photos_to_process
             break
           end
           photo = Pwb::PropPhoto.create

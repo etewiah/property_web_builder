@@ -31,6 +31,8 @@ module Pwb
     end
 
     def create
+      # TODO - use prop_creator service object for below 
+      # so that I can control geocoding, default settings etc..
       @property = Pwb::Prop.create create_property_params
       render json: @property.as_json_for_admin
     end

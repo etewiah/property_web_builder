@@ -5,7 +5,25 @@ module Pwb
     # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
 
     # geocoded_by :address, :lookup => lambda{ |obj| obj.geocoder_lookup }
-    # reverse_geocoded_by :latitude, :longitude do |obj,results|
+
+    # where we have latlng below tells geocoder 
+    # how to process result
+    # prop_creator service object will decide if to call reverse_geocode
+    reverse_geocoded_by :latitude, :longitude do |obj,results|
+      if geo = results.first
+        obj.city    = geo.city
+        obj.street_number = geo.street_number
+        # obj.street_name = geo.street_name
+        obj.street_address = geo.street_address
+        obj.postal_code = geo.postal_code
+        obj.province = geo.province
+        obj.region = geo.state
+        obj.country = geo.country
+        # TODO - add neighborhood (google spelling)
+      end
+    end
+    # below tells geocoder what string to pass to get latlng
+    # and how to process result
     geocoded_by :geocodeable_address do |obj, results|
       if geo = results.first
         obj.longitude    = geo.longitude
@@ -22,9 +40,8 @@ module Pwb
       end
     end
 
-    # TODO - limit when geocoding gets applied
-    # perhaps by using a PropCreator service object...
-    after_validation :geocode
+    # moved logic for geocoding to prop_creator service object
+    # after_validation :geocode
 
     # below needed to avoid "... is not an attribute known to Active Record" warnings
     attribute :title
@@ -335,6 +352,9 @@ module Pwb
       # Hash[features.map { |key, _value| [key.feature_key, true] }]
     end
 
+
+    # TODO:
+    # move logic for below to prop_creator service object
     before_save :set_rental_search_price
     after_create :set_defaults
 

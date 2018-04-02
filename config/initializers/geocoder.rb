@@ -24,7 +24,8 @@ if Rails.env.test?
         'state'        => 'New York',
         'state_code'   => 'NY',
         'country'      => 'United States',
-        'country_code' => 'US'
+        'country_code' => 'US',
+        'street_address' => 'stubbed street address'
       }
     ]
   )

@@ -24,8 +24,16 @@ module Pwb
               import_host = PropertyWebScraper::ImportHost.create!(import_host_data)
             end
 
+            creator_params = {
+              max_photos_to_process: 1,
+              locales: ["fr","it","nl"]
+            }
+            # TODO: - allow above to be set in config yml file
+            # as well as additional values for deciding how long to wait between scraping
+            # Should also allow passing in of a scraper mapping file
+
             import_urls.each do |import_url|
-              import_single_page import_url, import_host, existing_props, new_props
+              import_single_page import_url, import_host, existing_props, new_props, creator_params
             end
 
             # TODO - return and log summary to rake task
@@ -35,7 +43,7 @@ module Pwb
       end
 
 
-      def import_single_page url, import_host, existing_props, new_props
+      def import_single_page url, import_host, existing_props, new_props, creator_params
         uri = uri_from_url url.strip
         unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
           error = {
@@ -54,8 +62,8 @@ module Pwb
           existing_props.push Pwb::Prop.find_by_reference pws_listing.reference
           # propertyJSON
         else
-          prop_creator = Pwb::PropCreator.new(pws_listing.as_json)
-          prop = prop_creator.create
+          prop_creator = Pwb::PropCreator.new(pws_listing.as_json, creator_params)
+          prop = prop_creator.create_from_json
           # prop = PropFromPwsListing pws_listing.as_json
           # TODO - have some logic for when to make visible
           prop.visible = true

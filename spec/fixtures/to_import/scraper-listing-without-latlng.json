@@ -1,0 +1,78 @@
+[
+{
+  "area_unit": "sqmt",
+  "reference": "PISO EN VENTA CALLE ARROYO FONTARRON 71",
+  "count_bedrooms": 3,
+  "count_bathrooms": 1.0,
+  "count_toilets": 0,
+  "count_garages": 0,
+  "plot_area": 0.0,
+  "constructed_area": 68.0,
+  "title": "Apartment in Arroyo Fontarrón (MORATALAZ)",
+  "description": "Vivienda compuesta de 3 dormitorios, salón, cocina independiente y baño. Luminoso. Para reformar. Con pequeña terraza. Buenas posibilidades de reforma.buena comunicación líneas de autobus 8, 30,32,100 y 20. a 400mts de metro línea 9. Zona residencial muy tranquila provista de todo tipo de comercios al servicio de los vecinos.      ",
+  "locale_code": "es",
+  "for_rent_short_term": false,
+  "for_rent_long_term": false,
+  "for_sale": true,
+  "currency": "EUR",
+  "street_number": null,
+  "street_name": null,
+  "street_address": null,
+  "postal_code": "28030",
+  "province": null,
+  "city": "Madrid",
+  "region": "moratalaz",
+  "country": "Spain",
+  "latitude": null,
+  "longitude": null,
+  "features": [
+    " Ceramic Floor",
+    " Close to Shopping",
+    " Drop painting",
+    " Fitted Wardrobe",
+    " Fridge",
+    " Garden View",
+    " Good orientation",
+    " Independent Kitchen",
+    " Natural Gas Heating",
+    " Oven",
+    " Steel Door",
+    " White Goods"
+  ],
+  "property_photos": [
+  {
+    "url": "https://inmo-a.s3.amazonaws.com/property/15/P1020096_48253ba6a5.JPG"
+  },
+  {
+    "url": "https://inmo-a.s3.amazonaws.com/property/16/P1020099_2f60123bce.JPG"
+  },
+  {
+    "url": "https://inmo-a.s3.amazonaws.com/property/17/P1020101_a517789531.JPG"
+  },
+  {
+    "url": "https://inmo-a.s3.amazonaws.com/property/18/P1020104_4aded6b89a.JPG"
+  },
+  {
+    "url": "https://inmo-a.s3.amazonaws.com/property/19/P1020109_6d7fa31fdb.JPG"
+  },
+  {
+    "url": "https://inmo-a.s3.amazonaws.com/property/20/P1020105_81551a4b3c.JPG"
+  },
+  {
+    "url": "https://inmo-a.s3.amazonaws.com/property/21/P1020110_654ce9ebd7.JPG"
+  },
+  {
+    "url": "https://inmo-a.s3.amazonaws.com/property/22/P1020113_9d79c37891.JPG"
+  },
+  {
+    "url": "https://inmo-a.s3.amazonaws.com/property/23/P1020115_313822711a.JPG"
+  },
+  {
+    "url": "https://inmo-a.s3.amazonaws.com/property/24/P1020119_915cae0e3c.JPG"
+  },
+  {
+    "url": "https://inmo-a.s3.amazonaws.com/property/25/P1020120_e349bab6d4.JPG"
+  }],
+  "price_rental_monthly_current": 0,
+  "price_sale_current": 83000.0
+}]
