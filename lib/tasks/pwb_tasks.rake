@@ -2,6 +2,7 @@
 # task :pwb do
 #   # Task goes here
 # end
+require 'pwb/importer'
 require 'pwb/seeder'
 require 'pwb/pages_seeder'
 require 'pwb/contents_seeder'
@@ -10,7 +11,13 @@ require 'pwb/contents_seeder'
 # from spec/dummy folder or within an app using the engine:
 # bundle exec rake pwb:db:seed
 namespace :pwb do
+  desc 'Imports property data from urls defined in the /db/import_sources directory.'
+  task import_from_urls: [:environment] do
+    Pwb::Importer.import!
+  end
+
   namespace :db do
+
     desc 'Seeds the database with all seed data.'
     task seed: [:environment] do
       Pwb::Seeder.seed!

@@ -1,18 +1,18 @@
 module Pwb
   class PropCreator
-    attr_accessor :propertyJSON
+    attr_accessor :propertyJSON, :locales, :max_photos_to_process
 
-    def initialize(propertyJSON)
+    def initialize(propertyJSON, *args, **keyword_args)
+      # https://www.justinweiss.com/articles/fun-with-keyword-arguments/
       self.propertyJSON = propertyJSON
+      self.locales = keyword_args["locales"] || ["en","nl"]
+      self.max_photos_to_process = keyword_args["max_photos_to_process"] || 2
     end
 
     def create 
-      # TODO: pass in locales
-      locales = ["en","es"]
       # TODO: ensure reference is created (calculate from lat lng if necessary)
       # and add geocoding option
       new_prop = Pwb::Prop.create(propertyJSON.except("locale_code","features","property_photos"))
-      # new_prop = Pwb::Prop.create(propertyJSON.except("features", "property_photos", "image_urls", "last_retrieved_at"))
 
       # create will use website defaults for currency and area_unit
       # need to override that
@@ -27,6 +27,14 @@ module Pwb
 
       # TODO - go over supported locales and save title and description
       # into them
+      locales.each do |locale|
+        # new_prop["description_" + locale] = propertyJSON["description"]
+        # above won't work
+        new_prop.update_attribute("description_" + locale, propertyJSON["description"])
+        new_prop.update_attribute("title_" + locale, propertyJSON["title"])
+      end
+      new_prop.save!
+      byebug
 
       if propertyJSON["features"]
         # new_prop.set_features=propertyJSON["features"]
@@ -48,8 +56,6 @@ module Pwb
       end
       if propertyJSON["property_photos"]
         # uploading images can slow things down so worth setting a limit
-        max_photos_to_process = 2
-        # TODO - retrieve above as a param
         propertyJSON["property_photos"].each_with_index do |property_photo, index|
           if index > max_photos_to_process
             break

@@ -4,5 +4,6 @@ import_host_data: {
   host: 're-renting.com' 
 }
 import_urls: [
-  "http://re-renting.com/en/properties/for-rent/1/acogedor-piso-en-anton-martin"
+  "http://re-renting.com/en/properties/for-rent/1/acogedor-piso-en-anton-martin",
+  "http://re-renting.com/en/properties/for-rent/5/studio-in-plaza-del-cascorro-rastro"
 ]

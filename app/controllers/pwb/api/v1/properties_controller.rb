@@ -4,16 +4,12 @@ module Pwb
     # without having set mime type
     skip_before_action :ensure_valid_accept_media_type
 
-    # def set_default_currency
-    #   @model
-    # end
-
-
     def bulk_create
       propertiesJSON = params["propertiesJSON"]
       unless propertiesJSON.is_a? Array
         propertiesJSON = JSON.parse propertiesJSON
       end
+
       new_props = []
       existing_props = []
       errors = []
@@ -23,6 +19,11 @@ module Pwb
           existing_props.push Pwb::Prop.find_by_reference propertyJSON["reference"]
           # propertyJSON
         else
+
+          # prop_creator = Pwb::PropCreator.new(propertiesJSON)
+          # prop = prop_creator.create
+          # TODO: - replace most of below with prop_creator as above
+
           begin
             new_prop = Pwb::Prop.create(property_params)
             # new_prop = Pwb::Prop.create(propertyJSON.except("features", "property_photos", "image_urls", "last_retrieved_at"))
@@ -42,7 +43,7 @@ module Pwb
             # into them
 
             # if propertyJSON["features"]
-            # TODO - process feature (currently not retrieved by PWS so not important) 
+            # TODO - process feature (currently not retrieved by PWS so not important)
             #   new_prop.set_features=propertyJSON["features"]
             # end
             if propertyJSON["property_photos"]
