@@ -1,0 +1,15 @@
+import_host_data: { 
+  slug: 're-renting', 
+  scraper_name: 'inmo1', 
+  host: 're-renting.com' 
+}
+max_photos_to_process: 3
+import_urls: [
+  "http://re-renting.com/en/properties/for-rent/1/acogedor-piso-en-anton-martin",
+  "http://re-renting.com/en/properties/for-rent/5/studio-in-plaza-del-cascorro-rastro",
+  "http://re-renting.com/en/properties/for-sale/3/apartment-in-arroyo-fontarron-moratalaz",
+  # "http://re-renting.com/en/properties/for-rent/4/show",
+  # "http://re-renting.com/en/properties/for-rent/9/show",
+  # "http://re-renting.com/en/properties/for-rent/8/show",
+  # "http://re-renting.com/en/properties/for-rent/7/show"
+]

@@ -8,7 +8,12 @@ module Pwb
       # rake app:pwb:import_from_urls
       def import!
 
-        import_sources_dir = Pwb::Engine.root.join('db', 'import_sources', 'enabled')
+        # import_sources_dir = Pwb::Engine.root.join('db', 'import_sources', 'enabled')
+        import_sources_dir = Rails.root.join('db', 'import_sources', 'enabled')
+        unless import_sources_dir.exist? && import_sources_dir.children
+          puts "No config file found for import"
+          return
+        end
         import_sources_dir.children.each do |file|
           if file.extname == ".yml"
             yml_file_content = YAML.load_file(file)
