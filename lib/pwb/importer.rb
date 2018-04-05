@@ -11,12 +11,12 @@ module Pwb
         import_sources_dir = Pwb::Engine.root.join('db', 'import_sources', 'enabled')
         import_sources_dir.children.each do |file|
           if file.extname == ".yml"
-            yml_file_contents = YAML.load_file(file)
+            yml_file_content = YAML.load_file(file)
 
             existing_props = []
             new_props = []
-            import_host_data = yml_file_contents["import_host_data"]
-            import_urls = yml_file_contents["import_urls"]
+            import_host_data = yml_file_content["import_host_data"]
+            import_urls = yml_file_content["import_urls"]
             # import_host_data = { slug: 're-renting', scraper_name: 'inmo1', host: 're-renting.com' }
 
             import_host = PropertyWebScraper::ImportHost.find_by_host(import_host_data["host"])
@@ -24,11 +24,14 @@ module Pwb
               import_host = PropertyWebScraper::ImportHost.create!(import_host_data)
             end
 
+            max_photos_to_process = yml_file_content["max_photos_to_process"] || 1
+            locales = yml_file_content["locales"] || I18n.available_locales
+            
             creator_params = {
-              max_photos_to_process: 2,
-              locales: I18n.available_locales
-              # locales: ["fr","it","nl"]
+              max_photos_to_process: max_photos_to_process,
+              locales: locales
             }
+
             # creator_params["locales"] = I18n.available_locales
 
             # TODO: - allow above to be set in config yml file
