@@ -25,14 +25,18 @@ module Pwb
             end
 
             creator_params = {
-              max_photos_to_process: 1,
-              locales: ["fr","it","nl"]
+              max_photos_to_process: 2,
+              locales: I18n.available_locales
+              # locales: ["fr","it","nl"]
             }
+            # creator_params["locales"] = I18n.available_locales
+
             # TODO: - allow above to be set in config yml file
             # as well as additional values for deciding how long to wait between scraping
             # Should also allow passing in of a scraper mapping file
 
             import_urls.each do |import_url|
+              puts "importing from #{import_url}"
               import_single_page import_url, import_host, existing_props, new_props, creator_params
             end
 
@@ -53,21 +57,34 @@ module Pwb
           return error
         end
 
+        # miTODO: - allow params to PropertyWebScraper::Scraper to decide expiry age etc.
         web_scraper = PropertyWebScraper::Scraper.new(import_host.scraper_name)
-        listing = web_scraper.process_url uri.to_s, import_host
+        # PropertyWebScraper::Scraper also allows passing in a ScraperMapping as the 
+        # second param (for cases where PWS does not have it set up)..
 
+        listing = web_scraper.process_url uri.to_s, import_host
         pws_listing = PropertyWebScraper::PwbListing.find listing.id
 
-        if Pwb::Prop.where(reference: pws_listing.reference).exists?
-          existing_props.push Pwb::Prop.find_by_reference pws_listing.reference
+        # unless pws_listing.reference.present?
+        #   if pws_listing.street_address
+        #   end
+        # end
+
+        if Pwb::Prop.where(import_url: pws_listing.import_url).exists?
+          existing_props.push Pwb::Prop.find_by_import_url pws_listing.import_url
           # propertyJSON
+          puts "#{pws_listing.import_url} already exists"
         else
-          prop_creator = Pwb::PropCreator.new(pws_listing.as_json, creator_params)
+          new_prop_json = pws_listing.as_json
+          # need to find out why import_url is not included in as_json
+          new_prop_json["import_url"] =  pws_listing.import_url
+          prop_creator = Pwb::PropCreator.new(new_prop_json, creator_params)
           prop = prop_creator.create_from_json
           # prop = PropFromPwsListing pws_listing.as_json
           # TODO - have some logic for when to make visible
           prop.visible = true
           prop.save!
+          puts "#{pws_listing.import_url} created"
         end
       end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180119105254) do
+ActiveRecord::Schema.define(version: 20180405091509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -475,6 +475,10 @@ ActiveRecord::Schema.define(version: 20180119105254) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "area_unit", default: 0
+    t.string "neighborhood"
+    t.string "import_url"
+    t.json "related_urls", default: {}
+    t.string "slug"
     t.index ["archived"], name: "index_pwb_props_on_archived"
     t.index ["flags"], name: "index_pwb_props_on_flags"
     t.index ["for_rent_long_term"], name: "index_pwb_props_on_for_rent_long_term"
@@ -484,7 +488,7 @@ ActiveRecord::Schema.define(version: 20180119105254) do
     t.index ["latitude", "longitude"], name: "index_pwb_props_on_latitude_and_longitude"
     t.index ["price_rental_monthly_current_cents"], name: "index_pwb_props_on_price_rental_monthly_current_cents"
     t.index ["price_sale_current_cents"], name: "index_pwb_props_on_price_sale_current_cents"
-    t.index ["reference"], name: "index_pwb_props_on_reference", unique: true
+    t.index ["reference"], name: "index_pwb_props_on_reference"
     t.index ["visible"], name: "index_pwb_props_on_visible"
   end
 

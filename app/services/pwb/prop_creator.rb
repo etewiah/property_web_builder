@@ -13,9 +13,14 @@ module Pwb
     # before_save :set_rental_search_price
     # after_create :set_defaults
 
-    def create_from_json 
-      # TODO: ensure reference is created (calculate from lat lng if necessary)
+    def create_from_json
+
       new_prop = Pwb::Prop.create(propertyJSON.except("locale_code","features","property_photos"))
+
+      # unless new_prop.reference.present?
+      # 	new_prop.reference = new_prop.id
+      # 	new_prop.save!
+      # end
 
       if propertyJSON["latitude"] && propertyJSON["longitude"]
         unless propertyJSON["street_address"] && propertyJSON["postal_code"]
@@ -25,15 +30,14 @@ module Pwb
         new_prop.geocode
       end
 
+
       # create will use website defaults for currency and area_unit
       # need to override that
       if propertyJSON["currency"]
         new_prop.currency = propertyJSON["currency"]
-        new_prop.save!
       end
       if propertyJSON["area_unit"]
         new_prop.area_unit = propertyJSON["area_unit"]
-        new_prop.save!
       end
 
       # TODO - go over supported locales and save title and description
@@ -41,10 +45,9 @@ module Pwb
       locales.each do |locale|
         # new_prop["description_" + locale] = propertyJSON["description"]
         # above won't work
-        new_prop.update_attribute("description_" + locale, propertyJSON["description"])
-        new_prop.update_attribute("title_" + locale, propertyJSON["title"])
+        new_prop.update_attribute("description_" + locale.to_s, propertyJSON["description"])
+        new_prop.update_attribute("title_" + locale.to_s, propertyJSON["title"])
       end
-      new_prop.save!
 
       if propertyJSON["features"]
         # new_prop.set_features=propertyJSON["features"]
@@ -78,6 +81,8 @@ module Pwb
           new_prop.prop_photos.push photo
         end
       end
+
+      new_prop.save!
       return new_prop
     end
 

@@ -91,7 +91,9 @@ class CreatePwbProps < ActiveRecord::Migration[5.0]
     add_index :pwb_props, :for_sale
     add_index :pwb_props, :highlighted
     add_index :pwb_props, :archived
-    add_index :pwb_props, :reference, unique: true
+    add_index :pwb_props, :reference
+    # , unique: true
+    # having a unique index on above causes more problems than it solves
     add_index :pwb_props, :price_rental_monthly_current_cents
     add_index :pwb_props, :price_sale_current_cents
 
