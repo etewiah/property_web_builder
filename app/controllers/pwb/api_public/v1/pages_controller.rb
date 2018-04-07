@@ -14,11 +14,19 @@ module Pwb
         #   current_page_title = current_page.page_title + ' - ' + @current_agency.company_name.to_s
         # end
 
-
-        public_page_parts = {}
+        visible_page_parts = {}
         current_page.page_parts.each do |page_part|
-          public_page_parts[page_part.page_part_key] = page_part.block_contents[locale]
+          join_model = current_page.page_contents.find_by_page_part_key(page_part.page_part_key)
+          if join_model.visible_on_page
+            visible_page_parts[page_part.page_part_key] = page_part.block_contents[locale]
+          end
         end
+
+        # Above is not the best way to retrieve page_parts
+        # Approach has changed though and now I'm filling in page_part
+        # template on the client side....
+        # This means below is no longer usefull as it returns composed fragments
+        # visible_page_parts = current_page.ordered_visible_page_contents
 
         properties = {}
         if params[:page_slug] == "home"
@@ -27,7 +35,7 @@ module Pwb
         end
 
         return render json: {
-          page_parts: public_page_parts,
+          page_parts: visible_page_parts,
           page: current_page.as_json_for_fe,
           properties: properties
         }
@@ -48,22 +56,14 @@ module Pwb
       # current_page_title = @current_agency.company_name
 
       if current_page.present?
-        public_page_parts = {}
-        current_page.page_parts.each do |page_part|
-          public_page_parts[page_part.page_part_key] = page_part.block_contents[locale]
-        end
+        visible_page_parts = {}
+        # current_page.page_parts.each do |page_part|
+        #   visible_page_parts[page_part.page_part_key] = page_part.block_contents[locale]
+        # end
 
         prop_search_results = DisplayPropertiesQuery.new(search_params: params).from_params
-
-        # if params[:page_slug] == "rent"
-        #   prop_search_results = DisplayPropertiesQuery.new().for_rent
-        # else
-        #   prop_search_results = DisplayPropertiesQuery.new().for_sale
-        # end
-        # properties_for_rent = DisplayPropertiesQuery.new().for_rent
-
         return render json: {
-          page_parts: public_page_parts,
+          # page_parts: visible_page_parts,
           page: current_page.as_json_for_fe,
           prop_search_results: prop_search_results
         }
@@ -75,40 +75,41 @@ module Pwb
     end
 
 
-    def show_home_page
-      locale = params[:locale]
-      I18n.locale = locale
-      current_page = Pwb::Page.find_by_slug "home"
-      # current_page_title = @current_agency.company_name
+    # def show_home_page
+    #   locale = params[:locale]
+    #   I18n.locale = locale
+    #   current_page = Pwb::Page.find_by_slug "home"
+    #   # current_page_title = @current_agency.company_name
 
-      if current_page.present?
-        # if current_page.page_title.present?
-        #   current_page_title = current_page.page_title + ' - ' + @current_agency.company_name.to_s
-        # end
-        public_page_parts = {}
-        current_page.page_parts.each do |page_part|
-          public_page_parts[page_part.page_part_key] = page_part.block_contents[locale]
-        end
+    #   if current_page.present?
+    #     # if current_page.page_title.present?
+    #     #   current_page_title = current_page.page_title + ' - ' + @current_agency.company_name.to_s
+    #     # end
+    #     visible_page_parts = {}
+    #     current_page.page_parts.each do |page_part|
+    #       visible_page_parts[page_part.page_part_key] = page_part.block_contents[locale]
+    #     end
 
-        properties_for_sale = DisplayPropertiesQuery.new().for_sale
-        properties_for_rent = DisplayPropertiesQuery.new().for_rent
+    #     properties_for_sale = DisplayPropertiesQuery.new().for_sale
+    #     properties_for_rent = DisplayPropertiesQuery.new().for_rent
 
-        return render json: {
-          page_parts: public_page_parts,
-          page: current_page.as_json_for_fe,
-          properties: {
-            for_sale: properties_for_sale,
-            for_rent: properties_for_rent
-          }
-        }
-      else
-        return render json: {
-          page: {}
-        }
-      end
-    end
+    #     return render json: {
+    #       page_parts: visible_page_parts,
+    #       page: current_page.as_json_for_fe,
+    #       properties: {
+    #         for_sale: properties_for_sale,
+    #         for_rent: properties_for_rent
+    #       }
+    #     }
+    #   else
+    #     return render json: {
+    #       page: {}
+    #     }
+    #   end
+    # end
 
     private
+
 
   end
 end

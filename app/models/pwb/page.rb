@@ -137,7 +137,7 @@ module Pwb
       as_json({only: [
                  "sort_order_top_nav", "show_in_top_nav",
                  "sort_order_footer", "show_in_footer",
-                 "slug", "link_path", "visible"
+                 "slug", "visible"
                ],
                methods: admin_attribute_names}.merge(options || {}))
     end
@@ -149,11 +149,12 @@ module Pwb
 
     def as_json_for_fe(options = nil)
       as_json({only: [
-                 "title", "description",
-                 "sort_order_footer", "show_in_footer",
-                 "slug", "link_path", "visible"
+                 "page_title", 
+                 # "raw_html",
+                 # "sort_order_footer", "show_in_footer",
+                 "slug", "visible"
                ],
-               methods: :page_parts}.merge(options || {}))
+               methods: []}.merge(options || {}))
     end
 
     private

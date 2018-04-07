@@ -48,7 +48,7 @@ module Pwb
                # "available_currencies", "default_currency",
                # "supported_locales", "available_locales"
              ],
-             methods: ["agency_map_marker"]
+             methods: ["agency_map_marker","primary_address"]
              }.merge(options || {}))
     end
 
