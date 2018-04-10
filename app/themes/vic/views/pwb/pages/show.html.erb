@@ -1,0 +1,31 @@
+<% page_title @page.page_title  %>
+<!-- MAIN CONTENT... -->
+<div class="pg-opt">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>
+          <%= @page.main_link.link_title %>
+        </h2>
+      </div>
+      <div class="col-md-6" style="">
+        <ol class="breadcrumb">
+          <li><a href="/">
+              <%= I18n.t("webContentSections.home") %>
+            </a></li>
+          <li class="active">
+            <%= @page.main_link.link_title %>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <% @content_to_show.each do |content| %>
+    <div class="col-md-12">
+      <%== content %>
+    </div>
+  <% end %>
+</div>
+<!-- FOOTER -->
