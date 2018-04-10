@@ -1,6 +1,10 @@
 ---
 es:
   client:
+    cookieMessage: This website uses cookies to ensure you get the best experience on our website
+    clickForMore: Click here for more info
+    gotIt: Got It!
+    # TODO - make above 3 editable
     aboutUs: Sobre nosotros
     address: Dirección
     back: Volver

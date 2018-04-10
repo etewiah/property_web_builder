@@ -68,9 +68,15 @@ Pwb::Engine.routes.draw do
     get "/p/:page_slug" => "pages#show_page", as: "show_page"
     # get "/c/:page_slug" => "comfy#show"
 
+    get "/properties/for-rent/:id" => "props#show_for_rent" 
+    get "/properties/for-sale/:id" => "props#show_for_sale" 
+
     get "/properties/for-rent/:id/:url_friendly_title" => "props#show_for_rent", as: "prop_show_for_rent"
     get "/properties/for-sale/:id/:url_friendly_title" => "props#show_for_sale", as: "prop_show_for_sale"
 
+    # below is a temporary workaround 
+    get "/properties/rent/:id" => "props#show_for_rent"
+    get "/properties/buy/:id" => "props#show_for_sale"
     get "/properties/rent/:id/:url_friendly_title" => "props#show_for_rent"
     get "/properties/buy/:id/:url_friendly_title" => "props#show_for_sale"
 

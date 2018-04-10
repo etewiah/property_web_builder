@@ -132,8 +132,12 @@ module Pwb
       response.headers['X-CSRF-Token'] = form_authenticity_token.to_s
       response.headers['X-CSRF-Param'] = "authenticity_token"
 
+      admin_url = "#{request.base_url}/#{I18n.locale}/admin"
+      current_agency_json = @current_agency.as_json_for_fe
+      current_agency_json["admin_url"] = admin_url
+
       return render json: {
-        current_agency: @current_agency.as_json_for_fe,
+        current_agency: current_agency_json,
         # footer_html: @footer_html,
         display_settings: display_settings,
         search_field_options: @search_field_options,
