@@ -12,6 +12,7 @@ require 'pwb/contents_seeder'
 # bundle exec rake pwb:db:seed
 namespace :pwb do
   desc 'Imports property data from urls defined in the /db/import_sources directory.'
+    # bundle exec rake pwb:import_from_urls
   task import_from_urls: [:environment] do
     Pwb::Importer.import!
   end
