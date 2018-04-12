@@ -44,6 +44,20 @@ module Pwb
         # Prop.count_bedrooms(3).should == [@five_bedroom]
       end
 
+      it 'should have correct contextual_price_with_currency' do
+        expect(@five_bedroom.contextual_price_with_currency("for_rent").to_s).to eq("€5,000")
+        expect(@five_bedroom.contextual_price_with_currency(nil).to_s).to eq("€5,000")
+        expect(@five_bedroom.contextual_price_with_currency("for_sale").to_s).to eq("")
+      end
+
+      it 'should have correct contextual_price' do
+        expect(@five_bedroom.contextual_price("for_rent").to_s).to eq("5000.00")
+        expect(@five_bedroom.contextual_price(nil).to_s).to eq("5000.00")
+        expect(@five_bedroom.contextual_price("for_sale").to_s).to eq("0.00")
+      end
+
+
+
       # before(:each) calls will get cleaned after
       # Would normally have to take care of before(:all)
       # calls manually but now using databasecleaner in spec_helper to do that

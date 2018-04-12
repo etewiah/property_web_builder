@@ -53,12 +53,12 @@ module Pwb
     end
 
     def for_sale
-      result = relation.public_send("for_sale").visible.order('highlighted DESC').limit 9
+      result = Prop.visible.for_sale.order('highlighted DESC').limit 9
       as_json_for_fe(result)
     end
 
     def for_rent
-      result = relation.public_send("for_rent").visible.order('highlighted DESC').limit 9
+      result = Prop.visible.for_rent.order('highlighted DESC').limit 9
       as_json_for_fe(result)
     end
 
