@@ -1,4 +1,8 @@
 Rails.application.configure do
+  # below allows a rails app using pwb to provide its own 
+  # vue layout
+  # config.x.pwb.use_root_vue = true
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
