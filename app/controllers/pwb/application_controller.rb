@@ -12,6 +12,11 @@ module Pwb
           theme_name = params[:theme]
         end
       end
+      if controller_path.include? "devise/"
+        theme_name = "default"
+      end
+      # apr 2018 - above check will not be needed when I add
+      # auth to vuetify fe
       theme_name = theme_name.present? ? theme_name : "default"
       prepend_view_path "#{Pwb::Engine.root}/app/themes/#{theme_name}/views/"
       # below allows themes installed in Rails app consuming Pwb to work
