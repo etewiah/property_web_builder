@@ -10,6 +10,8 @@ tmp
 log
 .sass-cache
 spec/dummy/uploads/
+spec/dummy/public/localhost
+spec/dummy/public/cached_pages
 spec/dummy/public/assets
 spec/dummy/db/*.sqlite3
 spec/dummy/db/*.sqlite3-journal

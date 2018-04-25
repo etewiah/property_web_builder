@@ -2,6 +2,8 @@ require_dependency "pwb/application_controller"
 
 module Pwb
   class ApiPublic::V1::PagesController < ApplicationApiPublicController
+    self.page_cache_directory = -> { Rails.root.join("public", request.domain) }
+    caches_page :show, :show_search_page
 
     def show
       locale = params[:locale]

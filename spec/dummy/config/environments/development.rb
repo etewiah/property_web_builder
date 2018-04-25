@@ -1,5 +1,5 @@
 Rails.application.configure do
-  # below allows a rails app using pwb to provide its own 
+  # below allows a rails app using pwb to provide its own
   # vue layout
   # config.x.pwb.use_root_vue = true
 
@@ -17,6 +17,7 @@ Rails.application.configure do
   config.consider_all_requests_local = true
 
   # Enable/disable caching. By default caching is disabled.
+  # run "rails dev:cache" to change status
   if Rails.root.join('tmp/caching-dev.txt').exist?
     config.action_controller.perform_caching = true
 
@@ -28,6 +29,8 @@ Rails.application.configure do
     config.action_controller.perform_caching = false
     config.cache_store = :null_store
   end
+
+  config.action_controller.page_cache_directory = "#{Rails.root}/public/cached_pages"
 
 
   config.action_mailer.delivery_method = :smtp

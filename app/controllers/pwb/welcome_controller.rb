@@ -3,6 +3,9 @@ require_dependency 'pwb/application_controller'
 module Pwb
   class WelcomeController < ApplicationController
     before_action :header_image_url
+    self.page_cache_directory = -> { Rails.root.join("public", request.domain) }
+    caches_page :index
+
 
     def index
       @page = Pwb::Page.find_by_slug "home"

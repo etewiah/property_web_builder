@@ -2,7 +2,8 @@ require_dependency "pwb/application_controller"
 
 module Pwb
   class ApiPublic::V1::ClientController < ApplicationApiPublicController
-
+    self.page_cache_directory = -> { Rails.root.join("public", request.domain) }
+    caches_page :client_settings, :translations
     respond_to :json
 
     def contact_us
