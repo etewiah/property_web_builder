@@ -1,15 +1,13 @@
+# bundle exec rake pwb:import_from_urls
 import_host_data: { 
-  slug: 're-renting', 
+  slug: 'laventa-mallorca', 
   scraper_name: 'inmo1', 
-  host: 're-renting.com' 
+  host: 'laventa-mallorca.com' 
 }
-max_photos_to_process: 3
+max_photos_to_process: 1
 import_urls: [
-  "http://re-renting.com/en/properties/for-rent/1/acogedor-piso-en-anton-martin",
-  "http://re-renting.com/en/properties/for-rent/5/studio-in-plaza-del-cascorro-rastro",
-  "http://re-renting.com/en/properties/for-sale/3/apartment-in-arroyo-fontarron-moratalaz",
-  # "http://re-renting.com/en/properties/for-rent/4/show",
-  # "http://re-renting.com/en/properties/for-rent/9/show",
-  # "http://re-renting.com/en/properties/for-rent/8/show",
-  # "http://re-renting.com/en/properties/for-rent/7/show"
+  "http://www.laventa-mallorca.com/en/properties/for-rent/38/shop-botique-s-arenal-2-line"
 ]
+
+
+
