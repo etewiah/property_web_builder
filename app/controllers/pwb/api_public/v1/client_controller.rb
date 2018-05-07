@@ -98,7 +98,7 @@ module Pwb
 
 
       @current_agency ||= Agency.unique_instance
-      @current_website = Website.unique_instance
+      @current_website ||= Website.unique_instance
       # @footer_page_content ||= @current_website.contents.find_by_page_part_key "footer_content_html"
       # @footer_html = ""
       # if @footer_page_content.present?

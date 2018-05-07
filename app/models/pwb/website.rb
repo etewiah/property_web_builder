@@ -12,8 +12,11 @@ module Pwb
 
 
     # TODO: - add favicon image (and logo image directly)
-
+    # - perhaps by adding a website_photo model..
     # as well as details hash for storing pages..
+    # 
+    # and search_config_rent, search_config_buy, search_config_landing, admin_config, exchange_rates(or perhaps this should be on tenants model)
+    # styles_config
 
     include FlagShihTzu
 
@@ -119,7 +122,7 @@ module Pwb
                                                                     "slug", "link_path", "visible",
                                                                     "link_title", "page_slug"
                                                                   ],
-                                                                  methods: ["target_path"]})      
+                                                                  methods: ["target_path"]})
     end
 
     def top_nav_links
