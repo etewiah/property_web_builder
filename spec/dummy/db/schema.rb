@@ -574,6 +574,7 @@ ActiveRecord::Schema.define(version: 20180507144720) do
     t.string "favicon_url"
     t.string "main_logo_url"
     t.string "maps_api_key"
+    t.string "recaptcha_key"
   end
 
   create_table "translations", id: :serial, force: :cascade do |t|
