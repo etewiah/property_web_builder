@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180507132719) do
+ActiveRecord::Schema.define(version: 20180507144720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -526,6 +526,17 @@ ActiveRecord::Schema.define(version: 20180507132719) do
     t.index ["reset_password_token"], name: "index_pwb_users_on_reset_password_token", unique: true
   end
 
+  create_table "pwb_website_photos", force: :cascade do |t|
+    t.string "photo_key"
+    t.string "image"
+    t.string "description"
+    t.string "folder", default: "weebrix"
+    t.integer "file_size"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["photo_key"], name: "index_pwb_website_photos_on_photo_key"
+  end
+
   create_table "pwb_websites", id: :serial, force: :cascade do |t|
     t.string "analytics_id"
     t.integer "analytics_id_type"
@@ -563,6 +574,7 @@ ActiveRecord::Schema.define(version: 20180507132719) do
     t.string "favicon_url"
     t.string "main_logo_url"
     t.string "maps_api_key"
+    t.string "recaptcha_key"
   end
 
   create_table "translations", id: :serial, force: :cascade do |t|
