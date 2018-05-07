@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180405091509) do
+ActiveRecord::Schema.define(version: 20180507132719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -552,6 +552,17 @@ ActiveRecord::Schema.define(version: 20180405091509) do
     t.text "raw_css"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "search_config_rent", default: {}
+    t.json "search_config_buy", default: {}
+    t.json "search_config_landing", default: {}
+    t.json "admin_config", default: {}
+    t.json "styles_config", default: {}
+    t.json "imports_config", default: {}
+    t.json "whitelabel_config", default: {}
+    t.json "exchange_rates", default: {}
+    t.string "favicon_url"
+    t.string "main_logo_url"
+    t.string "maps_api_key"
   end
 
   create_table "translations", id: :serial, force: :cascade do |t|
