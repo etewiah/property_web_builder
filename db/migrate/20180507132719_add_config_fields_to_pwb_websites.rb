@@ -11,6 +11,7 @@ class AddConfigFieldsToPwbWebsites < ActiveRecord::Migration[5.1]
     add_column :pwb_websites, :favicon_url, :string
     add_column :pwb_websites, :main_logo_url, :string
     add_column :pwb_websites, :maps_api_key, :string
+    add_column :pwb_websites, :recaptcha_key, :string
   end
 end
 
