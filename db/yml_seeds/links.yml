@@ -94,7 +94,7 @@
   link_title_fr: Legal Notice
   link_title_de: Impressum
   link_title_ru: Официальное уведомление
-  link_title_pt: Notícia legal
+  link_title_pt: Informação legal
 - slug: top_nav_privacy_policy
   page_slug: privacy
   link_path: show_page_path
@@ -213,7 +213,7 @@
   link_title_fr: Legal Notice
   link_title_de: Impressum
   link_title_ru: Официальное уведомление
-  link_title_pt: Notícia legal
+  link_title_pt: Informação legal
 - slug: footer_privacy_policy
   page_slug: privacy
   link_path: show_page_path
@@ -370,7 +370,7 @@
   link_title_fr: Legal Notice
   link_title_de: Impressum
   link_title_ru: Официальное уведомление
-  link_title_pt: Notícia legal
+  link_title_pt: Informação legal
 - slug: admin_privacy_policy
   page_slug: privacy
   link_path: show_page_path
