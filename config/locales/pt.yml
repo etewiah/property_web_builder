@@ -54,10 +54,10 @@ pt:
     admin: Admin
     buy: Comprar
     contactUs: Contato
-    home: Inicio
+    home: Início
     legalAdvice: Notícia legal
     privacyPolicy: Política de Privacidade
-    rent: Aluguel
+    rent: Aluguer
     sell: Vender
   needCurrentPwd: precisamos de sua senha atual para confirmar as alterações
   newPassword: Nova senha
