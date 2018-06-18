@@ -4,7 +4,7 @@ module Pwb
 
 
     def general_enquiry_targeting_agency(contact, message)
-      from = message.origin_email.presence || "service@propertywebbuilder.com"
+      from = message.origin_email.presence || ::ApplicationMailer.default[:from] || "service@propertywebbuilder.com"
       @contact = contact
       @message = message
       # @title = I18n.t "mailers.general_enquiry_targeting_agency.title"
@@ -22,7 +22,7 @@ module Pwb
     end
 
     def property_enquiry_targeting_agency(contact, message, property)
-      from = message.origin_email.presence || "service@propertywebbuilder.com"
+      from = message.origin_email.presence || ::ApplicationMailer.default[:from] || "service@propertywebbuilder.com"
       @contact = contact
       @message = message
       @property = property
