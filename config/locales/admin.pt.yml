@@ -292,16 +292,41 @@ pt:
       websiteContent: Conteúdo
       websiteSettings: Definições
 
-    brl: Brasil
     btnLabels:
       activatedThemeInfo: Tema da página ativo
       importSiteContent: Importar conteúdo para a página
       importTranslations: Importar traduções
       setThemePrompt: Definir como tema da página
     ca-CA: Catalunha
+
     chf: Franco Suiço
     clp: Peso Chileno
-    cny:
+    gbp: Libra esterlina
+    hkd: Dólar de Hong Kong
+    pln: Zloti Polaco
+    ron: Leu Romeno
+    ngn: Naira Nigeriano
+    ghs: Cedi do Gana
+    dkk: Coroa Dinamarquesa
+    czk: Coroa Checa
+    sek: Coroa Sueca
+    thb: Baht Tailandês
+    mad: Dirham Marroquino
+    egp: Libra egípcia
+    eur: Euro
+    zar: Rand Sul Africano
+    usd: Dólar Americano
+    brl: Real Brasileiro
+    cad: Dólar Canadiano
+    ars: Peso Argentino
+    aud: Dólar Australiano
+    mxn: Peso Mexicano
+    inr: Rupia Indiana
+    cny: Renminbi Chinesa
+    rub: Rublo Russo
+    vnd: Dong Vietnamita
+    try: Lira Turca
+
     de-DE: Alemanha
     en-UK: Reino Unido
     en-US: Estados Unidos
@@ -315,17 +340,7 @@ pt:
     ro-RO: Roménia
     pl: Polaco
     ro: Romeno
-    pln: Zloti Polaco
-    ron: Leu Romeno
-    ngn: Naira Nigeriano
-    ghs: Cedi do Gana
-    dkk: Coroa Dinamarquesa
-    czk: Coroa Checa
-    sek: Coroa Sueca
-    thb: Baht Tailandês
-    mad: Dirham Marroquino
-    egp: Libra egípcia
-    eur: Euros
+
     'false': falso
     fi-FI: Finlândia
     fieldLabels:
@@ -407,10 +422,10 @@ pt:
       visibleOnWeb: Visível na página
       yearConstruction: Ano de construção
     fr-FR: França
-    gbp: Libras esterlinas
-    hi:
+
+    hi: Indu
     hi-IN: "Índia"
-    hkd: Dólar de Hong Kong
+
     info:
       defaultAreaUnit: Apenas será aplicado a novas propriedades
       defaultCurrency: Moeda predefinida
@@ -418,7 +433,6 @@ pt:
       recCarouselPhotoSize: Tamanho recomendado para imagens do carousel é de 900px X 400px
       recLogoPhotoSize: Tamanho recomendado para o logo é 120px X 80px
       recPropPhotoSize: Tamanho recomendado para a foto é 800px X 500px
-    inr:
     ioSections:
       fromMls: Importar da MLS
       fromUpload: Importar de Ficheiro
@@ -441,7 +455,7 @@ pt:
     pt-BR: Brasil
     pt-PT: Portugal
     ru-RU: Rússia
-    rub:
+
     siteSections:
       aboutUs: Sobre nós
       buy: Comprar
@@ -451,7 +465,7 @@ pt:
     sqft: Pés quadrados (square feet)
     sqmt: Metros Quadrados
     'true': Verdade
-    usd: Dólares Americanos
+
     webContentLabels:
       aboutUs: Sobre Nós
       cac1: Coluna 1
@@ -488,7 +502,7 @@ pt:
       navigation: Navegação
 
     'yes': Sim
-    zar: Rand Sul Africano
+
 
 
 
