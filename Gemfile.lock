@@ -135,7 +135,7 @@ GEM
     concurrent-ruby (1.0.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
-    crass (1.0.3)
+    crass (1.0.4)
     database_cleaner (1.6.1)
     devise (4.4.1)
       bcrypt (~> 3.0)
@@ -281,7 +281,7 @@ GEM
     nenv (0.3.0)
     netrc (0.11.0)
     nio4r (2.2.0)
-    nokogiri (1.8.2)
+    nokogiri (1.8.3)
       mini_portile2 (~> 2.3.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -342,8 +342,8 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.0.3)
-      loofah (~> 2.0)
+    rails-html-sanitizer (1.0.4)
+      loofah (~> 2.2, >= 2.2.2)
     rails-perftest (0.0.7)
     railties (5.1.4)
       actionpack (= 5.1.4)
@@ -494,4 +494,4 @@ DEPENDENCIES
   zeus
 
 BUNDLED WITH
-   1.15.1
+   1.16.1
