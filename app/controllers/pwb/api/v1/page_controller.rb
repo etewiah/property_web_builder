@@ -69,6 +69,7 @@ module Pwb
       unless fragment_details && fragment_details["locale"]
         return render_json_error 'Please provide locale'
       end
+
       locale = fragment_details["locale"]
       unless fragment_details["page_part_key"]
         return render_json_error 'Please provide page_part_key'

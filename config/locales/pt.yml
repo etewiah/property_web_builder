@@ -2,66 +2,66 @@
 pt:
   aboutUs: Sobre nós
   address: Endereço
-  back: Costas
+  back: Retroceder
   changePassword: Mudar senha
   contact:
     emailSubject: Contate a partir de seu site
     error: Desculpe, ocorreu um erro.
     success: Obrigado pela sua mensagem. Entraremos em contato em breve!
   contactUs: Contato
-  contactUsPrompt: Preencha o seguinte formulário para entrar em contato conosco
+  contactUsPrompt: Preencha o seguinte formulário para entrar em contato connosco
   devise:
-    user_update_success: You have successfully updated your account.
-    user_update_success_title: Congratulations
+    user_update_success: Atualizou a sua conta com sucesso.
+    user_update_success_title: Parabéns
   editarPropiedad: Editar uma propriedade
-  email: O email
+  email: Email
   'false': Não
   findAProperty: Encontrar um imóvel
   findByReference: Procurar por referência
   forRent: Para alugar
-  forSale: À venda
+  forSale: Para venda
   go: Ir
   labels:
-    create: Crio
+    create: Criar
     edit: Editar
-    latestProperties: Latest properties
+    latestProperties: Últimas propriedades
     new: Novo
-    ourServices: Our services
-    save: Salve
-  leaveBlank: deixe em branco se você não quer mudá-lo
-  legalAdvice: Notícia legal
+    ourServices: Os nossos serviços
+    save: Guardar
+  leaveBlank: Deixe em branco se não pretender alterar
+  legalAdvice: Informação legal
   listadoPropiedades: Lista de propriedades
   mailers:
     confirm_registration: Por favor, confirme sua conta através do link abaixo
     from: A partir de
     general_enquiry_targeting_agency:
-      title: inquérito geral do seu site
+      title: Inquérito geral do seu site
     general_enquiry_targeting_enquirer:
       message_title: ''
       subject: ''
-    message: mensagem
+    message: Mensagem
     phone: Tel
     property: Propriedade
     property_enquiry_targeting_agency:
       title: Inquérito sobre uma propriedade
     received_on: recebido em
-    welcome: Bem vinda
+    welcome: Bem-vindo
   menu_admin: administrador
-  message: mensagem
+  message: Mensagem
   name: Nome
   navbar:
     aboutUs: Sobre nós
     admin: Admin
     buy: Comprar
     contactUs: Contato
-    home: Inicio
-    legalAdvice: Notícia legal
+    home: Início
+    legalAdvice: Informação legal
     privacyPolicy: Política de Privacidade
-    rent: Aluguel
-    sell: Vender
-  needCurrentPwd: precisamos de sua senha atual para confirmar as alterações
+    rent: Aluguer
+    sell: Venda
+  needCurrentPwd: Insira a sua senha atual para confirmar as alterações
   newPassword: Nova senha
-  noResultsForSearch: Desculpe, nenhum resultado encontrado
+  noResultsForSearch: Desculpe, não foram encontrados resultados
   nuevoPropiedad: nova propriedade
   orderBy:
     priceAscending: "↓ Preço (crescente)"
@@ -70,8 +70,8 @@ pt:
     email: Seu email
     message: Escreva sua mensagem aqui
     name: Seu nome
-    subject: Sujeito
-    tel: Fixa ou móvel
+    subject: Assunto
+    tel: Fixo ou móvel
   privacyPolicy: Política de Privacidade
   property:
     description: Descrição
@@ -79,12 +79,12 @@ pt:
     extras: Características
     furniture: Mobília
     goToProperty: Ver propriedade
-    highlightedProperty: propriedade excelente
+    highlightedProperty: propriedade destacada
     locality: Localidade
     map: Mapa
-    monthlyRentalPriceHighSeason: Preço Mensal (alta temporada)
-    monthlyRentalPriceLowSeason: Preço Mensal (baixa temporada)
-    monthlyRentalPriceStandardSeason: Preço Mensal (Temporada padrão)
+    monthlyRentalPriceHighSeason: Preço Mensal (época alta)
+    monthlyRentalPriceLowSeason: Preço Mensal (época baixa)
+    monthlyRentalPriceStandardSeason: Preço Mensal (época normal)
     operationType: Tipo de operação
     price: Preço
     propertyType: Tipo de Propriedade
@@ -94,20 +94,19 @@ pt:
   propertyNotFound: Propriedade não encontrada
   pwb:
     copyright: "%{company_name} Inc. Todos os direitos reservados."
-    createPrompt: Crie seu site imobiliária
+    createPrompt: Crie seu site imobiliário
     createTagLine: Por favor, indique os detalhes da sua conta
     getStarted: Comece agora
-    registerNow: Registrar agora
+    registerNow: Registar agora
     tagLine: sites profissionais para agentes imobiliários em minutos
-    tagLineExt: Belas sites que têm que ser visto para ser acreditado. <br> Ninguém
-      coloca você online mais rápido.
-  requestPropertyInfo: informações Request
+    tagLineExt: Belos sites que têm que ver para crer. <br> Ninguém coloca o seu negócio online mais rápido.
+  requestPropertyInfo: Pedido de informações
   search: Pesquisa
-  searchForProperties: Busca de propriedades
+  searchForProperties: Pesquisa de propriedades
   selectpicker:
     countSelectedText: Selecionado {0} de {1}
     noneResultsText: Nenhum resultado encontrado {0}
-    noneSelectedText: Nada selecionado
+    noneSelectedText: Nenhum selecionado
   send: Enviar
   setup:
     claimSubdomain: Solicite esta url
@@ -116,8 +115,7 @@ pt:
     loggedInAs: logado como
     logout: Sair
     selectUrl: Selecione um url
-    selectUrlMessage: Você criou com sucesso uma conta - Agora selecione a url para
-      o seu novo site
+    selectUrlMessage: Você criou com sucesso uma conta - Agora selecione a url para o seu novo site
     subdomain: subdomínio
     subdomainMissing: Por favor, indique um nome para o subdomínio
     thankYouForTrusting: Agradecemos a confiança depositada %{company_name}
@@ -139,21 +137,21 @@ pt:
         in_locality: Localidade
         in_zone: Zona
         locality: Localidade
-        property_state: propriedade do Estado
+        property_state: Estado da propriedade
         property_type: Tipo de Propriedade
     'no': Não
     required:
       mark: "*"
-      text: requeridos
+      text: requiridos
     'yes': sim
 
-  subject: Sujeito
+  subject: Assunto
   tel: Telefone
   'true': sim
   update: Atualizar
   webContentSections:
     aboutUs: Sobre nós
     contactInformation: Informações de contato
-    home: Inicio
+    home: Início
     sell: Vender
     tagLine: Linha tag
