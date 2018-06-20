@@ -151,6 +151,7 @@ module Pwb
       as_json({only: [
                  "page_title", 
                  # "raw_html",
+                 # can't quite remember why I no longer use above..
                  # "sort_order_footer", "show_in_footer",
                  "slug", "visible"
                ],

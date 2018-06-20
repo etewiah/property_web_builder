@@ -6,6 +6,9 @@ class CreatePwbLinks < ActiveRecord::Migration[5.0]
       t.string :parent_slug
       # below for association with pages
       t.string :page_slug, index: true
+      # above can become an issue where page_slug
+      # varies with each language..
+      # In sub_link model I have a convoluted solution
       t.string :icon_class
       t.string :href_class
       t.string :href_target

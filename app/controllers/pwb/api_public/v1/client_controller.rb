@@ -106,6 +106,13 @@ module Pwb
       # end
 
 
+      # june 2018: - for pwb-multi-tenant project I now 
+      # load client_settings within erb html as a json object
+      # - will need to refresh that data via this api endpoint when
+      # I change languages though.  Need to make sure the 
+      # data I return here stays in synch with the erb json data
+      # Right now I no longer need below as I will load it from 
+      # search page and it will vary depending on the search config
       @search_field_options = get_common_search_inputs
 
       # agency_map_marker = {}

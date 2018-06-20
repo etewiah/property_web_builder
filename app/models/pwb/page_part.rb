@@ -15,6 +15,8 @@ module Pwb
              }.merge(options || {}))
     end
 
+    # TODO - alow passing in of yml_file_contents so seedfile from 
+    # different locations can be used 
     def self.create_from_seed_yml(yml_file_name)
       # page_parts_dir = Pwb::Engine.root.join('db', 'yml_seeds', 'page_parts')
       page_part_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'page_parts', yml_file_name)
