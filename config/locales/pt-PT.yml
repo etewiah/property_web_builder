@@ -1,0 +1,159 @@
+---
+pt-PT:
+  aboutUs: Sobre nós
+  address: Endereço
+  back: Costas
+  changePassword: Mudar senha
+  contact:
+    emailSubject: Contate a partir de seu site
+    error: Desculpe, ocorreu um erro.
+    success: Obrigado pela sua mensagem. Entraremos em contato em breve!
+  contactUs: Contato
+  contactUsPrompt: Preencha o seguinte formulário para entrar em contato conosco
+  devise:
+    user_update_success: You have successfully updated your account.
+    user_update_success_title: Congratulations
+  editarPropiedad: Editar uma propriedade
+  email: O email
+  'false': Não
+  findAProperty: Encontrar um imóvel
+  findByReference: Procurar por referência
+  forRent: Para alugar
+  forSale: À venda
+  go: Ir
+  labels:
+    create: Crio
+    edit: Editar
+    latestProperties: Latest properties
+    new: Novo
+    ourServices: Our services
+    save: Salve
+  leaveBlank: deixe em branco se você não quer mudá-lo
+  legalAdvice: Notícia legal
+  listadoPropiedades: Lista de propriedades
+  mailers:
+    confirm_registration: Por favor, confirme sua conta através do link abaixo
+    from: A partir de
+    general_enquiry_targeting_agency:
+      title: inquérito geral do seu site
+    general_enquiry_targeting_enquirer:
+      message_title: ''
+      subject: ''
+    message: mensagem
+    phone: Tel
+    property: Propriedade
+    property_enquiry_targeting_agency:
+      title: Inquérito sobre uma propriedade
+    received_on: recebido em
+    welcome: Bem vinda
+  menu_admin: administrador
+  message: mensagem
+  name: Nome
+  navbar:
+    aboutUs: Sobre nós
+    admin: Admin
+    buy: Comprar
+    contactUs: Contato
+    home: Inicio
+    legalAdvice: Notícia legal
+    privacyPolicy: Política de Privacidade
+    rent: Aluguel
+    sell: Vender
+  needCurrentPwd: precisamos de sua senha atual para confirmar as alterações
+  newPassword: Nova senha
+  noResultsForSearch: Desculpe, nenhum resultado encontrado
+  nuevoPropiedad: nova propriedade
+  orderBy:
+    priceAscending: "↓ Preço (crescente)"
+    priceDescending: "↑ Preço (descendente)"
+  placeHolders:
+    email: Seu email
+    message: Escreva sua mensagem aqui
+    name: Seu nome
+    subject: Sujeito
+    tel: Fixa ou móvel
+  privacyPolicy: Política de Privacidade
+  property:
+    description: Descrição
+    details: detalhes
+    extras: Características
+    furniture: Mobília
+    goToProperty: Ver propriedade
+    highlightedProperty: propriedade excelente
+    locality: Localidade
+    map: Mapa
+    monthlyRentalPriceHighSeason: Preço Mensal (alta temporada)
+    monthlyRentalPriceLowSeason: Preço Mensal (baixa temporada)
+    monthlyRentalPriceStandardSeason: Preço Mensal (Temporada padrão)
+    operationType: Tipo de operação
+    price: Preço
+    propertyType: Tipo de Propriedade
+    ref: Ref
+  propertyForRent: Imóvel para alugar
+  propertyForSale: Propriedade à venda
+  propertyNotFound: Propriedade não encontrada
+  pwb:
+    copyright: "%{company_name} Inc. Todos os direitos reservados."
+    createPrompt: Crie seu site imobiliária
+    createTagLine: Por favor, indique os detalhes da sua conta
+    getStarted: Comece agora
+    registerNow: Registrar agora
+    tagLine: sites profissionais para agentes imobiliários em minutos
+    tagLineExt: Belas sites que têm que ser visto para ser acreditado. <br> Ninguém
+      coloca você online mais rápido.
+  requestPropertyInfo: informações Request
+  search: Pesquisa
+  searchForProperties: Busca de propriedades
+  selectpicker:
+    countSelectedText: Selecionado {0} de {1}
+    noneResultsText: Nenhum resultado encontrado {0}
+    noneSelectedText: Nada selecionado
+  send: Enviar
+  setup:
+    claimSubdomain: Solicite esta url
+    createdSuccessfully: Site criado com sucesso
+    goToYourSite: Vá para o seu site
+    loggedInAs: logado como
+    logout: Sair
+    selectUrl: Selecione um url
+    selectUrlMessage: Você criou com sucesso uma conta - Agora selecione a url para
+      o seu novo site
+    subdomain: subdomínio
+    subdomainMissing: Por favor, indique um nome para o subdomínio
+    thankYouForTrusting: Agradecemos a confiança depositada %{company_name}
+    urlNotAvailable: Desculpe, esta URL não está disponível
+    weAreCreatingSite: Estamos criando o seu site
+  signOut: Sair
+
+  simple_form:
+    error_notification:
+      default_message: 'Reveja os problemas abaixo:'
+    labels:
+      search:
+        count_bathrooms: Casas de banho (min)
+        count_bedrooms: Quartos (min)
+        for_rent_price_from: Alugar a partir de (Mensal)
+        for_rent_price_till: Alugar Até (Mensal)
+        for_sale_price_from: Preço de
+        for_sale_price_till: preço Até
+        in_locality: Localidade
+        in_zone: Zona
+        locality: Localidade
+        property_state: propriedade do Estado
+        property_type: Tipo de Propriedade
+    'no': Não
+    required:
+      mark: "*"
+      text: requeridos
+    'yes': sim
+
+  subject: Sujeito
+  tel: Telefone
+  'true': sim
+  update: Atualizar
+  webContentSections:
+    aboutUs: Sobre nós
+    contactInformation: Informações de contato
+    home: Inicio
+    sell: Vender
+    tagLine: Linha tag
