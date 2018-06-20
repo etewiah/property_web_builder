@@ -11,7 +11,7 @@
   link_title_fr: Accueil
   link_title_de: Zuhause
   link_title_ru: Главная
-  link_title_pt: Iníco
+  link_title_pt: Início
 - slug: top_nav_buy
   page_slug: buy
   link_path: buy_path
@@ -38,7 +38,7 @@
   link_title_fr: Louer
   link_title_de: Miete
   link_title_ru: Аренда
-  link_title_pt: Aluguel
+  link_title_pt: Aluguer
 - slug: top_nav_sell
   page_slug: sell
   link_path: show_page_path
@@ -94,7 +94,7 @@
   link_title_fr: Legal Notice
   link_title_de: Impressum
   link_title_ru: Официальное уведомление
-  link_title_pt: Notícia legal
+  link_title_pt: Informação legal
 - slug: top_nav_privacy_policy
   page_slug: privacy
   link_path: show_page_path
@@ -118,7 +118,7 @@
   link_title_en: Admin
   link_title_es: Admin
   link_title_fr: Admin
-  link_title_de: Admin 
+  link_title_de: Admin
   link_title_ru: Администратор
   link_title_pt: Admin
 - slug: footer_home
@@ -133,7 +133,7 @@
   link_title_fr: Accueil
   link_title_de: Zuhause
   link_title_ru: Главная
-  link_title_pt: Iníco
+  link_title_pt: Início
 - slug: footer_buy
   page_slug: buy
   link_path: buy_path
@@ -159,7 +159,7 @@
   link_title_fr: Louer
   link_title_de: Miete
   link_title_ru: Аренда
-  link_title_pt: Aluguel
+  link_title_pt: Aluguer
 - slug: footer_sell
   page_slug: sell
   link_path: show_page_path
@@ -213,7 +213,7 @@
   link_title_fr: Legal Notice
   link_title_de: Impressum
   link_title_ru: Официальное уведомление
-  link_title_pt: Notícia legal
+  link_title_pt: Informação legal
 - slug: footer_privacy_policy
   page_slug: privacy
   link_path: show_page_path
@@ -237,7 +237,7 @@
   link_title_en: Admin
   link_title_es: Admin
   link_title_fr: Admin
-  link_title_de: Admin 
+  link_title_de: Admin
   link_title_ru: Администратор
   link_title_pt: Admin
 # - slug: top_nav_facebook
@@ -251,7 +251,7 @@
 #   link_title_en: Facebook
 #   link_title_es: Facebook
 #   link_title_fr: Facebook
-#   link_title_de: Facebook 
+#   link_title_de: Facebook
 - slug: social_media_facebook
   link_url: "https://www.facebook.com/propertywebbuilder"
   sort_order: 1
@@ -263,7 +263,7 @@
   link_title_en: Facebook
   link_title_es: Facebook
   link_title_fr: Facebook
-  link_title_de: Facebook 
+  link_title_de: Facebook
 - slug: social_media_twitter
   link_url: "https://twitter.com/prptywebbuilder"
   sort_order: 1
@@ -275,7 +275,7 @@
   link_title_en: Twitter
   link_title_es: Twitter
   link_title_fr: Twitter
-  link_title_de: Twitter 
+  link_title_de: Twitter
 # links with a placement of admin and visibility true
 # will show up in the admin panel
 - slug: admin_home
@@ -290,7 +290,7 @@
   link_title_fr: Accueil
   link_title_de: Zuhause
   link_title_ru: Главная
-  link_title_pt: Iníco
+  link_title_pt: Início
 - slug: admin_buy
   page_slug: buy
   link_path: buy_path
@@ -316,7 +316,7 @@
   link_title_fr: Louer
   link_title_de: Miete
   link_title_ru: Аренда
-  link_title_pt: Aluguel
+  link_title_pt: Aluguer
 - slug: admin_sell
   page_slug: sell
   link_path: show_page_path
@@ -370,7 +370,7 @@
   link_title_fr: Legal Notice
   link_title_de: Impressum
   link_title_ru: Официальное уведомление
-  link_title_pt: Notícia legal
+  link_title_pt: Informação legal
 - slug: admin_privacy_policy
   page_slug: privacy
   link_path: show_page_path

@@ -27,9 +27,12 @@ namespace :pwb do
 
     desc 'Seeds the database with PropertyWebBuilder default page content seed data. Will override existing content.'
     task seed_pages: [:environment] do
+      p 'seed_page_parts!'
       Pwb::PagesSeeder.seed_page_parts!
+      p 'seed_page_basics!'
       Pwb::PagesSeeder.seed_page_basics!
       # below need to have page_parts populated to work correctly
+      p 'seed_page_content_translations!'
       Pwb::ContentsSeeder.seed_page_content_translations!
     end
   end
