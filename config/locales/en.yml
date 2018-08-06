@@ -1,160 +1,460 @@
----
+
 en:
-  aboutUs: About Us
-  address: Address
-  back: Back
-  changePassword: Change Password
-  contact:
-    emailSubject: Contact from your website
-    error: Sorry, there has been an error.
-    success: Thank you for your message. We will contact you soon!
-  contactUs: Contact
-  contactUsPrompt: Fill in the following form to contact us
-  devise:
-    user_update_success: You have successfully updated your account.
-    user_update_success_title: Congratulations
-  editarPropiedad: Edit a property
-  email: Email
-  'false': 'No'
-  findAProperty: Find a property
-  findByReference: Find by reference
-  forRent: For Rent
-  forSale: For Sale
-  go: Go
-  labels:
-    create: Create
-    edit: Edit
-    latestProperties: Latest properties
-    new: New
-    ourServices: Our services
-    save: Save
-  leaveBlank: leave it blank if you don't want to change it
-  legalAdvice: Legal Notice
-  listadoPropiedades: List of properties
-  mailers:
-    confirm_registration: Please confirm your account through the link below
-    from: From
-    general_enquiry_targeting_agency:
-      title: General enquiry from your website
-    general_enquiry_targeting_enquirer:
-      message_title: ''
-      subject: ''
-    message: Message
-    phone: Tel
-    property: Property
-    property_enquiry_targeting_agency:
-      title: Enquiry regarding a property
-    received_on: Received on
-    welcome: Welcome
-  menu_admin: admin
-  message: Message
-  name: Name
-  navbar:
-    about-us: About Us
+в:
+
+	  aboutUs: About Us
+  oНас:      О  Нас
+
+	  address: Address
+ адрес:    Адрес
+  
+	  back: Back
+ назад: Назад
+	  changePassword: Change Password
+  изменитьПароль:  Изменить Пароль
+	  contact:
+  контакт:  
+
+	          emailSubject: Contact from your website
+          темаЕмайла: Контакт из вашего  Веб-сайта
+
+
+	         error: Sorry, there has been an error.
+         ошибка: Извините, произошла ошибка
+
+	         success: Thank you for your message. We will contact you soon!
+         успех: Спасибо за вaшe  сообщение .  
+         Мы скоро свяжемся свaми!
+  
+
+	        contactUs: Contact
+        нашКонтакт: Контакт
+
+	        contactUsPrompt: Fill in the following form to contact us
+        незамедлительныйКонтакт::заполните следующую         
+       фoрму для контакта
+	  devise:
+  разработать:
+
+	    user_update_success: You have successfully updated your account.
+    успех_ обновления _пользователем: Вы успешно обновили свою  запись.
+
+
+	     user_update_success_title: Congratulations
+     успех_ обновления_заголовка_ пользователем: Поздравления
+
+
+	  editarPropiedad: Edit a property
+  изменитьИмущество: изменить имущество
+
+
+	  email: Email
+  эл. адрес: Эл. адрес:
+
+	  'false': 'No'
+   ‘ложь': 'нет'
+
+	  findAProperty: Find a property
+  найтиИмущество: Найти имущество
+
+
+
+	  findByReference: Find by reference
+  найтиПоСсылке: Найти по ссылке
+
+
+
+	  forRent: For Rent
+   в_аренду:  В Аренду
+
+
+	  forSale: For Sale
+  дляПродажи: Продается
+
+
+	  go: Go
+  идти: Идти
+
+
+	  labels:
+  метки:
+
+	    create: Create
+    создать: Создать
+
+	    edit: Edit
+    изменить: Изменить
+
+	    latestProperties: Latest properties
+    последниеИмуществa: Последние  имущества:
+
+
+
+	    new: New
+    новый: Новый
+
+	    ourServices: Our services
+    нашиУслуги: Наши услуги
+
+	    save: Save
+    сохранить: Сохранить
+
+	  leaveBlank: leave it blank if you don't want to change it
+  оставьтеПустоту: оставьтe пустоту, если вы не хотите ничего   менять
+
+	  legalAdvice: Legal Notice
+  консультацияЮриста:Официальное уведомление
+
+	  listadoPropiedades: List of properties
+  Списокобъектов: Список объектов недвижимости
+	  mailers:
+  почтовые программы
+
+	  confirm_registration: Please confirm your account through the link below
+  подтвердить регистрацию: подтвердите свою учетную запись через      ссылку ниже
+
+	    from: From
+    от: Oт
+
+	    general_enquiry_targeting_agency:
+    общее _агентство_ таргетирования_ запросов:
+
+
+	      title: General enquiry from your website
+      заглавие: Общий запрос с вашего сайта
+
+	    general_enquiry_targeting_enquirer:
+    общий_запрос_задающий¬_запрос:
+
+	      message_title: ''
+      название_сообщения: ' '
+
+	      subject: ''
+      предмет: ''
+
+	    message: Message
+    сообщение: Сообщение
+
+	    phone: Tel
+    телефон: тел.
+
+	    property: Property
+    недвижимость: Недвижимость
+
+	    property_enquiry_targeting_agency:
+    агентство_таргетинга_ недвижимости
+
+	      title: Enquiry regarding a property
+      название: Запрос о недвижимости:
+
+	    received_on: Received on
+     получено: Получено
+
+	    welcome: Welcome
+    Добро пожаловать: Добро пожаловать!
+
+	  menu_admin: admin
+  меню_ админ: админ
+
+	  message: Message
+  сообщение: Сообщение
+
+	  name: Name
+  имя: Имя
+
+	  navbar:
+  нав_бар
+	    about-us: About Us
+    о-нас:      О  Нас
+
+	    admin: Admin
     admin: Admin
-    buy: Properties to buy
-    contact-us: Contact
-    home: Home
-    legal: Legal Notice
-    privacy: Privacy Policy
-    rent: Properties to rent
-    sell: Sell
-  needCurrentPwd: we need your current password to confirm your changes
-  newPassword: New Password
-  noResultsForSearch: Sorry, no results found
-  nuevoPropiedad: New property
-  orderBy:
-    priceAscending: "↓ Price (ascending)"
-    priceDescending: "↑ Price (descending)"
-  pages:
-    aboutUs: About us
-    sell: Sell
-  placeHolders:
-    email: Your email
-    message: Write your message here
-    name: Your name
-    subject: Subject
-    tel: Fixed or mobile
-  # privacyPolicy: Privacy Policy
-  property:
-    description: Description
-    details: Details
-    extras: Features
-    furniture: Furniture
-    goToProperty: View Property
-    highlightedProperty: Outstanding Property
-    locality: Locality
-    map: Map
-    monthlyRentalPriceHighSeason: Monthly Price (High Season)
-    monthlyRentalPriceLowSeason: Monthly Price (Low Season)
-    monthlyRentalPriceStandardSeason: Monthly Price (Standard Season)
-    operationType: Operation Type
-    price: Price
-    propertyType: Property Type
-    ref: Ref
-  propertyForRent: Property for rent
-  propertyForSale: Property for sale
-  propertyNotFound: Property not found
-  pwb:
-    copyright: "%{company_name} Inc. All rights reserved."
-    createPrompt: Create your estate agency website
-    createTagLine: Please enter the details for your account
-    getStarted: Get started now
-    registerNow: Register now
-    tagLine: Professional websites for estate agents in minutes
-    tagLineExt: Beautiful websites that have to be seen to be believed.<br>No one
-      gets you online quicker.
-  requestPropertyInfo: Request info
-  search: Search
-  searchForProperties: Search for properties
-  selectpicker:
-    countSelectedText: Selected {0} of {1}
-    noneResultsText: No results found {0}
-    noneSelectedText: Nothing selected
-  send: Send
-  setup:
-    claimSubdomain: Claim this url
-    createdSuccessfully: Site created successfully
-    goToYourSite: Go to your site
-    loggedInAs: 'Logged in as '
-    logout: Logout
-    selectUrl: Select a url
-    selectUrlMessage: You have successfully created an account - now select the url
-      for your new site
-    subdomain: subdomain
-    subdomainMissing: Please enter a name for the subdomain
-    thankYouForTrusting: Thank you for trusting %{company_name}
-    urlNotAvailable: Sorry, this url is not available
-    weAreCreatingSite: We are creating your site
-  signOut: Sign Out
-  simple_form:
-    error_notification:
-      default_message: 'Please review the problems below:'
-    labels:
-      search:
-        count_bathrooms: Bathrooms (min)
-        count_bedrooms: Bedrooms (min)
-        for_rent_price_from: Rent From (Monthly)
-        for_rent_price_till: Rent Till (Monthly)
-        for_sale_price_from: Price From
-        for_sale_price_till: Price Till
-        in_locality: Locality
-        in_zone: Zone
-        locality: Locality
-        property_state: Property State
-        property_type: Property Type
-    'no': 'No'
-    required:
-      mark: "*"
-      text: required
-    'yes': 'Yes'
-  subject: Subject
-  tel: Telephone
-  'true': 'Yes'
-  update: Update
-  webContentSections:
-    aboutUs: About us
-    contactInformation: Contact information
-    home: Home
-    sell: Sell
-    tagLine: Tag Line
+
+	    buy: Properties to buy
+    купить: Недвижимость купить
+
+	    contact-us: Contact
+    контакт-мы: контакт
+
+	    home: Home
+    главная: Главная
+
+	    legal: Legal Notice
+    юридическое: юридическое уведомление
+
+	    privacy: Privacy Policy
+    конфиденциальность: Политика конфиденциальности
+
+	    rent: Properties to rent
+    аренда: Недвижимость в аренду
+
+	    sell: Sell
+    Продают: Продают
+
+	  needCurrentPwd: we need your current password to confirm your changes
+ нуженТекущийПароль нам нужен ваш текущий пароль для   подтверждения ваших изменений
+
+	  newPassword: New Password
+  новыйПароль: Новый Пароль
+	  noResultsForSearch: Sorry, no results found
+  Результатов-Не-найдено:  Извините, результатов не найдено.
+	  nuevoPropiedad: New property
+  новоеИмущество: Новое имущество
+                        
+	  orderBy:
+  Сортировать по:
+	    priceAscending: "↓ Price (ascending)"
+    ценаВозрастает   "↑ Цена (по возрастанию)
+	    priceDescending: "↑ Price (descending)"
+    ценаУбывает: "↓ Цена (по убыванию)"
+	  pages:
+  страницы:
+	    aboutUs: About us
+    oНас:      О  Нас
+
+	    sell: Sell
+    pродают: Продают
+	  placeHolders:
+  заполнители:
+	    email: Your email
+    эл. адрес: Ваш эл. адрес:
+
+	    message: Write your message here
+   сообщение: Написать ваше сообщение здесь
+	    name: Your name
+    имя: Ваше имя
+ 
+
+	    subject: Subject
+    Тема: Тема
+	    tel: Fixed or mobile
+  тел:: Исправлено или мобильное
+	    privacyPolicy: Privacy Policy
+    политика Конфиденциальности: Политика конфиденциальности
+	  property:
+  имущество:
+
+	    description: Description
+    описание: Описание
+	    details: Details
+    подробности: Подробности
+	    extras: Features
+    дополнительно: Особенности
+	    furniture: Furniture
+    мебель: Мебель
+	    goToProperty: View Property
+    идиКИмуществу  Просмотр имущества
+	    highlightedProperty: Outstanding Property
+    выделенноеИмущество: Выдающееся имущество
+	    locality: Locality
+    местность: местность
+	    map: Map
+    карта: Карта
+	    monthlyRentalPriceHighSeason: Monthly Price (High Season)
+    месячныеЦеныАрендыВысокийсезон: Месячная Цена (Высокий Сезон)
+	    monthlyRentalPriceLowSeason: Monthly Price (Low Season)
+    месячныеЦеныАрендыНизкиййсезон: Месячная Цена (Низкий Сезон)
+	    monthlyRentalPriceStandardSeason: Monthly Price (Standard Season)
+    месячныеЦеныАрендыСтандартныйсезон: Месячная Цена (Стандартный Сезон)
+	    operationType: Operation Type
+    операцииТип: Тип операции
+	    price: Price
+    цена: Цена
+	    propertyType: Property Type
+    недвижимостиТип: Тип недвижимости
+	    ref: Ref
+    реф:Реф
+	  propertyForRent: Property for rent
+  propertyForRent: Недвижимость в аренду
+	  propertyForSale: Property for sale
+  propertyForSale: Недвижимость на продажу
+	  propertyNotFound: Property not found
+  propertyNotFound: Недвижимости не найдено
+	  pwb:
+  прб:
+
+	    copyright: "%{company_name} Inc. All rights reserved."
+    aвторские права: "% { название¬_ компании} Инк. Все права защищены."
+	    createPrompt: Create your estate agency website
+    создатьП одсказку: Создайте ваш сайт агентства недвижимости
+
+	    createTagLine: Please enter the details for your account
+    cоздайтеЛинию тегов: введите данные своей учетной записи
+
+	    getStarted: Get started now
+    начать: Начать сейчас
+
+	    registerNow: Register now
+    зарегистрируйтесьСейчас: Зарегистрируйтесь сейчас
+
+	    tagLine: Professional websites for estate agents in minutes
+    подзаголовок: Профессиональные сайты для агентов по недвижимости за считанные минуты
+
+	    tagLineExt: Beautiful websites that have to be seen to be believed.<br>No one
+тегЛиниипродление:красивые веб-сайты, которых надо видеть чтобы поверить
+	      gets you online quicker.
+      ускоряет поиск в Интернете
+
+	  requestPropertyInfo: Request info
+  ТребованиеИнфоНедвижимости: Запрос информации
+
+	  search: Search
+  поиск: Поиск
+
+	  searchForProperties: Search for properties
+  поиск Oбъектов: поиск объектов
+
+	  selectpicker:
+  выберитесборщик:
+
+	    countSelectedText: Selected {0} of {1}
+    подсчитыватьВыбранныйTекст: Выбрано {0} из {1}
+
+
+	    noneResultsText: No results found {0}
+    нетРезультатовТекста: результатов не найдено {0}
+
+	    noneSelectedText: Nothing selected
+    невыбранТекст: ничего не выбрано
+
+	  send: Send
+  отправить: Отправить
+
+	  setup:
+  настроить:
+
+	    claimSubdomain: Claim this url
+    ЗаявитьCубдомен: Заявить этот URL-адрес
+
+	    createdSuccessfully: Site created successfully
+    созданУспешно: сайт создан успешно
+
+	    goToYourSite: Go to your site
+    перейтиНаВашСайт: перейти на ваш сайт
+
+	    loggedInAs: 'Logged in as '
+    записан_Как': Записан как'
+
+	    logout: Logout
+    выход_ из_ системы:Выход из системы
+
+	    selectUrl: Select a url
+    выберитеURL: Выберите URL-адрес
+
+	selectUrlMessage: You have successfully created an account - now     select the url for your new site
+
+	 выберите URL-адрес: вы успешно создали учетную запись - теперь выберите URL-адрес
+
+
+	    subdomain: subdomain
+    субдомен: субдомен
+
+	    subdomainMissing: Please enter a name for the subdomain
+        субдоменOтсутствует: Пожалуйста введите имя для поддомена
+
+	    thankYouForTrusting: Thank you for trusting %{company_name}
+        cпасибоЗаДоверие: cпасибо за доверие% { компании_имя }
+
+	    urlNotAvailable: Sorry, this url is not available
+    адресНеДоступен: К сожалению, этот URL недоступен
+
+	    weAreCreatingSite: We are creating your site
+    мыСоздаемСайт: Мы создаем ваш сайт
+
+	  signOut: Sign Out
+  выйти:Выйти
+	  simple_form:
+  простая_ форма:
+
+	      error_notification:
+      уведомление_ об_ ошибке:
+
+	      default_message: 'Please review the problems below:'
+      сообщение_ по_ умолчанию: 'Пожалуйста, просмотрите    следующие проблемы:'
+
+	    labels:
+    метки:
+
+	      search:
+      поиск:
+
+	        count_bathrooms: Bathrooms (min)
+        count_bathrooms: Ванные комнаты (мин)
+
+	        kоличество_ ванных_ комнат: Bedrooms (мин)
+	
+	        for_rent_price_till: Rent Till (Monthly)
+        aренда_до : Аренда до (ежемесячно)
+
+	        for_sale_price_from: Price From
+                цена_ от: Цена От
+
+	        for_sale_price_till: Price Till
+        цена_ до: Цена До
+
+	        in_locality: Locality
+        Местонахождение: местонахождение
+
+
+	        in_zone: Zone
+        зона: Зона
+
+	        locality: Locality
+        местность: Местность
+
+	        property_state: Property State
+        cостояние_ собственности: Состояние Собственности
+:
+
+	        property_type: Property Type
+               т ип _недвижимости: Тип  Н едвижимости
+
+	    'no': 'No'
+     'нет': 'Нет'
+
+	    required:
+    обязательный:
+
+	      mark: "*"
+      отметка: "*"
+
+	      text: required
+      текст: обязательно
+
+	    'yes': 'Yes'
+      'да:'  'Да'
+
+	  subject: Subject
+  тема: Тема
+
+	  tel: Telephone
+  тел: Телефон
+
+	  'true': 'Yes'
+  ‘правда': ‘Да'
+
+	  update: Update
+  обновление: Oбновление
+
+	  webContentSections:
+  веб-разделы
+
+	    aboutUs: About us
+    oНас: O  нас
+
+	    contactInformation: Contact information
+    контактнаяИнформация: Контактная Информация
+
+	    home: Home
+    главная: Главная
+
+	    sell: Sell
+    продают: Продают
+
+	    tagLine: Tag Line
+    линия Тегов: Линия Т егов
+
+
+
+
+
