@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180507144720) do
+ActiveRecord::Schema.define(version: 20181107111332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -475,10 +475,6 @@ ActiveRecord::Schema.define(version: 20180507144720) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "area_unit", default: 0
-    t.string "neighborhood"
-    t.string "import_url"
-    t.json "related_urls", default: {}
-    t.string "slug"
     t.index ["archived"], name: "index_pwb_props_on_archived"
     t.index ["flags"], name: "index_pwb_props_on_flags"
     t.index ["for_rent_long_term"], name: "index_pwb_props_on_for_rent_long_term"
@@ -488,8 +484,54 @@ ActiveRecord::Schema.define(version: 20180507144720) do
     t.index ["latitude", "longitude"], name: "index_pwb_props_on_latitude_and_longitude"
     t.index ["price_rental_monthly_current_cents"], name: "index_pwb_props_on_price_rental_monthly_current_cents"
     t.index ["price_sale_current_cents"], name: "index_pwb_props_on_price_sale_current_cents"
-    t.index ["reference"], name: "index_pwb_props_on_reference"
+    t.index ["reference"], name: "index_pwb_props_on_reference", unique: true
     t.index ["visible"], name: "index_pwb_props_on_visible"
+  end
+
+  create_table "pwb_subscriber_props", force: :cascade do |t|
+    t.integer "prop_id"
+    t.integer "subscriber_id"
+    t.integer "flags", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flags"], name: "index_pwb_subscriber_props_on_flags"
+    t.index ["prop_id"], name: "index_pwb_subscriber_props_on_prop_id"
+    t.index ["subscriber_id"], name: "index_pwb_subscriber_props_on_subscriber_id"
+  end
+
+  create_table "pwb_subscribers", force: :cascade do |t|
+    t.integer "contact_id"
+    t.string "subscriber_token"
+    t.string "subscriber_url"
+    t.json "subscriber_details", default: {}
+    t.integer "flags", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contact_id"], name: "index_pwb_subscribers_on_contact_id"
+    t.index ["flags"], name: "index_pwb_subscribers_on_flags"
+  end
+
+  create_table "pwb_subscription_props", force: :cascade do |t|
+    t.integer "prop_id"
+    t.integer "subscription_id"
+    t.integer "flags", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flags"], name: "index_pwb_subscription_props_on_flags"
+    t.index ["prop_id"], name: "index_pwb_subscription_props_on_prop_id"
+    t.index ["subscription_id"], name: "index_pwb_subscription_props_on_subscription_id"
+  end
+
+  create_table "pwb_subscriptions", force: :cascade do |t|
+    t.integer "contact_id"
+    t.string "subscription_token"
+    t.string "subscription_url"
+    t.json "subscription_details", default: {}
+    t.integer "flags", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contact_id"], name: "index_pwb_subscriptions_on_contact_id"
+    t.index ["flags"], name: "index_pwb_subscriptions_on_flags"
   end
 
   create_table "pwb_users", id: :serial, force: :cascade do |t|

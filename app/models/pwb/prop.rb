@@ -53,6 +53,12 @@ module Pwb
     # and enable below:
     # validates :reference, :uniqueness => { case_sensitive: false }
 
+    has_many :subscriber_props
+    has_many :subscribers, through: :subscriber_props
+
+    has_many :subscription_props
+    has_many :subscriptions, through: :subscription_props
+
     has_many :prop_photos, -> { order 'sort_order asc' }
     has_many :features
 
