@@ -92,6 +92,15 @@ Pwb::Engine.routes.draw do
     end
   end
 
+  namespace :api_sync do
+    namespace :v1 do
+      get "/props" => "props#index"
+      get "/subscribers" => "subscribers#index"
+      post "/subscribers" => "subscribers#create"
+      # resources :props
+    end
+  end
+
   authenticate :user do
     namespace :import do
       get "/mls_experiment" => "mls#experiment"
