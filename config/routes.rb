@@ -13,6 +13,7 @@ Pwb::Engine.routes.draw do
   # end
 
   authenticate :user do
+    get "/pwb-sync" => "pwb_sync#show"
     get '/propertysquares' => 'squares#vue'
     get '/propertysquares/*path' => 'squares#vue'
     get '/squares/:client_id' => 'squares#show_client'
