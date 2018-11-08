@@ -97,9 +97,8 @@ Pwb::Engine.routes.draw do
   namespace :api_sync do
     namespace :v1 do
       get "/props" => "props#index"
-      get "/subscribers" => "subscribers#index"
-      post "/subscribers" => "subscribers#create"
-      # resources :props
+      # get "/subscribers" => "subscribers#index"
+      # post "/subscribers" => "subscribers#create"
     end
   end
 
@@ -125,6 +124,7 @@ Pwb::Engine.routes.draw do
     namespace :api do
       namespace :v1 do
         post "/subscribers" => "subscribers#create"
+        get "/subscribers" => "subscribers#index"
         get "/subscribers/:id" => "subscribers#show"
         put "/subscriber_props" => "subscriber_props#update"
 

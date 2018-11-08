@@ -3,8 +3,15 @@ module Pwb
     protect_from_forgery with: :null_session
     respond_to :json
 
+    def index
+      subscribers = Pwb::Subscriber.all
+      render json: {
+        subscribers: subscribers
+      }
+    end
+
     def show
-      subscriber = Pwb::Subscriber.last
+      subscriber = Pwb::Subscriber.find_by_id(params[:id]) || Pwb::Subscriber.first
       render json: {
         subscriber: subscriber,
         props: subscriber.props,
