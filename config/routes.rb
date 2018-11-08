@@ -123,6 +123,10 @@ Pwb::Engine.routes.draw do
 
     namespace :api do
       namespace :v1 do
+        post "/subscribers" => "subscribers#create"
+        get "/subscribers/:id" => "subscribers#show"
+        put "/subscriber_props" => "subscriber_props#update"
+
         # get "/cms/tag/:tag_name" => "cms#tag"
         get "/translations/list/:locale" => "translations#list"
 

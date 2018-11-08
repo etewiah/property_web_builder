@@ -1,5 +1,7 @@
 module Pwb
   class Contact < ApplicationRecord
+    has_one :subscriber
+    has_one :subscription
     has_many :messages
     belongs_to :primary_address, optional: true, class_name: "Address", foreign_key: 'primary_address_id'
     belongs_to :secondary_address, optional: true, class_name: "Address", foreign_key: 'secondary_address_id'
