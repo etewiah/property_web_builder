@@ -3,6 +3,19 @@ module Pwb
     protect_from_forgery with: :null_session
     respond_to :json
 
+    def update
+      contact = Pwb::Contact.find_by_id(params[:contact][:id]) 
+      contact.first_name =  params[:contact][:first_name]
+      contact.primary_email =  params[:contact][:primary_email]
+      contact.primary_phone_number =  params[:contact][:primary_phone_number]
+      contact.save!
+      render json: {
+        subscriber: contact.subscriber,
+        # props: subscriber.props,
+        contact: contact
+      }
+    end
+
     def index
       subscribers = Pwb::Subscriber.all
       render json: {
@@ -20,17 +33,24 @@ module Pwb
     end
 
     def create
-      new_contact = Pwb::Contact.find_or_create_by(first_name: params["subscriber"]["name"])
-      unless new_contact.subscriber.present?
-        new_subscriber = Pwb::Subscriber.create({
-          subscriber_token: "ewiohjsdf"
+      contact = Pwb::Contact.find_or_create_by(first_name: params[:subscriber][:name])
+      contact.primary_email =  params[:subscriber][:primary_email]
+      contact.primary_phone_number =  params[:subscriber][:primary_phone_number]
+      contact.save!
+
+      unless contact.subscriber.present?
+        subscriber_token = (0...12).map { (65 + rand(26)).chr }.join
+        subscriber = Pwb::Subscriber.create({
+          subscriber_token: subscriber_token
           # subscriber_url: ""
         })
-        new_contact.subscriber = new_subscriber
+        contact.subscriber = subscriber
+      else
+        subscriber = contact.subscriber
       end
       render json: {
-        subscriber: new_subscriber,
-        contact: new_contact
+        subscriber: subscriber,
+        contact: contact
       }
     end
 
@@ -42,7 +62,6 @@ module Pwb
       )
     end
     # def create
-    #   byebug
     #   themes = Theme.all
     #   # Theme is active_hash so have to manually construct json
     #   @themes_array = []

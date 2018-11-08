@@ -126,6 +126,7 @@ Pwb::Engine.routes.draw do
         post "/subscribers" => "subscribers#create"
         get "/subscribers" => "subscribers#index"
         get "/subscribers/:id" => "subscribers#show"
+        put "/subscribers/:id" => "subscribers#update"
         put "/subscriber_props" => "subscriber_props#update"
 
         # get "/cms/tag/:tag_name" => "cms#tag"
