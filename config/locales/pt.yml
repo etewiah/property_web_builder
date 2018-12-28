@@ -2,24 +2,24 @@
 pt:
   aboutUs: Sobre nós
   address: Endereço
-  back: Retroceder
+  back: Voltar
   changePassword: Mudar senha
   contact:
     emailSubject: Contate a partir de seu site
-    error: Desculpe, ocorreu um erro.
+    error: Desculpe-nos, ocorreu um erro.
     success: Obrigado pela sua mensagem. Entraremos em contato em breve!
   contactUs: Contato
   contactUsPrompt: Preencha o seguinte formulário para entrar em contato connosco
   devise:
-    user_update_success: Atualizou a sua conta com sucesso.
+    user_update_success: A sua conta foi atualizada com sucesso.
     user_update_success_title: Parabéns
   editarPropiedad: Editar uma propriedade
   email: Email
   'false': Não
-  findAProperty: Encontrar um imóvel
-  findByReference: Procurar por referência
+  findAProperty: Buscar um imóvel
+  findByReference: Buscar por referência
   forRent: Para alugar
-  forSale: Para venda
+  forSale: Para vender
   go: Ir
   labels:
     create: Criar
@@ -27,7 +27,7 @@ pt:
     latestProperties: Últimas propriedades
     new: Novo
     ourServices: Os nossos serviços
-    save: Guardar
+    save: Salvar
   leaveBlank: Deixe em branco se não pretender alterar
   legalAdvice: Informação legal
   listadoPropiedades: Lista de propriedades
@@ -57,7 +57,7 @@ pt:
     home: Início
     legalAdvice: Informação legal
     privacyPolicy: Política de Privacidade
-    rent: Aluguer
+    rent: Aluguel
     sell: Venda
   needCurrentPwd: Insira a sua senha atual para confirmar as alterações
   newPassword: Nova senha
@@ -94,24 +94,24 @@ pt:
   propertyNotFound: Propriedade não encontrada
   pwb:
     copyright: "%{company_name} Inc. Todos os direitos reservados."
-    createPrompt: Crie seu site imobiliário
+    createPrompt: Crie o seu site imobiliário
     createTagLine: Por favor, indique os detalhes da sua conta
     getStarted: Comece agora
     registerNow: Registar agora
     tagLine: sites profissionais para agentes imobiliários em minutos
     tagLineExt: Belos sites que têm que ver para crer. <br> Ninguém coloca o seu negócio online mais rápido.
   requestPropertyInfo: Pedido de informações
-  search: Pesquisa
-  searchForProperties: Pesquisa de propriedades
+  search: Buscar
+  searchForProperties: Buscar propriedades
   selectpicker:
     countSelectedText: Selecionado {0} de {1}
     noneResultsText: Nenhum resultado encontrado {0}
     noneSelectedText: Nenhum selecionado
   send: Enviar
   setup:
-    claimSubdomain: Solicite esta url
-    createdSuccessfully: Site criado com sucesso
-    goToYourSite: Vá para o seu site
+    claimSubdomain: Solicite este subdomínio
+    createdSuccessfully: O website foi criado com sucesso
+    goToYourSite: Ir para o seu site
     loggedInAs: logado como
     logout: Sair
     selectUrl: Selecione um url
@@ -128,7 +128,7 @@ pt:
       default_message: 'Reveja os problemas abaixo:'
     labels:
       search:
-        count_bathrooms: Casas de banho (min)
+        count_bathrooms: Banheiro (min)
         count_bedrooms: Quartos (min)
         for_rent_price_from: Alugar a partir de (Mensal)
         for_rent_price_till: Alugar Até (Mensal)
