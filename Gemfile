@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 # development dependencies will be added by default to the :development group.
 gemspec
 
-ruby '2.5.1'
+ruby '2.6.1'
 
 gem 'rails', '~> 5.1.1'
 # Declare any dependencies that are still in development here instead of in
