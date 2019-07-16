@@ -8,6 +8,19 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Gitter](https://badges.gitter.im/dev-1pr/1pr.svg)](https://gitter.im/property_web_builder/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
+
+## July 2019 update!
+
+Over the last year or so I have made several improvements to PWB for various paying clients.  I have not however had the time to merge those improvements back into the open source repo.  If you have some specific requirements that you are willing to pay for, reach out to me ([LinkedIn](https://www.linkedin.com/company/propertywebbuilder)) I might be able to help.
+
+Here are a couple of sites that I have built using PWB as a base:
+
+[https://www.buenavistahomes.eu/](https://www.buenavistahomes.eu/)
+
+[https://www.holidays2malaga.com/](https://www.holidays2malaga.com/)
+
+## Motivation
+
 This project has been created to address a glaring gap in the rails ecosystem: the lack of an open source project for real estate websites.
 
 The result is that WordPress has become the dominant tool for creating real estate websites.  This is far from ideal and PropertyWebBuilder seeks to address this.
@@ -24,7 +37,6 @@ To see the admin panel, login as user admin@example.com with a password of "pwb1
 
 You can see an example of a production site created with PropertyWebBuilder here:
 
-[http://re-renting.com](http://re-renting.com)
 
 ## Create your own real estate website with no technical knowledge
 
