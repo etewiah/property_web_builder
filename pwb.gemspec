@@ -21,9 +21,10 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
   s.test_files = Dir['spec/**/*']
 
-  s.add_dependency 'rails', '>= 5.1.0'
+  s.add_dependency 'rails', '~> 6.0.0.rc1'
+
   s.add_dependency 'money-rails', '~>1'
-  s.add_dependency 'globalize', '~> 5.1.0.beta2'
+  # s.add_dependency 'globalize', '~> 5.1.0.beta2'
   # cannot add globalize here till there is a rails 5
   # compatible tag
   # spt 2017 - rails 5 now supported by globalize
@@ -39,7 +40,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'i18n-active_record'
   # , :require => 'i18n/active_record'
   s.add_dependency 'responders'
-  s.add_dependency 'jsonapi-resources', '0.8.1'
+  s.add_dependency 'jsonapi-resources'
+  # , '0.8.1'
   # s.add_dependency 'paloma'
   s.add_dependency 'jquery-rails'
   s.add_dependency 'simple_form'
