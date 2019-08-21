@@ -84,3 +84,5 @@ gem 'paloma', github: 'fredngo/paloma'
 
 gem 'sassc-rails'
 gem "omniauth-rails_csrf_protection"
+# capybary now requires puma as webserver by default
+gem 'puma'
