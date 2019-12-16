@@ -134,7 +134,7 @@ GEM
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
     erubi (1.8.0)
-    excon (0.62.0)
+    excon (0.71.0)
     execjs (2.7.0)
     factory_girl (4.9.0)
       activesupport (>= 3.0.0)
