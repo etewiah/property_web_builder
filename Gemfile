@@ -64,6 +64,8 @@ group :development, :test do
 
   gem 'rails-perftest'
   gem 'ruby-prof', '0.15.9'
+
+  gem 'apparition'
 end
 
 group :development do

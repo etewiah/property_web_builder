@@ -86,6 +86,9 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    apparition (0.5.0)
+      capybara (~> 3.13, < 4)
+      websocket-driver (>= 0.6.5)
     arel (8.0.0)
     ast (2.4.0)
     autoprefixer-rails (9.7.4)
@@ -459,6 +462,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  apparition
   byebug
   capybara
   closure-compiler
