@@ -21,34 +21,42 @@ require 'webmock/rspec'
 WebMock.disable_net_connect!(allow_localhost: true)
 # load(Rails.root.join("db", "seeds.rb"))
 
-# Configure capybara for integration testing
-# Capybara.default_driver = :rack_test
-# Capybara.default_selector = :css
-# js_options = {js_errors: false}
-# above is sometimes useful to troubleshoot errors with tests
-Capybara.register_driver :poltergeist do |app|
-  # set the timeout to a minute because it seems the first
-  # capybara tests were running in travis before assets
-  # had recompiled
-  js_options = {
-    debug: true,
-    # timeout: 30,
-    timeout: 1.minute,
-    window_size: [1280, 1440],
-    port: 44678 + ENV['TEST_ENV_NUMBER'].to_i,
-    phantomjs_options: [
-      '--proxy-type=none',
-      '--load-images=no',
-      '--ignore-ssl-errors=yes',
-      '--ssl-protocol=any',
-      '--web-security=false', '--debug=true'
-    ]
-  }
+# # Configure capybara for integration testing
+# # Capybara.default_driver = :rack_test
+# # Capybara.default_selector = :css
+# # js_options = {js_errors: false}
+# # above is sometimes useful to troubleshoot errors with tests
+# Capybara.register_driver :poltergeist do |app|
+#   # set the timeout to a minute because it seems the first
+#   # capybara tests were running in travis before assets
+#   # had recompiled
+#   js_options = {
+#     debug: true,
+#     # timeout: 30,
+#     timeout: 1.minute,
+#     window_size: [1280, 1440],
+#     port: 44678 + ENV['TEST_ENV_NUMBER'].to_i,
+#     phantomjs_options: [
+#       '--proxy-type=none',
+#       '--load-images=no',
+#       '--ignore-ssl-errors=yes',
+#       '--ssl-protocol=any',
+#       '--web-security=false', '--debug=true'
+#     ]
+#   }
 
-  Capybara::Poltergeist::Driver.new(app, js_options)
+#   Capybara::Poltergeist::Driver.new(app, js_options)
+# end
+# Capybara.javascript_driver = :poltergeist
+# # Capybara.ignore_hidden_elements = false
+
+require "capybara/apparition"
+
+Capybara.register_driver :apparition do |app|
+  options = {}
+  Capybara::Apparition::Driver.new(app, options)
 end
-Capybara.javascript_driver = :poltergeist
-# Capybara.ignore_hidden_elements = false
+
 
 # http://stackoverflow.com/questions/24078768/argumenterror-factory-not-registered
 # as per above, need to explicitly set below
