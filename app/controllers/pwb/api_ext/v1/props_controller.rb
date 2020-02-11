@@ -3,9 +3,12 @@ require_dependency "pwb/application_controller"
 module Pwb
   # class ApiExt::V1::PropsController < ActionController::Base
   class ApiExt::V1::PropsController < JSONAPI::ResourceController
-    # Skipping action below allows me to browse to endpoint
-    # without having set mime type
-    skip_before_action :ensure_valid_accept_media_type
+    # # Skipping action below allows me to browse to endpoint
+    # # without having set mime type
+    # skip_before_action :ensure_valid_accept_media_type
+    # # later version changes above method name
+    # # https://github.com/cerebris/jsonapi-resources/pull/806/files
+    # # https://github.com/cerebris/jsonapi-resources/pull/801
     skip_before_action :ensure_correct_media_type
     # feb 2017 - seems above has been replaced
     # https://github.com/cerebris/jsonapi-resources/pull/806/files
