@@ -8,15 +8,14 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
-## Feb 2020 update!
+## June 2020 update!
 
-Over the last year or so I have made several improvements to PWB for various paying clients.  I have not however had the time to merge those improvements back into the open source repo.  If you have some specific requirements that you are willing to pay for, reach out to me ([LinkedIn](https://www.linkedin.com/company/propertywebbuilder)) I might be able to help.
+I will not be able to keep PropertyWebBuilder updated over the coming weeks as I am busy with my new project SinglePropertyPages:
 
-Here is an example of a site that I have built using PWB as a base:
+[https://singlepropertypages.com/](https://singlepropertypages.com/)
 
-[https://www.buenavistahomes.eu/](https://www.buenavistahomes.eu/)
+If you like SinglePropertyPages and would like to see an open source version of it, let me know.  I would also like to hear from anyone who can help me in keeping PropertyWebBuilder updated.
 
-Contact me if you would like a site like the above
 
 ## Motivation
 
