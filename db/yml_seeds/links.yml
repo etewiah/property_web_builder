@@ -38,7 +38,7 @@
   link_title_fr: Louer
   link_title_de: Miete
   link_title_ru: Аренда
-  link_title_pt: Aluguer
+  link_title_pt: Aluguel
 - slug: top_nav_sell
   page_slug: sell
   link_path: show_page_path
@@ -159,7 +159,7 @@
   link_title_fr: Louer
   link_title_de: Miete
   link_title_ru: Аренда
-  link_title_pt: Aluguer
+  link_title_pt: Aluguel
 - slug: footer_sell
   page_slug: sell
   link_path: show_page_path
@@ -316,7 +316,7 @@
   link_title_fr: Louer
   link_title_de: Miete
   link_title_ru: Аренда
-  link_title_pt: Aluguer
+  link_title_pt: Aluguel
 - slug: admin_sell
   page_slug: sell
   link_path: show_page_path
@@ -385,6 +385,3 @@
   link_title_de: Datenschutz-Bestimmungen
   link_title_pt: Política de Privacidade
   link_title_ru: Политика конфиденциальности
-
-
-
