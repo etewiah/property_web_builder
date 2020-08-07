@@ -48,29 +48,29 @@ pt-BR:
     pageSections:
       notEditable:
         This section cannot be edited
-      homeSearchComponent: 
+      homeSearchComponent:
         title: Search bar
         info: Enable property search on the home page
-      contactUsFormAndMap: 
+      contactUsFormAndMap:
         title: Form and Map
         info: Contact us form and map
       pageTitle: Page title
-      services: 
+      services:
         title: Services you offer
         info: An overview of the services you offer
-      people: 
+      people:
         title: Your team
         info: Summary info about your team
-      rawHtml: 
+      rawHtml:
         title: HTML Content
         info: You can add extra HTML here
-      topRentals: 
+      topRentals:
         title: Top Rentals
         info: Summary list of properties to rent
-      topSales: 
+      topSales:
         title: Top Sales
         info: Summary list of properties for sale
-      contactUsForm: 
+      contactUsForm:
         title: Contact us form
         info: Form to allow visitors to send you a message
       ourAgency:
@@ -108,7 +108,7 @@ pt-BR:
       recLogoPhotoSize: Recommended size for logo is 120px X 80px,
       orderByDragging: Drag and drop to order - first photo will be main photo.
 
-    webContentLabels: 
+    webContentLabels:
       suffixEn: in English
       suffixEs: in Spanish
       suffixAr: in Arabic
@@ -136,7 +136,7 @@ pt-BR:
       aboutUs: About us
       footerInfo: Extra footer content
 
-    siteSections: 
+    siteSections:
       aboutUs: About us
       contactUs: Contact
       buy: Buy
@@ -152,26 +152,26 @@ pt-BR:
 
     properties: Properties
 
-    prompts: 
+    prompts:
       fixErrors: Please correct the errors below
 
-    todos: 
+    todos:
       createContent: Create some content
       companyDetails: Set up your company details
 
-    locationTab: 
+    locationTab:
       confirmAddress: Confirm new location
 
-    agencySections: 
+    agencySections:
       general: Agency Details
       location: Location
       user: User Details
 
-    siteLayout: 
+    siteLayout:
       wide: Wide
       boxed: Boxed
 
-    propertySections: 
+    propertySections:
       general: General
       location: Location
       text: Text
@@ -180,7 +180,7 @@ pt-BR:
       sale: Sale / Rental
       owner: Owner
 
-    propertyGeneralSections: 
+    propertyGeneralSections:
       sale: Sale
       longtermRental: Long term rental
       seasonalRental: Seasonal rental
@@ -190,7 +190,7 @@ pt-BR:
       portals: Web Portals
       extras: Features
 
-    translationsSections: 
+    translationsSections:
       extras: Features
       propertyTypes: Property Types
       propertyOrigins: Property Origins
@@ -198,7 +198,7 @@ pt-BR:
       propertyLabels: Property Labels
       provinces: Provinces
 
-    toolTips: 
+    toolTips:
       forSale: Select if property is available for sale
       priceSaleCurrent: Current selling price
       saleDiscount: saleDiscount
@@ -213,7 +213,7 @@ pt-BR:
       seasonalRental: Select 'Yes' if property is rentened seasonaly
       ref: Reference number for property
 
-    alerts: 
+    alerts:
       changesDetected: You have unsaved changes.
       deletingProperty: Are you sure you want to delete this property.  This action cannot be undone.
       navigatingFromChanges: You have unsaved changes. Please save or cancel your changes.
@@ -222,14 +222,14 @@ pt-BR:
       clickMapToUpdate: Click on map to select address or type directly below.
 
 
-    cards: 
+    cards:
       website: Website
       websitePrompt: Website actions
       websiteLink: Go to web control panel
       properties: Properties
       propertiesPrompt: Property actions
       propertiesLink: Go to properties
-    tasks: 
+    tasks:
       addProperty: Add a property
       addPropertyPrompt: properties / Add property
       manageProperties: Manage properties
@@ -246,7 +246,7 @@ pt-BR:
 
     editWebsite: Edit Website
     settingsForWebsite: Settings for Website
-    contentForWebsite: Content for Website 
+    contentForWebsite: Content for Website
     sectionsForWebsite: Website Sections
     themesForWebsite: Website Themes
     importExport: Import and export data
@@ -258,7 +258,7 @@ pt-BR:
     newProperty: New Property
     newClient: New Client
     propertiesList: Properties list
-    clientsList: Clients list    
+    clientsList: Clients list
 
     inTabLabels:
       topNav: Navigacion
@@ -301,7 +301,7 @@ pt-BR:
     ca-CA: Catalunha
     chf: Franco Suiço
     clp: Peso Chile
-    cny: 
+    cny:
     de-DE: Alemanha
     en-UK: Reino Unido
     en-US: Estados Unidos
@@ -370,7 +370,7 @@ pt-BR:
       longTermRentalDiscount: Desconto de arrendamento a longo prazo
       mlsCsvFile: Ficheiro csv exportado a partir da sua MLS
       nationality: Nacionalidade
-      numAseos: 
+      numAseos:
       obscureMap: Esconder morada real na página?
       origen: Origem
       otherPhone: Outro número de telefone
@@ -379,7 +379,7 @@ pt-BR:
       plotArea: "Área do Terreno"
       precioAlquiler: Preço de Arrendamento
       precioAntiguo: Preço Original
-      precioTa: 
+      precioTa:
       precioTb: Baixa de preço
       precioTm: Preço médio
       precioVenta: Preço de Venda
@@ -397,7 +397,7 @@ pt-BR:
       pwbCsvFile: Ficheiro csv exportado a partir do PropertyWebBuilder
       ref: Referência
       saleDiscount: Desconto de Venda
-      seasonalRental: Disponível para aluguer de temporada?
+      seasonalRental: Disponível para aluguel de temporada?
       skype: Skype
       temporadas: Temporadas
       tipo: Tipo
@@ -409,7 +409,7 @@ pt-BR:
       yearConstruction: Ano de construção
     fr-FR: França
     gbp: Libras esterlinas
-    hi: 
+    hi:
     hi-IN: "Índia"
     hkd: Dólar Hong Kong
     info:
@@ -419,7 +419,7 @@ pt-BR:
       recCarouselPhotoSize: Tamanho recomendado para imagens do carousel é de 900px X 400px
       recLogoPhotoSize: Tamanho recomendado para o logo é 120px X 80px
       recPropPhotoSize: Tamanho recomendado para a foto é 800px X 500px
-    inr: 
+    inr:
     ioSections:
       fromMls: Importar da MLS
       fromUpload: Importar de Ficheiro
@@ -442,14 +442,14 @@ pt-BR:
     pt-BR: Brasil
     pt-PT: Portugal
     ru-RU: Rússia
-    rub: 
+    rub:
     siteSections:
       aboutUs: Sobre nós
       buy: Comprar
       contactUs: Contactos
       rent: Arrendar
       sell: Vender
-    sqft: 
+    sqft:
     sqmt: Metros Quadrados
     'true': Verdade
     usd: Dólares Americanos
@@ -490,8 +490,3 @@ pt-BR:
 
     'yes': Sim
     zar: South African Rand
-
-
- 
-
-
