@@ -475,10 +475,6 @@ ActiveRecord::Schema.define(version: 20180507144720) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "area_unit", default: 0
-    t.string "neighborhood"
-    t.string "import_url"
-    t.json "related_urls", default: {}
-    t.string "slug"
     t.index ["archived"], name: "index_pwb_props_on_archived"
     t.index ["flags"], name: "index_pwb_props_on_flags"
     t.index ["for_rent_long_term"], name: "index_pwb_props_on_for_rent_long_term"

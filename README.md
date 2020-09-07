@@ -4,20 +4,18 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 
 [![Backers on Open Collective](https://opencollective.com/property_web_builder/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/property_web_builder/sponsors/badge.svg)](#sponsors)
-[![Build Status](https://api.travis-ci.org/etewiah/property_web_builder.svg?branch=master)](https://api.travis-ci.org/etewiah/property_web_builder)
 [![Gitter](https://badges.gitter.im/dev-1pr/1pr.svg)](https://gitter.im/property_web_builder/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
-## July 2019 update!
+## June 2020 update!
 
-Over the last year or so I have made several improvements to PWB for various paying clients.  I have not however had the time to merge those improvements back into the open source repo.  If you have some specific requirements that you are willing to pay for, reach out to me ([LinkedIn](https://www.linkedin.com/company/propertywebbuilder)) I might be able to help.
+I will not be able to keep PropertyWebBuilder updated over the coming weeks as I am busy with my new project SinglePropertyPages:
 
-Here are a couple of sites that I have built using PWB as a base:
+[https://singlepropertypages.com/](https://singlepropertypages.com/)
 
-[https://www.buenavistahomes.eu/](https://www.buenavistahomes.eu/)
+If you like SinglePropertyPages and would like to see an open source version of it, let me know.  I would also like to hear from anyone who can help me in keeping PropertyWebBuilder updated.
 
-[https://www.holidays2malaga.com/](https://www.holidays2malaga.com/)
 
 ## Motivation
 

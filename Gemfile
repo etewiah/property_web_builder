@@ -65,6 +65,8 @@ group :development, :test do
 
   gem 'rails-perftest'
   gem 'ruby-prof', '0.15.9'
+
+  gem 'apparition'
 end
 
 group :development do
@@ -85,3 +87,5 @@ gem 'paloma', github: 'fredngo/paloma'
 
 gem 'sassc-rails'
 gem "omniauth-rails_csrf_protection"
+# capybary now requires puma as webserver by default
+gem 'puma'

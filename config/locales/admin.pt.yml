@@ -90,7 +90,7 @@ pt:
       aboutUs: "Sobre Nós"
       sell: "Venda"
       buy: "Compra"
-      rent: "Aluguer"
+      rent: "Aluguel"
       contactUs: "Contacto"
       legalAdvice: "Aviso legal"
       privacyPolicy: "Política de privacidade"
@@ -411,7 +411,7 @@ pt:
       pwbCsvFile: Ficheiro csv exportado a partir do PropertyWebBuilder
       ref: Referência
       saleDiscount: Desconto de Venda
-      seasonalRental: Disponível para aluguer sazonal?
+      seasonalRental: Disponível para aluguel sazonal?
       skype: Skype
       temporadas: Temporadas
       tipo: Tipo
@@ -502,9 +502,3 @@ pt:
       navigation: Navegação
 
     'yes': Sim
-
-
-
-
-
-

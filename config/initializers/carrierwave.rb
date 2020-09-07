@@ -16,3 +16,7 @@
 #   # config.fog_public     = false                                        # optional, defaults to true
 #   config.fog_attributes = { 'Cache-Control' => "max-age=#{365.day.to_i}" } # optional, defaults to {}
 # end
+CarrierWave.configure do |config|
+  config.cache_storage = :file
+  config.cache_dir = "#{Rails.root}/tmp/uploads"                  # To let CarrierWave work on heroku
+end

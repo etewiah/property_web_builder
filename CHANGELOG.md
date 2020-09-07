@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 1.4.0 / 2020-02-09
+
 * Enable geocoding of addresses with geocoder gem
 * Add support for facebook authentication using omniauth
 * Fix issue with sending emails (#48)
