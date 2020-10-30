@@ -8,13 +8,13 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
-## June 2020 update!
+## October 2020 update!
 
-I will not be able to keep PropertyWebBuilder updated over the coming weeks as I am busy with my new project SinglePropertyPages:
+Great news - I have rewritten PropertyWebBuilder with a bunch of new features!!!  Right now it is in a private repo but if you want early access or to be notified when it becomes publicly available feel free to reach out to me.
 
-[https://singlepropertypages.com/](https://singlepropertypages.com/)
+You can read more about it here:
 
-If you like SinglePropertyPages and would like to see an open source version of it, let me know.  I would also like to hear from anyone who can help me in keeping PropertyWebBuilder updated.
+[https://medium.com/@weebrix/the-future-for-propertywebbuilder-my-open-source-real-estate-website-builder-83edf159a486/](https://medium.com/@weebrix/the-future-for-propertywebbuilder-my-open-source-real-estate-website-builder-83edf159a486/)
 
 
 ## Motivation
