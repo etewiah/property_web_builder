@@ -49,7 +49,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'pg', '< 1.0'
   s.add_dependency 'devise'
   s.add_dependency 'devise-i18n'
-  s.add_dependency 'omniauth'
+  s.add_dependency 'omniauth', "~> 1.9.1" # Can not move to 2.0 because of devise - https://github.com/heartcombo/devise/pull/5327
   s.add_dependency 'omniauth-facebook'
   # s.add_dependency 'omniauth-twitter'
   # s.add_dependency 'omniauth'
