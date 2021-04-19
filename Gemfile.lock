@@ -29,7 +29,7 @@ PATH
       liquid
       money-rails (~> 1)
       nokogiri
-      omniauth
+      omniauth (~> 1.9.1)
       omniauth-facebook
       pg (< 1.0)
       rails (>= 5.2)
@@ -301,18 +301,17 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    omniauth (2.0.4)
+    omniauth (1.9.1)
       hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
-      rack-protection
     omniauth-facebook (8.0.0)
       omniauth-oauth2 (~> 1.2)
     omniauth-oauth2 (1.7.1)
       oauth2 (~> 1.4)
       omniauth (>= 1.9, < 3)
-    omniauth-rails_csrf_protection (1.0.0)
+    omniauth-rails_csrf_protection (0.1.2)
       actionpack (>= 4.2)
-      omniauth (~> 2.0)
+      omniauth (>= 1.3.1)
     orm_adapter (0.5.0)
     os (1.1.1)
     parallel (1.20.1)
@@ -334,8 +333,6 @@ GEM
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
-    rack-protection (2.1.0)
-      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.5)
