@@ -8,14 +8,13 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
-## October 2020 update!
+## April 2021 update!
 
-Great news - I have rewritten PropertyWebBuilder with a bunch of new features!!!  Right now it is in a private repo but if you want early access or to be notified when it becomes publicly available feel free to reach out to me.
+The SAAS version of PropertyWebBuilder is now available with a bunch of new features!!!
 
-You can read more about it here:
+You can try it out here:
 
-[https://medium.com/@weebrix/the-future-for-propertywebbuilder-my-open-source-real-estate-website-builder-83edf159a486/](https://medium.com/@weebrix/the-future-for-propertywebbuilder-my-open-source-real-estate-website-builder-83edf159a486/)
-
+[http://propertywebbuilder.com](http://propertywebbuilder.com)
 
 ## Motivation
 
@@ -23,7 +22,6 @@ This project has been created to address a glaring gap in the rails ecosystem: t
 
 The result is that WordPress has become the dominant tool for creating real estate websites.  This is far from ideal and PropertyWebBuilder seeks to address this.
 
-Read more about this here: [http://propertywebbuilder.com](http://propertywebbuilder.com)
 
 ## [Demo](https://propertywebbuilder.herokuapp.com/)
 
