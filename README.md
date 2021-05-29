@@ -8,13 +8,15 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
-## April 2021 update!
+## June 2021 update!
 
-The SAAS version of PropertyWebBuilder is now available with a bunch of new features!!!
+The SAAS version of PropertyWebBuilder is now available with a bunch of new features aand I have a special offer for github users!!!
 
-You can try it out here:
+You can get 50% off the price of our hosted real estate websites:
 
-[http://propertywebbuilder.com](http://propertywebbuilder.com)
+[https://propertywebbuilder.com/o/special-github-discount](https://propertywebbuilder.com/o/special-github-discount)
+
+If you are building a website for a client and would like a whitelabel solution we can help with that too.
 
 ## Motivation
 
