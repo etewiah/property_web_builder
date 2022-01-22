@@ -8,15 +8,16 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
-## June 2021 update!
+## Jan 2022 update!
 
-The SAAS version of PropertyWebBuilder is now available with a bunch of new features aand I have a special offer for github users!!!
+As I have mentioned before, I plan to move PropertyWebBuilder to vue.js.
 
-You can get 50% off the price of our hosted real estate websites:
+As preparation for this I created a small project using vue 3 with the Quasar toolkit.  It includes some of the functionality that will be included in the future version of PropertyWebBuilder.
 
-[https://propertywebbuilder.com/o/special-github-discount](https://propertywebbuilder.com/o/special-github-discount)
+Check it out here:
 
-If you are building a website for a client and would like a whitelabel solution we can help with that too.
+[https://github.com/etewiah/quasar-singlepropertypages](https://github.com/etewiah/quasar-singlepropertypages)
+
 
 ## Motivation
 
