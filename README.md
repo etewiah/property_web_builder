@@ -8,15 +8,13 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
-## Jan 2022 update!
+## March 2022 update!
 
-As I have mentioned before, I plan to move PropertyWebBuilder to vue.js.
+I am currently working on a tool to help with house hunting. Would love to get some feedback about it.
 
-As preparation for this I created a small project using vue 3 with the Quasar toolkit.  It includes some of the functionality that will be included in the future version of PropertyWebBuilder.
+Please check it out here and let me know what you think (and if you would like it to be open-sourced):
 
-Check it out here:
-
-[https://github.com/etewiah/quasar-singlepropertypages](https://github.com/etewiah/quasar-singlepropertypages)
+[https://propertysquares.com/](https://propertysquares.com/)
 
 
 ## Motivation
