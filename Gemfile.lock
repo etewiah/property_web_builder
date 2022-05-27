@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/fredngo/paloma.git
+  remote: https://github.com/fredngo/paloma.git
   revision: 40a84f5dfa5d1ba6b515cecc87470428333f81d6
   specs:
     paloma (5.0.0)
@@ -332,7 +332,7 @@ GEM
     puma (5.5.2)
       nio4r (~> 2.0)
     racc (1.6.0)
-    rack (2.2.3)
+    rack (2.2.3.1)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.6)
