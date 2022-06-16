@@ -14,7 +14,7 @@ module Pwb
     has_many :page_contents
     has_many :contents, through: :page_contents
     # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
-    has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: 'PageContent'
+    has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: "PageContent"
     # below would get me the correct items but the order gets lost:
     # has_many :ordered_visible_contents, :source => :content, :through => :ordered_visible_page_contents
     # note, even where ordered_visible_contents exist,
@@ -54,7 +54,7 @@ module Pwb
       begin
         photo = page_fragment_content.content_photos.create(block_key: block_label)
         photo.image = photo_file
-        # photo.image = Pwb::Engine.root.join(photo_file).open
+        # photo.image = Rails.root.join(photo_file).open
         photo.save!
       rescue Exception => e
         # log exception to console
@@ -80,7 +80,7 @@ module Pwb
     # end
 
     def set_fragment_visibility(page_part_key, visible_on_page)
-      # TODO: enable this 
+      # TODO: enable this
       # for page_parts without content like search cmpt.
 
       page_content_join_model = self.page_contents.find_or_create_by(page_part_key: page_part_key)
@@ -122,7 +122,6 @@ module Pwb
     #   return { json_fragment_block: json_fragment_block, fragment_html: fragment_html }
     # end
 
-
     # def as_json(options = nil)
     #   super({only: ["sort_order_top_nav", "show_in_top_nav"],
     #          methods: ["link_title_en","link_title_es"
@@ -134,12 +133,12 @@ module Pwb
     # Page.first.as_json_for_admin
     # Is used to retrieve details by api/v1/page controller
     def as_json_for_admin(options = nil)
-      as_json({only: [
-                 "sort_order_top_nav", "show_in_top_nav",
-                 "sort_order_footer", "show_in_footer",
-                 "slug", "link_path", "visible"
-               ],
-               methods: admin_attribute_names}.merge(options || {}))
+      as_json({ only: [
+        "sort_order_top_nav", "show_in_top_nav",
+        "sort_order_footer", "show_in_footer",
+        "slug", "link_path", "visible",
+      ],
+                methods: admin_attribute_names }.merge(options || {}))
     end
 
     def admin_attribute_names
