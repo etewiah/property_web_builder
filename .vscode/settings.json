@@ -1,0 +1,4 @@
+{
+  "prettier.singleQuote": true,
+  "editor.formatOnSave": false
+}
