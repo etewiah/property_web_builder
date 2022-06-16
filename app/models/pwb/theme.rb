@@ -1,7 +1,7 @@
 module Pwb
   # https://github.com/zilkey/active_hash
   class Theme < ActiveJSON::Base
-    set_root_path "#{Pwb::Engine.root}/app/themes"
+    set_root_path "#{Rails.root}/app/themes"
     set_filename "config"
     # use_multiple_files
     # set_filenames "default"

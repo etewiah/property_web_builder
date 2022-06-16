@@ -8,9 +8,9 @@ module Pwb
     # reverse_geocoded_by :latitude, :longitude do |obj,results|
     geocoded_by :geocodeable_address do |obj, results|
       if geo = results.first
-        obj.longitude    = geo.longitude
-        obj.latitude    = geo.latitude
-        obj.city    = geo.city
+        obj.longitude = geo.longitude
+        obj.latitude = geo.latitude
+        obj.city = geo.city
         obj.street_number = geo.street_number
         # obj.street_name = geo.street_name
         obj.street_address = geo.street_address
@@ -53,13 +53,13 @@ module Pwb
     # and enable below:
     # validates :reference, :uniqueness => { case_sensitive: false }
 
-    has_many :prop_photos, -> { order 'sort_order asc' }
+    has_many :prop_photos, -> { order "sort_order asc" }
     has_many :features
 
-    scope :for_rent, -> () { where('for_rent_short_term OR for_rent_long_term') }
+    scope :for_rent, ->() { where("for_rent_short_term OR for_rent_long_term") }
     # couldn't do above if for_rent_short_term was a flatshihtzu boolean
-    scope :for_sale, -> () { where for_sale: true }
-    scope :visible, -> () { where visible: true }
+    scope :for_sale, ->() { where for_sale: true }
+    scope :visible, ->() { where visible: true }
 
     scope :in_zone, ->(key) { where zone_key: key }
     scope :in_locality, ->(key) { where locality_key: key }
@@ -115,9 +115,9 @@ module Pwb
       features_json.keys.each do |feature_key|
         # TODO - create feature_key if its missing
         if features_json[feature_key] == "true" || features_json[feature_key] == true
-          features.find_or_create_by( feature_key: feature_key)
+          features.find_or_create_by(feature_key: feature_key)
         else
-          features.where( feature_key: feature_key).delete_all
+          features.where(feature_key: feature_key).delete_all
         end
       end
     end
@@ -139,7 +139,7 @@ module Pwb
         #   merged_extras.push translated_option_key
         # end
       end
-      merged_extras.sort{ |w1, w2| w1.casecmp(w2) }
+      merged_extras.sort { |w1, w2| w1.casecmp(w2) }
       # above ensures sort is case insensitive
       # by default sort will add lowercased items to end of array
       # http://stackoverflow.com/questions/17799871/how-do-i-alphabetize-an-array-ignoring-case
@@ -152,7 +152,6 @@ module Pwb
         prop_photos[number - 1]
       end
     end
-
 
     def primary_image_url
       if prop_photos.length > 0
@@ -185,9 +184,9 @@ module Pwb
         rent_or_sale = for_rent ? "for_rent" : "for_sale"
       end
       if rent_or_sale == "for_rent"
-        return Pwb::Engine.routes.url_helpers.prop_show_for_rent_path(locale: I18n.locale, id: id, url_friendly_title: url_friendly_title)
+        return Rails.application.routes.url_helpers.prop_show_for_rent_path(locale: I18n.locale, id: id, url_friendly_title: url_friendly_title)
       else
-        return Pwb::Engine.routes.url_helpers.prop_show_for_sale_path(locale: I18n.locale, id: id, url_friendly_title: url_friendly_title)
+        return Rails.application.routes.url_helpers.prop_show_for_sale_path(locale: I18n.locale, id: id, url_friendly_title: url_friendly_title)
       end
     end
 
