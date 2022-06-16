@@ -1,5 +1,5 @@
 # To reload from console:
-# load "#{Pwb::Engine.root}/lib/pwb/contents_seeder.rb"
+# load "#{Rails.root}/lib/pwb/contents_seeder.rb"
 # Pwb::ContentsSeeder.seed_page_content_translations!
 module Pwb
   class ContentsSeeder
@@ -11,7 +11,7 @@ module Pwb
       # below need to have page_parts populated to work correctly
       def seed_page_content_translations!
         I18n.available_locales.each do |locale|
-          locale_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'content_translations', locale.to_s + '.yml')
+          locale_seed_file = Rails.root.join("db", "yml_seeds", "content_translations", locale.to_s + ".yml")
           if File.exist? locale_seed_file
             yml = YAML.load_file(locale_seed_file)
 
@@ -30,7 +30,6 @@ module Pwb
       protected
 
       def seed_content_for_locale(locale, yml)
-
         current_website = Pwb::Website.last
         current_website.page_parts.each do |page_part|
           page_part_key = page_part.page_part_key
@@ -50,13 +49,12 @@ module Pwb
             # end
             set_page_part_content yml, page_part_key, page_part_manager, page.slug, locale
             page_part_manager.set_default_page_content_order_and_visibility
-
           end
         end
       end
 
       # reads content from
-      def set_page_part_content yml, page_part_key, page_part_manager, container_label, locale
+      def set_page_part_content(yml, page_part_key, page_part_manager, container_label, locale)
 
         # Items in each locale seed file are nested as
         # page_slug/page_part_key and then the block labels
@@ -66,15 +64,14 @@ module Pwb
           page_part_manager.seed_container_block_content locale, seed_content
           p "#{container_label} #{page_part_key} content set for #{locale}."
         else
-          # Might get here because the page_part is_rails_part or 
+          # Might get here because the page_part is_rails_part or
           # does not have any content to be seeded.
-          # Still want to have a page_content entry based on that 
+          # Still want to have a page_content entry based on that
           # page_part though
           page_part_manager.find_or_create_join_model
           p "no content for #{container_label} page #{page_part_key} #{locale}."
         end
       end
-
     end
   end
 end
