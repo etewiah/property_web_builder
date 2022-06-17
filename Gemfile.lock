@@ -163,6 +163,7 @@ GEM
       railties (>= 4.1)
     launchy (2.5.0)
       addressable (~> 2.7)
+    liquid (5.3.0)
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -388,6 +389,7 @@ DEPENDENCIES
   json_spec
   jsonapi-resources (~> 0.10.7)
   launchy
+  liquid (~> 5.3)
   money-rails (~> 1.15)
   omniauth (~> 2.1)
   paloma (~> 6.1.0)

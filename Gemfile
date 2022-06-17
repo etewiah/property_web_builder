@@ -121,3 +121,5 @@ gem "flag_shih_tzu", "~> 0.3.23"
 gem "bootstrap-sass", "~> 3.4"
 
 gem "jquery-rails", "~> 4.5"
+
+gem "liquid", "~> 5.3"
