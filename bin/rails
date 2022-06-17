@@ -1,13 +1,19 @@
 #!/usr/bin/env ruby
-# This command will automatically be run when you run "rails" with Rails gems
-# installed from the root of your application.
+APP_PATH = File.expand_path("../config/application", __dir__)
+require_relative "../config/boot"
+require "rails/commands"
 
-ENGINE_ROOT = File.expand_path('../..', __FILE__)
-ENGINE_PATH = File.expand_path('../../lib/pwb/engine', __FILE__)
+# # This command will automatically be run when you run "rails" with Rails gems
+# # installed from the root of your application.
 
-# Set up gems listed in the Gemfile.
-ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
-require 'bundler/setup' if File.exist?(ENV['BUNDLE_GEMFILE'])
+# Below is how this file looked when it was running as an engine:
+# ENGINE_ROOT = File.expand_path('..', __dir__)
+# ENGINE_PATH = File.expand_path('../lib/property_web_builder/engine', __dir__)
+# APP_PATH = File.expand_path('../test/dummy/config/application', __dir__)
 
-require 'rails/all'
-require 'rails/engine/commands'
+# # Set up gems listed in the Gemfile.
+# ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
+# require 'bundler/setup' if File.exist?(ENV['BUNDLE_GEMFILE'])
+
+# require 'rails/all'
+# require 'rails/engine/commands'
