@@ -2,12 +2,11 @@ module Pwb
   class Api::V1::PropertiesController < JSONAPI::ResourceController
     # Skipping action below allows me to browse to endpoint
     # without having set mime type
-    skip_before_action :ensure_valid_accept_media_type
+    # skip_before_action :ensure_valid_accept_media_type
 
     # def set_default_currency
     #   @model
     # end
-
 
     def bulk_create
       propertiesJSON = params["propertiesJSON"]
@@ -42,7 +41,7 @@ module Pwb
             # into them
 
             # if propertyJSON["features"]
-            # TODO - process feature (currently not retrieved by PWS so not important) 
+            # TODO - process feature (currently not retrieved by PWS so not important)
             #   new_prop.set_features=propertyJSON["features"]
             # end
             if propertyJSON["property_photos"]
@@ -71,10 +70,10 @@ module Pwb
       end
 
       return render json: {
-        new_props: new_props,
-        existing_props: existing_props,
-        errors: errors
-      }
+                      new_props: new_props,
+                      existing_props: existing_props,
+                      errors: errors,
+                    }
     end
 
     # TODO: rename to update_features:
@@ -129,7 +128,6 @@ module Pwb
       files_array = params[:file]
       photos_array = []
       files_array.each do |file|
-
         photo = PropPhoto.create
         # photo.subdomain = subdomain
         # photo.folder = current_tenant_model.whitelabel_country_code
@@ -180,13 +178,13 @@ module Pwb
 
     private
 
-    def properties_params propertiesJSON
+    def properties_params(propertiesJSON)
       # propertiesJSON = params["propertiesJSON"]
       # unless propertiesJSON.is_a? Array
       #   propertiesJSON = JSON.parse propertiesJSON
       # end
       # pp = ActionController::Parameters.new(propertiesJSON)
-      pp = ActionController::Parameters.new({propertiesJSON: propertiesJSON})
+      pp = ActionController::Parameters.new({ propertiesJSON: propertiesJSON })
       # https://github.com/rails/strong_parameters/issues/140
       # params.require(:propertiesJSON).map do |p|
       pp.require(:propertiesJSON).map do |p|
