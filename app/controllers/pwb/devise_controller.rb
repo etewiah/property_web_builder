@@ -72,12 +72,12 @@ module Pwb
       # router_name = Devise.mappings[scope].router_name
       # context = router_name ? send(router_name) : self
       # context.respond_to?(:root_path) ? context.root_path : "/"
-      pwb.home_path
+      home_path
     end
 
     def after_sign_in_path_for(_resource_or_scope)
       # TODO: - check for admin v standard users
-      pwb.admin_path
+      admin_path
       # stored_location_for(resource_or_scope) || signed_in_root_path(resource_or_scope)
     end
   end

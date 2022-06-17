@@ -6,14 +6,13 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  config.secret_key = '1b3c7258c8aacac85f3a9f70140de526bc8b9c585de5792e98a1486ba4c3a62f3a79f5b50dc582495be1bfe0c992756842955455d3f720c45073f395d05ac4da'
-
+  config.secret_key = "1b3c7258c8aacac85f3a9f70140de526bc8b9c585de5792e98a1486ba4c3a62f3a79f5b50dc582495be1bfe0c992756842955455d3f720c45073f395d05ac4da"
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -25,7 +24,7 @@ Devise.setup do |config|
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
-  require 'devise/orm/active_record'
+  require "devise/orm/active_record"
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
@@ -248,11 +247,11 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :facebook,
-    Rails.application.secrets.facebook_app_id,
-    Rails.application.secrets.facebook_app_secret,
-    scope: "email",
-    token_params: { parse: :json }
+  # config.omniauth :facebook,
+  #   Rails.application.secrets.facebook_app_id,
+  #   Rails.application.secrets.facebook_app_secret,
+  #   scope: "email",
+  #   token_params: { parse: :json }
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
@@ -270,10 +269,10 @@ Devise.setup do |config|
   #     mount MyEngine, at: '/my_engine'
   #
   # The router that invoked `devise_for`, in the example above, would be:
-  config.router_name = :pwb
+  # config.router_name = :pwb
 
   # without below @current_agency will be null
-  config.parent_controller = 'Pwb::DeviseController'
+  config.parent_controller = "Pwb::DeviseController"
   #
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,
   # so you need to do it manually. For the users scope, it would be:
