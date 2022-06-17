@@ -41,7 +41,7 @@ The simplest way to create a website with PropertyWebBuilder is to use Heroku, a
 
 Just [sign up for Heroku](https://signup.heroku.com/identity), click the button below and in a few minutes your site will be ready
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/etewiah/property_web_builder)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/etewiah/property_web_builder/tree/standalone)
 
 You may be asked for credit card details when you create an account but you will not be charged for creating and trying the website. You will only need to pay if you upgrade the service.  Here is a video about how to deploy to heroku:
 
