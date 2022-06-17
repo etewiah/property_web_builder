@@ -144,13 +144,13 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
   end
 
   create_table "pwb_content_translations", force: :cascade do |t|
-    t.integer "pwb_content_id", null: false
+    t.integer "content_id", null: false
     t.string "locale", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "raw"
+    t.index ["content_id"], name: "index_pwb_content_translations_on_pwb_content_id"
     t.index ["locale"], name: "index_pwb_content_translations_on_locale"
-    t.index ["pwb_content_id"], name: "index_pwb_content_translations_on_pwb_content_id"
   end
 
   create_table "pwb_contents", id: :serial, force: :cascade do |t|
@@ -188,13 +188,13 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
   end
 
   create_table "pwb_link_translations", force: :cascade do |t|
-    t.integer "pwb_link_id", null: false
+    t.integer "link_id", null: false
     t.string "locale", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "link_title", default: ""
+    t.index ["link_id"], name: "index_pwb_link_translations_on_pwb_link_id"
     t.index ["locale"], name: "index_pwb_link_translations_on_locale"
-    t.index ["pwb_link_id"], name: "index_pwb_link_translations_on_pwb_link_id"
   end
 
   create_table "pwb_links", id: :serial, force: :cascade do |t|
@@ -276,7 +276,7 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
   end
 
   create_table "pwb_page_translations", force: :cascade do |t|
-    t.integer "pwb_page_id", null: false
+    t.integer "page_id", null: false
     t.string "locale", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -284,7 +284,7 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.string "page_title", default: ""
     t.string "link_title", default: ""
     t.index ["locale"], name: "index_pwb_page_translations_on_locale"
-    t.index ["pwb_page_id"], name: "index_pwb_page_translations_on_pwb_page_id"
+    t.index ["page_id"], name: "index_pwb_page_translations_on_pwb_page_id"
   end
 
   create_table "pwb_pages", id: :serial, force: :cascade do |t|
@@ -319,14 +319,14 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
   end
 
   create_table "pwb_prop_translations", force: :cascade do |t|
-    t.integer "pwb_prop_id", null: false
+    t.integer "prop_id", null: false
     t.string "locale", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title", default: ""
     t.text "description", default: ""
     t.index ["locale"], name: "index_pwb_prop_translations_on_locale"
-    t.index ["pwb_prop_id"], name: "index_pwb_prop_translations_on_pwb_prop_id"
+    t.index ["prop_id"], name: "index_pwb_prop_translations_on_pwb_prop_id"
   end
 
   create_table "pwb_props", id: :serial, force: :cascade do |t|
@@ -502,4 +502,5 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
 end
