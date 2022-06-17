@@ -12,7 +12,6 @@ class CreatePwbWebsites < ActiveRecord::Migration[5.0]
 
       # t.integer :primary_address_id
       t.integer :contact_address_id
-      t.integer :flags
       t.integer :flags, null: false, default: 0
       # t.integer :payment_plan_id
 
@@ -22,17 +21,17 @@ class CreatePwbWebsites < ActiveRecord::Migration[5.0]
       t.json :style_variables_for_theme, default: {}
 
       t.text :sale_price_options_from, array: true, default: [
-        "","25,000", "50,000", "75,000", "100,000", "150,000", "250,000", "500,000", "1,000,000", "2,000,000", "5,000,000", "10,000,000"
-      ]
+                                  "", "25,000", "50,000", "75,000", "100,000", "150,000", "250,000", "500,000", "1,000,000", "2,000,000", "5,000,000", "10,000,000",
+                                ]
       t.text :sale_price_options_till, array: true, default: [
-        "","25,000", "50,000", "75,000", "100,000", "150,000", "250,000", "500,000", "1,000,000", "2,000,000", "5,000,000", "10,000,000"
-      ]
+                                  "", "25,000", "50,000", "75,000", "100,000", "150,000", "250,000", "500,000", "1,000,000", "2,000,000", "5,000,000", "10,000,000",
+                                ]
       t.text :rent_price_options_from, array: true, default: [
-        "","250", "500", "750", "1,000", "1,500", "2,500", "5,000"
-      ]
+                                  "", "250", "500", "750", "1,000", "1,500", "2,500", "5,000",
+                                ]
       t.text :rent_price_options_till, array: true, default: [
-        "","250", "500", "750", "1,000", "1,500", "2,500", "5,000"
-      ]
+                                  "", "250", "500", "750", "1,000", "1,500", "2,500", "5,000",
+                                ]
       # t.text :available_locales, array: true, default: []
       t.text :supported_locales, array: true, default: ["en-UK"]
       # t.text :available_currencies, array: true, default: []
