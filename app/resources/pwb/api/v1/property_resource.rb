@@ -1,6 +1,6 @@
 module Pwb
   class Api::V1::PropertyResource < JSONAPI::Resource
-    model_name 'Pwb::Prop'
+    model_name "Pwb::Prop"
 
     # http://jsonapi-resources.com/v0.9/guide/resources.html#Callbacks
     # thought of using below to dynamically set globalize attributes dynamically but
@@ -28,7 +28,6 @@ module Pwb
     attributes :title_ko, :description_ko
     attributes :title_bg, :description_bg
 
-
     attributes :area_unit, :photos, :property_photos, :extras
     attributes :street_address, :street_name, :street_number, :postal_code
     attributes :city, :region, :currency
@@ -44,7 +43,7 @@ module Pwb
     attributes :price_rental_monthly_current_cents, :price_rental_monthly_original_cents
     attributes :price_rental_monthly_low_season_cents, :price_rental_monthly_high_season_cents
     attributes :price_rental_monthly_standard_season_cents
-    attributes  :visible, :highlighted, :reference
+    attributes :visible, :highlighted, :reference
 
     def extras
       # override needed here as I have an extras has_many r/n on property
@@ -55,12 +54,12 @@ module Pwb
     # TODO - fix client side so I don't have to use these legacy names
     def property_photos
       photos = @model.prop_photos
-      return photos
+      return photos.as_json
     end
 
     def photos
       photos = @model.prop_photos
-      return photos
+      return photos.as_json
     end
 
     # def ano_constr
