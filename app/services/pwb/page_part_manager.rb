@@ -41,7 +41,7 @@ module Pwb
 
     # TODO: Use below for page_part_content_spec
     def get_seed_content(locale)
-      locale_seed_file = Pwb::Engine.root.join('db', 'yml_seeds', 'content_translations', locale.to_s + '.yml')
+      locale_seed_file = Rails.root.join("db", "yml_seeds", "content_translations", locale.to_s + ".yml")
       raise Exception, "Contents seed for #{locale} not found" unless File.exist? locale_seed_file
       yml = YAML.load_file(locale_seed_file)
 
@@ -61,7 +61,7 @@ module Pwb
       # page_part_key = page_part.page_part_key
 
       # container for json to be attached to page details
-      locale_block_content_json = {"blocks" => {}}
+      locale_block_content_json = { "blocks" => {} }
       # {"blocks"=>{"title_a"=>{"content"=>"about our agency"}, "content_a"=>{"content"=>""}}}
       page_part_editor_setup["editorBlocks"].each do |configColBlocks|
         configColBlocks.each do |configRowBlock|
@@ -82,7 +82,7 @@ module Pwb
               row_block_content = seed_content[row_block_label]
             end
           end
-          locale_block_content_json["blocks"][row_block_label] = {"content" => row_block_content}
+          locale_block_content_json["blocks"][row_block_label] = { "content" => row_block_content }
         end
       end
       # # save the block contents (in associated page_part model)
@@ -158,7 +158,7 @@ module Pwb
 
       if page_part.present?
         l_template = Liquid::Template.parse(page_part.template)
-        new_fragment_html = l_template.render('page_part' => page_part.block_contents[locale]["blocks"] )
+        new_fragment_html = l_template.render("page_part" => page_part.block_contents[locale]["blocks"])
         # p "#{page_part_key} content for #{self.slug} page parsed."
         # save in content model associated with page
 
@@ -209,12 +209,12 @@ module Pwb
       begin
         # if photo_file.is_a?(String)
         # photo.image = photo_file
-        photo.image = Pwb::Engine.root.join(photo_file).open
+        photo.image = Rails.root.join(photo_file).open
         photo.save!
-        print "#{slug}--#{page_part_key} image created: #{photo.optimized_image_url}\n"
+        print "#{page_part_key} image created: #{photo.optimized_image_url}\n"
         # reload the record to ensure that url is available
         photo.reload
-        print "#{slug}--#{page_part_key} image created: #{photo.optimized_image_url}(after reload..)"
+        print "#{page_part_key} image created: #{photo.optimized_image_url}(after reload..)"
       rescue Exception => e
         # log exception to console
         print e
