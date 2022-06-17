@@ -85,8 +85,39 @@ gem "paloma", "~> 6.1.0"
 # gem 'property_web_scraper', github: 'RealEstateWebTools/property_web_scraper'
 
 gem "sassc-rails"
-gem "omniauth-rails_csrf_protection"
 # capybary now requires puma as webserver by default
 gem "puma"
 
 gem "pg" #, "~> 0.21.0"
+
+gem "carrierwave", "~> 2.2"
+
+gem "cloudinary", "~> 1.23"
+
+gem "devise", "~> 4.8"
+
+gem "omniauth", "~> 2.1"
+
+gem "geocoder", "~> 1.8"
+
+gem "i18n", "~> 1.10"
+
+gem "i18n-active_record", "~> 1.1"
+
+gem "globalize", "~> 6.2"
+
+gem "money-rails", "~> 1.15"
+
+gem "simple_form", "~> 5.1"
+
+gem "jsonapi-resources", "~> 0.10.7"
+
+gem "globalize-accessors", "~> 0.3.0"
+
+gem "active_hash", "~> 3.1"
+
+gem "flag_shih_tzu", "~> 0.3.23"
+
+gem "bootstrap-sass", "~> 3.4"
+
+gem "jquery-rails", "~> 4.5"
