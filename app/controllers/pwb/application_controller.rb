@@ -17,7 +17,7 @@ module Pwb
       # below allows themes installed in Rails app consuming Pwb to work
       prepend_view_path "#{Rails.root}/app/themes/#{theme_name}/views/"
 
-      self.class.layout "#{Rails.root}/app/themes/#{theme_name}/views/layouts/pwb/application"
+      self.class.layout "layouts/pwb/application"
     end
 
     def set_locale
