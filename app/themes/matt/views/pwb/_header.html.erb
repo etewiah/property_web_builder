@@ -30,7 +30,7 @@
 </v-toolbar>
 <v-toolbar>
   <v-toolbar-title>
-    <%= link_to pwb.root_path(locale: locale), class: "navbar-brand" do %>
+    <%= link_to root_path(locale: locale), class: "navbar-brand" do %>
       <% if @current_website.logo_url  %>
         <img src="<%= @current_website.logo_url %>" alt="Logo">
       <% else %>
@@ -50,36 +50,36 @@
     <% end %>
     <% if @show_admin_link  %>
       <% if current_user %>
-        <li class="<%= 'selected' if current_page?(pwb.admin_with_locale_path(locale: locale)) %>">
+        <li class="<%= 'selected' if current_page?(admin_with_locale_path(locale: locale)) %>">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <%= t "navbar.admin" %>
           </a>
           <ul class="dropdown-menu">
             <li>
-              <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+              <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale)  %>
             </li>
             <li>
-              <%= link_to I18n.t("changePassword"), pwb.edit_user_registration_path() %>
+              <%= link_to I18n.t("changePassword"), edit_user_registration_path() %>
             </li>
             <li>
-              <%= link_to I18n.t("signOut"), pwb.destroy_user_session_path(), method: :delete %>
+              <%= link_to I18n.t("signOut"), destroy_user_session_path(), method: :delete %>
             </li>
           </ul>
         </li>
       <% else %>
-        <%= link_to pwb.admin_with_locale_path(locale: locale), class: "btn btn--flat" do %>
+        <%= link_to admin_with_locale_path(locale: locale), class: "btn btn--flat" do %>
           link_to I18n.t("navbar.admin")
         <% end %>
       <% end %>
     <% end %>
     <v-btn flat>Link One</v-btn>
     <v-btn flat>Link Two</v-btn>
-    <%= link_to pwb.admin_with_locale_path(locale: locale) do %>
+    <%= link_to admin_with_locale_path(locale: locale) do %>
       <v-btn flat>
         admin
                         </v-btn>
     <% end %>
-    <%= link_to pwb.admin_with_locale_path(locale: locale), class: "btn btn--flat" do %>
+    <%= link_to admin_with_locale_path(locale: locale), class: "btn btn--flat" do %>
       admin 2
                             <% end %>
     <div class="btn btn--flat">
@@ -88,11 +88,11 @@
         <v-list>
           <v-list-tile @click="">
             <v-list-tile-title>
-                          <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+                          <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale)  %>
             </v-list-tile-title>
           </v-list-tile>
           <v-list-tile @click="">
-                          <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+                          <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale)  %>
           </v-list-tile>
           <v-list-tile @click="">
             <v-list-tile-title>Item 3</v-list-tile-title>
