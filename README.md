@@ -41,59 +41,25 @@ The simplest way to create a website with PropertyWebBuilder is to use Heroku, a
 
 Just [sign up for Heroku](https://signup.heroku.com/identity), click the button below and in a few minutes your site will be ready
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/etewiah/pwb-for-heroku)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/etewiah/property_web_builder)
 
 You may be asked for credit card details when you create an account but you will not be charged for creating and trying the website. You will only need to pay if you upgrade the service.  Here is a video about how to deploy to heroku:
 
 [![Depoly PWB to heroku](http://img.youtube.com/vi/hyapXTwGyr4/0.jpg)](http://www.youtube.com/watch?v=hyapXTwGyr4 "Deploy PWB to heroku")
 
 
-## Install as a standalone site
+## Install locally
 
-PWB has been designed to be included as an engine in an existing Ruby on Rails app.  In this repo I have a Ruby on Rails app that includes PWB.
+PWB was previously designed to be included as an engine in an existing Ruby on Rails app. This is no longer the case and you can now run it directly as a standalone app.
 
-[https://github.com/etewiah/pwb-for-heroku](https://github.com/etewiah/pwb-for-heroku)
-
-As the name suggests, the project can be deployed to heroku but it can also be installed locally as follows:
+It can also be installed locally as follows:
 
 ```bash
-git clone https://github.com/etewiah/pwb-for-heroku.git
-cd pwb-for-heroku
+git clone https://github.com/etewiah/property_web_builder.git
+cd property_web_builder
 rails db:create
 rails db:migrate
 rails pwb:db:seed
-rails pwb:db:seed_pages
-```
-
-
-## Installation within an existing Rails app
-
-Install into an existing Rails project by adding these lines in your applications's Gemfile:
-
-```ruby
-gem 'pwb', git: 'https://github.com/etewiah/property_web_builder', branch: 'master'
-gem 'globalize', git: 'https://github.com/globalize/globalize'
-gem 'paloma', github: 'fredngo/paloma'
-```
-
-Also, be sure to use Postgres as your database (by having the "pg" gem and Postgres installed locally - version 9.5 or above)
-And then execute:
-```bash
-$ bundle
-```
-
-Mount the PropertyWebBuilder by adding the following to your routes.rb file:
-```ruby
-mount Pwb::Engine => '/'
-```
-
-and run the ff commands from the console:
-```bash
-rails pwb:install:migrations
-rails db:create
-rails db:migrate
-rails pwb:db:seed
-rails pwb:db:seed_pages
 ```
 
 ## Rails Version
