@@ -7,12 +7,12 @@ module Pwb
       unless app_id_present && app_secret_present
         return
       end
-      link_title = t('.sign_in_with_provider', provider: provider.to_s.titleize)
-      link_path = pwb.send("localized_omniauth_path", provider)
+      link_title = t(".sign_in_with_provider", provider: provider.to_s.titleize)
+      link_path = send("localized_omniauth_path", provider)
       # link_path has to adapted to localised scope
       # https://github.com/plataformatec/devise/wiki/How-To:-OmniAuth-inside-localized-scope
       link_to link_title, link_path
-      # pwb.localized_omniauth_path(provider)
+      # localized_omniauth_path(provider)
     end
 
     def render_top_navigation_links
@@ -40,11 +40,11 @@ module Pwb
       begin
         if page[:link_path].present?
           # link_path should be valid - below checks that
-          target_path = pwb.send(page[:link_path], [page[:link_path_params]], {locale: locale})
+          target_path = send(page[:link_path], [page[:link_path_params]], { locale: locale })
           # below works in most routes but had to change to above to support devise routes
           # target_path = send(page[:link_path], {locale: locale})
           # else
-          #   target_path = self.pwb.send("show_page_path", page[:slug], {locale: locale})
+          #   target_path = self.send("show_page_path", page[:slug], {locale: locale})
         elsif page[:link_url].present?
           target_path = page[:link_url]
         end
@@ -65,11 +65,11 @@ module Pwb
       begin
         if page[:link_path].present?
           # link_path should be valid - below checks that
-          target_path = pwb.send(page[:link_path], [page[:link_path_params]], {locale: locale})
+          target_path = send(page[:link_path], [page[:link_path_params]], { locale: locale })
           # below works in most routes but had to change to above to support devise routes
           # target_path = send(page[:link_path], {locale: locale})
           # else
-          #   target_path = self.pwb.send("show_page_path", page[:slug], {locale: locale})
+          #   target_path = self.send("show_page_path", page[:slug], {locale: locale})
         elsif page[:link_url].present?
           target_path = page[:link_url]
         end
@@ -78,10 +78,10 @@ module Pwb
         # rescue Exception => e
       end
       if target_path
-        style_class = 'selected active' if current_page?( target_path )
+        style_class = "selected active" if current_page?(target_path)
         if current_page?("/") && (page[:link_path] == "home_path")
           # so correct tab is higlighted when at root path
-          style_class = 'selected active'
+          style_class = "selected active"
         end
         html = <<-HTML
         <li class="#{style_class}">

@@ -13,11 +13,11 @@ module Pwb
         end
       end
       theme_name = theme_name.present? ? theme_name : "default"
-      prepend_view_path "#{Pwb::Engine.root}/app/themes/#{theme_name}/views/"
+      # prepend_view_path "#{Pwb::Engine.root}/app/themes/#{theme_name}/views/"
       # below allows themes installed in Rails app consuming Pwb to work
       prepend_view_path "#{Rails.root}/app/themes/#{theme_name}/views/"
 
-      self.class.layout "#{Pwb::Engine.root}/app/themes/#{theme_name}/views/layouts/pwb/application"
+      self.class.layout "layouts/pwb/application"
     end
 
     def set_locale

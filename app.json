@@ -1,0 +1,29 @@
+{
+  "name": "PropertyWebBuilder for Heroku",
+  "description": "An instant website for real estate agencies.",
+  "keywords": [
+    "realtor",
+    "property management",
+    "cms",
+    "rails",
+    "proptech",
+    "opensource"
+  ],
+  "website": "http://propertywebbuilder.com/",
+  "repository": "https://github.com/etewiah/property_web_builder",
+  "scripts": {
+    "postdeploy": "bundle exec rake db:migrate pwb:db:seed"
+  },
+  "addons": [
+    "heroku-postgresql:hobby-dev",
+    "cloudinary:starter"
+  ],
+  "env": {
+    "GMAPS_API_KEY": "enter_google_maps_api_key_here",
+    "LANG": "en_US.UTF-8",
+    "RACK_ENV": "production",
+    "RAILS_ENV": "production",
+    "RAILS_LOG_TO_STDOUT": "enabled",
+    "RAILS_SERVE_STATIC_FILES": "enabled"
+  }
+}

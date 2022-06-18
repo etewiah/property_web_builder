@@ -35,7 +35,7 @@
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <i class="fa fa-bars icon-custom"></i>
           </button>
-          <%= link_to pwb.root_path(locale: locale), class: "navbar-brand" do %>
+          <%= link_to root_path(locale: locale), class: "navbar-brand" do %>
             <% if @current_website.logo_url  %>
               <img src="<%= @current_website.logo_url %>" alt="Logo">
             <% else %>
@@ -51,23 +51,23 @@
             <%= render_top_navigation_links %>
             <% if @show_admin_link  %>
               <li class="">
-                <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+                <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale)  %>
               </li>
             <% end %>
             <% if current_user %>
-              <li class="<%= 'selected' if current_page?(pwb.admin_with_locale_path(locale: locale)) %>">
+              <li class="<%= 'selected' if current_page?(admin_with_locale_path(locale: locale)) %>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <%= t "navbar.admin" %>
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+                    <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale)  %>
                   </li>
                   <li>
-                    <%= link_to I18n.t("changePassword"), pwb.edit_user_registration_path() %>
+                    <%= link_to I18n.t("changePassword"), edit_user_registration_path() %>
                   </li>
                   <li>
-                    <%= link_to I18n.t("signOut"), pwb.destroy_user_session_path(), method: :delete %>
+                    <%= link_to I18n.t("signOut"), destroy_user_session_path(), method: :delete %>
                   </li>
                 </ul>
               </li>

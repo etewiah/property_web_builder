@@ -21,7 +21,7 @@ module Pwb
     #     }
     #     }
 
-    set_root_path "#{Pwb::Engine.root}/config/client_setups"
+    set_root_path "#{Rails.root}/config/client_setups"
     # set_filename "client_setups"
     use_multiple_files
     set_filenames "default", "us"
