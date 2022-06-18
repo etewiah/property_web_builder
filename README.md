@@ -8,9 +8,11 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
-## March 2022 update!
+## June 2022 update
 
-I am currently working on a tool to help with house hunting. Would love to get some feedback about it.
+PropertyWebBuilder is now a standalone Ruby on Rails app (it is no longer a Ruby on Rails engine). It has also been upgraded to use Rails 6 and Ruby 3!
+
+Also, I am currently working on a tool to help with house hunting and would love to get some feedback about it.
 
 Please check it out here and let me know what you think (and if you would like it to be open-sourced):
 
@@ -24,15 +26,13 @@ This project has been created to address a glaring gap in the rails ecosystem: t
 The result is that WordPress has become the dominant tool for creating real estate websites.  This is far from ideal and PropertyWebBuilder seeks to address this.
 
 
-## [Demo](https://propertywebbuilder.herokuapp.com/)
+## [Demo](https://pwb-v2.herokuapp.com/)
 
-You can try out a demo at [https://propertywebbuilder.herokuapp.com](https://propertywebbuilder.herokuapp.com/)
+You can try out a demo at [https://pwb-v2.herokuapp.com](https://pwb-v2.herokuapp.com/)
 
 To see the admin panel, login as user admin@example.com with a password of "pwb123456".
 
 ![pwb_iphone_landing](https://cloud.githubusercontent.com/assets/1741198/22990222/bfec0168-f3b8-11e6-89df-b950c4979970.png)
-
-You can see an example of a production site created with PropertyWebBuilder here:
 
 
 ## Create your own real estate website with no technical knowledge
@@ -41,7 +41,7 @@ The simplest way to create a website with PropertyWebBuilder is to use Heroku, a
 
 Just [sign up for Heroku](https://signup.heroku.com/identity), click the button below and in a few minutes your site will be ready
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/etewiah/property_web_builder/tree/standalone)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/etewiah/property_web_builder)
 
 You may be asked for credit card details when you create an account but you will not be charged for creating and trying the website. You will only need to pay if you upgrade the service.  Here is a video about how to deploy to heroku:
 
@@ -64,11 +64,11 @@ rails pwb:db:seed
 
 ## Rails Version
 
-PropertyWebBuilder runs with Rails '>= 5.1.0'
+PropertyWebBuilder runs with Rails '~> 6.0'
 
 ## Ruby Version
 
-PropertyWebBuilder runs with Ruby >= 2.0.0.
+PropertyWebBuilder runs with Ruby >= 3.0.0.
 
 
 ## Features
@@ -88,6 +88,8 @@ PropertyWebBuilder runs with Ruby >= 2.0.0.
 
 These are some features I plan to add over the coming months.  If there is something you need which is not on the list, please let me know.  I am also interested in knowing which of these features I should prioritize.
 
+* Instant price conversions into other currencies
+* Migrate admin section from an ember js app to vue js using the quasar framework
 * [More languages](https://github.com/etewiah/property_web_builder/issues/4)
 * [More themes](https://github.com/etewiah/property_web_builder/issues/3)
 * Mobile app (iOS and android)
@@ -96,7 +98,6 @@ These are some features I plan to add over the coming months.  If there is somet
 * Full calendering functionality for rental properties
 * Ability to import WordPress blogs
 * Neighbourhood information from Zillow API
-* Instant price conversions into other currencies
 
 
 ## Contribute and spread the love
