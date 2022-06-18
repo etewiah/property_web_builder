@@ -2,7 +2,7 @@ class Pwb::ContentPhotoUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
-  include Cloudinary::CarrierWave if Rails.application.secrets.cloudinary_url
+  include Cloudinary::CarrierWave if Rails.application.config.use_cloudinary
   # include Cloudinary::CarrierWave
 
   # Choose what kind of storage to use for this uploader:
@@ -17,7 +17,7 @@ class Pwb::ContentPhotoUploader < CarrierWave::Uploader::Base
 
   # https://github.com/carrierwaveuploader/carrierwave/wiki/How-to:-Dynamically-set-storage-type
   def self.set_storage
-    unless Rails.application.secrets.cloudinary_url
+    unless Rails.application.config.use_cloudinary
       :file
     end
   end
