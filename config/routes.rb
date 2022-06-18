@@ -29,6 +29,8 @@ Rails.application.routes.draw do
       end
       get "/config" => "config#show"
       get "/config/:params" => "config#show"
+
+      get "/v-admin" => "admin_panel_vue#show"
     end
 
     get "/custom_css/:theme_name" => "css#custom_css", as: "custom_css"
