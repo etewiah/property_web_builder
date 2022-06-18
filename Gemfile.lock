@@ -125,6 +125,7 @@ GEM
     docile (1.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
+    dry-cli (0.7.0)
     erubi (1.10.0)
     execjs (2.8.1)
     factory_girl (4.9.0)
@@ -268,6 +269,8 @@ GEM
     rack (2.2.3.1)
     rack-protection (2.2.0)
       rack
+    rack-proxy (0.7.2)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (7.0.3)
@@ -392,6 +395,13 @@ GEM
       unf_ext
     unf_ext (0.0.8.2)
     unicode-display_width (2.1.0)
+    vite_rails (3.0.10)
+      railties (>= 5.1, < 8)
+      vite_ruby (~> 3.0)
+    vite_ruby (3.1.6)
+      dry-cli (~> 0.7.0)
+      rack-proxy (~> 0.6, >= 0.6.1)
+      zeitwerk (~> 2.2)
     warden (1.2.9)
       rack (>= 2.0.9)
     websocket-driver (0.7.5)
@@ -451,6 +461,7 @@ DEPENDENCIES
   shoulda-matchers
   simple_form (~> 5.1)
   simplecov
+  vite_rails (~> 3.0)
   yui-compressor
   zeus
 

@@ -127,3 +127,5 @@ gem "liquid", "~> 5.3"
 # https://stackoverflow.com/questions/71191685/visit-psych-nodes-alias-unknown-alias-default-psychbadalias
 # As per above, need to fix psych gem below v4
 gem "psych", "< 4"
+
+gem "vite_rails", "~> 3.0"
