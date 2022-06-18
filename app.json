@@ -19,6 +19,7 @@
     "cloudinary:starter"
   ],
   "env": {
+    "GMAPS_API_KEY": "enter_google_maps_api_key_here",
     "LANG": "en_US.UTF-8",
     "RACK_ENV": "production",
     "RAILS_ENV": "production",
