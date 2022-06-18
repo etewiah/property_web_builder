@@ -195,10 +195,14 @@ module Pwb
             photo = photo_class.send("create")
             photo.image = Rails.root.join(photo_file).open
             photo.save!
+            photo.reload
             photos.push photo
+            puts "Successfully created #{photo.image.url} from #{photo_file}"
+            sleep 1
           rescue Exception => e
             # log exception to console
-            p e
+            puts "Failed to create photo from #{photo_file}"
+            puts e
             if photo
               photo.destroy!
             end
