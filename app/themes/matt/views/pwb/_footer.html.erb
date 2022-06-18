@@ -51,7 +51,7 @@
       <% @sections.each do |section| %>
         <%= footer_link(section, "white--text") %>
       <% end %>
-      <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale), class: "white--text"  %>.
+      <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale), class: "white--text"  %>.
     </v-flex>
     <v-flex xs6>
       <p  style="float: right;margin: 10px;">Powered by <a class="white--text" href="http://propertywebbuilder.com">PropertyWebBuilder</a></p>

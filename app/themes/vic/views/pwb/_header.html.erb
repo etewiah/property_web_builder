@@ -37,7 +37,7 @@
 <nav class="white z-depth-0" role="navigation">
   <div class="nav-wrapper container-off">
     <span class="brand-logo">
-      <%= link_to pwb.root_path(locale: locale), class: "navbar-brand" do %>
+      <%= link_to root_path(locale: locale), class: "navbar-brand" do %>
         <% if @current_website.logo_url  %>
           <img src="<%= @current_website.logo_url %>" alt="Logo">
         <% else %>
@@ -51,25 +51,25 @@
       <%= render_top_navigation_links %>
       <% if @show_admin_link  %>
         <li class="">
-          <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+          <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale)  %>
         </li>
       <% end %>
       <% if current_user %>
         <!-- Dropdown Trigger -->
-        <li class="<%= 'selected' if current_page?(pwb.admin_with_locale_path(locale: locale)) %>">
+        <li class="<%= 'selected' if current_page?(admin_with_locale_path(locale: locale)) %>">
           <a class="dropdown-button" href="#!" data-activates="admin-dropdown">
             <%= t "navbar.admin" %>
             <i class="material-icons right">arrow_drop_down</i></a></li>
         <li >
           <ul id="admin-dropdown" class="dropdown-content">
             <li>
-              <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+              <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale)  %>
             </li>
             <li>
-              <%= link_to I18n.t("changePassword"), pwb.edit_user_registration_path() %>
+              <%= link_to I18n.t("changePassword"), edit_user_registration_path() %>
             </li>
             <li>
-              <%= link_to I18n.t("signOut"), pwb.destroy_user_session_path(), method: :delete %>
+              <%= link_to I18n.t("signOut"), destroy_user_session_path(), method: :delete %>
             </li>
           </ul>
         </li>
@@ -80,17 +80,17 @@
       <% if @show_admin_link  %>
         <% if current_user %>
           <li>
-            <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+            <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale)  %>
           </li>
           <li>
-            <%= link_to I18n.t("changePassword"), pwb.edit_user_registration_path() %>
+            <%= link_to I18n.t("changePassword"), edit_user_registration_path() %>
           </li>
           <li>
-            <%= link_to I18n.t("signOut"), pwb.destroy_user_session_path(), method: :delete %>
+            <%= link_to I18n.t("signOut"), destroy_user_session_path(), method: :delete %>
           </li>
         <% else %>
           <li class="">
-            <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
+            <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale)  %>
           </li>
         <% end %>
       <% end %>

@@ -25,7 +25,6 @@ class CreatePwbContacts < ActiveRecord::Migration[5.1]
       t.json :details, default: {}
 
       t.timestamps null: false
-      t.timestamps
     end
 
     add_index :pwb_contacts, [:first_name, :last_name]

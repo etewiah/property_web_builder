@@ -7,16 +7,15 @@ module Pwb
     # same content to be used by different pages
     # with different settings for sorting and visibility
     # Might have been better to call this model PagePlaceholder
-    belongs_to :page
-    belongs_to :content
-    belongs_to :website
+
+    # From rails 5 on have to add optional: true to get same behaviour as before.
+    # Without it the page_part_manager run into issues when seeding
+    belongs_to :page, optional: true
+    belongs_to :content, optional: true
+    belongs_to :website, optional: true
     # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
 
-
     validate :content_id_not_changed
-
-
-
 
     # page_part_key
     validates_presence_of :page_part_key
@@ -26,7 +25,7 @@ module Pwb
     # will allow use of same content by different pages
     # with different settings for sorting and visibility
 
-    scope :ordered_visible, -> () { where(visible_on_page: true).order('sort_order asc') }
+    scope :ordered_visible, ->() { where(visible_on_page: true).order("sort_order asc") }
 
     # if the page_content represents a rails_page_part, will return the page_part_key
     # else will return the raw html
@@ -40,11 +39,10 @@ module Pwb
     # end
 
     def as_json(options = nil)
-      super({only: [
-               "sort_order", "visible_on_page"
-             ],
-             methods: ["content", "content_page_part_key"]
-             }.merge(options || {}))
+      super({ only: [
+        "sort_order", "visible_on_page",
+      ],
+              methods: ["content", "content_page_part_key"] }.merge(options || {}))
     end
 
     def content_page_part_key

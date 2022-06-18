@@ -1,7 +1,7 @@
 module Pwb
   # https://github.com/zilkey/active_hash
   class PresetStyle < ActiveJSON::Base
-    set_root_path "#{Pwb::Engine.root}/config/preset_styles"
+    set_root_path "#{Rails.root}/config/preset_styles"
     use_multiple_files
     set_filenames "purple_teal", "green_amber"
     # , "green_light"
@@ -15,6 +15,7 @@ module Pwb
     end
   end
 end
+
 # purple teal
 # $primary-color-dark:   #7B1FA2
 # $primary-color:        #9C27B0
