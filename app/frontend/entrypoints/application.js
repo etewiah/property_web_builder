@@ -26,3 +26,11 @@ console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify
 
 // Example: Import a stylesheet in app/frontend/index.css
 // import '~/index.css'
+
+// import '~/styles/background.css'
+import { createApp } from 'vue'
+import App from '~/v-admin-app/src/App.vue'
+
+createApp(App).mount('#app')
+
+console.log('Vite ⚡️ Rails')
