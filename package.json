@@ -1,10 +1,14 @@
 {
   "devDependencies": {
+    "@quasar/vite-plugin": "^1.0.10",
+    "sass": "1.32.12",
     "vite": "^2.9.12",
     "vite-plugin-ruby": "^3.0.12"
   },
   "dependencies": {
+    "@quasar/extras": "^1.14.0",
     "@vitejs/plugin-vue": "^2.3.3",
+    "quasar": "^2.7.3",
     "vue": "3"
   }
 }
