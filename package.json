@@ -2,5 +2,9 @@
   "devDependencies": {
     "vite": "^2.9.12",
     "vite-plugin-ruby": "^3.0.12"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "^2.3.3",
+    "vue": "3"
   }
 }
