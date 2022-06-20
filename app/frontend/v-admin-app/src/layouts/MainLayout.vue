@@ -10,7 +10,11 @@
           icon="menu"
           aria-label="Menu"
         />
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <q-toolbar-title>
+          <strong>Property</strong><span style="color: black">Web</span
+          ><strong class="navy--text text--darken-1">Builder</strong> &copy;
+          2022 Admin
+        </q-toolbar-title>
         <q-space />
         <div class="q-gutter-sm row items-center no-wrap">
           <q-btn
@@ -174,7 +178,7 @@
 // import EssentialLink from 'components/EssentialLink.vue'
 // import Messages from "./Messages";
 
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref } from "vue"
 
 export default defineComponent({
   name: "MainLayout",
@@ -185,14 +189,14 @@ export default defineComponent({
   },
 
   setup() {
-    const leftDrawerOpen = ref(false);
+    const leftDrawerOpen = ref(false)
 
     return {
       leftDrawerOpen,
       toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
+        leftDrawerOpen.value = !leftDrawerOpen.value
       },
-    };
+    }
   },
-});
+})
 </script>
