@@ -1,8 +1,18 @@
 const routes = [
 
   {
-    path: '/', component: () => import("../components/AdminIntro.vue"),
+    path: '/',
+    component: () => import('../layouts/MainLayout.vue'),
+    // path: '/', component: () => import("../components/AdminIntro.vue"),
     children: [
+      {
+        path: '/page1',
+        component: () => import("../components/AdminIntro.vue"),
+      }, {
+        path: '/properties/list/all',
+        name: "rPropertiesList",
+        component: () => import("../pages/PropertiesList.vue"),
+      }
       // {
       //   path: "",
       //   name: "rHomePage",
@@ -12,14 +22,7 @@ const routes = [
       // },
     ]
   },
-  {
-    path: '/page1',
-    component: () => import("../components/AdminIntro.vue"),
-  }, {
-    path: '/page2',
-    component: () => import("../components/AdminIntro.vue"),
-  }
-  // { path: '/about', component: About },
+
   // // Always leave this as last one,
   // // but you can also remove it
   // {
