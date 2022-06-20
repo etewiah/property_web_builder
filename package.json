@@ -9,6 +9,7 @@
     "@quasar/extras": "^1.14.0",
     "@vitejs/plugin-vue": "^2.3.3",
     "quasar": "^2.7.3",
-    "vue": "3"
+    "vue": "3",
+    "vue-router": "^4.0.16"
   }
 }
