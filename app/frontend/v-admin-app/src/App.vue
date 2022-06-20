@@ -30,7 +30,8 @@
     </q-drawer>
 
     <q-page-container>
-      <h4>For router</h4>
+      <h4>For router....</h4>
+      <router-view />
     </q-page-container>
 
     <q-footer elevated class="bg-grey-8 text-white">
@@ -48,6 +49,7 @@
 
 <script>
 import { ref } from "vue";
+// import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   setup() {
