@@ -29,7 +29,10 @@
 // import '~/styles/background.css'
 import { createApp } from 'vue'
 import App from '~/v-admin-app/src/App.vue'
-import { Quasar } from 'quasar'
+import {
+  Quasar,
+  AppFullscreen
+} from 'quasar'
 
 // Import icon libraries
 import '@quasar/extras/material-icons/material-icons.css'
@@ -51,7 +54,9 @@ import route from "../v-admin-app/src/router/index"
 const myApp = createApp(App)
 
 myApp.use(Quasar, {
-  plugins: {}, // import Quasar plugins and add here
+  plugins: {
+    AppFullscreen
+  }, // import Quasar plugins and add here
 })
 
 myApp.use(route)

@@ -1,5 +1,4 @@
-// import { Cookies } from "quasar"
-// import { route } from 'quasar/wrappers'import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import routes from './routes'
 // import Home from '/src/components/Home.vue'
 // const routes = [
