@@ -97,12 +97,32 @@ export default {
       this.$emit("changesCanceled")
     },
     runPropertyUpdate() {
-      this.updateProperty(
-        this.currentModelForEditing,
-        this.currPendingChanges
-      ).then((response) => {
-        // location.reload()
-      })
+      this.updateProperty(this.currentModelForEditing, this.currPendingChanges)
+        .then((response) => {
+          // location.reload()
+          this.currPendingChanges = {}
+          this.$q.notify({
+            color: "green-4",
+            textColor: "white",
+            icon: "cloud_done",
+            message: "Updated successfully",
+          })
+        })
+        .catch((error) => {
+          let errorMessage = error.message || "Sorry, unable to update"
+          if (
+            error.response.data.errors[0] &&
+            error.response.data.errors[0].meta.exception
+          ) {
+            errorMessage = error.response.data.errors[0].meta.exception
+          }
+          this.$q.notify({
+            color: "red-4",
+            textColor: "white",
+            icon: "error",
+            message: errorMessage,
+          })
+        })
     },
   },
 }
