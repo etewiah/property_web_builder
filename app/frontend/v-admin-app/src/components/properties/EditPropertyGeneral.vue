@@ -3,41 +3,31 @@
     <div class="q-pa-md">
       <q-card class="property-edit-card">
         <q-card-section>
-          <div>General edi</div>
+          <EditAttributesForm
+            :currentProperty="currentProperty"
+          ></EditAttributesForm>
         </q-card-section>
       </q-card>
     </div>
   </div>
 </template>
 <script>
-// import useProperties from "../compose/useProperties.js"
+import EditAttributesForm from "~/v-admin-app/src/components/editor-forms/EditAttributesForm.vue"
 export default {
-  components: {},
-  methods: {
-    // goToProp(propertyRow) {
-    //   let targetRoute = {}
-    //   this.$router.push(targetRoute)
-    // },
+  components: {
+    EditAttributesForm,
   },
-  mounted: function () {
-    // this.getProperties()
-    //   .then((response) => {
-    //     this.properties = response.data.data
-    //   })
-    //   .catch((error) => {})
+  methods: {},
+  props: {
+    currentProperty: {
+      type: Object,
+      default: () => {},
+    },
   },
-  setup(props) {
-    // const { getProperties } = useProperties()
-    // return {
-    //   getProperties,
-    // }
-  },
+  mounted: function () {},
+  setup(props) {},
   data() {
-    return {
-      // currentProperty: {},
-      // activeTab: null,
-      // properties: [],
-    }
+    return {}
   },
 }
 </script>
