@@ -61,13 +61,13 @@
           </q-item-section>
           <q-item-section class="q-mr-sm">
             <q-item-label class="text-weight-medium text-h6"> </q-item-label>
-            <!-- <CurrencyField
+            <CurrencyField
               :cancelPendingChanges="cancelPendingChanges"
               :fieldDetails="priceFieldDetails"
               :modelValue="priceContentValue"
               :currencyToUse="currentProperty.currency"
               v-on:updatePendingChanges="updatePendingChanges"
-            ></CurrencyField> -->
+            ></CurrencyField>
           </q-item-section>
         </q-item>
       </div>
@@ -87,29 +87,24 @@
 import { defineComponent, ref } from "vue"
 import PropertySubmitter from "~/v-admin-app/src/components/editor-forms-parts/PropertySubmitter.vue"
 import TextField from "~/v-admin-app/src/components/editor-forms-parts/TextField.vue"
-// import CurrencyField from "src/components/editor-forms-parts/CurrencyField.vue"
+import CurrencyField from "~/v-admin-app/src/components/editor-forms-parts/CurrencyField.vue"
 import { mdiAspectRatio, mdiCashMultiple } from "@quasar/extras/mdi-v5"
 export default defineComponent({
   created() {
     this.mdiAspectRatio = mdiAspectRatio
     this.mdiCashMultiple = mdiCashMultiple
   },
-  // inject: ["listingsEditProvider"],
   name: "EditAttributesForm",
   components: {
     PropertySubmitter,
     TextField,
-    // CurrencyField,
+    CurrencyField,
   },
   props: {
     currentProperty: {
       type: Object,
       default: () => {},
     },
-    // btnClass: {
-    //   type: String,
-    //   required: false,
-    // },
   },
   computed: {
     areaContentValue() {
@@ -150,7 +145,7 @@ export default defineComponent({
         labelEn: "Area",
         tooltipTextTKey: "",
         autofocus: false,
-        fieldName: "constructed_area",
+        fieldName: "constructed-area",
         fieldType: "simpleInput",
         qInputType: "number",
         constraints: {
@@ -161,7 +156,7 @@ export default defineComponent({
         labelEn: "price",
         tooltipTextTKey: "",
         autofocus: false,
-        fieldName: "price_sale_current",
+        fieldName: "price-sale-current-cents",
         fieldType: "simpleInput",
         qInputType: "number",
         constraints: {
