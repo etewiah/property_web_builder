@@ -31,8 +31,8 @@ module Pwb
     def set_csrf_token
       # http://rajatsingla.in/ruby/2016/08/06/how-to-add-csrf-in-ember-app.html
       if request.xhr?
-        response.headers['X-CSRF-Token'] = form_authenticity_token.to_s
-        response.headers['X-CSRF-Param'] = "authenticity_token"
+        response.headers["X-CSRF-Token"] = form_authenticity_token.to_s
+        response.headers["X-CSRF-Param"] = "authenticity_token"
       end
       # works in conjunction with updating the headers via client app
     end

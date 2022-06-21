@@ -8,18 +8,17 @@ export default function () {
   function updateProperty(propertyModel, changes) {
     let apiUrl =
       `${dataApiBase}/api/v1/properties/${propertyModel.id}`
+    let csrfToken = document.head.querySelector("[name='csrf-token']").content
     return axios.put(apiUrl, {
       data: {
         attributes: changes,
-        // attributes: {
-        //   "count-bathrooms": propertyModel.attributes["count-bathrooms"]
-        // },
         type: propertyModel.type,
         id: propertyModel.id
       }
     }, {
       headers: {
-        'Content-Type': 'application/vnd.api+json'
+        'Content-Type': 'application/vnd.api+json',
+        'X-CSRF-Token': csrfToken
       }
       // headers: authHeader()
     })
@@ -31,7 +30,11 @@ export default function () {
   }
   function getProperty(propertyId) {
     let apiUrl = `${dataApiBase}/api/v1/properties/${propertyId}`
-    return axios.get(apiUrl, {}, {})
+    return axios.get(apiUrl, {}, {
+      // headers: {
+      //   "X-Requested-With": "XMLHttpRequest"
+      // }
+    })
   }
   function getOrCreateProperty(leftListingUuid, rightListingUuid) {
     let apiUrl = `${dataApiBase}/api/v1/properties`
