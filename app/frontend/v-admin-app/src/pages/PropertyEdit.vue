@@ -45,10 +45,10 @@
                 animated
               >
                 <q-tab-panel class="q-px-xs" name="edit-general">
-                  <router-view />
+                  <router-view :currentProperty="currentProperty" />
                 </q-tab-panel>
                 <q-tab-panel class="q-px-none" name="edit-texts">
-                  <router-view />
+                  <router-view :currentProperty="currentProperty" />
                 </q-tab-panel>
               </q-tab-panels>
             </div>

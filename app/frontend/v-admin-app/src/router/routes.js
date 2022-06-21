@@ -30,7 +30,7 @@ const routes = [
             component: () => import("../components/properties/EditPropertyTexts.vue"),
           },
           {
-            path: '/location',
+            path: 'location',
             name: "rPropertyEditLocation",
             component: () => import("../pages/PropertyEdit.vue"),
           }
