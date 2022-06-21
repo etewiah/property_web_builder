@@ -11,6 +11,7 @@
     "axios": "^0.27.2",
     "quasar": "^2.7.3",
     "vue": "3",
+    "vue-currency-input": "^2.5.1",
     "vue-router": "^4.0.16"
   }
 }
