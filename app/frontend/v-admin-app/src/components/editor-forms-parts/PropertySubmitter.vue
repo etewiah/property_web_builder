@@ -1,0 +1,109 @@
+<template>
+  <div
+    v-if="hasPendingChanges"
+    class="q-gutter-md spp-loc-submit-cont"
+    xs12
+    sm12
+    offset-sm0
+  >
+    <q-btn @click="runPropertyUpdate" color="primary" type="submit">
+      Save
+    </q-btn>
+    <q-btn @click="runCancelListingChanges">Cancel</q-btn>
+  </div>
+</template>
+<script>
+import useProperties from "~/v-admin-app/src/compose/useProperties.js"
+export default {
+  // inject: ["listingsEditProvider"],
+  components: {},
+  props: {
+    currentModelForEditing: {
+      type: Object,
+      default() {
+        return {}
+      },
+    },
+    lastChangedField: {
+      type: Object,
+      default() {
+        return {}
+      },
+    },
+    cancelPendingChanges: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  watch: {
+    lastChangedField: {
+      // adapted from updatePendingPropChanges method I previously had in the vuex store
+      handler(to, from) {
+        let changedFieldDetails = to.fieldDetails
+        let fieldHasChanged = false
+        let newValue = changedFieldDetails.newValue
+        if (changedFieldDetails.fieldDbType === "int") {
+          newValue = parseInt(changedFieldDetails.newValue)
+          // fieldHasChanged = (parseInt(changedFieldDetails.newValue) !== state.currentModelForEditing[changedFieldDetails.fieldName])
+        }
+        var originalValue =
+          this.currentModelForEditing[changedFieldDetails.fieldName]
+        // if (changedFieldDetails.fieldType === "localesHash") {
+        //   fieldHasChanged =
+        //     newValue !== originalValue[changedFieldDetails.activeLocale]
+        //   // and structure the newValue better for saving to server
+        //   newValue = {}
+        //   newValue[changedFieldDetails.activeLocale] =
+        //     changedFieldDetails.newValue
+        // } else {
+        //   fieldHasChanged = newValue !== originalValue
+        // }
+        fieldHasChanged = newValue !== originalValue
+        let changedFieldName = changedFieldDetails.fieldName
+        // if (to.fieldClass === "aFeatureField") {
+        //   changedFieldName = "features"
+        //   // Features are handled differently - The page component
+        //   // keeps track of all the changes together so I only need
+        //   // to check if the featureChanges field has any values
+        //   fieldHasChanged = Object.keys(to.featureChanges).length > 0
+        // }
+        if (fieldHasChanged) {
+          this.currPendingChanges[changedFieldName] = newValue
+        } else {
+          delete this.currPendingChanges[changedFieldName]
+        }
+      },
+      deep: true,
+      immediate: false,
+    },
+  },
+  data() {
+    return {
+      currPendingChanges: {},
+    }
+  },
+  computed: {
+    hasPendingChanges() {
+      return Object.keys(this.currPendingChanges).length > 0
+    },
+  },
+  setup() {
+    const { updateProperty } = useProperties()
+    return { updateProperty }
+  },
+  methods: {
+    runCancelListingChanges() {
+      this.currPendingChanges = {}
+      this.$emit("changesCanceled")
+    },
+    runPropertyUpdate() {
+      this.updateProperty(
+        this.currentModelForEditing,
+        this.currPendingChanges
+      ).then((response) => {
+        // location.reload()
+      })
+    },
+  },
+}
+</script>

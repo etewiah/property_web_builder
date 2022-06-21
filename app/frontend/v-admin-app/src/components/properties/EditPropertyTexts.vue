@@ -4,20 +4,31 @@
       <q-card class="property-edit-card">
         <q-card-section>
           <div>Texts edit</div>
+          <EditAttributesForm
+            :currentProperty="currentProperty"
+          ></EditAttributesForm>
         </q-card-section>
       </q-card>
     </div>
   </div>
 </template>
 <script>
-// import useProperties from "../compose/useProperties.js"
+import EditAttributesForm from "~/v-admin-app/src/components/editor-forms/EditAttributesForm.vue"
 export default {
-  components: {},
+  components: {
+    EditAttributesForm,
+  },
   methods: {
     // goToProp(propertyRow) {
     //   let targetRoute = {}
     //   this.$router.push(targetRoute)
     // },
+  },
+  props: {
+    currentProperty: {
+      type: Object,
+      default: () => {},
+    },
   },
   mounted: function () {
     // this.getProperties()
