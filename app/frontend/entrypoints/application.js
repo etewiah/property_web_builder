@@ -30,8 +30,7 @@
 import { createApp } from 'vue'
 import App from '~/v-admin-app/src/App.vue'
 import {
-  Quasar,
-  AppFullscreen
+  Quasar, AppFullscreen, Notify
 } from 'quasar'
 
 // Import icon libraries
@@ -55,8 +54,9 @@ const myApp = createApp(App)
 
 myApp.use(Quasar, {
   plugins: {
-    AppFullscreen
+    AppFullscreen, Notify
   }, // import Quasar plugins and add here
+  // plugins: ["LocalStorage", "Notify", "Meta", "Cookies"],
 })
 
 myApp.use(route)
