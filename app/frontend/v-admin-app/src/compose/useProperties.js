@@ -5,9 +5,22 @@ import axios from "axios"
 
 export default function () {
   let dataApiBase = ""
-  function updateProperty(propertyId, updateParams) {
-    let apiUrl = `${dataApiBase}/api/v1/lite-properties/${propertyId}`
-    return axios.put(apiUrl, updateParams, {
+  function updateProperty(propertyModel, changes) {
+    let apiUrl =
+      `${dataApiBase}/api/v1/properties/${propertyModel.id}`
+    return axios.put(apiUrl, {
+      data: {
+        attributes: changes,
+        // attributes: {
+        //   "count-bathrooms": propertyModel.attributes["count-bathrooms"]
+        // },
+        type: propertyModel.type,
+        id: propertyModel.id
+      }
+    }, {
+      headers: {
+        'Content-Type': 'application/vnd.api+json'
+      }
       // headers: authHeader()
     })
   }
