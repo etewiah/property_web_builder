@@ -76,7 +76,6 @@
           :cancelPendingChanges="cancelPendingChanges"
           :lastChangedField="lastChangedField"
           :currentModelForEditing="currentProperty"
-          submitObjectType="realtyAssetPlusListing"
           @changesCanceled="changesCanceled"
         ></PropertySubmitter>
       </div>
