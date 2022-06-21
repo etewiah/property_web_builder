@@ -1,28 +1,58 @@
 <template>
   <div>
     <div class="q-pa-md">
-      <q-card class="property-edit-card">
-        <q-card-section>
-          <div>Texts edit</div>
-          <EditAttributesForm
+      <div>Texts</div>
+      <div class="row">
+        <div class="col-6">
+          <EditLocaleTextsSubForm
+            :cancelPendingChanges="cancelPendingChanges"
             :currentProperty="currentProperty"
-          ></EditAttributesForm>
-        </q-card-section>
-      </q-card>
+            contentLocale="en"
+            v-on:updatePendingChanges="updatePendingChanges"
+          ></EditLocaleTextsSubForm>
+        </div>
+        <div class="col-6">
+          <EditLocaleTextsSubForm
+            :cancelPendingChanges="cancelPendingChanges"
+            :currentProperty="currentProperty"
+            contentLocale="es"
+            v-on:updatePendingChanges="updatePendingChanges"
+          ></EditLocaleTextsSubForm>
+        </div>
+        <div class="col-12">
+          <PropertySubmitter
+            :cancelPendingChanges="cancelPendingChanges"
+            :lastChangedField="lastChangedField"
+            :currentModelForEditing="currentProperty"
+            submitObjectType="realtyAssetPlusListing"
+            @changesCanceled="changesCanceled"
+          ></PropertySubmitter>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import EditAttributesForm from "~/v-admin-app/src/components/editor-forms/EditAttributesForm.vue"
+// import TextField from "~/v-admin-app/src/components/editor-forms-parts/TextField.vue"
+import EditLocaleTextsSubForm from "~/v-admin-app/src/components/editor-forms/EditLocaleTextsSubForm.vue"
+import PropertySubmitter from "~/v-admin-app/src/components/editor-forms-parts/PropertySubmitter.vue"
 export default {
   components: {
-    EditAttributesForm,
+    // TextField,
+    EditLocaleTextsSubForm,
+    PropertySubmitter,
   },
   methods: {
-    // goToProp(propertyRow) {
-    //   let targetRoute = {}
-    //   this.$router.push(targetRoute)
-    // },
+    updatePendingChanges({ fieldDetails, newValue }) {
+      fieldDetails.newValue = newValue
+      this.lastChangedField.fieldDetails = fieldDetails
+      // this.lastChangedField.lastUpdateStamp = Date.now()
+      this.cancelPendingChanges = false
+    },
+    changesCanceled() {
+      this.$emit("changesCanceled")
+      this.cancelPendingChanges = true
+    },
   },
   props: {
     currentProperty: {
@@ -30,24 +60,26 @@ export default {
       default: () => {},
     },
   },
-  mounted: function () {
-    // this.getProperties()
-    //   .then((response) => {
-    //     this.properties = response.data.data
-    //   })
-    //   .catch((error) => {})
-  },
-  setup(props) {
-    // const { getProperties } = useProperties()
-    // return {
-    //   getProperties,
-    // }
-  },
+  mounted: function () {},
+  setup(props) {},
   data() {
     return {
-      // currentProperty: {},
-      // activeTab: null,
-      // properties: [],
+      cancelPendingChanges: false,
+      lastChangedField: {
+        fieldDetails: {},
+        lastUpdateStamp: "",
+      },
+      titleFieldDetails: {
+        labelEn: "Title",
+        tooltipTextTKey: "",
+        autofocus: false,
+        fieldName: "title",
+        fieldType: "simpleInput",
+        qInputType: "string",
+        constraints: {
+          inputValue: {},
+        },
+      },
     }
   },
 }
