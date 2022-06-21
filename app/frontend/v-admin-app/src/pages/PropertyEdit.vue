@@ -73,7 +73,6 @@ export default {
   mounted: function () {
     this.getProperty(this.$route.params.prop_id)
       .then((response) => {
-        // debugger
         this.currentProperty = response.data.data
       })
       .catch((error) => {})
