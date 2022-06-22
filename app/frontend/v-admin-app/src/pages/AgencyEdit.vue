@@ -4,7 +4,7 @@
       <q-card class="property-edit-card">
         <q-card-section>
           <div>
-            Website Settings for {{ currentWebsite.company_display_name }}
+            Agency Settings for {{ currentWebsite.company_display_name }}
           </div>
           <div class="col-xs-12 q-mt-md">
             <div class="board-prop-overview-ctr">
@@ -20,25 +20,17 @@
                 v-model="activeTab"
               >
                 <q-route-tab
-                  :to="{ name: 'rWebsiteEditGeneral' }"
+                  :to="{ name: 'rAgencyEditGeneral' }"
                   name="edit-general"
                   label="General"
                   :exact="true"
                 />
                 <q-route-tab
-                  name="edit-appearance"
-                  label="Appearance"
-                  :to="{ name: 'rWebsiteEditAppearance' }"
+                  name="edit-location"
+                  label="Location"
+                  :to="{ name: 'rAgencyEditLocation' }"
                   :exact="true"
                 />
-                <q-route-tab
-                  name="edit-navigation"
-                  label="Navigation"
-                  :to="{ name: 'rWebsiteEditNavigation' }"
-                  :exact="true"
-                />
-                <!-- <q-tab name="checklist" label="Checklist" /> -->
-                <!-- <q-tab name="distances" label="Distances" /> -->
               </q-tabs>
 
               <q-separator />
@@ -54,10 +46,7 @@
                 <q-tab-panel class="q-px-xs" name="edit-general">
                   <router-view :currentWebsite="currentWebsite" />
                 </q-tab-panel>
-                <q-tab-panel class="q-px-none" name="edit-appearance">
-                  <router-view :currentWebsite="currentWebsite" />
-                </q-tab-panel>
-                <q-tab-panel class="q-px-none" name="edit-navigation">
+                <q-tab-panel class="q-px-none" name="edit-location">
                   <router-view :currentWebsite="currentWebsite" />
                 </q-tab-panel>
               </q-tab-panels>

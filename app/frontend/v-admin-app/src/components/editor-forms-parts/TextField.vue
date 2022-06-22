@@ -50,7 +50,6 @@ export default {
         // when cancelPendingChanges on parent changes from
         // false to true
         // reset model to its original value
-        debugger
         this.localFieldValue = this.originalValue
       }
     },

@@ -15,6 +15,23 @@ const routes = [
         component: () => import("../pages/PropertiesList.vue"),
       },
       {
+        path: '/agency',
+        name: "rAgencyEdit",
+        component: () => import("../pages/AgencyEdit.vue"),
+        children: [
+          {
+            path: 'general',
+            name: "rAgencyEditGeneral",
+            component: () => import("../components/website/EditAgencyGeneral.vue"),
+          },
+          {
+            path: 'location',
+            name: "rAgencyEditLocation",
+            component: () => import("../components/website/EditWebsiteGeneral.vue"),
+          },
+        ]
+      },
+      {
         path: '/website/footer',
         name: "rWebsiteEditFooter",
         component: () => import("../pages/WebsiteEdit.vue"),
