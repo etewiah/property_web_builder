@@ -9,13 +9,17 @@ module Pwb
         footer_links = Link.ordered_footer
         render json: {
           footer_links: footer_links.as_json,
-          top_nav_links: top_nav_links.as_json
+          top_nav_links: top_nav_links.as_json,
         }
       end
     end
 
     def bulk_update
-      link_groups_JSON = JSON.parse params[:linkGroups]
+      if params[:linkGroups].class.to_s == "String"
+        link_groups_JSON = JSON.parse params[:linkGroups]
+      else
+        link_groups_JSON = JSON.parse params[:linkGroups].to_json
+      end
       # above gets me around difficulty of passing an array
       # as a param to rails (I've stringified json on clientside)
       # without above I'd have to get keys and loop through like so
@@ -33,7 +37,7 @@ module Pwb
         link.update(linkJSON)
       end
       render json: {
-        success: true
+        success: true,
       }
     end
 
