@@ -15,6 +15,34 @@ const routes = [
         component: () => import("../pages/PropertiesList.vue"),
       },
       {
+        path: '/website/footer',
+        name: "rWebsiteEditFooter",
+        component: () => import("../pages/WebsiteEdit.vue"),
+      },
+      {
+        path: '/website/settings',
+        name: "rWebsiteEdit",
+        component: () => import("../pages/WebsiteEdit.vue"),
+        children: [
+          {
+            path: 'general',
+            name: "rWebsiteEditGeneral",
+            component: () => import("../components/website/EditWebsiteGeneral.vue"),
+          },
+          {
+            path: 'appearance',
+            name: "rWebsiteEditAppearance",
+            component: () => import("../components/website/EditWebsiteGeneral.vue"),
+          },
+          {
+            path: 'navigation',
+            name: "rWebsiteEditNavigation",
+            component: () => import("../components/website/EditWebsiteGeneral.vue"),
+          }
+
+        ]
+      },
+      {
         path: '/properties/s/:prop_id',
         name: "rPropertyEdit",
         component: () => import("../pages/PropertyEdit.vue"),
