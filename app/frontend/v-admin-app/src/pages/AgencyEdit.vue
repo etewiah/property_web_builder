@@ -4,7 +4,7 @@
       <q-card class="property-edit-card">
         <q-card-section>
           <div>
-            Agency Settings for {{ currentWebsite.company_display_name }}
+            Agency Settings for {{ currentAgency.company_display_name }}
           </div>
           <div class="col-xs-12 q-mt-md">
             <div class="board-prop-overview-ctr">
@@ -44,10 +44,10 @@
                 animated
               >
                 <q-tab-panel class="q-px-xs" name="edit-general">
-                  <router-view :currentWebsite="currentWebsite" />
+                  <router-view :currentAgency="currentAgency" />
                 </q-tab-panel>
                 <q-tab-panel class="q-px-none" name="edit-location">
-                  <router-view :currentWebsite="currentWebsite" />
+                  <router-view :currentAgency="currentAgency" />
                 </q-tab-panel>
               </q-tab-panels>
             </div>
@@ -65,7 +65,7 @@ export default {
   mounted: function () {
     this.getAgency()
       .then((response) => {
-        this.currentWebsite = response.data.website
+        this.currentAgency = response.data.agency
       })
       .catch((error) => {})
   },
@@ -79,7 +79,7 @@ export default {
     return {
       // propertyFound: true,
       // authorizedToViewProperty: true,
-      currentWebsite: {
+      currentAgency: {
         attributes: {},
       },
       activeTab: null,

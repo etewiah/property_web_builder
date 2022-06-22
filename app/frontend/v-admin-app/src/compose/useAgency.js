@@ -10,7 +10,21 @@ export default function () {
       // }
     })
   }
+  function updateAgency(agency_changes) {
+    let apiUrl = `${dataApiBase}/api/v1/agency`
+    let csrfToken = document.head.querySelector("[name='csrf-token']").content
+    return axios.put(apiUrl, {
+      agency: agency_changes
+    }, {
+      headers: {
+        // 'Content-Type': 'application/vnd.api+json',
+        'X-CSRF-Token': csrfToken
+      }
+      // headers: authHeader()
+    })
+  }
   return {
+    updateAgency,
     getAgency
   }
 }
