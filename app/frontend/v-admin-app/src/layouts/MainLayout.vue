@@ -90,14 +90,14 @@
             <q-item-label>Dashboard</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item to="/Dashboard2" active-class="q-item-no-link-highlighting">
+        <!-- <q-item to="/Dashboard2" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="dashboard" />
           </q-item-section>
           <q-item-section>
             <q-item-label>CRM Dashboard</q-item-label>
           </q-item-section>
-        </q-item>
+        </q-item> -->
         <q-expansion-item
           :default-opened="true"
           aria-expanded="true"
@@ -117,34 +117,43 @@
                 <q-item-label>List All</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item to="/Lock" active-class="q-item-no-link-highlighting">
+          </q-list>
+        </q-expansion-item>
+        <q-expansion-item
+          :default-opened="true"
+          aria-expanded="true"
+          icon="pages"
+          label="Website"
+        >
+          <q-list class="q-pl-lg">
+            <q-item
+              :exact="false"
+              :to="{ name: 'rWebsiteEditGeneral' }"
+              active-class="q-item-no-link-highlighting"
+            >
+              <q-item-section avatar>
+                <q-icon name="settings" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Settings</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item
+              :exact="false"
+              :to="{ name: 'rWebsiteEditFooter' }"
+              active-class="q-item-no-link-highlighting"
+            >
               <q-item-section avatar>
                 <q-icon name="lock" />
               </q-item-section>
               <q-item-section>
-                <q-item-label>Lock Screen</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item to="/Lock-2" active-class="q-item-no-link-highlighting">
-              <q-item-section avatar>
-                <q-icon name="lock" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Lock Screen - 2</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item to="/Pricing" active-class="q-item-no-link-highlighting">
-              <q-item-section avatar>
-                <q-icon name="list" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Pricing</q-item-label>
+                <q-item-label>Footer</q-item-label>
               </q-item-section>
             </q-item>
             <q-item-label header class="text-weight-bolder text-white"
               >Generic</q-item-label
             >
-            <q-item to="/Profile" active-class="q-item-no-link-highlighting">
+            <q-item to="/" active-class="q-item-no-link-highlighting">
               <q-item-section avatar>
                 <q-icon name="person" />
               </q-item-section>
@@ -152,15 +161,25 @@
                 <q-item-label>User Profile</q-item-label>
               </q-item-section>
             </q-item>
+          </q-list>
+        </q-expansion-item>
+        <q-expansion-item
+          :default-opened="true"
+          aria-expanded="true"
+          icon="pages"
+          label="Pages"
+        >
+          <q-list class="q-pl-lg">
             <q-item
-              to="/Maintenance"
+              :exact="true"
+              :to="{ name: 'rPropertiesList' }"
               active-class="q-item-no-link-highlighting"
             >
-              <q-item-section avatar>
-                <q-icon name="settings" />
-              </q-item-section>
+              <!-- <q-item-section avatar>
+                <q-icon name="list" />
+              </q-item-section> -->
               <q-item-section>
-                <q-item-label>Maintenance</q-item-label>
+                <q-item-label>Home</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
@@ -173,24 +192,16 @@
     </q-page-container>
   </q-layout>
 </template>
-
 <script>
-// import EssentialLink from 'components/EssentialLink.vue'
 // import Messages from "./Messages";
-
 import { defineComponent, ref } from "vue"
-
 export default defineComponent({
   name: "MainLayout",
-
   components: {
-    // EssentialLink,
     // Messages
   },
-
   setup() {
     const leftDrawerOpen = ref(false)
-
     return {
       leftDrawerOpen,
       toggleLeftDrawer() {
