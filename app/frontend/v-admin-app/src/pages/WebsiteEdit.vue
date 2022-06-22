@@ -66,12 +66,12 @@
   </div>
 </template>
 <script>
-import useAgency from "../compose/useAgency.js"
+import useAgency from "~/v-admin-app/src/compose/useAgency.js"
 export default {
   components: {},
   methods: {},
   mounted: function () {
-    this.getAgency(this.$route.params.prop_id)
+    this.getAgency()
       .then((response) => {
         this.currentWebsite = response.data.website
       })
