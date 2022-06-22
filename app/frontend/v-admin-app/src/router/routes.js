@@ -37,7 +37,7 @@ const routes = [
           {
             path: 'navigation',
             name: "rWebsiteEditNavigation",
-            component: () => import("../components/website/EditWebsiteGeneral.vue"),
+            component: () => import("../components/website/EditWebsiteNavigation.vue"),
           }
 
         ]
