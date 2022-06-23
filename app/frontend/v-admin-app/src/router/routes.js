@@ -32,15 +32,15 @@ const routes = [
         component: () => import("../pages/TranslationsEdit.vue"),
         children: [
           {
-            path: 'features',
-            name: "rTranslationsEditFeatures",
+            path: ':tBatchId',
+            name: "rTranslationsEditBatch",
             component: () => import("../components/translations/EditTranslationBatch.vue"),
           },
-          {
-            path: 'property-types',
-            name: "rTranslationsEditPropTypes",
-            component: () => import("../components/translations/EditTranslationBatch.vue"),
-          },
+          // {
+          //   path: 'property-types',
+          //   name: "rTranslationsEditPropTypes",
+          //   component: () => import("../components/translations/EditTranslationBatch.vue"),
+          // },
         ]
       },
       {
