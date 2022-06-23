@@ -5,48 +5,33 @@
       <div class="row q-col-gutter-md">
         <div
           class="col-4"
-          v-for="translationItem in groupedTranslations"
-          :key="translationItem.sortKey"
+          v-for="translationUnit in groupedTranslations"
+          :key="translationUnit.sortKey"
         >
           <q-card class="translation-item-card">
             <q-card-section>
               <div>
                 <TranslationInput
-                  :cancelPendingChanges="cancelPendingChanges"
-                  :fieldDetails="translationItem"
-                  v-on:updatePendingChanges="updatePendingChanges"
+                  :translationUnit="translationUnit"
                 ></TranslationInput>
               </div>
             </q-card-section>
           </q-card>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12">
-          <LinksSubmitter
-            :cancelPendingChanges="cancelPendingChanges"
-            :lastChangedField="lastChangedField"
-            :currentModelForEditing="translationsBatch"
-            @changesCanceled="changesCanceled"
-            @runModelUpdate="runModelUpdate"
-          ></LinksSubmitter>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 <script>
-// import { defineComponent, ref } from "vue"
 import TranslationInput from "~/v-admin-app/src/components/editor-forms-parts/TranslationInput.vue"
-import LinksSubmitter from "~/v-admin-app/src/components/editor-forms-parts/LinksSubmitter.vue"
-import useLinks from "~/v-admin-app/src/compose/useLinks.js"
+// import LinksSubmitter from "~/v-admin-app/src/components/editor-forms-parts/LinksSubmitter.vue"
 import { filter, find } from "lodash"
 import sortBy from "lodash/sortBy"
 // import pluck from "lodash/pluck"
 import uniq from "lodash/uniq"
 export default {
   components: {
-    LinksSubmitter,
+    // LinksSubmitter,
     TranslationInput,
   },
   computed: {
@@ -58,7 +43,7 @@ export default {
       // var uniqueKeys = this.get("adminTranslations.translations")
       //   .getEach("i18n_key")
       //   .uniq()
-      var groupedTranslations1 = []
+      var groupedTranslations = []
       // var supportedLocales = this.get("locales")
       var supportedLocales = ["en", "es"]
       uniqueKeys.forEach(function (translateItemKey) {
@@ -87,68 +72,36 @@ export default {
         // })
         // for sorting:
         var sortKey = ""
-        // var currentLocaleTranslation = translationsForKey.findBy(
-        //   "locale",
-        //   currentLocale
-        // )
         let currentLocaleTranslation = find(translationsForKey, function (tr) {
           return tr["locale"] === currentLocale
         })
         if (currentLocaleTranslation) {
           sortKey = currentLocaleTranslation.i18n_value
         }
-        groupedTranslations1.push({
+        groupedTranslations.push({
           sortKey: sortKey,
           translationsForKey: translationsForKey,
         })
       })
-      return sortBy(groupedTranslations1, "sortKey")
-      // return groupedTranslations1.sortBy("sortKey")
+      return sortBy(groupedTranslations, "sortKey")
+      // return groupedTranslations.sortBy("sortKey")
     },
   },
   methods: {
-    runModelUpdate(currPendingChanges) {
-      this.updateLinks(this.translationsBatch)
-        .then((response) => {
-          // location.reload()
-          // this.currPendingChanges = {}
-          this.$q.notify({
-            color: "green-4",
-            textColor: "white",
-            icon: "cloud_done",
-            message: "Updated successfully",
-          })
-        })
-        .catch((error) => {
-          let errorMessage = error.message || "Sorry, unable to update"
-          if (
-            error.response.data.errors[0] &&
-            error.response.data.errors[0].meta.exception
-          ) {
-            errorMessage = error.response.data.errors[0].meta.exception
-          }
-          this.$q.notify({
-            color: "red-4",
-            textColor: "white",
-            icon: "error",
-            message: errorMessage,
-          })
-        })
-    },
-    updatePendingChanges({ fieldDetails, newValue, navGroup }) {
-      let newFieldDetails = {
-        fieldName: fieldDetails.slug,
-        navGroup: navGroup,
-      }
-      newFieldDetails.newValue = newValue
-      this.lastChangedField.fieldDetails = newFieldDetails
-      // this.lastChangedField.lastUpdateStamp = Date.now()
-      this.cancelPendingChanges = false
-    },
-    changesCanceled() {
-      this.$emit("changesCanceled")
-      this.cancelPendingChanges = true
-    },
+    // updatePendingChanges({ fieldDetails, newValue, navGroup }) {
+    //   let newFieldDetails = {
+    //     fieldName: fieldDetails.slug,
+    //     navGroup: navGroup,
+    //   }
+    //   newFieldDetails.newValue = newValue
+    //   this.lastChangedField.fieldDetails = newFieldDetails
+    //   // this.lastChangedField.lastUpdateStamp = Date.now()
+    //   this.cancelPendingChanges = false
+    // },
+    // changesCanceled() {
+    //   this.$emit("changesCanceled")
+    //   this.cancelPendingChanges = true
+    // },
   },
   props: {
     translationsBatch: {
@@ -158,11 +111,10 @@ export default {
   },
   mounted: function () {},
   setup(props) {
-    const { getLinks, updateLinks } = useLinks()
-    return {
-      getLinks,
-      updateLinks,
-    }
+    // return {
+    //   getLinks,
+    //   updateLinks,
+    // }
   },
   data() {
     return {
