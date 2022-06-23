@@ -10,11 +10,6 @@ const routes = [
         component: () => import("../components/AdminIntro.vue"),
       },
       {
-        path: '/properties/list/all',
-        name: "rPropertiesList",
-        component: () => import("../pages/PropertiesList.vue"),
-      },
-      {
         path: '/agency',
         name: "rAgencyEdit",
         component: () => import("../pages/AgencyEdit.vue"),
@@ -28,6 +23,23 @@ const routes = [
             path: 'location',
             name: "rAgencyEditLocation",
             component: () => import("../components/website/EditWebsiteGeneral.vue"),
+          },
+        ]
+      },
+      {
+        path: '/translations',
+        name: "rTranslationsEdit",
+        component: () => import("../pages/TranslationsEdit.vue"),
+        children: [
+          {
+            path: 'features',
+            name: "rTranslationsEditFeatures",
+            component: () => import("../components/translations/EditTranslationBatch.vue"),
+          },
+          {
+            path: 'property-types',
+            name: "rTranslationsEditPropTypes",
+            component: () => import("../components/translations/EditTranslationBatch.vue"),
           },
         ]
       },
@@ -58,6 +70,11 @@ const routes = [
           }
 
         ]
+      },
+      {
+        path: '/properties/list/all',
+        name: "rPropertiesList",
+        component: () => import("../pages/PropertiesList.vue"),
       },
       {
         path: '/properties/s/:prop_id',
