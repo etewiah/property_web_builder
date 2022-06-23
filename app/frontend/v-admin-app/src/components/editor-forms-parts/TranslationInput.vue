@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div>{{ translationUnit.sortKey }}</div>
+    <div class="text-center text-subtitle1 trl-input-item-head">{{ translationUnit.sortKey }}</div>
     <div>
       <div
-        v-for="translationInstance in translationUnit.translationsForKey"
+        v-for="translationInstance in translationInstances"
         :key="translationInstance.key"
       >
         <div v-if="['es', 'en'].includes(translationInstance.locale)">
@@ -30,6 +30,7 @@
   </div>
 </template>
 <script>
+import sortBy from "lodash/sortBy"
 import useTranslations from "~/v-admin-app/src/compose/useTranslations.js"
 import TranslationSubmitter from "~/v-admin-app/src/components/editor-forms-parts/TranslationSubmitter.vue"
 import TextField from "~/v-admin-app/src/components/editor-forms-parts/TextField.vue"
@@ -50,7 +51,12 @@ export default {
       },
     }
   },
-  computed: {},
+  computed: {
+    translationInstances() {
+      // debugger
+      return sortBy(this.translationUnit.translationsForKey, "locale")
+    },
+  },
   setup(props) {
     const { updateTranslations } = useTranslations()
     return {
@@ -71,37 +77,13 @@ export default {
     },
     runModelUpdate(currPendingChanges) {
       this.updateTranslations(currPendingChanges)
-      this.$q
-        .notify({
-          color: "green-4",
-          textColor: "white",
-          icon: "cloud_done",
-          message: "Updated successfully",
-        })
-
-        // .then((response) => {
-        //   this.$q.notify({
-        //     color: "green-4",
-        //     textColor: "white",
-        //     icon: "cloud_done",
-        //     message: "Updated successfully",
-        //   })
-        // })
-        // .catch((error) => {
-        //   let errorMessage = error.message || "Sorry, unable to update"
-        //   if (
-        //     error.response.data.errors[0] &&
-        //     error.response.data.errors[0].meta.exception
-        //   ) {
-        //     errorMessage = error.response.data.errors[0].meta.exception
-        //   }
-        //   this.$q.notify({
-        //     color: "red-4",
-        //     textColor: "white",
-        //     icon: "error",
-        //     message: errorMessage,
-        //   })
-        // })
+      // TODO - catch and handle errors from above
+      this.$q.notify({
+        color: "green-4",
+        textColor: "white",
+        icon: "cloud_done",
+        message: "Updated successfully",
+      })
     },
   },
 }

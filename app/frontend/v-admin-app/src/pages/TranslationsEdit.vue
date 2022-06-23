@@ -3,7 +3,7 @@
     <div class="q-pa-md">
       <q-card class="property-edit-card">
         <q-card-section>
-          <div>Translations</div>
+          <!-- <div>Translations</div> -->
           <div class="col-xs-12 q-mt-md">
             <div class="board-prop-overview-ctr">
               <q-tabs
@@ -18,15 +18,39 @@
                 v-model="activeTab"
               >
                 <q-route-tab
-                  :to="{ name: 'rTranslationsEditFeatures' }"
+                  :to="{
+                    name: 'rTranslationsEditBatch',
+                    params: { tBatchId: 'extras' },
+                  }"
                   name="edit-features"
                   label="Features"
                   :exact="true"
                 />
                 <q-route-tab
+                  :to="{
+                    name: 'rTranslationsEditBatch',
+                    params: { tBatchId: 'property-types' },
+                  }"
                   name="edit-prop-types"
                   label="Property Types"
-                  :to="{ name: 'rTranslationsEditPropTypes' }"
+                  :exact="true"
+                />
+                <q-route-tab
+                  :to="{
+                    name: 'rTranslationsEditBatch',
+                    params: { tBatchId: 'property-states' },
+                  }"
+                  name="edit-prop-states"
+                  label="Property States"
+                  :exact="true"
+                />
+                <q-route-tab
+                  :to="{
+                    name: 'rTranslationsEditBatch',
+                    params: { tBatchId: 'property-labels' },
+                  }"
+                  name="edit-prop-labels"
+                  label="Property Labels"
                   :exact="true"
                 />
               </q-tabs>
@@ -42,10 +66,16 @@
                 animated
               >
                 <q-tab-panel class="q-px-xs" name="edit-features">
-                  <router-view :translationsBatch="translationsBatch" />
+                  <router-view />
                 </q-tab-panel>
                 <q-tab-panel class="q-px-none" name="edit-prop-types">
-                  <router-view :translationsBatch="translationsBatch" />
+                  <router-view />
+                </q-tab-panel>
+                <q-tab-panel class="q-px-xs" name="edit-prop-states">
+                  <router-view />
+                </q-tab-panel>
+                <q-tab-panel class="q-px-none" name="edit-prop-labels">
+                  <router-view />
                 </q-tab-panel>
               </q-tab-panels>
             </div>
@@ -56,27 +86,27 @@
   </div>
 </template>
 <script>
-import useTranslations from "~/v-admin-app/src/compose/useTranslations.js"
+// import useTranslations from "~/v-admin-app/src/compose/useTranslations.js"
 export default {
   components: {},
   methods: {},
-  mounted: function () {
-    let batchName = "extras"
-    this.getTranslations(batchName)
-      .then((response) => {
-        this.translationsBatch = response.data.translations
-      })
-      .catch((error) => {})
-  },
-  setup(props) {
-    const { getTranslations } = useTranslations()
-    return {
-      getTranslations,
-    }
-  },
+  // mounted: function () {
+  //   let batchName = "extras"
+  //   this.getTranslations(batchName)
+  //     .then((response) => {
+  //       this.translationsBatch = response.data.translations
+  //     })
+  //     .catch((error) => {})
+  // },
+  // setup(props) {
+  //   const { getTranslations } = useTranslations()
+  //   return {
+  //     getTranslations,
+  //   }
+  // },
   data() {
     return {
-      translationsBatch: [],
+      // translationsBatch: [],
       activeTab: null,
     }
   },

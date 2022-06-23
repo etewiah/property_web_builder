@@ -103,8 +103,11 @@
           </q-item-section>
         </q-item>
         <q-item
-          :exact="true"
-          :to="{ name: 'rTranslationsEditFeatures' }"
+          :exact="false"
+          :to="{
+            name: 'rTranslationsEditBatch',
+            params: { tBatchId: 'extras' },
+          }"
           active-class="q-item-no-link-highlighting"
         >
           <q-item-section avatar>
@@ -174,7 +177,7 @@
                 <q-item-label>Footer</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item-label header class="text-weight-bolder text-white"
+            <!-- <q-item-label header class="text-weight-bolder text-white"
               >Generic</q-item-label
             >
             <q-item to="/" active-class="q-item-no-link-highlighting">
@@ -184,7 +187,7 @@
               <q-item-section>
                 <q-item-label>User Profile</q-item-label>
               </q-item-section>
-            </q-item>
+            </q-item> -->
           </q-list>
         </q-expansion-item>
         <q-expansion-item
