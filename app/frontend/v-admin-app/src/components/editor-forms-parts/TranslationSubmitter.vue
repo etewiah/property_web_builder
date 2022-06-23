@@ -7,19 +7,13 @@
     offset-sm0
   >
     <q-btn @click="runModelUpdate" color="primary" type="submit"> Save </q-btn>
-    <q-btn @click="runCancelListingChanges">Cancel</q-btn>
+    <q-btn @click="runCancelPendingChanges">Cancel</q-btn>
   </div>
 </template>
 <script>
 export default {
   components: {},
   props: {
-    // currentModelForEditing: {
-    //   type: Object,
-    //   default() {
-    //     return {}
-    //   },
-    // },
     lastChangedField: {
       type: Object,
       default() {
@@ -30,15 +24,12 @@ export default {
       type: Boolean,
       default: false,
     },
-    // modelName: {
-    //   type: String,
-    //   default: "link",
-    // },
   },
   watch: {
     lastChangedField: {
       handler(to, from) {
         let changedFieldDetails = to.fieldDetails
+        // For translations I will save a pending change per locale:
         let changedFieldName = changedFieldDetails.locale
         let fieldHasChanged = false
         let newValue = changedFieldDetails.newValue
@@ -67,7 +58,7 @@ export default {
   },
   setup() {},
   methods: {
-    runCancelListingChanges() {
+    runCancelPendingChanges() {
       this.currPendingChanges = {}
       this.$emit("changesCanceled")
     },

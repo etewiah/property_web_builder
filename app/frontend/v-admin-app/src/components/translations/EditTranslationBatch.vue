@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="q-pa-md">
-      <div>Translations</div>
       <div class="row q-col-gutter-md">
         <div
           class="col-4"
@@ -23,15 +22,15 @@
   </div>
 </template>
 <script>
+import useTranslations from "~/v-admin-app/src/compose/useTranslations.js"
 import TranslationInput from "~/v-admin-app/src/components/editor-forms-parts/TranslationInput.vue"
-// import LinksSubmitter from "~/v-admin-app/src/components/editor-forms-parts/LinksSubmitter.vue"
-import { filter, find } from "lodash"
+import find from "lodash/find"
+import filter from "lodash/filter"
 import sortBy from "lodash/sortBy"
 // import pluck from "lodash/pluck"
 import uniq from "lodash/uniq"
 export default {
   components: {
-    // LinksSubmitter,
     TranslationInput,
   },
   computed: {
@@ -87,42 +86,26 @@ export default {
       // return groupedTranslations.sortBy("sortKey")
     },
   },
-  methods: {
-    // updatePendingChanges({ fieldDetails, newValue, navGroup }) {
-    //   let newFieldDetails = {
-    //     fieldName: fieldDetails.slug,
-    //     navGroup: navGroup,
-    //   }
-    //   newFieldDetails.newValue = newValue
-    //   this.lastChangedField.fieldDetails = newFieldDetails
-    //   // this.lastChangedField.lastUpdateStamp = Date.now()
-    //   this.cancelPendingChanges = false
-    // },
-    // changesCanceled() {
-    //   this.$emit("changesCanceled")
-    //   this.cancelPendingChanges = true
-    // },
+  methods: {},
+  props: {},
+  mounted: function () {
+    let batchName = this.$route.params.tBatchId
+    // "extras"
+    this.getTranslations(batchName)
+      .then((response) => {
+        this.translationsBatch = response.data.translations
+      })
+      .catch((error) => {})
   },
-  props: {
-    translationsBatch: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  mounted: function () {},
   setup(props) {
-    // return {
-    //   getLinks,
-    //   updateLinks,
-    // }
+    const { getTranslations } = useTranslations()
+    return {
+      getTranslations,
+    }
   },
   data() {
     return {
-      cancelPendingChanges: false,
-      lastChangedField: {
-        fieldDetails: {},
-        // lastUpdateStamp: "",
-      },
+      translationsBatch: [],
     }
   },
 }

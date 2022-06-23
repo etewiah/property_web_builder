@@ -20,13 +20,11 @@ export default function () {
         id: tc.id
         // batch_key: tc.batch_key
       }
-      debugger
       axios.put(apiUrl, translation_change, {
         headers: {
           // 'Content-Type': 'application/vnd.api+json',
           'X-CSRF-Token': csrfToken
         }
-        // headers: authHeader()
       })
     })
   }
