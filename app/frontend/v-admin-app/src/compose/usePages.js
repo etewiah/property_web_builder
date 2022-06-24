@@ -28,7 +28,23 @@ export default function () {
       })
     })
   }
+  function updatePageFragment(pageSlug, fragmentDetails) {
+    let apiUrl =
+      `${dataApiBase}/api/v1/pages/page_fragment`
+    let csrfToken = document.head.querySelector("[name='csrf-token']").content
+    return axios.put(apiUrl, {
+      fragment_details: fragmentDetails,
+      page_slug: pageSlug
+    }, {
+      headers: {
+        'Content-Type': 'application/vnd.api+json',
+        'X-CSRF-Token': csrfToken
+      }
+      // headers: authHeader()
+    })
+  }
   return {
+    updatePageFragment,
     updateTranslations,
     getPage
   }
