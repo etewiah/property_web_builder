@@ -198,12 +198,29 @@
         >
           <q-list class="q-pl-lg">
             <q-item
-              :exact="true"
-              :to="{ name: 'rPropertiesList' }"
+              :exact="false"
+              :to="{
+                name: 'rPagesEditTab',
+                params: { pageName: 'home', pageTabName: 'title' },
+              }"
               active-class="q-item-no-link-highlighting"
             >
               <q-item-section>
                 <q-item-label>Home</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item
+              v-for="pageToEdit in pagesToEdit"
+              :key="pageToEdit"
+              :exact="false"
+              :to="{
+                name: 'rPagesEditTab',
+                params: { pageName: pageToEdit.pageName, pageTabName: 'title' },
+              }"
+              active-class="q-item-no-link-highlighting"
+            >
+              <q-item-section>
+                <q-item-label>{{ pageToEdit.label }}</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
@@ -231,6 +248,28 @@ export default defineComponent({
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
+      pagesToEdit: [
+        {
+          label: "Sell",
+          pageName: "sell",
+        },
+        {
+          label: "About Us",
+          pageName: "about-us",
+        },
+        {
+          label: "Contact Us",
+          pageName: "contact-us",
+        },
+        {
+          label: "Legal Notice",
+          pageName: "legal",
+        },
+        {
+          label: "Privacy Policy",
+          pageName: "privacy",
+        },
+      ],
     }
   },
 })

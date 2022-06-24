@@ -27,6 +27,25 @@ const routes = [
         ]
       },
       {
+        path: '/pages/:pageName',
+        name: "rPagesEdit",
+        component: () => import("../pages/PagesEdit.vue"),
+        children: [
+          {
+            path: ':pageTabName',
+            name: "rPagesEditTab",
+            component: () => import("../components/pages/EditPageTab.vue"),
+          },
+          // {
+          //   path: '',
+          //   name: "rPagesEditSingle",
+          //   component: () => import("../components/translations/EditTranslationBatch.vue"),
+          //   children: [
+          //   ]
+          // },
+        ]
+      },
+      {
         path: '/translations',
         name: "rTranslationsEdit",
         component: () => import("../pages/TranslationsEdit.vue"),
@@ -36,11 +55,6 @@ const routes = [
             name: "rTranslationsEditBatch",
             component: () => import("../components/translations/EditTranslationBatch.vue"),
           },
-          // {
-          //   path: 'property-types',
-          //   name: "rTranslationsEditPropTypes",
-          //   component: () => import("../components/translations/EditTranslationBatch.vue"),
-          // },
         ]
       },
       {
