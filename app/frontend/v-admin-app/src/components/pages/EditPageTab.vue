@@ -25,13 +25,13 @@
               :key="editorBlockItem.sortKey"
             >
               <div>{{ editorBlockItem.label }}</div>
-              <div>
-                {{
-                  pageTabDetails.block_contents[editorLocale].blocks[
-                    editorBlockItem.label
-                  ]
-                }}
-              </div>
+
+              <EditPageBlock
+                :pageTabDetails="pageTabDetails"
+                :editorBlockItem="editorBlockItem"
+                :editorLocale="editorLocale"
+              >
+              </EditPageBlock>
             </q-card-section>
           </q-card>
         </div>
@@ -40,11 +40,12 @@
   </div>
 </template>
 <script>
+import EditPageBlock from "~/v-admin-app/src/components/pages/EditPageBlock.vue"
 // import useTranslations from "~/v-admin-app/src/compose/useTranslations.js"
 // import TranslationInput from "~/v-admin-app/src/components/editor-forms-parts/TranslationInput.vue"
 export default {
   components: {
-    // TranslationInput,
+    EditPageBlock,
   },
   computed: {
     editorBlocks() {
