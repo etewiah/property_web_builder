@@ -1,29 +1,23 @@
 <template>
   <div>
-    <div v-if="editorBlockItem.isHtml">
-      Htddddddddim:
-      {{
-        pageTabDetails.block_contents[editorLocale].blocks[
-          editorBlockItem.label
-        ].content
-      }}
+    <div v-if="editorBlockItem.isHtml || editorBlockItem.isMultipleLineText">
+      <HtmlField
+        :cancelPendingChanges="cancelPendingChanges"
+        :fieldDetails="editorBlockItemFieldDetails"
+        :currentFieldValue="blockValue"
+        v-on:updatePendingChanges="updatePendingChanges"
+      ></HtmlField>
+    </div>
+    <div v-else-if="editorBlockItem.isSingleLineText">
       <TextField
         :cancelPendingChanges="cancelPendingChanges"
         :fieldDetails="editorBlockItemFieldDetails"
-        :currentFieldValue="
-          pageTabDetails.block_contents[editorLocale].blocks[
-            editorBlockItem.label
-          ].content
-        "
+        :currentFieldValue="blockValue"
         v-on:updatePendingChanges="updatePendingChanges"
       ></TextField>
     </div>
     <div v-else>
-      {{
-        pageTabDetails.block_contents[editorLocale].blocks[
-          editorBlockItem.label
-        ]
-      }}
+      {{ blockValue }}
     </div>
     <div class="row">
       <div class="col-12">
@@ -45,15 +39,32 @@
 <script>
 import usePages from "~/v-admin-app/src/compose/usePages.js"
 import TextField from "~/v-admin-app/src/components/editor-forms-parts/TextField.vue"
+import HtmlField from "~/v-admin-app/src/components/editor-forms-parts/HtmlField.vue"
 import GenericSubmitter from "~/v-admin-app/src/components/editor-forms-parts/GenericSubmitter.vue"
 export default {
   components: {
     TextField,
+    HtmlField,
     GenericSubmitter,
   },
   computed: {
+    blockValue() {
+      let block =
+        this.pageTabDetails.block_contents[this.editorLocale].blocks[
+          this.editorBlockItem.label
+        ] || {}
+      return block.content || ""
+    },
     editorBlockItemFieldDetails() {
+      let qInputType = ""
+      if (this.editorBlockItem.isMultipleLineText) {
+        qInputType = "textarea"
+      }
+      if (this.editorBlockItem.isSingleLineText) {
+        qInputType = "text"
+      }
       return {
+        qInputType: qInputType,
         fieldName: "content", // this.editorBlockItem.label
       }
     },
@@ -107,9 +118,8 @@ export default {
       fieldDetails.newValue = newValue
       // fieldDetails.batch_key = "extras"
       this.lastChangedField.fieldDetails = fieldDetails
-      // this.lastChangedField.lastUpdateStamp = Date.now()
+      this.lastChangedField.lastUpdateStamp = Date.now()
       this.cancelPendingChanges = false
-
       // this.$emit("updatePendingChanges", {
       //   fieldDetails: fieldDetails,
       //   newValue: newValue,
@@ -140,7 +150,9 @@ export default {
     return {
       cancelPendingChanges: false,
       lastChangedField: {
-        fieldDetails: {},
+        fieldDetails: {
+          newValue: "",
+        },
         lastUpdateStamp: "",
       },
     }
