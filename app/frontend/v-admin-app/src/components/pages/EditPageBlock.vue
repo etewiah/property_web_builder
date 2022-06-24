@@ -25,7 +25,7 @@
           :cancelPendingChanges="cancelPendingChanges"
           :lastChangedField="lastChangedField"
           :currentModelForEditing="
-            pageTabDetails.block_contents[editorLocale].blocks[
+            pagePartDetails.block_contents[editorLocale].blocks[
               editorBlockItem.label
             ]
           "
@@ -50,7 +50,7 @@ export default {
   computed: {
     blockValue() {
       let block =
-        this.pageTabDetails.block_contents[this.editorLocale].blocks[
+        this.pagePartDetails.block_contents[this.editorLocale].blocks[
           this.editorBlockItem.label
         ] || {}
       return block.content || ""
@@ -127,7 +127,7 @@ export default {
     },
   },
   props: {
-    pageTabDetails: {},
+    pagePartDetails: {},
     editorBlockItem: {},
     editorLocale: {},
   },
