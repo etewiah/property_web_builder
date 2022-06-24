@@ -27,14 +27,14 @@
                   :exact="true"
                 />
                 <q-route-tab
-                  v-for="routeTab in routeTabs"
-                  :key="routeTab.page_part_key"
+                  v-for="pagePart in pageParts"
+                  :key="pagePart.page_part_key"
                   :to="{
                     name: 'rPagesEditTab',
-                    params: { pageTabName: routeTab.page_part_key },
+                    params: { pageTabName: pagePart.page_part_key },
                   }"
-                  :name="`edit-name-${routeTab.page_part_key}`"
-                  :label="routeTab.page_part_key"
+                  :name="`edit-name-${pagePart.page_part_key}`"
+                  :label="pagePart.page_part_key"
                   :exact="true"
                 />
               </q-tabs>
@@ -50,15 +50,18 @@
                 animated
               >
                 <q-tab-panel class="q-px-xs" name="edit-title">
-                  <router-view :pageTabDetails="{ editor_setup: {} }" />
+                  <router-view :pagePartDetails="{ editor_setup: {} }" />
                 </q-tab-panel>
                 <q-tab-panel
-                  v-for="routeTab in routeTabs"
-                  :key="routeTab.page_part_key"
+                  v-for="pagePart in pageParts"
+                  :key="pagePart.page_part_key"
                   class="q-px-none"
-                  :name="`edit-name-${routeTab.page_part_key}`"
+                  :name="`edit-name-${pagePart.page_part_key}`"
                 >
-                  <router-view :pageTabDetails="routeTab" />
+                  <router-view
+                    :pageContents="this.currentPage.page_contents"
+                    :pagePartDetails="pagePart"
+                  />
                 </q-tab-panel>
               </q-tab-panels>
             </div>
@@ -74,15 +77,12 @@ export default {
   components: {},
   methods: {},
   computed: {
-    routeTabs() {
-      let routeTabs = []
+    pageParts() {
+      let pageParts = []
       if (this.currentPage.page_parts) {
-        routeTabs = this.currentPage.page_parts
-        // this.currentPage.page_parts.forEach((pagePart) => {
-
-        // })
+        pageParts = this.currentPage.page_parts
       }
-      return routeTabs
+      return pageParts
     },
   },
   watch: {
