@@ -40,10 +40,23 @@ export default function () {
         'Content-Type': 'application/vnd.api+json',
         'X-CSRF-Token': csrfToken
       }
-      // headers: authHeader()
+    })
+  }
+  function updatePage(pageDetails) {
+    let apiUrl =
+      `${dataApiBase}/api/v1/pages`
+    let csrfToken = document.head.querySelector("[name='csrf-token']").content
+    return axios.put(apiUrl, {
+      page: pageDetails,
+    }, {
+      headers: {
+        'Content-Type': 'application/vnd.api+json',
+        'X-CSRF-Token': csrfToken
+      }
     })
   }
   return {
+    updatePage,
     updatePageFragment,
     updateTranslations,
     getPage

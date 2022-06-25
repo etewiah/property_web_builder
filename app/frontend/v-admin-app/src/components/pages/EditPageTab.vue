@@ -5,12 +5,39 @@
         v-if="pagePartDetails.page_part_key === 'title'"
         class="row q-col-gutter-md"
       >
-        Titl.....
+        <div
+          class="col-12"
+          v-for="supportedLocale in websiteProvider.supportedLocaleDetails.full"
+          :key="supportedLocale.localeOnly"
+        >
+          <div>{{ supportedLocale.label }}</div>
+          <TextField
+            :cancelPendingChanges="cancelPendingChanges"
+            :fieldDetails="{
+              fieldName: `page_title_${supportedLocale.localeOnly}`,
+            }"
+            :currentFieldValue="
+              currentPage[`page_title_${supportedLocale.localeOnly}`]
+            "
+            v-on:updatePendingChanges="updatePendingChanges"
+          ></TextField>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <GenericSubmitter
+              :cancelPendingChanges="cancelPendingChanges"
+              :lastChangedField="lastChangedField"
+              :currentModelForEditing="currentPage"
+              @changesCanceled="changesCanceled"
+              @runModelUpdate="runModelUpdate"
+            ></GenericSubmitter>
+          </div>
+        </div>
       </div>
       <div v-else class="row q-col-gutter-md">
         <div
           class="col-12"
-          v-for="supportedLocale in supportedLocaleDetails"
+          v-for="supportedLocale in websiteProvider.supportedLocaleDetails.full"
           :key="supportedLocale.localeOnly"
         >
           <div>{{ supportedLocale.label }}</div>
@@ -34,13 +61,17 @@
   </div>
 </template>
 <script>
-// import EditPageBlock from "~/v-admin-app/src/components/pages/EditPageBlock.vue"
+import usePages from "~/v-admin-app/src/compose/usePages.js"
+import GenericSubmitter from "~/v-admin-app/src/components/editor-forms-parts/GenericSubmitter.vue"
+import TextField from "~/v-admin-app/src/components/editor-forms-parts/TextField.vue"
 import EditPageBlocks from "~/v-admin-app/src/components/pages/EditPageBlocks.vue"
 import loFind from "lodash/find"
 export default {
+  inject: ["websiteProvider"],
   components: {
-    // EditPageBlock,
+    GenericSubmitter,
     EditPageBlocks,
+    TextField,
   },
   computed: {
     tabPageContents() {
@@ -55,14 +86,67 @@ export default {
       return this.pagePartDetails.editor_setup.editorBlocks
     },
   },
-  methods: {},
+  setup() {
+    const { updatePage } = usePages()
+    return {
+      updatePage,
+    }
+  },
+  methods: {
+    runModelUpdate(currPendingChanges) {
+      currPendingChanges["slug"] = this.$route.params.pageName
+      this.updatePage(currPendingChanges)
+        .then((response) => {
+          // location.reload()
+          // this.currPendingChanges = {}
+          this.$q.notify({
+            color: "green-4",
+            textColor: "white",
+            icon: "cloud_done",
+            message: "Updated successfully",
+          })
+        })
+        .catch((error) => {
+          let errorMessage = error.message || "Sorry, unable to update"
+          if (
+            error.response.data.errors[0] &&
+            error.response.data.errors[0].meta.exception
+          ) {
+            errorMessage = error.response.data.errors[0].meta.exception
+          }
+          this.$q.notify({
+            color: "red-4",
+            textColor: "white",
+            icon: "error",
+            message: errorMessage,
+          })
+        })
+    },
+    updatePendingChanges({ fieldDetails, newValue }) {
+      fieldDetails.newValue = newValue
+      this.lastChangedField.fieldDetails = fieldDetails
+      // In some cases (like here) I need to set lastUpdateStamp
+      // to trigger watcher in form submitter
+      this.lastChangedField.lastUpdateStamp = Date.now()
+      this.cancelPendingChanges = false
+    },
+    changesCanceled() {
+      // this.$emit("changesCanceled")
+      this.cancelPendingChanges = true
+    },
+  },
   props: {
-    supportedLocaleDetails: {},
+    currentPage: {},
     pageContents: {},
     pagePartDetails: {},
   },
   data() {
-    return {}
+    return {
+      cancelPendingChanges: false,
+      lastChangedField: {
+        fieldDetails: {},
+      },
+    }
   },
 }
 </script>
