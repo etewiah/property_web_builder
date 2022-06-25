@@ -50,7 +50,7 @@
                 animated
               >
                 <q-tab-panel class="q-px-xs" name="edit-title">
-                  <router-view :pagePartDetails="{ editor_setup: {} }" />
+                  <router-view :pagePartDetails="{ page_part_key: 'title' }" />
                 </q-tab-panel>
                 <q-tab-panel
                   v-for="pagePart in pageParts"

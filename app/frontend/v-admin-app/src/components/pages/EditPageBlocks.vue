@@ -1,33 +1,33 @@
 <template>
   <div>
-    <div v-if="editorBlockItem.isHtml || editorBlockItem.isMultipleLineText">
-      <HtmlField
-        :cancelPendingChanges="cancelPendingChanges"
-        :fieldDetails="editorBlockItemFieldDetails"
-        :currentFieldValue="blockValue"
-        v-on:updatePendingChanges="updatePendingChanges"
-      ></HtmlField>
-    </div>
-    <div v-else-if="editorBlockItem.isSingleLineText">
-      <TextField
-        :cancelPendingChanges="cancelPendingChanges"
-        :fieldDetails="editorBlockItemFieldDetails"
-        :currentFieldValue="blockValue"
-        v-on:updatePendingChanges="updatePendingChanges"
-      ></TextField>
-    </div>
-    <div v-else>
-      {{ blockValue }}
-    </div>
+    <q-card>
+      <q-card-section
+        v-for="editorBlock in editorBlocks"
+        :key="editorBlock.nada"
+        class="translation-item-card"
+      >
+        <div
+          v-for="editorBlockItem in editorBlock"
+          :key="editorBlockItem.label"
+        >
+          <div>{{ editorBlockItem.label }}</div>
+          <PageBlockItem
+            :cancelPendingChanges="cancelPendingChanges"
+            v-on:updatePendingChanges="updatePendingChanges"
+            :pagePartDetails="pagePartDetails"
+            :editorBlockItem="editorBlockItem"
+            :editorLocale="editorLocale"
+          ></PageBlockItem>
+        </div>
+      </q-card-section>
+    </q-card>
+
     <div class="row">
       <div class="col-12">
         <GenericSubmitter
-          :cancelPendingChanges="cancelPendingChanges"
           :lastChangedField="lastChangedField"
           :currentModelForEditing="
-            pagePartDetails.block_contents[editorLocale].blocks[
-              editorBlockItem.label
-            ]
+            pagePartDetails.block_contents[editorLocale].blocks
           "
           @changesCanceled="changesCanceled"
           @runModelUpdate="runModelUpdate"
@@ -37,44 +37,21 @@
   </div>
 </template>
 <script>
+import PageBlockItem from "~/v-admin-app/src/components/pages/PageBlockItem.vue"
 import usePages from "~/v-admin-app/src/compose/usePages.js"
-import TextField from "~/v-admin-app/src/components/editor-forms-parts/TextField.vue"
-import HtmlField from "~/v-admin-app/src/components/editor-forms-parts/HtmlField.vue"
 import GenericSubmitter from "~/v-admin-app/src/components/editor-forms-parts/GenericSubmitter.vue"
 export default {
   components: {
-    TextField,
-    HtmlField,
+    PageBlockItem,
     GenericSubmitter,
   },
-  computed: {
-    blockValue() {
-      let block =
-        this.pagePartDetails.block_contents[this.editorLocale].blocks[
-          this.editorBlockItem.label
-        ] || {}
-      return block.content || ""
-    },
-    editorBlockItemFieldDetails() {
-      let qInputType = ""
-      if (this.editorBlockItem.isMultipleLineText) {
-        qInputType = "textarea"
-      }
-      if (this.editorBlockItem.isSingleLineText) {
-        qInputType = "text"
-      }
-      return {
-        qInputType: qInputType,
-        fieldName: "content", // this.editorBlockItem.label
-      }
-    },
-  },
+  computed: {},
   methods: {
     changesCanceled() {
       this.cancelPendingChanges = true
     },
     runModelUpdate(currPendingChanges) {
-      let fragmentDetails = {
+      let blockDetailsToSave = {
         page_part_key: this.$route.params.pageTabName,
         locale: this.editorLocale,
         blocks: {
@@ -83,11 +60,31 @@ export default {
           // },
         },
       }
+      this.pagePartDetails.editor_setup.editorBlocks.forEach(
+        (editorBlockContainer) => {
+          // editorBlocks are an array of arrays
+          editorBlockContainer.forEach((editorBlockElement) => {
+            // over here I go through each possible block item to
+            // set to its previous value
+            let blockLabel = editorBlockElement.label
+            let originalBlockContent =
+              this.pagePartDetails.block_contents[this.editorLocale].blocks[
+                blockLabel
+              ]
+            blockDetailsToSave.blocks[blockLabel] = originalBlockContent || {
+              content: "",
+            }
+          })
+        }
+      )
       let pageSlug = this.$route.params.pageName
-      fragmentDetails.blocks[this.editorBlockItem.label] = {
-        content: currPendingChanges.content,
-      }
-      this.updatePageFragment(pageSlug, fragmentDetails)
+      // and now set with new values
+      Object.keys(currPendingChanges).forEach((changeKey) => {
+        blockDetailsToSave.blocks[changeKey] = {
+          content: currPendingChanges[changeKey],
+        }
+      })
+      this.updatePageFragment(pageSlug, blockDetailsToSave)
         .then((response) => {
           // location.reload()
           // this.currPendingChanges = {}
@@ -120,26 +117,14 @@ export default {
       this.lastChangedField.fieldDetails = fieldDetails
       this.lastChangedField.lastUpdateStamp = Date.now()
       this.cancelPendingChanges = false
-      // this.$emit("updatePendingChanges", {
-      //   fieldDetails: fieldDetails,
-      //   newValue: newValue,
-      // })
     },
   },
   props: {
     pagePartDetails: {},
-    editorBlockItem: {},
+    // editorBlockItem: {},
+    editorBlocks: {},
     editorLocale: {},
   },
-  // mounted: function () {
-  //   let batchName = this.$route.params.tBatchId
-  //   // "extras"
-  //   this.updatePageFragment(batchName)
-  //     .then((response) => {
-  //       this.translationsBatch = response.data.translations
-  //     })
-  //     .catch((error) => {})
-  // },
   setup(props) {
     const { updatePageFragment } = usePages()
     return {
