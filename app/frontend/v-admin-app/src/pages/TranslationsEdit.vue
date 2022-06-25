@@ -3,7 +3,6 @@
     <div class="q-pa-md">
       <q-card class="property-edit-card">
         <q-card-section>
-          <!-- <div>Translations</div> -->
           <div class="col-xs-12 q-mt-md">
             <div class="board-prop-overview-ctr">
               <q-tabs
@@ -86,27 +85,11 @@
   </div>
 </template>
 <script>
-// import useTranslations from "~/v-admin-app/src/compose/useTranslations.js"
 export default {
   components: {},
   methods: {},
-  // mounted: function () {
-  //   let batchName = "extras"
-  //   this.getTranslations(batchName)
-  //     .then((response) => {
-  //       this.translationsBatch = response.data.translations
-  //     })
-  //     .catch((error) => {})
-  // },
-  // setup(props) {
-  //   const { getTranslations } = useTranslations()
-  //   return {
-  //     getTranslations,
-  //   }
-  // },
   data() {
     return {
-      // translationsBatch: [],
       activeTab: null,
     }
   },

@@ -232,17 +232,34 @@
       <router-view
         :currentWebsite="currentWebsite"
         :currentAgency="currentAgency"
+        :supportedLocaleDetails="supportedLocaleDetails"
       />
     </q-page-container>
   </q-layout>
 </template>
 <script>
 import useAgency from "~/v-admin-app/src/compose/useAgency.js"
+import useTranslations from "~/v-admin-app/src/compose/useTranslations.js"
 import { defineComponent, ref } from "vue"
 export default defineComponent({
   name: "MainLayout",
   components: {
     // Messages
+  },
+  computed: {
+    supportedLocaleDetails() {
+      let supportedLocales = this.currentWebsite.supported_locales || []
+      let supportedLocaleDetails = []
+      supportedLocales.forEach((localeWithVariant) => {
+        let localeOnly = localeWithVariant.split("-")[0]
+        supportedLocaleDetails.push({
+          localeOnly: localeOnly,
+          localeWithVariant: localeWithVariant,
+          label: this.adminTranslations[localeOnly],
+        })
+      })
+      return supportedLocaleDetails
+    },
   },
   mounted: function () {
     this.getAgency()
@@ -251,9 +268,17 @@ export default defineComponent({
         this.currentWebsite = response.data.website
       })
       .catch((error) => {})
+    let adminLocale = "en"
+    // will only support English for admin from now forward
+    this.getAdminTranslations(adminLocale)
+      .then((response) => {
+        this.adminTranslations = response.data[adminLocale]
+      })
+      .catch((error) => {})
   },
   data() {
     return {
+      adminTranslations: {},
       currentWebsite: {},
       currentAgency: {
         attributes: {},
@@ -264,8 +289,10 @@ export default defineComponent({
   setup() {
     const leftDrawerOpen = ref(false)
     const { getAgency } = useAgency()
+    const { getAdminTranslations } = useTranslations()
     return {
       getAgency,
+      getAdminTranslations,
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
