@@ -229,21 +229,43 @@
     </q-drawer>
 
     <q-page-container class="bg-grey-2">
-      <router-view />
+      <router-view
+        :currentWebsite="currentWebsite"
+        :currentAgency="currentAgency"
+      />
     </q-page-container>
   </q-layout>
 </template>
 <script>
-// import Messages from "./Messages";
+import useAgency from "~/v-admin-app/src/compose/useAgency.js"
 import { defineComponent, ref } from "vue"
 export default defineComponent({
   name: "MainLayout",
   components: {
     // Messages
   },
+  mounted: function () {
+    this.getAgency()
+      .then((response) => {
+        this.currentAgency = response.data.agency
+        this.currentWebsite = response.data.website
+      })
+      .catch((error) => {})
+  },
+  data() {
+    return {
+      currentWebsite: {},
+      currentAgency: {
+        attributes: {},
+      },
+      activeTab: null,
+    }
+  },
   setup() {
     const leftDrawerOpen = ref(false)
+    const { getAgency } = useAgency()
     return {
+      getAgency,
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
