@@ -69,32 +69,21 @@
   </div>
 </template>
 <script>
-import useAgency from "~/v-admin-app/src/compose/useAgency.js"
+// import useAgency from "~/v-admin-app/src/compose/useAgency.js"
 export default {
   components: {},
-  methods: {},
-  mounted: function () {
-    this.getAgency()
-      .then((response) => {
-        this.currentWebsite = response.data.website
-      })
-      .catch((error) => {})
-  },
-  setup(props) {
-    const { getAgency } = useAgency()
-    return {
-      getAgency,
-    }
+  props: {
+    currentWebsite: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
-      // propertyFound: true,
-      // authorizedToViewProperty: true,
-      currentWebsite: {
-        attributes: {},
-      },
+      // currentWebsite: {
+      //   attributes: {},
+      // },
       activeTab: null,
-      // properties: [],
     }
   },
 }
