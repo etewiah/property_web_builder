@@ -232,7 +232,6 @@
       <router-view
         :currentWebsite="currentWebsite"
         :currentAgency="currentAgency"
-        :supportedLocaleDetails="supportedLocaleDetails"
       />
     </q-page-container>
   </q-layout>
@@ -248,19 +247,19 @@ export default defineComponent({
     // Messages
   },
   computed: {
-    supportedLocaleDetails() {
-      let supportedLocales = this.currentWebsite.supported_locales || []
-      let supportedLocaleDetails = []
-      supportedLocales.forEach((localeWithVariant) => {
-        let localeOnly = localeWithVariant.split("-")[0]
-        supportedLocaleDetails.push({
-          localeOnly: localeOnly,
-          localeWithVariant: localeWithVariant,
-          label: this.adminTranslations[localeOnly],
-        })
-      })
-      return supportedLocaleDetails
-    },
+    // supportedLocaleDetails() {
+    //   let supportedLocales = this.currentWebsite.supported_locales || []
+    //   let supportedLocaleDetails = []
+    //   supportedLocales.forEach((localeWithVariant) => {
+    //     let localeOnly = localeWithVariant.split("-")[0]
+    //     supportedLocaleDetails.push({
+    //       localeOnly: localeOnly,
+    //       localeWithVariant: localeWithVariant,
+    //       label: this.adminTranslations[localeOnly],
+    //     })
+    //   })
+    //   return supportedLocaleDetails
+    // },
   },
   mounted: function () {
     this.getAgency()

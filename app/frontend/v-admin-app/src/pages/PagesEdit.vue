@@ -49,7 +49,10 @@
                 animated
               >
                 <q-tab-panel class="q-px-xs" name="edit-title">
-                  <router-view :pagePartDetails="{ page_part_key: 'title' }" />
+                  <router-view
+                    :pagePartDetails="{ page_part_key: 'title' }"
+                    :currentPage="currentPage"
+                  />
                 </q-tab-panel>
                 <q-tab-panel
                   v-for="pagePart in pageParts"
@@ -58,8 +61,7 @@
                   :name="`edit-name-${pagePart.page_part_key}`"
                 >
                   <router-view
-                    :supportedLocaleDetails="supportedLocaleDetails"
-                    :pageContents="this.currentPage.page_contents"
+                    :pageContents="currentPage.page_contents"
                     :pagePartDetails="pagePart"
                   />
                 </q-tab-panel>
@@ -104,7 +106,7 @@ export default {
   },
   mounted: function () {},
   props: {
-    supportedLocaleDetails: {},
+    // supportedLocaleDetails: {},
   },
   setup(props) {
     const { getPage } = usePages()
