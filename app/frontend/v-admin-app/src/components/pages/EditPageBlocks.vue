@@ -26,9 +26,7 @@
       <div class="col-12">
         <GenericSubmitter
           :lastChangedField="lastChangedField"
-          :currentModelForEditing="
-            pagePartDetails.block_contents[editorLocale].blocks
-          "
+          :currentModelForEditing="currentModelForEditing"
           @changesCanceled="changesCanceled"
           @runModelUpdate="runModelUpdate"
         ></GenericSubmitter>
@@ -45,7 +43,13 @@ export default {
     PageBlockItem,
     GenericSubmitter,
   },
-  computed: {},
+  computed: {
+    currentModelForEditing() {
+      return this.pagePartDetails.block_contents[this.editorLocale]
+        ? this.pagePartDetails.block_contents[this.editorLocale]
+        : {}
+    },
+  },
   methods: {
     changesCanceled() {
       this.cancelPendingChanges = true

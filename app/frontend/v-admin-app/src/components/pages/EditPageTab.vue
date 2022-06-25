@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="q-pa-md">
-      <div class="raw-display-el">
+      <!-- <div class="raw-display-el">
         Page tab for {{ pagePartDetails.page_part_key }}...
-      </div>
+      </div> -->
       <div
         v-if="pagePartDetails.page_part_key === 'title'"
         class="row q-col-gutter-md"
