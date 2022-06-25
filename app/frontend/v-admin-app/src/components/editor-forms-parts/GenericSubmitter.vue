@@ -27,14 +27,6 @@ export default {
         return {}
       },
     },
-    cancelPendingChanges: {
-      type: Boolean,
-      default: false,
-    },
-    // modelName: {
-    //   type: String,
-    //   default: "link",
-    // },
   },
   watch: {
     lastChangedField: {

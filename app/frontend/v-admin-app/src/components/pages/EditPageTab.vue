@@ -23,38 +23,27 @@
               v-html="tabPageContents[`raw_${editorLocale}`]"
             ></div>
           </div>
-          <q-card
-            v-for="editorBlock in editorBlocks"
-            :key="editorBlock.nada"
-            class="translation-item-card"
-          >
-            <q-card-section
-              v-for="editorBlockItem in editorBlock"
-              :key="editorBlockItem.label"
+          <div>
+            <EditPageBlocks
+              :pagePartDetails="pagePartDetails"
+              :editorBlocks="editorBlocks"
+              :editorLocale="editorLocale"
             >
-              <div>{{ editorBlockItem.label }}</div>
-
-              <EditPageBlock
-                :pagePartDetails="pagePartDetails"
-                :editorBlockItem="editorBlockItem"
-                :editorLocale="editorLocale"
-              >
-              </EditPageBlock>
-            </q-card-section>
-          </q-card>
+            </EditPageBlocks>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import EditPageBlock from "~/v-admin-app/src/components/pages/EditPageBlock.vue"
+// import EditPageBlock from "~/v-admin-app/src/components/pages/EditPageBlock.vue"
+import EditPageBlocks from "~/v-admin-app/src/components/pages/EditPageBlocks.vue"
 import loFind from "lodash/find"
-// import useTranslations from "~/v-admin-app/src/compose/useTranslations.js"
-// import TranslationInput from "~/v-admin-app/src/components/editor-forms-parts/TranslationInput.vue"
 export default {
   components: {
-    EditPageBlock,
+    // EditPageBlock,
+    EditPageBlocks,
   },
   computed: {
     tabPageContents() {
@@ -63,7 +52,7 @@ export default {
       tabPageContents = loFind(this.pageContents, function (pc) {
         return pc["content_page_part_key"] === pageTabName
       })
-      return tabPageContents.content
+      return tabPageContents ? tabPageContents.content : ""
     },
     editorBlocks() {
       return this.pagePartDetails.editor_setup.editorBlocks
@@ -74,25 +63,8 @@ export default {
     pageContents: {},
     pagePartDetails: {},
   },
-  // mounted: function () {
-  //   let batchName = this.$route.params.tBatchId
-  //   // "extras"
-  //   this.getTranslations(batchName)
-  //     .then((response) => {
-  //       this.translationsBatch = response.data.translations
-  //     })
-  //     .catch((error) => {})
-  // },
-  // setup(props) {
-  //   const { getTranslations } = useTranslations()
-  //   return {
-  //     getTranslations,
-  //   }
-  // },
   data() {
-    return {
-      // translationsBatch: [],
-    }
+    return {}
   },
 }
 </script>
