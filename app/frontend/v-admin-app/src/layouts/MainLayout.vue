@@ -243,6 +243,7 @@ import useTranslations from "~/v-admin-app/src/compose/useTranslations.js"
 import { defineComponent, ref } from "vue"
 export default defineComponent({
   name: "MainLayout",
+  inject: ["websiteProvider"],
   components: {
     // Messages
   },
@@ -266,6 +267,7 @@ export default defineComponent({
       .then((response) => {
         this.currentAgency = response.data.agency
         this.currentWebsite = response.data.website
+        this.websiteProvider.setCurrentWebsite(response.data.website)
       })
       .catch((error) => {})
     let adminLocale = "en"
@@ -273,6 +275,7 @@ export default defineComponent({
     this.getAdminTranslations(adminLocale)
       .then((response) => {
         this.adminTranslations = response.data[adminLocale]
+        this.websiteProvider.setAdminTranslations(response.data[adminLocale])
       })
       .catch((error) => {})
   },

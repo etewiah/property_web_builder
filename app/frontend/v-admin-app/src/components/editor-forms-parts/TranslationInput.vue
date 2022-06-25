@@ -1,13 +1,15 @@
 <template>
   <div>
-    <div class="text-center text-subtitle1 trl-input-item-head">{{ translationUnit.sortKey }}</div>
+    <div class="text-center text-subtitle1 trl-input-item-head">
+      {{ translationUnit.sortKey }}
+    </div>
     <div>
       <div
         v-for="translationInstance in translationInstances"
         :key="translationInstance.key"
       >
-        <div v-if="['es', 'en'].includes(translationInstance.locale)">
-          {{ translationInstance.locale }} :
+        <div>
+          {{ translationInstance.localeLabel }} :
           <TextField
             :cancelPendingChanges="cancelPendingChanges"
             :fieldDetails="translationInstance"
@@ -35,6 +37,7 @@ import useTranslations from "~/v-admin-app/src/compose/useTranslations.js"
 import TranslationSubmitter from "~/v-admin-app/src/components/editor-forms-parts/TranslationSubmitter.vue"
 import TextField from "~/v-admin-app/src/components/editor-forms-parts/TextField.vue"
 export default {
+  inject: ["websiteProvider"],
   components: {
     TranslationSubmitter,
     TextField,
@@ -53,8 +56,16 @@ export default {
   },
   computed: {
     translationInstances() {
+      let translationInstances = []
+      let supportedLocaleDetails = this.websiteProvider.supportedLocaleDetails
+      this.translationUnit.translationsForKey.forEach((tfk) => {
+        if (supportedLocaleDetails.localesOnly.includes(tfk.locale)) {
+          tfk.localeLabel = supportedLocaleDetails.full[tfk.locale].label
+          translationInstances.push(tfk)
+        }
+      })
       // debugger
-      return sortBy(this.translationUnit.translationsForKey, "locale")
+      return sortBy(translationInstances, "locale")
     },
   },
   setup(props) {

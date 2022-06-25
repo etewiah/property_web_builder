@@ -49,7 +49,6 @@
                 animated
               >
                 <q-tab-panel class="q-px-xs" name="edit-title">
-                  :supportedLocaleDetails="supportedLocaleDetails"
                   <router-view :pagePartDetails="{ page_part_key: 'title' }" />
                 </q-tab-panel>
                 <q-tab-panel
