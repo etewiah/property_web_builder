@@ -3,7 +3,6 @@
     <div class="q-pa-md">
       <q-card class="property-edit-card">
         <q-card-section>
-          <div>Page edit</div>
           <div class="col-xs-12 q-mt-md">
             <div class="board-prop-overview-ctr">
               <q-tabs
@@ -73,16 +72,20 @@
 </template>
 <script>
 import usePages from "~/v-admin-app/src/compose/usePages.js"
+import loFilter from "lodash/filter"
+import loSortBy from "lodash/sortBy"
 export default {
   components: {},
   methods: {},
   computed: {
     pageParts() {
-      let pageParts = []
-      if (this.currentPage.page_parts) {
-        pageParts = this.currentPage.page_parts
-      }
-      return pageParts
+      let pageParts = this.currentPage.page_parts
+        ? this.currentPage.page_parts
+        : []
+      let pagePartsToShow = loFilter(pageParts, function (part) {
+        return part.show_in_editor
+      })
+      return loSortBy(pagePartsToShow, "order_in_editor")
     },
   },
   watch: {

@@ -31,10 +31,10 @@ export default {
   },
   computed: {
     blockValue() {
-      let block =
-        this.pagePartDetails.block_contents[this.editorLocale].blocks[
-          this.editorBlockItem.label
-        ] || {}
+      let localeBlockContents = this.pagePartDetails.block_contents[
+        this.editorLocale
+      ] || { blocks: {} }
+      let block = localeBlockContents.blocks[this.editorBlockItem.label] || {}
       return block.content || ""
     },
     editorBlockItemFieldDetails() {
