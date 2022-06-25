@@ -16,7 +16,7 @@
             v-on:updatePendingChanges="updatePendingChanges"
             :pagePartDetails="pagePartDetails"
             :editorBlockItem="editorBlockItem"
-            :editorLocale="editorLocale"
+            :currentBlockLocale="currentBlockLocale"
           ></PageBlockItem>
         </div>
       </q-card-section>
@@ -45,8 +45,8 @@ export default {
   },
   computed: {
     currentModelForEditing() {
-      return this.pagePartDetails.block_contents[this.editorLocale]
-        ? this.pagePartDetails.block_contents[this.editorLocale]
+      return this.pagePartDetails.block_contents[this.currentBlockLocale]
+        ? this.pagePartDetails.block_contents[this.currentBlockLocale]
         : {}
     },
   },
@@ -57,7 +57,7 @@ export default {
     runModelUpdate(currPendingChanges) {
       let blockDetailsToSave = {
         page_part_key: this.$route.params.pageTabName,
-        locale: this.editorLocale,
+        locale: this.currentBlockLocale,
         blocks: {
           // main_content: {
           //   content: "...",
@@ -72,7 +72,7 @@ export default {
             // set to its previous value
             let blockLabel = editorBlockElement.label
             let originalBlockContent =
-              this.pagePartDetails.block_contents[this.editorLocale].blocks[
+              this.pagePartDetails.block_contents[this.currentBlockLocale].blocks[
                 blockLabel
               ]
             blockDetailsToSave.blocks[blockLabel] = originalBlockContent || {
@@ -127,7 +127,7 @@ export default {
     pagePartDetails: {},
     // editorBlockItem: {},
     editorBlocks: {},
-    editorLocale: {},
+    currentBlockLocale: {},
   },
   setup(props) {
     const { updatePageFragment } = usePages()

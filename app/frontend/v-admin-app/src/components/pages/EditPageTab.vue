@@ -13,21 +13,21 @@
       <div v-else class="row q-col-gutter-md">
         <div
           class="col-12"
-          v-for="editorLocale in ['en', 'es']"
-          :key="editorLocale"
+          v-for="supportedLocale in supportedLocaleDetails"
+          :key="supportedLocale.localeOnly"
         >
-          <div>{{ editorLocale }}</div>
+          <div>{{ supportedLocale.label }}</div>
           <div>
             <div
               class="raw-display-el"
-              v-html="tabPageContents[`raw_${editorLocale}`]"
+              v-html="tabPageContents[`raw_${supportedLocale.localeOnly}`]"
             ></div>
           </div>
           <div>
             <EditPageBlocks
               :pagePartDetails="pagePartDetails"
               :editorBlocks="editorBlocks"
-              :editorLocale="editorLocale"
+              :currentBlockLocale="supportedLocale.localeOnly"
             >
             </EditPageBlocks>
           </div>
@@ -60,6 +60,7 @@ export default {
   },
   methods: {},
   props: {
+    supportedLocaleDetails: {},
     pageContents: {},
     pagePartDetails: {},
   },

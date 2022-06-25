@@ -2,12 +2,14 @@ import axios from "axios"
 
 export default function () {
   let dataApiBase = ""
-  function getTranslations(batchName) {
+  function getBatchTranslations(batchName) {
     let apiUrl = `${dataApiBase}/api/v1/translations/batch/${batchName}`
     return axios.get(apiUrl, {}, {
-      // headers: {
-      //   "X-Requested-With": "XMLHttpRequest"
-      // }
+    })
+  }
+  function getAdminTranslations(adminLocale) {
+    let apiUrl = `${dataApiBase}/api/v1/translations/list/${adminLocale}`
+    return axios.get(apiUrl, {}, {
     })
   }
   function updateTranslations(translation_changes) {
@@ -29,7 +31,8 @@ export default function () {
     })
   }
   return {
+    getAdminTranslations,
     updateTranslations,
-    getTranslations
+    getBatchTranslations
   }
 }

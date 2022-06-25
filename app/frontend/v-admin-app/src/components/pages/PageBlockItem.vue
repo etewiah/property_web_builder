@@ -32,7 +32,7 @@ export default {
   computed: {
     blockValue() {
       let localeBlockContents = this.pagePartDetails.block_contents[
-        this.editorLocale
+        this.currentBlockLocale
       ] || { blocks: {} }
       let block = localeBlockContents.blocks[this.editorBlockItem.label] || {}
       return block.content || ""
@@ -67,7 +67,7 @@ export default {
     },
     pagePartDetails: {},
     editorBlockItem: {},
-    editorLocale: {},
+    currentBlockLocale: {},
   },
   // setup(props) {},
   data() {

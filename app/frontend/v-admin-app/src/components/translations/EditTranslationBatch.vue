@@ -91,16 +91,16 @@ export default {
   mounted: function () {
     let batchName = this.$route.params.tBatchId
     // "extras"
-    this.getTranslations(batchName)
+    this.getBatchTranslations(batchName)
       .then((response) => {
         this.translationsBatch = response.data.translations
       })
       .catch((error) => {})
   },
   setup(props) {
-    const { getTranslations } = useTranslations()
+    const { getBatchTranslations } = useTranslations()
     return {
-      getTranslations,
+      getBatchTranslations,
     }
   },
   data() {
