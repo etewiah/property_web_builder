@@ -10,7 +10,7 @@
           v-for="supportedLocale in websiteProvider.supportedLocaleDetails.full"
           :key="supportedLocale.localeOnly"
         >
-          <div>{{ supportedLocale.label }}</div>
+          <div class="text-subtitle1">{{ supportedLocale.label }}</div>
           <TextField
             :cancelPendingChanges="cancelPendingChanges"
             :fieldDetails="{
@@ -35,16 +35,31 @@
         </div>
       </div>
       <div v-else class="row q-col-gutter-md">
+        <div class="text-center full-width">
+          <div class="">
+            <span class="text-subtitle1">Visible On Page:</span>
+            <q-toggle
+              :label="tabPageContentItem.visible_on_page ? 'Yes' : 'No'"
+              v-model="tabPageContentItem.visible_on_page"
+              color="green"
+              @update:model-value="toggleVisibility"
+            />
+          </div>
+        </div>
         <div
           class="col-12"
           v-for="supportedLocale in websiteProvider.supportedLocaleDetails.full"
           :key="supportedLocale.localeOnly"
         >
-          <div>{{ supportedLocale.label }}</div>
+          <div class="text-h6 q-my-lg">
+            Content in {{ supportedLocale.label }}:
+          </div>
           <div>
             <div
               class="raw-display-el"
-              v-html="tabPageContents[`raw_${supportedLocale.localeOnly}`]"
+              v-html="
+                tabPageContentItem.content[`raw_${supportedLocale.localeOnly}`]
+              "
             ></div>
           </div>
           <div>
@@ -74,25 +89,55 @@ export default {
     TextField,
   },
   computed: {
-    tabPageContents() {
-      let tabPageContents = {}
+    tabPageContentItem() {
+      let pageContentItem = {}
       let pageTabName = this.$route.params.pageTabName
-      tabPageContents = loFind(this.pageContents, function (pc) {
+      pageContentItem = loFind(this.pageContents, function (pc) {
         return pc["content_page_part_key"] === pageTabName
       })
-      return tabPageContents ? tabPageContents.content : ""
+      return pageContentItem ? pageContentItem : { visible_on_page: true }
     },
     editorBlocks() {
       return this.pagePartDetails.editor_setup.editorBlocks
     },
   },
   setup() {
-    const { updatePage } = usePages()
+    const { updatePage, updatePagePartVisibility } = usePages()
     return {
       updatePage,
+      updatePagePartVisibility,
     }
   },
   methods: {
+    toggleVisibility(newVisibility) {
+      this.tabPageContentItem.visible_on_page = newVisibility
+      let pageSlug = this.$route.params.pageName
+      let pagePartKey = this.$route.params.pageTabName
+      this.updatePagePartVisibility(pageSlug, pagePartKey, newVisibility)
+        .then((response) => {
+          this.$q.notify({
+            color: "green-4",
+            textColor: "white",
+            icon: "cloud_done",
+            message: "Visibility updated successfully",
+          })
+        })
+        .catch((error) => {
+          let errorMessage = error.message || "Sorry, unable to update"
+          if (
+            error.response.data.errors[0] &&
+            error.response.data.errors[0].meta.exception
+          ) {
+            errorMessage = error.response.data.errors[0].meta.exception
+          }
+          this.$q.notify({
+            color: "red-4",
+            textColor: "white",
+            icon: "error",
+            message: errorMessage,
+          })
+        })
+    },
     runModelUpdate(currPendingChanges) {
       currPendingChanges["slug"] = this.$route.params.pageName
       this.updatePage(currPendingChanges)
@@ -136,7 +181,12 @@ export default {
     },
   },
   props: {
-    currentPage: {},
+    currentPage: {
+      type: Object,
+      default() {
+        return {}
+      },
+    },
     pageContents: {},
     pagePartDetails: {},
   },
