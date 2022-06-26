@@ -16,16 +16,26 @@
         v-on:updatePendingChanges="updatePendingChanges"
       ></TextField>
     </div>
+    <div v-else-if="editorBlockItem.isImage">
+      <ImageField
+        :cancelPendingChanges="cancelPendingChanges"
+        :fieldDetails="editorBlockItemFieldDetails"
+        :currentFieldValue="blockValue"
+        v-on:updatePendingChanges="updatePendingChanges"
+      ></ImageField>
+    </div>
     <div v-else>
       {{ blockValue }}
     </div>
   </div>
 </template>
 <script>
+import ImageField from "~/v-admin-app/src/components/editor-forms-parts/ImageField.vue"
 import TextField from "~/v-admin-app/src/components/editor-forms-parts/TextField.vue"
 import HtmlField from "~/v-admin-app/src/components/editor-forms-parts/HtmlField.vue"
 export default {
   components: {
+    ImageField,
     TextField,
     HtmlField,
   },
