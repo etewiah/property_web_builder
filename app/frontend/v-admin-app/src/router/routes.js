@@ -96,21 +96,10 @@ const routes = [
         component: () => import("../pages/PropertyEdit.vue"),
         children: [
           {
-            path: 'general',
-            name: "rPropertyEditGeneral",
+            path: ':editTabName',
+            name: "rPropertyEditTab",
             component: () => import("../components/properties/EditPropertyGeneral.vue"),
           },
-          {
-            path: 'texts',
-            name: "rPropertyEditTexts",
-            component: () => import("../components/properties/EditPropertyTexts.vue"),
-          },
-          {
-            path: 'location',
-            name: "rPropertyEditLocation",
-            component: () => import("../pages/PropertyEdit.vue"),
-          }
-
         ]
       }
       // {
