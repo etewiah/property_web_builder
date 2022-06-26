@@ -14,16 +14,21 @@
 <script>
 import EditAttributesForm from "~/v-admin-app/src/components/editor-forms/EditAttributesForm.vue"
 import PropertyTextsForm from "~/v-admin-app/src/components/editor-forms/PropertyTextsForm.vue"
+import ImageManager from "~/v-admin-app/src/components/editor-forms-parts/ImageManager.vue"
 export default {
   components: {
     EditAttributesForm,
     PropertyTextsForm,
+    ImageManager
   },
   computed: {
     editTabComponent() {
       let editTabComponent = "EditAttributesForm"
       if (this.$route.params.editTabName === "text") {
         editTabComponent = "PropertyTextsForm"
+      }
+      if (this.$route.params.editTabName === "photos") {
+        editTabComponent = "ImageManager"
       }
       return editTabComponent
     },

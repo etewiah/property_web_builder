@@ -24,6 +24,17 @@ export default function () {
     })
   }
 
+  function deletePropertyPhoto(photoModel) {
+    let apiUrl =
+      `${dataApiBase}/api/v1/properties/photos/${photoModel.id}/${photoModel.prop_id}`
+    let csrfToken = document.head.querySelector("[name='csrf-token']").content
+    return axios.delete(apiUrl, {
+      headers: {
+        'X-CSRF-Token': csrfToken
+      }
+    })
+  }
+
   function getProperties() {
     let apiUrl = `${dataApiBase}/api/v1/lite-properties`
     return axios.get(apiUrl, {}, {})
@@ -46,6 +57,7 @@ export default function () {
     })
   }
   return {
+    deletePropertyPhoto,
     updateProperty,
     getProperties,
     getOrCreateProperty,
