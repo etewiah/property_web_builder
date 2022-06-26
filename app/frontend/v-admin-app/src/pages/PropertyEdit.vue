@@ -17,21 +17,31 @@
                 outside-arrows
                 v-model="activeTab"
               >
-                <q-route-tab
+                <!-- <q-route-tab
                   :to="{ name: 'rPropertyEditGeneral' }"
                   name="edit-general"
                   label="General"
                   :exact="true"
                 />
-                <!-- <q-tab name="mortgage" label="Mortgage" /> -->
                 <q-route-tab
                   name="edit-texts"
                   label="Texts"
-                  :to="{ name: 'rPropertyEditTexts' }"
+                  :to="{ name: 'rPropertyEditTab' }"
+                  :exact="true"
+                /> -->
+                <q-route-tab
+                  v-for="propTab in editPropTabs"
+                  :key="propTab.tabValue"
+                  :to="{
+                    name: propTab.tabRouteName,
+                    params: {
+                      editTabName: propTab.tabValue,
+                    },
+                  }"
+                  :name="`edit-name-${propTab.tabValue}`"
+                  :label="propTab.tabLabel"
                   :exact="true"
                 />
-                <!-- <q-tab name="checklist" label="Checklist" /> -->
-                <!-- <q-tab name="distances" label="Distances" /> -->
               </q-tabs>
 
               <q-separator />
@@ -44,10 +54,19 @@
                 v-model="activeTab"
                 animated
               >
-                <q-tab-panel class="q-px-xs" name="edit-general">
+                <!-- <q-tab-panel class="q-px-xs" name="edit-general">
                   <router-view :currentProperty="currentProperty" />
                 </q-tab-panel>
                 <q-tab-panel class="q-px-none" name="edit-texts">
+                  <router-view :currentProperty="currentProperty" />
+                </q-tab-panel> -->
+
+                <q-tab-panel
+                  v-for="propTab in editPropTabs"
+                  :key="propTab.tabValue"
+                  :name="`edit-name-${propTab.tabValue}`"
+                  class="q-px-none"
+                >
                   <router-view :currentProperty="currentProperty" />
                 </q-tab-panel>
               </q-tab-panels>
@@ -63,13 +82,7 @@
 import useProperties from "../compose/useProperties.js"
 export default {
   components: {},
-  methods: {
-    // goToProp(propertyRow) {
-    //   let targetRoute = {
-    //   }
-    //   this.$router.push(targetRoute)
-    // },
-  },
+  methods: {},
   mounted: function () {
     this.getProperty(this.$route.params.prop_id)
       .then((response) => {
@@ -85,13 +98,48 @@ export default {
   },
   data() {
     return {
-      // propertyFound: true,
-      // authorizedToViewProperty: true,
+      editPropTabs: [
+        {
+          tabValue: "general",
+          tabLabel: "general",
+          tabRouteName: "rPropertyEditTab",
+          tabTitleKey: "propertySections.general",
+        },
+        {
+          tabValue: "text",
+          tabLabel: "text",
+          tabRouteName: "rPropertyEditTab",
+          tabTitleKey: "propertySections.text",
+        },
+        {
+          tabValue: "venta",
+          tabLabel: "venta",
+          tabRouteName: "rPropertyEditTab",
+          tabTitleKey: "propertySections.sale",
+        },
+        {
+          tabValue: "situacion",
+          tabLabel: "situacion",
+          tabRouteName: "rPropertyEditTab",
+          tabTitleKey: "propertySections.location",
+        },
+        {
+          tabValue: "extras",
+          tabLabel: "extras",
+          tabRouteName: "rPropertyEditTab",
+          tabTitleKey: "propertySections.extras",
+        },
+        {
+          tabValue: "fotos",
+          tabLabel: "fotos",
+          tabRouteName: "rPropertyEditTab",
+          tabTitleKey: "propertySections.photos",
+        },
+      ],
       currentProperty: {
         attributes: {},
       },
       activeTab: null,
-      // properties: [],
     }
   },
 }
