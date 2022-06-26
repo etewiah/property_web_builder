@@ -178,7 +178,7 @@ export default defineComponent({
     },
     imagesUploaded(uploadDetails) {
       this.filesUploadedCount += uploadDetails.files.length
-      if ((this.filesToUploadCount = this.filesUploadedCount)) {
+      if ((this.filesToUploadCount === this.filesUploadedCount)) {
         location.reload()
       }
     },
