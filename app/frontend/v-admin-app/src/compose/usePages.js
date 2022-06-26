@@ -42,6 +42,26 @@ export default function () {
       }
     })
   }
+  function updatePagePartVisibility(pageSlug, pagePartKey, newVisibility) {
+    let apiUrl =
+      `${dataApiBase}/api/v1/pages/page_part_visibility`
+    let partData = {
+      page_slug: pageSlug,
+      cmd: "setAsHidden",
+      page_part_key: pagePartKey
+    }
+    if (newVisibility) {
+      partData.cmd = "setAsVisible"
+    }
+    let csrfToken = document.head.querySelector("[name='csrf-token']").content
+    return axios.put(apiUrl,
+      partData, {
+      headers: {
+        'Content-Type': 'application/vnd.api+json',
+        'X-CSRF-Token': csrfToken
+      }
+    })
+  }
   function updatePage(pageDetails) {
     let apiUrl =
       `${dataApiBase}/api/v1/pages`
@@ -56,6 +76,7 @@ export default function () {
     })
   }
   return {
+    updatePagePartVisibility,
     updatePage,
     updatePageFragment,
     updateTranslations,
