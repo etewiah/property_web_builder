@@ -1,23 +1,33 @@
 <template>
-  <div>
+  <div class="property-edit-ctr">
     <div class="q-pa-md">
-      <q-card class="property-edit-card">
-        <q-card-section>
-          <EditAttributesForm
+      <component
+        :is="editTabComponent"
+        :currentProperty="currentProperty"
+      ></component>
+      <!-- <EditAttributesForm
             :currentProperty="currentProperty"
-          ></EditAttributesForm>
-        </q-card-section>
-      </q-card>
+          ></EditAttributesForm> -->
     </div>
   </div>
 </template>
 <script>
 import EditAttributesForm from "~/v-admin-app/src/components/editor-forms/EditAttributesForm.vue"
+import PropertyTextsForm from "~/v-admin-app/src/components/editor-forms/PropertyTextsForm.vue"
 export default {
   components: {
     EditAttributesForm,
+    PropertyTextsForm,
   },
-  methods: {},
+  computed: {
+    editTabComponent() {
+      let editTabComponent = "EditAttributesForm"
+      if (this.$route.params.editTabName === "text") {
+        editTabComponent = "PropertyTextsForm"
+      }
+      return editTabComponent
+    },
+  },
   props: {
     currentProperty: {
       type: Object,
