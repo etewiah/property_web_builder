@@ -22,7 +22,7 @@ const routes = [
           {
             path: 'location',
             name: "rAgencyEditLocation",
-            component: () => import("../components/website/EditWebsiteGeneral.vue"),
+            component: () => import("../components/website/EditAgencyGeneral.vue"),
           },
         ]
       },

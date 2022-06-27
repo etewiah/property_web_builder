@@ -26,7 +26,6 @@
 <script>
 import { defineComponent, ref } from "vue"
 import TextField from "~/v-admin-app/src/components/editor-forms-parts/TextField.vue"
-// import { mdiAspectRatio, mdiCashMultiple } from "@quasar/extras/mdi-v5"
 export default defineComponent({
   created() {},
   name: "AgencyGeneralForm",

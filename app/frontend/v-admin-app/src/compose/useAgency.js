@@ -23,7 +23,21 @@ export default function () {
       // headers: authHeader()
     })
   }
+  function updateAgencyAddress(address_changes) {
+    let apiUrl = `${dataApiBase}/api/v1/master_address`
+    let csrfToken = document.head.querySelector("[name='csrf-token']").content
+    return axios.put(apiUrl, {
+      address: address_changes
+    }, {
+      headers: {
+        // 'Content-Type': 'application/vnd.api+json',
+        'X-CSRF-Token': csrfToken
+      }
+      // headers: authHeader()
+    })
+  }
   return {
+    updateAgencyAddress,
     updateAgency,
     getAgency
   }
