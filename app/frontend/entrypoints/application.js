@@ -49,8 +49,19 @@ import 'quasar/src/css/index.sass'
 // // import AuthService from '@/services/auth.service'
 
 import route from "../v-admin-app/src/router/index"
+import VueGoogleMaps from '@fawmi/vue-google-maps'
 
 const myApp = createApp(App)
+
+const gak = import.meta.env.VITE_GMAPS_API_KEY
+// process.env.GMAPS_API_KEY
+// import.meta.env.BASE_URL
+myApp.use(VueGoogleMaps, {
+  load: {
+    key: gak,
+    libraries: "places"
+  },
+})
 
 myApp.use(Quasar, {
   plugins: {
