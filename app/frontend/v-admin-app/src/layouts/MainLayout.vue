@@ -265,6 +265,7 @@ export default defineComponent({
     this.getAgency()
       .then((response) => {
         this.currentAgency = response.data.agency
+        this.currentAgency.primaryAddress = response.data.primary_address
         this.currentWebsite = response.data.website
         this.websiteProvider.setCurrentWebsite(response.data.website)
       })

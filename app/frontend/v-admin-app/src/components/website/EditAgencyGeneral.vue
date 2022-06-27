@@ -1,12 +1,13 @@
 <template>
   <div>
     <div class="q-pa-md">
-      <div>General</div>
-      <AgencyGeneralForm
+      <component
+        :key="currentAgency.email_primary"
+        :is="editTabComponent"
         @updatePendingChanges="updatePendingChanges"
         :cancelPendingChanges="cancelPendingChanges"
         :currentAgency="currentAgency"
-      ></AgencyGeneralForm>
+      ></component>
       <div class="row">
         <div class="col-12">
           <GenericSubmitter
@@ -25,10 +26,21 @@
 import useAgency from "~/v-admin-app/src/compose/useAgency.js"
 import GenericSubmitter from "~/v-admin-app/src/components/editor-forms-parts/GenericSubmitter.vue"
 import AgencyGeneralForm from "~/v-admin-app/src/components/editor-forms/AgencyGeneralForm.vue"
+import AgencyLocationForm from "~/v-admin-app/src/components/editor-forms/AgencyLocationForm.vue"
 export default {
   components: {
+    AgencyLocationForm,
     AgencyGeneralForm,
     GenericSubmitter,
+  },
+  computed: {
+    editTabComponent() {
+      let editTabComponent = "AgencyGeneralForm"
+      if (this.$route.name === "rAgencyEditLocation") {
+        editTabComponent = "AgencyLocationForm"
+      }
+      return editTabComponent
+    },
   },
   methods: {
     runModelUpdate(currPendingChanges) {
