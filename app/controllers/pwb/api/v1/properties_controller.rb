@@ -126,6 +126,10 @@ module Pwb
 
       property = Prop.find(params[:id])
       files_array = params[:file]
+      if files_array.class.to_s == "ActionDispatch::Http::UploadedFile"
+        # In case a single file has been sent, use as an array item
+        files_array = [files_array]
+      end
       photos_array = []
       files_array.each do |file|
         photo = PropPhoto.create
