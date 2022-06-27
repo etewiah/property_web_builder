@@ -2,6 +2,7 @@
   <div class="property-edit-ctr">
     <div class="q-pa-md">
       <component
+        :key="currentProperty.id"
         :is="editTabComponent"
         :currentProperty="currentProperty"
       ></component>
@@ -14,12 +15,14 @@
 <script>
 import EditAttributesForm from "~/v-admin-app/src/components/editor-forms/EditAttributesForm.vue"
 import PropertyTextsForm from "~/v-admin-app/src/components/editor-forms/PropertyTextsForm.vue"
+import PropertyLocationForm from "~/v-admin-app/src/components/editor-forms/PropertyLocationForm.vue"
 import ImageManager from "~/v-admin-app/src/components/editor-forms-parts/ImageManager.vue"
 export default {
   components: {
     EditAttributesForm,
     PropertyTextsForm,
-    ImageManager
+    PropertyLocationForm,
+    ImageManager,
   },
   computed: {
     editTabComponent() {
@@ -30,13 +33,19 @@ export default {
       if (this.$route.params.editTabName === "photos") {
         editTabComponent = "ImageManager"
       }
+      if (this.$route.params.editTabName === "location") {
+        editTabComponent = "PropertyLocationForm"
+      }
       return editTabComponent
     },
   },
   props: {
     currentProperty: {
       type: Object,
-      default: () => {},
+      default: () => {
+        attributes: {
+        }
+      },
     },
   },
   mounted: function () {},

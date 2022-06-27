@@ -24,7 +24,6 @@
             :cancelPendingChanges="cancelPendingChanges"
             :lastChangedField="lastChangedField"
             :currentModelForEditing="currentProperty"
-            submitObjectType="realtyAssetPlusListing"
             @changesCanceled="changesCanceled"
           ></PropertySubmitter>
         </div>
@@ -57,7 +56,10 @@ export default {
   props: {
     currentProperty: {
       type: Object,
-      default: () => {},
+      default: () => {
+        attributes: {
+        }
+      },
     },
   },
   mounted: function () {},
