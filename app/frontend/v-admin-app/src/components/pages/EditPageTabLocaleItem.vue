@@ -6,10 +6,13 @@
         class="raw-display-el"
         v-html="tabPageContentItem.content[`raw_${supportedLocale.localeOnly}`]"
       ></div>
-      <q-btn @click="setEditMode" color="primary" type="submit"> Edit </q-btn>
+      <div class="q-mt-lg">
+        <q-btn @click="setEditMode" color="primary" type="submit"> Edit </q-btn>
+      </div>
     </div>
     <div v-else>
       <EditPageBlocks
+        @cancelEditMode="cancelEditMode"
         :pagePartDetails="pagePartDetails"
         :editorBlocks="editorBlocks"
         :currentBlockLocale="supportedLocale.localeOnly"
@@ -52,6 +55,9 @@ export default {
   //   }
   // },
   methods: {
+    cancelEditMode() {
+      this.showPreview = true
+    },
     setEditMode() {
       this.showPreview = false
     },
