@@ -10,7 +10,7 @@
           v-for="editorBlockItem in editorBlock"
           :key="editorBlockItem.label"
         >
-          <div>{{ editorBlockItem.label }}</div>
+          <!-- <div>{{ editorBlockItem.label }}</div> -->
           <PageBlockItem
             :cancelPendingChanges="cancelPendingChanges"
             v-on:updatePendingChanges="updatePendingChanges"
