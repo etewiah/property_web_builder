@@ -17,12 +17,15 @@ module Pwb
     end
 
     def set_photo
+      # This adds an image that can be used for a page fragment
+      # A separate call is required to actually use the image
+      # in a page fragment
       unless params["block_label"]
-        return render_json_error 'Please provide block_label'
+        return render_json_error "Please provide block_label"
       end
       block_label = params["block_label"]
       unless params["page_part_key"]
-        return render_json_error 'Please provide label'
+        return render_json_error "Please provide label"
       end
       page_part_key = params["page_part_key"]
       page = Page.find_by_slug params[:page_slug]
@@ -30,7 +33,7 @@ module Pwb
       photo = page.create_fragment_photo page_part_key, block_label, params[:file]
       photo.reload
       render json: {
-        image_url: photo.optimized_image_url
+        image_url: photo.optimized_image_url,
       }
     end
 
@@ -44,7 +47,7 @@ module Pwb
     def update_page_part_visibility
       page = Page.find_by_slug params[:page_slug]
       unless page
-        return render_json_error 'Please provide valid page slug'
+        return render_json_error "Please provide valid page slug"
       end
 
       if params["cmd"] == "setAsHidden"
@@ -67,12 +70,12 @@ module Pwb
       end
       fragment_details = params[:fragment_details]
       unless fragment_details && fragment_details["locale"]
-        return render_json_error 'Please provide locale'
+        return render_json_error "Please provide locale"
       end
 
       locale = fragment_details["locale"]
       unless fragment_details["page_part_key"]
-        return render_json_error 'Please provide page_part_key'
+        return render_json_error "Please provide page_part_key"
       end
       page_part_key = fragment_details["page_part_key"]
       page_part_manager = Pwb::PagePartManager.new page_part_key, container
@@ -91,7 +94,7 @@ module Pwb
 
       render json: {
         blocks: result_to_return[:json_fragment_block],
-        html: result_to_return[:fragment_html]
+        html: result_to_return[:fragment_html],
       }
     end
 
