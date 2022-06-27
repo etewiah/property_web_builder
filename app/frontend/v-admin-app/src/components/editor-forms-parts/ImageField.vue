@@ -155,22 +155,13 @@ export default {
       let imageUploadUrl = `/api/v1/pages/photos/${pageSlug}/${pagePartKey}/${this.fieldDetails.fieldName}`
       return imageUploadUrl
     },
-    // fieldLabel() {
-    //   if (this.fieldDetails.labelEn) {
-    //     return this.fieldDetails.labelEn
-    //   } else {
-    //     return ""
-    //   }
-    // },
   },
   methods: {
-    // changeImage() {},
     imagesUploaded(uploadDetails) {
       this.filesUploadedCount += uploadDetails.files.length
       if (this.filesToUploadCount === this.filesUploadedCount) {
         let newImageUrl = JSON.parse(uploadDetails.xhr.response).image_url
         this.localFieldValue = newImageUrl
-        debugger
         this.$emit("updatePendingChanges", {
           fieldDetails: this.fieldDetails,
           newValue: newImageUrl,
