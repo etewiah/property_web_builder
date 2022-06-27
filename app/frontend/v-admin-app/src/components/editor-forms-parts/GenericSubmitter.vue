@@ -1,7 +1,7 @@
 <template>
   <div
-    v-if="hasPendingChanges"
-    class="q-gutter-md spp-loc-submit-cont"
+    v-if="forceShow || hasPendingChanges"
+    class="q-gutter-md generic-submit-cont"
     xs12
     sm12
     offset-sm0
@@ -15,6 +15,10 @@
 export default {
   components: {},
   props: {
+    forceShow: {
+      type: Boolean,
+      default: false,
+    },
     currentModelForEditing: {
       type: Object,
       default() {
