@@ -37,7 +37,6 @@ export default {
   },
   watch: {
     lastChangedField: {
-      // adapted from updatePendingPropChanges method I previously had in the vuex store
       handler(to, from) {
         let changedFieldDetails = to.fieldDetails
         let fieldHasChanged = false
@@ -48,16 +47,6 @@ export default {
         }
         var originalValue =
           this.currentModelForEditing[changedFieldDetails.fieldName]
-        // if (changedFieldDetails.fieldType === "localesHash") {
-        //   fieldHasChanged =
-        //     newValue !== originalValue[changedFieldDetails.activeLocale]
-        //   // and structure the newValue better for saving to server
-        //   newValue = {}
-        //   newValue[changedFieldDetails.activeLocale] =
-        //     changedFieldDetails.newValue
-        // } else {
-        //   fieldHasChanged = newValue !== originalValue
-        // }
         fieldHasChanged = newValue !== originalValue
         let changedFieldName = changedFieldDetails.fieldName
         // if (to.fieldClass === "aFeatureField") {
@@ -112,9 +101,9 @@ export default {
           let errorMessage = error.message || "Sorry, unable to update"
           if (
             error.response.data.errors[0] &&
-            error.response.data.errors[0].meta.exception
+            error.response.data.errors[0].detail
           ) {
-            errorMessage = error.response.data.errors[0].meta.exception
+            errorMessage = error.response.data.errors[0].detail
           }
           this.$q.notify({
             color: "red-4",
