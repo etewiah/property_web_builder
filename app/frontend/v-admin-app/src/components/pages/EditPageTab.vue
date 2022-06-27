@@ -51,25 +51,12 @@
           v-for="supportedLocale in websiteProvider.supportedLocaleDetails.full"
           :key="supportedLocale.localeOnly"
         >
-          <div class="text-h6 q-my-lg">
-            Content in {{ supportedLocale.label }}:
-          </div>
-          <div>
-            <div
-              class="raw-display-el"
-              v-html="
-                tabPageContentItem.content[`raw_${supportedLocale.localeOnly}`]
-              "
-            ></div>
-          </div>
-          <div>
-            <EditPageBlocks
-              :pagePartDetails="pagePartDetails"
-              :editorBlocks="editorBlocks"
-              :currentBlockLocale="supportedLocale.localeOnly"
-            >
-            </EditPageBlocks>
-          </div>
+          <EditPageTabLocaleItem
+            :supportedLocale="supportedLocale"
+            :pageContents="pageContents"
+            :pagePartDetails="pagePartDetails"
+            :tabPageContentItem="tabPageContentItem"
+          ></EditPageTabLocaleItem>
         </div>
       </div>
     </div>
@@ -79,13 +66,15 @@
 import usePages from "~/v-admin-app/src/compose/usePages.js"
 import GenericSubmitter from "~/v-admin-app/src/components/editor-forms-parts/GenericSubmitter.vue"
 import TextField from "~/v-admin-app/src/components/editor-forms-parts/TextField.vue"
-import EditPageBlocks from "~/v-admin-app/src/components/pages/EditPageBlocks.vue"
+// import EditPageBlocks from "~/v-admin-app/src/components/pages/EditPageBlocks.vue"
+import EditPageTabLocaleItem from "~/v-admin-app/src/components/pages/EditPageTabLocaleItem.vue"
 import loFind from "lodash/find"
 export default {
   inject: ["websiteProvider"],
   components: {
+    EditPageTabLocaleItem,
     GenericSubmitter,
-    EditPageBlocks,
+    // EditPageBlocks,
     TextField,
   },
   computed: {
@@ -97,9 +86,6 @@ export default {
       })
       return pageContentItem ? pageContentItem : { visible_on_page: true }
     },
-    editorBlocks() {
-      return this.pagePartDetails.editor_setup.editorBlocks
-    },
   },
   setup() {
     const { updatePage, updatePagePartVisibility } = usePages()
@@ -109,6 +95,9 @@ export default {
     }
   },
   methods: {
+    // setEditMode() {
+    //   this.showPreview = false
+    // },
     toggleVisibility(newVisibility) {
       this.tabPageContentItem.visible_on_page = newVisibility
       let pageSlug = this.$route.params.pageName
@@ -192,6 +181,7 @@ export default {
   },
   data() {
     return {
+      // showPreview: true,
       cancelPendingChanges: false,
       lastChangedField: {
         fieldDetails: {},
@@ -200,39 +190,4 @@ export default {
   },
 }
 </script>
-<style>
-.jumbotron {
-  -webkit-text-size-adjust: 100%;
-  font-family: roboto;
-  font-size: 16px;
-  line-height: 1.42857143;
-  font-weight: 400;
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-  outline: 0 !important;
-  -webkit-tap-highlight-color: transparent !important;
-  margin-bottom: 30px;
-  color: white;
-  background-color: #f7f7f7;
-  padding: 0;
-  border-radius: 2px;
-  padding-left: 60px;
-  padding-right: 60px;
-}
-.raw-disp-el {
-  -webkit-text-size-adjust: 100%;
-  font-family: roboto;
-  font-size: 16px;
-  line-height: 1.42857143;
-  color: #5e5e5e;
-  font-weight: 400;
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-  outline: 0 !important;
-  -webkit-tap-highlight-color: transparent !important;
-  border: #d9edf7;
-  border-style: dashed;
-  border-radius: 10px;
-  padding: 25px 0;
-}
-</style>
+<style></style>
