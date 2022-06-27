@@ -23,8 +23,9 @@
     </q-card>
 
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 q-mt-lg">
         <GenericSubmitter
+          :forceShow="true"
           :lastChangedField="lastChangedField"
           :currentModelForEditing="currentModelForEditing"
           @changesCanceled="changesCanceled"
@@ -53,6 +54,7 @@ export default {
   methods: {
     changesCanceled() {
       this.cancelPendingChanges = true
+      this.$emit("cancelEditMode")
     },
     runModelUpdate(currPendingChanges) {
       let blockDetailsToSave = {
@@ -72,9 +74,8 @@ export default {
             // set to its previous value
             let blockLabel = editorBlockElement.label
             let originalBlockContent =
-              this.pagePartDetails.block_contents[this.currentBlockLocale].blocks[
-                blockLabel
-              ]
+              this.pagePartDetails.block_contents[this.currentBlockLocale]
+                .blocks[blockLabel]
             blockDetailsToSave.blocks[blockLabel] = originalBlockContent || {
               content: "",
             }
@@ -90,14 +91,15 @@ export default {
       })
       this.updatePageFragment(pageSlug, blockDetailsToSave)
         .then((response) => {
-          // location.reload()
+          location.reload()
+          // TODO - avoid reloading to refresh changes
           // this.currPendingChanges = {}
-          this.$q.notify({
-            color: "green-4",
-            textColor: "white",
-            icon: "cloud_done",
-            message: "Updated successfully",
-          })
+          // this.$q.notify({
+          //   color: "green-4",
+          //   textColor: "white",
+          //   icon: "cloud_done",
+          //   message: "Updated successfully",
+          // })
         })
         .catch((error) => {
           let errorMessage = error.message || "Sorry, unable to update"
@@ -117,7 +119,6 @@ export default {
     },
     updatePendingChanges({ fieldDetails, newValue }) {
       fieldDetails.newValue = newValue
-      // fieldDetails.batch_key = "extras"
       this.lastChangedField.fieldDetails = fieldDetails
       this.lastChangedField.lastUpdateStamp = Date.now()
       this.cancelPendingChanges = false
@@ -125,7 +126,6 @@ export default {
   },
   props: {
     pagePartDetails: {},
-    // editorBlockItem: {},
     editorBlocks: {},
     currentBlockLocale: {},
   },
