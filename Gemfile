@@ -129,3 +129,6 @@ gem "liquid", "~> 5.3"
 gem "psych", "< 4"
 
 gem "vite_rails", "~> 3.0"
+
+gem "graphql", "~> 2.0"
+gem "graphiql-rails", group: :development
