@@ -99,13 +99,16 @@ export default {
         this.singleLatLngDetails.latitude &&
         this.singleLatLngDetails.longitude
       ) {
+        let infoWindowText =
+          this.singleLatLngDetails.street_address ||
+          this.singleLatLngDetails["street-address"]
         listingMapMarkers.push({
           id: this.singleLatLngDetails.id,
           position: {
             lat: parseFloat(this.singleLatLngDetails.latitude),
             lng: parseFloat(this.singleLatLngDetails.longitude),
           },
-          infoWindowText: this.singleLatLngDetails.street_address,
+          infoWindowText: infoWindowText,
         })
         // below ensures that info window for each marker is opened
         // this.openedMarkerIds[this.singleLatLngDetails.listing_uuid] = 1
