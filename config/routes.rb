@@ -31,9 +31,11 @@ Rails.application.routes.draw do
       get "/config/:params" => "config#show"
 
       get "/v-admin" => "admin_panel_vue#show"
-      # get "/v-admin/:params" => "admin_panel_vue#show"
       get "/v-admin/*path" => "admin_panel_vue#show"
     end
+
+    get "/v-public" => "vue_public#show"
+    get "/v-public/*path" => "vue_public#show"
 
     get "/custom_css/:theme_name" => "css#custom_css", as: "custom_css"
 
