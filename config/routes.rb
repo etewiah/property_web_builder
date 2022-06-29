@@ -1,5 +1,9 @@
 # Pwb::Engine.routes.draw do
 Rails.application.routes.draw do
+  if Rails.env.development?
+    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
+  end
+  post "/graphql", to: "graphql#execute"
 
   # devise_for :users, class_name: "Pwb::User", module: :devise
   scope module: :pwb do
