@@ -2,54 +2,63 @@
   <div>
     <q-card class="prop-loc-edit-card">
       <q-card-section>
-        <div>
-          <div class="text-subtitle1 form-label-head"></div>
-
-          <GMapAutocomplete
-            autofocus="true"
-            placeholder="Type here to find a new address"
-            @place_changed="setPlace"
-            :options="autoCompleteOptions"
-            class="gmap-ac-input"
-            style="margin-bottom: 40px"
-            @focus="onFocus()"
-            @blur="onBlur()"
-          />
-          <div class="row q-col-gutter-sm">
-            <div class="col-xs-12 col-sm-12 col-md-6">
-              <div v-for="fieldDetails in locationFields.mainInputFields1">
-                <LocationTextField
-                  :key="fieldDetails.fieldName"
-                  v-on:updatePendingChanges="updatePendingChanges"
-                  :fieldDetails="fieldDetails"
-                  :fieldOptions="{}"
-                  :cancelPendingChanges="cancelPendingChanges"
-                  v-bind:locationResourceModel="currentPropertyAttributes"
-                ></LocationTextField>
+        <div class="row">
+          <div class="col-12">
+            <MapViewContainer
+              @setFieldsFromAddressDetails="setFieldsFromAddressDetails"
+              :singleLatLngDetails="currentPropertyAttributes"
+            >
+            </MapViewContainer>
+          </div>
+          <div class="col-12 q-pt-md">
+            <GMapAutocomplete
+              autofocus="true"
+              placeholder="You can type here to find a new address"
+              @place_changed="setPlace"
+              :options="autoCompleteOptions"
+              class="gmap-ac-input"
+              style="margin-bottom: 40px"
+              @focus="onFocus()"
+              @blur="onBlur()"
+            />
+          </div>
+          <div class="col-12">
+            <div class="row q-col-gutter-sm">
+              <div class="col-xs-12 col-sm-12 col-md-6">
+                <div v-for="fieldDetails in locationFields.mainInputFields1">
+                  <LocationTextField
+                    :key="fieldDetails.fieldName"
+                    v-on:updatePendingChanges="updatePendingChanges"
+                    :fieldDetails="fieldDetails"
+                    :fieldOptions="{}"
+                    :cancelPendingChanges="cancelPendingChanges"
+                    v-bind:locationResourceModel="currentPropertyAttributes"
+                  ></LocationTextField>
+                </div>
               </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-6">
-              <div v-for="fieldDetails in locationFields.mainInputFields2">
-                <LocationTextField
-                  :key="fieldDetails.fieldName"
-                  v-on:updatePendingChanges="updatePendingChanges"
-                  :fieldDetails="fieldDetails"
-                  :fieldOptions="{}"
-                  :cancelPendingChanges="cancelPendingChanges"
-                  v-bind:locationResourceModel="currentPropertyAttributes"
-                ></LocationTextField>
+              <div class="col-xs-12 col-sm-12 col-md-6">
+                <div v-for="fieldDetails in locationFields.mainInputFields2">
+                  <LocationTextField
+                    :key="fieldDetails.fieldName"
+                    v-on:updatePendingChanges="updatePendingChanges"
+                    :fieldDetails="fieldDetails"
+                    :fieldOptions="{}"
+                    :cancelPendingChanges="cancelPendingChanges"
+                    v-bind:locationResourceModel="currentPropertyAttributes"
+                  ></LocationTextField>
+                </div>
               </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-6">
-              <div v-for="fieldDetails in locationFields.mainInputFields3">
-                <LocationTextField
-                  :key="fieldDetails.fieldName"
-                  v-on:updatePendingChanges="updatePendingChanges"
-                  :fieldDetails="fieldDetails"
-                  :fieldOptions="{}"
-                  :cancelPendingChanges="cancelPendingChanges"
-                  v-bind:locationResourceModel="currentPropertyAttributes"
-                ></LocationTextField>
+              <div class="col-xs-12 col-sm-12 col-md-6">
+                <div v-for="fieldDetails in locationFields.mainInputFields3">
+                  <LocationTextField
+                    :key="fieldDetails.fieldName"
+                    v-on:updatePendingChanges="updatePendingChanges"
+                    :fieldDetails="fieldDetails"
+                    :fieldOptions="{}"
+                    :cancelPendingChanges="cancelPendingChanges"
+                    v-bind:locationResourceModel="currentPropertyAttributes"
+                  ></LocationTextField>
+                </div>
               </div>
             </div>
           </div>
@@ -68,7 +77,9 @@
 </template>
 <script>
 import { defineComponent, ref } from "vue"
-import lodashEach from "lodash/each"
+// import lodashEach from "lodash/each"
+import useGoogleMaps from "~/v-admin-app/src/compose/useGoogleMaps.js"
+import MapViewContainer from "~/v-admin-app/src/components/editor-forms-parts/MapViewContainer.vue"
 import PropertySubmitter from "~/v-admin-app/src/components/editor-forms-parts/PropertySubmitter.vue"
 import LocationTextField from "~/v-admin-app/src/components/editor-forms-parts//LocationTextField.vue"
 export default defineComponent({
@@ -76,8 +87,14 @@ export default defineComponent({
   components: {
     PropertySubmitter,
     LocationTextField,
+    MapViewContainer,
   },
-  watch: {},
+  setup() {
+    const { getAddressFromPlaceDetails } = useGoogleMaps()
+    return {
+      getAddressFromPlaceDetails,
+    }
+  },
   props: {
     currentProperty: {
       type: Object,
@@ -179,14 +196,49 @@ export default defineComponent({
       //   "absolute !important"
       this.$emit("blur")
     },
+    // setPlace(placeResultData) {
+    //   let lastChangedField = this.lastChangedField
+    //   // addressData is less detailed than placeResultData
+    //   let newAddressDetails = this.getAddressFromPlaceDetails(placeResultData)
+    //   // let newAddressDetails = this.getAddressFromGoogleResult(placeResultData)
+    //   // this.$emit("updatePropAddress", newAddressDetails)
+    //   this.locationFields.mainInputFields1.forEach(function (fieldDetails) {
+    //     fieldDetails.newValFromMap = newAddressDetails[fieldDetails.fieldName]
+    //     fieldDetails.newValue = newAddressDetails[fieldDetails.fieldName]
+    //     setTimeout(function () {
+    //       lastChangedField.fieldDetails = fieldDetails
+    //       lastChangedField.lastUpdateStamp = Date.now()
+    //     }, 0)
+    //   })
+    //   this.locationFields.mainInputFields2.forEach(function (fieldDetails) {
+    //     fieldDetails.newValFromMap = newAddressDetails[fieldDetails.fieldName]
+    //     fieldDetails.newValue = newAddressDetails[fieldDetails.fieldName]
+    //     setTimeout(function () {
+    //       lastChangedField.fieldDetails = fieldDetails
+    //       lastChangedField.lastUpdateStamp = Date.now()
+    //     }, 0)
+    //   })
+    //   this.locationFields.mainInputFields3.forEach(function (fieldDetails) {
+    //     fieldDetails.newValFromMap = newAddressDetails[fieldDetails.fieldName]
+    //     fieldDetails.newValue = newAddressDetails[fieldDetails.fieldName]
+    //     setTimeout(function () {
+    //       lastChangedField.fieldDetails = fieldDetails
+    //       lastChangedField.lastUpdateStamp = Date.now()
+    //     }, 10)
+    //   })
+    // },
+
     setPlace(placeResultData) {
+    let newAddressDetails = this.getAddressFromPlaceDetails(placeResultData)
+      // let newAddressDetails = this.getAddressFromGoogleResult(placeResultData)
+      this.setFieldsFromAddressDetails(newAddressDetails)
+    },
+    setFieldsFromAddressDetails(newAddressDetails) {
       let lastChangedField = this.lastChangedField
-      // addressData is less detailed than placeResultData
-      let newAddressDetails = this.getAddressFromGoogleResult(placeResultData)
-      // this.$emit("updatePropAddress", newAddressDetails)
       this.locationFields.mainInputFields1.forEach(function (fieldDetails) {
         fieldDetails.newValFromMap = newAddressDetails[fieldDetails.fieldName]
         fieldDetails.newValue = newAddressDetails[fieldDetails.fieldName]
+        // below needed to ensure that observer in submitter container triggers for each field
         setTimeout(function () {
           lastChangedField.fieldDetails = fieldDetails
           lastChangedField.lastUpdateStamp = Date.now()
@@ -206,80 +258,10 @@ export default defineComponent({
         setTimeout(function () {
           lastChangedField.fieldDetails = fieldDetails
           lastChangedField.lastUpdateStamp = Date.now()
-        }, 10)
+        }, 0)
       })
     },
-    getAddressFromGoogleResult(googleAddress) {
-      let newAddressFromMap = {}
-      // genius json-api for rails insists on street-address instead of street_address
-      newAddressFromMap["street-address"] = googleAddress.formatted_address
-      // this.agencyAddress.google_place_id = googleAddress.place_id
-      // this.agencyAddress.latitude = googleAddress.geometry.location.lat()
-      // this.agencyAddress.longitude = googleAddress.geometry.location.lng()
-      newAddressFromMap.google_place_id = googleAddress.place_id
-      newAddressFromMap.latitude = googleAddress.geometry.location.lat()
-      newAddressFromMap.longitude = googleAddress.geometry.location.lng()
-      lodashEach(
-        googleAddress.address_components,
-        function (address_component, i) {
-          // iterate through address_component array
-          console.log("address_component:" + i)
-          console.log(newAddressFromMap)
-          if (address_component.types[0] === "route") {
-            // console.log(i + ": route:" + address_component.long_name)
-            newAddressFromMap.street_name = address_component.long_name
-          }
-          if (address_component.types[0] === "locality") {
-            // console.log("town:" + address_component.long_name)
-            newAddressFromMap.city = address_component.long_name
-          }
-          if (address_component.types[0] === "country") {
-            // console.log("country:" + address_component.long_name)
-            newAddressFromMap.country = address_component.long_name
-          }
-          if (address_component.types[0] === "postal_code_prefix") {
-            // console.log("pc:" + address_component.long_name)
-            // newAddress.postalCode = address_component.long_name
-          }
-          if (address_component.types[0] === "postal_code") {
-            // console.log("pc:" + address_component.long_name)
-            newAddressFromMap["postal-code"] = address_component.long_name
-          }
-          if (address_component.types[0] === "street_number") {
-            // console.log("street_number:" + address_component.long_name)
-            newAddressFromMap["street-number"] = address_component.long_name
-          }
-          if (address_component.types[0] === "administrative_area_level_1") {
-            // eg: andalucia
-            console.log(
-              "administrative_area_level_1:" + address_component.long_name
-            )
-            // newAddress.province = address_component.long_name
-            newAddressFromMap.region = address_component.long_name
-          }
-          if (address_component.types[0] === "administrative_area_level_2") {
-            console.log(
-              "administrative_area_level_1:" + address_component.long_name
-            )
-            // newAddress.aal2 = address_component.long_name
-          }
-          if (address_component.types[0] === "administrative_area_level_3") {
-            console.log(
-              "administrative_area_level_1:" + address_component.long_name
-            )
-            // newAddress.aal3 = address_component.long_name
-          }
-          if (address_component.types[0] === "administrative_area_level_4") {
-            console.log(
-              "administrative_area_level_1:" + address_component.long_name
-            )
-            // newAddress.aal4 = address_component.long_name
-          }
-          //return false // break the loop
-        }
-      )
-      return newAddressFromMap
-    },
+
     updatePendingChanges({ fieldDetails, newValue }) {
       fieldDetails.newValue = newValue
       this.lastChangedField.fieldDetails = fieldDetails
@@ -386,28 +368,6 @@ export default defineComponent({
             inputType: "text",
           },
         ],
-      },
-      cityFieldDetails: {
-        labelEn: "City",
-        tooltipTextTKey: "",
-        autofocus: false,
-        fieldName: "city",
-        fieldType: "simpleInput",
-        inputType: "text",
-        constraints: {
-          inputValue: {},
-        },
-      },
-      countryFieldDetails: {
-        labelEn: "Country",
-        tooltipTextTKey: "",
-        autofocus: false,
-        fieldName: "country",
-        fieldType: "simpleInput",
-        inputType: "text",
-        constraints: {
-          inputValue: {},
-        },
       },
       cancelPendingChanges: false,
       lastChangedField: {

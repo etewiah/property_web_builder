@@ -31,6 +31,8 @@ export default function () {
     let newAddressFromMap = {}
     if (gPlaceDetails.geometry) {
       newAddressFromMap["street_address"] = gPlaceDetails.formatted_address
+      // below is to support cases where jsonapi is used on the server:
+      newAddressFromMap["street-address"] = gPlaceDetails.formatted_address
       // this.agencyAddress.google_place_id = gPlaceDetails.place_id
       // this.agencyAddress.latitude = gPlaceDetails.geometry.location.lat()
       // this.agencyAddress.longitude = gPlaceDetails.geometry.location.lng()
@@ -61,10 +63,12 @@ export default function () {
           }
           if (address_component.types[0] === "postal_code") {
             // console.log("pc:" + address_component.long_name)
+            newAddressFromMap["postal-code"] = address_component.long_name
             newAddressFromMap["postal_code"] = address_component.long_name
           }
           if (address_component.types[0] === "street_number") {
             // console.log("street_number:" + address_component.long_name)
+            newAddressFromMap["street-number"] = address_component.long_name
             newAddressFromMap["street_number"] = address_component.long_name
           }
           if (address_component.types[0] === "administrative_area_level_1") {
