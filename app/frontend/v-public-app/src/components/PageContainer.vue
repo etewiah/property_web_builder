@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-for="pageBlock in pageBlocks" :key="pageBlock.id">
-      <div v-html="pageBlock"></div>
+    <div v-for="pageContent in pageContents" :key="pageContent.id">
+      <div v-html="pageContent"></div>
     </div>
   </div>
 </template>
@@ -13,22 +13,34 @@ export default defineComponent({
   name: "PageContainer",
   components: {},
   computed: {
-    pageBlocks() {
-      let pageBlocks = []
-      if (this.data && this.data.findPage.pageParts) {
-        this.data.findPage.pageParts.forEach((pagePart) => {
-          if (
-            pagePart.blockContents["en"] &&
-            pagePart.blockContents["en"].page_part_key === "content_html"
-          ) {
-            let mainContentHtml =
-              pagePart.blockContents["en"].blocks.main_content.content
-            pageBlocks.push(mainContentHtml)
+    pageContents() {
+      let pageContents = []
+      if (this.data && this.data.findPage.pageContents) {
+        // pageContents[0].content.raw_en
+        this.data.findPage.pageContents.forEach((pageContent) => {
+          if (pageContent.content) {
+            pageContents.push(pageContent.content.raw_en)
           }
         })
       }
-      return pageBlocks
+      return pageContents
     },
+    // pageBlocks() {
+    //   let pageBlocks = []
+    //   if (this.data && this.data.findPage.pageParts) {
+    //     this.data.findPage.pageParts.forEach((pagePart) => {
+    //       if (
+    //         pagePart.blockContents["en"] &&
+    //         pagePart.blockContents["en"].page_part_key === "content_html"
+    //       ) {
+    //         let mainContentHtml =
+    //           pagePart.blockContents["en"].blocks.main_content.content
+    //         pageBlocks.push(mainContentHtml)
+    //       }
+    //     })
+    //   }
+    //   return pageBlocks
+    // },
   },
   mounted: function () {},
   data() {
@@ -46,9 +58,11 @@ export default defineComponent({
         query {
           findPage(slug: "${pageSlug}") {
             rawHtml,
+            pageContents {
+              content
+            },
             pageParts {
               blockContents
-              createdAt
               pageSlug
             }
           }
