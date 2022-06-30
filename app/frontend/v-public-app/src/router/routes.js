@@ -2,7 +2,7 @@ const routes = [
 
   {
     path: '/',
-    component: () => import('~/v-admin-app/src/layouts/MainLayout.vue'),
+    component: () => import('~/v-public-app/src/layouts/PublicLayout.vue'),
     // path: '/', component: () => import("~/v-admin-app/src/components/AdminIntro.vue"),
     children: [
       {
