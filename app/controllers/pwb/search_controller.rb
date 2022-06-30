@@ -1,4 +1,4 @@
-require_dependency 'pwb/application_controller'
+require_dependency "pwb/application_controller"
 
 module Pwb
   class SearchController < ApplicationController
@@ -13,7 +13,9 @@ module Pwb
       # @properties = Prop.where(nil) # creates an anonymous scope
       apply_search_filter filtering_params(params)
       set_map_markers
-      render "/pwb/search/search_ajax.js.erb", layout: false
+      #render "/pwb/search/search_ajax.js.erb", layout: false
+      # For rails 7 need to remove ".js.erb"
+      render "/pwb/search/search_ajax", layout: false
       #  view rendered will use js to inject results...
     end
 
@@ -25,7 +27,7 @@ module Pwb
 
       apply_search_filter filtering_params(params)
       set_map_markers
-      render "/pwb/search/search_ajax.js.erb", layout: false
+      render "/pwb/search/search_ajax", layout: false
       #  view rendered will use js to inject results...
     end
 
@@ -35,7 +37,7 @@ module Pwb
       @page_title = @current_agency.company_name
       # @content_to_show = []
       if @page.present?
-        @page_title = @page.page_title + ' - ' + @current_agency.company_name
+        @page_title = @page.page_title + " - " + @current_agency.company_name
         # TODO: - allow addition of custom content
         # @page.ordered_visible_page_contents.each do |page_content|
         #   @content_to_show.push page_content.content.raw
@@ -69,7 +71,7 @@ module Pwb
       # below won't sort right away as the list of results is loaded by js
       # and so won't be ready for sorting when below is called - but will wire up for sorting button
       # initial client sort called by       INMOAPP.sortSearchResults();
-      js 'Main/Search#sort' # trigger client-side paloma script
+      js "Main/Search#sort" # trigger client-side paloma script
 
       render "/pwb/search/buy"
     end
@@ -80,7 +82,7 @@ module Pwb
       @page_title = @current_agency.company_name
       # @content_to_show = []
       if @page.present?
-        @page_title = @page.page_title + ' - ' + @current_agency.company_name
+        @page_title = @page.page_title + " - " + @current_agency.company_name
         # TODO: - allow addition of custom content
         # @page.ordered_visible_page_contents.each do |page_content|
         #   @content_to_show.push page_content.content.raw
@@ -106,7 +108,7 @@ module Pwb
       set_map_markers
       @search_defaults = params[:search].present? ? params[:search] : {}
 
-      js 'Main/Search#sort' # trigger client-side paloma script
+      js "Main/Search#sort" # trigger client-side paloma script
       render "/pwb/search/rent"
     end
 
@@ -125,8 +127,8 @@ module Pwb
             display_price: property.contextual_price_with_currency(@operation_type),
             position: {
               lat: property.latitude,
-              lng: property.longitude
-            }
+              lng: property.longitude,
+            },
           }
         )
       end
@@ -153,7 +155,7 @@ module Pwb
       @select_picker_texts = {
         noneSelectedText: I18n.t("selectpicker.noneSelectedText"),
         noneResultsText: I18n.t("selectpicker.noneResultsText"),
-        countSelectedText: I18n.t("selectpicker.countSelectedText")
+        countSelectedText: I18n.t("selectpicker.countSelectedText"),
       }.to_json
     end
 
@@ -187,7 +189,7 @@ module Pwb
           currency = Money::Currency.find currency_string
           # above needed as some currencies like Chilean peso
           # don't have the cents field multiplied by 100
-          value = value.gsub(/\D/, '').to_i * currency.subunit_to_unit
+          value = value.gsub(/\D/, "").to_i * currency.subunit_to_unit
           # @properties = @properties.public_send(key, value) if value.present?
         end
         @properties = @properties.public_send(key, value) if value.present?
