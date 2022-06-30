@@ -8,8 +8,10 @@
   "dependencies": {
     "@fawmi/vue-google-maps": "^0.9.72",
     "@quasar/extras": "^1.14.0",
+    "@urql/vue": "^0.6.3",
     "@vitejs/plugin-vue": "^2.3.3",
     "axios": "^0.27.2",
+    "graphql": "^16.5.0",
     "quasar": "^2.7.3",
     "vue": "3",
     "vue-currency-input": "^2.5.1",
