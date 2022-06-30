@@ -18,9 +18,6 @@
     </q-header>
 
     <q-page-container class="bg-grey-2">
-      <div v-for="pageBlock in pageBlocks" :key="pageBlock.id">
-        <div v-html="pageBlock"></div>
-      </div>
       <router-view />
     </q-page-container>
   </q-layout>
