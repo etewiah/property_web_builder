@@ -1,0 +1,42 @@
+@media (min-width: 1280px) {
+  .max-ctr-breakout {
+    margin-right: -1000px;
+    margin-left: -1000px;
+  }
+}
+
+.max-ctr {
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .max-ctr {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .max-ctr {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .max-ctr {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .max-ctr {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .max-ctr {
+    max-width: 1536px;
+  }
+}

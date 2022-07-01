@@ -25,6 +25,7 @@
 
 // Example: Import a stylesheet in app/frontend/index.css
 // import '~/index.css'
+import '~/v-public-app/src/v-public.css'
 
 // import '~/styles/background.css'
 import { createApp } from 'vue'
