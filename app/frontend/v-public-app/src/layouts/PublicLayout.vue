@@ -18,7 +18,9 @@
     </q-header>
 
     <q-page-container class="bg-grey-2">
-      <router-view />
+      <q-page class="max-ctr">
+        <router-view />
+      </q-page>
     </q-page-container>
   </q-layout>
 </template>
@@ -65,7 +67,6 @@ export default defineComponent({
     //     }
     //   `,
     // })
-
     // return {
     //   fetching: result.fetching,
     //   data: result.data,
