@@ -11,7 +11,7 @@ const routes = [
       },
       {
         path: '/:publicLocale',
-        name: 'rLocaleHomePage',
+        name: 'rLocaleHome',
         component: () => import("~/v-public-app/src/components/EmptyContainer.vue"),
         children: [
           {
@@ -25,13 +25,28 @@ const routes = [
             component: () => import("~/v-public-app/src/components/PageContainer.vue"),
           },
           {
-            path: 'buy',
+            path: 'contact-us',
+            name: "rContactUs",
+            component: () => import("~/v-public-app/src/components/SearchView.vue"),
+          },
+          {
+            path: 'for-sale',
             name: "rForSaleSearch",
             component: () => import("~/v-public-app/src/components/SearchView.vue"),
           },
           {
-            path: 'buy/:listingSlug',
+            path: 'for-sale/:listingSlug',
             name: "rForSaleListing",
+            component: () => import("~/v-public-app/src/components/ListingView.vue"),
+          },
+          {
+            path: 'for-rent',
+            name: "rForRentSearch",
+            component: () => import("~/v-public-app/src/components/SearchView.vue"),
+          },
+          {
+            path: 'for-rent/:listingSlug',
+            name: "rForRentListing",
             component: () => import("~/v-public-app/src/components/ListingView.vue"),
           },
         ]
