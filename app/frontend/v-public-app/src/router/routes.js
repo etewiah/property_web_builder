@@ -32,7 +32,7 @@ const routes = [
           {
             path: 'buy/:listingSlug',
             name: "rForSaleListing",
-            component: () => import("~/v-public-app/src/components/SearchView.vue"),
+            component: () => import("~/v-public-app/src/components/ListingView.vue"),
           },
         ]
       },

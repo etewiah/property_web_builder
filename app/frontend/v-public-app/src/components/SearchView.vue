@@ -20,7 +20,7 @@ import { defineComponent, ref } from "vue"
 import { useQuery } from "@urql/vue"
 import { useRouter, useRoute } from "vue-router"
 export default defineComponent({
-  name: "PageContainer",
+  name: "SearchView",
   components: {
     ListingsSummaryCard,
   },
@@ -57,6 +57,7 @@ export default defineComponent({
       query: `
         query {
           getProperties {
+            id,
             propPhotos {
               createdAt
               image
