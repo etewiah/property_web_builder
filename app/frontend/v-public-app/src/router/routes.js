@@ -20,9 +20,19 @@ const routes = [
             component: () => import("~/v-public-app/src/components/PageContainer.vue"),
           },
           {
-            path: ':pageSlug',
+            path: 'p/:pageSlug',
             name: "rPublicPage",
             component: () => import("~/v-public-app/src/components/PageContainer.vue"),
+          },
+          {
+            path: 'buy',
+            name: "rForSaleSearch",
+            component: () => import("~/v-public-app/src/components/SearchView.vue"),
+          },
+          {
+            path: 'buy/:listingSlug',
+            name: "rForSaleListing",
+            component: () => import("~/v-public-app/src/components/SearchView.vue"),
           },
         ]
       },
