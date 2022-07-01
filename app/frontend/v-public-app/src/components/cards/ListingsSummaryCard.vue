@@ -1,11 +1,6 @@
 <template>
   <div>
     <q-card class="listings-summary-card">
-      <!-- <ListingsSummaryCardBtn
-        :currentListingRoute="currentListingRoute"
-        :currentListingContainer="currentListingContainer"
-        :cardIndex="cardIndex"
-      ></ListingsSummaryCardBtn> -->
       <q-card-section horizontal>
         <q-responsive
           class="col"
@@ -151,16 +146,6 @@ export default {
         event.preventDefault()
       }
     },
-    // routeToProperty(event) {
-    //   let targetRoute = {
-    //     name: "rHuntListingEdit",
-    //     params: {
-    //       listing_slug: this.currentListing.listingSlug,
-    //       listings_grouping: "for-sale",
-    //     },
-    //   }
-    //   this.$router.push(targetRoute)
-    // },
   },
   watch: {
     carouselSlides: {
