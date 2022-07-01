@@ -14,23 +14,90 @@
             </q-avatar>
           </q-btn> -->
         </div>
+        <q-tabs shrink>
+          <q-route-tab
+            v-for="topNavLink in topNavLinks"
+            :key="topNavLink.id"
+            :to="topNavLink.route"
+            :label="topNavLink.linkTitle"
+            :exact="true"
+          />
+        </q-tabs>
       </q-toolbar>
     </q-header>
 
     <q-page-container class="bg-grey-2">
       <q-page class="max-ctr">
-        <router-view />
+        <router-view :key="$route" />
       </q-page>
     </q-page-container>
   </q-layout>
 </template>
 <script>
 import { defineComponent, ref } from "vue"
-// import { useQuery } from "@urql/vue"
+import { useQuery } from "@urql/vue"
+import loSortBy from "lodash/sortBy"
 export default defineComponent({
   name: "PublicLayout",
   components: {},
   computed: {
+    topNavLinks() {
+      let topNavLinks = []
+      if (this.gqlError) {
+        this.$q.notify({
+          color: "negative",
+          position: "top",
+          message: this.gqlError.message,
+          icon: "report_problem",
+        })
+      } else {
+        if (this.gqlData && this.gqlData.getTopNavLinks) {
+          let publicLocale = "en"
+          this.gqlData.getTopNavLinks.forEach((navLink) => {
+            if (navLink.linkPath === "buy_path") {
+              navLink.route = {
+                name: "rForSaleSearch",
+                params: {
+                  publicLocale: publicLocale,
+                },
+              }
+            } else if (navLink.linkPath === "rent_path") {
+              navLink.route = {
+                name: "rForRentSearch",
+                params: {
+                  publicLocale: publicLocale,
+                },
+              }
+            } else if (navLink.linkPath === "contact_us_path") {
+              navLink.route = {
+                name: "rContactUs",
+                params: {
+                  publicLocale: publicLocale,
+                },
+              }
+            } else if (navLink.linkPath === "show_page_path") {
+              navLink.route = {
+                name: "rPublicPage",
+                params: {
+                  pageSlug: navLink.linkPathParams,
+                  publicLocale: publicLocale,
+                },
+              }
+            } else {
+              navLink.route = {
+                name: "rLocaleHomePage",
+                params: {
+                  pageSlug: navLink.linkPathParams,
+                  publicLocale: publicLocale,
+                },
+              }
+            }
+            topNavLinks.push(navLink)
+          })
+        }
+      }
+      return loSortBy(topNavLinks, "sortOrder")
+    },
     // supportedLocaleDetails() {
     //   let supportedLocales = this.currentWebsite.supported_locales || []
     //   let supportedLocaleDetails = []
@@ -53,25 +120,37 @@ export default defineComponent({
     }
   },
   setup() {
-    // const result = useQuery({
-    //   query: `
-    //     query {
-    //       findPage(slug: "home") {
-    //         rawHtml,
-    //         pageParts {
-    //           blockContents
-    //           createdAt
-    //           pageSlug
-    //         }
-    //       }
-    //     }
-    //   `,
-    // })
-    // return {
-    //   fetching: result.fetching,
-    //   data: result.data,
-    //   error: result.error,
-    // }
+    const result = useQuery({
+      query: `
+        query {
+        getTopNavLinks {
+          sortOrder,
+          slug,
+          linkUrl,
+          linkPath,
+          linkTitle,
+          linkPathParams,
+          id,
+          placement
+        }
+        getFooterLinks {
+          sortOrder,
+          slug,
+          linkUrl,
+          linkPath,
+          linkTitle,
+          linkPathParams,
+          id,
+          placement
+        }
+        }
+      `,
+    })
+    return {
+      gqlFetching: result.fetching,
+      gqlData: result.data,
+      gqlError: result.error,
+    }
   },
 })
 </script>
