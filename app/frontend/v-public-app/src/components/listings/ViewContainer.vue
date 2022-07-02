@@ -71,6 +71,12 @@
       </div>
     </q-card-actions>
     <div>
+      <ConvertableCurrencyDisplay
+        :priceInCents="priceInCents"
+        :originalCurrency="currentListing.currency || 'GBP'"
+      ></ConvertableCurrencyDisplay>
+    </div>
+    <div>
       <h3 class="text-gray text-center">
         {{ currentListing.title }}
       </h3>
@@ -81,15 +87,10 @@
   </div>
 </template>
 <script>
-// import ConvertableCurrencyDisplay from "components/widgets/ConvertableCurrencyDisplay.vue"
-// import PropertyChecklistField from "src/components/editor-forms-parts/PropertyChecklistField.vue"
-// import ListingsSummaryCardBtn from "src/components/nav/ListingsSummaryCardBtn"
+import ConvertableCurrencyDisplay from "~/v-public-app/src/components/widgets/ConvertableCurrencyDisplay.vue"
 export default {
-  // inject: ["pboardItemEditProvider", "currentUserProvider"],
   components: {
-    // ConvertableCurrencyDisplay,
-    // PropertyChecklistField,
-    // ListingsSummaryCardBtn,
+    ConvertableCurrencyDisplay,
   },
   props: {
     cardIndex: {
@@ -138,6 +139,13 @@ export default {
     },
   },
   computed: {
+    priceInCents() {
+      if (this.$route.name === "rForRentListing") {
+        return this.currentListing.priceRentalMonthlyCurrentCents
+      } else {
+        return this.currentListing.priceSaleCurrentCents
+      }
+    },
     carouselSlides() {
       var carouselSlides = []
       var picsColl = this.currentListing.propPhotos || []
@@ -154,23 +162,8 @@ export default {
       })
       return carouselSlides
     },
-    // featuresChecklist() {
-    //   return (
-    //     this.currentListingContainer.item.checklist_values_for_features || {}
-    //   )
-    // },
     summaryImageUrl() {
       return this.currentListing.preview_url
-    },
-    currentListingRoute() {
-      let listingSlug = this.currentListing.id || "1"
-      return {
-        name: "rForSaleListing",
-        params: {
-          listingSlug: listingSlug,
-          // listings_grouping: "for-sale",
-        },
-      }
     },
   },
   mounted: function () {},

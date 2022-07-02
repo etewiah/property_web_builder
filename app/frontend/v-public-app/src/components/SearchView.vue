@@ -1,5 +1,6 @@
 <template>
   <div class="q-ma-md">
+    <h3>{{ searchHeaderText }}</h3>
     <div v-for="pageContent in pageContents" :key="pageContent.id">
       <div v-html="pageContent"></div>
     </div>
@@ -9,7 +10,10 @@
         v-for="property in properties"
         :key="property.id"
       >
-        <ListingsSummaryCard :currentListing="property"></ListingsSummaryCard>
+        <ListingsSummaryCard
+          :saleOrRental="saleOrRental"
+          :currentListing="property"
+        ></ListingsSummaryCard>
       </div>
     </div>
   </div>
@@ -25,8 +29,15 @@ export default defineComponent({
     ListingsSummaryCard,
   },
   computed: {
+    searchHeaderText() {
+      if (this.$route.name === "rForSaleSearch") {
+        return "Properties for sale"
+      } else {
+        return "Properties for rent"
+      }
+    },
     properties() {
-      let properties = this.data ? this.data.getProperties : []
+      let properties = this.data ? this.data.searchProperties : []
       return properties
     },
     pageContents() {
@@ -50,21 +61,29 @@ export default defineComponent({
     // const router = useRouter()
     const route = useRoute()
     let pageSlug = "rent"
+    let saleOrRental = "rental"
     if (route.name === "rForSaleSearch") {
       pageSlug = "buy"
+      saleOrRental = "sale"
     }
     const result = useQuery({
       query: `
         query {
-          getProperties {
+          searchProperties(saleOrRental: "${saleOrRental}", forSalePriceTill: "500000") {
             id,
             propPhotos {
-              createdAt
               image
             },
+            currency,
+            countBedrooms,
+            countBathrooms,
             streetAddress,
             title,
-            description
+            description,
+            plotArea,
+            priceSaleCurrentCents,
+            priceRentalMonthlyCurrentCents,
+            countBathrooms
           }
           findPage(slug: "${pageSlug}") {
             rawHtml,
@@ -81,6 +100,7 @@ export default defineComponent({
     })
 
     return {
+      saleOrRental,
       fetching: result.fetching,
       data: result.data,
       error: result.error,
