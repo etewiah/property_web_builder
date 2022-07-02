@@ -7,6 +7,7 @@ module Types
     field :raw_html, String
 
     field :page_parts, [Types::PagePartType], null: false
+    field :page_contents, [Types::PageContentType], null: true
 
     # field :price_cents, Integer, null: false
 

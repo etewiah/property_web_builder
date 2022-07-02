@@ -26,23 +26,62 @@ module Types
       Page.find(id)
     end
 
-    field :find_page, Types::PageType, null: false do
+    field :find_page, Types::PageType, null: true do
       description "Get a page based on slug."
       argument :slug, String, required: true
     end
 
     def find_page(slug:)
       Pwb::Page.find_by_slug(slug)
-      # Page.find_by_slug("place_of_origin = ?", slug)
     end
 
-    field :pages,
-          [Types::PageType],
-          null: false,
-          description: "Return a list of pages"
+    # field :search_for_rentals, [Types::LinkType], null: false do
+    #   description "Return a list of links"
+    #   argument :placement, String
+    # end
 
-    def pages
-      Pwb::Page.all
+    # def search_for_rentals(placement:)
+    #   Pwb::Prop.where(placement: placement)
+    # end
+
+    field :get_properties,
+          [Types::PropertyType],
+          null: false,
+          description: "Return a list of properties"
+
+    def get_properties
+      Pwb::Prop.all
+    end
+
+    field :get_links, [Types::LinkType], null: false do
+      description "Return a list of links"
+      argument :placement, String
+    end
+
+    def get_links(placement:)
+      Pwb::Link.where(placement: placement)
+    end
+
+    field :get_top_nav_links, [Types::LinkType], null: false
+
+    def get_top_nav_links()
+      Pwb::Link.where(placement: "top_nav").where(visible: true)
+    end
+
+    field :get_footer_links, [Types::LinkType], null: false
+
+    def get_footer_links()
+      Pwb::Link.where(placement: "footer").where(visible: true)
+    end
+
+    field :find_property, Types::PropertyType, null: true do
+      description "Get a property based on id."
+      argument :id, String, required: true
+    end
+
+    def find_property(id:)
+      Pwb::Prop.find(id)
+      # Page.find_by_slug("place_of_origin = ?", slug)
     end
   end
 end
