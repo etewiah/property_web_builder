@@ -49,17 +49,14 @@ import 'quasar/src/css/index.sass'
 // // import { setHTTPHeader } from '@/services/http.service'
 // // import AuthService from '@/services/auth.service'
 
-import route from "../v-public-app/src/router/index"
+import route from "~/v-public-app/src/router/index"
 import VueGoogleMaps from '@fawmi/vue-google-maps'
 import urql from '@urql/vue';
 
 const myApp = createApp(App)
-
 myApp.use(urql, {
   url: '/graphql',
 })
-
-
 
 const gak = import.meta.env.VITE_GMAPS_API_KEY
 // process.env.GMAPS_API_KEY
