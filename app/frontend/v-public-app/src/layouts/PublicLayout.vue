@@ -36,9 +36,11 @@
 <script>
 import { defineComponent, ref } from "vue"
 import { useQuery } from "@urql/vue"
+// import { useRoute } from "vue-router"
 import loSortBy from "lodash/sortBy"
 export default defineComponent({
   name: "PublicLayout",
+  inject: ["localiseProvider"],
   components: {},
   computed: {
     topNavLinks() {
@@ -98,24 +100,10 @@ export default defineComponent({
       }
       return loSortBy(topNavLinks, "sortOrder")
     },
-    // supportedLocaleDetails() {
-    //   let supportedLocales = this.currentWebsite.supported_locales || []
-    //   let supportedLocaleDetails = []
-    //   supportedLocales.forEach((localeWithVariant) => {
-    //     let localeOnly = localeWithVariant.split("-")[0]
-    //     supportedLocaleDetails.push({
-    //       localeOnly: localeOnly,
-    //       localeWithVariant: localeWithVariant,
-    //       label: this.adminTranslations[localeOnly],
-    //     })
-    //   })
-    //   return supportedLocaleDetails
-    // },
   },
   mounted: function () {},
   data() {
     return {
-      // adminTranslations: {},
       activeTab: null,
     }
   },
