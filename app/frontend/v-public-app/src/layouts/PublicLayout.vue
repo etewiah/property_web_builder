@@ -103,9 +103,9 @@
   </q-layout>
 </template>
 <script>
-import { defineComponent, ref } from "vue"
+import { defineComponent, ref, computed } from "vue"
 import { useQuery } from "@urql/vue"
-// import { useRoute } from "vue-router"
+import { useRoute } from "vue-router"
 import loSortBy from "lodash/sortBy"
 export default defineComponent({
   name: "PublicLayout",
@@ -138,7 +138,7 @@ export default defineComponent({
         })
       } else {
         if (this.gqlData && this.gqlData.getTopNavLinks) {
-          let publicLocale = "en"
+          let publicLocale = this.$route.params.publicLocale || "en"
           this.gqlData.getTopNavLinks.forEach((navLink) => {
             if (navLink.linkPath === "buy_path") {
               navLink.route = {
@@ -185,6 +185,13 @@ export default defineComponent({
       return loSortBy(topNavLinks, "sortOrder")
     },
   },
+  watch: {
+    "$route.params": {
+      handler(newValue, oldVal) {
+        this.messagesLocale = newValue.publicLocale
+      },
+    },
+  },
   mounted: function () {},
   data() {
     return {
@@ -192,10 +199,16 @@ export default defineComponent({
     }
   },
   setup() {
+    const route = useRoute()
+    const messagesLocale = ref(route.params.publicLocale)
     const result = useQuery({
+      pause: computed(() => !messagesLocale.value),
+      variables: {
+        messagesLocale,
+      },
       query: `
-        query {
-        getTopNavLinks {
+        query ($messagesLocale: String! ) {
+        getTopNavLinks(locale: $messagesLocale) {
           sortOrder,
           slug,
           linkUrl,
@@ -219,6 +232,7 @@ export default defineComponent({
       `,
     })
     return {
+      messagesLocale,
       gqlFetching: result.fetching,
       gqlData: result.data,
       gqlError: result.error,

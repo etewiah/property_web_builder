@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-import { defineComponent, ref } from "vue"
+import { defineComponent, ref, computed } from "vue"
 import { useQuery } from "@urql/vue"
 import { useRouter, useRoute } from "vue-router"
 export default defineComponent({
@@ -15,13 +15,23 @@ export default defineComponent({
   computed: {
     pageContents() {
       let pageContents = []
-      if (this.data && this.data.findPage.pageContents) {
-        // pageContents[0].content.raw_en
-        this.data.findPage.pageContents.forEach((pageContent) => {
-          if (pageContent.content) {
-            pageContents.push(pageContent.content.raw_en)
-          }
+      if (this.gqlError) {
+        this.$q.notify({
+          color: "negative",
+          position: "top",
+          message: this.gqlError.message,
+          icon: "report_problem",
         })
+      } else {
+        if (this.gqlData && this.gqlData.findPage.pageContents) {
+          let contentKey = `raw_${this.publicLocale}`
+          // pageContents[0].content.raw_en
+          this.gqlData.findPage.pageContents.forEach((pageContent) => {
+            if (pageContent.content) {
+              pageContents.push(pageContent.content[contentKey])
+            }
+          })
+        }
       }
       return pageContents
     },
@@ -53,11 +63,17 @@ export default defineComponent({
     if (route.name === "rPublicPage") {
       pageSlug = route.params.pageSlug
     }
+    const publicLocale = ref(route.params.publicLocale)
     const result = useQuery({
+      pause: computed(() => !publicLocale.value),
+      variables: {
+        publicLocale,
+      },
       query: `
-        query {
-          findPage(slug: "${pageSlug}") {
+        query ($publicLocale: String! ) {
+          findPage(slug: "${pageSlug}", locale: $publicLocale) {
             rawHtml,
+            pageTitle,
             pageContents {
               content
             },
@@ -71,9 +87,10 @@ export default defineComponent({
     })
 
     return {
-      fetching: result.fetching,
-      data: result.data,
-      error: result.error,
+      publicLocale,
+      gqlFetching: result.fetching,
+      gqlData: result.data,
+      gqlError: result.error,
     }
   },
 })
