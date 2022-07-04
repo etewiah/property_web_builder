@@ -1,19 +1,16 @@
 export default function () {
   function getSearchFields(saleOrRental) {
-    // debugger
     // will eventually get this from the server
     let priceFromFieldName = "forSalePriceFrom"
     let priceTillFieldName = "forSalePriceTill"
     if (saleOrRental === "rental") {
       priceTillFieldName = "forRentPriceTill"
-    }
-    if (saleOrRental === "rental") {
       priceFromFieldName = "forRentPriceFrom"
     }
     return [
       {
         "toggleOnMobile": false,
-        "labelTextTKey": "client_shared.fieldLabels.priceFrom",
+        "labelTextTKey": "simple_form.labels.search.for_sale_price_from",
         "classNames": "xs12 sm4 lg3",
         "tooltipTextTKey": "",
         "fieldName": priceFromFieldName,
@@ -38,7 +35,7 @@ export default function () {
       },
       {
         "toggleOnMobile": true,
-        "labelTextTKey": "client_shared.fieldLabels.priceTill",
+        "labelTextTKey": "simple_form.labels.search.for_sale_price_till",
         "classNames": "xs12 sm4 lg3",
         "tooltipTextTKey": "",
         "fieldName": priceTillFieldName,
@@ -63,7 +60,8 @@ export default function () {
       },
       {
         "toggleOnMobile": true,
-        "labelTextTKey": "client_shared.fieldLabels.minBedrooms",
+        // "labelTextTKey": "client_shared.fieldLabels.minBedrooms",
+        "labelTextTKey": "simple_form.labels.search.count_bedrooms",
         "classNames": "xs12 sm4 lg3",
         "tooltipTextTKey": "",
         "fieldName": "bedroomsFrom",
@@ -98,7 +96,7 @@ export default function () {
       },
       {
         "toggleOnMobile": true,
-        "labelTextTKey": "client_shared.fieldLabels.minBathrooms",
+        "labelTextTKey": "simple_form.labels.search.count_bathrooms",
         "classNames": "xs12 sm4 lg3",
         "tooltipTextTKey": "",
         "fieldName": "bathroomsFrom",

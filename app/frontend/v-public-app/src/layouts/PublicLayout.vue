@@ -36,14 +36,11 @@
                       <router-link
                         v-for="langNav in langNavs"
                         :key="langNav.shortLocale"
-                        :class="langNav.shortLocale"
                         active-class="selected"
-                        style="text-decoration: none"
                         :to="langNav.route"
                         custom
                         v-slot="{
                           href,
-                          route,
                           navigate,
                           isActive,
                           isExactActive,

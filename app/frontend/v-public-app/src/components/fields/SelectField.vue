@@ -2,9 +2,11 @@
   <div class>
     <div class="text-xs-left"></div>
     <q-select
+      color="gray"
+      bg-color="white"
       :options="selectItems"
       v-model="localFieldValue"
-      :label="fieldDetails.labelTextTKey"
+      :label="localiseProvider.$ft(fieldDetails.labelTextTKey)"
       @update:model-value="fieldChangeHandler"
       option-label="name"
       option-value="value"
@@ -15,6 +17,7 @@
 <script>
 import _ from "lodash"
 export default {
+  inject: ["localiseProvider"],
   props: ["fieldDetails", "currentFieldValue", "fieldOptions"],
   data() {
     return {
@@ -55,7 +58,14 @@ export default {
       // let i18n = this.$i18n
       // let fieldName = this.fieldDetails.fieldName
       let isCurrency = false
-      if (["forRentPriceFrom", "forRentPriceTill", "forSalePriceFrom", "forSalePriceTill"].includes(this.fieldDetails.fieldName)) {
+      if (
+        [
+          "forRentPriceFrom",
+          "forRentPriceTill",
+          "forSalePriceFrom",
+          "forSalePriceTill",
+        ].includes(this.fieldDetails.fieldName)
+      ) {
         isCurrency = true
       }
       rawVals.forEach(function (optionKey) {
