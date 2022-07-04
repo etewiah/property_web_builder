@@ -40,3 +40,245 @@
     max-width: 1536px;
   }
 }
+
+/* Start Language switcher: */
+.contenedor_idiomas {
+  background: blue;
+}
+
+ul.idiomas {
+  float: right;
+  padding: 4px 15px 4px 10px;
+  margin: -7px 0px -5px 10px;
+  background-color: #fff;
+}
+
+ul.idiomas li {
+  float: left;
+  list-style: none outside none;
+  margin: 0 0 0 5px;
+  padding: 11px 0 0 0;
+  width: 20px;
+}
+
+ul.idiomas li a {
+  display: block;
+  width: 20px;
+  height: 14px;
+  outline: 1px solid #555;
+  margin: 0;
+}
+
+ul.idiomas .es {
+  background: url("/assets/idiomas.png") 0 0 no-repeat;
+}
+
+ul.idiomas .en,
+ul.idiomas .uk {
+  background: url("/assets/idiomas.png") -20px 0;
+}
+
+ul.idiomas .ru {
+  background: url('/assets/idiomas.png') -40px 0;
+}
+
+ul.idiomas .sv {
+  background: url('/assets/idiomas.png') -60px 0;
+}
+
+ul.idiomas .no {
+  background: url('/assets/idiomas.png') -80px 0;
+}
+
+ul.idiomas .de {
+  background: url('/assets/idiomas.png') -100px 0;
+}
+
+ul.idiomas .fr {
+  background: url('/assets/idiomas.png') -120px 0;
+}
+
+ul.idiomas .ne {
+  background: url('/assets/idiomas.png') -140px 0;
+}
+
+ul.idiomas .ch {
+  background: url('/assets/idiomas.png') -160px 0;
+}
+
+ul.idiomas .fi {
+  background: url('/assets/idiomas.png') -180px 0;
+}
+
+ul.idiomas .eu {
+  background: url('/assets/idiomas.png') -200px 0;
+}
+
+ul.idiomas .pt {
+  background: url('/assets/idiomas.png') -220px 0;
+}
+
+ul.idiomas .ar {
+  background: url('/assets/idiomas.png') -240px 0;
+  /*  background: url('/images/arab_league_mini.png');
+  background: url('/images/egypt_flag.png');
+*/
+}
+
+ul.idiomas .ca {
+  background: url('/assets/idiomas.png') -260px 0;
+}
+
+ul.idiomas .br {
+  background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/br.svg') no-repeat;
+  background-size: cover;
+}
+
+ul.idiomas .cl {
+  background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/cl.svg') no-repeat;
+  background-size: cover;
+}
+
+ul.idiomas .hi {
+  background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/hi.svg') no-repeat;
+  background-size: cover;
+}
+
+ul.idiomas .it {
+  background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/it.svg') no-repeat;
+  background-size: cover;
+}
+
+ul.idiomas .mx {
+  background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/mx.svg') no-repeat;
+  background-size: cover;
+}
+
+ul.idiomas .nl {
+  background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/nl.svg') no-repeat;
+  background-size: cover;
+}
+
+ul.idiomas .pl {
+  background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/pl.svg') no-repeat;
+  background-size: cover;
+}
+
+ul.idiomas .ro {
+  background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/ro.svg') no-repeat;
+  background-size: cover;
+}
+
+
+ul.idiomas .us {
+  background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/us.svg') no-repeat;
+  background-size: cover;
+}
+
+ul.idiomas .vi {
+  background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/vn.svg') no-repeat;
+  background-size: cover;
+}
+
+ul.idiomas .tr {
+  background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/tr.svg') no-repeat;
+  background-size: cover;
+}
+
+ul.idiomas .kr {
+  background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/kr.svg') no-repeat;
+  background-size: cover;
+}
+
+ul.idiomas .bg {
+  background: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/flags/4x3/bg.svg') no-repeat;
+  background-size: cover;
+}
+
+
+ul.idiomas li.selected,
+ul.idiomas li:hover {
+  background: url("/assets/simple-nav-arrow.png") no-repeat top center;
+}
+
+/* End Language switcher: */
+
+
+/*==================
+ Start HEADER SECTION
+====================*/
+
+#aa-header {
+  border-bottom: 1px solid #fff;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 99;
+}
+
+#aa-header .aa-header-area {
+  display: inline;
+  padding: 5px 0;
+  float: left;
+  width: 100%;
+}
+
+#aa-header .aa-header-area .aa-header-left {
+  display: inline;
+  float: left;
+  width: 100%;
+}
+
+#aa-header .aa-header-area .aa-header-left .aa-telephone-no {
+  color: #fff;
+  float: left;
+  font-size: 15px;
+}
+
+#aa-header .aa-header-area .aa-header-left .aa-telephone-no span {
+  margin-right: 5px;
+}
+
+#aa-header .aa-header-area .aa-header-left .aa-telephone-no span .skype_c2c_logo_img {
+  display: none !important;
+}
+
+#aa-header .aa-header-area .aa-header-left .aa-telephone-no .skype_c2c_text_span {
+  color: #fff !important;
+}
+
+#aa-header .aa-header-area .aa-header-left .aa-email {
+  color: #fff;
+  float: left;
+  letter-spacing: 0.5px;
+  margin-left: 20px;
+  font-size: 15px;
+}
+
+#aa-header .aa-header-area .aa-header-left .aa-email span {
+  margin-right: 5px;
+}
+
+#aa-header .aa-header-area .aa-header-right {
+  display: inline;
+  float: left;
+  width: 100%;
+  text-align: right;
+}
+
+#aa-header .aa-header-area .aa-header-right .aa-register {
+  border-right: 1px solid #f8f8f8;
+  color: #fff;
+  margin-right: 5px;
+  padding-right: 10px;
+  font-size: 15px;
+}
+
+#aa-header .aa-header-area .aa-header-right .aa-login {
+  color: #fff;
+  font-size: 15px;
+}
+
+/*  End HEADER SECTION */
