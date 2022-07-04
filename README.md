@@ -8,9 +8,13 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
-## June 2022 update
+## July 2022 update
 
 PropertyWebBuilder is now a standalone Ruby on Rails app (it is no longer a Ruby on Rails engine). It has also been upgraded to use Rails 6 and Ruby 3!
+
+I am currently working on a Rails 7 upgrade which will use the wonderful vite-ruby gem to re-implement the admin panel with vue.js and the quasar framework:
+
+https://github.com/etewiah/property_web_builder/tree/vite
 
 Also, I am currently working on a tool to help with house hunting and would love to get some feedback about it.
 
