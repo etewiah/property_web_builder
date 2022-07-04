@@ -8,7 +8,9 @@
     </div>
     <div class="row q-col-gutter-md">
       <div class="col-sm-12 col-md-4 col-lg-3">
-        <h6>Search For Properties</h6>
+        <h6>
+          {{ localiseProvider.$ft("searchForProperties") }}
+        </h6>
         <VerticalSearchForm
           @triggerSearchUpdate="triggerSearchUpdate"
         ></VerticalSearchForm>
@@ -49,12 +51,11 @@ export default defineComponent({
     },
   },
   setup() {
-    // const router = useRouter()
     const route = useRoute()
-    let pageSlug = "rent"
+    // let pageSlug = "rent"
     let saleOrRental = "rental"
     if (route.name === "rForSaleSearch") {
-      pageSlug = "buy"
+      // pageSlug = "buy"
       saleOrRental = "sale"
     }
     const forSalePriceTill = ref("200000")
@@ -91,16 +92,6 @@ export default defineComponent({
             priceRentalMonthlyCurrentCents,
             countBathrooms
           }
-          findPage(slug: "${pageSlug}") {
-            rawHtml,
-            pageContents {
-              content
-            },
-            pageParts {
-              blockContents
-              pageSlug
-            }
-          }
         }
       `,
     })
@@ -119,9 +110,9 @@ export default defineComponent({
   computed: {
     searchHeaderText() {
       if (this.$route.name === "rForSaleSearch") {
-        return "searchForProperties"
+        return "forSale"
       } else {
-        return "Properties for rent"
+        return "forRent"
       }
     },
     properties() {
@@ -130,14 +121,7 @@ export default defineComponent({
     },
     pageContents() {
       let pageContents = []
-      if (this.data && this.data.findPage.pageContents) {
-        // pageContents[0].content.raw_en
-        this.data.findPage.pageContents.forEach((pageContent) => {
-          if (pageContent.content) {
-            pageContents.push(pageContent.content.raw_en)
-          }
-        })
-      }
+      // Currently no page specific to searches
       return pageContents
     },
   },
