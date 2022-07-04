@@ -1,6 +1,75 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
+      <div class="row q-toolbar" style="min-height: 10px">
+        <div class="col-md-12">
+          <div class="aa-header-area">
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="aa-header-left">
+                  <div class="aa-telephone-no float-left">
+                    <q-icon
+                      class="q-pb-xs q-pr-xs"
+                      color="white"
+                      name="phone"
+                    />
+                    <div class="q-pt-xs" style="display: inline-flex">
+                      +34 672 550 305 &nbsp;&nbsp;
+                    </div>
+                  </div>
+                  <div class="aa-email hidden-xs float-left">
+                    <q-icon
+                      class="q-pb-xs q-pr-xs q-pl-md"
+                      color="white"
+                      name="email"
+                    />
+                    <div class="q-pt-xs" style="display: inline-flex">
+                      contact@example.com
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="aa-header-right">
+                  <div class="contenedor_idiomas" style="">
+                    <ul class="idiomas">
+                      <router-link
+                        v-for="langNav in langNavs"
+                        :key="langNav.shortLocale"
+                        :class="langNav.shortLocale"
+                        active-class="selected"
+                        style="text-decoration: none"
+                        :to="langNav.route"
+                        custom
+                        v-slot="{
+                          href,
+                          route,
+                          navigate,
+                          isActive,
+                          isExactActive,
+                        }"
+                      >
+                        <li
+                          :class="[
+                            isActive && 'selected',
+                            isExactActive && 'router-link-exact-active',
+                          ]"
+                        >
+                          <a
+                            :class="langNav.shortLocale"
+                            :href="href"
+                            @click="navigate"
+                          ></a>
+                        </li>
+                      </router-link>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <q-toolbar>
         <q-toolbar-title>
           <strong>Property</strong><span style="color: black">Web</span
@@ -43,6 +112,21 @@ export default defineComponent({
   inject: ["localiseProvider"],
   components: {},
   computed: {
+    langNavs() {
+      let shortLocales = ["en", "es"]
+      let langNavs = []
+      shortLocales.forEach((shortLocale) => {
+        langNavs.push({
+          shortLocale: shortLocale,
+          route: {
+            params: {
+              publicLocale: shortLocale,
+            },
+          },
+        })
+      })
+      return langNavs
+    },
     topNavLinks() {
       let topNavLinks = []
       if (this.gqlError) {
