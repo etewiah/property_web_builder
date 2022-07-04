@@ -28,13 +28,13 @@ const state = reactive({
   }
 })
 
-const createI18n = config => ({
-  locale: ref(config.locale),
-  localeMessages: ref(state.localeMessages),
-  $t(key) {
-    return this.localeMessages.value[this.locale.value][key];
-  }
-});
+// const createI18n = config => ({
+//   locale: ref(config.locale),
+//   localeMessages: ref(state.localeMessages),
+//   $t(key) {
+//     return this.localeMessages.value[this.locale.value][key];
+//   }
+// });
 
 function setLocaleMessages(localeMessages, locale) {
   state.localeMessages[locale] = localeMessages

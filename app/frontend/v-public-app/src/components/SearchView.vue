@@ -1,6 +1,8 @@
 <template>
   <div class="q-ma-md">
-    <h3 class="text-center">{{ searchHeaderText }}</h3>
+    <h3 class="text-center">
+      {{ localiseProvider.$ft(searchHeaderText) }}
+    </h3>
     <div v-for="pageContent in pageContents" :key="pageContent.id">
       <div v-html="pageContent"></div>
     </div>
@@ -35,6 +37,7 @@ import { defineComponent, ref } from "vue"
 import { useQuery } from "@urql/vue"
 import { useRouter, useRoute } from "vue-router"
 export default defineComponent({
+  inject: ["localiseProvider"],
   name: "SearchView",
   components: {
     ListingsSummaryCard,
@@ -116,7 +119,7 @@ export default defineComponent({
   computed: {
     searchHeaderText() {
       if (this.$route.name === "rForSaleSearch") {
-        return "Properties for sale"
+        return "searchForProperties"
       } else {
         return "Properties for rent"
       }
