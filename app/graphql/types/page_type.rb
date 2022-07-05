@@ -5,6 +5,7 @@ module Types
     # field :page_parts, Types::ReferencesType
     field :created_at, GraphQL::Types::ISO8601DateTime
     field :raw_html, String
+    field :page_title, String
 
     field :page_parts, [Types::PagePartType], null: false
     field :page_contents, [Types::PageContentType], null: true
