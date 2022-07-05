@@ -58,23 +58,30 @@ export default defineComponent({
       // pageSlug = "buy"
       saleOrRental = "sale"
     }
-    const forSalePriceTill = ref("200000")
-    const forSalePriceFrom = ref("1000")
+    const forSalePriceTill = ref("none")
+    const forSalePriceFrom = ref("none")
+    const forRentPriceTill = ref("none")
+    const forRentPriceFrom = ref("none")
     const bedroomsFrom = ref("none")
     const bathroomsFrom = ref("none")
     const result = useQuery({
       variables: {
         forSalePriceTill,
         forSalePriceFrom,
+        forRentPriceFrom,
+        forRentPriceTill,
         bathroomsFrom,
         bedroomsFrom,
       },
       query: `
         query ($forSalePriceTill: String!, $forSalePriceFrom: String!,
+          $forRentPriceTill: String!, $forRentPriceFrom: String!,
           $bedroomsFrom: String!, $bathroomsFrom: String! ) {
           searchProperties(saleOrRental: "${saleOrRental}",
           forSalePriceFrom: $forSalePriceFrom,
           forSalePriceTill: $forSalePriceTill,
+          forRentPriceFrom: $forRentPriceFrom,
+          forRentPriceTill: $forRentPriceTill,
           bathroomsFrom: $bathroomsFrom,
           bedroomsFrom: $bedroomsFrom) {
             id,
@@ -101,6 +108,8 @@ export default defineComponent({
       bedroomsFrom,
       forSalePriceFrom,
       forSalePriceTill,
+      forRentPriceFrom,
+      forRentPriceTill,
       saleOrRental,
       fetching: result.fetching,
       data: result.data,
