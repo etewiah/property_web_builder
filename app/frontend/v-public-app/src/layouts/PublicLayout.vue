@@ -95,18 +95,21 @@
         <router-view :key="$route" />
       </q-page>
     </q-page-container>
+    <PwbFooter></PwbFooter>
   </q-layout>
 </template>
 <script>
 import { defineComponent } from "vue"
+import PwbFooter from "~/v-public-app/src/components/widgets/PwbFooter.vue"
 export default defineComponent({
   name: "PublicLayout",
   inject: ["localiseProvider", "sitedetailsProvider"],
-  components: {},
+  components: { PwbFooter },
   computed: {
     langNavs() {
-      let supportedLocales = this.sitedetailsProvider.state.supportedLocales || []
-       // ["en", "es"]
+      let supportedLocales =
+        this.sitedetailsProvider.state.supportedLocales || []
+      // ["en", "es"]
       let langNavs = []
       supportedLocales.forEach((supportedLocale) => {
         let shortLocale = supportedLocale.split("-")[0]

@@ -4,13 +4,22 @@ import loSortBy from "lodash/sortBy"
 const state = reactive({
   locale: "es",
   topNavLinkItems: [],
+  footerNavLinkItems: [],
   agency: {},
   supportedLocales: []
 })
 
 function setTopNavItems(publicLocale, topNavLinks) {
-  let topNavLinkItems = []
-  topNavLinks.forEach((navLink) => {
+  let topNavLinkItems = setNavItems(publicLocale, topNavLinks)
+  state.topNavLinkItems = loSortBy(topNavLinkItems, "sortOrder")
+}
+function setFooterNavItems(publicLocale, footerNavLinks) {
+  let footerNavLinkItems = setNavItems(publicLocale, footerNavLinks)
+  state.footerNavLinkItems = loSortBy(footerNavLinkItems, "sortOrder")
+}
+function setNavItems(publicLocale, navLinks) {
+  let navLinkItems = []
+  navLinks.forEach((navLink) => {
     // sortOrder,
     //   slug,
     //   linkUrl,
@@ -19,6 +28,9 @@ function setTopNavItems(publicLocale, topNavLinks) {
     // Have to create a new item below as navLink that is passed in is readonly
     let linkWithRoute = {
       linkTitle: navLink.linkTitle
+    }
+    if (navLink.linkPath === "admin_with_locale_path") {
+      return
     }
     if (navLink.linkPath === "buy_path") {
       linkWithRoute.route = {
@@ -58,9 +70,9 @@ function setTopNavItems(publicLocale, topNavLinks) {
         },
       }
     }
-    topNavLinkItems.push(linkWithRoute)
+    navLinkItems.push(linkWithRoute)
   })
-  state.topNavLinkItems = loSortBy(topNavLinkItems, "sortOrder")
+  return navLinkItems
 }
 
 function setAgency(agency, supportedLocales) {
@@ -70,6 +82,7 @@ function setAgency(agency, supportedLocales) {
 
 export const sitedetailsProvider = readonly({
   setTopNavItems,
+  setFooterNavItems,
   setAgency,
   state
 })
