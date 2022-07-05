@@ -16,15 +16,8 @@ import { ref, provide, inject, reactive, computed, readonly } from "vue";
 const state = reactive({
   locale: "es",
   localeMessages: {
-    en: {
-      hello_world: "Hello",
-    },
-    es: {
-      "propertyStates": {
-        "underConstruction": "En construcionnnnnnnndfsfsd"
-      },
-      hello_world: "Hola",
-    },
+    en: {},
+    es: {},
   }
 })
 

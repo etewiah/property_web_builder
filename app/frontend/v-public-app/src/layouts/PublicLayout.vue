@@ -1,7 +1,10 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <div class="row q-toolbar" style="min-height: 10px">
+      <div
+        class="row q-toolbar"
+        style="min-height: 10px; border-bottom: 1px solid white"
+      >
         <div class="col-md-12">
           <div class="aa-header-area">
             <div class="row">
@@ -39,12 +42,7 @@
                         active-class="selected"
                         :to="langNav.route"
                         custom
-                        v-slot="{
-                          href,
-                          navigate,
-                          isActive,
-                          isExactActive,
-                        }"
+                        v-slot="{ href, navigate, isActive, isExactActive }"
                       >
                         <li
                           :class="[
@@ -91,7 +89,6 @@
         </q-tabs>
       </q-toolbar>
     </q-header>
-
     <q-page-container class="bg-grey-2">
       <q-page class="max-ctr">
         <router-view :key="$route" />
@@ -100,13 +97,10 @@
   </q-layout>
 </template>
 <script>
-import { defineComponent, ref, computed } from "vue"
-import { useQuery } from "@urql/vue"
-import { useRoute } from "vue-router"
-import loSortBy from "lodash/sortBy"
+import { defineComponent } from "vue"
 export default defineComponent({
   name: "PublicLayout",
-  inject: ["localiseProvider"],
+  inject: ["localiseProvider", "sitedetailsProvider"],
   components: {},
   computed: {
     langNavs() {
@@ -125,115 +119,16 @@ export default defineComponent({
       return langNavs
     },
     topNavLinks() {
-      let topNavLinks = []
-      if (this.gqlError) {
-        this.$q.notify({
-          color: "negative",
-          position: "top",
-          message: this.gqlError.message,
-          icon: "report_problem",
-        })
-      } else {
-        if (this.gqlData && this.gqlData.getTopNavLinks) {
-          let publicLocale = this.$route.params.publicLocale || "en"
-          this.gqlData.getTopNavLinks.forEach((navLink) => {
-            if (navLink.linkPath === "buy_path") {
-              navLink.route = {
-                name: "rForSaleSearch",
-                params: {
-                  publicLocale: publicLocale,
-                },
-              }
-            } else if (navLink.linkPath === "rent_path") {
-              navLink.route = {
-                name: "rForRentSearch",
-                params: {
-                  publicLocale: publicLocale,
-                },
-              }
-            } else if (navLink.linkPath === "contact_us_path") {
-              navLink.route = {
-                name: "rContactUs",
-                params: {
-                  publicLocale: publicLocale,
-                },
-              }
-            } else if (navLink.linkPath === "show_page_path") {
-              navLink.route = {
-                name: "rPublicPage",
-                params: {
-                  pageSlug: navLink.linkPathParams,
-                  publicLocale: publicLocale,
-                },
-              }
-            } else {
-              navLink.route = {
-                name: "rLocaleHomePage",
-                params: {
-                  pageSlug: navLink.linkPathParams,
-                  publicLocale: publicLocale,
-                },
-              }
-            }
-            topNavLinks.push(navLink)
-          })
-        }
-      }
-      return loSortBy(topNavLinks, "sortOrder")
+      return this.sitedetailsProvider.state.topNavLinkItems
     },
   },
-  watch: {
-    "$route.params": {
-      handler(newValue, oldVal) {
-        this.messagesLocale = newValue.publicLocale
-      },
-    },
-  },
+  watch: {},
   mounted: function () {},
   data() {
     return {
-      activeTab: null,
+      // activeTab: null,
     }
   },
-  setup() {
-    const route = useRoute()
-    const messagesLocale = ref(route.params.publicLocale)
-    const result = useQuery({
-      pause: computed(() => !messagesLocale.value),
-      variables: {
-        messagesLocale,
-      },
-      query: `
-        query ($messagesLocale: String! ) {
-        getTopNavLinks(locale: $messagesLocale) {
-          sortOrder,
-          slug,
-          linkUrl,
-          linkPath,
-          linkTitle,
-          linkPathParams,
-          id,
-          placement
-        }
-        getFooterLinks {
-          sortOrder,
-          slug,
-          linkUrl,
-          linkPath,
-          linkTitle,
-          linkPathParams,
-          id,
-          placement
-        }
-        }
-      `,
-    })
-    return {
-      messagesLocale,
-      gqlFetching: result.fetching,
-      gqlData: result.data,
-      gqlError: result.error,
-    }
-  },
+  setup() {},
 })
 </script>
