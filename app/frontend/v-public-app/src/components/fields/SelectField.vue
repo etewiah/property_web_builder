@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import _ from "lodash"
+// import _ from "lodash"
 export default {
   inject: ["localiseProvider"],
   props: ["fieldDetails", "currentFieldValue", "fieldOptions"],
@@ -50,9 +50,9 @@ export default {
       let optionsType = "simple_list"
       if (this.fieldDetails.optionsValues) {
         rawVals = this.fieldDetails.optionsValues
-      } else {
-        optionsType = "object_list"
-        rawVals = this.fieldOptions[this.fieldDetails.optionsKey] || []
+        // } else {
+        //   optionsType = "object_list"
+        //   rawVals = this.fieldOptions[this.fieldDetails.optionsKey] || []
       }
       let selectItems = [{ name: "", value: "" }]
       // let i18n = this.$i18n
@@ -88,12 +88,12 @@ export default {
           value: val,
         })
       })
-      if (isCurrency) {
-        return selectItems
-        // _.sortBy(selectItems, "val")
-      } else {
-        return _.sortBy(selectItems, "name")
-      }
+      return selectItems
+      // if (isCurrency) {
+      //   return selectItems
+      // } else {
+      //   return _.sortBy(selectItems, "name")
+      // }
     },
   },
   methods: {

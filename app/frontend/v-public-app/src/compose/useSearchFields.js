@@ -3,9 +3,54 @@ export default function () {
     // will eventually get this from the server
     let priceFromFieldName = "forSalePriceFrom"
     let priceTillFieldName = "forSalePriceTill"
+    let priceFromOptions = [
+      "25,000",
+      "50,000",
+      "100,000",
+      "250,000",
+      "500,000",
+      "1,000,000",
+      "2,500,000",
+      "5,000,000",
+      "10,000,000",
+      "25,000,000"
+    ]
+    let priceTillOptions = [
+      "50,000",
+      "100,000",
+      "250,000",
+      "500,000",
+      "1,000,000",
+      "2,500,000",
+      "5,000,000",
+      "10,000,000",
+      "25,000,000",
+      "50,000,000",
+    ]
     if (saleOrRental === "rental") {
       priceTillFieldName = "forRentPriceTill"
       priceFromFieldName = "forRentPriceFrom"
+      priceFromOptions = [
+        "50",
+        "100",
+        "250",
+        "500",
+        "1,000",
+        "2,500",
+        "5,000",
+        "10,000",
+        "25,000"
+      ]
+      priceTillOptions = [
+        "250",
+        "500",
+        "1,000",
+        "2,500",
+        "5,000",
+        "10,000",
+        "25,000",
+        "50,000"
+      ]
     }
     return [
       {
@@ -20,18 +65,7 @@ export default function () {
         "defaultValueForSearch": "50000",
         "sortOrder": 3,
         "currencyPrefix": "€",
-        "optionsValues": [
-          "25,000",
-          "50,000",
-          "100,000",
-          "250,000",
-          "500,000",
-          "1,000,000",
-          "2,500,000",
-          "5,000,000",
-          "10,000,000",
-          "25,000,000"
-        ]
+        "optionsValues": priceFromOptions
       },
       {
         "toggleOnMobile": true,
@@ -45,18 +79,7 @@ export default function () {
         "defaultValueForSearch": "10000000",
         "sortOrder": 4,
         "currencyPrefix": "€",
-        "optionsValues": [
-          "50,000",
-          "100,000",
-          "250,000",
-          "500,000",
-          "1,000,000",
-          "2,500,000",
-          "5,000,000",
-          "10,000,000",
-          "25,000,000",
-          "50,000,000"
-        ]
+        "optionsValues": priceTillOptions
       },
       {
         "toggleOnMobile": true,
