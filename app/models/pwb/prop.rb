@@ -3,6 +3,7 @@ module Pwb
     translates :title, :description
     globalize_accessors locales: I18n.available_locales
     # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
+    enum area_unit: { sqmt: 0, sqft: 1 }
 
     # geocoded_by :address, :lookup => lambda{ |obj| obj.geocoder_lookup }
     # reverse_geocoded_by :latitude, :longitude do |obj,results|
@@ -75,6 +76,9 @@ module Pwb
     scope :for_sale_price_till, ->(maximum_price) { where("price_sale_current_cents <= ?", maximum_price.to_s) }
     scope :count_bathrooms, ->(min_count_bathrooms) { where("count_bathrooms >= ?", min_count_bathrooms.to_s) }
     scope :count_bedrooms, ->(min_count_bedrooms) { where("count_bedrooms >= ?", min_count_bedrooms.to_s) }
+    # June 2022 TODO - replace above with below
+    scope :bathrooms_from, ->(min_count_bathrooms) { where("count_bathrooms >= ?", min_count_bathrooms.to_s) }
+    scope :bedrooms_from, ->(min_count_bedrooms) { where("count_bedrooms >= ?", min_count_bedrooms.to_s) }
     # scope :starts_with, -> (name) { where("name like ?", "#{name}%")}
     # scope :pending, joins(:admin_request_status).where('admin_request_statuses.name = ?','Pending Approval')
 
@@ -240,20 +244,31 @@ module Pwb
       prices_array.min
     end
 
-    # def ano_constr=(ano_constr)
-    #   self.year_construction = ano_constr
-    # end
+    def self.properties_search(**search_filtering_params)
+      currency_string = search_filtering_params[:currency] || "usd"
+      currency = Money::Currency.find currency_string
 
-    # TODO: - replace below with db col
-    # def area_unit
-    #   return "sqft"
-    #   # "sqmt"
-    #   # "m<sup>2</sup>"
-    # end
-    # enum area_unit: [ :sqmt, :sqft ]
-    # above method of declaring less flexible than below:
-    enum area_unit: { sqmt: 0, sqft: 1 }
-
+      if search_filtering_params[:sale_or_rental] == "rental"
+        search_results = Pwb::Prop.visible.for_rent
+      else
+        search_results = Pwb::Prop.visible.for_sale
+      end
+      search_filtering_params.each do |key, value|
+        # empty_values = ["propertyTypes."]
+        if value == "none" || key == :sale_or_rental || key == :currency
+          next
+        end
+        price_fields = [:for_sale_price_from, :for_sale_price_till, :for_rent_price_from, :for_rent_price_till]
+        if price_fields.include? key
+          # above needed as some currencies like Chilean peso
+          # don't have the cents field multiplied by 100
+          value = value.gsub(/\D/, "").to_i * currency.subunit_to_unit
+          # search_results = search_results.public_send(key, value) if value.present?
+        end
+        search_results = search_results.public_send(key, value) if value.present?
+      end
+      return search_results
+    end
     before_save :set_rental_search_price
     after_create :set_defaults
 
