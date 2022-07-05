@@ -29,28 +29,40 @@ module Types
     field :find_page, Types::PageType, null: true do
       description "Get a page based on slug."
       argument :slug, String, required: true
+      argument :locale, String, required: true
     end
 
-    def find_page(slug:)
+    def find_page(slug:, locale:)
+      I18n.locale = locale
       Pwb::Page.find_by_slug(slug)
     end
 
-    # field :search_for_rentals, [Types::LinkType], null: false do
-    #   description "Return a list of links"
-    #   argument :placement, String
-    # end
+    field :search_properties, [Types::PropertyType], null: false do
+      description "Search for properties"
+      argument :sale_or_rental, String, required: false, default_value: "sale"
+      argument :currency, String, required: false, default_value: "usd"
+      argument :for_sale_price_from, String, required: false, default_value: "none"
+      argument :for_sale_price_till, String, required: false, default_value: "none"
+      argument :for_rent_price_from, String, required: false, default_value: "none"
+      argument :for_rent_price_till, String, required: false, default_value: "none"
+      argument :bedrooms_from, String, required: false, default_value: "none"
+      argument :bathrooms_from, String, required: false, default_value: "none"
+    end
 
-    # def search_for_rentals(placement:)
-    #   Pwb::Prop.where(placement: placement)
-    # end
+    def search_properties(**args)
+      Pwb::Prop.properties_search(**args)
+    end
 
-    field :get_properties,
-          [Types::PropertyType],
-          null: false,
-          description: "Return a list of properties"
+    field :get_translations, Types::TranslationType, null: true do
+      description "Get translations for a locale."
+      argument :locale, String, required: true
+    end
 
-    def get_properties
-      Pwb::Prop.all
+    def get_translations(locale:)
+      return {
+               locale: locale,
+               result: I18n.t(".", locale: locale),
+             }
     end
 
     field :get_links, [Types::LinkType], null: false do
@@ -62,26 +74,35 @@ module Types
       Pwb::Link.where(placement: placement)
     end
 
-    field :get_top_nav_links, [Types::LinkType], null: false
+    field :get_top_nav_links, [Types::LinkType], null: false do
+      description "Get top nav links for a locale."
+      argument :locale, String, required: true
+    end
 
-    def get_top_nav_links()
+    def get_top_nav_links(locale:)
+      I18n.locale = locale
       Pwb::Link.where(placement: "top_nav").where(visible: true)
     end
 
-    field :get_footer_links, [Types::LinkType], null: false
+    field :get_footer_links, [Types::LinkType], null: false do
+      description "Get top nav links for a locale."
+      argument :locale, String, required: true
+    end
 
-    def get_footer_links()
+    def get_footer_links(locale:)
+      I18n.locale = locale
       Pwb::Link.where(placement: "footer").where(visible: true)
     end
 
     field :find_property, Types::PropertyType, null: true do
       description "Get a property based on id."
       argument :id, String, required: true
+      argument :locale, String, required: true
     end
 
-    def find_property(id:)
+    def find_property(id:, locale:)
+      I18n.locale = locale
       Pwb::Prop.find(id)
-      # Page.find_by_slug("place_of_origin = ?", slug)
     end
   end
 end
