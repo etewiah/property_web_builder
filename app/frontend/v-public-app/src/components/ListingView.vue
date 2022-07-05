@@ -36,10 +36,14 @@ export default defineComponent({
   setup() {
     const route = useRoute()
     let listingSlug = route.params.listingSlug
+    const publicLocale = ref(route.params.publicLocale)
     const result = useQuery({
+      variables: {
+        publicLocale,
+      },
       query: `
-        query {
-          findProperty(id: "${listingSlug}") {
+        query ($publicLocale: String! ) {
+          findProperty(id: "${listingSlug}", locale: $publicLocale) {
             id,
             propPhotos {
               createdAt
