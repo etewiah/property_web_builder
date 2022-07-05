@@ -43,10 +43,16 @@ export default defineComponent({
           this.publicLocale,
           topNavDisplayLinks
         )
+        let footerDisplayLinks =
+          newValue.getSiteDetails.footerDisplayLinks || []
+        this.sitedetailsProvider.setFooterNavItems(
+          this.publicLocale,
+          footerDisplayLinks
+        )
         this.sitedetailsProvider.setAgency(
           newValue.getSiteDetails.agency,
           newValue.getSiteDetails.supportedLocales
-          )
+        )
       },
     },
   },
@@ -69,6 +75,14 @@ export default defineComponent({
                   emailPrimary,
                   displayName,
                   phoneNumberPrimary
+                }
+                footerDisplayLinks {
+                  sortOrder,
+                  slug,
+                  linkUrl,
+                  linkPath,
+                  linkTitle,
+                  linkPathParams,
                 }
                 topNavDisplayLinks {
                   sortOrder,
