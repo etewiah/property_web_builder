@@ -17,7 +17,7 @@
                       name="phone"
                     />
                     <div class="q-pt-xs" style="display: inline-flex">
-                      +34 672 550 305 &nbsp;&nbsp;
+                      {{ sitedetailsProvider.state.agency.phoneNumberPrimary }}
                     </div>
                   </div>
                   <div class="aa-email hidden-xs float-left">
@@ -27,7 +27,7 @@
                       name="email"
                     />
                     <div class="q-pt-xs" style="display: inline-flex">
-                      contact@example.com
+                      {{ sitedetailsProvider.state.agency.emailPrimary }}
                     </div>
                   </div>
                 </div>
@@ -67,8 +67,9 @@
       </div>
       <q-toolbar>
         <q-toolbar-title>
-          <strong>Property</strong><span style="color: black">Web</span
-          ><strong class="navy--text text--darken-1">Builder</strong>
+          <strong>{{ sitedetailsProvider.state.agency.displayName }}</strong>
+          <!-- <span style="color: black">Web</span
+          ><strong class="navy--text text--darken-1">Builder</strong> -->
         </q-toolbar-title>
         <q-space />
         <div class="q-gutter-sm row items-center no-wrap">
@@ -104,9 +105,11 @@ export default defineComponent({
   components: {},
   computed: {
     langNavs() {
-      let shortLocales = ["en", "es"]
+      let supportedLocales = this.sitedetailsProvider.state.supportedLocales || []
+       // ["en", "es"]
       let langNavs = []
-      shortLocales.forEach((shortLocale) => {
+      supportedLocales.forEach((supportedLocale) => {
+        let shortLocale = supportedLocale.split("-")[0]
         langNavs.push({
           shortLocale: shortLocale,
           route: {
@@ -125,9 +128,7 @@ export default defineComponent({
   watch: {},
   mounted: function () {},
   data() {
-    return {
-      // activeTab: null,
-    }
+    return {}
   },
   setup() {},
 })

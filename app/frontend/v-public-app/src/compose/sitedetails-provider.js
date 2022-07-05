@@ -3,7 +3,9 @@ import loSortBy from "lodash/sortBy"
 
 const state = reactive({
   locale: "es",
-  topNavLinkItems: []
+  topNavLinkItems: [],
+  agency: {},
+  supportedLocales: []
 })
 
 function setTopNavItems(publicLocale, topNavLinks) {
@@ -61,7 +63,13 @@ function setTopNavItems(publicLocale, topNavLinks) {
   state.topNavLinkItems = loSortBy(topNavLinkItems, "sortOrder")
 }
 
+function setAgency(agency, supportedLocales) {
+  state.agency = agency || {}
+  state.supportedLocales = supportedLocales || []
+}
+
 export const sitedetailsProvider = readonly({
   setTopNavItems,
+  setAgency,
   state
 })
