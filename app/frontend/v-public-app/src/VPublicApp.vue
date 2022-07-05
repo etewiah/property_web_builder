@@ -21,18 +21,32 @@ export default defineComponent({
         // console.log(this.publicLocale)
       },
     },
+    gqlError: {
+      handler(newError) {
+        this.$q.notify({
+          color: "negative",
+          position: "top",
+          message: newError.message,
+          icon: "report_problem",
+        })
+      },
+    },
     gqlData: {
       handler(newValue, oldVal) {
-        // console.log(this.localiseProvider)
         this.localiseProvider.setLocaleMessages(
           newValue.getTranslations.result,
           newValue.getTranslations.locale
         )
-        let topNavDisplayLinks = newValue.getSiteDetails.website.topNavDisplayLinks || []
+        let topNavDisplayLinks =
+          newValue.getSiteDetails.topNavDisplayLinks || []
         this.sitedetailsProvider.setTopNavItems(
           this.publicLocale,
           topNavDisplayLinks
         )
+        this.sitedetailsProvider.setAgency(
+          newValue.getSiteDetails.agency,
+          newValue.getSiteDetails.supportedLocales
+          )
       },
     },
   },
@@ -48,11 +62,14 @@ export default defineComponent({
       query: `
         query ($publicLocale: String! ) {
             getSiteDetails(locale: $publicLocale) {
-              displayName,
-              website {
                 supportedLocales,
                 styleVariables,
                 supportedLocalesWithVariants,
+                agency {
+                  emailPrimary,
+                  displayName,
+                  phoneNumberPrimary
+                }
                 topNavDisplayLinks {
                   sortOrder,
                   slug,
@@ -61,7 +78,6 @@ export default defineComponent({
                   linkTitle,
                   linkPathParams,
                 }
-              }
             }
             getTranslations(locale: $publicLocale) {
               locale,
