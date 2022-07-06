@@ -6,10 +6,9 @@ module Pwb
     has_many :page_contents
     has_many :contents, through: :page_contents
     # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
-    has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: 'PageContent'
+    has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: "PageContent"
     # has_many :page_parts, -> { where(page_slug: :footer) }
     # , foreign_key: "page_slug", primary_key: "slug", class_name: "Pwb::Link"
-
 
     # TODO: - add favicon image (and logo image directly)
 
@@ -82,21 +81,21 @@ module Pwb
     def as_json_for_page(options = nil)
       # Sends data to admin in format compatible
       # with client side page model
-      as_json({only: [],
-               methods: ["slug", "page_parts", "page_contents"]}.merge(options || {}))
+      as_json({ only: [],
+                methods: ["slug", "page_parts", "page_contents"] }.merge(options || {}))
     end
 
     def as_json(options = nil)
-      super({only: [
-               "company_display_name", "theme_name",
-               "default_area_unit", "default_client_locale",
-               "available_currencies", "default_currency",
-               "supported_locales", "social_media",
-               "raw_css", "analytics_id", "analytics_id_type",
-               "sale_price_options_from", "sale_price_options_till",
-               "rent_price_options_from", "rent_price_options_till"
-             ],
-             methods: ["style_variables", "admin_page_links"]}.merge(options || {}))
+      super({ only: [
+        "company_display_name", "theme_name",
+        "default_area_unit", "default_client_locale",
+        "available_currencies", "default_currency",
+        "supported_locales", "social_media",
+        "raw_css", "analytics_id", "analytics_id_type",
+        "sale_price_options_from", "sale_price_options_till",
+        "rent_price_options_from", "rent_price_options_till",
+      ],
+              methods: ["style_variables", "admin_page_links"] }.merge(options || {}))
     end
 
     enum default_area_unit: { sqmt: 0, sqft: 1 }
@@ -135,7 +134,7 @@ module Pwb
         "secondary_color" => "#3498db", # blue
         "action_color" => "green",
         "body_style" => "siteLayout.wide",
-        "theme" => "light"
+        "theme" => "light",
       }
       style_variables_for_theme["default"] || default_style_variables
     end
@@ -143,9 +142,8 @@ module Pwb
     def style_variables=(style_variables)
       style_variables_for_theme["default"] = style_variables
     end
+
     # spt 2017 - above 2 will be redundant once vic becomes default layout
-
-
 
     # below used when rendering to decide which class names
     # to use for which elements
@@ -184,7 +182,6 @@ module Pwb
       body_style
     end
 
-
     # def custom_css_file
     #   # used by css_controller to decide which file to compile
     #   # with user set variables.
@@ -215,6 +212,18 @@ module Pwb
 
     def render_google_analytics
       Rails.env.production? && analytics_id.present?
+    end
+
+    def top_nav_display_links
+      Link.ordered_top_nav.where(visible: true)
+    end
+
+    def footer_display_links
+      Link.ordered_footer.where(visible: true)
+    end
+
+    def agency
+      Agency.unique_instance
     end
   end
 end

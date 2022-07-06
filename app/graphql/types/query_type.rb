@@ -50,6 +50,7 @@ module Types
     end
 
     def search_properties(**args)
+      # I18n.locale = "es"
       Pwb::Prop.properties_search(**args)
     end
 
@@ -92,6 +93,16 @@ module Types
     def get_footer_links(locale:)
       I18n.locale = locale
       Pwb::Link.where(placement: "footer").where(visible: true)
+    end
+
+    field :get_site_details, Types::WebsiteType, null: false do
+      description "Get site details."
+      argument :locale, String, required: true
+    end
+
+    def get_site_details(locale:)
+      I18n.locale = locale
+      Pwb::Website.unique_instance
     end
 
     field :find_property, Types::PropertyType, null: true do
