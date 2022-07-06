@@ -16,14 +16,14 @@ module Pwb
         @show_vacational_rental = @property_details.for_rent_short_term
 
         js property_details: @property_details
-        js 'Pwb/Props#show'
+        js "Pwb/Props#show"
         @page_title = @property_details.title
         @page_description = @property_details.description
         # @page_keywords    = 'Site, Login, Members'
         return render "/pwb/props/show"
       else
         @page_title = I18n.t("propertyNotFound")
-        hi_content = Content.where(tag: 'landing-carousel')[0]
+        hi_content = Content.where(tag: "landing-carousel")[0]
         @header_image = hi_content.present? ? hi_content.default_photo : nil
         return render "not_found"
       end
@@ -41,14 +41,14 @@ module Pwb
         set_map_marker
         # gon.property_details =@property_details
         js property_details: @property_details
-        js 'Pwb/Props#show'
+        js "Pwb/Props#show"
         @page_title = @property_details.title
         @page_description = @property_details.description
         # @page_keywords    = 'Site, Login, Members'
         return render "/pwb/props/show"
       else
         @page_title = I18n.t("propertyNotFound")
-        hi_content = Content.where(tag: 'landing-carousel')[0]
+        hi_content = Content.where(tag: "landing-carousel")[0]
         @header_image = hi_content.present? ? hi_content.default_photo : nil
         return render "not_found"
       end
@@ -64,20 +64,20 @@ module Pwb
       @contact = Contact.find_or_initialize_by(primary_email: params[:contact][:email])
       @contact.attributes = {
         primary_phone_number: params[:contact][:tel],
-        first_name: params[:contact][:name]
+        first_name: params[:contact][:name],
       }
 
       title = I18n.t "mailers.property_enquiry_targeting_agency.title"
       @enquiry = Message.new({
-                               title: title,
-                               content: params[:contact][:message],
-                               locale: params[:contact][:locale],
-                               url: request.referer,
-                               host: request.host,
-                               origin_ip: request.ip,
-                               user_agent: request.user_agent,
-                               delivery_email: @current_agency.email_for_property_contact_form
-        # origin_email: params[:contact][:email]
+        title: title,
+        content: params[:contact][:message],
+        locale: params[:contact][:locale],
+        url: request.referer,
+        host: request.host,
+        origin_ip: request.ip,
+        user_agent: request.user_agent,
+        delivery_email: @current_agency.email_for_property_contact_form,
+      # origin_email: params[:contact][:email]
       })
 
       unless @enquiry.save && @contact.save
@@ -118,8 +118,8 @@ module Pwb
             display_price: @property_details.contextual_price_with_currency(@operation_type),
             position: {
               lat: @property_details.latitude,
-              lng: @property_details.longitude
-            }
+              lng: @property_details.longitude,
+            },
           }
         )
       end
