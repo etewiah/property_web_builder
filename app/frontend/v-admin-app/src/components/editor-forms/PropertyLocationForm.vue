@@ -4,11 +4,11 @@
       <q-card-section>
         <div class="row">
           <div class="col-12">
-            <MapViewContainer
+            <MapAddressField
               @setFieldsFromAddressDetails="setFieldsFromAddressDetails"
               :singleLatLngDetails="currentPropertyAttributes"
             >
-            </MapViewContainer>
+            </MapAddressField>
           </div>
           <div class="col-12 q-pt-md">
             <GMapAutocomplete
@@ -79,7 +79,7 @@
 import { defineComponent, ref } from "vue"
 // import lodashEach from "lodash/each"
 import useGoogleMaps from "~/v-admin-app/src/compose/useGoogleMaps.js"
-import MapViewContainer from "~/v-admin-app/src/components/editor-forms-parts/MapViewContainer.vue"
+import MapAddressField from "~/v-admin-app/src/components/editor-forms-parts/MapAddressField.vue"
 import PropertySubmitter from "~/v-admin-app/src/components/editor-forms-parts/PropertySubmitter.vue"
 import LocationTextField from "~/v-admin-app/src/components/editor-forms-parts//LocationTextField.vue"
 export default defineComponent({
@@ -87,7 +87,7 @@ export default defineComponent({
   components: {
     PropertySubmitter,
     LocationTextField,
-    MapViewContainer,
+    MapAddressField,
   },
   setup() {
     const { getAddressFromPlaceDetails } = useGoogleMaps()
