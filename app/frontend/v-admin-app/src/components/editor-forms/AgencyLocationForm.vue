@@ -4,11 +4,11 @@
       <q-card-section>
         <div class="row">
           <div class="col-12">
-            <MapViewContainer
+            <MapAddressField
               @setFieldsFromAddressDetails="setFieldsFromAddressDetails"
               :singleLatLngDetails="currentAgencyAddress"
             >
-            </MapViewContainer>
+            </MapAddressField>
           </div>
           <div class="col-12 q-pt-md">
             <GMapAutocomplete
@@ -83,13 +83,13 @@ import useGoogleMaps from "~/v-admin-app/src/compose/useGoogleMaps.js"
 import useAgency from "~/v-admin-app/src/compose/useAgency.js"
 import GenericSubmitter from "~/v-admin-app/src/components/editor-forms-parts/GenericSubmitter.vue"
 import LocationTextField from "~/v-admin-app/src/components/editor-forms-parts//LocationTextField.vue"
-import MapViewContainer from "~/v-admin-app/src/components/editor-forms-parts/MapViewContainer.vue"
+import MapAddressField from "~/v-admin-app/src/components/editor-forms-parts/MapAddressField.vue"
 export default defineComponent({
   name: "AgencyLocationForm",
   components: {
     GenericSubmitter,
     LocationTextField,
-    MapViewContainer,
+    MapAddressField,
   },
   setup(props) {
     const { updateAgencyAddress } = useAgency()
