@@ -1,30 +1,17 @@
 <template>
-  <div>
-    <div style="max-height: 400px">
-      <q-responsive class="col" :ratio="16 / 9" style="max-height: 400px">
-        <q-carousel
-          height="100px"
-          animated
-          v-model="slideModel"
-          arrows
-          infinite
-        >
-          <q-carousel-slide
-            v-for="image in carouselSlides"
-            :name="image.src"
-            :key="image.src"
-            :img-src="image.src"
-          >
-            <q-scroll-area class="fit"> </q-scroll-area>
-          </q-carousel-slide>
-        </q-carousel>
-      </q-responsive>
+  <div class="row">
+    <div class="col-sm-12 col-md-9">
+      <div v-scroll="onScroll" class="q-pa-md">
+        <ListingCarousel
+          :showThumbnails="listingScrolled"
+          :currentListing="currentListing"
+        ></ListingCarousel>
+      </div>
     </div>
-
-    <!-- <q-img class="" :ratio="16 / 9" :src="summaryImageUrl" /> -->
-
+    <div class="col-sm-12 col-md-3">
+      <ListingEnquiry :currentListing="currentListing"></ListingEnquiry>
+    </div>
     <q-separator />
-
     <q-card-actions class="w-full">
       <div>
         <div class="q-pa-md row no-wrap items-center justify-around">
@@ -87,10 +74,32 @@
   </div>
 </template>
 <script>
+import { ref } from "vue"
+import { debounce } from "quasar"
+import ListingCarousel from "~/v-public-app/src/components/listings/ListingCarousel.vue"
+import ListingEnquiry from "~/v-public-app/src/components/listings/ListingEnquiry.vue"
 import ConvertableCurrencyDisplay from "~/v-public-app/src/components/widgets/ConvertableCurrencyDisplay.vue"
 export default {
   components: {
     ConvertableCurrencyDisplay,
+    ListingCarousel,
+    ListingEnquiry,
+  },
+  setup() {
+    let listingScrolled = ref(false)
+    function onScroll(position) {
+      listingScrolled.value = true
+      // when this method is invoked then it means user
+      // has scrolled the page to `position`
+      //
+      // `position` is an Integer designating the current
+      // scroll position in pixels.
+    }
+
+    return {
+      listingScrolled,
+      onScroll: debounce(onScroll, 200), // debounce for 200ms
+    }
   },
   props: {
     cardIndex: {
@@ -102,41 +111,34 @@ export default {
         return {}
       },
     },
-    currentListingContainer: {
-      type: Object,
-      default() {
-        return {}
-      },
-      // default: {},
-    },
+    // currentListingContainer: {
+    //   type: Object,
+    //   default() {
+    //     return {}
+    //   },
+    // },
   },
   data: () => ({
-    cardExpansionState: false,
     slideModel: 1,
   }),
   methods: {
-    startExpandDetails(event) {
-      if (event) {
-        event.preventDefault()
-      }
-    },
-    stopExpandDetails(event) {
-      if (event) {
-        event.preventDefault()
-      }
-    },
+    // stopExpandDetails(event) {
+    //   if (event) {
+    //     event.preventDefault()
+    //   }
+    // },
   },
   watch: {
-    carouselSlides: {
-      deep: true,
-      immediate: true,
-      handler: function (newVal) {
-        // needed to set initial image
-        if (newVal[0]) {
-          this.slideModel = newVal[0].src
-        }
-      },
-    },
+    // carouselSlides: {
+    //   deep: true,
+    //   immediate: true,
+    //   handler: function (newVal) {
+    //     // needed to set initial image
+    //     if (newVal[0]) {
+    //       this.slideModel = newVal[0].src
+    //     }
+    //   },
+    // },
   },
   computed: {
     priceInCents() {
@@ -146,25 +148,10 @@ export default {
         return this.currentListing.priceSaleCurrentCents
       }
     },
-    carouselSlides() {
-      var carouselSlides = []
-      var picsColl = this.currentListing.propPhotos || []
-      picsColl.forEach(function (picObject, index) {
-        let imageUrl = picObject.image
-        if (imageUrl[0] === "/") {
-          // imageUrl = `${dataApiBase}${picObject.image_details.url}`
-        }
-        carouselSlides.push({
-          thumb: imageUrl,
-          src: imageUrl,
-          alt_text: "",
-        })
-      })
-      return carouselSlides
-    },
-    summaryImageUrl() {
-      return this.currentListing.preview_url
-    },
+    // carouselSlides() {},
+    // summaryImageUrl() {
+    //   return this.currentListing.preview_url
+    // },
   },
   mounted: function () {},
 }
