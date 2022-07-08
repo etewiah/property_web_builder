@@ -55,6 +55,8 @@ export default defineComponent({
             countBathrooms,
             countBedrooms,
             streetAddress,
+            latitude,
+            longitude,
             title,
             description
           }
