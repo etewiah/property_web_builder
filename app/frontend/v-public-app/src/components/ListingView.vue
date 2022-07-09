@@ -49,6 +49,7 @@ export default defineComponent({
               createdAt
               image
             },
+            extrasForDisplay,
             plotArea,
             priceSaleCurrentCents,
             priceRentalMonthlyCurrentCents,
