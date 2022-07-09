@@ -71,7 +71,10 @@
       </div>
 
       <div
-        v-if="currentListing.extrasForDisplay.length > 0"
+        v-if="
+          currentListing.extrasForDisplay &&
+          currentListing.extrasForDisplay.length > 0
+        "
         class="text-gray text-body1 q-py-lg"
       >
         <div class="text-h6">Features</div>
@@ -93,10 +96,11 @@
       </div>
     </div>
     <div class="col-sm-12">
-      <div class="col-12">
-        <MapViewContainer :singleLatLngDetails="currentListing">
-        </MapViewContainer>
-      </div>
+      <SocialSharing :sharingTitle="currentListing.title"></SocialSharing>
+    </div>
+    <div class="col-sm-12">
+      <MapViewContainer :singleLatLngDetails="currentListing">
+      </MapViewContainer>
     </div>
   </div>
 </template>
@@ -107,8 +111,10 @@ import ListingCarousel from "~/v-public-app/src/components/listings/ListingCarou
 import ListingEnquiry from "~/v-public-app/src/components/listings/ListingEnquiry.vue"
 import ConvertableCurrencyDisplay from "~/v-public-app/src/components/widgets/ConvertableCurrencyDisplay.vue"
 import MapViewContainer from "~/v-public-app/src/components/widgets/MapViewContainer.vue"
+import SocialSharing from "~/v-public-app/src/components/widgets/SocialSharing.vue"
 export default {
   components: {
+    SocialSharing,
     MapViewContainer,
     ConvertableCurrencyDisplay,
     ListingCarousel,

@@ -5,7 +5,7 @@
         <h4
           class="sm:text-2xl font-medium title-font text-gray-900 q-pb-md text-center"
         >
-          Find out more about this listing:
+          {{ localiseProvider.$ft("requestPropertyInfo") }}
         </h4>
       </div>
       <q-form @submit="onSubmitEnquiry" @reset="onReset" class="q-gutter-md">
@@ -41,8 +41,12 @@
                 </span> </a
               >.
             </q-toggle> -->
-        <div>
-          <q-btn label="Submit" type="submit" color="primary" />
+        <div class="q-mt-lg">
+          <q-btn
+            :label="localiseProvider.$ft('send')"
+            type="submit"
+            color="primary"
+          />
         </div>
         <div class="listing-form-results">
           <div class="w-full flex flex-col flex-grow flex-shrink pl-4">
@@ -101,7 +105,7 @@ export default {
             color: "green-4",
             textColor: "white",
             icon: "cloud_done",
-            message: "Submitted",
+            message: "Thank you for your enquiry",
           })
         }
         // The result is almost identical to `submitEnquiryResult` with the exception
@@ -128,14 +132,14 @@ export default {
       formValid: false,
       propertyEnquiryShortFields: [
         {
-          labelTextTKey: "standard.forms.nameLabel",
+          labelTextTKey: "name",
           hintTextTKey: "standard.forms.nameHint",
           fieldName: "name",
           inputType: "text",
           validationRules: [(v) => !!v || "Name is required"],
         },
         {
-          labelTextTKey: "standard.forms.emailLabel",
+          labelTextTKey: "email",
           hintTextTKey: "standard.forms.emailHint",
           fieldName: "email",
           inputType: "text",
@@ -148,7 +152,7 @@ export default {
           ],
         },
         {
-          labelTextTKey: "standard.forms.telLabel",
+          labelTextTKey: "tel",
           hintTextTKey: "standard.forms.telHint",
           fieldName: "tel",
           inputType: "text",
