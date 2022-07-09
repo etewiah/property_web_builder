@@ -1,37 +1,31 @@
 <template>
-  <div>
-    <div class="" style="">
-      <q-card class="listing-enq-card">
-        <q-card-section>
-          <div>
-            <h4
-              class="sm:text-2xl font-medium title-font text-gray-900 q-pb-md text-center"
-            >
-              Find out more about this listing:
-            </h4>
+  <q-card class="listing-enq-card full-height">
+    <q-card-section>
+      <div>
+        <h4
+          class="sm:text-2xl font-medium title-font text-gray-900 q-pb-md text-center"
+        >
+          Find out more about this listing:
+        </h4>
+      </div>
+      <q-form @submit="onSubmitEnquiry" @reset="onReset" class="q-gutter-md">
+        <template
+          v-for="field in propertyEnquiryShortFields"
+          :key="field.fieldName"
+        >
+          <div class="listing-enq-field">
+            <q-input
+              class="listing-enq-field-input"
+              outlined
+              v-model="enquiryContent.contact[field.fieldName]"
+              :label="localiseProvider.$ft(field.labelTextTKey)"
+              :hint="localiseProvider.$ft(field.hintTextTKey)"
+              lazy-rules
+              :rules="field.validationRules"
+            />
           </div>
-          <q-form
-            @submit="onSubmitEnquiry"
-            @reset="onReset"
-            class="q-gutter-md"
-          >
-            <template
-              v-for="field in propertyEnquiryShortFields"
-              :key="field.fieldName"
-            >
-              <div class="listing-enq-field">
-                <q-input
-                  class="listing-enq-field-input"
-                  outlined
-                  v-model="enquiryContent.contact[field.fieldName]"
-                  :label="localiseProvider.$ft(field.labelTextTKey)"
-                  :hint="localiseProvider.$ft(field.hintTextTKey)"
-                  lazy-rules
-                  :rules="field.validationRules"
-                />
-              </div>
-            </template>
-            <!-- <q-toggle v-model="acceptTerms">
+        </template>
+        <!-- <q-toggle v-model="acceptTerms">
               <a v-on:click.stop class="" :href="tAndCLink">
                 <span>
                   {{
@@ -47,33 +41,28 @@
                 </span> </a
               >.
             </q-toggle> -->
-            <div>
-              <q-btn label="Submit" type="submit" color="primary" />
-            </div>
-            <div class="listing-form-results">
-              <div class="w-full flex flex-col flex-grow flex-shrink pl-4">
-                <div class="h-full ma-0 pa-0 v-card v-sheet theme--light">
-                  <div style="color: red">
-                    <div v-if="propertyEnquiryErrors.length">
-                      <div>Sorry, there has been an error.</div>
-                      <template
-                        v-for="error in propertyEnquiryErrors"
-                        :key="error"
-                      >
-                        <div>
-                          {{ error }}
-                        </div>
-                      </template>
+        <div>
+          <q-btn label="Submit" type="submit" color="primary" />
+        </div>
+        <div class="listing-form-results">
+          <div class="w-full flex flex-col flex-grow flex-shrink pl-4">
+            <div class="h-full ma-0 pa-0 v-card v-sheet theme--light">
+              <div style="color: red">
+                <div v-if="propertyEnquiryErrors.length">
+                  <div>Sorry, there has been an error.</div>
+                  <template v-for="error in propertyEnquiryErrors" :key="error">
+                    <div>
+                      {{ error }}
                     </div>
-                  </div>
+                  </template>
                 </div>
               </div>
             </div>
-          </q-form>
-        </q-card-section>
-      </q-card>
-    </div>
-  </div>
+          </div>
+        </div>
+      </q-form>
+    </q-card-section>
+  </q-card>
 </template>
 <script>
 import { useMutation } from "@urql/vue"
