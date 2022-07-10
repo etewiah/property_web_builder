@@ -1,5 +1,5 @@
 module Pwb
-  class Authorization < ActiveRecord::Base
+  class Authorization < ApplicationRecord
     belongs_to :user
   end
 end
