@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :pwb_page, class: 'Pwb::Page' do
+  factory :pwb_page, class: "Pwb::Page" do
     # trait :about_us do
     #   association :page_parts, factory: :pwb_page_part, page_part_key: "our_agency"
     # end
@@ -9,7 +9,7 @@ FactoryBot.define do
     # end
 
     factory :contact_us_with_rails_page_part do
-      slug "contact-us"
+      slug { "contact-us" }
       after(:create) do |page, _evaluator|
         # form_and_map is a pwb_page_part trait
         # create(:pwb_page_part, :form_and_map, page: page)
@@ -30,7 +30,6 @@ FactoryBot.define do
       end
     end
 
-
     # about_us will create page_part data after the page has been created
     # alternative discussed here:
     # https://stackoverflow.com/questions/10846732/factory-girl-create-association-with-existing-object
@@ -38,7 +37,7 @@ FactoryBot.define do
       # page_parts_count is declared as a transient attribute and available in
       # attributes on the factory, as well as the callback via the evaluator
       transient do
-        page_parts_count 5
+        page_parts_count { 5 }
       end
 
       # the after(:create) yields two values; the page instance itself and the

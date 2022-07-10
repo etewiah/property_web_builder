@@ -1,10 +1,10 @@
 FactoryBot.define do
-  factory :pwb_content, class: 'Pwb::Content' do
-    key 'MyString'
-    tag 'MyString'
-    raw 'MyText'
+  factory :pwb_content, class: "Pwb::Content" do
+    key { "MyString" }
+    tag { "MyString" }
+    raw { "MyText" }
     trait :main_content do
-      raw_en "<h2>Sell Your Property with Us</h2>"
+      raw_en { "<h2>Sell Your Property with Us</h2>" }
     end
     # trait :completed do
     #   # complete true
