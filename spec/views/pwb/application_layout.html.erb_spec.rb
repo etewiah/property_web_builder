@@ -1,14 +1,13 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'layouts/pwb/application', type: :view do
+RSpec.describe "layouts/pwb/application", type: :view do
   # include Pwb::ApplicationHelper
   pending "Find change in Devise resulting in error message when current_user is encountered"
   # spt 2017 error message is
   # "Devise could not find the `Warden::Proxy` instance on your request environment"
 
-
   # before do
-  #   view.extend Pwb::Engine.routes.url_helpers
+  #   view.extend Rails.application.routes.url_helpers
   #   view.extend Pwb::ApplicationHelper
   #   view.extend Pwb::CssHelper
   #   view.extend Pwb::NavigationHelper

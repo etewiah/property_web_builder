@@ -1,10 +1,10 @@
-require 'rails_helper'
+require "rails_helper"
 
 module Pwb
   RSpec.describe Api::V1::AgencyController, type: :controller do
-    routes { Pwb::Engine.routes }
+    routes { Rails.application.routes }
 
-    context 'without signing in' do
+    context "without signing in" do
       before(:each) do
         sign_in_stub nil
       end
@@ -13,15 +13,15 @@ module Pwb
       end
     end
 
-    context 'with non_admin user' do
+    context "with non_admin user" do
       login_non_admin_user
 
       it "should have a current_user" do
         expect(subject.current_user).to_not eq(nil)
       end
 
-      describe 'GET #show' do
-        it 'returns unauthorized status' do
+      describe "GET #show" do
+        it "returns unauthorized status" do
           get :show, params: {}
 
           expect(response.status).to eq(422)
@@ -29,28 +29,28 @@ module Pwb
       end
     end
 
-    context 'with admin user' do
+    context "with admin user" do
       login_admin_user
 
       it "should have a current_user" do
         expect(subject.current_user).to_not eq(nil)
       end
 
-      describe 'GET #show' do
-        let!(:agency) { FactoryBot.create(:pwb_agency, company_name: 'my re') }
+      describe "GET #show" do
+        let!(:agency) { FactoryBot.create(:pwb_agency, company_name: "my re") }
 
-        it 'returns correct agency and default setup info' do
+        it "returns correct agency and default setup info" do
           get :show, params: {}
           # , format: :json
 
           expect(response.status).to eq(200)
-          expect(response.content_type).to eq('application/json')
+          expect(response.content_type).to eq("application/json")
 
           result = JSON.parse(response.body)
 
-          expect(result).to have_key('agency')
-          expect(result['agency']['company_name']).to eq(agency.company_name)
-          expect(result['setup']['name']).to eq('default')
+          expect(result).to have_key("agency")
+          expect(result["agency"]["company_name"]).to eq(agency.company_name)
+          expect(result["setup"]["name"]).to eq("default")
         end
       end
     end

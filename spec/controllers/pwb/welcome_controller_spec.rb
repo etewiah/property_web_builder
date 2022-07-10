@@ -1,9 +1,8 @@
-require 'rails_helper'
-
+require "rails_helper"
 
 module Pwb
   RSpec.describe WelcomeController, type: :controller do
-    routes { Pwb::Engine.routes }
+    routes { Rails.application.routes }
 
     before(:all) do
       @page = Pwb::Page.find_by_slug "home"
@@ -21,12 +20,12 @@ module Pwb
     let(:carousel_content_attributes) do
       # skip("Add a hash of attributes valid for your model")
       {
-        'tag' => 'landing-carousel'
+        "tag" => "landing-carousel",
       }
     end
 
     let(:invalid_attributes) do
-      skip('Add a hash of attributes invalid for your model')
+      skip("Add a hash of attributes invalid for your model")
     end
 
     # This should return the minimal set of values that should be in the session
@@ -34,14 +33,14 @@ module Pwb
     # WelcomesController. Be sure to keep this updated too.
     let(:valid_session) { {} }
 
-    describe 'GET #index' do
+    describe "GET #index" do
       # it 'assigns all content_to_show correctly' do
       #   get :index, params: {}, session: valid_session
       #   expect(assigns(:content_to_show)).to eq([Content.where(page_part_key: "test").first.raw])
       # end
-      it 'renders correct template' do
+      it "renders correct template" do
         # welcome = Content.create! carousel_content_attributes
-        expect(get(:index)).to render_template('pwb/welcome/index')
+        expect(get(:index)).to render_template("pwb/welcome/index")
       end
     end
 
