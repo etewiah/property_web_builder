@@ -1,41 +1,41 @@
-require 'rails_helper'
+require "rails_helper"
 
 module Pwb
   RSpec.describe PropsController, type: :controller do
-    routes { Pwb::Engine.routes }
+    routes { Rails.application.routes }
     let(:prop_for_long_term_rent) {
       FactoryBot.create(:pwb_prop, :long_term_rent,
-                                                       price_rental_monthly_current_cents: 100_000)
+                        price_rental_monthly_current_cents: 100_000)
     }
     let(:prop_for_sale) {
       FactoryBot.create(:pwb_prop, :sale,
-                                             price_sale_current_cents: 10_000_000)
+                        price_sale_current_cents: 10_000_000)
     }
 
-    describe 'GET #show_for_rent' do
-      it 'renders correct template' do
+    describe "GET #show_for_rent" do
+      it "renders correct template" do
         expect(get(:show_for_rent, params: {
-                     id: prop_for_long_term_rent.id,
-                     url_friendly_title: "tt"
-        })).to render_template('pwb/props/show')
+                                     id: prop_for_long_term_rent.id,
+                                     url_friendly_title: "tt",
+                                   })).to render_template("pwb/props/show")
       end
     end
 
-    describe 'GET #show_for_sale' do
-      context 'with id of for sale prop' do
-        it 'renders correct template' do
+    describe "GET #show_for_sale" do
+      context "with id of for sale prop" do
+        it "renders correct template" do
           expect(get(:show_for_sale, params: {
-                       id: prop_for_sale.id,
-                       url_friendly_title: "tt"
-          })).to render_template('pwb/props/show')
+                                       id: prop_for_sale.id,
+                                       url_friendly_title: "tt",
+                                     })).to render_template("pwb/props/show")
         end
       end
-      context 'with id of for rent prop' do
-        it 'renders correct template' do
+      context "with id of for rent prop" do
+        it "renders correct template" do
           expect(get(:show_for_sale, params: {
-                       id: prop_for_long_term_rent.id,
-                       url_friendly_title: "tt"
-          })).to render_template('pwb/props/not_found')
+                                       id: prop_for_long_term_rent.id,
+                                       url_friendly_title: "tt",
+                                     })).to render_template("pwb/props/not_found")
         end
       end
     end

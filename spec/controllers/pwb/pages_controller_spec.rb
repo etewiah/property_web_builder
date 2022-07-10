@@ -1,8 +1,8 @@
-require 'rails_helper'
+require "rails_helper"
 
 module Pwb
   RSpec.describe PagesController, type: :controller do
-    routes { Pwb::Engine.routes }
+    routes { Rails.application.routes }
 
     before(:all) do
       @page = Pwb::Page.find_by_slug "home"
@@ -12,8 +12,6 @@ module Pwb
       # TODO: - figure out how to do below with FactoryBot
       # @page.set_fragment_html "test", "en", "<h2>Sell Your Property with Us</h2>"
     end
-
-
 
     # This should return the minimal set of attributes required to create a valid
     # Welcome. As you add validations to Welcome, be sure to
@@ -26,7 +24,7 @@ module Pwb
     # end
 
     let(:invalid_attributes) do
-      skip('Add a hash of attributes invalid for your model')
+      skip("Add a hash of attributes invalid for your model")
     end
 
     # This should return the minimal set of values that should be in the session
@@ -34,21 +32,20 @@ module Pwb
     # WelcomesController. Be sure to keep this updated too.
     let(:valid_session) { {} }
 
-
-    describe 'GET #show_page' do
-      it 'renders correct template' do
+    describe "GET #show_page" do
+      it "renders correct template" do
         # welcome = Content.create! carousel_content_attributes
         expect(get("show_page", params: {
-                     page_slug: "anything"
-        })).to render_template('pwb/pages/show')
+                                  page_slug: "anything",
+                                })).to render_template("pwb/pages/show")
       end
     end
 
-    describe 'GET #about-us' do
-      it 'renders correct template' do
+    describe "GET #about-us" do
+      it "renders correct template" do
         expect(get("show_page", params: {
-                     page_slug: "about-us"
-        })).to render_template('pwb/pages/show')
+                                  page_slug: "about-us",
+                                })).to render_template("pwb/pages/show")
       end
     end
 

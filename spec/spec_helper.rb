@@ -87,7 +87,7 @@ RSpec.configure do |config|
   config.order = "random"
   # config.include Pwb::ApplicationHelper
   # config.include Rails.application.routes.url_helpers
-  # config.include Pwb::Engine.routes.url_helpers
+  # config.include Rails.application.routes.url_helpers
 
   config.use_transactional_fixtures = false
   #

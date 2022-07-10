@@ -1,8 +1,8 @@
-require 'rails_helper'
+require "rails_helper"
 
 module Pwb
   RSpec.describe AdminPanelController, type: :controller do
-    routes { Pwb::Engine.routes }
+    routes { Rails.application.routes }
 
     # because auth happens in routes.rb, unable to test below from controller
     # created a request spec for this case
@@ -20,7 +20,7 @@ module Pwb
     #   expect(response).to be_success
     # end
 
-    context 'without signing in' do
+    context "without signing in" do
       before(:each) do
         # @request.env["devise.mapping"] = Devise.mappings[:user]
         # user = FactoryBot.create(:pwb_user, email: 'ad@pwb.com', password: '123456')
@@ -31,21 +31,21 @@ module Pwb
       end
     end
 
-    context 'with non_admin user' do
+    context "with non_admin user" do
       login_non_admin_user
 
       it "should have a current_user" do
         expect(subject.current_user).to_not eq(nil)
       end
 
-      describe 'GET #show' do
-        it 'renders correct error template' do
-          expect(get(:show)).to render_template('pwb/errors/admin_required')
+      describe "GET #show" do
+        it "renders correct error template" do
+          expect(get(:show)).to render_template("pwb/errors/admin_required")
         end
       end
     end
 
-    context 'with admin user' do
+    context "with admin user" do
       login_admin_user
 
       # before(:each) do
@@ -57,9 +57,9 @@ module Pwb
         expect(subject.current_user).to_not eq(nil)
       end
 
-      describe 'GET #show' do
-        it 'renders correct template' do
-          expect(get(:show)).to render_template('pwb/admin_panel/show')
+      describe "GET #show" do
+        it "renders correct template" do
+          expect(get(:show)).to render_template("pwb/admin_panel/show")
         end
       end
     end
