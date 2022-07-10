@@ -21,6 +21,8 @@ gem "rails", "~> 7.0"
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 group :development, :test do
+  gem "vcr"
+  gem "webmock"
   # gem 'jasmine-rails',        github: 'searls/jasmine-rails'
   # gem 'jasmine-jquery-rails', github: 'travisjeffery/jasmine-jquery-rails'
   # if ENV['TRAVIS']
