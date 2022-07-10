@@ -1,7 +1,7 @@
 module Pwb
   # Preview all emails at http://localhost:3000/rails/mailers/pwb/enquiry_mailer
   # after setting:
-  #   config.action_mailer.preview_path = Pwb::Engine.root.join('spec/mailers/previews/pwb')
+  #   config.action_mailer.preview_path = Rails.root.join('spec/mailers/previews/pwb')
   # in dummy environment.rb
   class EnquiryMailerPreview < ActionMailer::Preview
     # def general_enquiry_targeting_enquirer
