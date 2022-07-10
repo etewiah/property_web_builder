@@ -1,6 +1,6 @@
-ENV['RAILS_ENV'] ||= 'test'
+ENV["RAILS_ENV"] ||= "test"
 
-require 'simplecov'
+require "simplecov"
 # SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
 SimpleCov.start :rails do
   add_filter do |source_file|
@@ -8,16 +8,17 @@ SimpleCov.start :rails do
   end
 end
 
-require File.expand_path('../dummy/config/environment.rb', __FILE__)
-require 'rspec/rails'
+# require File.expand_path("../dummy/config/environment.rb", __FILE__)
+require File.expand_path("../../config/environment", __FILE__)
+require "rspec/rails"
 # require 'rspec/autorun'
-require 'factory_girl_rails'
-require 'capybara/poltergeist'
+require "factory_bot_rails"
+require "capybara/poltergeist"
 # require 'capybara/rails'
-require 'pwb/seeder'
+require "pwb/seeder"
 # http://www.thegreatcodeadventure.com/stubbing-with-vcr/
-require 'vcr'
-require 'webmock/rspec'
+require "vcr"
+require "webmock/rspec"
 WebMock.disable_net_connect!(allow_localhost: true)
 # load(Rails.root.join("db", "seeds.rb"))
 
@@ -57,13 +58,11 @@ Capybara.register_driver :apparition do |app|
   Capybara::Apparition::Driver.new(app, options)
 end
 
-
 # http://stackoverflow.com/questions/24078768/argumenterror-factory-not-registered
 # as per above, need to explicitly set below
-FactoryBot.definition_file_paths = [File.expand_path('../factories', __FILE__)]
-FactoryBot.find_definitions
-# Oddly above does not occur if factory_girl_rails is only referrenced in pwb.gemspec
-# but not main gemfile
+# FactoryBot.definition_file_paths = [File.expand_path("../factories", __FILE__)]
+# FactoryBot.find_definitions
+# July 2022 - above no longer required
 
 Rails.backtrace_cleaner.remove_silencers!
 
@@ -73,8 +72,6 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 # ActionController::Base.prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/"
 # replaced above with below in view specs so I can test diff themes
 # @controller.prepend_view_path "#{Pwb::Engine.root}/app/themes/berlin/views/"
-
-
 
 RSpec.configure do |config|
   # TODO: - consider precompiling assets to speed up tests
@@ -87,7 +84,7 @@ RSpec.configure do |config|
 
   config.mock_with :rspec
   config.infer_base_class_for_anonymous_controllers = false
-  config.order = 'random'
+  config.order = "random"
   # config.include Pwb::ApplicationHelper
   # config.include Rails.application.routes.url_helpers
   # config.include Pwb::Engine.routes.url_helpers
