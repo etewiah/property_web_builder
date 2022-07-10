@@ -23,7 +23,7 @@ module Pwb
     context 'without signing in' do
       before(:each) do
         # @request.env["devise.mapping"] = Devise.mappings[:user]
-        # user = FactoryGirl.create(:pwb_user, email: 'ad@pwb.com', password: '123456')
+        # user = FactoryBot.create(:pwb_user, email: 'ad@pwb.com', password: '123456')
         sign_in_stub nil
       end
       it "should not have a current_user" do

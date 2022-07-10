@@ -3,7 +3,7 @@ require 'rails_helper'
 module Pwb
   RSpec.describe "Sessions", type: :request do
     before(:all) do
-      @agency = Agency.last || FactoryGirl.create(:pwb_agency, company_name: 'my re')
+      @agency = Agency.last || FactoryBot.create(:pwb_agency, company_name: 'my re')
 
       @admin_user = User.create!(email: "user@example.org", password: "very-secret", admin: true)
     end

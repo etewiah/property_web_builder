@@ -9,8 +9,8 @@ RSpec.describe 'pwb/welcome/index', type: :view do
     view.extend Pwb::ApplicationHelper
     view.extend Pwb::ImagesHelper
     view.extend Pwb::ComponentHelper
-    # @current_website = FactoryGirl.create(:pwb_website)
-    @page = FactoryGirl.create(:page_with_content_html_page_part,
+    # @current_website = FactoryBot.create(:pwb_website)
+    @page = FactoryBot.create(:page_with_content_html_page_part,
                                slug: "home")
 
 

@@ -4,11 +4,11 @@ module Pwb
   RSpec.describe "Default theme property search", type: :feature, js: true do
     # pending " while investigating timeout issue with capybara "
     before(:all) do
-      @agency = FactoryGirl.create(:pwb_agency, :theme_default, company_name: 'my re')
+      @agency = FactoryBot.create(:pwb_agency, :theme_default, company_name: 'my re')
       # @agency.theme_name = "berlin"
       # @agency.save!
 
-      @prop_for_long_term_rent = FactoryGirl.create(
+      @prop_for_long_term_rent = FactoryBot.create(
         :pwb_prop,
         :long_term_rent,
         price_rental_monthly_current_cents: 100_000,

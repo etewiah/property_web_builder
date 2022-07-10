@@ -37,7 +37,7 @@ module Pwb
       end
 
       describe 'GET #show' do
-        let!(:agency) { FactoryGirl.create(:pwb_agency, company_name: 'my re') }
+        let!(:agency) { FactoryBot.create(:pwb_agency, company_name: 'my re') }
 
         it 'returns correct agency and default setup info' do
           get :show, params: {}

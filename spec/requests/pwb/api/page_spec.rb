@@ -6,7 +6,7 @@ module Pwb
     before(:all) do
       @page = Pwb::Page.find_by_slug "home"
       unless @page.present?
-        @page = FactoryGirl.create(:page_with_content_html_page_part, slug: "home")
+        @page = FactoryBot.create(:page_with_content_html_page_part, slug: "home")
       end
 
       @admin_user = User.create!(email: "user@example.org", password: "very-secret", admin: true)

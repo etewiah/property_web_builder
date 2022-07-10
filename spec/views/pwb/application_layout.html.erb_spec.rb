@@ -18,7 +18,7 @@ RSpec.describe 'layouts/pwb/application', type: :view do
   #   # assign(:current_user, nil)
   #   # spt 2017: tried above to fix devise error - no luck..
 
-  #   assign(:current_agency, FactoryGirl.create(:pwb_agency, company_name: 'my re'))
+  #   assign(:current_agency, FactoryBot.create(:pwb_agency, company_name: 'my re'))
   #   # Pwb::Agency.create!({company_name: 'test'}))
   #   assign(:current_website, Pwb::Website.unique_instance)
   #   assign(:footer_content, OpenStruct.new)

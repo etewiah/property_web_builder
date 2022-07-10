@@ -4,7 +4,7 @@ module Pwb
   RSpec.feature "Default theme page part content", type: :feature, js: false do
     feature 'for contact-us page' do
       let!(:contact_us_page) {
-        FactoryGirl.create(:page_with_content_html_page_part,
+        FactoryBot.create(:page_with_content_html_page_part,
                            slug: "contact-us")
       }
       # calling above :page would clash with page object
@@ -15,7 +15,7 @@ module Pwb
       let!(:footer_content_page_part) { Pwb::PagePart.create_from_seed_yml "website__footer_content_html.yml"  }
       let(:footer_content_ppm) { Pwb::PagePartManager.new "footer_content_html", Pwb::Website.unique_instance}
 
-      let(:prop) { FactoryGirl.create(:pwb_prop, :sale) }
+      let(:prop) { FactoryBot.create(:pwb_prop, :sale) }
 
       scenario 'correct content html is rendered' do
         # TODO: move all of the setting up below into

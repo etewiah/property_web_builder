@@ -7,9 +7,9 @@ module Pwb
     before(:all) do
       @page = Pwb::Page.find_by_slug "home"
       unless @page.present?
-        @page = FactoryGirl.create(:pwb_page, slug: "home")
+        @page = FactoryBot.create(:pwb_page, slug: "home")
       end
-      # TODO: - figure out how to do below with FactoryGirl
+      # TODO: - figure out how to do below with FactoryBot
       # @page.set_fragment_html "test", "en", "<h2>Sell Your Property with Us</h2>"
     end
 
