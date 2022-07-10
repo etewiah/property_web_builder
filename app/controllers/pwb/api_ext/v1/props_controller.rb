@@ -5,8 +5,8 @@ module Pwb
   class ApiExt::V1::PropsController < JSONAPI::ResourceController
     # Skipping action below allows me to browse to endpoint
     # without having set mime type
-    skip_before_action :ensure_valid_accept_media_type
-    skip_before_action :ensure_correct_media_type
+    # skip_before_action :ensure_valid_accept_media_type
+    # skip_before_action :ensure_correct_media_type
     # feb 2017 - seems above has been replaced
     # https://github.com/cerebris/jsonapi-resources/pull/806/files
     # https://github.com/cerebris/jsonapi-resources/commit/05f873c284f3c084b32140ffdae975667df011fb
@@ -19,9 +19,9 @@ module Pwb
     # For all responses in this controller, return the CORS access control headers.
 
     def cors_set_access_control_headers
-      headers['Access-Control-Allow-Origin'] = '*'
-      headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
-      headers['Access-Control-Max-Age'] = "1728000"
+      headers["Access-Control-Allow-Origin"] = "*"
+      headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+      headers["Access-Control-Max-Age"] = "1728000"
     end
 
     # If this is a preflight OPTIONS request, then short-circuit the
@@ -30,11 +30,11 @@ module Pwb
 
     def cors_preflight_check
       if request.method == :options
-        headers['Access-Control-Allow-Origin'] = '*'
-        headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
-        headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-Prototype-Version'
-        headers['Access-Control-Max-Age'] = '1728000'
-        render text: '', content_type: 'text/plain'
+        headers["Access-Control-Allow-Origin"] = "*"
+        headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-Prototype-Version"
+        headers["Access-Control-Max-Age"] = "1728000"
+        render text: "", content_type: "text/plain"
       end
     end
 
@@ -83,7 +83,7 @@ module Pwb
       message = "Property published"
       render json: {
         pwb_prop: pwb_prop,
-        message: message
+        message: message,
       }
     end
 
@@ -126,7 +126,7 @@ module Pwb
       render json: {
         new_props: new_props,
         existing_props: existing_props,
-        errors: errors
+        errors: errors,
       }
     end
 
