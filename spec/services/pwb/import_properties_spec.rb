@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 module Pwb
   RSpec.describe "ImportProperties" do
@@ -11,16 +11,16 @@ module Pwb
     let(:csv_file) do
       fixture_file_upload(
         "/to_import/pwb-properties.csv",
-        'text/csv'
+        "text/csv"
       )
       # above uses below config setting
-      #   config.fixture_path = "#{Pwb::Engine.root}/spec/fixtures"
+      #   config.fixture_path = "#{Rails.root}/spec/fixtures"
     end
 
     let(:tsv_file) do
       fixture_file_upload(
         "/to_import/mls-listings-1.tsv",
-        'text/csv'
+        "text/csv"
       )
     end
 

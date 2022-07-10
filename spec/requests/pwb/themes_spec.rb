@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 module Pwb
   RSpec.describe "Themes", type: :request do
@@ -13,36 +13,35 @@ module Pwb
       end
     end
 
-    context 'when theme is set' do
-      it 'uses correct theme' do
+    context "when theme is set" do
+      it "uses correct theme" do
         @website.theme_name = "berlin"
         @website.save!
         get "/"
         view_paths = @controller.view_paths.map(&:to_s)
-        expect(view_paths).to include "#{Pwb::Engine.root}/app/themes/berlin/views"
+        expect(view_paths).to include "#{Rails.root}/app/themes/berlin/views"
       end
     end
 
-    context 'when no theme is set' do
-      it 'uses default theme' do
+    context "when no theme is set" do
+      it "uses default theme" do
         @website.theme_name = nil
         @website.save!
         get "/"
         view_paths = @controller.view_paths.map(&:to_s)
-        expect(view_paths).to include "#{Pwb::Engine.root}/app/themes/default/views"
+        expect(view_paths).to include "#{Rails.root}/app/themes/default/views"
       end
     end
 
-    context 'when theme_name is empty' do
-      it 'uses default theme' do
+    context "when theme_name is empty" do
+      it "uses default theme" do
         @website.theme_name = ""
         @website.save!
         get "/"
         view_paths = @controller.view_paths.map(&:to_s)
-        expect(view_paths).to include "#{Pwb::Engine.root}/app/themes/default/views"
+        expect(view_paths).to include "#{Rails.root}/app/themes/default/views"
       end
     end
-
 
     # context 'when theme_name is berlin' do
     #   it 'uses default theme' do
@@ -50,10 +49,9 @@ module Pwb
     #     @website.save!
     #     get "/"
     #     view_paths = @controller.view_paths.map(&:to_s)
-    #     expect(view_paths).to include "#{Pwb::Engine.root}/app/themes/default/views"
+    #     expect(view_paths).to include "#{Rails.root}/app/themes/default/views"
     #   end
     # end
-
 
     after(:all) do
       @website.destroy

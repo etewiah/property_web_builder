@@ -69,9 +69,9 @@ Rails.backtrace_cleaner.remove_silencers!
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
-# ActionController::Base.prepend_view_path "#{Pwb::Engine.root}/app/themes/default/views/"
+# ActionController::Base.prepend_view_path "#{Rails.root}/app/themes/default/views/"
 # replaced above with below in view specs so I can test diff themes
-# @controller.prepend_view_path "#{Pwb::Engine.root}/app/themes/berlin/views/"
+# @controller.prepend_view_path "#{Rails.root}/app/themes/berlin/views/"
 
 RSpec.configure do |config|
   # TODO: - consider precompiling assets to speed up tests

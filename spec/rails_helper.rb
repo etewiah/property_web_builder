@@ -1,18 +1,18 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV['RAILS_ENV'] ||= 'test'
+ENV["RAILS_ENV"] ||= "test"
 # Comment this line:
 # require File.expand_path('../../config/environment', __FILE__)
-require File.expand_path('../dummy/config/environment.rb', __FILE__)
+require File.expand_path("../dummy/config/environment.rb", __FILE__)
 
 # Prevent database truncation if the environment is production
-abort('The Rails environment is running in production mode!') if Rails.env.production?
-require 'spec_helper'
-require 'rspec/rails'
-require 'rails-controller-testing'
+abort("The Rails environment is running in production mode!") if Rails.env.production?
+require "spec_helper"
+require "rspec/rails"
+require "rails-controller-testing"
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # note: require 'devise' after require 'rspec/rails'
-require 'devise'
+require "devise"
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -35,7 +35,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{Pwb::Engine.root}/spec/fixtures"
+  config.fixture_path = "#{Rails.root}/spec/fixtures"
   # above used by fixture_file_upload
   # eg in:
   # /pwb/spec/services/pwb/import_properties_spec.rb
