@@ -3,10 +3,10 @@ require 'rails_helper'
 module Pwb
   RSpec.describe "Contact forms", type: :feature do
     # these tests do not have js enabled and so bypass clientside validations
-    let!(:pwb_page) { FactoryGirl.create(:contact_us_with_rails_page_part) }
+    let!(:pwb_page) { FactoryBot.create(:contact_us_with_rails_page_part) }
     # calling above :page would clash with page object
 
-    let(:prop) { FactoryGirl.create(:pwb_prop, :sale) }
+    let(:prop) { FactoryBot.create(:pwb_prop, :sale) }
 
 
     scenario 'when general contact form is filled' do

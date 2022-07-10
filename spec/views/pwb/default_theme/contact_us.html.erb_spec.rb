@@ -4,7 +4,7 @@ RSpec.describe 'pwb/sections/contact_us', type: :view do
   include Pwb::ApplicationHelper
 
   before do
-    # @website = FactoryGirl.create(:pwb_website)
+    # @website = FactoryBot.create(:pwb_website)
     view.extend Pwb::ApplicationHelper
     view.extend Pwb::ComponentHelper
     # https://github.com/rspec/rspec-rails/issues/396
@@ -17,8 +17,8 @@ RSpec.describe 'pwb/sections/contact_us', type: :view do
 
   before(:each) do
     # assign(:content_to_show, ["form_and_map"])
-    assign(:current_agency, FactoryGirl.create(:pwb_agency, company_name: 'my re'))
-    assign(:page, FactoryGirl.create(:contact_us_with_rails_page_part))
+    assign(:current_agency, FactoryBot.create(:pwb_agency, company_name: 'my re'))
+    assign(:page, FactoryBot.create(:contact_us_with_rails_page_part))
   end
 
   it 'renders contact-us form successfully' do

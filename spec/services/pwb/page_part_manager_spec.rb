@@ -3,10 +3,10 @@ require 'rails_helper'
 module Pwb
   RSpec.describe "PagePartManager" do
     context 'for website' do
-      let!(:current_website) { Website.unique_instance || FactoryGirl.create(:pwb_website) }
+      let!(:current_website) { Website.unique_instance || FactoryBot.create(:pwb_website) }
       let(:page_part_key) { "footer_content_html" }
       let(:page_part_manager) { Pwb::PagePartManager.new page_part_key, current_website }
-      let!(:page_part) { FactoryGirl.create(:pwb_page_part, :footer_content_html_for_website) }
+      let!(:page_part) { FactoryBot.create(:pwb_page_part, :footer_content_html_for_website) }
 
       it "creates content for website correctly" do
         # current_website = Pwb::Website.last
@@ -34,13 +34,13 @@ module Pwb
     end
     context 'for pages' do
       let!(:contact_us_page) {
-        FactoryGirl.create(:page_with_content_html_page_part,
+        FactoryBot.create(:page_with_content_html_page_part,
                            slug: "contact-us")
       }
 
       let(:page_part_key) { "content_html" }
       let(:page_part_manager) { Pwb::PagePartManager.new page_part_key, contact_us_page }
-      # let!(:page_part) { FactoryGirl.create(:pwb_page_part, :footer_content_html_for_website) }
+      # let!(:page_part) { FactoryBot.create(:pwb_page_part, :footer_content_html_for_website) }
 
       it "creates content for page correctly" do
         content_for_container = page_part_manager.find_or_create_content

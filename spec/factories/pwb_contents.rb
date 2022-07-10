@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :pwb_content, class: 'Pwb::Content' do
     key 'MyString'
     tag 'MyString'

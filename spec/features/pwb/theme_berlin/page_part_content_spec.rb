@@ -4,7 +4,7 @@ module Pwb
   RSpec.feature "Berlin theme page part content", type: :feature, js: false do
     feature 'for contact-us page' do
       let!(:contact_us_page) {
-        FactoryGirl.create(:page_with_content_html_page_part,
+        FactoryBot.create(:page_with_content_html_page_part,
                                                   slug: "contact-us")
       }
       # calling above :page would clash with page object
@@ -13,7 +13,7 @@ module Pwb
       let!(:form_and_map_page_part) { Pwb::PagePart.create_from_seed_yml "contact-us__form_and_map.yml"  }
       let(:form_and_map_ppm) { Pwb::PagePartManager.new "form_and_map", contact_us_page }
 
-      let(:prop) { FactoryGirl.create(:pwb_prop, :sale) }
+      let(:prop) { FactoryBot.create(:pwb_prop, :sale) }
 
 
       before(:all) do

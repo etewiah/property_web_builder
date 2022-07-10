@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :pwb_prop, class: 'Pwb::Prop' do
     title_en 'A property for '
     trait :sale do

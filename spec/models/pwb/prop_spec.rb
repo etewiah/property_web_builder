@@ -2,7 +2,7 @@ require 'rails_helper'
 
 module Pwb
   RSpec.describe Prop, type: :model do
-    # let(:prop) { FactoryGirl.create(:pwb_prop) }
+    # let(:prop) { FactoryBot.create(:pwb_prop) }
 
     # it 'has a valid factory' do
     #   expect(prop).to be_valid
@@ -10,18 +10,18 @@ module Pwb
 
     before(:all) do
       @website = Website.unique_instance
-      # FactoryGirl.create(:pwb_website,
+      # FactoryBot.create(:pwb_website,
       #                              default_currency: 'USD',
       #                              default_area_unit: 'sqft')
     end
 
     context 'scopes' do
       before(:all) do
-        # @first = FactoryGirl.create(:pwb_prop, created_at: 1.day.ago)
-        @two_bedroom = FactoryGirl.create(:pwb_prop,
+        # @first = FactoryBot.create(:pwb_prop, created_at: 1.day.ago)
+        @two_bedroom = FactoryBot.create(:pwb_prop,
                                           reference: "ref2bbed",
                                           count_bedrooms: 2)
-        @five_bedroom = FactoryGirl.create(:pwb_prop, :long_term_rent, :short_term_rent,
+        @five_bedroom = FactoryBot.create(:pwb_prop, :long_term_rent, :short_term_rent,
                                            price_rental_monthly_current_cents: 500_000,
                                            reference: "ref5bbed",
                                            count_bedrooms: 5)

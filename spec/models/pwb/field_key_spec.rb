@@ -4,7 +4,7 @@ module Pwb
   RSpec.describe FieldKey, type: :model do
     before(:each) do
       FieldKey.destroy_all
-      @fk1 = FactoryGirl.create(
+      @fk1 = FactoryBot.create(
         :pwb_field_key,
         global_key: "propertyStates.nuevo",
         tag: "property-states",

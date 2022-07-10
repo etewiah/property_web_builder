@@ -5,7 +5,7 @@ module Pwb
     before(:each) do
       Agency.destroy_all
     end
-    let(:agency) { FactoryGirl.create(:pwb_agency) }
+    let(:agency) { FactoryBot.create(:pwb_agency) }
 
     it 'has a valid factory' do
       expect(agency).to be_valid
