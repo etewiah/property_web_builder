@@ -3,10 +3,10 @@
 module Types
   class WebsiteType < Types::BaseObject
     field :default_currency, String, null: true
-    field :social_media, String, null: true
-    field :phone_number_primary, String, null: true
-    field :phone_number_primary, String, null: true
-    field :phone_number_primary, String, null: true
+    # field :social_media, String, null: true
+    # field :phone_number_primary, String, null: true
+    # field :phone_number_primary, String, null: true
+    # field :phone_number_primary, String, null: true
     field :phone_number_primary, String, null: true
     field :social_media, GraphQL::Types::JSON, null: true
 

@@ -55,6 +55,7 @@ module Types
     # t.datetime "available_to_rent_from"
     # t.datetime "available_to_rent_till"
     field :prop_photos, [Types::PropPhotoType], null: false
+    field :extras_for_display, GraphQL::Types::JSON, null: true
 
     # field :price_cents, Integer, null: false
 
