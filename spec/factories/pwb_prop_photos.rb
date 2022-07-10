@@ -1,5 +1,5 @@
 # https://til.codes/testing-carrierwave-file-uploads-with-rspec-and-factorygirl/
-FactoryGirl.define do
+FactoryBot.define do
   factory :pwb_prop_photo, class: 'Pwb::PropPhoto' do
     Rails.application.secrets.cloudinary_url = nil
 

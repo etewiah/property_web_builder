@@ -3,13 +3,13 @@ require 'rails_helper'
 module Pwb
   RSpec.describe "Themes", type: :request do
     before(:all) do
-      # @agency = Agency.last || FactoryGirl.create(:pwb_agency, company_name: 'my re')
+      # @agency = Agency.last || FactoryBot.create(:pwb_agency, company_name: 'my re')
       # in /pwb/app/controllers/pwb/application_controller.rb, theme gets set against website instance
-      @website = FactoryGirl.create(:pwb_website)
+      @website = FactoryBot.create(:pwb_website)
       # factorygirl ensures unique_instance of website is used
       @page = Pwb::Page.find_by_slug "home"
       unless @page.present?
-        @page = FactoryGirl.create(:pwb_page, slug: "home")
+        @page = FactoryBot.create(:pwb_page, slug: "home")
       end
     end
 

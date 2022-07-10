@@ -4,9 +4,9 @@ require 'rails_helper'
 
 module Pwb
   RSpec.describe 'Website API' do
-    # FactoryGirl.create_list(:message, 10)
+    # FactoryBot.create_list(:message, 10)
     before(:all) do
-      @website = FactoryGirl.create(:pwb_website, company_display_name: 'my re')
+      @website = FactoryBot.create(:pwb_website, company_display_name: 'my re')
       @admin_user = User.create!(email: "user@example.org", password: "very-secret", admin:true)
     end
 

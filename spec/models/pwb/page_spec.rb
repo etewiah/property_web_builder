@@ -2,9 +2,9 @@ require 'rails_helper'
 
 module Pwb
   RSpec.describe Page, type: :model do
-    let(:page) { FactoryGirl.create(:pwb_page) }
+    let(:page) { FactoryBot.create(:pwb_page) }
     # below will not be available in context block
-    # let(:about_us_page) { FactoryGirl.create(:about_us_page_with_page_part)}
+    # let(:about_us_page) { FactoryBot.create(:about_us_page_with_page_part)}
 
     it 'has a valid factory' do
       expect(page).to be_valid
@@ -17,7 +17,7 @@ module Pwb
 
     # context 'with correct fragment_block' do
     #   before(:all) do
-    #     @about_us_page = FactoryGirl.create(:about_us_page_with_page_part)
+    #     @about_us_page = FactoryBot.create(:about_us_page_with_page_part)
 
     #     @fragment_block = {
     #       "blocks": {

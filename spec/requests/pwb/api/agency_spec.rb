@@ -2,9 +2,9 @@ require 'rails_helper'
 
 module Pwb
   RSpec.describe 'Agency API' do
-    # FactoryGirl.create_list(:message, 10)
+    # FactoryBot.create_list(:message, 10)
     before(:all) do
-      @agency = FactoryGirl.create(:pwb_agency, company_name: 'my re')
+      @agency = FactoryBot.create(:pwb_agency, company_name: 'my re')
       @admin_user = User.create!(email: "user@example.org", password: "very-secret", admin:true)
     end
 

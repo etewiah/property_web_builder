@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :pwb_page, class: 'Pwb::Page' do
     # trait :about_us do
     #   association :page_parts, factory: :pwb_page_part, page_part_key: "our_agency"

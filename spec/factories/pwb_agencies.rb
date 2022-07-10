@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :pwb_agency, class: 'Pwb::Agency' do
     initialize_with { Pwb::Agency.unique_instance }
     trait :theme_default do
