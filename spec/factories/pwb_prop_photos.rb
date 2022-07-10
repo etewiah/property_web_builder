@@ -6,7 +6,7 @@ FactoryBot.define do
     # Nov 2017 - getting this error:
     # ArgumentError: Missing `original_filename` for IO
     # from 2 lines below
-    # path_to_file = Pwb::Engine.root.join("db/example_images/flat_balcony.jpg")
+    # path_to_file = Rails.root.join("db/example_images/flat_balcony.jpg")
     # image Rack::Test::UploadedFile.new(File.open(path_to_file))
 
     # seems to be to do with:

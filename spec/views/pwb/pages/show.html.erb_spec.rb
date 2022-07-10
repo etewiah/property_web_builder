@@ -1,6 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'pwb/pages/show', type: :view do
+RSpec.describe "pwb/pages/show", type: :view do
   include Pwb::ApplicationHelper
 
   before(:each) do
@@ -11,7 +11,7 @@ RSpec.describe 'pwb/pages/show', type: :view do
     # https://stackoverflow.com/questions/19282240/rspec-view-tests-cant-find-partials-that-are-in-base-namespace
     # can use below to test other views
     # view.lookup_context.view_paths.push 'app/themes/berlin/views/'
-    @controller.prepend_view_path "#{Pwb::Engine.root}/app/themes/berlin/views/"
+    @controller.prepend_view_path "#{Rails.root}/app/themes/berlin/views/"
     @page = FactoryBot.create(:pwb_page)
 
     # in some test runs a whole load of  Pwb::Link model objects are getting created....  - not sure from where
@@ -23,7 +23,7 @@ RSpec.describe 'pwb/pages/show', type: :view do
     assign(:content_to_show, [])
   end
 
-  it 'renders content for page successfully' do
+  it "renders content for page successfully" do
     render
     expect(rendered).to have_selector(".container")
   end

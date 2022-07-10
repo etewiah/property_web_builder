@@ -1,4 +1,4 @@
-require 'carrierwave/test/matchers'
+require "carrierwave/test/matchers"
 
 module Pwb
   describe ContentPhotoUploader do
@@ -14,8 +14,8 @@ module Pwb
       ContentPhotoUploader.enable_processing = true
 
       # ContentPhotoUploader will use file upload depending on value of File.open(path_to_file)
-      path_to_file = Pwb::Engine.root.join("db/example_images/flat_balcony.jpg")
-      # photo.image = Pwb::Engine.root.join(photo_file).open
+      path_to_file = Rails.root.join("db/example_images/flat_balcony.jpg")
+      # photo.image = Rails.root.join(photo_file).open
       File.open(path_to_file) { |f| uploader.store!(f) }
     end
 
@@ -24,11 +24,11 @@ module Pwb
       uploader.remove!
     end
 
-    it 'has a valid factory' do
+    it "has a valid factory" do
       expect(content_photo).to be_valid
     end
 
-    it 'uses File storage' do
+    it "uses File storage" do
       expect(uploader._storage).to eq(CarrierWave::Storage::File)
     end
     # context 'the thumb version' do
