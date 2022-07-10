@@ -50,7 +50,7 @@ group :development, :test do
   gem "database_cleaner"
   # , '~> 1.3'
   gem "rails-controller-testing"
-  gem "factory_girl_rails"
+  gem "factory_bot_rails"
   gem "poltergeist"
   # , '~> 1.10'
   # gem 'rspec-activemodel-mocks', '~> 1.0'

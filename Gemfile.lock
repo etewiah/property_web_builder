@@ -128,11 +128,11 @@ GEM
     dry-cli (0.7.0)
     erubi (1.10.0)
     execjs (2.8.1)
-    factory_girl (4.9.0)
-      activesupport (>= 3.0.0)
-    factory_girl_rails (4.9.0)
-      factory_girl (~> 4.9.0)
-      railties (>= 3.0.0)
+    factory_bot (6.2.1)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
     ffi (1.15.5)
     flag_shih_tzu (0.3.23)
     font-awesome-rails (4.7.0.8)
@@ -431,7 +431,7 @@ DEPENDENCIES
   cloudinary (~> 1.23)
   database_cleaner
   devise (~> 4.8)
-  factory_girl_rails
+  factory_bot_rails
   flag_shih_tzu (~> 0.3.23)
   font-awesome-rails
   geocoder (~> 1.8)
