@@ -9,8 +9,8 @@ module Pwb
     def import_csv
       # imported_properties = []
       parsed_properties = []
-      csv_options = { headers: true}
-      CSV.foreach(csv_file.path, csv_options) do |row|
+      # csv_options = { headers: true }
+      CSV.foreach(csv_file.path, headers: true) do |row|
         # TODO: - more robust check for valid cols
         if row.to_hash["title_en"].present?
           # && row.to_hash["key"].present?
@@ -29,7 +29,6 @@ module Pwb
         mapped_property = ImportMapper.new("mls_csv_jon").map_property(row)
         parsed_properties.push mapped_property
         # reference = row.to_hash["ML Number"]
-        # byebug
         # if reference.present? && !Pwb::Prop.exists?(reference: reference)
         #   mappings = {
         #     "ML Number" => "reference", "Street Name" => "street_name",
@@ -39,8 +38,6 @@ module Pwb
         #     "City Name" => "city", "State" => "province"
         #   }
         #   pwb_prop_hash = row.to_hash.map {|k, v| [mappings[k], v] }.to_h
-
-        #   # byebug
 
         #   new_prop = Prop.create! pwb_prop_hash.except(nil)
         #   parsed_properties.push new_prop
