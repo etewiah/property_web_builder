@@ -18,7 +18,7 @@ module Pwb
           }
           put :create_translation_value, params: new_translation_params
           expect(response.status).to eq(200)
-          expect(response.content_type).to eq("application/json")
+          # expect(response.content_type).to eq("application/json")
 
           expect(I18n::Backend::ActiveRecord::Translation.last.key).to eq(new_translation_params[:batch_key].underscore.camelcase(:lower) + "." + new_translation_params[:i18n_key])
           # result = JSON.parse(response.body)
@@ -29,12 +29,12 @@ module Pwb
       describe "GET #get_by_batch" do
         it "renders correct json" do
           get :get_by_batch, params: {
-                           batch_key: "property-types",
-                         }
+                               batch_key: "property-types",
+                             }
           # , format: :json
 
           expect(response.status).to eq(200)
-          expect(response.content_type).to eq("application/json")
+          # expect(response.content_type).to eq("application/json")
 
           result = JSON.parse(response.body)
           expect(result).to have_key("batch_key")
