@@ -21,6 +21,7 @@ gem "rails", "~> 7.0"
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 group :development, :test do
+  gem "selenium-webdriver"
   gem "vcr"
   gem "webmock"
   # gem 'jasmine-rails',        github: 'searls/jasmine-rails'
@@ -134,3 +135,7 @@ gem "vite_rails", "~> 3.0"
 
 gem "graphql", "~> 2.0"
 gem "graphiql-rails", group: :development
+
+gem "faraday", "~> 2.3"
+
+gem "rets", "~> 0.11.2"
