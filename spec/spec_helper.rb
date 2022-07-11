@@ -74,6 +74,10 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 # @controller.prepend_view_path "#{Rails.root}/app/themes/berlin/views/"
 
 RSpec.configure do |config|
+  config.file_fixture_path = "spec/fixtures"
+  # Above needed because of the following change:
+  # https://til.hashrocket.com/posts/lhyrslsbhx-rails-change-fixture-file-lookup-path
+
   # TODO: - consider precompiling assets to speed up tests
   # config.before(:suite) do
   #   Rails.application.load_tasks
