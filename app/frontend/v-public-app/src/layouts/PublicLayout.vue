@@ -6,7 +6,7 @@
         style="min-height: 10px; border-bottom: 1px solid white"
       >
         <div class="col-md-12">
-          <div class="aa-header-area">
+          <div class="aa-header-area max-ctr">
             <div class="row">
               <div class="col-md-6 col-sm-6 col-xs-6">
                 <div class="aa-header-left">
@@ -65,7 +65,7 @@
           </div>
         </div>
       </div>
-      <q-toolbar>
+      <q-toolbar class="max-ctr">
         <q-toolbar-title>
           <strong>{{ sitedetailsProvider.state.agency.displayName }}</strong>
           <!-- <span style="color: black">Web</span
