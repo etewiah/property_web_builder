@@ -208,7 +208,6 @@ export default defineComponent({
       // document.querySelector(".pac-container").style["position"] =
       //   "fixed !important"
       let pacContainer = document.querySelector(".pac-container")
-
       if (pacContainer) {
         pacContainer.setAttribute(
           "style",
@@ -223,7 +222,10 @@ export default defineComponent({
      * When the input loses focus
      */
     onBlur() {
-      document.querySelector(".pac-container").style["display"] = "none"
+      let pacContainer = document.querySelector(".pac-container")
+      if (pacContainer) {
+        document.querySelector(".pac-container").style["display"] = "none"
+      }
       // document.querySelector(".pac-container").style["position"] =
       //   "absolute !important"
       this.$emit("blur")
