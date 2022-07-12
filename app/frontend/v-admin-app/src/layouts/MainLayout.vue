@@ -27,7 +27,7 @@
             v-if="$q.screen.gt.sm"
           >
           </q-btn>
-          <q-btn
+          <!-- <q-btn
             round
             dense
             flat
@@ -53,7 +53,6 @@
             <q-badge color="red" text-color="white" floating> 5 </q-badge>
             <q-menu>
               <q-list style="min-width: 100px">
-                <!-- <messages></messages> -->
                 <q-card class="text-center no-shadow no-border">
                   <q-btn
                     label="View All"
@@ -70,7 +69,7 @@
             <q-avatar size="26px">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
-          </q-btn>
+          </q-btn> -->
         </div>
       </q-toolbar>
     </q-header>
@@ -81,22 +80,22 @@
       bordered
       class="bg-primary text-white"
     >
-      <q-list>
-        <q-item to="/" active-class="q-item-no-link-highlighting">
+      <q-list class="q-pt-xl q-mt-xl">
+        <!-- <q-item to="/" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
             <q-icon name="dashboard" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Home</q-item-label>
+            <q-item-label>Dashboard</q-item-label>
           </q-item-section>
-        </q-item>
+        </q-item> -->
         <q-item
           :exact="true"
           :to="{ name: 'rAgencyEditGeneral' }"
           active-class="q-item-no-link-highlighting"
         >
           <q-item-section avatar>
-            <q-icon name="dashboard" />
+            <q-icon name="real_estate_agent" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Agency</q-item-label>
@@ -111,7 +110,7 @@
           active-class="q-item-no-link-highlighting"
         >
           <q-item-section avatar>
-            <q-icon name="dashboard" />
+            <q-icon name="language" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Translations</q-item-label>
@@ -128,7 +127,7 @@
         <q-expansion-item
           :default-opened="true"
           aria-expanded="true"
-          icon="pages"
+          icon="location_city"
           label="Properties"
         >
           <q-list class="q-pl-lg">
@@ -149,7 +148,7 @@
         <q-expansion-item
           :default-opened="true"
           aria-expanded="true"
-          icon="pages"
+          icon="desktop_mac"
           label="Website"
         >
           <q-list class="q-pl-lg">
