@@ -24,7 +24,8 @@
     "RACK_ENV": "production",
     "RAILS_ENV": "production",
     "RAILS_LOG_TO_STDOUT": "enabled",
-    "RAILS_SERVE_STATIC_FILES": "enabled"
+    "RAILS_SERVE_STATIC_FILES": "enabled",
+    "VITE_RUBY_SKIP_ASSETS_PRECOMPILE_EXTENSION": "true"
   },
   "buildpacks": [
     {
