@@ -141,3 +141,7 @@ gem "faraday", "~> 2.3"
 gem "rets", "~> 0.11.2"
 
 gem "rack-cors", "~> 1.1"
+
+gem "redis", "~> 4.7"
+# redis gem needs to be before logster
+gem "logster", "~> 2.11"
