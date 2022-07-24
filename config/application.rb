@@ -26,5 +26,34 @@ module StandalonePwb
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    config.middleware.insert_before 0, Rack::Cors do
+      if ENV["RAILS_ENV"] == "production"
+        allow do
+          # https://github.com/cyu/rack-cors/issues/178
+          # origins "*"
+          # Use wildcard as above or add a list of acceptable origins below
+          origins ""
+          # resource "*", headers: :any, methods: [:get, :post, :options, :patch, :delete], expose: ["ETag"]
+          # resource "*",
+          #          headers: :any,
+          #          methods: [:get, :post, :options, :patch, :delete, :put],
+          #          expose: ["X-CSRF-Token"],
+          #          credentials: true
+        end
+      else
+        allow do
+          origins "http://localhost:9100", "http://localhost:9000", "http://localhost:8080"
+          # resource "*", headers: :any, methods: [:get, :post, :options, :patch, :delete], expose: ["ETag"]
+          resource "*",
+                   headers: :any,
+                   methods: [:get, :post, :options, :patch, :delete, :put],
+                   expose: ["X-CSRF-Token"],
+                   credentials: true
+          # expose: ["X-CSRF-Token"] above needed so csrf token header is available to external client:
+          # https://glaucocustodio.github.io/2016/01/20/dont-forget-to-expose-headers-when-using-rack-cors/
+        end
+      end
+    end
   end
 end
