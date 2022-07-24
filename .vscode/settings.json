@@ -1,4 +1,8 @@
 {
   "prettier.singleQuote": true,
-  "editor.formatOnSave": false
+  "editor.formatOnSave": false,
+  "[ruby]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "mbessey.vscode-rufo"
+  },
 }
