@@ -11,6 +11,8 @@ gem "rails", "~> 7.0"
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
+ruby "3.1.2"
+
 # gem 'globalize', git: 'https://github.com/globalize/globalize'
 # gem 'globalize', github: 'globalize/globalize'
 # below needed by above - (in gemspec)
