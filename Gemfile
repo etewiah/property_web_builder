@@ -139,3 +139,5 @@ gem "graphiql-rails", group: :development
 gem "faraday", "~> 2.3"
 
 gem "rets", "~> 0.11.2"
+
+gem "rack-cors", "~> 1.1"
