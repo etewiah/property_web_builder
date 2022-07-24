@@ -145,3 +145,5 @@ gem "rack-cors", "~> 1.1"
 gem "redis", "~> 4.7"
 # redis gem needs to be before logster
 gem "logster", "~> 2.11"
+
+gem "ruby_odata", "~> 0.1.0"
