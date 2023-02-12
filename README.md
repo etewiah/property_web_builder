@@ -8,7 +8,7 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
-## July 2022 update
+## February 2023 update
 
 PropertyWebBuilder is now a standalone Ruby on Rails app (it is no longer a Ruby on Rails engine). It has also been upgraded to use Rails 6 and Ruby 3!
 
@@ -20,7 +20,7 @@ Also, I am currently working on a tool to help with house hunting and would love
 
 Please check it out here and let me know what you think (and if you would like it to be open-sourced):
 
-[https://propertysquares.com/](https://propertysquares.com/)
+[https://homestocompare.com/](https://homestocompare.com/)
 
 
 ## Motivation
@@ -30,24 +30,26 @@ This project has been created to address a glaring gap in the rails ecosystem: t
 The result is that WordPress has become the dominant tool for creating real estate websites.  This is far from ideal and PropertyWebBuilder seeks to address this.
 
 
-## [Demo](https://pwb-v2.herokuapp.com/)
+## Demo
 
-You can try out a demo at [https://pwb-v2.herokuapp.com](https://pwb-v2.herokuapp.com/)
+<!-- You can try out a demo at [https://pwb-v2.herokuapp.com](https://pwb-v2.herokuapp.com/)
 
-To see the admin panel, login as user admin@example.com with a password of "pwb123456".
+To see the admin panel, login as user admin@example.com with a password of "pwb123456". -->
+
+There was previously a demo hosted on heroku but since they ended the free plan I have had to take it down.
 
 ![pwb_iphone_landing](https://cloud.githubusercontent.com/assets/1741198/22990222/bfec0168-f3b8-11e6-89df-b950c4979970.png)
 
 
 ## Create your own real estate website with no technical knowledge
 
-The simplest way to create a website with PropertyWebBuilder is to use Heroku, a trusted service provider which has a free plan that you can use.
+The simplest way to create a website with PropertyWebBuilder is to use Heroku, a trusted service provider.  They no longer have the free tier which was a great selling point but are still worth trying out.
 
 Just [sign up for Heroku](https://signup.heroku.com/identity), click the button below and in a few minutes your site will be ready
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/etewiah/property_web_builder)
 
-You may be asked for credit card details when you create an account but you will not be charged for creating and trying the website. You will only need to pay if you upgrade the service.  Here is a video about how to deploy to heroku:
+Here is a video about how to deploy to heroku:
 
 [![Depoly PWB to heroku](http://img.youtube.com/vi/hyapXTwGyr4/0.jpg)](http://www.youtube.com/watch?v=hyapXTwGyr4 "Deploy PWB to heroku")
 
