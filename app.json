@@ -15,7 +15,7 @@
     "postdeploy": "bundle exec rake db:migrate pwb:db:seed"
   },
   "addons": [
-    "heroku-postgresql:hobby-dev",
+    "heroku-postgresql:mini",
     "cloudinary:starter"
   ],
   "env": {
