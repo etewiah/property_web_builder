@@ -10,10 +10,9 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 
 ## February 2023 update
 
-PropertyWebBuilder is now a standalone Ruby on Rails app (it is no longer a Ruby on Rails engine). It has also been upgraded to use Rails 6 and Ruby 3!
 
-I am currently working on a Rails 7 upgrade which will use the wonderful vite-ruby gem to re-implement the admin panel with vue.js and the quasar framework:
-
+PropertyWebBuilder has been transitioned to a standalone Ruby on Rails application, upgraded to Rails 6 and Ruby 3. 
+I am currently working on a Rails 7 upgrade, utilizing the vite-ruby gem to re-implement the admin panel with Vue.js and the Quasar framework.
 https://github.com/etewiah/property_web_builder/tree/vite
 
 Also, I am currently working on a tool to help with house hunting and would love to get some feedback about it.
