@@ -11,7 +11,7 @@ gem "rails", "~> 7.0"
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-ruby "3.1.2"
+ruby "3.2.4"
 
 # gem 'globalize', git: 'https://github.com/globalize/globalize'
 # gem 'globalize', github: 'globalize/globalize'
@@ -131,7 +131,7 @@ gem "liquid", "~> 5.3"
 
 # https://stackoverflow.com/questions/71191685/visit-psych-nodes-alias-unknown-alias-default-psychbadalias
 # As per above, need to fix psych gem below v4
-gem "psych", "< 4"
+gem "psych", ">= 4.0"
 
 gem "vite_rails", "~> 3.0"
 

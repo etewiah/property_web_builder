@@ -21,7 +21,8 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
   s.test_files = Dir['spec/**/*']
 
-  s.add_dependency 'rails', '>= 5.2'
+  s.add_dependency "rails", "~> 7.1.0"
+  s.required_ruby_version = '~> 3.2.4'
   s.add_dependency 'money-rails', '~>1'
   s.add_dependency 'globalize'
   # , '~> 5.1.0.beta2'
@@ -40,16 +41,16 @@ Gem::Specification.new do |s|
   s.add_dependency 'i18n-active_record'
   # , :require => 'i18n/active_record'
   s.add_dependency 'responders'
-  s.add_dependency 'jsonapi-resources', '0.8.1'
+  s.add_dependency 'jsonapi-resources', '~> 0.10.7'
   # s.add_dependency 'paloma'
   s.add_dependency 'jquery-rails'
   s.add_dependency 'simple_form'
   s.add_dependency 'fog-aws'
   # , require: 'fog-aws'
-  s.add_dependency 'pg', '< 1.0'
+  s.add_dependency 'pg', '~> 1.5'
   s.add_dependency 'devise'
   s.add_dependency 'devise-i18n'
-  s.add_dependency 'omniauth', "~> 1.9.1" # Can not move to 2.0 because of devise - https://github.com/heartcombo/devise/pull/5327
+  s.add_dependency 'omniauth', '~> 2.0'
   s.add_dependency 'omniauth-facebook'
   # s.add_dependency 'omniauth-twitter'
   # s.add_dependency 'omniauth'
@@ -77,8 +78,8 @@ Gem::Specification.new do |s|
   # s.add_development_dependency 'airborne'
   # s.add_development_dependency 'json_matchers'
 
-  # s.add_development_dependency 'rspec-rails'
-  # s.add_development_dependency 'capybara'
-  # s.add_development_dependency 'factory_girl_rails'
+  s.add_development_dependency 'rspec-rails', '~> 6.0'
+  s.add_development_dependency 'capybara', '~> 3.39'
+  s.add_development_dependency 'factory_bot_rails', '~> 6.2'
   # s.add_development_dependency 'rails-controller-testing'
 end
