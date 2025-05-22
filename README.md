@@ -8,11 +8,11 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
-## February 2023 update
+## May 2025 update
 
-PropertyWebBuilder is now a standalone Ruby on Rails app (it is no longer a Ruby on Rails engine). It has also been upgraded to use Rails 6 and Ruby 3!
+PropertyWebBuilder is now a standalone Ruby on Rails app (it is no longer a Ruby on Rails engine). It has also been upgraded to use Rails 7 and Ruby 3
 
-I am currently working on a Rails 7 upgrade which will use the wonderful vite-ruby gem to re-implement the admin panel with vue.js and the quasar framework:
+I am currently working on a Rails 8 upgrade which will use the wonderful vite-ruby gem to re-implement the admin panel with vue.js and the quasar framework:
 
 https://github.com/etewiah/property_web_builder/tree/vite
 
@@ -22,6 +22,8 @@ Please check it out here and let me know what you think (and if you would like i
 
 [https://homestocompare.com/](https://homestocompare.com/)
 
+I have auto-generated some documentation using Devin deepwiki which can be found here:
+[https://deepwiki.com/etewiah/property_web_builder](https://deepwiki.com/etewiah/property_web_builder)
 
 ## Motivation
 
