@@ -8,19 +8,19 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
-## May 2025 update
+## August 2025 update
 
-PropertyWebBuilder is now a standalone Ruby on Rails app (it is no longer a Ruby on Rails engine). It has also been upgraded to use Rails 7 and Ruby 3
+For the next month or two I will not be able to spend much time on this project as I have launched a new project that is taking up quite a bit of my time.  It is a house price guessing game ;)
+
+Please check it out here and let me know what you think (and if you would like it to be open-sourced):
+
+[https://housepriceguess.com/](https://housepriceguess.com/)
+
+Right now PropertyWebBuilder is a standalone Ruby on Rails app (it is no longer a Ruby on Rails engine). It has also been upgraded to use Rails 7 and Ruby 3
 
 I am currently working on a Rails 8 upgrade which will use the wonderful vite-ruby gem to re-implement the admin panel with vue.js and the quasar framework:
 
 https://github.com/etewiah/property_web_builder/tree/vite
-
-Also, I am currently working on a tool to help with house hunting and would love to get some feedback about it.
-
-Please check it out here and let me know what you think (and if you would like it to be open-sourced):
-
-[https://homestocompare.com/](https://homestocompare.com/)
 
 I have auto-generated some documentation using Devin deepwiki which can be found here:
 [https://deepwiki.com/etewiah/property_web_builder](https://deepwiki.com/etewiah/property_web_builder)
