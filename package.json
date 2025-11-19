@@ -2,8 +2,8 @@
   "devDependencies": {
     "@quasar/vite-plugin": "^1.0.10",
     "sass": "1.32.12",
-    "vite": "^2.9.12",
-    "vite-plugin-ruby": "^3.0.12"
+    "vite": "^5.4.21",
+    "vite-plugin-ruby": "^5.1.1"
   },
   "dependencies": {
     "@fawmi/vue-google-maps": "^0.9.72",
