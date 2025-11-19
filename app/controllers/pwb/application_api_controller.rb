@@ -14,6 +14,7 @@ module Pwb
     private
 
     def check_user
+      puts "ApplicationApiController#check_user reached"
       unless current_user && current_user.admin
         # unless request.subdomain.present? && (request.subdomain.downcase == current_user.tenants.first.subdomain.downcase)
         render_json_error "unauthorised_user"
@@ -25,6 +26,7 @@ module Pwb
     end
 
     def current_agency
+      puts "ApplicationApiController#current_agency reached"
       @current_agency ||= (Agency.last || Agency.create)
     end
 

@@ -26,7 +26,7 @@ module Pwb
           page_part_key:"content_html"
         }
         target_page_content.reload
-        expect(response).to be_success
+        expect(response).to be_successful
         # expect(response_body_as_json["visible"]).to eq(false)
         expect(target_page_content.visible_on_page).to eq(false)
 
@@ -37,7 +37,7 @@ module Pwb
         }
 
         target_page_content.reload
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(target_page_content.visible_on_page).to eq(true)
         # expect(@prop_for_long_term_rent.features.find_by(feature_key: "aireAcondicionado")).to be_present
         # expect(@prop_for_long_term_rent.features.count).to eq(1)

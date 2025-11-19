@@ -2,7 +2,7 @@ require_dependency "pwb/application_controller"
 
 module Pwb
   class Api::V1::AgencyController < ApplicationApiController
-    # protect_from_forgery with: :null_session
+    protect_from_forgery with: :null_session
 
     def infos
       render json: {

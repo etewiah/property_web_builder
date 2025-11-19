@@ -4,7 +4,7 @@ module Pwb
   class Api::V1::SelectValuesController < ApplicationApiController
     # respond_to :json
 
-    # protect_from_forgery with: :null_session
+    protect_from_forgery with: :null_session
 
     # will return a hash of arrays with the i18n keys that are relevant
     # for each dropdown group of labels

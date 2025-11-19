@@ -1,6 +1,9 @@
 module Pwb
   class Export::PropertiesController < ApplicationApiController
+    puts "Pwb::Export::PropertiesController loaded"
+    protect_from_forgery with: :null_session
     def all
+      puts "Export::PropertiesController#all reached"
       properties = Pwb::Prop.all
       # where(:id,)
       # @header_cols = ["Id", "Title in English", "Title in Spanish",
@@ -29,7 +32,13 @@ module Pwb
       end
       headers['Content-Disposition'] = "attachment; filename=\"pwb-properties.csv\""
       headers['Content-Type'] ||= 'text/csv'
-      render "all.csv"
+      begin
+        render "all.csv"
+      rescue => e
+        puts "Export error: #{e.message}"
+        puts e.backtrace
+        raise e
+      end
     end
   end
 end

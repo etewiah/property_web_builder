@@ -8,6 +8,10 @@ FactoryBot.define do
     #   slug "home"
     # end
 
+    after(:create) do |page, _evaluator|
+      create(:pwb_link, :top_nav, page_slug: page.slug)
+    end
+
     factory :contact_us_with_rails_page_part do
       slug { "contact-us" }
       after(:create) do |page, _evaluator|

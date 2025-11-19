@@ -105,6 +105,13 @@ Rails.application.routes.draw do
         post "/translations" => "translations#multiple"
         post "/web_contents" => "web_contents#multiple"
       end
+      # namespace :export do
+      #   get "/translations/all" => "translations#all"
+      #   get "/web_contents/all" => "web_contents#all"
+      #   get "/website/all" => "website#all"
+      #   get "/properties" => "properties#all"
+      # end
+
       namespace :export do
         get "/translations/all" => "translations#all"
         get "/web_contents/all" => "web_contents#all"
