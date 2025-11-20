@@ -3,6 +3,7 @@ module Pwb
     translates :title, :description
     globalize_accessors locales: I18n.available_locales
     # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
+    attribute :area_unit, :integer
     enum area_unit: { sqmt: 0, sqft: 1 }
 
     # geocoded_by :address, :lookup => lambda{ |obj| obj.geocoder_lookup }

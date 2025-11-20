@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_07_144720) do
-
+ActiveRecord::Schema[7.1].define(version: 2018_05_07_144720) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,8 +23,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.string "city"
     t.string "region"
     t.string "country"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "pwb_agencies", id: :serial, force: :cascade do |t|
@@ -59,8 +58,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.json "social_media", default: {}
     t.json "details", default: {}
     t.text "raw_css"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "theme_name"
   end
 
@@ -68,8 +67,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.bigint "user_id"
     t.string "provider"
     t.string "uid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["user_id"], name: "index_pwb_authorizations_on_user_id"
   end
 
@@ -89,8 +88,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.integer "address_id"
     t.integer "flags", default: 0, null: false
     t.json "details", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["documentation_id"], name: "index_pwb_clients_on_documentation_id", unique: true
     t.index ["email"], name: "index_pwb_clients_on_email", unique: true
     t.index ["first_names", "last_names"], name: "index_pwb_clients_on_first_names_and_last_names"
@@ -119,8 +118,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.integer "secondary_address_id"
     t.integer "flags", default: 0, null: false
     t.json "details", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["documentation_id"], name: "index_pwb_contacts_on_documentation_id"
     t.index ["first_name", "last_name"], name: "index_pwb_contacts_on_first_name_and_last_name"
     t.index ["first_name"], name: "index_pwb_contacts_on_first_name"
@@ -137,8 +136,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.string "folder"
     t.integer "file_size"
     t.integer "sort_order"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "block_key"
     t.index ["content_id"], name: "index_pwb_content_photos_on_content_id"
   end
@@ -146,8 +145,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
   create_table "pwb_content_translations", force: :cascade do |t|
     t.integer "content_id", null: false
     t.string "locale", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.text "raw"
     t.index ["content_id"], name: "index_pwb_content_translations_on_pwb_content_id"
     t.index ["locale"], name: "index_pwb_content_translations_on_locale"
@@ -161,8 +160,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.integer "last_updated_by_user_id"
     t.integer "sort_order"
     t.string "target_url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "section_key"
     t.string "page_part_key"
     t.index ["key"], name: "index_pwb_contents_on_key", unique: true
@@ -171,8 +170,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
   create_table "pwb_features", id: :serial, force: :cascade do |t|
     t.string "feature_key"
     t.integer "prop_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["feature_key"], name: "index_pwb_features_on_feature_key"
   end
 
@@ -182,16 +181,16 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.boolean "visible", default: true
     t.integer "props_count", default: 0, null: false
     t.boolean "show_in_search_form", default: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["global_key"], name: "index_pwb_field_keys_on_global_key", unique: true
   end
 
   create_table "pwb_link_translations", force: :cascade do |t|
     t.integer "link_id", null: false
     t.string "locale", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "link_title", default: ""
     t.index ["link_id"], name: "index_pwb_link_translations_on_pwb_link_id"
     t.index ["locale"], name: "index_pwb_link_translations_on_locale"
@@ -213,8 +212,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.integer "flags", default: 0, null: false
     t.integer "sort_order", default: 0
     t.integer "placement", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["flags"], name: "index_pwb_links_on_flags"
     t.index ["page_slug"], name: "index_pwb_links_on_page_slug"
     t.index ["placement"], name: "index_pwb_links_on_placement"
@@ -235,8 +234,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.boolean "delivery_success", default: false
     t.string "delivery_email"
     t.string "origin_email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "contact_id"
   end
 
@@ -248,8 +247,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.boolean "visible_on_page", default: true
     t.bigint "page_id"
     t.bigint "content_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.bigint "website_id"
     t.index ["content_id"], name: "index_pwb_page_contents_on_content_id"
     t.index ["page_id"], name: "index_pwb_page_contents_on_page_id"
@@ -268,8 +267,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.string "theme_name"
     t.string "locale"
     t.integer "flags", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["page_part_key", "page_slug"], name: "index_pwb_page_parts_on_page_part_key_and_page_slug"
     t.index ["page_part_key"], name: "index_pwb_page_parts_on_page_part_key"
     t.index ["page_slug"], name: "index_pwb_page_parts_on_page_slug"
@@ -278,8 +277,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
   create_table "pwb_page_translations", force: :cascade do |t|
     t.integer "page_id", null: false
     t.string "locale", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.text "raw_html", default: ""
     t.string "page_title", default: ""
     t.string "link_title", default: ""
@@ -298,8 +297,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.integer "sort_order_footer", default: 0
     t.boolean "show_in_top_nav", default: false
     t.boolean "show_in_footer", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["flags"], name: "index_pwb_pages_on_flags"
     t.index ["show_in_footer"], name: "index_pwb_pages_on_show_in_footer"
     t.index ["show_in_top_nav"], name: "index_pwb_pages_on_show_in_top_nav"
@@ -313,16 +312,16 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.string "folder"
     t.integer "file_size"
     t.integer "sort_order"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["prop_id"], name: "index_pwb_prop_photos_on_prop_id"
   end
 
   create_table "pwb_prop_translations", force: :cascade do |t|
     t.integer "prop_id", null: false
     t.string "locale", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "title", default: ""
     t.text "description", default: ""
     t.index ["locale"], name: "index_pwb_prop_translations_on_locale"
@@ -353,10 +352,10 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.boolean "hide_map", default: false
     t.boolean "obscure_map", default: false
     t.boolean "portals_enabled", default: false
-    t.datetime "deleted_at"
-    t.datetime "active_from"
-    t.datetime "available_to_rent_from"
-    t.datetime "available_to_rent_till"
+    t.datetime "deleted_at", precision: nil
+    t.datetime "active_from", precision: nil
+    t.datetime "available_to_rent_from", precision: nil
+    t.datetime "available_to_rent_till", precision: nil
     t.bigint "price_sale_current_cents", default: 0, null: false
     t.string "price_sale_current_currency", default: "EUR", null: false
     t.bigint "price_sale_original_cents", default: 0, null: false
@@ -391,8 +390,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.string "country"
     t.float "latitude"
     t.float "longitude"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "area_unit", default: 0
     t.index ["archived"], name: "index_pwb_props_on_archived"
     t.index ["flags"], name: "index_pwb_props_on_flags"
@@ -411,20 +410,20 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
     t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
     t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "confirmation_sent_at", precision: nil
     t.string "unconfirmed_email"
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
-    t.datetime "locked_at"
+    t.datetime "locked_at", precision: nil
     t.string "authentication_token"
     t.boolean "admin", default: false
     t.string "first_names"
@@ -434,8 +433,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.string "default_client_locale"
     t.string "default_admin_locale"
     t.string "default_currency"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["confirmation_token"], name: "index_pwb_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_pwb_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_pwb_users_on_reset_password_token", unique: true
@@ -447,8 +446,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.string "description"
     t.string "folder", default: "weebrix"
     t.integer "file_size"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["photo_key"], name: "index_pwb_website_photos_on_photo_key"
   end
 
@@ -476,8 +475,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.integer "default_area_unit", default: 0
     t.json "social_media", default: {}
     t.text "raw_css"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.json "search_config_rent", default: {}
     t.json "search_config_buy", default: {}
     t.json "search_config_landing", default: {}
@@ -499,8 +498,8 @@ ActiveRecord::Schema.define(version: 2018_05_07_144720) do
     t.text "interpolations"
     t.boolean "is_proc", default: false
     t.string "tag"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
 end
