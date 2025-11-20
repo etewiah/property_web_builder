@@ -7,7 +7,7 @@ module Pwb
 
     # enum title: [ :mr, :mrs ]
     # above method of declaring less flexible than below:
-    enum title: { mr: 0, mrs: 1 }
+    enum :title, { mr: 0, mrs: 1 }
 
     def street_number
       primary_address.present? ? primary_address.street_number : nil
