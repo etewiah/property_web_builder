@@ -13,3 +13,12 @@ This documentation is divided into several sections, each of which covers a diff
 *   **Controllers:** This section describes the application's controllers, including their actions and how they interact with the models and views.
 *   **API:** This section describes the application's API, including both the RESTful API and the GraphQL API.
 *   **Frontend:** This section describes the application's frontend, including the Vue.js applications that are used to render the user interface.
+
+## Architecture
+
+PropertyWebBuilder is a monolithic Ruby on Rails application. It uses standard Rails MVC architecture, with some frontend components built using Vue.js.
+
+- **Backend:** Ruby on Rails 7, PostgreSQL.
+- **Frontend:** Rails Views (ERB), Vue.js.
+- **API:** RESTful API for admin panel and external integrations, GraphQL API for flexible data querying.
+

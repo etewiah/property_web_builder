@@ -56,27 +56,17 @@ Here is a video about how to deploy to heroku:
 [![Depoly PWB to heroku](http://img.youtube.com/vi/hyapXTwGyr4/0.jpg)](http://www.youtube.com/watch?v=hyapXTwGyr4 "Deploy PWB to heroku")
 
 
-## Install locally
+## Installation & Development
 
-PWB was previously designed to be included as an engine in an existing Ruby on Rails app. This is no longer the case and you can now run it directly as a standalone app.
-
-It can also be installed locally as follows:
-
-```bash
-git clone https://github.com/etewiah/property_web_builder.git
-cd property_web_builder
-rails db:create
-rails db:migrate
-rails pwb:db:seed
-```
+For detailed development instructions, including setup, testing, and troubleshooting, please refer to [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## Rails Version
 
-PropertyWebBuilder runs with Rails '~> 6.0'
+PropertyWebBuilder runs with Rails '~> 7.0'
 
 ## Ruby Version
 
-PropertyWebBuilder runs with Ruby >= 3.0.0.
+PropertyWebBuilder runs with Ruby >= 3.4.1.
 
 
 ## Features
