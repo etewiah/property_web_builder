@@ -27,8 +27,6 @@ module Pwb
           page_part_key:"content_html"
         }
         target_page_content.reload
-        puts "DEBUG: Response Status: #{response.status}"
-        puts "DEBUG: Response Body: #{response.body}"
         expect(response).to be_successful
         # expect(response_body_as_json["visible"]).to eq(false)
         expect(target_page_content.visible_on_page).to eq(false)

@@ -7,7 +7,18 @@ module Pages
     def search_rentals(min_price)
       # Capybara.ignore_hidden_elements = false
       # passing visible: false below would be like setting above
-      select(min_price, from: 'search_for_rent_price_from', visible: false)
+      # select(min_price, from: 'search_for_rent_price_from', visible: false)
+      # Workaround for hidden select
+      page.execute_script("
+        var el = document.getElementById('search_for_rent_price_from');
+        el.style.display = 'block';
+        el.style.visibility = 'visible';
+        el.style.opacity = '1';
+        el.style.height = 'auto';
+        el.style.width = 'auto';
+      ")
+      select(min_price, from: 'search_for_rent_price_from')
+      page.execute_script("document.getElementById('search_for_rent_price_from').style.display = 'none';")
       click_button('Search')
     end
 

@@ -7,6 +7,7 @@ module Pwb
       # user_facebook_omniauth_authorize_path
       # redirect_to user_omniauth_authorize_path(params[:provider])
       redirect_to omniauth_authorize_path("user", params[:provider])
+      # redirect_to send("user_#{params[:provider]}_omniauth_authorize_path")
     end
   end
 end
