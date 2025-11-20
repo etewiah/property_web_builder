@@ -2,8 +2,8 @@ module Pwb
   module NavigationHelper
     def render_omniauth_sign_in(provider)
       # will only render sign_in link for a provider for which config is present
-      app_id_present = Rails.application.secrets["#{provider}_app_id"].present?
-      app_secret_present = Rails.application.secrets["#{provider}_app_secret"].present?
+      app_id_present = Rails.application.credentials["#{provider}_app_id"].present?
+      app_secret_present = Rails.application.credentials["#{provider}_app_secret"].present?
       unless app_id_present && app_secret_present
         return
       end

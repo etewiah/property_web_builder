@@ -57,9 +57,9 @@ const router = new VueRouter({
 
 var firebaseApp = firebase.initializeApp({
   // apiKey: process.env.FIREBASE_API,
-  authDomain: '<%= Rails.application.secrets.fb_instance_id %>.firebaseapp.com',
-  databaseURL: 'https://<%= Rails.application.secrets.fb_instance_id %>.firebaseio.com',
-  projectId: '<%= Rails.application.secrets.fb_instance_id %>',
+  authDomain: '<%= Rails.application.credentials.fb_instance_id %>.firebaseapp.com',
+  databaseURL: 'https://<%= Rails.application.credentials.fb_instance_id %>.firebaseio.com',
+  projectId: '<%= Rails.application.credentials.fb_instance_id %>',
   storageBucket: ''
   // messagingSenderId: process.env.FIREBASE_SENDER
 })
