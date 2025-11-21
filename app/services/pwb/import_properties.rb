@@ -25,7 +25,7 @@ module Pwb
     def import_mls_tsv
       parsed_properties = []
       csv_options = { headers: true, col_sep: "\t" }
-      CSV.foreach(csv_file.path, csv_options) do |row|
+      CSV.foreach(csv_file.path, **csv_options) do |row|
         mapped_property = ImportMapper.new("mls_csv_jon").map_property(row)
         parsed_properties.push mapped_property
         # reference = row.to_hash["ML Number"]

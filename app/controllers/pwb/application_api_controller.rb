@@ -3,7 +3,7 @@ module Pwb
     protect_from_forgery with: :exception, prepend: true
     # include ActionController::HttpAuthentication::Token::ControllerMethods
 
-    before_action :authenticate_user!, :current_agency, :check_user
+    before_action :authenticate_user!, :current_agency, :check_user, unless: :bypass_authentication?
     # , :authenticate_user_from_token!, :set_locale
     after_action :set_csrf_token
 
@@ -13,7 +13,14 @@ module Pwb
 
     private
 
+    def bypass_authentication?
+      ENV['BYPASS_API_AUTH'] == 'true'
+    end
+
     def check_user
+      puts "ApplicationApiController#check_user reached"
+      return if bypass_authentication?
+      
       unless current_user && current_user.admin
         # unless request.subdomain.present? && (request.subdomain.downcase == current_user.tenants.first.subdomain.downcase)
         render_json_error "unauthorised_user"
@@ -25,6 +32,7 @@ module Pwb
     end
 
     def current_agency
+      puts "ApplicationApiController#current_agency reached"
       @current_agency ||= (Agency.last || Agency.create)
     end
 

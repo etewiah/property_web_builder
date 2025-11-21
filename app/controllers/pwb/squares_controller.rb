@@ -5,7 +5,7 @@ module Pwb
     layout 'pwb/squares'
 
     def show_prop
-      fb_instance_id = Rails.application.secrets.fb_instance_id
+      fb_instance_id = Rails.application.credentials.fb_instance_id
       base_uri = "https://#{fb_instance_id}.firebaseio.com/"
       firebase = Firebase::Client.new(base_uri)
       @client_key = params["client_id"]
@@ -24,7 +24,7 @@ module Pwb
     end
 
     def show_client
-      fb_instance_id = Rails.application.secrets.fb_instance_id
+      fb_instance_id = Rails.application.credentials.fb_instance_id
       base_uri = "https://#{fb_instance_id}.firebaseio.com/"
       firebase = Firebase::Client.new(base_uri)
       @client_key = params["client_id"]

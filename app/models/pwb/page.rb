@@ -2,6 +2,7 @@ module Pwb
   # added July 2017
   # has details json col where page_fragment info is stored
   class Page < ApplicationRecord
+    belongs_to :website, optional: true
     extend ActiveHash::Associations::ActiveRecordExtensions
     # belongs_to_active_hash :page_setup, optional: true, foreign_key: "setup_id", class_name: "Pwb::PageSetup", shortcuts: [:friendly_name], primary_key: "id"
 

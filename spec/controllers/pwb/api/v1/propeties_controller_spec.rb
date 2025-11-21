@@ -6,12 +6,9 @@ module Pwb
     context "with admin user" do
       login_admin_user
 
-      let(:bulk_create_input) do
-        File.read(fixture_path + "/params/bulk_create.json")
-      end
-
       describe "bulk create" do
         it "creates multiple properties" do
+          bulk_create_input = File.read(File.join(RSpec.configuration.fixture_paths.first, "params/bulk_create.json"))
           bulk_create_params = {
             propertiesJSON: bulk_create_input,
           }

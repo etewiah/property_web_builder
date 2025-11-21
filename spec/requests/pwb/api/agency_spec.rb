@@ -14,7 +14,7 @@ module Pwb
         get '/api/v1/agency'
 
         # test for the 200 status-code
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response_body_as_json['agency']['company_name']).to eq(@agency.company_name)
         # expect(response.status).to eq(201)
         # expect(response.headers['Location']).to match(/\/rental_units\/\d$/)

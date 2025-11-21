@@ -4,6 +4,8 @@ class GraphqlController < Pwb::ApplicationController
   # but you'll have to authenticate your user separately
   protect_from_forgery with: :null_session
 
+  before_action :set_current_website
+
   def execute
     variables = prepare_variables(params[:variables])
     query = params[:query]
@@ -26,6 +28,16 @@ class GraphqlController < Pwb::ApplicationController
   end
 
   private
+
+  def set_current_website
+    slug = request.headers["X-Website-Slug"]
+    if slug.present?
+      Pwb::Current.website = Pwb::Website.find_by(slug: slug)
+    end
+
+    # Fallback to default if not found or not provided
+    Pwb::Current.website ||= Pwb::Website.unique_instance
+  end
 
   # gets current user from token stored in the session
   def current_user

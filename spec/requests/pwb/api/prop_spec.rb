@@ -39,6 +39,9 @@ module Pwb
         sign_in @admin_user
       end
       it 'creates property correctly' do
+        require 'webmock/rspec'
+        stub_request(:get, "http://media.rightmove.co.uk/dir/147k/146672/71450225/146672_F4_Carl_rd_IMG_00_0000.JPG")
+          .to_return(status: 200, body: "fake image content", headers: {})
 
         post "/api/v1/properties/bulk_create", params: {
           propertiesJSON: [
@@ -52,9 +55,10 @@ module Pwb
              "price_rental_monthly_current":600,"price_sale_current":0}
           ]
         }
-        expect(response).to be_success
+        expect(response).to be_successful
 
 
+        puts response.body
         expect(response_body_as_json["new_props"][0]["title"]).to eq("1 bedroom flat to rent in Carlyle Road, Birmingham, B16, B16")
 
 
@@ -68,7 +72,7 @@ module Pwb
           id: "#{@prop_for_long_term_rent.id}",
           extras: {aireAcondicionado: true}
         }
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(@prop_for_long_term_rent.features.find_by(feature_key: "aireAcondicionado")).to be_present
         expect(@prop_for_long_term_rent.features.count).to eq(1)
         expect(response_body_as_json[0]["feature_key"]).to eq("aireAcondicionado")
@@ -84,7 +88,7 @@ module Pwb
 
         get "/api/v1/properties/#{@prop_for_long_term_rent.id}", headers: request_headers
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response_body_as_json['data']['id']).to eq(@prop_for_long_term_rent.id.to_s)
 
         expect(response.body).to be_jsonapi_response_for('properties')

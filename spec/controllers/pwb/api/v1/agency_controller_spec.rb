@@ -9,7 +9,7 @@ module Pwb
         sign_in_stub nil
       end
       it "should not have a current_user" do
-        expect(subject.current_user).to eq(nil)
+        expect(controller.current_user).to eq(nil)
       end
     end
 
@@ -17,12 +17,12 @@ module Pwb
       login_non_admin_user
 
       it "should have a current_user" do
-        expect(subject.current_user).to_not eq(nil)
+        expect(controller.current_user).to_not eq(nil)
       end
 
       describe "GET #show" do
         it "returns unauthorized status" do
-          get :show, params: {}
+          process :show, method: :get, params: {}
 
           expect(response.status).to eq(422)
         end
@@ -33,14 +33,14 @@ module Pwb
       login_admin_user
 
       it "should have a current_user" do
-        expect(subject.current_user).to_not eq(nil)
+        expect(controller.current_user).to_not eq(nil)
       end
 
       describe "GET #show" do
         let!(:agency) { FactoryBot.create(:pwb_agency, company_name: "my re") }
 
         it "returns correct agency and default setup info" do
-          get :show, params: {}
+          process :show, method: :get, params: {}
           # , format: :json
 
           expect(response.status).to eq(200)

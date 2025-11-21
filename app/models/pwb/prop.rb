@@ -1,9 +1,11 @@
 module Pwb
   class Prop < ApplicationRecord
+    belongs_to :website, optional: true
     translates :title, :description
     globalize_accessors locales: I18n.available_locales
     # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
-    enum area_unit: { sqmt: 0, sqft: 1 }
+    attribute :area_unit, :integer
+    enum :area_unit, { sqmt: 0, sqft: 1 }
 
     # geocoded_by :address, :lookup => lambda{ |obj| obj.geocoder_lookup }
     # reverse_geocoded_by :latitude, :longitude do |obj,results|
@@ -249,9 +251,9 @@ module Pwb
       currency = Money::Currency.find currency_string
 
       if search_filtering_params[:sale_or_rental] == "rental"
-        search_results = Pwb::Prop.visible.for_rent
+        search_results = all.visible.for_rent
       else
-        search_results = Pwb::Prop.visible.for_sale
+        search_results = all.visible.for_sale
       end
       search_filtering_params.each do |key, value|
         # empty_values = ["propertyTypes."]

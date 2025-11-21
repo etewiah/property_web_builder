@@ -5,13 +5,13 @@ source "https://rubygems.org"
 # development dependencies will be added by default to the :development group.
 # gemspec
 
-gem "rails", "~> 7.0"
+gem "rails", "~> 8.0"
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-ruby "3.1.2"
+ruby "3.4.7"
 
 # gem 'globalize', git: 'https://github.com/globalize/globalize'
 # gem 'globalize', github: 'globalize/globalize'
@@ -68,9 +68,12 @@ group :development, :test do
   gem "json_spec"
 
   gem "rails-perftest"
-  gem "ruby-prof", "0.15.9"
+  gem "ruby-prof"
 
   gem "apparition"
+  gem "rswag-api"
+  gem "rswag-ui"
+  gem "rswag-specs"
 end
 
 group :development do
@@ -89,7 +92,7 @@ gem "paloma", "~> 6.1.0"
 # gem 'bourbon'
 # gem 'property_web_scraper', github: 'RealEstateWebTools/property_web_scraper'
 
-gem "sassc-rails"
+
 # capybary now requires puma as webserver by default
 gem "puma"
 
@@ -109,7 +112,8 @@ gem "i18n", "~> 1.10"
 
 gem "i18n-active_record", "~> 1.1"
 
-gem "globalize", "~> 6.2"
+gem 'globalize', git: 'https://github.com/globalize/globalize'
+# gem "globalize", "~> 6.2"
 
 gem "money-rails", "~> 1.15"
 
@@ -123,7 +127,9 @@ gem "active_hash", "~> 3.1"
 
 gem "flag_shih_tzu", "~> 0.3.23"
 
-gem "bootstrap-sass", "~> 3.4"
+# gem "bootstrap-sass", "~> 3.4"
+gem "dartsass-rails"
+gem "sprockets-rails"
 
 gem "jquery-rails", "~> 4.5"
 
@@ -131,7 +137,7 @@ gem "liquid", "~> 5.3"
 
 # https://stackoverflow.com/questions/71191685/visit-psych-nodes-alias-unknown-alias-default-psychbadalias
 # As per above, need to fix psych gem below v4
-gem "psych", "< 4"
+# gem "psych", "< 4"
 
 gem "vite_rails", "~> 3.0"
 
@@ -149,3 +155,6 @@ gem "redis", "~> 4.7"
 gem "logster", "~> 2.11"
 
 gem "ruby_odata", "~> 0.1.0"
+
+gem "firebase"
+gem "omniauth-facebook"

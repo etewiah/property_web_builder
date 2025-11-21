@@ -5,7 +5,7 @@ module Pwb
     include CarrierWave::Test::Matchers
 
     # let(:prop_photo) { double('prop_photo') }
-    Rails.application.secrets.cloudinary_url = nil
+
     let(:prop_photo) { FactoryBot.create(:pwb_prop_photo) }
 
     # let(:uploader) { PropPhotoUploader.new(prop_photo, :image) }

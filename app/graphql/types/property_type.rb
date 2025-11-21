@@ -4,6 +4,7 @@ module Types
   class PropertyType < Types::BaseObject
     field :id, Integer
     field :created_at, GraphQL::Types::ISO8601DateTime
+    field :reference, String
     field :title, String
     field :description, String
 

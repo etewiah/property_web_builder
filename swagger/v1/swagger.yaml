@@ -1,0 +1,826 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/agency":
+    get:
+      summary: get agency details
+      tags:
+      - Agency
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update agency
+      tags:
+      - Agency
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                company_name:
+                  type: string
+                display_name:
+                  type: string
+                email_primary:
+                  type: string
+                  format: email
+                phone_number_primary:
+                  type: string
+                phone_number_mobile:
+                  type: string
+  "/api/v1/master_address":
+    put:
+      summary: update master address
+      tags:
+      - Agency
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                street_address:
+                  type: string
+                city:
+                  type: string
+                region:
+                  type: string
+                postal_code:
+                  type: string
+                country:
+                  type: string
+                latitude:
+                  type: number
+                longitude:
+                  type: number
+  "/api/v1/infos":
+    get:
+      summary: get agency and website info
+      tags:
+      - Agency
+      responses:
+        '200':
+          description: successful
+  "/api/v1/website":
+    put:
+      summary: update website settings
+      tags:
+      - Website
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                company_display_name:
+                  type: string
+                theme_name:
+                  type: string
+                supported_locales:
+                  type: array
+                  items:
+                    type: string
+                configuration:
+                  type: object
+                  description: Website configuration as key-value pairs
+  "/api/v1/translations/list/{locale}":
+    parameters:
+    - name: locale
+      in: path
+      description: Locale code (e.g., en, es)
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list translations for locale
+      tags:
+      - Translations
+      responses:
+        '200':
+          description: successful
+  "/api/v1/translations/batch/{batch_key}":
+    parameters:
+    - name: batch_key
+      in: path
+      description: Batch key
+      required: true
+      schema:
+        type: string
+    get:
+      summary: get translations by batch key
+      tags:
+      - Translations
+      responses:
+        '200':
+          description: successful
+  "/api/v1/translations":
+    post:
+      summary: create translation
+      tags:
+      - Translations
+      parameters: []
+      responses:
+        '200':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                value:
+                  type: string
+                locale:
+                  type: string
+  "/api/v1/translations/create_for_locale":
+    post:
+      summary: create translation for locale
+      tags:
+      - Translations
+      parameters: []
+      responses:
+        '200':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                locale:
+                  type: string
+                value:
+                  type: string
+  "/api/v1/translations/{id}/update_for_locale":
+    parameters:
+    - name: id
+      in: path
+      description: Translation ID
+      required: true
+      schema:
+        type: string
+    put:
+      summary: update translation for locale
+      tags:
+      - Translations
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                locale:
+                  type: string
+                value:
+                  type: string
+  "/api/v1/translations/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: Translation ID
+      required: true
+      schema:
+        type: string
+    delete:
+      summary: delete translation
+      tags:
+      - Translations
+      responses:
+        '200':
+          description: deleted
+  "/api/v1/links":
+    get:
+      summary: list links
+      tags:
+      - Links
+      parameters:
+      - name: placement
+        in: query
+        required: false
+        description: Link placement (top_nav, footer, etc.)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: bulk update links
+      tags:
+      - Links
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  url:
+                    type: string
+                  placement:
+                    type: string
+                  visible:
+                    type: boolean
+                  position:
+                    type: integer
+  "/api/v1/web_contents":
+    get:
+      summary: list web contents
+      tags:
+      - Web Contents
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create web content
+      tags:
+      - Web Contents
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: web_contents
+                    attributes:
+                      type: object
+                      properties:
+                        content_tag:
+                          type: string
+                        value:
+                          type: string
+  "/api/v1/web_contents/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: Web content ID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show web content
+      tags:
+      - Web Contents
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update web content
+      tags:
+      - Web Contents
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                    attributes:
+                      type: object
+                      properties:
+                        value:
+                          type: string
+  "/api/v1/web_contents/photo/{tag}":
+    parameters:
+    - name: tag
+      in: path
+      description: Content tag
+      required: true
+      schema:
+        type: string
+    post:
+      summary: create web content with photo
+      tags:
+      - Web Contents
+      parameters: []
+      responses:
+        '200':
+          description: created
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: file
+        description: Photo file
+  "/api/v1/contacts":
+    get:
+      summary: list contacts
+      tags:
+      - Contacts
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create contact
+      tags:
+      - Contacts
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                phone:
+                  type: string
+                message:
+                  type: string
+              required:
+              - name
+              - email
+  "/api/v1/contacts/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: Contact ID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show contact
+      tags:
+      - Contacts
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update contact
+      tags:
+      - Contacts
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: string
+    delete:
+      summary: delete contact
+      tags:
+      - Contacts
+      responses:
+        '204':
+          description: deleted
+  "/api/v1/themes":
+    get:
+      summary: list themes
+      tags:
+      - Other
+      responses:
+        '200':
+          description: successful
+  "/api/v1/select_values":
+    get:
+      summary: get select values
+      tags:
+      - Other
+      parameters:
+      - name: field_names
+        in: query
+        required: false
+        description: Comma-separated field names
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+  "/api/v1/pages/{page_name}":
+    parameters:
+    - name: page_name
+      in: path
+      description: Page slug/name
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show page
+      tags:
+      - Pages
+      parameters:
+      - name: locale
+        in: query
+        required: false
+        description: Locale code
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+  "/api/v1/pages":
+    put:
+      summary: update page
+      tags:
+      - Pages
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                page_slug:
+                  type: string
+                visible:
+                  type: boolean
+                page_title:
+                  type: string
+  "/api/v1/pages/page_part_visibility":
+    put:
+      summary: update page part visibility
+      tags:
+      - Pages
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                page_slug:
+                  type: string
+                page_part_key:
+                  type: string
+                visible:
+                  type: boolean
+              required:
+              - page_slug
+              - page_part_key
+              - visible
+  "/api/v1/pages/page_fragment":
+    put:
+      summary: save page fragment
+      tags:
+      - Pages
+      parameters: []
+      responses:
+        '200':
+          description: saved
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                page_slug:
+                  type: string
+                fragment_key:
+                  type: string
+                content:
+                  type: string
+  "/api/v1/pages/photos/{page_slug}/{page_part_key}/{block_label}":
+    parameters:
+    - name: page_slug
+      in: path
+      description: Page slug
+      required: true
+      schema:
+        type: string
+    - name: page_part_key
+      in: path
+      description: Page part key
+      required: true
+      schema:
+        type: string
+    - name: block_label
+      in: path
+      description: Block label
+      required: true
+      schema:
+        type: string
+    post:
+      summary: set page photo
+      tags:
+      - Pages
+      parameters: []
+      responses:
+        '200':
+          description: photo set
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: file
+        description: Photo file
+  "/api/v1/properties":
+    get:
+      summary: list properties
+      tags:
+      - Properties
+      parameters:
+      - name: filter[for_sale]
+        in: query
+        required: false
+        description: Filter properties for sale
+        schema:
+          type: boolean
+      - name: filter[for_rent]
+        in: query
+        required: false
+        description: Filter properties for rent
+        schema:
+          type: boolean
+      - name: page[number]
+        in: query
+        required: false
+        description: Page number
+        schema:
+          type: integer
+      - name: page[size]
+        in: query
+        required: false
+        description: Page size
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create property
+      tags:
+      - Properties
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: properties
+                    attributes:
+                      type: object
+                      properties:
+                        reference:
+                          type: string
+                        title:
+                          type: string
+                        description:
+                          type: string
+                        for_sale:
+                          type: boolean
+                        for_rent:
+                          type: boolean
+                        price_sale_current_cents:
+                          type: integer
+                        price_sale_current_currency:
+                          type: string
+                        price_rental_monthly_current_cents:
+                          type: integer
+                        visible:
+                          type: boolean
+                  required:
+                  - type
+                  - attributes
+              required:
+              - data
+  "/api/v1/properties/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: Property ID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show property
+      tags:
+      - Properties
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: not found
+    patch:
+      summary: update property
+      tags:
+      - Properties
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      example: properties
+                    attributes:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        description:
+                          type: string
+                        visible:
+                          type: boolean
+    delete:
+      summary: delete property
+      tags:
+      - Properties
+      responses:
+        '204':
+          description: deleted
+  "/api/v1/properties/bulk_create":
+    post:
+      summary: bulk create properties
+      tags:
+      - Properties
+      parameters: []
+      responses:
+        '200':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                propertiesJSON:
+                  type: string
+                  description: JSON string of properties array
+              required:
+              - propertiesJSON
+  "/api/v1/properties/update_extras":
+    post:
+      summary: update property extras/features
+      tags:
+      - Properties
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                extras:
+                  type: object
+                  description: Features/extras as key-value pairs
+              required:
+              - id
+              - extras
+  "/api/v1/properties/{id}/photo":
+    parameters:
+    - name: id
+      in: path
+      description: Property ID
+      required: true
+      schema:
+        type: string
+    post:
+      summary: add photo to property
+      tags:
+      - Properties
+      parameters: []
+      responses:
+        '200':
+          description: photo added
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: file
+        description: Photo file
+  "/api/v1/properties/{id}/photo_from_url":
+    parameters:
+    - name: id
+      in: path
+      description: Property ID
+      required: true
+      schema:
+        type: string
+    post:
+      summary: add photo from URL
+      tags:
+      - Properties
+      parameters: []
+      responses:
+        '200':
+          description: photo added
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                photo_url:
+                  type: string
+                  format: uri
+              required:
+              - photo_url
+  "/api/v1/properties/photos/{photo_id}":
+    parameters:
+    - name: photo_id
+      in: path
+      description: Photo ID
+      required: true
+      schema:
+        type: string
+    delete:
+      summary: delete property photo
+      tags:
+      - Properties
+      responses:
+        '200':
+          description: photo deleted
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

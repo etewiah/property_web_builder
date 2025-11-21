@@ -90,3 +90,4 @@ node_modules
 # https://vitejs.dev/guide/env-and-mode.html#env-files
 *.local
 .env
+standalone_quasar_app/

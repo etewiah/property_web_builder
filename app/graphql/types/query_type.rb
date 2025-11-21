@@ -23,7 +23,7 @@ module Types
     end
 
     def page(id:)
-      Page.find(id)
+      Pwb::Current.website.pages.find(id)
     end
 
     field :find_page, Types::PageType, null: true do
@@ -34,7 +34,7 @@ module Types
 
     def find_page(slug:, locale:)
       I18n.locale = locale
-      Pwb::Page.find_by_slug(slug)
+      Pwb::Current.website.pages.find_by_slug(slug)
     end
 
     field :search_properties, [Types::PropertyType], null: false do
@@ -51,7 +51,7 @@ module Types
 
     def search_properties(**args)
       # I18n.locale = "es"
-      Pwb::Prop.properties_search(**args)
+      Pwb::Current.website.props.properties_search(**args)
     end
 
     field :get_translations, Types::TranslationType, null: true do
@@ -72,7 +72,7 @@ module Types
     end
 
     def get_links(placement:)
-      Pwb::Link.where(placement: placement)
+      Pwb::Current.website.links.where(placement: placement)
     end
 
     field :get_top_nav_links, [Types::LinkType], null: false do
@@ -82,7 +82,7 @@ module Types
 
     def get_top_nav_links(locale:)
       I18n.locale = locale
-      Pwb::Link.where(placement: "top_nav").where(visible: true)
+      Pwb::Current.website.links.where(placement: "top_nav").where(visible: true)
     end
 
     field :get_footer_links, [Types::LinkType], null: false do
@@ -92,7 +92,7 @@ module Types
 
     def get_footer_links(locale:)
       I18n.locale = locale
-      Pwb::Link.where(placement: "footer").where(visible: true)
+      Pwb::Current.website.links.where(placement: "footer").where(visible: true)
     end
 
     field :get_site_details, Types::WebsiteType, null: false do
@@ -102,7 +102,7 @@ module Types
 
     def get_site_details(locale:)
       I18n.locale = locale
-      Pwb::Website.unique_instance
+      Pwb::Current.website
     end
 
     field :find_property, Types::PropertyType, null: true do
@@ -113,7 +113,7 @@ module Types
 
     def find_property(id:, locale:)
       I18n.locale = locale
-      Pwb::Prop.find(id)
+      Pwb::Current.website.props.find(id)
     end
   end
 end

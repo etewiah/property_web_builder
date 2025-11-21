@@ -2,7 +2,7 @@ require_dependency "pwb/application_controller"
 
 module Pwb
   class Api::V1::PageController < ApplicationApiController
-    # protect_from_forgery with: :null_session
+    protect_from_forgery with: :null_session
     def show
       if params[:page_name] == "website"
         return render json: Website.unique_instance.as_json_for_page

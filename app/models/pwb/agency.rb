@@ -1,6 +1,6 @@
 module Pwb
   class Agency < ApplicationRecord
-    before_create :confirm_singularity
+    # before_create :confirm_singularity
 
     # extend ActiveHash::Associations::ActiveRecordExtensions
 
@@ -8,6 +8,7 @@ module Pwb
 
     belongs_to :primary_address, optional: true, class_name: "Address", foreign_key: "primary_address_id"
     belongs_to :secondary_address, optional: true, class_name: "Address", foreign_key: "secondary_address_id"
+    belongs_to :website, optional: true
 
     def self.unique_instance
       # there will be only one row, and its ID must be '1'

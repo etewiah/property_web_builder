@@ -1,6 +1,7 @@
 module Pwb
   # added July 2017
   class Link < ApplicationRecord
+    belongs_to :website, optional: true
     translates :link_title, fallbacks_for_empty_translations: true
     # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
     globalize_accessors locales: I18n.available_locales
@@ -12,7 +13,7 @@ module Pwb
 
     # enum placement: [ :top_nav, :footer ]
     # above method of declaring less flexible than below:
-    enum placement: { top_nav: 0, footer: 1, social_media: 2, admin: 3 }
+    enum :placement, { top_nav: 0, footer: 1, social_media: 2, admin: 3 }
 
     scope :ordered_visible_admin, ->() { where(visible: true, placement: :admin).order("sort_order asc") }
     scope :ordered_visible_top_nav, ->() { where(visible: true, placement: :top_nav).order("sort_order asc") }

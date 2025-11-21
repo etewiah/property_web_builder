@@ -20,13 +20,14 @@ module Pwb
 
       it 'sets page_part visibility correctly' do
         target_page_content = @page.page_contents.find_by_page_part_key "content_html"
+        puts "DEBUG: target_page_content is #{target_page_content.inspect}"
         put "/api/v1/pages/page_part_visibility", params: {
           page_slug:"home",
           cmd:"setAsHidden",
           page_part_key:"content_html"
         }
         target_page_content.reload
-        expect(response).to be_success
+        expect(response).to be_successful
         # expect(response_body_as_json["visible"]).to eq(false)
         expect(target_page_content.visible_on_page).to eq(false)
 
@@ -37,7 +38,7 @@ module Pwb
         }
 
         target_page_content.reload
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(target_page_content.visible_on_page).to eq(true)
         # expect(@prop_for_long_term_rent.features.find_by(feature_key: "aireAcondicionado")).to be_present
         # expect(@prop_for_long_term_rent.features.count).to eq(1)

@@ -4,8 +4,8 @@ module Pwb
   RSpec.feature "user logs in" do
     # http://www.jessespevack.com/blog/2016/10/16/how-to-test-drive-omniauth-google-oauth2-for-your-rails-app
     scenario "using facebook oauth2" do
-      Rails.application.secrets.facebook_app_id = 123
-      Rails.application.secrets.facebook_app_secret = 456
+
+
       # if secrets are not set above, sign in link will not display
       stub_omniauth
       # visit root_path

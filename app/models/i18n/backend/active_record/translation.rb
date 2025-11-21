@@ -52,7 +52,7 @@ module I18n
         self.table_name = 'translations'
 
         serialize :value
-        serialize :interpolations, Array
+        serialize :interpolations, type: Array, coder: YAML
 
         class << self
           def import(file)

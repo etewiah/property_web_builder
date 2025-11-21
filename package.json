@@ -1,9 +1,9 @@
 {
   "devDependencies": {
     "@quasar/vite-plugin": "^1.0.10",
-    "sass": "1.32.12",
-    "vite": "^2.9.12",
-    "vite-plugin-ruby": "^3.0.12"
+    "sass": "^1.94.2",
+    "vite": "^7.2.4",
+    "vite-plugin-ruby": "^5.1.1"
   },
   "dependencies": {
     "@fawmi/vue-google-maps": "^0.9.72",
@@ -12,6 +12,7 @@
     "@vitejs/plugin-vue": "^2.3.3",
     "axios": "^0.27.2",
     "graphql": "^16.5.0",
+    "lodash": "^4.17.21",
     "quasar": "^2.7.3",
     "vue": "3",
     "vue-currency-input": "^2.5.1",

@@ -8,21 +8,26 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
-## May 2025 update
+## November 2024 Update
 
-PropertyWebBuilder is now a standalone Ruby on Rails app (it is no longer a Ruby on Rails engine). It has also been upgraded to use Rails 7 and Ruby 3
+PropertyWebBuilder has been significantly upgraded! 🎉
 
-I am currently working on a Rails 8 upgrade which will use the wonderful vite-ruby gem to re-implement the admin panel with vue.js and the quasar framework:
+**Major Updates:**
+- ✅ **Rails 8.0** - Upgraded to the latest Rails version with modern features
+- ✅ **Ruby 3.4.7** - Running on the latest stable Ruby
+- ✅ **Vite Integration** - Fast, modern build tooling with vite-ruby
+- ✅ **Vue.js 3 + Quasar** - Admin panel completely reimplemented with modern frontend stack
+- ✅ **Comprehensive Documentation** - Extensive docs for API, GraphQL, deployment, and Quasar integration
 
-https://github.com/etewiah/property_web_builder/tree/vite
+PropertyWebBuilder is now a standalone Ruby on Rails application (no longer a Rails engine) with a cutting-edge tech stack.
 
-Also, I am currently working on a tool to help with house hunting and would love to get some feedback about it.
+For detailed documentation, see the [docs folder](./docs/), which includes:
+- [API Documentation](./docs/04_API.md)
+- [Frontend/Vue.js Documentation](./docs/05_Frontend.md)
+- [Quasar Implementation Guide](./docs/quasar/)
+- [Deployment Guides](./docs/deployment/) for 10+ platforms
 
-Please check it out here and let me know what you think (and if you would like it to be open-sourced):
-
-[https://homestocompare.com/](https://homestocompare.com/)
-
-I have auto-generated some documentation using Devin deepwiki which can be found here:
+Additional auto-generated documentation is available at:
 [https://deepwiki.com/etewiah/property_web_builder](https://deepwiki.com/etewiah/property_web_builder)
 
 ## Motivation
@@ -56,56 +61,66 @@ Here is a video about how to deploy to heroku:
 [![Depoly PWB to heroku](http://img.youtube.com/vi/hyapXTwGyr4/0.jpg)](http://www.youtube.com/watch?v=hyapXTwGyr4 "Deploy PWB to heroku")
 
 
-## Install locally
+## Installation & Development
 
-PWB was previously designed to be included as an engine in an existing Ruby on Rails app. This is no longer the case and you can now run it directly as a standalone app.
+For detailed development instructions, including setup, testing, and troubleshooting, please refer to [DEVELOPMENT.md](DEVELOPMENT.md).
 
-It can also be installed locally as follows:
-
-```bash
-git clone https://github.com/etewiah/property_web_builder.git
-cd property_web_builder
-rails db:create
-rails db:migrate
-rails pwb:db:seed
-```
+For comprehensive documentation covering architecture, APIs, frontend implementation, and more, visit the [Documentation Portal](./docs/).
 
 ## Rails Version
 
-PropertyWebBuilder runs with Rails '~> 6.0'
+PropertyWebBuilder runs with Rails '~> 8.0'
 
 ## Ruby Version
 
-PropertyWebBuilder runs with Ruby >= 3.0.0.
+PropertyWebBuilder runs with Ruby 3.4.7 or higher.
 
 
 ## Features
 
-* Multilingual
-* Multi-currency
-* Powerful search component
-* Fully featured admin panel
-* Google maps integration
-* Customisable look and feel
-* Easily extendable
-* Search engine friendly
-* Mobile friendly responsive layout
-* Fully open source
+* **Modern Tech Stack** - Rails 8, Ruby 3.4.7, Vue.js 3, Quasar, Vite
+* **Multilingual** - Support for multiple languages
+* **Multi-currency** - Handle properties in different currencies
+* **Powerful Search** - Advanced property search functionality
+* **Modern Admin Panel** - Built with Vue.js 3 and Quasar framework
+* **Google Maps Integration** - Interactive property maps
+* **Customisable** - Flexible look and feel
+* **Easily Extendable** - Well-documented architecture
+* **SEO Friendly** - Optimized for search engines
+* **Responsive Design** - Mobile-friendly layout
+* **Fully Open Source** - MIT License
 
-## Coming soon
+## Deployment Options
 
-These are some features I plan to add over the coming months.  If there is something you need which is not on the list, please let me know.  I am also interested in knowing which of these features I should prioritize.
+PropertyWebBuilder can be deployed to multiple platforms. We have comprehensive deployment guides for:
+
+* **[Render](./docs/deployment/render.md)** - Easy deployment with automatic builds
+* **[Heroku](https://heroku.com/deploy?template=https://github.com/etewiah/property_web_builder)** - One-click deployment (no longer free)
+* **[Dokku](./docs/deployment/dokku.md)** - Self-hosted PaaS
+* **[Cloud66](./docs/deployment/cloud66.md)** - DevOps automation
+* **[Koyeb](./docs/deployment/koyeb.md)** - Serverless platform
+* **[Northflank](./docs/deployment/northflank.md)** - Developer platform
+* **[Qoddi](./docs/deployment/qoddi.md)** - App hosting platform
+* **[AlwaysData](./docs/deployment/alwaysdata.md)** - Hosting provider
+* **[DomCloud](./docs/deployment/domcloud.md)** - Cloud hosting
+* **[Argonaut](./docs/deployment/argonaut.md)** - Deployment automation
+* **[Coherence](./docs/deployment/withcoherence.md)** - Full-stack cloud platform
+
+For development setup instructions, see [DEVELOPMENT.md](DEVELOPMENT.md).
+
+## Coming Soon
+
+These are features planned for future releases. If there's something you need that's not on the list, please let us know. Your feedback helps us prioritize!
 
 * Instant price conversions into other currencies
-* Migrate admin section from an ember js app to vue js using the quasar framework
-* [More languages](https://github.com/etewiah/property_web_builder/issues/4)
+* [More languages](https://github.com/etewiah/property_web_builder/issues/4) - help with translations appreciated!
 * [More themes](https://github.com/etewiah/property_web_builder/issues/3)
-* Mobile app (iOS and android)
-* [RETS support (to allow synchronizing MLS content)](https://github.com/etewiah/property_web_builder/issues/2)
-* Integration with third party apps such as Insightly and Basecamp
-* Full calendering functionality for rental properties
-* Ability to import WordPress blogs
-* Neighbourhood information from Zillow API
+* Mobile apps (iOS and Android)
+* [RETS support](https://github.com/etewiah/property_web_builder/issues/2) - for synchronizing MLS content
+* Integration with third-party CRM systems (Insightly, Basecamp)
+* Full calendaring functionality for rental properties
+* WordPress blog import functionality
+* Neighborhood information from Zillow API
 
 
 ## Contribute and spread the love
