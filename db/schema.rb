@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_20_175229) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_21_191127) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -61,6 +61,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_20_175229) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "theme_name"
+    t.integer "website_id"
+    t.index ["website_id"], name: "index_pwb_agencies_on_website_id"
   end
 
   create_table "pwb_authorizations", force: :cascade do |t|
@@ -164,7 +166,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_20_175229) do
     t.datetime "updated_at", precision: nil, null: false
     t.string "section_key"
     t.string "page_part_key"
+    t.integer "website_id"
     t.index ["key"], name: "index_pwb_contents_on_key", unique: true
+    t.index ["website_id"], name: "index_pwb_contents_on_website_id"
   end
 
   create_table "pwb_features", id: :serial, force: :cascade do |t|
@@ -214,10 +218,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_20_175229) do
     t.integer "placement", default: 0
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.integer "website_id"
     t.index ["flags"], name: "index_pwb_links_on_flags"
     t.index ["page_slug"], name: "index_pwb_links_on_page_slug"
     t.index ["placement"], name: "index_pwb_links_on_placement"
     t.index ["slug"], name: "index_pwb_links_on_slug", unique: true
+    t.index ["website_id"], name: "index_pwb_links_on_website_id"
   end
 
   create_table "pwb_messages", id: :serial, force: :cascade do |t|
@@ -299,10 +305,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_20_175229) do
     t.boolean "show_in_footer", default: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.integer "website_id"
     t.index ["flags"], name: "index_pwb_pages_on_flags"
     t.index ["show_in_footer"], name: "index_pwb_pages_on_show_in_footer"
     t.index ["show_in_top_nav"], name: "index_pwb_pages_on_show_in_top_nav"
     t.index ["slug"], name: "index_pwb_pages_on_slug", unique: true
+    t.index ["website_id"], name: "index_pwb_pages_on_website_id"
   end
 
   create_table "pwb_prop_photos", id: :serial, force: :cascade do |t|
@@ -393,6 +401,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_20_175229) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "area_unit", default: 0
+    t.integer "website_id"
     t.index ["archived"], name: "index_pwb_props_on_archived"
     t.index ["flags"], name: "index_pwb_props_on_flags"
     t.index ["for_rent_long_term"], name: "index_pwb_props_on_for_rent_long_term"
@@ -404,6 +413,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_20_175229) do
     t.index ["price_sale_current_cents"], name: "index_pwb_props_on_price_sale_current_cents"
     t.index ["reference"], name: "index_pwb_props_on_reference"
     t.index ["visible"], name: "index_pwb_props_on_visible"
+    t.index ["website_id"], name: "index_pwb_props_on_website_id"
   end
 
   create_table "pwb_users", id: :serial, force: :cascade do |t|
@@ -489,6 +499,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_20_175229) do
     t.string "main_logo_url"
     t.string "maps_api_key"
     t.string "recaptcha_key"
+    t.string "slug"
+    t.index ["slug"], name: "index_pwb_websites_on_slug"
   end
 
   create_table "translations", id: :serial, force: :cascade do |t|
