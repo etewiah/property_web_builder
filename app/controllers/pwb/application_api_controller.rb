@@ -13,6 +13,8 @@ module Pwb
 
     private
 
+
+
     def check_user
       puts "ApplicationApiController#check_user reached"
       unless current_user && current_user.admin
