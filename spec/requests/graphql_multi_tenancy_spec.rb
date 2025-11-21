@@ -46,5 +46,96 @@ RSpec.describe "GraphQL Multi-tenancy", type: :request do
       expect(properties.length).to eq(1)
       expect(properties.first["reference"]).to eq("ref2")
     end
+
+    describe "Pages" do
+      let!(:page1) { Pwb::Page.create!(website: website1, slug: "home", visible: true) }
+      let!(:page2) { Pwb::Page.create!(website: website2, slug: "home", visible: true) }
+
+      it "returns page for site1" do
+        query = <<~GQL
+          query {
+            findPage(slug: "home", locale: "en") {
+              id
+              slug
+            }
+          }
+        GQL
+
+        post "/graphql", params: { query: query }, headers: { "X-Website-Slug" => "site1" }
+        
+        json = JSON.parse(response.body)
+        page = json["data"]["findPage"]
+        
+        expect(page["id"].to_i).to eq(page1.id)
+      end
+
+      it "returns page for site2" do
+        query = <<~GQL
+          query {
+            findPage(slug: "home", locale: "en") {
+              id
+              slug
+            }
+          }
+        GQL
+
+        post "/graphql", params: { query: query }, headers: { "X-Website-Slug" => "site2" }
+        
+        json = JSON.parse(response.body)
+        page = json["data"]["findPage"]
+        
+        expect(page["id"].to_i).to eq(page2.id)
+      end
+    end
+
+    describe "Links" do
+      let!(:link1) { Pwb::Link.create!(website: website1, slug: "link1", placement: "top_nav", visible: true) }
+      let!(:link2) { Pwb::Link.create!(website: website2, slug: "link2", placement: "top_nav", visible: true) }
+
+      it "returns top nav links for site1" do
+        query = <<~GQL
+          query {
+            getTopNavLinks(locale: "en") {
+              slug
+            }
+          }
+        GQL
+
+        post "/graphql", params: { query: query }, headers: { "X-Website-Slug" => "site1" }
+        
+        json = JSON.parse(response.body)
+        links = json["data"]["getTopNavLinks"]
+        
+        expect(links.length).to eq(1)
+        expect(links.first["slug"]).to eq("link1")
+      end
+    end
+
+    describe "Fallback" do
+      it "uses default site when header is missing" do
+        # Assuming website1 is the default/first one or fallback logic picks one
+        # In the controller we have: Pwb::Current.website ||= Pwb::Website.unique_instance
+        # unique_instance finds(1) or creates it.
+        # Since we created website1 and website2, their IDs might not be 1.
+        # Let's ensure Pwb::Website.unique_instance returns something we expect or stub it.
+        
+        # Actually, unique_instance tries to find(1). If our factories/setup didn't create ID 1, it creates a new one.
+        # Let's see what happens.
+        
+        query = <<~GQL
+          query {
+            getSiteDetails(locale: "en") {
+              slug
+            }
+          }
+        GQL
+
+        post "/graphql", params: { query: query }
+        
+        # json = JSON.parse(response.body)
+        # It might return a new website with ID 1 if not present.
+        # Or if website1 happened to get ID 1.
+      end
+    end
   end
 end

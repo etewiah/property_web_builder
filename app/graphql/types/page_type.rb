@@ -3,6 +3,8 @@
 module Types
   class PageType < Types::BaseObject
     # field :page_parts, Types::ReferencesType
+    field :id, ID, null: false
+    field :slug, String
     field :created_at, GraphQL::Types::ISO8601DateTime
     field :raw_html, String
     field :page_title, String

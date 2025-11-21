@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_21_191127) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_21_193036) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -309,7 +309,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_191127) do
     t.index ["flags"], name: "index_pwb_pages_on_flags"
     t.index ["show_in_footer"], name: "index_pwb_pages_on_show_in_footer"
     t.index ["show_in_top_nav"], name: "index_pwb_pages_on_show_in_top_nav"
-    t.index ["slug"], name: "index_pwb_pages_on_slug", unique: true
+    t.index ["slug", "website_id"], name: "index_pwb_pages_on_slug_and_website_id", unique: true
     t.index ["website_id"], name: "index_pwb_pages_on_website_id"
   end
 
