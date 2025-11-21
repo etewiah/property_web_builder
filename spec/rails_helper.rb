@@ -8,7 +8,7 @@ require File.expand_path("../dummy/config/environment.rb", __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require "spec_helper"
 require "rspec/rails"
-
+require "rails-controller-testing"
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # note: require 'devise' after require 'rspec/rails'
@@ -66,12 +66,16 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   %i[controller view request].each do |type|
-
+    config.include ::Rails::Controller::Testing::TestProcess, type: type
+    config.include ::Rails::Controller::Testing::TemplateAssertions, type: type
+    config.include ::Rails::Controller::Testing::Integration, type: type
   end
   # config.include Pwb::ApplicationHelper
 
   # https://github.com/plataformatec/devise/wiki/How-To:-Test-controllers-with-Rails-3-and-4-(and-RSpec)
   config.include Devise::Test::ControllerHelpers, type: :controller
+
+  config.include FeatureHelpers, type: :feature
 
   config.extend ControllerMacros, type: :controller
   # https://github.com/plataformatec/devise/wiki/How-To:-Stub-authentication-in-controller-specs

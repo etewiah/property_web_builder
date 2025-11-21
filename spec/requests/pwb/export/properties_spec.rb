@@ -11,18 +11,18 @@ module Pwb
     context 'with signed in admin user' do
       describe "GET /export/properties" do
         it "is successful" do
-          sign_in @admin_user
+          sign_in :user, @admin_user
 
           get "/export/properties"
           puts response.body
-      expect(response.status).to eq 200 # successful
+          expect(response.status).to eq 200 # successful
           # expect(response.body).to have_json_path("agency")
         end
       end
     end
 
-    after(:all) do
-      @admin_user.destroy
+    after do
+      @admin_user&.destroy
     end
   end
 end

@@ -54,7 +54,7 @@ group :development, :test do
   gem "capybara"
   gem "database_cleaner"
   # , '~> 1.3'
-
+  gem "rails-controller-testing"
   gem "factory_bot_rails"
   gem "poltergeist"
   # , '~> 1.10'
