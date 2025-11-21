@@ -122,83 +122,84 @@ Rails.application.routes.draw do
         get "/properties" => "properties#all"
       end
 
-      namespace :api do
-        namespace :v1 do
-          # get "/cms/tag/:tag_name" => "cms#tag"
-          get "/translations/list/:locale" => "translations#list"
-
-          # below gets FieldConfig values for a batch_key such as "person-titles"
-          # and returns all the locale translations so an admin
-          # can manage them..
-          get "/translations/batch/:batch_key" => "translations#get_by_batch"
-          post "/translations" => "translations#create_translation_value"
-
-          post "/translations/create_for_locale" => "translations#create_for_locale"
-          put "/translations/:id/update_for_locale" => "translations#update_for_locale"
-          delete "/translations/:id" => "translations#delete_translation_values"
-
-          # put "tenant" => "agency#update_legacy"
-          put "/master_address" => "agency#update_master_address"
-
-          get "/agency" => "agency#show"
-          put "/agency" => "agency#update"
-          put "/website" => "website#update"
-          get "/infos" => "agency#infos"
-
-          put "/pages" => "page#update"
-          put "/pages/page_part_visibility" => "page#update_page_part_visibility"
-          put "/pages/page_fragment" => "page#save_page_fragment"
-          get "/pages/:page_name" => "page#show"
-
-          # post '/page_fragments/photos/:page_id/:block_label' => 'page_fragments#set_photo'
-
-          post "/pages/photos/:page_slug/:page_part_key/:block_label" => "page#set_photo"
-          # post '/cms-pages/photos/:page_id/:block_label' => 'cms_pages#set_photo'
-          # jsonapi_resources :cms_pages
-
-          get "/web-contents" => "agency#infos"
-          jsonapi_resources :lite_properties
-          jsonapi_resources :properties
-          # jsonapi_resources :clients
-          jsonapi_resources :web_contents
-          resources :contacts
-
-          get "/links" => "links#index"
-          put "/links" => "links#bulk_update"
-
-          get "/themes" => "themes#index"
-          get "/mls" => "mls#index"
-          get "/select_values" => "select_values#by_field_names"
-
-          # TODO: rename to update_features:
-          post "properties/update_extras" => "properties#update_extras"
-
-          delete "properties/photos/:id" => "properties#remove_photo"
-          delete "properties/photos/:id/:prop_id" => "properties#remove_photo"
-          post "/properties/bulk_create" => "properties#bulk_create"
-          post "/properties/:id/photo" => "properties#add_photo"
-          post "/properties/:id/photo_from_url" => "properties#add_photo_from_url"
-          put "properties/:id/order_photos" => "properties#order_photos"
-
-          post "properties/set_owner" => "properties#set_owner"
-          post "properties/unset_owner" => "properties#unset_owner"
-
-          put "/web_contents/photos/:id/:content_tag" => "web_contents#update_photo"
-          # above is used by logo and about_me photos
-          # where only one photo is allowed
-
-          post "/web_contents/photo/:tag" => "web_contents#create_content_with_photo"
-          # above for carousel photos where I need to be able to
-          # create content along with the photo
-
-        end
-      end
-
       # comfy_route :cms_admin, :path => '/comfy-admin'
 
       # # Make sure this routeset is defined last
       # comfy_route :cms, :path => '/comfy', :sitemap => false
 
+    end
+
+    # API routes moved outside authenticate block to allow BYPASS_API_AUTH env var
+    namespace :api do
+      namespace :v1 do
+        # get "/cms/tag/:tag_name" => "cms#tag"
+        get "/translations/list/:locale" => "translations#list"
+
+        # below gets FieldConfig values for a batch_key such as "person-titles"
+        # and returns all the locale translations so an admin
+        # can manage them..
+        get "/translations/batch/:batch_key" => "translations#get_by_batch"
+        post "/translations" => "translations#create_translation_value"
+
+        post "/translations/create_for_locale" => "translations#create_for_locale"
+        put "/translations/:id/update_for_locale" => "translations#update_for_locale"
+        delete "/translations/:id" => "translations#delete_translation_values"
+
+        # put "tenant" => "agency#update_legacy"
+        put "/master_address" => "agency#update_master_address"
+
+        get "/agency" => "agency#show"
+        put "/agency" => "agency#update"
+        put "/website" => "website#update"
+        get "/infos" => "agency#infos"
+
+        put "/pages" => "page#update"
+        put "/pages/page_part_visibility" => "page#update_page_part_visibility"
+        put "/pages/page_fragment" => "page#save_page_fragment"
+        get "/pages/:page_name" => "page#show"
+
+        # post '/page_fragments/photos/:page_id/:block_label' => 'page_fragments#set_photo'
+
+        post "/pages/photos/:page_slug/:page_part_key/:block_label" => "page#set_photo"
+        # post '/cms-pages/photos/:page_id/:block_label' => 'cms_pages#set_photo'
+        # jsonapi_resources :cms_pages
+
+        get "/web-contents" => "agency#infos"
+        jsonapi_resources :lite_properties
+        jsonapi_resources :properties
+        # jsonapi_resources :clients
+        jsonapi_resources :web_contents
+        resources :contacts
+
+        get "/links" => "links#index"
+        put "/links" => "links#bulk_update"
+
+        get "/themes" => "themes#index"
+        get "/mls" => "mls#index"
+        get "/select_values" => "select_values#by_field_names"
+
+        # TODO: rename to update_features:
+        post "properties/update_extras" => "properties#update_extras"
+
+        delete "properties/photos/:id" => "properties#remove_photo"
+        delete "properties/photos/:id/:prop_id" => "properties#remove_photo"
+        post "/properties/bulk_create" => "properties#bulk_create"
+        post "/properties/:id/photo" => "properties#add_photo"
+        post "/properties/:id/photo_from_url" => "properties#add_photo_from_url"
+        put "properties/:id/order_photos" => "properties#order_photos"
+
+        post "properties/set_owner" => "properties#set_owner"
+        post "properties/unset_owner" => "properties#unset_owner"
+
+        put "/web_contents/photos/:id/:content_tag" => "web_contents#update_photo"
+        # above is used by logo and about_me photos
+        # where only one photo is allowed
+
+        post "/web_contents/photo/:tag" => "web_contents#create_content_with_photo"
+        # above for carousel photos where I need to be able to
+        # create content along with the photo
+
+      end
     end
   end
 end
