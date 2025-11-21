@@ -36,7 +36,7 @@ Gem::Specification.new do |s|
   # https://github.com/cloudinary/cloudinary_gem/issues/221
   # spt 2017 - above has now been fixed
   s.add_dependency 'carrierwave'
-  s.add_dependency 'bootstrap-sass'
+
   s.add_dependency 'i18n-active_record'
   # , :require => 'i18n/active_record'
   s.add_dependency 'responders'

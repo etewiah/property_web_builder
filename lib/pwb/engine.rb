@@ -1,6 +1,6 @@
 require 'money-rails'
 require 'globalize-accessors'
-require 'bootstrap-sass'
+
 require 'carrierwave'
 require 'responders'
 require 'jsonapi-resources'
