@@ -1,4 +1,4 @@
-```ruby
+
 require 'rails_helper'
 
 module Pwb

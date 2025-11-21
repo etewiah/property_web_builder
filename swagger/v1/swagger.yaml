@@ -1,0 +1,36 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/properties":
+    get:
+      summary: list properties
+      tags:
+      - Properties
+      responses:
+        '200':
+          description: successful
+  "/api/v1/properties/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show property
+      tags:
+      - Properties
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: not found
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
