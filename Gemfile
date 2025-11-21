@@ -89,7 +89,7 @@ gem "paloma", "~> 6.1.0"
 # gem 'bourbon'
 # gem 'property_web_scraper', github: 'RealEstateWebTools/property_web_scraper'
 
-gem "sassc-rails"
+
 # capybary now requires puma as webserver by default
 gem "puma"
 
@@ -124,7 +124,9 @@ gem "active_hash", "~> 3.1"
 
 gem "flag_shih_tzu", "~> 0.3.23"
 
-gem "bootstrap-sass", "~> 3.4"
+# gem "bootstrap-sass", "~> 3.4"
+gem "dartsass-rails"
+gem "sprockets-rails"
 
 gem "jquery-rails", "~> 4.5"
 
