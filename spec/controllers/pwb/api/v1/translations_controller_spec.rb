@@ -28,7 +28,7 @@ module Pwb
       end
       describe "GET #get_by_batch" do
         it "renders correct json" do
-          get :get_by_batch, params: {
+          process :get_by_batch, method: :get, params: {
                                batch_key: "property-types",
                              }
           # , format: :json
