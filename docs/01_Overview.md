@@ -18,7 +18,8 @@ This documentation is divided into several sections, each of which covers a diff
 
 PropertyWebBuilder is a monolithic Ruby on Rails application. It uses standard Rails MVC architecture, with some frontend components built using Vue.js.
 
-- **Backend:** Ruby on Rails 7, PostgreSQL.
-- **Frontend:** Rails Views (ERB), Vue.js.
+- **Backend:** Ruby on Rails 8, PostgreSQL.
+- **Frontend:** Rails Views (ERB), Vue.js 3 with Quasar Framework.
+- **Build Tool:** Vite with vite-plugin-ruby.
 - **API:** RESTful API for admin panel and external integrations, GraphQL API for flexible data querying.
 
