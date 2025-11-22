@@ -199,7 +199,19 @@ Rails.application.routes.draw do
         # above for carousel photos where I need to be able to
         # create content along with the photo
 
-      end
+    end
+    end
+  end
+
+  namespace :api_public do
+    namespace :v1 do
+      get "/properties/:id" => "properties#show"
+      get "/properties" => "properties#search"
+      get "/pages/:id" => "pages#show"
+      get "/pages/by_slug/:slug" => "pages#show_by_slug"
+      get "/translations" => "translations#index"
+      get "/links" => "links#index"
+      get "/site_details" => "site_details#index"
     end
   end
 end
