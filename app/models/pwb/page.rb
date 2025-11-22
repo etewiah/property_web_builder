@@ -123,11 +123,15 @@ module Pwb
     #   return { json_fragment_block: json_fragment_block, fragment_html: fragment_html }
     # end
 
-    # def as_json(options = nil)
-    #   super({only: ["sort_order_top_nav", "show_in_top_nav"],
-    #          methods: ["link_title_en","link_title_es"
-    #   ]}.merge(options || {}))
-    # end
+    def as_json(options = nil)
+      super({ only: [
+        "sort_order_top_nav", "show_in_top_nav",
+        "sort_order_footer", "show_in_footer",
+        "slug", "link_path", "visible", "page_title", "link_title", "raw_html"
+      ],
+              methods: [:page_contents] }.merge(options || {}))
+    end
+
     # above can be called on a result set from a query like so:
     # Page.all.as_json
     # Below can only be called on a single record like so:

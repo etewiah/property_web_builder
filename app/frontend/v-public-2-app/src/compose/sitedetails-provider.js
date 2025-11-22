@@ -27,37 +27,40 @@ function setNavItems(publicLocale, navLinks) {
     //   linkPathParams,
     // Have to create a new item below as navLink that is passed in is readonly
     let linkWithRoute = {
-      linkTitle: navLink.linkTitle
+      linkTitle: navLink.link_title || navLink.linkTitle
     }
-    if (navLink.linkPath === "admin_with_locale_path") {
+    const linkPath = navLink.link_path || navLink.linkPath
+    const linkPathParams = navLink.link_path_params || navLink.linkPathParams || navLink.page_slug || navLink.pageSlug
+
+    if (linkPath === "admin_with_locale_path") {
       return
     }
-    if (navLink.linkPath === "buy_path") {
+    if (linkPath === "buy_path") {
       linkWithRoute.route = {
         name: "rForSaleSearch",
         params: {
           publicLocale: publicLocale,
         },
       }
-    } else if (navLink.linkPath === "rent_path") {
+    } else if (linkPath === "rent_path") {
       linkWithRoute.route = {
         name: "rForRentSearch",
         params: {
           publicLocale: publicLocale,
         },
       }
-    } else if (navLink.linkPath === "contact_us_path") {
+    } else if (linkPath === "contact_us_path") {
       linkWithRoute.route = {
         name: "rContactUs",
         params: {
           publicLocale: publicLocale,
         },
       }
-    } else if (navLink.linkPath === "show_page_path") {
+    } else if (linkPath === "show_page_path") {
       linkWithRoute.route = {
         name: "rPublicPage",
         params: {
-          pageSlug: navLink.linkPathParams,
+          pageSlug: linkPathParams,
           publicLocale: publicLocale,
         },
       }
@@ -65,7 +68,7 @@ function setNavItems(publicLocale, navLinks) {
       linkWithRoute.route = {
         name: "rLocaleHomePage",
         params: {
-          pageSlug: navLink.linkPathParams,
+          pageSlug: linkPathParams,
           publicLocale: publicLocale,
         },
       }
@@ -76,7 +79,13 @@ function setNavItems(publicLocale, navLinks) {
 }
 
 function setAgency(agency, supportedLocales) {
-  state.agency = agency || {}
+  const _agency = agency || {}
+  state.agency = {
+    phoneNumberPrimary: _agency.phone_number_primary || _agency.phoneNumberPrimary,
+    emailPrimary: _agency.email_primary || _agency.emailPrimary,
+    displayName: _agency.display_name || _agency.displayName,
+    ..._agency
+  }
   state.supportedLocales = supportedLocales || []
 }
 

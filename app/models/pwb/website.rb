@@ -99,7 +99,7 @@ module Pwb
         "sale_price_options_from", "sale_price_options_till",
         "rent_price_options_from", "rent_price_options_till",
       ],
-              methods: ["style_variables", "admin_page_links"] }.merge(options || {}))
+              methods: ["style_variables", "admin_page_links", "top_nav_display_links", "footer_display_links", "agency"] }.merge(options || {}))
     end
 
     enum :default_area_unit, { sqmt: 0, sqft: 1 }
