@@ -43,6 +43,8 @@ Rails.application.routes.draw do
 
     get "/v-public" => "vue_public#show"
     get "/v-public/*path" => "vue_public#show"
+    get "/v-public-2" => "vue_public_2#show"
+    get "/v-public-2/*path" => "vue_public_2#show"
 
     get "/custom_css/:theme_name" => "css#custom_css", as: "custom_css"
 
