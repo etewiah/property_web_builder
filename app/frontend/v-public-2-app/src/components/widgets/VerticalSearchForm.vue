@@ -29,21 +29,38 @@
 </template>
 <script>
 import SelectField from "~/v-public-app/src/components/fields/SelectField.vue"
-import useSearchFields from "~/v-public-app/src/compose/useSearchFields.js"
+import useSearchFields from "~/v-public-2-app/src/compose/useSearchFields.js"
+import usePropertyTypes from "~/v-public-2-app/src/compose/usePropertyTypes.js"
 import { useRoute } from "vue-router"
+import { watch } from "vue"
+
 export default {
   components: {
     SelectField,
   },
   setup() {
     const { getSearchFields } = useSearchFields()
+    const { propertyTypes } = usePropertyTypes()
     const route = useRoute()
     let saleOrRental = "rental"
     if (route.name === "rForSaleSearch") {
       saleOrRental = "sale"
     }
+    
+    const searchFields = getSearchFields(saleOrRental)
+    
+    // Update property type options when they're loaded
+    watch(propertyTypes, (newTypes) => {
+      const propertyTypeField = searchFields.find(f => f.fieldName === "propertyType")
+      if (propertyTypeField && newTypes.length > 0) {
+        propertyTypeField.optionsValues = newTypes.map(t => t.value)
+        // Store labels for display
+        propertyTypeField.optionsLabels = newTypes
+      }
+    })
+    
     return {
-      searchFields: getSearchFields(saleOrRental),
+      searchFields,
     }
   },
 

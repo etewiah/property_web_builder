@@ -68,7 +68,11 @@ export default {
       ) {
         isCurrency = true
       }
-      rawVals.forEach(function (optionKey) {
+      
+      // Check if we have separate labels (e.g., for property types)
+      const hasLabels = this.fieldDetails.optionsLabels && this.fieldDetails.optionsLabels.length > 0
+      
+      rawVals.forEach((optionKey, index) => {
         let name = optionKey
         let val = optionKey
         if (isCurrency) {
@@ -77,6 +81,13 @@ export default {
           name = "€" + optionKey
           // below removes comma
           val = optionKey.replace(/,/g, "")
+        } else if (hasLabels) {
+          // For fields with separate labels (like property types)
+          const labelObj = this.fieldDetails.optionsLabels.find(l => l.value === optionKey)
+          if (labelObj) {
+            name = labelObj.label
+            val = labelObj.value
+          }
         } else {
           if (optionsType === "object_list") {
             // name = _.startCase(optionKey.label)

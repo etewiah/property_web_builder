@@ -83,6 +83,20 @@ export default function () {
       },
       {
         "toggleOnMobile": true,
+        "labelTextTKey": "simple_form.labels.search.property_type",
+        "classNames": "xs12 sm4 lg3",
+        "tooltipTextTKey": "",
+        "fieldName": "propertyType",
+        "queryStringName": "property_type",
+        "defaultValueForSearch": "",
+        "defaultValueForAlert": "",
+        "inputType": "select",
+        "sortOrder": 5,
+        "optionsValues": [], // Will be populated from API
+        "optionsSource": "property-types" // Indicates this should fetc from API
+      },
+      {
+        "toggleOnMobile": true,
         // "labelTextTKey": "client_shared.fieldLabels.minBedrooms",
         "labelTextTKey": "simple_form.labels.search.count_bedrooms",
         "classNames": "xs12 sm4 lg3",

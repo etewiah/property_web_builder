@@ -214,6 +214,7 @@ Rails.application.routes.draw do
       get "/translations" => "translations#index"
       get "/links" => "links#index"
       get "/site_details" => "site_details#index"
+      get "/select_values" => "select_values#index"
     end
   end
 end

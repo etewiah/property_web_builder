@@ -63,6 +63,7 @@ export default defineComponent({
     const forRentPriceFrom = ref("none")
     const bedroomsFrom = ref("none")
     const bathroomsFrom = ref("none")
+    const propertyType = ref("none")
     
     const loading = ref(false)
     const error = ref(null)
@@ -80,6 +81,7 @@ export default defineComponent({
           for_rent_price_till: forRentPriceTill.value,
           bathrooms_from: bathroomsFrom.value,
           bedrooms_from: bedroomsFrom.value,
+          property_type: propertyType.value,
         }
         const response = await axios.get('/api_public/v1/properties', { params })
         propertiesData.value = response.data
@@ -93,7 +95,7 @@ export default defineComponent({
 
     // Watch for changes in search parameters
     watch(
-      [forSalePriceTill, forSalePriceFrom, forRentPriceTill, forRentPriceFrom, bedroomsFrom, bathroomsFrom],
+      [forSalePriceTill, forSalePriceFrom, forRentPriceTill, forRentPriceFrom, bedroomsFrom, bathroomsFrom, propertyType],
       () => {
         fetchProperties()
       },
@@ -107,6 +109,7 @@ export default defineComponent({
       forSalePriceTill,
       forRentPriceFrom,
       forRentPriceTill,
+      propertyType,
       saleOrRental,
       loading,
       propertiesData,
