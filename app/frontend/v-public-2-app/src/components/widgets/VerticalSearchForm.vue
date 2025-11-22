@@ -1,5 +1,5 @@
 <template>
-  <div class="vert-search">
+  <div class="vertical-search-form">
     <div class="q-mr-md">
       <span name="search-box-fade">
         <div>
@@ -17,7 +17,7 @@
               <SelectField
                 @selectChanged="triggerSearchUpdate"
                 :fieldDetails="fieldDetails"
-                :currentFieldValue="routeParams[fieldDetails.queryStringName]"
+                :currentFieldValue="currentFilterValues[fieldDetails.queryStringName]"
                 :currentMinPriceValue="currentMinPriceValue"
               ></SelectField>
             </div>
@@ -83,6 +83,12 @@ export default {
     isMobileModal: {
       type: Boolean,
     },
+    currentFilterValues: {
+      type: Object,
+      default() {
+        return {}
+      }
+    },
   },
   methods: {
     triggerSearchUpdate(fieldDetails) {
@@ -111,7 +117,8 @@ export default {
   data: () => ({
     newCurrentMinPriceValue: null,
   }),
-  mounted: function () {},
+  mounted() {
+  },
 }
 </script>
 <style scoped></style>
