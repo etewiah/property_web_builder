@@ -112,6 +112,9 @@ export default defineComponent({
         priceRentalMonthlyCurrentCents: prop.price_rental_monthly_current_cents,
         currency: prop.currency,
         propPhotos: prop.prop_photos || [],
+        reference: prop.reference,
+        constructedArea: prop.constructed_area,
+        countGarages: prop.count_garages,
         // Add other fields as needed
       }
     }

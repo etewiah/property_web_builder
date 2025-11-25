@@ -24,26 +24,30 @@
       <q-separator />
       <router-link style="text-decoration: none" :to="currentListingRoute">
         <div class="q-pa-md">
-          <q-item-section>
-            <router-link
-              style="text-decoration: none"
-              :to="currentListingRoute"
-            >
-              <!-- <q-item-label overline>OVERLINE</q-item-label> -->
-              <q-item-label>{{ currentListing.title }}</q-item-label>
-              <q-item-label caption>
-                <ConvertableCurrencyDisplay
-                  :priceInCents="priceInCents"
-                  :originalCurrency="currentListing.currency || 'GBP'"
-                ></ConvertableCurrencyDisplay>
-              </q-item-label>
-            </router-link>
-          </q-item-section>
+            <q-item-section>
+              <router-link
+                style="text-decoration: none"
+                :to="currentListingRoute"
+              >
+                <!-- <q-item-label overline>OVERLINE</q-item-label> -->
+                <q-item-label>{{ currentListing.title }}</q-item-label>
+                <q-item-label caption>
+                  <ConvertableCurrencyDisplay
+                    :priceInCents="priceInCents"
+                    :originalCurrency="currentListing.currency || 'GBP'"
+                    class="property-price"
+                  ></ConvertableCurrencyDisplay>
+                </q-item-label>
+                <q-item-label caption v-if="currentListing.reference" class="property-reference">
+                  Ref: {{ currentListing.reference }}
+                </q-item-label>
+              </router-link>
+            </q-item-section>
         </div>
         <q-card-actions class="w-full">
           <div>
             <div class="q-pa-md row no-wrap items-center justify-around">
-              <div class="flex-1 inline-flex items-center q-pr-sm">
+              <div class="flex-1 inline-flex items-center q-pr-sm property-bedrooms">
                 <q-icon size="1rem">
                   <svg
                     class="h-6 w-6 text-gray-600 fill-current mr-3"
@@ -62,7 +66,7 @@
                   Bedrooms
                 </div>
               </div>
-              <div class="flex-1 inline-flex items-center q-pl-sm">
+              <div class="flex-1 inline-flex items-center q-pl-sm property-bathrooms">
                 <q-icon size="1rem">
                   <svg
                     class="h-6 w-6 text-gray-600 fill-current mr-3"
@@ -80,6 +84,24 @@
                     {{ currentListing.countBathrooms }}
                   </span>
                   Bathrooms
+                </div>
+              </div>
+              <div class="flex-1 inline-flex items-center q-pl-sm property-area" v-if="currentListing.constructedArea">
+                <q-icon name="aspect_ratio" size="1rem" class="text-gray-600 mr-3" />
+                <div style="display: inline; margin-left: 8px">
+                  <span class="text-gray-900 text-weight-bold">
+                    {{ currentListing.constructedArea }}
+                  </span>
+                  m²
+                </div>
+              </div>
+              <div class="flex-1 inline-flex items-center q-pl-sm property-garages" v-if="currentListing.countGarages">
+                <q-icon name="garage" size="1rem" class="text-gray-600 mr-3" />
+                <div style="display: inline; margin-left: 8px">
+                  <span class="text-gray-900 text-weight-bold">
+                    {{ currentListing.countGarages }}
+                  </span>
+                  Garages
                 </div>
               </div>
             </div>
