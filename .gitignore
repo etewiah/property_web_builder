@@ -91,3 +91,4 @@ node_modules
 *.local
 .env
 standalone_quasar_app/
+pwb-frontend-quasar/
