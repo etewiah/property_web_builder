@@ -18,6 +18,19 @@ namespace :pwb do
       Pwb::PagesSeeder.seed_page_basics!
       # below need to have page_parts populated to work correctly
       Pwb::ContentsSeeder.seed_page_content_translations!
+      
+      # Associate all pages with the website to ensure GraphQL queries work correctly
+      website = Pwb::Website.first
+      if website
+        orphaned_pages = Pwb::Page.where(website_id: nil)
+        if orphaned_pages.any?
+          puts "🔧 Associating #{orphaned_pages.count} page(s) with website #{website.id}..."
+          orphaned_pages.update_all(website_id: website.id)
+          puts "✅ Pages successfully associated with website"
+        end
+      else
+        puts "⚠️  Warning: No website found - pages not associated"
+      end
     end
 
     desc 'Seeds the database with seed data for I18n, properties and field_keys'
@@ -34,6 +47,19 @@ namespace :pwb do
       # below need to have page_parts populated to work correctly
       p 'seed_page_content_translations!'
       Pwb::ContentsSeeder.seed_page_content_translations!
+      
+      # Associate all pages with the website to ensure GraphQL queries work correctly
+      website = Pwb::Website.first
+      if website
+        orphaned_pages = Pwb::Page.where(website_id: nil)
+        if orphaned_pages.any?
+          puts "🔧 Associating #{orphaned_pages.count} page(s) with website #{website.id}..."
+          orphaned_pages.update_all(website_id: website.id)
+          puts "✅ Pages successfully associated with website"
+        end
+      else
+        puts "⚠️  Warning: No website found - pages not associated"
+      end
     end
   end
 end
