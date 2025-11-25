@@ -135,6 +135,12 @@ export default {
           tabRouteName: "rPropertyEditTab",
           tabTitleKey: "propertySections.photos",
         },
+        {
+          tabValue: "owner",
+          tabLabel: "Owner",
+          tabRouteName: "rPropertyEditTab",
+          tabTitleKey: "propertySections.owner",
+        },
       ],
       currentProperty: {
         attributes: {},

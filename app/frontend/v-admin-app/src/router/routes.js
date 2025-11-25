@@ -75,12 +75,17 @@ const routes = [
           {
             path: 'appearance',
             name: "rWebsiteEditAppearance",
-            component: () => import("../components/website/EditWebsiteGeneral.vue"),
+            component: () => import("../components/website/EditWebsiteAppearance.vue"),
           },
           {
             path: 'navigation',
             name: "rWebsiteEditNavigation",
             component: () => import("../components/website/EditWebsiteNavigation.vue"),
+          },
+          {
+            path: 'home',
+            name: "rWebsiteEditHome",
+            component: () => import("../components/website/EditHomeSettings.vue"),
           }
 
         ]
@@ -101,6 +106,11 @@ const routes = [
             component: () => import("../components/properties/EditPropertyGeneral.vue"),
           },
         ]
+      },
+      {
+        path: '/import',
+        name: "rPropertiesImport",
+        component: () => import("../pages/PropertiesImport.vue"),
       }
       // {
       //   path: "",

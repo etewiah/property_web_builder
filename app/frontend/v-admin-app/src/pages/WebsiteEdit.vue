@@ -37,6 +37,12 @@
                   :to="{ name: 'rWebsiteEditNavigation' }"
                   :exact="true"
                 />
+                <q-route-tab
+                  name="edit-home"
+                  label="Home"
+                  :to="{ name: 'rWebsiteEditHome' }"
+                  :exact="true"
+                />
                 <!-- <q-tab name="checklist" label="Checklist" /> -->
                 <!-- <q-tab name="distances" label="Distances" /> -->
               </q-tabs>
@@ -58,6 +64,9 @@
                   <router-view :currentWebsite="currentWebsite" />
                 </q-tab-panel>
                 <q-tab-panel class="q-px-none" name="edit-navigation">
+                  <router-view :currentWebsite="currentWebsite" />
+                </q-tab-panel>
+                <q-tab-panel class="q-px-none" name="edit-home">
                   <router-view :currentWebsite="currentWebsite" />
                 </q-tab-panel>
               </q-tab-panels>

@@ -143,6 +143,18 @@
                 <q-item-label>List All</q-item-label>
               </q-item-section>
             </q-item>
+            <q-item
+              :exact="true"
+              :to="{ name: 'rPropertiesImport' }"
+              active-class="q-item-no-link-highlighting"
+            >
+              <q-item-section avatar>
+                <q-icon name="cloud_upload" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Import</q-item-label>
+              </q-item-section>
+            </q-item>
           </q-list>
         </q-expansion-item>
         <q-expansion-item
