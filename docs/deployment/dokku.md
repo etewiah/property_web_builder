@@ -6,6 +6,23 @@ This guide will walk you through deploying your PropertyWebBuilder application t
 
 * A server with Dokku installed and configured.
 * SSH access to the Dokku server.
+* Rails credentials set up (see below).
+
+## 0. Generate Rails Credentials
+
+Since this is an open-source project, you need to generate your own credentials. The `credentials.yml.enc` file in the repo (if present) won't work without the original `master.key`.
+
+```bash
+# Remove any existing credentials file
+rm -f config/credentials.yml.enc
+
+# Generate new credentials (this creates both master.key and credentials.yml.enc)
+EDITOR="code --wait" rails credentials:edit
+```
+
+This will open an editor. You can add any secrets you need, or just save and close to generate the files. 
+
+> **Important:** Never commit `config/master.key` to version control. It's already in `.gitignore`.
 
 ## 1. Create the Dokku App
 
@@ -35,7 +52,67 @@ dokku redis:create your-app-name-redis
 dokku redis:link your-app-name-redis your-app-name
 ```
 
-## 4. Deploy
+## 4. Build Configuration
+
+To ensure a successful build, you need to configure a few files in your repository:
+
+### Buildpacks
+Create a `.buildpacks` file in the root of your repository to specify the buildpacks order (Node.js first for frontend assets, then Ruby):
+
+```
+https://github.com/heroku/heroku-buildpack-nodejs.git
+https://github.com/heroku/heroku-buildpack-ruby.git
+```
+
+### Node Version
+Ensure your `package.json` specifies a Node version compatible with your dependencies (e.g., Node 22):
+
+```json
+"engines": {
+  "node": "22.x"
+}
+```
+
+### NPM Configuration
+If you encounter dependency conflicts (common with Vite/Quasar), create a `.npmrc` file:
+
+```
+legacy-peer-deps=true
+```
+
+## 5. Environment Variables
+
+Configure the required environment variables for your app:
+
+```bash
+dokku config:set your-app-name \
+  RAILS_MASTER_KEY=your_master_key_content \
+  RAILS_SERVE_STATIC_FILES=enabled
+```
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `RAILS_MASTER_KEY` | ✅ | The contents of `config/master.key` - required to decrypt credentials |
+| `RAILS_SERVE_STATIC_FILES` | ✅ | Set to `enabled` - Dokku doesn't have a separate web server for static files |
+| `GMAPS_API_KEY` | Optional | Google Maps API key (if using map features) |
+| `CLOUDINARY_URL` | Optional | Cloudinary URL (if using Cloudinary for image uploads instead of local storage) |
+
+> **Note:** `RAILS_ENV` and `RACK_ENV` are typically set automatically by Dokku.
+
+## 6. Persistent Storage
+
+Since Dokku containers are ephemeral, you must mount a persistent volume for uploaded files (images). Otherwise, uploads and seeded images will disappear on restart.
+
+```bash
+# Create the directory on the host (if it doesn't exist)
+mkdir -p /var/lib/dokku/data/storage/your-app-name/uploads
+chown -R 32767:32767 /var/lib/dokku/data/storage/your-app-name/uploads # Ensure container user has access
+
+# Mount the storage
+dokku storage:mount your-app-name /var/lib/dokku/data/storage/your-app-name/uploads:/app/public/uploads
+```
+
+## 7. Deploy
 
 Add your Dokku server as a git remote:
 
@@ -49,12 +126,47 @@ Deploy your application by pushing to the Dokku remote:
 git push dokku main
 ```
 
-Dokku will automatically detect that you are deploying a Ruby on Rails application, install the dependencies, and start the application.
+## 8. Post-Deployment Setup
 
-## 5. Run Migrations
+### Database Migration and Seeding
 
-After the initial deployment, you'll need to run the database migrations:
+For the initial setup, you might want to reset the database and seed it with default data.
 
-```bash
-dokku run your-app-name rails db:migrate
+**Warning:** The following commands will destroy existing data.
+
+1.  **Stop the app** (to release database connections):
+    ```bash
+    dokku ps:stop your-app-name
+    ```
+
+2.  **Set safety override** (to allow DB drop in production):
+    ```bash
+    dokku config:set your-app-name DISABLE_DATABASE_ENVIRONMENT_CHECK=1
+    ```
+
+3.  **Reset and Seed**:
+    ```bash
+    dokku run your-app-name rails db:migrate:reset pwb:db:seed
+    ```
+
+4.  **Start the app**:
+    ```bash
+    dokku ps:start your-app-name
+    ```
+
+5.  **Cleanup**:
+    ```bash
+    dokku config:unset your-app-name DISABLE_DATABASE_ENVIRONMENT_CHECK
+    ```
+
+## Troubleshooting
+
+### Rswag / NameError
+If you see `NameError: uninitialized constant Rswag` in production, ensure `rswag-api` and `rswag-ui` gems are in the global group in your `Gemfile`, not just in `development` or `test`.
+
+### Zeitwerk Autoloading Errors
+If you encounter errors like `expected file .../version.rb to define constant ...::Version`, you may need to ignore specific files in `config/application.rb`:
+
+```ruby
+Rails.autoloaders.main.ignore(Rails.root.join('lib/pwb/version.rb'))
 ```
