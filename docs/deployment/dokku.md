@@ -20,7 +20,17 @@ rm -f config/credentials.yml.enc
 EDITOR="code --wait" rails credentials:edit
 ```
 
-This will open an editor. You can add any secrets you need, or just save and close to generate the files. 
+This will open an editor where you can add your secrets:
+
+```yaml
+# Used by Rails and Devise for signing tokens
+secret_key_base: your-generated-secret-key-base
+
+# Optional: Separate key for Devise (falls back to secret_key_base if not set)
+devise_secret_key: your-devise-secret-key
+```
+
+You can generate a new secret key with: `rails secret`
 
 > **Important:** Never commit `config/master.key` to version control. It's already in `.gitignore`.
 
