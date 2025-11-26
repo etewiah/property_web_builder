@@ -19,5 +19,8 @@
     "vue": "3",
     "vue-currency-input": "^2.5.1",
     "vue-router": "^4.0.16"
+  },
+  "engines": {
+    "node": "22.x"
   }
 }
