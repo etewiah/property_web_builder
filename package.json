@@ -11,7 +11,7 @@
     "@quasar/extras": "^1.14.0",
     "@urql/vue": "^0.6.3",
     "@vitejs/plugin-vue": "^2.3.3",
-    "axios": "^0.27.2",
+    "axios": "^1.13.2",
     "form-data": ">=4.0.4",
     "graphql": "^16.5.0",
     "lodash": "^4.17.21",
