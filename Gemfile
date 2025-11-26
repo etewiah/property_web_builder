@@ -71,10 +71,11 @@ group :development, :test do
   gem "ruby-prof"
 
   gem "apparition"
-  gem "rswag-api"
-  gem "rswag-ui"
   gem "rswag-specs"
 end
+
+gem "rswag-api"
+gem "rswag-ui"
 
 group :development do
   gem "guard-rubocop"
