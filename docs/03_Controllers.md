@@ -12,14 +12,22 @@ The `ApplicationController` is the base controller for the application. All othe
 
 *   To provide common functionality for all controllers, such as setting the locale, theme, and navigation links.
 *   To ensure that the `@current_agency` and `@current_website` instance variables are available in all controllers.
+*   To support multi-tenancy by resolving the current website from the request subdomain.
 
 **Before Actions:**
 
-*   `current_agency_and_website`: Sets the `@current_agency` and `@current_website` instance variables.
+*   `current_agency_and_website`: Resolves the current website from the subdomain and sets both `@current_website` and `@current_agency`. The agency is retrieved from the website's `has_one :agency` association.
 *   `nav_links`: Sets up the navigation links for the application.
 *   `set_locale`: Sets the locale for the application based on the user's preferences or the `locale` parameter in the URL.
 *   `set_theme_path`: Sets the theme for the application based on the website's configuration.
 *   `footer_content`: Sets the content for the footer.
+
+**Multi-tenancy Resolution:**
+
+The `current_website_from_subdomain` method determines the current tenant:
+1. Extracts the subdomain from the request
+2. Looks up the website by subdomain (case-insensitive)
+3. Falls back to `Website.unique_instance` if no subdomain match
 
 ---
 

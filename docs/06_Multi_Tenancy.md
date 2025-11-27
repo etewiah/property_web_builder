@@ -158,8 +158,9 @@ fetchOptions: () => {
 
 ## Database Schema Changes
 
-The following columns were added to support this feature:
+The following columns and indexes support multi-tenancy:
 
+### Columns Added
 *   `pwb_websites.slug` (String, Indexed, Unique)
 *   `pwb_websites.subdomain` (String, Indexed, Unique)
 *   `pwb_props.website_id` (Integer, Indexed)
@@ -167,6 +168,22 @@ The following columns were added to support this feature:
 *   `pwb_contents.website_id` (Integer, Indexed)
 *   `pwb_links.website_id` (Integer, Indexed)
 *   `pwb_agencies.website_id` (Integer, Indexed)
+
+### Scoped Unique Indexes
+
+To allow each tenant to have their own data with the same identifiers, the following unique indexes are scoped to `website_id`:
+
+| Table | Index | Columns |
+|-------|-------|---------|
+| `pwb_pages` | `index_pwb_pages_on_slug_and_website_id` | `[slug, website_id]` |
+| `pwb_links` | `index_pwb_links_on_website_id_and_slug` | `[website_id, slug]` |
+| `pwb_contents` | `index_pwb_contents_on_website_id_and_key` | `[website_id, key]` |
+
+This means:
+- Two different websites CAN have a page with slug `home`
+- Two different websites CAN have a link with slug `top_nav_home`
+- Two different websites CAN have content with key `footer_content_html`
+- But within the SAME website, these must be unique
 
 ## Development Testing
 

@@ -116,22 +116,52 @@ module Pwb
     end
 
     describe "Content key uniqueness" do
-      # Content has a unique index on key that may need to be scoped
-      # if contents are tenant-specific
+      # Content key is now scoped to website_id, allowing different websites
+      # to have content with the same key
 
       it "has website association" do
         content = Content.create!(website: website1, key: "test_content")
         expect(content.website).to eq(website1)
       end
 
-      # Note: If content keys need to be unique per tenant, uncomment and fix:
-      # it "allows same key across different websites" do
-      #   content1 = Content.create!(website: website1, key: "footer_content")
-      #   content2 = Content.create!(website: website2, key: "footer_content")
-      #
-      #   expect(content1).to be_persisted
-      #   expect(content2).to be_persisted
-      # end
+      it "allows same key across different websites" do
+        content1 = Content.create!(website: website1, key: "footer_content")
+        content2 = Content.create!(website: website2, key: "footer_content")
+
+        expect(content1).to be_persisted
+        expect(content2).to be_persisted
+        expect(content1.key).to eq(content2.key)
+        expect(content1.website_id).not_to eq(content2.website_id)
+      end
+
+      it "prevents duplicate keys within the same website" do
+        Content.create!(website: website1, key: "unique_content")
+
+        expect {
+          Content.create!(website: website1, key: "unique_content")
+        }.to raise_error(ActiveRecord::RecordNotUnique)
+      end
+
+      context "seeding standard content for multiple tenants" do
+        let(:standard_content_keys) { %w[footer_content_html landing_hero about_us_services] }
+
+        it "can create all standard content for both tenants" do
+          # Create for tenant 1
+          standard_content_keys.each do |key|
+            website1.contents.create!(key: key)
+          end
+
+          # Create for tenant 2 - should not fail
+          expect {
+            standard_content_keys.each do |key|
+              website2.contents.create!(key: key)
+            end
+          }.not_to raise_error
+
+          expect(Content.where(website: website1).count).to eq(standard_content_keys.count)
+          expect(Content.where(website: website2).count).to eq(standard_content_keys.count)
+        end
+      end
     end
 
     describe "Prop (Property) uniqueness" do
@@ -156,13 +186,8 @@ module Pwb
     end
 
     describe "Agency uniqueness" do
-      # NOTE: Currently, Website#agency method is overridden to return Agency.unique_instance
-      # (a singleton pattern), which means websites don't truly have separate agencies yet.
-      # This is a known limitation that should be addressed when full multi-tenancy for
-      # agencies is implemented.
-      #
-      # The specs below test that agencies CAN be associated with websites at the model level,
-      # even though the Website#agency method currently returns the singleton.
+      # Website#agency now uses the has_one :agency association properly,
+      # allowing each website to have its own agency.
 
       it "allows agencies to be associated with different websites" do
         agency1 = Agency.create!(website: website1, company_name: "Alpha Real Estate")
@@ -182,24 +207,22 @@ module Pwb
         expect(agency2).to be_persisted
       end
 
-      it "can retrieve agency through direct association query" do
+      it "retrieves the correct agency via website association" do
         agency1 = Agency.create!(website: website1, company_name: "Alpha Real Estate")
-        
-        # Using the association directly (not the overridden method)
-        found_agency = Agency.find_by(website_id: website1.id)
-        expect(found_agency).to eq(agency1)
+        agency2 = Agency.create!(website: website2, company_name: "Beta Properties")
+
+        # The has_one association should return the correct agency for each website
+        expect(website1.reload.agency).to eq(agency1)
+        expect(website2.reload.agency).to eq(agency2)
       end
 
-      # TODO: When Website#agency is updated to use the has_one association properly,
-      # enable this test:
-      #
-      # it "allows each website to have its own agency via association" do
-      #   agency1 = Agency.create!(website: website1, company_name: "Alpha Real Estate")
-      #   agency2 = Agency.create!(website: website2, company_name: "Beta Properties")
-      #
-      #   expect(website1.reload.agency).to eq(agency1)
-      #   expect(website2.reload.agency).to eq(agency2)
-      # end
+      it "can build agency through website association" do
+        agency = website1.build_agency(company_name: "New Agency")
+        agency.save!
+
+        expect(website1.agency).to eq(agency)
+        expect(agency.website).to eq(website1)
+      end
     end
 
     describe "Website isolation" do

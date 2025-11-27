@@ -45,8 +45,14 @@ module Pwb
     private
 
     def current_agency_and_website
-      @current_agency ||= Agency.unique_instance
-      @current_website = Website.unique_instance
+      @current_website = current_website_from_subdomain || Website.unique_instance
+      @current_agency = @current_website.agency || @current_website.build_agency
+    end
+
+    # Determine the current website based on subdomain
+    def current_website_from_subdomain
+      return nil unless request.subdomain.present?
+      Website.find_by_subdomain(request.subdomain)
     end
 
     def footer_content

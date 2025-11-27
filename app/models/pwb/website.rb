@@ -7,7 +7,7 @@ module Pwb
     has_many :contents, through: :page_contents
     # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
     has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: "PageContent"
-    
+
     has_many :props
     has_many :pages
     has_many :contents
@@ -15,10 +15,10 @@ module Pwb
     has_one :agency
 
     # Subdomain validations
-    validates :subdomain, 
+    validates :subdomain,
               uniqueness: { case_sensitive: false, allow_blank: true },
-              format: { 
-                with: /\A[a-z0-9]([a-z0-9\-]*[a-z0-9])?\z/i, 
+              format: {
+                with: /\A[a-z0-9]([a-z0-9\-]*[a-z0-9])?\z/i,
                 message: "can only contain alphanumeric characters and hyphens, and cannot start or end with a hyphen",
                 allow_blank: true
               },
@@ -247,9 +247,9 @@ module Pwb
       Link.ordered_footer.where(visible: true)
     end
 
-    def agency
-      Agency.unique_instance
-    end
+    # NOTE: The agency method is now provided by the has_one :agency association
+    # defined at the top of this class. Each website has its own agency.
+    # For backwards compatibility, use current_website.agency instead of Agency.unique_instance
 
     private
 

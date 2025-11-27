@@ -19,22 +19,27 @@ module Pwb
     end
 
     describe "multi-tenancy" do
-      # Note: Content currently has a global unique index on `key`.
-      # If content becomes tenant-specific, this index should be scoped
-      # by website_id similar to how links and pages are scoped.
+      # Content key uniqueness is now scoped to website_id, allowing different
+      # websites to have content with the same key. This is essential for
+      # multi-tenant setups where each tenant needs their own content.
       #
-      # See: index_pwb_contents_on_key in db/schema.rb
-      #
-      # If you encounter errors like:
-      #   PG::UniqueViolation: duplicate key value violates unique constraint "index_pwb_contents_on_key"
-      # when seeding content for multiple tenants, you'll need to:
-      # 1. Create a migration to change the unique index to include website_id
-      # 2. Update the Content model to validate uniqueness scoped to website
+      # See: index_pwb_contents_on_website_id_and_key in db/schema.rb
 
       it "can be associated with a website" do
         website = Website.create!(slug: "test-content-site")
         content = Content.create!(key: "tenant_content", website: website)
         expect(content.website).to eq(website)
+      end
+
+      it "allows same key for different websites" do
+        website1 = Website.create!(slug: "site-1")
+        website2 = Website.create!(slug: "site-2")
+
+        content1 = Content.create!(key: "shared_key", website: website1)
+        content2 = Content.create!(key: "shared_key", website: website2)
+
+        expect(content1).to be_persisted
+        expect(content2).to be_persisted
       end
     end
 

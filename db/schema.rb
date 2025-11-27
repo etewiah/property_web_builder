@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_27_143145) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_27_150724) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -167,7 +167,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_27_143145) do
     t.string "section_key"
     t.string "page_part_key"
     t.integer "website_id"
-    t.index ["key"], name: "index_pwb_contents_on_key", unique: true
+    t.index ["website_id", "key"], name: "index_pwb_contents_on_website_id_and_key", unique: true
     t.index ["website_id"], name: "index_pwb_contents_on_website_id"
   end
 
