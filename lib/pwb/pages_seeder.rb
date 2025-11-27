@@ -1,12 +1,25 @@
 # To reload from console:
 # load "#{Rails.root}/lib/pwb/pages_seeder.rb"
 # Pwb::PagesSeeder.seed_page_content_translations!
+#
+# Multi-tenancy Support:
+# ----------------------
+# The pages seeder now supports multi-tenancy by accepting a `website` parameter.
+# When seeding pages for a specific tenant:
+#
+#   website = Pwb::Website.find_by(subdomain: 'my-tenant')
+#   Pwb::PagesSeeder.seed_page_basics!(website: website)
+#
+# Pages will be associated with the specified website. Page parts are shared
+# across all websites (they define structure, not content).
+#
 module Pwb
   class PagesSeeder
     class << self
       # Called by this rake task:
       # rake app:pwb:db:seed_pages
       # sets model entry for each page_part but not actual content
+      # Page parts are shared across websites - they define structure
       def seed_page_parts!
         page_parts_dir = Rails.root.join("db", "yml_seeds", "page_parts")
 
@@ -20,7 +33,11 @@ module Pwb
       # Called by this rake task:
       # rake app:pwb:db:seed_pages
       # sets model entry for each page
-      def seed_page_basics!
+      #
+      # @param website [Pwb::Website] The website to seed pages for (optional)
+      def seed_page_basics!(website: nil)
+        @current_website = website || Pwb::Website.unique_instance
+        
         page_yml_filenames = [
           "sell.yml", "about.yml", "buy.yml",
           "rent.yml", "home.yml", "legal_notice.yml",
@@ -33,18 +50,22 @@ module Pwb
       end
 
       protected
+      
+      # Returns the current website being seeded
+      def current_website
+        @current_website
+      end
 
       def seed_page(yml_file)
         page_seed_file = Rails.root.join("db", "yml_seeds", "pages", yml_file)
         page_yml = YAML.load_file(page_seed_file)
-        # unless Pwb::Page.where(slug: page_yml[0]['slug']).count > 0
-        #   Pwb::Page.create!(page_yml)
-        # end
-
-        page_record = Pwb::Page.find_by_slug(page_yml[0]["slug"])
-        # unless Pwb::Page.where(slug: page_yml[0]['slug']).count > 0
+        
+        # Find page scoped to the current website
+        page_record = current_website.pages.find_by(slug: page_yml[0]["slug"])
+        
         unless page_record.present?
-          page_record = Pwb::Page.create!(page_yml[0])
+          # Create page with website association
+          page_record = current_website.pages.create!(page_yml[0])
         end
 
         # below sets the page title text from I18n translations

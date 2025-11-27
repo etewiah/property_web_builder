@@ -1,6 +1,17 @@
 # To reload from console:
 # load "#{Rails.root}/lib/pwb/contents_seeder.rb"
 # Pwb::ContentsSeeder.seed_page_content_translations!
+#
+# Multi-tenancy Support:
+# ----------------------
+# The contents seeder now supports multi-tenancy by accepting a `website` parameter.
+# When seeding content for a specific tenant:
+#
+#   website = Pwb::Website.find_by(subdomain: 'my-tenant')
+#   Pwb::ContentsSeeder.seed_page_content_translations!(website: website)
+#
+# Content will be associated with the specified website's pages.
+#
 module Pwb
   class ContentsSeeder
     class << self
@@ -9,7 +20,11 @@ module Pwb
       # rake app:pwb:db:seed_pages
       # sets actual content for each page based on its page_parts
       # below need to have page_parts populated to work correctly
-      def seed_page_content_translations!
+      #
+      # @param website [Pwb::Website] The website to seed content for (optional)
+      def seed_page_content_translations!(website: nil)
+        @current_website = website || Pwb::Website.unique_instance
+        
         I18n.available_locales.each do |locale|
           locale_seed_file = Rails.root.join("db", "yml_seeds", "content_translations", locale.to_s + ".yml")
           if File.exist? locale_seed_file
@@ -28,9 +43,14 @@ module Pwb
       # end
 
       protected
+      
+      # Returns the current website being seeded
+      def current_website
+        @current_website
+      end
 
       def seed_content_for_locale(locale, yml)
-        current_website = Pwb::Website.last
+        # Use the current website being seeded
         current_website.page_parts.each do |page_part|
           page_part_key = page_part.page_part_key
 
@@ -38,7 +58,8 @@ module Pwb
           set_page_part_content yml, page_part_key, page_part_manager, "website", locale
         end
 
-        Pwb::Page.all.each do |page|
+        # Only seed content for pages belonging to the current website
+        current_website.pages.each do |page|
           page.page_parts.each do |page_part|
             page_part_key = page_part.page_part_key
             page_part_manager = Pwb::PagePartManager.new page_part_key, page

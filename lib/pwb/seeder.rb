@@ -1,12 +1,30 @@
 # To reload from console:
 # load "#{Rails.root}/lib/pwb/seeder.rb"
+#
+# Multi-tenancy Support:
+# ----------------------
+# The seeder now supports multi-tenancy by accepting a `website` parameter.
+# When seeding for a specific tenant, pass the website instance:
+#
+#   website = Pwb::Website.find_by(subdomain: 'my-tenant')
+#   Pwb::Seeder.seed!(website: website)
+#
+# If no website is provided, it defaults to the unique_instance (ID: 1).
+#
+# Data that is scoped to a website (props, links, agency) will be associated
+# with the provided website. Shared data (translations, users, field_keys)
+# is only seeded once.
+#
 module Pwb
   class Seeder
     class << self
       # Called by this rake task:
       # rake app:pwb:db:seed                                  1 ↵
-
-      def seed!
+      #
+      # @param website [Pwb::Website] The website to seed data for (optional)
+      def seed!(website: nil)
+        @current_website = website || Pwb::Website.unique_instance
+        
         I18n.locale = :en
         # unless ENV["RAILS_ENV"] == "test"
         #   load File.join(Rails.root, 'db', 'seeds', 'translations.rb')
@@ -40,7 +58,7 @@ module Pwb
         seed_website "website.yml"
         # currency passed in for properties is ignored in favour
         # of default website currency
-        unless Pwb::Prop.count > 3
+        unless @current_website.props.count > 3
           seed_prop "villa_for_sale.yml"
           seed_prop "villa_for_rent.yml"
           seed_prop "flat_for_sale.yml"
@@ -56,6 +74,11 @@ module Pwb
       end
 
       protected
+      
+      # Returns the current website being seeded
+      def current_website
+        @current_website
+      end
 
       def seed_contacts(yml_file)
         contacts_yml = load_seed_yml yml_file
@@ -87,10 +110,12 @@ module Pwb
       def seed_links(yml_file)
         links_yml = load_seed_yml yml_file
         links_yml.each do |single_link_yml|
-          link_record = Pwb::Link.find_by_slug(single_link_yml["slug"])
-          # unless Pwb::Link.where(slug: single_link_yml['slug']).count > 0
+          # Check if this link already exists for this website
+          link_record = current_website.links.find_by(slug: single_link_yml["slug"])
+          
           unless link_record.present?
-            link_record = Pwb::Link.create!(single_link_yml)
+            # Create link with website association
+            link_record = current_website.links.create!(single_link_yml)
           end
 
           # below sets the link title text from I18n translations
@@ -118,7 +143,8 @@ module Pwb
 
       def seed_website(yml_file)
         website_yml = load_seed_yml yml_file
-        website = Pwb::Website.unique_instance
+        # Use the current website being seeded
+        website = current_website
         unless website.company_display_name.present?
           website.update!(website_yml)
         end
@@ -126,13 +152,16 @@ module Pwb
 
       def seed_agency(yml_file)
         agency_yml = load_seed_yml yml_file
-        agency = Pwb::Agency.unique_instance
+        # Find or create agency for the current website
+        agency = current_website.agency || current_website.build_agency
         unless agency.display_name.present?
           agency.update!(agency_yml)
           agency_address_yml = load_seed_yml "agency_address.yml"
           agency_address = Pwb::Address.create!(agency_address_yml)
           agency.primary_address = agency_address
           agency.save!
+          # Associate agency with website if not already
+          current_website.update!(agency: agency) unless current_website.agency
         end
       end
 
@@ -140,7 +169,9 @@ module Pwb
         prop_seed_file = Rails.root.join("db", "yml_seeds", "prop", yml_file)
         prop_yml = YAML.load_file(prop_seed_file)
         prop_yml.each do |single_prop_yml|
-          next if Pwb::Prop.where(reference: single_prop_yml["reference"]).count > 0
+          # Check if prop exists for this website
+          next if current_website.props.where(reference: single_prop_yml["reference"]).count > 0
+          
           photos = []
           if single_prop_yml["photo_urls"].present?
             photos = create_photos_from_urls single_prop_yml["photo_urls"], Pwb::PropPhoto
@@ -150,7 +181,8 @@ module Pwb
             photos = create_photos_from_files single_prop_yml["photo_files"], Pwb::PropPhoto
             single_prop_yml.except! "photo_files"
           end
-          new_prop = Pwb::Prop.create!(single_prop_yml)
+          # Create prop with website association
+          new_prop = current_website.props.create!(single_prop_yml)
           next unless !photos.empty?
           photos.each do |photo|
             new_prop.prop_photos.push photo

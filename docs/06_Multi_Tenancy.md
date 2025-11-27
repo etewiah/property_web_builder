@@ -8,19 +8,34 @@ The multi-tenancy implementation uses a **Shared Database, Shared Schema** appro
 
 ### Key Components
 
-1.  **Pwb::Website Model**: Represents a tenant. It has a `slug` which is used as a unique identifier.
+1.  **Pwb::Website Model**: Represents a tenant. It has a `slug` and `subdomain` which are used as unique identifiers.
 2.  **Pwb::Current**: An `ActiveSupport::CurrentAttributes` model that stores the current website for the duration of a request.
 3.  **Data Scoping**: Models such as `Prop`, `Page`, `Content`, `Link`, and `Agency` belong to a `Website`.
 
 ## Tenant Resolution
 
-The current tenant is resolved based on the `X-Website-Slug` HTTP header sent with each request.
+The current tenant can be resolved in two ways:
 
-1.  **Request Arrival**: When a request hits the `GraphqlController`, a `before_action` triggers `set_current_website`.
-2.  **Header Inspection**: The controller looks for the `X-Website-Slug` header.
-3.  **Lookup**: It attempts to find a `Pwb::Website` with a matching `slug`.
-4.  **Context Setting**: If found, `Pwb::Current.website` is set to that website instance.
-5.  **Fallback**: If the header is missing or the slug is invalid, it falls back to the default website (typically the first one created or a specific "default" instance).
+### 1. Subdomain-based Resolution (Recommended)
+
+Tenants are automatically identified by the subdomain of the request URL:
+- `tenant1.yourdomain.com` → resolves to website with `subdomain: "tenant1"`
+- `tenant2.yourdomain.com` → resolves to website with `subdomain: "tenant2"`
+
+Reserved subdomains that are ignored: `www`, `api`, `admin`
+
+### 2. Header-based Resolution
+
+For API requests, the `X-Website-Slug` HTTP header can be used:
+
+```
+X-Website-Slug: my-site-slug
+```
+
+**Priority Order:**
+1. `X-Website-Slug` header (highest priority)
+2. Request subdomain
+3. Default website fallback
 
 ## Data Isolation
 
@@ -60,10 +75,45 @@ This ensures that a query for properties only returns those belonging to the ide
 
 ### Creating a New Tenant
 
-To create a new website, use the Rails console:
+#### Using Rake Task (Recommended)
+
+```bash
+# Create a new tenant with seeded data
+rake pwb:db:create_tenant[my-subdomain,my-slug,"My Company Name"]
+
+# List all tenants
+rake pwb:db:list_tenants
+```
+
+#### Using Rails Console
 
 ```ruby
-Pwb::Website.create!(slug: "my-new-site", company_display_name: "My New Site")
+Pwb::Website.create!(
+  subdomain: "my-subdomain",
+  slug: "my-site-slug",
+  company_display_name: "My New Site"
+)
+```
+
+### Seeding Data for Tenants
+
+The seed rake tasks now support multi-tenancy:
+
+```bash
+# Seed the default website
+rake pwb:db:seed
+
+# Seed a specific tenant by subdomain or slug
+rake pwb:db:seed_tenant[my-subdomain]
+
+# Seed all tenants
+rake pwb:db:seed_all_tenants
+
+# Create and seed a new tenant
+rake pwb:db:create_tenant[subdomain,slug,Company Name]
+
+# List all tenants
+rake pwb:db:list_tenants
 ```
 
 ### API Requests
@@ -92,9 +142,22 @@ fetchOptions: () => {
 
 The following columns were added to support this feature:
 
-*   `pwb_websites.slug` (String, Indexed)
+*   `pwb_websites.slug` (String, Indexed, Unique)
+*   `pwb_websites.subdomain` (String, Indexed, Unique)
 *   `pwb_props.website_id` (Integer, Indexed)
 *   `pwb_pages.website_id` (Integer, Indexed)
 *   `pwb_contents.website_id` (Integer, Indexed)
 *   `pwb_links.website_id` (Integer, Indexed)
 *   `pwb_agencies.website_id` (Integer, Indexed)
+
+## Development Testing
+
+For local development, use `lvh.me` which resolves to localhost and supports subdomains:
+
+```
+http://tenant1.lvh.me:3000  → tenant1's website
+http://tenant2.lvh.me:3000  → tenant2's website
+http://lvh.me:3000          → default website
+```
+
+The development environment is configured to allow these hosts automatically.
