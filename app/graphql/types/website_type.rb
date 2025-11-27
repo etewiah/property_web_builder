@@ -2,6 +2,7 @@
 
 module Types
   class WebsiteType < Types::BaseObject
+    field :company_display_name, String, null: true
     field :default_currency, String, null: true
     # field :social_media, String, null: true
     # field :phone_number_primary, String, null: true

@@ -4,6 +4,10 @@ class GraphqlController < Pwb::ApplicationController
   # but you'll have to authenticate your user separately
   protect_from_forgery with: :null_session
 
+  include SubdomainTenant
+
+  # Override the before_action from SubdomainTenant to use our custom method name
+  skip_before_action :set_current_website_from_subdomain
   before_action :set_current_website
 
   def execute
@@ -30,13 +34,30 @@ class GraphqlController < Pwb::ApplicationController
   private
 
   def set_current_website
+    # Priority 1: Check for explicit header (useful for API clients)
     slug = request.headers["X-Website-Slug"]
     if slug.present?
       Pwb::Current.website = Pwb::Website.find_by(slug: slug)
     end
 
+    # Priority 2: Try subdomain resolution
+    if Pwb::Current.website.blank?
+      subdomain = extract_subdomain
+      if subdomain.present?
+        Pwb::Current.website = Pwb::Website.find_by_subdomain(subdomain)
+      end
+    end
+
     # Fallback to default if not found or not provided
     Pwb::Current.website ||= Pwb::Website.unique_instance
+  end
+
+  # Extracts the subdomain from the request
+  def extract_subdomain
+    subdomain = request.subdomain
+    return nil if subdomain.blank?
+    return nil if %w[www api admin].include?(subdomain)
+    subdomain.split(".").first
   end
 
   # gets current user from token stored in the session
