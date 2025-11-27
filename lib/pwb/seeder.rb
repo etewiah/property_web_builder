@@ -15,6 +15,14 @@
 # with the provided website. Shared data (translations, users, field_keys)
 # is only seeded once.
 #
+# Optional Property Seeding:
+# --------------------------
+# By default, sample properties are seeded. To skip property seeding:
+#
+#   Pwb::Seeder.seed!(website: website, skip_properties: true)
+#
+# This is useful for production environments where you don't want demo data.
+#
 module Pwb
   class Seeder
     class << self
@@ -22,8 +30,10 @@ module Pwb
       # rake app:pwb:db:seed                                  1 ↵
       #
       # @param website [Pwb::Website] The website to seed data for (optional)
-      def seed!(website: nil)
+      # @param skip_properties [Boolean] If true, skip seeding sample properties (default: false)
+      def seed!(website: nil, skip_properties: false)
         @current_website = website || Pwb::Website.unique_instance
+        @skip_properties = skip_properties
         
         I18n.locale = :en
         # unless ENV["RAILS_ENV"] == "test"
@@ -58,14 +68,7 @@ module Pwb
         seed_website "website.yml"
         # currency passed in for properties is ignored in favour
         # of default website currency
-        unless @current_website.props.count > 3
-          seed_prop "villa_for_sale.yml"
-          seed_prop "villa_for_rent.yml"
-          seed_prop "flat_for_sale.yml"
-          seed_prop "flat_for_rent.yml"
-          seed_prop "flat_for_sale_2.yml"
-          seed_prop "flat_for_rent_2.yml"
-        end
+        seed_properties unless @skip_properties
         seed_field_keys "field_keys.yml"
         seed_users "users.yml"
         seed_contacts "contacts.yml"
@@ -78,6 +81,20 @@ module Pwb
       # Returns the current website being seeded
       def current_website
         @current_website
+      end
+      
+      # Seeds sample properties for the current website
+      # Only seeds if the website has fewer than 4 properties
+      def seed_properties
+        unless @current_website.props.count > 3
+          puts "   🏠 Seeding sample properties..."
+          seed_prop "villa_for_sale.yml"
+          seed_prop "villa_for_rent.yml"
+          seed_prop "flat_for_sale.yml"
+          seed_prop "flat_for_rent.yml"
+          seed_prop "flat_for_sale_2.yml"
+          seed_prop "flat_for_rent_2.yml"
+        end
       end
 
       def seed_contacts(yml_file)

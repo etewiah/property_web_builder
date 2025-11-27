@@ -78,8 +78,11 @@ This ensures that a query for properties only returns those belonging to the ide
 #### Using Rake Task (Recommended)
 
 ```bash
-# Create a new tenant with seeded data
+# Create a new tenant with seeded data (including sample properties)
 rake pwb:db:create_tenant[my-subdomain,my-slug,"My Company Name"]
+
+# Create a new tenant without sample properties (production-ready)
+SKIP_PROPERTIES=true rake pwb:db:create_tenant[my-subdomain,my-slug,"My Company Name"]
 
 # List all tenants
 rake pwb:db:list_tenants
@@ -97,17 +100,26 @@ Pwb::Website.create!(
 
 ### Seeding Data for Tenants
 
-The seed rake tasks now support multi-tenancy:
+The seed rake tasks now support multi-tenancy and optional property seeding:
 
 ```bash
-# Seed the default website
+# Seed the default website (with sample properties)
 rake pwb:db:seed
+
+# Seed without sample properties (for production)
+SKIP_PROPERTIES=true rake pwb:db:seed
 
 # Seed a specific tenant by subdomain or slug
 rake pwb:db:seed_tenant[my-subdomain]
 
+# Seed a specific tenant without sample properties
+SKIP_PROPERTIES=true rake pwb:db:seed_tenant[my-subdomain]
+
 # Seed all tenants
 rake pwb:db:seed_all_tenants
+
+# Seed all tenants without sample properties
+SKIP_PROPERTIES=true rake pwb:db:seed_all_tenants
 
 # Create and seed a new tenant
 rake pwb:db:create_tenant[subdomain,slug,Company Name]
@@ -115,6 +127,12 @@ rake pwb:db:create_tenant[subdomain,slug,Company Name]
 # List all tenants
 rake pwb:db:list_tenants
 ```
+
+#### Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `SKIP_PROPERTIES=true` | Skip seeding sample properties. Useful for production environments where you don't want demo listings. |
 
 ### API Requests
 

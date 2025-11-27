@@ -9,14 +9,26 @@ require 'pwb/contents_seeder'
 # bundle exec rake app:pwb:db:seed
 # from spec/dummy folder or within an app using the engine:
 # bundle exec rake pwb:db:seed
+#
+# Environment Variables:
+# ----------------------
+# SKIP_PROPERTIES=true  - Skip seeding sample properties (useful for production)
+#
+# Examples:
+#   rake pwb:db:seed                        # Seeds with sample properties
+#   SKIP_PROPERTIES=true rake pwb:db:seed   # Seeds without sample properties
+#
 namespace :pwb do
   namespace :db do
-    desc 'Seeds the database with all seed data for the default website.'
+    desc 'Seeds the database with all seed data for the default website. Set SKIP_PROPERTIES=true to skip sample properties.'
     task seed: [:environment] do
       website = Pwb::Website.unique_instance
-      puts "🌱 Seeding data for website: #{website.slug || 'default'} (ID: #{website.id})"
+      skip_properties = ENV['SKIP_PROPERTIES'].to_s.downcase == 'true'
       
-      Pwb::Seeder.seed!(website: website)
+      puts "🌱 Seeding data for website: #{website.slug || 'default'} (ID: #{website.id})"
+      puts "   ⏭️  Skipping sample properties" if skip_properties
+      
+      Pwb::Seeder.seed!(website: website, skip_properties: skip_properties)
       Pwb::PagesSeeder.seed_page_parts!
       Pwb::PagesSeeder.seed_page_basics!(website: website)
       # below need to have page_parts populated to work correctly
@@ -33,13 +45,15 @@ namespace :pwb do
       puts "✅ Seeding complete for website: #{website.slug || 'default'}"
     end
 
-    desc 'Seeds the database for a specific tenant/website by subdomain or slug. Usage: rake pwb:db:seed_tenant[subdomain_or_slug]'
+    desc 'Seeds the database for a specific tenant/website. Usage: rake pwb:db:seed_tenant[subdomain_or_slug]. Set SKIP_PROPERTIES=true to skip sample properties.'
     task :seed_tenant, [:identifier] => [:environment] do |t, args|
       identifier = args[:identifier]
+      skip_properties = ENV['SKIP_PROPERTIES'].to_s.downcase == 'true'
       
       if identifier.blank?
         puts "❌ Error: Please provide a subdomain or slug"
         puts "   Usage: rake pwb:db:seed_tenant[my-subdomain]"
+        puts "   Usage: SKIP_PROPERTIES=true rake pwb:db:seed_tenant[my-subdomain]"
         exit 1
       end
       
@@ -57,11 +71,12 @@ namespace :pwb do
       end
       
       puts "🌱 Seeding data for tenant: #{website.subdomain || website.slug} (ID: #{website.id})"
+      puts "   ⏭️  Skipping sample properties" if skip_properties
       
       # Set the current website context for multi-tenancy
       Pwb::Current.website = website
       
-      Pwb::Seeder.seed!(website: website)
+      Pwb::Seeder.seed!(website: website, skip_properties: skip_properties)
       Pwb::PagesSeeder.seed_page_parts!
       Pwb::PagesSeeder.seed_page_basics!(website: website)
       Pwb::ContentsSeeder.seed_page_content_translations!(website: website)
@@ -69,9 +84,10 @@ namespace :pwb do
       puts "✅ Seeding complete for tenant: #{website.subdomain || website.slug}"
     end
 
-    desc 'Seeds the database for all websites/tenants.'
+    desc 'Seeds the database for all websites/tenants. Set SKIP_PROPERTIES=true to skip sample properties.'
     task seed_all_tenants: [:environment] do
       websites = Pwb::Website.all
+      skip_properties = ENV['SKIP_PROPERTIES'].to_s.downcase == 'true'
       
       if websites.empty?
         puts "⚠️  No websites found. Creating default website..."
@@ -79,6 +95,7 @@ namespace :pwb do
       end
       
       puts "🌱 Seeding data for #{websites.count} website(s)..."
+      puts "   ⏭️  Skipping sample properties" if skip_properties
       
       # Seed page parts once (they are shared)
       Pwb::PagesSeeder.seed_page_parts!
@@ -89,7 +106,7 @@ namespace :pwb do
         # Set the current website context
         Pwb::Current.website = website
         
-        Pwb::Seeder.seed!(website: website)
+        Pwb::Seeder.seed!(website: website, skip_properties: skip_properties)
         Pwb::PagesSeeder.seed_page_basics!(website: website)
         Pwb::ContentsSeeder.seed_page_content_translations!(website: website)
         
@@ -99,15 +116,17 @@ namespace :pwb do
       puts "\n✅ Seeding complete for all #{websites.count} website(s)"
     end
 
-    desc 'Creates a new tenant website with optional seeding. Usage: rake pwb:db:create_tenant[subdomain,slug,name]'
+    desc 'Creates a new tenant website with optional seeding. Usage: rake pwb:db:create_tenant[subdomain,slug,name]. Set SKIP_PROPERTIES=true to skip sample properties.'
     task :create_tenant, [:subdomain, :slug, :name] => [:environment] do |t, args|
       subdomain = args[:subdomain]
       slug = args[:slug] || subdomain
       name = args[:name] || subdomain&.titleize
+      skip_properties = ENV['SKIP_PROPERTIES'].to_s.downcase == 'true'
       
       if subdomain.blank?
         puts "❌ Error: Please provide a subdomain"
         puts "   Usage: rake pwb:db:create_tenant[my-subdomain,my-slug,My Company Name]"
+        puts "   Usage: SKIP_PROPERTIES=true rake pwb:db:create_tenant[my-subdomain]"
         exit 1
       end
       
@@ -134,10 +153,11 @@ namespace :pwb do
       
       puts "✅ Website created with ID: #{website.id}"
       puts "\n🌱 Seeding data for new tenant..."
+      puts "   ⏭️  Skipping sample properties" if skip_properties
       
       Pwb::Current.website = website
       
-      Pwb::Seeder.seed!(website: website)
+      Pwb::Seeder.seed!(website: website, skip_properties: skip_properties)
       Pwb::PagesSeeder.seed_page_parts!
       Pwb::PagesSeeder.seed_page_basics!(website: website)
       Pwb::ContentsSeeder.seed_page_content_translations!(website: website)
@@ -162,10 +182,15 @@ namespace :pwb do
       end
     end
 
-    desc 'Seeds the database with seed data for I18n, properties and field_keys'
+    desc 'Seeds the database with seed data for I18n, properties and field_keys. Set SKIP_PROPERTIES=true to skip sample properties.'
     task seed_base: [:environment] do
       website = Pwb::Website.unique_instance
-      Pwb::Seeder.seed!(website: website)
+      skip_properties = ENV['SKIP_PROPERTIES'].to_s.downcase == 'true'
+      
+      puts "🌱 Seeding base data..."
+      puts "   ⏭️  Skipping sample properties" if skip_properties
+      
+      Pwb::Seeder.seed!(website: website, skip_properties: skip_properties)
     end
 
     desc 'Seeds the database with PropertyWebBuilder default page content seed data. Will override existing content.'
