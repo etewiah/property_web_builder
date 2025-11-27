@@ -25,6 +25,8 @@ The following pages are available to public visitors:
 *   **Contact Us (`/contact-us`)**: A page with a contact form that allows visitors to send a message to the agency. (Handled by `contact_us_controller.rb`)
 *   **Buy (`/buy`)**: A search page for properties for sale. (Handled by `search_controller.rb`)
 *   **Rent (`/rent`)**: A search page for properties for rent. (Handled by `search_controller.rb`)
+*   **Google Maps**: See [Google Maps Integration](./quasar/google_maps.md) for configuration details.
+
 
 ### Admin Panel
 

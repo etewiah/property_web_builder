@@ -73,4 +73,7 @@ pwb-frontend/
 - **`src/store`:** Vuex store modules for managing application state.
 - **`src/boot`:** Boot files for initializing libraries and setting up the application.
 
-This structure provides a solid foundation for building a scalable and maintainable frontend application. In the following sections, we will cover API integration, authentication, component migration, and deployment in more detail.
+This structure provides a solid foundation for building a scalable and maintainable frontend application. In the following sections, we will cover API integration, authentication, component migration, Google Maps integration, and deployment in more detail.
+
+- [Google Maps Integration](./google_maps.md)
+

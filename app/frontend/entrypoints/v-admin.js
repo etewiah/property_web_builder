@@ -59,7 +59,8 @@ const gak = import.meta.env.VITE_GMAPS_API_KEY
 myApp.use(VueGoogleMaps, {
   load: {
     key: gak,
-    libraries: "places"
+    libraries: "places",
+    loading: 'async',
   },
 })
 

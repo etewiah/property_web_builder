@@ -7,7 +7,7 @@
     "vite-plugin-ruby": "^5.1.1"
   },
   "dependencies": {
-    "@fawmi/vue-google-maps": "^0.9.72",
+    "@fawmi/vue-google-maps": "^0.9.79",
     "@quasar/extras": "^1.14.0",
     "@urql/vue": "^0.6.3",
     "@vitejs/plugin-vue": "^2.3.3",
