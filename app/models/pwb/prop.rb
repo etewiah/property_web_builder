@@ -271,6 +271,16 @@ module Pwb
       end
       return search_results
     end
+
+    # Override as_json to include prop_photos with image URLs
+    def as_json(options = nil)
+      super(options).tap do |hash|
+        hash['prop_photos'] = prop_photos.map do |photo|
+          { 'image' => photo.image.url }
+        end
+      end
+    end
+
     before_save :set_rental_search_price
     after_create :set_defaults
 
@@ -296,5 +306,7 @@ module Pwb
       # below for setting a value that I can use for searcing and ordering rental properties
       self.price_rental_monthly_for_search = rental_price
     end
+
+
   end
 end
