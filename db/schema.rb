@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_21_193036) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_26_181412) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -500,7 +500,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_21_193036) do
     t.string "maps_api_key"
     t.string "recaptcha_key"
     t.string "slug"
+    t.string "subdomain"
     t.index ["slug"], name: "index_pwb_websites_on_slug"
+    t.index ["subdomain"], name: "index_pwb_websites_on_subdomain", unique: true
   end
 
   create_table "translations", id: :serial, force: :cascade do |t|

@@ -14,6 +14,21 @@ module Pwb
     has_many :links
     has_one :agency
 
+    # Subdomain validations
+    validates :subdomain, 
+              uniqueness: { case_sensitive: false, allow_blank: true },
+              format: { 
+                with: /\A[a-z0-9]([a-z0-9\-]*[a-z0-9])?\z/i, 
+                message: "can only contain alphanumeric characters and hyphens, and cannot start or end with a hyphen",
+                allow_blank: true
+              },
+              length: { minimum: 2, maximum: 63, allow_blank: true }
+
+    # Reserved subdomains that cannot be used by tenants
+    RESERVED_SUBDOMAINS = %w[www api admin app mail ftp smtp pop imap ns1 ns2 localhost staging test demo].freeze
+
+    validate :subdomain_not_reserved
+
     # TODO: - add favicon image (and logo image directly)
 
     # as well as details hash for storing pages..
@@ -23,6 +38,12 @@ module Pwb
     has_flags 1 => :landing_hide_for_rent,
       2 => :landing_hide_for_sale,
       3 => :landing_hide_search_bar
+
+    # Find a website by subdomain (case-insensitive)
+    def self.find_by_subdomain(subdomain)
+      return nil if subdomain.blank?
+      where("LOWER(subdomain) = ?", subdomain.downcase).first
+    end
 
     def self.unique_instance
       # there will be only one row, and its ID must be '1'
@@ -228,6 +249,15 @@ module Pwb
 
     def agency
       Agency.unique_instance
+    end
+
+    private
+
+    def subdomain_not_reserved
+      return if subdomain.blank?
+      if RESERVED_SUBDOMAINS.include?(subdomain.downcase)
+        errors.add(:subdomain, "is reserved and cannot be used")
+      end
     end
   end
 end
