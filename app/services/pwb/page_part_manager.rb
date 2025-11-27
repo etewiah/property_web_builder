@@ -17,7 +17,12 @@ module Pwb
       # ensuring the intermediate page_content join is created too
       page_content_join_model = find_or_create_join_model
       unless page_content_join_model.content.present?
-        page_content_join_model.create_content(page_part_key: page_part_key)
+        content_attrs = { page_part_key: page_part_key }
+        # If container is a website, set website_id on the content
+        if container.is_a?(Pwb::Website)
+          content_attrs[:website_id] = container.id
+        end
+        page_content_join_model.create_content(content_attrs)
         # without calling save! below, content and page_content will not be associated
         page_content_join_model.save!
       end

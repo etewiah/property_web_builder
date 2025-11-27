@@ -58,13 +58,13 @@
         <!-- LOGO -->
         <% if @current_website.logo_url  %>
           <!-- Image based logo -->
-          <%= link_to root_path(locale: locale), 
+          <%= link_to main_app.root_path(locale: locale),
           class: "navbar-brand aa-logo-img" do %>
             <img src="<%= @current_website.logo_url %>" alt="logo">
           <% end %>
         <% else %>
           <!-- Text based logo -->
-          <%= link_to root_path(locale: locale), 
+          <%= link_to main_app.root_path(locale: locale),
           class: "navbar-brand aa-logo" do %>
             <%= @current_agency.display_name %>
           <% end %>

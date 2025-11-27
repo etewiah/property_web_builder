@@ -4,6 +4,8 @@ module Pwb
   RSpec.describe "ImportMapper" do
     # include ActionDispatch::TestProcess
 
+    let(:fixture_path) { File.join(Rails.root, 'spec', 'fixtures') }
+
     # let(:property_tsv) do
     #   JSON.parse( File.read(fixture_path + "/to_import/mls-listings-1.tsv") )
     # end
