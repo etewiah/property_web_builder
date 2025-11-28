@@ -22,7 +22,7 @@ namespace :pwb do
   namespace :db do
     desc 'Seeds the database with all seed data for the default website. Set SKIP_PROPERTIES=true to skip sample properties.'
     task seed: [:environment] do
-      website = Pwb::Website.unique_instance
+      website = Pwb::Website.first || Pwb::Website.create!(subdomain: 'default', theme_name: 'default', default_currency: 'EUR', default_client_locale: 'en-UK')
       skip_properties = ENV['SKIP_PROPERTIES'].to_s.downcase == 'true'
       
       puts "🌱 Seeding data for website: #{website.slug || 'default'} (ID: #{website.id})"
@@ -91,7 +91,7 @@ namespace :pwb do
       
       if websites.empty?
         puts "⚠️  No websites found. Creating default website..."
-        websites = [Pwb::Website.unique_instance]
+        websites = [Pwb::Website.first || Pwb::Website.create!(subdomain: 'default', theme_name: 'default', default_currency: 'EUR', default_client_locale: 'en-UK')]
       end
       
       puts "🌱 Seeding data for #{websites.count} website(s)..."
@@ -184,7 +184,7 @@ namespace :pwb do
 
     desc 'Seeds the database with seed data for I18n, properties and field_keys. Set SKIP_PROPERTIES=true to skip sample properties.'
     task seed_base: [:environment] do
-      website = Pwb::Website.unique_instance
+      website = Pwb::Website.first || Pwb::Website.create!(subdomain: 'default', theme_name: 'default', default_currency: 'EUR', default_client_locale: 'en-UK')
       skip_properties = ENV['SKIP_PROPERTIES'].to_s.downcase == 'true'
       
       puts "🌱 Seeding base data..."
@@ -195,7 +195,7 @@ namespace :pwb do
 
     desc 'Seeds the database with PropertyWebBuilder default page content seed data. Will override existing content.'
     task seed_pages: [:environment] do
-      website = Pwb::Website.unique_instance
+      website = Pwb::Website.first || Pwb::Website.create!(subdomain: 'default', theme_name: 'default', default_currency: 'EUR', default_client_locale: 'en-UK')
       puts "🌱 Seeding pages for website: #{website.slug || 'default'} (ID: #{website.id})"
       
       p 'seed_page_parts!'

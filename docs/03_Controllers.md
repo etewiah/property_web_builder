@@ -27,7 +27,7 @@ The `ApplicationController` is the base controller for the application. All othe
 The `current_website_from_subdomain` method determines the current tenant:
 1. Extracts the subdomain from the request
 2. Looks up the website by subdomain (case-insensitive)
-3. Falls back to `Website.unique_instance` if no subdomain match
+3. Falls back to `Website.first` if no subdomain match
 
 ---
 

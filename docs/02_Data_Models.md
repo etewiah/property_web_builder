@@ -28,14 +28,11 @@ The `Agency` model is a singleton model that represents the real estate agency i
 
 *   `belongs_to :primary_address, class_name: "Address"`: The agency's primary physical address.
 *   `belongs_to :secondary_address, class_name: "Address"`: An optional secondary address.
+*   `belongs_to :website`: Each agency belongs to a specific website/tenant.
 
-**Key Methods:**
+**Multi-Tenancy:**
 
-*   `self.unique_instance`: A class method that returns the single instance of the `Agency` model. If no instance exists, it creates one.
-
-**Callbacks:**
-
-*   `before_create :confirm_singularity`: A callback that prevents the creation of more than one `Agency` record.
+The `Agency` model supports multi-tenancy through its association with `Website`. Each website can have its own agency.
 
 ---
 
@@ -157,11 +154,15 @@ The `Website` model is a singleton model that represents the website itself.
 
 **Key Methods:**
 
-*   `self.unique_instance`: A class method that returns the single instance of the `Website` model.
+*   `find_by_subdomain(subdomain)`: Finds a website by subdomain (case-insensitive).
 *   `style_variables`: Returns a hash of style variables that can be used to customize the website's appearance.
 *   `logo_url`: Returns the URL of the website's logo.
 *   `top_nav_display_links`: Returns a collection of links that should be displayed in the top navigation bar.
 *   `footer_display_links`: Returns a collection of links that should be displayed in the footer.
+
+**Multi-Tenancy:**
+
+The `Website` model is the core of the multi-tenancy architecture. Each website represents a separate tenant with its own properties, pages, content, and configuration. Access `Pwb::Current.website` to get the current tenant in  controllers.
 
 ---
 
