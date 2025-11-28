@@ -114,7 +114,6 @@ export default {
         origin = window.location.origin
       }
       // TODO - figure out way of ensuring origin is available - even when server rendered
-      debugger
       return this.urlProp || `${origin}${this.$route.href}`
     },
   },

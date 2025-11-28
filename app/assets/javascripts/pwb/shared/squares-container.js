@@ -16,7 +16,6 @@ Vue.component('squares-container', {
       val.forEach(function(prop){
         prop.url = "/tabs/" + prop[".key"];
       });
-      // debugger;
       // let total = this.events.length;
     },
   },
@@ -27,7 +26,6 @@ Vue.component('squares-container', {
         // asObject: true,
         // Optional, allows you to handle any errors.
         cancelCallback(err) {
-          debugger;
           console.error(err);
         }
       }

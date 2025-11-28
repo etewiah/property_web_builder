@@ -184,10 +184,10 @@ jQuery(function($){
   /* ----------------------------------------------------------- */        
 
     // jQuery(function(){
-    //   debugger;
+    //   
     //   if(jQuery('body').is('.aa-price-range')){
     //     // FOR AREA SECTION
-    //   debugger;
+    //   
     //    var skipSlider = document.getElementById('aa-sqrfeet-range');
     //     noUiSlider.create(skipSlider, {
     //         range: {
