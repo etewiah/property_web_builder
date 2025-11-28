@@ -23,7 +23,7 @@ module Pwb
       #
       # @param website [Pwb::Website] The website to seed content for (optional)
       def seed_page_content_translations!(website: nil)
-        @current_website = website || Pwb::Website.unique_instance
+        @current_website = website || Pwb::Website.first
         
         I18n.available_locales.each do |locale|
           locale_seed_file = Rails.root.join("db", "yml_seeds", "content_translations", locale.to_s + ".yml")

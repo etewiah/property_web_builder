@@ -9,7 +9,7 @@ module Pwb
     # end
 
     before(:all) do
-      @website = Website.unique_instance
+      @website = FactoryBot.create(:pwb_website)
       # FactoryBot.create(:pwb_website,
       #                              default_currency: 'USD',
       #                              default_area_unit: 'sqft')

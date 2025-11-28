@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "ApiPublic::V1::Links", type: :request do
-  let!(:website) { Pwb::Website.unique_instance }
+  let!(:website) { FactoryBot.create(:pwb_website) }
   let!(:link) { FactoryBot.create(:pwb_link, placement: "top_nav", visible: true, website: website) }
 
   describe "GET /api_public/v1/links" do

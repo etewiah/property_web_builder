@@ -49,7 +49,7 @@ class GraphqlController < Pwb::ApplicationController
     end
 
     # Fallback to default if not found or not provided
-    Pwb::Current.website ||= Pwb::Website.unique_instance
+    Pwb::Current.website ||= Pwb::Website.first
   end
 
   # Extracts the subdomain from the request

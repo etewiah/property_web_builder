@@ -13,7 +13,7 @@ module Pwb
       let(:form_and_map_ppm) { Pwb::PagePartManager.new "form_and_map", contact_us_page }
 
       let!(:footer_content_page_part) { Pwb::PagePart.create_from_seed_yml "website__footer_content_html.yml"  }
-      let(:footer_content_ppm) { Pwb::PagePartManager.new "footer_content_html", Pwb::Website.unique_instance}
+      let(:footer_content_ppm) { Pwb::PagePartManager.new "footer_content_html", FactoryBot.create(:pwb_website)}
 
       let(:prop) { FactoryBot.create(:pwb_prop, :sale) }
 

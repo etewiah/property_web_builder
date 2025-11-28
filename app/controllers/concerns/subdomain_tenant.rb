@@ -36,7 +36,7 @@ module SubdomainTenant
     end
 
     # Fallback to default if not found
-    Pwb::Current.website ||= Pwb::Website.unique_instance
+    Pwb::Current.website ||= Pwb::Website.first
   end
 
   # Extracts the subdomain from the request.

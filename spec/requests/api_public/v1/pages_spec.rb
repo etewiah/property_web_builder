@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "ApiPublic::V1::Pages", type: :request do
-  let!(:website) { Pwb::Website.unique_instance }
+  let!(:website) { FactoryBot.create(:pwb_website) }
   let!(:page) { FactoryBot.create(:pwb_page, slug: "about-us", website: website) }
 
   describe "GET /api_public/v1/pages/:id" do

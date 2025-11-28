@@ -1,7 +1,5 @@
 module Pwb
   class Agency < ApplicationRecord
-    # before_create :confirm_singularity
-
     # extend ActiveHash::Associations::ActiveRecordExtensions
 
     # belongs_to_active_hash :theme, foreign_key: "theme_name", class_name: "Pwb::Theme", shortcuts: [:friendly_name], primary_key: "name"
@@ -9,19 +7,6 @@ module Pwb
     belongs_to :primary_address, optional: true, class_name: "Address", foreign_key: "primary_address_id"
     belongs_to :secondary_address, optional: true, class_name: "Address", foreign_key: "secondary_address_id"
     belongs_to :website, optional: true
-
-    def self.unique_instance
-      # there will be only one row, and its ID must be '1'
-
-      # TODO: - memoize
-      find(1)
-    rescue ActiveRecord::RecordNotFound
-      # slight race condition here, but it will only happen once
-      row = Agency.new
-      row.id = 1
-      row.save!
-      row
-    end
 
     def as_json(options = nil)
       super({ only: [
@@ -96,11 +81,5 @@ module Pwb
     #     self.social_media = social_media
     #   end
     # end
-
-    private
-
-    def confirm_singularity
-      raise Exception, "There can be only one agency." if Agency.count > 0
-    end
   end
 end

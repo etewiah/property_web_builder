@@ -6,7 +6,7 @@ module Pwb
       :set_locale, :set_theme_path, :footer_content
 
     def set_theme_path
-      theme_name = Website.unique_instance.theme_name
+      theme_name = current_website.theme_name
       if params[:theme].present?
         if %w(berlin default).include? params[:theme]
           theme_name = params[:theme]
@@ -22,7 +22,7 @@ module Pwb
 
     def set_locale
       # agency = current_agency
-      locale = Website.unique_instance.default_client_locale_to_use
+      locale = current_website.default_client_locale_to_use
       # below just causes confusion for now
       # if current_user
       #   locale = current_user.default_client_locale
@@ -45,7 +45,7 @@ module Pwb
     private
 
     def current_agency_and_website
-      @current_website = current_website_from_subdomain || Website.unique_instance
+      @current_website = current_website_from_subdomain || Pwb::Current.website || Website.first
       @current_agency = @current_website.agency || @current_website.build_agency
     end
 
@@ -55,9 +55,14 @@ module Pwb
       Website.find_by_subdomain(request.subdomain)
     end
 
+    # Returns the current website, preferring @current_website if already set
+    def current_website
+      @current_website ||= current_website_from_subdomain || Pwb::Current.website || Website.first
+    end
+
     def footer_content
       # @footer_content = Content.find_by_key("footerInfo") || OpenStruct.new
-      footer_page_content = Website.unique_instance.ordered_visible_page_contents.find_by_page_part_key "footer_content_html"
+      footer_page_content = current_website.ordered_visible_page_contents.find_by_page_part_key "footer_content_html"
       @footer_content = footer_page_content.present? ? footer_page_content.content : OpenStruct.new
       # TODO: Cache above
     end

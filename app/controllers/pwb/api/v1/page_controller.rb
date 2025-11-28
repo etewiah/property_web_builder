@@ -5,7 +5,7 @@ module Pwb
     protect_from_forgery with: :null_session
     def show
       if params[:page_name] == "website"
-        return render json: Website.unique_instance.as_json_for_page
+        return render json: (Pwb::Current.website || Website.first).as_json_for_page
       end
 
       page = Pwb::Page.find_by_slug(params[:page_name])
@@ -64,7 +64,7 @@ module Pwb
 
     def save_page_fragment
       if params[:page_slug] == "website"
-        container = Website.unique_instance
+        container = Pwb::Current.website || Website.first
       else
         container = Page.find_by_slug params[:page_slug]
       end

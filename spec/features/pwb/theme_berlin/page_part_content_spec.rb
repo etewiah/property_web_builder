@@ -17,7 +17,7 @@ module Pwb
 
 
       before(:all) do
-        @website = Website.unique_instance
+        @website = FactoryBot.create(:pwb_website)
         @website.theme_name = "berlin"
         @website.save!
       end

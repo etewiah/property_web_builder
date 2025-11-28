@@ -5,7 +5,7 @@ module Pwb
     protect_from_forgery with: :null_session
 
     def update
-      website = Website.unique_instance
+      website = Pwb::Current.website || Website.first
       if website
         website.update(website_params)
         # http://patshaughnessy.net/2014/6/16/a-rule-of-thumb-for-strong-parameters

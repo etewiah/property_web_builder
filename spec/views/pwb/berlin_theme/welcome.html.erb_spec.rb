@@ -17,7 +17,7 @@ RSpec.describe "pwb/welcome/index", type: :view do
     # replaced above in spec_helper with below
     @controller.prepend_view_path "#{Rails.root}/app/themes/berlin/views/"
 
-    assign(:current_agency, Pwb::Agency.unique_instance)
+    assign(:current_agency, FactoryBot.create(:pwb_agency))
 
     assign(:properties_for_sale, [])
     assign(:properties_for_rent, [])

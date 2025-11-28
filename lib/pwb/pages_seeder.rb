@@ -36,7 +36,7 @@ module Pwb
       #
       # @param website [Pwb::Website] The website to seed pages for (optional)
       def seed_page_basics!(website: nil)
-        @current_website = website || Pwb::Website.unique_instance
+        @current_website = website || Pwb::Website.first
         
         page_yml_filenames = [
           "sell.yml", "about.yml", "buy.yml",

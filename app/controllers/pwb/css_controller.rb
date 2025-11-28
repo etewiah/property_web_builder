@@ -6,7 +6,7 @@ module Pwb
     def custom_css
       @bg_style_vars = []
       @text_color_style_vars = []
-      @current_website = Website.unique_instance
+      @current_website = Pwb::Current.website || Website.first
       theme_name = params[:theme_name] || default
       render "pwb/custom_css/#{theme_name}", formats: :css
     end

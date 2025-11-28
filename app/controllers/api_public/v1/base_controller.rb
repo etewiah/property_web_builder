@@ -7,7 +7,7 @@ module ApiPublic
       private
 
       def set_website
-        Pwb::Current.website = Pwb::Website.unique_instance
+        Pwb::Current.website = Pwb::Website.first
       end
     end
   end

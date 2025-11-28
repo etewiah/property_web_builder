@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "ApiPublic::V1::Properties", type: :request do
-  let!(:website) { Pwb::Website.unique_instance }
+  let!(:website) { FactoryBot.create(:pwb_website) }
   let!(:prop) { FactoryBot.create(:pwb_prop, :sale, website: website) }
 
   describe "GET /api_public/v1/properties/:id" do

@@ -3,7 +3,7 @@ require 'rails_helper'
 module Pwb
   RSpec.describe "PagePartManager" do
     context 'for website' do
-      let!(:current_website) { Website.unique_instance || FactoryBot.create(:pwb_website) }
+      let!(:current_website) { FactoryBot.create(:pwb_website) }
       let(:page_part_key) { "footer_content_html" }
       let(:page_part_manager) { Pwb::PagePartManager.new page_part_key, current_website }
       let!(:page_part) { FactoryBot.create(:pwb_page_part, :footer_content_html_for_website) }

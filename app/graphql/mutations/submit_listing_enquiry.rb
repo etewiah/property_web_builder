@@ -9,7 +9,8 @@ module Mutations
     type GraphQL::Types::JSON # Types::LinkType
 
     def resolve(propertyId: nil, contact: nil)
-      current_agency = Pwb::Agency.unique_instance
+      current_website = Pwb::Current.website || Pwb::Website.first
+      current_agency = current_website&.agency || Pwb::Agency.first
       success_result = {
         message: "Enquiry submitted successfully",
       }

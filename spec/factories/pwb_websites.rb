@@ -1,5 +1,10 @@
 FactoryBot.define do
   factory :pwb_website, class: 'Pwb::Website' do
-    initialize_with { Pwb::Website.unique_instance }
+    sequence(:subdomain) { |n| "tenant#{n}" }
+    theme_name { 'default' }
+    default_currency { 'EUR' }
+    default_client_locale { 'en-UK' }
+    default_area_unit { 'sqmt' }
+    supported_locales { ['en-UK'] }
   end
 end

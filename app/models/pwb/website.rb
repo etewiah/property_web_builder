@@ -45,19 +45,6 @@ module Pwb
       where("LOWER(subdomain) = ?", subdomain.downcase).first
     end
 
-    def self.unique_instance
-      # there will be only one row, and its ID must be '1'
-
-      # TODO: - memoize
-      find(1)
-    rescue ActiveRecord::RecordNotFound
-      # slight race condition here, but it will only happen once
-      row = Website.new
-      row.id = 1
-      row.save!
-      row
-    end
-
     def page_parts
       Pwb::PagePart.where(page_slug: "website")
     end
@@ -247,9 +234,8 @@ module Pwb
       Link.ordered_footer.where(visible: true)
     end
 
-    # NOTE: The agency method is now provided by the has_one :agency association
+    # NOTE: The agency method is provided by the has_one :agency association
     # defined at the top of this class. Each website has its own agency.
-    # For backwards compatibility, use current_website.agency instead of Agency.unique_instance
 
     private
 

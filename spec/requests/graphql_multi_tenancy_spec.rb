@@ -113,14 +113,8 @@ RSpec.describe "GraphQL Multi-tenancy", type: :request do
 
     describe "Fallback" do
       it "uses default site when header is missing" do
-        # Assuming website1 is the default/first one or fallback logic picks one
-        # In the controller we have: Pwb::Current.website ||= Pwb::Website.unique_instance
-        # unique_instance finds(1) or creates it.
-        # Since we created website1 and website2, their IDs might not be 1.
-        # Let's ensure Pwb::Website.unique_instance returns something we expect or stub it.
-        
-        # Actually, unique_instance tries to find(1). If our factories/setup didn't create ID 1, it creates a new one.
-        # Let's see what happens.
+        # In the controller we have: Pwb::Current.website ||= Pwb::Website.first
+        # This will use the first website in the database if no header provided.
         
         query = <<~GQL
           query {

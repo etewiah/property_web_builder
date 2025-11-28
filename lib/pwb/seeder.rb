@@ -9,7 +9,7 @@
 #   website = Pwb::Website.find_by(subdomain: 'my-tenant')
 #   Pwb::Seeder.seed!(website: website)
 #
-# If no website is provided, it defaults to the unique_instance (ID: 1).
+# If no website is provided, it defaults to the first website in the database.
 #
 # Data that is scoped to a website (props, links, agency) will be associated
 # with the provided website. Shared data (translations, users, field_keys)
@@ -32,7 +32,7 @@ module Pwb
       # @param website [Pwb::Website] The website to seed data for (optional)
       # @param skip_properties [Boolean] If true, skip seeding sample properties (default: false)
       def seed!(website: nil, skip_properties: false)
-        @current_website = website || Pwb::Website.unique_instance
+        @current_website = website || Pwb::Website.first
         @skip_properties = skip_properties
         
         I18n.locale = :en
