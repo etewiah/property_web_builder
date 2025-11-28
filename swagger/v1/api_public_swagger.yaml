@@ -1,0 +1,184 @@
+---
+openapi: 3.0.1
+info:
+  title: API Public V1
+  version: v1
+paths:
+  "/api_public/v1/properties/{id}":
+    get:
+      summary: Retrieves a property
+      tags:
+      - Properties
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: property found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  description:
+                    type: string
+                required:
+                - id
+                - title
+        '404':
+          description: property not found
+  "/api_public/v1/properties":
+    get:
+      summary: Retrieves properties
+      tags:
+      - Properties
+      parameters:
+      - name: sale_or_rental
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: properties found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    title:
+                      type: string
+  "/api_public/v1/pages/{id}":
+    get:
+      summary: Retrieves a page
+      tags:
+      - Pages
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: page found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  slug:
+                    type: string
+                  content:
+                    type: string
+        '404':
+          description: page not found
+  "/api_public/v1/pages/by_slug/{slug}":
+    get:
+      summary: Retrieves a page by slug
+      tags:
+      - Pages
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: page found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  slug:
+                    type: string
+        '404':
+          description: page not found
+  "/api_public/v1/translations":
+    get:
+      summary: Retrieves translations
+      tags:
+      - Translations
+      parameters:
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: translations found
+          content:
+            application/json:
+              schema:
+                type: object
+  "/api_public/v1/links":
+    get:
+      summary: Retrieves links
+      tags:
+      - Links
+      responses:
+        '200':
+          description: links found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+                    label:
+                      type: string
+  "/api_public/v1/site_details":
+    get:
+      summary: Retrieves site details
+      tags:
+      - Site Details
+      responses:
+        '200':
+          description: site details found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  site_name:
+                    type: string
+                  logo_url:
+                    type: string
+  "/api_public/v1/select_values":
+    get:
+      summary: Retrieves select values
+      tags:
+      - Select Values
+      responses:
+        '200':
+          description: select values found
+          content:
+            application/json:
+              schema:
+                type: object
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

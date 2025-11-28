@@ -32,6 +32,24 @@ RSpec.configure do |config|
           }
         }
       ]
+    },
+    'v1/api_public_swagger.yaml' => {
+      openapi: '3.0.1',
+      info: {
+        title: 'API Public V1',
+        version: 'v1'
+      },
+      paths: {},
+      servers: [
+        {
+          url: 'https://{defaultHost}',
+          variables: {
+            defaultHost: {
+              default: 'www.example.com'
+            }
+          }
+        }
+      ]
     }
   }
 
