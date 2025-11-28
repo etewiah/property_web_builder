@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="csrf-param" content="authenticity_token" />
+  <meta name="csrf-token" content="<%= form_authenticity_token %>" />
+  
+  <title>Tenant Admin Dashboard - PropertyWebBuilder</title>
+  
+  
+  <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+  
+  <!-- Flowbite JavaScript for UI components -->
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+</head>
+
+<body class="bg-gray-50 h-full">
+  <div class="antialiased">
+    <%= render 'layouts/tenant_admin/header' %>
+
+    <div class="flex pt-16 overflow-hidden bg-gray-50">
+      <%= render 'layouts/tenant_admin/navigation' %>
+
+      <div id="main-content" class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64">
+        <main>
+          <div class="px-4 pt-6">
+            <%= render 'layouts/tenant_admin/flash' %>
+            
+            <%= yield %>
+          </div>
+        </main>
+
+        <footer class="p-4 my-6 mx-4 bg-white rounded-lg shadow md:flex md:items-center md:justify-between md:p-6">
+          <span class="text-sm text-gray-500 sm:text-center">
+            © <%= Time.current.year %> PropertyWebBuilder. All rights reserved.
+          </span>
+          <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-500 sm:mt-0">
+            <li>
+              <a href="#" class="mr-4 hover:underline md:mr-6">About</a>
+            </li>
+            <li>
+              <a href="#" class="mr-4 hover:underline md:mr-6">Privacy  Policy</a>
+            </li>
+            <li>
+              <a href="#" class="hover:underline">Contact</a>
+            </li>
+          </ul>
+        </footer>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

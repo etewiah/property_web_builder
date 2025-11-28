@@ -1,0 +1,49 @@
+<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
+  <div class="w-full mb-1">
+    <div class="mb-4">
+      <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl">All Agencies</h1>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col">
+  <div class="overflow-x-auto">
+    <div class="inline-block min-w-full align-middle">
+      <div class="overflow-hidden shadow">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase">Name</th>
+              <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase">Website</th>
+              <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase">Email</th>
+              <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase">Phone</th>
+              <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @agencies.each do |agency| %>
+              <tr class="hover:bg-gray-100">
+                <td class="p-4 text-sm font-medium text-gray-900">
+                  <%= link_to agency.name || "Agency ##{agency.id}", tenant_admin_agency_path(agency), class: "text-primary-600 hover:underline" %>
+                </td>
+                <td class="p-4 text-sm text-gray-500">
+                  <%= agency.website&.subdomain || "N/A" %>
+                </td>
+                <td class="p-4 text-sm text-gray-500"><%= agency.email || "N/A" %></td>
+                <td class="p-4 text-sm text-gray-500"><%= agency.phone || "N/A" %></td>
+                <td class="p-4 space-x-2">
+                  <%= link_to "View", tenant_admin_agency_path(agency), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800" %>
+                </td>
+              </tr>
+            <% end %>
+            <% if @agencies.empty? %>
+              <tr>
+                <td colspan="5" class="p-8 text-center text-gray-500">No agencies found</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

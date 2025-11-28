@@ -8,6 +8,28 @@ Rails.application.routes.draw do
   end
   post "/graphql", to: "graphql#execute"
 
+  # Tenant Admin - Cross-tenant management dashboard
+  # Note: Authentication only for now, authorization will be added in Phase 2
+  namespace :tenant_admin do
+    root to: 'dashboard#index'
+    
+    resources :websites do
+      # Nested resources for tenant-specific data
+      resources :users, only: [:index, :show]
+      resources :agencies, only: [:index, :show]
+      resources :props, only: [:index, :show]
+      resources :pages, only: [:index, :show]
+    end
+    
+    resources :users
+    resources :agencies
+    resources :props, only: [:index, :show]
+    resources :pages, only: [:index, :show]
+    resources :contents, only: [:index, :show]
+    resources :messages, only: [:index, :show]
+    resources :contacts, only: [:index, :show]
+  end
+
   # devise_for :users, class_name: "Pwb::User", module: :devise
   scope module: :pwb do
     root to: "welcome#index"

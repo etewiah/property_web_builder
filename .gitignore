@@ -95,3 +95,6 @@ pwb-frontend-quasar/
 /config/credentials.yml.enc
 /config/credentials/*.key
 package-lock.json
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

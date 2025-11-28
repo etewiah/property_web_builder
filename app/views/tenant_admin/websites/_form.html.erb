@@ -1,0 +1,91 @@
+<%= form_with model: [:tenant_admin, @website], local: true, class: "space-y-6" do |f| %>
+  <% if @website.errors.any? %>
+    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+      <div class="font-medium mb-2"><%= pluralize(@website.errors.count, "error") %> prohibited this website from being saved:</div>
+      <ul class="list-disc list-inside">
+        <% @website.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Basic Information -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900">Basic Information</h3>
+    <div class="grid grid-cols-6 gap-6">
+      <div class="col-span-6 sm:col-span-3">
+        <%= f.label :subdomain, "Subdomain *", class: "block mb-2 text-sm font-medium text-gray-900" %>
+        <%= f.text_field :subdomain, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5", placeholder: "mycompany", required: true %>
+        <p class="mt-1 text-xs text-gray-500">Alphanumeric and hyphens only, 2-63 characters</p>
+      </div>
+
+      <div class="col-span-6 sm:col-span-3">
+        <%= f.label :company_display_name, "Company Display Name", class: "block mb-2 text-sm font-medium text-gray-900" %>
+        <%= f.text_field :company_display_name, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5", placeholder: "My Real Estate Agency" %>
+      </div>
+
+      <div class="col-span-6 sm:col-span-3">
+        <%= f.label :theme_name, "Theme", class: "block mb-2 text-sm font-medium text-gray-900" %>
+        <%= f.select :theme_name, 
+          options_for_select([['Default', 'default'], ['Berlin', 'berlin']], @website.theme_name),
+          { include_blank: 'Select a theme' },
+          class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" %>
+      </div>
+
+      <div class="col-span-6 sm:col-span-3">
+        <%= f.label :default_currency, "Default Currency", class: "block mb-2 text-sm font-medium text-gray-900" %>
+        <%= f.text_field :default_currency, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5", placeholder: "EUR" %>
+      </div>
+
+      <div class="col-span-6 sm:col-span-3">
+        <%= f.label :default_client_locale, "Default Locale", class: "block mb-2 text-sm font-medium text-gray-900" %>
+        <%= f.text_field :default_client_locale, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5", placeholder: "en-US" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analytics Settings -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900">Analytics Settings</h3>
+    <div class="grid grid-cols-6 gap-6">
+      <div class="col-span-6 sm:col-span-3">
+        <%= f.label :analytics_id, "Analytics ID", class: "block mb-2 text-sm font-medium text-gray-900" %>
+        <%= f.text_field :analytics_id, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5", placeholder: "G-XXXXXXXXXX" %>
+      </div>
+
+      <div class="col-span-6 sm:col-span-3">
+        <%= f.label :analytics_id_type, "Analytics Type", class: "block mb-2 text-sm font-medium text-gray-900" %>
+        <%= f.select :analytics_id_type,
+          options_for_select([['Google Analytics 4', 'ga4'], ['Google Analytics (Universal)', 'ua']], @website.analytics_id_type),
+          { include_blank: 'Select type' },
+          class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Flags -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900">Feature Flags</h3>
+    <div class="space-y-4">
+      <div class="flex items-center">
+        <%= f.check_box :landing_hide_for_rent, class: "w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 focus:ring-2" %>
+        <%= f.label :landing_hide_for_rent, "Hide 'For Rent' on Landing Page", class: "ml-2 text-sm font-medium text-gray-900" %>
+      </div>
+      <div class="flex items-center">
+        <%= f.check_box :landing_hide_for_sale, class: "w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 focus:ring-2" %>
+        <%= f.label :landing_hide_for_sale, "Hide 'For Sale' on Landing Page", class: "ml-2 text-sm font-medium text-gray-900" %>
+      </div>
+      <div class="flex items-center">
+        <%= f.check_box :landing_hide_search_bar, class: "w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 focus:ring-2" %>
+        <%= f.label :landing_hide_search_bar, "Hide Search Bar on Landing Page", class: "ml-2 text-sm font-medium text-gray-900" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Actions -->
+  <div class="flex items-center space-x-4">
+    <%= f.submit "Save Website", class: "text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer" %>
+    <%= link_to "Cancel", @website.persisted? ? tenant_admin_website_path(@website) : tenant_admin_websites_path, class: "text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10" %>
+  </div>
+<% end %>

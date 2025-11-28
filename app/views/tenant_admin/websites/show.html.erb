@@ -1,0 +1,133 @@
+<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
+  <div class="w-full mb-1">
+    <div class="mb-4">
+      <nav class="flex mb-5" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+          <li class="inline-flex items-center">
+            <%= link_to tenant_admin_root_path, class: "inline-flex items-center text-gray-700 hover:text-primary-600" do %>
+              <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+              Dashboard
+            <% end %>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+              <%= link_to "Websites", tenant_admin_websites_path, class: "ml-1 text-gray-700 hover:text-primary-600 md:ml-2" %>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+              <span class="ml-1 text-gray-400 md:ml-2" aria-current="page"><%= @website.subdomain || "(No subdomain)" %></span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+      <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl"><%= @website.subdomain || "(No subdomain)" %></h1>
+    </div>
+    <div class="flex items-center space-x-2 sm:space-x-3">
+      <%= link_to "Edit", edit_tenant_admin_website_path(@website), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300" %>
+      <%= button_to "Delete", tenant_admin_website_path(@website), method: :delete, data: { confirm: "Are you sure you want to delete this website? This action cannot be undone." }, class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300" do %>
+        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+        Delete
+      <% end %>
+      <%= link_to "← Back to Websites", tenant_admin_websites_path, class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-500 hover:text-gray-900" %>
+    </div>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 gap-4 my-4 xl:grid-cols-2 2xl:grid-cols-3">
+  <!-- Tenant Information Card -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-900">Tenant Information</h3>
+    </div>
+    <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Subdomain</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= @website.subdomain || "N/A" %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Company Name</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= @website.company_display_name || "N/A" %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Theme</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= @website.theme_name || "default" %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Default Currency</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= @website.default_currency || "N/A" %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Default Locale</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= @website.default_client_locale || "N/A" %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Supported Locales</dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <% if @website.supported_locales.present? %>
+            <%= @website.supported_locales.join(", ") %>
+          <% else %>
+            N/A
+          <% end %>
+        </dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Analytics ID</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= @website.analytics_id || "N/A" %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Analytics Type</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= @website.analytics_id_type || "N/A" %></dd>
+      </div>
+      <div class="sm:col-span-2">
+        <dt class="text-sm font-medium text-gray-500">Created</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= format_date(@website.created_at) %></dd>
+      </div>
+      <div class="sm:col-span-2">
+        <dt class="text-sm font-medium text-gray-500">Last Updated</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= format_date(@website.updated_at) %></dd>
+      </div>
+    </dl>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="space-y-4">
+    <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+      <h3 class="mb-4 text-lg font-semibold text-gray-900">Associated Data</h3>
+      <ul class="space-y-3">
+        <li class="flex items-center justify-between">
+          <span class="text-sm text-gray-500">Users</span>
+          <span class="text-sm font-semibold text-gray-900"><%= @users_count %></span>
+        </li>
+        <li class="flex items-center justify-between">
+          <span class="text-sm text-gray-500">Properties</span>
+          <span class="text-sm font-semibold text-gray-900"><%= @props_count %></span>
+        </li>
+        <li class="flex items-center justify-between">
+          <span class="text-sm text-gray-500">Pages</span>
+          <span class="text-sm font-semibold text-gray-900"><%= @pages_count %></span>
+        </li>
+        <li class="flex items-center justify-between">
+          <span class="text-sm text-gray-500">Messages</span>
+          <span class="text-sm font-semibold text-gray-900"><%= @messages_count %></span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+      <h3 class="mb-4 text-lg font-semibold text-gray-900">Quick Actions</h3>
+      <div class="space-y-2">
+        <%= link_to "View Users", tenant_admin_website_users_path(@website), class: "block w-full px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300" %>
+        <%= link_to "View Properties", tenant_admin_website_props_path(@website), class: "block w-full px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300" %>
+        <%= link_to "View Pages", tenant_admin_website_pages_path(@website), class: "block w-full px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300" %>
+        <% if @website.subdomain.present? %>
+          <a href="http://<%= @website.subdomain %>.localhost:3000" target="_blank" class="block w-full px-3 py-2 text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300">
+            Visit Public Site →
+          </a>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

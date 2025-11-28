@@ -159,3 +159,5 @@ gem "ruby_odata", "~> 0.1.0"
 
 gem "firebase"
 gem "omniauth-facebook"
+
+gem "tailwindcss-rails", "~> 4.4"

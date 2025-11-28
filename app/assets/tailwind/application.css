@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+/* Note: Flowbite will be loaded via CDN for now until we configure it properly */
+
+/* Flowbite theme customization for Site Admin */
+@theme {
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93bbfd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+}
