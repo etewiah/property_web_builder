@@ -238,6 +238,7 @@ Rails.application.routes.draw do
       get "/links" => "links#index"
       get "/site_details" => "site_details#index"
       get "/select_values" => "select_values#index"
+      post "/auth/firebase" => "auth#firebase"
     end
   end
 end

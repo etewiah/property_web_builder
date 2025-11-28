@@ -180,6 +180,11 @@ GEM
       googleauth
       httpclient (>= 2.5.3)
       json
+    firebase_id_token (2.5.2)
+      httparty (~> 0.21, >= 0.16.2)
+      jwt (~> 2.1, >= 2.1.0)
+      redis (~> 4.0, >= 4.0.1)
+      redis-namespace (~> 1.6, >= 1.6.0)
     flag_shih_tzu (0.3.23)
     font-awesome-rails (4.7.0.9)
       railties (>= 3.2, < 9.0)
@@ -261,6 +266,10 @@ GEM
     http-accept (1.7.0)
     http-cookie (1.0.8)
       domain_name (~> 0.5)
+    httparty (0.23.2)
+      csv
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     httpclient (2.9.0)
       mutex_m
     i18n (1.14.7)
@@ -290,7 +299,7 @@ GEM
       activerecord (>= 4.1)
       concurrent-ruby
       railties (>= 4.1)
-    jwt (3.1.2)
+    jwt (2.10.2)
       base64
     language_server-protocol (3.17.0.5)
     launchy (3.1.1)
@@ -494,6 +503,8 @@ GEM
       psych (>= 4.0.0)
       tsort
     redis (4.8.1)
+    redis-namespace (1.11.0)
+      redis (>= 4)
     regexp_parser (2.11.3)
     reline (0.6.3)
       io-console (~> 0.5)
@@ -728,6 +739,7 @@ DEPENDENCIES
   factory_bot_rails
   faraday (~> 2.3)
   firebase
+  firebase_id_token (~> 2.5)
   flag_shih_tzu (~> 0.3.23)
   font-awesome-rails
   geocoder (~> 1.8)
