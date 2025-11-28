@@ -1,6 +1,11 @@
 require 'swagger_helper'
 
 RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swagger.yaml' do
+  
+  before(:all) do
+    # Create a default website for tests that depend on Pwb::Current.website
+    @website = FactoryBot.create(:pwb_website)
+  end
 
   path '/api_public/v1/properties/{id}' do
     get 'Retrieves a property' do
@@ -29,7 +34,7 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
             currency: { type: :string },
             area_unit: { type: :string },
             count_bedrooms: { type: :integer },
-            count_bathrooms: { type: :integer },
+            count_bathrooms: { type: :number },
             count_garages: { type: :integer },
             for_sale: { type: :boolean },
             for_rent: { type: :boolean }

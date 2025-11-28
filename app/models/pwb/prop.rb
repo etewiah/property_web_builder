@@ -289,7 +289,10 @@ module Pwb
     def set_defaults
       # This is pretty ugly - need to create a service object
       # with DI as soon as I can:
-      current_website = Pwb::Current.website || Website.first
+      current_website = Pwb::Current.website || website || Website.first
+      # Return early if no website is available
+      return if current_website.nil?
+      
       # default_currency = Website.last.present? ? Website.last.default_currency : nil
       if current_website.default_currency.present?
         self.currency = current_website.default_currency

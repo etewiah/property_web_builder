@@ -10,11 +10,15 @@ module Pwb
     # let(:prop_for_sale) {
     #   FactoryBot.create(:pwb_prop, :sale,
     #                      price_sale_current_cents: 10_000_000)
-    # }
+    # }\n
+    before(:each) do
+      # Ensure a website exists for the controller
+      FactoryBot.create(:pwb_website) unless Pwb::Website.first
+    end
 
     describe "GET #rent" do
       it "" do
-        process :rent, method: :get, params: {}
+        get :rent
         # expect(assigns(:prices_from_collection)).to eq(Website.unique_instance.rent_price_options_from)
         # expect(assigns(:prices_till_collection)).to eq(Website.unique_instance.rent_price_options_till)
       end
@@ -22,7 +26,7 @@ module Pwb
 
     describe "GET #buy" do
       it "" do
-        process :buy, method: :get, params: {}
+        get :buy
         # expect(assigns(:prices_from_collection)).to eq(Website.unique_instance.sale_price_options_from)
         # expect(assigns(:prices_till_collection)).to eq(Website.unique_instance.sale_price_options_till)
       end

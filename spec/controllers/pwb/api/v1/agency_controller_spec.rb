@@ -4,6 +4,11 @@ module Pwb
   RSpec.describe Api::V1::AgencyController, type: :controller do
     routes { Rails.application.routes }
 
+    before(:each) do
+      # Ensure a website exists for all specs
+      FactoryBot.create(:pwb_website) unless Pwb::Website.first
+    end
+
     context "without signing in" do
       before(:each) do
         sign_in_stub nil
@@ -22,7 +27,7 @@ module Pwb
 
       describe "GET #show" do
         it "returns unauthorized status" do
-          process :show, method: :get, params: {}
+          get :show
 
           expect(response.status).to eq(422)
         end
@@ -40,7 +45,7 @@ module Pwb
         let!(:agency) { FactoryBot.create(:pwb_agency, company_name: "my re") }
 
         it "returns correct agency and default setup info" do
-          process :show, method: :get, params: {}
+          get :show
           # , format: :json
 
           expect(response.status).to eq(200)

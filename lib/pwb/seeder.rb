@@ -39,7 +39,10 @@ module Pwb
         # unless ENV["RAILS_ENV"] == "test"
         #   load File.join(Rails.root, 'db', 'seeds', 'translations.rb')
         # end
-        unless I18n::Backend::ActiveRecord::Translation.all.length > 600
+        # In test environment, always reload translations
+        # In other environments, only load if count is low
+        should_load_translations = ENV["RAILS_ENV"] == "test" || I18n::Backend::ActiveRecord::Translation.all.length <= 600
+        if should_load_translations
           # TODO: look in a directory and load all the files there
           load File.join(Rails.root, "db", "seeds", "translations_ca.rb")
           load File.join(Rails.root, "db", "seeds", "translations_en.rb")
