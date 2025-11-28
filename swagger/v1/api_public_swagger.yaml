@@ -15,6 +15,11 @@ paths:
         required: true
         schema:
           type: string
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
       responses:
         '200':
           description: property found
@@ -29,9 +34,31 @@ paths:
                     type: string
                   description:
                     type: string
-                required:
-                - id
-                - title
+                  prop_photos:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        image:
+                          type: string
+                  price_sale_current_cents:
+                    type: integer
+                  price_rental_monthly_current_cents:
+                    type: integer
+                  currency:
+                    type: string
+                  area_unit:
+                    type: string
+                  count_bedrooms:
+                    type: integer
+                  count_bathrooms:
+                    type: integer
+                  count_garages:
+                    type: integer
+                  for_sale:
+                    type: boolean
+                  for_rent:
+                    type: boolean
         '404':
           description: property not found
   "/api_public/v1/properties":
@@ -41,6 +68,46 @@ paths:
       - Properties
       parameters:
       - name: sale_or_rental
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: currency
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: for_sale_price_from
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: for_sale_price_till
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: for_rent_price_from
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: for_rent_price_till
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: bedrooms_from
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: bathrooms_from
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: property_type
         in: query
         required: false
         schema:
@@ -59,6 +126,19 @@ paths:
                       type: integer
                     title:
                       type: string
+                    price_sale_current_cents:
+                      type: integer
+                    price_rental_monthly_current_cents:
+                      type: integer
+                    currency:
+                      type: string
+                    prop_photos:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          image:
+                            type: string
   "/api_public/v1/pages/{id}":
     get:
       summary: Retrieves a page
@@ -78,12 +158,26 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
-                    type: integer
                   slug:
                     type: string
-                  content:
+                  link_path:
                     type: string
+                  visible:
+                    type: boolean
+                  page_title:
+                    type: string
+                  link_title:
+                    type: string
+                  raw_html:
+                    type: string
+                  show_in_top_nav:
+                    type: boolean
+                  show_in_footer:
+                    type: boolean
+                  page_contents:
+                    type: array
+                    items:
+                      type: object
         '404':
           description: page not found
   "/api_public/v1/pages/by_slug/{slug}":
@@ -97,6 +191,11 @@ paths:
         required: true
         schema:
           type: string
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
       responses:
         '200':
           description: page found
@@ -105,10 +204,26 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
-                    type: integer
                   slug:
                     type: string
+                  link_path:
+                    type: string
+                  visible:
+                    type: boolean
+                  page_title:
+                    type: string
+                  link_title:
+                    type: string
+                  raw_html:
+                    type: string
+                  show_in_top_nav:
+                    type: boolean
+                  show_in_footer:
+                    type: boolean
+                  page_contents:
+                    type: array
+                    items:
+                      type: object
         '404':
           description: page not found
   "/api_public/v1/translations":
@@ -119,7 +234,7 @@ paths:
       parameters:
       - name: locale
         in: query
-        required: false
+        required: true
         schema:
           type: string
       responses:
@@ -129,11 +244,32 @@ paths:
             application/json:
               schema:
                 type: object
+                properties:
+                  locale:
+                    type: string
+                  result:
+                    type: object
   "/api_public/v1/links":
     get:
       summary: Retrieves links
       tags:
       - Links
+      parameters:
+      - name: placement
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: visible_only
+        in: query
+        required: false
+        schema:
+          type: boolean
       responses:
         '200':
           description: links found
@@ -144,15 +280,33 @@ paths:
                 items:
                   type: object
                   properties:
-                    href:
+                    slug:
                       type: string
-                    label:
+                    link_path:
                       type: string
+                    visible:
+                      type: boolean
+                    link_title:
+                      type: string
+                    page_slug:
+                      type: string
+                    placement:
+                      type: string
+                    href_class:
+                      type: string
+                    is_deletable:
+                      type: boolean
   "/api_public/v1/site_details":
     get:
       summary: Retrieves site details
       tags:
       - Site Details
+      parameters:
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
       responses:
         '200':
           description: site details found
@@ -161,15 +315,40 @@ paths:
               schema:
                 type: object
                 properties:
-                  site_name:
+                  company_display_name:
                     type: string
-                  logo_url:
+                  theme_name:
                     type: string
+                  default_currency:
+                    type: string
+                  supported_locales:
+                    type: array
+                    items:
+                      type: string
+                  social_media:
+                    type: object
+                  agency:
+                    type: object
+                  top_nav_display_links:
+                    type: array
+                    items:
+                      type: object
+                  footer_display_links:
+                    type: array
+                    items:
+                      type: object
   "/api_public/v1/select_values":
     get:
       summary: Retrieves select values
       tags:
       - Select Values
+      parameters:
+      - name: field_names
+        in: query
+        required: false
+        description: Comma separated list of field names
+        schema:
+          type: string
       responses:
         '200':
           description: select values found
@@ -177,6 +356,15 @@ paths:
             application/json:
               schema:
                 type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      value:
+                        type: string
+                      label:
+                        type: string
 servers:
 - url: https://{defaultHost}
   variables:
