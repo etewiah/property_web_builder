@@ -22,10 +22,11 @@ module TenantAdmin
 
     def show
       # @website set by before_action
-      @users_count = Pwb::User.unscoped.where(pwb_website_id: @website.id).count rescue 0
-      @props_count = Pwb::Prop.unscoped.where(pwb_website_id: @website.id).count rescue 0
-      @pages_count = Pwb::Page.unscoped.where(pwb_website_id: @website.id).count rescue 0
-      @messages_count = Pwb::Message.unscoped.where(pwb_website_id: @website.id).count rescue 0
+      # Users and Messages are not directly associated with Website in the schema
+      @users_count = 0 
+      @props_count = Pwb::Prop.unscoped.where(website_id: @website.id).count rescue 0
+      @pages_count = Pwb::Page.unscoped.where(website_id: @website.id).count rescue 0
+      @messages_count = 0
     end
 
     def new
@@ -66,7 +67,7 @@ module TenantAdmin
     end
 
     def website_params
-      params.require(:pwb_website).permit(
+      params.require(:website).permit(
         :subdomain,
         :company_display_name,
         :theme_name,

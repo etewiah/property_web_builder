@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     end
     
     resources :users
-    resources :agencies
+    resources :agencies, only: [:index, :show, :new, :create, :edit, :update, :destroy]
     resources :props, only: [:index, :show]
     resources :pages, only: [:index, :show]
     resources :contents, only: [:index, :show]

@@ -12,10 +12,10 @@ module TenantAdmin
         @users = @users.where("email ILIKE ?", "%#{params[:search]}%")
       end
       
-      # Filter by website
-      if params[:website_id].present?
-        @users = @users.where(pwb_website_id: params[:website_id])
-      end
+      # Filter by website - DISABLED (No association exists)
+      # if params[:website_id].present?
+      #   @users = @users.where(pwb_website_id: params[:website_id])
+      # end
       
       # Filter by admin status
       if params[:admin].present?

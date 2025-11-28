@@ -41,12 +41,7 @@
                   <%= link_to user.email, tenant_admin_user_path(user), class: "text-primary-600 hover:underline" %>
                 </td>
                 <td class="p-4 text-sm text-gray-500">
-                  <% if user.respond_to?(:pwb_website_id) && user.pwb_website_id %>
-                    <% website = Pwb::Website.unscoped.find_by(id: user.pwb_website_id) %>
-                    <%= website&.subdomain || "N/A" %>
-                  <% else %>
-                    N/A
-                  <% end %>
+                  N/A
                 </td>
                 <td class="p-4 text-sm text-gray-500">
                   <%= user.respond_to?(:admin) && user.admin ? '✓' : '-' %>

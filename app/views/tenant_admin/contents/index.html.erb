@@ -1,0 +1,64 @@
+<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
+  <div class="w-full mb-1">
+    <div class="mb-4">
+      <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl">All Contents (Cross-Tenant)</h1>
+    </div>
+    <div class="sm:flex">
+      <div class="items-center hidden mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0">
+        <%= form_with url: tenant_admin_contents_path, method: :get, class: "lg:pr-3" do |f| %>
+          <%= f.text_field :search, value: params[:search], placeholder: "Search by key or tag", class: "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col">
+  <div class="overflow-x-auto">
+    <div class="inline-block min-w-full align-middle">
+      <div class="overflow-hidden shadow">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase">Key</th>
+              <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase">Tag</th>
+              <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase">Website</th>
+              <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase">Created</th>
+              <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @contents.each do |content| %>
+              <tr class="hover:bg-gray-100">
+                <td class="p-4 text-sm font-medium text-gray-900">
+                  <%= link_to content.key || "Content ##{content.id}", tenant_admin_content_path(content), class: "text-primary-600 hover:underline" %>
+                </td>
+                <td class="p-4 text-sm text-gray-500">
+                  <%= content.tag || "N/A" %>
+                </td>
+                <td class="p-4 text-sm text-gray-500">
+                  <% if content.respond_to?(:website) && content.website %>
+                    <%= content.website.subdomain || "N/A" %>
+                  <% else %>
+                    N/A
+                  <% end %>
+                </td>
+                <td class="p-4 text-sm text-gray-500">
+                  <%= time_ago_in_words(content.created_at) %> ago
+                </td>
+                <td class="p-4 space-x-2 whitespace-nowrap">
+                  <%= link_to "View", tenant_admin_content_path(content), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800" %>
+                </td>
+              </tr>
+            <% end %>
+            <% if @contents.empty? %>
+              <tr>
+                <td colspan="5" class="p-8 text-center text-gray-500">No contents found</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

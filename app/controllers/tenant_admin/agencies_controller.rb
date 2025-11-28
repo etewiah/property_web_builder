@@ -9,7 +9,7 @@ module TenantAdmin
       
       if params[:search].present?
         @agencies = @agencies.where(
-          "name ILIKE ? OR address ILIKE ?",
+          "company_name ILIKE ? OR display_name ILIKE ?",
           "%#{params[:search]}%",
           "%#{params[:search]}%"
         )
@@ -62,11 +62,15 @@ module TenantAdmin
 
     def agency_params
       params.require(:pwb_agency).permit(
-        :name,
-        :address,
-        :phone,
-        :email,
-        :pwb_website_id
+        :company_name,
+        :display_name,
+        :phone_number_primary,
+        :phone_number_mobile,
+        :phone_number_other,
+        :email_primary,
+        :email_for_general_contact_form,
+        :url,
+        :website_id
       )
     end
   end

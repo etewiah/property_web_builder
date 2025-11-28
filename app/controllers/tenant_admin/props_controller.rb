@@ -18,7 +18,7 @@ module TenantAdmin
       
       # Filter by website
       if params[:website_id].present?
-        @props = @props.where(pwb_website_id: params[:website_id])
+        @props = @props.where(website_id: params[:website_id])
       end
     end
 

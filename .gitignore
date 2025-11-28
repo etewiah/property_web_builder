@@ -98,3 +98,4 @@ package-lock.json
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+for_the_ai/

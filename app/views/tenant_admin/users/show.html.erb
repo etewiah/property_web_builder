@@ -1,0 +1,113 @@
+<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
+  <div class="w-full mb-1">
+    <div class="mb-4">
+      <nav class="flex mb-5" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+          <li class="inline-flex items-center">
+            <%= link_to tenant_admin_root_path, class: "inline-flex items-center text-gray-700 hover:text-primary-600" do %>
+              <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+              Dashboard
+            <% end %>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+              <%= link_to "All Users", tenant_admin_users_path, class: "ml-1 text-gray-700 hover:text-primary-600 md:ml-2" %>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+              <span class="ml-1 text-gray-400 md:ml-2" aria-current="page"><%= @user.email %></span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+      <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl"><%= @user.email %></h1>
+    </div>
+    <div class="flex items-center space-x-2 sm:space-x-3">
+      <%= link_to "← Back to Users", tenant_admin_users_path, class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-500 hover:text-gray-900" %>
+    </div>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 gap-4 my-4 xl:grid-cols-2">
+  <!-- User Information Card -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-900">User Information</h3>
+    </div>
+    <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+      <div class="sm:col-span-2">
+        <dt class="text-sm font-medium text-gray-500">Email</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= @user.email %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Admin Status</dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <% if @user.respond_to?(:admin) && @user.admin %>
+            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Admin</span>
+          <% else %>
+            <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded">User</span>
+          <% end %>
+        </dd>
+      </div>
+      <% if @user.respond_to?(:pwb_website_id) && @user.pwb_website_id %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Website</dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            <% website = Pwb::Website.unscoped.find_by(id: @user.pwb_website_id) %>
+            <% if website %>
+              <%= link_to website.subdomain, tenant_admin_website_path(website), class: "text-primary-600 hover:underline" %>
+            <% else %>
+              N/A
+            <% end %>
+          </dd>
+        </div>
+      <% end %>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Created</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= format_date(@user.created_at) %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Last Updated</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= format_date(@user.updated_at) %></dd>
+      </div>
+    </dl>
+  </div>
+
+  <!-- Activity Information -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900">Activity</h3>
+    <dl class="space-y-4">
+      <% if @user.respond_to?(:sign_in_count) %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Sign-in Count</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @user.sign_in_count || 0 %></dd>
+        </div>
+      <% end %>
+      <% if @user.respond_to?(:current_sign_in_at) %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Current Sign-in At</dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            <%= @user.current_sign_in_at ? format_date(@user.current_sign_in_at) : "Never" %>
+          </dd>
+        </div>
+      <% end %>
+      <% if @user.respond_to?(:last_sign_in_at) %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Last Sign-in At</dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            <%= @user.last_sign_in_at ? format_date(@user.last_sign_in_at) : "Never" %>
+          </dd>
+        </div>
+      <% end %>
+      <% if @user.respond_to?(:current_sign_in_ip) %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Current Sign-in IP</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @user.current_sign_in_ip || "N/A" %></dd>
+        </div>
+      <% end %>
+    </dl>
+  </div>
+</div>
