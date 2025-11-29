@@ -161,7 +161,7 @@ module Pwb
 
     def primary_image_url
       if prop_photos.length > 0 && ordered_photo(1).image.attached?
-        Rails.application.routes.url_helpers.url_for(ordered_photo(1).image)
+        Rails.application.routes.url_helpers.rails_blob_path(ordered_photo(1).image, only_path: true)
       else
         ""
       end
@@ -277,7 +277,7 @@ module Pwb
       super(options).tap do |hash|
         hash['prop_photos'] = prop_photos.map do |photo|
           if photo.image.attached?
-            { 'image' => Rails.application.routes.url_helpers.url_for(photo.image) }
+            { 'image' => Rails.application.routes.url_helpers.rails_blob_path(photo.image, only_path: true) }
           else
             { 'image' => nil }
           end

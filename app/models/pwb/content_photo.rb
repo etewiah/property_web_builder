@@ -14,13 +14,13 @@ module Pwb
       if Rails.application.config.use_cloudinary
         # For Cloudinary with ActiveStorage, we'll need to handle this differently
         # For now, return the basic URL and handle Cloudinary integration separately
-        Rails.application.routes.url_helpers.url_for(image)
+        Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
       else
         # For local storage, we can use variants for optimization
         if image.variable?
-          Rails.application.routes.url_helpers.url_for(image.variant(resize_to_limit: [800, 600]))
+          Rails.application.routes.url_helpers.rails_representation_path(image.variant(resize_to_limit: [800, 600]), only_path: true)
         else
-          Rails.application.routes.url_helpers.url_for(image)
+          Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
         end
       end
     end
