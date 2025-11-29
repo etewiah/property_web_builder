@@ -113,6 +113,10 @@ module Pwb
         users_yml = load_seed_yml yml_file
         users_yml.each do |user_yml|
           unless Pwb::User.where(email: user_yml["email"]).count > 0
+            # Ensure website association if required
+            if Pwb::User.reflect_on_association(:website)
+              user_yml["website_id"] ||= @current_website.id if @current_website
+            end
             Pwb::User.create!(user_yml)
           end
         end
