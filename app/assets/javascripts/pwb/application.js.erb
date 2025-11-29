@@ -30,7 +30,7 @@ else
 end
 
 require_asset ("vue-social-sharing")
-require_asset ("vue-google-maps-v0.8.11")
+# require_asset ("vue-google-maps-v0.8.11")
 require_asset ("./shared/select-picker")
 require_asset ("./shared/inmo-map")
 require_asset ("./shared/vue-main")
@@ -41,7 +41,7 @@ require_asset ("./shared/vue-main")
 // once turbolinks is activated, will have to change to above
 $(document).on('ready', function() {
   INMOAPP.pageHolder = {};
-  // 
+  //
   Paloma.start();
   // Paloma.executeHook();
   // Paloma.engine.start();
@@ -123,7 +123,7 @@ INMOAPP.addMarker = function(latlng, formatted_address) {
 
 
 
-// below 2 called after search results loaded (client side) - html would not be 
+// below 2 called after search results loaded (client side) - html would not be
 // ready on document.ready...
 INMOAPP.sortSearchResults = function() {
   var $wrapper = $('#ordered-properties');
