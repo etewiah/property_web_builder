@@ -3,8 +3,17 @@ require 'rails_helper'
 module Pwb
   RSpec.describe "Sessions", type: :feature do
     before(:all) do
-      @agency = FactoryBot.create(:pwb_agency, company_name: 'my re')
-      @admin_user = User.create!(email: "user@example.org", password: "very-secret", admin: true)
+      @website = FactoryBot.create(:pwb_website, subdomain: 'test-sessions')
+      @agency = FactoryBot.create(:pwb_agency, company_name: 'my re', website: @website)
+      @admin_user = User.create!(email: "user@example.org", password: "very-secret", admin: true, website: @website)
+    end
+
+    before(:each) do
+      Capybara.app_host = 'http://test-sessions.example.com'
+    end
+
+    after(:each) do
+      Capybara.app_host = nil
     end
 
     scenario 'with valid credentials' do
@@ -24,8 +33,9 @@ module Pwb
     end
 
     after(:all) do
-      @agency.destroy
       @admin_user.destroy
+      @agency.destroy
+      @website.destroy
     end
   end
 end

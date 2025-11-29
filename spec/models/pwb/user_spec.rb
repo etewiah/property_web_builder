@@ -44,27 +44,28 @@ module Pwb
 
         context 'user does not exist' do
           let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: 'new@user.com' }) }
+          let(:website) { FactoryBot.create(:pwb_website) }
 
           it 'creates new user' do
-            expect { User.find_for_oauth(auth) }.to change(User, :count).by(1)
+            expect { User.find_for_oauth(auth, website: website) }.to change(User, :count).by(1)
           end
 
           it 'returns new user' do
-            expect(User.find_for_oauth(auth)).to be_a(User)
+            expect(User.find_for_oauth(auth, website: website)).to be_a(User)
           end
 
           it 'fills user email' do
-            user = User.find_for_oauth(auth)
+            user = User.find_for_oauth(auth, website: website)
             expect(user.email).to eq auth.info[:email]
           end
 
           it 'creates authorization for user' do
-            user = User.find_for_oauth(auth)
+            user = User.find_for_oauth(auth, website: website)
             expect(user.authorizations).to_not be_empty
           end
 
           it 'creates authorization with provider and uid' do
-            authorization = User.find_for_oauth(auth).authorizations.first
+            authorization = User.find_for_oauth(auth, website: website).authorizations.first
 
             expect(authorization.provider).to eq auth.provider
             expect(authorization.uid).to eq auth.uid

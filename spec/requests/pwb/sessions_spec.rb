@@ -51,24 +51,36 @@ module Pwb
       end
     end
 
-    describe 'multi-tenant session isolation' do
+    describe 'multi-tenant authentication isolation' do
       let!(:website1) { create(:pwb_website, subdomain: 'tenant-a') }
       let!(:website2) { create(:pwb_website, subdomain: 'tenant-b') }
+      let!(:user_a) { create(:pwb_user, :admin, email: 'user_a@example.com', website: website1) }
+      let!(:user_b) { create(:pwb_user, :admin, email: 'user_b@example.com', website: website2) }
 
-      before do
-        login_as admin_user, scope: :user
+      it 'prevents user from signing in to wrong subdomain' do
+        host! 'tenant-a.example.com'
+        
+        # Try to sign in with user_b's credentials (who belongs to tenant-b)
+        post user_session_path, params: {
+          user: { email: user_b.email, password: user_b.password }
+        }
+        
+        # Should redirect back to sign in with error
+        expect(response).to redirect_to(new_user_session_path)
+        expect(flash[:alert]).to include("You don't have access to this subdomain")
       end
 
-      it 'maintains session across different tenant subdomains' do
+      it 'allows user to sign in to their assigned subdomain' do
         host! 'tenant-a.example.com'
-        get '/en'
-        expect(response).to have_http_status(:success)
-
-        Pwb::Current.reset
-
-        host! 'tenant-b.example.com'
-        get '/en'
-        expect(response).to have_http_status(:success)
+        
+        # Sign in with user_a's credentials (who belongs to tenant-a)
+        post user_session_path, params: {
+          user: { email: user_a.email, password: user_a.password }
+        }
+        
+        # Should successfully sign in
+        expect(response).to have_http_status(:redirect)
+        expect(response).not_to redirect_to(new_user_session_path)
       end
 
       it 'resolves correct website for each subdomain' do
@@ -82,13 +94,9 @@ module Pwb
         expect(found1).to eq(website1)
         expect(found2).to eq(website2)
 
-        # Verify Pwb::Current can be manually set
-        Pwb::Current.website = website1
-        expect(Pwb::Current.website).to eq(website1)
-
-        Pwb::Current.reset
-        Pwb::Current.website = website2
-        expect(Pwb::Current.website).to eq(website2)
+        # Verify users are assigned to correct websites
+        expect(user_a.website).to eq(website1)
+        expect(user_b.website).to eq(website2)
       end
     end
 

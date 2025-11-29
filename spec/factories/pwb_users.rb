@@ -3,6 +3,9 @@ FactoryBot.define do
     sequence(:email) { |n| "user#{n}@example.com" }
     password { 'password123' }
     
+    # Associate with a website (required as of multi-tenant authentication)
+    association :website, factory: :pwb_website
+    
     trait :admin do
       admin { true }
     end
