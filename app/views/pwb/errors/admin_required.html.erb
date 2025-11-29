@@ -1,1 +1,29 @@
-<h3>You need to be an admin to access this</h3>
+<div class="admin-required-error">
+  <h3>Admin Access Required</h3>
+  <% if current_user %>
+    <p>You are currently logged in as: <strong><%= current_user.email %></strong></p>
+    <p>This account does not have admin privileges for this tenant.</p>
+    
+    <hr>
+    <h4>Diagnostic Information:</h4>
+    <ul>
+      <li><strong>User is admin:</strong> <%= current_user.admin? %></li>
+      <li><strong>User's website_id:</strong> <%= current_user.website_id %></li>
+      <li><strong>User's website subdomain:</strong> <%= current_user.website&.subdomain || 'N/A' %></li>
+      <li><strong>Detected subdomain from URL:</strong> <%= @subdomain.present? ? @subdomain : 'N/A' %></li>
+      <li><strong>Website found for subdomain:</strong> <%= @website.present? ? "Yes (ID: #{@website.id})" : 'No' %></li>
+      <% if @website && current_user.website_id %>
+        <li><strong>Website IDs match:</strong> <%= current_user.website_id == @website.id %></li>
+      <% end %>
+    </ul>
+    <hr>
+    
+    <p>
+      <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-secondary" %>
+      or contact your administrator for access.
+    </p>
+  <% else %>
+    <p>You need to be an admin to access this page.</p>
+    <p><%= link_to "Sign in", new_user_session_path, class: "btn btn-primary" %></p>
+  <% end %>
+</div>

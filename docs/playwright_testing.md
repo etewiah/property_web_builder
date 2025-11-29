@@ -26,8 +26,8 @@ RAILS_ENV=e2e bin/rails playwright:server
 ```
 
 The server will be available at:
-- **Tenant A**: http://tenant-a.localhost:3001
-- **Tenant B**: http://tenant-b.localhost:3001
+- **Tenant A**: http://tenant-a.e2e.localhost:3001
+- **Tenant B**: http://tenant-b.e2e.localhost:3001
 
 ### 3. Run Playwright Tests
 
@@ -97,7 +97,7 @@ const USER_A = {
 };
 
 test('User can log in', async ({ page }) => {
-  await page.goto('http://tenant-a.localhost:3001/users/sign_in');
+  await page.goto('http://tenant-a.e2e.localhost:3001/users/sign_in');
   await page.fill('#user_email', USER_A.email);
   await page.fill('#user_password', USER_A.password);
   await page.click('input[type="submit"]');
@@ -137,8 +137,9 @@ If subdomains don't resolve:
 
 - Ensure entries exist in `config/environments/e2e.rb`:
   ```ruby
-  config.hosts << "tenant-a.localhost"
-  config.hosts << "tenant-b.localhost"
+  config.hosts << "tenant-a.e2e.localhost"
+  config.hosts << "tenant-b.e2e.localhost"
+  config.action_dispatch.tld_length = 2
   ```
 
 - On Mac/Linux, `*.localhost` should resolve to `127.0.0.1` automatically

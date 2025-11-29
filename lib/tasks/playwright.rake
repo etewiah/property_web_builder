@@ -30,8 +30,8 @@ namespace :playwright do
     end
 
     puts "🚀 Starting Rails server for E2E testing on port 3001..."
-    puts "   Tenant A: http://tenant-a.localhost:3001"
-    puts "   Tenant B: http://tenant-b.localhost:3001"
+    puts "   Tenant A: http://tenant-a.e2e.localhost:3001"
+    puts "   Tenant B: http://tenant-b.e2e.localhost:3001"
     puts ""
     
     exec "bin/rails server -p 3001"

@@ -64,8 +64,10 @@ Rails.application.configure do
   # Allow requests from localhost subdomains for multi-tenant testing
   config.hosts << ".lvh.me"
   config.hosts << "localhost"
-  config.hosts << "tenant-a.localhost"
-  config.hosts << "tenant-b.localhost"
+  config.hosts << "tenant-a.e2e.localhost"
+  config.hosts << "tenant-b.e2e.localhost"  
+  # Configure subdomain detection for .e2e.localhost domains (TLD is "e2e.localhost" = 2 parts)
+  # config.action_dispatch.tld_length = 2
 
   # Disable Bullet for cleaner test output
   config.after_initialize do
