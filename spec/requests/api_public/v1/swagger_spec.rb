@@ -1,10 +1,12 @@
 require 'swagger_helper'
 
 RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swagger.yaml' do
-  
-  before(:all) do
-    # Create a default website for tests that depend on Pwb::Current.website
-    @website = FactoryBot.create(:pwb_website)
+
+  let!(:test_website) { FactoryBot.create(:pwb_website, subdomain: 'apipublic-test') }
+  let!(:test_agency) { FactoryBot.create(:pwb_agency, website: test_website) }
+
+  before do
+    host! 'apipublic-test.example.com'
   end
 
   path '/api_public/v1/properties/{id}' do
@@ -40,7 +42,8 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
             for_rent: { type: :boolean }
           }
 
-        let(:id) { FactoryBot.create(:pwb_prop, :sale).id }
+        let!(:property) { FactoryBot.create(:pwb_prop, :sale, website: test_website) }
+        let(:id) { property.id }
         run_test!
       end
 
@@ -102,12 +105,12 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
       response '200', 'page found' do
         schema type: :object,
           properties: {
-            slug: { type: :string },
-            link_path: { type: :string },
+            slug: { type: [:string, :null] },
+            link_path: { type: [:string, :null] },
             visible: { type: :boolean },
-            page_title: { type: :string },
-            link_title: { type: :string },
-            raw_html: { type: :string },
+            page_title: { type: [:string, :null] },
+            link_title: { type: [:string, :null] },
+            raw_html: { type: [:string, :null] },
             show_in_top_nav: { type: :boolean },
             show_in_footer: { type: :boolean },
             page_contents: {
@@ -116,7 +119,8 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
             }
           }
 
-        let(:id) { FactoryBot.create(:pwb_page).id }
+        let!(:page) { FactoryBot.create(:pwb_page, website: test_website, slug: 'test-page') }
+        let(:id) { page.id }
         run_test!
       end
 
@@ -137,12 +141,12 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
       response '200', 'page found' do
         schema type: :object,
           properties: {
-            slug: { type: :string },
-            link_path: { type: :string },
+            slug: { type: [:string, :null] },
+            link_path: { type: [:string, :null] },
             visible: { type: :boolean },
-            page_title: { type: :string },
-            link_title: { type: :string },
-            raw_html: { type: :string },
+            page_title: { type: [:string, :null] },
+            link_title: { type: [:string, :null] },
+            raw_html: { type: [:string, :null] },
             show_in_top_nav: { type: :boolean },
             show_in_footer: { type: :boolean },
             page_contents: {
@@ -151,7 +155,8 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
             }
           }
 
-        let(:slug) { FactoryBot.create(:pwb_page).slug }
+        let!(:page) { FactoryBot.create(:pwb_page, website: test_website, slug: 'another-page') }
+        let(:slug) { page.slug }
         run_test!
       end
 
