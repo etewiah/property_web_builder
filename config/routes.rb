@@ -1,9 +1,8 @@
-# Pwb::Engine.routes.draw do
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   get '/api-public-docs', to: 'api_public_docs#index'
-  
+
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
@@ -13,7 +12,7 @@ Rails.application.routes.draw do
   # Note: Authentication only for now, authorization will be added in Phase 2
   namespace :tenant_admin do
     root to: 'dashboard#index'
-    
+
     resources :websites do
       # Nested resources for tenant-specific data
       resources :users, only: [:index, :show]
@@ -21,7 +20,7 @@ Rails.application.routes.draw do
       resources :props, only: [:index, :show]
       resources :pages, only: [:index, :show]
     end
-    
+
     resources :users
     resources :agencies, only: [:index, :show, :new, :create, :edit, :update, :destroy]
     resources :props, only: [:index, :show]

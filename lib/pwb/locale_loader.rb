@@ -4,7 +4,7 @@ module Pwb
       # Call from console:
       # require 'pwb/locale_loader'
       # or
-      # load "#{Pwb::Engine.root}/lib/pwb/locale_loader.rb"
+      # load locale_loader.rb if needed
       # Pwb::LocaleLoader.load_locale! "en", "es"
 
       def load_locale!(from_locale, to_locale)

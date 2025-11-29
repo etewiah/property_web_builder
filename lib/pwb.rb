@@ -1,5 +1,4 @@
-require 'pwb/engine'
-
 module Pwb
-  # Your code goes here...
+  # PropertyWebBuilder module
+  # This was previously a Rails Engine but is now a standalone Rails application.
 end

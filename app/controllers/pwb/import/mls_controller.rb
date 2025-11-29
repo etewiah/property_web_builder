@@ -30,19 +30,5 @@ module Pwb
 
       render json: retrieved_properties
     end
-
-    # def retrieve2
-    #   properties = JSON.parse( File.read("#{Pwb::Engine.root}/spec/fixtures/mls/properties_interealty.json") )
-    #   retrieved_properties = []
-    #   count = 0
-    #   properties.each do |property|
-    #     if count < 100
-    #       mapped_property = ImportMapper.new("mls_interealty").map_property(property)
-    #       retrieved_properties.push mapped_property
-    #     end
-    #     count += 1
-    #   end
-    #   return render json: retrieved_properties
-    # end
   end
 end
