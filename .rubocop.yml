@@ -17,11 +17,6 @@ Layout/EmptyLines:
 Layout/MultilineHashBraceLayout:
   Enabled: false
 
-# Sometimes I believe this reads better
-# This also causes spacing issues on multi-line fixes
-Style/BracesAroundHashParameters:
-  Enabled: false
-
 # We use class vars and will have to continue doing so for compatability
 Style/ClassVars:
   Enabled: false
@@ -46,10 +41,7 @@ Style/WordArray:
 Style/ConditionalAssignment:
   Enabled: false
 
-Performance/Count:
-  Enabled: false
-
-Lint/EndAlignment:
+Layout/EndAlignment:
   Enabled: false
 
 Layout/ElseAlignment:
@@ -58,7 +50,7 @@ Layout/ElseAlignment:
 Layout/IndentationWidth:
   Enabled: false
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   Enabled: false
 
 Layout/ClosingParenthesisIndentation:
@@ -70,13 +62,10 @@ Style/CollectionMethods:
 Layout/MultilineMethodCallIndentation:
   Enabled: false
 
-Layout/IndentArray:
+Layout/FirstArrayElementIndentation:
   Enabled: false
 
-Layout/IndentHash:
-  Enabled: false
-
-Layout/AlignHash:
+Layout/FirstHashElementIndentation:nt:
   Enabled: false
 
 Naming/AccessorMethodName:
@@ -190,7 +179,7 @@ Style/StringLiterals:
 
 Style/AsciiComments:
   Enabled: false
-  
+
 Style/WhileUntilModifier:
   Enabled: false
   StyleGuide: http://relaxed.ruby.style/#stylewhileuntilmodifier
@@ -226,7 +215,7 @@ Metrics/ModuleLength:
 Metrics/CyclomaticComplexity:
   Enabled: false
 
-Metrics/LineLength:
+Layout/LineLength:
   Enabled: false
 
 Metrics/MethodLength:
