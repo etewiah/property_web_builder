@@ -75,7 +75,7 @@ module Pwb
         @show_admin_link = false
       else
         @show_admin_link = false
-        top_nav_admin_link = Pwb::Link.find_by_slug("top_nav_admin")
+        top_nav_admin_link = @current_website.links.find_by_slug("top_nav_admin")
         if top_nav_admin_link && top_nav_admin_link.visible
           @show_admin_link = true
         end

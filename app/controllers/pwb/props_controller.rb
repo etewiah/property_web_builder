@@ -5,7 +5,7 @@ module Pwb
     def show_for_rent
       @carousel_speed = 3000
       # @inmo_template = "broad"
-      @property_details = Prop.find_by_id(params[:id])
+      @property_details = @current_website.props.find_by_id(params[:id])
       # gon.property_details =@property_details
       @operation_type = "for_rent"
       @operation_type_key = @operation_type.camelize(:lower)
@@ -23,7 +23,7 @@ module Pwb
         return render "/pwb/props/show"
       else
         @page_title = I18n.t("propertyNotFound")
-        hi_content = Content.where(tag: "landing-carousel")[0]
+        hi_content = @current_website.contents.where(tag: "landing-carousel")[0]
         @header_image = hi_content.present? ? hi_content.default_photo : nil
         return render "not_found"
       end
@@ -34,7 +34,7 @@ module Pwb
       # @inmo_template = "broad"
       @operation_type = "for_sale"
       @operation_type_key = @operation_type.camelize(:lower)
-      @property_details = Prop.find_by_id(params[:id])
+      @property_details = @current_website.props.find_by_id(params[:id])
       @map_markers = []
 
       if @property_details && @property_details.visible && @property_details.for_sale
@@ -48,7 +48,7 @@ module Pwb
         return render "/pwb/props/show"
       else
         @page_title = I18n.t("propertyNotFound")
-        hi_content = Content.where(tag: "landing-carousel")[0]
+        hi_content = @current_website.contents.where(tag: "landing-carousel")[0]
         @header_image = hi_content.present? ? hi_content.default_photo : nil
         return render "not_found"
       end
@@ -60,7 +60,7 @@ module Pwb
       # have a hidden field in form to pass in above
       # if I didn't I could end up with the wrong locale
       # @enquiry = Message.new(params[:contact])
-      @property = Prop.find(params[:contact][:property_id])
+      @property = @current_website.props.find(params[:contact][:property_id])
       @contact = Contact.find_or_initialize_by(primary_email: params[:contact][:email])
       @contact.attributes = {
         primary_phone_number: params[:contact][:tel],

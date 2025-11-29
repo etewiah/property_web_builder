@@ -15,7 +15,7 @@ module Pwb
 
 
       # @content_to_show = []
-      @page = Pwb::Page.find_by_slug "contact-us"
+      @page = @current_website.pages.find_by_slug "contact-us"
       @page_title = @current_agency.company_name
 
       if @page.present?

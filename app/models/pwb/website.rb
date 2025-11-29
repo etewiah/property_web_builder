@@ -76,7 +76,7 @@ module Pwb
     # do not get updated
     def update_admin_page_links
       admin_page_links = []
-      Pwb::Link.ordered_visible_admin.each do |link|
+      links.ordered_visible_admin.each do |link|
         admin_page_links.push link.as_json
       end
       configuration["admin_page_links"] = admin_page_links
@@ -207,7 +207,7 @@ module Pwb
 
     def logo_url
       logo_url = nil
-      logo_content = Content.find_by_key("logo")
+      logo_content = contents.find_by_key("logo")
       if logo_content && !logo_content.content_photos.empty?
         logo_url = logo_content.content_photos.first.image_url
       end
@@ -227,11 +227,11 @@ module Pwb
     end
 
     def top_nav_display_links
-      Link.ordered_top_nav.where(visible: true)
+      links.ordered_top_nav.where(visible: true)
     end
 
     def footer_display_links
-      Link.ordered_footer.where(visible: true)
+      links.ordered_footer.where(visible: true)
     end
 
     # NOTE: The agency method is provided by the has_one :agency association

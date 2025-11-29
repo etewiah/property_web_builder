@@ -5,7 +5,7 @@ module Pwb
     before_action :header_image_url
 
     def index
-      @page = Pwb::Page.find_by_slug "home"
+      @page = @current_website.pages.find_by_slug "home"
       @page_title = @current_agency.company_name
       # @content_to_show = []
 
@@ -14,8 +14,8 @@ module Pwb
           @page_title = @page.page_title + ' - ' + @current_agency.company_name.to_s
         end
 
-        @properties_for_sale = Prop.for_sale.visible.order('highlighted DESC').limit 9
-        @properties_for_rent = Prop.for_rent.visible.order('highlighted DESC').limit 9
+        @properties_for_sale = @current_website.props.for_sale.visible.order('highlighted DESC').limit 9
+        @properties_for_rent = @current_website.props.for_rent.visible.order('highlighted DESC').limit 9
 
         # @search_defaults = params[:search].present? ? params[:search] : {}
 

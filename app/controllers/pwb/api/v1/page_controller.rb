@@ -8,7 +8,7 @@ module Pwb
         return render json: (Pwb::Current.website || Website.first).as_json_for_page
       end
 
-      page = Pwb::Page.find_by_slug(params[:page_name])
+      page = current_website.pages.find_by_slug(params[:page_name])
       if page
         render json: page.as_json_for_admin
       else
@@ -28,7 +28,7 @@ module Pwb
         return render_json_error "Please provide label"
       end
       page_part_key = params["page_part_key"]
-      page = Page.find_by_slug params[:page_slug]
+      page = current_website.pages.find_by_slug params[:page_slug]
 
       photo = page.create_fragment_photo page_part_key, block_label, params[:file]
       photo.reload
@@ -38,14 +38,14 @@ module Pwb
     end
 
     def update
-      page = Page.find_by_slug params[:page][:slug]
+      page = current_website.pages.find_by_slug params[:page][:slug]
       page.update(page_params)
       page.save!
       render json: page.as_json_for_admin
     end
 
     def update_page_part_visibility
-      page = Page.find_by_slug params[:page_slug]
+      page = current_website.pages.find_by_slug params[:page_slug]
       unless page
         return render_json_error "Please provide valid page slug"
       end
@@ -66,7 +66,7 @@ module Pwb
       if params[:page_slug] == "website"
         container = Pwb::Current.website || Website.first
       else
-        container = Page.find_by_slug params[:page_slug]
+        container = current_website.pages.find_by_slug params[:page_slug]
       end
       fragment_details = params[:fragment_details]
       unless fragment_details && fragment_details["locale"]

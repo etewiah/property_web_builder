@@ -4,7 +4,7 @@ module Pwb
     protect_from_forgery with: :null_session
     def all
       puts "Export::PropertiesController#all reached"
-      properties = Pwb::Prop.all
+      properties = current_website.props
       # where(:id,)
       # @header_cols = ["Id", "Title in English", "Title in Spanish",
       #                 "Description in English", "Description in Spanish",

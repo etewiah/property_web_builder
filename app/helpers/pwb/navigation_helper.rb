@@ -17,7 +17,7 @@ module Pwb
 
     def render_top_navigation_links
       html = ""
-      @tn_links ||= Pwb::Link.ordered_visible_top_nav
+      @tn_links ||= @current_website.links.ordered_visible_top_nav
       @tn_links.each do |page|
         unless page.slug == "top_nav_admin"
           html += (top_nav_link_for page) || ""
@@ -28,7 +28,7 @@ module Pwb
 
     def render_footer_links
       html = ""
-      @ftr_links ||= Pwb::Link.ordered_visible_footer
+      @ftr_links ||= @current_website.links.ordered_visible_footer
       @ftr_links.each do |page|
         html += (footer_link_for page) || ""
       end

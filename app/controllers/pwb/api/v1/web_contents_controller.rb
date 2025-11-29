@@ -14,9 +14,9 @@ module Pwb
       unless photo
         if content_tag
           # where photo has never been set before, associated Content will not exist
-          content = Content.find_by_key(content_tag) || Content.create({ key: content_tag, tag: "appearance" })
+          content = current_website.contents.find_by_key(content_tag) || current_website.contents.create({ key: content_tag, tag: "appearance" })
           photo = ContentPhoto.create
-          if content_tag == "logo"
+          if content_tag == \"logo\"
             # TODO: This is a workaround
             # need to have a way of determining content that should only have
             # one photo and enforcing that
@@ -40,7 +40,7 @@ module Pwb
       photo = ContentPhoto.create
 
       key = tag.underscore.camelize + photo.id.to_s
-      new_content = Content.create(tag: tag, key: key)
+      new_content = current_website.contents.create(tag: tag, key: key)
 
       # photo.subdomain = subdomain
       # photo.folder = current_tenant_model.whitelabel_country_code

@@ -8,7 +8,7 @@ module Pwb
       @operation_type = "for_sale"
       # above used to decide if link to result should be to buy or rent path
       # http://www.justinweiss.com/articles/search-and-filter-rails-models-without-bloating-your-controller/
-      @properties = Prop.visible.for_sale
+      @properties = @current_website.props.visible.for_sale
       # .order('price_sale_current_cents ASC')
       # @properties = Prop.where(nil) # creates an anonymous scope
       apply_search_filter filtering_params(params)
@@ -23,7 +23,7 @@ module Pwb
       @operation_type = "for_rent"
       # above used to decide if link to result should be to buy or rent path
       # http://www.justinweiss.com/articles/search-and-filter-rails-models-without-bloating-your-controller/
-      @properties = Prop.visible.for_rent
+      @properties = @current_website.props.visible.for_rent
 
       apply_search_filter filtering_params(params)
       set_map_markers
@@ -33,7 +33,7 @@ module Pwb
 
     # ordering of results happens client-side with paloma search.js
     def buy
-      @page = Pwb::Page.find_by_slug "buy"
+      @page = @current_website.pages.find_by_slug "buy"
       @page_title = @current_agency.company_name
       # @content_to_show = []
       if @page.present?
@@ -50,7 +50,7 @@ module Pwb
       @operation_type = "for_sale"
       # above used to decide if link to result should be to buy or rent path
 
-      @properties = Prop.visible.for_sale.limit 45
+      @properties = @current_website.props.visible.for_sale.limit 45
       # ordering happens clientside
       # .order('price_sale_current_cents ASC').limit 35
       @prices_from_collection = @current_website.sale_price_options_from
@@ -78,7 +78,7 @@ module Pwb
 
     # TODO: - avoid duplication b/n rent and buy
     def rent
-      @page = Pwb::Page.find_by_slug "rent"
+      @page = @current_website.pages.find_by_slug "rent"
       @page_title = @current_agency.company_name
       # @content_to_show = []
       if @page.present?
@@ -94,7 +94,7 @@ module Pwb
       @operation_type = "for_rent"
       # above used to decide if link to result should be to buy or rent path
 
-      @properties = Prop.visible.for_rent.limit 45
+      @properties = @current_website.props.visible.for_rent.limit 45
       # .order('price_rental_monthly_current_cents ASC').limit 35
 
       @prices_from_collection = @current_website.rent_price_options_from

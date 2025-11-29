@@ -19,12 +19,12 @@ module Pwb
       errors = []
       properties_params(propertiesJSON).each_with_index do |property_params, index|
         propertyJSON = propertiesJSON[index]
-        if Pwb::Prop.where(reference: propertyJSON["reference"]).exists?
-          existing_props.push Pwb::Prop.find_by_reference propertyJSON["reference"]
+        if current_website.props.where(reference: propertyJSON["reference"]).exists?
+          existing_props.push current_website.props.find_by_reference propertyJSON["reference"]
           # propertyJSON
         else
           begin
-            new_prop = Pwb::Prop.create(property_params)
+            new_prop = current_website.props.create(property_params)
             # new_prop = Pwb::Prop.create(propertyJSON.except("features", "property_photos", "image_urls", "last_retrieved_at"))
 
             # create will use website defaults for currency and area_unit
@@ -79,7 +79,7 @@ module Pwb
 
     # TODO: rename to update_features:
     def update_extras
-      property = Prop.find(params[:id])
+      property = current_website.props.find(params[:id])
       # The set_features method goes through ea
       property.set_features = params[:extras].to_unsafe_hash
       property.save!
@@ -94,7 +94,7 @@ module Pwb
         photo.sort_order = index
         photo.save!
       end
-      @property = Prop.find(params[:prop_id])
+      @property = current_website.props.find(params[:prop_id])
       return render json: @property.prop_photos
       # { "success": true }, status: :ok, head: :no_content
     end
@@ -102,7 +102,7 @@ module Pwb
     def add_photo_from_url
       # subdomain = request.subdomain || ""
 
-      property = Prop.find(params[:id])
+      property = current_website.props.find(params[:id])
       remote_urls = params[:remote_urls].split(",")
       photos_array = []
       remote_urls.each do |remote_url|

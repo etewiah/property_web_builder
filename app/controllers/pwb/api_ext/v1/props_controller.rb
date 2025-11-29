@@ -46,14 +46,14 @@ module Pwb
       pwb_prop = {}
       message = ""
 
-      if Pwb::Prop.where(reference: propertyJSON["reference"]).exists?
-        pwb_prop = Pwb::Prop.find_by_reference propertyJSON["reference"]
+      if current_website.props.where(reference: propertyJSON["reference"]).exists?
+        pwb_prop = current_website.props.find_by_reference propertyJSON["reference"]
         pwb_prop.update property_params
         pwb_prop.save!
         # message = "PWB property already exists"
       else
         begin
-          pwb_prop = Pwb::Prop.create property_params
+          pwb_prop = current_website.props.create property_params
           # propertyJSON.except "extras", "property_photos"
           # message = "PWB property added"
         rescue => err
@@ -97,11 +97,11 @@ module Pwb
       errors = []
 
       propertiesJSON.each do |propertyJSON|
-        if Pwb::Prop.where(reference: propertyJSON["reference"]).exists?
+        if current_website.props.where(reference: propertyJSON["reference"]).exists?
           existing_props.push propertyJSON
         else
           begin
-            new_prop = Pwb::Prop.create propertyJSON.except "extras", "property_photos"
+            new_prop = current_website.props.create propertyJSON.except "extras", "property_photos"
             if propertyJSON["extras"]
               new_prop.set_features = propertyJSON["extras"]
             end

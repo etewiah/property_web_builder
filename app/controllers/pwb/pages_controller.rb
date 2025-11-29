@@ -7,9 +7,9 @@ module Pwb
     def show_page
       default_page_slug = "home"
       page_slug = params[:page_slug] || default_page_slug
-      @page = Pwb::Page.find_by_slug page_slug
+      @page = @current_website.pages.find_by_slug page_slug
       if @page.blank?
-        @page = Pwb::Page.find_by_slug default_page_slug
+        @page = @current_website.pages.find_by_slug default_page_slug
       end
       @content_to_show = []
 

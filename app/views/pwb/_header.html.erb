@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-sm-6 hidden-xs contacto_header">
           <% if @current_agency.phone_number_primary %>
-            <i class="fa fa-phone-square fa-lg"></i><%= @current_agency.phone_number_primary %> &nbsp;&nbsp;          
+            <i class="fa fa-phone-square fa-lg"></i><%= @current_agency.phone_number_primary %> &nbsp;&nbsp;
           <% end %>
           <% if @current_agency.email_primary %>
             <i class="fa fa-envelope fa-lg"></i><%= @current_agency.email_primary %>
@@ -47,10 +47,7 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <%# top_navigation %>
-            <%# top_navigation %>
-            <%# top_navigation %>
-            <% Pwb::Link.ordered_visible_top_nav.each do |page| %>
+            <% @current_website.links.ordered_visible_top_nav.each do |page| %>
               <% next if page.slug == "top_nav_admin" %>
               <% target_path = nil %>
               <% begin %>
