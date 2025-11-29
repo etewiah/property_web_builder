@@ -6,6 +6,7 @@ module Pwb
       :recoverable, :rememberable, :trackable,
       :validatable, :omniauthable, omniauth_providers: [:facebook]
 
+    belongs_to :website, optional: true
     has_many :authorizations
 
     # TODO: - use db col for below

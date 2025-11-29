@@ -446,10 +446,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_28_185620) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "firebase_uid"
+    t.integer "website_id"
     t.index ["confirmation_token"], name: "index_pwb_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_pwb_users_on_email", unique: true
     t.index ["firebase_uid"], name: "index_pwb_users_on_firebase_uid", unique: true
     t.index ["reset_password_token"], name: "index_pwb_users_on_reset_password_token", unique: true
+    t.index ["website_id"], name: "index_pwb_users_on_website_id"
   end
 
   create_table "pwb_website_photos", force: :cascade do |t|
