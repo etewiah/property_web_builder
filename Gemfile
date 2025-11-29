@@ -39,6 +39,7 @@ group :development, :test do
     # updated Gemfile.lock to version control
     # gem 'launchy'
     # gem 'annotate'
+    gem 'annotaterb'
     # gem 'bumpy'
     # gem 'yard'
     # gem 'redcarpet'
