@@ -175,3 +175,6 @@ gem "tailwindcss-rails", "~> 4.4"
 
 gem "firebase_id_token", "~> 2.5"
 gem "active_storage_dashboard"
+
+# AWS SDK for S3-compatible storage (Cloudflare R2)
+gem "aws-sdk-s3", require: false
