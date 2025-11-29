@@ -11,13 +11,13 @@ module Pwb
     end
 
     def opt_image_tag(photo, options = {})
-      unless photo && photo.image.present?
+      unless photo && photo.image.attached?
         return nil
       end
       if Rails.application.config.use_cloudinary
         cl_image_tag photo.image, options
       else
-        image_tag photo.image.url, options
+        image_tag url_for(photo.image), options
       end
     end
 
@@ -28,13 +28,13 @@ module Pwb
     private
 
     def get_opt_image_url(photo, options)
-      unless photo && photo.image.present?
+      unless photo && photo.image.attached?
         return ""
       end
       if Rails.application.config.use_cloudinary
         image_url = cl_image_path photo.image, options
       else
-        image_url = image_url photo.image.url
+        image_url = url_for(photo.image)
       end
     end
   end

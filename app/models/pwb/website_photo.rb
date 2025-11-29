@@ -1,6 +1,6 @@
 module Pwb
   class WebsitePhoto < ApplicationRecord
-    mount_uploader :image, WebsitePhotoUploader
+    has_one_attached :image
 
     # validates_processing_of :image
     # validate :image_size_validation

@@ -160,8 +160,8 @@ module Pwb
     end
 
     def primary_image_url
-      if prop_photos.length > 0
-        ordered_photo(1).image.url
+      if prop_photos.length > 0 && ordered_photo(1).image.attached?
+        Rails.application.routes.url_helpers.url_for(ordered_photo(1).image)
       else
         ""
       end
@@ -276,7 +276,11 @@ module Pwb
     def as_json(options = nil)
       super(options).tap do |hash|
         hash['prop_photos'] = prop_photos.map do |photo|
-          { 'image' => photo.image.url }
+          if photo.image.attached?
+            { 'image' => Rails.application.routes.url_helpers.url_for(photo.image) }
+          else
+            { 'image' => nil }
+          end
         end
       end
     end

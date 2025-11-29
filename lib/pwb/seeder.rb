@@ -245,11 +245,18 @@ module Pwb
         photo_files.each do |photo_file|
           begin
             photo = photo_class.send("create")
-            photo.image = Rails.root.join(photo_file).open
+            file_path = Rails.root.join(photo_file)
+
+            # Use ActiveStorage attach method
+            photo.image.attach(
+              io: file_path.open,
+              filename: File.basename(photo_file),
+              content_type: get_content_type(photo_file)
+            )
+
             photo.save!
-            photo.reload
             photos.push photo
-            puts "Successfully created #{photo.image.url} from #{photo_file}"
+            puts "Successfully created photo from #{photo_file}"
             sleep 1
           rescue Exception => e
             # log exception to console
@@ -272,10 +279,23 @@ module Pwb
         photo_urls.each do |photo_url|
           begin
             photo = photo_class.send("create")
-            photo.remote_image_url = photo_url
+
+            # For URLs, we need to download the file first
+            require 'open-uri'
+            downloaded_image = URI.open(photo_url)
+
+            photo.image.attach(
+              io: downloaded_image,
+              filename: File.basename(photo_url),
+              content_type: get_content_type_from_url(photo_url)
+            )
+
             photo.save!
             photos.push photo
+            puts "Successfully created photo from #{photo_url}"
           rescue Exception => e
+            puts "Failed to create photo from #{photo_url}"
+            puts e
             if photo
               photo.destroy!
             end
@@ -287,6 +307,38 @@ module Pwb
       def load_seed_yml(yml_file)
         seed_file = Rails.root.join("db", "yml_seeds", yml_file)
         yml = YAML.load_file(seed_file)
+      end
+
+      # Helper method to determine content type from file extension
+      def get_content_type(file_path)
+        case File.extname(file_path).downcase
+        when '.jpg', '.jpeg'
+          'image/jpeg'
+        when '.png'
+          'image/png'
+        when '.gif'
+          'image/gif'
+        when '.webp'
+          'image/webp'
+        else
+          'application/octet-stream'
+        end
+      end
+
+      # Helper method to determine content type from URL
+      def get_content_type_from_url(url)
+        case File.extname(URI.parse(url).path).downcase
+        when '.jpg', '.jpeg'
+          'image/jpeg'
+        when '.png'
+          'image/png'
+        when '.gif'
+          'image/gif'
+        when '.webp'
+          'image/webp'
+        else
+          'image/jpeg' # Default for images
+        end
       end
     end
   end

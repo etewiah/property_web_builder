@@ -1,6 +1,6 @@
 module Pwb
   class PropPhoto < ApplicationRecord
-    mount_uploader :image, PropPhotoUploader
+    has_one_attached :image
     belongs_to :prop, optional: true
   end
 end

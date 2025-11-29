@@ -1,6 +1,6 @@
 module Pwb
   class ContentPhoto < ApplicationRecord
-    mount_uploader :image, ContentPhotoUploader
+    has_one_attached :image
     belongs_to :content, optional: true
     # I use block_key col to indicate if there is a fragment block associated
     # with this photo
@@ -9,19 +9,20 @@ module Pwb
     # validate :image_size_validation
 
     def optimized_image_url
-      unless image.url.present?
-        # if this method is called too soon after an image is
-        # uploaded, might need to reload the record to
-        # have the url available
-        reload
-      end
+      return nil unless image.attached?
+
       if Rails.application.config.use_cloudinary
-        options = {height: 800, crop: "scale", quality: "auto"}
-        image_url = Cloudinary::Utils.cloudinary_url image, options
+        # For Cloudinary with ActiveStorage, we'll need to handle this differently
+        # For now, return the basic URL and handle Cloudinary integration separately
+        Rails.application.routes.url_helpers.url_for(image)
       else
-        image_url = image.url
+        # For local storage, we can use variants for optimization
+        if image.variable?
+          Rails.application.routes.url_helpers.url_for(image.variant(resize_to_limit: [800, 600]))
+        else
+          Rails.application.routes.url_helpers.url_for(image)
+        end
       end
-      image_url
     end
 
     # private
