@@ -42,7 +42,11 @@ module Pwb
       end
 
       describe "GET #show" do
-        let!(:agency) { FactoryBot.create(:pwb_agency, company_name: "my re") }
+        before do
+          # Update the first website's agency with the expected company name
+          website = Pwb::Website.first
+          website.agency.update!(company_name: "my re")
+        end
 
         it "returns correct agency and default setup info" do
           get :show
@@ -54,7 +58,7 @@ module Pwb
           result = JSON.parse(response.body)
 
           expect(result).to have_key("agency")
-          expect(result["agency"]["company_name"]).to eq(agency.company_name)
+          expect(result["agency"]["company_name"]).to eq("my re")
           expect(result["setup"]["name"]).to eq("default")
         end
       end

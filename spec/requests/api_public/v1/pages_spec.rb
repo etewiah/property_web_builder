@@ -1,8 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "ApiPublic::V1::Pages", type: :request do
-  let!(:website) { FactoryBot.create(:pwb_website) }
+  let!(:website) { FactoryBot.create(:pwb_website, subdomain: "pages-test") }
   let!(:page) { FactoryBot.create(:pwb_page, slug: "about-us", website: website) }
+
+  before(:each) do
+    Pwb::Current.reset
+    Pwb::Current.website = website
+  end
 
   describe "GET /api_public/v1/pages/:id" do
     it "returns the page" do

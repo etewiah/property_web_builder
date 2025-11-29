@@ -6,7 +6,7 @@ module Pwb
       :set_locale, :set_theme_path, :footer_content
 
     def set_theme_path
-      theme_name = current_website.theme_name
+      theme_name = current_website&.theme_name
       if params[:theme].present?
         if %w(berlin default).include? params[:theme]
           theme_name = params[:theme]
@@ -21,7 +21,7 @@ module Pwb
 
     def set_locale
       # agency = current_agency
-      locale = current_website.default_client_locale_to_use
+      locale = current_website&.default_client_locale_to_use || "en"
       # below just causes confusion for now
       # if current_user
       #   locale = current_user.default_client_locale
@@ -45,13 +45,18 @@ module Pwb
 
     def current_agency_and_website
       @current_website = current_website_from_subdomain || Pwb::Current.website || Website.first
-      @current_agency = @current_website.agency || @current_website.build_agency
+      @current_agency = @current_website&.agency || @current_website&.build_agency
     end
+
+    # Reserved subdomains that should not be used for tenant resolution
+    RESERVED_SUBDOMAINS = %w[www api admin].freeze
 
     # Determine the current website based on subdomain
     def current_website_from_subdomain
-      return nil unless request.subdomain.present?
-      Website.find_by_subdomain(request.subdomain)
+      subdomain = request.subdomain
+      return nil if subdomain.blank?
+      return nil if RESERVED_SUBDOMAINS.include?(subdomain.downcase)
+      Website.find_by_subdomain(subdomain)
     end
 
     # Returns the current website, preferring @current_website if already set
@@ -61,7 +66,7 @@ module Pwb
 
     def footer_content
       # @footer_content = Content.find_by_key("footerInfo") || OpenStruct.new
-      footer_page_content = current_website.ordered_visible_page_contents.find_by_page_part_key "footer_content_html"
+      footer_page_content = current_website&.ordered_visible_page_contents&.find_by_page_part_key "footer_content_html"
       @footer_content = footer_page_content.present? ? footer_page_content.content : OpenStruct.new
       # TODO: Cache above
     end
@@ -74,7 +79,7 @@ module Pwb
         @show_admin_link = false
       else
         @show_admin_link = false
-        top_nav_admin_link = @current_website.links.find_by_slug("top_nav_admin")
+        top_nav_admin_link = @current_website&.links&.find_by_slug("top_nav_admin")
         if top_nav_admin_link && top_nav_admin_link.visible
           @show_admin_link = true
         end

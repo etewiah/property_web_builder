@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :pwb_prop, class: "Pwb::Prop" do
     title_en { "A property for " }
+    association :website, factory: :pwb_website
     trait :sale do
       for_sale { true }
       visible { true }

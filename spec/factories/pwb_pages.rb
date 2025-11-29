@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :pwb_page, class: "Pwb::Page" do
+    association :website, factory: :pwb_website
     # trait :about_us do
     #   association :page_parts, factory: :pwb_page_part, page_part_key: "our_agency"
     # end
@@ -9,7 +10,7 @@ FactoryBot.define do
     # end
 
     after(:create) do |page, _evaluator|
-      create(:pwb_link, :top_nav, page_slug: page.slug)
+      create(:pwb_link, :top_nav, page_slug: page.slug, website: page.website)
     end
 
     factory :contact_us_with_rails_page_part do

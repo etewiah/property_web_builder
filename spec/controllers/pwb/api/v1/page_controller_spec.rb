@@ -34,9 +34,11 @@ module Pwb
     context "with admin user" do
       login_admin_user
       before do
-        # let!(:page) { FactoryBot.create(:pwb_page, :home_page) }
+        # Ensure page is associated with the current website
+        website = Pwb::Website.first
         @page = FactoryBot.create(:page_with_content_html_page_part,
-                                  slug: "home")
+                                  slug: "home",
+                                  website: website)
         page_part = @page.page_parts.first
         page_part.template = '<div>{{ page_part["main_content"]["content"] %> }}</div>'
         page_part.save!
