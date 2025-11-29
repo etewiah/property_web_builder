@@ -20,6 +20,7 @@ en:
       already_authenticated: You are already signed in.
       inactive: Your account is not activated yet.
       invalid: Invalid email or password.
+      invalid_website: You don't have access to this subdomain. Please use the correct subdomain for your account.
       last_attempt: You have one more attempt before your account is locked.
       locked: Your account is locked.
       not_found_in_database: Invalid email address or password.

@@ -14,13 +14,28 @@ module Pwb
     # Devise hook to check if user should be allowed to sign in
     # This ensures users can only authenticate on their assigned website/subdomain
     def active_for_authentication?
-      super && website.present?
+      super && website.present? && (current_website.blank? || website_id == current_website&.id)
     end
 
     # Custom error message when authentication fails due to wrong subdomain
     def inactive_message
-      website.present? ? super : :invalid_website
+      if website.blank?
+        :invalid_website
+      elsif current_website.present? && website_id != current_website.id
+        :invalid_website
+      else
+        super
+      end
     end
+
+    private
+
+    # Helper to get current website from Pwb::Current
+    def current_website
+      Pwb::Current.website
+    end
+
+    public
 
     # TODO: - use db col for below
     def default_client_locale

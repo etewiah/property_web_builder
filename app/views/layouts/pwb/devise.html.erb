@@ -16,6 +16,7 @@
     <!-- MAIN WRAPPER -->
     <div class="body-wrap body-boxed <%# @current_tenant.body_style %>">
       <%= render :partial => '/pwb/header', :locals => { not_devise: false }  %>
+      <%= render 'devise/shared/messages' %>
       <%= yield %>
       <%= render :partial => '/pwb/footer', :locals => {}  %>
       <%= render :partial => '/pwb/analytics', :locals => {}  %>

@@ -1,6 +1,9 @@
 module Pwb
   module Devise
     class SessionsController < ::Devise::SessionsController
+      # Include subdomain tenant detection to set Pwb::Current.website
+      include SubdomainTenant
+      
       # Include the application controller concern for subdomain tenant detection
       before_action :validate_user_website, only: [:create]
 
@@ -39,7 +42,7 @@ module Pwb
       end
 
       def sign_in_params
-        params.require(:user).permit(:email, :password, :remember_me)
+        params.fetch(:user, ActionController::Parameters.new).permit(:email, :password, :remember_me)
       end
     end
   end

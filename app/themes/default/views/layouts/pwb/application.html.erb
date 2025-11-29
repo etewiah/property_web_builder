@@ -23,6 +23,7 @@
     <div id="main-vue" class="body-wrap sticky-wrap <%= @current_website.body_style %>">
       <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
       <div class="sticky-body">
+        <%= render 'devise/shared/messages' %>
         <%= yield %>
       </div>
       <%= render :partial => '/pwb/footer', :locals => {}  %>
