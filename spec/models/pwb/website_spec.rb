@@ -11,6 +11,12 @@ module Pwb
       expect(website).to be_valid
     end
 
+    it 'has many users' do
+      expect(website).to respond_to(:users)
+      # You could also use shoulda-matchers if available:
+      # expect(website).to have_many(:users)
+    end
+
     it 'gets element class' do
       element_class = website.get_element_class "page_top_strip_color"
       expect(element_class).to be_present

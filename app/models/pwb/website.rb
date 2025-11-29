@@ -12,6 +12,7 @@ module Pwb
     has_many :pages
     has_many :contents
     has_many :links
+    has_many :users
     has_one :agency
 
     # Subdomain validations
