@@ -174,3 +174,5 @@ gem "omniauth-facebook"
 gem "tailwindcss-rails", "~> 4.4"
 
 gem "firebase_id_token", "~> 2.5"
+
+gem "annotaterb"
