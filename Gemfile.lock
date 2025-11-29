@@ -56,6 +56,8 @@ GEM
       rails-html-sanitizer (~> 1.6)
     active_hash (3.3.1)
       activesupport (>= 5.0.0)
+    active_storage_dashboard (0.1.8)
+      rails (>= 5.2.0)
     activejob (8.0.4)
       activesupport (= 8.0.4)
       globalid (>= 0.3.6)
@@ -715,6 +717,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_hash (~> 3.1)
+  active_storage_dashboard
   annotaterb
   apparition
   better_errors

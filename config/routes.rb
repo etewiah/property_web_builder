@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       request.env["warden"].authenticate? and request.env["warden"].user.admin?
     end
     constraints admin_constraint do
+      mount ActiveStorageDashboard::Engine => "/active_storage_dashboard"
       mount Logster::Web, at: "/logs"
     end
 
@@ -84,8 +85,8 @@ Rails.application.routes.draw do
       get "omniauth/:provider" => "omniauth#localized", as: :localized_omniauth
 
       # https://github.com/plataformatec/devise/wiki/How-To:-Use-devise-inside-a-mountable-engine
-      devise_for :users, skip: :omniauth_callbacks, class_name: "Pwb::User", module: :devise, controllers: { 
-        registrations: "pwb/devise/registrations", 
+      devise_for :users, skip: :omniauth_callbacks, class_name: "Pwb::User", module: :devise, controllers: {
+        registrations: "pwb/devise/registrations",
         omniauth_callbacks: "pwb/devise/omniauth_callbacks",
         sessions: "pwb/devise/sessions"
       }
