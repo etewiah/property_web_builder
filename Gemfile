@@ -82,7 +82,17 @@ group :development do
   # below 2 for precompiling assets
   gem "closure-compiler"
   gem "yui-compressor"
+
+  gem "better_errors"
+  gem "binding_of_caller"
+  gem "bullet"
+  gem "brakeman"
+  gem "rack-mini-profiler"
+  gem "dotenv-rails"
+  gem "faker"
 end
+
+gem "oj"
 
 # /Users/me/.rbenv/versions/2.3.3/lib/ruby/gems/2.3.0/gems/localeapp-2.1.1/lib/localeapp/default_value_handler.rb
 # below overwrites I18n::Backend::Base above which causes seeder to break in specs
