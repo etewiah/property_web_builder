@@ -110,7 +110,7 @@ gem "puma"
 
 gem "pg" #, "~> 0.21.0"
 
-gem "carrierwave", "~> 2.2"
+gem "carrierwave", "~> 2.2", ">= 2.2.3"
 
 gem "cloudinary", "~> 1.23"
 
@@ -174,5 +174,3 @@ gem "omniauth-facebook"
 gem "tailwindcss-rails", "~> 4.4"
 
 gem "firebase_id_token", "~> 2.5"
-
-gem "annotaterb"
