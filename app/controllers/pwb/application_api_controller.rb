@@ -20,7 +20,7 @@ module Pwb
     def check_user
       puts "ApplicationApiController#check_user reached"
       return if bypass_authentication?
-      
+
       unless current_user && current_user.admin
         # unless request.subdomain.present? && (request.subdomain.downcase == current_user.tenants.first.subdomain.downcase)
         render_json_error "unauthorised_user"
@@ -33,7 +33,16 @@ module Pwb
 
     def current_agency
       puts "ApplicationApiController#current_agency reached"
-      @current_agency ||= (Agency.last || Agency.create)
+      @current_agency ||= current_website.agency || current_website.build_agency
+    end
+
+    def current_website
+      @current_website ||= current_website_from_subdomain || Pwb::Current.website || Website.first
+    end
+
+    def current_website_from_subdomain
+      return nil unless request.subdomain.present?
+      Website.find_by_subdomain(request.subdomain)
     end
 
     def set_csrf_token

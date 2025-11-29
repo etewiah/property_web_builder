@@ -1,5 +1,6 @@
 module Pwb
   class Api::V1::WebContentsController < JSONAPI::ResourceController
+    before_action :set_current_website
     # Skipping action below allows me to browse to endpoint
     # without having set mime type
     # skip_before_action :ensure_valid_accept_media_type
@@ -82,6 +83,21 @@ module Pwb
 
       # return render json: new_content.to_json
       # return render :json => { :error => "Sorry...", :status => "444", :data => "ssss" }, :status => 422
+    end
+
+    private
+
+    def set_current_website
+      Pwb::Current.website = current_website_from_subdomain
+    end
+
+    def current_website_from_subdomain
+      return nil unless request.subdomain.present?
+      Website.find_by_subdomain(request.subdomain)
+    end
+
+    def current_website
+      @current_website ||= Pwb::Current.website || Website.first
     end
   end
 end

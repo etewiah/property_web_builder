@@ -11,8 +11,8 @@ module Pwb
     end
 
     def show
-      @agency = Agency.last
-      @website = Pwb::Current.website || Website.first
+      @agency = current_website.agency
+      @website = current_website
       # ocassionaly get error below when I used ClientSetup.find_by_name
       @admin_setup = Pwb::ClientSetup.where(name: "default").first || Pwb::ClientSetup.first
       if @agency && @website
@@ -39,7 +39,7 @@ module Pwb
     end
 
     def update
-      @agency = Agency.last
+      @agency = current_website.agency
       if @agency
         @agency.update(agency_params)
         # http://patshaughnessy.net/2014/6/16/a-rule-of-thumb-for-strong-parameters
@@ -74,7 +74,7 @@ module Pwb
     # end
 
     def update_master_address
-      @agency = Agency.last
+      @agency = current_website.agency
       if @agency.primary_address
         @agency.primary_address.update(address_params)
         @agency.primary_address.save!

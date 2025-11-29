@@ -73,5 +73,14 @@ module Pwb
     # t.integer  :count_toilets, default: 0, null: false
     # t.integer  :count_garages, default: 0, null: false
 
+    # Scope properties to current website for multi-tenancy
+    def self.records(options = {})
+      current_website = Pwb::Current.website
+      if current_website
+        current_website.props
+      else
+        Pwb::Prop.none
+      end
+    end
   end
 end

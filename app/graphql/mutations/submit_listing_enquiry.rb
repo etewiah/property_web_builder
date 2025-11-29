@@ -10,7 +10,7 @@ module Mutations
 
     def resolve(propertyId: nil, contact: nil)
       current_website = Pwb::Current.website || Pwb::Website.first
-      current_agency = current_website&.agency || Pwb::Agency.first
+      current_agency = current_website&.agency
       success_result = {
         message: "Enquiry submitted successfully",
       }
@@ -18,7 +18,7 @@ module Mutations
       error_message = []
       # I18n.locale = params["contact"]["locale"] || I18n.default_locale
 
-      @property = Pwb::Prop.find(propertyId)
+      @property = current_website.props.find(propertyId)
       @contact = Pwb::Contact.find_or_initialize_by(primary_email: contact["email"])
       @contact.attributes = {
         primary_phone_number: contact["tel"],

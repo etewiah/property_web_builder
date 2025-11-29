@@ -1,6 +1,7 @@
 module Pwb
   class Api::V1::PropertiesController < JSONAPI::ResourceController
     protect_from_forgery with: :null_session
+    before_action :set_current_website
     # Skipping action below allows me to browse to endpoint
     # without having set mime type
     # skip_before_action :ensure_valid_accept_media_type
@@ -182,6 +183,15 @@ module Pwb
     # end
 
     private
+
+    def set_current_website
+      Pwb::Current.website = current_website_from_subdomain
+    end
+
+    def current_website_from_subdomain
+      return nil unless request.subdomain.present?
+      Website.find_by_subdomain(request.subdomain)
+    end
 
     def properties_params(propertiesJSON)
       # propertiesJSON = params["propertiesJSON"]

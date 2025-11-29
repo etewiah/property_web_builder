@@ -10,5 +10,15 @@ module Pwb
     # /api/v1/web-contents?filter%5Btag%5D=home&filter%5Bkey%5D=tagLine
     # below is needed for above to work
     filters :tag, :key
+
+    # Scope contents to current website for multi-tenancy
+    def self.records(options = {})
+      current_website = Pwb::Current.website
+      if current_website
+        current_website.contents
+      else
+        Pwb::Content.none
+      end
+    end
   end
 end
