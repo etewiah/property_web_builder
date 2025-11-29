@@ -42,6 +42,11 @@ namespace :pwb do
         puts "✅ Pages successfully associated with website"
       end
       
+      # Create an admin user for the website if none exists
+      if website.users.blank?
+        Pwb::User.create!(email: "admin@#{website.subdomain || 'default'}.com", password: "password", admin: true, website: website)
+        puts "👤 Created admin user for website: #{website.subdomain || 'default'}"
+      end
       puts "✅ Seeding complete for website: #{website.slug || 'default'}"
     end
 
@@ -102,14 +107,16 @@ namespace :pwb do
       
       websites.each do |website|
         puts "\n📦 Processing website: #{website.subdomain || website.slug || 'default'} (ID: #{website.id})"
-        
         # Set the current website context
         Pwb::Current.website = website
-        
         Pwb::Seeder.seed!(website: website, skip_properties: skip_properties)
         Pwb::PagesSeeder.seed_page_basics!(website: website)
         Pwb::ContentsSeeder.seed_page_content_translations!(website: website)
-        
+        # Create an admin user for the website if none exists
+        if website.users.blank?
+          Pwb::User.create!(email: "admin@#{website.subdomain || 'default'}.com", password: "password", admin: true, website: website)
+          puts "👤 Created admin user for website: #{website.subdomain || 'default'}"
+        end
         puts "   ✅ Done"
       end
       
