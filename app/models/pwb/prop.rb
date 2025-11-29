@@ -25,7 +25,8 @@ module Pwb
       end
     end
 
-    after_validation :geocode
+    # Removed automatic geocoding - now only happens when explicitly requested
+    # after_validation :geocode
 
     # below needed to avoid "... is not an attribute known to Active Record" warnings
     attribute :title
@@ -103,6 +104,20 @@ module Pwb
       else
         false
       end
+    end
+
+    # Explicit geocoding methods - only geocode when requested
+    def geocode_address!
+      geocode
+    end
+
+    def geocode_address_if_needed!
+      return if latitude.present? && longitude.present?
+      geocode_address!
+    end
+
+    def needs_geocoding?
+      geocodeable_address.present? && (latitude.blank? || longitude.blank?)
     end
 
     # Getter
