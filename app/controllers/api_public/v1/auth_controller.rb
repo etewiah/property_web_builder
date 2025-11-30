@@ -10,7 +10,7 @@ module ApiPublic
         end
 
         begin
-          user = Pwb::FirebaseAuthService.new(token).call
+          user = Pwb::FirebaseAuthService.new(token, website: current_website).call
           
           if user
             sign_in(user)

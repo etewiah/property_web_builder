@@ -3,9 +3,13 @@ require 'rails_helper'
 RSpec.describe 'ApiPublic::V1::Auth', type: :request do
   describe 'POST /api_public/v1/auth/firebase' do
     let(:token) { 'valid_token' }
-    let(:user) { FactoryBot.create(:pwb_user, email: 'test@example.com', firebase_uid: 'firebase_123') }
+    let(:website) { FactoryBot.create(:pwb_website) }
+    let(:user) { FactoryBot.create(:pwb_user, email: 'test@example.com', firebase_uid: 'firebase_123', website: website) }
 
     before do
+      # Set up website context
+      allow_any_instance_of(ApiPublic::V1::BaseController).to receive(:current_website).and_return(website)
+      allow(Pwb::Current).to receive(:website).and_return(website)
       allow_any_instance_of(Pwb::FirebaseAuthService).to receive(:call).and_return(user)
     end
 

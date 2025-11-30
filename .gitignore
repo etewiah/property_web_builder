@@ -90,6 +90,8 @@ node_modules
 # https://vitejs.dev/guide/env-and-mode.html#env-files
 *.local
 .env
+.env.e2e
+.env.dev
 standalone_quasar_app/
 pwb-frontend-quasar/
 /config/credentials.yml.enc

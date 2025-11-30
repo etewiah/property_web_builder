@@ -89,6 +89,9 @@ group :development do
   gem "bullet"
   gem "brakeman"
   gem "rack-mini-profiler"
+end
+
+group :development, :test, :e2e do
   gem "dotenv-rails"
   gem "faker"
 end
