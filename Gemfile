@@ -110,7 +110,7 @@ gem "puma"
 
 gem "pg" #, "~> 0.21.0"
 
-gem "carrierwave", "~> 2.2", ">= 2.2.3"
+# gem "carrierwave", "~> 2.2", ">= 2.2.3"
 
 gem "cloudinary", "~> 1.23"
 
