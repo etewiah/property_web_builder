@@ -90,32 +90,70 @@ For production deployments, you need to add your domain to Firebase's authorized
 
 Since this is Firebase authentication, you need to create users in Firebase:
 
-### Option 1: Firebase Console (Recommended for first user)
+### Option 1: Sign-Up Page (Easiest)
+
+1. Visit `http://localhost:3000/firebase_sign_up`
+2. Enter your email address
+3. Enter a password (minimum 6 characters)
+4. Confirm your password
+5. Click **Create Account**
+6. The user will be automatically created in both Firebase and your Rails database
+7. You'll be redirected to the login page
+
+### Option 2: Firebase Console
 
 1. Go to **Authentication** → **Users** in Firebase Console
 2. Click **Add user**
 3. Enter email and password
 4. Click **Add user**
 
-### Option 2: Self-registration via the login page
+### Option 3: Google Sign-In
 
 1. Visit `http://localhost:3000/firebase_login`
-2. Click **Sign up** (if using Email/Password provider)
-3. Enter your email and password
+2. Click **Sign in with Google**
+3. Select your Google account
+4. The user will be automatically created
 
 ### Important: Set Admin Flag
 
-After creating a Firebase user, you need to mark them as an admin in your Rails database:
+After creating a Firebase user (any method), you need to mark them as an admin in your Rails database:
 
 ```ruby
 # In Rails console
 rails c
 
-# Find or create the user (Firebase will auto-create on first login)
-# After first login, update the user:
+# Find the user (after first login)
 user = Pwb::User.find_by(email: 'your-admin@example.com')
+
+# Mark as admin
 user.update(admin: true)
 ```
+
+## Account Management Features
+
+### Password Reset
+
+Users can reset their password if they forget it:
+
+1. Visit `http://localhost:3000/firebase_forgot_password`
+2. Enter email address
+3. Click **Send Reset Link**
+4. Check email for password reset link from Firebase
+5. Click the link and set a new password
+6. Return to login page and sign in with new password
+
+**Note**: Password reset emails are sent by Firebase, not your Rails application.
+
+### Password Change
+
+Logged-in users can change their password:
+
+1. Log in to admin panel
+2. Visit `http://localhost:3000/firebase_change_password`
+3. Enter current password
+4. Enter and confirm new password (min 6 characters)
+5. Click **Change Password**
+6. Use new password for future logins
 
 ## Troubleshooting
 

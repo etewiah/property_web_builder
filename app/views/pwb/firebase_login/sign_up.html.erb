@@ -1,0 +1,155 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm mt-5">
+        <div class="card-body p-4">
+          <h3 class="text-center mb-4">Create Admin Account</h3>
+          
+          <p class="text-muted">Create a new admin account. After sign-up, you'll need to be granted admin privileges.</p>
+          
+          <form id="signup-form">
+            <div class="form-group mb-3">
+              <label for="email">Email Address</label>
+              <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group mb-3">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" placeholder="Enter password (min 6 characters)" required>
+              <small class="form-text text-muted">Password must be at least 6 characters long.</small>
+            </div>
+            
+            <div class="form-group mb-3">
+              <label for="confirm-password">Confirm Password</label>
+              <input type="password" class="form-control" id="confirm-password" placeholder="Confirm your password" required>
+            </div>
+            
+            <button type="submit" id="signup-button" class="btn btn-primary w-100">Create Account</button>
+            
+            <div id="message" class="mt-3"></div>
+          </form>
+          
+          <div class="text-center mt-3">
+            <p class="mb-0">
+              Already have an account? 
+              <%= link_to "Sign In", "/firebase_login", class: "text-decoration-none" %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+<script>
+  // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "<%= ENV['FIREBASE_API_KEY'] %>",
+    authDomain: "<%= ENV['FIREBASE_PROJECT_ID'] %>.firebaseapp.com",
+    projectId: "<%= ENV['FIREBASE_PROJECT_ID'] %>",
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  document.getElementById('signup-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+    const messageDiv = document.getElementById('message');
+    const button = document.getElementById('signup-button');
+    
+    // Clear previous messages
+    messageDiv.innerHTML = '';
+    
+    // Validation
+    if (!email || !password || !confirmPassword) {
+      messageDiv.innerHTML = '<div class="alert alert-danger">Please fill in all fields.</div>';
+      return;
+    }
+    
+    if (password !== confirmPassword) {
+      messageDiv.innerHTML = '<div class="alert alert-danger">Passwords do not match.</div>';
+      return;
+    }
+    
+    if (password.length < 6) {
+      messageDiv.innerHTML = '<div class="alert alert-danger">Password must be at least 6 characters long.</div>';
+      return;
+    }
+    
+    // Disable button and show loading
+    button.disabled = true;
+    button.innerHTML = 'Creating Account...';
+    
+    // Create user with Firebase
+    auth.createUserWithEmailAndPassword(email, password)
+      .then(function(userCredential) {
+        // User created successfully
+        const user = userCredential.user;
+        
+        // Get ID token and send to backend to create Rails user
+        return user.getIdToken();
+      })
+      .then(function(accessToken) {
+        // Send token to backend to create user in Rails database
+        return fetch('/api_public/v1/auth/firebase', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token: accessToken })
+        });
+      })
+      .then(function(response) {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to create user in database');
+        }
+      })
+      .then(function(data) {
+        messageDiv.innerHTML = '<div class="alert alert-success">' +
+          'Account created successfully! Please contact an administrator to grant you admin privileges. ' +
+          'You will be redirected to the login page in 3 seconds...</div>';
+        
+        // Sign out the user (they need admin privileges before accessing admin panel)
+        auth.signOut();
+        
+        // Redirect to login after 3 seconds
+        setTimeout(function() {
+          window.location.href = '/firebase_login';
+        }, 3000);
+      })
+      .catch(function(error) {
+        let errorMessage = 'An error occurred. Please try again.';
+        
+        switch(error.code) {
+          case 'auth/email-already-in-use':
+            errorMessage = 'This email address is already registered. Please sign in instead.';
+            break;
+          case 'auth/invalid-email':
+            errorMessage = 'Invalid email address.';
+            break;
+          case 'auth/weak-password':
+            errorMessage = 'Password is too weak. Please choose a stronger password.';
+            break;
+          case 'auth/operation-not-allowed':
+            errorMessage = 'Email/password accounts are not enabled. Please contact the administrator.';
+            break;
+          default:
+            errorMessage = error.message;
+        }
+        
+        messageDiv.innerHTML = '<div class="alert alert-danger">' + errorMessage + '</div>';
+        button.innerHTML = 'Create Account';
+        button.disabled = false;
+      });
+  });
+</script>

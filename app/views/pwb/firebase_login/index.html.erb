@@ -7,6 +7,16 @@
           
           <div id="firebaseui-auth-container"></div>
           <div id="loader" class="text-center">Loading...</div>
+          
+          <div class="text-center mt-3">
+            <p class="mb-2">
+              <%= link_to "Forgot Password?", "/firebase_forgot_password", class: "text-decoration-none" %>
+            </p>
+            <p class="mb-0">
+              Don't have an account? 
+              <%= link_to "Sign Up", "/firebase_sign_up", class: "text-decoration-none fw-bold" %>
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -70,14 +80,23 @@
     // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
     signInFlow: 'popup',
     signInOptions: [
-      // Leave the lines as is for the providers you want to offer your users.
-      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      {
+        provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        // Require email for account creation
+        requireDisplayName: false,
+        // Explicitly enable account creation
+        disableSignUp: {
+          status: false
+        }
+      },
       firebase.auth.GoogleAuthProvider.PROVIDER_ID
     ],
     // Terms of service url.
     tosUrl: '<your-tos-url>',
     // Privacy policy url.
-    privacyPolicyUrl: '<your-privacy-policy-url>'
+    privacyPolicyUrl: '<your-privacy-policy-url>',
+    // Set these to show appropriate UI text
+    credentialHelper: firebaseui.auth.CredentialHelper.NONE
   };
 
   // The start method will wait until the DOM is loaded.
