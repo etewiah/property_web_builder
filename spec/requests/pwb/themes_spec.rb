@@ -103,5 +103,44 @@ module Pwb
         expect(website2.style_variables['primary_color']).not_to eq('#ff0000')
       end
     end
+
+    describe 'theme override via URL parameter' do
+      before do
+        website.update!(theme_name: 'default')
+      end
+
+      context 'with valid theme parameter' do
+        it 'overrides to berlin theme' do
+          host! 'theme-test.example.com'
+          get '/?theme=berlin'
+
+          expect(response).to have_http_status(:success)
+          view_paths = @controller.view_paths.map(&:to_s)
+          expect(view_paths.any? { |p| p.include?('themes/berlin') }).to be true
+        end
+
+        it 'overrides to default theme' do
+          website.update!(theme_name: 'berlin')
+          
+          host! 'theme-test.example.com'
+          get '/?theme=default'
+
+          expect(response).to have_http_status(:success)
+          view_paths = @controller.view_paths.map(&:to_s)
+          expect(view_paths.any? { |p| p.include?('themes/default') }).to be true
+        end
+      end
+
+      context 'with invalid theme parameter' do
+        it 'ignores invalid theme and uses website default' do
+          host! 'theme-test.example.com'
+          get '/?theme=nonexistent'
+
+          expect(response).to have_http_status(:success)
+          view_paths = @controller.view_paths.map(&:to_s)
+          expect(view_paths.any? { |p| p.include?('themes/default') }).to be true
+        end
+      end
+    end
   end
 end
