@@ -13,7 +13,16 @@ module Pwb
     has_many :contents
     has_many :links
     has_many :users
+    
+    # Multi-website support via memberships
+    has_many :user_memberships, dependent: :destroy
+    has_many :members, through: :user_memberships, source: :user
+    
     has_one :agency
+
+    def admins
+      members.where(pwb_user_memberships: { role: ['owner', 'admin'], active: true })
+    end
 
     # Subdomain validations
     validates :subdomain,

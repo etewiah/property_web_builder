@@ -46,9 +46,17 @@ module Pwb
           email: email,
           firebase_uid: uid,
           password: ::Devise.friendly_token[0, 20],
-          website: website
+          website: website # Keep for backwards compatibility
         )
         user.save!
+        
+        # Create membership for the website
+        # Default role is 'member', admin must be granted manually
+        UserMembershipService.grant_access(
+          user: user,
+          website: website,
+          role: 'member'
+        )
       end
       
       user

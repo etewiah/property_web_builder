@@ -6,10 +6,27 @@ module Pwb
       :recoverable, :rememberable, :trackable,
       :validatable, :omniauthable, omniauth_providers: [:facebook]
 
-    belongs_to :website
+    belongs_to :website, optional: true # Made optional for multi-website support
     has_many :authorizations
+    
+    # Multi-website support via memberships
+    has_many :user_memberships, dependent: :destroy
+    has_many :websites, through: :user_memberships
 
-    validates :website, presence: true
+    # Helper methods for role-based access
+    def admin_for?(website)
+      user_memberships.active.where(website: website, role: ['owner', 'admin']).exists?
+    end
+
+    def role_for(website)
+      user_memberships.active.find_by(website: website)&.role
+    end
+
+    def accessible_websites
+      websites.where(pwb_user_memberships: { active: true })
+    end
+
+    validates :website, presence: true, if: -> { user_memberships.none? } # Require either website or memberships
 
     # Devise hook to check if user should be allowed to sign in
     # This ensures users can only authenticate on their assigned website/subdomain
