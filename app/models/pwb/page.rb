@@ -125,6 +125,7 @@ module Pwb
 
     def as_json(options = nil)
       super({ only: [
+        "id",
         "sort_order_top_nav", "show_in_top_nav",
         "sort_order_footer", "show_in_footer",
         "slug", "link_path", "visible", "page_title", "link_title", "raw_html"

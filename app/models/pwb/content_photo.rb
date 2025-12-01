@@ -25,6 +25,18 @@ module Pwb
       end
     end
 
+    def image_filename
+      read_attribute(:image)
+    end
+
+    def as_json(options = nil)
+      super({only: [
+               "description", "folder", "sort_order", "block_key"
+             ],
+             methods: ["optimized_image_url", "image_filename"]
+             }.merge(options || {}))
+    end
+
     # private
     # def image_size_validation
     #   errors[:image] << "should be less than 500KB" if image.size > 0.5.megabytes
