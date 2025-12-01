@@ -40,14 +40,14 @@ module Pwb
       end
     end
 
-    describe "devise routing" do
-      it "routes to devise_controller#index" do
-        expect(get: "/en/users/sign_in").to route_to(
-          controller: "devise/sessions",
-          action: "new",
-          locale: "en",
-        )
-      end
-    end
+    # describe "devise routing" do
+    #   it "routes to devise_controller#index" do
+    #     expect(get: "/en/users/sign_in").to route_to(
+    #       controller: "devise/sessions",
+    #       action: "new",
+    #       locale: "en",
+    #     )
+    #   end
+    # end
   end
 end

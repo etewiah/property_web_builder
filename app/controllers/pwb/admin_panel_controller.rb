@@ -4,15 +4,10 @@ module Pwb
   class AdminPanelController < ActionController::Base
     include ::Devise::Controllers::Helpers
     helper_method :current_user
-
+    
     layout 'pwb/admin_panel'
     def show
-      unless current_user
-        redirect_to new_user_session_path
-        return
-      end
-
-      unless user_is_admin_for_subdomain?
+      unless current_user && user_is_admin_for_subdomain?
         @subdomain = request.subdomain
         @website = Pwb::Website.find_by_subdomain(@subdomain)
         render 'pwb/errors/admin_required', layout: "layouts/pwb/admin_panel_error"
@@ -20,12 +15,7 @@ module Pwb
     end
 
     def show_legacy_1
-      unless current_user
-        redirect_to new_user_session_path
-        return
-      end
-
-      unless user_is_admin_for_subdomain?
+      unless current_user && user_is_admin_for_subdomain?
         @subdomain = request.subdomain
         @website = Pwb::Website.find_by_subdomain(@subdomain)
         render 'pwb/errors/admin_required', layout: "layouts/pwb/admin_panel_error"
@@ -35,20 +25,20 @@ module Pwb
     end
 
     private
-
+  
     def user_is_admin_for_subdomain?
       # Ensure user is authenticated
       return false unless current_user
-
+      
       # Ensure subdomain is present
       return false unless request.subdomain.present?
-
+      
       # Find website by subdomain
       website = Pwb::Website.find_by_subdomain(request.subdomain)
-
+      
       # Explicitly check website exists
       return false unless website
-
+      
       # Check if user has admin/owner role for this specific website
       current_user.admin_for?(website)
     end
