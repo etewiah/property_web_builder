@@ -74,7 +74,11 @@ Rails.application.configure do
     Bullet.enable = false if defined?(Bullet)
   end
 
-  # Log to stdout for easier debugging during test runs
-  config.logger = ActiveSupport::Logger.new(STDOUT)
-  config.log_level = :info
+  # Log to both file and stdout for better debugging
+  file_logger = ActiveSupport::Logger.new("#{Rails.root}/log/e2e.log")
+  stdout_logger = ActiveSupport::Logger.new(STDOUT)
+  
+  # Use BroadcastLogger to send logs to both destinations
+  config.logger = ActiveSupport::BroadcastLogger.new(file_logger, stdout_logger)
+  config.log_level = :debug
 end

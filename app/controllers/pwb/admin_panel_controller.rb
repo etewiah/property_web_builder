@@ -19,15 +19,29 @@ module Pwb
         @subdomain = request.subdomain
         @website = Pwb::Website.find_by_subdomain(@subdomain)
         render 'pwb/errors/admin_required', layout: "layouts/pwb/admin_panel_error"
+        return  # Prevent double render
       end
       render 'pwb/admin_panel/show_legacy_1', layout: "pwb/admin_panel_legacy_1"
     end
 
     private
-    def user_matches_subdomain?
-      return false unless current_user && request.subdomain.present?
-      website = Pwb::Website.find_by_subdomain(request.subdomain)
-      current_user.website_id == website&.id
-    end
+  
+  def user_matches_subdomain?
+    # Ensure user is authenticated
+    return false unless current_user
+    
+    # Ensure subdomain is present
+    return false unless request.subdomain.present?
+    
+    # Find website by subdomain
+    website = Pwb::Website.find_by_subdomain(request.subdomain)
+    
+    # Explicitly check website exists - critical security check
+    # Without this, nil == nil could pass if user.website_id is also nil
+    return false unless website
+    
+    # Verify user belongs to this specific website
+    current_user.website_id == website.id
+  end
   end
 end

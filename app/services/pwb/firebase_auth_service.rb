@@ -6,18 +6,22 @@ module Pwb
     end
 
     def call
+      Rails.logger.info "FirebaseAuthService: Starting token verification"
+      Rails.logger.debug "FirebaseAuthService: Token length: #{@token&.length || 0}"
+      
       begin
         payload = FirebaseIdToken::Signature.verify(@token)
-      rescue FirebaseIdToken::Exceptions::CertificateException => e
-        Rails.logger.error "Firebase certificate error: #{e.message}"
-        # Return nil to indicate verification failed
-        return nil
-      rescue => e
-        Rails.logger.error "Firebase verification error: #{e.message}"
+        Rails.logger.info "FirebaseAuthService: Token verified successfully"
+      rescue StandardError => e
+        Rails.logger.error "FirebaseAuthService: Verification failed - #{e.class}: #{e.message}"
+        Rails.logger.error "FirebaseAuthService: Backtrace: #{e.backtrace.first(5).join("\n")}"
         return nil
       end
       
-      return nil unless payload
+      unless payload
+        Rails.logger.warn "FirebaseAuthService: Payload is nil after verification"
+        return nil
+      end
 
       uid = payload['user_id']
       email = payload['email']

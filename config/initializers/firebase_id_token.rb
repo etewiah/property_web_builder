@@ -14,3 +14,16 @@ FirebaseIdToken.configure do |config|
     end
   end
 end
+
+# Fetch certificates on initialization
+# This prevents the "no certificates" error on first request
+if ENV['FIREBASE_PROJECT_ID'].present?
+  begin
+    Rails.logger.info "Fetching Firebase certificates..."
+    FirebaseIdToken::Certificates.request
+    Rails.logger.info "Firebase certificates fetched successfully"
+  rescue => e
+    Rails.logger.warn "Could not fetch Firebase certificates on initialization: #{e.message}"
+    Rails.logger.warn "Certificates will be fetched on first token verification"
+  end
+end
