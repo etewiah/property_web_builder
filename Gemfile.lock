@@ -301,6 +301,9 @@ GEM
       concurrent-ruby (~> 1.0)
     i18n-active_record (1.4.0)
       i18n (>= 0.5.0)
+    image_processing (1.14.0)
+      mini_magick (>= 4.9.5, < 6)
+      ruby-vips (>= 2.0.17, < 3)
     io-console (0.8.1)
     irb (1.15.3)
       pp (>= 0.6.0)
@@ -355,6 +358,8 @@ GEM
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
     mime-types-data (3.2025.0924)
+    mini_magick (5.3.1)
+      logger
     mini_mime (1.1.5)
     minitest (5.26.2)
     monetize (1.13.0)
@@ -594,6 +599,9 @@ GEM
     ruby-prof (1.7.2)
       base64
     ruby-progressbar (1.13.0)
+    ruby-vips (2.2.5)
+      ffi (~> 1.12)
+      logger
     ruby_odata (0.1.0)
       activesupport (>= 2.3.5)
       backports (~> 2.3.0)
@@ -752,6 +760,7 @@ DEPENDENCIES
   guard-rubocop
   i18n (~> 1.10)
   i18n-active_record (~> 1.1)
+  image_processing (~> 1.2)
   jquery-rails (~> 4.5)
   json_spec
   jsonapi-resources (~> 0.10.7)

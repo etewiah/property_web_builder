@@ -11,6 +11,8 @@ gem "rails", "~> 8.0"
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
+gem "image_processing", "~> 1.2"
+
 ruby "3.4.7"
 
 # gem 'globalize', git: 'https://github.com/globalize/globalize'
