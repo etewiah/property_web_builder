@@ -19,7 +19,7 @@ RSpec.describe "AdminPanel subdomain login enforcement", type: :request do
     host! "site2.localhost"
     login_as user1, scope: :user
     get "/admin"
-    expect(response.body).to include("admin_required")
+    expect(response.body).to include("Admin Access Required")
     expect(response).not_to be_successful
   end
 end

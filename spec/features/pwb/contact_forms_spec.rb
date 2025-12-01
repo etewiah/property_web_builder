@@ -6,7 +6,7 @@ module Pwb
     let!(:pwb_page) { FactoryBot.create(:contact_us_with_rails_page_part) }
     # calling above :page would clash with page object
 
-    let(:prop) { FactoryBot.create(:pwb_prop, :sale) }
+    let(:prop) { FactoryBot.create(:pwb_prop, :sale, website: pwb_page.website) }
 
 
     scenario 'when general contact form is filled' do
