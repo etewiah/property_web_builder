@@ -1,0 +1,23 @@
+- page_slug: website
+  is_rails_part: false
+  page_part_key: footer_content_html
+  block_contents: {}
+  order_in_editor: 1,
+  show_in_editor: true,
+  editor_setup: {
+      "tabTitleKey": "pageSections.rawHtml.title",
+      "tabInfoKey": "pageSections.rawHtml.info",
+      "default_sort_order": 1,
+      "default_visible_on_page": true,
+      "editorBlocks": [
+        [
+        {
+          "label": "main_content",
+          "isHtml": "true"
+        }]
+      ]
+    }
+  template: 
+    <div>
+      {{ page_part["main_content"]["content"] %> }}
+    </div>

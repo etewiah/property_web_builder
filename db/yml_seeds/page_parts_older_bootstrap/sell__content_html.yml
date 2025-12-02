@@ -1,0 +1,24 @@
+- page_slug: sell
+  page_part_key: content_html
+  block_contents: {}
+  order_in_editor: 1,
+  show_in_editor: true,
+  editor_setup: {
+      "tabTitleKey": "pageSections.rawHtml.title",
+      "tabInfoKey": "pageSections.rawHtml.info",
+      "default_sort_order": 1,
+      "default_visible_on_page": true,
+      "editorBlocks": [
+        [
+        {
+          "label": "main_content",
+          "isHtml": "true"
+        }]
+      ]
+    }
+  template: 
+    <section class="content-html-section" >
+      <div class="bst-container">
+        {{ page_part["main_content"]["content"] %> }}
+      </div>
+    </section>
