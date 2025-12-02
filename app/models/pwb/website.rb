@@ -247,6 +247,26 @@ module Pwb
     # NOTE: The agency method is provided by the has_one :agency association
     # defined at the top of this class. Each website has its own agency.
 
+    def social_media_facebook
+      links.find_by(slug: "social_media_facebook")&.link_url
+    end
+
+    def social_media_twitter
+      links.find_by(slug: "social_media_twitter")&.link_url
+    end
+
+    def social_media_linkedin
+      links.find_by(slug: "social_media_linkedin")&.link_url
+    end
+
+    def social_media_youtube
+      links.find_by(slug: "social_media_youtube")&.link_url
+    end
+
+    def social_media_pinterest
+      links.find_by(slug: "social_media_pinterest")&.link_url
+    end
+
     private
 
     def subdomain_not_reserved
