@@ -1,0 +1,83 @@
+<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
+  <div class="w-full mb-1">
+    <div class="mb-4">
+      <nav class="flex mb-5" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+          <li class="inline-flex items-center">
+            <%= link_to tenant_admin_root_path, class: "inline-flex items-center text-gray-700 hover:text-primary-600" do %>
+              <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+              Dashboard
+            <% end %>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+              <%= link_to "Page Parts", tenant_admin_page_parts_path, class: "ml-1 text-gray-700 hover:text-primary-600 md:ml-2" %>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+              <span class="ml-1 text-gray-400 md:ml-2" aria-current="page"><%= @page_part.page_part_key %></span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+      <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl"><%= @page_part.page_part_key %></h1>
+    </div>
+    <div class="flex items-center space-x-2 sm:space-x-3">
+      <%= link_to "← Back to Page Parts", tenant_admin_page_parts_path, class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-500 hover:text-gray-900" %>
+    </div>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 gap-4 my-4 xl:grid-cols-2">
+  <!-- Information Card -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-900">Details</h3>
+    </div>
+    <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Key</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= @page_part.page_part_key %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Page Slug</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= @page_part.page_slug || "N/A" %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Website</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= @page_part.website&.subdomain || "Global" %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Created At</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= @page_part.created_at.strftime("%B %d, %Y") %></dd>
+      </div>
+    </dl>
+  </div>
+
+  <!-- Template Card -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm col-span-1 xl:col-span-2">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-900">Template</h3>
+    </div>
+    <pre class="bg-gray-50 p-4 rounded text-sm overflow-x-auto"><%= @page_part.template %></pre>
+  </div>
+
+  <!-- Editor Setup Card -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-900">Editor Setup</h3>
+    </div>
+    <pre class="bg-gray-50 p-4 rounded text-sm overflow-x-auto"><%= JSON.pretty_generate(@page_part.editor_setup) rescue "Invalid JSON" %></pre>
+  </div>
+
+  <!-- Block Contents Card -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-900">Block Contents</h3>
+    </div>
+    <pre class="bg-gray-50 p-4 rounded text-sm overflow-x-auto"><%= JSON.pretty_generate(@page_part.block_contents) rescue "Invalid JSON" %></pre>
+  </div>
+</div>

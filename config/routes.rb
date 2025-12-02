@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     resources :agencies, only: [:index, :show, :new, :create, :edit, :update, :destroy]
     resources :props, only: [:index, :show]
     resources :pages, only: [:index, :show]
+    resources :page_parts, only: [:index, :show]
     resources :contents, only: [:index, :show]
     resources :messages, only: [:index, :show]
     resources :contacts, only: [:index, :show]

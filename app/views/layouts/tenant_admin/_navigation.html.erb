@@ -86,6 +86,11 @@
               Contents
             <% end %>
           </li>
+          <li>
+            <%= link_to tenant_admin_page_parts_path, class: "flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 #{current_page?(tenant_admin_page_parts_path) ? 'bg-gray-100' : ''}" do %>
+              Page Parts
+            <% end %>
+          </li>
         </ul>
       </li>
 
