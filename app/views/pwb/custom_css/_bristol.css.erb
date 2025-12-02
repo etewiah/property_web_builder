@@ -3,8 +3,163 @@
 :root {
   --primary-color: <%= @current_website.style_variables['primary_color'] || '#3b82f6' %>;
   --secondary-color: <%= @current_website.style_variables['secondary_color'] || '#1e40af' %>;
+  --services-bg-color: <%= @current_website.style_variables['services_bg_color'] || '#f9fafb' %>;
+  --services-card-bg: <%= @current_website.style_variables['services_card_bg'] || '#ffffff' %>;
+  --services-text-color: <%= @current_website.style_variables['services_text_color'] || '#1f2937' %>;
 }
 
 .bristol-theme {
   /* Add any theme-specific overrides here that need access to Ruby variables */
 }
+
+/* Services Section Styles */
+.services-section-wrapper {
+  background-color: var(--services-bg-color);
+  padding: 5rem 1rem;
+}
+
+.services-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.service-card {
+  background: var(--services-card-bg);
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 2.5rem;
+  flex: 1 1 300px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.service-icon-wrapper {
+  font-size: 3.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  display: inline-block;
+  padding: 1rem;
+  background: rgba(59, 130, 246, 0.1); /* Light blue background based on default primary */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  line-height: 70px; /* Center icon vertically */
+}
+
+.service-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--services-text-color);
+}
+
+.service-content {
+  color: #4b5563;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+/* Specific card tweaks if needed */
+.service-card-a {}
+.service-card-b {}
+.service-card-c {}
+
+/* Hero Section Styles */
+.hero-section {
+  position: relative;
+  background-color: #111827; /* bg-gray-900 */
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+}
+
+.hero-bg-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: #1f2937; /* bg-gray-800 */
+  opacity: 0.6;
+}
+
+.hero-content-wrapper {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 56rem; /* max-w-4xl */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-title {
+  font-size: 2.25rem; /* text-4xl */
+  font-weight: 800; /* font-extrabold */
+  letter-spacing: -0.025em; /* tracking-tight */
+  color: white;
+  text-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* drop-shadow-lg */
+}
+
+@media (min-width: 640px) {
+  .hero-title {
+    font-size: 3rem; /* sm:text-5xl */
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: 3.75rem; /* md:text-6xl */
+  }
+}
+
+.hero-subtitle {
+  margin-top: 1.5rem; /* mt-6 */
+  font-size: 1.25rem; /* text-xl */
+  color: #f3f4f6; /* text-gray-100 */
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* drop-shadow-md */
+}
+
+/* Styling for the list-carousel content inside hero-subtitle */
+.hero-subtitle .list-carousel {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hero-subtitle .list-carousel li {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.hero-subtitle .list-carousel li i {
+  color: var(--primary-color);
+}
+
+

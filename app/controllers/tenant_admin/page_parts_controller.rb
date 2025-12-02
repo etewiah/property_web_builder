@@ -6,7 +6,7 @@ module TenantAdmin
 
     def index
       @page_parts = Pwb::PagePart.all.includes(:website, :page).order(created_at: :desc).limit(100)
-      
+
       # Search by key or page slug
       if params[:search].present?
         @page_parts = @page_parts.where(
@@ -15,7 +15,7 @@ module TenantAdmin
           "%#{params[:search]}%"
         )
       end
-      
+
       # Filter by website
       if params[:website_id].present?
         @page_parts = @page_parts.where(website_id: params[:website_id])

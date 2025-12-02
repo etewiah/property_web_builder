@@ -49,37 +49,32 @@
           "isMultipleLineText": "true"
         }]
       ]
-    }  
-  template: 
-    <section class="light-gray bb">
-      <div class="wp-section services-section">
-        <div class="bst-container">
-          <div class="row services-wrapper">
-            <div class="col-md-4 ss-cont">
-              <div class="single-service">
-                <div class="bordered top-bordered"> </div>
-                <div class="fa fa-home icon-service"> </div>
-                <h4>{{ page_part["title_a"]["content"] }}</h4>
-                <p>{{  page_part["content_a"]["content"] }}</p>
-              </div>
-            </div>
-            <div class="col-md-4 ss-cont">
-              <div class="single-service">
-                <div class="bordered top-bordered"> </div>
-                <div class="fa fa-user icon-service"> </div>
-                <h4>{{ page_part["title_b"]["content"] }}</h4>
-                <p>{{  page_part["content_b"]["content"] }}</p>
-              </div>
-            </div>
-            <div class="col-md-4 ss-cont">
-              <div class="single-service">
-                <div class="bordered top-bordered"> </div>
-                <div class="fa fa-money icon-service"> </div>
-                <h4>{{ page_part["title_c"]["content"] }}</h4>
-                <p>{{  page_part["content_c"]["content"] }}</p>
-              </div>
-            </div>
+    }
+  template: |
+    <section class="services-section-wrapper" id="home-services">
+      <div class="services-container">
+        <div class="service-card service-card-a">
+          <div class="service-icon-wrapper">
+            <i class="fa {{ page_part['icon_a']['content'] | default: 'fa-home' }}"></i>
           </div>
+          <h4 class="service-title">{{ page_part["title_a"]["content"] }}</h4>
+          <div class="service-content">{{ page_part["content_a"]["content"] }}</div>
+        </div>
+
+        <div class="service-card service-card-b">
+          <div class="service-icon-wrapper">
+            <i class="fa {{ page_part['icon_b']['content'] | default: 'fa-user' }}"></i>
+          </div>
+          <h4 class="service-title">{{ page_part["title_b"]["content"] }}</h4>
+          <div class="service-content">{{ page_part["content_b"]["content"] }}</div>
+        </div>
+
+        <div class="service-card service-card-c">
+          <div class="service-icon-wrapper">
+            <i class="fa {{ page_part['icon_c']['content'] | default: 'fa-money' }}"></i>
+          </div>
+          <h4 class="service-title">{{ page_part["title_c"]["content"] }}</h4>
+          <div class="service-content">{{ page_part["content_c"]["content"] }}</div>
         </div>
       </div>
     </section>

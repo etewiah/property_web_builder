@@ -27,19 +27,19 @@
       ]
     }
   template: >
-    <div class="relative bg-gray-900 h-[600px] flex items-center justify-center overflow-hidden">
-      <div class="absolute inset-0 z-0">
+    <div class="hero-section">
+      <div class="hero-bg-wrapper">
         {% if page_part["landing_img"]["content"] %}
-          <img src="{{ page_part["landing_img"]["content"] }}" alt="Hero Background" class="w-full h-full object-cover opacity-60">
+          <img src="{{ page_part["landing_img"]["content"] }}" alt="Hero Background" class="hero-bg-img">
         {% else %}
-          <div class="w-full h-full bg-gray-800 opacity-60"></div>
+          <div class="hero-bg-placeholder"></div>
         {% endif %}
       </div>
-      <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-        <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl drop-shadow-lg">
+      <div class="hero-content-wrapper">
+        <h1 class="hero-title">
           {{ page_part["landing_title_a"]["content"] }}
         </h1>
-        <div class="mt-6 text-xl text-gray-100 drop-shadow-md">
+        <div class="hero-subtitle">
           {{ page_part["landing_content_a"]["content"] }}
         </div>
       </div>
