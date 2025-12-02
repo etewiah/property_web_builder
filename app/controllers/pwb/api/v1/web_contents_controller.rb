@@ -17,7 +17,7 @@ module Pwb
           # where photo has never been set before, associated Content will not exist
           content = current_website.contents.find_by_key(content_tag) || current_website.contents.create({ key: content_tag, tag: "appearance" })
           photo = ContentPhoto.create
-          if content_tag == \"logo\"
+          if content_tag == "logo"
             # TODO: This is a workaround
             # need to have a way of determining content that should only have
             # one photo and enforcing that

@@ -57,7 +57,7 @@ module Pwb
     # and enable below:
     # validates :reference, :uniqueness => { case_sensitive: false }
 
-    has_many :prop_photos, -> { order "sort_order asc" }
+    has_many :prop_photos, -> { order "sort_order asc" }, class_name: "Pwb::PropPhoto"
     has_many :features
 
     scope :for_rent, ->() { where("for_rent_short_term OR for_rent_long_term") }

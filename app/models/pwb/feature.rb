@@ -1,8 +1,8 @@
 module Pwb
   class Feature < ApplicationRecord
-    belongs_to :property, optional: true
+    belongs_to :prop, optional: true
 
-    belongs_to :feature_field_key, optional: true, class_name: :FieldKey, foreign_key: :feature_key, inverse_of: :features
+    belongs_to :feature_field_key, optional: true, class_name: "Pwb::FieldKey", foreign_key: :feature_key, inverse_of: :features
     # above allows:
     # Property.first.features.count and
     # FieldKey.last.properties_count but most importantly

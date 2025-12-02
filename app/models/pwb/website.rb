@@ -6,7 +6,7 @@ module Pwb
     has_many :page_contents
     has_many :contents, through: :page_contents
     # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
-    has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: "PageContent"
+    has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: "Pwb::PageContent"
 
     has_many :props
     has_many :pages

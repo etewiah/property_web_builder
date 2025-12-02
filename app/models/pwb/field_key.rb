@@ -6,9 +6,9 @@ module Pwb
 
     scope :visible, -> () { where visible: true }
     # below 2 created so counter_cache works
-    has_many :props_with_state, class_name: :Prop, foreign_key: "prop_state_key", primary_key: :global_key
+    has_many :props_with_state, class_name: "Pwb::Prop", foreign_key: "prop_state_key", primary_key: :global_key
 
-    has_many :props_with_type, inverse_of: :prop_type, class_name: :Prop, foreign_key: "prop_type_key", primary_key: :global_key
+    has_many :props_with_type, inverse_of: :prop_type, class_name: "Pwb::Prop", foreign_key: "prop_type_key", primary_key: :global_key
     # but above also allows:
     # FieldKey.find_by_global_key("propTypes.apartamento").props_with_type
     # though below might be better:
