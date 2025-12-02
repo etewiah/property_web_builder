@@ -125,6 +125,46 @@ module Pwb
       html.html_safe
     end
 
+    def tailwind_inmo_input(f, field_key, placeholder_key, input_type, required)
+      placeholder = placeholder_key.present? ? I18n.t("placeHolders." + placeholder_key) : ""
+      label_class = "block text-sm font-medium text-gray-700 mb-1"
+      input_class = "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      required_indicator = required ? '<span class="text-red-500">*</span>' : ""
+      
+      html = <<-HTML
+      <div>
+        <label class="#{label_class}">
+          #{I18n.t(field_key)} #{required_indicator}
+        </label>
+        #{f.text_field field_key, :class => input_class,
+        :type => input_type,
+          :required => required, :"aria-required" => required, :placeholder => placeholder}
+      </div>
+      HTML
+
+      html.html_safe
+    end
+
+    def tailwind_inmo_textarea(f, field_key, placeholder_key, _input_type, required, rows = 5)
+      placeholder = placeholder_key.present? ? I18n.t("placeHolders." + placeholder_key) : ""
+      label_class = "block text-sm font-medium text-gray-700 mb-1"
+      input_class = "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      required_indicator = required ? '<span class="text-red-500">*</span>' : ""
+
+      html = <<-HTML
+      <div>
+        <label class="#{label_class}">
+          #{I18n.t(field_key)} #{required_indicator}
+        </label>
+        #{f.text_area field_key, :class => input_class,
+        :rows => rows, :required => required,
+          :"aria-required" => required, :placeholder => placeholder}
+      </div>
+      HTML
+
+      html.html_safe
+    end
+
     def simple_inmo_textarea(f, field_key, placeholder_key, _input_type, required, height = 150)
       placeholder = placeholder_key.present? ? I18n.t("placeHolders." + placeholder_key) : ""
       label_class = required ? "obligatorio" : ""

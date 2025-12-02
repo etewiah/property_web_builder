@@ -31,5 +31,41 @@ module Pwb
       #   end
       # end
     end
+
+    describe "#tailwind_inmo_input" do
+      it "returns correct html" do
+        allow(helper).to receive(:t).with("placeHolders.name").and_return("Your Name")
+        allow(helper).to receive(:t).with(:name).and_return("Name")
+
+        # Mock form object
+        f = double("form")
+        allow(f).to receive(:text_field).and_return("<input type='text' name='name' />")
+
+        result = helper.tailwind_inmo_input(f, :name, "name", "text", true)
+
+        expect(result).to include("Your Name")
+        expect(result).to include("Name")
+        expect(result).to include("text-red-500") # required indicator
+        expect(result).to include("focus:ring-blue-500") # tailwind class
+      end
+    end
+
+    describe "#tailwind_inmo_textarea" do
+      it "returns correct html" do
+        allow(helper).to receive(:t).with("placeHolders.message").and_return("Your Message")
+        allow(helper).to receive(:t).with(:message).and_return("Message")
+
+        # Mock form object
+        f = double("form")
+        allow(f).to receive(:text_area).and_return("<textarea name='message'></textarea>")
+
+        result = helper.tailwind_inmo_textarea(f, :message, "message", "text", false)
+
+        expect(result).to include("Your Message")
+        expect(result).to include("Message")
+        expect(result).not_to include("text-red-500") # not required
+        expect(result).to include("focus:ring-blue-500") # tailwind class
+      end
+    end
   end
 end

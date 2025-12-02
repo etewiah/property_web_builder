@@ -58,11 +58,11 @@
       </div>
       <div class="flex items-center">
         <i class="fa fa-bed text-blue-500 mr-2"></i>
-        <span><%= @property_details.count_bedrooms %> <%= t("property.bedrooms", count: @property_details.count_bedrooms) rescue "Beds" %></span>
+        <span><%= @property_details.count_bedrooms %> <%= I18n.t("property.bedrooms", count: @property_details.count_bedrooms) rescue "Beds" %></span>
       </div>
       <div class="flex items-center">
         <i class="fa fa-shower text-blue-500 mr-2"></i>
-        <span><%= @property_details.count_bathrooms %> <%= t("property.bathrooms", count: @property_details.count_bathrooms) rescue "Baths" %></span>
+        <span><%= @property_details.count_bathrooms %> <%= I18n.t("property.bathrooms", count: @property_details.count_bathrooms) rescue "Baths" %></span>
       </div>
       <% if @property_details.has_garage %>
         <div class="flex items-center">

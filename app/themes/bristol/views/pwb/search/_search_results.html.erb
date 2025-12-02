@@ -3,7 +3,7 @@
   <% unless @properties && (@properties.size > 0) %>
     <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center my-6">
       <h4 class="text-lg font-medium text-yellow-800">
-        <%= t "noResultsForSearch" %>
+        <%= I18n.t "noResultsForSearch" %>
       </h4>
     </div>
   <% end %>
@@ -20,33 +20,33 @@
                   height: 240, crop: "scale", class: "w-full h-48 md:h-full object-cover") %>
             <% end %>
           </div>
-          
+
           <!-- Property Details -->
           <div class="md:w-2/3 p-4 md:p-6 flex flex-col">
             <% if property.highlighted %>
               <span class="inline-block bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded mb-2 w-fit">
-                <%= t "property.highlightedProperty" %>
+                <%= I18n.t "property.highlightedProperty" %>
               </span>
             <% end %>
 
             <h3 class="text-lg font-semibold text-gray-800 mb-2">
-              <%= link_to property.title, property.contextual_show_path(@operation_type), 
+              <%= link_to property.title, property.contextual_show_path(@operation_type),
                   class: "hover:text-blue-600" %>
             </h3>
-            
+
             <p class="text-sm text-gray-500 mb-3"><%= property.reference %></p>
-            
+
             <div class="flex-grow"></div>
-            
+
             <!-- Property Features -->
             <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
               <span class="flex items-center">
                 <i class="fa fa-bed mr-1 text-blue-500"></i>
-                <%= property.count_bedrooms %> <%= t("property.bedrooms", count: property.count_bedrooms) rescue "Beds" %>
+                <%= property.count_bedrooms %> <%= I18n.t("property.bedrooms", count: property.count_bedrooms) rescue "Beds" %>
               </span>
               <span class="flex items-center">
                 <i class="fa fa-shower mr-1 text-blue-500"></i>
-                <%= property.count_bathrooms %> <%= t("property.bathrooms", count: property.count_bathrooms) rescue "Baths" %>
+                <%= property.count_bathrooms %> <%= I18n.t("property.bathrooms", count: property.count_bathrooms) rescue "Baths" %>
               </span>
               <span class="flex items-center">
                 <i class="fa fa-arrows-alt mr-1 text-blue-500"></i>
@@ -65,9 +65,9 @@
               <span class="text-xl font-bold text-blue-600">
                 <%= property.contextual_price_with_currency @operation_type %>
               </span>
-              <%= link_to property.contextual_show_path(@operation_type), 
+              <%= link_to property.contextual_show_path(@operation_type),
                   class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition" do %>
-                <%= t "property.goToProperty" %>
+                <%= I18n.t "property.goToProperty" %>
                 <i class="fa fa-chevron-right ml-2"></i>
               <% end %>
             </div>
