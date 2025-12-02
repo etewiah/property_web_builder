@@ -27,25 +27,20 @@
       ]
     }
   template: >
-    <div class="jumbotron">
-      <div class="jumbotron-left">
-        <div id="landingHero" class="carousel carousel-1 carousel-fixed-height slide">
-          <div class="carousel-inner">
-              <div class="item item-dark active"
-              style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1)), url({{page_part["landing_img"]["content"] }});" >
-                <div class="">
-                  <div class="carousel-content">
-                    <h1>
-                      {{ page_part["landing_title_a"]["content"] }}
-                    </h1>
-                    {{ page_part["landing_content_a"]["content"] }}
-                  </div>
-                </div>
-              </div>
-          </div>
-
-        </div>
+    <div class="relative bg-gray-900 h-[600px] flex items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        {% if page_part["landing_img"]["content"] %}
+          <img src="{{ page_part["landing_img"]["content"] }}" alt="Hero Background" class="w-full h-full object-cover opacity-60">
+        {% else %}
+          <div class="w-full h-full bg-gray-800 opacity-60"></div>
+        {% endif %}
       </div>
-      <div class="jumbotron-right">
+      <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl drop-shadow-lg">
+          {{ page_part["landing_title_a"]["content"] }}
+        </h1>
+        <div class="mt-6 text-xl text-gray-100 drop-shadow-md">
+          {{ page_part["landing_content_a"]["content"] }}
+        </div>
       </div>
     </div>

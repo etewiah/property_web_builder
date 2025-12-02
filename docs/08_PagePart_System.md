@@ -7,9 +7,10 @@
 4. [How It Works](#how-it-works)
 5. [Theme Integration](#theme-integration)
 6. [Usage Examples](#usage-examples)
-7. [Multi-Tenancy & Tenant Isolation](#multi-tenancy--tenant-isolation)
-8. [Pros and Cons Analysis](#pros-and-cons-analysis)
-9. [Recommendations for Improvement](#recommendations-for-improvement)
+7. [Seed Management & Updates](#seed-management--updates)
+8. [Multi-Tenancy & Tenant Isolation](#multi-tenancy--tenant-isolation)
+9. [Pros and Cons Analysis](#pros-and-cons-analysis)
+10. [Recommendations for Improvement](#recommendations-for-improvement)
 
 ---
 
@@ -551,6 +552,37 @@ manager.seed_container_block_content("es", es_content)
 home_page.contents.find_by_page_part_key("landing_hero").raw
 # => Returns raw_es if I18n.locale == :es
 ```
+
+---
+
+## Seed Management & Updates
+
+The system relies on YAML seed files to define the structure and initial content of page parts. When templates or default content need to be updated, a specific workflow ensures these changes are propagated to the database and the rendered HTML is rebuilt.
+
+### Seed File Locations
+- **Page Part Definitions (Templates):** `db/yml_seeds/page_parts/*.yml`
+- **Content Translations (Text):** `db/yml_seeds/content_translations/*.yml`
+
+### Update Workflow
+1. **Modify Templates:** Edit the Liquid HTML in the relevant `page_parts` YAML file.
+2. **Modify Content:** Edit the text content in the relevant `content_translations` YAML file.
+3. **Run Update Task:** Execute the Rake task to apply changes.
+
+```bash
+bundle exec rake pwb:db:update_page_parts
+```
+
+### The `pwb:db:update_page_parts` Task
+This task performs the following actions:
+1. Iterates through all YAML files in `db/yml_seeds/page_parts`.
+2. Updates the `Pwb::PagePart` record in the database with the new configuration and template.
+3. Iterates through all available locales.
+4. Loads the corresponding content translation YAML.
+5. Re-seeds the block content for the page part.
+6. Triggers `Pwb::PagePartManager#rebuild_page_content` to regenerate the HTML stored in `Pwb::Content`.
+7. Clears the Rails cache.
+
+This ensures that changes to the static YAML files are immediately reflected in the dynamic database-driven content system.
 
 ---
 
