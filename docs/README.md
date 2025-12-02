@@ -18,6 +18,9 @@ Welcome to the comprehensive documentation for PropertyWebBuilder - a modern, op
 3. [Controllers](./03_Controllers.md) - Controller actions and request handling
 4. [API Documentation](./04_API.md) - RESTful and GraphQL API details
 5. [Frontend Architecture](./05_Frontend.md) - Vue.js applications and UI components
+6. [Multi-Tenancy](./06_Multi_Tenancy.md) - Multi-tenant architecture and implementation
+7. [Assets Management](./07_Assets_Management.md) - Asset pipeline and static files
+8. **[PagePart System](./08_PagePart_System.md)** - Content management with Liquid templates, themes, and localization
 
 ### Admin Panel
 

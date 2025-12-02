@@ -5,6 +5,7 @@ module Pwb
   class PagePart < ApplicationRecord
     # validate as unique on page_slug and page_part_key???
     belongs_to :page, optional: true, foreign_key: "page_slug", primary_key: "slug"
+    belongs_to :website, optional: true
     # as well as belonging to pages, can be used by website (for footer html etc)
 
     def as_json(options = nil)

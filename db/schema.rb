@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_01_140925) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_02_112123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -303,9 +303,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_01_140925) do
     t.integer "flags", default: 0, null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.index ["page_part_key", "page_slug"], name: "index_pwb_page_parts_on_page_part_key_and_page_slug"
+    t.integer "website_id"
+    t.index ["page_part_key", "page_slug", "website_id"], name: "index_page_parts_unique_per_website", unique: true
     t.index ["page_part_key"], name: "index_pwb_page_parts_on_page_part_key"
     t.index ["page_slug"], name: "index_pwb_page_parts_on_page_slug"
+    t.index ["website_id"], name: "index_pwb_page_parts_on_website_id"
   end
 
   create_table "pwb_page_translations", force: :cascade do |t|
