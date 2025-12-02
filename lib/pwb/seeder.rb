@@ -32,7 +32,7 @@ module Pwb
       # @param website [Pwb::Website] The website to seed data for (optional)
       # @param skip_properties [Boolean] If true, skip seeding sample properties (default: false)
       def seed!(website: nil, skip_properties: false)
-        @current_website = website || Pwb::Website.first || Pwb::Website.create!
+        @current_website = website || Pwb::Website.first || Pwb::Website.create!(theme_name: 'bristol')
         @skip_properties = skip_properties
         
         I18n.locale = :en
