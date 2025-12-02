@@ -1,0 +1,118 @@
+<!-- Bristol Theme Header - Tailwind CSS + Flowbite -->
+<!-- Top Bar -->
+<header class="bg-gray-800 text-white">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap items-center justify-between py-2 text-sm">
+      <div class="flex items-center space-x-4">
+        <% if @current_agency.phone_number_primary %>
+          <span class="flex items-center">
+            <i class="fa fa-phone mr-2"></i>
+            <%= @current_agency.phone_number_primary %>
+          </span>
+        <% end %>
+        <% if @current_agency.email_primary %>
+          <span class="hidden md:flex items-center">
+            <i class="fa fa-envelope mr-2"></i>
+            <%= @current_agency.email_primary %>
+          </span>
+        <% end %>
+      </div>
+      <% if @current_website.is_multilingual && not_devise %>
+        <div class="flex items-center space-x-2">
+          <% @current_website.supported_locales_with_variants.each do |locale_with_var| %>
+            <% is_selected = locale.to_s == locale_with_var["locale"] %>
+            <%= localized_link_to locale_with_var, 
+                params.permit(:locale).merge({locale: locale_with_var["locale"]}), 
+                class: "px-2 py-1 rounded #{is_selected ? 'bg-blue-600' : 'hover:bg-gray-700'} #{locale_with_var["variant"]}" %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</header>
+
+<!-- Main Navigation -->
+<nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap items-center justify-between py-4">
+      <!-- Logo -->
+      <%= link_to main_app.root_path(locale: locale), class: "flex items-center" do %>
+        <% if @current_website.logo_url %>
+          <img src="<%= @current_website.logo_url %>" alt="Logo" class="h-8 md:h-12">
+        <% else %>
+          <span class="text-xl font-bold text-gray-800"><%= @current_agency.display_name %></span>
+        <% end %>
+      <% end %>
+
+      <!-- Mobile menu button -->
+      <button data-collapse-toggle="navbar-main" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-main" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+        </svg>
+      </button>
+
+      <!-- Navigation Links -->
+      <div class="hidden w-full md:block md:w-auto" id="navbar-main">
+        <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+          <% @current_website.links.ordered_visible_top_nav.each do |page| %>
+            <% next if page.slug == "top_nav_admin" %>
+            <% target_path = nil %>
+            <% begin %>
+              <% if page.link_path.present? %>
+                <% target_path = main_app.send(page.link_path, page.link_path_params, { locale: locale }) %>
+              <% elsif page.link_url.present? %>
+                <% target_path = page.link_url %>
+              <% end %>
+            <% rescue StandardError %>
+            <% end %>
+
+            <% if target_path %>
+              <% is_active = current_page?(target_path) || (current_page?("/") && page.link_path == "home_path") %>
+              <li>
+                <%= link_to page.link_title, target_path,
+                    target: page.href_target,
+                    class: "block py-2 px-3 md:p-0 #{is_active ? 'text-blue-600 font-semibold' : 'text-gray-700 hover:text-blue-600'}" %>
+              </li>
+            <% end %>
+          <% end %>
+
+          <% if @show_admin_link %>
+            <li>
+              <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale),
+                  class: "block py-2 px-3 text-gray-700 hover:text-blue-600 md:p-0" %>
+            </li>
+          <% end %>
+
+          <% if current_user %>
+            <li class="relative group">
+              <button type="button" class="flex items-center py-2 px-3 text-gray-700 hover:text-blue-600 md:p-0" data-dropdown-toggle="user-dropdown">
+                <%= t "navbar.admin" %>
+                <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+              </button>
+              <div id="user-dropdown" class="hidden absolute right-0 z-10 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200">
+                <ul class="py-2 text-sm text-gray-700">
+                  <li>
+                    <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale), 
+                        class: "block px-4 py-2 hover:bg-gray-100" %>
+                  </li>
+                  <li>
+                    <%= link_to I18n.t("changePassword"), edit_user_registration_path(), 
+                        class: "block px-4 py-2 hover:bg-gray-100" %>
+                  </li>
+                  <li>
+                    <%= link_to I18n.t("signOut"), destroy_user_session_path(), method: :delete,
+                        class: "block px-4 py-2 hover:bg-gray-100 text-red-600" %>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+

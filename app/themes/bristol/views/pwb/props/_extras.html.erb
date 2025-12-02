@@ -1,0 +1,10 @@
+<!-- Bristol Theme Property Extras - Tailwind CSS -->
+<ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+  <% @property_details.extras_for_display.each do |extra| %>
+    <li class="flex items-center text-gray-700">
+      <i class="fa fa-check text-green-600 mr-2"></i>
+      <%= extra %>
+    </li>
+  <% end %>
+</ul>
+

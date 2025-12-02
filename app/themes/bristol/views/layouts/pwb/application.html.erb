@@ -56,5 +56,36 @@
             else window.addEventListener('load', loadDeferredStyles);
     </script>
     <%= yield(:page_script) %>
+
+    <script>
+      // Bristol theme mobile menu toggle (fallback if Flowbite doesn't initialize)
+      document.addEventListener('DOMContentLoaded', function() {
+        const menuButton = document.querySelector('[data-collapse-toggle="navbar-main"]');
+        const menu = document.getElementById('navbar-main');
+
+        if (menuButton && menu) {
+          menuButton.addEventListener('click', function() {
+            menu.classList.toggle('hidden');
+          });
+        }
+
+        // User dropdown toggle
+        const dropdownButton = document.querySelector('[data-dropdown-toggle="user-dropdown"]');
+        const dropdown = document.getElementById('user-dropdown');
+
+        if (dropdownButton && dropdown) {
+          dropdownButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdown.classList.toggle('hidden');
+          });
+
+          document.addEventListener('click', function() {
+            if (!dropdown.classList.contains('hidden')) {
+              dropdown.classList.add('hidden');
+            }
+          });
+        }
+      });
+    </script>
   </body>
 </html>

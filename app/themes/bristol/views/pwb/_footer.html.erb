@@ -1,0 +1,96 @@
+<!-- Bristol Theme Footer - Tailwind CSS -->
+<footer class="bg-gray-800 text-white mt-auto">
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Company Info -->
+      <div>
+        <h4 class="text-lg font-semibold mb-4"><%= @current_agency.company_name %></h4>
+        <ul class="space-y-2 text-gray-300">
+          <% if @current_agency.phone_number_primary.present? %>
+            <li class="flex items-center">
+              <i class="fa fa-phone mr-3 text-blue-400"></i>
+              <a href="tel:<%= @current_agency.phone_number_primary %>" class="hover:text-white">
+                <%= @current_agency.phone_number_primary %>
+              </a>
+            </li>
+          <% end %>
+          <% if @current_agency.email_primary.present? %>
+            <li class="flex items-center">
+              <i class="fa fa-envelope mr-3 text-blue-400"></i>
+              <a href="mailto:<%= @current_agency.email_primary %>" class="hover:text-white">
+                <%= @current_agency.email_primary %>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <!-- Social Media -->
+      <div class="flex items-end justify-center">
+        <div class="flex space-x-4">
+          <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
+            <a href="<%= @current_website.social_media_facebook %>" target="_blank" class="text-gray-300 hover:text-white hover:scale-125 transition-transform">
+              <i class="fa fa-facebook fa-lg"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
+            <a href="<%= @current_website.social_media_twitter %>" target="_blank" class="text-gray-300 hover:text-white hover:scale-125 transition-transform">
+              <i class="fa fa-twitter fa-lg"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
+            <a href="<%= @current_website.social_media_linkedin %>" target="_blank" class="text-gray-300 hover:text-white hover:scale-125 transition-transform">
+              <i class="fa fa-linkedin fa-lg"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
+            <a href="<%= @current_website.social_media_youtube %>" target="_blank" class="text-gray-300 hover:text-white hover:scale-125 transition-transform">
+              <i class="fa fa-youtube fa-lg"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_pinterest) && @current_website.social_media_pinterest.present? %>
+            <a href="<%= @current_website.social_media_pinterest %>" target="_blank" class="text-gray-300 hover:text-white hover:scale-125 transition-transform">
+              <i class="fa fa-pinterest fa-lg"></i>
+            </a>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Extra Content -->
+      <div class="text-gray-300">
+        <div class="footer-extra prose prose-invert prose-sm">
+          <% if @footer_content.present? %>
+            <%== @footer_content.raw %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <hr class="my-6 border-gray-700">
+
+    <!-- Bottom Bar -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+      <div class="flex flex-wrap gap-4 text-sm text-gray-400">
+        <% @current_website.links.ordered_visible_footer.each do |page| %>
+          <% target_path = nil %>
+          <% begin %>
+            <% if page.link_path.present? %>
+              <% target_path = main_app.send(page.link_path, page.link_path_params, { locale: locale }) %>
+            <% elsif page.link_url.present? %>
+              <% target_path = page.link_url %>
+            <% end %>
+          <% rescue StandardError %>
+          <% end %>
+          <% if target_path %>
+            <%= link_to page.link_title, target_path, class: "hover:text-white transition" %>
+          <% end %>
+        <% end %>
+      </div>
+      <p class="mt-4 md:mt-0 text-sm text-gray-400">
+        Powered by <a href="http://www.propertywebbuilder.com" class="text-blue-400 hover:text-blue-300">PropertyWebBuilder</a>
+      </p>
+    </div>
+  </div>
+</footer>
+

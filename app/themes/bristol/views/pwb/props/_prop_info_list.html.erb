@@ -1,0 +1,84 @@
+<!-- Bristol Theme Property Info List - Tailwind CSS -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+  <div class="p-6">
+    <h3 class="text-xl font-bold text-gray-800 mb-4"><%= I18n.t("property.details") %></h3>
+    
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <tbody class="divide-y divide-gray-200">
+          <tr>
+            <td class="px-4 py-3 bg-gray-50 font-medium text-gray-700 w-1/3">
+              <%= t "property.ref" %>:
+            </td>
+            <td class="px-4 py-3 text-gray-900">
+              <%= @property_details.reference %>
+            </td>
+          </tr>
+          
+          <% unless @show_vacational_rental %>
+            <tr>
+              <td class="px-4 py-3 bg-gray-50 font-medium text-gray-700">
+                <%= t "property.price" %>:
+              </td>
+              <td class="px-4 py-3 text-gray-900 font-bold text-blue-600">
+                <%= @property_details.contextual_price_with_currency @operation_type %>
+              </td>
+            </tr>
+          <% end %>
+
+          <% if @show_vacational_rental && @property_details.price_rental_monthly_low_season_cents? %>
+            <tr>
+              <td class="px-4 py-3 bg-gray-50 font-medium text-gray-700">
+                <%= t "property.monthlyRentalPriceLowSeason" %>:
+              </td>
+              <td class="px-4 py-3 text-gray-900">
+                <%= money_without_cents_and_with_symbol @property_details.price_rental_monthly_low_season %>
+              </td>
+            </tr>
+          <% end %>
+          
+          <% if @show_vacational_rental && @property_details.price_rental_monthly_standard_season_cents? %>
+            <tr>
+              <td class="px-4 py-3 bg-gray-50 font-medium text-gray-700">
+                <%= t "property.monthlyRentalPriceStandardSeason" %>:
+              </td>
+              <td class="px-4 py-3 text-gray-900">
+                <%= money_without_cents_and_with_symbol @property_details.price_rental_monthly_standard_season %>
+              </td>
+            </tr>
+          <% end %>
+          
+          <% if @show_vacational_rental && @property_details.price_rental_monthly_high_season_cents? %>
+            <tr>
+              <td class="px-4 py-3 bg-gray-50 font-medium text-gray-700">
+                <%= t "property.monthlyRentalPriceHighSeason" %>:
+              </td>
+              <td class="px-4 py-3 text-gray-900">
+                <%= money_without_cents_and_with_symbol @property_details.price_rental_monthly_high_season %>
+              </td>
+            </tr>
+          <% end %>
+
+          <tr>
+            <td class="px-4 py-3 bg-gray-50 font-medium text-gray-700">
+              <%= t "property.operationType" %>:
+            </td>
+            <td class="px-4 py-3 text-gray-900">
+              <%= t @operation_type_key %>
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="px-4 py-3 bg-gray-50 font-medium text-gray-700">
+              <%= t "property.propertyType" %>:
+            </td>
+            <td class="px-4 py-3 text-gray-900">
+              <%= t_or_unknown @property_details.prop_type_key %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

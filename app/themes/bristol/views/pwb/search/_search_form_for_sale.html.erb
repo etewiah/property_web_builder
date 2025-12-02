@@ -1,0 +1,95 @@
+<!-- Bristol Theme Search Form For Sale - Tailwind CSS -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+  <div class="bg-gray-800 px-4 py-3">
+    <h2 class="text-lg font-semibold text-white">
+      <%= I18n.t("searchForProperties") %>
+    </h2>
+  </div>
+  <div class="p-4">
+    <%= simple_form_for :search, url: '/search_ajax_for_sale.js', 
+        method: 'post', 
+        html: { class: 'space-y-4' }, remote: true do |f| %>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <%= f.input :for_sale_price_from, 
+              collection: @prices_from_collection, 
+              required: false,
+              selected: @search_defaults["for_sale_price_from"],
+              input_html: { class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" },
+              label_html: { class: "block text-sm font-medium text-gray-700 mb-1" } %>
+        </div>
+        <div>
+          <%= f.input :for_sale_price_till, 
+              collection: @prices_till_collection, 
+              required: false,
+              selected: @search_defaults["for_sale_price_till"],
+              input_html: { class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" },
+              label_html: { class: "block text-sm font-medium text-gray-700 mb-1" } %>
+        </div>
+      </div>
+
+      <div>
+        <%= f.input :property_type, 
+            collection: @property_types, 
+            label_method: :label, 
+            selected: @search_defaults["property_type"], 
+            value_method: :value, 
+            required: false,
+            input_html: { class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" },
+            label_html: { class: "block text-sm font-medium text-gray-700 mb-1" } %>
+      </div>
+
+      <% if @zones && (@zones.length > 1) %>
+        <div>
+          <%= f.input :in_zone, 
+              collection: @zones, 
+              value_method: :key, 
+              required: false, 
+              include_blank: true,
+              input_html: { class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" },
+              label_html: { class: "block text-sm font-medium text-gray-700 mb-1" } %>
+        </div>
+      <% end %>
+
+      <% if @localities && (@localities.length > 1) %>
+        <div>
+          <%= f.input :in_locality, 
+              collection: @localities, 
+              value_method: :key, 
+              required: false,
+              input_html: { class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" },
+              label_html: { class: "block text-sm font-medium text-gray-700 mb-1" } %>
+        </div>
+      <% end %>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <%= f.input :count_bedrooms, 
+              collection: 0..50, 
+              required: false,
+              selected: @search_defaults["count_bedrooms"],
+              input_html: { class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" },
+              label_html: { class: "block text-sm font-medium text-gray-700 mb-1" } %>
+        </div>
+        <div>
+          <%= f.input :count_bathrooms, 
+              collection: 0..20, 
+              required: false,
+              selected: @search_defaults["count_bathrooms"],
+              input_html: { class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" },
+              label_html: { class: "block text-sm font-medium text-gray-700 mb-1" } %>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <%= f.button :button, class: "w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition flex items-center justify-center", 
+            id: "btn_buscar_inmuebles" do %>
+          <i class="fa fa-search mr-2"></i> 
+          <%= I18n.t("search") %> 
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
