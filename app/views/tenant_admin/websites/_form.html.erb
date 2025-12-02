@@ -1,4 +1,4 @@
-<%= form_with model: [:tenant_admin, @website], local: true, class: "space-y-6" do |f| %>
+<%= form_with model: @website, scope: :website, url: (@website.new_record? ? tenant_admin_websites_path : tenant_admin_website_path(@website)), local: true, class: "space-y-6" do |f| %>
   <% if @website.errors.any? %>
     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
       <div class="font-medium mb-2"><%= pluralize(@website.errors.count, "error") %> prohibited this website from being saved:</div>
@@ -28,7 +28,7 @@
       <div class="col-span-6 sm:col-span-3">
         <%= f.label :theme_name, "Theme", class: "block mb-2 text-sm font-medium text-gray-900" %>
         <%= f.select :theme_name, 
-          options_for_select([['Default', 'default'], ['Berlin', 'berlin']], @website.theme_name),
+          options_for_select([['Default', 'default'], ['Bristol', 'bristol'], ['Berlin', 'berlin']], @website.theme_name),
           { include_blank: 'Select a theme' },
           class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" %>
       </div>
@@ -63,6 +63,34 @@
       </div>
     </div>
   </div>
+
+  <% if @website.new_record? %>
+  <!-- Seeding Options -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900">Seeding Options</h3>
+    <div class="space-y-4">
+      <div class="flex items-start">
+        <div class="flex items-center h-5">
+          <%= f.check_box :seed_data, { checked: true, class: "w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300" }, "1", "0" %>
+        </div>
+        <div class="ml-3 text-sm">
+          <%= f.label :seed_data, "Seed with default data", class: "font-medium text-gray-900" %>
+          <p class="text-gray-500">Creates initial pages, content, and settings for the selected theme.</p>
+        </div>
+      </div>
+
+      <div class="flex items-start">
+        <div class="flex items-center h-5">
+          <%= f.check_box :skip_properties, { class: "w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300" }, "1", "0" %>
+        </div>
+        <div class="ml-3 text-sm">
+          <%= f.label :skip_properties, "Skip sample properties", class: "font-medium text-gray-900" %>
+          <p class="text-gray-500">Check this if you want to start with an empty property database.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% end %>
 
   <!-- Feature Flags -->
   <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">

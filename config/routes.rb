@@ -14,6 +14,9 @@ Rails.application.routes.draw do
     root to: 'dashboard#index'
 
     resources :websites do
+      member do
+        post :seed
+      end
       # Nested resources for tenant-specific data
       resources :users, only: [:index, :show]
       resources :agencies, only: [:index, :show]
