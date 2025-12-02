@@ -9,6 +9,7 @@
   "dependencies": {
     "@fawmi/vue-google-maps": "^0.9.79",
     "@quasar/extras": "^1.14.0",
+    "@tailwindcss/cli": "^4.1.17",
     "@urql/vue": "^0.6.3",
     "@vitejs/plugin-vue": "^2.3.3",
     "axios": "^1.13.2",
@@ -17,6 +18,7 @@
     "graphql": "^16.5.0",
     "lodash": "^4.17.21",
     "quasar": "^2.7.3",
+    "tailwindcss": "^4.1.17",
     "vue": "3",
     "vue-currency-input": "^2.5.1",
     "vue-router": "^4.0.16"

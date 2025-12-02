@@ -1,0 +1,10 @@
+/* Custom CSS for Bristol Theme */
+/* This file is rendered as a partial by the custom_styles helper */
+:root {
+  --primary-color: <%= @current_website.style_variables['primary_color'] || '#3b82f6' %>;
+  --secondary-color: <%= @current_website.style_variables['secondary_color'] || '#1e40af' %>;
+}
+
+.bristol-theme {
+  /* Add any theme-specific overrides here that need access to Ruby variables */
+}

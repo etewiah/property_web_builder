@@ -1,0 +1,33 @@
+<% page_title @page_title  %>
+<%= render '/pwb/meta_tags' %>
+<!-- MAIN CONTENT -->
+<div class="pg-opt">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>
+          <%= I18n.t("contactUs") %>
+        </h2>
+      </div>
+      <div class="col-md-6" style="">
+        <ol class="breadcrumb">
+          <li><a href="/">
+              <%= I18n.t("webContentSections.home") %>
+            </a></li>
+          <li class="active">
+            <%= I18n.t("contactUs") %>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row ">
+  <% @page.ordered_visible_page_contents.each do |page_content| %>
+    <%= page_part page_content %>
+  <% end %>
+</div>
+<div class="row">
+  <%= page_component "form_and_map", @page %>
+</div>
+<!-- FOOTER -->

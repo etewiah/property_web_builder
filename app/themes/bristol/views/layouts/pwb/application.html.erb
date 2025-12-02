@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title><%= yield(:page_title) %></title>
+    <%= yield(:page_head) %>
+    <%# display_meta_tags site: @current_website.tenant_display_name %>
+    
+    <%# Tailwind CSS %>
+    <%= stylesheet_link_tag "bristol_theme", media: "all" %>
+    
+    <style>
+      <%= custom_styles "bristol" %>
+    </style>
+    
+    <%= javascript_include_tag "pwb/application", async: false %>
+    
+    <%# Flowbite JS %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    
+    <%= csrf_meta_tags %>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  </head>
+  <body class="tnt-body bristol-theme <%= @current_website.body_style %> bg-gray-50 text-gray-900">
+    <!-- MAIN WRAPPER -->
+    <div id="main-vue" class="body-wrap sticky-wrap <%= @current_website.body_style %> flex flex-col min-h-screen">
+      <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
+      <div class="sticky-body flex-grow">
+        <%= render 'devise/shared/messages' %>
+        <%= yield %>
+      </div>
+      <%= render :partial => '/pwb/footer', :locals => {}  %>
+      <%= render :partial => '/pwb/analytics', :locals => {}  %>
+    </div>
+    <%= insert_paloma_hook %>
+    <noscript id="deferred-styles">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <!-- Google Font -->
+      <link href='https://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    </noscript>
+    <script>
+      var loadDeferredStyles = function() {
+              var addStylesNode = document.getElementById("deferred-styles");
+              var replacement = document.createElement("div");
+              replacement.innerHTML = addStylesNode.textContent;
+              document.body.appendChild(replacement)
+              addStylesNode.parentElement.removeChild(addStylesNode);
+            };
+            var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+                webkitRequestAnimationFrame || msRequestAnimationFrame;
+            if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+            else window.addEventListener('load', loadDeferredStyles);
+    </script>
+    <%= yield(:page_script) %>
+  </body>
+</html>

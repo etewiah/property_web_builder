@@ -11,6 +11,11 @@
   "name": "berlin",
   "friendly_name": "Berlin Theme",
   "id": "berlin"
+}, {
+  "name": "bristol",
+  "friendly_name": "Bristol Theme",
+  "id": "bristol"
+}]
 // }, {
 
 // //   "name": "matt",

@@ -8,7 +8,7 @@ module Pwb
     def set_theme_path
       theme_name = current_website&.theme_name
       if params[:theme].present?
-        if %w(berlin default).include? params[:theme]
+        if %w(berlin default bristol).include? params[:theme]
           theme_name = params[:theme]
         end
       end
