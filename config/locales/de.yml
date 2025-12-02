@@ -90,6 +90,8 @@ de:
     price: Preis
     propertyType: Art der Immobilie
     ref: Ref
+    bedrooms: Schlafzimmer
+    bathrooms: Badezimmer
   propertyForRent: Immobilien zu vermieten
   propertyForSale: Eigentum zum verkauf
   propertyNotFound: Immobilie nicht gefunden

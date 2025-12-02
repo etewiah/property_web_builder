@@ -92,6 +92,8 @@ en:
     price: Price
     propertyType: Property Type
     ref: Ref
+    bedrooms: Bedrooms
+    bathrooms: Bathrooms
   propertyForRent: Property for rent
   propertyForSale: Property for sale
   propertyNotFound: Property not found

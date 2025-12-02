@@ -90,6 +90,8 @@ fr:
     price: Prix
     propertyType: Type de propriété
     ref: Ref.
+    bedrooms: Chambres
+    bathrooms: Salles de bain
   propertyForRent: Immeuble en location
   propertyForSale: Immeuble à vendre
   propertyNotFound: Propriété non-trouvée

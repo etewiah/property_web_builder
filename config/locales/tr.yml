@@ -92,6 +92,8 @@ tr:
     price: Fiyat
     propertyType: Emlak Tipi
     ref: Ref
+    bedrooms: Yatak Odaları
+    bathrooms: Banyolar
   propertyForRent: Kiralık mülk
   propertyForSale: Satılık mülk
   propertyNotFound: Emlak bulunamadı

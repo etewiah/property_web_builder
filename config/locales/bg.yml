@@ -92,6 +92,8 @@ bg:
     price: Цена
     propertyType: Тип на имота
     ref: Ref
+    bedrooms: Спални
+    bathrooms: Бани
   propertyForRent: под наем
   propertyForSale: за продажба
   propertyNotFound: Този имот не е открит!

@@ -92,6 +92,8 @@ pl:
     price: Cena
     propertyType: Typ nieruchomosci
     ref: Odniesienie
+    bedrooms: Sypialnie
+    bathrooms: Łazienki
   propertyForRent: Nieruchomosc do wynajecia
   propertyForSale: Nieruchomosc na sprzedaz
   propertyNotFound: Nie znaleziono nieruchomosci

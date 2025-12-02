@@ -94,6 +94,8 @@ vi:
     price: Giá bán
     propertyType: Loại Bất Động Sản
     ref: Ref
+    bedrooms: Phòng ngủ
+    bathrooms: Phòng tắm
   propertyForRent: Bất động sản cho thuê
   propertyForSale: Bất động sản để bán
   propertyNotFound: Không tìm thấy tài sản

@@ -92,6 +92,8 @@ ko:
     price: 가격
     propertyType: 건물 형태
     ref: 참조
+    bedrooms: 침실
+    bathrooms: 욕실
   propertyForRent: 렌트용 건물
   propertyForSale: 매매용 건물
   propertyNotFound: 건물을 찾을 수 없습니다.

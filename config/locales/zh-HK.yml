@@ -90,6 +90,8 @@ zh:
     price: 价钱
     propertyType: 财产种类
     ref: 参考
+    bedrooms: 卧室
+    bathrooms: 浴室
   propertyForRent: 物业出租
   propertyForSale: 物业出售
   propertyNotFound: 找不到物业

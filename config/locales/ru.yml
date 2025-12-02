@@ -89,6 +89,8 @@ ru:
     price: Цена
     propertyType: Тип недвижимости
     ref: номер объявления
+    bedrooms: Спальни
+    bathrooms: Ванные комнаты
   propertyForRent: Аренда
   propertyForSale: Продажа
   propertyNotFound: Недвижимость не найдена

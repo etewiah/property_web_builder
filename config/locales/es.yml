@@ -89,6 +89,8 @@ es:
     price: Precio
     propertyType: Tipo de Propiedad
     ref: Ref.
+    bedrooms: Habitaciones
+    bathrooms: Baños
   propertyForRent: Inmueble para arrendar
   propertyForSale: Inmueble a la venta
   propertyNotFound: Propiedad no encontrada

@@ -92,6 +92,8 @@ ro:
     price: Pre?
     propertyType: tipul de proprietate
     ref: Ref
+    bedrooms: Dormitoare
+    bathrooms: Băi
   propertyForRent: Imobil de inchiriat
   propertyForSale: Proprietate de vanzare
   propertyNotFound: Proprietatea nu a fost gasita

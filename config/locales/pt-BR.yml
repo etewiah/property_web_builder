@@ -89,6 +89,8 @@ pt-BR:
     price: Preço
     propertyType: Tipo de Propriedade
     ref: Ref
+    bedrooms: Quartos
+    bathrooms: Banheiros
   propertyForRent: Imóvel para alugar
   propertyForSale: Propriedade à venda
   propertyNotFound: Propriedade não encontrada

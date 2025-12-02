@@ -92,6 +92,8 @@ it:
     price: Prezzo
     propertyType: Tipo di proprietà
     ref: Ref
+    bedrooms: Camere da letto
+    bathrooms: Bagni
   propertyForRent: Proprietà in affitto
   propertyForSale: Propietà in vendita
   propertyNotFound: Proprietà non trovata

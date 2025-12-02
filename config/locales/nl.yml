@@ -92,6 +92,8 @@ nl:
     price: Prijs
     propertyType: Type object
     ref: Ref
+    bedrooms: Slaapkamers
+    bathrooms: Badkamers
   propertyForRent: Huur
   propertyForSale: Koop
   propertyNotFound: Object niet gevonden

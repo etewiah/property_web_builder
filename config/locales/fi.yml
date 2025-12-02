@@ -92,6 +92,8 @@ fi:
     price: Hinta
     propertyType: omaisuuden tyyppi
     ref: Viite
+    bedrooms: Makuuhuoneet
+    bathrooms: Kylpyhuoneet
   propertyForRent: Kiinteistö vuokrattavaksi
   propertyForSale: Kiinteistö myynnissä
   propertyNotFound: Kiinteistö ei löydy
