@@ -12,13 +12,16 @@ module Pwb
     # Without it the page_part_manager run into issues when seeding
     belongs_to :page, optional: true
     belongs_to :content, optional: true
-    belongs_to :website, optional: true
+    belongs_to :website
     # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
 
     validate :content_id_not_changed
 
     # page_part_key
     validates_presence_of :page_part_key
+
+    # Automatically set website_id from associated page before validation
+    before_validation :set_website_id_from_page, if: -> { website_id.blank? && page.present? }
 
     # this join model is used for sorting and visibility
     # (instead of a value on the content itself) as it
@@ -59,6 +62,10 @@ module Pwb
           errors.add(:content_id, "Change of content_id not allowed!")
         end
       end
+    end
+
+    def set_website_id_from_page
+      self.website_id = page.website_id if page&.website_id.present?
     end
   end
 end

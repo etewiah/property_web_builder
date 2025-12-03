@@ -85,7 +85,7 @@ module Pwb
       # TODO: enable this
       # for page_parts without content like search cmpt.
 
-      page_content_join_model = self.page_contents.find_or_create_by(page_part_key: page_part_key)
+      page_content_join_model = self.page_contents.find_or_create_by(page_part_key: page_part_key, website_id: website_id)
       # page_fragment_content.page_contents.find_by_page_id id
 
       page_content_join_model.visible_on_page = visible_on_page
