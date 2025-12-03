@@ -1,0 +1,21 @@
+{%- comment -%}
+  Grid container for responsive layouts
+  
+  Usage:
+    {% include 'grid', columns: '3', gap: 'medium' %}
+      Content here will be in a grid
+    {% endinclude %}
+  
+  Parameters:
+    - columns (optional): Number of columns (default: '3')
+    - gap (optional): Gap size - 'small', 'medium', 'large' (default: 'medium')
+    - class (optional): Additional CSS classes
+{%- endcomment -%}
+
+{%- assign grid_cols = columns | default: '3' -%}
+{%- assign grid_gap = gap | default: 'medium' -%}
+{%- assign grid_class = class | default: '' -%}
+
+<div class="pwb-grid pwb-grid-cols-{{ grid_cols }} pwb-grid-gap-{{ grid_gap }} {{ grid_class }}">
+  {{ content }}
+</div>

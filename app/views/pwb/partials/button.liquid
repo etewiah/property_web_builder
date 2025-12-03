@@ -1,0 +1,23 @@
+{%- comment -%}
+  Reusable button component
+  
+  Usage:
+    {% include 'button', text: 'Click Me', url: '/contact', class: 'pwb-btn-primary' %}
+    {% include 'button', text: 'Learn More', url: '/about', class: 'pwb-btn-secondary', target: '_blank' %}
+  
+  Parameters:
+    - text (required): Button text
+    - url (required): Link URL
+    - class (optional): Additional CSS classes (defaults to 'pwb-btn')
+    - target (optional): Link target attribute (e.g., '_blank')
+    - id (optional): ID attribute
+{%- endcomment -%}
+
+{%- assign btn_class = class | default: 'pwb-btn' -%}
+{%- assign btn_target = target | default: '' -%}
+
+<a href="{{ url }}" class="{{ btn_class }}"
+   {%- if id %} id="{{ id }}"{% endif %}
+   {%- if btn_target != '' %} target="{{ btn_target }}"{% endif %}>
+  {{ text }}
+</a>

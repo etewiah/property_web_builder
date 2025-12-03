@@ -1,0 +1,24 @@
+{%- comment -%}
+  Reusable link component
+  
+  Usage:
+    {% include 'link', text: 'Home', url: '/' %}
+    {% include 'link', text: 'External', url: 'https://example.com', target: '_blank', rel: 'noopener' %}
+  
+  Parameters:
+    - text (required): Link text
+    - url (required): Link URL
+    - class (optional): Additional CSS classes
+    - target (optional): Link target
+    - rel (optional): Link relationship
+    - id (optional): ID attribute
+{%- endcomment -%}
+
+{%- assign link_class = class | default: 'pwb-link' -%}
+
+<a href="{{ url }}" class="{{ link_class }}"
+   {%- if id %} id="{{ id }}"{% endif %}
+   {%- if target %} target="{{ target }}"{% endif %}
+   {%- if rel %} rel="{{ rel }}"{% endif %}>
+  {{ text }}
+</a>

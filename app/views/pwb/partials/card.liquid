@@ -1,0 +1,52 @@
+{%- comment -%}
+  Reusable card component
+  
+  Usage:
+    {% include 'card', title: 'Property Title', description: 'Description text', image: '/images/property.jpg', url: '/properties/1' %}
+    {% include 'card', title: 'Service', description: 'We offer...', class: 'pwb-card-highlight' %}
+  
+  Parameters:
+    - title (required): Card title
+    - description (optional): Card description/content
+    - image (optional): Card image URL
+    - url (optional): Link URL (makes entire card clickable)
+    - class (optional): Additional CSS classes
+    - footer (optional): Footer content
+{%- endcomment -%}
+
+{%- assign card_class = class | default: 'pwb-card' -%}
+{%- assign has_link = url and url != '' -%}
+
+{%- if has_link -%}
+<a href="{{ url }}" class="{{ card_class }} pwb-card-link">
+{%- else -%}
+<div class="{{ card_class }}">
+{%- endif -%}
+  
+  {%- if image and image != '' -%}
+  <div class="pwb-card-image">
+    <img src="{{ image }}" alt="{{ title }}" loading="lazy">
+  </div>
+  {%- endif -%}
+  
+  <div class="pwb-card-content">
+    <h3 class="pwb-card-title">{{ title }}</h3>
+    
+    {%- if description and description != '' -%}
+    <div class="pwb-card-description">
+      {{ description }}
+    </div>
+    {%- endif -%}
+  </div>
+  
+  {%- if footer and footer != '' -%}
+  <div class="pwb-card-footer">
+    {{ footer }}
+  </div>
+  {%- endif -%}
+
+{%- if has_link -%}
+</a>
+{%- else -%}
+</div>
+{%- endif -%}

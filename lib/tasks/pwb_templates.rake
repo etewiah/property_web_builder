@@ -171,5 +171,106 @@ namespace :pwb do
       puts "-" * 80
       puts "Total: #{Pwb::PagePart.count} page parts"
     end
+
+    desc "Lint templates for framework-specific classes and non-semantic patterns"
+    task lint: :environment do
+      template_dir = Rails.root.join("app/views/pwb/page_parts")
+      partials_dir = Rails.root.join("app/views/pwb/partials")
+      
+      # Patterns to flag as problematic
+      forbidden_patterns = {
+        # Tailwind utility classes
+        /\btext-\w+-\d+\b/ => "Tailwind text color class",
+        /\bbg-\w+-\d+\b/ => "Tailwind background color class",
+        /\bp-\d+\b/ => "Tailwind padding utility",
+        /\bm-\d+\b/ => "Tailwind margin utility",
+        /\bw-\d+\b/ => "Tailwind width utility",
+        /\bh-\d+\b/ => "Tailwind height utility",
+        /\bgrid-cols-\d+(?!\s|">)/ => "Tailwind grid class (use pwb-grid-cols-*)",
+        /\bgap-\d+\b/ => "Tailwind gap utility",
+        /\brounded-\w+\b(?!pwb)/ => "Tailwind border radius",
+        
+        # Bootstrap classes
+        /\bcol-(?:xs|sm|md|lg|xl)-\d+\b/ => "Bootstrap column class",
+        /\bbtn-(?:primary|secondary|success|danger|warning|info)(?!\s*pwb)/ => "Bootstrap button class",
+        /\bcard(?!\s*pwb-card)/ => "Bootstrap card class (use pwb-card)",
+        /\bjumbotron\b/ => "Bootstrap jumbotron (use pwb-hero)",
+        /\bcontainer-fluid(?!\s*pwb)/ => "Bootstrap container",
+        
+        # Generic forbidden patterns
+        /\balert-\w+(?!\s*pwb)/ => "Framework alert class",
+        /\bbadge-\w+(?!\s*pwb)/ => "Framework badge class"
+      }
+      
+      issues_found = []
+      files_checked = 0
+      
+      puts "Linting Liquid templates..."
+      puts "=" * 80
+      
+      # Check all template files
+      [template_dir, partials_dir].each do |dir|
+        next unless Dir.exist?(dir)
+        
+        Dir.glob(dir.join("*.liquid")).each do |file_path|
+          files_checked += 1
+          file_content = File.read(file_path)
+          relative_path = Pathname.new(file_path).relative_path_from(Rails.root)
+          
+          file_content.lines.each_with_index do |line, index|
+            line_num = index + 1
+            
+            forbidden_patterns.each do |pattern, description|
+              if line.match?(pattern)
+                matches = line.scan(pattern)
+                matches.each do |match|
+                  issues_found << {
+                    file: relative_path.to_s,
+                    line: line_num,
+                    issue: description,
+                    matched: match.is_a?(Array) ? match[0] : match,
+                    line_content: line.strip
+                  }
+                end
+              end
+            end
+          end
+        end
+      end
+      
+      puts "Checked #{files_checked} template files"
+      puts "-" * 80
+      
+      if issues_found.any?
+        puts "\n⚠ ISSUES FOUND: #{issues_found.length}"
+        puts "\nTemplates should only use semantic PWB classes (e.g., pwb-btn, pwb-card)"
+        puts "See docs/SEMANTIC_CSS_CLASSES.md for the complete list"
+        puts "\nIssues by file:\n\n"
+        
+        issues_found.group_by { |i| i[:file] }.each do |file, file_issues|
+          puts "📄 #{file} (#{file_issues.count} issues)"
+          file_issues.each do |issue|
+            puts "   Line #{issue[:line]}: #{issue[:issue]}"
+            puts "   Found: '#{issue[:matched]}'"
+            puts "   #{issue[:line_content]}"
+            puts ""
+          end
+        end
+        
+        puts "-" * 80
+        puts "✗ LINT FAILED"
+        puts "Fix the issues above to ensure theme compatibility"
+        puts "\nCommon fixes:"
+        puts "  - Replace Bootstrap grid (col-md-4) with pwb-grid + pwb-grid-cols-*"
+        puts "  - Replace framework buttons (btn-primary) with pwb-btn pwb-btn-primary"
+        puts "  - Replace Tailwind utilities (text-blue-600) with semantic classes or theme CSS variables"
+        exit 1
+      else
+        puts "\n✓ LINT PASSED"
+        puts "All templates use semantic class names"
+        puts "Templates are theme-compatible! 🎉"
+      end
+    end
   end
 end
+
