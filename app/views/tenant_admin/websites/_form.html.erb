@@ -42,6 +42,20 @@
         <%= f.label :default_client_locale, "Default Locale", class: "block mb-2 text-sm font-medium text-gray-900" %>
         <%= f.text_field :default_client_locale, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5", placeholder: "en-US" %>
       </div>
+
+      <div class="col-span-6">
+        <%= f.label :supported_locales, "Supported Locales", class: "block mb-2 text-sm font-medium text-gray-900" %>
+        <%= hidden_field_tag "website[supported_locales][]", "" %>
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-4 bg-gray-50 p-4 rounded-lg border border-gray-300">
+          <% ['en-UK', 'en-US', 'es-ES', 'fr-FR', 'de-DE', 'it-IT', 'pt-PT', 'ru-RU'].each do |locale| %>
+            <div class="flex items-center">
+              <%= check_box_tag "website[supported_locales][]", locale, @website.supported_locales&.include?(locale), id: "website_supported_locales_#{locale}", class: "w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 focus:ring-2" %>
+              <%= label_tag "website_supported_locales_#{locale}", locale, class: "ml-2 text-sm font-medium text-gray-900" %>
+            </div>
+          <% end %>
+        </div>
+        <p class="mt-1 text-xs text-gray-500">Select at least one.</p>
+      </div>
     </div>
   </div>
 

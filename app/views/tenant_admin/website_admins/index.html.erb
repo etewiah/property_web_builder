@@ -1,0 +1,95 @@
+<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
+  <div class="w-full mb-1">
+    <div class="mb-4">
+      <nav class="flex mb-5" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+          <li class="inline-flex items-center">
+            <%= link_to tenant_admin_root_path, class: "inline-flex items-center text-gray-700 hover:text-primary-600" do %>
+              <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+              Dashboard
+            <% end %>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+              <%= link_to "Websites", tenant_admin_websites_path, class: "ml-1 text-gray-700 hover:text-primary-600 md:ml-2" %>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+              <%= link_to @website.subdomain || "(No subdomain)", tenant_admin_website_path(@website), class: "ml-1 text-gray-700 hover:text-primary-600 md:ml-2" %>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+              <span class="ml-1 text-gray-400 md:ml-2" aria-current="page">Admins</span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+      <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl">Manage Admins for <%= @website.subdomain %></h1>
+    </div>
+  </div>
+</div>
+
+<div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm mb-4">
+  <h3 class="mb-4 text-lg font-semibold text-gray-900">Add New Admin</h3>
+  <%= form_with url: tenant_admin_website_admins_path(@website), local: true, class: "flex items-end space-x-4" do |f| %>
+    <div class="flex-grow">
+      <%= f.label :user_id, "Select User", class: "block mb-2 text-sm font-medium text-gray-900" %>
+      <%= f.collection_select :user_id, @users, :id, :email, { prompt: "Select a user..." }, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" %>
+    </div>
+    <%= f.submit "Add Admin", class: "text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none" %>
+  <% end %>
+</div>
+
+<div class="flex flex-col">
+  <div class="overflow-x-auto">
+    <div class="inline-block min-w-full align-middle">
+      <div class="overflow-hidden shadow">
+        <table class="min-w-full divide-y divide-gray-200 table-fixed">
+          <thead class="bg-gray-100">
+            <tr>
+              <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase">
+                User
+              </th>
+              <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase">
+                Email
+              </th>
+              <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase">
+                Role
+              </th>
+              <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @admins.each do |admin| %>
+              <tr class="hover:bg-gray-100">
+                <td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap">
+                  <div class="text-base font-semibold text-gray-900"><%= admin.first_names %> <%= admin.last_names %></div>
+                </td>
+                <td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap">
+                  <%= admin.email %>
+                </td>
+                <td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap">
+                  <% membership = @website.user_memberships.find_by(user: admin) %>
+                  <%= membership&.role&.capitalize %>
+                </td>
+                <td class="p-4 space-x-2 whitespace-nowrap">
+                  <%= button_to tenant_admin_website_admin_path(@website, admin), method: :delete, form: { data: { turbo_confirm: "Are you sure you want to remove admin rights from this user?" } }, class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300" do %>
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                    Remove
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

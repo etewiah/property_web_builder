@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       resources :agencies, only: [:index, :show]
       resources :props, only: [:index, :show]
       resources :pages, only: [:index, :show]
+      resources :admins, controller: 'website_admins', only: [:index, :create, :destroy]
     end
 
     resources :users

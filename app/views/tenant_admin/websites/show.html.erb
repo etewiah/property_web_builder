@@ -26,6 +26,7 @@
       <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl"><%= @website.subdomain || "(No subdomain)" %></h1>
     </div>
     <div class="flex items-center space-x-2 sm:space-x-3">
+      <%= link_to "Manage Admins", tenant_admin_website_admins_path(@website), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300" %>
       <%= link_to "Edit", edit_tenant_admin_website_path(@website), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300" %>
       <%= button_to seed_tenant_admin_website_path(@website), method: :post, form: { data: { turbo_confirm: "Are you sure? This will reset content to default values." } }, class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300" do %>
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
