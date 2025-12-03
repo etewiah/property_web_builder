@@ -252,7 +252,10 @@
 #   link_title_es: Facebook
 #   link_title_fr: Facebook
 #   link_title_de: Facebook
-- slug: social_media_facebook link_url: "https://www.facebook.com/propertywebbuilder" sort_order: 1 visible: true
+- slug: social_media_facebook
+  link_url: "https://www.facebook.com/propertywebbuilder"
+  sort_order: 1
+  visible: true
   icon_class: "fa-facebook fa"
   href_target: "_blank"
   is_external: true

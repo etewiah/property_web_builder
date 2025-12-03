@@ -209,7 +209,7 @@ module Pwb
           new_prop = current_website.props.create!(single_prop_yml)
           next unless !photos.empty?
           photos.each do |photo|
-            new_prop.prop_photos.push photo
+            photo.update!(prop_id: new_prop.id)
           end
         end
       end

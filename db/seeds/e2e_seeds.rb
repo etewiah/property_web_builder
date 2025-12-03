@@ -51,7 +51,7 @@ user_a_admin = Pwb::User.find_or_initialize_by(email: 'admin@tenant-a.test')
 user_a_admin.assign_attributes(
   password: 'password123',
   password_confirmation: 'password123',
-  website: tenant_a,
+  website_id: tenant_a.id,
   admin: true
 )
 user_a_admin.save!
@@ -61,7 +61,7 @@ user_a_regular = Pwb::User.find_or_initialize_by(email: 'user@tenant-a.test')
 user_a_regular.assign_attributes(
   password: 'password123',
   password_confirmation: 'password123',
-  website: tenant_a,
+  website_id: tenant_a.id,
   admin: false
 )
 user_a_regular.save!
@@ -71,7 +71,7 @@ user_b_admin = Pwb::User.find_or_initialize_by(email: 'admin@tenant-b.test')
 user_b_admin.assign_attributes(
   password: 'password123',
   password_confirmation: 'password123',
-  website: tenant_b,
+  website_id: tenant_b.id,
   admin: true
 )
 user_b_admin.save!
@@ -81,7 +81,7 @@ user_b_regular = Pwb::User.find_or_initialize_by(email: 'user@tenant-b.test')
 user_b_regular.assign_attributes(
   password: 'password123',
   password_confirmation: 'password123',
-  website: tenant_b,
+  website_id: tenant_b.id,
   admin: false
 )
 user_b_regular.save!
@@ -91,12 +91,12 @@ puts "Creating extra test contacts..."
 Pwb::Contact.find_or_create_by!(primary_email: 'contact@tenant-a.test') do |c|
   c.first_name = 'ContactA'
   c.last_name = 'TestA'
-  c.website = tenant_a
+  c.website_id = tenant_a.id
 end
 Pwb::Contact.find_or_create_by!(primary_email: 'contact@tenant-b.test') do |c|
   c.first_name = 'ContactB'
   c.last_name = 'TestB'
-  c.website = tenant_b
+  c.website_id = tenant_b.id
 end
 
 # Add a sample property for each tenant if not present
