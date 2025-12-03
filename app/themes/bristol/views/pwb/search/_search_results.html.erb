@@ -1,10 +1,19 @@
 <!-- Bristol Theme Search Results - Tailwind CSS -->
 <div id="resp_buscar_inmuebles">
   <% unless @properties && (@properties.size > 0) %>
-    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center my-6">
-      <h4 class="text-lg font-medium text-yellow-800">
+    <div class="bg-white rounded-lg shadow-sm p-10 text-center my-6 border border-gray-200">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
+        <i class="fa fa-search text-2xl text-gray-400"></i>
+      </div>
+      <h4 class="text-xl font-medium text-gray-900 mb-2">
         <%= I18n.t "noResultsForSearch" %>
       </h4>
+      <p class="text-gray-500 mb-6">
+        <%= I18n.t "tryChangingFilters", default: "Try changing your filters" %>
+      </p>
+      <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="$('form.form-light')[0].reset(); $('select').selectpicker('refresh'); $('form.form-light').submit();">
+        <i class="fa fa-refresh mr-2"></i> <%= I18n.t "clearFilters", default: "Clear Filters" %>
+      </button>
     </div>
   <% end %>
 
@@ -17,7 +26,7 @@
           <div class="md:w-1/3">
             <%= link_to property.contextual_show_path(@operation_type) do %>
               <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
-                  height: 240, crop: "scale", class: "w-full h-48 md:h-full object-cover") %>
+                  height: 240, crop: "scale", class: "w-full h-48 md:h-full object-cover", loading: "lazy") %>
             <% end %>
           </div>
 

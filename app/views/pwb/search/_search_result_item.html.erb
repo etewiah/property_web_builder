@@ -1,5 +1,6 @@
 <li class="property-item row <%= 'featured' if property.highlighted %> cuadro_inmueble"
-    data-price="<%= property.contextual_price @operation_type  %>" >
+    data-price="<%= property.contextual_price @operation_type  %>"
+    style="margin-bottom: 20px; padding: 15px; background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
   <!-- data-price above used for client side sorting with paloma -->
   <% if property.highlighted %>
     <div class="prop-listing-header fondo_secundario">
@@ -10,7 +11,7 @@
     <div class="prop-figure">
       <%= link_to property.contextual_show_path( @operation_type ) do %>
         <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
-            height: 240, crop: "scale", class: "img-responsive") %>
+            height: 240, crop: "scale", class: "img-responsive", loading: "lazy") %>
       <% end %>
     </div>
   </div>
@@ -36,7 +37,7 @@
         <% end %>
       </div>
       <ul>
-        <li><span class="precio negrita">
+        <li><span class="precio negrita" style="font-size: 1.4em; color: #333;">
             <%= property.contextual_price_with_currency @operation_type  %>
           </span></li>
         <li class=""><i class="fa fa-bed"></i> <small>

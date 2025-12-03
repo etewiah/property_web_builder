@@ -7,6 +7,22 @@
 
       INMOAPP.truncateDescriptions();
       INMOAPP.sortSearchResults();
+
+      // Loading state handlers
+      $(document).on('ajax:beforeSend', 'form.form-light', function() {
+        $('#inmo-search-results').css('opacity', '0.5');
+        $('#search-spinner').show();
+      });
+
+      $(document).on('ajax:complete', 'form.form-light', function() {
+        $('#inmo-search-results').css('opacity', '1');
+        $('#search-spinner').hide();
+      });
+
+      // Collapse sidebar on mobile by default
+      if ($(window).width() < 992) {
+        $('#sidebar-filters').removeClass('in');
+      }
     }
   );
   <% end %>
@@ -37,18 +53,27 @@
   <div class="wp-section">
     <div class="container">
       <div class="row">
-        <div class="col-md-9">
-          <%# render '/pwb/search/search_results_header' %>
-          <!-- placeholder for ajax refresh: -->
-          <div id="inmo-search-results">
+        <div class="col-md-3 col-md-push-9">
+          <div class="visible-xs visible-sm" style="margin-bottom: 20px;">
+            <button class="btn btn-default btn-block" type="button" data-toggle="collapse" data-target="#sidebar-filters" aria-expanded="false" aria-controls="sidebar-filters">
+              <i class="fa fa-filter"></i> <%= t("filter", default: "Filter") %>
+            </button>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="sidebar">
+          <div class="sidebar collapse in" id="sidebar-filters">
             <!-- FILTERS -->
             <%= render '/pwb/search/search_form_for_rent' %>
             <%# render '/pwb/search/go_to_property' %>
             <!-- RECENTLY VIEWED -->
+          </div>
+        </div>
+        <div class="col-md-9 col-md-pull-3">
+          <%# render '/pwb/search/search_results_header' %>
+          <!-- placeholder for ajax refresh: -->
+          <div id="search-spinner" style="display:none; text-align: center; padding: 40px;">
+            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div id="inmo-search-results">
           </div>
         </div>
       </div>
