@@ -9,18 +9,34 @@
     <%# display_meta_tags site: @current_website.tenant_display_name %>
     <%# Tailwind CSS %>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <script>
       tailwind.config = {
         theme: {
+          container: {
+            center: true,
+            padding: 'var(--container-padding)',
+          },
           extend: {
             colors: {
-              primary: '#3b82f6',
+              primary: 'var(--primary-color)',
+              secondary: 'var(--secondary-color)',
+              'services-bg': 'var(--services-bg-color)',
+              'services-card': 'var(--services-card-bg)',
+              'services-text': 'var(--services-text-color)',
+            },
+            fontFamily: {
+              sans: ['var(--font-primary)', 'sans-serif'],
+              serif: ['var(--font-secondary)', 'serif'],
+            },
+            borderRadius: {
+              DEFAULT: 'var(--border-radius)',
+              'lg': 'var(--border-radius)',
             }
           }
         }
       }
     </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <%= stylesheet_link_tag "bristol_theme", media: "all" %>
     <style>
       <%= custom_styles "bristol" %>

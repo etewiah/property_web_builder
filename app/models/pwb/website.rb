@@ -13,11 +13,11 @@ module Pwb
     has_many :contents
     has_many :links
     has_many :users
-    
+
     # Multi-website support via memberships
     has_many :user_memberships, dependent: :destroy
     has_many :members, through: :user_memberships, source: :user
-    
+
     has_one :agency
 
     def admins
@@ -158,6 +158,10 @@ module Pwb
         "action_color" => "green",
         "body_style" => "siteLayout.wide",
         "theme" => "light",
+        "font_primary" => "Open Sans",
+        "font_secondary" => "Vollkorn",
+        "border_radius" => "0.5rem",
+        "container_padding" => "1rem",
       }
       style_variables_for_theme["default"] || default_style_variables
     end
