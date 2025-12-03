@@ -9,9 +9,10 @@
 #
 #   website = Pwb::Website.find_by(subdomain: 'my-tenant')
 #   Pwb::PagesSeeder.seed_page_basics!(website: website)
+#   Pwb::PagesSeeder.seed_page_parts!(website: website)
 #
-# Pages will be associated with the specified website. Page parts are shared
-# across all websites (they define structure, not content).
+# Pages and PageParts will be associated with the specified website.
+# Each website gets its own copy of PageParts to ensure multi-tenant isolation.
 #
 module Pwb
   class PagesSeeder
@@ -19,8 +20,12 @@ module Pwb
       # Called by this rake task:
       # rake app:pwb:db:seed_pages
       # sets model entry for each page_part but not actual content
-      # Page parts are shared across websites - they define structure
-      def seed_page_parts!
+      #
+      # @param website [Pwb::Website] The website to seed page parts for (required for multi-tenancy)
+      def seed_page_parts!(website: nil)
+        @current_website = website || Pwb::Website.first
+        raise "Website is required for seeding page parts" unless @current_website
+        
         page_parts_dir = Rails.root.join("db", "yml_seeds", "page_parts")
 
         page_parts_dir.children.each do |file|
@@ -88,12 +93,20 @@ module Pwb
       end
 
       def seed_page_part(page_part_seed_file)
-        Pwb::PagePart.create_from_seed_yml page_part_seed_file.basename.to_s
-        # yml_file_contents = YAML.load_file(page_part_seed_file)
-        # byebug
-        # unless Pwb::PagePart.where({page_part_key: yml_file_contents[0]['page_part_key'], page_slug: yml_file_contents[0]['page_slug']}).count > 0
-        #   Pwb::PagePart.create!(yml_file_contents)
-        # end
+        yml_file_contents = YAML.load_file(page_part_seed_file)
+        page_part_attrs = yml_file_contents.first
+        
+        # Check if this page part already exists for this website
+        existing = Pwb::PagePart.find_by(
+          page_part_key: page_part_attrs["page_part_key"],
+          page_slug: page_part_attrs["page_slug"],
+          website_id: current_website.id
+        )
+        
+        unless existing
+          # Create with website_id for multi-tenant isolation
+          Pwb::PagePart.create!(page_part_attrs.merge("website_id" => current_website.id))
+        end
       end
     end
   end

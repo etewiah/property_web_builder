@@ -19,9 +19,9 @@ def seed_for_website(website)
   # Seed agency, website, properties, field keys, users, contacts, links
   Pwb::Seeder.seed!(website: website)
   
-  # Seed pages and content using dedicated seeders
+  # Seed pages and page parts with website association for multi-tenant isolation
   Pwb::PagesSeeder.seed_page_basics!(website: website)
-  Pwb::PagesSeeder.seed_page_parts!
+  Pwb::PagesSeeder.seed_page_parts!(website: website)
   Pwb::ContentsSeeder.seed_page_content_translations!(website: website)
 end
 

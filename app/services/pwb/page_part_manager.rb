@@ -18,10 +18,8 @@ module Pwb
       page_content_join_model = find_or_create_join_model
       unless page_content_join_model.content.present?
         content_attrs = { page_part_key: page_part_key }
-        # If container is a website, set website_id on the content
-        if container.is_a?(Pwb::Website)
-          content_attrs[:website_id] = container.id
-        end
+        # Set website_id for multi-tenant isolation
+        content_attrs[:website_id] = get_website_id
         page_content_join_model.create_content(content_attrs)
         # without calling save! below, content and page_content will not be associated
         page_content_join_model.save!
@@ -37,11 +35,28 @@ module Pwb
       # call is needed when seeding to set up r/n between
       # container (page or website) and content
       page_content_join_model = container.page_contents.find_or_create_by(page_part_key: page_part_key)
+      
+      # Ensure website_id is set for multi-tenant isolation
+      website_id = get_website_id
+      if website_id && page_content_join_model.website_id.nil?
+        page_content_join_model.website_id = website_id
+      end
+      
       if page_part.is_rails_part
         page_content_join_model.is_rails_part = true
-        page_content_join_model.save!
       end
+      page_content_join_model.save! if page_content_join_model.changed?
       page_content_join_model
+    end
+    
+    # Returns the website_id based on the container type
+    # Container can be either a Website or a Page
+    def get_website_id
+      if container.is_a?(Pwb::Website)
+        container.id
+      elsif container.respond_to?(:website_id)
+        container.website_id
+      end
     end
 
     # TODO: Use below for page_part_content_spec
