@@ -4,7 +4,13 @@ Vue.component('select-picker', {
     '</select>',
   mounted: function() {
     var vm = this;
-    $(this.$el).selectpicker(this.selectPickerTexts);
+    this.$nextTick(function () {
+      if (typeof $(this.$el).selectpicker === 'function') {
+        $(this.$el).selectpicker(this.selectPickerTexts);
+      } else {
+        console.warn('bootstrap-select plugin not found');
+      }
+    })
     // .trigger('change')
     // // emit event on change.
     // .on('change', function() {
