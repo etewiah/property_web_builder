@@ -24,7 +24,7 @@ module Pwb
 
     def authenticate_admin_user!
       # Re-use existing admin authentication logic
-      unless current_user && current_user.admin?
+      unless current_user && current_user.admin_for?(@current_website)
         flash[:alert] = "You are not authorized to access this page."
         redirect_to root_path
       end

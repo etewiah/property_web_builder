@@ -57,7 +57,7 @@ module Pwb
     end
 
     def authenticate_admin_user!
-      unless current_user && current_user.admin?
+      unless current_user && current_user.admin_for?(@current_website)
         render json: { error: "Unauthorized" }, status: :unauthorized
       end
     end

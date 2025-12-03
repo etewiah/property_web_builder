@@ -32,7 +32,7 @@ module Pwb
     end
 
     def check_user_is_admin
-      unless current_user && current_user.admin
+      unless current_user && current_user.admin_for?(Pwb::Current.website)
         render json: "unauthorised_user", status: 422
       end
     end

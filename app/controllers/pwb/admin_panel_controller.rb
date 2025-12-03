@@ -29,7 +29,7 @@ module Pwb
     def user_is_admin_for_subdomain?
       # Ensure user is authenticated
       return false unless current_user
-      
+
       # Ensure subdomain is present
       return false unless request.subdomain.present?
       

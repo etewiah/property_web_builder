@@ -21,7 +21,8 @@ module Pwb
       puts "ApplicationApiController#check_user reached"
       return if bypass_authentication?
 
-      unless current_user && current_user.admin
+      # Allow if user is admin for the current website
+      unless current_user && current_user.admin_for?(current_website)
         # unless request.subdomain.present? && (request.subdomain.downcase == current_user.tenants.first.subdomain.downcase)
         render_json_error "unauthorised_user"
       end
