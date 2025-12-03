@@ -1,14 +1,23 @@
 <div class="pwb-panel-resize-handle" id="pwb-resize-handle"></div>
-
 <div class="pwb-panel-header">
   <span class="pwb-panel-title">
     <i class="fas fa-pencil-alt"></i> Content Editor
   </span>
-  <button type="button" class="pwb-panel-toggle" id="pwb-toggle-panel" title="Toggle panel">
-    <i class="fas fa-chevron-down"></i>
-  </button>
+  <div class="pwb-panel-actions">
+    <div class="pwb-language-selector">
+      <label for="pwb-locale-select"><i class="fas fa-globe"></i></label>
+      <select id="pwb-locale-select" class="pwb-select">
+        <% ((@supported_locales.presence || ['en']).reject(&:blank?)).each do |locale| %>
+          <% locale_code = locale.to_s.split('-').first.presence || 'en' %>
+          <option value="<%= locale_code %>" <%= 'selected' if locale_code == I18n.locale.to_s.split('-').first %>><%= locale_code.upcase %></option>
+        <% end %>
+      </select>
+    </div>
+    <button type="button" class="pwb-panel-toggle" id="pwb-toggle-panel" title="Toggle panel">
+      <i class="fas fa-chevron-down"></i>
+    </button>
+  </div>
 </div>
-
 <div class="pwb-panel-content" id="panel-content">
   <div class="pwb-panel-placeholder">
     <i class="fas fa-mouse-pointer"></i>

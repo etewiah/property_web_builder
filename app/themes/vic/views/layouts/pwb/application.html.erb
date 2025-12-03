@@ -13,7 +13,6 @@
     <style>
       <%= custom_styles "vic" %>
     </style>
-
     <%= javascript_include_tag "pwb/themes/vic", async: false %>
     <%= csrf_meta_tags %>
   </head>
@@ -77,7 +76,6 @@
             else window.addEventListener('load', loadDeferredStyles);
     </script>
     <%= yield(:page_script) %>
-
     <!--  Scripts-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script>
@@ -90,5 +88,8 @@
               }); // end of document ready
             })(jQuery); // end of jQuery name space
     </script>
+    <% if params[:edit_mode] == 'true' %>
+      <%= javascript_include_tag "pwb/editor_client" %>
+    <% end %>
   </body>
 </html>

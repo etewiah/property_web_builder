@@ -18,6 +18,11 @@ module Pwb
       # Append edit_mode param
       separator = path.include?("?") ? "&" : "?"
       @iframe_path = "#{path}#{separator}edit_mode=true"
+      
+      # Get supported locales for language selector (normalize to short codes like 'en', 'es')
+      raw_locales = @current_website&.supported_locales || ["en"]
+      raw_locales = ["en"] if raw_locales.empty?
+      @supported_locales = raw_locales.map { |l| l.to_s.split('-').first }.uniq
     end
 
     private

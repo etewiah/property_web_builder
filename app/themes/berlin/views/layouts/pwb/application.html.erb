@@ -6,7 +6,6 @@
     <meta name="robots" content="index, follow">
     <title><%= yield(:page_title) %></title>
     <%= yield(:page_head) %>
-
     <%# display_meta_tags site: @current_website.tenant_display_name %>
     <%= stylesheet_link_tag    "pwb/themes/berlin", media: "all" %>
     <style>
@@ -23,7 +22,7 @@
   </head>
   <body class="berlin-theme <%= @current_website.body_style %>">
     <!-- Pre Loader -->
-<!--     <div id="aa-preloader-area">
+    <!--     <div id="aa-preloader-area">
       <div class="pulse"></div>
     </div> -->
     <!-- SCROLL TOP BUTTON -->
@@ -84,5 +83,8 @@
       else window.addEventListener('load', loadDeferredStyles);
     </script>
     <%= yield(:page_script) %>
+    <% if params[:edit_mode] == 'true' %>
+      <%= javascript_include_tag "pwb/editor_client" %>
+    <% end %>
   </body>
 </html>

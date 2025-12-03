@@ -1,26 +1,37 @@
 <div class="pwb-editor-form-container">
   <h4>Editing: <%= page_part.page_part_key.humanize %></h4>
-  
   <%= form_with(model: page_part, url: editor_page_part_path(page_part.page_part_key), method: :patch, id: "pwb-editor-form", local: false) do |f| %>
-    
     <%# Determine if this is a locale-based structure or flat block structure %>
     <% block_contents = page_part.block_contents || {} %>
     <% first_value = block_contents.values.first %>
-    
     <% if first_value.is_a?(Hash) && first_value.key?("blocks") %>
       <%# Locale-based structure: { "en" => { "blocks" => { ... } }, "es" => { ... } } %>
-      <% current_locale = I18n.locale.to_s %>
+      <% current_locale = (defined?(editing_locale) && editing_locale.present?) ? editing_locale : I18n.locale.to_s %>
       <% locale_data = block_contents[current_locale] || block_contents.values.first || {} %>
       <% blocks = locale_data["blocks"] || {} %>
-      
       <p class="pwb-locale-note">Editing content for: <strong><%= current_locale.upcase %></strong></p>
-      
       <% blocks.each do |key, block| %>
         <div class="pwb-form-group">
           <label class="pwb-label"><%= key.humanize %></label>
-          
           <% content = block.is_a?(Hash) ? block["content"] : block %>
-          <% if content.to_s.length > 100 || content.to_s.include?("<") %>
+          <% is_image = key.to_s.downcase.include?('image') || key.to_s.downcase.include?('photo') || key.to_s.downcase.include?('src') || content.to_s.match?(/\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i) %>
+          <% if is_image %>
+            <div class="pwb-image-input-group">
+              <input type="text" 
+                     name="page_part[content][<%= current_locale %>][blocks][<%= key %>][content]" 
+                     value="<%= content %>" 
+                     class="pwb-input pwb-image-url-input"
+                     id="image-input-<%= key.parameterize %>">
+              <button type="button" class="pwb-image-picker-btn" onclick="openImagePicker(document.getElementById('image-input-<%= key.parameterize %>'))">
+                <i class="fas fa-images"></i> Browse
+              </button>
+            </div>
+            <% if content.present? %>
+              <div class="pwb-image-preview">
+                <img src="<%= content %>" alt="Preview" onerror="this.parentElement.style.display='none'">
+              </div>
+            <% end %>
+          <% elsif content.to_s.length > 100 || content.to_s.include?("<") %>
             <textarea name="page_part[content][<%= current_locale %>][blocks][<%= key %>][content]" class="pwb-input pwb-textarea" rows="6"><%= content %></textarea>
           <% else %>
             <input type="text" name="page_part[content][<%= current_locale %>][blocks][<%= key %>][content]" value="<%= content %>" class="pwb-input">
@@ -32,9 +43,25 @@
       <% block_contents.each do |key, block| %>
         <div class="pwb-form-group">
           <label class="pwb-label"><%= key.humanize %></label>
-          
           <% content = block.is_a?(Hash) ? block["content"] : block %>
-          <% if content.to_s.length > 100 || content.to_s.include?("<") %>
+          <% is_image = key.to_s.downcase.include?('image') || key.to_s.downcase.include?('photo') || key.to_s.downcase.include?('src') || content.to_s.match?(/\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i) %>
+          <% if is_image %>
+            <div class="pwb-image-input-group">
+              <input type="text" 
+                     name="page_part[content][<%= key %>]" 
+                     value="<%= content %>" 
+                     class="pwb-input pwb-image-url-input"
+                     id="image-input-<%= key.parameterize %>">
+              <button type="button" class="pwb-image-picker-btn" onclick="openImagePicker(document.getElementById('image-input-<%= key.parameterize %>'))">
+                <i class="fas fa-images"></i> Browse
+              </button>
+            </div>
+            <% if content.present? %>
+              <div class="pwb-image-preview">
+                <img src="<%= content %>" alt="Preview" onerror="this.parentElement.style.display='none'">
+              </div>
+            <% end %>
+          <% elsif content.to_s.length > 100 || content.to_s.include?("<") %>
             <textarea name="page_part[content][<%= key %>]" class="pwb-input pwb-textarea" rows="6"><%= content %></textarea>
           <% else %>
             <input type="text" name="page_part[content][<%= key %>]" value="<%= content %>" class="pwb-input">
@@ -42,17 +69,14 @@
         </div>
       <% end %>
     <% end %>
-    
     <% if block_contents.empty? %>
       <p class="pwb-muted">No editable content blocks found for this page part.</p>
     <% end %>
-
     <div class="pwb-form-actions">
       <button type="submit" class="pwb-btn pwb-btn-primary pwb-btn-block">Save Changes</button>
     </div>
   <% end %>
 </div>
-
 <style>
   .pwb-form-group {
     margin-bottom: 1rem;

@@ -7,19 +7,14 @@
     <title><%= yield(:page_title) %></title>
     <%= yield(:page_head) %>
     <%# display_meta_tags site: @current_website.tenant_display_name %>
-
     <%# Tailwind CSS %>
     <%= stylesheet_link_tag "bristol_theme", media: "all" %>
-
     <style>
       <%= custom_styles "bristol" %>
     </style>
-
     <%= javascript_include_tag "pwb/application", async: false %>
-
     <%# Flowbite JS %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-
     <%= csrf_meta_tags %>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -55,7 +50,6 @@
             else window.addEventListener('load', loadDeferredStyles);
     </script>
     <%= yield(:page_script) %>
-
     <script>
       // Bristol theme mobile menu toggle (fallback if Flowbite doesn't initialize)
       document.addEventListener('DOMContentLoaded', function() {
@@ -86,5 +80,8 @@
         }
       });
     </script>
+    <% if params[:edit_mode] == 'true' %>
+      <%= javascript_include_tag "pwb/editor_client" %>
+    <% end %>
   </body>
 </html>

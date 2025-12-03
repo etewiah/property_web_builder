@@ -12,7 +12,9 @@ module Pwb
     before_action :set_page_part, only: [:show, :update]
 
     def show
-      render partial: "form", locals: { page_part: @page_part }
+      # Allow specifying which locale to edit (defaults to current I18n locale)
+      @editing_locale = params[:editing_locale].presence || I18n.locale.to_s
+      render partial: "form", locals: { page_part: @page_part, editing_locale: @editing_locale }
     end
 
     def update

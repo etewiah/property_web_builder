@@ -15,17 +15,17 @@
     <div id="app">
       <v-app light fixed-footer fill-height footer>
         <v-container style="padding: 0px">
-        <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
-        <v-toolbar class="white">
-          <v-toolbar-title v-text="title"></v-toolbar-title>
-        </v-toolbar>
-        <main>
-          <v-container fill-height>
-            <%= yield %>
-          </v-container>
-        </main>
-        <%= render :partial => '/pwb/footer', :locals => {}  %>
-        <%= render :partial => '/pwb/analytics', :locals => {}  %>
+          <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
+          <v-toolbar class="white">
+            <v-toolbar-title v-text="title"></v-toolbar-title>
+          </v-toolbar>
+          <main>
+            <v-container fill-height>
+              <%= yield %>
+            </v-container>
+          </main>
+          <%= render :partial => '/pwb/footer', :locals => {}  %>
+          <%= render :partial => '/pwb/analytics', :locals => {}  %>
         </v-container>
       </v-app>
     </div>
@@ -41,5 +41,8 @@
                       }
                     })
     </script>
+    <% if params[:edit_mode] == 'true' %>
+      <%= javascript_include_tag "pwb/editor_client" %>
+    <% end %>
   </body>
 </html>

@@ -48,6 +48,15 @@ body.pwb-editor-body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.pwb-editor-center {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  justify-content: center;
 }
 
 .pwb-editor-address-bar {
@@ -58,10 +67,42 @@ body.pwb-editor-body {
   font-size: 0.85rem;
   color: #94a3b8;
   flex: 1;
-  max-width: 500px;
+  max-width: 400px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+/* Language Selector */
+.pwb-language-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #94a3b8;
+}
+
+.pwb-language-selector label {
+  font-size: 0.9rem;
+}
+
+.pwb-select {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid var(--pwb-editor-border);
+  color: var(--pwb-editor-text);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.pwb-select:focus {
+  outline: none;
+  border-color: var(--pwb-editor-primary);
+}
+
+.pwb-select option {
+  background: var(--pwb-editor-bg);
+  color: var(--pwb-editor-text);
 }
 
 .pwb-btn-exit {
@@ -72,6 +113,7 @@ body.pwb-editor-body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .pwb-btn-exit:hover {
@@ -148,6 +190,38 @@ iframe#pwb-site-frame {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--pwb-editor-border);
   flex-shrink: 0;
+}
+
+.pwb-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pwb-panel-header .pwb-language-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pwb-panel-header .pwb-language-selector label {
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.pwb-panel-header .pwb-select {
+  background: #1e293b;
+  border: 1px solid var(--pwb-editor-border);
+  color: var(--pwb-editor-text);
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.pwb-panel-header .pwb-select:focus {
+  outline: none;
+  border-color: var(--pwb-editor-primary);
 }
 
 .pwb-panel-title {
@@ -420,4 +494,165 @@ iframe#pwb-site-frame {
   text-align: center;
   padding: 2rem;
   color: #ef4444;
+}
+
+/* Image Picker Modal */
+.pwb-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+}
+
+.pwb-modal.pwb-modal-open {
+  display: flex;
+}
+
+.pwb-modal-content {
+  background: var(--pwb-editor-bg);
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.pwb-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--pwb-editor-border);
+}
+
+.pwb-modal-header h3 {
+  margin: 0;
+  color: var(--pwb-editor-text);
+  font-size: 1.1rem;
+}
+
+.pwb-modal-close {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.pwb-modal-close:hover {
+  color: var(--pwb-editor-text);
+}
+
+.pwb-modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.pwb-image-upload-section {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.pwb-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--pwb-editor-primary);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.pwb-upload-btn:hover {
+  background: #2563eb;
+}
+
+.pwb-image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.pwb-image-item {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.pwb-image-item:hover {
+  border-color: var(--pwb-editor-primary);
+  transform: scale(1.05);
+}
+
+.pwb-image-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pwb-image-type {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: capitalize;
+}
+
+/* Image input with picker button */
+.pwb-image-input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pwb-image-input-group input {
+  flex: 1;
+}
+
+.pwb-image-picker-btn {
+  background: var(--pwb-editor-primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pwb-image-picker-btn:hover {
+  background: #2563eb;
+}
+
+.pwb-image-preview {
+  margin-top: 0.5rem;
+  max-width: 200px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.pwb-image-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
