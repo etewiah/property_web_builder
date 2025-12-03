@@ -56,11 +56,12 @@ module Pwb
     end
 
     def page_parts
-      Pwb::PagePart.where(page_slug: "website")
+      # Filter by website_id for multi-tenant isolation
+      Pwb::PagePart.where(page_slug: "website", website_id: id)
     end
 
     def get_page_part(page_part_key)
-      # byebug
+      # Only return page parts that belong to this website
       page_parts.where(page_part_key: page_part_key).first
     end
 

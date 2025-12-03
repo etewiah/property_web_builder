@@ -38,7 +38,8 @@ module Pwb
     # scope :visible_in_admin, -> () { where visible: true  }
 
     def get_page_part(page_part_key)
-      page_parts.where(page_part_key: page_part_key).first
+      # Filter by website_id for multi-tenant isolation
+      page_parts.where(page_part_key: page_part_key, website_id: website_id).first
     end
 
     # used by page_controller to create a photo (from upload) that can

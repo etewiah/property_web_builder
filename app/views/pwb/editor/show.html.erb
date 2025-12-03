@@ -26,362 +26,362 @@
             <span id="pwb-iframe-url"><%= @iframe_path %></span>
           </div>
         </div>
-          <div class="pwb-editor-actions">
-            <a href="<%= root_path %>" class="pwb-btn-exit" title="Exit Editor">
-              <i class="fas fa-sign-out-alt"></i> Exit
-            </a>
-          </div>
-        </div>
-        <div class="pwb-iframe-container">
-          <iframe src="<%= @iframe_path %>" id="pwb-site-frame" name="pwb-site-frame"></iframe>
+        <div class="pwb-editor-actions">
+          <a href="<%= root_path %>" class="pwb-btn-exit" title="Exit Editor">
+            <i class="fas fa-sign-out-alt"></i> Exit
+          </a>
         </div>
       </div>
-      <%# Bottom Panel for Content Editor %>
-      <div id="pwb-editor-panel" class="pwb-editor-panel">
-        <%= render "sidebar" %>
+      <div class="pwb-iframe-container">
+        <iframe src="<%= @iframe_path %>" id="pwb-site-frame" name="pwb-site-frame"></iframe>
       </div>
-      <%# Image Picker Modal %>
-      <div id="pwb-image-picker-modal" class="pwb-modal">
-        <div class="pwb-modal-content">
-          <div class="pwb-modal-header">
-            <h3>Select Image</h3>
-            <button type="button" class="pwb-modal-close" id="pwb-close-image-picker">&times;</button>
+    </div>
+    <%# Bottom Panel for Content Editor %>
+    <div id="pwb-editor-panel" class="pwb-editor-panel">
+      <%= render "sidebar" %>
+    </div>
+    <%# Image Picker Modal %>
+    <div id="pwb-image-picker-modal" class="pwb-modal">
+      <div class="pwb-modal-content">
+        <div class="pwb-modal-header">
+          <h3>Select Image</h3>
+          <button type="button" class="pwb-modal-close" id="pwb-close-image-picker">&times;</button>
+        </div>
+        <div class="pwb-modal-body">
+          <div class="pwb-image-upload-section">
+            <label class="pwb-upload-btn">
+              <i class="fas fa-cloud-upload-alt"></i> Upload New Image
+              <input type="file" id="pwb-image-upload" accept="image/*" style="display: none;">
+            </label>
           </div>
-          <div class="pwb-modal-body">
-            <div class="pwb-image-upload-section">
-              <label class="pwb-upload-btn">
-                <i class="fas fa-cloud-upload-alt"></i> Upload New Image
-                <input type="file" id="pwb-image-upload" accept="image/*" style="display: none;">
-              </label>
-            </div>
-            <div class="pwb-image-grid" id="pwb-image-grid">
-              <div class="pwb-loading"><i class="fas fa-spinner fa-spin"></i> Loading images...</div>
-            </div>
+          <div class="pwb-image-grid" id="pwb-image-grid">
+            <div class="pwb-loading"><i class="fas fa-spinner fa-spin"></i> Loading images...</div>
           </div>
         </div>
       </div>
-      <script>
-        // Get locale and supported locales from meta tags
-        const rawLocale = document.querySelector('meta[name="pwb-locale"]')?.content || 'en';
-        const pwbLocale = rawLocale.split('-')[0]; // Normalize en-UK to en
-        const pwbSupportedLocales = (document.querySelector('meta[name="pwb-supported-locales"]')?.content || 'en').split(',').map(l => l.split('-')[0]);
-        const editorBasePath = `/${pwbLocale}/editor`;
-        
-        // Track the locale being edited (separate from site locale)
-        let editingLocale = pwbLocale;
-        let currentPagePartKey = null;
+    </div>
+    <script>
+      // Get locale and supported locales from meta tags
+      const rawLocale = document.querySelector('meta[name="pwb-locale"]')?.content || 'en';
+      const pwbLocale = rawLocale.split('-')[0]; // Normalize en-UK to en
+      const pwbSupportedLocales = (document.querySelector('meta[name="pwb-supported-locales"]')?.content || 'en').split(',').map(l => l.split('-')[0]);
+      const editorBasePath = `/${pwbLocale}/editor`;
 
-        // Address bar update
-        const iframe = document.getElementById('pwb-site-frame');
-        const urlDisplay = document.getElementById('pwb-iframe-url');
+      // Track the locale being edited (separate from site locale)
+      let editingLocale = pwbLocale;
+      let currentPagePartKey = null;
 
-        iframe.onload = function() {
-          try {
-            const path = iframe.contentWindow.location.pathname;
-            urlDisplay.textContent = path;
-            history.replaceState(null, '', `/${pwbLocale}/edit` + path);
-          } catch(e) {
-            console.log("Cannot access iframe location");
+      // Address bar update
+      const iframe = document.getElementById('pwb-site-frame');
+      const urlDisplay = document.getElementById('pwb-iframe-url');
+
+      iframe.onload = function() {
+        try {
+          const path = iframe.contentWindow.location.pathname;
+          urlDisplay.textContent = path;
+          history.replaceState(null, '', `/${pwbLocale}/edit` + path);
+        } catch(e) {
+          console.log("Cannot access iframe location");
+        }
+      };
+
+      // Panel toggle
+      const panel = document.getElementById('pwb-editor-panel');
+      const toggleBtn = document.getElementById('pwb-toggle-panel');
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+          panel.classList.toggle('pwb-panel-collapsed');
+          const icon = toggleBtn.querySelector('i');
+          if (panel.classList.contains('pwb-panel-collapsed')) {
+            icon.className = 'fas fa-chevron-up';
+          } else {
+            icon.className = 'fas fa-chevron-down';
           }
-        };
+        });
+      }
 
-        // Panel toggle
-        const panel = document.getElementById('pwb-editor-panel');
-        const toggleBtn = document.getElementById('pwb-toggle-panel');
+      // Panel resize
+      const resizeHandle = document.getElementById('pwb-resize-handle');
+      const iframeContainer = document.querySelector('.pwb-iframe-container');
+      let isResizing = false;
+      let startY = 0;
+      let startHeight = 0;
 
-        if (toggleBtn) {
-          toggleBtn.addEventListener('click', () => {
-            panel.classList.toggle('pwb-panel-collapsed');
-            const icon = toggleBtn.querySelector('i');
-            if (panel.classList.contains('pwb-panel-collapsed')) {
-              icon.className = 'fas fa-chevron-up';
-            } else {
-              icon.className = 'fas fa-chevron-down';
-            }
+      // Create overlay to capture mouse events over iframe
+      const resizeOverlay = document.createElement('div');
+      resizeOverlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;cursor:ns-resize;display:none;';
+      document.body.appendChild(resizeOverlay);
+
+      function startResize(e) {
+        isResizing = true;
+        startY = e.clientY || e.touches?.[0]?.clientY;
+        startHeight = panel.offsetHeight;
+        panel.classList.add('pwb-panel-resizing');
+        resizeOverlay.style.display = 'block';
+        document.body.style.cursor = 'ns-resize';
+        e.preventDefault();
+      }
+
+      function doResize(e) {
+        if (!isResizing) return;
+
+        const clientY = e.clientY || e.touches?.[0]?.clientY;
+        const deltaY = startY - clientY;
+        const newHeight = Math.min(Math.max(startHeight + deltaY, 100), window.innerHeight * 0.7);
+        panel.style.height = newHeight + 'px';
+
+        // Expand if collapsed and dragging up
+        if (panel.classList.contains('pwb-panel-collapsed') && newHeight > 60) {
+          panel.classList.remove('pwb-panel-collapsed');
+          if (toggleBtn) toggleBtn.querySelector('i').className = 'fas fa-chevron-down';
+        }
+      }
+
+      function stopResize() {
+        if (isResizing) {
+          isResizing = false;
+          panel.classList.remove('pwb-panel-resizing');
+          resizeOverlay.style.display = 'none';
+          document.body.style.cursor = '';
+
+          // Save preference to localStorage
+          if (panel.style.height) {
+            localStorage.setItem('pwb-editor-panel-height', panel.style.height);
+          }
+        }
+      }
+
+      if (resizeHandle) {
+        // Mouse events
+        resizeHandle.addEventListener('mousedown', startResize);
+        document.addEventListener('mousemove', doResize);
+        document.addEventListener('mouseup', stopResize);
+        resizeOverlay.addEventListener('mousemove', doResize);
+        resizeOverlay.addEventListener('mouseup', stopResize);
+
+        // Touch events for mobile
+        resizeHandle.addEventListener('touchstart', startResize, { passive: false });
+        document.addEventListener('touchmove', doResize, { passive: false });
+        document.addEventListener('touchend', stopResize);
+
+        // Restore saved height
+        const savedHeight = localStorage.getItem('pwb-editor-panel-height');
+        if (savedHeight) {
+          panel.style.height = savedHeight;
+        }
+      }
+
+      // Function to load page part form with current editing locale
+      function loadPagePartForm(key) {
+        const contentPanel = document.getElementById('panel-content');
+        contentPanel.innerHTML = '<div class="pwb-loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+
+        // Fetch form with editing_locale parameter
+        fetch(`${editorBasePath}/page_parts/${key}?editing_locale=${editingLocale}`)
+          .then(response => response.text())
+          .then(html => {
+            contentPanel.innerHTML = html;
+            attachFormHandler();
+          })
+          .catch(err => {
+            console.error(err);
+            contentPanel.innerHTML = '<div class="pwb-error">Error loading editor</div>';
           });
-        }
+      }
 
-        // Panel resize
-        const resizeHandle = document.getElementById('pwb-resize-handle');
-        const iframeContainer = document.querySelector('.pwb-iframe-container');
-        let isResizing = false;
-        let startY = 0;
-        let startHeight = 0;
+      // Function to attach submit handler to the form
+      function attachFormHandler() {
+        const form = document.getElementById('pwb-editor-form');
+        if (form) {
+          form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
 
-        // Create overlay to capture mouse events over iframe
-        const resizeOverlay = document.createElement('div');
-        resizeOverlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;cursor:ns-resize;display:none;';
-        document.body.appendChild(resizeOverlay);
-
-        function startResize(e) {
-          isResizing = true;
-          startY = e.clientY || e.touches?.[0]?.clientY;
-          startHeight = panel.offsetHeight;
-          panel.classList.add('pwb-panel-resizing');
-          resizeOverlay.style.display = 'block';
-          document.body.style.cursor = 'ns-resize';
-          e.preventDefault();
-        }
-
-        function doResize(e) {
-          if (!isResizing) return;
-
-          const clientY = e.clientY || e.touches?.[0]?.clientY;
-          const deltaY = startY - clientY;
-          const newHeight = Math.min(Math.max(startHeight + deltaY, 100), window.innerHeight * 0.7);
-          panel.style.height = newHeight + 'px';
-
-          // Expand if collapsed and dragging up
-          if (panel.classList.contains('pwb-panel-collapsed') && newHeight > 60) {
-            panel.classList.remove('pwb-panel-collapsed');
-            if (toggleBtn) toggleBtn.querySelector('i').className = 'fas fa-chevron-down';
-          }
-        }
-
-        function stopResize() {
-          if (isResizing) {
-            isResizing = false;
-            panel.classList.remove('pwb-panel-resizing');
-            resizeOverlay.style.display = 'none';
-            document.body.style.cursor = '';
-
-            // Save preference to localStorage
-            if (panel.style.height) {
-              localStorage.setItem('pwb-editor-panel-height', panel.style.height);
-            }
-          }
-        }
-
-        if (resizeHandle) {
-          // Mouse events
-          resizeHandle.addEventListener('mousedown', startResize);
-          document.addEventListener('mousemove', doResize);
-          document.addEventListener('mouseup', stopResize);
-          resizeOverlay.addEventListener('mousemove', doResize);
-          resizeOverlay.addEventListener('mouseup', stopResize);
-
-          // Touch events for mobile
-          resizeHandle.addEventListener('touchstart', startResize, { passive: false });
-          document.addEventListener('touchmove', doResize, { passive: false });
-          document.addEventListener('touchend', stopResize);
-
-          // Restore saved height
-          const savedHeight = localStorage.getItem('pwb-editor-panel-height');
-          if (savedHeight) {
-            panel.style.height = savedHeight;
-          }
-        }
-
-        // Function to load page part form with current editing locale
-        function loadPagePartForm(key) {
-          const contentPanel = document.getElementById('panel-content');
-          contentPanel.innerHTML = '<div class="pwb-loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
-          
-          // Fetch form with editing_locale parameter
-          fetch(`${editorBasePath}/page_parts/${key}?editing_locale=${editingLocale}`)
-            .then(response => response.text())
-            .then(html => {
-              contentPanel.innerHTML = html;
-              attachFormHandler();
+            fetch(form.action, {
+              method: 'PATCH',
+              body: formData,
+              headers: {
+                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+              }
+            })
+            .then(res => res.json())
+            .then(data => {
+              if (data.status === 'success') {
+                showNotification('Content saved successfully', 'success');
+                // Refresh iframe to show changes
+                document.getElementById('pwb-site-frame').contentWindow.location.reload();
+              } else {
+                showNotification('Error saving changes', 'error');
+              }
             })
             .catch(err => {
               console.error(err);
-              contentPanel.innerHTML = '<div class="pwb-error">Error loading editor</div>';
+              showNotification('Error saving changes', 'error');
             });
-        }
-        
-        // Function to attach submit handler to the form
-        function attachFormHandler() {
-          const form = document.getElementById('pwb-editor-form');
-          if (form) {
-            form.addEventListener('submit', (e) => {
-              e.preventDefault();
-              const formData = new FormData(form);
-              
-              fetch(form.action, {
-                method: 'PATCH',
-                body: formData,
-                headers: {
-                  'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-                }
-              })
-              .then(res => res.json())
-              .then(data => {
-                if (data.status === 'success') {
-                  showNotification('Content saved successfully', 'success');
-                  // Refresh iframe to show changes
-                  document.getElementById('pwb-site-frame').contentWindow.location.reload();
-                } else {
-                  showNotification('Error saving changes', 'error');
-                }
-              })
-              .catch(err => {
-                console.error(err);
-                showNotification('Error saving changes', 'error');
-              });
-            });
-          }
-        }
-
-        // Listen for messages from iframe
-        window.addEventListener('message', (event) => {
-          if (event.data.type === 'pwb:element:selected') {
-            const key = event.data.payload.key;
-            console.log("Loading editor for:", key);
-            currentPagePartKey = key;
-
-            // Expand panel if collapsed
-            panel.classList.remove('pwb-panel-collapsed');
-            if (toggleBtn) {
-              toggleBtn.querySelector('i').className = 'fas fa-chevron-down';
-            }
-
-            // Load the form
-            loadPagePartForm(key);
-          }
-        });
-
-        // Notification helper (kept for content editor notifications)
-        function showNotification(message, type) {
-          const notification = document.createElement('div');
-          notification.className = `pwb-notification pwb-notification-${type}`;
-          notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
-          document.body.appendChild(notification);
-
-          setTimeout(() => {
-            notification.classList.add('pwb-notification-visible');
-          }, 10);
-
-          setTimeout(() => {
-            notification.classList.remove('pwb-notification-visible');
-            setTimeout(() => notification.remove(), 300);
-          }, 3000);
-        }
-
-        // Language selector - changes the editing locale, not the site locale
-        const localeSelect = document.getElementById('pwb-locale-select');
-        if (localeSelect) {
-          localeSelect.addEventListener('change', (e) => {
-            editingLocale = e.target.value;
-            
-            // If a form is currently loaded, reload it with the new editing locale
-            if (currentPagePartKey) {
-              loadPagePartForm(currentPagePartKey);
-            }
           });
         }
+      }
 
-        // Image Picker functionality
-        const imagePickerModal = document.getElementById('pwb-image-picker-modal');
-        const imageGrid = document.getElementById('pwb-image-grid');
-        const closeImagePicker = document.getElementById('pwb-close-image-picker');
-        const imageUploadInput = document.getElementById('pwb-image-upload');
-        let currentImageInput = null;
+      // Listen for messages from iframe
+      window.addEventListener('message', (event) => {
+        if (event.data.type === 'pwb:element:selected') {
+          const key = event.data.payload.key;
+          console.log("Loading editor for:", key);
+          currentPagePartKey = key;
 
-        // Close modal
-        if (closeImagePicker) {
-          closeImagePicker.addEventListener('click', () => {
-            imagePickerModal.classList.remove('pwb-modal-open');
-          });
+          // Expand panel if collapsed
+          panel.classList.remove('pwb-panel-collapsed');
+          if (toggleBtn) {
+            toggleBtn.querySelector('i').className = 'fas fa-chevron-down';
+          }
+
+          // Load the form
+          loadPagePartForm(key);
         }
+      });
 
-        // Close modal when clicking outside
-        imagePickerModal?.addEventListener('click', (e) => {
-          if (e.target === imagePickerModal) {
-            imagePickerModal.classList.remove('pwb-modal-open');
+      // Notification helper (kept for content editor notifications)
+      function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `pwb-notification pwb-notification-${type}`;
+        notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.classList.add('pwb-notification-visible');
+        }, 10);
+
+        setTimeout(() => {
+          notification.classList.remove('pwb-notification-visible');
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
+      }
+
+      // Language selector - changes the editing locale, not the site locale
+      const localeSelect = document.getElementById('pwb-locale-select');
+      if (localeSelect) {
+        localeSelect.addEventListener('change', (e) => {
+          editingLocale = e.target.value;
+
+          // If a form is currently loaded, reload it with the new editing locale
+          if (currentPagePartKey) {
+            loadPagePartForm(currentPagePartKey);
           }
         });
+      }
 
-        // Open image picker
-        window.openImagePicker = function(inputElement) {
-          currentImageInput = inputElement;
-          imagePickerModal.classList.add('pwb-modal-open');
-          loadImages();
-        };
+      // Image Picker functionality
+      const imagePickerModal = document.getElementById('pwb-image-picker-modal');
+      const imageGrid = document.getElementById('pwb-image-grid');
+      const closeImagePicker = document.getElementById('pwb-close-image-picker');
+      const imageUploadInput = document.getElementById('pwb-image-upload');
+      let currentImageInput = null;
 
-        // Load images from API
-        function loadImages() {
-          imageGrid.innerHTML = '<div class="pwb-loading"><i class="fas fa-spinner fa-spin"></i> Loading images...</div>';
+      // Close modal
+      if (closeImagePicker) {
+        closeImagePicker.addEventListener('click', () => {
+          imagePickerModal.classList.remove('pwb-modal-open');
+        });
+      }
 
-          fetch(`${editorBasePath}/images`)
-            .then(res => res.json())
-            .then(data => {
-              const images = data.images || [];
-              if (images.length === 0) {
-                imageGrid.innerHTML = '<p class="pwb-muted">No images uploaded yet. Upload one above.</p>';
-                return;
-              }
-
-              imageGrid.innerHTML = images.map(img => `
-                <div class="pwb-image-item" data-url="${img.url}" title="${img.filename || ''}">
-                  <img src="${img.thumb_url || img.url}" alt="${img.description || img.filename || 'Image'}">
-                  <span class="pwb-image-type">${img.type}</span>
-                </div>
-              `).join('');
-
-              // Add click handlers
-              imageGrid.querySelectorAll('.pwb-image-item').forEach(item => {
-                item.addEventListener('click', () => {
-                  const url = item.dataset.url;
-                  if (currentImageInput) {
-                    currentImageInput.value = url;
-                    // Trigger change event
-                    currentImageInput.dispatchEvent(new Event('change'));
-                  }
-                  imagePickerModal.classList.remove('pwb-modal-open');
-                });
-              });
-            })
-            .catch(err => {
-              console.error('Error loading images:', err);
-              imageGrid.innerHTML = '<p class="pwb-error">Error loading images</p>';
-            });
+      // Close modal when clicking outside
+      imagePickerModal?.addEventListener('click', (e) => {
+        if (e.target === imagePickerModal) {
+          imagePickerModal.classList.remove('pwb-modal-open');
         }
+      });
 
-        // Handle image upload
-        if (imageUploadInput) {
-          imageUploadInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
+      // Open image picker
+      window.openImagePicker = function(inputElement) {
+        currentImageInput = inputElement;
+        imagePickerModal.classList.add('pwb-modal-open');
+        loadImages();
+      };
 
-            const formData = new FormData();
-            formData.append('image', file);
+      // Load images from API
+      function loadImages() {
+        imageGrid.innerHTML = '<div class="pwb-loading"><i class="fas fa-spinner fa-spin"></i> Loading images...</div>';
 
-            try {
-              imageGrid.innerHTML = '<div class="pwb-loading"><i class="fas fa-spinner fa-spin"></i> Uploading...</div>';
+        fetch(`${editorBasePath}/images`)
+          .then(res => res.json())
+          .then(data => {
+            const images = data.images || [];
+            if (images.length === 0) {
+              imageGrid.innerHTML = '<p class="pwb-muted">No images uploaded yet. Upload one above.</p>';
+              return;
+            }
 
-              const response = await fetch(`${editorBasePath}/images`, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                  'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-                }
-              });
+            imageGrid.innerHTML = images.map(img => `
+              <div class="pwb-image-item" data-url="${img.url}" title="${img.filename || ''}">
+                <img src="${img.thumb_url || img.url}" alt="${img.description || img.filename || 'Image'}">
+                <span class="pwb-image-type">${img.type}</span>
+              </div>
+            `).join('');
 
-              const result = await response.json();
-              if (result.success) {
-                showNotification('Image uploaded successfully', 'success');
-                // Auto-select the uploaded image
-                if (currentImageInput && result.image) {
-                  currentImageInput.value = result.image.url;
+            // Add click handlers
+            imageGrid.querySelectorAll('.pwb-image-item').forEach(item => {
+              item.addEventListener('click', () => {
+                const url = item.dataset.url;
+                if (currentImageInput) {
+                  currentImageInput.value = url;
+                  // Trigger change event
                   currentImageInput.dispatchEvent(new Event('change'));
-                  imagePickerModal.classList.remove('pwb-modal-open');
-                } else {
-                  loadImages();
                 }
-              } else {
-                throw new Error(result.errors?.join(', ') || 'Upload failed');
-              }
-            } catch (err) {
-              console.error('Upload error:', err);
-              showNotification('Error uploading image: ' + err.message, 'error');
-              loadImages();
-            }
-
-            // Reset input
-            imageUploadInput.value = '';
+                imagePickerModal.classList.remove('pwb-modal-open');
+              });
+            });
+          })
+          .catch(err => {
+            console.error('Error loading images:', err);
+            imageGrid.innerHTML = '<p class="pwb-error">Error loading images</p>';
           });
-        }
-      </script>
-    </body>
-  </html>
+      }
+
+      // Handle image upload
+      if (imageUploadInput) {
+        imageUploadInput.addEventListener('change', async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+
+          const formData = new FormData();
+          formData.append('image', file);
+
+          try {
+            imageGrid.innerHTML = '<div class="pwb-loading"><i class="fas fa-spinner fa-spin"></i> Uploading...</div>';
+
+            const response = await fetch(`${editorBasePath}/images`, {
+              method: 'POST',
+              body: formData,
+              headers: {
+                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+              }
+            });
+
+            const result = await response.json();
+            if (result.success) {
+              showNotification('Image uploaded successfully', 'success');
+              // Auto-select the uploaded image
+              if (currentImageInput && result.image) {
+                currentImageInput.value = result.image.url;
+                currentImageInput.dispatchEvent(new Event('change'));
+                imagePickerModal.classList.remove('pwb-modal-open');
+              } else {
+                loadImages();
+              }
+            } else {
+              throw new Error(result.errors?.join(', ') || 'Upload failed');
+            }
+          } catch (err) {
+            console.error('Upload error:', err);
+            showNotification('Error uploading image: ' + err.message, 'error');
+            loadImages();
+          }
+
+          // Reset input
+          imageUploadInput.value = '';
+        });
+      }
+    </script>
+  </body>
+</html>

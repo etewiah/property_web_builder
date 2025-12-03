@@ -10,6 +10,9 @@ module Pwb
     # TODO: Re-enable authentication before production
     # before_action :authenticate_admin_user!
     before_action :set_page_part, only: [:show, :update]
+    
+    # Handle record not found gracefully
+    rescue_from ActiveRecord::RecordNotFound, with: :page_part_not_found
 
     def show
       # Allow specifying which locale to edit (defaults to current I18n locale)
@@ -54,7 +57,48 @@ module Pwb
     private
 
     def set_page_part
-      @page_part = PagePart.find_by_page_part_key!(params[:id])
+      # Strictly require website_id to be set for multi-tenant isolation
+      # PageParts without website_id should not be editable
+      @page_part = PagePart.where(website_id: @current_website&.id)
+                           .where.not(website_id: nil)
+                           .find_by!(page_part_key: params[:id])
+    end
+    
+    def page_part_not_found
+      page_part_key = params[:id]
+      error_html = <<~HTML
+        <div class="pwb-editor-error">
+          <div class="pwb-error-icon"><i class="fas fa-exclamation-triangle"></i></div>
+          <h4>Content Not Available</h4>
+          <p>The content block "<strong>#{ERB::Util.html_escape(page_part_key)}</strong>" is not configured for editing on this website.</p>
+          <p class="pwb-error-hint">This may happen if the content hasn't been set up yet. Please contact your administrator.</p>
+        </div>
+        <style>
+          .pwb-editor-error {
+            text-align: center;
+            padding: 2rem;
+            color: #94a3b8;
+          }
+          .pwb-error-icon {
+            font-size: 2.5rem;
+            color: #f59e0b;
+            margin-bottom: 1rem;
+          }
+          .pwb-editor-error h4 {
+            color: #e2e8f0;
+            margin: 0 0 0.5rem 0;
+          }
+          .pwb-editor-error p {
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+          }
+          .pwb-error-hint {
+            color: #64748b;
+            font-size: 0.85rem;
+          }
+        </style>
+      HTML
+      render html: error_html.html_safe, status: :ok
     end
 
     def page_part_params
