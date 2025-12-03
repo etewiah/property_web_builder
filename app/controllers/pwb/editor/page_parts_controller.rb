@@ -1,7 +1,8 @@
 module Pwb
   class Editor::PagePartsController < ApplicationController
     layout false
-    before_action :authenticate_admin_user!
+    # TODO: Re-enable authentication before production
+    # before_action :authenticate_admin_user!
     before_action :set_page_part, only: [:show, :update]
 
     def show

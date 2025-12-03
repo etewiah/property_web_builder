@@ -129,6 +129,7 @@ Rails.application.routes.draw do
       
       namespace :editor do
         resources :page_parts, only: [:show, :update]
+        resource :theme_settings, only: [:show, :update]
       end
       
       get "/edit/*path" => "editor#show"

@@ -127,6 +127,115 @@
           });
       }
     });
+
+    // Theme Settings Form Handler
+    (function() {
+      const themeForm = document.getElementById('pwb-theme-form');
+      const resetBtn = document.getElementById('pwb-reset-theme');
+      
+      // Sync color picker with text input
+      document.querySelectorAll('.pwb-color-input').forEach(group => {
+        const colorInput = group.querySelector('input[type="color"]');
+        const textInput = group.querySelector('.pwb-color-text');
+        
+        if (colorInput && textInput) {
+          colorInput.addEventListener('input', () => {
+            textInput.value = colorInput.value;
+          });
+          
+          textInput.addEventListener('change', () => {
+            // Validate hex color
+            const hex = textInput.value.trim();
+            if (/^#[0-9A-Fa-f]{6}$/.test(hex)) {
+              colorInput.value = hex;
+            } else {
+              textInput.value = colorInput.value;
+            }
+          });
+        }
+      });
+      
+      if (themeForm) {
+        themeForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          
+          const submitBtn = themeForm.querySelector('button[type="submit"]');
+          const originalText = submitBtn.innerHTML;
+          submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+          submitBtn.disabled = true;
+          
+          const formData = new FormData(themeForm);
+          
+          fetch('/editor/theme_settings', {
+            method: 'PATCH',
+            body: formData,
+            headers: {
+              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+            }
+          })
+          .then(res => res.json())
+          .then(data => {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            
+            if (data.status === 'success') {
+              // Show success message
+              showNotification('Theme settings saved!', 'success');
+              // Refresh iframe to show changes
+              document.getElementById('pwb-site-frame').contentWindow.location.reload();
+            } else {
+              showNotification('Error saving theme settings', 'error');
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            showNotification('Error saving theme settings', 'error');
+          });
+        });
+      }
+      
+      // Reset to defaults
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          if (confirm('Reset all theme settings to defaults? This cannot be undone.')) {
+            const defaults = {
+              primary_color: '#e91b23',
+              secondary_color: '#3498db',
+              action_color: '#27ae60',
+              footer_bg_color: '#333333',
+              footer_main_text_color: '#ffffff',
+              labels_text_color: '#ffffff'
+            };
+            
+            Object.keys(defaults).forEach(key => {
+              const colorInput = document.getElementById(key);
+              const textInput = document.querySelector(`.pwb-color-text[data-for="${key}"]`);
+              if (colorInput) colorInput.value = defaults[key];
+              if (textInput) textInput.value = defaults[key];
+            });
+          }
+        });
+      }
+      
+      // Notification helper
+      function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `pwb-notification pwb-notification-${type}`;
+        notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.classList.add('pwb-notification-visible');
+        }, 10);
+        
+        setTimeout(() => {
+          notification.classList.remove('pwb-notification-visible');
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
+      }
+    })();
   </script>
 </body>
 </html>
