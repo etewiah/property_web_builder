@@ -73,7 +73,6 @@ module Pwb
       # below won't sort right away as the list of results is loaded by js
       # and so won't be ready for sorting when below is called - but will wire up for sorting button
       # initial client sort called by       INMOAPP.sortSearchResults();
-      js "Main/Search#sort" # trigger client-side paloma script
 
       render "/pwb/search/buy"
     end
@@ -112,7 +111,6 @@ module Pwb
       set_map_markers
       @search_defaults = params[:search].present? ? params[:search] : {}
 
-      js "Main/Search#sort" # trigger client-side paloma script
       render "/pwb/search/rent"
     end
 

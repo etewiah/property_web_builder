@@ -7,19 +7,19 @@
     <title><%= yield(:page_title) %></title>
     <%= yield(:page_head) %>
     <%# display_meta_tags site: @current_website.tenant_display_name %>
-    
+
     <%# Tailwind CSS %>
     <%= stylesheet_link_tag "bristol_theme", media: "all" %>
-    
+
     <style>
       <%= custom_styles "bristol" %>
     </style>
-    
+
     <%= javascript_include_tag "pwb/application", async: false %>
-    
+
     <%# Flowbite JS %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-    
+
     <%= csrf_meta_tags %>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -35,7 +35,6 @@
       <%= render :partial => '/pwb/footer', :locals => {}  %>
       <%= render :partial => '/pwb/analytics', :locals => {}  %>
     </div>
-    <%= insert_paloma_hook %>
     <noscript id="deferred-styles">
       <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
       <!-- Google Font -->

@@ -13,8 +13,6 @@
 //= require jquery
 // require jquery.turbolinks
 //= require jquery_ujs
-//= require paloma
-//= require_tree ../paloma
 // require bootstrap-sprockets
 //= require bootstrap-select
 //= require berlin/slick
@@ -47,8 +45,7 @@ require_asset ("../shared/vue-main")
 // once turbolinks is activated, will have to change to above
 $(document).on('ready', function() {
   INMOAPP.pageHolder = {};
-  // 
-  Paloma.start();
+  //
   // Paloma.executeHook();
   // Paloma.engine.start();
 });
@@ -129,7 +126,7 @@ INMOAPP.addMarker = function(latlng, formatted_address) {
 
 
 
-// below 2 called after search results loaded (client side) - html would not be 
+// below 2 called after search results loaded (client side) - html would not be
 // ready on document.ready...
 INMOAPP.sortSearchResults = function() {
   var $wrapper = $('#ordered-properties');

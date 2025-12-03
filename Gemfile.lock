@@ -433,7 +433,6 @@ GEM
     orm_adapter (0.5.0)
     os (1.1.4)
     ostruct (0.6.3)
-    paloma (6.1.0)
     parallel (1.27.0)
     parser (3.3.10.0)
       ast (~> 2.4.1)
@@ -771,7 +770,6 @@ DEPENDENCIES
   oj
   omniauth (~> 2.1)
   omniauth-facebook
-  paloma (~> 6.1.0)
   pg
   poltergeist
   pry-byebug

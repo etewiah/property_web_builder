@@ -88,7 +88,6 @@ Example for Bristol theme using Tailwind CSS:
       <%= render :partial => '/pwb/footer', :locals => {}  %>
       <%= render :partial => '/pwb/analytics', :locals => {}  %>
     </div>
-    <%= insert_paloma_hook %>
   </body>
 </html>
 ```

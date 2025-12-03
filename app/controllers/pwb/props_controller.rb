@@ -15,8 +15,6 @@ module Pwb
         # below lets me know what prices to display
         @show_vacational_rental = @property_details.for_rent_short_term
 
-        js property_details: @property_details
-        js "Pwb/Props#show"
         @page_title = @property_details.title
         @page_description = @property_details.description
         # @page_keywords    = 'Site, Login, Members'
@@ -40,8 +38,6 @@ module Pwb
       if @property_details && @property_details.visible && @property_details.for_sale
         set_map_marker
         # gon.property_details =@property_details
-        js property_details: @property_details
-        js "Pwb/Props#show"
         @page_title = @property_details.title
         @page_description = @property_details.description
         # @page_keywords    = 'Site, Login, Members'
