@@ -19,11 +19,12 @@
       </div>
       <% if @current_website.is_multilingual && not_devise %>
         <div class="flex items-center space-x-2">
-          <% @current_website.supported_locales_with_variants.each do |locale_with_var| %>
+          <% @current_website.supported_locales_with_variants.uniq { |l| l["locale"] }.each do |locale_with_var| %>
             <% is_selected = locale.to_s == locale_with_var["locale"] %>
-            <%= localized_link_to locale_with_var, 
-                params.permit(:locale).merge({locale: locale_with_var["locale"]}), 
-                class: "px-2 py-1 rounded #{is_selected ? 'bg-blue-600' : 'hover:bg-gray-700'} #{locale_with_var["variant"]}" %>
+            <%= link_to params.permit(:locale).merge({locale: locale_with_var["locale"]}), 
+                class: "px-2 py-1 rounded uppercase #{is_selected ? 'bg-blue-600' : 'hover:bg-gray-700'}" do %>
+              <%= locale_with_var["locale"] %>
+            <% end %>
           <% end %>
         </div>
       <% end %>
@@ -95,11 +96,11 @@
               <div id="user-dropdown" class="hidden absolute right-0 z-10 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200">
                 <ul class="py-2 text-sm text-gray-700">
                   <li>
-                    <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale), 
+                    <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale),
                         class: "block px-4 py-2 hover:bg-gray-100" %>
                   </li>
                   <li>
-                    <%= link_to I18n.t("changePassword"), edit_user_registration_path(), 
+                    <%= link_to I18n.t("changePassword"), edit_user_registration_path(),
                         class: "block px-4 py-2 hover:bg-gray-100" %>
                   </li>
                   <li>
