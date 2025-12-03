@@ -53,13 +53,23 @@ module Pwb
 
     # TODO - fix client side so I don't have to use these legacy names
     def property_photos
-      photos = @model.prop_photos
-      return photos.as_json
+      # photos = @model.prop_photos
+      # return photos.as_json
+      return @model.prop_photos.map do |photo|
+        photo.attributes.merge({
+          "image" => photo.image.attached? ? Rails.application.routes.url_helpers.rails_blob_path(photo.image, only_path: true) : nil
+        })
+      end
     end
 
     def photos
-      photos = @model.prop_photos
-      return photos.as_json
+      # photos = @model.prop_photos
+      # return photos.as_json
+      return @model.prop_photos.map do |photo|
+        photo.attributes.merge({
+          "image" => photo.image.attached? ? Rails.application.routes.url_helpers.rails_blob_path(photo.image, only_path: true) : nil
+        })
+      end
     end
 
     # def ano_constr
