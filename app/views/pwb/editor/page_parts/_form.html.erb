@@ -1,0 +1,53 @@
+<div class="pwb-editor-form-container">
+  <h4>Editing: <%= page_part.page_part_key.humanize %></h4>
+  
+  <%= form_with(model: page_part, url: editor_page_part_path(page_part.page_part_key), method: :patch, id: "pwb-editor-form", local: false) do |f| %>
+    
+    <%# Iterate over content blocks %>
+    <% page_part.block_contents.each do |key, block| %>
+      <div class="pwb-form-group">
+        <label class="pwb-label"><%= key.humanize %></label>
+        
+        <%# Simple heuristic for input type %>
+        <% content = block["content"] %>
+        <% if content.to_s.length > 50 %>
+          <textarea name="page_part[content][<%= key %>]" class="pwb-input pwb-textarea" rows="4"><%= content %></textarea>
+        <% else %>
+          <input type="text" name="page_part[content][<%= key %>]" value="<%= content %>" class="pwb-input">
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="pwb-form-actions">
+      <button type="submit" class="pwb-btn pwb-btn-primary pwb-btn-block">Save Changes</button>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  .pwb-form-group {
+    margin-bottom: 1rem;
+  }
+  .pwb-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #cbd5e1;
+  }
+  .pwb-input {
+    width: 100%;
+    padding: 0.5rem;
+    background: #334155;
+    border: 1px solid #475569;
+    color: white;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  .pwb-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+  }
+  .pwb-textarea {
+    resize: vertical;
+  }
+</style>

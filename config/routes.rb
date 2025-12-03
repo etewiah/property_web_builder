@@ -123,6 +123,15 @@ Rails.application.routes.draw do
 
       get "/admin" => "admin_panel#show"
       get "/admin/*path" => "admin_panel#show"
+
+      # In-context editor
+      get "/edit" => "editor#show", as: :editor
+      
+      namespace :editor do
+        resources :page_parts, only: [:show, :update]
+      end
+      
+      get "/edit/*path" => "editor#show"
     end
 
     # namespace :api_ext do

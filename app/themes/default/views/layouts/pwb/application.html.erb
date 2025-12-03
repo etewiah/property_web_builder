@@ -49,5 +49,8 @@
             else window.addEventListener('load', loadDeferredStyles);
     </script>
     <%= yield(:page_script) %>
+    <% if params[:edit_mode] == 'true' %>
+      <%= javascript_include_tag "pwb/editor_client" %>
+    <% end %>
   </body>
 </html>

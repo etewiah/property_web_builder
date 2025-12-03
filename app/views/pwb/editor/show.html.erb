@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PWB Editor</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <%# Load editor-specific styles %>
+  <%= stylesheet_link_tag "pwb/editor", media: "all" %>
+  
+  <%# FontAwesome for icons %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body class="pwb-editor-body">
+
+  <%# Editor Sidebar %>
+  <div id="pwb-editor-sidebar" class="pwb-editor-sidebar">
+    <%= render "sidebar" %>
+  </div>
+
+  <%# Main Content Area (Iframe) %>
+  <div class="pwb-editor-main">
+    <div class="pwb-editor-toolbar">
+      <div class="pwb-editor-address-bar">
+        <i class="fas fa-lock"></i>
+        <span id="pwb-iframe-url"><%= @iframe_path %></span>
+      </div>
+      <div class="pwb-editor-actions">
+        <a href="<%= root_path %>" class="pwb-btn-exit" title="Exit Editor">
+          <i class="fas fa-sign-out-alt"></i> Exit
+        </a>
+      </div>
+    </div>
+    
+    <div class="pwb-iframe-container">
+      <iframe src="<%= @iframe_path %>" id="pwb-site-frame" name="pwb-site-frame"></iframe>
+    </div>
+  </div>
+
+  <script>
+    // Address bar update
+    const iframe = document.getElementById('pwb-site-frame');
+    const urlDisplay = document.getElementById('pwb-iframe-url');
+    
+    iframe.onload = function() {
+      try {
+        const path = iframe.contentWindow.location.pathname;
+        urlDisplay.textContent = path;
+        history.replaceState(null, '', '/edit' + path);
+      } catch(e) {
+        console.log("Cannot access iframe location");
+      }
+    };
+
+    // Sidebar Tabs
+    document.querySelectorAll('.pwb-nav-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Remove active class from all items
+        document.querySelectorAll('.pwb-nav-item').forEach(nav => nav.classList.remove('active'));
+        document.querySelectorAll('.pwb-panel').forEach(panel => panel.classList.remove('active'));
+        
+        // Add active class to clicked item
+        item.classList.add('active');
+        
+        // Show corresponding panel
+        const panelId = item.getAttribute('href').substring(1); // #panel-content -> panel-content
+        const panel = document.getElementById(panelId);
+        if (panel) panel.classList.add('active');
+      });
+    });
+
+    // Listen for messages from iframe
+    window.addEventListener('message', (event) => {
+      if (event.data.type === 'pwb:element:selected') {
+        const key = event.data.payload.key;
+        console.log("Loading editor for:", key);
+        
+        // Show loading state
+        const contentPanel = document.getElementById('panel-content');
+        contentPanel.innerHTML = '<div class="pwb-loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+        
+        // Switch to content tab
+        document.querySelector('a[href="#panel-content"]').click();
+        
+        // Fetch form
+        fetch(`/editor/page_parts/${key}`)
+          .then(response => response.text())
+          .then(html => {
+            contentPanel.innerHTML = html;
+            
+            // Attach submit handler
+            const form = document.getElementById('pwb-editor-form');
+            if (form) {
+              form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formData = new FormData(form);
+                
+                // Convert FormData to JSON structure expected by backend
+                // This part needs to match how the controller expects params
+                // For now, let's just submit as standard form data via fetch
+                
+                fetch(form.action, {
+                  method: 'PATCH',
+                  body: formData,
+                  headers: {
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+                  }
+                })
+                .then(res => res.json())
+                .then(data => {
+                  if (data.status === 'success') {
+                    // Refresh iframe to show changes
+                    document.getElementById('pwb-site-frame').contentWindow.location.reload();
+                  } else {
+                    alert('Error saving changes');
+                  }
+                });
+              });
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            contentPanel.innerHTML = '<div class="pwb-error">Error loading editor</div>';
+          });
+      }
+    });
+  </script>
+</body>
+</html>
