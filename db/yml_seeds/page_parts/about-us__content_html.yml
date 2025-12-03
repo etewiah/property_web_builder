@@ -16,9 +16,9 @@
         }]
       ]
     }
-  template: 
-    <section class="content-html-section" >
-      <div class="bst-container">
+  template:
+    <section class="content-html-section about-us-page-main-section" >
+      <div class="content-container about-us-page-content">
         {{ page_part["main_content"]["content"] %> }}
       </div>
     </section>

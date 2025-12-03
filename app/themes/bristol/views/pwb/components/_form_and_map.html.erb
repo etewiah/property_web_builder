@@ -1,14 +1,14 @@
-<!-- Bristol Theme Form and Map Component - Tailwind CSS -->
-<section class="bg-white py-8">
-  <div class="container mx-auto px-4">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div class="lg:col-span-2">
+<!-- Bristol Theme Form and Map Component - Semantic HTML -->
+<section class="contact-us-component">
+  <div class="contact-us-container">
+    <div class="contact-grid">
+      <div class="contact-form-column">
         <%= render 'pwb/sections/contact_us_form' %>
       </div>
-      <div class="space-y-6">
+      <div class="contact-info-column">
         <%= render '/pwb/props/prop_contact_info' %>
         <% if @current_agency.show_contact_map %>
-          <div class="rounded-lg overflow-hidden shadow-sm border border-gray-200">
+          <div class="contact-map-wrapper">
             <inmo-map style="min-height: 400px;" :markers="<%= @map_markers.to_json %>"
               :zoom="15">
             </inmo-map>

@@ -18,6 +18,6 @@
       ]
     }
   template: 
-    <div>
+    <div class="footer-content-section">
       {{ page_part["main_content"]["content"] %> }}
     </div>

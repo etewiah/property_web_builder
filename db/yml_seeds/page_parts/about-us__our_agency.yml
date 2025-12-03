@@ -25,27 +25,28 @@
         }]
       ]
     }
-  template: 
-    <section class="our-agency-section" >
-    <div class="bst-container">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="section-title-wr mt-40">
-            <h3 class="section-title left">
-              <span>
-                {{ page_part["title_a"]["content"] }}
-              </span>
-            </h3>
+  template: >
+    <section class="our-agency-section">
+      <div class="agency-container">
+        <div class="agency-content-wrapper">
+          <div class="agency-text-column">
+            <div class="agency-title-wrapper">
+              <h3 class="agency-title">
+                <span>
+                  {{ page_part["title_a"]["content"] }}
+                </span>
+              </h3>
+            </div>
+            <div class="agency-description">
+              <p>
+                {{  page_part["content_a"]["content"] }}
+              </p>
+            </div>
           </div>
-          <div>
-            <p>
-              {{  page_part["content_a"]["content"] }}
-            </p>
+          <div class="agency-image-column">
+            <img alt="Agency Image" src="{{ page_part["our_agency_img"]["content"] }}" class="agency-image">
           </div>
-        </div>
-        <div class="col-md-6">
-          <img alt="" src="{{ page_part["our_agency_img"]["content"] }}" class="img-responsive">
         </div>
       </div>
-    </div>
+    </section>
     </section>
