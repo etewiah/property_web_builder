@@ -12,12 +12,15 @@ module Pwb
         @page = @current_website.pages.find_by_slug default_page_slug
       end
       @content_to_show = []
+      @page_contents_for_edit = []
 
       # @page.ordered_visible_contents.each do |page_content|
       # above does not get ordered correctly
       if @page.present?
         @page.ordered_visible_page_contents.each do |page_content|
           @content_to_show.push page_content.content.raw
+          # Store page_content objects for edit mode
+          @page_contents_for_edit.push page_content
         end
       end
 

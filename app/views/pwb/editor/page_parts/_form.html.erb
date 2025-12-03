@@ -3,19 +3,48 @@
   
   <%= form_with(model: page_part, url: editor_page_part_path(page_part.page_part_key), method: :patch, id: "pwb-editor-form", local: false) do |f| %>
     
-    <%# Iterate over content blocks %>
-    <% page_part.block_contents.each do |key, block| %>
-      <div class="pwb-form-group">
-        <label class="pwb-label"><%= key.humanize %></label>
-        
-        <%# Simple heuristic for input type %>
-        <% content = block["content"] %>
-        <% if content.to_s.length > 50 %>
-          <textarea name="page_part[content][<%= key %>]" class="pwb-input pwb-textarea" rows="4"><%= content %></textarea>
-        <% else %>
-          <input type="text" name="page_part[content][<%= key %>]" value="<%= content %>" class="pwb-input">
-        <% end %>
-      </div>
+    <%# Determine if this is a locale-based structure or flat block structure %>
+    <% block_contents = page_part.block_contents || {} %>
+    <% first_value = block_contents.values.first %>
+    
+    <% if first_value.is_a?(Hash) && first_value.key?("blocks") %>
+      <%# Locale-based structure: { "en" => { "blocks" => { ... } }, "es" => { ... } } %>
+      <% current_locale = I18n.locale.to_s %>
+      <% locale_data = block_contents[current_locale] || block_contents.values.first || {} %>
+      <% blocks = locale_data["blocks"] || {} %>
+      
+      <p class="pwb-locale-note">Editing content for: <strong><%= current_locale.upcase %></strong></p>
+      
+      <% blocks.each do |key, block| %>
+        <div class="pwb-form-group">
+          <label class="pwb-label"><%= key.humanize %></label>
+          
+          <% content = block.is_a?(Hash) ? block["content"] : block %>
+          <% if content.to_s.length > 100 || content.to_s.include?("<") %>
+            <textarea name="page_part[content][<%= current_locale %>][blocks][<%= key %>][content]" class="pwb-input pwb-textarea" rows="6"><%= content %></textarea>
+          <% else %>
+            <input type="text" name="page_part[content][<%= current_locale %>][blocks][<%= key %>][content]" value="<%= content %>" class="pwb-input">
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <%# Flat structure: { "key" => { "content" => "..." } } %>
+      <% block_contents.each do |key, block| %>
+        <div class="pwb-form-group">
+          <label class="pwb-label"><%= key.humanize %></label>
+          
+          <% content = block.is_a?(Hash) ? block["content"] : block %>
+          <% if content.to_s.length > 100 || content.to_s.include?("<") %>
+            <textarea name="page_part[content][<%= key %>]" class="pwb-input pwb-textarea" rows="6"><%= content %></textarea>
+          <% else %>
+            <input type="text" name="page_part[content][<%= key %>]" value="<%= content %>" class="pwb-input">
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+    
+    <% if block_contents.empty? %>
+      <p class="pwb-muted">No editable content blocks found for this page part.</p>
     <% end %>
 
     <div class="pwb-form-actions">
@@ -49,5 +78,17 @@
   }
   .pwb-textarea {
     resize: vertical;
+  }
+  .pwb-locale-note {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 4px;
+  }
+  .pwb-muted {
+    color: #64748b;
+    font-style: italic;
   }
 </style>

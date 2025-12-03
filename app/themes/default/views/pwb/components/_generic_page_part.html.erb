@@ -1,3 +1,3 @@
-<div class="col-md-12">
+<div class="col-md-12" <%= "data-pwb-page-part=#{page_part_key}".html_safe if defined?(edit_mode) && edit_mode %>>
   <%== content %>
 </div>

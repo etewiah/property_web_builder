@@ -3,7 +3,13 @@ module Pwb
     def page_part(page_content)
       unless page_content.is_rails_part
         content = page_content.content.present? ? page_content.content.raw : ""
-        render partial: "pwb/components/generic_page_part", locals: { content: content }
+        page_part_key = page_content.page_part_key
+        edit_mode = params[:edit_mode] == 'true'
+        render partial: "pwb/components/generic_page_part", locals: { 
+          content: content, 
+          page_part_key: page_part_key,
+          edit_mode: edit_mode
+        }
       end
     end
 

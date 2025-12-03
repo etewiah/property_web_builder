@@ -1,6 +1,12 @@
 module Pwb
   class Editor::ThemeSettingsController < ApplicationController
     layout false
+    # Skip theme path setup since we return JSON
+    skip_before_action :set_theme_path
+    skip_before_action :nav_links
+    skip_before_action :footer_content
+    # Skip CSRF for API calls
+    skip_before_action :verify_authenticity_token, only: [:update]
     # TODO: Re-enable authentication before production
     # before_action :authenticate_admin_user!
 

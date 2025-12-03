@@ -6,6 +6,9 @@
   <%= csp_meta_tag %>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
+  <%# Pass locale to JavaScript %>
+  <meta name="pwb-locale" content="<%= I18n.locale %>" />
+  
   <%# Load editor-specific styles %>
   <%= stylesheet_link_tag "pwb/editor", media: "all" %>
   
@@ -39,6 +42,10 @@
   </div>
 
   <script>
+    // Get locale from meta tag
+    const pwbLocale = document.querySelector('meta[name="pwb-locale"]')?.content || 'en';
+    const editorBasePath = `/${pwbLocale}/editor`;
+    
     // Address bar update
     const iframe = document.getElementById('pwb-site-frame');
     const urlDisplay = document.getElementById('pwb-iframe-url');
@@ -47,7 +54,7 @@
       try {
         const path = iframe.contentWindow.location.pathname;
         urlDisplay.textContent = path;
-        history.replaceState(null, '', '/edit' + path);
+        history.replaceState(null, '', `/${pwbLocale}/edit` + path);
       } catch(e) {
         console.log("Cannot access iframe location");
       }
@@ -86,7 +93,7 @@
         document.querySelector('a[href="#panel-content"]').click();
         
         // Fetch form
-        fetch(`/editor/page_parts/${key}`)
+        fetch(`${editorBasePath}/page_parts/${key}`)
           .then(response => response.text())
           .then(html => {
             contentPanel.innerHTML = html;
@@ -166,7 +173,7 @@
           
           const formData = new FormData(themeForm);
           
-          fetch('/editor/theme_settings', {
+          fetch(`${editorBasePath}/theme_settings`, {
             method: 'PATCH',
             body: formData,
             headers: {

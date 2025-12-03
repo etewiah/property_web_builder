@@ -32,9 +32,9 @@
           <%== @page.raw_html %>
         </div>
       </div>
-      <% @content_to_show.each do |content| %>
-        <div class="col-md-12">
-          <%== content %>
+      <% @page_contents_for_edit.each_with_index do |page_content, index| %>
+        <div class="col-md-12" <%= "data-pwb-page-part=#{page_content.page_part_key}".html_safe if params[:edit_mode] == 'true' %>>
+          <%== @content_to_show[index] %>
         </div>
       <% end %>
     </div>

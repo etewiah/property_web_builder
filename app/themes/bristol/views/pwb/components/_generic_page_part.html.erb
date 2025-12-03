@@ -1,4 +1,4 @@
 <!-- Bristol Theme Generic Page Part - Tailwind CSS -->
-<div class="prose prose-lg max-w-none">
+<div class="prose prose-lg max-w-none" <%= "data-pwb-page-part=#{page_part_key}".html_safe if defined?(edit_mode) && edit_mode %>>
   <%== content %>
 </div>

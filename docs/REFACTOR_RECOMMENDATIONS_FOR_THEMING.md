@@ -924,6 +924,16 @@ Use this checklist to track progress through the refactoring:
 
 **Status**: Phase 4 is complete (excluding security which is deferred). The editor shell, sidebar, and routing are implemented. The client-side script for element selection is working. API endpoints for page parts and theme settings are created. CSS variable customization UI with color pickers is implemented in the Theme panel. E2E tests added in `tests/e2e/editor.spec.js`. Authentication is temporarily disabled for testing (TODO items in controllers mark where to re-enable).
 
+**Implementation Details**:
+- **Editor Shell**: `EditorController#show` at `/en/edit` renders iframe + sidebar
+- **Page Part Form**: Dynamic form handles nested `block_contents` structure (`locale → blocks → name → content`)
+- **API Endpoints**:
+  - `GET/PATCH /:locale/editor/page_parts/:key` - Load/save page part content
+  - `GET/PATCH /:locale/editor/theme_settings` - Load/save CSS variables
+- **Client Script**: `editor_client.js` injected via `edit_mode=true` query param
+- **Data Attributes**: Theme views add `data-pwb-page-part` for clickable elements
+- **CSRF**: Temporarily disabled on editor API endpoints for testing
+
 ### Phase 5: Polish & Documentation (Weeks 11-12)
 - [ ] Update seeder to use file-based templates
 - [ ] Create developer documentation
