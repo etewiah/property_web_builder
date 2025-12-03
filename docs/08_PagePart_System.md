@@ -1378,3 +1378,54 @@ The PagePart system is a **powerful but complex** content management solution th
 3. **Long-term:** Consider modern alternatives (headless CMS, component-based systems)
 
 The system works well for its current use case but would benefit significantly from the improvements outlined above.
+
+---
+
+## Best Practices: Semantic HTML & Theme CSS
+
+To maintain a clean separation of concerns and ensure themes are easily customizable, we recommend the following pattern for PageParts:
+
+### 1. Semantic HTML in Templates
+Avoid using inline styles or framework-specific utility classes (like Tailwind or Bootstrap) directly in your Liquid templates. Instead, use semantic class names that describe the content.
+
+**Bad:**
+```html
+<div class="bg-gray-900 h-[600px] flex items-center">
+  <h1 class="text-4xl font-bold text-white">Title</h1>
+</div>
+```
+
+**Good:**
+```html
+<div class="hero-section">
+  <h1 class="hero-title">Title</h1>
+</div>
+```
+
+### 2. Styling in Theme CSS
+Define the visual appearance in the theme's CSS file (e.g., `app/views/pwb/custom_css/_bristol.css.erb`). This allows you to use theme variables and media queries effectively.
+
+```css
+/* app/views/pwb/custom_css/_bristol.css.erb */
+.hero-section {
+  background-color: #111827;
+  height: 600px;
+  display: flex;
+  align-items: center;
+}
+
+.hero-title {
+  font-size: 2.25rem;
+  color: white;
+}
+```
+
+### 3. Updating PageParts
+When you modify a PagePart template in `db/yml_seeds/page_parts/`, you must run the update rake task to apply changes to the database:
+
+```bash
+bundle exec rake pwb:db:update_page_parts
+```
+
+This task iterates through the seed files and updates the corresponding `PagePart` records in the database.
+
