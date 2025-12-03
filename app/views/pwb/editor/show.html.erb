@@ -17,14 +17,12 @@
 </head>
 <body class="pwb-editor-body">
 
-  <%# Editor Sidebar %>
-  <div id="pwb-editor-sidebar" class="pwb-editor-sidebar">
-    <%= render "sidebar" %>
-  </div>
-
-  <%# Main Content Area (Iframe) %>
+  <%# Main Content Area %>
   <div class="pwb-editor-main">
     <div class="pwb-editor-toolbar">
+      <div class="pwb-editor-logo">
+        <i class="fas fa-edit"></i> PWB Editor
+      </div>
       <div class="pwb-editor-address-bar">
         <i class="fas fa-lock"></i>
         <span id="pwb-iframe-url"><%= @iframe_path %></span>
@@ -39,6 +37,11 @@
     <div class="pwb-iframe-container">
       <iframe src="<%= @iframe_path %>" id="pwb-site-frame" name="pwb-site-frame"></iframe>
     </div>
+  </div>
+
+  <%# Bottom Panel for Content Editor %>
+  <div id="pwb-editor-panel" class="pwb-editor-panel">
+    <%= render "sidebar" %>
   </div>
 
   <script>
@@ -60,24 +63,92 @@
       }
     };
 
-    // Sidebar Tabs
-    document.querySelectorAll('.pwb-nav-item').forEach(item => {
-      item.addEventListener('click', (e) => {
-        e.preventDefault();
-        
-        // Remove active class from all items
-        document.querySelectorAll('.pwb-nav-item').forEach(nav => nav.classList.remove('active'));
-        document.querySelectorAll('.pwb-panel').forEach(panel => panel.classList.remove('active'));
-        
-        // Add active class to clicked item
-        item.classList.add('active');
-        
-        // Show corresponding panel
-        const panelId = item.getAttribute('href').substring(1); // #panel-content -> panel-content
-        const panel = document.getElementById(panelId);
-        if (panel) panel.classList.add('active');
+    // Panel toggle
+    const panel = document.getElementById('pwb-editor-panel');
+    const toggleBtn = document.getElementById('pwb-toggle-panel');
+    
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        panel.classList.toggle('pwb-panel-collapsed');
+        const icon = toggleBtn.querySelector('i');
+        if (panel.classList.contains('pwb-panel-collapsed')) {
+          icon.className = 'fas fa-chevron-up';
+        } else {
+          icon.className = 'fas fa-chevron-down';
+        }
       });
-    });
+    }
+
+    // Panel resize
+    const resizeHandle = document.getElementById('pwb-resize-handle');
+    const iframeContainer = document.querySelector('.pwb-iframe-container');
+    let isResizing = false;
+    let startY = 0;
+    let startHeight = 0;
+
+    // Create overlay to capture mouse events over iframe
+    const resizeOverlay = document.createElement('div');
+    resizeOverlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;cursor:ns-resize;display:none;';
+    document.body.appendChild(resizeOverlay);
+
+    function startResize(e) {
+      isResizing = true;
+      startY = e.clientY || e.touches?.[0]?.clientY;
+      startHeight = panel.offsetHeight;
+      panel.classList.add('pwb-panel-resizing');
+      resizeOverlay.style.display = 'block';
+      document.body.style.cursor = 'ns-resize';
+      e.preventDefault();
+    }
+
+    function doResize(e) {
+      if (!isResizing) return;
+      
+      const clientY = e.clientY || e.touches?.[0]?.clientY;
+      const deltaY = startY - clientY;
+      const newHeight = Math.min(Math.max(startHeight + deltaY, 100), window.innerHeight * 0.7);
+      panel.style.height = newHeight + 'px';
+      
+      // Expand if collapsed and dragging up
+      if (panel.classList.contains('pwb-panel-collapsed') && newHeight > 60) {
+        panel.classList.remove('pwb-panel-collapsed');
+        if (toggleBtn) toggleBtn.querySelector('i').className = 'fas fa-chevron-down';
+      }
+    }
+
+    function stopResize() {
+      if (isResizing) {
+        isResizing = false;
+        panel.classList.remove('pwb-panel-resizing');
+        resizeOverlay.style.display = 'none';
+        document.body.style.cursor = '';
+        
+        // Save preference to localStorage
+        if (panel.style.height) {
+          localStorage.setItem('pwb-editor-panel-height', panel.style.height);
+        }
+      }
+    }
+
+    if (resizeHandle) {
+      // Mouse events
+      resizeHandle.addEventListener('mousedown', startResize);
+      document.addEventListener('mousemove', doResize);
+      document.addEventListener('mouseup', stopResize);
+      resizeOverlay.addEventListener('mousemove', doResize);
+      resizeOverlay.addEventListener('mouseup', stopResize);
+      
+      // Touch events for mobile
+      resizeHandle.addEventListener('touchstart', startResize, { passive: false });
+      document.addEventListener('touchmove', doResize, { passive: false });
+      document.addEventListener('touchend', stopResize);
+
+      // Restore saved height
+      const savedHeight = localStorage.getItem('pwb-editor-panel-height');
+      if (savedHeight) {
+        panel.style.height = savedHeight;
+      }
+    }
 
     // Listen for messages from iframe
     window.addEventListener('message', (event) => {
@@ -85,12 +156,15 @@
         const key = event.data.payload.key;
         console.log("Loading editor for:", key);
         
+        // Expand panel if collapsed
+        panel.classList.remove('pwb-panel-collapsed');
+        if (toggleBtn) {
+          toggleBtn.querySelector('i').className = 'fas fa-chevron-down';
+        }
+        
         // Show loading state
         const contentPanel = document.getElementById('panel-content');
         contentPanel.innerHTML = '<div class="pwb-loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
-        
-        // Switch to content tab
-        document.querySelector('a[href="#panel-content"]').click();
         
         // Fetch form
         fetch(`${editorBasePath}/page_parts/${key}`)
@@ -135,114 +209,22 @@
       }
     });
 
-    // Theme Settings Form Handler
-    (function() {
-      const themeForm = document.getElementById('pwb-theme-form');
-      const resetBtn = document.getElementById('pwb-reset-theme');
+    // Notification helper (kept for content editor notifications)
+    function showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.className = `pwb-notification pwb-notification-${type}`;
+      notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
+      document.body.appendChild(notification);
       
-      // Sync color picker with text input
-      document.querySelectorAll('.pwb-color-input').forEach(group => {
-        const colorInput = group.querySelector('input[type="color"]');
-        const textInput = group.querySelector('.pwb-color-text');
-        
-        if (colorInput && textInput) {
-          colorInput.addEventListener('input', () => {
-            textInput.value = colorInput.value;
-          });
-          
-          textInput.addEventListener('change', () => {
-            // Validate hex color
-            const hex = textInput.value.trim();
-            if (/^#[0-9A-Fa-f]{6}$/.test(hex)) {
-              colorInput.value = hex;
-            } else {
-              textInput.value = colorInput.value;
-            }
-          });
-        }
-      });
+      setTimeout(() => {
+        notification.classList.add('pwb-notification-visible');
+      }, 10);
       
-      if (themeForm) {
-        themeForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          
-          const submitBtn = themeForm.querySelector('button[type="submit"]');
-          const originalText = submitBtn.innerHTML;
-          submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-          submitBtn.disabled = true;
-          
-          const formData = new FormData(themeForm);
-          
-          fetch(`${editorBasePath}/theme_settings`, {
-            method: 'PATCH',
-            body: formData,
-            headers: {
-              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-            }
-          })
-          .then(res => res.json())
-          .then(data => {
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-            
-            if (data.status === 'success') {
-              // Show success message
-              showNotification('Theme settings saved!', 'success');
-              // Refresh iframe to show changes
-              document.getElementById('pwb-site-frame').contentWindow.location.reload();
-            } else {
-              showNotification('Error saving theme settings', 'error');
-            }
-          })
-          .catch(err => {
-            console.error(err);
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-            showNotification('Error saving theme settings', 'error');
-          });
-        });
-      }
-      
-      // Reset to defaults
-      if (resetBtn) {
-        resetBtn.addEventListener('click', () => {
-          if (confirm('Reset all theme settings to defaults? This cannot be undone.')) {
-            const defaults = {
-              primary_color: '#e91b23',
-              secondary_color: '#3498db',
-              action_color: '#27ae60',
-              footer_bg_color: '#333333',
-              footer_main_text_color: '#ffffff',
-              labels_text_color: '#ffffff'
-            };
-            
-            Object.keys(defaults).forEach(key => {
-              const colorInput = document.getElementById(key);
-              const textInput = document.querySelector(`.pwb-color-text[data-for="${key}"]`);
-              if (colorInput) colorInput.value = defaults[key];
-              if (textInput) textInput.value = defaults[key];
-            });
-          }
-        });
-      }
-      
-      // Notification helper
-      function showNotification(message, type) {
-        const notification = document.createElement('div');
-        notification.className = `pwb-notification pwb-notification-${type}`;
-        notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-          notification.classList.add('pwb-notification-visible');
-        }, 10);
-        
-        setTimeout(() => {
-          notification.classList.remove('pwb-notification-visible');
-          setTimeout(() => notification.remove(), 300);
-        }, 3000);
-      }
-    })();
+      setTimeout(() => {
+        notification.classList.remove('pwb-notification-visible');
+        setTimeout(() => notification.remove(), 300);
+      }, 3000);
+    }
   </script>
 </body>
 </html>

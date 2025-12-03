@@ -10,35 +10,48 @@ test.describe('In-Context Editor', () => {
     test('loads the editor page at /edit', async ({ page }) => {
       await page.goto(`${BASE_URL}/edit`);
       
-      // Check the editor shell structure
-      await expect(page.locator('.pwb-editor-sidebar')).toBeVisible();
+      // Check the editor shell structure - now uses bottom panel layout
+      await expect(page.locator('.pwb-editor-panel')).toBeVisible();
       await expect(page.locator('#pwb-site-frame')).toBeVisible();
       await expect(page.locator('.pwb-editor-toolbar')).toBeVisible();
     });
 
-    test('displays sidebar with navigation tabs', async ({ page }) => {
+    test('displays bottom panel with content editor', async ({ page }) => {
       await page.goto(`${BASE_URL}/edit`);
       
-      // Check navigation tabs
-      await expect(page.locator('a[href="#panel-content"]')).toBeVisible();
-      await expect(page.locator('a[href="#panel-theme"]')).toBeVisible();
-      await expect(page.locator('a[href="#panel-settings"]')).toBeVisible();
+      // Check panel header and content area
+      await expect(page.locator('.pwb-panel-header')).toBeVisible();
+      await expect(page.locator('#panel-content')).toBeVisible();
+      await expect(page.locator('.pwb-panel-title')).toContainText('Content Editor');
     });
 
-    test('can switch between sidebar tabs', async ({ page }) => {
+    test('can toggle panel visibility', async ({ page }) => {
       await page.goto(`${BASE_URL}/edit`);
       
-      // Content tab should be active by default
-      await expect(page.locator('#panel-content')).toHaveClass(/active/);
+      const panel = page.locator('.pwb-editor-panel');
+      const toggleBtn = page.locator('#pwb-toggle-panel');
       
-      // Click Theme tab
-      await page.click('a[href="#panel-theme"]');
-      await expect(page.locator('#panel-theme')).toHaveClass(/active/);
-      await expect(page.locator('#panel-content')).not.toHaveClass(/active/);
+      // Panel should be visible initially
+      await expect(panel).not.toHaveClass(/pwb-panel-collapsed/);
       
-      // Click Settings tab
-      await page.click('a[href="#panel-settings"]');
-      await expect(page.locator('#panel-settings')).toHaveClass(/active/);
+      // Click toggle to collapse
+      await toggleBtn.click();
+      await expect(panel).toHaveClass(/pwb-panel-collapsed/);
+      
+      // Click toggle to expand
+      await toggleBtn.click();
+      await expect(panel).not.toHaveClass(/pwb-panel-collapsed/);
+    });
+
+    test('has resize handle for adjusting panel height', async ({ page }) => {
+      await page.goto(`${BASE_URL}/edit`);
+      
+      const resizeHandle = page.locator('#pwb-resize-handle');
+      await expect(resizeHandle).toBeVisible();
+      
+      // Check cursor style on hover
+      await resizeHandle.hover();
+      await expect(resizeHandle).toHaveCSS('cursor', 'ns-resize');
     });
 
     test('iframe loads the site with edit_mode parameter', async ({ page }) => {
@@ -57,74 +70,6 @@ test.describe('In-Context Editor', () => {
       const exitBtn = page.locator('.pwb-btn-exit');
       await expect(exitBtn).toBeVisible();
       await expect(exitBtn).toHaveAttribute('href', '/');
-    });
-  });
-
-  test.describe('Theme Settings Panel', () => {
-    test('displays color pickers for brand colors', async ({ page }) => {
-      await page.goto(`${BASE_URL}/edit`);
-      
-      // Switch to Theme tab
-      await page.click('a[href="#panel-theme"]');
-      
-      // Check color inputs exist
-      await expect(page.locator('#primary_color')).toBeVisible();
-      await expect(page.locator('#secondary_color')).toBeVisible();
-      await expect(page.locator('#action_color')).toBeVisible();
-    });
-
-    test('displays footer color settings', async ({ page }) => {
-      await page.goto(`${BASE_URL}/edit`);
-      
-      await page.click('a[href="#panel-theme"]');
-      
-      await expect(page.locator('#footer_bg_color')).toBeVisible();
-      await expect(page.locator('#footer_main_text_color')).toBeVisible();
-    });
-
-    test('color picker syncs with text input', async ({ page }) => {
-      await page.goto(`${BASE_URL}/edit`);
-      
-      await page.click('a[href="#panel-theme"]');
-      
-      // Get the primary color input
-      const colorInput = page.locator('#primary_color');
-      const textInput = page.locator('.pwb-color-text[data-for="primary_color"]');
-      
-      // Change the color picker value
-      await colorInput.fill('#ff5500');
-      
-      // The text input should update (may need to trigger input event)
-      await colorInput.dispatchEvent('input');
-      
-      // Check that text input reflects the change
-      const textValue = await textInput.inputValue();
-      expect(textValue.toLowerCase()).toBe('#ff5500');
-    });
-
-    test('has save and reset buttons', async ({ page }) => {
-      await page.goto(`${BASE_URL}/edit`);
-      
-      await page.click('a[href="#panel-theme"]');
-      
-      await expect(page.locator('#pwb-theme-form button[type="submit"]')).toBeVisible();
-      await expect(page.locator('#pwb-reset-theme')).toBeVisible();
-    });
-
-    test('can save theme settings', async ({ page }) => {
-      await page.goto(`${BASE_URL}/edit`);
-      
-      await page.click('a[href="#panel-theme"]');
-      
-      // Change a color value
-      await page.locator('#primary_color').fill('#123456');
-      await page.locator('#primary_color').dispatchEvent('input');
-      
-      // Submit the form
-      await page.click('#pwb-theme-form button[type="submit"]');
-      
-      // Wait for the notification
-      await expect(page.locator('.pwb-notification-success')).toBeVisible({ timeout: 5000 });
     });
   });
 

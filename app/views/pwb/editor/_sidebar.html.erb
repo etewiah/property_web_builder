@@ -1,137 +1,17 @@
-<div class="pwb-sidebar-header">
-  <div class="pwb-logo">
-    <i class="fas fa-home"></i> PWB Editor
-  </div>
+<div class="pwb-panel-resize-handle" id="pwb-resize-handle"></div>
+
+<div class="pwb-panel-header">
+  <span class="pwb-panel-title">
+    <i class="fas fa-pencil-alt"></i> Content Editor
+  </span>
+  <button type="button" class="pwb-panel-toggle" id="pwb-toggle-panel" title="Toggle panel">
+    <i class="fas fa-chevron-down"></i>
+  </button>
 </div>
 
-<div class="pwb-sidebar-nav">
-  <a href="#panel-content" class="pwb-nav-item active">
-    <i class="fas fa-pencil-alt"></i> Content
-  </a>
-  <a href="#panel-theme" class="pwb-nav-item">
-    <i class="fas fa-palette"></i> Theme
-  </a>
-  <a href="#panel-settings" class="pwb-nav-item">
-    <i class="fas fa-cog"></i> Settings
-  </a>
-</div>
-
-<div class="pwb-sidebar-content">
-  <div class="pwb-panel active" id="panel-content">
-    <h3>Page Content</h3>
-    <p class="pwb-muted">Select an element on the page to edit.</p>
-    
-    <div class="pwb-alert-info">
-      <i class="fas fa-info-circle"></i>
-      Clicking elements in the preview will open their editor here.
-    </div>
+<div class="pwb-panel-content" id="panel-content">
+  <div class="pwb-panel-placeholder">
+    <i class="fas fa-mouse-pointer"></i>
+    <p>Click an editable element on the page to edit its content.</p>
   </div>
-
-  <div class="pwb-panel" id="panel-theme">
-    <h3>Theme Settings</h3>
-    <p class="pwb-muted">Customize colors and fonts for your site.</p>
-    
-    <form id="pwb-theme-form" class="pwb-editor-form">
-      <div class="pwb-form-section">
-        <h4>Brand Colors</h4>
-        
-        <div class="pwb-form-group">
-          <label for="primary_color">Primary Color</label>
-          <div class="pwb-color-input">
-            <input type="color" id="primary_color" name="style_variables[primary_color]" 
-                   value="<%= @current_website.style_variables['primary_color'] || '#e91b23' %>">
-            <input type="text" class="pwb-color-text" 
-                   value="<%= @current_website.style_variables['primary_color'] || '#e91b23' %>"
-                   data-for="primary_color">
-          </div>
-          <small class="pwb-help-text">Used for headers, buttons, and highlights</small>
-        </div>
-        
-        <div class="pwb-form-group">
-          <label for="secondary_color">Secondary Color</label>
-          <div class="pwb-color-input">
-            <input type="color" id="secondary_color" name="style_variables[secondary_color]" 
-                   value="<%= @current_website.style_variables['secondary_color'] || '#3498db' %>">
-            <input type="text" class="pwb-color-text" 
-                   value="<%= @current_website.style_variables['secondary_color'] || '#3498db' %>"
-                   data-for="secondary_color">
-          </div>
-          <small class="pwb-help-text">Used for secondary elements and accents</small>
-        </div>
-        
-        <div class="pwb-form-group">
-          <label for="action_color">Action Color</label>
-          <div class="pwb-color-input">
-            <input type="color" id="action_color" name="style_variables[action_color]" 
-                   value="<%= @current_website.style_variables['action_color'] || '#27ae60' %>">
-            <input type="text" class="pwb-color-text" 
-                   value="<%= @current_website.style_variables['action_color'] || '#27ae60' %>"
-                   data-for="action_color">
-          </div>
-          <small class="pwb-help-text">Used for call-to-action buttons and links</small>
-        </div>
-      </div>
-      
-      <div class="pwb-form-section">
-        <h4>Footer</h4>
-        
-        <div class="pwb-form-group">
-          <label for="footer_bg_color">Footer Background</label>
-          <div class="pwb-color-input">
-            <input type="color" id="footer_bg_color" name="style_variables[footer_bg_color]" 
-                   value="<%= @current_website.style_variables['footer_bg_color'] || '#333333' %>">
-            <input type="text" class="pwb-color-text" 
-                   value="<%= @current_website.style_variables['footer_bg_color'] || '#333333' %>"
-                   data-for="footer_bg_color">
-          </div>
-        </div>
-        
-        <div class="pwb-form-group">
-          <label for="footer_main_text_color">Footer Text Color</label>
-          <div class="pwb-color-input">
-            <input type="color" id="footer_main_text_color" name="style_variables[footer_main_text_color]" 
-                   value="<%= @current_website.style_variables['footer_main_text_color'] || '#ffffff' %>">
-            <input type="text" class="pwb-color-text" 
-                   value="<%= @current_website.style_variables['footer_main_text_color'] || '#ffffff' %>"
-                   data-for="footer_main_text_color">
-          </div>
-        </div>
-      </div>
-      
-      <div class="pwb-form-section">
-        <h4>Typography</h4>
-        
-        <div class="pwb-form-group">
-          <label for="labels_text_color">Labels Text Color</label>
-          <div class="pwb-color-input">
-            <input type="color" id="labels_text_color" name="style_variables[labels_text_color]" 
-                   value="<%= @current_website.style_variables['labels_text_color'] || '#ffffff' %>">
-            <input type="text" class="pwb-color-text" 
-                   value="<%= @current_website.style_variables['labels_text_color'] || '#ffffff' %>"
-                   data-for="labels_text_color">
-          </div>
-          <small class="pwb-help-text">Text color on colored backgrounds</small>
-        </div>
-      </div>
-      
-      <div class="pwb-form-actions">
-        <button type="submit" class="pwb-btn pwb-btn-primary pwb-btn-block">
-          <i class="fas fa-save"></i> Save Theme Settings
-        </button>
-        <button type="button" id="pwb-reset-theme" class="pwb-btn pwb-btn-secondary pwb-btn-block">
-          <i class="fas fa-undo"></i> Reset to Defaults
-        </button>
-      </div>
-    </form>
-  </div>
-
-  <div class="pwb-panel" id="panel-settings">
-    <h3>Page Settings</h3>
-    <p class="pwb-muted">SEO and metadata.</p>
-    <!-- Page settings will go here -->
-  </div>
-</div>
-
-<div class="pwb-sidebar-footer">
-  <span class="pwb-footer-text">Theme: <%= @current_website.theme_name || 'default' %></span>
 </div>
