@@ -1,0 +1,263 @@
+<div class="max-w-6xl mx-auto">
+  <div class="mb-6">
+    <%= link_to '← Back to Properties', site_admin_props_path, class: 'text-blue-600 hover:text-blue-800' %>
+  </div>
+
+  <!-- Property Header -->
+  <div class="bg-white rounded-lg shadow mb-6 p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Edit Property</h1>
+        <p class="text-gray-600 mt-1">REF: <%= @prop.reference %></p>
+      </div>
+      <div class="flex items-center space-x-4 text-gray-600">
+        <span class="flex items-center">
+          <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+          </svg>
+          <%= @prop.count_bedrooms || 0 %>
+        </span>
+        <span class="flex items-center">
+          <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd"></path>
+          </svg>
+          <%= @prop.count_bathrooms || 0 %>
+        </span>
+        <span class="flex items-center">
+          <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+          </svg>
+          <%= @prop.constructed_area || 0 %> m²
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Form -->
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <!-- Tab Navigation -->
+    <div class="border-b border-gray-200">
+      <nav class="flex -mb-px" role="tablist">
+        <button type="button" onclick="showTab('general')" id="general-tab" class="px-6 py-4 text-sm font-medium text-blue-600 border-b-2 border-blue-600">
+          GENERAL
+        </button>
+        <button type="button" onclick="showTab('text')" id="text-tab" class="px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700 border-b-2 border-transparent">
+          TEXT
+        </button>
+        <button type="button" class="px-6 py-4 text-sm font-medium text-gray-400 border-b-2 border-transparent cursor-not-allowed" disabled>
+          SALE / RENTAL
+        </button>
+        <button type="button" class="px-6 py-4 text-sm font-medium text-gray-400 border-b-2 border-transparent cursor-not-allowed" disabled>
+          LOCATION
+        </button>
+        <button type="button" class="px-6 py-4 text-sm font-medium text-gray-400 border-b-2 border-transparent cursor-not-allowed" disabled>
+          FEATURES
+        </button>
+        <button type="button" class="px-6 py-4 text-sm font-medium text-gray-400 border-b-2 border-transparent cursor-not-allowed" disabled>
+          PHOTOS
+        </button>
+      </nav>
+    </div>
+
+    <script>
+      function showTab(tabName) {
+        // Hide all tabs
+        document.getElementById('general-content').classList.add('hidden');
+        document.getElementById('text-content').classList.add('hidden');
+
+        // Remove active styling from all tabs
+        document.getElementById('general-tab').classList.remove('text-blue-600', 'border-blue-600');
+        document.getElementById('general-tab').classList.add('text-gray-500', 'border-transparent');
+        document.getElementById('text-tab').classList.remove('text-blue-600', 'border-blue-600');
+        document.getElementById('text-tab').classList.add('text-gray-500', 'border-transparent');
+
+        // Show selected tab
+        document.getElementById(tabName + '-content').classList.remove('hidden');
+
+        // Add active styling to selected tab
+        document.getElementById(tabName + '-tab').classList.add('text-blue-600', 'border-blue-600');
+        document.getElementById(tabName + '-tab').classList.remove('text-gray-500', 'border-transparent');
+      }
+    </script>
+
+    <!-- Form Content -->
+    <div class="p-6">
+      <%= form_with model: @prop, url: site_admin_prop_path(@prop), method: :patch, local: true do |f| %>
+
+        <!-- GENERAL Tab Content -->
+        <div id="general-content">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Left Column -->
+          <div class="space-y-6">
+            <!-- Visible on website -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Visible on website
+                <span class="text-blue-500 ml-1 cursor-help" title="Show this property on the website">ⓘ</span>
+              </label>
+              <div class="flex items-center space-x-4">
+                <label class="flex items-center">
+                  <%= f.radio_button :visible, true, class: "text-blue-600 focus:ring-blue-500" %>
+                  <span class="ml-2 text-sm text-gray-700">yes</span>
+                </label>
+                <label class="flex items-center">
+                  <%= f.radio_button :visible, false, class: "text-blue-600 focus:ring-blue-500" %>
+                  <span class="ml-2 text-sm text-gray-700">no</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Currency -->
+            <div>
+              <label for="prop_currency" class="block text-sm font-medium text-gray-700 mb-2">Currency</label>
+              <%= f.select :currency,
+                  [['Euros', 'EUR'], ['US Dollars', 'USD'], ['British Pounds', 'GBP']],
+                  { selected: @prop.currency || 'EUR' },
+                  class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+
+            <!-- Type -->
+            <div>
+              <label for="prop_type" class="block text-sm font-medium text-gray-700 mb-2">Type</label>
+              <%= f.select :prop_type_key,
+                  [['Apartment', 'apartment'], ['House', 'house'], ['Villa', 'villa'], ['Land', 'land'], ['Commercial', 'commercial']],
+                  { include_blank: 'Select type...', selected: @prop.prop_type_key },
+                  class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+
+            <!-- State -->
+            <div>
+              <label for="prop_state" class="block text-sm font-medium text-gray-700 mb-2">State</label>
+              <%= f.select :prop_state_key,
+                  [['New', 'new'], ['Good', 'good'], ['To Reform', 'to_reform']],
+                  { include_blank: 'Select state...', selected: @prop.prop_state_key },
+                  class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="space-y-6">
+            <!-- Reference No -->
+            <div>
+              <label for="prop_reference" class="block text-sm font-medium text-gray-700 mb-2">
+                Reference No
+                <span class="text-blue-500 ml-1 cursor-help" title="Unique property reference">ⓘ</span>
+              </label>
+              <%= f.text_field :reference, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+
+            <!-- Bedrooms -->
+            <div>
+              <label for="prop_bedrooms" class="block text-sm font-medium text-gray-700 mb-2">Bedrooms</label>
+              <%= f.number_field :count_bedrooms, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+
+            <!-- Bathrooms -->
+            <div>
+              <label for="prop_bathrooms" class="block text-sm font-medium text-gray-700 mb-2">Bathrooms</label>
+              <%= f.number_field :count_bathrooms, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+
+            <!-- Garage -->
+            <div>
+              <label for="prop_garage" class="block text-sm font-medium text-gray-700 mb-2">Garage</label>
+              <%= f.number_field :count_garages, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+
+            <!-- Construction Year -->
+            <div>
+              <label for="prop_construction_year" class="block text-sm font-medium text-gray-700 mb-2">Construction Year</label>
+              <%= f.number_field :year_construction, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Fields (Full Width) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <!-- Plot Area -->
+          <div>
+            <label for="prop_plot_area" class="block text-sm font-medium text-gray-700 mb-2">Plot Area</label>
+            <%= f.number_field :plot_area, step: 0.01, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          </div>
+
+          <!-- Constructed Area -->
+          <div>
+            <label for="prop_constructed_area" class="block text-sm font-medium text-gray-700 mb-2">Constructed Area</label>
+            <%= f.number_field :constructed_area, step: 0.01, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          </div>
+        </div>
+
+        <!-- Area Unit -->
+        <div class="mt-6">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Area Unit</label>
+          <div class="flex items-center space-x-4">
+            <label class="flex items-center">
+              <%= f.radio_button :area_unit, 'sqm', class: "text-blue-600 focus:ring-blue-500" %>
+              <span class="ml-2 text-sm text-gray-700">Square Meters</span>
+            </label>
+            <label class="flex items-center">
+              <%= f.radio_button :area_unit, 'sqft', class: "text-blue-600 focus:ring-blue-500" %>
+              <span class="ml-2 text-sm text-gray-700">Square Feet</span>
+            </label>
+          </div>
+        </div>
+        </div>
+        <!-- END GENERAL Tab Content -->
+
+        <!-- TEXT Tab Content -->
+        <div id="text-content" class="hidden">
+          <div class="mb-6">
+            <p class="text-sm text-gray-600">Edit property title and description for each language. The system supports <%= I18n.available_locales.count %> languages.</p>
+          </div>
+
+          <% I18n.available_locales.each do |locale| %>
+            <div class="mb-8 pb-8 border-b border-gray-200 last:border-0">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                <%= locale.to_s.upcase %>
+                <span class="text-sm font-normal text-gray-500">(<%= I18n.t("locales.#{locale}", default: locale.to_s.titleize) %>)</span>
+              </h3>
+
+              <%= f.fields_for :translations_attributes, @prop.translations.find_or_initialize_by(locale: locale) do |translation_fields| %>
+                <%= translation_fields.hidden_field :locale, value: locale %>
+                <%= translation_fields.hidden_field :id if translation_fields.object.persisted? %>
+
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                      Title (<%= locale %>)
+                    </label>
+                    <%= translation_fields.text_field :title,
+                        class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                        placeholder: "Property title in #{locale}..." %>
+                  </div>
+
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                      Description (<%= locale %>)
+                    </label>
+                    <%= translation_fields.text_area :description,
+                        rows: 6,
+                        class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                        placeholder: "Property description in #{locale}..." %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+        <!-- END TEXT Tab Content -->
+
+        <!-- Form Actions -->
+        <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
+          <button type="button" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500" onclick="if(confirm('Are you sure you want to delete this property?')) { alert('Delete functionality not implemented yet'); }">
+            DELETE PROPERTY
+          </button>
+          <div class="flex space-x-3">
+            <%= link_to 'Cancel', site_admin_prop_path(@prop), class: 'px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50' %>
+            <%= f.submit 'Save Changes', class: 'px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

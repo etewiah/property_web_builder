@@ -41,7 +41,18 @@ Rails.application.routes.draw do
   namespace :site_admin do
     root to: 'dashboard#index'
 
-    resources :props, only: [:index, :show]
+    resources :props, only: [:index, :show] do
+      member do
+        get 'edit/general', to: 'props#edit_general', as: 'edit_general'
+        get 'edit/text', to: 'props#edit_text', as: 'edit_text'
+        get 'edit/sale_rental', to: 'props#edit_sale_rental', as: 'edit_sale_rental'
+        get 'edit/location', to: 'props#edit_location', as: 'edit_location'
+        get 'edit/features', to: 'props#edit_features', as: 'edit_features'
+        get 'edit/photos', to: 'props#edit_photos', as: 'edit_photos'
+        get 'edit', to: 'props#edit_general' # Default to general tab
+        patch :update
+      end
+    end
     resources :pages, only: [:index, :show, :edit, :update]
     resources :page_parts, only: [:index, :show]
     resources :contents, only: [:index, :show]

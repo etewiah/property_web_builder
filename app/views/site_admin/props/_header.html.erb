@@ -1,0 +1,33 @@
+<div class="mb-6">
+  <%= link_to '← Back to Properties', site_admin_props_path, class: 'text-blue-600 hover:text-blue-800' %>
+</div>
+
+<!-- Property Header -->
+<div class="bg-white rounded-lg shadow mb-6 p-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Edit Property</h1>
+      <p class="text-gray-600 mt-1">REF: <%= @prop.reference %></p>
+    </div>
+    <div class="flex items-center space-x-4 text-gray-600">
+      <span class="flex items-center">
+        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+        </svg>
+        <%= @prop.count_bedrooms || 0 %>
+      </span>
+      <span class="flex items-center">
+        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd"></path>
+        </svg>
+        <%= @prop.count_bathrooms || 0 %>
+      </span>
+      <span class="flex items-center">
+        <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+        </svg>
+        <%= @prop.constructed_area || 0 %> m²
+      </span>
+    </div>
+  </div>
+</div>

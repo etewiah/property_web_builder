@@ -41,7 +41,8 @@
                 <%= format_date(prop.created_at) %>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm">
-                <%= link_to 'View', site_admin_prop_path(prop), class: 'text-blue-600 hover:text-blue-800' %>
+                <%= link_to 'View', site_admin_prop_path(prop), class: 'text-blue-600 hover:text-blue-800 mr-3' %>
+                <%= link_to 'Edit', edit_site_admin_prop_path(prop), class: 'text-green-600 hover:text-green-800' %>
               </td>
             </tr>
           <% end %>

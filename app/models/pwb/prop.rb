@@ -3,6 +3,7 @@ module Pwb
     belongs_to :website, optional: true
     translates :title, :description
     globalize_accessors locales: I18n.available_locales
+    accepts_nested_attributes_for :translations
     # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
     attribute :area_unit, :integer
     enum :area_unit, { sqmt: 0, sqft: 1 }
