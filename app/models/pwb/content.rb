@@ -1,5 +1,7 @@
 module Pwb
   class Content < ApplicationRecord
+    extend Mobility
+
     belongs_to :website, optional: true
     has_many :content_photos, dependent: :destroy
     # belongs_to :section, optional: true, foreign_key: "section_key", primary_key: "link_path"
@@ -7,11 +9,9 @@ module Pwb
     has_many :pages, through: :page_contents
     # , :uniq => true
 
-    translates :raw, fallbacks_for_empty_translations: true
-    globalize_accessors locales: I18n.available_locales
-    # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
-
-    attribute :raw
+    # Mobility translations with container backend (single JSONB column)
+    # Fallbacks configured globally in mobility.rb initializer
+    translates :raw
 
     def as_json(options = nil)
       super({only: [
@@ -22,7 +22,19 @@ module Pwb
     end
 
     def admin_attribute_names
-      globalize_attribute_names.push :content_photos
+      # Returns locale-specific attribute names for serialization (replaces globalize_attribute_names)
+      mobility_attribute_names + [:content_photos]
+    end
+
+    # Helper method to generate locale-specific attribute names
+    def mobility_attribute_names
+      attributes = []
+      self.class.mobility_attributes.each do |attr|
+        I18n.available_locales.each do |locale|
+          attributes << "#{attr}_#{locale}".to_sym
+        end
+      end
+      attributes
     end
 
     def default_photo

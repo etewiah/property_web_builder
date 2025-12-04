@@ -66,5 +66,15 @@ FactoryBot.define do
       price_rental_monthly_current_cents { 600_00 } # 600 EUR/month
       for_rent_long_term { true }
     end
+
+    trait :with_translations do
+      after(:create) do |listing|
+        listing.title_en = 'Test Rental Property'
+        listing.description_en = 'A beautiful rental property'
+        listing.title_es = 'Propiedad de Alquiler de Prueba'
+        listing.description_es = 'Una hermosa propiedad de alquiler'
+        listing.save!
+      end
+    end
   end
 end

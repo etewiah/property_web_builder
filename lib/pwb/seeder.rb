@@ -138,10 +138,12 @@ module Pwb
           "currency" => prop.currency || "EUR"
         )
 
-        # Add translations
-        prop.translations.each do |translation|
-          prop_data["title_#{translation.locale}"] = translation.title
-          prop_data["description_#{translation.locale}"] = translation.description
+        # Add translations from Mobility JSONB column
+        if prop.translations.present?
+          prop.translations.each do |locale, attrs|
+            prop_data["title_#{locale}"] = attrs['title'] if attrs['title'].present?
+            prop_data["description_#{locale}"] = attrs['description'] if attrs['description'].present?
+          end
         end
 
         create_normalized_property_records(prop_data, [])
@@ -350,20 +352,19 @@ module Pwb
         end
 
         # Create translations for the asset
-        %w[en es ca de fr it nl pl pt ro ru ko bg].each do |locale|
-          title = prop_data["title_#{locale}"]
-          description = prop_data["description_#{locale}"]
-          next unless title.present? || description.present?
+        # Set translations on the prop using Mobility JSONB column
+        prop = current_website.props.find_by(reference: prop_data["reference"])
+        if prop
+          %w[en es ca de fr it nl pl pt ro ru ko bg].each do |locale|
+            title = prop_data["title_#{locale}"]
+            description = prop_data["description_#{locale}"]
+            next unless title.present? || description.present?
 
-          # Create translation linked to both legacy prop and new asset
-          prop = current_website.props.find_by(reference: prop_data["reference"])
-          Pwb::Prop::Translation.create!(
-            prop_id: prop&.id,
-            realty_asset_id: asset.id,
-            locale: locale,
-            title: title,
-            description: description
-          )
+            # Set translations using Mobility locale accessors
+            prop.send("title_#{locale}=", title) if title.present? && prop.respond_to?("title_#{locale}=")
+            prop.send("description_#{locale}=", description) if description.present? && prop.respond_to?("description_#{locale}=")
+          end
+          prop.save!
         end
 
         # Link photos to the asset (they're already created with prop_id)

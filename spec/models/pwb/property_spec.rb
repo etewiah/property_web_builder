@@ -152,8 +152,8 @@ module Pwb
     end
 
     describe 'associations' do
-      let!(:asset) { create(:pwb_realty_asset, :with_photos, :with_features, :with_translations, website: website) }
-      let!(:sale_listing) { create(:pwb_sale_listing, :visible, realty_asset: asset) }
+      let!(:asset) { create(:pwb_realty_asset, :with_photos, :with_features, website: website) }
+      let!(:sale_listing) { create(:pwb_sale_listing, :visible, :with_translations, realty_asset: asset) }
 
       before { Pwb::Property.refresh }
 
@@ -167,9 +167,13 @@ module Pwb
         expect(property.features.count).to eq(2)
       end
 
-      it 'has access to translations' do
+      it 'has access to translations via listing' do
+        # Translations are now stored on listings via Mobility
         property = Property.find(asset.id)
-        expect(property.translations.count).to eq(2)
+        listing = property.sale_listing
+        expect(listing).to be_present
+        expect(listing.title_en).to be_present
+        expect(listing.title_es).to be_present
       end
 
       it 'belongs to website' do
@@ -205,22 +209,22 @@ module Pwb
     end
 
     describe 'title and description' do
-      let!(:asset) { create(:pwb_realty_asset, :with_translations, website: website) }
-      let!(:sale_listing) { create(:pwb_sale_listing, :visible, realty_asset: asset) }
+      let!(:asset) { create(:pwb_realty_asset, website: website) }
+      let!(:sale_listing) { create(:pwb_sale_listing, :visible, :with_translations, realty_asset: asset) }
 
       before { Pwb::Property.refresh }
 
-      it '#title returns translated title' do
+      it '#title returns translated title from listing' do
         property = Property.find(asset.id)
         expect(property.title).to eq('Test Property Title')
       end
 
-      it '#description returns translated description' do
+      it '#description returns translated description from listing' do
         property = Property.find(asset.id)
         expect(property.description).to eq('A beautiful test property')
       end
 
-      it 'provides locale-specific title methods' do
+      it 'provides locale-specific title methods from listing' do
         property = Property.find(asset.id)
         expect(property.title_en).to eq('Test Property Title')
         expect(property.title_es).to eq('Titulo de Propiedad de Prueba')
@@ -375,8 +379,8 @@ module Pwb
     end
 
     describe 'URL methods' do
-      let!(:asset) { create(:pwb_realty_asset, :with_translations, website: website) }
-      let!(:sale_listing) { create(:pwb_sale_listing, :visible, realty_asset: asset) }
+      let!(:asset) { create(:pwb_realty_asset, website: website) }
+      let!(:sale_listing) { create(:pwb_sale_listing, :visible, :with_translations, realty_asset: asset) }
 
       before { Pwb::Property.refresh }
 
@@ -433,8 +437,8 @@ module Pwb
     end
 
     describe 'JSON serialization' do
-      let!(:asset) { create(:pwb_realty_asset, :with_translations, :with_photos, website: website) }
-      let!(:sale_listing) { create(:pwb_sale_listing, :visible, realty_asset: asset) }
+      let!(:asset) { create(:pwb_realty_asset, :with_photos, website: website) }
+      let!(:sale_listing) { create(:pwb_sale_listing, :visible, :with_translations, realty_asset: asset) }
 
       before { Pwb::Property.refresh }
 

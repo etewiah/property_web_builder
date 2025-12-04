@@ -1,10 +1,13 @@
 module Pwb
   class Prop < ApplicationRecord
+    extend Mobility
+
     belongs_to :website, optional: true
+
+    # Mobility translations with container backend (single JSONB column)
+    # locale_accessors configured globally provides title_en, title_es, etc.
     translates :title, :description
-    globalize_accessors locales: I18n.available_locales
-    accepts_nested_attributes_for :translations
-    # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
+
     attribute :area_unit, :integer
     enum :area_unit, { sqmt: 0, sqft: 1 }
 
@@ -28,10 +31,6 @@ module Pwb
 
     # Removed automatic geocoding - now only happens when explicitly requested
     # after_validation :geocode
-
-    # below needed to avoid "... is not an attribute known to Active Record" warnings
-    attribute :title
-    attribute :description
 
     # Use EUR as model level currency
     # register_currency :eur

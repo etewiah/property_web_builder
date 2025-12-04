@@ -18,7 +18,8 @@ module Pwb
     belongs_to :website, class_name: 'Pwb::Website', optional: true
     has_many :prop_photos, class_name: 'Pwb::PropPhoto', foreign_key: 'realty_asset_id', primary_key: 'id'
     has_many :features, class_name: 'Pwb::Feature', foreign_key: 'realty_asset_id', primary_key: 'id'
-    has_many :translations, class_name: 'Pwb::Prop::Translation', foreign_key: 'realty_asset_id', primary_key: 'id'
+    # Note: Translations are now stored in pwb_props.translations JSONB column via Mobility
+    # Access via the prop model if needed: prop.title, prop.description
 
     # Underlying models for write operations
     def realty_asset
@@ -96,29 +97,28 @@ module Pwb
     scope :bedrooms_from, ->(min_count) { where("count_bedrooms >= ?", min_count.to_s) }
 
     # ============================================
-    # Title/Description (from translations)
+    # Title/Description (from listing via Mobility)
     # ============================================
+    # Title and description are marketing text stored on the listing,
+    # not the underlying RealtyAsset. We check sale_listing first,
+    # then rental_listing.
 
     def title
-      translations.find_by(locale: I18n.locale.to_s)&.title ||
-        translations.find_by(locale: I18n.default_locale.to_s)&.title ||
-        translations.first&.title
+      sale_listing&.title || rental_listing&.title
     end
 
     def description
-      translations.find_by(locale: I18n.locale.to_s)&.description ||
-        translations.find_by(locale: I18n.default_locale.to_s)&.description ||
-        translations.first&.description
+      sale_listing&.description || rental_listing&.description
     end
 
     # Dynamic locale-specific title/description accessors
     I18n.available_locales.each do |locale|
       define_method("title_#{locale}") do
-        translations.find_by(locale: locale.to_s)&.title
+        sale_listing&.send("title_#{locale}") || rental_listing&.send("title_#{locale}")
       end
 
       define_method("description_#{locale}") do
-        translations.find_by(locale: locale.to_s)&.description
+        sale_listing&.send("description_#{locale}") || rental_listing&.send("description_#{locale}")
       end
     end
 

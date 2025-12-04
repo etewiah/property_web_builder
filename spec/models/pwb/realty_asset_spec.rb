@@ -135,19 +135,22 @@ module Pwb
     end
 
     describe 'title and description' do
-      let(:asset_with_translations) { create(:pwb_realty_asset, :with_translations, website: website) }
+      # RealtyAsset represents the physical property, not the listing.
+      # Title and description belong to listings (SaleListing/RentalListing).
 
-      it 'returns title from translations' do
-        expect(asset_with_translations.title).to eq('Test Property Title')
-      end
-
-      it 'returns description from translations' do
-        expect(asset_with_translations.description).to eq('A beautiful test property')
-      end
-
-      it 'returns nil when no translations exist' do
+      it 'returns nil for title (marketing text belongs to listings)' do
         expect(realty_asset.title).to be_nil
+      end
+
+      it 'returns nil for description (marketing text belongs to listings)' do
         expect(realty_asset.description).to be_nil
+      end
+
+      it 'listings have their own title and description' do
+        asset = create(:pwb_realty_asset, website: website)
+        listing = create(:pwb_sale_listing, :visible, :with_translations, realty_asset: asset)
+        expect(listing.title).to eq('Test Property Title')
+        expect(listing.description).to eq('A beautiful test property')
       end
     end
 

@@ -65,29 +65,10 @@ FactoryBot.define do
     end
 
     trait :with_translations do
+      # Creates a sale listing with translations
+      # Translations now belong to listings, not the asset itself
       after(:create) do |asset|
-        # Create a legacy Pwb::Prop record to satisfy Globalize's globalized_model requirement
-        # This is necessary during the migration period while translations are still managed through Pwb::Prop
-        prop = Pwb::Prop.create!(
-          website: asset.website,
-          reference: asset.reference
-        )
-
-        # Create translations linked to both the prop (for Globalize) and the asset
-        Pwb::Prop::Translation.create!(
-          prop_id: prop.id,
-          realty_asset_id: asset.id,
-          locale: 'en',
-          title: 'Test Property Title',
-          description: 'A beautiful test property'
-        )
-        Pwb::Prop::Translation.create!(
-          prop_id: prop.id,
-          realty_asset_id: asset.id,
-          locale: 'es',
-          title: 'Titulo de Propiedad de Prueba',
-          description: 'Una hermosa propiedad de prueba'
-        )
+        create(:pwb_sale_listing, :visible, :with_translations, realty_asset: asset)
       end
     end
   end

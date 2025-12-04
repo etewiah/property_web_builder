@@ -45,5 +45,15 @@ FactoryBot.define do
       price_sale_current_cents { 100_000_00 } # 100,000 EUR
       commission_cents { 3_000_00 }
     end
+
+    trait :with_translations do
+      after(:create) do |listing|
+        listing.title_en = 'Test Property Title'
+        listing.description_en = 'A beautiful test property'
+        listing.title_es = 'Titulo de Propiedad de Prueba'
+        listing.description_es = 'Una hermosa propiedad de prueba'
+        listing.save!
+      end
+    end
   end
 end

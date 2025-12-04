@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_04_185426) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_04_220001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -198,6 +198,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_185426) do
     t.string "section_key"
     t.string "page_part_key"
     t.integer "website_id"
+    t.jsonb "translations", default: {}, null: false
+    t.index ["translations"], name: "index_pwb_contents_on_translations", using: :gin
     t.index ["website_id", "key"], name: "index_pwb_contents_on_website_id_and_key", unique: true
     t.index ["website_id"], name: "index_pwb_contents_on_website_id"
   end
@@ -256,9 +258,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_185426) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "website_id"
+    t.jsonb "translations", default: {}, null: false
     t.index ["flags"], name: "index_pwb_links_on_flags"
     t.index ["page_slug"], name: "index_pwb_links_on_page_slug"
     t.index ["placement"], name: "index_pwb_links_on_placement"
+    t.index ["translations"], name: "index_pwb_links_on_translations", using: :gin
     t.index ["website_id", "slug"], name: "index_pwb_links_on_website_id_and_slug", unique: true
     t.index ["website_id"], name: "index_pwb_links_on_website_id"
   end
@@ -347,10 +351,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_185426) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "website_id"
+    t.jsonb "translations", default: {}, null: false
     t.index ["flags"], name: "index_pwb_pages_on_flags"
     t.index ["show_in_footer"], name: "index_pwb_pages_on_show_in_footer"
     t.index ["show_in_top_nav"], name: "index_pwb_pages_on_show_in_top_nav"
     t.index ["slug", "website_id"], name: "index_pwb_pages_on_slug_and_website_id", unique: true
+    t.index ["translations"], name: "index_pwb_pages_on_translations", using: :gin
     t.index ["website_id"], name: "index_pwb_pages_on_website_id"
   end
 
@@ -447,6 +453,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_185426) do
     t.datetime "updated_at", precision: nil, null: false
     t.integer "area_unit", default: 0
     t.integer "website_id"
+    t.jsonb "translations", default: {}, null: false
     t.index ["archived"], name: "index_pwb_props_on_archived"
     t.index ["flags"], name: "index_pwb_props_on_flags"
     t.index ["for_rent_long_term"], name: "index_pwb_props_on_for_rent_long_term"
@@ -457,6 +464,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_185426) do
     t.index ["price_rental_monthly_current_cents"], name: "index_pwb_props_on_price_rental_monthly_current_cents"
     t.index ["price_sale_current_cents"], name: "index_pwb_props_on_price_sale_current_cents"
     t.index ["reference"], name: "index_pwb_props_on_reference"
+    t.index ["translations"], name: "index_pwb_props_on_translations", using: :gin
     t.index ["visible"], name: "index_pwb_props_on_visible"
     t.index ["website_id"], name: "index_pwb_props_on_website_id"
   end
@@ -489,6 +497,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_185426) do
     t.integer "website_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "translations", default: {}, null: false
+    t.index ["translations"], name: "index_pwb_realty_assets_on_translations", using: :gin
     t.index ["website_id"], name: "index_pwb_realty_assets_on_website_id"
   end
 
@@ -508,7 +518,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_185426) do
     t.bigint "price_rental_monthly_high_season_cents", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "translations", default: {}, null: false
     t.index ["realty_asset_id"], name: "index_pwb_rental_listings_on_realty_asset_id"
+    t.index ["translations"], name: "index_pwb_rental_listings_on_translations", using: :gin
   end
 
   create_table "pwb_sale_listings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -525,7 +537,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_185426) do
     t.string "commission_currency", default: "EUR"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "translations", default: {}, null: false
     t.index ["realty_asset_id"], name: "index_pwb_sale_listings_on_realty_asset_id"
+    t.index ["translations"], name: "index_pwb_sale_listings_on_translations", using: :gin
   end
 
   create_table "pwb_user_memberships", force: :cascade do |t|

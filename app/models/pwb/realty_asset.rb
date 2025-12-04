@@ -17,7 +17,8 @@ module Pwb
     has_many :rental_listings, class_name: 'Pwb::RentalListing', foreign_key: 'realty_asset_id', dependent: :destroy
     has_many :prop_photos, -> { order "sort_order asc" }, class_name: 'Pwb::PropPhoto', foreign_key: 'realty_asset_id', dependent: :destroy
     has_many :features, class_name: 'Pwb::Feature', foreign_key: 'realty_asset_id', dependent: :destroy
-    has_many :translations, class_name: 'Pwb::Prop::Translation', foreign_key: 'realty_asset_id', dependent: :destroy
+    # Note: Translations are now stored in pwb_props.translations JSONB column via Mobility
+    # Access via the associated prop model
 
     belongs_to :website, class_name: 'Pwb::Website', optional: true
 
@@ -87,19 +88,19 @@ module Pwb
     end
 
     # ============================================
-    # Title/Description from translations
+    # Title/Description
     # ============================================
+    # Note: RealtyAsset represents the physical property, not the listing.
+    # Title and description are marketing text that belong to the listing
+    # (SaleListing or RentalListing), not the underlying asset.
+    # These methods return nil; use listing.title/description instead.
 
     def title
-      translations.find_by(locale: I18n.locale.to_s)&.title ||
-        translations.find_by(locale: I18n.default_locale.to_s)&.title ||
-        translations.first&.title
+      nil
     end
 
     def description
-      translations.find_by(locale: I18n.locale.to_s)&.description ||
-        translations.find_by(locale: I18n.default_locale.to_s)&.description ||
-        translations.first&.description
+      nil
     end
 
     # ============================================

@@ -2,6 +2,8 @@ module Pwb
   # added July 2017
   # has details json col where page_fragment info is stored
   class Page < ApplicationRecord
+    extend Mobility
+
     belongs_to :website, optional: true
     extend ActiveHash::Associations::ActiveRecordExtensions
     # belongs_to_active_hash :page_setup, optional: true, foreign_key: "setup_id", class_name: "Pwb::PageSetup", shortcuts: [:friendly_name], primary_key: "id"
@@ -22,18 +24,9 @@ module Pwb
     # @page.ordered_visible_contents.first will return nill
     # @page.ordered_visible_contents.all.first will return content
 
-    translates :raw_html, fallbacks_for_empty_translations: true
-    translates :page_title, fallbacks_for_empty_translations: true
-    translates :link_title, fallbacks_for_empty_translations: true
-    # globalize_accessors locales: [:en, :ca, :es, :fr, :ar, :de, :ru, :pt]
-    globalize_accessors locales: I18n.available_locales
-
-    # Pwb::Page.has_attribute?("raw_html")
-    # below needed so above returns true
-    attribute :link_title
-    attribute :page_title
-    attribute :raw_html
-    # without above, Rails 5.1 will give deprecation warnings in my specs
+    # Mobility translations with container backend (single JSONB column)
+    # Fallbacks configured globally in mobility.rb initializer
+    translates :raw_html, :page_title, :link_title
 
     # scope :visible_in_admin, -> () { where visible: true  }
 
@@ -149,8 +142,20 @@ module Pwb
     end
 
     def admin_attribute_names
-      globalize_attribute_names.push :page_contents, :page_parts
-      # return "link_title_en","link_title_es", "link_title_de",
+      # Returns locale-specific attribute names for serialization
+      # e.g., [:raw_html_en, :raw_html_es, :page_title_en, :page_title_es, ...]
+      mobility_attribute_names + [:page_contents, :page_parts]
+    end
+
+    # Helper method to generate locale-specific attribute names (replaces globalize_attribute_names)
+    def mobility_attribute_names
+      attributes = []
+      self.class.mobility_attributes.each do |attr|
+        I18n.available_locales.each do |locale|
+          attributes << "#{attr}_#{locale}".to_sym
+        end
+      end
+      attributes
     end
 
     # def page_fragment_blocks
