@@ -1,0 +1,69 @@
+<div class="max-w-6xl mx-auto">
+  <%= render 'header' %>
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <%= render 'navigation', current_tab: 'sale_rental' %>
+    <div class="p-6">
+      <%= form_with model: @prop, url: site_admin_prop_path(@prop), method: :patch, local: true do |f| %>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Sale Section -->
+          <div class="space-y-6">
+            <h3 class="text-lg font-semibold text-gray-900 border-b pb-2">Sale Information</h3>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">For Sale</label>
+              <div class="flex items-center space-x-4">
+                <label class="flex items-center">
+                  <%= f.radio_button :for_sale, true, class: "text-blue-600 focus:ring-blue-500" %>
+                  <span class="ml-2 text-sm text-gray-700">Yes</span>
+                </label>
+                <label class="flex items-center">
+                  <%= f.radio_button :for_sale, false, class: "text-blue-600 focus:ring-blue-500" %>
+                  <span class="ml-2 text-sm text-gray-700">No</span>
+                </label>
+              </div>
+            </div>
+            <div>
+              <label for="prop_price_sale" class="block text-sm font-medium text-gray-700 mb-2">Sale Price</label>
+              <%= f.number_field :price_sale_current_cents, 
+                  value: @prop.price_sale_current_cents.present? ? @prop.price_sale_current_cents / 100.0 : nil,
+                  step: 0.01, 
+                  class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                  placeholder: "Enter sale price..." %>
+            </div>
+          </div>
+          <!-- Rental Section -->
+          <div class="space-y-6">
+            <h3 class="text-lg font-semibold text-gray-900 border-b pb-2">Rental Information</h3>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">For Rent</label>
+              <div class="flex items-center space-x-4">
+                <label class="flex items-center">
+                  <%= f.radio_button :for_rent_short_term, true, class: "text-blue-600 focus:ring-blue-500" %>
+                  <span class="ml-2 text-sm text-gray-700">Yes</span>
+                </label>
+                <label class="flex items-center">
+                  <%= f.radio_button :for_rent_short_term, false, class: "text-blue-600 focus:ring-blue-500" %>
+                  <span class="ml-2 text-sm text-gray-700">No</span>
+                </label>
+              </div>
+            </div>
+            <div>
+              <label for="prop_price_rental" class="block text-sm font-medium text-gray-700 mb-2">Monthly Rent</label>
+              <%= f.number_field :price_rental_monthly_current_cents, 
+                  value: @prop.price_rental_monthly_current_cents.present? ? @prop.price_rental_monthly_current_cents / 100.0 : nil,
+                  step: 0.01, 
+                  class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                  placeholder: "Enter monthly rent..." %>
+            </div>
+          </div>
+        </div>
+        <!-- Form Actions -->
+        <div class="flex justify-end items-center mt-8 pt-6 border-t border-gray-200">
+          <div class="flex space-x-3">
+            <%= link_to 'Cancel', site_admin_prop_path(@prop), class: 'px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50' %>
+            <%= f.submit 'Save Changes', class: 'px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

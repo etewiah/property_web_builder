@@ -1,0 +1,62 @@
+<div class="max-w-6xl mx-auto">
+  <%= render 'header' %>
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <%= render 'navigation', current_tab: 'location' %>
+    <div class="p-6">
+      <%= form_with model: @prop, url: site_admin_prop_path(@prop), method: :patch, local: true do |f| %>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Address Fields -->
+          <div class="space-y-6">
+            <div>
+              <label for="prop_street_name" class="block text-sm font-medium text-gray-700 mb-2">Street Name</label>
+              <%= f.text_field :street_name, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+            <div>
+              <label for="prop_street_number" class="block text-sm font-medium text-gray-700 mb-2">Street Number</label>
+              <%= f.text_field :street_number, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+            <div>
+              <label for="prop_city" class="block text-sm font-medium text-gray-700 mb-2">City</label>
+              <%= f.text_field :city, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+            <div>
+              <label for="prop_province" class="block text-sm font-medium text-gray-700 mb-2">Province / State</label>
+              <%= f.text_field :province, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+            <div>
+              <label for="prop_postal_code" class="block text-sm font-medium text-gray-700 mb-2">Postal Code</label>
+              <%= f.text_field :postal_code, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+            <div>
+              <label for="prop_country" class="block text-sm font-medium text-gray-700 mb-2">Country</label>
+              <%= f.text_field :country, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+          </div>
+          <!-- GPS Coordinates -->
+          <div class="space-y-6">
+            <div>
+              <label for="prop_latitude" class="block text-sm font-medium text-gray-700 mb-2">Latitude</label>
+              <%= f.number_field :latitude, step: 'any', class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+            <div>
+              <label for="prop_longitude" class="block text-sm font-medium text-gray-700 mb-2">Longitude</label>
+              <%= f.number_field :longitude, step: 'any', class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+            <div class="mt-4 p-4 bg-gray-50 rounded-md">
+              <p class="text-sm text-gray-600">
+                <strong>Tip:</strong> You can find coordinates using Google Maps. Right-click on a location and select "What's here?" to see the latitude and longitude.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Form Actions -->
+        <div class="flex justify-end items-center mt-8 pt-6 border-t border-gray-200">
+          <div class="flex space-x-3">
+            <%= link_to 'Cancel', site_admin_prop_path(@prop), class: 'px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50' %>
+            <%= f.submit 'Save Changes', class: 'px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

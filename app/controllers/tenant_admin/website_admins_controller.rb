@@ -10,11 +10,16 @@ module TenantAdmin
     end
 
     def create
+      if params[:user_id].blank?
+        redirect_to tenant_admin_website_admins_path(@website), alert: "Please select a user to add as admin."
+        return
+      end
+
       user = Pwb::User.find(params[:user_id])
       membership = @website.user_memberships.find_or_initialize_by(user: user)
       membership.role = 'admin'
       membership.active = true
-      
+
       if membership.save
         redirect_to tenant_admin_website_admins_path(@website), notice: "Admin added successfully."
       else

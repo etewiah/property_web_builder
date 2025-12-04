@@ -49,6 +49,9 @@ Rails.application.routes.draw do
         get 'edit/location', to: 'props#edit_location', as: 'edit_location'
         get 'edit/features', to: 'props#edit_features', as: 'edit_features'
         get 'edit/photos', to: 'props#edit_photos', as: 'edit_photos'
+        post 'upload_photos', to: 'props#upload_photos', as: 'upload_photos'
+        delete 'remove_photo', to: 'props#remove_photo', as: 'remove_photo'
+        patch 'reorder_photos', to: 'props#reorder_photos', as: 'reorder_photos'
         get 'edit', to: 'props#edit_general' # Default to general tab
         patch :update
       end
