@@ -100,31 +100,41 @@ Pwb::Contact.find_or_create_by!(primary_email: 'contact@tenant-b.test') do |c|
 end
 
 # Add a sample property for each tenant if not present
+# Note: Pwb::Property is a read-only materialized view. To create properties,
+# use Pwb::Prop (legacy) or create Pwb::RealtyAsset with associated listings.
 puts "Ensuring at least one property per tenant..."
 if tenant_a.props.count == 0
-  Pwb::Property.create!(
+  # Create using the legacy Pwb::Prop model (still works for seeding)
+  tenant_a.props.create!(
     title: 'E2E Villa Tenant A',
     description: 'Sample property for E2E tests (Tenant A)',
-    website: tenant_a,
-    price: 500000,
-    prop_type: 'villa',
-    operation_type: 'sale',
-    address: '123 E2E St, CityA',
-    owner_email: 'owner@tenant-a.test'
+    price_sale_current_cents: 500000_00,
+    prop_type_key: 'villa',
+    for_sale: true,
+    visible: true,
+    street_address: '123 E2E St',
+    city: 'CityA',
+    reference: 'E2E-A-001'
   )
 end
 if tenant_b.props.count == 0
-  Pwb::Property.create!(
+  # Create using the legacy Pwb::Prop model (still works for seeding)
+  tenant_b.props.create!(
     title: 'E2E Villa Tenant B',
     description: 'Sample property for E2E tests (Tenant B)',
-    website: tenant_b,
-    price: 600000,
-    prop_type: 'villa',
-    operation_type: 'sale',
-    address: '456 E2E Ave, CityB',
-    owner_email: 'owner@tenant-b.test'
+    price_sale_current_cents: 600000_00,
+    prop_type_key: 'villa',
+    for_sale: true,
+    visible: true,
+    street_address: '456 E2E Ave',
+    city: 'CityB',
+    reference: 'E2E-B-001'
   )
 end
+
+# Refresh the materialized view to include the new properties
+puts "Refreshing properties materialized view..."
+Pwb::Property.refresh rescue nil
 
 puts "✅ E2E test data seeded successfully!"
 puts ""

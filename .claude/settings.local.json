@@ -23,7 +23,9 @@
       "Bash(done)",
       "Bash(find:*)",
       "mcp__filesystem__read_multiple_files",
-      "Bash(RAILS_ENV=test bundle exec rails runner:*)"
+      "Bash(RAILS_ENV=test bundle exec rails runner:*)",
+      "Bash(RAILS_ENV=development bundle exec rails runner:*)",
+      "Bash(RAILS_ENV=e2e bundle exec rails runner:*)"
     ],
     "deny": [],
     "ask": []

@@ -23,6 +23,14 @@
 #
 # This is useful for production environments where you don't want demo data.
 #
+# Note on Property Models:
+# ------------------------
+# This seeder creates properties using Pwb::Prop (the legacy model).
+# Pwb::Property is a READ-ONLY materialized view for optimized queries.
+# Do NOT use Pwb::Property.create! - it will raise ActiveRecord::ReadOnlyRecord.
+# The materialized view is automatically refreshed when Pwb::RealtyAsset,
+# Pwb::SaleListing, or Pwb::RentalListing records are modified.
+#
 module Pwb
   class Seeder
     class << self
@@ -98,6 +106,45 @@ module Pwb
           seed_prop "flat_for_sale_2.yml"
           seed_prop "flat_for_rent_2.yml"
         end
+
+        # Backfill normalized records for any existing props that don't have them
+        backfill_normalized_records
+
+        # Refresh the materialized view to include all properties
+        puts "   🔄 Refreshing properties materialized view..."
+        Pwb::Property.refresh
+      end
+
+      # Backfills normalized records (RealtyAsset, listings) for existing Pwb::Prop records
+      # that don't already have corresponding RealtyAsset records
+      def backfill_normalized_records
+        props_without_assets = @current_website.props.where.not(
+          reference: Pwb::RealtyAsset.where(website: @current_website).select(:reference)
+        )
+
+        return if props_without_assets.empty?
+
+        puts "   🔄 Backfilling #{props_without_assets.count} properties to normalized tables..."
+
+        props_without_assets.find_each do |prop|
+          backfill_prop_to_normalized(prop)
+        end
+      end
+
+      # Converts a single Pwb::Prop to normalized records
+      def backfill_prop_to_normalized(prop)
+        # Build prop_data hash from the prop attributes
+        prop_data = prop.attributes.merge(
+          "currency" => prop.currency || "EUR"
+        )
+
+        # Add translations
+        prop.translations.each do |translation|
+          prop_data["title_#{translation.locale}"] = translation.title
+          prop_data["description_#{translation.locale}"] = translation.description
+        end
+
+        create_normalized_property_records(prop_data, [])
       end
 
       def seed_contacts(yml_file)
@@ -129,13 +176,19 @@ module Pwb
       def seed_field_keys(yml_file)
         field_keys_yml = load_seed_yml yml_file
         field_keys_yml.each do |field_key_yml|
-          # Check if field_key already exists for this website
-          existing_field_key = current_website.field_keys.find_by(global_key: field_key_yml["global_key"])
-          
-          unless existing_field_key.present?
-            # Create field_key with website association for proper multi-tenancy scoping
-            current_website.field_keys.create!(field_key_yml)
+          global_key = field_key_yml["global_key"]
+
+          # Check if field_key already exists globally (unique constraint on global_key)
+          existing_field_key = Pwb::FieldKey.find_by(global_key: global_key)
+
+          if existing_field_key.present?
+            # If it exists but belongs to a different website, associate it with current website too
+            # For now, we skip since field_keys are shared configuration
+            next
           end
+
+          # Create field_key with website association
+          current_website.field_keys.create!(field_key_yml)
         end
       end
 
@@ -201,9 +254,11 @@ module Pwb
         prop_seed_file = Rails.root.join("db", "yml_seeds", "prop", yml_file)
         prop_yml = YAML.load_file(prop_seed_file)
         prop_yml.each do |single_prop_yml|
+          reference = single_prop_yml["reference"]
+
           # Check if prop exists for this website
-          next if current_website.props.where(reference: single_prop_yml["reference"]).count > 0
-          
+          next if current_website.props.where(reference: reference).count > 0
+
           photos = []
           if single_prop_yml["photo_urls"].present?
             photos = create_photos_from_urls single_prop_yml["photo_urls"], Pwb::PropPhoto
@@ -213,13 +268,116 @@ module Pwb
             photos = create_photos_from_files single_prop_yml["photo_files"], Pwb::PropPhoto
             single_prop_yml.except! "photo_files"
           end
-          # Create prop with website association
+
+          # Create prop with website association (legacy model)
           new_prop = current_website.props.create!(single_prop_yml)
-          next unless !photos.empty?
+
+          # Attach photos to the legacy prop
           photos.each do |photo|
             photo.update!(prop_id: new_prop.id)
-          end
+          end if photos.any?
+
+          # Also create normalized records (RealtyAsset + Listings) for the materialized view
+          create_normalized_property_records(single_prop_yml, photos)
         end
+      end
+
+      # Creates normalized property records (RealtyAsset, SaleListing, RentalListing)
+      # from the legacy prop YAML data. This populates the materialized view.
+      def create_normalized_property_records(prop_data, photos = [])
+        # Extract asset attributes from prop data
+        # Only include columns that exist in RealtyAsset table
+        asset_attrs = {
+          website: current_website,
+          reference: prop_data["reference"],
+          year_construction: prop_data["year_construction"],
+          count_bedrooms: prop_data["count_bedrooms"],
+          count_bathrooms: prop_data["count_bathrooms"],
+          count_toilets: prop_data["count_toilets"],
+          count_garages: prop_data["count_garages"],
+          plot_area: prop_data["plot_area"],
+          constructed_area: prop_data["constructed_area"],
+          energy_rating: prop_data["energy_rating"],
+          energy_performance: prop_data["energy_performance"],
+          street_address: prop_data["street_address"],
+          street_name: prop_data["street_name"],
+          street_number: prop_data["street_number"],
+          postal_code: prop_data["postal_code"],
+          city: prop_data["city"],
+          region: prop_data["region"],
+          country: prop_data["country"],
+          latitude: prop_data["latitude"],
+          longitude: prop_data["longitude"],
+          prop_type_key: prop_data["prop_type_key"],
+          prop_state_key: prop_data["prop_state_key"],
+          prop_origin_key: prop_data["prop_origin_key"]
+        }.compact
+
+        # Check if already exists
+        return if Pwb::RealtyAsset.exists?(website: current_website, reference: prop_data["reference"])
+
+        asset = Pwb::RealtyAsset.create!(asset_attrs)
+
+        # Create sale listing if for_sale
+        if prop_data["for_sale"]
+          Pwb::SaleListing.create!(
+            realty_asset: asset,
+            visible: prop_data["visible"] || false,
+            highlighted: prop_data["highlighted"] || false,
+            archived: prop_data["archived"] || false,
+            reserved: prop_data["reserved"] || false,
+            price_sale_current_cents: prop_data["price_sale_current_cents"] || 0,
+            price_sale_current_currency: prop_data["currency"] || "EUR",
+            commission_cents: prop_data["commission_cents"] || 0,
+            commission_currency: prop_data["commission_currency"] || "EUR"
+          )
+        end
+
+        # Create rental listing if for_rent
+        if prop_data["for_rent_long_term"] || prop_data["for_rent_short_term"]
+          Pwb::RentalListing.create!(
+            realty_asset: asset,
+            visible: prop_data["visible"] || false,
+            highlighted: prop_data["highlighted"] || false,
+            archived: prop_data["archived"] || false,
+            reserved: prop_data["reserved"] || false,
+            furnished: prop_data["furnished"] || false,
+            for_rent_long_term: prop_data["for_rent_long_term"] || false,
+            for_rent_short_term: prop_data["for_rent_short_term"] || false,
+            price_rental_monthly_current_cents: prop_data["price_rental_monthly_current_cents"] || 0,
+            price_rental_monthly_current_currency: prop_data["currency"] || "EUR"
+          )
+        end
+
+        # Create translations for the asset
+        %w[en es ca de fr it nl pl pt ro ru ko bg].each do |locale|
+          title = prop_data["title_#{locale}"]
+          description = prop_data["description_#{locale}"]
+          next unless title.present? || description.present?
+
+          # Create translation linked to both legacy prop and new asset
+          prop = current_website.props.find_by(reference: prop_data["reference"])
+          Pwb::Prop::Translation.create!(
+            prop_id: prop&.id,
+            realty_asset_id: asset.id,
+            locale: locale,
+            title: title,
+            description: description
+          )
+        end
+
+        # Link photos to the asset (they're already created with prop_id)
+        photos.each do |photo|
+          photo.update!(realty_asset_id: asset.id)
+        end if photos.any?
+
+        puts "      ✓ Created normalized records for #{prop_data['reference']}"
+        asset
+      rescue StandardError => e
+        puts "      ✗ Failed to create normalized records for #{prop_data['reference']}: #{e.message}"
+        Rails.logger.warn "Failed to create normalized records for #{prop_data['reference']}: #{e.message}"
+        Rails.logger.warn e.backtrace.first(3).join("\n")
+        nil
       end
 
       # def seed_content(yml_file)
