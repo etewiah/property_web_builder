@@ -19,7 +19,7 @@
               name: "search[for_rent_price_from]",
               id: "search_for_rent_price_from",
               options: @prices_from_collection.map { |p| p.blank? ? ["Any", ""] : [p, p] },
-              selected: nil,
+              selected: @search_defaults["for_rent_price_from"],
               placeholder: "Any"
           } %>
         </div>
@@ -31,7 +31,7 @@
               name: "search[for_rent_price_till]",
               id: "search_for_rent_price_till",
               options: @prices_till_collection.map { |p| p.blank? ? ["Any", ""] : [p, p] },
-              selected: nil,
+              selected: @search_defaults["for_rent_price_till"],
               placeholder: "Any"
           } %>
         </div>
@@ -115,4 +115,23 @@
     <% end %>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[action="/search_ajax_for_rent.js"]');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        const formData = new FormData(form);
+        const params = new URLSearchParams();
+        for (const [key, value] of formData.entries()) {
+          if (value && key.startsWith('search[')) {
+             params.append(key, value);
+          }
+        }
+        const newUrl = window.location.pathname + '?' + params.toString();
+        window.history.pushState({path: newUrl}, '', newUrl);
+      });
+    }
+  });
+</script>
 

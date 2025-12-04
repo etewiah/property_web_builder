@@ -116,3 +116,22 @@
   </div>
 </div>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[action="/search_ajax_for_sale.js"]');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        const formData = new FormData(form);
+        const params = new URLSearchParams();
+        for (const [key, value] of formData.entries()) {
+          if (value && key.startsWith('search[')) {
+             params.append(key, value);
+          }
+        }
+        const newUrl = window.location.pathname + '?' + params.toString();
+        window.history.pushState({path: newUrl}, '', newUrl);
+      });
+    }
+  });
+</script>
+
