@@ -1,0 +1,31 @@
+<div class="max-w-4xl mx-auto">
+  <div class="mb-6">
+    <%= link_to '← Back to Pages', site_admin_pages_path, class: 'text-blue-600 hover:text-blue-800' %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-gray-900">Page Details</h1>
+      <%= link_to 'Edit Page', edit_site_admin_page_path(@page), class: 'px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700' %>
+    </div>
+
+    <div class="p-6">
+      <dl class="grid grid-cols-1 gap-x-4 gap-y-6">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Slug</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @page.slug %></dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Created</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= format_date(@page.created_at) %></dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Updated</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= format_date(@page.updated_at) %></dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</div>

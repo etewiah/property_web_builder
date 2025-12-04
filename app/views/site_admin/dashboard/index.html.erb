@@ -1,0 +1,182 @@
+<div class="max-w-7xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
+    <p class="mt-2 text-gray-600">
+      Overview of your website: <%= @website.subdomain %>
+    </p>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <!-- Properties Card -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Properties</p>
+          <p class="text-3xl font-bold text-gray-900 mt-2"><%= @stats[:total_properties] %></p>
+        </div>
+        <div class="bg-blue-100 rounded-full p-3">
+          <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      </div>
+      <%= link_to 'View All Properties', site_admin_props_path, class: 'text-blue-600 hover:text-blue-800 text-sm mt-4 inline-block' %>
+    </div>
+
+    <!-- Pages Card -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Pages</p>
+          <p class="text-3xl font-bold text-gray-900 mt-2"><%= @stats[:total_pages] %></p>
+        </div>
+        <div class="bg-green-100 rounded-full p-3">
+          <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      </div>
+      <%= link_to 'View All Pages', site_admin_pages_path, class: 'text-blue-600 hover:text-blue-800 text-sm mt-4 inline-block' %>
+    </div>
+
+    <!-- Messages Card -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Messages</p>
+          <p class="text-3xl font-bold text-gray-900 mt-2"><%= @stats[:total_messages] %></p>
+        </div>
+        <div class="bg-purple-100 rounded-full p-3">
+          <svg class="w-8 h-8 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+          </svg>
+        </div>
+      </div>
+      <%= link_to 'View All Messages', site_admin_messages_path, class: 'text-blue-600 hover:text-blue-800 text-sm mt-4 inline-block' %>
+    </div>
+
+    <!-- Contacts Card -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Contacts</p>
+          <p class="text-3xl font-bold text-gray-900 mt-2"><%= @stats[:total_contacts] %></p>
+        </div>
+        <div class="bg-yellow-100 rounded-full p-3">
+          <svg class="w-8 h-8 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path>
+            <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path>
+          </svg>
+        </div>
+      </div>
+      <%= link_to 'View All Contacts', site_admin_contacts_path, class: 'text-blue-600 hover:text-blue-800 text-sm mt-4 inline-block' %>
+    </div>
+
+    <!-- Contents Card -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Contents</p>
+          <p class="text-3xl font-bold text-gray-900 mt-2"><%= @stats[:total_contents] %></p>
+        </div>
+        <div class="bg-red-100 rounded-full p-3">
+          <svg class="w-8 h-8 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      </div>
+      <%= link_to 'View All Contents', site_admin_contents_path, class: 'text-blue-600 hover:text-blue-800 text-sm mt-4 inline-block' %>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Recent Properties -->
+    <div class="bg-white rounded-lg shadow">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Recent Properties</h2>
+      </div>
+      <div class="p-6">
+        <% if @recent_properties.any? %>
+          <div class="space-y-3">
+            <% @recent_properties.each do |property| %>
+              <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                <div>
+                  <p class="font-medium text-gray-900">
+                    <%= property.title.presence || property.reference %>
+                  </p>
+                  <p class="text-sm text-gray-500">
+                    <%= format_date(property.created_at) %>
+                  </p>
+                </div>
+                <%= link_to 'View', site_admin_prop_path(property), class: 'text-blue-600 hover:text-blue-800 text-sm' %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-gray-500 text-center py-4">No properties yet</p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Recent Messages -->
+    <div class="bg-white rounded-lg shadow">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Recent Messages</h2>
+      </div>
+      <div class="p-6">
+        <% if @recent_messages.any? %>
+          <div class="space-y-3">
+            <% @recent_messages.each do |message| %>
+              <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                <div>
+                  <p class="font-medium text-gray-900">
+                    <%= message.email.presence || 'No email' %>
+                  </p>
+                  <p class="text-sm text-gray-500">
+                    <%= format_date(message.created_at) %>
+                  </p>
+                </div>
+                <%= link_to 'View', site_admin_message_path(message), class: 'text-blue-600 hover:text-blue-800 text-sm' %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-gray-500 text-center py-4">No messages yet</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Contacts -->
+  <div class="mt-6">
+    <div class="bg-white rounded-lg shadow">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Recent Contacts</h2>
+      </div>
+      <div class="p-6">
+        <% if @recent_contacts.any? %>
+          <div class="space-y-3">
+            <% @recent_contacts.each do |contact| %>
+              <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                <div>
+                  <p class="font-medium text-gray-900">
+                    <%= contact.primary_email.presence || 'No email' %>
+                  </p>
+                  <p class="text-sm text-gray-500">
+                    <%= format_date(contact.created_at) %>
+                  </p>
+                </div>
+                <%= link_to 'View', site_admin_contact_path(contact), class: 'text-blue-600 hover:text-blue-800 text-sm' %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-gray-500 text-center py-4">No contacts yet</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

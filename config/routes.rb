@@ -35,6 +35,21 @@ Rails.application.routes.draw do
     resources :contacts, only: [:index, :show]
   end
 
+  # Site Admin - Single website/tenant management dashboard
+  # Scoped to current website via SubdomainTenant concern
+  # Note: Available to any logged in user for now, authorization will be added later
+  namespace :site_admin do
+    root to: 'dashboard#index'
+
+    resources :props, only: [:index, :show]
+    resources :pages, only: [:index, :show, :edit, :update]
+    resources :page_parts, only: [:index, :show]
+    resources :contents, only: [:index, :show]
+    resources :messages, only: [:index, :show]
+    resources :contacts, only: [:index, :show]
+    resources :users, only: [:index, :show]
+  end
+
   # devise_for :users, class_name: "Pwb::User", module: :devise
   scope module: :pwb do
     root to: "welcome#index"

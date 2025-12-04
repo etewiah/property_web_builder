@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site Admin - <%= current_website&.subdomain || 'PWB' %></title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Flowbite JS for interactive components -->
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+</head>
+<body class="bg-gray-50">
+  <div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <%= render 'layouts/site_admin/navigation' %>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <!-- Header -->
+      <%= render 'layouts/site_admin/header' %>
+
+      <!-- Content Area -->
+      <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
+        <%= render 'layouts/site_admin/flash' %>
+        <%= yield %>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

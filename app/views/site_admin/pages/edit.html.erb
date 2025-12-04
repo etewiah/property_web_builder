@@ -1,0 +1,60 @@
+<div class="max-w-4xl mx-auto">
+  <div class="mb-6">
+    <%= link_to '← Back to Pages', site_admin_pages_path, class: 'text-blue-600 hover:text-blue-800' %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h1 class="text-2xl font-bold text-gray-900">Edit Page</h1>
+    </div>
+
+    <div class="p-6">
+      <%= form_with model: @page, url: site_admin_page_path(@page), method: :patch, local: true do |f| %>
+        <div class="space-y-6">
+          <div>
+            <label for="page_slug" class="block text-sm font-medium text-gray-700">Slug</label>
+            <%= f.text_field :slug, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            <p class="mt-1 text-sm text-gray-500">The URL-friendly identifier for this page</p>
+          </div>
+
+          <div>
+            <label class="flex items-center">
+              <%= f.check_box :visible, class: "rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" %>
+              <span class="ml-2 text-sm font-medium text-gray-700">Visible</span>
+            </label>
+            <p class="mt-1 text-sm text-gray-500">Show this page in navigation</p>
+          </div>
+
+          <div>
+            <label class="flex items-center">
+              <%= f.check_box :show_in_top_nav, class: "rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" %>
+              <span class="ml-2 text-sm font-medium text-gray-700">Show in Top Navigation</span>
+            </label>
+          </div>
+
+          <div>
+            <label class="flex items-center">
+              <%= f.check_box :show_in_footer, class: "rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" %>
+              <span class="ml-2 text-sm font-medium text-gray-700">Show in Footer</span>
+            </label>
+          </div>
+
+          <div>
+            <label for="page_sort_order_top_nav" class="block text-sm font-medium text-gray-700">Sort Order (Top Nav)</label>
+            <%= f.number_field :sort_order_top_nav, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          </div>
+
+          <div>
+            <label for="page_sort_order_footer" class="block text-sm font-medium text-gray-700">Sort Order (Footer)</label>
+            <%= f.number_field :sort_order_footer, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          </div>
+
+          <div class="flex justify-end space-x-3">
+            <%= link_to 'Cancel', site_admin_page_path(@page), class: 'px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50' %>
+            <%= f.submit 'Update Page', class: 'px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
