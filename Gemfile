@@ -181,3 +181,5 @@ gem "active_storage_dashboard"
 
 # AWS SDK for S3-compatible storage (Cloudflare R2)
 gem "aws-sdk-s3", require: false
+
+gem 'mobility'

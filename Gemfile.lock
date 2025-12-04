@@ -362,6 +362,9 @@ GEM
       logger
     mini_mime (1.1.5)
     minitest (5.26.2)
+    mobility (1.3.2)
+      i18n (>= 0.6.10, < 2)
+      request_store (~> 1.0)
     monetize (1.13.0)
       money (~> 6.12)
     money (6.19.0)
@@ -766,6 +769,7 @@ DEPENDENCIES
   launchy
   liquid (~> 5.3)
   logster (~> 2.11)
+  mobility
   money-rails (~> 1.15)
   oj
   omniauth (~> 2.1)
