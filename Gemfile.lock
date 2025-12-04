@@ -626,6 +626,9 @@ GEM
       google-protobuf (~> 4.31)
     sass-embedded (1.94.2-x86_64-linux-musl)
       google-protobuf (~> 4.31)
+    scenic (1.9.0)
+      activerecord (>= 4.0.0)
+      railties (>= 4.0.0)
     securerandom (0.4.1)
     selenium-webdriver (4.38.0)
       base64 (~> 0.2)
@@ -792,6 +795,7 @@ DEPENDENCIES
   rubocop
   ruby-prof
   ruby_odata (~> 0.1.0)
+  scenic
   selenium-webdriver
   shoulda-matchers
   simple_form (~> 5.1)

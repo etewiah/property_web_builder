@@ -21,16 +21,17 @@
       "Bash(do echo \"Testing /site_admin/$path\" curl -s -o /dev/null -w \"  Status: %{http_code}\\n\" http://tenant-a.e2e.localhost:3001/site_admin/$path sleep 0.5 done echo \"---\" tail -100 log/e2e.log)",
       "Bash(do echo \"Testing /site_admin/$path\")",
       "Bash(done)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "mcp__filesystem__read_multiple_files"
     ],
     "deny": [],
     "ask": []
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "postgres",
     "git",
     "filesystem",
     "memory"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }

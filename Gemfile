@@ -183,3 +183,6 @@ gem "active_storage_dashboard"
 gem "aws-sdk-s3", require: false
 
 gem 'mobility'
+
+# Scenic for database views (materialized views for denormalized property queries)
+gem 'scenic'

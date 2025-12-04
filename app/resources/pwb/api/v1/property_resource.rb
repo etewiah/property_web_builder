@@ -1,14 +1,13 @@
 module Pwb
   class Api::V1::PropertyResource < JSONAPI::Resource
-    model_name "Pwb::Prop"
+    # Use Pwb::Property (materialized view) for read operations
+    model_name "Pwb::Property"
 
-    # http://jsonapi-resources.com/v0.9/guide/resources.html#Callbacks
-    # thought of using below to dynamically set globalize attributes dynamically but
-    # it doesn't get called when resource is just being retrieved...
-    # after_create :add_attributes
-    # def add_attributes
-    #   binding.pry
-    # end
+    # NOTE: This resource is READ-ONLY because it's backed by a materialized view.
+    # For write operations, use the underlying models directly:
+    #   - Pwb::RealtyAsset (physical property data)
+    #   - Pwb::SaleListing (sale transaction data)
+    #   - Pwb::RentalListing (rental transaction data)
 
     attributes :title, :description
     attributes :title_en, :description_en
@@ -28,7 +27,7 @@ module Pwb
     attributes :title_ko, :description_ko
     attributes :title_bg, :description_bg
 
-    attributes :area_unit, :photos, :property_photos, :extras
+    attributes :photos, :property_photos, :extras
     attributes :street_address, :street_name, :street_number, :postal_code
     attributes :city, :region, :currency
     attributes :country, :longitude, :latitude
@@ -37,25 +36,21 @@ module Pwb
     attributes :constructed_area, :year_construction, :plot_area
     attributes :prop_type_key, :prop_state_key, :prop_origin_key
 
-    attributes :for_sale, :for_rent_short_term, :for_rent_long_term, :obscure_map, :hide_map
+    attributes :for_sale, :for_rent, :for_rent_short_term, :for_rent_long_term
+    attributes :hide_map, :obscure_map
 
-    attributes :price_sale_current_cents, :price_sale_original_cents
-    attributes :price_rental_monthly_current_cents, :price_rental_monthly_original_cents
+    attributes :price_sale_current_cents
+    attributes :price_rental_monthly_current_cents
     attributes :price_rental_monthly_low_season_cents, :price_rental_monthly_high_season_cents
-    attributes :price_rental_monthly_standard_season_cents
+    attributes :price_rental_monthly_for_search_cents
     attributes :visible, :highlighted, :reference
 
     def extras
-      # override needed here as I have an extras has_many r/n on property
-      # which is not yet in use..
-      return @model.get_features
+      @model.get_features
     end
 
-    # TODO - fix client side so I don't have to use these legacy names
     def property_photos
-      # photos = @model.prop_photos
-      # return photos.as_json
-      return @model.prop_photos.map do |photo|
+      @model.prop_photos.map do |photo|
         photo.attributes.merge({
           "image" => photo.image.attached? ? Rails.application.routes.url_helpers.rails_blob_path(photo.image, only_path: true) : nil
         })
@@ -63,33 +58,20 @@ module Pwb
     end
 
     def photos
-      # photos = @model.prop_photos
-      # return photos.as_json
-      return @model.prop_photos.map do |photo|
+      @model.prop_photos.map do |photo|
         photo.attributes.merge({
           "image" => photo.image.attached? ? Rails.application.routes.url_helpers.rails_blob_path(photo.image, only_path: true) : nil
         })
       end
     end
 
-    # def ano_constr
-    #   ano_constr = @model.year_construction, :plot_area
-    #   return ano_constr
-    # end
-
-    # t.integer  :year_construction, :plot_area, default: 0, null: false
-    # t.integer  :count_bedrooms, default: 0, null: false
-    # t.integer  :count_bathrooms, default: 0, null: false
-    # t.integer  :count_toilets, default: 0, null: false
-    # t.integer  :count_garages, default: 0, null: false
-
     # Scope properties to current website for multi-tenancy
     def self.records(options = {})
       current_website = Pwb::Current.website
       if current_website
-        current_website.props
+        Pwb::Property.where(website_id: current_website.id)
       else
-        Pwb::Prop.none
+        Pwb::Property.none
       end
     end
   end

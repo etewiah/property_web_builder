@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_04_181516) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_04_185426) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -659,4 +659,79 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_181516) do
   add_foreign_key "pwb_user_memberships", "pwb_users", column: "user_id"
   add_foreign_key "pwb_user_memberships", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_website_photos", "pwb_websites", column: "website_id"
+
+  create_view "pwb_properties", materialized: true, sql_definition: <<-SQL
+      SELECT a.id,
+      a.reference,
+      a.website_id,
+      a.year_construction,
+      a.count_bedrooms,
+      a.count_bathrooms,
+      a.count_toilets,
+      a.count_garages,
+      a.plot_area,
+      a.constructed_area,
+      a.energy_rating,
+      a.energy_performance,
+      a.street_number,
+      a.street_name,
+      a.street_address,
+      a.postal_code,
+      a.city,
+      a.region,
+      a.country,
+      a.latitude,
+      a.longitude,
+      a.prop_origin_key,
+      a.prop_state_key,
+      a.prop_type_key,
+      sl.id AS sale_listing_id,
+      (COALESCE(sl.visible, false) AND (NOT COALESCE(sl.archived, true))) AS for_sale,
+      COALESCE(sl.price_sale_current_cents, (0)::bigint) AS price_sale_current_cents,
+      COALESCE(sl.price_sale_current_currency, 'EUR'::character varying) AS price_sale_current_currency,
+      COALESCE(sl.commission_cents, (0)::bigint) AS commission_cents,
+      COALESCE(sl.commission_currency, 'EUR'::character varying) AS commission_currency,
+      COALESCE(sl.reserved, false) AS sale_reserved,
+      COALESCE(sl.furnished, false) AS sale_furnished,
+      COALESCE(sl.highlighted, false) AS sale_highlighted,
+      rl.id AS rental_listing_id,
+      (COALESCE(rl.visible, false) AND (NOT COALESCE(rl.archived, true))) AS for_rent,
+      COALESCE(rl.for_rent_short_term, false) AS for_rent_short_term,
+      COALESCE(rl.for_rent_long_term, false) AS for_rent_long_term,
+      COALESCE(rl.price_rental_monthly_current_cents, (0)::bigint) AS price_rental_monthly_current_cents,
+      COALESCE(rl.price_rental_monthly_current_currency, 'EUR'::character varying) AS price_rental_monthly_current_currency,
+      COALESCE(rl.price_rental_monthly_low_season_cents, (0)::bigint) AS price_rental_monthly_low_season_cents,
+      COALESCE(rl.price_rental_monthly_high_season_cents, (0)::bigint) AS price_rental_monthly_high_season_cents,
+      COALESCE(rl.reserved, false) AS rental_reserved,
+      COALESCE(rl.furnished, false) AS rental_furnished,
+      COALESCE(rl.highlighted, false) AS rental_highlighted,
+      ((COALESCE(sl.visible, false) AND (NOT COALESCE(sl.archived, true))) OR (COALESCE(rl.visible, false) AND (NOT COALESCE(rl.archived, true)))) AS visible,
+      (COALESCE(sl.highlighted, false) OR COALESCE(rl.highlighted, false)) AS highlighted,
+      (COALESCE(sl.reserved, false) OR COALESCE(rl.reserved, false)) AS reserved,
+      (COALESCE(sl.furnished, false) OR COALESCE(rl.furnished, false)) AS furnished,
+          CASE
+              WHEN COALESCE(rl.for_rent_short_term, false) THEN LEAST(NULLIF(COALESCE(rl.price_rental_monthly_low_season_cents, (0)::bigint), 0), NULLIF(COALESCE(rl.price_rental_monthly_current_cents, (0)::bigint), 0), NULLIF(COALESCE(rl.price_rental_monthly_high_season_cents, (0)::bigint), 0))
+              ELSE COALESCE(rl.price_rental_monthly_current_cents, (0)::bigint)
+          END AS price_rental_monthly_for_search_cents,
+      COALESCE(sl.price_sale_current_currency, rl.price_rental_monthly_current_currency, 'EUR'::character varying) AS currency,
+      a.created_at,
+      a.updated_at
+     FROM ((pwb_realty_assets a
+       LEFT JOIN pwb_sale_listings sl ON (((sl.realty_asset_id = a.id) AND (sl.archived = false))))
+       LEFT JOIN pwb_rental_listings rl ON (((rl.realty_asset_id = a.id) AND (rl.archived = false))));
+  SQL
+  add_index "pwb_properties", ["count_bathrooms"], name: "index_pwb_properties_on_bathrooms"
+  add_index "pwb_properties", ["count_bedrooms"], name: "index_pwb_properties_on_bedrooms"
+  add_index "pwb_properties", ["for_rent"], name: "index_pwb_properties_on_for_rent"
+  add_index "pwb_properties", ["for_sale"], name: "index_pwb_properties_on_for_sale"
+  add_index "pwb_properties", ["highlighted"], name: "index_pwb_properties_on_highlighted"
+  add_index "pwb_properties", ["id"], name: "index_pwb_properties_on_id", unique: true
+  add_index "pwb_properties", ["latitude", "longitude"], name: "index_pwb_properties_on_lat_lng"
+  add_index "pwb_properties", ["price_rental_monthly_current_cents"], name: "index_pwb_properties_on_price_rental_cents"
+  add_index "pwb_properties", ["price_sale_current_cents"], name: "index_pwb_properties_on_price_sale_cents"
+  add_index "pwb_properties", ["prop_type_key"], name: "index_pwb_properties_on_prop_type"
+  add_index "pwb_properties", ["reference"], name: "index_pwb_properties_on_reference"
+  add_index "pwb_properties", ["visible"], name: "index_pwb_properties_on_visible"
+  add_index "pwb_properties", ["website_id"], name: "index_pwb_properties_on_website_id"
+
 end

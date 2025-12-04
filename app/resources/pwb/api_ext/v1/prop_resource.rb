@@ -1,6 +1,10 @@
 module Pwb
   class ApiExt::V1::PropResource < JSONAPI::Resource
-    model_name 'Pwb::Prop'
+    # Use Pwb::Property (materialized view) for read operations
+    model_name 'Pwb::Property'
+
+    # NOTE: This resource is READ-ONLY because it's backed by a materialized view.
+    # For write operations, use the underlying models directly.
 
     attributes :title, :description
     attributes :title_en, :description_en
@@ -18,8 +22,7 @@ module Pwb
     attributes :title_pl, :description_pl
     attributes :title_ro, :description_ro
 
-
-    attributes :area_unit, :photos, :property_photos, :extras
+    attributes :photos, :property_photos, :extras
     attributes :street_address, :street_number, :postal_code
     attributes :city, :region, :currency
     attributes :country, :longitude, :latitude
@@ -28,41 +31,24 @@ module Pwb
     attributes :constructed_area, :year_construction, :plot_area
     attributes :prop_type_key, :prop_state_key, :prop_origin_key
 
-    attributes :for_sale, :for_rent_short_term, :for_rent_long_term, :obscure_map, :hide_map
+    attributes :for_sale, :for_rent, :for_rent_short_term, :for_rent_long_term
+    attributes :obscure_map, :hide_map
 
-    attributes :price_sale_current_cents, :price_sale_original_cents
-    attributes :price_rental_monthly_current_cents, :price_rental_monthly_original_cents
+    attributes :price_sale_current_cents
+    attributes :price_rental_monthly_current_cents
     attributes :price_rental_monthly_low_season_cents, :price_rental_monthly_high_season_cents
-    attributes :price_rental_monthly_standard_season_cents
-    attributes  :visible, :highlighted, :reference
+    attributes :visible, :highlighted, :reference
 
     def extras
-      # override needed here as I have an extras has_many r/n on property
-      # which is not yet in use..
-      return @model.get_features
+      @model.get_features
     end
 
-    # TODO - fix client side so I don't have to use these legacy names
     def property_photos
-      photos = @model.prop_photos
-      return photos
+      @model.prop_photos
     end
 
     def photos
-      photos = @model.prop_photos
-      return photos
+      @model.prop_photos
     end
-
-    # def ano_constr
-    #   ano_constr = @model.year_construction, :plot_area
-    #   return ano_constr
-    # end
-
-    # t.integer  :year_construction, :plot_area, default: 0, null: false
-    # t.integer  :count_bedrooms, default: 0, null: false
-    # t.integer  :count_bathrooms, default: 0, null: false
-    # t.integer  :count_toilets, default: 0, null: false
-    # t.integer  :count_garages, default: 0, null: false
-
   end
 end

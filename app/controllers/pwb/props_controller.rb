@@ -4,20 +4,19 @@ module Pwb
   class PropsController < ApplicationController
     def show_for_rent
       @carousel_speed = 3000
-      # @inmo_template = "broad"
-      @property_details = @current_website.props.find_by_id(params[:id])
-      # gon.property_details =@property_details
       @operation_type = "for_rent"
       @operation_type_key = @operation_type.camelize(:lower)
       @map_markers = []
+
+      # Use Pwb::Property (materialized view) for read operations
+      @property_details = Pwb::Property.where(website_id: @current_website.id).find_by(id: params[:id])
+
       if @property_details && @property_details.visible && @property_details.for_rent
         set_map_marker
-        # below lets me know what prices to display
         @show_vacational_rental = @property_details.for_rent_short_term
 
         @page_title = @property_details.title
         @page_description = @property_details.description
-        # @page_keywords    = 'Site, Login, Members'
         return render "/pwb/props/show"
       else
         @page_title = I18n.t("propertyNotFound")
@@ -29,18 +28,17 @@ module Pwb
 
     def show_for_sale
       @carousel_speed = 3000
-      # @inmo_template = "broad"
       @operation_type = "for_sale"
       @operation_type_key = @operation_type.camelize(:lower)
-      @property_details = @current_website.props.find_by_id(params[:id])
       @map_markers = []
+
+      # Use Pwb::Property (materialized view) for read operations
+      @property_details = Pwb::Property.where(website_id: @current_website.id).find_by(id: params[:id])
 
       if @property_details && @property_details.visible && @property_details.for_sale
         set_map_marker
-        # gon.property_details =@property_details
         @page_title = @property_details.title
         @page_description = @property_details.description
-        # @page_keywords    = 'Site, Login, Members'
         return render "/pwb/props/show"
       else
         @page_title = I18n.t("propertyNotFound")
@@ -56,7 +54,8 @@ module Pwb
       # have a hidden field in form to pass in above
       # if I didn't I could end up with the wrong locale
       # @enquiry = Message.new(params[:contact])
-      @property = @current_website.props.find(params[:contact][:property_id])
+      # Use Pwb::Property (materialized view) for read operations
+      @property = Pwb::Property.where(website_id: @current_website.id).find(params[:contact][:property_id])
       @contact = @current_website.contacts.find_or_initialize_by(primary_email: params[:contact][:email])
       @contact.attributes = {
         primary_phone_number: params[:contact][:tel],
