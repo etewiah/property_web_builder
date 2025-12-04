@@ -4,7 +4,17 @@ module Pwb
   class FieldKey < ApplicationRecord
     self.primary_key = :global_key
 
-    scope :visible, -> () { where visible: true }
+    # Associations
+    belongs_to :website, optional: true, foreign_key: :pwb_website_id, class_name: 'Pwb::Website'
+
+    # Scopes
+    scope :visible, -> { where visible: true }
+    scope :for_website, ->(website_id) { where(pwb_website_id: website_id) }
+    scope :by_tag, ->(tag) { where(tag: tag) }
+    
+    # Validations
+    validates :global_key, presence: true, uniqueness: { scope: :pwb_website_id }
+    validates :tag, presence: true
     # below 2 created so counter_cache works
     has_many :props_with_state, class_name: "Pwb::Prop", foreign_key: "prop_state_key", primary_key: :global_key
 

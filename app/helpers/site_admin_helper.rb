@@ -9,6 +9,15 @@ module SiteAdminHelper
     date.strftime('%Y-%m-%d %H:%M')
   end
 
+  def tab_link_class(tab_name, current_category)
+    base_classes = "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+    if current_category == tab_name
+      "#{base_classes} border-blue-500 text-blue-600"
+    else
+      "#{base_classes} border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+    end
+  end
+
   # Generate link to property
   def property_link(property)
     link_to property.title || property.reference,

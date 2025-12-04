@@ -1,0 +1,16 @@
+<div class="border-b border-gray-200 mb-6">
+  <nav class="-mb-px flex space-x-8">
+    <%= link_to "Property Types",
+        site_admin_properties_settings_category_path('property_types'),
+        class: tab_link_class('property_types', current_category) %>
+    <%= link_to "Features",
+        site_admin_properties_settings_category_path('features'),
+        class: tab_link_class('features', current_category) %>
+    <%= link_to "Property States",
+        site_admin_properties_settings_category_path('property_states'),
+        class: tab_link_class('property_states', current_category) %>
+    <%= link_to "Property Labels",
+        site_admin_properties_settings_category_path('property_labels'),
+        class: tab_link_class('property_labels', current_category) %>
+  </nav>
+</div>

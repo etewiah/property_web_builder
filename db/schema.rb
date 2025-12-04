@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_02_112123) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_04_140232) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -215,7 +215,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_02_112123) do
     t.boolean "show_in_search_form", default: true
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.bigint "pwb_website_id"
+    t.integer "sort_order", default: 0
     t.index ["global_key"], name: "index_pwb_field_keys_on_global_key", unique: true
+    t.index ["pwb_website_id", "tag"], name: "index_field_keys_on_website_and_tag"
+    t.index ["pwb_website_id"], name: "index_pwb_field_keys_on_pwb_website_id"
   end
 
   create_table "pwb_link_translations", force: :cascade do |t|
@@ -564,6 +568,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_02_112123) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "pwb_field_keys", "pwb_websites"
   add_foreign_key "pwb_user_memberships", "pwb_users", column: "user_id"
   add_foreign_key "pwb_user_memberships", "pwb_websites", column: "website_id"
 end

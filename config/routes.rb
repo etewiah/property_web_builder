@@ -62,6 +62,15 @@ Rails.application.routes.draw do
     resources :messages, only: [:index, :show]
     resources :contacts, only: [:index, :show]
     resources :users, only: [:index, :show]
+    
+    # Properties Settings
+    namespace :properties do
+      get 'settings', to: 'settings#index', as: 'settings'
+      get 'settings/:category', to: 'settings#show', as: 'settings_category'
+      post 'settings/:category', to: 'settings#create'
+      patch 'settings/:category/:id', to: 'settings#update'
+      delete 'settings/:category/:id', to: 'settings#destroy'
+    end
   end
 
   # devise_for :users, class_name: "Pwb::User", module: :devise

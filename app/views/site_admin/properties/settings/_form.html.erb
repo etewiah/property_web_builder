@@ -1,0 +1,56 @@
+<%= form_with model: field_key, 
+    url: field_key.persisted? ? 
+         site_admin_properties_settings_category_path(category, field_key.global_key) : 
+         site_admin_properties_settings_category_path(category),
+    method: field_key.persisted? ? :patch : :post,
+    local: true,
+    class: "space-y-4" do |f| %>
+
+  <div class="grid grid-cols-1 md:grid-cols-<%= I18n.available_locales.size %> gap-4">
+    <% I18n.available_locales.each do |locale| %>
+      <div>
+        <%= label_tag "field_key[translations][#{locale}]", 
+            "#{locale.to_s.upcase} *", 
+            class: "block text-sm font-medium text-gray-700" %>
+        <%= text_field_tag "field_key[translations][#{locale}]",
+            field_key.persisted? ? I18n.t(field_key.global_key, locale: locale, default: '') : '',
+            placeholder: "Name in #{locale}",
+            required: locale == I18n.default_locale,
+            class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <%= f.label :sort_order, "Display Order", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.number_field :sort_order, 
+          value: field_key.sort_order || 0,
+          class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+      <p class="mt-1 text-xs text-gray-500">Lower numbers appear first</p>
+    </div>
+    <div class="flex items-start pt-6">
+      <div class="flex items-center h-5">
+        <%= f.check_box :visible, 
+            checked: field_key.visible.nil? ? true : field_key.visible,
+            class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+      </div>
+      <div class="ml-3">
+        <%= f.label :visible, class: "text-sm font-medium text-gray-700" do %>
+          Visible
+          <p class="text-xs text-gray-500 font-normal">Show in dropdowns and forms</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+    <button type="button" 
+            onclick="this.closest('form').reset(); this.closest('tr')?.classList.add('hidden'); document.getElementById('new-entry-form')?.classList.add('hidden');"
+            class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+      Cancel
+    </button>
+    <%= f.submit field_key.persisted? ? 'Update' : 'Create',
+        class: "px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+  </div>
+<% end %>
