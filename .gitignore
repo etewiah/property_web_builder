@@ -102,3 +102,4 @@ package-lock.json
 !/app/assets/builds/.keep
 for_the_ai/
 docs/SECURITY_AUDIT_FIREBASE_AUTH.md
+logs

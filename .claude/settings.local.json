@@ -20,9 +20,16 @@
       "Bash(for path in props pages page_parts contents messages contacts users)",
       "Bash(do echo \"Testing /site_admin/$path\" curl -s -o /dev/null -w \"  Status: %{http_code}\\n\" http://tenant-a.e2e.localhost:3001/site_admin/$path sleep 0.5 done echo \"---\" tail -100 log/e2e.log)",
       "Bash(do echo \"Testing /site_admin/$path\")",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enabledMcpjsonServers": [
+    "postgres",
+    "git",
+    "filesystem",
+    "memory"
+  ]
 }
