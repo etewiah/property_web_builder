@@ -16,6 +16,7 @@ module Pwb
     has_many :contacts
     has_many :messages
     has_many :website_photos
+    has_many :field_keys, foreign_key: :pwb_website_id
 
     # Multi-website support via memberships
     has_many :user_memberships, dependent: :destroy

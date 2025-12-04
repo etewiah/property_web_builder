@@ -24,6 +24,7 @@ PropertyWebBuilder is now a standalone Ruby on Rails application (no longer a Ra
 For detailed documentation, see the [docs folder](./docs/), which includes:
 - [API Documentation](./docs/04_API.md)
 - [Frontend/Vue.js Documentation](./docs/05_Frontend.md)
+- [Database Seeding Guide](./docs/seeding.md)
 - [Quasar Implementation Guide](./docs/quasar/)
 - [Deployment Guides](./docs/deployment/) for 10+ platforms
 

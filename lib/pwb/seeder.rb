@@ -103,8 +103,12 @@ module Pwb
       def seed_contacts(yml_file)
         contacts_yml = load_seed_yml yml_file
         contacts_yml.each do |contact_yml|
-          unless Pwb::Contact.where(primary_email: contact_yml["email"]).count > 0
-            Pwb::Contact.create!(contact_yml)
+          # Check if contact already exists for this website
+          existing_contact = current_website.contacts.find_by(primary_email: contact_yml["email"] || contact_yml["primary_email"])
+          
+          unless existing_contact.present?
+            # Create contact with website association for proper multi-tenancy scoping
+            current_website.contacts.create!(contact_yml)
           end
         end
       end
@@ -125,8 +129,12 @@ module Pwb
       def seed_field_keys(yml_file)
         field_keys_yml = load_seed_yml yml_file
         field_keys_yml.each do |field_key_yml|
-          unless Pwb::FieldKey.where(global_key: field_key_yml["global_key"]).count > 0
-            Pwb::FieldKey.create!(field_key_yml)
+          # Check if field_key already exists for this website
+          existing_field_key = current_website.field_keys.find_by(global_key: field_key_yml["global_key"])
+          
+          unless existing_field_key.present?
+            # Create field_key with website association for proper multi-tenancy scoping
+            current_website.field_keys.create!(field_key_yml)
           end
         end
       end

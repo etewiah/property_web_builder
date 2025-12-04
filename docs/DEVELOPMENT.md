@@ -62,6 +62,10 @@ The project uses RSpec for testing.
     bundle exec rspec spec/path/to/file_spec.rb
     ```
 
+## Database Seeding
+
+For comprehensive information about database seeding, including enhanced seeding features, multi-tenancy support, and safety mechanisms, see [docs/seeding.md](docs/seeding.md).
+
 ## Troubleshooting
 
 ### API CSRF Issues

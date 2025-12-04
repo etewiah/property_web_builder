@@ -5,6 +5,8 @@
 require 'pwb/seeder'
 require 'pwb/pages_seeder'
 require 'pwb/contents_seeder'
+require 'pwb/seed_runner'
+
 # from root of engine:
 # bundle exec rake app:pwb:db:seed
 # from spec/dummy folder or within an app using the engine:
@@ -13,10 +15,16 @@ require 'pwb/contents_seeder'
 # Environment Variables:
 # ----------------------
 # SKIP_PROPERTIES=true  - Skip seeding sample properties (useful for production)
+# SEED_MODE=create_only|force_update|upsert - Control how existing records are handled
+# DRY_RUN=true          - Preview changes without applying them
+# VERBOSE=false         - Reduce output verbosity
 #
 # Examples:
-#   rake pwb:db:seed                        # Seeds with sample properties
+#   rake pwb:db:seed                        # Seeds with sample properties (interactive)
 #   SKIP_PROPERTIES=true rake pwb:db:seed   # Seeds without sample properties
+#   SEED_MODE=create_only rake pwb:db:seed  # Only create new records, skip existing
+#   SEED_MODE=force_update rake pwb:db:seed # Update existing records without prompting
+#   DRY_RUN=true rake pwb:db:seed           # Preview what would be changed
 #
 namespace :pwb do
   namespace :db do
@@ -222,5 +230,159 @@ namespace :pwb do
         puts "✅ Pages successfully associated with website"
       end
     end
+
+    # =========================================================================
+    # Enhanced Seeding Tasks (using SeedRunner)
+    # =========================================================================
+    
+    desc 'Enhanced seeding with interactive mode, dry-run support, and safety warnings. See ENV vars: SEED_MODE, DRY_RUN, SKIP_PROPERTIES, VERBOSE'
+    task seed_enhanced: [:environment] do
+      website = Pwb::Website.first || Pwb::Website.create!(subdomain: 'default', theme_name: 'bristol', default_currency: 'EUR', default_client_locale: 'en-UK')
+      
+      mode = parse_seed_mode(ENV['SEED_MODE'])
+      dry_run = ENV['DRY_RUN'].to_s.downcase == 'true'
+      skip_properties = ENV['SKIP_PROPERTIES'].to_s.downcase == 'true'
+      verbose = ENV['VERBOSE'].to_s.downcase != 'false'
+      
+      Pwb::SeedRunner.run(
+        website: website,
+        mode: mode,
+        dry_run: dry_run,
+        skip_properties: skip_properties,
+        verbose: verbose
+      )
+    end
+
+    desc 'Enhanced seeding for a specific tenant. Usage: rake pwb:db:seed_tenant_enhanced[subdomain]. See ENV vars for options.'
+    task :seed_tenant_enhanced, [:identifier] => [:environment] do |t, args|
+      identifier = args[:identifier]
+      
+      if identifier.blank?
+        puts "❌ Error: Please provide a subdomain or slug"
+        puts "   Usage: rake pwb:db:seed_tenant_enhanced[my-subdomain]"
+        puts ""
+        puts "   Environment variables:"
+        puts "     SEED_MODE=interactive|create_only|force_update|upsert"
+        puts "     DRY_RUN=true          - Preview changes without applying"
+        puts "     SKIP_PROPERTIES=true  - Skip sample properties"
+        puts "     VERBOSE=false         - Reduce output"
+        exit 1
+      end
+      
+      website = Pwb::Website.find_by(subdomain: identifier) || 
+                Pwb::Website.find_by(slug: identifier)
+      
+      if website.nil?
+        puts "❌ Error: No website found with subdomain or slug '#{identifier}'"
+        list_available_websites
+        exit 1
+      end
+      
+      mode = parse_seed_mode(ENV['SEED_MODE'])
+      dry_run = ENV['DRY_RUN'].to_s.downcase == 'true'
+      skip_properties = ENV['SKIP_PROPERTIES'].to_s.downcase == 'true'
+      verbose = ENV['VERBOSE'].to_s.downcase != 'false'
+      
+      Pwb::SeedRunner.run(
+        website: website,
+        mode: mode,
+        dry_run: dry_run,
+        skip_properties: skip_properties,
+        verbose: verbose
+      )
+    end
+
+    desc 'Dry-run seeding to preview what would be changed. Usage: rake pwb:db:seed_dry_run'
+    task seed_dry_run: [:environment] do
+      website = Pwb::Website.first
+      
+      if website.nil?
+        puts "⚠️  No website found. A new website would be created."
+        puts ""
+      end
+      
+      Pwb::SeedRunner.run(
+        website: website,
+        mode: :create_only,
+        dry_run: true,
+        skip_properties: ENV['SKIP_PROPERTIES'].to_s.downcase == 'true',
+        verbose: true
+      )
+    end
+
+    desc 'Validate seed files without running them'
+    task validate_seeds: [:environment] do
+      puts "📋 Validating seed files..."
+      puts ""
+      
+      seed_dir = Rails.root.join("db", "yml_seeds")
+      
+      required_files = %w[
+        agency.yml agency_address.yml website.yml field_keys.yml
+        users.yml contacts.yml links.yml
+      ]
+      
+      prop_files = %w[
+        prop/villa_for_sale.yml prop/villa_for_rent.yml
+        prop/flat_for_sale.yml prop/flat_for_rent.yml
+        prop/flat_for_sale_2.yml prop/flat_for_rent_2.yml
+      ]
+      
+      all_valid = true
+      
+      (required_files + prop_files).each do |file|
+        path = seed_dir.join(file)
+        
+        if File.exist?(path)
+          begin
+            data = YAML.load_file(path)
+            if data.nil? || (data.is_a?(Array) && data.empty?)
+              puts "⚠️  #{file} - Empty or nil content"
+            else
+              record_count = data.is_a?(Array) ? data.count : 1
+              puts "✓  #{file} - Valid (#{record_count} record(s))"
+            end
+          rescue Psych::SyntaxError => e
+            puts "❌ #{file} - YAML syntax error: #{e.message}"
+            all_valid = false
+          rescue => e
+            puts "❌ #{file} - Error: #{e.message}"
+            all_valid = false
+          end
+        else
+          puts "❌ #{file} - File not found"
+          all_valid = false if required_files.include?(file)
+        end
+      end
+      
+      puts ""
+      if all_valid
+        puts "✅ All required seed files are valid"
+      else
+        puts "❌ Some seed files have issues"
+        exit 1
+      end
+    end
+  end
+end
+
+# Helper methods for rake tasks
+def parse_seed_mode(mode_string)
+  case mode_string.to_s.downcase
+  when 'create_only', 'create'
+    :create_only
+  when 'force_update', 'update', 'force'
+    :force_update
+  when 'upsert'
+    :upsert
+  else
+    :interactive
+  end
+end
+
+def list_available_websites
+  puts "   Available websites:"
+  Pwb::Website.all.each do |w|
+    puts "     - slug: #{w.slug || 'nil'}, subdomain: #{w.subdomain || 'nil'}, id: #{w.id}"
   end
 end
