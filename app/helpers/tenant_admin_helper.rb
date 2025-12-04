@@ -22,14 +22,16 @@ module TenantAdminHelper
   # Map flash types to Flowbite alert classes
   def flash_class(type)
     case type.to_sym
-    when :notice, :success
-      "text-green-800 bg-green-50"
+    when :notice
+      'bg-blue-100 border-blue-500 text-blue-700'
+    when :success
+      'bg-green-100 border-green-500 text-green-700'
     when :alert, :error
-      "text-red-800 bg-red-50"
+      'bg-red-100 border-red-500 text-red-700'
     when :warning
-      "text-yellow-800 bg-yellow-50"
+      'bg-yellow-100 border-yellow-500 text-yellow-700'
     else
-      "text-blue-800 bg-blue-50"
+      'bg-gray-100 border-gray-500 text-gray-700'
     end
   end
 

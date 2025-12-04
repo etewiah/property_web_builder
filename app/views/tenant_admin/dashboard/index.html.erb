@@ -1,218 +1,155 @@
-<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
-  <div class="w-full mb-1">
-    <div class="mb-4">
-      <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl">Tenant Admin Dashboard</h1>
-      <p class="text-base text-gray-600">Cross-tenant management and overview</p>
-    </div>
-  </div>
-</div>
-
-<!-- Statistics Cards -->
-<div class="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-2 lg:grid-cols-4">
-  <!-- Total Websites -->
-  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
-    <div class="flex items-center justify-between">
-      <div>
-        <h3 class="text-base font-normal text-gray-500">Total Websites</h3>
-        <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl"><%= @total_websites %></span>
-      </div>
-      <div class="flex-shrink-0">
-        <svg class="w-12 h-12 text-primary-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
-        </svg>
-      </div>
-    </div>
+<div class="max-w-7xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Tenant Admin Dashboard</h1>
+    <p class="mt-2 text-gray-600">
+      Cross-tenant management and overview
+    </p>
   </div>
 
-  <!-- Total Users -->
-  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
-    <div class="flex items-center justify-between">
-      <div>
-        <h3 class="text-base font-normal text-gray-500">Total Users</h3>
-        <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl"><%= @total_users %></span>
+  <!-- Statistics Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Total Websites -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Total Websites</p>
+          <p class="text-3xl font-bold text-gray-900 mt-2"><%= @total_websites %></p>
+        </div>
+        <div class="bg-blue-100 rounded-full p-3">
+          <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
       </div>
-      <div class="flex-shrink-0">
-        <svg class="w-12 h-12 text-primary-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
-        </svg>
-      </div>
+      <%= link_to 'View All Websites', tenant_admin_websites_path, class: 'text-blue-600 hover:text-blue-800 text-sm mt-4 inline-block' %>
     </div>
-  </div>
 
-  <!-- Total Properties -->
-  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
-    <div class="flex items-center justify-between">
-      <div>
-        <h3 class="text-base font-normal text-gray-500">Total Properties</h3>
-        <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl"><%= @total_properties %></span>
+    <!-- Total Users -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Total Users</p>
+          <p class="text-3xl font-bold text-gray-900 mt-2"><%= @total_users %></p>
+        </div>
+        <div class="bg-green-100 rounded-full p-3">
+          <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
+          </svg>
+        </div>
       </div>
-      <div class="flex-shrink-0">
-        <svg class="w-12 h-12 text-primary-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
-        </svg>
-      </div>
+      <%= link_to 'View All Users', tenant_admin_users_path, class: 'text-blue-600 hover:text-blue-800 text-sm mt-4 inline-block' %>
     </div>
-  </div>
 
-  <!-- Active Tenants -->
-  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
-    <div class="flex items-center justify-between">
-      <div>
-        <h3 class="text-base font-normal text-gray-500">Active Tenants (30d)</h3>
-        <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl"><%= @active_tenants %></span>
+    <!-- Total Properties -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Total Properties</p>
+          <p class="text-3xl font-bold text-gray-900 mt-2"><%= @total_properties %></p>
+        </div>
+        <div class="bg-purple-100 rounded-full p-3">
+          <svg class="w-8 h-8 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+          </svg>
+        </div>
       </div>
-      <div class="flex-shrink-0">
-        <svg class="w-12 h-12 text-green-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293A1 1 0 002 4v10a1 1 0 00.293.707L6 18.414V5.586L3.707 3.293zM17.707 5.293L14 1.586v12.828l2.293 2.293A1 1 0 0018 16V6a1 1 0 00-.293-.707z" clip-rule="evenodd"></path>
-        </svg>
+      <%= link_to 'View All Properties', tenant_admin_props_path, class: 'text-blue-600 hover:text-blue-800 text-sm mt-4 inline-block' %>
+    </div>
+
+    <!-- Active Tenants -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Active Tenants (30d)</p>
+          <p class="text-3xl font-bold text-gray-900 mt-2"><%= @active_tenants %></p>
+        </div>
+        <div class="bg-yellow-100 rounded-full p-3">
+          <svg class="w-8 h-8 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293A1 1 0 002 4v10a1 1 0 00.293.707L6 18.414V5.586L3.707 3.293zM17.707 5.293L14 1.586v12.828l2.293 2.293A1 1 0 0018 16V6a1 1 0 00-.293-.707z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- Quick Actions -->
-<div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm">
-  <h3 class="mb-4 text-xl font-bold text-gray-900">Quick Actions</h3>
-  <div class="flex flex-wrap gap-2">
-    <%= link_to "Create New Website", new_tenant_admin_website_path, class: "text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5" %>
-    <%= link_to "Add New User", new_tenant_admin_user_path, class: "text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5" %>
-    <%= link_to "View All Tenants", tenant_admin_websites_path, class: "text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5" %>
-  </div>
-</div>
-
-<!-- Recent Activity -->
-<div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-  <!-- Recent Websites -->
-  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
-    <div class="flex items-center justify-between mb-4">
-      <h3 class="text-lg font-semibold text-gray-900">Recent Websites</h3>
-      <%= link_to "View all", tenant_admin_websites_path, class: "text-sm font-medium text-primary-600 hover:underline" %>
-    </div>
-    <div class="flow-root">
-      <ul class="divide-y divide-gray-200">
-        <% @recent_websites.each do |website| %>
-          <li class="py-3">
-            <div class="flex items-center space-x-4">
-              <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900 truncate">
-                  <%= link_to website.subdomain || "(No subdomain)", tenant_admin_website_path(website), class: "hover:underline" %>
-                </p>
-                <p class="text-sm text-gray-500 truncate">
-                  <%= website.company_display_name || "N/A" %>
-                </p>
-              </div>
-              <div class="inline-flex items-center text-xs text-gray-500">
-                <%= time_ago_in_words(website.created_at) %> ago
-              </div>
-            </div>
-          </li>
-        <% end %>
-        <% if @recent_websites.empty? %>
-          <li class="py-3 text-sm text-gray-500">No websites yet</li>
-        <% end %>
-      </ul>
+      <span class="text-gray-500 text-sm mt-4 inline-block">Last 30 days activity</span>
     </div>
   </div>
 
-  <!-- Recent Users -->
-  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
-    <div class="flex items-center justify-between mb-4">
-      <h3 class="text-lg font-semibold text-gray-900">Recent Users</h3>
-      <%= link_to "View all", tenant_admin_users_path, class: "text-sm font-medium text-primary-600 hover:underline" %>
+  <!-- Quick Actions -->
+  <div class="bg-white rounded-lg shadow p-6 mb-8">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+    <div class="flex flex-wrap gap-3">
+      <%= link_to "Create New Website", new_tenant_admin_website_path, class: "text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5" %>
+      <%= link_to "Add New User", new_tenant_admin_user_path, class: "text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5" %>
+      <%= link_to "View All Tenants", tenant_admin_websites_path, class: "text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5" %>
     </div>
-    <div class="flow-root">
-      <ul class="divide-y divide-gray-200">
-        <% @recent_users.first(5).each do |user| %>
-          <li class="py-3">
-            <div class="flex items-center space-x-4">
-              <div class="flex-shrink-0">
-                <div class="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-white text-xs font-semibold">
-                  <%= user.email[0].upcase %>
-                </div>
-              </div>
-              <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900 truncate">
-                  <%= link_to user.email, tenant_admin_user_path(user), class: "hover:underline" %>
-                </p>
-                <% if user.respond_to?(:admin) %>
-                  <p class="text-xs text-gray-500">
-                    <%= user.admin ? '👑 Admin' : 'User' %>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Recent Websites -->
+    <div class="bg-white rounded-lg shadow">
+      <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+        <h2 class="text-lg font-semibold text-gray-900">Recent Websites</h2>
+        <%= link_to "View all", tenant_admin_websites_path, class: "text-sm font-medium text-blue-600 hover:underline" %>
+      </div>
+      <div class="p-6">
+        <% if @recent_websites.any? %>
+          <div class="space-y-3">
+            <% @recent_websites.each do |website| %>
+              <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                <div>
+                  <p class="font-medium text-gray-900">
+                    <%= link_to website.subdomain || "(No subdomain)", tenant_admin_website_path(website), class: "hover:underline" %>
                   </p>
-                <% end %>
-              </div>
-              <div class="inline-flex items-center text-xs text-gray-500">
-                <%= time_ago_in_words(user.created_at) %> ago
-              </div>
-            </div>
-          </li>
-        <% end %>
-        <% if @recent_users.empty? %>
-          <li class="py-3 text-sm text-gray-500">No users yet</li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Recent Properties -->
-  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
-    <div class="flex items-center justify-between mb-4">
-      <h3 class="text-lg font-semibold text-gray-900">Recent Properties</h3>
-      <%= link_to "View all", tenant_admin_props_path, class: "text-sm font-medium text-primary-600 hover:underline" %>
-    </div>
-    <div class="flow-root">
-      <ul class="divide-y divide-gray-200">
-        <% @recent_properties.first(5).each do |prop| %>
-          <li class="py-3">
-            <div class="flex items-center space-x-4">
-              <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900 truncate">
-                  <%= link_to prop.title || "Property ##{prop.id}", tenant_admin_prop_path(prop), class: "hover:underline" %>
-                </p>
-                <p class="text-xs text-gray-500 truncate">
-                  Ref: <%= prop.reference || "N/A" %>
-                </p>
-              </div>
-              <div class="inline-flex items-center text-xs text-gray-500">
-                <%= time_ago_in_words(prop.created_at) %> ago
-              </div>
-            </div>
-          </li>
-        <% end %>
-        <% if @recent_properties.empty? %>
-          <li class="py-3 text-sm text-gray-500">No properties yet</li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Recent Messages -->
-  <% if @recent_messages.present? %>
-    <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold text-gray-900">Recent Messages</h3>
-        <%= link_to "View all", tenant_admin_messages_path, class: "text-sm font-medium text-primary-600 hover:underline" %>
-      </div>
-      <div class="flow-root">
-        <ul class="divide-y divide-gray-200">
-          <% @recent_messages.first(5).each do |message| %>
-            <li class="py-3">
-              <div class="flex items-center space-x-4">
-                <div class="flex-1 min-w-0">
-                  <p class="text-sm font-medium text-gray-900 truncate">
-                    <%= message.respond_to?(:subject) ? message.subject : "Message ##{message.id}" %>
-                  </p>
-                  <p class= "text-xs text-gray-500 truncate">
-                    <%= message.respond_to?(:email) ? message.email : "N/A" %>
+                  <p class="text-sm text-gray-500">
+                    <%= website.company_display_name || "N/A" %>
                   </p>
                 </div>
-                <div class="inline-flex items-center text-xs text-gray-500">
-                  <%= time_ago_in_words(message.created_at) %> ago
+                <div class="text-xs text-gray-500">
+                  <%= time_ago_in_words(website.created_at) %> ago
                 </div>
               </div>
-            </li>
-          <% end %>
-        </ul>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-gray-500 text-center py-4">No websites yet</p>
+        <% end %>
       </div>
     </div>
-  <% end %>
+
+    <!-- Recent Users -->
+    <div class="bg-white rounded-lg shadow">
+      <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+        <h2 class="text-lg font-semibold text-gray-900">Recent Users</h2>
+        <%= link_to "View all", tenant_admin_users_path, class: "text-sm font-medium text-blue-600 hover:underline" %>
+      </div>
+      <div class="p-6">
+        <% if @recent_users.any? %>
+          <div class="space-y-3">
+            <% @recent_users.first(5).each do |user| %>
+              <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                <div class="flex items-center space-x-3">
+                  <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xs font-semibold">
+                    <%= user.email[0].upcase %>
+                  </div>
+                  <div>
+                    <p class="font-medium text-gray-900">
+                      <%= link_to user.email, tenant_admin_user_path(user), class: "hover:underline" %>
+                    </p>
+                    <% if user.respond_to?(:admin) && user.admin %>
+                      <p class="text-xs text-blue-600 font-medium">Admin</p>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="text-xs text-gray-500">
+                  <%= time_ago_in_words(user.created_at) %> ago
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-gray-500 text-center py-4">No users yet</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

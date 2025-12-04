@@ -1,49 +1,55 @@
-<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
-  <div class="w-full mb-1">
-    <div class="mb-4">
-      <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl">All Agencies</h1>
+<div class="max-w-7xl mx-auto">
+  <div class="mb-6 flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Agencies</h1>
+      <p class="mt-2 text-gray-600">Manage all agencies</p>
     </div>
   </div>
-</div>
 
-<div class="flex flex-col">
-  <div class="overflow-x-auto">
-    <div class="inline-block min-w-full align-middle">
-      <div class="overflow-hidden shadow">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-100">
+  <!-- Agencies Table -->
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Website</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% if @agencies.any? %>
+          <% @agencies.each do |agency| %>
             <tr>
-              <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase">Name</th>
-              <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase">Website</th>
-              <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase">Email</th>
-              <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase">Phone</th>
-              <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase">Actions</th>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <%= link_to (agency.company_name || agency.display_name || "Agency ##{agency.id}"), tenant_admin_agency_path(agency), class: "text-blue-600 hover:text-blue-800" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= agency.website&.subdomain || "N/A" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= agency.email_primary || "N/A" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= agency.phone_number_primary || "N/A" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm">
+                <%= link_to "View", tenant_admin_agency_path(agency), class: "text-blue-600 hover:text-blue-800 mr-3" %>
+              </td>
             </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <% @agencies.each do |agency| %>
-              <tr class="hover:bg-gray-100">
-                <td class="p-4 text-sm font-medium text-gray-900">
-                  <%= link_to (agency.company_name || agency.display_name || "Agency ##{agency.id}"), tenant_admin_agency_path(agency), class: "text-primary-600 hover:underline" %>
-                </td>
-                <td class="p-4 text-sm text-gray-500">
-                  <%= agency.website&.subdomain || "N/A" %>
-                </td>
-                <td class="p-4 text-sm text-gray-500"><%= agency.email_primary || "N/A" %></td>
-                <td class="p-4 text-sm text-gray-500"><%= agency.phone_number_primary || "N/A" %></td>
-                <td class="p-4 space-x-2">
-                  <%= link_to "View", tenant_admin_agency_path(agency), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800" %>
-                </td>
-              </tr>
-            <% end %>
-            <% if @agencies.empty? %>
-              <tr>
-                <td colspan="5" class="p-8 text-center text-gray-500">No agencies found</td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="5" class="px-6 py-12 text-center">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+              </svg>
+              <h3 class="mt-2 text-sm font-medium text-gray-900">No agencies found</h3>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </div>

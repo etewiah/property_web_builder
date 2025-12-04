@@ -26,39 +26,21 @@
   <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
 </head>
 
-<body class="bg-gray-50 h-full">
-  <div class="antialiased">
-    <%= render 'layouts/tenant_admin/header' %>
+<body class="bg-gray-50">
+  <div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <%= render 'layouts/tenant_admin/navigation' %>
 
-    <div class="flex pt-16 overflow-hidden bg-gray-50">
-      <%= render 'layouts/tenant_admin/navigation' %>
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <!-- Header -->
+      <%= render 'layouts/tenant_admin/header' %>
 
-      <div id="main-content" class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64">
-        <main>
-          <div class="px-4 pt-6">
-            <%= render 'layouts/tenant_admin/flash' %>
-            
-            <%= yield %>
-          </div>
-        </main>
-
-        <footer class="p-4 my-6 mx-4 bg-white rounded-lg shadow md:flex md:items-center md:justify-between md:p-6">
-          <span class="text-sm text-gray-500 sm:text-center">
-            © <%= Time.current.year %> PropertyWebBuilder. All rights reserved.
-          </span>
-          <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-500 sm:mt-0">
-            <li>
-              <a href="#" class="mr-4 hover:underline md:mr-6">About</a>
-            </li>
-            <li>
-              <a href="#" class="mr-4 hover:underline md:mr-6">Privacy  Policy</a>
-            </li>
-            <li>
-              <a href="#" class="hover:underline">Contact</a>
-            </li>
-          </ul>
-        </footer>
-      </div>
+      <!-- Content Area -->
+      <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
+        <%= render 'layouts/tenant_admin/flash' %>
+        <%= yield %>
+      </main>
     </div>
   </div>
 </body>

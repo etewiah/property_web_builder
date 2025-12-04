@@ -1,122 +1,91 @@
-<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
-  <div class="w-full mb-1">
-    <div class="mb-4">
-      <nav class="flex mb-5" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
-          <li class="inline-flex items-center">
-            <%= link_to tenant_admin_root_path, class: "inline-flex items-center text-gray-700 hover:text-primary-600" do %>
-              <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
-              Dashboard
-            <% end %>
-          </li>
-          <li>
-            <div class="flex items-center">
-              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-              <span class="ml-1 text-gray-400 md:ml-2" aria-current="page">Websites</span>
-            </div>
-          </li>
-        </ol>
-      </nav>
-      <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl">All Websites</h1>
+<div class="max-w-7xl mx-auto">
+  <div class="mb-6 flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Websites</h1>
+      <p class="mt-2 text-gray-600">Manage all tenant websites</p>
     </div>
-    <div class="sm:flex">
-      <div class="items-center hidden mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0">
-        <%= form_with url: tenant_admin_websites_path, method: :get, class: "lg:pr-3" do |f| %>
-          <label for="websites-search" class="sr-only">Search</label>
-          <div class="relative mt-1 lg:w-64 xl:w-96">
-            <%= f.text_field :search, value: params[:search], placeholder: "Search by subdomain or company name", class: "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5", id: "websites-search" %>
-          </div>
-        <% end %>
-      </div>
-      <div class="flex items-center ml-auto space-x-2 sm:space-x-3">
-        <%= link_to new_tenant_admin_website_path, class: "inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto" do %>
-          <svg class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-          Add Website
-        <% end %>
-      </div>
-    </div>
+    <%= link_to new_tenant_admin_website_path, class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center" do %>
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+      </svg>
+      Add Website
+    <% end %>
   </div>
-</div>
 
-<div class="flex flex-col">
-  <div class="overflow-x-auto">
-    <div class="inline-block min-w-full align-middle">
-      <div class="overflow-hidden shadow">
-        <table class="min-w-full divide-y divide-gray-200 table-fixed">
-          <thead class="bg-gray-100">
+  <!-- Search Form -->
+  <div class="mb-6 bg-white rounded-lg shadow p-4">
+    <%= form_with url: tenant_admin_websites_path, method: :get, local: true, class: "flex gap-4" do |f| %>
+      <div class="flex-1">
+        <%= f.text_field :search, value: params[:search], placeholder: "Search by subdomain or company name...", class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+      <%= f.submit "Search", class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" %>
+    <% end %>
+  </div>
+
+  <!-- Websites Table -->
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subdomain</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company Name</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Theme</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Users</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Properties</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% if @websites.any? %>
+          <% @websites.each do |website| %>
             <tr>
-              <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase">
-                Subdomain
-              </th>
-              <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase">
-                Company Name
-              </th>
-              <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase">
-                Theme
-              </th>
-              <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase">
-                Created
-              </th>
-              <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase">
-                Users
-              </th>
-              <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase">
-                Properties
-              </th>
-              <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase">
-                Actions
-              </th>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <%= link_to website.subdomain || "(No subdomain)", tenant_admin_website_path(website), class: "text-blue-600 hover:text-blue-800" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= website.company_display_name || "N/A" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= website.theme_name || "default" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= format_date(website.created_at) %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <% users_count = Pwb::User.unscoped.where(pwb_website_id: website.id).count rescue 0 %>
+                <%= users_count %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <% props_count = Pwb::Prop.unscoped.where(pwb_website_id: website.id).count rescue 0 %>
+                <%= props_count %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm">
+                <%= link_to "View", tenant_admin_website_path(website), class: "text-blue-600 hover:text-blue-800 mr-3" %>
+                <%= link_to "Edit", edit_tenant_admin_website_path(website), class: "text-green-600 hover:text-green-800" %>
+              </td>
             </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <% @websites.each do |website| %>
-              <tr class="hover:bg-gray-100">
-                <td class="p-4 text-sm font-medium text-gray-900 whitespace-nowrap">
-                  <%= link_to website.subdomain || "(No subdomain)", tenant_admin_website_path(website), class: "text-primary-600 hover:underline" %>
-                </td>
-                <td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap">
-                  <%= website.company_display_name || "N/A" %>
-                </td>
-                <td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap">
-                  <%= website.theme_name || "default" %>
-                </td>
-                <td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap">
-                  <%= time_ago_in_words(website.created_at) %> ago
-                </td>
-                <td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap">
-                  <% users_count = Pwb::User.unscoped.where(pwb_website_id: website.id).count rescue 0 %>
-                  <%= users_count %>
-                </td>
-                <td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap">
-                  <% props_count = Pwb::Prop.unscoped.where(pwb_website_id: website.id).count rescue 0 %>
-                  <%= props_count %>
-                </td>
-                <td class="p-4 space-x-2 whitespace-nowrap">
-                  <%= link_to "View", tenant_admin_website_path(website), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300" %>
-                  <%= link_to "Edit", edit_tenant_admin_website_path(website), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300" %>
-                </td>
-              </tr>
-            <% end %>
-            <% if @websites.empty? %>
-              <tr>
-                <td colspan="7" class="p-4 text-sm text-center text-gray-500">
-                  <div class="flex flex-col items-center justify-center p-8">
-                    <svg class="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
-                    </svg>
-                    <p class="text-lg font-medium text-gray-900">No websites found</p>
-                    <p class="text-sm text-gray-500 mt-1">Get started by creating a new website</p>
-                    <%= link_to "Create Website", new_tenant_admin_website_path, class: "mt-4 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300" %>
-                  </div>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="7" class="px-6 py-12 text-center">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+              </svg>
+              <h3 class="mt-2 text-sm font-medium text-gray-900">No websites found</h3>
+              <p class="mt-1 text-sm text-gray-500">Get started by creating a new website.</p>
+              <div class="mt-6">
+                <%= link_to new_tenant_admin_website_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" do %>
+                  <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                  </svg>
+                  Create Website
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </div>
-
-<!-- Pagination placeholder -->
-<%# TODO: Add pagination using Kaminari or Pagy %>
