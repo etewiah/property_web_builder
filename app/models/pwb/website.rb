@@ -13,6 +13,9 @@ module Pwb
     has_many :contents
     has_many :links
     has_many :users
+    has_many :contacts
+    has_many :messages
+    has_many :website_photos
 
     # Multi-website support via memberships
     has_many :user_memberships, dependent: :destroy

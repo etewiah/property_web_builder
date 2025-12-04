@@ -19,7 +19,7 @@ module Mutations
       # I18n.locale = params["contact"]["locale"] || I18n.default_locale
 
       @property = current_website.props.find(propertyId)
-      @contact = Pwb::Contact.find_or_initialize_by(primary_email: contact["email"])
+      @contact = current_website.contacts.find_or_initialize_by(primary_email: contact["email"])
       @contact.attributes = {
         primary_phone_number: contact["tel"],
         first_name: contact["name"],
@@ -27,6 +27,7 @@ module Mutations
 
       title = I18n.t "mailers.property_enquiry_targeting_agency.title"
       @enquiry = Pwb::Message.new({
+        website: current_website,
         title: title,
         # content: contact[:message],
         # locale: contact[:locale],

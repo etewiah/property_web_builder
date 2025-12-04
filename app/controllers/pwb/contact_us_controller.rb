@@ -54,7 +54,7 @@ module Pwb
       # have a hidden field in form to pass in above
       # @enquiry = Message.new(params[:contact])
 
-      @contact = Contact.find_or_initialize_by(primary_email: params[:contact][:email])
+      @contact = @current_website.contacts.find_or_initialize_by(primary_email: params[:contact][:email])
       @contact.attributes = {
         primary_phone_number: params[:contact][:tel],
         first_name: params[:contact][:name]
@@ -62,6 +62,7 @@ module Pwb
 
       @enquiry = Message.new(
         {
+          website: @current_website,
           title: params[:contact][:subject],
           content: params[:contact][:message],
           locale: params[:contact][:locale],

@@ -1,5 +1,6 @@
 module Pwb
   class WebsitePhoto < ApplicationRecord
+    belongs_to :website, optional: true
     has_one_attached :image
 
     # validates_processing_of :image

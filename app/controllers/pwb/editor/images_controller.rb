@@ -33,7 +33,7 @@ module Pwb
         end
 
         # Website photos (logo, backgrounds, etc.)
-        Pwb::WebsitePhoto.all.limit(20).each do |photo|
+        @current_website.website_photos.limit(20).each do |photo|
           next unless photo.image.attached?
           begin
             images << {
@@ -76,7 +76,7 @@ module Pwb
         if params[:image].present?
           content_photo = Pwb::ContentPhoto.new
           content_photo.image.attach(params[:image])
-          
+
           if content_photo.save
             render json: {
               success: true,

@@ -57,7 +57,7 @@ module Pwb
       # if I didn't I could end up with the wrong locale
       # @enquiry = Message.new(params[:contact])
       @property = @current_website.props.find(params[:contact][:property_id])
-      @contact = Contact.find_or_initialize_by(primary_email: params[:contact][:email])
+      @contact = @current_website.contacts.find_or_initialize_by(primary_email: params[:contact][:email])
       @contact.attributes = {
         primary_phone_number: params[:contact][:tel],
         first_name: params[:contact][:name],
@@ -65,6 +65,7 @@ module Pwb
 
       title = I18n.t "mailers.property_enquiry_targeting_agency.title"
       @enquiry = Message.new({
+        website: @current_website,
         title: title,
         content: params[:contact][:message],
         locale: params[:contact][:locale],

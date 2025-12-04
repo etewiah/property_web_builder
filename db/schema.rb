@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_04_140232) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_04_141849) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -140,7 +140,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_140232) do
     t.string "facebook_id"
     t.string "linkedin_id"
     t.string "twitter_id"
-    t.string "website"
+    t.string "website_url"
     t.string "documentation_id"
     t.integer "documentation_type"
     t.integer "user_id"
@@ -150,6 +150,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_140232) do
     t.json "details", default: {}
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.bigint "website_id"
     t.index ["documentation_id"], name: "index_pwb_contacts_on_documentation_id"
     t.index ["first_name", "last_name"], name: "index_pwb_contacts_on_first_name_and_last_name"
     t.index ["first_name"], name: "index_pwb_contacts_on_first_name"
@@ -157,6 +158,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_140232) do
     t.index ["primary_email"], name: "index_pwb_contacts_on_primary_email"
     t.index ["primary_phone_number"], name: "index_pwb_contacts_on_primary_phone_number"
     t.index ["title"], name: "index_pwb_contacts_on_title"
+    t.index ["website_id"], name: "index_pwb_contacts_on_website_id"
   end
 
   create_table "pwb_content_photos", id: :serial, force: :cascade do |t|
@@ -275,6 +277,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_140232) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "contact_id"
+    t.bigint "website_id"
+    t.index ["website_id"], name: "index_pwb_messages_on_website_id"
   end
 
   create_table "pwb_page_contents", force: :cascade do |t|
@@ -508,7 +512,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_140232) do
     t.integer "file_size"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.bigint "website_id"
     t.index ["photo_key"], name: "index_pwb_website_photos_on_photo_key"
+    t.index ["website_id"], name: "index_pwb_website_photos_on_website_id"
   end
 
   create_table "pwb_websites", id: :serial, force: :cascade do |t|
@@ -568,7 +574,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_140232) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "pwb_contacts", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_field_keys", "pwb_websites"
+  add_foreign_key "pwb_messages", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_user_memberships", "pwb_users", column: "user_id"
   add_foreign_key "pwb_user_memberships", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_website_photos", "pwb_websites", column: "website_id"
 end
