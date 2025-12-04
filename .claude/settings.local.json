@@ -31,5 +31,6 @@
     "git",
     "filesystem",
     "memory"
-  ]
+  ],
+  "enableAllProjectMcpServers": true
 }

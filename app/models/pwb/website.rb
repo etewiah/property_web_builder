@@ -9,6 +9,10 @@ module Pwb
     has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: "Pwb::PageContent"
 
     has_many :props
+    has_many :realty_assets, class_name: 'Pwb::RealtyAsset', foreign_key: 'website_id'
+    has_many :sale_listings, through: :realty_assets
+    has_many :rental_listings, through: :realty_assets
+    
     has_many :pages
     has_many :contents
     has_many :links

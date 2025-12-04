@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_04_141849) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_04_181516) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pgcrypto"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -206,7 +207,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_141849) do
     t.integer "prop_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.uuid "realty_asset_id"
     t.index ["feature_key"], name: "index_pwb_features_on_feature_key"
+    t.index ["realty_asset_id"], name: "index_pwb_features_on_realty_asset_id"
   end
 
   create_table "pwb_field_keys", id: :serial, force: :cascade do |t|
@@ -360,7 +363,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_141849) do
     t.integer "sort_order"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.uuid "realty_asset_id"
     t.index ["prop_id"], name: "index_pwb_prop_photos_on_prop_id"
+    t.index ["realty_asset_id"], name: "index_pwb_prop_photos_on_realty_asset_id"
   end
 
   create_table "pwb_prop_translations", force: :cascade do |t|
@@ -370,8 +375,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_141849) do
     t.datetime "updated_at", null: false
     t.string "title", default: ""
     t.text "description", default: ""
+    t.uuid "realty_asset_id"
     t.index ["locale"], name: "index_pwb_prop_translations_on_locale"
     t.index ["prop_id"], name: "index_pwb_prop_translations_on_pwb_prop_id"
+    t.index ["realty_asset_id"], name: "index_pwb_prop_translations_on_realty_asset_id"
   end
 
   create_table "pwb_props", id: :serial, force: :cascade do |t|
@@ -452,6 +459,73 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_141849) do
     t.index ["reference"], name: "index_pwb_props_on_reference"
     t.index ["visible"], name: "index_pwb_props_on_visible"
     t.index ["website_id"], name: "index_pwb_props_on_website_id"
+  end
+
+  create_table "pwb_realty_assets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "reference"
+    t.string "title"
+    t.text "description"
+    t.integer "year_construction", default: 0
+    t.integer "count_bedrooms", default: 0
+    t.float "count_bathrooms", default: 0.0
+    t.integer "count_toilets", default: 0
+    t.integer "count_garages", default: 0
+    t.float "plot_area", default: 0.0
+    t.float "constructed_area", default: 0.0
+    t.integer "energy_rating"
+    t.float "energy_performance"
+    t.string "street_number"
+    t.string "street_name"
+    t.string "street_address"
+    t.string "postal_code"
+    t.string "city"
+    t.string "region"
+    t.string "country"
+    t.float "latitude"
+    t.float "longitude"
+    t.string "prop_origin_key"
+    t.string "prop_state_key"
+    t.string "prop_type_key"
+    t.integer "website_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["website_id"], name: "index_pwb_realty_assets_on_website_id"
+  end
+
+  create_table "pwb_rental_listings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "realty_asset_id"
+    t.string "reference"
+    t.boolean "visible", default: false
+    t.boolean "highlighted", default: false
+    t.boolean "archived", default: false
+    t.boolean "reserved", default: false
+    t.boolean "furnished", default: false
+    t.boolean "for_rent_short_term", default: false
+    t.boolean "for_rent_long_term", default: false
+    t.bigint "price_rental_monthly_current_cents", default: 0
+    t.string "price_rental_monthly_current_currency", default: "EUR"
+    t.bigint "price_rental_monthly_low_season_cents", default: 0
+    t.bigint "price_rental_monthly_high_season_cents", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["realty_asset_id"], name: "index_pwb_rental_listings_on_realty_asset_id"
+  end
+
+  create_table "pwb_sale_listings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "realty_asset_id"
+    t.string "reference"
+    t.boolean "visible", default: false
+    t.boolean "highlighted", default: false
+    t.boolean "archived", default: false
+    t.boolean "reserved", default: false
+    t.boolean "furnished", default: false
+    t.bigint "price_sale_current_cents", default: 0
+    t.string "price_sale_current_currency", default: "EUR"
+    t.bigint "commission_cents", default: 0
+    t.string "commission_currency", default: "EUR"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["realty_asset_id"], name: "index_pwb_sale_listings_on_realty_asset_id"
   end
 
   create_table "pwb_user_memberships", force: :cascade do |t|
@@ -575,8 +649,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_141849) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "pwb_contacts", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_features", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_field_keys", "pwb_websites"
   add_foreign_key "pwb_messages", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_prop_photos", "pwb_realty_assets", column: "realty_asset_id"
+  add_foreign_key "pwb_prop_translations", "pwb_realty_assets", column: "realty_asset_id"
+  add_foreign_key "pwb_rental_listings", "pwb_realty_assets", column: "realty_asset_id"
+  add_foreign_key "pwb_sale_listings", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_user_memberships", "pwb_users", column: "user_id"
   add_foreign_key "pwb_user_memberships", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_website_photos", "pwb_websites", column: "website_id"
