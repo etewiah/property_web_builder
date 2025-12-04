@@ -209,19 +209,19 @@ module Pwb
 
     describe 'materialized view refresh' do
       it 'triggers refresh after create' do
-        expect(Pwb::Property).to receive(:refresh)
+        expect(Pwb::ListedProperty).to receive(:refresh)
         create(:pwb_realty_asset, website: website)
       end
 
       it 'triggers refresh after update' do
         realty_asset # create it first
-        expect(Pwb::Property).to receive(:refresh)
+        expect(Pwb::ListedProperty).to receive(:refresh)
         realty_asset.update(count_bedrooms: 5)
       end
 
       it 'triggers refresh after destroy' do
         realty_asset # create it first
-        expect(Pwb::Property).to receive(:refresh)
+        expect(Pwb::ListedProperty).to receive(:refresh)
         realty_asset.destroy
       end
     end

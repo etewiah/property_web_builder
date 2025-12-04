@@ -6,7 +6,7 @@ module Pwb
   #   - SaleListing (for properties being sold)
   #   - RentalListing (for properties being rented)
   #
-  # For read operations, use Pwb::Property (materialized view) instead,
+  # For read operations, use Pwb::ListedProperty (materialized view) instead,
   # which provides a denormalized, query-optimized view of all data.
   #
   class RealtyAsset < ApplicationRecord
@@ -141,7 +141,7 @@ module Pwb
     private
 
     def refresh_properties_view
-      Pwb::Property.refresh
+      Pwb::ListedProperty.refresh
     rescue StandardError => e
       Rails.logger.warn "Failed to refresh properties view: #{e.message}"
     end

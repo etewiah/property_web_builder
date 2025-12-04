@@ -9,9 +9,9 @@ module SiteAdmin
       @website = current_website
 
       # Statistics for current website
-      # Use Pwb::Property (materialized view) for property counts
+      # Use Pwb::ListedProperty (materialized view) for property counts
       @stats = {
-        total_properties: Pwb::Property.count,
+        total_properties: Pwb::ListedProperty.count,
         total_pages: Pwb::Page.count,
         total_contents: Pwb::Content.count,
         total_messages: Pwb::Message.count,
@@ -19,8 +19,8 @@ module SiteAdmin
       }
 
       # Recent activity for current website
-      # Use Pwb::Property (materialized view) for property listing
-      @recent_properties = Pwb::Property.order(created_at: :desc).limit(5)
+      # Use Pwb::ListedProperty (materialized view) for property listing
+      @recent_properties = Pwb::ListedProperty.order(created_at: :desc).limit(5)
       @recent_messages = Pwb::Message.order(created_at: :desc).limit(5)
       @recent_contacts = Pwb::Contact.order(created_at: :desc).limit(5)
     end

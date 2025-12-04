@@ -135,25 +135,25 @@ module Pwb
 
       it 'triggers refresh after create' do
         # Set expectation before creating the listing
-        allow(Pwb::Property).to receive(:refresh)
+        allow(Pwb::ListedProperty).to receive(:refresh)
         create(:pwb_rental_listing, realty_asset: realty_asset)
-        expect(Pwb::Property).to have_received(:refresh).at_least(:once)
+        expect(Pwb::ListedProperty).to have_received(:refresh).at_least(:once)
       end
 
       it 'triggers refresh after update' do
         # Create listing first, then set expectation for update
         listing = create(:pwb_rental_listing, realty_asset: realty_asset)
-        allow(Pwb::Property).to receive(:refresh)
+        allow(Pwb::ListedProperty).to receive(:refresh)
         listing.update(price_rental_monthly_current_cents: 2_500_00)
-        expect(Pwb::Property).to have_received(:refresh).at_least(:once)
+        expect(Pwb::ListedProperty).to have_received(:refresh).at_least(:once)
       end
 
       it 'triggers refresh after destroy' do
         # Create listing first, then set expectation for destroy
         listing = create(:pwb_rental_listing, realty_asset: realty_asset)
-        allow(Pwb::Property).to receive(:refresh)
+        allow(Pwb::ListedProperty).to receive(:refresh)
         listing.destroy
-        expect(Pwb::Property).to have_received(:refresh).at_least(:once)
+        expect(Pwb::ListedProperty).to have_received(:refresh).at_least(:once)
       end
     end
   end

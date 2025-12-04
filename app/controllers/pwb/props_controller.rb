@@ -8,8 +8,8 @@ module Pwb
       @operation_type_key = @operation_type.camelize(:lower)
       @map_markers = []
 
-      # Use Pwb::Property (materialized view) for read operations
-      @property_details = Pwb::Property.where(website_id: @current_website.id).find_by(id: params[:id])
+      # Use Pwb::ListedProperty (materialized view) for read operations
+      @property_details = Pwb::ListedProperty.where(website_id: @current_website.id).find_by(id: params[:id])
 
       if @property_details && @property_details.visible && @property_details.for_rent
         set_map_marker
@@ -32,8 +32,8 @@ module Pwb
       @operation_type_key = @operation_type.camelize(:lower)
       @map_markers = []
 
-      # Use Pwb::Property (materialized view) for read operations
-      @property_details = Pwb::Property.where(website_id: @current_website.id).find_by(id: params[:id])
+      # Use Pwb::ListedProperty (materialized view) for read operations
+      @property_details = Pwb::ListedProperty.where(website_id: @current_website.id).find_by(id: params[:id])
 
       if @property_details && @property_details.visible && @property_details.for_sale
         set_map_marker
@@ -54,8 +54,8 @@ module Pwb
       # have a hidden field in form to pass in above
       # if I didn't I could end up with the wrong locale
       # @enquiry = Message.new(params[:contact])
-      # Use Pwb::Property (materialized view) for read operations
-      @property = Pwb::Property.where(website_id: @current_website.id).find(params[:contact][:property_id])
+      # Use Pwb::ListedProperty (materialized view) for read operations
+      @property = Pwb::ListedProperty.where(website_id: @current_website.id).find(params[:contact][:property_id])
       @contact = @current_website.contacts.find_or_initialize_by(primary_email: params[:contact][:email])
       @contact.attributes = {
         primary_phone_number: params[:contact][:tel],

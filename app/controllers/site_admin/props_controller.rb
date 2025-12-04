@@ -3,7 +3,7 @@
 module SiteAdmin
   # PropsController
   # Manages properties for the current website
-  # Uses Pwb::Property (materialized view) for reads and Pwb::RealtyAsset for writes
+  # Uses Pwb::ListedProperty (materialized view) for reads and Pwb::RealtyAsset for writes
   class PropsController < SiteAdminController
     before_action :set_property, only: [:show]
     before_action :set_realty_asset, only: [
@@ -13,8 +13,8 @@ module SiteAdmin
     ]
 
     def index
-      # Use Pwb::Property (materialized view) for listing - it's optimized for reads
-      @props = Pwb::Property.order(created_at: :desc).limit(100)
+      # Use Pwb::ListedProperty (materialized view) for listing - it's optimized for reads
+      @props = Pwb::ListedProperty.order(created_at: :desc).limit(100)
 
       if params[:search].present?
         @props = @props.where('reference ILIKE ?', "%#{params[:search]}%")
@@ -115,7 +115,7 @@ module SiteAdmin
 
     def set_property
       # Use Property view for read-only show action
-      @prop = Pwb::Property.find(params[:id])
+      @prop = Pwb::ListedProperty.find(params[:id])
     end
 
     def set_realty_asset

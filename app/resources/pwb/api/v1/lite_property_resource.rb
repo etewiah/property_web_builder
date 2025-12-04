@@ -1,8 +1,8 @@
 module Pwb
   # Lite version of PropertyResource with fewer attributes for faster loading
   class Api::V1::LitePropertyResource < JSONAPI::Resource
-    # Use Pwb::Property (materialized view) for read operations
-    model_name 'Pwb::Property'
+    # Use Pwb::ListedProperty (materialized view) for read operations
+    model_name 'Pwb::ListedProperty'
 
     attributes :year_construction
     attributes :prop_type_key, :prop_state_key, :prop_origin_key
@@ -33,9 +33,9 @@ module Pwb
     def self.records(options = {})
       current_website = Pwb::Current.website
       if current_website
-        Pwb::Property.where(website_id: current_website.id)
+        Pwb::ListedProperty.where(website_id: current_website.id)
       else
-        Pwb::Property.none
+        Pwb::ListedProperty.none
       end
     end
   end

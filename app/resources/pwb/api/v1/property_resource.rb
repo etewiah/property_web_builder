@@ -1,7 +1,7 @@
 module Pwb
   class Api::V1::PropertyResource < JSONAPI::Resource
-    # Use Pwb::Property (materialized view) for read operations
-    model_name "Pwb::Property"
+    # Use Pwb::ListedProperty (materialized view) for read operations
+    model_name "Pwb::ListedProperty"
 
     # NOTE: This resource is READ-ONLY because it's backed by a materialized view.
     # For write operations, use the underlying models directly:
@@ -69,9 +69,9 @@ module Pwb
     def self.records(options = {})
       current_website = Pwb::Current.website
       if current_website
-        Pwb::Property.where(website_id: current_website.id)
+        Pwb::ListedProperty.where(website_id: current_website.id)
       else
-        Pwb::Property.none
+        Pwb::ListedProperty.none
       end
     end
   end

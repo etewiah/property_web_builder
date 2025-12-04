@@ -100,7 +100,7 @@ Pwb::Contact.find_or_create_by!(primary_email: 'contact@tenant-b.test') do |c|
 end
 
 # Add a sample property for each tenant if not present
-# Note: Pwb::Property is a read-only materialized view. To create properties,
+# Note: Pwb::ListedProperty is a read-only materialized view. To create properties,
 # use Pwb::Prop (legacy) or create Pwb::RealtyAsset with associated listings.
 puts "Ensuring at least one property per tenant..."
 if tenant_a.props.count == 0
@@ -134,7 +134,7 @@ end
 
 # Refresh the materialized view to include the new properties
 puts "Refreshing properties materialized view..."
-Pwb::Property.refresh rescue nil
+Pwb::ListedProperty.refresh rescue nil
 
 puts "✅ E2E test data seeded successfully!"
 puts ""

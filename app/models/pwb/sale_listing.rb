@@ -27,7 +27,7 @@ module Pwb
     private
 
     def refresh_properties_view
-      Pwb::Property.refresh
+      Pwb::ListedProperty.refresh
     rescue StandardError => e
       Rails.logger.warn "Failed to refresh properties view: #{e.message}"
     end

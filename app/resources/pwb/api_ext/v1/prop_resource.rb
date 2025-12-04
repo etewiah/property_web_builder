@@ -1,7 +1,7 @@
 module Pwb
   class ApiExt::V1::PropResource < JSONAPI::Resource
-    # Use Pwb::Property (materialized view) for read operations
-    model_name 'Pwb::Property'
+    # Use Pwb::ListedProperty (materialized view) for read operations
+    model_name 'Pwb::ListedProperty'
 
     # NOTE: This resource is READ-ONLY because it's backed by a materialized view.
     # For write operations, use the underlying models directly.

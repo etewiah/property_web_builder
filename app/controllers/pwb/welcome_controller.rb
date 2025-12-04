@@ -14,8 +14,9 @@ module Pwb
           @page_title = @page.page_title + ' - ' + @current_agency.company_name.to_s
         end
 
-        @properties_for_sale = @current_website.props.for_sale.visible.includes(:prop_photos, :translations).order('highlighted DESC').limit 9
-        @properties_for_rent = @current_website.props.for_rent.visible.includes(:prop_photos, :translations).order('highlighted DESC').limit 9
+        # Note: translations are now stored in JSONB column via Mobility, no need to eager load
+        @properties_for_sale = @current_website.props.for_sale.visible.includes(:prop_photos).order('highlighted DESC').limit 9
+        @properties_for_rent = @current_website.props.for_rent.visible.includes(:prop_photos).order('highlighted DESC').limit 9
 
         # @search_defaults = params[:search].present? ? params[:search] : {}
 

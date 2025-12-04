@@ -26,8 +26,8 @@
 # Note on Property Models:
 # ------------------------
 # This seeder creates properties using Pwb::Prop (the legacy model).
-# Pwb::Property is a READ-ONLY materialized view for optimized queries.
-# Do NOT use Pwb::Property.create! - it will raise ActiveRecord::ReadOnlyRecord.
+# Pwb::ListedProperty is a READ-ONLY materialized view for optimized queries.
+# Do NOT use Pwb::ListedProperty.create! - it will raise ActiveRecord::ReadOnlyRecord.
 # The materialized view is automatically refreshed when Pwb::RealtyAsset,
 # Pwb::SaleListing, or Pwb::RentalListing records are modified.
 #
@@ -112,7 +112,7 @@ module Pwb
 
         # Refresh the materialized view to include all properties
         puts "   🔄 Refreshing properties materialized view..."
-        Pwb::Property.refresh
+        Pwb::ListedProperty.refresh
       end
 
       # Backfills normalized records (RealtyAsset, listings) for existing Pwb::Prop records

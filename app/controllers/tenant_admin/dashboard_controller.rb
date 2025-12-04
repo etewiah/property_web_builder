@@ -4,10 +4,10 @@ module TenantAdmin
   class DashboardController < TenantAdminController
     def index
       # System overview statistics
-      # Use Pwb::Property (materialized view) for property counts
+      # Use Pwb::ListedProperty (materialized view) for property counts
       @total_websites = Pwb::Website.unscoped.count
       @total_users = Pwb::User.unscoped.count
-      @total_properties = Pwb::Property.count
+      @total_properties = Pwb::ListedProperty.count
       @active_tenants = Pwb::Website.unscoped
                                      .where('updated_at >= ?', 30.days.ago)
                                      .count
@@ -25,8 +25,8 @@ module TenantAdmin
                                       .order(created_at: :desc)
                                       .limit(10) rescue []
 
-      # Use Pwb::Property (materialized view) for property listing
-      @recent_properties = Pwb::Property.order(created_at: :desc).limit(10)
+      # Use Pwb::ListedProperty (materialized view) for property listing
+      @recent_properties = Pwb::ListedProperty.order(created_at: :desc).limit(10)
     end
   end
 end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 module Pwb
-  RSpec.describe Property, type: :model do
+  RSpec.describe ListedProperty, type: :model do
     # Disable automatic refresh during test setup to control when it happens
     before(:each) do
       allow_any_instance_of(Pwb::RealtyAsset).to receive(:refresh_properties_view)
@@ -13,15 +13,15 @@ module Pwb
 
     # Helper to refresh the view and reload
     def refresh_and_find(id)
-      Pwb::Property.refresh
-      Pwb::Property.find(id)
+      Pwb::ListedProperty.refresh
+      Pwb::ListedProperty.find(id)
     end
 
     describe 'materialized view basics' do
       let!(:asset) { create(:pwb_realty_asset, website: website, reference: 'TEST-001') }
       let!(:sale_listing) { create(:pwb_sale_listing, :visible, realty_asset: asset) }
 
-      before { Pwb::Property.refresh }
+      before { Pwb::ListedProperty.refresh }
 
       it 'is backed by a materialized view' do
         expect(Property.table_name).to eq('pwb_properties')
@@ -48,13 +48,13 @@ module Pwb
 
       it 'updates the materialized view' do
         # Initially no listing
-        Pwb::Property.refresh
+        Pwb::ListedProperty.refresh
         property = Property.find(asset.id)
         expect(property.for_sale).to be false
 
         # Add a sale listing
         create(:pwb_sale_listing, :visible, realty_asset: asset)
-        Pwb::Property.refresh
+        Pwb::ListedProperty.refresh
 
         # Now should show for_sale
         property = Property.find(asset.id)
@@ -62,11 +62,11 @@ module Pwb
       end
 
       it 'can refresh concurrently' do
-        expect { Pwb::Property.refresh(concurrently: true) }.not_to raise_error
+        expect { Pwb::ListedProperty.refresh(concurrently: true) }.not_to raise_error
       end
 
       it 'can refresh non-concurrently' do
-        expect { Pwb::Property.refresh(concurrently: false) }.not_to raise_error
+        expect { Pwb::ListedProperty.refresh(concurrently: false) }.not_to raise_error
       end
     end
 
@@ -78,7 +78,7 @@ module Pwb
       let!(:sale_listing) { create(:pwb_sale_listing, :visible, :highlighted, realty_asset: sale_asset, price_sale_current_cents: 300_000_00) }
       let!(:rental_listing) { create(:pwb_rental_listing, :visible, :long_term, realty_asset: rental_asset, price_rental_monthly_current_cents: 1_500_00) }
 
-      before { Pwb::Property.refresh }
+      before { Pwb::ListedProperty.refresh }
 
       describe '.visible' do
         it 'returns properties with visible listings' do
@@ -155,7 +155,7 @@ module Pwb
       let!(:asset) { create(:pwb_realty_asset, :with_photos, :with_features, website: website) }
       let!(:sale_listing) { create(:pwb_sale_listing, :visible, :with_translations, realty_asset: asset) }
 
-      before { Pwb::Property.refresh }
+      before { Pwb::ListedProperty.refresh }
 
       it 'has access to prop_photos' do
         property = Property.find(asset.id)
@@ -187,7 +187,7 @@ module Pwb
       let!(:sale_listing) { create(:pwb_sale_listing, :visible, realty_asset: asset) }
       let!(:rental_listing) { create(:pwb_rental_listing, :visible, :long_term, realty_asset: asset) }
 
-      before { Pwb::Property.refresh }
+      before { Pwb::ListedProperty.refresh }
 
       it '#realty_asset returns the underlying RealtyAsset' do
         property = Property.find(asset.id)
@@ -212,7 +212,7 @@ module Pwb
       let!(:asset) { create(:pwb_realty_asset, website: website) }
       let!(:sale_listing) { create(:pwb_sale_listing, :visible, :with_translations, realty_asset: asset) }
 
-      before { Pwb::Property.refresh }
+      before { Pwb::ListedProperty.refresh }
 
       it '#title returns translated title from listing' do
         property = Property.find(asset.id)
@@ -248,7 +248,7 @@ module Pwb
       end
       let!(:sale_listing) { create(:pwb_sale_listing, :visible, realty_asset: asset) }
 
-      before { Pwb::Property.refresh }
+      before { Pwb::ListedProperty.refresh }
 
       let(:property) { Property.find(asset.id) }
 
@@ -282,7 +282,7 @@ module Pwb
         let!(:asset) { create(:pwb_realty_asset, website: website) }
         let!(:sale_listing) { create(:pwb_sale_listing, :visible, realty_asset: asset, price_sale_current_cents: 350_000_00) }
 
-        before { Pwb::Property.refresh }
+        before { Pwb::ListedProperty.refresh }
 
         let(:property) { Property.find(asset.id) }
 
@@ -302,7 +302,7 @@ module Pwb
         let!(:asset) { create(:pwb_realty_asset, website: website) }
         let!(:rental_listing) { create(:pwb_rental_listing, :visible, :long_term, realty_asset: asset, price_rental_monthly_current_cents: 2_000_00) }
 
-        before { Pwb::Property.refresh }
+        before { Pwb::ListedProperty.refresh }
 
         let(:property) { Property.find(asset.id) }
 
@@ -323,7 +323,7 @@ module Pwb
                  price_rental_monthly_high_season_cents: 2_500_00)
         end
 
-        before { Pwb::Property.refresh }
+        before { Pwb::ListedProperty.refresh }
 
         let(:property) { Property.find(asset.id) }
 
@@ -341,7 +341,7 @@ module Pwb
       let!(:asset) { create(:pwb_realty_asset, :with_features, website: website) }
       let!(:sale_listing) { create(:pwb_sale_listing, :visible, realty_asset: asset) }
 
-      before { Pwb::Property.refresh }
+      before { Pwb::ListedProperty.refresh }
 
       let(:property) { Property.find(asset.id) }
 
@@ -363,7 +363,7 @@ module Pwb
       let!(:asset) { create(:pwb_realty_asset, :with_photos, website: website) }
       let!(:sale_listing) { create(:pwb_sale_listing, :visible, realty_asset: asset) }
 
-      before { Pwb::Property.refresh }
+      before { Pwb::ListedProperty.refresh }
 
       let(:property) { Property.find(asset.id) }
 
@@ -382,7 +382,7 @@ module Pwb
       let!(:asset) { create(:pwb_realty_asset, website: website) }
       let!(:sale_listing) { create(:pwb_sale_listing, :visible, :with_translations, realty_asset: asset) }
 
-      before { Pwb::Property.refresh }
+      before { Pwb::ListedProperty.refresh }
 
       let(:property) { Property.find(asset.id) }
 
@@ -415,7 +415,7 @@ module Pwb
         asset
       end
 
-      before { Pwb::Property.refresh }
+      before { Pwb::ListedProperty.refresh }
 
       it 'returns sale properties for sale_or_rental: sale' do
         results = Property.properties_search(sale_or_rental: 'sale')
@@ -440,7 +440,7 @@ module Pwb
       let!(:asset) { create(:pwb_realty_asset, :with_photos, website: website) }
       let!(:sale_listing) { create(:pwb_sale_listing, :visible, :with_translations, realty_asset: asset) }
 
-      before { Pwb::Property.refresh }
+      before { Pwb::ListedProperty.refresh }
 
       let(:property) { Property.find(asset.id) }
 
