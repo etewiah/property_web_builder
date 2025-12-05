@@ -8,7 +8,7 @@ module SiteAdmin
     before_action :set_property, only: [:show]
     before_action :set_realty_asset, only: [
       :edit_general, :edit_text, :edit_sale_rental, :edit_location,
-      :edit_features, :edit_photos, :upload_photos, :remove_photo,
+      :edit_labels, :edit_photos, :upload_photos, :remove_photo,
       :reorder_photos, :update
     ]
 
@@ -48,24 +48,29 @@ module SiteAdmin
       render :edit_location
     end
 
-    def edit_features
-      # Load available features from FieldKey where tag is 'extras'
-      # If no field keys exist, provide a default set of common property features
-      @available_features = Pwb::FieldKey.where(tag: 'extras').visible.pluck(:global_key)
+    def edit_labels
+      # Load available labels from FieldKey organized by category
+      # Categories match those in /site_admin/properties/settings
+      @label_categories = {
+        'property-types' => { title: 'Property Type', description: 'What type of property is this?' },
+        'property-states' => { title: 'Property State', description: 'Physical condition of the property' },
+        'property-features' => { title: 'Features', description: 'Permanent physical attributes' },
+        'property-amenities' => { title: 'Amenities', description: 'Equipment and services' },
+        'property-status' => { title: 'Status', description: 'Transaction status' },
+        'property-highlights' => { title: 'Highlights', description: 'Marketing flags' },
+        'listing-origin' => { title: 'Listing Origin', description: 'Source of the listing' }
+      }
 
-      if @available_features.empty?
-        @available_features = %w[
-          extras.pool extras.garden extras.terrace extras.balcony
-          extras.air_conditioning extras.heating extras.elevator extras.storage
-          extras.security extras.video_intercom extras.gated_community extras.parking
-          extras.sea_view extras.mountain_view extras.fireplace extras.fitted_kitchen
-        ]
+      # Load field keys for each category
+      @labels_by_category = {}
+      @label_categories.each_key do |tag|
+        @labels_by_category[tag] = Pwb::FieldKey.where(tag: tag).visible.order(:sort_order).pluck(:global_key)
       end
 
-      # Get current features for this property
+      # Get current labels for this property
       @current_features = @prop.features.pluck(:feature_key)
 
-      render :edit_features
+      render :edit_labels
     end
 
     def edit_photos

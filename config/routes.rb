@@ -47,7 +47,7 @@ Rails.application.routes.draw do
         get 'edit/text', to: 'props#edit_text', as: 'edit_text'
         get 'edit/sale_rental', to: 'props#edit_sale_rental', as: 'edit_sale_rental'
         get 'edit/location', to: 'props#edit_location', as: 'edit_location'
-        get 'edit/features', to: 'props#edit_features', as: 'edit_features'
+        get 'edit/labels', to: 'props#edit_labels', as: 'edit_labels'
         get 'edit/photos', to: 'props#edit_photos', as: 'edit_photos'
         post 'upload_photos', to: 'props#upload_photos', as: 'upload_photos'
         delete 'remove_photo', to: 'props#remove_photo', as: 'remove_photo'
