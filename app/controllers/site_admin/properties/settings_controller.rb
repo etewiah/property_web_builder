@@ -4,16 +4,45 @@ module SiteAdmin
       before_action :set_category, only: [:show, :create, :update, :destroy]
       before_action :set_field_key, only: [:update, :destroy]
       
+      # Maps URL-friendly category names to database tags
+      # Updated to reflect new field key categorization (see docs/09_Field_Keys.md)
       VALID_CATEGORIES = {
-        'property_types' => 'property-types',
-        'features' => 'extras',
-        'property_states' => 'property-states',
-        'property_labels' => 'property-labels'
+        'property_types' => 'property-types',      # What the property IS (apartment, villa, etc.)
+        'property_states' => 'property-states',    # Physical condition (new, renovated, etc.)
+        'property_features' => 'property-features', # Permanent physical attributes (pool, garden, etc.)
+        'property_amenities' => 'property-amenities', # Equipment & services (AC, heating, etc.)
+        'property_status' => 'property-status',    # Transaction status (sold, reserved, etc.)
+        'property_highlights' => 'property-highlights', # Marketing flags (featured, luxury, etc.)
+        'listing_origin' => 'listing-origin'       # Source of listing (direct, MLS, etc.)
+      }.freeze
+
+      # Human-readable labels for each category
+      CATEGORY_LABELS = {
+        'property_types' => 'Property Types',
+        'property_states' => 'Property States',
+        'property_features' => 'Features',
+        'property_amenities' => 'Amenities',
+        'property_status' => 'Status Labels',
+        'property_highlights' => 'Highlights',
+        'listing_origin' => 'Listing Origin'
+      }.freeze
+
+      # Brief descriptions for each category
+      CATEGORY_DESCRIPTIONS = {
+        'property_types' => 'Define what types of properties can be listed (e.g., Apartment, Villa, Office)',
+        'property_states' => 'Define physical condition options (e.g., New Build, Needs Renovation)',
+        'property_features' => 'Define permanent physical attributes (e.g., Pool, Garden, Terrace)',
+        'property_amenities' => 'Define equipment and services (e.g., Air Conditioning, Heating, Elevator)',
+        'property_status' => 'Define transaction status labels (e.g., Sold, Reserved, Under Offer)',
+        'property_highlights' => 'Define marketing highlight labels (e.g., Featured, Luxury, Price Reduced)',
+        'listing_origin' => 'Define listing source options (e.g., Direct Entry, MLS Feed, Partner)'
       }.freeze
       
       def index
-        # Show landing page with all four tabs
+        # Show landing page with all category tabs
         @categories = VALID_CATEGORIES.keys
+        @category_labels = CATEGORY_LABELS
+        @category_descriptions = CATEGORY_DESCRIPTIONS
       end
       
       def show
@@ -22,6 +51,9 @@ module SiteAdmin
           .where(tag: category_tag)
           .for_website(current_website.id)
           .order(:sort_order, :created_at)
+
+        @category_label = CATEGORY_LABELS[@category]
+        @category_description = CATEGORY_DESCRIPTIONS[@category]
       end
       
       def create
@@ -100,11 +132,32 @@ module SiteAdmin
       end
       
       def generate_global_key
-        # Generate unique global key based on first translation
+        # Generate global key using new English-based format
+        # Format: {prefix}.{snake_case_name}
+        # Examples: types.apartment, features.private_pool, amenities.air_conditioning
         first_translation = params[:field_key][:translations]&.values&.first
-        base_name = first_translation&.parameterize || 'entry'
-        timestamp = Time.current.to_i
-        "#{category_tag}.#{base_name}_#{timestamp}"
+        base_name = first_translation&.parameterize(separator: '_') || 'entry'
+
+        # Map category tag to key prefix
+        prefix = case category_tag
+                 when 'property-types' then 'types'
+                 when 'property-states' then 'states'
+                 when 'property-features' then 'features'
+                 when 'property-amenities' then 'amenities'
+                 when 'property-status' then 'status'
+                 when 'property-highlights' then 'highlights'
+                 when 'listing-origin' then 'origin'
+                 else category_tag.split('-').last
+                 end
+
+        # Ensure uniqueness by checking if key exists
+        proposed_key = "#{prefix}.#{base_name}"
+        if Pwb::FieldKey.exists?(global_key: proposed_key)
+          # Add timestamp suffix if key exists
+          proposed_key = "#{prefix}.#{base_name}_#{Time.current.to_i}"
+        end
+
+        proposed_key
       end
       
       def save_translations(field_key, translations_hash)

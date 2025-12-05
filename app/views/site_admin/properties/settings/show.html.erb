@@ -1,8 +1,8 @@
 <div class="max-w-7xl mx-auto">
   <div class="mb-6 flex justify-between items-center">
     <div>
-      <h1 class="text-3xl font-bold text-gray-900"><%= @category.titleize %></h1>
-      <p class="mt-2 text-gray-600">Manage <%= @category.humanize.downcase %> for your properties</p>
+      <h1 class="text-3xl font-bold text-gray-900"><%= @category_label || @category.titleize %></h1>
+      <p class="mt-2 text-gray-600"><%= @category_description || "Manage #{@category.humanize.downcase} for your properties" %></p>
     </div>
     <button 
       onclick="document.getElementById('new-entry-form').classList.toggle('hidden')"
