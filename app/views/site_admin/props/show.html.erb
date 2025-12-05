@@ -1,38 +1,106 @@
 <div class="max-w-4xl mx-auto">
   <div class="mb-6">
-    <%= link_to '← Back to Properties', site_admin_props_path, class: 'text-blue-600 hover:text-blue-800' %>
+    <%= link_to '&larr; Back to Properties'.html_safe, site_admin_props_path, class: 'text-blue-600 hover:text-blue-800' %>
   </div>
 
   <div class="bg-white rounded-lg shadow overflow-hidden">
     <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-gray-900">Property Details</h1>
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">
+          <%= @prop.title.presence || @prop.reference || 'Property Details' %>
+        </h1>
+        <% if @prop.reference.present? %>
+          <p class="text-sm text-gray-500">Ref: <%= @prop.reference %></p>
+        <% end %>
+      </div>
       <%= link_to 'Edit Property', edit_site_admin_prop_path(@prop), class: 'px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700' %>
     </div>
 
     <div class="p-6">
+      <!-- Listing Status Badges -->
+      <div class="mb-6 flex flex-wrap gap-2">
+        <% if @prop.for_sale %>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+            For Sale
+            <% if @prop.price_sale_current_cents.to_i > 0 %>
+              - <%= number_to_currency(@prop.price_sale_current_cents / 100.0, unit: @prop.price_sale_current_currency || 'EUR') %>
+            <% end %>
+          </span>
+        <% end %>
+        <% if @prop.for_rent %>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+            For Rent
+            <% if @prop.price_rental_monthly_current_cents.to_i > 0 %>
+              - <%= number_to_currency(@prop.price_rental_monthly_current_cents / 100.0, unit: @prop.price_rental_monthly_current_currency || 'EUR') %>/month
+            <% end %>
+          </span>
+        <% end %>
+        <% if @prop.visible %>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+            Visible
+          </span>
+        <% else %>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-600">
+            Hidden
+          </span>
+        <% end %>
+      </div>
+
       <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Reference</dt>
-          <dd class="mt-1 text-sm text-gray-900"><%= @prop.reference %></dd>
-        </div>
-
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Title</dt>
-          <dd class="mt-1 text-sm text-gray-900"><%= @prop.title %></dd>
-        </div>
-
-        <% if @prop.price_sale_current_cents.present? %>
+        <!-- Property Type & State -->
+        <% if @prop.prop_type_key.present? %>
           <div>
-            <dt class="text-sm font-medium text-gray-500">Sale Price</dt>
-            <dd class="mt-1 text-sm text-gray-900"><%= number_to_currency(@prop.price_sale_current_cents / 100.0, unit: @prop.price_sale_current_currency || @prop.currency) %></dd>
-          </div>
-        <% elsif @prop.price_rental_monthly_current_cents.present? %>
-          <div>
-            <dt class="text-sm font-medium text-gray-500">Monthly Rent</dt>
-            <dd class="mt-1 text-sm text-gray-900"><%= number_to_currency(@prop.price_rental_monthly_current_cents / 100.0, unit: @prop.price_rental_monthly_current_currency || @prop.currency) %></dd>
+            <dt class="text-sm font-medium text-gray-500">Property Type</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @prop.prop_type_key.to_s.split('.').last.humanize.titleize %></dd>
           </div>
         <% end %>
 
+        <% if @prop.prop_state_key.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Property State</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @prop.prop_state_key.to_s.split('.').last.humanize.titleize %></dd>
+          </div>
+        <% end %>
+
+        <!-- Room Counts -->
+        <% if @prop.count_bedrooms.to_i > 0 %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Bedrooms</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @prop.count_bedrooms %></dd>
+          </div>
+        <% end %>
+
+        <% if @prop.count_bathrooms.to_f > 0 %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Bathrooms</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @prop.count_bathrooms %></dd>
+          </div>
+        <% end %>
+
+        <!-- Areas -->
+        <% if @prop.constructed_area.to_f > 0 %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Constructed Area</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= number_with_delimiter(@prop.constructed_area) %> m<sup>2</sup></dd>
+          </div>
+        <% end %>
+
+        <% if @prop.plot_area.to_f > 0 %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Plot Area</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= number_with_delimiter(@prop.plot_area) %> m<sup>2</sup></dd>
+          </div>
+        <% end %>
+
+        <!-- Location -->
+        <% if @prop.location.present? %>
+          <div class="sm:col-span-2">
+            <dt class="text-sm font-medium text-gray-500">Location</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @prop.location %></dd>
+          </div>
+        <% end %>
+
+        <!-- Timestamps -->
         <div>
           <dt class="text-sm font-medium text-gray-500">Created</dt>
           <dd class="mt-1 text-sm text-gray-900"><%= format_date(@prop.created_at) %></dd>
@@ -43,13 +111,33 @@
           <dd class="mt-1 text-sm text-gray-900"><%= format_date(@prop.updated_at) %></dd>
         </div>
 
-        <% if @prop.respond_to?(:description) && @prop.description.present? %>
+        <!-- Description -->
+        <% if @prop.description.present? %>
           <div class="sm:col-span-2">
             <dt class="text-sm font-medium text-gray-500">Description</dt>
-            <dd class="mt-1 text-sm text-gray-900"><%= @prop.description %></dd>
+            <dd class="mt-1 text-sm text-gray-900 whitespace-pre-wrap"><%= @prop.description %></dd>
           </div>
         <% end %>
       </dl>
+
+      <!-- Photos Preview -->
+      <% if @prop.prop_photos.any? %>
+        <div class="mt-8 pt-6 border-t border-gray-200">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Photos (<%= @prop.prop_photos.count %>)</h3>
+          <div class="grid grid-cols-4 gap-4">
+            <% @prop.prop_photos.limit(4).each do |photo| %>
+              <% if photo.image.attached? %>
+                <%= image_tag photo.image.variant(resize_to_limit: [150, 150]), class: "w-full h-24 object-cover rounded-lg" %>
+              <% end %>
+            <% end %>
+          </div>
+          <% if @prop.prop_photos.count > 4 %>
+            <p class="mt-2 text-sm text-gray-500">
+              <%= link_to "View all #{@prop.prop_photos.count} photos", edit_photos_site_admin_prop_path(@prop), class: 'text-blue-600 hover:text-blue-800' %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

@@ -12,7 +12,7 @@
       <div class="flex-1">
         <%= f.text_field :search, value: params[:search], placeholder: "Search by reference...", class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
       </div>
-      <%= f.submit "Search", class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" %>
+      <%= f.submit "Search", class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer" %>
     <% end %>
   </div>
 
@@ -21,8 +21,9 @@
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
         <tr>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reference</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Property</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
           <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
           <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
         </tr>
@@ -30,12 +31,50 @@
       <tbody class="bg-white divide-y divide-gray-200">
         <% if @props.any? %>
           <% @props.each do |prop| %>
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                <%= prop.reference %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4">
+                <div class="flex items-center">
+                  <div>
+                    <div class="text-sm font-medium text-gray-900">
+                      <%= prop.reference %>
+                    </div>
+                    <div class="text-sm text-gray-500 truncate max-w-xs">
+                      <%= prop.title.presence || prop.location.presence || 'No title' %>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex flex-wrap gap-1">
+                  <% if prop.for_sale %>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                      Sale
+                    </span>
+                  <% end %>
+                  <% if prop.for_rent %>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
+                      Rent
+                    </span>
+                  <% end %>
+                  <% if prop.visible %>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                      Visible
+                    </span>
+                  <% else %>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">
+                      Hidden
+                    </span>
+                  <% end %>
+                </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <%= prop.title %>
+                <% if prop.for_sale && prop.price_sale_current_cents.to_i > 0 %>
+                  <%= number_to_currency(prop.price_sale_current_cents / 100.0, unit: prop.price_sale_current_currency || 'EUR', precision: 0) %>
+                <% elsif prop.for_rent && prop.price_rental_monthly_current_cents.to_i > 0 %>
+                  <%= number_to_currency(prop.price_rental_monthly_current_cents / 100.0, unit: prop.price_rental_monthly_current_currency || 'EUR', precision: 0) %>/mo
+                <% else %>
+                  -
+                <% end %>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <%= format_date(prop.created_at) %>
@@ -48,8 +87,14 @@
           <% end %>
         <% else %>
           <tr>
-            <td colspan="4" class="px-6 py-4 text-center text-gray-500">
-              No properties found
+            <td colspan="5" class="px-6 py-8 text-center text-gray-500">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+              <p class="mt-2">No properties found</p>
+              <% if params[:search].present? %>
+                <p class="mt-1 text-sm">Try adjusting your search terms</p>
+              <% end %>
             </td>
           </tr>
         <% end %>

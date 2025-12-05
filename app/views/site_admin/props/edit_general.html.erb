@@ -5,40 +5,30 @@
     <%= render 'navigation', current_tab: 'general' %>
 
     <div class="p-6">
+      <div class="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
+        <p class="text-sm text-blue-700">
+          <strong>Note:</strong> This tab manages the physical property details.
+          For pricing, visibility, and listing-specific settings, use the
+          <strong>Sale/Rental</strong> tab.
+        </p>
+      </div>
+
       <%= form_with model: @prop, url: site_admin_prop_path(@prop), method: :patch, local: true do |f| %>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Left Column -->
           <div class="space-y-6">
-            <!-- Visible on website -->
+            <!-- Reference No -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                Visible on website
-                <span class="text-blue-500 ml-1 cursor-help" title="Show this property on the website">ⓘ</span>
+              <label for="prop_reference" class="block text-sm font-medium text-gray-700 mb-2">
+                Reference No
+                <span class="text-blue-500 ml-1 cursor-help" title="Unique property reference">&#9432;</span>
               </label>
-              <div class="flex items-center space-x-4">
-                <label class="flex items-center">
-                  <%= f.radio_button :visible, true, class: "text-blue-600 focus:ring-blue-500" %>
-                  <span class="ml-2 text-sm text-gray-700">yes</span>
-                </label>
-                <label class="flex items-center">
-                  <%= f.radio_button :visible, false, class: "text-blue-600 focus:ring-blue-500" %>
-                  <span class="ml-2 text-sm text-gray-700">no</span>
-                </label>
-              </div>
-            </div>
-
-            <!-- Currency -->
-            <div>
-              <label for="prop_currency" class="block text-sm font-medium text-gray-700 mb-2">Currency</label>
-              <%= f.select :currency,
-                  [['Euros', 'EUR'], ['US Dollars', 'USD'], ['British Pounds', 'GBP']],
-                  { selected: @prop.currency || 'EUR' },
-                  class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+              <%= f.text_field :reference, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
             </div>
 
             <!-- Type -->
             <div>
-              <label for="prop_type" class="block text-sm font-medium text-gray-700 mb-2">Type</label>
+              <label for="prop_type" class="block text-sm font-medium text-gray-700 mb-2">Property Type</label>
               <%= f.select :prop_type_key,
                   [['Apartment', 'apartment'], ['House', 'house'], ['Villa', 'villa'], ['Land', 'land'], ['Commercial', 'commercial']],
                   { include_blank: 'Select type...', selected: @prop.prop_type_key },
@@ -47,41 +37,11 @@
 
             <!-- State -->
             <div>
-              <label for="prop_state" class="block text-sm font-medium text-gray-700 mb-2">State</label>
+              <label for="prop_state" class="block text-sm font-medium text-gray-700 mb-2">Property State</label>
               <%= f.select :prop_state_key,
                   [['New', 'new'], ['Good', 'good'], ['To Reform', 'to_reform']],
                   { include_blank: 'Select state...', selected: @prop.prop_state_key },
                   class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
-            </div>
-          </div>
-
-          <!-- Right Column -->
-          <div class="space-y-6">
-            <!-- Reference No -->
-            <div>
-              <label for="prop_reference" class="block text-sm font-medium text-gray-700 mb-2">
-                Reference No
-                <span class="text-blue-500 ml-1 cursor-help" title="Unique property reference">ⓘ</span>
-              </label>
-              <%= f.text_field :reference, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
-            </div>
-
-            <!-- Bedrooms -->
-            <div>
-              <label for="prop_bedrooms" class="block text-sm font-medium text-gray-700 mb-2">Bedrooms</label>
-              <%= f.number_field :count_bedrooms, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
-            </div>
-
-            <!-- Bathrooms -->
-            <div>
-              <label for="prop_bathrooms" class="block text-sm font-medium text-gray-700 mb-2">Bathrooms</label>
-              <%= f.number_field :count_bathrooms, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
-            </div>
-
-            <!-- Garage -->
-            <div>
-              <label for="prop_garage" class="block text-sm font-medium text-gray-700 mb-2">Garage</label>
-              <%= f.number_field :count_garages, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
             </div>
 
             <!-- Construction Year -->
@@ -90,35 +50,67 @@
               <%= f.number_field :year_construction, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
             </div>
           </div>
+
+          <!-- Right Column -->
+          <div class="space-y-6">
+            <!-- Bedrooms -->
+            <div>
+              <label for="prop_bedrooms" class="block text-sm font-medium text-gray-700 mb-2">Bedrooms</label>
+              <%= f.number_field :count_bedrooms, min: 0, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+
+            <!-- Bathrooms -->
+            <div>
+              <label for="prop_bathrooms" class="block text-sm font-medium text-gray-700 mb-2">Bathrooms</label>
+              <%= f.number_field :count_bathrooms, min: 0, step: 0.5, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+
+            <!-- Toilets -->
+            <div>
+              <label for="prop_toilets" class="block text-sm font-medium text-gray-700 mb-2">Toilets</label>
+              <%= f.number_field :count_toilets, min: 0, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+
+            <!-- Garage -->
+            <div>
+              <label for="prop_garage" class="block text-sm font-medium text-gray-700 mb-2">Garages</label>
+              <%= f.number_field :count_garages, min: 0, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            </div>
+          </div>
         </div>
 
-        <!-- Additional Fields (Full Width) -->
+        <!-- Area Fields -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <!-- Plot Area -->
           <div>
-            <label for="prop_plot_area" class="block text-sm font-medium text-gray-700 mb-2">Plot Area</label>
-            <%= f.number_field :plot_area, step: 0.01, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            <label for="prop_plot_area" class="block text-sm font-medium text-gray-700 mb-2">
+              Plot Area (m<sup>2</sup>)
+            </label>
+            <%= f.number_field :plot_area, step: 0.01, min: 0, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
           </div>
 
           <!-- Constructed Area -->
           <div>
-            <label for="prop_constructed_area" class="block text-sm font-medium text-gray-700 mb-2">Constructed Area</label>
-            <%= f.number_field :constructed_area, step: 0.01, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+            <label for="prop_constructed_area" class="block text-sm font-medium text-gray-700 mb-2">
+              Constructed Area (m<sup>2</sup>)
+            </label>
+            <%= f.number_field :constructed_area, step: 0.01, min: 0, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
           </div>
         </div>
 
-        <!-- Area Unit -->
-        <div class="mt-6">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Area Unit</label>
-          <div class="flex items-center space-x-4">
-            <label class="flex items-center">
-              <%= f.radio_button :area_unit, 'sqm', class: "text-blue-600 focus:ring-blue-500" %>
-              <span class="ml-2 text-sm text-gray-700">Square Meters</span>
-            </label>
-            <label class="flex items-center">
-              <%= f.radio_button :area_unit, 'sqft', class: "text-blue-600 focus:ring-blue-500" %>
-              <span class="ml-2 text-sm text-gray-700">Square Feet</span>
-            </label>
+        <!-- Energy Rating -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <div>
+            <label for="prop_energy_rating" class="block text-sm font-medium text-gray-700 mb-2">Energy Rating</label>
+            <%= f.select :energy_rating,
+                [['A', 'A'], ['B', 'B'], ['C', 'C'], ['D', 'D'], ['E', 'E'], ['F', 'F'], ['G', 'G']],
+                { include_blank: 'Select rating...', selected: @prop.energy_rating },
+                class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          </div>
+
+          <div>
+            <label for="prop_energy_performance" class="block text-sm font-medium text-gray-700 mb-2">Energy Performance (kWh/m<sup>2</sup>/year)</label>
+            <%= f.number_field :energy_performance, step: 0.01, min: 0, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
           </div>
         </div>
 
@@ -126,7 +118,7 @@
         <div class="flex justify-end items-center mt-8 pt-6 border-t border-gray-200">
           <div class="flex space-x-3">
             <%= link_to 'Cancel', site_admin_prop_path(@prop), class: 'px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50' %>
-            <%= f.submit 'Save Changes', class: 'px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700' %>
+            <%= f.submit 'Save Changes', class: 'px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 cursor-pointer' %>
           </div>
         </div>
       <% end %>

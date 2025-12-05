@@ -3,49 +3,116 @@
   <div class="bg-white rounded-lg shadow overflow-hidden">
     <%= render 'navigation', current_tab: 'text' %>
     <div class="p-6">
-      <%= form_with model: @prop, url: site_admin_prop_path(@prop), method: :patch, local: true do |f| %>
-        <div class="mb-6">
-          <p class="text-sm text-gray-600">Edit property title and description for each language. The system supports <%= I18n.available_locales.count %> languages.</p>
-        </div>
-        <% I18n.available_locales.each do |locale| %>
-          <div class="mb-8 pb-8 border-b border-gray-200 last:border-0">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">
-              <%= locale.to_s.upcase %>
-              <span class="text-sm font-normal text-gray-500">(<%= I18n.t("locales.#{locale}", default: locale.to_s.titleize) %>)</span>
-            </h3>
-            <%= f.fields_for :translations_attributes, @prop.translations.find_or_initialize_by(locale: locale) do |translation_fields| %>
-              <%= translation_fields.hidden_field :locale, value: locale %>
-              <%= translation_fields.hidden_field :id if translation_fields.object.persisted? %>
-              <div class="space-y-4">
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Title (<%= locale %>)
-                  </label>
-                  <%= translation_fields.text_field :title,
-                      class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
-                      placeholder: "Property title in #{locale}..." %>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Description (<%= locale %>)
-                  </label>
-                  <%= translation_fields.text_area :description,
-                      rows: 6,
-                      class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
-                      placeholder: "Property description in #{locale}..." %>
+      <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-md">
+        <p class="text-sm text-blue-700">
+          <strong>Note:</strong> Title and description are marketing text that belongs to each listing.
+          <% if @sale_listing.nil? && @rental_listing.nil? %>
+            <br><span class="text-amber-700"><strong>Warning:</strong> No listings exist yet. Create a Sale or Rental listing first in the Sale/Rental tab.</span>
+          <% end %>
+        </p>
+      </div>
+
+      <% if @sale_listing.present? %>
+        <div class="mb-8">
+          <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+            <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">FOR SALE</span>
+            Sale Listing Text
+          </h3>
+          <%= form_with model: @sale_listing, url: site_admin_prop_path(@prop), method: :patch, local: true, scope: :sale_listing do |f| %>
+            <% %w[en es].each do |locale| %>
+              <div class="mb-6 pb-6 border-b border-gray-200 last:border-0">
+                <h4 class="text-md font-semibold text-gray-700 mb-3">
+                  <%= locale.upcase %>
+                </h4>
+                <div class="grid grid-cols-1 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                      Title (<%= locale %>)
+                    </label>
+                    <%= f.text_field "title_#{locale}",
+                        value: @sale_listing.send("title_#{locale}"),
+                        class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                        placeholder: "Property title in #{locale}..." %>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                      Description (<%= locale %>)
+                    </label>
+                    <%= f.text_area "description_#{locale}",
+                        value: @sale_listing.send("description_#{locale}"),
+                        rows: 4,
+                        class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                        placeholder: "Property description in #{locale}..." %>
+                  </div>
                 </div>
               </div>
             <% end %>
-          </div>
-        <% end %>
-        <!-- Form Actions -->
-        <div class="flex justify-end items-center mt-8 pt-6 border-t border-gray-200">
-          <div class="flex space-x-3">
-            <%= link_to 'Cancel', site_admin_prop_path(@prop), class: 'px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50' %>
-            <%= f.submit 'Save Changes', class: 'px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700' %>
+            <div class="flex justify-end">
+              <%= f.submit 'Save Sale Listing Text', class: 'px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 cursor-pointer' %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @rental_listing.present? %>
+        <div class="mb-8">
+          <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+            <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">FOR RENT</span>
+            Rental Listing Text
+          </h3>
+          <%= form_with model: @rental_listing, url: site_admin_prop_path(@prop), method: :patch, local: true, scope: :rental_listing do |f| %>
+            <% %w[en es].each do |locale| %>
+              <div class="mb-6 pb-6 border-b border-gray-200 last:border-0">
+                <h4 class="text-md font-semibold text-gray-700 mb-3">
+                  <%= locale.upcase %>
+                </h4>
+                <div class="grid grid-cols-1 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                      Title (<%= locale %>)
+                    </label>
+                    <%= f.text_field "title_#{locale}",
+                        value: @rental_listing.send("title_#{locale}"),
+                        class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                        placeholder: "Property title in #{locale}..." %>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                      Description (<%= locale %>)
+                    </label>
+                    <%= f.text_area "description_#{locale}",
+                        value: @rental_listing.send("description_#{locale}"),
+                        rows: 4,
+                        class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                        placeholder: "Property description in #{locale}..." %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            <div class="flex justify-end">
+              <%= f.submit 'Save Rental Listing Text', class: 'px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 cursor-pointer' %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @sale_listing.nil? && @rental_listing.nil? %>
+        <div class="text-center py-12">
+          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <h3 class="mt-2 text-sm font-medium text-gray-900">No listings yet</h3>
+          <p class="mt-1 text-sm text-gray-500">Create a sale or rental listing first to add marketing text.</p>
+          <div class="mt-6">
+            <%= link_to 'Go to Sale/Rental Tab', edit_sale_rental_site_admin_prop_path(@prop), class: 'inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700' %>
           </div>
         </div>
       <% end %>
+
+      <!-- Back Link -->
+      <div class="flex justify-start items-center mt-8 pt-6 border-t border-gray-200">
+        <%= link_to '&larr; Back to Properties'.html_safe, site_admin_props_path, class: 'text-blue-600 hover:text-blue-800' %>
+      </div>
     </div>
   </div>
 </div>
