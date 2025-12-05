@@ -42,7 +42,10 @@
       "Bash(RAILS_ENV=test bin/rails db:migrate:*)",
       "Bash(RAILS_ENV=test bin/rails test:*)",
       "WebFetch(domain:rubydoc.info)",
-      "Bash(RAILS_ENV=test bundle exec rspec:*)"
+      "Bash(RAILS_ENV=test bundle exec rspec:*)",
+      "mcp__puppeteer__puppeteer_connect_active_tab",
+      "Bash(for tab in general appearance navigation home)",
+      "Bash(do echo \"Tab: $tab\")"
     ],
     "deny": [],
     "ask": []

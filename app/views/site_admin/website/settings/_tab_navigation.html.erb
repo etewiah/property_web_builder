@@ -1,0 +1,16 @@
+<div class="border-b border-gray-200 mb-6">
+  <nav class="-mb-px flex space-x-8">
+    <%= link_to "General",
+        site_admin_website_settings_tab_path('general'),
+        class: tab_link_class('general', current_tab) %>
+    <%= link_to "Appearance",
+        site_admin_website_settings_tab_path('appearance'),
+        class: tab_link_class('appearance', current_tab) %>
+    <%= link_to "Navigation",
+        site_admin_website_settings_tab_path('navigation'),
+        class: tab_link_class('navigation', current_tab) %>
+    <%= link_to "Home",
+        site_admin_website_settings_tab_path('home'),
+        class: tab_link_class('home', current_tab) %>
+  </nav>
+</div>

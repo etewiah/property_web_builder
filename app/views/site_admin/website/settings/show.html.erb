@@ -1,0 +1,23 @@
+<div class="max-w-7xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Website Settings</h1>
+    <p class="mt-2 text-gray-600">Configure settings for <%= current_website.subdomain %></p>
+  </div>
+
+  <!-- Tab Navigation -->
+  <%= render 'tab_navigation', current_tab: @tab %>
+
+  <!-- Tab Content -->
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <% case @tab %>
+    <% when 'general' %>
+      <%= render 'general_tab' %>
+    <% when 'appearance' %>
+      <%= render 'appearance_tab' %>
+    <% when 'navigation' %>
+      <%= render 'navigation_tab' %>
+    <% when 'home' %>
+      <%= render 'home_tab' %>
+    <% end %>
+  </div>
+</div>

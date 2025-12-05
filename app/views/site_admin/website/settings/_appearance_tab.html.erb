@@ -1,0 +1,131 @@
+<div class="p-6">
+  <h2 class="text-xl font-semibold text-gray-900 mb-6">Appearance Settings</h2>
+
+  <%= form_with model: @website, url: site_admin_website_settings_path, method: :patch, local: true, class: "space-y-6" do |f| %>
+    <input type="hidden" name="tab" value="appearance">
+
+    <!-- Theme Selection -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-3">
+        Theme
+      </label>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <% @themes.each do |theme| %>
+          <label class="relative cursor-pointer">
+            <input type="radio" name="website[theme_name]" value="<%= theme.name %>"
+                   <%= 'checked' if @website.theme_name == theme.name %>
+                   class="sr-only peer">
+            <div class="border-2 rounded-lg p-4 peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-400 transition-colors">
+              <div class="h-24 bg-gray-100 rounded mb-3 flex items-center justify-center">
+                <span class="text-gray-400 text-sm"><%= theme.friendly_name %></span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="font-medium text-gray-900"><%= theme.friendly_name %></span>
+                <span class="hidden peer-checked:inline-block text-blue-600">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Color Settings -->
+    <div class="border-t border-gray-200 pt-6">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Colors</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Primary Color -->
+        <div>
+          <label for="primary_color" class="block text-sm font-medium text-gray-700 mb-1">
+            Primary Color
+          </label>
+          <div class="flex items-center space-x-3">
+            <input type="color" name="website[style_variables][primary_color]"
+                   value="<%= @style_variables['primary_color'] || '#e91b23' %>"
+                   class="h-10 w-16 rounded border border-gray-300 cursor-pointer">
+            <input type="text" name="website[style_variables][primary_color]"
+                   value="<%= @style_variables['primary_color'] || '#e91b23' %>"
+                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                   pattern="^#[0-9A-Fa-f]{6}$"
+                   placeholder="#e91b23">
+          </div>
+          <p class="mt-1 text-sm text-gray-500">Main brand color</p>
+        </div>
+
+        <!-- Secondary Color -->
+        <div>
+          <label for="secondary_color" class="block text-sm font-medium text-gray-700 mb-1">
+            Secondary Color
+          </label>
+          <div class="flex items-center space-x-3">
+            <input type="color" name="website[style_variables][secondary_color]"
+                   value="<%= @style_variables['secondary_color'] || '#3498db' %>"
+                   class="h-10 w-16 rounded border border-gray-300 cursor-pointer">
+            <input type="text" name="website[style_variables][secondary_color]"
+                   value="<%= @style_variables['secondary_color'] || '#3498db' %>"
+                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                   pattern="^#[0-9A-Fa-f]{6}$"
+                   placeholder="#3498db">
+          </div>
+          <p class="mt-1 text-sm text-gray-500">Accent color for highlights</p>
+        </div>
+
+        <!-- Action Color -->
+        <div>
+          <label for="action_color" class="block text-sm font-medium text-gray-700 mb-1">
+            Action Color
+          </label>
+          <div class="flex items-center space-x-3">
+            <input type="color" name="website[style_variables][action_color]"
+                   value="<%= @style_variables['action_color']&.start_with?('#') ? @style_variables['action_color'] : '#22c55e' %>"
+                   class="h-10 w-16 rounded border border-gray-300 cursor-pointer">
+            <input type="text" name="website[style_variables][action_color]"
+                   value="<%= @style_variables['action_color'] || 'green' %>"
+                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                   placeholder="green or #22c55e">
+          </div>
+          <p class="mt-1 text-sm text-gray-500">Color for buttons and CTAs</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom CSS -->
+    <div class="border-t border-gray-200 pt-6">
+      <label for="raw_css" class="block text-sm font-medium text-gray-700 mb-1">
+        Custom CSS
+      </label>
+      <%= f.text_area :raw_css,
+          rows: 10,
+          class: "w-full px-4 py-2 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+          placeholder: "/* Add your custom CSS here */\n.my-class {\n  color: #333;\n}" %>
+      <p class="mt-1 text-sm text-gray-500">Add custom CSS to override theme styles. Changes apply site-wide.</p>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="pt-4 border-t border-gray-200">
+      <%= f.submit "Save Appearance Settings",
+          class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  // Sync color picker with text input
+  document.querySelectorAll('input[type="color"]').forEach(colorInput => {
+    const textInput = colorInput.nextElementSibling;
+
+    colorInput.addEventListener('input', function() {
+      textInput.value = this.value;
+    });
+
+    textInput.addEventListener('input', function() {
+      if (/^#[0-9A-Fa-f]{6}$/.test(this.value)) {
+        colorInput.value = this.value;
+      }
+    });
+  });
+</script>

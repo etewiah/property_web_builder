@@ -1,0 +1,117 @@
+<div class="p-6">
+  <h2 class="text-xl font-semibold text-gray-900 mb-6">Navigation Settings</h2>
+
+  <%= form_with url: site_admin_website_update_links_path, method: :patch, local: true, data: { turbo: false } do |f| %>
+    <!-- Top Navigation Links -->
+    <div class="mb-8">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Top Navigation Links</h3>
+      <p class="text-sm text-gray-500 mb-4">Manage the links displayed in the main navigation bar.</p>
+
+      <div class="bg-gray-50 rounded-lg p-4">
+        <table class="min-w-full">
+          <thead>
+            <tr>
+              <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Order</th>
+              <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
+              <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Path</th>
+              <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Visible</th>
+            </tr>
+          </thead>
+          <tbody id="top-nav-links" class="divide-y divide-gray-200">
+            <% if @top_nav_links.any? %>
+              <% @top_nav_links.each_with_index do |link, index| %>
+                <tr class="bg-white" data-link-id="<%= link.id %>">
+                  <td class="px-3 py-2">
+                    <input type="hidden" name="links[][id]" value="<%= link.id %>">
+                    <input type="number" name="links[][sort_order]" value="<%= link.sort_order || index %>"
+                           class="w-16 px-2 py-1 border border-gray-300 rounded text-sm text-center">
+                  </td>
+                  <td class="px-3 py-2">
+                    <input type="text" name="links[][link_title]" value="<%= link.link_title %>"
+                           class="w-full px-2 py-1 border border-gray-300 rounded text-sm">
+                  </td>
+                  <td class="px-3 py-2">
+                    <input type="text" name="links[][link_path]" value="<%= link.link_path %>"
+                           class="w-full px-2 py-1 border border-gray-300 rounded text-sm"
+                           placeholder="/page-path">
+                  </td>
+                  <td class="px-3 py-2 text-center">
+                    <input type="hidden" name="links[][visible]" value="false">
+                    <input type="checkbox" name="links[][visible]" value="true"
+                           <%= 'checked' if link.visible? %>
+                           class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td colspan="4" class="px-3 py-4 text-center text-gray-500">
+                  No top navigation links configured
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Footer Links -->
+    <div class="border-t border-gray-200 pt-6">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Footer Links</h3>
+      <p class="text-sm text-gray-500 mb-4">Manage the links displayed in the website footer.</p>
+
+      <div class="bg-gray-50 rounded-lg p-4">
+        <table class="min-w-full">
+          <thead>
+            <tr>
+              <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Order</th>
+              <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
+              <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Path</th>
+              <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Visible</th>
+            </tr>
+          </thead>
+          <tbody id="footer-links" class="divide-y divide-gray-200">
+            <% if @footer_links.any? %>
+              <% @footer_links.each_with_index do |link, index| %>
+                <tr class="bg-white" data-link-id="<%= link.id %>">
+                  <td class="px-3 py-2">
+                    <input type="hidden" name="links[][id]" value="<%= link.id %>">
+                    <input type="number" name="links[][sort_order]" value="<%= link.sort_order || index %>"
+                           class="w-16 px-2 py-1 border border-gray-300 rounded text-sm text-center">
+                  </td>
+                  <td class="px-3 py-2">
+                    <input type="text" name="links[][link_title]" value="<%= link.link_title %>"
+                           class="w-full px-2 py-1 border border-gray-300 rounded text-sm">
+                  </td>
+                  <td class="px-3 py-2">
+                    <input type="text" name="links[][link_path]" value="<%= link.link_path %>"
+                           class="w-full px-2 py-1 border border-gray-300 rounded text-sm"
+                           placeholder="/page-path">
+                  </td>
+                  <td class="px-3 py-2 text-center">
+                    <input type="hidden" name="links[][visible]" value="false">
+                    <input type="checkbox" name="links[][visible]" value="true"
+                           <%= 'checked' if link.visible? %>
+                           class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td colspan="4" class="px-3 py-4 text-center text-gray-500">
+                  No footer links configured
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="pt-6 border-t border-gray-200 mt-6">
+      <%= f.submit "Save Navigation Settings",
+          class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
+    </div>
+  <% end %>
+</div>

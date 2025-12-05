@@ -1,0 +1,169 @@
+<div class="p-6">
+  <h2 class="text-xl font-semibold text-gray-900 mb-6">General Settings</h2>
+
+  <%= form_with model: @website, url: site_admin_website_settings_path, method: :patch, local: true, class: "space-y-6" do |f| %>
+    <input type="hidden" name="tab" value="general">
+
+    <!-- Company Display Name -->
+    <div>
+      <label for="company_display_name" class="block text-sm font-medium text-gray-700 mb-1">
+        Company Display Name
+      </label>
+      <%= f.text_field :company_display_name,
+          class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+          placeholder: "Your Company Name" %>
+      <p class="mt-1 text-sm text-gray-500">The name displayed on your website</p>
+    </div>
+
+    <!-- Default Locale -->
+    <div>
+      <label for="default_client_locale" class="block text-sm font-medium text-gray-700 mb-1">
+        Default Language
+      </label>
+      <%= f.select :default_client_locale,
+          options_for_select([
+            ['English (UK)', 'en-UK'],
+            ['English (US)', 'en-US'],
+            ['Spanish', 'es'],
+            ['French', 'fr'],
+            ['German', 'de'],
+            ['Italian', 'it'],
+            ['Portuguese', 'pt'],
+            ['Dutch', 'nl'],
+            ['Polish', 'pl'],
+            ['Russian', 'ru'],
+            ['Chinese', 'zh'],
+            ['Japanese', 'ja']
+          ], @website.default_client_locale),
+          {},
+          class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+      <p class="mt-1 text-sm text-gray-500">The default language for visitors</p>
+    </div>
+
+    <!-- Supported Languages -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">
+        Supported Languages
+      </label>
+      <p class="text-sm text-gray-500 mb-3">Select additional languages your website will support. Visitors can switch between these languages.</p>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        <%
+          available_locales = [
+            ['English (UK)', 'en-UK'],
+            ['English (US)', 'en-US'],
+            ['Spanish', 'es'],
+            ['French', 'fr'],
+            ['German', 'de'],
+            ['Italian', 'it'],
+            ['Portuguese', 'pt'],
+            ['Dutch', 'nl'],
+            ['Polish', 'pl'],
+            ['Russian', 'ru'],
+            ['Chinese', 'zh'],
+            ['Japanese', 'ja'],
+            ['Arabic', 'ar'],
+            ['Turkish', 'tr'],
+            ['Korean', 'ko'],
+            ['Swedish', 'sv'],
+            ['Norwegian', 'no'],
+            ['Danish', 'da'],
+            ['Finnish', 'fi'],
+            ['Greek', 'el']
+          ]
+          current_locales = @website.supported_locales || []
+        %>
+        <% available_locales.each do |label, locale_code| %>
+          <label class="flex items-center p-2 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+            <input type="checkbox"
+                   name="website[supported_locales][]"
+                   value="<%= locale_code %>"
+                   <%= 'checked' if current_locales.include?(locale_code) %>
+                   class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+            <span class="ml-2 text-sm text-gray-700"><%= label %></span>
+          </label>
+        <% end %>
+      </div>
+
+      <!-- Hidden field to ensure empty array is submitted when no checkboxes selected -->
+      <input type="hidden" name="website[supported_locales][]" value="">
+
+      <p class="mt-2 text-sm text-gray-500">
+        <strong>Currently supported:</strong>
+        <%= current_locales.any? ? current_locales.join(', ') : 'None selected' %>
+      </p>
+    </div>
+
+    <!-- Default Currency -->
+    <div>
+      <label for="default_currency" class="block text-sm font-medium text-gray-700 mb-1">
+        Default Currency
+      </label>
+      <%= f.select :default_currency,
+          options_for_select([
+            ['USD - US Dollar', 'USD'],
+            ['EUR - Euro', 'EUR'],
+            ['GBP - British Pound', 'GBP'],
+            ['CHF - Swiss Franc', 'CHF'],
+            ['CAD - Canadian Dollar', 'CAD'],
+            ['AUD - Australian Dollar', 'AUD'],
+            ['JPY - Japanese Yen', 'JPY'],
+            ['CNY - Chinese Yuan', 'CNY'],
+            ['INR - Indian Rupee', 'INR'],
+            ['BRL - Brazilian Real', 'BRL'],
+            ['MXN - Mexican Peso', 'MXN'],
+            ['PLN - Polish Zloty', 'PLN'],
+            ['RUB - Russian Ruble', 'RUB']
+          ], @website.default_currency),
+          {},
+          class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+      <p class="mt-1 text-sm text-gray-500">Currency used for property prices</p>
+    </div>
+
+    <!-- Default Area Unit -->
+    <div>
+      <label for="default_area_unit" class="block text-sm font-medium text-gray-700 mb-1">
+        Default Area Unit
+      </label>
+      <%= f.select :default_area_unit,
+          options_for_select([
+            ['Square Meters (sqm)', 'sqmt'],
+            ['Square Feet (sqft)', 'sqft']
+          ], @website.default_area_unit),
+          {},
+          class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+      <p class="mt-1 text-sm text-gray-500">Unit of measurement for property areas</p>
+    </div>
+
+    <!-- Analytics ID -->
+    <div>
+      <label for="analytics_id" class="block text-sm font-medium text-gray-700 mb-1">
+        Analytics ID
+      </label>
+      <%= f.text_field :analytics_id,
+          class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+          placeholder: "G-XXXXXXXXXX or UA-XXXXXXXX-X" %>
+      <p class="mt-1 text-sm text-gray-500">Google Analytics tracking ID (only active in production)</p>
+    </div>
+
+    <!-- Analytics Type -->
+    <div>
+      <label for="analytics_id_type" class="block text-sm font-medium text-gray-700 mb-1">
+        Analytics Type
+      </label>
+      <%= f.select :analytics_id_type,
+          options_for_select([
+            ['Google Analytics 4', 'ga4'],
+            ['Universal Analytics (legacy)', 'ua']
+          ], @website.analytics_id_type),
+          { include_blank: 'Select type...' },
+          class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="pt-4 border-t border-gray-200">
+      <%= f.submit "Save General Settings",
+          class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
+    </div>
+  <% end %>
+</div>

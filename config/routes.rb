@@ -89,6 +89,15 @@ Rails.application.routes.draw do
       patch 'settings/:category/:id', to: 'settings#update'
       delete 'settings/:category/:id', to: 'settings#destroy'
     end
+
+    # Website Settings
+    namespace :website do
+      get 'settings', to: 'settings#show', as: 'settings'
+      get 'settings/:tab', to: 'settings#show', as: 'settings_tab'
+      patch 'settings', to: 'settings#update'
+      # Navigation links management
+      patch 'settings/links', to: 'settings#update_links', as: 'update_links'
+    end
   end
 
   # devise_for :users, class_name: "Pwb::User", module: :devise
