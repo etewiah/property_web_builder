@@ -97,7 +97,10 @@ module SiteAdmin
           ["title_#{locale}".to_sym, "description_#{locale}".to_sym]
         end
 
-        params.require(:rental_listing).permit(
+        # Accept either :rental_listing or :pwb_rental_listing as the param key
+        param_key = params[:rental_listing].present? ? :rental_listing : :pwb_rental_listing
+
+        params.require(param_key).permit(
           :visible, :highlighted, :archived, :reserved, :furnished, :active,
           :for_rent_short_term, :for_rent_long_term,
           :price_rental_monthly_current_cents, :price_rental_monthly_current_currency,
