@@ -136,6 +136,10 @@ module Pwb
       constructed_area
     end
 
+    def area_unit
+      website&.default_area_unit || "sqmt"
+    end
+
     def location
       [street_address, city, postal_code, country].compact.reject(&:blank?).join(", ")
     end

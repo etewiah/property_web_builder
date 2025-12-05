@@ -32,7 +32,10 @@ module Pwb
     end
 
     it 'creates 6 prop entries' do
-      expect(Pwb::Prop.count).to eq(6)
+      # Seeder now creates normalized models (RealtyAsset + Listings)
+      # Check both RealtyAssets and the materialized view
+      expect(Pwb::RealtyAsset.count).to eq(6)
+      expect(Pwb::ListedProperty.count).to eq(6)
     end
 
     # Db is cleaned after each test in spec_helper

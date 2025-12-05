@@ -1,6 +1,8 @@
 module Pwb
   class Feature < ApplicationRecord
+    # Both associations supported for backwards compatibility
     belongs_to :prop, optional: true
+    belongs_to :realty_asset, optional: true
 
     belongs_to :feature_field_key, optional: true, class_name: "Pwb::FieldKey", foreign_key: :feature_key, inverse_of: :features
     # above allows:

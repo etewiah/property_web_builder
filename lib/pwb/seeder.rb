@@ -25,11 +25,14 @@
 #
 # Note on Property Models:
 # ------------------------
-# This seeder creates properties using Pwb::Prop (the legacy model).
+# This seeder creates properties using the normalized models:
+#   - Pwb::RealtyAsset (physical property data)
+#   - Pwb::SaleListing / Pwb::RentalListing (listing data with translations)
+#
 # Pwb::ListedProperty is a READ-ONLY materialized view for optimized queries.
 # Do NOT use Pwb::ListedProperty.create! - it will raise ActiveRecord::ReadOnlyRecord.
-# The materialized view is automatically refreshed when Pwb::RealtyAsset,
-# Pwb::SaleListing, or Pwb::RentalListing records are modified.
+# The materialized view is automatically refreshed when RealtyAsset or Listing
+# records are modified.
 #
 module Pwb
   class Seeder
@@ -97,7 +100,7 @@ module Pwb
       # Seeds sample properties for the current website
       # Only seeds if the website has fewer than 4 properties
       def seed_properties
-        unless @current_website.props.count > 3
+        unless @current_website.realty_assets.count > 3
           puts "   🏠 Seeding sample properties..."
           seed_prop "villa_for_sale.yml"
           seed_prop "villa_for_rent.yml"
@@ -107,46 +110,9 @@ module Pwb
           seed_prop "flat_for_rent_2.yml"
         end
 
-        # Backfill normalized records for any existing props that don't have them
-        backfill_normalized_records
-
         # Refresh the materialized view to include all properties
         puts "   🔄 Refreshing properties materialized view..."
         Pwb::ListedProperty.refresh
-      end
-
-      # Backfills normalized records (RealtyAsset, listings) for existing Pwb::Prop records
-      # that don't already have corresponding RealtyAsset records
-      def backfill_normalized_records
-        props_without_assets = @current_website.props.where.not(
-          reference: Pwb::RealtyAsset.where(website: @current_website).select(:reference)
-        )
-
-        return if props_without_assets.empty?
-
-        puts "   🔄 Backfilling #{props_without_assets.count} properties to normalized tables..."
-
-        props_without_assets.find_each do |prop|
-          backfill_prop_to_normalized(prop)
-        end
-      end
-
-      # Converts a single Pwb::Prop to normalized records
-      def backfill_prop_to_normalized(prop)
-        # Build prop_data hash from the prop attributes
-        prop_data = prop.attributes.merge(
-          "currency" => prop.currency || "EUR"
-        )
-
-        # Add translations from Mobility JSONB column
-        if prop.translations.present?
-          prop.translations.each do |locale, attrs|
-            prop_data["title_#{locale}"] = attrs['title'] if attrs['title'].present?
-            prop_data["description_#{locale}"] = attrs['description'] if attrs['description'].present?
-          end
-        end
-
-        create_normalized_property_records(prop_data, [])
       end
 
       def seed_contacts(yml_file)
@@ -258,8 +224,8 @@ module Pwb
         prop_yml.each do |single_prop_yml|
           reference = single_prop_yml["reference"]
 
-          # Check if prop exists for this website
-          next if current_website.props.where(reference: reference).count > 0
+          # Check if property already exists for this website (via RealtyAsset)
+          next if Pwb::RealtyAsset.exists?(website: current_website, reference: reference)
 
           photos = []
           if single_prop_yml["photo_urls"].present?
@@ -271,15 +237,7 @@ module Pwb
             single_prop_yml.except! "photo_files"
           end
 
-          # Create prop with website association (legacy model)
-          new_prop = current_website.props.create!(single_prop_yml)
-
-          # Attach photos to the legacy prop
-          photos.each do |photo|
-            photo.update!(prop_id: new_prop.id)
-          end if photos.any?
-
-          # Also create normalized records (RealtyAsset + Listings) for the materialized view
+          # Create normalized records (RealtyAsset + Listings)
           create_normalized_property_records(single_prop_yml, photos)
         end
       end
@@ -320,9 +278,9 @@ module Pwb
 
         asset = Pwb::RealtyAsset.create!(asset_attrs)
 
-        # Create sale listing if for_sale
+        # Create sale listing if for_sale (with translations)
         if prop_data["for_sale"]
-          Pwb::SaleListing.create!(
+          sale_listing = Pwb::SaleListing.create!(
             realty_asset: asset,
             visible: prop_data["visible"] || false,
             highlighted: prop_data["highlighted"] || false,
@@ -333,11 +291,13 @@ module Pwb
             commission_cents: prop_data["commission_cents"] || 0,
             commission_currency: prop_data["commission_currency"] || "EUR"
           )
+          # Set translations on the sale listing using Mobility
+          set_listing_translations(sale_listing, prop_data)
         end
 
-        # Create rental listing if for_rent
+        # Create rental listing if for_rent (with translations)
         if prop_data["for_rent_long_term"] || prop_data["for_rent_short_term"]
-          Pwb::RentalListing.create!(
+          rental_listing = Pwb::RentalListing.create!(
             realty_asset: asset,
             visible: prop_data["visible"] || false,
             highlighted: prop_data["highlighted"] || false,
@@ -349,22 +309,8 @@ module Pwb
             price_rental_monthly_current_cents: prop_data["price_rental_monthly_current_cents"] || 0,
             price_rental_monthly_current_currency: prop_data["currency"] || "EUR"
           )
-        end
-
-        # Create translations for the asset
-        # Set translations on the prop using Mobility JSONB column
-        prop = current_website.props.find_by(reference: prop_data["reference"])
-        if prop
-          %w[en es ca de fr it nl pl pt ro ru ko bg].each do |locale|
-            title = prop_data["title_#{locale}"]
-            description = prop_data["description_#{locale}"]
-            next unless title.present? || description.present?
-
-            # Set translations using Mobility locale accessors
-            prop.send("title_#{locale}=", title) if title.present? && prop.respond_to?("title_#{locale}=")
-            prop.send("description_#{locale}=", description) if description.present? && prop.respond_to?("description_#{locale}=")
-          end
-          prop.save!
+          # Set translations on the rental listing using Mobility
+          set_listing_translations(rental_listing, prop_data)
         end
 
         # Link photos to the asset (they're already created with prop_id)
@@ -379,6 +325,20 @@ module Pwb
         Rails.logger.warn "Failed to create normalized records for #{prop_data['reference']}: #{e.message}"
         Rails.logger.warn e.backtrace.first(3).join("\n")
         nil
+      end
+
+      # Sets translations on a listing (SaleListing or RentalListing) from prop data
+      def set_listing_translations(listing, prop_data)
+        %w[en es ca de fr it nl pl pt ro ru ko bg].each do |locale|
+          title = prop_data["title_#{locale}"] || prop_data["title"]
+          description = prop_data["description_#{locale}"] || prop_data["description"]
+          next unless title.present? || description.present?
+
+          # Set translations using Mobility locale accessors
+          listing.send("title_#{locale}=", title) if title.present? && listing.respond_to?("title_#{locale}=")
+          listing.send("description_#{locale}=", description) if description.present? && listing.respond_to?("description_#{locale}=")
+        end
+        listing.save!
       end
 
       # def seed_content(yml_file)

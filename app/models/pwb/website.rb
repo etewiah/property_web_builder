@@ -8,7 +8,11 @@ module Pwb
     # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
     has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: "Pwb::PageContent"
 
-    has_many :props
+    # Listed properties from the materialized view (read-only, for display)
+    has_many :listed_properties, class_name: 'Pwb::ListedProperty', foreign_key: 'website_id'
+    # Legacy Prop model - kept for backwards compatibility with existing code/tests
+    has_many :props, class_name: 'Pwb::Prop', foreign_key: 'website_id'
+
     has_many :realty_assets, class_name: 'Pwb::RealtyAsset', foreign_key: 'website_id'
     has_many :sale_listings, through: :realty_assets
     has_many :rental_listings, through: :realty_assets

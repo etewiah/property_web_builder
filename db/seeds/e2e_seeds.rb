@@ -100,35 +100,58 @@ Pwb::Contact.find_or_create_by!(primary_email: 'contact@tenant-b.test') do |c|
 end
 
 # Add a sample property for each tenant if not present
-# Note: Pwb::ListedProperty is a read-only materialized view. To create properties,
-# use Pwb::Prop (legacy) or create Pwb::RealtyAsset with associated listings.
+# Note: Pwb::ListedProperty is a read-only materialized view. Create properties
+# using Pwb::RealtyAsset with associated listings.
 puts "Ensuring at least one property per tenant..."
-if tenant_a.props.count == 0
-  # Create using the legacy Pwb::Prop model (still works for seeding)
-  tenant_a.props.create!(
+
+# Helper to create a property with the normalized models
+def create_sample_property(website:, reference:, title:, description:, price_cents:, prop_type:, address:, city:)
+  return if Pwb::RealtyAsset.exists?(website: website, reference: reference)
+
+  asset = Pwb::RealtyAsset.create!(
+    website: website,
+    reference: reference,
+    prop_type_key: prop_type,
+    street_address: address,
+    city: city
+  )
+
+  listing = Pwb::SaleListing.create!(
+    realty_asset: asset,
+    visible: true,
+    price_sale_current_cents: price_cents,
+    price_sale_current_currency: 'EUR'
+  )
+
+  # Set translations on the listing
+  listing.title_en = title
+  listing.description_en = description
+  listing.save!
+end
+
+if tenant_a.realty_assets.count == 0
+  create_sample_property(
+    website: tenant_a,
+    reference: 'E2E-A-001',
     title: 'E2E Villa Tenant A',
     description: 'Sample property for E2E tests (Tenant A)',
-    price_sale_current_cents: 500000_00,
-    prop_type_key: 'villa',
-    for_sale: true,
-    visible: true,
-    street_address: '123 E2E St',
-    city: 'CityA',
-    reference: 'E2E-A-001'
+    price_cents: 500000_00,
+    prop_type: 'villa',
+    address: '123 E2E St',
+    city: 'CityA'
   )
 end
-if tenant_b.props.count == 0
-  # Create using the legacy Pwb::Prop model (still works for seeding)
-  tenant_b.props.create!(
+
+if tenant_b.realty_assets.count == 0
+  create_sample_property(
+    website: tenant_b,
+    reference: 'E2E-B-001',
     title: 'E2E Villa Tenant B',
     description: 'Sample property for E2E tests (Tenant B)',
-    price_sale_current_cents: 600000_00,
-    prop_type_key: 'villa',
-    for_sale: true,
-    visible: true,
-    street_address: '456 E2E Ave',
-    city: 'CityB',
-    reference: 'E2E-B-001'
+    price_cents: 600000_00,
+    prop_type: 'villa',
+    address: '456 E2E Ave',
+    city: 'CityB'
   )
 end
 

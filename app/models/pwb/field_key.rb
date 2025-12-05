@@ -15,14 +15,15 @@ module Pwb
     # Validations
     validates :global_key, presence: true, uniqueness: { scope: :pwb_website_id }
     validates :tag, presence: true
-    # below 2 created so counter_cache works
+    # Legacy Prop associations - kept for backwards compatibility
     has_many :props_with_state, class_name: "Pwb::Prop", foreign_key: "prop_state_key", primary_key: :global_key
-
     has_many :props_with_type, inverse_of: :prop_type, class_name: "Pwb::Prop", foreign_key: "prop_type_key", primary_key: :global_key
-    # but above also allows:
-    # FieldKey.find_by_global_key("propTypes.apartamento").props_with_type
-    # though below might be better:
-    # Prop.where(prop_type_key: "propTypes.apartamento")
+    # Usage: FieldKey.find_by_global_key("propTypes.apartamento").props_with_type
+    # or: Prop.where(prop_type_key: "propTypes.apartamento")
+
+    # New RealtyAsset associations
+    has_many :realty_assets_with_state, class_name: "Pwb::RealtyAsset", foreign_key: "prop_state_key", primary_key: :global_key
+    has_many :realty_assets_with_type, class_name: "Pwb::RealtyAsset", foreign_key: "prop_type_key", primary_key: :global_key
 
     has_many :features, inverse_of: :feature_field_key, foreign_key: "feature_key", primary_key: :global_key
 
