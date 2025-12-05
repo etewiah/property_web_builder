@@ -31,7 +31,11 @@
       "mcp__filesystem__list_directory",
       "mcp__filesystem__read_text_file",
       "mcp__filesystem__write_file",
-      "Bash(RAILS_ENV=e2e bundle exec rails routes:*)"
+      "Bash(RAILS_ENV=e2e bundle exec rails routes:*)",
+      "mcp__puppeteer__puppeteer_navigate",
+      "mcp__puppeteer__puppeteer_screenshot",
+      "mcp__puppeteer__puppeteer_click",
+      "mcp__puppeteer__puppeteer_evaluate"
     ],
     "deny": [],
     "ask": []
