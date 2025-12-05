@@ -87,6 +87,16 @@ module Pwb
       for_sale? || for_rent?
     end
 
+    # Get the active sale listing (only one can be active at a time)
+    def active_sale_listing
+      sale_listings.active_listing.first
+    end
+
+    # Get the active rental listing (only one can be active at a time)
+    def active_rental_listing
+      rental_listings.active_listing.first
+    end
+
     # ============================================
     # Title/Description
     # ============================================

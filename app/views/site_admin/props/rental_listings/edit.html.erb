@@ -1,0 +1,22 @@
+<div class="max-w-2xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Edit Rental Listing</h1>
+    <p class="mt-1 text-gray-600">
+      Property: <%= @realty_asset.reference %>
+      <% if @rental_listing.active? %>
+        <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-600 text-white">Active</span>
+      <% end %>
+    </p>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <%= form_with model: @rental_listing, url: site_admin_prop_rental_listing_path(@realty_asset, @rental_listing), method: :patch, local: true do |f| %>
+      <%= render 'form', f: f, listing: @rental_listing %>
+
+      <div class="flex justify-between items-center mt-6 pt-6 border-t border-gray-200">
+        <%= link_to 'Cancel', edit_sale_rental_site_admin_prop_path(@realty_asset), class: 'text-gray-600 hover:text-gray-800' %>
+        <%= f.submit 'Update Rental Listing', class: 'px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 cursor-pointer' %>
+      </div>
+    <% end %>
+  </div>
+</div>

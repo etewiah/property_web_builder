@@ -55,6 +55,24 @@ Rails.application.routes.draw do
         get 'edit', to: 'props#edit_general' # Default to general tab
         patch :update
       end
+
+      # Nested resources for sale listings
+      resources :sale_listings, controller: 'props/sale_listings', only: [:new, :create, :edit, :update, :destroy] do
+        member do
+          patch :activate
+          patch :archive
+          patch :unarchive
+        end
+      end
+
+      # Nested resources for rental listings
+      resources :rental_listings, controller: 'props/rental_listings', only: [:new, :create, :edit, :update, :destroy] do
+        member do
+          patch :activate
+          patch :archive
+          patch :unarchive
+        end
+      end
     end
     resources :pages, only: [:index, :show, :edit, :update]
     resources :page_parts, only: [:index, :show]

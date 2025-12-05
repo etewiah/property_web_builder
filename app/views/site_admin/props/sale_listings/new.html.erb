@@ -1,0 +1,17 @@
+<div class="max-w-2xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">New Sale Listing</h1>
+    <p class="mt-1 text-gray-600">Create a new sale listing for property <%= @realty_asset.reference %></p>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <%= form_with model: @sale_listing, url: site_admin_prop_sale_listings_path(@realty_asset), local: true do |f| %>
+      <%= render 'form', f: f, listing: @sale_listing %>
+
+      <div class="flex justify-between items-center mt-6 pt-6 border-t border-gray-200">
+        <%= link_to 'Cancel', edit_sale_rental_site_admin_prop_path(@realty_asset), class: 'text-gray-600 hover:text-gray-800' %>
+        <%= f.submit 'Create Sale Listing', class: 'px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 cursor-pointer' %>
+      </div>
+    <% end %>
+  </div>
+</div>
