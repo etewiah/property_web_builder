@@ -1,6 +1,116 @@
 # load File.join(Rails.root, 'db', 'seeds', 'translations.rb')
 I18n::Backend::ActiveRecord::Translation.create!(
   [
+    # =========================================================================
+    # NEW ENGLISH-BASED KEYS (see docs/09_Field_Keys.md)
+    # =========================================================================
+
+    # Property Types - What the property IS
+    {locale: "en", key: "types.apartment", value: "Apartment"},
+    {locale: "en", key: "types.flat", value: "Flat"},
+    {locale: "en", key: "types.penthouse", value: "Penthouse"},
+    {locale: "en", key: "types.studio", value: "Studio"},
+    {locale: "en", key: "types.villa", value: "Villa"},
+    {locale: "en", key: "types.detached_house", value: "Detached House"},
+    {locale: "en", key: "types.semi_detached", value: "Semi-Detached"},
+    {locale: "en", key: "types.townhouse", value: "Townhouse"},
+    {locale: "en", key: "types.bungalow", value: "Bungalow"},
+    {locale: "en", key: "types.country_house", value: "Country House"},
+    {locale: "en", key: "types.land", value: "Land"},
+    {locale: "en", key: "types.commercial", value: "Commercial"},
+    {locale: "en", key: "types.office", value: "Office"},
+    {locale: "en", key: "types.retail", value: "Retail"},
+    {locale: "en", key: "types.warehouse", value: "Warehouse"},
+    {locale: "en", key: "types.garage", value: "Garage"},
+    {locale: "en", key: "types.storage", value: "Storage"},
+    {locale: "en", key: "types.hotel", value: "Hotel"},
+    {locale: "en", key: "types.residential_building", value: "Residential Building"},
+
+    # Property States - Physical condition
+    {locale: "en", key: "states.new_build", value: "New Build"},
+    {locale: "en", key: "states.under_construction", value: "Under Construction"},
+    {locale: "en", key: "states.excellent", value: "Excellent Condition"},
+    {locale: "en", key: "states.good", value: "Good Condition"},
+    {locale: "en", key: "states.needs_renovation", value: "Needs Renovation"},
+    {locale: "en", key: "states.renovated", value: "Renovated"},
+    {locale: "en", key: "states.second_hand", value: "Second Hand"},
+
+    # Property Features - Permanent physical attributes
+    {locale: "en", key: "features.private_pool", value: "Private Pool"},
+    {locale: "en", key: "features.communal_pool", value: "Communal Pool"},
+    {locale: "en", key: "features.heated_pool", value: "Heated Pool"},
+    {locale: "en", key: "features.private_garden", value: "Private Garden"},
+    {locale: "en", key: "features.communal_garden", value: "Communal Garden"},
+    {locale: "en", key: "features.terrace", value: "Terrace"},
+    {locale: "en", key: "features.balcony", value: "Balcony"},
+    {locale: "en", key: "features.porch", value: "Porch"},
+    {locale: "en", key: "features.solarium", value: "Solarium"},
+    {locale: "en", key: "features.patio", value: "Patio"},
+    {locale: "en", key: "features.private_garage", value: "Private Garage"},
+    {locale: "en", key: "features.communal_garage", value: "Communal Garage"},
+    {locale: "en", key: "features.storage_room", value: "Storage Room"},
+    {locale: "en", key: "features.utility_room", value: "Utility Room"},
+    {locale: "en", key: "features.separate_kitchen", value: "Separate Kitchen"},
+    {locale: "en", key: "features.fireplace", value: "Fireplace"},
+    {locale: "en", key: "features.jacuzzi", value: "Jacuzzi"},
+    {locale: "en", key: "features.sauna", value: "Sauna"},
+    {locale: "en", key: "features.barbecue", value: "Barbecue"},
+    {locale: "en", key: "features.elevator", value: "Elevator"},
+    {locale: "en", key: "features.sea_views", value: "Sea Views"},
+    {locale: "en", key: "features.mountain_views", value: "Mountain Views"},
+    {locale: "en", key: "features.parquet_flooring", value: "Parquet Flooring"},
+    {locale: "en", key: "features.marble_flooring", value: "Marble Flooring"},
+    {locale: "en", key: "features.sports_facilities", value: "Sports Facilities"},
+    {locale: "en", key: "features.children_play_area", value: "Children's Play Area"},
+
+    # Property Amenities - Equipment and services
+    {locale: "en", key: "amenities.air_conditioning", value: "Air Conditioning"},
+    {locale: "en", key: "amenities.central_heating", value: "Central Heating"},
+    {locale: "en", key: "amenities.electric_heating", value: "Electric Heating"},
+    {locale: "en", key: "amenities.gas_heating", value: "Gas Heating"},
+    {locale: "en", key: "amenities.propane_heating", value: "Propane Heating"},
+    {locale: "en", key: "amenities.oil_heating", value: "Oil Heating"},
+    {locale: "en", key: "amenities.solar_energy", value: "Solar Energy"},
+    {locale: "en", key: "amenities.alarm_system", value: "Alarm System"},
+    {locale: "en", key: "amenities.video_entry", value: "Video Entry System"},
+    {locale: "en", key: "amenities.security", value: "Security"},
+    {locale: "en", key: "amenities.concierge", value: "Concierge Service"},
+    {locale: "en", key: "amenities.furnished", value: "Furnished"},
+    {locale: "en", key: "amenities.semi_furnished", value: "Semi-Furnished"},
+    {locale: "en", key: "amenities.washing_machine", value: "Washing Machine"},
+    {locale: "en", key: "amenities.refrigerator", value: "Refrigerator"},
+    {locale: "en", key: "amenities.oven", value: "Oven"},
+    {locale: "en", key: "amenities.microwave", value: "Microwave"},
+    {locale: "en", key: "amenities.tv", value: "TV"},
+
+    # Property Status - Transaction status
+    {locale: "en", key: "status.available", value: "Available"},
+    {locale: "en", key: "status.reserved", value: "Reserved"},
+    {locale: "en", key: "status.under_offer", value: "Under Offer"},
+    {locale: "en", key: "status.sold", value: "Sold"},
+    {locale: "en", key: "status.rented", value: "Rented"},
+    {locale: "en", key: "status.off_market", value: "Off Market"},
+
+    # Property Highlights - Marketing flags
+    {locale: "en", key: "highlights.featured", value: "Featured"},
+    {locale: "en", key: "highlights.new_listing", value: "New Listing"},
+    {locale: "en", key: "highlights.price_reduced", value: "Price Reduced"},
+    {locale: "en", key: "highlights.luxury", value: "Luxury"},
+    {locale: "en", key: "highlights.exclusive", value: "Exclusive"},
+    {locale: "en", key: "highlights.investment_opportunity", value: "Investment Opportunity"},
+    {locale: "en", key: "highlights.energy_efficient", value: "Energy Efficient"},
+
+    # Listing Origin - Source of listing
+    {locale: "en", key: "origin.direct", value: "Direct Entry"},
+    {locale: "en", key: "origin.bank", value: "Bank Repossession"},
+    {locale: "en", key: "origin.private_seller", value: "Private Seller"},
+    {locale: "en", key: "origin.new_development", value: "New Development"},
+    {locale: "en", key: "origin.mls_feed", value: "MLS Feed"},
+    {locale: "en", key: "origin.partner", value: "Partner Agency"},
+
+    # =========================================================================
+    # LEGACY KEYS (kept for backward compatibility during migration)
+    # =========================================================================
     {locale: "en", key: "propertyStates.underConstruction", value: "Under construction"},
     {locale: "en", key: "propertyStates.brandNew", value: "Brand new"},
     {locale: "en", key: "propertyStates.segundaMano", value: "Second hand"},

@@ -29,9 +29,9 @@
   service_charge_yearly_cents: 0
   service_charge_yearly_currency: USD
   currency:
-  prop_origin_key: ''
-  prop_state_key: ''
-  prop_type_key: ''
+  prop_origin_key: 'origin.direct'
+  prop_state_key: 'states.renovated'
+  prop_type_key: 'types.apartment'
   street_address: Dunhams Corner Road
   street_name: Calle Sup
   street_number: 57

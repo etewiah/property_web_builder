@@ -29,9 +29,9 @@
   service_charge_yearly_cents: 0
   service_charge_yearly_currency: USD
   currency: USD
-  prop_origin_key: ''
-  prop_state_key: ''
-  prop_type_key: ''
+  prop_origin_key: 'origin.direct'
+  prop_state_key: 'states.excellent'
+  prop_type_key: 'types.penthouse'
   street_address: Old Water Works Road
   street_name: 
   street_number: 9-13
