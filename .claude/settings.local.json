@@ -45,7 +45,8 @@
       "Bash(RAILS_ENV=test bundle exec rspec:*)",
       "mcp__puppeteer__puppeteer_connect_active_tab",
       "Bash(for tab in general appearance navigation home)",
-      "Bash(do echo \"Tab: $tab\")"
+      "Bash(do echo \"Tab: $tab\")",
+      "Bash(RAILS_ENV=e2e bundle exec rails generate:*)"
     ],
     "deny": [],
     "ask": []
