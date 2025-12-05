@@ -268,6 +268,20 @@ module Pwb
     # Price Methods
     # ============================================
 
+    # Standard season pricing not available in materialized view
+    # These stub methods prevent errors in views that check for this column
+    def price_rental_monthly_standard_season_cents
+      nil
+    end
+
+    def price_rental_monthly_standard_season_cents?
+      false
+    end
+
+    def price_rental_monthly_standard_season
+      nil
+    end
+
     def contextual_price(rent_or_sale)
       rent_or_sale ||= for_rent ? "for_rent" : "for_sale"
 
