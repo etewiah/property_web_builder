@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_04_220001) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_05_095509) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -519,6 +519,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_220001) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "translations", default: {}, null: false
+    t.boolean "active", default: false, null: false
+    t.index ["realty_asset_id", "active"], name: "index_pwb_rental_listings_unique_active", unique: true, where: "(active = true)"
     t.index ["realty_asset_id"], name: "index_pwb_rental_listings_on_realty_asset_id"
     t.index ["translations"], name: "index_pwb_rental_listings_on_translations", using: :gin
   end
@@ -538,6 +540,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_220001) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "translations", default: {}, null: false
+    t.boolean "active", default: false, null: false
+    t.index ["realty_asset_id", "active"], name: "index_pwb_sale_listings_unique_active", unique: true, where: "(active = true)"
     t.index ["realty_asset_id"], name: "index_pwb_sale_listings_on_realty_asset_id"
     t.index ["translations"], name: "index_pwb_sale_listings_on_translations", using: :gin
   end
@@ -731,8 +735,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_04_220001) do
       a.created_at,
       a.updated_at
      FROM ((pwb_realty_assets a
-       LEFT JOIN pwb_sale_listings sl ON (((sl.realty_asset_id = a.id) AND (sl.archived = false))))
-       LEFT JOIN pwb_rental_listings rl ON (((rl.realty_asset_id = a.id) AND (rl.archived = false))));
+       LEFT JOIN pwb_sale_listings sl ON (((sl.realty_asset_id = a.id) AND (sl.active = true))))
+       LEFT JOIN pwb_rental_listings rl ON (((rl.realty_asset_id = a.id) AND (rl.active = true))));
   SQL
   add_index "pwb_properties", ["count_bathrooms"], name: "index_pwb_properties_on_bathrooms"
   add_index "pwb_properties", ["count_bedrooms"], name: "index_pwb_properties_on_bedrooms"
