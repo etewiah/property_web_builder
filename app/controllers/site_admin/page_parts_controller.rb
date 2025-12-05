@@ -5,7 +5,8 @@ module SiteAdmin
   # Manages page parts for the current website
   class PagePartsController < SiteAdminController
     def index
-      @page_parts = Pwb::PagePart.includes(:page).order(created_at: :desc)
+      # Scope to current website for multi-tenant isolation
+      @page_parts = Pwb::PagePart.where(website_id: current_website&.id).includes(:page).order(created_at: :desc)
 
       # Search functionality
       if params[:search].present?
@@ -14,7 +15,8 @@ module SiteAdmin
     end
 
     def show
-      @page_part = Pwb::PagePart.find(params[:id])
+      # Scope to current website for security
+      @page_part = Pwb::PagePart.where(website_id: current_website&.id).find(params[:id])
     end
   end
 end

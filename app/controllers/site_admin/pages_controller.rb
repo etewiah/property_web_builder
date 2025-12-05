@@ -5,7 +5,8 @@ module SiteAdmin
   # Manages pages for the current website
   class PagesController < SiteAdminController
     def index
-      @pages = Pwb::Page.order(created_at: :desc)
+      # Scope to current website for multi-tenant isolation
+      @pages = Pwb::Page.where(website_id: current_website&.id).order(created_at: :desc)
 
       # Search functionality
       if params[:search].present?
@@ -14,15 +15,18 @@ module SiteAdmin
     end
 
     def show
-      @page = Pwb::Page.find(params[:id])
+      # Scope to current website for security
+      @page = Pwb::Page.where(website_id: current_website&.id).find(params[:id])
     end
 
     def edit
-      @page = Pwb::Page.find(params[:id])
+      # Scope to current website for security
+      @page = Pwb::Page.where(website_id: current_website&.id).find(params[:id])
     end
 
     def update
-      @page = Pwb::Page.find(params[:id])
+      # Scope to current website for security
+      @page = Pwb::Page.where(website_id: current_website&.id).find(params[:id])
       if @page.update(page_params)
         redirect_to site_admin_page_path(@page), notice: 'Page was successfully updated.'
       else

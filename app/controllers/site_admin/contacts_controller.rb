@@ -5,7 +5,8 @@ module SiteAdmin
   # Manages contacts for the current website
   class ContactsController < SiteAdminController
     def index
-      @contacts = Pwb::Contact.order(created_at: :desc).limit(100)
+      # Scope to current website for multi-tenant isolation
+      @contacts = Pwb::Contact.where(website_id: current_website&.id).order(created_at: :desc).limit(100)
 
       # Search functionality
       if params[:search].present?
@@ -17,7 +18,8 @@ module SiteAdmin
     end
 
     def show
-      @contact = Pwb::Contact.find(params[:id])
+      # Scope to current website for security
+      @contact = Pwb::Contact.where(website_id: current_website&.id).find(params[:id])
     end
   end
 end

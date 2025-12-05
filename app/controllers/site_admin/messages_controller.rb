@@ -5,18 +5,20 @@ module SiteAdmin
   # Manages messages for the current website
   class MessagesController < SiteAdminController
     def index
-      @messages = Pwb::Message.order(created_at: :desc).limit(100)
+      # Scope to current website for multi-tenant isolation
+      @messages = Pwb::Message.where(website_id: current_website&.id).order(created_at: :desc).limit(100)
 
       # Search functionality
       if params[:search].present?
-        @messages = @messages.where('email ILIKE ? OR message ILIKE ?',
+        @messages = @messages.where('origin_email ILIKE ? OR content ILIKE ?',
                                    "%#{params[:search]}%",
                                    "%#{params[:search]}%")
       end
     end
 
     def show
-      @message = Pwb::Message.find(params[:id])
+      # Scope to current website for security
+      @message = Pwb::Message.where(website_id: current_website&.id).find(params[:id])
     end
   end
 end

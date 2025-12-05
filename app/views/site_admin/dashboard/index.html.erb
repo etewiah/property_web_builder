@@ -133,7 +133,7 @@
               <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
                 <div>
                   <p class="font-medium text-gray-900">
-                    <%= message.email.presence || 'No email' %>
+                    <%= message.origin_email.presence || 'No email' %>
                   </p>
                   <p class="text-sm text-gray-500">
                     <%= format_date(message.created_at) %>

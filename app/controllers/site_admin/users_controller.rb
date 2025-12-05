@@ -5,7 +5,8 @@ module SiteAdmin
   # Manages users for the current website
   class UsersController < SiteAdminController
     def index
-      @users = Pwb::User.order(created_at: :desc)
+      # Scope to current website for multi-tenant isolation
+      @users = Pwb::User.where(website_id: current_website&.id).order(created_at: :desc)
 
       # Search functionality
       if params[:search].present?
@@ -14,7 +15,8 @@ module SiteAdmin
     end
 
     def show
-      @user = Pwb::User.find(params[:id])
+      # Scope to current website for security
+      @user = Pwb::User.where(website_id: current_website&.id).find(params[:id])
     end
   end
 end

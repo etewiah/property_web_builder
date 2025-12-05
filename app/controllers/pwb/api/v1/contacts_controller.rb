@@ -3,22 +3,30 @@ module Pwb
     respond_to :json
 
     def create
-      Pwb::Contact.create create_contact_params
+      # Associate contact with current website for multi-tenant isolation
+      current_website.contacts.create create_contact_params
     end
 
     def update
-      contact = Pwb::Contact.find_by_id params[:id]
+      # Scope to current website for security
+      contact = current_website.contacts.find_by_id params[:id]
+      return render json: { error: 'Contact not found' }, status: :not_found unless contact
+
       contact.update update_contact_params
       render json: contact.as_json
     end
 
     def show
-      contact = Pwb::Contact.find_by_id params[:id]
+      # Scope to current website for security
+      contact = current_website.contacts.find_by_id params[:id]
+      return render json: { error: 'Contact not found' }, status: :not_found unless contact
+
       render json: contact.as_json
     end
 
     def index
-      contacts = Pwb::Contact.all
+      # Scope to current website for multi-tenant isolation
+      contacts = current_website.contacts
       render json: contacts.as_json
     end
 
