@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_05_163811) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_05_174144) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -211,6 +211,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_05_163811) do
     t.datetime "updated_at", precision: nil, null: false
     t.uuid "realty_asset_id"
     t.index ["feature_key"], name: "index_pwb_features_on_feature_key"
+    t.index ["realty_asset_id", "feature_key"], name: "index_pwb_features_on_realty_asset_id_and_feature_key"
     t.index ["realty_asset_id"], name: "index_pwb_features_on_realty_asset_id"
   end
 
@@ -499,8 +500,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_05_163811) do
     t.datetime "updated_at", null: false
     t.jsonb "translations", default: {}, null: false
     t.string "slug"
+    t.index ["prop_state_key"], name: "index_pwb_realty_assets_on_prop_state_key"
+    t.index ["prop_type_key"], name: "index_pwb_realty_assets_on_prop_type_key"
     t.index ["slug"], name: "index_pwb_realty_assets_on_slug", unique: true
     t.index ["translations"], name: "index_pwb_realty_assets_on_translations", using: :gin
+    t.index ["website_id", "prop_type_key"], name: "index_pwb_realty_assets_on_website_id_and_prop_type_key"
     t.index ["website_id"], name: "index_pwb_realty_assets_on_website_id"
   end
 

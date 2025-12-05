@@ -157,6 +157,13 @@ module Pwb
                             :for_rent_price_till, :property_type, :property_state, :count_bathrooms, :count_bedrooms)
     end
 
+    # Extract feature/amenity filter params
+    def feature_params
+      return {} unless params[:search]
+
+      params[:search].permit(:features_match, features: [])
+    end
+
     def set_select_picker_texts
       @select_picker_texts = {
         noneSelectedText: I18n.t("selectpicker.noneSelectedText"),
@@ -181,6 +188,10 @@ module Pwb
       # not necessary to unshift an empty value
       # (doesn't have selected:option because it cannot be populated by url)
       @property_states = FieldKey.get_options_by_tag("property-states")
+
+      # Features and amenities for multi-select filtering
+      @property_features = FieldKey.get_options_by_tag("property-features")
+      @property_amenities = FieldKey.get_options_by_tag("property-amenities")
     end
 
     def apply_search_filter(search_filtering_params)
@@ -200,7 +211,38 @@ module Pwb
         end
         @properties = @properties.public_send(key, value) if value.present?
       end
-      # end
+
+      # Apply feature/amenity filters
+      apply_feature_filters
+    end
+
+    # Apply feature and amenity filters based on search params
+    def apply_feature_filters
+      fp = feature_params
+      return if fp[:features].blank?
+
+      feature_keys = parse_feature_keys(fp[:features])
+      return if feature_keys.empty?
+
+      if fp[:features_match] == 'any'
+        # OR logic: match properties with ANY of the selected features
+        @properties = @properties.with_any_features(feature_keys)
+      else
+        # AND logic (default): match properties with ALL selected features
+        @properties = @properties.with_features(feature_keys)
+      end
+    end
+
+    # Parse feature keys from params, handling both string and array formats
+    def parse_feature_keys(features_param)
+      case features_param
+      when String
+        features_param.split(',').map(&:strip).reject(&:blank?)
+      when Array
+        features_param.reject(&:blank?)
+      else
+        []
+      end
     end
 
     # def search_redirect

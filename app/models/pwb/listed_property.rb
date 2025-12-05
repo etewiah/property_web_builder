@@ -95,6 +95,66 @@ module Pwb
     scope :bedrooms_from, ->(min_count) { where("count_bedrooms >= ?", min_count.to_s) }
 
     # ============================================
+    # Feature Search Scopes
+    # ============================================
+
+    # Search properties that have ALL specified features (AND logic)
+    # Usage: ListedProperty.with_features(['features.private_pool', 'features.sea_views'])
+    scope :with_features, ->(feature_keys) {
+      return all if feature_keys.blank?
+
+      feature_array = Array(feature_keys).reject(&:blank?)
+      return all if feature_array.empty?
+
+      joins(:features)
+        .where(pwb_features: { feature_key: feature_array })
+        .group("pwb_properties.id")
+        .having("COUNT(DISTINCT pwb_features.feature_key) = ?", feature_array.length)
+    }
+
+    # Search properties that have ANY of the specified features (OR logic)
+    # Usage: ListedProperty.with_any_features(['features.private_pool', 'features.sea_views'])
+    scope :with_any_features, ->(feature_keys) {
+      return all if feature_keys.blank?
+
+      feature_array = Array(feature_keys).reject(&:blank?)
+      return all if feature_array.empty?
+
+      joins(:features)
+        .where(pwb_features: { feature_key: feature_array })
+        .distinct
+    }
+
+    # Exclude properties that have specific features
+    # Usage: ListedProperty.without_features(['features.private_pool'])
+    scope :without_features, ->(feature_keys) {
+      return all if feature_keys.blank?
+
+      feature_array = Array(feature_keys).reject(&:blank?)
+      return all if feature_array.empty?
+
+      where.not(
+        id: joins(:features)
+          .where(pwb_features: { feature_key: feature_array })
+          .select(:id)
+      )
+    }
+
+    # Filter by property type key
+    # Usage: ListedProperty.with_property_type('types.apartment')
+    scope :with_property_type, ->(type_key) {
+      return all if type_key.blank?
+      where(prop_type_key: type_key)
+    }
+
+    # Filter by property state key
+    # Usage: ListedProperty.with_property_state('states.new_build')
+    scope :with_property_state, ->(state_key) {
+      return all if state_key.blank?
+      where(prop_state_key: state_key)
+    }
+
+    # ============================================
     # Title/Description (from listing via Mobility)
     # ============================================
     # Title and description are marketing text stored on the listing,

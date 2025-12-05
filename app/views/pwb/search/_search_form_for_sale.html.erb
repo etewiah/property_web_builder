@@ -44,13 +44,16 @@
 
       <%# f.input :property_state, collection: @property_states, label_method: :label, value_method: :value, :required => false %>
 
+      <%# Feature and amenity filters %>
+      <%= render 'pwb/search/feature_filters' %>
+
       <div>
         </br>
-        
-        <%= f.button :button, :class=> "btn fondo_accion btn-icon", 
+
+        <%= f.button :button, :class=> "btn fondo_accion btn-icon",
         :id => "btn_buscar_inmuebles" do %>
-          <i class="fa fa-search"></i> 
-          <%= I18n.t("search") %> 
+          <i class="fa fa-search"></i>
+          <%= I18n.t("search") %>
         <% end %>
       </div>
   <% end %>

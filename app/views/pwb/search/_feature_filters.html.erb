@@ -1,0 +1,168 @@
+<%# Feature and amenity filter checkboxes for property search %>
+<%# Usage: render 'pwb/search/feature_filters', f: form_builder %>
+
+<% if @property_features.present? || @property_amenities.present? %>
+<div class="feature-filters panel-group" id="feature-filters-accordion">
+
+  <% if @property_features.present? %>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="features-heading">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#feature-filters-accordion"
+           href="#features-collapse" aria-expanded="false" aria-controls="features-collapse">
+          <i class="fa fa-home"></i> <%= I18n.t('search.property_features', default: 'Property Features') %>
+          <i class="fa fa-chevron-down pull-right"></i>
+        </a>
+      </h4>
+    </div>
+    <div id="features-collapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="features-heading">
+      <div class="panel-body">
+        <div class="checkbox-grid">
+          <% @property_features.each do |feature| %>
+            <label class="checkbox-item">
+              <%= check_box_tag 'search[features][]',
+                  feature.value,
+                  params.dig(:search, :features)&.include?(feature.value),
+                  id: "feature_#{feature.value.parameterize}",
+                  class: 'feature-checkbox' %>
+              <span><%= feature.label %></span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+
+  <% if @property_amenities.present? %>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="amenities-heading">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#feature-filters-accordion"
+           href="#amenities-collapse" aria-expanded="false" aria-controls="amenities-collapse">
+          <i class="fa fa-cogs"></i> <%= I18n.t('search.property_amenities', default: 'Amenities & Equipment') %>
+          <i class="fa fa-chevron-down pull-right"></i>
+        </a>
+      </h4>
+    </div>
+    <div id="amenities-collapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="amenities-heading">
+      <div class="panel-body">
+        <div class="checkbox-grid">
+          <% @property_amenities.each do |amenity| %>
+            <label class="checkbox-item">
+              <%= check_box_tag 'search[features][]',
+                  amenity.value,
+                  params.dig(:search, :features)&.include?(amenity.value),
+                  id: "amenity_#{amenity.value.parameterize}",
+                  class: 'feature-checkbox' %>
+              <span><%= amenity.label %></span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+
+  <%# Match logic selector - hidden by default, shown when features selected %>
+  <div class="features-match-section" id="features-match-section" style="display: none;">
+    <label class="control-label"><%= I18n.t('search.features_match', default: 'Match') %>:</label>
+    <div class="btn-group btn-group-sm" data-toggle="buttons">
+      <label class="btn btn-default <%= 'active' unless params.dig(:search, :features_match) == 'any' %>">
+        <input type="radio" name="search[features_match]" value="all"
+               <%= 'checked' unless params.dig(:search, :features_match) == 'any' %>>
+        <%= I18n.t('search.match_all', default: 'All selected') %>
+      </label>
+      <label class="btn btn-default <%= 'active' if params.dig(:search, :features_match) == 'any' %>">
+        <input type="radio" name="search[features_match]" value="any"
+               <%= 'checked' if params.dig(:search, :features_match) == 'any' %>>
+        <%= I18n.t('search.match_any', default: 'Any selected') %>
+      </label>
+    </div>
+  </div>
+
+</div>
+
+<style>
+.feature-filters {
+  margin-top: 15px;
+}
+
+.feature-filters .panel-heading {
+  padding: 8px 15px;
+}
+
+.feature-filters .panel-title a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.feature-filters .panel-title a:hover {
+  text-decoration: none;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-weight: normal;
+  margin-bottom: 0;
+}
+
+.checkbox-item input[type="checkbox"] {
+  margin: 0;
+}
+
+.checkbox-item span {
+  font-size: 13px;
+}
+
+.features-match-section {
+  margin-top: 10px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 4px;
+}
+
+.features-match-section .control-label {
+  margin-right: 10px;
+  font-weight: normal;
+}
+
+@media (max-width: 768px) {
+  .checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Show/hide match section based on checkbox selection
+  var checkboxes = document.querySelectorAll('.feature-checkbox');
+  var matchSection = document.getElementById('features-match-section');
+
+  function updateMatchSectionVisibility() {
+    var anyChecked = Array.from(checkboxes).some(function(cb) { return cb.checked; });
+    if (matchSection) {
+      matchSection.style.display = anyChecked ? 'block' : 'none';
+    }
+  }
+
+  checkboxes.forEach(function(checkbox) {
+    checkbox.addEventListener('change', updateMatchSectionVisibility);
+  });
+
+  // Initial check
+  updateMatchSectionVisibility();
+});
+</script>
+<% end %>
