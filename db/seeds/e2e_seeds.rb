@@ -194,11 +194,56 @@ end
 # using Pwb::RealtyAsset with associated listings.
 puts "Creating sample properties with listings..."
 
+# Path to seed images (downloaded from Unsplash - royalty-free)
+SEED_IMAGES_PATH = Rails.root.join('db', 'seeds', 'images')
+
+# Helper to attach an image to a property
+def attach_property_image(asset, image_filename)
+  image_path = SEED_IMAGES_PATH.join(image_filename)
+  unless File.exist?(image_path)
+    puts "    WARNING: Image not found: #{image_path}"
+    return
+  end
+
+  # Check if image already attached
+  if asset.prop_photos.any?
+    puts "    Image already attached to #{asset.reference}"
+    return
+  end
+
+  photo = Pwb::PropPhoto.create!(realty_asset: asset, sort_order: 1)
+  photo.image.attach(
+    io: File.open(image_path),
+    filename: image_filename,
+    content_type: 'image/jpeg'
+  )
+  photo.save!
+  puts "    Attached #{image_filename} to #{asset.reference}"
+end
+
+# Helper to add features to a property
+def add_property_features(asset, feature_keys)
+  added = 0
+  feature_keys.each do |key|
+    feature = asset.features.find_or_create_by!(feature_key: key)
+    added += 1 if feature.previously_new_record?
+  end
+  puts "    Added #{added} features to #{asset.reference}" if added > 0
+end
+
 # Helper to create a property with sale and/or rental listings
 # Uses website_id instead of website object to avoid class reloading issues in Rake tasks
-def create_property(website:, attrs:, sale_listing: nil, rental_listing: nil)
+def create_property(website:, attrs:, sale_listing: nil, rental_listing: nil, image: nil, features: [])
   website_id = website.id
-  return if Pwb::RealtyAsset.exists?(website_id: website_id, reference: attrs[:reference])
+
+  # Check if property already exists
+  existing = Pwb::RealtyAsset.find_by(website_id: website_id, reference: attrs[:reference])
+  if existing
+    # Update features and image even for existing properties
+    add_property_features(existing, features) if features.any?
+    attach_property_image(existing, image) if image
+    return existing
+  end
 
   asset = Pwb::RealtyAsset.create!(
     website_id: website_id,
@@ -219,6 +264,12 @@ def create_property(website:, attrs:, sale_listing: nil, rental_listing: nil)
     latitude: attrs[:latitude],
     longitude: attrs[:longitude]
   )
+
+  # Add features/amenities
+  add_property_features(asset, features) if features.any?
+
+  # Attach image
+  attach_property_image(asset, image) if image
 
   if sale_listing
     listing = Pwb::SaleListing.create!(
@@ -280,7 +331,16 @@ sale_properties = [
       description: 'Beautiful 4-bedroom family home in a quiet neighborhood. Features include a spacious backyard, updated kitchen with granite countertops, hardwood floors throughout, and a two-car garage. Close to schools and parks.',
       price_cents: 425000_00,
       highlighted: true
-    }
+    },
+    image: 'house_family.jpg',
+    features: [
+      'features.private_garden',
+      'features.terrace',
+      'features.patio',
+      'amenities.central_heating',
+      'amenities.air_conditioning',
+      'amenities.alarm_system'
+    ]
   },
   {
     attrs: {
@@ -306,7 +366,15 @@ sale_properties = [
       description: 'Stunning new construction apartment in Midtown Manhattan. Floor-to-ceiling windows offer breathtaking city views. Building amenities include 24-hour doorman, fitness center, and rooftop terrace.',
       price_cents: 1850000_00,
       highlighted: true
-    }
+    },
+    image: 'apartment_luxury.jpg',
+    features: [
+      'features.balcony',
+      'amenities.air_conditioning',
+      'amenities.central_heating',
+      'amenities.video_entry',
+      'amenities.security'
+    ]
   },
   {
     attrs: {
@@ -332,7 +400,19 @@ sale_properties = [
       description: 'Exquisite oceanfront villa with private beach access. Features include infinity pool, smart home technology, chef\'s kitchen, wine cellar, and a private dock. Perfect for luxury coastal living.',
       price_cents: 5500000_00,
       highlighted: false
-    }
+    },
+    image: 'villa_ocean.jpg',
+    features: [
+      'features.private_pool',
+      'features.heated_pool',
+      'features.private_garden',
+      'features.terrace',
+      'features.solarium',
+      'amenities.air_conditioning',
+      'amenities.alarm_system',
+      'amenities.solar_energy',
+      'amenities.security'
+    ]
   },
   {
     attrs: {
@@ -358,7 +438,15 @@ sale_properties = [
       description: 'Beautifully renovated historic townhouse on Capitol Hill. Original hardwood floors and exposed brick blend with modern amenities. Private patio garden and roof deck with city views.',
       price_cents: 875000_00,
       highlighted: false
-    }
+    },
+    image: 'townhouse_historic.jpg',
+    features: [
+      'features.patio',
+      'features.terrace',
+      'amenities.gas_heating',
+      'amenities.air_conditioning',
+      'amenities.alarm_system'
+    ]
   }
 ]
 
@@ -391,7 +479,14 @@ rental_properties = [
       short_term: false,
       furnished: false,
       highlighted: true
-    }
+    },
+    image: 'apartment_downtown.jpg',
+    features: [
+      'features.balcony',
+      'amenities.air_conditioning',
+      'amenities.central_heating',
+      'amenities.video_entry'
+    ]
   },
   {
     attrs: {
@@ -420,7 +515,15 @@ rental_properties = [
       short_term: false,
       furnished: false,
       highlighted: true
-    }
+    },
+    image: 'house_suburban.jpg',
+    features: [
+      'features.private_garden',
+      'features.patio',
+      'amenities.air_conditioning',
+      'amenities.central_heating',
+      'amenities.alarm_system'
+    ]
   },
   {
     attrs: {
@@ -449,7 +552,14 @@ rental_properties = [
       short_term: true,
       furnished: true,
       highlighted: false
-    }
+    },
+    image: 'studio_modern.jpg',
+    features: [
+      'amenities.air_conditioning',
+      'amenities.electric_heating',
+      'amenities.video_entry',
+      'amenities.security'
+    ]
   },
   {
     attrs: {
@@ -478,7 +588,17 @@ rental_properties = [
       short_term: false,
       furnished: true,
       highlighted: false
-    }
+    },
+    image: 'penthouse_luxury.jpg',
+    features: [
+      'features.terrace',
+      'features.balcony',
+      'amenities.air_conditioning',
+      'amenities.central_heating',
+      'amenities.video_entry',
+      'amenities.security',
+      'amenities.alarm_system'
+    ]
   }
 ]
 
@@ -488,7 +608,9 @@ sale_properties.each do |prop|
   create_property(
     website: tenant_a,
     attrs: prop[:attrs],
-    sale_listing: prop[:sale_listing]
+    sale_listing: prop[:sale_listing],
+    image: prop[:image],
+    features: prop[:features] || []
   )
 end
 
@@ -498,7 +620,9 @@ rental_properties.each do |prop|
   create_property(
     website: tenant_a,
     attrs: prop[:attrs],
-    rental_listing: prop[:rental_listing]
+    rental_listing: prop[:rental_listing],
+    image: prop[:image],
+    features: prop[:features] || []
   )
 end
 
@@ -510,7 +634,9 @@ sale_properties.take(2).each do |prop|
   create_property(
     website: tenant_b,
     attrs: attrs,
-    sale_listing: prop[:sale_listing]
+    sale_listing: prop[:sale_listing],
+    image: prop[:image],
+    features: prop[:features] || []
   )
 end
 
@@ -520,7 +646,9 @@ rental_properties.take(2).each do |prop|
   create_property(
     website: tenant_b,
     attrs: attrs,
-    rental_listing: prop[:rental_listing]
+    rental_listing: prop[:rental_listing],
+    image: prop[:image],
+    features: prop[:features] || []
   )
 end
 
