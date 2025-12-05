@@ -1,7 +1,8 @@
 <%
   # Determine the public page URL with locale
-  # Include locale prefix for non-default locales
-  locale_prefix = @current_locale.present? && @current_locale != 'en' ? "/#{@current_locale.split('-').first}" : ""
+  # Use base locale for URL path (en-UK -> en, es -> es)
+  # Don't include locale prefix for default locale (en)
+  locale_prefix = @current_locale_base.present? && @current_locale_base != 'en' ? "/#{@current_locale_base}" : ""
   page_path = @page.slug == 'home' ? '/' : "/p/#{@page.slug}"
   public_page_url = "#{request.protocol}#{request.host_with_port}#{locale_prefix}#{page_path}"
 %>
@@ -65,13 +66,14 @@
   </div>
 
   <!-- Locale Tabs -->
-  <% if @supported_locales.length > 1 %>
+  <% if @locale_details.length > 1 %>
     <div class="border-b border-gray-200 mb-6">
       <nav class="-mb-px flex space-x-8">
-        <% @supported_locales.each do |locale| %>
-          <%= link_to edit_site_admin_page_page_part_path(@page, @page_part, locale: locale),
-                      class: "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm #{@current_locale == locale ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}" do %>
-            <%= locale.upcase %>
+        <% @locale_details.each do |locale_detail| %>
+          <% is_current = locale_detail[:full] == @current_locale_full %>
+          <%= link_to edit_site_admin_page_page_part_path(@page, @page_part, locale: locale_detail[:full]),
+                      class: "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm #{is_current ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}" do %>
+            <%= locale_detail[:label] %>
           <% end %>
         <% end %>
       </nav>
@@ -84,7 +86,7 @@
       <div>
         <h2 class="text-lg font-semibold text-gray-900">Content Blocks</h2>
         <p class="text-sm text-gray-500">
-          Editing content for locale: <span class="font-medium"><%= @current_locale.upcase %></span>
+          Editing content for locale: <span class="font-medium"><%= @current_locale_detail&.dig(:label) || @current_locale_full.upcase %></span>
         </p>
       </div>
 
@@ -113,10 +115,11 @@
                   method: :patch,
                   local: true,
                   class: "p-6" do |f| %>
-      <%= hidden_field_tag :locale, @current_locale %>
+      <%= hidden_field_tag :locale, @current_locale_full %>
 
       <% editor_blocks = editor_setup['editorBlocks'] || [] %>
-      <% locale_blocks = @block_contents[@current_locale]&.dig('blocks') || {} %>
+      <%# Use base locale (e.g., "en") to access block_contents, not full locale (e.g., "en-UK") %>
+      <% locale_blocks = @block_contents[@current_locale_base]&.dig('blocks') || {} %>
 
       <% if editor_blocks.any? %>
         <div class="space-y-6">

@@ -1429,3 +1429,222 @@ bundle exec rake pwb:db:update_page_parts
 
 This task iterates through the seed files and updates the corresponding `PagePart` records in the database.
 
+---
+
+## Locale Handling
+
+### Overview
+
+The application uses two distinct locale formats for different purposes:
+
+| Format | Examples | Purpose |
+|--------|----------|---------|
+| **Full Locale** | `en-UK`, `en-US`, `pt-BR`, `es-MX` | User-facing: URLs, settings, locale selectors |
+| **Base Locale** | `en`, `pt`, `es`, `fr` | Internal: Content storage, `block_contents` keys |
+
+This distinction is important because:
+- Users may configure region-specific locales (e.g., `en-UK` vs `en-US`)
+- Content is stored by language, not region (both `en-UK` and `en-US` share the same `en` content)
+- The `block_contents` JSON in PageParts uses base locale keys
+
+### The LocaleHelper Module
+
+**File:** `app/helpers/locale_helper.rb`
+
+The `LocaleHelper` module provides consistent locale handling across the application:
+
+```ruby
+# Include in controllers or views that need locale conversion
+include LocaleHelper
+
+# Convert full locale to base locale for content access
+locale_to_base("en-UK")  # => "en"
+locale_to_base("pt-BR")  # => "pt"
+locale_to_base("es")     # => "es"
+
+# Build locale details for UI display
+build_locale_details(["en-UK", "es", "pt-BR"])
+# => [
+#      { full: "en-UK", base: "en", label: "English (UK)" },
+#      { full: "es", base: "es", label: "Spanish" },
+#      { full: "pt-BR", base: "pt", label: "Portuguese (Brazil)" }
+#    ]
+
+# Get unique base locales for content queries
+supported_locales_for_content(["en-UK", "en-US", "es"])
+# => ["en", "es"]  (duplicates removed)
+```
+
+### Key Methods
+
+| Method | Input | Output | Use Case |
+|--------|-------|--------|----------|
+| `locale_to_base` | `"en-UK"` | `"en"` | Access `block_contents[locale]` |
+| `locale_variant` | `"en-UK"` | `"UK"` | Extract region code |
+| `build_locale_details` | `["en-UK"]` | `[{full:, base:, label:}]` | Build locale selector UI |
+| `supported_locales_for_content` | `["en-UK", "en-US"]` | `["en"]` | Deduplicate for queries |
+| `base_to_full_locale` | `"en", ["en-UK"]` | `"en-UK"` | Reverse lookup |
+| `locale_for_url_path` | `"es"` | `"es"` | Build locale-prefixed URLs |
+
+### Usage in Controllers
+
+When working with PageParts and locale-specific content, follow this pattern:
+
+```ruby
+class PagePartsController < ApplicationController
+  include LocaleHelper
+
+  before_action :set_locale_details
+
+  def edit
+    @block_contents = @page_part.block_contents || {}
+    # Access content using base locale
+    locale_blocks = @block_contents[@current_locale_base]&.dig('blocks') || {}
+  end
+
+  def update
+    # Store content using base locale
+    manager = Pwb::PagePartManager.new(@page_part.page_part_key, @page)
+    manager.update_page_part_content(@current_locale_base, fragment_block)
+
+    # Redirect using full locale for URL consistency
+    redirect_to edit_path(locale: @current_locale_full)
+  end
+
+  private
+
+  def set_locale_details
+    supported = current_website.supported_locales.presence || ['en']
+    @locale_details = build_locale_details(supported)
+
+    # Full locale from params (for URLs)
+    @current_locale_full = params[:locale].presence || supported.first || 'en'
+
+    # Base locale for content access
+    @current_locale_base = locale_to_base(@current_locale_full)
+
+    # Current locale detail hash for UI
+    @current_locale_detail = @locale_details.find { |d| d[:full] == @current_locale_full } ||
+                             @locale_details.find { |d| d[:base] == @current_locale_base } ||
+                             @locale_details.first
+  end
+end
+```
+
+### Usage in Views
+
+**Locale Tabs:**
+```erb
+<% @locale_details.each do |locale_detail| %>
+  <% is_current = locale_detail[:full] == @current_locale_full %>
+  <%= link_to edit_path(locale: locale_detail[:full]),
+              class: is_current ? 'active' : '' do %>
+    <%= locale_detail[:label] %>
+  <% end %>
+<% end %>
+```
+
+**Accessing Block Contents:**
+```erb
+<%# CORRECT: Use base locale to access content %>
+<% locale_blocks = @block_contents[@current_locale_base]&.dig('blocks') || {} %>
+
+<%# WRONG: Don't use full locale - content won't be found %>
+<% locale_blocks = @block_contents[@current_locale_full]&.dig('blocks') || {} %>
+```
+
+**Building Locale-Prefixed URLs:**
+```erb
+<%
+  # Include locale prefix for non-English locales
+  locale_prefix = @current_locale_base != 'en' ? "/#{@current_locale_base}" : ""
+  page_path = @page.slug == 'home' ? '/' : "/p/#{@page.slug}"
+  public_page_url = "#{request.base_url}#{locale_prefix}#{page_path}"
+%>
+```
+
+### Common Pitfalls
+
+#### 1. Using Full Locale for Content Access
+
+**Wrong:**
+```ruby
+# params[:locale] might be "en-UK" but block_contents uses "en"
+locale_blocks = @block_contents[params[:locale]]  # nil!
+```
+
+**Correct:**
+```ruby
+base_locale = locale_to_base(params[:locale])
+locale_blocks = @block_contents[base_locale]  # Works!
+```
+
+#### 2. Forgetting to Normalize in PagePartManager
+
+**Wrong:**
+```ruby
+# Passing "en-UK" creates a new key instead of updating "en"
+manager.update_page_part_content("en-UK", data)
+```
+
+**Correct:**
+```ruby
+# Normalize to base locale first
+manager.update_page_part_content(locale_to_base("en-UK"), data)
+```
+
+#### 3. Inconsistent Locale in URLs vs Content
+
+Ensure URLs use full locales for user clarity, while content operations use base locales:
+
+```ruby
+# URL params: ?locale=en-UK (full)
+# Content key: block_contents["en"] (base)
+# Redirect: redirect_to path(locale: @current_locale_full)
+```
+
+### Testing
+
+The `LocaleHelper` has comprehensive specs in `spec/helpers/locale_helper_spec.rb`:
+
+```bash
+bundle exec rspec spec/helpers/locale_helper_spec.rb
+```
+
+Key test cases:
+- Full locale conversion (`en-UK` → `en`)
+- Base locale passthrough (`es` → `es`)
+- Nil/blank handling (returns `"en"`)
+- Symbol locale handling
+- Locale detail building with labels
+- Duplicate removal in `supported_locales_for_content`
+
+### Migration Notes
+
+If you're updating existing code that used full locales for content access:
+
+1. **Identify affected controllers/views:**
+   ```bash
+   grep -r "block_contents\[" app/
+   grep -r "@current_locale\]" app/views/
+   ```
+
+2. **Add LocaleHelper:**
+   ```ruby
+   include LocaleHelper
+   ```
+
+3. **Replace direct locale access:**
+   ```ruby
+   # Before
+   @block_contents[@current_locale]
+
+   # After
+   @block_contents[locale_to_base(@current_locale)]
+   ```
+
+4. **Update instance variables:**
+   - Use `@current_locale_full` for URLs and params
+   - Use `@current_locale_base` for content access
+   - Use `@locale_details` for building locale selectors
+

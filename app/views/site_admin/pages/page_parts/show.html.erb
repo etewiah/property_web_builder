@@ -27,12 +27,13 @@
 
   <!-- Content by Locale -->
   <div class="space-y-6">
-    <% @supported_locales.each do |locale| %>
-      <% locale_blocks = @block_contents[locale]&.dig('blocks') || {} %>
+    <% @locale_details.each do |locale_detail| %>
+      <%# Use base locale (e.g., "en") to access block_contents, not full locale (e.g., "en-UK") %>
+      <% locale_blocks = @block_contents[locale_detail[:base]]&.dig('blocks') || {} %>
       <div class="bg-white rounded-lg shadow overflow-hidden">
         <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
           <h2 class="text-lg font-semibold text-gray-900">
-            Content (<%= locale.upcase %>)
+            Content (<%= locale_detail[:label] %>)
           </h2>
         </div>
         <div class="p-6">
