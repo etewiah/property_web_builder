@@ -3,11 +3,13 @@ require_dependency "pwb/application_controller"
 module Pwb
   class AdminPanelController < ActionController::Base
     include ::Devise::Controllers::Helpers
+    include ::AdminAuthBypass
     helper_method :current_user
-    
+
     layout 'pwb/admin_panel'
+
     def show
-      unless current_user && user_is_admin_for_subdomain?
+      unless bypass_admin_auth? || (current_user && user_is_admin_for_subdomain?)
         @subdomain = request.subdomain
         @website = Pwb::Website.find_by_subdomain(@subdomain)
         render 'pwb/errors/admin_required', layout: "layouts/pwb/admin_panel_error"
@@ -15,7 +17,7 @@ module Pwb
     end
 
     def show_legacy_1
-      unless current_user && user_is_admin_for_subdomain?
+      unless bypass_admin_auth? || (current_user && user_is_admin_for_subdomain?)
         @subdomain = request.subdomain
         @website = Pwb::Website.find_by_subdomain(@subdomain)
         render 'pwb/errors/admin_required', layout: "layouts/pwb/admin_panel_error"
@@ -25,7 +27,11 @@ module Pwb
     end
 
     private
-  
+
+    def current_website
+      @current_website ||= Pwb::Website.find_by_subdomain(request.subdomain)
+    end
+
     def user_is_admin_for_subdomain?
       # Ensure user is authenticated
       return false unless current_user

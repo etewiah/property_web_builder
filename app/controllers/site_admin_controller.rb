@@ -8,10 +8,13 @@
 #
 # Authentication: Requires logged in user (via Devise)
 # Authorization: Phase 2 - currently available to any logged in user
+#
+# Dev/E2E bypass: Set BYPASS_ADMIN_AUTH=true to skip authentication
 class SiteAdminController < ActionController::Base
   include SubdomainTenant
+  include AdminAuthBypass
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, unless: :bypass_admin_auth?
 
   layout 'site_admin'
 

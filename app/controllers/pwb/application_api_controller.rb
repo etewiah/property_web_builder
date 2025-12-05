@@ -13,8 +13,11 @@ module Pwb
 
     private
 
+    ALLOWED_BYPASS_ENVIRONMENTS = %w[development e2e test].freeze
+
     def bypass_authentication?
-      ENV['BYPASS_API_AUTH'] == 'true'
+      return false unless ALLOWED_BYPASS_ENVIRONMENTS.include?(Rails.env)
+      ENV['BYPASS_API_AUTH'] == 'true' || ENV['BYPASS_ADMIN_AUTH'] == 'true'
     end
 
     def check_user
