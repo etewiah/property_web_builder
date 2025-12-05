@@ -18,12 +18,14 @@ module RequestSpecHelpers
   # https://makandracards.com/makandra/37161-rspec-devise-how-to-sign-in-users-in-request-specs
   def sign_in(resource_or_scope, resource = nil)
     resource ||= resource_or_scope
-    scope = Devise::Mapping.find_scope!(resource_or_scope)
+    # Use :user scope directly for Pwb::User since Devise maps it as 'user'
+    scope = resource.is_a?(Pwb::User) ? :user : Devise::Mapping.find_scope!(resource_or_scope)
     login_as(resource, scope: scope)
   end
 
   def sign_out(resource_or_scope)
-    scope = Devise::Mapping.find_scope!(resource_or_scope)
+    # Use :user scope directly for Pwb::User since Devise maps it as 'user'
+    scope = resource_or_scope.is_a?(Pwb::User) ? :user : Devise::Mapping.find_scope!(resource_or_scope)
     logout(scope)
   end
 

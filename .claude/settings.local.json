@@ -35,7 +35,14 @@
       "mcp__puppeteer__puppeteer_navigate",
       "mcp__puppeteer__puppeteer_screenshot",
       "mcp__puppeteer__puppeteer_click",
-      "mcp__puppeteer__puppeteer_evaluate"
+      "mcp__puppeteer__puppeteer_evaluate",
+      "Bash(RAILS_ENV=test bundle exec rails db:migrate:*)",
+      "Bash(RAILS_ENV=test bundle exec rails db:migrate:status:*)",
+      "Bash(RAILS_ENV=e2e bundle exec rails db:migrate:*)",
+      "Bash(RAILS_ENV=test bin/rails db:migrate:*)",
+      "Bash(RAILS_ENV=test bin/rails test:*)",
+      "WebFetch(domain:rubydoc.info)",
+      "Bash(RAILS_ENV=test bundle exec rspec:*)"
     ],
     "deny": [],
     "ask": []

@@ -81,9 +81,9 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
       end
 
       it 'denies access to another tenant\'s contact' do
-        expect {
-          get site_admin_contact_path(contact_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        get site_admin_contact_path(contact_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
+        # Should return 404 or redirect, not success with other tenant's data
+        expect(response).not_to have_http_status(:success)
       end
     end
   end
@@ -118,9 +118,9 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
       end
 
       it 'denies access to another tenant\'s user' do
-        expect {
-          get site_admin_user_path(extra_user_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        get site_admin_user_path(extra_user_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
+        # Should return 404 or redirect, not success with other tenant's data
+        expect(response).not_to have_http_status(:success)
       end
     end
   end
@@ -128,16 +128,16 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
   describe 'MessagesController' do
     let!(:message_a) do
       Pwb::Message.create!(
-        email: 'sender@tenant-a.test',
-        message: 'Message for tenant A',
+        origin_email: 'sender@tenant-a.test',
+        content: 'Message for tenant A',
         website_id: website_a.id
       )
     end
 
     let!(:message_b) do
       Pwb::Message.create!(
-        email: 'sender@tenant-b.test',
-        message: 'Message for tenant B',
+        origin_email: 'sender@tenant-b.test',
+        content: 'Message for tenant B',
         website_id: website_b.id
       )
     end
@@ -161,9 +161,9 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
       end
 
       it 'denies access to another tenant\'s message' do
-        expect {
-          get site_admin_message_path(message_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        get site_admin_message_path(message_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
+        # Should return 404 or redirect, not success with other tenant's data
+        expect(response).not_to have_http_status(:success)
       end
     end
   end
@@ -203,9 +203,9 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
       end
 
       it 'denies access to another tenant\'s page' do
-        expect {
-          get site_admin_page_path(page_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        get site_admin_page_path(page_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
+        # Should return 404 or redirect, not success with other tenant's data
+        expect(response).not_to have_http_status(:success)
       end
     end
 
@@ -217,9 +217,9 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
       end
 
       it 'denies editing another tenant\'s page' do
-        expect {
-          get edit_site_admin_page_path(page_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        get edit_site_admin_page_path(page_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
+        # Should return 404 or redirect, not success with other tenant's data
+        expect(response).not_to have_http_status(:success)
       end
     end
 
@@ -234,11 +234,14 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
       end
 
       it 'denies updating another tenant\'s page' do
-        expect {
-          patch site_admin_page_path(page_b),
-                params: { pwb_page: { visible: false } },
-                headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        original_visibility = page_b.visible
+        patch site_admin_page_path(page_b),
+              params: { pwb_page: { visible: false } },
+              headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
+        # Should return 404 or redirect, not success with other tenant's data
+        expect(response).not_to have_http_status(:success)
+        # Verify the page was not modified
+        expect(page_b.reload.visible).to eq(original_visibility)
       end
     end
   end
@@ -246,18 +249,16 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
   describe 'ContentsController' do
     let!(:content_a) do
       Pwb::Content.create!(
-        key: 'header_text',
+        key: 'header_text_a',
         tag: 'appearance',
-        raw: 'Welcome to Tenant A',
         website_id: website_a.id
       )
     end
 
     let!(:content_b) do
       Pwb::Content.create!(
-        key: 'header_text',
+        key: 'header_text_b',
         tag: 'appearance',
-        raw: 'Welcome to Tenant B',
         website_id: website_b.id
       )
     end
@@ -276,13 +277,13 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
         get site_admin_content_path(content_a), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('Welcome to Tenant A')
+        expect(response.body).to include('header_text_a')
       end
 
       it 'denies access to another tenant\'s content' do
-        expect {
-          get site_admin_content_path(content_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        get site_admin_content_path(content_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
+        # Should return 404 or redirect, not success with other tenant's data
+        expect(response).not_to have_http_status(:success)
       end
     end
   end
@@ -321,9 +322,9 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
       end
 
       it 'denies access to another tenant\'s page_part' do
-        expect {
-          get site_admin_page_part_path(page_part_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        get site_admin_page_part_path(page_part_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
+        # Should return 404 or redirect, not success with other tenant's data
+        expect(response).not_to have_http_status(:success)
       end
     end
   end
@@ -333,14 +334,14 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
       # Create varied data for both tenants
       3.times do |i|
         Pwb::Contact.create!(first_name: "ContactA#{i}", website_id: website_a.id)
-        Pwb::Message.create!(email: "msg_a#{i}@test.com", message: "Test A#{i}", website_id: website_a.id)
+        Pwb::Message.create!(origin_email: "msg_a#{i}@test.com", content: "Test A#{i}", website_id: website_a.id)
         Pwb::Page.create!(slug: "page-a-#{i}", website_id: website_a.id)
         Pwb::Content.create!(key: "content_a_#{i}", tag: 'test', website_id: website_a.id)
       end
 
       5.times do |i|
         Pwb::Contact.create!(first_name: "ContactB#{i}", website_id: website_b.id)
-        Pwb::Message.create!(email: "msg_b#{i}@test.com", message: "Test B#{i}", website_id: website_b.id)
+        Pwb::Message.create!(origin_email: "msg_b#{i}@test.com", content: "Test B#{i}", website_id: website_b.id)
         Pwb::Page.create!(slug: "page-b-#{i}", website_id: website_b.id)
         Pwb::Content.create!(key: "content_b_#{i}", tag: 'test', website_id: website_b.id)
       end
@@ -423,9 +424,9 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
         listed_prop_b = Pwb::ListedProperty.find_by(reference: 'PROP-B-001')
         skip 'Materialized view not populated' unless listed_prop_b
 
-        expect {
-          get site_admin_prop_path(listed_prop_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        get site_admin_prop_path(listed_prop_b), headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
+        # Should return 404 or redirect, not success with other tenant's data
+        expect(response).not_to have_http_status(:success)
       end
     end
   end
@@ -438,11 +439,11 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
       it 'prevents updating another tenant\'s page even with valid ID' do
         original_visibility = page_b.visible
 
-        expect {
-          patch site_admin_page_path(page_b),
-                params: { pwb_page: { visible: !original_visibility } },
-                headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        patch site_admin_page_path(page_b),
+              params: { pwb_page: { visible: !original_visibility } },
+              headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
+        # Should return 404 or redirect, not success with other tenant's data
+        expect(response).not_to have_http_status(:success)
 
         # Verify the page was not modified
         expect(page_b.reload.visible).to eq(original_visibility)

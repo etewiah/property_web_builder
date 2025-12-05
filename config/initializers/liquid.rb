@@ -5,7 +5,9 @@
 
 # Set up file system for Liquid partials
 # Partials are stored in app/views/pwb/partials/
-Liquid::Template.file_system = Liquid::LocalFileSystem.new(
+# Using Environment.default.file_system to avoid deprecation warning
+# (Liquid::Template.file_system= is deprecated in favor of Environment#file_system=)
+Liquid::Environment.default.file_system = Liquid::LocalFileSystem.new(
   Rails.root.join("app/views/pwb/partials")
 )
 

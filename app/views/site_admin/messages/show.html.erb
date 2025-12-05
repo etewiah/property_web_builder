@@ -12,7 +12,7 @@
       <dl class="grid grid-cols-1 gap-x-4 gap-y-6">
         <div>
           <dt class="text-sm font-medium text-gray-500">Email</dt>
-          <dd class="mt-1 text-sm text-gray-900"><%= @message.email.presence || 'N/A' %></dd>
+          <dd class="mt-1 text-sm text-gray-900"><%= @message.origin_email.presence || 'N/A' %></dd>
         </div>
 
         <div>
@@ -20,10 +20,10 @@
           <dd class="mt-1 text-sm text-gray-900"><%= format_date(@message.created_at) %></dd>
         </div>
 
-        <% if @message.respond_to?(:message) && @message.message.present? %>
+        <% if @message.content.present? %>
           <div>
             <dt class="text-sm font-medium text-gray-500">Message</dt>
-            <dd class="mt-1 text-sm text-gray-900 whitespace-pre-wrap"><%= @message.message %></dd>
+            <dd class="mt-1 text-sm text-gray-900 whitespace-pre-wrap"><%= @message.content %></dd>
           </div>
         <% end %>
       </dl>

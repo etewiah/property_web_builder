@@ -29,7 +29,7 @@
           <% @messages.each do |message| %>
             <tr>
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                <%= message.email.presence || 'N/A' %>
+                <%= message.origin_email.presence || 'N/A' %>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <%= format_date(message.created_at) %>
