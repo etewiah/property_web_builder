@@ -2,6 +2,11 @@ module Pwb
   class Api::V1::PropertiesController < JSONAPI::ResourceController
     protect_from_forgery with: :null_session
     before_action :set_current_website
+
+    # DEPRECATION WARNING: This controller uses the deprecated Pwb::Prop model.
+    # Property data should now be created via Pwb::RealtyAsset + Pwb::SaleListing/Pwb::RentalListing.
+    # These endpoints may return empty results or fail to create properties correctly.
+    # TODO: Migrate to use RealtyAsset-based creation if these APIs are still needed.
     # Skipping action below allows me to browse to endpoint
     # without having set mime type
     # skip_before_action :ensure_valid_accept_media_type

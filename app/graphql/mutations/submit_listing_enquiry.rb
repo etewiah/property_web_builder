@@ -18,7 +18,8 @@ module Mutations
       error_message = []
       # I18n.locale = params["contact"]["locale"] || I18n.default_locale
 
-      @property = current_website.props.find(propertyId)
+      # Use listed_properties (materialized view) instead of deprecated props
+      @property = current_website.listed_properties.find(propertyId)
       @contact = current_website.contacts.find_or_initialize_by(primary_email: contact["email"])
       @contact.attributes = {
         primary_phone_number: contact["tel"],

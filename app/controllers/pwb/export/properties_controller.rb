@@ -4,7 +4,8 @@ module Pwb
     protect_from_forgery with: :null_session
     def all
       puts "Export::PropertiesController#all reached"
-      properties = current_website.props
+      # Use listed_properties (materialized view) instead of deprecated props
+      properties = current_website.listed_properties
       # where(:id,)
       # @header_cols = ["Id", "Title in English", "Title in Spanish",
       #                 "Description in English", "Description in Spanish",

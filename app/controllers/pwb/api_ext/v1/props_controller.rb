@@ -1,6 +1,12 @@
 require_dependency "pwb/application_controller"
 
 module Pwb
+  # DEPRECATION WARNING: This controller uses the deprecated Pwb::Prop model.
+  # Property data should now be created via Pwb::RealtyAsset + Pwb::SaleListing/Pwb::RentalListing.
+  # These endpoints may return empty results or fail to create properties correctly.
+  # Note: Routes to this controller are commented out in config/routes.rb.
+  # TODO: Remove this controller if no longer needed.
+
   # class ApiExt::V1::PropsController < ActionController::Base
   class ApiExt::V1::PropsController < JSONAPI::ResourceController
     # Skipping action below allows me to browse to endpoint

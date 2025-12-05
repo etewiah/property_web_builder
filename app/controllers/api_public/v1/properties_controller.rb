@@ -6,8 +6,8 @@ module ApiPublic
       def show
         locale = params[:locale] || I18n.default_locale
         I18n.locale = locale
-        # Use current website's props to ensure tenant isolation
-        property = Pwb::Current.website.props.find(params[:id])
+        # Use listed_properties (materialized view) instead of deprecated props
+        property = Pwb::Current.website.listed_properties.find(params[:id])
         render json: property.as_json
       rescue ActiveRecord::RecordNotFound
         render json: { error: "Property not found" }, status: :not_found
@@ -27,8 +27,8 @@ module ApiPublic
           property_type: params[:property_type] || "none"
         }
 
-        # Use current website's props to ensure tenant isolation
-        properties = Pwb::Current.website.props.properties_search(**args)
+        # Use listed_properties (materialized view) instead of deprecated props
+        properties = Pwb::Current.website.listed_properties.properties_search(**args)
         render json: properties.as_json
       end
     end
