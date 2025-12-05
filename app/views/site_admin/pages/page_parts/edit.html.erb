@@ -1,0 +1,363 @@
+<%
+  # Determine the public page URL with locale
+  # Include locale prefix for non-default locales
+  locale_prefix = @current_locale.present? && @current_locale != 'en' ? "/#{@current_locale.split('-').first}" : ""
+  page_path = @page.slug == 'home' ? '/' : "/p/#{@page.slug}"
+  public_page_url = "#{request.protocol}#{request.host_with_port}#{locale_prefix}#{page_path}"
+%>
+
+<div class="max-w-5xl mx-auto">
+  <!-- Breadcrumb and View Links -->
+  <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center space-x-4">
+      <%= link_to site_admin_pages_path, class: 'text-blue-600 hover:text-blue-800' do %>
+        <span class="flex items-center">
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          Back to Pages
+        </span>
+      <% end %>
+      <span class="text-gray-300">|</span>
+      <%= link_to site_admin_page_path(@page), class: 'text-blue-600 hover:text-blue-800' do %>
+        <%= @page.slug.titleize %> Page
+      <% end %>
+    </div>
+
+    <!-- View on Site Link -->
+    <div class="flex items-center space-x-3">
+      <%= link_to public_page_url, target: '_blank', class: 'inline-flex items-center px-3 py-1.5 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50' do %>
+        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+        </svg>
+        View Page on Site
+      <% end %>
+      <button type="button"
+              onclick="togglePreview()"
+              class="inline-flex items-center px-3 py-1.5 border border-blue-600 text-blue-600 text-sm rounded-lg hover:bg-blue-50"
+              id="preview-toggle-btn">
+        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+        </svg>
+        <span id="preview-toggle-text">Show Preview</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div class="mb-6">
+    <% editor_setup = @page_part.editor_setup || {} %>
+    <% tab_title = editor_setup['tabTitleKey'] ? I18n.t(editor_setup['tabTitleKey'], default: @page_part.page_part_key.titleize) : @page_part.page_part_key.titleize %>
+    <h1 class="text-3xl font-bold text-gray-900">Edit: <%= tab_title %></h1>
+    <p class="mt-2 text-gray-600">
+      Page: <span class="font-medium"><%= @page.slug.titleize %></span>
+      &middot;
+      Section: <span class="font-mono text-sm"><%= @page_part.page_part_key %></span>
+      &middot;
+      <a href="<%= public_page_url %>" target="_blank" class="text-blue-600 hover:text-blue-800">
+        View live page
+        <svg class="w-3 h-3 inline ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+        </svg>
+      </a>
+    </p>
+  </div>
+
+  <!-- Locale Tabs -->
+  <% if @supported_locales.length > 1 %>
+    <div class="border-b border-gray-200 mb-6">
+      <nav class="-mb-px flex space-x-8">
+        <% @supported_locales.each do |locale| %>
+          <%= link_to edit_site_admin_page_page_part_path(@page, @page_part, locale: locale),
+                      class: "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm #{@current_locale == locale ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}" do %>
+            <%= locale.upcase %>
+          <% end %>
+        <% end %>
+      </nav>
+    </div>
+  <% end %>
+
+  <!-- Edit Form -->
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+      <div>
+        <h2 class="text-lg font-semibold text-gray-900">Content Blocks</h2>
+        <p class="text-sm text-gray-500">
+          Editing content for locale: <span class="font-medium"><%= @current_locale.upcase %></span>
+        </p>
+      </div>
+
+      <!-- Visibility Toggle -->
+      <% page_content = @page.page_contents.find_by(page_part_key: @page_part.page_part_key) %>
+      <% is_visible = page_content&.visible_on_page %>
+      <%= button_to toggle_visibility_site_admin_page_page_part_path(@page, @page_part, visible: !is_visible),
+                    method: :patch,
+                    class: "inline-flex items-center px-3 py-1.5 border rounded text-sm #{is_visible ? 'border-green-600 text-green-600 hover:bg-green-50' : 'border-gray-400 text-gray-600 hover:bg-gray-50'}" do %>
+        <% if is_visible %>
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+          </svg>
+          Visible
+        <% else %>
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+          </svg>
+          Hidden
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= form_with url: site_admin_page_page_part_path(@page, @page_part),
+                  method: :patch,
+                  local: true,
+                  class: "p-6" do |f| %>
+      <%= hidden_field_tag :locale, @current_locale %>
+
+      <% editor_blocks = editor_setup['editorBlocks'] || [] %>
+      <% locale_blocks = @block_contents[@current_locale]&.dig('blocks') || {} %>
+
+      <% if editor_blocks.any? %>
+        <div class="space-y-6">
+          <% editor_blocks.each_with_index do |column_blocks, col_index| %>
+            <% column_blocks.each do |block_config| %>
+              <% label = block_config['label'] %>
+              <% block_value = locale_blocks.dig(label, 'content') || '' %>
+
+              <div class="border border-gray-200 rounded-lg p-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  <%= label.titleize.gsub('_', ' ') %>
+                  <span class="text-xs text-gray-400 font-normal ml-2">(<%= label %>)</span>
+                </label>
+
+                <% if block_config['isHtml'] == 'true' || block_config['isHtml'] == true %>
+                  <!-- HTML/Rich Text Editor -->
+                  <div class="border border-gray-300 rounded-lg overflow-hidden">
+                    <div class="bg-gray-100 px-3 py-2 border-b border-gray-300 flex space-x-2">
+                      <button type="button" onclick="formatDoc('bold')" class="p-1 hover:bg-gray-200 rounded" title="Bold">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z"></path>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z"></path>
+                        </svg>
+                      </button>
+                      <button type="button" onclick="formatDoc('italic')" class="p-1 hover:bg-gray-200 rounded" title="Italic">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 4h4m-2 0v16m-4 0h8"></path>
+                        </svg>
+                      </button>
+                      <button type="button" onclick="formatDoc('insertUnorderedList')" class="p-1 hover:bg-gray-200 rounded" title="Bullet List">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                      </button>
+                    </div>
+                    <div id="editor-<%= label %>"
+                         contenteditable="true"
+                         class="min-h-[150px] p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                         oninput="updateHiddenField('<%= label %>')"><%= raw block_value %></div>
+                    <input type="hidden"
+                           name="block_contents[<%= label %>]"
+                           id="hidden-<%= label %>"
+                           value="<%= block_value %>">
+                  </div>
+                  <p class="mt-1 text-xs text-gray-500">Rich text editor - supports HTML formatting</p>
+
+                <% elsif block_config['isImage'] == 'true' || block_config['isImage'] == true %>
+                  <!-- Image URL Input -->
+                  <div class="space-y-3">
+                    <% if block_value.present? %>
+                      <div class="relative inline-block">
+                        <img src="<%= block_value %>" alt="Current image" class="max-h-40 rounded border border-gray-200">
+                      </div>
+                    <% end %>
+                    <input type="text"
+                           name="block_contents[<%= label %>]"
+                           value="<%= block_value %>"
+                           placeholder="Enter image URL..."
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <p class="text-xs text-gray-500">Enter the URL of the image to display</p>
+                  </div>
+
+                <% elsif block_config['isSingleLineText'] == 'true' || block_config['isSingleLineText'] == true %>
+                  <!-- Single Line Text -->
+                  <input type="text"
+                         name="block_contents[<%= label %>]"
+                         value="<%= block_value %>"
+                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+
+                <% elsif block_config['isMultipleLineText'] == 'true' || block_config['isMultipleLineText'] == true %>
+                  <!-- Multi Line Text -->
+                  <textarea name="block_contents[<%= label %>]"
+                            rows="4"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"><%= block_value %></textarea>
+
+                <% else %>
+                  <!-- Default to single line text -->
+                  <input type="text"
+                         name="block_contents[<%= label %>]"
+                         value="<%= block_value %>"
+                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="mt-6 pt-6 border-t border-gray-200 flex justify-between items-center">
+          <%= link_to 'Cancel', site_admin_pages_path, class: 'text-gray-600 hover:text-gray-800' %>
+          <%= f.submit "Save Changes",
+                       class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
+        </div>
+      <% else %>
+        <div class="text-center py-8 text-gray-500">
+          <p>No editor blocks configured for this page part.</p>
+          <p class="text-sm mt-2">The editor_setup configuration may be missing.</p>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <!-- Live Page Preview (iframe) -->
+  <div id="preview-section" class="mt-6 bg-white rounded-lg shadow overflow-hidden hidden">
+    <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+      <div>
+        <h2 class="text-lg font-semibold text-gray-900">Live Page Preview</h2>
+        <p class="text-sm text-gray-500">
+          Current state of the page on your site
+          <a href="<%= public_page_url %>" target="_blank" class="text-blue-600 hover:text-blue-800 ml-2">
+            Open in new tab
+            <svg class="w-3 h-3 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+          </a>
+        </p>
+      </div>
+      <div class="flex items-center space-x-2">
+        <button type="button" onclick="refreshPreview()" class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-gray-700 text-sm rounded hover:bg-gray-100">
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          Refresh
+        </button>
+        <!-- Viewport Size Buttons -->
+        <div class="flex border border-gray-300 rounded overflow-hidden">
+          <button type="button" onclick="setPreviewSize('desktop')" class="px-2 py-1 text-gray-600 hover:bg-gray-100 border-r border-gray-300" title="Desktop">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+          </button>
+          <button type="button" onclick="setPreviewSize('tablet')" class="px-2 py-1 text-gray-600 hover:bg-gray-100 border-r border-gray-300" title="Tablet">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+            </svg>
+          </button>
+          <button type="button" onclick="setPreviewSize('mobile')" class="px-2 py-1 text-gray-600 hover:bg-gray-100" title="Mobile">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 bg-gray-100 flex justify-center">
+      <div id="preview-container" class="bg-white shadow-lg transition-all duration-300" style="width: 100%; max-width: 100%;">
+        <iframe id="preview-iframe"
+                src="<%= public_page_url %>"
+                class="w-full border-0"
+                style="height: 600px;"
+                title="Page Preview"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Template Preview (for developers) -->
+  <% if @page_part.template_content.present? %>
+    <div class="mt-6 bg-white rounded-lg shadow overflow-hidden">
+      <details class="group">
+        <summary class="px-6 py-4 bg-gray-50 border-b border-gray-200 cursor-pointer flex justify-between items-center list-none">
+          <div>
+            <h2 class="text-lg font-semibold text-gray-900">Template Code</h2>
+            <p class="text-sm text-gray-500">Liquid template used to render this section (for developers)</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-500 transform group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </summary>
+        <div class="p-6">
+          <pre class="bg-gray-800 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm"><code><%= @page_part.template_content %></code></pre>
+        </div>
+      </details>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  const publicPageUrl = '<%= public_page_url %>';
+
+  function formatDoc(command) {
+    document.execCommand(command, false, null);
+  }
+
+  function updateHiddenField(label) {
+    const editor = document.getElementById(`editor-${label}`);
+    const hidden = document.getElementById(`hidden-${label}`);
+    if (editor && hidden) {
+      hidden.value = editor.innerHTML;
+    }
+  }
+
+  function togglePreview() {
+    const section = document.getElementById('preview-section');
+    const toggleText = document.getElementById('preview-toggle-text');
+    const isHidden = section.classList.contains('hidden');
+
+    if (isHidden) {
+      section.classList.remove('hidden');
+      toggleText.textContent = 'Hide Preview';
+      // Scroll to preview
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      section.classList.add('hidden');
+      toggleText.textContent = 'Show Preview';
+    }
+  }
+
+  function refreshPreview() {
+    const iframe = document.getElementById('preview-iframe');
+    // Add timestamp to force refresh
+    const url = new URL(publicPageUrl);
+    url.searchParams.set('_t', Date.now());
+    iframe.src = url.toString();
+  }
+
+  function setPreviewSize(size) {
+    const container = document.getElementById('preview-container');
+    const iframe = document.getElementById('preview-iframe');
+
+    switch(size) {
+      case 'mobile':
+        container.style.maxWidth = '375px';
+        iframe.style.height = '667px';
+        break;
+      case 'tablet':
+        container.style.maxWidth = '768px';
+        iframe.style.height = '600px';
+        break;
+      case 'desktop':
+      default:
+        container.style.maxWidth = '100%';
+        iframe.style.height = '600px';
+        break;
+    }
+  }
+
+  // Initialize hidden fields on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('[id^="editor-"]').forEach(function(editor) {
+      const label = editor.id.replace('editor-', '');
+      updateHiddenField(label);
+    });
+  });
+</script>

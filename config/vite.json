@@ -12,5 +12,10 @@
     "autoBuild": true,
     "publicOutputDir": "vite-test",
     "port": 3037
+  },
+  "e2e": {
+    "autoBuild": true,
+    "publicOutputDir": "vite-e2e",
+    "port": 3038
   }
 }

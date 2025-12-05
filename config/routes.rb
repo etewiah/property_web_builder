@@ -74,7 +74,14 @@ Rails.application.routes.draw do
         end
       end
     end
-    resources :pages, only: [:index, :show, :edit, :update]
+    resources :pages, only: [:index, :show, :edit, :update] do
+      # Nested page parts for editing content blocks
+      resources :page_parts, controller: 'pages/page_parts', only: [:show, :edit, :update] do
+        member do
+          patch :toggle_visibility
+        end
+      end
+    end
     resources :page_parts, only: [:index, :show]
     resources :contents, only: [:index, :show]
     resources :messages, only: [:index, :show]
