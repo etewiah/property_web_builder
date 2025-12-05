@@ -105,6 +105,27 @@
         </div>
       </div>
 
+      <% if @property_features.present? && @property_features.any? %>
+        <div class="border-t border-gray-200 pt-4 mt-4">
+          <button type="button" class="w-full flex items-center justify-between text-left text-sm font-medium text-gray-700 mb-2" onclick="document.getElementById('features-panel').classList.toggle('hidden');">
+            <span><%= I18n.t("search.features_label", default: "Features") %></span>
+            <svg class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div id="features-panel" class="space-y-2 max-h-48 overflow-y-auto">
+            <% @property_features.each do |feature| %>
+              <label class="flex items-center text-sm text-gray-600 hover:text-gray-900 cursor-pointer">
+                <input type="checkbox" name="search[features][]" value="<%= feature.value %>"
+                       class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mr-2"
+                       <%= 'checked' if @search_defaults.dig("features")&.include?(feature.value) %>>
+                <%= feature.label %>
+              </label>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
       <div class="pt-2">
         <%= f.button :button, class: "w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition flex items-center justify-center",
             id: "btn_buscar_inmuebles" do %>

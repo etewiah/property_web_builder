@@ -106,10 +106,14 @@ module Pwb
       feature_array = Array(feature_keys).reject(&:blank?)
       return all if feature_array.empty?
 
-      joins(:features)
-        .where(pwb_features: { feature_key: feature_array })
-        .group("pwb_properties.id")
-        .having("COUNT(DISTINCT pwb_features.feature_key) = ?", feature_array.length)
+      # Use subquery to avoid GROUP BY issues with SELECT *
+      property_ids = Pwb::Feature
+        .where(feature_key: feature_array)
+        .group(:realty_asset_id)
+        .having("COUNT(DISTINCT feature_key) = ?", feature_array.length)
+        .select(:realty_asset_id)
+
+      where(id: property_ids)
     }
 
     # Search properties that have ANY of the specified features (OR logic)
@@ -120,9 +124,13 @@ module Pwb
       feature_array = Array(feature_keys).reject(&:blank?)
       return all if feature_array.empty?
 
-      joins(:features)
-        .where(pwb_features: { feature_key: feature_array })
+      # Use subquery to avoid issues with joins and distinct
+      property_ids = Pwb::Feature
+        .where(feature_key: feature_array)
+        .select(:realty_asset_id)
         .distinct
+
+      where(id: property_ids)
     }
 
     # Exclude properties that have specific features

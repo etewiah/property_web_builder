@@ -11,9 +11,33 @@
       <p class="text-gray-500 mb-6">
         <%= I18n.t "tryChangingFilters", default: "Try changing your filters" %>
       </p>
-      <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="$('form.form-light')[0].reset(); $('select').selectpicker('refresh'); $('form.form-light').submit();">
+      <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="clearSearchFilters()">
         <i class="fa fa-refresh mr-2"></i> <%= I18n.t "clearFilters", default: "Clear Filters" %>
       </button>
+      <script>
+        function clearSearchFilters() {
+          // Reset all hidden inputs in the search form
+          var form = document.querySelector('form.simple_form');
+          if (form) {
+            // Reset hidden inputs (flowbite selects)
+            form.querySelectorAll('input[type=hidden]').forEach(function(input) {
+              if (input.name.startsWith('search[')) {
+                input.value = '';
+              }
+            });
+            // Reset checkboxes
+            form.querySelectorAll('input[type=checkbox]').forEach(function(cb) {
+              cb.checked = false;
+            });
+            // Reset select labels to default
+            form.querySelectorAll('[id$="_label"]').forEach(function(label) {
+              label.textContent = 'Any';
+            });
+            // Submit the form
+            form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+          }
+        }
+      </script>
     </div>
   <% end %>
 
