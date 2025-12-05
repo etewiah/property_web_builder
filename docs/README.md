@@ -20,7 +20,8 @@ Welcome to the comprehensive documentation for PropertyWebBuilder - a modern, op
 5. [Frontend Architecture](./05_Frontend.md) - Vue.js applications and UI components
 6. [Multi-Tenancy](./06_Multi_Tenancy.md) - Multi-tenant architecture and implementation
 7. [Assets Management](./07_Assets_Management.md) - Asset pipeline and static files
-8. **[PagePart System](./08_PagePart_System.md)** - Content management with Liquid templates, themes, and localization
+8. [PagePart System](./08_PagePart_System.md) - Content management with Liquid templates, themes, and localization
+9. **[Field Keys](./09_Field_Keys.md)** - Property labeling system for types, features, amenities, and search filtering
 
 ### Admin Panel
 
@@ -94,6 +95,6 @@ PropertyWebBuilder is open source software licensed under the [MIT License](../M
 
 ---
 
-**Last Updated**: November 2024
+**Last Updated**: December 2024
 
 For the most up-to-date information, always refer to the main [README](../README.md) and individual documentation files.
