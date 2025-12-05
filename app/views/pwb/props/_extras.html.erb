@@ -1,6 +1,8 @@
-<ul id="extras_ficha">
+<div class="extras-list">
   <% @property_details.extras_for_display.each do |extra| %>
-    <li><i class="fa fa-check color_principal"></i> <%= extra %></li>
+    <span class="label label-default" style="display: inline-block; margin: 3px; padding: 6px 12px; font-size: 13px; font-weight: normal;">
+      <i class="fa fa-check"></i> <%= extra %>
+    </span>
   <% end %>
-</ul>
+</div>
 

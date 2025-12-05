@@ -120,6 +120,35 @@
         <% end %>
       </dl>
 
+      <!-- Labels/Features -->
+      <% if @prop.features.any? %>
+        <div class="mt-8 pt-6 border-t border-gray-200">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-medium text-gray-900">Labels</h3>
+            <%= link_to 'Edit Labels', edit_labels_site_admin_prop_path(@prop), class: 'text-sm text-blue-600 hover:text-blue-800' %>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <% @prop.features.each do |feature| %>
+              <%
+                label = I18n.t(feature.feature_key, default: nil)
+                label = feature.feature_key.split('.').last.humanize.titleize if label.nil? || label.to_s.start_with?('translation missing')
+              %>
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
+                <%= label %>
+              </span>
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <div class="mt-8 pt-6 border-t border-gray-200">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-medium text-gray-900">Labels</h3>
+            <%= link_to 'Add Labels', edit_labels_site_admin_prop_path(@prop), class: 'text-sm text-blue-600 hover:text-blue-800' %>
+          </div>
+          <p class="text-sm text-gray-500">No labels assigned to this property.</p>
+        </div>
+      <% end %>
+
       <!-- Photos Preview -->
       <% if @prop.prop_photos.any? %>
         <div class="mt-8 pt-6 border-t border-gray-200">
