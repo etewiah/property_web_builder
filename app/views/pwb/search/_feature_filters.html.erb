@@ -1,5 +1,19 @@
 <%# Feature and amenity filter checkboxes for property search %>
 <%# Usage: render 'pwb/search/feature_filters', f: form_builder %>
+<%# When @facets is available, displays counts next to each option %>
+
+<%
+  # Helper to get facet count for a feature/amenity
+  def facet_count_for(facets_array, global_key)
+    return nil unless facets_array.present?
+    facet = facets_array.find { |f| f[:global_key] == global_key || f[:value] == global_key }
+    facet&.dig(:count)
+  end
+
+  # Get facet arrays if available
+  features_facets = @facets&.dig(:features)
+  amenities_facets = @facets&.dig(:amenities)
+%>
 
 <% if @property_features.present? || @property_amenities.present? %>
 <div class="feature-filters panel-group" id="feature-filters-accordion">
@@ -19,13 +33,18 @@
       <div class="panel-body">
         <div class="checkbox-grid">
           <% @property_features.each do |feature| %>
-            <label class="checkbox-item">
+            <% count = facet_count_for(features_facets, feature.value) %>
+            <label class="checkbox-item <%= 'disabled' if count == 0 %>">
               <%= check_box_tag 'search[features][]',
                   feature.value,
                   params.dig(:search, :features)&.include?(feature.value),
                   id: "feature_#{feature.value.parameterize}",
-                  class: 'feature-checkbox' %>
+                  class: 'feature-checkbox',
+                  disabled: count == 0 %>
               <span><%= feature.label %></span>
+              <% if count.present? %>
+                <span class="facet-count <%= 'zero' if count == 0 %>">(<%= count %>)</span>
+              <% end %>
             </label>
           <% end %>
         </div>
@@ -49,13 +68,18 @@
       <div class="panel-body">
         <div class="checkbox-grid">
           <% @property_amenities.each do |amenity| %>
-            <label class="checkbox-item">
+            <% count = facet_count_for(amenities_facets, amenity.value) %>
+            <label class="checkbox-item <%= 'disabled' if count == 0 %>">
               <%= check_box_tag 'search[features][]',
                   amenity.value,
                   params.dig(:search, :features)&.include?(amenity.value),
                   id: "amenity_#{amenity.value.parameterize}",
-                  class: 'feature-checkbox' %>
+                  class: 'feature-checkbox',
+                  disabled: count == 0 %>
               <span><%= amenity.label %></span>
+              <% if count.present? %>
+                <span class="facet-count <%= 'zero' if count == 0 %>">(<%= count %>)</span>
+              <% end %>
             </label>
           <% end %>
         </div>
@@ -123,6 +147,25 @@
 
 .checkbox-item span {
   font-size: 13px;
+}
+
+.checkbox-item .facet-count {
+  font-size: 11px;
+  color: #666;
+  margin-left: 2px;
+}
+
+.checkbox-item .facet-count.zero {
+  color: #999;
+}
+
+.checkbox-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.checkbox-item.disabled input[type="checkbox"] {
+  cursor: not-allowed;
 }
 
 .features-match-section {

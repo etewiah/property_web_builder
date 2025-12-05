@@ -2,7 +2,10 @@ require_dependency "pwb/application_controller"
 
 module Pwb
   class SearchController < ApplicationController
+    include SearchUrlHelper
+
     before_action :header_image_url
+    before_action :normalize_url_params
 
     def search_ajax_for_sale
       @operation_type = "for_sale"
@@ -70,6 +73,9 @@ module Pwb
       apply_search_filter filtering_params(params)
       set_map_markers
 
+      # Calculate faceted search counts if requested
+      calculate_facets if params[:include_facets] || request.format.html?
+
       # below allows setting in form of any input values that might have been passed by param
       @search_defaults = params[:search].present? ? params[:search] : {}
       # {"property_type" => ""}
@@ -113,6 +119,10 @@ module Pwb
       set_select_picker_texts
       apply_search_filter filtering_params(params)
       set_map_markers
+
+      # Calculate faceted search counts if requested
+      calculate_facets if params[:include_facets] || request.format.html?
+
       @search_defaults = params[:search].present? ? params[:search] : {}
 
       render "/pwb/search/rent"
@@ -242,6 +252,55 @@ module Pwb
         features_param.reject(&:blank?)
       else
         []
+      end
+    end
+
+    # Calculate faceted search counts for the current filter state
+    # Uses caching to improve performance
+    def calculate_facets
+      # Build a cache key based on the current search parameters and operation type
+      cache_key = facets_cache_key
+
+      @facets = Rails.cache.fetch(cache_key, expires_in: 5.minutes) do
+        # Calculate facets based on the base scope (before filtering)
+        # This shows counts for all options, not just filtered results
+        base_scope = if @operation_type == "for_rent"
+                       @current_website.listed_properties.visible.for_rent
+                     else
+                       @current_website.listed_properties.visible.for_sale
+                     end
+
+        SearchFacetsService.calculate(
+          scope: base_scope,
+          website: @current_website,
+          operation_type: @operation_type
+        )
+      end
+    end
+
+    # Generate cache key for facets based on website and operation type
+    def facets_cache_key
+      [
+        "search_facets",
+        @current_website.id,
+        @operation_type,
+        I18n.locale,
+        @current_website.updated_at.to_i
+      ].join("/")
+    end
+
+    # Normalize URL-friendly parameters into standard search params
+    # Allows URLs like /buy?type=apartment&features=pool,sea-views
+    def normalize_url_params
+      return unless params[:type].present? || params[:features].present? || params[:state].present?
+
+      # Parse friendly URL params into search params
+      friendly_params = parse_friendly_url_params(params)
+
+      # Merge into search params
+      params[:search] ||= {}
+      friendly_params.each do |key, value|
+        params[:search][key] = value if value.present?
       end
     end
 
