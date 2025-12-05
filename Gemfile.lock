@@ -321,10 +321,6 @@ GEM
     json_spec (1.1.5)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
-    jsonapi-resources (0.10.7)
-      activerecord (>= 4.1)
-      concurrent-ruby
-      railties (>= 4.1)
     jwt (2.10.2)
       base64
     language_server-protocol (3.17.0.5)
@@ -768,7 +764,6 @@ DEPENDENCIES
   image_processing (~> 1.2)
   jquery-rails (~> 4.5)
   json_spec
-  jsonapi-resources (~> 0.10.7)
   launchy
   liquid (~> 5.3)
   logster (~> 2.11)

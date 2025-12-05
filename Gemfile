@@ -134,8 +134,6 @@ gem "money-rails", "~> 1.15"
 
 gem "simple_form", "~> 5.1"
 
-gem "jsonapi-resources", "~> 0.10.7"
-
 gem "globalize-accessors", "~> 0.3.0"
 
 gem "active_hash", "~> 3.1"

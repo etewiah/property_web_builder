@@ -287,10 +287,13 @@ Rails.application.routes.draw do
         # jsonapi_resources :cms_pages
 
         get "/web-contents" => "agency#infos"
-        jsonapi_resources :lite_properties
-        jsonapi_resources :properties
-        # jsonapi_resources :clients
-        jsonapi_resources :web_contents
+
+        # Properties API endpoints (JSON format, compatible with previous JSONAPI structure)
+        resources :lite_properties, only: [:index, :show], path: 'lite-properties'
+        resources :properties, only: [:index, :show]
+        # resources :clients
+        resources :web_contents, only: [:index, :show], path: 'web-contents'
+
         resources :contacts
 
         get "/links" => "links#index"
