@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_05_095509) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_05_163811) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -498,6 +498,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_05_095509) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "translations", default: {}, null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_pwb_realty_assets_on_slug", unique: true
     t.index ["translations"], name: "index_pwb_realty_assets_on_translations", using: :gin
     t.index ["website_id"], name: "index_pwb_realty_assets_on_website_id"
   end
@@ -682,6 +684,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_05_095509) do
       SELECT a.id,
       a.reference,
       a.website_id,
+      a.slug,
       a.year_construction,
       a.count_bedrooms,
       a.count_bathrooms,
@@ -749,6 +752,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_05_095509) do
   add_index "pwb_properties", ["price_sale_current_cents"], name: "index_pwb_properties_on_price_sale_cents"
   add_index "pwb_properties", ["prop_type_key"], name: "index_pwb_properties_on_prop_type"
   add_index "pwb_properties", ["reference"], name: "index_pwb_properties_on_reference"
+  add_index "pwb_properties", ["slug"], name: "index_pwb_properties_on_slug"
   add_index "pwb_properties", ["visible"], name: "index_pwb_properties_on_visible"
   add_index "pwb_properties", ["website_id"], name: "index_pwb_properties_on_website_id"
 

@@ -9,7 +9,8 @@ module Pwb
       @map_markers = []
 
       # Use Pwb::ListedProperty (materialized view) for read operations
-      @property_details = Pwb::ListedProperty.where(website_id: @current_website.id).find_by(id: params[:id])
+      # Find by slug first, then fall back to ID for backwards compatibility
+      @property_details = find_property_by_slug_or_id(params[:id])
 
       if @property_details && @property_details.visible && @property_details.for_rent
         set_map_marker
@@ -33,7 +34,8 @@ module Pwb
       @map_markers = []
 
       # Use Pwb::ListedProperty (materialized view) for read operations
-      @property_details = Pwb::ListedProperty.where(website_id: @current_website.id).find_by(id: params[:id])
+      # Find by slug first, then fall back to ID for backwards compatibility
+      @property_details = find_property_by_slug_or_id(params[:id])
 
       if @property_details && @property_details.visible && @property_details.for_sale
         set_map_marker
@@ -102,6 +104,19 @@ module Pwb
     end
 
     private
+
+    # Find property by slug first, then fall back to ID for backwards compatibility
+    # Supports both friendly slugs and legacy UUID/integer IDs
+    def find_property_by_slug_or_id(identifier)
+      scope = Pwb::ListedProperty.where(website_id: @current_website.id)
+
+      # Try slug first
+      property = scope.find_by(slug: identifier)
+      return property if property
+
+      # Fall back to ID (supports both UUID and integer formats)
+      scope.find_by(id: identifier)
+    end
 
     def set_map_marker
       if @property_details.show_map

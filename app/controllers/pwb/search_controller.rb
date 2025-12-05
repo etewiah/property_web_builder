@@ -8,7 +8,8 @@ module Pwb
       @operation_type = "for_sale"
       # above used to decide if link to result should be to buy or rent path
       # http://www.justinweiss.com/articles/search-and-filter-rails-models-without-bloating-your-controller/
-      @properties = @current_website.props.visible.for_sale
+      # Use ListedProperty (materialized view) for optimized read operations
+      @properties = @current_website.listed_properties.visible.for_sale
       # .order('price_sale_current_cents ASC')
       # @properties = Prop.where(nil) # creates an anonymous scope
       apply_search_filter filtering_params(params)
@@ -23,7 +24,8 @@ module Pwb
       @operation_type = "for_rent"
       # above used to decide if link to result should be to buy or rent path
       # http://www.justinweiss.com/articles/search-and-filter-rails-models-without-bloating-your-controller/
-      @properties = @current_website.props.visible.for_rent
+      # Use ListedProperty (materialized view) for optimized read operations
+      @properties = @current_website.listed_properties.visible.for_rent
 
       apply_search_filter filtering_params(params)
       set_map_markers
@@ -52,7 +54,8 @@ module Pwb
       @operation_type = "for_sale"
       # above used to decide if link to result should be to buy or rent path
 
-      @properties = @current_website.props.visible.for_sale.limit 45
+      # Use ListedProperty (materialized view) for optimized read operations
+      @properties = @current_website.listed_properties.visible.for_sale.limit 45
       # ordering happens clientside
       # .order('price_sale_current_cents ASC').limit 35
       @prices_from_collection = @current_website.sale_price_options_from
@@ -97,7 +100,8 @@ module Pwb
       @operation_type = "for_rent"
       # above used to decide if link to result should be to buy or rent path
 
-      @properties = @current_website.props.visible.for_rent.limit 45
+      # Use ListedProperty (materialized view) for optimized read operations
+      @properties = @current_website.listed_properties.visible.for_rent.limit 45
       # .order('price_rental_monthly_current_cents ASC').limit 35
 
       @prices_from_collection = @current_website.rent_price_options_from

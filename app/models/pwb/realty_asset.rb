@@ -12,6 +12,13 @@ module Pwb
   class RealtyAsset < ApplicationRecord
     self.table_name = 'pwb_realty_assets'
 
+    # Callbacks for slug generation
+    before_validation :generate_slug, on: :create
+    before_validation :ensure_slug_uniqueness
+
+    # Validations
+    validates :slug, presence: true, uniqueness: true
+
     # Associations
     has_many :sale_listings, class_name: 'Pwb::SaleListing', foreign_key: 'realty_asset_id', dependent: :destroy
     has_many :rental_listings, class_name: 'Pwb::RentalListing', foreign_key: 'realty_asset_id', dependent: :destroy
@@ -154,6 +161,53 @@ module Pwb
       Pwb::ListedProperty.refresh
     rescue StandardError => e
       Rails.logger.warn "Failed to refresh properties view: #{e.message}"
+    end
+
+    # Generate a URL-friendly slug based on property attributes
+    def generate_slug
+      return if slug.present?
+
+      base_slug = build_slug_base
+      self.slug = base_slug
+    end
+
+    # Ensure slug is unique by appending a counter if necessary
+    def ensure_slug_uniqueness
+      return if slug.blank?
+
+      base_slug = slug.gsub(/-\d+$/, '') # Remove any existing counter suffix
+      counter = 1
+      original_slug = base_slug
+
+      while self.class.where(slug: slug).where.not(id: id).exists?
+        self.slug = "#{original_slug}-#{counter}"
+        counter += 1
+      end
+    end
+
+    # Build a descriptive slug from property attributes
+    def build_slug_base
+      parts = []
+
+      # Add property type if available
+      if prop_type_key.present?
+        type_name = prop_type_key.split('.').last.to_s.parameterize
+        parts << type_name unless type_name.blank?
+      end
+
+      # Add location info
+      parts << city.parameterize if city.present?
+      parts << region.parameterize if region.present? && city.blank?
+
+      # Add reference as fallback identifier
+      parts << reference.parameterize if reference.present?
+
+      # If we still have nothing, use a UUID fragment
+      if parts.empty?
+        parts << SecureRandom.hex(4)
+      end
+
+      parts.join('-').truncate(100, omission: '')
     end
   end
 end
