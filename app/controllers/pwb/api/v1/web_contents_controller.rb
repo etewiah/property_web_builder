@@ -97,7 +97,9 @@ module Pwb
     end
 
     def current_website
-      @current_website ||= Pwb::Current.website || Website.first
+      # Use only the current website from subdomain for multi-tenant isolation
+      # Do NOT fallback to Website.first as that could leak data from another tenant
+      @current_website ||= Pwb::Current.website
     end
   end
 end

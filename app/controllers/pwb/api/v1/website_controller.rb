@@ -5,7 +5,12 @@ module Pwb
     protect_from_forgery with: :null_session
 
     def update
-      website = Pwb::Current.website || Website.first
+      # Use current_website for proper multi-tenant isolation
+      # Do NOT fallback to Website.first as that could modify wrong tenant's data
+      website = current_website
+      unless website
+        return render json: { error: "Website not found" }, status: :not_found
+      end
       if website
         website.update(website_params)
         # http://patshaughnessy.net/2014/6/16/a-rule-of-thumb-for-strong-parameters

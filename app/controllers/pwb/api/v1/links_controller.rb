@@ -5,8 +5,9 @@ module Pwb
       # top_nav_links, footer_links = nil
       locale = params[:locale] || :en
       I18n.with_locale(locale) do
-        top_nav_links = Link.ordered_top_nav
-        footer_links = Link.ordered_footer
+        # Scope to current website for multi-tenant isolation
+        top_nav_links = current_website.links.ordered_top_nav
+        footer_links = current_website.links.ordered_footer
         render json: {
           footer_links: footer_links.as_json,
           top_nav_links: top_nav_links.as_json,
@@ -29,12 +30,14 @@ module Pwb
       #   linkJSON = link_groups[:footer_links][footer_links_key]
 
       link_groups_JSON["top_nav_links"].each do |linkJSON|
-        link = Link.find_by_slug linkJSON["slug"]
-        link.update(linkJSON)
+        # Scope to current website for multi-tenant isolation
+        link = current_website.links.find_by_slug linkJSON["slug"]
+        link&.update(linkJSON)
       end
       link_groups_JSON["footer_links"].each do |linkJSON|
-        link = Link.find_by_slug linkJSON["slug"]
-        link.update(linkJSON)
+        # Scope to current website for multi-tenant isolation
+        link = current_website.links.find_by_slug linkJSON["slug"]
+        link&.update(linkJSON)
       end
       render json: {
         success: true,

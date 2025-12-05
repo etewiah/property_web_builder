@@ -65,11 +65,35 @@ module Pwb
 
       def to_csv(export_column_names = nil)
         # http://railscasts.com/episodes/362-exporting-csv-and-excel?view=asciicast
+        # WARNING: This method exports ALL contents without tenant filtering.
+        # Use to_csv_for_website instead for multi-tenant safety.
         export_column_names ||= column_names
         CSV.generate do |csv|
           csv << export_column_names
           all.each do |content|
             csv << content.attributes.values_at(*export_column_names)
+          end
+        end
+      end
+
+      # Multi-tenant safe CSV export - only exports contents for the specified website
+      def to_csv_for_website(website, export_column_names = nil)
+        export_column_names ||= column_names
+        CSV.generate do |csv|
+          csv << export_column_names
+          where(website_id: website&.id).each do |content|
+            csv << content.attributes.values_at(*export_column_names)
+          end
+        end
+      end
+
+      # Multi-tenant safe import - imports contents for the specified website
+      def import_for_website(file, website)
+        CSV.foreach(file.path, headers: true) do |row|
+          if row.to_hash["key"].present?
+            content = where(website_id: website&.id).find_by(key: row["key"]) || new(website_id: website&.id)
+            content.attributes = row.to_hash.slice("key", "tag", "status", "sort_order")
+            content.save!
           end
         end
       end

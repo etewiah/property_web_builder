@@ -9,7 +9,8 @@ module Pwb
       # send_data text: (Content.to_csv ["key", "tag", "status", "sort_order", "raw"])
       # above results in below message in chrome:
       # Resource interpreted as Document but transferred with MIME type application/octet-stream
-      render plain: (Content.to_csv ["key", "tag", "status", "sort_order", "raw"])
+      # Scope to current website for multi-tenant isolation
+      render plain: Content.to_csv_for_website(current_website, ["key", "tag", "status", "sort_order"])
     end
   end
 end

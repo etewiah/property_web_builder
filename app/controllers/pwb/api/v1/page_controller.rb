@@ -5,7 +5,11 @@ module Pwb
     protect_from_forgery with: :null_session
     def show
       if params[:page_name] == "website"
-        return render json: (Pwb::Current.website || Website.first).as_json_for_page
+        # Use current_website for proper multi-tenant isolation
+        unless current_website
+          return render json: { error: "Website not found" }, status: :not_found
+        end
+        return render json: current_website.as_json_for_page
       end
 
       page = current_website.pages.find_by_slug(params[:page_name])
@@ -64,7 +68,11 @@ module Pwb
 
     def save_page_fragment
       if params[:page_slug] == "website"
-        container = Pwb::Current.website || Website.first
+        # Use current_website for proper multi-tenant isolation
+        container = current_website
+        unless container
+          return render_json_error "Website not found"
+        end
       else
         container = current_website.pages.find_by_slug params[:page_slug]
       end
