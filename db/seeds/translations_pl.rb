@@ -1,6 +1,116 @@
 # load File.join(Rails.root, 'db', 'seeds', 'translations.rb')
 I18n::Backend::ActiveRecord::Translation.create!(
   [
+    # =========================================================================
+    # NEW ENGLISH-BASED KEYS (see docs/09_Field_Keys.md)
+    # =========================================================================
+
+    # Property Types
+    {locale: "pl", key: "types.apartment", value: "Apartament"},
+    {locale: "pl", key: "types.flat", value: "Mieszkanie"},
+    {locale: "pl", key: "types.penthouse", value: "Penthouse"},
+    {locale: "pl", key: "types.studio", value: "Kawalerka"},
+    {locale: "pl", key: "types.villa", value: "Willa"},
+    {locale: "pl", key: "types.detached_house", value: "Dom Wolnostojący"},
+    {locale: "pl", key: "types.semi_detached", value: "Bliźniak"},
+    {locale: "pl", key: "types.townhouse", value: "Szeregowiec"},
+    {locale: "pl", key: "types.bungalow", value: "Bungalow"},
+    {locale: "pl", key: "types.country_house", value: "Dom Wiejski"},
+    {locale: "pl", key: "types.land", value: "Działka"},
+    {locale: "pl", key: "types.commercial", value: "Lokal Użytkowy"},
+    {locale: "pl", key: "types.office", value: "Biuro"},
+    {locale: "pl", key: "types.retail", value: "Lokal Handlowy"},
+    {locale: "pl", key: "types.warehouse", value: "Magazyn"},
+    {locale: "pl", key: "types.garage", value: "Garaż"},
+    {locale: "pl", key: "types.storage", value: "Schowek"},
+    {locale: "pl", key: "types.hotel", value: "Hotel"},
+    {locale: "pl", key: "types.residential_building", value: "Budynek Mieszkalny"},
+
+    # Property States
+    {locale: "pl", key: "states.new_build", value: "Nowe Budownictwo"},
+    {locale: "pl", key: "states.under_construction", value: "W Budowie"},
+    {locale: "pl", key: "states.excellent", value: "Stan Doskonały"},
+    {locale: "pl", key: "states.good", value: "Dobry Stan"},
+    {locale: "pl", key: "states.needs_renovation", value: "Do Remontu"},
+    {locale: "pl", key: "states.renovated", value: "Po Remoncie"},
+    {locale: "pl", key: "states.second_hand", value: "Z Drugiej Ręki"},
+
+    # Property Features
+    {locale: "pl", key: "features.private_pool", value: "Prywatny Basen"},
+    {locale: "pl", key: "features.communal_pool", value: "Basen Wspólny"},
+    {locale: "pl", key: "features.heated_pool", value: "Basen Ogrzewany"},
+    {locale: "pl", key: "features.private_garden", value: "Prywatny Ogród"},
+    {locale: "pl", key: "features.communal_garden", value: "Ogród Wspólny"},
+    {locale: "pl", key: "features.terrace", value: "Taras"},
+    {locale: "pl", key: "features.balcony", value: "Balkon"},
+    {locale: "pl", key: "features.porch", value: "Weranda"},
+    {locale: "pl", key: "features.solarium", value: "Solarium"},
+    {locale: "pl", key: "features.patio", value: "Patio"},
+    {locale: "pl", key: "features.private_garage", value: "Garaż Prywatny"},
+    {locale: "pl", key: "features.communal_garage", value: "Garaż Wspólny"},
+    {locale: "pl", key: "features.storage_room", value: "Schowek"},
+    {locale: "pl", key: "features.utility_room", value: "Pomieszczenie Gospodarcze"},
+    {locale: "pl", key: "features.separate_kitchen", value: "Oddzielna Kuchnia"},
+    {locale: "pl", key: "features.fireplace", value: "Kominek"},
+    {locale: "pl", key: "features.jacuzzi", value: "Jacuzzi"},
+    {locale: "pl", key: "features.sauna", value: "Sauna"},
+    {locale: "pl", key: "features.barbecue", value: "Grill"},
+    {locale: "pl", key: "features.elevator", value: "Winda"},
+    {locale: "pl", key: "features.sea_views", value: "Widok na Morze"},
+    {locale: "pl", key: "features.mountain_views", value: "Widok na Góry"},
+    {locale: "pl", key: "features.parquet_flooring", value: "Parkiet"},
+    {locale: "pl", key: "features.marble_flooring", value: "Podłoga Marmurowa"},
+    {locale: "pl", key: "features.sports_facilities", value: "Obiekty Sportowe"},
+    {locale: "pl", key: "features.children_play_area", value: "Plac Zabaw"},
+
+    # Property Amenities
+    {locale: "pl", key: "amenities.air_conditioning", value: "Klimatyzacja"},
+    {locale: "pl", key: "amenities.central_heating", value: "Ogrzewanie Centralne"},
+    {locale: "pl", key: "amenities.electric_heating", value: "Ogrzewanie Elektryczne"},
+    {locale: "pl", key: "amenities.gas_heating", value: "Ogrzewanie Gazowe"},
+    {locale: "pl", key: "amenities.propane_heating", value: "Ogrzewanie Propanowe"},
+    {locale: "pl", key: "amenities.oil_heating", value: "Ogrzewanie Olejowe"},
+    {locale: "pl", key: "amenities.solar_energy", value: "Energia Słoneczna"},
+    {locale: "pl", key: "amenities.alarm_system", value: "System Alarmowy"},
+    {locale: "pl", key: "amenities.video_entry", value: "Wideodomofon"},
+    {locale: "pl", key: "amenities.security", value: "Ochrona"},
+    {locale: "pl", key: "amenities.concierge", value: "Portier"},
+    {locale: "pl", key: "amenities.furnished", value: "Umeblowane"},
+    {locale: "pl", key: "amenities.semi_furnished", value: "Częściowo Umeblowane"},
+    {locale: "pl", key: "amenities.washing_machine", value: "Pralka"},
+    {locale: "pl", key: "amenities.refrigerator", value: "Lodówka"},
+    {locale: "pl", key: "amenities.oven", value: "Piekarnik"},
+    {locale: "pl", key: "amenities.microwave", value: "Mikrofalówka"},
+    {locale: "pl", key: "amenities.tv", value: "TV"},
+
+    # Property Status
+    {locale: "pl", key: "status.available", value: "Dostępne"},
+    {locale: "pl", key: "status.reserved", value: "Zarezerwowane"},
+    {locale: "pl", key: "status.under_offer", value: "W Negocjacji"},
+    {locale: "pl", key: "status.sold", value: "Sprzedane"},
+    {locale: "pl", key: "status.rented", value: "Wynajęte"},
+    {locale: "pl", key: "status.off_market", value: "Wycofane"},
+
+    # Property Highlights
+    {locale: "pl", key: "highlights.featured", value: "Wyróżnione"},
+    {locale: "pl", key: "highlights.new_listing", value: "Nowa Oferta"},
+    {locale: "pl", key: "highlights.price_reduced", value: "Obniżona Cena"},
+    {locale: "pl", key: "highlights.luxury", value: "Luksus"},
+    {locale: "pl", key: "highlights.exclusive", value: "Ekskluzywne"},
+    {locale: "pl", key: "highlights.investment_opportunity", value: "Okazja Inwestycyjna"},
+    {locale: "pl", key: "highlights.energy_efficient", value: "Energooszczędne"},
+
+    # Listing Origin
+    {locale: "pl", key: "origin.direct", value: "Bezpośrednio"},
+    {locale: "pl", key: "origin.bank", value: "Od Banku"},
+    {locale: "pl", key: "origin.private_seller", value: "Od Osoby Prywatnej"},
+    {locale: "pl", key: "origin.new_development", value: "Nowa Inwestycja"},
+    {locale: "pl", key: "origin.mls_feed", value: "Z MLS"},
+    {locale: "pl", key: "origin.partner", value: "Od Partnera"},
+
+    # =========================================================================
+    # LEGACY KEYS
+    # =========================================================================
     {locale: "pl", key: "propertyStates.underConstruction", value: "W budowie"},
     {locale: "pl", key: "propertyStates.brandNew", value: "Całkiem nowy"},
     {locale: "pl", key: "propertyStates.segundaMano", value: "Drugiej ręki"},
@@ -63,31 +173,28 @@ I18n::Backend::ActiveRecord::Translation.create!(
     {locale: "pl", key: "extras.semiamueblado", value: "Pół umeblowane"},
     {locale: "pl", key: "extras.chimenea", value: "Kominek"},
     {locale: "pl", key: "extras.barbacoa", value: "Grill"},
-    {locale: "pl", key: "extras.porsche", value: "Porsche"},
     {locale: "pl", key: "extras.solarium", value: "Solarium"},
     {locale: "pl", key: "extras.patioInterior", value: "Podwórko"},
     {locale: "pl", key: "extras.vistasALaMontana", value: "Widoki Górskie"},
-    {locale: "pl", key: "extras.vistasAlJardin", value: "Widok na Ngród"},
+    {locale: "pl", key: "extras.vistasAlJardin", value: "Widok na Ogród"},
     {locale: "pl", key: "extras.urbanizacion", value: "Urbanizacja"},
     {locale: "pl", key: "extras.zonaTranquila", value: "Ciche miejsce"},
-    {locale: "pl", key: "propertyTypes.apartamento", value: "Apartment"},
+    {locale: "pl", key: "propertyTypes.apartamento", value: "Apartament"},
     {locale: "pl", key: "propertyTypes.chaletIndependiente", value: "Szalet"},
     {locale: "pl", key: "propertyTypes.bungalow", value: "Bungalow"},
     {locale: "pl", key: "propertyTypes.inversion", value: "Inwestycja"},
-    {locale: "pl", key: "propertyTypes.solar", value: "Wylądować"},
+    {locale: "pl", key: "propertyTypes.solar", value: "Działka"},
     {locale: "pl", key: "propertyTypes.duplex", value: "Dupleks"},
     {locale: "pl", key: "propertyTypes.piso", value: "Mieszkanie"},
     {locale: "pl", key: "propertyTypes.hotel", value: "Hotel"},
     {locale: "pl", key: "propertyTypes.chaletAdosado", value: "Częściowo-wolnostojący"},
-    {locale: "pl", key: "propertyTypes.atico", value: "przybudówka na dachu"},
-    {locale: "pl", key: "propertyTypes.estudio", value: "Studio"},
+    {locale: "pl", key: "propertyTypes.atico", value: "Penthouse"},
+    {locale: "pl", key: "propertyTypes.estudio", value: "Kawalerka"},
     {locale: "pl", key: "propertyTypes.garaje", value: "Garaż"},
-    {locale: "pl", key: "propertyTypes.local", value: "Commercial premises"},
+    {locale: "pl", key: "propertyTypes.local", value: "Lokal Użytkowy"},
     {locale: "pl", key: "propertyTypes.trastero", value: "Magazyn"},
-    {locale: "pl", key: "propertyTypes.casaRural", value: "Chatka"},
-    {locale: "pl", key: "propertyTypes.edificioResidencial", value: "Budynek mieszkalny"},
+    {locale: "pl", key: "propertyTypes.casaRural", value: "Dom Wiejski"},
+    {locale: "pl", key: "propertyTypes.edificioResidencial", value: "Budynek Mieszkalny"},
     {locale: "pl", key: "propertyTypes.villa", value: "Willa"}
-
-
-]
+  ]
 )

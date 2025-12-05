@@ -2,7 +2,116 @@
 # unless I18n::Backend::ActiveRecord::Translation.all.length > 10
 I18n::Backend::ActiveRecord::Translation.create!(
   [
+    # =========================================================================
+    # NEW ENGLISH-BASED KEYS (see docs/09_Field_Keys.md)
+    # =========================================================================
 
+    # Property Types
+    {locale: "ca", key: "types.apartment", value: "Apartament"},
+    {locale: "ca", key: "types.flat", value: "Pis"},
+    {locale: "ca", key: "types.penthouse", value: "Àtic"},
+    {locale: "ca", key: "types.studio", value: "Estudi"},
+    {locale: "ca", key: "types.villa", value: "Vila"},
+    {locale: "ca", key: "types.detached_house", value: "Casa Unifamiliar"},
+    {locale: "ca", key: "types.semi_detached", value: "Casa Aparellada"},
+    {locale: "ca", key: "types.townhouse", value: "Casa Adossada"},
+    {locale: "ca", key: "types.bungalow", value: "Bungalow"},
+    {locale: "ca", key: "types.country_house", value: "Casa Rural"},
+    {locale: "ca", key: "types.land", value: "Solar"},
+    {locale: "ca", key: "types.commercial", value: "Local Comercial"},
+    {locale: "ca", key: "types.office", value: "Oficina"},
+    {locale: "ca", key: "types.retail", value: "Local"},
+    {locale: "ca", key: "types.warehouse", value: "Nau"},
+    {locale: "ca", key: "types.garage", value: "Garatge"},
+    {locale: "ca", key: "types.storage", value: "Traster"},
+    {locale: "ca", key: "types.hotel", value: "Hotel"},
+    {locale: "ca", key: "types.residential_building", value: "Edifici Residencial"},
+
+    # Property States
+    {locale: "ca", key: "states.new_build", value: "Obra Nova"},
+    {locale: "ca", key: "states.under_construction", value: "En Construcció"},
+    {locale: "ca", key: "states.excellent", value: "Excel·lent Estat"},
+    {locale: "ca", key: "states.good", value: "Bon Estat"},
+    {locale: "ca", key: "states.needs_renovation", value: "Per Reformar"},
+    {locale: "ca", key: "states.renovated", value: "Reformat"},
+    {locale: "ca", key: "states.second_hand", value: "Segona Mà"},
+
+    # Property Features
+    {locale: "ca", key: "features.private_pool", value: "Piscina Privada"},
+    {locale: "ca", key: "features.communal_pool", value: "Piscina Comunitària"},
+    {locale: "ca", key: "features.heated_pool", value: "Piscina Climatitzada"},
+    {locale: "ca", key: "features.private_garden", value: "Jardí Privat"},
+    {locale: "ca", key: "features.communal_garden", value: "Jardí Comunitari"},
+    {locale: "ca", key: "features.terrace", value: "Terrassa"},
+    {locale: "ca", key: "features.balcony", value: "Balcó"},
+    {locale: "ca", key: "features.porch", value: "Porxo"},
+    {locale: "ca", key: "features.solarium", value: "Solàrium"},
+    {locale: "ca", key: "features.patio", value: "Pati"},
+    {locale: "ca", key: "features.private_garage", value: "Garatge Privat"},
+    {locale: "ca", key: "features.communal_garage", value: "Garatge Comunitari"},
+    {locale: "ca", key: "features.storage_room", value: "Traster"},
+    {locale: "ca", key: "features.utility_room", value: "Safareig"},
+    {locale: "ca", key: "features.separate_kitchen", value: "Cuina Independent"},
+    {locale: "ca", key: "features.fireplace", value: "Llar de Foc"},
+    {locale: "ca", key: "features.jacuzzi", value: "Jacuzzi"},
+    {locale: "ca", key: "features.sauna", value: "Sauna"},
+    {locale: "ca", key: "features.barbecue", value: "Barbacoa"},
+    {locale: "ca", key: "features.elevator", value: "Ascensor"},
+    {locale: "ca", key: "features.sea_views", value: "Vistes al Mar"},
+    {locale: "ca", key: "features.mountain_views", value: "Vistes a la Muntanya"},
+    {locale: "ca", key: "features.parquet_flooring", value: "Terra de Parquet"},
+    {locale: "ca", key: "features.marble_flooring", value: "Terra de Marbre"},
+    {locale: "ca", key: "features.sports_facilities", value: "Zona Esportiva"},
+    {locale: "ca", key: "features.children_play_area", value: "Zona Infantil"},
+
+    # Property Amenities
+    {locale: "ca", key: "amenities.air_conditioning", value: "Aire Condicionat"},
+    {locale: "ca", key: "amenities.central_heating", value: "Calefacció Central"},
+    {locale: "ca", key: "amenities.electric_heating", value: "Calefacció Elèctrica"},
+    {locale: "ca", key: "amenities.gas_heating", value: "Calefacció de Gas"},
+    {locale: "ca", key: "amenities.propane_heating", value: "Calefacció de Propà"},
+    {locale: "ca", key: "amenities.oil_heating", value: "Calefacció de Gasoil"},
+    {locale: "ca", key: "amenities.solar_energy", value: "Energia Solar"},
+    {locale: "ca", key: "amenities.alarm_system", value: "Sistema d'Alarma"},
+    {locale: "ca", key: "amenities.video_entry", value: "Videoporter"},
+    {locale: "ca", key: "amenities.security", value: "Vigilància"},
+    {locale: "ca", key: "amenities.concierge", value: "Servei de Porteria"},
+    {locale: "ca", key: "amenities.furnished", value: "Moblat"},
+    {locale: "ca", key: "amenities.semi_furnished", value: "Semi-Moblat"},
+    {locale: "ca", key: "amenities.washing_machine", value: "Rentadora"},
+    {locale: "ca", key: "amenities.refrigerator", value: "Nevera"},
+    {locale: "ca", key: "amenities.oven", value: "Forn"},
+    {locale: "ca", key: "amenities.microwave", value: "Microones"},
+    {locale: "ca", key: "amenities.tv", value: "TV"},
+
+    # Property Status
+    {locale: "ca", key: "status.available", value: "Disponible"},
+    {locale: "ca", key: "status.reserved", value: "Reservat"},
+    {locale: "ca", key: "status.under_offer", value: "En Negociació"},
+    {locale: "ca", key: "status.sold", value: "Venut"},
+    {locale: "ca", key: "status.rented", value: "Llogat"},
+    {locale: "ca", key: "status.off_market", value: "Fora de Mercat"},
+
+    # Property Highlights
+    {locale: "ca", key: "highlights.featured", value: "Destacat"},
+    {locale: "ca", key: "highlights.new_listing", value: "Nou Anunci"},
+    {locale: "ca", key: "highlights.price_reduced", value: "Preu Rebaixat"},
+    {locale: "ca", key: "highlights.luxury", value: "Luxe"},
+    {locale: "ca", key: "highlights.exclusive", value: "Exclusiu"},
+    {locale: "ca", key: "highlights.investment_opportunity", value: "Oportunitat d'Inversió"},
+    {locale: "ca", key: "highlights.energy_efficient", value: "Eficiència Energètica"},
+
+    # Listing Origin
+    {locale: "ca", key: "origin.direct", value: "Entrada Directa"},
+    {locale: "ca", key: "origin.bank", value: "Banc"},
+    {locale: "ca", key: "origin.private_seller", value: "Particular"},
+    {locale: "ca", key: "origin.new_development", value: "Promoció Nova"},
+    {locale: "ca", key: "origin.mls_feed", value: "MLS"},
+    {locale: "ca", key: "origin.partner", value: "Agència Col·laboradora"},
+
+    # =========================================================================
+    # LEGACY KEYS
+    # =========================================================================
     {locale: "ca", key: "propertyStates.underConstruction", value: "Under construction"},
     {locale: "ca", key: "propertyStates.brandNew", value: "Brand new"},
     {locale: "ca", key: "propertyStates.segundaMano", value: "Second hand"},

@@ -1,6 +1,116 @@
 # load File.join(Rails.root, 'db', 'seeds', 'translations.rb')
 I18n::Backend::ActiveRecord::Translation.create!(
   [
+    # =========================================================================
+    # NEW ENGLISH-BASED KEYS (see docs/09_Field_Keys.md)
+    # =========================================================================
+
+    # Property Types
+    {locale: "ro", key: "types.apartment", value: "Apartament"},
+    {locale: "ro", key: "types.flat", value: "Apartament"},
+    {locale: "ro", key: "types.penthouse", value: "Penthouse"},
+    {locale: "ro", key: "types.studio", value: "Garsonieră"},
+    {locale: "ro", key: "types.villa", value: "Vilă"},
+    {locale: "ro", key: "types.detached_house", value: "Casă Individuală"},
+    {locale: "ro", key: "types.semi_detached", value: "Casă Cuplată"},
+    {locale: "ro", key: "types.townhouse", value: "Casă Înșiruită"},
+    {locale: "ro", key: "types.bungalow", value: "Bungalow"},
+    {locale: "ro", key: "types.country_house", value: "Casă la Țară"},
+    {locale: "ro", key: "types.land", value: "Teren"},
+    {locale: "ro", key: "types.commercial", value: "Spațiu Comercial"},
+    {locale: "ro", key: "types.office", value: "Birou"},
+    {locale: "ro", key: "types.retail", value: "Magazin"},
+    {locale: "ro", key: "types.warehouse", value: "Depozit"},
+    {locale: "ro", key: "types.garage", value: "Garaj"},
+    {locale: "ro", key: "types.storage", value: "Spațiu Depozitare"},
+    {locale: "ro", key: "types.hotel", value: "Hotel"},
+    {locale: "ro", key: "types.residential_building", value: "Clădire Rezidențială"},
+
+    # Property States
+    {locale: "ro", key: "states.new_build", value: "Construcție Nouă"},
+    {locale: "ro", key: "states.under_construction", value: "În Construcție"},
+    {locale: "ro", key: "states.excellent", value: "Stare Excelentă"},
+    {locale: "ro", key: "states.good", value: "Stare Bună"},
+    {locale: "ro", key: "states.needs_renovation", value: "Necesită Renovare"},
+    {locale: "ro", key: "states.renovated", value: "Renovat"},
+    {locale: "ro", key: "states.second_hand", value: "Second Hand"},
+
+    # Property Features
+    {locale: "ro", key: "features.private_pool", value: "Piscină Privată"},
+    {locale: "ro", key: "features.communal_pool", value: "Piscină Comună"},
+    {locale: "ro", key: "features.heated_pool", value: "Piscină Încălzită"},
+    {locale: "ro", key: "features.private_garden", value: "Grădină Privată"},
+    {locale: "ro", key: "features.communal_garden", value: "Grădină Comună"},
+    {locale: "ro", key: "features.terrace", value: "Terasă"},
+    {locale: "ro", key: "features.balcony", value: "Balcon"},
+    {locale: "ro", key: "features.porch", value: "Verandă"},
+    {locale: "ro", key: "features.solarium", value: "Solarium"},
+    {locale: "ro", key: "features.patio", value: "Patio"},
+    {locale: "ro", key: "features.private_garage", value: "Garaj Privat"},
+    {locale: "ro", key: "features.communal_garage", value: "Garaj Comun"},
+    {locale: "ro", key: "features.storage_room", value: "Cameră Depozitare"},
+    {locale: "ro", key: "features.utility_room", value: "Cameră Utilități"},
+    {locale: "ro", key: "features.separate_kitchen", value: "Bucătărie Separată"},
+    {locale: "ro", key: "features.fireplace", value: "Șemineu"},
+    {locale: "ro", key: "features.jacuzzi", value: "Jacuzzi"},
+    {locale: "ro", key: "features.sauna", value: "Saună"},
+    {locale: "ro", key: "features.barbecue", value: "Grătar"},
+    {locale: "ro", key: "features.elevator", value: "Lift"},
+    {locale: "ro", key: "features.sea_views", value: "Vedere la Mare"},
+    {locale: "ro", key: "features.mountain_views", value: "Vedere la Munte"},
+    {locale: "ro", key: "features.parquet_flooring", value: "Parchet"},
+    {locale: "ro", key: "features.marble_flooring", value: "Podea de Marmură"},
+    {locale: "ro", key: "features.sports_facilities", value: "Facilități Sportive"},
+    {locale: "ro", key: "features.children_play_area", value: "Loc de Joacă"},
+
+    # Property Amenities
+    {locale: "ro", key: "amenities.air_conditioning", value: "Aer Condiționat"},
+    {locale: "ro", key: "amenities.central_heating", value: "Încălzire Centrală"},
+    {locale: "ro", key: "amenities.electric_heating", value: "Încălzire Electrică"},
+    {locale: "ro", key: "amenities.gas_heating", value: "Încălzire pe Gaz"},
+    {locale: "ro", key: "amenities.propane_heating", value: "Încălzire pe Propan"},
+    {locale: "ro", key: "amenities.oil_heating", value: "Încălzire pe Motorină"},
+    {locale: "ro", key: "amenities.solar_energy", value: "Energie Solară"},
+    {locale: "ro", key: "amenities.alarm_system", value: "Sistem de Alarmă"},
+    {locale: "ro", key: "amenities.video_entry", value: "Interfon Video"},
+    {locale: "ro", key: "amenities.security", value: "Pază"},
+    {locale: "ro", key: "amenities.concierge", value: "Recepție"},
+    {locale: "ro", key: "amenities.furnished", value: "Mobilat"},
+    {locale: "ro", key: "amenities.semi_furnished", value: "Parțial Mobilat"},
+    {locale: "ro", key: "amenities.washing_machine", value: "Mașină de Spălat"},
+    {locale: "ro", key: "amenities.refrigerator", value: "Frigider"},
+    {locale: "ro", key: "amenities.oven", value: "Cuptor"},
+    {locale: "ro", key: "amenities.microwave", value: "Cuptor cu Microunde"},
+    {locale: "ro", key: "amenities.tv", value: "TV"},
+
+    # Property Status
+    {locale: "ro", key: "status.available", value: "Disponibil"},
+    {locale: "ro", key: "status.reserved", value: "Rezervat"},
+    {locale: "ro", key: "status.under_offer", value: "În Negociere"},
+    {locale: "ro", key: "status.sold", value: "Vândut"},
+    {locale: "ro", key: "status.rented", value: "Închiriat"},
+    {locale: "ro", key: "status.off_market", value: "Retras"},
+
+    # Property Highlights
+    {locale: "ro", key: "highlights.featured", value: "Promovat"},
+    {locale: "ro", key: "highlights.new_listing", value: "Anunț Nou"},
+    {locale: "ro", key: "highlights.price_reduced", value: "Preț Redus"},
+    {locale: "ro", key: "highlights.luxury", value: "Lux"},
+    {locale: "ro", key: "highlights.exclusive", value: "Exclusiv"},
+    {locale: "ro", key: "highlights.investment_opportunity", value: "Oportunitate de Investiție"},
+    {locale: "ro", key: "highlights.energy_efficient", value: "Eficient Energetic"},
+
+    # Listing Origin
+    {locale: "ro", key: "origin.direct", value: "Intrare Directă"},
+    {locale: "ro", key: "origin.bank", value: "Bancă"},
+    {locale: "ro", key: "origin.private_seller", value: "Vânzător Privat"},
+    {locale: "ro", key: "origin.new_development", value: "Proiect Nou"},
+    {locale: "ro", key: "origin.mls_feed", value: "Feed MLS"},
+    {locale: "ro", key: "origin.partner", value: "Agenție Parteneră"},
+
+    # =========================================================================
+    # LEGACY KEYS
+    # =========================================================================
     {locale: "ro", key: "propertyStates.underConstruction", value: "În construcție"},
     {locale: "ro", key: "propertyStates.brandNew", value: "Nouă"},
     {locale: "ro", key: "propertyStates.segundaMano", value: "la mâna a doua"},
@@ -10,7 +120,7 @@ I18n::Backend::ActiveRecord::Translation.create!(
 
     {locale: "ro", key: "propertyOrigin.bank", value: "Renunțarea la bancă"},
     {locale: "ro", key: "propertyOrigin.new", value: "Construcție nouă"},
-    {locale: "ro", key: "propertyOrigin.private", value: "Private sale"},
+    {locale: "ro", key: "propertyOrigin.private", value: "Vânzare privată"},
     {locale: "ro", key: "propertyLabels.sold", value: "Vândut"},
     {locale: "ro", key: "propertyLabels.reserved", value: "Rezervat"},
 
@@ -52,7 +162,7 @@ I18n::Backend::ActiveRecord::Translation.create!(
     {locale: "ro", key: "extras.tv", value: "Televizor"},
     {locale: "ro", key: "extras.videoportero", value: "Intrare video-telefon"},
     {locale: "ro", key: "extras.vigilancia", value: "Securitate"},
-    {locale: "ro", key: "extras.vistasAlMar", value: "Mare Vizualizări"},
+    {locale: "ro", key: "extras.vistasAlMar", value: "Vedere la Mare"},
     {locale: "ro", key: "extras.zComunitaria", value: "Spațiul Comunitar"},
     {locale: "ro", key: "extras.zonaDeportiva", value: "Spațiul Sportiv"},
     {locale: "ro", key: "extras.cercaDeServicios", value: "Aproape de Shopping"},
@@ -63,7 +173,6 @@ I18n::Backend::ActiveRecord::Translation.create!(
     {locale: "ro", key: "extras.semiamueblado", value: "Semi-mobilat"},
     {locale: "ro", key: "extras.chimenea", value: "Vatră"},
     {locale: "ro", key: "extras.barbacoa", value: "Gratar"},
-    # {locale: "ro", key: "extras.porsche", value: "Porsche"},
     {locale: "ro", key: "extras.solarium", value: "Solariu"},
     {locale: "ro", key: "extras.patioInterior", value: "Curtea din spate"},
     {locale: "ro", key: "extras.vistasALaMontana", value: "Vedere la munte"},
@@ -75,18 +184,17 @@ I18n::Backend::ActiveRecord::Translation.create!(
     {locale: "ro", key: "propertyTypes.bungalow", value: "Vilă"},
     {locale: "ro", key: "propertyTypes.inversion", value: "investiție"},
     {locale: "ro", key: "propertyTypes.solar", value: "Teren"},
-    {locale: "ro", key: "propertyTypes.duplex", value: "Dublu"},
+    {locale: "ro", key: "propertyTypes.duplex", value: "Duplex"},
     {locale: "ro", key: "propertyTypes.piso", value: "Apartament"},
     {locale: "ro", key: "propertyTypes.hotel", value: "Hotel"},
-    {locale: "ro", key: "propertyTypes.chaletAdosado", value: "Semi detasat"},
-    {locale: "ro", key: "propertyTypes.atico", value: "Apartament"},
-    {locale: "ro", key: "propertyTypes.estudio", value: "Studio"},
+    {locale: "ro", key: "propertyTypes.chaletAdosado", value: "Semi detașat"},
+    {locale: "ro", key: "propertyTypes.atico", value: "Penthouse"},
+    {locale: "ro", key: "propertyTypes.estudio", value: "Garsonieră"},
     {locale: "ro", key: "propertyTypes.garaje", value: "Garaj"},
     {locale: "ro", key: "propertyTypes.local", value: "Spații comerciale"},
     {locale: "ro", key: "propertyTypes.trastero", value: "Depozit"},
     {locale: "ro", key: "propertyTypes.casaRural", value: "Casa la tara"},
     {locale: "ro", key: "propertyTypes.edificioResidencial", value: "Clădire rezidențială"},
     {locale: "ro", key: "propertyTypes.villa", value: "Vilă"}
-
-]
+  ]
 )

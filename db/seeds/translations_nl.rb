@@ -1,6 +1,116 @@
 # load File.join(Rails.root, 'db', 'seeds', 'translations.rb')
 I18n::Backend::ActiveRecord::Translation.create!(
   [
+    # =========================================================================
+    # NEW ENGLISH-BASED KEYS (see docs/09_Field_Keys.md)
+    # =========================================================================
+
+    # Property Types
+    {locale: "nl", key: "types.apartment", value: "Appartement"},
+    {locale: "nl", key: "types.flat", value: "Flat"},
+    {locale: "nl", key: "types.penthouse", value: "Penthouse"},
+    {locale: "nl", key: "types.studio", value: "Studio"},
+    {locale: "nl", key: "types.villa", value: "Villa"},
+    {locale: "nl", key: "types.detached_house", value: "Vrijstaand Huis"},
+    {locale: "nl", key: "types.semi_detached", value: "Twee-onder-een-kap"},
+    {locale: "nl", key: "types.townhouse", value: "Rijtjeshuis"},
+    {locale: "nl", key: "types.bungalow", value: "Bungalow"},
+    {locale: "nl", key: "types.country_house", value: "Landhuis"},
+    {locale: "nl", key: "types.land", value: "Grond"},
+    {locale: "nl", key: "types.commercial", value: "Commercieel Pand"},
+    {locale: "nl", key: "types.office", value: "Kantoor"},
+    {locale: "nl", key: "types.retail", value: "Winkel"},
+    {locale: "nl", key: "types.warehouse", value: "Magazijn"},
+    {locale: "nl", key: "types.garage", value: "Garage"},
+    {locale: "nl", key: "types.storage", value: "Berging"},
+    {locale: "nl", key: "types.hotel", value: "Hotel"},
+    {locale: "nl", key: "types.residential_building", value: "Woongebouw"},
+
+    # Property States
+    {locale: "nl", key: "states.new_build", value: "Nieuwbouw"},
+    {locale: "nl", key: "states.under_construction", value: "In Aanbouw"},
+    {locale: "nl", key: "states.excellent", value: "Uitstekende Staat"},
+    {locale: "nl", key: "states.good", value: "Goede Staat"},
+    {locale: "nl", key: "states.needs_renovation", value: "Renovatie Nodig"},
+    {locale: "nl", key: "states.renovated", value: "Gerenoveerd"},
+    {locale: "nl", key: "states.second_hand", value: "Bestaande Bouw"},
+
+    # Property Features
+    {locale: "nl", key: "features.private_pool", value: "Privé Zwembad"},
+    {locale: "nl", key: "features.communal_pool", value: "Gemeenschappelijk Zwembad"},
+    {locale: "nl", key: "features.heated_pool", value: "Verwarmd Zwembad"},
+    {locale: "nl", key: "features.private_garden", value: "Privé Tuin"},
+    {locale: "nl", key: "features.communal_garden", value: "Gemeenschappelijke Tuin"},
+    {locale: "nl", key: "features.terrace", value: "Terras"},
+    {locale: "nl", key: "features.balcony", value: "Balkon"},
+    {locale: "nl", key: "features.porch", value: "Veranda"},
+    {locale: "nl", key: "features.solarium", value: "Solarium"},
+    {locale: "nl", key: "features.patio", value: "Patio"},
+    {locale: "nl", key: "features.private_garage", value: "Privé Garage"},
+    {locale: "nl", key: "features.communal_garage", value: "Gemeenschappelijke Garage"},
+    {locale: "nl", key: "features.storage_room", value: "Berging"},
+    {locale: "nl", key: "features.utility_room", value: "Bijkeuken"},
+    {locale: "nl", key: "features.separate_kitchen", value: "Aparte Keuken"},
+    {locale: "nl", key: "features.fireplace", value: "Open Haard"},
+    {locale: "nl", key: "features.jacuzzi", value: "Jacuzzi"},
+    {locale: "nl", key: "features.sauna", value: "Sauna"},
+    {locale: "nl", key: "features.barbecue", value: "Barbecue"},
+    {locale: "nl", key: "features.elevator", value: "Lift"},
+    {locale: "nl", key: "features.sea_views", value: "Zeezicht"},
+    {locale: "nl", key: "features.mountain_views", value: "Bergzicht"},
+    {locale: "nl", key: "features.parquet_flooring", value: "Parketvloer"},
+    {locale: "nl", key: "features.marble_flooring", value: "Marmeren Vloer"},
+    {locale: "nl", key: "features.sports_facilities", value: "Sportfaciliteiten"},
+    {locale: "nl", key: "features.children_play_area", value: "Speeltuin"},
+
+    # Property Amenities
+    {locale: "nl", key: "amenities.air_conditioning", value: "Airconditioning"},
+    {locale: "nl", key: "amenities.central_heating", value: "Centrale Verwarming"},
+    {locale: "nl", key: "amenities.electric_heating", value: "Elektrische Verwarming"},
+    {locale: "nl", key: "amenities.gas_heating", value: "Gasverwarming"},
+    {locale: "nl", key: "amenities.propane_heating", value: "Propaanverwarming"},
+    {locale: "nl", key: "amenities.oil_heating", value: "Olieverwarming"},
+    {locale: "nl", key: "amenities.solar_energy", value: "Zonne-energie"},
+    {locale: "nl", key: "amenities.alarm_system", value: "Alarmsysteem"},
+    {locale: "nl", key: "amenities.video_entry", value: "Video-intercom"},
+    {locale: "nl", key: "amenities.security", value: "Beveiliging"},
+    {locale: "nl", key: "amenities.concierge", value: "Conciërge"},
+    {locale: "nl", key: "amenities.furnished", value: "Gemeubileerd"},
+    {locale: "nl", key: "amenities.semi_furnished", value: "Gedeeltelijk Gemeubileerd"},
+    {locale: "nl", key: "amenities.washing_machine", value: "Wasmachine"},
+    {locale: "nl", key: "amenities.refrigerator", value: "Koelkast"},
+    {locale: "nl", key: "amenities.oven", value: "Oven"},
+    {locale: "nl", key: "amenities.microwave", value: "Magnetron"},
+    {locale: "nl", key: "amenities.tv", value: "TV"},
+
+    # Property Status
+    {locale: "nl", key: "status.available", value: "Beschikbaar"},
+    {locale: "nl", key: "status.reserved", value: "Gereserveerd"},
+    {locale: "nl", key: "status.under_offer", value: "Onder Bod"},
+    {locale: "nl", key: "status.sold", value: "Verkocht"},
+    {locale: "nl", key: "status.rented", value: "Verhuurd"},
+    {locale: "nl", key: "status.off_market", value: "Niet Te Koop"},
+
+    # Property Highlights
+    {locale: "nl", key: "highlights.featured", value: "Uitgelicht"},
+    {locale: "nl", key: "highlights.new_listing", value: "Nieuwe Aanbieding"},
+    {locale: "nl", key: "highlights.price_reduced", value: "Prijs Verlaagd"},
+    {locale: "nl", key: "highlights.luxury", value: "Luxe"},
+    {locale: "nl", key: "highlights.exclusive", value: "Exclusief"},
+    {locale: "nl", key: "highlights.investment_opportunity", value: "Investeringsmogelijkheid"},
+    {locale: "nl", key: "highlights.energy_efficient", value: "Energiezuinig"},
+
+    # Listing Origin
+    {locale: "nl", key: "origin.direct", value: "Directe Invoer"},
+    {locale: "nl", key: "origin.bank", value: "Bankbezit"},
+    {locale: "nl", key: "origin.private_seller", value: "Particuliere Verkoper"},
+    {locale: "nl", key: "origin.new_development", value: "Nieuwbouwproject"},
+    {locale: "nl", key: "origin.mls_feed", value: "MLS Feed"},
+    {locale: "nl", key: "origin.partner", value: "Partnerkantoor"},
+
+    # =========================================================================
+    # LEGACY KEYS
+    # =========================================================================
     {locale: "nl", key: "propertyStates.underConstruction", value: "In aanbouw"},
     {locale: "nl", key: "propertyStates.brandNew", value: "Nieuwbouw"},
     {locale: "nl", key: "propertyStates.segundaMano", value: "Bestaand"},

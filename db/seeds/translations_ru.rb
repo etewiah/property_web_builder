@@ -1,6 +1,116 @@
-# placeholder - awaiting translation to be completed
+# load File.join(Rails.root, 'db', 'seeds', 'translations.rb')
 I18n::Backend::ActiveRecord::Translation.create!(
   [
+    # =========================================================================
+    # NEW ENGLISH-BASED KEYS (see docs/09_Field_Keys.md)
+    # =========================================================================
+
+    # Property Types
+    {locale: "ru", key: "types.apartment", value: "Апартаменты"},
+    {locale: "ru", key: "types.flat", value: "Квартира"},
+    {locale: "ru", key: "types.penthouse", value: "Пентхаус"},
+    {locale: "ru", key: "types.studio", value: "Студия"},
+    {locale: "ru", key: "types.villa", value: "Вилла"},
+    {locale: "ru", key: "types.detached_house", value: "Отдельный Дом"},
+    {locale: "ru", key: "types.semi_detached", value: "Сдвоенный Дом"},
+    {locale: "ru", key: "types.townhouse", value: "Таунхаус"},
+    {locale: "ru", key: "types.bungalow", value: "Бунгало"},
+    {locale: "ru", key: "types.country_house", value: "Загородный Дом"},
+    {locale: "ru", key: "types.land", value: "Земельный Участок"},
+    {locale: "ru", key: "types.commercial", value: "Коммерческая Недвижимость"},
+    {locale: "ru", key: "types.office", value: "Офис"},
+    {locale: "ru", key: "types.retail", value: "Торговое Помещение"},
+    {locale: "ru", key: "types.warehouse", value: "Склад"},
+    {locale: "ru", key: "types.garage", value: "Гараж"},
+    {locale: "ru", key: "types.storage", value: "Кладовая"},
+    {locale: "ru", key: "types.hotel", value: "Отель"},
+    {locale: "ru", key: "types.residential_building", value: "Жилое Здание"},
+
+    # Property States
+    {locale: "ru", key: "states.new_build", value: "Новостройка"},
+    {locale: "ru", key: "states.under_construction", value: "Строящийся"},
+    {locale: "ru", key: "states.excellent", value: "Отличное Состояние"},
+    {locale: "ru", key: "states.good", value: "Хорошее Состояние"},
+    {locale: "ru", key: "states.needs_renovation", value: "Требует Ремонта"},
+    {locale: "ru", key: "states.renovated", value: "После Ремонта"},
+    {locale: "ru", key: "states.second_hand", value: "Вторичное Жильё"},
+
+    # Property Features
+    {locale: "ru", key: "features.private_pool", value: "Личный Бассейн"},
+    {locale: "ru", key: "features.communal_pool", value: "Общий Бассейн"},
+    {locale: "ru", key: "features.heated_pool", value: "Бассейн с Подогревом"},
+    {locale: "ru", key: "features.private_garden", value: "Личный Сад"},
+    {locale: "ru", key: "features.communal_garden", value: "Общий Сад"},
+    {locale: "ru", key: "features.terrace", value: "Терраса"},
+    {locale: "ru", key: "features.balcony", value: "Балкон"},
+    {locale: "ru", key: "features.porch", value: "Веранда"},
+    {locale: "ru", key: "features.solarium", value: "Солярий"},
+    {locale: "ru", key: "features.patio", value: "Патио"},
+    {locale: "ru", key: "features.private_garage", value: "Личный Гараж"},
+    {locale: "ru", key: "features.communal_garage", value: "Общий Гараж"},
+    {locale: "ru", key: "features.storage_room", value: "Кладовая"},
+    {locale: "ru", key: "features.utility_room", value: "Подсобное Помещение"},
+    {locale: "ru", key: "features.separate_kitchen", value: "Отдельная Кухня"},
+    {locale: "ru", key: "features.fireplace", value: "Камин"},
+    {locale: "ru", key: "features.jacuzzi", value: "Джакузи"},
+    {locale: "ru", key: "features.sauna", value: "Сауна"},
+    {locale: "ru", key: "features.barbecue", value: "Барбекю"},
+    {locale: "ru", key: "features.elevator", value: "Лифт"},
+    {locale: "ru", key: "features.sea_views", value: "Вид на Море"},
+    {locale: "ru", key: "features.mountain_views", value: "Вид на Горы"},
+    {locale: "ru", key: "features.parquet_flooring", value: "Паркет"},
+    {locale: "ru", key: "features.marble_flooring", value: "Мраморные Полы"},
+    {locale: "ru", key: "features.sports_facilities", value: "Спортивные Объекты"},
+    {locale: "ru", key: "features.children_play_area", value: "Детская Площадка"},
+
+    # Property Amenities
+    {locale: "ru", key: "amenities.air_conditioning", value: "Кондиционер"},
+    {locale: "ru", key: "amenities.central_heating", value: "Центральное Отопление"},
+    {locale: "ru", key: "amenities.electric_heating", value: "Электрическое Отопление"},
+    {locale: "ru", key: "amenities.gas_heating", value: "Газовое Отопление"},
+    {locale: "ru", key: "amenities.propane_heating", value: "Пропановое Отопление"},
+    {locale: "ru", key: "amenities.oil_heating", value: "Дизельное Отопление"},
+    {locale: "ru", key: "amenities.solar_energy", value: "Солнечная Энергия"},
+    {locale: "ru", key: "amenities.alarm_system", value: "Сигнализация"},
+    {locale: "ru", key: "amenities.video_entry", value: "Видеодомофон"},
+    {locale: "ru", key: "amenities.security", value: "Охрана"},
+    {locale: "ru", key: "amenities.concierge", value: "Консьерж"},
+    {locale: "ru", key: "amenities.furnished", value: "Меблированная"},
+    {locale: "ru", key: "amenities.semi_furnished", value: "Частично Меблированная"},
+    {locale: "ru", key: "amenities.washing_machine", value: "Стиральная Машина"},
+    {locale: "ru", key: "amenities.refrigerator", value: "Холодильник"},
+    {locale: "ru", key: "amenities.oven", value: "Духовой Шкаф"},
+    {locale: "ru", key: "amenities.microwave", value: "Микроволновка"},
+    {locale: "ru", key: "amenities.tv", value: "Телевизор"},
+
+    # Property Status
+    {locale: "ru", key: "status.available", value: "Доступно"},
+    {locale: "ru", key: "status.reserved", value: "Зарезервировано"},
+    {locale: "ru", key: "status.under_offer", value: "В Переговорах"},
+    {locale: "ru", key: "status.sold", value: "Продано"},
+    {locale: "ru", key: "status.rented", value: "Сдано"},
+    {locale: "ru", key: "status.off_market", value: "Снято с Продажи"},
+
+    # Property Highlights
+    {locale: "ru", key: "highlights.featured", value: "Рекомендуемое"},
+    {locale: "ru", key: "highlights.new_listing", value: "Новое Объявление"},
+    {locale: "ru", key: "highlights.price_reduced", value: "Снижена Цена"},
+    {locale: "ru", key: "highlights.luxury", value: "Люкс"},
+    {locale: "ru", key: "highlights.exclusive", value: "Эксклюзив"},
+    {locale: "ru", key: "highlights.investment_opportunity", value: "Инвестиционная Возможность"},
+    {locale: "ru", key: "highlights.energy_efficient", value: "Энергоэффективное"},
+
+    # Listing Origin
+    {locale: "ru", key: "origin.direct", value: "Прямое Размещение"},
+    {locale: "ru", key: "origin.bank", value: "Банковская Недвижимость"},
+    {locale: "ru", key: "origin.private_seller", value: "Частный Продавец"},
+    {locale: "ru", key: "origin.new_development", value: "Новый Проект"},
+    {locale: "ru", key: "origin.mls_feed", value: "Лента MLS"},
+    {locale: "ru", key: "origin.partner", value: "Агентство-Партнёр"},
+
+    # =========================================================================
+    # LEGACY KEYS
+    # =========================================================================
     {locale: "ru", key: "propertyStates.underConstruction", value: "На реконструкции"},
     {locale: "ru", key: "propertyStates.brandNew", value: "Абсолютно новое"},
     {locale: "ru", key: "propertyStates.segundaMano", value: "Вторичное жилье"},
@@ -8,11 +118,11 @@ I18n::Backend::ActiveRecord::Translation.create!(
     {locale: "ru", key: "propertyStates.enConstruccion", value: "На реконструкции"},
     {locale: "ru", key: "propertyStates.aReformar", value: "Необходим ремонт"},
 
-    {locale: "ru", key: "propertyOrigin.bank", value: "Bank repossesion"},
-    {locale: "ru", key: "propertyOrigin.new", value: "New build"},
-    {locale: "ru", key: "propertyOrigin.private", value: "Private sale"},
-    {locale: "ru", key: "propertyLabels.sold", value: "Sold"},
-    {locale: "ru", key: "propertyLabels.reserved", value: "Reserved"},
+    {locale: "ru", key: "propertyOrigin.bank", value: "Банковская недвижимость"},
+    {locale: "ru", key: "propertyOrigin.new", value: "Новостройка"},
+    {locale: "ru", key: "propertyOrigin.private", value: "Частная продажа"},
+    {locale: "ru", key: "propertyLabels.sold", value: "Продано"},
+    {locale: "ru", key: "propertyLabels.reserved", value: "Зарезервировано"},
 
     {locale: "ru", key: "extras.aireAcondicionado", value: "Кондиционер"},
     {locale: "ru", key: "extras.alarma", value: "Сигнализация"},
@@ -55,7 +165,7 @@ I18n::Backend::ActiveRecord::Translation.create!(
     {locale: "ru", key: "extras.vistasAlMar", value: "Вид на море"},
     {locale: "ru", key: "extras.zComunitaria", value: "Общественная зона"},
     {locale: "ru", key: "extras.zonaDeportiva", value: "Зона для спорта"},
-    {locale: "ru", key: "extras.cercaDeServicios", value: "Рядом со всеми удобствами/коммуникациями"},
+    {locale: "ru", key: "extras.cercaDeServicios", value: "Рядом со всеми удобствами"},
     {locale: "ru", key: "extras.calefaccionGasCiudad", value: "Городское Газовое Отопление"},
     {locale: "ru", key: "extras.calefaccionGasoleo", value: "Дизельное отопление"},
     {locale: "ru", key: "extras.zonasInfantiles", value: "Зона для детей"},
@@ -63,7 +173,6 @@ I18n::Backend::ActiveRecord::Translation.create!(
     {locale: "ru", key: "extras.semiamueblado", value: "Частично меблированная"},
     {locale: "ru", key: "extras.chimenea", value: "Камин"},
     {locale: "ru", key: "extras.barbacoa", value: "Барбекю"},
-    # {locale: "ru", key: "extras.porsche", value: "Веранда/Крыльцо"},
     {locale: "ru", key: "extras.solarium", value: "Солярий"},
     {locale: "ru", key: "extras.patioInterior", value: "Внутренний дворик"},
     {locale: "ru", key: "extras.vistasALaMontana", value: "Вид на горы"},
@@ -76,10 +185,10 @@ I18n::Backend::ActiveRecord::Translation.create!(
     {locale: "ru", key: "propertyTypes.inversion", value: "Инвестиции"},
     {locale: "ru", key: "propertyTypes.solar", value: "Земельный участок"},
     {locale: "ru", key: "propertyTypes.duplex", value: "Дуплекс"},
-    {locale: "ru", key: "propertyTypes.piso", value: "квартира"},
-    {locale: "ru", key: "propertyTypes.hotel", value: "Отели"},
+    {locale: "ru", key: "propertyTypes.piso", value: "Квартира"},
+    {locale: "ru", key: "propertyTypes.hotel", value: "Отель"},
     {locale: "ru", key: "propertyTypes.chaletAdosado", value: "Сдвоенный дом"},
-    {locale: "ru", key: "propertyTypes.atico", value: "Пент хаус"},
+    {locale: "ru", key: "propertyTypes.atico", value: "Пентхаус"},
     {locale: "ru", key: "propertyTypes.estudio", value: "Студия"},
     {locale: "ru", key: "propertyTypes.garaje", value: "Гараж"},
     {locale: "ru", key: "propertyTypes.local", value: "Коммерческая недвижимость"},
@@ -87,7 +196,5 @@ I18n::Backend::ActiveRecord::Translation.create!(
     {locale: "ru", key: "propertyTypes.casaRural", value: "Деревенский дом"},
     {locale: "ru", key: "propertyTypes.edificioResidencial", value: "Жилое здание"},
     {locale: "ru", key: "propertyTypes.villa", value: "Вилла"}
-
-]
+  ]
 )
-# end

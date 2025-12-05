@@ -1,5 +1,115 @@
 I18n::Backend::ActiveRecord::Translation.create!(
   [
+    # =========================================================================
+    # NEW ENGLISH-BASED KEYS (see docs/09_Field_Keys.md)
+    # =========================================================================
+
+    # Property Types
+    {locale: "de", key: "types.apartment", value: "Apartment"},
+    {locale: "de", key: "types.flat", value: "Wohnung"},
+    {locale: "de", key: "types.penthouse", value: "Penthouse"},
+    {locale: "de", key: "types.studio", value: "Studio"},
+    {locale: "de", key: "types.villa", value: "Villa"},
+    {locale: "de", key: "types.detached_house", value: "Einfamilienhaus"},
+    {locale: "de", key: "types.semi_detached", value: "Doppelhaushälfte"},
+    {locale: "de", key: "types.townhouse", value: "Reihenhaus"},
+    {locale: "de", key: "types.bungalow", value: "Bungalow"},
+    {locale: "de", key: "types.country_house", value: "Landhaus"},
+    {locale: "de", key: "types.land", value: "Grundstück"},
+    {locale: "de", key: "types.commercial", value: "Gewerbeimmobilie"},
+    {locale: "de", key: "types.office", value: "Büro"},
+    {locale: "de", key: "types.retail", value: "Laden"},
+    {locale: "de", key: "types.warehouse", value: "Lagerhaus"},
+    {locale: "de", key: "types.garage", value: "Garage"},
+    {locale: "de", key: "types.storage", value: "Abstellraum"},
+    {locale: "de", key: "types.hotel", value: "Hotel"},
+    {locale: "de", key: "types.residential_building", value: "Wohngebäude"},
+
+    # Property States
+    {locale: "de", key: "states.new_build", value: "Neubau"},
+    {locale: "de", key: "states.under_construction", value: "Im Bau"},
+    {locale: "de", key: "states.excellent", value: "Ausgezeichneter Zustand"},
+    {locale: "de", key: "states.good", value: "Guter Zustand"},
+    {locale: "de", key: "states.needs_renovation", value: "Renovierungsbedürftig"},
+    {locale: "de", key: "states.renovated", value: "Renoviert"},
+    {locale: "de", key: "states.second_hand", value: "Gebraucht"},
+
+    # Property Features
+    {locale: "de", key: "features.private_pool", value: "Privater Pool"},
+    {locale: "de", key: "features.communal_pool", value: "Gemeinschaftspool"},
+    {locale: "de", key: "features.heated_pool", value: "Beheizter Pool"},
+    {locale: "de", key: "features.private_garden", value: "Privater Garten"},
+    {locale: "de", key: "features.communal_garden", value: "Gemeinschaftsgarten"},
+    {locale: "de", key: "features.terrace", value: "Terrasse"},
+    {locale: "de", key: "features.balcony", value: "Balkon"},
+    {locale: "de", key: "features.porch", value: "Veranda"},
+    {locale: "de", key: "features.solarium", value: "Solarium"},
+    {locale: "de", key: "features.patio", value: "Innenhof"},
+    {locale: "de", key: "features.private_garage", value: "Private Garage"},
+    {locale: "de", key: "features.communal_garage", value: "Gemeinschaftsgarage"},
+    {locale: "de", key: "features.storage_room", value: "Abstellraum"},
+    {locale: "de", key: "features.utility_room", value: "Hauswirtschaftsraum"},
+    {locale: "de", key: "features.separate_kitchen", value: "Separate Küche"},
+    {locale: "de", key: "features.fireplace", value: "Kamin"},
+    {locale: "de", key: "features.jacuzzi", value: "Jacuzzi"},
+    {locale: "de", key: "features.sauna", value: "Sauna"},
+    {locale: "de", key: "features.barbecue", value: "Grill"},
+    {locale: "de", key: "features.elevator", value: "Aufzug"},
+    {locale: "de", key: "features.sea_views", value: "Meerblick"},
+    {locale: "de", key: "features.mountain_views", value: "Bergblick"},
+    {locale: "de", key: "features.parquet_flooring", value: "Parkettboden"},
+    {locale: "de", key: "features.marble_flooring", value: "Marmorboden"},
+    {locale: "de", key: "features.sports_facilities", value: "Sportanlagen"},
+    {locale: "de", key: "features.children_play_area", value: "Kinderspielplatz"},
+
+    # Property Amenities
+    {locale: "de", key: "amenities.air_conditioning", value: "Klimaanlage"},
+    {locale: "de", key: "amenities.central_heating", value: "Zentralheizung"},
+    {locale: "de", key: "amenities.electric_heating", value: "Elektrische Heizung"},
+    {locale: "de", key: "amenities.gas_heating", value: "Gasheizung"},
+    {locale: "de", key: "amenities.propane_heating", value: "Propanheizung"},
+    {locale: "de", key: "amenities.oil_heating", value: "Ölheizung"},
+    {locale: "de", key: "amenities.solar_energy", value: "Solarenergie"},
+    {locale: "de", key: "amenities.alarm_system", value: "Alarmanlage"},
+    {locale: "de", key: "amenities.video_entry", value: "Videogegensprechanlage"},
+    {locale: "de", key: "amenities.security", value: "Sicherheitsdienst"},
+    {locale: "de", key: "amenities.concierge", value: "Concierge-Service"},
+    {locale: "de", key: "amenities.furnished", value: "Möbliert"},
+    {locale: "de", key: "amenities.semi_furnished", value: "Teilmöbliert"},
+    {locale: "de", key: "amenities.washing_machine", value: "Waschmaschine"},
+    {locale: "de", key: "amenities.refrigerator", value: "Kühlschrank"},
+    {locale: "de", key: "amenities.oven", value: "Backofen"},
+    {locale: "de", key: "amenities.microwave", value: "Mikrowelle"},
+    {locale: "de", key: "amenities.tv", value: "Fernseher"},
+
+    # Property Status
+    {locale: "de", key: "status.available", value: "Verfügbar"},
+    {locale: "de", key: "status.reserved", value: "Reserviert"},
+    {locale: "de", key: "status.under_offer", value: "In Verhandlung"},
+    {locale: "de", key: "status.sold", value: "Verkauft"},
+    {locale: "de", key: "status.rented", value: "Vermietet"},
+    {locale: "de", key: "status.off_market", value: "Vom Markt genommen"},
+
+    # Property Highlights
+    {locale: "de", key: "highlights.featured", value: "Hervorgehoben"},
+    {locale: "de", key: "highlights.new_listing", value: "Neues Angebot"},
+    {locale: "de", key: "highlights.price_reduced", value: "Preis reduziert"},
+    {locale: "de", key: "highlights.luxury", value: "Luxus"},
+    {locale: "de", key: "highlights.exclusive", value: "Exklusiv"},
+    {locale: "de", key: "highlights.investment_opportunity", value: "Investitionsmöglichkeit"},
+    {locale: "de", key: "highlights.energy_efficient", value: "Energieeffizient"},
+
+    # Listing Origin
+    {locale: "de", key: "origin.direct", value: "Direkteingabe"},
+    {locale: "de", key: "origin.bank", value: "Bankimmobilie"},
+    {locale: "de", key: "origin.private_seller", value: "Privatverkauf"},
+    {locale: "de", key: "origin.new_development", value: "Neubauprojekt"},
+    {locale: "de", key: "origin.mls_feed", value: "MLS-Feed"},
+    {locale: "de", key: "origin.partner", value: "Partneragentur"},
+
+    # =========================================================================
+    # LEGACY KEYS
+    # =========================================================================
     {locale: "de", key: "propertyStates.underConstruction", value: "Im Bau"},
     {locale: "de", key: "propertyStates.brandNew", value: "Neubau"},
     {locale: "de", key: "propertyStates.segundaMano", value: "Aus zweiter hand"},
