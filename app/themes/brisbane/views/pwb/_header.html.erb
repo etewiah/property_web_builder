@@ -1,0 +1,126 @@
+<!-- Brisbane Luxury Theme Header -->
+<!-- Sophisticated top bar with gold accents -->
+<header class="bg-luxury-navy text-luxury-cream border-b border-luxury-gold/20">
+  <div class="container mx-auto px-6">
+    <div class="flex flex-wrap items-center justify-between py-2.5 text-xs tracking-wider">
+      <div class="flex items-center space-x-6">
+        <% if @current_agency.phone_number_primary %>
+          <span class="flex items-center text-luxury-cream/80 hover:text-luxury-gold transition-colors duration-300">
+            <i class="fa fa-phone mr-2 text-luxury-gold"></i>
+            <%= @current_agency.phone_number_primary %>
+          </span>
+        <% end %>
+        <% if @current_agency.email_primary %>
+          <span class="hidden md:flex items-center text-luxury-cream/80 hover:text-luxury-gold transition-colors duration-300">
+            <i class="fa fa-envelope mr-2 text-luxury-gold"></i>
+            <%= @current_agency.email_primary %>
+          </span>
+        <% end %>
+      </div>
+      <% if @current_website.is_multilingual && not_devise %>
+        <div class="flex items-center space-x-1">
+          <% @current_website.supported_locales_with_variants.uniq { |l| l["locale"] }.each do |locale_with_var| %>
+            <% is_selected = locale.to_s == locale_with_var["locale"] %>
+            <%= link_to params.permit(:locale).merge({locale: locale_with_var["locale"]}),
+                class: "px-3 py-1 uppercase font-medium tracking-luxury transition-all duration-300 #{is_selected ? 'text-luxury-gold border-b border-luxury-gold' : 'text-luxury-cream/70 hover:text-luxury-gold'}" do %>
+              <%= locale_with_var["locale"] %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</header>
+
+<!-- Elegant Main Navigation -->
+<nav class="bg-white border-b border-luxury-navy/5 sticky top-0 z-50 transition-all duration-300">
+  <div class="container mx-auto px-6">
+    <div class="flex flex-wrap items-center justify-between py-5">
+      <!-- Logo with Luxury Styling -->
+      <%= link_to main_app.root_path(locale: locale), class: "flex items-center group" do %>
+        <% if @current_website.logo_url %>
+          <img src="<%= @current_website.logo_url %>" alt="Logo" class="h-10 md:h-14 transition-transform duration-300 group-hover:scale-105">
+        <% else %>
+          <span class="font-serif text-2xl md:text-3xl text-luxury-navy tracking-wide"><%= @current_agency.display_name %></span>
+        <% end %>
+      <% end %>
+
+      <!-- Mobile menu button with refined styling -->
+      <button data-collapse-toggle="navbar-main" type="button" class="inline-flex items-center p-2.5 text-luxury-navy md:hidden hover:text-luxury-gold focus:outline-none transition-colors duration-300" aria-controls="navbar-main" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+
+      <!-- Navigation Links with Luxury Typography -->
+      <div class="hidden w-full md:block md:w-auto" id="navbar-main">
+        <ul class="flex flex-col mt-6 md:flex-row md:items-center md:space-x-1 md:mt-0">
+          <% @current_website.links.ordered_visible_top_nav.each do |page| %>
+            <% next if page.slug == "top_nav_admin" %>
+            <% target_path = nil %>
+            <% begin %>
+              <% if page.link_path.present? %>
+                <% target_path = main_app.send(page.link_path, page.link_path_params, { locale: locale }) %>
+              <% elsif page.link_url.present? %>
+                <% target_path = page.link_url %>
+              <% end %>
+            <% rescue StandardError %>
+            <% end %>
+
+            <% if target_path %>
+              <% is_active = current_page?(target_path) || (current_page?("/") && page.link_path == "home_path") %>
+              <li>
+                <%= link_to page.link_title, target_path,
+                    target: page.href_target,
+                    class: "block py-3 px-5 text-xs font-medium uppercase tracking-luxury transition-all duration-300 #{is_active ? 'text-luxury-gold' : 'text-luxury-navy hover:text-luxury-gold'}" %>
+              </li>
+            <% end %>
+          <% end %>
+
+          <% if @show_admin_link %>
+            <li>
+              <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale),
+                  class: "block py-3 px-5 text-xs font-medium uppercase tracking-luxury text-luxury-navy hover:text-luxury-gold transition-all duration-300" %>
+            </li>
+          <% end %>
+
+          <% if current_user %>
+            <li class="relative group md:ml-4">
+              <button type="button" class="flex items-center py-2.5 px-5 text-xs font-medium uppercase tracking-luxury text-luxury-navy hover:text-luxury-gold transition-all duration-300 border border-luxury-navy/20 hover:border-luxury-gold" data-dropdown-toggle="user-dropdown">
+                <i class="fa fa-user mr-2"></i>
+                <%= I18n.t "navbar.admin" %>
+                <svg class="w-3 h-3 ml-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+              </button>
+              <div id="user-dropdown" class="hidden absolute right-0 z-10 mt-2 w-56 bg-white shadow-hover border border-luxury-navy/10">
+                <ul class="py-1">
+                  <li>
+                    <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale),
+                        class: "block px-5 py-3 text-xs uppercase tracking-wider text-luxury-charcoal hover:bg-luxury-pearl hover:text-luxury-gold transition-colors duration-300" %>
+                  </li>
+                  <li class="border-t border-luxury-navy/5">
+                    <%= link_to I18n.t("changePassword"), edit_user_registration_path(),
+                        class: "block px-5 py-3 text-xs uppercase tracking-wider text-luxury-charcoal hover:bg-luxury-pearl hover:text-luxury-gold transition-colors duration-300" %>
+                  </li>
+                  <li class="border-t border-luxury-navy/5">
+                    <%= link_to I18n.t("signOut"), destroy_user_session_path(), method: :delete,
+                        class: "block px-5 py-3 text-xs uppercase tracking-wider text-luxury-charcoal hover:bg-luxury-pearl hover:text-luxury-gold transition-colors duration-300" %>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          <% end %>
+
+          <!-- Contact CTA Button -->
+          <li class="md:ml-6 mt-4 md:mt-0">
+            <%= link_to I18n.t("contactUs", default: "Contact"),
+                main_app.contact_us_path(locale: locale),
+                class: "block py-3 px-6 text-xs font-medium uppercase tracking-luxury bg-luxury-navy text-luxury-cream hover:bg-luxury-gold hover:text-luxury-navy transition-all duration-300 text-center" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

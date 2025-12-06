@@ -1,0 +1,35 @@
+<!-- Bristol Theme Request Property Info Form - Tailwind CSS -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+  <div class="bg-gray-800 px-4 py-3">
+    <h2 class="text-lg font-semibold text-white">
+      <%= I18n.t("requestPropertyInfo") %>
+    </h2>
+  </div>
+  <div class="p-4">
+    <%= form_for :contact, url: '/request_property_info.js', method: 'post',
+        html: { class: 'space-y-4' }, remote: true do |f| %>
+
+      <%= f.hidden_field :locale, value: I18n.locale %>
+      <%= f.hidden_field :property_id, value: @property_details.id %>
+
+      <%= tailwind_inmo_input f, :name, "name", "text", true %>
+
+      <%= tailwind_inmo_input f, :email, "email", "email", true %>
+
+      <%= tailwind_inmo_input f, :tel, "tel", "text", false %>
+
+      <%= tailwind_inmo_textarea f, :message, "message", "text", false, 4 %>
+
+      <div id="request-info-result"></div>
+
+      <button type="submit"
+              class="w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition flex items-center justify-center">
+        <i class="fa fa-envelope mr-2"></i>
+        <%= I18n.t("send") %>
+      </button>
+
+      <div id="resp_enviar"></div>
+    <% end %>
+  </div>
+</div>
+

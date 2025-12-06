@@ -1,0 +1,600 @@
+/* Theme: Brisbane Luxury
+ * A sophisticated theme exuding luxury and elegance
+ * Color Palette: Deep Navy, Champagne Gold, Warm Cream, Rich Charcoal
+ */
+
+:root {
+  /* Primary Luxury Colors */
+  --brisbane-navy: <%= @current_website.style_variables["primary_color"] || "#1a2744" %>;
+  --brisbane-gold: <%= @current_website.style_variables["secondary_color"] || "#c9a962" %>;
+  --brisbane-cream: <%= @current_website.style_variables["cream_color"] || "#faf8f5" %>;
+  --brisbane-charcoal: <%= @current_website.style_variables["charcoal_color"] || "#2d2d2d" %>;
+  --brisbane-pearl: <%= @current_website.style_variables["pearl_color"] || "#f5f3f0" %>;
+
+  /* Accent Colors */
+  --brisbane-gold-light: #d4b978;
+  --brisbane-gold-dark: #a88a4a;
+  --brisbane-navy-light: #2a3a5c;
+  --brisbane-navy-dark: #0f1a2e;
+
+  /* Footer Colors */
+  --footer-bg-color: <%= @current_website.style_variables["footer_bg_color"] || "#1a2744" %>;
+  --footer-text-color: <%= @current_website.style_variables["footer_main_text_color"] || "#faf8f5" %>;
+
+  /* Action Colors */
+  --action-color: <%= @current_website.style_variables["action_color"] || "#c9a962" %>;
+
+  /* Typography */
+  --font-primary: <%= @current_website.style_variables["font_primary"] || "Cormorant Garamond" %>;
+  --font-secondary: <%= @current_website.style_variables["font_secondary"] || "Montserrat" %>;
+
+  /* Spacing & Sizing */
+  --border-radius: <%= @current_website.style_variables["border_radius"] || "0" %>;
+  --container-padding: <%= @current_website.style_variables["container_padding"] || "2rem" %>;
+
+  /* Luxury Shadows */
+  --shadow-elegant: 0 4px 20px rgba(26, 39, 68, 0.08);
+  --shadow-hover: 0 8px 30px rgba(26, 39, 68, 0.12);
+  --shadow-card: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* ============================================
+   LUXURY TYPOGRAPHY
+   ============================================ */
+
+.brisbane-theme {
+  font-family: var(--font-secondary), 'Helvetica Neue', sans-serif;
+  color: var(--brisbane-charcoal);
+  background-color: var(--brisbane-cream);
+  letter-spacing: 0.01em;
+}
+
+.brisbane-theme h1,
+.brisbane-theme h2,
+.brisbane-theme h3,
+.brisbane-theme h4,
+.brisbane-theme h5,
+.brisbane-theme h6 {
+  font-family: var(--font-primary), 'Times New Roman', serif;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--brisbane-navy);
+}
+
+.brisbane-theme h1 {
+  font-size: 3rem;
+  line-height: 1.2;
+}
+
+.brisbane-theme h2 {
+  font-size: 2.25rem;
+  line-height: 1.3;
+}
+
+.brisbane-theme h3 {
+  font-size: 1.75rem;
+  line-height: 1.4;
+}
+
+/* Elegant uppercase headings */
+.brisbane-theme .section-title {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.875rem;
+  font-family: var(--font-secondary), sans-serif;
+  font-weight: 500;
+  color: var(--brisbane-gold);
+  margin-bottom: 0.5rem;
+}
+
+/* ============================================
+   LUXURY BUTTONS
+   ============================================ */
+
+.brisbane-theme .btn-primary,
+.brisbane-theme .btn-base {
+  background: var(--brisbane-navy);
+  color: var(--brisbane-cream);
+  border: 1px solid var(--brisbane-navy);
+  padding: 0.875rem 2rem;
+  font-family: var(--font-secondary), sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-radius: 0;
+}
+
+.brisbane-theme .btn-primary:hover,
+.brisbane-theme .btn-base:hover,
+.brisbane-theme .btn-base:focus {
+  background: var(--brisbane-gold);
+  border-color: var(--brisbane-gold);
+  color: var(--brisbane-navy);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.brisbane-theme .btn-secondary,
+.brisbane-theme .btn-outline {
+  background: transparent;
+  color: var(--brisbane-navy);
+  border: 1px solid var(--brisbane-navy);
+  padding: 0.875rem 2rem;
+  font-family: var(--font-secondary), sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-radius: 0;
+}
+
+.brisbane-theme .btn-secondary:hover,
+.brisbane-theme .btn-outline:hover {
+  background: var(--brisbane-navy);
+  color: var(--brisbane-cream);
+}
+
+/* Gold accent button */
+.brisbane-theme .btn-gold {
+  background: var(--brisbane-gold);
+  color: var(--brisbane-navy);
+  border: 1px solid var(--brisbane-gold);
+}
+
+.brisbane-theme .btn-gold:hover {
+  background: var(--brisbane-gold-dark);
+  border-color: var(--brisbane-gold-dark);
+}
+
+/* ============================================
+   LUXURY CARDS
+   ============================================ */
+
+.brisbane-theme .property-card,
+.brisbane-theme .card {
+  background: white;
+  border: none;
+  border-radius: 0;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.brisbane-theme .property-card:hover,
+.brisbane-theme .card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-4px);
+}
+
+.brisbane-theme .property-card .card-body,
+.brisbane-theme .card .card-body {
+  padding: 1.75rem;
+}
+
+.brisbane-theme .property-card .property-title {
+  font-family: var(--font-primary), serif;
+  font-size: 1.375rem;
+  font-weight: 500;
+  color: var(--brisbane-navy);
+  margin-bottom: 0.5rem;
+}
+
+.brisbane-theme .property-card .property-price {
+  font-family: var(--font-secondary), sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--brisbane-gold);
+  letter-spacing: 0.02em;
+}
+
+.brisbane-theme .property-card .property-location {
+  font-size: 0.875rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Property image overlay effect */
+.brisbane-theme .property-card .property-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.brisbane-theme .property-card .property-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent 60%, rgba(26, 39, 68, 0.4));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.brisbane-theme .property-card:hover .property-image::after {
+  opacity: 1;
+}
+
+/* ============================================
+   HEADER & NAVIGATION
+   ============================================ */
+
+.brisbane-theme .navbar,
+.brisbane-theme header {
+  background: white;
+  border-bottom: 1px solid rgba(26, 39, 68, 0.08);
+  padding: 1.25rem 0;
+}
+
+.brisbane-theme .navbar.scrolled {
+  box-shadow: var(--shadow-elegant);
+}
+
+.brisbane-theme .nav-link {
+  font-family: var(--font-secondary), sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--brisbane-navy);
+  padding: 0.5rem 1.25rem;
+  transition: color 0.3s ease;
+}
+
+.brisbane-theme .nav-link:hover {
+  color: var(--brisbane-gold);
+}
+
+.brisbane-theme .navbar-brand {
+  font-family: var(--font-primary), serif;
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: var(--brisbane-navy);
+  letter-spacing: 0.02em;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.brisbane-theme footer,
+.brisbane-theme .fondo_footer {
+  background: var(--brisbane-navy);
+  color: var(--brisbane-cream);
+  padding: 4rem 0 2rem;
+}
+
+.brisbane-theme footer h4,
+.brisbane-theme footer h5 {
+  font-family: var(--font-secondary), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--brisbane-gold);
+  margin-bottom: 1.5rem;
+}
+
+.brisbane-theme footer a {
+  color: rgba(250, 248, 245, 0.8);
+  transition: color 0.3s ease;
+}
+
+.brisbane-theme footer a:hover {
+  color: var(--brisbane-gold);
+}
+
+.brisbane-theme footer .footer-divider {
+  border-top: 1px solid rgba(201, 169, 98, 0.2);
+  margin: 2rem 0;
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+
+.brisbane-theme .hero-section {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+}
+
+.brisbane-theme .hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(26, 39, 68, 0.7) 0%,
+    rgba(26, 39, 68, 0.4) 50%,
+    rgba(26, 39, 68, 0.6) 100%
+  );
+}
+
+.brisbane-theme .hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  padding: 2rem;
+}
+
+.brisbane-theme .hero-title {
+  font-family: var(--font-primary), serif;
+  font-size: 4rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin-bottom: 1rem;
+  color: white;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+.brisbane-theme .hero-subtitle {
+  font-family: var(--font-secondary), sans-serif;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--brisbane-gold);
+  margin-bottom: 2rem;
+}
+
+/* ============================================
+   SEARCH FORM
+   ============================================ */
+
+.brisbane-theme .search-container {
+  background: white;
+  padding: 2rem;
+  box-shadow: var(--shadow-elegant);
+}
+
+.brisbane-theme .form-control,
+.brisbane-theme select,
+.brisbane-theme input[type="text"],
+.brisbane-theme input[type="number"] {
+  border: 1px solid rgba(26, 39, 68, 0.15);
+  border-radius: 0;
+  padding: 0.875rem 1rem;
+  font-family: var(--font-secondary), sans-serif;
+  font-size: 0.875rem;
+  color: var(--brisbane-charcoal);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.brisbane-theme .form-control:focus,
+.brisbane-theme select:focus,
+.brisbane-theme input:focus {
+  border-color: var(--brisbane-gold);
+  box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.1);
+  outline: none;
+}
+
+.brisbane-theme .form-label {
+  font-family: var(--font-secondary), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--brisbane-navy);
+  margin-bottom: 0.5rem;
+}
+
+/* ============================================
+   PROPERTY DETAILS PAGE
+   ============================================ */
+
+.brisbane-theme .property-detail-header {
+  background: var(--brisbane-pearl);
+  padding: 3rem 0;
+  border-bottom: 1px solid rgba(26, 39, 68, 0.08);
+}
+
+.brisbane-theme .property-detail-title {
+  font-family: var(--font-primary), serif;
+  font-size: 2.5rem;
+  color: var(--brisbane-navy);
+}
+
+.brisbane-theme .property-detail-price {
+  font-family: var(--font-secondary), sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--brisbane-gold);
+}
+
+.brisbane-theme .property-features {
+  display: flex;
+  gap: 2rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid rgba(26, 39, 68, 0.08);
+  border-bottom: 1px solid rgba(26, 39, 68, 0.08);
+  margin: 2rem 0;
+}
+
+.brisbane-theme .property-feature {
+  text-align: center;
+}
+
+.brisbane-theme .property-feature-value {
+  font-family: var(--font-primary), serif;
+  font-size: 1.5rem;
+  color: var(--brisbane-navy);
+}
+
+.brisbane-theme .property-feature-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #6b7280;
+}
+
+/* ============================================
+   CONTACT FORM
+   ============================================ */
+
+.brisbane-theme .contact-section {
+  background: var(--brisbane-pearl);
+  padding: 4rem 0;
+}
+
+.brisbane-theme .contact-form {
+  background: white;
+  padding: 3rem;
+  box-shadow: var(--shadow-card);
+}
+
+/* ============================================
+   DECORATIVE ELEMENTS
+   ============================================ */
+
+/* Gold accent line */
+.brisbane-theme .gold-accent {
+  width: 60px;
+  height: 2px;
+  background: var(--brisbane-gold);
+  margin: 1rem 0;
+}
+
+.brisbane-theme .gold-accent-center {
+  margin: 1rem auto;
+}
+
+/* Section divider */
+.brisbane-theme .section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--brisbane-gold),
+    transparent
+  );
+  margin: 3rem 0;
+}
+
+/* Badge/Tag styling */
+.brisbane-theme .property-badge,
+.brisbane-theme .badge {
+  background: var(--brisbane-gold);
+  color: var(--brisbane-navy);
+  font-family: var(--font-secondary), sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0;
+}
+
+.brisbane-theme .badge-featured {
+  background: var(--brisbane-navy);
+  color: var(--brisbane-gold);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.brisbane-theme .animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .brisbane-theme h1 {
+    font-size: 2.25rem;
+  }
+
+  .brisbane-theme h2 {
+    font-size: 1.75rem;
+  }
+
+  .brisbane-theme .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .brisbane-theme .hero-section {
+    min-height: 70vh;
+  }
+
+  .brisbane-theme .btn-primary,
+  .brisbane-theme .btn-base {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.brisbane-theme .bg-luxury-navy {
+  background-color: var(--brisbane-navy);
+}
+
+.brisbane-theme .bg-luxury-gold {
+  background-color: var(--brisbane-gold);
+}
+
+.brisbane-theme .bg-luxury-cream {
+  background-color: var(--brisbane-cream);
+}
+
+.brisbane-theme .text-luxury-navy {
+  color: var(--brisbane-navy);
+}
+
+.brisbane-theme .text-luxury-gold {
+  color: var(--brisbane-gold);
+}
+
+.brisbane-theme .border-luxury-gold {
+  border-color: var(--brisbane-gold);
+}
+
+/* Primary/Secondary semantic colors */
+.fondo_principal {
+  background: var(--brisbane-navy);
+  color: var(--brisbane-cream);
+}
+
+.fondo_secundario {
+  background: var(--brisbane-gold);
+  color: var(--brisbane-navy);
+}
+
+.color_principal {
+  color: var(--brisbane-navy) !important;
+}
+
+.color_secundario {
+  color: var(--brisbane-gold) !important;
+}
+
+<%= render partial: '/pwb/custom_css/shared', locals: {} %>

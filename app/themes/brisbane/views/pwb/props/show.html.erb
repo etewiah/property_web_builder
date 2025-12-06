@@ -1,0 +1,69 @@
+<% page_title @property_details.title  %>
+<%= render '/pwb/props/meta_tags' %>
+<%= render '/pwb/props/breadcrumb_row' %>
+<!-- MAIN CONTENT -->
+<section class="bg-white border-b border-gray-200">
+  <div class="py-8">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-wrap -mx-4">
+        <div class="w-full lg:w-3/4 px-4">
+          <div class="flex flex-wrap -mx-4">
+            <div class="w-full px-4 mb-6">
+              <%= render '/pwb/props/images_section_carousel' %>
+            </div>
+            <div class="w-full px-4 mb-6">
+              <%= render '/pwb/props/prop_info_list' %>
+            </div>
+          </div>
+          <!-- PROPERTY DESCRIPTION -->
+          <div class="flex flex-wrap -mx-4">
+            <div class="w-full px-4 mb-6">
+              <h3 class="text-xl font-bold mb-4"><%= I18n.t("property.description") %></h3>
+              <%== @property_details.description %>
+              <br>
+              <br>
+            </div>
+            <div class="w-full px-4">
+              <% if @property_details.extras_for_display.present? %>
+                <h3 class="text-xl font-bold mb-4"><%= I18n.t("property.extras") %></h3>
+                <%= render '/pwb/props/extras' %>
+                <br>
+                <br>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="w-full lg:w-1/4 px-4">
+          <div class="space-y-6">
+            <%= render '/pwb/props/request_prop_info' %>
+            <%= render '/pwb/props/prop_contact_info' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <social-sharing  class="text-center"  inline-template>
+    <div class="flex justify-center space-x-4 pb-6">
+      <network network="facebook">
+        <i class="fa fa-facebook text-2xl text-blue-600 hover:text-blue-800"></i>
+      </network>
+      <network network="googleplus">
+        <i class="fa fa-google-plus text-2xl text-red-600 hover:text-red-800"></i>
+      </network>
+      <network network="linkedin">
+        <i class="fa fa-linkedin text-2xl text-blue-700 hover:text-blue-900"></i>
+      </network>
+      <network network="twitter">
+        <i class="fa fa-twitter text-2xl text-blue-400 hover:text-blue-600"></i>
+      </network>
+    </div>
+  </social-sharing>
+</section>
+<% if @property_details.show_map %>
+  <div id="inmo-map-canvas" class="w-full">
+    <inmo-map style="min-height: 600px;"
+    :markers="<%= @map_markers.to_json %>"
+        :zoom="15">
+    </inmo-map>
+  </div>
+<% end %>

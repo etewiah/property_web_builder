@@ -1,0 +1,60 @@
+<%
+  # Parameters:
+  # name: input name
+  # id: input id
+  # options: array of [label, value] pairs
+  # selected: currently selected value
+  # placeholder: text to show when nothing selected (optional)
+
+  dropdown_id = "#{id}_dropdown"
+  button_id = "#{id}_button"
+  selected_value = selected || ""
+  selected_label = options.find { |o| o[1].to_s == selected_value.to_s }&.first || placeholder || "Select..."
+%>
+
+<div class="relative">
+  <input type="hidden" name="<%= name %>" id="<%= id %>" value="<%= selected_value %>">
+
+  <button id="<%= button_id %>" data-dropdown-toggle="<%= dropdown_id %>"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-left flex justify-between items-center"
+          type="button">
+    <span id="<%= id %>_label"><%= selected_label %></span>
+    <svg width="12" height="12" class="w-3 h-3 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6" style="width: 12px; height: 12px;">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+    </svg>
+  </button>
+
+  <!-- Dropdown menu -->
+  <div id="<%= dropdown_id %>" class="absolute z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-full dark:bg-gray-700 max-h-60 overflow-y-auto" style="z-index: 2000;">
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="<%= button_id %>">
+      <% options.each do |label, value| %>
+        <li>
+          <button type="button"
+                  class="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-left"
+                  onclick="selectOption_<%= id.gsub('-', '_') %>('<%= j value.to_s %>', '<%= j label.to_s %>')">
+            <%= label %>
+          </button>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<script>
+  function selectOption_<%= id.gsub('-', '_') %>(value, label) {
+    // Update hidden input
+    document.getElementById('<%= id %>').value = value;
+
+    // Update button label
+    document.getElementById('<%= id %>_label').textContent = label;
+
+    // Hide dropdown (using Flowbite's data-dropdown-toggle logic, clicking inside might not close it automatically if we don't trigger it)
+    // Actually, clicking a button inside might not close it. We can simulate a click on the toggle button or hide it manually.
+    // Flowbite's InstanceManager or simple class manipulation can work.
+    // Simplest way for now: click the toggle button again to close it if it's open.
+    const dropdown = document.getElementById('<%= dropdown_id %>');
+    if (!dropdown.classList.contains('hidden')) {
+       document.getElementById('<%= button_id %>').click();
+    }
+  }
+</script>

@@ -15,4 +15,8 @@
   "name": "bristol",
   "friendly_name": "Bristol Theme",
   "id": "bristol"
+}, {
+  "name": "brisbane",
+  "friendly_name": "Brisbane Luxury Theme",
+  "id": "brisbane"
 }]

@@ -1,0 +1,158 @@
+<!-- Bristol Theme Search Form For Rent - Tailwind CSS -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-200">
+  <div class="bg-gray-800 px-4 py-3 rounded-t-lg">
+    <h2 class="text-lg font-semibold text-white">
+      <%= I18n.t("searchForProperties") %>
+    </h2>
+  </div>
+  <div class="p-4">
+    <%= simple_form_for :search, url: '/search_ajax_for_rent.js',
+        method: 'post',
+        html: { class: 'space-y-4' }, remote: true do |f| %>
+
+            <div class="grid grid-cols-2 gap-4">
+        <div class="form-group">
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            <%= I18n.t("simple_form.labels.search.for_rent_price_from") %>
+          </label>
+          <%= render partial: "pwb/shared/flowbite_select", locals: {
+              name: "search[for_rent_price_from]",
+              id: "search_for_rent_price_from",
+              options: @prices_from_collection.map { |p| p.blank? ? ["Any", ""] : [p, p] },
+              selected: @search_defaults["for_rent_price_from"],
+              placeholder: "Any"
+          } %>
+        </div>
+        <div class="form-group">
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            <%= I18n.t("simple_form.labels.search.for_rent_price_till") %>
+          </label>
+          <%= render partial: "pwb/shared/flowbite_select", locals: {
+              name: "search[for_rent_price_till]",
+              id: "search_for_rent_price_till",
+              options: @prices_till_collection.map { |p| p.blank? ? ["Any", ""] : [p, p] },
+              selected: @search_defaults["for_rent_price_till"],
+              placeholder: "Any"
+          } %>
+        </div>
+      </div>      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">
+          <%= I18n.t("simple_form.labels.search.property_type") %>
+        </label>
+        <%= render partial: "pwb/shared/flowbite_select", locals: {
+            name: "search[property_type]",
+            id: "search_property_type",
+            options: [["Any", ""]] + @property_types.map { |pt| [pt.label, pt.value] },
+            selected: @search_defaults["property_type"],
+            placeholder: "Any"
+        } %>
+      </div>
+
+      <% if @zones && (@zones.length > 1) %>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            <%= I18n.t("simple_form.labels.search.in_zone") %>
+          </label>
+          <%= render partial: "pwb/shared/flowbite_select", locals: {
+              name: "search[in_zone]",
+              id: "search_in_zone",
+              options: [["Any", ""]] + @zones.map { |z| [z.to_s, z.key] },
+              selected: @search_defaults["in_zone"],
+              placeholder: "Any"
+          } %>
+        </div>
+      <% end %>
+
+      <% if @localities && (@localities.length > 1) %>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            <%= I18n.t("simple_form.labels.search.in_locality") %>
+          </label>
+          <%= render partial: "pwb/shared/flowbite_select", locals: {
+              name: "search[in_locality]",
+              id: "search_in_locality",
+              options: [["Any", ""]] + @localities.map { |l| [l.to_s, l.key] },
+              selected: @search_defaults["in_locality"],
+              placeholder: "Any"
+          } %>
+        </div>
+      <% end %>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            <%= I18n.t("simple_form.labels.search.count_bedrooms") %>
+          </label>
+          <%= render partial: "pwb/shared/flowbite_select", locals: {
+              name: "search[count_bedrooms]",
+              id: "search_count_bedrooms",
+              options: [["Any", ""]] + (0..50).map { |n| [n, n] },
+              selected: @search_defaults["count_bedrooms"],
+              placeholder: "Any"
+          } %>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            <%= I18n.t("simple_form.labels.search.count_bathrooms") %>
+          </label>
+          <%= render partial: "pwb/shared/flowbite_select", locals: {
+              name: "search[count_bathrooms]",
+              id: "search_count_bathrooms",
+              options: [["Any", ""]] + (0..20).map { |n| [n, n] },
+              selected: @search_defaults["count_bathrooms"],
+              placeholder: "Any"
+          } %>
+        </div>
+      </div>
+
+      <% if @property_features.present? && @property_features.any? %>
+        <div class="border-t border-gray-200 pt-4 mt-4">
+          <button type="button" class="w-full flex items-center justify-between text-left text-sm font-medium text-gray-700 mb-2" onclick="document.getElementById('features-panel-rent').classList.toggle('hidden');">
+            <span><%= I18n.t("search.features_label", default: "Features") %></span>
+            <svg class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div id="features-panel-rent" class="space-y-2 max-h-48 overflow-y-auto">
+            <% @property_features.each do |feature| %>
+              <label class="flex items-center text-sm text-gray-600 hover:text-gray-900 cursor-pointer">
+                <input type="checkbox" name="search[features][]" value="<%= feature.value %>"
+                       class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mr-2"
+                       <%= 'checked' if @search_defaults.dig("features")&.include?(feature.value) %>>
+                <%= feature.label %>
+              </label>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="pt-2">
+        <%= f.button :button, class: "w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition flex items-center justify-center",
+            id: "btn_buscar_inmuebles" do %>
+          <i class="fa fa-search mr-2"></i>
+          <%= I18n.t("search") %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[action="/search_ajax_for_rent.js"]');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        const formData = new FormData(form);
+        const params = new URLSearchParams();
+        for (const [key, value] of formData.entries()) {
+          if (value && key.startsWith('search[')) {
+             params.append(key, value);
+          }
+        }
+        const newUrl = window.location.pathname + '?' + params.toString();
+        window.history.pushState({path: newUrl}, '', newUrl);
+      });
+    }
+  });
+</script>
+

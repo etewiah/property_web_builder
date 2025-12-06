@@ -1,0 +1,154 @@
+<!-- Bristol Theme Property Image Carousel - Tailwind CSS -->
+<div class="relative bg-gray-100 rounded-lg overflow-hidden">
+  <!-- Main Carousel -->
+  <div id="propCarousel" class="relative">
+    <!-- Carousel wrapper -->
+    <div class="relative h-64 md:h-96 overflow-hidden">
+      <% @property_details.prop_photos.each.with_index do |photo, index| %>
+        <div class="<%= index == 0 ? 'block' : 'hidden' %> duration-700 ease-in-out absolute w-full h-full top-0 left-0" data-carousel-item="<%= index == 0 ? 'active' : '' %>">
+          <%= opt_image_tag(photo, quality: "auto", height: 600, crop: "scale",
+              class: "absolute block w-full h-full object-cover", alt: @property_details.title) %>
+          <% if @property_details.contextual_price_with_currency(@operation_type) %>
+            <div class="absolute top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg font-bold shadow-lg">
+              <%= @property_details.contextual_price_with_currency @operation_type %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Slider indicators -->
+    <% if @property_details.prop_photos.count > 1 %>
+      <div class="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
+        <% @property_details.prop_photos.each.with_index do |photo, index| %>
+          <button type="button"
+                  class="w-3 h-3 rounded-full <%= index == 0 ? 'bg-white' : 'bg-white/50' %>"
+                  aria-current="<%= index == 0 ? 'true' : 'false' %>"
+                  aria-label="Slide <%= index + 1 %>"
+                  data-carousel-slide-to="<%= index %>"></button>
+        <% end %>
+      </div>
+
+      <!-- Slider controls -->
+      <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
+          <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+          </svg>
+          <span class="sr-only">Previous</span>
+        </span>
+      </button>
+      <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
+          <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+          </svg>
+          <span class="sr-only">Next</span>
+        </span>
+      </button>
+    <% end %>
+  </div>
+
+  <!-- Property Quick Info -->
+  <div class="bg-white border-t border-gray-200 p-4">
+    <div class="flex flex-wrap items-center justify-center gap-6 text-gray-600">
+      <div class="flex items-center">
+        <i class="fa fa-arrows-alt text-blue-500 mr-2"></i>
+        <span><%= @property_details.constructed_area %><%= area_unit @property_details %></span>
+      </div>
+      <div class="flex items-center">
+        <i class="fa fa-bed text-blue-500 mr-2"></i>
+        <span><%= @property_details.count_bedrooms %> <%= I18n.t("property.bedrooms", count: @property_details.count_bedrooms) rescue "Beds" %></span>
+      </div>
+      <div class="flex items-center">
+        <i class="fa fa-shower text-blue-500 mr-2"></i>
+        <span><%= @property_details.count_bathrooms %> <%= I18n.t("property.bathrooms", count: @property_details.count_bathrooms) rescue "Baths" %></span>
+      </div>
+      <% if @property_details.has_garage %>
+        <div class="flex items-center">
+          <i class="fa fa-car text-blue-500 mr-2"></i>
+          <span><%= @property_details.count_garages %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Manual initialization of Flowbite Carousel
+    const carouselElement = document.getElementById('propCarousel');
+    if (!carouselElement) return;
+
+    // Function to initialize carousel
+    const initCarousel = (retryCount = 0) => {
+      // Check if Flowbite is available
+      const Flowbite = window.Flowbite;
+      const CarouselConstructor = (Flowbite && Flowbite.Carousel) ? Flowbite.Carousel : window.Carousel;
+
+      if (!CarouselConstructor) {
+        if (retryCount > 50) {
+          console.error('Flowbite Library failed to load after 5 seconds.');
+          return;
+        }
+        // console.warn('Flowbite Library not found, retrying... (' + retryCount + ')');
+        setTimeout(() => initCarousel(retryCount + 1), 100); // Retry after 100ms
+        return;
+      }
+
+      // Get items
+      const items = [];
+      carouselElement.querySelectorAll('[data-carousel-item]').forEach((el, index) => {
+        items.push({
+          position: index,
+          el: el
+        });
+      });
+
+      // Get indicators
+      const indicators = [];
+      carouselElement.querySelectorAll('[data-carousel-slide-to]').forEach((el, index) => {
+        indicators.push({
+          position: index,
+          el: el
+        });
+      });
+
+      // Options
+      const options = {
+        defaultPosition: 0,
+        interval: <%= @carousel_speed || 3000 %>,
+        indicators: {
+          activeClasses: 'bg-white dark:bg-gray-800',
+          inactiveClasses: 'bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800',
+          items: indicators
+        }
+      };
+
+      // Initialize
+      const carousel = new CarouselConstructor(carouselElement, items, options);
+
+      // Bind controls
+      const prevBtn = carouselElement.querySelector('[data-carousel-prev]');
+      const nextBtn = carouselElement.querySelector('[data-carousel-next]');
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          carousel.prev();
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          carousel.next();
+        });
+      }
+      
+      // Start cycling
+      carousel.cycle();
+    };
+
+    // Start initialization
+    initCarousel();
+  });
+</script>

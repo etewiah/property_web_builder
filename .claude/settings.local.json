@@ -56,7 +56,8 @@
       "Bash(awk:*)",
       "Bash(RAILS_ENV=development bundle exec rails:*)",
       "mcp__filesystem__edit_file",
-      "mcp__filesystem__search_files"
+      "mcp__filesystem__search_files",
+      "Skill(theme-creation)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,43 @@
+<!-- Bristol Theme Property Contact Info - Tailwind CSS -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+  <div class="bg-gray-800 px-4 py-3">
+    <h2 class="text-lg font-semibold text-white">
+      <%= I18n.t("webContentSections.contactInformation") %>
+    </h2>
+  </div>
+  <div class="p-4">
+    <h4 class="font-semibold text-gray-800 mb-2"><%= @current_agency.company_name %></h4>
+    
+    <p class="text-gray-600 mb-4">
+      <% if @current_agency.street_number.present? || @current_agency.street_address.present? %>
+        <%= @current_agency.street_number %><%= ', ' if @current_agency.street_number.present? && @current_agency.street_address.present? %><%= @current_agency.street_address %>
+        <br>
+      <% end %>
+      <%= @current_agency.city %>
+      <% if @current_agency.postal_code.present? %>
+        , <%= @current_agency.postal_code %>
+      <% end %>
+    </p>
+
+    <div class="space-y-2">
+      <% if @current_agency.phone_number_primary.present? %>
+        <div class="flex items-center text-gray-700">
+          <i class="fa fa-phone text-blue-600 w-5"></i>
+          <a href="tel:<%= @current_agency.phone_number_primary %>" class="ml-2 hover:text-blue-600">
+            <%= @current_agency.phone_number_primary %>
+          </a>
+        </div>
+      <% end %>
+      
+      <% if @current_agency.email_primary.present? %>
+        <div class="flex items-center text-gray-700">
+          <i class="fa fa-envelope text-blue-600 w-5"></i>
+          <a href="mailto:<%= @current_agency.email_primary %>" class="ml-2 hover:text-blue-600">
+            <%= @current_agency.email_primary %>
+          </a>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+

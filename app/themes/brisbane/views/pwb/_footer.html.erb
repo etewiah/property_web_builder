@@ -1,0 +1,172 @@
+<!-- Brisbane Luxury Theme Footer -->
+<!-- Refined elegance with subtle gold accents -->
+<footer class="bg-luxury-navy text-luxury-cream/90">
+  <!-- Main Footer Content -->
+  <div class="container mx-auto px-6 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+
+      <!-- Brand Column -->
+      <div class="lg:col-span-1">
+        <div class="mb-6">
+          <% if @current_website.logo_url %>
+            <img src="<%= @current_website.logo_url %>" alt="Logo" class="h-12 brightness-0 invert opacity-90">
+          <% else %>
+            <span class="font-serif text-2xl text-luxury-cream tracking-wide"><%= @current_agency.display_name %></span>
+          <% end %>
+        </div>
+        <p class="text-sm leading-relaxed text-luxury-cream/70 mb-6">
+          <%= @current_agency.company_name %>
+        </p>
+
+        <!-- Social Icons - Refined Style -->
+        <div class="flex items-center space-x-4">
+          <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
+            <a href="<%= @current_website.social_media_facebook %>" target="_blank"
+               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
+            <a href="<%= @current_website.social_media_twitter %>" target="_blank"
+               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300">
+              <i class="fab fa-x-twitter"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
+            <a href="<%= @current_website.social_media_linkedin %>" target="_blank"
+               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present? %>
+            <a href="<%= @current_website.social_media_instagram %>" target="_blank"
+               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300">
+              <i class="fab fa-instagram"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
+            <a href="<%= @current_website.social_media_youtube %>" target="_blank"
+               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300">
+              <i class="fab fa-youtube"></i>
+            </a>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Contact Column -->
+      <div class="lg:col-span-1">
+        <h4 class="text-xs uppercase tracking-luxury text-luxury-gold mb-6 font-medium">Contact</h4>
+        <ul class="space-y-4">
+          <% if @current_agency.phone_number_primary.present? %>
+            <li class="flex items-start">
+              <i class="fa fa-phone text-luxury-gold/60 mr-4 mt-1 text-sm"></i>
+              <a href="tel:<%= @current_agency.phone_number_primary %>"
+                 class="text-sm text-luxury-cream/80 hover:text-luxury-gold transition-colors duration-300">
+                <%= @current_agency.phone_number_primary %>
+              </a>
+            </li>
+          <% end %>
+          <% if @current_agency.email_primary.present? %>
+            <li class="flex items-start">
+              <i class="fa fa-envelope text-luxury-gold/60 mr-4 mt-1 text-sm"></i>
+              <a href="mailto:<%= @current_agency.email_primary %>"
+                 class="text-sm text-luxury-cream/80 hover:text-luxury-gold transition-colors duration-300">
+                <%= @current_agency.email_primary %>
+              </a>
+            </li>
+          <% end %>
+          <% if @current_agency.respond_to?(:full_address) && @current_agency.full_address.present? %>
+            <li class="flex items-start">
+              <i class="fa fa-map-marker-alt text-luxury-gold/60 mr-4 mt-1 text-sm"></i>
+              <span class="text-sm text-luxury-cream/80 leading-relaxed">
+                <%= @current_agency.full_address %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <!-- Quick Links Column -->
+      <div class="lg:col-span-1">
+        <h4 class="text-xs uppercase tracking-luxury text-luxury-gold mb-6 font-medium">Quick Links</h4>
+        <ul class="space-y-3">
+          <% @current_website.links.ordered_visible_footer.each do |page| %>
+            <% target_path = nil %>
+            <% begin %>
+              <% if page.link_path.present? %>
+                <% target_path = main_app.send(page.link_path, page.link_path_params, { locale: locale }) %>
+              <% elsif page.link_url.present? %>
+                <% target_path = page.link_url %>
+              <% end %>
+            <% rescue StandardError %>
+            <% end %>
+            <% if target_path %>
+              <li>
+                <%= link_to page.link_title, target_path,
+                    class: "text-sm text-luxury-cream/80 hover:text-luxury-gold hover:pl-2 transition-all duration-300 inline-block" %>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+
+      <!-- Newsletter / Extra Content Column -->
+      <div class="lg:col-span-1">
+        <% if @footer_content.present? && @footer_content.respond_to?(:raw) && @footer_content.raw.present? %>
+          <h4 class="text-xs uppercase tracking-luxury text-luxury-gold mb-6 font-medium">About Us</h4>
+          <div class="text-sm text-luxury-cream/70 leading-relaxed footer-custom-content">
+            <%== @footer_content.raw %>
+          </div>
+        <% else %>
+          <h4 class="text-xs uppercase tracking-luxury text-luxury-gold mb-6 font-medium">Subscribe</h4>
+          <p class="text-sm text-luxury-cream/70 mb-4 leading-relaxed">
+            Stay informed about exclusive listings and market insights.
+          </p>
+          <form class="flex flex-col space-y-3">
+            <input type="email" placeholder="Your email address"
+                   class="bg-transparent border border-luxury-cream/20 px-4 py-3 text-sm text-luxury-cream placeholder-luxury-cream/40 focus:border-luxury-gold focus:outline-none transition-colors duration-300">
+            <button type="submit"
+                    class="bg-luxury-gold text-luxury-navy px-6 py-3 text-xs uppercase tracking-luxury font-medium hover:bg-luxury-cream transition-colors duration-300">
+              Subscribe
+            </button>
+          </form>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Elegant Divider -->
+  <div class="border-t border-luxury-gold/10">
+    <div class="container mx-auto px-6 py-6">
+      <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+        <!-- Copyright -->
+        <p class="text-xs text-luxury-cream/50 tracking-wide">
+          &copy; <%= Time.current.year %> <%= @current_agency.company_name %>. All rights reserved.
+        </p>
+
+        <!-- Powered By -->
+        <p class="text-xs text-luxury-cream/40">
+          Powered by
+          <a href="http://www.propertywebbuilder.com"
+             class="text-luxury-gold/60 hover:text-luxury-gold transition-colors duration-300"
+             target="_blank">
+            PropertyWebBuilder
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer-custom-content a {
+    color: #c9a962;
+    transition: opacity 0.3s ease;
+  }
+  .footer-custom-content a:hover {
+    opacity: 0.8;
+  }
+  .footer-custom-content p {
+    margin-bottom: 0.75rem;
+  }
+</style>
