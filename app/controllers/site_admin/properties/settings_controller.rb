@@ -48,8 +48,7 @@ module SiteAdmin
       def show
         # Show specific category with its field keys
         @field_keys = Pwb::FieldKey
-          .where(tag: category_tag)
-          .for_website(current_website.id)
+          .where(tag: category_tag, pwb_website_id: current_website.id)
           .order(:sort_order, :created_at)
 
         @category_label = CATEGORY_LABELS[@category]
@@ -177,8 +176,7 @@ module SiteAdmin
       
       def load_field_keys
         Pwb::FieldKey
-          .where(tag: category_tag)
-          .for_website(current_website.id)
+          .where(tag: category_tag, pwb_website_id: current_website.id)
           .order(:sort_order, :created_at)
       end
     end

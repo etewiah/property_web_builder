@@ -11,7 +11,7 @@ module Pwb
     self.table_name = 'pwb_field_keys'
     self.primary_key = :global_key
 
-    belongs_to :website, class_name: 'Pwb::Website', optional: true
+    belongs_to :website, class_name: 'Pwb::Website', foreign_key: 'pwb_website_id', optional: true
 
     # Scopes
     scope :visible, -> { where(visible: true) }
