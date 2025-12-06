@@ -86,6 +86,8 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
+    acts_as_tenant (1.0.1)
+      rails (>= 6.0)
     addressable (2.8.8)
       public_suffix (>= 2.0.2, < 8.0)
     annotaterb (4.20.0)
@@ -730,6 +732,7 @@ PLATFORMS
 DEPENDENCIES
   active_hash (~> 3.1)
   active_storage_dashboard
+  acts_as_tenant (~> 1.0)
   annotaterb
   apparition
   aws-sdk-s3

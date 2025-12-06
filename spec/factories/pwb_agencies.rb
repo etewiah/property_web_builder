@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :pwb_agency, class: "Pwb::Agency" do
+  factory :pwb_agency, class: 'PwbTenant::Agency' do
     sequence(:company_name) { |n| "Company #{n}" }
     sequence(:display_name) { |n| "Agency #{n}" }
     association :website, factory: :pwb_website

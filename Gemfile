@@ -184,3 +184,6 @@ gem 'mobility'
 
 # Scenic for database views (materialized views for denormalized property queries)
 gem 'scenic'
+
+# Multi-tenancy - automatic tenant scoping for models
+gem 'acts_as_tenant', '~> 1.0'

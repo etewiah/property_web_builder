@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
+# DEPRECATED: Use PwbTenant::Message instead
+# This alias exists for backwards compatibility during migration
 module Pwb
-  class Message < ApplicationRecord
-    belongs_to :contact, optional: true
-    belongs_to :website, optional: true
-  end
+  Message = PwbTenant::Message
 end

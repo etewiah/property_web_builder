@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :pwb_page_content, class: "Pwb::PageContent" do
+  factory :pwb_page_content, class: 'PwbTenant::PageContent' do
     association :website, factory: :pwb_website
     sequence(:page_part_key) { |n| "page_part_key_#{n}" }
 

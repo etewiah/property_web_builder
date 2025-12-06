@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :pwb_prop, class: "Pwb::Prop" do
+  factory :pwb_prop, class: 'PwbTenant::Prop' do
     title_en { "A property for " }
     association :website, factory: :pwb_website
     trait :sale do

@@ -1,5 +1,6 @@
 FactoryBot.define do
-  factory :pwb_page_part, class: "Pwb::PagePart" do
+  factory :pwb_page_part, class: 'PwbTenant::PagePart' do
+    website { Pwb::Website.first || association(:pwb_website) }
     # factory :form_and_map_rails_part do
     #   page_part_key "form_and_map"
     #   is_rails_part true

@@ -3,34 +3,33 @@ module Pwb
     extend ActiveHash::Associations::ActiveRecordExtensions
     belongs_to_active_hash :theme, optional: true, foreign_key: "theme_name", class_name: "Pwb::Theme", shortcuts: [:friendly_name], primary_key: "name"
 
-    has_many :page_contents
-    has_many :contents, through: :page_contents
+    has_many :page_contents, class_name: 'PwbTenant::PageContent'
+    has_many :contents, through: :page_contents, class_name: 'PwbTenant::Content'
     # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
-    has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: "Pwb::PageContent"
+    has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: 'PwbTenant::PageContent'
 
     # Listed properties from the materialized view (read-only, for display)
     has_many :listed_properties, class_name: 'Pwb::ListedProperty', foreign_key: 'website_id'
     # Legacy Prop model - kept for backwards compatibility with existing code/tests
-    has_many :props, class_name: 'Pwb::Prop', foreign_key: 'website_id'
+    has_many :props, class_name: 'PwbTenant::Prop', foreign_key: 'website_id'
 
     has_many :realty_assets, class_name: 'Pwb::RealtyAsset', foreign_key: 'website_id'
     has_many :sale_listings, through: :realty_assets
     has_many :rental_listings, through: :realty_assets
-    
-    has_many :pages
-    has_many :contents
-    has_many :links
+
+    has_many :pages, class_name: 'PwbTenant::Page'
+    has_many :links, class_name: 'PwbTenant::Link'
     has_many :users
-    has_many :contacts
-    has_many :messages
+    has_many :contacts, class_name: 'PwbTenant::Contact'
+    has_many :messages, class_name: 'PwbTenant::Message'
     has_many :website_photos
-    has_many :field_keys, foreign_key: :pwb_website_id
+    has_many :field_keys, class_name: 'PwbTenant::FieldKey', foreign_key: :website_id
 
     # Multi-website support via memberships
     has_many :user_memberships, dependent: :destroy
     has_many :members, through: :user_memberships, source: :user
 
-    has_one :agency
+    has_one :agency, class_name: 'PwbTenant::Agency'
 
     def admins
       members.where(pwb_user_memberships: { role: ['owner', 'admin'], active: true })
@@ -69,7 +68,7 @@ module Pwb
 
     def page_parts
       # Filter by website_id for multi-tenant isolation
-      Pwb::PagePart.where(page_slug: "website", website_id: id)
+      PwbTenant::PagePart.where(page_slug: 'website', website_id: id)
     end
 
     def get_page_part(page_part_key)

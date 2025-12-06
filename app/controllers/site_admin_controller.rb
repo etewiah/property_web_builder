@@ -6,6 +6,9 @@
 # Unlike TenantAdminController which manages all tenants, SiteAdminController
 # is scoped to a single website/tenant using the SubdomainTenant concern.
 #
+# All PwbTenant:: models are automatically scoped to current_website via
+# acts_as_tenant. No manual where(website_id: ...) needed.
+#
 # Authentication: Requires logged in user (via Devise)
 # Authorization: Phase 2 - currently available to any logged in user
 #
@@ -13,6 +16,10 @@
 class SiteAdminController < ActionController::Base
   include SubdomainTenant
   include AdminAuthBypass
+
+  # Set tenant for acts_as_tenant - all PwbTenant:: queries auto-scoped
+  set_current_tenant_through_filter
+  before_action :set_current_tenant
 
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
@@ -33,5 +40,10 @@ class SiteAdminController < ActionController::Base
   def record_not_found
     @resource_type = controller_name.singularize.titleize
     render 'site_admin/shared/record_not_found', status: :not_found
+  end
+
+  # Set the current tenant for acts_as_tenant
+  def set_current_tenant
+    set_current_tenant_to(current_website)
   end
 end

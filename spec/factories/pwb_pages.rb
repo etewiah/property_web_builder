@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :pwb_page, class: "Pwb::Page" do
+  factory :pwb_page, class: 'PwbTenant::Page' do
     association :website, factory: :pwb_website
     # trait :about_us do
     #   association :page_parts, factory: :pwb_page_part, page_part_key: "our_agency"
