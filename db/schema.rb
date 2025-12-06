@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_05_174144) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_06_111548) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -225,7 +225,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_05_174144) do
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "pwb_website_id"
     t.integer "sort_order", default: 0
-    t.index ["global_key"], name: "index_pwb_field_keys_on_global_key", unique: true
+    t.index ["pwb_website_id", "global_key"], name: "index_field_keys_unique_per_website", unique: true
     t.index ["pwb_website_id", "tag"], name: "index_field_keys_on_website_and_tag"
     t.index ["pwb_website_id"], name: "index_pwb_field_keys_on_pwb_website_id"
   end

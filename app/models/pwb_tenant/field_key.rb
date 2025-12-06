@@ -10,6 +10,6 @@ module PwbTenant
   #
   class FieldKey < Pwb::FieldKey
     include RequiresTenant
-    acts_as_tenant :website, foreign_key: 'pwb_website_id'
+    acts_as_tenant :website, foreign_key: 'pwb_website_id', class_name: 'Pwb::Website'
   end
 end
