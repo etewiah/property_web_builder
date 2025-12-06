@@ -22,15 +22,15 @@ module PwbTenant
 
     # Underlying models for write operations
     def realty_asset
-      Pwb::RealtyAsset.find(id)
+      PwbTenant::RealtyAsset.find(id)
     end
 
     def sale_listing
-      Pwb::SaleListing.find_by(id: sale_listing_id) if sale_listing_id.present?
+      PwbTenant::SaleListing.find_by(id: sale_listing_id) if sale_listing_id.present?
     end
 
     def rental_listing
-      Pwb::RentalListing.find_by(id: rental_listing_id) if rental_listing_id.present?
+      PwbTenant::RentalListing.find_by(id: rental_listing_id) if rental_listing_id.present?
     end
 
     # ============================================

@@ -13,9 +13,9 @@ module Pwb
     # Legacy Prop model - kept for backwards compatibility with existing code/tests
     has_many :props, class_name: 'PwbTenant::Prop', foreign_key: 'website_id'
 
-    has_many :realty_assets, class_name: 'Pwb::RealtyAsset', foreign_key: 'website_id'
-    has_many :sale_listings, through: :realty_assets
-    has_many :rental_listings, through: :realty_assets
+    has_many :realty_assets, class_name: 'PwbTenant::RealtyAsset', foreign_key: 'website_id'
+    has_many :sale_listings, through: :realty_assets, class_name: 'PwbTenant::SaleListing'
+    has_many :rental_listings, through: :realty_assets, class_name: 'PwbTenant::RentalListing'
 
     has_many :pages, class_name: 'PwbTenant::Page'
     has_many :links, class_name: 'PwbTenant::Link'
