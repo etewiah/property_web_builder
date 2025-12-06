@@ -1,0 +1,113 @@
+<section class="pwb-section pwb-pricing">
+  <div class="pwb-container">
+    {% if page_part.section_title.content %}
+      <div class="pwb-section__header">
+        <h2 class="pwb-section__title">{{ page_part.section_title.content }}</h2>
+        {% if page_part.section_subtitle.content %}
+          <p class="pwb-section__subtitle">{{ page_part.section_subtitle.content }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="pwb-grid pwb-grid--3col pwb-grid--gap-lg">
+      <!-- Plan 1 -->
+      {% if page_part.plan_1_name.content %}
+        <div class="pwb-pricing-card">
+          <div class="pwb-pricing-card__header">
+            <h3 class="pwb-pricing-card__name">{{ page_part.plan_1_name.content }}</h3>
+            <div class="pwb-pricing-card__price">
+              {% if page_part.plan_1_currency.content %}
+                <span class="pwb-pricing-card__currency">{{ page_part.plan_1_currency.content }}</span>
+              {% endif %}
+              <span class="pwb-pricing-card__amount">{{ page_part.plan_1_price.content }}</span>
+              {% if page_part.plan_1_period.content %}
+                <span class="pwb-pricing-card__period">/{{ page_part.plan_1_period.content }}</span>
+              {% endif %}
+            </div>
+            {% if page_part.plan_1_description.content %}
+              <p class="pwb-pricing-card__description">{{ page_part.plan_1_description.content }}</p>
+            {% endif %}
+          </div>
+          <ul class="pwb-pricing-card__features">
+            {% assign features = page_part.plan_1_features.content | split: '|' %}
+            {% for feature in features %}
+              <li><i class="fa fa-check"></i> {{ feature }}</li>
+            {% endfor %}
+          </ul>
+          <div class="pwb-pricing-card__footer">
+            <a href="{{ page_part.plan_1_link.content | default: '#' }}" class="pwb-btn pwb-btn--outline pwb-btn--block">
+              {{ page_part.plan_1_button.content | default: 'Get Started' }}
+            </a>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Plan 2 (Featured) -->
+      {% if page_part.plan_2_name.content %}
+        <div class="pwb-pricing-card pwb-pricing-card--featured">
+          {% if page_part.plan_2_badge.content %}
+            <div class="pwb-pricing-card__badge">{{ page_part.plan_2_badge.content }}</div>
+          {% endif %}
+          <div class="pwb-pricing-card__header">
+            <h3 class="pwb-pricing-card__name">{{ page_part.plan_2_name.content }}</h3>
+            <div class="pwb-pricing-card__price">
+              {% if page_part.plan_2_currency.content %}
+                <span class="pwb-pricing-card__currency">{{ page_part.plan_2_currency.content }}</span>
+              {% endif %}
+              <span class="pwb-pricing-card__amount">{{ page_part.plan_2_price.content }}</span>
+              {% if page_part.plan_2_period.content %}
+                <span class="pwb-pricing-card__period">/{{ page_part.plan_2_period.content }}</span>
+              {% endif %}
+            </div>
+            {% if page_part.plan_2_description.content %}
+              <p class="pwb-pricing-card__description">{{ page_part.plan_2_description.content }}</p>
+            {% endif %}
+          </div>
+          <ul class="pwb-pricing-card__features">
+            {% assign features = page_part.plan_2_features.content | split: '|' %}
+            {% for feature in features %}
+              <li><i class="fa fa-check"></i> {{ feature }}</li>
+            {% endfor %}
+          </ul>
+          <div class="pwb-pricing-card__footer">
+            <a href="{{ page_part.plan_2_link.content | default: '#' }}" class="pwb-btn pwb-btn--primary pwb-btn--block">
+              {{ page_part.plan_2_button.content | default: 'Get Started' }}
+            </a>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Plan 3 -->
+      {% if page_part.plan_3_name.content %}
+        <div class="pwb-pricing-card">
+          <div class="pwb-pricing-card__header">
+            <h3 class="pwb-pricing-card__name">{{ page_part.plan_3_name.content }}</h3>
+            <div class="pwb-pricing-card__price">
+              {% if page_part.plan_3_currency.content %}
+                <span class="pwb-pricing-card__currency">{{ page_part.plan_3_currency.content }}</span>
+              {% endif %}
+              <span class="pwb-pricing-card__amount">{{ page_part.plan_3_price.content }}</span>
+              {% if page_part.plan_3_period.content %}
+                <span class="pwb-pricing-card__period">/{{ page_part.plan_3_period.content }}</span>
+              {% endif %}
+            </div>
+            {% if page_part.plan_3_description.content %}
+              <p class="pwb-pricing-card__description">{{ page_part.plan_3_description.content }}</p>
+            {% endif %}
+          </div>
+          <ul class="pwb-pricing-card__features">
+            {% assign features = page_part.plan_3_features.content | split: '|' %}
+            {% for feature in features %}
+              <li><i class="fa fa-check"></i> {{ feature }}</li>
+            {% endfor %}
+          </ul>
+          <div class="pwb-pricing-card__footer">
+            <a href="{{ page_part.plan_3_link.content | default: '#' }}" class="pwb-btn pwb-btn--outline pwb-btn--block">
+              {{ page_part.plan_3_button.content | default: 'Get Started' }}
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

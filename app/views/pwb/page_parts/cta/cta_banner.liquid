@@ -1,0 +1,22 @@
+<section class="pwb-cta pwb-cta--banner pwb-cta--{{ page_part.style.content | default: 'primary' }}">
+  <div class="pwb-container">
+    <div class="pwb-cta__content">
+      <div class="pwb-cta__text">
+        <h2 class="pwb-cta__title">{{ page_part.title.content }}</h2>
+        {% if page_part.subtitle.content %}
+          <p class="pwb-cta__subtitle">{{ page_part.subtitle.content }}</p>
+        {% endif %}
+      </div>
+      <div class="pwb-cta__actions">
+        <a href="{{ page_part.button_link.content | default: '#' }}" class="pwb-btn pwb-btn--{{ page_part.button_style.content | default: 'white' }} pwb-btn--lg">
+          {{ page_part.button_text.content | default: 'Get Started' }}
+        </a>
+        {% if page_part.secondary_button_text.content %}
+          <a href="{{ page_part.secondary_button_link.content | default: '#' }}" class="pwb-btn pwb-btn--outline-white pwb-btn--lg">
+            {{ page_part.secondary_button_text.content }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

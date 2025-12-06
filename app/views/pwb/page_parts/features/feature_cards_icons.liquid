@@ -1,0 +1,58 @@
+<section class="pwb-section pwb-features pwb-features--cards">
+  <div class="pwb-container">
+    {% if page_part.section_title.content %}
+      <div class="pwb-section__header">
+        <h2 class="pwb-section__title">{{ page_part.section_title.content }}</h2>
+        {% if page_part.section_subtitle.content %}
+          <p class="pwb-section__subtitle">{{ page_part.section_subtitle.content }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="pwb-grid pwb-grid--4col pwb-grid--gap-md">
+      <!-- Card 1 -->
+      {% if page_part.card_1_title.content %}
+        <div class="pwb-icon-card">
+          <div class="pwb-icon-card__icon pwb-icon-card__icon--{{ page_part.card_1_color.content | default: 'primary' }}">
+            <i class="{{ page_part.card_1_icon.content | default: 'fa fa-home' }}"></i>
+          </div>
+          <h4 class="pwb-icon-card__title">{{ page_part.card_1_title.content }}</h4>
+          <p class="pwb-icon-card__text">{{ page_part.card_1_text.content }}</p>
+        </div>
+      {% endif %}
+
+      <!-- Card 2 -->
+      {% if page_part.card_2_title.content %}
+        <div class="pwb-icon-card">
+          <div class="pwb-icon-card__icon pwb-icon-card__icon--{{ page_part.card_2_color.content | default: 'secondary' }}">
+            <i class="{{ page_part.card_2_icon.content | default: 'fa fa-search' }}"></i>
+          </div>
+          <h4 class="pwb-icon-card__title">{{ page_part.card_2_title.content }}</h4>
+          <p class="pwb-icon-card__text">{{ page_part.card_2_text.content }}</p>
+        </div>
+      {% endif %}
+
+      <!-- Card 3 -->
+      {% if page_part.card_3_title.content %}
+        <div class="pwb-icon-card">
+          <div class="pwb-icon-card__icon pwb-icon-card__icon--{{ page_part.card_3_color.content | default: 'accent' }}">
+            <i class="{{ page_part.card_3_icon.content | default: 'fa fa-key' }}"></i>
+          </div>
+          <h4 class="pwb-icon-card__title">{{ page_part.card_3_title.content }}</h4>
+          <p class="pwb-icon-card__text">{{ page_part.card_3_text.content }}</p>
+        </div>
+      {% endif %}
+
+      <!-- Card 4 -->
+      {% if page_part.card_4_title.content %}
+        <div class="pwb-icon-card">
+          <div class="pwb-icon-card__icon pwb-icon-card__icon--{{ page_part.card_4_color.content | default: 'success' }}">
+            <i class="{{ page_part.card_4_icon.content | default: 'fa fa-handshake' }}"></i>
+          </div>
+          <h4 class="pwb-icon-card__title">{{ page_part.card_4_title.content }}</h4>
+          <p class="pwb-icon-card__text">{{ page_part.card_4_text.content }}</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

@@ -13,3 +13,9 @@ Liquid::Environment.default.file_system = Liquid::LocalFileSystem.new(
 
 # Register custom filters if needed in the future
 # Liquid::Template.register_filter(Pwb::LiquidFilters)
+
+# Load custom Liquid tags for PropertyWebBuilder
+# These tags provide convenient helpers for theme templates
+Rails.application.config.to_prepare do
+  Dir[Rails.root.join("app/lib/pwb/liquid_tags/*.rb")].each { |f| require f }
+end

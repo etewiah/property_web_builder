@@ -1,0 +1,104 @@
+<section class="pwb-section pwb-faq">
+  <div class="pwb-container pwb-container--narrow">
+    {% if page_part.section_title.content %}
+      <div class="pwb-section__header">
+        <h2 class="pwb-section__title">{{ page_part.section_title.content }}</h2>
+        {% if page_part.section_subtitle.content %}
+          <p class="pwb-section__subtitle">{{ page_part.section_subtitle.content }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="pwb-accordion" data-pwb-accordion>
+      <!-- FAQ 1 -->
+      {% if page_part.faq_1_question.content %}
+        <div class="pwb-accordion__item">
+          <button class="pwb-accordion__header" aria-expanded="false">
+            <span>{{ page_part.faq_1_question.content }}</span>
+            <i class="fa fa-chevron-down pwb-accordion__icon"></i>
+          </button>
+          <div class="pwb-accordion__content">
+            <div class="pwb-accordion__body">
+              {{ page_part.faq_1_answer.content }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- FAQ 2 -->
+      {% if page_part.faq_2_question.content %}
+        <div class="pwb-accordion__item">
+          <button class="pwb-accordion__header" aria-expanded="false">
+            <span>{{ page_part.faq_2_question.content }}</span>
+            <i class="fa fa-chevron-down pwb-accordion__icon"></i>
+          </button>
+          <div class="pwb-accordion__content">
+            <div class="pwb-accordion__body">
+              {{ page_part.faq_2_answer.content }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- FAQ 3 -->
+      {% if page_part.faq_3_question.content %}
+        <div class="pwb-accordion__item">
+          <button class="pwb-accordion__header" aria-expanded="false">
+            <span>{{ page_part.faq_3_question.content }}</span>
+            <i class="fa fa-chevron-down pwb-accordion__icon"></i>
+          </button>
+          <div class="pwb-accordion__content">
+            <div class="pwb-accordion__body">
+              {{ page_part.faq_3_answer.content }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- FAQ 4 -->
+      {% if page_part.faq_4_question.content %}
+        <div class="pwb-accordion__item">
+          <button class="pwb-accordion__header" aria-expanded="false">
+            <span>{{ page_part.faq_4_question.content }}</span>
+            <i class="fa fa-chevron-down pwb-accordion__icon"></i>
+          </button>
+          <div class="pwb-accordion__content">
+            <div class="pwb-accordion__body">
+              {{ page_part.faq_4_answer.content }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- FAQ 5 -->
+      {% if page_part.faq_5_question.content %}
+        <div class="pwb-accordion__item">
+          <button class="pwb-accordion__header" aria-expanded="false">
+            <span>{{ page_part.faq_5_question.content }}</span>
+            <i class="fa fa-chevron-down pwb-accordion__icon"></i>
+          </button>
+          <div class="pwb-accordion__content">
+            <div class="pwb-accordion__body">
+              {{ page_part.faq_5_answer.content }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- FAQ 6 -->
+      {% if page_part.faq_6_question.content %}
+        <div class="pwb-accordion__item">
+          <button class="pwb-accordion__header" aria-expanded="false">
+            <span>{{ page_part.faq_6_question.content }}</span>
+            <i class="fa fa-chevron-down pwb-accordion__icon"></i>
+          </button>
+          <div class="pwb-accordion__content">
+            <div class="pwb-accordion__body">
+              {{ page_part.faq_6_answer.content }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

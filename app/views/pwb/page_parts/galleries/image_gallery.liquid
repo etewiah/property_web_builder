@@ -1,0 +1,68 @@
+<section class="pwb-section pwb-gallery">
+  <div class="pwb-container">
+    {% if page_part.section_title.content %}
+      <div class="pwb-section__header">
+        <h2 class="pwb-section__title">{{ page_part.section_title.content }}</h2>
+        {% if page_part.section_subtitle.content %}
+          <p class="pwb-section__subtitle">{{ page_part.section_subtitle.content }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="pwb-gallery__grid pwb-gallery__grid--{{ page_part.columns.content | default: '3' }}col" data-pwb-lightbox="gallery">
+      {% if page_part.image_1.content %}
+        <a href="{{ page_part.image_1.content }}" class="pwb-gallery__item" data-caption="{{ page_part.caption_1.content }}">
+          <img src="{{ page_part.image_1.content }}" alt="{{ page_part.caption_1.content | default: 'Gallery image 1' }}">
+          <div class="pwb-gallery__overlay">
+            <i class="fa fa-search-plus"></i>
+          </div>
+        </a>
+      {% endif %}
+
+      {% if page_part.image_2.content %}
+        <a href="{{ page_part.image_2.content }}" class="pwb-gallery__item" data-caption="{{ page_part.caption_2.content }}">
+          <img src="{{ page_part.image_2.content }}" alt="{{ page_part.caption_2.content | default: 'Gallery image 2' }}">
+          <div class="pwb-gallery__overlay">
+            <i class="fa fa-search-plus"></i>
+          </div>
+        </a>
+      {% endif %}
+
+      {% if page_part.image_3.content %}
+        <a href="{{ page_part.image_3.content }}" class="pwb-gallery__item" data-caption="{{ page_part.caption_3.content }}">
+          <img src="{{ page_part.image_3.content }}" alt="{{ page_part.caption_3.content | default: 'Gallery image 3' }}">
+          <div class="pwb-gallery__overlay">
+            <i class="fa fa-search-plus"></i>
+          </div>
+        </a>
+      {% endif %}
+
+      {% if page_part.image_4.content %}
+        <a href="{{ page_part.image_4.content }}" class="pwb-gallery__item" data-caption="{{ page_part.caption_4.content }}">
+          <img src="{{ page_part.image_4.content }}" alt="{{ page_part.caption_4.content | default: 'Gallery image 4' }}">
+          <div class="pwb-gallery__overlay">
+            <i class="fa fa-search-plus"></i>
+          </div>
+        </a>
+      {% endif %}
+
+      {% if page_part.image_5.content %}
+        <a href="{{ page_part.image_5.content }}" class="pwb-gallery__item" data-caption="{{ page_part.caption_5.content }}">
+          <img src="{{ page_part.image_5.content }}" alt="{{ page_part.caption_5.content | default: 'Gallery image 5' }}">
+          <div class="pwb-gallery__overlay">
+            <i class="fa fa-search-plus"></i>
+          </div>
+        </a>
+      {% endif %}
+
+      {% if page_part.image_6.content %}
+        <a href="{{ page_part.image_6.content }}" class="pwb-gallery__item" data-caption="{{ page_part.caption_6.content }}">
+          <img src="{{ page_part.image_6.content }}" alt="{{ page_part.caption_6.content | default: 'Gallery image 6' }}">
+          <div class="pwb-gallery__overlay">
+            <i class="fa fa-search-plus"></i>
+          </div>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>

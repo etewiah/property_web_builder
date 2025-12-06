@@ -1,0 +1,33 @@
+<section class="pwb-cta pwb-cta--split">
+  <div class="pwb-grid pwb-grid--2col">
+    <div class="pwb-cta__image-side" style="background-image: url('{{ page_part.image.content }}');">
+      <div class="pwb-cta__image-overlay"></div>
+    </div>
+    <div class="pwb-cta__content-side pwb-cta__content-side--{{ page_part.bg_style.content | default: 'primary' }}">
+      <div class="pwb-cta__inner">
+        {% if page_part.pretitle.content %}
+          <span class="pwb-cta__pretitle">{{ page_part.pretitle.content }}</span>
+        {% endif %}
+        <h2 class="pwb-cta__title">{{ page_part.title.content }}</h2>
+        {% if page_part.description.content %}
+          <p class="pwb-cta__description">{{ page_part.description.content }}</p>
+        {% endif %}
+
+        {% if page_part.features.content %}
+          <ul class="pwb-cta__features">
+            {% assign features = page_part.features.content | split: '|' %}
+            {% for feature in features %}
+              <li><i class="fa fa-check"></i> {{ feature }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        <div class="pwb-cta__actions">
+          <a href="{{ page_part.button_link.content | default: '#' }}" class="pwb-btn pwb-btn--white pwb-btn--lg">
+            {{ page_part.button_text.content | default: 'Learn More' }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

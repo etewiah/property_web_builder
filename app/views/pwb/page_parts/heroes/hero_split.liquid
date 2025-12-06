@@ -1,0 +1,35 @@
+<section class="pwb-hero pwb-hero--split">
+  <div class="pwb-container">
+    <div class="pwb-grid pwb-grid--2col pwb-grid--gap-lg pwb-items-center">
+      <div class="pwb-hero__content">
+        {% if page_part.pretitle.content %}
+          <span class="pwb-hero__pretitle">{{ page_part.pretitle.content }}</span>
+        {% endif %}
+        <h1 class="pwb-hero__title">{{ page_part.title.content }}</h1>
+        {% if page_part.subtitle.content %}
+          <p class="pwb-hero__subtitle">{{ page_part.subtitle.content }}</p>
+        {% endif %}
+        {% if page_part.description.content %}
+          <div class="pwb-hero__description">{{ page_part.description.content }}</div>
+        {% endif %}
+        {% if page_part.cta_text.content %}
+          <div class="pwb-hero__actions">
+            <a href="{{ page_part.cta_link.content | default: '#' }}" class="pwb-btn pwb-btn--primary">
+              {{ page_part.cta_text.content }}
+            </a>
+            {% if page_part.cta_secondary_text.content %}
+              <a href="{{ page_part.cta_secondary_link.content | default: '#' }}" class="pwb-btn pwb-btn--secondary">
+                {{ page_part.cta_secondary_text.content }}
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+      <div class="pwb-hero__media">
+        {% if page_part.image.content %}
+          <img src="{{ page_part.image.content }}" alt="{{ page_part.image_alt.content | default: page_part.title.content }}" class="pwb-hero__image">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,26 @@
+<section class="pwb-hero pwb-hero--centered" style="background-image: url('{{ page_part.background_image.content }}');">
+  <div class="pwb-hero__overlay"></div>
+  <div class="pwb-container">
+    <div class="pwb-hero__content">
+      {% if page_part.pretitle.content %}
+        <span class="pwb-hero__pretitle">{{ page_part.pretitle.content }}</span>
+      {% endif %}
+      <h1 class="pwb-hero__title">{{ page_part.title.content }}</h1>
+      {% if page_part.subtitle.content %}
+        <p class="pwb-hero__subtitle">{{ page_part.subtitle.content }}</p>
+      {% endif %}
+      {% if page_part.cta_text.content %}
+        <div class="pwb-hero__actions">
+          <a href="{{ page_part.cta_link.content | default: '#' }}" class="pwb-btn pwb-btn--primary pwb-btn--lg">
+            {{ page_part.cta_text.content }}
+          </a>
+          {% if page_part.cta_secondary_text.content %}
+            <a href="{{ page_part.cta_secondary_link.content | default: '#' }}" class="pwb-btn pwb-btn--outline pwb-btn--lg">
+              {{ page_part.cta_secondary_text.content }}
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,39 @@
+<section class="pwb-hero pwb-hero--search" style="background-image: url('{{ page_part.background_image.content }}');">
+  <div class="pwb-hero__overlay"></div>
+  <div class="pwb-container">
+    <div class="pwb-hero__content">
+      <h1 class="pwb-hero__title">{{ page_part.title.content }}</h1>
+      {% if page_part.subtitle.content %}
+        <p class="pwb-hero__subtitle">{{ page_part.subtitle.content }}</p>
+      {% endif %}
+
+      <div class="pwb-hero__search-box">
+        <form action="{{ page_part.search_action.content | default: '/search' }}" method="get" class="pwb-search-form">
+          <div class="pwb-search-form__row">
+            <div class="pwb-search-form__field pwb-search-form__field--type">
+              <select name="listing_type" class="pwb-select">
+                <option value="sale">{{ page_part.label_buy.content | default: 'Buy' }}</option>
+                <option value="rent">{{ page_part.label_rent.content | default: 'Rent' }}</option>
+              </select>
+            </div>
+            <div class="pwb-search-form__field pwb-search-form__field--location">
+              <input type="text" name="location" placeholder="{{ page_part.placeholder_location.content | default: 'Enter location...' }}" class="pwb-input">
+            </div>
+            <div class="pwb-search-form__field pwb-search-form__field--property-type">
+              <select name="property_type" class="pwb-select">
+                <option value="">{{ page_part.label_all_types.content | default: 'All Property Types' }}</option>
+                <option value="apartment">{{ page_part.label_apartment.content | default: 'Apartment' }}</option>
+                <option value="house">{{ page_part.label_house.content | default: 'House' }}</option>
+                <option value="villa">{{ page_part.label_villa.content | default: 'Villa' }}</option>
+                <option value="land">{{ page_part.label_land.content | default: 'Land' }}</option>
+              </select>
+            </div>
+            <button type="submit" class="pwb-btn pwb-btn--primary pwb-search-form__submit">
+              {{ page_part.button_text.content | default: 'Search' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

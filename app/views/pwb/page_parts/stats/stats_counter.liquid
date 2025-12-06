@@ -1,0 +1,54 @@
+<section class="pwb-section pwb-stats pwb-stats--{{ page_part.style.content | default: 'light' }}">
+  <div class="pwb-container">
+    {% if page_part.section_title.content %}
+      <div class="pwb-section__header">
+        <h2 class="pwb-section__title">{{ page_part.section_title.content }}</h2>
+        {% if page_part.section_subtitle.content %}
+          <p class="pwb-section__subtitle">{{ page_part.section_subtitle.content }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="pwb-grid pwb-grid--4col pwb-grid--gap-lg">
+      <!-- Stat 1 -->
+      {% if page_part.stat_1_value.content %}
+        <div class="pwb-stat">
+          <div class="pwb-stat__value" data-pwb-counter="{{ page_part.stat_1_value.content }}">
+            {{ page_part.stat_1_prefix.content }}{{ page_part.stat_1_value.content }}{{ page_part.stat_1_suffix.content }}
+          </div>
+          <div class="pwb-stat__label">{{ page_part.stat_1_label.content }}</div>
+        </div>
+      {% endif %}
+
+      <!-- Stat 2 -->
+      {% if page_part.stat_2_value.content %}
+        <div class="pwb-stat">
+          <div class="pwb-stat__value" data-pwb-counter="{{ page_part.stat_2_value.content }}">
+            {{ page_part.stat_2_prefix.content }}{{ page_part.stat_2_value.content }}{{ page_part.stat_2_suffix.content }}
+          </div>
+          <div class="pwb-stat__label">{{ page_part.stat_2_label.content }}</div>
+        </div>
+      {% endif %}
+
+      <!-- Stat 3 -->
+      {% if page_part.stat_3_value.content %}
+        <div class="pwb-stat">
+          <div class="pwb-stat__value" data-pwb-counter="{{ page_part.stat_3_value.content }}">
+            {{ page_part.stat_3_prefix.content }}{{ page_part.stat_3_value.content }}{{ page_part.stat_3_suffix.content }}
+          </div>
+          <div class="pwb-stat__label">{{ page_part.stat_3_label.content }}</div>
+        </div>
+      {% endif %}
+
+      <!-- Stat 4 -->
+      {% if page_part.stat_4_value.content %}
+        <div class="pwb-stat">
+          <div class="pwb-stat__value" data-pwb-counter="{{ page_part.stat_4_value.content }}">
+            {{ page_part.stat_4_prefix.content }}{{ page_part.stat_4_value.content }}{{ page_part.stat_4_suffix.content }}
+          </div>
+          <div class="pwb-stat__label">{{ page_part.stat_4_label.content }}</div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

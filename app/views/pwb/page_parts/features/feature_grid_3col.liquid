@@ -1,0 +1,65 @@
+<section class="pwb-section pwb-features pwb-features--grid">
+  <div class="pwb-container">
+    {% if page_part.section_title.content %}
+      <div class="pwb-section__header">
+        {% if page_part.section_pretitle.content %}
+          <span class="pwb-section__pretitle">{{ page_part.section_pretitle.content }}</span>
+        {% endif %}
+        <h2 class="pwb-section__title">{{ page_part.section_title.content }}</h2>
+        {% if page_part.section_subtitle.content %}
+          <p class="pwb-section__subtitle">{{ page_part.section_subtitle.content }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="pwb-grid pwb-grid--3col pwb-grid--gap-lg">
+      <!-- Feature 1 -->
+      <div class="pwb-feature-card">
+        {% if page_part.feature_1_icon.content %}
+          <div class="pwb-feature-card__icon">
+            <i class="{{ page_part.feature_1_icon.content }}"></i>
+          </div>
+        {% endif %}
+        <h3 class="pwb-feature-card__title">{{ page_part.feature_1_title.content }}</h3>
+        <p class="pwb-feature-card__description">{{ page_part.feature_1_description.content }}</p>
+        {% if page_part.feature_1_link.content %}
+          <a href="{{ page_part.feature_1_link.content }}" class="pwb-feature-card__link">
+            {{ page_part.feature_1_link_text.content | default: 'Learn more' }}
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="pwb-feature-card">
+        {% if page_part.feature_2_icon.content %}
+          <div class="pwb-feature-card__icon">
+            <i class="{{ page_part.feature_2_icon.content }}"></i>
+          </div>
+        {% endif %}
+        <h3 class="pwb-feature-card__title">{{ page_part.feature_2_title.content }}</h3>
+        <p class="pwb-feature-card__description">{{ page_part.feature_2_description.content }}</p>
+        {% if page_part.feature_2_link.content %}
+          <a href="{{ page_part.feature_2_link.content }}" class="pwb-feature-card__link">
+            {{ page_part.feature_2_link_text.content | default: 'Learn more' }}
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="pwb-feature-card">
+        {% if page_part.feature_3_icon.content %}
+          <div class="pwb-feature-card__icon">
+            <i class="{{ page_part.feature_3_icon.content }}"></i>
+          </div>
+        {% endif %}
+        <h3 class="pwb-feature-card__title">{{ page_part.feature_3_title.content }}</h3>
+        <p class="pwb-feature-card__description">{{ page_part.feature_3_description.content }}</p>
+        {% if page_part.feature_3_link.content %}
+          <a href="{{ page_part.feature_3_link.content }}" class="pwb-feature-card__link">
+            {{ page_part.feature_3_link_text.content | default: 'Learn more' }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

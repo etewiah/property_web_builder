@@ -1,13 +1,369 @@
-[{
-  "name": "default",
-  "friendly_name": "Default Theme",
-  "id": "default",
-  "screenshots": [
-    "http://propertywebbuilder.com/images/rerenting-landing_framed.png",
-    "http://propertywebbuilder.com/images/rerenting-landing_framed.png"
-  ]
-}, {
-  "name": "brisbane",
-  "friendly_name": "Brisbane Luxury Theme",
-  "id": "brisbane"
-}]
+[
+  {
+    "name": "default",
+    "friendly_name": "Default Theme",
+    "id": "default",
+    "version": "2.0.0",
+    "description": "A clean, modern theme suitable for any real estate website",
+    "author": "PropertyWebBuilder",
+    "tags": ["modern", "minimal", "responsive"],
+    "screenshots": [
+      "http://propertywebbuilder.com/images/rerenting-landing_framed.png",
+      "http://propertywebbuilder.com/images/rerenting-landing_framed.png"
+    ],
+    "supports": {
+      "page_parts": [
+        "heroes/hero_centered",
+        "heroes/hero_split",
+        "heroes/hero_search",
+        "features/feature_grid_3col",
+        "features/feature_cards_icons",
+        "testimonials/testimonial_carousel",
+        "testimonials/testimonial_grid",
+        "cta/cta_banner",
+        "cta/cta_split_image",
+        "stats/stats_counter",
+        "teams/team_grid",
+        "galleries/image_gallery",
+        "faqs/faq_accordion",
+        "pricing/pricing_table",
+        "our_agency",
+        "about_us_services",
+        "content_html",
+        "footer_content_html",
+        "footer_social_links",
+        "form_and_map",
+        "search_cmpt"
+      ],
+      "layouts": ["default", "landing", "full_width", "sidebar"],
+      "color_schemes": ["light", "dark"],
+      "features": {
+        "sticky_header": true,
+        "back_to_top": true,
+        "preloader": false,
+        "animations": true
+      }
+    },
+    "style_variables": {
+      "colors": {
+        "primary_color": {
+          "type": "color",
+          "default": "#e91b23",
+          "label": "Primary Color",
+          "description": "Main brand color used for buttons, links, and accents"
+        },
+        "secondary_color": {
+          "type": "color",
+          "default": "#2c3e50",
+          "label": "Secondary Color",
+          "description": "Secondary brand color for headings and dark elements"
+        },
+        "accent_color": {
+          "type": "color",
+          "default": "#3498db",
+          "label": "Accent Color",
+          "description": "Accent color for highlights and special elements"
+        },
+        "background_color": {
+          "type": "color",
+          "default": "#ffffff",
+          "label": "Background Color"
+        },
+        "text_color": {
+          "type": "color",
+          "default": "#333333",
+          "label": "Text Color"
+        },
+        "link_color": {
+          "type": "color",
+          "default": "#e91b23",
+          "label": "Link Color"
+        }
+      },
+      "typography": {
+        "font_primary": {
+          "type": "font_select",
+          "default": "Open Sans",
+          "label": "Primary Font",
+          "options": ["Open Sans", "Roboto", "Lato", "Montserrat", "Poppins", "Raleway", "Source Sans Pro", "Inter", "Nunito", "Work Sans"]
+        },
+        "font_heading": {
+          "type": "font_select",
+          "default": "Montserrat",
+          "label": "Heading Font",
+          "options": ["Montserrat", "Playfair Display", "Merriweather", "Oswald", "Roboto Slab", "Lora", "Libre Baskerville"]
+        },
+        "font_size_base": {
+          "type": "select",
+          "default": "16px",
+          "label": "Base Font Size",
+          "options": ["14px", "15px", "16px", "17px", "18px"]
+        }
+      },
+      "layout": {
+        "container_width": {
+          "type": "select",
+          "default": "1200px",
+          "label": "Container Width",
+          "options": ["1000px", "1100px", "1200px", "1320px", "1400px"]
+        },
+        "border_radius": {
+          "type": "select",
+          "default": "8px",
+          "label": "Border Radius",
+          "options": ["0px", "4px", "8px", "12px", "16px"]
+        }
+      },
+      "header": {
+        "header_style": {
+          "type": "select",
+          "default": "default",
+          "label": "Header Style",
+          "options": ["default", "transparent", "centered", "minimal"]
+        },
+        "header_bg_color": {
+          "type": "color",
+          "default": "#ffffff",
+          "label": "Header Background"
+        },
+        "header_text_color": {
+          "type": "color",
+          "default": "#333333",
+          "label": "Header Text Color"
+        }
+      },
+      "footer": {
+        "footer_bg_color": {
+          "type": "color",
+          "default": "#2c3e50",
+          "label": "Footer Background"
+        },
+        "footer_text_color": {
+          "type": "color",
+          "default": "#ffffff",
+          "label": "Footer Text Color"
+        },
+        "footer_columns": {
+          "type": "select",
+          "default": "4",
+          "label": "Footer Columns",
+          "options": ["2", "3", "4"]
+        }
+      },
+      "buttons": {
+        "button_style": {
+          "type": "select",
+          "default": "rounded",
+          "label": "Button Style",
+          "options": ["square", "rounded", "pill"]
+        },
+        "button_size": {
+          "type": "select",
+          "default": "medium",
+          "label": "Button Size",
+          "options": ["small", "medium", "large"]
+        }
+      }
+    },
+    "page_parts_config": {
+      "heroes": {
+        "default_variant": "hero_centered",
+        "available_variants": ["hero_centered", "hero_split", "hero_search"]
+      },
+      "features": {
+        "default_variant": "feature_grid_3col",
+        "available_variants": ["feature_grid_3col", "feature_cards_icons"]
+      },
+      "testimonials": {
+        "default_variant": "testimonial_carousel",
+        "available_variants": ["testimonial_carousel", "testimonial_grid"]
+      },
+      "cta": {
+        "default_variant": "cta_banner",
+        "available_variants": ["cta_banner", "cta_split_image"]
+      }
+    }
+  },
+  {
+    "name": "brisbane",
+    "friendly_name": "Brisbane Luxury Theme",
+    "id": "brisbane",
+    "version": "2.0.0",
+    "parent_theme": "default",
+    "description": "A luxurious, elegant theme perfect for high-end real estate agencies",
+    "author": "PropertyWebBuilder",
+    "tags": ["luxury", "elegant", "premium", "real-estate"],
+    "supports": {
+      "page_parts": [
+        "heroes/hero_centered",
+        "heroes/hero_split",
+        "heroes/hero_search",
+        "features/feature_grid_3col",
+        "features/feature_cards_icons",
+        "testimonials/testimonial_carousel",
+        "testimonials/testimonial_grid",
+        "cta/cta_banner",
+        "cta/cta_split_image",
+        "stats/stats_counter",
+        "teams/team_grid",
+        "galleries/image_gallery",
+        "faqs/faq_accordion",
+        "pricing/pricing_table",
+        "our_agency",
+        "about_us_services",
+        "content_html",
+        "footer_content_html",
+        "footer_social_links",
+        "form_and_map",
+        "search_cmpt"
+      ],
+      "layouts": ["default", "landing", "full_width", "sidebar"],
+      "color_schemes": ["light", "dark", "warm"],
+      "features": {
+        "sticky_header": true,
+        "back_to_top": true,
+        "preloader": true,
+        "animations": true,
+        "parallax": true
+      }
+    },
+    "style_variables": {
+      "colors": {
+        "primary_color": {
+          "type": "color",
+          "default": "#c9a962",
+          "label": "Primary Color",
+          "description": "Luxurious gold accent color"
+        },
+        "secondary_color": {
+          "type": "color",
+          "default": "#1a1a2e",
+          "label": "Secondary Color",
+          "description": "Deep navy for elegant contrast"
+        },
+        "accent_color": {
+          "type": "color",
+          "default": "#16213e",
+          "label": "Accent Color"
+        },
+        "background_color": {
+          "type": "color",
+          "default": "#fafafa",
+          "label": "Background Color"
+        },
+        "text_color": {
+          "type": "color",
+          "default": "#2d2d2d",
+          "label": "Text Color"
+        },
+        "link_color": {
+          "type": "color",
+          "default": "#c9a962",
+          "label": "Link Color"
+        }
+      },
+      "typography": {
+        "font_primary": {
+          "type": "font_select",
+          "default": "Cormorant Garamond",
+          "label": "Primary Font",
+          "options": ["Cormorant Garamond", "Libre Baskerville", "Playfair Display", "Lora", "Merriweather", "EB Garamond"]
+        },
+        "font_heading": {
+          "type": "font_select",
+          "default": "Playfair Display",
+          "label": "Heading Font",
+          "options": ["Playfair Display", "Cormorant Garamond", "Libre Baskerville", "Lora", "Crimson Text"]
+        },
+        "font_size_base": {
+          "type": "select",
+          "default": "17px",
+          "label": "Base Font Size",
+          "options": ["15px", "16px", "17px", "18px", "19px"]
+        }
+      },
+      "layout": {
+        "container_width": {
+          "type": "select",
+          "default": "1320px",
+          "label": "Container Width",
+          "options": ["1100px", "1200px", "1320px", "1400px"]
+        },
+        "border_radius": {
+          "type": "select",
+          "default": "4px",
+          "label": "Border Radius",
+          "options": ["0px", "2px", "4px", "6px", "8px"]
+        }
+      },
+      "header": {
+        "header_style": {
+          "type": "select",
+          "default": "transparent",
+          "label": "Header Style",
+          "options": ["default", "transparent", "centered", "minimal"]
+        },
+        "header_bg_color": {
+          "type": "color",
+          "default": "#1a1a2e",
+          "label": "Header Background"
+        },
+        "header_text_color": {
+          "type": "color",
+          "default": "#ffffff",
+          "label": "Header Text Color"
+        }
+      },
+      "footer": {
+        "footer_bg_color": {
+          "type": "color",
+          "default": "#1a1a2e",
+          "label": "Footer Background"
+        },
+        "footer_text_color": {
+          "type": "color",
+          "default": "#e8e8e8",
+          "label": "Footer Text Color"
+        },
+        "footer_columns": {
+          "type": "select",
+          "default": "4",
+          "label": "Footer Columns",
+          "options": ["2", "3", "4"]
+        }
+      },
+      "buttons": {
+        "button_style": {
+          "type": "select",
+          "default": "square",
+          "label": "Button Style",
+          "options": ["square", "rounded", "pill"]
+        },
+        "button_size": {
+          "type": "select",
+          "default": "large",
+          "label": "Button Size",
+          "options": ["small", "medium", "large"]
+        }
+      }
+    },
+    "page_parts_config": {
+      "heroes": {
+        "default_variant": "hero_split",
+        "available_variants": ["hero_centered", "hero_split", "hero_search"]
+      },
+      "features": {
+        "default_variant": "feature_cards_icons",
+        "available_variants": ["feature_grid_3col", "feature_cards_icons"]
+      },
+      "testimonials": {
+        "default_variant": "testimonial_grid",
+        "available_variants": ["testimonial_carousel", "testimonial_grid"]
+      },
+      "cta": {
+        "default_variant": "cta_split_image",
+        "available_variants": ["cta_banner", "cta_split_image"]
+      }
+    }
+  }
+]

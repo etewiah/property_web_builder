@@ -1,0 +1,104 @@
+<section class="pwb-section pwb-team">
+  <div class="pwb-container">
+    {% if page_part.section_title.content %}
+      <div class="pwb-section__header">
+        <h2 class="pwb-section__title">{{ page_part.section_title.content }}</h2>
+        {% if page_part.section_subtitle.content %}
+          <p class="pwb-section__subtitle">{{ page_part.section_subtitle.content }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="pwb-grid pwb-grid--4col pwb-grid--gap-lg">
+      <!-- Team Member 1 -->
+      {% if page_part.member_1_name.content %}
+        <div class="pwb-team-card">
+          <div class="pwb-team-card__image">
+            <img src="{{ page_part.member_1_image.content | default: '/assets/placeholder-avatar.png' }}" alt="{{ page_part.member_1_name.content }}">
+            <div class="pwb-team-card__social">
+              {% if page_part.member_1_linkedin.content %}
+                <a href="{{ page_part.member_1_linkedin.content }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+              {% endif %}
+              {% if page_part.member_1_email.content %}
+                <a href="mailto:{{ page_part.member_1_email.content }}"><i class="fa fa-envelope"></i></a>
+              {% endif %}
+              {% if page_part.member_1_phone.content %}
+                <a href="tel:{{ page_part.member_1_phone.content }}"><i class="fa fa-phone"></i></a>
+              {% endif %}
+            </div>
+          </div>
+          <div class="pwb-team-card__info">
+            <h4 class="pwb-team-card__name">{{ page_part.member_1_name.content }}</h4>
+            <span class="pwb-team-card__role">{{ page_part.member_1_role.content }}</span>
+            {% if page_part.member_1_bio.content %}
+              <p class="pwb-team-card__bio">{{ page_part.member_1_bio.content }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Team Member 2 -->
+      {% if page_part.member_2_name.content %}
+        <div class="pwb-team-card">
+          <div class="pwb-team-card__image">
+            <img src="{{ page_part.member_2_image.content | default: '/assets/placeholder-avatar.png' }}" alt="{{ page_part.member_2_name.content }}">
+            <div class="pwb-team-card__social">
+              {% if page_part.member_2_linkedin.content %}
+                <a href="{{ page_part.member_2_linkedin.content }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+              {% endif %}
+              {% if page_part.member_2_email.content %}
+                <a href="mailto:{{ page_part.member_2_email.content }}"><i class="fa fa-envelope"></i></a>
+              {% endif %}
+            </div>
+          </div>
+          <div class="pwb-team-card__info">
+            <h4 class="pwb-team-card__name">{{ page_part.member_2_name.content }}</h4>
+            <span class="pwb-team-card__role">{{ page_part.member_2_role.content }}</span>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Team Member 3 -->
+      {% if page_part.member_3_name.content %}
+        <div class="pwb-team-card">
+          <div class="pwb-team-card__image">
+            <img src="{{ page_part.member_3_image.content | default: '/assets/placeholder-avatar.png' }}" alt="{{ page_part.member_3_name.content }}">
+            <div class="pwb-team-card__social">
+              {% if page_part.member_3_linkedin.content %}
+                <a href="{{ page_part.member_3_linkedin.content }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+              {% endif %}
+              {% if page_part.member_3_email.content %}
+                <a href="mailto:{{ page_part.member_3_email.content }}"><i class="fa fa-envelope"></i></a>
+              {% endif %}
+            </div>
+          </div>
+          <div class="pwb-team-card__info">
+            <h4 class="pwb-team-card__name">{{ page_part.member_3_name.content }}</h4>
+            <span class="pwb-team-card__role">{{ page_part.member_3_role.content }}</span>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Team Member 4 -->
+      {% if page_part.member_4_name.content %}
+        <div class="pwb-team-card">
+          <div class="pwb-team-card__image">
+            <img src="{{ page_part.member_4_image.content | default: '/assets/placeholder-avatar.png' }}" alt="{{ page_part.member_4_name.content }}">
+            <div class="pwb-team-card__social">
+              {% if page_part.member_4_linkedin.content %}
+                <a href="{{ page_part.member_4_linkedin.content }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+              {% endif %}
+              {% if page_part.member_4_email.content %}
+                <a href="mailto:{{ page_part.member_4_email.content }}"><i class="fa fa-envelope"></i></a>
+              {% endif %}
+            </div>
+          </div>
+          <div class="pwb-team-card__info">
+            <h4 class="pwb-team-card__name">{{ page_part.member_4_name.content }}</h4>
+            <span class="pwb-team-card__role">{{ page_part.member_4_role.content }}</span>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

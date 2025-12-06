@@ -1,0 +1,191 @@
+<%# Base CSS Custom Properties - Used by all themes %>
+<%# This file generates CSS custom properties from website.style_variables %>
+
+<%
+  # Get style variables with defaults
+  vars = @current_website&.style_variables || {}
+
+  # Color defaults
+  primary_color = vars["primary_color"] || "#e91b23"
+  secondary_color = vars["secondary_color"] || "#3498db"
+  accent_color = vars["accent_color"] || vars["action_color"] || "#27ae60"
+
+  # Derived colors (lighter/darker variants)
+  # These use CSS color-mix for modern browsers
+
+  # Background colors
+  bg_light = vars["bg_light"] || "#f8f9fa"
+  bg_dark = vars["bg_dark"] || "#1a1a2e"
+
+  # Text colors
+  text_primary = vars["text_primary"] || "#212529"
+  text_secondary = vars["text_secondary"] || "#6c757d"
+  text_light = vars["text_light"] || "#ffffff"
+
+  # Footer colors
+  footer_bg = vars["footer_bg_color"] || "#2c3e50"
+  footer_text = vars["footer_main_text_color"] || "#ffffff"
+  footer_link = vars["footer_link_color"] || "#3498db"
+
+  # Typography
+  font_primary = vars["font_primary"] || "Inter, system-ui, sans-serif"
+  font_secondary = vars["font_secondary"] || "Georgia, serif"
+  font_size_base = vars["font_size_base"] || "16px"
+  line_height_base = vars["line_height_base"] || "1.6"
+
+  # Spacing
+  spacing_unit = vars["spacing_unit"] || "1rem"
+  container_padding = vars["container_padding"] || "1rem"
+  container_max_width = vars["container_max_width"] || "1200px"
+
+  # Border radius
+  border_radius_sm = vars["border_radius_sm"] || "0.25rem"
+  border_radius = vars["border_radius"] || "0.5rem"
+  border_radius_lg = vars["border_radius_lg"] || "1rem"
+  border_radius_full = vars["border_radius_full"] || "9999px"
+
+  # Shadows
+  shadow_sm = vars["shadow_sm"] || "0 1px 2px rgba(0,0,0,0.05)"
+  shadow = vars["shadow"] || "0 4px 6px rgba(0,0,0,0.1)"
+  shadow_lg = vars["shadow_lg"] || "0 10px 25px rgba(0,0,0,0.15)"
+
+  # Transitions
+  transition_fast = vars["transition_fast"] || "150ms"
+  transition_normal = vars["transition_normal"] || "300ms"
+  transition_slow = vars["transition_slow"] || "500ms"
+%>
+
+:root {
+  /* ===== Color System ===== */
+  --pwb-primary: <%= primary_color %>;
+  --pwb-primary-light: color-mix(in srgb, <%= primary_color %> 70%, white);
+  --pwb-primary-dark: color-mix(in srgb, <%= primary_color %> 70%, black);
+  --pwb-primary-rgb: <%= primary_color.gsub('#', '').scan(/../).map { |c| c.to_i(16) }.join(', ') rescue '233, 27, 35' %>;
+
+  --pwb-secondary: <%= secondary_color %>;
+  --pwb-secondary-light: color-mix(in srgb, <%= secondary_color %> 70%, white);
+  --pwb-secondary-dark: color-mix(in srgb, <%= secondary_color %> 70%, black);
+
+  --pwb-accent: <%= accent_color %>;
+  --pwb-accent-light: color-mix(in srgb, <%= accent_color %> 70%, white);
+  --pwb-accent-dark: color-mix(in srgb, <%= accent_color %> 70%, black);
+
+  /* Status colors */
+  --pwb-success: #28a745;
+  --pwb-warning: #ffc107;
+  --pwb-danger: #dc3545;
+  --pwb-info: #17a2b8;
+
+  /* Background colors */
+  --pwb-bg-light: <%= bg_light %>;
+  --pwb-bg-dark: <%= bg_dark %>;
+  --pwb-bg-body: #ffffff;
+  --pwb-bg-surface: #ffffff;
+  --pwb-bg-muted: #f1f3f4;
+
+  /* Text colors */
+  --pwb-text-primary: <%= text_primary %>;
+  --pwb-text-secondary: <%= text_secondary %>;
+  --pwb-text-muted: #9ca3af;
+  --pwb-text-light: <%= text_light %>;
+  --pwb-text-on-primary: #ffffff;
+  --pwb-text-on-secondary: #ffffff;
+
+  /* Border colors */
+  --pwb-border-color: #e5e7eb;
+  --pwb-border-color-dark: #d1d5db;
+
+  /* Footer */
+  --pwb-footer-bg: <%= footer_bg %>;
+  --pwb-footer-text: <%= footer_text %>;
+  --pwb-footer-link: <%= footer_link %>;
+
+  /* ===== Typography ===== */
+  --pwb-font-primary: <%= font_primary %>;
+  --pwb-font-secondary: <%= font_secondary %>;
+  --pwb-font-mono: ui-monospace, monospace;
+
+  --pwb-font-size-xs: 0.75rem;
+  --pwb-font-size-sm: 0.875rem;
+  --pwb-font-size-base: <%= font_size_base %>;
+  --pwb-font-size-lg: 1.125rem;
+  --pwb-font-size-xl: 1.25rem;
+  --pwb-font-size-2xl: 1.5rem;
+  --pwb-font-size-3xl: 1.875rem;
+  --pwb-font-size-4xl: 2.25rem;
+  --pwb-font-size-5xl: 3rem;
+
+  --pwb-line-height-tight: 1.25;
+  --pwb-line-height-base: <%= line_height_base %>;
+  --pwb-line-height-relaxed: 1.75;
+
+  --pwb-font-weight-normal: 400;
+  --pwb-font-weight-medium: 500;
+  --pwb-font-weight-semibold: 600;
+  --pwb-font-weight-bold: 700;
+
+  /* ===== Spacing ===== */
+  --pwb-spacing-unit: <%= spacing_unit %>;
+  --pwb-spacing-xs: calc(var(--pwb-spacing-unit) * 0.25);
+  --pwb-spacing-sm: calc(var(--pwb-spacing-unit) * 0.5);
+  --pwb-spacing-md: var(--pwb-spacing-unit);
+  --pwb-spacing-lg: calc(var(--pwb-spacing-unit) * 1.5);
+  --pwb-spacing-xl: calc(var(--pwb-spacing-unit) * 2);
+  --pwb-spacing-2xl: calc(var(--pwb-spacing-unit) * 3);
+  --pwb-spacing-3xl: calc(var(--pwb-spacing-unit) * 4);
+
+  /* ===== Layout ===== */
+  --pwb-container-padding: <%= container_padding %>;
+  --pwb-container-max-width: <%= container_max_width %>;
+  --pwb-container-narrow: 800px;
+  --pwb-container-wide: 1400px;
+
+  /* ===== Border Radius ===== */
+  --pwb-radius-sm: <%= border_radius_sm %>;
+  --pwb-radius: <%= border_radius %>;
+  --pwb-radius-lg: <%= border_radius_lg %>;
+  --pwb-radius-full: <%= border_radius_full %>;
+
+  /* ===== Shadows ===== */
+  --pwb-shadow-sm: <%= shadow_sm %>;
+  --pwb-shadow: <%= shadow %>;
+  --pwb-shadow-lg: <%= shadow_lg %>;
+  --pwb-shadow-inner: inset 0 2px 4px rgba(0,0,0,0.06);
+
+  /* ===== Transitions ===== */
+  --pwb-transition-fast: <%= transition_fast %>;
+  --pwb-transition-normal: <%= transition_normal %>;
+  --pwb-transition-slow: <%= transition_slow %>;
+  --pwb-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ===== Z-Index Scale ===== */
+  --pwb-z-dropdown: 1000;
+  --pwb-z-sticky: 1020;
+  --pwb-z-fixed: 1030;
+  --pwb-z-modal-backdrop: 1040;
+  --pwb-z-modal: 1050;
+  --pwb-z-popover: 1060;
+  --pwb-z-tooltip: 1070;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root.pwb-auto-dark {
+    --pwb-bg-body: #1a1a2e;
+    --pwb-bg-surface: #16213e;
+    --pwb-bg-muted: #0f3460;
+    --pwb-text-primary: #e8e8e8;
+    --pwb-text-secondary: #a0a0a0;
+    --pwb-border-color: #2d3748;
+  }
+}
+
+/* Manual dark mode class */
+.pwb-dark {
+  --pwb-bg-body: #1a1a2e;
+  --pwb-bg-surface: #16213e;
+  --pwb-bg-muted: #0f3460;
+  --pwb-text-primary: #e8e8e8;
+  --pwb-text-secondary: #a0a0a0;
+  --pwb-border-color: #2d3748;
+}

@@ -1,0 +1,83 @@
+<section class="pwb-section pwb-testimonials pwb-testimonials--grid">
+  <div class="pwb-container">
+    {% if page_part.section_title.content %}
+      <div class="pwb-section__header">
+        <h2 class="pwb-section__title">{{ page_part.section_title.content }}</h2>
+        {% if page_part.section_subtitle.content %}
+          <p class="pwb-section__subtitle">{{ page_part.section_subtitle.content }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="pwb-grid pwb-grid--3col pwb-grid--gap-lg">
+      <!-- Testimonial 1 -->
+      {% if page_part.testimonial_1_text.content %}
+        <div class="pwb-testimonial-card">
+          <div class="pwb-testimonial-card__rating">
+            {% for i in (1..5) %}
+              <i class="fa fa-star"></i>
+            {% endfor %}
+          </div>
+          <p class="pwb-testimonial-card__text">"{{ page_part.testimonial_1_text.content }}"</p>
+          <div class="pwb-testimonial-card__author">
+            {% if page_part.testimonial_1_image.content %}
+              <img src="{{ page_part.testimonial_1_image.content }}" alt="{{ page_part.testimonial_1_name.content }}" class="pwb-testimonial-card__avatar">
+            {% endif %}
+            <div>
+              <strong>{{ page_part.testimonial_1_name.content }}</strong>
+              {% if page_part.testimonial_1_role.content %}
+                <span>{{ page_part.testimonial_1_role.content }}</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Testimonial 2 -->
+      {% if page_part.testimonial_2_text.content %}
+        <div class="pwb-testimonial-card">
+          <div class="pwb-testimonial-card__rating">
+            {% for i in (1..5) %}
+              <i class="fa fa-star"></i>
+            {% endfor %}
+          </div>
+          <p class="pwb-testimonial-card__text">"{{ page_part.testimonial_2_text.content }}"</p>
+          <div class="pwb-testimonial-card__author">
+            {% if page_part.testimonial_2_image.content %}
+              <img src="{{ page_part.testimonial_2_image.content }}" alt="{{ page_part.testimonial_2_name.content }}" class="pwb-testimonial-card__avatar">
+            {% endif %}
+            <div>
+              <strong>{{ page_part.testimonial_2_name.content }}</strong>
+              {% if page_part.testimonial_2_role.content %}
+                <span>{{ page_part.testimonial_2_role.content }}</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Testimonial 3 -->
+      {% if page_part.testimonial_3_text.content %}
+        <div class="pwb-testimonial-card">
+          <div class="pwb-testimonial-card__rating">
+            {% for i in (1..5) %}
+              <i class="fa fa-star"></i>
+            {% endfor %}
+          </div>
+          <p class="pwb-testimonial-card__text">"{{ page_part.testimonial_3_text.content }}"</p>
+          <div class="pwb-testimonial-card__author">
+            {% if page_part.testimonial_3_image.content %}
+              <img src="{{ page_part.testimonial_3_image.content }}" alt="{{ page_part.testimonial_3_name.content }}" class="pwb-testimonial-card__avatar">
+            {% endif %}
+            <div>
+              <strong>{{ page_part.testimonial_3_name.content }}</strong>
+              {% if page_part.testimonial_3_role.content %}
+                <span>{{ page_part.testimonial_3_role.content }}</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
