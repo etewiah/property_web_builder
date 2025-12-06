@@ -5,6 +5,9 @@
   locale_prefix = @current_locale_base.present? && @current_locale_base != 'en' ? "/#{@current_locale_base}" : ""
   page_path = @page.slug == 'home' ? '/' : "/p/#{@page.slug}"
   public_page_url = "#{request.protocol}#{request.host_with_port}#{locale_prefix}#{page_path}"
+
+  # URL for the specific page part preview
+  page_part_url = "#{request.protocol}#{request.host_with_port}#{locale_prefix}/p/#{@page.slug}/#{@page_part.page_part_key}"
 %>
 
 <div class="max-w-5xl mx-auto">
@@ -222,6 +225,42 @@
     <% end %>
   </div>
 
+  <!-- Page Part Preview (iframe) - Shows only this specific section -->
+  <div id="page-part-preview-section" class="mt-6 bg-white rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4 bg-blue-50 border-b border-blue-200 flex justify-between items-center">
+      <div>
+        <h2 class="text-lg font-semibold text-gray-900">Section Preview</h2>
+        <p class="text-sm text-gray-600">
+          Live preview of this section only
+          <span class="text-gray-400 mx-1">|</span>
+          Locale: <span class="font-medium"><%= @current_locale_detail&.dig(:label) || @current_locale_full.upcase %></span>
+          <a href="<%= page_part_url %>" target="_blank" class="text-blue-600 hover:text-blue-800 ml-2">
+            Open in new tab
+            <svg class="w-3 h-3 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+          </a>
+        </p>
+      </div>
+      <div class="flex items-center space-x-2">
+        <button type="button" onclick="refreshPagePartPreview()" class="inline-flex items-center px-3 py-1.5 border border-blue-300 text-blue-700 text-sm rounded hover:bg-blue-100">
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          Refresh
+        </button>
+      </div>
+    </div>
+    <div class="p-4 bg-gray-50">
+      <iframe id="page-part-preview-iframe"
+              src="<%= page_part_url %>"
+              class="w-full border border-gray-200 rounded bg-white"
+              style="min-height: 300px; height: auto;"
+              title="Page Part Preview"
+              onload="resizePagePartIframe()"></iframe>
+    </div>
+  </div>
+
   <!-- Live Page Preview (iframe) -->
   <div id="preview-section" class="mt-6 bg-white rounded-lg shadow overflow-hidden hidden">
     <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
@@ -298,6 +337,7 @@
 
 <script>
   const publicPageUrl = '<%= public_page_url %>';
+  const pagePartUrl = '<%= page_part_url %>';
 
   function formatDoc(command) {
     document.execCommand(command, false, null);
@@ -353,6 +393,29 @@
         container.style.maxWidth = '100%';
         iframe.style.height = '600px';
         break;
+    }
+  }
+
+  // Page Part Preview functions
+  function refreshPagePartPreview() {
+    const iframe = document.getElementById('page-part-preview-iframe');
+    // Add timestamp to force refresh
+    const url = new URL(pagePartUrl);
+    url.searchParams.set('_t', Date.now());
+    iframe.src = url.toString();
+  }
+
+  function resizePagePartIframe() {
+    const iframe = document.getElementById('page-part-preview-iframe');
+    try {
+      // Try to resize iframe to fit content
+      const contentHeight = iframe.contentWindow.document.body.scrollHeight;
+      if (contentHeight > 0) {
+        iframe.style.height = Math.max(contentHeight + 40, 300) + 'px';
+      }
+    } catch (e) {
+      // Cross-origin restrictions may prevent access, use default height
+      iframe.style.height = '400px';
     }
   }
 
