@@ -56,6 +56,10 @@ module SiteAdmin
 
         @category_label = CATEGORY_LABELS[@category]
         @category_description = CATEGORY_DESCRIPTIONS[@category]
+
+        # Get website's supported locales for the editing UI
+        # Format: [{locale: 'en', variant: 'uk', full: 'en-UK', label: 'English'}]
+        @website_locales = build_website_locales
       end
 
       def create
@@ -178,6 +182,40 @@ module SiteAdmin
         PwbTenant::FieldKey
           .where(tag: category_tag)
           .ordered
+      end
+
+      # Build locale details for the website's supported locales
+      def build_website_locales
+        locale_labels = {
+          'en' => 'English',
+          'nl' => 'Dutch',
+          'bg' => 'Bulgarian',
+          'de' => 'German',
+          'es' => 'Spanish',
+          'fr' => 'French',
+          'it' => 'Italian',
+          'pt' => 'Portuguese',
+          'ru' => 'Russian',
+          'ar' => 'Arabic',
+          'ca' => 'Catalan',
+          'pl' => 'Polish',
+          'ro' => 'Romanian',
+          'tr' => 'Turkish',
+          'vi' => 'Vietnamese',
+          'ko' => 'Korean'
+        }
+
+        supported = current_website.supported_locales || ['en-UK']
+        supported.map do |full_locale|
+          parts = full_locale.split('-')
+          base_locale = parts[0].downcase
+          {
+            locale: base_locale,
+            variant: parts[1],
+            full: full_locale,
+            label: locale_labels[base_locale] || base_locale.upcase
+          }
+        end
       end
     end
   end
