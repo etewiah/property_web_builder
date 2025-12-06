@@ -55,7 +55,8 @@
       "Bash(RAILS_ENV=e2e bin/rails db:seed:*)",
       "Bash(awk:*)",
       "Bash(RAILS_ENV=development bundle exec rails:*)",
-      "mcp__filesystem__edit_file"
+      "mcp__filesystem__edit_file",
+      "mcp__filesystem__search_files"
     ],
     "deny": [],
     "ask": []

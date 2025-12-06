@@ -27,6 +27,32 @@ module Pwb
       render "/pwb/pages/show"
     end
 
+    # Renders a single page part from a page.
+    # URL: /p/:page_slug/:page_part_key
+    # Useful for previewing or embedding individual content sections.
+    def show_page_part
+      page_slug = params[:page_slug]
+      page_part_key = params[:page_part_key]
+
+      @page = @current_website.pages.find_by_slug(page_slug)
+      if @page.blank?
+        render plain: "Page not found: #{page_slug}", status: :not_found
+        return
+      end
+
+      # Find the page content for this page part
+      @page_content = @page.page_contents.find_by(page_part_key: page_part_key)
+      if @page_content.blank? || !@page_content.visible_on_page
+        render plain: "Page part not found or not visible: #{page_part_key}", status: :not_found
+        return
+      end
+
+      @content_html = @page_content.content&.raw
+      @page_part_key = page_part_key
+
+      render "/pwb/pages/show_page_part", layout: "pwb/page_part"
+    end
+
     private
 
     def header_image_url
