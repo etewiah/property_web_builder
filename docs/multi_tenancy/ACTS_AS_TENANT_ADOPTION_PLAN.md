@@ -189,6 +189,178 @@ end
 
 This will catch any unscoped queries during development/testing.
 
+## Cross-Tenant Access (Super Admin / Global Views)
+
+`acts_as_tenant` provides several ways to access data across tenants for admin purposes:
+
+### Option 1: `without_tenant` Block
+
+For occasional cross-tenant queries:
+
+```ruby
+# In a super admin controller
+def index
+  ActsAsTenant.without_tenant do
+    @all_properties = Pwb::RealtyAsset.includes(:website).order(created_at: :desc).limit(100)
+  end
+end
+
+# Or for a specific query
+@total_count = ActsAsTenant.without_tenant { Pwb::RealtyAsset.count }
+```
+
+### Option 2: Unscoped Queries
+
+For individual queries (when `require_tenant = false`):
+
+```ruby
+# Access all records across tenants
+Pwb::Contact.unscoped.all
+
+# With explicit website info
+Pwb::Contact.unscoped.includes(:website).group_by(&:website)
+```
+
+### Option 3: Super Admin Controller Concern
+
+Create a concern for controllers that need cross-tenant access:
+
+```ruby
+# app/controllers/concerns/cross_tenant_access.rb
+module CrossTenantAccess
+  extend ActiveSupport::Concern
+
+  included do
+    around_action :with_cross_tenant_access, if: :cross_tenant_action?
+  end
+
+  private
+
+  def with_cross_tenant_access
+    ActsAsTenant.without_tenant do
+      yield
+    end
+  end
+
+  def cross_tenant_action?
+    # Override in controller to specify which actions need cross-tenant access
+    false
+  end
+end
+```
+
+Usage in TenantAdminController:
+
+```ruby
+class TenantAdminController < ActionController::Base
+  include CrossTenantAccess
+
+  private
+
+  def cross_tenant_action?
+    true  # All actions in this controller are cross-tenant
+  end
+end
+```
+
+### Option 4: Skip Tenant Filter for Specific Controllers
+
+For entire controllers that should always be cross-tenant:
+
+```ruby
+class TenantAdmin::WebsitesController < TenantAdminController
+  # Don't set tenant - operates across all tenants
+  skip_before_action :set_tenant
+
+  def index
+    # This will show all websites across tenants
+    @websites = Pwb::Website.all
+  end
+
+  def show
+    @website = Pwb::Website.find(params[:id])
+
+    # View data for a specific tenant
+    ActsAsTenant.with_tenant(@website) do
+      @properties = Pwb::RealtyAsset.limit(10)
+      @contacts = Pwb::Contact.limit(10)
+    end
+  end
+end
+```
+
+### Option 5: `with_tenant` for Temporary Tenant Switch
+
+View data as a specific tenant:
+
+```ruby
+def impersonate_tenant
+  target_website = Pwb::Website.find(params[:website_id])
+
+  ActsAsTenant.with_tenant(target_website) do
+    # All queries here are scoped to target_website
+    @properties = Pwb::RealtyAsset.all
+    @pages = Pwb::Page.all
+  end
+end
+```
+
+### Recommended Approach for PropertyWebBuilder
+
+Given the existing structure with `SiteAdminController` and `TenantAdminController`:
+
+```ruby
+# SiteAdminController - Single tenant (keep current behavior)
+class SiteAdminController < ActionController::Base
+  set_current_tenant_through_filter
+  before_action :set_tenant
+
+  private
+
+  def set_tenant
+    set_current_tenant(current_website)
+  end
+end
+
+# TenantAdminController - Cross-tenant (super admin)
+class TenantAdminController < ActionController::Base
+  # NO tenant filter - operates globally
+  # Use ActsAsTenant.with_tenant() when needed
+
+  private
+
+  # Helper to temporarily scope to a specific tenant
+  def with_website(website, &block)
+    ActsAsTenant.with_tenant(website, &block)
+  end
+end
+```
+
+### Dashboard with Cross-Tenant Statistics
+
+```ruby
+class TenantAdmin::DashboardController < TenantAdminController
+  def index
+    # Global stats (no tenant scope)
+    @total_websites = Pwb::Website.count
+    @total_properties = ActsAsTenant.without_tenant { Pwb::RealtyAsset.count }
+    @total_contacts = ActsAsTenant.without_tenant { Pwb::Contact.count }
+
+    # Per-website breakdown
+    @websites_with_stats = Pwb::Website.all.map do |website|
+      ActsAsTenant.with_tenant(website) do
+        {
+          website: website,
+          properties: Pwb::RealtyAsset.count,
+          contacts: Pwb::Contact.count,
+          pages: Pwb::Page.count
+        }
+      end
+    end
+  end
+end
+```
+
 ## Models NOT to Migrate
 
 Some models should NOT use acts_as_tenant:
