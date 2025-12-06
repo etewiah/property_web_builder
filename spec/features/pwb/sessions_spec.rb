@@ -4,7 +4,11 @@ module Pwb
   RSpec.describe "Sessions", type: :feature do
     before(:all) do
       @website = FactoryBot.create(:pwb_website, subdomain: 'test-sessions')
-      @agency = FactoryBot.create(:pwb_agency, company_name: 'my re', website: @website)
+
+      ActsAsTenant.with_tenant(@website) do
+        @agency = FactoryBot.create(:pwb_agency, company_name: 'my re', website: @website)
+      end
+
       @admin_user = User.create!(email: "user@example.org", password: "very-secret", admin: true, website: @website)
     end
 
@@ -33,9 +37,9 @@ module Pwb
     end
 
     after(:all) do
-      @admin_user.destroy
-      @agency.destroy
-      @website.destroy
+      @admin_user&.destroy
+      @agency&.destroy
+      @website&.destroy
     end
   end
 end

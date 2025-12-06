@@ -3,7 +3,11 @@ require 'rails_helper'
 module Pwb
   RSpec.describe "Theme Rendering", type: :feature do
     let!(:website) { FactoryBot.create(:pwb_website) }
-    let!(:home_page) { FactoryBot.create(:pwb_page, slug: "home", website: website) }
+    let!(:home_page) do
+      ActsAsTenant.with_tenant(website) do
+        FactoryBot.create(:pwb_page, slug: "home", website: website)
+      end
+    end
 
     # Define the new semantic templates
     let(:landing_hero_template) do
@@ -48,67 +52,69 @@ module Pwb
     end
 
     before do
-      # Create PageParts with the new semantic templates
-      hero_editor_setup = {
-        "editorBlocks" => [
-          [
-            { "label" => "landing_title_a", "isSingleLineText" => "true" },
-            { "label" => "landing_content_a", "isHtml" => "true" }
+      ActsAsTenant.with_tenant(website) do
+        # Create PageParts with the new semantic templates
+        hero_editor_setup = {
+          "editorBlocks" => [
+            [
+              { "label" => "landing_title_a", "isSingleLineText" => "true" },
+              { "label" => "landing_content_a", "isHtml" => "true" }
+            ]
           ]
-        ]
-      }
+        }
 
-      hero_part = FactoryBot.create(:pwb_page_part,
-        page_part_key: "landing_hero",
-        page_slug: "home",
-        template: landing_hero_template,
-        editor_setup: hero_editor_setup,
-        website: website
-      )
+        hero_part = FactoryBot.create(:pwb_page_part,
+          page_part_key: "landing_hero",
+          page_slug: "home",
+          template: landing_hero_template,
+          editor_setup: hero_editor_setup,
+          website: website
+        )
 
-      services_editor_setup = {
-        "editorBlocks" => [
-          [
-            { "label" => "icon_a", "isIcon" => "true" },
-            { "label" => "title_a", "isSingleLineText" => "true" },
-            { "label" => "content_a", "isMultipleLineText" => "true" }
+        services_editor_setup = {
+          "editorBlocks" => [
+            [
+              { "label" => "icon_a", "isIcon" => "true" },
+              { "label" => "title_a", "isSingleLineText" => "true" },
+              { "label" => "content_a", "isMultipleLineText" => "true" }
+            ]
           ]
-        ]
-      }
+        }
 
-      services_part = FactoryBot.create(:pwb_page_part,
-        page_part_key: "about_us_services",
-        page_slug: "home",
-        template: about_us_services_template,
-        editor_setup: services_editor_setup,
-        website: website
-      )
+        services_part = FactoryBot.create(:pwb_page_part,
+          page_part_key: "about_us_services",
+          page_slug: "home",
+          template: about_us_services_template,
+          editor_setup: services_editor_setup,
+          website: website
+        )
 
-      # Seed content for the hero part
-      hero_content_seed = {
-        "landing_title_a" => "Welcome to Springfield",
-        "landing_content_a" => "The best realtor in town"
-      }
+        # Seed content for the hero part
+        hero_content_seed = {
+          "landing_title_a" => "Welcome to Springfield",
+          "landing_content_a" => "The best realtor in town"
+        }
 
-      # Use PagePartManager to set up the content
-      hero_manager = Pwb::PagePartManager.new("landing_hero", home_page)
-      hero_manager.seed_container_block_content("en", hero_content_seed)
+        # Use PagePartManager to set up the content
+        hero_manager = Pwb::PagePartManager.new("landing_hero", home_page)
+        hero_manager.seed_container_block_content("en", hero_content_seed)
 
-      # Also setup services part
-      services_manager = Pwb::PagePartManager.new("about_us_services", home_page)
-      services_manager.seed_container_block_content("en", {})
+        # Also setup services part
+        services_manager = Pwb::PagePartManager.new("about_us_services", home_page)
+        services_manager.seed_container_block_content("en", {})
 
-      # Ensure the page parts are associated with the page
-      # (The manager might do this, but let's be sure)
-      unless home_page.page_parts.include?(hero_part)
-        home_page.page_parts << hero_part
+        # Ensure the page parts are associated with the page
+        # (The manager might do this, but let's be sure)
+        unless home_page.page_parts.include?(hero_part)
+          home_page.page_parts << hero_part
+        end
+        unless home_page.page_parts.include?(services_part)
+          home_page.page_parts << services_part
+        end
+
+        # Ensure content is visible
+        home_page.page_contents.update_all(visible_on_page: true)
       end
-      unless home_page.page_parts.include?(services_part)
-        home_page.page_parts << services_part
-      end
-
-      # Ensure content is visible
-      home_page.page_contents.update_all(visible_on_page: true)
     end
 
     scenario 'Home page renders with semantic CSS classes' do
@@ -125,38 +131,40 @@ module Pwb
     end
 
     scenario 'About Us page renders with semantic CSS classes' do
-      about_us_page = FactoryBot.create(:pwb_page, slug: "about-us", website: website)
+      ActsAsTenant.with_tenant(website) do
+        about_us_page = FactoryBot.create(:pwb_page, slug: "about-us", website: website)
 
-      agency_editor_setup = {
-        "editorBlocks" => [
-          [
-            { "label" => "title_a", "isSingleLineText" => "true" },
-            { "label" => "content_a", "isMultipleLineText" => "true" },
-            { "label" => "our_agency_img", "isImage" => "true" }
+        agency_editor_setup = {
+          "editorBlocks" => [
+            [
+              { "label" => "title_a", "isSingleLineText" => "true" },
+              { "label" => "content_a", "isMultipleLineText" => "true" },
+              { "label" => "our_agency_img", "isImage" => "true" }
+            ]
           ]
-        ]
-      }
+        }
 
-      agency_part = FactoryBot.create(:pwb_page_part,
-        page_part_key: "our_agency",
-        page_slug: "about-us",
-        template: our_agency_template,
-        editor_setup: agency_editor_setup,
-        website: website
-      )
+        agency_part = FactoryBot.create(:pwb_page_part,
+          page_part_key: "our_agency",
+          page_slug: "about-us",
+          template: our_agency_template,
+          editor_setup: agency_editor_setup,
+          website: website
+        )
 
-      agency_content_seed = {
-        "title_a" => "Our Agency Story",
-        "content_a" => "We started in 1990..."
-      }
+        agency_content_seed = {
+          "title_a" => "Our Agency Story",
+          "content_a" => "We started in 1990..."
+        }
 
-      agency_manager = Pwb::PagePartManager.new("our_agency", about_us_page)
-      agency_manager.seed_container_block_content("en", agency_content_seed)
+        agency_manager = Pwb::PagePartManager.new("our_agency", about_us_page)
+        agency_manager.seed_container_block_content("en", agency_content_seed)
 
-      unless about_us_page.page_parts.include?(agency_part)
-        about_us_page.page_parts << agency_part
+        unless about_us_page.page_parts.include?(agency_part)
+          about_us_page.page_parts << agency_part
+        end
+        about_us_page.page_contents.update_all(visible_on_page: true)
       end
-      about_us_page.page_contents.update_all(visible_on_page: true)
 
       visit('/about-us')
 

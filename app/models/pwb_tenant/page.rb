@@ -10,6 +10,6 @@ module PwbTenant
   #
   class Page < Pwb::Page
     include RequiresTenant
-    acts_as_tenant :website
+    acts_as_tenant :website, class_name: 'Pwb::Website'
   end
 end

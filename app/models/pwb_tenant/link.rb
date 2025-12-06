@@ -10,6 +10,6 @@ module PwbTenant
   #
   class Link < Pwb::Link
     include RequiresTenant
-    acts_as_tenant :website
+    acts_as_tenant :website, class_name: 'Pwb::Website'
   end
 end
