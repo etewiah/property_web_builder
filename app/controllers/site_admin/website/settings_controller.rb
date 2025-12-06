@@ -9,6 +9,9 @@ module SiteAdmin
       VALID_TABS = %w[general appearance navigation home].freeze
 
       def show
+        # Always load website locales for multilingual editing
+        @website_locales = build_website_locales
+
         case @tab
         when 'navigation'
           @top_nav_links = @website.links.ordered_top_nav
@@ -118,12 +121,27 @@ module SiteAdmin
           link = @website.links.find_by(id: link_params[:id])
           next unless link
 
-          link.update(
-            link_title: link_params[:link_title],
+          # Build update hash
+          update_attrs = {
             link_path: link_params[:link_path],
             visible: link_params[:visible] == 'true' || link_params[:visible] == true,
             sort_order: link_params[:sort_order]
-          )
+          }
+
+          # Handle multilingual titles if provided
+          if link_params[:titles].present?
+            link_params[:titles].each do |locale, title|
+              # Use Mobility's locale-specific setter
+              Mobility.with_locale(locale.to_sym) do
+                link.link_title = title
+              end
+            end
+            link.save
+          else
+            # Fallback to single title for backwards compatibility
+            update_attrs[:link_title] = link_params[:link_title] if link_params[:link_title].present?
+            link.update(update_attrs)
+          end
         end
       end
 
@@ -156,6 +174,40 @@ module SiteAdmin
           :landing_hide_for_sale,
           :landing_hide_search_bar
         )
+      end
+
+      # Build locale details for the website's supported locales
+      def build_website_locales
+        locale_labels = {
+          'en' => 'English',
+          'nl' => 'Dutch',
+          'bg' => 'Bulgarian',
+          'de' => 'German',
+          'es' => 'Spanish',
+          'fr' => 'French',
+          'it' => 'Italian',
+          'pt' => 'Portuguese',
+          'ru' => 'Russian',
+          'ar' => 'Arabic',
+          'ca' => 'Catalan',
+          'pl' => 'Polish',
+          'ro' => 'Romanian',
+          'tr' => 'Turkish',
+          'vi' => 'Vietnamese',
+          'ko' => 'Korean'
+        }
+
+        supported = @website.supported_locales || ['en-UK']
+        supported.map do |full_locale|
+          parts = full_locale.split('-')
+          base_locale = parts[0].downcase
+          {
+            locale: base_locale,
+            variant: parts[1],
+            full: full_locale,
+            label: locale_labels[base_locale] || base_locale.upcase
+          }
+        end
       end
     end
   end
