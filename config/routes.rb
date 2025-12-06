@@ -41,6 +41,9 @@ Rails.application.routes.draw do
   namespace :site_admin do
     root to: 'dashboard#index'
 
+    # Image library API for page part editor
+    resources :images, only: [:index, :create]
+
     resources :props, only: [:index, :show] do
       member do
         get 'edit/general', to: 'props#edit_general', as: 'edit_general'
