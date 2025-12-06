@@ -12,7 +12,7 @@ module Pwb
   class PageContent < ApplicationRecord
     self.table_name = 'pwb_page_contents'
 
-    belongs_to :website, class_name: 'Pwb::Website', optional: true
+    belongs_to :website, class_name: 'Pwb::Website', optional: true, touch: true
     belongs_to :page, optional: true, class_name: 'Pwb::Page'
     belongs_to :content, optional: true, class_name: 'Pwb::Content'
 

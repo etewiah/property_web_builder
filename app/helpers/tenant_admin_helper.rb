@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module TenantAdminHelper
+  include Pagy::Frontend
   # Format date in a consistent way
   def format_date(date)
     return "N/A" if date.blank?

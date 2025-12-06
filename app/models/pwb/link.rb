@@ -12,7 +12,7 @@ module Pwb
 
     self.table_name = 'pwb_links'
 
-    belongs_to :website, class_name: 'Pwb::Website', optional: true
+    belongs_to :website, class_name: 'Pwb::Website', optional: true, touch: true
 
     # Mobility translations with container backend (single JSONB column)
     translates :link_title

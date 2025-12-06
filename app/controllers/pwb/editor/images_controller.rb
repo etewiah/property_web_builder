@@ -49,9 +49,9 @@ module Pwb
           end
         end
 
-        # Property photos - filter by website
-        prop_photos = Pwb::PropPhoto.joins(:prop)
-                                    .where(pwb_props: { website_id: @current_website&.id })
+        # Property photos - filter by website (using RealtyAsset)
+        prop_photos = Pwb::PropPhoto.joins(:realty_asset)
+                                    .where(pwb_realty_assets: { website_id: @current_website&.id })
                                     .limit(30)
         prop_photos.each do |photo|
           next unless photo.image.attached?
@@ -62,7 +62,7 @@ module Pwb
               url: url_for(photo.image),
               thumb_url: thumbnail_url(photo.image),
               filename: photo.image.filename.to_s,
-              description: photo.prop&.title
+              description: photo.realty_asset&.title
             }
           rescue => e
             Rails.logger.warn "Error processing prop photo #{photo.id}: #{e.message}"

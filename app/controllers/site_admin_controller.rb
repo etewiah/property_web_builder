@@ -16,6 +16,7 @@
 class SiteAdminController < ActionController::Base
   include SubdomainTenant
   include AdminAuthBypass
+  include Pagy::Backend
 
   # Set tenant for acts_as_tenant - all PwbTenant:: queries auto-scoped
   before_action :set_tenant_from_subdomain

@@ -12,7 +12,7 @@ module Pwb
 
     self.table_name = 'pwb_contents'
 
-    belongs_to :website, class_name: 'Pwb::Website', optional: true
+    belongs_to :website, class_name: 'Pwb::Website', optional: true, touch: true
 
     has_many :content_photos, class_name: 'Pwb::ContentPhoto', foreign_key: 'content_id', dependent: :destroy
     has_many :page_contents, class_name: 'Pwb::PageContent', foreign_key: 'content_id'

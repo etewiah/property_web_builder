@@ -644,6 +644,34 @@ View seems stale? → Call Pwb::Property.refresh
 
 ---
 
-**Last Updated**: December 4, 2025  
-**Migration Status**: Complete ✅  
+**Last Updated**: December 6, 2025
+**Migration Status**: Complete ✅
+**Controller Migration**: Complete (tenant_admin, site_admin controllers updated Dec 6, 2025)
 **Next Phase**: Testing & Optional Prop Model Removal
+
+---
+
+## 10. Recent Updates (Dec 6, 2025)
+
+### Controller Updates
+The following controllers were updated to use `Pwb::RealtyAsset` instead of the deprecated `Pwb::Prop`:
+
+- `tenant_admin/websites_controller.rb` - Uses `RealtyAsset` for property counts
+- `tenant_admin/websites/index.html.erb` - Uses `RealtyAsset` for property counts
+- `site_admin/images_controller.rb` - Uses `RealtyAsset` for property photo queries
+- `pwb/editor/images_controller.rb` - Uses `RealtyAsset` for property photo queries
+
+### Pagination Added
+All index views now use Pagy for pagination:
+- `tenant_admin/websites` - 20 items per page
+- `tenant_admin/props` - 25 items per page
+- `site_admin/props` - 25 items per page
+- `site_admin/pages` - 25 items per page
+
+### Cache Invalidation
+Models updated with `touch: true` on website associations for automatic cache invalidation:
+- `Pwb::Link` - touches Website on update
+- `Pwb::Content` - touches Website on update
+- `Pwb::PageContent` - touches Website on update
+
+Application controller caches with website.updated_at in cache key for automatic invalidation.

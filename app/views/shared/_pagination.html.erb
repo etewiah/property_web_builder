@@ -1,0 +1,79 @@
+<%# Pagy pagination partial with Tailwind CSS styling %>
+<% if pagy.pages > 1 %>
+  <nav class="flex items-center justify-between border-t border-gray-200 px-4 sm:px-0 mt-6" aria-label="Pagination">
+    <%# Mobile: Previous/Next only %>
+    <div class="-mt-px flex w-0 flex-1">
+      <% if pagy.prev %>
+        <%= link_to url_for(page: pagy.prev), class: "inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700" do %>
+          <svg class="mr-3 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M18 10a.75.75 0 01-.75.75H4.66l2.1 1.95a.75.75 0 11-1.02 1.1l-3.5-3.25a.75.75 0 010-1.1l3.5-3.25a.75.75 0 111.02 1.1l-2.1 1.95h12.59A.75.75 0 0118 10z" clip-rule="evenodd" />
+          </svg>
+          Previous
+        <% end %>
+      <% else %>
+        <span class="inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-300 cursor-not-allowed">
+          <svg class="mr-3 h-5 w-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M18 10a.75.75 0 01-.75.75H4.66l2.1 1.95a.75.75 0 11-1.02 1.1l-3.5-3.25a.75.75 0 010-1.1l3.5-3.25a.75.75 0 111.02 1.1l-2.1 1.95h12.59A.75.75 0 0118 10z" clip-rule="evenodd" />
+          </svg>
+          Previous
+        </span>
+      <% end %>
+    </div>
+
+    <%# Desktop: Page numbers %>
+    <div class="hidden md:-mt-px md:flex">
+      <%
+        # Build page series manually for simple navigation
+        series = []
+        if pagy.pages <= 7
+          series = (1..pagy.pages).to_a
+        else
+          if pagy.page <= 4
+            series = (1..5).to_a + [:gap, pagy.pages]
+          elsif pagy.page >= pagy.pages - 3
+            series = [1, :gap] + ((pagy.pages - 4)..pagy.pages).to_a
+          else
+            series = [1, :gap, pagy.page - 1, pagy.page, pagy.page + 1, :gap, pagy.pages]
+          end
+        end
+      %>
+      <% series.each do |item| %>
+        <% if item.is_a?(Integer) %>
+          <% if item == pagy.page %>
+            <span class="inline-flex items-center border-t-2 border-blue-500 px-4 pt-4 text-sm font-medium text-blue-600" aria-current="page">
+              <%= item %>
+            </span>
+          <% else %>
+            <%= link_to item, url_for(page: item), class: "inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700" %>
+          <% end %>
+        <% elsif item == :gap %>
+          <span class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500">...</span>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%# Mobile: Next %>
+    <div class="-mt-px flex w-0 flex-1 justify-end">
+      <% if pagy.next %>
+        <%= link_to url_for(page: pagy.next), class: "inline-flex items-center border-t-2 border-transparent pl-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700" do %>
+          Next
+          <svg class="ml-3 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z" clip-rule="evenodd" />
+          </svg>
+        <% end %>
+      <% else %>
+        <span class="inline-flex items-center border-t-2 border-transparent pl-1 pt-4 text-sm font-medium text-gray-300 cursor-not-allowed">
+          Next
+          <svg class="ml-3 h-5 w-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z" clip-rule="evenodd" />
+          </svg>
+        </span>
+      <% end %>
+    </div>
+  </nav>
+
+  <%# Results info %>
+  <div class="text-sm text-gray-500 text-center mt-2">
+    Showing <%= pagy.from %>-<%= pagy.to %> of <%= pagy.count %> results
+  </div>
+<% end %>

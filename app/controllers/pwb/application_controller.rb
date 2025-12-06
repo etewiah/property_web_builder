@@ -65,23 +65,25 @@ module Pwb
     end
 
     def footer_content
-      # @footer_content = Content.find_by_key("footerInfo") || OpenStruct.new
-      footer_page_content = current_website&.ordered_visible_page_contents&.find_by_page_part_key "footer_content_html"
-      @footer_content = footer_page_content.present? ? footer_page_content.content : OpenStruct.new
-      # TODO: Cache above
+      # Cache footer content per website with short TTL for freshness
+      cache_key = "footer_content/#{current_website&.id}/#{current_website&.updated_at&.to_i}"
+      @footer_content = Rails.cache.fetch(cache_key, expires_in: 5.minutes) do
+        footer_page_content = current_website&.ordered_visible_page_contents&.find_by_page_part_key "footer_content_html"
+        footer_page_content.present? ? footer_page_content.content : OpenStruct.new
+      end
     end
 
     def nav_links
-      # @sections ||= Section.order("sort_order")
+      # Cache admin link visibility per website
+      cache_key = "nav_admin_link/#{current_website&.id}/#{current_website&.updated_at&.to_i}"
       if current_user
         # where user is signed in, special admin link is shown
         # so no need to render standard one
         @show_admin_link = false
       else
-        @show_admin_link = false
-        top_nav_admin_link = @current_website&.links&.find_by_slug("top_nav_admin")
-        if top_nav_admin_link && top_nav_admin_link.visible
-          @show_admin_link = true
+        @show_admin_link = Rails.cache.fetch(cache_key, expires_in: 5.minutes) do
+          top_nav_admin_link = @current_website&.links&.find_by_slug("top_nav_admin")
+          top_nav_admin_link&.visible || false
         end
       end
     end

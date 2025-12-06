@@ -6,12 +6,14 @@ module SiteAdmin
   class PagesController < SiteAdminController
     def index
       # Scope to current website for multi-tenant isolation
-      @pages = Pwb::Page.where(website_id: current_website&.id).order(created_at: :desc)
+      pages = Pwb::Page.where(website_id: current_website&.id).order(created_at: :desc)
 
       # Search functionality
       if params[:search].present?
-        @pages = @pages.where('slug ILIKE ?', "%#{params[:search]}%")
+        pages = pages.where('slug ILIKE ?', "%#{params[:search]}%")
       end
+
+      @pagy, @pages = pagy(pages, limit: 25)
     end
 
     def show

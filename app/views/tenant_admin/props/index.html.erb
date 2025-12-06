@@ -2,7 +2,7 @@
   <div class="w-full mb-1">
     <div class="mb-4">
       <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl">All Properties (Cross-Tenant)</h1>
-      <p class="text-sm text-gray-600">Showing up to 100 most recent properties</p>
+      <p class="text-sm text-gray-600"><%= @pagy.count %> total properties</p>
     </div>
   </div>
 </div>
@@ -54,5 +54,10 @@
         </table>
       </div>
     </div>
+  </div>
+
+  <%# Pagination %>
+  <div class="px-4 pb-4">
+    <%= render 'shared/pagination', pagy: @pagy %>
   </div>
 </div>

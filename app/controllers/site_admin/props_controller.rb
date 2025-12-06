@@ -15,11 +15,19 @@ module SiteAdmin
     def index
       # Use Pwb::ListedProperty (materialized view) for listing - it's optimized for reads
       # Scope to current website
-      @props = Pwb::ListedProperty.where(website_id: current_website&.id).order(created_at: :desc).limit(100)
+      props = Pwb::ListedProperty.where(website_id: current_website&.id).order(created_at: :desc)
 
       if params[:search].present?
-        @props = @props.where('reference ILIKE ?', "%#{params[:search]}%")
+        props = props.where(
+          'reference ILIKE ? OR title ILIKE ? OR street_address ILIKE ? OR city ILIKE ?',
+          "%#{params[:search]}%",
+          "%#{params[:search]}%",
+          "%#{params[:search]}%",
+          "%#{params[:search]}%"
+        )
       end
+
+      @pagy, @props = pagy(props, limit: 25)
     end
 
     def show

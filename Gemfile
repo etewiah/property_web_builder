@@ -187,3 +187,6 @@ gem 'scenic'
 
 # Multi-tenancy - automatic tenant scoping for models
 gem 'acts_as_tenant', '~> 1.0'
+
+# Pagination
+gem 'pagy', '~> 9.0'

@@ -3,6 +3,7 @@
 # SiteAdminHelper
 # Helper methods for site admin views
 module SiteAdminHelper
+  include Pagy::Frontend
   # Format date consistently
   def format_date(date)
     return 'N/A' if date.blank?

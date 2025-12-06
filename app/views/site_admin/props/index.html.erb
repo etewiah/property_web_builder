@@ -2,7 +2,7 @@
   <div class="mb-6 flex justify-between items-center">
     <div>
       <h1 class="text-3xl font-bold text-gray-900">Properties</h1>
-      <p class="mt-2 text-gray-600">Manage properties for <%= current_website.subdomain %></p>
+      <p class="mt-2 text-gray-600"><%= @pagy.count %> properties for <%= current_website.subdomain %></p>
     </div>
   </div>
 
@@ -114,4 +114,7 @@
       </tbody>
     </table>
   </div>
+
+  <%# Pagination %>
+  <%= render 'shared/pagination', pagy: @pagy %>
 </div>

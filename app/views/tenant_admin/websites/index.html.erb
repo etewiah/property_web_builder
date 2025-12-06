@@ -57,7 +57,7 @@
                 <%= users_count %>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <% props_count = Pwb::Prop.unscoped.where(pwb_website_id: website.id).count rescue 0 %>
+                <% props_count = Pwb::RealtyAsset.unscoped.where(website_id: website.id).count rescue 0 %>
                 <%= props_count %>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm">
@@ -88,4 +88,7 @@
       </tbody>
     </table>
   </div>
+
+  <%# Pagination %>
+  <%= render 'shared/pagination', pagy: @pagy %>
 </div>

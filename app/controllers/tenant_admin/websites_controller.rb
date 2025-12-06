@@ -8,26 +8,25 @@ module TenantAdmin
     before_action :set_website, only: [:show, :edit, :update, :destroy, :seed]
 
     def index
-      @websites = Pwb::Website.unscoped.order(created_at: :desc)
-      
+      websites = Pwb::Website.unscoped.order(created_at: :desc)
+
       # Simple search
       if params[:search].present?
-        @websites = @websites.where(
+        websites = websites.where(
           "subdomain ILIKE ? OR company_display_name ILIKE ?",
           "%#{params[:search]}%",
           "%#{params[:search]}%"
         )
       end
-      
-      # Note: Add pagination when implementing (Kaminari or Pagy)
-      # @websites = @websites.page(params[:page])
+
+      @pagy, @websites = pagy(websites, limit: 20)
     end
 
     def show
       # @website set by before_action
       # Users and Messages are not directly associated with Website in the schema
       @users_count = 0 
-      @props_count = Pwb::Prop.unscoped.where(website_id: @website.id).count rescue 0
+      @props_count = Pwb::RealtyAsset.unscoped.where(website_id: @website.id).count rescue 0
       @pages_count = Pwb::Page.unscoped.where(website_id: @website.id).count rescue 0
       @messages_count = 0
     end

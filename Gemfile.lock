@@ -434,6 +434,7 @@ GEM
     orm_adapter (0.5.0)
     os (1.1.4)
     ostruct (0.6.3)
+    pagy (9.4.0)
     parallel (1.27.0)
     parser (3.3.10.0)
       ast (~> 2.4.1)
@@ -775,6 +776,7 @@ DEPENDENCIES
   oj
   omniauth (~> 2.1)
   omniauth-facebook
+  pagy (~> 9.0)
   pg
   poltergeist
   pry-byebug
