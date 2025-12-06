@@ -23,7 +23,7 @@ module Pwb
     has_many :contacts, class_name: 'Pwb::Contact'
     has_many :messages, class_name: 'Pwb::Message'
     has_many :website_photos
-    has_many :field_keys, class_name: 'Pwb::FieldKey', foreign_key: :website_id
+    has_many :field_keys, class_name: 'Pwb::FieldKey', foreign_key: :pwb_website_id
 
     # Multi-website support via memberships
     has_many :user_memberships, dependent: :destroy
