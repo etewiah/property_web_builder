@@ -18,8 +18,7 @@ class SiteAdminController < ActionController::Base
   include AdminAuthBypass
 
   # Set tenant for acts_as_tenant - all PwbTenant:: queries auto-scoped
-  set_current_tenant_through_filter
-  before_action :set_current_tenant
+  before_action :set_tenant_from_subdomain
 
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
@@ -42,8 +41,8 @@ class SiteAdminController < ActionController::Base
     render 'site_admin/shared/record_not_found', status: :not_found
   end
 
-  # Set the current tenant for acts_as_tenant
-  def set_current_tenant
-    set_current_tenant_to(current_website)
+  # Set the current tenant for acts_as_tenant from the subdomain
+  def set_tenant_from_subdomain
+    ActsAsTenant.current_tenant = current_website
   end
 end
