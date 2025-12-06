@@ -16,6 +16,7 @@ PropertyWebBuilder uses a multi-tenant theme system where each website can have 
 | `default` | Bootstrap | Active | Legacy Bootstrap-based theme |
 | `berlin` | Bootstrap | Active | Alternative Bootstrap theme |
 | `bristol` | Tailwind/Flowbite | Active | Modern Tailwind CSS theme |
+| `brisbane` | Tailwind/Flowbite | Active | Luxury real estate theme with navy/gold palette |
 
 ### Key Components
 
@@ -383,3 +384,239 @@ Copy the missing view file from the default or bristol theme.
 2. Replace Bootstrap classes with Tailwind equivalents
 3. Add Flowbite for interactive components
 4. Update stylesheet references in layout
+
+## Liquid Template Styling (Critical Knowledge)
+
+### Understanding Page Parts
+
+The landing page content (hero, services, etc.) is NOT in ERB templates - it's rendered via **Liquid templates** stored in the database. These templates use CSS classes that must be styled in the theme's CSS file.
+
+**Key Liquid template page parts:**
+- `landing_hero` - Hero section with background image
+- `about_us_services` - Three-column services section
+
+### Hero Section Liquid Template Structure
+
+The `landing_hero` page part renders this structure:
+```html
+<div class="hero-section">
+  <div class="hero-bg-wrapper">
+    <img src="..." class="hero-bg-img">
+  </div>
+  <div class="hero-content-wrapper">
+    <h1 class="hero-title">...</h1>
+    <div class="hero-subtitle">
+      <ul><li>bullet points...</li></ul>
+    </div>
+  </div>
+</div>
+```
+
+**Required CSS for hero section:**
+```css
+.mytheme-theme .hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.mytheme-theme .hero-bg-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Dark overlay for text readability */
+.mytheme-theme .hero-bg-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 100%);
+  z-index: 2;
+}
+
+.mytheme-theme .hero-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mytheme-theme .hero-content-wrapper {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 2rem;
+}
+
+.mytheme-theme .hero-title {
+  font-size: 3.5rem;
+  color: #fff;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+
+/* IMPORTANT: Subtitle text needs strong shadows for readability */
+.mytheme-theme .hero-subtitle {
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.mytheme-theme .hero-subtitle li {
+  font-weight: 500;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+}
+```
+
+### Services Section Liquid Template Structure
+
+The `about_us_services` page part renders:
+```html
+<section class="services-section-wrapper">
+  <div class="services-container">
+    <div class="service-card">
+      <div class="service-icon-wrapper">
+        <i class="fa fa-home"></i>
+      </div>
+      <h4 class="service-title">...</h4>
+      <div class="service-content">...</div>
+    </div>
+    <!-- repeated for 3 cards -->
+  </div>
+</section>
+```
+
+**Required CSS for services section:**
+```css
+.mytheme-theme .services-section-wrapper {
+  padding: 5rem 0;
+}
+
+.mytheme-theme .services-container {
+  max-width: 1400px; /* Use wide max-width for large screens */
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+
+/* Scale up for very large screens */
+@media (min-width: 1600px) {
+  .mytheme-theme .services-container {
+    max-width: 1600px;
+    gap: 3rem;
+  }
+}
+
+.mytheme-theme .service-card {
+  background: #fff;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: all 0.4s ease;
+}
+
+.mytheme-theme .service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.mytheme-theme .service-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border-radius: 50%;
+}
+
+/* Stack to single column on mobile */
+@media (max-width: 768px) {
+  .mytheme-theme .services-container {
+    grid-template-columns: 1fr;
+  }
+}
+```
+
+## Common Pitfalls and Solutions
+
+### 1. Hero Text Not Readable
+**Problem:** Text on hero image is hard to read.
+**Solution:**
+- Add dark gradient overlay via `::after` pseudo-element on hero-bg-wrapper
+- Add `text-shadow` to all text elements (title AND subtitle)
+- Use white (#fff) text color with sufficient contrast
+
+### 2. Services Section Too Narrow on Large Screens
+**Problem:** Content appears cramped on wide monitors.
+**Solution:**
+- Use `max-width: 1400px` minimum for containers
+- Add media query for 1600px+ screens with larger max-width
+- Increase gap between cards proportionally
+
+### 3. Theme Colors Not Applying to Dynamic Content
+**Problem:** Liquid template content doesn't use theme colors.
+**Solution:** Style the CSS classes used in Liquid templates:
+- `.hero-section`, `.hero-title`, `.hero-subtitle`
+- `.services-section-wrapper`, `.service-card`, `.service-icon-wrapper`
+- These are NOT in ERB files - they're generated from database templates
+
+### 4. Property Cards Using Wrong Colors
+**Problem:** Property prices/icons show default blue instead of theme colors.
+**Solution:** Update `_single_property_row.html.erb`:
+```erb
+<%# Change from: %>
+<h2 class="text-blue-600">...</h2>
+<%# To: %>
+<h2 class="text-luxury-gold">...</h2>  <%# or your theme color %>
+```
+
+### 5. Mobile Responsiveness Issues
+**Problem:** Layout breaks on mobile devices.
+**Solution:**
+- Always test at 390px width (iPhone)
+- Use `grid-template-columns: 1fr` on mobile for service cards
+- Reduce hero min-height on mobile (60vh instead of 70vh)
+- Reduce font sizes proportionally
+
+## Brisbane Theme Reference (Luxury Theme Pattern)
+
+The Brisbane theme demonstrates a luxury real estate design with:
+
+### Color Palette
+```css
+--luxury-navy: #1a2744;
+--luxury-gold: #c9a962;
+--luxury-cream: #faf8f5;
+--luxury-charcoal: #2d2d2d;
+--luxury-pearl: #f5f3f0;
+```
+
+### Typography
+- Headings: Cormorant Garamond (serif)
+- Body: Montserrat (sans-serif)
+- Letter spacing: 0.02em for headings, 0.15em for uppercase labels
+
+### Key Design Elements
+1. **No border-radius** - Sharp, sophisticated corners
+2. **Gold accents** - Icons, dividers, price text
+3. **Subtle shadows** - `0 4px 20px rgba(26,39,68,0.08)`
+4. **Hover lift effect** - `transform: translateY(-4px)`
+5. **Gold dividers** - 60px wide, 2px height decorative lines
+
+### Files Modified for Brisbane Theme
+```
+app/assets/stylesheets/brisbane_theme.css     # Main theme CSS
+app/themes/brisbane/views/layouts/pwb/application.html.erb
+app/themes/brisbane/views/pwb/_header.html.erb
+app/themes/brisbane/views/pwb/_footer.html.erb
+app/themes/brisbane/views/pwb/welcome/index.html.erb
+app/themes/brisbane/views/pwb/welcome/_single_property_row.html.erb
+app/themes/brisbane/views/pwb/welcome/_content_area_cols.html.erb
+app/themes/brisbane/views/pwb/search/_search_form_landing.html.erb
+```
