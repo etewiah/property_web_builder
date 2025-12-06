@@ -18,9 +18,10 @@ module Pwb
     # Get the parent theme if this theme extends another
     # @return [Theme, nil] the parent theme or nil
     def parent
-      return nil unless attributes["parent_theme"].present?
+      parent_name = attributes["parent_theme"] || attributes[:parent_theme]
+      return nil unless parent_name.present?
 
-      Theme.find_by(name: attributes["parent_theme"])
+      Theme.find_by(name: parent_name)
     end
 
     # Check if this theme has a parent
