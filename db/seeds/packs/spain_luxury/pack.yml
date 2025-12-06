@@ -1,0 +1,49 @@
+# Spain Luxury Real Estate Seed Pack
+#
+# Scenario: A premium estate agency on the Costa del Sol, Spain
+# specializing in luxury villas, penthouses, and high-end apartments.
+#
+# Target Market: International buyers (UK, Germany, Scandinavia)
+# looking for vacation homes or retirement properties in Spain.
+
+name: spain_luxury
+display_name: "Spanish Luxury Real Estate"
+description: "Estate agent specializing in luxury properties on the Costa del Sol"
+version: "1.0"
+
+# Inherit base navigation and field keys
+inherits_from: base
+
+# Website Configuration
+website:
+  theme_name: bristol
+  default_client_locale: es
+  supported_locales:
+    - es
+    - en
+    - de
+  country: Spain
+  currency: EUR
+  area_unit: sqm
+
+# Agency Configuration
+agency:
+  display_name: "Costa Luxury Properties"
+  email: "info@costaluxury.es"
+  phone: "+34 952 123 456"
+  address:
+    street_address: "Avenida del Mar 45"
+    city: Marbella
+    region: Málaga
+    country: Spain
+    postal_code: "29600"
+
+# Users
+users:
+  - email: admin@costaluxury.es
+    role: admin
+    password: demo123
+
+  - email: agent@costaluxury.es
+    role: agent
+    password: demo123

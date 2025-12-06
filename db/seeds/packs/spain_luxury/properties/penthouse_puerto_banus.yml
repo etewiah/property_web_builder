@@ -1,0 +1,49 @@
+# Luxury Penthouse in Puerto Banús
+reference: ES-PENT-001
+prop_type: types.penthouse
+prop_state: states.new_build
+
+# Location
+address: "Puerto Banús Marina"
+city: Marbella
+region: Málaga
+country: Spain
+postal_code: "29660"
+latitude: 36.4852
+longitude: -4.9513
+
+# Property Details
+bedrooms: 4
+bathrooms: 4
+garages: 2
+constructed_area: 380
+plot_area: null
+year_built: 2024
+
+# Sale Listing
+sale:
+  highlighted: true
+  price_cents: 285000000  # €2,850,000
+  title:
+    es: "Ático de lujo frente al puerto en Puerto Banús"
+    en: "Luxury Waterfront Penthouse in Puerto Banús"
+    de: "Luxus-Penthouse am Hafen in Puerto Banús"
+  description:
+    es: "Impresionante ático de nueva construcción con terraza panorámica de 200m² y vistas directas al puerto deportivo. Acabados de primera calidad, cocina Bulthaup, domótica integral. Acceso privado al beach club del edificio."
+    en: "Stunning new-build penthouse with 200m² panoramic terrace and direct marina views. Premium finishes, Bulthaup kitchen, full home automation. Private access to building's beach club."
+    de: "Atemberaubendes Neubau-Penthouse mit 200m² Panoramaterrasse und direktem Yachthafen-Blick. Premium-Ausstattung, Bulthaup-Küche, vollständige Hausautomation. Privater Zugang zum Strandclub des Gebäudes."
+
+# Features
+features:
+  - features.terrace
+  - features.sea_views
+  - features.jacuzzi
+  - amenities.air_conditioning
+  - amenities.central_heating
+  - amenities.video_entry
+  - amenities.security
+  - amenities.home_automation
+  - amenities.elevator
+
+# Image
+image: penthouse_luxury.jpg

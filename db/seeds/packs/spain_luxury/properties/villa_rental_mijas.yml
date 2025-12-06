@@ -1,0 +1,50 @@
+# Rental Villa in Mijas
+reference: ES-VILLA-003
+prop_type: types.villa
+prop_state: states.excellent
+
+# Location
+address: "La Cala de Mijas"
+city: Mijas Costa
+region: Málaga
+country: Spain
+postal_code: "29649"
+latitude: 36.5012
+longitude: -4.7234
+
+# Property Details
+bedrooms: 5
+bathrooms: 4
+garages: 2
+constructed_area: 350
+plot_area: 1200
+year_built: 2016
+
+# Rental Listing
+rental:
+  highlighted: true
+  price_cents: 450000  # €4,500/month
+  title:
+    es: "Villa de lujo con piscina privada para alquiler"
+    en: "Luxury Villa with Private Pool for Rent"
+    de: "Luxusvilla mit privatem Pool zur Miete"
+  description:
+    es: "Impresionante villa disponible para alquiler de larga temporada. Piscina privada climatizada, jardín tropical, barbacoa exterior. Completamente amueblada con muebles de diseño. Vistas al mar y montaña. Mínimo 12 meses."
+    en: "Stunning villa available for long-term rental. Heated private pool, tropical garden, outdoor BBQ. Fully furnished with designer furniture. Sea and mountain views. Minimum 12 months."
+    de: "Atemberaubende Villa für Langzeitmiete verfügbar. Beheizter Privatpool, tropischer Garten, Außengrill. Voll möbliert mit Designermöbeln. Meer- und Bergblick. Minimum 12 Monate."
+
+# Features
+features:
+  - features.private_pool
+  - features.heated_pool
+  - features.sea_views
+  - features.mountain_views
+  - features.private_garden
+  - features.terrace
+  - amenities.air_conditioning
+  - amenities.central_heating
+  - amenities.alarm_system
+  - amenities.home_automation
+
+# Image
+image: villa_pool.jpg

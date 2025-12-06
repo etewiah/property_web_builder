@@ -1,0 +1,51 @@
+# Luxury Villa in Marbella
+reference: ES-VILLA-001
+prop_type: types.villa
+prop_state: states.excellent
+
+# Location
+address: "Urbanización Sierra Blanca"
+city: Marbella
+region: Málaga
+country: Spain
+postal_code: "29602"
+latitude: 36.5099
+longitude: -4.8857
+
+# Property Details
+bedrooms: 6
+bathrooms: 5
+garages: 3
+constructed_area: 850
+plot_area: 2500
+year_built: 2019
+
+# Sale Listing
+sale:
+  highlighted: true
+  price_cents: 395000000  # €3,950,000
+  title:
+    es: "Villa de lujo con vistas al mar en Sierra Blanca"
+    en: "Luxury Sea View Villa in Sierra Blanca"
+    de: "Luxusvilla mit Meerblick in Sierra Blanca"
+  description:
+    es: "Espectacular villa de diseño contemporáneo con impresionantes vistas al Mediterráneo. Cuenta con piscina infinity, jardín tropical, bodega climatizada y sistema domótico de última generación. Ubicación privilegiada en la exclusiva urbanización Sierra Blanca."
+    en: "Spectacular contemporary design villa with stunning Mediterranean views. Features infinity pool, tropical garden, climate-controlled wine cellar, and state-of-the-art home automation. Privileged location in the exclusive Sierra Blanca urbanization."
+    de: "Spektakuläre Villa im zeitgenössischen Design mit atemberaubendem Mittelmeerblick. Mit Infinity-Pool, tropischem Garten, klimatisiertem Weinkeller und modernster Hausautomation. Privilegierte Lage in der exklusiven Urbanisation Sierra Blanca."
+
+# Features
+features:
+  - features.private_pool
+  - features.heated_pool
+  - features.sea_views
+  - features.private_garden
+  - features.terrace
+  - features.solarium
+  - amenities.air_conditioning
+  - amenities.central_heating
+  - amenities.alarm_system
+  - amenities.home_automation
+  - amenities.security
+
+# Image (uses shared seed images)
+image: villa_ocean.jpg

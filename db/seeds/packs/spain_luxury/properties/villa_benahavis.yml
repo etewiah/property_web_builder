@@ -1,0 +1,51 @@
+# Andalusian Villa in Benahavís
+reference: ES-VILLA-002
+prop_type: types.villa
+prop_state: states.excellent
+
+# Location
+address: "La Zagaleta"
+city: Benahavís
+region: Málaga
+country: Spain
+postal_code: "29679"
+latitude: 36.5234
+longitude: -5.0423
+
+# Property Details
+bedrooms: 7
+bathrooms: 6
+garages: 4
+constructed_area: 1200
+plot_area: 5000
+year_built: 2018
+
+# Sale Listing
+sale:
+  highlighted: true
+  price_cents: 750000000  # €7,500,000
+  title:
+    es: "Villa de ensueño en La Zagaleta con vistas espectaculares"
+    en: "Dream Villa in La Zagaleta with Spectacular Views"
+    de: "Traumvilla in La Zagaleta mit spektakulärer Aussicht"
+  description:
+    es: "Extraordinaria villa en la prestigiosa urbanización La Zagaleta. Arquitectura andaluza contemporánea, materiales de máxima calidad. Piscina climatizada, spa privado, cine en casa, bodega y gimnasio. Seguridad 24 horas y campo de golf privado."
+    en: "Extraordinary villa in the prestigious La Zagaleta estate. Contemporary Andalusian architecture with premium materials. Heated pool, private spa, home cinema, wine cellar, and gym. 24-hour security and private golf course."
+    de: "Außergewöhnliche Villa in der prestigeträchtigen Urbanisation La Zagaleta. Zeitgenössische andalusische Architektur mit Premium-Materialien. Beheizter Pool, privates Spa, Heimkino, Weinkeller und Fitnessraum. 24-Stunden-Sicherheit und privater Golfplatz."
+
+# Features
+features:
+  - features.private_pool
+  - features.heated_pool
+  - features.sea_views
+  - features.mountain_views
+  - features.private_garden
+  - features.terrace
+  - amenities.air_conditioning
+  - amenities.central_heating
+  - amenities.alarm_system
+  - amenities.home_automation
+  - amenities.security
+
+# Image
+image: villa_luxury.jpg

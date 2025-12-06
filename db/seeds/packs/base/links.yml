@@ -1,0 +1,81 @@
+# Base navigation links
+# These are standard navigation items used across all packs
+
+# Top Navigation
+- slug: home
+  page_slug: home
+  link_title: Home
+  placement: top_nav
+  sort_order: 1
+  visible: true
+
+- slug: buy
+  page_slug: buy
+  link_title: Buy
+  placement: top_nav
+  sort_order: 2
+  visible: true
+
+- slug: rent
+  page_slug: rent
+  link_title: Rent
+  placement: top_nav
+  sort_order: 3
+  visible: true
+
+- slug: about
+  page_slug: about
+  link_title: About
+  placement: top_nav
+  sort_order: 4
+  visible: true
+
+- slug: contact
+  page_slug: contact
+  link_title: Contact
+  placement: top_nav
+  sort_order: 5
+  visible: true
+
+# Footer Navigation
+- slug: footer_home
+  page_slug: home
+  link_title: Home
+  placement: footer
+  sort_order: 1
+  visible: true
+
+- slug: footer_buy
+  page_slug: buy
+  link_title: Properties for Sale
+  placement: footer
+  sort_order: 2
+  visible: true
+
+- slug: footer_rent
+  page_slug: rent
+  link_title: Properties for Rent
+  placement: footer
+  sort_order: 3
+  visible: true
+
+- slug: footer_contact
+  page_slug: contact
+  link_title: Contact Us
+  placement: footer
+  sort_order: 4
+  visible: true
+
+- slug: privacy
+  page_slug: privacy
+  link_title: Privacy Policy
+  placement: footer
+  sort_order: 5
+  visible: true
+
+- slug: terms
+  page_slug: terms
+  link_title: Terms & Conditions
+  placement: footer
+  sort_order: 6
+  visible: true

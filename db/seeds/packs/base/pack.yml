@@ -1,0 +1,20 @@
+# Base Seed Pack
+# This pack contains shared data inherited by all other packs.
+# It provides common field keys, page structures, and navigation links.
+
+name: base
+display_name: "Base Pack"
+description: "Foundation pack with common field keys, pages, and navigation structure"
+version: "1.0"
+
+# No parent - this is the root pack
+inherits_from: null
+
+# Default website configuration (can be overridden by child packs)
+website:
+  theme_name: bristol
+  default_client_locale: en
+  supported_locales:
+    - en
+  currency: EUR
+  area_unit: sqm

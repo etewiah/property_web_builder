@@ -1,0 +1,158 @@
+# Base Field Keys
+# Common property types, states, and features used across all packs
+
+# Property Types
+types:
+  villa:
+    en: Villa
+    es: Villa
+    de: Villa
+  apartment:
+    en: Apartment
+    es: Apartamento
+    de: Wohnung
+  penthouse:
+    en: Penthouse
+    es: Ático
+    de: Penthouse
+  townhouse:
+    en: Townhouse
+    es: Adosado
+    de: Reihenhaus
+  house:
+    en: House
+    es: Casa
+    de: Haus
+  studio:
+    en: Studio
+    es: Estudio
+    de: Studio
+  duplex:
+    en: Duplex
+    es: Dúplex
+    de: Maisonette
+  bungalow:
+    en: Bungalow
+    es: Bungalow
+    de: Bungalow
+  land:
+    en: Land
+    es: Terreno
+    de: Grundstück
+  commercial:
+    en: Commercial
+    es: Local comercial
+    de: Gewerbe
+
+# Property States
+states:
+  new_build:
+    en: New Build
+    es: Obra nueva
+    de: Neubau
+  excellent:
+    en: Excellent
+    es: Excelente
+    de: Ausgezeichnet
+  good:
+    en: Good
+    es: Bueno
+    de: Gut
+  needs_renovation:
+    en: Needs Renovation
+    es: A reformar
+    de: Renovierungsbedürftig
+  under_construction:
+    en: Under Construction
+    es: En construcción
+    de: Im Bau
+
+# Features
+features:
+  private_pool:
+    en: Private Pool
+    es: Piscina privada
+    de: Privater Pool
+  community_pool:
+    en: Community Pool
+    es: Piscina comunitaria
+    de: Gemeinschaftspool
+  heated_pool:
+    en: Heated Pool
+    es: Piscina climatizada
+    de: Beheizter Pool
+  sea_views:
+    en: Sea Views
+    es: Vistas al mar
+    de: Meerblick
+  mountain_views:
+    en: Mountain Views
+    es: Vistas a la montaña
+    de: Bergblick
+  golf_views:
+    en: Golf Views
+    es: Vistas al golf
+    de: Golfblick
+  private_garden:
+    en: Private Garden
+    es: Jardín privado
+    de: Privater Garten
+  terrace:
+    en: Terrace
+    es: Terraza
+    de: Terrasse
+  solarium:
+    en: Solarium
+    es: Solarium
+    de: Solarium
+  jacuzzi:
+    en: Jacuzzi
+    es: Jacuzzi
+    de: Jacuzzi
+  sauna:
+    en: Sauna
+    es: Sauna
+    de: Sauna
+
+# Amenities
+amenities:
+  air_conditioning:
+    en: Air Conditioning
+    es: Aire acondicionado
+    de: Klimaanlage
+  central_heating:
+    en: Central Heating
+    es: Calefacción central
+    de: Zentralheizung
+  underfloor_heating:
+    en: Underfloor Heating
+    es: Suelo radiante
+    de: Fußbodenheizung
+  fireplace:
+    en: Fireplace
+    es: Chimenea
+    de: Kamin
+  alarm_system:
+    en: Alarm System
+    es: Sistema de alarma
+    de: Alarmanlage
+  video_entry:
+    en: Video Entry
+    es: Videoportero
+    de: Videoanlage
+  security:
+    en: 24h Security
+    es: Seguridad 24h
+    de: 24h Sicherheit
+  home_automation:
+    en: Home Automation
+    es: Domótica
+    de: Hausautomation
+  elevator:
+    en: Elevator
+    es: Ascensor
+    de: Aufzug
+  storage:
+    en: Storage Room
+    es: Trastero
+    de: Abstellraum

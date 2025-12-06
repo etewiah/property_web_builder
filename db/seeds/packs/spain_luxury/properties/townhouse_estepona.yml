@@ -1,0 +1,47 @@
+# Modern Townhouse in Estepona
+reference: ES-TH-001
+prop_type: types.townhouse
+prop_state: states.excellent
+
+# Location
+address: "El Paraíso"
+city: Estepona
+region: Málaga
+country: Spain
+postal_code: "29680"
+latitude: 36.4318
+longitude: -5.0512
+
+# Property Details
+bedrooms: 4
+bathrooms: 3
+garages: 2
+constructed_area: 220
+plot_area: 180
+year_built: 2021
+
+# Sale Listing
+sale:
+  highlighted: true
+  price_cents: 62500000  # €625,000
+  title:
+    es: "Adosado moderno con jardín privado en El Paraíso"
+    en: "Modern Townhouse with Private Garden in El Paraíso"
+    de: "Modernes Reihenhaus mit privatem Garten in El Paraíso"
+  description:
+    es: "Elegante adosado de diseño contemporáneo en urbanización cerrada. Tres plantas con amplio salón, cocina equipada, jardín privado con barbacoa y solarium en la azotea. A 5 minutos de la playa."
+    en: "Elegant contemporary townhouse in gated community. Three floors with spacious living area, fully equipped kitchen, private garden with BBQ, and rooftop solarium. 5 minutes from the beach."
+    de: "Elegantes zeitgenössisches Reihenhaus in geschlossener Wohnanlage. Drei Etagen mit großzügigem Wohnbereich, voll ausgestatteter Küche, privatem Garten mit Grillplatz und Dachterrasse. 5 Minuten vom Strand."
+
+# Features
+features:
+  - features.private_garden
+  - features.terrace
+  - features.solarium
+  - features.community_pool
+  - amenities.air_conditioning
+  - amenities.central_heating
+  - amenities.alarm_system
+
+# Image
+image: townhouse_modern.jpg

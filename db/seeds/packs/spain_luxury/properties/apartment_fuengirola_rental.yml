@@ -1,0 +1,44 @@
+# Rental Apartment in Fuengirola
+reference: ES-APT-002
+prop_type: types.apartment
+prop_state: states.good
+
+# Location
+address: "Los Boliches"
+city: Fuengirola
+region: Málaga
+country: Spain
+postal_code: "29640"
+latitude: 36.5431
+longitude: -4.6237
+
+# Property Details
+bedrooms: 2
+bathrooms: 1
+garages: 1
+constructed_area: 85
+plot_area: null
+year_built: 2010
+
+# Rental Listing
+rental:
+  highlighted: false
+  price_cents: 150000  # €1,500/month
+  title:
+    es: "Apartamento reformado cerca de la playa en Los Boliches"
+    en: "Renovated Apartment Near the Beach in Los Boliches"
+    de: "Renoviertes Apartment in Strandnähe in Los Boliches"
+  description:
+    es: "Acogedor apartamento completamente reformado a 200 metros de la playa. Luminoso salón, cocina americana equipada, aire acondicionado. Comunidad con piscina. Ideal para larga temporada."
+    en: "Cozy fully renovated apartment 200 meters from the beach. Bright living room, equipped open kitchen, air conditioning. Community with pool. Ideal for long-term rental."
+    de: "Gemütliches, komplett renoviertes Apartment 200 Meter vom Strand. Heller Wohnbereich, ausgestattete offene Küche, Klimaanlage. Wohnanlage mit Pool. Ideal für Langzeitmiete."
+
+# Features
+features:
+  - features.community_pool
+  - features.terrace
+  - amenities.air_conditioning
+  - amenities.elevator
+
+# Image
+image: apartment_modern.jpg

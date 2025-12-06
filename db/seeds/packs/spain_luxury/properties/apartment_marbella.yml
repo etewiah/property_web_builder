@@ -1,0 +1,46 @@
+# Beachfront Apartment in Marbella
+reference: ES-APT-001
+prop_type: types.apartment
+prop_state: states.good
+
+# Location
+address: "Paseo Marítimo"
+city: Marbella
+region: Málaga
+country: Spain
+postal_code: "29602"
+latitude: 36.5086
+longitude: -4.8848
+
+# Property Details
+bedrooms: 3
+bathrooms: 2
+garages: 1
+constructed_area: 145
+plot_area: null
+year_built: 2015
+
+# Sale Listing
+sale:
+  highlighted: false
+  price_cents: 89500000  # €895,000
+  title:
+    es: "Apartamento frente al mar en primera línea de playa"
+    en: "Beachfront Apartment on the Golden Mile"
+    de: "Strandapartment in erster Meereslinie"
+  description:
+    es: "Precioso apartamento en primera línea de playa con acceso directo a la arena. Vistas panorámicas al Mediterráneo, amplia terraza, parking subterráneo. Urbanización con piscina comunitaria y jardines."
+    en: "Beautiful beachfront apartment with direct beach access. Panoramic Mediterranean views, spacious terrace, underground parking. Gated community with communal pool and gardens."
+    de: "Wunderschönes Strandapartment mit direktem Strandzugang. Panorama-Meerblick, geräumige Terrasse, Tiefgaragenplatz. Wohnanlage mit Gemeinschaftspool und Gärten."
+
+# Features
+features:
+  - features.sea_views
+  - features.terrace
+  - features.community_pool
+  - amenities.air_conditioning
+  - amenities.elevator
+  - amenities.video_entry
+
+# Image
+image: apartment_beach.jpg

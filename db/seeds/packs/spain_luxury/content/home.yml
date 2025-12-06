@@ -1,0 +1,86 @@
+# Home page content for Spain Luxury pack
+
+hero:
+  title:
+    es: "Propiedades de lujo en la Costa del Sol"
+    en: "Luxury Properties on the Costa del Sol"
+    de: "Luxusimmobilien an der Costa del Sol"
+  subtitle:
+    es: "Encuentre su hogar soñado en el sur de España"
+    en: "Find your dream home in southern Spain"
+    de: "Finden Sie Ihr Traumhaus in Südspanien"
+  cta_text:
+    es: "Ver propiedades"
+    en: "View Properties"
+    de: "Immobilien ansehen"
+
+about_section:
+  title:
+    es: "Sobre Costa Luxury Properties"
+    en: "About Costa Luxury Properties"
+    de: "Über Costa Luxury Properties"
+  content:
+    es: "Con más de 20 años de experiencia en el mercado inmobiliario de lujo de la Costa del Sol, somos su socio de confianza para encontrar la propiedad perfecta. Nuestro equipo multilingüe ofrece un servicio personalizado y experto a clientes internacionales."
+    en: "With over 20 years of experience in the Costa del Sol luxury real estate market, we are your trusted partner in finding the perfect property. Our multilingual team provides personalized, expert service to international clients."
+    de: "Mit über 20 Jahren Erfahrung auf dem Luxusimmobilienmarkt der Costa del Sol sind wir Ihr vertrauenswürdiger Partner bei der Suche nach der perfekten Immobilie. Unser mehrsprachiges Team bietet internationalen Kunden einen personalisierten, fachkundigen Service."
+
+services:
+  title:
+    es: "Nuestros servicios"
+    en: "Our Services"
+    de: "Unsere Dienstleistungen"
+  items:
+    - key: buying
+      title:
+        es: "Compra"
+        en: "Buying"
+        de: "Kauf"
+      description:
+        es: "Le acompañamos en todo el proceso de compra"
+        en: "We guide you through the entire buying process"
+        de: "Wir begleiten Sie durch den gesamten Kaufprozess"
+    - key: selling
+      title:
+        es: "Venta"
+        en: "Selling"
+        de: "Verkauf"
+      description:
+        es: "Maximice el valor de su propiedad"
+        en: "Maximize the value of your property"
+        de: "Maximieren Sie den Wert Ihrer Immobilie"
+    - key: rental
+      title:
+        es: "Alquiler"
+        en: "Rental"
+        de: "Vermietung"
+      description:
+        es: "Alquileres de larga y corta temporada"
+        en: "Long and short-term rentals"
+        de: "Lang- und Kurzzeitvermietungen"
+
+locations:
+  title:
+    es: "Ubicaciones destacadas"
+    en: "Featured Locations"
+    de: "Beliebte Standorte"
+  items:
+    - name: Marbella
+      description:
+        es: "El corazón de la Costa del Sol"
+        en: "The heart of the Costa del Sol"
+        de: "Das Herz der Costa del Sol"
+    - name: Puerto Banús
+      description:
+        es: "Lujo y estilo de vida exclusivo"
+        en: "Luxury and exclusive lifestyle"
+        de: "Luxus und exklusiver Lebensstil"
+    - name: Benahavís
+      description:
+        es: "Urbanizaciones de prestigio"
+        en: "Prestigious urbanizations"
+        de: "Prestigeträchtige Wohnanlagen"
+    - name: Estepona
+      description:
+        es: "Encanto andaluz moderno"
+        en: "Modern Andalusian charm"
+        de: "Moderner andalusischer Charme"
