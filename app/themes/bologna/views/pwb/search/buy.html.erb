@@ -1,0 +1,193 @@
+<% page_title @page_title %>
+
+<%# Bologna Theme - Property Search Page %>
+<%# Clean, modern layout with soft colors and rounded elements %>
+
+<% content_for :page_script do %>
+  <%= javascript_tag do %>
+    $(document).ready(function(){
+      $('#inmo-search-results').html("<%= j (render 'search_results') %>");
+
+      INMOAPP.truncateDescriptions();
+      INMOAPP.sortSearchResults();
+
+      // Loading state handlers
+      $(document).on('ajax:beforeSend', 'form.form-light', function() {
+        $('#inmo-search-results').addClass('opacity-50 pointer-events-none');
+        $('#search-spinner').removeClass('hidden');
+      });
+
+      $(document).on('ajax:complete', 'form.form-light', function() {
+        $('#inmo-search-results').removeClass('opacity-50 pointer-events-none');
+        $('#search-spinner').addClass('hidden');
+      });
+    });
+  <% end %>
+<% end %>
+
+<!-- Page Header -->
+<section class="bg-gradient-to-br from-terra-50 via-white to-olive-50 border-b border-warm-gray-100">
+  <div class="container mx-auto px-6 py-10">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+      <div>
+        <nav class="mb-4">
+          <ol class="flex items-center space-x-2 text-sm">
+            <li>
+              <a href="<%= pwb.root_path %>" class="text-warm-gray-500 hover:text-terra-600 transition-colors">
+                <i class="ph ph-house mr-1"></i>
+                <%= t('pwb.breadcrumb.home', default: 'Home') %>
+              </a>
+            </li>
+            <li class="text-warm-gray-400">
+              <i class="ph ph-caret-right text-xs"></i>
+            </li>
+            <li class="text-warm-gray-900 font-medium">
+              <%= t('pwb.breadcrumb.buy', default: 'Buy') %>
+            </li>
+          </ol>
+        </nav>
+        <h1 class="font-display text-3xl md:text-4xl font-bold text-warm-gray-900 mb-2">
+          <%= t('searchForProperties', default: 'Properties for Sale') %>
+        </h1>
+        <p class="text-warm-gray-500">
+          <%= t('pwb.search.find_perfect', default: 'Find your perfect property') %>
+        </p>
+      </div>
+      <div class="mt-6 md:mt-0">
+        <span class="inline-flex items-center px-4 py-2 bg-terra-100 text-terra-600 rounded-pill text-sm font-medium">
+          <i class="ph ph-buildings mr-2"></i>
+          <%= t('pwb.search.for_sale', default: 'For Sale') %>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<section class="bg-warm-gray-50">
+  <div class="container mx-auto px-6 py-10">
+    <div class="flex flex-wrap -mx-4">
+      <!-- Sidebar Filters -->
+      <aside class="w-full lg:w-1/4 px-4 mb-8 lg:mb-0">
+        <!-- Mobile Filter Toggle -->
+        <div class="lg:hidden mb-4">
+          <button type="button"
+                  onclick="document.getElementById('sidebar-filters').classList.toggle('hidden');"
+                  class="w-full flex items-center justify-center px-6 py-3 bg-white text-warm-gray-700 font-medium rounded-soft shadow-soft hover:shadow-medium transition-all duration-300">
+            <i class="ph ph-funnel mr-2 text-terra-500"></i>
+            <%= t('filter', default: 'Filter Properties') %>
+            <i class="ph ph-caret-down ml-2"></i>
+          </button>
+        </div>
+
+        <!-- Filter Panel -->
+        <div id="sidebar-filters" class="hidden lg:block">
+          <div class="bg-white rounded-softer shadow-soft p-6 sticky top-28">
+            <div class="flex items-center mb-6">
+              <i class="ph ph-sliders text-terra-500 text-xl mr-3"></i>
+              <h3 class="font-display font-semibold text-lg text-warm-gray-900">
+                <%= t('pwb.search.filters', default: 'Filters') %>
+              </h3>
+            </div>
+            <%= render '/pwb/search/search_form_for_sale' %>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Results Column -->
+      <main class="w-full lg:w-3/4 px-4">
+        <!-- Loading Spinner -->
+        <div id="search-spinner" class="hidden">
+          <div class="flex flex-col items-center justify-center py-16">
+            <div class="w-16 h-16 border-4 border-terra-200 border-t-terra-500 rounded-full animate-spin mb-4"></div>
+            <p class="text-warm-gray-500 font-medium"><%= t('pwb.search.loading', default: 'Loading properties...') %></p>
+          </div>
+        </div>
+
+        <!-- Search Results Container -->
+        <div id="inmo-search-results" class="transition-opacity duration-300">
+          <!-- Results will be loaded here via AJAX -->
+        </div>
+      </main>
+    </div>
+  </div>
+</section>
+
+<!-- Map Section -->
+<% if @map_markers.length > 0 %>
+  <section class="border-t border-warm-gray-200 bg-white">
+    <div class="container mx-auto px-6 py-8">
+      <div class="flex items-center mb-6">
+        <span class="w-10 h-10 flex items-center justify-center bg-sand-100 rounded-full mr-3">
+          <i class="ph ph-map-trifold text-sand-600"></i>
+        </span>
+        <h2 class="font-display text-xl font-bold text-warm-gray-900">
+          <%= t('pwb.search.map_view', default: 'Map View') %>
+        </h2>
+      </div>
+    </div>
+    <div class="w-full" style="height: 500px;">
+      <div id="search-map" class="w-full h-full"></div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof L === 'undefined') return;
+
+      delete L.Icon.Default.prototype._getIconUrl;
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+      });
+
+      var mapMarkers = <%= @map_markers.to_json.html_safe %>;
+      if (mapMarkers && mapMarkers.length > 0) {
+        var bounds = [];
+        mapMarkers.forEach(function(marker) {
+          if (marker.position && marker.position.lat && marker.position.lng) {
+            bounds.push([parseFloat(marker.position.lat), parseFloat(marker.position.lng)]);
+          }
+        });
+
+        if (bounds.length > 0) {
+          var map = L.map('search-map');
+
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          }).addTo(map);
+
+          // Custom marker style for Bologna theme
+          var terraIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background: linear-gradient(135deg, #c45d3e, #b14a2e); width: 36px; height: 36px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 3px solid white; box-shadow: 0 4px 12px rgba(196, 93, 62, 0.4);"></div>',
+            iconSize: [36, 36],
+            iconAnchor: [18, 36],
+            popupAnchor: [0, -36]
+          });
+
+          mapMarkers.forEach(function(marker) {
+            if (marker.position && marker.position.lat && marker.position.lng) {
+              var popupContent = `
+                <div class="text-center p-2" style="min-width: 200px;">
+                  ${marker.image_url ? `<img src="${marker.image_url}" class="w-full h-32 object-cover rounded-lg mb-3">` : ''}
+                  <a href="${marker.show_url}" class="font-bold text-terra-600 hover:text-terra-700 block mb-1" style="color: #c45d3e;">${marker.title}</a>
+                  <div class="text-warm-gray-600 font-semibold">${marker.display_price}</div>
+                </div>
+              `;
+              L.marker([parseFloat(marker.position.lat), parseFloat(marker.position.lng)], { icon: terraIcon })
+                .addTo(map)
+                .bindPopup(popupContent);
+            }
+          });
+
+          map.fitBounds(bounds, { padding: [50, 50] });
+          if (map.getZoom() > 15) {
+            map.setZoom(15);
+          }
+        }
+      }
+    });
+  </script>
+<% end %>

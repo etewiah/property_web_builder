@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title><%= yield(:page_title) %></title>
+    <%= yield(:page_head) %>
+
+    <%# Google Fonts - Modern Geometric Sans-Serif %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <%# Tailwind CSS %>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          container: {
+            center: true,
+            padding: {
+              DEFAULT: '1.5rem',
+              sm: '2rem',
+              lg: '3rem',
+              xl: '4rem',
+            },
+          },
+          extend: {
+            colors: {
+              // Bologna Mediterranean Palette
+              'terra': {
+                50: '#fdf8f6',
+                100: '#f9ece6',
+                200: '#f2d5c9',
+                300: '#e7b5a0',
+                400: '#d98e6e',
+                500: '#c45d3e',
+                600: '#b14a2e',
+                700: '#943c26',
+                800: '#793324',
+                900: '#642d22',
+              },
+              'olive': {
+                50: '#f6f7f4',
+                100: '#e8ebe3',
+                200: '#d3d9c9',
+                300: '#b4bfa4',
+                400: '#95a37f',
+                500: '#5c6b4d',
+                600: '#4a5640',
+                700: '#3c4535',
+                800: '#32392d',
+                900: '#2b3028',
+              },
+              'sand': {
+                50: '#fdfcfa',
+                100: '#f9f6f0',
+                200: '#f2ebde',
+                300: '#e8dbc5',
+                400: '#d4a574',
+                500: '#c4915a',
+                600: '#a97648',
+                700: '#8c5f3c',
+                800: '#734e35',
+                900: '#5f422e',
+              },
+              'warm-gray': {
+                50: '#faf9f7',
+                100: '#f5f3f0',
+                200: '#e8e5e0',
+                300: '#d5d0c8',
+                400: '#b8b0a4',
+                500: '#9c9285',
+                600: '#817669',
+                700: '#6a6156',
+                800: '#584f47',
+                900: '#3d3d3d',
+              },
+              primary: '#c45d3e',
+              secondary: '#5c6b4d',
+              accent: '#d4a574',
+            },
+            fontFamily: {
+              sans: ['DM Sans', 'system-ui', 'sans-serif'],
+              display: ['Outfit', 'system-ui', 'sans-serif'],
+            },
+            borderRadius: {
+              'soft': '16px',
+              'softer': '20px',
+              'pill': '9999px',
+            },
+            boxShadow: {
+              'soft': '0 4px 24px -4px rgba(61, 61, 61, 0.08)',
+              'medium': '0 8px 32px -8px rgba(61, 61, 61, 0.12)',
+              'elevated': '0 16px 48px -12px rgba(61, 61, 61, 0.16)',
+              'glow': '0 0 40px rgba(196, 93, 62, 0.15)',
+            },
+            spacing: {
+              '18': '4.5rem',
+              '22': '5.5rem',
+            },
+            animation: {
+              'fade-up': 'fadeUp 0.6s ease-out forwards',
+              'scale-in': 'scaleIn 0.5s ease-out forwards',
+              'slide-in': 'slideIn 0.4s ease-out forwards',
+            },
+            keyframes: {
+              fadeUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              scaleIn: {
+                '0%': { opacity: '0', transform: 'scale(0.95)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              },
+              slideIn: {
+                '0%': { opacity: '0', transform: 'translateX(-10px)' },
+                '100%': { opacity: '1', transform: 'translateX(0)' },
+              },
+            },
+          }
+        }
+      }
+    </script>
+
+    <%# Flowbite for UI components %>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+
+    <%# Theme-specific styles %>
+    <%= stylesheet_link_tag "bologna_theme", media: "all" %>
+    <style>
+      <%= custom_styles "bologna" %>
+    </style>
+
+    <%= javascript_include_tag "pwb/application", async: false %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <%= csrf_meta_tags %>
+
+    <%# Leaflet for maps %>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <%# Phosphor Icons - Modern alternative to Font Awesome %>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <%# Font Awesome as fallback %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+  </head>
+
+  <body class="tnt-body bologna-theme <%= @current_website.body_style %> font-sans antialiased bg-warm-gray-50 text-warm-gray-900">
+    <!-- MAIN WRAPPER -->
+    <div id="main-vue" class="body-wrap sticky-wrap <%= @current_website.body_style %> flex flex-col min-h-screen">
+
+      <%# Minimal Header %>
+      <%= render partial: '/pwb/header', locals: { not_devise: true } %>
+
+      <%# Main Content %>
+      <main class="sticky-body flex-grow">
+        <%= render 'devise/shared/messages' %>
+        <%= yield %>
+      </main>
+
+      <%# Modern Footer %>
+      <%= render partial: '/pwb/footer', locals: {} %>
+
+      <%# Back to Top Button %>
+      <button id="back-to-top"
+              class="fixed bottom-8 right-8 z-50 w-12 h-12 bg-terra-500 text-white rounded-full shadow-medium
+                     opacity-0 invisible transition-all duration-300 hover:bg-terra-600 hover:shadow-elevated
+                     flex items-center justify-center">
+        <i class="ph ph-caret-up text-xl"></i>
+      </button>
+
+      <%# Analytics %>
+      <%= render partial: '/pwb/analytics', locals: {} %>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Sticky header with backdrop blur
+        const header = document.querySelector('header, nav');
+        if (header) {
+          window.addEventListener('scroll', function() {
+            if (window.scrollY > 20) {
+              header.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-soft');
+            } else {
+              header.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-soft');
+            }
+          });
+        }
+
+        // Mobile menu toggle
+        const menuButton = document.querySelector('[data-collapse-toggle="navbar-main"]');
+        const menu = document.getElementById('navbar-main');
+
+        if (menuButton && menu) {
+          menuButton.addEventListener('click', function() {
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('animate-slide-in');
+          });
+        }
+
+        // User dropdown toggle
+        const dropdownButton = document.querySelector('[data-dropdown-toggle="user-dropdown"]');
+        const dropdown = document.getElementById('user-dropdown');
+
+        if (dropdownButton && dropdown) {
+          dropdownButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdown.classList.toggle('hidden');
+          });
+
+          document.addEventListener('click', function() {
+            if (!dropdown.classList.contains('hidden')) {
+              dropdown.classList.add('hidden');
+            }
+          });
+        }
+
+        // Back to top button
+        const backToTop = document.getElementById('back-to-top');
+        if (backToTop) {
+          window.addEventListener('scroll', function() {
+            if (window.scrollY > 400) {
+              backToTop.classList.remove('opacity-0', 'invisible');
+              backToTop.classList.add('opacity-100', 'visible');
+            } else {
+              backToTop.classList.add('opacity-0', 'invisible');
+              backToTop.classList.remove('opacity-100', 'visible');
+            }
+          });
+
+          backToTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }
+          });
+        });
+
+        // Animate elements on scroll with Intersection Observer
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: '0px 0px -60px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+              observer.unobserve(entry.target);
+            }
+          });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(20px)';
+          el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+          observer.observe(el);
+        });
+
+        // Card hover effects
+        document.querySelectorAll('.card-hover').forEach(card => {
+          card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-4px)';
+          });
+          card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+          });
+        });
+      });
+    </script>
+
+    <%= yield(:page_script) %>
+
+    <% if params[:edit_mode] == 'true' %>
+      <%= javascript_include_tag "pwb/editor_client" %>
+    <% end %>
+  </body>
+</html>

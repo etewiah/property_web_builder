@@ -1,0 +1,172 @@
+<% page_title @property_details.title %>
+<%= render '/pwb/props/meta_tags' %>
+
+<%# Bologna Theme - Property Detail Page %>
+<%# Modern, clean layout with generous whitespace and soft curves %>
+
+<!-- Hero Section with Image Gallery -->
+<section class="bg-warm-gray-50">
+  <div class="container mx-auto px-6 py-8">
+    <!-- Breadcrumb -->
+    <nav class="mb-6">
+      <ol class="flex items-center space-x-2 text-sm">
+        <li>
+          <a href="<%= pwb.root_path %>" class="text-warm-gray-500 hover:text-terra-600 transition-colors">
+            <i class="ph ph-house mr-1"></i>
+            <%= t('pwb.breadcrumb.home', default: 'Home') %>
+          </a>
+        </li>
+        <li class="text-warm-gray-400">
+          <i class="ph ph-caret-right text-xs"></i>
+        </li>
+        <li>
+          <a href="<%= @property_details.for_sale? ? pwb.buy_path : pwb.rent_path %>"
+             class="text-warm-gray-500 hover:text-terra-600 transition-colors">
+            <%= @property_details.for_sale? ? t('pwb.breadcrumb.buy', default: 'Buy') : t('pwb.breadcrumb.rent', default: 'Rent') %>
+          </a>
+        </li>
+        <li class="text-warm-gray-400">
+          <i class="ph ph-caret-right text-xs"></i>
+        </li>
+        <li class="text-warm-gray-900 font-medium truncate max-w-[200px]">
+          <%= @property_details.title %>
+        </li>
+      </ol>
+    </nav>
+
+    <!-- Property Images -->
+    <div class="mb-8">
+      <%= render '/pwb/props/images_section_carousel' %>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<section class="bg-white">
+  <div class="container mx-auto px-6 py-12">
+    <div class="flex flex-wrap -mx-6">
+      <!-- Left Column - Property Details -->
+      <div class="w-full lg:w-2/3 px-6">
+        <!-- Title & Price Card -->
+        <div class="bg-gradient-to-r from-warm-gray-50 to-white rounded-softer p-8 mb-8 shadow-soft">
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between">
+            <div class="mb-4 md:mb-0">
+              <h1 class="font-display text-2xl md:text-3xl font-bold text-warm-gray-900 mb-3">
+                <%= @property_details.title %>
+              </h1>
+              <% if @property_details.respond_to?(:address_locality) && @property_details.address_locality.present? %>
+                <p class="flex items-center text-warm-gray-500">
+                  <i class="ph ph-map-pin text-terra-400 mr-2"></i>
+                  <%= @property_details.address_locality %>
+                </p>
+              <% end %>
+            </div>
+            <div class="text-left md:text-right">
+              <span class="inline-block px-4 py-1.5 bg-<%= @property_details.for_sale? ? 'terra' : 'olive' %>-100 text-<%= @property_details.for_sale? ? 'terra' : 'olive' %>-600 text-sm font-medium rounded-pill mb-2">
+                <%= @property_details.for_sale? ? t('pwb.properties.for_sale', default: 'For Sale') : t('pwb.properties.for_rent', default: 'For Rent') %>
+              </span>
+              <p class="font-display text-3xl font-bold text-terra-600">
+                <%= @property_details.contextual_price_with_currency(@property_details.for_sale? ? 'for_sale' : 'for_rent') %>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Property Info Grid -->
+        <div class="mb-10">
+          <%= render '/pwb/props/prop_info_list' %>
+        </div>
+
+        <!-- Description Section -->
+        <div class="mb-10">
+          <div class="flex items-center mb-6">
+            <span class="w-12 h-12 flex items-center justify-center bg-terra-100 rounded-full mr-4">
+              <i class="ph ph-file-text text-terra-600 text-xl"></i>
+            </span>
+            <h2 class="font-display text-2xl font-bold text-warm-gray-900">
+              <%= t('property.description', default: 'Description') %>
+            </h2>
+          </div>
+          <div class="prose prose-warm-gray max-w-none text-warm-gray-600 leading-relaxed">
+            <%== @property_details.description %>
+          </div>
+        </div>
+
+        <!-- Extras Section -->
+        <% if @property_details.extras_for_display.present? %>
+          <div class="mb-10">
+            <div class="flex items-center mb-6">
+              <span class="w-12 h-12 flex items-center justify-center bg-olive-100 rounded-full mr-4">
+                <i class="ph ph-star text-olive-600 text-xl"></i>
+              </span>
+              <h2 class="font-display text-2xl font-bold text-warm-gray-900">
+                <%= t('property.extras', default: 'Features & Amenities') %>
+              </h2>
+            </div>
+            <%= render '/pwb/props/extras' %>
+          </div>
+        <% end %>
+
+        <!-- Social Sharing -->
+        <div class="border-t border-warm-gray-100 pt-8">
+          <p class="text-warm-gray-500 text-sm mb-4"><%= t('pwb.property.share', default: 'Share this property') %>:</p>
+          <social-sharing inline-template>
+            <div class="flex items-center space-x-3">
+              <network network="facebook" class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-600 rounded-full hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer">
+                <i class="ph ph-facebook-logo"></i>
+              </network>
+              <network network="linkedin" class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full hover:bg-blue-700 hover:text-white transition-all duration-300 cursor-pointer">
+                <i class="ph ph-linkedin-logo"></i>
+              </network>
+              <network network="twitter" class="w-10 h-10 flex items-center justify-center bg-sky-100 text-sky-500 rounded-full hover:bg-sky-500 hover:text-white transition-all duration-300 cursor-pointer">
+                <i class="ph ph-x-logo"></i>
+              </network>
+              <network network="whatsapp" class="w-10 h-10 flex items-center justify-center bg-green-100 text-green-600 rounded-full hover:bg-green-600 hover:text-white transition-all duration-300 cursor-pointer">
+                <i class="ph ph-whatsapp-logo"></i>
+              </network>
+            </div>
+          </social-sharing>
+        </div>
+      </div>
+
+      <!-- Right Column - Contact & Sidebar -->
+      <div class="w-full lg:w-1/3 px-6 mt-10 lg:mt-0">
+        <div class="sticky top-28 space-y-6">
+          <!-- Contact Form Card -->
+          <div class="bg-white rounded-softer shadow-medium p-6 border border-warm-gray-100">
+            <%= render '/pwb/props/request_prop_info' %>
+          </div>
+
+          <!-- Agent Contact Card -->
+          <div class="bg-gradient-to-br from-warm-gray-50 to-warm-gray-100 rounded-softer p-6">
+            <%= render '/pwb/props/prop_contact_info' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Map Section -->
+<% if @property_details.show_map %>
+  <section class="bg-warm-gray-50 border-t border-warm-gray-100">
+    <div class="container mx-auto px-6 py-12">
+      <div class="flex items-center mb-8">
+        <span class="w-12 h-12 flex items-center justify-center bg-sand-100 rounded-full mr-4">
+          <i class="ph ph-map-trifold text-sand-600 text-xl"></i>
+        </span>
+        <h2 class="font-display text-2xl font-bold text-warm-gray-900">
+          <%= t('pwb.property.location', default: 'Location') %>
+        </h2>
+      </div>
+      <div class="rounded-softer overflow-hidden shadow-soft">
+        <div id="inmo-map-canvas" class="w-full">
+          <inmo-map style="min-height: 500px;"
+                    :markers="<%= @map_markers.to_json %>"
+                    :zoom="15">
+          </inmo-map>
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>

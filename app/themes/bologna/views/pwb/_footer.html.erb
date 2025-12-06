@@ -1,0 +1,220 @@
+<%# Bologna Theme - Modern Minimal Footer %>
+<%# Warm, inviting design with soft curves and generous spacing %>
+<footer class="bg-warm-gray-900 text-warm-gray-300">
+  <!-- Wave Decoration - Organic Shape -->
+  <div class="relative -mb-1">
+    <svg class="w-full h-16 text-warm-gray-50 fill-current" viewBox="0 0 1440 64" preserveAspectRatio="none">
+      <path d="M0,32 C180,64 360,0 540,32 C720,64 900,0 1080,32 C1260,64 1440,32 1440,32 L1440,64 L0,64 Z"></path>
+    </svg>
+  </div>
+
+  <!-- Main Footer Content -->
+  <div class="container mx-auto px-6 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
+
+      <!-- Brand & Social Column -->
+      <div class="lg:col-span-4">
+        <div class="mb-8">
+          <% if @current_website.agency&.logo&.attached? %>
+            <%= image_tag @current_website.agency.logo,
+                  class: "h-12 w-auto brightness-0 invert opacity-80",
+                  alt: @current_website.company_display_name %>
+          <% else %>
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-gradient-to-br from-terra-400 to-terra-600 rounded-soft flex items-center justify-center">
+                <i class="ph ph-house-line text-white text-2xl"></i>
+              </div>
+              <span class="font-display font-semibold text-2xl text-white">
+                <%= @current_website.company_display_name || "Real Estate" %>
+              </span>
+            </div>
+          <% end %>
+        </div>
+
+        <p class="text-warm-gray-400 leading-relaxed mb-8 max-w-sm">
+          <%= @current_agency&.company_name || "Your trusted partner in finding the perfect property." %>
+        </p>
+
+        <!-- Social Icons - Modern Rounded Style -->
+        <div class="flex items-center space-x-3">
+          <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
+            <a href="<%= @current_website.social_media_facebook %>" target="_blank"
+               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-terra-500 hover:text-white transition-all duration-300">
+              <i class="ph ph-facebook-logo text-lg"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
+            <a href="<%= @current_website.social_media_twitter %>" target="_blank"
+               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-terra-500 hover:text-white transition-all duration-300">
+              <i class="ph ph-x-logo text-lg"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
+            <a href="<%= @current_website.social_media_linkedin %>" target="_blank"
+               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-terra-500 hover:text-white transition-all duration-300">
+              <i class="ph ph-linkedin-logo text-lg"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present? %>
+            <a href="<%= @current_website.social_media_instagram %>" target="_blank"
+               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-terra-500 hover:text-white transition-all duration-300">
+              <i class="ph ph-instagram-logo text-lg"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
+            <a href="<%= @current_website.social_media_youtube %>" target="_blank"
+               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-terra-500 hover:text-white transition-all duration-300">
+              <i class="ph ph-youtube-logo text-lg"></i>
+            </a>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Quick Links Column -->
+      <div class="lg:col-span-2">
+        <h4 class="font-display font-semibold text-white text-lg mb-6">
+          <%= t('pwb.footer.explore', default: 'Explore') %>
+        </h4>
+        <ul class="space-y-3">
+          <li>
+            <a href="<%= pwb.buy_path %>" class="text-warm-gray-400 hover:text-terra-400 transition-colors duration-200 flex items-center group">
+              <i class="ph ph-caret-right text-xs mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+              <%= t('pwb.navbar.buy', default: 'Buy') %>
+            </a>
+          </li>
+          <li>
+            <a href="<%= pwb.rent_path %>" class="text-warm-gray-400 hover:text-terra-400 transition-colors duration-200 flex items-center group">
+              <i class="ph ph-caret-right text-xs mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+              <%= t('pwb.navbar.rent', default: 'Rent') %>
+            </a>
+          </li>
+          <% @current_website.links.ordered_visible_footer.first(4).each do |page| %>
+            <% target_path = nil %>
+            <% begin %>
+              <% if page.link_path.present? %>
+                <% target_path = main_app.send(page.link_path, page.link_path_params, { locale: locale }) %>
+              <% elsif page.link_url.present? %>
+                <% target_path = page.link_url %>
+              <% end %>
+            <% rescue StandardError %>
+            <% end %>
+            <% if target_path %>
+              <li>
+                <%= link_to target_path, class: "text-warm-gray-400 hover:text-terra-400 transition-colors duration-200 flex items-center group" do %>
+                  <i class="ph ph-caret-right text-xs mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                  <%= page.link_title %>
+                <% end %>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+
+      <!-- Contact Info Column -->
+      <div class="lg:col-span-3">
+        <h4 class="font-display font-semibold text-white text-lg mb-6">
+          <%= t('pwb.footer.contact', default: 'Get in Touch') %>
+        </h4>
+        <ul class="space-y-4">
+          <% if @current_agency&.phone_number_primary.present? %>
+            <li>
+              <a href="tel:<%= @current_agency.phone_number_primary %>"
+                 class="flex items-start text-warm-gray-400 hover:text-terra-400 transition-colors duration-200 group">
+                <span class="w-10 h-10 flex items-center justify-center bg-warm-gray-800 rounded-full mr-4 group-hover:bg-terra-500/20 transition-colors">
+                  <i class="ph ph-phone text-terra-400"></i>
+                </span>
+                <span class="pt-2"><%= @current_agency.phone_number_primary %></span>
+              </a>
+            </li>
+          <% end %>
+          <% if @current_agency&.email_primary.present? %>
+            <li>
+              <a href="mailto:<%= @current_agency.email_primary %>"
+                 class="flex items-start text-warm-gray-400 hover:text-terra-400 transition-colors duration-200 group">
+                <span class="w-10 h-10 flex items-center justify-center bg-warm-gray-800 rounded-full mr-4 group-hover:bg-terra-500/20 transition-colors">
+                  <i class="ph ph-envelope-simple text-terra-400"></i>
+                </span>
+                <span class="pt-2 break-all"><%= @current_agency.email_primary %></span>
+              </a>
+            </li>
+          <% end %>
+          <% if @current_agency.respond_to?(:full_address) && @current_agency.full_address.present? %>
+            <li class="flex items-start text-warm-gray-400">
+              <span class="w-10 h-10 flex items-center justify-center bg-warm-gray-800 rounded-full mr-4 flex-shrink-0">
+                <i class="ph ph-map-pin text-terra-400"></i>
+              </span>
+              <span class="pt-2 leading-relaxed"><%= @current_agency.full_address %></span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <!-- Newsletter / Custom Content Column -->
+      <div class="lg:col-span-3">
+        <% if @footer_content.present? && @footer_content.respond_to?(:raw) && @footer_content.raw.present? %>
+          <h4 class="font-display font-semibold text-white text-lg mb-6">
+            <%= t('pwb.footer.about', default: 'About Us') %>
+          </h4>
+          <div class="text-warm-gray-400 leading-relaxed footer-custom-content">
+            <%== @footer_content.raw %>
+          </div>
+        <% else %>
+          <h4 class="font-display font-semibold text-white text-lg mb-6">
+            <%= t('pwb.footer.newsletter', default: 'Stay Updated') %>
+          </h4>
+          <p class="text-warm-gray-400 mb-6 leading-relaxed">
+            <%= t('pwb.footer.newsletter_text', default: 'Get the latest listings and market insights delivered to your inbox.') %>
+          </p>
+          <form class="space-y-3">
+            <div class="relative">
+              <input type="email"
+                     placeholder="<%= t('pwb.footer.email_placeholder', default: 'Enter your email') %>"
+                     class="w-full bg-warm-gray-800 border-0 rounded-soft px-5 py-4 text-white placeholder-warm-gray-500 focus:ring-2 focus:ring-terra-500 focus:outline-none transition-all duration-200">
+            </div>
+            <button type="submit"
+                    class="w-full bg-gradient-to-r from-terra-500 to-terra-600 text-white px-6 py-4 rounded-soft font-medium hover:from-terra-600 hover:to-terra-700 transition-all duration-300 flex items-center justify-center space-x-2">
+              <span><%= t('pwb.footer.subscribe', default: 'Subscribe') %></span>
+              <i class="ph ph-paper-plane-right"></i>
+            </button>
+          </form>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="border-t border-warm-gray-800">
+    <div class="container mx-auto px-6 py-6">
+      <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+        <!-- Copyright -->
+        <p class="text-sm text-warm-gray-500">
+          &copy; <%= Time.current.year %> <%= @current_agency&.company_name || @current_website.company_display_name %>.
+          <%= t('pwb.footer.rights', default: 'All rights reserved.') %>
+        </p>
+
+        <!-- Powered By -->
+        <p class="text-sm text-warm-gray-600 flex items-center">
+          <span class="mr-2"><%= t('pwb.footer.powered_by', default: 'Powered by') %></span>
+          <a href="http://www.propertywebbuilder.com"
+             class="text-terra-400 hover:text-terra-300 transition-colors duration-200 font-medium"
+             target="_blank">
+            PropertyWebBuilder
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer-custom-content a {
+    color: #d98e6e;
+    transition: color 0.2s ease;
+  }
+  .footer-custom-content a:hover {
+    color: #e7b5a0;
+  }
+  .footer-custom-content p {
+    margin-bottom: 0.75rem;
+  }
+</style>

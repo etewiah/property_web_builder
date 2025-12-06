@@ -1,0 +1,158 @@
+<%# Bologna Theme - Minimal Modern Header %>
+<header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <nav class="container mx-auto px-6 py-4">
+    <div class="flex items-center justify-between">
+
+      <%# Logo - Clean and Simple %>
+      <a href="<%= pwb.root_path %>" class="flex items-center space-x-3 group">
+        <% if @current_website.agency&.logo&.attached? %>
+          <%= image_tag @current_website.agency.logo,
+                class: "h-10 w-auto transition-transform duration-300 group-hover:scale-105",
+                alt: @current_website.company_display_name %>
+        <% else %>
+          <div class="flex items-center space-x-2">
+            <div class="w-10 h-10 bg-gradient-to-br from-terra-400 to-terra-600 rounded-soft flex items-center justify-center">
+              <i class="ph ph-house-line text-white text-xl"></i>
+            </div>
+            <span class="font-display font-semibold text-xl text-warm-gray-900 hidden sm:block">
+              <%= @current_website.company_display_name || "Property" %>
+            </span>
+          </div>
+        <% end %>
+      </a>
+
+      <%# Desktop Navigation - Horizontal Pills %>
+      <div class="hidden lg:flex items-center space-x-1">
+        <% @current_website.links.in_topnav.each do |link| %>
+          <a href="<%= link.url %>"
+             class="px-4 py-2 text-sm font-medium text-warm-gray-600 hover:text-terra-600 hover:bg-terra-50 rounded-pill transition-all duration-200">
+            <%= link.link_title %>
+          </a>
+        <% end %>
+
+        <%# Search Link with Icon %>
+        <a href="<%= pwb.buy_path %>"
+           class="px-4 py-2 text-sm font-medium text-warm-gray-600 hover:text-terra-600 hover:bg-terra-50 rounded-pill transition-all duration-200 flex items-center space-x-1">
+          <i class="ph ph-magnifying-glass"></i>
+          <span><%= t("pwb.navbar.buy", default: "Buy") %></span>
+        </a>
+        <a href="<%= pwb.rent_path %>"
+           class="px-4 py-2 text-sm font-medium text-warm-gray-600 hover:text-terra-600 hover:bg-terra-50 rounded-pill transition-all duration-200 flex items-center space-x-1">
+          <i class="ph ph-key"></i>
+          <span><%= t("pwb.navbar.rent", default: "Rent") %></span>
+        </a>
+      </div>
+
+      <%# Right Side Actions %>
+      <div class="flex items-center space-x-3">
+        <%# Language Switcher - Compact %>
+        <% if @current_website.available_locales.size > 1 %>
+          <div class="relative hidden md:block">
+            <button type="button"
+                    class="flex items-center space-x-1 px-3 py-2 text-sm text-warm-gray-500 hover:text-warm-gray-700 rounded-soft hover:bg-warm-gray-100 transition-colors"
+                    data-dropdown-toggle="language-dropdown">
+              <i class="ph ph-globe text-lg"></i>
+              <span class="uppercase text-xs font-medium"><%= I18n.locale %></span>
+              <i class="ph ph-caret-down text-xs"></i>
+            </button>
+            <div id="language-dropdown"
+                 class="hidden absolute right-0 mt-2 w-40 bg-white rounded-soft shadow-elevated border border-warm-gray-100 py-2 z-50">
+              <% @current_website.available_locales.each do |locale| %>
+                <a href="<%= switch_locale_path(locale) %>"
+                   class="block px-4 py-2 text-sm text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600 transition-colors <%= 'bg-terra-50 text-terra-600' if locale.to_s == I18n.locale.to_s %>">
+                  <%= t("admin.#{locale}", default: locale.to_s.upcase) %>
+                </a>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Contact CTA %>
+        <a href="<%= pwb.page_path('contact') %>"
+           class="hidden md:inline-flex items-center px-5 py-2.5 bg-terra-500 text-white text-sm font-medium rounded-pill
+                  hover:bg-terra-600 transition-all duration-200 shadow-soft hover:shadow-medium">
+          <i class="ph ph-chat-circle-text mr-2"></i>
+          <%= t("pwb.navbar.contactUs", default: "Contact") %>
+        </a>
+
+        <%# User Menu or Login %>
+        <% if user_signed_in? %>
+          <div class="relative">
+            <button type="button"
+                    class="w-10 h-10 bg-olive-100 text-olive-600 rounded-full flex items-center justify-center hover:bg-olive-200 transition-colors"
+                    data-dropdown-toggle="user-dropdown">
+              <i class="ph ph-user text-lg"></i>
+            </button>
+            <div id="user-dropdown"
+                 class="hidden absolute right-0 mt-2 w-56 bg-white rounded-soft shadow-elevated border border-warm-gray-100 py-2 z-50">
+              <div class="px-4 py-3 border-b border-warm-gray-100">
+                <p class="text-sm font-medium text-warm-gray-900"><%= current_user.email %></p>
+                <p class="text-xs text-warm-gray-500">Signed in</p>
+              </div>
+              <% if current_user.admin? %>
+                <a href="/site_admin" class="flex items-center px-4 py-2.5 text-sm text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600">
+                  <i class="ph ph-gear mr-3"></i>
+                  Admin Dashboard
+                </a>
+              <% end %>
+              <a href="<%= edit_pwb_user_registration_path %>" class="flex items-center px-4 py-2.5 text-sm text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600">
+                <i class="ph ph-user-circle mr-3"></i>
+                Account Settings
+              </a>
+              <div class="border-t border-warm-gray-100 mt-1 pt-1">
+                <%= link_to destroy_pwb_user_session_path, method: :delete, class: "flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50" do %>
+                  <i class="ph ph-sign-out mr-3"></i>
+                  Sign Out
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% else %>
+          <a href="<%= new_pwb_user_session_path %>"
+             class="w-10 h-10 bg-warm-gray-100 text-warm-gray-600 rounded-full hidden md:flex items-center justify-center hover:bg-warm-gray-200 transition-colors">
+            <i class="ph ph-user text-lg"></i>
+          </a>
+        <% end %>
+
+        <%# Mobile Menu Button %>
+        <button type="button"
+                class="lg:hidden w-10 h-10 bg-warm-gray-100 text-warm-gray-600 rounded-soft flex items-center justify-center hover:bg-warm-gray-200 transition-colors"
+                data-collapse-toggle="navbar-main"
+                aria-controls="navbar-main"
+                aria-expanded="false">
+          <i class="ph ph-list text-xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <%# Mobile Navigation - Slide Down %>
+    <div class="hidden lg:hidden mt-4 pb-4" id="navbar-main">
+      <div class="bg-white rounded-soft shadow-soft border border-warm-gray-100 overflow-hidden">
+        <% @current_website.links.in_topnav.each do |link| %>
+          <a href="<%= link.url %>"
+             class="flex items-center px-5 py-3 text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600 border-b border-warm-gray-50 last:border-b-0 transition-colors">
+            <%= link.link_title %>
+          </a>
+        <% end %>
+        <a href="<%= pwb.buy_path %>"
+           class="flex items-center px-5 py-3 text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600 border-b border-warm-gray-50 transition-colors">
+          <i class="ph ph-magnifying-glass mr-3"></i>
+          <%= t("pwb.navbar.buy", default: "Buy") %>
+        </a>
+        <a href="<%= pwb.rent_path %>"
+           class="flex items-center px-5 py-3 text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600 border-b border-warm-gray-50 transition-colors">
+          <i class="ph ph-key mr-3"></i>
+          <%= t("pwb.navbar.rent", default: "Rent") %>
+        </a>
+        <a href="<%= pwb.page_path('contact') %>"
+           class="flex items-center px-5 py-3 bg-terra-500 text-white font-medium">
+          <i class="ph ph-chat-circle-text mr-3"></i>
+          <%= t("pwb.navbar.contactUs", default: "Contact") %>
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<%# Spacer for fixed header %>
+<div class="h-20"></div>

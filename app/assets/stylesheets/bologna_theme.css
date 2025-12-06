@@ -1,0 +1,769 @@
+/* Bologna Theme Stylesheet */
+/* Modern Mediterranean styling with warm terracotta and olive tones */
+/* Rounded corners, soft shadows, and airy whitespace */
+
+/* ========================================
+   Base Theme Styles
+   ======================================== */
+
+.bologna-theme {
+  font-family: 'DM Sans', 'Helvetica Neue', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   Typography
+   ======================================== */
+
+.bologna-theme h1,
+.bologna-theme h2,
+.bologna-theme h3,
+.bologna-theme h4,
+.bologna-theme h5,
+.bologna-theme h6 {
+  font-family: 'Outfit', 'Helvetica Neue', system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.bologna-theme .font-display {
+  font-family: 'Outfit', 'Helvetica Neue', system-ui, sans-serif;
+}
+
+/* ========================================
+   Modern Pill Buttons
+   ======================================== */
+
+.bologna-theme .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: linear-gradient(135deg, #c45d3e 0%, #b14a2e 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  box-shadow: 0 4px 14px -4px rgba(196, 93, 62, 0.4);
+  transition: all 0.3s ease;
+}
+
+.bologna-theme .btn-primary:hover {
+  background: linear-gradient(135deg, #b14a2e 0%, #943c26 100%);
+  box-shadow: 0 6px 20px -4px rgba(196, 93, 62, 0.5);
+  transform: translateY(-2px);
+}
+
+.bologna-theme .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: #ffffff;
+  color: #3d3d3d;
+  border: 2px solid #e8e5e0;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+}
+
+.bologna-theme .btn-secondary:hover {
+  border-color: #c45d3e;
+  color: #c45d3e;
+  background-color: #fdf8f6;
+}
+
+.bologna-theme .btn-olive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: linear-gradient(135deg, #5c6b4d 0%, #4a5640 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  box-shadow: 0 4px 14px -4px rgba(92, 107, 77, 0.4);
+  transition: all 0.3s ease;
+}
+
+.bologna-theme .btn-olive:hover {
+  background: linear-gradient(135deg, #4a5640 0%, #3c4535 100%);
+  box-shadow: 0 6px 20px -4px rgba(92, 107, 77, 0.5);
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   Cards with Soft Shadows
+   ======================================== */
+
+.bologna-theme .card-modern {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px -4px rgba(61, 61, 61, 0.08);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.bologna-theme .card-modern:hover {
+  box-shadow: 0 16px 48px -12px rgba(61, 61, 61, 0.16);
+  transform: translateY(-4px);
+}
+
+/* ========================================
+   Form Elements
+   ======================================== */
+
+.bologna-theme input[type="text"],
+.bologna-theme input[type="email"],
+.bologna-theme input[type="tel"],
+.bologna-theme input[type="password"],
+.bologna-theme input[type="number"],
+.bologna-theme textarea,
+.bologna-theme select {
+  border: 2px solid #e8e5e0;
+  padding: 0.875rem 1.25rem;
+  font-size: 0.9375rem;
+  border-radius: 12px;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.bologna-theme input:focus,
+.bologna-theme textarea:focus,
+.bologna-theme select:focus {
+  border-color: #c45d3e;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(196, 93, 62, 0.1);
+}
+
+.bologna-theme select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239c9285'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.25rem;
+  padding-right: 3rem;
+}
+
+/* ========================================
+   Property Cards
+   ======================================== */
+
+.bologna-theme .property-card {
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px -4px rgba(61, 61, 61, 0.08);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bologna-theme .property-card:hover {
+  box-shadow: 0 16px 48px -12px rgba(61, 61, 61, 0.16);
+  transform: translateY(-6px);
+}
+
+.bologna-theme .property-card .property-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.bologna-theme .property-card .property-image img {
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bologna-theme .property-card:hover .property-image img {
+  transform: scale(1.1);
+}
+
+.bologna-theme .property-price {
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #c45d3e;
+}
+
+.bologna-theme .property-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 9999px;
+}
+
+.bologna-theme .property-badge-sale {
+  background-color: #c45d3e;
+  color: #ffffff;
+}
+
+.bologna-theme .property-badge-rent {
+  background-color: #5c6b4d;
+  color: #ffffff;
+}
+
+/* ========================================
+   Hero Section
+   ======================================== */
+
+.bologna-theme .hero-modern {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.bologna-theme .hero-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(61, 61, 61, 0.5) 0%,
+    rgba(61, 61, 61, 0.3) 50%,
+    rgba(61, 61, 61, 0.6) 100%
+  );
+  z-index: 1;
+}
+
+.bologna-theme .hero-modern .hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #ffffff;
+  padding: 2rem;
+}
+
+.bologna-theme .hero-modern h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .bologna-theme .hero-modern h1 {
+    font-size: 2.5rem;
+  }
+}
+
+/* ========================================
+   Section Styling
+   ======================================== */
+
+.bologna-theme .section-modern {
+  padding: 6rem 0;
+}
+
+.bologna-theme .section-title {
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #3d3d3d;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.bologna-theme .section-pretitle {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background-color: #fdf8f6;
+  color: #c45d3e;
+  border-radius: 9999px;
+  margin-bottom: 1rem;
+}
+
+.bologna-theme .section-subtitle {
+  font-size: 1.125rem;
+  color: #9c9285;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ========================================
+   Decorative Elements
+   ======================================== */
+
+.bologna-theme .gradient-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.4;
+}
+
+.bologna-theme .gradient-blob-terra {
+  background: linear-gradient(135deg, #f2d5c9, #d98e6e);
+}
+
+.bologna-theme .gradient-blob-olive {
+  background: linear-gradient(135deg, #d3d9c9, #95a37f);
+}
+
+/* ========================================
+   Animations
+   ======================================== */
+
+@keyframes floatUp {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.bologna-theme .animate-float {
+  animation: floatUp 4s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+.bologna-theme .animate-pulse-gentle {
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+
+/* Smooth fade-in for scroll animations */
+.bologna-theme .animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.bologna-theme .animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========================================
+   Utility Classes
+   ======================================== */
+
+.bologna-theme .text-terra {
+  color: #c45d3e;
+}
+
+.bologna-theme .text-olive {
+  color: #5c6b4d;
+}
+
+.bologna-theme .text-sand {
+  color: #d4a574;
+}
+
+.bologna-theme .bg-terra {
+  background-color: #c45d3e;
+}
+
+.bologna-theme .bg-olive {
+  background-color: #5c6b4d;
+}
+
+.bologna-theme .bg-sand-light {
+  background-color: #fdfcfa;
+}
+
+.bologna-theme .border-terra {
+  border-color: #c45d3e;
+}
+
+.bologna-theme .rounded-soft {
+  border-radius: 16px;
+}
+
+.bologna-theme .rounded-softer {
+  border-radius: 20px;
+}
+
+.bologna-theme .rounded-pill {
+  border-radius: 9999px;
+}
+
+.bologna-theme .shadow-soft {
+  box-shadow: 0 4px 24px -4px rgba(61, 61, 61, 0.08);
+}
+
+.bologna-theme .shadow-medium {
+  box-shadow: 0 8px 32px -8px rgba(61, 61, 61, 0.12);
+}
+
+.bologna-theme .shadow-elevated {
+  box-shadow: 0 16px 48px -12px rgba(61, 61, 61, 0.16);
+}
+
+/* ========================================
+   Hero Section (Liquid Template)
+   ======================================== */
+
+.bologna-theme .hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 0;
+}
+
+.bologna-theme .hero-bg-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.bologna-theme .hero-bg-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(61, 61, 61, 0.4) 0%,
+    rgba(61, 61, 61, 0.2) 50%,
+    rgba(61, 61, 61, 0.5) 100%
+  );
+  z-index: 2;
+}
+
+.bologna-theme .hero-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.bologna-theme .hero-bg-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #fdf8f6 0%, #f9ece6 50%, #e7b5a0 100%);
+}
+
+.bologna-theme .hero-content-wrapper {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.bologna-theme .hero-title {
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.bologna-theme .hero-subtitle {
+  font-size: 1.125rem;
+  color: #ffffff;
+  line-height: 1.8;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.bologna-theme .hero-subtitle ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.bologna-theme .hero-subtitle li {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.bologna-theme .hero-subtitle li i {
+  color: #d98e6e;
+  margin-right: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .bologna-theme .hero-section {
+    min-height: 70vh;
+  }
+
+  .bologna-theme .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .bologna-theme .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .bologna-theme .hero-subtitle ul {
+    flex-direction: column;
+  }
+}
+
+/* ========================================
+   Services Section (Liquid Template)
+   ======================================== */
+
+.bologna-theme .services-section-wrapper {
+  background: linear-gradient(135deg, #faf9f7 0%, #f5f3f0 100%);
+  padding: 6rem 0;
+}
+
+.bologna-theme .services-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.bologna-theme .service-card {
+  background: #ffffff;
+  padding: 2.5rem;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px -4px rgba(61, 61, 61, 0.08);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.bologna-theme .service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #c45d3e, #d98e6e, #5c6b4d);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.bologna-theme .service-card:hover {
+  box-shadow: 0 16px 48px -12px rgba(61, 61, 61, 0.16);
+  transform: translateY(-6px);
+}
+
+.bologna-theme .service-card:hover::before {
+  opacity: 1;
+}
+
+.bologna-theme .service-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fdf8f6 0%, #f9ece6 100%);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.bologna-theme .service-card:hover .service-icon-wrapper {
+  background: linear-gradient(135deg, #c45d3e 0%, #d98e6e 100%);
+  transform: rotate(6deg) scale(1.05);
+}
+
+.bologna-theme .service-icon-wrapper i {
+  font-size: 2rem;
+  color: #c45d3e;
+  transition: color 0.3s ease;
+}
+
+.bologna-theme .service-card:hover .service-icon-wrapper i {
+  color: #ffffff;
+}
+
+.bologna-theme .service-title {
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #3d3d3d;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.bologna-theme .service-card .service-content {
+  font-size: 0.9375rem;
+  color: #9c9285;
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .bologna-theme .services-container {
+    grid-template-columns: 1fr;
+  }
+
+  .bologna-theme .services-section-wrapper {
+    padding: 4rem 0;
+  }
+}
+
+/* ========================================
+   Legacy Service Content Styles
+   ======================================== */
+
+.bologna-theme .service-content i,
+.bologna-theme .service-content .fa,
+.bologna-theme .service-content [class^="fa-"] {
+  font-size: 2.5rem;
+  color: #c45d3e;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.bologna-theme .service-content h3,
+.bologna-theme .service-content h4 {
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 1.25rem;
+  color: #3d3d3d;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.bologna-theme .service-content p {
+  font-size: 0.9375rem;
+  color: #9c9285;
+  line-height: 1.7;
+}
+
+/* ========================================
+   Line Clamp Utilities
+   ======================================== */
+
+.bologna-theme .line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.bologna-theme .line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* ========================================
+   Aspect Ratio
+   ======================================== */
+
+.bologna-theme .aspect-\[4\/3\] {
+  aspect-ratio: 4 / 3;
+}
+
+.bologna-theme .aspect-\[16\/9\] {
+  aspect-ratio: 16 / 9;
+}
+
+/* ========================================
+   Dropdown Menus
+   ======================================== */
+
+.bologna-theme #language-dropdown,
+.bologna-theme #user-dropdown {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* ========================================
+   Responsive Adjustments
+   ======================================== */
+
+@media (max-width: 768px) {
+  .bologna-theme .section-modern {
+    padding: 4rem 0;
+  }
+
+  .bologna-theme .section-title {
+    font-size: 2rem;
+  }
+
+  .bologna-theme .service-content i,
+  .bologna-theme .service-content .fa {
+    font-size: 2rem;
+  }
+}
+
+/* ========================================
+   Scrollbar Styling
+   ======================================== */
+
+.bologna-theme ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.bologna-theme ::-webkit-scrollbar-track {
+  background: #f5f3f0;
+  border-radius: 10px;
+}
+
+.bologna-theme ::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #d98e6e, #c45d3e);
+  border-radius: 10px;
+  border: 2px solid #f5f3f0;
+}
+
+.bologna-theme ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #c45d3e, #b14a2e);
+}
+
+/* ========================================
+   Selection Styling
+   ======================================== */
+
+.bologna-theme ::selection {
+  background-color: #f9ece6;
+  color: #c45d3e;
+}
+
+.bologna-theme ::-moz-selection {
+  background-color: #f9ece6;
+  color: #c45d3e;
+}
