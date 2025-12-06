@@ -65,6 +65,89 @@ es:
       content_b: <p>Somos agentes inmobiliarios profesionales. Te ayudamos con todos los trámites, y te ahorramos dinero con las transacciones. Vamos de la mano durante todo el proceso, te guiamos y asesoramos desde el primer momento hasta el último.</p>
       title_c: Vende tu vivienda
       content_c: <p>Si necesitas vender una vivienda, ponte en contacto con nosotros. Con nuestra experiencia en el sector y en la zona haremos este trámite de forma rápida y sencilla.</p>
+    heroes/hero_centered:
+      pretitle: Bienvenido a Example Real Estate
+      title: Encuentra tu hogar ideal
+      subtitle: >
+        Estamos dedicados a ayudarte a encontrar la propiedad perfecta.
+        Ya sea que estés comprando, vendiendo o alquilando, nuestro equipo experto está aquí para guiarte en cada paso.
+      cta_text: Ver Propiedades
+      cta_link: /search/buy
+      cta_secondary_text: Contáctanos
+      cta_secondary_link: /contact
+      background_image: db/example_images/carousel_villa_with_pool.jpg
+
+    features/feature_grid_3col:
+      section_pretitle: Nuestros Servicios
+      section_title: Lo Que Ofrecemos
+      section_subtitle: Servicios inmobiliarios completos adaptados a tus necesidades
+      feature_1_icon: fa-home
+      feature_1_title: Encuentra tu Hogar
+      feature_1_description: >
+        Cuéntanos exactamente lo que buscas y encontraremos esa propiedad ideal
+        que satisfaga todas tus necesidades y presupuesto.
+      feature_1_link: /search/buy
+      feature_2_icon: fa-user-tie
+      feature_2_title: Agentes Profesionales
+      feature_2_description: >
+        Nuestros agentes experimentados manejan todo el papeleo y las negociaciones,
+        ahorrándote tiempo y dinero durante todo el proceso.
+      feature_2_link: /about
+      feature_3_icon: fa-hand-holding-usd
+      feature_3_title: Vende tu Propiedad
+      feature_3_description: >
+        Obtén el mejor precio por tu propiedad con nuestras estrategias de marketing probadas
+        y nuestra amplia red de compradores calificados.
+      feature_3_link: /sell
+
+    cta/cta_banner:
+      title: ¿Listo para encontrar tu hogar perfecto?
+      subtitle: Contáctanos hoy para una consulta gratuita y déjanos ayudarte a navegar el mercado inmobiliario con confianza.
+      button_text: Comenzar
+      button_link: /contact
+      button_style: primary
+      secondary_button_text: Ver Propiedades
+      secondary_button_link: /search/buy
+      style: primary
+
+    stats/stats_counter:
+      section_title: Nuestra Trayectoria
+      section_subtitle: Números que hablan por sí mismos
+      stat_1_value: 500
+      stat_1_label: Propiedades Vendidas
+      stat_1_prefix: ""
+      stat_1_suffix: +
+      stat_2_value: 98
+      stat_2_label: Satisfacción del Cliente
+      stat_3_value: 15
+      stat_3_label: Años de Experiencia
+      stat_4_value: 50
+      stat_4_label: Agentes Expertos
+      style: light
+
+    testimonials/testimonial_carousel:
+      section_title: Lo Que Dicen Nuestros Clientes
+      section_subtitle: No solo confíes en nuestra palabra
+      testimonial_1_text: >
+        Example Real Estate hizo que nuestra experiencia de compra de casa fuera fluida y sin estrés.
+        Su equipo fue profesional, conocedor, y siempre disponible para responder nuestras preguntas.
+        ¡Muy recomendado!
+      testimonial_1_name: María García
+      testimonial_1_role: Compradora de Vivienda
+      testimonial_1_image: ""
+      testimonial_2_text: >
+        Vendimos nuestra propiedad en solo 3 semanas gracias a su excelente marketing y
+        habilidades de negociación. ¡Obtuvieron un precio por encima de lo que pedíamos!
+      testimonial_2_name: Carlos Rodríguez
+      testimonial_2_role: Vendedor de Propiedad
+      testimonial_2_image: ""
+      testimonial_3_text: >
+        Como compradores primerizos, estábamos nerviosos por el proceso. El equipo de Example RE
+        nos guió en cada paso y encontró nuestra casa soñada dentro de nuestro presupuesto.
+      testimonial_3_name: Ana y Pedro López
+      testimonial_3_role: Compradores Primerizos
+      testimonial_3_image: ""
+
   about-us:
     content_html:
       main_content: <p><b>Noticia importante:</b>&nbsp; Para este mes estamos haciendo evaluaciones de viviendas gratis. &nbsp;Llamanos para mas información.</p>
@@ -76,4 +159,93 @@ es:
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
       our_agency_img:
         db/example_images/carousel_grass.jpg
+
+    teams/team_grid:
+      section_title: Conoce a Nuestro Equipo
+      section_subtitle: Profesionales dedicados comprometidos con tu éxito
+      member_1_name: Juan García
+      member_1_role: Agente Senior
+      member_1_image: ""
+      member_1_bio: >
+        Juan tiene más de 15 años de experiencia en bienes raíces y ha ayudado a cientos
+        de familias a encontrar sus hogares perfectos.
+      member_1_email: juan@example.com
+      member_1_linkedin: ""
+      member_2_name: Elena Martínez
+      member_2_role: Consultora de Propiedades
+      member_2_image: ""
+      member_2_bio: >
+        Elena se especializa en propiedades de lujo y aporta un ojo agudo para el detalle
+        a cada transacción.
+      member_3_name: Roberto Sánchez
+      member_3_role: Director de Ventas
+      member_3_image: ""
+      member_4_name: Laura Fernández
+      member_4_role: Relaciones con Clientes
+
+  contact-us:
+    content_html:
+      main_content: <p><b>¡Nos encantaría saber de ti!</b> Ponte en contacto con nuestro equipo para cualquier consulta sobre compra, venta o alquiler de propiedades.</p>
+
+    cta/cta_split_image:
+      pretitle: Ponte en Contacto
+      title: Comienza Tu Viaje Inmobiliario
+      description: >
+        Ya sea que busques comprar tu primera casa, vender una propiedad o invertir en bienes raíces,
+        nuestro equipo experimentado está aquí para ayudarte. Contáctanos hoy para una consulta gratuita y sin compromiso.
+      features: >
+        <ul>
+          <li>Valoraciones de propiedades gratuitas</li>
+          <li>Asesoramiento experto del mercado</li>
+          <li>Servicio personalizado</li>
+          <li>Disponible 7 días a la semana</li>
+        </ul>
+      button_text: Programar una Llamada
+      button_link: "#contact-form"
+      image: db/example_images/carousel_grass.jpg
+      bg_style: light
+
+  sell:
+    content_html:
+      main_content:
+        <h2> Vender tu propiedad con nosotros </h2>
+        Nuestro compromiso con usted es mantener los más altos estándares de profesionalidad mientras le ayuda a tomar sus mejores decisiones de bienes raíces. Desea vender su propiedad con total confianza. Al hacerlo, usted se merece lo mejor. Nuestra meta en Example RE es proveerle un servicio excepcional mientras satisface sus necesidades en cada paso del proceso de venta.
+        <h2> Experiencia regional
+        </h2>
+        Nuestros clientes y nuestros afiliados de negocios le dirán, no hay listados en nuestra región de mercado de Birmingham que recibe más exposición a los compradores que los que figuran con nosotros. Nuestro marketing basado en Internet, publicidad impresa y esfuerzos de marketing colateral permiten a nuestros listados una exposición inigualable a los compradores que están buscando bienes raíces en Birmingham. La fuerza de nuestro marketing en línea, publicidad impresa y contactos directos de los corredores impulsan un tráfico significativo a nuestro sitio web, que proporciona información detallada sobre todos nuestros listados de propiedades.
+        <h2> Listo para ayudarte
+        </h2>
+        Nuestros profesionales de corretaje y personal calificados en Example RE tienen la experiencia, el conocimiento y la discreción para representar su propiedad en Birmingham. Nuestro equipo de corredores dedicados y profesionales y el personal están comprometidos a proporcionar un servicio extraordinario. Puede estar seguro de que Example RE proporciona las herramientas y ayuda a su corredor en la comercialización de su propiedad de manera eficiente y experta a los mercados locales, regionales y nacionales. Se necesita más de una señal en su casa o propiedad para atraer a los compradores. Creamos un plan de marketing completo para satisfacer sus necesidades.
+
+    faqs/faq_accordion:
+      section_title: Preguntas Frecuentes
+      section_subtitle: Todo lo que necesitas saber sobre vender tu propiedad
+      faq_1_question: ¿Cuánto tiempo tarda en venderse una propiedad?
+      faq_1_answer: >
+        <p>El tiempo para vender una propiedad varía según las condiciones del mercado, la ubicación y el precio.
+        En promedio, las propiedades en nuestra área se venden en 30-90 días. Te proporcionaremos un cronograma realista
+        basado en tu propiedad específica.</p>
+      faq_2_question: ¿Qué honorarios están involucrados en la venta?
+      faq_2_answer: >
+        <p>Nuestra comisión es competitiva con el mercado. Discutiremos todos los honorarios por adelantado, incluyendo
+        la comisión del agente, honorarios legales y cualquier impuesto aplicable. No hay costos ocultos.</p>
+      faq_3_question: ¿Necesito hacer reparaciones antes de vender?
+      faq_3_answer: >
+        <p>No necesariamente. Evaluaremos tu propiedad y te aconsejaremos sobre qué reparaciones, si las hay,
+        proporcionarían un buen retorno de inversión. A veces, pequeñas actualizaciones cosméticas pueden aumentar
+        significativamente el precio de venta.</p>
+      faq_4_question: ¿Cómo determinan el precio de venta?
+      faq_4_answer: >
+        <p>Realizamos un análisis de mercado completo, comparando tu propiedad con propiedades similares vendidas
+        recientemente en el área. Consideramos la ubicación, el estado, el tamaño y las tendencias actuales del mercado
+        para recomendar un precio de venta óptimo.</p>
+      faq_5_question: ¿Puedo vender mientras sigo viviendo en la propiedad?
+      faq_5_answer: >
+        <p>¡Por supuesto! Muchos de nuestros clientes continúan viviendo en sus casas durante el proceso de venta.
+        Coordinaremos las visitas en horarios convenientes y te daremos consejos para mantener tu casa lista
+        para mostrar.</p>
+      faq_6_question: ¿Qué sucede después de aceptar una oferta?
+      faq_6_answer: >
+        <p>Una vez que aceptes una oferta, nos encargamos del papeleo y coordinamos con abogados,
+        peritos y el agente del comprador. Te mantendremos informado en cada paso hasta la finalización.</p>
 

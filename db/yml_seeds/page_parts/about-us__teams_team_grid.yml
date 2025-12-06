@@ -1,0 +1,47 @@
+- page_slug: about-us
+  page_part_key: teams/team_grid
+  block_contents: {}
+  order_in_editor: 3
+  show_in_editor: true
+  editor_setup:
+    tabTitleKey: "pageSections.teamGrid.title"
+    tabInfoKey: "pageSections.teamGrid.info"
+    default_sort_order: 3
+    default_visible_on_page: true
+    editorBlocks:
+      - - label: section_title
+          isSingleLineText: "true"
+        - label: section_subtitle
+          isMultipleLineText: "true"
+      - - label: member_1_name
+          isSingleLineText: "true"
+        - label: member_1_role
+          isSingleLineText: "true"
+        - label: member_1_image
+          isImage: "true"
+        - label: member_1_bio
+          isMultipleLineText: "true"
+        - label: member_1_email
+          isSingleLineText: "true"
+        - label: member_1_linkedin
+          isSingleLineText: "true"
+      - - label: member_2_name
+          isSingleLineText: "true"
+        - label: member_2_role
+          isSingleLineText: "true"
+        - label: member_2_image
+          isImage: "true"
+        - label: member_2_bio
+          isMultipleLineText: "true"
+      - - label: member_3_name
+          isSingleLineText: "true"
+        - label: member_3_role
+          isSingleLineText: "true"
+        - label: member_3_image
+          isImage: "true"
+      - - label: member_4_name
+          isSingleLineText: "true"
+        - label: member_4_role
+          isSingleLineText: "true"
+        - label: member_4_image
+          isImage: "true"

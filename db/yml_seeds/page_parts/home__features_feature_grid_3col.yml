@@ -1,0 +1,41 @@
+- page_slug: home
+  page_part_key: features/feature_grid_3col
+  block_contents: {}
+  order_in_editor: 3
+  show_in_editor: true
+  editor_setup:
+    tabTitleKey: "pageSections.featureGrid.title"
+    tabInfoKey: "pageSections.featureGrid.info"
+    default_sort_order: 3
+    default_visible_on_page: true
+    editorBlocks:
+      - - label: section_pretitle
+          isSingleLineText: "true"
+        - label: section_title
+          isSingleLineText: "true"
+        - label: section_subtitle
+          isMultipleLineText: "true"
+      - - label: feature_1_icon
+          isIcon: "true"
+        - label: feature_1_title
+          isSingleLineText: "true"
+        - label: feature_1_description
+          isMultipleLineText: "true"
+        - label: feature_1_link
+          isSingleLineText: "true"
+      - - label: feature_2_icon
+          isIcon: "true"
+        - label: feature_2_title
+          isSingleLineText: "true"
+        - label: feature_2_description
+          isMultipleLineText: "true"
+        - label: feature_2_link
+          isSingleLineText: "true"
+      - - label: feature_3_icon
+          isIcon: "true"
+        - label: feature_3_title
+          isSingleLineText: "true"
+        - label: feature_3_description
+          isMultipleLineText: "true"
+        - label: feature_3_link
+          isSingleLineText: "true"

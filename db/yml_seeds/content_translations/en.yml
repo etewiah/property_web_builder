@@ -10,7 +10,7 @@ en:
     content_html:
       main_content:
         <b> DISCLAIMER</b> </br>
-        The Example RE Internet team strives to provide you with useful, accurate, and timely information on this website. Accordingly, Example RE has attempted to provide accurate information and materials on this website on this website but assumes no responsibility for the accuracy and completeness of that information and materials on this website but assumes no responsibility for the accuracy and comleteness of that information or materials. Example RE may change the content of any information or materials available at this webite, or to the products described in them, at any time without notice. However, Example RE makes no commitment to update the information or materials on this website which, as a result, may be out of date. Information and opinions expressed in bulletion boards or other forums are not necessarily those of Example RE. Neither Example RE, nor its officer, directors, employees, agents, distributors, or affiliates are responsible or liable for any loss damage (including, but not limited to, actual, consequential, or punitive), liability, claim, or other injury or cause related to or resulting from any information posted on Example RE’s website. Example RE reserves the right to revise these terms and/or legal restriction at any time. You are responsible for reviewing this page from time to time to ensure compliance with the then-current terms and legal restrictions because they will be binding on you. Certain provisions of these terms and legal restrictions may be superseded by expressly designated legal notices or terms located on particular pages of this website.
+        The Example RE Internet team strives to provide you with useful, accurate, and timely information on this website. Accordingly, Example RE has attempted to provide accurate information and materials on this website on this website but assumes no responsibility for the accuracy and completeness of that information and materials on this website but assumes no responsibility for the accuracy and comleteness of that information or materials. Example RE may change the content of any information or materials available at this webite, or to the products described in them, at any time without notice. However, Example RE makes no commitment to update the information or materials on this website which, as a result, may be out of date. Information and opinions expressed in bulletion boards or other forums are not necessarily those of Example RE. Neither Example RE, nor its officer, directors, employees, agents, distributors, or affiliates are responsible or liable for any loss damage (including, but not limited to, actual, consequential, or punitive), liability, claim, or other injury or cause related to or resulting from any information posted on Example RE's website. Example RE reserves the right to revise these terms and/or legal restriction at any time. You are responsible for reviewing this page from time to time to ensure compliance with the then-current terms and legal restrictions because they will be binding on you. Certain provisions of these terms and legal restrictions may be superseded by expressly designated legal notices or terms located on particular pages of this website.
 
 
   privacy:
@@ -40,6 +40,38 @@ en:
         </h2>
         Our Qualified Brokerage Professionals and Staff at Example Real Estate have the experience, the knowledge and the discretion to represent your property throughout Birmingham. Our team of dedicated and professional brokers and staff are committed to providing extraordinary service. You may be assured that Example RE provides the tools and assists your broker in marketing your property efficiently and expertly to local, regional and national markets. It takes more than a sign on your home or property to attract buyers. We create a complete marketing plan to meet your needs.
 
+    faqs/faq_accordion:
+      section_title: Frequently Asked Questions
+      section_subtitle: Everything you need to know about selling your property
+      faq_1_question: How long does it take to sell a property?
+      faq_1_answer: >
+        <p>The time to sell a property varies depending on market conditions, location, and pricing.
+        On average, properties in our area sell within 30-90 days. We'll provide a realistic timeline
+        based on your specific property.</p>
+      faq_2_question: What fees are involved in selling?
+      faq_2_answer: >
+        <p>Our commission is competitive with the market. We'll discuss all fees upfront, including
+        agent commission, legal fees, and any applicable taxes. There are no hidden costs.</p>
+      faq_3_question: Do I need to make repairs before selling?
+      faq_3_answer: >
+        <p>Not necessarily. We'll assess your property and advise on which repairs, if any, would
+        provide a good return on investment. Sometimes minor cosmetic updates can significantly
+        increase your sale price.</p>
+      faq_4_question: How do you determine the asking price?
+      faq_4_answer: >
+        <p>We conduct a comprehensive market analysis, comparing your property to similar recently
+        sold properties in the area. We consider location, condition, size, and current market trends
+        to recommend an optimal asking price.</p>
+      faq_5_question: Can I sell while still living in the property?
+      faq_5_answer: >
+        <p>Absolutely! Many of our clients continue living in their homes during the sale process.
+        We'll coordinate viewings at convenient times and provide tips for keeping your home
+        show-ready.</p>
+      faq_6_question: What happens after I accept an offer?
+      faq_6_answer: >
+        <p>Once you accept an offer, we handle the paperwork and coordinate with solicitors,
+        surveyors, and the buyer's agent. We'll keep you informed at every step until completion.</p>
+
   home:
     landing_hero:
       landing_title_a:
@@ -64,6 +96,89 @@ en:
       title_c: Sell your property
       content_c: <p>If you need to sell your property, get in touch with us.  With our experience in the industry and the local area we will get it done in the quickest and simplest way.</p>
 
+    heroes/hero_centered:
+      pretitle: Welcome to Example Real Estate
+      title: Find Your Dream Home
+      subtitle: >
+        We're dedicated to helping you find the perfect property.
+        Whether you're buying, selling, or renting, our expert team is here to guide you every step of the way.
+      cta_text: Browse Properties
+      cta_link: /search/buy
+      cta_secondary_text: Contact Us
+      cta_secondary_link: /contact
+      background_image: db/example_images/carousel_villa_with_pool.jpg
+
+    features/feature_grid_3col:
+      section_pretitle: Our Services
+      section_title: What We Offer
+      section_subtitle: Comprehensive real estate services tailored to your needs
+      feature_1_icon: fa-home
+      feature_1_title: Find Your Home
+      feature_1_description: >
+        Tell us exactly what you're looking for and we'll find that ideal property
+        that meets all your needs and budget.
+      feature_1_link: /search/buy
+      feature_2_icon: fa-user-tie
+      feature_2_title: Professional Agents
+      feature_2_description: >
+        Our experienced agents handle all the paperwork and negotiations,
+        saving you time and money throughout the process.
+      feature_2_link: /about
+      feature_3_icon: fa-hand-holding-usd
+      feature_3_title: Sell Your Property
+      feature_3_description: >
+        Get the best price for your property with our proven marketing strategies
+        and extensive network of qualified buyers.
+      feature_3_link: /sell
+
+    cta/cta_banner:
+      title: Ready to Find Your Perfect Home?
+      subtitle: Contact us today for a free consultation and let us help you navigate the property market with confidence.
+      button_text: Get Started
+      button_link: /contact
+      button_style: primary
+      secondary_button_text: View Properties
+      secondary_button_link: /search/buy
+      style: primary
+
+    stats/stats_counter:
+      section_title: Our Track Record
+      section_subtitle: Numbers that speak for themselves
+      stat_1_value: 500
+      stat_1_label: Properties Sold
+      stat_1_prefix: ""
+      stat_1_suffix: +
+      stat_2_value: 98
+      stat_2_label: Client Satisfaction
+      stat_3_value: 15
+      stat_3_label: Years Experience
+      stat_4_value: 50
+      stat_4_label: Expert Agents
+      style: light
+
+    testimonials/testimonial_carousel:
+      section_title: What Our Clients Say
+      section_subtitle: Don't just take our word for it
+      testimonial_1_text: >
+        Example Real Estate made our home buying experience smooth and stress-free.
+        Their team was professional, knowledgeable, and always available to answer our questions.
+        Highly recommended!
+      testimonial_1_name: Sarah Johnson
+      testimonial_1_role: Home Buyer
+      testimonial_1_image: ""
+      testimonial_2_text: >
+        We sold our property in just 3 weeks thanks to their excellent marketing and
+        negotiation skills. They got us a price above our asking price!
+      testimonial_2_name: Michael Chen
+      testimonial_2_role: Property Seller
+      testimonial_2_image: ""
+      testimonial_3_text: >
+        As first-time buyers, we were nervous about the process. The team at Example RE
+        guided us through every step and found us our dream home within our budget.
+      testimonial_3_name: Emma & James Wilson
+      testimonial_3_role: First-time Buyers
+      testimonial_3_image: ""
+
   about-us:
     content_html:
       main_content: <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.  Call us now to take advantage of this special offer.</p>
@@ -77,3 +192,47 @@ en:
       our_agency_img:
         db/example_images/carousel_grass.jpg
 
+    teams/team_grid:
+      section_title: Meet Our Team
+      section_subtitle: Dedicated professionals committed to your success
+      member_1_name: John Smith
+      member_1_role: Senior Agent
+      member_1_image: ""
+      member_1_bio: >
+        John has over 15 years of experience in real estate and has helped hundreds
+        of families find their perfect homes.
+      member_1_email: john@example.com
+      member_1_linkedin: ""
+      member_2_name: Emily Davis
+      member_2_role: Property Consultant
+      member_2_image: ""
+      member_2_bio: >
+        Emily specializes in luxury properties and brings a keen eye for detail
+        to every transaction.
+      member_3_name: Robert Brown
+      member_3_role: Sales Director
+      member_3_image: ""
+      member_4_name: Lisa Martinez
+      member_4_role: Client Relations
+
+  contact-us:
+    content_html:
+      main_content: <p><b>We'd love to hear from you!</b> Get in touch with our team for any inquiries about buying, selling, or renting properties.</p>
+
+    cta/cta_split_image:
+      pretitle: Get in Touch
+      title: Let's Start Your Property Journey
+      description: >
+        Whether you're looking to buy your first home, sell a property, or invest in real estate,
+        our experienced team is here to help. Contact us today for a free, no-obligation consultation.
+      features: >
+        <ul>
+          <li>Free property valuations</li>
+          <li>Expert market advice</li>
+          <li>Personalized service</li>
+          <li>Available 7 days a week</li>
+        </ul>
+      button_text: Schedule a Call
+      button_link: "#contact-form"
+      image: db/example_images/carousel_grass.jpg
+      bg_style: light

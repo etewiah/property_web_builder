@@ -1,0 +1,39 @@
+- page_slug: home
+  page_part_key: testimonials/testimonial_carousel
+  block_contents: {}
+  order_in_editor: 7
+  show_in_editor: true
+  editor_setup:
+    tabTitleKey: "pageSections.testimonials.title"
+    tabInfoKey: "pageSections.testimonials.info"
+    default_sort_order: 7
+    default_visible_on_page: true
+    editorBlocks:
+      - - label: section_title
+          isSingleLineText: "true"
+        - label: section_subtitle
+          isMultipleLineText: "true"
+      - - label: testimonial_1_text
+          isMultipleLineText: "true"
+        - label: testimonial_1_name
+          isSingleLineText: "true"
+        - label: testimonial_1_role
+          isSingleLineText: "true"
+        - label: testimonial_1_image
+          isImage: "true"
+      - - label: testimonial_2_text
+          isMultipleLineText: "true"
+        - label: testimonial_2_name
+          isSingleLineText: "true"
+        - label: testimonial_2_role
+          isSingleLineText: "true"
+        - label: testimonial_2_image
+          isImage: "true"
+      - - label: testimonial_3_text
+          isMultipleLineText: "true"
+        - label: testimonial_3_name
+          isSingleLineText: "true"
+        - label: testimonial_3_role
+          isSingleLineText: "true"
+        - label: testimonial_3_image
+          isImage: "true"

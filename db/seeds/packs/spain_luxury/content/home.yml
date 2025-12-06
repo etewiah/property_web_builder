@@ -1,86 +1,169 @@
 # Home page content for Spain Luxury pack
+# Content keys match page part templates from the Page Part Library
 
-hero:
+# Hero Section (heroes/hero_centered)
+heroes/hero_centered:
+  pretitle:
+    es: "Bienvenido a Costa Luxury Properties"
+    en: "Welcome to Costa Luxury Properties"
+    de: "Willkommen bei Costa Luxury Properties"
   title:
     es: "Propiedades de lujo en la Costa del Sol"
     en: "Luxury Properties on the Costa del Sol"
     de: "Luxusimmobilien an der Costa del Sol"
   subtitle:
-    es: "Encuentre su hogar soñado en el sur de España"
-    en: "Find your dream home in southern Spain"
-    de: "Finden Sie Ihr Traumhaus in Südspanien"
+    es: "Encuentre su hogar soñado en el sur de España. Nuestro equipo experto le guiará en cada paso del camino."
+    en: "Find your dream home in southern Spain. Our expert team will guide you every step of the way."
+    de: "Finden Sie Ihr Traumhaus in Südspanien. Unser Expertenteam begleitet Sie bei jedem Schritt."
   cta_text:
     es: "Ver propiedades"
     en: "View Properties"
     de: "Immobilien ansehen"
+  cta_link: "/search/buy"
+  cta_secondary_text:
+    es: "Contáctenos"
+    en: "Contact Us"
+    de: "Kontaktieren Sie uns"
+  cta_secondary_link: "/contact"
+  background_image: "db/example_images/carousel_villa_with_pool.jpg"
 
-about_section:
-  title:
-    es: "Sobre Costa Luxury Properties"
-    en: "About Costa Luxury Properties"
-    de: "Über Costa Luxury Properties"
-  content:
-    es: "Con más de 20 años de experiencia en el mercado inmobiliario de lujo de la Costa del Sol, somos su socio de confianza para encontrar la propiedad perfecta. Nuestro equipo multilingüe ofrece un servicio personalizado y experto a clientes internacionales."
-    en: "With over 20 years of experience in the Costa del Sol luxury real estate market, we are your trusted partner in finding the perfect property. Our multilingual team provides personalized, expert service to international clients."
-    de: "Mit über 20 Jahren Erfahrung auf dem Luxusimmobilienmarkt der Costa del Sol sind wir Ihr vertrauenswürdiger Partner bei der Suche nach der perfekten Immobilie. Unser mehrsprachiges Team bietet internationalen Kunden einen personalisierten, fachkundigen Service."
-
-services:
-  title:
+# Feature Grid (features/feature_grid_3col)
+features/feature_grid_3col:
+  section_pretitle:
     es: "Nuestros servicios"
     en: "Our Services"
     de: "Unsere Dienstleistungen"
-  items:
-    - key: buying
-      title:
-        es: "Compra"
-        en: "Buying"
-        de: "Kauf"
-      description:
-        es: "Le acompañamos en todo el proceso de compra"
-        en: "We guide you through the entire buying process"
-        de: "Wir begleiten Sie durch den gesamten Kaufprozess"
-    - key: selling
-      title:
-        es: "Venta"
-        en: "Selling"
-        de: "Verkauf"
-      description:
-        es: "Maximice el valor de su propiedad"
-        en: "Maximize the value of your property"
-        de: "Maximieren Sie den Wert Ihrer Immobilie"
-    - key: rental
-      title:
-        es: "Alquiler"
-        en: "Rental"
-        de: "Vermietung"
-      description:
-        es: "Alquileres de larga y corta temporada"
-        en: "Long and short-term rentals"
-        de: "Lang- und Kurzzeitvermietungen"
+  section_title:
+    es: "Lo que ofrecemos"
+    en: "What We Offer"
+    de: "Was wir anbieten"
+  section_subtitle:
+    es: "Servicios inmobiliarios completos adaptados a sus necesidades"
+    en: "Comprehensive real estate services tailored to your needs"
+    de: "Umfassende Immobiliendienstleistungen nach Ihren Bedürfnissen"
+  feature_1_icon: "fa-home"
+  feature_1_title:
+    es: "Compra"
+    en: "Buying"
+    de: "Kauf"
+  feature_1_description:
+    es: "Le guiamos durante todo el proceso de compra, desde la búsqueda hasta la firma."
+    en: "We guide you through the entire buying process, from search to closing."
+    de: "Wir begleiten Sie durch den gesamten Kaufprozess, von der Suche bis zum Abschluss."
+  feature_1_link: "/search/buy"
+  feature_2_icon: "fa-hand-holding-usd"
+  feature_2_title:
+    es: "Venta"
+    en: "Selling"
+    de: "Verkauf"
+  feature_2_description:
+    es: "Maximice el valor de su propiedad con nuestras estrategias de marketing probadas."
+    en: "Maximize your property's value with our proven marketing strategies."
+    de: "Maximieren Sie den Wert Ihrer Immobilie mit unseren bewährten Marketingstrategien."
+  feature_2_link: "/sell"
+  feature_3_icon: "fa-key"
+  feature_3_title:
+    es: "Alquiler"
+    en: "Rental"
+    de: "Vermietung"
+  feature_3_description:
+    es: "Alquileres de larga y corta temporada para todas sus necesidades."
+    en: "Long and short-term rentals for all your needs."
+    de: "Lang- und Kurzzeitvermietungen für alle Ihre Bedürfnisse."
+  feature_3_link: "/search/rent"
 
-locations:
+# Stats Counter (stats/stats_counter)
+stats/stats_counter:
+  section_title:
+    es: "Nuestra trayectoria"
+    en: "Our Track Record"
+    de: "Unsere Erfolgsbilanz"
+  section_subtitle:
+    es: "Números que hablan por sí mismos"
+    en: "Numbers that speak for themselves"
+    de: "Zahlen, die für sich sprechen"
+  stat_1_value: "750"
+  stat_1_label:
+    es: "Propiedades vendidas"
+    en: "Properties Sold"
+    de: "Verkaufte Immobilien"
+  stat_1_suffix: "+"
+  stat_2_value: "99"
+  stat_2_label:
+    es: "Satisfacción del cliente"
+    en: "Client Satisfaction"
+    de: "Kundenzufriedenheit"
+  stat_2_suffix: "%"
+  stat_3_value: "20"
+  stat_3_label:
+    es: "Años de experiencia"
+    en: "Years Experience"
+    de: "Jahre Erfahrung"
+  stat_3_suffix: "+"
+  stat_4_value: "25"
+  stat_4_label:
+    es: "Agentes expertos"
+    en: "Expert Agents"
+    de: "Experten-Makler"
+  style: "primary"
+
+# Testimonials (testimonials/testimonial_carousel)
+testimonials/testimonial_carousel:
+  section_title:
+    es: "Lo que dicen nuestros clientes"
+    en: "What Our Clients Say"
+    de: "Was unsere Kunden sagen"
+  section_subtitle:
+    es: "No solo confíe en nuestra palabra"
+    en: "Don't just take our word for it"
+    de: "Verlassen Sie sich nicht nur auf unser Wort"
+  testimonial_1_text:
+    es: "Costa Luxury Properties hizo que encontrar nuestra villa de ensueño fuera una experiencia increíble. Su conocimiento del mercado local es incomparable."
+    en: "Costa Luxury Properties made finding our dream villa an incredible experience. Their knowledge of the local market is unmatched."
+    de: "Costa Luxury Properties hat die Suche nach unserer Traumvilla zu einem unglaublichen Erlebnis gemacht. Ihre Kenntnis des lokalen Marktes ist unübertroffen."
+  testimonial_1_name: "James & Sarah Thompson"
+  testimonial_1_role:
+    es: "Compradores de villa en Marbella"
+    en: "Villa Buyers, Marbella"
+    de: "Villakäufer, Marbella"
+  testimonial_2_text:
+    es: "Profesionales, atentos y verdaderamente dedicados a encontrar la propiedad perfecta. Los recomiendo encarecidamente."
+    en: "Professional, attentive, and truly dedicated to finding the perfect property. I highly recommend them."
+    de: "Professionell, aufmerksam und wirklich engagiert, die perfekte Immobilie zu finden. Ich empfehle sie wärmstens."
+  testimonial_2_name: "Hans Mueller"
+  testimonial_2_role:
+    es: "Inversor de Alemania"
+    en: "Investor from Germany"
+    de: "Investor aus Deutschland"
+  testimonial_3_text:
+    es: "Vendimos nuestro apartamento en tiempo récord y por encima del precio de venta. Un equipo fantástico."
+    en: "We sold our apartment in record time and above the asking price. A fantastic team."
+    de: "Wir haben unsere Wohnung in Rekordzeit und über dem Angebotspreis verkauft. Ein fantastisches Team."
+  testimonial_3_name: "María García"
+  testimonial_3_role:
+    es: "Vendedora en Puerto Banús"
+    en: "Seller, Puerto Banús"
+    de: "Verkäuferin, Puerto Banús"
+
+# CTA Banner (cta/cta_banner)
+cta/cta_banner:
   title:
-    es: "Ubicaciones destacadas"
-    en: "Featured Locations"
-    de: "Beliebte Standorte"
-  items:
-    - name: Marbella
-      description:
-        es: "El corazón de la Costa del Sol"
-        en: "The heart of the Costa del Sol"
-        de: "Das Herz der Costa del Sol"
-    - name: Puerto Banús
-      description:
-        es: "Lujo y estilo de vida exclusivo"
-        en: "Luxury and exclusive lifestyle"
-        de: "Luxus und exklusiver Lebensstil"
-    - name: Benahavís
-      description:
-        es: "Urbanizaciones de prestigio"
-        en: "Prestigious urbanizations"
-        de: "Prestigeträchtige Wohnanlagen"
-    - name: Estepona
-      description:
-        es: "Encanto andaluz moderno"
-        en: "Modern Andalusian charm"
-        de: "Moderner andalusischer Charme"
+    es: "¿Listo para encontrar su propiedad de ensueño?"
+    en: "Ready to Find Your Dream Property?"
+    de: "Bereit, Ihre Traumimmobilie zu finden?"
+  subtitle:
+    es: "Contáctenos hoy para una consulta gratuita y permítanos ayudarle a navegar el mercado inmobiliario de la Costa del Sol."
+    en: "Contact us today for a free consultation and let us help you navigate the Costa del Sol property market."
+    de: "Kontaktieren Sie uns heute für eine kostenlose Beratung und lassen Sie uns Ihnen helfen, den Immobilienmarkt der Costa del Sol zu navigieren."
+  button_text:
+    es: "Comenzar"
+    en: "Get Started"
+    de: "Loslegen"
+  button_link: "/contact"
+  button_style: "primary"
+  secondary_button_text:
+    es: "Ver propiedades"
+    en: "View Properties"
+    de: "Immobilien ansehen"
+  secondary_button_link: "/search/buy"
+  style: "primary"

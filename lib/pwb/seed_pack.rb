@@ -77,6 +77,7 @@ module Pwb
       seed_field_keys unless @options[:skip_field_keys]
       seed_links unless @options[:skip_links]
       seed_pages unless @options[:skip_pages]
+      seed_page_parts unless @options[:skip_page_parts]
       seed_properties unless @options[:skip_properties]
       seed_content unless @options[:skip_content]
       seed_users unless @options[:skip_users]
@@ -138,6 +139,7 @@ module Pwb
         skip_field_keys: false,
         skip_links: false,
         skip_pages: false,
+        skip_page_parts: false,
         dry_run: false,
         verbose: true
       }
@@ -296,6 +298,103 @@ module Pwb
       end
 
       log "  Created #{count} pages", :detail
+    end
+
+    def seed_page_parts
+      page_parts_dir = @path.join('page_parts')
+
+      # If the pack has page_parts configured in pack.yml or directory, use those
+      if page_parts_dir.exist?
+        seed_pack_page_parts(page_parts_dir)
+      elsif config[:page_parts]
+        seed_configured_page_parts
+      else
+        # Fall back to default page parts from yml_seeds
+        seed_default_page_parts
+      end
+    end
+
+    def seed_pack_page_parts(page_parts_dir)
+      log "Seeding custom page parts from pack...", :info
+
+      count = 0
+      Dir.glob(page_parts_dir.join('*.yml')).each do |page_part_file|
+        page_part_data = YAML.safe_load(File.read(page_part_file), symbolize_names: true)
+        next unless page_part_data
+
+        Array(page_part_data).each do |attrs|
+          existing = Pwb::PagePart.find_by(
+            page_part_key: attrs[:page_part_key],
+            page_slug: attrs[:page_slug],
+            website_id: @website.id
+          )
+
+          unless existing
+            Pwb::PagePart.create!(attrs.merge(website_id: @website.id))
+            count += 1
+          end
+        end
+      end
+
+      log "  Created #{count} page parts", :detail
+    end
+
+    def seed_configured_page_parts
+      log "Seeding page parts from pack config...", :info
+
+      count = 0
+      config[:page_parts].each do |page_slug, parts|
+        Array(parts).each do |part_config|
+          # part_config can be a string (just the key) or a hash with more options
+          part_key = part_config.is_a?(Hash) ? part_config[:key] : part_config.to_s
+
+          existing = Pwb::PagePart.find_by(
+            page_part_key: part_key,
+            page_slug: page_slug.to_s,
+            website_id: @website.id
+          )
+
+          unless existing
+            # Look up editor_setup from the default page parts
+            default_setup = load_default_page_part_setup(page_slug, part_key)
+
+            attrs = {
+              page_part_key: part_key,
+              page_slug: page_slug.to_s,
+              website_id: @website.id,
+              block_contents: {},
+              order_in_editor: part_config.is_a?(Hash) ? (part_config[:order] || 1) : 1,
+              show_in_editor: true,
+              editor_setup: default_setup || {}
+            }
+
+            Pwb::PagePart.create!(attrs)
+            count += 1
+          end
+        end
+      end
+
+      log "  Created #{count} page parts", :detail
+    end
+
+    def seed_default_page_parts
+      log "Seeding default page parts...", :info
+
+      # Use the PagesSeeder to seed default page parts
+      Pwb::PagesSeeder.seed_page_parts!(website: @website)
+
+      log "  Default page parts seeded", :detail
+    end
+
+    def load_default_page_part_setup(page_slug, part_key)
+      # Convert part_key format (e.g., "heroes/hero_centered") to filename
+      filename = "#{page_slug}__#{part_key.gsub('/', '_')}.yml"
+      seed_file = Rails.root.join('db', 'yml_seeds', 'page_parts', filename)
+
+      return nil unless seed_file.exist?
+
+      yml_contents = YAML.safe_load(File.read(seed_file), symbolize_names: true)
+      yml_contents&.first&.dig(:editor_setup)
     end
 
     def seed_properties

@@ -1,0 +1,233 @@
+---
+fr:
+  website:
+    footer_content_html:
+      main_content:
+        <p>Nous sommes fiers d'être enregistrés auprès de l'association nationale des agents immobiliers.</p>
+        <p>Numéro d'enregistrement 12121212</p>
+
+  legal:
+    content_html:
+      main_content:
+        <b>AVERTISSEMENT</b></br>
+        L'équipe Internet de Example RE s'efforce de vous fournir des informations utiles, précises et opportunes sur ce site web. En conséquence, Example RE a tenté de fournir des informations et du matériel précis sur ce site web, mais n'assume aucune responsabilité quant à l'exactitude et à l'exhaustivité de ces informations et matériels. Example RE peut modifier le contenu de toute information ou matériel disponible sur ce site web, ou les produits qui y sont décrits, à tout moment et sans préavis. Cependant, Example RE ne s'engage pas à mettre à jour les informations ou le matériel de ce site web qui, par conséquent, peuvent être obsolètes.
+
+  privacy:
+    content_html:
+      main_content:
+        <p><b>Politique de Confidentialité</b></p><p>
+        Nous nous engageons à assurer la sécurité des données de vos utilisateurs. Par conséquent, notre Politique de Confidentialité définit les conditions dans lesquelles Example RE utilise et protège les informations fournies par ses clients.</p><p>
+        <b>Utilisation des Informations Collectées</b></p><p>
+        Notre site web peut collecter des informations personnelles telles que votre adresse e-mail et des informations démographiques. De plus, si nécessaire, des informations spécifiques peuvent être requises pour traiter une commande ou effectuer une livraison ou une facturation.
+        Example RE ne vendra, ne cédera ni ne distribuera les informations personnelles collectées sans votre consentement, sauf si requis par un tribunal avec une ordonnance du tribunal.</p>
+        <p><b>Liens vers des Tiers</b></p><p>
+        Ce site web peut contenir des liens vers d'autres sites qui pourraient vous intéresser. Une fois que vous cliquez sur ces liens et quittez notre page, nous n'avons plus de contrôle sur le site vers lequel vous êtes redirigé et nous ne sommes donc pas responsables des conditions ou de la confidentialité ou de la protection de vos données sur ces autres sites tiers.</p>
+
+  sell:
+    content_html:
+      main_content:
+        <h2>Vendez Votre Propriété Avec Nous</h2>
+        Notre engagement envers vous est de maintenir les plus hauts standards de professionnalisme tout en vous aidant à prendre vos meilleures décisions immobilières. Vous souhaitez vendre votre propriété en toute confiance. Ce faisant, vous méritez ce que nous avons de mieux. Notre objectif chez Example Real Estate est de vous fournir un service exceptionnel tout en répondant à vos besoins à chaque étape du processus de vente.
+        <h2>Expertise Régionale
+        </h2>
+        Nos clients et nos partenaires commerciaux vous diront qu'aucune annonce dans notre région de marché ne reçoit plus d'exposition aux acheteurs que celles listées chez Example Real Estate. Notre marketing basé sur Internet, notre publicité imprimée et nos efforts de marketing collatéral permettent à nos annonces une exposition inégalée aux acheteurs.
+        <h2>Prêts à Vous Aider
+        </h2>
+        Nos professionnels qualifiés et notre personnel chez Example Real Estate ont l'expérience, les connaissances et la discrétion pour représenter votre propriété. Notre équipe de courtiers dévoués et professionnels et notre personnel sont engagés à fournir un service extraordinaire.
+
+    faqs/faq_accordion:
+      section_title: Questions Fréquentes
+      section_subtitle: Tout ce que vous devez savoir sur la vente de votre propriété
+      faq_1_question: Combien de temps faut-il pour vendre une propriété ?
+      faq_1_answer: >
+        <p>Le temps pour vendre une propriété varie selon les conditions du marché, l'emplacement et le prix.
+        En moyenne, les propriétés dans notre région se vendent en 30-90 jours. Nous vous fournirons un calendrier réaliste
+        basé sur votre propriété spécifique.</p>
+      faq_2_question: Quels sont les frais de vente ?
+      faq_2_answer: >
+        <p>Notre commission est compétitive avec le marché. Nous discuterons de tous les frais à l'avance, y compris
+        la commission de l'agent, les frais juridiques et les taxes applicables. Il n'y a pas de frais cachés.</p>
+      faq_3_question: Dois-je faire des réparations avant de vendre ?
+      faq_3_answer: >
+        <p>Pas nécessairement. Nous évaluerons votre propriété et vous conseillerons sur les réparations, le cas échéant,
+        qui offriraient un bon retour sur investissement. Parfois, de petites mises à jour cosmétiques peuvent
+        augmenter significativement le prix de vente.</p>
+      faq_4_question: Comment déterminez-vous le prix demandé ?
+      faq_4_answer: >
+        <p>Nous effectuons une analyse de marché complète, comparant votre propriété à des propriétés similaires vendues
+        récemment dans la région. Nous considérons l'emplacement, l'état, la taille et les tendances actuelles du marché
+        pour recommander un prix demandé optimal.</p>
+      faq_5_question: Puis-je vendre tout en continuant à vivre dans la propriété ?
+      faq_5_answer: >
+        <p>Absolument ! Beaucoup de nos clients continuent de vivre dans leur maison pendant le processus de vente.
+        Nous coordonnerons les visites à des moments convenables et fournirons des conseils pour garder votre maison
+        prête pour les visites.</p>
+      faq_6_question: Que se passe-t-il après avoir accepté une offre ?
+      faq_6_answer: >
+        <p>Une fois que vous acceptez une offre, nous nous occupons de la paperasse et coordonnons avec les avocats,
+        les experts et l'agent de l'acheteur. Nous vous tiendrons informé à chaque étape jusqu'à la finalisation.</p>
+
+  home:
+    landing_hero:
+      landing_title_a:
+        Le meilleur agent immobilier à Springfield
+      landing_content_a: >
+        <ul class="list-carousel">
+          <li><i class="fa fa-check-square">
+            </i> Personnel professionnel</li>
+          <li><i class="fa fa-check-square"></i> Nous vous trouverons la meilleure propriété sur le marché</li>
+        </ul>
+      landing_img:
+        db/example_images/carousel_villa_with_pool.jpg
+
+    content_html:
+      main_content: <p><b>Avis important :</b>&nbsp; Nous offrons des évaluations immobilières gratuites ce mois-ci uniquement. Appelez-nous maintenant pour profiter de cette offre spéciale.</p>
+
+    about_us_services:
+      title_a: Trouvez votre maison
+      content_a: <p>Expliquez-nous exactement ce que vous recherchez et nous ferons de notre mieux pour trouver cette propriété idéale qui répond à vos besoins.</p>
+      title_b: Agents immobiliers professionnels
+      content_b: <p>Nous sommes des agents immobiliers professionnels. Nous vous aiderons avec toutes les formalités et vous ferons économiser de l'argent en cours de route.</p>
+      title_c: Vendez votre propriété
+      content_c: <p>Si vous devez vendre votre propriété, contactez-nous. Avec notre expérience dans l'industrie et la région locale, nous le ferons de la manière la plus rapide et la plus simple.</p>
+
+    heroes/hero_centered:
+      pretitle: Bienvenue chez Example Real Estate
+      title: Trouvez la Maison de Vos Rêves
+      subtitle: >
+        Nous nous engageons à vous aider à trouver la propriété parfaite.
+        Que vous achetiez, vendiez ou louiez, notre équipe d'experts est là pour vous guider à chaque étape.
+      cta_text: Parcourir les Propriétés
+      cta_link: /search/buy
+      cta_secondary_text: Contactez-Nous
+      cta_secondary_link: /contact
+      background_image: db/example_images/carousel_villa_with_pool.jpg
+
+    features/feature_grid_3col:
+      section_pretitle: Nos Services
+      section_title: Ce Que Nous Offrons
+      section_subtitle: Services immobiliers complets adaptés à vos besoins
+      feature_1_icon: fa-home
+      feature_1_title: Trouvez Votre Maison
+      feature_1_description: >
+        Dites-nous exactement ce que vous recherchez et nous trouverons cette propriété idéale
+        qui répond à tous vos besoins et à votre budget.
+      feature_1_link: /search/buy
+      feature_2_icon: fa-user-tie
+      feature_2_title: Agents Professionnels
+      feature_2_description: >
+        Nos agents expérimentés gèrent toutes les formalités et négociations,
+        vous faisant gagner du temps et de l'argent tout au long du processus.
+      feature_2_link: /about
+      feature_3_icon: fa-hand-holding-usd
+      feature_3_title: Vendez Votre Propriété
+      feature_3_description: >
+        Obtenez le meilleur prix pour votre propriété avec nos stratégies marketing éprouvées
+        et notre vaste réseau d'acheteurs qualifiés.
+      feature_3_link: /sell
+
+    cta/cta_banner:
+      title: Prêt à Trouver Votre Maison Parfaite ?
+      subtitle: Contactez-nous aujourd'hui pour une consultation gratuite et laissez-nous vous aider à naviguer sur le marché immobilier en toute confiance.
+      button_text: Commencer
+      button_link: /contact
+      button_style: primary
+      secondary_button_text: Voir les Propriétés
+      secondary_button_link: /search/buy
+      style: primary
+
+    stats/stats_counter:
+      section_title: Notre Bilan
+      section_subtitle: Des chiffres qui parlent d'eux-mêmes
+      stat_1_value: 500
+      stat_1_label: Propriétés Vendues
+      stat_1_prefix: ""
+      stat_1_suffix: +
+      stat_2_value: 98
+      stat_2_label: Satisfaction Client
+      stat_3_value: 15
+      stat_3_label: Années d'Expérience
+      stat_4_value: 50
+      stat_4_label: Agents Experts
+      style: light
+
+    testimonials/testimonial_carousel:
+      section_title: Ce Que Disent Nos Clients
+      section_subtitle: Ne nous croyez pas sur parole
+      testimonial_1_text: >
+        Example Real Estate a rendu notre expérience d'achat de maison fluide et sans stress.
+        Leur équipe était professionnelle, compétente et toujours disponible pour répondre à nos questions.
+        Hautement recommandé !
+      testimonial_1_name: Marie Dupont
+      testimonial_1_role: Acheteuse de Maison
+      testimonial_1_image: ""
+      testimonial_2_text: >
+        Nous avons vendu notre propriété en seulement 3 semaines grâce à leur excellent marketing et
+        leurs compétences en négociation. Ils ont obtenu un prix supérieur à notre demande !
+      testimonial_2_name: Pierre Martin
+      testimonial_2_role: Vendeur de Propriété
+      testimonial_2_image: ""
+      testimonial_3_text: >
+        En tant que primo-accédants, nous étions nerveux à propos du processus. L'équipe de Example RE
+        nous a guidés à chaque étape et a trouvé notre maison de rêve dans notre budget.
+      testimonial_3_name: Sophie et Jean Leroy
+      testimonial_3_role: Primo-Accédants
+      testimonial_3_image: ""
+
+  about-us:
+    content_html:
+      main_content: <p><b>Avis important :</b>&nbsp; Nous offrons des évaluations immobilières gratuites ce mois-ci uniquement. Appelez-nous maintenant pour profiter de cette offre spéciale.</p>
+    our_agency:
+      title_a:
+        À Propos de Nous
+      content_a:
+        <p>Nous sommes des agents immobiliers professionnels avec de nombreuses années d'expérience dans la fourniture d'un excellent service
+        à nos clients.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      our_agency_img:
+        db/example_images/carousel_grass.jpg
+
+    teams/team_grid:
+      section_title: Rencontrez Notre Équipe
+      section_subtitle: Des professionnels dévoués engagés pour votre succès
+      member_1_name: Jean Dupont
+      member_1_role: Agent Senior
+      member_1_image: ""
+      member_1_bio: >
+        Jean a plus de 15 ans d'expérience dans l'immobilier et a aidé des centaines
+        de familles à trouver leur maison parfaite.
+      member_1_email: jean@example.com
+      member_1_linkedin: ""
+      member_2_name: Marie Martin
+      member_2_role: Consultante Immobilière
+      member_2_image: ""
+      member_2_bio: >
+        Marie est spécialisée dans les propriétés de luxe et apporte un œil aiguisé pour le détail
+        à chaque transaction.
+      member_3_name: Robert Leroy
+      member_3_role: Directeur des Ventes
+      member_3_image: ""
+      member_4_name: Sophie Bernard
+      member_4_role: Relations Clients
+
+  contact-us:
+    content_html:
+      main_content: <p><b>Nous serions ravis de vous entendre !</b> Contactez notre équipe pour toute question concernant l'achat, la vente ou la location de propriétés.</p>
+
+    cta/cta_split_image:
+      pretitle: Contactez-Nous
+      title: Commencez Votre Voyage Immobilier
+      description: >
+        Que vous cherchiez à acheter votre première maison, à vendre une propriété ou à investir dans l'immobilier,
+        notre équipe expérimentée est là pour vous aider. Contactez-nous aujourd'hui pour une consultation gratuite et sans engagement.
+      features: >
+        <ul>
+          <li>Évaluations immobilières gratuites</li>
+          <li>Conseils d'experts du marché</li>
+          <li>Service personnalisé</li>
+          <li>Disponible 7 jours sur 7</li>
+        </ul>
+      button_text: Planifier un Appel
+      button_link: "#contact-form"
+      image: db/example_images/carousel_grass.jpg
+      bg_style: light

@@ -1,0 +1,27 @@
+- page_slug: home
+  page_part_key: cta/cta_banner
+  block_contents: {}
+  order_in_editor: 5
+  show_in_editor: true
+  editor_setup:
+    tabTitleKey: "pageSections.ctaBanner.title"
+    tabInfoKey: "pageSections.ctaBanner.info"
+    default_sort_order: 5
+    default_visible_on_page: true
+    editorBlocks:
+      - - label: title
+          isSingleLineText: "true"
+        - label: subtitle
+          isMultipleLineText: "true"
+      - - label: button_text
+          isSingleLineText: "true"
+        - label: button_link
+          isSingleLineText: "true"
+        - label: button_style
+          isSingleLineText: "true"
+      - - label: secondary_button_text
+          isSingleLineText: "true"
+        - label: secondary_button_link
+          isSingleLineText: "true"
+        - label: style
+          isSingleLineText: "true"

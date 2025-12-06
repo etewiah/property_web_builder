@@ -1,0 +1,76 @@
+# Sell page content for Spain Luxury pack
+
+# Main content (content_html)
+content_html:
+  main_content:
+    es: |
+      <h2>Venda su propiedad con Costa Luxury</h2>
+      <p>Nuestro compromiso es mantener los más altos estándares de profesionalismo mientras le ayudamos a tomar las mejores decisiones inmobiliarias.</p>
+      <p>Con nuestra amplia red de compradores internacionales y estrategias de marketing probadas, lograremos el mejor precio para su propiedad en el menor tiempo posible.</p>
+    en: |
+      <h2>Sell Your Property with Costa Luxury</h2>
+      <p>Our commitment is to uphold the highest standards of professionalism while helping you make the best real estate decisions.</p>
+      <p>With our extensive network of international buyers and proven marketing strategies, we'll achieve the best price for your property in the shortest time possible.</p>
+    de: |
+      <h2>Verkaufen Sie Ihre Immobilie mit Costa Luxury</h2>
+      <p>Unser Engagement ist es, die höchsten Standards an Professionalität aufrechtzuerhalten und Ihnen bei den besten Immobilienentscheidungen zu helfen.</p>
+      <p>Mit unserem umfangreichen Netzwerk internationaler Käufer und bewährten Marketingstrategien erzielen wir den besten Preis für Ihre Immobilie in kürzester Zeit.</p>
+
+# FAQ Accordion (faqs/faq_accordion)
+faqs/faq_accordion:
+  section_title:
+    es: "Preguntas frecuentes"
+    en: "Frequently Asked Questions"
+    de: "Häufig gestellte Fragen"
+  section_subtitle:
+    es: "Todo lo que necesita saber sobre vender su propiedad"
+    en: "Everything you need to know about selling your property"
+    de: "Alles, was Sie über den Verkauf Ihrer Immobilie wissen müssen"
+  faq_1_question:
+    es: "¿Cuánto tiempo tarda en venderse una propiedad?"
+    en: "How long does it take to sell a property?"
+    de: "Wie lange dauert es, eine Immobilie zu verkaufen?"
+  faq_1_answer:
+    es: "<p>El tiempo para vender una propiedad varía según las condiciones del mercado, la ubicación y el precio. En promedio, las propiedades de lujo en la Costa del Sol se venden en 60-120 días. Le proporcionaremos un cronograma realista basado en su propiedad específica.</p>"
+    en: "<p>The time to sell a property varies depending on market conditions, location, and pricing. On average, luxury properties on the Costa del Sol sell within 60-120 days. We'll provide a realistic timeline based on your specific property.</p>"
+    de: "<p>Die Zeit für den Verkauf einer Immobilie variiert je nach Marktbedingungen, Lage und Preis. Im Durchschnitt werden Luxusimmobilien an der Costa del Sol innerhalb von 60-120 Tagen verkauft. Wir erstellen einen realistischen Zeitplan basierend auf Ihrer spezifischen Immobilie.</p>"
+  faq_2_question:
+    es: "¿Qué honorarios están involucrados en la venta?"
+    en: "What fees are involved in selling?"
+    de: "Welche Gebühren fallen beim Verkauf an?"
+  faq_2_answer:
+    es: "<p>Nuestra comisión es competitiva con el mercado. Discutiremos todos los honorarios por adelantado, incluyendo la comisión del agente, los honorarios legales y los impuestos aplicables. No hay costos ocultos.</p>"
+    en: "<p>Our commission is competitive with the market. We'll discuss all fees upfront, including agent commission, legal fees, and applicable taxes. There are no hidden costs.</p>"
+    de: "<p>Unsere Provision ist marktüblich. Wir besprechen alle Gebühren im Voraus, einschließlich Maklerprovision, Rechtskosten und anfallender Steuern. Es gibt keine versteckten Kosten.</p>"
+  faq_3_question:
+    es: "¿Necesito hacer reparaciones antes de vender?"
+    en: "Do I need to make repairs before selling?"
+    de: "Muss ich vor dem Verkauf Reparaturen durchführen?"
+  faq_3_answer:
+    es: "<p>No necesariamente. Evaluaremos su propiedad y le asesoraremos sobre qué reparaciones, si las hay, proporcionarían un buen retorno de la inversión.</p>"
+    en: "<p>Not necessarily. We'll assess your property and advise on which repairs, if any, would provide a good return on investment.</p>"
+    de: "<p>Nicht unbedingt. Wir bewerten Ihre Immobilie und beraten Sie, welche Reparaturen, falls überhaupt, eine gute Rendite bringen würden.</p>"
+  faq_4_question:
+    es: "¿Cómo determinan el precio de venta?"
+    en: "How do you determine the asking price?"
+    de: "Wie bestimmen Sie den Angebotspreis?"
+  faq_4_answer:
+    es: "<p>Realizamos un análisis exhaustivo del mercado, comparando su propiedad con propiedades similares vendidas recientemente en la zona. Consideramos la ubicación, el estado, el tamaño y las tendencias actuales del mercado.</p>"
+    en: "<p>We conduct a comprehensive market analysis, comparing your property to similar recently sold properties in the area. We consider location, condition, size, and current market trends.</p>"
+    de: "<p>Wir führen eine umfassende Marktanalyse durch und vergleichen Ihre Immobilie mit ähnlichen kürzlich verkauften Immobilien in der Gegend. Wir berücksichtigen Lage, Zustand, Größe und aktuelle Markttrends.</p>"
+  faq_5_question:
+    es: "¿Puedo vender mientras sigo viviendo en la propiedad?"
+    en: "Can I sell while still living in the property?"
+    de: "Kann ich verkaufen, während ich noch in der Immobilie wohne?"
+  faq_5_answer:
+    es: "<p>¡Por supuesto! Muchos de nuestros clientes continúan viviendo en sus casas durante el proceso de venta. Coordinaremos las visitas en horarios convenientes.</p>"
+    en: "<p>Absolutely! Many of our clients continue living in their homes during the sale process. We'll coordinate viewings at convenient times.</p>"
+    de: "<p>Absolut! Viele unserer Kunden leben während des Verkaufsprozesses weiterhin in ihren Häusern. Wir koordinieren Besichtigungen zu günstigen Zeiten.</p>"
+  faq_6_question:
+    es: "¿Qué sucede después de aceptar una oferta?"
+    en: "What happens after I accept an offer?"
+    de: "Was passiert, nachdem ich ein Angebot angenommen habe?"
+  faq_6_answer:
+    es: "<p>Una vez que acepte una oferta, nos encargamos del papeleo y coordinamos con abogados, tasadores y el agente del comprador. Le mantendremos informado en cada paso.</p>"
+    en: "<p>Once you accept an offer, we handle the paperwork and coordinate with lawyers, surveyors, and the buyer's agent. We'll keep you informed at every step.</p>"
+    de: "<p>Sobald Sie ein Angebot annehmen, kümmern wir uns um den Papierkram und koordinieren mit Anwälten, Gutachtern und dem Makler des Käufers. Wir halten Sie bei jedem Schritt auf dem Laufenden.</p>"

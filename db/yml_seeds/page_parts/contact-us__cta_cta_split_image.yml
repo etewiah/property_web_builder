@@ -1,0 +1,27 @@
+- page_slug: contact-us
+  page_part_key: cta/cta_split_image
+  block_contents: {}
+  order_in_editor: 1
+  show_in_editor: true
+  editor_setup:
+    tabTitleKey: "pageSections.ctaSplitImage.title"
+    tabInfoKey: "pageSections.ctaSplitImage.info"
+    default_sort_order: 1
+    default_visible_on_page: true
+    editorBlocks:
+      - - label: pretitle
+          isSingleLineText: "true"
+        - label: title
+          isSingleLineText: "true"
+        - label: description
+          isMultipleLineText: "true"
+      - - label: features
+          isMultipleLineText: "true"
+      - - label: button_text
+          isSingleLineText: "true"
+        - label: button_link
+          isSingleLineText: "true"
+      - - label: image
+          isImage: "true"
+        - label: bg_style
+          isSingleLineText: "true"

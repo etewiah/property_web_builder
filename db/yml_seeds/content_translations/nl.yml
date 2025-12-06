@@ -58,23 +58,195 @@ nl:
       main_content: <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.  Call us now to take advantage of this special offer.</p>
 
     about_us_services:
-      title_a: Find your home
-      content_a: <p>Explain to us exactly what you are looking for and we will do our best to find that ideal property that meets your needs.</p>
-      title_b: Professional estate agents
-      content_b: <p>We are professional estate agents.  We will help you with all the paperwork and save you money along the way.</p>
-      title_c: Sell your property
-      content_c: <p>If you need to sell your property, get in touch with us.  With our experience in the industry and the local area we will get it done in the quickest and simplest way.</p>
-  
+      title_a: Vind je woning
+      content_a: <p>Vertel ons precies wat je zoekt en wij doen ons best om die ideale woning te vinden die aan je wensen voldoet.</p>
+      title_b: Professionele makelaars
+      content_b: <p>Wij zijn professionele makelaars. We helpen je met alle papierwerk en besparen je geld tijdens het proces.</p>
+      title_c: Verkoop je woning
+      content_c: <p>Als je je woning moet verkopen, neem dan contact met ons op. Met onze ervaring in de branche en de regio doen we het op de snelste en eenvoudigste manier.</p>
+
+    heroes/hero_centered:
+      pretitle: Welkom bij Example Real Estate
+      title: Vind Je Droomhuis
+      subtitle: >
+        Wij zijn toegewijd om je te helpen de perfecte woning te vinden.
+        Of je nu koopt, verkoopt of huurt, ons deskundige team staat klaar om je bij elke stap te begeleiden.
+      cta_text: Bekijk Woningen
+      cta_link: /search/buy
+      cta_secondary_text: Neem Contact Op
+      cta_secondary_link: /contact
+      background_image: db/example_images/carousel_villa_with_pool.jpg
+
+    features/feature_grid_3col:
+      section_pretitle: Onze Diensten
+      section_title: Wat Wij Bieden
+      section_subtitle: Uitgebreide vastgoeddiensten op maat van jouw behoeften
+      feature_1_icon: fa-home
+      feature_1_title: Vind Je Woning
+      feature_1_description: >
+        Vertel ons precies wat je zoekt en wij vinden die ideale woning
+        die aan al je wensen en budget voldoet.
+      feature_1_link: /search/buy
+      feature_2_icon: fa-user-tie
+      feature_2_title: Professionele Makelaars
+      feature_2_description: >
+        Onze ervaren makelaars regelen alle papierwerk en onderhandelingen,
+        waardoor je tijd en geld bespaart tijdens het hele proces.
+      feature_2_link: /about
+      feature_3_icon: fa-hand-holding-usd
+      feature_3_title: Verkoop Je Woning
+      feature_3_description: >
+        Krijg de beste prijs voor je woning met onze bewezen marketingstrategieën
+        en ons uitgebreide netwerk van gekwalificeerde kopers.
+      feature_3_link: /sell
+
+    cta/cta_banner:
+      title: Klaar om Je Perfecte Woning te Vinden?
+      subtitle: Neem vandaag contact met ons op voor een gratis consult en laat ons je helpen om met vertrouwen de vastgoedmarkt te navigeren.
+      button_text: Aan de Slag
+      button_link: /contact
+      button_style: primary
+      secondary_button_text: Bekijk Woningen
+      secondary_button_link: /search/buy
+      style: primary
+
+    stats/stats_counter:
+      section_title: Ons Trackrecord
+      section_subtitle: Cijfers die voor zich spreken
+      stat_1_value: 500
+      stat_1_label: Woningen Verkocht
+      stat_1_prefix: ""
+      stat_1_suffix: +
+      stat_2_value: 98
+      stat_2_label: Klanttevredenheid
+      stat_3_value: 15
+      stat_3_label: Jaar Ervaring
+      stat_4_value: 50
+      stat_4_label: Deskundige Makelaars
+      style: light
+
+    testimonials/testimonial_carousel:
+      section_title: Wat Onze Klanten Zeggen
+      section_subtitle: Vertrouw niet alleen op ons woord
+      testimonial_1_text: >
+        Example Real Estate maakte onze huisaankoop soepel en stressvrij.
+        Hun team was professioneel, deskundig en altijd beschikbaar om onze vragen te beantwoorden.
+        Sterk aanbevolen!
+      testimonial_1_name: Jan de Vries
+      testimonial_1_role: Huizenkoper
+      testimonial_1_image: ""
+      testimonial_2_text: >
+        We hebben onze woning in slechts 3 weken verkocht dankzij hun uitstekende marketing en
+        onderhandelingsvaardigheden. Ze kregen een prijs boven onze vraagprijs!
+      testimonial_2_name: Maria Jansen
+      testimonial_2_role: Woningverkoper
+      testimonial_2_image: ""
+      testimonial_3_text: >
+        Als starters waren we zenuwachtig over het proces. Het team van Example RE
+        begeleidde ons bij elke stap en vond ons droomhuis binnen ons budget.
+      testimonial_3_name: Peter en Anna Bakker
+      testimonial_3_role: Starters
+      testimonial_3_image: ""
+
   about-us:
     content_html:
-      main_content: <p><b>Important notice:</b>&nbsp; We are offering free property evaluations this month only.  Call us now to take advantage of this special offer.</p>
+      main_content: <p><b>Belangrijke mededeling:</b>&nbsp; Deze maand bieden wij gratis woningtaxaties aan. Bel ons nu om van dit speciale aanbod te profiteren.</p>
     our_agency:
       title_a:
-        About Us
+        Over Ons
       content_a:
-        <p>We are a professional estate agents with many years experience of delivering a great service 
-        for our clients.</p>
+        <p>Wij zijn professionele makelaars met jarenlange ervaring in het leveren van uitstekende service
+        aan onze klanten.</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
       our_agency_img:
         db/example_images/carousel_grass.jpg
+
+    teams/team_grid:
+      section_title: Ontmoet Ons Team
+      section_subtitle: Toegewijde professionals die zich inzetten voor jouw succes
+      member_1_name: Jan de Vries
+      member_1_role: Senior Makelaar
+      member_1_image: ""
+      member_1_bio: >
+        Jan heeft meer dan 15 jaar ervaring in vastgoed en heeft honderden
+        gezinnen geholpen hun perfecte woning te vinden.
+      member_1_email: jan@example.com
+      member_1_linkedin: ""
+      member_2_name: Emma Bakker
+      member_2_role: Woningconsultant
+      member_2_image: ""
+      member_2_bio: >
+        Emma is gespecialiseerd in luxe woningen en brengt een scherp oog voor detail
+        naar elke transactie.
+      member_3_name: Pieter Jansen
+      member_3_role: Verkoopdirecteur
+      member_3_image: ""
+      member_4_name: Lisa van den Berg
+      member_4_role: Klantrelaties
+
+  contact-us:
+    content_html:
+      main_content: <p><b>We horen graag van je!</b> Neem contact op met ons team voor vragen over kopen, verkopen of huren van woningen.</p>
+
+    cta/cta_split_image:
+      pretitle: Neem Contact Op
+      title: Begin Je Vastgoedreis
+      description: >
+        Of je nu je eerste woning wilt kopen, een woning wilt verkopen of wilt investeren in vastgoed,
+        ons ervaren team staat klaar om je te helpen. Neem vandaag contact met ons op voor een gratis, vrijblijvend consult.
+      features: >
+        <ul>
+          <li>Gratis woningtaxaties</li>
+          <li>Deskundig marktadvies</li>
+          <li>Persoonlijke service</li>
+          <li>7 dagen per week beschikbaar</li>
+        </ul>
+      button_text: Plan een Gesprek
+      button_link: "#contact-form"
+      image: db/example_images/carousel_grass.jpg
+      bg_style: light
+
+  sell:
+    content_html:
+      main_content:
+        <h2>Verkoop Je Woning Met Ons</h2>
+        Onze toewijding aan jou is het handhaven van de hoogste normen van professionaliteit terwijl we je helpen de beste vastgoedbeslissingen te nemen. Je wilt je woning met vol vertrouwen verkopen. Daarbij verdien je het beste. Ons doel bij Example Real Estate is je uitzonderlijke service te bieden terwijl we aan je behoeften voldoen bij elke stap van het verkoopproces.
+        <h2>Regionale Expertise
+        </h2>
+        Onze klanten en zakenpartners zullen je vertellen dat geen enkel aanbod in onze marktregio meer exposure krijgt bij kopers dan die bij Example Real Estate. Onze internetgebaseerde marketing, gedrukte advertenties en marketinginspanningen geven ons aanbod een ongeëvenaarde exposure aan kopers die op zoek zijn naar vastgoed.
+        <h2>Klaar om Je te Helpen
+        </h2>
+        Onze gekwalificeerde makelaars en medewerkers bij Example Real Estate hebben de ervaring, kennis en discretie om je woning te vertegenwoordigen. Ons team van toegewijde en professionele makelaars en medewerkers is toegewijd aan het leveren van buitengewone service.
+
+    faqs/faq_accordion:
+      section_title: Veelgestelde Vragen
+      section_subtitle: Alles wat je moet weten over het verkopen van je woning
+      faq_1_question: Hoe lang duurt het om een woning te verkopen?
+      faq_1_answer: >
+        <p>De tijd om een woning te verkopen varieert afhankelijk van marktomstandigheden, locatie en prijs.
+        Gemiddeld worden woningen in onze regio binnen 30-90 dagen verkocht. We geven je een realistische tijdlijn
+        gebaseerd op jouw specifieke woning.</p>
+      faq_2_question: Welke kosten zijn er bij verkoop?
+      faq_2_answer: >
+        <p>Onze commissie is marktconform. We bespreken alle kosten vooraf, inclusief
+        makelaarscommissie, juridische kosten en eventuele belastingen. Er zijn geen verborgen kosten.</p>
+      faq_3_question: Moet ik reparaties uitvoeren voor de verkoop?
+      faq_3_answer: >
+        <p>Niet per se. We beoordelen je woning en adviseren welke reparaties, indien nodig,
+        een goed rendement op investering zouden opleveren. Soms kunnen kleine cosmetische aanpassingen
+        de verkoopprijs aanzienlijk verhogen.</p>
+      faq_4_question: Hoe bepalen jullie de vraagprijs?
+      faq_4_answer: >
+        <p>We voeren een uitgebreide marktanalyse uit, waarbij we je woning vergelijken met vergelijkbare recent verkochte
+        woningen in de buurt. We houden rekening met locatie, staat, grootte en huidige markttrends
+        om een optimale vraagprijs aan te bevelen.</p>
+      faq_5_question: Kan ik verkopen terwijl ik nog in de woning woon?
+      faq_5_answer: >
+        <p>Absoluut! Veel van onze klanten blijven in hun woning wonen tijdens het verkoopproces.
+        We coördineren bezichtigingen op geschikte tijden en geven tips om je woning
+        klaar te houden voor bezichtigingen.</p>
+      faq_6_question: Wat gebeurt er nadat ik een bod accepteer?
+      faq_6_answer: >
+        <p>Zodra je een bod accepteert, regelen wij het papierwerk en coördineren met notarissen,
+        taxateurs en de makelaar van de koper. We houden je bij elke stap op de hoogte tot de overdracht.</p>
 

@@ -1,0 +1,27 @@
+- page_slug: home
+  page_part_key: heroes/hero_centered
+  block_contents: {}
+  order_in_editor: 1
+  show_in_editor: true
+  editor_setup:
+    tabTitleKey: "pageSections.heroCentered.title"
+    tabInfoKey: "pageSections.heroCentered.info"
+    default_sort_order: 1
+    default_visible_on_page: true
+    editorBlocks:
+      - - label: pretitle
+          isSingleLineText: "true"
+        - label: title
+          isSingleLineText: "true"
+        - label: subtitle
+          isMultipleLineText: "true"
+      - - label: cta_text
+          isSingleLineText: "true"
+        - label: cta_link
+          isSingleLineText: "true"
+        - label: cta_secondary_text
+          isSingleLineText: "true"
+        - label: cta_secondary_link
+          isSingleLineText: "true"
+      - - label: background_image
+          isImage: "true"

@@ -1,0 +1,39 @@
+- page_slug: sell
+  page_part_key: faqs/faq_accordion
+  block_contents: {}
+  order_in_editor: 2
+  show_in_editor: true
+  editor_setup:
+    tabTitleKey: "pageSections.faqAccordion.title"
+    tabInfoKey: "pageSections.faqAccordion.info"
+    default_sort_order: 2
+    default_visible_on_page: true
+    editorBlocks:
+      - - label: section_title
+          isSingleLineText: "true"
+        - label: section_subtitle
+          isMultipleLineText: "true"
+      - - label: faq_1_question
+          isSingleLineText: "true"
+        - label: faq_1_answer
+          isHtml: "true"
+      - - label: faq_2_question
+          isSingleLineText: "true"
+        - label: faq_2_answer
+          isHtml: "true"
+      - - label: faq_3_question
+          isSingleLineText: "true"
+        - label: faq_3_answer
+          isHtml: "true"
+      - - label: faq_4_question
+          isSingleLineText: "true"
+        - label: faq_4_answer
+          isHtml: "true"
+      - - label: faq_5_question
+          isSingleLineText: "true"
+        - label: faq_5_answer
+          isHtml: "true"
+      - - label: faq_6_question
+          isSingleLineText: "true"
+        - label: faq_6_answer
+          isHtml: "true"

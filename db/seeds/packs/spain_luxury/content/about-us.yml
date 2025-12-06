@@ -1,0 +1,57 @@
+# About Us page content for Spain Luxury pack
+
+# Main content (content_html)
+content_html:
+  main_content:
+    es: |
+      <h2>Sobre Costa Luxury Properties</h2>
+      <p>Con más de 20 años de experiencia en el mercado inmobiliario de lujo de la Costa del Sol, somos su socio de confianza para encontrar la propiedad perfecta.</p>
+      <p>Nuestro equipo multilingüe ofrece un servicio personalizado y experto a clientes internacionales de todo el mundo. Ya sea que busque una villa de lujo en Marbella, un ático en Puerto Banús o una propiedad de inversión, estamos aquí para ayudarle.</p>
+    en: |
+      <h2>About Costa Luxury Properties</h2>
+      <p>With over 20 years of experience in the Costa del Sol luxury real estate market, we are your trusted partner in finding the perfect property.</p>
+      <p>Our multilingual team provides personalized, expert service to international clients from around the world. Whether you're looking for a luxury villa in Marbella, a penthouse in Puerto Banús, or an investment property, we're here to help.</p>
+    de: |
+      <h2>Über Costa Luxury Properties</h2>
+      <p>Mit über 20 Jahren Erfahrung auf dem Luxusimmobilienmarkt der Costa del Sol sind wir Ihr vertrauenswürdiger Partner bei der Suche nach der perfekten Immobilie.</p>
+      <p>Unser mehrsprachiges Team bietet internationalen Kunden aus aller Welt einen personalisierten, fachkundigen Service. Ob Sie eine Luxusvilla in Marbella, ein Penthouse in Puerto Banús oder eine Anlageimmobilie suchen, wir sind für Sie da.</p>
+
+# Team Grid (teams/team_grid)
+teams/team_grid:
+  section_title:
+    es: "Conozca a nuestro equipo"
+    en: "Meet Our Team"
+    de: "Unser Team"
+  section_subtitle:
+    es: "Profesionales dedicados comprometidos con su éxito"
+    en: "Dedicated professionals committed to your success"
+    de: "Engagierte Fachleute, die sich Ihrem Erfolg verschrieben haben"
+  member_1_name: "Carlos Fernández"
+  member_1_role:
+    es: "Director"
+    en: "Director"
+    de: "Direktor"
+  member_1_bio:
+    es: "Carlos tiene más de 25 años de experiencia en el sector inmobiliario de la Costa del Sol y ha ayudado a cientos de familias a encontrar su hogar perfecto."
+    en: "Carlos has over 25 years of experience in Costa del Sol real estate and has helped hundreds of families find their perfect home."
+    de: "Carlos hat über 25 Jahre Erfahrung im Immobilienbereich der Costa del Sol und hat Hunderten von Familien geholfen, ihr perfektes Zuhause zu finden."
+  member_1_email: "carlos@costaluxury.es"
+  member_2_name: "Elena Schmidt"
+  member_2_role:
+    es: "Agente Senior - Mercado Alemán"
+    en: "Senior Agent - German Market"
+    de: "Senior Agentin - Deutscher Markt"
+  member_2_bio:
+    es: "Elena es especialista en atender a clientes de habla alemana y tiene un profundo conocimiento del mercado de propiedades de lujo."
+    en: "Elena specializes in serving German-speaking clients and has deep knowledge of the luxury property market."
+    de: "Elena ist auf deutschsprachige Kunden spezialisiert und verfügt über umfassende Kenntnisse des Luxusimmobilienmarktes."
+  member_3_name: "John Williams"
+  member_3_role:
+    es: "Agente Senior - Mercado Británico"
+    en: "Senior Agent - British Market"
+    de: "Senior Agent - Britischer Markt"
+  member_4_name: "María López"
+  member_4_role:
+    es: "Relaciones con Clientes"
+    en: "Client Relations"
+    de: "Kundenbeziehungen"

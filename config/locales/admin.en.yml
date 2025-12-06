@@ -118,6 +118,39 @@ en:
       landingHero:
         title: Main header
         info: Large image and text highlighting your busi
+      heroCentered:
+        title: Hero Section (Centered)
+        info: Full-width hero with centered content and call-to-action buttons
+      featureGrid:
+        title: Feature Grid
+        info: Three-column grid showcasing your key services
+      ctaBanner:
+        title: Call to Action Banner
+        info: Full-width promotional banner with buttons
+      statsCounter:
+        title: Statistics Counter
+        info: Animated counters displaying key numbers
+      testimonials:
+        title: Testimonials
+        info: Customer testimonials in a carousel format
+      teamGrid:
+        title: Team Grid
+        info: Grid layout showcasing team members
+      ctaSplitImage:
+        title: CTA with Image
+        info: Split layout with image and call-to-action content
+      faqAccordion:
+        title: FAQ Accordion
+        info: Expandable frequently asked questions section
+      galleryGrid:
+        title: Gallery Grid
+        info: Image gallery in a grid layout
+      galleryMasonry:
+        title: Gallery Masonry
+        info: Image gallery in a masonry layout
+      pricingCards:
+        title: Pricing Cards
+        info: Service or pricing plans in card format
     editor:
       pickPhoto: Pick photo
       uploadPhoto: Upload photo

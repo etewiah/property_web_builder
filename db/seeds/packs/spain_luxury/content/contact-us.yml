@@ -1,0 +1,48 @@
+# Contact Us page content for Spain Luxury pack
+
+# CTA Split Image (cta/cta_split_image)
+cta/cta_split_image:
+  pretitle:
+    es: "Póngase en contacto"
+    en: "Get in Touch"
+    de: "Kontaktieren Sie uns"
+  title:
+    es: "Comience su viaje inmobiliario"
+    en: "Start Your Property Journey"
+    de: "Starten Sie Ihre Immobilienreise"
+  description:
+    es: "Ya sea que busque comprar su primera casa, vender una propiedad o invertir en bienes raíces, nuestro experimentado equipo está aquí para ayudarle. Contáctenos hoy para una consulta gratuita y sin compromiso."
+    en: "Whether you're looking to buy your first home, sell a property, or invest in real estate, our experienced team is here to help. Contact us today for a free, no-obligation consultation."
+    de: "Ob Sie Ihr erstes Eigenheim kaufen, eine Immobilie verkaufen oder in Immobilien investieren möchten, unser erfahrenes Team ist für Sie da. Kontaktieren Sie uns heute für eine kostenlose, unverbindliche Beratung."
+  features:
+    es: |
+      <ul>
+        <li>Valoraciones de propiedades gratuitas</li>
+        <li>Asesoramiento experto del mercado</li>
+        <li>Servicio personalizado</li>
+        <li>Disponible los 7 días de la semana</li>
+        <li>Equipo multilingüe (ES/EN/DE)</li>
+      </ul>
+    en: |
+      <ul>
+        <li>Free property valuations</li>
+        <li>Expert market advice</li>
+        <li>Personalized service</li>
+        <li>Available 7 days a week</li>
+        <li>Multilingual team (ES/EN/DE)</li>
+      </ul>
+    de: |
+      <ul>
+        <li>Kostenlose Immobilienbewertungen</li>
+        <li>Expertenberatung zum Markt</li>
+        <li>Personalisierter Service</li>
+        <li>7 Tage die Woche erreichbar</li>
+        <li>Mehrsprachiges Team (ES/EN/DE)</li>
+      </ul>
+  button_text:
+    es: "Programar una llamada"
+    en: "Schedule a Call"
+    de: "Anruf vereinbaren"
+  button_link: "#contact-form"
+  image: "db/example_images/carousel_grass.jpg"
+  bg_style: "light"

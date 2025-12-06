@@ -38,6 +38,36 @@ agency:
     country: Spain
     postal_code: "29600"
 
+# Page Parts - which page part templates to use for each page
+# Uses templates from the Page Part Library
+page_parts:
+  home:
+    - key: heroes/hero_centered
+      order: 1
+    - key: features/feature_grid_3col
+      order: 2
+    - key: stats/stats_counter
+      order: 3
+    - key: testimonials/testimonial_carousel
+      order: 4
+    - key: cta/cta_banner
+      order: 5
+  about-us:
+    - key: content_html
+      order: 1
+    - key: teams/team_grid
+      order: 2
+  sell:
+    - key: content_html
+      order: 1
+    - key: faqs/faq_accordion
+      order: 2
+  contact-us:
+    - key: cta/cta_split_image
+      order: 1
+    - key: contactUsFormAndMap
+      order: 2
+
 # Users
 users:
   - email: admin@costaluxury.es

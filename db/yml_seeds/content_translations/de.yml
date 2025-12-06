@@ -1,0 +1,233 @@
+---
+de:
+  website:
+    footer_content_html:
+      main_content:
+        <p>Wir sind stolz darauf, beim nationalen Verband der Immobilienmakler registriert zu sein.</p>
+        <p>Registrierungsnummer 12121212</p>
+
+  legal:
+    content_html:
+      main_content:
+        <b>HAFTUNGSAUSSCHLUSS</b></br>
+        Das Example RE Internet-Team bemüht sich, Ihnen auf dieser Website nützliche, genaue und aktuelle Informationen zur Verfügung zu stellen. Dementsprechend hat Example RE versucht, genaue Informationen und Materialien auf dieser Website bereitzustellen, übernimmt jedoch keine Verantwortung für die Richtigkeit und Vollständigkeit dieser Informationen und Materialien. Example RE kann den Inhalt aller Informationen oder Materialien, die auf dieser Website verfügbar sind, oder der darin beschriebenen Produkte jederzeit ohne vorherige Ankündigung ändern. Example RE verpflichtet sich jedoch nicht, die Informationen oder Materialien auf dieser Website zu aktualisieren, die daher veraltet sein können.
+
+  privacy:
+    content_html:
+      main_content:
+        <p><b>Datenschutzrichtlinie</b></p><p>
+        Wir sind der Sicherheit Ihrer Benutzerdaten verpflichtet. Daher legt unsere Datenschutzrichtlinie die Bedingungen fest, unter denen Example RE Informationen verwendet und schützt, die von seinen Kunden bereitgestellt werden.</p><p>
+        <b>Verwendung gesammelter Informationen</b></p><p>
+        Unsere Website kann persönliche Informationen wie Ihre E-Mail-Adresse und demografische Informationen sammeln. Bei Bedarf können auch spezifische Informationen erforderlich sein, um eine Bestellung zu bearbeiten oder eine Lieferung oder Rechnung durchzuführen.
+        Example RE wird keine persönlichen Informationen, die gesammelt werden, ohne Ihre Zustimmung verkaufen, abtreten oder verteilen, es sei denn, ein Gericht verlangt dies mit einem Gerichtsbeschluss.</p>
+        <p><b>Links zu Dritten</b></p><p>
+        Diese Website kann Links zu anderen Websites enthalten, die für Sie von Interesse sein könnten. Sobald Sie auf diese Links klicken und unsere Seite verlassen, haben wir keine Kontrolle mehr über die Website, auf die Sie umgeleitet werden, und sind daher nicht für die Bedingungen oder den Datenschutz oder den Schutz Ihrer Daten auf diesen anderen Drittseiten verantwortlich.</p>
+
+  sell:
+    content_html:
+      main_content:
+        <h2>Verkaufen Sie Ihre Immobilie Mit Uns</h2>
+        Unser Engagement für Sie ist es, die höchsten Standards der Professionalität aufrechtzuerhalten, während wir Ihnen helfen, Ihre besten Immobilienentscheidungen zu treffen. Sie möchten Ihre Immobilie mit vollem Vertrauen verkaufen. Dabei verdienen Sie unser Bestes. Unser Ziel bei Example Real Estate ist es, Ihnen einen außergewöhnlichen Service zu bieten und dabei Ihre Bedürfnisse bei jedem Schritt des Verkaufsprozesses zu erfüllen.
+        <h2>Regionale Expertise
+        </h2>
+        Unsere Kunden und Geschäftspartner werden Ihnen sagen, dass keine Angebote in unserer Marktregion mehr Aufmerksamkeit bei Käufern erhalten als die bei Example Real Estate gelisteten. Unser internetbasiertes Marketing, Printanzeigen und Marketing-Bemühungen ermöglichen unseren Angeboten eine unvergleichliche Präsenz bei Käufern.
+        <h2>Bereit, Ihnen zu Helfen
+        </h2>
+        Unsere qualifizierten Makler und Mitarbeiter bei Example Real Estate haben die Erfahrung, das Wissen und die Diskretion, um Ihre Immobilie zu vertreten. Unser Team engagierter und professioneller Makler und Mitarbeiter ist bestrebt, außergewöhnlichen Service zu bieten.
+
+    faqs/faq_accordion:
+      section_title: Häufig Gestellte Fragen
+      section_subtitle: Alles, was Sie über den Verkauf Ihrer Immobilie wissen müssen
+      faq_1_question: Wie lange dauert es, eine Immobilie zu verkaufen?
+      faq_1_answer: >
+        <p>Die Zeit für den Verkauf einer Immobilie variiert je nach Marktbedingungen, Lage und Preis.
+        Im Durchschnitt werden Immobilien in unserer Region innerhalb von 30-90 Tagen verkauft. Wir werden Ihnen einen realistischen Zeitplan
+        basierend auf Ihrer spezifischen Immobilie bereitstellen.</p>
+      faq_2_question: Welche Gebühren fallen beim Verkauf an?
+      faq_2_answer: >
+        <p>Unsere Provision ist marktüblich. Wir werden alle Gebühren im Voraus besprechen, einschließlich
+        Maklerprovision, Rechtskosten und anfallender Steuern. Es gibt keine versteckten Kosten.</p>
+      faq_3_question: Muss ich vor dem Verkauf Reparaturen durchführen?
+      faq_3_answer: >
+        <p>Nicht unbedingt. Wir werden Ihre Immobilie bewerten und beraten, welche Reparaturen, falls überhaupt,
+        eine gute Rendite auf die Investition bieten würden. Manchmal können kleinere kosmetische Verbesserungen
+        den Verkaufspreis erheblich steigern.</p>
+      faq_4_question: Wie ermitteln Sie den Angebotspreis?
+      faq_4_answer: >
+        <p>Wir führen eine umfassende Marktanalyse durch und vergleichen Ihre Immobilie mit ähnlichen kürzlich verkauften
+        Immobilien in der Gegend. Wir berücksichtigen Lage, Zustand, Größe und aktuelle Markttrends,
+        um einen optimalen Angebotspreis zu empfehlen.</p>
+      faq_5_question: Kann ich verkaufen, während ich noch in der Immobilie wohne?
+      faq_5_answer: >
+        <p>Absolut! Viele unserer Kunden leben während des Verkaufsprozesses weiterhin in ihren Häusern.
+        Wir werden Besichtigungen zu günstigen Zeiten koordinieren und Tipps geben, um Ihr Zuhause
+        für Besichtigungen bereit zu halten.</p>
+      faq_6_question: Was passiert, nachdem ich ein Angebot angenommen habe?
+      faq_6_answer: >
+        <p>Sobald Sie ein Angebot annehmen, kümmern wir uns um den Papierkram und koordinieren mit Anwälten,
+        Gutachtern und dem Makler des Käufers. Wir halten Sie bei jedem Schritt bis zum Abschluss auf dem Laufenden.</p>
+
+  home:
+    landing_hero:
+      landing_title_a:
+        Der beste Makler in Springfield
+      landing_content_a: >
+        <ul class="list-carousel">
+          <li><i class="fa fa-check-square">
+            </i> Professionelles Personal</li>
+          <li><i class="fa fa-check-square"></i> Wir finden Ihnen die beste Immobilie auf dem Markt</li>
+        </ul>
+      landing_img:
+        db/example_images/carousel_villa_with_pool.jpg
+
+    content_html:
+      main_content: <p><b>Wichtiger Hinweis:</b>&nbsp; Wir bieten diesen Monat kostenlose Immobilienbewertungen an. Rufen Sie uns jetzt an, um dieses Sonderangebot zu nutzen.</p>
+
+    about_us_services:
+      title_a: Finden Sie Ihr Zuhause
+      content_a: <p>Erklären Sie uns genau, was Sie suchen, und wir werden unser Bestes tun, um diese ideale Immobilie zu finden, die Ihren Bedürfnissen entspricht.</p>
+      title_b: Professionelle Immobilienmakler
+      content_b: <p>Wir sind professionelle Immobilienmakler. Wir helfen Ihnen bei allen Formalitäten und sparen Ihnen dabei Geld.</p>
+      title_c: Verkaufen Sie Ihre Immobilie
+      content_c: <p>Wenn Sie Ihre Immobilie verkaufen müssen, kontaktieren Sie uns. Mit unserer Erfahrung in der Branche und der Region erledigen wir es auf dem schnellsten und einfachsten Weg.</p>
+
+    heroes/hero_centered:
+      pretitle: Willkommen bei Example Real Estate
+      title: Finden Sie Ihr Traumhaus
+      subtitle: >
+        Wir sind bestrebt, Ihnen zu helfen, die perfekte Immobilie zu finden.
+        Ob Sie kaufen, verkaufen oder mieten, unser Expertenteam ist hier, um Sie bei jedem Schritt zu begleiten.
+      cta_text: Immobilien Durchsuchen
+      cta_link: /search/buy
+      cta_secondary_text: Kontaktieren Sie Uns
+      cta_secondary_link: /contact
+      background_image: db/example_images/carousel_villa_with_pool.jpg
+
+    features/feature_grid_3col:
+      section_pretitle: Unsere Dienstleistungen
+      section_title: Was Wir Anbieten
+      section_subtitle: Umfassende Immobiliendienstleistungen, die auf Ihre Bedürfnisse zugeschnitten sind
+      feature_1_icon: fa-home
+      feature_1_title: Finden Sie Ihr Zuhause
+      feature_1_description: >
+        Sagen Sie uns genau, was Sie suchen, und wir finden diese ideale Immobilie,
+        die all Ihren Bedürfnissen und Ihrem Budget entspricht.
+      feature_1_link: /search/buy
+      feature_2_icon: fa-user-tie
+      feature_2_title: Professionelle Makler
+      feature_2_description: >
+        Unsere erfahrenen Makler kümmern sich um alle Formalitäten und Verhandlungen
+        und sparen Ihnen Zeit und Geld während des gesamten Prozesses.
+      feature_2_link: /about
+      feature_3_icon: fa-hand-holding-usd
+      feature_3_title: Verkaufen Sie Ihre Immobilie
+      feature_3_description: >
+        Erzielen Sie den besten Preis für Ihre Immobilie mit unseren bewährten Marketingstrategien
+        und unserem umfangreichen Netzwerk qualifizierter Käufer.
+      feature_3_link: /sell
+
+    cta/cta_banner:
+      title: Bereit, Ihr Perfektes Zuhause zu Finden?
+      subtitle: Kontaktieren Sie uns noch heute für eine kostenlose Beratung und lassen Sie uns Ihnen helfen, den Immobilienmarkt mit Vertrauen zu navigieren.
+      button_text: Loslegen
+      button_link: /contact
+      button_style: primary
+      secondary_button_text: Immobilien Ansehen
+      secondary_button_link: /search/buy
+      style: primary
+
+    stats/stats_counter:
+      section_title: Unsere Erfolgsbilanz
+      section_subtitle: Zahlen, die für sich sprechen
+      stat_1_value: 500
+      stat_1_label: Verkaufte Immobilien
+      stat_1_prefix: ""
+      stat_1_suffix: +
+      stat_2_value: 98
+      stat_2_label: Kundenzufriedenheit
+      stat_3_value: 15
+      stat_3_label: Jahre Erfahrung
+      stat_4_value: 50
+      stat_4_label: Experten-Makler
+      style: light
+
+    testimonials/testimonial_carousel:
+      section_title: Was Unsere Kunden Sagen
+      section_subtitle: Verlassen Sie sich nicht nur auf unser Wort
+      testimonial_1_text: >
+        Example Real Estate hat unser Hauskauf-Erlebnis reibungslos und stressfrei gestaltet.
+        Ihr Team war professionell, kompetent und immer bereit, unsere Fragen zu beantworten.
+        Sehr empfehlenswert!
+      testimonial_1_name: Maria Schmidt
+      testimonial_1_role: Hauskäuferin
+      testimonial_1_image: ""
+      testimonial_2_text: >
+        Wir haben unsere Immobilie in nur 3 Wochen verkauft, dank ihres exzellenten Marketings und
+        ihrer Verhandlungsfähigkeiten. Sie erzielten einen Preis über unserem Angebotspreis!
+      testimonial_2_name: Michael Müller
+      testimonial_2_role: Immobilienverkäufer
+      testimonial_2_image: ""
+      testimonial_3_text: >
+        Als Erstkäufer waren wir nervös wegen des Prozesses. Das Team von Example RE
+        hat uns bei jedem Schritt begleitet und unser Traumhaus innerhalb unseres Budgets gefunden.
+      testimonial_3_name: Anna und Thomas Weber
+      testimonial_3_role: Erstkäufer
+      testimonial_3_image: ""
+
+  about-us:
+    content_html:
+      main_content: <p><b>Wichtiger Hinweis:</b>&nbsp; Wir bieten diesen Monat kostenlose Immobilienbewertungen an. Rufen Sie uns jetzt an, um dieses Sonderangebot zu nutzen.</p>
+    our_agency:
+      title_a:
+        Über Uns
+      content_a:
+        <p>Wir sind professionelle Immobilienmakler mit langjähriger Erfahrung in der Bereitstellung exzellenter Dienstleistungen
+        für unsere Kunden.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      our_agency_img:
+        db/example_images/carousel_grass.jpg
+
+    teams/team_grid:
+      section_title: Lernen Sie Unser Team Kennen
+      section_subtitle: Engagierte Fachleute, die sich Ihrem Erfolg verschrieben haben
+      member_1_name: Hans Müller
+      member_1_role: Senior Makler
+      member_1_image: ""
+      member_1_bio: >
+        Hans hat über 15 Jahre Erfahrung in der Immobilienbranche und hat Hunderten
+        von Familien geholfen, ihr perfektes Zuhause zu finden.
+      member_1_email: hans@example.com
+      member_1_linkedin: ""
+      member_2_name: Eva Schmidt
+      member_2_role: Immobilienberaterin
+      member_2_image: ""
+      member_2_bio: >
+        Eva ist auf Luxusimmobilien spezialisiert und bringt ein scharfes Auge für Details
+        in jede Transaktion ein.
+      member_3_name: Robert Weber
+      member_3_role: Vertriebsleiter
+      member_3_image: ""
+      member_4_name: Lisa Fischer
+      member_4_role: Kundenbeziehungen
+
+  contact-us:
+    content_html:
+      main_content: <p><b>Wir würden gerne von Ihnen hören!</b> Kontaktieren Sie unser Team bei Fragen zum Kauf, Verkauf oder zur Vermietung von Immobilien.</p>
+
+    cta/cta_split_image:
+      pretitle: Kontaktieren Sie Uns
+      title: Beginnen Sie Ihre Immobilienreise
+      description: >
+        Ob Sie Ihr erstes Zuhause kaufen, eine Immobilie verkaufen oder in Immobilien investieren möchten,
+        unser erfahrenes Team ist hier, um Ihnen zu helfen. Kontaktieren Sie uns noch heute für eine kostenlose, unverbindliche Beratung.
+      features: >
+        <ul>
+          <li>Kostenlose Immobilienbewertungen</li>
+          <li>Experten-Marktberatung</li>
+          <li>Persönlicher Service</li>
+          <li>7 Tage die Woche erreichbar</li>
+        </ul>
+      button_text: Gespräch Vereinbaren
+      button_link: "#contact-form"
+      image: db/example_images/carousel_grass.jpg
+      bg_style: light
