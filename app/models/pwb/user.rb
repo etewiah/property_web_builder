@@ -1,4 +1,10 @@
 module Pwb
+  # User model for authentication and authorization.
+  #
+  # Note: This model is NOT tenant-scoped. Use PwbTenant::User for
+  # tenant-scoped queries in web requests. This version is useful for
+  # console work and cross-tenant operations.
+  #
   class User < ApplicationRecord
     # Include default devise modules. Others available are:
     # :confirmable, :lockable, :timeoutable and :omniauthable

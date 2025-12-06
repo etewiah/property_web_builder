@@ -1,7 +1,34 @@
 # frozen_string_literal: true
 
-# DEPRECATED: Use PwbTenant::Agency instead
-# This alias exists for backwards compatibility during migration
 module Pwb
-  Agency = PwbTenant::Agency
+  # Agency represents the real estate agency information for a website.
+  #
+  # Note: This model is NOT tenant-scoped. Use PwbTenant::Agency for
+  # tenant-scoped queries in web requests. This version is useful for
+  # console work and cross-tenant operations.
+  #
+  class Agency < ApplicationRecord
+    self.table_name = 'pwb_agencies'
+
+    belongs_to :website, class_name: 'Pwb::Website', optional: true
+    belongs_to :primary_address, optional: true, class_name: 'Pwb::Address', foreign_key: 'primary_address_id'
+    belongs_to :secondary_address, optional: true, class_name: 'Pwb::Address', foreign_key: 'secondary_address_id'
+
+    def as_json(options = nil)
+      super({
+        only: %w[
+          display_name company_name
+          phone_number_primary phone_number_mobile phone_number_other
+          email_primary email_for_property_contact_form email_for_general_contact_form
+        ]
+      }.merge(options || {}))
+    end
+
+    delegate :street_number, :street_address, :city, :postal_code,
+             to: :primary_address, allow_nil: true
+
+    def show_contact_map
+      primary_address.present?
+    end
+  end
 end

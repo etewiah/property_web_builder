@@ -1,4 +1,10 @@
 module Pwb
+  # UserMembership represents the relationship between users and websites.
+  #
+  # Note: This model is NOT tenant-scoped. Use PwbTenant::UserMembership for
+  # tenant-scoped queries in web requests. This version is useful for
+  # console work and cross-tenant operations.
+  #
   class UserMembership < ApplicationRecord
     # Available roles in hierarchical order
     ROLES = %w[owner admin member viewer].freeze

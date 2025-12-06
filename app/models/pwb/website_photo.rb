@@ -1,4 +1,10 @@
 module Pwb
+  # WebsitePhoto stores branding images for websites.
+  #
+  # Note: This model is NOT tenant-scoped. Use PwbTenant::WebsitePhoto for
+  # tenant-scoped queries in web requests. This version is useful for
+  # console work and cross-tenant operations.
+  #
   class WebsitePhoto < ApplicationRecord
     belongs_to :website, optional: true
     has_one_attached :image
