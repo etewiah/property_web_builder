@@ -9,6 +9,7 @@ module PwbTenant
   # Use Pwb::FieldKey for console work or cross-tenant operations.
   #
   class FieldKey < Pwb::FieldKey
+    include RequiresTenant
     acts_as_tenant :website
   end
 end

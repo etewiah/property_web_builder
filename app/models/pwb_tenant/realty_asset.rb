@@ -9,6 +9,7 @@ module PwbTenant
   # Use Pwb::RealtyAsset for console work or cross-tenant operations.
   #
   class RealtyAsset < Pwb::RealtyAsset
+    include RequiresTenant
     acts_as_tenant :website
   end
 end

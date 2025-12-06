@@ -9,6 +9,7 @@ module PwbTenant
   # Use Pwb::Link for console work or cross-tenant operations.
   #
   class Link < Pwb::Link
+    include RequiresTenant
     acts_as_tenant :website
   end
 end

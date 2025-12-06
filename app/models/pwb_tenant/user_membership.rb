@@ -9,6 +9,7 @@ module PwbTenant
   # Use Pwb::UserMembership for console work or cross-tenant operations.
   #
   class UserMembership < Pwb::UserMembership
+    include RequiresTenant
     acts_as_tenant :website
   end
 end

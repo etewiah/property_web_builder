@@ -9,6 +9,7 @@ module PwbTenant
   # Use Pwb::Contact for console work or cross-tenant operations.
   #
   class Contact < Pwb::Contact
+    include RequiresTenant
     acts_as_tenant :website
   end
 end

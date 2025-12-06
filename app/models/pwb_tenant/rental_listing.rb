@@ -9,6 +9,7 @@ module PwbTenant
   # Use Pwb::RentalListing for console work or cross-tenant operations.
   #
   class RentalListing < Pwb::RentalListing
+    include RequiresTenant
     acts_as_tenant :website, through: :realty_asset
   end
 end

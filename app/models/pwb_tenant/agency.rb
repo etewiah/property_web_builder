@@ -9,6 +9,7 @@ module PwbTenant
   # Use Pwb::Agency for console work or cross-tenant operations.
   #
   class Agency < Pwb::Agency
+    include RequiresTenant
     acts_as_tenant :website
   end
 end

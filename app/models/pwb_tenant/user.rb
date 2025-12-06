@@ -9,6 +9,7 @@ module PwbTenant
   # Use Pwb::User for console work or cross-tenant operations.
   #
   class User < Pwb::User
+    include RequiresTenant
     acts_as_tenant :website
   end
 end

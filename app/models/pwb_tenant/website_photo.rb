@@ -9,6 +9,7 @@ module PwbTenant
   # Use Pwb::WebsitePhoto for console work or cross-tenant operations.
   #
   class WebsitePhoto < Pwb::WebsitePhoto
+    include RequiresTenant
     acts_as_tenant :website
   end
 end

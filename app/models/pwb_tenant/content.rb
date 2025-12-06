@@ -9,6 +9,7 @@ module PwbTenant
   # Use Pwb::Content for console work or cross-tenant operations.
   #
   class Content < Pwb::Content
+    include RequiresTenant
     acts_as_tenant :website
   end
 end

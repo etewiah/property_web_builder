@@ -9,6 +9,7 @@ module PwbTenant
   # Use Pwb::Prop for console work or cross-tenant operations.
   #
   class Prop < Pwb::Prop
+    include RequiresTenant
     acts_as_tenant :website
   end
 end

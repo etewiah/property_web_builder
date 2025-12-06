@@ -9,6 +9,7 @@ module PwbTenant
   # Use Pwb::Message for console work or cross-tenant operations.
   #
   class Message < Pwb::Message
+    include RequiresTenant
     acts_as_tenant :website
   end
 end

@@ -9,6 +9,7 @@ module PwbTenant
   # Use Pwb::PagePart for console work or cross-tenant operations.
   #
   class PagePart < Pwb::PagePart
+    include RequiresTenant
     acts_as_tenant :website
   end
 end
