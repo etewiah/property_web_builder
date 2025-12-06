@@ -1,15 +1,16 @@
-<!-- Bristol Theme Search Form Landing - Tailwind CSS -->
-<div class="bg-white rounded-lg shadow-lg">
-  <div class="bg-blue-600 px-6 py-4 rounded-t-lg">
-    <h2 class="text-xl font-bold text-white"><%= I18n.t "findAProperty" %></h2>
+<!-- Brisbane Luxury Theme - Property Search Form -->
+<div class="card-luxury bg-white overflow-hidden">
+  <!-- Elegant Header -->
+  <div class="bg-luxury-navy px-8 py-5">
+    <h2 class="font-serif text-xl text-luxury-cream tracking-wide"><%= I18n.t "findAProperty" %></h2>
   </div>
 
   <%= simple_form_for :search, url: "/#{I18n.locale}/buy", method: 'get',
-      html: { class: 'p-6' }, remote: false do |f| %>
+      html: { class: 'p-8' }, remote: false do |f| %>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
+        <label class="block text-xs font-medium text-luxury-charcoal uppercase tracking-wider mb-2">
           <%= I18n.t("simple_form.labels.search.for_sale_price_from") %>
         </label>
         <%= render partial: "pwb/shared/flowbite_select", locals: {
@@ -21,7 +22,7 @@
         } %>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
+        <label class="block text-xs font-medium text-luxury-charcoal uppercase tracking-wider mb-2">
           <%= I18n.t("simple_form.labels.search.for_sale_price_till") %>
         </label>
         <%= render partial: "pwb/shared/flowbite_select", locals: {
@@ -34,9 +35,9 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
+        <label class="block text-xs font-medium text-luxury-charcoal uppercase tracking-wider mb-2">
           <%= I18n.t("simple_form.labels.search.property_type") %>
         </label>
         <%= render partial: "pwb/shared/flowbite_select", locals: {
@@ -48,7 +49,7 @@
         } %>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
+        <label class="block text-xs font-medium text-luxury-charcoal uppercase tracking-wider mb-2">
           <%= I18n.t("simple_form.labels.search.num_bedrooms") %>
         </label>
         <%= render partial: "pwb/shared/flowbite_select", locals: {
@@ -62,9 +63,9 @@
     </div>
 
     <div class="flex justify-center">
-      <%= f.button :button, class: "bg-blue-600 text-white font-medium py-3 px-8 rounded-lg hover:bg-blue-700 transition flex items-center",
+      <%= f.button :button, class: "btn-luxury flex items-center justify-center",
           id: "btn_buscar_inmuebles" do %>
-        <i class="fa fa-search mr-2"></i>
+        <i class="fa fa-search mr-3"></i>
         <%= I18n.t("search") %>
       <% end %>
     </div>

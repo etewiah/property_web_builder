@@ -1,45 +1,59 @@
-<section class="bg-gray-100 border-b border-gray-200 py-8">
-  <div class="container mx-auto px-4">
-    <div class="mb-6">
-      <h3 class="text-2xl font-semibold" style="text-transform: none;"><%= I18n.t title_key %></h3>
+<!-- Brisbane Luxury Theme - Property Listing Section -->
+<section class="section-luxury bg-luxury-pearl py-16">
+  <div class="container mx-auto px-6">
+    <!-- Section Header with Luxury Styling -->
+    <div class="text-center mb-12">
+      <span class="section-subtitle"><%= rent_or_sale == 'for_sale' ? 'Featured Listings' : 'Available Rentals' %></span>
+      <h3 class="section-title font-serif"><%= I18n.t title_key %></h3>
+      <div class="divider-gold"></div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <!-- Property Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <% properties.each_with_index do |property, index| %>
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-          <%= link_to property.contextual_show_path(rent_or_sale) do %>
-          <div class="relative">
-            <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
-              height: 300, crop: "scale", class: "w-full h-64 object-cover") %>
-          </div>
+        <div class="card-luxury bg-white overflow-hidden group animate-on-scroll">
+          <!-- Property Image with Overlay -->
+          <%= link_to property.contextual_show_path(rent_or_sale), class: "block relative overflow-hidden" do %>
+            <div class="property-image aspect-[4/3]">
+              <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
+                height: 350, crop: "fill", class: "w-full h-full object-cover transition-transform duration-700 group-hover:scale-105") %>
+              <!-- Subtle Gradient Overlay -->
+              <div class="absolute inset-0 bg-gradient-to-t from-luxury-navy/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
           <% end %>
-          <div class="p-4">
-            <h2 class="text-lg font-semibold truncate mb-2">
-              <%= link_to property.title, property.contextual_show_path(rent_or_sale), class: "text-gray-800 hover:text-blue-600" %>
+
+          <!-- Property Details -->
+          <div class="p-6">
+            <h2 class="font-serif text-xl text-luxury-navy mb-2 line-clamp-1">
+              <%= link_to property.title, property.contextual_show_path(rent_or_sale),
+                  class: "hover:text-luxury-gold transition-colors duration-300" %>
             </h2>
-            <h2 class="text-xl font-bold text-blue-600">
-              <%= property.contextual_price_with_currency rent_or_sale  %>
-            </h2>
+            <p class="property-price text-luxury-gold mb-4">
+              <%= property.contextual_price_with_currency rent_or_sale %>
+            </p>
           </div>
-          <div class="px-4 pb-4 border-t border-gray-200 pt-3">
-            <ul class="flex items-center space-x-4 text-sm text-gray-600">
-              <li class="hidden md:flex items-center">
-                <i class="fa fa-bed mr-1"></i>
-                <small><%= property.count_bedrooms %></small>
+
+          <!-- Property Features -->
+          <div class="px-6 pb-6 pt-4 border-t border-luxury-navy/10">
+            <ul class="flex items-center justify-start space-x-6 text-sm text-luxury-charcoal/70">
+              <li class="flex items-center">
+                <i class="fa fa-bed mr-2 text-luxury-gold"></i>
+                <span><%= property.count_bedrooms %></span>
               </li>
-              <li class="hidden md:flex items-center">
-                <i class="fa fa-shower mr-1"></i>
-                <small><%= property.count_bathrooms %></small>
+              <li class="flex items-center">
+                <i class="fa fa-bath mr-2 text-luxury-gold"></i>
+                <span><%= property.count_bathrooms %></span>
               </li>
-              <li class="hidden md:flex items-center">
-                <i class="fa fa-arrows-alt mr-1"></i>
-                <small><%= property.constructed_area %><%= area_unit property %></small>
+              <li class="flex items-center">
+                <i class="fa fa-expand mr-2 text-luxury-gold"></i>
+                <span><%= property.constructed_area %><%= area_unit property %></span>
               </li>
-              <li class="hidden md:flex items-center">
-                <% if property.has_garage %>
-                  <i class="fa fa-car mr-1"></i>
-                  <small><%= property.count_garages %></small>
-                <% end %>
-              </li>
+              <% if property.has_garage %>
+                <li class="flex items-center">
+                  <i class="fa fa-car mr-2 text-luxury-gold"></i>
+                  <span><%= property.count_garages %></span>
+                </li>
+              <% end %>
             </ul>
           </div>
         </div>

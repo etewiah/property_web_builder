@@ -1,12 +1,29 @@
-<section class="bg-gray-100 border-b border-gray-200 py-8">
-  <div class="container mx-auto px-4">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <% @content_area_cols.each do |content_area_col| %>
-        <div class="bg-white p-6 rounded-lg shadow-sm">
-          <%== content_area_col.raw %>
+<!-- Brisbane Luxury Theme - Services Section -->
+<section class="section-luxury bg-white py-16 border-b border-luxury-navy/5">
+  <div class="container mx-auto px-6">
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+      <span class="section-subtitle">Our Services</span>
+      <h2 class="section-title font-serif">How We Can Help</h2>
+      <div class="divider-gold"></div>
+    </div>
+
+    <!-- Services Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <% @content_area_cols.each_with_index do |content_area_col, index| %>
+        <div class="text-center p-8 group animate-on-scroll" style="animation-delay: <%= index * 0.1 %>s">
+          <!-- Service Content -->
+          <div class="service-content prose prose-lg max-w-none text-luxury-charcoal
+                      [&_i]:text-4xl [&_i]:text-luxury-gold [&_i]:mb-4 [&_i]:block
+                      [&_h3]:font-serif [&_h3]:text-xl [&_h3]:text-luxury-navy [&_h3]:mb-3
+                      [&_h4]:font-serif [&_h4]:text-xl [&_h4]:text-luxury-navy [&_h4]:mb-3
+                      [&_p]:text-sm [&_p]:text-luxury-charcoal/70 [&_p]:leading-relaxed">
+            <%== content_area_col.raw %>
+          </div>
+          <!-- Decorative Element -->
+          <div class="w-12 h-0.5 bg-luxury-gold/30 mx-auto mt-6 group-hover:w-20 group-hover:bg-luxury-gold transition-all duration-300"></div>
         </div>
       <% end %>
     </div>
   </div>
 </section>
-<div class="clearfix"></div>

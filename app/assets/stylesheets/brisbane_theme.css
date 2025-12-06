@@ -317,6 +317,285 @@
 }
 
 /* ========================================
+   Landing Page Styles
+   ======================================== */
+
+.brisbane-theme .brisbane-landing .prose {
+  max-width: none;
+}
+
+/* ========================================
+   Hero Section (Liquid Template)
+   ======================================== */
+
+.brisbane-theme .hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 0;
+}
+
+.brisbane-theme .hero-bg-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.brisbane-theme .hero-bg-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(26, 39, 68, 0.7) 0%,
+    rgba(26, 39, 68, 0.5) 50%,
+    rgba(26, 39, 68, 0.7) 100%
+  );
+  z-index: 2;
+}
+
+.brisbane-theme .hero-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.brisbane-theme .hero-bg-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a2744 0%, #2d3a52 100%);
+}
+
+.brisbane-theme .hero-content-wrapper {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.brisbane-theme .hero-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 3.5rem;
+  font-weight: 400;
+  color: #faf8f5;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.brisbane-theme .hero-subtitle {
+  font-size: 1rem;
+  color: #faf8f5;
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.brisbane-theme .hero-subtitle ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.brisbane-theme .hero-subtitle li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.brisbane-theme .hero-subtitle li::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #c9a962;
+  border-radius: 50%;
+  margin-right: 1rem;
+  box-shadow: 0 0 8px rgba(201, 169, 98, 0.6);
+}
+
+.brisbane-theme .hero-subtitle i {
+  color: #c9a962;
+  margin-right: 0.75rem;
+  filter: drop-shadow(0 0 4px rgba(201, 169, 98, 0.5));
+}
+
+@media (max-width: 768px) {
+  .brisbane-theme .hero-section {
+    min-height: 60vh;
+  }
+
+  .brisbane-theme .hero-title {
+    font-size: 2.25rem;
+  }
+
+  .brisbane-theme .hero-subtitle {
+    font-size: 0.875rem;
+  }
+}
+
+/* ========================================
+   Services Section (Liquid Template)
+   ======================================== */
+
+.brisbane-theme .services-section-wrapper {
+  background-color: #faf8f5;
+  padding: 5rem 0;
+}
+
+.brisbane-theme .services-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+
+/* Wider container on very large screens */
+@media (min-width: 1600px) {
+  .brisbane-theme .services-container {
+    max-width: 1600px;
+    gap: 3rem;
+  }
+}
+
+.brisbane-theme .service-card {
+  background: #ffffff;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  border-radius: 0;
+  box-shadow: 0 4px 20px rgba(26, 39, 68, 0.08);
+  transition: all 0.4s ease;
+}
+
+.brisbane-theme .service-card:hover {
+  box-shadow: 0 8px 30px rgba(26, 39, 68, 0.12);
+  transform: translateY(-4px);
+}
+
+.brisbane-theme .service-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f5f3f0 0%, #faf8f5 100%);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.brisbane-theme .service-card:hover .service-icon-wrapper {
+  background: linear-gradient(135deg, #c9a962 0%, #d4b87a 100%);
+}
+
+.brisbane-theme .service-icon-wrapper i {
+  font-size: 1.75rem;
+  color: #c9a962;
+  transition: color 0.3s ease;
+}
+
+.brisbane-theme .service-card:hover .service-icon-wrapper i {
+  color: #1a2744;
+}
+
+.brisbane-theme .service-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.375rem;
+  font-weight: 500;
+  color: #1a2744;
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.brisbane-theme .service-card .service-content {
+  font-size: 0.875rem;
+  color: rgba(45, 45, 45, 0.7);
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .brisbane-theme .services-container {
+    grid-template-columns: 1fr;
+  }
+
+  .brisbane-theme .services-section-wrapper {
+    padding: 3rem 0;
+  }
+}
+
+/* ========================================
+   Legacy Service Content Styles
+   ======================================== */
+
+/* Services icons in content area */
+.brisbane-theme .service-content i,
+.brisbane-theme .service-content .fa,
+.brisbane-theme .service-content [class^="fa-"] {
+  font-size: 2.5rem;
+  color: #c9a962;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.brisbane-theme .service-content h3,
+.brisbane-theme .service-content h4 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.25rem;
+  color: #1a2744;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.brisbane-theme .service-content p {
+  font-size: 0.875rem;
+  color: rgba(45, 45, 45, 0.7);
+  line-height: 1.7;
+}
+
+/* Line clamp utility for property titles */
+.brisbane-theme .line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.brisbane-theme .line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* Aspect ratio for property images */
+.brisbane-theme .aspect-\[4\/3\] {
+  aspect-ratio: 4 / 3;
+}
+
+/* ========================================
    Responsive Adjustments
    ======================================== */
 
@@ -327,5 +606,10 @@
 
   .brisbane-theme .section-title {
     font-size: 1.875rem;
+  }
+
+  .brisbane-theme .service-content i,
+  .brisbane-theme .service-content .fa {
+    font-size: 2rem;
   }
 }
