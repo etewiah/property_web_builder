@@ -1,30 +1,55 @@
-<section class="bg-white contact-us-section">
-  <div class="wp-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-7">
-          <%= render 'pwb/sections/contact_us_form' %>
-        </div>
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-4">
-          <div class="row">
-            <div class="col-sm-12">
-              <%= render '/pwb/props/prop_contact_info' %>
-            </div>
-            <div class="col-sm-12" style="display:none;">
-              <%# render '/main/home/about_us/opening_hours' %>
-            </div>
-            <div class="col-sm-12">
-              <% if @current_agency.show_contact_map %>
-                <inmo-map style="min-height: 600px;" :markers="<%= @map_markers.to_json %>"
-                  :zoom="15">
-                </inmo-map>
-                <div id="inmo-map-canvas" class="map-canvas no-margin"></div>
-              <% end %>
-            </div>
+<!-- Bristol Theme Form and Map Component - Tailwind CSS -->
+<section class="py-8">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div class="">
+        <%= render 'pwb/sections/contact_us_form' %>
+      </div>
+      <div class="space-y-6">
+        <%= render '/pwb/props/prop_contact_info' %>
+        <% if @current_agency.show_contact_map %>
+          <div class="rounded-lg overflow-hidden shadow-sm border border-gray-200" style="height: 400px;">
+            <div id="contact-map" class="w-full h-full"></div>
           </div>
-        </div>
+          <script>
+            document.addEventListener('DOMContentLoaded', function() {
+              if (typeof L === 'undefined') return;
+
+              // Fix for Leaflet default icon path issues
+              delete L.Icon.Default.prototype._getIconUrl;
+              L.Icon.Default.mergeOptions({
+                iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+              });
+
+              var mapMarkers = <%= @map_markers.to_json.html_safe %>;
+              if (mapMarkers && mapMarkers.length > 0) {
+                var firstMarker = mapMarkers[0];
+                if (firstMarker.position && firstMarker.position.lat && firstMarker.position.lng) {
+                  var lat = parseFloat(firstMarker.position.lat);
+                  var lng = parseFloat(firstMarker.position.lng);
+
+                  var map = L.map('contact-map').setView([lat, lng], 15);
+
+                  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  }).addTo(map);
+
+                  mapMarkers.forEach(function(marker) {
+                    if (marker.position && marker.position.lat && marker.position.lng) {
+                      L.marker([parseFloat(marker.position.lat), parseFloat(marker.position.lng)]).addTo(map)
+                          .bindPopup(marker.title);
+                    }
+                  });
+
+                  // Fix for map not rendering correctly if hidden initially or in tabs
+                  setTimeout(function(){ map.invalidateSize(); }, 200);
+                }
+              }
+            });
+          </script>
+        <% end %>
       </div>
     </div>
   </div>

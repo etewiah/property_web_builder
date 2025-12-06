@@ -11,16 +11,17 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <%
       theme_name = @current_website&.theme_name || 'default'
-      # Theme-specific stylesheet loading
-      case theme_name
-      when 'bristol'
-        # Bristol uses Tailwind CSS and its own stylesheet
+      # All themes now use Tailwind CSS
     %>
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
-        <%= stylesheet_link_tag "bristol_theme", media: "all" %>
+    <%
+      case theme_name
+      when 'brisbane'
+    %>
+        <%= stylesheet_link_tag "brisbane_theme", media: "all" %>
     <% else %>
-        <%= stylesheet_link_tag "pwb/themes/#{theme_name}", media: "all" %>
+        <%= stylesheet_link_tag "default_theme", media: "all" %>
     <% end %>
     <style>
       <%= custom_styles(theme_name) %>

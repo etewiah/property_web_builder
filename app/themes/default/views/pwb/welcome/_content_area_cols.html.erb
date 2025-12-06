@@ -1,13 +1,11 @@
-<section class="slice light-gray bb">
-  <div class="wp-section services-section">
-    <div class="container">
-      <div class="row services-wrapper">
-        <% @content_area_cols.each do |content_area_col| %>
-          <div class="col-md-4 ss-cont">
-            <%== content_area_col.raw %>
-          </div>
-        <% end %>
-      </div>
+<section class="bg-gray-100 border-b border-gray-200 py-8">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <% @content_area_cols.each do |content_area_col| %>
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+          <%== content_area_col.raw %>
+        </div>
+      <% end %>
     </div>
   </div>
 </section>

@@ -1,49 +1,33 @@
-<div class="section-title-wr" style="display:none;">
-  <h3 class="section-title left"><span>
-    <%= I18n.t("contactUs") %>
-  </span>
-  </h3>
-</div>
-<p id="contact-us-prompt" >
-  <%= I18n.t("contactUsPrompt") %>:
-</p>
+<!-- Bristol Theme Contact Us Form - Tailwind CSS -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <p id="contact-us-prompt" class="text-gray-600 mb-6">
+    <%= I18n.t("contactUsPrompt") %>
+  </p>
 
-<%= form_for :contact, :url => '/contact_us.js', :method => 'post',
-  :html => { :class => 'form-light mt-20 mi_form' }, :remote => true do |f| %>
+  <%= form_for :contact, url: '/contact_us.js', method: 'post',
+      html: { class: 'space-y-4' }, remote: true do |f| %>
 
-  <%=  f.hidden_field :locale, :value => I18n.locale %>
+    <%= f.hidden_field :locale, value: I18n.locale %>
 
-  <div class="form-group">
-    <%= simple_inmo_input f, "name", "name", "text", true %>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group pos_relative">
-        <%= simple_inmo_input f, "email", "email", "email", true %>
-      </div>
+    <%= tailwind_inmo_input f, :name, "name", "text", true %>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <%= tailwind_inmo_input f, :email, "email", "email", true %>
+      <%= tailwind_inmo_input f, :tel, "tel", "text", false %>
     </div>
-    <div class="col-md-6">
-      <div class="form-group pos_relative">
-        <%= simple_inmo_input f, "tel", "tel", "text", false %>
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= simple_inmo_input f, "subject", "subject", "text", false %>
-  </div>
-  <div class="form-group">
-    <%= simple_inmo_textarea f, "message", "message", "text", false %>
-  </div>
-  <div class="form-group">
-  </div>
-  <div class="form-group">
-    <div id="contact-us-result" style="display: inline-table;width: 100%;"></div>
-  </div>
-  <%=  button_tag(type: "submit", class: "btn btn-base fondo_accion") do %>
-    <i class="fa fa-envelope"></i>
-    <%= I18n.t("send") %>
+
+    <%= tailwind_inmo_input f, :subject, "subject", "text", false %>
+
+    <%= tailwind_inmo_textarea f, :message, "message", "text", false %>
+
+    <div id="contact-us-result"></div>
+
+    <button type="submit"
+            class="bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition flex items-center">
+      <i class="fa fa-envelope mr-2"></i>
+      <%= I18n.t("send") %>
+    </button>
+
+    <div id="resp_enviar"></div>
   <% end %>
-
-
-  <div id="resp_enviar"></div>
-<% end %>
+</div>

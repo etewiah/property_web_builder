@@ -7,15 +7,6 @@
     "http://propertywebbuilder.com/images/rerenting-landing_framed.png"
   ]
 }, {
-
-  "name": "berlin",
-  "friendly_name": "Berlin Theme",
-  "id": "berlin"
-}, {
-  "name": "bristol",
-  "friendly_name": "Bristol Theme",
-  "id": "bristol"
-}, {
   "name": "brisbane",
   "friendly_name": "Brisbane Luxury Theme",
   "id": "brisbane"

@@ -13,10 +13,10 @@ PropertyWebBuilder uses a multi-tenant theme system where each website can have 
 
 | Theme | Type | Status | Description |
 |-------|------|--------|-------------|
-| `default` | Bootstrap | Active | Legacy Bootstrap-based theme |
-| `berlin` | Bootstrap | Active | Alternative Bootstrap theme |
-| `bristol` | Tailwind/Flowbite | Active | Modern Tailwind CSS theme |
+| `default` | Tailwind/Flowbite | Active | Standard Tailwind CSS theme (formerly Bristol) |
 | `brisbane` | Tailwind/Flowbite | Active | Luxury real estate theme with navy/gold palette |
+
+**Note:** Bootstrap-based themes (berlin, vic, matt, airbnb) have been removed. All themes now use Tailwind CSS with Flowbite components.
 
 ### Key Components
 
@@ -30,7 +30,7 @@ PropertyWebBuilder uses a multi-tenant theme system where each website can have 
 
 1. Request comes in with subdomain (tenant identification)
 2. `ApplicationController#set_theme_path` determines theme from:
-   - URL parameter `?theme=name` (if whitelisted: berlin, default, bristol)
+   - URL parameter `?theme=name` (if whitelisted: default, brisbane)
    - Website's `theme_name` field
    - Fallback to "default"
 3. Theme view path is prepended to Rails view lookup
@@ -63,16 +63,11 @@ mkdir -p app/themes/mytheme/views/pwb/search
 mkdir -p app/themes/mytheme/views/pwb/shared
 ```
 
-### Step 3: Choose Base Theme and Copy Files
+### Step 3: Copy Files from Default Theme
 
-**For Bootstrap-based themes** (copy from default):
+All new themes should be based on the Tailwind/Flowbite default theme:
 ```bash
 cp -r app/themes/default/views/* app/themes/mytheme/views/
-```
-
-**For Tailwind-based themes** (copy from bristol):
-```bash
-cp -r app/themes/bristol/views/* app/themes/mytheme/views/
 ```
 
 ### Step 4: Create Custom CSS Partial

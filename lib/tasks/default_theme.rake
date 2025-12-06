@@ -1,5 +1,5 @@
-namespace :bristol do
-  desc "Build Bristol theme CSS"
+namespace :default_theme do
+  desc "Build Default theme CSS"
   task :build => :environment do
     # Find the executable path
     # Try different ways to find it
@@ -21,16 +21,16 @@ namespace :bristol do
       require "tailwindcss/upstream"
       executable = Tailwindcss::Upstream::EXECUTABLE
     end
-    
+
     input = Rails.root.join("app/assets/tailwind/application.css").to_s
-    output = Rails.root.join("app/assets/builds/bristol_theme.css").to_s
-    
+    output = Rails.root.join("app/assets/builds/default_theme.css").to_s
+
     command = "#{executable} -i #{input} -o #{output} --minify"
     puts "Running: #{command}"
     system(command)
   end
-  
-  desc "Watch Bristol theme CSS"
+
+  desc "Watch Default theme CSS"
   task :watch => :environment do
     # Copy of build logic for finding executable
     executable = nil
@@ -47,8 +47,8 @@ namespace :bristol do
     end
 
     input = Rails.root.join("app/assets/tailwind/application.css").to_s
-    output = Rails.root.join("app/assets/builds/bristol_theme.css").to_s
-    
+    output = Rails.root.join("app/assets/builds/default_theme.css").to_s
+
     command = "#{executable} -i #{input} -o #{output} --watch"
     puts "Running: #{command}"
     system(command)
