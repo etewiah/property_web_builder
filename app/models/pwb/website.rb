@@ -9,7 +9,7 @@ module Pwb
     has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: 'PwbTenant::PageContent'
 
     # Listed properties from the materialized view (read-only, for display)
-    has_many :listed_properties, class_name: 'Pwb::ListedProperty', foreign_key: 'website_id'
+    has_many :listed_properties, class_name: 'PwbTenant::ListedProperty', foreign_key: 'website_id'
     # Legacy Prop model - kept for backwards compatibility with existing code/tests
     has_many :props, class_name: 'PwbTenant::Prop', foreign_key: 'website_id'
 
