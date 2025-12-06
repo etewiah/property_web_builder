@@ -2,7 +2,7 @@ module Pwb
   module ConsoleHelpers
     def tenant(subdomain_or_id)
       website = if subdomain_or_id.is_a?(Integer)
-                  Pwb::Website.find(subdomain_or_id)
+                  Pwb::Website.find_by(id: subdomain_or_id)
                 else
                   Pwb::Website.find_by(subdomain: subdomain_or_id)
                 end
