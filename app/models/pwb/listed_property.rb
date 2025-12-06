@@ -17,7 +17,7 @@ module Pwb
     # Associations (read-only, via the realty_asset_id which is our primary key)
     belongs_to :website, class_name: 'Pwb::Website', optional: true
     has_many :prop_photos, class_name: 'Pwb::PropPhoto', foreign_key: 'realty_asset_id', primary_key: 'id'
-    has_many :features, class_name: 'Pwb::Feature', foreign_key: 'realty_asset_id', primary_key: 'id'
+    has_many :features, class_name: 'PwbTenant::Feature', foreign_key: 'realty_asset_id', primary_key: 'id'
 
     # Underlying models for write operations
     def realty_asset
@@ -107,7 +107,7 @@ module Pwb
       return all if feature_array.empty?
 
       # Use subquery to avoid GROUP BY issues with SELECT *
-      property_ids = Pwb::Feature
+      property_ids = PwbTenant::Feature
         .where(feature_key: feature_array)
         .group(:realty_asset_id)
         .having("COUNT(DISTINCT feature_key) = ?", feature_array.length)
@@ -125,7 +125,7 @@ module Pwb
       return all if feature_array.empty?
 
       # Use subquery to avoid issues with joins and distinct
-      property_ids = Pwb::Feature
+      property_ids = PwbTenant::Feature
         .where(feature_key: feature_array)
         .select(:realty_asset_id)
         .distinct
