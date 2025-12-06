@@ -163,16 +163,17 @@ RSpec.describe SiteAdmin::Properties::SettingsController, type: :controller do
       expect(flash[:notice]).to eq('Setting updated successfully')
     end
     
-    it 'does not allow updating field keys from other websites' do
+    it 'returns 404 for field keys from other websites' do
       other_field_key = create(:pwb_field_key, website: other_website, tag: 'property-types')
-      
-      expect {
-        patch :update, params: {
-          category: 'property_types',
-          id: other_field_key.global_key,
-          field_key: { visible: false }
-        }
-      }.to raise_error(ActiveRecord::RecordNotFound)
+
+      patch :update, params: {
+        category: 'property_types',
+        id: other_field_key.global_key,
+        field_key: { visible: false }
+      }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response).to render_template('site_admin/shared/record_not_found')
     end
   end
   

@@ -99,10 +99,18 @@ RSpec.describe SiteAdmin::PagePartsController, type: :controller do
       expect(assigns(:page_part)).to eq(page_part_own)
     end
 
-    it 'raises RecordNotFound for other website page_part' do
-      expect {
-        get :show, params: { id: page_part_other.id }
-      }.to raise_error(ActiveRecord::RecordNotFound)
+    it 'returns 404 for other website page_part' do
+      get :show, params: { id: page_part_other.id }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response).to render_template('site_admin/shared/record_not_found')
+    end
+
+    it 'returns 404 for non-existent page_part' do
+      get :show, params: { id: SecureRandom.uuid }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response).to render_template('site_admin/shared/record_not_found')
     end
   end
 

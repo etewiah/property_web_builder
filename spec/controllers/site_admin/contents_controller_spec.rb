@@ -99,10 +99,18 @@ RSpec.describe SiteAdmin::ContentsController, type: :controller do
       expect(assigns(:content)).to eq(content_own)
     end
 
-    it 'raises RecordNotFound for other website content' do
-      expect {
-        get :show, params: { id: content_other.id }
-      }.to raise_error(ActiveRecord::RecordNotFound)
+    it 'returns 404 for other website content' do
+      get :show, params: { id: content_other.id }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response).to render_template('site_admin/shared/record_not_found')
+    end
+
+    it 'returns 404 for non-existent content' do
+      get :show, params: { id: SecureRandom.uuid }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response).to render_template('site_admin/shared/record_not_found')
     end
   end
 

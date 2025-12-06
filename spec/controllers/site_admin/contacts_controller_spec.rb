@@ -114,18 +114,18 @@ RSpec.describe SiteAdmin::ContactsController, type: :controller do
       expect(assigns(:contact)).to eq(contact_own)
     end
 
-    it 'raises RecordNotFound for other website contact' do
-      expect {
-        get :show, params: { id: contact_other.id }
-      }.to raise_error(ActiveRecord::RecordNotFound)
+    it 'returns 404 for other website contact' do
+      get :show, params: { id: contact_other.id }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response).to render_template('site_admin/shared/record_not_found')
     end
 
-    it 'does not expose non-existent contacts' do
-      # When accessing a non-existent contact, an error is raised
-      # The specific error type may vary based on the implementation
-      expect {
-        get :show, params: { id: 999999 }
-      }.to raise_error(StandardError)
+    it 'returns 404 for non-existent contact' do
+      get :show, params: { id: SecureRandom.uuid }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response).to render_template('site_admin/shared/record_not_found')
     end
   end
 

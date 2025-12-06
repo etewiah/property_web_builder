@@ -78,10 +78,18 @@ RSpec.describe SiteAdmin::PagesController, type: :controller do
       expect(assigns(:page)).to eq(page_own)
     end
 
-    it 'raises RecordNotFound for other website page' do
-      expect {
-        get :show, params: { id: page_other.id }
-      }.to raise_error(ActiveRecord::RecordNotFound)
+    it 'returns 404 for other website page' do
+      get :show, params: { id: page_other.id }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response).to render_template('site_admin/shared/record_not_found')
+    end
+
+    it 'returns 404 for non-existent page' do
+      get :show, params: { id: SecureRandom.uuid }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response).to render_template('site_admin/shared/record_not_found')
     end
   end
 
@@ -96,10 +104,11 @@ RSpec.describe SiteAdmin::PagesController, type: :controller do
       expect(assigns(:page)).to eq(page_own)
     end
 
-    it 'raises RecordNotFound for other website page' do
-      expect {
-        get :edit, params: { id: page_other.id }
-      }.to raise_error(ActiveRecord::RecordNotFound)
+    it 'returns 404 for other website page' do
+      get :edit, params: { id: page_other.id }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response).to render_template('site_admin/shared/record_not_found')
     end
   end
 
@@ -114,13 +123,13 @@ RSpec.describe SiteAdmin::PagesController, type: :controller do
       expect(page_own.reload.visible).to be false
     end
 
-    it 'raises RecordNotFound when trying to update other website page' do
+    it 'returns 404 when trying to update other website page' do
       original_visibility = page_other.visible
 
-      expect {
-        patch :update, params: { id: page_other.id, pwb_page: { visible: false } }
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      patch :update, params: { id: page_other.id, pwb_page: { visible: false } }
 
+      expect(response).to have_http_status(:not_found)
+      expect(response).to render_template('site_admin/shared/record_not_found')
       # Verify page was not modified
       expect(page_other.reload.visible).to eq(original_visibility)
     end

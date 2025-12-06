@@ -1,0 +1,29 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-lg mx-auto text-center">
+    <div class="mb-6">
+      <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </div>
+
+    <h1 class="text-2xl font-bold text-gray-900 mb-2">
+      <%= @resource_type || 'Record' %> Not Found
+    </h1>
+
+    <p class="text-gray-600 mb-6">
+      The <%= @resource_type&.downcase || 'record' %> you're looking for doesn't exist or you don't have permission to view it.
+      It may have been deleted or moved.
+    </p>
+
+    <div class="space-x-4">
+      <% begin %>
+        <% index_path = url_for(controller: controller_name, action: :index, only_path: true) %>
+        <%= link_to "Back to #{controller_name.titleize}", index_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      <% rescue ActionController::UrlGenerationError %>
+        <%# No index route available %>
+      <% end %>
+
+      <%= link_to "Go to Dashboard", site_admin_root_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    </div>
+  </div>
+</div>
