@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # Silence Chrome DevTools MCP requests
+  get '/.well-known/appspecific/com.chrome.devtools.json', to: proc { [204, {}, []] }
+
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   get '/api-public-docs', to: 'api_public_docs#index'
