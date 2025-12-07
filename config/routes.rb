@@ -139,15 +139,13 @@ Rails.application.routes.draw do
 
 
 
-    get "/admin" => "admin_panel#show"
-    get "/admin/*path" => "admin_panel#show"
-    get "/admin-1" => "admin_panel#show_legacy_1"
-    get "/admin-1/*path" => "admin_panel#show_legacy_1"
+    # Legacy /admin routes - redirect to /site_admin
+    # These provide backward compatibility for existing links using admin_with_locale_path
+    get "/admin", to: redirect('/site_admin')
+    get "/admin/*path", to: redirect('/site_admin')
     scope "(:locale)", locale: /#{I18n.available_locales.join('|')}/ do
-      get "/admin" => "admin_panel#show", as: "admin_with_locale"
-      get "/admin/*path" => "admin_panel#show"
-      get "/admin-1" => "admin_panel#show_legacy_1", as: "admin_with_locale_legacy"
-      get "/admin-1/*path" => "admin_panel#show_legacy_1"
+      get "/admin", to: redirect('/site_admin'), as: "admin_with_locale"
+      get "/admin/*path", to: redirect('/site_admin')
     end
 
     # get "/config" => "config#show"
@@ -214,8 +212,9 @@ Rails.application.routes.draw do
       # post "/ajax_find_by_ref" => "search#ajax_find_by_ref"
       post "/request_property_info" => "props#request_property_info_ajax"
 
-      get "/admin" => "admin_panel#show"
-      get "/admin/*path" => "admin_panel#show"
+      # Legacy /admin routes within locale scope - redirect to /site_admin
+      get "/admin", to: redirect('/site_admin')
+      get "/admin/*path", to: redirect('/site_admin')
 
       # In-context editor
       get "/edit" => "editor#show", as: :editor
