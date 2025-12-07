@@ -42,17 +42,29 @@ module AdminAuthBypass
     website = respond_to?(:current_website) ? current_website : Pwb::Current.website
     return nil unless website
 
-    # First try to find an existing admin
-    admin = Pwb::User.find_by(website_id: website.id, admin: true)
-    return admin if admin
+    # First try to find a user with admin membership for this website
+    existing_admin = Pwb::UserMembership.active.admins.for_website(website).first&.user
+    return existing_admin if existing_admin
+
+    # Fall back to legacy admin flag check
+    legacy_admin = Pwb::User.find_by(website_id: website.id, admin: true)
+    return legacy_admin if legacy_admin
 
     # Create a bypass admin user if none exists
-    Pwb::User.find_or_create_by!(email: "bypass-admin@#{website.subdomain || 'default'}.test") do |user|
-      user.password = 'bypass_password_123'
-      user.password_confirmation = 'bypass_password_123'
-      user.website_id = website.id
-      user.admin = true
+    user = Pwb::User.find_or_create_by!(email: "bypass-admin@#{website.subdomain || 'default'}.test") do |u|
+      u.password = 'bypass_password_123'
+      u.password_confirmation = 'bypass_password_123'
+      u.website_id = website.id
+      u.admin = true
     end
+
+    # Ensure user has admin membership for this website
+    Pwb::UserMembership.find_or_create_by!(user: user, website: website) do |m|
+      m.role = 'admin'
+      m.active = true
+    end
+
+    user
   rescue ActiveRecord::RecordInvalid => e
     Rails.logger.warn "[AdminAuthBypass] Could not create bypass user: #{e.message}"
     nil

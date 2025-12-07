@@ -332,22 +332,39 @@ module Pwb
 
     def seed_users
       log "👤 Seeding users...", :info
-      
+
       users_yml = load_seed_yml("users.yml")
-      
+
       users_yml.each do |user_data|
         email = user_data["email"]
         existing = Pwb::User.find_by(email: email)
-        
-        if existing
-          handle_existing_record("User '#{email}'", existing, user_data, inline: true)
-        else
-          unless dry_run
-            user_data["website_id"] ||= website.id
-            Pwb::User.create!(user_data)
-          end
-          log "   ✓ Created user: #{email}", :success if verbose
-          stats[:created] += 1
+
+        user = if existing
+                 handle_existing_record("User '#{email}'", existing, user_data, inline: true)
+                 existing
+               else
+                 unless dry_run
+                   user_data["website_id"] ||= website.id
+                   new_user = Pwb::User.create!(user_data)
+                   log "   ✓ Created user: #{email}", :success if verbose
+                   stats[:created] += 1
+                   new_user
+                 end
+               end
+
+        # Create membership for the user based on role (if user exists)
+        next unless user && !dry_run
+
+        role = user_data["role"] || (user_data["admin"] ? "admin" : "member")
+        membership_role = case role.to_s
+                          when "admin", "owner" then role.to_s
+                          when "agent" then "member"
+                          else "member"
+                          end
+
+        Pwb::UserMembership.find_or_create_by!(user: user, website: website) do |m|
+          m.role = membership_role
+          m.active = true
         end
       end
     end

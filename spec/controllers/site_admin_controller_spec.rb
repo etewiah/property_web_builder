@@ -111,20 +111,40 @@ RSpec.describe 'SiteAdminController#set_tenant_from_subdomain', type: :controlle
     ActsAsTenant.current_tenant = nil
   end
 
-  describe 'authentication' do
-    context 'when user is signed in' do
+  describe 'authentication and authorization' do
+    context 'when user is admin for the website' do
       it 'allows access' do
         get :index
         expect(response).to have_http_status(:success)
       end
     end
 
+    context 'when user is signed in but not admin' do
+      let(:non_admin_user) { create(:pwb_user, website: website) }
+
+      before do
+        sign_out :user
+        sign_in non_admin_user, scope: :user
+      end
+
+      it 'returns forbidden status' do
+        get :index
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      it 'renders admin required error page' do
+        get :index
+        expect(response).to render_template('pwb/errors/admin_required')
+      end
+    end
+
     context 'when user is not signed in' do
       before { sign_out :user }
 
-      it 'redirects to sign in page' do
+      it 'returns forbidden status and renders admin required page' do
         get :index
-        expect(response).to redirect_to(new_user_session_path(locale: :en))
+        expect(response).to have_http_status(:forbidden)
+        expect(response).to render_template('pwb/errors/admin_required')
       end
     end
   end

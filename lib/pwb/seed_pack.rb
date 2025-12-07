@@ -447,16 +447,32 @@ module Pwb
       count = 0
       users.each do |user_data|
         existing = Pwb::User.find_by(email: user_data[:email])
-        unless existing
-          user = Pwb::User.new(
-            email: user_data[:email],
-            password: user_data[:password] || 'password123',
-            password_confirmation: user_data[:password] || 'password123',
-            website_id: @website.id,
-            admin: user_data[:role] == 'admin'
-          )
-          user.save!
-          count += 1
+        user = if existing
+                 existing
+               else
+                 new_user = Pwb::User.new(
+                   email: user_data[:email],
+                   password: user_data[:password] || 'password123',
+                   password_confirmation: user_data[:password] || 'password123',
+                   website_id: @website.id,
+                   admin: user_data[:role] == 'admin'
+                 )
+                 new_user.save!
+                 count += 1
+                 new_user
+               end
+
+        # Create membership for the user based on role
+        role = user_data[:role] || 'member'
+        membership_role = case role
+                          when 'admin', 'owner' then role
+                          when 'agent' then 'member'
+                          else 'member'
+                          end
+
+        Pwb::UserMembership.find_or_create_by!(user: user, website: @website) do |m|
+          m.role = membership_role
+          m.active = true
         end
       end
 
