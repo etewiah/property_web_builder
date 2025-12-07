@@ -1,6 +1,9 @@
 module Pwb
-  class FirebaseLoginController < ApplicationController
-    layout 'pwb/devise'
+  class FirebaseLoginController < ActionController::Base
+    include ::Devise::Controllers::Helpers
+    helper_method :current_user
+
+    layout 'devise_tailwind'
 
     before_action :redirect_if_signed_in, except: [:change_password]
 

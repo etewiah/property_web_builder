@@ -1,32 +1,62 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5">
-      <div class="card shadow-sm mt-5">
-        <div class="card-body p-4">
-          <h3 class="text-center mb-4">Admin Login</h3>
-          
-          <div id="firebaseui-auth-container"></div>
-          <div id="loader" class="text-center">Loading...</div>
-          
-          <div class="text-center mt-3">
-            <p class="mb-2">
-              <%= link_to "Forgot Password?", "/firebase_forgot_password", class: "text-decoration-none" %>
-            </p>
-            <p class="mb-0">
-              Don't have an account? 
-              <%= link_to "Sign Up", "/firebase_sign_up", class: "text-decoration-none fw-bold" %>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<h2 class="text-2xl font-bold text-gray-900 text-center mb-8">
+  Admin Login
+</h2>
+
+<div id="firebaseui-auth-container"></div>
+<div id="loader" class="text-center text-gray-500 py-4">
+  <svg class="animate-spin h-6 w-6 mx-auto text-blue-600" fill="none" viewBox="0 0 24 24">
+    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+  </svg>
+  <span class="mt-2 block text-sm">Loading...</span>
+</div>
+
+<div class="mt-6 text-center space-y-2">
+  <%= link_to "Forgot Password?", "/firebase_forgot_password",
+      class: "text-sm font-medium text-blue-600 hover:text-blue-500" %>
+  <p class="text-sm text-gray-600">
+    Don't have an account?
+    <%= link_to "Sign Up", "/firebase_sign_up",
+        class: "font-medium text-blue-600 hover:text-blue-500" %>
+  </p>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
 <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
+
+<%# Override FirebaseUI styles to match Tailwind design %>
+<style>
+  .firebaseui-container { max-width: 100% !important; }
+  .firebaseui-card-content { padding: 0 !important; }
+  .firebaseui-card-header { display: none !important; }
+  .firebaseui-card-actions { padding: 0 !important; }
+  .mdl-button--raised.mdl-button--colored {
+    background-color: #2563eb !important;
+    border-radius: 0.375rem !important;
+    font-weight: 500 !important;
+    text-transform: none !important;
+    font-size: 0.875rem !important;
+    padding: 0.5rem 1rem !important;
+    height: auto !important;
+    min-height: 2.5rem !important;
+  }
+  .mdl-button--raised.mdl-button--colored:hover { background-color: #1d4ed8 !important; }
+  .firebaseui-input, .firebaseui-input-invalid {
+    border: 1px solid #d1d5db !important;
+    border-radius: 0.375rem !important;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.875rem !important;
+  }
+  .firebaseui-input:focus { border-color: #3b82f6 !important; outline: none !important; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important; }
+  .firebaseui-label { font-size: 0.875rem !important; color: #374151 !important; font-weight: 500 !important; }
+  .firebaseui-textfield { margin-bottom: 1rem !important; }
+  .firebaseui-form-actions { margin-top: 1.5rem !important; }
+  .firebaseui-id-submit { width: 100% !important; }
+  .firebaseui-idp-list { margin: 0 !important; }
+  .firebaseui-list-item { margin-bottom: 0.75rem !important; }
+</style>
 
 <script>
   // Return URL for redirect after login
@@ -49,8 +79,6 @@
     callbacks: {
       signInSuccessWithAuthResult: function(authResult, redirectUrl) {
         // User successfully signed in.
-        // Return type determines whether we continue the redirect automatically
-        // or whether we leave that to developer to handle.
         authResult.user.getIdToken().then(function(accessToken) {
           // Send token to backend
           fetch('/api_public/v1/auth/firebase', {
@@ -75,30 +103,20 @@
         return false;
       },
       uiShown: function() {
-        // The widget is rendered.
-        // Hide the loader.
+        // Hide the loader when FirebaseUI is rendered
         document.getElementById('loader').style.display = 'none';
       }
     },
-    // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
     signInFlow: 'popup',
     signInOptions: [
       {
         provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-        // Require email for account creation
         requireDisplayName: false,
-        // Explicitly enable account creation
-        disableSignUp: {
-          status: false
-        }
-      },
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID
+        disableSignUp: { status: false }
+      }
+      // Google sign-in disabled - uncomment below to enable:
+      // firebase.auth.GoogleAuthProvider.PROVIDER_ID
     ],
-    // Terms of service url.
-    tosUrl: '<your-tos-url>',
-    // Privacy policy url.
-    privacyPolicyUrl: '<your-privacy-policy-url>',
-    // Set these to show appropriate UI text
     credentialHelper: firebaseui.auth.CredentialHelper.NONE
   };
 
