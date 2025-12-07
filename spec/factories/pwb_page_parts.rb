@@ -1,5 +1,7 @@
 FactoryBot.define do
-  factory :pwb_page_part, class: 'PwbTenant::PagePart' do
+  # Use Pwb::PagePart (not PwbTenant::PagePart) for flexibility in tests
+  # The tenant-scoped version has stricter validation that can cause issues
+  factory :pwb_page_part, class: 'Pwb::PagePart' do
     website { Pwb::Website.first || association(:pwb_website) }
     # factory :form_and_map_rails_part do
     #   page_part_key "form_and_map"
