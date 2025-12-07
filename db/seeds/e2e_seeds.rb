@@ -18,7 +18,7 @@ def seed_for_website(website)
 
   # Seed agency, website, properties, field keys, users, contacts, links
   Pwb::Seeder.seed!(website: website)
-  
+
   # Seed pages and page parts with website association for multi-tenant isolation
   Pwb::PagesSeeder.seed_page_basics!(website: website)
   Pwb::PagesSeeder.seed_page_parts!(website: website)
@@ -52,43 +52,49 @@ seed_for_website(tenant_b)
 # Create test users
 puts "Creating test users..."
 
+e2e_users = YAML.load_file(Rails.root.join('db', 'yml_seeds', 'e2e_users.yml'))
+
 # Admin user for Tenant A
-user_a_admin = Pwb::User.find_or_initialize_by(email: 'admin@tenant-a.test')
+user_data = e2e_users['tenant_a']['admin']
+user_a_admin = Pwb::User.find_or_initialize_by(email: user_data['email'])
 user_a_admin.assign_attributes(
-  password: 'password123',
-  password_confirmation: 'password123',
+  password: user_data['password'],
+  password_confirmation: user_data['password'],
   website_id: tenant_a.id,
-  admin: true
+  admin: user_data['admin']
 )
 user_a_admin.save!
 
 # Regular user for Tenant A
-user_a_regular = Pwb::User.find_or_initialize_by(email: 'user@tenant-a.test')
+user_data = e2e_users['tenant_a']['regular']
+user_a_regular = Pwb::User.find_or_initialize_by(email: user_data['email'])
 user_a_regular.assign_attributes(
-  password: 'password123',
-  password_confirmation: 'password123',
+  password: user_data['password'],
+  password_confirmation: user_data['password'],
   website_id: tenant_a.id,
-  admin: false
+  admin: user_data['admin']
 )
 user_a_regular.save!
 
 # Admin user for Tenant B
-user_b_admin = Pwb::User.find_or_initialize_by(email: 'admin@tenant-b.test')
+user_data = e2e_users['tenant_b']['admin']
+user_b_admin = Pwb::User.find_or_initialize_by(email: user_data['email'])
 user_b_admin.assign_attributes(
-  password: 'password123',
-  password_confirmation: 'password123',
+  password: user_data['password'],
+  password_confirmation: user_data['password'],
   website_id: tenant_b.id,
-  admin: true
+  admin: user_data['admin']
 )
 user_b_admin.save!
 
 # Regular user for Tenant B
-user_b_regular = Pwb::User.find_or_initialize_by(email: 'user@tenant-b.test')
+user_data = e2e_users['tenant_b']['regular']
+user_b_regular = Pwb::User.find_or_initialize_by(email: user_data['email'])
 user_b_regular.assign_attributes(
-  password: 'password123',
-  password_confirmation: 'password123',
+  password: user_data['password'],
+  password_confirmation: user_data['password'],
   website_id: tenant_b.id,
-  admin: false
+  admin: user_data['admin']
 )
 user_b_regular.save!
 

@@ -1,0 +1,18 @@
+tenant_a:
+  admin:
+    email: admin@tenant-a.test
+    password: password123
+    admin: true
+  regular:
+    email: user@tenant-a.test
+    password: password123
+    admin: false
+tenant_b:
+  admin:
+    email: admin@tenant-b.test
+    password: password123
+    admin: true
+  regular:
+    email: user@tenant-b.test
+    password: password123
+    admin: false

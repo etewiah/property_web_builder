@@ -10,14 +10,14 @@ namespace :playwright do
     end
 
     puts "🔄 Resetting E2E test database..."
-    
+
     Rake::Task["db:drop"].invoke
     Rake::Task["db:create"].invoke
     Rake::Task["db:migrate"].invoke
-    
+
     # Load the E2E seeds
     load Rails.root.join('db', 'seeds', 'e2e_seeds.rb')
-    
+
     puts "✅ E2E database reset complete!"
   end
 
@@ -29,11 +29,26 @@ namespace :playwright do
       exit 1
     end
 
+    e2e_users = YAML.load_file(Rails.root.join('db', 'yml_seeds', 'e2e_users.yml'))
+
     puts "🚀 Starting Rails server for E2E testing on port 3001..."
     puts "   Tenant A: http://tenant-a.e2e.localhost:3001"
+    if e2e_users['tenant_a']
+      admin = e2e_users['tenant_a']['admin']
+      regular = e2e_users['tenant_a']['regular']
+      puts "     Admin: #{admin['email']} / #{admin['password']}" if admin
+      puts "     User:  #{regular['email']} / #{regular['password']}" if regular
+    end
+
     puts "   Tenant B: http://tenant-b.e2e.localhost:3001"
+    if e2e_users['tenant_b']
+      admin = e2e_users['tenant_b']['admin']
+      regular = e2e_users['tenant_b']['regular']
+      puts "     Admin: #{admin['email']} / #{admin['password']}" if admin
+      puts "     User:  #{regular['email']} / #{regular['password']}" if regular
+    end
     puts ""
-    
+
     exec "bin/rails server -p 3001"
   end
 
