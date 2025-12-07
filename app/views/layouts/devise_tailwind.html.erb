@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Sign In - PropertyWebBuilder" %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      body { font-family: 'Inter', sans-serif; }
+    </style>
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <!-- Logo/Brand -->
+      <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <% if @current_website&.logo_url %>
+          <img class="mx-auto h-12 w-auto" src="<%= @current_website.logo_url %>" alt="Logo">
+        <% else %>
+          <h2 class="text-center text-3xl font-bold text-gray-900">
+            <%= @current_website&.site_name || "PropertyWebBuilder" %>
+          </h2>
+        <% end %>
+      </div>
+
+      <!-- Flash Messages -->
+      <% if flash.any? %>
+        <div class="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
+          <% flash.each do |type, message| %>
+            <% bg_class = case type.to_s
+                          when 'notice', 'success' then 'bg-green-50 border-green-400 text-green-700'
+                          when 'alert', 'error' then 'bg-red-50 border-red-400 text-red-700'
+                          else 'bg-blue-50 border-blue-400 text-blue-700'
+                          end %>
+            <div class="<%= bg_class %> border-l-4 p-4 mb-2">
+              <p class="text-sm"><%= message %></p>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- Main Content -->
+      <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white py-8 px-4 shadow-lg sm:rounded-lg sm:px-10">
+          <%= yield %>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="mt-8 text-center">
+        <a href="/" class="text-sm text-gray-500 hover:text-gray-700">
+          &larr; Back to homepage
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

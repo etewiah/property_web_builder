@@ -1,29 +1,94 @@
-<div class="admin-required-error">
-  <h3>Admin Access Required</h3>
-  <% if current_user %>
-    <p>You are currently logged in as: <strong><%= current_user.email %></strong></p>
-    <p>This account does not have admin privileges for this tenant.</p>
-    
-    <hr>
-    <h4>Diagnostic Information:</h4>
-    <ul>
-      <li><strong>User is admin:</strong> <%= current_user.admin? %></li>
-      <li><strong>User's website_id:</strong> <%= current_user.website_id %></li>
-      <li><strong>User's website subdomain:</strong> <%= current_user.website&.subdomain || 'N/A' %></li>
-      <li><strong>Detected subdomain from URL:</strong> <%= @subdomain.present? ? @subdomain : 'N/A' %></li>
-      <li><strong>Website found for subdomain:</strong> <%= @website.present? ? "Yes (ID: #{@website.id})" : 'No' %></li>
-      <% if @website && current_user.website_id %>
-        <li><strong>Website IDs match:</strong> <%= current_user.website_id == @website.id %></li>
+<div class="w-full max-w-lg">
+  <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+    <!-- Header -->
+    <div class="bg-red-600 px-6 py-4">
+      <div class="flex items-center">
+        <svg class="w-8 h-8 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+        </svg>
+        <h1 class="text-xl font-semibold text-white">Admin Access Required</h1>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="px-6 py-6">
+      <% if current_user %>
+        <div class="mb-4">
+          <p class="text-gray-700">You are currently logged in as:</p>
+          <p class="font-semibold text-gray-900 mt-1"><%= current_user.email %></p>
+        </div>
+
+        <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mb-6">
+          <div class="flex">
+            <svg class="w-5 h-5 text-amber-400 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            <p class="text-sm text-amber-700">This account does not have admin privileges for this website.</p>
+          </div>
+        </div>
+
+        <% if Rails.env.development? || Rails.env.e2e? %>
+          <!-- Diagnostic Information (dev/e2e only) -->
+          <details class="mb-6">
+            <summary class="cursor-pointer text-sm font-medium text-gray-500 hover:text-gray-700">
+              Diagnostic Information
+            </summary>
+            <div class="mt-3 bg-gray-50 rounded-md p-4 text-sm">
+              <dl class="space-y-2">
+                <div class="flex justify-between">
+                  <dt class="text-gray-500">User is admin (legacy):</dt>
+                  <dd class="font-mono text-gray-900"><%= current_user.admin? %></dd>
+                </div>
+                <div class="flex justify-between">
+                  <dt class="text-gray-500">User's website_id:</dt>
+                  <dd class="font-mono text-gray-900"><%= current_user.website_id %></dd>
+                </div>
+                <div class="flex justify-between">
+                  <dt class="text-gray-500">User's website subdomain:</dt>
+                  <dd class="font-mono text-gray-900"><%= current_user.website&.subdomain || 'N/A' %></dd>
+                </div>
+                <div class="flex justify-between">
+                  <dt class="text-gray-500">Detected subdomain:</dt>
+                  <dd class="font-mono text-gray-900"><%= @subdomain.present? ? @subdomain : 'N/A' %></dd>
+                </div>
+                <div class="flex justify-between">
+                  <dt class="text-gray-500">Website found:</dt>
+                  <dd class="font-mono text-gray-900"><%= @website.present? ? "Yes (ID: #{@website.id})" : 'No' %></dd>
+                </div>
+                <% if @website && current_user.website_id %>
+                  <div class="flex justify-between">
+                    <dt class="text-gray-500">Website IDs match:</dt>
+                    <dd class="font-mono text-gray-900"><%= current_user.website_id == @website.id %></dd>
+                  </div>
+                <% end %>
+              </dl>
+            </div>
+          </details>
+        <% end %>
+
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row gap-3">
+          <%= auth_logout_link "Sign out",
+              class: "inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+          <span class="text-gray-500 text-sm self-center">or contact your administrator</span>
+        </div>
+      <% else %>
+        <div class="text-center">
+          <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+          <p class="text-gray-600 mb-6">You need to sign in with an admin account to access this page.</p>
+          <%= auth_login_link "Sign in",
+              class: "inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        </div>
       <% end %>
-    </ul>
-    <hr>
-    
-    <p>
-      <%= auth_logout_link "Sign out", class: "btn btn-secondary" %>
-      or contact your administrator for access.
-    </p>
-  <% else %>
-    <p>You need to be an admin to access this page.</p>
-    <p><%= auth_login_link "Sign in", class: "btn btn-primary" %></p>
-  <% end %>
+    </div>
+  </div>
+
+  <!-- Back link -->
+  <div class="mt-4 text-center">
+    <a href="/" class="text-sm text-gray-500 hover:text-gray-700">
+      &larr; Back to homepage
+    </a>
+  </div>
 </div>

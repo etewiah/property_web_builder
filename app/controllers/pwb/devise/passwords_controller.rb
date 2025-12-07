@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Pwb::Devise::PasswordsController < Devise::PasswordsController
+  helper AuthHelper
+  layout 'devise_tailwind'
   # POST /users/password
   # Request password reset
   def create

@@ -1,31 +1,106 @@
-<div class="container">
-  <div class="row" style="margin: 80px;">
-    <div class="col-sm-4 col-sm-offset-4">
-      <div class="light-well border-form-div">
-        <h2 class="page-header text-center"><%= t(".sign_in") %></h2>
-        <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name),
-                      html: { class: "form-horizontal center"}) do |f| %>
-          <%= f.error_notification %>
-          <%=  f.hidden_field :default_locale, :value => I18n.locale %>
-          <%= f.input :email, label: false, required: true, autofocus: true, placeholder: t("activerecord.attributes.user.email"), class: "form-control" %>
-          <%= f.input :password, required: true, label: false, placeholder: t("activerecord.attributes.user.password") %>
-          <%= f.input :remember_me, as: :boolean, label: t("activerecord.attributes.user.remember_me") if devise_mapping.rememberable? %>
-          <div class="form-inputs">
-          </div>
-          <div>
-            <%= render "devise/shared/messages" %>
-          </div>
-          <div class="form-actions">
-            <%= f.button :submit, t(".sign_in"), class: "btn btn-success btn-lg btn-block" %>
-          </div>
-        <% end %>
-        <%# devise_error_messages! %>
-        <div>
-          <%= render "devise/shared/links" %>
-        </div>
-      </div>
-      <br>
-      <br>
+<h2 class="text-2xl font-bold text-gray-900 text-center mb-8">
+  <%= t(".sign_in") %>
+</h2>
+
+<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name),
+                    html: { class: "space-y-6" }) do |f| %>
+  <%= f.error_notification message: "Please check the errors below", class: "bg-red-50 border-l-4 border-red-400 p-4 mb-4 text-red-700 text-sm" %>
+  <%= f.hidden_field :default_locale, value: I18n.locale %>
+
+  <div>
+    <label for="user_email" class="block text-sm font-medium text-gray-700">
+      <%= t("activerecord.attributes.user.email") %>
+    </label>
+    <div class="mt-1">
+      <%= f.input :email,
+          label: false,
+          required: true,
+          autofocus: true,
+          placeholder: t("activerecord.attributes.user.email"),
+          input_html: {
+            class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          } %>
     </div>
+  </div>
+
+  <div>
+    <label for="user_password" class="block text-sm font-medium text-gray-700">
+      <%= t("activerecord.attributes.user.password") %>
+    </label>
+    <div class="mt-1">
+      <%= f.input :password,
+          label: false,
+          required: true,
+          placeholder: t("activerecord.attributes.user.password"),
+          input_html: {
+            class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          } %>
+    </div>
+  </div>
+
+  <% if devise_mapping.rememberable? %>
+    <div class="flex items-center justify-between">
+      <div class="flex items-center">
+        <%= f.input :remember_me,
+            as: :boolean,
+            label: false,
+            wrapper: false,
+            input_html: { class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" } %>
+        <label for="user_remember_me" class="ml-2 block text-sm text-gray-700">
+          <%= t("activerecord.attributes.user.remember_me") %>
+        </label>
+      </div>
+
+      <% if devise_mapping.recoverable? %>
+        <div class="text-sm">
+          <%= link_to t("devise.shared.links.forgot_your_password"),
+              new_password_path(resource_name),
+              class: "font-medium text-blue-600 hover:text-blue-500" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.button :submit, t(".sign_in"),
+        class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+  </div>
+<% end %>
+
+<%# Additional links %>
+<div class="mt-6">
+  <div class="relative">
+    <div class="absolute inset-0 flex items-center">
+      <div class="w-full border-t border-gray-300"></div>
+    </div>
+    <div class="relative flex justify-center text-sm">
+      <span class="px-2 bg-white text-gray-500">Or</span>
+    </div>
+  </div>
+
+  <div class="mt-6 space-y-3">
+    <% if using_firebase_auth? %>
+      <%= link_to auth_login_path,
+          class: "w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" do %>
+        <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+        </svg>
+        Sign in with Firebase
+      <% end %>
+    <% end %>
+
+    <%- if devise_mapping.omniauthable? %>
+      <%- resource_class.omniauth_providers.each do |provider| %>
+        <%= link_to localized_omniauth_path(provider),
+            class: "w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" do %>
+          <% if provider == :facebook %>
+            <svg class="w-5 h-5 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          <% end %>
+          Sign in with <%= provider.to_s.titleize %>
+        <% end %>
+      <% end %>
+    <% end %>
   </div>
 </div>

@@ -3,7 +3,10 @@ module Pwb
     class SessionsController < ::Devise::SessionsController
       # Include subdomain tenant detection to set Pwb::Current.website
       include SubdomainTenant
-      
+      helper AuthHelper
+
+      layout 'devise_tailwind'
+
       # Include the application controller concern for subdomain tenant detection
       before_action :validate_user_website, only: [:create]
 

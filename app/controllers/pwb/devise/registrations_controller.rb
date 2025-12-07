@@ -1,4 +1,7 @@
 class Pwb::Devise::RegistrationsController < Devise::RegistrationsController
+  helper AuthHelper
+  layout 'devise_tailwind'
+
   def edit_success
     render "/devise/registrations/edit_success"
   end
