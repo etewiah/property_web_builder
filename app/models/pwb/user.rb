@@ -50,19 +50,41 @@ module Pwb
 
     # Devise hook to check if user should be allowed to sign in
     # This ensures users can only authenticate on their assigned website/subdomain
+    # or on websites where they have an active membership
     def active_for_authentication?
-      super && website.present? && (current_website.blank? || website_id == current_website&.id)
+      return false unless super
+
+      # If no current website context, allow authentication
+      return true if current_website.blank?
+
+      # Allow if user's primary website matches
+      return true if website_id == current_website.id
+
+      # Allow if user has an active membership for this website
+      return true if user_memberships.active.exists?(website: current_website)
+
+      # Firebase users (identified by firebase_uid) should be allowed
+      # Their membership is handled in the Firebase auth controller
+      return true if firebase_uid.present?
+
+      false
     end
 
     # Custom error message when authentication fails due to wrong subdomain
     def inactive_message
-      if website.blank?
+      if website.blank? && user_memberships.none?
         :invalid_website
-      elsif current_website.present? && website_id != current_website.id
+      elsif current_website.present? && !can_access_website?(current_website)
         :invalid_website
       else
         super
       end
+    end
+
+    # Check if user can access a specific website
+    def can_access_website?(website)
+      return false unless website
+      website_id == website.id || user_memberships.active.exists?(website: website)
     end
 
     private

@@ -74,7 +74,10 @@ module Pwb
     private
 
     def log_authentication_failure
-      email = params.dig(:user, :email) || warden_options[:attempted_path]
+      # Get email from params, fallback to nil if not a valid email
+      email = params.dig(:user, :email)
+      # Don't use attempted_path as email - it's not an email address
+      email = nil if email.blank? || !email.to_s.include?('@')
 
       # Determine failure reason
       reason = case warden_message
