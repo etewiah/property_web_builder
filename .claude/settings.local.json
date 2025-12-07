@@ -59,7 +59,10 @@
       "mcp__filesystem__search_files",
       "Skill(theme-creation)",
       "Bash(rm:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "mcp__chrome-devtools__take_snapshot",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__take_screenshot"
     ],
     "deny": [],
     "ask": []
