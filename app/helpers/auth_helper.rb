@@ -63,15 +63,17 @@ module AuthHelper
     link_to text, auth_login_path, options
   end
 
-  # Helper to render logout link with appropriate method
+  # Helper to render logout link/button with appropriate method
+  # Uses button_to for reliable DELETE method support without requiring Turbo
   # @param text [String] Link text (default: "Sign Out")
-  # @param options [Hash] HTML options for the link
-  # @return [String] HTML link tag
+  # @param options [Hash] HTML options for the button
+  # @return [String] HTML button tag wrapped in a form
   def auth_logout_link(text = "Sign Out", **options)
-    # Use DELETE method for Devise compatibility
-    options[:data] ||= {}
-    options[:data][:turbo_method] = :delete
-    link_to text, auth_logout_path, options
+    # Extract class for the button, set form to be inline
+    button_class = options.delete(:class) || ""
+    form_class = options.delete(:form_class) || "inline"
+
+    button_to text, auth_logout_path, method: :delete, class: button_class, form: { class: form_class }, **options
   end
 
   # Helper to render signup link
