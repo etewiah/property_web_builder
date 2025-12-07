@@ -4,9 +4,7 @@ Rails.application.config.dartsass.builds = {
   "../../stylesheets/pwb/themes/berlin.scss" => "pwb/themes/berlin.css",
   "../../stylesheets/pwb/themes/chic.scss" => "pwb/themes/chic.css",
   "../../stylesheets/pwb/themes/default.scss" => "pwb/themes/default.css",
-  "../../stylesheets/pwb/themes/matt.scss" => "pwb/themes/matt.css",
   "../../stylesheets/pwb/themes/squares.scss" => "pwb/themes/squares.css",
-  "../../stylesheets/pwb/themes/vic.scss" => "pwb/themes/vic.css",
   "../../stylesheets/pwb_admin_panel/application.scss" => "pwb_admin_panel/application.css"
 }
 
