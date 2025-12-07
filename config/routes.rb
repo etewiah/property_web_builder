@@ -124,10 +124,9 @@ Rails.application.routes.draw do
 
 
 
-    get "/propertysquares" => "squares#vue"
-    get "/propertysquares/*path" => "squares#vue"
-    get "/squares/:client_id" => "squares#show_client"
-    get "/squares/:client_id/:prop_id" => "squares#show_prop"
+
+
+
     get "/admin" => "admin_panel#show"
     get "/admin/*path" => "admin_panel#show"
     get "/admin-1" => "admin_panel#show_legacy_1"

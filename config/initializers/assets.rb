@@ -12,17 +12,9 @@ Rails.application.config.assets.paths << Rails.root.join("app", "assets", "javas
 # folder are already added.
 Rails.application.config.assets.precompile += %w[
   pwb_admin_panel/application_legacy_1.css
-  default.css
-  chic.css
-  berlin.css
-  squares.css
-  matt.css
-  vic.css
-  vic.js
-  matt.js
-  squares.js
+  pwb/themes/default.css
+  pwb/themes/berlin.css
   default.js
-  chic.js
   berlin.js
   pwb_admin_panel/application_legacy_1.js
   pwb/config.js

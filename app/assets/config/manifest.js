@@ -3,8 +3,7 @@
 //= link_directory ../javascripts .js
 //= link pwb/application.js
 //= link pwb_admin_panel/application.js
-//= link default_theme.css
-//= link brisbane_theme.css
+
 //= link pwb/editor_client.js
 //= link pwb/editor.css
 //= link pwb/editor_panels.css
