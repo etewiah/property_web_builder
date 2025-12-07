@@ -7,3 +7,5 @@
 //= link pwb/editor_client.js
 //= link pwb/editor.css
 //= link pwb/editor_panels.css
+
+//= link pwb/themes/default.css

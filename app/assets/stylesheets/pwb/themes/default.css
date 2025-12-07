@@ -1,0 +1,26 @@
+/*
+ * Default Theme Stylesheet for PropertyWebBuilder
+ *
+ * This file provides base styles for the default theme.
+ * Theme-specific CSS variables are injected via custom_styles helper.
+ */
+
+/* Base theme styles - minimal since Tailwind handles most styling */
+.tnt-body {
+  font-family: var(--pwb-font-primary, 'Open Sans', sans-serif);
+}
+
+/* Ensure smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Page transitions */
+.page-content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
