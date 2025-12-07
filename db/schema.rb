@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_06_111548) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_07_093625) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -599,6 +599,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_06_111548) do
     t.index ["email"], name: "index_pwb_users_on_email", unique: true
     t.index ["firebase_uid"], name: "index_pwb_users_on_firebase_uid", unique: true
     t.index ["reset_password_token"], name: "index_pwb_users_on_reset_password_token", unique: true
+    t.index ["unlock_token"], name: "index_pwb_users_on_unlock_token", unique: true
     t.index ["website_id"], name: "index_pwb_users_on_website_id"
   end
 

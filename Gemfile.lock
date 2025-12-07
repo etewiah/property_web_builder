@@ -468,6 +468,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.4)
+    rack-attack (6.8.0)
+      rack (>= 1.0, < 4)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
     rack-mini-profiler (4.0.1)
@@ -781,6 +783,7 @@ DEPENDENCIES
   poltergeist
   pry-byebug
   puma
+  rack-attack (~> 6.7)
   rack-cors (~> 1.1)
   rack-mini-profiler
   rails (~> 8.0)

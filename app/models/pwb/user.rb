@@ -6,11 +6,20 @@ module Pwb
   # console work and cross-tenant operations.
   #
   class User < ApplicationRecord
-    # Include default devise modules. Others available are:
-    # :confirmable, :lockable, :timeoutable and :omniauthable
+    # Include Devise modules for authentication:
+    # - :database_authenticatable - email/password authentication
+    # - :registerable - user registration
+    # - :recoverable - password reset via email
+    # - :rememberable - remember me cookie
+    # - :trackable - sign in tracking (count, timestamps, IP)
+    # - :validatable - email/password validation
+    # - :lockable - account lockout after failed attempts
+    # - :timeoutable - session timeout after inactivity
+    # - :omniauthable - OAuth authentication (Facebook)
     devise :database_authenticatable, :registerable,
       :recoverable, :rememberable, :trackable,
-      :validatable, :omniauthable, omniauth_providers: [:facebook]
+      :validatable, :lockable, :timeoutable,
+      :omniauthable, omniauth_providers: [:facebook]
 
     belongs_to :website, optional: true # Made optional for multi-website support
     has_many :authorizations
