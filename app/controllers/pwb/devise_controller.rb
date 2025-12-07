@@ -1,12 +1,18 @@
 module Pwb
-  class DeviseController < ApplicationController
+  class DeviseController < ActionController::Base
+    include SubdomainTenant
+    helper AuthHelper
+    helper_method :current_user, :current_website
+
     # This controller is registered in
     # config/initializers/devise.rb
     # with:
     #   config.parent_controller = 'Pwb::DeviseController'
     #
     # Set the layout for all Devise controllers
-    layout "pwb/devise"
+    layout "devise_tailwind"
+
+    # SubdomainTenant concern already adds before_action :set_current_website_from_subdomain
 
     # https://github.com/plataformatec/devise/blob/master/lib/devise/controllers/helpers.rb
 

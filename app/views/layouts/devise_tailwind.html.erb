@@ -18,11 +18,12 @@
     <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <!-- Logo/Brand -->
       <div class="sm:mx-auto sm:w-full sm:max-w-md">
-        <% if @current_website&.logo_url %>
-          <img class="mx-auto h-12 w-auto" src="<%= @current_website.logo_url %>" alt="Logo">
+        <% website = defined?(current_website) ? current_website : @current_website %>
+        <% if website&.main_logo_url.present? %>
+          <img class="mx-auto h-12 w-auto" src="<%= website.main_logo_url %>" alt="Logo">
         <% else %>
           <h2 class="text-center text-3xl font-bold text-gray-900">
-            <%= @current_website&.site_name || "PropertyWebBuilder" %>
+            <%= website&.company_display_name || "PropertyWebBuilder" %>
           </h2>
         <% end %>
       </div>

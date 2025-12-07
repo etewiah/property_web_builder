@@ -28,10 +28,15 @@
 
 <%# Override FirebaseUI styles to match Tailwind design %>
 <style>
+  /* Remove the card border/shadow from FirebaseUI */
   .firebaseui-container { max-width: 100% !important; }
   .firebaseui-card-content { padding: 0 !important; }
   .firebaseui-card-header { display: none !important; }
   .firebaseui-card-actions { padding: 0 !important; }
+  .mdl-card { box-shadow: none !important; border: none !important; background: transparent !important; }
+  .firebaseui-card-footer { display: none !important; }
+
+  /* Button styling */
   .mdl-button--raised.mdl-button--colored {
     background-color: #2563eb !important;
     border-radius: 0.375rem !important;
@@ -43,6 +48,8 @@
     min-height: 2.5rem !important;
   }
   .mdl-button--raised.mdl-button--colored:hover { background-color: #1d4ed8 !important; }
+
+  /* Input field styling */
   .firebaseui-input, .firebaseui-input-invalid {
     border: 1px solid #d1d5db !important;
     border-radius: 0.375rem !important;
@@ -52,6 +59,8 @@
   .firebaseui-input:focus { border-color: #3b82f6 !important; outline: none !important; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important; }
   .firebaseui-label { font-size: 0.875rem !important; color: #374151 !important; font-weight: 500 !important; }
   .firebaseui-textfield { margin-bottom: 1rem !important; }
+
+  /* Form layout */
   .firebaseui-form-actions { margin-top: 1.5rem !important; }
   .firebaseui-id-submit { width: 100% !important; }
   .firebaseui-idp-list { margin: 0 !important; }
