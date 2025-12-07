@@ -22,7 +22,7 @@ Style/ClassVars:
   Enabled: false
 
 # We need these names for backwards compatability
-Naming/PredicateName:
+Naming/PredicatePrefix:
   Enabled: false
 
 # This has been used for customization
@@ -65,7 +65,7 @@ Layout/MultilineMethodCallIndentation:
 Layout/FirstArrayElementIndentation:
   Enabled: false
 
-Layout/FirstHashElementIndentation:nt:
+Layout/FirstHashElementIndentation:
   Enabled: false
 
 Naming/AccessorMethodName:

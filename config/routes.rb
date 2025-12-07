@@ -21,24 +21,24 @@ Rails.application.routes.draw do
         post :seed
       end
       # Nested resources for tenant-specific data
-      resources :users, only: [:index, :show]
-      resources :agencies, only: [:index, :show]
-      resources :props, only: [:index, :show]
-      resources :pages, only: [:index, :show]
-      resources :admins, controller: 'website_admins', only: [:index, :create, :destroy]
+      resources :users, only: %i[index show]
+      resources :agencies, only: %i[index show]
+      resources :props, only: %i[index show]
+      resources :pages, only: %i[index show]
+      resources :admins, controller: 'website_admins', only: %i[index create destroy]
     end
 
     resources :users
-    resources :agencies, only: [:index, :show, :new, :create, :edit, :update, :destroy]
-    resources :props, only: [:index, :show]
-    resources :pages, only: [:index, :show]
-    resources :page_parts, only: [:index, :show]
-    resources :contents, only: [:index, :show]
-    resources :messages, only: [:index, :show]
-    resources :contacts, only: [:index, :show]
+    resources :agencies, only: %i[index show new create edit update destroy]
+    resources :props, only: %i[index show]
+    resources :pages, only: %i[index show]
+    resources :page_parts, only: %i[index show]
+    resources :contents, only: %i[index show]
+    resources :messages, only: %i[index show]
+    resources :contacts, only: %i[index show]
 
     # Security & Audit
-    resources :auth_audit_logs, only: [:index, :show] do
+    resources :auth_audit_logs, only: %i[index show] do
       collection do
         get 'user/:user_id', action: :user_logs, as: :user
         get 'ip/:ip', action: :ip_logs, as: :ip, constraints: { ip: /[^\/]+/ }
@@ -53,9 +53,9 @@ Rails.application.routes.draw do
     root to: 'dashboard#index'
 
     # Image library API for page part editor
-    resources :images, only: [:index, :create]
+    resources :images, only: %i[index create]
 
-    resources :props, only: [:index, :show] do
+    resources :props, only: %i[index show] do
       member do
         get 'edit/general', to: 'props#edit_general', as: 'edit_general'
         get 'edit/text', to: 'props#edit_text', as: 'edit_text'
@@ -71,7 +71,7 @@ Rails.application.routes.draw do
       end
 
       # Nested resources for sale listings
-      resources :sale_listings, controller: 'props/sale_listings', only: [:new, :create, :edit, :update, :destroy] do
+      resources :sale_listings, controller: 'props/sale_listings', only: %i[new create edit update destroy] do
         member do
           patch :activate
           patch :archive
@@ -80,7 +80,7 @@ Rails.application.routes.draw do
       end
 
       # Nested resources for rental listings
-      resources :rental_listings, controller: 'props/rental_listings', only: [:new, :create, :edit, :update, :destroy] do
+      resources :rental_listings, controller: 'props/rental_listings', only: %i[new create edit update destroy] do
         member do
           patch :activate
           patch :archive
@@ -88,20 +88,20 @@ Rails.application.routes.draw do
         end
       end
     end
-    resources :pages, only: [:index, :show, :edit, :update] do
+    resources :pages, only: %i[index show edit update] do
       # Nested page parts for editing content blocks
-      resources :page_parts, controller: 'pages/page_parts', only: [:show, :edit, :update] do
+      resources :page_parts, controller: 'pages/page_parts', only: %i[show edit update] do
         member do
           patch :toggle_visibility
         end
       end
     end
-    resources :page_parts, only: [:index, :show]
-    resources :contents, only: [:index, :show]
-    resources :messages, only: [:index, :show]
-    resources :contacts, only: [:index, :show]
-    resources :users, only: [:index, :show]
-    
+    resources :page_parts, only: %i[index show]
+    resources :contents, only: %i[index show]
+    resources :messages, only: %i[index show]
+    resources :contacts, only: %i[index show]
+    resources :users, only: %i[index show]
+
     # Properties Settings
     namespace :properties do
       get 'settings', to: 'settings#index', as: 'settings'
@@ -125,10 +125,11 @@ Rails.application.routes.draw do
   scope module: :pwb do
     root to: "welcome#index"
     resources :welcome, only: :index
-    admin_constraint = lambda do |request|
-      request.env["warden"].authenticate? and request.env["warden"].user.admin?
-    end
-    constraints admin_constraint do
+
+    # Use same authorization as TenantAdminController for admin tools
+    # Requires user email to be in TENANT_ADMIN_EMAILS env var
+    require_relative '../lib/constraints/tenant_admin_constraint'
+    constraints Constraints::TenantAdminConstraint.new do
       mount ActiveStorageDashboard::Engine => "/active_storage_dashboard"
       mount Logster::Web, at: "/logs"
     end
@@ -142,17 +143,22 @@ Rails.application.routes.draw do
     get "/admin/*path" => "admin_panel#show"
     get "/admin-1" => "admin_panel#show_legacy_1"
     get "/admin-1/*path" => "admin_panel#show_legacy_1"
-    scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
+    scope "(:locale)", locale: /#{I18n.available_locales.join('|')}/ do
       get "/admin" => "admin_panel#show", as: "admin_with_locale"
       get "/admin/*path" => "admin_panel#show"
       get "/admin-1" => "admin_panel#show_legacy_1", as: "admin_with_locale_legacy"
       get "/admin-1/*path" => "admin_panel#show_legacy_1"
     end
-    get "/config" => "config#show"
-    get "/config/:params" => "config#show"
 
-    get "/v-admin" => "admin_panel_vue#show"
-    get "/v-admin/*path" => "admin_panel_vue#show"
+    # get "/config" => "config#show"
+    # get "/config/:params" => "config#show"
+    # get "/v-admin" => "admin_panel_vue#show"
+    # get "/v-admin/*path" => "admin_panel_vue#show"
+
+    # get "/v-public" => "vue_public#show"
+    # get "/v-public/*path" => "vue_public#show"
+    # get "/v-public-2" => "vue_public_2#show"
+    # get "/v-public-2/*path" => "vue_public_2#show"
 
     get "/firebase_login" => "firebase_login#index"
     get "/firebase_sign_up" => "firebase_login#sign_up"
@@ -162,10 +168,6 @@ Rails.application.routes.draw do
     # Unified auth routes (work for both Firebase and Devise)
     delete "/auth/logout" => "auth#logout", as: :unified_logout
 
-    get "/v-public" => "vue_public#show"
-    get "/v-public/*path" => "vue_public#show"
-    get "/v-public-2" => "vue_public_2#show"
-    get "/v-public-2/*path" => "vue_public_2#show"
 
     get "/custom_css/:theme_name" => "css#custom_css", as: "custom_css"
 
@@ -174,7 +176,7 @@ Rails.application.routes.draw do
     # https://github.com/plataformatec/devise/wiki/How-To:-OmniAuth-inside-localized-scope
     devise_for :users, class_name: "Pwb::User", only: :omniauth_callbacks, controllers: { omniauth_callbacks: "pwb/devise/omniauth_callbacks" }
 
-    scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
+    scope "(:locale)", locale: /#{I18n.available_locales.join('|')}/ do
       devise_scope :user do
         get "/users/edit_success" => "devise/registrations#edit_success", as: "user_edit_success"
       end
@@ -217,13 +219,13 @@ Rails.application.routes.draw do
 
       # In-context editor
       get "/edit" => "editor#show", as: :editor
-      
+
       namespace :editor do
-        resources :page_parts, only: [:show, :update]
-        resource :theme_settings, only: [:show, :update]
-        resources :images, only: [:index, :create]
+        resources :page_parts, only: %i[show update]
+        resource :theme_settings, only: %i[show update]
+        resources :images, only: %i[index create]
       end
-      
+
       get "/edit/*path" => "editor#show"
     end
 
@@ -266,7 +268,6 @@ Rails.application.routes.draw do
 
       # # Make sure this routeset is defined last
       # comfy_route :cms, :path => '/comfy', :sitemap => false
-
     end
 
     # API routes moved outside authenticate block to allow BYPASS_API_AUTH env var
@@ -307,10 +308,10 @@ Rails.application.routes.draw do
         get "/web-contents" => "agency#infos"
 
         # Properties API endpoints (JSON format, compatible with previous JSONAPI structure)
-        resources :lite_properties, only: [:index, :show], path: 'lite-properties'
-        resources :properties, only: [:index, :show]
+        resources :lite_properties, only: %i[index show], path: 'lite-properties'
+        resources :properties, only: %i[index show]
         # resources :clients
-        resources :web_contents, only: [:index, :show], path: 'web-contents'
+        resources :web_contents, only: %i[index show], path: 'web-contents'
 
         resources :contacts
 
@@ -341,8 +342,7 @@ Rails.application.routes.draw do
         post "/web_contents/photo/:tag" => "web_contents#create_content_with_photo"
         # above for carousel photos where I need to be able to
         # create content along with the photo
-
-    end
+      end
     end
   end
 

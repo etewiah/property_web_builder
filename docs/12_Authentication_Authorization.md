@@ -164,6 +164,15 @@ end
 TENANT_ADMIN_EMAILS=admin@example.com,super@example.com
 ```
 
+### Mounted Engine Authorization
+
+The following mounted engines use the same TENANT_ADMIN_EMAILS authorization:
+
+- `/logs` - Logster log viewer
+- `/active_storage_dashboard` - ActiveStorage file browser
+
+This is implemented via a route constraint (`Constraints::TenantAdminConstraint`) that mirrors the TenantAdminController logic.
+
 ### Development/E2E Bypass
 
 For development and end-to-end testing, authentication can be bypassed:

@@ -1,8 +1,19 @@
 {
-  "prettier.singleQuote": true,
   "editor.formatOnSave": false,
-  "[ruby]": {
-    "editor.formatOnSave": false,
-    "editor.defaultFormatter": "mbessey.vscode-rufo"
+  "github.copilot.enable": {
+    "*": false
   },
+  "chat.tools.autoApprove": true,
+  "[ruby]": {
+    "editor.defaultFormatter": "rubocop.vscode-rubocop",
+    "editor.formatOnSave": true,
+    "editor.formatOnType": false
+  },
+  "rubocop.autoCorrect": true,
+  "rubocop.lint": true,
+  "rubocop.format": true,
+  "rubocop.configFilePath": ".rubocop.yml",
+  "ruby.format": {
+    "singleQuotes": true
+  }
 }
