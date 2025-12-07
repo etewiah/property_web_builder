@@ -57,6 +57,20 @@ module Pwb
       super
     end
 
+    # Override redirect_url to respect auth provider setting
+    def redirect_url
+      if Pwb::AuthConfig.firebase?
+        stored_location = stored_location_for(:user)
+        if stored_location.present?
+          "/firebase_login?return_to=#{CGI.escape(stored_location)}"
+        else
+          '/firebase_login'
+        end
+      else
+        super
+      end
+    end
+
     private
 
     def log_authentication_failure

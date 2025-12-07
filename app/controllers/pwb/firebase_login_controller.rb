@@ -2,7 +2,10 @@ module Pwb
   class FirebaseLoginController < ApplicationController
     layout 'pwb/devise'
 
+    before_action :redirect_if_signed_in, except: [:change_password]
+
     def index
+      @return_url = params[:return_to] || stored_location_for(:user) || admin_path
       render "pwb/firebase_login/index"
     end
 
@@ -11,6 +14,7 @@ module Pwb
     end
 
     def sign_up
+      @return_url = params[:return_to] || stored_location_for(:user) || admin_path
       render "pwb/firebase_login/sign_up"
     end
 
@@ -20,6 +24,16 @@ module Pwb
         redirect_to "/firebase_login" and return
       end
       render "pwb/firebase_login/change_password"
+    end
+
+    private
+
+    def redirect_if_signed_in
+      redirect_to admin_path if user_signed_in?
+    end
+
+    def admin_path
+      '/admin'
     end
   end
 end

@@ -19,11 +19,11 @@
     <hr>
     
     <p>
-      <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-secondary" %>
+      <%= auth_logout_link "Sign out", class: "btn btn-secondary" %>
       or contact your administrator for access.
     </p>
   <% else %>
     <p>You need to be an admin to access this page.</p>
-    <p><%= link_to "Sign in", "/firebase_login", class: "btn btn-primary" %></p>
+    <p><%= auth_login_link "Sign in", class: "btn btn-primary" %></p>
   <% end %>
 </div>

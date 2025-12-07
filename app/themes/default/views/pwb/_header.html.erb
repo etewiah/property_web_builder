@@ -104,7 +104,7 @@
                         class: "block px-4 py-2 hover:bg-gray-100" %>
                   </li>
                   <li>
-                    <%= link_to I18n.t("signOut"), destroy_user_session_path(), method: :delete,
+                    <%= auth_logout_link I18n.t("signOut"),
                         class: "block px-4 py-2 hover:bg-gray-100 text-red-600" %>
                   </li>
                 </ul>

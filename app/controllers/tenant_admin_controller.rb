@@ -13,6 +13,7 @@
 class TenantAdminController < ActionController::Base
   include AdminAuthBypass
   include Pagy::Backend
+  helper AuthHelper
 
   protect_from_forgery with: :exception
 

@@ -105,7 +105,7 @@
                         class: "block px-5 py-3 text-xs uppercase tracking-wider text-luxury-charcoal hover:bg-luxury-pearl hover:text-luxury-gold transition-colors duration-300" %>
                   </li>
                   <li class="border-t border-luxury-navy/5">
-                    <%= link_to I18n.t("signOut"), destroy_user_session_path(), method: :delete,
+                    <%= auth_logout_link I18n.t("signOut"),
                         class: "block px-5 py-3 text-xs uppercase tracking-wider text-luxury-charcoal hover:bg-luxury-pearl hover:text-luxury-gold transition-colors duration-300" %>
                   </li>
                 </ul>

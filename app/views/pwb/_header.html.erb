@@ -89,7 +89,7 @@
                     <%= link_to I18n.t("changePassword"), main_app.edit_user_registration_path() %>
                   </li>
                   <li>
-                    <%= link_to I18n.t("signOut"), main_app.destroy_user_session_path(), method: :delete %>
+                    <%= auth_logout_link I18n.t("signOut") %>
                   </li>
                 </ul>
               </li>
