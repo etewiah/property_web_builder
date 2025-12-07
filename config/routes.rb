@@ -172,7 +172,8 @@ Rails.application.routes.draw do
       devise_for :users, skip: :omniauth_callbacks, class_name: "Pwb::User", module: :devise, controllers: {
         registrations: "pwb/devise/registrations",
         omniauth_callbacks: "pwb/devise/omniauth_callbacks",
-        sessions: "pwb/devise/sessions"
+        sessions: "pwb/devise/sessions",
+        passwords: "pwb/devise/passwords"
       }
       # specifying controllers above is from:
       # https://github.com/plataformatec/devise/wiki/How-To:-Customize-the-redirect-after-a-user-edits-their-profile

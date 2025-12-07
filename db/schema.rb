@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_07_093625) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_07_094259) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -92,6 +92,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_07_093625) do
     t.string "theme_name"
     t.integer "website_id"
     t.index ["website_id"], name: "index_pwb_agencies_on_website_id"
+  end
+
+  create_table "pwb_auth_audit_logs", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "website_id"
+    t.string "event_type", null: false
+    t.string "email"
+    t.string "provider"
+    t.string "ip_address"
+    t.string "user_agent"
+    t.string "request_path"
+    t.jsonb "metadata", default: {}
+    t.string "failure_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_pwb_auth_audit_logs_on_created_at"
+    t.index ["email"], name: "index_pwb_auth_audit_logs_on_email"
+    t.index ["event_type"], name: "index_pwb_auth_audit_logs_on_event_type"
+    t.index ["ip_address"], name: "index_pwb_auth_audit_logs_on_ip_address"
+    t.index ["user_id", "event_type"], name: "index_pwb_auth_audit_logs_on_user_id_and_event_type"
+    t.index ["user_id"], name: "index_pwb_auth_audit_logs_on_user_id"
+    t.index ["website_id", "event_type"], name: "index_pwb_auth_audit_logs_on_website_id_and_event_type"
+    t.index ["website_id"], name: "index_pwb_auth_audit_logs_on_website_id"
   end
 
   create_table "pwb_authorizations", force: :cascade do |t|
@@ -673,6 +696,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_07_093625) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "pwb_auth_audit_logs", "pwb_users", column: "user_id"
+  add_foreign_key "pwb_auth_audit_logs", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_contacts", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_features", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_field_keys", "pwb_websites"

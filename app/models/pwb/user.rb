@@ -23,10 +23,15 @@ module Pwb
 
     belongs_to :website, optional: true # Made optional for multi-website support
     has_many :authorizations
-    
+    has_many :auth_audit_logs, class_name: 'Pwb::AuthAuditLog'
+
     # Multi-website support via memberships
     has_many :user_memberships, dependent: :destroy
     has_many :websites, through: :user_memberships
+
+    # Callbacks for audit logging
+    after_create :log_registration
+    after_update :log_lockout_events
 
     # Helper methods for role-based access
     def admin_for?(website)
@@ -106,6 +111,39 @@ module Pwb
 
     def create_authorization(auth)
       authorizations.create(provider: auth.provider, uid: auth.uid)
+    end
+
+    # Get recent authentication activity for this user
+    def recent_auth_activity(limit: 20)
+      auth_audit_logs.recent.limit(limit)
+    end
+
+    # Check if there's suspicious activity for this user
+    def suspicious_activity?(threshold: 5, since: 1.hour.ago)
+      auth_audit_logs.failures.where('created_at >= ?', since).count >= threshold
+    end
+
+    private
+
+    def log_registration
+      Pwb::AuthAuditLog.log_registration(user: self, request: nil)
+    rescue StandardError => e
+      Rails.logger.error("[AuthAuditLog] Failed to log registration: #{e.message}")
+    end
+
+    def log_lockout_events
+      # Log when account gets locked
+      if saved_change_to_locked_at? && locked_at.present?
+        Pwb::AuthAuditLog.log_account_locked(user: self)
+      end
+
+      # Log when account gets unlocked
+      if saved_change_to_locked_at? && locked_at.nil? && locked_at_before_last_save.present?
+        unlock_method = unlock_token_before_last_save.present? ? 'email' : 'time'
+        Pwb::AuthAuditLog.log_account_unlocked(user: self, unlock_method: unlock_method)
+      end
+    rescue StandardError => e
+      Rails.logger.error("[AuthAuditLog] Failed to log lockout event: #{e.message}")
     end
   end
 end

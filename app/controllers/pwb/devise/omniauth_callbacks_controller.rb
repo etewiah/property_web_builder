@@ -7,8 +7,33 @@ class Pwb::Devise::OmniauthCallbacksController < Devise::OmniauthCallbacksContro
 
     @user = Pwb::User.find_for_oauth(request.env['omniauth.auth'])
     if @user.persisted?
+      # Log successful OAuth authentication
+      Pwb::AuthAuditLog.log_oauth_success(
+        user: @user,
+        provider: 'facebook',
+        request: request
+      )
       sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, kind: 'Facebook') if is_navigational_format?
+    else
+      # Log OAuth failure
+      Pwb::AuthAuditLog.log_oauth_failure(
+        email: request.env.dig('omniauth.auth', 'info', 'email'),
+        provider: 'facebook',
+        reason: 'user_not_persisted',
+        request: request
+      )
     end
+  end
+
+  def failure
+    # Log OAuth failure
+    Pwb::AuthAuditLog.log_oauth_failure(
+      email: nil,
+      provider: params[:strategy] || 'unknown',
+      reason: params[:message] || 'oauth_failure',
+      request: request
+    )
+    super
   end
 end
