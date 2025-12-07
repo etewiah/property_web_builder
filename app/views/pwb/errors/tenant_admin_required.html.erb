@@ -1,0 +1,61 @@
+<div class="w-full max-w-lg mx-auto mt-20">
+  <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+    <!-- Header -->
+    <div class="bg-red-600 px-6 py-4">
+      <div class="flex items-center">
+        <svg class="w-8 h-8 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+        </svg>
+        <h1 class="text-xl font-semibold text-white">Tenant Admin Access Required</h1>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="px-6 py-6">
+      <% if current_user %>
+        <div class="mb-4">
+          <p class="text-gray-700">You are currently logged in as:</p>
+          <p class="font-semibold text-gray-900 mt-1"><%= current_user.email %></p>
+        </div>
+
+        <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mb-6">
+          <div class="flex">
+            <svg class="w-5 h-5 text-amber-400 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            <p class="text-sm text-amber-700">Your email address is not authorized to access the Tenant Admin area.</p>
+          </div>
+        </div>
+
+        <p class="text-gray-600 text-sm mb-6">
+          Access to the Tenant Admin is restricted to specific email addresses configured by the system administrator.
+          If you believe you should have access, please contact your system administrator.
+        </p>
+
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row gap-3">
+          <%= link_to "Sign out", destroy_user_session_path,
+              data: { turbo_method: :delete },
+              class: "inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+          <span class="text-gray-500 text-sm self-center">to sign in with a different account</span>
+        </div>
+      <% else %>
+        <div class="text-center">
+          <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+          <p class="text-gray-600 mb-6">You need to sign in with an authorized account to access the Tenant Admin.</p>
+          <%= link_to "Sign in", new_user_session_path,
+              class: "inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Back link -->
+  <div class="mt-4 text-center">
+    <a href="/" class="text-sm text-gray-500 hover:text-gray-700">
+      &larr; Back to homepage
+    </a>
+  </div>
+</div>
