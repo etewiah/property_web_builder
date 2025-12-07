@@ -1,0 +1,211 @@
+<div class="max-w-7xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Authentication Audit Logs</h1>
+    <p class="mt-2 text-gray-600">Monitor authentication events across all tenants</p>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <!-- Total Events -->
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Total Events</p>
+          <p class="text-2xl font-bold text-gray-900"><%= number_with_delimiter(@stats[:total_events]) %></p>
+        </div>
+        <div class="bg-blue-100 rounded-full p-2">
+          <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Failed Logins (24h) -->
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Failed Logins (24h)</p>
+          <p class="text-2xl font-bold <%= @stats[:login_failures_24h] > 50 ? 'text-red-600' : 'text-gray-900' %>">
+            <%= number_with_delimiter(@stats[:login_failures_24h]) %>
+          </p>
+        </div>
+        <div class="<%= @stats[:login_failures_24h] > 50 ? 'bg-red-100' : 'bg-yellow-100' %> rounded-full p-2">
+          <svg class="w-6 h-6 <%= @stats[:login_failures_24h] > 50 ? 'text-red-600' : 'text-yellow-600' %>" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Unique IPs (24h) -->
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Unique IPs (24h)</p>
+          <p class="text-2xl font-bold text-gray-900"><%= number_with_delimiter(@stats[:unique_ips_24h]) %></p>
+        </div>
+        <div class="bg-green-100 rounded-full p-2">
+          <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Locked Accounts -->
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Locked Accounts</p>
+          <p class="text-2xl font-bold <%= @stats[:locked_accounts] > 0 ? 'text-red-600' : 'text-gray-900' %>">
+            <%= @stats[:locked_accounts] %>
+          </p>
+        </div>
+        <div class="<%= @stats[:locked_accounts] > 0 ? 'bg-red-100' : 'bg-gray-100' %> rounded-full p-2">
+          <svg class="w-6 h-6 <%= @stats[:locked_accounts] > 0 ? 'text-red-600' : 'text-gray-600' %>" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if @suspicious_ips.any? %>
+    <!-- Suspicious IPs Alert -->
+    <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">Suspicious Activity Detected</h3>
+          <div class="mt-2 text-sm text-red-700">
+            <p>The following IPs have exceeded 10 failed login attempts in the last hour:</p>
+            <ul class="list-disc list-inside mt-1">
+              <% @suspicious_ips.each do |ip, count| %>
+                <li>
+                  <%= link_to ip, ip_tenant_admin_auth_audit_logs_path(ip: ip), class: "font-mono underline" %>
+                  (<%= count %> failures)
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Filters -->
+  <div class="mb-6 bg-white rounded-lg shadow p-4">
+    <%= form_with url: tenant_admin_auth_audit_logs_path, method: :get, local: true, class: "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4" do |f| %>
+      <div>
+        <%= f.label :event_type, "Event Type", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.select :event_type,
+            options_for_select([["All Events", ""]] + Pwb::AuthAuditLog::EVENT_TYPES.map { |t| [t.titleize.gsub("_", " "), t] }, params[:event_type]),
+            {},
+            class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :email, "Email", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.text_field :email, value: params[:email], placeholder: "user@example.com", class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :ip_address, "IP Address", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.text_field :ip_address, value: params[:ip_address], placeholder: "192.168.1.1", class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :date_from, "From Date", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.date_field :date_from, value: params[:date_from], class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :date_to, "To Date", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.date_field :date_to, value: params[:date_to], class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" %>
+      </div>
+      <div class="flex items-end gap-2">
+        <%= f.submit "Filter", class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm cursor-pointer" %>
+        <%= link_to "Clear", tenant_admin_auth_audit_logs_path, class: "px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Logs Table -->
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event</th>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IP Address</th>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% if @logs.any? %>
+          <% @logs.each do |log| %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                <div><%= log.created_at.strftime("%Y-%m-%d") %></div>
+                <div class="text-xs text-gray-400"><%= log.created_at.strftime("%H:%M:%S") %></div>
+              </td>
+              <td class="px-4 py-3 whitespace-nowrap">
+                <%= render partial: 'event_badge', locals: { event_type: log.event_type } %>
+              </td>
+              <td class="px-4 py-3 whitespace-nowrap text-sm">
+                <% if log.user %>
+                  <%= link_to log.email, tenant_admin_user_path(log.user), class: "text-blue-600 hover:text-blue-800" %>
+                <% elsif log.email.present? %>
+                  <span class="text-gray-900"><%= log.email %></span>
+                <% else %>
+                  <span class="text-gray-400">N/A</span>
+                <% end %>
+              </td>
+              <td class="px-4 py-3 whitespace-nowrap text-sm">
+                <% if log.ip_address.present? %>
+                  <%= link_to log.ip_address, ip_tenant_admin_auth_audit_logs_path(ip: log.ip_address), class: "font-mono text-blue-600 hover:text-blue-800" %>
+                <% else %>
+                  <span class="text-gray-400">N/A</span>
+                <% end %>
+              </td>
+              <td class="px-4 py-3 text-sm text-gray-500 max-w-xs truncate">
+                <% if log.failure_reason.present? %>
+                  <span class="text-red-600"><%= log.failure_reason %></span>
+                <% elsif log.provider.present? %>
+                  <span>Provider: <%= log.provider %></span>
+                <% elsif log.user_agent.present? %>
+                  <span class="text-xs" title="<%= log.user_agent %>"><%= truncate(log.user_agent, length: 40) %></span>
+                <% end %>
+              </td>
+              <td class="px-4 py-3 whitespace-nowrap text-sm">
+                <%= link_to "View", tenant_admin_auth_audit_log_path(log), class: "text-blue-600 hover:text-blue-800" %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="6" class="px-6 py-12 text-center">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+              </svg>
+              <h3 class="mt-2 text-sm font-medium text-gray-900">No audit logs found</h3>
+              <p class="mt-1 text-sm text-gray-500">Authentication events will appear here as they occur.</p>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <% if @logs.any? %>
+      <div class="px-4 py-3 bg-gray-50 border-t border-gray-200">
+        <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+        <p class="text-sm text-gray-500">
+          Showing <%= @pagy.from %>-<%= @pagy.to %> of <%= number_with_delimiter(@pagy.count) %> events
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -33,6 +33,14 @@ Rails.application.routes.draw do
     resources :contents, only: [:index, :show]
     resources :messages, only: [:index, :show]
     resources :contacts, only: [:index, :show]
+
+    # Security & Audit
+    resources :auth_audit_logs, only: [:index, :show] do
+      collection do
+        get 'user/:user_id', action: :user_logs, as: :user
+        get 'ip/:ip', action: :ip_logs, as: :ip, constraints: { ip: /[^\/]+/ }
+      end
+    end
   end
 
   # Site Admin - Single website/tenant management dashboard

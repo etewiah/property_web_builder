@@ -1,0 +1,203 @@
+<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
+  <div class="w-full mb-1">
+    <div class="mb-4">
+      <nav class="flex mb-5" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+          <li class="inline-flex items-center">
+            <%= link_to tenant_admin_root_path, class: "inline-flex items-center text-gray-700 hover:text-primary-600" do %>
+              <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+              </svg>
+              Dashboard
+            <% end %>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+              </svg>
+              <%= link_to "Audit Logs", tenant_admin_auth_audit_logs_path, class: "ml-1 text-gray-700 hover:text-primary-600 md:ml-2" %>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+              </svg>
+              <span class="ml-1 text-gray-400 md:ml-2" aria-current="page">Event #<%= @log.id %></span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+      <div class="flex items-center gap-4">
+        <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl">Authentication Event</h1>
+        <%= render partial: 'event_badge', locals: { event_type: @log.event_type } %>
+      </div>
+    </div>
+    <div class="flex items-center space-x-2 sm:space-x-3">
+      <%= link_to tenant_admin_auth_audit_logs_path, class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-500 hover:text-gray-900" do %>
+        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"></path>
+        </svg>
+        Back to Audit Logs
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 gap-4 my-4 xl:grid-cols-2">
+  <!-- Event Details Card -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900">Event Details</h3>
+    <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Event Type</dt>
+        <dd class="mt-1">
+          <%= render partial: 'event_badge', locals: { event_type: @log.event_type } %>
+        </dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Timestamp</dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= @log.created_at.strftime("%Y-%m-%d %H:%M:%S %Z") %>
+        </dd>
+      </div>
+      <div class="sm:col-span-2">
+        <dt class="text-sm font-medium text-gray-500">Email</dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <% if @log.user %>
+            <%= link_to @log.email, tenant_admin_user_path(@log.user), class: "text-blue-600 hover:underline" %>
+            <span class="text-gray-500">(registered user)</span>
+          <% elsif @log.email.present? %>
+            <%= @log.email %>
+            <span class="text-gray-500">(unregistered)</span>
+          <% else %>
+            <span class="text-gray-400">N/A</span>
+          <% end %>
+        </dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">IP Address</dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <% if @log.ip_address.present? %>
+            <%= link_to @log.ip_address, ip_tenant_admin_auth_audit_logs_path(ip: @log.ip_address), class: "font-mono text-blue-600 hover:underline" %>
+          <% else %>
+            <span class="text-gray-400">N/A</span>
+          <% end %>
+        </dd>
+      </div>
+      <% if @log.provider.present? %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">OAuth Provider</dt>
+          <dd class="mt-1 text-sm text-gray-900 capitalize"><%= @log.provider %></dd>
+        </div>
+      <% end %>
+      <% if @log.failure_reason.present? %>
+        <div class="sm:col-span-2">
+          <dt class="text-sm font-medium text-gray-500">Failure Reason</dt>
+          <dd class="mt-1 text-sm text-red-600 font-medium"><%= @log.failure_reason %></dd>
+        </div>
+      <% end %>
+    </dl>
+  </div>
+
+  <!-- Technical Details Card -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900">Technical Details</h3>
+    <dl class="space-y-4">
+      <% if @log.user_agent.present? %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">User Agent</dt>
+          <dd class="mt-1 text-sm text-gray-900 font-mono text-xs break-all bg-gray-50 p-2 rounded">
+            <%= @log.user_agent %>
+          </dd>
+        </div>
+      <% end %>
+      <% if @log.request_path.present? %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Request Path</dt>
+          <dd class="mt-1 text-sm text-gray-900 font-mono"><%= @log.request_path %></dd>
+        </div>
+      <% end %>
+      <% if @log.metadata.present? && @log.metadata.any? %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Additional Metadata</dt>
+          <dd class="mt-1 text-sm text-gray-900 font-mono text-xs bg-gray-50 p-2 rounded">
+            <pre><%= JSON.pretty_generate(@log.metadata) %></pre>
+          </dd>
+        </div>
+      <% end %>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Event ID</dt>
+        <dd class="mt-1 text-sm text-gray-900 font-mono"><%= @log.id %></dd>
+      </div>
+    </dl>
+  </div>
+</div>
+
+<% if @log.user %>
+  <!-- User Quick Info -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm my-4">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-900">Associated User</h3>
+      <%= link_to "View User Profile", tenant_admin_user_path(@log.user), class: "text-sm text-blue-600 hover:underline" %>
+    </div>
+    <div class="flex items-center space-x-4">
+      <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-lg font-semibold">
+        <%= @log.user.email[0].upcase %>
+      </div>
+      <div>
+        <p class="font-medium text-gray-900"><%= @log.user.email %></p>
+        <p class="text-sm text-gray-500">
+          <% if @log.user.respond_to?(:admin) && @log.user.admin %>
+            <span class="text-blue-600">Admin</span> |
+          <% end %>
+          Sign-ins: <%= @log.user.sign_in_count || 0 %>
+          <% if @log.user.locked_at.present? %>
+            | <span class="text-red-600 font-medium">Account Locked</span>
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% if @related_logs.any? %>
+  <!-- Related Activity -->
+  <div class="bg-white border border-gray-200 rounded-lg shadow-sm my-4">
+    <div class="px-4 py-3 border-b border-gray-200">
+      <h3 class="text-lg font-semibold text-gray-900">Related Activity</h3>
+      <p class="text-sm text-gray-500">Other events from the same email or IP address</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Event</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">IP</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <% @related_logs.each do |log| %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-4 py-2 text-sm text-gray-500">
+                <%= time_ago_in_words(log.created_at) %> ago
+              </td>
+              <td class="px-4 py-2">
+                <%= render partial: 'event_badge', locals: { event_type: log.event_type } %>
+              </td>
+              <td class="px-4 py-2 text-sm text-gray-900"><%= log.email %></td>
+              <td class="px-4 py-2 text-sm font-mono text-gray-500"><%= log.ip_address %></td>
+              <td class="px-4 py-2 text-sm">
+                <%= link_to "View", tenant_admin_auth_audit_log_path(log), class: "text-blue-600 hover:underline" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
