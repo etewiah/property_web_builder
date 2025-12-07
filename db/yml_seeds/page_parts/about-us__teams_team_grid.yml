@@ -45,3 +45,60 @@
           isSingleLineText: "true"
         - label: member_4_image
           isImage: "true"
+  template: |
+    <section class="team-grid py-16 bg-white">
+      <div class="max-w-6xl mx-auto px-4">
+        {% if page_part["section_title"]["content"] %}
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">{{ page_part["section_title"]["content"] }}</h2>
+            {% if page_part["section_subtitle"]["content"] %}
+              <p class="text-lg text-gray-600">{{ page_part["section_subtitle"]["content"] }}</p>
+            {% endif %}
+          </div>
+        {% endif %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {% if page_part["member_1_name"]["content"] %}
+            <div class="team-member text-center">
+              {% if page_part["member_1_image"]["content"] %}
+                <img src="{{ page_part["member_1_image"]["content"] }}" alt="{{ page_part["member_1_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+              {% endif %}
+              <h3 class="font-semibold text-gray-900">{{ page_part["member_1_name"]["content"] }}</h3>
+              <p class="text-sm text-primary">{{ page_part["member_1_role"]["content"] }}</p>
+              {% if page_part["member_1_bio"]["content"] %}
+                <p class="text-sm text-gray-600 mt-2">{{ page_part["member_1_bio"]["content"] }}</p>
+              {% endif %}
+            </div>
+          {% endif %}
+          {% if page_part["member_2_name"]["content"] %}
+            <div class="team-member text-center">
+              {% if page_part["member_2_image"]["content"] %}
+                <img src="{{ page_part["member_2_image"]["content"] }}" alt="{{ page_part["member_2_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+              {% endif %}
+              <h3 class="font-semibold text-gray-900">{{ page_part["member_2_name"]["content"] }}</h3>
+              <p class="text-sm text-primary">{{ page_part["member_2_role"]["content"] }}</p>
+              {% if page_part["member_2_bio"]["content"] %}
+                <p class="text-sm text-gray-600 mt-2">{{ page_part["member_2_bio"]["content"] }}</p>
+              {% endif %}
+            </div>
+          {% endif %}
+          {% if page_part["member_3_name"]["content"] %}
+            <div class="team-member text-center">
+              {% if page_part["member_3_image"]["content"] %}
+                <img src="{{ page_part["member_3_image"]["content"] }}" alt="{{ page_part["member_3_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+              {% endif %}
+              <h3 class="font-semibold text-gray-900">{{ page_part["member_3_name"]["content"] }}</h3>
+              <p class="text-sm text-primary">{{ page_part["member_3_role"]["content"] }}</p>
+            </div>
+          {% endif %}
+          {% if page_part["member_4_name"]["content"] %}
+            <div class="team-member text-center">
+              {% if page_part["member_4_image"]["content"] %}
+                <img src="{{ page_part["member_4_image"]["content"] }}" alt="{{ page_part["member_4_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+              {% endif %}
+              <h3 class="font-semibold text-gray-900">{{ page_part["member_4_name"]["content"] }}</h3>
+              <p class="text-sm text-primary">{{ page_part["member_4_role"]["content"] }}</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </section>

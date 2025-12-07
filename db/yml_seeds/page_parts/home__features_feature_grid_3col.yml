@@ -39,3 +39,48 @@
           isMultipleLineText: "true"
         - label: feature_3_link
           isSingleLineText: "true"
+  template: |
+    <section class="services-section-wrapper py-16 bg-gray-50">
+      <div class="services-container max-w-6xl mx-auto px-4">
+        {% if page_part["section_title"]["content"] %}
+          <div class="text-center mb-12">
+            {% if page_part["section_pretitle"]["content"] %}
+              <p class="text-sm uppercase tracking-widest text-primary mb-2">{{ page_part["section_pretitle"]["content"] }}</p>
+            {% endif %}
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">{{ page_part["section_title"]["content"] }}</h2>
+            {% if page_part["section_subtitle"]["content"] %}
+              <p class="text-lg text-gray-600 max-w-2xl mx-auto">{{ page_part["section_subtitle"]["content"] }}</p>
+            {% endif %}
+          </div>
+        {% endif %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {% if page_part["feature_1_title"]["content"] %}
+            <div class="service-card bg-white p-8 rounded-lg shadow-md text-center hover:shadow-lg transition">
+              {% if page_part["feature_1_icon"]["content"] %}
+                <div class="service-icon-wrapper text-4xl text-primary mb-4"><i class="{{ page_part["feature_1_icon"]["content"] }}"></i></div>
+              {% endif %}
+              <h3 class="service-title text-xl font-semibold mb-3">{{ page_part["feature_1_title"]["content"] }}</h3>
+              <p class="service-content text-gray-600">{{ page_part["feature_1_description"]["content"] }}</p>
+            </div>
+          {% endif %}
+          {% if page_part["feature_2_title"]["content"] %}
+            <div class="service-card bg-white p-8 rounded-lg shadow-md text-center hover:shadow-lg transition">
+              {% if page_part["feature_2_icon"]["content"] %}
+                <div class="service-icon-wrapper text-4xl text-primary mb-4"><i class="{{ page_part["feature_2_icon"]["content"] }}"></i></div>
+              {% endif %}
+              <h3 class="service-title text-xl font-semibold mb-3">{{ page_part["feature_2_title"]["content"] }}</h3>
+              <p class="service-content text-gray-600">{{ page_part["feature_2_description"]["content"] }}</p>
+            </div>
+          {% endif %}
+          {% if page_part["feature_3_title"]["content"] %}
+            <div class="service-card bg-white p-8 rounded-lg shadow-md text-center hover:shadow-lg transition">
+              {% if page_part["feature_3_icon"]["content"] %}
+                <div class="service-icon-wrapper text-4xl text-primary mb-4"><i class="{{ page_part["feature_3_icon"]["content"] }}"></i></div>
+              {% endif %}
+              <h3 class="service-title text-xl font-semibold mb-3">{{ page_part["feature_3_title"]["content"] }}</h3>
+              <p class="service-content text-gray-600">{{ page_part["feature_3_description"]["content"] }}</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </section>

@@ -25,3 +25,34 @@
           isImage: "true"
         - label: bg_style
           isSingleLineText: "true"
+  template: |
+    <section class="cta-split py-16 bg-gray-50">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div class="cta-content">
+            {% if page_part["pretitle"]["content"] %}
+              <p class="text-sm uppercase tracking-widest text-primary mb-2">{{ page_part["pretitle"]["content"] }}</p>
+            {% endif %}
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">{{ page_part["title"]["content"] }}</h2>
+            {% if page_part["description"]["content"] %}
+              <p class="text-lg text-gray-600 mb-6">{{ page_part["description"]["content"] }}</p>
+            {% endif %}
+            {% if page_part["features"]["content"] %}
+              <div class="features-list mb-8">
+                {{ page_part["features"]["content"] }}
+              </div>
+            {% endif %}
+            {% if page_part["button_text"]["content"] %}
+              <a href="{{ page_part["button_link"]["content"] }}" class="inline-block px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition">
+                {{ page_part["button_text"]["content"] }}
+              </a>
+            {% endif %}
+          </div>
+          <div class="cta-image">
+            {% if page_part["image"]["content"] %}
+              <img src="{{ page_part["image"]["content"] }}" alt="" class="w-full rounded-lg shadow-lg">
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>

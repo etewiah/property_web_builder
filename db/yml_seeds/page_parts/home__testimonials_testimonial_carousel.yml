@@ -37,3 +37,60 @@
           isSingleLineText: "true"
         - label: testimonial_3_image
           isImage: "true"
+  template: |
+    <section class="testimonials py-16 bg-white">
+      <div class="max-w-6xl mx-auto px-4">
+        {% if page_part["section_title"]["content"] %}
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">{{ page_part["section_title"]["content"] }}</h2>
+            {% if page_part["section_subtitle"]["content"] %}
+              <p class="text-lg text-gray-600">{{ page_part["section_subtitle"]["content"] }}</p>
+            {% endif %}
+          </div>
+        {% endif %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {% if page_part["testimonial_1_text"]["content"] %}
+            <div class="testimonial-card bg-gray-50 p-6 rounded-lg">
+              <p class="text-gray-700 mb-6 italic">"{{ page_part["testimonial_1_text"]["content"] }}"</p>
+              <div class="flex items-center">
+                {% if page_part["testimonial_1_image"]["content"] %}
+                  <img src="{{ page_part["testimonial_1_image"]["content"] }}" alt="{{ page_part["testimonial_1_name"]["content"] }}" class="w-12 h-12 rounded-full object-cover mr-4">
+                {% endif %}
+                <div>
+                  <div class="font-semibold text-gray-900">{{ page_part["testimonial_1_name"]["content"] }}</div>
+                  <div class="text-sm text-gray-500">{{ page_part["testimonial_1_role"]["content"] }}</div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+          {% if page_part["testimonial_2_text"]["content"] %}
+            <div class="testimonial-card bg-gray-50 p-6 rounded-lg">
+              <p class="text-gray-700 mb-6 italic">"{{ page_part["testimonial_2_text"]["content"] }}"</p>
+              <div class="flex items-center">
+                {% if page_part["testimonial_2_image"]["content"] %}
+                  <img src="{{ page_part["testimonial_2_image"]["content"] }}" alt="{{ page_part["testimonial_2_name"]["content"] }}" class="w-12 h-12 rounded-full object-cover mr-4">
+                {% endif %}
+                <div>
+                  <div class="font-semibold text-gray-900">{{ page_part["testimonial_2_name"]["content"] }}</div>
+                  <div class="text-sm text-gray-500">{{ page_part["testimonial_2_role"]["content"] }}</div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+          {% if page_part["testimonial_3_text"]["content"] %}
+            <div class="testimonial-card bg-gray-50 p-6 rounded-lg">
+              <p class="text-gray-700 mb-6 italic">"{{ page_part["testimonial_3_text"]["content"] }}"</p>
+              <div class="flex items-center">
+                {% if page_part["testimonial_3_image"]["content"] %}
+                  <img src="{{ page_part["testimonial_3_image"]["content"] }}" alt="{{ page_part["testimonial_3_name"]["content"] }}" class="w-12 h-12 rounded-full object-cover mr-4">
+                {% endif %}
+                <div>
+                  <div class="font-semibold text-gray-900">{{ page_part["testimonial_3_name"]["content"] }}</div>
+                  <div class="text-sm text-gray-500">{{ page_part["testimonial_3_role"]["content"] }}</div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </section>
