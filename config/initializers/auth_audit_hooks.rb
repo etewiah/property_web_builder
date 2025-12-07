@@ -13,7 +13,7 @@ Warden::Manager.after_authentication do |user, auth, opts|
   request = auth.request
 
   # Determine if this is OAuth or regular login
-  if auth.winning_strategy.is_a?(Devise::Strategies::OmniauthCallbacks) ||
+  if (auth.winning_strategy && auth.winning_strategy.class.name.include?('OmniAuth')) ||
      request.path.include?('/auth/')
     provider = request.env.dig('omniauth.auth', 'provider') || 'oauth'
     Pwb::AuthAuditLog.log_oauth_success(

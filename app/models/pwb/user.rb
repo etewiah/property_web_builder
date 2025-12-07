@@ -23,7 +23,7 @@ module Pwb
 
     belongs_to :website, optional: true # Made optional for multi-website support
     has_many :authorizations
-    has_many :auth_audit_logs, class_name: 'Pwb::AuthAuditLog'
+    has_many :auth_audit_logs, class_name: 'Pwb::AuthAuditLog', dependent: :destroy
 
     # Multi-website support via memberships
     has_many :user_memberships, dependent: :destroy
