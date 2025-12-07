@@ -4,7 +4,8 @@ module Pwb
   class AdminPanelController < ActionController::Base
     include ::Devise::Controllers::Helpers
     include ::AdminAuthBypass
-    helper_method :current_user
+    helper AuthHelper
+    helper_method :current_user, :current_website
 
     layout 'pwb/admin_panel'
 
@@ -12,7 +13,8 @@ module Pwb
       unless bypass_admin_auth? || (current_user && user_is_admin_for_subdomain?)
         @subdomain = request.subdomain
         @website = Pwb::Website.find_by_subdomain(@subdomain)
-        render 'pwb/errors/admin_required', layout: "layouts/pwb/admin_panel_error"
+        @current_user = current_user  # Pass to view explicitly
+        render 'pwb/errors/admin_required', layout: "layouts/pwb/admin_panel_error", status: :forbidden
       end
     end
 
@@ -20,7 +22,8 @@ module Pwb
       unless bypass_admin_auth? || (current_user && user_is_admin_for_subdomain?)
         @subdomain = request.subdomain
         @website = Pwb::Website.find_by_subdomain(@subdomain)
-        render 'pwb/errors/admin_required', layout: "layouts/pwb/admin_panel_error"
+        @current_user = current_user  # Pass to view explicitly
+        render 'pwb/errors/admin_required', layout: "layouts/pwb/admin_panel_error", status: :forbidden
         return  # Prevent double render
       end
       render 'pwb/admin_panel/show_legacy_1', layout: "pwb/admin_panel_legacy_1"

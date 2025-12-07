@@ -1,29 +1,51 @@
+<%# Use @current_user (instance var) or current_user (helper) for compatibility %>
+<% user = @current_user || (defined?(current_user) ? current_user : nil) %>
+
 <div class="w-full max-w-lg">
   <div class="bg-white rounded-lg shadow-lg overflow-hidden">
     <!-- Header -->
-    <div class="bg-red-600 px-6 py-4">
+    <div class="bg-<%= user ? 'amber' : 'red' %>-600 px-6 py-4">
       <div class="flex items-center">
-        <svg class="w-8 h-8 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-        </svg>
-        <h1 class="text-xl font-semibold text-white">Admin Access Required</h1>
+        <% if user %>
+          <svg class="w-8 h-8 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <h1 class="text-xl font-semibold text-white">Signed In - Admin Access Required</h1>
+        <% else %>
+          <svg class="w-8 h-8 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+          </svg>
+          <h1 class="text-xl font-semibold text-white">Admin Access Required</h1>
+        <% end %>
       </div>
     </div>
 
     <!-- Content -->
     <div class="px-6 py-6">
-      <% if current_user %>
-        <div class="mb-4">
-          <p class="text-gray-700">You are currently logged in as:</p>
-          <p class="font-semibold text-gray-900 mt-1"><%= current_user.email %></p>
+      <% if user %>
+        <!-- Success message - user is signed in -->
+        <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
+          <div class="flex">
+            <svg class="w-5 h-5 text-green-400 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <div>
+              <p class="text-sm font-medium text-green-800">Successfully signed in</p>
+              <p class="text-sm text-green-700 mt-1">You are logged in as <strong><%= user.email %></strong></p>
+            </div>
+          </div>
         </div>
 
+        <!-- Warning - no admin privileges -->
         <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mb-6">
           <div class="flex">
             <svg class="w-5 h-5 text-amber-400 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
             </svg>
-            <p class="text-sm text-amber-700">This account does not have admin privileges for this website.</p>
+            <div>
+              <p class="text-sm font-medium text-amber-800">Admin privileges required</p>
+              <p class="text-sm text-amber-700 mt-1">This account does not have admin privileges for this website. Please contact your administrator to request access.</p>
+            </div>
           </div>
         </div>
 
@@ -37,15 +59,15 @@
               <dl class="space-y-2">
                 <div class="flex justify-between">
                   <dt class="text-gray-500">User is admin (legacy):</dt>
-                  <dd class="font-mono text-gray-900"><%= current_user.admin? %></dd>
+                  <dd class="font-mono text-gray-900"><%= user.admin? %></dd>
                 </div>
                 <div class="flex justify-between">
                   <dt class="text-gray-500">User's website_id:</dt>
-                  <dd class="font-mono text-gray-900"><%= current_user.website_id %></dd>
+                  <dd class="font-mono text-gray-900"><%= user.website_id %></dd>
                 </div>
                 <div class="flex justify-between">
                   <dt class="text-gray-500">User's website subdomain:</dt>
-                  <dd class="font-mono text-gray-900"><%= current_user.website&.subdomain || 'N/A' %></dd>
+                  <dd class="font-mono text-gray-900"><%= user.website&.subdomain || 'N/A' %></dd>
                 </div>
                 <div class="flex justify-between">
                   <dt class="text-gray-500">Detected subdomain:</dt>
@@ -55,10 +77,10 @@
                   <dt class="text-gray-500">Website found:</dt>
                   <dd class="font-mono text-gray-900"><%= @website.present? ? "Yes (ID: #{@website.id})" : 'No' %></dd>
                 </div>
-                <% if @website && current_user.website_id %>
+                <% if @website && user.website_id %>
                   <div class="flex justify-between">
                     <dt class="text-gray-500">Website IDs match:</dt>
-                    <dd class="font-mono text-gray-900"><%= current_user.website_id == @website.id %></dd>
+                    <dd class="font-mono text-gray-900"><%= user.website_id == @website.id %></dd>
                   </div>
                 <% end %>
               </dl>
@@ -68,9 +90,8 @@
 
         <!-- Actions -->
         <div class="flex flex-col sm:flex-row gap-3">
-          <%= auth_logout_link "Sign out",
+          <%= auth_logout_link "Sign out and try another account",
               class: "inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-          <span class="text-gray-500 text-sm self-center">or contact your administrator</span>
         </div>
       <% else %>
         <div class="text-center">
