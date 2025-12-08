@@ -9,6 +9,7 @@ RSpec.describe SiteAdmin::PropsController, type: :controller do
   let(:non_existent_uuid) { SecureRandom.uuid }
 
   before do
+    Pwb::Current.reset
     @request.env['devise.mapping'] = Devise.mappings[:user]
     sign_in user, scope: :user
     allow(Pwb::Current).to receive(:website).and_return(website)

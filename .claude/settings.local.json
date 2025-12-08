@@ -75,7 +75,9 @@
       "Bash(RAILS_ENV=development bin/rails runner:*)",
       "Bash(RAILS_ENV=test bin/rails db:migrate:status:*)",
       "Skill(seed-packs)",
-      "mcp__chrome-devtools__click"
+      "mcp__chrome-devtools__click",
+      "Bash(python3:*)",
+      "Bash(RAILS_ENV=test bundle exec rails routes:*)"
     ],
     "deny": [],
     "ask": []

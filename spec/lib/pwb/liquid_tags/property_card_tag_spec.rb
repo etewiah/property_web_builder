@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe Pwb::LiquidTags::PropertyCardTag do
-  let(:website) { create(:website) }
+  let(:website) { create(:pwb_website, subdomain: 'property-card-test') }
   let(:view) { double("view") }
   let(:context) do
     Liquid::Context.new({}, {}, {
@@ -13,6 +13,7 @@ RSpec.describe Pwb::LiquidTags::PropertyCardTag do
   end
 
   before do
+    Pwb::Current.reset
     require Rails.root.join("app/lib/pwb/liquid_tags/property_card_tag")
   end
 
@@ -43,7 +44,11 @@ RSpec.describe Pwb::LiquidTags::PropertyCardTag do
   end
 
   describe "#render" do
-    let(:property) { create(:property, website: website) }
+    let(:property) do
+      ActsAsTenant.with_tenant(website) do
+        create(:pwb_prop, website: website)
+      end
+    end
 
     before do
       allow(view).to receive(:render).and_return("<property card>")
@@ -70,7 +75,11 @@ RSpec.describe Pwb::LiquidTags::PropertyCardTag do
     end
 
     context "with property reference" do
-      let(:property) { create(:property, website: website, reference: "PROP-001") }
+      let(:property) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_prop, website: website, reference: "PROP-001")
+        end
+      end
 
       it "finds property by reference" do
         expect(view).to receive(:render).with(
@@ -130,8 +139,12 @@ RSpec.describe Pwb::LiquidTags::PropertyCardTag do
     end
 
     context "with property from different website" do
-      let(:other_website) { create(:website) }
-      let(:other_property) { create(:property, website: other_website) }
+      let(:other_website) { create(:pwb_website, subdomain: 'other-property-card-test') }
+      let(:other_property) do
+        ActsAsTenant.with_tenant(other_website) do
+          create(:pwb_prop, website: other_website)
+        end
+      end
 
       it "returns empty string for cross-tenant property" do
         template = Liquid::Template.parse("{% property_card #{other_property.id} %}")

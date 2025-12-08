@@ -6,44 +6,72 @@ module Pwb
   RSpec.describe Prop, type: :model do
     let(:website) { create(:pwb_website, subdomain: 'prop-test', default_currency: 'USD') }
 
+    before(:each) do
+      Pwb::Current.reset
+    end
+
     describe 'factory' do
       it 'creates a valid prop' do
-        prop = build(:pwb_prop, website: website)
-        expect(prop).to be_valid
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website)
+          expect(prop).to be_valid
+        end
       end
 
       it 'creates a sale property with trait' do
-        prop = create(:pwb_prop, :sale, website: website)
-        expect(prop.for_sale).to be_truthy
+        ActsAsTenant.with_tenant(website) do
+          prop = create(:pwb_prop, :sale, website: website)
+          expect(prop.for_sale).to be_truthy
+        end
       end
 
       it 'creates a rental property with trait' do
-        prop = create(:pwb_prop, :long_term_rent, website: website)
-        expect(prop.for_rent_long_term).to be_truthy
+        ActsAsTenant.with_tenant(website) do
+          prop = create(:pwb_prop, :long_term_rent, website: website)
+          expect(prop.for_rent_long_term).to be_truthy
+        end
       end
     end
 
     describe 'associations' do
       it 'belongs to website' do
-        prop = create(:pwb_prop, website: website)
-        expect(prop.website).to eq(website)
+        ActsAsTenant.with_tenant(website) do
+          prop = create(:pwb_prop, website: website)
+          expect(prop.website).to eq(website)
+        end
       end
 
       it 'has many prop_photos' do
-        prop = create(:pwb_prop, website: website)
-        expect(prop).to respond_to(:prop_photos)
+        ActsAsTenant.with_tenant(website) do
+          prop = create(:pwb_prop, website: website)
+          expect(prop).to respond_to(:prop_photos)
+        end
       end
 
       it 'has many features' do
-        prop = create(:pwb_prop, website: website)
-        expect(prop).to respond_to(:features)
+        ActsAsTenant.with_tenant(website) do
+          prop = create(:pwb_prop, website: website)
+          expect(prop).to respond_to(:features)
+        end
       end
     end
 
     describe 'scopes' do
-      let!(:sale_prop) { create(:pwb_prop, :sale, website: website, visible: true) }
-      let!(:rental_prop) { create(:pwb_prop, :long_term_rent, website: website, visible: true) }
-      let!(:hidden_prop) { create(:pwb_prop, :sale, website: website, visible: false) }
+      let!(:sale_prop) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_prop, :sale, website: website, visible: true)
+        end
+      end
+      let!(:rental_prop) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_prop, :long_term_rent, website: website, visible: true)
+        end
+      end
+      let!(:hidden_prop) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_prop, :sale, website: website, visible: false)
+        end
+      end
 
       describe '.for_sale' do
         it 'returns properties for sale' do
@@ -69,8 +97,16 @@ module Pwb
     end
 
     describe 'price scopes' do
-      let!(:cheap_prop) { create(:pwb_prop, :sale, website: website, visible: true, price_sale_current_cents: 100_000_00) }
-      let!(:expensive_prop) { create(:pwb_prop, :sale, website: website, visible: true, price_sale_current_cents: 500_000_00) }
+      let!(:cheap_prop) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_prop, :sale, website: website, visible: true, price_sale_current_cents: 100_000_00)
+        end
+      end
+      let!(:expensive_prop) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_prop, :sale, website: website, visible: true, price_sale_current_cents: 500_000_00)
+        end
+      end
 
       describe '.for_sale_price_from' do
         it 'filters by minimum price' do
@@ -90,8 +126,16 @@ module Pwb
     end
 
     describe 'bedroom/bathroom scopes' do
-      let!(:small_prop) { create(:pwb_prop, website: website, count_bedrooms: 1, count_bathrooms: 1) }
-      let!(:large_prop) { create(:pwb_prop, website: website, count_bedrooms: 4, count_bathrooms: 3) }
+      let!(:small_prop) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_prop, website: website, count_bedrooms: 1, count_bathrooms: 1)
+        end
+      end
+      let!(:large_prop) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_prop, website: website, count_bedrooms: 4, count_bathrooms: 3)
+        end
+      end
 
       describe '.bedrooms_from' do
         it 'filters by minimum bedrooms' do
@@ -112,105 +156,139 @@ module Pwb
 
     describe '#for_rent' do
       it 'returns true for short term rental' do
-        prop = build(:pwb_prop, for_rent_short_term: true, for_rent_long_term: false)
-        expect(prop.for_rent).to be_truthy
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website, for_rent_short_term: true, for_rent_long_term: false)
+          expect(prop.for_rent).to be_truthy
+        end
       end
 
       it 'returns true for long term rental' do
-        prop = build(:pwb_prop, for_rent_short_term: false, for_rent_long_term: true)
-        expect(prop.for_rent).to be_truthy
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website, for_rent_short_term: false, for_rent_long_term: true)
+          expect(prop.for_rent).to be_truthy
+        end
       end
 
       it 'returns false when not for rent' do
-        prop = build(:pwb_prop, for_rent_short_term: false, for_rent_long_term: false)
-        expect(prop.for_rent).to be_falsey
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website, for_rent_short_term: false, for_rent_long_term: false)
+          expect(prop.for_rent).to be_falsey
+        end
       end
     end
 
     describe '#has_garage' do
       it 'returns true when count_garages is positive' do
-        prop = build(:pwb_prop, count_garages: 2)
-        expect(prop.has_garage).to be_truthy
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website, count_garages: 2)
+          expect(prop.has_garage).to be_truthy
+        end
       end
 
       it 'returns false when count_garages is zero' do
-        prop = build(:pwb_prop, count_garages: 0)
-        expect(prop.has_garage).to be_falsey
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website, count_garages: 0)
+          expect(prop.has_garage).to be_falsey
+        end
       end
 
       it 'returns false when count_garages is nil' do
-        prop = build(:pwb_prop, count_garages: nil)
-        expect(prop.has_garage).to be_falsey
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website, count_garages: nil)
+          expect(prop.has_garage).to be_falsey
+        end
       end
     end
 
     describe '#show_map' do
       it 'returns true when coordinates exist and map not hidden' do
-        prop = build(:pwb_prop, latitude: 40.0, longitude: -3.0, hide_map: false)
-        expect(prop.show_map).to be_truthy
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website, latitude: 40.0, longitude: -3.0, hide_map: false)
+          expect(prop.show_map).to be_truthy
+        end
       end
 
       it 'returns false when hide_map is true' do
-        prop = build(:pwb_prop, latitude: 40.0, longitude: -3.0, hide_map: true)
-        expect(prop.show_map).to be_falsey
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website, latitude: 40.0, longitude: -3.0, hide_map: true)
+          expect(prop.show_map).to be_falsey
+        end
       end
 
       it 'returns false when latitude is missing' do
-        prop = build(:pwb_prop, latitude: nil, longitude: -3.0, hide_map: false)
-        expect(prop.show_map).to be_falsey
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website, latitude: nil, longitude: -3.0, hide_map: false)
+          expect(prop.show_map).to be_falsey
+        end
       end
 
       it 'returns false when longitude is missing' do
-        prop = build(:pwb_prop, latitude: 40.0, longitude: nil, hide_map: false)
-        expect(prop.show_map).to be_falsey
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website, latitude: 40.0, longitude: nil, hide_map: false)
+          expect(prop.show_map).to be_falsey
+        end
       end
     end
 
     describe '#geocodeable_address' do
       it 'combines address components' do
-        prop = build(:pwb_prop,
-                     street_address: '123 Main St',
-                     city: 'Madrid',
-                     province: 'Madrid',
-                     postal_code: '28001')
-        expect(prop.geocodeable_address).to eq('123 Main St , Madrid , Madrid , 28001')
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website,
+                       street_address: '123 Main St',
+                       city: 'Madrid',
+                       province: 'Madrid',
+                       postal_code: '28001')
+          expect(prop.geocodeable_address).to eq('123 Main St , Madrid , Madrid , 28001')
+        end
       end
     end
 
     describe '#needs_geocoding?' do
       it 'returns true when address exists but no coordinates' do
-        prop = build(:pwb_prop,
-                     street_address: '123 Main St',
-                     city: 'Madrid',
-                     latitude: nil,
-                     longitude: nil)
-        expect(prop.needs_geocoding?).to be_truthy
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website,
+                       street_address: '123 Main St',
+                       city: 'Madrid',
+                       latitude: nil,
+                       longitude: nil)
+          expect(prop.needs_geocoding?).to be_truthy
+        end
       end
 
       it 'returns false when coordinates exist' do
-        prop = build(:pwb_prop,
-                     street_address: '123 Main St',
-                     city: 'Madrid',
-                     latitude: 40.0,
-                     longitude: -3.0)
-        expect(prop.needs_geocoding?).to be_falsey
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website,
+                       street_address: '123 Main St',
+                       city: 'Madrid',
+                       latitude: 40.0,
+                       longitude: -3.0)
+          expect(prop.needs_geocoding?).to be_falsey
+        end
       end
     end
 
     describe '#url_friendly_title' do
       it 'parameterizes the title' do
-        prop = build(:pwb_prop, title_en: 'Beautiful Beach House')
-        expect(prop.url_friendly_title).to eq('beautiful-beach-house')
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website, title_en: 'Beautiful Beach House')
+          expect(prop.url_friendly_title).to eq('beautiful-beach-house')
+        end
       end
 
       it 'returns show for short or nil titles' do
-        prop = build(:pwb_prop, title_en: 'AB')
-        expect(prop.url_friendly_title).to eq('show')
+        ActsAsTenant.with_tenant(website) do
+          prop = build(:pwb_prop, website: website, title_en: 'AB')
+          expect(prop.url_friendly_title).to eq('show')
+        end
       end
     end
 
     describe 'features management' do
-      let(:prop) { create(:pwb_prop, website: website) }
+      let(:prop) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_prop, website: website)
+        end
+      end
 
       describe '#set_features=' do
         it 'creates features when set to true' do
@@ -241,11 +319,13 @@ module Pwb
 
     describe '#contextual_price' do
       let(:prop) do
-        create(:pwb_prop, website: website,
-                          for_sale: true,
-                          for_rent_long_term: true,
-                          price_sale_current_cents: 500_000_00,
-                          price_rental_monthly_for_search_cents: 1_500_00)
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_prop, website: website,
+                            for_sale: true,
+                            for_rent_long_term: true,
+                            price_sale_current_cents: 500_000_00,
+                            price_rental_monthly_for_search_cents: 1_500_00)
+        end
       end
 
       it 'returns sale price when for_sale context' do
@@ -260,9 +340,21 @@ module Pwb
     end
 
     describe '.properties_search' do
-      let!(:sale_visible) { create(:pwb_prop, :sale, website: website, visible: true, price_sale_current_cents: 200_000_00) }
-      let!(:sale_hidden) { create(:pwb_prop, :sale, website: website, visible: false, price_sale_current_cents: 200_000_00) }
-      let!(:rental_visible) { create(:pwb_prop, :long_term_rent, website: website, visible: true) }
+      let!(:sale_visible) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_prop, :sale, website: website, visible: true, price_sale_current_cents: 200_000_00)
+        end
+      end
+      let!(:sale_hidden) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_prop, :sale, website: website, visible: false, price_sale_current_cents: 200_000_00)
+        end
+      end
+      let!(:rental_visible) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_prop, :long_term_rent, website: website, visible: true)
+        end
+      end
 
       it 'returns visible sale properties for sale search' do
         results = Prop.properties_search(sale_or_rental: 'sale')
@@ -279,7 +371,11 @@ module Pwb
     end
 
     describe 'translations' do
-      let(:prop) { create(:pwb_prop, website: website, title_en: 'English Title') }
+      let(:prop) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_prop, website: website, title_en: 'English Title')
+        end
+      end
 
       it 'supports multiple locales for title' do
         prop.title_es = 'Spanish Title'

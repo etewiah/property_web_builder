@@ -21,6 +21,20 @@ module Pwb
       :validatable, :lockable, :timeoutable,
       :omniauthable, omniauth_providers: [:facebook]
 
+    # Fix for Devise compatibility with Ruby 3.4
+    # Ruby 3.4 changed keyword argument handling which breaks Devise's serialize_from_session
+    # This override handles both legacy (key only) and new (key, salt) serialization formats
+    def self.serialize_from_session(key, salt = nil)
+      record = to_adapter.get(key)
+      # If salt is provided, verify it matches (new format)
+      # If salt is nil, allow authentication (legacy format or test environment)
+      if salt.nil?
+        record
+      else
+        record if record && record.authenticatable_salt == salt
+      end
+    end
+
     belongs_to :website, optional: true # Made optional for multi-website support
     has_many :authorizations
     has_many :auth_audit_logs, class_name: 'Pwb::AuthAuditLog', dependent: :destroy

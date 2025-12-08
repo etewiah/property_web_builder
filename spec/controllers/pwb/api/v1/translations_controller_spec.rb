@@ -6,7 +6,7 @@ module Pwb
     context "with admin user" do
       login_admin_user
 
-      describe "PUT" do
+      describe "POST" do
         it "creates correct translation" do
           # below will throw an error if no translations exist
           # original_pt_count = I18n.t("propertyTypes").count
@@ -15,8 +15,9 @@ module Pwb
             i18n_value: "Flat",
             i18n_key: "flat",
             batch_key: "property-types",
+            format: :json
           }
-          put :create_translation_value, params: new_translation_params
+          post :create_translation_value, params: new_translation_params
           expect(response.status).to eq(200)
           # expect(response.content_type).to eq("application/json")
 
@@ -28,10 +29,8 @@ module Pwb
       end
       describe "GET #get_by_batch" do
         it "renders correct json" do
-          process :get_by_batch, method: :get, params: {
-                               batch_key: "property-types",
-                             }
-          # , format: :json
+          # The route expects batch_key as a path parameter
+          get :get_by_batch, params: { batch_key: "property-types", format: :json }
 
           expect(response.status).to eq(200)
           # expect(response.content_type).to eq("application/json")

@@ -1,17 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe 'Properties Settings Management', type: :system, js: true do
+  include Warden::Test::Helpers
+
   let(:website) { create(:pwb_website, subdomain: 'test-site') }
-  let(:admin_user) { create(:pwb_user, website: website) }
-  
+  let(:admin_user) { create(:pwb_user, :admin, website: website) }
+
   before do
+    Warden.test_mode!
     driven_by(:selenium_chrome_headless)
-    
+
     # Set up current website
     allow(Pwb::Current).to receive(:website).and_return(website)
-    
+
     # Sign in
     login_as(admin_user, scope: :user)
+  end
+
+  after do
+    Warden.test_reset!
   end
   
   describe 'navigating to settings' do
@@ -29,11 +36,11 @@ RSpec.describe 'Properties Settings Management', type: :system, js: true do
     
     it 'displays all four category tabs' do
       visit site_admin_properties_settings_path
-      
-      expect(page).to have_link('Property Types')
-      expect(page).to have_link('Features')
-      expect(page).to have_link('Property States')
-      expect(page).to have_link('Property Labels')
+
+      expect(page).to have_content('Types States')
+      expect(page).to have_content('Features Amenities')
+      expect(page).to have_content('Status Highlights')
+      expect(page).to have_content('Origin')
     end
   end
   

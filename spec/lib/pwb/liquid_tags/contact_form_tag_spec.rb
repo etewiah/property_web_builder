@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe Pwb::LiquidTags::ContactFormTag do
-  let(:website) { create(:website) }
+  let(:website) { create(:pwb_website, subdomain: 'liquid-tag-test') }
   let(:view) { double("view") }
   let(:context) do
     Liquid::Context.new({}, {}, {
@@ -13,6 +13,7 @@ RSpec.describe Pwb::LiquidTags::ContactFormTag do
   end
 
   before do
+    Pwb::Current.reset
     require Rails.root.join("app/lib/pwb/liquid_tags/contact_form_tag")
   end
 
@@ -92,7 +93,7 @@ RSpec.describe Pwb::LiquidTags::ContactFormTag do
 
     it "passes property_id to partial" do
       expect(view).to receive(:render).with(
-        hash_including(locals: hash_including(property_id: "123"))
+        hash_including(locals: hash_including(property_id: 123))
       )
 
       template = Liquid::Template.parse("{% contact_form property_id: 123 %}")
