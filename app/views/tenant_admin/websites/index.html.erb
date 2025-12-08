@@ -1,11 +1,11 @@
 <div class="max-w-7xl mx-auto">
-  <div class="mb-6 flex justify-between items-center">
+  <div class="mb-4 md:mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
     <div>
-      <h1 class="text-3xl font-bold text-gray-900">Websites</h1>
-      <p class="mt-2 text-gray-600">Manage all tenant websites</p>
+      <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Websites</h1>
+      <p class="mt-1 md:mt-2 text-sm md:text-base text-gray-600">Manage all tenant websites</p>
     </div>
-    <%= link_to new_tenant_admin_website_path, class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center" do %>
-      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <%= link_to new_tenant_admin_website_path, class: "px-3 md:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center text-sm" do %>
+      <svg class="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
       </svg>
       Add Website
@@ -13,59 +13,60 @@
   </div>
 
   <!-- Search Form -->
-  <div class="mb-6 bg-white rounded-lg shadow p-4">
-    <%= form_with url: tenant_admin_websites_path, method: :get, local: true, class: "flex gap-4" do |f| %>
+  <div class="mb-4 md:mb-6 bg-white rounded-lg shadow p-3 md:p-4">
+    <%= form_with url: tenant_admin_websites_path, method: :get, local: true, class: "flex flex-col sm:flex-row gap-2 sm:gap-4" do |f| %>
       <div class="flex-1">
-        <%= f.text_field :search, value: params[:search], placeholder: "Search by subdomain or company name...", class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+        <%= f.text_field :search, value: params[:search], placeholder: "Search by subdomain or company name...", class: "w-full px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" %>
       </div>
-      <%= f.submit "Search", class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" %>
+      <%= f.submit "Search", class: "px-4 md:px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm cursor-pointer" %>
     <% end %>
   </div>
 
   <!-- Websites Table -->
   <div class="bg-white rounded-lg shadow overflow-hidden">
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
-        <tr>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subdomain</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company Name</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Theme</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Users</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Properties</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-        </tr>
-      </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
-        <% if @websites.any? %>
-          <% @websites.each do |website| %>
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                <%= link_to website.subdomain || "(No subdomain)", tenant_admin_website_path(website), class: "text-blue-600 hover:text-blue-800" %>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <%= website.company_display_name || "N/A" %>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <%= website.theme_name || "default" %>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <%= format_date(website.created_at) %>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <% users_count = Pwb::User.unscoped.where(pwb_website_id: website.id).count rescue 0 %>
-                <%= users_count %>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <% props_count = Pwb::RealtyAsset.unscoped.where(website_id: website.id).count rescue 0 %>
-                <%= props_count %>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm">
-                <%= link_to "View", tenant_admin_website_path(website), class: "text-blue-600 hover:text-blue-800 mr-3" %>
-                <%= link_to "Edit", edit_tenant_admin_website_path(website), class: "text-green-600 hover:text-green-800" %>
-              </td>
-            </tr>
-          <% end %>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subdomain</th>
+            <th class="hidden sm:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company Name</th>
+            <th class="hidden lg:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Theme</th>
+            <th class="hidden lg:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+            <th class="hidden md:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Users</th>
+            <th class="hidden md:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Properties</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% if @websites.any? %>
+            <% @websites.each do |website| %>
+              <tr>
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <%= link_to website.subdomain || "(No subdomain)", tenant_admin_website_path(website), class: "text-blue-600 hover:text-blue-800" %>
+                </td>
+                <td class="hidden sm:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <%= website.company_display_name || "N/A" %>
+                </td>
+                <td class="hidden lg:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <%= website.theme_name || "default" %>
+                </td>
+                <td class="hidden lg:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <%= format_date(website.created_at) %>
+                </td>
+                <td class="hidden md:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <% users_count = Pwb::User.unscoped.where(pwb_website_id: website.id).count rescue 0 %>
+                  <%= users_count %>
+                </td>
+                <td class="hidden md:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <% props_count = Pwb::RealtyAsset.unscoped.where(website_id: website.id).count rescue 0 %>
+                  <%= props_count %>
+                </td>
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm">
+                  <%= link_to "View", tenant_admin_website_path(website), class: "text-blue-600 hover:text-blue-800 mr-2 md:mr-3" %>
+                  <%= link_to "Edit", edit_tenant_admin_website_path(website), class: "text-green-600 hover:text-green-800" %>
+                </td>
+              </tr>
+            <% end %>
         <% else %>
           <tr>
             <td colspan="7" class="px-6 py-12 text-center">
@@ -84,9 +85,10 @@
               </div>
             </td>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <%# Pagination %>

@@ -1,14 +1,14 @@
 <div class="max-w-7xl mx-auto">
-  <div class="mb-6 flex justify-between items-center">
+  <div class="mb-4 md:mb-6 flex justify-between items-center">
     <div>
-      <h1 class="text-3xl font-bold text-gray-900">Properties</h1>
-      <p class="mt-2 text-gray-600"><%= @pagy.count %> properties for <%= current_website.subdomain %></p>
+      <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Properties</h1>
+      <p class="mt-1 md:mt-2 text-sm md:text-base text-gray-600"><%= @pagy.count %> properties for <%= current_website.subdomain %></p>
     </div>
   </div>
 
   <!-- Search Form -->
-  <div class="mb-6 bg-white rounded-lg shadow p-4">
-    <%= form_with url: site_admin_props_path, method: :get, local: true, class: "flex gap-4" do |f| %>
+  <div class="mb-4 md:mb-6 bg-white rounded-lg shadow p-3 md:p-4">
+    <%= form_with url: site_admin_props_path, method: :get, local: true, class: "flex flex-col sm:flex-row gap-2 sm:gap-4" do |f| %>
       <div class="flex-1">
         <%= f.text_field :search, value: params[:search], placeholder: "Search by reference...", class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
       </div>
@@ -18,33 +18,34 @@
 
   <!-- Properties Table -->
   <div class="bg-white rounded-lg shadow overflow-hidden">
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
-        <tr>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Property</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Active Listings</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-        </tr>
-      </thead>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Property</th>
+            <th class="hidden sm:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Active Listings</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+            <th class="hidden lg:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
       <tbody class="bg-white divide-y divide-gray-200">
         <% if @props.any? %>
           <% @props.each do |prop| %>
             <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4">
+              <td class="px-4 md:px-6 py-4">
                 <div class="flex items-center">
                   <div>
                     <div class="text-sm font-medium text-gray-900">
                       <%= prop.reference %>
                     </div>
-                    <div class="text-sm text-gray-500 truncate max-w-xs">
+                    <div class="text-sm text-gray-500 truncate max-w-[150px] md:max-w-xs">
                       <%= prop.title.presence || prop.location.presence || 'No title' %>
                     </div>
                   </div>
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="hidden sm:table-cell px-4 md:px-6 py-4 whitespace-nowrap">
                 <div class="flex flex-col gap-1">
                   <% if prop.for_sale && prop.sale_listing_id.present? %>
                     <%= link_to edit_site_admin_prop_sale_listing_path(prop, prop.sale_listing_id),
@@ -79,7 +80,7 @@
                   <% end %>
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <% if prop.for_sale && prop.price_sale_current_cents.to_i > 0 %>
                   <%= number_to_currency(prop.price_sale_current_cents / 100.0, unit: prop.price_sale_current_currency || 'EUR', precision: 0) %>
                 <% elsif prop.for_rent && prop.price_rental_monthly_current_cents.to_i > 0 %>
@@ -88,13 +89,15 @@
                   -
                 <% end %>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td class="hidden lg:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <%= format_date(prop.created_at) %>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm">
-                <%= link_to 'View', site_admin_prop_path(prop), class: 'text-blue-600 hover:text-blue-800 mr-3' %>
-                <%= link_to 'Edit', edit_site_admin_prop_path(prop), class: 'text-green-600 hover:text-green-800 mr-3' %>
-                <%= link_to 'Listings', edit_sale_rental_site_admin_prop_path(prop), class: 'text-purple-600 hover:text-purple-800' %>
+              <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm">
+                <%= link_to 'View', site_admin_prop_path(prop), class: 'text-blue-600 hover:text-blue-800 mr-2 md:mr-3' %>
+                <%= link_to 'Edit', edit_site_admin_prop_path(prop), class: 'text-green-600 hover:text-green-800 mr-2 md:mr-3' %>
+                <span class="hidden sm:inline">
+                  <%= link_to 'Listings', edit_sale_rental_site_admin_prop_path(prop), class: 'text-purple-600 hover:text-purple-800' %>
+                </span>
               </td>
             </tr>
           <% end %>
@@ -111,8 +114,9 @@
             </td>
           </tr>
         <% end %>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <%# Pagination %>

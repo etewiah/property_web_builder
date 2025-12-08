@@ -1,22 +1,30 @@
 <header class="bg-white shadow-sm border-b border-gray-200">
-  <div class="flex items-center justify-between px-6 py-4">
-    <div>
-      <h1 class="text-2xl font-semibold text-gray-800">
-        Tenant Administration
-      </h1>
-      <p class="text-sm text-gray-600">
-        Platform Management
-      </p>
+  <div class="flex items-center justify-between px-4 md:px-6 py-4">
+    <div class="flex items-center">
+      <!-- Mobile menu button -->
+      <button @click="sidebarOpen = true" class="md:hidden mr-4 text-gray-600 hover:text-gray-900">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+      <div>
+        <h1 class="text-xl md:text-2xl font-semibold text-gray-800">
+          Tenant Administration
+        </h1>
+        <p class="text-xs md:text-sm text-gray-600">
+          Platform Management
+        </p>
+      </div>
     </div>
 
-    <div class="flex items-center space-x-4">
+    <div class="flex items-center space-x-2 md:space-x-4">
       <% if current_user %>
         <div class="relative">
           <button type="button" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900" data-dropdown-toggle="user-dropdown">
             <svg class="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
             </svg>
-            <span><%= current_user.email %></span>
+            <span class="hidden md:inline"><%= current_user.email %></span>
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
             </svg>
