@@ -52,6 +52,11 @@ Rails.application.routes.draw do
   namespace :site_admin do
     root to: 'dashboard#index'
 
+    # Domain management for custom domains
+    resource :domain, only: %i[show update] do
+      post :verify
+    end
+
     # Image library API for page part editor
     resources :images, only: %i[index create]
 

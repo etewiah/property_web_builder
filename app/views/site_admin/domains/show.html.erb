@@ -1,0 +1,247 @@
+<% content_for :page_title, "Domain Settings" %>
+
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+  <h1 class="text-3xl font-bold text-gray-900 mb-8">Domain Settings</h1>
+
+  <%# Flash Messages %>
+  <% if flash[:notice] %>
+    <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-6" role="alert">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+  <% if flash[:alert] %>
+    <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6" role="alert">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+
+  <%# Current Configuration %>
+  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">Current Domain Configuration</h2>
+
+    <div class="space-y-4">
+      <div class="flex items-center justify-between py-3 border-b border-gray-100">
+        <div>
+          <p class="font-medium text-gray-700">Platform Subdomain</p>
+          <p class="text-sm text-gray-500">Always available</p>
+        </div>
+        <div class="text-right">
+          <code class="bg-blue-50 text-blue-700 px-3 py-1 rounded font-mono text-sm">
+            <%= @website.subdomain %>.<%= @platform_domains.first %>
+          </code>
+          <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+            Active
+          </span>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between py-3">
+        <div>
+          <p class="font-medium text-gray-700">Custom Domain</p>
+          <p class="text-sm text-gray-500">Your own domain name</p>
+        </div>
+        <div class="text-right">
+          <% if @website.custom_domain.present? %>
+            <code class="bg-gray-50 text-gray-700 px-3 py-1 rounded font-mono text-sm">
+              <%= @website.custom_domain %>
+            </code>
+            <% if @website.custom_domain_verified? %>
+              <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                Verified
+              </span>
+            <% else %>
+              <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                Pending Verification
+              </span>
+            <% end %>
+          <% else %>
+            <span class="text-gray-400 italic">Not configured</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# Update Custom Domain %>
+  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">
+      <%= @website.custom_domain.present? ? 'Update' : 'Add' %> Custom Domain
+    </h2>
+
+    <%= form_with model: @website, url: site_admin_domain_path, method: :patch, class: "space-y-4" do |f| %>
+      <% if @website.errors.any? %>
+        <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
+          <ul class="list-disc list-inside">
+            <% @website.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div>
+        <%= f.label :custom_domain, 'Custom Domain', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+        <%= f.text_field :custom_domain,
+            placeholder: 'www.yourdomain.com or yourdomain.com',
+            class: 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500' %>
+        <p class="mt-1 text-sm text-gray-500">
+          Enter your domain without http:// or https://. Examples: <code class="bg-gray-100 px-1 rounded">www.example.com</code> or <code class="bg-gray-100 px-1 rounded">example.com</code>
+        </p>
+      </div>
+
+      <div class="flex gap-3">
+        <%= f.submit 'Save Domain', class: 'px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer' %>
+        <% if @website.custom_domain.present? %>
+          <%= f.submit 'Remove Domain',
+              name: 'remove',
+              formaction: site_admin_domain_path(website: { custom_domain: '' }),
+              class: 'px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 cursor-pointer',
+              data: { confirm: 'Are you sure you want to remove the custom domain?' } %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <%# Verification Section %>
+  <% if @website.custom_domain.present? && !@website.custom_domain_verified? %>
+    <div class="bg-yellow-50 border border-yellow-200 rounded-lg shadow-md p-6 mb-8">
+      <h2 class="text-xl font-semibold text-yellow-800 mb-4">
+        <svg class="w-6 h-6 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        Domain Verification Required
+      </h2>
+
+      <p class="text-yellow-700 mb-4">
+        To verify ownership of <strong><%= @website.custom_domain %></strong>, add the following DNS TXT record:
+      </p>
+
+      <div class="bg-white rounded-lg p-4 mb-4 overflow-x-auto">
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b">
+              <td class="py-2 pr-4 font-medium text-gray-600 whitespace-nowrap">Type</td>
+              <td class="py-2"><code class="bg-gray-100 px-2 py-1 rounded">TXT</code></td>
+            </tr>
+            <tr class="border-b">
+              <td class="py-2 pr-4 font-medium text-gray-600 whitespace-nowrap">Host / Name</td>
+              <td class="py-2">
+                <code class="bg-gray-100 px-2 py-1 rounded break-all">_pwb-verification.<%= @website.custom_domain.sub(/\Awww\./, '') %></code>
+              </td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4 font-medium text-gray-600 whitespace-nowrap">Value / Content</td>
+              <td class="py-2">
+                <code class="bg-gray-100 px-2 py-1 rounded break-all"><%= @website.custom_domain_verification_token %></code>
+                <button type="button"
+                        onclick="navigator.clipboard.writeText('<%= @website.custom_domain_verification_token %>')"
+                        class="ml-2 text-blue-600 hover:text-blue-800 text-xs">
+                  Copy
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="text-sm text-yellow-600 mb-4">
+        DNS changes can take up to 48 hours to propagate. After adding the record, click the button below to verify.
+      </p>
+
+      <%= button_to 'Verify Domain Now', verify_site_admin_domain_path,
+          method: :post,
+          class: 'px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2' %>
+    </div>
+  <% end %>
+
+  <%# DNS Configuration Guide %>
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">DNS Configuration Guide</h2>
+
+    <p class="text-gray-600 mb-6">
+      Point your custom domain to our servers using one of these methods. Configuration varies by DNS provider
+      (GoDaddy, Cloudflare, Namecheap, etc.).
+    </p>
+
+    <div class="space-y-6">
+      <%# CNAME Record %>
+      <div class="border border-gray-200 rounded-lg p-4">
+        <h3 class="font-semibold text-gray-700 mb-2">
+          Option 1: CNAME Record <span class="text-green-600 text-sm font-normal">(Recommended for www subdomain)</span>
+        </h3>
+        <p class="text-sm text-gray-500 mb-3">Use this for domains like <code>www.yourdomain.com</code></p>
+
+        <div class="bg-gray-50 rounded p-3 overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-gray-500">
+                <th class="pb-2 pr-4">Type</th>
+                <th class="pb-2 pr-4">Host / Name</th>
+                <th class="pb-2">Value / Points to</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="py-1 pr-4"><code>CNAME</code></td>
+                <td class="py-1 pr-4"><code>www</code></td>
+                <td class="py-1"><code><%= @website.subdomain %>.<%= @platform_domains.first %></code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <%# A Record %>
+      <div class="border border-gray-200 rounded-lg p-4">
+        <h3 class="font-semibold text-gray-700 mb-2">
+          Option 2: A Record <span class="text-gray-500 text-sm font-normal">(For apex/root domain)</span>
+        </h3>
+        <p class="text-sm text-gray-500 mb-3">Use this for domains like <code>yourdomain.com</code> (without www)</p>
+
+        <div class="bg-gray-50 rounded p-3 overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-gray-500">
+                <th class="pb-2 pr-4">Type</th>
+                <th class="pb-2 pr-4">Host / Name</th>
+                <th class="pb-2">Value / Points to</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="py-1 pr-4"><code>A</code></td>
+                <td class="py-1 pr-4"><code>@</code></td>
+                <td class="py-1">
+                  <% if @platform_ip.present? %>
+                    <code><%= @platform_ip %></code>
+                  <% else %>
+                    <span class="text-gray-400 italic">Contact support for IP address</span>
+                  <% end %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <%# Both Records %>
+      <div class="border border-gray-200 rounded-lg p-4 bg-blue-50">
+        <h3 class="font-semibold text-gray-700 mb-2">
+          Best Practice: Configure Both
+        </h3>
+        <p class="text-sm text-gray-600">
+          For the best user experience, configure both an A record for the apex domain and a CNAME for www.
+          This ensures your site works whether visitors type <code>yourdomain.com</code> or <code>www.yourdomain.com</code>.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+      <h4 class="font-medium text-gray-700 mb-2">Need Help?</h4>
+      <p class="text-sm text-gray-600">
+        DNS configuration varies by provider. Search for "[Your DNS Provider] add CNAME record" for specific instructions.
+        Common providers include: Cloudflare, GoDaddy, Namecheap, Google Domains, AWS Route 53.
+      </p>
+    </div>
+  </div>
+</div>

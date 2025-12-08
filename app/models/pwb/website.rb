@@ -50,6 +50,18 @@ module Pwb
 
     validate :subdomain_not_reserved
 
+    # Custom domain validations
+    validates :custom_domain,
+              uniqueness: { case_sensitive: false, allow_blank: true },
+              format: {
+                with: /\A([a-z0-9]([a-z0-9\-]*[a-z0-9])?\.)+[a-z]{2,}\z/i,
+                message: "must be a valid domain name (e.g., www.example.com or example.com)",
+                allow_blank: true
+              },
+              length: { maximum: 253, allow_blank: true }
+
+    validate :custom_domain_not_platform_domain
+
     # TODO: - add favicon image (and logo image directly)
 
     # as well as details hash for storing pages..
@@ -64,6 +76,73 @@ module Pwb
     def self.find_by_subdomain(subdomain)
       return nil if subdomain.blank?
       where("LOWER(subdomain) = ?", subdomain.downcase).first
+    end
+
+    # Find a website by custom domain (case-insensitive, handles www prefix)
+    def self.find_by_custom_domain(domain)
+      return nil if domain.blank?
+
+      normalized = normalize_domain(domain)
+
+      # Try exact match first
+      website = where("LOWER(custom_domain) = ?", normalized.downcase).first
+      return website if website
+
+      # Try with www prefix if not present, or without if present
+      if normalized.start_with?('www.')
+        where("LOWER(custom_domain) = ?", normalized.sub(/\Awww\./, '').downcase).first
+      else
+        where("LOWER(custom_domain) = ?", "www.#{normalized}".downcase).first
+      end
+    end
+
+    # Find a website by either subdomain or custom domain based on the host
+    # This is the primary lookup method used by the routing concern
+    def self.find_by_host(host)
+      return nil if host.blank?
+
+      host = host.to_s.downcase.strip
+
+      # First try custom domain lookup (for non-platform domains)
+      unless platform_domain?(host)
+        website = find_by_custom_domain(host)
+        return website if website
+      end
+
+      # Fall back to subdomain lookup (extract first part of host)
+      subdomain = extract_subdomain_from_host(host)
+      find_by_subdomain(subdomain) if subdomain.present?
+    end
+
+    # Normalize a domain by removing protocol, path, and optionally www
+    def self.normalize_domain(domain)
+      domain.to_s.downcase.strip
+            .sub(%r{\Ahttps?://}, '')  # Remove protocol
+            .sub(%r{/.*\z}, '')        # Remove path
+            .sub(/:\d+\z/, '')         # Remove port
+    end
+
+    # Check if a host is a platform domain (where subdomains route to tenants)
+    def self.platform_domain?(host)
+      platform_domains.any? { |pd| host.end_with?(pd) }
+    end
+
+    # Extract subdomain from a platform domain host
+    def self.extract_subdomain_from_host(host)
+      platform_domains.each do |pd|
+        if host.end_with?(pd)
+          # Remove the platform domain to get the subdomain
+          subdomain_part = host.sub(/\.?#{Regexp.escape(pd)}\z/, '')
+          # Take the first part if there are multiple levels
+          return subdomain_part.split('.').first if subdomain_part.present?
+        end
+      end
+      nil
+    end
+
+    # Get list of platform domains from configuration
+    def self.platform_domains
+      ENV.fetch('PLATFORM_DOMAINS', 'propertywebbuilder.com,pwb.localhost,e2e.localhost,localhost').split(',').map(&:strip)
     end
 
     def page_parts
@@ -281,12 +360,75 @@ module Pwb
       links.find_by(slug: "social_media_pinterest")&.link_url
     end
 
+    # Generate a unique token for DNS verification of custom domain
+    def generate_domain_verification_token!
+      update!(custom_domain_verification_token: SecureRandom.hex(16))
+    end
+
+    # Verify custom domain ownership via DNS TXT record
+    # Returns true if verified, false otherwise
+    def verify_custom_domain!
+      return false if custom_domain.blank? || custom_domain_verification_token.blank?
+
+      begin
+        require 'resolv'
+        resolver = Resolv::DNS.new
+
+        # Look for TXT record at _pwb-verification.example.com
+        verification_host = "_pwb-verification.#{custom_domain.sub(/\Awww\./, '')}"
+        txt_records = resolver.getresources(verification_host, Resolv::DNS::Resource::IN::TXT)
+
+        verified = txt_records.any? { |record| record.strings.join == custom_domain_verification_token }
+
+        if verified
+          update!(
+            custom_domain_verified: true,
+            custom_domain_verified_at: Time.current
+          )
+        end
+
+        verified
+      rescue Resolv::ResolvError, Resolv::ResolvTimeout => e
+        Rails.logger.warn("Domain verification failed for #{custom_domain}: #{e.message}")
+        false
+      end
+    end
+
+    # Check if custom domain is verified or if we allow unverified domains (dev mode)
+    def custom_domain_active?
+      return false if custom_domain.blank?
+      custom_domain_verified? || Rails.env.development? || Rails.env.test?
+    end
+
+    # Get the primary URL for this website
+    def primary_url
+      if custom_domain.present? && custom_domain_active?
+        "https://#{custom_domain}"
+      elsif subdomain.present?
+        platform_domain = self.class.platform_domains.first
+        "https://#{subdomain}.#{platform_domain}"
+      else
+        nil
+      end
+    end
+
     private
 
     def subdomain_not_reserved
       return if subdomain.blank?
       if RESERVED_SUBDOMAINS.include?(subdomain.downcase)
         errors.add(:subdomain, "is reserved and cannot be used")
+      end
+    end
+
+    def custom_domain_not_platform_domain
+      return if custom_domain.blank?
+
+      self.class.platform_domains.each do |pd|
+        if custom_domain.downcase.end_with?(pd)
+          errors.add(:custom_domain, "cannot be a platform domain (#{pd})")
+          return
+        end
       end
     end
   end

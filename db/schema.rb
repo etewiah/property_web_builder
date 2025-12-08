@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_07_094259) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_08_111819) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -679,6 +679,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_07_094259) do
     t.string "recaptcha_key"
     t.string "slug"
     t.string "subdomain"
+    t.string "custom_domain"
+    t.boolean "custom_domain_verified", default: false
+    t.datetime "custom_domain_verified_at"
+    t.string "custom_domain_verification_token"
+    t.index ["custom_domain"], name: "index_pwb_websites_on_custom_domain", unique: true, where: "((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))"
     t.index ["slug"], name: "index_pwb_websites_on_slug"
     t.index ["subdomain"], name: "index_pwb_websites_on_subdomain", unique: true
   end
