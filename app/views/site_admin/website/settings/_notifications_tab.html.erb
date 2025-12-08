@@ -170,24 +170,24 @@
       </div>
     <% end %>
 
-    <!-- Test Notification Button -->
-    <% if @website.ntfy_enabled? && @website.ntfy_topic_prefix.present? %>
-      <div class="flex items-center space-x-4">
-        <%= f.submit "Save Notification Settings",
-            class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
+    <!-- Submit Button -->
+    <div class="pt-4 border-t border-gray-200">
+      <%= f.submit "Save Notification Settings",
+          class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
+    </div>
+  <% end %>
 
-        <%= button_to "Send Test Notification",
-            site_admin_website_test_notifications_path,
-            method: :post,
-            class: "px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 cursor-pointer" %>
-      </div>
-    <% else %>
-      <!-- Submit Button -->
-      <div class="pt-4 border-t border-gray-200">
-        <%= f.submit "Save Notification Settings",
-            class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
-      </div>
-    <% end %>
+  <!-- Test Notification Button (outside form to avoid nested form issues) -->
+  <% if @website.ntfy_enabled? && @website.ntfy_topic_prefix.present? %>
+    <div class="mt-4 pt-4 border-t border-gray-200">
+      <%= button_to "Send Test Notification",
+          site_admin_website_test_notifications_path,
+          method: :post,
+          class: "px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 cursor-pointer" %>
+      <p class="mt-2 text-sm text-gray-500">
+        Send a test notification to verify your configuration is working.
+      </p>
+    </div>
   <% end %>
 </div>
 
