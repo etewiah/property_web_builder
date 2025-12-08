@@ -13,8 +13,13 @@
           <div id="sortable-photos" class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <% @prop.prop_photos.order(:sort_order).each_with_index do |photo, index| %>
               <div class="relative group photo-item" data-photo-id="<%= photo.id %>">
-                <% if photo.image.attached? %>
-                  <%= image_tag photo.image.variant(resize_to_limit: [200, 200]), class: "w-full h-32 object-cover rounded-lg cursor-move" %>
+                <% if photo_has_image?(photo) %>
+                  <%= photo_image_tag photo, variant_options: { resize_to_limit: [200, 200] }, class: "w-full h-32 object-cover rounded-lg cursor-move" %>
+                  <% if photo.external? %>
+                    <div class="absolute top-1 right-1 bg-blue-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="External URL">
+                      ext
+                    </div>
+                  <% end %>
                 <% else %>
                   <div class="w-full h-32 bg-gray-200 rounded-lg flex items-center justify-center">
                     <span class="text-gray-400 text-sm">No image</span>
@@ -51,39 +56,75 @@
         </div>
       <% end %>
       <!-- Upload Form -->
-      <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-500 transition-colors">
-        <%= form_with url: upload_photos_site_admin_prop_path(@prop), method: :post, local: true, multipart: true, id: "photo-upload-form" do |f| %>
-          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-          </svg>
-          <p class="mt-2 text-sm text-gray-600">Drag and drop photos here, or click to select</p>
-          <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-          <div class="mt-4">
-            <%= f.file_field :photos, multiple: true, class: "hidden", id: "photo-upload", accept: "image/*" %>
-            <label for="photo-upload" class="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 inline-block">
-              Select Photos
-            </label>
+      <% if current_website&.external_image_mode %>
+        <!-- External URL Mode - Add photos via URL -->
+        <div class="border-2 border-dashed border-blue-300 rounded-lg p-8 hover:border-blue-500 transition-colors bg-blue-50">
+          <div class="flex items-center justify-center mb-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+              <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"></path>
+              </svg>
+              External Image Mode
+            </span>
           </div>
-          <div id="selected-files" class="mt-4 text-sm text-gray-600 hidden">
-            <p>Selected: <span id="file-count">0</span> file(s)</p>
-            <%= f.submit 'Upload Photos', class: 'mt-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700' %>
-          </div>
-        <% end %>
-      </div>
+          <%= form_with url: upload_photos_site_admin_prop_path(@prop), method: :post, local: true, id: "external-url-form" do |f| %>
+            <div class="text-center mb-4">
+              <svg class="mx-auto h-12 w-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+              </svg>
+              <p class="mt-2 text-sm text-gray-700">Add photos by entering image URLs</p>
+              <p class="mt-1 text-xs text-gray-500">Enter one URL per line. Images must be publicly accessible.</p>
+            </div>
+            <div class="max-w-xl mx-auto">
+              <%= f.text_area :external_urls,
+                  rows: 4,
+                  class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm",
+                  placeholder: "https://example.com/image1.jpg\nhttps://example.com/image2.jpg" %>
+              <div class="mt-4 text-center">
+                <%= f.submit 'Add Photos from URLs', class: 'px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 cursor-pointer' %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <!-- Normal Upload Mode - Upload files -->
+        <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-500 transition-colors">
+          <%= form_with url: upload_photos_site_admin_prop_path(@prop), method: :post, local: true, multipart: true, id: "photo-upload-form" do |f| %>
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+            <p class="mt-2 text-sm text-gray-600">Drag and drop photos here, or click to select</p>
+            <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+            <div class="mt-4">
+              <%= f.file_field :photos, multiple: true, class: "hidden", id: "photo-upload", accept: "image/*" %>
+              <label for="photo-upload" class="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 inline-block">
+                Select Photos
+              </label>
+            </div>
+            <div id="selected-files" class="mt-4 text-sm text-gray-600 hidden">
+              <p>Selected: <span id="file-count">0</span> file(s)</p>
+              <%= f.submit 'Upload Photos', class: 'mt-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700' %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
       <script>
-        // File upload handling
-        document.getElementById('photo-upload').addEventListener('change', function(e) {
-          const fileCount = e.target.files.length;
-          const selectedFilesDiv = document.getElementById('selected-files');
-          const fileCountSpan = document.getElementById('file-count');
+        // File upload handling (only in non-external mode)
+        const photoUploadInput = document.getElementById('photo-upload');
+        if (photoUploadInput) {
+          photoUploadInput.addEventListener('change', function(e) {
+            const fileCount = e.target.files.length;
+            const selectedFilesDiv = document.getElementById('selected-files');
+            const fileCountSpan = document.getElementById('file-count');
 
-          if (fileCount > 0) {
-            selectedFilesDiv.classList.remove('hidden');
-            fileCountSpan.textContent = fileCount;
-          } else {
-            selectedFilesDiv.classList.add('hidden');
-          }
-        });
+            if (fileCount > 0) {
+              selectedFilesDiv.classList.remove('hidden');
+              fileCountSpan.textContent = fileCount;
+            } else {
+              selectedFilesDiv.classList.add('hidden');
+            }
+          });
+        }
 
         // Drag and drop reordering
         const sortableContainer = document.getElementById('sortable-photos');

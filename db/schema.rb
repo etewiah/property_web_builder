@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_08_111819) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_08_124059) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -195,6 +195,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_111819) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "block_key"
+    t.string "external_url"
     t.index ["content_id"], name: "index_pwb_content_photos_on_content_id"
   end
 
@@ -394,6 +395,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_111819) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.uuid "realty_asset_id"
+    t.string "external_url"
     t.index ["prop_id"], name: "index_pwb_prop_photos_on_prop_id"
     t.index ["realty_asset_id"], name: "index_pwb_prop_photos_on_realty_asset_id"
   end
@@ -635,6 +637,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_111819) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "website_id"
+    t.string "external_url"
     t.index ["photo_key"], name: "index_pwb_website_photos_on_photo_key"
     t.index ["website_id"], name: "index_pwb_website_photos_on_website_id"
   end
@@ -683,6 +686,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_111819) do
     t.boolean "custom_domain_verified", default: false
     t.datetime "custom_domain_verified_at"
     t.string "custom_domain_verification_token"
+    t.boolean "external_image_mode", default: false, null: false
     t.index ["custom_domain"], name: "index_pwb_websites_on_custom_domain", unique: true, where: "((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))"
     t.index ["slug"], name: "index_pwb_websites_on_slug"
     t.index ["subdomain"], name: "index_pwb_websites_on_subdomain", unique: true

@@ -1,5 +1,7 @@
 module Pwb
   class ContentPhoto < ApplicationRecord
+    include ExternalImageSupport
+
     has_one_attached :image
     belongs_to :content, optional: true
     # I use block_key col to indicate if there is a fragment block associated
@@ -9,6 +11,9 @@ module Pwb
     # validate :image_size_validation
 
     def optimized_image_url
+      # Use external URL if available
+      return external_url if external?
+
       return nil unless image.attached?
 
       if Rails.application.config.use_cloudinary
@@ -26,15 +31,22 @@ module Pwb
     end
 
     def image_filename
+      # For external URLs, extract filename from URL
+      return File.basename(URI.parse(external_url).path) if external?
       read_attribute(:image)
     end
 
     def as_json(options = nil)
       super({only: [
-               "description", "folder", "sort_order", "block_key"
+               "description", "folder", "sort_order", "block_key", "external_url"
              ],
              methods: ["optimized_image_url", "image_filename"]
              }.merge(options || {}))
+    end
+
+    # Check if website is in external image mode
+    def external_image_mode?
+      content&.website&.external_image_mode || false
     end
 
     # private

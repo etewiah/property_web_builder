@@ -155,8 +155,8 @@
           <h3 class="text-lg font-medium text-gray-900 mb-4">Photos (<%= @prop.prop_photos.count %>)</h3>
           <div class="grid grid-cols-4 gap-4">
             <% @prop.prop_photos.limit(4).each do |photo| %>
-              <% if photo.image.attached? %>
-                <%= image_tag photo.image.variant(resize_to_limit: [150, 150]), class: "w-full h-24 object-cover rounded-lg" %>
+              <% if photo_has_image?(photo) %>
+                <%= photo_image_tag photo, variant_options: { resize_to_limit: [150, 150] }, class: "w-full h-24 object-cover rounded-lg" %>
               <% end %>
             <% end %>
           </div>

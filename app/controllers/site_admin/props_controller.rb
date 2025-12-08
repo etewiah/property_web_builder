@@ -86,6 +86,31 @@ module SiteAdmin
     end
 
     def upload_photos
+      # Handle external URLs when in external image mode
+      if params[:external_urls].present? && current_website&.external_image_mode
+        urls = params[:external_urls].to_s.split("\n").map(&:strip).reject(&:blank?)
+        if urls.any?
+          max_sort_order = @prop.prop_photos.maximum(:sort_order) || 0
+          created_count = 0
+          urls.each_with_index do |url, index|
+            prop_photo = @prop.prop_photos.build(
+              sort_order: max_sort_order + index + 1,
+              external_url: url
+            )
+            if prop_photo.save
+              created_count += 1
+            end
+          end
+          if created_count > 0
+            redirect_to edit_photos_site_admin_prop_path(@prop), notice: "#{created_count} photo(s) added from URLs."
+          else
+            redirect_to edit_photos_site_admin_prop_path(@prop), alert: 'Failed to add photos. Please check the URLs.'
+          end
+          return
+        end
+      end
+
+      # Handle file uploads (normal mode)
       if params[:photos].present?
         max_sort_order = @prop.prop_photos.maximum(:sort_order) || 0
         params[:photos].each_with_index do |photo, index|

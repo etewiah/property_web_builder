@@ -146,13 +146,16 @@ module SiteAdmin
       end
 
       def general_settings_params
-        params.require(:website).permit(
+        # Form submits as pwb_website (from model class name), but we also check :website for flexibility
+        param_key = params.key?(:pwb_website) ? :pwb_website : :website
+        params.require(param_key).permit(
           :company_display_name,
           :default_client_locale,
           :default_currency,
           :default_area_unit,
           :analytics_id,
           :analytics_id_type,
+          :external_image_mode,
           supported_locales: []
         )
       end
@@ -197,10 +200,11 @@ module SiteAdmin
           'ko' => 'Korean'
         }
 
-        supported = @website.supported_locales || ['en-UK']
+        supported = (@website.supported_locales || ['en-UK']).reject(&:blank?)
+        supported = ['en-UK'] if supported.empty?
         supported.map do |full_locale|
-          parts = full_locale.split('-')
-          base_locale = parts[0].downcase
+          parts = full_locale.to_s.split('-')
+          base_locale = parts[0]&.downcase || 'en'
           {
             locale: base_locale,
             variant: parts[1],
