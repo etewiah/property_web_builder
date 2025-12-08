@@ -193,3 +193,11 @@ gem 'pagy', '~> 9.0'
 
 # Security - Rate limiting for brute force protection
 gem 'rack-attack', '~> 6.7'
+
+# Error tracking and performance monitoring
+gem 'sentry-ruby'
+gem 'sentry-rails'
+
+# Structured logging
+gem 'lograge'
+gem 'logstash-event'

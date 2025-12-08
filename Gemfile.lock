@@ -338,6 +338,12 @@ GEM
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     logger (1.7.0)
+    lograge (0.14.0)
+      actionpack (>= 4)
+      activesupport (>= 4)
+      railties (>= 4)
+      request_store (~> 1.0)
+    logstash-event (1.2.02)
     logster (2.20.1)
     loofah (2.24.1)
       crass (~> 1.0.2)
@@ -637,6 +643,12 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
+    sentry-rails (6.2.0)
+      railties (>= 5.2.0)
+      sentry-ruby (~> 6.2.0)
+    sentry-ruby (6.2.0)
+      bigdecimal
+      concurrent-ruby (~> 1.0, >= 1.0.2)
     shellany (0.0.1)
     shoulda-matchers (7.0.1)
       activesupport (>= 7.1)
@@ -772,6 +784,8 @@ DEPENDENCIES
   json_spec
   launchy
   liquid (~> 5.3)
+  lograge
+  logstash-event
   logster (~> 2.11)
   mobility
   money-rails (~> 1.15)
@@ -800,6 +814,8 @@ DEPENDENCIES
   ruby_odata (~> 0.1.0)
   scenic
   selenium-webdriver
+  sentry-rails
+  sentry-ruby
   shoulda-matchers
   simple_form (~> 5.1)
   simplecov

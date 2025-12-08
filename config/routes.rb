@@ -2,6 +2,12 @@ Rails.application.routes.draw do
   # Silence Chrome DevTools MCP requests
   get '/.well-known/appspecific/com.chrome.devtools.json', to: proc { [204, {}, []] }
 
+  # Health check endpoints for monitoring and load balancers
+  get '/health', to: 'health#live'
+  get '/health/live', to: 'health#live'
+  get '/health/ready', to: 'health#ready'
+  get '/health/details', to: 'health#details'
+
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   get '/api-public-docs', to: 'api_public_docs#index'
