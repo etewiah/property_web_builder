@@ -91,6 +91,11 @@ module Pwb
       # @enquiry.delivery_email = ""
       EnquiryMailer.general_enquiry_targeting_agency(@contact, @enquiry).deliver_now
 
+      # Send push notification via ntfy (async)
+      if @current_website.ntfy_enabled?
+        NtfyNotificationJob.perform_later(@current_website.id, :inquiry, @enquiry.id)
+      end
+
       # @enquiry.delivery_success = true
       # @enquiry.save
 

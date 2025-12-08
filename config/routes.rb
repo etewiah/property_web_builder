@@ -123,6 +123,8 @@ Rails.application.routes.draw do
       patch 'settings', to: 'settings#update'
       # Navigation links management
       patch 'settings/links', to: 'settings#update_links', as: 'update_links'
+      # Notification testing
+      post 'test_notifications', to: 'settings#test_notifications'
     end
   end
 

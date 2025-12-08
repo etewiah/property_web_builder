@@ -1,0 +1,214 @@
+<div class="p-6">
+  <div class="mb-6">
+    <h2 class="text-xl font-semibold text-gray-900">Push Notifications</h2>
+    <p class="mt-1 text-sm text-gray-500">
+      Configure push notifications via <a href="https://ntfy.sh" target="_blank" class="text-blue-600 hover:underline">ntfy.sh</a>.
+      Get instant alerts on your phone or desktop when important events happen.
+    </p>
+  </div>
+
+  <%= form_with model: @website, url: site_admin_website_settings_path, method: :patch, local: true, class: "space-y-6" do |f| %>
+    <input type="hidden" name="tab" value="notifications">
+
+    <!-- Enable/Disable Toggle -->
+    <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+      <div class="flex items-start">
+        <div class="flex items-center h-5">
+          <%= f.check_box :ntfy_enabled,
+              class: "h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500",
+              id: "ntfy_enabled" %>
+        </div>
+        <div class="ml-3">
+          <label for="ntfy_enabled" class="text-sm font-medium text-gray-700">
+            Enable Push Notifications
+          </label>
+          <p class="text-sm text-gray-500 mt-1">
+            When enabled, you'll receive push notifications for selected events via ntfy.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ntfy Configuration -->
+    <div id="ntfy-config" class="space-y-4 <%= 'opacity-50' unless @website.ntfy_enabled? %>">
+      <h3 class="text-lg font-medium text-gray-900 border-b border-gray-200 pb-2">Configuration</h3>
+
+      <!-- Server URL -->
+      <div>
+        <label for="ntfy_server_url" class="block text-sm font-medium text-gray-700 mb-1">
+          ntfy Server URL
+        </label>
+        <%= f.text_field :ntfy_server_url,
+            class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+            placeholder: "https://ntfy.sh" %>
+        <p class="mt-1 text-sm text-gray-500">
+          Use the default ntfy.sh server or your own self-hosted instance.
+        </p>
+      </div>
+
+      <!-- Topic Prefix -->
+      <div>
+        <label for="ntfy_topic_prefix" class="block text-sm font-medium text-gray-700 mb-1">
+          Topic Prefix <span class="text-red-500">*</span>
+        </label>
+        <%= f.text_field :ntfy_topic_prefix,
+            class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+            placeholder: "mycompany-#{@website.subdomain}" %>
+        <p class="mt-1 text-sm text-gray-500">
+          A unique prefix for your notification topics. Choose something hard to guess for security.
+          Your topics will be: <code class="bg-gray-100 px-1 rounded">[prefix]-inquiries</code>,
+          <code class="bg-gray-100 px-1 rounded">[prefix]-listings</code>, etc.
+        </p>
+      </div>
+
+      <!-- Access Token (optional) -->
+      <div>
+        <label for="ntfy_access_token" class="block text-sm font-medium text-gray-700 mb-1">
+          Access Token (optional)
+        </label>
+        <%= f.password_field :ntfy_access_token,
+            class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+            placeholder: "tk_xxxxxxxxxxxxxxxx",
+            value: @website.ntfy_access_token.present? ? '••••••••••••' : '' %>
+        <p class="mt-1 text-sm text-gray-500">
+          Required for protected topics. Get a token from your ntfy.sh account settings.
+        </p>
+      </div>
+    </div>
+
+    <!-- Notification Channels -->
+    <div id="ntfy-channels" class="space-y-4 <%= 'opacity-50' unless @website.ntfy_enabled? %>">
+      <h3 class="text-lg font-medium text-gray-900 border-b border-gray-200 pb-2">Notification Channels</h3>
+      <p class="text-sm text-gray-500">Choose which events trigger push notifications.</p>
+
+      <div class="space-y-3">
+        <!-- Inquiries -->
+        <div class="flex items-start p-3 bg-white border border-gray-200 rounded-lg">
+          <div class="flex items-center h-5">
+            <%= f.check_box :ntfy_notify_inquiries,
+                class: "h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500",
+                id: "ntfy_notify_inquiries" %>
+          </div>
+          <div class="ml-3">
+            <label for="ntfy_notify_inquiries" class="text-sm font-medium text-gray-700">
+              Property Inquiries
+            </label>
+            <p class="text-sm text-gray-500">
+              Get notified when someone submits a contact form or property inquiry.
+            </p>
+          </div>
+        </div>
+
+        <!-- Listings -->
+        <div class="flex items-start p-3 bg-white border border-gray-200 rounded-lg">
+          <div class="flex items-center h-5">
+            <%= f.check_box :ntfy_notify_listings,
+                class: "h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500",
+                id: "ntfy_notify_listings" %>
+          </div>
+          <div class="ml-3">
+            <label for="ntfy_notify_listings" class="text-sm font-medium text-gray-700">
+              Listing Changes
+            </label>
+            <p class="text-sm text-gray-500">
+              Get notified when properties are published, archived, or have status changes.
+            </p>
+          </div>
+        </div>
+
+        <!-- Security -->
+        <div class="flex items-start p-3 bg-white border border-gray-200 rounded-lg">
+          <div class="flex items-center h-5">
+            <%= f.check_box :ntfy_notify_security,
+                class: "h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500",
+                id: "ntfy_notify_security" %>
+          </div>
+          <div class="ml-3">
+            <label for="ntfy_notify_security" class="text-sm font-medium text-gray-700">
+              Security Alerts
+            </label>
+            <p class="text-sm text-gray-500">
+              Get notified about failed login attempts, account locks, and password resets.
+            </p>
+          </div>
+        </div>
+
+        <!-- Users -->
+        <div class="flex items-start p-3 bg-white border border-gray-200 rounded-lg">
+          <div class="flex items-center h-5">
+            <%= f.check_box :ntfy_notify_users,
+                class: "h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500",
+                id: "ntfy_notify_users" %>
+          </div>
+          <div class="ml-3">
+            <label for="ntfy_notify_users" class="text-sm font-medium text-gray-700">
+              User Events
+            </label>
+            <p class="text-sm text-gray-500">
+              Get notified when new users register or accounts are activated/deactivated.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How to Subscribe -->
+    <% if @website.ntfy_enabled? && @website.ntfy_topic_prefix.present? %>
+      <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <h4 class="text-sm font-medium text-blue-900 mb-2">How to Subscribe</h4>
+        <ol class="text-sm text-blue-800 space-y-2 list-decimal list-inside">
+          <li>Install the ntfy app on your phone (<a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" class="underline">Android</a> / <a href="https://apps.apple.com/app/ntfy/id1625396347" target="_blank" class="underline">iOS</a>) or use the <a href="https://ntfy.sh/app" target="_blank" class="underline">web app</a></li>
+          <li>Subscribe to your topics:
+            <ul class="ml-6 mt-1 space-y-1">
+              <li><code class="bg-blue-100 px-1 rounded"><%= @website.ntfy_topic_prefix %>-inquiries</code></li>
+              <li><code class="bg-blue-100 px-1 rounded"><%= @website.ntfy_topic_prefix %>-listings</code></li>
+              <li><code class="bg-blue-100 px-1 rounded"><%= @website.ntfy_topic_prefix %>-security</code></li>
+            </ul>
+          </li>
+          <li>You'll now receive push notifications for the enabled channels!</li>
+        </ol>
+      </div>
+    <% end %>
+
+    <!-- Test Notification Button -->
+    <% if @website.ntfy_enabled? && @website.ntfy_topic_prefix.present? %>
+      <div class="flex items-center space-x-4">
+        <%= f.submit "Save Notification Settings",
+            class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
+
+        <%= link_to "Send Test Notification",
+            site_admin_website_test_notifications_path,
+            method: :post,
+            class: "px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50",
+            data: { turbo_method: :post } %>
+      </div>
+    <% else %>
+      <!-- Submit Button -->
+      <div class="pt-4 border-t border-gray-200">
+        <%= f.submit "Save Notification Settings",
+            class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<script>
+  // Toggle visibility of config sections based on enabled state
+  document.addEventListener('DOMContentLoaded', function() {
+    const enabledCheckbox = document.getElementById('ntfy_enabled');
+    const configSection = document.getElementById('ntfy-config');
+    const channelsSection = document.getElementById('ntfy-channels');
+
+    if (enabledCheckbox) {
+      enabledCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+          configSection.classList.remove('opacity-50');
+          channelsSection.classList.remove('opacity-50');
+        } else {
+          configSection.classList.add('opacity-50');
+          channelsSection.classList.add('opacity-50');
+        }
+      });
+    }
+  });
+</script>

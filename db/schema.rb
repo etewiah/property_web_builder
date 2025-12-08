@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_08_124059) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_08_134208) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -687,6 +687,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_124059) do
     t.datetime "custom_domain_verified_at"
     t.string "custom_domain_verification_token"
     t.boolean "external_image_mode", default: false, null: false
+    t.boolean "ntfy_enabled", default: false, null: false
+    t.string "ntfy_server_url", default: "https://ntfy.sh"
+    t.string "ntfy_topic_prefix"
+    t.string "ntfy_access_token"
+    t.boolean "ntfy_notify_inquiries", default: true, null: false
+    t.boolean "ntfy_notify_listings", default: true, null: false
+    t.boolean "ntfy_notify_users", default: false, null: false
+    t.boolean "ntfy_notify_security", default: true, null: false
     t.index ["custom_domain"], name: "index_pwb_websites_on_custom_domain", unique: true, where: "((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))"
     t.index ["slug"], name: "index_pwb_websites_on_slug"
     t.index ["subdomain"], name: "index_pwb_websites_on_subdomain", unique: true

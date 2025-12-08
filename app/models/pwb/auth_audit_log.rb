@@ -39,6 +39,9 @@ module Pwb
 
     validates :event_type, presence: true, inclusion: { in: EVENT_TYPES }
 
+    # Send ntfy notifications for security-relevant events
+    after_commit :send_security_notification, on: :create
+
     # Scopes for common queries
     scope :recent, -> { order(created_at: :desc) }
     scope :for_user, ->(user) { where(user: user) }
@@ -227,6 +230,33 @@ module Pwb
         return nil unless request
         request.fullpath&.truncate(500)
       end
+    end
+
+    private
+
+    # Events that should trigger push notifications
+    NOTIFIABLE_EVENTS = %w[
+      login_failure
+      account_locked
+      password_reset_request
+    ].freeze
+
+    def send_security_notification
+      return unless website&.ntfy_enabled?
+      return unless NOTIFIABLE_EVENTS.include?(event_type)
+
+      NtfyNotificationJob.perform_later(
+        website.id,
+        :security,
+        nil,
+        nil,
+        event_type,
+        {
+          email: email,
+          ip: ip_address,
+          reason: failure_reason
+        }
+      )
     end
   end
 end

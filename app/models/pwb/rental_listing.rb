@@ -8,6 +8,7 @@ module Pwb
   # console work and cross-tenant operations.
   #
   class RentalListing < ApplicationRecord
+    include NtfyListingNotifications
     extend Mobility
 
     self.table_name = 'pwb_rental_listings'

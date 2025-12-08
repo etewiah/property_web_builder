@@ -6,7 +6,7 @@ module SiteAdmin
       before_action :set_website
       before_action :set_tab
 
-      VALID_TABS = %w[general appearance navigation home].freeze
+      VALID_TABS = %w[general appearance navigation home notifications].freeze
 
       def show
         # Always load website locales for multilingual editing
@@ -33,9 +33,20 @@ module SiteAdmin
           update_appearance_settings
         when 'home'
           update_home_settings
+        when 'notifications'
+          update_notification_settings
         else
           redirect_to site_admin_website_settings_path, alert: 'Invalid tab'
           return
+        end
+      end
+
+      def test_notifications
+        result = NtfyService.test_configuration(@website)
+        if result[:success]
+          redirect_to site_admin_website_settings_tab_path('notifications'), notice: result[:message]
+        else
+          redirect_to site_admin_website_settings_tab_path('notifications'), alert: result[:message]
         end
       end
 
@@ -116,6 +127,21 @@ module SiteAdmin
         end
       end
 
+      def update_notification_settings
+        # Don't clear the access token if the placeholder is submitted
+        filtered_params = notification_settings_params.to_h
+        if filtered_params[:ntfy_access_token] == '••••••••••••' || filtered_params[:ntfy_access_token].blank?
+          filtered_params.delete(:ntfy_access_token)
+        end
+
+        if @website.update(filtered_params)
+          redirect_to site_admin_website_settings_tab_path('notifications'), notice: 'Notification settings updated successfully'
+        else
+          flash.now[:alert] = 'Failed to update notification settings'
+          render :show, status: :unprocessable_entity
+        end
+      end
+
       def update_navigation_links
         params[:links].each do |link_params|
           link = @website.links.find_by(id: link_params[:id])
@@ -176,6 +202,20 @@ module SiteAdmin
           :landing_hide_for_rent,
           :landing_hide_for_sale,
           :landing_hide_search_bar
+        )
+      end
+
+      def notification_settings_params
+        param_key = params.key?(:pwb_website) ? :pwb_website : :website
+        params.require(param_key).permit(
+          :ntfy_enabled,
+          :ntfy_server_url,
+          :ntfy_topic_prefix,
+          :ntfy_access_token,
+          :ntfy_notify_inquiries,
+          :ntfy_notify_listings,
+          :ntfy_notify_users,
+          :ntfy_notify_security
         )
       end
 

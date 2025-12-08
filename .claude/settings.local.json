@@ -71,7 +71,8 @@
       "Bash(RAILS_ENV=development bin/rails generate:*)",
       "Bash(RAILS_ENV=e2e bin/rails db:migrate:*)",
       "WebFetch(domain:ntfy.sh)",
-      "WebFetch(domain:docs.ntfy.sh)"
+      "WebFetch(domain:docs.ntfy.sh)",
+      "Bash(RAILS_ENV=development bin/rails runner:*)"
     ],
     "deny": [],
     "ask": []
