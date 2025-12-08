@@ -1,0 +1,53 @@
+# Modern Penthouse in Rotterdam
+reference: NL-PH-001
+prop_type: types.penthouse
+prop_state: states.nieuw
+
+# Location
+address: "Wilhelminapier 45"
+city: Rotterdam
+region: Zuid-Holland
+country: Netherlands
+postal_code: "3072 AP"
+latitude: 51.9050
+longitude: 4.4853
+
+# Property Details
+bedrooms: 3
+bathrooms: 2
+garages: 2
+constructed_area: 185
+plot_area: 0
+year_built: 2023
+
+# Sale Listing
+sale:
+  highlighted: true
+  price_cents: 159500000  # EUR 1,595,000
+  title:
+    nl: "Luxe penthouse met panoramisch uitzicht op de Maas"
+    en: "Luxury Penthouse with Panoramic River Views"
+  description:
+    nl: "Spectaculair nieuwbouw penthouse op toplocatie aan de Wilhelminapier. Dit state-of-the-art appartement biedt adembenemend 270-graden uitzicht over de Maas en de skyline van Rotterdam. Voorzien van vloerverwarming, airconditioning, zonnepanelen en domotica systeem. Het ruime dakterras is perfect voor entertainment. Twee parkeerplaatsen in de beveiligde garage inbegrepen."
+    en: "Spectacular new-build penthouse in prime location at Wilhelminapier. This state-of-the-art apartment offers breathtaking 270-degree views over the River Maas and Rotterdam skyline. Equipped with underfloor heating, air conditioning, solar panels, and smart home system. The spacious roof terrace is perfect for entertaining. Two parking spaces in secured garage included."
+
+# Features
+features:
+  - features.stadszicht
+  - features.dakterras
+  - features.hoge_plafonds
+  - features.veel_licht
+  - features.open_keuken
+  - features.parkeren
+  - amenities.vloerverwarming
+  - amenities.airco
+  - amenities.lift
+  - amenities.zonnepanelen
+  - amenities.hr_glas
+  - amenities.alarmsysteem
+  - amenities.videofoon
+  - amenities.energielabel_a
+  - labels.aan_water
+
+# Image
+image: rotterdam_penthouse.jpg

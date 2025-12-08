@@ -1,0 +1,51 @@
+# Industrial Loft in Amsterdam East
+reference: NL-LFT-001
+prop_type: types.loft
+prop_state: states.gerenoveerd
+
+# Location
+address: "KNSM-laan 185"
+city: Amsterdam
+region: Noord-Holland
+country: Netherlands
+postal_code: "1019 LB"
+latitude: 52.3785
+longitude: 4.9456
+
+# Property Details
+bedrooms: 2
+bathrooms: 2
+garages: 1
+constructed_area: 145
+plot_area: 0
+year_built: 1998
+
+# Sale Listing
+sale:
+  highlighted: false
+  price_cents: 82500000  # EUR 825,000
+  title:
+    nl: "Industrieel loft met havenzicht op KNSM-eiland"
+    en: "Industrial Loft with Harbor Views on KNSM Island"
+  description:
+    nl: "Uniek loft-appartement in voormalig havenpakhuis op het karakteristieke KNSM-eiland. Dit industrieel geInspireerde appartement kenmerkt zich door dubbelhoge plafonds van 5,5 meter, grote stalen ramen en een spectaculair uitzicht over de haven. De open woonruimte biedt eindeloze mogelijkheden. Inclusief eigen parkeerplaats en berging. Gelegen in een van de meest gewilde buurten van Amsterdam-Oost."
+    en: "Unique loft apartment in former harbor warehouse on the characteristic KNSM Island. This industrially-inspired apartment features double-height ceilings of 5.5 meters, large steel windows, and spectacular harbor views. The open living space offers endless possibilities. Including private parking space and storage. Located in one of the most sought-after neighborhoods in Amsterdam East."
+
+# Features
+features:
+  - features.stadszicht
+  - features.hoge_plafonds
+  - features.veel_licht
+  - features.open_keuken
+  - features.parkeren
+  - features.fietsenstalling
+  - features.berging
+  - amenities.cv_ketel
+  - amenities.mechanische_ventilatie
+  - amenities.dubbel_glas
+  - amenities.lift
+  - labels.aan_water
+  - labels.nabij_ov
+
+# Image
+image: amsterdam_loft.jpg

@@ -1,0 +1,54 @@
+# New Build Family House in Eindhoven
+reference: NL-NB-001
+prop_type: types.nieuwbouw
+prop_state: states.nieuw
+
+# Location
+address: "Strijp-S District 42"
+city: Eindhoven
+region: Noord-Brabant
+country: Netherlands
+postal_code: "5617 BC"
+latitude: 51.4455
+longitude: 5.4582
+
+# Property Details
+bedrooms: 4
+bathrooms: 2
+garages: 2
+constructed_area: 175
+plot_area: 220
+year_built: 2024
+
+# Sale Listing
+sale:
+  highlighted: false
+  price_cents: 62500000  # EUR 625,000
+  title:
+    nl: "Duurzame nieuwbouwwoning in Strijp-S"
+    en: "Sustainable New Build Home in Strijp-S"
+  description:
+    nl: "Energieneutrale nieuwbouwwoning in het bruisende Strijp-S, het creatieve hart van Eindhoven. Deze slimme woning is uitgerust met zonnepanelen, warmtepomp en uitgebreid domotica systeem. De moderne architectuur combineert strak design met functionele indeling. Privé tuin met berging en twee parkeerplaatsen. Ideaal voor gezinnen die duurzaam willen wonen in een innovatieve omgeving nabij de High Tech Campus."
+    en: "Energy-neutral new-build home in vibrant Strijp-S, the creative heart of Eindhoven. This smart home is equipped with solar panels, heat pump, and extensive home automation system. Modern architecture combines sleek design with functional layout. Private garden with storage and two parking spaces. Ideal for families wanting sustainable living in an innovative environment near the High Tech Campus."
+
+# Features
+features:
+  - features.tuin
+  - features.dakterras
+  - features.open_keuken
+  - features.parkeren
+  - features.fietsenstalling
+  - features.berging
+  - amenities.vloerverwarming
+  - amenities.warmtepomp
+  - amenities.zonnepanelen
+  - amenities.mechanische_ventilatie
+  - amenities.hr_glas
+  - amenities.alarmsysteem
+  - amenities.videofoon
+  - amenities.energielabel_a
+  - labels.kindvriendelijk
+  - labels.nabij_ov
+
+# Image
+image: eindhoven_newbuild.jpg

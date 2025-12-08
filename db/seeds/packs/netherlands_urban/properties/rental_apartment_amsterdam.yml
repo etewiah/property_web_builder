@@ -1,0 +1,51 @@
+# Rental Apartment in Amsterdam Jordaan
+reference: NL-RNT-001
+prop_type: types.bovenwoning
+prop_state: states.goed
+
+# Location
+address: "Bloemgracht 88"
+city: Amsterdam
+region: Noord-Holland
+country: Netherlands
+postal_code: "1015 TM"
+latitude: 52.3738
+longitude: 4.8835
+
+# Property Details
+bedrooms: 2
+bathrooms: 1
+garages: 0
+constructed_area: 85
+plot_area: 0
+year_built: 1720
+
+# Rental Listing
+rental:
+  highlighted: true
+  long_term: true
+  short_term: false
+  furnished: true
+  monthly_price_cents: 295000  # EUR 2,950/month
+  title:
+    nl: "Gemeubileerd appartement in de Jordaan"
+    en: "Furnished Apartment in the Jordaan"
+  description:
+    nl: "Sfeervol gemeubileerd appartement in het hart van de Jordaan. Dit charmante twee-slaapkamer appartement op de tweede verdieping biedt een perfecte mix van authentiek karakter en modern comfort. Volledig uitgerust met hoogwaardige meubels en complete keuken. Ideaal voor expats of professionals. Beschikbaar per direct voor minimaal 12 maanden."
+    en: "Atmospheric furnished apartment in the heart of the Jordaan. This charming two-bedroom apartment on the second floor offers a perfect mix of authentic character and modern comfort. Fully equipped with high-quality furniture and complete kitchen. Ideal for expats or professionals. Available immediately for minimum 12 months."
+
+# Features
+features:
+  - features.grachtzicht
+  - features.originele_details
+  - features.hoge_plafonds
+  - features.veel_licht
+  - features.open_keuken
+  - features.fietsenstalling
+  - amenities.cv_ketel
+  - amenities.dubbel_glas
+  - labels.centrum
+  - labels.nabij_ov
+
+# Image
+image: amsterdam_jordaan_rental.jpg

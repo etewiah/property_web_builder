@@ -1,0 +1,32 @@
+# Contact Us page content for Netherlands Urban pack
+
+# CTA Split Image (cta/cta_split_image)
+cta/cta_split_image:
+  title:
+    nl: "Neem contact met ons op"
+    en: "Get in Touch"
+  subtitle:
+    nl: "Heeft u een vraag over kopen, verkopen of huren? Ons team staat voor u klaar. Kom langs op ons kantoor aan de Herengracht of neem contact op via onderstaand formulier."
+    en: "Have a question about buying, selling, or renting? Our team is here for you. Visit our office on Herengracht or get in touch using the form below."
+  button_text:
+    nl: "Bel ons direct"
+    en: "Call Us Now"
+  button_link: "tel:+31201234567"
+  image: "db/seeds/packs/netherlands_urban/images/office_interior.jpg"
+
+# Contact Form and Map uses default configuration
+contactUsFormAndMap:
+  map_center_lat: 52.3702
+  map_center_lng: 4.8872
+  map_zoom: 15
+  office_hours:
+    nl: |
+      <strong>Openingstijden:</strong><br>
+      Maandag - Vrijdag: 09:00 - 18:00<br>
+      Zaterdag: 10:00 - 16:00 (alleen op afspraak)<br>
+      Zondag: Gesloten
+    en: |
+      <strong>Opening Hours:</strong><br>
+      Monday - Friday: 09:00 - 18:00<br>
+      Saturday: 10:00 - 16:00 (by appointment only)<br>
+      Sunday: Closed

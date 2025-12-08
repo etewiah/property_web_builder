@@ -1,0 +1,137 @@
+# Home page content for Netherlands Urban pack
+# Content keys match page part templates from the Page Part Library
+
+# Hero Section (heroes/hero_centered)
+heroes/hero_centered:
+  pretitle:
+    nl: "Welkom bij Van der Berg Makelaars"
+    en: "Welcome to Van der Berg Real Estate"
+  title:
+    nl: "Uw droomhuis in Nederland"
+    en: "Your Dream Home in the Netherlands"
+  subtitle:
+    nl: "Al meer dan 25 jaar helpen wij mensen hun perfecte woning te vinden in Amsterdam, Rotterdam, Utrecht en andere prachtige Nederlandse steden. Persoonlijke service, lokale expertise."
+    en: "For over 25 years, we have been helping people find their perfect home in Amsterdam, Rotterdam, Utrecht, and other beautiful Dutch cities. Personal service, local expertise."
+  cta_text:
+    nl: "Bekijk woningen"
+    en: "View Properties"
+  cta_link: "/search/buy"
+  cta_secondary_text:
+    nl: "Contact opnemen"
+    en: "Contact Us"
+  cta_secondary_link: "/contact"
+  background_image: "db/seeds/packs/netherlands_urban/images/hero_amsterdam_canal.jpg"
+
+# Feature Grid (features/feature_grid_3col)
+features/feature_grid_3col:
+  section_pretitle:
+    nl: "Onze diensten"
+    en: "Our Services"
+  section_title:
+    nl: "Wat wij voor u kunnen betekenen"
+    en: "What We Can Do For You"
+  section_subtitle:
+    nl: "Complete makelaardijdiensten op maat voor uw situatie"
+    en: "Complete real estate services tailored to your situation"
+  feature_1_icon: "fa-home"
+  feature_1_title:
+    nl: "Kopen"
+    en: "Buying"
+  feature_1_description:
+    nl: "Van eerste bezichtiging tot sleuteloverdracht - wij begeleiden u door het gehele aankoopproces met persoonlijk advies."
+    en: "From first viewing to key handover - we guide you through the entire purchase process with personal advice."
+  feature_1_link: "/search/buy"
+  feature_2_icon: "fa-hand-holding-usd"
+  feature_2_title:
+    nl: "Verkopen"
+    en: "Selling"
+  feature_2_description:
+    nl: "Maximaliseer de waarde van uw woning met onze bewezen verkoopaanpak en uitgebreid netwerk van kopers."
+    en: "Maximize your property's value with our proven sales approach and extensive network of buyers."
+  feature_2_link: "/sell"
+  feature_3_icon: "fa-key"
+  feature_3_title:
+    nl: "Verhuren"
+    en: "Rental"
+  feature_3_description:
+    nl: "Professionele verhuurservice voor eigenaren en een ruim aanbod huurwoningen voor woningzoekenden."
+    en: "Professional rental service for owners and a wide range of rental properties for home seekers."
+  feature_3_link: "/search/rent"
+
+# Stats Counter (stats/stats_counter)
+stats/stats_counter:
+  section_title:
+    nl: "Onze resultaten"
+    en: "Our Track Record"
+  section_subtitle:
+    nl: "Cijfers die voor zich spreken"
+    en: "Numbers that speak for themselves"
+  stat_1_value: "1250"
+  stat_1_label:
+    nl: "Woningen verkocht"
+    en: "Properties Sold"
+  stat_1_suffix: "+"
+  stat_2_value: "98"
+  stat_2_label:
+    nl: "Klanttevredenheid"
+    en: "Client Satisfaction"
+  stat_2_suffix: "%"
+  stat_3_value: "25"
+  stat_3_label:
+    nl: "Jaar ervaring"
+    en: "Years Experience"
+  stat_3_suffix: "+"
+  stat_4_value: "12"
+  stat_4_label:
+    nl: "Erkende makelaars"
+    en: "Licensed Agents"
+  style: "primary"
+
+# Testimonials (testimonials/testimonial_carousel)
+testimonials/testimonial_carousel:
+  section_title:
+    nl: "Wat onze klanten zeggen"
+    en: "What Our Clients Say"
+  section_subtitle:
+    nl: "Ervaringen van tevreden kopers en verkopers"
+    en: "Experiences from satisfied buyers and sellers"
+  testimonial_1_text:
+    nl: "Van der Berg heeft ons fantastisch geholpen bij het vinden van ons droomhuis aan de gracht. Hun kennis van de Amsterdamse markt is ongeëvenaard en ze stonden altijd voor ons klaar."
+    en: "Van der Berg helped us fantastically in finding our dream house on the canal. Their knowledge of the Amsterdam market is unmatched and they were always there for us."
+  testimonial_1_name: "Familie De Vries"
+  testimonial_1_role:
+    nl: "Kopers grachtenpand Amsterdam"
+    en: "Canal House Buyers, Amsterdam"
+  testimonial_2_text:
+    nl: "Als expat was ik nerveus over het kopen van een huis in Nederland, maar het team van Van der Berg maakte het proces soepel en begrijpelijk. Zeer aan te bevelen!"
+    en: "As an expat, I was nervous about buying a house in the Netherlands, but the Van der Berg team made the process smooth and understandable. Highly recommended!"
+  testimonial_2_name: "Sarah Johnson"
+  testimonial_2_role:
+    nl: "Expat koper in Rotterdam"
+    en: "Expat Buyer, Rotterdam"
+  testimonial_3_text:
+    nl: "Onze woning was binnen 3 weken verkocht, boven de vraagprijs. De professionele aanpak en het uitgebreide netwerk van Van der Berg maakten het verschil."
+    en: "Our property was sold within 3 weeks, above asking price. Van der Berg's professional approach and extensive network made the difference."
+  testimonial_3_name: "Jan & Petra Bakker"
+  testimonial_3_role:
+    nl: "Verkopers in Utrecht"
+    en: "Sellers, Utrecht"
+
+# CTA Banner (cta/cta_banner)
+cta/cta_banner:
+  title:
+    nl: "Klaar om uw droomwoning te vinden?"
+    en: "Ready to Find Your Dream Home?"
+  subtitle:
+    nl: "Maak vandaag nog een afspraak voor een vrijblijvend gesprek. Onze makelaars staan voor u klaar met persoonlijk advies."
+    en: "Schedule an appointment today for a no-obligation consultation. Our agents are ready to help you with personal advice."
+  button_text:
+    nl: "Plan een gesprek"
+    en: "Schedule a Meeting"
+  button_link: "/contact"
+  button_style: "primary"
+  secondary_button_text:
+    nl: "Bekijk aanbod"
+    en: "View Listings"
+  secondary_button_link: "/search/buy"
+  style: "primary"

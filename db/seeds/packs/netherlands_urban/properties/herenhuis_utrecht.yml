@@ -1,0 +1,52 @@
+# Elegant Townhouse in Utrecht
+reference: NL-HH-001
+prop_type: types.herenhuis
+prop_state: states.uitstekend
+
+# Location
+address: "Maliebaan 72"
+city: Utrecht
+region: Utrecht
+country: Netherlands
+postal_code: "3581 CV"
+latitude: 52.0907
+longitude: 5.1249
+
+# Property Details
+bedrooms: 6
+bathrooms: 4
+garages: 1
+constructed_area: 320
+plot_area: 450
+year_built: 1895
+
+# Sale Listing
+sale:
+  highlighted: true
+  price_cents: 189500000  # EUR 1,895,000
+  title:
+    nl: "Statig herenhuis aan de Maliebaan"
+    en: "Stately Townhouse on Maliebaan"
+  description:
+    nl: "Imposant herenhuis uit 1895 aan de prestigieuze Maliebaan. Dit rijksmonument combineert authentieke grandeur met modern comfort. Kenmerken zijn onder andere originele stucplafonds, marmeren vloeren, een majestueuze hal met oorspronkelijke trap en een prachtige ommuurde tuin. Volledig gerenoveerd met behoud van karakteristieke details. Zeldzame kans op een van de mooiste adressen van Utrecht."
+    en: "Imposing townhouse from 1895 on the prestigious Maliebaan. This listed building combines authentic grandeur with modern comfort. Features include original stucco ceilings, marble floors, a majestic hall with original staircase, and a beautiful walled garden. Fully renovated while preserving characteristic details. Rare opportunity on one of Utrecht's finest addresses."
+
+# Features
+features:
+  - features.tuin
+  - features.originele_details
+  - features.hoge_plafonds
+  - features.veel_licht
+  - features.parkeren
+  - features.berging
+  - amenities.cv_ketel
+  - amenities.vloerverwarming
+  - amenities.dubbel_glas
+  - amenities.alarmsysteem
+  - amenities.open_haard
+  - labels.rustige_straat
+  - labels.nabij_park
+  - labels.kindvriendelijk
+
+# Image
+image: utrecht_townhouse.jpg

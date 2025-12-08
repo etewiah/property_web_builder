@@ -1,0 +1,72 @@
+# About Us page content for Netherlands Urban pack
+
+# Main content (content_html)
+content_html:
+  main_content:
+    nl: |
+      <h2>Over Van der Berg Makelaars</h2>
+      <p>Sinds 1998 is Van der Berg Makelaars een gerenommeerd makelaarskantoor in het hart van Amsterdam. Wat begon als een klein familiebedrijf is uitgegroeid tot een toonaangevend kantoor met vestigingen in de belangrijkste Nederlandse steden.</p>
+      <p>Onze kracht ligt in de combinatie van diepgaande lokale marktkennis, persoonlijke benadering en moderne verkooptechnieken. Wij geloven dat het kopen of verkopen van een woning een van de belangrijkste beslissingen in iemands leven is, en daarom behandelen we elke klant met de zorg en aandacht die zij verdienen.</p>
+      <h3>Onze waarden</h3>
+      <ul>
+        <li><strong>Betrouwbaarheid</strong> - Wij staan voor transparante communicatie en eerlijk advies</li>
+        <li><strong>Expertise</strong> - Onze makelaars zijn NVM-gecertificeerd en volgen continue bijscholing</li>
+        <li><strong>Persoonlijke aanpak</strong> - Elke klant krijgt een vaste contactpersoon die de markt kent</li>
+        <li><strong>Resultaatgericht</strong> - Wij werken hard om het beste resultaat voor u te behalen</li>
+      </ul>
+    en: |
+      <h2>About Van der Berg Real Estate</h2>
+      <p>Since 1998, Van der Berg Real Estate has been a renowned agency in the heart of Amsterdam. What started as a small family business has grown into a leading agency with offices in the Netherlands' major cities.</p>
+      <p>Our strength lies in the combination of in-depth local market knowledge, personal approach, and modern sales techniques. We believe that buying or selling a home is one of the most important decisions in someone's life, which is why we treat every client with the care and attention they deserve.</p>
+      <h3>Our Values</h3>
+      <ul>
+        <li><strong>Reliability</strong> - We stand for transparent communication and honest advice</li>
+        <li><strong>Expertise</strong> - Our agents are NVM-certified and undergo continuous training</li>
+        <li><strong>Personal approach</strong> - Every client gets a dedicated contact person who knows the market</li>
+        <li><strong>Results-oriented</strong> - We work hard to achieve the best result for you</li>
+      </ul>
+
+# Team Grid (teams/team_grid)
+teams/team_grid:
+  section_title:
+    nl: "Maak kennis met ons team"
+    en: "Meet Our Team"
+  section_subtitle:
+    nl: "Ervaren professionals met passie voor vastgoed"
+    en: "Experienced professionals with a passion for real estate"
+  member_1_name: "Willem van der Berg"
+  member_1_role:
+    nl: "Directeur / Register Makelaar"
+    en: "Director / Licensed Agent"
+  member_1_bio:
+    nl: "Willem richtte Van der Berg Makelaars op in 1998. Met meer dan 30 jaar ervaring in de Amsterdamse vastgoedmarkt is hij een erkend expert op het gebied van monumentale panden en grachtwoningen."
+    en: "Willem founded Van der Berg Real Estate in 1998. With over 30 years of experience in the Amsterdam property market, he is a recognized expert in monumental properties and canal houses."
+  member_1_email: "willem@vanderbergmakelaars.nl"
+  member_1_image: "db/seeds/packs/netherlands_urban/images/team_director.jpg"
+  member_2_name: "Sophie Jansen"
+  member_2_role:
+    nl: "Senior Makelaar - Amsterdam"
+    en: "Senior Agent - Amsterdam"
+  member_2_bio:
+    nl: "Sophie is gespecialiseerd in de verkoop van appartementen en lofts in Amsterdam. Haar enthousiasme en gedegen marktkennis zorgen voor uitstekende resultaten voor haar klanten."
+    en: "Sophie specializes in selling apartments and lofts in Amsterdam. Her enthusiasm and thorough market knowledge ensure excellent results for her clients."
+  member_2_email: "sophie@vanderbergmakelaars.nl"
+  member_2_image: "db/seeds/packs/netherlands_urban/images/team_agent_female.jpg"
+  member_3_name: "Thomas de Groot"
+  member_3_role:
+    nl: "Makelaar - Expat Services"
+    en: "Agent - Expat Services"
+  member_3_bio:
+    nl: "Thomas begeleidt internationale klanten bij het vinden van hun perfecte woning in Nederland. Vloeiend in Nederlands, Engels en Duits."
+    en: "Thomas guides international clients in finding their perfect home in the Netherlands. Fluent in Dutch, English, and German."
+  member_3_email: "thomas@vanderbergmakelaars.nl"
+  member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
+  member_4_name: "Lisa Vermeer"
+  member_4_role:
+    nl: "Klantrelaties & Marketing"
+    en: "Client Relations & Marketing"
+  member_4_bio:
+    nl: "Lisa zorgt ervoor dat elke klant een uitstekende ervaring heeft en dat onze woningen optimaal worden gepresenteerd."
+    en: "Lisa ensures every client has an excellent experience and that our properties are presented optimally."
+  member_4_email: "lisa@vanderbergmakelaars.nl"
+  member_4_image: "db/seeds/packs/netherlands_urban/images/team_assistant.jpg"

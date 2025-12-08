@@ -1,0 +1,61 @@
+# Sell page content for Netherlands Urban pack
+
+# Main content (content_html)
+content_html:
+  main_content:
+    nl: |
+      <h2>Uw woning verkopen met Van der Berg Makelaars</h2>
+      <p>Het verkopen van uw woning is een belangrijke stap. Bij Van der Berg Makelaars combineren we jarenlange ervaring met moderne verkooptechnieken om het beste resultaat voor u te behalen.</p>
+      <h3>Onze verkoopaanpak</h3>
+      <p>Wij hanteren een bewezen strategie die bestaat uit:</p>
+      <ol>
+        <li><strong>Gratis waardebepaling</strong> - Een realistische schatting van de waarde van uw woning</li>
+        <li><strong>Professionele presentatie</strong> - Hoogwaardige fotografie, video tours en plattegronden</li>
+        <li><strong>Gerichte marketing</strong> - Publicatie op Funda, onze website en social media</li>
+        <li><strong>Bezichtigingen</strong> - Wij regelen en begeleiden alle bezichtigingen</li>
+        <li><strong>Onderhandeling</strong> - Deskundige onderhandeling voor de beste prijs</li>
+        <li><strong>Juridische begeleiding</strong> - Ondersteuning tot en met de notaris</li>
+      </ol>
+    en: |
+      <h2>Sell Your Property with Van der Berg Real Estate</h2>
+      <p>Selling your property is an important step. At Van der Berg Real Estate, we combine years of experience with modern sales techniques to achieve the best result for you.</p>
+      <h3>Our Sales Approach</h3>
+      <p>We use a proven strategy consisting of:</p>
+      <ol>
+        <li><strong>Free valuation</strong> - A realistic estimate of your property's value</li>
+        <li><strong>Professional presentation</strong> - High-quality photography, video tours, and floor plans</li>
+        <li><strong>Targeted marketing</strong> - Publication on Funda, our website, and social media</li>
+        <li><strong>Viewings</strong> - We arrange and guide all viewings</li>
+        <li><strong>Negotiation</strong> - Expert negotiation for the best price</li>
+        <li><strong>Legal guidance</strong> - Support up to and including the notary</li>
+      </ol>
+
+# FAQ Accordion (faqs/faq_accordion)
+faqs/faq_accordion:
+  section_title:
+    nl: "Veelgestelde vragen over verkopen"
+    en: "Frequently Asked Questions About Selling"
+  faq_1_question:
+    nl: "Wat zijn de kosten voor een makelaar?"
+    en: "What are the costs for an agent?"
+  faq_1_answer:
+    nl: "Onze courtage bedraagt gemiddeld 1-1,5% van de verkoopprijs, inclusief alle marketing- en administratiekosten. Wij werken op basis van no cure, no pay."
+    en: "Our commission averages 1-1.5% of the sale price, including all marketing and administrative costs. We work on a no cure, no pay basis."
+  faq_2_question:
+    nl: "Hoe lang duurt het om een woning te verkopen?"
+    en: "How long does it take to sell a property?"
+  faq_2_answer:
+    nl: "Dit hangt af van de locatie en prijsklasse. In populaire steden als Amsterdam verkopen woningen vaak binnen 2-4 weken. Wij houden u gedurende het hele proces op de hoogte."
+    en: "This depends on location and price range. In popular cities like Amsterdam, properties often sell within 2-4 weeks. We keep you informed throughout the entire process."
+  faq_3_question:
+    nl: "Wat is mijn woning waard?"
+    en: "What is my property worth?"
+  faq_3_answer:
+    nl: "Wij bieden een gratis en vrijblijvende waardebepaling aan. Een van onze makelaars komt bij u langs om de woning te bekijken en geeft een onderbouwde schatting van de marktwaarde."
+    en: "We offer a free, no-obligation valuation. One of our agents will visit you to view the property and provide a substantiated estimate of the market value."
+  faq_4_question:
+    nl: "Moet ik mijn huis opknappen voor de verkoop?"
+    en: "Do I need to renovate my house before selling?"
+  faq_4_answer:
+    nl: "Niet noodzakelijk. Wij adviseren u welke kleine aanpassingen eventueel kunnen helpen bij de verkoop. Soms is een likje verf voldoende, soms is het beter om de woning 'as is' te verkopen."
+    en: "Not necessarily. We advise you on which small adjustments might help with the sale. Sometimes a fresh coat of paint is enough, sometimes it's better to sell the property 'as is'."

@@ -1,0 +1,77 @@
+# Netherlands Urban Real Estate Seed Pack
+#
+# Scenario: A popular estate agency based in the Netherlands
+# specializing in city apartments and houses across major Dutch cities.
+#
+# Target Market: Local Dutch buyers and international expats
+# looking for properties in Amsterdam, Rotterdam, Utrecht, and The Hague.
+
+name: netherlands_urban
+display_name: "Dutch Urban Real Estate"
+description: "Popular estate agent specializing in city apartments and houses across the Netherlands"
+version: "1.0"
+
+# Inherit base navigation and field keys
+inherits_from: base
+
+# Website Configuration
+website:
+  theme_name: bristol
+  default_client_locale: nl
+  supported_locales:
+    - nl
+    - en
+  country: Netherlands
+  currency: EUR
+  area_unit: sqm
+
+# Agency Configuration
+agency:
+  display_name: "Van der Berg Makelaars"
+  email: "info@vanderbergmakelaars.nl"
+  phone: "+31 20 123 4567"
+  address:
+    street_address: "Herengracht 450"
+    city: Amsterdam
+    region: Noord-Holland
+    country: Netherlands
+    postal_code: "1017 CA"
+
+# Page Parts - which page part templates to use for each page
+page_parts:
+  home:
+    - key: heroes/hero_centered
+      order: 1
+    - key: features/feature_grid_3col
+      order: 2
+    - key: stats/stats_counter
+      order: 3
+    - key: testimonials/testimonial_carousel
+      order: 4
+    - key: cta/cta_banner
+      order: 5
+  about-us:
+    - key: content_html
+      order: 1
+    - key: teams/team_grid
+      order: 2
+  sell:
+    - key: content_html
+      order: 1
+    - key: faqs/faq_accordion
+      order: 2
+  contact-us:
+    - key: cta/cta_split_image
+      order: 1
+    - key: contactUsFormAndMap
+      order: 2
+
+# Users
+users:
+  - email: admin@vanderbergmakelaars.nl
+    role: admin
+    password: demo123
+
+  - email: agent@vanderbergmakelaars.nl
+    role: agent
+    password: demo123

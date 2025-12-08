@@ -1,0 +1,48 @@
+# Elegant Apartment in The Hague
+reference: NL-APT-001
+prop_type: types.bovenwoning
+prop_state: states.goed
+
+# Location
+address: "Lange Voorhout 25"
+city: Den Haag
+region: Zuid-Holland
+country: Netherlands
+postal_code: "2514 EB"
+latitude: 52.0832
+longitude: 4.3132
+
+# Property Details
+bedrooms: 4
+bathrooms: 2
+garages: 0
+constructed_area: 165
+plot_area: 0
+year_built: 1760
+
+# Sale Listing
+sale:
+  highlighted: false
+  price_cents: 112500000  # EUR 1,125,000
+  title:
+    nl: "Karakteristiek appartement aan het Lange Voorhout"
+    en: "Character Apartment on Lange Voorhout"
+  description:
+    nl: "Sfeervolle bovenwoning in monumentaal pand aan een van de mooiste pleinen van Nederland. Dit ruime appartement op de eerste en tweede verdieping biedt uitzicht over de historische lindebomen van het Lange Voorhout. Met authentieke details zoals schouwen, en-suite deuren en origineel stucwerk. Op loopafstand van het Binnenhof, musea en winkelgebied. Een unieke woonkans in het diplomatieke hart van Den Haag."
+    en: "Atmospheric upper-floor apartment in a monumental building on one of the Netherlands' most beautiful squares. This spacious apartment spanning first and second floors offers views over the historic linden trees of Lange Voorhout. Features authentic details including fireplaces, pocket doors, and original stucco work. Walking distance to Binnenhof, museums, and shopping area. A unique living opportunity in the diplomatic heart of The Hague."
+
+# Features
+features:
+  - features.stadszicht
+  - features.originele_details
+  - features.hoge_plafonds
+  - features.veel_licht
+  - features.berging
+  - amenities.cv_ketel
+  - amenities.dubbel_glas
+  - amenities.open_haard
+  - labels.centrum
+  - labels.nabij_ov
+
+# Image
+image: denhaag_apartment.jpg

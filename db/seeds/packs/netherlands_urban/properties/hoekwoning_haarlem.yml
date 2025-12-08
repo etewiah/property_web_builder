@@ -1,0 +1,50 @@
+# Corner House in Haarlem
+reference: NL-HW-001
+prop_type: types.hoekwoning
+prop_state: states.uitstekend
+
+# Location
+address: "Kennemerplein 15"
+city: Haarlem
+region: Noord-Holland
+country: Netherlands
+postal_code: "2011 MJ"
+latitude: 52.3831
+longitude: 4.6363
+
+# Property Details
+bedrooms: 5
+bathrooms: 2
+garages: 1
+constructed_area: 200
+plot_area: 180
+year_built: 1920
+
+# Sale Listing
+sale:
+  highlighted: false
+  price_cents: 97500000  # EUR 975,000
+  title:
+    nl: "Ruime hoekwoning nabij centrum Haarlem"
+    en: "Spacious Corner House near Haarlem Center"
+  description:
+    nl: "Karaktervolle hoekwoning uit 1920 op loopafstand van het historische centrum van Haarlem. Deze royale gezinswoning biedt veel ruimte en licht door de hoekligging met ramen aan drie zijden. De woning beschikt over een zonnige achtertuin, garage en ruime zolder. Recent gemoderniseerd met behoud van originele elementen zoals glas-in-lood ramen en paneeldeuren. Perfecte combinatie van stad en rust."
+    en: "Characterful corner house from 1920 within walking distance of historic Haarlem center. This generous family home offers plenty of space and light due to its corner position with windows on three sides. The property features a sunny rear garden, garage, and spacious attic. Recently modernized while preserving original elements such as stained glass windows and panel doors. Perfect combination of city and tranquility."
+
+# Features
+features:
+  - features.tuin
+  - features.originele_details
+  - features.hoge_plafonds
+  - features.veel_licht
+  - features.parkeren
+  - features.berging
+  - amenities.cv_ketel
+  - amenities.dubbel_glas
+  - amenities.open_haard
+  - labels.rustige_straat
+  - labels.nabij_ov
+  - labels.kindvriendelijk
+
+# Image
+image: haarlem_corner_house.jpg

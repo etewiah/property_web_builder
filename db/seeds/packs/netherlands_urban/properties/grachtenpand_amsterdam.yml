@@ -1,0 +1,49 @@
+# Historic Canal House in Amsterdam
+reference: NL-GRA-001
+prop_type: types.grachtenpand
+prop_state: states.gerenoveerd
+
+# Location
+address: "Keizersgracht 324"
+city: Amsterdam
+region: Noord-Holland
+country: Netherlands
+postal_code: "1016 EZ"
+latitude: 52.3702
+longitude: 4.8872
+
+# Property Details
+bedrooms: 5
+bathrooms: 3
+garages: 0
+constructed_area: 280
+plot_area: 0
+year_built: 1685
+
+# Sale Listing
+sale:
+  highlighted: true
+  price_cents: 249500000  # EUR 2,495,000
+  title:
+    nl: "Monumentaal grachtenpand aan de Keizersgracht"
+    en: "Monumental Canal House on Keizersgracht"
+  description:
+    nl: "Prachtig gerestaureerd grachtenpand uit 1685 met behoud van authentieke details. Dit monumentale pand beschikt over originele houten balken, marmeren schoorsteenmantels en een karakteristieke kelderkeuken. De woning strekt zich uit over vier verdiepingen met een groot dakterras dat uitzicht biedt over de grachten. Gelegen in het hart van de grachtengordel, een UNESCO Werelderfgoed locatie."
+    en: "Beautifully restored canal house from 1685 preserving authentic details. This monumental property features original wooden beams, marble fireplaces, and a characteristic basement kitchen. The home spans four floors with a large roof terrace overlooking the canals. Located in the heart of the canal ring, a UNESCO World Heritage site."
+
+# Features
+features:
+  - features.grachtzicht
+  - features.dakterras
+  - features.originele_details
+  - features.hoge_plafonds
+  - features.veel_licht
+  - features.berging
+  - amenities.cv_ketel
+  - amenities.dubbel_glas
+  - amenities.open_haard
+  - labels.centrum
+  - labels.aan_water
+
+# Image
+image: amsterdam_canal_house.jpg

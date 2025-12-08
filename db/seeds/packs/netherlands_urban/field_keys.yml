@@ -1,0 +1,176 @@
+# Netherlands Urban Field Keys
+# Property types, states, features, and amenities specific to Dutch urban market
+
+# Property Types (extending base)
+types:
+  grachtenpand:
+    nl: Grachtenpand
+    en: Canal House
+  herenhuis:
+    nl: Herenhuis
+    en: Townhouse
+  bovenwoning:
+    nl: Bovenwoning
+    en: Upper Floor Apartment
+  benedenwoning:
+    nl: Benedenwoning
+    en: Ground Floor Apartment
+  penthouse:
+    nl: Penthouse
+    en: Penthouse
+  loft:
+    nl: Loft
+    en: Loft
+  maisonnette:
+    nl: Maisonnette
+    en: Maisonette
+  eengezinswoning:
+    nl: Eengezinswoning
+    en: Family House
+  hoekwoning:
+    nl: Hoekwoning
+    en: Corner House
+  tussenwoning:
+    nl: Tussenwoning
+    en: Mid-Terrace House
+  vrijstaand:
+    nl: Vrijstaande woning
+    en: Detached House
+  nieuwbouw:
+    nl: Nieuwbouw
+    en: New Build
+
+# Property States
+states:
+  nieuw:
+    nl: Nieuwbouw
+    en: New Build
+  uitstekend:
+    nl: Uitstekend
+    en: Excellent
+  goed:
+    nl: Goed onderhouden
+    en: Well Maintained
+  gerenoveerd:
+    nl: Recent gerenoveerd
+    en: Recently Renovated
+  opknapper:
+    nl: Opknapper
+    en: Needs Renovation
+  monument:
+    nl: Monumentaal pand
+    en: Listed Building
+
+# Features - Dutch specific
+features:
+  grachtzicht:
+    nl: Grachtzicht
+    en: Canal View
+  stadszicht:
+    nl: Stadszicht
+    en: City View
+  tuin:
+    nl: Tuin
+    en: Garden
+  dakterras:
+    nl: Dakterras
+    en: Roof Terrace
+  balkon:
+    nl: Balkon
+    en: Balcony
+  patio:
+    nl: Patio
+    en: Patio
+  parkeren:
+    nl: Parkeergelegenheid
+    en: Parking
+  fietsenstalling:
+    nl: Fietsenstalling
+    en: Bicycle Storage
+  berging:
+    nl: Berging
+    en: Storage Room
+  originele_details:
+    nl: Originele details
+    en: Original Period Features
+  hoge_plafonds:
+    nl: Hoge plafonds
+    en: High Ceilings
+  veel_licht:
+    nl: Veel lichtinval
+    en: Abundant Natural Light
+  open_keuken:
+    nl: Open keuken
+    en: Open Kitchen
+
+# Amenities
+amenities:
+  cv_ketel:
+    nl: CV-ketel
+    en: Central Heating Boiler
+  vloerverwarming:
+    nl: Vloerverwarming
+    en: Underfloor Heating
+  airco:
+    nl: Airconditioning
+    en: Air Conditioning
+  lift:
+    nl: Lift
+    en: Elevator
+  mechanische_ventilatie:
+    nl: Mechanische ventilatie
+    en: Mechanical Ventilation
+  zonnepanelen:
+    nl: Zonnepanelen
+    en: Solar Panels
+  warmtepomp:
+    nl: Warmtepomp
+    en: Heat Pump
+  dubbel_glas:
+    nl: Dubbel glas
+    en: Double Glazing
+  hr_glas:
+    nl: HR++ glas
+    en: Triple Glazing
+  alarmsysteem:
+    nl: Alarmsysteem
+    en: Alarm System
+  videofoon:
+    nl: Videofoon
+    en: Video Intercom
+  buitenzonwering:
+    nl: Buitenzonwering
+    en: External Sun Shading
+  jacuzzi:
+    nl: Jacuzzi
+    en: Jacuzzi
+  sauna:
+    nl: Sauna
+    en: Sauna
+  open_haard:
+    nl: Open haard
+    en: Fireplace
+  energielabel_a:
+    nl: Energielabel A
+    en: Energy Label A
+
+# Location Labels
+labels:
+  centrum:
+    nl: Centrum
+    en: City Center
+  aan_water:
+    nl: Aan het water
+    en: Waterside Location
+  rustige_straat:
+    nl: Rustige straat
+    en: Quiet Street
+  nabij_ov:
+    nl: Nabij openbaar vervoer
+    en: Near Public Transport
+  nabij_park:
+    nl: Nabij park
+    en: Near Park
+  kindvriendelijk:
+    nl: Kindvriendelijke buurt
+    en: Family-Friendly Area
