@@ -23,7 +23,7 @@ website:
     - en
   country: Netherlands
   currency: EUR
-  area_unit: sqm
+  area_unit: sqmt
 
 # Agency Configuration
 agency:

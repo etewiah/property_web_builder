@@ -17,4 +17,4 @@ website:
   supported_locales:
     - en
   currency: EUR
-  area_unit: sqm
+  area_unit: sqmt

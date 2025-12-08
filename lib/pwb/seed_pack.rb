@@ -218,14 +218,14 @@ module Pwb
       agency.assign_attributes(
         display_name: agency_config[:display_name],
         email_primary: agency_config[:email],
-        phone_primary: agency_config[:phone]
+        phone_number_primary: agency_config[:phone]
       )
       agency.save!
 
       # Seed agency address if provided
       if agency_config[:address]
         addr = agency_config[:address]
-        address = agency.addresses.first || agency.addresses.build
+        address = agency.primary_address || Pwb::Address.new
         address.assign_attributes(
           city: addr[:city],
           region: addr[:region],
@@ -234,6 +234,7 @@ module Pwb
           street_address: addr[:street_address]
         )
         address.save!
+        agency.update!(primary_address: address) unless agency.primary_address_id == address.id
       end
 
       log "  Agency: #{agency.display_name}", :detail
@@ -245,14 +246,46 @@ module Pwb
 
       log "Seeding field keys...", :info
 
-      field_keys = YAML.safe_load(File.read(field_keys_file), symbolize_names: true) || []
+      data = YAML.safe_load(File.read(field_keys_file), symbolize_names: true) || {}
       count = 0
 
-      field_keys.each do |fk|
-        existing = Pwb::FieldKey.find_by(field_key: fk[:field_key])
-        unless existing
-          Pwb::FieldKey.create!(fk.merge(pwb_website_id: @website.id))
-          count += 1
+      # Handle both legacy list format and new nested hash format
+      if data.is_a?(Array)
+        data.each do |fk|
+          existing = Pwb::FieldKey.find_by(global_key: fk[:global_key] || fk[:field_key], pwb_website_id: @website.id)
+          unless existing
+            # Handle legacy key name
+            fk[:global_key] ||= fk.delete(:field_key)
+            Pwb::FieldKey.create!(fk.merge(pwb_website_id: @website.id))
+            count += 1
+          end
+        end
+      elsif data.is_a?(Hash)
+        # Map YAML categories to DB tags
+        category_map = {
+          types: 'property-types',
+          states: 'property-states',
+          features: 'property-features',
+          amenities: 'property-amenities',
+          extras: 'property-features'
+        }
+
+        data.each do |category, keys|
+          tag = category_map[category] || "property-#{category}"
+          
+          keys.each do |key_name, translations|
+            # Create FieldKey record
+            existing = Pwb::FieldKey.find_by(global_key: key_name.to_s, pwb_website_id: @website.id)
+            unless existing
+              Pwb::FieldKey.create!(
+                global_key: key_name.to_s,
+                tag: tag,
+                pwb_website_id: @website.id,
+                visible: true
+              )
+              count += 1
+            end
+          end
         end
       end
 

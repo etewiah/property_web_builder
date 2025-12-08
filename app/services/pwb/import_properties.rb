@@ -1,3 +1,5 @@
+require 'csv'
+
 module Pwb
   class ImportProperties
     attr_accessor :csv_file

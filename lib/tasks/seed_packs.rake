@@ -67,6 +67,7 @@ namespace :pwb do
 
     desc "Apply a seed pack to a website"
     task :apply, [:pack_name, :website_id] => :environment do |_t, args|
+      puts "DEBUG: Starting apply task"
       require_relative '../pwb/seed_pack'
 
       pack_name = args[:pack_name]
@@ -88,7 +89,7 @@ namespace :pwb do
       website = if website_id.present?
                   Pwb::Website.find(website_id)
                 else
-                  Pwb::Website.unique_instance
+                  Pwb::Website.first
                 end
 
       if website.nil?
@@ -134,7 +135,7 @@ namespace :pwb do
         options[opt.strip.to_sym] = true
       end
 
-      website = Pwb::Website.unique_instance
+      website = Pwb::Website.first
 
       puts "\nApplying Seed Pack: #{pack.display_name}"
       puts "Options: #{options.keys.join(', ')}" if options.any?
@@ -180,7 +181,7 @@ namespace :pwb do
       Pwb::Content.destroy_all
       Pwb::Link.destroy_all
 
-      website = Pwb::Website.unique_instance
+      website = Pwb::Website.first
 
       puts "Applying seed pack: #{pack.display_name}"
       pack.apply!(website: website)
