@@ -69,7 +69,7 @@ RSpec.describe Pwb::LiquidTags::PagePartTag do
     context "without page part in database" do
       before do
         allow(Pwb::PagePartLibrary).to receive(:template_path)
-          .with("heroes/hero_centered")
+          .with("nonexistent/part")
           .and_return(nil)
       end
 

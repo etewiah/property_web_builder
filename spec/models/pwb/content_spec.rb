@@ -1,11 +1,13 @@
-# require 'rails_helper'
-require 'spec_helper'
+require 'rails_helper'
 
 module Pwb
   RSpec.describe Content, type: :model do
-    # pending "add some examples to (or delete) #{__FILE__}"
-    let(:content) { FactoryBot.create(:pwb_content) }
-    # create(:alchemy_element, name: 'headline', create_contents_after_create: true) }
+    let(:website) { FactoryBot.create(:pwb_website) }
+    let(:content) do
+      ActsAsTenant.with_tenant(website) do
+        FactoryBot.create(:pwb_content, website: website)
+      end
+    end
 
     it 'has a valid factory' do
       expect(content).to be_valid

@@ -392,7 +392,9 @@ module Pwb
 
       it '#contextual_show_path returns route path' do
         path = property.contextual_show_path('for_sale')
-        expect(path).to include(property.id)
+        # Path includes url_friendly_title instead of UUID
+        expect(path).to include('test-property-title')
+        expect(path).to include('for-sale')
       end
     end
 

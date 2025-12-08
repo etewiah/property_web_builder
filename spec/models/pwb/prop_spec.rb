@@ -324,7 +324,7 @@ module Pwb
                             for_sale: true,
                             for_rent_long_term: true,
                             price_sale_current_cents: 500_000_00,
-                            price_rental_monthly_for_search_cents: 1_500_00)
+                            price_rental_monthly_current_cents: 1_500_00)
         end
       end
 

@@ -3,24 +3,19 @@ require "rails_helper"
 RSpec.describe "pwb/pages/show", type: :view do
   include Pwb::ApplicationHelper
 
+  let(:website) { FactoryBot.create(:pwb_website) }
+
   before(:each) do
-    # @website = FactoryBot.create(:pwb_website)
-    # view.extend below will not work in a before(:all) block
     view.extend Pwb::ApplicationHelper
-    # https://github.com/rspec/rspec-rails/issues/396
-    # https://stackoverflow.com/questions/19282240/rspec-view-tests-cant-find-partials-that-are-in-base-namespace
-    # can use below to test other views
-    # view.lookup_context.view_paths.push 'app/themes/berlin/views/'
-    @controller.prepend_view_path "#{Rails.root}/app/themes/berlin/views/"
-    @page = FactoryBot.create(:pwb_page)
+    @controller.prepend_view_path "#{Rails.root}/app/themes/default/views/"
 
-    # in some test runs a whole load of  Pwb::Link model objects are getting created....  - not sure from where
-    # but in others they don't exist so need to add below
+    ActsAsTenant.with_tenant(website) do
+      @page = FactoryBot.create(:pwb_page, website: website)
+    end
+
     allow(@page.main_link).to receive("link_title").and_return("hello")
-    # main_link = double(:main_link, link_title: "hello")
-
-    # assign(:current_agency, FactoryBot.create(:pwb_agency, company_name: 'my re'))
     assign(:content_to_show, [])
+    assign(:page_contents_for_edit, [])
   end
 
   it "renders content for page successfully" do

@@ -35,9 +35,9 @@ module Pwb
     end
 
     it 'sets theme_name correctly if valid_name is provided' do
-      website.theme_name = "berlin"
+      website.theme_name = "brisbane"
       website.save!
-      expect(website.theme_name).to eq("berlin")
+      expect(website.theme_name).to eq("brisbane")
     end
   end
 end

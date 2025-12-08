@@ -141,12 +141,12 @@ module Pwb
       let(:realty_asset2) { create(:pwb_realty_asset, website: website) }
 
       describe 'only one active listing per realty asset' do
-        it 'allows only one active listing per realty asset' do
+        it 'allows only one active listing per realty asset via activate! method' do
           listing1 = create(:pwb_sale_listing, realty_asset: realty_asset, active: true)
-          listing2 = build(:pwb_sale_listing, realty_asset: realty_asset, active: true)
+          listing2 = create(:pwb_sale_listing, realty_asset: realty_asset, active: false)
 
-          # When saving listing2 with active: true, it should deactivate listing1
-          listing2.save!
+          # Use activate! method to properly handle deactivation of other listings
+          listing2.activate!
           listing1.reload
 
           expect(listing1).not_to be_active
@@ -247,7 +247,8 @@ module Pwb
       describe '.not_archived scope' do
         it 'returns only non-archived listings' do
           non_archived = create(:pwb_sale_listing, realty_asset: realty_asset, archived: false)
-          archived = create(:pwb_sale_listing, realty_asset: realty_asset2, archived: true)
+          # Archived listings must have active: false to avoid callback unarchiving them
+          archived = create(:pwb_sale_listing, realty_asset: realty_asset2, archived: true, active: false)
 
           expect(SaleListing.not_archived).to include(non_archived)
           expect(SaleListing.not_archived).not_to include(archived)

@@ -5,21 +5,19 @@ RSpec.describe "pwb/welcome/index", type: :view do
   include Pwb::ImagesHelper
   include Pwb::ComponentHelper
 
+  let(:website) { FactoryBot.create(:pwb_website) }
+
   before do
     view.extend Pwb::ApplicationHelper
     view.extend Pwb::ImagesHelper
     view.extend Pwb::ComponentHelper
-    # @current_website = FactoryBot.create(:pwb_website)
-    @page = FactoryBot.create(:page_with_content_html_page_part,
-                              slug: "home")
-    # @page_content = FactoryBot.create(:pwb_content, :main_content)
-    # factorygirl ensures unique_instance of website is used
 
-    # ActionController::Base.prepend_view_path "#{Rails.root}/app/themes/default/views/"
-    # replaced above in spec_helper with below
+    ActsAsTenant.with_tenant(website) do
+      @page = FactoryBot.create(:page_with_content_html_page_part,
+                                slug: "home", website: website)
+    end
+
     @controller.prepend_view_path "#{Rails.root}/app/themes/default/views/"
-
-    # assign(:current_agency, Pwb::Agency.unique_instance)
 
     assign(:properties_for_sale, [])
     assign(:properties_for_rent, [])

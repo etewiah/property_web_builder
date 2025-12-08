@@ -16,15 +16,11 @@ RSpec.describe 'TenantAdmin::Props', type: :request do
 
   describe 'GET /tenant_admin/props' do
     let!(:prop_a) do
-      ActsAsTenant.with_tenant(website_a) do
-        create(:pwb_prop, :sale, website: website_a, title_en: 'Property Alpha', reference: 'REF-001')
-      end
+      create(:pwb_realty_asset, website: website_a, title: 'Property Alpha', reference: 'REF-001')
     end
 
     let!(:prop_b) do
-      ActsAsTenant.with_tenant(website_b) do
-        create(:pwb_prop, :sale, website: website_b, title_en: 'Property Beta', reference: 'REF-002')
-      end
+      create(:pwb_realty_asset, website: website_b, title: 'Property Beta', reference: 'REF-002')
     end
 
     it 'returns a list of all properties across tenants' do
@@ -54,9 +50,7 @@ RSpec.describe 'TenantAdmin::Props', type: :request do
 
   describe 'GET /tenant_admin/props/:id' do
     let!(:target_prop) do
-      ActsAsTenant.with_tenant(website_a) do
-        create(:pwb_prop, :sale, website: website_a, title_en: 'Target Property', reference: 'TARGET-001')
-      end
+      create(:pwb_realty_asset, website: website_a, title: 'Target Property', reference: 'TARGET-001')
     end
 
     it 'shows property details' do

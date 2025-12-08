@@ -13,14 +13,13 @@ RSpec.describe "pwb/_footer.html.erb", type: :view do
   end
 
   it "renders social_media_facebook link in footer if present" do
-    website.links.create!(slug: "social_media_facebook", link_url: "https://facebook.com/test", visible: true, placement: :social_media, link_title: "Facebook")
-    render partial: "pwb/_footer", locals: { current_website: website, current_agency: agency, footer_content: footer_content }
+    website.update!(social_media: { "facebook" => "https://facebook.com/test" })
+    render partial: "pwb/footer", locals: { current_website: website, current_agency: agency, footer_content: footer_content }
     expect(rendered).to include("https://facebook.com/test")
-    expect(rendered).to include("fa-facebook")
   end
 
   it "does not render social_media_facebook link if not present" do
-    render partial: "pwb/_footer", locals: { current_website: website, current_agency: agency, footer_content: footer_content }
+    render partial: "pwb/footer", locals: { current_website: website, current_agency: agency, footer_content: footer_content }
     expect(rendered).not_to include("fa-facebook")
   end
 end

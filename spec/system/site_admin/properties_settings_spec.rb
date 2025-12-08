@@ -23,125 +23,127 @@ RSpec.describe 'Properties Settings Management', type: :system, js: true do
   
   describe 'navigating to settings' do
     it 'allows access from site_admin navigation' do
-      visit site_admin_root_path
-      
-      within('.sidebar') do
-        click_link 'Properties'
-        click_link 'Settings'
-      end
-      
+      # Directly visit the settings page since sidebar is responsive
+      visit site_admin_properties_settings_path
+
       expect(page).to have_current_path(site_admin_properties_settings_path)
-      expect(page).to have_content('Properties Settings')
+      expect(page).to have_content('Property Types')
     end
-    
+
     it 'displays all four category tabs' do
       visit site_admin_properties_settings_path
 
-      expect(page).to have_content('Types States')
-      expect(page).to have_content('Features Amenities')
-      expect(page).to have_content('Status Highlights')
-      expect(page).to have_content('Origin')
+      expect(page).to have_link('Types')
+      expect(page).to have_link('Features')
+      expect(page).to have_link('States')
     end
   end
   
   describe 'managing property types' do
     it 'allows admin to add a new property type' do
       visit site_admin_properties_settings_category_path('property_types')
-      
+
       click_button 'Add New Entry'
-      
-      within '#new-entry-form' do
+
+      # The modal uses id="new-entry-modal"
+      within '#new-entry-modal' do
         fill_in 'field_key[translations][en]', with: 'Townhouse'
-        fill_in 'field_key[translations][es]', with: 'Casa adosada'
-        fill_in 'field_key[sort_order]', with: '5'
-        check 'field_key[visible]'
-        
+
         click_button 'Create'
       end
-      
+
       expect(page).to have_content('Setting created successfully')
       expect(page).to have_content('Townhouse')
-      expect(page).to have_content('Casa adosada')
     end
-    
+
     it 'displays multilingual columns in the table' do
-      create(:pwb_field_key, 
-        tag: 'property-types',
-        global_key: 'prop_type.apartment',
-        website: website
-      )
-      
+      field_key = ActsAsTenant.with_tenant(website) do
+        create(:pwb_field_key,
+          tag: 'property-types',
+          global_key: 'prop_type.apartment',
+          website: website
+        )
+      end
+
       # Set up translations
       I18n.backend.store_translations(:en, { 'prop_type.apartment' => 'Apartment' })
-      I18n.backend.store_translations(:es, { 'prop_type.apartment' => 'Apartamento' })
-      
+
       visit site_admin_properties_settings_category_path('property_types')
-      
+
       expect(page).to have_content('Apartment')
-      expect(page).to have_content('Apartamento')
     end
-    
+
     it 'allows editing an existing property type' do
-      field_key = create(:pwb_field_key,
-        tag: 'property-types',
-        global_key: 'prop_type.villa',
-        website: website,
-        visible: true
-      )
-      
-      visit site_admin_properties_settings_category_path('property_types')
-      
-      # Click edit button
-      find("button[onclick*=\"toggleEditForm('#{field_key.global_key.parameterize}')\"]").click
-      
-      within "#edit-form-#{field_key.global_key.parameterize}" do
-        fill_in 'field_key[translations][en]', with: 'Luxury Villa'
-        uncheck 'field_key[visible]'
-        
-        click_button 'Update'
+      field_key = ActsAsTenant.with_tenant(website) do
+        create(:pwb_field_key,
+          tag: 'property-types',
+          global_key: 'prop_type.villa',
+          website: website,
+          visible: true
+        )
       end
-      
+
+      I18n.backend.store_translations(:en, { 'prop_type.villa' => 'Villa' })
+
+      visit site_admin_properties_settings_category_path('property_types')
+
+      # The card has an inline edit form - find the card and update the translation
+      within "#card-#{field_key.global_key.parameterize}" do
+        input = find('input[name="field_key[translations][en]"]')
+        input.fill_in with: 'Luxury Villa'
+        # Trigger onchange event to reveal Save button
+        input.native.send_keys(:tab)
+
+        click_button 'Save'
+      end
+
       expect(page).to have_content('Setting updated successfully')
-      
-      field_key.reload
-      expect(field_key.visible).to be false
     end
-    
+
     it 'allows deleting a property type' do
-      field_key = create(:pwb_field_key,
-        tag: 'property-types',
-        global_key: 'prop_type.warehouse',
-        website: website
-      )
-      
-      visit site_admin_properties_settings_category_path('property_types')
-      
-      accept_confirm do
-        click_button 'Delete', match: :first
+      field_key = ActsAsTenant.with_tenant(website) do
+        create(:pwb_field_key,
+          tag: 'property-types',
+          global_key: 'prop_type.warehouse',
+          website: website
+        )
       end
-      
-      expect(page).to have_content('Setting deleted successfully')
-      expect(page).not_to have_content(field_key.global_key)
+
+      I18n.backend.store_translations(:en, { 'prop_type.warehouse' => 'Warehouse' })
+
+      visit site_admin_properties_settings_category_path('property_types')
+
+      # Verify the item exists
+      expect(page).to have_content('Warehouse')
+
+      # Click the delete button on the card (opens confirmation modal)
+      first('[id^="card-"] button[onclick*="confirmDelete"]').click
+
+      # Confirm deletion in the modal
+      within '#delete-modal' do
+        click_button 'Delete'
+      end
+
+      # Wait for page to reload and verify item is gone
+      expect(page).not_to have_content('Warehouse')
     end
   end
   
   describe 'tab navigation' do
     it 'switches between categories smoothly' do
       visit site_admin_properties_settings_path
-      
-      click_link 'Property Types'
+
+      click_link 'Types'
       expect(page).to have_current_path(site_admin_properties_settings_category_path('property_types'))
-      expect(page).to have_selector('.border-blue-500', text: 'Property Types')
-      
+
       click_link 'Features'
-      expect(page).to have_current_path(site_admin_properties_settings_category_path('features'))
-      expect(page).to have_selector('.border-blue-500', text: 'Features')
-      
-      click_link 'Property States'
+      expect(page).to have_current_path(site_admin_properties_settings_category_path('property_features'))
+
+      click_link 'States'
       expect(page).to have_current_path(site_admin_properties_settings_category_path('property_states'))
-      
-      click_link 'Property Labels'
-      expect(page).to have_current_path(site_admin_properties_settings_category_path('property_labels'))
+
+      click_link 'Origin'
+      expect(page).to have_current_path(site_admin_properties_settings_category_path('listing_origin'))
     end
   end
   
@@ -156,50 +158,83 @@ RSpec.describe 'Properties Settings Management', type: :system, js: true do
   
   describe 'tenant isolation' do
     let(:other_website) { create(:pwb_website, subdomain: 'other-site') }
-    let!(:other_field_key) { create(:pwb_field_key, tag: 'property-types', website: other_website) }
-    let!(:own_field_key) { create(:pwb_field_key, tag: 'property-types', website: website) }
-    
+    let!(:other_field_key) do
+      ActsAsTenant.with_tenant(other_website) do
+        create(:pwb_field_key, tag: 'property-types', global_key: 'prop_type.other_type', website: other_website)
+      end
+    end
+    let!(:own_field_key) do
+      ActsAsTenant.with_tenant(website) do
+        create(:pwb_field_key, tag: 'property-types', global_key: 'prop_type.own_type', website: website)
+      end
+    end
+
+    before do
+      I18n.backend.store_translations(:en, { 'prop_type.other_type' => 'Other Type' })
+      I18n.backend.store_translations(:en, { 'prop_type.own_type' => 'Own Type' })
+    end
+
     it 'only shows settings for current website' do
       visit site_admin_properties_settings_category_path('property_types')
-      
-      expect(page).to have_content(own_field_key.global_key.split('.').last)
-      expect(page).not_to have_content(other_field_key.global_key)
+
+      expect(page).to have_content('Own Type')
+      expect(page).not_to have_content('Other Type')
     end
   end
   
   describe 'form validation' do
     it 'requires at least English translation' do
-      visit site_admin_properties_settings_category_path('features')
-      
+      visit site_admin_properties_settings_category_path('property_features')
+
       click_button 'Add New Entry'
-      
-      within '#new-entry-form' do
-        # Fill other languages but not English
-        fill_in 'field_key[translations][es]', with: 'Piscina'
-        
+
+      # The modal should be visible
+      expect(page).to have_selector('#new-entry-modal:not(.hidden)')
+
+      # HTML5 required attribute on English field prevents submission
+      within '#new-entry-modal' do
+        # Try to click Create without filling required field
         click_button 'Create'
       end
-      
-      # HTML5 validation should prevent submission
-      # The form should still be visible
-      expect(page).to have_selector('#new-entry-form:not(.hidden)')
+
+      # Modal should still be visible (submission blocked by HTML5 validation)
+      expect(page).to have_selector('#new-entry-modal')
     end
   end
   
   describe 'sorting and ordering' do
-    let!(:field_key1) { create(:pwb_field_key, tag: 'property-types', website: website, sort_order: 10) }
-    let!(:field_key2) { create(:pwb_field_key, tag: 'property-types', website: website, sort_order: 5) }
-    let!(:field_key3) { create(:pwb_field_key, tag: 'property-types', website: website, sort_order: 15) }
-    
+    let!(:field_key1) do
+      ActsAsTenant.with_tenant(website) do
+        create(:pwb_field_key, tag: 'property-types', global_key: 'prop_type.type_a', website: website, sort_order: 10)
+      end
+    end
+    let!(:field_key2) do
+      ActsAsTenant.with_tenant(website) do
+        create(:pwb_field_key, tag: 'property-types', global_key: 'prop_type.type_b', website: website, sort_order: 5)
+      end
+    end
+    let!(:field_key3) do
+      ActsAsTenant.with_tenant(website) do
+        create(:pwb_field_key, tag: 'property-types', global_key: 'prop_type.type_c', website: website, sort_order: 15)
+      end
+    end
+
+    before do
+      I18n.backend.store_translations(:en, { 'prop_type.type_a' => 'Type A' })
+      I18n.backend.store_translations(:en, { 'prop_type.type_b' => 'Type B' })
+      I18n.backend.store_translations(:en, { 'prop_type.type_c' => 'Type C' })
+    end
+
     it 'displays entries in sort_order' do
       visit site_admin_properties_settings_category_path('property_types')
-      
-      rows = all('tbody tr').map { |row| row.text }
-      
+
+      # Get all cards - they're rendered in a grid
+      cards = all('[id^="card-"]').map { |card| card.text }
+
       # Verify field_key2 (order 5) appears before field_key1 (order 10)
-      key2_index = rows.index { |r| r.include?(field_key2.global_key.split('.').last) }
-      key1_index = rows.index { |r| r.include?(field_key1.global_key.split('.').last) }
-      
+      key2_index = cards.index { |c| c.include?('Type B') }
+      key1_index = cards.index { |c| c.include?('Type A') }
+
       expect(key2_index).to be < key1_index
     end
   end

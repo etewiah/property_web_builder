@@ -4,13 +4,12 @@ module Pwb
   RSpec.describe WelcomeController, type: :controller do
     routes { Rails.application.routes }
 
-    before(:all) do
-      @page = Pwb::Page.find_by_slug "home"
-      unless @page.present?
-        @page = FactoryBot.create(:pwb_page, slug: "home")
+    let!(:website) { FactoryBot.create(:pwb_website) }
+    let!(:page) do
+      ActsAsTenant.with_tenant(website) do
+        existing = Pwb::Page.find_by(slug: "home")
+        existing || FactoryBot.create(:pwb_page, slug: "home", website: website)
       end
-      # TODO: - figure out how to do below with FactoryBot
-      # @page.set_fragment_html "test", "en", "<h2>Sell Your Property with Us</h2>"
     end
 
     # This should return the minimal set of attributes required to create a valid
@@ -66,8 +65,6 @@ module Pwb
     #     expect(assigns(:welcome)).to eq(welcome)
     #   end
     # end
-    after(:all) do
-      @page.destroy
-    end
+    # Cleanup handled automatically by let! and database cleaner
   end
 end

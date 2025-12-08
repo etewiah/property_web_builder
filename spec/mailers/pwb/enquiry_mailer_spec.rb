@@ -26,9 +26,14 @@ module Pwb
 
 
     describe 'property enquiry' do
+      let(:website) { FactoryBot.create(:pwb_website) }
       let(:contact) { Contact.new(first_name: "John Doe", primary_phone_number: "22 44", primary_email: "jd@propertywebbuilder.com") }
       let(:message) { Message.new(origin_email: "jd@propertywebbuilder.com", delivery_email: "test@test.com") }
-      let(:prop) { FactoryBot.create(:pwb_prop, title: "Charming flat for sale") }
+      let(:prop) do
+        ActsAsTenant.with_tenant(website) do
+          FactoryBot.create(:pwb_prop, title: "Charming flat for sale", website: website)
+        end
+      end
 
       let(:mail) { EnquiryMailer.property_enquiry_targeting_agency(contact, message, prop).deliver_now }
 

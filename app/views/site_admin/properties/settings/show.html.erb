@@ -44,7 +44,7 @@
           </div>
 
           <!-- Card Body - Editable Fields -->
-          <%= form_with url: site_admin_properties_settings_category_path(@category, field_key.global_key),
+          <%= form_with url: "/site_admin/properties/settings/#{@category}/#{ERB::Util.url_encode(field_key.global_key)}",
                         method: :patch,
                         local: true,
                         class: "p-4 space-y-3",

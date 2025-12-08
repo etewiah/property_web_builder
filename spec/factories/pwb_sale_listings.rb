@@ -26,6 +26,7 @@ FactoryBot.define do
 
     trait :archived do
       archived { true }
+      active { false }  # Archived listings should not be active
     end
 
     trait :reserved do
