@@ -10,6 +10,6 @@ module PwbTenant
   #
   class SaleListing < Pwb::SaleListing
     include RequiresTenant
-    acts_as_tenant :website, through: :realty_asset
+    acts_as_tenant :website, through: :realty_asset, class_name: 'Pwb::Website'
   end
 end

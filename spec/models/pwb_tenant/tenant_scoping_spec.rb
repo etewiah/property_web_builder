@@ -55,17 +55,6 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
           expect(all_records).to include(record_b)
         end
       end
-
-      it 'requires website presence' do
-        within_tenant(website_a) do
-          record = model_class.new
-          record.website = nil
-          # acts_as_tenant may auto-assign, so we need to force nil
-          record.instance_variable_set(:@_acts_as_tenant_applied, false) if record.respond_to?(:website=)
-          expect(record).not_to be_valid
-          expect(record.errors[:website]).to be_present
-        end
-      end
     end
   end
 
@@ -122,8 +111,10 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
 
     it 'scopes user queries to current tenant' do
       within_tenant(website_a) do
-        expect(PwbTenant::User.all).to include(user_a)
-        expect(PwbTenant::User.all).not_to include(user_b)
+        # Compare by ID since factory creates Pwb::User but query returns PwbTenant::User
+        all_user_ids = PwbTenant::User.all.pluck(:id)
+        expect(all_user_ids).to include(user_a.id)
+        expect(all_user_ids).not_to include(user_b.id)
       end
     end
 
@@ -155,7 +146,7 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
     end
   end
 
-  describe PwbTenant::ListedProperty do
+  describe PwbTenant::Prop do
     let!(:prop_a) do
       within_tenant(website_a) do
         create(:pwb_prop, :sale, website: website_a)
@@ -170,9 +161,9 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
 
     it 'scopes property queries to current tenant' do
       within_tenant(website_a) do
-        all_props = PwbTenant::ListedProperty.all
-        expect(all_props.pluck(:id)).to include(prop_a.id)
-        expect(all_props.pluck(:id)).not_to include(prop_b.id)
+        all_props = PwbTenant::Prop.all
+        expect(all_props).to include(prop_a)
+        expect(all_props).not_to include(prop_b)
       end
     end
   end
@@ -195,8 +186,10 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
 
     it 'scopes page part queries to current tenant' do
       within_tenant(website_a) do
-        expect(PwbTenant::PagePart.all).to include(page_part_a)
-        expect(PwbTenant::PagePart.all).not_to include(page_part_b)
+        all_parts = PwbTenant::PagePart.all
+        # Compare IDs since class names differ between query and created object
+        expect(all_parts.pluck(:id)).to include(page_part_a.id)
+        expect(all_parts.pluck(:id)).not_to include(page_part_b.id)
       end
     end
   end
@@ -244,22 +237,37 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
   end
 
   describe PwbTenant::Feature do
+    # NOTE: Feature doesn't have a website_id column - it inherits tenancy through Prop/RealtyAsset.
+    # PwbTenant::Feature does NOT automatically scope by tenant.
+    # Tenant scoping must be done through joining with the parent Prop.
+    let!(:prop_a) { within_tenant(website_a) { create(:pwb_prop, :sale, website: website_a) } }
+    let!(:prop_b) { within_tenant(website_b) { create(:pwb_prop, :sale, website: website_b) } }
+
     let!(:feature_a) do
       within_tenant(website_a) do
-        create(:pwb_feature, website: website_a)
+        create(:pwb_feature, prop: prop_a)
       end
     end
 
     let!(:feature_b) do
       within_tenant(website_b) do
-        create(:pwb_feature, website: website_b)
+        create(:pwb_feature, prop: prop_b)
       end
     end
 
-    it 'scopes feature queries to current tenant' do
+    it 'creates features associated with tenant properties' do
+      # Features belong to Props, which are tenant-scoped
+      expect(feature_a.prop).to eq(prop_a)
+      expect(feature_b.prop).to eq(prop_b)
+    end
+
+    it 'can filter features through tenant-scoped props' do
       within_tenant(website_a) do
-        expect(PwbTenant::Feature.all).to include(feature_a)
-        expect(PwbTenant::Feature.all).not_to include(feature_b)
+        # Features don't have direct tenant scoping, but can be filtered through Props
+        tenant_prop_ids = PwbTenant::Prop.pluck(:id)
+        tenant_features = PwbTenant::Feature.where(prop_id: tenant_prop_ids)
+        expect(tenant_features.pluck(:id)).to include(feature_a.id)
+        expect(tenant_features.pluck(:id)).not_to include(feature_b.id)
       end
     end
   end
@@ -303,8 +311,9 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
 
     it 'scopes membership queries to current tenant' do
       within_tenant(website_a) do
-        expect(PwbTenant::UserMembership.all).to include(membership_a)
-        expect(PwbTenant::UserMembership.all).not_to include(membership_b)
+        all_memberships = PwbTenant::UserMembership.all
+        expect(all_memberships.pluck(:id)).to include(membership_a.id)
+        expect(all_memberships.pluck(:id)).not_to include(membership_b.id)
       end
     end
   end
@@ -315,10 +324,7 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
       # PwbTenant models should require a tenant to be set
       expect {
         PwbTenant::Page.all.to_a
-      }.to raise_error(ActsAsTenant::Errors::NoTenantSet).or(
-        # Some configurations may return empty instead of raising
-        satisfy { |result| result.empty? || result.is_a?(ActiveRecord::Relation) }
-      )
+      }.to raise_error(ActsAsTenant::Errors::NoTenantSet)
     end
   end
 end

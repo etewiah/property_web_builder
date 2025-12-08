@@ -5,15 +5,29 @@ module PwbTenant
     # PwbTenant::Prop is a scoped model that inherits from Pwb::Prop
     # It provides multi-tenant isolation by filtering by current website
 
-    let!(:website_a) { FactoryBot.create(:pwb_website, subdomain: 'tenant-a') }
-    let!(:website_b) { FactoryBot.create(:pwb_website, subdomain: 'tenant-b') }
+    let!(:website_a) { FactoryBot.create(:pwb_website, subdomain: 'tenant-a-prop') }
+    let!(:website_b) { FactoryBot.create(:pwb_website, subdomain: 'tenant-b-prop') }
 
-    let!(:prop_a) { FactoryBot.create(:pwb_prop, :sale, website: website_a) }
-    let!(:prop_b) { FactoryBot.create(:pwb_prop, :sale, website: website_b) }
+    let!(:prop_a) do
+      ActsAsTenant.with_tenant(website_a) do
+        FactoryBot.create(:pwb_prop, :sale, website: website_a)
+      end
+    end
+    let!(:prop_b) do
+      ActsAsTenant.with_tenant(website_b) do
+        FactoryBot.create(:pwb_prop, :sale, website: website_b)
+      end
+    end
 
     before do
+      Pwb::Current.reset
       # Simulate request context
       allow(Pwb::Current).to receive(:website).and_return(website_a)
+      ActsAsTenant.current_tenant = website_a
+    end
+
+    after do
+      ActsAsTenant.current_tenant = nil
     end
 
     describe 'default scope' do

@@ -17,7 +17,7 @@ module Pwb
     end
 
     let!(:website) { create(:pwb_website, subdomain: 'pages-test') }
-    let!(:admin_user) { create(:pwb_user, :admin) }
+    let!(:admin_user) { create(:pwb_user, :admin, website: website) }
 
     let(:request_headers) do
       {
@@ -27,7 +27,11 @@ module Pwb
     end
 
     describe 'GET /api/v1/pages/:page_name' do
-      let!(:page) { create(:page_with_content_html_page_part, slug: 'about', website: website) }
+      let!(:page) do
+        ActsAsTenant.with_tenant(website) do
+          create(:page_with_content_html_page_part, slug: 'about', website: website)
+        end
+      end
 
       context 'with signed in admin user' do
         before do
@@ -53,7 +57,11 @@ module Pwb
     end
 
     describe 'PUT /api/v1/pages/page_part_visibility' do
-      let!(:page) { create(:page_with_content_html_page_part, slug: 'home', website: website) }
+      let!(:page) do
+        ActsAsTenant.with_tenant(website) do
+          create(:page_with_content_html_page_part, slug: 'home', website: website)
+        end
+      end
 
       before do
         login_as admin_user, scope: :user
@@ -90,8 +98,16 @@ module Pwb
     describe 'multi-tenant page isolation' do
       let!(:website1) { create(:pwb_website, subdomain: 'pages-tenant1') }
       let!(:website2) { create(:pwb_website, subdomain: 'pages-tenant2') }
-      let!(:page1) { create(:pwb_page, slug: 'about', website: website1, visible: true) }
-      let!(:page2) { create(:pwb_page, slug: 'about', website: website2, visible: true) }
+      let!(:page1) do
+        ActsAsTenant.with_tenant(website1) do
+          create(:pwb_page, slug: 'about', website: website1, visible: true)
+        end
+      end
+      let!(:page2) do
+        ActsAsTenant.with_tenant(website2) do
+          create(:pwb_page, slug: 'about', website: website2, visible: true)
+        end
+      end
 
       before do
         login_as admin_user, scope: :user
@@ -99,35 +115,37 @@ module Pwb
 
       it 'returns pages for each tenant' do
         # Verify each website has its own pages
-        expect(page1.website).to eq(website1)
-        expect(page2.website).to eq(website2)
+        expect(page1.website_id).to eq(website1.id)
+        expect(page2.website_id).to eq(website2.id)
 
         # Both have 'about' slug but belong to different websites
         expect(page1.slug).to eq('about')
         expect(page2.slug).to eq('about')
         expect(page1.id).not_to eq(page2.id)
 
-        # Verify scoped queries work
-        expect(website1.pages.find_by(slug: 'about')).to eq(page1)
-        expect(website2.pages.find_by(slug: 'about')).to eq(page2)
+        # Verify scoped queries work (compare by ID to avoid class mismatch)
+        expect(website1.pages.find_by(slug: 'about').id).to eq(page1.id)
+        expect(website2.pages.find_by(slug: 'about').id).to eq(page2.id)
       end
 
       it 'isolates page access between tenants' do
         # Create a page only on tenant1
-        unique_page = create(:pwb_page, slug: 'unique-page', website: website1, visible: true)
+        unique_page = ActsAsTenant.with_tenant(website1) do
+          create(:pwb_page, slug: 'unique-page', website: website1, visible: true)
+        end
 
         # Verify the page belongs to website1
-        expect(unique_page.website).to eq(website1)
+        expect(unique_page.website_id).to eq(website1.id)
 
-        # Verify website1 can find the page
-        expect(website1.pages.find_by(slug: 'unique-page')).to eq(unique_page)
+        # Verify website1 can find the page (compare by ID to avoid class mismatch)
+        expect(website1.pages.find_by(slug: 'unique-page').id).to eq(unique_page.id)
 
         # Verify website2 cannot find the page
         expect(website2.pages.find_by(slug: 'unique-page')).to be_nil
 
-        # Verify using Pwb::Current
+        # Verify using Pwb::Current (compare by ID)
         Pwb::Current.website = website1
-        expect(Pwb::Current.website.pages.find_by(slug: 'unique-page')).to eq(unique_page)
+        expect(Pwb::Current.website.pages.find_by(slug: 'unique-page').id).to eq(unique_page.id)
 
         Pwb::Current.reset
         Pwb::Current.website = website2

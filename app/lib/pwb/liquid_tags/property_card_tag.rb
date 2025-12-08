@@ -10,7 +10,7 @@ module Pwb
     #   {% property_card 123, style: "compact" %}
     #
     class PropertyCardTag < Liquid::Tag
-      SYNTAX = /(\w+)(?:\s*,\s*(.*))?/
+      SYNTAX = /([\w-]+)(?:\s*,\s*(.*))?/
 
       def initialize(tag_name, markup, tokens)
         super
@@ -45,7 +45,7 @@ module Pwb
       private
 
       def find_property(id, website)
-        scope = website ? Pwb::Property.where(website_id: website.id) : Pwb::Property
+        scope = website ? Pwb::Prop.where(website_id: website.id) : Pwb::Prop
         scope.find_by(id: id) || scope.find_by(reference: id)
       end
 

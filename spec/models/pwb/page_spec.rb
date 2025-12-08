@@ -2,7 +2,12 @@ require 'rails_helper'
 
 module Pwb
   RSpec.describe Page, type: :model do
-    let(:page) { FactoryBot.create(:pwb_page) }
+    let(:website) { FactoryBot.create(:pwb_website) }
+    let(:page) do
+      ActsAsTenant.with_tenant(website) do
+        FactoryBot.create(:pwb_page, website: website)
+      end
+    end
     # below will not be available in context block
     # let(:about_us_page) { FactoryBot.create(:about_us_page_with_page_part)}
 

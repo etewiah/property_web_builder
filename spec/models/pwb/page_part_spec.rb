@@ -3,12 +3,18 @@ require "rails_helper"
 module Pwb
   RSpec.describe PagePart, type: :model do
     include FactoryBot::Syntax::Methods
-    let(:website) { create(:pwb_website, theme_name: "bristol") }
+    # Use "brisbane" as it's a valid theme (bristol doesn't exist)
+    let(:website) { create(:pwb_website, theme_name: "brisbane") }
     let(:page_part) { create(:pwb_page_part, page_part_key: "landing_hero", website: website) }
+
+    before do
+      # Clear cache before each test to avoid stale data
+      Rails.cache.clear
+    end
 
     after do
       # Clean up any test files created
-      FileUtils.rm_rf(Rails.root.join("app/themes/bristol/page_parts"))
+      FileUtils.rm_rf(Rails.root.join("app/themes/brisbane/page_parts"))
       FileUtils.rm_f(Rails.root.join("app/views/pwb/page_parts/landing_hero.liquid"))
     end
 
@@ -26,13 +32,13 @@ module Pwb
       context "when theme-specific file exists" do
         before do
           page_part.update(template: nil)
-          theme_dir = Rails.root.join("app/themes/bristol/page_parts")
+          theme_dir = Rails.root.join("app/themes/brisbane/page_parts")
           FileUtils.mkdir_p(theme_dir)
-          File.write(theme_dir.join("landing_hero.liquid"), "<div>Bristol Theme</div>")
+          File.write(theme_dir.join("landing_hero.liquid"), "<div>Brisbane Theme</div>")
         end
 
         it "uses theme-specific template" do
-          expect(page_part.template_content).to eq("<div>Bristol Theme</div>")
+          expect(page_part.template_content).to eq("<div>Brisbane Theme</div>")
         end
       end
 
@@ -63,7 +69,7 @@ module Pwb
     describe "caching" do
       before do
         # Create a theme-specific file for testing
-        theme_dir = Rails.root.join("app/themes/bristol/page_parts")
+        theme_dir = Rails.root.join("app/themes/brisbane/page_parts")
         FileUtils.mkdir_p(theme_dir)
         File.write(theme_dir.join("landing_hero.liquid"), "<div>Cached Content</div>")
       end
@@ -89,7 +95,7 @@ module Pwb
       end
 
       it "clears cache when page part is destroyed" do
-        cache_key = "page_part/#{page_part.id}/#{page_part.page_part_key}/bristol/template"
+        cache_key = "page_part/#{page_part.id}/#{page_part.page_part_key}/brisbane/template"
 
         # Prime the cache
         page_part.template_content
@@ -113,9 +119,9 @@ module Pwb
       end
 
       let!(:theme_file) do
-        theme_dir = Rails.root.join("app/themes/bristol/page_parts")
+        theme_dir = Rails.root.join("app/themes/brisbane/page_parts")
         FileUtils.mkdir_p(theme_dir)
-        File.write(theme_dir.join("landing_hero.liquid"), "<div>Bristol</div>")
+        File.write(theme_dir.join("landing_hero.liquid"), "<div>Brisbane</div>")
       end
 
       it "database overrides theme file" do
@@ -125,11 +131,11 @@ module Pwb
 
       it "theme file overrides default file" do
         page_part.update(template: nil)
-        expect(page_part.template_content).to eq("<div>Bristol</div>")
+        expect(page_part.template_content).to eq("<div>Brisbane</div>")
       end
 
       it "uses default when theme file doesn't exist" do
-        FileUtils.rm_f(Rails.root.join("app/themes/bristol/page_parts/landing_hero.liquid"))
+        FileUtils.rm_f(Rails.root.join("app/themes/brisbane/page_parts/landing_hero.liquid"))
         page_part.update(template: nil)
         expect(page_part.template_content).to eq("<div>Default</div>")
       end

@@ -57,14 +57,14 @@ module Pwb
         limit = (@options[:limit] || 6).to_i
         type = @options[:type] || "all"
 
-        scope = website ? Pwb::Property.where(website_id: website.id) : Pwb::Property
+        scope = website ? Pwb::Prop.where(website_id: website.id) : Pwb::Prop
         scope = scope.where(visible: true)
 
         case type
         when "sale"
           scope = scope.where(for_sale: true)
         when "rent"
-          scope = scope.where(for_rent: true)
+          scope = scope.where(for_rent_long_term: true).or(scope.where(for_rent_short_term: true))
         end
 
         if @options[:highlighted] == "true"

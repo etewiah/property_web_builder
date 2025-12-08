@@ -8,20 +8,24 @@ module Pwb
 
     before do
       assign(:current_website, website)
+      ActsAsTenant.current_tenant = website
+    end
+
+    after do
+      ActsAsTenant.current_tenant = nil
     end
 
     describe '#render_top_navigation_links' do
       context 'with navigation links' do
+        let!(:page_about) { create(:pwb_page, website: website, slug: 'about') }
+        let!(:page_contact) { create(:pwb_page, website: website, slug: 'contact') }
+
         let!(:link_a) do
-          ActsAsTenant.with_tenant(website) do
-            create(:pwb_link, :top_nav, website: website, page_slug: 'about', visible: true, sort_order: 1)
-          end
+          create(:pwb_link, :top_nav, website: website, page_slug: 'about', visible: true, sort_order: 1)
         end
 
         let!(:link_b) do
-          ActsAsTenant.with_tenant(website) do
-            create(:pwb_link, :top_nav, website: website, page_slug: 'contact', visible: true, sort_order: 2)
-          end
+          create(:pwb_link, :top_nav, website: website, page_slug: 'contact', visible: true, sort_order: 2)
         end
 
         it 'returns HTML string' do
@@ -42,10 +46,10 @@ module Pwb
 
     describe '#render_footer_links' do
       context 'with footer links' do
+        let!(:page_terms) { create(:pwb_page, website: website, slug: 'terms') }
+
         let!(:footer_link) do
-          ActsAsTenant.with_tenant(website) do
-            create(:pwb_link, :footer, website: website, page_slug: 'terms', visible: true)
-          end
+          create(:pwb_link, :footer, website: website, page_slug: 'terms', visible: true)
         end
 
         it 'returns HTML string' do
@@ -58,10 +62,12 @@ module Pwb
 
     describe '#top_nav_link_for' do
       let(:link) do
-        build(:pwb_link, :top_nav,
-              website: website,
-              page_slug: 'about',
-              link_url: 'https://example.com/about')
+        Pwb::Link.new(
+          website: website,
+          page_slug: 'about',
+          link_url: 'https://example.com/about',
+          placement: :top_nav
+        )
       end
 
       it 'generates link HTML with external URL' do
@@ -73,10 +79,12 @@ module Pwb
 
     describe '#footer_link_for' do
       let(:link) do
-        build(:pwb_link, :footer,
-              website: website,
-              page_slug: 'terms',
-              link_url: 'https://example.com/terms')
+        Pwb::Link.new(
+          website: website,
+          page_slug: 'terms',
+          link_url: 'https://example.com/terms',
+          placement: :footer
+        )
       end
 
       it 'generates link HTML with external URL' do
@@ -85,10 +93,12 @@ module Pwb
       end
 
       it 'returns empty string for invalid link_path' do
-        link = build(:pwb_link, :footer,
-                     website: website,
-                     link_path: 'invalid_path_that_does_not_exist',
-                     link_url: nil)
+        link = Pwb::Link.new(
+          website: website,
+          link_path: 'invalid_path_that_does_not_exist',
+          link_url: nil,
+          placement: :footer
+        )
         result = helper.footer_link_for(link)
         expect(result).to eq('')
       end

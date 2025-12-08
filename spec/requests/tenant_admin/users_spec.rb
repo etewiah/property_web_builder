@@ -61,7 +61,7 @@ RSpec.describe 'TenantAdmin::Users', type: :request do
           email: 'newuser@example.com',
           password: 'password123',
           password_confirmation: 'password123',
-          pwb_website_id: website.id
+          website_id: website.id
         }
       }
     end
@@ -91,7 +91,7 @@ RSpec.describe 'TenantAdmin::Users', type: :request do
           email: 'mismatch@example.com',
           password: 'password123',
           password_confirmation: 'differentpassword',
-          pwb_website_id: website.id
+          website_id: website.id
         }
       }
       expect(response).to have_http_status(:unprocessable_entity)

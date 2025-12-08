@@ -6,14 +6,34 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
     Pwb::Current.reset
   end
 
+  # Helper to create property with sale listing for GraphQL visibility
+  def create_property_with_listing(website:, reference:, price_cents:)
+    realty_asset = Pwb::RealtyAsset.create!(
+      website: website,
+      reference: reference
+    )
+    Pwb::SaleListing.create!(
+      realty_asset: realty_asset,
+      reference: reference,
+      visible: true,
+      archived: false,
+      active: true,  # Required for JOIN in materialized view
+      price_sale_current_cents: price_cents,
+      price_sale_current_currency: 'EUR'
+    )
+    # Refresh materialized view after creating listings
+    Pwb::ListedProperty.refresh
+    realty_asset
+  end
+
   describe "Subdomain-based tenant resolution" do
     let!(:website1) { Pwb::Website.create!(slug: "site1", subdomain: "tenant1", company_display_name: "Tenant 1 Corp") }
     let!(:website2) { Pwb::Website.create!(slug: "site2", subdomain: "tenant2", company_display_name: "Tenant 2 Corp") }
 
-    # Properties for each tenant
-    let!(:prop1) { Pwb::Prop.create!(website: website1, reference: "PROP-T1-001", visible: true, for_sale: true, price_sale_current_cents: 50000000, price_sale_current_currency: "EUR") }
-    let!(:prop2) { Pwb::Prop.create!(website: website1, reference: "PROP-T1-002", visible: true, for_sale: true, price_sale_current_cents: 75000000, price_sale_current_currency: "EUR") }
-    let!(:prop3) { Pwb::Prop.create!(website: website2, reference: "PROP-T2-001", visible: true, for_sale: true, price_sale_current_cents: 100000000, price_sale_current_currency: "EUR") }
+    # Properties for each tenant with sale listings
+    let!(:prop1) { create_property_with_listing(website: website1, reference: "PROP-T1-001", price_cents: 50000000) }
+    let!(:prop2) { create_property_with_listing(website: website1, reference: "PROP-T1-002", price_cents: 75000000) }
+    let!(:prop3) { create_property_with_listing(website: website2, reference: "PROP-T2-001", price_cents: 100000000) }
 
     describe "Property isolation via subdomain" do
       it "returns only properties belonging to tenant1 subdomain" do
@@ -313,7 +333,11 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
 
   describe "Case-insensitive subdomain matching" do
     let!(:website) { Pwb::Website.create!(slug: "mysite", subdomain: "myagency", company_display_name: "My Agency") }
-    let!(:prop) { Pwb::Prop.create!(website: website, reference: "CASE-TEST", visible: true, for_sale: true, price_sale_current_cents: 10000000, price_sale_current_currency: "EUR") }
+
+    before do
+      # Create property with listing for the test using helper
+      create_property_with_listing(website: website, reference: "CASE-TEST", price_cents: 10000000)
+    end
 
     it "matches subdomain case-insensitively" do
       query = <<~GQL

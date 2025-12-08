@@ -17,7 +17,7 @@ module Pwb
     end
 
     let!(:website) { create(:pwb_website, subdomain: 'website-test', company_display_name: 'Test Company') }
-    let!(:admin_user) { create(:pwb_user, :admin) }
+    let!(:admin_user) { create(:pwb_user, :admin, website: website) }
 
     let(:request_headers) do
       {

@@ -3,18 +3,36 @@ require 'swagger_helper'
 RSpec.describe 'API V1', type: :request, openapi_spec: 'v1/swagger.yaml' do
   include Warden::Test::Helpers
 
-  let!(:test_website) { FactoryBot.create(:pwb_website, subdomain: 'swagger-test') }
-  let!(:test_agency) { FactoryBot.create(:pwb_agency, website: test_website) }
-  let!(:admin_user) { FactoryBot.create(:pwb_user, :admin) }
+  # Create website first without tenant scope
+  let!(:test_website) { Pwb::Website.create!(subdomain: 'swagger-test', slug: 'swagger-test', company_display_name: 'Swagger Test', default_client_locale: 'en-GB', supported_locales: ['en-GB']) }
+
+  # Create agency and user within tenant context
+  let!(:test_agency) do
+    ActsAsTenant.with_tenant(test_website) do
+      Pwb::Agency.create!(website: test_website, company_name: 'Swagger Test Agency')
+    end
+  end
+  let!(:admin_user) do
+    ActsAsTenant.with_tenant(test_website) do
+      user = Pwb::User.create!(email: 'swagger-admin@test.com', password: 'password123', website: test_website, admin: true)
+      Pwb::UserMembership.create!(user: user, website: test_website, role: 'admin', active: true)
+      user
+    end
+  end
 
   before do
     Warden.test_mode!
     login_as admin_user, scope: :user
     host! 'swagger-test.example.com'
+    # Set up tenant context
+    Pwb::Current.website = test_website
+    ActsAsTenant.current_tenant = test_website
   end
 
   after do
     Warden.test_reset!
+    ActsAsTenant.current_tenant = nil
+    Pwb::Current.reset
   end
 
   path '/api/v1/agency' do

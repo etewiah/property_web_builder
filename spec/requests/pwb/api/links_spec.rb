@@ -27,6 +27,19 @@ module Pwb
     end
 
     describe 'GET /api/v1/links' do
+      # Create pages first, then links that reference them
+      let!(:about_page) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_page, website: website, slug: 'about')
+        end
+      end
+
+      let!(:contact_page) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_page, website: website, slug: 'contact')
+        end
+      end
+
       let!(:top_nav_link) do
         ActsAsTenant.with_tenant(website) do
           create(:pwb_link, :top_nav, website: website, page_slug: 'about')
@@ -64,6 +77,7 @@ module Pwb
       it 'isolates links by tenant' do
         other_website = create(:pwb_website, subdomain: 'other-links')
         other_link = ActsAsTenant.with_tenant(other_website) do
+          create(:pwb_page, website: other_website, slug: 'other-page')
           create(:pwb_link, :top_nav, website: other_website, page_slug: 'other-page')
         end
 
@@ -80,6 +94,19 @@ module Pwb
     end
 
     describe 'POST /api/v1/links/bulk_update' do
+      # Create pages first
+      let!(:nav_page) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_page, website: website, slug: 'nav-page')
+        end
+      end
+
+      let!(:footer_page) do
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_page, website: website, slug: 'footer-page')
+        end
+      end
+
       let!(:nav_link) do
         ActsAsTenant.with_tenant(website) do
           create(:pwb_link, :top_nav, website: website, page_slug: 'nav-page', visible: true)
@@ -99,14 +126,16 @@ module Pwb
       it 'updates multiple links at once' do
         host! 'links-api-test.example.com'
 
+        # The controller expects linkGroups to be a JSON string
         link_groups = {
-          linkGroups: {
-            top_nav_links: [{ slug: nav_link.slug, visible: false }],
-            footer_links: [{ slug: footer_link.slug, visible: false }]
-          }.to_json
+          top_nav_links: [{ slug: nav_link.slug, visible: false }],
+          footer_links: [{ slug: footer_link.slug, visible: false }]
         }
 
-        post '/api/v1/links/bulk_update', params: link_groups, headers: request_headers
+        # Send as JSON body
+        put '/api/v1/links',
+            params: { linkGroups: link_groups }.to_json,
+            headers: request_headers
 
         expect(response).to have_http_status(:success)
         json = JSON.parse(response.body)
@@ -116,6 +145,7 @@ module Pwb
       it 'does not update links from other tenants' do
         other_website = create(:pwb_website, subdomain: 'other-bulk')
         other_link = ActsAsTenant.with_tenant(other_website) do
+          create(:pwb_page, website: other_website, slug: 'other-nav')
           create(:pwb_link, :top_nav, website: other_website, page_slug: 'other-nav', visible: true)
         end
 
@@ -123,13 +153,14 @@ module Pwb
 
         # Attempt to update other tenant's link
         link_groups = {
-          linkGroups: {
-            top_nav_links: [{ slug: other_link.slug, visible: false }],
-            footer_links: []
-          }.to_json
+          top_nav_links: [{ slug: other_link.slug, visible: false }],
+          footer_links: []
         }
 
-        post '/api/v1/links/bulk_update', params: link_groups, headers: request_headers
+        # Send as JSON body
+        put '/api/v1/links',
+            params: { linkGroups: link_groups }.to_json,
+            headers: request_headers
 
         # The other link should not be updated
         other_link.reload

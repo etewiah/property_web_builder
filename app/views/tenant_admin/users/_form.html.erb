@@ -1,0 +1,57 @@
+<%= form_with model: @user, scope: :pwb_user, url: (@user.new_record? ? tenant_admin_users_path : tenant_admin_user_path(@user)), local: true, class: "space-y-6" do |f| %>
+  <% if @user.errors.any? %>
+    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+      <div class="font-medium mb-2"><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</div>
+      <ul class="list-disc list-inside">
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- User Information -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900">User Information</h3>
+    <div class="grid grid-cols-6 gap-6">
+      <div class="col-span-6 sm:col-span-3">
+        <%= f.label :email, "Email *", class: "block mb-2 text-sm font-medium text-gray-900" %>
+        <%= f.email_field :email, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5", placeholder: "user@example.com", required: true %>
+      </div>
+
+      <div class="col-span-6 sm:col-span-3">
+        <%= f.label :website_id, "Website", class: "block mb-2 text-sm font-medium text-gray-900" %>
+        <%= f.select :website_id,
+          options_from_collection_for_select(@websites, :id, :subdomain, @user.website_id),
+          { include_blank: 'Select a website' },
+          class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" %>
+      </div>
+
+      <% if @user.new_record? %>
+        <div class="col-span-6 sm:col-span-3">
+          <%= f.label :password, "Password *", class: "block mb-2 text-sm font-medium text-gray-900" %>
+          <%= f.password_field :password, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5", required: true %>
+        </div>
+
+        <div class="col-span-6 sm:col-span-3">
+          <%= f.label :password_confirmation, "Confirm Password *", class: "block mb-2 text-sm font-medium text-gray-900" %>
+          <%= f.password_field :password_confirmation, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5", required: true %>
+        </div>
+      <% end %>
+
+      <div class="col-span-6">
+        <div class="flex items-center">
+          <%= f.check_box :admin, class: "w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 focus:ring-2" %>
+          <%= f.label :admin, "Admin User", class: "ml-2 text-sm font-medium text-gray-900" %>
+        </div>
+        <p class="mt-1 text-xs text-gray-500">Admin users have full access to manage website content.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Actions -->
+  <div class="flex items-center space-x-4">
+    <%= f.submit @user.new_record? ? "Create User" : "Update User", class: "text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer" %>
+    <%= link_to "Cancel", @user.persisted? ? tenant_admin_user_path(@user) : tenant_admin_users_path, class: "text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10" %>
+  </div>
+<% end %>

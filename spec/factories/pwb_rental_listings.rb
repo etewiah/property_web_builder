@@ -10,6 +10,7 @@ FactoryBot.define do
     furnished { false }
     for_rent_short_term { false }
     for_rent_long_term { false }
+    active { true }  # Required for materialized view JOIN
 
     price_rental_monthly_current_cents { 1_200_00 } # 1,200 EUR/month
     price_rental_monthly_current_currency { 'EUR' }

@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe Pwb::LiquidTags::PagePartTag do
-  let(:website) { create(:website) }
+  let(:website) { create(:pwb_website, subdomain: 'page-part-tag-test') }
   let(:view) { double("view", render: "<rendered content>") }
   let(:context) do
     Liquid::Context.new({}, {}, {
@@ -14,6 +14,7 @@ RSpec.describe Pwb::LiquidTags::PagePartTag do
   end
 
   before do
+    Pwb::Current.reset
     # Ensure the tag is registered
     require Rails.root.join("app/lib/pwb/liquid_tags/page_part_tag")
   end
@@ -41,18 +42,20 @@ RSpec.describe Pwb::LiquidTags::PagePartTag do
   describe "#render" do
     context "with existing page part in database" do
       let!(:page_part) do
-        create(:page_part,
-          website: website,
-          page_part_key: "heroes/hero_centered",
-          template: "<h1>{{ page_part.title.content }}</h1>",
-          block_contents: {
-            "en" => {
-              "blocks" => {
-                "title" => { "content" => "Welcome" }
+        ActsAsTenant.with_tenant(website) do
+          create(:pwb_page_part,
+            website: website,
+            page_part_key: "heroes/hero_centered",
+            template: "<h1>{{ page_part.title.content }}</h1>",
+            block_contents: {
+              "en" => {
+                "blocks" => {
+                  "title" => { "content" => "Welcome" }
+                }
               }
             }
-          }
-        )
+          )
+        end
       end
 
       it "renders page part content from database" do

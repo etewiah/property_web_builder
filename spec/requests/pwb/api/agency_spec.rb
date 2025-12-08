@@ -18,7 +18,7 @@ module Pwb
 
     let!(:website) { create(:pwb_website, subdomain: 'agency-test') }
     let!(:agency) { website.agency }
-    let!(:admin_user) { create(:pwb_user, :admin) }
+    let!(:admin_user) { create(:pwb_user, :admin, website: website) }
 
     let(:request_headers) do
       {
@@ -96,9 +96,10 @@ module Pwb
       let!(:website2) { create(:pwb_website, subdomain: 'agency-tenant2') }
       let!(:agency1) { website1.agency.tap { |a| a.update!(company_name: 'Agency One') } }
       let!(:agency2) { website2.agency.tap { |a| a.update!(company_name: 'Agency Two') } }
+      let!(:tenant1_admin) { create(:pwb_user, :admin, website: website1) }
 
       before do
-        login_as admin_user, scope: :user
+        login_as tenant1_admin, scope: :user
       end
 
       it 'returns correct agency for each tenant' do

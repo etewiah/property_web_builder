@@ -2,11 +2,41 @@ require 'swagger_helper'
 
 RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swagger.yaml' do
 
-  let!(:test_website) { FactoryBot.create(:pwb_website, subdomain: 'apipublic-test') }
-  let!(:test_agency) { FactoryBot.create(:pwb_agency, website: test_website) }
+  # Helper to create properties that appear in the materialized view
+  def create_listed_sale_property(website:, reference:)
+    realty_asset = Pwb::RealtyAsset.create!(website: website, reference: reference)
+    Pwb::SaleListing.create!(
+      realty_asset: realty_asset,
+      reference: reference,
+      visible: true,
+      archived: false,
+      active: true,
+      price_sale_current_cents: 250_000_00,
+      price_sale_current_currency: 'EUR'
+    )
+    Pwb::ListedProperty.refresh
+    Pwb::ListedProperty.find_by(reference: reference)
+  end
+
+  # Create website first without tenant scope
+  let!(:test_website) { Pwb::Website.create!(subdomain: 'apipublic-test', slug: 'apipublic-test', company_display_name: 'API Public Test', default_client_locale: 'en-GB', supported_locales: ['en-GB']) }
+
+  # Create agency within tenant context
+  let!(:test_agency) do
+    ActsAsTenant.with_tenant(test_website) do
+      Pwb::Agency.create!(website: test_website, company_name: 'API Public Test Agency')
+    end
+  end
 
   before do
     host! 'apipublic-test.example.com'
+    Pwb::Current.website = test_website
+    ActsAsTenant.current_tenant = test_website
+  end
+
+  after do
+    ActsAsTenant.current_tenant = nil
+    Pwb::Current.reset
   end
 
   path '/api_public/v1/properties/{id}' do
@@ -19,9 +49,10 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
       response '200', 'property found' do
         schema type: :object,
           properties: {
-            id: { type: :integer },
-            title: { type: :string },
-            description: { type: :string },
+            id: { type: :string },  # UUID
+            reference: { type: :string },
+            title: { type: [:string, :null] },
+            description: { type: [:string, :null] },
             prop_photos: {
               type: :array,
               items: {
@@ -42,7 +73,7 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
             for_rent: { type: :boolean }
           }
 
-        let!(:property) { FactoryBot.create(:pwb_prop, :sale, website: test_website) }
+        let!(:property) { create_listed_sale_property(website: test_website, reference: 'SWAGGER-PROP-001') }
         let(:id) { property.id }
         run_test!
       end
@@ -73,8 +104,9 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
           items: {
             type: :object,
             properties: {
-              id: { type: :integer },
-              title: { type: :string },
+              id: { type: :string },  # UUID
+              reference: { type: :string },
+              title: { type: [:string, :null] },
               price_sale_current_cents: { type: :integer },
               price_rental_monthly_current_cents: { type: :integer },
               currency: { type: :string },
@@ -223,11 +255,11 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
         schema type: :object,
           properties: {
             company_display_name: { type: :string },
-            theme_name: { type: :string },
+            theme_name: { type: [:string, :null] },
             default_currency: { type: :string },
             supported_locales: { type: :array, items: { type: :string } },
             social_media: { type: :object },
-            agency: { type: :object },
+            agency: { type: [:object, :null] },
             top_nav_display_links: { type: :array, items: { type: :object } },
             footer_display_links: { type: :array, items: { type: :object } }
           }

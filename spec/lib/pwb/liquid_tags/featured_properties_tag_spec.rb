@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe Pwb::LiquidTags::FeaturedPropertiesTag do
-  let(:website) { create(:website) }
+  let(:website) { create(:pwb_website, subdomain: 'featured-props-test') }
   let(:view) { double("view") }
   let(:context) do
     Liquid::Context.new({}, {}, {
@@ -13,6 +13,7 @@ RSpec.describe Pwb::LiquidTags::FeaturedPropertiesTag do
   end
 
   before do
+    Pwb::Current.reset
     require Rails.root.join("app/lib/pwb/liquid_tags/featured_properties_tag")
   end
 
@@ -43,7 +44,11 @@ RSpec.describe Pwb::LiquidTags::FeaturedPropertiesTag do
   end
 
   describe "#render" do
-    let(:properties) { create_list(:property, 3, website: website, visible: true) }
+    let(:properties) do
+      ActsAsTenant.with_tenant(website) do
+        create_list(:pwb_prop, 3, website: website, visible: true)
+      end
+    end
 
     before do
       allow(view).to receive(:render).and_return("<property grid>")

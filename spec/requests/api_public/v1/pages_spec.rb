@@ -2,11 +2,22 @@ require 'rails_helper'
 
 RSpec.describe "ApiPublic::V1::Pages", type: :request do
   let!(:website) { FactoryBot.create(:pwb_website, subdomain: "pages-test") }
-  let!(:page) { FactoryBot.create(:pwb_page, slug: "about-us", website: website) }
+  let!(:page) do
+    ActsAsTenant.with_tenant(website) do
+      FactoryBot.create(:pwb_page, slug: "about-us", website: website)
+    end
+  end
 
   before(:each) do
     Pwb::Current.reset
     Pwb::Current.website = website
+    ActsAsTenant.current_tenant = website
+    host! "#{website.subdomain}.example.com"
+  end
+
+  after(:each) do
+    ActsAsTenant.current_tenant = nil
+    Pwb::Current.reset
   end
 
   describe "GET /api_public/v1/pages/:id" do

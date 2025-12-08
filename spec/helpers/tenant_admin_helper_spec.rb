@@ -131,6 +131,11 @@ RSpec.describe TenantAdminHelper, type: :helper do
   describe '#sortable_column' do
     before do
       allow(helper).to receive(:params).and_return({})
+      # Provide a request path for link_to to work with
+      allow(helper).to receive(:url_for) do |options|
+        params = options.to_a.map { |k, v| "#{k}=#{v}" }.join('&')
+        "?#{params}"
+      end
     end
 
     it 'returns link with titleized column name' do

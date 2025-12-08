@@ -7,7 +7,7 @@ class GraphqlController < Pwb::ApplicationController
   include SubdomainTenant
 
   # Override the before_action from SubdomainTenant to use our custom method name
-  skip_before_action :set_current_website_from_subdomain
+  skip_before_action :set_current_website_from_request
   before_action :set_current_website
 
   def execute

@@ -65,9 +65,9 @@ RSpec.describe Pwb::LiquidTags::PropertyCardTag do
       end
 
       it "passes property to partial" do
-        expect(view).to receive(:render).with(
-          hash_including(locals: hash_including(property: property))
-        )
+        expect(view).to receive(:render) do |args|
+          expect(args[:locals][:property].id).to eq(property.id)
+        end
 
         template = Liquid::Template.parse("{% property_card #{property.id} %}")
         template.render(context)
@@ -82,9 +82,12 @@ RSpec.describe Pwb::LiquidTags::PropertyCardTag do
       end
 
       it "finds property by reference" do
-        expect(view).to receive(:render).with(
-          hash_including(locals: hash_including(property: property))
-        )
+        # Force property creation before rendering
+        property_id = property.id
+
+        expect(view).to receive(:render) do |args|
+          expect(args[:locals][:property].id).to eq(property_id)
+        end
 
         template = Liquid::Template.parse("{% property_card PROP-001 %}")
         template.render(context)
@@ -95,9 +98,9 @@ RSpec.describe Pwb::LiquidTags::PropertyCardTag do
       it "resolves property id from context" do
         context["my_property_id"] = property.id
 
-        expect(view).to receive(:render).with(
-          hash_including(locals: hash_including(property: property))
-        )
+        expect(view).to receive(:render) do |args|
+          expect(args[:locals][:property].id).to eq(property.id)
+        end
 
         template = Liquid::Template.parse("{% property_card my_property_id %}")
         template.render(context)

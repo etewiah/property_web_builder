@@ -73,7 +73,7 @@ module TenantAdmin
         :password,
         :password_confirmation,
         :admin,
-        :pwb_website_id
+        :website_id
       )
     end
   end
