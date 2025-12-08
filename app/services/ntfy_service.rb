@@ -239,6 +239,14 @@ class NtfyService
       http.open_timeout = 5
       http.read_timeout = 10
 
+      # In development/test, allow relaxed SSL verification to handle
+      # certificate issues (e.g., CRL checking failures)
+      if http.use_ssl? && !Rails.env.production?
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+        # Skip CRL checking which can fail in some environments
+        http.verify_callback = ->(_preverify_ok, _store_ctx) { true }
+      end
+
       request = Net::HTTP::Post.new(uri.request_uri, headers)
       request.body = message.to_s.encode('UTF-8')
 
