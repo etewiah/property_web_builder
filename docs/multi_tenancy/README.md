@@ -1,180 +1,263 @@
-# Multi-Tenancy Guide
+# Multi-Tenancy Documentation
 
-PropertyWebBuilder supports multi-tenancy, allowing a single installation to serve multiple independent real estate websites. Each tenant is isolated by subdomain with its own data.
+This folder contains comprehensive documentation about PropertyWebBuilder's multi-tenant architecture, including routing, data isolation, and development patterns.
 
-## Quick Start
+## Documentation Files
 
-### Create a New Tenant
+### 1. [routing_implementation.md](./routing_implementation.md) - Technical Reference
 
-```bash
-# Create tenant with sample data
-rake pwb:db:create_tenant[my-subdomain,my-slug,"My Company Name"]
+**Purpose:** Comprehensive technical reference of all multi-tenancy components.
 
-# Create tenant without sample properties
-SKIP_PROPERTIES=true rake pwb:db:create_tenant[my-subdomain,my-slug,"My Company Name"]
+**Contains:**
+- Website model and database schema details
+- SubdomainTenant concern implementation
+- Current attributes pattern explanation
+- Controller architecture (SiteAdmin, TenantAdmin, Public)
+- Acts-as-tenant configuration
+- Model hierarchy (Pwb:: vs PwbTenant::)
+- Route constraints and structure
+- Data isolation and scoping mechanisms
+- Subdomain resolution priority
+- Detailed file listing with line numbers
 
-# List all tenants
-rake pwb:db:list_tenants
-```
+**Best for:** Developers who need to understand implementation details, debugging issues, or making changes to the multi-tenancy system.
 
-### Access Tenants
+### 2. [routing_architecture.md](./routing_architecture.md) - Visual Diagrams
 
-```
-http://tenant1.yourdomain.com  → Tenant 1's website
-http://tenant2.yourdomain.com  → Tenant 2's website
-```
+**Purpose:** Visual representations of the multi-tenancy system.
 
-## Documentation
+**Contains:**
+- High-level request flow diagram
+- Controller hierarchy tree
+- Data flow for scoped queries
+- Website lookup flow chart
+- Database schema relationships
+- Request routing decision tree
+- Authorization levels visualization
+- Environment variable configuration
+- Cross-tenant data isolation example
 
-| Document | Description |
-|----------|-------------|
-| [Architecture](./MULTI_TENANCY_ARCHITECTURE.md) | Request flow diagrams and data model |
-| [Quick Reference](./MULTI_TENANCY_QUICK_REFERENCE.md) | Common patterns and gotchas |
+**Best for:** Quick visual understanding, onboarding new developers, or explaining the system to stakeholders.
 
-## Architecture Overview
+### 3. [multi_tenancy_guide.md](./multi_tenancy_guide.md) - Development Guide
 
-### Tenant Resolution
+**Purpose:** Practical guide for working with multi-tenancy as a developer.
 
-Tenants are identified by:
-1. **Subdomain** (primary) - `tenant1.example.com` → finds website with `subdomain: "tenant1"`
-2. **X-Website-Slug header** (API) - For programmatic access
+**Contains:**
+- Quick start for different controller types
+- Model patterns and usage examples
+- Routing patterns and examples
+- Query examples for common scenarios
+- Controller best practices
+- Common pitfalls and how to avoid them
+- Testing strategies with code examples
+- Debugging techniques
+- Summary comparison table
 
-### Data Isolation
+**Best for:** Developers writing code, adding new features, or learning the patterns used in PropertyWebBuilder.
 
-All tenant-scoped models have a `website_id` column:
+## Quick Navigation
 
-```
-Pwb::Website (Tenant)
-├── has_many :props
-├── has_many :pages
-├── has_many :contents
-├── has_many :contacts
-├── has_many :messages
-└── has_one :agency
-```
+### I want to...
 
-### Query Scoping
+- **Understand how requests are routed to tenants** → Read [routing_implementation.md](./routing_implementation.md) "Subdomain-Based Routing Concern" section
 
-```ruby
-# CORRECT - Scoped to current tenant
-Pwb::Page.where(website_id: current_website.id)
-current_website.props
+- **See a visual overview** → Look at [routing_architecture.md](./routing_architecture.md) "High-Level Request Flow" diagram
 
-# INCORRECT - Leaks data across tenants
-Pwb::Page.all  # Returns ALL pages from ALL tenants
-```
+- **Create a new controller** → Follow [multi_tenancy_guide.md](./multi_tenancy_guide.md) "Quick Start" section
 
-## Key Components
+- **Write a query** → Check [multi_tenancy_guide.md](./multi_tenancy_guide.md) "Query Examples" section
 
-### Pwb::Current
+- **Debug a tenant isolation issue** → See [multi_tenancy_guide.md](./multi_tenancy_guide.md) "Debugging Multi-Tenancy Issues"
 
-Thread-local storage for current tenant context:
+- **Understand data scoping** → Read [routing_implementation.md](./routing_implementation.md) "Data Isolation & Scoping" section
 
-```ruby
-# Set by SubdomainTenant concern automatically
-Pwb::Current.website  # Returns current tenant's Website
-```
+- **Set up cross-tenant access** → Check [routing_implementation.md](./routing_implementation.md) "TenantAdminController" section and [multi_tenancy_guide.md](./multi_tenancy_guide.md) "Cross-Tenant Queries"
 
-### SubdomainTenant Concern
+- **Add a new model** → Follow [multi_tenancy_guide.md](./multi_tenancy_guide.md) "Model Patterns" section
 
-Included in controllers to automatically resolve tenant:
+## Key Concepts Quick Reference
 
-```ruby
-class MyController < ApplicationController
-  include SubdomainTenant
-  # Now current_website is available
-end
-```
+### Subdomain-Based Routing
 
-## Creating Tenants Programmatically
+Each tenant is identified by a unique subdomain (e.g., `myagency.example.com`). The `SubdomainTenant` concern extracts and resolves the subdomain to a `Pwb::Website` record.
 
-```ruby
-# Create website
-website = Pwb::Website.create!(
-  subdomain: 'newagency',
-  company_display_name: 'New Agency',
-  theme_name: 'berlin',
-  default_currency: 'EUR'
-)
+**Priority:**
+1. `X-Website-Slug` header (for API clients)
+2. Request subdomain (for browsers)
+3. First website (fallback)
 
-# Seed default data
-Pwb::Seeder.seed!(website: website)
-```
+### Automatic Tenant Scoping
 
-## Development Testing
-
-Use `lvh.me` which resolves to localhost with subdomain support:
-
-```
-http://tenant1.lvh.me:3000  → tenant1's website
-http://tenant2.lvh.me:3000  → tenant2's website
-```
-
-## Best Practices
-
-### Always Scope Queries
+Models inheriting from `PwbTenant::ApplicationRecord` are automatically scoped to the current tenant via `acts_as_tenant`. No manual WHERE clauses needed for tenant isolation.
 
 ```ruby
-# Good
-@pages = current_website.pages
-@props = Pwb::Prop.where(website_id: current_website.id)
-
-# Bad - Data leak!
-@pages = Pwb::Page.all
+PwbTenant::Contact.all  # => Auto-scoped to current website
 ```
 
-### Use with_tenant in Seeds/Scripts
+### Two Model Namespaces
 
-```ruby
-ActsAsTenant.with_tenant(website) do
-  Pwb::Prop.create!(title: "New Property")
-end
+- **Pwb::** - Non-scoped models (Website, User). Global access, manual scoping needed.
+- **PwbTenant::** - Scoped models (Contact, Prop). Auto-scoped to current tenant.
+
+### Three Controller Types
+
+| Type | Scope | Use Case |
+|------|-------|----------|
+| Pwb::* | Single website (public) | Public website content |
+| SiteAdmin::* | Single website (admin) | Admin dashboard for one website |
+| TenantAdmin::* | All websites | Super-admin cross-tenant management |
+
+### Authorization
+
+- **Public:** No authentication needed
+- **Site Admin:** User must be authenticated + admin for that website
+- **Tenant Admin:** User email must be in `TENANT_ADMIN_EMAILS` environment variable
+
+## Architecture Layers
+
+```
+┌─────────────────────────────────────────┐
+│         ROUTING LAYER                   │
+│  SubdomainTenant concern                │
+│  - Extracts subdomain/header            │
+│  - Sets Pwb::Current.website            │
+└─────────────────────────────────────────┘
+              ▼
+┌─────────────────────────────────────────┐
+│         CONTROLLER LAYER                │
+│  - SiteAdminController (single tenant)  │
+│  - TenantAdminController (cross-tenant) │
+│  - Pwb::ApplicationController (public)  │
+└─────────────────────────────────────────┘
+              ▼
+┌─────────────────────────────────────────┐
+│         TENANT CONTEXT LAYER            │
+│  ActsAsTenant.current_tenant            │
+│  - Set in controller before_action      │
+└─────────────────────────────────────────┘
+              ▼
+┌─────────────────────────────────────────┐
+│         MODEL LAYER                     │
+│  - Pwb:: models (non-scoped)            │
+│  - PwbTenant:: models (auto-scoped)     │
+└─────────────────────────────────────────┘
+              ▼
+┌─────────────────────────────────────────┐
+│         DATABASE LAYER                  │
+│  - website_id foreign key on all tables │
+│  - Unique indexes per-website where needed
+└─────────────────────────────────────────┘
 ```
 
-### Test Isolation
+## Common Tasks
 
-```ruby
-RSpec.describe "Feature" do
-  let!(:website_a) { FactoryBot.create(:pwb_website, subdomain: 'a') }
-  let!(:website_b) { FactoryBot.create(:pwb_website, subdomain: 'b') }
-  
-  it "isolates tenant data" do
-    prop_a = ActsAsTenant.with_tenant(website_a) do
-      FactoryBot.create(:pwb_prop)
-    end
-    
-    expect(website_a.props).to include(prop_a)
-    expect(website_b.props).not_to include(prop_a)
-  end
-end
-```
+### Creating a New Controller for Single Website Admin
+
+1. Create controller inheriting from `SiteAdminController`
+2. It automatically:
+   - Resolves website from subdomain
+   - Requires authentication + authorization
+   - Sets tenant context for models
+3. Use `PwbTenant::` models for auto-scoped queries
+
+See example in [multi_tenancy_guide.md](./multi_tenancy_guide.md)
+
+### Adding a New Tenant-Scoped Model
+
+1. Create model in `app/models/pwb_tenant/` namespace
+2. Inherit from `PwbTenant::ApplicationRecord`
+3. Ensure table has `website_id` column (indexed)
+4. Queries are automatically scoped
+
+See example in [multi_tenancy_guide.md](./multi_tenancy_guide.md)
+
+### Cross-Tenant Admin Query
+
+1. Use `TenantAdminController` (no SubdomainTenant concern)
+2. For PwbTenant:: models, use `ActsAsTenant.with_tenant(website)` or `ActsAsTenant.without_tenant`
+3. Or manually use Pwb:: models with `where(website_id: ...)`
+
+See example in [multi_tenancy_guide.md](./multi_tenancy_guide.md)
+
+### Testing Multi-Tenancy
+
+1. Create fixtures with multiple websites
+2. Set host/subdomain in request specs
+3. Verify queries are scoped correctly
+4. Test authorization boundaries
+
+See examples in [multi_tenancy_guide.md](./multi_tenancy_guide.md)
+
+## File Reference
+
+**Controllers:**
+- `/app/controllers/pwb/application_controller.rb` - Public website base
+- `/app/controllers/site_admin_controller.rb` - Single-tenant admin base
+- `/app/controllers/tenant_admin_controller.rb` - Cross-tenant admin base
+
+**Models:**
+- `/app/models/pwb/website.rb` - Website model (tenant identifier)
+- `/app/models/pwb/application_record.rb` - Non-scoped model base
+- `/app/models/pwb/current.rb` - Request-scoped current attributes
+- `/app/models/pwb_tenant/application_record.rb` - Scoped model base
+
+**Concerns:**
+- `/app/controllers/concerns/subdomain_tenant.rb` - Subdomain routing logic
+
+**Configuration:**
+- `/config/routes.rb` - Route definitions
+- `/config/initializers/acts_as_tenant.rb` - Acts_as_tenant config
+- `/lib/constraints/tenant_admin_constraint.rb` - Route constraint
+
+**Schema:**
+- `/db/schema.rb` - Database schema (see pwb_websites table)
+
+## Related Documentation
+
+- [Architecture decisions](../architecture/) - Design decisions and patterns
+- [Seed packs](../seeding/) - Multi-tenant seed data
+- [Field keys system](../field_keys/) - Tenant-scoped configuration
 
 ## Troubleshooting
 
-### "No tenant set" errors
+### Issue: Wrong website data showing
 
-Wrap model operations in tenant context:
+**Cause:** Not using auto-scoped models or missing WHERE clause
 
-```ruby
-ActsAsTenant.with_tenant(website) do
-  # Operations here are scoped to website
-end
-```
+**Solution:** 
+- Use `PwbTenant::` models for auto-scoping
+- Or manually add `where(website_id: current_website.id)`
 
-### Cross-tenant data leaks
+### Issue: Subdomain not resolving
 
-Always filter queries by `website_id`:
+**Cause:** 
+- DNS not configured
+- Rails domain configuration issue
+- Reserved subdomain being used
 
-```ruby
-Pwb::Prop.where(website_id: current_website.id).find(params[:id])
-```
+**Solution:**
+- Check DNS A/CNAME records
+- Verify `config.hosts` in environment file
+- See reserved subdomains list in Website model
 
-### DNS for local development
+### Issue: Authorization failing
 
-Add to `/etc/hosts`:
-```
-127.0.0.1 tenant-a.localhost
-127.0.0.1 tenant-b.localhost
-```
+**Cause:** 
+- Not authenticated
+- User not admin for website
+- Not in TENANT_ADMIN_EMAILS list
 
-Or use `lvh.me` which works out of the box.
+**Solution:**
+- Check authentication status
+- Verify user role with `user.admin_for?(website)`
+- Check TENANT_ADMIN_EMAILS environment variable
+
+## More Information
+
+For implementation details, see the individual documentation files:
+- **Technical details:** [routing_implementation.md](./routing_implementation.md)
+- **Visual diagrams:** [routing_architecture.md](./routing_architecture.md)
+- **Development guide:** [multi_tenancy_guide.md](./multi_tenancy_guide.md)
+
+For questions or contributions, follow the project's CONTRIBUTING guidelines.
