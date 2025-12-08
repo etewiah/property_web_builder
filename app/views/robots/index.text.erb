@@ -1,0 +1,35 @@
+# robots.txt for <%= @website&.company_display_name || @website&.subdomain || 'PropertyWebBuilder' %>
+# Generated dynamically per tenant
+
+User-agent: *
+Allow: /
+
+# Disallow admin areas
+Disallow: /site_admin/
+Disallow: /tenant_admin/
+Disallow: /admin/
+Disallow: /users/
+
+# Disallow API endpoints
+Disallow: /api/
+Disallow: /graphql
+Disallow: /api-docs/
+
+# Disallow auth paths
+Disallow: /auth/
+Disallow: /sign_in
+Disallow: /sign_up
+Disallow: /password/
+
+# Disallow health checks
+Disallow: /health
+
+# Allow search engines to crawl property pages
+Allow: /properties/
+Allow: /p/
+
+# Sitemap location
+Sitemap: <%= @host %>/sitemap.xml
+
+# Crawl-delay (optional, helps prevent server overload)
+Crawl-delay: 1

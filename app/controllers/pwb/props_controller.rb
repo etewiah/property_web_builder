@@ -2,6 +2,8 @@ require_dependency "pwb/application_controller"
 
 module Pwb
   class PropsController < ApplicationController
+    include SeoHelper
+
     def show_for_rent
       @carousel_speed = 3000
       @operation_type = "for_rent"
@@ -18,6 +20,10 @@ module Pwb
 
         @page_title = @property_details.title
         @page_description = @property_details.description
+
+        # Set SEO data for the property
+        set_property_seo(@property_details, 'for_rent')
+
         return render "/pwb/props/show"
       else
         @page_title = I18n.t("propertyNotFound")
@@ -41,6 +47,10 @@ module Pwb
         set_map_marker
         @page_title = @property_details.title
         @page_description = @property_details.description
+
+        # Set SEO data for the property
+        set_property_seo(@property_details, 'for_sale')
+
         return render "/pwb/props/show"
       else
         @page_title = I18n.t("propertyNotFound")
@@ -104,6 +114,42 @@ module Pwb
     end
 
     private
+
+    # Set SEO metadata for property pages
+    def set_property_seo(property, operation_type)
+      # Build canonical URL using slug if available
+      canonical_path = if property.slug.present?
+                         property.contextual_show_path(operation_type)
+                       else
+                         request.path
+                       end
+      canonical_url = "#{request.protocol}#{request.host_with_port}#{canonical_path}"
+
+      # Get first image for social sharing
+      image_url = property.primary_image_url
+
+      # Get SEO fields - handle both ListedProperty (view) and Prop (model)
+      # ListedProperty is a materialized view, so SEO fields come from the underlying Prop
+      seo_title_value = property.respond_to?(:seo_title) ? property.seo_title : nil
+      meta_desc_value = property.respond_to?(:meta_description) ? property.meta_description : nil
+
+      set_seo(
+        title: seo_title_value.presence || property.title,
+        description: meta_desc_value.presence || truncate_description(property.description),
+        canonical_url: canonical_url,
+        image: image_url,
+        og_type: 'product' # More appropriate for real estate listings
+      )
+
+      # Store property for JSON-LD generation in the view
+      @seo_property = property
+    end
+
+    # Truncate description for meta tags (recommended ~155-160 chars)
+    def truncate_description(text)
+      return nil if text.blank?
+      ActionController::Base.helpers.strip_tags(text).truncate(160)
+    end
 
     # Find property by slug first, then fall back to ID for backwards compatibility
     # Supports both friendly slugs and legacy UUID/integer IDs

@@ -8,6 +8,10 @@ Rails.application.routes.draw do
   get '/health/ready', to: 'health#ready'
   get '/health/details', to: 'health#details'
 
+  # SEO: XML Sitemap and robots.txt (dynamic per-tenant)
+  get '/sitemap.xml', to: 'sitemaps#index', defaults: { format: 'xml' }
+  get '/robots.txt', to: 'robots#index', defaults: { format: 'text' }
+
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   get '/api-public-docs', to: 'api_public_docs#index'

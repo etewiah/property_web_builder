@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_08_134208) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_08_160552) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -377,6 +377,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_134208) do
     t.datetime "updated_at", precision: nil, null: false
     t.integer "website_id"
     t.jsonb "translations", default: {}, null: false
+    t.string "seo_title"
+    t.text "meta_description"
     t.index ["flags"], name: "index_pwb_pages_on_flags"
     t.index ["show_in_footer"], name: "index_pwb_pages_on_show_in_footer"
     t.index ["show_in_top_nav"], name: "index_pwb_pages_on_show_in_top_nav"
@@ -480,6 +482,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_134208) do
     t.integer "area_unit", default: 0
     t.integer "website_id"
     t.jsonb "translations", default: {}, null: false
+    t.string "seo_title"
+    t.text "meta_description"
     t.index ["archived"], name: "index_pwb_props_on_archived"
     t.index ["flags"], name: "index_pwb_props_on_flags"
     t.index ["for_rent_long_term"], name: "index_pwb_props_on_for_rent_long_term"
@@ -695,6 +699,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_08_134208) do
     t.boolean "ntfy_notify_listings", default: true, null: false
     t.boolean "ntfy_notify_users", default: false, null: false
     t.boolean "ntfy_notify_security", default: true, null: false
+    t.text "default_meta_description"
+    t.string "default_seo_title"
     t.index ["custom_domain"], name: "index_pwb_websites_on_custom_domain", unique: true, where: "((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))"
     t.index ["slug"], name: "index_pwb_websites_on_slug"
     t.index ["subdomain"], name: "index_pwb_websites_on_subdomain", unique: true

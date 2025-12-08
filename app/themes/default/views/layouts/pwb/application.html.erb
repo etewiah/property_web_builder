@@ -3,10 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="index, follow">
-    <title><%= yield(:page_title) %></title>
+    <title><%= seo_title %></title>
+    <%= seo_meta_tags %>
     <%= yield(:page_head) %>
-    <%# display_meta_tags site: @current_website.tenant_display_name %>
     <%# Tailwind CSS %>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>

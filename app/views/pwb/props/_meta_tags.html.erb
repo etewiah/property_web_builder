@@ -1,8 +1,14 @@
 <% content_for :page_head do %>
+  <%# Legacy image link for older social platforms %>
   <link rel="image_src" href="<%= opt_image_url((@property_details.ordered_photo 1), height: 800, crop: "scale", quality: "auto") %>" />
-  <meta property="og:image" content="<%= opt_image_url((@property_details.ordered_photo 1), height: 800, crop: "scale", quality: "auto") %>" />
+
+  <%# Location metadata for mapping services %>
   <% if @property_details.show_map %>
-    <meta property="place:location:latitude"  content="<%= @property_details.latitude %>"> 
-    <meta property="place:location:longitude"  content="<%= @property_details.longitude %>"> 
+    <meta property="place:location:latitude" content="<%= @property_details.latitude %>">
+    <meta property="place:location:longitude" content="<%= @property_details.longitude %>">
   <% end %>
+
+  <%# JSON-LD Structured Data for SEO %>
+  <%= property_json_ld(@seo_property || @property_details) %>
+  <%= organization_json_ld %>
 <% end %>
