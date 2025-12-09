@@ -8,10 +8,21 @@ module Pwb
     def call
       Rails.logger.info "FirebaseAuthService: Starting token verification"
       Rails.logger.debug "FirebaseAuthService: Token length: #{@token&.length || 0}"
-      
+
       begin
         payload = FirebaseIdToken::Signature.verify(@token)
         Rails.logger.info "FirebaseAuthService: Token verified successfully"
+      rescue FirebaseIdToken::Exceptions::NoCertificatesError => e
+        # Certificates missing from Redis - fetch them and retry once
+        Rails.logger.warn "FirebaseAuthService: No certificates found, fetching from Google..."
+        begin
+          FirebaseIdToken::Certificates.request!
+          payload = FirebaseIdToken::Signature.verify(@token)
+          Rails.logger.info "FirebaseAuthService: Token verified after certificate refresh"
+        rescue StandardError => retry_error
+          Rails.logger.error "FirebaseAuthService: Retry failed - #{retry_error.class}: #{retry_error.message}"
+          return nil
+        end
       rescue StandardError => e
         Rails.logger.error "FirebaseAuthService: Verification failed - #{e.class}: #{e.message}"
         Rails.logger.error "FirebaseAuthService: Backtrace: #{e.backtrace.first(5).join("\n")}"
