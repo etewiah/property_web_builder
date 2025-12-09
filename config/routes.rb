@@ -8,6 +8,10 @@ Rails.application.routes.draw do
   get '/health/ready', to: 'health#ready'
   get '/health/details', to: 'health#details'
 
+  # On-demand TLS verification endpoint
+  # Reverse proxies (like Caddy) query this to verify domains before issuing certificates
+  get '/tls/check', to: 'pwb/tls#check'
+
   # SEO: XML Sitemap and robots.txt (dynamic per-tenant)
   get '/sitemap.xml', to: 'sitemaps#index', defaults: { format: 'xml' }
   get '/robots.txt', to: 'robots#index', defaults: { format: 'text' }

@@ -35,63 +35,46 @@ The simplest approach is to use Cloudflare as a proxy. Cloudflare provides:
 
 ---
 
-## Option 2: Caddy Server (Auto SSL)
+## Option 2: Reverse Proxy with On-Demand TLS
 
-Caddy automatically obtains and renews Let's Encrypt certificates.
+Modern reverse proxies (Caddy, Traefik, etc.) can automatically obtain and renew Let's Encrypt certificates on-demand.
 
-### Caddyfile Configuration
+### TLS Verification Endpoint
 
-```caddyfile
-# Platform domains - wildcard certificate
-*.propertywebbuilder.com {
-    reverse_proxy localhost:3000
-}
+PropertyWebBuilder provides a built-in TLS verification endpoint at `/tls/check` that reverse proxies can query before issuing certificates:
 
-# Custom domains - on-demand TLS
-:443 {
-    tls {
-        on_demand
-    }
-    reverse_proxy localhost:3000
-}
+```
+GET /tls/check?domain=example.com
+
+Returns:
+- 200 OK: Domain is valid, proceed with certificate
+- 403 Forbidden: Domain exists but is suspended/terminated
+- 404 Not Found: Domain not registered in the system
 ```
 
-### On-Demand TLS Configuration
+### Configuration for On-Demand TLS
 
-Create `/etc/caddy/ask_endpoint.sh` to verify domains:
+Configure your reverse proxy to query the verification endpoint before issuing certificates. Example for a generic reverse proxy:
+
+```
+on_demand_tls:
+  ask: https://yourapp.com/tls/check
+  interval: 5m
+  burst: 10
+```
+
+### Security
+
+You can secure the endpoint with a shared secret:
 
 ```bash
-#!/bin/bash
-# Called by Caddy to verify if a domain should get a certificate
-DOMAIN=$1
-
-# Query your Rails app to verify the domain is registered
-curl -s "http://localhost:3000/api/v1/verify_domain?domain=$DOMAIN" | grep -q '"valid":true'
+# Set environment variable
+TLS_CHECK_SECRET=your-secret-token
 ```
 
-Add an API endpoint in Rails:
-
-```ruby
-# app/controllers/api/v1/domains_controller.rb
-module Api
-  module V1
-    class DomainsController < ApplicationController
-      skip_before_action :verify_authenticity_token
-
-      def verify
-        domain = params[:domain]
-        website = Pwb::Website.find_by_custom_domain(domain)
-
-        if website && website.custom_domain_active?
-          render json: { valid: true }
-        else
-          render json: { valid: false }, status: :not_found
-        end
-      end
-    end
-  end
-end
-```
+Then configure your reverse proxy to send the secret:
+- As header: `X-TLS-Secret: your-secret-token`
+- Or as query param: `/tls/check?domain=example.com&secret=your-secret-token`
 
 ### Benefits
 - Fully automatic SSL
@@ -250,7 +233,7 @@ PLATFORM_DOMAINS=propertywebbuilder.com
 # Server IP for A record instructions (apex domains)
 PLATFORM_IP=123.45.67.89
 
-# SSL provisioning method (cloudflare, caddy, nginx, aws)
+# SSL provisioning method (cloudflare, reverse_proxy, nginx, aws)
 SSL_PROVIDER=cloudflare
 
 # For AWS

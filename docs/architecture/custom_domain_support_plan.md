@@ -433,32 +433,29 @@ end
 - Cloudflare provides SSL for all domains
 - Zero-config for tenants
 
-**Option B: Let's Encrypt with Caddy/nginx**
-- Auto-provision certificates per domain
+**Option B: Reverse Proxy with On-Demand TLS**
+- Auto-provision certificates per domain using `/tls/check` endpoint
 - Requires wildcard cert OR per-domain certs
+- Works with Caddy, Traefik, or other modern proxies
 
 **Option C: AWS Certificate Manager + CloudFront**
 - ACM for free certificates
 - CloudFront as CDN with custom domain support
 
-#### 6.2 Caddy Configuration Example
+#### 6.2 On-Demand TLS Configuration
 
-```caddyfile
-# Caddyfile for automatic SSL
+PropertyWebBuilder provides a TLS verification endpoint at `/tls/check` for on-demand certificate issuance:
 
-# Platform wildcard
-*.propertywebbuilder.com {
-  reverse_proxy localhost:3000
-}
-
-# Custom domains (auto-provisioned)
-{$CUSTOM_DOMAINS} {
-  reverse_proxy localhost:3000
-  tls {
-    on_demand
-  }
-}
 ```
+GET /tls/check?domain=example.com
+
+Returns:
+- 200 OK: Proceed with certificate issuance
+- 403 Forbidden: Domain suspended/terminated
+- 404 Not Found: Domain not registered
+```
+
+Configure your reverse proxy to query this endpoint before issuing certificates.
 
 #### 6.3 nginx + certbot Configuration
 
@@ -583,7 +580,7 @@ Pwb::Current.website = <Website id=5>
 - [ ] Verification status badges
 
 ### Infrastructure
-- [ ] Configure SSL solution (Cloudflare/Caddy/nginx)
+- [ ] Configure SSL solution (Cloudflare/reverse proxy/nginx)
 - [ ] Set `PLATFORM_DOMAINS` environment variable
 - [ ] Document DNS setup for tenants
 
