@@ -47,8 +47,8 @@ GEM
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
-    active_hash (3.3.1)
-      activesupport (>= 5.0.0)
+    active_hash (4.0.0)
+      activesupport (>= 6.1.0)
     active_storage_dashboard (0.1.8)
       rails (>= 5.2.0)
     activejob (8.1.1)
@@ -466,8 +466,9 @@ GEM
     rack (3.2.4)
     rack-attack (6.8.0)
       rack (>= 1.0, < 4)
-    rack-cors (1.1.1)
-      rack (>= 2.0.0)
+    rack-cors (3.0.0)
+      logger
+      rack (>= 3.0.14)
     rack-mini-profiler (4.0.1)
       rack (>= 1.2.0)
     rack-protection (4.2.1)
@@ -735,7 +736,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  active_hash (~> 3.1)
+  active_hash (~> 4.0)
   active_storage_dashboard
   acts_as_tenant (~> 1.0)
   annotaterb
@@ -786,7 +787,7 @@ DEPENDENCIES
   pry-byebug
   puma
   rack-attack (~> 6.7)
-  rack-cors (~> 1.1)
+  rack-cors (~> 3.0)
   rack-mini-profiler
   rails (~> 8.1)
   rails-controller-testing

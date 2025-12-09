@@ -136,7 +136,7 @@ gem "money-rails", "~> 1.15"
 
 gem "simple_form", "~> 5.1"
 
-gem "active_hash", "~> 3.1"
+gem "active_hash", "~> 4.0"
 
 gem "flag_shih_tzu", "~> 0.3.23"
 
@@ -161,9 +161,9 @@ gem "faraday", "~> 2.3"
 
 gem "rets", "~> 0.11.2"
 
-gem "rack-cors", "~> 1.1"
+gem "rack-cors", "~> 3.0"
 
-gem "redis", "~> 4.7"
+gem "redis", "~> 4.7"  # Pinned: firebase_id_token 2.x requires redis < 5
 # redis gem needs to be before logster
 gem "logster", "~> 2.11"
 
@@ -174,7 +174,7 @@ gem "omniauth-facebook"
 
 gem "tailwindcss-rails", "~> 4.4"
 
-gem "firebase_id_token", "~> 2.5"
+gem "firebase_id_token", "~> 2.5"  # Pinned: 3.0 doesn't support Rails 8.1 yet
 gem "active_storage_dashboard"
 
 # AWS SDK for S3-compatible storage (Cloudflare R2)
