@@ -1,6 +1,5 @@
 require 'rets'
 require 'faraday'
-require 'ruby_odata'
 
 module Pwb
   class MlsConnector
@@ -11,32 +10,14 @@ module Pwb
     end
 
     def retrieve(query, limit)
-      if import_source.source_type == "odata"
-        properties = retrieve_via_odata query, limit
-      else
-        properties = retrieve_via_rets query, limit
+      unless import_source.source_type == "rets"
+        raise ArgumentError, "Unsupported source type: #{import_source.source_type}. Only RETS is supported."
       end
+
+      retrieve_via_rets(query, limit)
     end
 
-    def retrieve_via_odata(_query, _limit)
-      # conn = Faraday.new(:url => 'http://dmm-api.olrdev.com/Service.svc') do |faraday|
-      #   faraday.basic_auth('', '')
-      #   faraday.request  :url_encoded             # form-encode POST params
-      #   faraday.response :logger                  # log requests to STDOUT
-      #   faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
-      # end
-      # response = conn.get "/Listings()?$filter=RentalListingType%20ge%200L"
-      # response.body
-
-      svc = OData::Service.new import_source.details[:login_url],
-        { username: import_source.details[:username],
-          password: import_source.details[:password]
-        }
-
-      svc.Listings.expand('Building')
-      listings = svc.execute
-      JSON.parse(listings.to_json)
-    end
+    private
 
     def retrieve_via_rets(query, limit)
       client = Rets::Client.new(import_source.details)

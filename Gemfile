@@ -168,7 +168,8 @@ gem "redis", "~> 5.0"
 # redis gem needs to be before logster
 gem "logster", "~> 2.11"
 
-gem "ruby_odata", "~> 0.1.0"
+# REMOVED: ruby_odata - OData MLS imports no longer supported
+# gem "ruby_odata", "~> 0.1.0"
 
 gem "firebase"
 gem "omniauth-facebook"

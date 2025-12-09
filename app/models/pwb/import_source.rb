@@ -32,18 +32,8 @@ module Pwb
         default_property_class: "PROPERTY",
         displayName: "InterRealty",
       # value: "interealty"
-      }, {
-        id: 3,
-        source_type: "odata",
-        unique_name: "olr",
-        import_mapper_name: "mls_olr",
-        details: {
-          login_url: "http://api.olr.com/Service.svc",
-          username: "",
-          password: "",
-        },
-        displayName: "OLR",
       },
+      # OData source removed - ruby_odata gem no longer supported
     ]
 
     # set_root_path "#{Rails.root}/config/client_setups"

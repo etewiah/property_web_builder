@@ -109,7 +109,6 @@ GEM
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.12.1)
       aws-eventstream (~> 1, >= 1.0.2)
-    backports (2.3.0)
     base64 (0.3.0)
     bcrypt (3.1.20)
     better_errors (2.10.1)
@@ -271,7 +270,6 @@ GEM
       rubocop (< 2.0)
     hashdiff (1.2.1)
     hashie (5.0.0)
-    http-accept (1.7.0)
     http-cookie (1.0.8)
       domain_name (~> 0.5)
     httpclient (2.9.0)
@@ -335,10 +333,6 @@ GEM
     marcel (1.1.0)
     matrix (0.4.3)
     method_source (1.1.0)
-    mime-types (3.7.0)
-      logger
-      mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2025.0924)
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
@@ -371,7 +365,6 @@ GEM
       timeout
     net-smtp (0.5.1)
       net-protocol
-    netrc (0.11.0)
     nio4r (2.7.5)
     nokogiri (1.18.10-aarch64-linux-gnu)
       racc (~> 1.4)
@@ -529,11 +522,6 @@ GEM
     responders (3.2.0)
       actionpack (>= 7.0)
       railties (>= 7.0)
-    rest-client (2.1.0)
-      http-accept (>= 1.7.0, < 2.0)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 4.0)
-      netrc (~> 0.8)
     rets (0.11.2)
       http-cookie (~> 1.0.0)
       httpclient (~> 2.7)
@@ -592,11 +580,6 @@ GEM
     ruby-vips (2.2.5)
       ffi (~> 1.12)
       logger
-    ruby_odata (0.1.0)
-      activesupport (>= 2.3.5)
-      backports (~> 2.3.0)
-      nokogiri (>= 1.4.2)
-      rest-client (>= 1.5.1)
     rubyzip (3.2.2)
     sass-embedded (1.95.0-aarch64-linux-gnu)
       google-protobuf (~> 4.31)
@@ -789,7 +772,6 @@ DEPENDENCIES
   rswag-ui
   rubocop
   ruby-prof
-  ruby_odata (~> 0.1.0)
   scenic
   selenium-webdriver
   sentry-rails
