@@ -189,7 +189,7 @@ gem 'scenic'
 gem 'acts_as_tenant', '~> 1.0'
 
 # Pagination
-gem 'pagy', '~> 9.0'
+gem 'pagy', '~> 43.0'
 
 # Security - Rate limiting for brute force protection
 gem 'rack-attack', '~> 6.7'

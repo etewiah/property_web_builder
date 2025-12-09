@@ -430,7 +430,9 @@ GEM
     orm_adapter (0.5.0)
     os (1.1.4)
     ostruct (0.6.3)
-    pagy (9.4.0)
+    pagy (43.2.0)
+      json
+      yaml
     parallel (1.27.0)
     parser (3.3.10.0)
       ast (~> 2.4.1)
@@ -716,6 +718,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    yaml (0.4.0)
     yui-compressor (0.12.0)
     zeitwerk (2.7.3)
     zeus (0.17.0)
@@ -781,7 +784,7 @@ DEPENDENCIES
   oj
   omniauth (~> 2.1)
   omniauth-facebook
-  pagy (~> 9.0)
+  pagy (~> 43.0)
   pg
   poltergeist
   pry-byebug

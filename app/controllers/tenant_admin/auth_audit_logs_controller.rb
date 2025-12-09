@@ -2,7 +2,7 @@
 
 module TenantAdmin
   class AuthAuditLogsController < TenantAdminController
-    include Pagy::Backend
+    # Pagy::Method is included in TenantAdminController
 
     def index
       @logs = Pwb::AuthAuditLog.includes(:user).order(created_at: :desc)

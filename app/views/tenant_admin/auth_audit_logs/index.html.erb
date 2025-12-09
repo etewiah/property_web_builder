@@ -201,10 +201,7 @@
 
     <% if @logs.any? %>
       <div class="px-4 py-3 bg-gray-50 border-t border-gray-200">
-        <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
-        <p class="text-sm text-gray-500">
-          Showing <%= @pagy.from %>-<%= @pagy.to %> of <%= number_with_delimiter(@pagy.count) %> events
-        </p>
+        <%= render 'shared/pagination', pagy: @pagy %>
       </div>
     <% end %>
   </div>

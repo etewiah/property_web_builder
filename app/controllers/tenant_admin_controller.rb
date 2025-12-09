@@ -13,7 +13,7 @@
 # Dev/E2E bypass: Set BYPASS_ADMIN_AUTH=true to skip authentication
 class TenantAdminController < ActionController::Base
   include AdminAuthBypass
-  include Pagy::Backend
+  include Pagy::Method
   helper AuthHelper
 
   protect_from_forgery with: :exception

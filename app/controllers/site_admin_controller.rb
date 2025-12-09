@@ -17,7 +17,7 @@ class SiteAdminController < ActionController::Base
   include ::Devise::Controllers::Helpers
   include SubdomainTenant
   include AdminAuthBypass
-  include Pagy::Backend
+  include Pagy::Method
   helper AuthHelper
   helper_method :current_user
 

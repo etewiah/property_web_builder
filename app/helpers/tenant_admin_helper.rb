@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module TenantAdminHelper
-  include Pagy::Frontend
+  # Pagy 43.x: Frontend helpers are now instance methods on @pagy object
   # Format date in a consistent way
   def format_date(date)
     return "N/A" if date.blank?
