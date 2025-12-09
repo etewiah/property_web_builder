@@ -10,14 +10,16 @@ module Pwb
       Rails.logger.debug "FirebaseAuthService: Token length: #{@token&.length || 0}"
 
       begin
-        payload = FirebaseIdToken::Signature.verify(@token)
+        verifier = FirebaseTokenVerifier.new(@token)
+        payload = verifier.verify!
         Rails.logger.info "FirebaseAuthService: Token verified successfully"
-      rescue FirebaseIdToken::Exceptions::NoCertificatesError => e
-        # Certificates missing from Redis - fetch them and retry once
-        Rails.logger.warn "FirebaseAuthService: No certificates found, fetching from Google..."
+      rescue FirebaseTokenVerifier::CertificateError => e
+        # Certificates missing or invalid - try refreshing
+        Rails.logger.warn "FirebaseAuthService: Certificate error, refreshing - #{e.message}"
         begin
-          FirebaseIdToken::Certificates.request!
-          payload = FirebaseIdToken::Signature.verify(@token)
+          FirebaseTokenVerifier.fetch_certificates!
+          verifier = FirebaseTokenVerifier.new(@token)
+          payload = verifier.verify!
           Rails.logger.info "FirebaseAuthService: Token verified after certificate refresh"
         rescue StandardError => retry_error
           Rails.logger.error "FirebaseAuthService: Retry failed - #{retry_error.class}: #{retry_error.message}"
@@ -28,15 +30,16 @@ module Pwb
         Rails.logger.error "FirebaseAuthService: Backtrace: #{e.backtrace.first(5).join("\n")}"
         return nil
       end
-      
+
       unless payload
         Rails.logger.warn "FirebaseAuthService: Payload is nil after verification"
         return nil
       end
 
-      uid = payload['user_id']
+      # Firebase uses 'sub' for user ID, 'user_id' is also included for compatibility
+      uid = payload['sub'] || payload['user_id']
       email = payload['email']
-      
+
       # Find user by firebase_uid or email
       user = User.find_by(firebase_uid: uid) || User.find_by(email: email)
 
@@ -47,12 +50,12 @@ module Pwb
         # Create new user if not found
         # Use provided website or fall back to Pwb::Current.website or first website
         website = @website || Pwb::Current.website || Website.first
-        
+
         unless website
           Rails.logger.error "No website available for user creation"
           return nil
         end
-        
+
         user = User.new(
           email: email,
           firebase_uid: uid,
@@ -60,7 +63,7 @@ module Pwb
           website: website # Keep for backwards compatibility
         )
         user.save!
-        
+
         # Create membership for the website
         # Default role is 'member', admin must be granted manually
         UserMembershipService.grant_access(
@@ -69,7 +72,7 @@ module Pwb
           role: 'member'
         )
       end
-      
+
       user
     end
   end

@@ -164,7 +164,7 @@ gem "rets", "~> 0.11.2"
 
 gem "rack-cors", "~> 3.0"
 
-gem "redis", "~> 4.7"  # Pinned: firebase_id_token 2.x requires redis < 5
+gem "redis", "~> 5.0"
 # redis gem needs to be before logster
 gem "logster", "~> 2.11"
 
@@ -175,7 +175,8 @@ gem "omniauth-facebook"
 
 gem "tailwindcss-rails", "~> 4.4"
 
-gem "firebase_id_token", "~> 2.5"  # Pinned: 3.0 doesn't support Rails 8.1 yet
+# REMOVED: firebase_id_token - replaced with custom Pwb::FirebaseTokenVerifier
+# This allows redis 5.x and removes httparty/redis-namespace dependencies
 gem "active_storage_dashboard"
 
 # AWS SDK for S3-compatible storage (Cloudflare R2)
