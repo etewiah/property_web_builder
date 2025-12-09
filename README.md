@@ -40,6 +40,16 @@ PropertyWebBuilder 2.0 is a major release representing 5 years of development an
 
 See the full [CHANGELOG](./CHANGELOG.md) for details.
 
+### Branches
+
+- **`master`** - Stable releases only. Use this for production deployments.
+- **`develop`** - Active development. May contain work-in-progress features.
+
+For production use, we recommend checking out a specific release tag:
+```bash
+git checkout v2.0.0
+```
+
 For detailed documentation, see the [docs folder](./docs/), which includes:
 - [API Documentation](./docs/04_API.md)
 - [Frontend/Vue.js Documentation](./docs/05_Frontend.md)
