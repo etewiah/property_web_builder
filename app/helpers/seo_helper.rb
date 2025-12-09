@@ -71,9 +71,25 @@ module SeoHelper
     end
   end
 
+  # Generate favicon link tags
+  def favicon_tags
+    tags = []
+
+    # Default PWB favicon from public directory
+    # Tenants can override by uploading their own favicon via website settings
+    tags << tag.link(rel: 'icon', href: '/favicon.ico', sizes: 'any')
+    tags << tag.link(rel: 'icon', href: '/icon.svg', type: 'image/svg+xml')
+    tags << tag.link(rel: 'apple-touch-icon', href: '/icon.png')
+
+    safe_join(tags, "\n")
+  end
+
   # Generate all meta tags
   def seo_meta_tags
     tags = []
+
+    # Favicon tags
+    tags << favicon_tags
 
     # Basic meta tags
     tags << tag.meta(name: 'description', content: seo_description) if seo_description.present?
