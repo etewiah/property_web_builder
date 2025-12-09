@@ -115,7 +115,8 @@ gem "pg" #, "~> 0.21.0"
 
 # gem "carrierwave", "~> 2.2", ">= 2.2.3"
 
-gem "cloudinary", "~> 1.23"
+# REMOVED: cloudinary - using ActiveStorage with optional CDN instead
+# gem "cloudinary", "~> 1.23"
 
 gem "devise", "~> 4.8"
 

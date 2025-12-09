@@ -6,8 +6,8 @@ PropertyWebBuilder has a multi-layered photo system supporting:
 - Property/listing photos (PropPhoto)
 - Website content photos (ContentPhoto)
 - Website branding photos (WebsitePhoto)
-- Integration with both local disk storage and cloud providers (Cloudinary, Cloudflare R2)
-- ActiveStorage for file management
+- External URLs for CDN-hosted images
+- ActiveStorage for file management with optional S3/R2 backend
 - Multi-tenant isolation
 
 ## Photo Models
@@ -62,33 +62,24 @@ end
 ```ruby
 module Pwb
   class ContentPhoto < ApplicationRecord
+    include ExternalImageSupport
     has_one_attached :image
     belongs_to :content, optional: true
 
     def optimized_image_url
+      # Use external URL if available
+      return external_url if external?
       return nil unless image.attached?
 
-      if Rails.application.config.use_cloudinary
-        Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
+      # Use variants for optimization when possible
+      if image.variable?
+        Rails.application.routes.url_helpers.rails_representation_path(
+          image.variant(resize_to_limit: [800, 600]),
+          only_path: true
+        )
       else
-        if image.variable?
-          Rails.application.routes.url_helpers.rails_representation_path(
-            image.variant(resize_to_limit: [800, 600]), only_path: true
-          )
-        else
-          Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
-        end
+        Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
       end
-    end
-
-    def image_filename
-      read_attribute(:image)
-    end
-
-    def as_json(options = nil)
-      super({only: ["description", "folder", "sort_order", "block_key"],
-             methods: ["optimized_image_url", "image_filename"]
-             }.merge(options || {}))
     end
   end
 end
@@ -99,6 +90,7 @@ end
 - Columns:
   - `content_id` (integer) - Association to content block
   - `image` (string) - legacy filename column
+  - `external_url` (string) - URL for externally hosted images
   - `description` (string) - Photo description
   - `folder` (string) - Storage folder
   - `file_size` (integer) - Original file size
@@ -108,13 +100,8 @@ end
 **Features:**
 - Associated with `Pwb::Content` blocks
 - Supports image variants for optimization (resize_to_limit: [800, 600])
-- Handles both Cloudinary and local storage
+- Supports external URLs via `ExternalImageSupport` concern
 - Custom JSON serialization with `optimized_image_url`
-
-**URL Generation:**
-- Cloudinary: Returns blob path (expects CDN transformation setup)
-- Local: Uses variants for image optimization
-- Returns relative paths (`only_path: true`)
 
 ### 3. Pwb::WebsitePhoto
 **File:** `/app/models/pwb/website_photo.rb`
@@ -125,28 +112,37 @@ module Pwb
   # Note: This model is NOT tenant-scoped. Use PwbTenant::WebsitePhoto for
   # tenant-scoped queries in web requests.
   class WebsitePhoto < ApplicationRecord
+    include ExternalImageSupport
     belongs_to :website, optional: true
     has_one_attached :image
+
+    def optimized_image_url
+      return external_url if external?
+      return nil unless image.attached?
+
+      if image.variable?
+        Rails.application.routes.url_helpers.rails_representation_path(
+          image.variant(resize_to_limit: [800, 600]),
+          only_path: true
+        )
+      else
+        Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
+      end
+    end
   end
 end
 ```
 
 **Database Table:** `pwb_website_photos`
 - Migration: `20180507144720_create_pwb_website_photos.rb`
-- Latest migration: `20251204141849_add_website_to_contacts_messages_and_photos.rb` (adds website_id foreign key)
 - Columns:
   - `website_id` (reference) - Tenant/website association
   - `photo_key` (string) - Type of photo (logo, background, etc.)
   - `image` (string) - Legacy filename column
+  - `external_url` (string) - URL for externally hosted images
   - `description` (string) - Photo description
   - `folder` (string, default: "weebrix")
   - `file_size` (integer)
-  - `website_id` (foreign_key to pwb_websites)
-
-**Features:**
-- Stores branding/site-specific images
-- Indexed on `photo_key` for quick lookup
-- Multi-tenant aware (belongs_to :website)
 
 **Tenant-Scoped Version:**
 **File:** `/app/models/pwb_tenant/website_photo.rb`
@@ -192,29 +188,28 @@ cloudflare_r2:
 - **Production:** `config.active_storage.service = :cloudflare_r2` (R2 object storage)
 - **Development/Test:** Disk-based storage
 
-## Cloudinary Integration
+## External Image Support
 
-**File:** `/config/initializers/cloudinary.rb`
+Photo models include `ExternalImageSupport` concern which allows storing external URLs for CDN-hosted images:
 
 ```ruby
-Cloudinary.config do |config|
-  cloudinary_url = ENV["CLOUDINARY_URL"]
-  if cloudinary_url.present?
-    uri = URI.parse(cloudinary_url)
-    config.api_key = uri.user
-    config.api_secret = uri.password
-    config.cloud_name = uri.host
-    Rails.application.config.use_cloudinary = true
-  else
-    Rails.application.config.use_cloudinary = false
+module ExternalImageSupport
+  extend ActiveSupport::Concern
+
+  def external?
+    external_url.present?
+  end
+
+  def has_image?
+    external? || image.attached?
   end
 end
 ```
 
-**Features:**
-- Global flag: `Rails.application.config.use_cloudinary`
-- Configured via `ENV['CLOUDINARY_URL']` (Heroku format)
-- Conditional image handling in helpers and models
+This allows:
+- Storing images via ActiveStorage (local or S3/R2)
+- Referencing externally hosted images via URL
+- Seamless fallback between the two
 
 ## Image URL Generation
 
@@ -225,8 +220,11 @@ end
 ```ruby
 module Pwb
   module ImagesHelper
+    # Generate background-image CSS style
     def bg_image(photo, options = {})
-      image_url = get_opt_image_url(photo, options)
+      image_url = photo_url(photo)
+      return "" if image_url.blank?
+
       if options[:gradient]
         "background-image: linear-gradient(#{options[:gradient]}), url(#{image_url});".html_safe
       else
@@ -234,32 +232,50 @@ module Pwb
       end
     end
 
+    # Display a photo with support for external URLs
     def opt_image_tag(photo, options = {})
-      unless photo && photo.image.attached?
-        return nil
+      return nil unless photo
+
+      if photo.respond_to?(:external?) && photo.external?
+        return image_tag(photo.external_url, options)
       end
-      if Rails.application.config.use_cloudinary
-        cl_image_tag(photo.image, options)
+
+      return nil unless photo.respond_to?(:image) && photo.image.attached?
+      image_tag url_for(photo.image), options
+    end
+
+    # Display a photo with variant support
+    def photo_image_tag(photo, variant_options: nil, **html_options)
+      return nil unless photo
+
+      if photo.respond_to?(:external?) && photo.external?
+        return image_tag(photo.external_url, html_options)
+      end
+
+      return nil unless photo.respond_to?(:image) && photo.image.attached?
+
+      if variant_options && photo.image.variable?
+        image_tag photo.image.variant(variant_options), html_options
       else
-        image_tag(url_for(photo.image), options)
+        image_tag url_for(photo.image), html_options
       end
     end
 
-    def opt_image_url(photo, options = {})
-      get_opt_image_url(photo, options)
-    end
+    # Get the URL for a photo (external or ActiveStorage)
+    def photo_url(photo)
+      return nil unless photo
 
-    private
-
-    def get_opt_image_url(photo, options)
-      unless photo && photo.image.attached?
-        return ""
-      end
-      if Rails.application.config.use_cloudinary
-        cl_image_path(photo.image, options)
-      else
+      if photo.respond_to?(:external?) && photo.external?
+        photo.external_url
+      elsif photo.respond_to?(:image) && photo.image.attached?
         url_for(photo.image)
       end
+    end
+
+    # Check if photo has an image (external or uploaded)
+    def photo_has_image?(photo)
+      return false unless photo
+      photo.respond_to?(:has_image?) ? photo.has_image? : false
     end
   end
 end
@@ -271,68 +287,14 @@ end
 <div style="<%= bg_image(photo, gradient: 'rgba(0,0,0,0.8), rgba(0,0,0,0.1)') %>"></div>
 
 <!-- Image tags -->
-<%= opt_image_tag(photo, quality: "auto", height: 600, crop: "scale") %>
+<%= opt_image_tag(photo, class: "img-fluid") %>
+
+<!-- Image tags with variants -->
+<%= photo_image_tag(photo, variant_options: { resize_to_limit: [200, 200] }, class: "thumbnail") %>
 
 <!-- URLs for CSS/external use -->
-<%= opt_image_url(photo) %>
+<%= photo_url(photo) %>
 ```
-
-### URL Generation Methods
-
-**Model Methods:**
-
-1. **Pwb::Prop / Pwb::RealtyAsset / Pwb::ListedProperty:**
-   ```ruby
-   def primary_image_url
-     if prop_photos.any? && ordered_photo(1)&.image&.attached?
-       Rails.application.routes.url_helpers.rails_blob_path(ordered_photo(1).image, only_path: true)
-     else
-       ""
-     end
-   end
-   ```
-
-2. **Pwb::ContentPhoto:**
-   ```ruby
-   def optimized_image_url
-     return nil unless image.attached?
-     
-     if Rails.application.config.use_cloudinary
-       Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
-     else
-       if image.variable?
-         Rails.application.routes.url_helpers.rails_representation_path(
-           image.variant(resize_to_limit: [800, 600]), only_path: true
-         )
-       else
-         Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
-       end
-     end
-   end
-   ```
-
-3. **Pwb::Website (logo lookup):**
-   ```ruby
-   def logo_url
-     logo_url = nil
-     logo_content = contents.find_by_key("logo")
-     if logo_content && !logo_content.content_photos.empty?
-       logo_url = logo_content.content_photos.first.image_url
-     end
-     logo_url
-   end
-   ```
-
-4. **Pwb::Content (default photo):**
-   ```ruby
-   def default_photo_url
-     if content_photos.first
-       content_photos.first.image_url
-     else
-       'https://placeholdit.imgix.net/~text?txtsize=38&txt=&w=550&h=300&txttrack=0'
-     end
-   end
-   ```
 
 ## Photo Management Controllers
 
@@ -351,7 +313,6 @@ end
    - Accepts multipart form data with `image` param
    - Auto-creates "uploads" content for general images
    - Returns JSON response with image metadata
-   - CSRF protection disabled for API-style uploads
 
 **Response Format:**
 ```json
@@ -369,55 +330,6 @@ end
 }
 ```
 
-### Editor Images Controller
-**File:** `/app/controllers/pwb/editor/images_controller.rb`
-
-Similar to Site Admin controller:
-- GET endpoint returns images (content, website, property)
-- POST endpoint uploads new images
-- Uses `@current_website` for tenant context
-- Returns minimal JSON responses
-
-## Photo Display in Views
-
-**Example: Property Photo Carousel**
-**File:** `/app/views/pwb/props/_images_section_carousel.html.erb`
-
-```erb
-<div class="product-gallery">
-  <div id="propCarousel" class="carousel carousel-1 slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-      <% @property_details.prop_photos.each.with_index do |photo, index| %>
-        <li data-target="#propCarousel" data-slide-to="<%= index %>" class=""></li>
-      <% end %>
-    </ol>
-    <div class="carousel-inner">
-      <% @property_details.prop_photos.each.with_index do |photo, index| %>
-        <div class="item item-dark <%= "active" if index == 0 %>">
-          <%= opt_image_tag(photo, quality: "auto", height: 600, crop: "scale", 
-                           class: "", alt: "") %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>
-```
-
-## GraphQL Support
-
-**File:** `/app/graphql/types/prop_photo_type.rb`
-
-```ruby
-module Types
-  class PropPhotoType < Types::BaseObject
-    field :created_at, GraphQL::Types::ISO8601DateTime
-    field :image, String
-  end
-end
-```
-
-**Note:** GraphQL photo support is minimal - primarily returns creation timestamp and image URL.
-
 ## Multi-Tenancy Considerations
 
 ### Tenant Scoping
@@ -432,110 +344,39 @@ The `/app/models/pwb_tenant/` directory contains tenant-scoped versions:
 - `PwbTenant::WebsitePhoto` - Uses `acts_as_tenant :website`
 - Other tenant models use similar pattern for query isolation
 
-### Recent Migration (2025-12-04)
-**File:** `db/migrate/20251204141849_add_website_to_contacts_messages_and_photos.rb`
-
-Adds explicit `website_id` reference to:
-- `pwb_website_photos` - Ensures direct tenant association
-
-## Website Configuration Options
-
-**File:** `/app/models/pwb/website.rb`
-
-### Storage Configuration
-- `style_variables_for_theme` - JSONB column storing theme-specific styles (includes colors, fonts, layout)
-- `configuration` - JSONB column for website-wide settings
-
-### Image Settings
-- No explicit image storage configuration per website
-- All images use centralized ActiveStorage configuration
-- Cloud service determined at application level (Cloudinary or R2)
-
-### Logo Management
-```ruby
-def logo_url
-  logo_url = nil
-  logo_content = contents.find_by_key("logo")
-  if logo_content && !logo_content.content_photos.empty?
-    logo_url = logo_content.content_photos.first.image_url
-  end
-  logo_url
-end
-```
-
-Logo is stored as a ContentPhoto associated with a Content block with key "logo"
-
-## Current Limitations & Notes
-
-1. **External URL Support:** No explicit `external_url` fields in photo models
-   - All images must be uploaded via ActiveStorage
-   - Alternative: Could store external URLs in `description` field or add new column
-
-2. **Image Variants:** Only ContentPhoto implements variants
-   - PropPhoto and WebsitePhoto don't use ActiveStorage variants
-   - Cloudinary integration is minimal (mostly stub code)
-
-3. **Thumbnail Generation:** Only SiteAdmin controller implements thumbnail generation
-   - Uses `image.variant(resize_to_limit: [150, 150])`
-
-4. **Relative URLs:** All `primary_image_url` methods return relative paths (`only_path: true`)
-   - Need full domain for external use or CDN delivery
-
-5. **Legacy Code:** Some commented-out Cloudinary integration remains
-   - Indicates incomplete Cloudinary implementation
-   - WebsitePhoto has commented `optimized_image_url` method
-
-6. **Image Validation:** Validation commented out in models
-   - `validates_processing_of :image` not active
-   - `image_size_validation` not active
-   - No explicit file type or size restrictions
-
 ## Performance Considerations
 
 1. **Database Queries:**
    - Photos associated with properties loaded via `.order('sort_order asc')`
-   - No N+1 protection - consider eager loading in controllers
+   - Consider eager loading in controllers to avoid N+1 queries
 
 2. **File Storage:**
    - Development/Test: Local disk
    - Production: Cloudflare R2 (S3-compatible)
-   - Cloudinary available but not fully utilized
 
 3. **Image Variants:**
-   - Only ContentPhoto implements variants
-   - Variants cached by ActiveStorage
-   - Recommend implementing variants for other photo types
+   - ActiveStorage variants are generated on-demand and cached
+   - Use variants for thumbnails and optimized sizes
+   - Recommend implementing variants for all photo types
 
 ## Future Enhancement Opportunities
 
-1. **External URL Support:**
-   - Add `external_image_url` field to photo models
-   - Implement URL validation
-   - Handle fallback scenarios
-
-2. **Comprehensive Cloudinary Integration:**
-   - Complete implementation of `optimized_image_url` in WebsitePhoto
-   - Add Cloudinary transformations to helper methods
-   - Implement dynamic image optimization
-
-3. **Image Variants:**
-   - Implement variants for PropPhoto and WebsitePhoto
+1. **Image Variants:**
+   - Implement variants for PropPhoto
    - Create preset variant sizes (thumbnail, medium, large)
    - Cache variants appropriately
 
-4. **Validation & Constraints:**
+2. **Validation & Constraints:**
    - Add file type validation (whitelist image types)
    - Implement file size limits
    - Add required field validation
 
-5. **Multi-Tenant Optimization:**
-   - Ensure all photo models explicitly scoped to website
-   - Add database indexes for tenant queries
-   - Implement tenant-scoped view models for all photo types
+3. **CDN Integration:**
+   - Configure CDN (CloudFront, Cloudflare) in front of ActiveStorage
+   - Add cache headers for optimized delivery
 
 ## References
 
 - Active Storage: Rails built-in file attachment framework
-- Cloudinary Gem: Cloud-based image management
 - Rails Blob Path: `rails_blob_path(attachment, only_path: true)`
 - Rails Representation Path: `rails_representation_path(variant, only_path: true)`

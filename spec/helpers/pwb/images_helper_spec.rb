@@ -126,9 +126,9 @@ RSpec.describe Pwb::ImagesHelper, type: :helper do
     end
 
     context 'without external URL or attached image' do
-      it 'returns background-image style with empty URL' do
+      it 'returns empty string' do
         result = helper.bg_image(photo)
-        expect(result).to eq('background-image: url();')
+        expect(result).to eq('')
       end
     end
   end

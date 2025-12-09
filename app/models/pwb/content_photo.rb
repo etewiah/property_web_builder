@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Pwb
   class ContentPhoto < ApplicationRecord
     include ExternalImageSupport
@@ -7,26 +9,20 @@ module Pwb
     # I use block_key col to indicate if there is a fragment block associated
     # with this photo
 
-    # validates_processing_of :image
-    # validate :image_size_validation
-
     def optimized_image_url
       # Use external URL if available
       return external_url if external?
 
       return nil unless image.attached?
 
-      if Rails.application.config.use_cloudinary
-        # For Cloudinary with ActiveStorage, we'll need to handle this differently
-        # For now, return the basic URL and handle Cloudinary integration separately
-        Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
+      # Use variants for optimization when possible
+      if image.variable?
+        Rails.application.routes.url_helpers.rails_representation_path(
+          image.variant(resize_to_limit: [800, 600]),
+          only_path: true
+        )
       else
-        # For local storage, we can use variants for optimization
-        if image.variable?
-          Rails.application.routes.url_helpers.rails_representation_path(image.variant(resize_to_limit: [800, 600]), only_path: true)
-        else
-          Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
-        end
+        Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
       end
     end
 
@@ -48,10 +44,5 @@ module Pwb
     def external_image_mode?
       content&.website&.external_image_mode || false
     end
-
-    # private
-    # def image_size_validation
-    #   errors[:image] << "should be less than 500KB" if image.size > 0.5.megabytes
-    # end
   end
 end

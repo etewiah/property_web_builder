@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Pwb
   # WebsitePhoto stores branding images for websites.
   #
@@ -11,21 +13,20 @@ module Pwb
     belongs_to :website, optional: true
     has_one_attached :image
 
-    # validates_processing_of :image
-    # validate :image_size_validation
-
     def optimized_image_url
       # Use external URL if available
       return external_url if external?
 
       return nil unless image.attached?
 
-      if Rails.application.config.use_cloudinary
-        options = {height: 800, crop: "scale", quality: "auto"}
-        # For Cloudinary, return basic URL for now
-        Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
+      # Use variants for optimization when possible
+      if image.variable?
+        Rails.application.routes.url_helpers.rails_representation_path(
+          image.variant(resize_to_limit: [800, 600]),
+          only_path: true
+        )
       else
-        image_url(variant_options: { resize_to_limit: [800, 600] })
+        Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
       end
     end
 
@@ -33,10 +34,5 @@ module Pwb
     def external_image_mode?
       website&.external_image_mode || false
     end
-
-    # private
-    # def image_size_validation
-    #   errors[:image] << "should be less than 500KB" if image.size > 0.5.megabytes
-    # end
   end
 end

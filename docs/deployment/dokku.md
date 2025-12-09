@@ -105,7 +105,10 @@ dokku config:set your-app-name \
 | `RAILS_MASTER_KEY` | ✅ | The contents of `config/master.key` - required to decrypt credentials |
 | `RAILS_SERVE_STATIC_FILES` | ✅ | Set to `enabled` - Dokku doesn't have a separate web server for static files |
 | `GMAPS_API_KEY` | Optional | Google Maps API key (if using map features) |
-| `CLOUDINARY_URL` | Optional | Cloudinary URL (if using Cloudinary for image uploads instead of local storage) |
+| `R2_ACCESS_KEY_ID` | Optional | Cloudflare R2 access key (for cloud image storage) |
+| `R2_SECRET_ACCESS_KEY` | Optional | Cloudflare R2 secret key |
+| `R2_BUCKET` | Optional | Cloudflare R2 bucket name |
+| `R2_ACCOUNT_ID` | Optional | Cloudflare R2 account ID |
 
 > **Note:** `RAILS_ENV` and `RACK_ENV` are typically set automatically by Dokku.
 

@@ -1,8 +1,15 @@
+# frozen_string_literal: true
+
 module Pwb
   module ImagesHelper
+    # Generate background-image CSS style for a photo
+    # @param photo [Object] A photo model (PropPhoto, ContentPhoto, WebsitePhoto)
+    # @param options [Hash] Options including :gradient for overlay
+    # @return [String] CSS background-image style
     def bg_image(photo, options = {})
-      image_url = get_opt_image_url photo, options
-      # style="background-image:linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1) ),url(<%= carousel_item.default_photo %>);"
+      image_url = photo_url(photo)
+      return "" if image_url.blank?
+
       if options[:gradient]
         "background-image: linear-gradient(#{options[:gradient]}), url(#{image_url});".html_safe
       else
@@ -10,6 +17,10 @@ module Pwb
       end
     end
 
+    # Display a photo with support for external URLs
+    # @param photo [Object] A photo model (PropPhoto, ContentPhoto, WebsitePhoto)
+    # @param options [Hash] HTML options for the image tag
+    # @return [String, nil] Image tag or nil if no image
     def opt_image_tag(photo, options = {})
       return nil unless photo
 
@@ -19,19 +30,16 @@ module Pwb
       end
 
       # Fall back to ActiveStorage
-      return nil unless photo.image.attached?
+      return nil unless photo.respond_to?(:image) && photo.image.attached?
 
-      if Rails.application.config.use_cloudinary
-        cl_image_tag photo.image, options
-      else
-        image_tag url_for(photo.image), options
-      end
+      image_tag url_for(photo.image), options
     end
 
     # Display a photo with support for external URLs and variants
     # @param photo [Object] A photo model (PropPhoto, ContentPhoto, WebsitePhoto)
     # @param variant_options [Hash] Options for image variant (e.g., resize_to_limit: [200, 200])
     # @param html_options [Hash] HTML options for the image tag (e.g., class, alt)
+    # @return [String, nil] Image tag or nil if no image
     def photo_image_tag(photo, variant_options: nil, **html_options)
       return nil unless photo
 
@@ -50,8 +58,12 @@ module Pwb
       end
     end
 
-    def opt_image_url(photo, options = {})
-      get_opt_image_url photo, options
+    # Get optimized image URL (alias for photo_url for backwards compatibility)
+    # @param photo [Object] A photo model
+    # @param _options [Hash] Unused, kept for backwards compatibility
+    # @return [String] The URL or empty string if no image
+    def opt_image_url(photo, _options = {})
+      photo_url(photo) || ""
     end
 
     # Get the URL for a photo (external or ActiveStorage)
@@ -81,26 +93,6 @@ module Pwb
         photo.image.attached?
       else
         false
-      end
-    end
-
-    private
-
-    def get_opt_image_url(photo, options)
-      return "" unless photo
-
-      # Handle external URLs
-      if photo.respond_to?(:external?) && photo.external?
-        return photo.external_url
-      end
-
-      # Fall back to ActiveStorage
-      return "" unless photo.respond_to?(:image) && photo.image.attached?
-
-      if Rails.application.config.use_cloudinary
-        image_url = cl_image_path photo.image, options
-      else
-        image_url = url_for(photo.image)
       end
     end
   end
