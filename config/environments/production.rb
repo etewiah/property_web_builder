@@ -98,7 +98,7 @@ Rails.application.configure do
   else
     # Fallback: log emails if SMTP not configured
     # This prevents errors but emails won't be delivered
-    Rails.logger.warn "SMTP not configured - emails will be logged but not sent"
+    # Note: Can't use Rails.logger here as it's nil during asset precompilation
     config.action_mailer.delivery_method = :test
   end
 
