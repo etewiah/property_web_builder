@@ -56,8 +56,8 @@ module Mutations
       @enquiry.contact = @contact
       @enquiry.save
 
-      Pwb::EnquiryMailer.property_enquiry_targeting_agency(@contact, @enquiry, @property).deliver
-      # @enquiry.save
+      # Async email delivery via Solid Queue
+      Pwb::EnquiryMailer.property_enquiry_targeting_agency(@contact, @enquiry, @property).deliver_later
       return {
                result: "success",
                client_mutation_id: "0",

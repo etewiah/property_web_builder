@@ -50,24 +50,57 @@ Rails.application.configure do
   # Replace the default in-process memory cache store with a durable alternative.
   # config.cache_store = :mem_cache_store
 
-  # Replace the default in-process and non-durable queuing backend for Active Job.
-  # config.active_job.queue_adapter = :resque
+  # Use Solid Queue for background job processing
+  # This enables async email delivery and other background tasks
+  config.active_job.queue_adapter = :solid_queue
+  # Use same database for queue (simpler deployment, suitable for moderate load)
+  # For high-volume, configure a separate :queue database in database.yml
 
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
+  # Email delivery configuration
+  # Raise delivery errors in production to catch configuration issues
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_caching = false
+
+  # Use async delivery via Active Job (requires job queue adapter)
+  config.action_mailer.deliver_later_queue_name = :mailers
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "example.com" }
+  # Uses MAILER_HOST env var, falls back to APP_HOST or default
+  config.action_mailer.default_url_options = {
+    host: ENV.fetch("MAILER_HOST") { ENV.fetch("APP_HOST", "example.com") },
+    protocol: "https"
+  }
 
-  # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
-  # config.action_mailer.smtp_settings = {
-  #   user_name: Rails.application.credentials.dig(:smtp, :user_name),
-  #   password: Rails.application.credentials.dig(:smtp, :password),
-  #   address: "smtp.example.com",
-  #   port: 587,
-  #   authentication: :plain
-  # }
+  # SMTP configuration via environment variables
+  # Supports common providers: SendGrid, Mailgun, Amazon SES, Postmark, etc.
+  #
+  # Required env vars:
+  #   SMTP_ADDRESS   - SMTP server address (e.g., smtp.sendgrid.net)
+  #   SMTP_PORT      - SMTP port (typically 587 for TLS)
+  #   SMTP_USERNAME  - SMTP username/API key
+  #   SMTP_PASSWORD  - SMTP password/API secret
+  #
+  # Optional env vars:
+  #   SMTP_DOMAIN    - HELO domain (defaults to MAILER_HOST)
+  #   SMTP_AUTH      - Authentication type (defaults to :plain)
+  #
+  if ENV["SMTP_ADDRESS"].present?
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      address: ENV["SMTP_ADDRESS"],
+      port: ENV.fetch("SMTP_PORT", 587).to_i,
+      user_name: ENV["SMTP_USERNAME"],
+      password: ENV["SMTP_PASSWORD"],
+      domain: ENV.fetch("SMTP_DOMAIN") { ENV.fetch("MAILER_HOST") { ENV.fetch("APP_HOST", "example.com") } },
+      authentication: ENV.fetch("SMTP_AUTH", "plain").to_sym,
+      enable_starttls_auto: true
+    }
+  else
+    # Fallback: log emails if SMTP not configured
+    # This prevents errors but emails won't be delivered
+    Rails.logger.warn "SMTP not configured - emails will be logged but not sent"
+    config.action_mailer.delivery_method = :test
+  end
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

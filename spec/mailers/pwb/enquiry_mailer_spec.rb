@@ -20,7 +20,9 @@ module Pwb
       it "sends enquiry successfully" do
         expect(mail.subject).to eq("General enquiry from your website")
         expect(mail.to).to eq(["test@test.com"])
-        expect(mail.from).to eq(["jd@propertywebbuilder.com"])
+        # From address is our domain for deliverability, enquirer's email is in reply-to
+        expect(mail.from).to eq(["noreply@propertywebbuilder.com"])
+        expect(mail.reply_to).to eq(["jd@propertywebbuilder.com"])
       end
     end
 
@@ -42,7 +44,9 @@ module Pwb
       it "sends enquiry successfully" do
         expect(mail.subject).to eq("Enquiry regarding a property")
         expect(mail.to).to eq(["test@test.com"])
-        expect(mail.from).to eq(["jd@propertywebbuilder.com"])
+        # From address is our domain for deliverability, enquirer's email is in reply-to
+        expect(mail.from).to eq(["noreply@propertywebbuilder.com"])
+        expect(mail.reply_to).to eq(["jd@propertywebbuilder.com"])
       end
 
       it "renders the body" do

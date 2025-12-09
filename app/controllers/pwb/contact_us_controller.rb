@@ -88,8 +88,8 @@ module Pwb
       @enquiry.contact = @contact
       @enquiry.save
 
-      # @enquiry.delivery_email = ""
-      EnquiryMailer.general_enquiry_targeting_agency(@contact, @enquiry).deliver_now
+      # Async email delivery via Solid Queue
+      EnquiryMailer.general_enquiry_targeting_agency(@contact, @enquiry).deliver_later
 
       # Send push notification via ntfy (async)
       if @current_website.ntfy_enabled?

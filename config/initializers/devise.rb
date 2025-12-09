@@ -12,7 +12,11 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
+  #
+  # Can be overridden via DEVISE_MAILER_SENDER env var
+  config.mailer_sender = ENV.fetch("DEVISE_MAILER_SENDER") {
+    ENV.fetch("DEFAULT_FROM_EMAIL") { "PropertyWebBuilder <noreply@propertywebbuilder.com>" }
+  }
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'

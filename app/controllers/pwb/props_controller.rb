@@ -102,9 +102,8 @@ module Pwb
       @enquiry.contact = @contact
       @enquiry.save
 
-      EnquiryMailer.property_enquiry_targeting_agency(@contact, @enquiry, @property).deliver
-      # @enquiry.delivery_success = true
-      @enquiry.save
+      # Async email delivery via Solid Queue
+      EnquiryMailer.property_enquiry_targeting_agency(@contact, @enquiry, @property).deliver_later
       @flash = I18n.t "contact.success"
       return render "pwb/ajax/request_info_success", layout: false
     rescue => e

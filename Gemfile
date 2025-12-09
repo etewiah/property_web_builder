@@ -207,3 +207,8 @@ gem 'sentry-rails'
 # Structured logging
 gem 'lograge'
 gem 'logstash-event'
+
+# Background job processing (Rails 8 native)
+# Used for async email delivery and other background tasks
+gem 'solid_queue', '~> 1.0'
+gem 'mission_control-jobs', '~> 0.3'
