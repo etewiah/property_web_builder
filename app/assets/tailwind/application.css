@@ -2,8 +2,13 @@
 
 /* Note: Flowbite will be loaded via CDN for now until we configure it properly */
 
-/* Flowbite theme customization for Site Admin */
+/* PWB Brand Colors
+ * Primary: Deep Blue (#1E3A8A to #1E40AF)
+ * Accent: Coral/Orange (#F97316 to #EA580C)
+ * See: app/assets/images/pwb_logo.svg
+ */
 @theme {
+  /* Primary - Deep Blue (from PWB branding) */
   --color-primary-50: #eff6ff;
   --color-primary-100: #dbeafe;
   --color-primary-200: #bfdbfe;
@@ -14,4 +19,16 @@
   --color-primary-700: #1d4ed8;
   --color-primary-800: #1e40af;
   --color-primary-900: #1e3a8a;
+
+  /* Accent - Coral/Orange (from PWB branding) */
+  --color-accent-50: #fff7ed;
+  --color-accent-100: #ffedd5;
+  --color-accent-200: #fed7aa;
+  --color-accent-300: #fdba74;
+  --color-accent-400: #fb923c;
+  --color-accent-500: #f97316;
+  --color-accent-600: #ea580c;
+  --color-accent-700: #c2410c;
+  --color-accent-800: #9a3412;
+  --color-accent-900: #7c2d12;
 }

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 60">
+  <defs>
+    <linearGradient id="deepBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1E3A8A"/>
+      <stop offset="100%" style="stop-color:#1E40AF"/>
+    </linearGradient>
+    <linearGradient id="coral" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F97316"/>
+      <stop offset="100%" style="stop-color:#EA580C"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Compact icon with thicker strokes -->
+  <g transform="translate(6, 5)">
+    <!-- House walls -->
+    <path d="M3 18 L3 48 L47 48 L47 18" 
+          fill="none" 
+          stroke="url(#deepBlue)" 
+          stroke-width="5" 
+          stroke-linejoin="round"
+          stroke-linecap="round"/>
+    
+    <!-- Roof -->
+    <path d="M3 18 L25 1 L47 18" 
+          fill="none" 
+          stroke="url(#coral)" 
+          stroke-width="5" 
+          stroke-linejoin="round"
+          stroke-linecap="round"/>
+    
+    <!-- Left bracket -->
+    <path d="M18 25 L10 35 L18 45" 
+          fill="none" 
+          stroke="url(#coral)" 
+          stroke-width="4" 
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+    
+    <!-- Right bracket -->
+    <path d="M32 25 L40 35 L32 45" 
+          fill="none" 
+          stroke="url(#coral)" 
+          stroke-width="4" 
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+    
+    <!-- Slash -->
+    <line x1="28" y1="23" x2="22" y2="47" 
+          stroke="url(#deepBlue)" 
+          stroke-width="3.5" 
+          stroke-linecap="round"/>
+  </g>
+  
+  <!-- Inline wordmark -->
+  <g transform="translate(65, 0)">
+    <text y="38" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="28" font-weight="800" fill="url(#deepBlue)" letter-spacing="-0.5">
+      PWB
+    </text>
+    <text x="75" y="28" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#64748B" letter-spacing="1">
+      PROPERTY
+    </text>
+    <text x="75" y="42" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#64748B" letter-spacing="1">
+      WEB BUILDER
+    </text>
+  </g>
+</svg>

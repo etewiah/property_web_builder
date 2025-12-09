@@ -10,46 +10,43 @@
     </linearGradient>
   </defs>
   
-  <!-- Background -->
-  <rect width="512" height="512" rx="80" fill="#F8FAFC"/>
-  
-  <g transform="translate(76, 56)">
+  <g transform="translate(56, 36)">
     <!-- House walls (blue) - thicker -->
-    <path d="M20 120 L20 380 L340 380 L340 120" 
+    <path d="M20 130 L20 410 L380 410 L380 130" 
           fill="none" 
           stroke="url(#deepBlue)" 
-          stroke-width="32" 
+          stroke-width="36" 
           stroke-linejoin="round"
           stroke-linecap="round"/>
     
     <!-- Roof (orange) - thicker -->
-    <path d="M20 120 L180 0 L340 120" 
+    <path d="M20 130 L200 0 L380 130" 
           fill="none" 
           stroke="url(#coral)" 
-          stroke-width="32" 
+          stroke-width="36" 
           stroke-linejoin="round"
           stroke-linecap="round"/>
     
     <!-- Left code bracket - thicker -->
-    <path d="M120 175 L60 250 L120 325" 
+    <path d="M135 190 L65 270 L135 350" 
           fill="none" 
           stroke="url(#coral)" 
-          stroke-width="28" 
+          stroke-width="32" 
           stroke-linecap="round"
           stroke-linejoin="round"/>
     
     <!-- Right code bracket - thicker -->
-    <path d="M240 175 L300 250 L240 325" 
+    <path d="M265 190 L335 270 L265 350" 
           fill="none" 
           stroke="url(#coral)" 
-          stroke-width="28" 
+          stroke-width="32" 
           stroke-linecap="round"
           stroke-linejoin="round"/>
     
     <!-- Slash - thicker -->
-    <line x1="205" y1="160" x2="155" y2="340" 
+    <line x1="225" y1="175" x2="175" y2="365" 
           stroke="url(#deepBlue)" 
-          stroke-width="24" 
+          stroke-width="28" 
           stroke-linecap="round"/>
   </g>
 </svg>

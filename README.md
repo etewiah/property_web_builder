@@ -1,3 +1,11 @@
+<p align="center">
+  <img src="app/assets/images/pwb_logo.svg" alt="PropertyWebBuilder Logo" width="400">
+</p>
+
+<p align="center">
+  <em>Real estate sites, real fast ⚡</em>
+</p>
+
 # PropertyWebBuilder
 
 Please help support this project by making a contribution to PropertyWebBuilder here: https://opencollective.com/property_web_builder
