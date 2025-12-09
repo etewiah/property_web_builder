@@ -17,5 +17,14 @@ Liquid::Environment.default.file_system = Liquid::LocalFileSystem.new(
 # Load custom Liquid tags for PropertyWebBuilder
 # These tags provide convenient helpers for theme templates
 Rails.application.config.to_prepare do
+  # Load tag class definitions (without registration)
   Dir[Rails.root.join("app/lib/pwb/liquid_tags/*.rb")].each { |f| require f }
+
+  # Register tags on the default environment (not Template which is deprecated)
+  # This prevents: "Template.register_tag is deprecated. Use Environment#register_tag instead"
+  env = Liquid::Environment.default
+  env.register_tag("contact_form", Pwb::LiquidTags::ContactFormTag)
+  env.register_tag("property_card", Pwb::LiquidTags::PropertyCardTag)
+  env.register_tag("featured_properties", Pwb::LiquidTags::FeaturedPropertiesTag)
+  env.register_tag("page_part", Pwb::LiquidTags::PagePartTag)
 end

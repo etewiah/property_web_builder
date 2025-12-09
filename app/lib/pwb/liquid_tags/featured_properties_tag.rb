@@ -85,4 +85,5 @@ module Pwb
   end
 end
 
-Liquid::Template.register_tag("featured_properties", Pwb::LiquidTags::FeaturedPropertiesTag)
+# Tag registration moved to config/initializers/liquid.rb
+# to use Environment#register_tag instead of deprecated Template.register_tag
