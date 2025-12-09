@@ -29,7 +29,7 @@ Rails.application.configure do
   config.cache_store = :null_store
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  config.active_storage.service = :cloudflare_r2 # :local
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
@@ -65,7 +65,7 @@ Rails.application.configure do
   config.hosts << ".lvh.me"
   config.hosts << "localhost"
   config.hosts << "tenant-a.e2e.localhost"
-  config.hosts << "tenant-b.e2e.localhost"  
+  config.hosts << "tenant-b.e2e.localhost"
   # Configure subdomain detection for .e2e.localhost domains (TLD is "e2e.localhost" = 2 parts)
   # config.action_dispatch.tld_length = 2
 
@@ -77,7 +77,7 @@ Rails.application.configure do
   # Log to both file and stdout for better debugging
   file_logger = ActiveSupport::Logger.new("#{Rails.root}/log/e2e.log")
   stdout_logger = ActiveSupport::Logger.new(STDOUT)
-  
+
   # Use BroadcastLogger to send logs to both destinations
   config.logger = ActiveSupport::BroadcastLogger.new(file_logger, stdout_logger)
   config.log_level = :debug

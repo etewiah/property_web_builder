@@ -100,7 +100,9 @@
       "Bash(for seed in 12345 54321 99999)",
       "Bash(do echo \"Testing with seed $seed...\" RAILS_ENV=test bundle exec rspec spec/models/pwb/subdomain_spec.rb spec/models/pwb/website_provisioning_spec.rb spec/models/pwb/user_onboarding_spec.rb spec/services/pwb/subdomain_generator_spec.rb spec/services/pwb/provisioning_service_spec.rb --seed $seed --format progress)",
       "Bash(convert:*)",
-      "Bash(magick:*)"
+      "Bash(magick:*)",
+      "Bash(RAILS_ENV=development bin/rails solid_queue:install:*)",
+      "Bash(RAILS_ENV=e2e bin/rails runner:*)"
     ],
     "deny": [],
     "ask": []
