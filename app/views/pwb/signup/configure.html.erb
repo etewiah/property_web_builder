@@ -1,0 +1,129 @@
+<div class="bg-white rounded-2xl shadow-xl p-8">
+  <div class="text-center mb-8">
+    <h2 class="text-3xl font-bold text-gray-900">Configure Your Site</h2>
+    <p class="mt-2 text-gray-600">Choose your subdomain and site type</p>
+  </div>
+
+  <%= form_tag signup_save_configuration_path, method: :post, class: "space-y-6" do %>
+    <!-- Subdomain -->
+    <div>
+      <label for="subdomain" class="block text-sm font-medium text-gray-700 mb-2">
+        Your Subdomain
+      </label>
+      <div class="flex rounded-lg overflow-hidden border border-gray-300 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500">
+        <input
+          type="text"
+          name="subdomain"
+          id="subdomain"
+          required
+          value="<%= @suggested_subdomain %>"
+          pattern="[a-z0-9][a-z0-9\-]*[a-z0-9]"
+          minlength="3"
+          maxlength="40"
+          class="flex-1 px-4 py-3 border-0 focus:ring-0 text-lg"
+          data-action="input->subdomain#check"
+        >
+        <span class="bg-gray-50 px-4 py-3 text-gray-500 border-l">
+          .propertywebbuilder.com
+        </span>
+      </div>
+      <div id="subdomain-status" class="mt-2 text-sm">
+        <span class="text-green-600">&#10003; This subdomain is available</span>
+      </div>
+      <button
+        type="button"
+        onclick="suggestSubdomain()"
+        class="mt-2 text-sm text-indigo-600 hover:text-indigo-500"
+      >
+        &#8635; Suggest another
+      </button>
+    </div>
+
+    <!-- Site Type -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-3">
+        What type of properties will you list?
+      </label>
+      <div class="grid grid-cols-1 gap-3">
+        <% [
+          { value: 'residential', label: 'Residential', desc: 'Houses, apartments, condos', icon: '&#127968;' },
+          { value: 'commercial', label: 'Commercial', desc: 'Offices, retail, warehouses', icon: '&#127970;' },
+          { value: 'vacation_rental', label: 'Vacation Rentals', desc: 'Holiday homes, short-term rentals', icon: '&#127958;' }
+        ].each do |type| %>
+          <label class="relative flex items-center p-4 border-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors site-type-option">
+            <input
+              type="radio"
+              name="site_type"
+              value="<%= type[:value] %>"
+              required
+              class="sr-only"
+              <%= 'checked' if type[:value] == 'residential' %>
+            >
+            <span class="text-2xl mr-4"><%= type[:icon].html_safe %></span>
+            <div class="flex-1">
+              <div class="font-semibold text-gray-900"><%= type[:label] %></div>
+              <div class="text-sm text-gray-500"><%= type[:desc] %></div>
+            </div>
+            <div class="checkmark hidden text-indigo-600 text-xl">&#10003;</div>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg font-semibold text-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+    >
+      Create My Website
+    </button>
+  <% end %>
+</div>
+
+<style>
+  .site-type-option:has(input:checked) {
+    border-color: rgb(79, 70, 229);
+    background-color: rgb(238, 242, 255);
+  }
+  .site-type-option:has(input:checked) .checkmark {
+    display: block;
+  }
+</style>
+
+<script>
+  async function suggestSubdomain() {
+    const response = await fetch('<%= signup_suggest_subdomain_path %>');
+    const data = await response.json();
+    document.getElementById('subdomain').value = data.subdomain;
+    checkSubdomain(data.subdomain);
+  }
+
+  async function checkSubdomain(name) {
+    const statusEl = document.getElementById('subdomain-status');
+    if (!name || name.length < 3) {
+      statusEl.innerHTML = '<span class="text-gray-500">Enter at least 3 characters</span>';
+      return;
+    }
+
+    statusEl.innerHTML = '<span class="text-gray-500">Checking...</span>';
+
+    try {
+      const response = await fetch('<%= signup_check_subdomain_path %>?name=' + encodeURIComponent(name));
+      const data = await response.json();
+
+      if (data.available) {
+        statusEl.innerHTML = '<span class="text-green-600">&#10003; This subdomain is available</span>';
+      } else {
+        statusEl.innerHTML = '<span class="text-red-600">&#10007; ' + (data.errors[0] || 'Not available') + '</span>';
+      }
+    } catch (e) {
+      statusEl.innerHTML = '<span class="text-red-600">Error checking availability</span>';
+    }
+  }
+
+  // Check subdomain on input with debounce
+  let debounceTimer;
+  document.getElementById('subdomain').addEventListener('input', function(e) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => checkSubdomain(e.target.value), 300);
+  });
+</script>

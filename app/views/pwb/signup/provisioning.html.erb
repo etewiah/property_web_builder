@@ -1,0 +1,183 @@
+<div class="bg-white rounded-2xl shadow-xl p-8">
+  <div class="text-center mb-8">
+    <h2 class="text-3xl font-bold text-gray-900">Setting Up Your Website</h2>
+    <p class="mt-2 text-gray-600">This will only take a moment...</p>
+  </div>
+
+  <!-- Progress Display -->
+  <div class="space-y-6">
+    <!-- Progress Bar -->
+    <div class="relative pt-1">
+      <div class="flex mb-2 items-center justify-between">
+        <div>
+          <span id="status-text" class="text-sm font-semibold inline-block text-indigo-600">
+            Starting...
+          </span>
+        </div>
+        <div class="text-right">
+          <span id="progress-percent" class="text-sm font-semibold inline-block text-indigo-600">
+            0%
+          </span>
+        </div>
+      </div>
+      <div class="overflow-hidden h-3 text-xs flex rounded-full bg-indigo-100">
+        <div
+          id="progress-bar"
+          class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-600 transition-all duration-500"
+          style="width: 0%"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Status Steps -->
+    <div id="status-steps" class="space-y-3">
+      <div class="flex items-center text-gray-400" data-step="subdomain_allocated">
+        <span class="step-icon mr-3 text-xl">&#9711;</span>
+        <span>Assigning subdomain</span>
+      </div>
+      <div class="flex items-center text-gray-400" data-step="configuring">
+        <span class="step-icon mr-3 text-xl">&#9711;</span>
+        <span>Configuring website</span>
+      </div>
+      <div class="flex items-center text-gray-400" data-step="seeding">
+        <span class="step-icon mr-3 text-xl">&#9711;</span>
+        <span>Adding sample properties</span>
+      </div>
+      <div class="flex items-center text-gray-400" data-step="ready">
+        <span class="step-icon mr-3 text-xl">&#9711;</span>
+        <span>Finalizing setup</span>
+      </div>
+      <div class="flex items-center text-gray-400" data-step="live">
+        <span class="step-icon mr-3 text-xl">&#9711;</span>
+        <span>Going live!</span>
+      </div>
+    </div>
+
+    <!-- Error Display (hidden by default) -->
+    <div id="error-display" class="hidden p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+      <strong>Error:</strong> <span id="error-message"></span>
+      <button
+        onclick="retryProvisioning()"
+        class="mt-2 block w-full text-center bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
+      >
+        Retry
+      </button>
+    </div>
+  </div>
+
+  <!-- Subdomain Preview -->
+  <div class="mt-8 p-4 bg-gray-50 rounded-lg text-center">
+    <p class="text-sm text-gray-500 mb-1">Your website will be available at:</p>
+    <p class="text-lg font-mono text-indigo-600">
+      <%= @website.subdomain %>.propertywebbuilder.com
+    </p>
+  </div>
+</div>
+
+<script>
+  const STATES = ['subdomain_allocated', 'configuring', 'seeding', 'ready', 'live'];
+  let provisioningStarted = false;
+
+  function updateUI(data) {
+    // Update progress bar
+    document.getElementById('progress-bar').style.width = data.progress + '%';
+    document.getElementById('progress-percent').textContent = data.progress + '%';
+    document.getElementById('status-text').textContent = data.message || 'Processing...';
+
+    // Update step indicators
+    const currentStateIndex = STATES.indexOf(data.status);
+    STATES.forEach((state, index) => {
+      const stepEl = document.querySelector('[data-step="' + state + '"]');
+      if (stepEl) {
+        const iconEl = stepEl.querySelector('.step-icon');
+        if (index < currentStateIndex) {
+          stepEl.classList.remove('text-gray-400', 'text-indigo-600');
+          stepEl.classList.add('text-green-600');
+          iconEl.innerHTML = '&#10003;';
+        } else if (index === currentStateIndex) {
+          stepEl.classList.remove('text-gray-400', 'text-green-600');
+          stepEl.classList.add('text-indigo-600');
+          iconEl.innerHTML = '&#10148;';
+        } else {
+          stepEl.classList.remove('text-green-600', 'text-indigo-600');
+          stepEl.classList.add('text-gray-400');
+          iconEl.innerHTML = '&#9711;';
+        }
+      }
+    });
+  }
+
+  function showError(message) {
+    document.getElementById('error-display').classList.remove('hidden');
+    document.getElementById('error-message').textContent = message;
+  }
+
+  async function startProvisioning() {
+    if (provisioningStarted) return;
+    provisioningStarted = true;
+
+    try {
+      const response = await fetch('<%= signup_provision_path %>', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        }
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.status === 'live') {
+        updateUI(data);
+        setTimeout(() => {
+          window.location.href = '<%= signup_complete_path %>';
+        }, 1000);
+      } else if (!data.success) {
+        showError(data.error || 'Provisioning failed');
+      } else {
+        updateUI(data);
+        pollStatus();
+      }
+    } catch (e) {
+      showError('Network error. Please try again.');
+    }
+  }
+
+  async function pollStatus() {
+    try {
+      const response = await fetch('<%= signup_status_path %>');
+      const data = await response.json();
+
+      if (data.success) {
+        updateUI(data);
+
+        if (data.complete) {
+          setTimeout(() => {
+            window.location.href = '<%= signup_complete_path %>';
+          }, 1000);
+        } else {
+          setTimeout(pollStatus, 1000);
+        }
+      } else {
+        showError(data.error || 'Error checking status');
+      }
+    } catch (e) {
+      setTimeout(pollStatus, 2000);
+    }
+  }
+
+  async function retryProvisioning() {
+    document.getElementById('error-display').classList.add('hidden');
+    provisioningStarted = false;
+    startProvisioning();
+  }
+
+  // Start provisioning when page loads
+  document.addEventListener('DOMContentLoaded', function() {
+    <% if @website.provisioning? %>
+      startProvisioning();
+    <% elsif @website.live? %>
+      window.location.href = '<%= signup_complete_path %>';
+    <% end %>
+  });
+</script>

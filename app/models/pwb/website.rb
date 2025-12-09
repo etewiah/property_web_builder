@@ -1,5 +1,7 @@
 module Pwb
   class Website < ApplicationRecord
+    include AASM
+
     extend ActiveHash::Associations::ActiveRecordExtensions
     belongs_to_active_hash :theme, optional: true, foreign_key: "theme_name", class_name: "Pwb::Theme", shortcuts: [:friendly_name], primary_key: "name"
 
@@ -30,6 +32,116 @@ module Pwb
     has_many :members, through: :user_memberships, source: :user
 
     has_one :agency, class_name: 'Pwb::Agency'
+    has_one :allocated_subdomain, class_name: 'Pwb::Subdomain', foreign_key: 'website_id'
+
+    # Site types for content customization
+    SITE_TYPES = %w[residential commercial vacation_rental].freeze
+
+    validates :site_type, inclusion: { in: SITE_TYPES }, allow_blank: true
+
+    # Provisioning state machine
+    aasm column: :provisioning_state do
+      state :pending, initial: true
+      state :subdomain_allocated
+      state :configuring
+      state :seeding
+      state :ready
+      state :live
+      state :failed
+      state :suspended
+      state :terminated
+
+      event :allocate_subdomain do
+        transitions from: :pending, to: :subdomain_allocated
+        after do
+          update!(provisioning_started_at: Time.current) if provisioning_started_at.blank?
+        end
+      end
+
+      event :start_configuring do
+        transitions from: :subdomain_allocated, to: :configuring
+      end
+
+      event :start_seeding do
+        transitions from: :configuring, to: :seeding
+      end
+
+      event :mark_ready do
+        transitions from: :seeding, to: :ready
+        after do
+          update!(provisioning_completed_at: Time.current)
+        end
+      end
+
+      event :go_live do
+        transitions from: :ready, to: :live
+      end
+
+      event :fail_provisioning do
+        transitions from: [:pending, :subdomain_allocated, :configuring, :seeding], to: :failed
+        after do |error_message|
+          update!(provisioning_error: error_message)
+        end
+      end
+
+      event :retry_provisioning do
+        transitions from: :failed, to: :pending
+        after do
+          update!(provisioning_error: nil)
+        end
+      end
+
+      event :suspend do
+        transitions from: [:ready, :live], to: :suspended
+      end
+
+      event :reactivate do
+        transitions from: :suspended, to: :live
+      end
+
+      event :terminate do
+        transitions from: [:suspended, :failed], to: :terminated
+      end
+    end
+
+    # Provisioning progress as percentage (for progress bar)
+    def provisioning_progress
+      case provisioning_state
+      when 'pending' then 0
+      when 'subdomain_allocated' then 20
+      when 'configuring' then 40
+      when 'seeding' then 70
+      when 'ready' then 95
+      when 'live' then 100
+      else 0
+      end
+    end
+
+    # Human-readable provisioning status message
+    def provisioning_status_message
+      case provisioning_state
+      when 'pending' then 'Waiting to start...'
+      when 'subdomain_allocated' then 'Subdomain assigned'
+      when 'configuring' then 'Setting up your website...'
+      when 'seeding' then 'Adding sample properties...'
+      when 'ready' then 'Almost done! Finalizing...'
+      when 'live' then 'Your website is live!'
+      when 'failed' then "Setup failed: #{provisioning_error}"
+      when 'suspended' then 'Website suspended'
+      when 'terminated' then 'Website terminated'
+      else 'Unknown status'
+      end
+    end
+
+    # Check if website is accessible to visitors
+    def accessible?
+      live? || ready?
+    end
+
+    # Check if still being provisioned
+    def provisioning?
+      %w[pending subdomain_allocated configuring seeding].include?(provisioning_state)
+    end
 
     def admins
       members.where(pwb_user_memberships: { role: ['owner', 'admin'], active: true })

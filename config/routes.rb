@@ -143,6 +143,18 @@ Rails.application.routes.draw do
     root to: "welcome#index"
     resources :welcome, only: :index
 
+    # Signup/Onboarding flow for new tenants
+    get "/signup" => "signup#new", as: "signup"
+    post "/signup/start" => "signup#start", as: "signup_start"
+    get "/signup/configure" => "signup#configure", as: "signup_configure"
+    post "/signup/configure" => "signup#save_configuration", as: "signup_save_configuration"
+    get "/signup/provisioning" => "signup#provisioning", as: "signup_provisioning"
+    post "/signup/provision" => "signup#provision", as: "signup_provision"
+    get "/signup/status" => "signup#status", as: "signup_status"
+    get "/signup/complete" => "signup#complete", as: "signup_complete"
+    get "/signup/check_subdomain" => "signup#check_subdomain", as: "signup_check_subdomain"
+    get "/signup/suggest_subdomain" => "signup#suggest_subdomain", as: "signup_suggest_subdomain"
+
     # Use same authorization as TenantAdminController for admin tools
     # Requires user email to be in TENANT_ADMIN_EMAILS env var
     require_relative '../lib/constraints/tenant_admin_constraint'

@@ -1,6 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (5.5.2)
+      concurrent-ruby (~> 1.0)
     action_text-trix (2.1.15)
       railties
     actioncable (8.1.1)
@@ -298,7 +300,7 @@ GEM
     json_spec (1.1.5)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
-    jwt (2.10.2)
+    jwt (3.1.2)
       base64
     language_server-protocol (3.17.0.5)
     launchy (3.1.1)
@@ -710,6 +712,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  aasm (~> 5.5)
   active_hash (~> 4.0)
   active_storage_dashboard
   acts_as_tenant (~> 1.0)

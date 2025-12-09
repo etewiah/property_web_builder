@@ -194,6 +194,9 @@ gem 'acts_as_tenant', '~> 1.0'
 # Pagination
 gem 'pagy', '~> 43.0'
 
+# State machines for workflow management
+gem 'aasm', '~> 5.5'
+
 # Security - Rate limiting for brute force protection
 gem 'rack-attack', '~> 6.7'
 

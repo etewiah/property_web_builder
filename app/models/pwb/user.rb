@@ -6,6 +6,8 @@ module Pwb
   # console work and cross-tenant operations.
   #
   class User < ApplicationRecord
+    include AASM
+
     # Include Devise modules for authentication:
     # - :database_authenticatable - email/password authentication
     # - :registerable - user registration
@@ -46,6 +48,85 @@ module Pwb
     # Callbacks for audit logging
     after_create :log_registration
     after_update :log_lockout_events
+
+    # Onboarding state machine for new user signup flow
+    aasm column: :onboarding_state do
+      state :lead, initial: true          # Just provided email
+      state :registered                    # Account created but not verified
+      state :email_verified                # Email verified
+      state :onboarding                    # Going through signup wizard
+      state :active                        # Fully onboarded
+      state :churned                       # Abandoned signup
+
+      event :register do
+        transitions from: :lead, to: :registered
+        after do
+          update!(onboarding_started_at: Time.current)
+        end
+      end
+
+      event :verify_email do
+        transitions from: :registered, to: :email_verified
+      end
+
+      event :start_onboarding do
+        transitions from: [:lead, :email_verified], to: :onboarding
+        after do
+          update!(onboarding_step: 1, onboarding_started_at: Time.current) if onboarding_started_at.blank?
+        end
+      end
+
+      event :complete_onboarding do
+        transitions from: :onboarding, to: :active
+        after do
+          update!(onboarding_completed_at: Time.current)
+        end
+      end
+
+      event :activate do
+        # Allow direct activation for existing users or admin-created users
+        transitions from: [:lead, :registered, :email_verified, :onboarding], to: :active
+        after do
+          update!(onboarding_completed_at: Time.current) if onboarding_completed_at.blank?
+        end
+      end
+
+      event :mark_churned do
+        transitions from: [:lead, :registered, :email_verified, :onboarding], to: :churned
+      end
+
+      event :reactivate do
+        transitions from: :churned, to: :lead
+      end
+    end
+
+    # Onboarding step titles for progress display
+    ONBOARDING_STEPS = {
+      1 => 'Verify Email',
+      2 => 'Choose Subdomain',
+      3 => 'Select Site Type',
+      4 => 'Setup Complete'
+    }.freeze
+
+    def onboarding_step_title
+      ONBOARDING_STEPS[onboarding_step] || 'Getting Started'
+    end
+
+    def advance_onboarding_step!
+      new_step = (onboarding_step || 0) + 1
+      update!(onboarding_step: new_step)
+      complete_onboarding! if new_step >= ONBOARDING_STEPS.keys.max
+    end
+
+    def onboarding_progress_percentage
+      return 100 if active?
+      return 0 if onboarding_step.nil? || onboarding_step.zero?
+      ((onboarding_step.to_f / ONBOARDING_STEPS.keys.max) * 100).round
+    end
+
+    def needs_onboarding?
+      %w[lead registered email_verified onboarding].include?(onboarding_state)
+    end
 
     # Helper methods for role-based access
     def admin_for?(website)
