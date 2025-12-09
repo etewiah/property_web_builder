@@ -5,7 +5,7 @@ source "https://rubygems.org"
 # development dependencies will be added by default to the :development group.
 # gemspec
 
-gem "rails", "~> 8.0"
+gem "rails", "~> 8.1"
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
 # Git. Remember to move these dependencies to your gemspec before releasing
@@ -127,14 +127,14 @@ gem "i18n", "~> 1.10"
 
 gem "i18n-active_record", "~> 1.1"
 
-gem 'globalize', git: 'https://github.com/globalize/globalize'
+# REMOVED: globalize - migrated to Mobility gem for translations
+# gem 'globalize', git: 'https://github.com/globalize/globalize'
 # gem "globalize", "~> 6.2"
+# gem "globalize-accessors", "~> 0.3.0"
 
 gem "money-rails", "~> 1.15"
 
 gem "simple_form", "~> 5.1"
-
-gem "globalize-accessors", "~> 0.3.0"
 
 gem "active_hash", "~> 3.1"
 
