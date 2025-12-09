@@ -1,6 +1,19 @@
 # PropertyWebBuilder Documentation
 
-Welcome to the PropertyWebBuilder documentation - a modern, open-source platform for creating real estate websites.
+Welcome to the PropertyWebBuilder v2.0.0 documentation - a modern, open-source multi-tenant platform for creating real estate websites.
+
+## What's New in v2.0.0
+
+PropertyWebBuilder 2.0 is a major release representing 5 years of development:
+
+- **Multi-Tenancy:** Host multiple websites from a single installation with `acts_as_tenant`
+- **Dual Admin:** `site_admin` (super admin) and `tenant_admin` (per-tenant) interfaces
+- **Modern Stack:** Rails 8, Tailwind CSS, Vue.js 3, Vite, ActiveStorage
+- **New Property Model:** `RealtyAsset` with separate `SaleListing`/`RentalListing` records
+- **Firebase Auth:** Optional Firebase authentication with Devise fallback
+- **Seed Packs:** Scenario-based seeding for quick site setup
+
+See the full [CHANGELOG](../CHANGELOG.md) for details.
 
 ## Quick Start
 
@@ -9,9 +22,11 @@ Welcome to the PropertyWebBuilder documentation - a modern, open-source platform
 | Set up development environment | [Development Guide](./DEVELOPMENT.md) |
 | Understand the architecture | [Overview](./01_Overview.md) |
 | Deploy the application | [Deployment Guides](#deployment) |
-| Create a new theme | [Theme Creation Guide](./THEME_CREATION_GUIDE.md) |
+| Create a new theme | [Theming System](./11_Theming_System.md) |
 | Write tests | [Testing Guide](./testing/README.md) |
 | Understand multi-tenancy | [Multi-Tenancy Guide](./multi_tenancy/README.md) |
+| Set up authentication | [Authentication Guide](./12_Authentication_Authorization.md) |
+| Use seed packs | [Seeding Guide](./seeding/) |
 
 ---
 
@@ -31,6 +46,8 @@ These numbered guides provide a comprehensive walkthrough of the system:
 | 8 | [PagePart System](./08_PagePart_System.md) | CMS content with Liquid templates |
 | 9 | [Field Keys](./09_Field_Keys.md) | Property labeling and categorization |
 | 10 | [Page Part Routes](./10_Page_Part_Routes.md) | Page part routing system |
+| 11 | [Theming System](./11_Theming_System.md) | Theme creation and customization |
+| 12 | [Authentication](./12_Authentication_Authorization.md) | Firebase and Devise authentication |
 
 ---
 
@@ -131,9 +148,13 @@ PropertyWebBuilder can be deployed to multiple platforms:
 
 - **Backend**: Ruby on Rails 8.0, Ruby 3.4.7
 - **Database**: PostgreSQL
-- **Frontend**: Vue.js 3 with Quasar Framework
+- **Multi-Tenancy**: acts_as_tenant gem
+- **Frontend**: Vue.js 3 with Quasar Framework (admin), Tailwind CSS (public themes)
 - **Build Tool**: Vite with vite-plugin-ruby
 - **APIs**: RESTful and GraphQL
+- **Authentication**: Firebase ID Token + Devise
+- **File Storage**: ActiveStorage with S3/Cloudflare R2
+- **Translations**: Mobility gem
 - **Maps**: Google Maps integration
 
 ## External Resources

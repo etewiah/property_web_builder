@@ -1,13 +1,14 @@
 # Development Guide
 
-This guide provides instructions for setting up the PropertyWebBuilder project locally, running tests, and troubleshooting common issues.
+This guide provides instructions for setting up PropertyWebBuilder v2.0.0 locally, running tests, and troubleshooting common issues.
 
 ## Prerequisites
 
-- **Ruby**: 3.4.1
-- **Rails**: ~> 7.0
-- **PostgreSQL**: Ensure you have PostgreSQL installed and running.
-- **Node.js & Yarn**: Required for managing frontend dependencies.
+- **Ruby**: 3.4.7 or higher
+- **Rails**: 8.0
+- **PostgreSQL**: Ensure you have PostgreSQL installed and running
+- **Node.js & npm**: Required for managing frontend dependencies (Vite, Vue.js)
+- **Redis**: Optional, used for Firebase certificate caching
 
 ## Setup
 
@@ -27,7 +28,7 @@ This guide provides instructions for setting up the PropertyWebBuilder project l
 3.  **Install JavaScript dependencies:**
 
     ```bash
-    yarn install
+    npm install
     ```
 
 4.  **Setup the database:**
@@ -38,13 +39,38 @@ This guide provides instructions for setting up the PropertyWebBuilder project l
     rails pwb:db:seed
     ```
 
-5.  **Start the server:**
+5.  **Start the development server:**
 
     ```bash
-    rails server
+    bin/dev
     ```
 
+    This starts both the Rails server and Vite for frontend asset compilation.
     The application should now be accessible at `http://localhost:3000`.
+
+## Multi-Tenancy in Development
+
+PropertyWebBuilder is a multi-tenant application. Each website is identified by subdomain:
+
+- `http://localhost:3000` - Default tenant
+- `http://tenant-a.localhost:3000` - Specific tenant (requires hosts file or subdomain setup)
+
+For local subdomain testing, add entries to `/etc/hosts`:
+```
+127.0.0.1 tenant-a.localhost
+127.0.0.1 tenant-b.localhost
+```
+
+## Seed Packs
+
+Use seed packs to quickly set up demo sites:
+
+```bash
+rails pwb:seed_packs:list                    # List available packs
+rails pwb:seed_packs:apply[netherlands_urban] # Apply a specific pack
+```
+
+See [seeding documentation](./seeding/) for more details.
 
 ## Running Tests
 

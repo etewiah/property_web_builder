@@ -3,6 +3,47 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 2.0.0 / 2025-12-09
+
+### Breaking Changes
+* Convert from Rails engine to standalone application
+* Migrate from `Prop` model to `RealtyAsset` with separate Sale/Rental listings
+* Implement namespace-based multi-tenancy (`Pwb::` base, `PwbTenant::` tenant-scoped)
+* Migrate from Bootstrap to Tailwind CSS for public themes
+* Migrate from Globalize gem to Mobility for translations
+
+### Major Features
+* **Multi-tenancy**: Full acts_as_tenant integration with cross-tenant admin
+* **Dual admin interfaces**: `site_admin` (super admin) and `tenant_admin` (per-tenant)
+* **Seed packs system**: Scenario-based seeding for quick site setup
+* **Firebase authentication**: Unified auth with configurable Firebase/Devise provider
+* **New themes**: Brisbane (luxury), Bologna, Bristol with Tailwind CSS
+* **Enhanced theming**: CSS variables, Liquid templates, page part library
+* **Faceted search**: Field key-based filtering with URL-friendly parameters
+
+### New Features
+* Custom domain support for tenant deployments
+* Quill HTML editor with image picker for page parts
+* Audit logging for all authentication events
+* Push notifications via ntfy.sh
+* External image URL support per tenant
+* Comprehensive SEO strategy implementation
+* Health checks and Sentry error tracking
+* Mobile responsive admin layouts
+* Auto-fetch Firebase certificates on NoCertificatesError
+
+### Infrastructure
+* Upgrade Rails from 5.2 → 6.1 → 7.0 → 8.0
+* Add Vite with Vue 3 for modern frontend builds
+* Implement structured logging with Logster
+* Add comprehensive test coverage
+* Replace Cloudinary with ActiveStorage (S3/R2 compatible)
+
+### Removed
+* Deprecated themes (chic, matt, vic, squares, airbnb)
+* jsonapi-resources gem dependency
+* Cloudinary dependency
+
 ## 1.4.0 / 2020-02-09
 
 * Enable geocoding of addresses with geocoder gem

@@ -8,24 +8,44 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
-## November 2024 Update
+## Version 2.0.0 Released - December 2024
 
-PropertyWebBuilder has been significantly upgraded! 🎉
+PropertyWebBuilder 2.0 is a major release representing 5 years of development and 500+ commits since v1.4.0. This is essentially a complete rewrite with a modern architecture.
 
-**Major Updates:**
-- ✅ **Rails 8.0** - Upgraded to the latest Rails version with modern features
-- ✅ **Ruby 3.4.7** - Running on the latest stable Ruby
-- ✅ **Vite Integration** - Fast, modern build tooling with vite-ruby
-- ✅ **Vue.js 3 + Quasar** - Admin panel completely reimplemented with modern frontend stack
-- ✅ **Comprehensive Documentation** - Extensive docs for API, GraphQL, deployment, and Quasar integration
+### What's New in 2.0
 
-PropertyWebBuilder is now a standalone Ruby on Rails application (no longer a Rails engine) with a cutting-edge tech stack.
+**Architecture Changes:**
+- Converted from Rails engine to standalone application
+- Full multi-tenancy with `acts_as_tenant` gem
+- Dual admin interfaces: `site_admin` (super admin) and `tenant_admin` (per-tenant)
+- New property model architecture: `RealtyAsset` with separate `SaleListing`/`RentalListing`
+
+**Tech Stack Upgrades:**
+- Rails 5.2 → 8.0
+- Ruby 3.4.7
+- Bootstrap → Tailwind CSS for public themes
+- Globalize → Mobility for translations
+- Cloudinary → ActiveStorage (S3/R2 compatible)
+- Vite + Vue.js 3 + Quasar for admin panel
+
+**New Features:**
+- Seed packs system for scenario-based site setup
+- Firebase authentication with Devise fallback
+- New themes: Brisbane (luxury), Bologna, Bristol
+- Enhanced theming with CSS variables and Liquid templates
+- Faceted search with field key filtering
+- Comprehensive SEO implementation
+- Audit logging for authentication events
+- Push notifications via ntfy.sh
+
+See the full [CHANGELOG](./CHANGELOG.md) for details.
 
 For detailed documentation, see the [docs folder](./docs/), which includes:
 - [API Documentation](./docs/04_API.md)
 - [Frontend/Vue.js Documentation](./docs/05_Frontend.md)
-- [Database Seeding Guide](./docs/seeding.md)
-- [Quasar Implementation Guide](./docs/quasar/)
+- [Multi-Tenancy Guide](./docs/multi_tenancy/README.md)
+- [Theming System](./docs/11_Theming_System.md)
+- [Seeding Guide](./docs/seeding/)
 - [Deployment Guides](./docs/deployment/) for 10+ platforms
 
 Additional auto-generated documentation is available at:
@@ -79,16 +99,20 @@ PropertyWebBuilder runs with Ruby 3.4.7 or higher.
 
 ## Features
 
-* **Modern Tech Stack** - Rails 8, Ruby 3.4.7, Vue.js 3, Quasar, Vite
-* **Multilingual** - Support for multiple languages
+* **Modern Tech Stack** - Rails 8, Ruby 3.4.7, Vue.js 3, Quasar, Vite, Tailwind CSS
+* **Multi-Tenancy** - Host multiple websites from a single installation
+* **Multilingual** - Support for multiple languages with Mobility gem
 * **Multi-currency** - Handle properties in different currencies
-* **Powerful Search** - Advanced property search functionality
-* **Modern Admin Panel** - Built with Vue.js 3 and Quasar framework
+* **Powerful Search** - Faceted search with field key filtering
+* **Dual Admin Panels** - Site admin (super admin) and tenant admin interfaces
+* **Firebase Auth** - Optional Firebase authentication with Devise fallback
+* **Modern Themes** - Brisbane, Bologna, Bristol themes with Tailwind CSS
+* **Seed Packs** - Scenario-based seeding for quick site setup
 * **Google Maps Integration** - Interactive property maps
-* **Customisable** - Flexible look and feel
-* **Easily Extendable** - Well-documented architecture
-* **SEO Friendly** - Optimized for search engines
-* **Responsive Design** - Mobile-friendly layout
+* **Customisable** - CSS variables, Liquid templates, page parts system
+* **SEO Friendly** - Comprehensive SEO implementation
+* **Responsive Design** - Mobile-friendly layouts
+* **ActiveStorage** - S3/R2 compatible file storage
 * **Fully Open Source** - MIT License
 
 ## Deployment Options

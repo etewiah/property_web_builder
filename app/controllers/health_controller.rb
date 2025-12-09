@@ -15,7 +15,8 @@ class HealthController < ActionController::API
   def live
     render json: {
       status: 'ok',
-      timestamp: Time.current.iso8601
+      timestamp: Time.current.iso8601,
+      pwb_version: Pwb::VERSION
     }, status: :ok
   end
 
@@ -52,7 +53,8 @@ class HealthController < ActionController::API
     render json: {
       status: 'ok',
       timestamp: Time.current.iso8601,
-      version: app_version,
+      pwb_version: Pwb::VERSION,
+      git_version: app_version,
       environment: Rails.env,
       ruby_version: RUBY_VERSION,
       rails_version: Rails::VERSION::STRING,

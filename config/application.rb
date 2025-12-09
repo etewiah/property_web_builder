@@ -1,4 +1,5 @@
 require_relative "boot"
+require_relative "../lib/pwb/version"
 
 require "rails"
 # Pick the frameworks you want:
