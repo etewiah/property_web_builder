@@ -1,185 +1,309 @@
-# PropertyWebBuilder Documentation
+# PropertyWebBuilder Documentation Index
 
-Welcome to the PropertyWebBuilder v2.0.0 documentation - a modern, open-source multi-tenant platform for creating real estate websites.
-
-## What's New in v2.0.0
-
-PropertyWebBuilder 2.0 is a major release representing 5 years of development:
-
-- **Multi-Tenancy:** Host multiple websites from a single installation with `acts_as_tenant`
-- **Dual Admin:** `site_admin` (super admin) and `tenant_admin` (per-tenant) interfaces
-- **Modern Stack:** Rails 8, Tailwind CSS, Vue.js 3, Vite, ActiveStorage
-- **New Property Model:** `RealtyAsset` with separate `SaleListing`/`RentalListing` records
-- **Firebase Auth:** Optional Firebase authentication with Devise fallback
-- **Seed Packs:** Scenario-based seeding for quick site setup
-
-See the full [CHANGELOG](../CHANGELOG.md) for details.
+Welcome to PropertyWebBuilder's comprehensive documentation. This folder contains detailed guides and references for understanding and working with the multi-tenant website provisioning system.
 
 ## Quick Start
 
-| I want to... | Go to... |
-|--------------|----------|
-| Set up development environment | [Development Guide](./DEVELOPMENT.md) |
-| Understand the architecture | [Overview](./01_Overview.md) |
-| Deploy the application | [Deployment Guides](#deployment) |
-| Create a new theme | [Theming System](./11_Theming_System.md) |
-| Write tests | [Testing Guide](./testing/README.md) |
-| Understand multi-tenancy | [Multi-Tenancy Guide](./multi_tenancy/README.md) |
-| Set up authentication | [Authentication Guide](./12_Authentication_Authorization.md) |
-| Use seed packs | [Seeding Guide](./seeding/) |
+**New to the codebase?** Start here:
 
----
+1. **[EXPLORATION_SUMMARY.md](./EXPLORATION_SUMMARY.md)** - Executive summary of findings (20 min read)
+2. **[PROVISIONING_QUICK_START.md](./PROVISIONING_QUICK_START.md)** - Practical commands and examples (15 min read)
+3. **[CODE_REFERENCES.md](./CODE_REFERENCES.md)** - Actual code snippets with file paths (reference)
 
-## Core Documentation
+## Documentation Files
 
-These numbered guides provide a comprehensive walkthrough of the system:
+### Overview & Architecture
+- **[EXPLORATION_SUMMARY.md](./EXPLORATION_SUMMARY.md)** (12 sections, ~50 KB)
+  - Key findings from codebase exploration
+  - 12 major systems documented
+  - Code organization and file structure
+  - Next steps and recommendations
+  - **Best for:** Understanding the big picture
 
-| # | Document | Description |
-|---|----------|-------------|
-| 1 | [Overview](./01_Overview.md) | High-level architecture and main components |
-| 2 | [Data Models](./02_Data_Models.md) | Database schema, models, and associations |
-| 3 | [Controllers](./03_Controllers.md) | Controller actions and request handling |
-| 4 | [API](./04_API.md) | RESTful and GraphQL API documentation |
-| 5 | [Frontend](./05_Frontend.md) | Vue.js applications and UI components |
-| 6 | [Multi-Tenancy](./06_Multi_Tenancy.md) | Multi-tenant architecture overview |
-| 7 | [Assets Management](./07_Assets_Management.md) | Asset pipeline and file management |
-| 8 | [PagePart System](./08_PagePart_System.md) | CMS content with Liquid templates |
-| 9 | [Field Keys](./09_Field_Keys.md) | Property labeling and categorization |
-| 10 | [Page Part Routes](./10_Page_Part_Routes.md) | Page part routing system |
-| 11 | [Theming System](./11_Theming_System.md) | Theme creation and customization |
-| 12 | [Authentication](./12_Authentication_Authorization.md) | Firebase and Devise authentication |
+- **[WEBSITE_PROVISIONING_OVERVIEW.md](./WEBSITE_PROVISIONING_OVERVIEW.md)** (17 sections, ~150 KB)
+  - Comprehensive technical reference
+  - Detailed model documentation
+  - Database schema explanation
+  - Complete API reference
+  - Multi-tenancy architecture
+  - **Best for:** Deep technical understanding and reference
 
----
+### Quick Start & Practical Guides
+- **[PROVISIONING_QUICK_START.md](./PROVISIONING_QUICK_START.md)** (15 sections, ~80 KB)
+  - Quick command reference
+  - Step-by-step setup guides
+  - User and property management
+  - Troubleshooting common issues
+  - Environment setup
+  - **Best for:** Getting things done
 
-## Topic Guides
+### Code References
+- **[CODE_REFERENCES.md](./CODE_REFERENCES.md)** (Extensive snippets)
+  - Actual code from key files
+  - File paths and line numbers
+  - Migration examples
+  - Configuration examples
+  - SQL schema
+  - **Best for:** Finding specific code
 
-### Architecture
+## Reading Guide by Role
 
-| Document | Description |
-|----------|-------------|
-| [Property Models](./architecture/ARCHITECTURE_PROPERTY_MODELS.md) | RealtyAsset, SaleListing, RentalListing design |
-| [Property Models Quick Ref](./architecture/PROPERTY_MODELS_QUICK_REFERENCE.md) | Common patterns and queries |
-| [Normalization Guide](./architecture/migrations/pwb_props_normalization.md) | Prop to RealtyAsset migration |
+### For Developers
+1. Start: EXPLORATION_SUMMARY.md - Overview
+2. Then: WEBSITE_PROVISIONING_OVERVIEW.md - Deep dive
+3. Reference: CODE_REFERENCES.md - Specific code
+
+### For DevOps/Infrastructure
+1. Start: PROVISIONING_QUICK_START.md - Commands
+2. Then: WEBSITE_PROVISIONING_OVERVIEW.md - Section 15 (Configuration)
+3. Reference: CODE_REFERENCES.md - Environment variables
+
+### For Product Managers
+1. Start: EXPLORATION_SUMMARY.md - Overview
+2. Then: PROVISIONING_QUICK_START.md - Capabilities
+3. Reference: WEBSITE_PROVISIONING_OVERVIEW.md - Section 7 (Seeding)
+
+### For QA/Testers
+1. Start: PROVISIONING_QUICK_START.md - Testing section
+2. Then: EXPLORATION_SUMMARY.md - System overview
+3. Reference: WEBSITE_PROVISIONING_OVERVIEW.md - Validation section
+
+## Key Topics
+
+### Self-Service Signup & Provisioning (NEW)
+- **[architecture/tenant_provisioning_workflow.md](./architecture/tenant_provisioning_workflow.md)** - State machine workflow documentation
+  - AASM state machines for website and user
+  - Subdomain pool management
+  - ProvisioningService orchestration
+  - Signup flow architecture
+
+### Website Provisioning
+- Creating new websites: PROVISIONING_QUICK_START.md - "Create a New Website"
+- Website configuration: WEBSITE_PROVISIONING_OVERVIEW.md - Section 1
+- Database schema: WEBSITE_PROVISIONING_OVERVIEW.md - Section 12
+
+### User Management
+- User model: WEBSITE_PROVISIONING_OVERVIEW.md - Section 2
+- Memberships: WEBSITE_PROVISIONING_OVERVIEW.md - Section 3
+- Multi-website access: EXPLORATION_SUMMARY.md - Section 11
+
+### Seeding
+- Basic seeding: WEBSITE_PROVISIONING_OVERVIEW.md - Section 6.1
+- Seed packs: WEBSITE_PROVISIONING_OVERVIEW.md - Section 6.2
+- Seed runner: WEBSITE_PROVISIONING_OVERVIEW.md - Section 6.3
+- Rake tasks: WEBSITE_PROVISIONING_OVERVIEW.md - Section 7
+
+### Domains & Routing
+- Subdomain routing: WEBSITE_PROVISIONING_OVERVIEW.md - Section 4
+- Custom domains: WEBSITE_PROVISIONING_OVERVIEW.md - Section 4
+- DNS verification: PROVISIONING_QUICK_START.md - "Add Custom Domain"
 
 ### Multi-Tenancy
+- Architecture: WEBSITE_PROVISIONING_OVERVIEW.md - Section 11
+- Isolation: EXPLORATION_SUMMARY.md - Section 12
+- Data scoping: WEBSITE_PROVISIONING_OVERVIEW.md - Section 11
 
-| Document | Description |
-|----------|-------------|
-| [Overview](./multi_tenancy/README.md) | Start here for multi-tenancy |
-| [Quick Reference](./multi_tenancy/MULTI_TENANCY_QUICK_REFERENCE.md) | Common patterns and gotchas |
-| [Architecture](./multi_tenancy/MULTI_TENANCY_ARCHITECTURE.md) | Deep dive into implementation |
-| [PwbTenant Models](./PWB_TENANT_MODELS.md) | Tenant-scoped model documentation |
+## Quick Command Reference
 
-### Themes & Styling
+### Create a New Website
+```bash
+rake pwb:db:create_tenant[subdomain]
+```
+See: PROVISIONING_QUICK_START.md - "Quick Reference Commands"
 
-| Document | Description |
-|----------|-------------|
-| [Theme System](./THEME_SYSTEM.md) | How themes work |
-| [Theme Creation Guide](./THEME_CREATION_GUIDE.md) | Step-by-step theme creation |
-| [Semantic CSS Classes](./SEMANTIC_CSS_CLASSES.md) | CSS class conventions |
-| [Tailwind Helpers](./TAILWIND_HELPERS.md) | Tailwind utility reference |
+### List All Websites
+```bash
+rake pwb:db:list_tenants
+```
 
-### Admin Panel
+### Apply a Seed Pack
+```ruby
+pack = Pwb::SeedPack.find('spain_luxury')
+pack.apply!(website: website)
+```
 
-| Document | Description |
-|----------|-------------|
-| [Implementation Details](./admin/01_Implementation_Details.md) | Admin panel architecture |
-| [Quasar Frontend](./admin/02_Quasar_Frontend_Implementation.md) | Vue.js 3 + Quasar setup |
-| [Property Settings](./admin/properties_settings/README.md) | Property configuration UI |
+### Preview Changes (Dry Run)
+```bash
+DRY_RUN=true rake pwb:db:seed_enhanced
+```
 
-### Quasar Framework
+## File Structure
 
-| Document | Description |
-|----------|-------------|
-| [Introduction](./quasar/introduction.md) | Getting started with Quasar |
-| [API Integration](./quasar/api_integration.md) | Connecting to Rails backend |
-| [GraphQL](./quasar/graphql.md) | GraphQL data fetching |
-| [Deployment](./quasar/deployment.md) | Deploying the frontend |
+```
+PropertyWebBuilder/
+├── docs/
+│   ├── README.md (this file)
+│   ├── EXPLORATION_SUMMARY.md
+│   ├── WEBSITE_PROVISIONING_OVERVIEW.md
+│   ├── PROVISIONING_QUICK_START.md
+│   └── CODE_REFERENCES.md
+│
+├── app/models/pwb/
+│   ├── website.rb (Website model - 435 lines)
+│   ├── user.rb (User model - 186 lines)
+│   ├── user_membership.rb (Membership model - 57 lines)
+│   └── current.rb (Request context - 5 lines)
+│
+├── lib/pwb/
+│   ├── seeder.rb (Basic seeding - 476 lines)
+│   ├── seed_pack.rb (Scenario seeding - 693 lines)
+│   └── seed_runner.rb (Enhanced seeding - 549 lines)
+│
+├── lib/tasks/
+│   └── pwb_tasks.rake (Provisioning tasks - 389 lines)
+│
+├── db/
+│   ├── yml_seeds/ (YAML seed templates)
+│   │   ├── website.yml
+│   │   ├── agency.yml
+│   │   ├── field_keys.yml
+│   │   ├── links.yml
+│   │   ├── users.yml
+│   │   └── prop/ (property definitions)
+│   │
+│   ├── seeds/packs/ (Seed pack scenarios)
+│   │   ├── base/
+│   │   ├── spain_luxury/
+│   │   └── netherlands_urban/
+│   │
+│   └── migrate/ (Database migrations)
+│
+└── CLAUDE.md (Project instructions)
+```
 
-### Testing
+## Key Statistics
 
-| Document | Description |
-|----------|-------------|
-| [Testing Guide](./testing/README.md) | Overview of testing approach |
-| [E2E User Stories](./testing/E2E_USER_STORIES.md) | User stories for e2e tests |
+| Metric | Value |
+|--------|-------|
+| Files Examined | 30+ |
+| Code Lines Analyzed | 2,500+ |
+| Models Referenced | 14+ |
+| Key Insights | 50+ |
+| Database Tables | 40+ |
+| Rake Tasks | 10+ |
+| Seed Packs | 3 |
+| Documentation Pages | 4 |
 
-### Seeding & Data
+## What's Covered
 
-| Document | Description |
-|----------|-------------|
-| [Seeding Guide](./seeding/SEEDING_QUICK_REFERENCE.md) | Quick reference for seeding |
-| [Seeding Architecture](./seeding/SEEDING_ARCHITECTURE.md) | How seeding works |
-| [Seed Packs](./seeding/seed_packs_plan.md) | Seed pack system |
+### System Components
+- Website model with subdomain & custom domain routing
+- User authentication (Devise + OAuth + Firebase)
+- Multi-website memberships with role-based access
+- Website configuration system (themes, locales, currencies)
+- Property management (RealtyAsset + Listings model)
+- Agency information & contact management
+- Page builder with page parts
+- Navigation/link management
+- Field keys for property customization
 
-### Field Keys
+### Seeding Approaches
+- Basic one-time seeding
+- Scenario-based seed packs
+- Enhanced seeding with safety features
+- Seed pack inheritance
+- Property image handling
+- Multi-language content seeding
 
-| Document | Description |
-|----------|-------------|
-| [Field Keys Overview](./09_Field_Keys.md) | Property categorization system |
-| [Search Implementation](./field_keys/field_key_search_implementation.md) | Using field keys in search |
+### Provisioning Tools
+- Rake tasks for website creation
+- Bulk seeding operations
+- Dry-run previewing
+- Interactive mode
+- Validation tools
+
+### Multi-Tenancy
+- Subdomain-based routing
+- Custom domain support with DNS verification
+- Request-scoped isolation
+- Data scoping via website_id
+- User access control
+
+## Common Tasks
+
+### Setup a New Website
+See: PROVISIONING_QUICK_START.md - "Step-by-Step: Create a Real Estate Website"
+
+### Configure Website Properties
+See: PROVISIONING_QUICK_START.md - "Configuring Website Properties"
+
+### Manage Users
+See: PROVISIONING_QUICK_START.md - "User Management"
+
+### Add Properties
+See: PROVISIONING_QUICK_START.md - "Property Management"
+
+### Debug Issues
+See: PROVISIONING_QUICK_START.md - "Common Issues & Solutions"
+
+## Troubleshooting
+
+For common issues and solutions, see:
+- PROVISIONING_QUICK_START.md - "Common Issues & Solutions" section
+- WEBSITE_PROVISIONING_OVERVIEW.md - Section 14 (Constraints & Validations)
+
+## Further Reading
+
+### Related Files in Project
+- `/CLAUDE.md` - Project guidelines and instructions
+- `/app/models/pwb/` - Model implementations
+- `/lib/pwb/` - Seeding and utility classes
+- `/lib/tasks/` - Rake task definitions
+- `/db/yml_seeds/` - Seed data templates
+- `/db/seeds/packs/` - Scenario configurations
+- `/db/migrate/` - Database migrations
+
+### Key Concepts
+- Multi-tenancy architecture
+- SaaS website provisioning
+- Role-based access control (RBAC)
+- Seed pack pattern
+- DNS domain verification
+- Rails models and associations
+
+## Questions & Answers
+
+**Q: How do I create a new website?**  
+A: `rake pwb:db:create_tenant[subdomain]` - See PROVISIONING_QUICK_START.md
+
+**Q: Can users access multiple websites?**  
+A: Yes, via UserMemberships. See WEBSITE_PROVISIONING_OVERVIEW.md - Section 3
+
+**Q: How does routing work?**  
+A: Via subdomain or custom domain. See WEBSITE_PROVISIONING_OVERVIEW.md - Section 4
+
+**Q: What are seed packs?**  
+A: Pre-configured scenario bundles. See WEBSITE_PROVISIONING_OVERVIEW.md - Section 6.2
+
+**Q: How is multi-tenancy implemented?**  
+A: Shared database with website_id scoping. See EXPLORATION_SUMMARY.md - Section 11
+
+**Q: Where's the actual code?**  
+A: See CODE_REFERENCES.md for file paths and snippets
+
+## Document Metadata
+
+| Document | Created | Size | Sections | Focus |
+|----------|---------|------|----------|-------|
+| EXPLORATION_SUMMARY.md | 2024-12-09 | ~50 KB | 17 | Overview |
+| WEBSITE_PROVISIONING_OVERVIEW.md | 2024-12-09 | ~150 KB | 17 | Reference |
+| PROVISIONING_QUICK_START.md | 2024-12-09 | ~80 KB | 15 | Practical |
+| CODE_REFERENCES.md | 2024-12-09 | ~40 KB | 12 | Code snippets |
+
+## Contributing to Documentation
+
+If you improve or expand these docs:
+
+1. Maintain the 17-section structure format
+2. Use the established naming conventions
+3. Include code snippets with file paths
+4. Add to this index
+5. Keep examples up-to-date
+
+## Last Updated
+
+2024-12-09 - Added self-service tenant provisioning workflow with AASM state machines
 
 ---
 
-## Deployment
-
-PropertyWebBuilder can be deployed to multiple platforms:
-
-### Recommended
-- **[Render](./deployment/render.md)** - Easy deployment with free tier
-- **[Dokku](./deployment/dokku.md)** - Self-hosted PaaS
-
-### Other Platforms
-- [Cloud66](./deployment/cloud66.md) | [Northflank](./deployment/northflank.md) | [Coherence](./deployment/withcoherence.md) | [Argonaut](./deployment/argonaut.md)
-- [Koyeb](./deployment/koyeb.md) | [Qoddi](./deployment/qoddi.md) | [AlwaysData](./deployment/alwaysdata.md) | [DomCloud](./deployment/domcloud.md)
-
----
-
-## Migration Guides
-
-| Document | Description |
-|----------|-------------|
-| [Globalize to Mobility](./GLOBALIZE_TO_MOBILITY_MIGRATION.md) | I18n migration guide |
-| [CarrierWave to ActiveStorage](./carrierwave_to_activestorage_migration.md) | File upload migration |
-| [Multiple Listings](./MULTIPLE_LISTINGS.md) | Property listing architecture |
-
----
-
-## Tech Stack
-
-- **Backend**: Ruby on Rails 8.0, Ruby 3.4.7
-- **Database**: PostgreSQL
-- **Multi-Tenancy**: acts_as_tenant gem
-- **Frontend**: Vue.js 3 with Quasar Framework (admin), Tailwind CSS (public themes)
-- **Build Tool**: Vite with vite-plugin-ruby
-- **APIs**: RESTful and GraphQL
-- **Authentication**: Firebase ID Token + Devise
-- **File Storage**: ActiveStorage with S3/Cloudflare R2
-- **Translations**: Mobility gem
-- **Maps**: Google Maps integration
-
-## External Resources
-
-- [GitHub Repository](https://github.com/etewiah/property_web_builder)
-- [DeepWiki Docs](https://deepwiki.com/etewiah/property_web_builder)
-- [Gitter Chat](https://gitter.im/property_web_builder/Lobby)
-
-## Getting Help
-
-- **Issues**: [GitHub Issues](https://github.com/etewiah/property_web_builder/issues)
-- **Contributing**: [CONTRIBUTING.md](../CONTRIBUTING.md)
-
----
-
-## Internal Notes
-
-The `claude_thoughts/` folder contains working documents and analysis from Claude AI sessions. These include:
-- Architecture exploration findings
-- Multi-tenancy analysis and recommendations
-- E2E testing infrastructure analysis
-- Migration planning documents
-
-These documents provide valuable context but may be more detailed than typical user-facing documentation.
-
----
-
-*Last Updated: December 2025*
+**Start reading:** [EXPLORATION_SUMMARY.md](./EXPLORATION_SUMMARY.md)

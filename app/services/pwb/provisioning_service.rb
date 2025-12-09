@@ -21,17 +21,17 @@ module Pwb
     def start_signup(email:)
       @errors = []
 
-      ActiveRecord::Base.transaction do
+      result = ActiveRecord::Base.transaction do
         # Check if user already exists
         existing_user = User.find_by(email: email.downcase.strip)
         if existing_user
           if existing_user.active?
             @errors << "An account with this email already exists"
-            return failure_result
+            raise ActiveRecord::Rollback
           else
             # Reactivate churned user
             existing_user.reactivate! if existing_user.churned?
-            return success_result(user: existing_user, subdomain: find_reserved_subdomain(email))
+            next success_result(user: existing_user, subdomain: find_reserved_subdomain(email))
           end
         end
 
@@ -56,6 +56,9 @@ module Pwb
 
         success_result(user: user, subdomain: subdomain)
       end
+
+      # If transaction rolled back, result will be nil
+      result || failure_result
     rescue StandardError => e
       @errors << e.message
       failure_result
