@@ -4,7 +4,7 @@ module Pwb
   class ContentPhoto < ApplicationRecord
     include ExternalImageSupport
 
-    has_one_attached :image
+    has_one_attached :image, dependent: :purge_later
     belongs_to :content, optional: true
     # I use block_key col to indicate if there is a fragment block associated
     # with this photo

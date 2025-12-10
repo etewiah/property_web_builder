@@ -121,6 +121,11 @@ Rails.application.routes.draw do
     resources :contacts, only: %i[index show]
     resources :users, only: %i[index show]
 
+    # Storage statistics and orphan monitoring
+    resource :storage_stats, only: [:show] do
+      post :cleanup
+    end
+
     # Properties Settings
     namespace :properties do
       get 'settings', to: 'settings#index', as: 'settings'

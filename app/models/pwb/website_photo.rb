@@ -11,7 +11,7 @@ module Pwb
     include ExternalImageSupport
 
     belongs_to :website, optional: true
-    has_one_attached :image
+    has_one_attached :image, dependent: :purge_later
 
     def optimized_image_url
       # Use external URL if available
