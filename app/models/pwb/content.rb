@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'csv'
+
 module Pwb
   # Content stores translatable content blocks for pages.
   #
@@ -70,6 +72,17 @@ module Pwb
         CSV.generate do |csv|
           csv << export_column_names
           all.each do |content|
+            csv << content.attributes.values_at(*export_column_names)
+          end
+        end
+      end
+
+      # Multi-tenant safe CSV export - scoped to specific website
+      def to_csv_for_website(website, export_column_names = nil)
+        export_column_names ||= column_names
+        CSV.generate do |csv|
+          csv << export_column_names
+          where(website: website).each do |content|
             csv << content.attributes.values_at(*export_column_names)
           end
         end

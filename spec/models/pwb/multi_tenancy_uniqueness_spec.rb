@@ -146,15 +146,16 @@ module Pwb
         let(:standard_content_keys) { %w[footer_content_html landing_hero about_us_services] }
 
         it "can create all standard content for both tenants" do
-          # Create for tenant 1
+          # Create for tenant 1 - use Content.create! directly since
+          # website.contents is a through association via page_contents
           standard_content_keys.each do |key|
-            website1.contents.create!(key: key)
+            Content.create!(website: website1, key: key)
           end
 
           # Create for tenant 2 - should not fail
           expect {
             standard_content_keys.each do |key|
-              website2.contents.create!(key: key)
+              Content.create!(website: website2, key: key)
             end
           }.not_to raise_error
 

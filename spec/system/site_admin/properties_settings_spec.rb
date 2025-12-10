@@ -10,8 +10,15 @@ RSpec.describe 'Properties Settings Management', type: :system, js: true do
     Warden.test_mode!
     driven_by(:selenium_chrome_headless)
 
-    # Set up current website
-    allow(Pwb::Current).to receive(:website).and_return(website)
+    # Create user membership for admin access
+    Pwb::UserMembership.find_or_create_by!(user: admin_user, website: website) do |m|
+      m.role = 'admin'
+      m.active = true
+    end
+
+    # Set tenant for acts_as_tenant scoping
+    ActsAsTenant.current_tenant = website
+    Pwb::Current.website = website
 
     # Sign in
     login_as(admin_user, scope: :user)
@@ -19,6 +26,8 @@ RSpec.describe 'Properties Settings Management', type: :system, js: true do
 
   after do
     Warden.test_reset!
+    ActsAsTenant.current_tenant = nil
+    Pwb::Current.reset
   end
   
   describe 'navigating to settings' do

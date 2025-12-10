@@ -2,7 +2,7 @@ namespace :pwb do
   namespace :provisioning do
     desc "Populate the subdomain pool with pre-generated Heroku-style names"
     task populate_subdomains: :environment do
-      count = ENV.fetch('COUNT', 500).to_i
+      count = ENV.fetch('COUNT', 50).to_i
       puts "Generating #{count} subdomains..."
 
       created = Pwb::SubdomainGenerator.populate_pool(count: count)
@@ -12,7 +12,7 @@ namespace :pwb do
 
     desc "Ensure minimum subdomain pool size"
     task ensure_subdomain_pool: :environment do
-      minimum = ENV.fetch('MINIMUM', 100).to_i
+      minimum = ENV.fetch('MINIMUM', 10).to_i
       puts "Ensuring at least #{minimum} subdomains are available..."
 
       Pwb::SubdomainGenerator.ensure_pool_minimum(minimum: minimum)

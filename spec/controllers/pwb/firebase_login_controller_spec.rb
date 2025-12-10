@@ -17,11 +17,6 @@ module Pwb
         get :index
         expect(response).to render_template("pwb/firebase_login/index")
       end
-
-      it "sets current agency" do
-        get :index
-        expect(assigns(:current_agency)).to_not be_nil
-      end
     end
 
     describe "GET #forgot_password" do

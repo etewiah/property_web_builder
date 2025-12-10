@@ -17,11 +17,16 @@ module Pwb
     end
 
     let!(:website) { create(:pwb_website, subdomain: 'export-content-test') }
-    let!(:admin_user) { create(:pwb_user, :admin) }
+    let!(:admin_user) { create(:pwb_user, :admin, website: website) }
 
     describe 'GET /export/web_contents/all' do
       context 'with signed in admin user' do
         before do
+          # Ensure admin user has membership for the website
+          Pwb::UserMembership.find_or_create_by!(user: admin_user, website: website) do |m|
+            m.role = 'admin'
+            m.active = true
+          end
           login_as admin_user, scope: :user
         end
 
@@ -63,6 +68,11 @@ module Pwb
       end
 
       it 'allows access when authenticated' do
+        # Ensure admin user has membership for website1
+        Pwb::UserMembership.find_or_create_by!(user: admin_user, website: website1) do |m|
+          m.role = 'admin'
+          m.active = true
+        end
         login_as admin_user, scope: :user
         host! 'content-tenant1.example.com'
         get '/export/web_contents/all'

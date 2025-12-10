@@ -1,13 +1,33 @@
 require 'rails_helper'
 
 RSpec.describe "GraphQL Multi-tenancy", type: :request do
+  # Helper to create property with sale listing for GraphQL visibility
+  def create_property_with_listing(website:, reference:, price_cents:)
+    realty_asset = Pwb::RealtyAsset.create!(
+      website: website,
+      reference: reference
+    )
+    Pwb::SaleListing.create!(
+      realty_asset: realty_asset,
+      reference: reference,
+      visible: true,
+      archived: false,
+      active: true,
+      price_sale_current_cents: price_cents,
+      price_sale_current_currency: 'EUR'
+    )
+    # Refresh materialized view after creating listings
+    Pwb::ListedProperty.refresh
+    realty_asset
+  end
+
   describe "POST /graphql" do
-    let!(:website1) { Pwb::Website.create!(slug: "site1") }
-    let!(:website2) { Pwb::Website.create!(slug: "site2") }
-    
-    # Create props for each website
-    let!(:prop1) { Pwb::Prop.create!(website: website1, reference: "ref1", visible: true, for_sale: true, price_sale_current_cents: 10000000, price_sale_current_currency: "EUR") }
-    let!(:prop2) { Pwb::Prop.create!(website: website2, reference: "ref2", visible: true, for_sale: true, price_sale_current_cents: 20000000, price_sale_current_currency: "EUR") }
+    let!(:website1) { Pwb::Website.create!(slug: "site1", subdomain: "site1") }
+    let!(:website2) { Pwb::Website.create!(slug: "site2", subdomain: "site2") }
+
+    # Create properties with proper sale listings for materialized view
+    let!(:prop1) { create_property_with_listing(website: website1, reference: "ref1", price_cents: 10000000) }
+    let!(:prop2) { create_property_with_listing(website: website2, reference: "ref2", price_cents: 20000000) }
 
     it "returns properties for site1" do
       query = <<~GQL
