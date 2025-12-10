@@ -103,3 +103,7 @@ package-lock.json
 for_the_ai/
 docs/SECURITY_AUDIT_FIREBASE_AUTH.md
 logs
+test-results/
+playwright-report/
+offline
+marketing

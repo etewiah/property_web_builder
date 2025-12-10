@@ -103,7 +103,11 @@
       "Bash(magick:*)",
       "Bash(RAILS_ENV=development bin/rails solid_queue:install:*)",
       "Bash(RAILS_ENV=e2e bin/rails runner:*)",
-      "Bash(RAILS_ENV=development bin/rails routes:*)"
+      "Bash(RAILS_ENV=development bin/rails routes:*)",
+      "WebFetch(domain:hackernoon.com)",
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:metaruby.com)",
+      "WebFetch(domain:opencollective.com)"
     ],
     "deny": [],
     "ask": []
