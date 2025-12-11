@@ -201,6 +201,14 @@ module Pwb
         http.open_timeout = 5
         http.read_timeout = 5
 
+        # Workaround for macOS OpenSSL 3.6+ CRL checking issue
+        # See: config/initializers/ssl_crl_fix.rb
+        if http.use_ssl?
+          http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+          # Clear verify_flags to avoid CRL check failures
+          http.verify_callback = ->(_preverify_ok, _store_ctx) { true }
+        end
+
         response = http.head(uri.request_uri)
         response.code.to_i == 200
       rescue StandardError

@@ -340,6 +340,12 @@ def check_external_availability
       http.open_timeout = 5
       http.read_timeout = 5
 
+      # Workaround for macOS OpenSSL 3.6+ CRL checking issue
+      if http.use_ssl?
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+        http.verify_callback = ->(_preverify_ok, _store_ctx) { true }
+      end
+
       response = http.head(uri.request_uri)
 
       if response.code.to_i == 200
@@ -359,9 +365,11 @@ def check_external_availability
   if unavailable > 0
     puts "WARNING: #{unavailable} of #{sample_images.count} sample images are unavailable."
     puts ""
-    puts "To upload images to R2:"
-    puts "  1. Ensure R2_ACCESS_KEY_ID and R2_SECRET_ACCESS_KEY are set"
-    puts "  2. Run: rails pwb:seed_images:upload"
+    puts "Possible causes:"
+    puts "  - HTTP 401/403: R2 bucket needs public access enabled"
+    puts "    (Cloudflare Dashboard > R2 > #{Pwb::SeedImages.r2_bucket} > Settings > Public Access)"
+    puts "  - HTTP 404: Images not uploaded yet"
+    puts "    Run: rails pwb:seed_images:upload"
   else
     puts "All sample images are available."
   end
