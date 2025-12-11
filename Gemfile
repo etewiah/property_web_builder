@@ -215,3 +215,12 @@ gem 'logstash-event'
 # Used for async email delivery and other background tasks
 gem 'solid_queue', '~> 1.0'
 gem 'mission_control-jobs', '~> 0.3'
+
+# Performance monitoring dashboard (self-hosted, free alternative to New Relic)
+# Data stored in Redis, never sent externally
+gem 'rails_performance'
+
+# Optional: System resource monitoring for rails_performance dashboard
+gem 'sys-cpu'
+gem 'sys-filesystem'
+gem 'get_process_mem'

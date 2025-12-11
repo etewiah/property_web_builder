@@ -170,6 +170,12 @@ Rails.application.routes.draw do
     constraints Constraints::TenantAdminConstraint.new do
       mount ActiveStorageDashboard::Engine => "/active_storage_dashboard"
       mount Logster::Web, at: "/logs"
+
+      # Performance monitoring dashboard (self-hosted APM)
+      mount RailsPerformance::Engine, at: "/performance"
+
+      # Background job monitoring dashboard (Solid Queue)
+      mount MissionControl::Jobs::Engine, at: "/jobs"
     end
 
 
