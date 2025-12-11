@@ -24,6 +24,9 @@ module Pwb
           expect(I18n::Backend::ActiveRecord::Translation.last.key).to eq(new_translation_params[:batch_key].underscore.camelcase(:lower) + "." + new_translation_params[:i18n_key])
           # result = JSON.parse(response.body)
           # expect(I18n.t("propertyTypes").count).to eq(original_pt_count + 1)
+
+          # Clear I18n memoization cache to pick up newly created translation
+          I18n.backend.reload!
           expect(I18n.t(I18n::Backend::ActiveRecord::Translation.last.key)).to eq(new_translation_params[:i18n_value])
         end
       end
