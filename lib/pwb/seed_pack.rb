@@ -655,13 +655,13 @@ module Pwb
 
       # Prefer external URLs to avoid storage bloat
       if Pwb::SeedImages.enabled?
-        external_url = Pwb::SeedImages.property_url(image_filename)
+        external_url = build_image_url(image_filename)
         Pwb::PropPhoto.create!(
           realty_asset: asset,
           sort_order: 1,
           external_url: external_url
         )
-        log("Set external URL for #{asset.reference}", :detail)
+        log("Set external URL for #{asset.reference}: #{external_url}", :detail)
         return
       end
 
@@ -683,6 +683,38 @@ module Pwb
         content_type: 'image/jpeg'
       )
       photo.save!
+    end
+
+    # Build the correct external URL for an image
+    # Checks pack's images directory first, then falls back to shared seeds
+    def build_image_url(image_filename)
+      base_url = Pwb::SeedImages.base_url
+
+      # Normalize filename - ensure .jpg extension
+      filename = image_filename.to_s
+      filename = "#{filename}.jpg" unless filename.match?(/\.(jpg|jpeg|png|gif|webp)$/i)
+
+      # Check if image exists in pack's images directory
+      pack_image_path = @path.join('images', filename)
+      if pack_image_path.exist?
+        # Use packs/pack_name/filename.jpg prefix
+        return "#{base_url}/packs/#{@name}/#{filename}"
+      end
+
+      # Check if image exists in shared seeds images
+      seeds_image_path = Rails.root.join('db', 'seeds', 'images', filename)
+      if seeds_image_path.exist?
+        return "#{base_url}/seeds/#{filename}"
+      end
+
+      # Check example images
+      example_image_path = Rails.root.join('db', 'example_images', filename)
+      if example_image_path.exist?
+        return "#{base_url}/example/#{filename}"
+      end
+
+      # Default: assume it's in the pack's images (may not exist locally but could be in R2)
+      "#{base_url}/packs/#{@name}/#{filename}"
     end
 
     def users_config
