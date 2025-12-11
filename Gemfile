@@ -183,6 +183,9 @@ gem "active_storage_dashboard"
 # AWS SDK for S3-compatible storage (Cloudflare R2)
 gem "aws-sdk-s3", require: false
 
+# AWS SES v2 for email delivery with advanced features (bounce handling, statistics)
+gem "aws-sdk-sesv2", require: false
+
 gem 'mobility'
 
 # Scenic for database views (materialized views for denormalized property queries)

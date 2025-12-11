@@ -31,14 +31,42 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-
-  # Make template changes take effect immediately.
+  # Email configuration for development
+  # By default, emails are opened in browser via letter_opener (if installed)
+  # Set SMTP_ADDRESS to test with real email delivery (e.g., Amazon SES)
   config.action_mailer.perform_caching = false
 
   # Set localhost to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+
+  # Development email delivery configuration
+  # Option 1: SMTP delivery (set SMTP_ADDRESS to enable - useful for testing SES)
+  # Option 2: letter_opener gem (opens emails in browser)
+  # Option 3: :test (default - emails logged but not sent)
+  #
+  if ENV["SMTP_ADDRESS"].present?
+    # Test with real SMTP (e.g., Amazon SES)
+    config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      address: ENV["SMTP_ADDRESS"],
+      port: ENV.fetch("SMTP_PORT", 587).to_i,
+      user_name: ENV["SMTP_USERNAME"],
+      password: ENV["SMTP_PASSWORD"],
+      domain: ENV.fetch("SMTP_DOMAIN", "localhost"),
+      authentication: ENV.fetch("SMTP_AUTH", "login").to_sym,
+      enable_starttls_auto: true
+    }
+  elsif defined?(LetterOpener)
+    # Use letter_opener to preview emails in browser
+    config.action_mailer.raise_delivery_errors = false
+    config.action_mailer.delivery_method = :letter_opener
+    config.action_mailer.letter_opener_location = Rails.root.join("tmp", "letter_opener")
+  else
+    # Default: log emails (not sent)
+    config.action_mailer.raise_delivery_errors = false
+    config.action_mailer.delivery_method = :test
+  end
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
