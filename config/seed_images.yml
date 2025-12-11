@@ -7,24 +7,26 @@
 # - Unnecessary storage costs
 #
 # Configuration options:
-#   Option 1: Set R2_SEED_IMAGES_BUCKET - URL is auto-calculated from bucket name
+#   Option 1: Set R2_SEED_IMAGES_BUCKET - Uses custom domain or auto-calculated URL
 #   Option 2: Set SEED_IMAGES_BASE_URL - Use a custom base URL directly
 #   Option 3: Neither set - Falls back to local files in db/seeds/images/
 #
-# R2 public bucket URLs follow the pattern:
-#   https://pub-{R2_ACCOUNT_ID}.r2.dev/{bucket-name}
-#
-# Example:
-#   R2_ACCOUNT_ID=abc123
-#   R2_SEED_IMAGES_BUCKET=pwb-seed-images
-#   => https://pub-abc123.r2.dev/pwb-seed-images
+# Default public URL: https://seed-assets.propertywebbuilder.com
+# (Custom domain for the pwb-seed-assets R2 bucket)
 
 <%
   # Calculate base_url from R2 bucket if specified, otherwise use direct URL
   if ENV['SEED_IMAGES_BASE_URL'].present?
     seed_images_base_url = ENV['SEED_IMAGES_BASE_URL']
-  elsif ENV['R2_SEED_IMAGES_BUCKET'].present? && ENV['R2_ACCOUNT_ID'].present?
-    seed_images_base_url = "https://pub-#{ENV['R2_ACCOUNT_ID']}.r2.dev/#{ENV['R2_SEED_IMAGES_BUCKET']}"
+  elsif ENV['R2_SEED_IMAGES_BUCKET'].present?
+    # Use custom domain for pwb-seed-assets bucket, otherwise auto-calculate
+    if ENV['R2_SEED_IMAGES_BUCKET'] == 'pwb-seed-assets'
+      seed_images_base_url = 'https://seed-assets.propertywebbuilder.com'
+    elsif ENV['R2_ACCOUNT_ID'].present?
+      seed_images_base_url = "https://pub-#{ENV['R2_ACCOUNT_ID']}.r2.dev/#{ENV['R2_SEED_IMAGES_BUCKET']}"
+    else
+      seed_images_base_url = nil
+    end
   else
     seed_images_base_url = nil
   end
