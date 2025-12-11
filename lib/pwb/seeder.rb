@@ -286,6 +286,7 @@ module Pwb
         if prop_data["for_sale"]
           sale_listing = Pwb::SaleListing.create!(
             realty_asset: asset,
+            active: true,
             visible: prop_data["visible"] || false,
             highlighted: prop_data["highlighted"] || false,
             archived: prop_data["archived"] || false,
@@ -303,6 +304,7 @@ module Pwb
         if prop_data["for_rent_long_term"] || prop_data["for_rent_short_term"]
           rental_listing = Pwb::RentalListing.create!(
             realty_asset: asset,
+            active: true,
             visible: prop_data["visible"] || false,
             highlighted: prop_data["highlighted"] || false,
             archived: prop_data["archived"] || false,
