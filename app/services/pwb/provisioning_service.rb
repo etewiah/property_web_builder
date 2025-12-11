@@ -48,9 +48,19 @@ module Pwb
         end
 
         # Reserve a subdomain for this email
-        subdomain = Subdomain.reserve_for_email(email, duration: 10.minutes)
-        unless subdomain
-          @errors << "Unable to reserve a subdomain. Please try again."
+        begin
+          subdomain = Subdomain.reserve_for_email(email, duration: 10.minutes)
+          unless subdomain
+            @errors << "Unable to reserve a subdomain. Please try again later."
+            raise ActiveRecord::Rollback
+          end
+        rescue Subdomain::SubdomainPoolEmptyError => e
+          Rails.logger.error("[Provisioning] Subdomain pool empty during signup: #{e.message}")
+          @errors << "We're setting up new subdomains. Please try again in a few minutes, or contact support."
+          raise ActiveRecord::Rollback
+        rescue Subdomain::SubdomainPoolExhaustedError => e
+          Rails.logger.error("[Provisioning] Subdomain pool exhausted during signup: #{e.message}")
+          @errors << "We're experiencing high demand. Please try again later, or contact support for assistance."
           raise ActiveRecord::Rollback
         end
 
@@ -59,7 +69,14 @@ module Pwb
 
       # If transaction rolled back, result will be nil
       result || failure_result
+    rescue Subdomain::SubdomainPoolEmptyError, Subdomain::SubdomainPoolExhaustedError => e
+      # These are already handled above, but catch any that escape the transaction
+      Rails.logger.error("[Provisioning] Subdomain pool error escaped transaction: #{e.message}")
+      @errors << "Unable to complete signup. Please contact support." unless @errors.any?
+      failure_result
     rescue StandardError => e
+      Rails.logger.error("[Provisioning] Unexpected error in start_signup: #{e.class.name}: #{e.message}")
+      Rails.logger.error(e.backtrace.first(5).join("\n"))
       @errors << e.message
       failure_result
     end

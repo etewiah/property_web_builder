@@ -70,6 +70,7 @@ module Pwb
     end
 
     # Reserve a subdomain for an email, with automatic expiry
+    # Returns a hash with :subdomain or :error key
     def self.reserve_for_email(email, duration: 5.minutes)
       transaction do
         # First, release any expired reservations for this email
@@ -81,12 +82,38 @@ module Pwb
 
         # Find a random available subdomain
         subdomain = available.order('RANDOM()').lock.first
-        return nil unless subdomain
+
+        unless subdomain
+          available_count = available.count
+          total_count = count
+
+          error_details = {
+            email: email,
+            available_count: available_count,
+            total_count: total_count,
+            reserved_count: reserved.count,
+            allocated_count: allocated.count
+          }
+
+          Rails.logger.error("[SubdomainPool] No available subdomains for reservation: #{error_details.to_json}")
+
+          if total_count == 0
+            raise SubdomainPoolEmptyError, "Subdomain pool is empty. Run: rails pwb:provisioning:populate_subdomains"
+          elsif available_count == 0
+            raise SubdomainPoolExhaustedError, "All #{total_count} subdomains are in use. Run: rails pwb:provisioning:populate_subdomains COUNT=100"
+          end
+
+          return nil
+        end
 
         subdomain.reserve!(email, duration)
         subdomain
       end
     end
+
+    # Custom errors for better debugging
+    class SubdomainPoolEmptyError < StandardError; end
+    class SubdomainPoolExhaustedError < StandardError; end
 
     # Find or reserve a specific subdomain by name
     def self.reserve_specific(name, email, duration: 5.minutes)
