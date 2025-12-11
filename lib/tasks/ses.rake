@@ -74,38 +74,75 @@ namespace :ses do
       puts ""
     end
 
-    # Test SMTP connection if configured
+    # Test SMTP connection and send test email if Amazon SES is configured
     if Pwb::SES.smtp_configured?
+      address = ENV["SMTP_ADDRESS"]
+      port = ENV.fetch("SMTP_PORT", 587).to_i
+      is_amazon_ses = address.to_s.include?("amazonaws.com")
+
       puts "=== SMTP Connection Test ==="
-      begin
-        require 'net/smtp'
-
-        address = ENV["SMTP_ADDRESS"]
-        port = ENV.fetch("SMTP_PORT", 587).to_i
-
-        puts "  Connecting to #{address}:#{port}..."
-
-        Net::SMTP.start(
-          address,
-          port,
-          ENV.fetch("SMTP_DOMAIN", "localhost"),
-          ENV["SMTP_USERNAME"],
-          ENV["SMTP_PASSWORD"],
-          ENV.fetch("SMTP_AUTH", "login").to_sym
-        ) do |smtp|
-          puts "  Connection successful!"
-          puts "  Server: #{smtp.instance_variable_get(:@smtp)&.server_info rescue 'N/A'}"
-        end
-      rescue StandardError => e
-        puts "  Connection FAILED: #{e.message}"
-        puts ""
-        puts "  Common issues:"
-        puts "    - Invalid credentials"
-        puts "    - Wrong region endpoint"
-        puts "    - Firewall blocking port #{port}"
-        puts "    - Account in sandbox (can only send to verified emails)"
-      end
+      puts "  Server: #{address}:#{port}"
+      puts "  Provider: #{is_amazon_ses ? 'Amazon SES' : 'Other'}"
       puts ""
+
+      # Send test email to SES simulator if using Amazon SES
+      if is_amazon_ses
+        puts "=== Sending Test Email to SES Simulator ==="
+        from = ENV.fetch("DEFAULT_FROM_EMAIL") { "noreply@example.com" }
+        test_recipient = "success@simulator.amazonses.com"
+
+        puts "  From: #{from}"
+        puts "  To:   #{test_recipient} (SES mailbox simulator)"
+        puts ""
+
+        begin
+          mail = ActionMailer::Base.mail(
+            from: from,
+            to: test_recipient,
+            subject: "SES Configuration Test - #{Time.current.strftime('%Y-%m-%d %H:%M:%S')}",
+            body: "This is a test email sent to the Amazon SES mailbox simulator.\n\nTimestamp: #{Time.current}\nEnvironment: #{Rails.env}"
+          )
+
+          mail.deliver_now
+
+          puts "  SUCCESS! Test email sent to SES simulator."
+          puts "  (The simulator accepts but doesn't deliver - no inbox needed)"
+        rescue StandardError => e
+          puts "  FAILED: #{e.message}"
+          puts ""
+          puts "  Common issues:"
+          puts "    - Invalid SMTP credentials"
+          puts "    - Sender (#{from}) not verified in SES"
+          puts "    - Wrong region endpoint"
+          puts "    - Firewall blocking port #{port}"
+        end
+        puts ""
+      else
+        # Non-SES SMTP - just test connection
+        begin
+          require 'net/smtp'
+
+          puts "  Connecting..."
+
+          Net::SMTP.start(
+            address,
+            port,
+            ENV.fetch("SMTP_DOMAIN", "localhost"),
+            ENV["SMTP_USERNAME"],
+            ENV["SMTP_PASSWORD"],
+            ENV.fetch("SMTP_AUTH", "login").to_sym
+          ) do |smtp|
+            puts "  Connection successful!"
+          end
+        rescue StandardError => e
+          puts "  Connection FAILED: #{e.message}"
+          puts ""
+          puts "  Common issues:"
+          puts "    - Invalid credentials"
+          puts "    - Firewall blocking port #{port}"
+        end
+        puts ""
+      end
     end
 
     puts "=== Required Environment Variables ==="
