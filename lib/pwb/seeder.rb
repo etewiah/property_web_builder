@@ -388,7 +388,9 @@ module Pwb
             if use_external
               # Use external URL instead of uploading to avoid storage bloat
               require_relative 'seed_images'
-              external_url = "#{Pwb::SeedImages.base_url}/#{filename}"
+              # Map local file path to R2 key with prefix
+              r2_key = file_path_to_r2_key(photo_file)
+              external_url = "#{Pwb::SeedImages.base_url}/#{r2_key}"
               photo = photo_class.send("create", external_url: external_url)
               photo.save!
               photos.push photo
@@ -481,6 +483,36 @@ module Pwb
         else
           'image/jpeg' # Default for images
         end
+      end
+
+      # Map local file path to R2 key with prefix naming convention
+      # This matches the prefix structure used by rails pwb:seed_images:upload
+      #
+      # Examples:
+      #   db/seeds/images/villa.jpg           -> seeds/villa.jpg
+      #   db/example_images/kitchen.jpg       -> example/kitchen.jpg
+      #   db/seeds/packs/netherlands/images/x.jpg -> packs/netherlands/x.jpg
+      #
+      def file_path_to_r2_key(photo_file)
+        filename = File.basename(photo_file)
+        path = photo_file.to_s
+
+        # Match against known directory patterns
+        if path.include?('db/seeds/packs/') && path.include?('/images/')
+          # Extract pack name from path like db/seeds/packs/PACK_NAME/images/file.jpg
+          match = path.match(%r{db/seeds/packs/([^/]+)/images/})
+          if match
+            pack_name = match[1]
+            return "packs/#{pack_name}/#{filename}"
+          end
+        elsif path.include?('db/example_images/')
+          return "example/#{filename}"
+        elsif path.include?('db/seeds/images/')
+          return "seeds/#{filename}"
+        end
+
+        # Default fallback - use seeds/ prefix
+        "seeds/#{filename}"
       end
     end
   end

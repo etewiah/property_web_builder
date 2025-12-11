@@ -71,44 +71,28 @@ namespace :pwb do
         force_path_style: true
       )
 
-      # Find all images in both seed directories
-      seed_images_path = Pwb::SeedImages.local_images_path
-      example_images_path = Rails.root.join('db', 'example_images')
+      # Collect all image files with their R2 keys
+      # Format: { file_path => r2_key }
+      image_mappings = collect_seed_image_files
 
-      image_files = []
-
-      if seed_images_path.exist?
-        image_files += Dir.glob(seed_images_path.join('*.{jpg,jpeg,png,gif,webp}'))
-        puts "Found #{Dir.glob(seed_images_path.join('*.{jpg,jpeg,png,gif,webp}')).count} images in db/seeds/images/"
-      end
-
-      if example_images_path.exist?
-        image_files += Dir.glob(example_images_path.join('*.{jpg,jpeg,png,gif,webp}'))
-        puts "Found #{Dir.glob(example_images_path.join('*.{jpg,jpeg,png,gif,webp}')).count} images in db/example_images/"
-      end
-
-      if image_files.empty?
+      if image_mappings.empty?
         puts "No image files found"
         exit 0
       end
 
-      puts ""
-      puts "Total: #{image_files.count} image files to upload"
+      puts "Total: #{image_mappings.count} image files to upload"
       puts ""
 
       uploaded = 0
       skipped = 0
       errors = 0
 
-      image_files.each do |file_path|
-        filename = File.basename(file_path)
-        key = filename # Upload directly to bucket root (no prefix)
-
+      image_mappings.each do |file_path, key|
         begin
           # Check if file already exists
           begin
             client.head_object(bucket: bucket_name, key: key)
-            puts "  SKIP: #{filename} (already exists)"
+            puts "  SKIP: #{key} (already exists)"
             skipped += 1
             next
           rescue Aws::S3::Errors::NotFound
@@ -116,7 +100,7 @@ namespace :pwb do
           end
 
           # Upload the file
-          content_type = case File.extname(filename).downcase
+          content_type = case File.extname(file_path).downcase
                          when '.jpg', '.jpeg' then 'image/jpeg'
                          when '.png' then 'image/png'
                          when '.gif' then 'image/gif'
@@ -134,10 +118,10 @@ namespace :pwb do
             )
           end
 
-          puts "  UPLOAD: #{filename}"
+          puts "  UPLOAD: #{key}"
           uploaded += 1
         rescue StandardError => e
-          puts "  ERROR: #{filename} - #{e.message}"
+          puts "  ERROR: #{key} - #{e.message}"
           errors += 1
         end
       end
@@ -151,9 +135,6 @@ namespace :pwb do
       if uploaded > 0 || skipped > 0
         puts ""
         puts "Public URL: #{Pwb::SeedImages.base_url}"
-        puts ""
-        puts "Images are accessible at:"
-        puts "  #{Pwb::SeedImages.base_url}/<filename>"
       end
     end
 
@@ -193,27 +174,19 @@ namespace :pwb do
         force_path_style: true
       )
 
-      # Find all images in both seed directories
-      seed_images_path = Pwb::SeedImages.local_images_path
-      example_images_path = Rails.root.join('db', 'example_images')
-
-      image_files = []
-      image_files += Dir.glob(seed_images_path.join('*.{jpg,jpeg,png,gif,webp}')) if seed_images_path.exist?
-      image_files += Dir.glob(example_images_path.join('*.{jpg,jpeg,png,gif,webp}')) if example_images_path.exist?
+      # Collect all image files with their R2 keys
+      image_mappings = collect_seed_image_files
 
       puts "Bucket: #{bucket_name}"
-      puts "Uploading #{image_files.count} images (overwriting existing)..."
+      puts "Uploading #{image_mappings.count} images (overwriting existing)..."
       puts ""
 
       uploaded = 0
       errors = 0
 
-      image_files.each do |file_path|
-        filename = File.basename(file_path)
-        key = filename
-
+      image_mappings.each do |file_path, key|
         begin
-          content_type = case File.extname(filename).downcase
+          content_type = case File.extname(file_path).downcase
                          when '.jpg', '.jpeg' then 'image/jpeg'
                          when '.png' then 'image/png'
                          when '.gif' then 'image/gif'
@@ -231,10 +204,10 @@ namespace :pwb do
             )
           end
 
-          puts "  UPLOAD: #{filename}"
+          puts "  UPLOAD: #{key}"
           uploaded += 1
         rescue StandardError => e
-          puts "  ERROR: #{filename} - #{e.message}"
+          puts "  ERROR: #{key} - #{e.message}"
           errors += 1
         end
       end
@@ -301,6 +274,34 @@ namespace :pwb do
         puts "ERROR: #{e.message}"
         exit 1
       end
+    end
+
+    desc "List local images and their R2 keys (preview before upload)"
+    task list_local: :environment do
+      puts "\n=== Local Seed Images ==="
+      puts ""
+
+      mappings = collect_seed_image_files
+
+      if mappings.empty?
+        puts "No image files found."
+        exit 0
+      end
+
+      # Group by prefix for organized display
+      grouped = mappings.group_by { |_, key| key.split('/').first }
+
+      grouped.each do |prefix, files|
+        puts "#{prefix}/ (#{files.count} files):"
+        files.sort_by { |_, key| key }.each do |file_path, key|
+          size_kb = (File.size(file_path) / 1024.0).round(1)
+          puts "  #{key.ljust(50)} #{size_kb.to_s.rjust(8)} KB"
+        end
+        puts ""
+      end
+
+      total_size = mappings.keys.sum { |f| File.size(f) }
+      puts "Total: #{mappings.count} files, #{(total_size / 1024.0 / 1024.0).round(2)} MB"
     end
 
     desc "Show configuration for seed images"
@@ -416,4 +417,50 @@ def check_local_availability
     puts "WARNING: Local images directory not found:"
     puts "  #{images_path}"
   end
+end
+
+# Collect all seed image files from various directories
+# Returns a hash mapping local file paths to R2 keys with prefix naming convention
+#
+# Directory structure -> R2 key prefix:
+#   db/seeds/images/           -> seeds/
+#   db/example_images/         -> example/
+#   db/seeds/packs/NAME/images/ -> packs/NAME/
+#
+# @return [Hash<String, String>] { file_path => r2_key }
+def collect_seed_image_files
+  mappings = {}
+  db_path = Rails.root.join('db')
+
+  # 1. db/seeds/images/ -> seeds/filename.jpg
+  seeds_images_path = db_path.join('seeds', 'images')
+  if seeds_images_path.exist?
+    Dir.glob(seeds_images_path.join('*.{jpg,jpeg,png,gif,webp}')).each do |file|
+      filename = File.basename(file)
+      mappings[file] = "seeds/#{filename}"
+    end
+  end
+
+  # 2. db/example_images/ -> example/filename.jpg
+  example_images_path = db_path.join('example_images')
+  if example_images_path.exist?
+    Dir.glob(example_images_path.join('*.{jpg,jpeg,png,gif,webp}')).each do |file|
+      filename = File.basename(file)
+      mappings[file] = "example/#{filename}"
+    end
+  end
+
+  # 3. db/seeds/packs/*/images/ -> packs/pack_name/filename.jpg
+  packs_path = db_path.join('seeds', 'packs')
+  if packs_path.exist?
+    Dir.glob(packs_path.join('*', 'images')).each do |pack_images_dir|
+      pack_name = File.basename(File.dirname(pack_images_dir))
+      Dir.glob(File.join(pack_images_dir, '*.{jpg,jpeg,png,gif,webp}')).each do |file|
+        filename = File.basename(file)
+        mappings[file] = "packs/#{pack_name}/#{filename}"
+      end
+    end
+  end
+
+  mappings
 end

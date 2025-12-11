@@ -107,8 +107,8 @@ module Pwb
       # @return [Hash] Status hash with :available, :mode, :message keys
       def availability_status
         if enabled?
-          # Check if external URL is reachable
-          sample_url = property_url('villa_ocean')
+          # Check if external URL is reachable (using seeds/ prefix)
+          sample_url = property_url('villa_ocean')  # Will resolve to seeds/villa_ocean.jpg
           reachable = check_url_reachable?(sample_url)
 
           {
@@ -232,13 +232,13 @@ module Pwb
         # Normalize the key - remove .jpg extension if present
         key = image_key.to_s.sub(/\.jpe?g$/i, '')
 
-        # Look up the filename from config
-        filename = config.dig(category.to_s, key)
+        # Look up the full path from config (now includes prefix like seeds/, example/, packs/*)
+        path = config.dig(category.to_s, key)
 
-        # If not found in config, assume the key is the filename
-        filename ||= "#{key}.jpg"
+        # If not found in config, fall back to seeds/ prefix (default for db/seeds/images/)
+        path ||= "seeds/#{key}.jpg"
 
-        "#{base_url}/#{filename}"
+        "#{base_url}/#{path}"
       end
     end
   end
