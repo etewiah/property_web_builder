@@ -96,14 +96,32 @@ namespace :ses do
         puts ""
 
         begin
-          mail = ActionMailer::Base.mail(
-            from: from,
-            to: test_recipient,
-            subject: "SES Configuration Test - #{Time.current.strftime('%Y-%m-%d %H:%M:%S')}",
-            body: "This is a test email sent to the Amazon SES mailbox simulator.\n\nTimestamp: #{Time.current}\nEnvironment: #{Rails.env}"
-          )
+          require 'mail'
+          require 'net/smtp'
 
-          mail.deliver_now
+          # Build the email (use local vars to avoid block scope issues)
+          sender = from
+          recipient = test_recipient
+          mail = Mail.new do
+            from    sender
+            to      recipient
+            subject "SES Configuration Test - #{Time.current.strftime('%Y-%m-%d %H:%M:%S')}"
+            body    "This is a test email sent to the Amazon SES mailbox simulator.\n\nTimestamp: #{Time.current}\nEnvironment: #{Rails.env}"
+          end
+
+          # Configure SMTP delivery with SSL workaround for macOS
+          mail.delivery_method :smtp, {
+            address: address,
+            port: port,
+            user_name: ENV["SMTP_USERNAME"],
+            password: ENV["SMTP_PASSWORD"],
+            domain: ENV.fetch("SMTP_DOMAIN", "localhost"),
+            authentication: ENV.fetch("SMTP_AUTH", "login").to_sym,
+            enable_starttls_auto: true,
+            openssl_verify_mode: RUBY_PLATFORM.include?("darwin") ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
+          }
+
+          mail.deliver!
 
           puts "  SUCCESS! Test email sent to SES simulator."
           puts "  (The simulator accepts but doesn't deliver - no inbox needed)"
@@ -124,14 +142,20 @@ namespace :ses do
 
           puts "  Connecting..."
 
-          Net::SMTP.start(
-            address,
-            port,
+          smtp = Net::SMTP.new(address, port)
+          smtp.enable_starttls_auto
+
+          # Workaround for macOS OpenSSL 3.6+ CRL checking issue
+          if RUBY_PLATFORM.include?("darwin")
+            smtp.ssl_context_params = { verify_mode: OpenSSL::SSL::VERIFY_NONE }
+          end
+
+          smtp.start(
             ENV.fetch("SMTP_DOMAIN", "localhost"),
             ENV["SMTP_USERNAME"],
             ENV["SMTP_PASSWORD"],
             ENV.fetch("SMTP_AUTH", "login").to_sym
-          ) do |smtp|
+          ) do |_|
             puts "  Connection successful!"
           end
         rescue StandardError => e
