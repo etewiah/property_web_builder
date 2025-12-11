@@ -226,20 +226,56 @@ module Pwb
         # don't create photos for tests
         return nil
       end
+
       begin
-        # if photo_file.is_a?(String)
-        # photo.image = photo_file
-        photo.image = Rails.root.join(photo_file).open
-        photo.save!
-        print "#{page_part_key} image created: #{photo.optimized_image_url}\n"
-        # reload the record to ensure that url is available
-        photo.reload
-        print "#{page_part_key} image created: #{photo.optimized_image_url}(after reload..)"
+        # Check if external seed images are enabled
+        use_external = ENV['R2_SEED_IMAGES_BUCKET'].present? || ENV['SEED_IMAGES_BASE_URL'].present?
+
+        if use_external && Pwb::SeedImages.enabled?
+          # Use external URL instead of uploading to avoid storage bloat
+          external_url = build_content_image_url(photo_file)
+          photo.external_url = external_url
+          photo.save!
+          print "#{page_part_key} image created with external URL: #{external_url}\n"
+        else
+          # Fall back to local file upload
+          photo.image = Rails.root.join(photo_file).open
+          photo.save!
+          print "#{page_part_key} image created: #{photo.optimized_image_url}\n"
+          # reload the record to ensure that url is available
+          photo.reload
+          print "#{page_part_key} image created: #{photo.optimized_image_url}(after reload..)"
+        end
       rescue Exception => e
         # log exception to console
         print e
       end
       photo
+    end
+
+    # Build the correct external URL for a content image
+    # Maps local file path to R2 key with prefix
+    def build_content_image_url(photo_file)
+      base_url = Pwb::SeedImages.base_url
+      filename = File.basename(photo_file)
+      path = photo_file.to_s
+
+      # Match against known directory patterns
+      if path.include?('db/seeds/packs/') && path.include?('/images/')
+        # Extract pack name from path like db/seeds/packs/PACK_NAME/images/file.jpg
+        match = path.match(%r{db/seeds/packs/([^/]+)/images/})
+        if match
+          pack_name = match[1]
+          return "#{base_url}/packs/#{pack_name}/#{filename}"
+        end
+      elsif path.include?('db/example_images/')
+        return "#{base_url}/example/#{filename}"
+      elsif path.include?('db/seeds/images/')
+        return "#{base_url}/seeds/#{filename}"
+      end
+
+      # Default fallback - use example/ prefix (most content images are examples)
+      "#{base_url}/example/#{filename}"
     end
   end
 end
