@@ -109,7 +109,10 @@
       "WebFetch(domain:metaruby.com)",
       "WebFetch(domain:opencollective.com)",
       "Bash(node tests/e2e/global-setup.js:*)",
-      "Bash(node -e:*)"
+      "Bash(node -e:*)",
+      "mcp__chrome-devtools__fill",
+      "Bash(RAILS_ENV=e2e bin/rails playwright:seed:*)",
+      "Bash(npx playwright test:*)"
     ],
     "deny": [],
     "ask": []
