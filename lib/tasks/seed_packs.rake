@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../pwb/seed_images'
+
 namespace :pwb do
   namespace :seed_packs do
     desc "List all available seed packs"
@@ -101,6 +103,9 @@ namespace :pwb do
       puts "To Website: #{website.id}"
       puts "=" * 50
 
+      # Check seed image availability before proceeding
+      Pwb::SeedImages.check_availability!(context: "seed pack '#{pack.display_name}'")
+
       begin
         pack.apply!(website: website)
         puts "\nSeed pack applied successfully!"
@@ -141,6 +146,9 @@ namespace :pwb do
       puts "Options: #{options.keys.join(', ')}" if options.any?
       puts "=" * 50
 
+      # Check seed image availability before proceeding
+      Pwb::SeedImages.check_availability!(context: "seed pack '#{pack.display_name}'")
+
       begin
         pack.apply!(website: website, options: options)
         puts "\nSeed pack applied successfully!"
@@ -172,6 +180,9 @@ namespace :pwb do
       puts "This will delete all existing properties, users, and content!"
       puts "Press Ctrl+C to cancel, or wait 5 seconds to continue..."
       sleep 5
+
+      # Check seed image availability before proceeding
+      Pwb::SeedImages.check_availability!(context: "seed pack '#{pack.display_name}'")
 
       puts "\nResetting database..."
 

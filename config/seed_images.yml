@@ -6,12 +6,37 @@
 # - Orphaned blobs when users delete seeded content
 # - Unnecessary storage costs
 #
-# Images should be uploaded to R2 bucket under the 'seed-images/' prefix.
-# The base_url can be configured per environment.
+# Configuration options:
+#   Option 1: Set R2_SEED_IMAGES_BUCKET - URL is auto-calculated from bucket name
+#   Option 2: Set SEED_IMAGES_BASE_URL - Use a custom base URL directly
+#   Option 3: Neither set - Falls back to local files in db/seeds/images/
+#
+# R2 public bucket URLs follow the pattern:
+#   https://pub-{R2_ACCOUNT_ID}.r2.dev/{bucket-name}
+#
+# Example:
+#   R2_ACCOUNT_ID=abc123
+#   R2_SEED_IMAGES_BUCKET=pwb-seed-images
+#   => https://pub-abc123.r2.dev/pwb-seed-images
 
-# Base URL for seed images (can be overridden by SEED_IMAGES_BASE_URL env var)
+<%
+  # Calculate base_url from R2 bucket if specified, otherwise use direct URL
+  if ENV['SEED_IMAGES_BASE_URL'].present?
+    seed_images_base_url = ENV['SEED_IMAGES_BASE_URL']
+  elsif ENV['R2_SEED_IMAGES_BUCKET'].present? && ENV['R2_ACCOUNT_ID'].present?
+    seed_images_base_url = "https://pub-#{ENV['R2_ACCOUNT_ID']}.r2.dev/#{ENV['R2_SEED_IMAGES_BUCKET']}"
+  else
+    seed_images_base_url = nil
+  end
+%>
+
 default: &default
-  base_url: <%= ENV.fetch('SEED_IMAGES_BASE_URL', 'https://pub-pwb-seed-images.r2.dev/seed-images') %>
+  # Base URL for seed images (calculated from R2_SEED_IMAGES_BUCKET or SEED_IMAGES_BASE_URL)
+  base_url: <%= seed_images_base_url %>
+
+  # R2 bucket configuration (for upload tasks)
+  r2_bucket: <%= ENV['R2_SEED_IMAGES_BUCKET'] %>
+  r2_account_id: <%= ENV['R2_ACCOUNT_ID'] %>
 
   # Property images
   properties:

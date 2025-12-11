@@ -11,6 +11,10 @@ namespace :playwright do
 
     puts "🔄 Resetting E2E test database..."
 
+    # Check seed image availability before proceeding
+    require_relative '../pwb/seed_images'
+    Pwb::SeedImages.check_availability!(context: "E2E test seeding")
+
     Rake::Task["db:drop"].invoke
     Rake::Task["db:create"].invoke
     Rake::Task["db:migrate"].invoke
@@ -59,6 +63,10 @@ namespace :playwright do
       puts "   Usage: RAILS_ENV=e2e bin/rails playwright:seed"
       exit 1
     end
+
+    # Check seed image availability before proceeding
+    require_relative '../pwb/seed_images'
+    Pwb::SeedImages.check_availability!(context: "E2E test seeding")
 
     load Rails.root.join('db', 'seeds', 'e2e_seeds.rb')
   end

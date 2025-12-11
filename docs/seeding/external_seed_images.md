@@ -22,16 +22,32 @@ Instead of uploading images, seed data now uses **external URLs** pointing to a 
 
 ## Configuration
 
-### Environment Variable
+### Quick Setup (Recommended)
 
-Set the base URL for seed images:
+Set your R2 bucket name - the public URL is auto-calculated:
 
 ```bash
 # In your .env or environment
-SEED_IMAGES_BASE_URL=https://pub-pwb-seed-images.r2.dev/seed-images
+R2_ACCOUNT_ID=your_cloudflare_account_id
+R2_SEED_IMAGES_BUCKET=pwb-seed-assets
 ```
 
-If this variable is not set, the system falls back to attaching local files from `db/seeds/images/`.
+This automatically generates the public URL:
+```
+https://pub-{R2_ACCOUNT_ID}.r2.dev/{R2_SEED_IMAGES_BUCKET}
+```
+
+### Alternative: Direct URL
+
+You can also set a custom base URL directly:
+
+```bash
+SEED_IMAGES_BASE_URL=https://your-custom-cdn.com/images
+```
+
+### Fallback Behavior
+
+If neither `R2_SEED_IMAGES_BUCKET` nor `SEED_IMAGES_BASE_URL` is set, the system falls back to attaching local files from `db/seeds/images/`.
 
 ### Config File
 
@@ -39,21 +55,14 @@ The image mappings are defined in `config/seed_images.yml`:
 
 ```yaml
 default: &default
-  base_url: <%= ENV.fetch('SEED_IMAGES_BASE_URL', 'https://pub-pwb-seed-images.r2.dev/seed-images') %>
+  base_url: <%= seed_images_base_url %>  # Auto-calculated from R2 bucket
+  r2_bucket: <%= ENV['R2_SEED_IMAGES_BUCKET'] %>
+  r2_account_id: <%= ENV['R2_ACCOUNT_ID'] %>
 
   properties:
     apartment_downtown: apartment_downtown.jpg
-    apartment_luxury: apartment_luxury.jpg
     villa_ocean: villa_ocean.jpg
     # ... more mappings
-
-  content:
-    hero_amsterdam_canal: hero_amsterdam_canal.jpg
-    # ... hero/carousel images
-
-  team:
-    team_director: team_director.jpg
-    # ... team member photos
 ```
 
 ## Usage in Seeds
@@ -100,38 +109,122 @@ properties/villa_marbella:
   image: villa_ocean.jpg  # Will use external URL automatically
 ```
 
+## Rake Tasks
+
+The following rake tasks help manage seed images:
+
+### Check Availability
+
+```bash
+# Check if seed images are available (local or R2)
+rails pwb:seed_images:check
+```
+
+This checks whether images are available and reports the mode (external or local).
+
+### Upload to R2
+
+```bash
+# Upload seed images to R2 (skips existing)
+rails pwb:seed_images:upload
+
+# Upload all images (overwrites existing)
+rails pwb:seed_images:upload_all
+```
+
+Required environment variables for upload:
+- `R2_ACCESS_KEY_ID` - R2 API access key
+- `R2_SECRET_ACCESS_KEY` - R2 API secret key
+- `R2_ACCOUNT_ID` - Cloudflare account ID
+- `R2_SEED_IMAGES_BUCKET` - Bucket name (e.g., `pwb-seed-assets`)
+
+### Show Configuration
+
+```bash
+# View current configuration and computed values
+rails pwb:seed_images:config
+```
+
+### List Remote Images
+
+```bash
+# List images currently in R2 bucket
+rails pwb:seed_images:list_remote
+```
+
+## Automatic Warnings
+
+When running seeding tasks, the system automatically checks for image availability and warns if images are not found:
+
+```
+============================================================
+WARNING: Seed images not available for E2E test seeding
+============================================================
+No local images found at:
+  /path/to/db/seeds/images
+
+Options:
+  1. Add images to db/seeds/images/
+  2. Set SEED_IMAGES_BASE_URL for external R2 images
+  3. Run: rails pwb:seed_images:check
+
+Properties will be created without images.
+============================================================
+```
+
+This warning appears before:
+- `playwright:reset`
+- `playwright:seed`
+- `pwb:seed_packs:apply`
+- `pwb:seed_packs:apply_with_options`
+- `pwb:seed_packs:reset_and_apply`
+
 ## Setting Up R2 Bucket
 
-### 1. Create Public R2 Bucket
+### 1. Create R2 Bucket
 
 In Cloudflare Dashboard:
 1. Go to R2 > Create Bucket
-2. Name it `pwb-seed-images` (or similar)
-3. Enable public access (Settings > Public Access)
+2. Name it `pwb-seed-assets` (or your preferred name)
+3. Enable public access (Settings > Public Access > Allow Access)
 
-### 2. Upload Seed Images
+### 2. Configure Environment
 
-Upload all images from `db/seeds/images/` to the bucket under a `seed-images/` prefix:
+Add to your `.env` file:
 
-```
-pwb-seed-images/
-  seed-images/
-    apartment_downtown.jpg
-    apartment_luxury.jpg
-    house_family.jpg
-    ...
-```
-
-### 3. Configure Public URL
-
-Get the public URL from R2 settings. It will look like:
-```
-https://pub-{account-id}.r2.dev
-```
-
-Set the full base URL in your environment:
 ```bash
-SEED_IMAGES_BASE_URL=https://pub-{account-id}.r2.dev/seed-images
+R2_ACCOUNT_ID=your_cloudflare_account_id
+R2_SEED_IMAGES_BUCKET=pwb-seed-assets
+R2_ACCESS_KEY_ID=your_r2_access_key
+R2_SECRET_ACCESS_KEY=your_r2_secret_key
+```
+
+### 3. Upload Seed Images
+
+```bash
+# Upload images (skips existing)
+rails pwb:seed_images:upload
+
+# Or force upload all (overwrites)
+rails pwb:seed_images:upload_all
+```
+
+### 4. Verify
+
+```bash
+# Check configuration
+rails pwb:seed_images:config
+
+# Check availability
+rails pwb:seed_images:check
+
+# List uploaded images
+rails pwb:seed_images:list_remote
+```
+
+The public URL is auto-calculated from your account ID and bucket name:
+```
+https://pub-{R2_ACCOUNT_ID}.r2.dev/{R2_SEED_IMAGES_BUCKET}
 ```
 
 ## How It Works
