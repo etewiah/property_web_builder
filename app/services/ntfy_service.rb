@@ -253,14 +253,43 @@ class NtfyService
       response = http.request(request)
 
       if response.is_a?(Net::HTTPSuccess)
-        Rails.logger.info("[NtfyService] Notification sent to #{topic}")
+        StructuredLogger.info('[Ntfy] Notification sent',
+          topic: topic,
+          server: uri.host,
+          title: headers['Title']
+        )
         true
       else
-        Rails.logger.error("[NtfyService] Failed to send notification: #{response.code} #{response.message}")
+        StructuredLogger.error('[Ntfy] Failed to send notification',
+          topic: topic,
+          server: uri.host,
+          status_code: response.code,
+          status_message: response.message,
+          response_body: response.body&.truncate(200)
+        )
         false
       end
+    rescue Net::OpenTimeout, Net::ReadTimeout => e
+      StructuredLogger.error('[Ntfy] Connection timeout',
+        topic: topic,
+        server: uri.host,
+        error_class: e.class.name,
+        timeout_type: e.is_a?(Net::OpenTimeout) ? 'open' : 'read'
+      )
+      false
+    rescue SocketError, Errno::ECONNREFUSED => e
+      StructuredLogger.error('[Ntfy] Connection failed',
+        topic: topic,
+        server: uri.host,
+        error_class: e.class.name,
+        error_message: e.message
+      )
+      false
     rescue StandardError => e
-      Rails.logger.error("[NtfyService] Error sending notification: #{e.message}")
+      StructuredLogger.exception(e, '[Ntfy] Unexpected error sending notification',
+        topic: topic,
+        server: uri.host
+      )
       false
     end
 

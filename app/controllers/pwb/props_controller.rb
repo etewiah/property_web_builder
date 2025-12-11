@@ -63,9 +63,14 @@ module Pwb
     def request_property_info_ajax
       @error_messages = []
       I18n.locale = params["contact"]["locale"] || I18n.default_locale
-      # have a hidden field in form to pass in above
-      # if I didn't I could end up with the wrong locale
-      # @enquiry = Message.new(params[:contact])
+
+      StructuredLogger.info('[PropertyInquiry] Processing submission',
+        website_id: @current_website&.id,
+        property_id: params.dig(:contact, :property_id),
+        email: params.dig(:contact, :email),
+        origin_ip: request.ip
+      )
+
       # Use Pwb::ListedProperty (materialized view) for read operations
       @property = Pwb::ListedProperty.where(website_id: @current_website.id).find(params[:contact][:property_id])
       @contact = @current_website.contacts.find_or_initialize_by(primary_email: params[:contact][:email])
@@ -85,18 +90,26 @@ module Pwb
         origin_ip: request.ip,
         user_agent: request.user_agent,
         delivery_email: @current_agency.email_for_property_contact_form,
-      # origin_email: params[:contact][:email]
       })
 
       unless @enquiry.save && @contact.save
         @error_messages += @contact.errors.full_messages
         @error_messages += @enquiry.errors.full_messages
+        StructuredLogger.warn('[PropertyInquiry] Validation failed',
+          website_id: @current_website&.id,
+          property_id: @property&.id,
+          contact_errors: @contact.errors.full_messages,
+          enquiry_errors: @enquiry.errors.full_messages
+        )
         return render "pwb/ajax/request_info_errors"
       end
 
       unless @current_agency.email_for_property_contact_form.present?
-        # in case a delivery email has not been set
         @enquiry.delivery_email = "no_delivery_email@propertywebbuilder.com"
+        StructuredLogger.warn('[PropertyInquiry] No delivery email configured',
+          website_id: @current_website&.id,
+          agency_id: @current_agency&.id
+        )
       end
 
       @enquiry.contact = @contact
@@ -104,11 +117,24 @@ module Pwb
 
       # Async email delivery via Solid Queue
       EnquiryMailer.property_enquiry_targeting_agency(@contact, @enquiry, @property).deliver_later
+
+      StructuredLogger.info('[PropertyInquiry] Submission successful',
+        website_id: @current_website&.id,
+        property_id: @property&.id,
+        contact_id: @contact.id,
+        message_id: @enquiry.id
+      )
+
       @flash = I18n.t "contact.success"
       return render "pwb/ajax/request_info_success", layout: false
-    rescue => e
-      # TODO: - log error to logger....
-      @error_messages = [I18n.t("contact.error"), e]
+    rescue StandardError => e
+      StructuredLogger.exception(e, '[PropertyInquiry] Unexpected error',
+        website_id: @current_website&.id,
+        property_id: params.dig(:contact, :property_id),
+        email: params.dig(:contact, :email),
+        origin_ip: request.ip
+      )
+      @error_messages = [I18n.t("contact.error"), e.message]
       return render "pwb/ajax/request_info_errors", layout: false
     end
 

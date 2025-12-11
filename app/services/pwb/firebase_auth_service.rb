@@ -6,33 +6,39 @@ module Pwb
     end
 
     def call
-      Rails.logger.info "FirebaseAuthService: Starting token verification"
-      Rails.logger.debug "FirebaseAuthService: Token length: #{@token&.length || 0}"
+      StructuredLogger.info('[FirebaseAuth] Starting token verification',
+        token_length: @token&.length || 0,
+        website_id: @website&.id
+      )
 
       begin
         verifier = FirebaseTokenVerifier.new(@token)
         payload = verifier.verify!
-        Rails.logger.info "FirebaseAuthService: Token verified successfully"
+        StructuredLogger.info('[FirebaseAuth] Token verified successfully')
       rescue FirebaseTokenVerifier::CertificateError => e
         # Certificates missing or invalid - try refreshing
-        Rails.logger.warn "FirebaseAuthService: Certificate error, refreshing - #{e.message}"
+        StructuredLogger.warn('[FirebaseAuth] Certificate error, attempting refresh',
+          error: e.message
+        )
         begin
           FirebaseTokenVerifier.fetch_certificates!
           verifier = FirebaseTokenVerifier.new(@token)
           payload = verifier.verify!
-          Rails.logger.info "FirebaseAuthService: Token verified after certificate refresh"
+          StructuredLogger.info('[FirebaseAuth] Token verified after certificate refresh')
         rescue StandardError => retry_error
-          Rails.logger.error "FirebaseAuthService: Retry failed - #{retry_error.class}: #{retry_error.message}"
+          StructuredLogger.error('[FirebaseAuth] Retry after certificate refresh failed',
+            error_class: retry_error.class.name,
+            error_message: retry_error.message
+          )
           return nil
         end
       rescue StandardError => e
-        Rails.logger.error "FirebaseAuthService: Verification failed - #{e.class}: #{e.message}"
-        Rails.logger.error "FirebaseAuthService: Backtrace: #{e.backtrace.first(5).join("\n")}"
+        StructuredLogger.exception(e, '[FirebaseAuth] Token verification failed')
         return nil
       end
 
       unless payload
-        Rails.logger.warn "FirebaseAuthService: Payload is nil after verification"
+        StructuredLogger.warn('[FirebaseAuth] Payload is nil after verification')
         return nil
       end
 
@@ -45,32 +51,61 @@ module Pwb
 
       if user
         # Ensure firebase_uid is set if found by email
-        user.update(firebase_uid: uid) if user.firebase_uid.blank?
+        if user.firebase_uid.blank?
+          user.update(firebase_uid: uid)
+          StructuredLogger.info('[FirebaseAuth] Updated existing user with firebase_uid',
+            user_id: user.id,
+            email: email
+          )
+        end
+        StructuredLogger.info('[FirebaseAuth] Existing user authenticated',
+          user_id: user.id,
+          email: email
+        )
       else
         # Create new user if not found
         # Use provided website or fall back to Pwb::Current.website or first website
         website = @website || Pwb::Current.website || Website.first
 
         unless website
-          Rails.logger.error "No website available for user creation"
+          StructuredLogger.error('[FirebaseAuth] No website available for user creation',
+            email: email,
+            firebase_uid: uid
+          )
           return nil
         end
 
-        user = User.new(
-          email: email,
-          firebase_uid: uid,
-          password: ::Devise.friendly_token[0, 20],
-          website: website # Keep for backwards compatibility
-        )
-        user.save!
+        begin
+          user = User.new(
+            email: email,
+            firebase_uid: uid,
+            password: ::Devise.friendly_token[0, 20],
+            website: website # Keep for backwards compatibility
+          )
+          user.save!
 
-        # Create membership for the website
-        # Default role is 'member', admin must be granted manually
-        UserMembershipService.grant_access(
-          user: user,
-          website: website,
-          role: 'member'
-        )
+          # Create membership for the website
+          # Default role is 'member', admin must be granted manually
+          UserMembershipService.grant_access(
+            user: user,
+            website: website,
+            role: 'member'
+          )
+
+          StructuredLogger.info('[FirebaseAuth] New user created via Firebase',
+            user_id: user.id,
+            email: email,
+            website_id: website.id,
+            website_subdomain: website.subdomain
+          )
+        rescue StandardError => e
+          StructuredLogger.exception(e, '[FirebaseAuth] Failed to create new user',
+            email: email,
+            firebase_uid: uid,
+            website_id: website&.id
+          )
+          return nil
+        end
       end
 
       user

@@ -30,7 +30,16 @@ module Pwb
       @step = 1
       email = params[:email]&.strip&.downcase
 
+      StructuredLogger.info('[Signup] Step 1: Email submission',
+        email: email,
+        origin_ip: request.ip
+      )
+
       if email.blank? || !email.match?(URI::MailTo::EMAIL_REGEXP)
+        StructuredLogger.warn('[Signup] Invalid email format',
+          email: email,
+          origin_ip: request.ip
+        )
         flash.now[:error] = "Please enter a valid email address"
         return render :new
       end
@@ -41,8 +50,18 @@ module Pwb
       if result[:success]
         session[:signup_user_id] = result[:user].id
         session[:signup_subdomain] = result[:subdomain]&.name
+        StructuredLogger.info('[Signup] Step 1 completed',
+          email: email,
+          user_id: result[:user].id,
+          subdomain: result[:subdomain]&.name
+        )
         redirect_to signup_configure_path
       else
+        StructuredLogger.warn('[Signup] Step 1 failed',
+          email: email,
+          errors: result[:errors],
+          origin_ip: request.ip
+        )
         flash.now[:error] = result[:errors].first || "Unable to start signup"
         render :new
       end
@@ -61,6 +80,12 @@ module Pwb
       subdomain = params[:subdomain]&.strip&.downcase
       site_type = params[:site_type]
 
+      StructuredLogger.info('[Signup] Step 2: Site configuration',
+        user_id: @current_signup_user&.id,
+        subdomain: subdomain,
+        site_type: site_type
+      )
+
       service = ProvisioningService.new
       result = service.configure_site(
         user: @current_signup_user,
@@ -70,8 +95,20 @@ module Pwb
 
       if result[:success]
         session[:signup_website_id] = result[:website].id
+        StructuredLogger.info('[Signup] Step 2 completed',
+          user_id: @current_signup_user&.id,
+          website_id: result[:website].id,
+          subdomain: subdomain,
+          site_type: site_type
+        )
         redirect_to signup_provisioning_path
       else
+        StructuredLogger.warn('[Signup] Step 2 failed',
+          user_id: @current_signup_user&.id,
+          subdomain: subdomain,
+          site_type: site_type,
+          errors: result[:errors]
+        )
         @suggested_subdomain = subdomain
         @site_types = Website::SITE_TYPES
         flash.now[:error] = result[:errors].first || "Unable to configure site"
@@ -100,6 +137,9 @@ module Pwb
       @website = Website.find_by(id: session[:signup_website_id])
 
       unless @website
+        StructuredLogger.warn('[Signup] Provision attempt for missing website',
+          session_website_id: session[:signup_website_id]
+        )
         return render json: { success: false, error: "Website not found" }, status: :not_found
       end
 
@@ -107,11 +147,21 @@ module Pwb
         return render json: { success: true, status: 'live', progress: 100 }
       end
 
+      StructuredLogger.info('[Signup] Step 3: Starting provisioning',
+        website_id: @website.id,
+        subdomain: @website.subdomain,
+        current_state: @website.provisioning_state
+      )
+
       # Run provisioning synchronously for now (will be async later)
       service = ProvisioningService.new
       result = service.provision_website(website: @website)
 
       if result[:success]
+        StructuredLogger.info('[Signup] Step 3 completed: Website is live',
+          website_id: @website.id,
+          subdomain: @website.subdomain
+        )
         render json: {
           success: true,
           status: @website.reload.provisioning_state,
@@ -119,6 +169,12 @@ module Pwb
           message: @website.provisioning_status_message
         }
       else
+        StructuredLogger.error('[Signup] Step 3 failed: Provisioning error',
+          website_id: @website.id,
+          subdomain: @website.subdomain,
+          errors: result[:errors],
+          final_state: @website.reload.provisioning_state
+        )
         render json: {
           success: false,
           error: result[:errors].first,
