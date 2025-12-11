@@ -71,21 +71,29 @@ namespace :pwb do
         force_path_style: true
       )
 
-      # Find all images in db/seeds/images/
-      images_path = Pwb::SeedImages.local_images_path
-      unless images_path.exist?
-        puts "ERROR: Images directory not found: #{images_path}"
-        exit 1
+      # Find all images in both seed directories
+      seed_images_path = Pwb::SeedImages.local_images_path
+      example_images_path = Rails.root.join('db', 'example_images')
+
+      image_files = []
+
+      if seed_images_path.exist?
+        image_files += Dir.glob(seed_images_path.join('*.{jpg,jpeg,png,gif,webp}'))
+        puts "Found #{Dir.glob(seed_images_path.join('*.{jpg,jpeg,png,gif,webp}')).count} images in db/seeds/images/"
       end
 
-      image_files = Dir.glob(images_path.join('*.{jpg,jpeg,png,gif,webp}'))
+      if example_images_path.exist?
+        image_files += Dir.glob(example_images_path.join('*.{jpg,jpeg,png,gif,webp}'))
+        puts "Found #{Dir.glob(example_images_path.join('*.{jpg,jpeg,png,gif,webp}')).count} images in db/example_images/"
+      end
 
       if image_files.empty?
-        puts "No image files found in #{images_path}"
+        puts "No image files found"
         exit 0
       end
 
-      puts "Found #{image_files.count} image files to upload"
+      puts ""
+      puts "Total: #{image_files.count} image files to upload"
       puts ""
 
       uploaded = 0
@@ -185,8 +193,13 @@ namespace :pwb do
         force_path_style: true
       )
 
-      images_path = Pwb::SeedImages.local_images_path
-      image_files = Dir.glob(images_path.join('*.{jpg,jpeg,png,gif,webp}'))
+      # Find all images in both seed directories
+      seed_images_path = Pwb::SeedImages.local_images_path
+      example_images_path = Rails.root.join('db', 'example_images')
+
+      image_files = []
+      image_files += Dir.glob(seed_images_path.join('*.{jpg,jpeg,png,gif,webp}')) if seed_images_path.exist?
+      image_files += Dir.glob(example_images_path.join('*.{jpg,jpeg,png,gif,webp}')) if example_images_path.exist?
 
       puts "Bucket: #{bucket_name}"
       puts "Uploading #{image_files.count} images (overwriting existing)..."

@@ -224,8 +224,12 @@ module Pwb
         prop_yml.each do |single_prop_yml|
           reference = single_prop_yml["reference"]
 
-          # Check if property already exists for this website (via RealtyAsset)
-          next if Pwb::RealtyAsset.exists?(website: current_website, reference: reference)
+          # Check if property already exists for this website BEFORE creating photos
+          # This prevents orphaned photos when property already exists
+          if Pwb::RealtyAsset.exists?(website: current_website, reference: reference)
+            puts "      Property #{reference} already exists, skipping"
+            next
+          end
 
           photos = []
           if single_prop_yml["photo_urls"].present?
@@ -373,22 +377,39 @@ module Pwb
           # don't create photos for tests
           return photos
         end
+
+        # Check if external seed images are enabled
+        use_external = ENV['R2_SEED_IMAGES_BUCKET'].present? || ENV['SEED_IMAGES_BASE_URL'].present?
+
         photo_files.each do |photo_file|
           begin
-            photo = photo_class.send("create")
-            file_path = Rails.root.join(photo_file)
+            filename = File.basename(photo_file)
 
-            # Use ActiveStorage attach method
-            photo.image.attach(
-              io: file_path.open,
-              filename: File.basename(photo_file),
-              content_type: get_content_type(photo_file)
-            )
+            if use_external
+              # Use external URL instead of uploading to avoid storage bloat
+              require_relative 'seed_images'
+              external_url = "#{Pwb::SeedImages.base_url}/#{filename}"
+              photo = photo_class.send("create", external_url: external_url)
+              photo.save!
+              photos.push photo
+              puts "Created photo with external URL: #{external_url}"
+            else
+              # Fall back to local file upload
+              photo = photo_class.send("create")
+              file_path = Rails.root.join(photo_file)
 
-            photo.save!
-            photos.push photo
-            puts "Successfully created photo from #{photo_file}"
-            sleep 1
+              # Use ActiveStorage attach method
+              photo.image.attach(
+                io: file_path.open,
+                filename: filename,
+                content_type: get_content_type(photo_file)
+              )
+
+              photo.save!
+              photos.push photo
+              puts "Successfully created photo from #{photo_file}"
+              sleep 1
+            end
           rescue Exception => e
             # log exception to console
             puts "Failed to create photo from #{photo_file}"
