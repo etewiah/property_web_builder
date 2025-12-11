@@ -8,7 +8,7 @@ module Pwb
     has_many :page_contents, class_name: 'Pwb::PageContent'
     has_many :contents, through: :page_contents, class_name: 'Pwb::Content'
     # https://stackoverflow.com/questions/5856838/scope-with-join-on-has-many-through-association
-    has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: 'Pwb::PageContent'
+    has_many :ordered_visible_page_contents, -> { ordered_visible.includes(:content) }, class_name: 'Pwb::PageContent'
 
     # Listed properties from the materialized view (read-only, for display)
     has_many :listed_properties, class_name: 'Pwb::ListedProperty', foreign_key: 'website_id'

@@ -25,7 +25,7 @@ module Pwb
 
     has_many :page_contents, class_name: 'Pwb::PageContent'
     has_many :contents, through: :page_contents, class_name: 'Pwb::Content'
-    has_many :ordered_visible_page_contents, -> { ordered_visible }, class_name: 'Pwb::PageContent'
+    has_many :ordered_visible_page_contents, -> { ordered_visible.includes(:content) }, class_name: 'Pwb::PageContent'
 
     def get_page_part(page_part_key)
       page_parts.where(page_part_key: page_part_key, website_id: website_id).first

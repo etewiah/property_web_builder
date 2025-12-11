@@ -153,7 +153,7 @@ module Pwb
     # Find property by slug first, then fall back to ID for backwards compatibility
     # Supports both friendly slugs and legacy UUID/integer IDs
     def find_property_by_slug_or_id(identifier)
-      scope = Pwb::ListedProperty.where(website_id: @current_website.id)
+      scope = Pwb::ListedProperty.with_eager_loading.where(website_id: @current_website.id)
 
       # Try slug first
       property = scope.find_by(slug: identifier)

@@ -22,8 +22,11 @@ module Pwb
 
     # Associations (read-only, via the realty_asset_id which is our primary key)
     belongs_to :website, class_name: 'Pwb::Website', optional: true
-    has_many :prop_photos, class_name: 'Pwb::PropPhoto', foreign_key: 'realty_asset_id', primary_key: 'id'
+    has_many :prop_photos, -> { includes(:image_attachment).order(:sort_order) }, class_name: 'Pwb::PropPhoto', foreign_key: 'realty_asset_id', primary_key: 'id'
     has_many :features, class_name: 'PwbTenant::Feature', foreign_key: 'realty_asset_id', primary_key: 'id'
+
+    # Default scope to eager load commonly used associations to avoid N+1 queries
+    scope :with_eager_loading, -> { includes(:website, :prop_photos) }
 
     # Underlying models for write operations
     def realty_asset
