@@ -4,9 +4,18 @@ const { defineConfig, devices } = require('@playwright/test');
 /**
  * PWB E2E Testing Configuration
  * @see https://playwright.dev/docs/test-configuration
+ *
+ * Before running tests, ensure the e2e database is set up:
+ *   RAILS_ENV=e2e bin/rails playwright:reset
+ *
+ * Start the e2e server:
+ *   RAILS_ENV=e2e bin/rails playwright:server
  */
 module.exports = defineConfig({
   testDir: './tests/e2e',
+
+  // Global setup - verifies e2e database is properly initialized
+  globalSetup: './tests/e2e/global-setup.js',
   
   // Run tests in files in parallel
   fullyParallel: true,

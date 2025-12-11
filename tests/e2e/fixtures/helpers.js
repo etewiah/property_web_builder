@@ -11,10 +11,11 @@ const { expect } = require('@playwright/test');
  */
 async function loginAsAdmin(page, adminUser) {
   await page.goto(`${adminUser.tenant.baseURL}/users/sign_in`);
-  await page.waitForSelector('input[name="user[email]"]', { timeout: 5000 });
-  await page.fill('input[name="user[email]"]', adminUser.email);
-  await page.fill('input[name="user[password]"]', adminUser.password);
-  await page.click('input[type="submit"]');
+  await page.waitForSelector('input[name="user[email]"], #user_email', { timeout: 5000 });
+  await page.fill('input[name="user[email]"], #user_email', adminUser.email);
+  await page.fill('input[name="user[password]"], #user_password', adminUser.password);
+  // Submit button can be either input or button
+  await page.click('input[type="submit"], button[type="submit"]');
   await page.waitForLoadState('networkidle');
 }
 

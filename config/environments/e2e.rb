@@ -74,6 +74,9 @@ Rails.application.configure do
     Bullet.enable = false if defined?(Bullet)
   end
 
+  # Disable Rack::Attack rate limiting for e2e tests
+  config.middleware.delete Rack::Attack
+
   # Log to both file and stdout for better debugging
   file_logger = ActiveSupport::Logger.new("#{Rails.root}/log/e2e.log")
   stdout_logger = ActiveSupport::Logger.new(STDOUT)

@@ -88,25 +88,21 @@ test.describe('Multi-Tenant Admin Login', () => {
     expect(currentURL).toContain(TENANT_A_ADMIN.baseURL);
     expect(currentURL).not.toContain('/users/sign_in');
     
-    // Now try to access Tenant B
-    await page.goto(`${TENANT_B_ADMIN.baseURL}/admin`);
+    // Now try to access Tenant B admin
+    await page.goto(`${TENANT_B_ADMIN.baseURL}/site_admin`);
     await page.waitForLoadState('networkidle');
-    
+
     // Should be redirected to login or show an error
     // The session should not carry over to Tenant B
     currentURL = page.url();
-    const isOnLogin = currentURL.includes('/users/sign_in');
-    const isOnTenantB = currentURL.includes('tenant-b.localhost');
-    
+    const isOnLogin = currentURL.includes('/users/sign_in') || currentURL.includes('/firebase_login');
+    const isOnTenantB = currentURL.includes('tenant-b');
+
     // We should either be on Tenant B's login page or not authenticated
     expect(isOnTenantB).toBeTruthy();
-    
+
     // If trying to access admin area, should be redirected to login
-    if (currentURL.includes('/admin')) {
-      // Some apps allow the URL but show login form
-      // Others redirect to /users/sign_in
-      // Either way, we shouldn't be authenticated
-    } else {
+    if (!currentURL.includes('/site_admin')) {
       expect(isOnLogin).toBeTruthy();
     }
   });
@@ -158,45 +154,45 @@ test.describe('Multi-Tenant Admin Login', () => {
   test('Admin can access protected admin routes after login', async ({ page }) => {
     // Log in as Tenant A admin
     await page.goto(`${TENANT_A_ADMIN.baseURL}/users/sign_in`);
-    await page.waitForSelector('input[name="user[email]"]', { timeout: 5000 });
-    await page.fill('input[name="user[email]"]', TENANT_A_ADMIN.email);
-    await page.fill('input[name="user[password]"]', TENANT_A_ADMIN.password);
-    await page.click('input[type="submit"]');
+    await page.waitForSelector('input[name="user[email]"], #user_email', { timeout: 5000 });
+    await page.fill('input[name="user[email]"], #user_email', TENANT_A_ADMIN.email);
+    await page.fill('input[name="user[password]"], #user_password', TENANT_A_ADMIN.password);
+    await page.click('input[type="submit"], button[type="submit"]');
     await page.waitForLoadState('networkidle');
-    
+
     // Try to access admin area
-    await page.goto(`${TENANT_A_ADMIN.baseURL}/admin`);
+    await page.goto(`${TENANT_A_ADMIN.baseURL}/site_admin`);
     await page.waitForLoadState('networkidle');
-    
+
     const currentURL = page.url();
     // Should not be redirected back to login
     expect(currentURL).not.toContain('/users/sign_in');
     // Should be on an admin route
-    expect(currentURL).toContain('/admin');
+    expect(currentURL).toContain('/site_admin');
   });
 
   test('Logout works correctly', async ({ page }) => {
     // Log in first
     await page.goto(`${TENANT_A_ADMIN.baseURL}/users/sign_in`);
-    await page.waitForSelector('input[name="user[email]"]', { timeout: 5000 });
-    await page.fill('input[name="user[email]"]', TENANT_A_ADMIN.email);
-    await page.fill('input[name="user[password]"]', TENANT_A_ADMIN.password);
-    await page.click('input[type="submit"]');
+    await page.waitForSelector('input[name="user[email]"], #user_email', { timeout: 5000 });
+    await page.fill('input[name="user[email]"], #user_email', TENANT_A_ADMIN.email);
+    await page.fill('input[name="user[password]"], #user_password', TENANT_A_ADMIN.password);
+    await page.click('input[type="submit"], button[type="submit"]');
     await page.waitForLoadState('networkidle');
-    
+
     // Find and click logout link/button
-    // Adjust selector based on your application
-    const logoutLink = page.locator('a[href*="sign_out"], a[data-method="delete"]').first();
+    const logoutLink = page.locator('a[href*="sign_out"], a[data-method="delete"], button:has-text("Logout"), button:has-text("Sign out")').first();
     if (await logoutLink.count() > 0) {
       await logoutLink.click();
       await page.waitForLoadState('networkidle');
-      
+
       // Try to access admin area - should redirect to login
-      await page.goto(`${TENANT_A_ADMIN.baseURL}/admin`);
+      await page.goto(`${TENANT_A_ADMIN.baseURL}/site_admin`);
       await page.waitForLoadState('networkidle');
-      
+
       const currentURL = page.url();
-      expect(currentURL).toContain('/users/sign_in');
+      const isOnLogin = currentURL.includes('/users/sign_in') || currentURL.includes('/firebase_login');
+      expect(isOnLogin).toBeTruthy();
     }
   });
 });

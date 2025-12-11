@@ -8,12 +8,12 @@ const TENANTS = {
   A: {
     subdomain: 'tenant-a',
     baseURL: 'http://tenant-a.e2e.localhost:3001',
-    companyName: 'Tenant A Realty',
+    companyName: 'Tenant A Real Estate',
   },
   B: {
     subdomain: 'tenant-b',
     baseURL: 'http://tenant-b.e2e.localhost:3001',
-    companyName: 'Tenant B Properties',
+    companyName: 'Tenant B Real Estate',
   }
 };
 
@@ -59,7 +59,7 @@ const ROUTES = {
     DASHBOARD: '/site_admin',
     PROPERTIES: '/site_admin/props',
     CONTACTS: '/site_admin/contacts',
-    SETTINGS: '/site_admin/properties_settings',
+    SETTINGS: '/site_admin/properties/settings',
   }
 };
 

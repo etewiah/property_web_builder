@@ -107,7 +107,9 @@
       "WebFetch(domain:hackernoon.com)",
       "WebFetch(domain:medium.com)",
       "WebFetch(domain:metaruby.com)",
-      "WebFetch(domain:opencollective.com)"
+      "WebFetch(domain:opencollective.com)",
+      "Bash(node tests/e2e/global-setup.js:*)",
+      "Bash(node -e:*)"
     ],
     "deny": [],
     "ask": []

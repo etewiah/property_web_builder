@@ -98,6 +98,32 @@ user_b_regular.assign_attributes(
 )
 user_b_regular.save!
 
+# Create user memberships for admin access
+puts "Creating user memberships..."
+# Admin membership for Tenant A admin
+Pwb::UserMembership.find_or_create_by!(user: user_a_admin, website: tenant_a) do |m|
+  m.role = 'admin'
+  m.active = true
+end
+
+# Regular membership for Tenant A regular user
+Pwb::UserMembership.find_or_create_by!(user: user_a_regular, website: tenant_a) do |m|
+  m.role = 'member'
+  m.active = true
+end
+
+# Admin membership for Tenant B admin
+Pwb::UserMembership.find_or_create_by!(user: user_b_admin, website: tenant_b) do |m|
+  m.role = 'admin'
+  m.active = true
+end
+
+# Regular membership for Tenant B regular user
+Pwb::UserMembership.find_or_create_by!(user: user_b_regular, website: tenant_b) do |m|
+  m.role = 'member'
+  m.active = true
+end
+
 # Extra useful test data for E2E
 puts "Creating extra test contacts..."
 Pwb::Contact.find_or_create_by!(primary_email: 'contact@tenant-a.test') do |c|
