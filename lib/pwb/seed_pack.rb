@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'seed_images'
+
 # Seed Pack System for PropertyWebBuilder
 #
 # Seed Packs are pre-configured bundles of seed data representing real-world
@@ -648,6 +650,22 @@ module Pwb
     end
 
     def attach_property_image(asset, image_filename)
+      # Skip if already has photos
+      return if asset.prop_photos.any?
+
+      # Prefer external URLs to avoid storage bloat
+      if Pwb::SeedImages.enabled?
+        external_url = Pwb::SeedImages.property_url(image_filename)
+        Pwb::PropPhoto.create!(
+          realty_asset: asset,
+          sort_order: 1,
+          external_url: external_url
+        )
+        log("Set external URL for #{asset.reference}", :detail)
+        return
+      end
+
+      # Fallback to local file attachment
       # Check pack's images directory first
       image_path = @path.join('images', image_filename)
 

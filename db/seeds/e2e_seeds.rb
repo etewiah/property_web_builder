@@ -226,20 +226,38 @@ end
 # using Pwb::RealtyAsset with associated listings.
 puts "Creating sample properties with listings..."
 
-# Path to seed images (downloaded from Unsplash - royalty-free)
+# Load seed images helper
+require_relative '../../lib/pwb/seed_images'
+
+# Path to seed images (fallback for local development without R2)
 SEED_IMAGES_PATH = Rails.root.join('db', 'seeds', 'images')
 
 # Helper to attach an image to a property
+# Uses external URLs when SEED_IMAGES_BASE_URL is configured, otherwise falls back to local files
 def attach_property_image(asset, image_filename)
-  image_path = SEED_IMAGES_PATH.join(image_filename)
-  unless File.exist?(image_path)
-    puts "    WARNING: Image not found: #{image_path}"
-    return
-  end
-
   # Check if image already attached
   if asset.prop_photos.any?
     puts "    Image already attached to #{asset.reference}"
+    return
+  end
+
+  # Prefer external URLs to avoid storage bloat
+  if Pwb::SeedImages.enabled?
+    external_url = Pwb::SeedImages.property_url(image_filename)
+    photo = Pwb::PropPhoto.create!(
+      realty_asset: asset,
+      sort_order: 1,
+      external_url: external_url
+    )
+    puts "    Set external URL for #{asset.reference}: #{external_url}"
+    return
+  end
+
+  # Fallback to local file attachment
+  image_path = SEED_IMAGES_PATH.join(image_filename)
+  unless File.exist?(image_path)
+    puts "    WARNING: Image not found: #{image_path}"
+    puts "    TIP: Set SEED_IMAGES_BASE_URL to use external R2 images"
     return
   end
 

@@ -409,21 +409,11 @@ module Pwb
         end
         photo_urls.each do |photo_url|
           begin
-            photo = photo_class.send("create")
-
-            # For URLs, we need to download the file first
-            require 'open-uri'
-            downloaded_image = URI.open(photo_url)
-
-            photo.image.attach(
-              io: downloaded_image,
-              filename: File.basename(photo_url),
-              content_type: get_content_type_from_url(photo_url)
-            )
-
+            # Use external_url instead of downloading to avoid storage bloat
+            photo = photo_class.send("create", external_url: photo_url)
             photo.save!
             photos.push photo
-            puts "Successfully created photo from #{photo_url}"
+            puts "Created photo with external URL: #{photo_url}"
           rescue Exception => e
             puts "Failed to create photo from #{photo_url}"
             puts e
