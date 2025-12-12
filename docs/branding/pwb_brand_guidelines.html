@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWB Brand Guidelines</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --slate-50: #F8FAFC;
+            --slate-100: #F1F5F9;
+            --slate-200: #E2E8F0;
+            --slate-300: #CBD5E1;
+            --slate-400: #94A3B8;
+            --slate-500: #64748B;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1E293B;
+            --slate-900: #0F172A;
+            --green-300: #86EFAC;
+            --green-400: #4ADE80;
+            --green-500: #22C55E;
+            --green-600: #16A34A;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--slate-100);
+            color: var(--slate-800);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--slate-700);
+            margin-bottom: 12px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--green-500);
+            font-weight: 500;
+        }
+        
+        section {
+            margin-bottom: 60px;
+        }
+        
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--slate-700);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--slate-200);
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .card.dark {
+            background: var(--slate-800);
+        }
+        
+        .card.checkered {
+            background-image: 
+                linear-gradient(45deg, #e2e8f0 25%, transparent 25%), 
+                linear-gradient(-45deg, #e2e8f0 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #e2e8f0 75%), 
+                linear-gradient(-45deg, transparent 75%, #e2e8f0 75%);
+            background-size: 16px 16px;
+            background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+        }
+        
+        .card-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 16px;
+            text-align: center;
+        }
+        
+        .card-label.light { color: var(--slate-600); }
+        .card-label.dark { color: var(--slate-300); }
+        
+        .preview {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            background: var(--green-500);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        
+        /* Color swatches */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+        }
+        
+        .color-swatch {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        
+        .color-preview {
+            height: 70px;
+        }
+        
+        .color-info {
+            padding: 10px;
+        }
+        
+        .color-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--slate-700);
+        }
+        
+        .color-hex {
+            font-size: 0.7rem;
+            color: var(--slate-500);
+            font-family: monospace;
+        }
+        
+        /* Usage cards */
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+        
+        .usage-card {
+            background: white;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+        
+        .usage-card h4 {
+            font-size: 0.85rem;
+            color: var(--slate-700);
+            margin-bottom: 6px;
+        }
+        
+        .usage-card p {
+            font-size: 0.8rem;
+            color: var(--slate-500);
+        }
+        
+        .do { border-left: 3px solid var(--green-500); }
+        .dont { border-left: 3px solid #EF4444; }
+        
+        /* Hero */
+        .hero {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        
+        .hero .tagline {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: var(--green-500);
+            font-weight: 500;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--slate-500);
+            font-size: 0.85rem;
+        }
+        
+        .section-note {
+            background: var(--slate-50);
+            border-left: 3px solid var(--green-500);
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.85rem;
+            color: var(--slate-600);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PWB Brand Guidelines</h1>
+            <p class="subtitle">PropertyWebBuilder Visual Identity</p>
+        </header>
+        
+        <!-- Hero -->
+        <div class="hero">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 140" width="600" style="max-width: 100%;">
+              <defs><linearGradient id="g0" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4ADE80"/><stop offset="50%" style="stop-color:#22C55E"/><stop offset="100%" style="stop-color:#16A34A"/></linearGradient></defs>
+              <g transform="translate(15, 5)">
+                <path d="M12 50 L60 8 L108 50" fill="none" stroke="#475569" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20 50 L20 105" fill="none" stroke="#475569" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M48 46 L32 70 L48 94" fill="none" stroke="url(#g0)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M75 46 L91 70 L75 94" fill="none" stroke="url(#g0)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="68" y1="42" x2="55" y2="98" stroke="#334155" stroke-width="7" stroke-linecap="round"/>
+              </g>
+              <g transform="translate(145, 0)">
+                <text x="0" y="58" font-family="system-ui, sans-serif" font-size="38" font-weight="700" fill="#475569" letter-spacing="2">PROPERTY</text>
+                <text x="0" y="105" font-family="system-ui, sans-serif" font-size="38" font-weight="700" fill="#475569" letter-spacing="2">WEB BUILDER</text>
+              </g>
+            </svg>
+            <p class="tagline">"Real estate sites, real fast"</p>
+        </div>
+        
+        <!-- Icons -->
+        <section>
+            <h2>🎯 App Icons</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="preview">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="140" height="140">
+                          <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4ADE80"/><stop offset="50%" style="stop-color:#22C55E"/><stop offset="100%" style="stop-color:#16A34A"/></linearGradient></defs>
+                          <rect width="512" height="512" rx="80" fill="#F8FAFC"/>
+                          <g transform="translate(35, 50)">
+                            <path d="M40 170 L220 25 L400 170" fill="none" stroke="#475569" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M65 170 L65 350" fill="none" stroke="#475569" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M180 170 L115 250 L180 330" fill="none" stroke="url(#g1)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M290 170 L355 250 L290 330" fill="none" stroke="url(#g1)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="250" y1="160" x2="220" y2="340" stroke="#334155" stroke-width="26" stroke-linecap="round"/>
+                          </g>
+                        </svg>
+                    </div>
+                    <p class="card-label light">Light Theme <span class="badge">Primary</span></p>
+                </div>
+                
+                <div class="card dark">
+                    <div class="preview">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="140" height="140">
+                          <defs><linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4ADE80"/><stop offset="50%" style="stop-color:#22C55E"/><stop offset="100%" style="stop-color:#16A34A"/></linearGradient></defs>
+                          <rect width="512" height="512" rx="80" fill="#1E293B"/>
+                          <g transform="translate(35, 50)">
+                            <path d="M40 170 L220 25 L400 170" fill="none" stroke="#94A3B8" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M65 170 L65 350" fill="none" stroke="#94A3B8" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M180 170 L115 250 L180 330" fill="none" stroke="url(#g2)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M290 170 L355 250 L290 330" fill="none" stroke="url(#g2)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="250" y1="160" x2="220" y2="340" stroke="#CBD5E1" stroke-width="26" stroke-linecap="round"/>
+                          </g>
+                        </svg>
+                    </div>
+                    <p class="card-label dark">Dark Theme</p>
+                </div>
+            </div>
+            
+            <div class="grid-4" style="margin-top: 24px;">
+                <div class="card checkered">
+                    <div class="preview">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="80" height="80">
+                          <defs><linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4ADE80"/><stop offset="50%" style="stop-color:#22C55E"/><stop offset="100%" style="stop-color:#16A34A"/></linearGradient></defs>
+                          <g transform="translate(35, 50)">
+                            <path d="M40 170 L220 25 L400 170" fill="none" stroke="#475569" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M65 170 L65 350" fill="none" stroke="#475569" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M180 170 L115 250 L180 330" fill="none" stroke="url(#g3)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M290 170 L355 250 L290 330" fill="none" stroke="url(#g3)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="250" y1="160" x2="220" y2="340" stroke="#334155" stroke-width="26" stroke-linecap="round"/>
+                          </g>
+                        </svg>
+                    </div>
+                    <p class="card-label light">Transparent (Light)</p>
+                </div>
+                
+                <div class="card" style="background: #334155;">
+                    <div class="preview">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="80" height="80">
+                          <defs><linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4ADE80"/><stop offset="50%" style="stop-color:#22C55E"/><stop offset="100%" style="stop-color:#16A34A"/></linearGradient></defs>
+                          <g transform="translate(35, 50)">
+                            <path d="M40 170 L220 25 L400 170" fill="none" stroke="#94A3B8" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M65 170 L65 350" fill="none" stroke="#94A3B8" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M180 170 L115 250 L180 330" fill="none" stroke="url(#g4)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M290 170 L355 250 L290 330" fill="none" stroke="url(#g4)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="250" y1="160" x2="220" y2="340" stroke="#CBD5E1" stroke-width="26" stroke-linecap="round"/>
+                          </g>
+                        </svg>
+                    </div>
+                    <p class="card-label dark">Transparent (Dark)</p>
+                </div>
+                
+                <div class="card">
+                    <div class="preview">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="64" height="64">
+                          <defs><linearGradient id="gf1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4ADE80"/><stop offset="50%" style="stop-color:#22C55E"/><stop offset="100%" style="stop-color:#16A34A"/></linearGradient></defs>
+                          <rect width="32" height="32" rx="6" fill="#F8FAFC"/>
+                          <g transform="translate(2, 3)">
+                            <path d="M3 12 L14 3 L25 12" fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M5 12 L5 24" fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M11 11 L8 15 L11 19" fill="none" stroke="url(#gf1)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M17 11 L20 15 L17 19" fill="none" stroke="url(#gf1)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="15.5" y1="10" x2="12.5" y2="20" stroke="#334155" stroke-width="2" stroke-linecap="round"/>
+                          </g>
+                        </svg>
+                    </div>
+                    <p class="card-label light">Favicon Light</p>
+                </div>
+                
+                <div class="card dark">
+                    <div class="preview">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="64" height="64">
+                          <defs><linearGradient id="gf2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4ADE80"/><stop offset="50%" style="stop-color:#22C55E"/><stop offset="100%" style="stop-color:#16A34A"/></linearGradient></defs>
+                          <rect width="32" height="32" rx="6" fill="#1E293B"/>
+                          <g transform="translate(2, 3)">
+                            <path d="M3 12 L14 3 L25 12" fill="none" stroke="#94A3B8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M5 12 L5 24" fill="none" stroke="#94A3B8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M11 11 L8 15 L11 19" fill="none" stroke="url(#gf2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M17 11 L20 15 L17 19" fill="none" stroke="url(#gf2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="15.5" y1="10" x2="12.5" y2="20" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round"/>
+                          </g>
+                        </svg>
+                    </div>
+                    <p class="card-label dark">Favicon Dark</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Logos -->
+        <section>
+            <h2>📦 Logo Variations</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="preview">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" width="100%">
+                          <defs><linearGradient id="gl1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4ADE80"/><stop offset="50%" style="stop-color:#22C55E"/><stop offset="100%" style="stop-color:#16A34A"/></linearGradient></defs>
+                          <g transform="translate(15, 12)">
+                            <path d="M12 60 L72 10 L132 60" fill="none" stroke="#475569" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 60 L22 130" fill="none" stroke="#475569" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M58 56 L38 85 L58 114" fill="none" stroke="url(#gl1)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M90 56 L110 85 L90 114" fill="none" stroke="url(#gl1)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="82" y1="50" x2="66" y2="120" stroke="#334155" stroke-width="9" stroke-linecap="round"/>
+                          </g>
+                          <g transform="translate(170, 0)">
+                            <text x="0" y="72" font-family="system-ui, sans-serif" font-size="46" font-weight="700" fill="#475569" letter-spacing="2">PROPERTY</text>
+                            <text x="0" y="130" font-family="system-ui, sans-serif" font-size="46" font-weight="700" fill="#475569" letter-spacing="2">WEB BUILDER</text>
+                          </g>
+                        </svg>
+                    </div>
+                    <p class="card-label light">Full Logo - Light</p>
+                </div>
+                
+                <div class="card dark">
+                    <div class="preview">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" width="100%">
+                          <defs><linearGradient id="gl2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4ADE80"/><stop offset="50%" style="stop-color:#22C55E"/><stop offset="100%" style="stop-color:#16A34A"/></linearGradient></defs>
+                          <g transform="translate(15, 12)">
+                            <path d="M12 60 L72 10 L132 60" fill="none" stroke="#94A3B8" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 60 L22 130" fill="none" stroke="#94A3B8" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M58 56 L38 85 L58 114" fill="none" stroke="url(#gl2)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M90 56 L110 85 L90 114" fill="none" stroke="url(#gl2)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="82" y1="50" x2="66" y2="120" stroke="#CBD5E1" stroke-width="9" stroke-linecap="round"/>
+                          </g>
+                          <g transform="translate(170, 0)">
+                            <text x="0" y="72" font-family="system-ui, sans-serif" font-size="46" font-weight="700" fill="#F1F5F9" letter-spacing="2">PROPERTY</text>
+                            <text x="0" y="130" font-family="system-ui, sans-serif" font-size="46" font-weight="700" fill="#F1F5F9" letter-spacing="2">WEB BUILDER</text>
+                          </g>
+                        </svg>
+                    </div>
+                    <p class="card-label dark">Full Logo - Dark</p>
+                </div>
+            </div>
+            
+            <div class="grid-2" style="margin-top: 24px;">
+                <div class="card">
+                    <div class="preview">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 56" width="260">
+                          <defs><linearGradient id="gc1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4ADE80"/><stop offset="50%" style="stop-color:#22C55E"/><stop offset="100%" style="stop-color:#16A34A"/></linearGradient></defs>
+                          <g transform="translate(4, 4)">
+                            <path d="M6 24 L26 6 L46 24" fill="none" stroke="#475569" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 24 L10 46" fill="none" stroke="#475569" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 22 L16 30 L22 38" fill="none" stroke="url(#gc1)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M34 22 L40 30 L34 38" fill="none" stroke="url(#gc1)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="31" y1="20" x2="25" y2="40" stroke="#334155" stroke-width="3.5" stroke-linecap="round"/>
+                          </g>
+                          <g transform="translate(62, 0)">
+                            <text y="36" font-family="system-ui, sans-serif" font-size="28" font-weight="800" fill="#475569" letter-spacing="-0.5">PWB</text>
+                            <text x="78" y="26" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#64748B" letter-spacing="1">PROPERTY</text>
+                            <text x="78" y="40" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#64748B" letter-spacing="1">WEB BUILDER</text>
+                          </g>
+                        </svg>
+                    </div>
+                    <p class="card-label light">Compact - Light</p>
+                </div>
+                
+                <div class="card dark">
+                    <div class="preview">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 56" width="260">
+                          <defs><linearGradient id="gc2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4ADE80"/><stop offset="50%" style="stop-color:#22C55E"/><stop offset="100%" style="stop-color:#16A34A"/></linearGradient></defs>
+                          <g transform="translate(4, 4)">
+                            <path d="M6 24 L26 6 L46 24" fill="none" stroke="#94A3B8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 24 L10 46" fill="none" stroke="#94A3B8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 22 L16 30 L22 38" fill="none" stroke="url(#gc2)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M34 22 L40 30 L34 38" fill="none" stroke="url(#gc2)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="31" y1="20" x2="25" y2="40" stroke="#CBD5E1" stroke-width="3.5" stroke-linecap="round"/>
+                          </g>
+                          <g transform="translate(62, 0)">
+                            <text y="36" font-family="system-ui, sans-serif" font-size="28" font-weight="800" fill="#F1F5F9" letter-spacing="-0.5">PWB</text>
+                            <text x="78" y="26" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8" letter-spacing="1">PROPERTY</text>
+                            <text x="78" y="40" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8" letter-spacing="1">WEB BUILDER</text>
+                          </g>
+                        </svg>
+                    </div>
+                    <p class="card-label dark">Compact - Dark</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Colors -->
+        <section>
+            <h2>🎨 Color Palette</h2>
+            
+            <h3 style="font-size: 1rem; color: #475569; margin: 20px 0 12px;">Light Theme</h3>
+            <div class="color-grid">
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: #475569;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Slate 600</div>
+                        <div class="color-hex">#475569</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: #334155;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Slate 700</div>
+                        <div class="color-hex">#334155</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: linear-gradient(135deg, #4ADE80, #22C55E, #16A34A);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Green Gradient</div>
+                        <div class="color-hex">Brackets</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: #F8FAFC;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Slate 50</div>
+                        <div class="color-hex">#F8FAFC</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="font-size: 1rem; color: #475569; margin: 24px 0 12px;">Dark Theme</h3>
+            <div class="color-grid">
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: #94A3B8;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Slate 400</div>
+                        <div class="color-hex">#94A3B8</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: #CBD5E1;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Slate 300</div>
+                        <div class="color-hex">#CBD5E1</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: linear-gradient(135deg, #4ADE80, #22C55E, #16A34A);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Green Gradient</div>
+                        <div class="color-hex">Brackets</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: #1E293B;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Slate 800</div>
+                        <div class="color-hex">#1E293B</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="font-size: 1rem; color: #475569; margin: 24px 0 12px;">Green Gradient Values</h3>
+            <div class="color-grid">
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: #4ADE80;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Green 400</div>
+                        <div class="color-hex">#4ADE80</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: #22C55E;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Green 500</div>
+                        <div class="color-hex">#22C55E</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: #16A34A;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Green 600</div>
+                        <div class="color-hex">#16A34A</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Usage -->
+        <section>
+            <h2>✅ Usage Guidelines</h2>
+            <div class="usage-grid">
+                <div class="usage-card do">
+                    <h4>✓ Do</h4>
+                    <p>Use light theme on light backgrounds</p>
+                </div>
+                <div class="usage-card do">
+                    <h4>✓ Do</h4>
+                    <p>Use dark theme on dark backgrounds</p>
+                </div>
+                <div class="usage-card do">
+                    <h4>✓ Do</h4>
+                    <p>Maintain adequate clear space around logo</p>
+                </div>
+                <div class="usage-card do">
+                    <h4>✓ Do</h4>
+                    <p>Use transparent versions for overlays</p>
+                </div>
+                <div class="usage-card dont">
+                    <h4>✗ Don't</h4>
+                    <p>Stretch or distort the logo</p>
+                </div>
+                <div class="usage-card dont">
+                    <h4>✗ Don't</h4>
+                    <p>Change the gradient colors</p>
+                </div>
+                <div class="usage-card dont">
+                    <h4>✗ Don't</h4>
+                    <p>Use light theme on dark backgrounds</p>
+                </div>
+                <div class="usage-card dont">
+                    <h4>✗ Don't</h4>
+                    <p>Add shadows or effects to logo</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Social Banner -->
+        <section>
+            <h2>📱 Social Media</h2>
+            <div class="card dark" style="padding: 0; overflow: hidden; border-radius: 12px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="100%">
+                  <defs>
+                    <linearGradient id="gs" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4ADE80"/><stop offset="50%" style="stop-color:#22C55E"/><stop offset="100%" style="stop-color:#16A34A"/></linearGradient>
+                    <linearGradient id="bgs" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#1E293B"/><stop offset="100%" style="stop-color:#334155"/></linearGradient>
+                  </defs>
+                  <rect width="1200" height="630" fill="url(#bgs)"/>
+                  <circle cx="100" cy="100" r="200" fill="#22C55E" opacity="0.06"/>
+                  <circle cx="1100" cy="530" r="250" fill="#22C55E" opacity="0.06"/>
+                  <g transform="translate(150, 165)">
+                    <path d="M25 150 L150 30 L275 150" fill="none" stroke="#94A3B8" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M50 150 L50 280" fill="none" stroke="#94A3B8" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M120 130 L80 180 L120 230" fill="none" stroke="url(#gs)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M180 130 L220 180 L180 230" fill="none" stroke="url(#gs)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+                    <line x1="165" y1="120" x2="135" y2="240" stroke="#CBD5E1" stroke-width="18" stroke-linecap="round"/>
+                  </g>
+                  <text x="480" y="280" font-family="system-ui, sans-serif" font-size="100" font-weight="800" fill="#F1F5F9" letter-spacing="-2">PWB</text>
+                  <text x="480" y="360" font-family="system-ui, sans-serif" font-size="32" font-weight="600" fill="#94A3B8" letter-spacing="4">PROPERTY WEB BUILDER</text>
+                  <text x="480" y="420" font-family="system-ui, sans-serif" font-size="28" font-weight="400" fill="#22C55E">Real estate sites, real fast ⚡</text>
+                  <text x="480" y="520" font-family="system-ui, sans-serif" font-size="22" font-weight="500" fill="#64748B">propertywebbuilder.com</text>
+                </svg>
+            </div>
+            <p class="card-label light" style="margin-top: 12px;">Social Banner / OG Image (1200×630)</p>
+        </section>
+        
+        <footer>
+            <p><strong>PropertyWebBuilder</strong> Brand Guidelines</p>
+            <p style="margin-top: 8px; opacity: 0.7;">Real estate sites, real fast ⚡</p>
+        </footer>
+    </div>
+</body>
+</html>

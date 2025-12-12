@@ -1,71 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180">
   <defs>
-    <linearGradient id="lightBlue" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#60A5FA"/>
-      <stop offset="100%" style="stop-color:#3B82F6"/>
-    </linearGradient>
-    <linearGradient id="brightOrange" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#FB923C"/>
-      <stop offset="100%" style="stop-color:#F97316"/>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ADE80"/>
+      <stop offset="50%" style="stop-color:#22C55E"/>
+      <stop offset="100%" style="stop-color:#16A34A"/>
     </linearGradient>
   </defs>
   
   <!-- Dark background -->
-  <rect width="400" height="120" fill="#0F172A" rx="8"/>
+  <rect width="720" height="180" rx="12" fill="#1E293B"/>
   
-  <g transform="translate(18, 11)">
-    <!-- House walls - thicker -->
-    <path d="M5 30 L5 90 L75 90 L75 30" 
-          fill="none" 
-          stroke="url(#lightBlue)" 
-          stroke-width="7" 
-          stroke-linejoin="round"
-          stroke-linecap="round"/>
-    
-    <!-- Roof (orange) - thicker -->
-    <path d="M5 30 L40 0 L75 30" 
-          fill="none" 
-          stroke="url(#brightOrange)" 
-          stroke-width="7" 
-          stroke-linejoin="round"
-          stroke-linecap="round"/>
-    
-    <!-- Left code bracket - thicker -->
-    <path d="M30 44 L17 60 L30 76" 
-          fill="none" 
-          stroke="url(#brightOrange)" 
-          stroke-width="6" 
-          stroke-linecap="round"
-          stroke-linejoin="round"/>
-    
-    <!-- Right code bracket - thicker -->
-    <path d="M50 44 L63 60 L50 76" 
-          fill="none" 
-          stroke="url(#brightOrange)" 
-          stroke-width="6" 
-          stroke-linecap="round"
-          stroke-linejoin="round"/>
-    
-    <!-- Slash - thicker -->
-    <line x1="45" y1="42" x2="35" y2="78" 
-          stroke="url(#lightBlue)" 
-          stroke-width="5" 
-          stroke-linecap="round"/>
+  <!-- Icon -->
+  <g transform="translate(15, 12)">
+    <path d="M12 60 L72 10 L132 60" fill="none" stroke="#94A3B8" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M22 60 L22 130" fill="none" stroke="#94A3B8" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M58 56 L38 85 L58 114" fill="none" stroke="url(#greenGrad)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M90 56 L110 85 L90 114" fill="none" stroke="url(#greenGrad)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="82" y1="50" x2="66" y2="120" stroke="#CBD5E1" stroke-width="9" stroke-linecap="round"/>
   </g>
   
-  <g transform="translate(115, 0)">
-    <text y="55" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="36" font-weight="800" fill="#F8FAFC" letter-spacing="-1">
-      PWB
-    </text>
-    
-    <line x1="0" y1="65" x2="85" y2="65" stroke="url(#brightOrange)" stroke-width="3" stroke-linecap="round"/>
-    
-    <text y="88" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#94A3B8" letter-spacing="1.5">
-      PROPERTY WEB BUILDER
-    </text>
-    
-    <text y="108" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" font-weight="400" fill="#64748B">
-      Real estate sites, real fast ⚡
-    </text>
+  <!-- Wordmark -->
+  <g transform="translate(170, 0)">
+    <text x="0" y="72" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="46" font-weight="700" fill="#F1F5F9" letter-spacing="2">PROPERTY</text>
+    <text x="0" y="130" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="46" font-weight="700" fill="#F1F5F9" letter-spacing="2">WEB BUILDER</text>
   </g>
 </svg>

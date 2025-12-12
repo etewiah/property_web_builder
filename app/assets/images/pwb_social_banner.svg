@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ADE80"/>
+      <stop offset="50%" style="stop-color:#22C55E"/>
+      <stop offset="100%" style="stop-color:#16A34A"/>
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1E293B"/>
+      <stop offset="100%" style="stop-color:#334155"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Dark gradient background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="100" cy="100" r="200" fill="#22C55E" opacity="0.06"/>
+  <circle cx="1100" cy="530" r="250" fill="#22C55E" opacity="0.06"/>
+  
+  <!-- Icon -->
+  <g transform="translate(150, 165)">
+    <path d="M25 150 L150 30 L275 150" fill="none" stroke="#94A3B8" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M50 150 L50 280" fill="none" stroke="#94A3B8" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M120 130 L80 180 L120 230" fill="none" stroke="url(#greenGrad)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M180 130 L220 180 L180 230" fill="none" stroke="url(#greenGrad)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="165" y1="120" x2="135" y2="240" stroke="#CBD5E1" stroke-width="18" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="480" y="280" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="100" font-weight="800" fill="#F1F5F9" letter-spacing="-2">PWB</text>
+  <text x="480" y="360" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="32" font-weight="600" fill="#94A3B8" letter-spacing="4">PROPERTY WEB BUILDER</text>
+  <text x="480" y="420" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="28" font-weight="400" fill="#22C55E">Real estate sites, real fast ⚡</text>
+  <text x="480" y="520" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="22" font-weight="500" fill="#64748B">propertywebbuilder.com</text>
+</svg>

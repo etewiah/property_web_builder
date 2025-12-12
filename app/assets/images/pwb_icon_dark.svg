@@ -7,13 +7,13 @@
     </linearGradient>
   </defs>
   
-  <rect width="512" height="512" rx="80" fill="#F8FAFC"/>
+  <rect width="512" height="512" rx="80" fill="#1E293B"/>
   
   <g transform="translate(35, 50)">
-    <path d="M40 170 L220 25 L400 170" fill="none" stroke="#475569" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M65 170 L65 350" fill="none" stroke="#475569" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M40 170 L220 25 L400 170" fill="none" stroke="#94A3B8" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M65 170 L65 350" fill="none" stroke="#94A3B8" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M180 170 L115 250 L180 330" fill="none" stroke="url(#greenGrad)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M290 170 L355 250 L290 330" fill="none" stroke="url(#greenGrad)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
-    <line x1="250" y1="160" x2="220" y2="340" stroke="#334155" stroke-width="26" stroke-linecap="round"/>
+    <line x1="250" y1="160" x2="220" y2="340" stroke="#CBD5E1" stroke-width="26" stroke-linecap="round"/>
   </g>
 </svg>
