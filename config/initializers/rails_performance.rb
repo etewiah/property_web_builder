@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
 # Rails Performance - Self-hosted APM dashboard
-# Dashboard available at /performance (protected by TenantAdminConstraint)
+# Dashboard available at /rails/performance
 #
 # Features:
 # - Request throughput and response times
 # - Slow endpoint detection
 # - Database query monitoring
-# - Background job performance
-# - Error tracking
-# - System resource monitoring (CPU, memory, disk)
+# - Custom event tracking
 #
 # Data is stored in Redis and never sent externally.
 
@@ -20,7 +18,7 @@ RailsPerformance.setup do |config|
   )
 
   # How long to keep performance data (in hours)
-  # Default is 24 hours, we keep 7 days for trend analysis
+  # Default is 4 hours, we keep 7 days for trend analysis
   config.duration = 168.hours
 
   # Enable debug mode in development
@@ -41,31 +39,21 @@ RailsPerformance.setup do |config|
     '/vite-test',
 
     # Admin dashboards (avoid recursive tracking)
-    '/performance',
+    '/rails/performance',
     '/jobs',
     '/logs',
     '/active_storage_dashboard',
+
+    # Active Storage (file uploads can be slow, not useful to track)
+    '/rails/active_storage',
 
     # Chrome DevTools
     '/.well-known/appspecific/com.chrome.devtools.json'
   ]
 
-  # Skip certain paths from slow request detection
-  # (e.g., file uploads that are intentionally slow)
-  config.skipable_rails_patterns = [
-    /\/rails\/active_storage\//
-  ]
-
-  # Include system resources in dashboard
-  # Requires: sys-cpu, sys-filesystem, get_process_mem gems
-  config.include_system_resources = true
-
   # Custom user identification for tracking
-  # Returns a string identifier for the current user
-  config.custom_data_proc = -> (env) {
-    # Try to identify the user/tenant from the request
-    request = Rack::Request.new(env)
-
+  # Returns a hash with tenant and user context
+  config.custom_data_proc = ->(env) {
     data = {}
 
     # Add tenant context if available
@@ -83,9 +71,9 @@ RailsPerformance.setup do |config|
     data
   }
 
-  # Enable background job tracking for Solid Queue
-  config.include_jobs = true
-
   # Track rake tasks (useful for debugging slow seeds, migrations)
   config.include_rake_tasks = Rails.env.development?
+
+  # Enable custom events tracking
+  config.include_custom_events = true
 end

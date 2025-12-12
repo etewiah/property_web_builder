@@ -112,7 +112,8 @@
       "Bash(node -e:*)",
       "mcp__chrome-devtools__fill",
       "Bash(RAILS_ENV=e2e bin/rails playwright:seed:*)",
-      "Bash(npx playwright test:*)"
+      "Bash(npx playwright test:*)",
+      "Bash(timeout 10 bin/rails server:*)"
     ],
     "deny": [],
     "ask": []

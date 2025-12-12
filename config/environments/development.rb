@@ -98,6 +98,7 @@ Rails.application.configure do
   # Allow requests from lvh.me and its subdomains for multi-tenant testing
   # lvh.me resolves to 127.0.0.1 and supports subdomains
   config.hosts << ".lvh.me"
+  config.hosts << ".dev.localhost"
   config.hosts << "localhost"
   config.hosts << "tenant-a.localhost"
   config.hosts << "tenant-b.localhost"
