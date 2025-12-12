@@ -1,5 +1,8 @@
 # PropertyWebBuilder
 
+[![Run in Smithery](https://smithery.ai/badge/skills/etewiah)](https://smithery.ai/skills?ns=etewiah&utm_source=github&utm_medium=badge)
+
+
 Please help support this project by making a contribution to PropertyWebBuilder here: https://opencollective.com/property_web_builder
 
 [![Backers on Open Collective](https://opencollective.com/property_web_builder/backers/badge.svg)](#backers)
