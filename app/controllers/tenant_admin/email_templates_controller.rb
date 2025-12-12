@@ -1,19 +1,25 @@
 # frozen_string_literal: true
 
-module SiteAdmin
+module TenantAdmin
   # EmailTemplatesController
-  # Manages email templates for the current website
-  class EmailTemplatesController < SiteAdminController
+  # Manages email templates across all websites (tenant admin level)
+  class EmailTemplatesController < TenantAdminController
+    before_action :set_website
     before_action :set_template, only: [:show, :edit, :update, :destroy, :preview]
 
-    # Template keys allowed in site_admin (enquiry-related only)
-    ALLOWED_TEMPLATE_KEYS = %w[enquiry.general enquiry.property].freeze
-
     def index
-      # Show only enquiry-related template types
-      # Other templates (alerts, user emails) are managed in tenant_admin
-      @template_keys = Pwb::EmailTemplate::TEMPLATE_KEYS.slice(*ALLOWED_TEMPLATE_KEYS)
-      @custom_templates = current_website.email_templates.index_by(&:template_key)
+      @websites = Pwb::Website.unscoped.order(:subdomain)
+
+      if @website
+        # Show templates for specific website
+        @template_keys = Pwb::EmailTemplate::TEMPLATE_KEYS
+        @custom_templates = @website.email_templates.index_by(&:template_key)
+      else
+        # Show overview of all websites and their template customizations
+        @template_counts = Pwb::EmailTemplate.unscoped
+                                              .group(:website_id)
+                                              .count
+      end
     end
 
     def show
@@ -23,16 +29,16 @@ module SiteAdmin
     def new
       @template_key = params[:template_key]
 
-      unless ALLOWED_TEMPLATE_KEYS.include?(@template_key)
-        redirect_to site_admin_email_templates_path, alert: "Invalid template type"
+      unless Pwb::EmailTemplate::TEMPLATE_KEYS.key?(@template_key)
+        redirect_to tenant_admin_email_templates_path(website_id: @website&.id), alert: "Invalid template type"
         return
       end
 
       # Pre-populate with default template content
-      renderer = Pwb::EmailTemplateRenderer.new(website: current_website, template_key: @template_key)
+      renderer = Pwb::EmailTemplateRenderer.new(website: @website, template_key: @template_key)
       defaults = renderer.default_template_content
 
-      @email_template = current_website.email_templates.build(
+      @email_template = @website.email_templates.build(
         template_key: @template_key,
         name: defaults[:name],
         subject: defaults[:subject],
@@ -43,10 +49,10 @@ module SiteAdmin
     end
 
     def create
-      @email_template = current_website.email_templates.build(email_template_params)
+      @email_template = @website.email_templates.build(email_template_params)
 
       if @email_template.save
-        redirect_to site_admin_email_template_path(@email_template),
+        redirect_to tenant_admin_email_template_path(@email_template),
                     notice: "Email template was successfully created."
       else
         @template_key = @email_template.template_key
@@ -60,7 +66,7 @@ module SiteAdmin
 
     def update
       if @email_template.update(email_template_params)
-        redirect_to site_admin_email_template_path(@email_template),
+        redirect_to tenant_admin_email_template_path(@email_template),
                     notice: "Email template was successfully updated."
       else
         render :edit, status: :unprocessable_entity
@@ -68,8 +74,9 @@ module SiteAdmin
     end
 
     def destroy
+      website_id = @email_template.website_id
       @email_template.destroy
-      redirect_to site_admin_email_templates_path,
+      redirect_to tenant_admin_email_templates_path(website_id: website_id),
                   notice: "Email template was deleted. Default template will now be used."
     end
 
@@ -81,12 +88,12 @@ module SiteAdmin
     def preview_default
       template_key = params[:template_key]
 
-      unless ALLOWED_TEMPLATE_KEYS.include?(template_key)
+      unless Pwb::EmailTemplate::TEMPLATE_KEYS.key?(template_key)
         render json: { error: "Invalid template type" }, status: :bad_request
         return
       end
 
-      renderer = Pwb::EmailTemplateRenderer.new(website: current_website, template_key: template_key)
+      renderer = Pwb::EmailTemplateRenderer.new(website: @website, template_key: template_key)
       sample_variables = generate_sample_variables(template_key)
       @preview = renderer.render(sample_variables)
       @template_key = template_key
@@ -96,8 +103,19 @@ module SiteAdmin
 
     private
 
+    def set_website
+      if params[:website_id].present?
+        @website = Pwb::Website.unscoped.find(params[:website_id])
+      elsif params[:id].present?
+        # When accessing a specific template, get the website from it
+        template = Pwb::EmailTemplate.unscoped.find_by(id: params[:id])
+        @website = template&.website
+      end
+    end
+
     def set_template
-      @email_template = current_website.email_templates.find(params[:id])
+      @email_template = Pwb::EmailTemplate.unscoped.find(params[:id])
+      @website ||= @email_template.website
     end
 
     def email_template_params
@@ -109,7 +127,7 @@ module SiteAdmin
     def generate_sample_variables(template_key)
       variables = Pwb::EmailTemplate::TEMPLATE_VARIABLES[template_key] || []
       sample_data = {
-        "website_name" => current_website&.company_display_name || "Your Company",
+        "website_name" => @website&.company_display_name || "Your Company",
         "visitor_name" => "John Smith",
         "visitor_email" => "john@example.com",
         "visitor_phone" => "+1 555-123-4567",

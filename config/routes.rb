@@ -77,6 +77,16 @@ Rails.application.routes.draw do
         get 'ip/:ip', action: :ip_logs, as: :ip, constraints: { ip: /[^\/]+/ }
       end
     end
+
+    # Email Template Management (cross-tenant)
+    resources :email_templates do
+      member do
+        get :preview
+      end
+      collection do
+        get :preview_default
+      end
+    end
   end
 
   # Site Admin - Single website/tenant management dashboard

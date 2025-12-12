@@ -1,0 +1,100 @@
+<div class="max-w-4xl mx-auto">
+  <div class="mb-6">
+    <%= link_to tenant_admin_email_templates_path(website_id: @website&.id), class: "inline-flex items-center text-sm text-gray-600 hover:text-gray-800" do %>
+      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      Back to Email Templates
+    <% end %>
+  </div>
+
+  <div class="mb-6 flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900"><%= @email_template.name %></h1>
+      <p class="mt-2 text-gray-600">
+        <%= @email_template.description %>
+        <% if @website %>
+          <span class="text-gray-400 ml-2">for <span class="font-mono"><%= @website.subdomain %></span></span>
+        <% end %>
+      </p>
+    </div>
+    <div class="flex space-x-3">
+      <%= link_to preview_tenant_admin_email_template_path(@email_template),
+                  class: "inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50" do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+        </svg>
+        Preview
+      <% end %>
+      <%= link_to edit_tenant_admin_email_template_path(@email_template),
+                  class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+        </svg>
+        Edit
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Status -->
+  <div class="mb-6 flex items-center space-x-4">
+    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm <%= @email_template.active? ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800' %>">
+      <%= @email_template.active? ? 'Active' : 'Inactive (using default)' %>
+    </span>
+    <span class="text-sm text-gray-500">
+      Template key: <code class="bg-gray-100 px-1 rounded"><%= @email_template.template_key %></code>
+    </span>
+  </div>
+
+  <!-- Subject -->
+  <div class="bg-white rounded-lg shadow mb-6">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Subject Line</h2>
+    </div>
+    <div class="px-6 py-4">
+      <code class="text-sm bg-gray-50 p-3 rounded block"><%= @email_template.subject %></code>
+    </div>
+  </div>
+
+  <!-- HTML Body -->
+  <div class="bg-white rounded-lg shadow mb-6">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">HTML Body</h2>
+    </div>
+    <div class="px-6 py-4">
+      <pre class="text-sm bg-gray-50 p-4 rounded overflow-x-auto"><%= @email_template.body_html %></pre>
+    </div>
+  </div>
+
+  <% if @email_template.body_text.present? %>
+    <!-- Plain Text Body -->
+    <div class="bg-white rounded-lg shadow mb-6">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Plain Text Body</h2>
+      </div>
+      <div class="px-6 py-4">
+        <pre class="text-sm bg-gray-50 p-4 rounded overflow-x-auto whitespace-pre-wrap"><%= @email_template.body_text %></pre>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Metadata -->
+  <div class="bg-white rounded-lg shadow">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Details</h2>
+    </div>
+    <div class="px-6 py-4">
+      <dl class="grid grid-cols-2 gap-4 text-sm">
+        <div>
+          <dt class="text-gray-500">Created</dt>
+          <dd class="text-gray-900"><%= @email_template.created_at.strftime("%B %d, %Y at %H:%M") %></dd>
+        </div>
+        <div>
+          <dt class="text-gray-500">Last Updated</dt>
+          <dd class="text-gray-900"><%= @email_template.updated_at.strftime("%B %d, %Y at %H:%M") %></dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</div>
