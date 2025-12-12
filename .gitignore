@@ -107,3 +107,4 @@ test-results/
 playwright-report/
 offline
 marketing
+lib/signup_component

@@ -412,4 +412,19 @@ Rails.application.routes.draw do
       post "/auth/firebase" => "auth#firebase"
     end
   end
+
+  # External Signup API
+  # These endpoints are called by external signup UIs (like the signup_component)
+  # to persist data in PropertyWebBuilder without needing to implement PWB models
+  namespace :api do
+    namespace :signup do
+      post 'start', to: 'signups#start'
+      post 'configure', to: 'signups#configure'
+      post 'provision', to: 'signups#provision'
+      get 'status', to: 'signups#status'
+      get 'check_subdomain', to: 'signups#check_subdomain'
+      get 'suggest_subdomain', to: 'signups#suggest_subdomain'
+      get 'site_types', to: 'signups#site_types'
+    end
+  end
 end
