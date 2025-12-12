@@ -1,0 +1,281 @@
+<div class="max-w-7xl mx-auto">
+  <div class="mb-4 md:mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Subdomains</h1>
+      <p class="mt-1 md:mt-2 text-sm md:text-base text-gray-600">Manage subdomain pool and reservations</p>
+    </div>
+    <div class="flex gap-2">
+      <%= link_to new_tenant_admin_subdomain_path, class: "px-3 md:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center text-sm" do %>
+        <svg class="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+        Add Subdomain
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mb-6">
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center">
+        <div class="p-2 bg-gray-100 rounded-lg">
+          <svg class="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4z"></path>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm text-gray-500">Total</p>
+          <p class="text-xl font-semibold text-gray-900"><%= @stats[:total] %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center">
+        <div class="p-2 bg-green-100 rounded-lg">
+          <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm text-gray-500">Available</p>
+          <p class="text-xl font-semibold text-green-600"><%= @stats[:available] %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center">
+        <div class="p-2 bg-yellow-100 rounded-lg">
+          <svg class="w-6 h-6 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm text-gray-500">Reserved</p>
+          <p class="text-xl font-semibold text-yellow-600"><%= @stats[:reserved] %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center">
+        <div class="p-2 bg-blue-100 rounded-lg">
+          <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm text-gray-500">Allocated</p>
+          <p class="text-xl font-semibold text-blue-600"><%= @stats[:allocated] %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center">
+        <div class="p-2 bg-red-100 rounded-lg">
+          <svg class="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm text-gray-500">Expired</p>
+          <p class="text-xl font-semibold text-red-600"><%= @stats[:expired_reservations] %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pending Signups Section -->
+  <% if @pending_signups.any? %>
+  <div class="bg-white rounded-lg shadow mb-6">
+    <div class="px-4 md:px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900 flex items-center">
+        <svg class="w-5 h-5 mr-2 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+        </svg>
+        Pending Signups
+        <span class="ml-2 px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full"><%= @pending_signups.count %></span>
+      </h2>
+      <p class="mt-1 text-sm text-gray-500">Users who have reserved subdomains during signup but haven't completed website creation</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subdomain</th>
+            <th class="hidden md:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reserved</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% @pending_signups.each do |signup| %>
+            <tr class="<%= signup[:expired] ? 'bg-red-50' : '' %>">
+              <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm">
+                <div class="flex items-center">
+                  <% if signup[:user] %>
+                    <%= link_to signup[:email], tenant_admin_user_path(signup[:user]), class: "text-blue-600 hover:text-blue-800 font-medium" %>
+                    <% if signup[:has_website] %>
+                      <span class="ml-2 px-2 py-0.5 text-xs bg-green-100 text-green-800 rounded">Has Website</span>
+                    <% end %>
+                  <% else %>
+                    <span class="text-gray-900"><%= signup[:email] %></span>
+                    <span class="ml-2 px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded">No Account</span>
+                  <% end %>
+                </div>
+              </td>
+              <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">
+                <%= signup[:subdomain].name %>
+              </td>
+              <td class="hidden md:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <% if signup[:reserved_at] %>
+                  <%= time_ago_in_words(signup[:reserved_at]) %> ago
+                <% end %>
+              </td>
+              <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm">
+                <% if signup[:expired] %>
+                  <span class="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">Expired</span>
+                <% elsif signup[:expires_at] %>
+                  <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">
+                    Expires <%= time_ago_in_words(signup[:expires_at]) %>
+                  </span>
+                <% end %>
+              </td>
+              <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm">
+                <%= link_to "View", tenant_admin_subdomain_path(signup[:subdomain]), class: "text-blue-600 hover:text-blue-800 mr-3" %>
+                <%= button_to "Release", release_tenant_admin_subdomain_path(signup[:subdomain]), method: :post, class: "text-red-600 hover:text-red-800", data: { turbo_confirm: "Release this subdomain reservation?" } %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <% if @stats[:expired_reservations] > 0 %>
+    <div class="px-4 md:px-6 py-3 bg-gray-50 border-t border-gray-200">
+      <%= button_to "Release All Expired Reservations (#{@stats[:expired_reservations]})", release_expired_tenant_admin_subdomains_path, method: :post, class: "px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm", data: { turbo_confirm: "Release all #{@stats[:expired_reservations]} expired reservations?" } %>
+    </div>
+    <% end %>
+  </div>
+  <% end %>
+
+  <!-- Quick Actions -->
+  <div class="bg-white rounded-lg shadow p-4 mb-6">
+    <div class="flex flex-wrap gap-3 items-center">
+      <span class="text-sm font-medium text-gray-700">Quick Actions:</span>
+      <%= form_with url: populate_tenant_admin_subdomains_path, method: :post, local: true, class: "flex items-center gap-2" do |f| %>
+        <%= f.number_field :count, value: 50, min: 1, max: 500, class: "w-20 px-2 py-1 border border-gray-300 rounded text-sm" %>
+        <%= f.submit "Populate Pool", class: "px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm cursor-pointer" %>
+      <% end %>
+      <% if @stats[:expired_reservations] > 0 %>
+        <%= button_to "Release Expired (#{@stats[:expired_reservations]})", release_expired_tenant_admin_subdomains_path, method: :post, class: "px-3 py-1 bg-yellow-600 text-white rounded hover:bg-yellow-700 text-sm" %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Search and Filter -->
+  <div class="mb-4 md:mb-6 bg-white rounded-lg shadow p-3 md:p-4">
+    <%= form_with url: tenant_admin_subdomains_path, method: :get, local: true, class: "flex flex-col sm:flex-row gap-2 sm:gap-4" do |f| %>
+      <div class="flex-1">
+        <%= f.text_field :search, value: params[:search], placeholder: "Search by name or email...", class: "w-full px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.select :state, [["All States", ""], ["Available", "available"], ["Reserved", "reserved"], ["Allocated", "allocated"], ["Released", "released"]], { selected: params[:state] }, class: "px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-white" %>
+      </div>
+      <%= f.submit "Filter", class: "px-4 md:px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm cursor-pointer" %>
+      <% if params[:search].present? || params[:state].present? %>
+        <%= link_to "Clear", tenant_admin_subdomains_path, class: "px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm" %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <!-- Subdomains Table -->
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">State</th>
+            <th class="hidden md:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Website</th>
+            <th class="hidden lg:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reserved By</th>
+            <th class="hidden lg:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expires</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% if @subdomains.any? %>
+            <% @subdomains.each do |subdomain| %>
+              <tr class="<%= subdomain.reserved? && subdomain.reserved_until && subdomain.reserved_until < Time.current ? 'bg-red-50' : '' %>">
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm font-mono font-medium text-gray-900">
+                  <%= link_to subdomain.name, tenant_admin_subdomain_path(subdomain), class: "text-blue-600 hover:text-blue-800" %>
+                </td>
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm">
+                  <% case subdomain.aasm_state %>
+                  <% when 'available' %>
+                    <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Available</span>
+                  <% when 'reserved' %>
+                    <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">Reserved</span>
+                  <% when 'allocated' %>
+                    <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">Allocated</span>
+                  <% when 'released' %>
+                    <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">Released</span>
+                  <% end %>
+                </td>
+                <td class="hidden md:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <% if subdomain.website %>
+                    <%= link_to subdomain.website.subdomain || subdomain.website.id, tenant_admin_website_path(subdomain.website), class: "text-blue-600 hover:text-blue-800" %>
+                  <% else %>
+                    <span class="text-gray-400">-</span>
+                  <% end %>
+                </td>
+                <td class="hidden lg:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <% if subdomain.reserved_by_email.present? %>
+                    <%= subdomain.reserved_by_email %>
+                  <% else %>
+                    <span class="text-gray-400">-</span>
+                  <% end %>
+                </td>
+                <td class="hidden lg:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <% if subdomain.reserved_until.present? %>
+                    <% if subdomain.reserved_until < Time.current %>
+                      <span class="text-red-600">Expired <%= time_ago_in_words(subdomain.reserved_until) %> ago</span>
+                    <% else %>
+                      <%= time_ago_in_words(subdomain.reserved_until) %>
+                    <% end %>
+                  <% else %>
+                    <span class="text-gray-400">-</span>
+                  <% end %>
+                </td>
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm">
+                  <%= link_to "View", tenant_admin_subdomain_path(subdomain), class: "text-blue-600 hover:text-blue-800 mr-2" %>
+                  <% if subdomain.reserved? || subdomain.allocated? %>
+                    <%= button_to "Release", release_tenant_admin_subdomain_path(subdomain), method: :post, class: "text-red-600 hover:text-red-800", data: { turbo_confirm: "Release this subdomain?" } %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="6" class="px-6 py-12 text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">No subdomains found</h3>
+                <p class="mt-1 text-sm text-gray-500">Get started by populating the subdomain pool.</p>
+                <div class="mt-6">
+                  <%= button_to "Populate Pool (50)", populate_tenant_admin_subdomains_path(count: 50), method: :post, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <%# Pagination %>
+  <%= render 'shared/pagination', pagy: @pagy %>
+</div>

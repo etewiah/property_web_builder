@@ -1,0 +1,21 @@
+<div class="max-w-2xl mx-auto">
+  <div class="mb-6">
+    <%= link_to tenant_admin_subdomain_path(@subdomain), class: "text-blue-600 hover:text-blue-800 flex items-center text-sm" do %>
+      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Back to <%= @subdomain.name %>
+    <% end %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h1 class="text-2xl font-bold text-gray-900">Edit Subdomain</h1>
+      <p class="mt-1 text-sm text-gray-500 font-mono"><%= @subdomain.name %></p>
+    </div>
+
+    <div class="p-6">
+      <%= render 'form', subdomain: @subdomain %>
+    </div>
+  </div>
+</div>

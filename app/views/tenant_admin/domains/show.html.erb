@@ -1,0 +1,156 @@
+<div class="max-w-4xl mx-auto">
+  <div class="mb-6">
+    <%= link_to tenant_admin_domains_path, class: "text-blue-600 hover:text-blue-800 flex items-center text-sm" do %>
+      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Back to Domains
+    <% end %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900"><%= @website.custom_domain || "No Custom Domain" %></h1>
+        <p class="mt-1 text-sm text-gray-500">Domain for <%= @website.subdomain %></p>
+      </div>
+      <div class="flex gap-2">
+        <% if @website.custom_domain.present? %>
+          <% if @website.custom_domain_verified? %>
+            <span class="px-3 py-1 text-sm bg-green-100 text-green-800 rounded-full flex items-center">
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+              Verified
+            </span>
+          <% else %>
+            <span class="px-3 py-1 text-sm bg-yellow-100 text-yellow-800 rounded-full flex items-center">
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+              </svg>
+              Pending Verification
+            </span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="p-6">
+      <dl class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Custom Domain</dt>
+          <dd class="mt-1 text-lg text-gray-900">
+            <% if @website.custom_domain.present? %>
+              <a href="https://<%= @website.custom_domain %>" target="_blank" class="text-blue-600 hover:text-blue-800 flex items-center">
+                <%= @website.custom_domain %>
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+              </a>
+            <% else %>
+              <span class="text-gray-400">Not configured</span>
+            <% end %>
+          </dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Website</dt>
+          <dd class="mt-1 text-lg text-gray-900">
+            <%= link_to @website.subdomain || "Website ##{@website.id}", tenant_admin_website_path(@website), class: "text-blue-600 hover:text-blue-800" %>
+          </dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Platform URL</dt>
+          <dd class="mt-1 text-lg text-gray-900">
+            <a href="https://<%= @website.subdomain %>.propertywebbuilder.com" target="_blank" class="text-blue-600 hover:text-blue-800 flex items-center">
+              <%= @website.subdomain %>.propertywebbuilder.com
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            </a>
+          </dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Verification Status</dt>
+          <dd class="mt-1 text-lg text-gray-900">
+            <% if @website.custom_domain_verified? %>
+              Verified on <%= @website.custom_domain_verified_at&.strftime("%Y-%m-%d %H:%M UTC") %>
+            <% elsif @website.custom_domain.present? %>
+              <span class="text-yellow-600">Pending verification</span>
+            <% else %>
+              <span class="text-gray-400">N/A</span>
+            <% end %>
+          </dd>
+        </div>
+      </dl>
+
+      <% if @website.custom_domain.present? && !@website.custom_domain_verified? %>
+      <div class="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+        <h3 class="text-lg font-medium text-yellow-800 mb-2">DNS Verification Required</h3>
+        <p class="text-sm text-yellow-700 mb-4">
+          To verify domain ownership, add the following TXT record to your DNS settings:
+        </p>
+        <div class="bg-white rounded p-3 border border-yellow-200">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <span class="font-medium text-gray-700">Host/Name:</span>
+              <code class="ml-2 px-2 py-1 bg-gray-100 rounded">_pwb-verification</code>
+            </div>
+            <div>
+              <span class="font-medium text-gray-700">Type:</span>
+              <code class="ml-2 px-2 py-1 bg-gray-100 rounded">TXT</code>
+            </div>
+            <div class="md:col-span-2">
+              <span class="font-medium text-gray-700">Value:</span>
+              <code class="ml-2 px-2 py-1 bg-gray-100 rounded font-mono text-xs break-all"><%= @website.custom_domain_verification_token %></code>
+            </div>
+          </div>
+        </div>
+        <p class="text-sm text-yellow-700 mt-4">
+          After adding the DNS record, click "Verify Now" below. DNS changes may take up to 48 hours to propagate.
+        </p>
+      </div>
+      <% end %>
+
+      <% if @website.custom_domain.present? %>
+      <div class="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <h3 class="text-lg font-medium text-blue-800 mb-2">DNS Configuration for Custom Domain</h3>
+        <p class="text-sm text-blue-700 mb-4">
+          Configure your domain's DNS to point to our servers:
+        </p>
+        <div class="bg-white rounded p-3 border border-blue-200">
+          <div class="space-y-3 text-sm">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="font-medium text-gray-700">CNAME Record:</span>
+                <code class="ml-2 px-2 py-1 bg-gray-100 rounded"><%= @website.custom_domain.start_with?('www.') ? 'www' : '@' %></code>
+                <span class="mx-2 text-gray-500">-></span>
+                <code class="px-2 py-1 bg-gray-100 rounded"><%= @website.subdomain %>.propertywebbuilder.com</code>
+              </div>
+            </div>
+            <% unless @website.custom_domain.start_with?('www.') %>
+            <div class="text-xs text-gray-500">
+              Note: For root domains (@), some DNS providers require an A record instead. Contact support for IP addresses.
+            </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
+
+    <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-between">
+      <div class="flex gap-2">
+        <%= link_to "Edit", edit_tenant_admin_domain_path(@website), class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm" %>
+        <% if @website.custom_domain.present? && !@website.custom_domain_verified? %>
+          <%= button_to "Verify Now", verify_tenant_admin_domain_path(@website), method: :post, class: "px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm" %>
+        <% end %>
+      </div>
+      <% if @website.custom_domain.present? %>
+        <%= button_to "Remove Domain", remove_tenant_admin_domain_path(@website), method: :delete, class: "px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm", data: { turbo_confirm: "Are you sure you want to remove the custom domain?" } %>
+      <% end %>
+    </div>
+  </div>
+</div>

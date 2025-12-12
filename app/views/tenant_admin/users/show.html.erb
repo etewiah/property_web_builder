@@ -52,19 +52,17 @@
           <% end %>
         </dd>
       </div>
-      <% if @user.respond_to?(:pwb_website_id) && @user.pwb_website_id %>
-        <div>
-          <dt class="text-sm font-medium text-gray-500">Website</dt>
-          <dd class="mt-1 text-sm text-gray-900">
-            <% website = Pwb::Website.unscoped.find_by(id: @user.pwb_website_id) %>
-            <% if website %>
-              <%= link_to website.subdomain, tenant_admin_website_path(website), class: "text-primary-600 hover:underline" %>
-            <% else %>
-              N/A
-            <% end %>
-          </dd>
-        </div>
-      <% end %>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Confirmation Status</dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <% if @user.confirmed_at %>
+            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Confirmed</span>
+            <span class="text-xs text-gray-500 ml-1"><%= @user.confirmed_at.strftime("%Y-%m-%d") %></span>
+          <% else %>
+            <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Unconfirmed</span>
+          <% end %>
+        </dd>
+      </div>
       <div>
         <dt class="text-sm font-medium text-gray-500">Created</dt>
         <dd class="mt-1 text-sm text-gray-900"><%= format_date(@user.created_at) %></dd>
@@ -109,5 +107,169 @@
         </div>
       <% end %>
     </dl>
+  </div>
+</div>
+
+<!-- Websites & Subdomains Section -->
+<div class="my-4">
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900">Websites & Subdomains</h3>
+
+    <% # Get user's website memberships %>
+    <% memberships = @user.user_memberships.includes(:website).order(created_at: :desc) %>
+
+    <% # Get any subdomains reserved by this user's email (incomplete signups) %>
+    <% reserved_subdomains = Pwb::Subdomain.where(reserved_by_email: @user.email).where.not(aasm_state: 'allocated') %>
+
+    <% if memberships.any? || reserved_subdomains.any? %>
+      <% if memberships.any? %>
+        <div class="mb-6">
+          <h4 class="text-sm font-medium text-gray-700 mb-3">Website Memberships (<%= memberships.count %>)</h4>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Website</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subdomain</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Custom Domain</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <% memberships.each do |membership| %>
+                  <% website = membership.website %>
+                  <% next unless website %>
+                  <% subdomain_record = Pwb::Subdomain.find_by(website_id: website.id) %>
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3 whitespace-nowrap">
+                      <%= link_to tenant_admin_website_path(website), class: "text-blue-600 hover:text-blue-800 font-medium" do %>
+                        Website #<%= website.id %>
+                      <% end %>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                      <% if subdomain_record %>
+                        <%= link_to tenant_admin_subdomain_path(subdomain_record), class: "text-blue-600 hover:text-blue-800 font-mono text-sm" do %>
+                          <%= subdomain_record.name %>.propertywebbuilder.com
+                        <% end %>
+                      <% elsif website.subdomain.present? %>
+                        <span class="font-mono text-sm text-gray-900"><%= website.subdomain %>.propertywebbuilder.com</span>
+                      <% else %>
+                        <span class="text-gray-400">None</span>
+                      <% end %>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                      <% if website.custom_domain.present? %>
+                        <%= link_to tenant_admin_domain_path(website), class: "text-blue-600 hover:text-blue-800 text-sm" do %>
+                          <%= website.custom_domain %>
+                        <% end %>
+                      <% else %>
+                        <span class="text-gray-400">None</span>
+                      <% end %>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                      <span class="px-2 py-1 text-xs font-medium rounded <%=
+                        case membership.role
+                        when 'owner' then 'bg-purple-100 text-purple-800'
+                        when 'admin' then 'bg-blue-100 text-blue-800'
+                        when 'member' then 'bg-green-100 text-green-800'
+                        else 'bg-gray-100 text-gray-800'
+                        end %>">
+                        <%= membership.role.titleize %>
+                      </span>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                      <% if membership.active? %>
+                        <span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">Active</span>
+                      <% else %>
+                        <span class="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded">Inactive</span>
+                      <% end %>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                      <%= membership.created_at.strftime("%Y-%m-%d") %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% end %>
+
+      <% if reserved_subdomains.any? %>
+        <div class="<%= memberships.any? ? 'mt-6 pt-6 border-t border-gray-200' : '' %>">
+          <h4 class="text-sm font-medium text-gray-700 mb-3">
+            <span class="text-yellow-600">Pending Subdomain Reservations</span>
+            <span class="ml-2 px-2 py-0.5 text-xs bg-yellow-100 text-yellow-800 rounded-full"><%= reserved_subdomains.count %></span>
+          </h4>
+          <p class="text-sm text-gray-500 mb-3">
+            These subdomains are reserved but the signup process may be incomplete.
+          </p>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-yellow-50">
+                <tr>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subdomain</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">State</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reserved At</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expires</th>
+                  <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <% reserved_subdomains.each do |subdomain| %>
+                  <% expired = subdomain.reserved_until.present? && subdomain.reserved_until < Time.current %>
+                  <tr class="hover:bg-gray-50 <%= expired ? 'bg-red-50' : '' %>">
+                    <td class="px-4 py-3 whitespace-nowrap">
+                      <%= link_to tenant_admin_subdomain_path(subdomain), class: "text-blue-600 hover:text-blue-800 font-mono text-sm" do %>
+                        <%= subdomain.name %>.propertywebbuilder.com
+                      <% end %>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                      <span class="px-2 py-1 text-xs font-medium rounded <%=
+                        case subdomain.aasm_state
+                        when 'reserved' then 'bg-yellow-100 text-yellow-800'
+                        when 'released' then 'bg-gray-100 text-gray-800'
+                        else 'bg-gray-100 text-gray-800'
+                        end %>">
+                        <%= subdomain.aasm_state.titleize %>
+                      </span>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                      <%= subdomain.reserved_at&.strftime("%Y-%m-%d %H:%M") || "N/A" %>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm">
+                      <% if subdomain.reserved_until.present? %>
+                        <% if expired %>
+                          <span class="text-red-600 font-medium">Expired</span>
+                          <span class="text-gray-400 text-xs ml-1">(<%= time_ago_in_words(subdomain.reserved_until) %> ago)</span>
+                        <% else %>
+                          <span class="text-gray-900"><%= subdomain.reserved_until.strftime("%Y-%m-%d %H:%M") %></span>
+                          <span class="text-gray-400 text-xs ml-1">(in <%= time_ago_in_words(subdomain.reserved_until) %>)</span>
+                        <% end %>
+                      <% else %>
+                        <span class="text-gray-400">No expiry</span>
+                      <% end %>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                      <%= link_to "View", tenant_admin_subdomain_path(subdomain), class: "text-blue-600 hover:text-blue-800 text-sm" %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="text-center py-8">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No websites or subdomains</h3>
+        <p class="mt-1 text-sm text-gray-500">This user is not associated with any websites or subdomains.</p>
+      </div>
+    <% end %>
   </div>
 </div>

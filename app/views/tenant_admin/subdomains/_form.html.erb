@@ -1,0 +1,45 @@
+<%= form_with model: subdomain, url: subdomain.new_record? ? tenant_admin_subdomains_path : tenant_admin_subdomain_path(subdomain), method: subdomain.new_record? ? :post : :patch, local: true, class: "space-y-6" do |f| %>
+  <% if subdomain.errors.any? %>
+    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+      <div class="flex">
+        <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+        </svg>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">
+            <%= pluralize(subdomain.errors.count, "error") %> prohibited this subdomain from being saved:
+          </h3>
+          <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+            <% subdomain.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :name, class: "block text-sm font-medium text-gray-700" %>
+    <div class="mt-1 flex rounded-lg shadow-sm">
+      <%= f.text_field :name, class: "flex-1 min-w-0 block w-full px-3 py-2 rounded-l-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 text-sm font-mono", placeholder: "my-subdomain" %>
+      <span class="inline-flex items-center px-3 rounded-r-lg border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+        .propertywebbuilder.com
+      </span>
+    </div>
+    <p class="mt-1 text-sm text-gray-500">Lowercase alphanumeric characters and hyphens only. 5-40 characters.</p>
+  </div>
+
+  <% unless subdomain.new_record? %>
+  <div>
+    <%= f.label :aasm_state, "State", class: "block text-sm font-medium text-gray-700" %>
+    <%= f.select :aasm_state, [["Available", "available"], ["Reserved", "reserved"], ["Allocated", "allocated"], ["Released", "released"]], {}, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm bg-white" %>
+    <p class="mt-1 text-sm text-gray-500">Warning: Changing state manually may cause issues with associated data.</p>
+  </div>
+  <% end %>
+
+  <div class="flex justify-end gap-3">
+    <%= link_to "Cancel", tenant_admin_subdomains_path, class: "px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm" %>
+    <%= f.submit subdomain.new_record? ? "Create Subdomain" : "Update Subdomain", class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm cursor-pointer" %>
+  </div>
+<% end %>

@@ -1,0 +1,90 @@
+<div class="max-w-2xl mx-auto">
+  <div class="mb-6">
+    <%= link_to tenant_admin_domains_path, class: "text-blue-600 hover:text-blue-800 flex items-center text-sm" do %>
+      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Back to Domains
+    <% end %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h1 class="text-2xl font-bold text-gray-900">
+        <%= @website.custom_domain.present? ? "Edit Custom Domain" : "Add Custom Domain" %>
+      </h1>
+      <p class="mt-1 text-sm text-gray-500">Website: <%= @website.subdomain %></p>
+    </div>
+
+    <div class="p-6">
+      <%= form_with model: @website, url: tenant_admin_domain_path(@website), method: :patch, local: true, class: "space-y-6" do |f| %>
+        <% if @website.errors.any? %>
+          <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+            <div class="flex">
+              <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+              </svg>
+              <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800">
+                  <%= pluralize(@website.errors.count, "error") %> prohibited this from being saved:
+                </h3>
+                <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                  <% @website.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <div>
+          <%= f.label :custom_domain, "Custom Domain", class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= f.text_field :custom_domain, class: "block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm", placeholder: "www.example.com or example.com" %>
+          </div>
+          <p class="mt-1 text-sm text-gray-500">
+            Enter your custom domain (e.g., www.myrealestate.com or myrealestate.com)
+          </p>
+        </div>
+
+        <% if @website.custom_domain.present? && @website.custom_domain_verification_token.present? %>
+        <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <h3 class="text-sm font-medium text-yellow-800 mb-2">Verification Required</h3>
+          <p class="text-sm text-yellow-700 mb-3">
+            Add this TXT record to your DNS to verify ownership:
+          </p>
+          <div class="bg-white rounded p-3 border border-yellow-200 text-sm">
+            <div class="grid grid-cols-1 gap-2">
+              <div>
+                <span class="font-medium text-gray-700">Host:</span>
+                <code class="ml-2 px-2 py-1 bg-gray-100 rounded">_pwb-verification</code>
+              </div>
+              <div>
+                <span class="font-medium text-gray-700">Value:</span>
+                <code class="ml-2 px-2 py-1 bg-gray-100 rounded font-mono text-xs"><%= @website.custom_domain_verification_token %></code>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% end %>
+
+        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <h3 class="text-sm font-medium text-blue-800 mb-2">Setup Instructions</h3>
+          <ol class="text-sm text-blue-700 list-decimal list-inside space-y-2">
+            <li>Enter your custom domain above</li>
+            <li>Add the verification TXT record to your DNS</li>
+            <li>Add a CNAME record pointing to <code class="px-1 bg-blue-100 rounded"><%= @website.subdomain %>.propertywebbuilder.com</code></li>
+            <li>Wait for DNS propagation (can take up to 48 hours)</li>
+            <li>Click "Verify" to complete setup</li>
+          </ol>
+        </div>
+
+        <div class="flex justify-end gap-3">
+          <%= link_to "Cancel", tenant_admin_domains_path, class: "px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm" %>
+          <%= f.submit "Save Domain", class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

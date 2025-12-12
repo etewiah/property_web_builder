@@ -1,0 +1,189 @@
+<div class="max-w-7xl mx-auto">
+  <div class="mb-4 md:mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Custom Domains</h1>
+      <p class="mt-1 md:mt-2 text-sm md:text-base text-gray-600">Manage custom domains for tenant websites</p>
+    </div>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center">
+        <div class="p-2 bg-gray-100 rounded-lg">
+          <svg class="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm text-gray-500">Total Domains</p>
+          <p class="text-xl font-semibold text-gray-900"><%= @stats[:total] %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center">
+        <div class="p-2 bg-green-100 rounded-lg">
+          <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm text-gray-500">Verified</p>
+          <p class="text-xl font-semibold text-green-600"><%= @stats[:verified] %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center">
+        <div class="p-2 bg-yellow-100 rounded-lg">
+          <svg class="w-6 h-6 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm text-gray-500">Pending Verification</p>
+          <p class="text-xl font-semibold text-yellow-600"><%= @stats[:pending] %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search and Filter -->
+  <div class="mb-4 md:mb-6 bg-white rounded-lg shadow p-3 md:p-4">
+    <%= form_with url: tenant_admin_domains_path, method: :get, local: true, class: "flex flex-col sm:flex-row gap-2 sm:gap-4" do |f| %>
+      <div class="flex-1">
+        <%= f.text_field :search, value: params[:search], placeholder: "Search by domain or subdomain...", class: "w-full px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.select :status, [["All Status", ""], ["Verified", "verified"], ["Pending", "pending"]], { selected: params[:status] }, class: "px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-white" %>
+      </div>
+      <%= f.submit "Filter", class: "px-4 md:px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm cursor-pointer" %>
+      <% if params[:search].present? || params[:status].present? %>
+        <%= link_to "Clear", tenant_admin_domains_path, class: "px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm" %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <!-- Domains Table -->
+  <div class="bg-white rounded-lg shadow overflow-hidden mb-6">
+    <div class="px-4 md:px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Configured Domains</h2>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Custom Domain</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Website</th>
+            <th class="hidden md:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th class="hidden lg:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Verified At</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% if @websites_with_domains.any? %>
+            <% @websites_with_domains.each do |website| %>
+              <tr>
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <span class="text-sm font-medium text-gray-900"><%= website.custom_domain %></span>
+                    <a href="https://<%= website.custom_domain %>" target="_blank" class="ml-2 text-gray-400 hover:text-gray-600">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                      </svg>
+                    </a>
+                  </div>
+                </td>
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm">
+                  <%= link_to website.subdomain || "Website ##{website.id}", tenant_admin_website_path(website), class: "text-blue-600 hover:text-blue-800" %>
+                </td>
+                <td class="hidden md:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm">
+                  <% if website.custom_domain_verified? %>
+                    <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Verified</span>
+                  <% else %>
+                    <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">Pending</span>
+                  <% end %>
+                </td>
+                <td class="hidden lg:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <% if website.custom_domain_verified_at %>
+                    <%= website.custom_domain_verified_at.strftime("%Y-%m-%d") %>
+                  <% else %>
+                    <span class="text-gray-400">-</span>
+                  <% end %>
+                </td>
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm">
+                  <%= link_to "View", tenant_admin_domain_path(website), class: "text-blue-600 hover:text-blue-800 mr-2" %>
+                  <%= link_to "Edit", edit_tenant_admin_domain_path(website), class: "text-green-600 hover:text-green-800 mr-2" %>
+                  <% unless website.custom_domain_verified? %>
+                    <%= button_to "Verify", verify_tenant_admin_domain_path(website), method: :post, class: "text-yellow-600 hover:text-yellow-800" %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="5" class="px-6 py-12 text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">No custom domains configured</h3>
+                <p class="mt-1 text-sm text-gray-500">Custom domains can be added from the website edit page.</p>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <%# Pagination %>
+  <%= render 'shared/pagination', pagy: @pagy %>
+
+  <!-- Websites Without Domains -->
+  <% if @websites_without_domains.any? %>
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="px-4 md:px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900 flex items-center">
+        <svg class="w-5 h-5 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+        </svg>
+        Live Websites Without Custom Domains
+      </h2>
+      <p class="mt-1 text-sm text-gray-500">These websites might benefit from a custom domain</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subdomain</th>
+            <th class="hidden md:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
+            <th class="hidden lg:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% @websites_without_domains.each do |website| %>
+            <tr>
+              <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <%= link_to website.subdomain, tenant_admin_website_path(website), class: "text-blue-600 hover:text-blue-800" %>
+              </td>
+              <td class="hidden md:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= website.company_display_name || "N/A" %>
+              </td>
+              <td class="hidden lg:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= website.created_at.strftime("%Y-%m-%d") %>
+              </td>
+              <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm">
+                <%= link_to "Add Domain", edit_tenant_admin_domain_path(website), class: "text-green-600 hover:text-green-800" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <% end %>
+</div>

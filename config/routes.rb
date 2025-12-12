@@ -51,6 +51,25 @@ Rails.application.routes.draw do
     resources :messages, only: %i[index show]
     resources :contacts, only: %i[index show]
 
+    # Subdomain Pool Management
+    resources :subdomains do
+      member do
+        post :release
+      end
+      collection do
+        post :release_expired
+        post :populate
+      end
+    end
+
+    # Custom Domain Management
+    resources :domains, only: %i[index show edit update] do
+      member do
+        post :verify
+        delete :remove
+      end
+    end
+
     # Security & Audit
     resources :auth_audit_logs, only: %i[index show] do
       collection do

@@ -1,0 +1,187 @@
+<div class="max-w-4xl mx-auto">
+  <div class="mb-6">
+    <%= link_to tenant_admin_subdomains_path, class: "text-blue-600 hover:text-blue-800 flex items-center text-sm" do %>
+      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Back to Subdomains
+    <% end %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 font-mono"><%= @subdomain.name %></h1>
+        <p class="mt-1 text-sm text-gray-500">Subdomain details and status</p>
+      </div>
+      <div class="flex gap-2">
+        <% case @subdomain.aasm_state %>
+        <% when 'available' %>
+          <span class="px-3 py-1 text-sm bg-green-100 text-green-800 rounded-full">Available</span>
+        <% when 'reserved' %>
+          <span class="px-3 py-1 text-sm bg-yellow-100 text-yellow-800 rounded-full">Reserved</span>
+        <% when 'allocated' %>
+          <span class="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-full">Allocated</span>
+        <% when 'released' %>
+          <span class="px-3 py-1 text-sm bg-gray-100 text-gray-800 rounded-full">Released</span>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="p-6">
+      <dl class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Name</dt>
+          <dd class="mt-1 text-lg font-mono text-gray-900"><%= @subdomain.name %></dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">State</dt>
+          <dd class="mt-1 text-lg text-gray-900"><%= @subdomain.aasm_state.titleize %></dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Website</dt>
+          <dd class="mt-1 text-lg text-gray-900">
+            <% if @subdomain.website %>
+              <%= link_to @subdomain.website.subdomain || "Website ##{@subdomain.website.id}", tenant_admin_website_path(@subdomain.website), class: "text-blue-600 hover:text-blue-800" %>
+            <% else %>
+              <span class="text-gray-400">Not allocated</span>
+            <% end %>
+          </dd>
+        </div>
+
+        <% if @subdomain.website %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Allocated To (Owner)</dt>
+          <dd class="mt-1 text-lg text-gray-900">
+            <% owner_membership = @subdomain.website.user_memberships.find_by(role: 'owner') || @subdomain.website.user_memberships.find_by(role: 'admin') %>
+            <% if owner_membership&.user %>
+              <div class="flex items-center">
+                <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center">
+                  <svg class="h-6 w-6 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <%= link_to owner_membership.user.email, tenant_admin_user_path(owner_membership.user), class: "text-blue-600 hover:text-blue-800 font-medium" %>
+                  <p class="text-sm text-gray-500">
+                    <%= owner_membership.role.titleize %>
+                    <% if owner_membership.user.confirmed_at %>
+                      <span class="ml-1 px-2 py-0.5 text-xs bg-green-100 text-green-800 rounded">Confirmed</span>
+                    <% else %>
+                      <span class="ml-1 px-2 py-0.5 text-xs bg-yellow-100 text-yellow-800 rounded">Unconfirmed</span>
+                    <% end %>
+                  </p>
+                </div>
+              </div>
+            <% else %>
+              <span class="text-gray-400">No owner assigned</span>
+            <% end %>
+          </dd>
+        </div>
+
+        <% # Show all users with access to this website %>
+        <% all_memberships = @subdomain.website.user_memberships.includes(:user).where.not(user: nil) %>
+        <% if all_memberships.count > 1 %>
+        <div class="md:col-span-2">
+          <dt class="text-sm font-medium text-gray-500">All Users with Access (<%= all_memberships.count %>)</dt>
+          <dd class="mt-2">
+            <div class="bg-gray-50 rounded-lg p-3">
+              <ul class="divide-y divide-gray-200">
+                <% all_memberships.each do |membership| %>
+                  <li class="py-2 flex items-center justify-between">
+                    <div class="flex items-center">
+                      <%= link_to membership.user.email, tenant_admin_user_path(membership.user), class: "text-blue-600 hover:text-blue-800" %>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <span class="px-2 py-0.5 text-xs rounded <%= membership.role == 'owner' ? 'bg-purple-100 text-purple-800' : membership.role == 'admin' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800' %>">
+                        <%= membership.role.titleize %>
+                      </span>
+                      <% if membership.active? %>
+                        <span class="px-2 py-0.5 text-xs bg-green-100 text-green-800 rounded">Active</span>
+                      <% else %>
+                        <span class="px-2 py-0.5 text-xs bg-red-100 text-red-800 rounded">Inactive</span>
+                      <% end %>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </dd>
+        </div>
+        <% end %>
+        <% end %>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Full URL</dt>
+          <dd class="mt-1 text-lg text-gray-900">
+            <a href="https://<%= @subdomain.name %>.propertywebbuilder.com" target="_blank" class="text-blue-600 hover:text-blue-800">
+              <%= @subdomain.name %>.propertywebbuilder.com
+              <svg class="inline w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            </a>
+          </dd>
+        </div>
+
+        <% if @subdomain.reserved_by_email.present? %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Reserved By</dt>
+          <dd class="mt-1 text-lg text-gray-900">
+            <% user = Pwb::User.unscoped.find_by(email: @subdomain.reserved_by_email) %>
+            <% if user %>
+              <%= link_to @subdomain.reserved_by_email, tenant_admin_user_path(user), class: "text-blue-600 hover:text-blue-800" %>
+            <% else %>
+              <%= @subdomain.reserved_by_email %>
+              <span class="ml-2 text-sm text-gray-500">(no account)</span>
+            <% end %>
+          </dd>
+        </div>
+        <% end %>
+
+        <% if @subdomain.reserved_at.present? %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Reserved At</dt>
+          <dd class="mt-1 text-lg text-gray-900"><%= @subdomain.reserved_at.strftime("%Y-%m-%d %H:%M:%S UTC") %></dd>
+        </div>
+        <% end %>
+
+        <% if @subdomain.reserved_until.present? %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Reservation Expires</dt>
+          <dd class="mt-1 text-lg text-gray-900">
+            <% if @subdomain.reserved_until < Time.current %>
+              <span class="text-red-600"><%= @subdomain.reserved_until.strftime("%Y-%m-%d %H:%M:%S UTC") %></span>
+              <span class="ml-2 px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">Expired</span>
+            <% else %>
+              <%= @subdomain.reserved_until.strftime("%Y-%m-%d %H:%M:%S UTC") %>
+              <span class="ml-2 text-sm text-gray-500">(in <%= time_ago_in_words(@subdomain.reserved_until) %>)</span>
+            <% end %>
+          </dd>
+        </div>
+        <% end %>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Created</dt>
+          <dd class="mt-1 text-lg text-gray-900"><%= @subdomain.created_at.strftime("%Y-%m-%d %H:%M:%S UTC") %></dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Updated</dt>
+          <dd class="mt-1 text-lg text-gray-900"><%= @subdomain.updated_at.strftime("%Y-%m-%d %H:%M:%S UTC") %></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-between">
+      <div>
+        <%= link_to "Edit", edit_tenant_admin_subdomain_path(@subdomain), class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm" %>
+        <% if @subdomain.reserved? || @subdomain.allocated? %>
+          <%= button_to "Release", release_tenant_admin_subdomain_path(@subdomain), method: :post, class: "ml-2 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 text-sm", data: { turbo_confirm: "Release this subdomain?" } %>
+        <% end %>
+      </div>
+      <%= button_to "Delete", tenant_admin_subdomain_path(@subdomain), method: :delete, class: "px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm", data: { turbo_confirm: "Are you sure you want to delete this subdomain?" } %>
+    </div>
+  </div>
+</div>
