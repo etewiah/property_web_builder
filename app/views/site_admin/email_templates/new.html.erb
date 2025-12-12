@@ -1,0 +1,19 @@
+<div class="max-w-4xl mx-auto">
+  <div class="mb-6">
+    <%= link_to site_admin_email_templates_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-gray-800" do %>
+      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      Back to Email Templates
+    <% end %>
+  </div>
+
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Customize Email Template</h1>
+    <p class="mt-2 text-gray-600">
+      <span class="font-medium"><%= Pwb::EmailTemplate::TEMPLATE_KEYS[@template_key] %></span>
+    </p>
+  </div>
+
+  <%= render 'form' %>
+</div>

@@ -1,0 +1,77 @@
+<div class="max-w-4xl mx-auto">
+  <div class="mb-6">
+    <%= link_to site_admin_email_templates_path, class: "inline-flex items-center text-sm text-gray-600 hover:text-gray-800" do %>
+      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      Back to Email Templates
+    <% end %>
+  </div>
+
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Default Template Preview</h1>
+    <p class="mt-2 text-gray-600">
+      Preview of <span class="font-medium"><%= Pwb::EmailTemplate::TEMPLATE_KEYS[@template_key] %></span> default template
+    </p>
+  </div>
+
+  <!-- Default Template Notice -->
+  <div class="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+    <div class="flex">
+      <svg class="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <div>
+        <p class="text-sm text-blue-700">
+          This is the <strong>default template</strong>. Click "Customize" to create your own version.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subject Preview -->
+  <div class="bg-white rounded-lg shadow mb-6">
+    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+      <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wide">Subject Line</h2>
+    </div>
+    <div class="px-6 py-4">
+      <p class="text-lg font-medium text-gray-900"><%= @preview[:subject] %></p>
+    </div>
+  </div>
+
+  <!-- HTML Preview -->
+  <div class="bg-white rounded-lg shadow mb-6">
+    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
+      <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wide">HTML Email</h2>
+      <span class="text-xs text-gray-400">How most email clients will display this</span>
+    </div>
+    <div class="p-6 bg-gray-100">
+      <div class="bg-white rounded shadow-sm p-6 max-w-2xl mx-auto">
+        <%= raw @preview[:body_html] %>
+      </div>
+    </div>
+  </div>
+
+  <% if @preview[:body_text].present? %>
+    <!-- Plain Text Preview -->
+    <div class="bg-white rounded-lg shadow mb-6">
+      <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
+        <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wide">Plain Text Version</h2>
+        <span class="text-xs text-gray-400">For email clients that don't support HTML</span>
+      </div>
+      <div class="px-6 py-4">
+        <pre class="text-sm font-mono whitespace-pre-wrap text-gray-700"><%= @preview[:body_text] %></pre>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Actions -->
+  <div class="flex justify-end space-x-3">
+    <%= link_to site_admin_email_templates_path, class: "px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50" do %>
+      Back to Templates
+    <% end %>
+    <%= link_to new_site_admin_email_template_path(template_key: @template_key), class: "px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700" do %>
+      Customize This Template
+    <% end %>
+  </div>
+</div>

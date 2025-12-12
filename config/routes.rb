@@ -121,6 +121,16 @@ Rails.application.routes.draw do
     resources :contacts, only: %i[index show]
     resources :users, only: %i[index show]
 
+    # Email template management
+    resources :email_templates do
+      member do
+        get :preview
+      end
+      collection do
+        get :preview_default
+      end
+    end
+
     # Storage statistics and orphan monitoring
     resource :storage_stats, only: [:show] do
       post :cleanup

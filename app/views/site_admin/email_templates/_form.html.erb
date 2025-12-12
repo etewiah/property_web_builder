@@ -1,0 +1,123 @@
+<%= form_with model: [:site_admin, @email_template], local: true, class: "space-y-6" do |f| %>
+  <% if @email_template.errors.any? %>
+    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+      <div class="flex">
+        <svg class="w-5 h-5 text-red-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <div>
+          <h3 class="text-sm font-medium text-red-800">Please fix the following errors:</h3>
+          <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+            <% @email_template.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :template_key %>
+
+  <div class="bg-white rounded-lg shadow">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Basic Settings</h2>
+    </div>
+    <div class="px-6 py-4 space-y-4">
+      <div>
+        <%= f.label :name, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :name, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+        <p class="mt-1 text-xs text-gray-500">A friendly name for this template (for your reference only)</p>
+      </div>
+
+      <div>
+        <%= f.label :description, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_area :description, rows: 2, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+
+      <div class="flex items-center">
+        <%= f.check_box :active, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+        <%= f.label :active, class: "ml-2 text-sm text-gray-700" %>
+        <span class="ml-2 text-xs text-gray-500">(Uncheck to use the default template instead)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Email Content</h2>
+    </div>
+    <div class="px-6 py-4 space-y-4">
+      <div>
+        <%= f.label :subject, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :subject, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-mono text-sm" %>
+        <p class="mt-1 text-xs text-gray-500">The email subject line. You can use variables like {{ visitor_name }}</p>
+      </div>
+
+      <div>
+        <%= f.label :body_html, "HTML Body", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_area :body_html, rows: 15, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-mono text-sm" %>
+        <p class="mt-1 text-xs text-gray-500">The main email content in HTML format</p>
+      </div>
+
+      <div>
+        <%= f.label :body_text, "Plain Text Body (Optional)", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_area :body_text, rows: 8, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-mono text-sm" %>
+        <p class="mt-1 text-xs text-gray-500">Optional plain text version for email clients that don't support HTML</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Available Variables -->
+  <div class="bg-white rounded-lg shadow">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Available Variables</h2>
+      <p class="mt-1 text-sm text-gray-500">Click to copy. Use these in your subject and body content.</p>
+    </div>
+    <div class="px-6 py-4">
+      <div class="flex flex-wrap gap-2">
+        <% variables = Pwb::EmailTemplate::TEMPLATE_VARIABLES[@email_template.template_key] || [] %>
+        <% variables.each do |var| %>
+          <button type="button"
+                  onclick="copyVariable('<%= var %>')"
+                  class="inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 font-mono">
+            {{ <%= var %> }}
+          </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between pt-4">
+    <div>
+      <% if @email_template.persisted? %>
+        <%= link_to "Delete Template", site_admin_email_template_path(@email_template),
+                    method: :delete,
+                    data: { confirm: "Are you sure? This will delete your customizations and use the default template." },
+                    class: "text-red-600 hover:text-red-800 text-sm" %>
+      <% end %>
+    </div>
+    <div class="flex space-x-3">
+      <%= link_to "Cancel", site_admin_email_templates_path, class: "px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50" %>
+      <%= f.submit @email_template.persisted? ? "Update Template" : "Create Template",
+                   class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer" %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  function copyVariable(varName) {
+    const text = `{{ ${varName} }}`;
+    navigator.clipboard.writeText(text).then(() => {
+      // Brief visual feedback
+      const btn = event.target.closest('button');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = 'Copied!';
+      btn.classList.add('bg-green-100', 'text-green-700');
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove('bg-green-100', 'text-green-700');
+      }, 1000);
+    });
+  }
+</script>

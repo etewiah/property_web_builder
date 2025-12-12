@@ -1,0 +1,99 @@
+<div class="max-w-7xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Email Templates</h1>
+    <p class="mt-2 text-gray-600">Customize the emails sent from your website</p>
+  </div>
+
+  <!-- Info Banner -->
+  <div class="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+    <div class="flex">
+      <svg class="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <div>
+        <h3 class="text-sm font-medium text-blue-800">How it works</h3>
+        <p class="mt-1 text-sm text-blue-700">
+          Each email type has a default template. You can customize any template by clicking "Customize".
+          Use variables like <code class="bg-blue-100 px-1 rounded">{{ visitor_name }}</code> to personalize emails.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Template Categories -->
+  <div class="space-y-8">
+    <% categories = @template_keys.group_by { |key, _| key.split('.').first } %>
+
+    <% categories.each do |category, templates| %>
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+          <h2 class="text-lg font-semibold text-gray-900 capitalize"><%= category.gsub('_', ' ') %> Emails</h2>
+        </div>
+
+        <div class="divide-y divide-gray-100">
+          <% templates.each do |template_key, template_name| %>
+            <% custom_template = @custom_templates[template_key] %>
+            <div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50">
+              <div class="flex items-center">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center mr-4 <%= custom_template ? 'bg-green-100' : 'bg-gray-100' %>">
+                  <svg class="w-5 h-5 <%= custom_template ? 'text-green-600' : 'text-gray-500' %>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900"><%= template_name %></h3>
+                  <p class="text-xs text-gray-500">
+                    <% if custom_template %>
+                      <span class="text-green-600">Customized</span>
+                      <% if !custom_template.active? %>
+                        <span class="text-orange-600 ml-2">(Inactive - using default)</span>
+                      <% end %>
+                    <% else %>
+                      Using default template
+                    <% end %>
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-center space-x-3">
+                <% if custom_template %>
+                  <%= link_to preview_site_admin_email_template_path(custom_template),
+                              class: 'inline-flex items-center px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800' do %>
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
+                    Preview
+                  <% end %>
+                  <%= link_to edit_site_admin_email_template_path(custom_template),
+                              class: 'inline-flex items-center px-3 py-1.5 border border-blue-600 text-blue-600 text-sm rounded hover:bg-blue-50' do %>
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                    Edit
+                  <% end %>
+                <% else %>
+                  <%= link_to preview_default_site_admin_email_templates_path(template_key: template_key),
+                              class: 'inline-flex items-center px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800' do %>
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
+                    Preview Default
+                  <% end %>
+                  <%= link_to new_site_admin_email_template_path(template_key: template_key),
+                              class: 'inline-flex items-center px-3 py-1.5 border border-green-600 text-green-600 text-sm rounded hover:bg-green-50' do %>
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Customize
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

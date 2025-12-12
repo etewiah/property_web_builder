@@ -26,6 +26,7 @@ module Pwb
     has_many :messages, class_name: 'Pwb::Message'
     has_many :website_photos
     has_many :field_keys, class_name: 'Pwb::FieldKey', foreign_key: :pwb_website_id
+    has_many :email_templates, class_name: 'Pwb::EmailTemplate', dependent: :destroy
 
     # Multi-website support via memberships
     has_many :user_memberships, dependent: :destroy

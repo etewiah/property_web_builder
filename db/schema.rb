@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_09_181022) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_12_113131) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -226,6 +226,23 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_09_181022) do
     t.index ["translations"], name: "index_pwb_contents_on_translations", using: :gin
     t.index ["website_id", "key"], name: "index_pwb_contents_on_website_id_and_key", unique: true
     t.index ["website_id"], name: "index_pwb_contents_on_website_id"
+  end
+
+  create_table "pwb_email_templates", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.text "body_html", null: false
+    t.text "body_text"
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name", null: false
+    t.string "subject", null: false
+    t.string "template_key", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "website_id", null: false
+    t.index ["active"], name: "index_pwb_email_templates_on_active"
+    t.index ["template_key"], name: "index_pwb_email_templates_on_template_key"
+    t.index ["website_id", "template_key"], name: "index_pwb_email_templates_on_website_id_and_template_key", unique: true
+    t.index ["website_id"], name: "index_pwb_email_templates_on_website_id"
   end
 
   create_table "pwb_features", id: :serial, force: :cascade do |t|
@@ -873,6 +890,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_09_181022) do
   add_foreign_key "pwb_auth_audit_logs", "pwb_users", column: "user_id"
   add_foreign_key "pwb_auth_audit_logs", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_contacts", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_email_templates", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_features", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_field_keys", "pwb_websites"
   add_foreign_key "pwb_messages", "pwb_websites", column: "website_id"
