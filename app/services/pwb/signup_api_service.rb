@@ -5,14 +5,18 @@ module Pwb
   # This service is called by the API endpoints and handles all business logic
   # for creating users, websites, and managing the provisioning process.
   #
+  # Uses token-based tracking instead of sessions to support cross-domain API calls.
+  #
   class SignupApiService
     class SignupError < StandardError; end
 
+    TOKEN_EXPIRY = 24.hours
+
     # Start the signup process
-    # Creates a lead user and optionally reserves a subdomain
+    # Creates a lead user, reserves a subdomain, and generates a signup token
     #
     # @param email [String] User's email address
-    # @return [Hash] { success: true, user: User, subdomain: String } or { success: false, errors: [] }
+    # @return [Hash] { success: true, user: User, subdomain: Subdomain, signup_token: String } or { success: false, errors: [] }
     #
     def start_signup(email:)
       email = email.to_s.strip.downcase
@@ -24,9 +28,19 @@ module Pwb
         if user
           # User exists - check if they have an incomplete signup
           if user.websites.empty?
-            # Return existing user for continuation
-            subdomain = SubdomainGenerator.generate
-            return { success: true, user: user, subdomain: subdomain }
+            # Check if they already have a reserved subdomain
+            existing_subdomain = Pwb::Subdomain.find_by(reserved_by_email: email, aasm_state: 'reserved')
+
+            # Generate new signup token for this user
+            token = generate_signup_token(user)
+
+            if existing_subdomain
+              return { success: true, user: user, subdomain: existing_subdomain, signup_token: token }
+            end
+
+            # Reserve a new subdomain for continuation
+            subdomain = reserve_subdomain_for_user(email)
+            return { success: true, user: user, subdomain: subdomain, signup_token: token }
           else
             # User already has a website
             return { success: false, errors: ["An account with this email already exists. Please sign in."] }
@@ -44,14 +58,33 @@ module Pwb
           return { success: false, errors: user.errors.full_messages }
         end
 
-        # Generate a suggested subdomain
-        subdomain = SubdomainGenerator.generate
+        # Generate signup token
+        token = generate_signup_token(user)
 
-        { success: true, user: user, subdomain: subdomain }
+        # Reserve a subdomain for this user
+        subdomain = reserve_subdomain_for_user(email)
+
+        { success: true, user: user, subdomain: subdomain, signup_token: token }
       end
     rescue StandardError => e
       Rails.logger.error "[SignupApiService] start_signup error: #{e.message}"
       { success: false, errors: [e.message] }
+    end
+
+    # Find user by signup token
+    # Returns nil if token is invalid or expired
+    #
+    # @param token [String] The signup token
+    # @return [Pwb::User, nil]
+    #
+    def find_user_by_token(token)
+      return nil if token.blank?
+
+      user = Pwb::User.find_by(signup_token: token)
+      return nil unless user
+      return nil if user.signup_token_expires_at && user.signup_token_expires_at < Time.current
+
+      user
     end
 
     # Configure the website
@@ -137,6 +170,46 @@ module Pwb
     end
 
     private
+
+    # Generate a unique signup token for a user
+    # Uses update_columns to skip validations (user may not have website yet)
+    #
+    # @param user [Pwb::User] The user to generate token for
+    # @return [String] The generated token
+    #
+    def generate_signup_token(user)
+      token = SecureRandom.urlsafe_base64(32)
+      user.update_columns(
+        signup_token: token,
+        signup_token_expires_at: TOKEN_EXPIRY.from_now
+      )
+      token
+    end
+
+    # Reserve a subdomain for a user during signup
+    # Creates a Subdomain record in 'reserved' state
+    #
+    # @param email [String] User's email
+    # @return [Pwb::Subdomain] The reserved subdomain
+    #
+    def reserve_subdomain_for_user(email)
+      # Use the class method if available, otherwise create directly
+      result = Pwb::Subdomain.reserve_for_email(email, duration: 24.hours)
+
+      if result[:subdomain]
+        result[:subdomain]
+      else
+        # Fallback: generate and create directly
+        subdomain_name = SubdomainGenerator.generate
+        Pwb::Subdomain.create!(
+          name: subdomain_name,
+          aasm_state: 'reserved',
+          reserved_by_email: email,
+          reserved_at: Time.current,
+          reserved_until: 24.hours.from_now
+        )
+      end
+    end
 
     def create_website_admin(user:, website:)
       # Create user membership with admin role
