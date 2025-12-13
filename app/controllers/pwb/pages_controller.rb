@@ -18,7 +18,12 @@ module Pwb
       # above does not get ordered correctly
       if @page.present?
         @page.ordered_visible_page_contents.each do |page_content|
-          @content_to_show.push page_content.content.raw
+          if page_content.is_rails_part
+            # Rails parts are rendered as partials in the view, skip content extraction
+            @content_to_show.push nil
+          else
+            @content_to_show.push page_content.content&.raw
+          end
           # Store page_content objects for edit mode
           @page_contents_for_edit.push page_content
         end

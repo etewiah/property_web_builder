@@ -278,7 +278,8 @@ Rails.application.routes.draw do
 
       get "/" => "welcome#index", as: "home"
       get "/p/:page_slug" => "pages#show_page", as: "show_page"
-      get "/p/:page_slug/:page_part_key" => "pages#show_page_part", as: "show_page_part"
+      # page_part_key can contain slashes like "cta/cta_split_image"
+      get "/p/:page_slug/*page_part_key" => "pages#show_page_part", as: "show_page_part"
       # get "/c/:page_slug" => "comfy#show"
 
       get "/properties/for-rent/:id/:url_friendly_title" => "props#show_for_rent", as: "prop_show_for_rent"
