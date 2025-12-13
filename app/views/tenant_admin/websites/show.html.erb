@@ -137,3 +137,211 @@
     </div>
   </div>
 </div>
+
+<!-- Provisioning Status Card -->
+<div class="p-4 my-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+  <div class="flex items-center justify-between mb-4">
+    <h3 class="text-lg font-semibold text-gray-900">Provisioning Status</h3>
+    <% if @website.failed? %>
+      <%= button_to retry_provisioning_tenant_admin_website_path(@website), method: :post, form: { data: { turbo_confirm: "Retry provisioning for this website?" } }, class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:ring-4 focus:ring-yellow-300" do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+        Retry Provisioning
+      <% end %>
+    <% end %>
+  </div>
+
+  <!-- Status Badge and Progress -->
+  <div class="mb-6">
+    <div class="flex items-center justify-between mb-2">
+      <div class="flex items-center space-x-3">
+        <span class="text-sm font-medium text-gray-700">Current State:</span>
+        <%
+          state_colors = {
+            'pending' => 'bg-gray-100 text-gray-800',
+            'subdomain_allocated' => 'bg-blue-100 text-blue-800',
+            'configuring' => 'bg-yellow-100 text-yellow-800',
+            'seeding' => 'bg-yellow-100 text-yellow-800',
+            'ready' => 'bg-green-100 text-green-800',
+            'live' => 'bg-green-100 text-green-800',
+            'failed' => 'bg-red-100 text-red-800',
+            'suspended' => 'bg-orange-100 text-orange-800',
+            'terminated' => 'bg-red-100 text-red-800'
+          }
+          state_icons = {
+            'pending' => '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="3"/></svg>',
+            'subdomain_allocated' => '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path></svg>',
+            'configuring' => '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>',
+            'seeding' => '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>',
+            'ready' => '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>',
+            'live' => '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>',
+            'failed' => '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>',
+            'suspended' => '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>',
+            'terminated' => '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>'
+          }
+          color_class = state_colors[@website.provisioning_state] || 'bg-gray-100 text-gray-800'
+        %>
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= color_class %>">
+          <%= raw(state_icons[@website.provisioning_state]) %>
+          <span class="ml-1"><%= @website.provisioning_state.humanize %></span>
+        </span>
+      </div>
+      <span class="text-sm font-medium text-gray-700"><%= @website.provisioning_progress %>%</span>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="w-full bg-gray-200 rounded-full h-2.5">
+      <%
+        progress_color = case @website.provisioning_state
+                         when 'failed' then 'bg-red-600'
+                         when 'suspended', 'terminated' then 'bg-orange-500'
+                         when 'live' then 'bg-green-600'
+                         else 'bg-blue-600'
+                         end
+      %>
+      <div class="<%= progress_color %> h-2.5 rounded-full transition-all duration-500" style="width: <%= @website.provisioning_progress %>%"></div>
+    </div>
+    <p class="mt-2 text-sm text-gray-500"><%= @website.provisioning_status_message %></p>
+  </div>
+
+  <!-- Provisioning Details Grid -->
+  <dl class="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div>
+      <dt class="text-sm font-medium text-gray-500">Site Type</dt>
+      <dd class="mt-1 text-sm text-gray-900"><%= @website.site_type&.humanize || "N/A" %></dd>
+    </div>
+    <div>
+      <dt class="text-sm font-medium text-gray-500">Seed Pack</dt>
+      <dd class="mt-1 text-sm text-gray-900"><%= @website.seed_pack_name || "N/A" %></dd>
+    </div>
+    <div>
+      <dt class="text-sm font-medium text-gray-500">Started At</dt>
+      <dd class="mt-1 text-sm text-gray-900">
+        <% if @website.provisioning_started_at %>
+          <%= @website.provisioning_started_at.strftime("%Y-%m-%d %H:%M:%S UTC") %>
+        <% else %>
+          N/A
+        <% end %>
+      </dd>
+    </div>
+    <div>
+      <dt class="text-sm font-medium text-gray-500">Completed At</dt>
+      <dd class="mt-1 text-sm text-gray-900">
+        <% if @website.provisioning_completed_at %>
+          <%= @website.provisioning_completed_at.strftime("%Y-%m-%d %H:%M:%S UTC") %>
+        <% else %>
+          N/A
+        <% end %>
+      </dd>
+    </div>
+  </dl>
+
+  <% if @website.provisioning_started_at && @website.provisioning_completed_at %>
+    <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+      <dt class="text-sm font-medium text-gray-500">Provisioning Duration</dt>
+      <dd class="mt-1 text-sm text-gray-900">
+        <% duration = @website.provisioning_completed_at - @website.provisioning_started_at %>
+        <% if duration < 60 %>
+          <%= duration.round(1) %> seconds
+        <% elsif duration < 3600 %>
+          <%= (duration / 60).round(1) %> minutes
+        <% else %>
+          <%= (duration / 3600).round(1) %> hours
+        <% end %>
+      </dd>
+    </div>
+  <% end %>
+
+  <!-- Error Section (only shown if there's an error) -->
+  <% if @website.provisioning_error.present? %>
+    <div class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+      <div class="flex items-start">
+        <svg class="w-5 h-5 text-red-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+        </svg>
+        <div class="ml-3 flex-1">
+          <h4 class="text-sm font-medium text-red-800">Provisioning Error</h4>
+          <p class="mt-1 text-sm text-red-700 font-mono bg-red-100 p-2 rounded overflow-x-auto">
+            <%= @website.provisioning_error %>
+          </p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Provisioning Timeline -->
+  <div class="mt-6">
+    <h4 class="text-sm font-medium text-gray-700 mb-3">Provisioning Steps</h4>
+    <div class="relative">
+      <%
+        steps = [
+          { state: 'pending', label: 'Pending', description: 'Waiting to start' },
+          { state: 'subdomain_allocated', label: 'Subdomain Allocated', description: 'Subdomain assigned to website' },
+          { state: 'configuring', label: 'Configuring', description: 'Setting up website defaults' },
+          { state: 'seeding', label: 'Seeding', description: 'Adding sample content' },
+          { state: 'ready', label: 'Ready', description: 'Setup complete, finalizing' },
+          { state: 'live', label: 'Live', description: 'Website is accessible' }
+        ]
+
+        state_order = %w[pending subdomain_allocated configuring seeding ready live]
+        current_index = state_order.index(@website.provisioning_state) || -1
+        is_failed = @website.failed?
+        is_suspended = @website.suspended?
+        is_terminated = @website.terminated?
+      %>
+
+      <ol class="relative border-l border-gray-200 ml-3">
+        <% steps.each_with_index do |step, index| %>
+          <%
+            is_completed = current_index > index || @website.live?
+            is_current = state_order[index] == @website.provisioning_state
+
+            if is_failed && is_current
+              dot_class = 'bg-red-500 ring-red-100'
+              text_class = 'text-red-600'
+            elsif is_completed
+              dot_class = 'bg-green-500 ring-green-100'
+              text_class = 'text-green-600'
+            elsif is_current
+              dot_class = 'bg-blue-500 ring-blue-100 animate-pulse'
+              text_class = 'text-blue-600'
+            else
+              dot_class = 'bg-gray-300 ring-gray-100'
+              text_class = 'text-gray-400'
+            end
+          %>
+          <li class="mb-6 ml-6">
+            <span class="absolute flex items-center justify-center w-6 h-6 rounded-full -left-3 ring-4 <%= dot_class %>">
+              <% if is_completed %>
+                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              <% elsif is_failed && is_current %>
+                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+              <% else %>
+                <span class="w-2 h-2 bg-white rounded-full"></span>
+              <% end %>
+            </span>
+            <h5 class="text-sm font-medium <%= text_class %>"><%= step[:label] %></h5>
+            <p class="text-xs text-gray-500"><%= step[:description] %></p>
+          </li>
+        <% end %>
+      </ol>
+
+      <% if is_failed || is_suspended || is_terminated %>
+        <div class="mt-4 p-3 rounded-lg <%= is_failed ? 'bg-red-50' : 'bg-orange-50' %>">
+          <p class="text-sm font-medium <%= is_failed ? 'text-red-800' : 'text-orange-800' %>">
+            <% if is_failed %>
+              Provisioning failed. Check the error message above and retry.
+            <% elsif is_suspended %>
+              Website has been suspended.
+            <% elsif is_terminated %>
+              Website has been terminated.
+            <% end %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

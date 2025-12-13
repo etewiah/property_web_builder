@@ -5,7 +5,7 @@ require 'pwb/contents_seeder'
 
 module TenantAdmin
   class WebsitesController < TenantAdminController
-    before_action :set_website, only: [:show, :edit, :update, :destroy, :seed]
+    before_action :set_website, only: [:show, :edit, :update, :destroy, :seed, :retry_provisioning]
 
     def index
       websites = Pwb::Website.unscoped.order(created_at: :desc)
@@ -54,6 +54,22 @@ module TenantAdmin
     def seed
       seed_website_content(@website, params[:skip_properties] == "1")
       redirect_to tenant_admin_website_path(@website), notice: "Website seeded successfully."
+    end
+
+    def retry_provisioning
+      unless @website.failed?
+        redirect_to tenant_admin_website_path(@website), alert: "Website is not in failed state."
+        return
+      end
+
+      service = Pwb::ProvisioningService.new
+      result = service.retry_provisioning(website: @website)
+
+      if result[:success]
+        redirect_to tenant_admin_website_path(@website), notice: "Provisioning completed successfully."
+      else
+        redirect_to tenant_admin_website_path(@website), alert: "Provisioning failed: #{result[:errors].join(', ')}"
+      end
     end
 
     def edit

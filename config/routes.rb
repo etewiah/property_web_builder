@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     resources :websites do
       member do
         post :seed
+        post :retry_provisioning
       end
       # Nested resources for tenant-specific data
       resources :users, only: %i[index show]
