@@ -1,0 +1,5 @@
+WAIT=10
+TIMEOUT=60
+ATTEMPTS=5
+
+/health "status":"ok"
