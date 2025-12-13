@@ -52,8 +52,9 @@ module Pwb
         return
       end
 
-      @content_html = @page_content.content&.raw
       @page_part_key = page_part_key
+      @is_rails_part = @page_content.is_rails_part
+      @content_html = @is_rails_part ? nil : @page_content.content&.raw
 
       render "/pwb/pages/show_page_part", layout: "pwb/page_part"
     end

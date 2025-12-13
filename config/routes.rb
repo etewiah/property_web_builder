@@ -305,7 +305,10 @@ Rails.application.routes.draw do
       get "/edit" => "editor#show", as: :editor
 
       namespace :editor do
-        resources :page_parts, only: %i[show update]
+        # page_part IDs can contain slashes like "faqs/faq_accordion"
+        get "page_parts/*id" => "page_parts#show", as: :page_part
+        patch "page_parts/*id" => "page_parts#update"
+        put "page_parts/*id" => "page_parts#update"
         resource :theme_settings, only: %i[show update]
         resources :images, only: %i[index create]
       end
