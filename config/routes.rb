@@ -454,6 +454,7 @@ Rails.application.routes.draw do
       get 'check_subdomain', to: 'signups#check_subdomain'
       get 'suggest_subdomain', to: 'signups#suggest_subdomain'
       get 'site_types', to: 'signups#site_types'
+      get 'lookup_subdomain', to: 'signups#lookup_subdomain'
     end
   end
 end

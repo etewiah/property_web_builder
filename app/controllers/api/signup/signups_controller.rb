@@ -8,12 +8,14 @@ module Api
     # Uses token-based tracking (not sessions) to support cross-domain API calls.
     # The signup_token returned from /start must be included in all subsequent requests.
     #
-    # POST /api/signup/start           - Start signup with email → returns signup_token
-    # POST /api/signup/configure       - Configure subdomain and site type (requires signup_token)
-    # POST /api/signup/provision       - Trigger website provisioning (requires signup_token)
-    # GET  /api/signup/status          - Get provisioning status (requires signup_token)
-    # GET  /api/signup/check_subdomain - Check subdomain availability
+    # POST /api/signup/start             - Start signup with email → returns signup_token
+    # POST /api/signup/configure         - Configure subdomain and site type (requires signup_token)
+    # POST /api/signup/provision         - Trigger website provisioning (requires signup_token)
+    # GET  /api/signup/status            - Get provisioning status (requires signup_token)
+    # GET  /api/signup/check_subdomain   - Check subdomain availability
     # GET  /api/signup/suggest_subdomain - Get random subdomain suggestion
+    # GET  /api/signup/site_types        - Get available site types
+    # GET  /api/signup/lookup_subdomain  - Look up full subdomain by email
     #
     class SignupsController < Api::BaseController
       before_action :load_signup_user_from_token, only: [:configure, :provision, :status]
@@ -246,6 +248,62 @@ module Api
         ]
 
         json_response(site_types: types)
+      end
+
+      # GET /api/signup/lookup_subdomain
+      # Look up the full subdomain for a user by email
+      #
+      # Params:
+      #   email (required) - User's email address
+      #
+      # Returns:
+      #   { success: true, email: "user@example.com", subdomain: "my-site", full_subdomain: "my-site.propertywebbuilder.com" }
+      #
+      def lookup_subdomain
+        email = params[:email]&.strip&.downcase
+
+        if email.blank? || !email.match?(URI::MailTo::EMAIL_REGEXP)
+          return error_response("Please provide a valid email address", status: :bad_request)
+        end
+
+        # First check for a user with a website
+        user = Pwb::User.find_by(email: email)
+
+        if user
+          website = user.websites.first
+          if website
+            base_domain = ENV.fetch('BASE_DOMAIN', 'propertywebbuilder.com')
+            full_subdomain = "#{website.subdomain}.#{base_domain}"
+
+            return success_response(
+              email: email,
+              subdomain: website.subdomain,
+              full_subdomain: full_subdomain,
+              website_live: website.live?,
+              website_url: website.live? ? website.primary_url : nil
+            )
+          end
+        end
+
+        # Check for a reserved subdomain (signup in progress)
+        reserved_subdomain = Pwb::Subdomain.find_by(reserved_by_email: email, aasm_state: 'reserved')
+
+        if reserved_subdomain
+          base_domain = ENV.fetch('BASE_DOMAIN', 'propertywebbuilder.com')
+          full_subdomain = "#{reserved_subdomain.name}.#{base_domain}"
+
+          return success_response(
+            email: email,
+            subdomain: reserved_subdomain.name,
+            full_subdomain: full_subdomain,
+            website_live: false,
+            status: 'reserved',
+            message: 'Subdomain is reserved but website not yet provisioned'
+          )
+        end
+
+        # No subdomain found for this email
+        error_response("No subdomain found for this email address", status: :not_found)
       end
 
       private
