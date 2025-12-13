@@ -15,14 +15,14 @@
   </div>
 
   <!-- Pages List -->
-  <div class="bg-white rounded-lg shadow overflow-hidden">
+  <div class="space-y-3">
     <% if @pages.any? %>
-      <div class="divide-y divide-gray-200">
         <% @pages.each do |page| %>
           <% page_parts_count = page.page_parts.where(website_id: current_website&.id, show_in_editor: true).count %>
           <% page_path = page.slug == 'home' ? '/' : "/p/#{page.slug}" %>
           <% public_url = "#{request.protocol}#{request.host_with_port}#{page_path}" %>
 
+      <div class="bg-white rounded-lg shadow overflow-hidden">
           <div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
             <div class="flex items-center flex-1">
               <!-- Page Icon -->
@@ -71,10 +71,10 @@
               <% end %>
             </div>
           </div>
-        <% end %>
       </div>
+        <% end %>
     <% else %>
-      <div class="px-6 py-12 text-center text-gray-500">
+      <div class="bg-white rounded-lg shadow overflow-hidden px-6 py-12 text-center text-gray-500">
         <svg class="mx-auto h-12 w-12 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
         </svg>
