@@ -117,7 +117,8 @@
       "Bash(RAILS_ENV=development bin/rails tls:check:*)",
       "Bash(RAILS_ENV=e2e bin/rails db:migrate:status:*)",
       "Bash(RAILS_ENV=e2e bin/rails theme:list:*)",
-      "Bash(RAILS_ENV=e2e bin/rails:*)"
+      "Bash(RAILS_ENV=e2e bin/rails:*)",
+      "Bash(Settings\" nav item to \"Labels\" at same level\n- Updated all views to use new routes consistently\n\nRoutes:\n- GET/PATCH /pages/:id/settings - page metadata (slug, nav visibility)\n- GET /pages/:id/edit - page parts management with previews\n- PATCH /pages/:id/reorder_parts - save drag-drop order\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

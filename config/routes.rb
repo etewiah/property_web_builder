@@ -137,7 +137,13 @@ Rails.application.routes.draw do
         end
       end
     end
-    resources :pages, only: %i[index show edit update] do
+    resources :pages, only: %i[index show update] do
+      member do
+        get :settings
+        patch :settings, action: :update_settings
+        get :edit  # New edit page with page parts management
+        patch :reorder_parts  # For drag-drop reordering
+      end
       # Nested page parts for editing content blocks
       resources :page_parts, controller: 'pages/page_parts', only: %i[show edit update] do
         member do
