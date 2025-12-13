@@ -15,10 +15,10 @@
       <!-- Brand & Social Column -->
       <div class="lg:col-span-4">
         <div class="mb-8">
-          <% if @current_website.agency&.logo&.attached? %>
-            <%= image_tag @current_website.agency.logo,
-                  class: "h-12 w-auto brightness-0 invert opacity-80",
-                  alt: @current_website.company_display_name %>
+          <% if @current_website.logo_url.present? %>
+            <img src="<%= @current_website.logo_url %>"
+                 class="h-12 w-auto brightness-0 invert opacity-80"
+                 alt="<%= @current_website.company_display_name %>">
           <% else %>
             <div class="flex items-center space-x-3">
               <div class="w-12 h-12 bg-gradient-to-br from-terra-400 to-terra-600 rounded-soft flex items-center justify-center">
