@@ -386,5 +386,147 @@ namespace :pwb do
         puts Pwb::SubdomainGenerator.generate
       end
     end
+
+    # =========================================================================
+    # Bulk Provisioning Tasks
+    # =========================================================================
+
+    desc "Provision websites for a list of emails (use EMAILS='a@b.com,c@d.com' or FILE=path/to/emails.txt)"
+    task bulk_provision: :environment do
+      emails = if ENV['EMAILS']
+                 ENV['EMAILS'].split(',').map(&:strip)
+               elsif ENV['FILE']
+                 File.readlines(ENV['FILE']).map(&:strip).reject(&:empty?)
+               else
+                 puts "Usage:"
+                 puts "  rake pwb:provisioning:bulk_provision EMAILS='user1@example.com,user2@example.com'"
+                 puts "  rake pwb:provisioning:bulk_provision FILE=path/to/emails.txt"
+                 puts ""
+                 puts "Options:"
+                 puts "  SITE_TYPE=residential|commercial|vacation_rental (default: residential)"
+                 puts "  DRY_RUN=true  - Preview what would happen without making changes"
+                 exit 1
+               end
+
+      site_type = ENV.fetch('SITE_TYPE', 'residential')
+      dry_run = ENV['DRY_RUN'] == 'true'
+
+      unless %w[residential commercial vacation_rental].include?(site_type)
+        puts "Invalid SITE_TYPE: #{site_type}"
+        puts "Must be one of: residential, commercial, vacation_rental"
+        exit 1
+      end
+
+      puts "\n=== Bulk Provisioning ==="
+      puts "Emails: #{emails.count}"
+      puts "Site type: #{site_type}"
+      puts "Mode: #{dry_run ? 'DRY RUN' : 'LIVE'}"
+      puts "=" * 50
+
+      service = Pwb::ProvisioningService.new
+      results = { success: [], failed: [], skipped: [] }
+
+      emails.each_with_index do |email, index|
+        puts "\n[#{index + 1}/#{emails.count}] #{email}"
+
+        # Validate email format
+        unless email.match?(URI::MailTo::EMAIL_REGEXP)
+          puts "  SKIPPED: Invalid email format"
+          results[:skipped] << { email: email, reason: 'Invalid email format' }
+          next
+        end
+
+        # Check if user already exists with a website
+        existing_user = Pwb::User.find_by(email: email)
+        if existing_user&.websites&.any?
+          website = existing_user.websites.first
+          puts "  SKIPPED: Already has website '#{website.subdomain}' (#{website.provisioning_state})"
+          results[:skipped] << { email: email, reason: "Already has website: #{website.subdomain}" }
+          next
+        end
+
+        if dry_run
+          puts "  DRY RUN: Would provision new website"
+          results[:success] << { email: email, subdomain: '(dry run)' }
+          next
+        end
+
+        begin
+          # Step 1: Start signup
+          result = service.start_signup(email: email)
+          unless result[:success]
+            puts "  FAILED at start_signup: #{result[:errors]&.join(', ') || 'Unknown error'}"
+            results[:failed] << { email: email, step: 'start_signup', error: result[:errors] }
+            next
+          end
+          user = result[:user]
+          subdomain = result[:subdomain]
+          puts "  Created user, reserved subdomain: #{subdomain&.name}"
+
+          # Step 2: Configure site
+          result = service.configure_site(
+            user: user,
+            subdomain_name: subdomain&.name,
+            site_type: site_type
+          )
+          unless result[:success]
+            puts "  FAILED at configure_site: #{result[:errors]&.join(', ') || 'Unknown error'}"
+            results[:failed] << { email: email, step: 'configure_site', error: result[:errors] }
+            next
+          end
+          website = result[:website]
+          puts "  Configured website: #{website.subdomain}"
+
+          # Step 3: Provision
+          result = service.provision_website(website: website) do |progress|
+            print "\r  Provisioning: #{progress[:percentage]}% - #{progress[:message]}".ljust(60)
+          end
+          puts "" # newline after progress
+
+          unless result[:success]
+            puts "  FAILED at provision_website: #{result[:errors]&.join(', ') || 'Unknown error'}"
+            results[:failed] << { email: email, step: 'provision_website', error: result[:errors] }
+            next
+          end
+
+          website.reload
+          base_domain = ENV.fetch('BASE_DOMAIN', 'propertywebbuilder.com')
+          puts "  SUCCESS: #{website.subdomain}.#{base_domain}"
+          results[:success] << { email: email, subdomain: website.subdomain }
+
+        rescue StandardError => e
+          puts "  ERROR: #{e.message}"
+          results[:failed] << { email: email, step: 'exception', error: e.message }
+        end
+      end
+
+      # Summary
+      puts "\n" + "=" * 50
+      puts "=== Summary ==="
+      puts "Successful: #{results[:success].count}"
+      puts "Failed:     #{results[:failed].count}"
+      puts "Skipped:    #{results[:skipped].count}"
+
+      if results[:success].any?
+        puts "\nProvisioned websites:"
+        results[:success].each do |r|
+          puts "  #{r[:email]} -> #{r[:subdomain]}"
+        end
+      end
+
+      if results[:failed].any?
+        puts "\nFailed:"
+        results[:failed].each do |r|
+          puts "  #{r[:email]} (#{r[:step]}): #{r[:error]}"
+        end
+      end
+
+      if results[:skipped].any?
+        puts "\nSkipped:"
+        results[:skipped].each do |r|
+          puts "  #{r[:email]}: #{r[:reason]}"
+        end
+      end
+    end
   end
 end
