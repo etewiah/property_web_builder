@@ -468,16 +468,12 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2.5rem;
 }
 
 /* Wider container on very large screens */
 @media (min-width: 1600px) {
   .brisbane-theme .services-container {
     max-width: 1600px;
-    gap: 3rem;
   }
 }
 
@@ -537,10 +533,6 @@
 }
 
 @media (max-width: 768px) {
-  .brisbane-theme .services-container {
-    grid-template-columns: 1fr;
-  }
-
   .brisbane-theme .services-section-wrapper {
     padding: 3rem 0;
   }

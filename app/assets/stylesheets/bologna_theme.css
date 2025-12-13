@@ -554,9 +554,6 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
 }
 
 .bologna-theme .service-card {
@@ -634,10 +631,6 @@
 }
 
 @media (max-width: 768px) {
-  .bologna-theme .services-container {
-    grid-template-columns: 1fr;
-  }
-
   .bologna-theme .services-section-wrapper {
     padding: 4rem 0;
   }
