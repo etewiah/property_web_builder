@@ -90,3 +90,4 @@ production:
   database: pwb_production
   username: pwb
   password: <%= ENV['PWB_DATABASE_PASSWORD'] %>
+  prepared_statements: false
