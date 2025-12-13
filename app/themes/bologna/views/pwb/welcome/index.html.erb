@@ -47,12 +47,12 @@
         <%= t('pwb.home.cta_description', default: 'Browse our collection of properties or get in touch with our team for personalized assistance.') %>
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="<%= pwb.buy_path %>"
+        <a href="<%= buy_path %>"
            class="inline-flex items-center px-8 py-4 bg-terra-500 text-white font-medium rounded-pill hover:bg-terra-600 transition-all duration-300 shadow-soft hover:shadow-medium">
           <i class="ph ph-magnifying-glass mr-2"></i>
           <%= t('pwb.home.browse_properties', default: 'Browse Properties') %>
         </a>
-        <a href="<%= pwb.page_path('contact') %>"
+        <a href="<%= page_path('contact') %>"
            class="inline-flex items-center px-8 py-4 bg-white text-warm-gray-700 font-medium rounded-pill border-2 border-warm-gray-200 hover:border-terra-300 hover:text-terra-600 transition-all duration-300">
           <i class="ph ph-chat-circle-text mr-2"></i>
           <%= t('pwb.home.contact_us', default: 'Contact Us') %>

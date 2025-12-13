@@ -9,3 +9,5 @@
 //= link pwb/editor_panels.css
 
 //= link pwb/themes/default.css
+//= link brisbane_theme.css
+//= link bologna_theme.css

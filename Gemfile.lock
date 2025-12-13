@@ -421,6 +421,7 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0, >= 2.0.3)
       version_gem (~> 1.1, >= 1.1.9)
+    obscenity (1.0.2)
     oj (3.16.13)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
@@ -803,6 +804,7 @@ DEPENDENCIES
   mission_control-jobs (~> 0.3)
   mobility
   money-rails (~> 1.15)
+  obscenity (~> 1.0)
   oj
   omniauth (~> 2.1)
   omniauth-facebook

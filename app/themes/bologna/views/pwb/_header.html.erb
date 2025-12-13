@@ -4,7 +4,7 @@
     <div class="flex items-center justify-between">
 
       <%# Logo - Clean and Simple %>
-      <a href="<%= pwb.root_path %>" class="flex items-center space-x-3 group">
+      <a href="<%= root_path %>" class="flex items-center space-x-3 group">
         <% if @current_website.agency&.logo&.attached? %>
           <%= image_tag @current_website.agency.logo,
                 class: "h-10 w-auto transition-transform duration-300 group-hover:scale-105",
@@ -31,12 +31,12 @@
         <% end %>
 
         <%# Search Link with Icon %>
-        <a href="<%= pwb.buy_path %>"
+        <a href="<%= buy_path %>"
            class="px-4 py-2 text-sm font-medium text-warm-gray-600 hover:text-terra-600 hover:bg-terra-50 rounded-pill transition-all duration-200 flex items-center space-x-1">
           <i class="ph ph-magnifying-glass"></i>
           <span><%= t("pwb.navbar.buy", default: "Buy") %></span>
         </a>
-        <a href="<%= pwb.rent_path %>"
+        <a href="<%= rent_path %>"
            class="px-4 py-2 text-sm font-medium text-warm-gray-600 hover:text-terra-600 hover:bg-terra-50 rounded-pill transition-all duration-200 flex items-center space-x-1">
           <i class="ph ph-key"></i>
           <span><%= t("pwb.navbar.rent", default: "Rent") %></span>
@@ -68,7 +68,7 @@
         <% end %>
 
         <%# Contact CTA %>
-        <a href="<%= pwb.page_path('contact') %>"
+        <a href="<%= page_path('contact') %>"
            class="hidden md:inline-flex items-center px-5 py-2.5 bg-terra-500 text-white text-sm font-medium rounded-pill
                   hover:bg-terra-600 transition-all duration-200 shadow-soft hover:shadow-medium">
           <i class="ph ph-chat-circle-text mr-2"></i>
@@ -134,17 +134,17 @@
             <%= link.link_title %>
           </a>
         <% end %>
-        <a href="<%= pwb.buy_path %>"
+        <a href="<%= buy_path %>"
            class="flex items-center px-5 py-3 text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600 border-b border-warm-gray-50 transition-colors">
           <i class="ph ph-magnifying-glass mr-3"></i>
           <%= t("pwb.navbar.buy", default: "Buy") %>
         </a>
-        <a href="<%= pwb.rent_path %>"
+        <a href="<%= rent_path %>"
            class="flex items-center px-5 py-3 text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600 border-b border-warm-gray-50 transition-colors">
           <i class="ph ph-key mr-3"></i>
           <%= t("pwb.navbar.rent", default: "Rent") %>
         </a>
-        <a href="<%= pwb.page_path('contact') %>"
+        <a href="<%= page_path('contact') %>"
            class="flex items-center px-5 py-3 bg-terra-500 text-white font-medium">
           <i class="ph ph-chat-circle-text mr-3"></i>
           <%= t("pwb.navbar.contactUs", default: "Contact") %>

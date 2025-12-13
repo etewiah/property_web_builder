@@ -16,6 +16,7 @@ module Pwb
     RESERVED_NAMES = Website::RESERVED_SUBDOMAINS
 
     validate :name_not_reserved
+    validate :name_not_profane
 
     scope :available, -> { where(aasm_state: 'available') }
     scope :reserved, -> { where(aasm_state: 'reserved') }
@@ -167,6 +168,13 @@ module Pwb
       return if name.blank?
       if RESERVED_NAMES.include?(name.downcase)
         errors.add(:name, "is reserved and cannot be used")
+      end
+    end
+
+    def name_not_profane
+      return if name.blank?
+      if Obscenity.profane?(name.gsub('-', ' '))
+        errors.add(:name, "contains inappropriate language")
       end
     end
   end

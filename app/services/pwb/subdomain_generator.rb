@@ -102,6 +102,11 @@ module Pwb
           errors << "is reserved and cannot be used"
         end
 
+        # Profanity check
+        if Obscenity.profane?(normalized.gsub('-', ' '))
+          errors << "contains inappropriate language"
+        end
+
         # Availability check
         if errors.empty?
           if Website.exists?(subdomain: normalized)

@@ -16,7 +16,7 @@
           <p class="text-warm-gray-500 mt-2"><%= subtitle %></p>
         <% end %>
       </div>
-      <a href="<%= rent_or_sale == 'for_sale' ? pwb.buy_path : pwb.rent_path %>"
+      <a href="<%= rent_or_sale == 'for_sale' ? buy_path : rent_path %>"
          class="inline-flex items-center text-terra-600 font-medium hover:text-terra-700 transition-colors group">
         <span><%= t('pwb.properties.view_all', default: 'View All Properties') %></span>
         <i class="ph ph-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>

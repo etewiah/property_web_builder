@@ -159,9 +159,10 @@ module Pwb
               length: { minimum: 2, maximum: 63, allow_blank: true }
 
     # Reserved subdomains that cannot be used by tenants
-    RESERVED_SUBDOMAINS = %w[www api admin app mail ftp smtp pop imap ns1 ns2 localhost staging test demo].freeze
+    RESERVED_SUBDOMAINS = %w[www api admin app mail ftp smtp pop imap ns1 ns2 localhost staging test].freeze
 
     validate :subdomain_not_reserved
+    validate :subdomain_not_profane
 
     # Custom domain validations
     validates :custom_domain,
@@ -531,6 +532,13 @@ module Pwb
       return if subdomain.blank?
       if RESERVED_SUBDOMAINS.include?(subdomain.downcase)
         errors.add(:subdomain, "is reserved and cannot be used")
+      end
+    end
+
+    def subdomain_not_profane
+      return if subdomain.blank?
+      if Obscenity.profane?(subdomain.gsub('-', ' '))
+        errors.add(:subdomain, "contains inappropriate language")
       end
     end
 

@@ -200,6 +200,9 @@ gem 'pagy', '~> 43.0'
 # State machines for workflow management
 gem 'aasm', '~> 5.5'
 
+# Profanity filter for subdomain validation
+gem 'obscenity', '~> 1.0'
+
 # Security - Rate limiting for brute force protection
 gem 'rack-attack', '~> 6.7'
 

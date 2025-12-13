@@ -11,7 +11,7 @@
     <nav class="mb-6">
       <ol class="flex items-center space-x-2 text-sm">
         <li>
-          <a href="<%= pwb.root_path %>" class="text-warm-gray-500 hover:text-terra-600 transition-colors">
+          <a href="<%= root_path %>" class="text-warm-gray-500 hover:text-terra-600 transition-colors">
             <i class="ph ph-house mr-1"></i>
             <%= t('pwb.breadcrumb.home', default: 'Home') %>
           </a>
@@ -20,7 +20,7 @@
           <i class="ph ph-caret-right text-xs"></i>
         </li>
         <li>
-          <a href="<%= @property_details.for_sale? ? pwb.buy_path : pwb.rent_path %>"
+          <a href="<%= @property_details.for_sale? ? buy_path : rent_path %>"
              class="text-warm-gray-500 hover:text-terra-600 transition-colors">
             <%= @property_details.for_sale? ? t('pwb.breadcrumb.buy', default: 'Buy') : t('pwb.breadcrumb.rent', default: 'Rent') %>
           </a>
