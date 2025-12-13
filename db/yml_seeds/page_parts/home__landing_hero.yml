@@ -7,7 +7,7 @@
       "tabTitleKey": "pageSections.landingHero.title",
       "tabInfoKey": "pageSections.landingHero.info",
       "default_sort_order": 1,
-      "default_visible_on_page": true,
+      "default_visible_on_page": false,
       "editorBlocks": [
         [
         {

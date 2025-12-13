@@ -87,13 +87,13 @@ nl:
         Vertel ons precies wat je zoekt en wij vinden die ideale woning
         die aan al je wensen en budget voldoet.
       feature_1_link: /search/buy
-      feature_2_icon: fa-user-tie
+      feature_2_icon: fa-user
       feature_2_title: Professionele Makelaars
       feature_2_description: >
         Onze ervaren makelaars regelen alle papierwerk en onderhandelingen,
         waardoor je tijd en geld bespaart tijdens het hele proces.
       feature_2_link: /about
-      feature_3_icon: fa-hand-holding-usd
+      feature_3_icon: fa-money
       feature_3_title: Verkoop Je Woning
       feature_3_description: >
         Krijg de beste prijs voor je woning met onze bewezen marketingstrategieën

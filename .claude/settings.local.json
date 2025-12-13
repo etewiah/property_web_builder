@@ -114,7 +114,10 @@
       "Bash(RAILS_ENV=e2e bin/rails playwright:seed:*)",
       "Bash(npx playwright test:*)",
       "Bash(timeout 10 bin/rails server:*)",
-      "Bash(RAILS_ENV=development bin/rails tls:check:*)"
+      "Bash(RAILS_ENV=development bin/rails tls:check:*)",
+      "Bash(RAILS_ENV=e2e bin/rails db:migrate:status:*)",
+      "Bash(RAILS_ENV=e2e bin/rails theme:list:*)",
+      "Bash(RAILS_ENV=e2e bin/rails:*)"
     ],
     "deny": [],
     "ask": []

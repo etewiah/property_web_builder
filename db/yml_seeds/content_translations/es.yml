@@ -87,13 +87,13 @@ es:
         Cuéntanos exactamente lo que buscas y encontraremos esa propiedad ideal
         que satisfaga todas tus necesidades y presupuesto.
       feature_1_link: /search/buy
-      feature_2_icon: fa-user-tie
+      feature_2_icon: fa-user
       feature_2_title: Agentes Profesionales
       feature_2_description: >
         Nuestros agentes experimentados manejan todo el papeleo y las negociaciones,
         ahorrándote tiempo y dinero durante todo el proceso.
       feature_2_link: /about
-      feature_3_icon: fa-hand-holding-usd
+      feature_3_icon: fa-money
       feature_3_title: Vende tu Propiedad
       feature_3_description: >
         Obtén el mejor precio por tu propiedad con nuestras estrategias de marketing probadas

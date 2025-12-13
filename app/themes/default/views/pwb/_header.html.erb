@@ -1,4 +1,15 @@
-<!-- Bristol Theme Header - Tailwind CSS + Flowbite -->
+<!-- Default Theme Header - Tailwind CSS + Flowbite -->
+<!-- Fix for Bootstrap .hidden !important conflict -->
+<style>
+  .nav-menu-desktop {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .nav-menu-desktop {
+      display: block;
+    }
+  }
+</style>
 <!-- Top Bar -->
 <header class="bg-gray-800 text-white">
   <div class="container mx-auto px-4">
@@ -54,7 +65,7 @@
       </button>
 
       <!-- Navigation Links -->
-      <div class="hidden w-full md:block md:w-auto" id="navbar-main">
+      <div class="nav-menu-desktop w-full md:w-auto" id="navbar-main">
         <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
           <% @current_website.links.ordered_visible_top_nav.each do |page| %>
             <% next if page.slug == "top_nav_admin" %>
