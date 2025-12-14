@@ -96,7 +96,7 @@ module Pwb
       end
     end
 
-    # Step 3: Configure site - set subdomain and site type
+    # Step 3: Configure site - set subdomain and site type, create owner
     def configure_site(user:, subdomain_name:, site_type:)
       @errors = []
 
@@ -119,7 +119,7 @@ module Pwb
         # Start onboarding if not already
         user.start_onboarding! if user.may_start_onboarding?
 
-        # Create the website
+        # Create the website in pending state
         website = Website.new(
           subdomain: validation[:normalized],
           site_type: site_type,
@@ -132,13 +132,13 @@ module Pwb
           raise ActiveRecord::Rollback
         end
 
-        # Allocate subdomain to website
+        # Allocate subdomain to website in the pool
         pool_subdomain = Subdomain.find_by(name: validation[:normalized])
         if pool_subdomain
           pool_subdomain.allocate!(website) if pool_subdomain.may_allocate?
         end
 
-        # Create owner membership
+        # Create owner membership - this is required for provisioning to proceed
         membership = UserMembership.create!(
           user: user,
           website: website,
@@ -150,8 +150,12 @@ module Pwb
         user.update!(website: website)
         user.update!(onboarding_step: 3)
 
-        # Transition website state
-        website.allocate_subdomain!
+        # Transition to owner_assigned state (guard verifies owner exists)
+        unless website.may_assign_owner?
+          @errors << "Failed to verify owner assignment"
+          raise ActiveRecord::Rollback
+        end
+        website.assign_owner!
 
         result = success_result(user: user, website: website, membership: membership)
       end
@@ -163,48 +167,109 @@ module Pwb
     end
 
     # Step 4: Provision website - run seeding and configuration
+    # Uses granular state transitions with guards to ensure each step completes
     # Optionally pass a block to receive progress updates
-    def provision_website(website:, &progress_block)
+    def provision_website(website:, skip_properties: false, &progress_block)
       @errors = []
 
       begin
-        # Start configuring
-        website.start_configuring!
-        report_progress(progress_block, website, 'configuring', 40)
+        Rails.logger.info("[Provisioning] Starting provisioning for website #{website.id} (#{website.subdomain})")
 
-        # Apply base configuration
-        configure_website_defaults(website)
+        # Verify we're in a valid starting state
+        unless website.owner_assigned? || website.pending?
+          @errors << "Website must be in 'pending' or 'owner_assigned' state to provision (current: #{website.provisioning_state})"
+          return failure_result
+        end
 
-        # Start seeding
-        website.start_seeding!
-        report_progress(progress_block, website, 'seeding', 70)
+        # If pending, we need an owner first
+        if website.pending?
+          unless website.has_owner?
+            @errors << "Website must have an owner before provisioning"
+            return failure_result
+          end
+          website.assign_owner!
+        end
 
-        # Run seed pack
-        run_seed_pack(website)
+        report_progress(progress_block, website, 'owner_assigned', 15)
 
-        # Mark ready
+        # Step 1: Create agency
+        Rails.logger.info("[Provisioning] Creating agency for website #{website.id}")
+        create_agency_for_website(website)
+
+        unless website.has_agency?
+          fail_with_details(website, "Agency creation failed - no agency record found")
+          return failure_result
+        end
+        website.complete_agency!
+        report_progress(progress_block, website, 'agency_created', 30)
+
+        # Step 2: Create navigation links
+        Rails.logger.info("[Provisioning] Creating links for website #{website.id}")
+        create_links_for_website(website)
+
+        unless website.has_links?
+          fail_with_details(website, "Links creation failed - need at least 3 links, have #{website.links.count}")
+          return failure_result
+        end
+        website.complete_links!
+        report_progress(progress_block, website, 'links_created', 45)
+
+        # Step 3: Create field keys
+        Rails.logger.info("[Provisioning] Creating field keys for website #{website.id}")
+        create_field_keys_for_website(website)
+
+        unless website.has_field_keys?
+          fail_with_details(website, "Field keys creation failed - need at least 5, have #{website.field_keys.count}")
+          return failure_result
+        end
+        website.complete_field_keys!
+        report_progress(progress_block, website, 'field_keys_created', 60)
+
+        # Step 4: Seed properties (optional)
+        Rails.logger.info("[Provisioning] Seeding properties for website #{website.id} (skip=#{skip_properties})")
+        if skip_properties
+          website.skip_properties!
+        else
+          seed_properties_for_website(website)
+          website.seed_properties!
+        end
+        report_progress(progress_block, website, 'properties_seeded', 80)
+
+        # Step 5: Final verification and mark ready
+        Rails.logger.info("[Provisioning] Final verification for website #{website.id}")
+        unless website.provisioning_complete?
+          missing = website.provisioning_missing_items
+          fail_with_details(website, "Provisioning incomplete - missing: #{missing.join(', ')}")
+          return failure_result
+        end
         website.mark_ready!
         report_progress(progress_block, website, 'ready', 95)
 
-        # Auto-go-live (can be changed to require admin approval)
+        # Step 6: Go live
+        Rails.logger.info("[Provisioning] Going live for website #{website.id}")
+        unless website.can_go_live?
+          fail_with_details(website, "Cannot go live - provisioning_complete=#{website.provisioning_complete?}, subdomain=#{website.subdomain.present?}")
+          return failure_result
+        end
         website.go_live!
         report_progress(progress_block, website, 'live', 100)
 
         # Complete user onboarding
-        owner = website.user_memberships.find_by(role: 'owner')&.user
-        if owner
-          owner.update!(onboarding_step: 4)
-          # Use activate! which works from any pre-active state
-          owner.activate! if owner.may_activate?
-        end
+        complete_owner_onboarding(website)
 
+        Rails.logger.info("[Provisioning] Successfully provisioned website #{website.id} (#{website.subdomain})")
         success_result(website: website)
-      rescue StandardError => e
-        Rails.logger.error("Provisioning failed for website #{website.id}: #{e.message}")
-        Rails.logger.error(e.backtrace.join("\n"))
 
-        website.fail_provisioning!(e.message) if website.may_fail_provisioning?
-        @errors << "Provisioning failed: #{e.message}"
+      rescue AASM::InvalidTransition => e
+        error_msg = "State transition failed: #{e.message}. Current state: #{website.provisioning_state}, Checklist: #{website.provisioning_checklist.to_json}"
+        Rails.logger.error("[Provisioning] #{error_msg}")
+        fail_with_details(website, error_msg)
+        failure_result
+
+      rescue StandardError => e
+        Rails.logger.error("[Provisioning] Failed for website #{website.id}: #{e.message}")
+        Rails.logger.error(e.backtrace.first(10).join("\n"))
+        fail_with_details(website, e.message)
         failure_result
       end
     end
@@ -243,45 +308,161 @@ module Pwb
       end
     end
 
-    def configure_website_defaults(website)
-      # Set default theme based on site type
-      theme_name = case website.site_type
-                   when 'residential' then 'bristol'
-                   when 'commercial' then 'bristol'
-                   when 'vacation_rental' then 'bristol'
-                   else 'bristol'
-                   end
+    # ===================
+    # Provisioning Steps
+    # ===================
 
-      website.update!(
-        theme_name: theme_name,
-        default_client_locale: 'en',
-        supported_locales: ['en']
+    # Create agency record for the website
+    def create_agency_for_website(website)
+      return if website.agency.present?
+
+      Pwb::Current.website = website
+
+      # Try seed pack first
+      if try_seed_pack_step(website, :agency)
+        return
+      end
+
+      # Fallback: create minimal agency
+      website.create_agency!(
+        display_name: website.subdomain.titleize,
+        email_primary: "info@#{website.subdomain}.example.com"
       )
     end
 
-    def run_seed_pack(website)
-      pack_name = website.seed_pack_name || 'base'
+    # Create navigation links for the website
+    def create_links_for_website(website)
+      return if website.links.count >= 3
 
-      # Set current website context for seeding
       Pwb::Current.website = website
 
-      # Try to use SeedPack infrastructure
+      # Try seed pack first
+      if try_seed_pack_step(website, :links)
+        return
+      end
+
+      # Fallback: create minimal links
+      default_links = [
+        { slug: 'home', link_url: '/', visible: true },
+        { slug: 'properties', link_url: '/search', visible: true },
+        { slug: 'about', link_url: '/about', visible: true },
+        { slug: 'contact', link_url: '/contact', visible: true }
+      ]
+
+      default_links.each_with_index do |link_attrs, index|
+        website.links.find_or_create_by!(slug: link_attrs[:slug]) do |link|
+          link.assign_attributes(link_attrs.merge(sort_order: index + 1))
+        end
+      end
+    end
+
+    # Create field keys for the website
+    def create_field_keys_for_website(website)
+      return if website.field_keys.count >= 5
+
+      Pwb::Current.website = website
+
+      # Try seed pack first
+      if try_seed_pack_step(website, :field_keys)
+        return
+      end
+
+      # Fallback: create minimal field keys
+      default_field_keys = [
+        { global_key: 'types.house', tag: 'property-types', visible: true },
+        { global_key: 'types.apartment', tag: 'property-types', visible: true },
+        { global_key: 'types.villa', tag: 'property-types', visible: true },
+        { global_key: 'states.good', tag: 'property-states', visible: true },
+        { global_key: 'states.new', tag: 'property-states', visible: true },
+        { global_key: 'features.pool', tag: 'property-features', visible: true },
+        { global_key: 'features.garage', tag: 'property-features', visible: true }
+      ]
+
+      default_field_keys.each do |fk_attrs|
+        website.field_keys.find_or_create_by!(global_key: fk_attrs[:global_key]) do |fk|
+          fk.assign_attributes(fk_attrs)
+        end
+      end
+    end
+
+    # Seed sample properties for the website
+    def seed_properties_for_website(website)
+      Pwb::Current.website = website
+
+      # Try seed pack first
+      if try_seed_pack_step(website, :properties)
+        return
+      end
+
+      # Fallback: use basic seeder for properties only
+      begin
+        seeder = Pwb::Seeder.new
+        seeder.seed_properties_for_website(website) if seeder.respond_to?(:seed_properties_for_website)
+      rescue StandardError => e
+        Rails.logger.warn("[Provisioning] Property seeding failed (non-fatal): #{e.message}")
+        # Properties are optional, don't fail provisioning
+      end
+    end
+
+    # Try to run a specific step from the seed pack
+    # Returns true if seed pack handled the step AND the data exists, false otherwise
+    def try_seed_pack_step(website, step)
+      pack_name = website.seed_pack_name || 'base'
+
       begin
         if defined?(Pwb::SeedPack)
           seed_pack = Pwb::SeedPack.find(pack_name)
-          seed_pack.apply!(website: website, options: { verbose: false })
-          return
+
+          case step
+          when :agency
+            seed_pack.seed_agency!(website: website) if seed_pack.respond_to?(:seed_agency!)
+            return website.agency.present?  # Verify it worked
+          when :links
+            seed_pack.seed_links!(website: website) if seed_pack.respond_to?(:seed_links!)
+            return website.links.count >= 3  # Verify minimum links exist
+          when :field_keys
+            seed_pack.seed_field_keys!(website: website) if seed_pack.respond_to?(:seed_field_keys!)
+            return website.field_keys.count >= 5  # Verify minimum field keys exist
+          when :properties
+            seed_pack.seed_properties!(website: website) if seed_pack.respond_to?(:seed_properties!)
+            return true  # Properties are optional, just return true
+          end
         end
-      rescue Pwb::SeedPack::PackNotFoundError => e
-        Rails.logger.info("Seed pack '#{pack_name}' not found: #{e.message}")
+      rescue Pwb::SeedPack::PackNotFoundError
+        # Pack doesn't exist, use fallback
+      rescue NoMethodError
+        # Method doesn't exist on pack, use fallback
       rescue StandardError => e
-        Rails.logger.warn("SeedPack failed for '#{pack_name}': #{e.message}, falling back to basic seeder")
+        Rails.logger.warn("[Provisioning] SeedPack step '#{step}' failed: #{e.message}")
       end
 
-      # Fallback to basic seeder
-      Rails.logger.info("Using basic seeder for website #{website.id}")
-      Pwb::Seeder.new.seed_for_website(website)
+      false
     end
+
+    # Complete owner's onboarding after successful provisioning
+    def complete_owner_onboarding(website)
+      owner = website.user_memberships.find_by(role: 'owner')&.user
+      return unless owner
+
+      owner.update!(onboarding_step: 4)
+      owner.activate! if owner.respond_to?(:may_activate?) && owner.may_activate?
+    rescue StandardError => e
+      # Don't fail provisioning if user update fails
+      Rails.logger.warn("[Provisioning] Owner onboarding update failed (non-fatal): #{e.message}")
+    end
+
+    # ===================
+    # Failure Handling
+    # ===================
+
+    def fail_with_details(website, error_message)
+      @errors << "Provisioning failed: #{error_message}"
+      website.fail_provisioning!(error_message) if website.may_fail_provisioning?
+    end
+
+    # ===================
+    # Utilities
+    # ===================
 
     def report_progress(progress_block, website, state, percentage)
       return unless progress_block

@@ -41,79 +41,170 @@ module Pwb
     validates :site_type, inclusion: { in: SITE_TYPES }, allow_blank: true
 
     # Provisioning state machine
+    #
+    # States track granular progress through provisioning, with guards to ensure
+    # each step completed successfully before moving to the next.
+    #
+    # Flow:
+    #   pending → owner_assigned → agency_created → links_created →
+    #   field_keys_created → properties_seeded → ready → live
+    #
+    # Each transition has guards that verify the required data exists.
+    # This prevents websites from reaching 'live' state without proper setup.
+    #
     aasm column: :provisioning_state do
       state :pending, initial: true
-      state :subdomain_allocated
-      state :configuring
-      state :seeding
-      state :ready
-      state :live
-      state :failed
-      state :suspended
-      state :terminated
+      state :owner_assigned        # Owner user membership created
+      state :agency_created        # Agency record exists
+      state :links_created         # Navigation links seeded
+      state :field_keys_created    # Field keys seeded
+      state :properties_seeded     # Sample properties created (optional but tracked)
+      state :ready                 # All provisioning complete, awaiting go-live
+      state :live                  # Website is publicly accessible
+      state :failed                # Provisioning failed at some step
+      state :suspended             # Temporarily disabled
+      state :terminated            # Permanently disabled
 
-      event :allocate_subdomain do
-        transitions from: :pending, to: :subdomain_allocated
+      # Step 1: Assign owner
+      event :assign_owner do
+        transitions from: :pending, to: :owner_assigned, guard: :has_owner?
         after do
           update!(provisioning_started_at: Time.current) if provisioning_started_at.blank?
+          log_provisioning_step('owner_assigned')
         end
       end
 
-      event :start_configuring do
-        transitions from: :subdomain_allocated, to: :configuring
+      # Step 2: Complete agency creation
+      event :complete_agency do
+        transitions from: :owner_assigned, to: :agency_created, guard: :has_agency?
+        after { log_provisioning_step('agency_created') }
       end
 
-      event :start_seeding do
-        transitions from: :configuring, to: :seeding
+      # Step 3: Complete navigation links creation
+      event :complete_links do
+        transitions from: :agency_created, to: :links_created, guard: :has_links?
+        after { log_provisioning_step('links_created') }
       end
 
+      # Step 4: Complete field keys creation
+      event :complete_field_keys do
+        transitions from: :links_created, to: :field_keys_created, guard: :has_field_keys?
+        after { log_provisioning_step('field_keys_created') }
+      end
+
+      # Step 5: Seed properties (optional - can be skipped)
+      event :seed_properties do
+        transitions from: :field_keys_created, to: :properties_seeded
+        after { log_provisioning_step('properties_seeded') }
+      end
+
+      # Step 5b: Skip properties seeding
+      event :skip_properties do
+        transitions from: :field_keys_created, to: :properties_seeded
+        after { log_provisioning_step('properties_skipped') }
+      end
+
+      # Step 6: Mark ready (final verification)
       event :mark_ready do
-        transitions from: :seeding, to: :ready
+        transitions from: :properties_seeded, to: :ready, guard: :provisioning_complete?
         after do
           update!(provisioning_completed_at: Time.current)
+          log_provisioning_step('ready')
         end
       end
 
+      # Step 7: Go live
       event :go_live do
-        transitions from: :ready, to: :live
+        transitions from: :ready, to: :live, guard: :can_go_live?
+        after { log_provisioning_step('live') }
       end
 
+      # Failure handling - can fail from any provisioning state
       event :fail_provisioning do
-        transitions from: [:pending, :subdomain_allocated, :configuring, :seeding], to: :failed
+        transitions from: [:pending, :owner_assigned, :agency_created, :links_created,
+                          :field_keys_created, :properties_seeded], to: :failed
         after do |error_message|
-          update!(provisioning_error: error_message)
+          update!(provisioning_error: error_message, provisioning_failed_at: Time.current)
+          log_provisioning_step('failed', error: error_message)
         end
       end
 
+      # Retry from failed state - returns to the last successful state or pending
       event :retry_provisioning do
         transitions from: :failed, to: :pending
         after do
-          update!(provisioning_error: nil)
+          update!(provisioning_error: nil, provisioning_failed_at: nil)
+          log_provisioning_step('retry')
         end
       end
 
+      # Lifecycle events for live websites
       event :suspend do
         transitions from: [:ready, :live], to: :suspended
+        after { log_provisioning_step('suspended') }
       end
 
       event :reactivate do
         transitions from: :suspended, to: :live
+        after { log_provisioning_step('reactivated') }
       end
 
       event :terminate do
         transitions from: [:suspended, :failed], to: :terminated
+        after { log_provisioning_step('terminated') }
       end
     end
+
+    # ===================
+    # Provisioning Guards
+    # ===================
+
+    # Check if website has an owner membership
+    def has_owner?
+      user_memberships.exists?(role: 'owner', active: true)
+    end
+
+    # Check if agency record exists
+    def has_agency?
+      agency.present?
+    end
+
+    # Check if navigation links exist (minimum required)
+    def has_links?
+      links.count >= 3  # At least home, about, contact
+    end
+
+    # Check if field keys exist
+    def has_field_keys?
+      field_keys.count >= 5  # Minimum set of property types/features
+    end
+
+    # Check if all required provisioning steps completed
+    def provisioning_complete?
+      has_owner? && has_agency? && has_links? && has_field_keys?
+    end
+
+    # Check if website can go live
+    def can_go_live?
+      provisioning_complete? && subdomain.present?
+    end
+
+    # ===================
+    # Provisioning Status
+    # ===================
 
     # Provisioning progress as percentage (for progress bar)
     def provisioning_progress
       case provisioning_state
       when 'pending' then 0
-      when 'subdomain_allocated' then 20
-      when 'configuring' then 40
-      when 'seeding' then 70
+      when 'owner_assigned' then 15
+      when 'agency_created' then 30
+      when 'links_created' then 45
+      when 'field_keys_created' then 60
+      when 'properties_seeded' then 80
       when 'ready' then 95
       when 'live' then 100
+      when 'failed' then provisioning_failed_step_progress
       else 0
       end
     end
@@ -122,9 +213,11 @@ module Pwb
     def provisioning_status_message
       case provisioning_state
       when 'pending' then 'Waiting to start...'
-      when 'subdomain_allocated' then 'Subdomain assigned'
-      when 'configuring' then 'Setting up your website...'
-      when 'seeding' then 'Adding sample properties...'
+      when 'owner_assigned' then 'Owner account created'
+      when 'agency_created' then 'Agency information saved'
+      when 'links_created' then 'Navigation links created'
+      when 'field_keys_created' then 'Property fields configured'
+      when 'properties_seeded' then 'Sample properties added'
       when 'ready' then 'Almost done! Finalizing...'
       when 'live' then 'Your website is live!'
       when 'failed' then "Setup failed: #{provisioning_error}"
@@ -141,7 +234,31 @@ module Pwb
 
     # Check if still being provisioned
     def provisioning?
-      %w[pending subdomain_allocated configuring seeding].include?(provisioning_state)
+      %w[pending owner_assigned agency_created links_created field_keys_created properties_seeded].include?(provisioning_state)
+    end
+
+    # Get detailed provisioning status for debugging/admin
+    def provisioning_checklist
+      {
+        owner: { complete: has_owner?, required: true },
+        agency: { complete: has_agency?, required: true },
+        links: { complete: has_links?, count: links.count, minimum: 3, required: true },
+        field_keys: { complete: has_field_keys?, count: field_keys.count, minimum: 5, required: true },
+        properties: { complete: realty_assets.any?, count: realty_assets.count, required: false },
+        subdomain: { complete: subdomain.present?, value: subdomain, required: true }
+      }
+    end
+
+    # Check what's missing for provisioning to complete
+    def provisioning_missing_items
+      checklist = provisioning_checklist
+      missing = []
+      missing << 'owner membership' unless checklist[:owner][:complete]
+      missing << 'agency' unless checklist[:agency][:complete]
+      missing << "links (have #{checklist[:links][:count]}, need #{checklist[:links][:minimum]})" unless checklist[:links][:complete]
+      missing << "field_keys (have #{checklist[:field_keys][:count]}, need #{checklist[:field_keys][:minimum]})" unless checklist[:field_keys][:complete]
+      missing << 'subdomain' unless checklist[:subdomain][:complete]
+      missing
     end
 
     def admins
@@ -527,6 +644,22 @@ module Pwb
     end
 
     private
+
+    # Provisioning step logging
+    def log_provisioning_step(step, error: nil)
+      details = { step: step, state: provisioning_state, timestamp: Time.current.iso8601 }
+      details[:error] = error if error
+      Rails.logger.info("[Provisioning] Website #{id} (#{subdomain}): #{details.to_json}")
+    end
+
+    # Calculate progress percentage based on what was completed before failure
+    def provisioning_failed_step_progress
+      return 60 if has_field_keys?
+      return 45 if has_links?
+      return 30 if has_agency?
+      return 15 if has_owner?
+      0
+    end
 
     def subdomain_not_reserved
       return if subdomain.blank?

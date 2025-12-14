@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_14_180000) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_14_190000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -727,6 +727,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_180000) do
     t.string "ntfy_topic_prefix"
     t.datetime "provisioning_completed_at"
     t.text "provisioning_error"
+    t.datetime "provisioning_failed_at"
     t.datetime "provisioning_started_at"
     t.string "provisioning_state", default: "live", null: false
     t.text "raw_css"

@@ -110,19 +110,26 @@ module Pwb
           return { success: false, errors: ["This subdomain is already taken"] }
         end
 
-        # Create the website
+        # Create the website in pending state
         website = Pwb::Website.new(
           subdomain: subdomain_name,
           site_type: site_type,
-          provisioning_state: 'subdomain_allocated'
+          provisioning_state: 'pending'
         )
 
         unless website.save
           return { success: false, errors: website.errors.full_messages }
         end
 
-        # Associate user with website as admin
-        create_website_admin(user: user, website: website)
+        # Associate user with website as owner (required for provisioning)
+        create_website_owner(user: user, website: website)
+
+        # Transition to owner_assigned state (guard verifies owner exists)
+        if website.may_assign_owner?
+          website.assign_owner!
+        else
+          return { success: false, errors: ["Failed to verify owner assignment"] }
+        end
 
         { success: true, website: website }
       end
@@ -204,17 +211,17 @@ module Pwb
       end
     end
 
-    def create_website_admin(user:, website:)
-      # Create user membership with admin role
+    def create_website_owner(user:, website:)
+      # Create user membership with owner role (required for provisioning guards)
       membership = Pwb::UserMembership.new(
         user: user,
         website: website,
-        role: 'admin',
+        role: 'owner',
         active: true
       )
 
       unless membership.save
-        raise SignupError, "Failed to create website admin: #{membership.errors.full_messages.join(', ')}"
+        raise SignupError, "Failed to create website owner: #{membership.errors.full_messages.join(', ')}"
       end
 
       # Also associate user's primary website if not set

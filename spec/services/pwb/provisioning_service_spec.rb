@@ -72,7 +72,8 @@ module Pwb
         expect(result[:website]).to be_persisted
         expect(result[:website].subdomain).to eq(subdomain_name)
         expect(result[:website].site_type).to eq('residential')
-        expect(result[:website]).to be_subdomain_allocated
+        # New state machine: configure_site transitions to owner_assigned
+        expect(result[:website]).to be_owner_assigned
         expect(result[:membership]).to be_persisted
         expect(result[:membership].role).to eq('owner')
       end
@@ -105,8 +106,9 @@ module Pwb
           email: "provision-#{unique_suffix}@example.com",
           website: base_website,
           onboarding_state: 'onboarding')
+        # New state machine: provisioning starts from owner_assigned (after configure_site)
         website = FactoryBot.create(:pwb_website,
-          provisioning_state: 'subdomain_allocated',
+          provisioning_state: 'owner_assigned',
           site_type: 'residential',
           seed_pack_name: 'base')
         FactoryBot.create(:pwb_user_membership,
