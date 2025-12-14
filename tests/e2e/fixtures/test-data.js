@@ -60,6 +60,12 @@ const ROUTES = {
     PROPERTIES: '/site_admin/props',
     CONTACTS: '/site_admin/contacts',
     SETTINGS: '/site_admin/properties/settings',
+    PAGES: '/site_admin/pages',
+    WEBSITE_SETTINGS: '/site_admin/website/settings',
+    WEBSITE_SETTINGS_GENERAL: '/site_admin/website/settings?tab=general',
+    WEBSITE_SETTINGS_APPEARANCE: '/site_admin/website/settings?tab=appearance',
+    WEBSITE_SETTINGS_NAVIGATION: '/site_admin/website/settings?tab=navigation',
+    WEBSITE_SETTINGS_NOTIFICATIONS: '/site_admin/website/settings?tab=notifications',
   }
 };
 

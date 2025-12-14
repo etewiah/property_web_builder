@@ -56,6 +56,31 @@ namespace :playwright do
     exec "bin/rails server -p 3001"
   end
 
+  desc "Start Rails server with admin auth bypass for integration testing"
+  task server_bypass_auth: :environment do
+    unless Rails.env.e2e?
+      puts "❌ This task must be run in the e2e environment"
+      puts "   Usage: RAILS_ENV=e2e bin/rails playwright:server_bypass_auth"
+      exit 1
+    end
+
+    puts "🚀 Starting Rails server for E2E testing on port 3001..."
+    puts "⚠️  BYPASS_ADMIN_AUTH=true - Admin authentication is DISABLED"
+    puts ""
+    puts "   Tenant A: http://tenant-a.e2e.localhost:3001"
+    puts "   Tenant B: http://tenant-b.e2e.localhost:3001"
+    puts ""
+    puts "   Admin pages accessible without login:"
+    puts "     - /site_admin"
+    puts "     - /site_admin/website/settings"
+    puts "     - /site_admin/pages"
+    puts "     - /site_admin/props"
+    puts ""
+
+    ENV['BYPASS_ADMIN_AUTH'] = 'true'
+    exec "bin/rails server -p 3001"
+  end
+
   desc "Seed E2E test data without resetting database"
   task seed: :environment do
     unless Rails.env.e2e?

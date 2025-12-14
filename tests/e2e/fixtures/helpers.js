@@ -103,6 +103,65 @@ async function fillField(page, fieldIdentifier, value) {
   throw new Error(`Could not find field: ${fieldIdentifier}`);
 }
 
+/**
+ * Get CSRF token from page meta tag
+ * @param {import('@playwright/test').Page} page
+ * @returns {Promise<string|null>}
+ */
+async function getCsrfToken(page) {
+  return await page.evaluate(() => {
+    const meta = document.querySelector('meta[name="csrf-token"]');
+    return meta ? meta.getAttribute('content') : null;
+  });
+}
+
+/**
+ * Submit a form with CSRF protection
+ * Useful when bypassing auth but still need CSRF tokens
+ * @param {import('@playwright/test').Page} page
+ * @param {string} formSelector
+ */
+async function submitFormWithCsrf(page, formSelector) {
+  const form = page.locator(formSelector);
+  const submitButton = form.locator('input[type="submit"], button[type="submit"]');
+  await submitButton.click();
+  await page.waitForLoadState('networkidle');
+}
+
+/**
+ * Navigate to admin page (works with BYPASS_ADMIN_AUTH=true)
+ * @param {import('@playwright/test').Page} page
+ * @param {Object} tenant - Tenant configuration object
+ * @param {string} adminPath - Admin path to navigate to
+ */
+async function goToAdminPage(page, tenant, adminPath) {
+  await page.goto(`${tenant.baseURL}${adminPath}`);
+  await page.waitForLoadState('networkidle');
+
+  // Verify we're not on login page (auth bypass should work)
+  const currentURL = page.url();
+  if (currentURL.includes('/sign_in') || currentURL.includes('/firebase_login')) {
+    throw new Error(
+      `Auth bypass not working! Redirected to login. ` +
+      `Make sure server is running with BYPASS_ADMIN_AUTH=true`
+    );
+  }
+}
+
+/**
+ * Save form and wait for success
+ * @param {import('@playwright/test').Page} page
+ * @param {string} buttonText - Text of the save button
+ */
+async function saveAndWait(page, buttonText = 'Save') {
+  const saveButton = page.locator(
+    `input[type="submit"][value*="${buttonText}"], ` +
+    `button[type="submit"]:has-text("${buttonText}")`
+  );
+  await saveButton.click();
+  await page.waitForLoadState('networkidle');
+}
+
 module.exports = {
   loginAsAdmin,
   expectPageToHaveAnyContent,
@@ -111,4 +170,8 @@ module.exports = {
   goToTenant,
   waitForPageLoad,
   fillField,
+  getCsrfToken,
+  submitFormWithCsrf,
+  goToAdminPage,
+  saveAndWait,
 };
