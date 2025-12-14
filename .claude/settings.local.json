@@ -8,7 +8,18 @@
       "mcp__filesystem__write_file",
       "Bash(awk '{print $9, \"\"\"\"(\"\"\"\" $5 \"\"\"\")\"\"\"\"}')",
       "Bash(git commit:*)",
-      "Bash(node -c:*)"
+      "Bash(node -c:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(bundle exec rspec:*)",
+      "Bash(for i in 1 2 3)",
+      "Bash(do echo \"Run $i:\")",
+      "Bash(done)",
+      "Bash(for i in 1 2 3 4 5)",
+      "mcp__filesystem__create_directory",
+      "mcp__filesystem__move_file",
+      "Bash(git mv:*)",
+      "Bash(mv:*)",
+      "Bash(tee:*)"
     ],
     "deny": [],
     "ask": []

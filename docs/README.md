@@ -10,41 +10,26 @@ Welcome to PropertyWebBuilder's comprehensive documentation. This folder contain
 2. **[PROVISIONING_QUICK_START.md](./PROVISIONING_QUICK_START.md)** - Practical commands and examples (15 min read)
 3. **[CODE_REFERENCES.md](./CODE_REFERENCES.md)** - Actual code snippets with file paths (reference)
 
-## Documentation Files
+## Documentation Folders
 
-### Overview & Architecture
-- **[EXPLORATION_SUMMARY.md](./EXPLORATION_SUMMARY.md)** (12 sections, ~50 KB)
-  - Key findings from codebase exploration
-  - 12 major systems documented
-  - Code organization and file structure
-  - Next steps and recommendations
-  - **Best for:** Understanding the big picture
+### Core Topics (Organized)
 
-- **[WEBSITE_PROVISIONING_OVERVIEW.md](./WEBSITE_PROVISIONING_OVERVIEW.md)** (17 sections, ~150 KB)
-  - Comprehensive technical reference
-  - Detailed model documentation
-  - Database schema explanation
-  - Complete API reference
-  - Multi-tenancy architecture
-  - **Best for:** Deep technical understanding and reference
+| Folder | Description |
+|--------|-------------|
+| **[signup/](./signup/)** | Self-service signup flow (4-step wizard) |
+| **[api/](./api/)** | REST and GraphQL API documentation |
+| **[architecture/](./architecture/)** | System architecture and design decisions |
+| **[multi_tenancy/](./multi_tenancy/)** | Multi-tenant isolation patterns |
+| **[seeding/](./seeding/)** | Seed packs and sample data |
+| **[admin/](./admin/)** | Admin interface documentation |
+| **[deployment/](./deployment/)** | Deployment guides |
 
-### Quick Start & Practical Guides
-- **[PROVISIONING_QUICK_START.md](./PROVISIONING_QUICK_START.md)** (15 sections, ~80 KB)
-  - Quick command reference
-  - Step-by-step setup guides
-  - User and property management
-  - Troubleshooting common issues
-  - Environment setup
-  - **Best for:** Getting things done
+### General Documentation
 
-### Code References
-- **[CODE_REFERENCES.md](./CODE_REFERENCES.md)** (Extensive snippets)
-  - Actual code from key files
-  - File paths and line numbers
-  - Migration examples
-  - Configuration examples
-  - SQL schema
-  - **Best for:** Finding specific code
+- **[EXPLORATION_SUMMARY.md](./EXPLORATION_SUMMARY.md)** - Key findings from codebase exploration
+- **[WEBSITE_PROVISIONING_OVERVIEW.md](./WEBSITE_PROVISIONING_OVERVIEW.md)** - Comprehensive technical reference
+- **[PROVISIONING_QUICK_START.md](./PROVISIONING_QUICK_START.md)** - Quick command reference and setup guides
+- **[CODE_REFERENCES.md](./CODE_REFERENCES.md)** - Code snippets with file paths
 
 ## Reading Guide by Role
 
@@ -70,12 +55,17 @@ Welcome to PropertyWebBuilder's comprehensive documentation. This folder contain
 
 ## Key Topics
 
-### Self-Service Signup & Provisioning (NEW)
-- **[architecture/tenant_provisioning_workflow.md](./architecture/tenant_provisioning_workflow.md)** - State machine workflow documentation
-  - AASM state machines for website and user
-  - Subdomain pool management
-  - ProvisioningService orchestration
-  - Signup flow architecture
+### Self-Service Signup (NEW)
+- **[signup/](./signup/)** - Complete signup system documentation
+  - [Flow documentation](./signup/01_flow.md) - Architecture and step-by-step details
+  - [API reference](./signup/02_api_reference.md) - Endpoints and contracts
+  - [Extraction guide](./signup/03_extraction_guide.md) - Component isolation
+  - [Quick start](./signup/04_quick_start.md) - Debugging and reference
+
+### API Documentation
+- **[api/](./api/)** - REST and GraphQL APIs
+  - [REST API](./api/01_rest_api.md) - Admin panel endpoints
+  - [Signup API](./signup/02_api_reference.md) - Signup flow endpoints
 
 ### Website Provisioning
 - Creating new websites: PROVISIONING_QUICK_START.md - "Create a New Website"
@@ -133,6 +123,18 @@ DRY_RUN=true rake pwb:db:seed_enhanced
 PropertyWebBuilder/
 ├── docs/
 │   ├── README.md (this file)
+│   ├── signup/                          # Signup system docs
+│   │   ├── README.md
+│   │   ├── 01_flow.md
+│   │   ├── 02_api_reference.md
+│   │   ├── 03_extraction_guide.md
+│   │   └── 04_quick_start.md
+│   ├── api/                             # API documentation
+│   │   ├── README.md
+│   │   └── 01_rest_api.md
+│   ├── architecture/                    # Architecture docs
+│   ├── multi_tenancy/                   # Multi-tenancy docs
+│   ├── seeding/                         # Seed packs docs
 │   ├── EXPLORATION_SUMMARY.md
 │   ├── WEBSITE_PROVISIONING_OVERVIEW.md
 │   ├── PROVISIONING_QUICK_START.md
