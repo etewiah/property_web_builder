@@ -489,11 +489,12 @@ RSpec.describe "Api::Signup::Signups", type: :request do
       expect(json_response[:subdomain]).to be_present
     end
 
-    it "returns subdomain in expected format (adjective-noun-number)" do
+    it "returns subdomain from pool in valid format" do
       get '/api/signup/suggest_subdomain'
 
       expect(response).to have_http_status(:ok)
-      expect(json_response[:subdomain]).to match(/^[a-z]+-[a-z]+-\d+$/)
+      # Subdomain should be a valid name (letters, numbers, hyphens)
+      expect(json_response[:subdomain]).to match(/^[a-z0-9][a-z0-9\-]*[a-z0-9]$/)
     end
 
     it "returns different subdomains on multiple calls" do

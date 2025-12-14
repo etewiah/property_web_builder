@@ -225,13 +225,21 @@ module Api
       end
 
       # GET /api/signup/suggest_subdomain
-      # Generate a random available subdomain
+      # Get a random available subdomain from the pool
       #
       # Returns:
       #   { subdomain: "sunny-meadow-42" }
       #
       def suggest_subdomain
-        json_response(subdomain: Pwb::SubdomainGenerator.generate)
+        # Pick a random available subdomain from the pool (without reserving it)
+        subdomain = Pwb::Subdomain.available.order('RANDOM()').first
+
+        if subdomain
+          json_response(subdomain: subdomain.name)
+        else
+          # Fallback to generating if pool is empty
+          json_response(subdomain: Pwb::SubdomainGenerator.generate)
+        end
       end
 
       # GET /api/signup/site_types
