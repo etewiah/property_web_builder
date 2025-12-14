@@ -114,7 +114,8 @@ module Pwb
         website = Pwb::Website.new(
           subdomain: subdomain_name,
           site_type: site_type,
-          provisioning_state: 'pending'
+          provisioning_state: 'pending',
+          owner_email: user.email  # Store for email verification
         )
 
         unless website.save

@@ -6,11 +6,21 @@ This document describes the website provisioning state machine that ensures webs
 
 The provisioning state machine uses granular states with validation guards to ensure each step of website setup completes successfully before moving to the next. This prevents websites from reaching "live" status without required data like owner, agency, links, and field keys.
 
+For websites created through the signup API, the flow includes email verification states before going live.
+
 ## State Flow
 
+### Standard Flow (Admin/Rake)
 ```
 pending → owner_assigned → agency_created → links_created →
 field_keys_created → properties_seeded → ready → live
+```
+
+### Signup API Flow (with Email Verification)
+```
+pending → owner_assigned → agency_created → links_created →
+field_keys_created → properties_seeded → ready →
+locked_pending_email_verification → locked_pending_registration → live
 ```
 
 ### States
@@ -23,7 +33,9 @@ field_keys_created → properties_seeded → ready → live
 | `links_created` | Navigation links seeded (min 3) | 45% |
 | `field_keys_created` | Field keys seeded (min 5) | 60% |
 | `properties_seeded` | Sample properties created (optional) | 80% |
-| `ready` | All provisioning complete, awaiting go-live | 95% |
+| `ready` | All provisioning complete, awaiting go-live | 90% |
+| `locked_pending_email_verification` | Waiting for owner to verify email | 95% |
+| `locked_pending_registration` | Email verified, waiting for account creation | 98% |
 | `live` | Website is publicly accessible | 100% |
 | `failed` | Provisioning failed at some step | varies |
 | `suspended` | Temporarily disabled | - |
@@ -130,6 +142,94 @@ provisioning_started_at TIMESTAMP
 provisioning_completed_at TIMESTAMP
 provisioning_failed_at TIMESTAMP
 provisioning_error TEXT
+```
+
+## Email Verification Flow
+
+When a website is provisioned through the signup API, it enters a locked state requiring email verification before becoming live.
+
+### Locked States
+
+1. **`locked_pending_email_verification`**: Site is provisioned but owner must verify their email address
+2. **`locked_pending_registration`**: Email verified, owner must create a Firebase account
+
+### How It Works
+
+```ruby
+# After provisioning completes via signup API
+website.provisioning_state  # => "locked_pending_email_verification"
+
+# User receives email with verification link
+# GET /api/signup/verify_email?token=xxx
+
+# After clicking the link
+website.provisioning_state  # => "locked_pending_registration"
+
+# User creates Firebase account at /firebase_login/sign_up
+# POST /api/signup/complete_registration
+
+# After account creation
+website.provisioning_state  # => "live"
+```
+
+### Locked Website Behavior
+
+While in a locked state:
+- All public pages display a locked notice
+- The notice informs the user of next steps
+- Users cannot access the admin panel
+
+```ruby
+# Check if website is locked
+website.locked?             # => true
+website.locked_mode         # => :pending_email_verification or :pending_registration
+```
+
+### Email Verification Configuration
+
+```bash
+# Configure verification link expiration (default: 7 days)
+EMAIL_VERIFICATION_EXPIRY_DAYS=7
+
+# Configure base URL for verification links
+SIGNUP_BASE_URL=https://yourapp.com
+```
+
+### Email Verification Methods
+
+```ruby
+# Generate new verification token
+website.generate_email_verification_token!
+
+# Check if token is valid
+website.email_verification_valid?  # => true/false
+
+# Regenerate token (extends expiration)
+website.regenerate_email_verification_token!
+
+# Verify owner email (transitions state)
+website.verify_owner_email!
+
+# Complete registration (goes live)
+website.complete_owner_registration!
+```
+
+### API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/signup/verify_email?token=xxx` | GET | Verify email and transition to registration |
+| `/api/signup/resend_verification` | POST | Resend verification email |
+| `/api/signup/complete_registration` | POST | Complete account creation and go live |
+
+### Database Columns
+
+```sql
+-- Email verification columns on pwb_websites
+email_verification_token VARCHAR
+email_verification_token_expires_at TIMESTAMP
+email_verified_at TIMESTAMP
+owner_email VARCHAR  -- Stored during signup for verification
 ```
 
 ## Related Documentation

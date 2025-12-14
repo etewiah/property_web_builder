@@ -98,7 +98,7 @@ module Pwb
     end
 
     describe '#provision_website' do
-      it 'provisions the website to live state and completes timestamps' do
+      it 'provisions the website to locked_pending_email_verification state (awaiting email verification)' do
         # Use unique email to avoid test pollution
         unique_suffix = SecureRandom.hex(4)
         base_website = FactoryBot.create(:pwb_website)
@@ -110,7 +110,8 @@ module Pwb
         website = FactoryBot.create(:pwb_website,
           provisioning_state: 'owner_assigned',
           site_type: 'residential',
-          seed_pack_name: 'base')
+          seed_pack_name: 'base',
+          owner_email: "provision-#{unique_suffix}@example.com")
         FactoryBot.create(:pwb_user_membership,
           user: user,
           website: website,
@@ -121,9 +122,11 @@ module Pwb
 
         expect(result[:success]).to be true
         website.reload
-        expect(website).to be_live
+        # Provisioning now ends at locked_pending_email_verification (awaiting email verification)
+        expect(website).to be_locked_pending_email_verification
         expect(website.provisioning_completed_at).to be_present
-        expect(user.reload).to be_active
+        expect(website.email_verification_token).to be_present
+        # User onboarding is NOT completed during provisioning anymore - it happens after registration
       end
     end
 

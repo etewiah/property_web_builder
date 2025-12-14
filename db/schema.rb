@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_14_190000) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_14_200000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -709,6 +709,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_190000) do
     t.string "default_seo_title"
     t.string "email_for_general_contact_form"
     t.string "email_for_property_contact_form"
+    t.string "email_verification_token"
+    t.datetime "email_verification_token_expires_at"
+    t.datetime "email_verified_at"
     t.json "exchange_rates", default: {}
     t.boolean "external_image_mode", default: false, null: false
     t.string "favicon_url"
@@ -725,6 +728,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_190000) do
     t.boolean "ntfy_notify_users", default: false, null: false
     t.string "ntfy_server_url", default: "https://ntfy.sh"
     t.string "ntfy_topic_prefix"
+    t.string "owner_email"
     t.datetime "provisioning_completed_at"
     t.text "provisioning_error"
     t.datetime "provisioning_failed_at"
@@ -752,6 +756,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_190000) do
     t.datetime "updated_at", precision: nil, null: false
     t.json "whitelabel_config", default: {}
     t.index ["custom_domain"], name: "index_pwb_websites_on_custom_domain", unique: true, where: "((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))"
+    t.index ["email_verification_token"], name: "index_pwb_websites_on_email_verification_token", unique: true, where: "(email_verification_token IS NOT NULL)"
     t.index ["provisioning_state"], name: "index_pwb_websites_on_provisioning_state"
     t.index ["site_type"], name: "index_pwb_websites_on_site_type"
     t.index ["slug"], name: "index_pwb_websites_on_slug"

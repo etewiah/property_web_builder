@@ -1,0 +1,67 @@
+<% if @locked_mode == :pending_email_verification %>
+  <!-- Progress dots showing step 1 of 2 -->
+  <div class="progress-dots">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+  </div>
+
+  <div class="icon">
+    <span>&#9993;</span>
+  </div>
+
+  <h1>Check Your Email</h1>
+
+  <p>
+    Your website <span class="subdomain"><%= @current_website.subdomain %></span> is almost ready!
+    We've sent a verification email to:
+  </p>
+
+  <div class="email">
+    <%= @owner_email %>
+  </div>
+
+  <p>
+    Click the link in the email to verify your address and continue setting up your account.
+  </p>
+
+  <p class="help-text">
+    Didn't receive the email? Check your spam folder or
+    <a href="#" onclick="resendVerification(); return false;">request a new link</a>.
+  </p>
+
+  <script>
+    function resendVerification() {
+      alert('To resend the verification email, please use the signup page where you originally signed up.');
+    }
+  </script>
+
+<% elsif @locked_mode == :pending_registration %>
+  <!-- Progress dots showing step 2 of 2 -->
+  <div class="progress-dots">
+    <div class="dot complete"></div>
+    <div class="dot active"></div>
+  </div>
+
+  <div class="icon">
+    <span>&#10003;</span>
+  </div>
+
+  <h1>Email Verified!</h1>
+
+  <p>
+    Great! Your email has been verified. Now create your account to start managing
+    <span class="subdomain"><%= @current_website.subdomain %></span>.
+  </p>
+
+  <div class="email">
+    <%= @owner_email %>
+  </div>
+
+  <div class="btn-group">
+    <a href="/firebase_login/sign_up" class="btn">Create Account</a>
+  </div>
+
+  <p class="help-text">
+    You must use the email address shown above to create your account.
+  </p>
+<% end %>

@@ -8,17 +8,20 @@ module Api
     # Uses token-based tracking (not sessions) to support cross-domain API calls.
     # The signup_token returned from /start must be included in all subsequent requests.
     #
-    # POST /api/signup/start             - Start signup with email → returns signup_token
-    # POST /api/signup/configure         - Configure subdomain and site type (requires signup_token)
-    # POST /api/signup/provision         - Trigger website provisioning (requires signup_token)
-    # GET  /api/signup/status            - Get provisioning status (requires signup_token)
-    # GET  /api/signup/check_subdomain   - Check subdomain availability
-    # GET  /api/signup/suggest_subdomain - Get random subdomain suggestion
-    # GET  /api/signup/site_types        - Get available site types
-    # GET  /api/signup/lookup_subdomain  - Look up full subdomain by email
+    # POST /api/signup/start                - Start signup with email → returns signup_token
+    # POST /api/signup/configure            - Configure subdomain and site type (requires signup_token)
+    # POST /api/signup/provision            - Trigger website provisioning (requires signup_token)
+    # GET  /api/signup/status               - Get provisioning status (requires signup_token)
+    # GET  /api/signup/verify_email         - Verify email address (via token in link)
+    # POST /api/signup/resend_verification  - Resend verification email (requires signup_token)
+    # POST /api/signup/complete_registration- Complete registration after Firebase account (requires signup_token)
+    # GET  /api/signup/check_subdomain      - Check subdomain availability
+    # GET  /api/signup/suggest_subdomain    - Get random subdomain suggestion
+    # GET  /api/signup/site_types           - Get available site types
+    # GET  /api/signup/lookup_subdomain     - Look up full subdomain by email
     #
     class SignupsController < Api::BaseController
-      before_action :load_signup_user_from_token, only: [:configure, :provision, :status]
+      before_action :load_signup_user_from_token, only: [:configure, :provision, :status, :resend_verification, :complete_registration]
 
       # POST /api/signup/start
       # Start signup process - creates lead user, reserves subdomain, returns token
@@ -122,6 +125,18 @@ module Api
           )
         end
 
+        # Also consider locked states as "provisioned" - just awaiting verification
+        if website.locked?
+          return success_response(
+            signup_token: params[:signup_token],
+            provisioning_status: website.provisioning_state,
+            progress: website.provisioning_progress,
+            message: website.provisioning_status_message,
+            locked: true,
+            locked_mode: website.locked_mode
+          )
+        end
+
         service = Pwb::SignupApiService.new
         result = service.provision_website(website: website)
 
@@ -161,18 +176,28 @@ module Api
 
         if website
           # Website exists - return provisioning status
-          success_response(
+          response_data = {
             signup_token: params[:signup_token],
             stage: 'provisioning',
             email: @signup_user.email,
             subdomain: website.subdomain,
             provisioning_status: website.provisioning_state,
-            progress: calculate_progress(website.provisioning_state),
-            message: status_message(website.provisioning_state),
+            progress: website.provisioning_progress,
+            message: website.provisioning_status_message,
             complete: website.live?,
             website_url: website.live? ? website.primary_url : nil,
-            admin_url: website.live? ? "#{website.primary_url}/site_admin" : nil
-          )
+            admin_url: website.live? ? "#{website.primary_url}/admin" : nil
+          }
+
+          # Add locked state information
+          if website.locked?
+            response_data[:locked] = true
+            response_data[:locked_mode] = website.locked_mode
+            response_data[:email_verified] = website.email_verified?
+            response_data[:registration_url] = "#{website.primary_url}/firebase_login/sign_up"
+          end
+
+          success_response(**response_data)
         elsif reserved_subdomain
           # Subdomain reserved but website not yet configured
           success_response(
@@ -256,6 +281,144 @@ module Api
         ]
 
         json_response(site_types: types)
+      end
+
+      # GET /api/signup/verify_email
+      # Verify email address via token (called when user clicks link in email)
+      # This does NOT require signup_token - uses the email verification token instead
+      #
+      # Params:
+      #   token (required) - Email verification token from the link
+      #
+      # Returns:
+      #   Redirects to registration page on success, or renders error
+      #
+      def verify_email
+        token = params[:token]
+
+        if token.blank?
+          return error_response("Verification token is required", status: :bad_request)
+        end
+
+        website = Pwb::Website.find_by_verification_token(token)
+
+        unless website
+          return error_response("Invalid verification link. Please request a new one.", status: :not_found)
+        end
+
+        unless website.locked_pending_email_verification?
+          if website.locked_pending_registration? || website.live?
+            # Already verified - redirect to appropriate page
+            return redirect_to_registration_or_site(website)
+          else
+            return error_response("Website is not awaiting email verification", status: :unprocessable_entity)
+          end
+        end
+
+        unless website.email_verification_valid?
+          return error_response("Verification link has expired. Please request a new one.", status: :gone)
+        end
+
+        # Transition to pending registration state
+        if website.may_verify_owner_email?
+          website.verify_owner_email!
+
+          # Redirect to the registration page on the website
+          redirect_to_registration_or_site(website)
+        else
+          error_response("Unable to verify email. Please contact support.", status: :unprocessable_entity)
+        end
+      end
+
+      # POST /api/signup/resend_verification
+      # Resend the verification email (requires signup_token)
+      #
+      # Params:
+      #   signup_token (required) - Token from /start
+      #
+      # Returns:
+      #   { success: true, message: "Verification email sent" }
+      #
+      def resend_verification
+        website = @signup_user.websites.first
+
+        unless website
+          return error_response("No website found. Please complete signup first.", status: :not_found)
+        end
+
+        unless website.locked_pending_email_verification?
+          if website.locked_pending_registration?
+            return error_response("Email already verified. Please create your account.", status: :unprocessable_entity)
+          elsif website.live?
+            return error_response("Website is already live.", status: :unprocessable_entity)
+          else
+            return error_response("Website is not awaiting email verification.", status: :unprocessable_entity)
+          end
+        end
+
+        # Regenerate token and send email
+        website.regenerate_email_verification_token!
+        Pwb::EmailVerificationMailer.verification_email(website).deliver_later
+
+        success_response(
+          message: "Verification email sent to #{website.owner_email}",
+          expires_in_days: Pwb::Website::EMAIL_VERIFICATION_EXPIRY / 1.day
+        )
+      end
+
+      # POST /api/signup/complete_registration
+      # Complete registration after user creates Firebase account
+      # Called by the frontend after successful Firebase authentication
+      #
+      # Params:
+      #   signup_token (required) - Token from /start
+      #   firebase_uid (optional) - Firebase user ID for linking
+      #
+      # Returns:
+      #   { success: true, website_url: "https://...", admin_url: "https://.../admin" }
+      #
+      def complete_registration
+        website = @signup_user.websites.first
+
+        unless website
+          return error_response("No website found. Please complete signup first.", status: :not_found)
+        end
+
+        unless website.locked_pending_registration?
+          if website.locked_pending_email_verification?
+            return error_response("Please verify your email first.", status: :unprocessable_entity)
+          elsif website.live?
+            return success_response(
+              message: "Website is already live",
+              website_url: website.primary_url,
+              admin_url: "#{website.primary_url}/admin"
+            )
+          else
+            return error_response("Website is not ready for registration.", status: :unprocessable_entity)
+          end
+        end
+
+        # Update user with Firebase UID if provided
+        if params[:firebase_uid].present?
+          @signup_user.update(firebase_uid: params[:firebase_uid])
+        end
+
+        # Transition to live state
+        if website.may_complete_owner_registration?
+          website.complete_owner_registration!
+
+          # Complete user onboarding
+          @signup_user.update(onboarding_step: 4)
+          @signup_user.activate! if @signup_user.may_activate?
+
+          success_response(
+            message: "Registration complete! Your website is now live.",
+            website_url: website.primary_url,
+            admin_url: "#{website.primary_url}/admin"
+          )
+        else
+          error_response("Unable to complete registration. Please contact support.", status: :unprocessable_entity)
+        end
       end
 
       # GET /api/signup/lookup_subdomain
@@ -358,9 +521,25 @@ module Api
         when 'configuring' then 'Setting up your website...'
         when 'seeding' then 'Adding sample content...'
         when 'ready' then 'Almost done! Finalizing...'
+        when 'locked_pending_email_verification' then 'Please verify your email'
+        when 'locked_pending_registration' then 'Email verified! Please create your account'
         when 'live' then 'Your website is live!'
         when 'failed' then 'Setup failed'
         else 'Unknown status'
+        end
+      end
+
+      # Redirect to registration page or main site depending on state
+      def redirect_to_registration_or_site(website)
+        if website.locked_pending_registration?
+          # Redirect to registration page
+          redirect_to "#{website.primary_url}/firebase_login/sign_up", allow_other_host: true
+        elsif website.live?
+          # Redirect to main site
+          redirect_to website.primary_url, allow_other_host: true
+        else
+          # Fallback to main site
+          redirect_to website.primary_url || '/', allow_other_host: true
         end
       end
     end

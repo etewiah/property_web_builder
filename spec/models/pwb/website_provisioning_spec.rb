@@ -350,7 +350,9 @@ module Pwb
           expect(FactoryBot.build(:pwb_website, provisioning_state: 'links_created').provisioning_progress).to eq(45)
           expect(FactoryBot.build(:pwb_website, provisioning_state: 'field_keys_created').provisioning_progress).to eq(60)
           expect(FactoryBot.build(:pwb_website, provisioning_state: 'properties_seeded').provisioning_progress).to eq(80)
-          expect(FactoryBot.build(:pwb_website, provisioning_state: 'ready').provisioning_progress).to eq(95)
+          expect(FactoryBot.build(:pwb_website, provisioning_state: 'ready').provisioning_progress).to eq(90)
+          expect(FactoryBot.build(:pwb_website, provisioning_state: 'locked_pending_email_verification').provisioning_progress).to eq(95)
+          expect(FactoryBot.build(:pwb_website, provisioning_state: 'locked_pending_registration').provisioning_progress).to eq(98)
           expect(FactoryBot.build(:pwb_website, provisioning_state: 'live').provisioning_progress).to eq(100)
         end
       end
@@ -444,6 +446,184 @@ module Pwb
           5.times { |i| FieldKey.create!(pwb_website_id: website.id, global_key: "key-#{i}", tag: 'test') }
 
           expect(website.provisioning_missing_items).to be_empty
+        end
+      end
+    end
+
+    # ===================
+    # Email Verification
+    # ===================
+
+    describe 'email verification' do
+      let(:website) { FactoryBot.create(:pwb_website, :without_agency, provisioning_state: 'locked_pending_email_verification', owner_email: 'test@example.com') }
+
+      describe '#locked?' do
+        it 'returns true for locked_pending_email_verification' do
+          expect(website.locked?).to be true
+        end
+
+        it 'returns true for locked_pending_registration' do
+          website.update!(provisioning_state: 'locked_pending_registration')
+          expect(website.locked?).to be true
+        end
+
+        it 'returns false for live websites' do
+          website.update!(provisioning_state: 'live')
+          expect(website.locked?).to be false
+        end
+
+        it 'returns false for pending websites' do
+          website.update!(provisioning_state: 'pending')
+          expect(website.locked?).to be false
+        end
+      end
+
+      describe '#locked_mode' do
+        it 'returns :pending_email_verification for locked_pending_email_verification' do
+          expect(website.locked_mode).to eq(:pending_email_verification)
+        end
+
+        it 'returns :pending_registration for locked_pending_registration' do
+          website.update!(provisioning_state: 'locked_pending_registration')
+          expect(website.locked_mode).to eq(:pending_registration)
+        end
+
+        it 'returns nil for non-locked states' do
+          website.update!(provisioning_state: 'live')
+          expect(website.locked_mode).to be_nil
+        end
+      end
+
+      describe '#generate_email_verification_token!' do
+        it 'generates a token' do
+          website.generate_email_verification_token!
+          expect(website.email_verification_token).to be_present
+        end
+
+        it 'sets expiry time' do
+          website.generate_email_verification_token!
+          expect(website.email_verification_token_expires_at).to be > Time.current
+        end
+
+        it 'sets expiry to configured duration' do
+          website.generate_email_verification_token!
+          expected_expiry = Pwb::Website::EMAIL_VERIFICATION_EXPIRY.from_now
+          # Allow some wiggle room for test execution time
+          expect(website.email_verification_token_expires_at).to be_within(5.seconds).of(expected_expiry)
+        end
+      end
+
+      describe '#email_verification_valid?' do
+        it 'returns false without token' do
+          expect(website.email_verification_valid?).to be false
+        end
+
+        it 'returns true with valid token' do
+          website.generate_email_verification_token!
+          expect(website.email_verification_valid?).to be true
+        end
+
+        it 'returns false with expired token' do
+          website.update!(
+            email_verification_token: 'test-token',
+            email_verification_token_expires_at: 1.day.ago
+          )
+          expect(website.email_verification_valid?).to be false
+        end
+      end
+
+      describe '#email_verified?' do
+        it 'returns false when email_verified_at is nil' do
+          expect(website.email_verified?).to be false
+        end
+
+        it 'returns true when email_verified_at is set' do
+          website.update!(email_verified_at: Time.current)
+          expect(website.email_verified?).to be true
+        end
+      end
+
+      describe '.find_by_verification_token' do
+        it 'finds website by token' do
+          website.generate_email_verification_token!
+          found = Pwb::Website.find_by_verification_token(website.email_verification_token)
+          expect(found).to eq(website)
+        end
+
+        it 'returns nil for blank token' do
+          expect(Pwb::Website.find_by_verification_token('')).to be_nil
+          expect(Pwb::Website.find_by_verification_token(nil)).to be_nil
+        end
+
+        it 'returns nil for non-existent token' do
+          expect(Pwb::Website.find_by_verification_token('non-existent')).to be_nil
+        end
+      end
+    end
+
+    describe 'locked state transitions' do
+      let(:base_website) { FactoryBot.create(:pwb_website) }
+      let(:user) { FactoryBot.create(:pwb_user, website: base_website) }
+      let(:website) { FactoryBot.create(:pwb_website, :without_agency, provisioning_state: 'ready', owner_email: 'test@example.com') }
+
+      before do
+        # Set up all required data for can_go_live?
+        UserMembership.create!(user: user, website: website, role: 'owner', active: true)
+        Agency.create!(website: website, display_name: 'Test Agency')
+        3.times { |i| Link.create!(website: website, slug: "link-#{i}") }
+        5.times { |i| FieldKey.create!(pwb_website_id: website.id, global_key: "key-#{i}", tag: 'test') }
+      end
+
+      describe '#enter_locked_state!' do
+        it 'transitions from ready to locked_pending_email_verification' do
+          website.enter_locked_state!
+          expect(website).to be_locked_pending_email_verification
+        end
+
+        it 'generates verification token' do
+          website.enter_locked_state!
+          expect(website.email_verification_token).to be_present
+        end
+      end
+
+      describe '#verify_owner_email!' do
+        before do
+          website.update!(provisioning_state: 'locked_pending_email_verification')
+          website.generate_email_verification_token!
+        end
+
+        it 'transitions to locked_pending_registration' do
+          website.verify_owner_email!
+          expect(website).to be_locked_pending_registration
+        end
+
+        it 'sets email_verified_at' do
+          website.verify_owner_email!
+          expect(website.email_verified_at).to be_present
+        end
+
+        it 'fails with expired token' do
+          website.update!(email_verification_token_expires_at: 1.day.ago)
+          expect { website.verify_owner_email! }.to raise_error(AASM::InvalidTransition)
+        end
+      end
+
+      describe '#complete_owner_registration!' do
+        before do
+          website.update!(provisioning_state: 'locked_pending_registration')
+        end
+
+        it 'transitions to live' do
+          website.complete_owner_registration!
+          expect(website).to be_live
+        end
+      end
+
+      describe '#go_live!' do
+        it 'can bypass locked states (for admin use)' do
+          website.update!(provisioning_state: 'locked_pending_email_verification')
+          website.go_live!
+          expect(website).to be_live
         end
       end
     end

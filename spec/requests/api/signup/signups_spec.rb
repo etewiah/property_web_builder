@@ -381,7 +381,7 @@ RSpec.describe "Api::Signup::Signups", type: :request do
       it "returns current provisioning status" do
         get '/api/signup/status', params: { signup_token: signup_token }
 
-        expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:ok), "status failed: #{response.body}"
         expect(json_response[:success]).to be true
         expect(json_response[:provisioning_status]).to be_present
         expect(json_response[:progress]).to be_a(Integer)

@@ -3,7 +3,7 @@ module Pwb
     protect_from_forgery with: :exception
     helper AuthHelper
 
-    before_action :current_agency_and_website, :nav_links,
+    before_action :current_agency_and_website, :check_locked_website, :nav_links,
       :set_locale, :set_theme_path, :footer_content
 
     def set_theme_path
@@ -47,6 +47,18 @@ module Pwb
     def current_agency_and_website
       @current_website = current_website_from_subdomain || Pwb::Current.website || Website.first
       @current_agency = @current_website&.agency || @current_website&.build_agency
+    end
+
+    # Check if the website is in a locked state and render appropriate view
+    # Locked websites show a special page instead of normal content
+    def check_locked_website
+      return unless @current_website&.locked?
+
+      @locked_mode = @current_website.locked_mode
+      @owner_email = @current_website.owner_email
+
+      # Render locked page and halt the filter chain
+      render 'pwb/locked/show', layout: 'pwb/locked', status: :ok
     end
 
     # Reserved subdomains that should not be used for tenant resolution

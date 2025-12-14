@@ -245,19 +245,19 @@ module Pwb
         website.mark_ready!
         report_progress(progress_block, website, 'ready', 95)
 
-        # Step 6: Go live
-        Rails.logger.info("[Provisioning] Going live for website #{website.id}")
+        # Step 6: Enter locked state (awaiting email verification)
+        Rails.logger.info("[Provisioning] Entering locked state for website #{website.id}")
         unless website.can_go_live?
-          fail_with_details(website, "Cannot go live - provisioning_complete=#{website.provisioning_complete?}, subdomain=#{website.subdomain.present?}")
+          fail_with_details(website, "Cannot enter locked state - provisioning_complete=#{website.provisioning_complete?}, subdomain=#{website.subdomain.present?}")
           return failure_result
         end
-        website.go_live!
-        report_progress(progress_block, website, 'live', 100)
+        website.enter_locked_state!
+        report_progress(progress_block, website, 'locked_pending_email_verification', 95)
 
-        # Complete user onboarding
-        complete_owner_onboarding(website)
+        # Send verification email to owner
+        send_verification_email(website)
 
-        Rails.logger.info("[Provisioning] Successfully provisioned website #{website.id} (#{website.subdomain})")
+        Rails.logger.info("[Provisioning] Successfully provisioned website #{website.id} (#{website.subdomain}) - awaiting email verification")
         success_result(website: website)
 
       rescue AASM::InvalidTransition => e
@@ -449,6 +449,17 @@ module Pwb
     rescue StandardError => e
       # Don't fail provisioning if user update fails
       Rails.logger.warn("[Provisioning] Owner onboarding update failed (non-fatal): #{e.message}")
+    end
+
+    # Send email verification to the website owner
+    def send_verification_email(website)
+      return unless website.owner_email.present?
+
+      EmailVerificationMailer.verification_email(website).deliver_later
+      Rails.logger.info("[Provisioning] Sent verification email to #{website.owner_email} for website #{website.id}")
+    rescue StandardError => e
+      # Don't fail provisioning if email fails - they can request resend
+      Rails.logger.warn("[Provisioning] Failed to send verification email (non-fatal): #{e.message}")
     end
 
     # ===================

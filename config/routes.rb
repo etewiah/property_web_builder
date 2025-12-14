@@ -466,6 +466,11 @@ Rails.application.routes.draw do
       get 'suggest_subdomain', to: 'signups#suggest_subdomain'
       get 'site_types', to: 'signups#site_types'
       get 'lookup_subdomain', to: 'signups#lookup_subdomain'
+
+      # Email verification endpoints
+      get 'verify_email', to: 'signups#verify_email'
+      post 'resend_verification', to: 'signups#resend_verification'
+      post 'complete_registration', to: 'signups#complete_registration'
     end
   end
 end

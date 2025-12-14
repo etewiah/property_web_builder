@@ -40,6 +40,9 @@ module Pwb
 
     validates :site_type, inclusion: { in: SITE_TYPES }, allow_blank: true
 
+    # Email verification token expiry (configurable via env var, default 1 week)
+    EMAIL_VERIFICATION_EXPIRY = ENV.fetch('EMAIL_VERIFICATION_EXPIRY_DAYS', '7').to_i.days
+
     # Provisioning state machine
     #
     # States track granular progress through provisioning, with guards to ensure
@@ -47,10 +50,12 @@ module Pwb
     #
     # Flow:
     #   pending → owner_assigned → agency_created → links_created →
-    #   field_keys_created → properties_seeded → ready → live
+    #   field_keys_created → properties_seeded → ready →
+    #   locked_pending_email_verification → locked_pending_registration → live
     #
     # Each transition has guards that verify the required data exists.
     # This prevents websites from reaching 'live' state without proper setup.
+    # New sites are locked until owner verifies email and creates Firebase account.
     #
     aasm column: :provisioning_state do
       state :pending, initial: true
@@ -59,7 +64,9 @@ module Pwb
       state :links_created         # Navigation links seeded
       state :field_keys_created    # Field keys seeded
       state :properties_seeded     # Sample properties created (optional but tracked)
-      state :ready                 # All provisioning complete, awaiting go-live
+      state :ready                 # All provisioning complete, awaiting verification
+      state :locked_pending_email_verification  # Site provisioned, waiting for email verification
+      state :locked_pending_registration        # Email verified, waiting for Firebase account
       state :live                  # Website is publicly accessible
       state :failed                # Provisioning failed at some step
       state :suspended             # Temporarily disabled
@@ -113,9 +120,36 @@ module Pwb
         end
       end
 
-      # Step 7: Go live
+      # Step 7: Enter locked state (awaiting email verification)
+      # This is the normal end state after provisioning for new signups
+      event :enter_locked_state do
+        transitions from: :ready, to: :locked_pending_email_verification, guard: :can_go_live?
+        after do
+          generate_email_verification_token!
+          log_provisioning_step('locked_pending_email_verification')
+        end
+      end
+
+      # Step 8: Verify email (user clicked verification link)
+      event :verify_owner_email do
+        transitions from: :locked_pending_email_verification, to: :locked_pending_registration,
+                    guard: :email_verification_valid?
+        after do
+          update!(email_verified_at: Time.current)
+          log_provisioning_step('locked_pending_registration')
+        end
+      end
+
+      # Step 9: Complete registration (user created Firebase account)
+      event :complete_owner_registration do
+        transitions from: :locked_pending_registration, to: :live
+        after { log_provisioning_step('live') }
+      end
+
+      # Direct go_live (for admin use or special cases - bypasses email verification)
       event :go_live do
-        transitions from: :ready, to: :live, guard: :can_go_live?
+        transitions from: [:ready, :locked_pending_email_verification, :locked_pending_registration],
+                    to: :live, guard: :can_go_live?
         after { log_provisioning_step('live') }
       end
 
@@ -140,7 +174,8 @@ module Pwb
 
       # Lifecycle events for live websites
       event :suspend do
-        transitions from: [:ready, :live], to: :suspended
+        transitions from: [:ready, :live, :locked_pending_email_verification, :locked_pending_registration],
+                    to: :suspended
         after { log_provisioning_step('suspended') }
       end
 
@@ -189,9 +224,61 @@ module Pwb
       provisioning_complete? && subdomain.present?
     end
 
+    # Check if email verification token is valid (not expired)
+    def email_verification_valid?
+      email_verification_token.present? &&
+        email_verification_token_expires_at.present? &&
+        email_verification_token_expires_at > Time.current
+    end
+
+    # ===================
+    # Email Verification
+    # ===================
+
+    # Generate a new email verification token
+    def generate_email_verification_token!
+      update!(
+        email_verification_token: SecureRandom.urlsafe_base64(32),
+        email_verification_token_expires_at: EMAIL_VERIFICATION_EXPIRY.from_now
+      )
+    end
+
+    # Regenerate token (for resend functionality)
+    def regenerate_email_verification_token!
+      generate_email_verification_token!
+    end
+
+    # Check if the site is in a locked state
+    def locked?
+      locked_pending_email_verification? || locked_pending_registration?
+    end
+
+    # Get the specific locked mode (for rendering appropriate UI)
+    def locked_mode
+      return nil unless locked?
+      return :pending_email_verification if locked_pending_email_verification?
+      return :pending_registration if locked_pending_registration?
+    end
+
+    # Check if email has been verified
+    def email_verified?
+      email_verified_at.present?
+    end
+
+    # Get the owner user for this website
+    def owner
+      user_memberships.find_by(role: 'owner', active: true)&.user
+    end
+
+    # Find website by email verification token
+    def self.find_by_verification_token(token)
+      return nil if token.blank?
+      find_by(email_verification_token: token)
+    end
+
     # ===================
     # Provisioning Status
-    # ===================
+    # ====================
 
     # Provisioning progress as percentage (for progress bar)
     def provisioning_progress
@@ -202,7 +289,9 @@ module Pwb
       when 'links_created' then 45
       when 'field_keys_created' then 60
       when 'properties_seeded' then 80
-      when 'ready' then 95
+      when 'ready' then 90
+      when 'locked_pending_email_verification' then 95
+      when 'locked_pending_registration' then 98
       when 'live' then 100
       when 'failed' then provisioning_failed_step_progress
       else 0
@@ -219,6 +308,8 @@ module Pwb
       when 'field_keys_created' then 'Property fields configured'
       when 'properties_seeded' then 'Sample properties added'
       when 'ready' then 'Almost done! Finalizing...'
+      when 'locked_pending_email_verification' then 'Please check your email to verify your account'
+      when 'locked_pending_registration' then 'Email verified! Please create your account to continue'
       when 'live' then 'Your website is live!'
       when 'failed' then "Setup failed: #{provisioning_error}"
       when 'suspended' then 'Website suspended'

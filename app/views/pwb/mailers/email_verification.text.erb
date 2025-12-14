@@ -1,0 +1,18 @@
+Verify Your Email
+=================
+
+Hello!
+
+Thank you for signing up for <%= @website.subdomain %>. To activate your website, please verify your email address by visiting this link:
+
+<%= @verification_url %>
+
+After verifying your email, you'll be able to create your account and start customizing your website.
+
+This link will expire in <%= @expires_in %> days. If you need a new verification link, you can request one from the signup page.
+
+---
+
+If you didn't sign up for this website, you can safely ignore this email.
+
+This email was sent by PropertyWebBuilder.
