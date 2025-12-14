@@ -128,6 +128,53 @@ module Pwb
       new(name)
     end
 
+    # ===========================================
+    # Public methods for individual seeding steps
+    # Used by ProvisioningService for granular control
+    # ===========================================
+
+    # Seed agency for a specific website
+    def seed_agency!(website:)
+      @website = website
+      @verbose = false
+      seed_agency
+    end
+
+    # Seed links for a specific website
+    def seed_links!(website:)
+      @website = website
+      @verbose = false
+      seed_links
+    end
+
+    # Seed field keys for a specific website
+    def seed_field_keys!(website:)
+      @website = website
+      @verbose = false
+      seed_field_keys
+    end
+
+    # Seed pages for a specific website
+    def seed_pages!(website:)
+      @website = website
+      @verbose = false
+      seed_pages
+    end
+
+    # Seed page parts for a specific website
+    def seed_page_parts!(website:)
+      @website = website
+      @verbose = false
+      seed_page_parts
+    end
+
+    # Seed properties for a specific website
+    def seed_properties!(website:)
+      @website = website
+      @verbose = false
+      seed_properties
+    end
+
     private
 
     def default_options
@@ -149,7 +196,7 @@ module Pwb
 
     def validate_pack_exists!
       unless @path.exist?
-        available = self.class.available.map { |p| p[:name] }.join(', ')
+        available = self.class.available.map(&:name).join(', ')
         raise PackNotFoundError, "Seed pack '#{@name}' not found at #{@path}. Available packs: #{available}"
       end
 

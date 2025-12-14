@@ -223,9 +223,14 @@ module Pwb
           return failure_result
         end
         website.complete_field_keys!
-        report_progress(progress_block, website, 'field_keys_created', 60)
+        report_progress(progress_block, website, 'field_keys_created', 50)
 
-        # Step 4: Seed properties (optional)
+        # Step 4: Create pages and page parts
+        Rails.logger.info("[Provisioning] Creating pages for website #{website.id}")
+        create_pages_for_website(website)
+        report_progress(progress_block, website, 'pages_created', 65)
+
+        # Step 5: Seed properties (optional)
         Rails.logger.info("[Provisioning] Seeding properties for website #{website.id} (skip=#{skip_properties})")
         if skip_properties
           website.skip_properties!
@@ -235,7 +240,7 @@ module Pwb
         end
         report_progress(progress_block, website, 'properties_seeded', 80)
 
-        # Step 5: Final verification and mark ready
+        # Step 6: Final verification and mark ready
         Rails.logger.info("[Provisioning] Final verification for website #{website.id}")
         unless website.provisioning_complete?
           missing = website.provisioning_missing_items
@@ -245,7 +250,7 @@ module Pwb
         website.mark_ready!
         report_progress(progress_block, website, 'ready', 95)
 
-        # Step 6: Enter locked state (awaiting email verification)
+        # Step 7: Enter locked state (awaiting email verification)
         Rails.logger.info("[Provisioning] Entering locked state for website #{website.id}")
         unless website.can_go_live?
           fail_with_details(website, "Cannot enter locked state - provisioning_complete=#{website.provisioning_complete?}, subdomain=#{website.subdomain.present?}")
@@ -385,6 +390,27 @@ module Pwb
       end
     end
 
+    # Create pages and page parts for the website
+    def create_pages_for_website(website)
+      return if website.pages.count >= 1
+
+      Pwb::Current.website = website
+
+      # Try seed pack first
+      if try_seed_pack_step(website, :pages)
+        return
+      end
+
+      # Fallback: use PagesSeeder for default pages
+      begin
+        Pwb::PagesSeeder.seed_page_basics!(website: website)
+        Pwb::PagesSeeder.seed_page_parts!(website: website)
+      rescue StandardError => e
+        Rails.logger.warn("[Provisioning] Page seeding fallback failed: #{e.message}")
+        # Pages are important but don't fail provisioning entirely
+      end
+    end
+
     # Seed sample properties for the website
     def seed_properties_for_website(website)
       Pwb::Current.website = website
@@ -423,6 +449,10 @@ module Pwb
           when :field_keys
             seed_pack.seed_field_keys!(website: website) if seed_pack.respond_to?(:seed_field_keys!)
             return website.field_keys.count >= 5  # Verify minimum field keys exist
+          when :pages
+            seed_pack.seed_pages!(website: website) if seed_pack.respond_to?(:seed_pages!)
+            seed_pack.seed_page_parts!(website: website) if seed_pack.respond_to?(:seed_page_parts!)
+            return website.pages.count >= 1  # Verify at least one page exists
           when :properties
             seed_pack.seed_properties!(website: website) if seed_pack.respond_to?(:seed_properties!)
             return true  # Properties are optional, just return true
