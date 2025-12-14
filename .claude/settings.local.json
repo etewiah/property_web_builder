@@ -6,7 +6,9 @@
       "mcp__filesystem__list_directory",
       "mcp__filesystem__read_text_file",
       "mcp__filesystem__write_file",
-      "Bash(awk '{print $9, \"\"\"\"(\"\"\"\" $5 \"\"\"\")\"\"\"\"}')"
+      "Bash(awk '{print $9, \"\"\"\"(\"\"\"\" $5 \"\"\"\")\"\"\"\"}')",
+      "Bash(git commit:*)",
+      "Bash(node -c:*)"
     ],
     "deny": [],
     "ask": []
