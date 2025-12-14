@@ -516,6 +516,20 @@ RSpec.describe "Api::Signup::Signups", type: :request do
       expect(response).to have_http_status(:ok)
       expect(json_response[:subdomain]).to be_present
     end
+
+    it "does not suggest subdomains already used by websites" do
+      # Create a subdomain in the pool marked as available
+      used_subdomain = Pwb::Subdomain.create!(name: 'taken-subdomain-99', aasm_state: 'available')
+
+      # Create a website using that subdomain (simulating data inconsistency)
+      FactoryBot.create(:pwb_website, subdomain: 'taken-subdomain-99')
+
+      # Make multiple requests to verify the taken subdomain is never suggested
+      10.times do
+        get '/api/signup/suggest_subdomain'
+        expect(json_response[:subdomain]).not_to eq('taken-subdomain-99')
+      end
+    end
   end
 
   describe "GET /api/signup/site_types" do

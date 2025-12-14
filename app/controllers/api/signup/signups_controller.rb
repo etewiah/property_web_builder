@@ -257,7 +257,12 @@ module Api
       #
       def suggest_subdomain
         # Pick a random available subdomain from the pool (without reserving it)
-        subdomain = Pwb::Subdomain.available.order('RANDOM()').first
+        # Exclude any subdomains already used by existing websites
+        subdomain = Pwb::Subdomain
+          .available
+          .where.not(name: Pwb::Website.select(:subdomain))
+          .order('RANDOM()')
+          .first
 
         if subdomain
           json_response(subdomain: subdomain.name)
