@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_12_175813) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_14_180000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -612,6 +612,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_12_175813) do
     t.index ["aasm_state", "name"], name: "index_pwb_subdomains_on_aasm_state_and_name"
     t.index ["aasm_state"], name: "index_pwb_subdomains_on_aasm_state"
     t.index ["name"], name: "index_pwb_subdomains_on_name", unique: true
+    t.index ["reserved_by_email"], name: "index_subdomains_unique_reserved_email", unique: true, where: "(((aasm_state)::text = 'reserved'::text) AND (reserved_by_email IS NOT NULL))"
     t.index ["website_id"], name: "index_pwb_subdomains_on_website_id"
   end
 

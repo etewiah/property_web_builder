@@ -8,16 +8,48 @@ RSpec.describe "Api::Signup::Signups", type: :request do
     JSON.parse(response.body, symbolize_names: true)
   end
 
+  # Generate unique email for each test to avoid collisions
+  def unique_email(prefix = "test")
+    "#{prefix}-#{SecureRandom.hex(4)}@example.com"
+  end
+
+  # Generate unique subdomain for each test
+  def unique_subdomain(prefix = "site")
+    "#{prefix}-#{SecureRandom.hex(4)}"
+  end
+
+  # Ensure subdomain pool has available subdomains for tests
+  before(:each) do
+    # Clear any existing subdomains to ensure clean state
+    Pwb::Subdomain.delete_all
+
+    # Create plenty of available subdomains in the pool for each test
+    # Using sequential numeric names to avoid profanity filter issues with random hex
+    # Need 50+ because some tests make multiple API calls (e.g., "accepts different site types" loops)
+    # and each /api/signup/start reserves a subdomain from the pool
+    50.times do |i|
+      # Use a safe, predictable naming pattern that won't trigger profanity filters
+      name = "testpool-#{i.to_s.rjust(4, '0')}"
+      Pwb::Subdomain.create!(name: name, aasm_state: 'available')
+    end
+  end
+
+  # Clean up after each test to release resources
+  after(:each) do
+    # Clear signup tokens to prevent cross-test contamination
+    Pwb::User.update_all(signup_token: nil, signup_token_expires_at: nil)
+  end
+
   describe "POST /api/signup/start" do
     context "with valid email" do
-      it "creates a new user and returns success" do
+      it "creates a new user and returns success with signup_token" do
         post '/api/signup/start', params: { email: 'newuser@example.com' }
 
         expect(response).to have_http_status(:ok)
         expect(json_response[:success]).to be true
-        expect(json_response[:user_id]).to be_present
+        expect(json_response[:signup_token]).to be_present
         expect(json_response[:subdomain]).to be_present
-        expect(json_response[:message]).to eq("Signup started successfully")
+        expect(json_response[:message]).to include("Signup started")
 
         # Verify user was created
         expect(Pwb::User.find_by(email: 'newuser@example.com')).to be_present
@@ -27,27 +59,31 @@ RSpec.describe "Api::Signup::Signups", type: :request do
         post '/api/signup/start', params: { email: 'NewUser@Example.COM' }
 
         expect(response).to have_http_status(:ok)
-        user = Pwb::User.last
+        user = Pwb::User.find_by(email: 'newuser@example.com')
+        expect(user).to be_present
         expect(user.email).to eq('newuser@example.com')
       end
 
-      it "generates a valid subdomain suggestion" do
-        post '/api/signup/start', params: { email: 'test@example.com' }
+      it "returns a subdomain suggestion" do
+        post '/api/signup/start', params: { email: 'subdomain-test@example.com' }
 
         expect(response).to have_http_status(:ok)
         subdomain = json_response[:subdomain]
-        expect(subdomain).to match(/^[a-z]+-[a-z]+-\d+$/)
+        # Subdomain should be a valid name (letters, numbers, hyphens)
+        expect(subdomain).to be_present
+        expect(subdomain).to match(/^[a-z0-9][a-z0-9\-]*[a-z0-9]$/)
       end
 
-      it "stores user_id in session for subsequent requests" do
-        post '/api/signup/start', params: { email: 'session@example.com' }
+      it "returns signup_token for subsequent requests" do
+        post '/api/signup/start', params: { email: 'token@example.com' }
 
         expect(response).to have_http_status(:ok)
-        # Session should be set (verified by subsequent request working)
-        user_id = json_response[:user_id]
+        signup_token = json_response[:signup_token]
+        expect(signup_token).to be_present
 
-        # Configure should work with session
+        # Configure should work with signup_token
         post '/api/signup/configure', params: {
+          signup_token: signup_token,
           subdomain: 'my-test-site',
           site_type: 'residential'
         }
@@ -62,6 +98,8 @@ RSpec.describe "Api::Signup::Signups", type: :request do
       before do
         # Remove any websites associated with the user
         existing_user.websites.destroy_all if existing_user.respond_to?(:websites)
+        # Clear any existing signup token
+        existing_user.update_columns(signup_token: nil, signup_token_expires_at: nil)
       end
 
       it "returns existing user for signup continuation" do
@@ -71,6 +109,30 @@ RSpec.describe "Api::Signup::Signups", type: :request do
 
         expect(response).to have_http_status(:ok)
         expect(json_response[:success]).to be true
+        expect(json_response[:signup_token]).to be_present
+      end
+    end
+
+    context "with existing email (has website)" do
+      let!(:existing_website) { FactoryBot.create(:pwb_website, subdomain: 'existing-user-site') }
+      let!(:existing_user) { FactoryBot.create(:pwb_user, email: 'haswebsite@example.com', website: existing_website) }
+
+      before do
+        # Create user membership to properly associate user with website via has_many :through
+        Pwb::UserMembership.create!(
+          user: existing_user,
+          website: existing_website,
+          role: 'admin',
+          active: true
+        )
+      end
+
+      it "returns error for user with existing website" do
+        post '/api/signup/start', params: { email: 'haswebsite@example.com' }
+
+        expect(response).to have_http_status(:unprocessable_content)
+        expect(json_response[:success]).to be false
+        expect(json_response[:error]).to include("already exists")
       end
     end
 
@@ -101,17 +163,22 @@ RSpec.describe "Api::Signup::Signups", type: :request do
   end
 
   describe "POST /api/signup/configure" do
-    context "with valid session" do
-      before do
-        # Start signup first to establish session
-        post '/api/signup/start', params: { email: 'config@example.com' }
-        expect(response).to have_http_status(:ok)
+    context "with valid signup_token" do
+      # Use instance variable to store token across examples in this context
+      let(:config_email) { unique_email("config") }
+      let(:signup_token) do
+        post '/api/signup/start', params: { email: config_email }
+        expect(response).to have_http_status(:ok), "start failed: #{response.body}"
+        json_response[:signup_token]
       end
 
       context "with valid parameters" do
         it "creates a website with the specified subdomain" do
+          token = signup_token # Capture token before count check
+
           expect {
             post '/api/signup/configure', params: {
+              signup_token: token,
               subdomain: 'my-awesome-site',
               site_type: 'residential'
             }
@@ -126,6 +193,7 @@ RSpec.describe "Api::Signup::Signups", type: :request do
 
         it "normalizes subdomain to lowercase" do
           post '/api/signup/configure', params: {
+            signup_token: signup_token,
             subdomain: 'My-Site-NAME',
             site_type: 'residential'
           }
@@ -136,15 +204,21 @@ RSpec.describe "Api::Signup::Signups", type: :request do
 
         it "accepts different site types" do
           %w[residential commercial vacation_rental].each do |site_type|
-            # Start a new signup for each test
-            post '/api/signup/start', params: { email: "#{site_type}@example.com" }
+            # Start a new signup for each site type with unique email
+            email = unique_email(site_type)
+            subdomain = unique_subdomain(site_type.gsub('_', '-'))
+
+            post '/api/signup/start', params: { email: email }
+            expect(response).to have_http_status(:ok), "start_signup failed for #{site_type}: #{response.body}"
+            token = json_response[:signup_token]
 
             post '/api/signup/configure', params: {
-              subdomain: "site-#{site_type.gsub('_', '-')}",
+              signup_token: token,
+              subdomain: subdomain,
               site_type: site_type
             }
 
-            expect(response).to have_http_status(:ok), "Failed for site_type: #{site_type}"
+            expect(response).to have_http_status(:ok), "configure failed for site_type: #{site_type}: #{response.body}"
             expect(json_response[:site_type]).to eq(site_type)
           end
         end
@@ -153,6 +227,7 @@ RSpec.describe "Api::Signup::Signups", type: :request do
       context "with invalid parameters" do
         it "returns error for blank subdomain" do
           post '/api/signup/configure', params: {
+            signup_token: signup_token,
             subdomain: '',
             site_type: 'residential'
           }
@@ -164,6 +239,7 @@ RSpec.describe "Api::Signup::Signups", type: :request do
 
         it "returns error for blank site_type" do
           post '/api/signup/configure', params: {
+            signup_token: signup_token,
             subdomain: 'my-site',
             site_type: ''
           }
@@ -175,11 +251,12 @@ RSpec.describe "Api::Signup::Signups", type: :request do
 
         it "returns error for invalid subdomain format" do
           post '/api/signup/configure', params: {
+            signup_token: signup_token,
             subdomain: 'ab', # Too short
             site_type: 'residential'
           }
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(json_response[:success]).to be false
         end
       end
@@ -189,45 +266,65 @@ RSpec.describe "Api::Signup::Signups", type: :request do
 
         it "returns error when subdomain is already taken" do
           post '/api/signup/configure', params: {
+            signup_token: signup_token,
             subdomain: 'taken-subdomain',
             site_type: 'residential'
           }
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(json_response[:success]).to be false
           expect(json_response[:error]).to include("taken")
         end
       end
     end
 
-    context "without valid session" do
-      it "returns unauthorized error" do
+    context "without valid signup_token" do
+      it "returns error for missing signup_token" do
         post '/api/signup/configure', params: {
+          subdomain: 'my-site',
+          site_type: 'residential'
+        }
+
+        expect(response).to have_http_status(:bad_request)
+        expect(json_response[:success]).to be false
+        expect(json_response[:error]).to include("signup_token")
+      end
+
+      it "returns unauthorized error for invalid signup_token" do
+        post '/api/signup/configure', params: {
+          signup_token: 'invalid-token-12345',
           subdomain: 'my-site',
           site_type: 'residential'
         }
 
         expect(response).to have_http_status(:unauthorized)
         expect(json_response[:success]).to be false
-        expect(json_response[:error]).to include("email")
+        expect(json_response[:error]).to include("Invalid")
       end
     end
   end
 
   describe "POST /api/signup/provision" do
-    context "with valid session and website" do
-      before do
+    context "with valid signup_token and website" do
+      let(:provision_email) { unique_email("provision") }
+      let(:provision_subdomain) { unique_subdomain("provision") }
+      let(:signup_token) do
         # Complete signup flow up to configure
-        post '/api/signup/start', params: { email: 'provision@example.com' }
+        post '/api/signup/start', params: { email: provision_email }
+        expect(response).to have_http_status(:ok), "start failed: #{response.body}"
+        token = json_response[:signup_token]
+
         post '/api/signup/configure', params: {
-          subdomain: 'provision-test',
+          signup_token: token,
+          subdomain: provision_subdomain,
           site_type: 'residential'
         }
-        expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:ok), "configure failed: #{response.body}"
+        token
       end
 
       it "triggers provisioning and returns status" do
-        post '/api/signup/provision'
+        post '/api/signup/provision', params: { signup_token: signup_token }
 
         expect(response).to have_http_status(:ok)
         expect(json_response[:success]).to be true
@@ -237,7 +334,7 @@ RSpec.describe "Api::Signup::Signups", type: :request do
       end
 
       it "returns progress percentage" do
-        post '/api/signup/provision'
+        post '/api/signup/provision', params: { signup_token: signup_token }
 
         expect(response).to have_http_status(:ok)
         expect(json_response[:progress]).to be >= 0
@@ -245,9 +342,16 @@ RSpec.describe "Api::Signup::Signups", type: :request do
       end
     end
 
-    context "without valid session" do
-      it "returns unauthorized error" do
+    context "without valid signup_token" do
+      it "returns error for missing signup_token" do
         post '/api/signup/provision'
+
+        expect(response).to have_http_status(:bad_request)
+        expect(json_response[:success]).to be false
+      end
+
+      it "returns unauthorized error for invalid signup_token" do
+        post '/api/signup/provision', params: { signup_token: 'invalid-token' }
 
         expect(response).to have_http_status(:unauthorized)
         expect(json_response[:success]).to be false
@@ -256,18 +360,26 @@ RSpec.describe "Api::Signup::Signups", type: :request do
   end
 
   describe "GET /api/signup/status" do
-    context "with valid session and website" do
-      before do
+    context "with valid signup_token and website" do
+      let(:status_email) { unique_email("status") }
+      let(:status_subdomain) { unique_subdomain("status") }
+      let(:signup_token) do
         # Complete signup flow
-        post '/api/signup/start', params: { email: 'status@example.com' }
+        post '/api/signup/start', params: { email: status_email }
+        expect(response).to have_http_status(:ok), "start failed: #{response.body}"
+        token = json_response[:signup_token]
+
         post '/api/signup/configure', params: {
-          subdomain: 'status-test',
+          signup_token: token,
+          subdomain: status_subdomain,
           site_type: 'residential'
         }
+        expect(response).to have_http_status(:ok), "configure failed: #{response.body}"
+        token
       end
 
       it "returns current provisioning status" do
-        get '/api/signup/status'
+        get '/api/signup/status', params: { signup_token: signup_token }
 
         expect(response).to have_http_status(:ok)
         expect(json_response[:success]).to be true
@@ -278,11 +390,13 @@ RSpec.describe "Api::Signup::Signups", type: :request do
       end
 
       it "includes website URL when live" do
-        # Manually set website to live state
-        website = Pwb::Website.find_by(subdomain: 'status-test')
-        website.update!(provisioning_state: 'live') if website
+        # First access signup_token to create the website
+        signup_token
+        # Then find and update the website
+        website = Pwb::Website.find_by(subdomain: status_subdomain)
+        website&.update!(provisioning_state: 'live')
 
-        get '/api/signup/status'
+        get '/api/signup/status', params: { signup_token: signup_token }
 
         expect(response).to have_http_status(:ok)
         if json_response[:complete]
@@ -292,9 +406,16 @@ RSpec.describe "Api::Signup::Signups", type: :request do
       end
     end
 
-    context "without valid session" do
-      it "returns unauthorized error" do
+    context "without valid signup_token" do
+      it "returns error for missing signup_token" do
         get '/api/signup/status'
+
+        expect(response).to have_http_status(:bad_request)
+        expect(json_response[:success]).to be false
+      end
+
+      it "returns unauthorized error for invalid signup_token" do
+        get '/api/signup/status', params: { signup_token: 'invalid-token' }
 
         expect(response).to have_http_status(:unauthorized)
         expect(json_response[:success]).to be false
@@ -428,17 +549,24 @@ RSpec.describe "Api::Signup::Signups", type: :request do
   end
 
   describe "full signup flow" do
-    it "completes the entire signup process" do
+    it "completes the entire signup process with token-based auth" do
+      flow_email = unique_email("fullflow")
+      flow_subdomain = unique_subdomain("fullflow")
+
       # Step 1: Start signup
-      post '/api/signup/start', params: { email: 'fullflow@example.com' }
+      post '/api/signup/start', params: { email: flow_email }
       expect(response).to have_http_status(:ok)
       expect(json_response[:success]).to be true
-      user_id = json_response[:user_id]
+      signup_token = json_response[:signup_token]
       suggested_subdomain = json_response[:subdomain]
+
+      expect(signup_token).to be_present
+      expect(suggested_subdomain).to be_present
 
       # Step 2: Configure site
       post '/api/signup/configure', params: {
-        subdomain: 'fullflow-site',
+        signup_token: signup_token,
+        subdomain: flow_subdomain,
         site_type: 'residential'
       }
       expect(response).to have_http_status(:ok)
@@ -446,24 +574,25 @@ RSpec.describe "Api::Signup::Signups", type: :request do
       website_id = json_response[:website_id]
 
       # Step 3: Check status
-      get '/api/signup/status'
+      get '/api/signup/status', params: { signup_token: signup_token }
       expect(response).to have_http_status(:ok)
       expect(json_response[:success]).to be true
       expect(json_response[:provisioning_status]).to be_present
 
       # Verify data was created correctly
-      user = Pwb::User.find(user_id)
-      expect(user.email).to eq('fullflow@example.com')
+      user = Pwb::User.find_by(email: flow_email)
+      expect(user).to be_present
+      expect(user.signup_token).to eq(signup_token)
 
       website = Pwb::Website.find(website_id)
-      expect(website.subdomain).to eq('fullflow-site')
+      expect(website.subdomain).to eq(flow_subdomain)
       expect(website.site_type).to eq('residential')
     end
   end
 
   describe "error handling" do
     it "returns JSON for all responses" do
-      post '/api/signup/start', params: { email: 'test@example.com' }
+      post '/api/signup/start', params: { email: unique_email("json") }
       expect(response.content_type).to include('application/json')
 
       get '/api/signup/check_subdomain', params: { name: 'test' }
@@ -473,7 +602,7 @@ RSpec.describe "Api::Signup::Signups", type: :request do
     it "handles unexpected errors gracefully" do
       allow(Pwb::SignupApiService).to receive(:new).and_raise(StandardError.new("Unexpected error"))
 
-      post '/api/signup/start', params: { email: 'error@example.com' }
+      post '/api/signup/start', params: { email: unique_email("error") }
 
       expect(response).to have_http_status(:internal_server_error)
       expect(json_response[:success]).to be false

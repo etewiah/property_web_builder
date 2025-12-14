@@ -28,17 +28,11 @@ module Pwb
         if user
           # User exists - check if they have an incomplete signup
           if user.websites.empty?
-            # Check if they already have a reserved subdomain
-            existing_subdomain = Pwb::Subdomain.find_by(reserved_by_email: email, aasm_state: 'reserved')
-
             # Generate new signup token for this user
             token = generate_signup_token(user)
 
-            if existing_subdomain
-              return { success: true, user: user, subdomain: existing_subdomain, signup_token: token }
-            end
-
-            # Reserve a new subdomain for continuation
+            # Use reserve_for_email which handles existing reservations correctly
+            # It returns existing reservation if one exists, or creates new one if not
             subdomain = reserve_subdomain_for_user(email)
             return { success: true, user: user, subdomain: subdomain, signup_token: token }
           else
@@ -187,27 +181,26 @@ module Pwb
     end
 
     # Reserve a subdomain for a user during signup
-    # Creates a Subdomain record in 'reserved' state
+    # Uses Subdomain.reserve_for_email which:
+    # - Returns existing active reservation if one exists for this email
+    # - Creates new reservation only if no active one exists
     #
     # @param email [String] User's email
     # @return [Pwb::Subdomain] The reserved subdomain
+    # @raise [SignupError] if subdomain pool is exhausted
     #
     def reserve_subdomain_for_user(email)
-      # Use the class method if available, otherwise create directly
-      result = Pwb::Subdomain.reserve_for_email(email, duration: 24.hours)
+      # reserve_for_email handles duplicate prevention internally:
+      # 1. Releases any expired reservations for this email
+      # 2. Returns existing active reservation if found
+      # 3. Only creates new reservation if none exists
+      subdomain = Pwb::Subdomain.reserve_for_email(email, duration: 24.hours)
 
-      if result[:subdomain]
-        result[:subdomain]
+      if subdomain.is_a?(Pwb::Subdomain)
+        subdomain
       else
-        # Fallback: generate and create directly
-        subdomain_name = SubdomainGenerator.generate
-        Pwb::Subdomain.create!(
-          name: subdomain_name,
-          aasm_state: 'reserved',
-          reserved_by_email: email,
-          reserved_at: Time.current,
-          reserved_until: 24.hours.from_now
-        )
+        # Pool is exhausted - don't create directly as that bypasses duplicate checks
+        raise SignupError, "Unable to reserve a subdomain. Please try again later or contact support."
       end
     end
 

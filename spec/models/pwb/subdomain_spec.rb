@@ -133,12 +133,14 @@ module Pwb
         expect(subdomain.reserved_by_email).to eq('reserve-user@example.com')
       end
 
-      it 'returns nil if no subdomains available' do
+      it 'raises SubdomainPoolEmptyError if no subdomains available' do
         # Stub available scope to return empty relation
         allow(Subdomain).to receive(:available).and_return(Subdomain.none)
+        allow(Subdomain).to receive(:count).and_return(0)
         # Use a unique email to avoid finding existing reservations
-        subdomain = Subdomain.reserve_for_email("noavail-#{rand(1000..9999)}@example.com")
-        expect(subdomain).to be_nil
+        expect {
+          Subdomain.reserve_for_email("noavail-#{rand(1000..9999)}@example.com")
+        }.to raise_error(Subdomain::SubdomainPoolEmptyError)
       end
 
       it 'returns existing reservation for same email' do
