@@ -346,12 +346,13 @@ module Pwb
         return
       end
 
-      # Fallback: create minimal links
+      # Fallback: create minimal links with proper attributes
+      # link_path is required for navigation rendering in _header.html.erb
       default_links = [
-        { slug: 'home', link_url: '/', visible: true },
-        { slug: 'properties', link_url: '/search', visible: true },
-        { slug: 'about', link_url: '/about', visible: true },
-        { slug: 'contact', link_url: '/contact', visible: true }
+        { slug: 'top_nav_home', page_slug: 'home', link_path: 'home_path', link_title: 'Home', placement: :top_nav, visible: true },
+        { slug: 'top_nav_buy', page_slug: 'buy', link_path: 'buy_path', link_title: 'Buy', placement: :top_nav, visible: true },
+        { slug: 'top_nav_rent', page_slug: 'rent', link_path: 'rent_path', link_title: 'Rent', placement: :top_nav, visible: true },
+        { slug: 'top_nav_contact', page_slug: 'contact-us', link_path: 'contact_us_path', link_title: 'Contact', placement: :top_nav, visible: true }
       ]
 
       default_links.each_with_index do |link_attrs, index|

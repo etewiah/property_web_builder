@@ -1,37 +1,44 @@
 # Base navigation links
 # These are standard navigation items used across all packs
+# NOTE: link_path is required for the navigation to render properly
 
 # Top Navigation
-- slug: home
+- slug: top_nav_home
   page_slug: home
+  link_path: home_path
   link_title: Home
   placement: top_nav
   sort_order: 1
   visible: true
 
-- slug: buy
+- slug: top_nav_buy
   page_slug: buy
+  link_path: buy_path
   link_title: Buy
   placement: top_nav
   sort_order: 2
   visible: true
 
-- slug: rent
+- slug: top_nav_rent
   page_slug: rent
+  link_path: rent_path
   link_title: Rent
   placement: top_nav
   sort_order: 3
   visible: true
 
-- slug: about
-  page_slug: about
+- slug: top_nav_about
+  page_slug: about-us
+  link_path: show_page_path
+  link_path_params: about-us
   link_title: About
   placement: top_nav
   sort_order: 4
   visible: true
 
-- slug: contact
-  page_slug: contact
+- slug: top_nav_contact
+  page_slug: contact-us
+  link_path: contact_us_path
   link_title: Contact
   placement: top_nav
   sort_order: 5
@@ -40,6 +47,7 @@
 # Footer Navigation
 - slug: footer_home
   page_slug: home
+  link_path: home_path
   link_title: Home
   placement: footer
   sort_order: 1
@@ -47,6 +55,7 @@
 
 - slug: footer_buy
   page_slug: buy
+  link_path: buy_path
   link_title: Properties for Sale
   placement: footer
   sort_order: 2
@@ -54,27 +63,33 @@
 
 - slug: footer_rent
   page_slug: rent
+  link_path: rent_path
   link_title: Properties for Rent
   placement: footer
   sort_order: 3
   visible: true
 
 - slug: footer_contact
-  page_slug: contact
+  page_slug: contact-us
+  link_path: contact_us_path
   link_title: Contact Us
   placement: footer
   sort_order: 4
   visible: true
 
-- slug: privacy
+- slug: footer_privacy
   page_slug: privacy
+  link_path: show_page_path
+  link_path_params: privacy
   link_title: Privacy Policy
   placement: footer
   sort_order: 5
   visible: true
 
-- slug: terms
-  page_slug: terms
+- slug: footer_terms
+  page_slug: legal
+  link_path: show_page_path
+  link_path_params: legal
   link_title: Terms & Conditions
   placement: footer
   sort_order: 6
