@@ -15,7 +15,7 @@ class AddUniqueReservedEmailIndexToSubdomains < ActiveRecord::Migration[8.1]
       SET aasm_state = 'available',
           reserved_by_email = NULL,
           reserved_at = NULL,
-          reservation_expires_at = NULL
+          reserved_until = NULL
       WHERE id IN (
         SELECT id FROM (
           SELECT id,
