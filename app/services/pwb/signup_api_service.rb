@@ -122,6 +122,11 @@ module Pwb
           return { success: false, errors: website.errors.full_messages }
         end
 
+        # Manage subdomain pool:
+        # 1. Release any previously reserved subdomain for this user (if different)
+        # 2. Allocate the chosen subdomain to this website
+        manage_subdomain_allocation(user: user, website: website, chosen_subdomain: subdomain_name)
+
         # Associate user with website as owner (required for provisioning)
         create_website_owner(user: user, website: website)
 
@@ -229,6 +234,46 @@ module Pwb
       user.update!(website: website) if user.website_id.nil?
 
       membership
+    end
+
+    # Manage subdomain pool when a website is configured
+    # - Releases any previously reserved subdomain for this user (if different from chosen)
+    # - Allocates the chosen subdomain to this website
+    #
+    # @param user [Pwb::User] The user
+    # @param website [Pwb::Website] The newly created website
+    # @param chosen_subdomain [String] The subdomain chosen by the user
+    #
+    def manage_subdomain_allocation(user:, website:, chosen_subdomain:)
+      email = user.email.downcase
+
+      # Find any existing reservation for this user
+      existing_reservation = Pwb::Subdomain.reserved.find_by(reserved_by_email: email)
+
+      if existing_reservation
+        if existing_reservation.name != chosen_subdomain
+          # User chose a different subdomain - release the old reservation
+          Rails.logger.info "[SignupApiService] Releasing unused reservation #{existing_reservation.name} for #{email}"
+          existing_reservation.release!
+          existing_reservation.make_available!
+        else
+          # User chose the same subdomain they had reserved - allocate it
+          Rails.logger.info "[SignupApiService] Allocating reserved subdomain #{existing_reservation.name} to website #{website.id}"
+          existing_reservation.allocate!(website)
+          return
+        end
+      end
+
+      # Try to allocate the chosen subdomain from the pool
+      chosen_pool_entry = Pwb::Subdomain.find_by(name: chosen_subdomain)
+
+      if chosen_pool_entry&.may_allocate?
+        Rails.logger.info "[SignupApiService] Allocating subdomain #{chosen_subdomain} to website #{website.id}"
+        chosen_pool_entry.allocate!(website)
+      else
+        # Subdomain is not in the pool (user provided custom name) - that's okay
+        Rails.logger.info "[SignupApiService] Subdomain #{chosen_subdomain} not in pool or already allocated"
+      end
     end
   end
 end

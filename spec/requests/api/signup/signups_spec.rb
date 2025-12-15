@@ -276,6 +276,79 @@ RSpec.describe "Api::Signup::Signups", type: :request do
           expect(json_response[:error]).to include("taken")
         end
       end
+
+      context "subdomain pool management" do
+        it "releases old reservation when user chooses a different subdomain" do
+          # Create a reserved subdomain for this user (use config_email from let block)
+          old_reserved = Pwb::Subdomain.create!(
+            name: 'old-reserved-one',
+            aasm_state: 'reserved',
+            reserved_by_email: config_email,
+            reserved_at: Time.current,
+            reserved_until: 24.hours.from_now
+          )
+
+          # Configure with a different subdomain
+          post '/api/signup/configure', params: {
+            signup_token: signup_token,
+            subdomain: 'new-chosen-name',
+            site_type: 'residential'
+          }
+
+          expect(response).to have_http_status(:ok)
+
+          # Old reservation should be released and available
+          old_reserved.reload
+          expect(old_reserved.aasm_state).to eq('available')
+          expect(old_reserved.reserved_by_email).to be_nil
+        end
+
+        it "allocates the chosen subdomain if it exists in the pool" do
+          # Create the subdomain in the pool
+          pool_subdomain = Pwb::Subdomain.create!(
+            name: 'pool-subdomain-99',
+            aasm_state: 'available'
+          )
+
+          post '/api/signup/configure', params: {
+            signup_token: signup_token,
+            subdomain: 'pool-subdomain-99',
+            site_type: 'residential'
+          }
+
+          expect(response).to have_http_status(:ok)
+
+          # Pool subdomain should be allocated to the new website
+          pool_subdomain.reload
+          expect(pool_subdomain.aasm_state).to eq('allocated')
+          expect(pool_subdomain.website_id).to eq(json_response[:website_id])
+        end
+
+        it "allocates the reserved subdomain when user keeps their reservation" do
+          # Reserve a subdomain for this user (use config_email from let block)
+          reserved = Pwb::Subdomain.create!(
+            name: 'kept-reserved-sub',
+            aasm_state: 'reserved',
+            reserved_by_email: config_email,
+            reserved_at: Time.current,
+            reserved_until: 24.hours.from_now
+          )
+
+          # Configure with the same subdomain they had reserved
+          post '/api/signup/configure', params: {
+            signup_token: signup_token,
+            subdomain: 'kept-reserved-sub',
+            site_type: 'residential'
+          }
+
+          expect(response).to have_http_status(:ok)
+
+          # Reserved subdomain should now be allocated
+          reserved.reload
+          expect(reserved.aasm_state).to eq('allocated')
+          expect(reserved.website_id).to eq(json_response[:website_id])
+        end
+      end
     end
 
     context "without valid signup_token" do
