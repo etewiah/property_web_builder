@@ -124,7 +124,8 @@ module Pwb
           subdomain: validation[:normalized],
           site_type: site_type,
           provisioning_state: 'pending',
-          seed_pack_name: seed_pack_for_site_type(site_type)
+          seed_pack_name: seed_pack_for_site_type(site_type),
+          owner_email: user.email  # Required for Firebase auth to transition to live
         )
 
         unless website.save

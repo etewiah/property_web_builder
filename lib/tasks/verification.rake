@@ -90,6 +90,93 @@ namespace :verification do
     VerificationHelper.print_website_info(website, base_domain, verification_base_url, :full)
   end
 
+  desc "Fix missing owner_email for websites in locked states"
+  task fix_owner_emails: :environment do
+    puts "\n=== Fixing Missing Owner Emails ===\n\n"
+
+    # Find websites in locked states without owner_email
+    locked_websites = Pwb::Website.where(
+      provisioning_state: ['locked_pending_email_verification', 'locked_pending_registration']
+    ).where(owner_email: [nil, ''])
+
+    if locked_websites.empty?
+      puts "No websites with missing owner_email found.\n"
+      exit
+    end
+
+    puts "Found #{locked_websites.count} website(s) with missing owner_email:\n\n"
+
+    fixed = 0
+    locked_websites.find_each do |website|
+      owner = website.user_memberships.find_by(role: 'owner')&.user
+
+      if owner
+        puts "Website #{website.id} (#{website.subdomain}):"
+        puts "  Setting owner_email to: #{owner.email}"
+        website.update!(owner_email: owner.email)
+        fixed += 1
+      else
+        puts "Website #{website.id} (#{website.subdomain}):"
+        puts "  WARNING: No owner found!"
+      end
+    end
+
+    puts "\n=== Summary ===\n"
+    puts "Fixed: #{fixed} website(s)"
+  end
+
+  desc "Force a website to live state (use SUBDOMAIN=name or ID=123)"
+  task go_live: :environment do
+    identifier = ENV['SUBDOMAIN'] || ENV['ID']
+
+    if identifier.blank?
+      puts "Usage: rake verification:go_live SUBDOMAIN=my-site"
+      puts "   or: rake verification:go_live ID=123"
+      exit 1
+    end
+
+    website = Pwb::Website.find_by(id: identifier) || Pwb::Website.find_by(subdomain: identifier)
+
+    if website.nil?
+      puts "Website not found: #{identifier}"
+      exit 1
+    end
+
+    puts "Website: #{website.subdomain} (ID: #{website.id})"
+    puts "Current state: #{website.provisioning_state}"
+
+    if website.live?
+      puts "Website is already live!"
+      exit
+    end
+
+    # First, ensure owner_email is set
+    if website.owner_email.blank?
+      owner = website.user_memberships.find_by(role: 'owner')&.user
+      if owner
+        website.update!(owner_email: owner.email)
+        puts "Set owner_email to: #{owner.email}"
+      else
+        puts "WARNING: No owner found for this website"
+      end
+    end
+
+    # Try the appropriate transition based on current state
+    if website.may_go_live?
+      website.go_live!
+      puts "Website transitioned to LIVE state!"
+    elsif website.may_complete_owner_registration?
+      website.complete_owner_registration!
+      puts "Website transitioned to LIVE state!"
+    else
+      puts "ERROR: Cannot transition to live from state: #{website.provisioning_state}"
+      puts "Missing items: #{website.provisioning_missing_items.join(', ')}"
+      exit 1
+    end
+
+    puts "New state: #{website.provisioning_state}"
+  end
+
 end
 
 # Helper module for verification rake tasks
