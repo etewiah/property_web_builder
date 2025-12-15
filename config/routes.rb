@@ -198,6 +198,10 @@ Rails.application.routes.draw do
     root to: "welcome#index"
     resources :welcome, only: :index
 
+    # Locked website pages (email verification, registration pending)
+    get "/resend_verification" => "locked#resend_verification", as: "resend_verification"
+    post "/resend_verification" => "locked#submit_resend_verification"
+
     # Signup/Onboarding flow for new tenants
     get "/signup" => "signup#new", as: "signup"
     post "/signup/start" => "signup#start", as: "signup_start"

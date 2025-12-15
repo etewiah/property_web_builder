@@ -1,0 +1,99 @@
+<div class="progress-dots">
+  <div class="dot active"></div>
+  <div class="dot"></div>
+</div>
+
+<div class="icon">
+  <span>&#9993;</span>
+</div>
+
+<h1>Resend Verification Email</h1>
+
+<p>
+  Enter the email address you used to sign up for
+  <span class="subdomain"><%= @current_website.subdomain %></span>.
+</p>
+
+<% if @error.present? %>
+  <div class="error-message">
+    <%= @error %>
+  </div>
+<% end %>
+
+<% if @success.present? %>
+  <div class="success-message">
+    <%= @success %>
+  </div>
+<% else %>
+  <form action="/resend_verification" method="post" class="resend-form">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required
+             placeholder="your@email.com"
+             value="<%= @email %>"
+             autocomplete="email">
+    </div>
+
+    <div class="btn-group">
+      <button type="submit" class="btn">Send Verification Email</button>
+    </div>
+  </form>
+
+  <p class="help-text">
+    <a href="/">Back to site</a>
+  </p>
+<% end %>
+
+<style>
+  .resend-form {
+    max-width: 400px;
+    margin: 2rem auto;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+  }
+
+  .form-group input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .error-message {
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .success-message {
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #16a34a;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+</style>

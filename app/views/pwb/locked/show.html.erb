@@ -13,27 +13,17 @@
 
   <p>
     Your website <span class="subdomain"><%= @current_website.subdomain %></span> is almost ready!
-    We've sent a verification email to:
   </p>
 
-  <div class="email">
-    <%= @owner_email %>
-  </div>
-
   <p>
-    Click the link in the email to verify your address and continue setting up your account.
+    Please check your email to verify the email address you signed up with.
+    Click the link in the email to continue setting up your account.
   </p>
 
   <p class="help-text">
     Didn't receive the email? Check your spam folder or
-    <a href="#" onclick="resendVerification(); return false;">request a new link</a>.
+    <a href="/resend_verification">request a new link</a>.
   </p>
-
-  <script>
-    function resendVerification() {
-      alert('To resend the verification email, please use the signup page where you originally signed up.');
-    }
-  </script>
 
 <% elsif @locked_mode == :pending_registration %>
   <!-- Progress dots showing step 2 of 2 -->
