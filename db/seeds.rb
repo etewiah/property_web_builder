@@ -1,6 +1,12 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
+# Load plans seeder
+require_relative 'seeds/plans_seeds'
+
+# Seed subscription plans (needed in all environments)
+Pwb::PlansSeeder.seed!
+
 # Load environment-specific seeds
 case Rails.env
 when 'e2e'

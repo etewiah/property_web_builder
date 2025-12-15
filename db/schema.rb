@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_14_200000) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_15_100000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -406,6 +406,27 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_200000) do
     t.index ["website_id"], name: "index_pwb_pages_on_website_id"
   end
 
+  create_table "pwb_plans", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.string "billing_interval", default: "month", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "display_name", null: false
+    t.jsonb "features", default: [], null: false
+    t.string "name", null: false
+    t.integer "position", default: 0, null: false
+    t.integer "price_cents", default: 0, null: false
+    t.string "price_currency", default: "USD", null: false
+    t.integer "property_limit"
+    t.boolean "public", default: true, null: false
+    t.string "slug", null: false
+    t.integer "trial_days", default: 14, null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_limit"
+    t.index ["active", "position"], name: "index_pwb_plans_on_active_and_position"
+    t.index ["slug"], name: "index_pwb_plans_on_slug", unique: true
+  end
+
   create_table "pwb_prop_photos", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.string "description"
@@ -614,6 +635,39 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_200000) do
     t.index ["name"], name: "index_pwb_subdomains_on_name", unique: true
     t.index ["reserved_by_email"], name: "index_subdomains_unique_reserved_email", unique: true, where: "(((aasm_state)::text = 'reserved'::text) AND (reserved_by_email IS NOT NULL))"
     t.index ["website_id"], name: "index_pwb_subdomains_on_website_id"
+  end
+
+  create_table "pwb_subscription_events", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "event_type", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.bigint "subscription_id", null: false
+    t.index ["event_type"], name: "index_pwb_subscription_events_on_event_type"
+    t.index ["subscription_id", "created_at"], name: "idx_on_subscription_id_created_at_3fabb76699"
+    t.index ["subscription_id"], name: "index_pwb_subscription_events_on_subscription_id"
+  end
+
+  create_table "pwb_subscriptions", force: :cascade do |t|
+    t.boolean "cancel_at_period_end", default: false, null: false
+    t.datetime "canceled_at"
+    t.datetime "created_at", null: false
+    t.datetime "current_period_ends_at"
+    t.datetime "current_period_starts_at"
+    t.string "external_customer_id"
+    t.string "external_id"
+    t.string "external_provider"
+    t.jsonb "metadata", default: {}, null: false
+    t.bigint "plan_id", null: false
+    t.string "status", default: "trialing", null: false
+    t.datetime "trial_ends_at"
+    t.datetime "updated_at", null: false
+    t.bigint "website_id", null: false
+    t.index ["current_period_ends_at"], name: "index_pwb_subscriptions_on_current_period_ends_at"
+    t.index ["external_id"], name: "index_pwb_subscriptions_on_external_id", unique: true, where: "(external_id IS NOT NULL)"
+    t.index ["plan_id"], name: "index_pwb_subscriptions_on_plan_id"
+    t.index ["status"], name: "index_pwb_subscriptions_on_status"
+    t.index ["trial_ends_at"], name: "index_pwb_subscriptions_on_trial_ends_at"
+    t.index ["website_id"], name: "index_pwb_subscriptions_on_website_unique", unique: true
   end
 
   create_table "pwb_user_memberships", force: :cascade do |t|
@@ -909,6 +963,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_14_200000) do
   add_foreign_key "pwb_rental_listings", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_sale_listings", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_subdomains", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_subscription_events", "pwb_subscriptions", column: "subscription_id"
+  add_foreign_key "pwb_subscriptions", "pwb_plans", column: "plan_id"
+  add_foreign_key "pwb_subscriptions", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_user_memberships", "pwb_users", column: "user_id"
   add_foreign_key "pwb_user_memberships", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_website_photos", "pwb_websites", column: "website_id"
