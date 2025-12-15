@@ -20,11 +20,33 @@ module Pwb
     def sign_up
       @return_url = params[:return_to] || stored_location_for(:user) || admin_path
 
+      # Get the website specifically for this subdomain (not fallback)
+      website_for_subdomain = current_website_from_subdomain
+
+      # Check if this subdomain has a website that allows signups
+      unless website_for_subdomain
+        @token_error = "This website is not yet available. If you're setting up a new site, please complete the signup process first."
+        render "pwb/firebase_login/sign_up_error", layout: "devise_tailwind" and return
+      end
+
+      # Only allow signups for websites in appropriate states
+      unless website_for_subdomain.live? || website_for_subdomain.locked_pending_registration?
+        @token_error = "This website is not ready for account creation. Please complete the setup process first."
+        render "pwb/firebase_login/sign_up_error", layout: "devise_tailwind" and return
+      end
+
       # If website is pending registration (owner email verified but not yet signed up),
-      # restrict signup to only the owner email
-      if current_website&.locked_pending_registration?
+      # restrict signup to only the owner email AND require verification token
+      if website_for_subdomain.locked_pending_registration?
         @require_owner_email = true
-        @required_email = current_website.owner_email
+        @required_email = website_for_subdomain.owner_email
+        @verification_token = params[:token]
+
+        # Validate the token - must match the website's verification token
+        unless @verification_token.present? && @verification_token == website_for_subdomain.email_verification_token
+          @token_error = "Invalid or missing verification token. Please use the link from your verification email."
+          render "pwb/firebase_login/sign_up_error", layout: "devise_tailwind" and return
+        end
       end
 
       render "pwb/firebase_login/sign_up"

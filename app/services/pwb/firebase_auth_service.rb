@@ -1,8 +1,9 @@
 module Pwb
   class FirebaseAuthService
-    def initialize(token, website: nil)
+    def initialize(token, website: nil, verification_token: nil)
       @token = token
       @website = website
+      @verification_token = verification_token
     end
 
     def call
@@ -76,6 +77,7 @@ module Pwb
         end
 
         # Check if website is locked_pending_registration - only owner can sign up
+        # AND must provide valid verification token to prove they received the email
         if website.locked_pending_registration?
           unless email.downcase == website.owner_email&.downcase
             StructuredLogger.warn('[FirebaseAuth] Non-owner email attempted signup on locked website',
@@ -85,6 +87,17 @@ module Pwb
               website_subdomain: website.subdomain
             )
             raise StandardError, "Only the verified owner email (#{website.owner_email}) can create an account for this website."
+          end
+
+          # Validate verification token - must match the website's token
+          unless @verification_token.present? && @verification_token == website.email_verification_token
+            StructuredLogger.warn('[FirebaseAuth] Invalid verification token for locked website signup',
+              email: email,
+              website_id: website.id,
+              website_subdomain: website.subdomain,
+              token_provided: @verification_token.present?
+            )
+            raise StandardError, "Invalid or missing verification token. Please use the link from your verification email."
           end
         end
 

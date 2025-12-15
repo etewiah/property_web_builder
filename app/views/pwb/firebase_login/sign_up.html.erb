@@ -14,6 +14,7 @@
 <form id="signup-form" class="space-y-6">
   <% if @require_owner_email %>
   <input type="hidden" id="required-email" value="<%= @required_email %>">
+  <input type="hidden" id="verification-token" value="<%= @verification_token %>">
   <div>
     <label for="email" class="block text-sm font-medium text-gray-700">
       Email Address
@@ -133,12 +134,19 @@
       })
       .then(function(accessToken) {
         // Send token to backend to create user in Rails database
+        // Include verification token for locked website owner signups
+        const verificationToken = document.getElementById('verification-token')?.value;
+        const requestBody = { token: accessToken };
+        if (verificationToken) {
+          requestBody.verification_token = verificationToken;
+        }
+
         return fetch('/api_public/v1/auth/firebase', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ token: accessToken })
+          body: JSON.stringify(requestBody)
         });
       })
       .then(function(response) {

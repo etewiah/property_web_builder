@@ -537,8 +537,9 @@ module Api
       # Redirect to registration page or main site depending on state
       def redirect_to_registration_or_site(website)
         if website.locked_pending_registration?
-          # Redirect to registration page
-          redirect_to "#{website.primary_url}/pwb_sign_up", allow_other_host: true
+          # Redirect to registration page with verification token
+          # Token is required to prove user received the verification email
+          redirect_to "#{website.primary_url}/pwb_sign_up?token=#{website.email_verification_token}", allow_other_host: true
         elsif website.live?
           # Redirect to main site
           redirect_to website.primary_url, allow_other_host: true

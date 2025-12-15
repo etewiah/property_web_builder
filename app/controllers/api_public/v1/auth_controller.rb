@@ -10,7 +10,11 @@ module ApiPublic
         end
 
         begin
-          user = Pwb::FirebaseAuthService.new(token, website: current_website).call
+          user = Pwb::FirebaseAuthService.new(
+            token,
+            website: current_website,
+            verification_token: params[:verification_token]
+          ).call
 
           if user
             # Ensure user has access to this website before signing in

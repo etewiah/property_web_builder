@@ -27,14 +27,46 @@ module Pwb
     end
 
     describe "GET #sign_up" do
-      it "renders the sign_up template" do
-        get :sign_up
-        expect(response).to render_template("pwb/firebase_login/sign_up")
+      context "when no website exists for subdomain" do
+        before do
+          allow(controller).to receive(:current_website_from_subdomain).and_return(nil)
+        end
+
+        it "renders the error template" do
+          get :sign_up
+          expect(response).to render_template("pwb/firebase_login/sign_up_error")
+        end
+
+        it "sets appropriate error message" do
+          get :sign_up
+          expect(assigns(:token_error)).to include("not yet available")
+        end
+      end
+
+      context "when website is in locked_pending_email_verification state" do
+        before do
+          website.update!(provisioning_state: 'locked_pending_email_verification')
+        end
+
+        it "renders the error template" do
+          get :sign_up
+          expect(response).to render_template("pwb/firebase_login/sign_up_error")
+        end
+
+        it "sets appropriate error message" do
+          get :sign_up
+          expect(assigns(:token_error)).to include("not ready for account creation")
+        end
       end
 
       context "when website is live" do
         before do
           website.update!(provisioning_state: 'live')
+        end
+
+        it "renders the sign_up template" do
+          get :sign_up
+          expect(response).to render_template("pwb/firebase_login/sign_up")
         end
 
         it "does not set require_owner_email" do
@@ -50,27 +82,60 @@ module Pwb
 
       context "when website is locked_pending_registration" do
         let(:owner_email) { "owner@example.com" }
+        let(:verification_token) { "valid-verification-token-123" }
 
         before do
           website.update!(
             provisioning_state: 'locked_pending_registration',
-            owner_email: owner_email
+            owner_email: owner_email,
+            email_verification_token: verification_token
           )
         end
 
-        it "sets require_owner_email to true" do
-          get :sign_up
-          expect(assigns(:require_owner_email)).to be true
+        context "with valid verification token" do
+          it "sets require_owner_email to true" do
+            get :sign_up, params: { token: verification_token }
+            expect(assigns(:require_owner_email)).to be true
+          end
+
+          it "sets required_email to the owner email" do
+            get :sign_up, params: { token: verification_token }
+            expect(assigns(:required_email)).to eq(owner_email)
+          end
+
+          it "sets verification_token" do
+            get :sign_up, params: { token: verification_token }
+            expect(assigns(:verification_token)).to eq(verification_token)
+          end
+
+          it "renders the sign_up template" do
+            get :sign_up, params: { token: verification_token }
+            expect(response).to render_template("pwb/firebase_login/sign_up")
+          end
         end
 
-        it "sets required_email to the owner email" do
-          get :sign_up
-          expect(assigns(:required_email)).to eq(owner_email)
+        context "without verification token" do
+          it "renders the error template" do
+            get :sign_up
+            expect(response).to render_template("pwb/firebase_login/sign_up_error")
+          end
+
+          it "sets token_error" do
+            get :sign_up
+            expect(assigns(:token_error)).to include("Invalid or missing verification token")
+          end
         end
 
-        it "renders the sign_up template" do
-          get :sign_up
-          expect(response).to render_template("pwb/firebase_login/sign_up")
+        context "with invalid verification token" do
+          it "renders the error template" do
+            get :sign_up, params: { token: "wrong-token" }
+            expect(response).to render_template("pwb/firebase_login/sign_up_error")
+          end
+
+          it "sets token_error" do
+            get :sign_up, params: { token: "wrong-token" }
+            expect(assigns(:token_error)).to include("Invalid or missing verification token")
+          end
         end
       end
     end

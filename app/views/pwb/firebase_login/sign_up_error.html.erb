@@ -1,0 +1,49 @@
+<h2 class="text-2xl font-bold text-gray-900 text-center mb-2">
+  Unable to Create Account
+</h2>
+<p class="text-center text-gray-600 text-sm mb-8">
+  <%= @token_error %>
+</p>
+
+<div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
+  <div class="flex">
+    <div class="flex-shrink-0">
+      <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+      </svg>
+    </div>
+    <div class="ml-3">
+      <p class="text-sm text-red-700">
+        To create your account, you need to use the link sent to your email address.
+        This ensures only the website owner can create the first admin account.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="space-y-4">
+  <p class="text-sm text-gray-600">
+    <strong>What to do:</strong>
+  </p>
+  <ol class="list-decimal list-inside text-sm text-gray-600 space-y-2">
+    <li>Check your email inbox for the verification email</li>
+    <li>Look in your spam/junk folder if you don't see it</li>
+    <li>Click the "Create Your Account" link in the email</li>
+  </ol>
+</div>
+
+<div class="mt-6 text-center">
+  <p class="text-sm text-gray-600">
+    Didn't receive the email?
+    <%= link_to "Request a new verification email", "/resend_verification",
+        class: "font-medium text-blue-600 hover:text-blue-500" %>
+  </p>
+</div>
+
+<div class="mt-4 text-center">
+  <p class="text-sm text-gray-600">
+    Already have an account?
+    <%= link_to "Sign In", "/pwb_login",
+        class: "font-medium text-blue-600 hover:text-blue-500" %>
+  </p>
+</div>
