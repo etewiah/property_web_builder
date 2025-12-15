@@ -91,6 +91,9 @@ group :development do
   gem "bullet"
   gem "brakeman"
   gem "rack-mini-profiler"
+
+  # Preview emails in browser instead of sending
+  gem "letter_opener"
 end
 
 group :development, :test, :e2e do

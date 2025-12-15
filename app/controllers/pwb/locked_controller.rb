@@ -51,7 +51,13 @@ module Pwb
 
       # Regenerate token and send email
       @current_website.regenerate_email_verification_token!
-      Pwb::EmailVerificationMailer.verification_email(@current_website).deliver_later
+      mailer = Pwb::EmailVerificationMailer.verification_email(@current_website)
+      # Use deliver_now in development for immediate letter_opener preview
+      if Rails.env.development?
+        mailer.deliver_now
+      else
+        mailer.deliver_later
+      end
 
       @success = "Verification email sent! Please check your inbox (and spam folder) for an email from us."
       render :resend_verification, layout: 'pwb/locked'

@@ -40,11 +40,18 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
   # Development email delivery configuration
-  # Option 1: SMTP delivery (set SMTP_ADDRESS to enable - useful for testing SES)
-  # Option 2: letter_opener gem (opens emails in browser)
-  # Option 3: :test (default - emails logged but not sent)
+  # Option 1: letter_opener gem (default - opens emails in browser)
+  # Option 2: SMTP delivery (set SMTP_ADDRESS and unset USE_LETTER_OPENER to enable)
+  # Option 3: :test (emails logged but not sent)
   #
-  if ENV["SMTP_ADDRESS"].present?
+  # Set USE_LETTER_OPENER=true to force letter_opener even when SMTP is configured
+  #
+  if defined?(LetterOpener) && (ENV["USE_LETTER_OPENER"] == "true" || ENV["SMTP_ADDRESS"].blank?)
+    # Use letter_opener to preview emails in browser (default in development)
+    config.action_mailer.raise_delivery_errors = false
+    config.action_mailer.delivery_method = :letter_opener
+    # letter_opener stores emails in tmp/letter_opener by default
+  elsif ENV["SMTP_ADDRESS"].present?
     # Test with real SMTP (e.g., Amazon SES)
     config.action_mailer.raise_delivery_errors = true
     config.action_mailer.delivery_method = :smtp
@@ -57,11 +64,6 @@ Rails.application.configure do
       authentication: ENV.fetch("SMTP_AUTH", "login").to_sym,
       enable_starttls_auto: true
     }
-  elsif defined?(LetterOpener)
-    # Use letter_opener to preview emails in browser
-    config.action_mailer.raise_delivery_errors = false
-    config.action_mailer.delivery_method = :letter_opener
-    config.action_mailer.letter_opener_location = Rails.root.join("tmp", "letter_opener")
   else
     # Default: log emails (not sent)
     config.action_mailer.raise_delivery_errors = false

@@ -323,6 +323,8 @@ GEM
       addressable (~> 2.8)
       childprocess (~> 5.0)
       logger (~> 1.6)
+    letter_opener (1.10.0)
+      launchy (>= 2.2, < 4)
     lint_roller (1.1.0)
     liquid (5.11.0)
       bigdecimal
@@ -797,6 +799,7 @@ DEPENDENCIES
   jquery-rails (~> 4.5)
   json_spec
   launchy
+  letter_opener
   liquid (~> 5.3)
   lograge
   logstash-event
