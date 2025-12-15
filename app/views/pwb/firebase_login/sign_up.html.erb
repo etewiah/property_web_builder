@@ -1,11 +1,30 @@
 <h2 class="text-2xl font-bold text-gray-900 text-center mb-2">
   Create Admin Account
 </h2>
+<% if @require_owner_email %>
+<p class="text-center text-gray-600 text-sm mb-8">
+  Create your admin account using the email address you verified.
+</p>
+<% else %>
 <p class="text-center text-gray-600 text-sm mb-8">
   Create a new admin account. After sign-up, you'll need to be granted admin privileges.
 </p>
+<% end %>
 
 <form id="signup-form" class="space-y-6">
+  <% if @require_owner_email %>
+  <input type="hidden" id="required-email" value="<%= @required_email %>">
+  <div>
+    <label for="email" class="block text-sm font-medium text-gray-700">
+      Email Address
+    </label>
+    <div class="mt-1">
+      <input type="email" id="email" value="<%= @required_email %>" readonly
+             class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-700 cursor-not-allowed sm:text-sm">
+    </div>
+    <p class="mt-1 text-xs text-gray-500">You must use this email address to create your account.</p>
+  </div>
+  <% else %>
   <div>
     <label for="email" class="block text-sm font-medium text-gray-700">
       Email Address
@@ -15,6 +34,7 @@
              class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
     </div>
   </div>
+  <% end %>
 
   <div>
     <label for="password" class="block text-sm font-medium text-gray-700">
@@ -129,6 +149,18 @@
         }
       })
       .then(function(data) {
+        <% if @require_owner_email %>
+        // Owner signup - they have admin privileges automatically
+        messageDiv.innerHTML = '<div class="bg-green-50 border-l-4 border-green-400 p-4 text-green-700 text-sm">' +
+          'Account created successfully! You are now the admin of this website. ' +
+          'Redirecting to login...</div>';
+
+        // Sign out and redirect to login
+        auth.signOut();
+        setTimeout(function() {
+          window.location.href = '/pwb_login';
+        }, 2000);
+        <% else %>
         messageDiv.innerHTML = '<div class="bg-green-50 border-l-4 border-green-400 p-4 text-green-700 text-sm">' +
           'Account created successfully! Please contact an administrator to grant you admin privileges. ' +
           'You will be redirected to the login page in 3 seconds...</div>';
@@ -140,6 +172,7 @@
         setTimeout(function() {
           window.location.href = '/pwb_login';
         }, 3000);
+        <% end %>
       })
       .catch(function(error) {
         let errorMessage = 'An error occurred. Please try again.';

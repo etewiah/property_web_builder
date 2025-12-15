@@ -91,6 +91,84 @@ module Pwb
           }.to change(User, :count).by(1)
         end
       end
+
+      context 'when website is locked_pending_registration' do
+        let(:owner_email) { 'owner@example.com' }
+        let!(:locked_website) do
+          FactoryBot.create(:pwb_website,
+            provisioning_state: 'locked_pending_registration',
+            owner_email: owner_email
+          )
+        end
+
+        context 'and signup email matches owner email' do
+          let(:payload) { { 'sub' => 'firebase_owner', 'user_id' => 'firebase_owner', 'email' => owner_email } }
+
+          it 'creates user with admin role' do
+            expect {
+              described_class.new(token, website: locked_website).call
+            }.to change(User, :count).by(1)
+            .and change(UserMembership, :count).by(1)
+
+            user = User.last
+            expect(user.email).to eq(owner_email)
+
+            membership = UserMembership.last
+            expect(membership.role).to eq('admin')
+          end
+
+          it 'transitions website to live state' do
+            described_class.new(token, website: locked_website).call
+
+            locked_website.reload
+            expect(locked_website.live?).to be true
+          end
+        end
+
+        context 'and signup email does not match owner email' do
+          let(:payload) { { 'sub' => 'firebase_other', 'user_id' => 'firebase_other', 'email' => 'other@example.com' } }
+
+          it 'raises an error' do
+            expect {
+              described_class.new(token, website: locked_website).call
+            }.to raise_error(StandardError, /Only the verified owner email/)
+          end
+
+          it 'does not create a user' do
+            expect {
+              begin
+                described_class.new(token, website: locked_website).call
+              rescue StandardError
+                # Expected error
+              end
+            }.not_to change(User, :count)
+          end
+
+          it 'does not transition website state' do
+            begin
+              described_class.new(token, website: locked_website).call
+            rescue StandardError
+              # Expected error
+            end
+
+            locked_website.reload
+            expect(locked_website.locked_pending_registration?).to be true
+          end
+        end
+
+        context 'and signup email matches owner email with different case' do
+          let(:payload) { { 'sub' => 'firebase_owner', 'user_id' => 'firebase_owner', 'email' => 'OWNER@EXAMPLE.COM' } }
+
+          it 'creates user with admin role (case insensitive)' do
+            expect {
+              described_class.new(token, website: locked_website).call
+            }.to change(User, :count).by(1)
+
+            membership = UserMembership.last
+            expect(membership.role).to eq('admin')
+          end
+        end
+      end
     end
   end
 end

@@ -75,6 +75,19 @@ module Pwb
           return nil
         end
 
+        # Check if website is locked_pending_registration - only owner can sign up
+        if website.locked_pending_registration?
+          unless email.downcase == website.owner_email&.downcase
+            StructuredLogger.warn('[FirebaseAuth] Non-owner email attempted signup on locked website',
+              email: email,
+              owner_email: website.owner_email,
+              website_id: website.id,
+              website_subdomain: website.subdomain
+            )
+            raise StandardError, "Only the verified owner email (#{website.owner_email}) can create an account for this website."
+          end
+        end
+
         begin
           user = User.new(
             email: email,
@@ -84,19 +97,42 @@ module Pwb
           )
           user.save!
 
+          # Determine role based on website state
+          # If website is locked_pending_registration and this is the owner, grant admin
+          # Otherwise, grant member role (admin must be granted manually)
+          if website.locked_pending_registration? && email.downcase == website.owner_email&.downcase
+            role = 'admin'
+            StructuredLogger.info('[FirebaseAuth] Granting admin role to website owner',
+              user_id: user.id,
+              email: email,
+              website_id: website.id
+            )
+
+            # Transition website to live state
+            if website.may_complete_owner_registration?
+              website.complete_owner_registration!
+              StructuredLogger.info('[FirebaseAuth] Website transitioned to live state',
+                website_id: website.id,
+                website_subdomain: website.subdomain
+              )
+            end
+          else
+            role = 'member'
+          end
+
           # Create membership for the website
-          # Default role is 'member', admin must be granted manually
           UserMembershipService.grant_access(
             user: user,
             website: website,
-            role: 'member'
+            role: role
           )
 
           StructuredLogger.info('[FirebaseAuth] New user created via Firebase',
             user_id: user.id,
             email: email,
             website_id: website.id,
-            website_subdomain: website.subdomain
+            website_subdomain: website.subdomain,
+            role: role
           )
         rescue StandardError => e
           StructuredLogger.exception(e, '[FirebaseAuth] Failed to create new user',

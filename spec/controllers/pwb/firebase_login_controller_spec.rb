@@ -31,6 +31,48 @@ module Pwb
         get :sign_up
         expect(response).to render_template("pwb/firebase_login/sign_up")
       end
+
+      context "when website is live" do
+        before do
+          website.update!(provisioning_state: 'live')
+        end
+
+        it "does not set require_owner_email" do
+          get :sign_up
+          expect(assigns(:require_owner_email)).to be_falsey
+        end
+
+        it "does not set required_email" do
+          get :sign_up
+          expect(assigns(:required_email)).to be_nil
+        end
+      end
+
+      context "when website is locked_pending_registration" do
+        let(:owner_email) { "owner@example.com" }
+
+        before do
+          website.update!(
+            provisioning_state: 'locked_pending_registration',
+            owner_email: owner_email
+          )
+        end
+
+        it "sets require_owner_email to true" do
+          get :sign_up
+          expect(assigns(:require_owner_email)).to be true
+        end
+
+        it "sets required_email to the owner email" do
+          get :sign_up
+          expect(assigns(:required_email)).to eq(owner_email)
+        end
+
+        it "renders the sign_up template" do
+          get :sign_up
+          expect(response).to render_template("pwb/firebase_login/sign_up")
+        end
+      end
     end
 
     describe "GET #change_password" do
