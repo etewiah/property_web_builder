@@ -210,6 +210,36 @@ module Pwb
             expect(membership.role).to eq('admin')
           end
         end
+
+        context 'and existing owner user logs in (bypassed signup flow)' do
+          let(:payload) { { 'sub' => 'firebase_owner', 'user_id' => 'firebase_owner', 'email' => owner_email } }
+          let!(:existing_owner) do
+            FactoryBot.create(:pwb_user,
+              email: owner_email,
+              firebase_uid: 'firebase_owner'
+            )
+          end
+
+          it 'transitions website to live state' do
+            expect {
+              described_class.new(token, website: locked_website).call
+            }.not_to change(User, :count)
+
+            locked_website.reload
+            expect(locked_website.live?).to be true
+          end
+
+          it 'grants admin role if not already admin' do
+            described_class.new(token, website: locked_website).call
+
+            expect(existing_owner.admin_for?(locked_website)).to be true
+          end
+
+          it 'returns the existing user' do
+            result = described_class.new(token, website: locked_website).call
+            expect(result).to eq(existing_owner)
+          end
+        end
       end
     end
   end

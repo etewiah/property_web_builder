@@ -32,8 +32,13 @@ module Pwb
     private
 
     def build_verification_url(website)
-      base_url = ENV.fetch('SIGNUP_BASE_URL') { 'http://localhost:3000' }
-      "#{base_url}/api/signup/verify_email?token=#{website.email_verification_token}"
+      # Build URL using the website's subdomain
+      # In production: https://subdomain.propertywebbuilder.com/api/signup/verify_email?token=...
+      # In development: http://subdomain.dev.localhost:3000/api/signup/verify_email?token=...
+      base_domain = ENV.fetch('BASE_DOMAIN', 'localhost:3000')
+      protocol = Rails.env.production? ? 'https' : 'http'
+
+      "#{protocol}://#{website.subdomain}.#{base_domain}/api/signup/verify_email?token=#{website.email_verification_token}"
     end
   end
 end

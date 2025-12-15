@@ -59,6 +59,38 @@ module Pwb
             email: email
           )
         end
+
+        # Handle case where owner logs in but website is still locked_pending_registration
+        # This can happen if user created Firebase account then logged in via /pwb_login
+        # instead of completing signup via /pwb_sign_up
+        website = @website || Pwb::Current.website
+        if website&.locked_pending_registration? && email.downcase == website.owner_email&.downcase
+          StructuredLogger.info('[FirebaseAuth] Owner logging in to locked website, transitioning to live',
+            user_id: user.id,
+            email: email,
+            website_id: website.id,
+            website_subdomain: website.subdomain
+          )
+
+          # Ensure user has admin role for this website
+          unless user.admin_for?(website)
+            UserMembershipService.grant_access(
+              user: user,
+              website: website,
+              role: 'admin'
+            )
+          end
+
+          # Transition website to live state
+          if website.may_complete_owner_registration?
+            website.complete_owner_registration!
+            StructuredLogger.info('[FirebaseAuth] Website transitioned to live state',
+              website_id: website.id,
+              website_subdomain: website.subdomain
+            )
+          end
+        end
+
         StructuredLogger.info('[FirebaseAuth] Existing user authenticated',
           user_id: user.id,
           email: email

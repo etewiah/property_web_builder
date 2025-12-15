@@ -96,7 +96,8 @@ end
 module VerificationHelper
   def self.print_website_info(website, base_domain, verification_base_url, mode)
     site_url = "https://#{website.subdomain}.#{base_domain}"
-    verification_url = "#{verification_base_url}/api/signup/verify_email?token=#{website.email_verification_token}"
+    # Use the subdomain URL for verification link so it routes correctly
+    verification_url = "#{site_url}/api/signup/verify_email?token=#{website.email_verification_token}"
     signup_url = "#{site_url}/pwb_sign_up?token=#{website.email_verification_token}"
 
     expired = website.email_verification_token_expires_at && website.email_verification_token_expires_at < Time.current
