@@ -186,7 +186,7 @@ module Api
             message: website.provisioning_status_message,
             complete: website.live?,
             website_url: website.live? ? website.primary_url : nil,
-            admin_url: website.live? ? "#{website.primary_url}/admin" : nil
+            admin_url: website.live? ? "#{website.primary_url}/site_admin" : nil
           }
 
           # Add locked state information
@@ -194,7 +194,7 @@ module Api
             response_data[:locked] = true
             response_data[:locked_mode] = website.locked_mode
             response_data[:email_verified] = website.email_verified?
-            response_data[:registration_url] = "#{website.primary_url}/firebase_login/sign_up"
+            response_data[:registration_url] = "#{website.primary_url}/pwb_sign_up"
           end
 
           success_response(**response_data)
@@ -396,7 +396,7 @@ module Api
             return success_response(
               message: "Website is already live",
               website_url: website.primary_url,
-              admin_url: "#{website.primary_url}/admin"
+              admin_url: "#{website.primary_url}/site_admin"
             )
           else
             return error_response("Website is not ready for registration.", status: :unprocessable_entity)
@@ -419,7 +419,7 @@ module Api
           success_response(
             message: "Registration complete! Your website is now live.",
             website_url: website.primary_url,
-            admin_url: "#{website.primary_url}/admin"
+            admin_url: "#{website.primary_url}/site_admin"
           )
         else
           error_response("Unable to complete registration. Please contact support.", status: :unprocessable_entity)
@@ -538,7 +538,7 @@ module Api
       def redirect_to_registration_or_site(website)
         if website.locked_pending_registration?
           # Redirect to registration page
-          redirect_to "#{website.primary_url}/firebase_login/sign_up", allow_other_host: true
+          redirect_to "#{website.primary_url}/pwb_sign_up", allow_other_host: true
         elsif website.live?
           # Redirect to main site
           redirect_to website.primary_url, allow_other_host: true

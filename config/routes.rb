@@ -252,10 +252,10 @@ Rails.application.routes.draw do
     # get "/v-public-2" => "vue_public_2#show"
     # get "/v-public-2/*path" => "vue_public_2#show"
 
-    get "/firebase_login" => "firebase_login#index"
-    get "/firebase_sign_up" => "firebase_login#sign_up"
-    get "/firebase_forgot_password" => "firebase_login#forgot_password"
-    get "/firebase_change_password" => "firebase_login#change_password"
+    get "/pwb_login" => "firebase_login#index"
+    get "/pwb_sign_up" => "firebase_login#sign_up"
+    get "/pwb_forgot_password" => "firebase_login#forgot_password"
+    get "/pwb_change_password" => "firebase_login#change_password"
 
     # Unified auth routes (work for both Firebase and Devise)
     delete "/auth/logout" => "auth#logout", as: :unified_logout

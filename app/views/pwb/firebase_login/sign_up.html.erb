@@ -50,7 +50,7 @@
 <div class="mt-6 text-center">
   <p class="text-sm text-gray-600">
     Already have an account?
-    <%= link_to "Sign In", "/firebase_login",
+    <%= link_to "Sign In", "/pwb_login",
         class: "font-medium text-blue-600 hover:text-blue-500" %>
   </p>
 </div>
@@ -138,7 +138,7 @@
 
         // Redirect to login after 3 seconds
         setTimeout(function() {
-          window.location.href = '/firebase_login';
+          window.location.href = '/pwb_login';
         }, 3000);
       })
       .catch(function(error) {

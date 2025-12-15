@@ -95,7 +95,7 @@ test.describe('Multi-Tenant Admin Login', () => {
     // Should be redirected to login or show an error
     // The session should not carry over to Tenant B
     currentURL = page.url();
-    const isOnLogin = currentURL.includes('/users/sign_in') || currentURL.includes('/firebase_login');
+    const isOnLogin = currentURL.includes('/users/sign_in') || currentURL.includes('/pwb_login');
     const isOnTenantB = currentURL.includes('tenant-b');
 
     // We should either be on Tenant B's login page or not authenticated
@@ -191,7 +191,7 @@ test.describe('Multi-Tenant Admin Login', () => {
       await page.waitForLoadState('networkidle');
 
       const currentURL = page.url();
-      const isOnLogin = currentURL.includes('/users/sign_in') || currentURL.includes('/firebase_login');
+      const isOnLogin = currentURL.includes('/users/sign_in') || currentURL.includes('/pwb_login');
       expect(isOnLogin).toBeTruthy();
     }
   });

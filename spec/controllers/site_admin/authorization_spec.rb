@@ -95,9 +95,9 @@ RSpec.describe 'SiteAdmin Authorization', type: :controller do
       it 'denies access (redirects to login due to active_for_authentication? check)' do
         get :index
         # User without membership for current website fails active_for_authentication?
-        # which causes redirect to login (firebase_login in this app)
+        # which causes redirect to login (pwb_login in this app)
         expect(response).to be_redirect
-        expect(response.location).to include('firebase_login').or include('sign_in')
+        expect(response.location).to include('pwb_login').or include('sign_in')
       end
     end
 
@@ -111,9 +111,9 @@ RSpec.describe 'SiteAdmin Authorization', type: :controller do
       it 'denies access (redirects to login due to active_for_authentication? check)' do
         get :index
         # Admin for different website fails active_for_authentication? for current website
-        # which causes redirect to login (firebase_login in this app)
+        # which causes redirect to login (pwb_login in this app)
         expect(response).to be_redirect
-        expect(response.location).to include('firebase_login').or include('sign_in')
+        expect(response.location).to include('pwb_login').or include('sign_in')
       end
 
       it 'does not allow cross-tenant access' do

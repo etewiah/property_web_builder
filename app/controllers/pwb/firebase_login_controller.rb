@@ -24,7 +24,7 @@ module Pwb
     def change_password
       # Require user to be authenticated
       unless current_user
-        redirect_to "/firebase_login" and return
+        redirect_to "/pwb_login" and return
       end
       render "pwb/firebase_login/change_password"
     end

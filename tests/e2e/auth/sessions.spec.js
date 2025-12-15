@@ -21,7 +21,7 @@ test.describe('Sessions', () => {
       // Should show login form
       const currentURL = page.url();
       const isLoginPage = currentURL.includes('/sign_in') ||
-                          currentURL.includes('/firebase_login') ||
+                          currentURL.includes('/pwb_login') ||
                           currentURL.includes('/login');
       expect(isLoginPage).toBeTruthy();
     });
@@ -160,7 +160,7 @@ test.describe('Sessions', () => {
       // Should stay on login page (HTML5 validation or server-side)
       const currentURL = page.url();
       const stillOnLogin = currentURL.includes('/sign_in') ||
-                           currentURL.includes('/firebase_login') ||
+                           currentURL.includes('/pwb_login') ||
                            currentURL.includes('/login');
       expect(stillOnLogin).toBeTruthy();
     });

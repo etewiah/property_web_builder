@@ -65,7 +65,7 @@ RSpec.describe Pwb::AuthConfig do
       end
 
       it 'returns firebase login path' do
-        expect(described_class.login_path).to eq('/firebase_login')
+        expect(described_class.login_path).to eq('/pwb_login')
       end
     end
 
@@ -90,7 +90,7 @@ RSpec.describe Pwb::AuthConfig do
       end
 
       it 'returns firebase signup path' do
-        expect(described_class.signup_path).to eq('/firebase_sign_up')
+        expect(described_class.signup_path).to eq('/pwb_sign_up')
       end
     end
 
@@ -115,7 +115,7 @@ RSpec.describe Pwb::AuthConfig do
       end
 
       it 'returns firebase forgot password path' do
-        expect(described_class.forgot_password_path).to eq('/firebase_forgot_password')
+        expect(described_class.forgot_password_path).to eq('/pwb_forgot_password')
       end
     end
 

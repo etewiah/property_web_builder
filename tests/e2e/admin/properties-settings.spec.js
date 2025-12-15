@@ -23,7 +23,7 @@ test.describe('Properties Settings Management', () => {
       const currentURL = page.url();
       const pageContent = await page.content();
       const redirectedToLogin = currentURL.includes('/sign_in') ||
-                                currentURL.includes('/firebase_login') ||
+                                currentURL.includes('/pwb_login') ||
                                 currentURL.includes('/login');
       // Also check for inline access required message
       const showsAccessRequired = pageContent.includes('Admin Access Required') ||
@@ -171,7 +171,7 @@ test.describe('Properties Settings Management', () => {
       const pageContent = await page.content();
 
       const accessDenied = currentURL.includes('/sign_in') ||
-                           currentURL.includes('/firebase_login') ||
+                           currentURL.includes('/pwb_login') ||
                            currentURL.includes('/login') ||
                            pageContent.includes('Access') ||
                            pageContent.includes('denied') ||

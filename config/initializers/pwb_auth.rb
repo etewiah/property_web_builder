@@ -39,7 +39,7 @@ module Pwb
 
       def login_path(locale: nil)
         if firebase?
-          '/firebase_login'
+          '/pwb_login'
         else
           locale ? "/#{locale}/users/sign_in" : '/users/sign_in'
         end
@@ -47,7 +47,7 @@ module Pwb
 
       def signup_path(locale: nil)
         if firebase?
-          '/firebase_sign_up'
+          '/pwb_sign_up'
         else
           locale ? "/#{locale}/users/sign_up" : '/users/sign_up'
         end
@@ -55,7 +55,7 @@ module Pwb
 
       def forgot_password_path(locale: nil)
         if firebase?
-          '/firebase_forgot_password'
+          '/pwb_forgot_password'
         else
           locale ? "/#{locale}/users/password/new" : '/users/password/new'
         end

@@ -37,7 +37,7 @@ async function expectPageToHaveAnyContent(page, alternatives) {
 async function expectToBeLoggedIn(page) {
   const currentURL = page.url();
   expect(currentURL).not.toContain('/users/sign_in');
-  expect(currentURL).not.toContain('/firebase_login');
+  expect(currentURL).not.toContain('/pwb_login');
 }
 
 /**
@@ -47,7 +47,7 @@ async function expectToBeLoggedIn(page) {
 async function expectToBeOnLoginPage(page) {
   const currentURL = page.url();
   const isOnLogin = currentURL.includes('/users/sign_in') ||
-                    currentURL.includes('/firebase_login') ||
+                    currentURL.includes('/pwb_login') ||
                     currentURL.includes('/login');
   expect(isOnLogin).toBeTruthy();
 }
@@ -140,7 +140,7 @@ async function goToAdminPage(page, tenant, adminPath) {
 
   // Verify we're not on login page (auth bypass should work)
   const currentURL = page.url();
-  if (currentURL.includes('/sign_in') || currentURL.includes('/firebase_login')) {
+  if (currentURL.includes('/sign_in') || currentURL.includes('/pwb_login')) {
     throw new Error(
       `Auth bypass not working! Redirected to login. ` +
       `Make sure server is running with BYPASS_ADMIN_AUTH=true`

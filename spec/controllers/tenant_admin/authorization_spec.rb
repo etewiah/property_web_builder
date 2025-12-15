@@ -21,7 +21,7 @@ RSpec.describe 'TenantAdmin Authorization', type: :controller do
       it 'redirects to login page' do
         get :index
         expect(response).to be_redirect
-        expect(response.location).to include('firebase_login').or include('sign_in')
+        expect(response.location).to include('pwb_login').or include('sign_in')
       end
     end
   end

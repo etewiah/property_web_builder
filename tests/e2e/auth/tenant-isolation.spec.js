@@ -48,7 +48,7 @@ test.describe('Tenant Isolation', () => {
       // Should show login form (either Devise or Firebase)
       const currentURL = page.url();
       const isLoginPage = currentURL.includes('/sign_in') ||
-                          currentURL.includes('/firebase_login') ||
+                          currentURL.includes('/pwb_login') ||
                           currentURL.includes('/login');
       expect(isLoginPage).toBeTruthy();
     });
@@ -59,7 +59,7 @@ test.describe('Tenant Isolation', () => {
       // Should show login form (either Devise or Firebase)
       const currentURL = page.url();
       const isLoginPage = currentURL.includes('/sign_in') ||
-                          currentURL.includes('/firebase_login') ||
+                          currentURL.includes('/pwb_login') ||
                           currentURL.includes('/login');
       expect(isLoginPage).toBeTruthy();
     });
@@ -70,7 +70,7 @@ test.describe('Tenant Isolation', () => {
       // Should redirect to login or show login form
       const currentURL = page.url();
       const redirectedToLogin = currentURL.includes('/sign_in') ||
-                                currentURL.includes('/firebase_login') ||
+                                currentURL.includes('/pwb_login') ||
                                 currentURL.includes('/login');
 
       // Also check if we're still on the admin page but showing login requirement

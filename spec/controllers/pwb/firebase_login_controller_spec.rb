@@ -37,7 +37,7 @@ module Pwb
       context "when user is not authenticated" do
         it "redirects to login" do
           get :change_password
-          expect(response).to redirect_to("/firebase_login")
+          expect(response).to redirect_to("/pwb_login")
         end
       end
 

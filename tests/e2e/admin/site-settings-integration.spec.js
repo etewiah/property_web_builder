@@ -380,7 +380,7 @@ test.describe('Admin Access Verification', () => {
       // Should NOT be redirected to login page
       const currentUrl = page.url();
       expect(currentUrl).not.toContain('/sign_in');
-      expect(currentUrl).not.toContain('/firebase_login');
+      expect(currentUrl).not.toContain('/pwb_login');
 
       // Should see admin content (not access denied)
       const pageContent = await page.content();

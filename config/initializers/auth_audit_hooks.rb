@@ -62,9 +62,9 @@ module Pwb
       if Pwb::AuthConfig.firebase?
         stored_location = stored_location_for(:user)
         if stored_location.present?
-          "/firebase_login?return_to=#{CGI.escape(stored_location)}"
+          "/pwb_login?return_to=#{CGI.escape(stored_location)}"
         else
-          '/firebase_login'
+          '/pwb_login'
         end
       else
         super

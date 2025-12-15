@@ -22,7 +22,7 @@ RSpec.describe AuthHelper, type: :helper do
       end
 
       it 'returns firebase login path' do
-        expect(helper.auth_login_path).to eq('/firebase_login')
+        expect(helper.auth_login_path).to eq('/pwb_login')
       end
 
       it 'includes return_to parameter when provided' do
@@ -52,7 +52,7 @@ RSpec.describe AuthHelper, type: :helper do
       end
 
       it 'returns firebase signup path' do
-        expect(helper.auth_signup_path).to eq('/firebase_sign_up')
+        expect(helper.auth_signup_path).to eq('/pwb_sign_up')
       end
     end
   end
