@@ -11,6 +11,10 @@
 #
 # Data is stored in Redis and never sent externally.
 
+# Disable the resource monitor logging (CPU/memory/disk every minute)
+# The data is still collected for the dashboard, but not logged to stdout
+RailsPerformance._resource_monitor_enabled = false unless ENV['RAILS_PERFORMANCE_RESOURCE_MONITOR'] == 'true'
+
 RailsPerformance.setup do |config|
   # Redis configuration - uses the same Redis as the rest of the app
   config.redis = Redis.new(
