@@ -1,0 +1,109 @@
+<%= form_with model: [:tenant_admin, @subscription], local: true, class: "space-y-6" do |f| %>
+  <% if @subscription.errors.any? %>
+    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+      <div class="flex">
+        <svg class="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">Please fix the following errors:</h3>
+          <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+            <% @subscription.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Website & Plan -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Subscription Details</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <% if @subscription.new_record? %>
+        <div>
+          <%= f.label :website_id, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.select :website_id, @websites.map { |w| ["#{w.subdomain} (#{w.provisioning_state})", w.id] }, { include_blank: "Select a website..." }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+          <p class="mt-1 text-xs text-gray-500">Only websites without subscriptions are shown</p>
+        </div>
+      <% else %>
+        <div>
+          <%= f.label :website_id, class: "block text-sm font-medium text-gray-700" %>
+          <p class="mt-1 text-sm text-gray-900"><%= @subscription.website.subdomain %></p>
+          <%= f.hidden_field :website_id %>
+        </div>
+      <% end %>
+
+      <div>
+        <%= f.label :plan_id, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :plan_id, @plans.map { |p| ["#{p.display_name} (#{p.formatted_price})", p.id] }, {}, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Status -->
+  <% unless @subscription.new_record? %>
+    <div class="bg-white rounded-lg shadow p-6">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Status</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <%= f.label :status, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.select :status, [["Trialing", "trialing"], ["Active", "active"], ["Past Due", "past_due"], ["Canceled", "canceled"], ["Expired", "expired"]], {}, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+          <p class="mt-1 text-xs text-gray-500">Warning: Manually changing status bypasses normal workflows</p>
+        </div>
+
+        <div>
+          <label class="flex items-center gap-3 mt-6">
+            <%= f.check_box :cancel_at_period_end, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+            <div>
+              <div class="text-sm font-medium text-gray-900">Cancel at Period End</div>
+              <div class="text-xs text-gray-500">Subscription will be canceled when current period ends</div>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Dates -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Dates</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <%= f.label :trial_ends_at, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.datetime_local_field :trial_ends_at, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :current_period_starts_at, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.datetime_local_field :current_period_starts_at, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :current_period_ends_at, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.datetime_local_field :current_period_ends_at, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- External References -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">External References</h3>
+    <p class="text-sm text-gray-500 mb-4">IDs from external payment processor (e.g., Stripe)</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <%= f.label :external_id, "Subscription ID", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :external_id, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm font-mono", placeholder: "sub_xxx" %>
+      </div>
+      <div>
+        <%= f.label :external_customer_id, "Customer ID", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :external_customer_id, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm font-mono", placeholder: "cus_xxx" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex justify-end gap-3">
+    <%= link_to "Cancel", tenant_admin_subscriptions_path, class: "px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 text-sm" %>
+    <%= f.submit @subscription.persisted? ? "Update Subscription" : "Create Subscription", class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm cursor-pointer" %>
+  </div>
+<% end %>

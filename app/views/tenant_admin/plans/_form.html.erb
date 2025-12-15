@@ -1,0 +1,133 @@
+<%= form_with model: [:tenant_admin, @plan], local: true, class: "space-y-6" do |f| %>
+  <% if @plan.errors.any? %>
+    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+      <div class="flex">
+        <svg class="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">Please fix the following errors:</h3>
+          <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+            <% @plan.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Basic Info -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Basic Information</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <%= f.label :name, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :name, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm", placeholder: "e.g., starter" %>
+        <p class="mt-1 text-xs text-gray-500">Internal name (lowercase, no spaces)</p>
+      </div>
+      <div>
+        <%= f.label :slug, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :slug, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm", placeholder: "e.g., starter" %>
+        <p class="mt-1 text-xs text-gray-500">URL-friendly identifier</p>
+      </div>
+      <div class="md:col-span-2">
+        <%= f.label :display_name, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :display_name, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm", placeholder: "e.g., Starter Plan" %>
+      </div>
+      <div class="md:col-span-2">
+        <%= f.label :description, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_area :description, rows: 3, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm", placeholder: "Describe this plan..." %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pricing -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Pricing</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <%= f.label :price_cents, "Price (in cents)", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.number_field :price_cents, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm", placeholder: "2900" %>
+        <p class="mt-1 text-xs text-gray-500">Enter 2900 for $29.00</p>
+      </div>
+      <div>
+        <%= f.label :price_currency, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :price_currency, [["USD", "USD"], ["EUR", "EUR"], ["GBP", "GBP"]], {}, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :billing_interval, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :billing_interval, [["Monthly", "month"], ["Yearly", "year"]], {}, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :trial_days, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.number_field :trial_days, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm", min: 0 %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Limits -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Limits</h3>
+    <p class="text-sm text-gray-500 mb-4">Leave blank for unlimited</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <%= f.label :property_limit, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.number_field :property_limit, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm", min: 0, placeholder: "Unlimited" %>
+      </div>
+      <div>
+        <%= f.label :user_limit, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.number_field :user_limit, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm", min: 0, placeholder: "Unlimited" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Features</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <% Pwb::Plan::FEATURES.each do |key, description| %>
+        <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+          <%= check_box_tag "pwb_plan[features][]", key, @plan.features.include?(key.to_s), class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+          <div>
+            <div class="text-sm font-medium text-gray-900"><%= key.to_s.titleize %></div>
+            <div class="text-xs text-gray-500"><%= description %></div>
+          </div>
+        </label>
+      <% end %>
+    </div>
+    <!-- Hidden field to ensure empty array is submitted when nothing selected -->
+    <%= hidden_field_tag "pwb_plan[features][]", "" %>
+  </div>
+
+  <!-- Status & Display -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Status & Display</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <label class="flex items-center gap-3">
+        <%= f.check_box :active, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+        <div>
+          <div class="text-sm font-medium text-gray-900">Active</div>
+          <div class="text-xs text-gray-500">Plan can be assigned to websites</div>
+        </div>
+      </label>
+      <label class="flex items-center gap-3">
+        <%= f.check_box :public, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+        <div>
+          <div class="text-sm font-medium text-gray-900">Public</div>
+          <div class="text-xs text-gray-500">Shown on pricing pages</div>
+        </div>
+      </label>
+      <div>
+        <%= f.label :position, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.number_field :position, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm", min: 0 %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex justify-end gap-3">
+    <%= link_to "Cancel", tenant_admin_plans_path, class: "px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 text-sm" %>
+    <%= f.submit @plan.persisted? ? "Update Plan" : "Create Plan", class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm cursor-pointer" %>
+  </div>
+<% end %>

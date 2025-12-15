@@ -1,0 +1,122 @@
+<div class="max-w-7xl mx-auto">
+  <div class="mb-4 md:mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Subscription Plans</h1>
+      <p class="mt-1 md:mt-2 text-sm md:text-base text-gray-600">Manage subscription plans and pricing tiers</p>
+    </div>
+    <%= link_to new_tenant_admin_plan_path, class: "px-3 md:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center text-sm" do %>
+      <svg class="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+      </svg>
+      Add Plan
+    <% end %>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-6">
+    <div class="bg-white rounded-lg shadow p-3 md:p-4">
+      <div class="text-xs md:text-sm font-medium text-gray-500">Total Plans</div>
+      <div class="mt-1 text-xl md:text-2xl font-semibold text-gray-900"><%= @stats[:total] %></div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-3 md:p-4">
+      <div class="text-xs md:text-sm font-medium text-gray-500">Active</div>
+      <div class="mt-1 text-xl md:text-2xl font-semibold text-green-600"><%= @stats[:active] %></div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-3 md:p-4">
+      <div class="text-xs md:text-sm font-medium text-gray-500">Public</div>
+      <div class="mt-1 text-xl md:text-2xl font-semibold text-blue-600"><%= @stats[:public] %></div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-3 md:p-4">
+      <div class="text-xs md:text-sm font-medium text-gray-500">Subscriptions</div>
+      <div class="mt-1 text-xl md:text-2xl font-semibold text-purple-600"><%= @stats[:subscriptions] %></div>
+    </div>
+  </div>
+
+  <!-- Search Form -->
+  <div class="mb-4 md:mb-6 bg-white rounded-lg shadow p-3 md:p-4">
+    <%= form_with url: tenant_admin_plans_path, method: :get, local: true, class: "flex flex-col sm:flex-row gap-2 sm:gap-4" do |f| %>
+      <div class="flex-1">
+        <%= f.text_field :search, value: params[:search], placeholder: "Search by name...", class: "w-full px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.select :active, [["All Status", ""], ["Active Only", "true"], ["Inactive Only", "false"]], {}, class: "w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm" %>
+      </div>
+      <%= f.submit "Search", class: "px-4 md:px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm cursor-pointer" %>
+    <% end %>
+  </div>
+
+  <!-- Plans Table -->
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plan</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+            <th class="hidden md:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Limits</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th class="hidden sm:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subscriptions</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% if @plans.any? %>
+            <% @plans.each do |plan| %>
+              <tr>
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">
+                    <%= link_to plan.display_name, tenant_admin_plan_path(plan), class: "text-blue-600 hover:text-blue-800" %>
+                  </div>
+                  <div class="text-xs text-gray-500"><%= plan.slug %></div>
+                </td>
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-semibold text-gray-900"><%= plan.formatted_price %></div>
+                  <div class="text-xs text-gray-500"><%= plan.trial_days %> day trial</div>
+                </td>
+                <td class="hidden md:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <div>Properties: <%= plan.property_limit || 'Unlimited' %></div>
+                  <div>Users: <%= plan.user_limit || 'Unlimited' %></div>
+                </td>
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap">
+                  <% if plan.active %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                  <% else %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Inactive</span>
+                  <% end %>
+                  <% if plan.public %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 ml-1">Public</span>
+                  <% end %>
+                </td>
+                <td class="hidden sm:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <%= plan.subscriptions.count %>
+                </td>
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm">
+                  <%= link_to "View", tenant_admin_plan_path(plan), class: "text-blue-600 hover:text-blue-800 mr-2" %>
+                  <%= link_to "Edit", edit_tenant_admin_plan_path(plan), class: "text-green-600 hover:text-green-800" %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="6" class="px-6 py-12 text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">No plans found</h3>
+                <p class="mt-1 text-sm text-gray-500">Get started by creating a subscription plan.</p>
+                <div class="mt-6">
+                  <%= link_to new_tenant_admin_plan_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" do %>
+                    <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    Add Plan
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

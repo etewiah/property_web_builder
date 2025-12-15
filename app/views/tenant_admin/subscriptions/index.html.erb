@@ -1,0 +1,145 @@
+<div class="max-w-7xl mx-auto">
+  <div class="mb-4 md:mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Subscriptions</h1>
+      <p class="mt-1 md:mt-2 text-sm md:text-base text-gray-600">Manage website subscriptions</p>
+    </div>
+    <div class="flex gap-2">
+      <%= link_to new_tenant_admin_subscription_path, class: "px-3 md:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center text-sm" do %>
+        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+        Add Subscription
+      <% end %>
+      <% if Pwb::Subscription.trial_expired.any? %>
+        <%= button_to expire_trials_tenant_admin_subscriptions_path, method: :post, class: "px-3 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 text-sm" do %>
+          Expire Trials (<%= Pwb::Subscription.trial_expired.count %>)
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mb-4 md:mb-6">
+    <div class="bg-white rounded-lg shadow p-3 md:p-4">
+      <div class="text-xs md:text-sm font-medium text-gray-500">Total</div>
+      <div class="mt-1 text-xl md:text-2xl font-semibold text-gray-900"><%= @stats[:total] %></div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-3 md:p-4">
+      <div class="text-xs md:text-sm font-medium text-gray-500">Active</div>
+      <div class="mt-1 text-xl md:text-2xl font-semibold text-green-600"><%= @stats[:active] %></div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-3 md:p-4">
+      <div class="text-xs md:text-sm font-medium text-gray-500">Trialing</div>
+      <div class="mt-1 text-xl md:text-2xl font-semibold text-blue-600"><%= @stats[:trialing] %></div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-3 md:p-4">
+      <div class="text-xs md:text-sm font-medium text-gray-500">Past Due</div>
+      <div class="mt-1 text-xl md:text-2xl font-semibold text-yellow-600"><%= @stats[:past_due] %></div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-3 md:p-4">
+      <div class="text-xs md:text-sm font-medium text-gray-500">Canceled</div>
+      <div class="mt-1 text-xl md:text-2xl font-semibold text-red-600"><%= @stats[:canceled] %></div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="mb-4 md:mb-6 bg-white rounded-lg shadow p-3 md:p-4">
+    <%= form_with url: tenant_admin_subscriptions_path, method: :get, local: true, class: "flex flex-col sm:flex-row gap-2 sm:gap-4" do |f| %>
+      <div class="flex-1">
+        <%= f.text_field :search, value: params[:search], placeholder: "Search by website subdomain...", class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.select :status, [["All Status", ""], ["Active", "active"], ["Trialing", "trialing"], ["Past Due", "past_due"], ["Canceled", "canceled"], ["Expired", "expired"]], { selected: params[:status] }, class: "w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm" %>
+      </div>
+      <div>
+        <%= f.select :plan_id, [["All Plans", ""]] + @plans.map { |p| [p.display_name, p.id] }, { selected: params[:plan_id] }, class: "w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm" %>
+      </div>
+      <%= f.submit "Filter", class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm cursor-pointer" %>
+    <% end %>
+  </div>
+
+  <!-- Subscriptions Table -->
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Website</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plan</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th class="hidden md:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Period</th>
+            <th class="hidden sm:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trial</th>
+            <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% if @subscriptions.any? %>
+            <% @subscriptions.each do |sub| %>
+              <tr>
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">
+                    <%= link_to sub.website.subdomain, tenant_admin_subscription_path(sub), class: "text-blue-600 hover:text-blue-800" %>
+                  </div>
+                </td>
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900"><%= sub.plan.display_name %></div>
+                  <div class="text-xs text-gray-500"><%= sub.plan.formatted_price %></div>
+                </td>
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 py-1 text-xs font-semibold rounded-full
+                    <%= case sub.status
+                        when 'active' then 'bg-green-100 text-green-800'
+                        when 'trialing' then 'bg-blue-100 text-blue-800'
+                        when 'past_due' then 'bg-yellow-100 text-yellow-800'
+                        when 'canceled' then 'bg-red-100 text-red-800'
+                        when 'expired' then 'bg-gray-100 text-gray-800'
+                        else 'bg-gray-100 text-gray-800'
+                        end %>">
+                    <%= sub.status.titleize %>
+                  </span>
+                </td>
+                <td class="hidden md:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <% if sub.current_period_ends_at %>
+                    Ends <%= sub.current_period_ends_at.strftime('%Y-%m-%d') %>
+                  <% else %>
+                    -
+                  <% end %>
+                </td>
+                <td class="hidden sm:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <% if sub.trialing? && sub.trial_days_remaining %>
+                    <span class="text-blue-600"><%= sub.trial_days_remaining %> days left</span>
+                  <% elsif sub.trial_ends_at %>
+                    Ended <%= sub.trial_ends_at.strftime('%Y-%m-%d') %>
+                  <% else %>
+                    -
+                  <% end %>
+                </td>
+                <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm">
+                  <%= link_to "View", tenant_admin_subscription_path(sub), class: "text-blue-600 hover:text-blue-800 mr-2" %>
+                  <%= link_to "Edit", edit_tenant_admin_subscription_path(sub), class: "text-green-600 hover:text-green-800" %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="6" class="px-6 py-12 text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">No subscriptions found</h3>
+                <p class="mt-1 text-sm text-gray-500">Get started by creating a subscription.</p>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <% if @pagy && @pagy.pages > 1 %>
+      <div class="px-4 py-3 border-t border-gray-200">
+        <%== pagy_nav(@pagy) %>
+      </div>
+    <% end %>
+  </div>
+</div>

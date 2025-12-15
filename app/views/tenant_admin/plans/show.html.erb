@@ -1,0 +1,164 @@
+<div class="max-w-4xl mx-auto">
+  <!-- Header -->
+  <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+    <div>
+      <div class="flex items-center gap-2">
+        <%= link_to tenant_admin_plans_path, class: "text-gray-500 hover:text-gray-700" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        <% end %>
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-900"><%= @plan.display_name %></h1>
+        <% if @plan.active %>
+          <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+        <% else %>
+          <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">Inactive</span>
+        <% end %>
+      </div>
+      <p class="mt-1 text-sm text-gray-500">Slug: <%= @plan.slug %></p>
+    </div>
+    <div class="flex gap-2">
+      <%= link_to edit_tenant_admin_plan_path(@plan), class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm" do %>
+        Edit Plan
+      <% end %>
+      <% if @plan.subscriptions.empty? %>
+        <%= button_to tenant_admin_plan_path(@plan), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this plan?" }, class: "px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm" do %>
+          Delete
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Plan Details -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <!-- Pricing Card -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Pricing</h2>
+      <div class="space-y-3">
+        <div class="flex justify-between">
+          <span class="text-gray-600">Price</span>
+          <span class="font-semibold text-2xl text-gray-900"><%= @plan.formatted_price %></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Billing Interval</span>
+          <span class="text-gray-900 capitalize"><%= @plan.billing_interval %></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Trial Period</span>
+          <span class="text-gray-900"><%= @plan.trial_days %> days</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Currency</span>
+          <span class="text-gray-900"><%= @plan.price_currency %></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Limits Card -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Limits</h2>
+      <div class="space-y-3">
+        <div class="flex justify-between">
+          <span class="text-gray-600">Properties</span>
+          <span class="font-semibold text-gray-900">
+            <% if @plan.unlimited_properties? %>
+              <span class="text-green-600">Unlimited</span>
+            <% else %>
+              <%= @plan.property_limit %>
+            <% end %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Users</span>
+          <span class="font-semibold text-gray-900">
+            <% if @plan.unlimited_users? %>
+              <span class="text-green-600">Unlimited</span>
+            <% else %>
+              <%= @plan.user_limit %>
+            <% end %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Public</span>
+          <span class="text-gray-900"><%= @plan.public ? 'Yes' : 'No' %></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Position</span>
+          <span class="text-gray-900"><%= @plan.position %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="bg-white rounded-lg shadow p-6 mb-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Features</h2>
+    <% if @plan.features.any? %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <% @plan.enabled_features.each do |feature| %>
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-gray-700"><%= feature[:description] %></span>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-500">No features configured for this plan.</p>
+    <% end %>
+  </div>
+
+  <!-- Description -->
+  <% if @plan.description.present? %>
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Description</h2>
+      <p class="text-gray-700"><%= @plan.description %></p>
+    </div>
+  <% end %>
+
+  <!-- Recent Subscriptions -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg font-semibold text-gray-900">Recent Subscriptions</h2>
+      <%= link_to "View All", tenant_admin_subscriptions_path(plan_id: @plan.id), class: "text-blue-600 hover:text-blue-800 text-sm" %>
+    </div>
+    <% if @subscriptions.any? %>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Website</th>
+              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Created</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <% @subscriptions.each do |sub| %>
+              <tr>
+                <td class="px-4 py-2 text-sm">
+                  <%= link_to sub.website.subdomain, tenant_admin_website_path(sub.website), class: "text-blue-600 hover:text-blue-800" %>
+                </td>
+                <td class="px-4 py-2">
+                  <span class="px-2 py-1 text-xs font-semibold rounded-full
+                    <%= case sub.status
+                        when 'active' then 'bg-green-100 text-green-800'
+                        when 'trialing' then 'bg-blue-100 text-blue-800'
+                        when 'past_due' then 'bg-yellow-100 text-yellow-800'
+                        when 'canceled' then 'bg-red-100 text-red-800'
+                        else 'bg-gray-100 text-gray-800'
+                        end %>">
+                    <%= sub.status.titleize %>
+                  </span>
+                </td>
+                <td class="px-4 py-2 text-sm text-gray-500"><%= sub.created_at.strftime('%Y-%m-%d') %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p class="text-gray-500 text-center py-4">No subscriptions yet.</p>
+    <% end %>
+  </div>
+</div>

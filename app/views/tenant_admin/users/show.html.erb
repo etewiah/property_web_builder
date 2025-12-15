@@ -273,3 +273,60 @@
     <% end %>
   </div>
 </div>
+
+<!-- Actions Section -->
+<div class="my-4">
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900">Actions</h3>
+
+    <div class="flex flex-wrap gap-3">
+      <%= link_to edit_tenant_admin_user_path(@user), class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm" do %>
+        Edit User
+      <% end %>
+
+      <% # Check if user can be safely deleted %>
+      <% owner_websites = @user.user_memberships.where(role: 'owner').includes(:website).map(&:website).compact %>
+      <% sole_owner_websites = owner_websites.select { |w| w.user_memberships.where(role: 'owner').count == 1 } %>
+
+      <% if sole_owner_websites.any? %>
+        <!-- Cannot delete - sole owner warning -->
+        <div class="flex-1 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <div class="flex items-start">
+            <svg class="h-5 w-5 text-yellow-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+            <div>
+              <p class="text-sm font-medium text-yellow-800">Cannot delete this user</p>
+              <p class="text-sm text-yellow-700 mt-1">
+                This user is the sole owner of: <%= sole_owner_websites.map(&:subdomain).join(', ') %>
+              </p>
+              <p class="text-sm text-yellow-700 mt-1">Transfer ownership before deleting.</p>
+
+              <!-- Transfer Ownership Form -->
+              <div class="mt-3">
+                <%= form_with url: transfer_ownership_tenant_admin_user_path(@user), method: :post, local: true, class: "flex gap-2 items-end" do |f| %>
+                  <div>
+                    <label class="block text-xs font-medium text-yellow-800">Transfer to:</label>
+                    <%= f.select :new_owner_id,
+                        Pwb::User.unscoped.where.not(id: @user.id).order(:email).limit(100).map { |u| [u.email, u.id] },
+                        { include_blank: "Select user..." },
+                        class: "mt-1 block w-64 text-sm rounded-md border-yellow-300 focus:border-yellow-500 focus:ring-yellow-500" %>
+                  </div>
+                  <%= f.submit "Transfer Ownership", class: "px-3 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 text-sm cursor-pointer" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <!-- Can delete -->
+        <%= button_to tenant_admin_user_path(@user),
+            method: :delete,
+            data: { turbo_confirm: "Are you sure you want to delete #{@user.email}? This action cannot be undone." },
+            class: "px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm" do %>
+          Delete User
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

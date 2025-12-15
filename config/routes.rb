@@ -43,8 +43,25 @@ Rails.application.routes.draw do
       resources :admins, controller: 'website_admins', only: %i[index create destroy]
     end
 
-    resources :users
+    resources :users do
+      member do
+        post :transfer_ownership
+      end
+    end
     resources :agencies, only: %i[index show new create edit update destroy]
+
+    # Subscription Management
+    resources :plans
+    resources :subscriptions do
+      member do
+        post :activate
+        post :cancel
+        post :change_plan
+      end
+      collection do
+        post :expire_trials
+      end
+    end
     resources :props, only: %i[index show]
     resources :pages, only: %i[index show]
     resources :page_parts, only: %i[index show]

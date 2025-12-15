@@ -1,0 +1,189 @@
+<div class="max-w-4xl mx-auto">
+  <!-- Header -->
+  <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+    <div>
+      <div class="flex items-center gap-2">
+        <%= link_to tenant_admin_subscriptions_path, class: "text-gray-500 hover:text-gray-700" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        <% end %>
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Subscription</h1>
+        <span class="px-2 py-1 text-xs font-semibold rounded-full
+          <%= case @subscription.status
+              when 'active' then 'bg-green-100 text-green-800'
+              when 'trialing' then 'bg-blue-100 text-blue-800'
+              when 'past_due' then 'bg-yellow-100 text-yellow-800'
+              when 'canceled' then 'bg-red-100 text-red-800'
+              else 'bg-gray-100 text-gray-800'
+              end %>">
+          <%= @subscription.status.titleize %>
+        </span>
+      </div>
+      <p class="mt-1 text-sm text-gray-500">
+        Website: <%= link_to @subscription.website.subdomain, tenant_admin_website_path(@subscription.website), class: "text-blue-600 hover:text-blue-800" %>
+      </p>
+    </div>
+    <div class="flex gap-2">
+      <%= link_to edit_tenant_admin_subscription_path(@subscription), class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm" do %>
+        Edit
+      <% end %>
+      <%= button_to tenant_admin_subscription_path(@subscription), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this subscription?" }, class: "px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm" do %>
+        Delete
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="mb-6 bg-white rounded-lg shadow p-4">
+    <h2 class="text-sm font-medium text-gray-500 mb-3">Quick Actions</h2>
+    <div class="flex flex-wrap gap-2">
+      <% if @subscription.may_activate? %>
+        <%= button_to activate_tenant_admin_subscription_path(@subscription), method: :post, class: "px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm" do %>
+          Activate
+        <% end %>
+      <% end %>
+      <% if @subscription.may_cancel? %>
+        <%= button_to cancel_tenant_admin_subscription_path(@subscription), method: :post, data: { turbo_confirm: "Are you sure you want to cancel this subscription?" }, class: "px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm" do %>
+          Cancel
+        <% end %>
+      <% end %>
+      <% if @subscription.may_reactivate? %>
+        <%= button_to activate_tenant_admin_subscription_path(@subscription), method: :post, class: "px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm" do %>
+          Reactivate
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Details Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <!-- Plan Details -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Current Plan</h2>
+      <div class="space-y-3">
+        <div class="flex justify-between">
+          <span class="text-gray-600">Plan</span>
+          <span class="font-semibold text-gray-900">
+            <%= link_to @subscription.plan.display_name, tenant_admin_plan_path(@subscription.plan), class: "text-blue-600 hover:text-blue-800" %>
+          </span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Price</span>
+          <span class="text-gray-900"><%= @subscription.plan.formatted_price %></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Property Limit</span>
+          <span class="text-gray-900"><%= @subscription.plan.property_limit || 'Unlimited' %></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Properties Used</span>
+          <span class="text-gray-900"><%= @subscription.website.realty_assets.count %></span>
+        </div>
+      </div>
+
+      <!-- Change Plan -->
+      <div class="mt-4 pt-4 border-t">
+        <h3 class="text-sm font-medium text-gray-700 mb-2">Change Plan</h3>
+        <%= form_with url: change_plan_tenant_admin_subscription_path(@subscription), method: :post, local: true, class: "flex gap-2" do |f| %>
+          <%= f.select :new_plan_id, Pwb::Plan.active.ordered.map { |p| [p.display_name, p.id] }, { selected: @subscription.plan_id }, class: "flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm" %>
+          <%= f.submit "Change", class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm cursor-pointer" %>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Billing Period -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Billing Period</h2>
+      <div class="space-y-3">
+        <div class="flex justify-between">
+          <span class="text-gray-600">Status</span>
+          <span class="font-semibold text-gray-900 capitalize"><%= @subscription.status %></span>
+        </div>
+        <% if @subscription.trialing? %>
+          <div class="flex justify-between">
+            <span class="text-gray-600">Trial Ends</span>
+            <span class="text-gray-900"><%= @subscription.trial_ends_at&.strftime('%Y-%m-%d %H:%M') || '-' %></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-600">Days Remaining</span>
+            <span class="font-semibold text-blue-600"><%= @subscription.trial_days_remaining || 0 %></span>
+          </div>
+        <% end %>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Period Start</span>
+          <span class="text-gray-900"><%= @subscription.current_period_starts_at&.strftime('%Y-%m-%d') || '-' %></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Period End</span>
+          <span class="text-gray-900"><%= @subscription.current_period_ends_at&.strftime('%Y-%m-%d') || '-' %></span>
+        </div>
+        <% if @subscription.canceled_at %>
+          <div class="flex justify-between">
+            <span class="text-gray-600">Canceled At</span>
+            <span class="text-red-600"><%= @subscription.canceled_at.strftime('%Y-%m-%d %H:%M') %></span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- External IDs -->
+  <% if @subscription.external_id.present? || @subscription.external_customer_id.present? %>
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">External References</h2>
+      <div class="space-y-3">
+        <% if @subscription.external_id.present? %>
+          <div class="flex justify-between">
+            <span class="text-gray-600">Subscription ID</span>
+            <span class="text-gray-900 font-mono text-sm"><%= @subscription.external_id %></span>
+          </div>
+        <% end %>
+        <% if @subscription.external_customer_id.present? %>
+          <div class="flex justify-between">
+            <span class="text-gray-600">Customer ID</span>
+            <span class="text-gray-900 font-mono text-sm"><%= @subscription.external_customer_id %></span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Events Log -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Event History</h2>
+    <% if @events.any? %>
+      <div class="space-y-3">
+        <% @events.each do |event| %>
+          <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+            <div class="flex-shrink-0">
+              <span class="inline-flex items-center justify-center h-8 w-8 rounded-full
+                <%= case event.event_type
+                    when 'activated', 'reactivated' then 'bg-green-100 text-green-600'
+                    when 'canceled', 'expired', 'trial_expired' then 'bg-red-100 text-red-600'
+                    when 'past_due' then 'bg-yellow-100 text-yellow-600'
+                    when 'plan_changed' then 'bg-blue-100 text-blue-600'
+                    else 'bg-gray-100 text-gray-600'
+                    end %>">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-gray-900"><%= event.event_type.titleize %></p>
+              <p class="text-xs text-gray-500"><%= event.created_at.strftime('%Y-%m-%d %H:%M:%S') %></p>
+              <% if event.metadata.present? && event.metadata.any? %>
+                <p class="text-xs text-gray-500 mt-1">
+                  <%= event.metadata.map { |k, v| "#{k}: #{v}" }.join(', ') %>
+                </p>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-500 text-center py-4">No events recorded yet.</p>
+    <% end %>
+  </div>
+</div>
