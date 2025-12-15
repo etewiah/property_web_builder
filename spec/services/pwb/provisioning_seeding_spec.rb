@@ -112,7 +112,9 @@ module Pwb
           service.send(:create_links_for_website, website)
 
           expect(website.links.count).to be >= 3
-          expect(website.links.pluck(:slug)).to include('home', 'properties', 'about')
+          # Fallback links use top_nav_ prefix and include link_path for proper rendering
+          expect(website.links.pluck(:slug)).to include('top_nav_home', 'top_nav_buy', 'top_nav_rent')
+          expect(website.links.first.link_path).to be_present
         end
       end
 
