@@ -400,6 +400,8 @@ module Pwb
 
       # Try seed pack first
       if try_seed_pack_step(website, :pages)
+        # Seed pack handled pages/page_parts, now seed content
+        seed_content_for_website(website)
         return
       end
 
@@ -407,9 +409,31 @@ module Pwb
       begin
         Pwb::PagesSeeder.seed_page_basics!(website: website)
         Pwb::PagesSeeder.seed_page_parts!(website: website)
+        # Seed content translations for the pages
+        seed_content_for_website(website)
       rescue StandardError => e
         Rails.logger.warn("[Provisioning] Page seeding fallback failed: #{e.message}")
         # Pages are important but don't fail provisioning entirely
+      end
+    end
+
+    # Seed page content translations for the website
+    # This populates the actual text content (hero text, about us, etc.)
+    def seed_content_for_website(website)
+      Pwb::Current.website = website
+
+      # Try seed pack first for content
+      if try_seed_pack_step(website, :content)
+        return
+      end
+
+      # Fallback: use ContentsSeeder for default content translations
+      begin
+        Rails.logger.info("[Provisioning] Seeding content translations for website #{website.id}")
+        Pwb::ContentsSeeder.seed_page_content_translations!(website: website)
+      rescue StandardError => e
+        Rails.logger.warn("[Provisioning] Content seeding failed (non-fatal): #{e.message}")
+        # Content is important for display but don't fail provisioning entirely
       end
     end
 
@@ -455,6 +479,12 @@ module Pwb
             seed_pack.seed_pages!(website: website) if seed_pack.respond_to?(:seed_pages!)
             seed_pack.seed_page_parts!(website: website) if seed_pack.respond_to?(:seed_page_parts!)
             return website.pages.count >= 1  # Verify at least one page exists
+          when :content
+            # Try to seed content from the pack
+            seed_pack.seed_content!(website: website) if seed_pack.respond_to?(:seed_content!)
+            # Content seeding is considered successful if page_parts have content
+            # or if the pack explicitly handled it
+            return website.page_parts.any? { |pp| pp.block_contents.present? }
           when :properties
             seed_pack.seed_properties!(website: website) if seed_pack.respond_to?(:seed_properties!)
             return true  # Properties are optional, just return true

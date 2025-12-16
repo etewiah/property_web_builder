@@ -175,6 +175,14 @@ module Pwb
       seed_properties
     end
 
+    # Seed page content translations for a specific website
+    # Falls back to default ContentsSeeder if pack has no content
+    def seed_content!(website:)
+      @website = website
+      @verbose = false
+      seed_content
+    end
+
     private
 
     def default_options
@@ -498,9 +506,23 @@ module Pwb
 
     def seed_content
       content_dir = @path.join('content')
-      return unless content_dir.exist?
+      content_translations_dir = @path.join('content_translations')
 
-      log "Seeding content...", :info
+      # Check if pack has its own content directory
+      if content_dir.exist?
+        seed_pack_content(content_dir)
+      elsif content_translations_dir.exist?
+        # Check for content_translations directory (page part content)
+        seed_pack_content_translations(content_translations_dir)
+      else
+        # Fall back to default ContentsSeeder for page content translations
+        seed_default_content
+      end
+    end
+
+    # Seed content from pack's content directory (website.contents model)
+    def seed_pack_content(content_dir)
+      log "Seeding content from pack...", :info
 
       count = 0
       Dir.glob(content_dir.join('*.yml')).each do |content_file|
@@ -518,6 +540,31 @@ module Pwb
       end
 
       log "  Created/updated #{count} content items", :detail
+
+      # Also seed page content translations using default seeder
+      # since pack content is for website.contents, not page_parts
+      seed_default_content
+    end
+
+    # Seed content translations from pack's content_translations directory
+    def seed_pack_content_translations(content_translations_dir)
+      log "Seeding page content translations from pack...", :info
+
+      # This would be a custom implementation if packs have their own
+      # content_translations format. For now, fall back to default.
+      seed_default_content
+    end
+
+    # Fall back to default ContentsSeeder for page content translations
+    def seed_default_content
+      log "Seeding default page content translations...", :info
+
+      begin
+        Pwb::ContentsSeeder.seed_page_content_translations!(website: @website)
+        log "  Default page content translations seeded", :detail
+      rescue StandardError => e
+        log "  Warning: Failed to seed default content: #{e.message}", :warning
+      end
     end
 
     def seed_users
