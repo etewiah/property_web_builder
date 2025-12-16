@@ -1,0 +1,80 @@
+<div class="max-w-3xl mx-auto">
+  <%= render 'progress', steps: @steps, current_step: @step, total_steps: @steps.keys.max %>
+
+  <div class="bg-white rounded-lg shadow-lg p-8">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-4">
+        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+        </svg>
+      </div>
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome to Your New Website!</h1>
+      <p class="text-lg text-gray-600">
+        Congratulations on setting up <strong class="text-blue-600"><%= current_website.subdomain %></strong>
+      </p>
+    </div>
+
+    <!-- What's Next -->
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">Let's get you set up in just a few minutes:</h2>
+      
+      <div class="space-y-4">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+            <span class="text-blue-600 font-semibold">1</span>
+          </div>
+          <div>
+            <h3 class="font-medium text-gray-900">Set up your profile</h3>
+            <p class="text-sm text-gray-600">Add your agency name, contact details, and logo</p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+            <span class="text-blue-600 font-semibold">2</span>
+          </div>
+          <div>
+            <h3 class="font-medium text-gray-900">Add your first property</h3>
+            <p class="text-sm text-gray-600">List a property to see how it looks on your site</p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+            <span class="text-blue-600 font-semibold">3</span>
+          </div>
+          <div>
+            <h3 class="font-medium text-gray-900">Choose your theme</h3>
+            <p class="text-sm text-gray-600">Pick a design that matches your brand</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tips -->
+    <div class="bg-blue-50 rounded-lg p-4 mb-8">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-blue-800">Quick Tip</h3>
+          <p class="mt-1 text-sm text-blue-700">
+            You can always come back to these settings later from your admin dashboard. 
+            This wizard just helps you get started quickly!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-end">
+      <%= form_with url: site_admin_onboarding_path(step: @step), method: :post, local: true do |f| %>
+        <%= f.submit "Let's Get Started", class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer" %>
+      <% end %>
+    </div>
+  </div>
+</div>
