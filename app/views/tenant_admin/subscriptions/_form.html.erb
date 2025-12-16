@@ -1,4 +1,4 @@
-<%= form_with model: [:tenant_admin, @subscription], local: true, class: "space-y-6" do |f| %>
+<%= form_with model: @subscription, url: (@subscription.persisted? ? tenant_admin_subscription_path(@subscription) : tenant_admin_subscriptions_path), local: true, class: "space-y-6" do |f| %>
   <% if @subscription.errors.any? %>
     <div class="bg-red-50 border border-red-200 rounded-lg p-4">
       <div class="flex">

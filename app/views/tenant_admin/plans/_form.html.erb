@@ -1,4 +1,4 @@
-<%= form_with model: [:tenant_admin, @plan], local: true, class: "space-y-6" do |f| %>
+<%= form_with model: @plan, url: (@plan.persisted? ? tenant_admin_plan_path(@plan) : tenant_admin_plans_path), local: true, class: "space-y-6" do |f| %>
   <% if @plan.errors.any? %>
     <div class="bg-red-50 border border-red-200 rounded-lg p-4">
       <div class="flex">
