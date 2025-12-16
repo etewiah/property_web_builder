@@ -1,0 +1,116 @@
+<div class="max-w-3xl mx-auto">
+  <%= render 'progress', steps: @steps, current_step: @step, total_steps: @steps.keys.max %>
+
+  <div class="bg-white rounded-lg shadow-lg p-8">
+    <!-- Success Header -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 mb-4">
+        <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">You're All Set!</h1>
+      <p class="text-lg text-gray-600">
+        Your website <strong class="text-blue-600"><%= @website.subdomain %></strong> is ready to go.
+      </p>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="grid grid-cols-3 gap-4 mb-8">
+      <div class="bg-gray-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-gray-900"><%= @stats[:properties] %></div>
+        <div class="text-sm text-gray-600">Properties</div>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-gray-900"><%= @stats[:pages] %></div>
+        <div class="text-sm text-gray-600">Pages</div>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-gray-900"><%= @stats[:theme] %></div>
+        <div class="text-sm text-gray-600">Theme</div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="mb-8">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">What's Next?</h2>
+      
+      <div class="space-y-4">
+        <a href="<%= site_admin_props_path %>" class="flex items-center p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors group">
+          <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-medium text-gray-900 group-hover:text-blue-600">Add More Properties</h3>
+            <p class="text-sm text-gray-500">List more properties to showcase your inventory</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+
+        <a href="<%= site_admin_pages_path %>" class="flex items-center p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors group">
+          <div class="flex-shrink-0 w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-4">
+            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-medium text-gray-900 group-hover:text-blue-600">Customize Your Pages</h3>
+            <p class="text-sm text-gray-500">Edit content on your home, about, and contact pages</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+
+        <a href="/" target="_blank" class="flex items-center p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors group">
+          <div class="flex-shrink-0 w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-4">
+            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-medium text-gray-900 group-hover:text-blue-600">View Your Website</h3>
+            <p class="text-sm text-gray-500">See how your site looks to visitors</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Help Resources -->
+    <div class="bg-gray-50 rounded-lg p-6 mb-8">
+      <h3 class="font-medium text-gray-900 mb-3">Need Help?</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <div class="flex items-start">
+          <svg class="w-5 h-5 text-gray-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          <span class="text-gray-600">Check out our documentation for tutorials and guides</span>
+        </div>
+        <div class="flex items-start">
+          <svg class="w-5 h-5 text-gray-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          <span class="text-gray-600">Contact support if you have any questions</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Go to Dashboard -->
+    <div class="text-center">
+      <%= link_to site_admin_dashboard_path, class: "inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" do %>
+        Go to Dashboard
+        <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      <% end %>
+    </div>
+  </div>
+</div>
