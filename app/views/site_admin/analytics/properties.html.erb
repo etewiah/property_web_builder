@@ -1,0 +1,80 @@
+<div class="analytics-properties">
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-2xl font-bold">Property Performance</h1>
+      <p class="text-gray-500">See which listings attract the most attention</p>
+    </div>
+    
+    <%= link_to "Back to Overview", site_admin_analytics_path, class: "text-blue-600 hover:underline" %>
+  </div>
+
+  <!-- Property Views Chart -->
+  <div class="bg-white rounded-lg shadow p-4 mb-6">
+    <h3 class="text-lg font-semibold mb-4">Property Views Over Time</h3>
+    <%= line_chart @property_views_by_day, 
+        xtitle: "Date", 
+        ytitle: "Views",
+        colors: ["#10B981"] %>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Top Properties -->
+    <div class="bg-white rounded-lg shadow p-4">
+      <h3 class="text-lg font-semibold mb-4">Most Viewed Properties</h3>
+      <% if @top_properties.any? %>
+        <table class="w-full">
+          <thead>
+            <tr class="text-left text-gray-500 text-sm">
+              <th class="pb-2">Property</th>
+              <th class="pb-2 text-right">Views</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @top_properties.each do |property_info, count| %>
+              <tr class="border-t">
+                <td class="py-2">
+                  <% if property_info.is_a?(Hash) %>
+                    <span class="font-medium"><%= property_info[:reference] || "ID: #{property_info[:id]}" %></span>
+                    <% if property_info[:title] %>
+                      <br><span class="text-sm text-gray-500"><%= truncate(property_info[:title], length: 40) %></span>
+                    <% end %>
+                  <% else %>
+                    <span class="font-medium">Property #<%= property_info %></span>
+                  <% end %>
+                </td>
+                <td class="py-2 text-right font-semibold"><%= number_with_delimiter(count) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p class="text-gray-500">No property views recorded yet.</p>
+      <% end %>
+    </div>
+
+    <!-- Top Searches -->
+    <div class="bg-white rounded-lg shadow p-4">
+      <h3 class="text-lg font-semibold mb-4">Popular Searches</h3>
+      <% if @top_searches.any? %>
+        <table class="w-full">
+          <thead>
+            <tr class="text-left text-gray-500 text-sm">
+              <th class="pb-2">Search Term</th>
+              <th class="pb-2 text-right">Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @top_searches.each do |query, count| %>
+              <tr class="border-t">
+                <td class="py-2"><%= query || "(empty search)" %></td>
+                <td class="py-2 text-right font-semibold"><%= number_with_delimiter(count) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p class="text-gray-500">No search data recorded yet.</p>
+      <% end %>
+    </div>
+  </div>
+</div>
