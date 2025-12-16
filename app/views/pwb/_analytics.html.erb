@@ -1,6 +1,66 @@
-<% if @current_website.render_google_analytics  %>
-<script type="text/javascript">
+<%# Ahoy.js - Built-in visitor analytics %>
+<script src="https://cdn.jsdelivr.net/npm/ahoy.js@0.4.2/dist/ahoy.min.js"></script>
+<script>
+  // Configure Ahoy for this website
+  ahoy.configure({
+    urlPrefix: "",
+    visitsUrl: "/ahoy/visits",
+    eventsUrl: "/ahoy/events",
+    page: null,
+    platform: "Web",
+    useBeacon: true,
+    startOnReady: true,
+    trackVisits: true,
+    cookies: true,
+    cookieDomain: null,
+    headers: {},
+    visitParams: {},
+    withCredentials: false
+  });
 
+  // Track property-related events
+  document.addEventListener('DOMContentLoaded', function() {
+    // Track property gallery clicks
+    document.querySelectorAll('[data-property-gallery]').forEach(function(el) {
+      el.addEventListener('click', function() {
+        ahoy.track('gallery_viewed', { property_id: this.dataset.propertyId });
+      });
+    });
+
+    // Track contact form opens
+    document.querySelectorAll('[data-contact-trigger]').forEach(function(el) {
+      el.addEventListener('click', function() {
+        ahoy.track('contact_form_opened', { 
+          property_id: this.dataset.propertyId,
+          source: this.dataset.source || 'button'
+        });
+      });
+    });
+
+    // Track property shares
+    document.querySelectorAll('[data-share-property]').forEach(function(el) {
+      el.addEventListener('click', function() {
+        ahoy.track('property_shared', { 
+          property_id: this.dataset.propertyId,
+          platform: this.dataset.platform
+        });
+      });
+    });
+
+    // Track favorite/save clicks
+    document.querySelectorAll('[data-favorite-property]').forEach(function(el) {
+      el.addEventListener('click', function() {
+        ahoy.track('property_favorited', { 
+          property_id: this.dataset.propertyId
+        });
+      });
+    });
+  });
+</script>
+
+<%# Google Analytics (Legacy) %>
+<% if @current_website.render_google_analytics %>
+<script type="text/javascript">
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', '<%= @current_website.analytics_id %>']);
   _gaq.push(['_trackPageview']);
@@ -10,6 +70,5 @@
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
-
 </script>
 <% end %>
