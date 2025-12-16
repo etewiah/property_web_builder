@@ -2,11 +2,7 @@
   <img src="app/assets/images/pwb_logo.svg" alt="PropertyWebBuilder Logo" width="400">
 </p>
 
-<p align="center">
-  <em>Real estate sites, real fast ⚡</em>
-</p>
-
-# PropertyWebBuilder
+# PropertyWebBuilder: real estate sites, real fast ⚡
 
 Please help support this project by making a contribution to PropertyWebBuilder here: https://opencollective.com/property_web_builder
 
@@ -16,7 +12,7 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
-## Version 2.0.0 Released - December 2024
+## Version 2.0.0 Released - December 2025
 
 PropertyWebBuilder 2.0 is a major release representing 5 years of development and 500+ commits since v1.4.0. This is essentially a complete rewrite with a modern architecture.
 
@@ -48,6 +44,33 @@ PropertyWebBuilder 2.0 is a major release representing 5 years of development an
 
 See the full [CHANGELOG](./CHANGELOG.md) for details.
 
+
+## Get your own instance of PropertyWebBuilder in minutes
+
+<!-- You can try out a demo at [https://pwb-v2.herokuapp.com](https://pwb-v2.herokuapp.com/)
+
+To see the admin panel, login as user admin@example.com with a password of "pwb123456". -->
+
+The easiest way to try out PropertyWebBuilder is to sign up for a free trial account at [https://propertywebbuilder.com](https://propertywebbuilder.com).
+
+
+![pwb_iphone_landing](https://cloud.githubusercontent.com/assets/1741198/22990222/bfec0168-f3b8-11e6-89df-b950c4979970.png)
+
+
+<!-- [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/etewiah/property_web_builder)
+
+Here is a video about how to deploy to heroku:
+
+[![Depoly PWB to heroku](http://img.youtube.com/vi/hyapXTwGyr4/0.jpg)](http://www.youtube.com/watch?v=hyapXTwGyr4 "Deploy PWB to heroku") -->
+
+
+## Installation & Development
+
+For detailed development instructions, including setup, testing, and troubleshooting, please refer to [DEVELOPMENT.md](DEVELOPMENT.md).
+
+For comprehensive documentation covering architecture, APIs, frontend implementation, and more, visit the [Documentation Portal](./docs/).
+
+
 ### Branches
 
 - **`master`** - Stable releases only. Use this for production deployments.
@@ -69,42 +92,7 @@ For detailed documentation, see the [docs folder](./docs/), which includes:
 Additional auto-generated documentation is available at:
 [https://deepwiki.com/etewiah/property_web_builder](https://deepwiki.com/etewiah/property_web_builder)
 
-## Motivation
 
-This project has been created to address a glaring gap in the rails ecosystem: the lack of an open source project for real estate websites.
-
-The result is that WordPress has become the dominant tool for creating real estate websites.  This is far from ideal and PropertyWebBuilder seeks to address this.
-
-
-## Demo
-
-<!-- You can try out a demo at [https://pwb-v2.herokuapp.com](https://pwb-v2.herokuapp.com/)
-
-To see the admin panel, login as user admin@example.com with a password of "pwb123456". -->
-
-There was previously a demo hosted on heroku but since they ended the free plan I have had to take it down.
-
-![pwb_iphone_landing](https://cloud.githubusercontent.com/assets/1741198/22990222/bfec0168-f3b8-11e6-89df-b950c4979970.png)
-
-
-## Create your own real estate website with no technical knowledge
-
-The simplest way to create a website with PropertyWebBuilder is to use Heroku, a trusted service provider.  They no longer have the free tier which was a great selling point but are still worth trying out.
-
-Just [sign up for Heroku](https://signup.heroku.com/identity), click the button below and in a few minutes your site will be ready
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/etewiah/property_web_builder)
-
-Here is a video about how to deploy to heroku:
-
-[![Depoly PWB to heroku](http://img.youtube.com/vi/hyapXTwGyr4/0.jpg)](http://www.youtube.com/watch?v=hyapXTwGyr4 "Deploy PWB to heroku")
-
-
-## Installation & Development
-
-For detailed development instructions, including setup, testing, and troubleshooting, please refer to [DEVELOPMENT.md](DEVELOPMENT.md).
-
-For comprehensive documentation covering architecture, APIs, frontend implementation, and more, visit the [Documentation Portal](./docs/).
 
 ## Rails Version
 
@@ -173,11 +161,6 @@ If you like it, please star it and spread the word on [Twitter](https://twitter.
 
 Please consider making a contribution to the development of PropertyWebBuilder.  If you wish to pay for specific enhancements, please email me directly (opensource at propertywebbuilder.com).
 
-I would like PropertyWebBuilder to be available in as many languages as possible so any help with translations will be much appreciated.  A basic Spanish version of this document can be found here:
-[https://github.com/etewiah/property_web_builder/blob/master/README_es.md](https://github.com/etewiah/property_web_builder/blob/master/README_es.md)
-
-For instructions on how to add a new language, please see:
-[https://github.com/etewiah/property_web_builder/wiki/Adding-translations-for-a-new-language](https://github.com/etewiah/property_web_builder/wiki/Adding-translations-for-a-new-language)
 <!--
 ---
 
