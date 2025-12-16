@@ -1,0 +1,30 @@
+<%# Onboarding Progress Bar %>
+<div class="mb-8">
+  <div class="flex items-center justify-between mb-2">
+    <span class="text-sm font-medium text-gray-700">Setup Progress</span>
+    <span class="text-sm font-medium text-blue-600"><%= ((current_step.to_f / total_steps) * 100).round %>% Complete</span>
+  </div>
+  
+  <!-- Progress Bar -->
+  <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+    <div class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style="width: <%= (current_step.to_f / total_steps) * 100 %>%"></div>
+  </div>
+  
+  <!-- Step Indicators -->
+  <div class="flex justify-between">
+    <% steps.each do |step_num, step_info| %>
+      <div class="flex flex-col items-center">
+        <div class="flex items-center justify-center w-8 h-8 rounded-full <%= step_num < current_step ? 'bg-green-500' : (step_num == current_step ? 'bg-blue-600' : 'bg-gray-300') %> text-white text-sm font-medium mb-1">
+          <% if step_num < current_step %>
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+          <% else %>
+            <%= step_num %>
+          <% end %>
+        </div>
+        <span class="text-xs text-gray-600 hidden sm:block"><%= step_info[:title] %></span>
+      </div>
+    <% end %>
+  </div>
+</div>
