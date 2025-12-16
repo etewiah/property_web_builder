@@ -1,0 +1,47 @@
+<div class="analytics-realtime">
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-2xl font-bold">Real-time Analytics</h1>
+      <p class="text-gray-500">See who's on your site right now</p>
+    </div>
+    
+    <%= link_to "Back to Overview", site_admin_analytics_path, class: "text-blue-600 hover:underline" %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Active Visitors -->
+    <div class="bg-white rounded-lg shadow p-6 text-center" id="realtime-visitors">
+      <h3 class="text-sm text-gray-500 uppercase mb-2">Active Visitors</h3>
+      <p class="text-6xl font-bold text-blue-600" id="visitor-count"><%= @active_visitors %></p>
+      <p class="text-gray-500 mt-2">in the last 30 minutes</p>
+    </div>
+    
+    <!-- Recent Page Views -->
+    <div class="bg-white rounded-lg shadow p-6 text-center" id="realtime-pageviews">
+      <h3 class="text-sm text-gray-500 uppercase mb-2">Recent Page Views</h3>
+      <p class="text-6xl font-bold text-green-600" id="pageview-count"><%= @recent_pageviews %></p>
+      <p class="text-gray-500 mt-2">in the last 30 minutes</p>
+    </div>
+  </div>
+
+  <div class="mt-8 bg-white rounded-lg shadow p-4">
+    <h3 class="text-lg font-semibold mb-4">How Real-time Tracking Works</h3>
+    <ul class="space-y-2 text-gray-600">
+      <li>&#x2022; Numbers update every time you refresh this page</li>
+      <li>&#x2022; "Active Visitors" counts unique visitors in the last 30 minutes</li>
+      <li>&#x2022; "Recent Page Views" counts all page loads in the last 30 minutes</li>
+      <li>&#x2022; Bot traffic and admin pages are automatically excluded</li>
+    </ul>
+  </div>
+
+  <div class="mt-4 text-center">
+    <button onclick="location.reload()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+      Refresh Data
+    </button>
+  </div>
+</div>
+
+<script>
+  // Auto-refresh every 30 seconds (optional enhancement)
+  // setTimeout(function() { location.reload(); }, 30000);
+</script>
