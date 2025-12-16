@@ -3,9 +3,9 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Property Web Builder</title>
-  <meta name="description" content="Open source software for creating estate agency websites" />
-  <meta name="keywords" content="estate agency, website, online property search, property management" />
+  <title>PropertyWebBuilder - Real Estate Sites, Real Fast</title>
+  <meta name="description" content="Open source software for creating real estate websites. Rails 8, Vue.js 3, multi-tenancy, modern themes." />
+  <meta name="keywords" content="real estate, property website, estate agency, Rails, open source, multi-tenancy, property management" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -16,92 +16,155 @@
 <body>
   <section class="page-header">
     <h1 class="project-name">PropertyWebBuilder</h1>
-    <h2 class="project-tagline">The ultimate Ruby on Rails engine for creating real estate websites</h2>
-    <a href="https://github.com/etewiah/property-web-builder" class="btn">View on GitHub</a>
-    <a href="https://github.com/etewiah/property-web-builder/zipball/master" class="btn">Download .zip</a>
-    <a href="https://github.com/etewiah/property-web-builder/tarball/master" class="btn">Download .tar.gz</a>
+    <h2 class="project-tagline">Real estate sites, real fast</h2>
+    <a href="https://github.com/etewiah/property_web_builder" class="btn">View on GitHub</a>
+    <a href="https://propertywebbuilder.com" class="btn">Get Started Free</a>
+    <a href="https://opencollective.com/property_web_builder" class="btn">Support This Project</a>
   </section>
+
   <section class="main-content">
+
+    <p style="text-align: center;">
+      <a href="https://opencollective.com/property_web_builder#backers" target="_blank"><img src="https://opencollective.com/property_web_builder/backers/badge.svg" alt="Backers on Open Collective"></a>
+      <a href="https://opencollective.com/property_web_builder#sponsors" target="_blank"><img src="https://opencollective.com/property_web_builder/sponsors/badge.svg" alt="Sponsors on Open Collective"></a>
+      <a href="https://gitter.im/property_web_builder/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/dev-1pr/1pr.svg" alt="Gitter"></a>
+      <a href="https://www.codetriage.com/etewiah/property_web_builder"><img src="https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg" alt="Open Source Helpers"></a>
+    </p>
+
     <h3>
-      <a id="what-is-pwb" class="anchor" href="#what-is-pwb" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What is PropertyWebBuilder?</h3>
-    <p>PropertyWebBuilder is a toolkit for creating real estate websites. Out of the box you get a fully functional website that allows you to manage properties available for sale or rent through the intuitive admin panel.
-      It comes with great search functionality which allows users to search for properties by multiple criteria.
-      The look and feel can be modified by adjusting colours, fonts, images etc.
-      You can choose to display key information about your estate agency such as opening hours, location and your specializations. </p>
+      <a id="version-2" class="anchor" href="#version-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Version 2.0.0 Released - December 2025</h3>
+    <p>PropertyWebBuilder 2.0 is a major release representing <strong>5 years of development</strong> and <strong>500+ commits</strong> since v1.4.0. This is essentially a complete rewrite with a modern architecture.</p>
+
+    <h4>What's New in 2.0</h4>
+
+    <p><strong>Architecture Changes:</strong></p>
+    <ul>
+      <li>Converted from Rails engine to standalone application</li>
+      <li>Full multi-tenancy with <code>acts_as_tenant</code> gem</li>
+      <li>Dual admin interfaces: <code>site_admin</code> (super admin) and <code>tenant_admin</code> (per-tenant)</li>
+      <li>New property model architecture: <code>RealtyAsset</code> with separate <code>SaleListing</code>/<code>RentalListing</code></li>
+    </ul>
+
+    <p><strong>Tech Stack Upgrades:</strong></p>
+    <ul>
+      <li>Rails 5.2 &rarr; 8.0</li>
+      <li>Ruby 3.4.7</li>
+      <li>Bootstrap &rarr; Tailwind CSS for public themes</li>
+      <li>Globalize &rarr; Mobility for translations</li>
+      <li>Cloudinary &rarr; ActiveStorage (S3/R2 compatible)</li>
+      <li>Vite + Vue.js 3 + Quasar for admin panel</li>
+    </ul>
+
+    <p><strong>New Features:</strong></p>
+    <ul>
+      <li>Seed packs system for scenario-based site setup</li>
+      <li>Firebase authentication with Devise fallback</li>
+      <li>New themes: Brisbane (luxury), Bologna, Bristol</li>
+      <li>Enhanced theming with CSS variables and Liquid templates</li>
+      <li>Faceted search with field key filtering</li>
+      <li>Comprehensive SEO implementation</li>
+      <li>Audit logging for authentication events</li>
+      <li>Push notifications via ntfy.sh</li>
+    </ul>
+
+    <h3>
+      <a id="get-started" class="anchor" href="#get-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get Your Own Instance in Minutes</h3>
+    <p>The easiest way to try out PropertyWebBuilder is to sign up for a free trial account at <a href="https://propertywebbuilder.com">https://propertywebbuilder.com</a>.</p>
+
+    <p style="text-align: center;">
+      <img src="https://cloud.githubusercontent.com/assets/1741198/22990222/bfec0168-f3b8-11e6-89df-b950c4979970.png" alt="PropertyWebBuilder on iPhone" style="max-width: 300px;">
+    </p>
+
+    <h3>
+      <a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h3>
+    <ul>
+      <li><strong>Modern Tech Stack</strong> - Rails 8, Ruby 3.4.7, Vue.js 3, Quasar, Vite, Tailwind CSS</li>
+      <li><strong>Multi-Tenancy</strong> - Host multiple websites from a single installation</li>
+      <li><strong>Multilingual</strong> - Support for multiple languages with Mobility gem</li>
+      <li><strong>Multi-currency</strong> - Handle properties in different currencies</li>
+      <li><strong>Powerful Search</strong> - Faceted search with field key filtering</li>
+      <li><strong>Dual Admin Panels</strong> - Site admin (super admin) and tenant admin interfaces</li>
+      <li><strong>Firebase Auth</strong> - Optional Firebase authentication with Devise fallback</li>
+      <li><strong>Modern Themes</strong> - Brisbane, Bologna, Bristol themes with Tailwind CSS</li>
+      <li><strong>Seed Packs</strong> - Scenario-based seeding for quick site setup</li>
+      <li><strong>Google Maps Integration</strong> - Interactive property maps</li>
+      <li><strong>Customisable</strong> - CSS variables, Liquid templates, page parts system</li>
+      <li><strong>SEO Friendly</strong> - Comprehensive SEO implementation</li>
+      <li><strong>Responsive Design</strong> - Mobile-friendly layouts</li>
+      <li><strong>ActiveStorage</strong> - S3/R2 compatible file storage</li>
+      <li><strong>Fully Open Source</strong> - MIT License</li>
+    </ul>
+
+    <h3>
+      <a id="deployment" class="anchor" href="#deployment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deployment Options</h3>
+    <p>PropertyWebBuilder can be deployed to multiple platforms. We have comprehensive deployment guides for:</p>
+    <ul>
+      <li><strong>Render</strong> - Easy deployment with automatic builds</li>
+      <li><strong>Heroku</strong> - One-click deployment</li>
+      <li><strong>Dokku</strong> - Self-hosted PaaS</li>
+      <li><strong>Cloud66</strong> - DevOps automation</li>
+      <li><strong>Koyeb</strong> - Serverless platform</li>
+      <li><strong>Northflank</strong> - Developer platform</li>
+      <li><strong>Qoddi</strong> - App hosting platform</li>
+      <li><strong>AlwaysData</strong> - Hosting provider</li>
+      <li><strong>DomCloud</strong> - Cloud hosting</li>
+      <li><strong>Argonaut</strong> - Deployment automation</li>
+      <li><strong>Coherence</strong> - Full-stack cloud platform</li>
+    </ul>
+    <p>See the <a href="https://github.com/etewiah/property_web_builder/tree/master/docs/deployment">deployment documentation</a> for detailed guides.</p>
+
+    <h3>
+      <a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation</h3>
+    <p>For comprehensive documentation covering architecture, APIs, frontend implementation, and more:</p>
+    <ul>
+      <li><a href="https://github.com/etewiah/property_web_builder/blob/master/DEVELOPMENT.md">Development Setup</a></li>
+      <li><a href="https://github.com/etewiah/property_web_builder/tree/master/docs">Documentation Portal</a></li>
+      <li><a href="https://deepwiki.com/etewiah/property_web_builder">Auto-generated Documentation</a></li>
+    </ul>
+
+    <h3>
+      <a id="coming-soon" class="anchor" href="#coming-soon" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Coming Soon</h3>
+    <ul>
+      <li>Instant price conversions into other currencies</li>
+      <li>More languages - help with translations appreciated!</li>
+      <li>More themes</li>
+      <li>Mobile apps (iOS and Android)</li>
+      <li>RETS support - for synchronizing MLS content</li>
+      <li>Integration with third-party CRM systems</li>
+      <li>Full calendaring functionality for rental properties</li>
+    </ul>
+
+    <h3>
+      <a id="contribute" class="anchor" href="#contribute" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contribute and Spread the Love</h3>
+    <p>We encourage you to contribute to this project and file issues for any problems you encounter.</p>
+    <p>If you like it, please star it and spread the word on <a href="https://twitter.com/prptywebbuilder">Twitter</a>, <a href="https://www.linkedin.com/company/propertywebbuilder">LinkedIn</a> and <a href="https://www.facebook.com/propertywebbuilder">Facebook</a>.</p>
+    <p>Please consider <a href="https://opencollective.com/property_web_builder">making a contribution</a> to the development of PropertyWebBuilder.</p>
+
+    <h3>
+      <a id="contributors" class="anchor" href="#contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributors</h3>
+    <p>This project exists thanks to all the people who contribute.</p>
+    <a href="https://github.com/etewiah/property_web_builder/graphs/contributors"><img src="https://opencollective.com/property_web_builder/contributors.svg?width=890" alt="Contributors"></a>
+
+    <h3>
+      <a id="backers" class="anchor" href="#backers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backers</h3>
+    <p>Thank you to all our backers! <a href="https://opencollective.com/property_web_builder#backer">Become a backer</a></p>
+    <a href="https://opencollective.com/property_web_builder#backers" target="_blank"><img src="https://opencollective.com/property_web_builder/backers.svg?width=890" alt="Backers"></a>
+
+    <h3>
+      <a id="sponsors" class="anchor" href="#sponsors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sponsors</h3>
+    <p>Support this project by becoming a sponsor. <a href="https://opencollective.com/property_web_builder#sponsor">Become a sponsor</a></p>
     <p>
-      Because it is open source you can customise any aspect of it and easily extend it to support scenarios not envisioned in the initial product. It is easy to deploy and will run on most servers that supports Ruby on Rails.
+      <a href="https://opencollective.com/property_web_builder/sponsor/0/website" target="_blank"><img src="https://opencollective.com/property_web_builder/sponsor/0/avatar.svg" alt="Sponsor"></a>
+      <a href="https://opencollective.com/property_web_builder/sponsor/1/website" target="_blank"><img src="https://opencollective.com/property_web_builder/sponsor/1/avatar.svg" alt="Sponsor"></a>
+      <a href="https://opencollective.com/property_web_builder/sponsor/2/website" target="_blank"><img src="https://opencollective.com/property_web_builder/sponsor/2/avatar.svg" alt="Sponsor"></a>
+      <a href="https://opencollective.com/property_web_builder/sponsor/3/website" target="_blank"><img src="https://opencollective.com/property_web_builder/sponsor/3/avatar.svg" alt="Sponsor"></a>
+      <a href="https://opencollective.com/property_web_builder/sponsor/4/website" target="_blank"><img src="https://opencollective.com/property_web_builder/sponsor/4/avatar.svg" alt="Sponsor"></a>
     </p>
-    <p>The source code is available here:
-      <br>
-      <a href="https://github.com/etewiah/property-web-builder">https://github.com/etewiah/property-web-builder</a>
-    </p>
-    <p>You can find out more about how PropertyWebBuilder can help your business here:
-      <br>
-      <a href="http://propertywebbuilder.com">http://propertywebbuilder.com</a>
-    </p>
-    <h3>
-      <a id="too-much-wordpress" class="anchor" href="#too-much-wordpress" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>July 2019 update!</h3>
-    <p>Over the last year or so I have made several improvements to PWB for various paying clients. I have not however had the time to merge those improvements back into the open source repo. If you have some specific requirements that you are willing to pay for, reach out to me (LinkedIn) I might be able to help.
-    </p>
-    <p>
-      Here are a couple of sites that I have built using PWB as a base:
-      <br>
-      <br>
-      <a href="https://www.holidays2malaga.com">https://www.holidays2malaga.com</a>
-      <br>
-      <a href="https://www.buenavistahomes.eu">https://www.buenavistahomes.eu</a>
-    </p>
-    <h3>
-      <a id="too-much-wordpress" class="anchor" href="#too-much-wordpress" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Too many real estate websites are built with WordPress</h3>
-    <p>WordPress is a great platform for managing content but it was not designed with real estate websites in mind. Building a real estate website on WordPress means being stuck with a bloated codebase, most of which will be unnecessary.</p>
-    <p>To use WordPress for your real estate website, you will need to choose from a dazzling array of plugins. Picking the right one is a task in itself. The best plugins come at a cost and even those require regular updates and might not support all the features you need. WordPress is famously susceptible to security vulnerabilities and is a popular target for hackers.</p>
-    <h3>
-      <a id="better-alternative" class="anchor" href="#better-alternative" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>We offer a better alternative</h3>
-    <p>Rather than building on a generic CMS, PropertyWebBuilder has been designed from the ground up to target property management. It has been built with Ruby on Rails, a framework that allows for a much more robust product designed specifically for real estate. It is a framework that operates at a lower level than WordPress so there is little redundant code Ruby on Rails is also less vulnerable to security vulnerabilites.</p>
-    <h3>
-      <a id="better-alternative" class="anchor" href="#deploy-to-heroku" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deploy to Heroku in minutes</h3>
-    <p>You can use this example repository if you want to manage your deployment:
-      <a href="https://github.com/etewiah/pwb-for-heroku">https://github.com/etewiah/pwb-for-heroku</a></p>
-    <p>
-      Or simply click the button below for a fully automated deployment
-      <br>
-      <a class="deploy-btn" href="https://heroku.com/deploy?template=https://github.com/etewiah/pwb-for-heroku"><img src="https://camo.githubusercontent.com/83b0e95b38892b49184e07ad572c94c8038323fb/68747470733a2f2f7777772e6865726f6b7563646e2e636f6d2f6465706c6f792f627574746f6e2e737667" alt="Deploy" data-canonical-src="https://www.herokucdn.com/deploy/button.svg" style="max-width:100%;"></a>
-      <h3>
-        <a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h3>
-      <p>
-        <div>
-          <ul>
-            <li>Multilingual</li>
-            <li>Multi-currency</li>
-            <li>Powerful search component</li>
-            <li>Fully featured admin panel</li>
-            <li>Google maps integration</li>
-            <li>Customisable look and feel</li>
-            <li>Easily extendable</li>
-            <li>Search engine friendly</li>
-            <li>Mobile friendly responsive layout</li>
-            <li>Fully open source</li>
-          </ul>
-        </div>
-      </p>
-      <h3>
-        <a id="screenshots" class="anchor" href="#screenshots" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Screenshots</h3>
-      <p>
-        <div>
-          <img src="https://cloud.githubusercontent.com/assets/1741198/22997565/32c27fcc-f3d3-11e6-9453-b1cd43ce1c63.png" alt="pwb_ipad_admin_carousel_lg" style="max-width:100%;">
-        </div>
-        <div>
-          <br>
-          <br>
-          <img src="https://cloud.githubusercontent.com/assets/1741198/23016100/a9ca858a-f435-11e6-919a-f3c1314dd8f1.png" alt="pwb_iphone_single_property_lg" style="min-width:50%;">
-          <br>
-          <img src="https://cloud.githubusercontent.com/assets/1741198/23016154/dd9d13a0-f435-11e6-84be-9713b22c2762.png" alt="pwb_iphone_landing" style="min-width:50%;">
-        </div>
-      </p>
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/etewiah/property-web-builder">Property-web-builder</a> is maintained by <a href="https://github.com/etewiah">Ed Tee</a>.</span>
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
+
+    <footer class="site-footer">
+      <span class="site-footer-owner"><a href="https://github.com/etewiah/property_web_builder">PropertyWebBuilder</a> is maintained by <a href="https://github.com/etewiah">Ed Tee</a>.</span>
+      <span class="site-footer-credits">Available under the <a href="http://opensource.org/licenses/MIT">MIT License</a>. This page uses the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a>.</span>
+    </footer>
   </section>
 </body>
 
