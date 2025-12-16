@@ -123,6 +123,9 @@ Rails.application.routes.draw do
     get 'onboarding/complete', to: 'onboarding#complete', as: 'onboarding_complete'
     post 'onboarding/restart', to: 'onboarding#restart', as: 'onboarding_restart'
 
+    # Guided tour completion tracking
+    post 'tour/complete', to: 'tour#complete', as: 'tour_complete'
+
     # Domain management for custom domains
     resource :domain, only: %i[show update] do
       post :verify

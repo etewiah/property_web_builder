@@ -34,7 +34,8 @@
       "mcp__container-use__environment_file_write",
       "Bash(git checkout:*)",
       "Bash(git merge:*)",
-      "Bash(git fetch:*)"
+      "Bash(git fetch:*)",
+      "Bash(bundle exec rails:*)"
     ],
     "deny": [],
     "ask": []

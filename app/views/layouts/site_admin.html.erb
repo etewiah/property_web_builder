@@ -16,6 +16,74 @@
 
   <!-- Flowbite JS for interactive components -->
   <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+
+  <!-- Shepherd.js for guided tours -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/11.2.0/css/shepherd.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/11.2.0/js/shepherd.min.js"></script>
+
+  <style>
+    /* Custom Shepherd.js styling to match site admin theme */
+    .shepherd-element {
+      max-width: 400px;
+      z-index: 9999;
+    }
+    .shepherd-content {
+      border-radius: 0.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    .shepherd-header {
+      background: #1f2937;
+      padding: 1rem;
+      border-radius: 0.5rem 0.5rem 0 0;
+    }
+    .shepherd-title {
+      color: white;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .shepherd-cancel-icon {
+      color: #9ca3af;
+    }
+    .shepherd-cancel-icon:hover {
+      color: white;
+    }
+    .shepherd-text {
+      padding: 1rem;
+      color: #374151;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .shepherd-footer {
+      padding: 0.75rem 1rem;
+      border-top: 1px solid #e5e7eb;
+    }
+    .shepherd-button {
+      background: #2563eb;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-right: 0.5rem;
+    }
+    .shepherd-button:hover {
+      background: #1d4ed8;
+    }
+    .shepherd-button.shepherd-button-secondary {
+      background: #f3f4f6;
+      color: #374151;
+    }
+    .shepherd-button.shepherd-button-secondary:hover {
+      background: #e5e7eb;
+    }
+    .shepherd-modal-overlay-container {
+      z-index: 9998;
+    }
+    .shepherd-target-highlight {
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.4);
+      border-radius: 0.5rem;
+    }
+  </style>
 </head>
 <body class="bg-gray-50">
   <div x-data="{ sidebarOpen: false }" class="flex h-screen overflow-hidden">
@@ -46,5 +114,300 @@
       </main>
     </div>
   </div>
+
+  <!-- Site Admin Guided Tour -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if Shepherd is loaded
+      if (typeof Shepherd === 'undefined') {
+        console.warn('Shepherd.js not loaded - tour functionality disabled');
+        return;
+      }
+
+      // Initialize Shepherd tour
+      const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+          cancelIcon: {
+            enabled: true
+          },
+          classes: 'shadow-xl',
+          scrollTo: { behavior: 'smooth', block: 'center' }
+        }
+      });
+
+      // Tour steps configuration
+      const tourSteps = [
+        {
+          id: 'welcome',
+          title: 'Welcome to Site Admin!',
+          text: 'Let me show you around your website management dashboard. This quick tour will help you get familiar with all the features.',
+          buttons: [
+            {
+              text: 'Skip Tour',
+              action: tour.cancel,
+              classes: 'shepherd-button-secondary'
+            },
+            {
+              text: 'Let\'s Go!',
+              action: tour.next
+            }
+          ]
+        },
+        {
+          id: 'dashboard',
+          attachTo: {
+            element: '#tour-dashboard',
+            on: 'right'
+          },
+          title: 'Dashboard',
+          text: 'Your dashboard gives you a quick overview of your website\'s activity, including visitor stats, recent messages, and property listings.',
+          buttons: [
+            {
+              text: 'Back',
+              action: tour.back,
+              classes: 'shepherd-button-secondary'
+            },
+            {
+              text: 'Next',
+              action: tour.next
+            }
+          ]
+        },
+        {
+          id: 'properties',
+          attachTo: {
+            element: '#tour-properties',
+            on: 'right'
+          },
+          title: 'Properties',
+          text: 'Manage all your property listings here. Add new properties, edit existing ones, upload photos, and control visibility.',
+          buttons: [
+            {
+              text: 'Back',
+              action: tour.back,
+              classes: 'shepherd-button-secondary'
+            },
+            {
+              text: 'Next',
+              action: tour.next
+            }
+          ]
+        },
+        {
+          id: 'labels',
+          attachTo: {
+            element: '#tour-labels',
+            on: 'right'
+          },
+          title: 'Labels',
+          text: 'Customize property labels, categories, and field names. This helps organize your listings and match your local market terminology.',
+          buttons: [
+            {
+              text: 'Back',
+              action: tour.back,
+              classes: 'shepherd-button-secondary'
+            },
+            {
+              text: 'Next',
+              action: tour.next
+            }
+          ]
+        },
+        {
+          id: 'pages',
+          attachTo: {
+            element: '#tour-pages',
+            on: 'right'
+          },
+          title: 'Pages',
+          text: 'Create and edit pages for your website like About Us, Services, Contact, and more. Build your site content with an easy-to-use editor.',
+          buttons: [
+            {
+              text: 'Back',
+              action: tour.back,
+              classes: 'shepherd-button-secondary'
+            },
+            {
+              text: 'Next',
+              action: tour.next
+            }
+          ]
+        },
+        {
+          id: 'messages',
+          attachTo: {
+            element: '#tour-messages',
+            on: 'right'
+          },
+          title: 'Messages',
+          text: 'View and respond to inquiries from potential clients who have contacted you through your website\'s forms.',
+          buttons: [
+            {
+              text: 'Back',
+              action: tour.back,
+              classes: 'shepherd-button-secondary'
+            },
+            {
+              text: 'Next',
+              action: tour.next
+            }
+          ]
+        },
+        {
+          id: 'contacts',
+          attachTo: {
+            element: '#tour-contacts',
+            on: 'right'
+          },
+          title: 'Contacts',
+          text: 'Manage your contact database. Keep track of leads and clients who have interacted with your website.',
+          buttons: [
+            {
+              text: 'Back',
+              action: tour.back,
+              classes: 'shepherd-button-secondary'
+            },
+            {
+              text: 'Next',
+              action: tour.next
+            }
+          ]
+        },
+        {
+          id: 'users',
+          attachTo: {
+            element: '#tour-users',
+            on: 'right'
+          },
+          title: 'Users',
+          text: 'Manage team members and their access levels. Add colleagues, assign roles, and control who can edit what.',
+          buttons: [
+            {
+              text: 'Back',
+              action: tour.back,
+              classes: 'shepherd-button-secondary'
+            },
+            {
+              text: 'Next',
+              action: tour.next
+            }
+          ]
+        },
+        {
+          id: 'settings',
+          attachTo: {
+            element: '#tour-settings',
+            on: 'right'
+          },
+          title: 'Website Settings',
+          text: 'Configure your website\'s core settings including name, logo, contact information, social media links, and SEO options.',
+          buttons: [
+            {
+              text: 'Back',
+              action: tour.back,
+              classes: 'shepherd-button-secondary'
+            },
+            {
+              text: 'Next',
+              action: tour.next
+            }
+          ]
+        },
+        {
+          id: 'domain',
+          attachTo: {
+            element: '#tour-domain',
+            on: 'right'
+          },
+          title: 'Domain',
+          text: 'Set up your custom domain name. Connect your own domain to make your website truly yours.',
+          buttons: [
+            {
+              text: 'Back',
+              action: tour.back,
+              classes: 'shepherd-button-secondary'
+            },
+            {
+              text: 'Next',
+              action: tour.next
+            }
+          ]
+        },
+        {
+          id: 'view-site',
+          attachTo: {
+            element: '#tour-view-site',
+            on: 'right'
+          },
+          title: 'View Your Site',
+          text: 'Click here anytime to preview your live website and see how it looks to your visitors.',
+          buttons: [
+            {
+              text: 'Back',
+              action: tour.back,
+              classes: 'shepherd-button-secondary'
+            },
+            {
+              text: 'Next',
+              action: tour.next
+            }
+          ]
+        },
+        {
+          id: 'tour-button',
+          attachTo: {
+            element: '#start-tour-btn',
+            on: 'right'
+          },
+          title: 'Take the Tour Again',
+          text: 'You can always restart this tour by clicking this button. That\'s it! You\'re ready to start building your website.',
+          buttons: [
+            {
+              text: 'Back',
+              action: tour.back,
+              classes: 'shepherd-button-secondary'
+            },
+            {
+              text: 'Finish Tour',
+              action: function() {
+                localStorage.setItem('siteAdminTourCompleted', 'true');
+                // Also notify server of tour completion
+                fetch('<%= site_admin_tour_complete_path %>', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+                  }
+                }).catch(err => console.log('Tour completion tracking error:', err));
+                tour.complete();
+              }
+            }
+          ]
+        }
+      ];
+
+      // Add all steps to tour
+      tourSteps.forEach(step => tour.addStep(step));
+
+      // Start tour button click handler
+      const startTourBtn = document.getElementById('start-tour-btn');
+      if (startTourBtn) {
+        startTourBtn.addEventListener('click', function() {
+          tour.start();
+        });
+      }
+
+      // Auto-start tour for first-time visitors (optional - check localStorage)
+      <% if current_user && current_user.site_admin_onboarding_completed_at.blank? %>
+      if (!localStorage.getItem('siteAdminTourCompleted')) {
+        // Small delay to ensure page is fully rendered
+        setTimeout(() => {
+          tour.start();
+        }, 500);
+      }
+      <% end %>
+    });
+  </script>
 </body>
 </html>
