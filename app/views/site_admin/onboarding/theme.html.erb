@@ -33,13 +33,6 @@
                     </div>
                   </div>
                 </div>
-                
-                <!-- Selected Checkmark -->
-                <div class="absolute top-2 right-2 w-6 h-6 bg-blue-500 rounded-full hidden peer-checked:flex items-center justify-center">
-                  <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                  </svg>
-                </div>
               </div>
               
               <!-- Theme Info -->
@@ -85,30 +78,3 @@
     <% end %>
   </div>
 </div>
-
-<%# Helper methods defined inline for the view %>
-<% 
-def theme_gradient_class(index)
-  gradients = [
-    'from-blue-400 to-blue-600',
-    'from-green-400 to-teal-500',
-    'from-purple-400 to-indigo-500',
-    'from-orange-400 to-red-500',
-    'from-pink-400 to-rose-500',
-    'from-gray-400 to-gray-600'
-  ]
-  gradients[index % gradients.length]
-end
-
-def theme_description(theme)
-  descriptions = {
-    'flavor' => 'Clean and modern design',
-    'flavor-starter' => 'Simple starter template',
-    'flavor-starter-header' => 'Prominent header layout',
-    'flavor-starter-with-hero' => 'Full-width hero section',
-    'flavor-starter-nav' => 'Enhanced navigation',
-    'flavor-starter-nav2' => 'Alternative navigation style'
-  }
-  descriptions[theme] || 'Professional real estate theme'
-end
-%>
