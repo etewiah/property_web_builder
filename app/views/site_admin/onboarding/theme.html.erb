@@ -1,0 +1,114 @@
+<div class="max-w-4xl mx-auto">
+  <%= render 'progress', steps: @steps, current_step: @step, total_steps: @steps.keys.max %>
+
+  <div class="bg-white rounded-lg shadow-lg p-8">
+    <!-- Header -->
+    <div class="mb-6">
+      <h1 class="text-2xl font-bold text-gray-900 mb-2">Choose Your Theme</h1>
+      <p class="text-gray-600">Select a design template for your website. You can customize colors and styles later.</p>
+    </div>
+
+    <%= form_with url: site_admin_onboarding_path(step: @step), method: :post, local: true do |f| %>
+      <!-- Theme Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <% @themes.each_with_index do |theme, index| %>
+          <label class="relative cursor-pointer group">
+            <input type="radio" name="theme_name" value="<%= theme %>" 
+                   class="peer sr-only" 
+                   <%= 'checked' if theme == @current_theme || (index == 0 && @current_theme.blank?) %>>
+            
+            <div class="border-2 rounded-lg overflow-hidden transition-all duration-200 
+                        peer-checked:border-blue-500 peer-checked:ring-2 peer-checked:ring-blue-200
+                        border-gray-200 hover:border-gray-300">
+              <!-- Theme Preview -->
+              <div class="aspect-video bg-gradient-to-br <%= theme_gradient_class(index) %> relative">
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="bg-white/90 rounded-lg p-4 shadow-lg">
+                    <div class="w-32 h-4 bg-gray-300 rounded mb-2"></div>
+                    <div class="w-24 h-3 bg-gray-200 rounded mb-3"></div>
+                    <div class="flex space-x-2">
+                      <div class="w-8 h-8 bg-blue-500 rounded"></div>
+                      <div class="w-8 h-8 bg-gray-200 rounded"></div>
+                      <div class="w-8 h-8 bg-gray-200 rounded"></div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Selected Checkmark -->
+                <div class="absolute top-2 right-2 w-6 h-6 bg-blue-500 rounded-full hidden peer-checked:flex items-center justify-center">
+                  <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+              
+              <!-- Theme Info -->
+              <div class="p-4 bg-white">
+                <h3 class="font-medium text-gray-900"><%= theme.titleize.gsub('-', ' ') %></h3>
+                <p class="text-sm text-gray-500 mt-1"><%= theme_description(theme) %></p>
+              </div>
+            </div>
+            
+            <!-- Peer-checked indicator for the checkmark -->
+            <div class="absolute top-4 right-4 w-6 h-6 bg-blue-500 rounded-full items-center justify-center hidden peer-checked:flex z-10">
+              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </label>
+        <% end %>
+      </div>
+
+      <!-- Customization Note -->
+      <div class="bg-blue-50 rounded-lg p-4 mb-8">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-blue-800">Want more customization?</h3>
+            <p class="mt-1 text-sm text-blue-700">
+              After setup, you can customize colors, fonts, and layouts from the Theme Settings in your admin panel.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-between pt-6 border-t border-gray-200">
+        <%= link_to "Back", site_admin_onboarding_path(step: @step - 1), class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        
+        <%= f.submit "Save & Continue", class: "inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%# Helper methods defined inline for the view %>
+<% 
+def theme_gradient_class(index)
+  gradients = [
+    'from-blue-400 to-blue-600',
+    'from-green-400 to-teal-500',
+    'from-purple-400 to-indigo-500',
+    'from-orange-400 to-red-500',
+    'from-pink-400 to-rose-500',
+    'from-gray-400 to-gray-600'
+  ]
+  gradients[index % gradients.length]
+end
+
+def theme_description(theme)
+  descriptions = {
+    'flavor' => 'Clean and modern design',
+    'flavor-starter' => 'Simple starter template',
+    'flavor-starter-header' => 'Prominent header layout',
+    'flavor-starter-with-hero' => 'Full-width hero section',
+    'flavor-starter-nav' => 'Enhanced navigation',
+    'flavor-starter-nav2' => 'Alternative navigation style'
+  }
+  descriptions[theme] || 'Professional real estate theme'
+end
+%>
