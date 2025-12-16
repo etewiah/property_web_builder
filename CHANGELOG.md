@@ -3,6 +3,47 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 2.1.0 / 2025-12-16
+
+### Major Features
+* **Subscription & Plans Management**: Full tenant admin UI for managing subscription plans, pricing, and website subscriptions with AASM state machine
+* **User Management**: User deletion with safety checks (prevents deleting sole website owners), ownership transfer functionality
+* **Email Verification Flow**: New websites enter locked state pending owner email verification before going live
+* **Granular Provisioning**: State machine with validation guards tracks each provisioning step (owner_assigned → agency_created → links_created → field_keys_created → properties_seeded → ready → live)
+* **Subdomain Pool System**: Pre-generated Heroku-style subdomains with reservation, allocation, and release lifecycle
+* **Email Template Management**: Customizable email templates at both site and tenant admin levels with Liquid templating
+
+### New Features
+* Custom domain management with DNS TXT verification
+* TLS certificate checking rake tasks
+* Amazon SES integration with delivery tracking and bounce handling
+* Rails Performance dashboard and Mission Control for Solid Queue
+* Bulk provisioning rake task for batch user creation
+* Verification rake tasks for managing locked websites
+* Signup API with token-based tracking for cross-domain flows
+* Storage stats dashboard for ActiveStorage monitoring
+
+### Infrastructure
+* Upgrade Rails 8.0.4 → 8.1.1
+* Replace firebase_id_token gem with custom FirebaseTokenVerifier
+* Add Solid Queue for async email delivery
+* Comprehensive Playwright E2E test suite (migrated from Capybara/Selenium)
+* Structured logging for critical operations
+* Mail delivery observer for email tracking
+
+### Bug Fixes
+* Fix navigation links not rendering for new websites (missing link_path attribute)
+* Fix owner_email not being set during bulk provisioning
+* Fix duplicate subdomain reservations per email
+* Fix form routing for namespaced Pwb:: models
+* Fix SSL CRL errors in seed images availability check
+* Fix N+1 queries detected by Bullet gem
+
+### Removed
+* Cloudinary gem (replaced by ActiveStorage)
+* ruby_odata gem and OData MLS import support
+* firebase_id_token gem (replaced by custom verifier)
+
 ## 2.0.0 / 2025-12-09
 
 ### Breaking Changes
