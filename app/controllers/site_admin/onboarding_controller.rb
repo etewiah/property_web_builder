@@ -13,6 +13,7 @@ module SiteAdmin
   #
   class OnboardingController < SiteAdminController
     skip_before_action :require_admin!, only: [:show, :update, :skip_step, :complete]
+    skip_before_action :redirect_to_onboarding_if_needed
     before_action :ensure_can_access_onboarding
     before_action :set_onboarding_step, except: [:complete, :restart]
 
@@ -25,6 +26,8 @@ module SiteAdmin
     }.freeze
 
     MAX_STEP = STEPS.keys.max
+
+    helper SiteAdmin::OnboardingHelper
 
     # GET /site_admin/onboarding
     # GET /site_admin/onboarding/:step
@@ -48,6 +51,12 @@ module SiteAdmin
         render :theme
       when 5
         complete_onboarding!
+        @website = current_website
+        @stats = {
+          properties: current_website.realty_assets.count,
+          pages: current_website.pages.count,
+          theme: current_website.theme_name&.titleize || 'Default'
+        }
         render :complete
       end
     end
@@ -78,6 +87,8 @@ module SiteAdmin
 
     # GET /site_admin/onboarding/complete
     def complete
+      @step = MAX_STEP
+      @steps = STEPS
       @website = current_website
       @stats = {
         properties: current_website.realty_assets.count,
@@ -139,7 +150,7 @@ module SiteAdmin
       )
 
       # Mark user as fully active if they were in onboarding state
-      current_user.activate! if current_user.may_activate?
+      current_user.activate! if current_user.respond_to?(:may_activate?) && current_user.may_activate?
     end
 
     # Step 2: Save profile/agency
