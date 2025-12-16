@@ -1,0 +1,114 @@
+<div class="analytics-dashboard">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold">Analytics</h1>
+    
+    <div class="period-selector flex gap-2">
+      <% [7, 14, 30, 60, 90].each do |days| %>
+        <%= link_to "#{days}d", 
+            site_admin_analytics_path(period: days),
+            class: "px-3 py-1 rounded #{@period == days ? 'bg-blue-600 text-white' : 'bg-gray-200 hover:bg-gray-300'}" %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Overview Stats -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+    <div class="stat-card bg-white rounded-lg shadow p-4">
+      <h3 class="text-sm text-gray-500 uppercase">Total Visits</h3>
+      <p class="text-3xl font-bold"><%= number_with_delimiter(@overview[:total_visits]) %></p>
+    </div>
+    
+    <div class="stat-card bg-white rounded-lg shadow p-4">
+      <h3 class="text-sm text-gray-500 uppercase">Unique Visitors</h3>
+      <p class="text-3xl font-bold"><%= number_with_delimiter(@overview[:unique_visitors]) %></p>
+    </div>
+    
+    <div class="stat-card bg-white rounded-lg shadow p-4">
+      <h3 class="text-sm text-gray-500 uppercase">Property Views</h3>
+      <p class="text-3xl font-bold"><%= number_with_delimiter(@overview[:property_views]) %></p>
+    </div>
+    
+    <div class="stat-card bg-white rounded-lg shadow p-4">
+      <h3 class="text-sm text-gray-500 uppercase">Inquiries</h3>
+      <p class="text-3xl font-bold"><%= number_with_delimiter(@overview[:inquiries]) %></p>
+    </div>
+  </div>
+
+  <!-- Secondary Stats -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+    <div class="stat-card bg-white rounded-lg shadow p-4">
+      <h3 class="text-sm text-gray-500 uppercase">Page Views</h3>
+      <p class="text-2xl font-semibold"><%= number_with_delimiter(@overview[:total_pageviews]) %></p>
+    </div>
+    
+    <div class="stat-card bg-white rounded-lg shadow p-4">
+      <h3 class="text-sm text-gray-500 uppercase">Searches</h3>
+      <p class="text-2xl font-semibold"><%= number_with_delimiter(@overview[:searches]) %></p>
+    </div>
+    
+    <div class="stat-card bg-white rounded-lg shadow p-4">
+      <h3 class="text-sm text-gray-500 uppercase">Conversion Rate</h3>
+      <p class="text-2xl font-semibold"><%= @overview[:conversion_rate] %>%</p>
+    </div>
+    
+    <div class="stat-card bg-white rounded-lg shadow p-4">
+      <h3 class="text-sm text-gray-500 uppercase">Pages/Visit</h3>
+      <p class="text-2xl font-semibold"><%= @overview[:avg_pages_per_visit] %></p>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <div class="chart-card bg-white rounded-lg shadow p-4">
+      <h3 class="text-lg font-semibold mb-4">Visits Over Time</h3>
+      <%= line_chart @visits_chart, 
+          xtitle: "Date", 
+          ytitle: "Visits",
+          colors: ["#3B82F6"] %>
+    </div>
+
+    <div class="chart-card bg-white rounded-lg shadow p-4">
+      <h3 class="text-lg font-semibold mb-4">Traffic Sources</h3>
+      <%= pie_chart @traffic_sources,
+          donut: true,
+          legend: "bottom",
+          colors: ["#10B981", "#3B82F6", "#F59E0B", "#6366F1"] %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="chart-card bg-white rounded-lg shadow p-4">
+      <h3 class="text-lg font-semibold mb-4">Device Types</h3>
+      <%= pie_chart @device_breakdown,
+          donut: true,
+          legend: "bottom",
+          colors: ["#8B5CF6", "#EC4899", "#14B8A6"] %>
+    </div>
+
+    <div class="quick-links bg-white rounded-lg shadow p-4">
+      <h3 class="text-lg font-semibold mb-4">Detailed Reports</h3>
+      <ul class="space-y-2">
+        <li>
+          <%= link_to traffic_site_admin_analytics_path, class: "flex items-center text-blue-600 hover:underline" do %>
+            <span class="mr-2">&#x1F4CA;</span> Traffic & Sources
+          <% end %>
+        </li>
+        <li>
+          <%= link_to properties_site_admin_analytics_path, class: "flex items-center text-blue-600 hover:underline" do %>
+            <span class="mr-2">&#x1F3E0;</span> Property Performance
+          <% end %>
+        </li>
+        <li>
+          <%= link_to conversions_site_admin_analytics_path, class: "flex items-center text-blue-600 hover:underline" do %>
+            <span class="mr-2">&#x1F4C8;</span> Conversions & Funnel
+          <% end %>
+        </li>
+        <li>
+          <%= link_to realtime_site_admin_analytics_path, class: "flex items-center text-blue-600 hover:underline" do %>
+            <span class="mr-2">&#x23F1;</span> Real-time Visitors
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
