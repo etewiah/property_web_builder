@@ -13,7 +13,6 @@ module SiteAdmin
   #
   class OnboardingController < SiteAdminController
     skip_before_action :require_admin!, only: [:show, :update, :skip_step, :complete]
-    skip_before_action :redirect_to_onboarding_if_needed
     before_action :ensure_can_access_onboarding
     before_action :set_onboarding_step, except: [:complete, :restart]
 
@@ -127,7 +126,7 @@ module SiteAdmin
 
       # If user has completed onboarding, redirect to dashboard unless explicitly visiting
       if onboarding_completed? && params[:step].blank?
-        redirect_to site_admin_dashboard_path
+        redirect_to site_admin_root_path
       end
     end
 
@@ -157,10 +156,9 @@ module SiteAdmin
     def save_profile
       @agency = current_website.agency || current_website.build_agency
 
-      agency_params = params.require(:agency).permit(
-        :display_name, :email_primary, :phone_primary,
-        :address_line_1, :city, :postal_code, :country,
-        :description, :website_url
+      agency_params = params.require(:pwb_agency).permit(
+        :display_name, :email_primary, :phone_number_primary,
+        :company_name, :skype
       )
 
       if @agency.update(agency_params)
@@ -207,7 +205,7 @@ module SiteAdmin
     end
 
     def property_params
-      params.require(:property).permit(
+      params.require(:pwb_realty_asset).permit(
         :title, :description, :price_sale_current_cents,
         :price_rental_monthly_current_cents, :for_sale, :for_rent,
         :bedrooms, :bathrooms, :plot_size, :constructed_size,

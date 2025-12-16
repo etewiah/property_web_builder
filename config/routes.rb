@@ -116,8 +116,10 @@ Rails.application.routes.draw do
     # Onboarding wizard for new users
     get 'onboarding', to: 'onboarding#show', as: 'onboarding'
     get 'onboarding/:step', to: 'onboarding#show'
+    post 'onboarding', to: 'onboarding#update'
     post 'onboarding/:step', to: 'onboarding#update'
     post 'onboarding/:step/skip', to: 'onboarding#skip_step', as: 'onboarding_skip'
+    get 'onboarding/:step/skip', to: 'onboarding#skip_step'
     get 'onboarding/complete', to: 'onboarding#complete', as: 'onboarding_complete'
     post 'onboarding/restart', to: 'onboarding#restart', as: 'onboarding_restart'
 

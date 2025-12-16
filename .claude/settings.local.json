@@ -19,7 +19,22 @@
       "mcp__filesystem__move_file",
       "Bash(git mv:*)",
       "Bash(mv:*)",
-      "Bash(tee:*)"
+      "Bash(tee:*)",
+      "Bash(do echo \"=== $f ===\")",
+      "Bash(head:*)",
+      "Skill(dev-browser)",
+      "mcp__chrome-devtools__list_pages",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__take_screenshot",
+      "mcp__container-use__environment_create",
+      "mcp__container-use__environment_run_cmd",
+      "mcp__container-use__environment_file_read",
+      "mcp__container-use__environment_file_list",
+      "mcp__container-use__environment_file_edit",
+      "mcp__container-use__environment_file_write",
+      "Bash(git checkout:*)",
+      "Bash(git merge:*)",
+      "Bash(git fetch:*)"
     ],
     "deny": [],
     "ask": []

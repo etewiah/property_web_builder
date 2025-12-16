@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_15_100000) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_16_200000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -714,6 +714,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_15_100000) do
     t.integer "sign_in_count", default: 0, null: false
     t.string "signup_token"
     t.datetime "signup_token_expires_at"
+    t.datetime "site_admin_onboarding_completed_at"
     t.string "skype"
     t.string "unconfirmed_email"
     t.string "unlock_token"
@@ -725,6 +726,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_15_100000) do
     t.index ["onboarding_state"], name: "index_pwb_users_on_onboarding_state"
     t.index ["reset_password_token"], name: "index_pwb_users_on_reset_password_token", unique: true
     t.index ["signup_token"], name: "index_pwb_users_on_signup_token", unique: true
+    t.index ["site_admin_onboarding_completed_at"], name: "index_pwb_users_on_site_admin_onboarding_completed_at"
     t.index ["unlock_token"], name: "index_pwb_users_on_unlock_token", unique: true
     t.index ["website_id"], name: "index_pwb_users_on_website_id"
   end
