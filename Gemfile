@@ -230,3 +230,8 @@ gem 'rails_performance'
 gem 'sys-cpu'
 gem 'sys-filesystem'
 gem 'get_process_mem'
+
+# Tenant Analytics - track visitor behavior and property engagement
+gem 'ahoy_matey', '~> 5.0'    # Visit and event tracking
+gem 'chartkick', '~> 5.0'     # Beautiful charts for dashboards
+gem 'groupdate', '~> 6.0'     # Time-based grouping for analytics
