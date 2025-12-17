@@ -1,6 +1,6 @@
 ---
 # Field Keys for PropertyWebBuilder
-# Using English-based keys with new category structure
+# Using English-based keys with Mobility translations
 # See docs/09_Field_Keys.md for documentation
 
 # =============================================================================
@@ -10,78 +10,248 @@
   tag: property-types
   visible: true
   sort_order: 1
+  translations:
+    en: Apartment
+    es: Apartamento
+    de: Wohnung
+    fr: Appartement
+    nl: Appartement
+    pt: Apartamento
+    it: Appartamento
+
 - global_key: types.flat
   tag: property-types
   visible: true
   sort_order: 2
+  translations:
+    en: Flat
+    es: Piso
+    de: Wohnung
+    fr: Appartement
+    nl: Flat
+    pt: Apartamento
+    it: Appartamento
+
 - global_key: types.penthouse
   tag: property-types
   visible: true
   sort_order: 3
+  translations:
+    en: Penthouse
+    es: Ático
+    de: Penthouse
+    fr: Penthouse
+    nl: Penthouse
+    pt: Cobertura
+    it: Attico
+
 - global_key: types.studio
   tag: property-types
   visible: true
   sort_order: 4
+  translations:
+    en: Studio
+    es: Estudio
+    de: Studio
+    fr: Studio
+    nl: Studio
+    pt: Estúdio
+    it: Monolocale
+
 - global_key: types.villa
   tag: property-types
   visible: true
   sort_order: 5
+  translations:
+    en: Villa
+    es: Villa
+    de: Villa
+    fr: Villa
+    nl: Villa
+    pt: Moradia
+    it: Villa
+
 - global_key: types.detached_house
   tag: property-types
   visible: true
   sort_order: 6
+  translations:
+    en: Detached House
+    es: Casa independiente
+    de: Einfamilienhaus
+    fr: Maison individuelle
+    nl: Vrijstaand huis
+    pt: Moradia isolada
+    it: Casa indipendente
+
 - global_key: types.semi_detached
   tag: property-types
   visible: true
   sort_order: 7
+  translations:
+    en: Semi-Detached House
+    es: Casa pareada
+    de: Doppelhaushälfte
+    fr: Maison jumelée
+    nl: Twee-onder-een-kapwoning
+    pt: Moradia geminada
+    it: Casa bifamiliare
+
 - global_key: types.townhouse
   tag: property-types
   visible: true
   sort_order: 8
+  translations:
+    en: Townhouse
+    es: Adosado
+    de: Reihenhaus
+    fr: Maison de ville
+    nl: Rijtjeshuis
+    pt: Moradia em banda
+    it: Casa a schiera
+
 - global_key: types.bungalow
   tag: property-types
   visible: true
   sort_order: 9
+  translations:
+    en: Bungalow
+    es: Bungalow
+    de: Bungalow
+    fr: Bungalow
+    nl: Bungalow
+    pt: Bangalô
+    it: Bungalow
+
 - global_key: types.country_house
   tag: property-types
   visible: true
   sort_order: 10
+  translations:
+    en: Country House
+    es: Casa de campo
+    de: Landhaus
+    fr: Maison de campagne
+    nl: Landhuis
+    pt: Casa de campo
+    it: Casa di campagna
+
 - global_key: types.land
   tag: property-types
   visible: true
   sort_order: 11
+  translations:
+    en: Land
+    es: Terreno
+    de: Grundstück
+    fr: Terrain
+    nl: Grond
+    pt: Terreno
+    it: Terreno
+
 - global_key: types.commercial
   tag: property-types
   visible: true
   sort_order: 12
+  translations:
+    en: Commercial
+    es: Local comercial
+    de: Gewerbe
+    fr: Local commercial
+    nl: Commercieel
+    pt: Comercial
+    it: Commerciale
+
 - global_key: types.office
   tag: property-types
   visible: true
   sort_order: 13
+  translations:
+    en: Office
+    es: Oficina
+    de: Büro
+    fr: Bureau
+    nl: Kantoor
+    pt: Escritório
+    it: Ufficio
+
 - global_key: types.retail
   tag: property-types
   visible: true
   sort_order: 14
+  translations:
+    en: Retail
+    es: Local
+    de: Einzelhandel
+    fr: Commerce
+    nl: Winkel
+    pt: Loja
+    it: Negozio
+
 - global_key: types.warehouse
   tag: property-types
   visible: true
   sort_order: 15
+  translations:
+    en: Warehouse
+    es: Almacén
+    de: Lager
+    fr: Entrepôt
+    nl: Magazijn
+    pt: Armazém
+    it: Magazzino
+
 - global_key: types.garage
   tag: property-types
   visible: true
   sort_order: 16
+  translations:
+    en: Garage
+    es: Garaje
+    de: Garage
+    fr: Garage
+    nl: Garage
+    pt: Garagem
+    it: Garage
+
 - global_key: types.storage
   tag: property-types
   visible: true
   sort_order: 17
+  translations:
+    en: Storage
+    es: Trastero
+    de: Lagerraum
+    fr: Box de stockage
+    nl: Opslagruimte
+    pt: Arrecadação
+    it: Box
+
 - global_key: types.hotel
   tag: property-types
   visible: true
   sort_order: 18
+  translations:
+    en: Hotel
+    es: Hotel
+    de: Hotel
+    fr: Hôtel
+    nl: Hotel
+    pt: Hotel
+    it: Hotel
+
 - global_key: types.residential_building
   tag: property-types
   visible: true
   sort_order: 19
+  translations:
+    en: Residential Building
+    es: Edificio residencial
+    de: Wohngebäude
+    fr: Immeuble résidentiel
+    nl: Woongebouw
+    pt: Edifício residencial
+    it: Edificio residenziale
 
 # =============================================================================
 # PROPERTY STATES - Physical condition of the property
@@ -90,30 +260,92 @@
   tag: property-states
   visible: true
   sort_order: 1
+  translations:
+    en: New Build
+    es: Obra nueva
+    de: Neubau
+    fr: Neuf
+    nl: Nieuwbouw
+    pt: Construção nova
+    it: Nuova costruzione
+
 - global_key: states.under_construction
   tag: property-states
   visible: true
   sort_order: 2
+  translations:
+    en: Under Construction
+    es: En construcción
+    de: Im Bau
+    fr: En construction
+    nl: In aanbouw
+    pt: Em construção
+    it: In costruzione
+
 - global_key: states.excellent
   tag: property-states
   visible: true
   sort_order: 3
+  translations:
+    en: Excellent
+    es: Excelente
+    de: Ausgezeichnet
+    fr: Excellent
+    nl: Uitstekend
+    pt: Excelente
+    it: Eccellente
+
 - global_key: states.good
   tag: property-states
   visible: true
   sort_order: 4
+  translations:
+    en: Good
+    es: Bueno
+    de: Gut
+    fr: Bon état
+    nl: Goed
+    pt: Bom
+    it: Buono
+
 - global_key: states.needs_renovation
   tag: property-states
   visible: true
   sort_order: 5
+  translations:
+    en: Needs Renovation
+    es: A reformar
+    de: Renovierungsbedürftig
+    fr: À rénover
+    nl: Te renoveren
+    pt: Para renovar
+    it: Da ristrutturare
+
 - global_key: states.renovated
   tag: property-states
   visible: true
   sort_order: 6
+  translations:
+    en: Renovated
+    es: Reformado
+    de: Renoviert
+    fr: Rénové
+    nl: Gerenoveerd
+    pt: Renovado
+    it: Ristrutturato
+
 - global_key: states.second_hand
   tag: property-states
   visible: true
   sort_order: 7
+  translations:
+    en: Second Hand
+    es: Segunda mano
+    de: Gebraucht
+    fr: Seconde main
+    nl: Tweedehands
+    pt: Segunda mão
+    it: Usato
 
 # =============================================================================
 # PROPERTY FEATURES - Permanent physical attributes
@@ -122,106 +354,339 @@
   tag: property-features
   visible: true
   sort_order: 1
+  translations:
+    en: Private Pool
+    es: Piscina privada
+    de: Privater Pool
+    fr: Piscine privée
+    nl: Privé zwembad
+    pt: Piscina privada
+    it: Piscina privata
+
 - global_key: features.communal_pool
   tag: property-features
   visible: true
   sort_order: 2
+  translations:
+    en: Communal Pool
+    es: Piscina comunitaria
+    de: Gemeinschaftspool
+    fr: Piscine commune
+    nl: Gemeenschappelijk zwembad
+    pt: Piscina comum
+    it: Piscina condominiale
+
 - global_key: features.heated_pool
   tag: property-features
   visible: true
   sort_order: 3
+  translations:
+    en: Heated Pool
+    es: Piscina climatizada
+    de: Beheizter Pool
+    fr: Piscine chauffée
+    nl: Verwarmd zwembad
+    pt: Piscina aquecida
+    it: Piscina riscaldata
+
 - global_key: features.private_garden
   tag: property-features
   visible: true
   sort_order: 4
+  translations:
+    en: Private Garden
+    es: Jardín privado
+    de: Privater Garten
+    fr: Jardin privé
+    nl: Privé tuin
+    pt: Jardim privado
+    it: Giardino privato
+
 - global_key: features.communal_garden
   tag: property-features
   visible: true
   sort_order: 5
+  translations:
+    en: Communal Garden
+    es: Jardín comunitario
+    de: Gemeinschaftsgarten
+    fr: Jardin commun
+    nl: Gemeenschappelijke tuin
+    pt: Jardim comum
+    it: Giardino condominiale
+
 - global_key: features.terrace
   tag: property-features
   visible: true
   sort_order: 6
+  translations:
+    en: Terrace
+    es: Terraza
+    de: Terrasse
+    fr: Terrasse
+    nl: Terras
+    pt: Terraço
+    it: Terrazza
+
 - global_key: features.balcony
   tag: property-features
   visible: true
   sort_order: 7
+  translations:
+    en: Balcony
+    es: Balcón
+    de: Balkon
+    fr: Balcon
+    nl: Balkon
+    pt: Varanda
+    it: Balcone
+
 - global_key: features.porch
   tag: property-features
   visible: true
   sort_order: 8
+  translations:
+    en: Porch
+    es: Porche
+    de: Veranda
+    fr: Porche
+    nl: Veranda
+    pt: Alpendre
+    it: Portico
+
 - global_key: features.solarium
   tag: property-features
   visible: true
   sort_order: 9
+  translations:
+    en: Solarium
+    es: Solarium
+    de: Solarium
+    fr: Solarium
+    nl: Solarium
+    pt: Solário
+    it: Solarium
+
 - global_key: features.patio
   tag: property-features
   visible: true
   sort_order: 10
+  translations:
+    en: Patio
+    es: Patio
+    de: Innenhof
+    fr: Patio
+    nl: Patio
+    pt: Pátio
+    it: Patio
+
 - global_key: features.private_garage
   tag: property-features
   visible: true
   sort_order: 11
+  translations:
+    en: Private Garage
+    es: Garaje privado
+    de: Private Garage
+    fr: Garage privé
+    nl: Privé garage
+    pt: Garagem privada
+    it: Garage privato
+
 - global_key: features.communal_garage
   tag: property-features
   visible: true
   sort_order: 12
+  translations:
+    en: Communal Garage
+    es: Garaje comunitario
+    de: Gemeinschaftsgarage
+    fr: Garage commun
+    nl: Gemeenschappelijke garage
+    pt: Garagem comum
+    it: Garage condominiale
+
 - global_key: features.storage_room
   tag: property-features
   visible: true
   sort_order: 13
+  translations:
+    en: Storage Room
+    es: Trastero
+    de: Abstellraum
+    fr: Débarras
+    nl: Berging
+    pt: Arrecadação
+    it: Ripostiglio
+
 - global_key: features.utility_room
   tag: property-features
   visible: true
   sort_order: 14
+  translations:
+    en: Utility Room
+    es: Lavadero
+    de: Hauswirtschaftsraum
+    fr: Buanderie
+    nl: Bijkeuken
+    pt: Lavandaria
+    it: Locale lavanderia
+
 - global_key: features.separate_kitchen
   tag: property-features
   visible: true
   sort_order: 15
+  translations:
+    en: Separate Kitchen
+    es: Cocina independiente
+    de: Separate Küche
+    fr: Cuisine séparée
+    nl: Aparte keuken
+    pt: Cozinha separada
+    it: Cucina separata
+
 - global_key: features.fireplace
   tag: property-features
   visible: true
   sort_order: 16
+  translations:
+    en: Fireplace
+    es: Chimenea
+    de: Kamin
+    fr: Cheminée
+    nl: Open haard
+    pt: Lareira
+    it: Camino
+
 - global_key: features.jacuzzi
   tag: property-features
   visible: true
   sort_order: 17
+  translations:
+    en: Jacuzzi
+    es: Jacuzzi
+    de: Jacuzzi
+    fr: Jacuzzi
+    nl: Jacuzzi
+    pt: Jacuzzi
+    it: Jacuzzi
+
 - global_key: features.sauna
   tag: property-features
   visible: true
   sort_order: 18
+  translations:
+    en: Sauna
+    es: Sauna
+    de: Sauna
+    fr: Sauna
+    nl: Sauna
+    pt: Sauna
+    it: Sauna
+
 - global_key: features.barbecue
   tag: property-features
   visible: true
   sort_order: 19
+  translations:
+    en: Barbecue
+    es: Barbacoa
+    de: Grill
+    fr: Barbecue
+    nl: Barbecue
+    pt: Churrasqueira
+    it: Barbecue
+
 - global_key: features.elevator
   tag: property-features
   visible: true
   sort_order: 20
+  translations:
+    en: Elevator
+    es: Ascensor
+    de: Aufzug
+    fr: Ascenseur
+    nl: Lift
+    pt: Elevador
+    it: Ascensore
+
 - global_key: features.sea_views
   tag: property-features
   visible: true
   sort_order: 21
+  translations:
+    en: Sea Views
+    es: Vistas al mar
+    de: Meerblick
+    fr: Vue mer
+    nl: Zeezicht
+    pt: Vista mar
+    it: Vista mare
+
 - global_key: features.mountain_views
   tag: property-features
   visible: true
   sort_order: 22
+  translations:
+    en: Mountain Views
+    es: Vistas a la montaña
+    de: Bergblick
+    fr: Vue montagne
+    nl: Bergzicht
+    pt: Vista montanha
+    it: Vista montagna
+
 - global_key: features.parquet_flooring
   tag: property-features
   visible: true
   sort_order: 23
+  translations:
+    en: Parquet Flooring
+    es: Suelo de parquet
+    de: Parkettboden
+    fr: Parquet
+    nl: Parketvloer
+    pt: Piso de parquet
+    it: Pavimento in parquet
+
 - global_key: features.marble_flooring
   tag: property-features
   visible: true
   sort_order: 24
+  translations:
+    en: Marble Flooring
+    es: Suelo de mármol
+    de: Marmorboden
+    fr: Sol en marbre
+    nl: Marmeren vloer
+    pt: Piso de mármore
+    it: Pavimento in marmo
+
 - global_key: features.sports_facilities
   tag: property-features
   visible: true
   sort_order: 25
+  translations:
+    en: Sports Facilities
+    es: Instalaciones deportivas
+    de: Sporteinrichtungen
+    fr: Installations sportives
+    nl: Sportfaciliteiten
+    pt: Instalações desportivas
+    it: Impianti sportivi
+
 - global_key: features.children_play_area
   tag: property-features
   visible: true
   sort_order: 26
+  translations:
+    en: Children's Play Area
+    es: Zona de juegos infantiles
+    de: Kinderspielplatz
+    fr: Aire de jeux
+    nl: Kinderspeelplaats
+    pt: Parque infantil
+    it: Area giochi bambini
 
 # =============================================================================
 # PROPERTY AMENITIES - Equipment and services (can be added/removed)
@@ -230,74 +695,235 @@
   tag: property-amenities
   visible: true
   sort_order: 1
+  translations:
+    en: Air Conditioning
+    es: Aire acondicionado
+    de: Klimaanlage
+    fr: Climatisation
+    nl: Airconditioning
+    pt: Ar condicionado
+    it: Aria condizionata
+
 - global_key: amenities.central_heating
   tag: property-amenities
   visible: true
   sort_order: 2
+  translations:
+    en: Central Heating
+    es: Calefacción central
+    de: Zentralheizung
+    fr: Chauffage central
+    nl: Centrale verwarming
+    pt: Aquecimento central
+    it: Riscaldamento centralizzato
+
 - global_key: amenities.electric_heating
   tag: property-amenities
   visible: true
   sort_order: 3
+  translations:
+    en: Electric Heating
+    es: Calefacción eléctrica
+    de: Elektroheizung
+    fr: Chauffage électrique
+    nl: Elektrische verwarming
+    pt: Aquecimento elétrico
+    it: Riscaldamento elettrico
+
 - global_key: amenities.gas_heating
   tag: property-amenities
   visible: true
   sort_order: 4
+  translations:
+    en: Gas Heating
+    es: Calefacción de gas
+    de: Gasheizung
+    fr: Chauffage au gaz
+    nl: Gasverwarming
+    pt: Aquecimento a gás
+    it: Riscaldamento a gas
+
 - global_key: amenities.propane_heating
   tag: property-amenities
   visible: true
   sort_order: 5
+  translations:
+    en: Propane Heating
+    es: Calefacción de propano
+    de: Propanheizung
+    fr: Chauffage au propane
+    nl: Propaanverwarming
+    pt: Aquecimento a propano
+    it: Riscaldamento a propano
+
 - global_key: amenities.oil_heating
   tag: property-amenities
   visible: true
   sort_order: 6
+  translations:
+    en: Oil Heating
+    es: Calefacción de gasóleo
+    de: Ölheizung
+    fr: Chauffage au fioul
+    nl: Olieverwarming
+    pt: Aquecimento a gasóleo
+    it: Riscaldamento a gasolio
+
 - global_key: amenities.solar_energy
   tag: property-amenities
   visible: true
   sort_order: 7
+  translations:
+    en: Solar Energy
+    es: Energía solar
+    de: Solarenergie
+    fr: Énergie solaire
+    nl: Zonne-energie
+    pt: Energia solar
+    it: Energia solare
+
 - global_key: amenities.alarm_system
   tag: property-amenities
   visible: true
   sort_order: 8
+  translations:
+    en: Alarm System
+    es: Sistema de alarma
+    de: Alarmanlage
+    fr: Système d'alarme
+    nl: Alarmsysteem
+    pt: Sistema de alarme
+    it: Sistema di allarme
+
 - global_key: amenities.video_entry
   tag: property-amenities
   visible: true
   sort_order: 9
+  translations:
+    en: Video Entry
+    es: Videoportero
+    de: Videoanlage
+    fr: Visiophone
+    nl: Video-intercom
+    pt: Videoporteiro
+    it: Videocitofono
+
 - global_key: amenities.security
   tag: property-amenities
   visible: true
   sort_order: 10
+  translations:
+    en: 24h Security
+    es: Seguridad 24h
+    de: 24h Sicherheit
+    fr: Sécurité 24h
+    nl: 24u beveiliging
+    pt: Segurança 24h
+    it: Sicurezza 24h
+
 - global_key: amenities.concierge
   tag: property-amenities
   visible: true
   sort_order: 11
+  translations:
+    en: Concierge
+    es: Conserje
+    de: Concierge
+    fr: Concierge
+    nl: Conciërge
+    pt: Porteiro
+    it: Portineria
+
 - global_key: amenities.furnished
   tag: property-amenities
   visible: true
   sort_order: 12
+  translations:
+    en: Furnished
+    es: Amueblado
+    de: Möbliert
+    fr: Meublé
+    nl: Gemeubileerd
+    pt: Mobilado
+    it: Arredato
+
 - global_key: amenities.semi_furnished
   tag: property-amenities
   visible: true
   sort_order: 13
+  translations:
+    en: Semi-Furnished
+    es: Semi-amueblado
+    de: Teilmöbliert
+    fr: Semi-meublé
+    nl: Gedeeltelijk gemeubileerd
+    pt: Semi-mobilado
+    it: Parzialmente arredato
+
 - global_key: amenities.washing_machine
   tag: property-amenities
   visible: true
   sort_order: 14
+  translations:
+    en: Washing Machine
+    es: Lavadora
+    de: Waschmaschine
+    fr: Machine à laver
+    nl: Wasmachine
+    pt: Máquina de lavar
+    it: Lavatrice
+
 - global_key: amenities.refrigerator
   tag: property-amenities
   visible: true
   sort_order: 15
+  translations:
+    en: Refrigerator
+    es: Frigorífico
+    de: Kühlschrank
+    fr: Réfrigérateur
+    nl: Koelkast
+    pt: Frigorífico
+    it: Frigorifero
+
 - global_key: amenities.oven
   tag: property-amenities
   visible: true
   sort_order: 16
+  translations:
+    en: Oven
+    es: Horno
+    de: Backofen
+    fr: Four
+    nl: Oven
+    pt: Forno
+    it: Forno
+
 - global_key: amenities.microwave
   tag: property-amenities
   visible: true
   sort_order: 17
+  translations:
+    en: Microwave
+    es: Microondas
+    de: Mikrowelle
+    fr: Micro-ondes
+    nl: Magnetron
+    pt: Micro-ondas
+    it: Microonde
+
 - global_key: amenities.tv
   tag: property-amenities
   visible: true
   sort_order: 18
+  translations:
+    en: TV
+    es: Televisión
+    de: Fernseher
+    fr: Télévision
+    nl: Televisie
+    pt: Televisão
+    it: Televisione
 
 # =============================================================================
 # PROPERTY STATUS - Transaction/listing status
@@ -306,26 +932,79 @@
   tag: property-status
   visible: true
   sort_order: 1
+  translations:
+    en: Available
+    es: Disponible
+    de: Verfügbar
+    fr: Disponible
+    nl: Beschikbaar
+    pt: Disponível
+    it: Disponibile
+
 - global_key: status.reserved
   tag: property-status
   visible: true
   sort_order: 2
+  translations:
+    en: Reserved
+    es: Reservado
+    de: Reserviert
+    fr: Réservé
+    nl: Gereserveerd
+    pt: Reservado
+    it: Riservato
+
 - global_key: status.under_offer
   tag: property-status
   visible: true
   sort_order: 3
+  translations:
+    en: Under Offer
+    es: Con oferta
+    de: Unter Angebot
+    fr: Sous offre
+    nl: Onder bod
+    pt: Com proposta
+    it: In trattativa
+
 - global_key: status.sold
   tag: property-status
   visible: true
   sort_order: 4
+  translations:
+    en: Sold
+    es: Vendido
+    de: Verkauft
+    fr: Vendu
+    nl: Verkocht
+    pt: Vendido
+    it: Venduto
+
 - global_key: status.rented
   tag: property-status
   visible: true
   sort_order: 5
+  translations:
+    en: Rented
+    es: Alquilado
+    de: Vermietet
+    fr: Loué
+    nl: Verhuurd
+    pt: Alugado
+    it: Affittato
+
 - global_key: status.off_market
   tag: property-status
   visible: true
   sort_order: 6
+  translations:
+    en: Off Market
+    es: Fuera del mercado
+    de: Nicht am Markt
+    fr: Hors marché
+    nl: Uit de markt
+    pt: Fora do mercado
+    it: Fuori mercato
 
 # =============================================================================
 # PROPERTY HIGHLIGHTS - Marketing flags
@@ -334,30 +1013,92 @@
   tag: property-highlights
   visible: true
   sort_order: 1
+  translations:
+    en: Featured
+    es: Destacado
+    de: Hervorgehoben
+    fr: En vedette
+    nl: Uitgelicht
+    pt: Destaque
+    it: In evidenza
+
 - global_key: highlights.new_listing
   tag: property-highlights
   visible: true
   sort_order: 2
+  translations:
+    en: New Listing
+    es: Nuevo anuncio
+    de: Neues Angebot
+    fr: Nouvelle annonce
+    nl: Nieuw aanbod
+    pt: Novo anúncio
+    it: Nuovo annuncio
+
 - global_key: highlights.price_reduced
   tag: property-highlights
   visible: true
   sort_order: 3
+  translations:
+    en: Price Reduced
+    es: Precio rebajado
+    de: Preis reduziert
+    fr: Prix réduit
+    nl: Prijs verlaagd
+    pt: Preço reduzido
+    it: Prezzo ridotto
+
 - global_key: highlights.luxury
   tag: property-highlights
   visible: true
   sort_order: 4
+  translations:
+    en: Luxury
+    es: Lujo
+    de: Luxus
+    fr: Luxe
+    nl: Luxe
+    pt: Luxo
+    it: Lusso
+
 - global_key: highlights.exclusive
   tag: property-highlights
   visible: true
   sort_order: 5
+  translations:
+    en: Exclusive
+    es: Exclusivo
+    de: Exklusiv
+    fr: Exclusif
+    nl: Exclusief
+    pt: Exclusivo
+    it: Esclusivo
+
 - global_key: highlights.investment_opportunity
   tag: property-highlights
   visible: true
   sort_order: 6
+  translations:
+    en: Investment Opportunity
+    es: Oportunidad de inversión
+    de: Investitionsmöglichkeit
+    fr: Opportunité d'investissement
+    nl: Investeringsmogelijkheid
+    pt: Oportunidade de investimento
+    it: Opportunità di investimento
+
 - global_key: highlights.energy_efficient
   tag: property-highlights
   visible: true
   sort_order: 7
+  translations:
+    en: Energy Efficient
+    es: Eficiencia energética
+    de: Energieeffizient
+    fr: Économe en énergie
+    nl: Energiezuinig
+    pt: Eficiência energética
+    it: Efficienza energetica
 
 # =============================================================================
 # LISTING ORIGIN - Source of the listing
@@ -366,23 +1107,76 @@
   tag: listing-origin
   visible: true
   sort_order: 1
+  translations:
+    en: Direct
+    es: Directo
+    de: Direkt
+    fr: Direct
+    nl: Direct
+    pt: Direto
+    it: Diretto
+
 - global_key: origin.bank
   tag: listing-origin
   visible: true
   sort_order: 2
+  translations:
+    en: Bank
+    es: Banco
+    de: Bank
+    fr: Banque
+    nl: Bank
+    pt: Banco
+    it: Banca
+
 - global_key: origin.private_seller
   tag: listing-origin
   visible: true
   sort_order: 3
+  translations:
+    en: Private Seller
+    es: Particular
+    de: Privatverkäufer
+    fr: Particulier
+    nl: Particulier
+    pt: Particular
+    it: Privato
+
 - global_key: origin.new_development
   tag: listing-origin
   visible: true
   sort_order: 4
+  translations:
+    en: New Development
+    es: Obra nueva
+    de: Neubau
+    fr: Programme neuf
+    nl: Nieuwbouw
+    pt: Empreendimento novo
+    it: Nuova costruzione
+
 - global_key: origin.mls_feed
   tag: listing-origin
   visible: true
   sort_order: 5
+  translations:
+    en: MLS Feed
+    es: MLS
+    de: MLS
+    fr: MLS
+    nl: MLS
+    pt: MLS
+    it: MLS
+
 - global_key: origin.partner
   tag: listing-origin
   visible: true
   sort_order: 6
+  translations:
+    en: Partner
+    es: Asociado
+    de: Partner
+    fr: Partenaire
+    nl: Partner
+    pt: Parceiro
+    it: Partner

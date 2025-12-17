@@ -146,18 +146,38 @@ module Pwb
         field_keys_yml.each do |field_key_yml|
           global_key = field_key_yml["global_key"]
 
-          # Check if field_key already exists globally (unique constraint on global_key)
-          existing_field_key = Pwb::FieldKey.find_by(global_key: global_key)
+          # Check if field_key already exists for this website
+          existing_field_key = current_website.field_keys.find_by(global_key: global_key)
 
           if existing_field_key.present?
-            # If it exists but belongs to a different website, associate it with current website too
-            # For now, we skip since field_keys are shared configuration
+            # Update translations if they exist in the YAML but not on the record
+            set_field_key_translations(existing_field_key, field_key_yml["translations"])
             next
           end
 
+          # Extract translations before creating the record
+          translations = field_key_yml.delete("translations")
+
           # Create field_key with website association
-          current_website.field_keys.create!(field_key_yml)
+          field_key = current_website.field_keys.create!(field_key_yml)
+
+          # Set translations using Mobility
+          set_field_key_translations(field_key, translations)
         end
+      end
+
+      # Sets translations on a FieldKey using Mobility
+      def set_field_key_translations(field_key, translations)
+        return unless translations.present?
+
+        translations.each do |locale, label|
+          next if label.blank?
+
+          Mobility.with_locale(locale.to_sym) do
+            field_key.label = label
+          end
+        end
+        field_key.save!
       end
 
       def seed_links(yml_file)

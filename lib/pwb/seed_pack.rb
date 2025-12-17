@@ -313,7 +313,11 @@ module Pwb
           unless existing
             # Handle legacy key name
             fk[:global_key] ||= fk.delete(:field_key)
-            Pwb::FieldKey.create!(fk.merge(pwb_website_id: @website.id))
+            # Extract translations before creating the record
+            translations = fk.delete(:translations)
+            field_key = Pwb::FieldKey.create!(fk.merge(pwb_website_id: @website.id))
+            # Set translations using Mobility
+            set_field_key_translations(field_key, translations)
             count += 1
           end
         end
@@ -324,22 +328,25 @@ module Pwb
           states: 'property-states',
           features: 'property-features',
           amenities: 'property-amenities',
-          extras: 'property-features'
+          extras: 'property-features',
+          labels: 'property-highlights'
         }
 
         data.each do |category, keys|
           tag = category_map[category] || "property-#{category}"
-          
+
           keys.each do |key_name, translations|
             # Create FieldKey record
             existing = Pwb::FieldKey.find_by(global_key: key_name.to_s, pwb_website_id: @website.id)
             unless existing
-              Pwb::FieldKey.create!(
+              field_key = Pwb::FieldKey.create!(
                 global_key: key_name.to_s,
                 tag: tag,
                 pwb_website_id: @website.id,
                 visible: true
               )
+              # Set translations using Mobility
+              set_field_key_translations(field_key, translations)
               count += 1
             end
           end
@@ -347,6 +354,20 @@ module Pwb
       end
 
       log "  Created #{count} field keys", :detail
+    end
+
+    # Sets translations on a FieldKey using Mobility
+    def set_field_key_translations(field_key, translations)
+      return unless translations.present?
+
+      translations.each do |locale, label|
+        next if label.blank?
+
+        Mobility.with_locale(locale.to_sym) do
+          field_key.label = label
+        end
+      end
+      field_key.save!
     end
 
     def seed_links
