@@ -130,9 +130,10 @@
           <div class="flex flex-wrap gap-2">
             <% @prop.features.each do |feature| %>
               <%
+                next if feature.feature_key.blank?
                 # Look up FieldKey to get Mobility-based label
                 field_key = Pwb::FieldKey.find_by(global_key: feature.feature_key)
-                label = field_key&.display_label || feature.feature_key.split('.').last.humanize.titleize
+                label = field_key&.display_label || feature.feature_key.to_s.split('.').last&.humanize&.titleize || feature.feature_key
               %>
               <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
                 <%= label %>
