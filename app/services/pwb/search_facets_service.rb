@@ -147,10 +147,11 @@ module Pwb
         end
       end
 
-      # Translate a field key, with fallback to humanized key name
+      # Translate a field key using Mobility, with fallback to humanized key name
       def translate_key(global_key)
-        translation = I18n.t(global_key, default: nil)
-        return translation if translation.present?
+        # Look up FieldKey to get Mobility-based label
+        field_key = Pwb::FieldKey.find_by(global_key: global_key)
+        return field_key.display_label if field_key.present?
 
         # Fallback: humanize the last part of the key
         # e.g., "features.private_pool" -> "Private Pool"
