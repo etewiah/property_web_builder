@@ -8,7 +8,7 @@ module SiteAdmin
     before_action :check_analytics_feature
     before_action :set_period
 
-    def index
+    def show
       @analytics = analytics_service
       @overview = @analytics.overview
 
