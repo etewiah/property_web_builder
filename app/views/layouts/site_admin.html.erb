@@ -398,23 +398,13 @@
       // Add all steps to tour
       tourSteps.forEach(step => tour.addStep(step));
 
-      // Start tour button click handler
+      // Start tour button click handler - tour only starts when user clicks the button
       const startTourBtn = document.getElementById('start-tour-btn');
       if (startTourBtn) {
         startTourBtn.addEventListener('click', function() {
           tour.start();
         });
       }
-
-      // Auto-start tour for first-time visitors (optional - check localStorage)
-      <% if current_user && current_user.site_admin_onboarding_completed_at.blank? %>
-      if (!localStorage.getItem('siteAdminTourCompleted')) {
-        // Small delay to ensure page is fully rendered
-        setTimeout(() => {
-          tour.start();
-        }, 500);
-      }
-      <% end %>
     });
   </script>
 </body>
