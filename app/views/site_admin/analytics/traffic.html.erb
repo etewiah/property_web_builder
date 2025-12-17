@@ -1,0 +1,88 @@
+<div class="analytics-traffic">
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-2xl font-bold">Traffic & Sources</h1>
+      <p class="text-gray-500">Understand where your visitors come from</p>
+    </div>
+    
+    <%= link_to "Back to Overview", site_admin_analytics_path, class: "text-blue-600 hover:underline" %>
+  </div>
+
+  <!-- Visits Chart -->
+  <div class="bg-white rounded-lg shadow p-4 mb-6">
+    <h3 class="text-lg font-semibold mb-4">Visits & Unique Visitors</h3>
+    <%= line_chart [
+      { name: "Visits", data: @visits_by_day },
+      { name: "Unique Visitors", data: @visitors_by_day }
+    ], xtitle: "Date", ytitle: "Count" %>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+    <!-- Traffic Sources -->
+    <div class="bg-white rounded-lg shadow p-4">
+      <h3 class="text-lg font-semibold mb-4">Top Referrers</h3>
+      <% if @traffic_sources.any? %>
+        <table class="w-full">
+          <thead>
+            <tr class="text-left text-gray-500 text-sm">
+              <th class="pb-2">Source</th>
+              <th class="pb-2 text-right">Visits</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @traffic_sources.each do |domain, count| %>
+              <tr class="border-t">
+                <td class="py-2"><%= domain || "(direct)" %></td>
+                <td class="py-2 text-right font-semibold"><%= number_with_delimiter(count) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p class="text-gray-500">No referral data yet.</p>
+      <% end %>
+    </div>
+
+    <!-- UTM Campaigns -->
+    <div class="bg-white rounded-lg shadow p-4">
+      <h3 class="text-lg font-semibold mb-4">Campaigns (UTM)</h3>
+      <% if @utm_campaigns.any? %>
+        <table class="w-full">
+          <thead>
+            <tr class="text-left text-gray-500 text-sm">
+              <th class="pb-2">Campaign</th>
+              <th class="pb-2 text-right">Visits</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @utm_campaigns.each do |campaign, count| %>
+              <tr class="border-t">
+                <td class="py-2"><%= campaign %></td>
+                <td class="py-2 text-right font-semibold"><%= number_with_delimiter(count) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p class="text-gray-500">No campaign data yet. Add ?utm_campaign=name to your marketing links.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Geographic -->
+  <div class="bg-white rounded-lg shadow p-4">
+    <h3 class="text-lg font-semibold mb-4">Visitors by Country</h3>
+    <% if @geographic.any? %>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <% @geographic.each do |country, count| %>
+          <div class="text-center p-2 bg-gray-50 rounded">
+            <p class="text-lg font-bold"><%= number_with_delimiter(count) %></p>
+            <p class="text-sm text-gray-500"><%= country %></p>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-500">Geographic data not available. Enable geocoding in settings.</p>
+    <% end %>
+  </div>
+</div>

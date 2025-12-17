@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_16_200000) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_16_220000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -41,6 +41,46 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_16_200000) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "ahoy_events", force: :cascade do |t|
+    t.string "name", null: false
+    t.jsonb "properties", default: {}
+    t.datetime "time", precision: nil, null: false
+    t.bigint "visit_id"
+    t.bigint "website_id", null: false
+    t.index ["properties"], name: "index_ahoy_events_on_properties", using: :gin
+    t.index ["visit_id"], name: "index_ahoy_events_on_visit_id"
+    t.index ["website_id", "name", "time"], name: "index_ahoy_events_on_website_id_and_name_and_time"
+    t.index ["website_id", "time"], name: "index_ahoy_events_on_website_id_and_time"
+    t.index ["website_id"], name: "index_ahoy_events_on_website_id"
+  end
+
+  create_table "ahoy_visits", force: :cascade do |t|
+    t.string "browser"
+    t.string "city"
+    t.string "country"
+    t.string "device_type"
+    t.text "landing_page"
+    t.string "os"
+    t.text "referrer"
+    t.string "referring_domain"
+    t.string "region"
+    t.datetime "started_at", precision: nil
+    t.bigint "user_id"
+    t.string "utm_campaign"
+    t.string "utm_content"
+    t.string "utm_medium"
+    t.string "utm_source"
+    t.string "utm_term"
+    t.string "visit_token"
+    t.string "visitor_token"
+    t.bigint "website_id", null: false
+    t.index ["user_id"], name: "index_ahoy_visits_on_user_id"
+    t.index ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true
+    t.index ["visitor_token"], name: "index_ahoy_visits_on_visitor_token"
+    t.index ["website_id", "started_at"], name: "index_ahoy_visits_on_website_id_and_started_at"
+    t.index ["website_id"], name: "index_ahoy_visits_on_website_id"
   end
 
   create_table "pwb_addresses", id: :serial, force: :cascade do |t|
@@ -953,6 +993,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_16_200000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "ahoy_events", "ahoy_visits", column: "visit_id"
+  add_foreign_key "ahoy_events", "pwb_websites", column: "website_id"
+  add_foreign_key "ahoy_visits", "pwb_users", column: "user_id"
+  add_foreign_key "ahoy_visits", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_auth_audit_logs", "pwb_users", column: "user_id"
   add_foreign_key "pwb_auth_audit_logs", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_contacts", "pwb_websites", column: "website_id"

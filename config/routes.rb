@@ -202,6 +202,14 @@ Rails.application.routes.draw do
       post :cleanup
     end
 
+    # Analytics dashboard for visitor tracking
+    resource :analytics, only: [:show], controller: 'analytics' do
+      get :traffic
+      get :properties
+      get :conversions
+      get :realtime
+    end
+
     # Properties Settings
     namespace :properties do
       get 'settings', to: 'settings#index', as: 'settings'
