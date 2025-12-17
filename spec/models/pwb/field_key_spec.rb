@@ -221,6 +221,121 @@ module Pwb
         expect(FieldKey.primary_key).to eq('global_key')
       end
     end
+
+    describe 'Mobility translations' do
+      let(:field_key) do
+        FieldKey.create!(
+          global_key: 'types.apartment',
+          tag: 'property-types',
+          website: website_a
+        )
+      end
+
+      describe '#label with Mobility' do
+        it 'stores and retrieves translations per locale' do
+          Mobility.with_locale(:en) { field_key.label = 'Apartment' }
+          Mobility.with_locale(:es) { field_key.label = 'Apartamento' }
+          field_key.save!
+
+          expect(Mobility.with_locale(:en) { field_key.label }).to eq('Apartment')
+          expect(Mobility.with_locale(:es) { field_key.label }).to eq('Apartamento')
+        end
+
+        it 'falls back to other locales when translation missing' do
+          Mobility.with_locale(:en) { field_key.label = 'Apartment' }
+          field_key.save!
+
+          # French was never set - Mobility falls back to English
+          expect(Mobility.with_locale(:fr) { field_key.label }).to eq('Apartment')
+        end
+
+        it 'persists translations to database' do
+          Mobility.with_locale(:en) { field_key.label = 'Apartment' }
+          Mobility.with_locale(:de) { field_key.label = 'Wohnung' }
+          field_key.save!
+
+          # Reload from database
+          reloaded = FieldKey.find('types.apartment')
+          expect(Mobility.with_locale(:en) { reloaded.label }).to eq('Apartment')
+          expect(Mobility.with_locale(:de) { reloaded.label }).to eq('Wohnung')
+        end
+      end
+
+      describe '#display_label' do
+        it 'returns the Mobility label when present' do
+          Mobility.with_locale(:en) { field_key.label = 'Apartment' }
+          field_key.save!
+
+          I18n.with_locale(:en) do
+            expect(field_key.display_label).to eq('Apartment')
+          end
+        end
+
+        it 'falls back to global_key when label is blank' do
+          # No label set
+          expect(field_key.display_label).to eq('types.apartment')
+        end
+
+        it 'returns global_key when label is empty string' do
+          Mobility.with_locale(:en) { field_key.label = '' }
+          field_key.save!
+
+          I18n.with_locale(:en) do
+            expect(field_key.display_label).to eq('types.apartment')
+          end
+        end
+      end
+
+      describe 'translations isolation per website' do
+        it 'stores different translations for different global_keys per website' do
+          # Use different global_keys since FieldKey uses composite uniqueness
+          field_key_a = FieldKey.create!(
+            global_key: 'types.apartment_a',
+            tag: 'property-types',
+            website: website_a
+          )
+          Mobility.with_locale(:en) { field_key_a.label = 'Website A Apartment' }
+          field_key_a.save!
+
+          field_key_b = FieldKey.create!(
+            global_key: 'types.apartment_b',
+            tag: 'property-types',
+            website: website_b
+          )
+          Mobility.with_locale(:en) { field_key_b.label = 'Website B Apartment' }
+          field_key_b.save!
+
+          field_key_a.reload
+          field_key_b.reload
+
+          expect(Mobility.with_locale(:en) { field_key_a.label }).to eq('Website A Apartment')
+          expect(Mobility.with_locale(:en) { field_key_b.label }).to eq('Website B Apartment')
+        end
+
+        it 'allows same global_key with different translations in different websites' do
+          # Same global_key can exist in different websites with different translations
+          key_website_a = FieldKey.create!(
+            global_key: 'types.shared',
+            tag: 'property-types',
+            website: website_a
+          )
+          Mobility.with_locale(:en) { key_website_a.label = 'Shared A' }
+          key_website_a.save!
+
+          key_website_b = FieldKey.create!(
+            global_key: 'types.shared',
+            tag: 'property-types',
+            website: website_b
+          )
+          Mobility.with_locale(:en) { key_website_b.label = 'Shared B' }
+          key_website_b.save!
+
+          # Verify each record has its own translation
+          expect(key_website_a.translations).to eq({ 'en' => { 'label' => 'Shared A' } })
+          expect(key_website_b.translations).to eq({ 'en' => { 'label' => 'Shared B' } })
+        end
+      end
+    end
   end
 end
 

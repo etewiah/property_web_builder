@@ -12,15 +12,10 @@
         </div>
 
         <%
-          # Create a human-readable label from key
+          # Create a human-readable label from key using FieldKey with Mobility
           label_text = ->(key) {
-            # Try I18n first, fallback to humanized key
-            label = I18n.t(key, default: nil)
-            if label.nil? || label.start_with?('translation missing')
-              key.split('.').last.humanize.titleize
-            else
-              label
-            end
+            field_key = Pwb::FieldKey.find_by(global_key: key)
+            field_key&.display_label || key.split('.').last.humanize.titleize
           }
         %>
 

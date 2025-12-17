@@ -213,5 +213,77 @@ module Pwb
         expect(result).to eq('')
       end
     end
+
+    describe '#translate_field_key (Mobility integration)' do
+      let(:website) { create(:pwb_website, subdomain: 'translate-test') }
+
+      before do
+        @apartment_key = Pwb::FieldKey.create!(
+          global_key: 'types.apartment',
+          tag: 'property-types',
+          website: website
+        )
+        Mobility.with_locale(:en) { @apartment_key.label = 'Apartment' }
+        Mobility.with_locale(:es) { @apartment_key.label = 'Apartamento' }
+        @apartment_key.save!
+
+        @pool_key = Pwb::FieldKey.create!(
+          global_key: 'features.pool',
+          tag: 'property-features',
+          website: website
+        )
+        Mobility.with_locale(:en) { @pool_key.label = 'Swimming Pool' }
+        @pool_key.save!
+      end
+
+      it 'returns Mobility label for existing FieldKey' do
+        I18n.with_locale(:en) do
+          result = helper.send(:translate_field_key, 'types.apartment')
+          expect(result).to eq('Apartment')
+        end
+      end
+
+      it 'returns Spanish translation when locale is Spanish' do
+        I18n.with_locale(:es) do
+          result = helper.send(:translate_field_key, 'types.apartment')
+          expect(result).to eq('Apartamento')
+        end
+      end
+
+      it 'falls back to titleized slug when FieldKey does not exist' do
+        result = helper.send(:translate_field_key, 'types.nonexistent_type')
+        expect(result).to eq('Nonexistent Type')
+      end
+
+      it 'returns nil for blank input' do
+        expect(helper.send(:translate_field_key, nil)).to be_nil
+        expect(helper.send(:translate_field_key, '')).to be_nil
+      end
+
+      it 'uses Mobility translation in search_filter_description' do
+        I18n.with_locale(:en) do
+          result = helper.search_filter_description(property_type: 'types.apartment')
+          expect(result).to eq('Apartment')
+        end
+      end
+
+      it 'uses Spanish translation in search_filter_description' do
+        I18n.with_locale(:es) do
+          result = helper.search_filter_description(property_type: 'types.apartment')
+          expect(result).to eq('Apartamento')
+        end
+      end
+
+      it 'translates multiple features in search_filter_description' do
+        I18n.with_locale(:en) do
+          result = helper.search_filter_description(
+            property_type: 'types.apartment',
+            features: ['features.pool']
+          )
+          expect(result).to include('Apartment')
+          expect(result).to include('Swimming Pool')
+        end
+      end
+    end
   end
 end

@@ -167,18 +167,29 @@ module Pwb
       parts = []
 
       if search_params[:property_type].present?
-        type_label = I18n.t(search_params[:property_type], default: feature_to_slug(search_params[:property_type])&.titleize)
+        type_label = translate_field_key(search_params[:property_type])
         parts << type_label
       end
 
       if search_params[:features].present?
         feature_labels = Array(search_params[:features]).map do |key|
-          I18n.t(key, default: feature_to_slug(key)&.titleize)
+          translate_field_key(key)
         end
         parts << I18n.t('search.with_features', features: feature_labels.join(', '), default: "with #{feature_labels.join(', ')}")
       end
 
       parts.join(' ')
+    end
+
+    private
+
+    # Translate a field key using Mobility-based FieldKey lookup
+    # Falls back to humanized slug if not found
+    def translate_field_key(global_key)
+      return nil if global_key.blank?
+
+      field_key = Pwb::FieldKey.find_by(global_key: global_key)
+      field_key&.display_label || feature_to_slug(global_key)&.titleize
     end
   end
 end
