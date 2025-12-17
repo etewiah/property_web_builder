@@ -215,8 +215,8 @@ module SiteAdmin
     end
 
     def available_themes
-      # Return list of available theme names
-      %w[flavor flavor-starter flavor-starter-header flavor-starter-with-hero flavor-starter-nav flavor-starter-nav2]
+      # Return list of available theme names from Pwb::Theme
+      Pwb::Theme.all.map(&:name)
     end
   end
 end

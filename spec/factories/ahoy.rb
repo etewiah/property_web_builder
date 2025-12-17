@@ -2,13 +2,13 @@
 
 FactoryBot.define do
   factory :ahoy_visit, class: 'Ahoy::Visit' do
-    association :website, factory: :website
+    association :website, factory: :pwb_website
     visit_token { SecureRandom.uuid }
     visitor_token { SecureRandom.uuid }
     started_at { Time.current }
-    
+
     trait :with_user do
-      association :user, factory: :user
+      association :user, factory: :pwb_user
     end
 
     trait :from_google do
@@ -52,7 +52,7 @@ FactoryBot.define do
   end
 
   factory :ahoy_event, class: 'Ahoy::Event' do
-    association :website, factory: :website
+    association :website, factory: :pwb_website
     association :visit, factory: :ahoy_visit
     name { 'page_viewed' }
     properties { { path: '/', page_type: 'home' } }

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Ahoy::Event, type: :model do
-  let(:website) { create(:website) }
+  let(:website) { create(:pwb_website) }
   let(:visit) { create(:ahoy_visit, website: website) }
 
   describe 'associations' do

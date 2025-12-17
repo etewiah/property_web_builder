@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Ahoy::Visit, type: :model do
-  let(:website) { create(:website) }
+  let(:website) { create(:pwb_website) }
 
   describe 'associations' do
     it { is_expected.to belong_to(:website).class_name('Pwb::Website') }

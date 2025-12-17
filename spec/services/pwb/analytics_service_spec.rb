@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Pwb::AnalyticsService do
-  let(:website) { create(:website) }
+  let(:website) { create(:pwb_website) }
   let(:service) { described_class.new(website, period: 30.days) }
 
   describe '#overview' do

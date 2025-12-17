@@ -66,7 +66,7 @@ module SiteAdmin
     def check_analytics_feature
       return if analytics_enabled?
 
-      redirect_to site_admin_dashboard_path,
+      redirect_to site_admin_root_path,
         alert: "Analytics is available on paid plans. Please upgrade to access visitor analytics."
     end
 
