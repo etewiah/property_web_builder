@@ -28,9 +28,9 @@
 #
 module LocaleHelper
   # Mapping of base locales to their display labels
-  # Uses SUPPORTED_LOCALES from config/initializers/i18n_globalise.rb as the source of truth
-  # Converted to string keys for compatibility with locale code strings
-  LOCALE_LABELS = SUPPORTED_LOCALES.transform_keys(&:to_s).freeze
+  # Uses Pwb::Config::SUPPORTED_LOCALES as the single source of truth
+  # Note: Pwb::Config already uses string keys
+  LOCALE_LABELS = Pwb::Config::SUPPORTED_LOCALES
 
   # Variant labels for full locale codes
   VARIANT_LABELS = {

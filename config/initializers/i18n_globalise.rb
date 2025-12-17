@@ -1,40 +1,32 @@
 # frozen_string_literal: true
 
 # =============================================================================
-# Supported Languages Configuration
+# I18n Configuration
 # =============================================================================
-# This is the central configuration for all supported languages in the application.
-# All language-related UI elements should reference this configuration.
+# Configures I18n available locales and fallbacks.
 #
-# To add/remove languages:
-# 1. Update SUPPORTED_LOCALES below
-# 2. Update I18n.available_locales
-# 3. Update I18n.fallbacks
+# Language configuration is centralized in Pwb::Config (app/lib/pwb/config.rb).
+# This initializer sets up Rails I18n using that central config.
+#
+# To add/remove languages, update Pwb::Config::SUPPORTED_LOCALES
 # =============================================================================
 
-# Central locale configuration with labels
-# This hash is the single source of truth for supported languages
-SUPPORTED_LOCALES = {
-  en: 'English',
-  es: 'Spanish',
-  de: 'German',
-  fr: 'French',
-  nl: 'Dutch',
-  pt: 'Portuguese',
-  it: 'Italian'
-}.freeze
+# Load Pwb::Config early since initializers run before autoloading
+require_relative '../../app/lib/pwb/config'
 
-# Set available locales from the central config
-I18n.available_locales = SUPPORTED_LOCALES.keys
+# Set available locales from Pwb::Config::BASE_LOCALES
+# BASE_LOCALES contains language codes without regional variants (en, es, de, etc.)
+# This is used for I18n translation file loading
+I18n.available_locales = Pwb::Config::BASE_LOCALES
 
-# Configure I18n fallbacks (previously Globalize.fallbacks)
-# This ensures that if a translation is not found in the current locale,
+# Configure I18n fallbacks
+# Ensures that if a translation is not found in the current locale,
 # it falls back to English
 #
 # In Rails 8.1+, we need to use the proper I18n::Locale::Fallbacks class
 # instead of a plain hash
 Rails.application.config.after_initialize do
   # Build fallbacks hash: all non-English locales fall back to English
-  fallback_config = SUPPORTED_LOCALES.keys.reject { |l| l == :en }.index_with { [:en] }
+  fallback_config = Pwb::Config::BASE_LOCALES.reject { |l| l == :en }.index_with { [:en] }
   I18n.fallbacks = I18n::Locale::Fallbacks.new(fallback_config)
 end

@@ -220,23 +220,10 @@ module SiteAdmin
       end
 
       # Build locale details for the website's supported locales
-      # Uses SUPPORTED_LOCALES from config/initializers/i18n_globalise.rb
+      # Uses Pwb::Config for centralized locale configuration
       def build_website_locales
-        # Convert SUPPORTED_LOCALES to string keys for lookup
-        locale_labels = SUPPORTED_LOCALES.transform_keys(&:to_s)
-
-        supported = (@website.supported_locales || ['en']).reject(&:blank?)
-        supported = ['en'] if supported.empty?
-        supported.map do |full_locale|
-          parts = full_locale.to_s.split('-')
-          base_locale = parts[0]&.downcase || 'en'
-          {
-            locale: base_locale,
-            variant: parts[1],
-            full: full_locale,
-            label: locale_labels[base_locale] || base_locale.upcase
-          }
-        end
+        supported = @website.supported_locales || ['en']
+        Pwb::Config.build_locale_details(supported)
       end
     end
   end

@@ -18,6 +18,7 @@ module Pwb
     # ==========================================================================
     # Supported languages with their display labels
     # Keys are locale codes, values are human-readable labels
+    # Includes both base locales and regional variants
     SUPPORTED_LOCALES = {
       'en' => 'English',
       'en-UK' => 'English (UK)',
@@ -47,7 +48,8 @@ module Pwb
     }.freeze
 
     # Base locales (without regional variants) for I18n configuration
-    BASE_LOCALES = %i[en es de fr nl pt it pl ru zh ja ar tr ko sv no da fi el].freeze
+    # Used for translation file loading and fallbacks
+    BASE_LOCALES = %i[en es de fr nl pt it pl ru zh ja ar tr ko sv no da fi el bg ca ro vi].freeze
 
     # ==========================================================================
     # CURRENCIES
