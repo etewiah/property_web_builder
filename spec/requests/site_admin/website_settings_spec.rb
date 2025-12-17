@@ -38,11 +38,12 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
 
       expect(response).to have_http_status(:redirect)
       website.reload
-      # Should filter out empty strings
-      expect(website.supported_locales).to include('en-UK', 'es', 'fr')
+      # Should filter out empty strings from hidden form field
+      expect(website.supported_locales).to eq(['en-UK', 'es', 'fr'])
+      expect(website.supported_locales).not_to include('')
     end
 
-    it 'rejects empty supported locales array with validation error' do
+    it 'handles array with only blank entries by saving empty array' do
       patch site_admin_website_settings_path,
             params: {
               tab: 'general',
@@ -53,8 +54,10 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
             },
             headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
 
-      # Empty locales should fail validation (website needs at least one locale)
-      expect(response).to have_http_status(:unprocessable_entity)
+      # Blank entries are filtered out, resulting in empty array (which is allowed)
+      expect(response).to have_http_status(:redirect)
+      website.reload
+      expect(website.supported_locales).to eq([])
     end
   end
 

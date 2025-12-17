@@ -72,5 +72,52 @@ module Pwb
         expect(website).to be_valid
       end
     end
+
+    describe '#is_multilingual' do
+      it 'returns true when multiple non-blank locales exist' do
+        website.supported_locales = ['en', 'es']
+        expect(website.is_multilingual).to be true
+      end
+
+      it 'returns false when only one non-blank locale exists' do
+        website.supported_locales = ['en']
+        expect(website.is_multilingual).to be false
+      end
+
+      it 'filters out blank entries when checking' do
+        website.supported_locales = ['', 'en', '']
+        expect(website.is_multilingual).to be false
+      end
+
+      it 'returns false when only blank entries exist' do
+        website.supported_locales = ['', '']
+        expect(website.is_multilingual).to be false
+      end
+    end
+
+    describe '#supported_locales_with_variants' do
+      it 'returns locale and variant for each supported locale' do
+        website.supported_locales = ['en-UK', 'es']
+        result = website.supported_locales_with_variants
+
+        expect(result).to contain_exactly(
+          { 'locale' => 'en', 'variant' => 'uk' },
+          { 'locale' => 'es', 'variant' => 'es' }
+        )
+      end
+
+      it 'filters out blank entries' do
+        website.supported_locales = ['', 'de', '', 'fr']
+        result = website.supported_locales_with_variants
+
+        expect(result.length).to eq(2)
+        expect(result.map { |r| r['locale'] }).to eq(['de', 'fr'])
+      end
+
+      it 'returns empty array when only blank entries exist' do
+        website.supported_locales = ['', '']
+        expect(website.supported_locales_with_variants).to eq([])
+      end
+    end
   end
 end
