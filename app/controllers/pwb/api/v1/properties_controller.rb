@@ -1,5 +1,7 @@
 module Pwb
   class Api::V1::PropertiesController < ApplicationController
+    include LocalizedSerializer
+
     protect_from_forgery with: :null_session
     before_action :set_current_website
 
@@ -153,82 +155,56 @@ module Pwb
     end
 
     def serialize_property_data(property)
+      # Build base attributes
+      base_attributes = {
+        "title" => property.title,
+        "description" => property.description,
+        "photos" => serialize_photos(property),
+        "property-photos" => serialize_photos(property),
+        "extras" => property.get_features,
+        "street-address" => property.street_address,
+        "street-name" => property.street_name,
+        "street-number" => property.street_number,
+        "postal-code" => property.postal_code,
+        "city" => property.city,
+        "region" => property.region,
+        "currency" => property.currency,
+        "country" => property.country,
+        "longitude" => property.longitude,
+        "latitude" => property.latitude,
+        "count-bathrooms" => property.count_bathrooms,
+        "count-bedrooms" => property.count_bedrooms,
+        "count-garages" => property.count_garages,
+        "count-toilets" => property.count_toilets,
+        "constructed-area" => property.constructed_area,
+        "year-construction" => property.year_construction,
+        "plot-area" => property.plot_area,
+        "prop-type-key" => property.prop_type_key,
+        "prop-state-key" => property.prop_state_key,
+        "prop-origin-key" => property.prop_origin_key,
+        "for-sale" => property.for_sale,
+        "for-rent" => property.for_rent,
+        "for-rent-short-term" => property.for_rent_short_term,
+        "for-rent-long-term" => property.for_rent_long_term,
+        "hide-map" => property.hide_map,
+        "obscure-map" => property.obscure_map,
+        "price-sale-current-cents" => property.price_sale_current_cents,
+        "price-rental-monthly-current-cents" => property.price_rental_monthly_current_cents,
+        "price-rental-monthly-low-season-cents" => property.price_rental_monthly_low_season_cents,
+        "price-rental-monthly-high-season-cents" => property.price_rental_monthly_high_season_cents,
+        "price-rental-monthly-for-search-cents" => property.price_rental_monthly_for_search_cents,
+        "visible" => property.visible,
+        "highlighted" => property.highlighted,
+        "reference" => property.reference
+      }
+
+      # Merge dynamically generated translated attributes
+      translated = serialize_translated_attributes(property, :title, :description)
+
       {
         id: property.id.to_s,
         type: "properties",
-        attributes: {
-          "title" => property.title,
-          "description" => property.description,
-          "title-en" => property.title_en,
-          "description-en" => property.description_en,
-          "title-es" => property.title_es,
-          "description-es" => property.description_es,
-          "title-it" => property.title_it,
-          "description-it" => property.description_it,
-          "title-de" => property.title_de,
-          "description-de" => property.description_de,
-          "title-ru" => property.title_ru,
-          "description-ru" => property.description_ru,
-          "title-pt" => property.title_pt,
-          "description-pt" => property.description_pt,
-          "title-fr" => property.title_fr,
-          "description-fr" => property.description_fr,
-          "title-tr" => property.title_tr,
-          "description-tr" => property.description_tr,
-          "title-nl" => property.title_nl,
-          "description-nl" => property.description_nl,
-          "title-vi" => property.title_vi,
-          "description-vi" => property.description_vi,
-          "title-ar" => property.title_ar,
-          "description-ar" => property.description_ar,
-          "title-ca" => property.title_ca,
-          "description-ca" => property.description_ca,
-          "title-pl" => property.title_pl,
-          "description-pl" => property.description_pl,
-          "title-ro" => property.title_ro,
-          "description-ro" => property.description_ro,
-          "title-ko" => property.title_ko,
-          "description-ko" => property.description_ko,
-          "title-bg" => property.title_bg,
-          "description-bg" => property.description_bg,
-          "photos" => serialize_photos(property),
-          "property-photos" => serialize_photos(property),
-          "extras" => property.get_features,
-          "street-address" => property.street_address,
-          "street-name" => property.street_name,
-          "street-number" => property.street_number,
-          "postal-code" => property.postal_code,
-          "city" => property.city,
-          "region" => property.region,
-          "currency" => property.currency,
-          "country" => property.country,
-          "longitude" => property.longitude,
-          "latitude" => property.latitude,
-          "count-bathrooms" => property.count_bathrooms,
-          "count-bedrooms" => property.count_bedrooms,
-          "count-garages" => property.count_garages,
-          "count-toilets" => property.count_toilets,
-          "constructed-area" => property.constructed_area,
-          "year-construction" => property.year_construction,
-          "plot-area" => property.plot_area,
-          "prop-type-key" => property.prop_type_key,
-          "prop-state-key" => property.prop_state_key,
-          "prop-origin-key" => property.prop_origin_key,
-          "for-sale" => property.for_sale,
-          "for-rent" => property.for_rent,
-          "for-rent-short-term" => property.for_rent_short_term,
-          "for-rent-long-term" => property.for_rent_long_term,
-          "hide-map" => property.hide_map,
-          "obscure-map" => property.obscure_map,
-          "price-sale-current-cents" => property.price_sale_current_cents,
-          "price-rental-monthly-current-cents" => property.price_rental_monthly_current_cents,
-          "price-rental-monthly-low-season-cents" => property.price_rental_monthly_low_season_cents,
-          "price-rental-monthly-high-season-cents" => property.price_rental_monthly_high_season_cents,
-          "price-rental-monthly-for-search-cents" => property.price_rental_monthly_for_search_cents,
-          "visible" => property.visible,
-          "highlighted" => property.highlighted,
-          "reference" => property.reference
-        }
+        attributes: base_attributes.merge(translated)
       }
     end
 
