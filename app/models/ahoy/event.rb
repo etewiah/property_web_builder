@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Ahoy
-  class Event < ApplicationRecord
+  class Event < ::ApplicationRecord
     self.table_name = "ahoy_events"
 
     # Multi-tenant associations
