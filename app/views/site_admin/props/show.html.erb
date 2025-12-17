@@ -49,16 +49,24 @@
       <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
         <!-- Property Type & State -->
         <% if @prop.prop_type_key.present? %>
+          <%
+            type_field_key = Pwb::FieldKey.find_by(global_key: @prop.prop_type_key)
+            type_label = type_field_key&.display_label || @prop.prop_type_key.to_s.split('.').last&.humanize&.titleize || @prop.prop_type_key
+          %>
           <div>
             <dt class="text-sm font-medium text-gray-500">Property Type</dt>
-            <dd class="mt-1 text-sm text-gray-900"><%= @prop.prop_type_key.to_s.split('.').last.humanize.titleize %></dd>
+            <dd class="mt-1 text-sm text-gray-900"><%= type_label %></dd>
           </div>
         <% end %>
 
         <% if @prop.prop_state_key.present? %>
+          <%
+            state_field_key = Pwb::FieldKey.find_by(global_key: @prop.prop_state_key)
+            state_label = state_field_key&.display_label || @prop.prop_state_key.to_s.split('.').last&.humanize&.titleize || @prop.prop_state_key
+          %>
           <div>
             <dt class="text-sm font-medium text-gray-500">Property State</dt>
-            <dd class="mt-1 text-sm text-gray-900"><%= @prop.prop_state_key.to_s.split('.').last.humanize.titleize %></dd>
+            <dd class="mt-1 text-sm text-gray-900"><%= state_label %></dd>
           </div>
         <% end %>
 

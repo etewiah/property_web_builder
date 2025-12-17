@@ -74,6 +74,23 @@ module Pwb
           expect(result).to eq('Villa')
         end
       end
+
+      describe 'nil handling' do
+        it 'returns empty string for nil input' do
+          result = described_class.send(:translate_key, nil)
+          expect(result).to eq('')
+        end
+
+        it 'returns empty string for blank input' do
+          result = described_class.send(:translate_key, '')
+          expect(result).to eq('')
+        end
+
+        it 'handles key with no dot separator' do
+          result = described_class.send(:translate_key, 'simple_key')
+          expect(result).to eq('Simple Key')
+        end
+      end
     end
 
     describe '.calculate_property_types' do

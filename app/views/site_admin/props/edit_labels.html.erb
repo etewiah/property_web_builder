@@ -14,8 +14,9 @@
         <%
           # Create a human-readable label from key using FieldKey with Mobility
           label_text = ->(key) {
+            return key.to_s if key.blank?
             field_key = Pwb::FieldKey.find_by(global_key: key)
-            field_key&.display_label || key.split('.').last.humanize.titleize
+            field_key&.display_label || key.to_s.split('.').last&.humanize&.titleize || key
           }
         %>
 
