@@ -50,9 +50,11 @@ module Pwb
     end
 
     # Check if the website is in a locked state and render appropriate view
-    # Locked websites show a special page instead of normal content
+    # Only show locked page on the landing page (root path)
+    # Other pages are accessible if user knows the specific URL
     def check_locked_website
       return unless @current_website&.locked?
+      return unless request.path == '/' || request.path == root_path
 
       @locked_mode = @current_website.locked_mode
       @owner_email = @current_website.owner_email
