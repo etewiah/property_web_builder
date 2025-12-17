@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_16_220000) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_17_095831) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -304,6 +304,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_16_220000) do
     t.boolean "show_in_search_form", default: true
     t.integer "sort_order", default: 0
     t.string "tag"
+    t.jsonb "translations", default: {}, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "visible", default: true
     t.index ["pwb_website_id", "global_key"], name: "index_field_keys_unique_per_website", unique: true

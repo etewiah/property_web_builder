@@ -10,8 +10,14 @@ module Pwb
   # The table uses `pwb_website_id` as the foreign key column (not `website_id`).
   #
   class FieldKey < ApplicationRecord
+    extend Mobility
+
     self.table_name = 'pwb_field_keys'
     self.primary_key = :global_key
+
+    # Translatable attribute - stored in JSONB 'translations' column
+    # Provides: label, label_en, label_es, etc. with automatic fallbacks
+    translates :label
 
     belongs_to :website, class_name: 'Pwb::Website', foreign_key: 'pwb_website_id', optional: true
 
@@ -48,10 +54,19 @@ module Pwb
         .map do |field_key|
           OpenStruct.new(
             value: field_key.global_key,
-            label: I18n.t(field_key.global_key, default: field_key.global_key),
+            label: field_key.display_label,
             sort_order: field_key.sort_order
           )
         end
+    end
+
+    # Returns the display label for this field key.
+    # Uses Mobility's translated label with fallback to global_key.
+    #
+    # @return [String] The localized label or the global_key as fallback
+    #
+    def display_label
+      label.presence || global_key
     end
   end
 end

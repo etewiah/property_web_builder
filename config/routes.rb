@@ -215,8 +215,9 @@ Rails.application.routes.draw do
       get 'settings', to: 'settings#index', as: 'settings'
       get 'settings/:category', to: 'settings#show', as: 'settings_category'
       post 'settings/:category', to: 'settings#create'
-      patch 'settings/:category/:id', to: 'settings#update'
-      delete 'settings/:category/:id', to: 'settings#destroy'
+      # Allow dots in :id (e.g., "types.apartment") by using constraint
+      patch 'settings/:category/:id', to: 'settings#update', constraints: { id: /[^\/]+/ }
+      delete 'settings/:category/:id', to: 'settings#destroy', constraints: { id: /[^\/]+/ }
     end
 
     # Website Settings

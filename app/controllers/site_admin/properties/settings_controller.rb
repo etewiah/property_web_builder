@@ -164,18 +164,25 @@ module SiteAdmin
       end
 
       def save_translations(field_key, translations_hash)
-        # Store translations in memory for this request
-        # TODO: In production, use i18n-active_record or similar gem for persistence
+        Rails.logger.info "[FieldKey Update] save_translations called"
+        Rails.logger.info "[FieldKey Update] translations_hash: #{translations_hash.inspect}"
+
         return unless translations_hash.present?
 
+        # Use Mobility to save translations directly to the model's JSONB column
         translations_hash.each do |locale, text|
+          Rails.logger.info "[FieldKey Update] Processing locale=#{locale}, text=#{text.inspect}"
           next if text.blank?
-          I18n.backend.store_translations(
-            locale.to_sym,
-            { field_key.global_key => text },
-            escape: false
-          )
+
+          # Mobility provides locale-specific setters: label_en=, label_es=, etc.
+          Mobility.with_locale(locale.to_sym) do
+            field_key.label = text
+          end
+          Rails.logger.info "[FieldKey Update] Set label for locale #{locale}: #{text}"
         end
+
+        field_key.save!
+        Rails.logger.info "[FieldKey Update] Field key saved with translations: #{field_key.translations.inspect}"
       end
 
       def load_field_keys

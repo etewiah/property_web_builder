@@ -13,7 +13,9 @@ if (ActiveRecord::Base.connection.present? && ActiveRecord::Base.connection.data
   I18n::Backend::Simple.send(:include, I18n::Backend::Memoize)
   I18n::Backend::Simple.send(:include, I18n::Backend::Pluralization)
 
-  I18n.backend = I18n::Backend::Chain.new(I18n::Backend::Simple.new, I18n.backend)
+  # ActiveRecord backend first so user-defined translations (field keys) take precedence
+  # Simple (YAML) backend serves as fallback for missing translations
+  I18n.backend = I18n::Backend::Chain.new(I18n.backend, I18n::Backend::Simple.new)
 end
 
 # https://blog.codeship.com/the-json-api-spec/

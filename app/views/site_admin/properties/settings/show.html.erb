@@ -25,8 +25,8 @@
              id="card-<%= field_key.global_key.parameterize %>">
           <!-- Card Header -->
           <%
-            # Always use English for the header title
-            english_title = I18n.t(field_key.global_key, locale: :en, default: field_key.global_key.split('.').last.titleize)
+            # Always use English for the header title (using Mobility)
+            english_title = Mobility.with_locale(:en) { field_key.label.presence } || field_key.global_key.split('.').last.titleize
           %>
           <div class="px-4 py-3 border-b border-gray-100 flex justify-between items-center">
             <button
@@ -57,7 +57,7 @@
                 </label>
                 <input type="text"
                        name="field_key[translations][<%= locale_info[:locale] %>]"
-                       value="<%= I18n.t(field_key.global_key, locale: locale_info[:locale], default: '') %>"
+                       value="<%= Mobility.with_locale(locale_info[:locale].to_sym) { field_key.label } %>"
                        placeholder="<%= locale_info[:label] %> translation"
                        class="flex-1 px-3 py-1.5 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                        onchange="markCardChanged(this)">

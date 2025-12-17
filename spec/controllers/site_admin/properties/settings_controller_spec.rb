@@ -204,6 +204,126 @@ RSpec.describe SiteAdmin::Properties::SettingsController, type: :controller do
       expect(response).to redirect_to(site_admin_properties_settings_category_path('property_types'))
       expect(flash[:alert]).to eq('Setting not found')
     end
+
+    describe 'translation persistence (Mobility)' do
+      it 'saves translations to the model JSONB column' do
+        patch :update, params: {
+          category: 'property_types',
+          id: field_key.global_key,
+          field_key: {
+            translations: {
+              en: 'Apartment Updated'
+            }
+          }
+        }
+
+        field_key.reload
+        expect(field_key.translations).to include('en' => { 'label' => 'Apartment Updated' })
+      end
+
+      it 'persists English translation that can be retrieved via Mobility' do
+        patch :update, params: {
+          category: 'property_types',
+          id: field_key.global_key,
+          field_key: {
+            translations: {
+              en: 'Luxury Villa'
+            }
+          }
+        }
+
+        field_key.reload
+        Mobility.with_locale(:en) do
+          expect(field_key.label).to eq('Luxury Villa')
+        end
+      end
+
+      it 'persists multiple locale translations' do
+        patch :update, params: {
+          category: 'property_types',
+          id: field_key.global_key,
+          field_key: {
+            translations: {
+              en: 'Apartment',
+              es: 'Apartamento',
+              fr: 'Appartement'
+            }
+          }
+        }
+
+        field_key.reload
+        expect(Mobility.with_locale(:en) { field_key.label }).to eq('Apartment')
+        expect(Mobility.with_locale(:es) { field_key.label }).to eq('Apartamento')
+        expect(Mobility.with_locale(:fr) { field_key.label }).to eq('Appartement')
+      end
+
+      it 'updates existing translations' do
+        # Set initial translation using Mobility
+        Mobility.with_locale(:en) { field_key.label = 'Old Name' }
+        field_key.save!
+
+        patch :update, params: {
+          category: 'property_types',
+          id: field_key.global_key,
+          field_key: {
+            translations: {
+              en: 'New Name'
+            }
+          }
+        }
+
+        field_key.reload
+        Mobility.with_locale(:en) do
+          expect(field_key.label).to eq('New Name')
+        end
+      end
+
+      it 'skips blank translations' do
+        patch :update, params: {
+          category: 'property_types',
+          id: field_key.global_key,
+          field_key: {
+            translations: {
+              en: 'Valid',
+              es: '',
+              fr: nil
+            }
+          }
+        }
+
+        field_key.reload
+        expect(Mobility.with_locale(:en) { field_key.label }).to eq('Valid')
+
+        # Blank translations are not saved - only 'en' should be in the translations hash
+        # Note: Mobility fallbacks mean es/fr will return the English value when accessed
+        expect(field_key.translations.keys).to eq(['en'])
+        expect(field_key.translations['es']).to be_nil
+        expect(field_key.translations['fr']).to be_nil
+      end
+
+      it 'isolates translations per website (tenant)' do
+        # Create a field key for other website
+        other_field_key = ActsAsTenant.with_tenant(other_website) do
+          create(:pwb_field_key, website: other_website, tag: 'property-types')
+        end
+
+        # Update field_key for current website
+        patch :update, params: {
+          category: 'property_types',
+          id: field_key.global_key,
+          field_key: {
+            translations: { en: 'My Apartment' }
+          }
+        }
+
+        field_key.reload
+        expect(Mobility.with_locale(:en) { field_key.label }).to eq('My Apartment')
+
+        # Other website's field key should not be affected
+        other_field_key.reload
+        expect(Mobility.with_locale(:en) { other_field_key.label }).to be_nil
+      end
+    end
   end
 
   describe 'DELETE #destroy' do

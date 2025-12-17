@@ -35,7 +35,10 @@
       "Bash(git checkout:*)",
       "Bash(git merge:*)",
       "Bash(git fetch:*)",
-      "Bash(bundle exec rails:*)"
+      "Bash(bundle exec rails:*)",
+      "Bash(git diff:*)",
+      "Bash(git add:*)",
+      "Bash(git stash:*)"
     ],
     "deny": [],
     "ask": []
