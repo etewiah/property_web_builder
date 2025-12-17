@@ -18,38 +18,19 @@ module Pwb
     # ==========================================================================
     # Supported languages with their display labels
     # Keys are locale codes, values are human-readable labels
-    # Includes both base locales and regional variants
     SUPPORTED_LOCALES = {
       'en' => 'English',
-      'en-UK' => 'English (UK)',
-      'en-US' => 'English (US)',
       'es' => 'Spanish',
       'de' => 'German',
       'fr' => 'French',
       'nl' => 'Dutch',
       'pt' => 'Portuguese',
-      'it' => 'Italian',
-      'pl' => 'Polish',
-      'ru' => 'Russian',
-      'zh' => 'Chinese',
-      'ja' => 'Japanese',
-      'ar' => 'Arabic',
-      'tr' => 'Turkish',
-      'ko' => 'Korean',
-      'sv' => 'Swedish',
-      'no' => 'Norwegian',
-      'da' => 'Danish',
-      'fi' => 'Finnish',
-      'el' => 'Greek',
-      'bg' => 'Bulgarian',
-      'ca' => 'Catalan',
-      'ro' => 'Romanian',
-      'vi' => 'Vietnamese'
+      'it' => 'Italian'
     }.freeze
 
-    # Base locales (without regional variants) for I18n configuration
+    # Base locales for I18n configuration
     # Used for translation file loading and fallbacks
-    BASE_LOCALES = %i[en es de fr nl pt it pl ru zh ja ar tr ko sv no da fi el bg ca ro vi].freeze
+    BASE_LOCALES = %i[en es de fr nl pt it].freeze
 
     # ==========================================================================
     # CURRENCIES
