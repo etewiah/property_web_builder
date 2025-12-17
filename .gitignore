@@ -96,7 +96,7 @@ standalone_quasar_app/
 pwb-frontend-quasar/
 /config/credentials.yml.enc
 /config/credentials/*.key
-package-lock.json
+# package-lock.json - removed from gitignore to ensure npm dependencies are locked
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
