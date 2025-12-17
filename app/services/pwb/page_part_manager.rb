@@ -96,7 +96,7 @@ module Pwb
                 # return cloudinary url or filesystem url depending on settings
                 row_block_content = photo.optimized_image_url
               else
-                row_block_content = "http://via.placeholder.com/350x250"
+                row_block_content = "https://placehold.co/350x250"
               end
             else
               row_block_content = seed_content[row_block_label]
