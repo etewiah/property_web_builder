@@ -69,10 +69,10 @@ module SiteAdmin
         'listing-origin' => { title: 'Listing Origin', description: 'Source of the listing' }
       }
 
-      # Load field keys for each category
+      # Load field keys for each category (tenant-scoped)
       @labels_by_category = {}
       @label_categories.each_key do |tag|
-        @labels_by_category[tag] = Pwb::FieldKey.where(tag: tag).visible.order(:sort_order).pluck(:global_key)
+        @labels_by_category[tag] = PwbTenant::FieldKey.where(tag: tag).visible.order(:sort_order).pluck(:global_key)
       end
 
       # Get current labels for this property

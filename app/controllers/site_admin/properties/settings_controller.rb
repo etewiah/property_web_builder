@@ -213,9 +213,12 @@ module SiteAdmin
         }
 
         supported = current_website.supported_locales || ['en-UK']
-        supported.map do |full_locale|
-          parts = full_locale.split('-')
-          base_locale = parts[0].downcase
+        # Filter out blank values (from hidden form fields)
+        supported.reject(&:blank?).filter_map do |full_locale|
+          parts = full_locale.to_s.split('-')
+          base_locale = parts[0]&.downcase
+          next if base_locale.blank?
+
           {
             locale: base_locale,
             variant: parts[1],
