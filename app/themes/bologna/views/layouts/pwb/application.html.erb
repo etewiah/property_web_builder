@@ -13,7 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <%# Tailwind CSS %>
+    <%# Tailwind CSS - CDN used for themes because they need runtime CSS variables for per-tenant colors %>
+    <%# TODO: Migrate to compiled Tailwind by using arbitrary value syntax: bg-[var(--primary-color)] %>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {

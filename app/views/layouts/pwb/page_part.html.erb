@@ -13,7 +13,7 @@
       theme_name = @current_website&.theme_name || 'default'
       # All themes now use Tailwind CSS
     %>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <%
       case theme_name

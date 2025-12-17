@@ -8,8 +8,8 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind CSS (compiled) -->
+  <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
 
   <!-- Alpine.js for mobile menu toggle -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>

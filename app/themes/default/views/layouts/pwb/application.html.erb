@@ -6,7 +6,8 @@
     <title><%= seo_title %></title>
     <%= seo_meta_tags %>
     <%= yield(:page_head) %>
-    <%# Tailwind CSS %>
+    <%# Tailwind CSS - CDN used for themes because they need runtime CSS variables for per-tenant colors %>
+    <%# TODO: Migrate to compiled Tailwind by using arbitrary value syntax: bg-[var(--primary-color)] %>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
