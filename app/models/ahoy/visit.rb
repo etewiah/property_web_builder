@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Ahoy
-  class Visit < ApplicationRecord
+  class Visit < ::ApplicationRecord
     self.table_name = "ahoy_visits"
 
     # Multi-tenant associations
