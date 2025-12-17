@@ -76,7 +76,7 @@
         <% available_locales.each do |label, locale_code| %>
           <label class="flex items-center p-2 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
             <input type="checkbox"
-                   name="website[supported_locales][]"
+                   name="pwb_website[supported_locales][]"
                    value="<%= locale_code %>"
                    <%= 'checked' if current_locales.include?(locale_code) %>
                    class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
@@ -86,7 +86,7 @@
       </div>
 
       <!-- Hidden field to ensure empty array is submitted when no checkboxes selected -->
-      <input type="hidden" name="website[supported_locales][]" value="">
+      <input type="hidden" name="pwb_website[supported_locales][]" value="">
 
       <p class="mt-2 text-sm text-gray-500">
         <strong>Currently supported:</strong>
