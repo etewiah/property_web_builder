@@ -73,7 +73,13 @@ module SiteAdmin
       end
 
       def update_general_settings
-        if @website.update(general_settings_params)
+        # Filter out blank values from supported_locales (the hidden field submits "")
+        filtered_params = general_settings_params.to_h
+        if filtered_params[:supported_locales].is_a?(Array)
+          filtered_params[:supported_locales] = filtered_params[:supported_locales].reject(&:blank?)
+        end
+
+        if @website.update(filtered_params)
           redirect_to site_admin_website_settings_tab_path('general'), notice: 'General settings updated successfully'
         else
           flash.now[:alert] = 'Failed to update general settings'
