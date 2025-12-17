@@ -46,6 +46,8 @@ module Pwb
 
     def current_agency_and_website
       @current_website = current_website_from_subdomain || Pwb::Current.website || Website.first
+      # Ensure Pwb::Current.website is set for Ahoy analytics and other services
+      Pwb::Current.website ||= @current_website
       @current_agency = @current_website&.agency || @current_website&.build_agency
     end
 
