@@ -91,10 +91,28 @@ module Pwb
       end
 
       protected
-      
+
       # Returns the current website being seeded
       def current_website
         @current_website
+      end
+
+      # Filter out locale-specific attributes for unsupported locales
+      # This allows seed files to contain translations for future languages
+      # without causing errors when those languages aren't currently enabled
+      def filter_supported_locale_attrs(attrs)
+        supported_suffixes = I18n.available_locales.map { |l| "_#{l}" }
+
+        attrs.reject do |key, _value|
+          # Check if this is a locale-specific attribute (ends with _xx)
+          if key.to_s =~ /_([a-z]{2})$/
+            locale_suffix = "_#{$1}"
+            # Reject if the locale suffix is not in supported locales
+            !supported_suffixes.include?(locale_suffix)
+          else
+            false
+          end
+        end
       end
       
       # Seeds sample properties for the current website
@@ -185,10 +203,12 @@ module Pwb
         links_yml.each do |single_link_yml|
           # Check if this link already exists for this website
           link_record = current_website.links.find_by(slug: single_link_yml["slug"])
-          
+
           unless link_record.present?
+            # Filter out unsupported locale attributes before creating
+            filtered_attrs = filter_supported_locale_attrs(single_link_yml)
             # Create link with website association
-            link_record = current_website.links.create!(single_link_yml)
+            link_record = current_website.links.create!(filtered_attrs)
           end
 
           # below sets the link title text from I18n translations
@@ -355,14 +375,16 @@ module Pwb
 
       # Sets translations on a listing (SaleListing or RentalListing) from prop data
       def set_listing_translations(listing, prop_data)
-        %w[en es ca de fr it nl pl pt ro ru ko bg].each do |locale|
-          title = prop_data["title_#{locale}"] || prop_data["title"]
-          description = prop_data["description_#{locale}"] || prop_data["description"]
+        # Use I18n.available_locales to only set translations for supported languages
+        I18n.available_locales.each do |locale|
+          locale_str = locale.to_s
+          title = prop_data["title_#{locale_str}"] || prop_data["title"]
+          description = prop_data["description_#{locale_str}"] || prop_data["description"]
           next unless title.present? || description.present?
 
           # Set translations using Mobility locale accessors
-          listing.send("title_#{locale}=", title) if title.present? && listing.respond_to?("title_#{locale}=")
-          listing.send("description_#{locale}=", description) if description.present? && listing.respond_to?("description_#{locale}=")
+          listing.send("title_#{locale_str}=", title) if title.present? && listing.respond_to?("title_#{locale_str}=")
+          listing.send("description_#{locale_str}=", description) if description.present? && listing.respond_to?("description_#{locale_str}=")
         end
         listing.save!
       end

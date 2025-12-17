@@ -55,22 +55,43 @@ module Pwb
       end
 
       protected
-      
+
       # Returns the current website being seeded
       def current_website
         @current_website
       end
 
+      # Filter out locale-specific attributes for unsupported locales
+      # This allows seed files to contain translations for future languages
+      # without causing errors when those languages aren't currently enabled
+      def filter_supported_locale_attrs(attrs)
+        supported_suffixes = I18n.available_locales.map { |l| "_#{l}" }
+
+        attrs.reject do |key, _value|
+          # Check if this is a locale-specific attribute (ends with _xx)
+          if key.to_s =~ /_([a-z]{2})$/
+            locale_suffix = "_#{$1}"
+            # Reject if the locale suffix is not in supported locales
+            !supported_suffixes.include?(locale_suffix)
+          else
+            false
+          end
+        end
+      end
+
       def seed_page(yml_file)
         page_seed_file = Rails.root.join("db", "yml_seeds", "pages", yml_file)
         page_yml = YAML.load_file(page_seed_file)
-        
+
+        # Filter out unsupported locale attributes
+        filtered_attrs = filter_supported_locale_attrs(page_yml[0])
+
         # Find page scoped to the current website
-        page_record = current_website.pages.find_by(slug: page_yml[0]["slug"])
-        
+        page_record = current_website.pages.find_by(slug: filtered_attrs["slug"])
+
         unless page_record.present?
           # Create page with website association
-          page_record = current_website.pages.create!(page_yml[0])
+          page_record = current_website.pages.create!(filtered_attrs)
         end
 
         # below sets the page title text from I18n translations

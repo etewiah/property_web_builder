@@ -16,6 +16,7 @@ Mobility.configure do
 
     # Locale accessors - provides title_en, title_es, etc.
     # This replaces globalize_accessors functionality
+    # Supported languages: en, es, de, fr, nl, pt, it
     locale_accessors I18n.available_locales
 
     # Query plugin for searching translated content
@@ -27,21 +28,12 @@ Mobility.configure do
     # Behavior plugins
     presence       # Treat blank strings as nil
     fallbacks(     # Enable locale fallbacks - all fall back to English
-      ar: :en,
-      ca: :en,
-      de: :en,
       es: :en,
+      de: :en,
       fr: :en,
-      it: :en,
       nl: :en,
-      pl: :en,
       pt: :en,
-      ro: :en,
-      ru: :en,
-      tr: :en,
-      vi: :en,
-      ko: :en,
-      bg: :en
+      it: :en
     )
   end
 end

@@ -1,4 +1,7 @@
 ---
+# Navigation Links Seed Data
+# Supported languages: en, es, de, fr, nl, pt, it
+
 - slug: top_nav_home
   page_slug: home
   link_path: home_path
@@ -9,9 +12,11 @@
   link_title_en: Home
   link_title_es: Inicio
   link_title_fr: Accueil
-  link_title_de: Zuhause
-  link_title_ru: Главная
+  link_title_de: Startseite
+  link_title_nl: Home
   link_title_pt: Início
+  link_title_it: Home
+
 - slug: top_nav_buy
   page_slug: buy
   link_path: buy_path
@@ -20,12 +25,13 @@
   is_external: false
   placement: :top_nav
   link_title_en: Buy
-  link_title_nl: Koop
   link_title_es: Comprar
   link_title_fr: Acheter
   link_title_de: Kaufen
-  link_title_ru: купить
+  link_title_nl: Kopen
   link_title_pt: Comprar
+  link_title_it: Comprare
+
 - slug: top_nav_rent
   page_slug: rent
   link_path: rent_path
@@ -34,11 +40,13 @@
   is_external: false
   placement: :top_nav
   link_title_en: Rent
-  link_title_es: Arrendar
+  link_title_es: Alquilar
   link_title_fr: Louer
-  link_title_de: Miete
-  link_title_ru: Аренда
-  link_title_pt: Aluguel
+  link_title_de: Mieten
+  link_title_nl: Huren
+  link_title_pt: Alugar
+  link_title_it: Affittare
+
 - slug: top_nav_sell
   page_slug: sell
   link_path: show_page_path
@@ -51,11 +59,12 @@
   link_title_es: Vender
   link_title_fr: Vendre
   link_title_de: Verkaufen
-  link_title_ru: Продажа
+  link_title_nl: Verkopen
   link_title_pt: Vender
+  link_title_it: Vendere
+
 - slug: top_nav_about_us
   page_slug: about-us
-  # link_path: about_us_path
   link_path: show_page_path
   link_path_params: about-us
   sort_order: 5
@@ -64,10 +73,12 @@
   placement: :top_nav
   link_title_en: About Us
   link_title_es: Sobre Nosotros
-  link_title_fr: A propos
+  link_title_fr: À propos
   link_title_de: Über uns
-  link_title_ru: О нас
+  link_title_nl: Over ons
   link_title_pt: Sobre nós
+  link_title_it: Chi siamo
+
 - slug: top_nav_contact_us
   page_slug: contact-us
   link_path: contact_us_path
@@ -76,11 +87,13 @@
   is_external: false
   placement: :top_nav
   link_title_en: Contact Us
-  link_title_es: Contactar
-  link_title_fr: Contacter
-  link_title_de: Kontact
-  link_title_ru: связаться с нами
+  link_title_es: Contacto
+  link_title_fr: Contact
+  link_title_de: Kontakt
+  link_title_nl: Contact
   link_title_pt: Contato
+  link_title_it: Contattaci
+
 - slug: top_nav_legal_notice
   page_slug: legal
   link_path: show_page_path
@@ -91,10 +104,12 @@
   placement: :top_nav
   link_title_en: Legal Notice
   link_title_es: Aviso Legal
-  link_title_fr: Legal Notice
+  link_title_fr: Mentions légales
   link_title_de: Impressum
-  link_title_ru: Официальное уведомление
-  link_title_pt: Informação legal
+  link_title_nl: Juridische kennisgeving
+  link_title_pt: Aviso legal
+  link_title_it: Note legali
+
 - slug: top_nav_privacy_policy
   page_slug: privacy
   link_path: show_page_path
@@ -104,11 +119,13 @@
   is_external: false
   placement: :top_nav
   link_title_en: Privacy Policy
-  link_title_es: Politica de Privacidad
-  link_title_fr: Privacy Policy
-  link_title_de: Datenschutz-Bestimmungen
+  link_title_es: Política de Privacidad
+  link_title_fr: Politique de confidentialité
+  link_title_de: Datenschutzrichtlinie
+  link_title_nl: Privacybeleid
   link_title_pt: Política de Privacidade
-  link_title_ru: Политика конфиденциальности
+  link_title_it: Informativa sulla privacy
+
 - slug: top_nav_admin
   link_path: admin_with_locale_path
   sort_order: 9
@@ -119,8 +136,10 @@
   link_title_es: Admin
   link_title_fr: Admin
   link_title_de: Admin
-  link_title_ru: Администратор
+  link_title_nl: Admin
   link_title_pt: Admin
+  link_title_it: Admin
+
 - slug: footer_home
   page_slug: home
   link_path: home_path
@@ -131,9 +150,11 @@
   link_title_en: Home
   link_title_es: Inicio
   link_title_fr: Accueil
-  link_title_de: Zuhause
-  link_title_ru: Главная
+  link_title_de: Startseite
+  link_title_nl: Home
   link_title_pt: Início
+  link_title_it: Home
+
 - slug: footer_buy
   page_slug: buy
   link_path: buy_path
@@ -145,8 +166,10 @@
   link_title_es: Comprar
   link_title_fr: Acheter
   link_title_de: Kaufen
-  link_title_ru: купить
+  link_title_nl: Kopen
   link_title_pt: Comprar
+  link_title_it: Comprare
+
 - slug: footer_rent
   page_slug: rent
   link_path: rent_path
@@ -155,11 +178,13 @@
   is_external: false
   placement: :footer
   link_title_en: Rent
-  link_title_es: Arrendar
+  link_title_es: Alquilar
   link_title_fr: Louer
-  link_title_de: Miete
-  link_title_ru: Аренда
-  link_title_pt: Aluguel
+  link_title_de: Mieten
+  link_title_nl: Huren
+  link_title_pt: Alugar
+  link_title_it: Affittare
+
 - slug: footer_sell
   page_slug: sell
   link_path: show_page_path
@@ -172,8 +197,10 @@
   link_title_es: Vender
   link_title_fr: Vendre
   link_title_de: Verkaufen
-  link_title_ru: Продажа
+  link_title_nl: Verkopen
   link_title_pt: Vender
+  link_title_it: Vendere
+
 - slug: footer_about_us
   page_slug: about-us
   link_path: about_us_path
@@ -183,10 +210,12 @@
   placement: :footer
   link_title_en: About Us
   link_title_es: Sobre Nosotros
-  link_title_fr: A propos
+  link_title_fr: À propos
   link_title_de: Über uns
-  link_title_ru: О нас
+  link_title_nl: Over ons
   link_title_pt: Sobre nós
+  link_title_it: Chi siamo
+
 - slug: footer_contact_us
   page_slug: contact-us
   link_path: contact_us_path
@@ -195,11 +224,13 @@
   is_external: false
   placement: :footer
   link_title_en: Contact Us
-  link_title_es: Contactar
-  link_title_fr: Contacter
-  link_title_de: Kontact
-  link_title_ru: связаться с нами
+  link_title_es: Contacto
+  link_title_fr: Contact
+  link_title_de: Kontakt
+  link_title_nl: Contact
   link_title_pt: Contato
+  link_title_it: Contattaci
+
 - slug: footer_legal_notice
   page_slug: legal
   link_path: show_page_path
@@ -210,10 +241,12 @@
   placement: :footer
   link_title_en: Legal Notice
   link_title_es: Aviso Legal
-  link_title_fr: Legal Notice
+  link_title_fr: Mentions légales
   link_title_de: Impressum
-  link_title_ru: Официальное уведомление
-  link_title_pt: Informação legal
+  link_title_nl: Juridische kennisgeving
+  link_title_pt: Aviso legal
+  link_title_it: Note legali
+
 - slug: footer_privacy_policy
   page_slug: privacy
   link_path: show_page_path
@@ -223,11 +256,13 @@
   is_external: false
   placement: :footer
   link_title_en: Privacy Policy
-  link_title_es: Politica de Privacidad
-  link_title_fr: Privacy Policy
-  link_title_de: Datenschutz-Bestimmungen
+  link_title_es: Política de Privacidad
+  link_title_fr: Politique de confidentialité
+  link_title_de: Datenschutzrichtlinie
+  link_title_nl: Privacybeleid
   link_title_pt: Política de Privacidade
-  link_title_ru: Политика конфиденциальности
+  link_title_it: Informativa sulla privacy
+
 - slug: footer_admin
   link_path: admin_with_locale_path
   sort_order: 9
@@ -238,20 +273,10 @@
   link_title_es: Admin
   link_title_fr: Admin
   link_title_de: Admin
-  link_title_ru: Администратор
+  link_title_nl: Admin
   link_title_pt: Admin
-# - slug: top_nav_facebook
-#   link_url: "https://www.facebook.com/propertywebbuilder"
-#   sort_order: 1
-#   visible: true
-#   icon_class: "fa-facebook fa"
-#   href_target: "_blank"
-#   is_external: true
-#   placement: :top_nav
-#   link_title_en: Facebook
-#   link_title_es: Facebook
-#   link_title_fr: Facebook
-#   link_title_de: Facebook
+  link_title_it: Admin
+
 - slug: social_media_facebook
   link_url: "https://www.facebook.com/propertywebbuilder"
   sort_order: 1
@@ -264,9 +289,13 @@
   link_title_es: Facebook
   link_title_fr: Facebook
   link_title_de: Facebook
+  link_title_nl: Facebook
+  link_title_pt: Facebook
+  link_title_it: Facebook
+
 - slug: social_media_twitter
   link_url: "https://twitter.com/prptywebbuilder"
-  sort_order: 1
+  sort_order: 2
   visible: true
   icon_class: "fa-twitter fa"
   href_target: "_blank"
@@ -276,8 +305,11 @@
   link_title_es: Twitter
   link_title_fr: Twitter
   link_title_de: Twitter
-# links with a placement of admin and visibility true
-# will show up in the admin panel
+  link_title_nl: Twitter
+  link_title_pt: Twitter
+  link_title_it: Twitter
+
+# Admin navigation links
 - slug: admin_home
   page_slug: home
   link_path: home_path
@@ -288,9 +320,11 @@
   link_title_en: Home
   link_title_es: Inicio
   link_title_fr: Accueil
-  link_title_de: Zuhause
-  link_title_ru: Главная
+  link_title_de: Startseite
+  link_title_nl: Home
   link_title_pt: Início
+  link_title_it: Home
+
 - slug: admin_buy
   page_slug: buy
   link_path: buy_path
@@ -302,8 +336,10 @@
   link_title_es: Comprar
   link_title_fr: Acheter
   link_title_de: Kaufen
-  link_title_ru: купить
+  link_title_nl: Kopen
   link_title_pt: Comprar
+  link_title_it: Comprare
+
 - slug: admin_rent
   page_slug: rent
   link_path: rent_path
@@ -312,11 +348,13 @@
   is_external: false
   placement: :admin
   link_title_en: Rent
-  link_title_es: Arrendar
+  link_title_es: Alquilar
   link_title_fr: Louer
-  link_title_de: Miete
-  link_title_ru: Аренда
-  link_title_pt: Aluguel
+  link_title_de: Mieten
+  link_title_nl: Huren
+  link_title_pt: Alugar
+  link_title_it: Affittare
+
 - slug: admin_sell
   page_slug: sell
   link_path: show_page_path
@@ -329,8 +367,10 @@
   link_title_es: Vender
   link_title_fr: Vendre
   link_title_de: Verkaufen
-  link_title_ru: Продажа
+  link_title_nl: Verkopen
   link_title_pt: Vender
+  link_title_it: Vendere
+
 - slug: admin_about_us
   page_slug: about-us
   link_path: about_us_path
@@ -340,10 +380,12 @@
   placement: :admin
   link_title_en: About Us
   link_title_es: Sobre Nosotros
-  link_title_fr: A propos
+  link_title_fr: À propos
   link_title_de: Über uns
-  link_title_ru: О нас
+  link_title_nl: Over ons
   link_title_pt: Sobre nós
+  link_title_it: Chi siamo
+
 - slug: admin_contact_us
   page_slug: contact-us
   link_path: contact_us_path
@@ -352,11 +394,13 @@
   is_external: false
   placement: :admin
   link_title_en: Contact Us
-  link_title_es: Contactar
-  link_title_fr: Contacter
-  link_title_de: Kontact
-  link_title_ru: связаться с нами
+  link_title_es: Contacto
+  link_title_fr: Contact
+  link_title_de: Kontakt
+  link_title_nl: Contact
   link_title_pt: Contato
+  link_title_it: Contattaci
+
 - slug: admin_legal_notice
   page_slug: legal
   link_path: show_page_path
@@ -367,10 +411,12 @@
   placement: :admin
   link_title_en: Legal Notice
   link_title_es: Aviso Legal
-  link_title_fr: Legal Notice
+  link_title_fr: Mentions légales
   link_title_de: Impressum
-  link_title_ru: Официальное уведомление
-  link_title_pt: Informação legal
+  link_title_nl: Juridische kennisgeving
+  link_title_pt: Aviso legal
+  link_title_it: Note legali
+
 - slug: admin_privacy_policy
   page_slug: privacy
   link_path: show_page_path
@@ -380,8 +426,9 @@
   is_external: false
   placement: :admin
   link_title_en: Privacy Policy
-  link_title_es: Politica de Privacidad
-  link_title_fr: Privacy Policy
-  link_title_de: Datenschutz-Bestimmungen
+  link_title_es: Política de Privacidad
+  link_title_fr: Politique de confidentialité
+  link_title_de: Datenschutzrichtlinie
+  link_title_nl: Privacybeleid
   link_title_pt: Política de Privacidade
-  link_title_ru: Политика конфиденциальности
+  link_title_it: Informativa sulla privacy

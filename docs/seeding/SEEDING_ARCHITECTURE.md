@@ -170,23 +170,15 @@ locale:
 
 #### **Configured Locales** (from `config/initializers/i18n_globalise.rb`)
 ```ruby
+# Supported languages (7 total):
 I18n.available_locales = [
-  :ar,  # Arabic
-  :ca,  # Catalan
-  :de,  # German
   :en,  # English (default)
   :es,  # Spanish
+  :de,  # German
   :fr,  # French
-  :it,  # Italian
   :nl,  # Dutch
-  :pl,  # Polish
   :pt,  # Portuguese
-  :ro,  # Romanian
-  :ru,  # Russian
-  :tr,  # Turkish
-  :vi,  # Vietnamese
-  :ko,  # Korean
-  :bg   # Bulgarian
+  :it   # Italian
 ]
 ```
 
@@ -197,11 +189,11 @@ I18n.available_locales = [
 
 #### **Fallback Configuration** (`config/initializers/i18n_globalise.rb`)
 ```ruby
-Globalize.fallbacks = {
-  de: [:en], es: [:en], pl: [:en], ro: [:en], 
-  ru: [:en], ko: [:en], bg: [:en]
+I18n.fallbacks = I18n::Locale::Fallbacks.new(
+  es: [:en], de: [:en], fr: [:en],
+  nl: [:en], pt: [:en], it: [:en]
   # All non-English locales fall back to English
-}
+)
 ```
 
 #### **Mobility Configuration** (`config/initializers/mobility.rb`)

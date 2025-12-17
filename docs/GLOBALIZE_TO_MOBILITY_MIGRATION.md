@@ -28,11 +28,19 @@ This document provides a comprehensive plan to migrate PropertyWebBuilder from t
 
 Configured in `config/initializers/i18n_globalise.rb`:
 ```ruby
-I18n.available_locales = [:ar, :ca, :de, :en, :es, :fr, :it, :nl, :pl, :pt, :ro, :ru, :tr, :vi, :ko, :bg]
+# Supported languages (7 total):
+# en - English
+# es - Spanish
+# de - German
+# fr - French
+# nl - Dutch
+# pt - Portuguese
+# it - Italian
+I18n.available_locales = [:en, :es, :de, :fr, :nl, :pt, :it]
 
-Globalize.fallbacks = {
-  de: [:en], es: [:en], pl: [:en], ro: [:en], ru: [:en], ko: [:en], bg: [:en]
-}
+I18n.fallbacks = I18n::Locale::Fallbacks.new(
+  es: [:en], de: [:en], fr: [:en], nl: [:en], pt: [:en], it: [:en]
+)
 ```
 
 ### Globalize Features in Use
@@ -581,7 +589,8 @@ Delete or rename `config/initializers/i18n_globalise.rb`.
 ```ruby
 # frozen_string_literal: true
 
-I18n.available_locales = [:ar, :ca, :de, :en, :es, :fr, :it, :nl, :pl, :pt, :ro, :ru, :tr, :vi, :ko, :bg]
+# Supported languages (7 total): en, es, de, fr, nl, pt, it
+I18n.available_locales = [:en, :es, :de, :fr, :nl, :pt, :it]
 I18n.default_locale = :en
 ```
 
