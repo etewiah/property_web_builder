@@ -158,6 +158,32 @@ module Pwb
             service.send(:seed_properties_for_website, website)
           }.not_to raise_error
         end
+
+        it "seeds properties from default yml_seeds when seed pack has no properties" do
+          # The base pack has no properties directory, so it should fall back to Seeder
+          # which seeds 6 properties from db/yml_seeds/prop/*.yml
+          website.update!(seed_pack_name: 'base')
+
+          expect {
+            service.send(:seed_properties_for_website, website)
+          }.to change { website.realty_assets.count }.by(6)
+
+          # Verify properties were created
+          expect(website.realty_assets.count).to eq(6)
+          expect(Pwb::ListedProperty.where(website_id: website.id).count).to eq(6)
+        end
+
+        it "seeds properties from seed pack when it has properties" do
+          # Skip if spain_luxury pack doesn't exist
+          skip "spain_luxury pack not available" unless File.exist?(Rails.root.join('db', 'seeds', 'packs', 'spain_luxury', 'pack.yml'))
+
+          website.update!(seed_pack_name: 'spain_luxury')
+
+          service.send(:seed_properties_for_website, website)
+
+          # Spain luxury pack has 7 properties
+          expect(website.realty_assets.count).to be >= 1
+        end
       end
     end
 

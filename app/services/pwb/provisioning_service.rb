@@ -446,10 +446,11 @@ module Pwb
         return
       end
 
-      # Fallback: use basic seeder for properties only
+      # Fallback: seed properties from default yml_seeds using Seeder class
       begin
-        seeder = Pwb::Seeder.new
-        seeder.seed_properties_for_website(website) if seeder.respond_to?(:seed_properties_for_website)
+        Rails.logger.info("[Provisioning] Seeding properties from default yml_seeds for website #{website.subdomain}")
+        Pwb::Seeder.seed_properties_only!(website: website)
+        Rails.logger.info("[Provisioning] Default property seeding completed for website #{website.subdomain}")
       rescue StandardError => e
         Rails.logger.warn("[Provisioning] Property seeding failed (non-fatal): #{e.message}")
         # Properties are optional, don't fail provisioning
@@ -487,7 +488,10 @@ module Pwb
             return website.page_parts.any? { |pp| pp.block_contents.present? }
           when :properties
             seed_pack.seed_properties!(website: website) if seed_pack.respond_to?(:seed_properties!)
-            return true  # Properties are optional, just return true
+            # Return true only if the pack actually has properties to seed
+            # Check if the pack has a properties directory with yml files
+            properties_dir = Rails.root.join('db', 'seeds', 'packs', pack_name, 'properties')
+            return properties_dir.exist? && Dir.glob(properties_dir.join('*.yml')).any?
           end
         end
       rescue Pwb::SeedPack::PackNotFoundError

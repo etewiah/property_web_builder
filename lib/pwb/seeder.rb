@@ -90,6 +90,16 @@ module Pwb
         seed_links "links.yml"
       end
 
+      # Seed only properties for a specific website
+      # Used by ProvisioningService as a fallback when seed pack has no properties
+      #
+      # @param website [Pwb::Website] The website to seed properties for
+      def seed_properties_only!(website:)
+        @current_website = website
+        I18n.locale = :en
+        seed_properties
+      end
+
       protected
 
       # Returns the current website being seeded
