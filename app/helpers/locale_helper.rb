@@ -28,31 +28,9 @@
 #
 module LocaleHelper
   # Mapping of base locales to their display labels
-  LOCALE_LABELS = {
-    'en' => 'English',
-    'es' => 'Spanish',
-    'fr' => 'French',
-    'de' => 'German',
-    'it' => 'Italian',
-    'pt' => 'Portuguese',
-    'nl' => 'Dutch',
-    'pl' => 'Polish',
-    'ru' => 'Russian',
-    'tr' => 'Turkish',
-    'ar' => 'Arabic',
-    'zh' => 'Chinese',
-    'ja' => 'Japanese',
-    'ko' => 'Korean',
-    'sv' => 'Swedish',
-    'no' => 'Norwegian',
-    'da' => 'Danish',
-    'fi' => 'Finnish',
-    'el' => 'Greek',
-    'ca' => 'Catalan',
-    'ro' => 'Romanian',
-    'bg' => 'Bulgarian',
-    'vi' => 'Vietnamese'
-  }.freeze
+  # Uses SUPPORTED_LOCALES from config/initializers/i18n_globalise.rb as the source of truth
+  # Converted to string keys for compatibility with locale code strings
+  LOCALE_LABELS = SUPPORTED_LOCALES.transform_keys(&:to_s).freeze
 
   # Variant labels for full locale codes
   VARIANT_LABELS = {

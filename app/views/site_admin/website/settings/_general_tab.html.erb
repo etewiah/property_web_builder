@@ -21,20 +21,10 @@
         Default Language
       </label>
       <%= f.select :default_client_locale,
-          options_for_select([
-            ['English (UK)', 'en-UK'],
-            ['English (US)', 'en-US'],
-            ['Spanish', 'es'],
-            ['French', 'fr'],
-            ['German', 'de'],
-            ['Italian', 'it'],
-            ['Portuguese', 'pt'],
-            ['Dutch', 'nl'],
-            ['Polish', 'pl'],
-            ['Russian', 'ru'],
-            ['Chinese', 'zh'],
-            ['Japanese', 'ja']
-          ], @website.default_client_locale),
+          options_for_select(
+            SUPPORTED_LOCALES.map { |code, label| [label, code.to_s] },
+            @website.default_client_locale
+          ),
           {},
           class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
       <p class="mt-1 text-sm text-gray-500">The default language for visitors</p>
@@ -49,36 +39,16 @@
 
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         <%
-          available_locales = [
-            ['English (UK)', 'en-UK'],
-            ['English (US)', 'en-US'],
-            ['Spanish', 'es'],
-            ['French', 'fr'],
-            ['German', 'de'],
-            ['Italian', 'it'],
-            ['Portuguese', 'pt'],
-            ['Dutch', 'nl'],
-            ['Polish', 'pl'],
-            ['Russian', 'ru'],
-            ['Chinese', 'zh'],
-            ['Japanese', 'ja'],
-            ['Arabic', 'ar'],
-            ['Turkish', 'tr'],
-            ['Korean', 'ko'],
-            ['Swedish', 'sv'],
-            ['Norwegian', 'no'],
-            ['Danish', 'da'],
-            ['Finnish', 'fi'],
-            ['Greek', 'el']
-          ]
+          # Uses SUPPORTED_LOCALES from config/initializers/i18n_globalise.rb
           current_locales = @website.supported_locales || []
         %>
-        <% available_locales.each do |label, locale_code| %>
+        <% SUPPORTED_LOCALES.each do |locale_code, label| %>
+          <% locale_str = locale_code.to_s %>
           <label class="flex items-center p-2 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
             <input type="checkbox"
                    name="pwb_website[supported_locales][]"
-                   value="<%= locale_code %>"
-                   <%= 'checked' if current_locales.include?(locale_code) %>
+                   value="<%= locale_str %>"
+                   <%= 'checked' if current_locales.include?(locale_str) || current_locales.include?(locale_code) %>
                    class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
             <span class="ml-2 text-sm text-gray-700"><%= label %></span>
           </label>
