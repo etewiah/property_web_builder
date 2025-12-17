@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* Base theme customizations shared by all themes */
+@theme {
+  /* These are set via CSS variables for per-tenant customization */
+  --color-primary: var(--primary-color, #3b82f6);
+  --color-secondary: var(--secondary-color, #64748b);
+  --color-services-bg: var(--services-bg-color, #f8fafc);
+  --color-services-card: var(--services-card-bg, #ffffff);
+  --color-services-text: var(--services-text-color, #1e293b);
+
+  /* Font families */
+  --font-family-sans: var(--font-primary, system-ui, sans-serif);
+  --font-family-serif: var(--font-secondary, Georgia, serif);
+
+  /* Border radius */
+  --radius: var(--border-radius, 0.375rem);
+  --radius-lg: var(--border-radius, 0.5rem);
+}

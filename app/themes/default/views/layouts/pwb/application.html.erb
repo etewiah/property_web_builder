@@ -6,36 +6,8 @@
     <title><%= seo_title %></title>
     <%= seo_meta_tags %>
     <%= yield(:page_head) %>
-    <%# Tailwind CSS - CDN used for themes because they need runtime CSS variables for per-tenant colors %>
-    <%# TODO: Migrate to compiled Tailwind by using arbitrary value syntax: bg-[var(--primary-color)] %>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          container: {
-            center: true,
-            padding: 'var(--container-padding)',
-          },
-          extend: {
-            colors: {
-              primary: 'var(--primary-color)',
-              secondary: 'var(--secondary-color)',
-              'services-bg': 'var(--services-bg-color)',
-              'services-card': 'var(--services-card-bg)',
-              'services-text': 'var(--services-text-color)',
-            },
-            fontFamily: {
-              sans: ['var(--font-primary)', 'sans-serif'],
-              serif: ['var(--font-secondary)', 'serif'],
-            },
-            borderRadius: {
-              DEFAULT: 'var(--border-radius)',
-              'lg': 'var(--border-radius)',
-            }
-          }
-        }
-      }
-    </script>
+    <%# Compiled Tailwind CSS for production performance %>
+    <%= stylesheet_link_tag "tailwind-default", media: "all" %>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <%= stylesheet_link_tag "pwb/themes/default", media: "all" %>
     <style>

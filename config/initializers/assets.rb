@@ -18,4 +18,7 @@ Rails.application.config.assets.precompile += %w[
   berlin.js
   pwb_admin_panel/application_legacy_1.js
   pwb/config.js
+  tailwind-default.css
+  tailwind-bologna.css
+  tailwind-brisbane.css
 ]

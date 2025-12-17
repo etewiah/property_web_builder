@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+/* Brisbane Luxury Theme */
+@theme {
+  /* Luxury palette */
+  --color-luxury-navy: #1a2744;
+  --color-luxury-gold: #c9a962;
+  --color-luxury-cream: #faf8f5;
+  --color-luxury-charcoal: #2d2d2d;
+  --color-luxury-pearl: #f5f3f0;
+
+  /* Primary colors */
+  --color-primary: #1a2744;
+  --color-secondary: #c9a962;
+
+  /* Font families */
+  --font-family-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-family-sans: 'Montserrat', 'Helvetica Neue', sans-serif;
+
+  /* Border radius - sharp edges for luxury feel */
+  --radius: 0;
+  --radius-none: 0;
+
+  /* Shadows */
+  --shadow-elegant: 0 4px 20px rgba(26, 39, 68, 0.08);
+  --shadow-hover: 0 8px 30px rgba(26, 39, 68, 0.12);
+
+  /* Letter spacing */
+  --tracking-luxury: 0.15em;
+  --tracking-wide-luxury: 0.25em;
+}

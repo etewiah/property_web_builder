@@ -13,47 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <%# Tailwind CSS - CDN used for themes because they need runtime CSS variables for per-tenant colors %>
-    <%# TODO: Migrate to compiled Tailwind by using arbitrary value syntax: bg-[var(--primary-color)] %>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          container: {
-            center: true,
-            padding: '2rem',
-          },
-          extend: {
-            colors: {
-              // Brisbane Luxury Color Palette
-              'luxury-navy': '#1a2744',
-              'luxury-gold': '#c9a962',
-              'luxury-cream': '#faf8f5',
-              'luxury-charcoal': '#2d2d2d',
-              'luxury-pearl': '#f5f3f0',
-              primary: '#1a2744',
-              secondary: '#c9a962',
-            },
-            fontFamily: {
-              serif: ['Cormorant Garamond', 'Georgia', 'serif'],
-              sans: ['Montserrat', 'Helvetica Neue', 'sans-serif'],
-            },
-            borderRadius: {
-              DEFAULT: '0',
-              'none': '0',
-            },
-            boxShadow: {
-              'elegant': '0 4px 20px rgba(26, 39, 68, 0.08)',
-              'hover': '0 8px 30px rgba(26, 39, 68, 0.12)',
-            },
-            letterSpacing: {
-              'luxury': '0.15em',
-              'wide-luxury': '0.25em',
-            }
-          }
-        }
-      }
-    </script>
+    <%# Compiled Tailwind CSS for production performance %>
+    <%= stylesheet_link_tag "tailwind-brisbane", media: "all" %>
 
     <%# Flowbite for UI components %>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />

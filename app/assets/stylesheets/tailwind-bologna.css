@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+/* Bologna Mediterranean Theme */
+@theme {
+  /* Terra (Terracotta) palette */
+  --color-terra-50: #fdf8f6;
+  --color-terra-100: #f9ece6;
+  --color-terra-200: #f2d5c9;
+  --color-terra-300: #e7b5a0;
+  --color-terra-400: #d98e6e;
+  --color-terra-500: #c45d3e;
+  --color-terra-600: #b14a2e;
+  --color-terra-700: #943c26;
+  --color-terra-800: #793324;
+  --color-terra-900: #642d22;
+
+  /* Olive palette */
+  --color-olive-50: #f6f7f4;
+  --color-olive-100: #e8ebe3;
+  --color-olive-200: #d3d9c9;
+  --color-olive-300: #b4bfa4;
+  --color-olive-400: #95a37f;
+  --color-olive-500: #5c6b4d;
+  --color-olive-600: #4a5640;
+  --color-olive-700: #3c4535;
+  --color-olive-800: #32392d;
+  --color-olive-900: #2b3028;
+
+  /* Sand palette */
+  --color-sand-50: #fdfcfa;
+  --color-sand-100: #f9f6f0;
+  --color-sand-200: #f2ebde;
+  --color-sand-300: #e8dbc5;
+  --color-sand-400: #d4a574;
+  --color-sand-500: #c4915a;
+  --color-sand-600: #a97648;
+  --color-sand-700: #8c5f3c;
+  --color-sand-800: #734e35;
+  --color-sand-900: #5f422e;
+
+  /* Warm Gray palette */
+  --color-warm-gray-50: #faf9f7;
+  --color-warm-gray-100: #f5f3f0;
+  --color-warm-gray-200: #e8e5e0;
+  --color-warm-gray-300: #d5d0c8;
+  --color-warm-gray-400: #b8b0a4;
+  --color-warm-gray-500: #9c9285;
+  --color-warm-gray-600: #817669;
+  --color-warm-gray-700: #6a6156;
+  --color-warm-gray-800: #584f47;
+  --color-warm-gray-900: #3d3d3d;
+
+  /* Primary colors */
+  --color-primary: #c45d3e;
+  --color-secondary: #5c6b4d;
+  --color-accent: #d4a574;
+
+  /* Font families */
+  --font-family-sans: 'DM Sans', system-ui, sans-serif;
+  --font-family-display: 'Outfit', system-ui, sans-serif;
+
+  /* Border radius */
+  --radius-soft: 16px;
+  --radius-softer: 20px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-soft: 0 4px 24px -4px rgba(61, 61, 61, 0.08);
+  --shadow-medium: 0 8px 32px -8px rgba(61, 61, 61, 0.12);
+  --shadow-elevated: 0 16px 48px -12px rgba(61, 61, 61, 0.16);
+  --shadow-glow: 0 0 40px rgba(196, 93, 62, 0.15);
+
+  /* Spacing */
+  --spacing-18: 4.5rem;
+  --spacing-22: 5.5rem;
+
+  /* Animations */
+  --animate-fade-up: fadeUp 0.6s ease-out forwards;
+  --animate-scale-in: scaleIn 0.5s ease-out forwards;
+  --animate-slide-in: slideIn 0.4s ease-out forwards;
+}
+
+/* Keyframes */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideIn {
+  0% { opacity: 0; transform: translateX(-10px); }
+  100% { opacity: 1; transform: translateX(0); }
+}

@@ -23,6 +23,15 @@
     "vue-currency-input": "^2.5.1",
     "vue-router": "^4.0.16"
   },
+  "scripts": {
+    "tailwind:default": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-input.css -o ./app/assets/builds/tailwind-default.css",
+    "tailwind:bologna": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-bologna.css -o ./app/assets/builds/tailwind-bologna.css",
+    "tailwind:brisbane": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-brisbane.css -o ./app/assets/builds/tailwind-brisbane.css",
+    "tailwind:build": "npm run tailwind:default && npm run tailwind:bologna && npm run tailwind:brisbane",
+    "tailwind:watch:default": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-input.css -o ./app/assets/builds/tailwind-default.css --watch",
+    "tailwind:watch:bologna": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-bologna.css -o ./app/assets/builds/tailwind-bologna.css --watch",
+    "tailwind:watch:brisbane": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-brisbane.css -o ./app/assets/builds/tailwind-brisbane.css --watch"
+  },
   "engines": {
     "node": "22.x"
   }
