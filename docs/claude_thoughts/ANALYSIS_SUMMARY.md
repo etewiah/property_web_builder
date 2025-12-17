@@ -1,446 +1,375 @@
-# Authentication & Signup Analysis - Executive Summary
+# Configuration Analysis - Executive Summary
 
-**Date**: December 14, 2025  
-**Scope**: Complete analysis of signup flow, authentication, and website access control  
-**Status**: Ready for implementation
+**Analysis Date:** December 17, 2024  
+**Status:** Complete  
+**Related Documents:**
+- `configuration_landscape_analysis.md` - Detailed findings
+- `config_module_implementation_guide.md` - Implementation roadmap
 
 ---
 
-## Overview
+## Question Asked
 
-PropertyWebBuilder is a **multi-tenant SaaS platform** where each website is a tenant. The system has:
+> Should PropertyWebBuilder have a central configuration module?
 
-- **4-step signup process** (email → configure → provision → live)
-- **Dual authentication** (Devise + Firebase)
-- **Multi-website support** (users can have multiple websites)
-- **Role-based access control** (owner/admin/member/viewer per website)
-- **Token-based state tracking** (signup_token for API-driven signup)
+## Answer
+
+**YES.** A centralized configuration module would significantly benefit the project.
 
 ---
 
 ## Key Findings
 
-### 1. Signup is Already Token-Based
+### Current State: 7/10 Fragmented
 
-The app already implements **exactly the pattern needed for magic links** through the `signup_token` system:
+Configuration is scattered across **7 different source types**:
 
-```ruby
-# Generated during signup:
-user.update_columns(
-  signup_token: SecureRandom.urlsafe_base64(32),
-  signup_token_expires_at: 24.hours.from_now
-)
+1. **Environment Variables** - Scattered in models, controllers, initializers
+2. **Rails Initializers** - Language, currency, domain config
+3. **Model Constants** - Site types, roles, reserved subdomains (some duplicated)
+4. **Controller Constants** - Settings tabs, property categories, validation rules
+5. **Database Attributes** - Website model stores tenant-specific config
+6. **View Templates** - Hardcoded currency and area unit lists
+7. **JSON Configuration Hash** - Catch-all for miscellaneous settings
 
-# Verified in API requests:
-user = User.find_by(signup_token: token)
-return nil if user.signup_token_expires_at < Time.current
+### Specific Pain Points Identified
+
+#### 1. Duplication
+- `RESERVED_SUBDOMAINS` defined in **2 places** (Website model + Application controller)
+- `SITE_TYPES` referenced in **3 different files** (definition + 2 references)
+- `Supported locales` in **4 locations** (i18n initializer, Website DB, controller, views)
+- **Currency options** hardcoded in template only
+
+#### 2. Inconsistent Access Patterns
+- `ENV['KEY']` vs `ENV.fetch('KEY', default)` used interchangeably
+- Some config accessed via constants, some via DB attributes, some via ENV
+- No clear pattern for new developers to follow
+
+#### 3. Hard to Find & Extend
+- Adding a new currency requires editing HTML template (no central list)
+- Adding a site type requires changing multiple files
+- New developers don't know where configuration lives
+
+#### 4. Testing Challenges
+- Configuration values scattered make test setup fragile
+- ENV variable mutation affects multiple tests
+- Difficult to mock configuration in tests
+
+---
+
+## What Should Be Centralized
+
+### Definitely Centralize (High Impact)
+
+```
+SITE_TYPES               - 1 file → 3 references
+USER_ROLES              - Consistent everywhere
+AREA_UNITS              - Enum in 2 models + template
+CURRENCIES              - Template only, needs centralization
+RESERVED_SUBDOMAINS     - 2 conflicting definitions
+SUPPORTED_LOCALES       - 4 locations
+PROPERTY_CATEGORIES     - Controller constants
+EMAIL_TEMPLATE_KEYS     - Define valid options
 ```
 
-**Magic links would use the same pattern** with different column names (`magic_link_token` instead of `signup_token`).
+### Centralize Selectively
 
-### 2. Website Access Control is Robust
+```
+PLATFORM_DOMAINS        - Already has ENV + fallback, add accessor
+BYPASS_ENVIRONMENTS     - Multiple definitions, consolidate
+SETTINGS_TABS          - Move from controller constant
+VALIDATION_RULES       - Group in one place
+```
 
-The system isolates access using:
+### Don't Centralize
 
-1. **Primary website** (legacy): `user.website_id`
-2. **Multi-website memberships**: `user_memberships` with roles
-3. **Access verification**: `user.active_for_authentication?` checks both
+```
+Per-website DB attributes  - Properly scoped already ✓
+Infrastructure/secrets     - Keep in ENV/credentials ✓
+Integration credentials    - Should stay encrypted ✓
+```
+
+---
+
+## Proposed Solution: `Pwb::Config` Module
+
+### Structure
 
 ```ruby
-def active_for_authentication?
-  # Must have membership for requested website OR
-  # Must have it as primary website OR
-  # Must be Firebase user
-  return true if user_memberships.active.exists?(website: current_website)
-  return true if website_id == current_website.id
-  return true if firebase_uid.present?
-  false
+module Pwb::Config
+  # Entity types
+  SITE_TYPES = %w[residential commercial vacation_rental].freeze
+  USER_ROLES = %w[owner admin member viewer].freeze
+  
+  # Validation rules
+  RESERVED_SUBDOMAINS = %w[...].freeze
+  
+  # Options for forms/selectors
+  CURRENCIES = [ { code: 'USD', label: 'US Dollar' }, ... ].freeze
+  
+  # Helper methods
+  def self.currency_options        # For select dropdowns
+  def self.area_unit_options       # For select dropdowns
+  def self.valid_role?(role)       # Validation
+  def self.valid_site_type?(type)  # Validation
+  def self.platform_domains        # ENV-based with caching
+  def self.bypass_auth_enabled?    # Feature flags
 end
 ```
 
-### 3. User Onboarding Has State Tracking
+### Usage Examples
 
-Users progress through states:
-- `lead` (email captured)
-- `registered` (account created)
-- `email_verified` (optional)
-- `onboarding` (4-step wizard)
-- `active` (fully onboarded)
+**Before (Scattered):**
+```ruby
+# In template
+<%= f.select :default_currency, options_for_select([
+  ['USD - US Dollar', 'USD'],
+  ['EUR - Euro', 'EUR'],
+  ... hardcoded list ...
+]) %>
 
-Each step is tracked in `onboarding_step` (1-4) and can be queried for progress display.
+# In controller
+if Website::SITE_TYPES.include?(site_type)
 
-### 4. Website Provisioning is Guard-Protected
-
-Websites transition through 8 states with **guards** that ensure data integrity:
-
-```
-pending → owner_assigned → agency_created → links_created 
-→ field_keys_created → properties_seeded → ready → live
-
-Each transition has guards like:
-  - has_owner? (membership exists)
-  - has_agency? (agency record exists)
-  - has_links? (3+ navigation links)
-  - has_field_keys? (5+ field keys)
+# In concern
+if ENV['BYPASS_API_AUTH'] == 'true'
 ```
 
-Websites cannot reach "live" state without passing all guards.
+**After (Centralized):**
+```ruby
+# In template
+<%= f.select :default_currency, options_for_select(
+  Pwb::Config.currency_options
+) %>
 
-### 5. Authentication has Audit Logging
+# In controller
+if Pwb::Config.valid_site_type?(site_type)
 
-All auth events are logged in `pwb_auth_audit_logs`:
-- login_success / login_failure
-- oauth_success / oauth_failure
-- password_reset_request / password_reset_success
-- account_locked / account_unlocked
-- session_timeout
-- registration
-
-This provides complete audit trail for security/compliance.
-
----
-
-## Architecture at a Glance
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                   USER REGISTRATION                         │
-│  Email → create user, reserve subdomain (signup_token)     │
-├─────────────────────────────────────────────────────────────┤
-│                   USER AUTHENTICATION                       │
-│  Option A: Email/Password (Devise)                         │
-│  Option B: Magic Link (can implement)                       │
-│  Option C: Google/Facebook OAuth (Firebase + OmniAuth)     │
-├─────────────────────────────────────────────────────────────┤
-│              WEBSITE CONFIGURATION                          │
-│  Select subdomain, site type → create website + owner role │
-├─────────────────────────────────────────────────────────────┤
-│              WEBSITE PROVISIONING                           │
-│  Create agency, links, field_keys → seed content → go live │
-├─────────────────────────────────────────────────────────────┤
-│            MULTI-WEBSITE ACCESS CONTROL                     │
-│  User → Memberships → Websites (owner/admin/member/viewer) │
-├─────────────────────────────────────────────────────────────┤
-│            MULTI-TENANT ISOLATION                           │
-│  Subdomain → Website lookup → Current.website (thread-safe)│
-│  All queries scoped to current_website                      │
-└─────────────────────────────────────────────────────────────┘
+# In concern
+if Pwb::Config.bypass_auth_enabled?
 ```
 
 ---
 
-## File Organization
+## Expected Benefits
 
-### Signup & Provisioning
-- **API Controller**: `/app/controllers/api/signup/signups_controller.rb`
-- **API Service**: `/app/services/pwb/signup_api_service.rb`
-- **Provisioning**: `/app/services/pwb/provisioning_service.rb`
-- **UI Controller**: `/app/controllers/pwb/signup_controller.rb`
-
-### Authentication
-- **User Model**: `/app/models/pwb/user.rb` (Devise + AASM)
-- **Devise Config**: `/config/initializers/devise.rb`
-- **Devise Controllers**: `/app/controllers/pwb/devise/*.rb`
-- **Firebase Service**: `/app/services/pwb/firebase_auth_service.rb`
-- **Auth Controller**: `/app/controllers/pwb/auth_controller.rb`
-
-### Access Control
-- **UserMembership**: `/app/models/pwb/user_membership.rb` (roles)
-- **UserMembership Service**: `/app/services/pwb/user_membership_service.rb`
-- **Website Model**: `/app/models/pwb/website.rb` (AASM provisioning)
-- **Current Context**: `/app/models/pwb/current.rb` (Pwb::Current.website)
-
-### Audit & Security
-- **AuthAuditLog**: `/app/models/pwb/auth_audit_log.rb`
-- **Audit Hooks**: `/config/initializers/auth_audit_hooks.rb`
+| Benefit | Impact | Effort |
+|---------|--------|--------|
+| **Single Source of Truth** | Easier maintenance, fewer bugs | Low |
+| **Better Discoverability** | New developers find config quickly | Low |
+| **Eliminates Duplication** | Change once, everywhere updated | Low |
+| **Consistent Access Pattern** | Less cognitive load | Low |
+| **Easier to Extend** | Add currencies without template edit | Low |
+| **Better Testing** | Mock single module instead of ENV | Medium |
+| **Documentation** | One place showing all config | Low |
+| **Feature Flags** | Centralized feature control | Medium |
+| **UI Generation** | Dropdowns from config objects | Medium |
 
 ---
 
-## Documents Created
+## Implementation Effort
 
-This analysis includes three detailed documents:
+### Estimate: 10-16 Hours
 
-### 1. `AUTHENTICATION_SIGNUP_ANALYSIS.md` (Main Document)
-**Content**:
-- Complete signup flow (4 steps) with code samples
-- Authentication system (Devise + Firebase)
-- User model & onboarding states
-- Website access control & multi-website support
-- Existing token patterns (signup_token)
-- **Magic link implementation recommendation**
-- Website provisioning & seeding
-- Key files summary
-- Security considerations
+- **Phase 1 (Core Module):** 2-4 hours
+  - Create `app/lib/pwb/config.rb`
+  - Write tests
+  
+- **Phase 2 (High-Impact Updates):** 4-6 hours
+  - Update template
+  - Update 2-3 controllers
+  - Update references in models
+  
+- **Phase 3 (Deprecation):** 2 hours
+  - Add warnings to old locations
+  - Documentation
+  
+- **Phase 4 (Full Migration):** 3-4 hours
+  - Update all remaining references
+  - Remove old constants
+  - Test thoroughly
 
-**Use when**: Understanding the complete system architecture
-
-### 2. `MAGIC_LINKS_IMPLEMENTATION_GUIDE.md` (How-To Guide)
-**Content**:
-- Step-by-step implementation (7 steps)
-- Code templates (ready to copy)
-- Service class pattern
-- Controller actions
-- Email mailer setup
-- Route configuration
-- Test examples
-- Security checklist
-- Rate limiting (optional)
-- Background job cleanup (optional)
-
-**Use when**: Actually implementing magic links
-
-### 3. `AUTHENTICATION_FLOW_DIAGRAMS.md` (Visual Reference)
-**Content**:
-- 4-step signup flow (detailed)
-- Devise login flow (with website access check)
-- Website access control verification
-- Magic link flow (new feature)
-- User onboarding state machine
-- Website provisioning state machine
-- Database schema (key tables)
-- Request handling flow
-
-**Use when**: Visualizing data flow or explaining to others
+### Incremental Approach
+Can implement in phases - start with Phase 1 immediately, phases 2-4 as follow-ups.
 
 ---
 
-## Current State Summary
+## Implementation Checklist
 
-### What Works ✓
+### Phase 1: Foundation
+- [ ] Create `app/lib/pwb/config.rb` (core module)
+- [ ] Move high-duplication constants
+- [ ] Add accessor methods for ENV vars
+- [ ] Write comprehensive specs
+- [ ] Load module in `config/application.rb`
 
-1. **Signup API** - Complete 4-step signup with token tracking
-2. **Devise Authentication** - Email/password login with all security features
-3. **Firebase Authentication** - OAuth integration with auto-user creation
-4. **Multi-Website Support** - Users can own/manage multiple websites
-5. **Role-Based Access** - owner/admin/member/viewer roles per website
-6. **Audit Logging** - All auth events logged for compliance
-7. **State Machines** - Both users and websites have AASM state tracking
-8. **Provisioning Guards** - Websites can't go live without data
+### Phase 2: High-Impact Areas
+- [ ] Update settings template (currencies, area units)
+- [ ] Update properties settings controller
+- [ ] Update website settings controller
+- [ ] Update signup controller references
 
-### What's Missing ⚠️
+### Phase 3: Consistency
+- [ ] Update user membership references
+- [ ] Update application controller references
+- [ ] Update concern files
+- [ ] Add deprecation warnings
 
-1. **Magic Links** - Not implemented (but easy to add - same pattern as signup_token)
-2. **Public Website Access** - No indication of "public" vs "restricted" access mode
-3. **Invite System** - Adding new users to websites requires manual membership creation
-4. **Social Login UI** - Firebase OAuth exists but may not be exposed to users
-5. **Email Templates** - Devise password reset exists but could be enhanced
-
-### What's Configurable 🔧
-
-1. **Authentication Provider** - Switch between Devise/Firebase via `Pwb::AuthConfig`
-2. **Token Expiry** - Currently 24 hours (can adjust)
-3. **Session Timeout** - 30 minutes (in Devise config)
-4. **Lockout Settings** - 5 attempts, 1 hour auto-unlock (in Devise config)
-5. **Theme/Branding** - Customizable per website
+### Phase 4: Completion
+- [ ] Update remaining references
+- [ ] Remove old constants
+- [ ] Run full test suite
+- [ ] Update documentation
 
 ---
 
-## Magic Links: Quick Implementation
+## Key Metrics After Implementation
 
-### The Pattern
-
-1. Add two columns to users table:
-   ```ruby
-   add_column :pwb_users, :magic_link_token, :string
-   add_column :pwb_users, :magic_link_expires_at, :datetime
-   ```
-
-2. Generate and verify tokens (same as signup_token):
-   ```ruby
-   token = SecureRandom.urlsafe_base64(32)
-   user.update_columns(
-     magic_link_token: token,
-     magic_link_expires_at: 24.hours.from_now
-   )
-   ```
-
-3. Create service to handle requests and logins (follow SignupApiService pattern)
-
-4. Create email with link and send via ActionMailer
-
-5. Add login action that verifies token and signs user in (uses Devise)
-
-**Total effort**: ~2-4 hours (migration, service, controller, email, tests)
-
----
-
-## Multi-Website User Example
-
-A user with multiple websites shows the architecture:
-
-```
-User: jane@example.com
-├─ Website: residential.propertywebbuilder.com
-│  └─ Role: owner
-│     └─ Can: Edit everything, manage users
-│
-├─ Website: commercial.propertywebbuilder.com
-│  └─ Role: admin
-│     └─ Can: Edit content, manage limited users
-│
-└─ Website: vacation.propertywebbuilder.com
-   └─ Role: member
-      └─ Can: Edit content only
-
-When jane accesses residential.propertywebbuilder.com:
-  ✓ Has membership
-  ✓ Role is owner
-  ✓ All admin features available
-
-When jane accesses vacation.propertywebbuilder.com:
-  ✓ Has membership
-  ✓ Role is member
-  ✓ Only content editing available
-  ✗ User management disabled
-```
-
----
-
-## Testing Patterns
-
-The codebase includes excellent test patterns:
-
-**Signup API Tests**: `spec/requests/api/signup/signups_spec.rb`
-- Tests each API endpoint
-- Uses factories for data creation
-- Mocks subdomain pool
-- Checks response format
-
-**Auth Tests**: `spec/controllers/`, `spec/requests/api_public/v1/auth_spec.rb`
-- Tests Devise flows
-- Tests Firebase integration
-- Tests audit logging
-
-**Recommended for Magic Links**: Follow signup API test pattern
-
----
-
-## Security Considerations
-
-### Already Implemented ✓
-- HTTPS enforcement (in production)
-- Password hashing (bcrypt, 11 stretches)
-- Account lockout (5 attempts)
-- Session timeout (30 minutes)
-- CSRF protection
-- SQL injection prevention (ActiveRecord)
-- Audit logging of all auth events
-- Time-constant comparison for token verification
-
-### Recommended for Magic Links
-- Rate limiting (3 requests per minute per IP)
-- Unique tokens (indexed in database)
-- One-time use (clear after login)
-- Short expiry (24 hours)
-- No email enumeration (return success regardless)
+| Metric | Before | After | Target |
+|--------|--------|-------|--------|
+| Configuration locations | 7 | 1 + 1 (DB) | ✓ |
+| Duplicate definitions | 3 | 0 | ✓ |
+| Access patterns | 7 | 2 | ✓ |
+| Files to update for new config | 2-4 | 1 | ✓ |
+| Time to find configuration | 5-10 min | <1 min | ✓ |
 
 ---
 
 ## Next Steps
 
-### Immediate (Ready to implement)
-1. Read `MAGIC_LINKS_IMPLEMENTATION_GUIDE.md`
-2. Create migration adding token columns
-3. Implement `MagicLinkService` (copy from guide)
-4. Add controller actions
-5. Create email template
-6. Test manually
+### Immediate (Next Sprint)
 
-### Short-term (Recommended)
-1. Add magic link option to login page UI
-2. Add tests for magic link flow
-3. Document for end users
-4. Monitor usage and audit logs
+1. **Review Analysis**
+   - Read full analysis documents
+   - Identify any missed configurations
+   - Gather team feedback
 
-### Long-term (Future enhancements)
-1. Add rate limiting
-2. Add background job to clean expired tokens
-3. Add "Remember this device" option
-4. Add WebAuthn/FIDO2 support
-5. Add two-factor authentication
+2. **Create Core Module**
+   - Implement Phase 1 from implementation guide
+   - Write tests
+   - Add to repository
+
+3. **First Update**
+   - Update settings template (quick win)
+   - Verify no regressions
+   - Deploy Phase 1+2 changes
+
+### Follow-Up (Subsequent Sprints)
+
+4. **Completion**
+   - Finish Phase 3 & 4
+   - Remove old constants
+   - Update documentation
+
+5. **Future Enhancements**
+   - Consider feature flags
+   - Consider tenant-specific overrides
+   - Consider admin UI for configuration
 
 ---
 
-## Key Insights
+## Risk Assessment
 
-1. **Token-based auth is already the pattern** - Signup uses tokens, so magic links fit naturally
+### Low Risk
+- Creating module (additive, no breaking changes)
+- Adding helper methods (backward compatible)
+- Test coverage (isolated changes)
 
-2. **AASM state machines provide guard rails** - State transitions can't happen without proper data
+### Mitigatable Risk
+- ENV variable caching in tests → Provide reset methods
+- Missing reference locations → Automated grep check
+- Circular dependencies → Keep module simple
 
-3. **Multi-tenancy is enforced at multiple levels** - Thread-local Current.website + memberships + database scoping
+### No Major Risk
+- Performance (constants frozen, O(1) access)
+- Backward compatibility (can maintain old patterns initially)
+- Code coverage (can be 100% tested)
 
-4. **Audit logging is built-in** - Every auth event is logged automatically
+---
 
-5. **Devise is configured but flexible** - Can coexist with custom auth methods like magic links
+## Recommendations
 
-6. **The codebase is well-structured** - Services handle business logic, controllers are thin, models define behavior
+### Do This First ✅
+
+1. Implement Phase 1 (core module)
+   - Effort: 2-4 hours
+   - Risk: Low
+   - Value: Foundation for everything else
+
+2. Update template to use `Pwb::Config.currency_options`
+   - Effort: 30 min
+   - Risk: Low
+   - Value: Immediate tangible benefit
+
+3. Update property settings controller
+   - Effort: 1 hour
+   - Risk: Low
+   - Value: Shows pattern, builds confidence
+
+### Do Later 📋
+
+4. Complete Phase 2-4 migration
+   - Can be spread across sprints
+   - Lower priority than core features
+   - Improves code quality incrementally
+
+5. Add advanced features
+   - Feature flags system
+   - Tenant-specific configuration
+   - Configuration validation at startup
+
+### Don't Do (Not Recommended)
+
+- Don't refactor everything at once
+- Don't modify subscription/plan limits (these are properly modeled)
+- Don't move database attributes (these are tenant-scoped correctly)
 
 ---
 
 ## Questions Answered
 
-**Q: How does the signup process track state across requests without sessions?**  
-A: Via `signup_token` - stateless, token-based tracking that works across domains/APIs
+### Q: Is centralization necessary?
+**A:** Not immediately necessary for functionality, but highly recommended for maintainability and developer experience.
 
-**Q: How does the system prevent users from accessing other websites?**  
-A: Via `active_for_authentication?` which checks `user_memberships` + `Current.website` context
+### Q: Where should it live?
+**A:** `app/lib/pwb/config.rb` is ideal (Rails convention for library code).
 
-**Q: How are new users added to websites by invitation?**  
-A: Via `UserMembershipService.grant_access(user, website, role)` - not yet exposed as UI feature
+### Q: What about backward compatibility?
+**A:** Can use deprecation warnings and maintain old patterns for transition period.
 
-**Q: Can a user be an admin on one website and viewer on another?**  
-A: Yes - roles are per-membership, not global
+### Q: Can this be done incrementally?
+**A:** Yes, definitely. Phases allow adoption over multiple sprints.
 
-**Q: What happens if a user's subdomain/custom domain conflicts?**  
-A: Website lookup is unique on both, and `find_by_host` tries custom domain first, then subdomain
+### Q: How does this affect database migrations?
+**A:** Not at all. Database attributes stay the same; this only organizes code-level configuration.
 
-**Q: How do Firebase and Devise users coexist?**  
-A: Both create same User model. Firebase users get `firebase_uid`. Both go through `active_for_authentication?` check.
-
-**Q: Can websites be in "draft" or "unlisted" mode?**  
-A: Currently: pending (not accessible), ready (not accessible), live (accessible). Could add public/private flag.
+### Q: What about testing?
+**A:** Much easier - can mock single module instead of ENV variables.
 
 ---
 
 ## Conclusion
 
-PropertyWebBuilder has a **solid, secure authentication architecture** with:
-- Multi-tenant isolation ✓
-- Role-based access ✓
-- Audit logging ✓
-- Flexible authentication ✓
-- Guard-protected provisioning ✓
+A central `Pwb::Config` module is a **high-value, low-effort improvement** that would:
 
-**Magic links** can be added in ~2-4 hours by following the existing `signup_token` pattern. The infrastructure is already in place!
+- **Reduce duplication** across 7 scattered locations
+- **Improve discoverability** for new developers
+- **Make testing easier** with mockable configuration
+- **Simplify extending features** (add currencies, types, etc.)
+- **Establish best practices** for configuration management
 
----
-
-## Reading Order
-
-1. **Start**: This summary (you are here)
-2. **Understand**: `AUTHENTICATION_FLOW_DIAGRAMS.md` (visual overview)
-3. **Details**: `AUTHENTICATION_SIGNUP_ANALYSIS.md` (complete architecture)
-4. **Implement**: `MAGIC_LINKS_IMPLEMENTATION_GUIDE.md` (step-by-step code)
+**Recommendation: Implement Phase 1 immediately, follow with remaining phases over next 1-2 sprints.**
 
 ---
 
-## File Locations (Quick Reference)
+## Document Location
 
-| Component | Location |
-|-----------|----------|
-| Signup API | `/app/controllers/api/signup/signups_controller.rb` |
-| Signup Service | `/app/services/pwb/signup_api_service.rb` |
-| User Model | `/app/models/pwb/user.rb` |
-| User Membership | `/app/models/pwb/user_membership.rb` |
-| Website Model | `/app/models/pwb/website.rb` |
-| Devise Config | `/config/initializers/devise.rb` |
-| Firebase Service | `/app/services/pwb/firebase_auth_service.rb` |
-| Auth Logging | `/app/models/pwb/auth_audit_log.rb` |
-| Current Context | `/app/models/pwb/current.rb` |
-| Specs | `/spec/requests/api/signup/signups_spec.rb` |
+This analysis is saved in:
+```
+/docs/claude_thoughts/
+├── configuration_landscape_analysis.md     (Full detailed analysis)
+├── config_module_implementation_guide.md   (Implementation roadmap)
+└── ANALYSIS_SUMMARY.md                     (This document)
+```
 
----
-
-**Created**: 2025-12-14  
-**Status**: Ready for implementation  
-**Confidence**: High (verified against codebase)
+All documents follow CLAUDE.md guidelines for documentation in `docs/` folder.

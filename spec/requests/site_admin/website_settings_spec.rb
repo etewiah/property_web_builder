@@ -42,7 +42,7 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
       expect(website.supported_locales).to include('en-UK', 'es', 'fr')
     end
 
-    it 'handles empty supported locales array' do
+    it 'rejects empty supported locales array with validation error' do
       patch site_admin_website_settings_path,
             params: {
               tab: 'general',
@@ -53,7 +53,8 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
             },
             headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
 
-      expect(response).to have_http_status(:redirect)
+      # Empty locales should fail validation (website needs at least one locale)
+      expect(response).to have_http_status(:unprocessable_entity)
     end
   end
 

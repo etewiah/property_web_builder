@@ -58,16 +58,10 @@ module SiteAdmin
 
     def edit_labels
       # Load available labels from FieldKey organized by category
-      # Categories match those in /site_admin/properties/settings
-      @label_categories = {
-        'property-types' => { title: 'Property Type', description: 'What type of property is this?' },
-        'property-states' => { title: 'Property State', description: 'Physical condition of the property' },
-        'property-features' => { title: 'Features', description: 'Permanent physical attributes' },
-        'property-amenities' => { title: 'Amenities', description: 'Equipment and services' },
-        'property-status' => { title: 'Status', description: 'Transaction status' },
-        'property-highlights' => { title: 'Highlights', description: 'Marketing flags' },
-        'listing-origin' => { title: 'Listing Origin', description: 'Source of the listing' }
-      }
+      # Uses Pwb::Config for centralized category definitions
+      @label_categories = Pwb::Config::FIELD_KEY_CATEGORIES.transform_values do |info|
+        { title: info[:short_title], description: info[:short_description] }
+      end
 
       # Load field keys for each category (tenant-scoped)
       @labels_by_category = {}

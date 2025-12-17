@@ -22,7 +22,7 @@
       </label>
       <%= f.select :default_client_locale,
           options_for_select(
-            SUPPORTED_LOCALES.map { |code, label| [label, code.to_s] },
+            Pwb::Config.locale_options_for_select,
             @website.default_client_locale
           ),
           {},
@@ -40,10 +40,10 @@
 
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         <%
-          # Uses SUPPORTED_LOCALES from config/initializers/i18n_globalise.rb
+          # Uses Pwb::Config for centralized locale configuration
           current_locales = @website.supported_locales || []
         %>
-        <% SUPPORTED_LOCALES.each do |locale_code, label| %>
+        <% Pwb::Config::SUPPORTED_LOCALES.each do |locale_code, label| %>
           <% locale_str = locale_code.to_s %>
           <label class="flex items-center p-2 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
             <input type="checkbox"
@@ -72,21 +72,10 @@
         Default Currency
       </label>
       <%= f.select :default_currency,
-          options_for_select([
-            ['USD - US Dollar', 'USD'],
-            ['EUR - Euro', 'EUR'],
-            ['GBP - British Pound', 'GBP'],
-            ['CHF - Swiss Franc', 'CHF'],
-            ['CAD - Canadian Dollar', 'CAD'],
-            ['AUD - Australian Dollar', 'AUD'],
-            ['JPY - Japanese Yen', 'JPY'],
-            ['CNY - Chinese Yuan', 'CNY'],
-            ['INR - Indian Rupee', 'INR'],
-            ['BRL - Brazilian Real', 'BRL'],
-            ['MXN - Mexican Peso', 'MXN'],
-            ['PLN - Polish Zloty', 'PLN'],
-            ['RUB - Russian Ruble', 'RUB']
-          ], @website.default_currency),
+          options_for_select(
+            Pwb::Config.currency_options_for_select,
+            @website.default_currency
+          ),
           {},
           class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
       <p class="mt-1 text-sm text-gray-500">Currency used for property prices</p>
@@ -98,10 +87,10 @@
         Default Area Unit
       </label>
       <%= f.select :default_area_unit,
-          options_for_select([
-            ['Square Meters (sqm)', 'sqmt'],
-            ['Square Feet (sqft)', 'sqft']
-          ], @website.default_area_unit),
+          options_for_select(
+            Pwb::Config.area_unit_options_for_select,
+            @website.default_area_unit
+          ),
           {},
           class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
       <p class="mt-1 text-sm text-gray-500">Unit of measurement for property areas</p>

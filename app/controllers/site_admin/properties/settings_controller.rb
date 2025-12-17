@@ -6,45 +6,29 @@ module SiteAdmin
       before_action :set_category, only: [:show, :create, :update, :destroy]
       before_action :set_field_key, only: [:update, :destroy]
 
+      # Uses Pwb::Config::FIELD_KEY_CATEGORIES for centralized configuration
       # Maps URL-friendly category names to database tags
-      # Updated to reflect new field key categorization (see docs/09_Field_Keys.md)
-      VALID_CATEGORIES = {
-        'property_types' => 'property-types',      # What the property IS (apartment, villa, etc.)
-        'property_states' => 'property-states',    # Physical condition (new, renovated, etc.)
-        'property_features' => 'property-features', # Permanent physical attributes (pool, garden, etc.)
-        'property_amenities' => 'property-amenities', # Equipment & services (AC, heating, etc.)
-        'property_status' => 'property-status',    # Transaction status (sold, reserved, etc.)
-        'property_highlights' => 'property-highlights', # Marketing flags (featured, luxury, etc.)
-        'listing_origin' => 'listing-origin'       # Source of listing (direct, MLS, etc.)
-      }.freeze
+      def self.valid_categories
+        Pwb::Config.field_key_url_to_tag_mapping
+      end
 
       # Human-readable labels for each category
-      CATEGORY_LABELS = {
-        'property_types' => 'Property Types',
-        'property_states' => 'Property States',
-        'property_features' => 'Features',
-        'property_amenities' => 'Amenities',
-        'property_status' => 'Status Labels',
-        'property_highlights' => 'Highlights',
-        'listing_origin' => 'Listing Origin'
-      }.freeze
+      def self.category_labels
+        Pwb::Config::FIELD_KEY_CATEGORIES.transform_values { |info| info[:title] }
+                                         .transform_keys { |tag| Pwb::Config::FIELD_KEY_CATEGORIES[tag][:url_key] }
+      end
 
       # Brief descriptions for each category
-      CATEGORY_DESCRIPTIONS = {
-        'property_types' => 'Define what types of properties can be listed (e.g., Apartment, Villa, Office)',
-        'property_states' => 'Define physical condition options (e.g., New Build, Needs Renovation)',
-        'property_features' => 'Define permanent physical attributes (e.g., Pool, Garden, Terrace)',
-        'property_amenities' => 'Define equipment and services (e.g., Air Conditioning, Heating, Elevator)',
-        'property_status' => 'Define transaction status labels (e.g., Sold, Reserved, Under Offer)',
-        'property_highlights' => 'Define marketing highlight labels (e.g., Featured, Luxury, Price Reduced)',
-        'listing_origin' => 'Define listing source options (e.g., Direct Entry, MLS Feed, Partner)'
-      }.freeze
+      def self.category_descriptions
+        Pwb::Config::FIELD_KEY_CATEGORIES.transform_values { |info| info[:description] }
+                                         .transform_keys { |tag| Pwb::Config::FIELD_KEY_CATEGORIES[tag][:url_key] }
+      end
 
       def index
         # Show landing page with all category tabs
-        @categories = VALID_CATEGORIES.keys
-        @category_labels = CATEGORY_LABELS
-        @category_descriptions = CATEGORY_DESCRIPTIONS
+        @categories = self.class.valid_categories.keys
+        @category_labels = self.class.category_labels
+        @category_descriptions = self.class.category_descriptions
       end
 
       def show
@@ -54,8 +38,8 @@ module SiteAdmin
           .where(tag: category_tag)
           .ordered
 
-        @category_label = CATEGORY_LABELS[@category]
-        @category_description = CATEGORY_DESCRIPTIONS[@category]
+        @category_label = self.class.category_labels[@category]
+        @category_description = self.class.category_descriptions[@category]
 
         # Get website's supported locales for the editing UI
         # Format: [{locale: 'en', variant: 'uk', full: 'en-UK', label: 'English'}]
@@ -113,13 +97,13 @@ module SiteAdmin
 
       def set_category
         @category = params[:category]
-        unless VALID_CATEGORIES.key?(@category)
+        unless self.class.valid_categories.key?(@category)
           redirect_to site_admin_root_path, alert: 'Invalid category'
         end
       end
 
       def category_tag
-        VALID_CATEGORIES[@category]
+        self.class.valid_categories[@category]
       end
 
       def set_field_key
@@ -192,25 +176,10 @@ module SiteAdmin
       end
 
       # Build locale details for the website's supported locales
-      # Uses SUPPORTED_LOCALES from config/initializers/i18n_globalise.rb
+      # Uses Pwb::Config for centralized locale configuration
       def build_website_locales
-        # Convert SUPPORTED_LOCALES to string keys for lookup
-        locale_labels = SUPPORTED_LOCALES.transform_keys(&:to_s)
-
         supported = current_website.supported_locales || ['en']
-        # Filter out blank values (from hidden form fields)
-        supported.reject(&:blank?).filter_map do |full_locale|
-          parts = full_locale.to_s.split('-')
-          base_locale = parts[0]&.downcase
-          next if base_locale.blank?
-
-          {
-            locale: base_locale,
-            variant: parts[1],
-            full: full_locale,
-            label: locale_labels[base_locale] || base_locale.upcase
-          }
-        end
+        Pwb::Config.build_locale_details(supported)
       end
     end
   end
