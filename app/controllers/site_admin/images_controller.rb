@@ -6,71 +6,8 @@ module SiteAdmin
     skip_before_action :verify_authenticity_token, only: [:create]
 
     def index
-      images = []
-
-      # Content photos (website content images) - filter by website
-      content_photos = Pwb::ContentPhoto.joins(:content)
-                                        .where(pwb_contents: { website_id: current_website&.id })
-                                        .order(created_at: :desc)
-                                        .limit(50)
-      content_photos.each do |photo|
-        next unless photo.image.attached?
-
-        begin
-          images << {
-            id: "content_#{photo.id}",
-            type: 'content',
-            url: url_for(photo.image),
-            thumb_url: thumbnail_url(photo.image),
-            filename: photo.image.filename.to_s,
-            description: photo.description
-          }
-        rescue StandardError => e
-          Rails.logger.warn "Error processing content photo #{photo.id}: #{e.message}"
-        end
-      end
-
-      # Website photos (logo, backgrounds, etc.)
-      current_website&.website_photos&.order(created_at: :desc)&.limit(20)&.each do |photo|
-        next unless photo.image.attached?
-
-        begin
-          images << {
-            id: "website_#{photo.id}",
-            type: 'website',
-            url: url_for(photo.image),
-            thumb_url: thumbnail_url(photo.image),
-            filename: photo.image.filename.to_s,
-            description: photo.try(:description)
-          }
-        rescue StandardError => e
-          Rails.logger.warn "Error processing website photo #{photo.id}: #{e.message}"
-        end
-      end
-
-      # Property photos - filter by website (using RealtyAsset)
-      prop_photos = Pwb::PropPhoto.joins(:realty_asset)
-                                  .where(pwb_realty_assets: { website_id: current_website&.id })
-                                  .order(created_at: :desc)
-                                  .limit(30)
-      prop_photos.each do |photo|
-        next unless photo.image.attached?
-
-        begin
-          images << {
-            id: "prop_#{photo.id}",
-            type: 'property',
-            url: url_for(photo.image),
-            thumb_url: thumbnail_url(photo.image),
-            filename: photo.image.filename.to_s,
-            description: photo.realty_asset&.title
-          }
-        rescue StandardError => e
-          Rails.logger.warn "Error processing prop photo #{photo.id}: #{e.message}"
-        end
-      end
-
-      render json: { images: images }
+      gallery_builder = Pwb::ImageGalleryBuilder.new(current_website, url_helper: self)
+      render json: { images: gallery_builder.build }
     end
 
     def create
