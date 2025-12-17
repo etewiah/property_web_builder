@@ -26,8 +26,9 @@
             @website.default_client_locale
           ),
           {},
+          id: "default_locale_select",
           class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-      <p class="mt-1 text-sm text-gray-500">The default language for visitors</p>
+      <p class="mt-1 text-sm text-gray-500">The default language for visitors (must be one of the supported languages)</p>
     </div>
 
     <!-- Supported Languages -->
@@ -48,8 +49,9 @@
             <input type="checkbox"
                    name="pwb_website[supported_locales][]"
                    value="<%= locale_str %>"
+                   data-locale="<%= locale_str %>"
                    <%= 'checked' if current_locales.include?(locale_str) || current_locales.include?(locale_code) %>
-                   class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                   class="supported-locale-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
             <span class="ml-2 text-sm text-gray-700"><%= label %></span>
           </label>
         <% end %>
@@ -154,3 +156,68 @@
     </div>
   <% end %>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const defaultLocaleSelect = document.getElementById('default_locale_select');
+  const supportedLocaleCheckboxes = document.querySelectorAll('.supported-locale-checkbox');
+  const warningContainer = document.createElement('p');
+  warningContainer.id = 'locale-warning';
+  warningContainer.className = 'mt-2 text-sm text-red-600 hidden';
+  warningContainer.innerHTML = '<svg class="inline w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg> <span class="warning-text"></span>';
+
+  // Insert warning after the default locale select's help text
+  const defaultLocaleHelp = defaultLocaleSelect.parentElement.querySelector('p.text-gray-500');
+  if (defaultLocaleHelp) {
+    defaultLocaleHelp.parentNode.insertBefore(warningContainer, defaultLocaleHelp.nextSibling);
+  }
+
+  function updateDefaultLocaleOptions() {
+    // Get all checked locale values
+    const checkedLocales = Array.from(supportedLocaleCheckboxes)
+      .filter(cb => cb.checked)
+      .map(cb => cb.dataset.locale);
+
+    const currentDefault = defaultLocaleSelect.value;
+    let hasValidSelection = false;
+
+    // Update each option in the default locale dropdown
+    Array.from(defaultLocaleSelect.options).forEach(option => {
+      const optionLocale = option.value;
+      // An option is enabled if:
+      // 1. No supported locales are selected (allow any as default)
+      // 2. The option's locale is in the supported locales list
+      const isSupported = checkedLocales.length === 0 || checkedLocales.includes(optionLocale);
+
+      option.disabled = !isSupported;
+      option.style.color = isSupported ? '' : '#9ca3af';
+
+      if (optionLocale === currentDefault && isSupported) {
+        hasValidSelection = true;
+      }
+    });
+
+    // Show warning if current selection is not in supported locales
+    const warningText = warningContainer.querySelector('.warning-text');
+    if (!hasValidSelection && checkedLocales.length > 0) {
+      warningText.textContent = 'The selected default language is not in the supported languages list. Please select a supported language.';
+      warningContainer.classList.remove('hidden');
+      defaultLocaleSelect.classList.add('border-red-500');
+    } else {
+      warningContainer.classList.add('hidden');
+      defaultLocaleSelect.classList.remove('border-red-500');
+    }
+  }
+
+  // Add change listeners to all supported locale checkboxes
+  supportedLocaleCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', updateDefaultLocaleOptions);
+  });
+
+  // Also update when default locale changes
+  defaultLocaleSelect.addEventListener('change', updateDefaultLocaleOptions);
+
+  // Initialize on page load
+  updateDefaultLocaleOptions();
+});
+</script>

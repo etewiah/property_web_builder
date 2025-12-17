@@ -39,5 +39,38 @@ module Pwb
       website.save!
       expect(website.theme_name).to eq("brisbane")
     end
+
+    describe 'default_locale_in_supported_locales validation' do
+      it 'is valid when default locale is in supported locales' do
+        website.supported_locales = ['en', 'es', 'fr']
+        website.default_client_locale = 'en'
+        expect(website).to be_valid
+      end
+
+      it 'is valid when default locale base matches a supported locale' do
+        website.supported_locales = ['en', 'es']
+        website.default_client_locale = 'en-UK'
+        expect(website).to be_valid
+      end
+
+      it 'is invalid when default locale is not in supported locales' do
+        website.supported_locales = ['es', 'fr']
+        website.default_client_locale = 'en'
+        expect(website).not_to be_valid
+        expect(website.errors[:default_client_locale]).to include('must be one of the supported languages')
+      end
+
+      it 'is valid when supported locales is blank (no restriction)' do
+        website.supported_locales = []
+        website.default_client_locale = 'de'
+        expect(website).to be_valid
+      end
+
+      it 'is valid when default locale is blank' do
+        website.supported_locales = ['en', 'es']
+        website.default_client_locale = nil
+        expect(website).to be_valid
+      end
+    end
   end
 end

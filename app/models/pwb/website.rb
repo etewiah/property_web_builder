@@ -384,6 +384,7 @@ module Pwb
               length: { maximum: 253, allow_blank: true }
 
     validate :custom_domain_not_platform_domain
+    validate :default_locale_in_supported_locales
 
     # TODO: - add favicon image (and logo image directly)
 
@@ -775,6 +776,19 @@ module Pwb
           errors.add(:custom_domain, "cannot be a platform domain (#{pd})")
           return
         end
+      end
+    end
+
+    def default_locale_in_supported_locales
+      return if default_client_locale.blank?
+      return if supported_locales.blank?
+
+      # Normalize locale codes for comparison (handle both 'en' and 'en-UK' formats)
+      default_base = default_client_locale.to_s.split('-').first.downcase
+      supported_bases = supported_locales.reject(&:blank?).map { |l| l.to_s.split('-').first.downcase }
+
+      unless supported_bases.include?(default_base)
+        errors.add(:default_client_locale, "must be one of the supported languages")
       end
     end
 
