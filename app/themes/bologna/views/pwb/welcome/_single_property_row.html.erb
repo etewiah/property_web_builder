@@ -33,7 +33,8 @@
             <div class="aspect-[4/3] relative">
               <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
                   height: 350, crop: "fill",
-                  class: "w-full h-full object-cover transition-transform duration-700 group-hover:scale-110") %>
+                  class: "w-full h-full object-cover transition-transform duration-700 group-hover:scale-110",
+                  loading: "lazy") %>
 
               <!-- Gradient Overlay -->
               <div class="absolute inset-0 bg-gradient-to-t from-warm-gray-900/40 via-transparent to-transparent"></div>

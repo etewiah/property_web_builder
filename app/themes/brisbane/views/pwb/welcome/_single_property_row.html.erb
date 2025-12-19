@@ -16,7 +16,8 @@
           <%= link_to property.contextual_show_path(rent_or_sale), class: "block relative overflow-hidden" do %>
             <div class="property-image aspect-[4/3]">
               <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
-                height: 350, crop: "fill", class: "w-full h-full object-cover transition-transform duration-700 group-hover:scale-105") %>
+                height: 350, crop: "fill", class: "w-full h-full object-cover transition-transform duration-700 group-hover:scale-105",
+                loading: "lazy") %>
               <!-- Subtle Gradient Overlay -->
               <div class="absolute inset-0 bg-gradient-to-t from-luxury-navy/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>

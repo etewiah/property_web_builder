@@ -8,7 +8,8 @@
     <div class="carousel-inner">
       <% @property_details.prop_photos.each.with_index do |photo, index| %>
         <div class="item item-dark <%= "active" if index == 0 %>">
-          <%= opt_image_tag((photo ), :quality => "auto", height: 600, crop: "scale", class: "", alt: "") %>
+          <%= opt_image_tag((photo ), :quality => "auto", height: 600, crop: "scale", class: "", alt: "",
+              loading: index == 0 ? "eager" : "lazy") %>
           <% if @property_details.contextual_price_with_currency @operation_type %>
             <div class="ribbon dark fondo_accion">
               <span>
