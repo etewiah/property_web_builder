@@ -145,21 +145,30 @@ class Rack::Attack
   end
 
   # Custom response for blocklisted IPs
-  self.blocklisted_responder = lambda do |req|
-    headers = { 'Content-Type' => 'text/html' }
-    body = <<~HTML
-      <!DOCTYPE html>
-      <html>
-      <head><title>Access Temporarily Blocked</title></head>
-      <body>
-        <h1>Access Temporarily Blocked</h1>
-        <p>Your IP address has been temporarily blocked due to suspicious activity.</p>
-        <p>Please try again later or contact support if you believe this is an error.</p>
-      </body>
-      </html>
-    HTML
+  # TEMPORARILY DISABLED: To re-enable, uncomment the block below and remove the pass-through lambda
+  #
+  # self.blocklisted_responder = lambda do |req|
+  #   headers = { 'Content-Type' => 'text/html' }
+  #   body = <<~HTML
+  #     <!DOCTYPE html>
+  #     <html>
+  #     <head><title>Access Temporarily Blocked</title></head>
+  #     <body>
+  #       <h1>Access Temporarily Blocked</h1>
+  #       <p>Your IP address has been temporarily blocked due to suspicious activity.</p>
+  #       <p>Please try again later or contact support if you believe this is an error.</p>
+  #     </body>
+  #     </html>
+  #   HTML
+  #
+  #   [403, headers, [body]]
+  # end
 
-    [403, headers, [body]]
+  # TEMPORARY: Pass-through responder (logs but allows blocked requests)
+  # Remove this and uncomment the block above to re-enable blocking
+  self.blocklisted_responder = lambda do |req|
+    Rails.logger.warn("[Rack::Attack] BLOCKING DISABLED - Would have blocked #{req.ip} to #{req.path}")
+    nil # Returning nil allows the request through
   end
 
   ### Logging ###
