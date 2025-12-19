@@ -15,9 +15,12 @@ RSpec.describe Pwb::Config do
       expect(described_class::SUPPORTED_LOCALES).to have_key('fr')
     end
 
-    it 'includes regional variants' do
-      expect(described_class::SUPPORTED_LOCALES).to have_key('en-UK')
-      expect(described_class::SUPPORTED_LOCALES).to have_key('en-US')
+    it 'uses base locales without regional variants' do
+      # SUPPORTED_LOCALES contains only base locales (en, es, fr, etc.)
+      # Regional variants (en-UK, en-US) are handled via base_locale() method
+      expect(described_class::SUPPORTED_LOCALES.keys).to all(match(/^[a-z]{2}$/))
+      expect(described_class::SUPPORTED_LOCALES).not_to have_key('en-UK')
+      expect(described_class::SUPPORTED_LOCALES).not_to have_key('en-US')
     end
 
     it 'is frozen' do

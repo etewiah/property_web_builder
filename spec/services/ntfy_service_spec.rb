@@ -144,7 +144,8 @@ RSpec.describe NtfyService do
         stub_request(:post, 'https://ntfy.sh/test-prefix-admin')
           .to_raise(Errno::ECONNREFUSED)
 
-        expect(Rails.logger).to receive(:error).with(/Error sending notification/)
+        # StructuredLogger outputs JSON, so match the message within JSON
+        expect(Rails.logger).to receive(:error).with(/Connection failed|ECONNREFUSED/)
 
         result = described_class.publish(
           website: website,
