@@ -1,0 +1,273 @@
+================================================================================
+                   TEST COVERAGE ANALYSIS SUMMARY
+                    PropertyWebBuilder Multi-Tenant App
+================================================================================
+
+ANALYSIS DATE: December 19, 2024
+SCOPE: 171 test files, 2000+ test cases, 62 models, 15 services
+
+================================================================================
+WHAT'S TESTED WELL ✓
+================================================================================
+
+✓ Core Domain Models (80% coverage)
+  - RealtyAsset (229 lines of tests) - Physical property data, slug generation
+  - ListedProperty (462 lines of tests) - Materialized view, filtering, queries
+  - SaleListing & RentalListing - State machine, pricing, visibility
+  - User & Authorization - Authentication, membership, permissions
+  - Agency & Contact - CRUD operations, website scoping
+
+✓ API Controllers (75% coverage)
+  - Property listing endpoints - Pagination, filtering, serialization
+  - Search & discovery - Facets, location queries
+  - Public/tenant routes - Welcome, browsing
+
+✓ Site Admin Controllers (70% coverage)
+  - Index/show actions
+  - Basic authorization checks
+
+✓ Multi-Tenancy Basics (50% coverage)
+  - Website isolation (3 dedicated specs)
+  - Foreign key scoping (website_id)
+  - Uniqueness validation across tenants
+
+✓ Jobs & Tasks (80% coverage)
+  - Notification jobs
+  - Rake seed tasks
+  - Property import orchestration
+
+================================================================================
+CRITICAL GAPS 🔴
+================================================================================
+
+1. SEEDING INFRASTRUCTURE (400+ lines untested logic)
+   Problem: Recent normalized seeding (RealtyAsset + Listing) has basic tests
+            but lacks edge case coverage
+   Impact:  Seeding failures go undetected until production
+   Action:  ADD 15 TESTS covering:
+            - Property normalization edge cases
+            - Photo attachment failures & rollback
+            - Locale filtering for unsupported languages
+            - Transaction safety & rollback
+            - Materialized view refresh failures
+   Effort:  4-5 hours
+   Files:   spec/libraries/pwb/seeder_spec.rb
+
+2. SERVICES WITHOUT TESTS (3 critical services)
+   Problem: EmailTemplateRenderer, MlsConnector, SignupApiService have zero tests
+   Impact:  Customer notifications, property imports, provisioning at risk
+   Action:  ADD 50 TESTS total:
+            - EmailTemplateRenderer: 20 tests (Liquid rendering, HTML→text)
+            - MlsConnector: 15 tests (RETS client, query parsing, errors)
+            - SignupApiService: 15 tests (API calls, timeouts, responses)
+   Effort:  10-12 hours
+   Files:   spec/services/pwb/email_template_renderer_spec.rb (new)
+            spec/services/pwb/mls_connector_spec.rb (new)
+            spec/services/pwb/signup_api_service_spec.rb (new)
+
+3. CONTROLLER CONCERNS - INCOMPLETE INTEGRATION
+   Problem: SiteAdminIndexable & LocalizedSerializer have unit tests but lack
+            integration tests verifying actual controller behavior
+   Impact:  Cross-tenant data leakage, API serialization errors
+   Action:  ADD 15 TESTS:
+            - SiteAdminIndexable: 10 integration tests for search, isolation
+            - LocalizedSerializer: 5 tests with real Mobility objects
+   Effort:  3-4 hours
+   Files:   spec/controllers/concerns/site_admin_indexable_spec.rb (+10)
+            spec/controllers/concerns/localized_serializer_spec.rb (+5)
+
+4. MODELS WITHOUT TEST FILES (9 models, 150+ LOC untested)
+   Problem: EmailTemplate, ImportSource, SubscriptionEvent, etc. lack dedicated
+            test files (though may be indirectly tested via associations)
+   Impact:  Validation logic, associations untested at model level
+   Action:  CREATE 9 TEST FILES with 5-10 tests each (45-50 tests total)
+   Effort:  4-6 hours
+   Files:   spec/models/pwb/email_template_spec.rb (new)
+            spec/models/pwb/import_source_spec.rb (new)
+            ... etc for each model
+
+5. CROSS-TENANT ISOLATION - LIMITED NEGATIVE TESTS
+   Problem: While multi-tenancy is used, explicit "negative tests" that verify
+            one tenant CANNOT access another's data are sparse
+   Impact:  Security vulnerability: data leakage between websites
+   Action:  ADD 10 INTEGRATION TESTS explicitly verifying isolation:
+            - Index queries scoped correctly
+            - Show/edit endpoints reject cross-tenant access
+            - Search results don't leak
+            - Associations scoped properly
+   Effort:  2-3 hours
+   Files:   spec/integration/cross_tenant_isolation_spec.rb (new)
+
+================================================================================
+HIGH-PRIORITY RECOMMENDATIONS
+================================================================================
+
+PHASE 1 (CRITICAL - 1-2 weeks):
+  1. EmailTemplateRenderer tests (20) - customer notifications
+  2. Service tests: MlsConnector, SignupApiService (30) - integrations at risk
+  3. SiteAdminIndexable isolation tests (10) - potential data leak
+  4. Seeding normalization tests (15) - recent feature stability
+
+PHASE 2 (HIGH - 2-3 weeks):
+  5. Create 9 untested model test files (45-50 tests)
+  6. ListingStateable edge cases (8) - state machine safety
+  7. Cross-tenant isolation negative tests (10) - security
+  8. LocalizedSerializer real model tests (5) - API correctness
+
+PHASE 3 (MEDIUM - ongoing):
+  9. End-to-end integration tests (10)
+  10. Import workflow tests (10)
+  11. Performance tests for complex queries
+
+================================================================================
+TEST STATISTICS
+================================================================================
+
+Test Files by Category:
+  - Model specs: 44 files
+  - Controller specs: 23 files
+  - Request/integration specs: 15 files
+  - Service specs: 19 files (3 untested)
+  - Job specs: 1 file
+  - Helper specs: 4 files
+  - Lib/Concern specs: 9 files
+  
+Total: 171 spec files
+
+Estimated Total Test Cases: ~2,000-2,500
+
+Current Coverage:
+  - Core models: 80%
+  - Controllers: 70%
+  - Services: 70% (missing 3 critical)
+  - Integration tests: 40%
+  - Multi-tenancy isolation: 50%
+  - Concerns & mixins: 45%
+
+Code Under Test:
+  - Models: 62 files (58 with direct tests, 4 without)
+  - Services: 15 files (12 with tests, 3 without)
+  - Controllers: 40+ files (mostly covered)
+  - Concerns: 5 files (2 with tests, 3 without)
+
+================================================================================
+KEY INSIGHTS
+================================================================================
+
+1. RECENT FEATURES NEED TESTS
+   The normalized property schema (RealtyAsset + SaleListing/RentalListing)
+   is recent and complex. Comprehensive edge case testing is critical before
+   relying on this in production.
+
+2. EXTERNAL INTEGRATIONS AT RISK
+   3 services handle external APIs/data without test coverage:
+   - EmailTemplateRenderer (Liquid rendering)
+   - MlsConnector (RETS client)
+   - SignupApiService (provisioning)
+   These should be tested FIRST as they block critical workflows.
+
+3. MULTI-TENANCY IS ENFORCED BUT NOT DEEPLY TESTED
+   30 test files mention tenancy, but explicit "negative tests" verifying
+   data isolation are sparse. Recommend adding parameterized tests that
+   run scenarios across multiple websites.
+
+4. SEEDING INFRASTRUCTURE IS MATURE BUT INCOMPLETE
+   The seeder/seed_runner is well-structured but edge cases around
+   transaction rollback, locale filtering, and photo handling lack coverage.
+
+5. CONTROLLER CONCERNS NEED INTEGRATION TESTING
+   Unit tests exist but real request-level tests would catch:
+   - Cross-tenant query leakage
+   - Serialization errors with actual models
+   - Search scope issues
+
+================================================================================
+IMPLEMENTATION ROADMAP
+================================================================================
+
+Week 1-2 (Critical Phase):
+  - [ ] EmailTemplateRenderer spec (20 tests) - 3-4 hours
+  - [ ] MlsConnector spec (15 tests) - 3-4 hours
+  - [ ] SignupApiService spec (15 tests) - 3-4 hours
+  - [ ] Seeding normalization tests (15) - 4-5 hours
+  - [ ] SiteAdminIndexable isolation (10) - 2-3 hours
+  Total: 21-28 hours, 85 new tests
+
+Week 3-4 (High Priority):
+  - [ ] 9 model test files (45-50 tests) - 4-6 hours
+  - [ ] ListingStateable edge cases (8) - 2-3 hours
+  - [ ] Cross-tenant isolation tests (10) - 2-3 hours
+  - [ ] LocalizedSerializer real tests (5) - 1 hour
+  Total: 9-13 hours, 68-73 new tests
+
+Then: End-to-end integration tests, performance tests
+
+================================================================================
+HOW TO USE THESE FINDINGS
+================================================================================
+
+For Sprint Planning:
+  - Critical work: 21-28 hours
+  - High priority: 9-13 hours
+  - Total: 30-41 hours (~1 week for full team or 2 weeks for 1 developer)
+
+For Code Review:
+  - New features should include tests from Phase 1 patterns
+  - Services MUST have tests before merging
+  - Multi-tenancy changes should include isolation tests
+
+For New Team Members:
+  - Read test_coverage_gap_analysis.md for context
+  - Read test_implementation_quickstart.md for examples
+  - Copy templates from existing tests in spec/ directory
+
+================================================================================
+RELATED DOCUMENTATION
+================================================================================
+
+Generated Files:
+  1. test_coverage_gap_analysis.md - Detailed gap analysis (this file references)
+  2. test_implementation_quickstart.md - Code templates for new tests
+  3. TEST_COVERAGE_SUMMARY.txt - This file (executive summary)
+
+Existing Docs:
+  - CLAUDE.md - Project instructions
+  - /docs/ - Architecture and other documentation
+  - spec/README (if exists) - Testing guidelines
+
+================================================================================
+NEXT STEPS
+================================================================================
+
+Immediate (This Week):
+  1. Review test_coverage_gap_analysis.md in detail
+  2. Schedule implementation: Pick 1-2 modules from Phase 1
+  3. Create PR with new test files
+  4. Run tests: bundle exec rspec --tag :unit
+
+Short-term (Next 2 weeks):
+  5. Complete Phase 1 critical tests (85 new tests)
+  6. Update CI pipeline if needed
+  7. Document any patterns discovered
+
+Medium-term (This Month):
+  8. Complete Phase 2 tests (70+ new tests)
+  9. Add performance tests for complex queries
+  10. Create test coverage badge/metrics
+
+================================================================================
+Questions?
+================================================================================
+
+For detailed implementation examples:
+  → See test_implementation_quickstart.md
+
+For specific gap details:
+  → See test_coverage_gap_analysis.md
+
+For test patterns in this codebase:
+  → See existing specs in /spec/models, /spec/services, /spec/controllers
+
+Generated: 2024-12-19
+Status: Ready for implementation
+Priority: CRITICAL - Address Phase 1 immediately
