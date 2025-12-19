@@ -37,7 +37,7 @@ namespace :pwb do
       puts "   ⏭️  Skipping sample properties" if skip_properties
       
       Pwb::Seeder.seed!(website: website, skip_properties: skip_properties)
-      Pwb::PagesSeeder.seed_page_parts!
+      Pwb::PagesSeeder.seed_page_parts!(website: website)
       Pwb::PagesSeeder.seed_page_basics!(website: website)
       # below need to have page_parts populated to work correctly
       Pwb::ContentsSeeder.seed_page_content_translations!(website: website)
@@ -90,7 +90,7 @@ namespace :pwb do
       Pwb::Current.website = website
       
       Pwb::Seeder.seed!(website: website, skip_properties: skip_properties)
-      Pwb::PagesSeeder.seed_page_parts!
+      Pwb::PagesSeeder.seed_page_parts!(website: website)
       Pwb::PagesSeeder.seed_page_basics!(website: website)
       Pwb::ContentsSeeder.seed_page_content_translations!(website: website)
       
@@ -109,15 +109,13 @@ namespace :pwb do
       
       puts "🌱 Seeding data for #{websites.count} website(s)..."
       puts "   ⏭️  Skipping sample properties" if skip_properties
-      
-      # Seed page parts once (they are shared)
-      Pwb::PagesSeeder.seed_page_parts!
-      
+
       websites.each do |website|
         puts "\n📦 Processing website: #{website.subdomain || website.slug || 'default'} (ID: #{website.id})"
         # Set the current website context
         Pwb::Current.website = website
         Pwb::Seeder.seed!(website: website, skip_properties: skip_properties)
+        Pwb::PagesSeeder.seed_page_parts!(website: website)
         Pwb::PagesSeeder.seed_page_basics!(website: website)
         Pwb::ContentsSeeder.seed_page_content_translations!(website: website)
         # Create an admin user for the website if none exists
@@ -174,7 +172,7 @@ namespace :pwb do
       Pwb::Current.website = website
       
       Pwb::Seeder.seed!(website: website, skip_properties: skip_properties)
-      Pwb::PagesSeeder.seed_page_parts!
+      Pwb::PagesSeeder.seed_page_parts!(website: website)
       Pwb::PagesSeeder.seed_page_basics!(website: website)
       Pwb::ContentsSeeder.seed_page_content_translations!(website: website)
       
@@ -215,7 +213,7 @@ namespace :pwb do
       puts "🌱 Seeding pages for website: #{website.slug || 'default'} (ID: #{website.id})"
       
       p 'seed_page_parts!'
-      Pwb::PagesSeeder.seed_page_parts!
+      Pwb::PagesSeeder.seed_page_parts!(website: website)
       p 'seed_page_basics!'
       Pwb::PagesSeeder.seed_page_basics!(website: website)
       # below need to have page_parts populated to work correctly
