@@ -2,18 +2,53 @@
   Admin Login
 </h2>
 
-<div id="firebaseui-auth-container"></div>
-<div id="loader" class="text-center text-gray-500 py-4">
-  <svg class="animate-spin h-6 w-6 mx-auto text-blue-600" fill="none" viewBox="0 0 24 24">
-    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-  </svg>
-  <span class="mt-2 block text-sm">Loading...</span>
-</div>
+<form id="login-form" class="space-y-6">
+  <div>
+    <label for="email" class="block text-sm font-medium text-gray-700">
+      Email Address
+    </label>
+    <div class="mt-1">
+      <input type="email" id="email" placeholder="Enter your email" required autofocus
+             class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+    </div>
+  </div>
 
-<div class="mt-6 text-center space-y-2">
-  <%= link_to "Forgot Password?", "/pwb_forgot_password",
-      class: "text-sm font-medium text-blue-600 hover:text-blue-500" %>
+  <div>
+    <label for="password" class="block text-sm font-medium text-gray-700">
+      Password
+    </label>
+    <div class="mt-1">
+      <input type="password" id="password" placeholder="Enter your password" required
+             class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between">
+    <div class="flex items-center">
+      <input id="remember-me" name="remember-me" type="checkbox"
+             class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+      <label for="remember-me" class="ml-2 block text-sm text-gray-700">
+        Remember me
+      </label>
+    </div>
+
+    <div class="text-sm">
+      <%= link_to "Forgot password?", "/pwb_forgot_password",
+          class: "font-medium text-blue-600 hover:text-blue-500" %>
+    </div>
+  </div>
+
+  <div>
+    <button type="submit" id="login-button"
+            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed">
+      Sign In
+    </button>
+  </div>
+
+  <div id="message"></div>
+</form>
+
+<div class="mt-6 text-center">
   <p class="text-sm text-gray-600">
     Don't have an account?
     <%= link_to "Sign Up", "/pwb_sign_up",
@@ -23,49 +58,6 @@
 
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
-
-<%# Override FirebaseUI styles to match Tailwind design %>
-<style>
-  /* Remove the card border/shadow from FirebaseUI */
-  .firebaseui-container { max-width: 100% !important; }
-  .firebaseui-card-content { padding: 0 !important; }
-  .firebaseui-card-header { display: none !important; }
-  .firebaseui-card-actions { padding: 0 !important; }
-  .mdl-card { box-shadow: none !important; border: none !important; background: transparent !important; }
-  .firebaseui-card-footer { display: none !important; }
-
-  /* Button styling */
-  .mdl-button--raised.mdl-button--colored {
-    background-color: #2563eb !important;
-    border-radius: 0.375rem !important;
-    font-weight: 500 !important;
-    text-transform: none !important;
-    font-size: 0.875rem !important;
-    padding: 0.5rem 1rem !important;
-    height: auto !important;
-    min-height: 2.5rem !important;
-  }
-  .mdl-button--raised.mdl-button--colored:hover { background-color: #1d4ed8 !important; }
-
-  /* Input field styling */
-  .firebaseui-input, .firebaseui-input-invalid {
-    border: 1px solid #d1d5db !important;
-    border-radius: 0.375rem !important;
-    padding: 0.5rem 0.75rem !important;
-    font-size: 0.875rem !important;
-  }
-  .firebaseui-input:focus { border-color: #3b82f6 !important; outline: none !important; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important; }
-  .firebaseui-label { font-size: 0.875rem !important; color: #374151 !important; font-weight: 500 !important; }
-  .firebaseui-textfield { margin-bottom: 1rem !important; }
-
-  /* Form layout */
-  .firebaseui-form-actions { margin-top: 1.5rem !important; }
-  .firebaseui-id-submit { width: 100% !important; }
-  .firebaseui-idp-list { margin: 0 !important; }
-  .firebaseui-list-item { margin-bottom: 0.75rem !important; }
-</style>
 
 <script>
   // Return URL for redirect after login
@@ -80,55 +72,90 @@
 
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
 
-  // Initialize the FirebaseUI Widget using Firebase.
-  const ui = new firebaseui.auth.AuthUI(firebase.auth());
+  document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-  const uiConfig = {
-    callbacks: {
-      signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-        // User successfully signed in.
-        authResult.user.getIdToken().then(function(accessToken) {
-          // Send token to backend
-          fetch('/api_public/v1/auth/firebase', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ token: accessToken })
-          })
-          .then(response => {
-            if (response.ok) {
-              window.location.assign(returnUrl);
-            } else {
-              alert('Login failed on server side.');
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred during login.');
-          });
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const messageDiv = document.getElementById('message');
+    const button = document.getElementById('login-button');
+
+    // Clear previous messages
+    messageDiv.innerHTML = '';
+
+    // Validation
+    if (!email || !password) {
+      messageDiv.innerHTML = '<div class="bg-red-50 border-l-4 border-red-400 p-4 text-red-700 text-sm">Please enter your email and password.</div>';
+      return;
+    }
+
+    // Disable button and show loading
+    button.disabled = true;
+    button.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Signing in...';
+
+    // Sign in with Firebase
+    auth.signInWithEmailAndPassword(email, password)
+      .then(function(userCredential) {
+        // User signed in successfully
+        return userCredential.user.getIdToken();
+      })
+      .then(function(accessToken) {
+        // Send token to backend
+        return fetch('/api_public/v1/auth/firebase', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token: accessToken })
         });
-        return false;
-      },
-      uiShown: function() {
-        // Hide the loader when FirebaseUI is rendered
-        document.getElementById('loader').style.display = 'none';
-      }
-    },
-    signInFlow: 'popup',
-    signInOptions: [
-      {
-        provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-        requireDisplayName: false,
-        disableSignUp: { status: false }
-      }
-      // Google sign-in disabled - uncomment below to enable:
-      // firebase.auth.GoogleAuthProvider.PROVIDER_ID
-    ],
-    credentialHelper: firebaseui.auth.CredentialHelper.NONE
-  };
+      })
+      .then(function(response) {
+        if (response.ok) {
+          window.location.assign(returnUrl);
+        } else {
+          throw new Error('Login failed on server side.');
+        }
+      })
+      .catch(function(error) {
+        let errorMessage = 'An error occurred. Please try again.';
 
-  // The start method will wait until the DOM is loaded.
-  ui.start('#firebaseui-auth-container', uiConfig);
+        switch(error.code) {
+          case 'auth/invalid-email':
+            errorMessage = 'Invalid email address.';
+            break;
+          case 'auth/user-disabled':
+            errorMessage = 'This account has been disabled.';
+            break;
+          case 'auth/user-not-found':
+            errorMessage = 'No account found with this email address.';
+            break;
+          case 'auth/wrong-password':
+            errorMessage = 'Incorrect password.';
+            break;
+          case 'auth/invalid-credential':
+            errorMessage = 'Invalid email or password.';
+            break;
+          case 'auth/too-many-requests':
+            errorMessage = 'Too many failed login attempts. Please try again later.';
+            break;
+          default:
+            if (error.message) {
+              errorMessage = error.message;
+            }
+        }
+
+        messageDiv.innerHTML = '<div class="bg-red-50 border-l-4 border-red-400 p-4 text-red-700 text-sm">' + errorMessage + '</div>';
+        button.innerHTML = 'Sign In';
+        button.disabled = false;
+      });
+  });
+
+  // Allow Enter key to submit from password field
+  document.getElementById('password').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      document.getElementById('login-form').dispatchEvent(new Event('submit'));
+    }
+  });
 </script>
