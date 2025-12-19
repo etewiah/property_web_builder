@@ -1,21 +1,42 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
-const { TENANTS, ADMIN_USERS } = require('../fixtures/test-data');
-const { loginAsAdmin, waitForPageLoad } = require('../fixtures/helpers');
+const { TENANTS } = require('../fixtures/test-data');
+const { waitForPageLoad, goToAdminPage } = require('../fixtures/helpers');
+
+/**
+ * In-Context Editor Tests
+ *
+ * NOTE: These tests require BYPASS_ADMIN_AUTH=true to be set.
+ * Start server with: BYPASS_ADMIN_AUTH=true RAILS_ENV=e2e bin/rails server -p 3001
+ */
 
 // Test configuration
-const BASE_URL = 'http://tenant-a.e2e.localhost:3001';
 const tenant = TENANTS.A;
-const admin = ADMIN_USERS.TENANT_A;
+const BASE_URL = tenant.baseURL;
+
+/**
+ * Helper to verify we have admin access (auth bypass is working)
+ * @param {import('@playwright/test').Page} page
+ */
+async function verifyAdminAccess(page) {
+  const currentURL = page.url();
+  if (currentURL.includes('/sign_in') || currentURL.includes('/pwb_login')) {
+    throw new Error(
+      'BYPASS_ADMIN_AUTH is not enabled! ' +
+      'Restart the server with: BYPASS_ADMIN_AUTH=true RAILS_ENV=e2e bin/rails server -p 3001'
+    );
+  }
+}
 
 test.describe('In-Context Editor', () => {
 
   test.describe('Editor Shell', () => {
     test('loads the editor page at /edit', async ({ page }) => {
-      // Editor requires admin authentication
-      await loginAsAdmin(page, admin);
+      // Editor requires admin access - use auth bypass
       await page.goto(`${BASE_URL}/edit`);
-      
+      await waitForPageLoad(page);
+      await verifyAdminAccess(page);
+
       // Check the editor shell structure - now uses bottom panel layout
       await expect(page.locator('.pwb-editor-panel')).toBeVisible();
       await expect(page.locator('#pwb-site-frame')).toBeVisible();
@@ -23,9 +44,10 @@ test.describe('In-Context Editor', () => {
     });
 
     test('displays bottom panel with content editor', async ({ page }) => {
-      await loginAsAdmin(page, admin);
       await page.goto(`${BASE_URL}/edit`);
-      
+      await waitForPageLoad(page);
+      await verifyAdminAccess(page);
+
       // Check panel header and content area
       await expect(page.locator('.pwb-panel-header')).toBeVisible();
       await expect(page.locator('#panel-content')).toBeVisible();
@@ -33,50 +55,54 @@ test.describe('In-Context Editor', () => {
     });
 
     test('can toggle panel visibility', async ({ page }) => {
-      await loginAsAdmin(page, admin);
       await page.goto(`${BASE_URL}/edit`);
-      
+      await waitForPageLoad(page);
+      await verifyAdminAccess(page);
+
       const panel = page.locator('.pwb-editor-panel');
       const toggleBtn = page.locator('#pwb-toggle-panel');
-      
+
       // Panel should be visible initially
       await expect(panel).not.toHaveClass(/pwb-panel-collapsed/);
-      
+
       // Click toggle to collapse
       await toggleBtn.click();
       await expect(panel).toHaveClass(/pwb-panel-collapsed/);
-      
+
       // Click toggle to expand
       await toggleBtn.click();
       await expect(panel).not.toHaveClass(/pwb-panel-collapsed/);
     });
 
     test('has resize handle for adjusting panel height', async ({ page }) => {
-      await loginAsAdmin(page, admin);
       await page.goto(`${BASE_URL}/edit`);
-      
+      await waitForPageLoad(page);
+      await verifyAdminAccess(page);
+
       const resizeHandle = page.locator('#pwb-resize-handle');
       await expect(resizeHandle).toBeVisible();
-      
+
       // Check cursor style on hover
       await resizeHandle.hover();
       await expect(resizeHandle).toHaveCSS('cursor', 'ns-resize');
     });
 
     test('iframe loads the site with edit_mode parameter', async ({ page }) => {
-      await loginAsAdmin(page, admin);
       await page.goto(`${BASE_URL}/edit`);
-      
+      await waitForPageLoad(page);
+      await verifyAdminAccess(page);
+
       // Get iframe src
       const iframe = page.locator('#pwb-site-frame');
       const src = await iframe.getAttribute('src');
-      
+
       expect(src).toContain('edit_mode=true');
     });
 
     test('exit button links back to homepage', async ({ page }) => {
-      await loginAsAdmin(page, admin);
       await page.goto(`${BASE_URL}/edit`);
+      await waitForPageLoad(page);
+      await verifyAdminAccess(page);
 
       const exitBtn = page.locator('.pwb-btn-exit');
       await expect(exitBtn).toBeVisible();
@@ -88,12 +114,13 @@ test.describe('In-Context Editor', () => {
 
   test.describe('Editor with Path Parameter', () => {
     test('loads specific page in iframe when path provided', async ({ page }) => {
-      await loginAsAdmin(page, admin);
       await page.goto(`${BASE_URL}/edit/about-us`);
-      
+      await waitForPageLoad(page);
+      await verifyAdminAccess(page);
+
       const iframe = page.locator('#pwb-site-frame');
       const src = await iframe.getAttribute('src');
-      
+
       expect(src).toContain('/about-us');
       expect(src).toContain('edit_mode=true');
     });
@@ -103,11 +130,10 @@ test.describe('In-Context Editor', () => {
 test.describe('Theme Settings API', () => {
   // Note: These API tests use page.evaluate to make fetch requests with session cookies
   test('GET /editor/theme_settings returns current settings', async ({ page }) => {
-    // Login first to get session
-    await loginAsAdmin(page, admin);
-
-    // Navigate to a page on the site first (to establish cookies)
+    // Navigate to editor page first (to establish session with auth bypass)
     await page.goto(`${BASE_URL}/edit`);
+    await waitForPageLoad(page);
+    await verifyAdminAccess(page);
 
     // Use page.evaluate to make API request with session cookies
     const result = await page.evaluate(async () => {
@@ -133,11 +159,10 @@ test.describe('Theme Settings API', () => {
   });
 
   test('PATCH /editor/theme_settings updates settings', async ({ page }) => {
-    // Login first to get session
-    await loginAsAdmin(page, admin);
-
-    // Navigate to editor page to establish cookies and get CSRF token
+    // Navigate to editor page to establish session and get CSRF token
     await page.goto(`${BASE_URL}/edit`);
+    await waitForPageLoad(page);
+    await verifyAdminAccess(page);
 
     // Get CSRF token from meta tag
     const csrfToken = await page.evaluate(() => {

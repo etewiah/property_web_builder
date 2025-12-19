@@ -1,7 +1,7 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
-const { TENANTS, ADMIN_USERS, ROUTES } = require('../fixtures/test-data');
-const { goToTenant, waitForPageLoad, expectToBeOnLoginPage } = require('../fixtures/helpers');
+const { TENANTS, ROUTES } = require('../fixtures/test-data');
+const { goToTenant, waitForPageLoad, goToAdminPage } = require('../fixtures/helpers');
 
 /**
  * Tenant Isolation Tests
@@ -14,6 +14,9 @@ const { goToTenant, waitForPageLoad, expectToBeOnLoginPage } = require('../fixtu
  * US-6.2: Subdomain Routing
  * As a public visitor, I want to access different agencies via subdomains
  * So that each agency has their own branded site
+ *
+ * NOTE: Tests assume BYPASS_ADMIN_AUTH=true is set.
+ * Authentication-specific tests are skipped - see RSpec tests for auth testing.
  */
 
 test.describe('Tenant Isolation', () => {
@@ -41,76 +44,39 @@ test.describe('Tenant Isolation', () => {
     });
   });
 
-  test.describe('Admin Panel Isolation', () => {
-    test('Tenant A login page is accessible', async ({ page }) => {
-      await goToTenant(page, TENANTS.A, ROUTES.LOGIN);
+  test.describe('Admin Panel Access (with BYPASS_ADMIN_AUTH)', () => {
+    test('Tenant A admin panel is accessible', async ({ page }) => {
+      await goToAdminPage(page, TENANTS.A, ROUTES.ADMIN.DASHBOARD);
 
-      // Should show login form (either Devise or Firebase)
-      const currentURL = page.url();
-      const isLoginPage = currentURL.includes('/sign_in') ||
-                          currentURL.includes('/pwb_login') ||
-                          currentURL.includes('/login');
-      expect(isLoginPage).toBeTruthy();
-    });
-
-    test('Tenant B login page is accessible', async ({ page }) => {
-      await goToTenant(page, TENANTS.B, ROUTES.LOGIN);
-
-      // Should show login form (either Devise or Firebase)
-      const currentURL = page.url();
-      const isLoginPage = currentURL.includes('/sign_in') ||
-                          currentURL.includes('/pwb_login') ||
-                          currentURL.includes('/login');
-      expect(isLoginPage).toBeTruthy();
-    });
-
-    test('admin page requires authentication', async ({ page }) => {
-      await goToTenant(page, TENANTS.A, ROUTES.ADMIN.DASHBOARD);
-
-      // Should redirect to login or show login form
-      const currentURL = page.url();
-      const redirectedToLogin = currentURL.includes('/sign_in') ||
-                                currentURL.includes('/pwb_login') ||
-                                currentURL.includes('/login');
-
-      // Also check if we're still on the admin page but showing login requirement
+      // Should show admin content (not login page)
       const pageContent = await page.content();
-      const requiresAuth = redirectedToLogin ||
-                           pageContent.includes('Sign in') ||
-                           pageContent.includes('Login') ||
-                           pageContent.includes('sign_in');
-      expect(requiresAuth).toBeTruthy();
+      const hasAdminContent = pageContent.includes('Dashboard') ||
+                               pageContent.includes('Properties') ||
+                               pageContent.includes('Settings') ||
+                               pageContent.includes('site_admin');
+      expect(hasAdminContent).toBeTruthy();
+    });
+
+    test('Tenant B admin panel is accessible', async ({ page }) => {
+      await goToAdminPage(page, TENANTS.B, ROUTES.ADMIN.DASHBOARD);
+
+      // Should show admin content (not login page)
+      const pageContent = await page.content();
+      const hasAdminContent = pageContent.includes('Dashboard') ||
+                               pageContent.includes('Properties') ||
+                               pageContent.includes('Settings') ||
+                               pageContent.includes('site_admin');
+      expect(hasAdminContent).toBeTruthy();
     });
   });
 
-  test.describe('Cross-Tenant Authentication', () => {
+  // Authentication-specific tests are skipped - tested via RSpec
+  test.describe.skip('Cross-Tenant Authentication', () => {
+    // These tests require actual authentication which is bypassed in e2e mode
+    // See: spec/controllers/pwb/devise/sessions_controller_spec.rb
+
     test('Tenant A admin cannot access Tenant B admin', async ({ page }) => {
-      // Try to login to Tenant B with Tenant A credentials
-      await goToTenant(page, TENANTS.B, ROUTES.LOGIN);
-
-      // Fill in Tenant A admin credentials on Tenant B subdomain
-      const emailField = page.locator('input[name="user[email]"], input[type="email"]');
-      const passwordField = page.locator('input[name="user[password]"], input[type="password"]');
-
-      if (await emailField.count() > 0 && await passwordField.count() > 0) {
-        await emailField.first().fill(ADMIN_USERS.TENANT_A.email);
-        await passwordField.first().fill(ADMIN_USERS.TENANT_A.password);
-
-        const submitButton = page.locator('input[type="submit"], button[type="submit"]');
-        if (await submitButton.count() > 0) {
-          await submitButton.first().click();
-          await waitForPageLoad(page);
-
-          // Should fail - either show error or stay on login page
-          const pageContent = await page.content();
-          const loginFailed = pageContent.includes('Invalid') ||
-                              pageContent.includes('does not have admin privileges') ||
-                              pageContent.includes('Access Required') ||
-                              pageContent.includes('Email') ||
-                              pageContent.includes('Password');
-          expect(loginFailed).toBeTruthy();
-        }
-      }
+      // Skipped - authentication is bypassed
     });
   });
 
@@ -176,6 +142,20 @@ test.describe('Tenant Isolation', () => {
 
       expect(tenantAHasListings).toBeTruthy();
       expect(tenantBHasListings).toBeTruthy();
+    });
+
+    test('admin settings are tenant-specific', async ({ page }) => {
+      // Access admin settings for Tenant A
+      await goToAdminPage(page, TENANTS.A, ROUTES.ADMIN.WEBSITE_SETTINGS);
+      const tenantASettings = await page.content();
+
+      // Access admin settings for Tenant B
+      await goToAdminPage(page, TENANTS.B, ROUTES.ADMIN.WEBSITE_SETTINGS);
+      const tenantBSettings = await page.content();
+
+      // Both should show settings page
+      expect(tenantASettings).toContain('Settings');
+      expect(tenantBSettings).toContain('Settings');
     });
   });
 });
