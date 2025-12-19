@@ -1,4 +1,6 @@
 class Pwb::Devise::RegistrationsController < Devise::RegistrationsController
+  # Redirect to Firebase if that's the configured auth provider
+  include AuthProviderRedirect
   helper AuthHelper
   layout 'devise_tailwind'
 

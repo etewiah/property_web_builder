@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Pwb::Devise::PasswordsController < Devise::PasswordsController
+  # Redirect to Firebase if that's the configured auth provider
+  include AuthProviderRedirect
   helper AuthHelper
   layout 'devise_tailwind'
   # POST /users/password

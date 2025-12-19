@@ -3,6 +3,8 @@ module Pwb
     class SessionsController < ::Devise::SessionsController
       # Include subdomain tenant detection to set Pwb::Current.website
       include SubdomainTenant
+      # Redirect to Firebase if that's the configured auth provider
+      include AuthProviderRedirect
       helper AuthHelper
 
       layout 'devise_tailwind'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Pwb
   class FirebaseLoginController < ActionController::Base
     include ::Devise::Controllers::Helpers
@@ -6,6 +8,7 @@ module Pwb
     layout 'devise_tailwind'
 
     before_action :set_current_website
+    before_action :redirect_if_devise_auth
     before_action :redirect_if_signed_in, except: [:change_password]
 
     def index
@@ -87,6 +90,31 @@ module Pwb
 
     def admin_path
       '/admin'
+    end
+
+    # Redirect to Devise login if Firebase auth is not enabled
+    def redirect_if_devise_auth
+      return if Pwb::AuthConfig.firebase?
+
+      # Build the equivalent Devise path with any return_to parameter
+      devise_path = case action_name
+                    when 'index'
+                      new_user_session_path
+                    when 'sign_up'
+                      new_user_registration_path
+                    when 'forgot_password'
+                      new_user_password_path
+                    when 'change_password'
+                      edit_user_registration_path
+                    else
+                      new_user_session_path
+                    end
+
+      if params[:return_to].present?
+        devise_path = "#{devise_path}?return_to=#{CGI.escape(params[:return_to])}"
+      end
+
+      redirect_to devise_path, notice: "Please use the standard login form."
     end
   end
 end
