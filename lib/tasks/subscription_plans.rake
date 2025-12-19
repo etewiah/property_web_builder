@@ -315,4 +315,418 @@ namespace :pwb do
       puts "=" * 60
     end
   end
+
+  # ==========================================================================
+  # Subscription Management Tasks
+  # ==========================================================================
+  namespace :subscriptions do
+    desc "List all subscriptions"
+    task list: :environment do
+      puts "\nAll Subscriptions:"
+      puts "=" * 70
+
+      subscriptions = Pwb::Subscription.includes(:website, :plan).order(created_at: :desc)
+
+      if subscriptions.empty?
+        puts "\nNo subscriptions found."
+      else
+        subscriptions.each do |sub|
+          status_color = case sub.status
+                         when 'active' then 'active'
+                         when 'trialing' then 'trialing'
+                         when 'past_due' then 'PAST DUE'
+                         when 'canceled' then 'canceled'
+                         when 'expired' then 'EXPIRED'
+                         else sub.status.upcase
+                         end
+
+          puts "\n#{sub.website&.subdomain || 'Unknown'} [#{status_color}]"
+          puts "  Plan: #{sub.plan&.display_name || 'Unknown'}"
+          puts "  Status: #{sub.status}"
+          if sub.trialing?
+            puts "  Trial ends: #{sub.trial_ends_at&.strftime('%Y-%m-%d')} (#{sub.trial_days_remaining} days left)"
+          end
+          puts "  Period: #{sub.current_period_starts_at&.strftime('%Y-%m-%d')} to #{sub.current_period_ends_at&.strftime('%Y-%m-%d')}"
+          puts "  Cancel at period end: #{sub.cancel_at_period_end}" if sub.cancel_at_period_end
+        end
+
+        puts "\n" + "-" * 70
+        puts "Total: #{subscriptions.count} subscription(s)"
+      end
+
+      puts "=" * 70
+    end
+
+    desc "Show subscription details for a website"
+    task :show, [:subdomain] => :environment do |_t, args|
+      subdomain = args[:subdomain]
+
+      if subdomain.blank?
+        puts "Usage: rails pwb:subscriptions:show[subdomain]"
+        exit 1
+      end
+
+      website = Pwb::Website.find_by(subdomain: subdomain)
+
+      if website.nil?
+        puts "Error: Website '#{subdomain}' not found"
+        exit 1
+      end
+
+      subscription = website.subscription
+
+      puts "\nSubscription for #{subdomain}:"
+      puts "=" * 60
+
+      if subscription.nil?
+        puts "\nNo subscription found for this website."
+        puts "\nTo create a subscription, run:"
+        puts "  rails pwb:subscriptions:create[#{subdomain},plan-slug]"
+      else
+        service = Pwb::SubscriptionService.new
+        status = service.status_for(website)
+
+        puts "\nPlan: #{status[:plan_name]} (#{status[:plan_slug]})"
+        puts "Status: #{status[:status]}"
+        puts "Allows access: #{status[:allows_access]}"
+        puts "In good standing: #{status[:in_good_standing]}"
+
+        if subscription.trialing?
+          puts "\nTrial:"
+          puts "  Days remaining: #{status[:trial_days_remaining]}"
+          puts "  Ends at: #{subscription.trial_ends_at&.strftime('%Y-%m-%d %H:%M')}"
+          puts "  Ending soon: #{status[:trial_ending_soon]}"
+        end
+
+        puts "\nBilling Period:"
+        puts "  Starts: #{subscription.current_period_starts_at&.strftime('%Y-%m-%d')}"
+        puts "  Ends: #{subscription.current_period_ends_at&.strftime('%Y-%m-%d')}"
+        puts "  Cancel at period end: #{subscription.cancel_at_period_end}"
+
+        puts "\nLimits:"
+        puts "  Property limit: #{status[:property_limit] || 'Unlimited'}"
+        puts "  Remaining properties: #{status[:remaining_properties] || 'Unlimited'}"
+
+        if status[:features].any?
+          puts "\nFeatures: #{status[:features].join(', ')}"
+        end
+
+        puts "\nEvents:"
+        subscription.events.order(created_at: :desc).limit(5).each do |event|
+          puts "  #{event.created_at.strftime('%Y-%m-%d %H:%M')} - #{event.event_type}"
+        end
+      end
+
+      puts "=" * 60
+    end
+
+    desc "Create a trial subscription for a website"
+    task :create, [:subdomain, :plan_slug, :trial_days] => :environment do |_t, args|
+      subdomain = args[:subdomain]
+      plan_slug = args[:plan_slug]
+      trial_days = args[:trial_days]&.to_i
+
+      if subdomain.blank?
+        puts "Usage: rails pwb:subscriptions:create[subdomain,plan-slug,trial-days]"
+        puts "  subdomain: Required - the website subdomain"
+        puts "  plan-slug: Optional - defaults to starter plan"
+        puts "  trial-days: Optional - defaults to plan's trial period"
+        puts "\nExample: rails pwb:subscriptions:create[mysite,professional,30]"
+        exit 1
+      end
+
+      website = Pwb::Website.find_by(subdomain: subdomain)
+
+      if website.nil?
+        puts "Error: Website '#{subdomain}' not found"
+        exit 1
+      end
+
+      plan = if plan_slug.present?
+               Pwb::Plan.find_by(slug: plan_slug)
+             else
+               Pwb::Plan.default_plan
+             end
+
+      if plan.nil?
+        puts "Error: Plan '#{plan_slug}' not found"
+        puts "Run 'rails pwb:plans:list' to see available plans"
+        exit 1
+      end
+
+      if website.subscription&.allows_access?
+        puts "Error: Website already has an active subscription"
+        puts "Current plan: #{website.subscription.plan.display_name}"
+        puts "Status: #{website.subscription.status}"
+        exit 1
+      end
+
+      puts "\nCreating subscription:"
+      puts "  Website: #{subdomain}"
+      puts "  Plan: #{plan.display_name}"
+      puts "  Trial days: #{trial_days || plan.trial_days}"
+
+      service = Pwb::SubscriptionService.new
+      result = service.create_trial(website: website, plan: plan, trial_days: trial_days)
+
+      if result[:success]
+        puts "\nSubscription created successfully!"
+        puts "  Status: #{result[:subscription].status}"
+        puts "  Trial ends: #{result[:subscription].trial_ends_at.strftime('%Y-%m-%d %H:%M')}"
+      else
+        puts "\nError creating subscription:"
+        result[:errors].each { |e| puts "  - #{e}" }
+        exit 1
+      end
+    end
+
+    desc "Activate a subscription (convert from trial to active)"
+    task :activate, [:subdomain] => :environment do |_t, args|
+      subdomain = args[:subdomain]
+
+      if subdomain.blank?
+        puts "Usage: rails pwb:subscriptions:activate[subdomain]"
+        exit 1
+      end
+
+      website = Pwb::Website.find_by(subdomain: subdomain)
+
+      if website.nil?
+        puts "Error: Website '#{subdomain}' not found"
+        exit 1
+      end
+
+      subscription = website.subscription
+
+      if subscription.nil?
+        puts "Error: No subscription found for '#{subdomain}'"
+        exit 1
+      end
+
+      if subscription.active?
+        puts "Subscription is already active."
+        exit 0
+      end
+
+      puts "\nActivating subscription:"
+      puts "  Website: #{subdomain}"
+      puts "  Plan: #{subscription.plan.display_name}"
+      puts "  Current status: #{subscription.status}"
+
+      service = Pwb::SubscriptionService.new
+      result = service.activate(subscription: subscription)
+
+      if result[:success]
+        puts "\nSubscription activated successfully!"
+        puts "  New status: #{result[:subscription].status}"
+      else
+        puts "\nError activating subscription:"
+        result[:errors].each { |e| puts "  - #{e}" }
+        exit 1
+      end
+    end
+
+    desc "Cancel a subscription"
+    task :cancel, [:subdomain, :immediate] => :environment do |_t, args|
+      subdomain = args[:subdomain]
+      immediate = args[:immediate]&.downcase == 'true'
+
+      if subdomain.blank?
+        puts "Usage: rails pwb:subscriptions:cancel[subdomain,immediate]"
+        puts "  subdomain: Required - the website subdomain"
+        puts "  immediate: Optional - 'true' to cancel immediately, otherwise cancels at period end"
+        puts "\nExample: rails pwb:subscriptions:cancel[mysite]"
+        puts "Example: rails pwb:subscriptions:cancel[mysite,true]"
+        exit 1
+      end
+
+      website = Pwb::Website.find_by(subdomain: subdomain)
+
+      if website.nil?
+        puts "Error: Website '#{subdomain}' not found"
+        exit 1
+      end
+
+      subscription = website.subscription
+
+      if subscription.nil?
+        puts "Error: No subscription found for '#{subdomain}'"
+        exit 1
+      end
+
+      if subscription.canceled?
+        puts "Subscription is already canceled."
+        exit 0
+      end
+
+      puts "\nCanceling subscription:"
+      puts "  Website: #{subdomain}"
+      puts "  Plan: #{subscription.plan.display_name}"
+      puts "  Current status: #{subscription.status}"
+      puts "  Cancel immediately: #{immediate}"
+      puts "  Period ends: #{subscription.current_period_ends_at&.strftime('%Y-%m-%d')}"
+
+      print "\nAre you sure? (y/n): "
+      unless $stdin.gets.chomp.downcase == 'y'
+        puts "Cancellation aborted."
+        exit 0
+      end
+
+      service = Pwb::SubscriptionService.new
+      result = service.cancel(subscription: subscription, at_period_end: !immediate, reason: 'Canceled via rake task')
+
+      if result[:success]
+        if immediate
+          puts "\nSubscription canceled immediately."
+        else
+          puts "\nSubscription will be canceled at period end (#{subscription.current_period_ends_at&.strftime('%Y-%m-%d')})."
+        end
+      else
+        puts "\nError canceling subscription:"
+        result[:errors].each { |e| puts "  - #{e}" }
+        exit 1
+      end
+    end
+
+    desc "Change a subscription's plan"
+    task :change_plan, [:subdomain, :new_plan_slug] => :environment do |_t, args|
+      subdomain = args[:subdomain]
+      new_plan_slug = args[:new_plan_slug]
+
+      if subdomain.blank? || new_plan_slug.blank?
+        puts "Usage: rails pwb:subscriptions:change_plan[subdomain,new-plan-slug]"
+        puts "\nExample: rails pwb:subscriptions:change_plan[mysite,professional]"
+        puts "\nRun 'rails pwb:plans:list' to see available plans"
+        exit 1
+      end
+
+      website = Pwb::Website.find_by(subdomain: subdomain)
+
+      if website.nil?
+        puts "Error: Website '#{subdomain}' not found"
+        exit 1
+      end
+
+      subscription = website.subscription
+
+      if subscription.nil?
+        puts "Error: No subscription found for '#{subdomain}'"
+        puts "Create one first with: rails pwb:subscriptions:create[#{subdomain},#{new_plan_slug}]"
+        exit 1
+      end
+
+      new_plan = Pwb::Plan.find_by(slug: new_plan_slug)
+
+      if new_plan.nil?
+        puts "Error: Plan '#{new_plan_slug}' not found"
+        puts "Run 'rails pwb:plans:list' to see available plans"
+        exit 1
+      end
+
+      if subscription.plan == new_plan
+        puts "Subscription is already on the '#{new_plan.display_name}' plan."
+        exit 0
+      end
+
+      puts "\nChanging subscription plan:"
+      puts "  Website: #{subdomain}"
+      puts "  Current plan: #{subscription.plan.display_name} (#{subscription.plan.formatted_price})"
+      puts "  New plan: #{new_plan.display_name} (#{new_plan.formatted_price})"
+
+      # Check for potential issues
+      if new_plan.property_limit.present?
+        current_properties = website.props.count
+        if current_properties > new_plan.property_limit
+          puts "\n*** WARNING ***"
+          puts "Website has #{current_properties} properties but new plan only allows #{new_plan.property_limit}."
+          puts "Plan change will be rejected."
+        end
+      end
+
+      print "\nProceed with plan change? (y/n): "
+      unless $stdin.gets.chomp.downcase == 'y'
+        puts "Plan change aborted."
+        exit 0
+      end
+
+      service = Pwb::SubscriptionService.new
+      result = service.change_plan(subscription: subscription, new_plan: new_plan)
+
+      if result[:success]
+        puts "\nPlan changed successfully!"
+        puts "  Old plan: #{result[:old_plan].display_name}"
+        puts "  New plan: #{result[:new_plan].display_name}"
+      else
+        puts "\nError changing plan:"
+        result[:errors].each { |e| puts "  - #{e}" }
+        exit 1
+      end
+    end
+
+    desc "Reactivate an expired or canceled subscription"
+    task :reactivate, [:subdomain, :plan_slug] => :environment do |_t, args|
+      subdomain = args[:subdomain]
+      plan_slug = args[:plan_slug]
+
+      if subdomain.blank?
+        puts "Usage: rails pwb:subscriptions:reactivate[subdomain,plan-slug]"
+        puts "  subdomain: Required - the website subdomain"
+        puts "  plan-slug: Optional - use a different plan (defaults to previous plan)"
+        exit 1
+      end
+
+      website = Pwb::Website.find_by(subdomain: subdomain)
+
+      if website.nil?
+        puts "Error: Website '#{subdomain}' not found"
+        exit 1
+      end
+
+      old_subscription = website.subscription
+
+      if old_subscription&.allows_access?
+        puts "Error: Website already has an active subscription"
+        puts "Status: #{old_subscription.status}"
+        exit 1
+      end
+
+      plan = if plan_slug.present?
+               Pwb::Plan.find_by(slug: plan_slug)
+             elsif old_subscription&.plan
+               old_subscription.plan
+             else
+               Pwb::Plan.default_plan
+             end
+
+      if plan.nil?
+        puts "Error: Plan not found"
+        exit 1
+      end
+
+      puts "\nReactivating subscription:"
+      puts "  Website: #{subdomain}"
+      puts "  Plan: #{plan.display_name}"
+      if old_subscription
+        puts "  Previous status: #{old_subscription.status}"
+      end
+
+      # Remove the old subscription if it exists and is expired/canceled
+      if old_subscription && (old_subscription.expired? || old_subscription.canceled?)
+        old_subscription.destroy
+      end
+
+      service = Pwb::SubscriptionService.new
+      result = service.create_trial(website: website, plan: plan)
+
+      if result[:success]
+        puts "\nSubscription reactivated successfully!"
+        puts "  Status: #{result[:subscription].status}"
+        puts "  Trial ends: #{result[:subscription].trial_ends_at.strftime('%Y-%m-%d %H:%M')}"
+      else
+        puts "\nError reactivating subscription:"
+        result[:errors].each { |e| puts "  - #{e}" }
+        exit 1
+      end
+    end
+  end
 end
