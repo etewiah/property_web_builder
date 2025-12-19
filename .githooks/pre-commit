@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Pre-commit hook to check if Tailwind CSS builds are up-to-date
+# Install with: git config core.hooksPath .githooks
+
+# Colors for output
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+# Check if any Tailwind source files are staged
+TAILWIND_SOURCES=$(git diff --cached --name-only | grep -E '\.(css|html\.erb)$' | grep -v 'builds/')
+
+# Check if Tailwind CSS builds are staged
+TAILWIND_BUILDS=$(git diff --cached --name-only | grep 'app/assets/builds/tailwind-.*\.css')
+
+# If Tailwind sources changed but builds aren't staged, warn the developer
+if [ -n "$TAILWIND_SOURCES" ] && [ -z "$TAILWIND_BUILDS" ]; then
+  echo -e "${YELLOW}Warning: Tailwind source files changed but CSS builds not staged.${NC}"
+  echo ""
+  echo "Changed source files:"
+  echo "$TAILWIND_SOURCES" | sed 's/^/  /'
+  echo ""
+  echo -e "Consider running: ${GREEN}npm run tailwind:build${NC}"
+  echo -e "Then stage the builds: ${GREEN}git add app/assets/builds/tailwind-*.css${NC}"
+  echo ""
+  echo -e "${YELLOW}Continuing with commit anyway...${NC}"
+  echo ""
+fi
+
+# Check if builds exist at all
+if [ ! -f "app/assets/builds/tailwind-default.css" ]; then
+  echo -e "${RED}Error: tailwind-default.css not found!${NC}"
+  echo ""
+  echo -e "Run: ${GREEN}npm run tailwind:build${NC}"
+  echo -e "Then: ${GREEN}git add app/assets/builds/tailwind-*.css${NC}"
+  echo ""
+  exit 1
+fi
+
+exit 0

@@ -98,8 +98,10 @@ pwb-frontend-quasar/
 /config/credentials/*.key
 # package-lock.json - removed from gitignore to ensure npm dependencies are locked
 
+# Asset builds - ignore most but commit Tailwind CSS for reliable deploys
 /app/assets/builds/*
 !/app/assets/builds/.keep
+!/app/assets/builds/tailwind-*.css
 for_the_ai/
 docs/SECURITY_AUDIT_FIREBASE_AUTH.md
 logs

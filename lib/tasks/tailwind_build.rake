@@ -26,6 +26,23 @@ namespace :tailwind do
 
     puts "Tailwind CSS build completed successfully!"
   end
+
+  desc "Setup git hooks for Tailwind CSS workflow"
+  task :setup_hooks do
+    puts "Setting up git hooks..."
+
+    hooks_path = Rails.root.join(".githooks")
+    unless File.directory?(hooks_path)
+      puts "ERROR: .githooks directory not found"
+      exit 1
+    end
+
+    # Configure git to use .githooks directory
+    system("git config core.hooksPath .githooks")
+
+    puts "Git hooks installed successfully!"
+    puts "Pre-commit hook will now check Tailwind CSS builds."
+  end
 end
 
 # Hook into assets:precompile to build Tailwind CSS first
