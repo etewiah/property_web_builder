@@ -209,6 +209,7 @@ module SiteAdmin
         :visible, :highlighted, :archived, :reserved, :furnished,
         :price_sale_current_cents, :price_sale_current_currency,
         :commission_cents, :commission_currency,
+        :seo_title, :meta_description,
         *locale_fields
       )
     end
@@ -226,6 +227,7 @@ module SiteAdmin
         :for_rent_short_term, :for_rent_long_term,
         :price_rental_monthly_current_cents, :price_rental_monthly_current_currency,
         :price_rental_monthly_low_season_cents, :price_rental_monthly_high_season_cents,
+        :seo_title, :meta_description,
         *locale_fields
       )
     end

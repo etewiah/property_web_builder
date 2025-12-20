@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_17_095831) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_20_131641) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -626,6 +626,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_17_095831) do
     t.boolean "for_rent_short_term", default: false
     t.boolean "furnished", default: false
     t.boolean "highlighted", default: false
+    t.text "meta_description"
     t.bigint "price_rental_monthly_current_cents", default: 0
     t.string "price_rental_monthly_current_currency", default: "EUR"
     t.bigint "price_rental_monthly_high_season_cents", default: 0
@@ -633,6 +634,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_17_095831) do
     t.uuid "realty_asset_id"
     t.string "reference"
     t.boolean "reserved", default: false
+    t.string "seo_title"
     t.jsonb "translations", default: {}, null: false
     t.datetime "updated_at", null: false
     t.boolean "visible", default: false
@@ -649,11 +651,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_17_095831) do
     t.datetime "created_at", null: false
     t.boolean "furnished", default: false
     t.boolean "highlighted", default: false
+    t.text "meta_description"
     t.bigint "price_sale_current_cents", default: 0
     t.string "price_sale_current_currency", default: "EUR"
     t.uuid "realty_asset_id"
     t.string "reference"
     t.boolean "reserved", default: false
+    t.string "seo_title"
     t.jsonb "translations", default: {}, null: false
     t.datetime "updated_at", null: false
     t.boolean "visible", default: false
@@ -1058,6 +1062,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_17_095831) do
       COALESCE(sl.reserved, false) AS sale_reserved,
       COALESCE(sl.furnished, false) AS sale_furnished,
       COALESCE(sl.highlighted, false) AS sale_highlighted,
+      sl.seo_title AS sale_seo_title,
+      sl.meta_description AS sale_meta_description,
       rl.id AS rental_listing_id,
       (COALESCE(rl.visible, false) AND (NOT COALESCE(rl.archived, true))) AS for_rent,
       COALESCE(rl.for_rent_short_term, false) AS for_rent_short_term,
@@ -1069,6 +1075,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_17_095831) do
       COALESCE(rl.reserved, false) AS rental_reserved,
       COALESCE(rl.furnished, false) AS rental_furnished,
       COALESCE(rl.highlighted, false) AS rental_highlighted,
+      rl.seo_title AS rental_seo_title,
+      rl.meta_description AS rental_meta_description,
       ((COALESCE(sl.visible, false) AND (NOT COALESCE(sl.archived, true))) OR (COALESCE(rl.visible, false) AND (NOT COALESCE(rl.archived, true)))) AS visible,
       (COALESCE(sl.highlighted, false) OR COALESCE(rl.highlighted, false)) AS highlighted,
       (COALESCE(sl.reserved, false) OR COALESCE(rl.reserved, false)) AS reserved,
