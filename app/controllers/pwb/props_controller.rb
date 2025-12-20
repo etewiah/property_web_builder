@@ -3,6 +3,7 @@ require_dependency "pwb/application_controller"
 module Pwb
   class PropsController < ApplicationController
     include SeoHelper
+    include HttpCacheable
 
     def show_for_rent
       @carousel_speed = 3000
@@ -15,6 +16,9 @@ module Pwb
       @property_details = find_property_by_slug_or_id(params[:id])
 
       if @property_details && @property_details.visible && @property_details.for_rent
+        # HTTP caching - return 304 if content hasn't changed
+        return if fresh_response?(@property_details, max_age: 10.minutes, public: true)
+
         set_map_marker
         @show_vacational_rental = @property_details.for_rent_short_term
 
@@ -29,7 +33,7 @@ module Pwb
         @page_title = I18n.t("propertyNotFound")
         hi_content = @current_website.contents.where(tag: "landing-carousel")[0]
         @header_image = hi_content.present? ? hi_content.default_photo : nil
-        return render "not_found"
+        return render "not_found", status: :not_found
       end
     end
 
@@ -44,6 +48,9 @@ module Pwb
       @property_details = find_property_by_slug_or_id(params[:id])
 
       if @property_details && @property_details.visible && @property_details.for_sale
+        # HTTP caching - return 304 if content hasn't changed
+        return if fresh_response?(@property_details, max_age: 10.minutes, public: true)
+
         set_map_marker
         @page_title = @property_details.title
         @page_description = @property_details.description
@@ -56,7 +63,7 @@ module Pwb
         @page_title = I18n.t("propertyNotFound")
         hi_content = @current_website.contents.where(tag: "landing-carousel")[0]
         @header_image = hi_content.present? ? hi_content.default_photo : nil
-        return render "not_found"
+        return render "not_found", status: :not_found
       end
     end
 

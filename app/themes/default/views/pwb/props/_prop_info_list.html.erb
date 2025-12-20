@@ -1,3 +1,5 @@
+<%# Fragment cache for property info - invalidates when property updates %>
+<% cache [property_cache_key(@property_details, variant: "info"), @operation_type, "v1"] do %>
 <!-- Bristol Theme Property Info List - Tailwind CSS -->
 <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
   <div class="p-6">
@@ -81,4 +83,4 @@
     </div>
   </div>
 </div>
-
+<% end %>

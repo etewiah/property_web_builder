@@ -60,6 +60,8 @@ module Pwb
 #
   #
   class RealtyAsset < ApplicationRecord
+    include RefreshesPropertiesView
+
     self.table_name = 'pwb_realty_assets'
 
     # Callbacks for slug generation

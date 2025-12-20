@@ -45,6 +45,7 @@ module Pwb
     include NtfyListingNotifications
     include ListingStateable
     include SeoValidatable
+    include RefreshesPropertiesView
     extend Mobility
 
     self.table_name = 'pwb_rental_listings'
