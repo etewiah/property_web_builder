@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import RubyPlugin from 'vite-plugin-ruby'
 import VuePlugin from '@vitejs/plugin-vue'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
   define: {
@@ -18,6 +19,13 @@ export default defineConfig({
     }),
     quasar({
       // sassVariables: 'src/quasar-variables.sass'
+    }),
+    // Bundle analyzer - run with ANALYZE=true to generate report
+    process.env.ANALYZE && visualizer({
+      open: true,
+      filename: 'tmp/bundle-stats.html',
+      gzipSize: true,
+      brotliSize: true,
     })
-  ],
+  ].filter(Boolean),
 })

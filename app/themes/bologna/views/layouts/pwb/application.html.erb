@@ -8,44 +8,29 @@
     <%= favicon_tags %>
     <%= yield(:page_head) %>
 
-    <%# DNS Prefetch for external resources %>
+    <%# DNS Prefetch for external resources (fonts now self-hosted) %>
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="//unpkg.com">
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
-    <%# Preconnect for faster font loading %>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <%# Critical CSS - loaded synchronously %>
+    <%# Critical CSS - loaded synchronously (includes self-hosted fonts) %>
     <%= stylesheet_link_tag "tailwind-bologna", media: "all" %>
     <%= stylesheet_link_tag "bologna_theme", media: "all" %>
     <style>
       <%= custom_styles "bologna" %>
     </style>
 
-    <%# Google Fonts - async loading with swap for better LCP %>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
-
     <%# Flowbite CSS - deferred (only needed for interactive components) %>
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"></noscript>
 
-    <%# Leaflet CSS - deferred (only needed on map pages) %>
-    <link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-    <noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""></noscript>
+    <%# Leaflet loaded only on pages that need maps - see pwb/shared/leaflet_assets %>
 
-    <%# Font Awesome - deferred %>
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"></noscript>
+    <%# Phosphor Icons %>
+    <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
 
     <%# Deferred JavaScript for better page speed %>
     <%= javascript_include_tag "pwb/application", defer: true %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
-    <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
     <%= csrf_meta_tags %>
   </head>
 

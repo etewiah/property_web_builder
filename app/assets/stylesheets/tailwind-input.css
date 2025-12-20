@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Self-hosted fonts - eliminates Google Fonts dependency */
+@import "@fontsource/open-sans/400.css";
+@import "@fontsource/open-sans/500.css";
+@import "@fontsource/open-sans/600.css";
+@import "@fontsource/open-sans/700.css";
+@import "@fontsource/vollkorn/400.css";
+@import "@fontsource/vollkorn/500.css";
+@import "@fontsource/vollkorn/600.css";
+
 /* Base theme customizations shared by all themes */
 @theme {
   /* These are set via CSS variables for per-tenant customization */
@@ -9,9 +18,9 @@
   --color-services-card: var(--services-card-bg, #ffffff);
   --color-services-text: var(--services-text-color, #1e293b);
 
-  /* Font families */
-  --font-family-sans: var(--font-primary, system-ui, sans-serif);
-  --font-family-serif: var(--font-secondary, Georgia, serif);
+  /* Font families - now using self-hosted fonts */
+  --font-family-sans: 'Open Sans', var(--font-primary, system-ui, sans-serif);
+  --font-family-serif: 'Vollkorn', var(--font-secondary, Georgia, serif);
 
   /* Border radius */
   --radius: var(--border-radius, 0.375rem);

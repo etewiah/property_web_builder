@@ -17,12 +17,23 @@ module Pwb
       end
     end
 
-    # Display a photo with support for external URLs
+    # Display a photo with support for external URLs and modern formats
     # @param photo [Object] A photo model (PropPhoto, ContentPhoto, WebsitePhoto)
-    # @param options [Hash] HTML options for the image tag
+    # @param options [Hash] HTML options for the image tag, plus:
+    #   - :use_picture [Boolean] Use <picture> element with WebP source (default: false)
+    #   - :width, :height [Integer] Resize dimensions
+    #   - :quality [String] Image quality (e.g., "auto", "80")
+    #   - :crop [String] Crop mode (e.g., "scale", "fill")
     # @return [String, nil] Image tag or nil if no image
     def opt_image_tag(photo, options = {})
       return nil unless photo
+
+      # Extract custom options
+      use_picture = options.delete(:use_picture)
+      width = options.delete(:width)
+      height = options.delete(:height)
+      _quality = options.delete(:quality) # Reserved for future CDN usage
+      _crop = options.delete(:crop) # Reserved for future CDN usage
 
       # Handle external URLs first
       if photo.respond_to?(:external?) && photo.external?
@@ -32,7 +43,49 @@ module Pwb
       # Fall back to ActiveStorage
       return nil unless photo.respond_to?(:image) && photo.image.attached?
 
-      image_tag url_for(photo.image), options
+      # Build variant options if dimensions specified
+      variant_options = {}
+      if width || height
+        variant_options[:resize_to_limit] = [width, height].compact
+      end
+
+      # Use picture element with WebP source for better performance
+      if use_picture && photo.image.variable?
+        optimized_image_picture(photo, variant_options, options)
+      elsif variant_options.present? && photo.image.variable?
+        image_tag photo.image.variant(variant_options), options
+      else
+        image_tag url_for(photo.image), options
+      end
+    end
+
+    # Generate a <picture> element with WebP source and fallback
+    # @param photo [Object] A photo model with ActiveStorage image
+    # @param variant_options [Hash] Options for image variant
+    # @param html_options [Hash] HTML options for the img tag
+    # @return [String] Picture element HTML
+    def optimized_image_picture(photo, variant_options = {}, html_options = {})
+      webp_options = variant_options.merge(format: :webp)
+      fallback_url = if variant_options.present?
+                       url_for(photo.image.variant(variant_options))
+                     else
+                       url_for(photo.image)
+                     end
+
+      content_tag(:picture) do
+        # WebP source for modern browsers
+        webp_source = tag(:source,
+                          srcset: url_for(photo.image.variant(webp_options)),
+                          type: "image/webp")
+        # Fallback img tag
+        fallback_img = image_tag(fallback_url, html_options)
+
+        safe_join([webp_source, fallback_img])
+      end
+    rescue StandardError => e
+      # Fall back to regular image if variant generation fails
+      Rails.logger.warn("Failed to generate optimized image: #{e.message}")
+      image_tag url_for(photo.image), html_options
     end
 
     # Display a photo with support for external URLs and variants

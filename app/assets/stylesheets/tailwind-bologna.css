@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Self-hosted fonts - eliminates Google Fonts dependency */
+@import "@fontsource-variable/dm-sans";
+@import "@fontsource-variable/outfit";
+
 /* Bologna Mediterranean Theme */
 @theme {
   /* Terra (Terracotta) palette */

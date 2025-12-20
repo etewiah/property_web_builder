@@ -2,12 +2,19 @@
   "devDependencies": {
     "@playwright/test": "^1.57.0",
     "@quasar/vite-plugin": "^1.0.10",
+    "rollup-plugin-visualizer": "^6.0.5",
     "sass": "^1.94.2",
     "vite": "^7.2.4",
     "vite-plugin-ruby": "^5.1.1"
   },
   "dependencies": {
     "@fawmi/vue-google-maps": "^0.9.79",
+    "@fontsource-variable/dm-sans": "^5.2.8",
+    "@fontsource-variable/montserrat": "^5.2.8",
+    "@fontsource-variable/outfit": "^5.2.8",
+    "@fontsource/cormorant-garamond": "^5.2.11",
+    "@fontsource/open-sans": "^5.2.7",
+    "@fontsource/vollkorn": "^5.2.10",
     "@quasar/extras": "^1.14.0",
     "@tailwindcss/cli": "^4.1.17",
     "@urql/vue": "^0.6.3",
@@ -30,7 +37,9 @@
     "tailwind:build": "npm run tailwind:default && npm run tailwind:bologna && npm run tailwind:brisbane",
     "tailwind:watch:default": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-input.css -o ./app/assets/builds/tailwind-default.css --watch",
     "tailwind:watch:bologna": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-bologna.css -o ./app/assets/builds/tailwind-bologna.css --watch",
-    "tailwind:watch:brisbane": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-brisbane.css -o ./app/assets/builds/tailwind-brisbane.css --watch"
+    "tailwind:watch:brisbane": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-brisbane.css -o ./app/assets/builds/tailwind-brisbane.css --watch",
+    "analyze": "ANALYZE=true npx vite build",
+    "lighthouse": "npx lhci autorun"
   },
   "engines": {
     "node": "22.x"
