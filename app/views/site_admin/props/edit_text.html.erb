@@ -62,9 +62,11 @@
                         </label>
                         <%= f.text_field "seo_title_#{locale}",
                             value: @sale_listing.send("seo_title_#{locale}"),
-                            class: "block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
+                            class: "seo-field block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
                             placeholder: "Custom SEO title...",
-                            maxlength: 70 %>
+                            maxlength: 70,
+                            data: { max_length: 70, optimal_max: 60 } %>
+                        <p class="mt-1 text-xs text-gray-500 char-counter" data-for="sale_listing_seo_title_<%= locale %>">0 / 70 characters</p>
                       </div>
                       <div>
                         <label class="block text-xs font-medium text-gray-600 mb-1">
@@ -73,9 +75,11 @@
                         <%= f.text_area "meta_description_#{locale}",
                             value: @sale_listing.send("meta_description_#{locale}"),
                             rows: 2,
-                            class: "block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
+                            class: "seo-field block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
                             placeholder: "Custom meta description...",
-                            maxlength: 200 %>
+                            maxlength: 200,
+                            data: { max_length: 200, optimal_max: 160 } %>
+                        <p class="mt-1 text-xs text-gray-500 char-counter" data-for="sale_listing_meta_description_<%= locale %>">0 / 200 characters</p>
                       </div>
                     </div>
                   </details>
@@ -140,9 +144,11 @@
                         </label>
                         <%= f.text_field "seo_title_#{locale}",
                             value: @rental_listing.send("seo_title_#{locale}"),
-                            class: "block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
+                            class: "seo-field block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
                             placeholder: "Custom SEO title...",
-                            maxlength: 70 %>
+                            maxlength: 70,
+                            data: { max_length: 70, optimal_max: 60 } %>
+                        <p class="mt-1 text-xs text-gray-500 char-counter" data-for="rental_listing_seo_title_<%= locale %>">0 / 70 characters</p>
                       </div>
                       <div>
                         <label class="block text-xs font-medium text-gray-600 mb-1">
@@ -151,9 +157,11 @@
                         <%= f.text_area "meta_description_#{locale}",
                             value: @rental_listing.send("meta_description_#{locale}"),
                             rows: 2,
-                            class: "block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
+                            class: "seo-field block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
                             placeholder: "Custom meta description...",
-                            maxlength: 200 %>
+                            maxlength: 200,
+                            data: { max_length: 200, optimal_max: 160 } %>
+                        <p class="mt-1 text-xs text-gray-500 char-counter" data-for="rental_listing_meta_description_<%= locale %>">0 / 200 characters</p>
                       </div>
                     </div>
                   </details>
@@ -188,3 +196,40 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize character counters for SEO fields
+    const seoFields = document.querySelectorAll('.seo-field');
+
+    seoFields.forEach(function(field) {
+      const maxLength = parseInt(field.dataset.maxLength) || 200;
+      const optimalMax = parseInt(field.dataset.optimalMax) || maxLength;
+      const counter = field.parentElement.querySelector('.char-counter');
+
+      function updateCounter() {
+        const length = field.value.length;
+        counter.textContent = length + ' / ' + maxLength + ' characters';
+
+        // Color coding based on length
+        counter.classList.remove('text-gray-500', 'text-yellow-600', 'text-red-600', 'text-green-600');
+
+        if (length === 0) {
+          counter.classList.add('text-gray-500');
+        } else if (length <= optimalMax) {
+          counter.classList.add('text-green-600');
+        } else if (length <= maxLength) {
+          counter.classList.add('text-yellow-600');
+        } else {
+          counter.classList.add('text-red-600');
+        }
+      }
+
+      // Initial update
+      updateCounter();
+
+      // Update on input
+      field.addEventListener('input', updateCounter);
+    });
+  });
+</script>

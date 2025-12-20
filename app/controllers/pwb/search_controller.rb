@@ -3,6 +3,7 @@ require_dependency "pwb/application_controller"
 module Pwb
   class SearchController < ApplicationController
     include SearchUrlHelper
+    include SeoHelper
 
     before_action :header_image_url
     before_action :normalize_url_params
@@ -83,6 +84,13 @@ module Pwb
       # and so won't be ready for sorting when below is called - but will wire up for sorting button
       # initial client sort called by       INMOAPP.sortSearchResults();
 
+      # Set SEO for search results page
+      set_listing_page_seo(
+        operation: 'for_sale',
+        location: params.dig(:search, :in_locality),
+        page: params[:page].to_i > 0 ? params[:page].to_i : 1
+      )
+
       render "/pwb/search/buy"
     end
 
@@ -124,6 +132,13 @@ module Pwb
       calculate_facets if params[:include_facets] || request.format.html?
 
       @search_defaults = params[:search].present? ? params[:search] : {}
+
+      # Set SEO for search results page
+      set_listing_page_seo(
+        operation: 'for_rent',
+        location: params.dig(:search, :in_locality),
+        page: params[:page].to_i > 0 ? params[:page].to_i : 1
+      )
 
       render "/pwb/search/rent"
     end

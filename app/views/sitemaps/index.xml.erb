@@ -17,6 +17,17 @@
     <lastmod><%= property.updated_at.strftime('%Y-%m-%d') %></lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <%# Include property images (up to 5 per URL) %>
+    <% property.prop_photos.order(:sort_order).limit(5).each do |photo| %>
+    <% photo_url = photo.image_url rescue nil %>
+    <% if photo_url.present? %>
+    <image:image>
+      <image:loc><%= photo_url %></image:loc>
+      <image:title><%= property.title.to_s.truncate(100) %></image:title>
+      <image:caption><%= [property.title, property.city].compact.join(' - ').truncate(200) %></image:caption>
+    </image:image>
+    <% end %>
+    <% end %>
   </url>
   <% end %>
 
@@ -27,6 +38,17 @@
     <lastmod><%= property.updated_at.strftime('%Y-%m-%d') %></lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <%# Include property images (up to 5 per URL) %>
+    <% property.prop_photos.order(:sort_order).limit(5).each do |photo| %>
+    <% photo_url = photo.image_url rescue nil %>
+    <% if photo_url.present? %>
+    <image:image>
+      <image:loc><%= photo_url %></image:loc>
+      <image:title><%= property.title.to_s.truncate(100) %></image:title>
+      <image:caption><%= [property.title, property.city].compact.join(' - ').truncate(200) %></image:caption>
+    </image:image>
+    <% end %>
+    <% end %>
   </url>
   <% end %>
 

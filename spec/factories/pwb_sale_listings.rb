@@ -9,6 +9,7 @@
 #  commission_currency         :string           default("EUR")
 #  furnished                   :boolean          default(FALSE)
 #  highlighted                 :boolean          default(FALSE)
+#  noindex                     :boolean          default(FALSE), not null
 #  price_sale_current_cents    :bigint           default(0)
 #  price_sale_current_currency :string           default("EUR")
 #  reference                   :string
@@ -21,6 +22,7 @@
 #
 # Indexes
 #
+#  index_pwb_sale_listings_on_noindex          (noindex)
 #  index_pwb_sale_listings_on_realty_asset_id  (realty_asset_id)
 #  index_pwb_sale_listings_on_translations     (translations) USING gin
 #  index_pwb_sale_listings_unique_active       (realty_asset_id,active) UNIQUE WHERE (active = true)

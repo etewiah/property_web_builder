@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_17_095831) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_20_145953) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -626,6 +626,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_17_095831) do
     t.boolean "for_rent_short_term", default: false
     t.boolean "furnished", default: false
     t.boolean "highlighted", default: false
+    t.boolean "noindex", default: false, null: false
     t.bigint "price_rental_monthly_current_cents", default: 0
     t.string "price_rental_monthly_current_currency", default: "EUR"
     t.bigint "price_rental_monthly_high_season_cents", default: 0
@@ -636,6 +637,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_17_095831) do
     t.jsonb "translations", default: {}, null: false
     t.datetime "updated_at", null: false
     t.boolean "visible", default: false
+    t.index ["noindex"], name: "index_pwb_rental_listings_on_noindex"
     t.index ["realty_asset_id", "active"], name: "index_pwb_rental_listings_unique_active", unique: true, where: "(active = true)"
     t.index ["realty_asset_id"], name: "index_pwb_rental_listings_on_realty_asset_id"
     t.index ["translations"], name: "index_pwb_rental_listings_on_translations", using: :gin
@@ -649,6 +651,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_17_095831) do
     t.datetime "created_at", null: false
     t.boolean "furnished", default: false
     t.boolean "highlighted", default: false
+    t.boolean "noindex", default: false, null: false
     t.bigint "price_sale_current_cents", default: 0
     t.string "price_sale_current_currency", default: "EUR"
     t.uuid "realty_asset_id"
@@ -657,6 +660,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_17_095831) do
     t.jsonb "translations", default: {}, null: false
     t.datetime "updated_at", null: false
     t.boolean "visible", default: false
+    t.index ["noindex"], name: "index_pwb_sale_listings_on_noindex"
     t.index ["realty_asset_id", "active"], name: "index_pwb_sale_listings_unique_active", unique: true, where: "(active = true)"
     t.index ["realty_asset_id"], name: "index_pwb_sale_listings_on_realty_asset_id"
     t.index ["translations"], name: "index_pwb_sale_listings_on_translations", using: :gin

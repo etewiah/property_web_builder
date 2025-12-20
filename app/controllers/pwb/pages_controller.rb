@@ -2,6 +2,8 @@ require_dependency 'pwb/application_controller'
 
 module Pwb
   class PagesController < ApplicationController
+    include SeoHelper
+
     before_action :header_image_url
 
     def show_page
@@ -27,6 +29,9 @@ module Pwb
           # Store page_content objects for edit mode
           @page_contents_for_edit.push page_content
         end
+
+        # Set SEO for the page
+        set_page_seo(@page)
       end
 
       render "/pwb/pages/show"

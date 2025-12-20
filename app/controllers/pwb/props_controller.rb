@@ -165,12 +165,16 @@ module Pwb
       seo_title_value = listing&.seo_title
       meta_desc_value = listing&.meta_description
 
+      # Check if listing should be noindexed (archived, reserved, or explicitly set)
+      should_noindex = listing&.noindex || listing&.archived || listing&.reserved
+
       set_seo(
         title: seo_title_value.presence || property.title,
         description: meta_desc_value.presence || truncate_description(property.description),
         canonical_url: canonical_url,
         image: image_url,
-        og_type: 'product' # More appropriate for real estate listings
+        og_type: 'product', # More appropriate for real estate listings
+        noindex: should_noindex
       )
 
       # Store property for JSON-LD generation in the view

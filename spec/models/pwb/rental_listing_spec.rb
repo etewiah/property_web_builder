@@ -9,6 +9,7 @@
 #  for_rent_short_term                    :boolean          default(FALSE)
 #  furnished                              :boolean          default(FALSE)
 #  highlighted                            :boolean          default(FALSE)
+#  noindex                                :boolean          default(FALSE), not null
 #  price_rental_monthly_current_cents     :bigint           default(0)
 #  price_rental_monthly_current_currency  :string           default("EUR")
 #  price_rental_monthly_high_season_cents :bigint           default(0)
@@ -23,6 +24,7 @@
 #
 # Indexes
 #
+#  index_pwb_rental_listings_on_noindex          (noindex)
 #  index_pwb_rental_listings_on_realty_asset_id  (realty_asset_id)
 #  index_pwb_rental_listings_on_translations     (translations) USING gin
 #  index_pwb_rental_listings_unique_active       (realty_asset_id,active) UNIQUE WHERE (active = true)

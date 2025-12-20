@@ -28,9 +28,11 @@ class SitemapsController < ActionController::Base
   def fetch_properties
     # Use the materialized view for efficient querying
     # Note: title is computed from associated listings, not a column
+    # Eager load photos for image sitemap
     Pwb::ListedProperty
       .where(website_id: @website.id)
       .where(visible: true)
+      .includes(:prop_photos)
       .order(updated_at: :desc)
   end
 

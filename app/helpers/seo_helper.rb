@@ -113,10 +113,13 @@ module SeoHelper
     tags << tag.meta(name: 'twitter:image', content: seo_image) if seo_image.present?
 
     # Hreflang tags for multi-language support
-    if seo_data[:alternate_urls].present?
-      seo_data[:alternate_urls].each do |locale, url|
+    alternate_urls = seo_data[:alternate_urls] || generate_alternate_urls
+    if alternate_urls.present?
+      alternate_urls.each do |locale, url|
         tags << tag.link(rel: 'alternate', hreflang: locale, href: url)
       end
+      # Add x-default for language selection page
+      tags << tag.link(rel: 'alternate', hreflang: 'x-default', href: alternate_urls[I18n.default_locale.to_s] || request.original_url)
     end
 
     # Robots directive if specified
@@ -244,6 +247,58 @@ module SeoHelper
     tag.script(data.to_json.html_safe, type: 'application/ld+json')
   end
 
+  # Set SEO for a CMS page
+  def set_page_seo(page)
+    return unless page.present?
+
+    # Build canonical URL
+    canonical_url = if page.slug == 'home'
+                      "#{request.protocol}#{request.host_with_port}/"
+                    else
+                      "#{request.protocol}#{request.host_with_port}/p/#{page.slug}"
+                    end
+
+    set_seo(
+      title: page.seo_title.presence || page.page_title,
+      description: page.meta_description.presence,
+      canonical_url: canonical_url,
+      og_type: 'website'
+    )
+
+    # Store page for potential JSON-LD generation
+    @seo_page = page
+  end
+
+  # Set SEO for search/listing pages
+  def set_listing_page_seo(options = {})
+    operation = options[:operation] # 'for_sale' or 'for_rent'
+    location = options[:location]   # city, region, etc.
+    page_num = options[:page] || 1
+
+    # Build dynamic title based on search context
+    title_parts = []
+    title_parts << (operation == 'for_rent' ? I18n.t('forRent', default: 'For Rent') : I18n.t('forSale', default: 'For Sale'))
+    title_parts << "in #{location}" if location.present?
+    title_parts << "- Page #{page_num}" if page_num > 1
+
+    # Build description
+    description = I18n.t('seo.listing_description',
+                         operation: title_parts.first,
+                         location: location.presence || 'your area',
+                         default: "Browse properties #{title_parts.first.downcase} #{location.present? ? "in #{location}" : ''}")
+
+    # Canonical URL (without pagination for page 1)
+    canonical_path = request.path.split('?').first
+    canonical_url = "#{request.protocol}#{request.host_with_port}#{canonical_path}"
+
+    set_seo(
+      title: title_parts.join(' '),
+      description: description,
+      canonical_url: canonical_url,
+      og_type: 'website'
+    )
+  end
+
   private
 
   def current_website
@@ -256,6 +311,27 @@ module SeoHelper
       photo.image_url
     elsif photo.respond_to?(:url)
       photo.url
+    end
+  end
+
+  # Generate alternate URLs for each available locale
+  # Uses the current path with locale substitution
+  def generate_alternate_urls
+    return {} unless defined?(request) && request.present?
+    return {} unless I18n.available_locales.size > 1
+
+    base_url = "#{request.protocol}#{request.host_with_port}"
+    current_path = request.path
+
+    I18n.available_locales.each_with_object({}) do |locale, urls|
+      # Replace locale in path or prepend it
+      # Handles paths like /en/buy, /es/buy
+      alternate_path = if current_path =~ %r{^/([a-z]{2})(/|$)}
+                         current_path.sub(%r{^/[a-z]{2}}, "/#{locale}")
+                       else
+                         "/#{locale}#{current_path}"
+                       end
+      urls[locale.to_s] = "#{base_url}#{alternate_path}"
     end
   end
 end
