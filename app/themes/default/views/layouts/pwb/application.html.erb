@@ -24,9 +24,10 @@
 
     <%# Leaflet loaded only on pages that need maps - see pwb/shared/leaflet_assets %>
 
-    <%# Font Awesome - deferred with font-display swap %>
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"></noscript>
+    <%# Font Awesome 6 with v4 shims for backward compatibility %>
+    <%# Loading synchronously to ensure icons display reliably in production %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/v4-shims.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
 
     <%# Deferred JavaScript for better page speed %>
     <%= javascript_include_tag "pwb/application", defer: true %>
