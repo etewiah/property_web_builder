@@ -11,7 +11,8 @@
     <div class="prop-figure">
       <%= link_to property.contextual_show_path( @operation_type ) do %>
         <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
-            height: 240, crop: "scale", class: "img-responsive", loading: "lazy") %>
+            height: 240, crop: "scale", class: "img-responsive", loading: "lazy",
+            alt: property.title.presence || "Property listing") %>
       <% end %>
     </div>
   </div>

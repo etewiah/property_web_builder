@@ -14,47 +14,52 @@
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
-    <%# Google Fonts - Modern Geometric Sans-Serif %>
+    <%# Preconnect for faster font loading %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <%# Compiled Tailwind CSS for production performance %>
+    <%# Critical CSS - loaded synchronously %>
     <%= stylesheet_link_tag "tailwind-bologna", media: "all" %>
-
-    <%# Flowbite for UI components %>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
-
-    <%# Theme-specific styles %>
     <%= stylesheet_link_tag "bologna_theme", media: "all" %>
     <style>
       <%= custom_styles "bologna" %>
     </style>
 
+    <%# Google Fonts - async loading with swap for better LCP %>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+
+    <%# Flowbite CSS - deferred (only needed for interactive components) %>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"></noscript>
+
+    <%# Leaflet CSS - deferred (only needed on map pages) %>
+    <link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""></noscript>
+
+    <%# Font Awesome - deferred %>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"></noscript>
+
     <%# Deferred JavaScript for better page speed %>
     <%= javascript_include_tag "pwb/application", defer: true %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
-    <%= csrf_meta_tags %>
-
-    <%# Leaflet for maps - deferred %>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
-
-    <%# Phosphor Icons - Modern alternative to Font Awesome - deferred %>
     <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
-    <%# Font Awesome as fallback %>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+    <%= csrf_meta_tags %>
   </head>
 
   <body class="tnt-body bologna-theme <%= @current_website.body_style %> font-sans antialiased bg-warm-gray-50 text-warm-gray-900">
-    <!-- MAIN WRAPPER -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-white focus:text-terra-600">Skip to main content</a>
+
+    <%# MAIN WRAPPER %>
     <div id="main-vue" class="body-wrap sticky-wrap <%= @current_website.body_style %> flex flex-col min-h-screen">
 
       <%# Minimal Header %>
       <%= render partial: '/pwb/header', locals: { not_devise: true } %>
 
       <%# Main Content %>
-      <main class="sticky-body flex-grow">
+      <main id="main-content" class="sticky-body flex-grow" role="main">
         <%= render 'devise/shared/messages' %>
         <%= yield %>
       </main>
@@ -64,10 +69,11 @@
 
       <%# Back to Top Button %>
       <button id="back-to-top"
+              aria-label="Back to top"
               class="fixed bottom-8 right-8 z-50 w-12 h-12 bg-terra-500 text-white rounded-full shadow-medium
                      opacity-0 invisible transition-all duration-300 hover:bg-terra-600 hover:shadow-elevated
                      flex items-center justify-center">
-        <i class="ph ph-caret-up text-xl"></i>
+        <i class="ph ph-caret-up text-xl" aria-hidden="true"></i>
       </button>
 
       <%# Analytics %>

@@ -7,8 +7,10 @@
       <% @property_details.prop_photos.each.with_index do |photo, index| %>
         <div class="<%= index == 0 ? 'block' : 'hidden' %> duration-700 ease-in-out absolute w-full h-full top-0 left-0" data-carousel-item="<%= index == 0 ? 'active' : '' %>">
           <%= opt_image_tag(photo, quality: "auto", height: 600, crop: "scale",
-              class: "absolute block w-full h-full object-cover", alt: @property_details.title,
-              loading: index == 0 ? "eager" : "lazy") %>
+              class: "absolute block w-full h-full object-cover",
+              alt: @property_details.title.presence || "Property photo",
+              loading: index == 0 ? "eager" : "lazy",
+              fetchpriority: index == 0 ? "high" : nil) %>
           <% if @property_details.contextual_price_with_currency(@operation_type) %>
             <div class="absolute top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg font-bold shadow-lg">
               <%= @property_details.contextual_price_with_currency @operation_type %>

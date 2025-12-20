@@ -14,45 +14,51 @@
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
-    <%# Google Fonts - Luxury Typography %>
+    <%# Preconnect for faster font loading %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <%# Compiled Tailwind CSS for production performance %>
+    <%# Critical CSS - loaded synchronously %>
     <%= stylesheet_link_tag "tailwind-brisbane", media: "all" %>
-
-    <%# Flowbite for UI components %>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
-
-    <%# Theme-specific styles %>
     <%= stylesheet_link_tag "brisbane_theme", media: "all" %>
     <style>
       <%= custom_styles "brisbane" %>
     </style>
 
+    <%# Google Fonts - async loading with swap for better LCP %>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
+
+    <%# Flowbite CSS - deferred (only needed for interactive components) %>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"></noscript>
+
+    <%# Leaflet CSS - deferred (only needed on map pages) %>
+    <link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""></noscript>
+
+    <%# Font Awesome - deferred %>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"></noscript>
+
     <%# Deferred JavaScript for better page speed %>
     <%= javascript_include_tag "pwb/application", defer: true %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
-    <%= csrf_meta_tags %>
-
-    <%# Leaflet for maps - deferred %>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
-
-    <%# Font Awesome %>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+    <%= csrf_meta_tags %>
   </head>
 
   <body class="tnt-body brisbane-theme <%= @current_website.body_style %> font-sans antialiased bg-luxury-cream text-luxury-charcoal">
-    <!-- MAIN WRAPPER -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-white focus:text-luxury-gold">Skip to main content</a>
+
+    <%# MAIN WRAPPER %>
     <div id="main-vue" class="body-wrap sticky-wrap <%= @current_website.body_style %> flex flex-col min-h-screen">
 
       <%# Elegant Header %>
       <%= render partial: '/pwb/header', locals: { not_devise: true } %>
 
       <%# Main Content %>
-      <main class="sticky-body flex-grow">
+      <main id="main-content" class="sticky-body flex-grow" role="main">
         <%= render 'devise/shared/messages' %>
         <%= yield %>
       </main>

@@ -9,7 +9,8 @@
           <%= link_to property.contextual_show_path(rent_or_sale) do %>
           <div class="relative">
             <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
-              height: 300, crop: "scale", class: "w-full h-64 object-cover", loading: "lazy") %>
+              height: 300, crop: "scale", class: "w-full h-64 object-cover", loading: "lazy",
+              alt: property.title.presence || "Property listing") %>
           </div>
           <% end %>
           <div class="p-4">
