@@ -153,16 +153,17 @@ module Pwb
       # Get first image for social sharing
       image_url = property.primary_image_url
 
-      # Get SEO fields based on operation type (sale vs rental)
-      # ListedProperty view now includes sale_seo_title, sale_meta_description,
-      # rental_seo_title, rental_meta_description from the respective listings
-      if operation_type == 'for_sale'
-        seo_title_value = property.try(:sale_seo_title)
-        meta_desc_value = property.try(:sale_meta_description)
-      else
-        seo_title_value = property.try(:rental_seo_title)
-        meta_desc_value = property.try(:rental_meta_description)
-      end
+      # Get SEO fields from the appropriate listing model
+      # These are Mobility-translated fields that respect I18n.locale
+      listing = if operation_type == 'for_sale'
+                  property.try(:sale_listing_id) && Pwb::SaleListing.find_by(id: property.sale_listing_id)
+                else
+                  property.try(:rental_listing_id) && Pwb::RentalListing.find_by(id: property.rental_listing_id)
+                end
+
+      # Use listing's SEO fields (locale-aware via Mobility), fallback to title/description
+      seo_title_value = listing&.seo_title
+      meta_desc_value = listing&.meta_description
 
       set_seo(
         title: seo_title_value.presence || property.title,

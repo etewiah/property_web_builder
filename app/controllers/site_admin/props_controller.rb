@@ -200,16 +200,20 @@ module SiteAdmin
     def sale_listing_params
       return {} unless params[:sale_listing].present?
 
-      # Include title/description for each supported locale
+      # Include title/description/seo_title/meta_description for each supported locale
       locale_fields = I18n.available_locales.flat_map do |locale|
-        ["title_#{locale}".to_sym, "description_#{locale}".to_sym]
+        [
+          "title_#{locale}".to_sym,
+          "description_#{locale}".to_sym,
+          "seo_title_#{locale}".to_sym,
+          "meta_description_#{locale}".to_sym
+        ]
       end
 
       params.require(:sale_listing).permit(
         :visible, :highlighted, :archived, :reserved, :furnished,
         :price_sale_current_cents, :price_sale_current_currency,
         :commission_cents, :commission_currency,
-        :seo_title, :meta_description,
         *locale_fields
       )
     end
@@ -217,9 +221,14 @@ module SiteAdmin
     def rental_listing_params
       return {} unless params[:rental_listing].present?
 
-      # Include title/description for each supported locale
+      # Include title/description/seo_title/meta_description for each supported locale
       locale_fields = I18n.available_locales.flat_map do |locale|
-        ["title_#{locale}".to_sym, "description_#{locale}".to_sym]
+        [
+          "title_#{locale}".to_sym,
+          "description_#{locale}".to_sym,
+          "seo_title_#{locale}".to_sym,
+          "meta_description_#{locale}".to_sym
+        ]
       end
 
       params.require(:rental_listing).permit(
@@ -227,7 +236,6 @@ module SiteAdmin
         :for_rent_short_term, :for_rent_long_term,
         :price_rental_monthly_current_cents, :price_rental_monthly_current_currency,
         :price_rental_monthly_low_season_cents, :price_rental_monthly_high_season_cents,
-        :seo_title, :meta_description,
         *locale_fields
       )
     end

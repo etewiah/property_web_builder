@@ -19,7 +19,8 @@ module Pwb
 
     # Mobility translations for listing marketing text
     # locale_accessors configured globally provides title_en, title_es, etc.
-    translates :title, :description
+    # SEO fields allow custom meta tags per locale
+    translates :title, :description, :seo_title, :meta_description
 
     # Delegate common attributes to realty_asset for convenience
     delegate :reference, :website, :website_id,
