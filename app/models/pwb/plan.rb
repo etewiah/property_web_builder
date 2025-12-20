@@ -10,6 +10,33 @@ module Pwb
   #   starter:      $29/mo, 25 properties, basic_themes
   #   professional: $79/mo, 100 properties, premium_themes, analytics, custom_domain
   #   enterprise:   $199/mo, unlimited, all features
+# == Schema Information
+#
+# Table name: pwb_plans
+#
+#  id               :bigint           not null, primary key
+#  active           :boolean          default(TRUE), not null
+#  billing_interval :string           default("month"), not null
+#  description      :text
+#  display_name     :string           not null
+#  features         :jsonb            not null
+#  name             :string           not null
+#  position         :integer          default(0), not null
+#  price_cents      :integer          default(0), not null
+#  price_currency   :string           default("USD"), not null
+#  property_limit   :integer
+#  public           :boolean          default(TRUE), not null
+#  slug             :string           not null
+#  trial_days       :integer          default(14), not null
+#  user_limit       :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+# Indexes
+#
+#  index_pwb_plans_on_active_and_position  (active,position)
+#  index_pwb_plans_on_slug                 (slug) UNIQUE
+#
   #
   class Plan < ApplicationRecord
     self.table_name = 'pwb_plans'

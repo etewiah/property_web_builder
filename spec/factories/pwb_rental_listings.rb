@@ -1,3 +1,36 @@
+# == Schema Information
+#
+# Table name: pwb_rental_listings
+#
+#  id                                     :uuid             not null, primary key
+#  active                                 :boolean          default(FALSE), not null
+#  archived                               :boolean          default(FALSE)
+#  for_rent_long_term                     :boolean          default(FALSE)
+#  for_rent_short_term                    :boolean          default(FALSE)
+#  furnished                              :boolean          default(FALSE)
+#  highlighted                            :boolean          default(FALSE)
+#  price_rental_monthly_current_cents     :bigint           default(0)
+#  price_rental_monthly_current_currency  :string           default("EUR")
+#  price_rental_monthly_high_season_cents :bigint           default(0)
+#  price_rental_monthly_low_season_cents  :bigint           default(0)
+#  reference                              :string
+#  reserved                               :boolean          default(FALSE)
+#  translations                           :jsonb            not null
+#  visible                                :boolean          default(FALSE)
+#  created_at                             :datetime         not null
+#  updated_at                             :datetime         not null
+#  realty_asset_id                        :uuid
+#
+# Indexes
+#
+#  index_pwb_rental_listings_on_realty_asset_id  (realty_asset_id)
+#  index_pwb_rental_listings_on_translations     (translations) USING gin
+#  index_pwb_rental_listings_unique_active       (realty_asset_id,active) UNIQUE WHERE (active = true)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (realty_asset_id => pwb_realty_assets.id)
+#
 FactoryBot.define do
   factory :pwb_rental_listing, class: 'Pwb::RentalListing' do
     association :realty_asset, factory: :pwb_realty_asset

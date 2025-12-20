@@ -1,5 +1,39 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_auth_audit_logs
+#
+#  id             :bigint           not null, primary key
+#  email          :string
+#  event_type     :string           not null
+#  failure_reason :string
+#  ip_address     :string
+#  metadata       :jsonb
+#  provider       :string
+#  request_path   :string
+#  user_agent     :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  user_id        :bigint
+#  website_id     :bigint
+#
+# Indexes
+#
+#  index_pwb_auth_audit_logs_on_created_at                 (created_at)
+#  index_pwb_auth_audit_logs_on_email                      (email)
+#  index_pwb_auth_audit_logs_on_event_type                 (event_type)
+#  index_pwb_auth_audit_logs_on_ip_address                 (ip_address)
+#  index_pwb_auth_audit_logs_on_user_id                    (user_id)
+#  index_pwb_auth_audit_logs_on_user_id_and_event_type     (user_id,event_type)
+#  index_pwb_auth_audit_logs_on_website_id                 (website_id)
+#  index_pwb_auth_audit_logs_on_website_id_and_event_type  (website_id,event_type)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => pwb_users.id)
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 require 'rails_helper'
 
 RSpec.describe Pwb::AuthAuditLog, type: :model do

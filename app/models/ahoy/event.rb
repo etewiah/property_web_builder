@@ -1,5 +1,29 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: ahoy_events
+#
+#  id         :bigint           not null, primary key
+#  name       :string           not null
+#  properties :jsonb
+#  time       :datetime         not null
+#  visit_id   :bigint
+#  website_id :bigint           not null
+#
+# Indexes
+#
+#  index_ahoy_events_on_properties                    (properties) USING gin
+#  index_ahoy_events_on_visit_id                      (visit_id)
+#  index_ahoy_events_on_website_id                    (website_id)
+#  index_ahoy_events_on_website_id_and_name_and_time  (website_id,name,time)
+#  index_ahoy_events_on_website_id_and_time           (website_id,time)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (visit_id => ahoy_visits.id)
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 module Ahoy
   class Event < ::ApplicationRecord
     self.table_name = "ahoy_events"

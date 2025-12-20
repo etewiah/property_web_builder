@@ -6,6 +6,37 @@ module Pwb
   # Note: This model is NOT tenant-scoped. Use PwbTenant::Page for
   # tenant-scoped queries in web requests. This version is useful for
   # console work and cross-tenant operations.
+# == Schema Information
+#
+# Table name: pwb_pages
+#
+#  id                      :integer          not null, primary key
+#  details                 :json
+#  flags                   :integer          default(0), not null
+#  meta_description        :text
+#  seo_title               :string
+#  show_in_footer          :boolean          default(FALSE)
+#  show_in_top_nav         :boolean          default(FALSE)
+#  slug                    :string
+#  sort_order_footer       :integer          default(0)
+#  sort_order_top_nav      :integer          default(0)
+#  translations            :jsonb            not null
+#  visible                 :boolean          default(FALSE)
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  last_updated_by_user_id :integer
+#  setup_id                :string
+#  website_id              :integer
+#
+# Indexes
+#
+#  index_pwb_pages_on_flags                (flags)
+#  index_pwb_pages_on_show_in_footer       (show_in_footer)
+#  index_pwb_pages_on_show_in_top_nav      (show_in_top_nav)
+#  index_pwb_pages_on_slug_and_website_id  (slug,website_id) UNIQUE
+#  index_pwb_pages_on_translations         (translations) USING gin
+#  index_pwb_pages_on_website_id           (website_id)
+#
   #
   class Page < ApplicationRecord
     extend Mobility

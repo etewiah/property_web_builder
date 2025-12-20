@@ -6,6 +6,37 @@ module Pwb
   # Note: This model is NOT tenant-scoped. Use PwbTenant::SaleListing for
   # tenant-scoped queries in web requests. This version is useful for
   # console work and cross-tenant operations.
+# == Schema Information
+#
+# Table name: pwb_sale_listings
+#
+#  id                          :uuid             not null, primary key
+#  active                      :boolean          default(FALSE), not null
+#  archived                    :boolean          default(FALSE)
+#  commission_cents            :bigint           default(0)
+#  commission_currency         :string           default("EUR")
+#  furnished                   :boolean          default(FALSE)
+#  highlighted                 :boolean          default(FALSE)
+#  price_sale_current_cents    :bigint           default(0)
+#  price_sale_current_currency :string           default("EUR")
+#  reference                   :string
+#  reserved                    :boolean          default(FALSE)
+#  translations                :jsonb            not null
+#  visible                     :boolean          default(FALSE)
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  realty_asset_id             :uuid
+#
+# Indexes
+#
+#  index_pwb_sale_listings_on_realty_asset_id  (realty_asset_id)
+#  index_pwb_sale_listings_on_translations     (translations) USING gin
+#  index_pwb_sale_listings_unique_active       (realty_asset_id,active) UNIQUE WHERE (active = true)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (realty_asset_id => pwb_realty_assets.id)
+#
   #
   class SaleListing < ApplicationRecord
     include NtfyListingNotifications

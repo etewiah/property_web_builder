@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: translations
+#
+#  id             :integer          not null, primary key
+#  interpolations :text
+#  is_proc        :boolean          default(FALSE)
+#  key            :string
+#  locale         :string
+#  tag            :string
+#  value          :text
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
 require 'active_record'
 
 module I18n

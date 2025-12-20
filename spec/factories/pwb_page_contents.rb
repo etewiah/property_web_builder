@@ -1,3 +1,25 @@
+# == Schema Information
+#
+# Table name: pwb_page_contents
+#
+#  id              :bigint           not null, primary key
+#  is_rails_part   :boolean          default(FALSE)
+#  label           :string
+#  page_part_key   :string
+#  sort_order      :integer
+#  visible_on_page :boolean          default(TRUE)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  content_id      :bigint
+#  page_id         :bigint
+#  website_id      :bigint
+#
+# Indexes
+#
+#  index_pwb_page_contents_on_content_id  (content_id)
+#  index_pwb_page_contents_on_page_id     (page_id)
+#  index_pwb_page_contents_on_website_id  (website_id)
+#
 FactoryBot.define do
   factory :pwb_page_content, class: 'PwbTenant::PageContent' do
     association :website, factory: :pwb_website

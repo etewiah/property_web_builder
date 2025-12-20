@@ -1,5 +1,39 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_subscriptions
+#
+#  id                       :bigint           not null, primary key
+#  cancel_at_period_end     :boolean          default(FALSE), not null
+#  canceled_at              :datetime
+#  current_period_ends_at   :datetime
+#  current_period_starts_at :datetime
+#  external_provider        :string
+#  metadata                 :jsonb            not null
+#  status                   :string           default("trialing"), not null
+#  trial_ends_at            :datetime
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  external_customer_id     :string
+#  external_id              :string
+#  plan_id                  :bigint           not null
+#  website_id               :bigint           not null
+#
+# Indexes
+#
+#  index_pwb_subscriptions_on_current_period_ends_at  (current_period_ends_at)
+#  index_pwb_subscriptions_on_external_id             (external_id) UNIQUE WHERE (external_id IS NOT NULL)
+#  index_pwb_subscriptions_on_plan_id                 (plan_id)
+#  index_pwb_subscriptions_on_status                  (status)
+#  index_pwb_subscriptions_on_trial_ends_at           (trial_ends_at)
+#  index_pwb_subscriptions_on_website_unique          (website_id) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (plan_id => pwb_plans.id)
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 require 'rails_helper'
 
 module Pwb
