@@ -162,22 +162,42 @@ module SeoHelper
       }
     end
 
-    # Location
-    if prop.respond_to?(:address) && prop.address.present?
-      address = prop.address
-      data['address'] = {
-        '@type' => 'PostalAddress',
-        'streetAddress' => address.street.presence,
-        'addressLocality' => address.city.presence || address.locality.presence,
-        'addressRegion' => address.region.presence || address.province.presence,
-        'postalCode' => address.postal_code.presence,
-        'addressCountry' => address.country.presence
-      }.compact
+    # Location - use direct property fields
+    address_data = {
+      '@type' => 'PostalAddress',
+      'streetAddress' => prop.try(:street_address).presence,
+      'addressLocality' => prop.try(:city).presence,
+      'addressRegion' => prop.try(:region).presence || prop.try(:province).presence,
+      'postalCode' => prop.try(:postal_code).presence,
+      'addressCountry' => prop.try(:country).presence
+    }.compact
+
+    data['address'] = address_data if address_data.keys.size > 1 # Has more than just @type
+
+    # Geo coordinates for mapping
+    if prop.try(:latitude).present? && prop.try(:longitude).present?
+      data['geo'] = {
+        '@type' => 'GeoCoordinates',
+        'latitude' => prop.latitude,
+        'longitude' => prop.longitude
+      }
     end
 
     # Property features
     data['numberOfRooms'] = prop.count_bedrooms if prop.respond_to?(:count_bedrooms) && prop.count_bedrooms.present?
     data['numberOfBathroomsTotal'] = prop.count_bathrooms if prop.respond_to?(:count_bathrooms) && prop.count_bathrooms.present?
+
+    # Property type (e.g., apartment, house, villa)
+    if prop.try(:prop_type_key).present?
+      # Extract human-readable type from key like "propertyTypes.apartment"
+      prop_type = prop.prop_type_key.split('.').last&.titleize
+      data['propertyType'] = prop_type if prop_type.present?
+    end
+
+    # Year built
+    if prop.try(:year_construction).present? && prop.year_construction > 0
+      data['yearBuilt'] = prop.year_construction
+    end
 
     # Floor size
     if prop.respond_to?(:plot_area) && prop.plot_area.present?
