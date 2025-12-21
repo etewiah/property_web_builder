@@ -3,6 +3,57 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 2.2.0 / 2025-12-21
+
+### Major Features
+* **Analytics Dashboard**: Real-time tenant analytics with Ahoy.js, Chartkick, and multi-tenant visit/event tracking
+* **Site Admin Onboarding**: Guided wizard with Shepherd.js for new admin setup (profile, properties, theme selection)
+* **Comprehensive SEO**: Multilingual SEO fields using Mobility, JSON-LD schema.org markup, hreflang tags, image sitemaps
+* **Performance Caching**: Redis cache store, fragment caching, HTTP ETags, Russian doll caching, background materialized view refresh
+
+### New Features
+* Subscription management rake tasks for plan and subscription operations
+* Centralized `Pwb::Config` module for application-wide settings
+* Mutual exclusion between Firebase and Devise authentication providers
+* Trusted proxies configuration for accurate client IP detection
+* Schema annotations on all models using annotaterb gem
+* ERB syntax validation tests for admin templates
+* Tailwind CSS build hook for assets:precompile
+
+### Performance
+* PageSpeed Insights optimizations for Core Web Vitals
+* Migrate from Tailwind CDN to compiled CSS in all themes
+* Page speed optimizations including lazy loading, font preloading
+* Comprehensive caching with CacheService for expensive queries
+
+### Bug Fixes
+* Fix 10+ failing test cases across multi-tenant and auth specs
+* Fix Font Awesome icons not displaying in production
+* Fix JSON-LD schema to use direct property fields instead of missing methods
+* Fix language switcher text color in default theme header
+* Fix Ahoy analytics not capturing website_id on public pages
+* Fix mixed content warnings from placeholder images
+* Fix blank entries in supported_locales causing extra language options
+* Fix supported locales not persisting in website settings
+* Fix nil feature_key handling in props show view
+* Fix field key translations nil handling throughout codebase
+* Fix seed_page_parts! missing website parameter in rake tasks
+* Fix property seeding fallback for base seed pack
+
+### Infrastructure
+* Update money-rails to version 2.0
+* Use flexible Ruby version constraint (>= 3.3, < 3.5)
+* Reorganize documentation into topic-based subfolders
+* Add test coverage gap analysis documentation
+* Reduce supported languages to 7 core locales with seeder filtering
+
+### Code Quality
+* Extract ImageGalleryBuilder service from images controller
+* Extract LocalizedSerializer concern for dynamic locale serialization
+* Extract ListingStateable concern from SaleListing and RentalListing
+* Extract SiteAdminIndexable concern from 5 controllers
+* Consolidate SUPPORTED_LOCALES to use Pwb::Config as single source
+
 ## 2.1.0 / 2025-12-16
 
 ### Major Features
