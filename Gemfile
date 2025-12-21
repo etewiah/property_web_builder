@@ -13,7 +13,7 @@ gem "rails", "~> 8.1"
 
 gem "image_processing", "~> 1.2"
 
-ruby "3.4.7"
+ruby "~> 3.4.0"
 
 # gem 'globalize', git: 'https://github.com/globalize/globalize'
 # gem 'globalize', github: 'globalize/globalize'
@@ -136,7 +136,7 @@ gem "i18n-active_record", "~> 1.1"
 # gem "globalize", "~> 6.2"
 # gem "globalize-accessors", "~> 0.3.0"
 
-gem "money-rails", "~> 1.15"
+gem "money-rails", "~> 2.0"
 
 gem "simple_form", "~> 5.1"
 
