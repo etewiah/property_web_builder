@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_dependency "pwb/application_controller"
 
 module Pwb
@@ -8,240 +10,161 @@ module Pwb
     before_action :header_image_url
     before_action :normalize_url_params
 
+    # ===================
+    # Search Actions
+    # ===================
+
     def search_ajax_for_sale
-      @operation_type = "for_sale"
-      # above used to decide if link to result should be to buy or rent path
-      # http://www.justinweiss.com/articles/search-and-filter-rails-models-without-bloating-your-controller/
-      # Use ListedProperty (materialized view) for optimized read operations
-      @properties = @current_website.listed_properties.with_eager_loading.visible.for_sale
-      # .order('price_sale_current_cents ASC')
-      # @properties = Prop.where(nil) # creates an anonymous scope
-      apply_search_filter filtering_params(params)
-      set_map_markers
-      #render "/pwb/search/search_ajax.js.erb", layout: false
-      # For rails 7 need to remove ".js.erb"
-      render "/pwb/search/search_ajax", layout: false
-      #  view rendered will use js to inject results...
+      perform_ajax_search(operation_type: "for_sale")
     end
 
     def search_ajax_for_rent
-      @operation_type = "for_rent"
-      # above used to decide if link to result should be to buy or rent path
-      # http://www.justinweiss.com/articles/search-and-filter-rails-models-without-bloating-your-controller/
-      # Use ListedProperty (materialized view) for optimized read operations
-      @properties = @current_website.listed_properties.with_eager_loading.visible.for_rent
-
-      apply_search_filter filtering_params(params)
-      set_map_markers
-      render "/pwb/search/search_ajax", layout: false
-      #  view rendered will use js to inject results...
+      perform_ajax_search(operation_type: "for_rent")
     end
 
-    # ordering of results happens client-side with paloma search.js
     def buy
-      @page = @current_website.pages.find_by_slug "buy"
-      @page_title = @current_agency.company_name
-      # @content_to_show = []
-      if @page.present?
-        if @page.page_title.present?
-          @page_title = @page.page_title + " - " + @current_agency.company_name.to_s
-        end
-        # TODO: - allow addition of custom content
-        # @page.ordered_visible_page_contents.each do |page_content|
-        #   @content_to_show.push page_content.content.raw
-        # end
-      end
-
-      # @page_title = I18n.t("searchForProperties")
-      # in erb template for this action, I have js that will render search_results template
-      # for properties - like search_ajax action does
-      @operation_type = "for_sale"
-      # above used to decide if link to result should be to buy or rent path
-
-      # Use ListedProperty (materialized view) for optimized read operations
-      @properties = @current_website.listed_properties.with_eager_loading.visible.for_sale.limit 45
-      # ordering happens clientside
-      # .order('price_sale_current_cents ASC').limit 35
-      @prices_from_collection = @current_website.sale_price_options_from
-      @prices_till_collection = @current_website.sale_price_options_till
-      # @prices_collection = @current_website.sale_price_options_from
-
-      # %W(#{''} 25,000 50,000 75,000 100,000 150,000 250,000 500,000 1,000,000 2,000,000 5,000,000 )
-      # ..
-
-      set_common_search_inputs
-      set_select_picker_texts
-      apply_search_filter filtering_params(params)
-      set_map_markers
-
-      # Calculate faceted search counts if requested
-      calculate_facets if params[:include_facets] || request.format.html?
-
-      # below allows setting in form of any input values that might have been passed by param
-      @search_defaults = params[:search].present? ? params[:search] : {}
-      # {"property_type" => ""}
-      # below won't sort right away as the list of results is loaded by js
-      # and so won't be ready for sorting when below is called - but will wire up for sorting button
-      # initial client sort called by       INMOAPP.sortSearchResults();
-
-      # Set SEO for search results page
-      set_listing_page_seo(
-        operation: 'for_sale',
-        location: params.dig(:search, :in_locality),
-        page: params[:page].to_i > 0 ? params[:page].to_i : 1
-      )
-
-      render "/pwb/search/buy"
+      perform_search(operation_type: "for_sale", page_slug: "buy")
     end
 
-    # TODO: - avoid duplication b/n rent and buy
     def rent
-      @page = @current_website.pages.find_by_slug "rent"
-      @page_title = @current_agency.company_name
-      # @content_to_show = []
-      if @page.present?
-        if @page.page_title.present?
-          @page_title = @page.page_title + " - " + @current_agency.company_name.to_s
-        end
-        # TODO: - allow addition of custom content
-        # @page.ordered_visible_page_contents.each do |page_content|
-        #   @content_to_show.push page_content.content.raw
-        # end
-      end
-      # @page_title = I18n.t("searchForProperties")
-      # in erb template for this action, I have js that will render search_results template
-      # for properties - like search_ajax action does
-      @operation_type = "for_rent"
-      # above used to decide if link to result should be to buy or rent path
-
-      # Use ListedProperty (materialized view) for optimized read operations
-      @properties = @current_website.listed_properties.with_eager_loading.visible.for_rent.limit 45
-      # .order('price_rental_monthly_current_cents ASC').limit 35
-
-      @prices_from_collection = @current_website.rent_price_options_from
-      @prices_till_collection = @current_website.rent_price_options_till
-      # @prices_collection = %W(#{''}
-      #                         150 250 500 1,000 1,500 2,000 2,500 3,000 4,000 5,000 10,000)
-
-      set_common_search_inputs
-      set_select_picker_texts
-      apply_search_filter filtering_params(params)
-      set_map_markers
-
-      # Calculate faceted search counts if requested
-      calculate_facets if params[:include_facets] || request.format.html?
-
-      @search_defaults = params[:search].present? ? params[:search] : {}
-
-      # Set SEO for search results page
-      set_listing_page_seo(
-        operation: 'for_rent',
-        location: params.dig(:search, :in_locality),
-        page: params[:page].to_i > 0 ? params[:page].to_i : 1
-      )
-
-      render "/pwb/search/rent"
+      perform_search(operation_type: "for_rent", page_slug: "rent")
     end
 
     private
 
+    # ===================
+    # Unified Search Logic
+    # ===================
+
+    def perform_ajax_search(operation_type:)
+      @operation_type = operation_type
+      @properties = load_properties_for(operation_type)
+      apply_search_filter(filtering_params(params))
+      set_map_markers
+      render "/pwb/search/search_ajax", layout: false
+    end
+
+    def perform_search(operation_type:, page_slug:)
+      @operation_type = operation_type
+      config = search_config_for(operation_type)
+
+      setup_page(page_slug)
+      @properties = load_properties_for(operation_type).limit(45)
+      @prices_from_collection = config[:prices_from]
+      @prices_till_collection = config[:prices_till]
+
+      set_common_search_inputs
+      set_select_picker_texts
+      apply_search_filter(filtering_params(params))
+      set_map_markers
+      calculate_facets if params[:include_facets] || request.format.html?
+
+      @search_defaults = params[:search].presence || {}
+
+      set_listing_page_seo(
+        operation: operation_type,
+        location: params.dig(:search, :in_locality),
+        page: params[:page].to_i > 0 ? params[:page].to_i : 1
+      )
+
+      render "/pwb/search/#{page_slug}"
+    end
+
+    def search_config_for(operation_type)
+      if operation_type == "for_rent"
+        {
+          prices_from: @current_website.rent_price_options_from,
+          prices_till: @current_website.rent_price_options_till
+        }
+      else
+        {
+          prices_from: @current_website.sale_price_options_from,
+          prices_till: @current_website.sale_price_options_till
+        }
+      end
+    end
+
+    def load_properties_for(operation_type)
+      scope = @current_website.listed_properties.with_eager_loading.visible
+      operation_type == "for_rent" ? scope.for_rent : scope.for_sale
+    end
+
+    def setup_page(page_slug)
+      @page = @current_website.pages.find_by_slug(page_slug)
+      @page_title = @current_agency.company_name
+
+      if @page.present? && @page.page_title.present?
+        @page_title = "#{@page.page_title} - #{@current_agency.company_name}"
+      end
+    end
+
+    # ===================
+    # Map Markers
+    # ===================
+
     def set_map_markers
-      @map_markers = []
-      @properties.each do |property|
+      @map_markers = @properties.filter_map do |property|
         next unless property.show_map
-        @map_markers.push(
-          {
-            id: property.id,
-            title: property.title,
-            show_url: property.contextual_show_path(@operation_type),
-            image_url: property.primary_image_url,
-            display_price: property.contextual_price_with_currency(@operation_type),
-            position: {
-              lat: property.latitude,
-              lng: property.longitude,
-            },
+
+        {
+          id: property.id,
+          title: property.title,
+          show_url: property.contextual_show_path(@operation_type),
+          image_url: property.primary_image_url,
+          display_price: property.contextual_price_with_currency(@operation_type),
+          position: {
+            lat: property.latitude,
+            lng: property.longitude
           }
-        )
+        }
       end
     end
 
-    # A list of the param names that can be used for filtering the Product list
+    # ===================
+    # Search Filtering
+    # ===================
+
     def filtering_params(params)
-      unless params[:search]
-        return []
-      end
-      # {"price_from"=>"50.000",
-      #  "price_till"=>"",
-      #  "property_type"=>"propertyTypes.bungalow",
-      #  "locality"=>"#<OpenStruct value=\"provincias.cadiz\", label=\"Cádiz\">",
-      #  "zone"=>"#<OpenStruct value=\"provincias.ciudadReal\", label=\"Ciudad Real\">",
-      #  "count_bedrooms"=>"6",
-      #  "count_bathrooms"=>"",
-      #  "property_state"=>"propertyStates.brandNew"}
-      params[:search].slice(:in_locality, :in_zone, :for_sale_price_from, :for_sale_price_till, :for_rent_price_from,
-                            :for_rent_price_till, :property_type, :property_state, :count_bathrooms, :count_bedrooms)
+      return [] unless params[:search]
+
+      params[:search].slice(
+        :in_locality, :in_zone,
+        :for_sale_price_from, :for_sale_price_till,
+        :for_rent_price_from, :for_rent_price_till,
+        :property_type, :property_state,
+        :count_bathrooms, :count_bedrooms
+      )
     end
 
-    # Extract feature/amenity filter params
     def feature_params
       return {} unless params[:search]
-
       params[:search].permit(:features_match, features: [])
-    end
-
-    def set_select_picker_texts
-      @select_picker_texts = {
-        noneSelectedText: I18n.t("selectpicker.noneSelectedText"),
-        noneResultsText: I18n.t("selectpicker.noneResultsText"),
-        countSelectedText: I18n.t("selectpicker.countSelectedText"),
-      }.to_json
-    end
-
-    def set_common_search_inputs
-      # for these 2 below, I'm checking in form if count is > 1
-      # assumption is that there will be at least one Zone with blank values
-      # @zones = Zone.all.order "title"
-      # @localities = Locality.all.order "title"
-
-      @property_types = FieldKey.get_options_by_tag("property-types")
-      # below ensures there is a an empty value at the top of the array
-      # so that default is "nothing selected"
-      # realised today that I could probably achieve the same with
-      # ":include_blank => true" attribute on form
-      @property_types.unshift OpenStruct.new(value: "", label: "")
-      # because property_states does not have a selected: option in the form
-      # not necessary to unshift an empty value
-      # (doesn't have selected:option because it cannot be populated by url)
-      @property_states = FieldKey.get_options_by_tag("property-states")
-
-      # Features and amenities for multi-select filtering
-      @property_features = FieldKey.get_options_by_tag("property-features")
-      @property_amenities = FieldKey.get_options_by_tag("property-amenities")
     end
 
     def apply_search_filter(search_filtering_params)
       search_filtering_params.each do |key, value|
-        empty_values = ["propertyTypes."]
-        if (empty_values.include? value) || value.empty?
-          next
+        next if value.blank? || value == "propertyTypes."
+
+        if price_field?(key)
+          value = convert_price_to_cents(value)
         end
-        price_fields = ["for_sale_price_from", "for_sale_price_till", "for_rent_price_from", "for_rent_price_till"]
-        if price_fields.include? key
-          currency_string = @current_website.default_currency || "usd"
-          currency = Money::Currency.find currency_string
-          # above needed as some currencies like Chilean peso
-          # don't have the cents field multiplied by 100
-          value = value.gsub(/\D/, "").to_i * currency.subunit_to_unit
-          # @properties = @properties.public_send(key, value) if value.present?
-        end
+
         @properties = @properties.public_send(key, value) if value.present?
       end
 
-      # Apply feature/amenity filters
       apply_feature_filters
     end
 
-    # Apply feature and amenity filters based on search params
+    def price_field?(key)
+      %w[for_sale_price_from for_sale_price_till for_rent_price_from for_rent_price_till].include?(key.to_s)
+    end
+
+    def convert_price_to_cents(value)
+      currency_string = @current_website.default_currency || "usd"
+      currency = Money::Currency.find(currency_string)
+      value.gsub(/\D/, "").to_i * currency.subunit_to_unit
+    end
+
     def apply_feature_filters
       fp = feature_params
       return if fp[:features].blank?
@@ -249,41 +172,50 @@ module Pwb
       feature_keys = parse_feature_keys(fp[:features])
       return if feature_keys.empty?
 
-      if fp[:features_match] == 'any'
-        # OR logic: match properties with ANY of the selected features
-        @properties = @properties.with_any_features(feature_keys)
-      else
-        # AND logic (default): match properties with ALL selected features
-        @properties = @properties.with_features(feature_keys)
-      end
+      @properties = if fp[:features_match] == 'any'
+                      @properties.with_any_features(feature_keys)
+                    else
+                      @properties.with_features(feature_keys)
+                    end
     end
 
-    # Parse feature keys from params, handling both string and array formats
     def parse_feature_keys(features_param)
       case features_param
-      when String
-        features_param.split(',').map(&:strip).reject(&:blank?)
-      when Array
-        features_param.reject(&:blank?)
-      else
-        []
+      when String then features_param.split(',').map(&:strip).reject(&:blank?)
+      when Array then features_param.reject(&:blank?)
+      else []
       end
     end
 
-    # Calculate faceted search counts for the current filter state
-    # Uses caching to improve performance
+    # ===================
+    # Search Form Setup
+    # ===================
+
+    def set_select_picker_texts
+      @select_picker_texts = {
+        noneSelectedText: I18n.t("selectpicker.noneSelectedText"),
+        noneResultsText: I18n.t("selectpicker.noneResultsText"),
+        countSelectedText: I18n.t("selectpicker.countSelectedText")
+      }.to_json
+    end
+
+    def set_common_search_inputs
+      @property_types = FieldKey.get_options_by_tag("property-types")
+      @property_types.unshift OpenStruct.new(value: "", label: "")
+      @property_states = FieldKey.get_options_by_tag("property-states")
+      @property_features = FieldKey.get_options_by_tag("property-features")
+      @property_amenities = FieldKey.get_options_by_tag("property-amenities")
+    end
+
+    # ===================
+    # Faceted Search
+    # ===================
+
     def calculate_facets
-      # Build a cache key based on the current search parameters and operation type
       cache_key = facets_cache_key
 
       @facets = Rails.cache.fetch(cache_key, expires_in: 5.minutes) do
-        # Calculate facets based on the base scope (before filtering)
-        # This shows counts for all options, not just filtered results
-        base_scope = if @operation_type == "for_rent"
-                       @current_website.listed_properties.visible.for_rent
-                     else
-                       @current_website.listed_properties.visible.for_sale
-                     end
+        base_scope = load_properties_for(@operation_type)
 
         SearchFacetsService.calculate(
           scope: base_scope,
@@ -293,7 +225,6 @@ module Pwb
       end
     end
 
-    # Generate cache key for facets based on website and operation type
     def facets_cache_key
       [
         "search_facets",
@@ -304,70 +235,27 @@ module Pwb
       ].join("/")
     end
 
-    # Normalize URL-friendly parameters into standard search params
-    # Allows URLs like /buy?type=apartment&features=pool,sea-views
+    # ===================
+    # URL Normalization
+    # ===================
+
     def normalize_url_params
       return unless params[:type].present? || params[:features].present? || params[:state].present?
 
-      # Parse friendly URL params into search params
       friendly_params = parse_friendly_url_params(params)
-
-      # Merge into search params
       params[:search] ||= {}
       friendly_params.each do |key, value|
         params[:search][key] = value if value.present?
       end
     end
 
-    # def search_redirect
-    #   # todo - allow choosing between buying or renting
-    #   return redirect_to buy_url, locale: I18n.locale
-    # end
-
-    # def ajax_find_by_ref
-    #   query = params[:reference].upcase.strip
-    #   @properties = Prop.where("reference LIKE :query", query: "%#{query}%")
-
-    #   # it seems with active record, .size is better than .count or .length..
-    #   if @properties && @properties.size > 1
-    #     # how to know if properties are for rent or sale
-
-    #     js 'Main/Search#sort' # trigger client-side paloma script
-    #     return render "search_ajax"
-    #   else
-    #     @property = @properties.first
-    #   end
-
-    #   # Prop.visible.for_sale.order('price_sale_current_cents ASC')
-    #   if @property && @property.visible
-    #     if @property.for_sale
-    #       return render js: "window.location='#{property_show_for_sale_url(locale: I18n.locale, url_friendly_title: "show", id: @property.id)}'"
-    #       # redirect like below won't work as I'm using "remote true" on client side
-    #       # return redirect_to property_show_for_sale_url(locale: I18n.locale, url_friendly_title: "show", id: @property.id) , format: 'js'
-    #     else
-    #       return render js: "window.location='#{property_show_for_rent_url(locale: I18n.locale, url_friendly_title: "show", id: @property.id)}'"
-    #     end
-    #   else
-    #     @error_message = I18n.t "noResultsForSearch"
-    #     # TODO - pluck similar refs to what user typed
-    #     # and dislay as a list
-    #     return render "go_to_property_error_ajax"
-    #   end
-    # end
-
-    private
+    # ===================
+    # Header Image
+    # ===================
 
     def header_image_url
-      # lc_content = Content.where(tag: 'landing-carousel')[0]
-      lc_photo = ContentPhoto.find_by_block_key "landing_img"
-      # used by berlin theme
+      lc_photo = ContentPhoto.find_by_block_key("landing_img")
       @header_image_url = lc_photo.present? ? lc_photo.optimized_image_url : nil
     end
-
-    # def header_image
-    #   # used by berlin theme
-    #   hi_content = Content.where(tag: 'landing-carousel')[0]
-    #   @header_image = hi_content.present? ? hi_content.default_photo : nil
-    # end
   end
 end
