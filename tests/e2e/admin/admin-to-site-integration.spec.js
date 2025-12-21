@@ -190,8 +190,8 @@ test.describe('Admin to Site Integration', () => {
       // Get current value
       const currentLocale = await localeSelect.inputValue();
 
-      // Change to a different locale
-      const newLocale = currentLocale === 'en-UK' ? 'en-US' : 'en-UK';
+      // Change to a different locale (using actual available locales: en, es, de, fr, etc.)
+      const newLocale = currentLocale === 'en' ? 'es' : 'en';
       await localeSelect.selectOption(newLocale);
 
       // Step 4: Save settings

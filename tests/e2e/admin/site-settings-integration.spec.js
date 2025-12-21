@@ -230,24 +230,25 @@ test.describe('Site Admin Settings Integration', () => {
       await page.goto(`${BASE_URL}/site_admin/website/settings?tab=navigation`);
       await waitForPageLoad(page);
 
-      // Check for navigation link visibility toggles
-      const visibilityCheckboxes = page.locator('input[type="checkbox"][name*="visible"]');
+      // Check for navigation link visibility toggles (these are styled as toggle switches)
+      // The checkboxes have class="sr-only" making them visually hidden but still in DOM
+      const visibilityCheckboxes = page.locator('input[type="checkbox"][name="links[][visible]"]');
       const checkboxCount = await visibilityCheckboxes.count();
 
       if (checkboxCount > 0) {
-        // Get the first link's visibility state
-        const firstCheckbox = visibilityCheckboxes.first();
+        // Get the first desktop toggle checkbox (more reliable for testing)
+        const firstCheckbox = page.locator('.desktop-visible-checkbox').first();
         const wasChecked = await firstCheckbox.isChecked();
 
-        // Toggle the visibility
+        // Toggle the visibility using force:true since checkbox is sr-only (visually hidden)
         if (wasChecked) {
-          await firstCheckbox.uncheck();
+          await firstCheckbox.uncheck({ force: true });
         } else {
-          await firstCheckbox.check();
+          await firstCheckbox.check({ force: true });
         }
 
-        // Save navigation settings (look for the form's submit)
-        const saveButton = page.locator('button[type="submit"]:has-text("Save"), input[type="submit"]');
+        // Save navigation settings
+        const saveButton = page.locator('input[type="submit"][value*="Save Navigation"]');
         if (await saveButton.count() > 0) {
           await saveButton.first().click();
           await waitForPageLoad(page);
@@ -260,6 +261,22 @@ test.describe('Site Admin Settings Integration', () => {
         // Navigation should be present on the page
         const nav = page.locator('nav, header');
         await expect(nav.first()).toBeVisible();
+
+        // Step 3: Restore original visibility setting
+        await page.goto(`${BASE_URL}/site_admin/website/settings?tab=navigation`);
+        await waitForPageLoad(page);
+
+        const restoredCheckbox = page.locator('.desktop-visible-checkbox').first();
+        if (wasChecked) {
+          await restoredCheckbox.check({ force: true });
+        } else {
+          await restoredCheckbox.uncheck({ force: true });
+        }
+        const restoreSaveButton = page.locator('input[type="submit"][value*="Save Navigation"]');
+        if (await restoreSaveButton.count() > 0) {
+          await restoreSaveButton.first().click();
+          await waitForPageLoad(page);
+        }
       }
     });
   });
@@ -270,8 +287,15 @@ test.describe('Site Admin Settings Integration', () => {
       await page.goto(`${BASE_URL}/site_admin/website/settings?tab=general`);
       await waitForPageLoad(page);
 
-      // Find the external image mode checkbox
-      const externalImageCheckbox = page.locator('input[type="checkbox"]#external_image_mode, input[name*="external_image_mode"]');
+      // Verify auth bypass is working
+      await verifyAdminAccess(page);
+
+      // Wait for the General Settings header to confirm page is loaded
+      await expect(page.locator('h2:has-text("General Settings")')).toBeVisible({ timeout: 10000 });
+
+      // Find the external image mode checkbox using its ID
+      // Rails check_box generates both hidden field and checkbox - we want the actual checkbox
+      const externalImageCheckbox = page.locator('input#external_image_mode[type="checkbox"]');
 
       if (await externalImageCheckbox.count() > 0) {
         // Get current state
@@ -285,7 +309,7 @@ test.describe('Site Admin Settings Integration', () => {
         }
 
         // Save settings
-        const saveButton = page.locator('input[type="submit"][value*="Save"], button[type="submit"]:has-text("Save")');
+        const saveButton = page.locator('input[type="submit"][value*="Save General"]');
         await saveButton.click();
         await waitForPageLoad(page);
 
@@ -293,19 +317,21 @@ test.describe('Site Admin Settings Integration', () => {
         await page.reload();
         await waitForPageLoad(page);
 
-        const isNowChecked = await externalImageCheckbox.isChecked();
+        // Wait for page to load again
+        await expect(page.locator('h2:has-text("General Settings")')).toBeVisible({ timeout: 10000 });
+
+        const reloadedCheckbox = page.locator('input#external_image_mode[type="checkbox"]');
+        const isNowChecked = await reloadedCheckbox.isChecked();
         expect(isNowChecked).toBe(!wasChecked);
 
         // Restore original setting
-        if (isNowChecked !== wasChecked) {
-          if (wasChecked) {
-            await externalImageCheckbox.check();
-          } else {
-            await externalImageCheckbox.uncheck();
-          }
-          await saveButton.click();
-          await waitForPageLoad(page);
+        if (wasChecked) {
+          await reloadedCheckbox.check();
+        } else {
+          await reloadedCheckbox.uncheck();
         }
+        await saveButton.click();
+        await waitForPageLoad(page);
       }
     });
   });
