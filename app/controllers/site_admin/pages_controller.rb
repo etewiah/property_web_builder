@@ -4,7 +4,7 @@ module SiteAdmin
   # PagesController
   # Manages pages for the current website
   class PagesController < SiteAdminController
-    before_action :set_page, only: %i[show edit settings update_settings reorder_parts]
+    before_action :set_page, only: %i[show edit update settings update_settings reorder_parts]
 
     def index
       # Scope to current website for multi-tenant isolation
@@ -27,6 +27,15 @@ module SiteAdmin
       @page_parts = @page.page_parts
                          .where(website_id: current_website&.id, show_in_editor: true)
                          .order(:order_in_editor)
+    end
+
+    # Update page attributes
+    def update
+      if @page.update(page_params)
+        redirect_to site_admin_page_path(@page), notice: 'Page was successfully updated.'
+      else
+        render :edit, status: :unprocessable_entity
+      end
     end
 
     # Settings action - page metadata (slug, navigation visibility)

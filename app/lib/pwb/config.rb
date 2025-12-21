@@ -223,7 +223,8 @@ module Pwb
             locale: base,
             variant: parts[1],
             full: full_locale,
-            label: locale_label(full_locale) || locale_label(base) || base.upcase
+            # Use hash lookup directly for proper fallback (locale_label always returns truthy)
+            label: SUPPORTED_LOCALES[full_locale.to_s] || SUPPORTED_LOCALES[base] || base.upcase
           }
         end
       end
