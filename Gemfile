@@ -13,7 +13,7 @@ gem "rails", "~> 8.1"
 
 gem "image_processing", "~> 1.2"
 
-ruby "3.4.7"
+ruby "~> 3.4.0"
 
 # gem 'globalize', git: 'https://github.com/globalize/globalize'
 # gem 'globalize', github: 'globalize/globalize'
