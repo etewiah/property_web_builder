@@ -5,159 +5,55 @@ module Pwb
   # Still used for backwards compatibility.
   #
   # Note: This model is NOT tenant-scoped. Use PwbTenant::Prop for
-  # tenant-scoped queries in web requests. This version is useful for
-  # console work and cross-tenant operations.
-# == Schema Information
-#
-# Table name: pwb_props
-#
-#  id                                            :integer          not null, primary key
-#  active_from                                   :datetime
-#  archived                                      :boolean          default(FALSE)
-#  area_unit                                     :integer          default("sqmt")
-#  available_to_rent_from                        :datetime
-#  available_to_rent_till                        :datetime
-#  city                                          :string
-#  commission_cents                              :integer          default(0), not null
-#  commission_currency                           :string           default("EUR"), not null
-#  constructed_area                              :float            default(0.0), not null
-#  count_bathrooms                               :float            default(0.0), not null
-#  count_bedrooms                                :integer          default(0), not null
-#  count_garages                                 :integer          default(0), not null
-#  count_toilets                                 :integer          default(0), not null
-#  country                                       :string
-#  currency                                      :string
-#  deleted_at                                    :datetime
-#  energy_performance                            :float
-#  energy_rating                                 :integer
-#  flags                                         :integer          default(0), not null
-#  for_rent_long_term                            :boolean          default(FALSE)
-#  for_rent_short_term                           :boolean          default(FALSE)
-#  for_sale                                      :boolean          default(FALSE)
-#  furnished                                     :boolean          default(FALSE)
-#  hide_map                                      :boolean          default(FALSE)
-#  highlighted                                   :boolean          default(FALSE)
-#  latitude                                      :float
-#  longitude                                     :float
-#  meta_description                              :text
-#  obscure_map                                   :boolean          default(FALSE)
-#  plot_area                                     :float            default(0.0), not null
-#  portals_enabled                               :boolean          default(FALSE)
-#  postal_code                                   :string
-#  price_rental_monthly_current_cents            :integer          default(0), not null
-#  price_rental_monthly_current_currency         :string           default("EUR"), not null
-#  price_rental_monthly_for_search_cents         :integer          default(0), not null
-#  price_rental_monthly_for_search_currency      :string           default("EUR"), not null
-#  price_rental_monthly_high_season_cents        :integer          default(0), not null
-#  price_rental_monthly_high_season_currency     :string           default("EUR"), not null
-#  price_rental_monthly_low_season_cents         :integer          default(0), not null
-#  price_rental_monthly_low_season_currency      :string           default("EUR"), not null
-#  price_rental_monthly_original_cents           :integer          default(0), not null
-#  price_rental_monthly_original_currency        :string           default("EUR"), not null
-#  price_rental_monthly_standard_season_cents    :integer          default(0), not null
-#  price_rental_monthly_standard_season_currency :string           default("EUR"), not null
-#  price_sale_current_cents                      :bigint           default(0), not null
-#  price_sale_current_currency                   :string           default("EUR"), not null
-#  price_sale_original_cents                     :bigint           default(0), not null
-#  price_sale_original_currency                  :string           default("EUR"), not null
-#  prop_origin_key                               :string           default(""), not null
-#  prop_state_key                                :string           default(""), not null
-#  prop_type_key                                 :string           default(""), not null
-#  province                                      :string
-#  reference                                     :string
-#  region                                        :string
-#  reserved                                      :boolean          default(FALSE)
-#  seo_title                                     :string
-#  service_charge_yearly_cents                   :integer          default(0), not null
-#  service_charge_yearly_currency                :string           default("EUR"), not null
-#  sold                                          :boolean          default(FALSE)
-#  street_address                                :string
-#  street_name                                   :string
-#  street_number                                 :string
-#  translations                                  :jsonb            not null
-#  visible                                       :boolean          default(FALSE)
-#  year_construction                             :integer          default(0), not null
-#  created_at                                    :datetime         not null
-#  updated_at                                    :datetime         not null
-#  website_id                                    :integer
-#
-# Indexes
-#
-#  index_pwb_props_on_archived                            (archived)
-#  index_pwb_props_on_flags                               (flags)
-#  index_pwb_props_on_for_rent_long_term                  (for_rent_long_term)
-#  index_pwb_props_on_for_rent_short_term                 (for_rent_short_term)
-#  index_pwb_props_on_for_sale                            (for_sale)
-#  index_pwb_props_on_highlighted                         (highlighted)
-#  index_pwb_props_on_latitude_and_longitude              (latitude,longitude)
-#  index_pwb_props_on_price_rental_monthly_current_cents  (price_rental_monthly_current_cents)
-#  index_pwb_props_on_price_sale_current_cents            (price_sale_current_cents)
-#  index_pwb_props_on_reference                           (reference)
-#  index_pwb_props_on_translations                        (translations) USING gin
-#  index_pwb_props_on_visible                             (visible)
-#  index_pwb_props_on_website_id                          (website_id)
-#
+  # tenant-scoped queries in web requests.
+  #
+  # == Schema Information
+  #
+  # Table name: pwb_props
+  #
+  #  id                                            :integer          not null, primary key
+  #  active_from                                   :datetime
+  #  archived                                      :boolean          default(FALSE)
+  #  area_unit                                     :integer          default("sqmt")
+  #  ... (schema annotations preserved)
   #
   class Prop < ApplicationRecord
     extend Mobility
 
+    # ===================
+    # Concerns
+    # ===================
+    include Property::Geocodable
+    include Property::Priceable
+    include Property::Searchable
+    include Property::Displayable
+
+    # ===================
+    # Configuration
+    # ===================
     self.table_name = 'pwb_props'
 
-    belongs_to :website, class_name: 'Pwb::Website', optional: true
-
-    # Mobility translations with container backend (single JSONB column)
+    # Mobility translations with container backend
     translates :title, :description
 
     attribute :area_unit, :integer
     enum :area_unit, { sqmt: 0, sqft: 1 }
 
-    geocoded_by :geocodeable_address do |obj, results|
-      if (geo = results.first)
-        obj.longitude = geo.longitude
-        obj.latitude = geo.latitude
-        obj.city = geo.city
-        obj.street_number = geo.street_number
-        obj.street_address = geo.street_address
-        obj.postal_code = geo.postal_code
-        obj.province = geo.province
-        obj.region = geo.state
-        obj.country = geo.country
-      end
-    end
-
-    monetize :price_sale_current_cents, with_model_currency: :currency, allow_nil: true
-    monetize :price_sale_original_cents, with_model_currency: :currency
-    monetize :price_rental_monthly_current_cents, with_model_currency: :currency
-    monetize :price_rental_monthly_original_cents, with_model_currency: :currency
-    monetize :price_rental_monthly_low_season_cents, with_model_currency: :currency
-    monetize :price_rental_monthly_high_season_cents, with_model_currency: :currency
-    monetize :price_rental_monthly_standard_season_cents, with_model_currency: :currency
-    monetize :price_rental_monthly_for_search_cents, with_model_currency: :currency
-    monetize :commission_cents, with_model_currency: :currency
-    monetize :service_charge_yearly_cents, with_model_currency: :currency
-
+    # ===================
+    # Associations
+    # ===================
+    belongs_to :website, class_name: 'Pwb::Website', optional: true
     has_many :prop_photos, -> { order('sort_order asc') }, class_name: 'Pwb::PropPhoto'
     has_many :features, class_name: 'Pwb::Feature'
 
-    scope :for_rent, -> { where('for_rent_short_term OR for_rent_long_term') }
-    scope :for_sale, -> { where(for_sale: true) }
-    scope :visible, -> { where(visible: true) }
-    scope :in_zone, ->(key) { where(zone_key: key) }
-    scope :in_locality, ->(key) { where(locality_key: key) }
-    scope :property_type, ->(property_type) { where(prop_type_key: property_type) }
-    scope :property_state, ->(property_state) { where(prop_state_key: property_state) }
-    scope :for_rent_price_from, ->(minimum_price) { where('price_rental_monthly_for_search_cents >= ?', minimum_price.to_s) }
-    scope :for_rent_price_till, ->(maximum_price) { where('price_rental_monthly_for_search_cents <= ?', maximum_price.to_s) }
-    scope :for_sale_price_from, ->(minimum_price) { where('price_sale_current_cents >= ?', minimum_price.to_s) }
-    scope :for_sale_price_till, ->(maximum_price) { where('price_sale_current_cents <= ?', maximum_price.to_s) }
-    scope :count_bathrooms, ->(min_count_bathrooms) { where('count_bathrooms >= ?', min_count_bathrooms.to_s) }
-    scope :count_bedrooms, ->(min_count_bedrooms) { where('count_bedrooms >= ?', min_count_bedrooms.to_s) }
-    scope :bathrooms_from, ->(min_count_bathrooms) { where('count_bathrooms >= ?', min_count_bathrooms.to_s) }
-    scope :bedrooms_from, ->(min_count_bedrooms) { where('count_bedrooms >= ?', min_count_bedrooms.to_s) }
+    # ===================
+    # Callbacks
+    # ===================
+    after_create :set_defaults
 
-    def geocodeable_address
-      "#{street_address} , #{city} , #{province} , #{postal_code}"
-    end
+    # ===================
+    # Instance Methods
+    # ===================
 
     def has_garage
       count_garages && count_garages.positive?
@@ -165,24 +61,6 @@ module Pwb
 
     def for_rent
       for_rent_short_term || for_rent_long_term
-    end
-
-    def show_map
-      latitude.present? && longitude.present? && !hide_map
-    end
-
-    def geocode_address!
-      geocode
-    end
-
-    def geocode_address_if_needed!
-      return if latitude.present? && longitude.present?
-
-      geocode_address!
-    end
-
-    def needs_geocoding?
-      geocodeable_address.present? && (latitude.blank? || longitude.blank?)
     end
 
     def get_features
@@ -199,89 +77,9 @@ module Pwb
       end
     end
 
-    def extras_for_display
-      merged_extras = []
-      get_features.keys.each do |extra|
-        translated_option_key = I18n.t extra
-        merged_extras.push translated_option_key
-      end
-      merged_extras.sort { |w1, w2| w1.casecmp(w2) }
-    end
-
-    def ordered_photo(number)
-      prop_photos[number - 1] if prop_photos.length >= number
-    end
-
-    def primary_image_url
-      if prop_photos.length.positive? && ordered_photo(1).image.attached?
-        Rails.application.routes.url_helpers.rails_blob_path(ordered_photo(1).image, only_path: true)
-      else
-        ''
-      end
-    end
-
-    def url_friendly_title
-      if title && title.length > 2
-        title.parameterize
-      else
-        'show'
-      end
-    end
-
-    def contextual_show_path(rent_or_sale)
-      rent_or_sale ||= for_rent ? 'for_rent' : 'for_sale'
-      if rent_or_sale == 'for_rent'
-        Rails.application.routes.url_helpers.prop_show_for_rent_path(locale: I18n.locale, id: id, url_friendly_title: url_friendly_title)
-      else
-        Rails.application.routes.url_helpers.prop_show_for_sale_path(locale: I18n.locale, id: id, url_friendly_title: url_friendly_title)
-      end
-    end
-
-    def contextual_price(rent_or_sale)
-      rent_or_sale ||= for_rent ? 'for_rent' : 'for_sale'
-      if rent_or_sale == 'for_rent'
-        price_rental_monthly_for_search
-      else
-        price_sale_current
-      end
-    end
-
-    def contextual_price_with_currency(rent_or_sale)
-      price = contextual_price(rent_or_sale)
-      price.zero? ? nil : price.format(no_cents: true)
-    end
-
-    def rental_price
-      rental_price = lowest_short_term_price || 0 if for_rent_short_term
-      rental_price = price_rental_monthly_current || 0 unless rental_price&.positive?
-      rental_price&.positive? ? rental_price : nil
-    end
-
-    def lowest_short_term_price
-      prices_array = [price_rental_monthly_low_season, price_rental_monthly_standard_season, price_rental_monthly_high_season]
-      prices_array.reject! { |a| a.cents < 1 }
-      prices_array.min
-    end
-
-    def self.properties_search(**search_filtering_params)
-      currency_string = search_filtering_params[:currency] || 'usd'
-      currency = Money::Currency.find(currency_string)
-
-      search_results = if search_filtering_params[:sale_or_rental] == 'rental'
-                         all.visible.for_rent
-                       else
-                         all.visible.for_sale
-                       end
-
-      search_filtering_params.each do |key, value|
-        next if value == 'none' || key == :sale_or_rental || key == :currency
-
-        price_fields = %i[for_sale_price_from for_sale_price_till for_rent_price_from for_rent_price_till]
-        value = value.gsub(/\D/, '').to_i * currency.subunit_to_unit if price_fields.include?(key)
-        search_results = search_results.public_send(key, value) if value.present?
-      end
-      search_results
-    end
+    # ===================
+    # Serialization
+    # ===================
 
     def as_json(options = nil)
       super(options).tap do |hash|
@@ -294,9 +92,6 @@ module Pwb
         end
       end
     end
-
-    before_save :set_rental_search_price
-    after_create :set_defaults
 
     private
 
@@ -312,10 +107,6 @@ module Pwb
         self.area_unit = current_website.default_area_unit
         save
       end
-    end
-
-    def set_rental_search_price
-      self.price_rental_monthly_for_search = rental_price
     end
   end
 end
