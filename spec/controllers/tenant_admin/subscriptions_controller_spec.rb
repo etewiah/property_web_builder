@@ -112,6 +112,7 @@ RSpec.describe TenantAdmin::SubscriptionsController, type: :controller do
     end
 
     it 'assigns active plans' do
+      create(:pwb_plan, :starter)  # Ensure at least one active plan exists
       get :new
       expect(assigns(:plans)).to be_present
     end

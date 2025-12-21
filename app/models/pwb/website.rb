@@ -82,6 +82,9 @@ module Pwb
   class Website < ApplicationRecord
     include AASM
 
+    # Virtual attributes for form handling (avoid conflict with AASM events)
+    attr_accessor :seed_data, :skip_property_seeding
+
     extend ActiveHash::Associations::ActiveRecordExtensions
     belongs_to_active_hash :theme, optional: true, foreign_key: "theme_name", class_name: "Pwb::Theme", shortcuts: [:friendly_name], primary_key: "name"
 

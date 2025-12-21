@@ -40,7 +40,7 @@ module TenantAdmin
       
       if @website.save
         if params[:website][:seed_data] == "1"
-          seed_website_content(@website, params[:website][:skip_properties] == "1")
+          seed_website_content(@website, params[:website][:skip_property_seeding] == "1")
           flash[:notice] = "Website created and seeded successfully."
         else
           flash[:notice] = "Website created successfully."
@@ -52,7 +52,7 @@ module TenantAdmin
     end
 
     def seed
-      seed_website_content(@website, params[:skip_properties] == "1")
+      seed_website_content(@website, params[:skip_property_seeding] == "1")
       redirect_to tenant_admin_website_path(@website), notice: "Website seeded successfully."
     end
 

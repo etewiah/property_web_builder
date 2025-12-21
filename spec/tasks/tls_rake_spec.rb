@@ -128,9 +128,9 @@ RSpec.describe "tls:check rake task" do
       }.to output(/Status: ✓ OK/).to_stdout
     end
 
-    it "allows websites still provisioning (configuring state)" do
+    it "allows websites still provisioning (field_keys_created state)" do
       Rake::Task['tls:check'].reenable
-      live_website.update!(provisioning_state: 'configuring')
+      live_website.update!(provisioning_state: 'field_keys_created')
       expect {
         Rake::Task['tls:check'].invoke("active-tenant.#{platform_domain}")
       }.to output(/Status: ✓ OK.*provisioning in progress/m).to_stdout

@@ -164,7 +164,7 @@ RSpec.describe "Pwb::Tls", type: :request do
       end
 
       it "allows websites still provisioning" do
-        live_website.update!(provisioning_state: 'configuring')
+        live_website.update!(provisioning_state: 'field_keys_created')
         get '/tls/check', params: { domain: "active-tenant.#{platform_domain}" }
         expect(response).to have_http_status(:ok)
       end

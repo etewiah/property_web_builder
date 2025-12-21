@@ -22,7 +22,9 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
   before do
     # Sign in as user_a and set up tenant context
     sign_in user_a
+    # Stub both the getter and setter to ensure website_a is always returned
     allow(Pwb::Current).to receive(:website).and_return(website_a)
+    allow(Pwb::Current).to receive(:website=)
   end
 
   describe 'ContactsController' do

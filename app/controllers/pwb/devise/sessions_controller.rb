@@ -24,26 +24,15 @@ module Pwb
         user = Pwb::User.find_by(email: email)
         return unless user.present?
 
-        # Get current website from subdomain
-        current_site = current_website_from_subdomain
-        
+        # Use the website already resolved by SubdomainTenant concern
+        # This ensures consistency with how the rest of the app resolves the current tenant
+        current_site = Pwb::Current.website
+
         # Check if user's website matches current subdomain
         if user.website_id != current_site&.id
           flash[:alert] = "You don't have access to this subdomain. Please use the correct subdomain for your account."
           redirect_to new_user_session_path and return
         end
-      end
-
-      # Helper to get current website from subdomain
-      # This duplicates logic from ApplicationController but needs to be available here
-      def current_website_from_subdomain
-        subdomain = request.subdomain
-        return nil if subdomain.blank?
-        
-        reserved_subdomains = %w[www api admin]
-        return nil if reserved_subdomains.include?(subdomain.downcase)
-        
-        Pwb::Website.find_by_subdomain(subdomain)
       end
 
       def sign_in_params

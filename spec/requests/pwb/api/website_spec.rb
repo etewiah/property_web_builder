@@ -38,6 +38,7 @@ module Pwb
           website: {
             company_display_name: 'Updated Company Name',
             supported_locales: ['fr', 'es'],
+            default_client_locale: 'fr',  # Must be one of supported_locales
             social_media: {
               twitter: 'http://twitter.com/test',
               youtube: ''
@@ -102,7 +103,8 @@ module Pwb
 
         website1.update!(
           company_display_name: 'Updated Tenant 1 Company',
-          supported_locales: ['de']
+          supported_locales: ['de'],
+          default_client_locale: 'de'  # Must be one of supported_locales
         )
 
         website1.reload
