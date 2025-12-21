@@ -16,6 +16,10 @@ cloudflare_r2:
   bucket: <%= ENV['R2_BUCKET'] %>
   endpoint: <%= "https://#{ENV['R2_ACCOUNT_ID']}.r2.cloudflarestorage.com" %>
   force_path_style: true
+  public: true
+  <% if ENV['R2_PUBLIC_URL'].present? %>
+  public_url: <%= ENV['R2_PUBLIC_URL'] %>
+  <% end %>
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
