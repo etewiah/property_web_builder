@@ -23,10 +23,10 @@ module Pwb
     # ===================
     # Concerns
     # ===================
-    include Property::Geocodable
-    include Property::Priceable
-    include Property::Searchable
-    include Property::Displayable
+    include Pwb::PropertyGeocodable
+    include Pwb::PropertyPriceable
+    include Pwb::PropertySearchable
+    include Pwb::PropertyDisplayable
 
     # ===================
     # Configuration

@@ -85,12 +85,12 @@ module Pwb
     # ===================
     # Concerns
     # ===================
-    include Website::Provisionable
-    include Website::DomainConfigurable
-    include Website::Styleable
-    include Website::Subscribable
-    include Website::SocialLinkable
-    include Website::Localizable
+    include Pwb::WebsiteProvisionable
+    include Pwb::WebsiteDomainConfigurable
+    include Pwb::WebsiteStyleable
+    include Pwb::WebsiteSubscribable
+    include Pwb::WebsiteSocialLinkable
+    include Pwb::WebsiteLocalizable
     include FlagShihTzu
 
     # Virtual attributes for form handling (avoid conflict with AASM events)
