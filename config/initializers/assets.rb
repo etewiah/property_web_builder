@@ -13,9 +13,7 @@ Rails.application.config.assets.paths << Rails.root.join("app", "assets", "javas
 Rails.application.config.assets.precompile += %w[
   pwb_admin_panel/application_legacy_1.css
   pwb/themes/default.css
-  pwb/themes/berlin.css
   default.js
-  berlin.js
   pwb_admin_panel/application_legacy_1.js
   pwb/config.js
   tailwind-default.css
