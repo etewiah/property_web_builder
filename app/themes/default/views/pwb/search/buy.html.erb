@@ -1,41 +1,6 @@
 <% page_title @page_title  %>
 <%= render 'pwb/shared/leaflet_assets' %>
-<% content_for :page_script do %>
-  <%= javascript_tag do %>
-    // Wait for jQuery to be available (loaded with defer)
-    function initSearchPage() {
-      if (typeof $ === 'undefined' || typeof jQuery === 'undefined') {
-        setTimeout(initSearchPage, 50);
-        return;
-      }
 
-      $(function() {
-        if (typeof INMOAPP !== 'undefined') {
-          INMOAPP.truncateDescriptions();
-          INMOAPP.sortSearchResults();
-        }
-
-        // Loading state handlers for AJAX form submissions
-        $(document).on('ajax:beforeSend', 'form.form-light', function() {
-          $('#inmo-search-results').addClass('opacity-50');
-          $('#search-spinner').removeClass('hidden');
-        });
-
-        $(document).on('ajax:complete', 'form.form-light', function() {
-          $('#inmo-search-results').removeClass('opacity-50');
-          $('#search-spinner').addClass('hidden');
-        });
-      });
-    }
-
-    // Start checking for jQuery
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initSearchPage);
-    } else {
-      initSearchPage();
-    }
-  <% end %>
-<% end %>
 <!-- MAIN CONTENT -->
 <div class="bg-gray-100 py-4">
   <div class="container mx-auto px-4">
@@ -67,37 +32,40 @@
     </div>
   </div>
 </div>
-<section class="bg-white border-b border-gray-200">
+
+<%# Search form with Stimulus controller for AJAX handling %>
+<section class="bg-white border-b border-gray-200" data-controller="search-form">
   <div class="py-8">
     <div class="container mx-auto px-4">
       <div class="flex flex-wrap -mx-4">
         <!-- Sidebar (Filters) -->
         <div class="w-full lg:w-1/4 px-4 lg:order-last mb-6 lg:mb-0">
           <div class="lg:hidden mb-4">
-            <button type="button" class="w-full bg-white border border-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center" onclick="document.getElementById('sidebar-filters').classList.toggle('hidden'); document.getElementById('sidebar-filters').classList.toggle('block');">
+            <button type="button" 
+                    class="w-full bg-white border border-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center"
+                    data-action="search-form#toggleFilters">
               <i class="fa fa-filter mr-2"></i> <%= I18n.t("filter", default: "Filter") %>
             </button>
           </div>
           <div id="sidebar-filters" class="space-y-6">
             <!-- FILTERS -->
             <%= render '/pwb/search/search_form_for_sale' %>
-            <%# render '/pwb/search/go_to_property' %>
             <!-- RECENTLY VIEWED -->
           </div>
         </div>
 
         <!-- Results -->
         <div class="w-full lg:w-3/4 px-4">
-          <%# render '/pwb/search/search_results_header' %>
-          <!-- placeholder for ajax refresh: -->
-          <div id="search-spinner" class="hidden text-center py-10">
+          <!-- Loading spinner -->
+          <div data-search-form-target="spinner" class="hidden text-center py-10">
             <svg class="animate-spin h-10 w-10 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
             <span class="sr-only">Loading...</span>
           </div>
-          <div id="inmo-search-results">
+          <!-- Search results container -->
+          <div id="inmo-search-results" data-search-form-target="results">
             <%= render 'search_results' %>
           </div>
         </div>
@@ -105,61 +73,15 @@
     </div>
   </div>
 </section>
+
+<%# Map section with Stimulus controller %>
 <% if @map_markers.length > 0 %>
   <div class="w-full border-t border-gray-200" style="height: 600px;">
-    <div id="search-map" class="w-full h-full"></div>
+    <div id="search-map" 
+         class="w-full h-full"
+         data-controller="map"
+         data-map-target="canvas"
+         data-map-markers-value="<%= @map_markers.to_json %>">
+    </div>
   </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      if (typeof L === 'undefined') return;
-
-      // Fix for Leaflet default icon path issues
-      delete L.Icon.Default.prototype._getIconUrl;
-      L.Icon.Default.mergeOptions({
-        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-      });
-
-      var mapMarkers = <%= @map_markers.to_json.html_safe %>;
-      if (mapMarkers && mapMarkers.length > 0) {
-        // Calculate bounds to fit all markers
-        var bounds = [];
-        mapMarkers.forEach(function(marker) {
-          if (marker.position && marker.position.lat && marker.position.lng) {
-            bounds.push([parseFloat(marker.position.lat), parseFloat(marker.position.lng)]);
-          }
-        });
-
-        if (bounds.length > 0) {
-          var map = L.map('search-map');
-
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          }).addTo(map);
-
-          mapMarkers.forEach(function(marker) {
-            if (marker.position && marker.position.lat && marker.position.lng) {
-              var popupContent = `
-                <div class="text-center">
-                  <a href="${marker.show_url}" class="font-bold text-blue-600 hover:underline">${marker.title}</a>
-                  <div class="text-gray-600">${marker.display_price}</div>
-                  ${marker.image_url ? `<img src="${marker.image_url}" class="mt-2 w-32 h-24 object-cover mx-auto rounded">` : ''}
-                </div>
-              `;
-              L.marker([parseFloat(marker.position.lat), parseFloat(marker.position.lng)]).addTo(map)
-                  .bindPopup(popupContent);
-            }
-          });
-
-          map.fitBounds(bounds, { padding: [50, 50] });
-
-          // If only one marker or very close markers, zoom might be too high
-          if (map.getZoom() > 15) {
-            map.setZoom(15);
-          }
-        }
-      }
-    });
-  </script>
 <% end %>
