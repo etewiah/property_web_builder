@@ -1,3 +1,7 @@
+# DEPRECATED: Bootstrap styling for SimpleForm is deprecated as of December 2024.
+# The project is migrating to Tailwind CSS. New forms should use Tailwind classes.
+# See vendor/assets/stylesheets/bootstrap/DEPRECATED.md for migration guidance.
+#
 # Use this setup block to configure all options available in SimpleForm.
 SimpleForm.setup do |config|
   config.error_notification_class = 'alert alert-danger'

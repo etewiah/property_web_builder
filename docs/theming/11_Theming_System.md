@@ -1,5 +1,7 @@
 # Theming System Documentation
 
+> ⚠️ **CSS Framework Migration**: Bootstrap CSS is deprecated as of December 2024. All new themes should use **Tailwind CSS**. Legacy Bootstrap styles remain for backward compatibility but will not receive updates. See [vendor/assets/stylesheets/bootstrap/DEPRECATED.md](/vendor/assets/stylesheets/bootstrap/DEPRECATED.md) for migration guidance.
+
 ## Table of Contents
 1. [Overview](#overview)
 2. [Architecture](#architecture)

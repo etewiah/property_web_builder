@@ -1,3 +1,7 @@
+# DEPRECATED: This GraphQL API is deprecated as of December 2024.
+# New integrations should use the REST API at /api/v1/ or /api_public/v1/
+# See app/graphql/DEPRECATED.md for migration guidance.
+#
 class GraphqlController < Pwb::ApplicationController
   # If accessing from outside this domain, nullify the session
   # This allows for outside API access while preventing CSRF attacks,
@@ -11,6 +15,12 @@ class GraphqlController < Pwb::ApplicationController
   before_action :set_current_website
 
   def execute
+    # Log deprecation warning
+    ActiveSupport::Deprecation.warn(
+      "GraphQL API is deprecated. Please migrate to REST API at /api_public/v1/. " \
+      "See app/graphql/DEPRECATED.md for migration guidance."
+    )
+
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]

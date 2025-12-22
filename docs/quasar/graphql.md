@@ -1,5 +1,7 @@
 # GraphQL and Advanced Features
 
+> ⚠️ **DEPRECATED**: The GraphQL API is deprecated as of December 2024 and will no longer be actively maintained. New integrations should use the REST API at `/api_public/v1/`. See [app/graphql/DEPRECATED.md](/app/graphql/DEPRECATED.md) for migration guidance. Existing integrations will continue to work but should plan to migrate.
+
 This document provides guidance on integrating your Quasar application with the PropertyWebBuilder GraphQL API and implementing advanced features such as real-time updates and server-side rendering.
 
 ## GraphQL Integration
