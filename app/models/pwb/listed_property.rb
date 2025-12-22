@@ -15,95 +15,114 @@ module Pwb
   # Note: This model is NOT tenant-scoped. Use PwbTenant::ListedProperty for
   # tenant-scoped queries in web requests. This version is useful for
   # console work and cross-tenant operations.
-# == Schema Information
-#
-# Table name: pwb_properties
-#
-#  id                                     :uuid             primary key
-#  city                                   :string
-#  commission_cents                       :bigint
-#  commission_currency                    :string
-#  constructed_area                       :float
-#  count_bathrooms                        :float
-#  count_bedrooms                         :integer
-#  count_garages                          :integer
-#  count_toilets                          :integer
-#  country                                :string
-#  currency                               :string
-#  energy_performance                     :float
-#  energy_rating                          :integer
-#  for_rent                               :boolean
-#  for_rent_long_term                     :boolean
-#  for_rent_short_term                    :boolean
-#  for_sale                               :boolean
-#  furnished                              :boolean
-#  highlighted                            :boolean
-#  latitude                               :float
-#  longitude                              :float
-#  plot_area                              :float
-#  postal_code                            :string
-#  price_rental_monthly_current_cents     :bigint
-#  price_rental_monthly_current_currency  :string
-#  price_rental_monthly_for_search_cents  :bigint
-#  price_rental_monthly_high_season_cents :bigint
-#  price_rental_monthly_low_season_cents  :bigint
-#  price_sale_current_cents               :bigint
-#  price_sale_current_currency            :string
-#  prop_origin_key                        :string
-#  prop_state_key                         :string
-#  prop_type_key                          :string
-#  reference                              :string
-#  region                                 :string
-#  rental_furnished                       :boolean
-#  rental_highlighted                     :boolean
-#  rental_reserved                        :boolean
-#  reserved                               :boolean
-#  sale_furnished                         :boolean
-#  sale_highlighted                       :boolean
-#  sale_reserved                          :boolean
-#  slug                                   :string
-#  street_address                         :string
-#  street_name                            :string
-#  street_number                          :string
-#  visible                                :boolean
-#  year_construction                      :integer
-#  created_at                             :datetime
-#  updated_at                             :datetime
-#  rental_listing_id                      :uuid
-#  sale_listing_id                        :uuid
-#  website_id                             :integer
-#
-# Indexes
-#
-#  index_pwb_properties_on_bathrooms           (count_bathrooms)
-#  index_pwb_properties_on_bedrooms            (count_bedrooms)
-#  index_pwb_properties_on_for_rent            (for_rent)
-#  index_pwb_properties_on_for_sale            (for_sale)
-#  index_pwb_properties_on_highlighted         (highlighted)
-#  index_pwb_properties_on_id                  (id) UNIQUE
-#  index_pwb_properties_on_lat_lng             (latitude,longitude)
-#  index_pwb_properties_on_price_rental_cents  (price_rental_monthly_current_cents)
-#  index_pwb_properties_on_price_sale_cents    (price_sale_current_cents)
-#  index_pwb_properties_on_prop_type           (prop_type_key)
-#  index_pwb_properties_on_reference           (reference)
-#  index_pwb_properties_on_slug                (slug)
-#  index_pwb_properties_on_visible             (visible)
-#  index_pwb_properties_on_website_id          (website_id)
-#
+  #
+  # == Schema Information
+  #
+  # Table name: pwb_properties
+  #
+  #  id                                     :uuid             primary key
+  #  city                                   :string
+  #  commission_cents                       :bigint
+  #  commission_currency                    :string
+  #  constructed_area                       :float
+  #  count_bathrooms                        :float
+  #  count_bedrooms                         :integer
+  #  count_garages                          :integer
+  #  count_toilets                          :integer
+  #  country                                :string
+  #  currency                               :string
+  #  energy_performance                     :float
+  #  energy_rating                          :integer
+  #  for_rent                               :boolean
+  #  for_rent_long_term                     :boolean
+  #  for_rent_short_term                    :boolean
+  #  for_sale                               :boolean
+  #  furnished                              :boolean
+  #  highlighted                            :boolean
+  #  latitude                               :float
+  #  longitude                              :float
+  #  plot_area                              :float
+  #  postal_code                            :string
+  #  price_rental_monthly_current_cents     :bigint
+  #  price_rental_monthly_current_currency  :string
+  #  price_rental_monthly_for_search_cents  :bigint
+  #  price_rental_monthly_high_season_cents :bigint
+  #  price_rental_monthly_low_season_cents  :bigint
+  #  price_sale_current_cents               :bigint
+  #  price_sale_current_currency            :string
+  #  prop_origin_key                        :string
+  #  prop_state_key                         :string
+  #  prop_type_key                          :string
+  #  reference                              :string
+  #  region                                 :string
+  #  rental_furnished                       :boolean
+  #  rental_highlighted                     :boolean
+  #  rental_reserved                        :boolean
+  #  reserved                               :boolean
+  #  sale_furnished                         :boolean
+  #  sale_highlighted                       :boolean
+  #  sale_reserved                          :boolean
+  #  slug                                   :string
+  #  street_address                         :string
+  #  street_name                            :string
+  #  street_number                          :string
+  #  visible                                :boolean
+  #  year_construction                      :integer
+  #  created_at                             :datetime
+  #  updated_at                             :datetime
+  #  rental_listing_id                      :uuid
+  #  sale_listing_id                        :uuid
+  #  website_id                             :integer
+  #
+  # Indexes
+  #
+  #  index_pwb_properties_on_bathrooms           (count_bathrooms)
+  #  index_pwb_properties_on_bedrooms            (count_bedrooms)
+  #  index_pwb_properties_on_for_rent            (for_rent)
+  #  index_pwb_properties_on_for_sale            (for_sale)
+  #  index_pwb_properties_on_highlighted         (highlighted)
+  #  index_pwb_properties_on_id                  (id) UNIQUE
+  #  index_pwb_properties_on_lat_lng             (latitude,longitude)
+  #  index_pwb_properties_on_price_rental_cents  (price_rental_monthly_current_cents)
+  #  index_pwb_properties_on_price_sale_cents    (price_sale_current_cents)
+  #  index_pwb_properties_on_prop_type           (prop_type_key)
+  #  index_pwb_properties_on_reference           (reference)
+  #  index_pwb_properties_on_slug                (slug)
+  #  index_pwb_properties_on_visible             (visible)
+  #  index_pwb_properties_on_website_id          (website_id)
   #
   class ListedProperty < ApplicationRecord
+    # Concerns - extracted for better organization and reusability
+    include ::ListedProperty::Pricing
+    include ::ListedProperty::Searchable
+    include ::ListedProperty::UrlHelpers
+    include ::ListedProperty::PhotoAccessors
+    include ::ListedProperty::Localizable
+
     self.table_name = 'pwb_properties'
     self.primary_key = 'id'
 
-    # Associations (read-only, via the realty_asset_id which is our primary key)
+    # ============================================
+    # Associations (read-only, via the realty_asset_id)
+    # ============================================
+
     belongs_to :website, class_name: 'Pwb::Website', optional: true
-    has_many :prop_photos, -> { includes(:image_attachment).order(:sort_order) }, class_name: 'Pwb::PropPhoto', foreign_key: 'realty_asset_id', primary_key: 'id'
-    has_many :features, class_name: 'PwbTenant::Feature', foreign_key: 'realty_asset_id', primary_key: 'id'
 
-    # Default scope to eager load commonly used associations to avoid N+1 queries
-    scope :with_eager_loading, -> { includes(:website, :prop_photos) }
+    has_many :prop_photos,
+             -> { includes(:image_attachment).order(:sort_order) },
+             class_name: 'Pwb::PropPhoto',
+             foreign_key: 'realty_asset_id',
+             primary_key: 'id'
 
-    # Underlying models for write operations
+    has_many :features,
+             class_name: 'PwbTenant::Feature',
+             foreign_key: 'realty_asset_id',
+             primary_key: 'id'
+
+    # ============================================
+    # Underlying Models (for write operations)
+    # ============================================
+
     def realty_asset
       Pwb::RealtyAsset.find(id)
     end
@@ -140,135 +159,6 @@ module Pwb
         RefreshPropertiesViewJob.perform_later
       else
         refresh
-      end
-    end
-
-    # ============================================
-    # Monetize (for price display)
-    # ============================================
-
-    monetize :price_sale_current_cents, with_model_currency: :price_sale_current_currency, allow_nil: true
-    monetize :price_rental_monthly_current_cents, with_model_currency: :price_rental_monthly_current_currency, allow_nil: true
-    monetize :price_rental_monthly_low_season_cents, with_model_currency: :price_rental_monthly_current_currency, allow_nil: true
-    monetize :price_rental_monthly_high_season_cents, with_model_currency: :price_rental_monthly_current_currency, allow_nil: true
-    monetize :price_rental_monthly_for_search_cents, with_model_currency: :price_rental_monthly_current_currency, allow_nil: true
-    monetize :commission_cents, with_model_currency: :commission_currency, allow_nil: true
-
-    # ============================================
-    # Scopes (matching Pwb::Prop interface)
-    # ============================================
-
-    scope :visible, -> { where(visible: true) }
-    scope :for_sale, -> { where(for_sale: true) }
-    scope :for_rent, -> { where(for_rent: true) }
-    scope :highlighted, -> { where(highlighted: true) }
-
-    scope :property_type, ->(property_type) { where(prop_type_key: property_type) }
-    scope :property_state, ->(property_state) { where(prop_state_key: property_state) }
-
-    # Price range scopes
-    scope :for_sale_price_from, ->(minimum_price) { where("price_sale_current_cents >= ?", minimum_price.to_s) }
-    scope :for_sale_price_till, ->(maximum_price) { where("price_sale_current_cents <= ?", maximum_price.to_s) }
-    scope :for_rent_price_from, ->(minimum_price) { where("price_rental_monthly_for_search_cents >= ?", minimum_price.to_s) }
-    scope :for_rent_price_till, ->(maximum_price) { where("price_rental_monthly_for_search_cents <= ?", maximum_price.to_s) }
-
-    # Room count scopes
-    scope :count_bathrooms, ->(min_count) { where("count_bathrooms >= ?", min_count.to_s) }
-    scope :count_bedrooms, ->(min_count) { where("count_bedrooms >= ?", min_count.to_s) }
-    scope :bathrooms_from, ->(min_count) { where("count_bathrooms >= ?", min_count.to_s) }
-    scope :bedrooms_from, ->(min_count) { where("count_bedrooms >= ?", min_count.to_s) }
-
-    # ============================================
-    # Feature Search Scopes
-    # ============================================
-
-    # Search properties that have ALL specified features (AND logic)
-    # Usage: ListedProperty.with_features(['features.private_pool', 'features.sea_views'])
-    scope :with_features, ->(feature_keys) {
-      return all if feature_keys.blank?
-
-      feature_array = Array(feature_keys).reject(&:blank?)
-      return all if feature_array.empty?
-
-      # Use subquery to avoid GROUP BY issues with SELECT *
-      property_ids = PwbTenant::Feature
-        .where(feature_key: feature_array)
-        .group(:realty_asset_id)
-        .having("COUNT(DISTINCT feature_key) = ?", feature_array.length)
-        .select(:realty_asset_id)
-
-      where(id: property_ids)
-    }
-
-    # Search properties that have ANY of the specified features (OR logic)
-    # Usage: ListedProperty.with_any_features(['features.private_pool', 'features.sea_views'])
-    scope :with_any_features, ->(feature_keys) {
-      return all if feature_keys.blank?
-
-      feature_array = Array(feature_keys).reject(&:blank?)
-      return all if feature_array.empty?
-
-      # Use subquery to avoid issues with joins and distinct
-      property_ids = PwbTenant::Feature
-        .where(feature_key: feature_array)
-        .select(:realty_asset_id)
-        .distinct
-
-      where(id: property_ids)
-    }
-
-    # Exclude properties that have specific features
-    # Usage: ListedProperty.without_features(['features.private_pool'])
-    scope :without_features, ->(feature_keys) {
-      return all if feature_keys.blank?
-
-      feature_array = Array(feature_keys).reject(&:blank?)
-      return all if feature_array.empty?
-
-      where.not(
-        id: joins(:features)
-          .where(pwb_features: { feature_key: feature_array })
-          .select(:id)
-      )
-    }
-
-    # Filter by property type key
-    # Usage: ListedProperty.with_property_type('types.apartment')
-    scope :with_property_type, ->(type_key) {
-      return all if type_key.blank?
-      where(prop_type_key: type_key)
-    }
-
-    # Filter by property state key
-    # Usage: ListedProperty.with_property_state('states.new_build')
-    scope :with_property_state, ->(state_key) {
-      return all if state_key.blank?
-      where(prop_state_key: state_key)
-    }
-
-    # ============================================
-    # Title/Description (from listing via Mobility)
-    # ============================================
-    # Title and description are marketing text stored on the listing,
-    # not the underlying RealtyAsset. We check sale_listing first,
-    # then rental_listing.
-
-    def title
-      sale_listing&.title || rental_listing&.title
-    end
-
-    def description
-      sale_listing&.description || rental_listing&.description
-    end
-
-    # Dynamic locale-specific title/description accessors
-    I18n.available_locales.each do |locale|
-      define_method("title_#{locale}") do
-        sale_listing&.send("title_#{locale}") || rental_listing&.send("title_#{locale}")
-      end
-
-      define_method("description_#{locale}") do
-        sale_listing&.send("description_#{locale}") || rental_listing&.send("description_#{locale}")
       end
     end
 
@@ -321,22 +211,6 @@ module Pwb
     end
 
     # ============================================
-    # Photo Methods
-    # ============================================
-
-    def ordered_photo(number)
-      prop_photos[number - 1] if prop_photos.length >= number
-    end
-
-    def primary_image_url
-      if prop_photos.any? && ordered_photo(1)&.image&.attached?
-        Rails.application.routes.url_helpers.rails_blob_path(ordered_photo(1).image, only_path: true)
-      else
-        ""
-      end
-    end
-
-    # ============================================
     # Feature Methods
     # ============================================
 
@@ -346,113 +220,6 @@ module Pwb
 
     def extras_for_display
       get_features.keys.map { |extra| I18n.t(extra) }.sort_by(&:downcase)
-    end
-
-    # ============================================
-    # Price Methods
-    # ============================================
-
-    # Standard season pricing not available in materialized view
-    # These stub methods prevent errors in views that check for this column
-    def price_rental_monthly_standard_season_cents
-      nil
-    end
-
-    def price_rental_monthly_standard_season_cents?
-      false
-    end
-
-    def price_rental_monthly_standard_season
-      nil
-    end
-
-    def contextual_price(rent_or_sale)
-      rent_or_sale ||= for_rent ? "for_rent" : "for_sale"
-
-      if rent_or_sale == "for_rent"
-        price_rental_monthly_for_search
-      else
-        price_sale_current
-      end
-    end
-
-    def contextual_price_with_currency(rent_or_sale)
-      price = contextual_price(rent_or_sale)
-      return nil if price.nil? || price.zero?
-      price.format(no_cents: true)
-    end
-
-    def rental_price
-      if for_rent_short_term
-        lowest_short_term_price || price_rental_monthly_current
-      else
-        price_rental_monthly_current
-      end
-    end
-
-    def lowest_short_term_price
-      prices = [
-        price_rental_monthly_low_season,
-        price_rental_monthly_current,
-        price_rental_monthly_high_season
-      ].reject { |p| p.nil? || p.cents < 1 }
-      prices.min
-    end
-
-    # ============================================
-    # URL Methods
-    # ============================================
-
-    def url_friendly_title
-      title && title.length > 2 ? title.parameterize : "show"
-    end
-
-    # Returns the slug for URL generation, falling back to ID if no slug
-    def slug_or_id
-      slug.presence || id
-    end
-
-    def contextual_show_path(rent_or_sale)
-      rent_or_sale ||= for_rent ? "for_rent" : "for_sale"
-
-      if rent_or_sale == "for_rent"
-        Rails.application.routes.url_helpers.prop_show_for_rent_path(
-          locale: I18n.locale,
-          id: slug_or_id,
-          url_friendly_title: url_friendly_title
-        )
-      else
-        Rails.application.routes.url_helpers.prop_show_for_sale_path(
-          locale: I18n.locale,
-          id: slug_or_id,
-          url_friendly_title: url_friendly_title
-        )
-      end
-    end
-
-    # ============================================
-    # Search (class method from Pwb::Prop)
-    # ============================================
-
-    def self.properties_search(**search_filtering_params)
-      currency_string = search_filtering_params[:currency] || "usd"
-      currency = Money::Currency.find(currency_string)
-
-      search_results = if search_filtering_params[:sale_or_rental] == "rental"
-                         all.visible.for_rent
-                       else
-                         all.visible.for_sale
-                       end
-
-      search_filtering_params.each do |key, value|
-        next if value == "none" || key == :sale_or_rental || key == :currency
-
-        price_fields = [:for_sale_price_from, :for_sale_price_till, :for_rent_price_from, :for_rent_price_till]
-        value = value.gsub(/\D/, "").to_i * currency.subunit_to_unit if price_fields.include?(key)
-        search_results = search_results.public_send(key, value) if value.present?
-      end
-
-      search_results
     end
 
     # ============================================
