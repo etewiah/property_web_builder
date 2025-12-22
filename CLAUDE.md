@@ -41,6 +41,22 @@ Only these markdown files should exist at the project root:
 - Prefer editing existing files over creating new ones
 - Run tests before committing significant changes
 
+## Frontend Architecture
+
+**IMPORTANT: Vue.js is DEPRECATED. Do not use or extend Vue components.**
+
+The frontend uses server-rendered pages:
+
+- **ERB templates** - Standard Rails views (`app/views/`)
+- **Liquid templates** - Dynamic page parts and theming (`app/themes/`)
+- **Tailwind CSS** - All styling (no Bootstrap)
+- **Stimulus.js** - For JavaScript interactions (preferred)
+
+### Deprecated (Do Not Use)
+- `app/frontend/` - Vue.js apps (see `app/frontend/DEPRECATED.md`)
+- `app/graphql/` - GraphQL API (see `app/graphql/DEPRECATED.md`)
+- Bootstrap CSS (see `vendor/assets/stylesheets/bootstrap/DEPRECATED.md`)
+
 ## Multi-Tenancy
 
 This is a multi-tenant application where each website is a tenant. Always:
