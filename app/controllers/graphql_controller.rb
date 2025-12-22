@@ -1,3 +1,7 @@
+# DEPRECATED: This GraphQL API is deprecated as of December 2024.
+# New integrations should use the REST API at /api/v1/ or /api_public/v1/
+# See app/graphql/DEPRECATED.md for migration guidance.
+#
 class GraphqlController < Pwb::ApplicationController
   # If accessing from outside this domain, nullify the session
   # This allows for outside API access while preventing CSRF attacks,
