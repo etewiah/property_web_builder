@@ -1,27 +1,25 @@
-// should be themes/default.js.erb
-// This is a manifest file that'll be compiled into application.js, which will include all the files
-// listed below.
+// =============================================================================
+// DEPRECATED: jQuery-based JavaScript
+// =============================================================================
+// This file contains legacy jQuery code that is being phased out.
+// New features should use Stimulus.js controllers in app/javascript/controllers/
 //
-// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
-// or any plugin's vendor/assets/javascripts directory can be referenced here using a relative path.
+// Migration Status:
+// - Search form AJAX handlers: MIGRATED to search_form_controller.js
+// - Contact form handlers: MIGRATED to contact_form_controller.js  
+// - Map initialization: MIGRATED to map_controller.js (using Leaflet)
+// - INMOAPP.truncateDescriptions: MIGRATED to search_form_controller.js
+// - INMOAPP.sortSearchResults: MIGRATED to search_form_controller.js
 //
-// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-// compiled file. JavaScript code in this file should be added after the last require_* statement.
-//
-// Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
-// about supported directives.
-//
-// require_tree .
+// TODO: Remove jQuery dependencies once all Vue components are migrated
+// =============================================================================
+
 //= require jquery
-// require jquery.turbolinks
 //= require jquery_ujs
-// require_tree ./paloma
-// require bootstrap-sprockets
 //= require bootstrap-select
 //= require lodash-4.17.15
-// lodash used for google maps
+
 <%
-# ...
 if Rails.env.development?
   require_asset ("vue-2.4.2")
 else
@@ -29,56 +27,51 @@ else
 end
 
 require_asset ("vue-social-sharing")
-# require_asset ("vue-google-maps-v0.8.11")
 require_asset ("./shared/select-picker")
 require_asset ("./shared/inmo-map")
 require_asset ("./shared/vue-main")
 %>
 
+// =============================================================================
+// DEPRECATED: Global namespace and jQuery handlers
+// These are kept for backward compatibility with legacy Vue components
+// =============================================================================
 
-// $(document).on('page:change', function() {
-// once turbolinks is activated, will have to change to above
 $(document).on('ready', function() {
+  console.warn('[DEPRECATED] jQuery document.ready handler - use Stimulus controllers instead');
   INMOAPP.pageHolder = {};
-  //
 });
 
-// global namespace
 var INMOAPP = INMOAPP || {};
-// sub namespace
 INMOAPP.pageHolder = {};
 
+// -----------------------------------------------------------------------------
+// DEPRECATED: Google Maps functions (replaced by Leaflet + map_controller.js)
+// -----------------------------------------------------------------------------
 
 INMOAPP.showMap = function(currentItemForMap) {
+  console.warn('[DEPRECATED] INMOAPP.showMap - use map_controller.js with Leaflet instead');
   if (typeof(INMOAPP.pageHolder.map) === "undefined") {
     INMOAPP.renderMap(currentItemForMap, "600px", true);
   } else {
-    // okay, we've got a map and we need to resize it
     google.maps.event.addListener(INMOAPP.pageHolder.map, 'idle', function() {
       google.maps.event.trigger(INMOAPP.pageHolder.map, 'resize');
       var center = INMOAPP.pageHolder.map.getCenter();
       INMOAPP.pageHolder.map.setCenter(center);
     });
-
   }
 };
 
 INMOAPP.renderMap = function(currentItemForMap, minHeight, showMarker) {
+  console.warn('[DEPRECATED] INMOAPP.renderMap - use map_controller.js with Leaflet instead');
   if ($("#inmo-map-canvas").length > 0) {
-    // $("#inmo-map-canvas").show();
     var mapOptions = {
-      // maxZoom: 20,
-      // minZoom: 9,
       scrollwheel: false,
       zoom: 15,
-      // center: mapCenter,
-      // mapTypeId: google.maps.MapTypeId.ROADMAP
       styles: [{
         "featureType": "poi",
         "elementType": "labels",
-        "stylers": [{
-          "visibility": "off"
-        }]
+        "stylers": [{ "visibility": "off" }]
       }]
     };
     mapOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
@@ -86,42 +79,39 @@ INMOAPP.renderMap = function(currentItemForMap, minHeight, showMarker) {
     if (minHeight) {
       $("#inmo-map-canvas").css("min-height", minHeight);
     }
-    INMOAPP.pageHolder.map = new google.maps.Map(document.getElementById(
-      'inmo-map-canvas'), mapOptions);
+    INMOAPP.pageHolder.map = new google.maps.Map(document.getElementById('inmo-map-canvas'), mapOptions);
 
     if (currentItemForMap && currentItemForMap.latitude) {
       var propertyLatLng = new google.maps.LatLng(
         parseFloat(currentItemForMap.latitude),
         parseFloat(currentItemForMap.longitude)
       );
-      // var allMapMarkers = this.get('geo.allMapMarkers') || [];
       var formatted_address = currentItemForMap.street_address || "";
       if (showMarker) {
         INMOAPP.addMarker(propertyLatLng, formatted_address);
       }
       google.maps.event.addListener(INMOAPP.pageHolder.map, 'idle', function() {
         google.maps.event.trigger(INMOAPP.pageHolder.map, 'resize');
-        // var center = INMOAPP.pageHolder.map.getCenter();
         INMOAPP.pageHolder.map.setCenter(propertyLatLng);
       });
     }
-
   }
 };
 
 INMOAPP.addMarker = function(latlng, formatted_address) {
+  console.warn('[DEPRECATED] INMOAPP.addMarker - use map_controller.js with Leaflet instead');
   var newMarker = new google.maps.Marker({
     position: latlng,
     map: INMOAPP.pageHolder.map
   });
 };
 
+// -----------------------------------------------------------------------------
+// DEPRECATED: Search result functions (replaced by search_form_controller.js)
+// -----------------------------------------------------------------------------
 
-
-
-// below 2 called after search results loaded (client side) - html would not be
-// ready on document.ready...
 INMOAPP.sortSearchResults = function() {
+  console.warn('[DEPRECATED] INMOAPP.sortSearchResults - use search_form_controller.js instead');
   var $wrapper = $('#ordered-properties');
   if ($("#order-price-desc").hasClass("active")) {
     $wrapper.find('.property-item').sort(function(a, b) {
@@ -133,10 +123,8 @@ INMOAPP.sortSearchResults = function() {
     }).appendTo($wrapper);
   }
 };
+
 INMOAPP.truncateDescriptions = function() {
-  // $(".truncated_description").each(function(el) {
-  //   var trimmedString = $(this)[0].textContent.trim().substring(0, 200);
-  //   $(this).html(trimmedString);
-  //   $(this).show();
-  // });
+  console.warn('[DEPRECATED] INMOAPP.truncateDescriptions - use search_form_controller.js instead');
+  // Now handled by Stimulus controller
 };
