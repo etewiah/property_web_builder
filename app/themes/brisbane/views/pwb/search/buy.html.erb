@@ -2,25 +2,38 @@
 <%= render 'pwb/shared/leaflet_assets' %>
 <% content_for :page_script do %>
   <%= javascript_tag do %>
-    $(document).ready(
-    function(){
-      $('#inmo-search-results').html("<%= j (render 'search_results') %>");
+    // Wait for jQuery to be available (loaded with defer)
+    function initSearchPage() {
+      if (typeof $ === 'undefined' || typeof jQuery === 'undefined') {
+        setTimeout(initSearchPage, 50);
+        return;
+      }
 
-      INMOAPP.truncateDescriptions();
-      INMOAPP.sortSearchResults();
+      $(function() {
+        if (typeof INMOAPP !== 'undefined') {
+          INMOAPP.truncateDescriptions();
+          INMOAPP.sortSearchResults();
+        }
 
-      // Loading state handlers
-      $(document).on('ajax:beforeSend', 'form.form-light', function() {
-        $('#inmo-search-results').addClass('opacity-50');
-        $('#search-spinner').removeClass('hidden');
-      });
+        // Loading state handlers for AJAX form submissions
+        $(document).on('ajax:beforeSend', 'form.form-light', function() {
+          $('#inmo-search-results').addClass('opacity-50');
+          $('#search-spinner').removeClass('hidden');
+        });
 
-      $(document).on('ajax:complete', 'form.form-light', function() {
-        $('#inmo-search-results').removeClass('opacity-50');
-        $('#search-spinner').addClass('hidden');
+        $(document).on('ajax:complete', 'form.form-light', function() {
+          $('#inmo-search-results').removeClass('opacity-50');
+          $('#search-spinner').addClass('hidden');
+        });
       });
     }
-  );
+
+    // Start checking for jQuery
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSearchPage);
+    } else {
+      initSearchPage();
+    }
   <% end %>
 <% end %>
 <!-- MAIN CONTENT -->
@@ -85,6 +98,7 @@
             <span class="sr-only">Loading...</span>
           </div>
           <div id="inmo-search-results">
+            <%= render 'search_results' %>
           </div>
         </div>
       </div>
