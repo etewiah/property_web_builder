@@ -179,6 +179,9 @@ gem "omniauth-facebook"
 
 gem "tailwindcss-rails", "~> 4.4"
 
+# Stimulus.js for JavaScript interactions in server-rendered pages
+gem "stimulus-rails", "~> 1.3"
+
 # REMOVED: firebase_id_token - replaced with custom Pwb::FirebaseTokenVerifier
 # This allows redis 5.x and removes httparty/redis-namespace dependencies
 gem "active_storage_dashboard"
