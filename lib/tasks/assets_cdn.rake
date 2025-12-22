@@ -6,10 +6,11 @@ namespace :assets do
     require "aws-sdk-s3"
 
     # R2 configuration from environment
+    # Uses R2_ASSETS_BUCKET if set, otherwise falls back to R2_BUCKET
     account_id = ENV.fetch("R2_ACCOUNT_ID")
-    access_key_id = ENV.fetch("R2_ACCESS_KEY_ID")
-    secret_access_key = ENV.fetch("R2_SECRET_ACCESS_KEY")
-    bucket = ENV.fetch("R2_BUCKET")
+    access_key_id = ENV["R2_ASSETS_ACCESS_KEY_ID"] || ENV.fetch("R2_ACCESS_KEY_ID")
+    secret_access_key = ENV["R2_ASSETS_SECRET_ACCESS_KEY"] || ENV.fetch("R2_SECRET_ACCESS_KEY")
+    bucket = ENV["R2_ASSETS_BUCKET"] || ENV.fetch("R2_BUCKET")
 
     endpoint = "https://#{account_id}.r2.cloudflarestorage.com"
 

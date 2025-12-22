@@ -20,16 +20,34 @@ This guide explains how to serve Rails static assets (JS, CSS, fonts, images) fr
 Add these to your production environment:
 
 ```bash
-# Existing R2 variables (for ActiveStorage)
+# Required: R2 account ID (shared)
 R2_ACCOUNT_ID=your_account_id
+
+# ActiveStorage credentials (for uploads)
 R2_ACCESS_KEY_ID=your_access_key
 R2_SECRET_ACCESS_KEY=your_secret_key
-R2_BUCKET=pwb-prod-assets-eu
-
-# New variables for asset CDN
+R2_BUCKET=pwb-prod-uploads
 R2_PUBLIC_URL=https://pub-xxx.r2.dev
-ASSET_HOST=https://pub-xxx.r2.dev/assets
+
+# Asset CDN configuration
+ASSET_HOST=https://pub-yyy.r2.dev/assets
 ```
+
+### Using a Separate Bucket for Assets (Recommended)
+
+You can use a dedicated bucket for static assets, separate from ActiveStorage uploads:
+
+```bash
+# Optional: Separate bucket for static assets
+R2_ASSETS_BUCKET=pwb-prod-assets
+R2_ASSETS_ACCESS_KEY_ID=assets_access_key
+R2_ASSETS_SECRET_ACCESS_KEY=assets_secret_key
+```
+
+The asset sync task will use `R2_ASSETS_*` variables if set, otherwise falls back to the standard `R2_*` variables. This allows you to:
+- Use different access permissions for assets vs uploads
+- Keep compiled assets separate from user-uploaded files
+- Configure different caching policies per bucket
 
 **Note**: `ASSET_HOST` should include `/assets` at the end since files are uploaded to the `assets/` prefix in R2.
 
@@ -58,9 +76,10 @@ Add to your deployment script (e.g., GitHub Actions, Render, etc.):
   env:
     RAILS_ENV: production
     R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
-    R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-    R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-    R2_BUCKET: ${{ secrets.R2_BUCKET }}
+    # Use separate assets bucket (or fall back to R2_BUCKET)
+    R2_ASSETS_BUCKET: ${{ secrets.R2_ASSETS_BUCKET }}
+    R2_ASSETS_ACCESS_KEY_ID: ${{ secrets.R2_ASSETS_ACCESS_KEY_ID }}
+    R2_ASSETS_SECRET_ACCESS_KEY: ${{ secrets.R2_ASSETS_SECRET_ACCESS_KEY }}
   run: |
     bundle exec rails assets:cdn_deploy
 ```
