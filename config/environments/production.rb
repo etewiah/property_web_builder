@@ -20,7 +20,8 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  # config.asset_host = "http://assets.example.com"
+  # Uses R2 public URL for CDN delivery of static assets
+  config.asset_host = ENV["ASSET_HOST"] if ENV["ASSET_HOST"].present?
 
   # Store uploaded files on Cloudflare R2 (see config/storage.yml for options).
   config.active_storage.service = :cloudflare_r2
