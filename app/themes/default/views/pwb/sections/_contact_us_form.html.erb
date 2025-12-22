@@ -1,11 +1,17 @@
-<!-- Bristol Theme Contact Us Form - Tailwind CSS -->
-<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-  <p id="contact-us-prompt" class="text-gray-600 mb-6">
+<%# Contact Us Form - Using Stimulus controller instead of jQuery remote forms %>
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6" data-controller="contact-form">
+  <p id="contact-us-prompt" class="text-gray-600 mb-6" data-contact-form-target="prompt">
     <%= I18n.t("contactUsPrompt") %>
   </p>
 
   <%= form_for :contact, url: '/contact_us.js', method: 'post',
-      html: { class: 'space-y-4' }, remote: true do |f| %>
+      html: { 
+        class: 'space-y-4',
+        data: { 
+          contact_form_target: 'form',
+          action: 'ajax:beforeSend->contact-form#handleBeforeSend ajax:complete->contact-form#handleComplete ajax:success->contact-form#handleAjaxSuccess ajax:error->contact-form#handleAjaxError'
+        }
+      }, remote: true do |f| %>
 
     <%= f.hidden_field :locale, value: I18n.locale %>
 
@@ -20,10 +26,11 @@
 
     <%= tailwind_inmo_textarea f, :message, "message", "text", false %>
 
-    <div id="contact-us-result"></div>
+    <div id="contact-us-result" data-contact-form-target="result"></div>
 
     <button type="submit"
-            class="bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition flex items-center">
+            class="bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition flex items-center"
+            data-contact-form-target="submitButton">
       <i class="fa fa-envelope mr-2"></i>
       <%= I18n.t("send") %>
     </button>
