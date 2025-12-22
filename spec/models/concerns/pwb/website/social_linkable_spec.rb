@@ -5,6 +5,12 @@ require 'rails_helper'
 RSpec.describe Pwb::WebsiteSocialLinkable, type: :model do
   let(:website) { create(:pwb_website) }
 
+  around do |example|
+    ActsAsTenant.with_tenant(website) do
+      example.run
+    end
+  end
+
   describe 'social media accessors' do
     let!(:facebook_link) do
       create(:pwb_link, website: website, slug: 'social_media_facebook', link_url: 'https://facebook.com/test')

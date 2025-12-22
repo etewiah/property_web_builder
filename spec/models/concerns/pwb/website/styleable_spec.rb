@@ -5,6 +5,12 @@ require 'rails_helper'
 RSpec.describe Pwb::WebsiteStyleable, type: :model do
   let(:website) { create(:pwb_website) }
 
+  around do |example|
+    ActsAsTenant.with_tenant(website) do
+      example.run
+    end
+  end
+
   describe '#style_variables' do
     it 'returns default values when none are set' do
       website.style_variables_for_theme = {}

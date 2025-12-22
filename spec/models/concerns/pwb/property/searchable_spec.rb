@@ -5,6 +5,12 @@ require 'rails_helper'
 RSpec.describe Pwb::PropertySearchable, type: :model do
   let(:website) { create(:pwb_website) }
 
+  around do |example|
+    ActsAsTenant.with_tenant(website) do
+      example.run
+    end
+  end
+
   describe 'scopes' do
     let!(:sale_property) { create(:pwb_prop, website: website, for_sale: true, visible: true) }
     let!(:rent_property) { create(:pwb_prop, website: website, for_rent_long_term: true, visible: true) }
@@ -40,8 +46,9 @@ RSpec.describe Pwb::PropertySearchable, type: :model do
   describe 'price filter scopes' do
     let!(:cheap_sale) { create(:pwb_prop, website: website, for_sale: true, price_sale_current_cents: 100_000_00) }
     let!(:expensive_sale) { create(:pwb_prop, website: website, for_sale: true, price_sale_current_cents: 500_000_00) }
-    let!(:cheap_rent) { create(:pwb_prop, website: website, for_rent_long_term: true, price_rental_monthly_for_search_cents: 1000_00) }
-    let!(:expensive_rent) { create(:pwb_prop, website: website, for_rent_long_term: true, price_rental_monthly_for_search_cents: 3000_00) }
+    # Use price_rental_monthly_current_cents because the before_save callback calculates price_rental_monthly_for_search
+    let!(:cheap_rent) { create(:pwb_prop, website: website, for_rent_long_term: true, price_rental_monthly_current_cents: 1000_00) }
+    let!(:expensive_rent) { create(:pwb_prop, website: website, for_rent_long_term: true, price_rental_monthly_current_cents: 3000_00) }
 
     describe '.for_sale_price_from' do
       it 'filters properties above minimum sale price' do
@@ -61,7 +68,7 @@ RSpec.describe Pwb::PropertySearchable, type: :model do
 
     describe '.for_rent_price_from' do
       it 'filters properties above minimum rent price' do
-        result = Pwb::Prop.for_rent_price_from(2000_00)
+        result = Pwb::Prop.where(website: website).for_rent_price_from(2000_00)
         expect(result).to include(expensive_rent)
         expect(result).not_to include(cheap_rent)
       end
@@ -69,7 +76,7 @@ RSpec.describe Pwb::PropertySearchable, type: :model do
 
     describe '.for_rent_price_till' do
       it 'filters properties below maximum rent price' do
-        result = Pwb::Prop.for_rent_price_till(2000_00)
+        result = Pwb::Prop.where(website: website).for_rent_price_till(2000_00)
         expect(result).to include(cheap_rent)
         expect(result).not_to include(expensive_rent)
       end

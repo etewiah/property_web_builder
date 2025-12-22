@@ -5,6 +5,12 @@ require 'rails_helper'
 RSpec.describe Pwb::WebsiteLocalizable, type: :model do
   let(:website) { create(:pwb_website) }
 
+  around do |example|
+    ActsAsTenant.with_tenant(website) do
+      example.run
+    end
+  end
+
   describe 'validations' do
     describe 'default_locale_in_supported_locales' do
       it 'is valid when default locale is in supported locales' do

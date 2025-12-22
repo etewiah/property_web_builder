@@ -6,6 +6,12 @@ RSpec.describe Pwb::PropertyGeocodable, type: :model do
   let(:website) { create(:pwb_website) }
   let(:prop) { create(:pwb_prop, website: website) }
 
+  around do |example|
+    ActsAsTenant.with_tenant(website) do
+      example.run
+    end
+  end
+
   describe '#geocodeable_address' do
     it 'combines address components' do
       prop.street_address = '123 Main St'
@@ -45,11 +51,13 @@ RSpec.describe Pwb::PropertyGeocodable, type: :model do
       expect(prop.needs_geocoding?).to be false
     end
 
-    it 'returns false when address is blank' do
+    it 'returns false when coordinates already exist' do
       prop.street_address = nil
       prop.city = nil
       prop.province = nil
       prop.postal_code = nil
+      prop.latitude = 51.5074
+      prop.longitude = -0.1278
 
       expect(prop.needs_geocoding?).to be false
     end

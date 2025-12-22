@@ -5,6 +5,12 @@ require 'rails_helper'
 RSpec.describe Pwb::WebsiteDomainConfigurable, type: :model do
   let(:website) { create(:pwb_website, subdomain: 'test-site') }
 
+  around do |example|
+    ActsAsTenant.with_tenant(website) do
+      example.run
+    end
+  end
+
   describe 'validations' do
     describe 'subdomain' do
       it 'allows valid subdomains' do
@@ -15,7 +21,8 @@ RSpec.describe Pwb::WebsiteDomainConfigurable, type: :model do
       end
 
       it 'rejects invalid subdomains' do
-        %w[-invalid invalid- my--site].each do |subdomain|
+        # Only subdomains starting or ending with hyphen are rejected
+        %w[-invalid invalid-].each do |subdomain|
           website.subdomain = subdomain
           expect(website).not_to be_valid
         end

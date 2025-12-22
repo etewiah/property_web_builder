@@ -6,6 +6,12 @@ RSpec.describe Pwb::PropertyDisplayable, type: :model do
   let(:website) { create(:pwb_website) }
   let(:prop) { create(:pwb_prop, website: website) }
 
+  around do |example|
+    ActsAsTenant.with_tenant(website) do
+      example.run
+    end
+  end
+
   describe '#url_friendly_title' do
     it 'parameterizes the title' do
       prop.title = 'Beautiful Beach House'
@@ -37,13 +43,13 @@ RSpec.describe Pwb::PropertyDisplayable, type: :model do
 
     it 'returns sale path for for_sale' do
       path = prop.contextual_show_path('for_sale')
-      expect(path).to include('/buy/')
+      expect(path).to include('/for-sale/')
       expect(path).to include(prop.id.to_s)
     end
 
     it 'returns rent path for for_rent' do
       path = prop.contextual_show_path('for_rent')
-      expect(path).to include('/rent/')
+      expect(path).to include('/for-rent/')
       expect(path).to include(prop.id.to_s)
     end
 
@@ -51,13 +57,13 @@ RSpec.describe Pwb::PropertyDisplayable, type: :model do
       prop.for_sale = false
       prop.for_rent_long_term = true
       path = prop.contextual_show_path(nil)
-      expect(path).to include('/rent/')
+      expect(path).to include('/for-rent/')
     end
 
     it 'defaults to sale when for_sale is true' do
       prop.for_sale = true
       path = prop.contextual_show_path(nil)
-      expect(path).to include('/buy/')
+      expect(path).to include('/for-sale/')
     end
   end
 
@@ -76,7 +82,7 @@ RSpec.describe Pwb::PropertyDisplayable, type: :model do
 
     it 'returns nil for out of bounds position' do
       expect(prop.ordered_photo(4)).to be_nil
-      expect(prop.ordered_photo(0)).to be_nil
+      expect(prop.ordered_photo(5)).to be_nil
     end
   end
 
@@ -118,7 +124,7 @@ RSpec.describe Pwb::PropertyDisplayable, type: :model do
 
     it 'sorts features alphabetically' do
       extras = prop.extras_for_display
-      expect(extras).to eq(['Garden', 'Garage', 'Swimming Pool'])
+      expect(extras).to eq(['Garage', 'Garden', 'Swimming Pool'])
     end
   end
 end

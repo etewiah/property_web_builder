@@ -5,6 +5,12 @@ require 'rails_helper'
 RSpec.describe Pwb::WebsiteProvisionable, type: :model do
   let(:website) { create(:pwb_website, provisioning_state: 'pending') }
 
+  around do |example|
+    ActsAsTenant.with_tenant(website) do
+      example.run
+    end
+  end
+
   describe 'AASM states' do
     it 'starts in pending state' do
       expect(website).to be_pending
@@ -40,11 +46,12 @@ RSpec.describe Pwb::WebsiteProvisionable, type: :model do
 
     describe '#has_agency?' do
       it 'returns false when no agency exists' do
+        website.update!(agency: nil)
         expect(website.has_agency?).to be false
       end
 
       it 'returns true when agency exists' do
-        create(:pwb_agency, website: website)
+        # Factory already creates an agency
         expect(website.has_agency?).to be true
       end
     end

@@ -7,6 +7,12 @@ RSpec.describe Pwb::WebsiteSubscribable, type: :model do
   let(:plan) { create(:pwb_plan, :starter, property_limit: 10) }
   let(:subscription) { create(:pwb_subscription, website: website, plan: plan) }
 
+  around do |example|
+    ActsAsTenant.with_tenant(website) do
+      example.run
+    end
+  end
+
   describe '#plan' do
     it 'returns nil when no subscription exists' do
       expect(website.plan).to be_nil
@@ -50,8 +56,8 @@ RSpec.describe Pwb::WebsiteSubscribable, type: :model do
 
     it 'delegates to subscription' do
       subscription
-      allow(subscription).to receive(:trial_days_remaining).and_return(7)
       website.reload
+      allow(website.subscription).to receive(:trial_days_remaining).and_return(7)
       expect(website.trial_days_remaining).to eq(7)
     end
   end
@@ -63,8 +69,8 @@ RSpec.describe Pwb::WebsiteSubscribable, type: :model do
 
     it 'delegates to subscription' do
       subscription
-      allow(subscription).to receive(:has_feature?).with(:premium_themes).and_return(true)
       website.reload
+      allow(website.subscription).to receive(:has_feature?).with(:premium_themes).and_return(true)
       expect(website.has_feature?(:premium_themes)).to be true
     end
   end
@@ -89,8 +95,8 @@ RSpec.describe Pwb::WebsiteSubscribable, type: :model do
 
     it 'delegates to subscription' do
       subscription
-      allow(subscription).to receive(:remaining_properties).and_return(5)
       website.reload
+      allow(website.subscription).to receive(:remaining_properties).and_return(5)
       expect(website.remaining_properties).to eq(5)
     end
   end

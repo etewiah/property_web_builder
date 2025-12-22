@@ -6,6 +6,12 @@ RSpec.describe Pwb::PropertyPriceable, type: :model do
   let(:website) { create(:pwb_website) }
   let(:prop) { create(:pwb_prop, website: website, currency: 'EUR') }
 
+  around do |example|
+    ActsAsTenant.with_tenant(website) do
+      example.run
+    end
+  end
+
   describe 'monetization' do
     it 'monetizes price_sale_current' do
       prop.price_sale_current_cents = 250_000_00
