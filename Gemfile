@@ -179,6 +179,9 @@ gem "omniauth-facebook"
 
 gem "tailwindcss-rails", "~> 4.4"
 
+# Modern Rails JavaScript (no bundler required)
+gem "importmap-rails", "~> 2.0"
+
 # Stimulus.js for JavaScript interactions in server-rendered pages
 gem "stimulus-rails", "~> 1.3"
 
