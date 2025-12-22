@@ -4,6 +4,7 @@
 
 import { application } from "./application"
 
+// Existing controllers
 import DropdownController from "./dropdown_controller"
 application.register("dropdown", DropdownController)
 
@@ -18,3 +19,13 @@ application.register("tabs", TabsController)
 
 import ToggleController from "./toggle_controller"
 application.register("toggle", ToggleController)
+
+// New controllers (jQuery migration)
+import ContactFormController from "./contact_form_controller"
+application.register("contact-form", ContactFormController)
+
+import MapController from "./map_controller"
+application.register("map", MapController)
+
+import SearchFormController from "./search_form_controller"
+application.register("search-form", SearchFormController)
