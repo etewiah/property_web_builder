@@ -33,6 +33,9 @@
     <%= javascript_include_tag "pwb/application", defer: true %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
     <%= csrf_meta_tags %>
+
+    <%# Stimulus.js via importmap %>
+    <%= javascript_importmap_tags %>
   </head>
   <body class="tnt-body default-theme <%= @current_website.body_style %> bg-gray-50 text-gray-900">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-white focus:text-blue-600">Skip to main content</a>
@@ -51,36 +54,9 @@
     </div>
 
     <%= yield(:page_script) %>
-    <script>
-      // Default theme mobile menu toggle (fallback if Flowbite doesn't initialize)
-      document.addEventListener('DOMContentLoaded', function() {
-        const menuButton = document.querySelector('[data-collapse-toggle="navbar-main"]');
-        const menu = document.getElementById('navbar-main');
-
-        if (menuButton && menu) {
-          menuButton.addEventListener('click', function() {
-            menu.classList.toggle('hidden');
-          });
-        }
-
-        // User dropdown toggle
-        const dropdownButton = document.querySelector('[data-dropdown-toggle="user-dropdown"]');
-        const dropdown = document.getElementById('user-dropdown');
-
-        if (dropdownButton && dropdown) {
-          dropdownButton.addEventListener('click', function(e) {
-            e.stopPropagation();
-            dropdown.classList.toggle('hidden');
-          });
-
-          document.addEventListener('click', function() {
-            if (!dropdown.classList.contains('hidden')) {
-              dropdown.classList.add('hidden');
-            }
-          });
-        }
-      });
-    </script>
+    <%# Mobile menu and dropdown interactions are now handled by Stimulus controllers %>
+    <%# See: app/javascript/controllers/toggle_controller.js %>
+    <%# See: app/javascript/controllers/dropdown_controller.js %>
     <% if params[:edit_mode] == 'true' %>
       <%= javascript_include_tag "pwb/editor_client" %>
     <% end %>

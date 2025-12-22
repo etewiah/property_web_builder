@@ -32,6 +32,9 @@
     <%= javascript_include_tag "pwb/application", defer: true %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
     <%= csrf_meta_tags %>
+
+    <%# Stimulus.js via importmap %>
+    <%= javascript_importmap_tags %>
   </head>
 
   <body class="tnt-body bologna-theme <%= @current_website.body_style %> font-sans antialiased bg-warm-gray-50 text-warm-gray-900">

@@ -4,6 +4,10 @@
 //= link pwb/application.js
 //= link pwb_admin_panel/application.js
 
+// Importmap JavaScript (app/javascript/)
+//= link application.js
+//= link_tree ../../javascript/controllers .js
+
 //= link pwb/editor_client.js
 //= link pwb/editor.css
 //= link pwb/editor_panels.css
