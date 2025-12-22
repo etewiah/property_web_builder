@@ -1,4 +1,7 @@
-$('#request-info-result').html("<%= j (render 'pwb/ajax/form_errors') %>");
-
-
-
+// Request info form error response - vanilla JavaScript (no jQuery)
+(function() {
+  var resultEl = document.getElementById('request-info-result');
+  if (resultEl) {
+    resultEl.innerHTML = '<%= j (render "pwb/ajax/form_errors") %>';
+  }
+})();
