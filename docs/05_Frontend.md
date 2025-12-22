@@ -1,42 +1,123 @@
 # Frontend Documentation
 
-This section provides a detailed overview of the frontend of the PropertyWebBuilder application. The frontend is divided into two main parts: the public-facing website and the admin panel.
+This document provides an overview of the frontend architecture for PropertyWebBuilder.
 
-## Public-Facing Website
+## Architecture
 
-The public-facing website is the part of the application that is visible to visitors. It is built using a combination of Ruby on Rails views and a Vue.js application.
+The frontend uses a **server-rendered** approach with:
+
+| Technology | Purpose |
+|------------|---------|
+| **ERB Templates** | Rails view templates |
+| **Liquid Templates** | Dynamic page parts and theming |
+| **Tailwind CSS** | Styling (responsive, utility-first) |
+| **Stimulus.js** | JavaScript interactions |
+| **Importmap** | ES module loading (no build step) |
+
+### Deprecated
+
+The following are deprecated and should not be used for new development:
+
+- **Vue.js** - See `app/frontend/DEPRECATED.md`
+- **GraphQL API** - See `app/graphql/DEPRECATED.md`
+- **Bootstrap CSS** - See `vendor/assets/stylesheets/bootstrap/DEPRECATED.md`
+
+---
+
+## JavaScript with Stimulus
+
+Stimulus provides modest JavaScript for server-rendered HTML. See [Stimulus Guide](./frontend/STIMULUS_GUIDE.md) for full documentation.
+
+### Available Controllers
+
+| Controller | Purpose |
+|------------|---------|
+| `toggle` | Show/hide elements |
+| `tabs` | Tabbed interfaces |
+| `gallery` | Property photo carousels |
+| `dropdown` | Dropdown menus |
+| `filter` | Search filter panels |
+
+### Example Usage
+
+```erb
+<div data-controller="toggle">
+  <button data-action="toggle#toggle">Show Details</button>
+  <div data-toggle-target="content" class="hidden">
+    Property details here...
+  </div>
+</div>
+```
+
+### Creating Controllers
+
+```bash
+rails generate stimulus my_controller
+```
+
+---
+
+## Public Pages
+
+| Route | Controller | Description |
+|-------|------------|-------------|
+| `/` | `welcome_controller` | Home page with featured properties |
+| `/buy` | `search_controller` | Property search (for sale) |
+| `/rent` | `search_controller` | Property search (for rent) |
+| `/properties/:id/:title` | `props_controller` | Property detail page |
+| `/p/:page_slug` | `pages_controller` | Custom CMS pages |
+| `/about-us` | `pages_controller` | About page |
+| `/contact-us` | `contact_us_controller` | Contact form |
 
 ---
 
 ## Admin Panel
 
-The admin panel is a secure area where administrators can manage the website. It is a single-page application (SPA) built with Vue.js.
+The admin panel is located at `/site_admin` and uses server-rendered ERB views with Stimulus for interactivity.
+
+### Sections
+
+| Section | Description |
+|---------|-------------|
+| Dashboard | Website activity overview |
+| Properties | Manage property listings |
+| Pages | Manage custom pages |
+| Content | Manage reusable content blocks |
+| Messages | View contact form submissions |
+| Settings | Website and agency configuration |
 
 ---
 
-### Public Pages
+## Theming
 
-The following pages are available to public visitors:
+Themes are located in `app/themes/` and use:
 
-*   **Home Page (`/`)**: The main landing page of the website. It displays featured properties and a search bar. (Handled by `welcome_controller.rb`)
-*   **Property Listings (`/properties/...`)**: These pages display the details of a single property. There are separate routes for properties for sale and for rent. (Handled by `props_controller.rb`)
-*   **Custom Pages (`/p/:page_slug`)**: These are custom pages that can be created by the administrator. (Handled by `pages_controller.rb`)
-*   **About Us (`/about-us`)**: A custom page that displays information about the agency. (Handled by `pages_controller.rb`)
-*   **Contact Us (`/contact-us`)**: A page with a contact form that allows visitors to send a message to the agency. (Handled by `contact_us_controller.rb`)
-*   **Buy (`/buy`)**: A search page for properties for sale. (Handled by `search_controller.rb`)
-*   **Rent (`/rent`)**: A search page for properties for rent. (Handled by `search_controller.rb`)
-*   **Google Maps**: See [Google Maps Integration](./quasar/google_maps.md) for configuration details.
+- **Liquid templates** for page parts
+- **Tailwind CSS** for styling
+- **CSS variables** for customization
 
-
-### Admin Panel
-
-The admin panel is a single-page application (SPA) built with Vue.js. It is located at `/admin` and provides a secure area for administrators to manage the website. The admin panel includes the following sections:
-
-*   **Dashboard**: An overview of the website's activity.
-*   **Properties**: A section for managing property listings.
-*   **Pages**: A section for managing custom pages.
-*   **Content**: A section for managing reusable content blocks.
-*   **Messages**: A section for viewing and managing messages sent through the contact forms.
-*   **Settings**: A section for configuring the website and agency settings.
+See [Theming System](./theming/11_Theming_System.md) for details.
 
 ---
+
+## Assets
+
+### CSS
+- Tailwind CSS (primary)
+- SCSS via Dart Sass (legacy)
+
+### JavaScript
+- Stimulus controllers in `app/javascript/controllers/`
+- Loaded via importmap (no build step required)
+
+### Images
+- Stored via Active Storage
+- Served from CDN when configured
+
+---
+
+## Resources
+
+- [Stimulus Guide](./frontend/STIMULUS_GUIDE.md)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+- [Liquid Templates](https://shopify.github.io/liquid/)
