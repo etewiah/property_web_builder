@@ -281,16 +281,6 @@ Rails.application.routes.draw do
       get "/admin/*path", to: redirect('/site_admin')
     end
 
-    # get "/config" => "config#show"
-    # get "/config/:params" => "config#show"
-    # get "/v-admin" => "admin_panel_vue#show"
-    # get "/v-admin/*path" => "admin_panel_vue#show"
-
-    # get "/v-public" => "vue_public#show"
-    # get "/v-public/*path" => "vue_public#show"
-    # get "/v-public-2" => "vue_public_2#show"
-    # get "/v-public-2/*path" => "vue_public_2#show"
-
     get "/pwb_login" => "firebase_login#index"
     get "/pwb_sign_up" => "firebase_login#sign_up"
     get "/pwb_forgot_password" => "firebase_login#forgot_password"
