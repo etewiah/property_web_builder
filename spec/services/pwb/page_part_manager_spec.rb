@@ -292,5 +292,78 @@ module Pwb
         expect(page_part.block_contents["en"]["blocks"]["text"]["content"]).to eq("Saved content")
       end
     end
+
+    describe '#seed_container_block_content with URL-based images' do
+      let!(:current_website) { FactoryBot.create(:pwb_website) }
+
+      before do
+        ActsAsTenant.current_tenant = current_website
+      end
+
+      let!(:page_part_with_image) do
+        ActsAsTenant.with_tenant(current_website) do
+          FactoryBot.create(:pwb_page_part,
+            page_part_key: "testimonial_section",
+            page_slug: "website",
+            template: <<~LIQUID,
+              <div class="testimonial">
+                <img src="{{ page_part['avatar_image']['content'] }}" alt="avatar">
+                <p>{{ page_part['name']['content'] }}</p>
+              </div>
+            LIQUID
+            editor_setup: {
+              "tabTitleKey" => "test.title",
+              "editorBlocks" => [
+                [
+                  { "label" => "name", "isSingleLineText" => "true" },
+                  { "label" => "avatar_image", "isImage" => "true" }
+                ]
+              ]
+            },
+            website: current_website
+          )
+        end
+      end
+
+      let(:page_part_manager) { Pwb::PagePartManager.new("testimonial_section", current_website) }
+
+      it 'uses URL directly for HTTP image values' do
+        # When image value is already a URL (like ui-avatars.com), use it directly
+        en_seed_content = {
+          "name" => "John Smith",
+          "avatar_image" => "https://ui-avatars.com/api/?name=John+Smith&background=4f46e5&color=fff"
+        }
+        page_part_manager.seed_container_block_content("en", en_seed_content)
+
+        content = current_website.contents.find_by_page_part_key("testimonial_section")
+        expect(content.raw).to include("John Smith")
+        expect(content.raw).to include("https://ui-avatars.com/api/?name=John+Smith")
+      end
+
+      it 'handles different URL-based images per locale' do
+        # English with English name avatar
+        en_seed_content = {
+          "name" => "Michael Chen",
+          "avatar_image" => "https://ui-avatars.com/api/?name=Michael+Chen&background=059669&color=fff"
+        }
+        page_part_manager.seed_container_block_content("en", en_seed_content)
+
+        # Spanish with Spanish name avatar
+        es_seed_content = {
+          "name" => "Carlos Rodriguez",
+          "avatar_image" => "https://ui-avatars.com/api/?name=Carlos+Rodriguez&background=059669&color=fff"
+        }
+        page_part_manager.seed_container_block_content("es", es_seed_content)
+
+        content = current_website.contents.find_by_page_part_key("testimonial_section")
+        # English content should have English name and avatar
+        expect(content.raw).to include("Michael Chen")
+        expect(content.raw).to include("name=Michael+Chen")
+
+        # Spanish content should have Spanish name and avatar
+        expect(content.raw_es).to include("Carlos Rodriguez")
+        expect(content.raw_es).to include("name=Carlos+Rodriguez")
+      end
+    end
   end
 end

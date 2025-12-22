@@ -90,13 +90,21 @@ module Pwb
           # find the content for current block from within the seed content
           if seed_content[row_block_label]
             if configRowBlock["isImage"]
-              photo = seed_fragment_photo row_block_label, seed_content[row_block_label]
-              if photo.present? && photo.optimized_image_url.present?
-                # optimized_image_url is defined in content_photo and will
-                # return cloudinary url or filesystem url depending on settings
-                row_block_content = photo.optimized_image_url
+              image_value = seed_content[row_block_label]
+              # Check if the image value is already a URL (e.g., ui-avatars.com)
+              # These should be used directly as content, not processed as file uploads
+              if image_value.to_s.start_with?('http://', 'https://')
+                row_block_content = image_value
               else
-                row_block_content = "https://placehold.co/350x250"
+                # It's a local file path - process through photo upload
+                photo = seed_fragment_photo row_block_label, image_value
+                if photo.present? && photo.optimized_image_url.present?
+                  # optimized_image_url is defined in content_photo and will
+                  # return cloudinary url or filesystem url depending on settings
+                  row_block_content = photo.optimized_image_url
+                else
+                  row_block_content = "https://placehold.co/350x250"
+                end
               end
             else
               row_block_content = seed_content[row_block_label]
