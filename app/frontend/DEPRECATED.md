@@ -1,64 +1,42 @@
-# Vue.js Frontend - DEPRECATED
+# Vue.js Frontend - REMOVED
 
-**Status**: Deprecated as of December 2024
+**Status**: Removed as of December 2024
 
-**Replacement**: Server-rendered ERB views with Liquid templates
+**Replacement**: Server-rendered ERB views with Stimulus.js
 
 ## Overview
 
-The Vue.js applications in this directory are **deprecated** and will no longer be actively maintained. The project has transitioned to a server-rendered approach using:
+The Vue.js applications that were previously in this directory have been **removed**. The project now uses a server-rendered approach with:
 
 - **ERB templates** - Rails view templates
 - **Liquid templates** - For dynamic page parts and theming
 - **Tailwind CSS** - For styling
-- **Vanilla JavaScript** - For simple interactions (consider Stimulus for organization)
+- **Stimulus.js** - For JavaScript interactions
+- **Alpine.js** - For simple UI interactions in admin panels
 
-## Deprecated Applications
+## Removed Applications
 
 | Directory | Description | Status |
 |-----------|-------------|--------|
-| `v-public-app/` | Public-facing Vue SPA | Deprecated |
-| `v-public-2-app/` | Alternative public Vue app | Deprecated |
-| `v-admin-app/` | Admin panel Vue SPA | Deprecated |
-| `entrypoints/` | Vite entrypoints for Vue apps | Deprecated |
+| `v-public-app/` | Public-facing Vue SPA | Removed |
+| `v-public-2-app/` | Alternative public Vue app | Removed |
+| `v-admin-app/` | Admin panel Vue SPA | Removed |
+| `entrypoints/` | Vite entrypoints for Vue apps | Removed |
 
-## What to Use Instead
+## Current Architecture
 
 ### For Public Pages
-- Use ERB views in `app/views/pwb/`
-- Use Liquid templates for page parts in `app/themes/`
-- Use Tailwind CSS for styling
+- ERB views in `app/views/pwb/`
+- Theme templates in `app/themes/`
+- Stimulus controllers in `app/javascript/controllers/`
+- Tailwind CSS for styling
 
 ### For Admin Pages
-- Use ERB views in `app/views/site_admin/`
-- Use standard Rails form helpers
-- Consider Stimulus.js for interactive components
+- ERB views in `app/views/site_admin/` and `app/views/tenant_admin/`
+- Alpine.js for simple interactivity
+- Standard Rails form helpers
 
-### For API Communication
-- Use REST API endpoints (see `docs/api/`)
-- GraphQL is also deprecated (see `app/graphql/DEPRECATED.md`)
+## Migration Complete
 
-## Why Deprecated?
-
-1. **Simpler architecture** - Server-rendered pages reduce complexity
-2. **Better SEO** - No JavaScript required for content indexing
-3. **Faster initial load** - No large JavaScript bundle to download
-4. **Easier theming** - Liquid templates are more accessible
-5. **Reduced maintenance** - One technology stack instead of two
-
-## Migration Path
-
-New features should be built using:
-1. ERB/Liquid templates for markup
-2. Tailwind CSS for styling
-3. Stimulus.js for JavaScript interactions (optional)
-4. Turbo for page transitions (optional)
-
-## Timeline
-
-- **December 2024**: Deprecated, no new features
-- **Future**: Will be removed once all functionality is migrated
-
-## Questions?
-
-See `docs/05_Frontend.md` for current frontend architecture.
+All functionality has been migrated to server-rendered templates with Stimulus.js.
+GraphQL API has also been deprecated (see `app/graphql/DEPRECATED.md`).
