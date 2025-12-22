@@ -197,7 +197,7 @@ en:
       section_subtitle: Dedicated professionals committed to your success
       member_1_name: John Smith
       member_1_role: Senior Agent
-      member_1_image: ""
+      member_1_image: "db/seeds/packs/netherlands_urban/images/team_director.jpg"
       member_1_bio: >
         John has over 15 years of experience in real estate and has helped hundreds
         of families find their perfect homes.
@@ -205,13 +205,13 @@ en:
       member_1_linkedin: ""
       member_2_name: Emily Davis
       member_2_role: Property Consultant
-      member_2_image: ""
+      member_2_image: "db/seeds/packs/netherlands_urban/images/team_agent_female.jpg"
       member_2_bio: >
         Emily specializes in luxury properties and brings a keen eye for detail
         to every transaction.
       member_3_name: Robert Brown
       member_3_role: Sales Director
-      member_3_image: ""
+      member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
       member_4_name: Lisa Martinez
       member_4_role: Client Relations
 

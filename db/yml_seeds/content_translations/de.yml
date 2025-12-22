@@ -192,7 +192,7 @@ de:
       section_subtitle: Engagierte Fachleute, die sich Ihrem Erfolg verschrieben haben
       member_1_name: Hans Müller
       member_1_role: Senior Makler
-      member_1_image: ""
+      member_1_image: "db/seeds/packs/netherlands_urban/images/team_director.jpg"
       member_1_bio: >
         Hans hat über 15 Jahre Erfahrung in der Immobilienbranche und hat Hunderten
         von Familien geholfen, ihr perfektes Zuhause zu finden.
@@ -200,13 +200,13 @@ de:
       member_1_linkedin: ""
       member_2_name: Eva Schmidt
       member_2_role: Immobilienberaterin
-      member_2_image: ""
+      member_2_image: "db/seeds/packs/netherlands_urban/images/team_agent_female.jpg"
       member_2_bio: >
         Eva ist auf Luxusimmobilien spezialisiert und bringt ein scharfes Auge für Details
         in jede Transaktion ein.
       member_3_name: Robert Weber
       member_3_role: Vertriebsleiter
-      member_3_image: ""
+      member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
       member_4_name: Lisa Fischer
       member_4_role: Kundenbeziehungen
 

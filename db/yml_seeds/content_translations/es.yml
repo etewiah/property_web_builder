@@ -165,7 +165,7 @@ es:
       section_subtitle: Profesionales dedicados comprometidos con tu éxito
       member_1_name: Juan García
       member_1_role: Agente Senior
-      member_1_image: ""
+      member_1_image: "db/seeds/packs/netherlands_urban/images/team_director.jpg"
       member_1_bio: >
         Juan tiene más de 15 años de experiencia en bienes raíces y ha ayudado a cientos
         de familias a encontrar sus hogares perfectos.
@@ -173,13 +173,13 @@ es:
       member_1_linkedin: ""
       member_2_name: Elena Martínez
       member_2_role: Consultora de Propiedades
-      member_2_image: ""
+      member_2_image: "db/seeds/packs/netherlands_urban/images/team_agent_female.jpg"
       member_2_bio: >
         Elena se especializa en propiedades de lujo y aporta un ojo agudo para el detalle
         a cada transacción.
       member_3_name: Roberto Sánchez
       member_3_role: Director de Ventas
-      member_3_image: ""
+      member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
       member_4_name: Laura Fernández
       member_4_role: Relaciones con Clientes
 

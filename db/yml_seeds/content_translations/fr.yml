@@ -192,7 +192,7 @@ fr:
       section_subtitle: Des professionnels dévoués engagés pour votre succès
       member_1_name: Jean Dupont
       member_1_role: Agent Senior
-      member_1_image: ""
+      member_1_image: "db/seeds/packs/netherlands_urban/images/team_director.jpg"
       member_1_bio: >
         Jean a plus de 15 ans d'expérience dans l'immobilier et a aidé des centaines
         de familles à trouver leur maison parfaite.
@@ -200,13 +200,13 @@ fr:
       member_1_linkedin: ""
       member_2_name: Marie Martin
       member_2_role: Consultante Immobilière
-      member_2_image: ""
+      member_2_image: "db/seeds/packs/netherlands_urban/images/team_agent_female.jpg"
       member_2_bio: >
         Marie est spécialisée dans les propriétés de luxe et apporte un œil aiguisé pour le détail
         à chaque transaction.
       member_3_name: Robert Leroy
       member_3_role: Directeur des Ventes
-      member_3_image: ""
+      member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
       member_4_name: Sophie Bernard
       member_4_role: Relations Clients
 

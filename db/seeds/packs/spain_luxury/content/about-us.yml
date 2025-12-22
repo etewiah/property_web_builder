@@ -36,6 +36,7 @@ teams/team_grid:
     en: "Carlos has over 25 years of experience in Costa del Sol real estate and has helped hundreds of families find their perfect home."
     de: "Carlos hat über 25 Jahre Erfahrung im Immobilienbereich der Costa del Sol und hat Hunderten von Familien geholfen, ihr perfektes Zuhause zu finden."
   member_1_email: "carlos@costaluxury.es"
+  member_1_image: "db/seeds/packs/netherlands_urban/images/team_director.jpg"
   member_2_name: "Elena Schmidt"
   member_2_role:
     es: "Agente Senior - Mercado Alemán"
@@ -45,13 +46,19 @@ teams/team_grid:
     es: "Elena es especialista en atender a clientes de habla alemana y tiene un profundo conocimiento del mercado de propiedades de lujo."
     en: "Elena specializes in serving German-speaking clients and has deep knowledge of the luxury property market."
     de: "Elena ist auf deutschsprachige Kunden spezialisiert und verfügt über umfassende Kenntnisse des Luxusimmobilienmarktes."
+  member_2_email: "elena@costaluxury.es"
+  member_2_image: "db/seeds/packs/netherlands_urban/images/team_agent_female.jpg"
   member_3_name: "John Williams"
   member_3_role:
     es: "Agente Senior - Mercado Británico"
     en: "Senior Agent - British Market"
     de: "Senior Agent - Britischer Markt"
+  member_3_email: "john@costaluxury.es"
+  member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
   member_4_name: "María López"
   member_4_role:
     es: "Relaciones con Clientes"
     en: "Client Relations"
     de: "Kundenbeziehungen"
+  member_4_email: "maria@costaluxury.es"
+  member_4_image: "db/seeds/packs/netherlands_urban/images/team_assistant.jpg"

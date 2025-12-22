@@ -166,7 +166,7 @@ nl:
       section_subtitle: Toegewijde professionals die zich inzetten voor jouw succes
       member_1_name: Jan de Vries
       member_1_role: Senior Makelaar
-      member_1_image: ""
+      member_1_image: "db/seeds/packs/netherlands_urban/images/team_director.jpg"
       member_1_bio: >
         Jan heeft meer dan 15 jaar ervaring in vastgoed en heeft honderden
         gezinnen geholpen hun perfecte woning te vinden.
@@ -174,13 +174,13 @@ nl:
       member_1_linkedin: ""
       member_2_name: Emma Bakker
       member_2_role: Woningconsultant
-      member_2_image: ""
+      member_2_image: "db/seeds/packs/netherlands_urban/images/team_agent_female.jpg"
       member_2_bio: >
         Emma is gespecialiseerd in luxe woningen en brengt een scherp oog voor detail
         naar elke transactie.
       member_3_name: Pieter Jansen
       member_3_role: Verkoopdirecteur
-      member_3_image: ""
+      member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
       member_4_name: Lisa van den Berg
       member_4_role: Klantrelaties
 

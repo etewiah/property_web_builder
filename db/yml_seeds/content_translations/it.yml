@@ -159,7 +159,7 @@ it:
       section_subtitle: Professionisti dedicati impegnati nel tuo successo
       member_1_name: Giovanni Rossi
       member_1_role: Agente Senior
-      member_1_image: ""
+      member_1_image: "db/seeds/packs/netherlands_urban/images/team_director.jpg"
       member_1_bio: >
         Giovanni ha oltre 15 anni di esperienza nel settore immobiliare e ha aiutato centinaia
         di famiglie a trovare la loro casa perfetta.
@@ -167,13 +167,13 @@ it:
       member_1_linkedin: ""
       member_2_name: Elena Bianchi
       member_2_role: Consulente Immobiliare
-      member_2_image: ""
+      member_2_image: "db/seeds/packs/netherlands_urban/images/team_agent_female.jpg"
       member_2_bio: >
         Elena è specializzata in proprietà di lusso e porta un occhio attento ai dettagli
         in ogni transazione.
       member_3_name: Roberto Verdi
       member_3_role: Direttore Vendite
-      member_3_image: ""
+      member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
       member_4_name: Laura Marino
       member_4_role: Relazioni con i Clienti
 
