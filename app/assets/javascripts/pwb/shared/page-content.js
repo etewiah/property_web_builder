@@ -1,14 +1,15 @@
+// =============================================================================
+// DEPRECATED: Vue component with jQuery dependency
+// =============================================================================
+// This file is deprecated. Use Stimulus controllers or server-rendered templates.
+// See: docs/frontend/STIMULUS_GUIDE.md
+// =============================================================================
+
 var INMOAPP = INMOAPP || {};
+
 INMOAPP.PageContent = Vue.component('page-content', {
-  // name: "SquaresContainer",
   mounted: function() {
-    // var vm = this;
-    // $(this.$el).selectpicker(this.selectPickerTexts);
-    // .trigger('change')
-    // // emit event on change.
-    // .on('change', function() {
-    //   vm.$emit('input', this.value)
-    // });
+    console.warn('[DEPRECATED] page-content Vue component - use Stimulus controllers instead');
   },
   props: {
     pageTitle: String
@@ -19,6 +20,6 @@ INMOAPP.PageContent = Vue.component('page-content', {
     }
   },
   mounted() {
-    document.title = this.pageTitle + ' - Vue Material';
+    document.title = this.pageTitle + ' - PropertyWebBuilder';
   }
 });
