@@ -25,7 +25,9 @@ Used by the admin panel for managing website content:
 - **Themes** - Theme selection
 - **Translations** - Multi-language content
 
-### GraphQL API (`/graphql`)
+### GraphQL API (`/graphql`) - ⚠️ DEPRECATED
+
+> **Deprecation Notice**: The GraphQL API is deprecated as of December 2024 and will no longer be actively maintained. New integrations should use the REST API. See [app/graphql/DEPRECATED.md](/app/graphql/DEPRECATED.md) for migration guidance.
 
 Public API for frontend applications:
 
