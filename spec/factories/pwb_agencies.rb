@@ -51,8 +51,5 @@ FactoryBot.define do
     trait :theme_default do
       # theme_name moved to website
     end
-    trait :theme_berlin do
-      # theme_name moved to website
-    end
   end
 end
