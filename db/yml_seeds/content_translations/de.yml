@@ -160,19 +160,19 @@ de:
         Sehr empfehlenswert!
       testimonial_1_name: Maria Schmidt
       testimonial_1_role: Hauskäuferin
-      testimonial_1_image: ""
+      testimonial_1_image: "https://ui-avatars.com/api/?name=Maria+Schmidt&background=4f46e5&color=fff&size=128"
       testimonial_2_text: >
         Wir haben unsere Immobilie in nur 3 Wochen verkauft, dank ihres exzellenten Marketings und
         ihrer Verhandlungsfähigkeiten. Sie erzielten einen Preis über unserem Angebotspreis!
       testimonial_2_name: Michael Müller
       testimonial_2_role: Immobilienverkäufer
-      testimonial_2_image: ""
+      testimonial_2_image: "https://ui-avatars.com/api/?name=Michael+Muller&background=059669&color=fff&size=128"
       testimonial_3_text: >
         Als Erstkäufer waren wir nervös wegen des Prozesses. Das Team von Example RE
         hat uns bei jedem Schritt begleitet und unser Traumhaus innerhalb unseres Budgets gefunden.
       testimonial_3_name: Anna und Thomas Weber
       testimonial_3_role: Erstkäufer
-      testimonial_3_image: ""
+      testimonial_3_image: "https://ui-avatars.com/api/?name=Anna+Thomas&background=dc2626&color=fff&size=128"
 
   about-us:
     content_html:

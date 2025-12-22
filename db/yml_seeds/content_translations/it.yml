@@ -128,19 +128,19 @@ it:
         Altamente raccomandato!
       testimonial_1_name: Maria Rossi
       testimonial_1_role: Acquirente di Casa
-      testimonial_1_image: ""
+      testimonial_1_image: "https://ui-avatars.com/api/?name=Maria+Rossi&background=4f46e5&color=fff&size=128"
       testimonial_2_text: >
         Abbiamo venduto la nostra proprietà in sole 3 settimane grazie al loro eccellente marketing e
         capacità di negoziazione. Hanno ottenuto un prezzo superiore a quello che chiedevamo!
       testimonial_2_name: Marco Bianchi
       testimonial_2_role: Venditore di Proprietà
-      testimonial_2_image: ""
+      testimonial_2_image: "https://ui-avatars.com/api/?name=Marco+Bianchi&background=059669&color=fff&size=128"
       testimonial_3_text: >
         Come acquirenti alla prima esperienza, eravamo nervosi per il processo. Il team di Example RE
         ci ha guidato in ogni passo e ha trovato la nostra casa dei sogni entro il nostro budget.
       testimonial_3_name: Anna e Luca Verdi
       testimonial_3_role: Acquirenti alla Prima Esperienza
-      testimonial_3_image: ""
+      testimonial_3_image: "https://ui-avatars.com/api/?name=Anna+Luca&background=dc2626&color=fff&size=128"
 
   about-us:
     content_html:

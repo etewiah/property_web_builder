@@ -102,6 +102,7 @@ testimonials/testimonial_carousel:
   testimonial_1_role:
     nl: "Kopers grachtenpand Amsterdam"
     en: "Canal House Buyers, Amsterdam"
+  testimonial_1_image: "https://ui-avatars.com/api/?name=Familie+De+Vries&background=4f46e5&color=fff&size=128"
   testimonial_2_text:
     nl: "Als expat was ik nerveus over het kopen van een huis in Nederland, maar het team van Van der Berg maakte het proces soepel en begrijpelijk. Zeer aan te bevelen!"
     en: "As an expat, I was nervous about buying a house in the Netherlands, but the Van der Berg team made the process smooth and understandable. Highly recommended!"
@@ -109,6 +110,7 @@ testimonials/testimonial_carousel:
   testimonial_2_role:
     nl: "Expat koper in Rotterdam"
     en: "Expat Buyer, Rotterdam"
+  testimonial_2_image: "https://ui-avatars.com/api/?name=Sarah+Johnson&background=059669&color=fff&size=128"
   testimonial_3_text:
     nl: "Onze woning was binnen 3 weken verkocht, boven de vraagprijs. De professionele aanpak en het uitgebreide netwerk van Van der Berg maakten het verschil."
     en: "Our property was sold within 3 weeks, above asking price. Van der Berg's professional approach and extensive network made the difference."
@@ -116,6 +118,7 @@ testimonials/testimonial_carousel:
   testimonial_3_role:
     nl: "Verkopers in Utrecht"
     en: "Sellers, Utrecht"
+  testimonial_3_image: "https://ui-avatars.com/api/?name=Jan+Petra&background=dc2626&color=fff&size=128"
 
 # CTA Banner (cta/cta_banner)
 cta/cta_banner:

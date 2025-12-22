@@ -40,7 +40,18 @@
       "Bash(xargs:*)",
       "Bash(chmod:*)",
       "Bash(mv:*)",
-      "Bash(tee:*)"
+      "Bash(tee:*)",
+      "mcp__container-use__environment_config",
+      "Bash(git tag:*)",
+      "Bash(sort:*)",
+      "Bash(do:*)",
+      "Bash(ls:*)",
+      "mcp__container-use__environment_file_delete",
+      "Bash(echo:*)",
+      "Bash(container-use checkout:*)",
+      "Bash(RAILS_ENV=test bundle exec rails runner:*)",
+      "Bash(bundle exec annotate:*)",
+      "Bash(RAILS_ENV=development bundle exec rails runner:*)"
     ],
     "deny": [],
     "ask": []

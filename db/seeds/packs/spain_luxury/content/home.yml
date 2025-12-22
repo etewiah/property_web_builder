@@ -126,6 +126,7 @@ testimonials/testimonial_carousel:
     es: "Compradores de villa en Marbella"
     en: "Villa Buyers, Marbella"
     de: "Villakäufer, Marbella"
+  testimonial_1_image: "https://ui-avatars.com/api/?name=James+Sarah&background=4f46e5&color=fff&size=128"
   testimonial_2_text:
     es: "Profesionales, atentos y verdaderamente dedicados a encontrar la propiedad perfecta. Los recomiendo encarecidamente."
     en: "Professional, attentive, and truly dedicated to finding the perfect property. I highly recommend them."
@@ -135,6 +136,7 @@ testimonials/testimonial_carousel:
     es: "Inversor de Alemania"
     en: "Investor from Germany"
     de: "Investor aus Deutschland"
+  testimonial_2_image: "https://ui-avatars.com/api/?name=Hans+Mueller&background=059669&color=fff&size=128"
   testimonial_3_text:
     es: "Vendimos nuestro apartamento en tiempo récord y por encima del precio de venta. Un equipo fantástico."
     en: "We sold our apartment in record time and above the asking price. A fantastic team."
@@ -144,6 +146,7 @@ testimonials/testimonial_carousel:
     es: "Vendedora en Puerto Banús"
     en: "Seller, Puerto Banús"
     de: "Verkäuferin, Puerto Banús"
+  testimonial_3_image: "https://ui-avatars.com/api/?name=Maria+Garcia&background=dc2626&color=fff&size=128"
 
 # CTA Banner (cta/cta_banner)
 cta/cta_banner:

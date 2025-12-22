@@ -160,19 +160,19 @@ fr:
         Hautement recommandé !
       testimonial_1_name: Marie Dupont
       testimonial_1_role: Acheteuse de Maison
-      testimonial_1_image: ""
+      testimonial_1_image: "https://ui-avatars.com/api/?name=Marie+Dupont&background=4f46e5&color=fff&size=128"
       testimonial_2_text: >
         Nous avons vendu notre propriété en seulement 3 semaines grâce à leur excellent marketing et
         leurs compétences en négociation. Ils ont obtenu un prix supérieur à notre demande !
       testimonial_2_name: Pierre Martin
       testimonial_2_role: Vendeur de Propriété
-      testimonial_2_image: ""
+      testimonial_2_image: "https://ui-avatars.com/api/?name=Pierre+Martin&background=059669&color=fff&size=128"
       testimonial_3_text: >
         En tant que primo-accédants, nous étions nerveux à propos du processus. L'équipe de Example RE
         nous a guidés à chaque étape et a trouvé notre maison de rêve dans notre budget.
       testimonial_3_name: Sophie et Jean Leroy
       testimonial_3_role: Primo-Accédants
-      testimonial_3_image: ""
+      testimonial_3_image: "https://ui-avatars.com/api/?name=Sophie+Jean&background=dc2626&color=fff&size=128"
 
   about-us:
     content_html:

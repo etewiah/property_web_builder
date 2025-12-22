@@ -134,19 +134,19 @@ nl:
         Sterk aanbevolen!
       testimonial_1_name: Jan de Vries
       testimonial_1_role: Huizenkoper
-      testimonial_1_image: ""
+      testimonial_1_image: "https://ui-avatars.com/api/?name=Jan+de+Vries&background=4f46e5&color=fff&size=128"
       testimonial_2_text: >
         We hebben onze woning in slechts 3 weken verkocht dankzij hun uitstekende marketing en
         onderhandelingsvaardigheden. Ze kregen een prijs boven onze vraagprijs!
       testimonial_2_name: Maria Jansen
       testimonial_2_role: Woningverkoper
-      testimonial_2_image: ""
+      testimonial_2_image: "https://ui-avatars.com/api/?name=Maria+Jansen&background=059669&color=fff&size=128"
       testimonial_3_text: >
         Als starters waren we zenuwachtig over het proces. Het team van Example RE
         begeleidde ons bij elke stap en vond ons droomhuis binnen ons budget.
       testimonial_3_name: Peter en Anna Bakker
       testimonial_3_role: Starters
-      testimonial_3_image: ""
+      testimonial_3_image: "https://ui-avatars.com/api/?name=Peter+Anna&background=dc2626&color=fff&size=128"
 
   about-us:
     content_html:

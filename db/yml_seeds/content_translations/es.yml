@@ -14,19 +14,19 @@ es:
   privacy:
     content_html:
       main_content:
-        <p><b>Política de Privacidad</b></p><p> 
+        <p><b>Política de Privacidad</b></p><p>
         Estamos comprometidas con la seguridad de los datos de sus usuarios. Por esto, nuestra política de Privacidad establece los términos en que Example RE usa y protege la información que es proporcionada por sus clientes. </p><p>
         <b>
-        Uso Información recogida</b></p><p> 
+        Uso Información recogida</b></p><p>
         Nuestro sitio web podrá recoger información personal por ejemplo; Nombre, información de contacto como tu dirección de correo electrónica e información demográfica. Así mismo cuando sea necesario podrá ser requerida información específica para procesar algún pedido o realizar una entrega o facturación.
         Example RE no venderá, cederá ni distribuirá la información personal que es recopilada sin tu consentimiento, salvo que sea requerido por un juez con una orden judicial.
         </p><p>
         <b>
-        Enlaces a Terceros</b></p><p> 
+        Enlaces a Terceros</b></p><p>
         Este sitio web pudiera contener enlaces a otros sitios que pudieran ser de su interés. Una vez que haces clic en estos enlaces y abandones nuestra página, ya no tenemos control sobre el sitio al que seas redirigido y por lo tanto no somos responsables de los términos o privacidad ni de la protección de tus datos en esos otros sitios terceros. Dichos sitios están sujetos a sus propias políticas de privacidad por lo cual es recomendable que los consultes para confirmar que estás de acuerdo con estas.
         </p><p>
         <b>
-        Cambios de la Política</b></p><p> 
+        Cambios de la Política</b></p><p>
         Para mantenernos actualizados, nuestra Política de Privacidad puede cambiar con el tiempo por lo que te recomendamos y enfatizamos revisar esta página para asegurarte que estás de acuerdo con dichos cambios.</p>
 
 
@@ -49,7 +49,7 @@ es:
       landing_content_a: >
         <ul class="list-carousel">
           <li><i class="fa fa-check-square">
-            </i>Nuestro equipo está formado por profesionales</li>   
+            </i>Nuestro equipo está formado por profesionales</li>
           <li><i class="fa fa-check-square"></i>Encontraremos lo mejor para usted</li>
         </ul>
       landing_img:
@@ -134,19 +134,19 @@ es:
         ¡Muy recomendado!
       testimonial_1_name: María García
       testimonial_1_role: Compradora de Vivienda
-      testimonial_1_image: ""
+      testimonial_1_image: "https://ui-avatars.com/api/?name=Maria+Garcia&background=4f46e5&color=fff&size=128"
       testimonial_2_text: >
         Vendimos nuestra propiedad en solo 3 semanas gracias a su excelente marketing y
         habilidades de negociación. ¡Obtuvieron un precio por encima de lo que pedíamos!
       testimonial_2_name: Carlos Rodríguez
       testimonial_2_role: Vendedor de Propiedad
-      testimonial_2_image: ""
+      testimonial_2_image: "https://ui-avatars.com/api/?name=Carlos+Rodriguez&background=059669&color=fff&size=128"
       testimonial_3_text: >
         Como compradores primerizos, estábamos nerviosos por el proceso. El equipo de Example RE
         nos guió en cada paso y encontró nuestra casa soñada dentro de nuestro presupuesto.
       testimonial_3_name: Ana y Pedro López
       testimonial_3_role: Compradores Primerizos
-      testimonial_3_image: ""
+      testimonial_3_image: "https://ui-avatars.com/api/?name=Ana+Pedro&background=dc2626&color=fff&size=128"
 
   about-us:
     content_html:
