@@ -8,6 +8,7 @@ local:
 
 # Cloudflare R2 (S3-compatible object storage)
 # Note: Checksum configuration is in config/initializers/ssl_crl_fix.rb
+# For custom CDN URLs, configure a custom domain in Cloudflare R2 settings
 cloudflare_r2:
   service: S3
   access_key_id: <%= ENV['R2_ACCESS_KEY_ID'] %>
@@ -17,9 +18,6 @@ cloudflare_r2:
   endpoint: <%= "https://#{ENV['R2_ACCOUNT_ID']}.r2.cloudflarestorage.com" %>
   force_path_style: true
   public: true
-  <% if ENV['R2_PUBLIC_URL'].present? %>
-  public_url: <%= ENV['R2_PUBLIC_URL'] %>
-  <% end %>
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
