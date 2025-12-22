@@ -15,9 +15,9 @@ class GraphqlController < Pwb::ApplicationController
   before_action :set_current_website
 
   def execute
-    # Log deprecation warning
-    ActiveSupport::Deprecation.warn(
-      "GraphQL API is deprecated. Please migrate to REST API at /api_public/v1/. " \
+    # Log deprecation warning (using Rails.logger as ActiveSupport::Deprecation.warn is private in Rails 8)
+    Rails.logger.warn(
+      "[DEPRECATED] GraphQL API is deprecated. Please migrate to REST API at /api_public/v1/. " \
       "See app/graphql/DEPRECATED.md for migration guidance."
     )
 

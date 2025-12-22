@@ -810,6 +810,7 @@ DEPENDENCIES
   i18n (~> 1.10)
   i18n-active_record (~> 1.1)
   image_processing (~> 1.2)
+  importmap-rails (~> 2.0)
   jquery-rails (~> 4.5)
   json_spec
   launchy
@@ -854,6 +855,7 @@ DEPENDENCIES
   simplecov
   solid_queue (~> 1.0)
   sprockets-rails
+  stimulus-rails (~> 1.3)
   sys-cpu
   sys-filesystem
   tailwindcss-rails (~> 4.4)
