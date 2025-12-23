@@ -3,6 +3,7 @@
     "@playwright/test": "^1.57.0"
   },
   "dependencies": {
+    "sharp": "^0.33.5",
     "@fontsource-variable/dm-sans": "^5.2.8",
     "@fontsource-variable/montserrat": "^5.2.8",
     "@fontsource-variable/outfit": "^5.2.8",
