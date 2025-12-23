@@ -108,6 +108,7 @@ docs/SECURITY_AUDIT_FIREBASE_AUTH.md
 logs
 test-results/
 playwright-report/
+docs/screenshots/
 offline
 marketing
 lib/signup_component
