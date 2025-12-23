@@ -2,15 +2,26 @@
 /**
  * Screenshot capture script for PropertyWebBuilder
  * Takes screenshots of all pages across all themes
+ * Automatically compresses images to stay under 2MB
  */
 
 const { chromium } = require('playwright');
 const path = require('path');
 const fs = require('fs');
 
+// Try to load sharp for compression, fall back gracefully if not available
+let sharp;
+try {
+  sharp = require('sharp');
+} catch (e) {
+  console.log('Note: sharp not installed. Run "npm install" to enable auto-compression.');
+}
+
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 const SCREENSHOT_DIR = path.join(__dirname, '..', 'docs', 'screenshots');
 const THEME = process.env.SCREENSHOT_THEME || 'default';
+const MAX_SIZE_MB = parseFloat(process.env.MAX_SIZE_MB || '2');
+const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
 
 // Pages to capture for each theme
 const PAGES = [
@@ -36,9 +47,84 @@ const VIEWPORTS = [
   { name: 'mobile', width: 375, height: 812 },
 ];
 
+// Max dimensions for compression
+const MAX_DESKTOP_WIDTH = 1440;
+const MAX_MOBILE_WIDTH = 750;
+
 async function ensureDir(dirPath) {
   if (!fs.existsSync(dirPath)) {
     fs.mkdirSync(dirPath, { recursive: true });
+  }
+}
+
+async function getFileSizeMB(filepath) {
+  const stats = fs.statSync(filepath);
+  return stats.size / (1024 * 1024);
+}
+
+async function compressImage(filepath, isMobile = false) {
+  if (!sharp) return;
+  
+  const originalSize = await getFileSizeMB(filepath);
+  if (originalSize <= MAX_SIZE_MB) {
+    return; // Already under limit
+  }
+  
+  console.log(`    Compressing ${path.basename(filepath)} (${originalSize.toFixed(2)}MB)...`);
+  
+  const maxWidth = isMobile ? MAX_MOBILE_WIDTH : MAX_DESKTOP_WIDTH;
+  const tempPath = filepath.replace('.png', '.temp.png');
+  
+  try {
+    let image = sharp(filepath);
+    const metadata = await image.metadata();
+    
+    // Resize if needed
+    if (metadata.width > maxWidth) {
+      image = image.resize(maxWidth, null, { 
+        withoutEnlargement: true,
+        fit: 'inside'
+      });
+    }
+    
+    // Apply PNG compression with palette for smaller size
+    await image
+      .png({ 
+        compressionLevel: 9,
+        adaptiveFiltering: true,
+        palette: true,
+        quality: 80
+      })
+      .toFile(tempPath);
+    
+    let newSize = await getFileSizeMB(tempPath);
+    
+    // If still too large, be more aggressive
+    if (newSize > MAX_SIZE_MB) {
+      // Reduce colors and resize more
+      await sharp(filepath)
+        .resize(Math.floor(maxWidth * 0.8), null, { withoutEnlargement: true, fit: 'inside' })
+        .png({ 
+          compressionLevel: 9,
+          palette: true,
+          colors: 128
+        })
+        .toFile(tempPath);
+      
+      newSize = await getFileSizeMB(tempPath);
+    }
+    
+    // Replace original
+    fs.unlinkSync(filepath);
+    fs.renameSync(tempPath, filepath);
+    
+    console.log(`    Compressed to ${newSize.toFixed(2)}MB`);
+    
+  } catch (error) {
+    if (fs.existsSync(tempPath)) {
+      fs.unlinkSync(tempPath);
+    }
+    console.error(`    Compression failed: ${error.message}`);
   }
 }
 
@@ -48,11 +134,19 @@ async function takeScreenshot(page, theme, pageName, viewport) {
 
   const filename = `${pageName}-${viewport.name}.png`;
   const filepath = path.join(dir, filename);
+  const isMobile = viewport.name === 'mobile';
 
   await page.setViewportSize({ width: viewport.width, height: viewport.height });
   await page.screenshot({ path: filepath, fullPage: true });
 
-  console.log(`  Captured: ${filepath}`);
+  const sizeMB = await getFileSizeMB(filepath);
+  console.log(`  Captured: ${filename} (${sizeMB.toFixed(2)}MB)`);
+  
+  // Auto-compress if over limit
+  if (sizeMB > MAX_SIZE_MB) {
+    await compressImage(filepath, isMobile);
+  }
+
   return filepath;
 }
 
@@ -88,6 +182,10 @@ async function main() {
   console.log('Starting screenshot capture...');
   console.log(`Base URL: ${BASE_URL}`);
   console.log(`Output directory: ${SCREENSHOT_DIR}`);
+  console.log(`Max file size: ${MAX_SIZE_MB}MB`);
+  if (!sharp) {
+    console.log('Warning: sharp not available, compression disabled');
+  }
 
   const browser = await chromium.launch({ headless: true });
 
