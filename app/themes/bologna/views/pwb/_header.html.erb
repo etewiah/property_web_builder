@@ -41,18 +41,6 @@
             </a>
           <% end %>
         <% end %>
-
-        <%# Search Link with Icon %>
-        <a href="<%= buy_path %>"
-           class="px-4 py-2 text-sm font-medium text-warm-gray-600 hover:text-terra-600 hover:bg-terra-50 rounded-pill transition-all duration-200 flex items-center space-x-1">
-          <i class="ph ph-magnifying-glass"></i>
-          <span><%= t("pwb.navbar.buy", default: "Buy") %></span>
-        </a>
-        <a href="<%= rent_path %>"
-           class="px-4 py-2 text-sm font-medium text-warm-gray-600 hover:text-terra-600 hover:bg-terra-50 rounded-pill transition-all duration-200 flex items-center space-x-1">
-          <i class="ph ph-key"></i>
-          <span><%= t("pwb.navbar.rent", default: "Rent") %></span>
-        </a>
       </div>
 
       <%# Right Side Actions %>
@@ -81,12 +69,13 @@
         <% end %>
 
         <%# Contact CTA %>
-        <a href="<%= contact_us_path %>"
-           class="hidden md:inline-flex items-center px-5 py-2.5 bg-terra-500 text-white text-sm font-medium rounded-pill
-                  hover:bg-terra-600 transition-all duration-200 shadow-soft hover:shadow-medium">
-          <i class="ph ph-chat-circle-text mr-2"></i>
-          <%= t("pwb.navbar.contactUs", default: "Contact") %>
-        </a>
+
+          <% if @show_admin_link %>
+            <div    class="h-10 bg-warm-gray-100 text-warm-gray-600 rounded-full hidden md:flex items-center justify-center hover:bg-warm-gray-200 transition-colors">
+              <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale),
+                  class: "block py-3 px-5 text-xs font-medium uppercase tracking-luxury text-luxury-navy hover:text-luxury-gold transition-all duration-300" %>
+            </div>
+          <% end %>
 
         <%# User Menu or Login %>
         <% if user_signed_in? %>
@@ -120,11 +109,6 @@
               </div>
             </div>
           </div>
-        <% else %>
-          <a href="<%= new_user_session_path %>"
-             class="w-10 h-10 bg-warm-gray-100 text-warm-gray-600 rounded-full hidden md:flex items-center justify-center hover:bg-warm-gray-200 transition-colors">
-            <i class="ph ph-user text-lg"></i>
-          </a>
         <% end %>
 
         <%# Mobile Menu Button %>
@@ -159,21 +143,6 @@
             </a>
           <% end %>
         <% end %>
-        <a href="<%= buy_path %>"
-           class="flex items-center px-5 py-3 text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600 border-b border-warm-gray-50 transition-colors">
-          <i class="ph ph-magnifying-glass mr-3"></i>
-          <%= t("pwb.navbar.buy", default: "Buy") %>
-        </a>
-        <a href="<%= rent_path %>"
-           class="flex items-center px-5 py-3 text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600 border-b border-warm-gray-50 transition-colors">
-          <i class="ph ph-key mr-3"></i>
-          <%= t("pwb.navbar.rent", default: "Rent") %>
-        </a>
-        <a href="<%= contact_us_path %>"
-           class="flex items-center px-5 py-3 bg-terra-500 text-white font-medium">
-          <i class="ph ph-chat-circle-text mr-3"></i>
-          <%= t("pwb.navbar.contactUs", default: "Contact") %>
-        </a>
       </div>
     </div>
   </nav>

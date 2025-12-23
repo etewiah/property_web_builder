@@ -51,7 +51,11 @@
       "Bash(container-use checkout:*)",
       "Bash(RAILS_ENV=test bundle exec rails runner:*)",
       "Bash(bundle exec annotate:*)",
-      "Bash(RAILS_ENV=development bundle exec rails runner:*)"
+      "Bash(RAILS_ENV=development bundle exec rails runner:*)",
+      "mcp__puppeteer__puppeteer_navigate",
+      "mcp__puppeteer__puppeteer_screenshot",
+      "mcp__puppeteer__puppeteer_evaluate",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []
