@@ -156,7 +156,7 @@ gem "liquid", "~> 5.3"
 # As per above, need to fix psych gem below v4
 # gem "psych", "< 4"
 
-gem "vite_rails", "~> 3.0"
+# gem "vite_rails", "~> 3.0"  # Removed - was only used for Vue apps
 
 gem "graphql", "~> 2.0"
 gem "graphiql-rails", group: :development

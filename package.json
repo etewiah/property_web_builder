@@ -1,10 +1,6 @@
 {
   "devDependencies": {
-    "@playwright/test": "^1.57.0",
-    "rollup-plugin-visualizer": "^6.0.5",
-    "sass": "^1.94.2",
-    "vite": "^7.2.4",
-    "vite-plugin-ruby": "^5.1.1"
+    "@playwright/test": "^1.57.0"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.2.8",
@@ -14,9 +10,7 @@
     "@fontsource/open-sans": "^5.2.7",
     "@fontsource/vollkorn": "^5.2.10",
     "@tailwindcss/cli": "^4.1.17",
-    "axios": "^1.13.2",
     "flowbite": "^4.0.1",
-    "form-data": ">=4.0.4",
     "lodash": "^4.17.21",
     "tailwindcss": "^4.1.17"
   },
@@ -28,7 +22,6 @@
     "tailwind:watch:default": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-input.css -o ./app/assets/builds/tailwind-default.css --watch",
     "tailwind:watch:bologna": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-bologna.css -o ./app/assets/builds/tailwind-bologna.css --watch",
     "tailwind:watch:brisbane": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-brisbane.css -o ./app/assets/builds/tailwind-brisbane.css --watch",
-    "analyze": "ANALYZE=true npx vite build",
     "lighthouse": "npx lhci autorun"
   },
   "engines": {
