@@ -55,7 +55,9 @@
       "mcp__puppeteer__puppeteer_navigate",
       "mcp__puppeteer__puppeteer_screenshot",
       "mcp__puppeteer__puppeteer_evaluate",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(RAILS_ENV=production bundle exec rails runner:*)",
+      "Bash(RAILS_ENV=development bundle exec rails:*)"
     ],
     "deny": [],
     "ask": []

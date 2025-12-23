@@ -129,13 +129,28 @@ namespace :assets do
 
     puts "Configuring CORS on R2 bucket: #{bucket}"
 
-    client.put_bucket_cors(
-      bucket: bucket,
-      cors_configuration: cors_configuration
-    )
+    begin
+      client.put_bucket_cors(
+        bucket: bucket,
+        cors_configuration: cors_configuration
+      )
 
-    puts "CORS configured successfully!"
-    puts "Allowed origins: https://*.propertywebbuilder.com, http://localhost:3000"
+      puts "CORS configured successfully via S3 API!"
+      puts "Allowed origins: https://*.propertywebbuilder.com, http://localhost:3000"
+    rescue Aws::S3::Errors::ServiceError => e
+      puts "Warning: Could not set CORS via S3 API: #{e.message}"
+    end
+
+    puts ""
+    puts "IMPORTANT: If using a custom domain (e.g., cdn-assets.propertywebbuilder.com),"
+    puts "you may also need to configure CORS via Cloudflare Transform Rules:"
+    puts ""
+    puts "1. Go to Cloudflare Dashboard > Your Domain > Rules > Transform Rules"
+    puts "2. Create a 'Modify Response Header' rule"
+    puts "3. Set: When 'Hostname equals cdn-assets.propertywebbuilder.com'"
+    puts "4. Add header: Access-Control-Allow-Origin = *"
+    puts "5. Add header: Access-Control-Allow-Methods = GET, HEAD, OPTIONS"
+    puts ""
   end
 
   desc "Clear all objects from R2 assets bucket"
