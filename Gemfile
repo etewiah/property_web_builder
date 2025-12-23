@@ -148,7 +148,8 @@ gem "flag_shih_tzu", "~> 0.3.23"
 gem "dartsass-rails"
 gem "sprockets-rails"
 
-gem "jquery-rails", "~> 4.5"
+# REMOVED: jquery-rails - migrated to @rails/ujs via importmap (December 2024)
+# gem "jquery-rails", "~> 4.5"
 
 gem "liquid", "~> 5.3"
 

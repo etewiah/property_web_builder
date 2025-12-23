@@ -22,7 +22,8 @@ $base-border-color:#e0eded;
 /*@import "bootstrap-sprockets";*/
 @import "bootstrap";
 
-@import "bootstrap-select";
+/* REMOVED: bootstrap-select - using native HTML selects (December 2024) */
+/* @import "bootstrap-select"; */
 /* font-awesome import fails even though it
 is being imported in engine.rb as per:
 https://github.com/bokmann/font-awesome-rails*/

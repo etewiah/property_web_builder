@@ -1,17 +1,19 @@
-$('#inmo-search-results').html("<%= j (render 'search_results') %>");
-
-// Update map markers if map exists
-var markers = <%= @map_markers.to_json.html_safe %>;
-if (typeof INMOAPP !== 'undefined' && typeof INMOAPP.updateMapMarkers === 'function') {
-  INMOAPP.updateMapMarkers(markers);
-}
-
-// Apply UI enhancements
-if (typeof INMOAPP !== 'undefined') {
-  if (typeof INMOAPP.truncateDescriptions === 'function') {
-    INMOAPP.truncateDescriptions();
+// Update search results (vanilla JS - no jQuery)
+(function() {
+  var resultsContainer = document.getElementById('inmo-search-results');
+  if (resultsContainer) {
+    resultsContainer.innerHTML = "<%= j (render 'search_results') %>";
   }
-  if (typeof INMOAPP.sortSearchResults === 'function') {
-    INMOAPP.sortSearchResults();
+
+  // Update map markers if map controller exists
+  var markers = <%= @map_markers.to_json.html_safe %>;
+  var mapElement = document.querySelector('[data-controller~="map"]');
+  if (mapElement && mapElement.mapController) {
+    mapElement.mapController.updateMarkers(markers);
   }
-}
+
+  // Trigger custom event for Stimulus controllers to react
+  document.dispatchEvent(new CustomEvent('search:updated', {
+    detail: { markers: markers }
+  }));
+})();

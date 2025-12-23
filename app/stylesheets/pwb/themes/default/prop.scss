@@ -421,13 +421,7 @@ nav.venta_alquiler a.selected {
   text-transform: uppercase;
 }
 
-.btn-group.bootstrap-select button {
-  border: 1px solid #ddd;
-}
-
-div.filtro_precio .btn-group.bootstrap-select button {
-  border: 0;
-}
+/* REMOVED: bootstrap-select styles (December 2024) */
 
 .caract_principales {
   margin-bottom: 20px;

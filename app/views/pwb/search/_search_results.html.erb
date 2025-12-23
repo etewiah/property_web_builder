@@ -31,17 +31,11 @@
               // Reset select elements
               form.querySelectorAll('select').forEach(function(select) {
                 select.selectedIndex = 0;
+                // Trigger change event for any custom select listeners
+                select.dispatchEvent(new Event('change', { bubbles: true }));
               });
-              // Try selectpicker refresh if available (Bootstrap Select)
-              if (typeof $ !== 'undefined' && $.fn.selectpicker) {
-                $(form).find('select').selectpicker('refresh');
-              }
-              // Submit the form
-              if (typeof $ !== 'undefined') {
-                $(form).submit();
-              } else {
-                form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-              }
+              // Submit the form using Rails UJS
+              form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
             }
           }
         </script>
