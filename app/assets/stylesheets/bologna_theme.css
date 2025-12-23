@@ -1161,3 +1161,127 @@
   padding: 1rem 2.5rem;
   font-size: 1rem;
 }
+
+/* Testimonials Section */
+.bologna-theme .pwb-testimonials {
+  padding: 5rem 0;
+  background: #ffffff;
+}
+
+.bologna-theme .pwb-testimonials--grid {
+  background: linear-gradient(180deg, #faf9f7 0%, #ffffff 100%);
+}
+
+.bologna-theme .pwb-testimonial-card {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px -4px rgba(61, 61, 61, 0.08);
+  border: 1px solid #f5f3f0;
+  transition: all 0.3s ease;
+}
+
+.bologna-theme .pwb-testimonial-card:hover {
+  box-shadow: 0 12px 40px -10px rgba(61, 61, 61, 0.15);
+  transform: translateY(-4px);
+}
+
+.bologna-theme .pwb-testimonial-card__rating {
+  margin-bottom: 1rem;
+}
+
+.bologna-theme .pwb-testimonial-card__rating i {
+  color: #f59e0b;
+  font-size: 1rem;
+  margin-right: 0.25rem;
+}
+
+.bologna-theme .pwb-testimonial-card__text {
+  font-size: 1rem;
+  color: #584f47;
+  line-height: 1.8;
+  margin: 0 0 1.5rem 0;
+  font-style: italic;
+}
+
+.bologna-theme .pwb-testimonial-card__author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.bologna-theme .pwb-testimonial-card__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.bologna-theme .pwb-testimonial-card__author strong {
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-weight: 600;
+  color: #3d3d3d;
+  display: block;
+  font-size: 1rem;
+}
+
+.bologna-theme .pwb-testimonial-card__author span {
+  font-size: 0.875rem;
+  color: #9c9285;
+}
+
+/* Stats Section */
+.bologna-theme .pwb-stats {
+  background: linear-gradient(135deg, #fdf8f6 0%, #f9ece6 100%);
+  padding: 4rem 0;
+}
+
+.bologna-theme .pwb-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .bologna-theme .pwb-stats__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.bologna-theme .pwb-stat {
+  text-align: center;
+}
+
+.bologna-theme .pwb-stat__number {
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #c45d3e;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.bologna-theme .pwb-stat__label {
+  font-size: 0.9375rem;
+  color: #9c9285;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Stats Card Style */
+.bologna-theme .pwb-stats--cards {
+  background: #ffffff;
+}
+
+.bologna-theme .pwb-stats--cards .pwb-stat {
+  background: linear-gradient(135deg, #fdf8f6 0%, #f9ece6 100%);
+  padding: 2rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.bologna-theme .pwb-stats--cards .pwb-stat:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px -10px rgba(196, 93, 62, 0.2);
+}
