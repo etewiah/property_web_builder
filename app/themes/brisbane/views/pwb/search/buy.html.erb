@@ -121,9 +121,55 @@
         shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
       });
 
+      // Initialize INMOAPP if not exists
+      window.INMOAPP = window.INMOAPP || {};
+
       var mapMarkers = <%= @map_markers.to_json.html_safe %>;
+      var map = null;
+      var markersLayer = null;
+
+      function createPopupContent(marker) {
+        return `
+          <div class="text-center">
+            <a href="${marker.show_url}" class="font-bold text-blue-600 hover:underline">${marker.title}</a>
+            <div class="text-gray-600">${marker.display_price}</div>
+            ${marker.image_url ? `<img src="${marker.image_url}" class="mt-2 w-32 h-24 object-cover mx-auto rounded">` : ''}
+          </div>
+        `;
+      }
+
+      function addMarkersToMap(markers) {
+        if (!map) return;
+
+        // Clear existing markers
+        if (markersLayer) {
+          markersLayer.clearLayers();
+        } else {
+          markersLayer = L.layerGroup().addTo(map);
+        }
+
+        var bounds = [];
+        markers.forEach(function(marker) {
+          if (marker.position && marker.position.lat && marker.position.lng) {
+            var lat = parseFloat(marker.position.lat);
+            var lng = parseFloat(marker.position.lng);
+            bounds.push([lat, lng]);
+            L.marker([lat, lng])
+              .bindPopup(createPopupContent(marker))
+              .addTo(markersLayer);
+          }
+        });
+
+        if (bounds.length > 0) {
+          map.fitBounds(bounds, { padding: [50, 50] });
+          if (map.getZoom() > 15) {
+            map.setZoom(15);
+          }
+        }
+      }
+
+      // Initialize map
       if (mapMarkers && mapMarkers.length > 0) {
-        // Calculate bounds to fit all markers
         var bounds = [];
         mapMarkers.forEach(function(marker) {
           if (marker.position && marker.position.lat && marker.position.lng) {
@@ -132,34 +178,32 @@
         });
 
         if (bounds.length > 0) {
-          var map = L.map('search-map');
+          map = L.map('search-map');
 
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
               attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           }).addTo(map);
 
-          mapMarkers.forEach(function(marker) {
-            if (marker.position && marker.position.lat && marker.position.lng) {
-              var popupContent = `
-                <div class="text-center">
-                  <a href="${marker.show_url}" class="font-bold text-blue-600 hover:underline">${marker.title}</a>
-                  <div class="text-gray-600">${marker.display_price}</div>
-                  ${marker.image_url ? `<img src="${marker.image_url}" class="mt-2 w-32 h-24 object-cover mx-auto rounded">` : ''}
-                </div>
-              `;
-              L.marker([parseFloat(marker.position.lat), parseFloat(marker.position.lng)]).addTo(map)
-                  .bindPopup(popupContent);
-            }
-          });
-
-          map.fitBounds(bounds, { padding: [50, 50] });
-
-          // If only one marker or very close markers, zoom might be too high
-          if (map.getZoom() > 15) {
-            map.setZoom(15);
-          }
+          addMarkersToMap(mapMarkers);
         }
       }
+
+      // Expose update function for AJAX calls
+      INMOAPP.updateMapMarkers = function(markers) {
+        if (markers && markers.length > 0) {
+          // If map doesn't exist yet, we might need to create it
+          if (!map) {
+            var mapContainer = document.getElementById('search-map');
+            if (mapContainer) {
+              map = L.map('search-map');
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              }).addTo(map);
+            }
+          }
+          addMarkersToMap(markers);
+        }
+      };
     });
   </script>
 <% end %>

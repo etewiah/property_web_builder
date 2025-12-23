@@ -9,9 +9,42 @@
         <p class="text-muted">
           <%= t "tryChangingFilters", default: "Try changing your filters" %>
         </p>
-        <button class="btn btn-primary" onclick="$('form.form-light')[0].reset(); $('select').selectpicker('refresh'); $('form.form-light').submit();">
+        <button class="btn btn-primary" onclick="clearSearchFilters()">
           <i class="fa fa-refresh"></i> <%= t "clearFilters", default: "Clear Filters" %>
         </button>
+        <script>
+          function clearSearchFilters() {
+            var form = document.querySelector('form.form-light') || document.querySelector('form.simple_form');
+            if (form) {
+              // Reset standard form elements
+              form.reset();
+              // Clear hidden inputs (for custom select components)
+              form.querySelectorAll('input[type=hidden]').forEach(function(input) {
+                if (input.name && input.name.startsWith('search[')) {
+                  input.value = '';
+                }
+              });
+              // Uncheck checkboxes
+              form.querySelectorAll('input[type=checkbox]').forEach(function(cb) {
+                cb.checked = false;
+              });
+              // Reset select elements
+              form.querySelectorAll('select').forEach(function(select) {
+                select.selectedIndex = 0;
+              });
+              // Try selectpicker refresh if available (Bootstrap Select)
+              if (typeof $ !== 'undefined' && $.fn.selectpicker) {
+                $(form).find('select').selectpicker('refresh');
+              }
+              // Submit the form
+              if (typeof $ !== 'undefined') {
+                $(form).submit();
+              } else {
+                form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+              }
+            }
+          }
+        </script>
       </div>
     <% end %>
     <% @properties.each_with_index do |property, index| %>

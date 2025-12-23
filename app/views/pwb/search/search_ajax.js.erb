@@ -1,8 +1,17 @@
 $('#inmo-search-results').html("<%= j (render 'search_results') %>");
+
+// Update map markers if map exists
 var markers = <%= @map_markers.to_json.html_safe %>;
-INMOAPP.pwbVue.$refs.inmomap.resetMarkers(markers);
-// .markers = markers;
-INMOAPP.truncateDescriptions();
-INMOAPP.sortSearchResults();
-// $('#inmo-search-results').slideDown(350);
-// $('select').selectpicker()
+if (typeof INMOAPP !== 'undefined' && typeof INMOAPP.updateMapMarkers === 'function') {
+  INMOAPP.updateMapMarkers(markers);
+}
+
+// Apply UI enhancements
+if (typeof INMOAPP !== 'undefined') {
+  if (typeof INMOAPP.truncateDescriptions === 'function') {
+    INMOAPP.truncateDescriptions();
+  }
+  if (typeof INMOAPP.sortSearchResults === 'function') {
+    INMOAPP.sortSearchResults();
+  }
+}
