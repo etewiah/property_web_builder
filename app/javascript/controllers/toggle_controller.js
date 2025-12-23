@@ -15,26 +15,26 @@ export default class extends Controller {
   static targets = ["content"]
   static classes = ["hidden"]
 
-  connect() {
-    // Use a default hidden class if none specified
-    this.hiddenClass = this.hasHiddenClass ? this.hiddenClass : "hidden"
+  get hiddenClassName() {
+    // Use the specified hidden class or default to "hidden"
+    return this.hasHiddenClass ? this.hiddenClass : "hidden"
   }
 
   toggle() {
     this.contentTargets.forEach(target => {
-      target.classList.toggle(this.hiddenClass)
+      target.classList.toggle(this.hiddenClassName)
     })
   }
 
   show() {
     this.contentTargets.forEach(target => {
-      target.classList.remove(this.hiddenClass)
+      target.classList.remove(this.hiddenClassName)
     })
   }
 
   hide() {
     this.contentTargets.forEach(target => {
-      target.classList.add(this.hiddenClass)
+      target.classList.add(this.hiddenClassName)
     })
   }
 }
