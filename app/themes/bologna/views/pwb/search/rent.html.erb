@@ -4,43 +4,6 @@
 <%# Bologna Theme - Rental Search Page %>
 <%# Same clean design as buy page but with olive accent for rentals %>
 
-<% content_for :page_script do %>
-  <%= javascript_tag do %>
-    // Wait for jQuery to be available (loaded with defer)
-    function initSearchPage() {
-      if (typeof $ === 'undefined' || typeof jQuery === 'undefined') {
-        setTimeout(initSearchPage, 50);
-        return;
-      }
-
-      $(function() {
-        if (typeof INMOAPP !== 'undefined') {
-          INMOAPP.truncateDescriptions();
-          INMOAPP.sortSearchResults();
-        }
-
-        // Loading state handlers for AJAX form submissions
-        $(document).on('ajax:beforeSend', 'form.form-light', function() {
-          $('#inmo-search-results').addClass('opacity-50 pointer-events-none');
-          $('#search-spinner').removeClass('hidden');
-        });
-
-        $(document).on('ajax:complete', 'form.form-light', function() {
-          $('#inmo-search-results').removeClass('opacity-50 pointer-events-none');
-          $('#search-spinner').addClass('hidden');
-        });
-      });
-    }
-
-    // Start checking for jQuery
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initSearchPage);
-    } else {
-      initSearchPage();
-    }
-  <% end %>
-<% end %>
-
 <!-- Page Header -->
 <section class="bg-gradient-to-br from-olive-50 via-white to-sand-50 border-b border-warm-gray-100">
   <div class="container mx-auto px-6 py-10">
@@ -79,8 +42,8 @@
   </div>
 </section>
 
-<!-- Main Content -->
-<section class="bg-warm-gray-50">
+<!-- Main Content with Stimulus controller -->
+<section class="bg-warm-gray-50" data-controller="search-form">
   <div class="container mx-auto px-6 py-10">
     <div class="flex flex-wrap -mx-4">
       <!-- Sidebar Filters -->
@@ -88,7 +51,7 @@
         <!-- Mobile Filter Toggle -->
         <div class="lg:hidden mb-4">
           <button type="button"
-                  onclick="document.getElementById('sidebar-filters').classList.toggle('hidden');"
+                  data-action="search-form#toggleFilters"
                   class="w-full flex items-center justify-center px-6 py-3 bg-white text-warm-gray-700 font-medium rounded-soft shadow-soft hover:shadow-medium transition-all duration-300">
             <i class="ph ph-funnel mr-2 text-olive-500"></i>
             <%= t('filter', default: 'Filter Properties') %>
@@ -113,7 +76,7 @@
       <!-- Results Column -->
       <main class="w-full lg:w-3/4 px-4">
         <!-- Loading Spinner -->
-        <div id="search-spinner" class="hidden">
+        <div data-search-form-target="spinner" class="hidden">
           <div class="flex flex-col items-center justify-center py-16">
             <div class="w-16 h-16 border-4 border-olive-200 border-t-olive-500 rounded-full animate-spin mb-4"></div>
             <p class="text-warm-gray-500 font-medium"><%= t('pwb.search.loading', default: 'Loading properties...') %></p>
@@ -121,7 +84,7 @@
         </div>
 
         <!-- Search Results Container -->
-        <div id="inmo-search-results" class="transition-opacity duration-300">
+        <div id="inmo-search-results" data-search-form-target="results" class="transition-opacity duration-300">
           <%= render 'search_results' %>
         </div>
       </main>
@@ -129,7 +92,7 @@
   </div>
 </section>
 
-<!-- Map Section -->
+<!-- Map Section with Stimulus controller -->
 <% if @map_markers.length > 0 %>
   <section class="border-t border-warm-gray-200 bg-white">
     <div class="container mx-auto px-6 py-8">
@@ -143,112 +106,12 @@
       </div>
     </div>
     <div class="w-full" style="height: 500px;">
-      <div id="search-map" class="w-full h-full"></div>
+      <div id="search-map" 
+           class="w-full h-full"
+           data-controller="map"
+           data-map-target="canvas"
+           data-map-markers-value="<%= @map_markers.to_json %>">
+      </div>
     </div>
   </section>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      if (typeof L === 'undefined') return;
-
-      delete L.Icon.Default.prototype._getIconUrl;
-      L.Icon.Default.mergeOptions({
-        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-      });
-
-      // Initialize INMOAPP if not exists
-      window.INMOAPP = window.INMOAPP || {};
-
-      var mapMarkers = <%= @map_markers.to_json.html_safe %>;
-      var map = null;
-      var markersLayer = null;
-
-      // Custom marker style for Bologna theme - olive for rentals
-      var oliveIcon = L.divIcon({
-        className: 'custom-marker',
-        html: '<div style="background: linear-gradient(135deg, #5c6b4d, #4a5640); width: 36px; height: 36px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 3px solid white; box-shadow: 0 4px 12px rgba(92, 107, 77, 0.4);"></div>',
-        iconSize: [36, 36],
-        iconAnchor: [18, 36],
-        popupAnchor: [0, -36]
-      });
-
-      function createPopupContent(marker) {
-        return `
-          <div class="text-center p-2" style="min-width: 200px;">
-            ${marker.image_url ? `<img src="${marker.image_url}" class="w-full h-32 object-cover rounded-lg mb-3">` : ''}
-            <a href="${marker.show_url}" class="font-bold hover:opacity-80 block mb-1" style="color: #5c6b4d;">${marker.title}</a>
-            <div class="font-semibold" style="color: #3d3d3d;">${marker.display_price}</div>
-          </div>
-        `;
-      }
-
-      function addMarkersToMap(markers) {
-        if (!map) return;
-
-        // Clear existing markers
-        if (markersLayer) {
-          markersLayer.clearLayers();
-        } else {
-          markersLayer = L.layerGroup().addTo(map);
-        }
-
-        var bounds = [];
-        markers.forEach(function(marker) {
-          if (marker.position && marker.position.lat && marker.position.lng) {
-            var lat = parseFloat(marker.position.lat);
-            var lng = parseFloat(marker.position.lng);
-            bounds.push([lat, lng]);
-            L.marker([lat, lng], { icon: oliveIcon })
-              .bindPopup(createPopupContent(marker))
-              .addTo(markersLayer);
-          }
-        });
-
-        if (bounds.length > 0) {
-          map.fitBounds(bounds, { padding: [50, 50] });
-          if (map.getZoom() > 15) {
-            map.setZoom(15);
-          }
-        }
-      }
-
-      // Initialize map
-      if (mapMarkers && mapMarkers.length > 0) {
-        var bounds = [];
-        mapMarkers.forEach(function(marker) {
-          if (marker.position && marker.position.lat && marker.position.lng) {
-            bounds.push([parseFloat(marker.position.lat), parseFloat(marker.position.lng)]);
-          }
-        });
-
-        if (bounds.length > 0) {
-          map = L.map('search-map');
-
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          }).addTo(map);
-
-          addMarkersToMap(mapMarkers);
-        }
-      }
-
-      // Expose update function for AJAX calls
-      INMOAPP.updateMapMarkers = function(markers) {
-        if (markers && markers.length > 0) {
-          if (!map) {
-            var mapContainer = document.getElementById('search-map');
-            if (mapContainer) {
-              map = L.map('search-map');
-              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              }).addTo(map);
-            }
-          }
-          addMarkersToMap(markers);
-        }
-      };
-    });
-  </script>
 <% end %>
