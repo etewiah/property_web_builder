@@ -1,56 +1,114 @@
 <!-- Bologna Theme Form and Map Component - Tailwind CSS -->
-<section class="py-8">
-  <div class="container mx-auto px-4">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <div class="">
-        <%= render 'pwb/sections/contact_us_form' %>
-      </div>
-      <div class="space-y-6">
-        <%= render '/pwb/props/prop_contact_info' %>
-        <% if @current_agency.show_contact_map %>
-          <div class="rounded-lg overflow-hidden shadow-sm border border-gray-200" style="height: 400px;">
-            <div id="contact-map" class="w-full h-full"></div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+  <!-- Contact Form -->
+  <div class="order-2 lg:order-1">
+    <div class="bg-stone-50 rounded-2xl p-6 lg:p-8 shadow-sm border border-stone-200">
+      <h2 class="text-2xl font-bold text-stone-800 mb-2">
+        <i class="ph ph-envelope text-amber-600 mr-2"></i>
+        <%= I18n.t("sendUsAMessage", default: "Send us a message") %>
+      </h2>
+      <p class="text-stone-600 mb-6">
+        <%= I18n.t("weWillGetBackToYou", default: "We'll get back to you as soon as possible.") %>
+      </p>
+      <%= render 'pwb/sections/contact_us_form' %>
+    </div>
+  </div>
+
+  <!-- Contact Info & Map -->
+  <div class="order-1 lg:order-2 space-y-6">
+    <!-- Contact Information Card -->
+    <div class="rounded-2xl p-6 lg:p-8 text-white shadow-lg" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%);">
+      <h2 class="text-2xl font-bold mb-6">
+        <i class="ph ph-map-pin mr-2"></i>
+        <%= I18n.t("contactInformation", default: "Contact Information") %>
+      </h2>
+
+      <div class="space-y-4">
+        <div class="flex items-start">
+          <i class="ph ph-buildings text-xl mr-3 mt-1" style="color: #fde68a;"></i>
+          <div>
+            <p class="font-semibold"><%= @current_agency.display_name %></p>
+            <p style="color: #fef3c7;">
+              <%= [@current_agency.street_number, @current_agency.street_address].compact.join(', ') %>
+              <% if @current_agency.city.present? || @current_agency.postal_code.present? %>
+                <br><%= [@current_agency.city, @current_agency.postal_code].compact.join(', ') %>
+              <% end %>
+            </p>
           </div>
-          <script>
-            document.addEventListener('DOMContentLoaded', function() {
-              if (typeof L === 'undefined') return;
+        </div>
 
-              // Fix for Leaflet default icon path issues
-              delete L.Icon.Default.prototype._getIconUrl;
-              L.Icon.Default.mergeOptions({
-                iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-              });
+        <% if @current_agency.phone_number_primary.present? %>
+          <div class="flex items-center">
+            <i class="ph ph-phone text-xl mr-3" style="color: #fde68a;"></i>
+            <div>
+              <p class="text-sm" style="color: #fef3c7;"><%= I18n.t("telephone", default: "Telephone") %></p>
+              <a href="tel:<%= @current_agency.phone_number_primary %>" class="font-semibold hover:opacity-80 transition">
+                <%= @current_agency.phone_number_primary %>
+              </a>
+            </div>
+          </div>
+        <% end %>
 
-              var mapMarkers = <%= @map_markers.to_json.html_safe %>;
-              if (mapMarkers && mapMarkers.length > 0) {
-                var firstMarker = mapMarkers[0];
-                if (firstMarker.position && firstMarker.position.lat && firstMarker.position.lng) {
-                  var lat = parseFloat(firstMarker.position.lat);
-                  var lng = parseFloat(firstMarker.position.lng);
-
-                  var map = L.map('contact-map').setView([lat, lng], 15);
-
-                  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                  }).addTo(map);
-
-                  mapMarkers.forEach(function(marker) {
-                    if (marker.position && marker.position.lat && marker.position.lng) {
-                      L.marker([parseFloat(marker.position.lat), parseFloat(marker.position.lng)]).addTo(map)
-                          .bindPopup(marker.title);
-                    }
-                  });
-
-                  // Fix for map not rendering correctly if hidden initially or in tabs
-                  setTimeout(function(){ map.invalidateSize(); }, 200);
-                }
-              }
-            });
-          </script>
+        <% if @current_agency.email_primary.present? %>
+          <div class="flex items-center">
+            <i class="ph ph-envelope text-xl mr-3" style="color: #fde68a;"></i>
+            <div>
+              <p class="text-sm" style="color: #fef3c7;"><%= I18n.t("email", default: "Email") %></p>
+              <a href="mailto:<%= @current_agency.email_primary %>" class="font-semibold hover:opacity-80 transition">
+                <%= @current_agency.email_primary %>
+              </a>
+            </div>
+          </div>
         <% end %>
       </div>
     </div>
+
+    <!-- Map -->
+    <% if @current_agency.show_contact_map %>
+      <div class="rounded-2xl overflow-hidden shadow-lg border border-stone-200" style="height: 350px;">
+        <div id="contact-map" class="w-full h-full"></div>
+      </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          if (typeof L === 'undefined') {
+            console.log('Leaflet not loaded');
+            return;
+          }
+
+          // Fix for Leaflet default icon path issues
+          delete L.Icon.Default.prototype._getIconUrl;
+          L.Icon.Default.mergeOptions({
+            iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+            shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+          });
+
+          var mapMarkers = <%= @map_markers.to_json.html_safe %>;
+          if (mapMarkers && mapMarkers.length > 0) {
+            var firstMarker = mapMarkers[0];
+            if (firstMarker.position && firstMarker.position.lat && firstMarker.position.lng) {
+              var lat = parseFloat(firstMarker.position.lat);
+              var lng = parseFloat(firstMarker.position.lng);
+
+              var map = L.map('contact-map').setView([lat, lng], 15);
+
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              }).addTo(map);
+
+              mapMarkers.forEach(function(marker) {
+                if (marker.position && marker.position.lat && marker.position.lng) {
+                  L.marker([parseFloat(marker.position.lat), parseFloat(marker.position.lng)]).addTo(map)
+                      .bindPopup(marker.title);
+                }
+              });
+
+              // Fix for map not rendering correctly if hidden initially or in tabs
+              setTimeout(function(){ map.invalidateSize(); }, 200);
+            }
+          }
+        });
+      </script>
+    <% end %>
   </div>
-</section>
+</div>

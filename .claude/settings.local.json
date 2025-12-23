@@ -64,7 +64,10 @@
       "Bash(app/views/pwb/search/_search_results.html.erb )",
       "Bash(app/views/pwb/search/search_ajax.js.erb )",
       "Bash(docs/ui/SEARCH_UI_SPECIFICATION.md)",
-      "mcp__container-use__environment_list"
+      "mcp__container-use__environment_list",
+      "Bash(SCREENSHOT_THEME=bologna node:*)",
+      "mcp__chrome-devtools__take_snapshot",
+      "WebFetch(domain:code.claude.com)"
     ],
     "deny": [],
     "ask": []

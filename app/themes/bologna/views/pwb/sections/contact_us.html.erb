@@ -1,24 +1,31 @@
 <% page_title @page_title  %>
 <%= render '/pwb/meta_tags' %>
+<%= render 'pwb/shared/leaflet_assets' %>
 
 <!-- Bologna Theme Contact Us - Tailwind CSS -->
-<div class="bg-stone-100 py-4">
+<section class="bg-gradient-to-br from-stone-100 to-amber-50 py-6">
   <div class="container mx-auto px-4">
     <div class="flex flex-wrap items-center justify-between">
-      <h2 class="text-2xl font-bold text-stone-800">
-        <%= I18n.t("contactUs") %>
-      </h2>
-      <nav class="flex" aria-label="Breadcrumb">
+      <div>
+        <h1 class="text-3xl font-bold text-stone-800 mb-1">
+          <%= I18n.t("contactUs") %>
+        </h1>
+        <p class="text-stone-600">
+          <%= I18n.t("contactUsPrompt") %>
+        </p>
+      </div>
+      <nav class="hidden md:flex" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
           <li class="inline-flex items-center">
-            <a href="/" class="text-stone-700 hover:text-amber-700">
+            <a href="/" class="text-stone-600 hover:text-amber-700 transition">
+              <i class="ph ph-house mr-1"></i>
               <%= I18n.t("webContentSections.home") %>
             </a>
           </li>
           <li>
             <div class="flex items-center">
-              <svg class="w-6 h-6 text-stone-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-              <span class="ml-1 text-stone-500 md:ml-2">
+              <i class="ph ph-caret-right text-stone-400 mx-2"></i>
+              <span class="text-amber-700 font-medium">
                 <%= I18n.t("contactUs") %>
               </span>
             </div>
@@ -27,14 +34,10 @@
       </nav>
     </div>
   </div>
-</div>
+</section>
 
-<div class="container mx-auto px-4 py-8">
-  <% @page.ordered_visible_page_contents.each do |page_content| %>
-    <%= page_part page_content %>
-  <% end %>
-</div>
-
-<div class="container mx-auto px-4 pb-8">
-  <%= page_component "form_and_map", @page %>
-</div>
+<section class="bg-white py-12">
+  <div class="container mx-auto px-4">
+    <%= page_component "form_and_map", @page %>
+  </div>
+</section>

@@ -1,33 +1,28 @@
 <!-- Bologna Theme Contact Us Form - Tailwind CSS -->
-<div class="bg-white rounded-lg shadow-sm border border-stone-200 p-6">
-  <p id="contact-us-prompt" class="text-stone-600 mb-6">
-    <%= I18n.t("contactUsPrompt") %>
-  </p>
+<%= form_for :contact, url: '/contact_us.js', method: 'post',
+    html: { class: 'space-y-5' }, remote: true do |f| %>
 
-  <%= form_for :contact, url: '/contact_us.js', method: 'post',
-      html: { class: 'space-y-4' }, remote: true do |f| %>
+  <%= f.hidden_field :locale, value: I18n.locale %>
 
-    <%= f.hidden_field :locale, value: I18n.locale %>
+  <%= tailwind_inmo_input f, :name, "name", "text", true %>
 
-    <%= tailwind_inmo_input f, :name, "name", "text", true %>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <%= tailwind_inmo_input f, :email, "email", "email", true %>
+    <%= tailwind_inmo_input f, :tel, "tel", "text", false %>
+  </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <%= tailwind_inmo_input f, :email, "email", "email", true %>
-      <%= tailwind_inmo_input f, :tel, "tel", "text", false %>
-    </div>
+  <%= tailwind_inmo_input f, :subject, "subject", "text", false %>
 
-    <%= tailwind_inmo_input f, :subject, "subject", "text", false %>
+  <%= tailwind_inmo_textarea f, :message, "message", "text", false %>
 
-    <%= tailwind_inmo_textarea f, :message, "message", "text", false %>
+  <div id="contact-us-result" class="rounded-lg"></div>
 
-    <div id="contact-us-result"></div>
+  <button type="submit"
+          class="w-full font-semibold py-3 px-6 rounded-xl transition-all duration-200 flex items-center justify-center"
+          style="background-color: #d97706; color: white; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+    <i class="ph ph-paper-plane-tilt mr-2 text-lg"></i>
+    <%= I18n.t("send") %>
+  </button>
 
-    <button type="submit"
-            class="bg-amber-700 text-white font-medium py-2 px-6 rounded-lg hover:bg-amber-800 transition flex items-center">
-      <i class="fa fa-envelope mr-2"></i>
-      <%= I18n.t("send") %>
-    </button>
-
-    <div id="resp_enviar"></div>
-  <% end %>
-</div>
+  <div id="resp_enviar"></div>
+<% end %>
