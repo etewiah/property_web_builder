@@ -57,6 +57,30 @@ The frontend uses server-rendered pages:
 - `app/graphql/` - GraphQL API (see `app/graphql/DEPRECATED.md`)
 - Bootstrap CSS (see `vendor/assets/stylesheets/bootstrap/DEPRECATED.md`)
 
+## Testing
+
+### Browser/E2E Testing
+
+**IMPORTANT: Use Playwright for all browser/E2E testing. Do NOT use Selenium or Capybara JS drivers.**
+
+- **Playwright** is the preferred browser automation tool
+- Use `container-use` environments to run Playwright tests in isolation
+- Do NOT add Selenium WebDriver or Capybara JS drivers (apparition, poltergeist, etc.)
+
+### Unit/Integration Testing
+
+- Use RSpec for Ruby unit and integration tests
+- Use FactoryBot for test data
+- Feature specs should NOT use `js: true` - keep them as request/controller specs
+
+### Running Playwright Tests
+
+Use container-use to set up and run Playwright tests:
+```bash
+container-use create  # Create isolated environment
+container-use run "npx playwright test"  # Run tests
+```
+
 ## Multi-Tenancy
 
 This is a multi-tenant application where each website is a tenant. Always:

@@ -57,7 +57,14 @@
       "mcp__puppeteer__puppeteer_evaluate",
       "Bash(curl:*)",
       "Bash(RAILS_ENV=production bundle exec rails runner:*)",
-      "Bash(RAILS_ENV=development bundle exec rails:*)"
+      "Bash(RAILS_ENV=development bundle exec rails:*)",
+      "Bash(app/themes/bologna/views/pwb/search/rent.html.erb )",
+      "Bash(app/themes/brisbane/views/pwb/search/buy.html.erb )",
+      "Bash(app/themes/brisbane/views/pwb/search/rent.html.erb )",
+      "Bash(app/views/pwb/search/_search_results.html.erb )",
+      "Bash(app/views/pwb/search/search_ajax.js.erb )",
+      "Bash(docs/ui/SEARCH_UI_SPECIFICATION.md)",
+      "mcp__container-use__environment_list"
     ],
     "deny": [],
     "ask": []
