@@ -62,10 +62,32 @@ Three themes implement search pages with varying designs:
 +--------------------------------------------------+
 ```
 
+### Responsive Layout Requirements
+
+**CRITICAL: On large screens (≥1024px), search filters MUST display BESIDE search results, NOT above them taking full page width.**
+
+#### Desktop Layout (≥1024px / lg breakpoint)
+
+| Element | Width | Classes |
+|---------|-------|---------|
+| Container | 100% | `flex flex-wrap` |
+| Sidebar | 25% | `w-full lg:w-1/4` |
+| Results | 75% | `w-full lg:w-3/4` |
+
+#### Mobile Layout (<1024px)
+
+| Element | Width | Classes |
+|---------|-------|---------|
+| Filter toggle | visible | `lg:hidden` |
+| Sidebar | hidden | `hidden lg:block` |
+| Results | 100% | `w-full` |
+
 ### Expected Behaviors
 
 #### Page Load
 - [ ] Page displays with filter form in sidebar
+- [ ] **On large screens (≥1024px): Filters display BESIDE results (side-by-side)**
+- [ ] **On mobile (<1024px): Filters hidden with toggle button**
 - [ ] Search results render server-side (not via JavaScript injection)
 - [ ] Map section displays only if `@map_markers.length > 0`
 - [ ] Page title includes page title + company name
@@ -76,6 +98,12 @@ Three themes implement search pages with varying designs:
 - [ ] "Filter Properties" button shows on mobile to toggle filters
 - [ ] Results display full width on mobile
 - [ ] Property cards stack vertically on mobile
+
+#### Large Screen Responsiveness
+- [ ] **Filters and results display side-by-side (NOT stacked)**
+- [ ] Sidebar takes 1/4 (25%) of content width
+- [ ] Results take 3/4 (75%) of content width
+- [ ] Optional: Sidebar may use `sticky top-28` for long result lists
 
 ---
 

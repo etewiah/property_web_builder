@@ -118,6 +118,76 @@ mkdir -p app/themes/mytheme/views/pwb/shared
 mkdir -p app/themes/mytheme/page_parts  # For custom page part templates
 ```
 
+## Search Page Layout Requirements
+
+**IMPORTANT: Search pages MUST follow the responsive layout requirements below.**
+
+### Desktop Layout (≥1024px / lg breakpoint)
+
+On large screens, search filters MUST be displayed BESIDE search results (side-by-side), NOT above them taking full page width.
+
+```
++--------------------------------------------------+
+|  +------------+  +----------------------------+  |
+|  | Filters    |  | Search Results             |  |
+|  | (1/4)      |  | (3/4 width)                |  |
+|  +------------+  +----------------------------+  |
++--------------------------------------------------+
+```
+
+### Required HTML Structure
+
+```erb
+<!-- Container with flex-wrap -->
+<div class="flex flex-wrap -mx-4">
+
+  <!-- Sidebar Filters (1/4 on desktop, full on mobile) -->
+  <div class="w-full lg:w-1/4 px-4 mb-6 lg:mb-0">
+    <!-- Mobile toggle button (only visible on mobile) -->
+    <button class="lg:hidden w-full ..."
+            data-controller="search-form"
+            data-action="click->search-form#toggleFilters">
+      Filter Properties
+    </button>
+
+    <!-- Filter form (hidden on mobile, visible on desktop) -->
+    <div id="sidebar-filters" class="hidden lg:block">
+      <%= render 'pwb/searches/search_form_for_sale' %>
+    </div>
+  </div>
+
+  <!-- Search Results (3/4 on desktop, full on mobile) -->
+  <div class="w-full lg:w-3/4 px-4">
+    <div id="inmo-search-results">
+      <%= render 'search_results' %>
+    </div>
+  </div>
+
+</div>
+```
+
+### Critical Tailwind Classes
+
+| Element | Classes | Purpose |
+|---------|---------|---------|
+| Container | `flex flex-wrap` | Enables side-by-side layout |
+| Sidebar | `w-full lg:w-1/4` | 100% mobile, 25% desktop |
+| Results | `w-full lg:w-3/4` | 100% mobile, 75% desktop |
+| Filter toggle | `lg:hidden` | Only visible on mobile |
+| Filter form | `hidden lg:block` | Hidden mobile, visible desktop |
+
+### Verification Checklist
+
+When creating search pages (buy.html.erb, rent.html.erb):
+
+- [ ] Container uses `flex flex-wrap`
+- [ ] Sidebar div has `w-full lg:w-1/4`
+- [ ] Results div has `w-full lg:w-3/4`
+- [ ] Test at 1024px width - filters beside results
+- [ ] Test at 768px width - filters collapse
+
+**Reference:** See `docs/ui/SEARCH_UI_SPECIFICATION.md` and `docs/ui/SEARCH_LAYOUT_PLAN.md` for complete specifications.
+
 ### Step 3: Copy Files from Parent Theme
 
 Since your theme extends default:
