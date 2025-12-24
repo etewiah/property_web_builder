@@ -70,16 +70,14 @@ export default class extends Controller {
     // Reset to page 1 when changing sort/view
     url.searchParams.delete('page')
 
-    // Update browser history
-    window.history.pushState({}, '', url.toString())
+    const newUrl = url.toString()
 
-    // Find and reload the Turbo Frame
-    const frame = document.querySelector('turbo-frame#search-results')
-    if (frame) {
-      frame.src = url.toString()
+    // Use Turbo to navigate - it handles history and page updates
+    if (typeof Turbo !== 'undefined') {
+      Turbo.visit(newUrl)
     } else {
-      // Fallback: reload the page
-      window.location.href = url.toString()
+      // Fallback: navigate directly
+      window.location.href = newUrl
     }
   }
 }

@@ -31,19 +31,19 @@ tenant_a = Pwb::Website.find_or_create_by!(subdomain: 'tenant-a') do |w|
   w.slug = 'tenant-a'
   w.company_display_name = 'Tenant A Real Estate'
   w.default_client_locale = 'en-UK'
-  w.theme_name = 'bristol'
+  w.theme_name = 'default'
 end
 # Ensure theme is set even if record already exists
-tenant_a.update!(theme_name: 'bristol') if tenant_a.theme_name != 'bristol'
+tenant_a.update!(theme_name: 'default') if tenant_a.theme_name != 'default'
 
 tenant_b = Pwb::Website.find_or_create_by!(subdomain: 'tenant-b') do |w|
   w.slug = 'tenant-b'
   w.company_display_name = 'Tenant B Real Estate'
   w.default_client_locale = 'en-UK'
-  w.theme_name = 'bristol'
+  w.theme_name = 'default'
 end
 # Ensure theme is set even if record already exists
-tenant_b.update!(theme_name: 'bristol') if tenant_b.theme_name != 'bristol'
+tenant_b.update!(theme_name: 'default') if tenant_b.theme_name != 'default'
 
 # Seed each tenant with full data
 seed_for_website(tenant_a)
@@ -360,8 +360,8 @@ sale_properties = [
   {
     attrs: {
       reference: 'US-SALE-001',
-      prop_type: 'types.detached_house',
-      prop_state: 'states.excellent',
+      prop_type: 'detached_house',
+      prop_state: 'excellent',
       address: '742 Evergreen Terrace',
       city: 'Springfield',
       region: 'Illinois',
@@ -395,8 +395,8 @@ sale_properties = [
   {
     attrs: {
       reference: 'US-SALE-002',
-      prop_type: 'types.apartment',
-      prop_state: 'states.new_build',
+      prop_type: 'apartment',
+      prop_state: 'new_build',
       address: '200 Park Avenue',
       city: 'New York',
       region: 'New York',
@@ -429,8 +429,8 @@ sale_properties = [
   {
     attrs: {
       reference: 'US-SALE-003',
-      prop_type: 'types.villa',
-      prop_state: 'states.excellent',
+      prop_type: 'villa',
+      prop_state: 'excellent',
       address: '1500 Ocean Drive',
       city: 'Miami Beach',
       region: 'Florida',
@@ -467,8 +467,8 @@ sale_properties = [
   {
     attrs: {
       reference: 'US-SALE-004',
-      prop_type: 'types.townhouse',
-      prop_state: 'states.renovated',
+      prop_type: 'townhouse',
+      prop_state: 'renovated',
       address: '456 Capitol Hill',
       city: 'Washington',
       region: 'District of Columbia',
@@ -505,8 +505,8 @@ rental_properties = [
   {
     attrs: {
       reference: 'US-RENT-001',
-      prop_type: 'types.apartment',
-      prop_state: 'states.excellent',
+      prop_type: 'apartment',
+      prop_state: 'excellent',
       address: '1000 Wilshire Blvd',
       city: 'Los Angeles',
       region: 'California',
@@ -541,8 +541,8 @@ rental_properties = [
   {
     attrs: {
       reference: 'US-RENT-002',
-      prop_type: 'types.detached_house',
-      prop_state: 'states.good',
+      prop_type: 'detached_house',
+      prop_state: 'good',
       address: '789 Suburban Lane',
       city: 'Austin',
       region: 'Texas',
@@ -578,8 +578,8 @@ rental_properties = [
   {
     attrs: {
       reference: 'US-RENT-003',
-      prop_type: 'types.studio',
-      prop_state: 'states.new_build',
+      prop_type: 'studio',
+      prop_state: 'new_build',
       address: '500 Pike Street',
       city: 'Seattle',
       region: 'Washington',
@@ -614,8 +614,8 @@ rental_properties = [
   {
     attrs: {
       reference: 'US-RENT-004',
-      prop_type: 'types.penthouse',
-      prop_state: 'states.excellent',
+      prop_type: 'penthouse',
+      prop_state: 'excellent',
       address: '100 Lakefront Drive',
       city: 'Chicago',
       region: 'Illinois',

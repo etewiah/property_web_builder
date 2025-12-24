@@ -70,7 +70,7 @@ export default class extends Controller {
 
     // Debounce the filter update
     this.debounceTimer = setTimeout(() => {
-      this.updateSearch()
+      this.submitForm()
     }, this.debounceValue || 300)
   }
 
@@ -78,7 +78,7 @@ export default class extends Controller {
    * Called when sort or view changes (no debounce needed)
    */
   sortChanged(event) {
-    this.updateSearch()
+    this.submitForm()
   }
 
   /**
@@ -86,17 +86,37 @@ export default class extends Controller {
    */
   setView(event) {
     const view = event.currentTarget.dataset.view
-    const viewInput = this.formTarget.querySelector('input[name="view"]') || 
+    if (!this.hasFormTarget) return
+
+    const viewInput = this.formTarget.querySelector('input[name="view"]') ||
                       document.createElement('input')
-    
+
     if (!viewInput.name) {
       viewInput.type = 'hidden'
       viewInput.name = 'view'
       this.formTarget.appendChild(viewInput)
     }
-    
+
     viewInput.value = view
-    this.updateSearch()
+    this.submitForm()
+  }
+
+  /**
+   * Submit the form - uses native form submission which Turbo intercepts
+   */
+  submitForm() {
+    if (!this.hasFormTarget) {
+      console.warn('Search form target not found')
+      return
+    }
+
+    // Use requestSubmit() which triggers the submit event (works with Turbo)
+    if (typeof this.formTarget.requestSubmit === 'function') {
+      this.formTarget.requestSubmit()
+    } else {
+      // Fallback for older browsers
+      this.formTarget.submit()
+    }
   }
 
   /**
@@ -108,7 +128,7 @@ export default class extends Controller {
     // Reset form
     if (this.hasFormTarget) {
       this.formTarget.reset()
-      
+
       // Clear hidden inputs
       this.formTarget.querySelectorAll('input[type="hidden"]').forEach(input => {
         if (input.name !== '_method' && input.name !== 'authenticity_token') {
@@ -130,20 +150,26 @@ export default class extends Controller {
       this.formTarget.querySelectorAll('input[type="radio"][value=""]').forEach(radio => {
         radio.checked = true
       })
-    }
 
-    // Navigate to clean URL
-    const cleanUrl = `/${this.localeValue}/${this.operationValue}`
-    this.navigateWithHistory(cleanUrl)
+      // Submit the cleared form
+      this.submitForm()
+    } else {
+      // Fallback: navigate to clean URL
+      const cleanUrl = `/${this.localeValue}/${this.operationValue}`
+      if (typeof Turbo !== 'undefined') {
+        Turbo.visit(cleanUrl)
+      } else {
+        window.location.href = cleanUrl
+      }
+    }
   }
 
   /**
-   * Handle form submission
+   * Handle form submission - Turbo handles the actual navigation
    */
   handleSubmit(event) {
-    // Let Turbo handle the form submission, but update URL
-    const url = this.buildUrlFromForm()
-    this.pushState(url)
+    // Turbo Drive will handle the form submission automatically
+    // No additional action needed
   }
 
   // ===================
@@ -245,17 +271,12 @@ export default class extends Controller {
    */
   updateSearch() {
     const url = this.buildUrlFromForm()
-    
-    // Update URL without triggering navigation
-    this.pushState(url)
-    
-    // Show loading state
-    this.showLoading()
 
-    // Use Turbo to fetch the results
-    const frame = document.querySelector('turbo-frame#search-results')
-    if (frame) {
-      frame.src = url
+    // Use Turbo to navigate - it handles history and page updates
+    if (typeof Turbo !== 'undefined') {
+      Turbo.visit(url)
+    } else {
+      window.location.href = url
     }
   }
 
@@ -263,12 +284,11 @@ export default class extends Controller {
    * Navigate with history state
    */
   navigateWithHistory(url) {
-    this.pushState(url)
-    
-    // Use Turbo to navigate
-    const frame = document.querySelector('turbo-frame#search-results')
-    if (frame) {
-      frame.src = url
+    // Use Turbo to navigate - it handles history and page updates
+    if (typeof Turbo !== 'undefined') {
+      Turbo.visit(url)
+    } else {
+      window.location.href = url
     }
   }
 
@@ -285,14 +305,8 @@ export default class extends Controller {
    * Handle browser back/forward navigation
    */
   handlePopState(event) {
-    // Turbo Drive should handle this, but we need to update form state
+    // Turbo Drive handles the navigation, just sync form state
     this.syncFormWithUrl()
-    
-    // Fetch new results
-    const frame = document.querySelector('turbo-frame#search-results')
-    if (frame) {
-      frame.src = window.location.href
-    }
   }
 
   /**

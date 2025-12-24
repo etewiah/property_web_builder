@@ -90,10 +90,8 @@
               </button>
             </div>
             
-            <%= form_with url: rent_path, method: :get, local: true, 
-                          data: { 
-                            turbo_frame: "search-results",
-                            action: "submit->search#handleSubmit",
+            <%= form_with url: rent_path, method: :get, local: true,
+                          data: {
                             search_target: "form"
                           },
                           class: "search-filter-form space-y-6" do |f| %>
