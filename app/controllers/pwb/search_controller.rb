@@ -115,9 +115,9 @@ module Pwb
 
       case @search_criteria[:sort]
       when 'price-asc'
-        @properties = @properties.order(sale_price_cents: :asc, rent_price_cents: :asc)
+        @properties = @properties.order(price_sale_current_cents: :asc, price_rental_monthly_current_cents: :asc)
       when 'price-desc'
-        @properties = @properties.order(sale_price_cents: :desc, rent_price_cents: :desc)
+        @properties = @properties.order(price_sale_current_cents: :desc, price_rental_monthly_current_cents: :desc)
       when 'newest'
         @properties = @properties.order(created_at: :desc)
       when 'oldest'

@@ -82,7 +82,13 @@ module Pwb
       end
 
       # Sort params alphabetically for consistent URLs
-      params.sort.map { |k, v| "#{k}=#{CGI.escape(v.to_s)}" }.join('&')
+      # Use URI.encode_www_form_component but preserve commas for features
+      params.sort.map { |k, v|
+        encoded_value = URI.encode_www_form_component(v.to_s)
+        # Restore commas for readability (they're valid in query strings)
+        encoded_value = encoded_value.gsub('%2C', ',') if k == 'features'
+        "#{k}=#{encoded_value}"
+      }.join('&')
     end
 
     # Generate canonical URL for SEO

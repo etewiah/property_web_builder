@@ -314,7 +314,11 @@ RSpec.describe Pwb::SearchParamsService do
         Rack::Utils.parse_query(regenerated)
       ))
 
-      expect(reparsed).to eq(parsed)
+      # Features get sorted alphabetically for canonical URLs, so compare sorted
+      expect(reparsed[:property_type]).to eq(parsed[:property_type])
+      expect(reparsed[:bedrooms]).to eq(parsed[:bedrooms])
+      expect(reparsed[:sort]).to eq(parsed[:sort])
+      expect(reparsed[:features].sort).to eq(parsed[:features].sort)
     end
   end
 end

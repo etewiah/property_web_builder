@@ -109,7 +109,7 @@
                         data-action="change->search#filterChanged"
                         class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
                   <option value=""><%= I18n.t("propertyTypes.all", default: "All Types") %></option>
-                  <% Pwb::ListedProperty.distinct.pluck(:property_type_key).compact.each do |type| %>
+                  <% Pwb::ListedProperty.distinct.pluck(:prop_type_key).compact.each do |type| %>
                     <option value="<%= type %>" <%= 'selected' if @search_criteria_for_view[:property_type] == type %>>
                       <%= I18n.t("propertyTypes.#{type}", default: type.titleize) %>
                     </option>
