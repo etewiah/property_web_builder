@@ -19,6 +19,7 @@ export default class extends Controller {
     markers: { type: Array, default: [] },
     zoom: { type: Number, default: 13 },
     maxZoom: { type: Number, default: 18 },
+    scrollWheelZoom: { type: Boolean, default: false },
     tileUrl: { type: String, default: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" },
     attribution: { type: String, default: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }
   }
@@ -64,8 +65,11 @@ export default class extends Controller {
     // Fix for Leaflet default icon path issues
     this.fixIconPaths()
 
-    // Initialize the map
-    this.map = L.map(mapElement)
+    // Initialize the map with scroll wheel zoom disabled by default
+    // This prevents the map from hijacking page scroll
+    this.map = L.map(mapElement, {
+      scrollWheelZoom: this.scrollWheelZoomValue
+    })
 
     // Add tile layer
     L.tileLayer(this.tileUrlValue, {
