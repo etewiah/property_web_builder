@@ -9,12 +9,15 @@ module Search
     private
 
     # Set up common search form inputs (property types, states, features, amenities)
+    # Uses PwbTenant::FieldKey with ActsAsTenant to scope by current website
     def set_common_search_inputs
-      @property_types = Pwb::FieldKey.get_options_by_tag("property-types")
-      @property_types.unshift OpenStruct.new(value: "", label: "")
-      @property_states = Pwb::FieldKey.get_options_by_tag("property-states")
-      @property_features = Pwb::FieldKey.get_options_by_tag("property-features")
-      @property_amenities = Pwb::FieldKey.get_options_by_tag("property-amenities")
+      ActsAsTenant.with_tenant(@current_website) do
+        @property_types = PwbTenant::FieldKey.get_options_by_tag("property-types")
+        @property_types.unshift OpenStruct.new(value: "", label: "")
+        @property_states = PwbTenant::FieldKey.get_options_by_tag("property-states")
+        @property_features = PwbTenant::FieldKey.get_options_by_tag("property-features")
+        @property_amenities = PwbTenant::FieldKey.get_options_by_tag("property-amenities")
+      end
     end
 
     # Set up localized texts for select picker UI component
