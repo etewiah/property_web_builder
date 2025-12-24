@@ -38,23 +38,29 @@
   <div class="py-8">
     <div class="container mx-auto px-4">
       <div class="search-layout flex flex-wrap -mx-4">
-        <!-- Sidebar (Filters) -->
-        <div class="search-sidebar w-full px-4 mb-6">
-          <div class="filter-toggle mb-4">
+        <!-- Sidebar (Filters) - Desktop: always visible, Mobile: toggleable -->
+        <aside class="search-sidebar w-full lg:w-1/4 px-4 mb-6 lg:mb-0">
+          <%# Mobile filter toggle button %>
+          <div class="filter-toggle lg:hidden mb-4">
             <button type="button"
-                    class="w-full bg-white border border-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center"
-                    data-action="search-form#toggleFilters">
-              <i class="fa fa-filter mr-2"></i> <%= I18n.t("filter", default: "Filter") %>
+                    class="w-full bg-white border border-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 flex items-center justify-center"
+                    data-action="search-form#toggleFilters"
+                    data-search-form-target="filterToggle"
+                    aria-expanded="false"
+                    aria-controls="sidebar-filters">
+              <i class="fa fa-filter mr-2"></i> <%= I18n.t("filter", default: "Filters") %>
             </button>
           </div>
-          <div id="sidebar-filters" class="filter-content hidden space-y-6">
-            <!-- FILTERS -->
+          <%# Filter panel - hidden on mobile, visible on desktop %>
+          <div id="sidebar-filters"
+               class="filter-content hidden lg:block"
+               data-search-form-target="filterPanel">
             <%= render '/pwb/search/search_form_for_rent' %>
           </div>
-        </div>
+        </aside>
 
         <!-- Results -->
-        <div class="search-results w-full px-4">
+        <main class="search-results w-full lg:w-3/4 px-4">
           <!-- Loading spinner -->
           <div data-search-form-target="spinner" class="hidden text-center py-10">
             <svg class="animate-spin h-10 w-10 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

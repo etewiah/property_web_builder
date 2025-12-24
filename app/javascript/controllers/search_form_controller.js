@@ -16,7 +16,7 @@ import { Controller } from "@hotwired/stimulus"
  *   </div>
  */
 export default class extends Controller {
-  static targets = ["form", "results", "spinner"]
+  static targets = ["form", "results", "spinner", "filterPanel", "filterToggle"]
 
   connect() {
     // If form target exists, set up event listeners
@@ -139,10 +139,31 @@ export default class extends Controller {
    * Toggle filter sidebar visibility (for mobile)
    */
   toggleFilters() {
-    const sidebar = document.getElementById("sidebar-filters")
-    if (sidebar) {
-      sidebar.classList.toggle("hidden")
-      sidebar.classList.toggle("block")
+    if (this.hasFilterPanelTarget) {
+      const isHidden = this.filterPanelTarget.classList.contains("hidden")
+
+      if (isHidden) {
+        // Show filters
+        this.filterPanelTarget.classList.remove("hidden")
+        this.filterPanelTarget.classList.add("block")
+        if (this.hasFilterToggleTarget) {
+          this.filterToggleTarget.setAttribute("aria-expanded", "true")
+        }
+      } else {
+        // Hide filters (but keep lg:block for desktop)
+        this.filterPanelTarget.classList.add("hidden")
+        this.filterPanelTarget.classList.remove("block")
+        if (this.hasFilterToggleTarget) {
+          this.filterToggleTarget.setAttribute("aria-expanded", "false")
+        }
+      }
+    } else {
+      // Fallback for legacy templates without targets
+      const sidebar = document.getElementById("sidebar-filters")
+      if (sidebar) {
+        sidebar.classList.toggle("hidden")
+        sidebar.classList.toggle("block")
+      }
     }
   }
 }
