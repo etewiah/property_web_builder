@@ -2212,6 +2212,9 @@
       }
     }
   }
+  .accent-blue-600 {
+    accent-color: var(--color-blue-600);
+  }
   .opacity-0 {
     opacity: 0%;
   }
