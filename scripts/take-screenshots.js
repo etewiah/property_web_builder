@@ -33,6 +33,22 @@ const PAGES = [
   { name: 'about', path: '/about-us' },
 ];
 
+// Dynamic pages that need to be discovered (e.g., property detail pages)
+const DYNAMIC_PAGES = [
+  {
+    name: 'property-sale',
+    discoverFrom: '/en/buy',
+    linkSelector: 'a[href*="/properties/for-sale/"]',
+    description: 'Property for sale detail page'
+  },
+  {
+    name: 'property-rent',
+    discoverFrom: '/en/rent',
+    linkSelector: 'a[href*="/properties/for-rent/"]',
+    description: 'Property for rent detail page'
+  },
+];
+
 // Admin pages (require authentication bypass or logged in state)
 const ADMIN_PAGES = [
   { name: 'dashboard', path: '/site_admin' },
@@ -150,12 +166,50 @@ async function takeScreenshot(page, theme, pageName, viewport) {
   return filepath;
 }
 
+async function discoverAndCaptureDynamicPage(page, themeName, dynamicPage) {
+  console.log(`  Discovering ${dynamicPage.description}...`);
+
+  try {
+    // Navigate to the discovery page
+    const discoverUrl = `${BASE_URL}${dynamicPage.discoverFrom}`;
+    await page.goto(discoverUrl, { waitUntil: 'networkidle', timeout: 30000 });
+    await page.waitForTimeout(1000);
+
+    // Find the first matching link
+    const link = await page.$(dynamicPage.linkSelector);
+    if (!link) {
+      console.log(`    No ${dynamicPage.name} link found on ${dynamicPage.discoverFrom}`);
+      return;
+    }
+
+    const href = await link.getAttribute('href');
+    if (!href) {
+      console.log(`    Link found but no href attribute`);
+      return;
+    }
+
+    // Navigate to the property page
+    const propertyUrl = href.startsWith('http') ? href : `${BASE_URL}${href}`;
+    console.log(`  Loading: ${propertyUrl}`);
+    await page.goto(propertyUrl, { waitUntil: 'networkidle', timeout: 30000 });
+    await page.waitForTimeout(1000);
+
+    // Take screenshots
+    await takeScreenshot(page, themeName, dynamicPage.name, VIEWPORTS[0]);
+    await takeScreenshot(page, themeName, dynamicPage.name, VIEWPORTS[2]);
+
+  } catch (error) {
+    console.error(`  Error capturing ${dynamicPage.name}: ${error.message}`);
+  }
+}
+
 async function captureTheme(browser, themeName) {
   console.log(`\nCapturing theme: ${themeName}`);
 
   const context = await browser.newContext();
   const page = await context.newPage();
 
+  // Capture static pages
   for (const pageInfo of PAGES) {
     const url = `${BASE_URL}${pageInfo.path}`;
     console.log(`  Loading: ${url}`);
@@ -173,6 +227,11 @@ async function captureTheme(browser, themeName) {
     } catch (error) {
       console.error(`  Error capturing ${pageInfo.name}: ${error.message}`);
     }
+  }
+
+  // Capture dynamic pages (property details, etc.)
+  for (const dynamicPage of DYNAMIC_PAGES) {
+    await discoverAndCaptureDynamicPage(page, themeName, dynamicPage);
   }
 
   await context.close();
