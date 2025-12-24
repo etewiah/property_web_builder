@@ -26,3 +26,29 @@
   --radius: var(--border-radius, 0.375rem);
   --radius-lg: var(--border-radius, 0.5rem);
 }
+
+/* ==========================================================================
+   Search Layout - Explicit non-nested responsive rules
+   These override Tailwind's nested @media syntax for better browser support
+   ========================================================================== */
+@media (min-width: 1024px) {
+  /* Sidebar filters: 1/4 width on large screens */
+  .search-layout .search-sidebar {
+    width: 25%;
+    order: 2;
+  }
+
+  /* Search results: 3/4 width on large screens */
+  .search-layout .search-results {
+    width: 75%;
+  }
+
+  /* Show filters on large screens */
+  .search-layout .search-sidebar .filter-toggle {
+    display: none;
+  }
+
+  .search-layout .search-sidebar .filter-content {
+    display: block !important;
+  }
+}

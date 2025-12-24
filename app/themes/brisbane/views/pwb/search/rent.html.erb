@@ -37,24 +37,24 @@
 <section class="bg-white border-b border-gray-200" data-controller="search-form">
   <div class="py-8">
     <div class="container mx-auto px-4">
-      <div class="flex flex-wrap -mx-4">
+      <div class="search-layout flex flex-wrap -mx-4">
         <!-- Sidebar (Filters) -->
-        <div class="w-full lg:w-1/4 px-4 lg:order-last mb-6 lg:mb-0">
-          <div class="lg:hidden mb-4">
-            <button type="button" 
+        <div class="search-sidebar w-full px-4 mb-6">
+          <div class="filter-toggle mb-4">
+            <button type="button"
                     class="w-full bg-white border border-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center"
                     data-action="search-form#toggleFilters">
               <i class="fa fa-filter mr-2"></i> <%= I18n.t("filter", default: "Filter") %>
             </button>
           </div>
-          <div id="sidebar-filters" class="hidden lg:block space-y-6">
+          <div id="sidebar-filters" class="filter-content hidden space-y-6">
             <!-- FILTERS -->
             <%= render '/pwb/search/search_form_for_rent' %>
           </div>
         </div>
 
         <!-- Results -->
-        <div class="w-full lg:w-3/4 px-4">
+        <div class="search-results w-full px-4">
           <!-- Loading spinner -->
           <div data-search-form-target="spinner" class="hidden text-center py-10">
             <svg class="animate-spin h-10 w-10 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
