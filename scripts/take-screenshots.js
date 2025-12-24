@@ -18,7 +18,7 @@ try {
 }
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
-const SCREENSHOT_DIR = path.join(__dirname, '..', 'docs', 'screenshots');
+const SCREENSHOT_DIR = path.join(__dirname, '..', 'docs', 'screenshots', 'dev');
 const THEME = process.env.SCREENSHOT_THEME || 'default';
 const MAX_SIZE_MB = parseFloat(process.env.MAX_SIZE_MB || '2');
 const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
