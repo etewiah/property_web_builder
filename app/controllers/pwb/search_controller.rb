@@ -4,6 +4,7 @@ require_dependency "pwb/application_controller"
 
 module Pwb
   class SearchController < ApplicationController
+    include Pagy::Method
     include SearchUrlHelper
     include SeoHelper
     include Search::PropertyFiltering
