@@ -17,7 +17,7 @@ module Pwb
       # Use a lighter query without eager loading :content since we only need
       # is_rails_part and page_part_key fields (avoids Bullet N+1 warning)
       has_component = page.page_contents
-        .where(is_visible: true, is_rails_part: true, page_part_key: component_name)
+        .where(visible_on_page: true, is_rails_part: true, page_part_key: component_name)
         .exists?
 
       if has_component
