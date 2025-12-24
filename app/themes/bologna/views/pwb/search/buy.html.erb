@@ -47,9 +47,9 @@
   <div class="container mx-auto px-6 py-10">
     <div class="search-layout flex flex-wrap -mx-4">
       <!-- Sidebar Filters -->
-      <aside class="search-sidebar w-full lg:w-1/4 px-4 mb-8 lg:mb-0">
+      <aside class="search-sidebar w-full px-4 mb-8">
         <!-- Mobile Filter Toggle -->
-        <div class="filter-toggle lg:hidden mb-4">
+        <div class="filter-toggle mb-4">
           <button type="button"
                   data-action="search-form#toggleFilters"
                   class="w-full flex items-center justify-center px-6 py-3 bg-white text-warm-gray-700 font-medium rounded-soft shadow-soft hover:shadow-medium transition-all duration-300">
@@ -60,7 +60,7 @@
         </div>
 
         <!-- Filter Panel -->
-        <div id="sidebar-filters" class="filter-content hidden lg:block">
+        <div id="sidebar-filters" class="filter-content hidden">
           <div class="bg-white rounded-softer shadow-soft p-6 sticky top-28">
             <div class="flex items-center mb-6">
               <i class="ph ph-sliders text-terra-500 text-xl mr-3"></i>
@@ -74,7 +74,7 @@
       </aside>
 
       <!-- Results Column -->
-      <main class="search-results w-full lg:w-3/4 px-4">
+      <main class="search-results w-full px-4">
         <!-- Loading Spinner -->
         <div data-search-form-target="spinner" class="hidden">
           <div class="flex flex-col items-center justify-center py-16">
