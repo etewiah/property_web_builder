@@ -1,5 +1,5 @@
-<%# Feature and amenity filter checkboxes for property search %>
-<%# Usage: render 'pwb/search/feature_filters', f: form_builder %>
+<%# Tailwind CSS Feature and amenity filter checkboxes for property search %>
+<%# Usage: render 'pwb/search/feature_filters' %>
 <%# When @facets is available, displays counts next to each option %>
 
 <%
@@ -16,34 +16,39 @@
 %>
 
 <% if @property_features.present? || @property_amenities.present? %>
-<div class="feature-filters panel-group" id="feature-filters-accordion">
+<div class="space-y-4" id="feature-filters-accordion">
 
+  <%# Property Features Section %>
   <% if @property_features.present? %>
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="features-heading">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#feature-filters-accordion"
-           href="#features-collapse" aria-expanded="false" aria-controls="features-collapse">
-          <i class="fa fa-home"></i> <%= I18n.t('search.property_features', default: 'Property Features') %>
-          <i class="fa fa-chevron-down pull-right"></i>
-        </a>
-      </h4>
-    </div>
-    <div id="features-collapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="features-heading">
-      <div class="panel-body">
-        <div class="checkbox-grid">
+  <div class="border border-gray-200 rounded-lg overflow-hidden">
+    <button type="button"
+            class="w-full flex items-center justify-between px-4 py-3 bg-gray-50 text-left text-sm font-medium text-gray-700 hover:bg-gray-100 transition"
+            onclick="document.getElementById('features-collapse').classList.toggle('hidden'); this.querySelector('svg').classList.toggle('rotate-180');">
+      <span class="flex items-center">
+        <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+        </svg>
+        <%= I18n.t('search.property_features', default: 'Property Features') %>
+      </span>
+      <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </button>
+    <div id="features-collapse" class="hidden">
+      <div class="p-4 bg-white">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <% @property_features.each do |feature| %>
             <% count = facet_count_for(features_facets, feature.value) %>
-            <label class="checkbox-item <%= 'disabled' if count == 0 %>">
+            <label class="flex items-center text-sm cursor-pointer <%= 'opacity-50 cursor-not-allowed' if count == 0 %>">
               <%= check_box_tag 'search[features][]',
                   feature.value,
                   params.dig(:search, :features)&.include?(feature.value),
                   id: "feature_#{feature.value.parameterize}",
-                  class: 'feature-checkbox',
+                  class: 'h-4 w-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500 mr-2 feature-checkbox',
                   disabled: count == 0 %>
-              <span><%= feature.label %></span>
+              <span class="text-gray-700"><%= feature.label %></span>
               <% if count.present? %>
-                <span class="facet-count <%= 'zero' if count == 0 %>">(<%= count %>)</span>
+                <span class="ml-1 text-xs text-gray-400">(<%= count %>)</span>
               <% end %>
             </label>
           <% end %>
@@ -53,32 +58,38 @@
   </div>
   <% end %>
 
+  <%# Amenities Section %>
   <% if @property_amenities.present? %>
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="amenities-heading">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#feature-filters-accordion"
-           href="#amenities-collapse" aria-expanded="false" aria-controls="amenities-collapse">
-          <i class="fa fa-cogs"></i> <%= I18n.t('search.property_amenities', default: 'Amenities & Equipment') %>
-          <i class="fa fa-chevron-down pull-right"></i>
-        </a>
-      </h4>
-    </div>
-    <div id="amenities-collapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="amenities-heading">
-      <div class="panel-body">
-        <div class="checkbox-grid">
+  <div class="border border-gray-200 rounded-lg overflow-hidden">
+    <button type="button"
+            class="w-full flex items-center justify-between px-4 py-3 bg-gray-50 text-left text-sm font-medium text-gray-700 hover:bg-gray-100 transition"
+            onclick="document.getElementById('amenities-collapse').classList.toggle('hidden'); this.querySelector('svg').classList.toggle('rotate-180');">
+      <span class="flex items-center">
+        <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        </svg>
+        <%= I18n.t('search.property_amenities', default: 'Amenities & Equipment') %>
+      </span>
+      <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </button>
+    <div id="amenities-collapse" class="hidden">
+      <div class="p-4 bg-white">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <% @property_amenities.each do |amenity| %>
             <% count = facet_count_for(amenities_facets, amenity.value) %>
-            <label class="checkbox-item <%= 'disabled' if count == 0 %>">
+            <label class="flex items-center text-sm cursor-pointer <%= 'opacity-50 cursor-not-allowed' if count == 0 %>">
               <%= check_box_tag 'search[features][]',
                   amenity.value,
                   params.dig(:search, :features)&.include?(amenity.value),
                   id: "amenity_#{amenity.value.parameterize}",
-                  class: 'feature-checkbox',
+                  class: 'h-4 w-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500 mr-2 feature-checkbox',
                   disabled: count == 0 %>
-              <span><%= amenity.label %></span>
+              <span class="text-gray-700"><%= amenity.label %></span>
               <% if count.present? %>
-                <span class="facet-count <%= 'zero' if count == 0 %>">(<%= count %>)</span>
+                <span class="ml-1 text-xs text-gray-400">(<%= count %>)</span>
               <% end %>
             </label>
           <% end %>
@@ -89,103 +100,27 @@
   <% end %>
 
   <%# Match logic selector - hidden by default, shown when features selected %>
-  <div class="features-match-section" id="features-match-section" style="display: none;">
-    <label class="control-label"><%= I18n.t('search.features_match', default: 'Match') %>:</label>
-    <div class="btn-group btn-group-sm" data-toggle="buttons">
-      <label class="btn btn-default <%= 'active' unless params.dig(:search, :features_match) == 'any' %>">
-        <input type="radio" name="search[features_match]" value="all"
-               <%= 'checked' unless params.dig(:search, :features_match) == 'any' %>>
-        <%= I18n.t('search.match_all', default: 'All selected') %>
-      </label>
-      <label class="btn btn-default <%= 'active' if params.dig(:search, :features_match) == 'any' %>">
-        <input type="radio" name="search[features_match]" value="any"
-               <%= 'checked' if params.dig(:search, :features_match) == 'any' %>>
-        <%= I18n.t('search.match_any', default: 'Any selected') %>
-      </label>
+  <div class="hidden bg-gray-50 rounded-lg p-3" id="features-match-section">
+    <div class="flex items-center space-x-4">
+      <span class="text-sm text-gray-600"><%= I18n.t('search.features_match', default: 'Match') %>:</span>
+      <div class="flex space-x-2">
+        <label class="flex items-center">
+          <input type="radio" name="search[features_match]" value="all"
+                 class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                 <%= 'checked' unless params.dig(:search, :features_match) == 'any' %>>
+          <span class="ml-2 text-sm text-gray-700"><%= I18n.t('search.match_all', default: 'All selected') %></span>
+        </label>
+        <label class="flex items-center">
+          <input type="radio" name="search[features_match]" value="any"
+                 class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                 <%= 'checked' if params.dig(:search, :features_match) == 'any' %>>
+          <span class="ml-2 text-sm text-gray-700"><%= I18n.t('search.match_any', default: 'Any selected') %></span>
+        </label>
+      </div>
     </div>
   </div>
 
 </div>
-
-<style>
-.feature-filters {
-  margin-top: 15px;
-}
-
-.feature-filters .panel-heading {
-  padding: 8px 15px;
-}
-
-.feature-filters .panel-title a {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
-
-.feature-filters .panel-title a:hover {
-  text-decoration: none;
-}
-
-.checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 8px;
-}
-
-.checkbox-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  font-weight: normal;
-  margin-bottom: 0;
-}
-
-.checkbox-item input[type="checkbox"] {
-  margin: 0;
-}
-
-.checkbox-item span {
-  font-size: 13px;
-}
-
-.checkbox-item .facet-count {
-  font-size: 11px;
-  color: #666;
-  margin-left: 2px;
-}
-
-.checkbox-item .facet-count.zero {
-  color: #999;
-}
-
-.checkbox-item.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.checkbox-item.disabled input[type="checkbox"] {
-  cursor: not-allowed;
-}
-
-.features-match-section {
-  margin-top: 10px;
-  padding: 10px;
-  background: #f9f9f9;
-  border-radius: 4px;
-}
-
-.features-match-section .control-label {
-  margin-right: 10px;
-  font-weight: normal;
-}
-
-@media (max-width: 768px) {
-  .checkbox-grid {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -196,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateMatchSectionVisibility() {
     var anyChecked = Array.from(checkboxes).some(function(cb) { return cb.checked; });
     if (matchSection) {
-      matchSection.style.display = anyChecked ? 'block' : 'none';
+      matchSection.classList.toggle('hidden', !anyChecked);
     }
   }
 

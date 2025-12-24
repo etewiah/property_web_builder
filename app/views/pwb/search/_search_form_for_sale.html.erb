@@ -1,215 +1,176 @@
-<div class="panel panel-default panel-sidebar-1">
-  <div class="panel-heading">
-    <h2>
-    <%= I18n.t("searchForProperties") %>
-    </h2></div>
-  <div class="panel-body">
+<%# Tailwind CSS Search Form For Sale - Fallback version %>
+<div class="space-y-4">
+  <%= simple_form_for :search, url: '/search_ajax_for_sale.js',
+      method: 'post',
+      html: { class: 'space-y-4' }, remote: true do |f| %>
 
-
-  <%= simple_form_for :search, :url => '/search_ajax_for_sale.js', 
-  :method => 'post', 
-  :html => { :class => 'form-light' }, :remote => true do |f| %>
-    <div class="row div_precios_venta" style="">
-      <div class="col-sm-6">  
-      <%= f.input :for_sale_price_from, collection: @prices_from_collection, :required => false,
-      selected: @search_defaults["for_sale_price_from"] %>
-      </div>
-      <div class="col-sm-6">  
-      <%= f.input :for_sale_price_till, collection: @prices_till_collection, :required => false,
-      selected: @search_defaults["for_sale_price_till"] %>
-      </div>
-    </div>
-
-
-    <%= f.input :property_type, collection: @property_types, label_method: :label, selected: @search_defaults["property_type"], value_method: :value, :required => false %>
-
-    <% if @zones && (@zones.length > 1) %>
-        <%= f.input :in_zone, collection: @zones, value_method: :key, :required => false, :include_blank => true %>
-    <% end %>
-
-    <% if @localities && (@localities.length > 1) %>
-      <%= f.input :in_locality, collection: @localities, value_method: :key, :required => false %>  
-    <% end %>
-
-    <div class="row div_precios_venta" style="">
-      <div class="col-sm-6">  
-      <%= f.input :count_bedrooms, collection: 0..50, :required => false,
-      selected: @search_defaults["count_bedrooms"] %>
-      </div>
-      <div class="col-sm-6">  
-      <%= f.input :count_bathrooms, collection: 0..20, :required => false,
-      selected: @search_defaults["count_bathrooms"] %>
-      </div>
-    </div>
-
-      <%# f.input :property_state, collection: @property_states, label_method: :label, value_method: :value, :required => false %>
-
-      <%# Feature and amenity filters %>
-      <%= render 'pwb/search/feature_filters' %>
-
+    <%# Price Range %>
+    <div class="grid grid-cols-2 gap-3">
       <div>
-        </br>
+        <label for="search_for_sale_price_from" class="block text-sm font-medium text-gray-700 mb-1">
+          <%= I18n.t("simple_form.labels.search.for_sale_price_from", default: "Price From") %>
+        </label>
+        <select name="search[for_sale_price_from]" id="search_for_sale_price_from"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          <option value=""><%= I18n.t("search.any", default: "Any") %></option>
+          <% @prices_from_collection&.each do |price| %>
+            <% next if price.blank? %>
+            <option value="<%= price %>" <%= 'selected' if @search_defaults["for_sale_price_from"].to_s == price.to_s %>>
+              <%= number_to_currency(price, precision: 0) rescue price %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+      <div>
+        <label for="search_for_sale_price_till" class="block text-sm font-medium text-gray-700 mb-1">
+          <%= I18n.t("simple_form.labels.search.for_sale_price_till", default: "Price To") %>
+        </label>
+        <select name="search[for_sale_price_till]" id="search_for_sale_price_till"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          <option value=""><%= I18n.t("search.any", default: "Any") %></option>
+          <% @prices_till_collection&.each do |price| %>
+            <% next if price.blank? %>
+            <option value="<%= price %>" <%= 'selected' if @search_defaults["for_sale_price_till"].to_s == price.to_s %>>
+              <%= number_to_currency(price, precision: 0) rescue price %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+    </div>
 
-        <%= f.button :button, :class=> "btn fondo_accion btn-icon",
-        :id => "btn_buscar_inmuebles" do %>
-          <i class="fa fa-search"></i>
-          <%= I18n.t("search") %>
+    <%# Property Type %>
+    <div>
+      <label for="search_property_type" class="block text-sm font-medium text-gray-700 mb-1">
+        <%= I18n.t("simple_form.labels.search.property_type", default: "Property Type") %>
+      </label>
+      <select name="search[property_type]" id="search_property_type"
+              class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <option value=""><%= I18n.t("search.any", default: "Any") %></option>
+        <% @property_types&.each do |pt| %>
+          <option value="<%= pt.value %>" <%= 'selected' if @search_defaults["property_type"].to_s == pt.value.to_s %>>
+            <%= pt.label %>
+          </option>
         <% end %>
+      </select>
+    </div>
+
+    <%# Zone (if available) %>
+    <% if @zones && @zones.length > 1 %>
+      <div>
+        <label for="search_in_zone" class="block text-sm font-medium text-gray-700 mb-1">
+          <%= I18n.t("simple_form.labels.search.in_zone", default: "Zone") %>
+        </label>
+        <select name="search[in_zone]" id="search_in_zone"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          <option value=""><%= I18n.t("search.any", default: "Any") %></option>
+          <% @zones.each do |zone| %>
+            <option value="<%= zone.key %>" <%= 'selected' if @search_defaults["in_zone"].to_s == zone.key.to_s %>>
+              <%= zone.to_s %>
+            </option>
+          <% end %>
+        </select>
       </div>
+    <% end %>
+
+    <%# Locality (if available) %>
+    <% if @localities && @localities.length > 1 %>
+      <div>
+        <label for="search_in_locality" class="block text-sm font-medium text-gray-700 mb-1">
+          <%= I18n.t("simple_form.labels.search.in_locality", default: "Location") %>
+        </label>
+        <select name="search[in_locality]" id="search_in_locality"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          <option value=""><%= I18n.t("search.any", default: "Any") %></option>
+          <% @localities.each do |locality| %>
+            <option value="<%= locality.key %>" <%= 'selected' if @search_defaults["in_locality"].to_s == locality.key.to_s %>>
+              <%= locality.to_s %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+    <% end %>
+
+    <%# Bedrooms & Bathrooms %>
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <label for="search_count_bedrooms" class="block text-sm font-medium text-gray-700 mb-1">
+          <%= I18n.t("simple_form.labels.search.count_bedrooms", default: "Bedrooms") %>
+        </label>
+        <select name="search[count_bedrooms]" id="search_count_bedrooms"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          <option value=""><%= I18n.t("search.any", default: "Any") %></option>
+          <% (1..6).each do |n| %>
+            <option value="<%= n %>" <%= 'selected' if @search_defaults["count_bedrooms"].to_i == n %>><%= n %>+</option>
+          <% end %>
+        </select>
+      </div>
+      <div>
+        <label for="search_count_bathrooms" class="block text-sm font-medium text-gray-700 mb-1">
+          <%= I18n.t("simple_form.labels.search.count_bathrooms", default: "Bathrooms") %>
+        </label>
+        <select name="search[count_bathrooms]" id="search_count_bathrooms"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          <option value=""><%= I18n.t("search.any", default: "Any") %></option>
+          <% (1..4).each do |n| %>
+            <option value="<%= n %>" <%= 'selected' if @search_defaults["count_bathrooms"].to_i == n %>><%= n %>+</option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+
+    <%# Features (if available) %>
+    <% if @property_features.present? && @property_features.any? %>
+      <div class="border-t border-gray-200 pt-4">
+        <button type="button"
+                class="w-full flex items-center justify-between text-left text-sm font-medium text-gray-700 mb-3"
+                onclick="document.getElementById('features-panel-sale').classList.toggle('hidden'); this.querySelector('svg').classList.toggle('rotate-180');">
+          <span><%= I18n.t("search.features_label", default: "Features") %></span>
+          <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        <div id="features-panel-sale" class="hidden space-y-2 max-h-48 overflow-y-auto">
+          <% @property_features.each do |feature| %>
+            <label class="flex items-center text-sm text-gray-600 hover:text-gray-900 cursor-pointer">
+              <input type="checkbox" name="search[features][]" value="<%= feature.value %>"
+                     class="h-4 w-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500 mr-2"
+                     <%= 'checked' if @search_defaults.dig("features")&.include?(feature.value) %>>
+              <%= feature.label %>
+            </label>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <%# Submit Button %>
+    <div class="pt-2">
+      <button type="submit"
+              class="w-full bg-blue-600 text-white font-medium py-2.5 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition flex items-center justify-center"
+              id="btn_buscar_inmuebles">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <%= I18n.t("search", default: "Search") %>
+      </button>
+    </div>
   <% end %>
-
-
-
-<!--     <form id="buscar_propiedades" class="form-light" role="form">
-      <div class="form-group">
-        <label>Ref</label>
-        <input type="text" class="form-control" placeholder="..." hidefocus="true">
-      </div>
-      <div class="row div_precios_venta" style="">
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label>Precio desde</label>
-            <select id="precio_desde_venta" class="form-control bs-select-hidden">
-              <option value="0">---</option>
-              <option value="50000">50.000</option>
-              <option>75.000</option>
-              <option>100.000</option>
-              <option>150.000</option>
-              <option>200.000</option>
-              <option>300.000</option>
-              <option>500.000</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label>Precio hasta</label>
-            <select id="precio_hasta_venta" class="form-control bs-select-hidden">
-              <option value="0">---</option>
-              <option value="50000">50.000</option>
-              <option>75.000</option>
-              <option>100.000</option>
-              <option>150.000</option>
-              <option>200.000</option>
-              <option>300.000</option>
-              <option>500.000</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="row div_precios_alquiler" style="display: none;">
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label>Precio desde</label>
-            <select id="precio_desde_alquiler" class="form-control bs-select-hidden">
-              <option value="0">---</option>
-              <option>300</option>
-              <option>400</option>
-              <option>500</option>
-              <option>600</option>
-              <option>800</option>
-              <option>1.000</option>
-              <option>1.500</option>
-              <option>2.000</option>
-              <option>3.000</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label>Precio hasta</label>
-            <select id="precio_hasta_alquiler" class="form-control bs-select-hidden">
-              <option value="0">---</option>
-              <option>300</option>
-              <option>400</option>
-              <option>500</option>
-              <option>600</option>
-              <option>800</option>
-              <option>1.000</option>
-              <option>1.500</option>
-              <option>2.000</option>
-              <option>3.000</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="">Tipo de propiedad</label>
-        <select id="tipo_propiedad" class="form-control select_styled base no-padding bs-select-hidden">
-          <option value="">---</option>
-          <option value="apartamento">Apartamento</option>
-          <option value="chalet">Chalet</option>
-          <option value="piso">Piso</option>
-          <option value="atico">Ático</option>
-          <option value="inversion">Inversión</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Localidad</label>
-        <select id="localidad" class="form-control bs-select-hidden">
-          <option value="madrid">Madrid</option>
-          <option value="asturias">Asturias</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Zona</label>
-        <select id="zona" class="form-control bs-select-hidden">
-          <option value="">---</option>
-        </select>
-      </div>
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label>Núm. hab. (min)</label>
-            <select class="form-control bs-select-hidden">
-              <option>0</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label>Núm. baños (min)</label>
-            <select id="num_banos" class="form-control bs-select-hidden">
-              <option>0</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="form-group div_estado" style="">
-        <label>Estado</label>
-        <select class="form-control bs-select-hidden">
-          <option value="">---</option>
-          <option value="segunda-mano">Segunda Mano</option>
-          <option value="nuevo">Nuevo</option>
-          <option value="a-reformar">A reformar</option>
-          <option value="en-construccion">En construcción</option>
-        </select>
-      </div>
-      <div class="form-group div_muebles" style="display: none;">
-        <label>Muebles</label>
-        <select class="form-control bs-select-hidden">
-          <option value="">---</option>
-          <option value="amueblado">Amueblado</option>
-          <option value="sin_amueblar">Sin amueblar</option>
-        </select>
-      </div>
-      <hr>
-      <div class="row">
-        <div class="col-sm-12">
-          <button id="btn_buscar_inmuebles" type="submit" class="btn fondo_accion btn-icon">
-            <i class="fa fa-search"></i> Buscar </button>
-        </div>
-      </div>
-    </form> -->
-
-    
-  </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[action="/search_ajax_for_sale.js"]');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        const formData = new FormData(form);
+        const params = new URLSearchParams();
+        for (const [key, value] of formData.entries()) {
+          if (value && key.startsWith('search[')) {
+            params.append(key, value);
+          }
+        }
+        const newUrl = window.location.pathname + '?' + params.toString();
+        window.history.pushState({path: newUrl}, '', newUrl);
+      });
+    }
+  });
+</script>
