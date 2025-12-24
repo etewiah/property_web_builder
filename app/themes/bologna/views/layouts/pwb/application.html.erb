@@ -71,14 +71,15 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        // Sticky header with backdrop blur
-        const header = document.querySelector('header, nav');
+        // Header is always solid white (bg-white set in _header.html.erb)
+        // Only add extra shadow on scroll for depth effect
+        const header = document.querySelector('header');
         if (header) {
           window.addEventListener('scroll', function() {
             if (window.scrollY > 20) {
-              header.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-soft');
+              header.classList.add('shadow-medium');
             } else {
-              header.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-soft');
+              header.classList.remove('shadow-medium');
             }
           });
         }
