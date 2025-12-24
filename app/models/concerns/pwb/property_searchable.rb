@@ -15,7 +15,10 @@ module Pwb
       scope :visible, -> { where(visible: true) }
       scope :in_zone, ->(key) { where(zone_key: key) }
       scope :in_locality, ->(key) { where(locality_key: key) }
-      scope :property_type, ->(property_type) { where(prop_type_key: property_type) }
+      # Match property type by exact key or slug suffix (e.g., 'apartment' matches 'types.apartment')
+      scope :property_type, ->(property_type) {
+        where('prop_type_key = ? OR prop_type_key LIKE ?', property_type, "%.#{property_type}")
+      }
       scope :property_state, ->(property_state) { where(prop_state_key: property_state) }
 
       # Price filters

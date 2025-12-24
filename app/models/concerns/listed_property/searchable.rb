@@ -17,7 +17,10 @@ module ListedProperty
       scope :highlighted, -> { where(highlighted: true) }
 
       # Property classification scopes
-      scope :property_type, ->(property_type) { where(prop_type_key: property_type) }
+      # Match property type by exact key or slug suffix (e.g., 'apartment' matches 'types.apartment')
+      scope :property_type, ->(property_type) {
+        where('prop_type_key = ? OR prop_type_key LIKE ?', property_type, "%.#{property_type}")
+      }
       scope :property_state, ->(property_state) { where(prop_state_key: property_state) }
 
       # Sale price range scopes (expects cents)
