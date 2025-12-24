@@ -1,0 +1,176 @@
+<%# Turbo Frame wrapper for search results - used for AJAX updates %>
+<%= turbo_frame_tag "search-results", data: { turbo_action: "advance" } do %>
+  <%# Results header with count and sort %>
+  <div class="search-results-header flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200"
+       data-controller="search-header">
+    
+    <%# Results count %>
+    <div class="results-count text-gray-700" aria-live="polite">
+      <% total = @properties.respond_to?(:total_count) ? @properties.total_count : @properties.size %>
+      <span class="font-semibold"><%= total %></span>
+      <%= t('search.properties_found', count: total, default: 'properties found') %>
+      
+      <% if @search_criteria_for_view.present? %>
+        <% active_filters = @search_criteria_for_view.reject { |k, v| v.blank? || k == :page } %>
+        <% if active_filters.any? %>
+          <span class="text-gray-500 ml-2">
+            (<%= active_filters.size %> <%= t('search.filters_active', default: 'filters active') %>)
+          </span>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%# Sort and view controls %>
+    <div class="search-controls flex items-center gap-4">
+      <%# Sort dropdown %>
+      <div class="sort-control">
+        <label for="search-sort" class="sr-only"><%= t('search.sort_by', default: 'Sort by') %></label>
+        <select id="search-sort" 
+                name="sort"
+                data-filter="sort"
+                data-action="change->search#filterChanged"
+                class="form-select text-sm border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
+          <option value="" <%= 'selected' if @search_criteria_for_view[:sort].blank? %>>
+            <%= t('search.sort_default', default: 'Sort by') %>
+          </option>
+          <option value="price-asc" <%= 'selected' if @search_criteria_for_view[:sort] == 'price-asc' %>>
+            <%= t('search.sort_price_asc', default: 'Price: Low to High') %>
+          </option>
+          <option value="price-desc" <%= 'selected' if @search_criteria_for_view[:sort] == 'price-desc' %>>
+            <%= t('search.sort_price_desc', default: 'Price: High to Low') %>
+          </option>
+          <option value="newest" <%= 'selected' if @search_criteria_for_view[:sort] == 'newest' %>>
+            <%= t('search.sort_newest', default: 'Newest First') %>
+          </option>
+        </select>
+      </div>
+
+      <%# View toggle %>
+      <div class="view-toggle flex rounded-md shadow-sm" role="group" aria-label="<%= t('search.view_options', default: 'View options') %>">
+        <button type="button"
+                data-view="grid"
+                data-action="click->search#setView"
+                class="view-btn px-3 py-2 text-sm font-medium border border-gray-300 rounded-l-md hover:bg-gray-50 <%= @search_criteria_for_view[:view] != 'list' ? 'bg-blue-50 text-blue-700 border-blue-500' : 'bg-white text-gray-700' %>"
+                aria-pressed="<%= @search_criteria_for_view[:view] != 'list' %>">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+          </svg>
+        </button>
+        <button type="button"
+                data-view="list"
+                data-action="click->search#setView"
+                class="view-btn px-3 py-2 text-sm font-medium border border-gray-300 rounded-r-md hover:bg-gray-50 <%= @search_criteria_for_view[:view] == 'list' ? 'bg-blue-50 text-blue-700 border-blue-500' : 'bg-white text-gray-700' %>"
+                aria-pressed="<%= @search_criteria_for_view[:view] == 'list' %>">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <%# Loading indicator (hidden by default) %>
+  <div class="search-loading hidden absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10"
+       data-search-target="loading">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+  </div>
+
+  <%# Results grid/list %>
+  <div id="inmo-search-results" 
+       class="search-results-grid <%= @search_criteria_for_view[:view] == 'list' ? 'results-list' : 'results-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' %>"
+       data-results-view="<%= @search_criteria_for_view[:view] || 'grid' %>"
+       data-search-target="results">
+    
+    <% if @properties.blank? || @properties.size == 0 %>
+      <%# No results state %>
+      <div class="col-span-full text-center py-16">
+        <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <h3 class="mt-4 text-lg font-medium text-gray-900">
+          <%= t('search.no_results', default: 'No properties found') %>
+        </h3>
+        <p class="mt-2 text-gray-500">
+          <%= t('search.try_changing_filters', default: 'Try adjusting your filters or searching in a different area.') %>
+        </p>
+        <button type="button"
+                data-action="click->search#clearFilters"
+                class="mt-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          <svg class="mr-2 -ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          <%= t('search.clear_filters', default: 'Clear All Filters') %>
+        </button>
+      </div>
+    <% else %>
+      <% @properties.each_with_index do |property, index| %>
+        <%= render partial: '/pwb/search/search_result_item', locals: { property: property, index: index } %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%# Pagination with Pagy %>
+  <% if @pagy && @pagy.pages > 1 %>
+    <nav class="search-pagination flex items-center justify-center mt-8 gap-2" aria-label="<%= t('search.pagination', default: 'Pagination') %>">
+      <% current_page = @pagy.page %>
+      <% total_pages = @pagy.pages %>
+      
+      <%# Previous button %>
+      <% if current_page > 1 %>
+        <%= link_to url_for(params.permit!.merge(page: current_page - 1)),
+            class: "pagination-btn px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50",
+            data: { turbo_frame: "search-results", page: current_page - 1 } do %>
+          <span class="sr-only"><%= t('search.previous', default: 'Previous') %></span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        <% end %>
+      <% end %>
+
+      <%# Page numbers %>
+      <% page_range = [1, current_page - 2].max..[total_pages, current_page + 2].min %>
+      
+      <% if page_range.first > 1 %>
+        <%= link_to "1", url_for(params.permit!.merge(page: 1)),
+            class: "pagination-num px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50",
+            data: { turbo_frame: "search-results", page: 1 } %>
+        <% if page_range.first > 2 %>
+          <span class="px-2 text-gray-500">...</span>
+        <% end %>
+      <% end %>
+      
+      <% page_range.each do |page_num| %>
+        <% if page_num == current_page %>
+          <span class="pagination-num px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-md" aria-current="page">
+            <%= page_num %>
+          </span>
+        <% else %>
+          <%= link_to page_num, url_for(params.permit!.merge(page: page_num)),
+              class: "pagination-num px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50",
+              data: { turbo_frame: "search-results", page: page_num } %>
+        <% end %>
+      <% end %>
+      
+      <% if page_range.last < total_pages %>
+        <% if page_range.last < total_pages - 1 %>
+          <span class="px-2 text-gray-500">...</span>
+        <% end %>
+        <%= link_to total_pages, url_for(params.permit!.merge(page: total_pages)),
+            class: "pagination-num px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50",
+            data: { turbo_frame: "search-results", page: total_pages } %>
+      <% end %>
+
+      <%# Next button %>
+      <% if current_page < total_pages %>
+        <%= link_to url_for(params.permit!.merge(page: current_page + 1)),
+            class: "pagination-btn px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50",
+            data: { turbo_frame: "search-results", page: current_page + 1 } do %>
+          <span class="sr-only"><%= t('search.next', default: 'Next') %></span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        <% end %>
+      <% end %>
+    </nav>
+  <% end %>
+<% end %>
