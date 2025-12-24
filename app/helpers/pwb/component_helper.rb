@@ -14,15 +14,14 @@ module Pwb
     end
 
     def page_component(component_name, page)
-      components = []
-      page.ordered_visible_page_contents.each do |page_content|
-        # check for visible page contents
-        if page_content.is_rails_part && (page_content.page_part_key == component_name)
-          components.push page_content.page_part_key
-        end
-      end
-      if components.include? component_name
-       render partial: "pwb/components/#{component_name}", locals: {}
+      # Use a lighter query without eager loading :content since we only need
+      # is_rails_part and page_part_key fields (avoids Bullet N+1 warning)
+      has_component = page.page_contents
+        .where(is_visible: true, is_rails_part: true, page_part_key: component_name)
+        .exists?
+
+      if has_component
+        render partial: "pwb/components/#{component_name}", locals: {}
       end
     end
   end

@@ -26,6 +26,7 @@
     --color-orange-800: oklch(47% 0.157 37.304);
     --color-amber-50: oklch(98.7% 0.022 95.277);
     --color-amber-400: oklch(82.8% 0.189 84.429);
+    --color-amber-600: oklch(66.6% 0.179 58.318);
     --color-amber-700: oklch(55.5% 0.163 48.998);
     --color-amber-800: oklch(47.3% 0.137 46.201);
     --color-yellow-50: oklch(98.7% 0.026 102.212);
@@ -88,12 +89,12 @@
     --color-gray-700: oklch(37.3% 0.034 259.733);
     --color-gray-800: oklch(27.8% 0.033 256.848);
     --color-gray-900: oklch(21% 0.034 264.665);
+    --color-stone-50: oklch(98.5% 0.001 106.423);
     --color-stone-100: oklch(97% 0.001 106.424);
     --color-stone-200: oklch(92.3% 0.003 48.717);
     --color-stone-400: oklch(70.9% 0.01 56.259);
     --color-stone-500: oklch(55.3% 0.013 58.071);
     --color-stone-600: oklch(44.4% 0.011 73.639);
-    --color-stone-700: oklch(37.4% 0.01 67.558);
     --color-stone-800: oklch(26.8% 0.007 34.298);
     --color-black: #000;
     --color-white: #fff;
@@ -330,9 +331,6 @@
   .visible {
     visibility: visible;
   }
-  .visible\! {
-    visibility: visible !important;
-  }
   .sr-only {
     position: absolute;
     width: 1px;
@@ -446,6 +444,12 @@
   .z-50 {
     z-index: 50;
   }
+  .order-1 {
+    order: 1;
+  }
+  .order-2 {
+    order: 2;
+  }
   .col-span-1 {
     grid-column: span 1 / span 1;
   }
@@ -472,9 +476,6 @@
     @media (width >= 96rem) {
       max-width: 96rem;
     }
-  }
-  .m-20 {
-    margin: calc(var(--spacing) * 20);
   }
   .-mx-4 {
     margin-inline: calc(var(--spacing) * -4);
@@ -620,6 +621,12 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
   }
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
   .\!inline {
     display: inline !important;
   }
@@ -733,6 +740,9 @@
   }
   .max-h-\[90vh\] {
     max-height: 90vh;
+  }
+  .min-h-\[280px\] {
+    min-height: 280px;
   }
   .min-h-\[600px\] {
     min-height: 600px;
@@ -1029,6 +1039,13 @@
       margin-block-end: calc(calc(var(--spacing) * 4) * calc(1 - var(--tw-space-y-reverse)));
     }
   }
+  .space-y-5 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(calc(var(--spacing) * 5) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 5) * calc(1 - var(--tw-space-y-reverse)));
+    }
+  }
   .space-y-6 {
     :where(& > :not(:last-child)) {
       --tw-space-y-reverse: 0;
@@ -1045,6 +1062,9 @@
   }
   .gap-x-4 {
     column-gap: calc(var(--spacing) * 4);
+  }
+  .gap-x-6 {
+    column-gap: calc(var(--spacing) * 6);
   }
   .space-x-1 {
     :where(& > :not(:last-child)) {
@@ -1338,6 +1358,9 @@
   .border-red-500 {
     border-color: var(--color-red-500);
   }
+  .border-stone-100 {
+    border-color: var(--color-stone-100);
+  }
   .border-stone-200 {
     border-color: var(--color-stone-200);
   }
@@ -1367,9 +1390,6 @@
   }
   .bg-amber-50 {
     background-color: var(--color-amber-50);
-  }
-  .bg-amber-700 {
-    background-color: var(--color-amber-700);
   }
   .bg-black {
     background-color: var(--color-black);
@@ -1485,8 +1505,8 @@
   .bg-sky-100 {
     background-color: var(--color-sky-100);
   }
-  .bg-stone-100 {
-    background-color: var(--color-stone-100);
+  .bg-stone-50 {
+    background-color: var(--color-stone-50);
   }
   .bg-teal-100 {
     background-color: var(--color-teal-100);
@@ -1549,6 +1569,13 @@
     --tw-gradient-position: to top in oklab;
     background-image: linear-gradient(var(--tw-gradient-stops));
   }
+  .from-black\/30 {
+    --tw-gradient-from: color-mix(in srgb, #000 30%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-gradient-from: color-mix(in oklab, var(--color-black) 30%, transparent);
+    }
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
   .from-black\/60 {
     --tw-gradient-from: color-mix(in srgb, #000 60%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -1595,6 +1622,10 @@
     --tw-gradient-from: var(--color-purple-400);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
+  .from-stone-100 {
+    --tw-gradient-from: var(--color-stone-100);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
   .via-transparent {
     --tw-gradient-via: transparent;
     --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
@@ -1604,6 +1635,10 @@
     --tw-gradient-via: var(--color-white);
     --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
     --tw-gradient-stops: var(--tw-gradient-via-stops);
+  }
+  .to-amber-50 {
+    --tw-gradient-to: var(--color-amber-50);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
   .to-black\/40 {
     --tw-gradient-to: color-mix(in srgb, #000 40%, transparent);
@@ -1690,9 +1725,6 @@
   }
   .p-12 {
     padding: calc(var(--spacing) * 12);
-  }
-  .p-20 {
-    padding: calc(var(--spacing) * 20);
   }
   .px-1 {
     padding-inline: calc(var(--spacing) * 1);
@@ -1941,6 +1973,9 @@
   .text-amber-400 {
     color: var(--color-amber-400);
   }
+  .text-amber-600 {
+    color: var(--color-amber-600);
+  }
   .text-amber-700 {
     color: var(--color-amber-700);
   }
@@ -2108,9 +2143,6 @@
   }
   .text-stone-600 {
     color: var(--color-stone-600);
-  }
-  .text-stone-700 {
-    color: var(--color-stone-700);
   }
   .text-stone-800 {
     color: var(--color-stone-800);
@@ -2694,13 +2726,6 @@
       }
     }
   }
-  .hover\:bg-amber-800 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-amber-800);
-      }
-    }
-  }
   .hover\:bg-blue-50 {
     &:hover {
       @media (hover: hover) {
@@ -3075,6 +3100,13 @@
     &:hover {
       @media (hover: hover) {
         text-decoration-line: underline;
+      }
+    }
+  }
+  .hover\:opacity-80 {
+    &:hover {
+      @media (hover: hover) {
+        opacity: 80%;
       }
     }
   }
@@ -3626,6 +3658,16 @@
       width: calc(2/3 * 100%);
     }
   }
+  .md\:w-2\/5 {
+    @media (width >= 48rem) {
+      width: calc(2/5 * 100%);
+    }
+  }
+  .md\:w-3\/5 {
+    @media (width >= 48rem) {
+      width: calc(3/5 * 100%);
+    }
+  }
   .md\:w-5 {
     @media (width >= 48rem) {
       width: calc(var(--spacing) * 5);
@@ -3771,6 +3813,12 @@
       }
     }
   }
+  .md\:bg-gradient-to-r {
+    @media (width >= 48rem) {
+      --tw-gradient-position: to right in oklab;
+      background-image: linear-gradient(var(--tw-gradient-stops));
+    }
+  }
   .md\:p-0 {
     @media (width >= 48rem) {
       padding: calc(var(--spacing) * 0);
@@ -3873,6 +3921,16 @@
     @media (width >= 48rem) {
       --tw-font-weight: var(--font-weight-medium);
       font-weight: var(--font-weight-medium);
+    }
+  }
+  .lg\:order-1 {
+    @media (width >= 64rem) {
+      order: 1;
+    }
+  }
+  .lg\:order-2 {
+    @media (width >= 64rem) {
+      order: 2;
     }
   }
   .lg\:order-last {
@@ -3978,6 +4036,21 @@
   .lg\:grid-cols-12 {
     @media (width >= 64rem) {
       grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+  }
+  .lg\:flex-row {
+    @media (width >= 64rem) {
+      flex-direction: row;
+    }
+  }
+  .lg\:gap-12 {
+    @media (width >= 64rem) {
+      gap: calc(var(--spacing) * 12);
+    }
+  }
+  .lg\:p-8 {
+    @media (width >= 64rem) {
+      padding: calc(var(--spacing) * 8);
     }
   }
   .lg\:px-8 {
@@ -4153,202 +4226,50 @@
 @font-face {
   font-family: 'Cormorant Garamond';
   font-style: normal;
-  font-display: swap;
   font-weight: 400;
-  src: url(./files/cormorant-garamond-cyrillic-ext-400-normal.woff2) format('woff2'), url(./files/cormorant-garamond-cyrillic-ext-400-normal.woff) format('woff');
-  unicode-range: U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
   font-display: swap;
-  font-weight: 400;
-  src: url(./files/cormorant-garamond-cyrillic-400-normal.woff2) format('woff2'), url(./files/cormorant-garamond-cyrillic-400-normal.woff) format('woff');
-  unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url(./files/cormorant-garamond-vietnamese-400-normal.woff2) format('woff2'), url(./files/cormorant-garamond-vietnamese-400-normal.woff) format('woff');
-  unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url(./files/cormorant-garamond-latin-ext-400-normal.woff2) format('woff2'), url(./files/cormorant-garamond-latin-ext-400-normal.woff) format('woff');
-  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url(./files/cormorant-garamond-latin-400-normal.woff2) format('woff2'), url(./files/cormorant-garamond-latin-400-normal.woff) format('woff');
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 500;
-  src: url(./files/cormorant-garamond-cyrillic-ext-500-normal.woff2) format('woff2'), url(./files/cormorant-garamond-cyrillic-ext-500-normal.woff) format('woff');
-  unicode-range: U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 500;
-  src: url(./files/cormorant-garamond-cyrillic-500-normal.woff2) format('woff2'), url(./files/cormorant-garamond-cyrillic-500-normal.woff) format('woff');
-  unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 500;
-  src: url(./files/cormorant-garamond-vietnamese-500-normal.woff2) format('woff2'), url(./files/cormorant-garamond-vietnamese-500-normal.woff) format('woff');
-  unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 500;
-  src: url(./files/cormorant-garamond-latin-ext-500-normal.woff2) format('woff2'), url(./files/cormorant-garamond-latin-ext-500-normal.woff) format('woff');
-  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 500;
-  src: url(./files/cormorant-garamond-latin-500-normal.woff2) format('woff2'), url(./files/cormorant-garamond-latin-500-normal.woff) format('woff');
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 600;
-  src: url(./files/cormorant-garamond-cyrillic-ext-600-normal.woff2) format('woff2'), url(./files/cormorant-garamond-cyrillic-ext-600-normal.woff) format('woff');
-  unicode-range: U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 600;
-  src: url(./files/cormorant-garamond-cyrillic-600-normal.woff2) format('woff2'), url(./files/cormorant-garamond-cyrillic-600-normal.woff) format('woff');
-  unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 600;
-  src: url(./files/cormorant-garamond-vietnamese-600-normal.woff2) format('woff2'), url(./files/cormorant-garamond-vietnamese-600-normal.woff) format('woff');
-  unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 600;
-  src: url(./files/cormorant-garamond-latin-ext-600-normal.woff2) format('woff2'), url(./files/cormorant-garamond-latin-ext-600-normal.woff) format('woff');
-  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 600;
-  src: url(./files/cormorant-garamond-latin-600-normal.woff2) format('woff2'), url(./files/cormorant-garamond-latin-600-normal.woff) format('woff');
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5.2.11/files/cormorant-garamond-latin-400-normal.woff2') format('woff2'), url('https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5.2.11/files/cormorant-garamond-latin-400-normal.woff') format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
   font-family: 'Cormorant Garamond';
   font-style: italic;
-  font-display: swap;
   font-weight: 400;
-  src: url(./files/cormorant-garamond-cyrillic-ext-400-italic.woff2) format('woff2'), url(./files/cormorant-garamond-cyrillic-ext-400-italic.woff) format('woff');
-  unicode-range: U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5.2.11/files/cormorant-garamond-latin-400-italic.woff2') format('woff2'), url('https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5.2.11/files/cormorant-garamond-latin-400-italic.woff') format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
   font-family: 'Cormorant Garamond';
-  font-style: italic;
+  font-style: normal;
+  font-weight: 500;
   font-display: swap;
-  font-weight: 400;
-  src: url(./files/cormorant-garamond-cyrillic-400-italic.woff2) format('woff2'), url(./files/cormorant-garamond-cyrillic-400-italic.woff) format('woff');
-  unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5.2.11/files/cormorant-garamond-latin-500-normal.woff2') format('woff2'), url('https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5.2.11/files/cormorant-garamond-latin-500-normal.woff') format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
   font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5.2.11/files/cormorant-garamond-latin-600-normal.woff2') format('woff2'), url('https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5.2.11/files/cormorant-garamond-latin-600-normal.woff') format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource-variable/montserrat@5.2.8/files/montserrat-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Montserrat';
   font-style: italic;
-  font-display: swap;
-  font-weight: 400;
-  src: url(./files/cormorant-garamond-vietnamese-400-italic.woff2) format('woff2'), url(./files/cormorant-garamond-vietnamese-400-italic.woff) format('woff');
-  unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: italic;
-  font-display: swap;
-  font-weight: 400;
-  src: url(./files/cormorant-garamond-latin-ext-400-italic.woff2) format('woff2'), url(./files/cormorant-garamond-latin-ext-400-italic.woff) format('woff');
-  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: italic;
-  font-display: swap;
-  font-weight: 400;
-  src: url(./files/cormorant-garamond-latin-400-italic.woff2) format('woff2'), url(./files/cormorant-garamond-latin-400-italic.woff) format('woff');
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face {
-  font-family: 'Montserrat Variable';
-  font-style: normal;
-  font-display: swap;
   font-weight: 100 900;
-  src: url(./files/montserrat-cyrillic-ext-wght-normal.woff2) format('woff2-variations');
-  unicode-range: U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;
-}
-@font-face {
-  font-family: 'Montserrat Variable';
-  font-style: normal;
   font-display: swap;
-  font-weight: 100 900;
-  src: url(./files/montserrat-cyrillic-wght-normal.woff2) format('woff2-variations');
-  unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;
-}
-@font-face {
-  font-family: 'Montserrat Variable';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 900;
-  src: url(./files/montserrat-vietnamese-wght-normal.woff2) format('woff2-variations');
-  unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;
-}
-@font-face {
-  font-family: 'Montserrat Variable';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 900;
-  src: url(./files/montserrat-latin-ext-wght-normal.woff2) format('woff2-variations');
-  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Montserrat Variable';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 900;
-  src: url(./files/montserrat-latin-wght-normal.woff2) format('woff2-variations');
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource-variable/montserrat@5.2.8/files/montserrat-latin-wght-italic.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @property --tw-translate-x {
   syntax: "*";

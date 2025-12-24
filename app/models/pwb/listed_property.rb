@@ -109,7 +109,7 @@ module Pwb
     belongs_to :website, class_name: 'Pwb::Website', optional: true
 
     has_many :prop_photos,
-             -> { includes(:image_attachment).order(:sort_order) },
+             -> { order(:sort_order) },
              class_name: 'Pwb::PropPhoto',
              foreign_key: 'realty_asset_id',
              primary_key: 'id'
