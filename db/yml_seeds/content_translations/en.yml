@@ -103,9 +103,9 @@ en:
         We're dedicated to helping you find the perfect property.
         Whether you're buying, selling, or renting, our expert team is here to guide you every step of the way.
       cta_text: Browse Properties
-      cta_link: /search/buy
+      cta_link: /buy
       cta_secondary_text: Contact Us
-      cta_secondary_link: /contact
+      cta_secondary_link: /contact-us
       background_image: db/example_images/carousel_villa_with_pool.jpg
 
     features/feature_grid_3col:
@@ -117,28 +117,28 @@ en:
       feature_1_description: >
         Tell us exactly what you're looking for and we'll find that ideal property
         that meets all your needs and budget.
-      feature_1_link: /search/buy
+      feature_1_link: /buy
       feature_2_icon: fa-user
       feature_2_title: Professional Agents
       feature_2_description: >
         Our experienced agents handle all the paperwork and negotiations,
         saving you time and money throughout the process.
-      feature_2_link: /about
+      feature_2_link: /about-us
       feature_3_icon: fa-money
       feature_3_title: Sell Your Property
       feature_3_description: >
         Get the best price for your property with our proven marketing strategies
         and extensive network of qualified buyers.
-      feature_3_link: /sell
+      feature_3_link: /contact-us
 
     cta/cta_banner:
       title: Ready to Find Your Perfect Home?
       subtitle: Contact us today for a free consultation and let us help you navigate the property market with confidence.
       button_text: Get Started
-      button_link: /contact
+      button_link: /contact-us
       button_style: primary
       secondary_button_text: View Properties
-      secondary_button_link: /search/buy
+      secondary_button_link: /buy
       style: primary
 
     stats/stats_counter:
