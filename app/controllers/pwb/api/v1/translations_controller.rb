@@ -15,7 +15,8 @@ module Pwb
 
       locale = params[:locale]
       # below are phrases like webContentLabels which are not managed by admin:
-      phrases = I18n.t("admin", locale: locale, default: {})
+      # Duplicate the hash because I18n.t returns a frozen hash in Rails 7+
+      phrases = I18n.t("admin", locale: locale, default: {}).dup
       # below are phrases such as extras & propertyTypes which can be
       # managed by admin and so are in db:
       phrases[:extras] = I18n.t("extras", locale: locale, default: {})

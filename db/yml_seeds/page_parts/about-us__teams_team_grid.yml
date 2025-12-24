@@ -39,12 +39,16 @@
           isSingleLineText: "true"
         - label: member_3_image
           isImage: "true"
+        - label: member_3_bio
+          isMultipleLineText: "true"
       - - label: member_4_name
           isSingleLineText: "true"
         - label: member_4_role
           isSingleLineText: "true"
         - label: member_4_image
           isImage: "true"
+        - label: member_4_bio
+          isMultipleLineText: "true"
   template: |
     <section class="team-grid py-16 bg-white">
       <div class="max-w-6xl mx-auto px-4">
