@@ -48,16 +48,20 @@
 }
 
 .service-icon-wrapper {
-  font-size: 3.5rem;
-  color: var(--primary-color);
-  margin-bottom: 1.5rem;
-  display: inline-block;
-  padding: 1rem;
-  background: rgba(59, 130, 246, 0.1); /* Light blue background based on default primary */
-  border-radius: 50%;
   width: 100px;
   height: 100px;
-  line-height: 70px; /* Center icon vertically */
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(59, 130, 246, 0.1); /* Light blue background based on default primary */
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.service-icon-wrapper i {
+  font-size: 2.5rem;
+  color: var(--primary-color);
 }
 
 .service-title {
