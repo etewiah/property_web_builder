@@ -74,8 +74,8 @@ module Pwb
       set_map_markers
       calculate_facets if turbo_frame_request? || request.format.html?
 
-      # Paginate results
-      @properties = @properties.page(page_number).per(per_page)
+      # Paginate results with Pagy
+      @pagy, @properties = pagy(@properties, items: per_page, page: page_number)
 
       @search_defaults = params[:search].presence || {}
       @search_criteria_for_view = @search_criteria
