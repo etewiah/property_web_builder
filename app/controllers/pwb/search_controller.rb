@@ -12,8 +12,8 @@ module Pwb
     include Search::FormSetup
 
     before_action :header_image_url
-    before_action :normalize_url_params
     before_action :setup_search_params_service
+    before_action :normalize_url_params
 
     # ===================
     # Search Actions

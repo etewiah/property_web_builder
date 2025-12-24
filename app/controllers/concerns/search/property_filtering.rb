@@ -54,12 +54,14 @@ module Search
     end
 
     # Convert a price value to cents using the website's currency
-    # @param value [String] the price value (may include formatting)
+    # @param value [String, Integer] the price value (may include formatting)
     # @return [Integer] price in cents
     def convert_price_to_cents(value)
       currency_string = @current_website.default_currency || "usd"
       currency = Money::Currency.find(currency_string)
-      value.gsub(/\D/, "").to_i * currency.subunit_to_unit
+      # Handle both string and integer values
+      numeric_value = value.is_a?(Integer) ? value : value.to_s.gsub(/\D/, "").to_i
+      numeric_value * currency.subunit_to_unit
     end
 
     # Apply feature-based filters to the properties relation
