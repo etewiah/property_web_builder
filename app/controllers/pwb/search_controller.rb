@@ -243,15 +243,24 @@ module Pwb
       params[:search][:count_bedrooms] = @search_criteria[:bedrooms] if @search_criteria[:bedrooms]
       params[:search][:count_bathrooms] = @search_criteria[:bathrooms] if @search_criteria[:bathrooms]
 
-      # Price (we'll set both for_sale and for_rent, filtering concern will use appropriate one)
+      # Price - only set the filter matching the current operation to avoid
+      # filtering by both sale AND rental prices (which would return no results)
+      is_rental = action_name == 'rent' || action_name == 'search_ajax_for_rent'
+
       if @search_criteria[:price_min]
-        params[:search][:for_sale_price_from] = @search_criteria[:price_min]
-        params[:search][:for_rent_price_from] = @search_criteria[:price_min]
+        if is_rental
+          params[:search][:for_rent_price_from] = @search_criteria[:price_min]
+        else
+          params[:search][:for_sale_price_from] = @search_criteria[:price_min]
+        end
       end
 
       if @search_criteria[:price_max]
-        params[:search][:for_sale_price_till] = @search_criteria[:price_max]
-        params[:search][:for_rent_price_till] = @search_criteria[:price_max]
+        if is_rental
+          params[:search][:for_rent_price_till] = @search_criteria[:price_max]
+        else
+          params[:search][:for_sale_price_till] = @search_criteria[:price_max]
+        end
       end
 
       # Location
