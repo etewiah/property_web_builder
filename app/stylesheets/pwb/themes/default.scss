@@ -1,43 +1,31 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
+ * Default Theme Styles
  *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ * This theme uses Tailwind CSS for layout and components.
+ * These SCSS files provide legacy/custom styles that supplement Tailwind.
  *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
+ * REMOVED: Bootstrap CSS (December 2024) - fully migrated to Tailwind
  */
 
-$base-bg-color:#fcfcfc;
-/*below is slightly darker shade of above pale gray*/
-$base-border-color:#e0eded;
+/* Custom color variables used by legacy styles */
+$base-bg-color: #fcfcfc;
+$base-border-color: #e0eded;
 
-
-/* "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
-*/
-/*@import "bootstrap-sprockets";*/
-@import "bootstrap";
-
-/* REMOVED: bootstrap-select - using native HTML selects (December 2024) */
-/* @import "bootstrap-select"; */
-/* font-awesome import fails even though it
-is being imported in engine.rb as per:
-https://github.com/bokmann/font-awesome-rails*/
-/*@import "font-awesome";*/
+/*
+ * Legacy component styles - these provide additional styling
+ * that supplements the Tailwind classes used in templates.
+ * TODO: Gradually migrate these to Tailwind utilities
+ */
 @import "default/header_footer";
-@import "default/navbar";
 @import "default/landing_general";
 @import "default/landing_content_areas";
 @import "default/contact_us";
 @import "default/prop";
 @import "default/devise";
-@import "default/language_switcher";
 @import "default/shame";
 @import "default/carousel";
+
+/* Shared styles used across themes */
 @import "shared/header_footer";
 @import "shared/social";
 @import "shared/gmap";
@@ -45,23 +33,11 @@ https://github.com/bokmann/font-awesome-rails*/
 @import "shared/liquid_templates";
 @import "shared/shame";
 
-/*@import "default/flags";*/
-
-
-/*$color_accion: #f29910;
-$color_principal: #ff5b5c;
-$color_secundario: #616161;
-*/
-
+/* Base HTML styles */
 html {
   color: #222;
   font-size: 1em;
   line-height: 1.4;
-}
-
-::-moz-selection {
-  background: #b3d4fc;
-  text-shadow: none;
 }
 
 ::selection {
@@ -69,25 +45,9 @@ html {
   text-shadow: none;
 }
 
-/*.btn-alt:before {
-  background-color: #d35400;  
-}*/
-
-/*.fondo_footer {
-  background: #333;
-  color: #fff;
-}
-*/
+/* Legacy utility classes - TODO: migrate to Tailwind */
 .fondo_secundario {
   background: #ea802d;
   color: #fff;
 }
-
-/*.panel.panel-base {
-  background-color: #3498db
-}
--replaced above with fondo_secundario (ED)
-*/
-
-
 
