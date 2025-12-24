@@ -71,7 +71,7 @@
                 </div>
               {% endif %}
               <h3 class="font-semibold text-gray-900">{{ page_part["member_1_name"]["content"] }}</h3>
-              <p class="text-sm text-primary">{{ page_part["member_1_role"]["content"] }}</p>
+              <p class="text-sm text-amber-600">{{ page_part["member_1_role"]["content"] }}</p>
               {% if page_part["member_1_bio"]["content"] != blank %}
                 <p class="text-sm text-gray-600 mt-2">{{ page_part["member_1_bio"]["content"] }}</p>
               {% endif %}
@@ -87,7 +87,7 @@
                 </div>
               {% endif %}
               <h3 class="font-semibold text-gray-900">{{ page_part["member_2_name"]["content"] }}</h3>
-              <p class="text-sm text-primary">{{ page_part["member_2_role"]["content"] }}</p>
+              <p class="text-sm text-amber-600">{{ page_part["member_2_role"]["content"] }}</p>
               {% if page_part["member_2_bio"]["content"] != blank %}
                 <p class="text-sm text-gray-600 mt-2">{{ page_part["member_2_bio"]["content"] }}</p>
               {% endif %}
@@ -103,7 +103,7 @@
                 </div>
               {% endif %}
               <h3 class="font-semibold text-gray-900">{{ page_part["member_3_name"]["content"] }}</h3>
-              <p class="text-sm text-primary">{{ page_part["member_3_role"]["content"] }}</p>
+              <p class="text-sm text-amber-600">{{ page_part["member_3_role"]["content"] }}</p>
               {% if page_part["member_3_bio"]["content"] != blank %}
                 <p class="text-sm text-gray-600 mt-2">{{ page_part["member_3_bio"]["content"] }}</p>
               {% endif %}
@@ -119,7 +119,7 @@
                 </div>
               {% endif %}
               <h3 class="font-semibold text-gray-900">{{ page_part["member_4_name"]["content"] }}</h3>
-              <p class="text-sm text-primary">{{ page_part["member_4_role"]["content"] }}</p>
+              <p class="text-sm text-amber-600">{{ page_part["member_4_role"]["content"] }}</p>
               {% if page_part["member_4_bio"]["content"] != blank %}
                 <p class="text-sm text-gray-600 mt-2">{{ page_part["member_4_bio"]["content"] }}</p>
               {% endif %}
