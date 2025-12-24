@@ -133,9 +133,9 @@ module Pwb
         html: render_to_string(partial: 'pwb/search/search_results', formats: [:html]),
         markers: @map_markers,
         facets: @facets,
-        total_count: @properties.respond_to?(:total_count) ? @properties.total_count : @properties.count,
-        current_page: @properties.respond_to?(:current_page) ? @properties.current_page : 1,
-        total_pages: @properties.respond_to?(:total_pages) ? @properties.total_pages : 1
+        total_count: @pagy&.count || @properties.count,
+        current_page: @pagy&.page || 1,
+        total_pages: @pagy&.pages || 1
       }
     end
 
