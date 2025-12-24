@@ -27,19 +27,24 @@ docs/screenshots/
 
 **Severity:** High
 
-**Description:** The `?theme=bologna` URL parameter is being ignored in production. All "bologna" screenshots from production show the default theme instead.
+**Status:** FIXED (commit 4bd1db4a)
 
-**Evidence:**
-- `prod/bologna/contact-desktop.png` shows blue default theme styling
-- `dev/bologna/contact-desktop.png` shows orange/terra cotta Bologna theme styling
-- Same issue affects all Bologna pages (buy, rent, sell, about, etc.)
+**Description:** The `?theme=bologna` URL parameter was being ignored in production. All "bologna" screenshots from production showed the default theme instead.
 
-**Likely Causes:**
-1. Bologna theme not deployed to production
-2. Theme not registered/whitelisted in production environment
-3. Theme CSS not compiled for production
+**Root Cause:** Bologna was not included in the `ALLOWED_THEMES` whitelist in `app/controllers/pwb/application_controller.rb`. The whitelist only had `default` and `brisbane`.
 
-**Action Required:** Deploy Bologna theme to production and verify theme registration.
+**Fix Applied:**
+```ruby
+# Before (line 12):
+if %w(default brisbane).include? params[:theme]
+
+# After:
+ALLOWED_THEMES = %w[default brisbane bologna].freeze
+# ...
+if ALLOWED_THEMES.include?(params[:theme])
+```
+
+**Action Required:** Deploy the fix to production. After deployment, re-run production screenshots to verify.
 
 ---
 
@@ -67,7 +72,7 @@ docs/screenshots/
 |-------|-----|------|--------|
 | default | ✅ Working | ✅ Working | OK |
 | brisbane | ✅ Working | ✅ Working | OK |
-| bologna | ✅ Working | ❌ Shows default | **NEEDS FIX** |
+| bologna | ✅ Working | ✅ Fixed (pending deploy) | **FIXED** |
 
 ## Visual Differences by Page
 
@@ -91,16 +96,18 @@ docs/screenshots/
 
 ## Recommended Actions
 
-1. **Deploy Bologna theme to production**
-   - Ensure `app/themes/bologna/` is included in deployment
-   - Verify theme CSS is compiled (`tailwind-bologna.css`)
-   - Register theme in production website settings
+1. ~~**Deploy Bologna theme to production**~~ **FIXED**
+   - ~~Ensure `app/themes/bologna/` is included in deployment~~
+   - ~~Verify theme CSS is compiled (`tailwind-bologna.css`)~~
+   - ~~Register theme in production website settings~~
+   - **Fix:** Added `bologna` to `ALLOWED_THEMES` in `app/controllers/pwb/application_controller.rb`
 
-2. **Verify theme switching mechanism**
-   - Check `?theme=` parameter handler in production
-   - Ensure Bologna is in the allowed themes list
+2. ~~**Verify theme switching mechanism**~~ **FIXED**
+   - ~~Check `?theme=` parameter handler in production~~
+   - ~~Ensure Bologna is in the allowed themes list~~
+   - **Fix:** `ALLOWED_THEMES = %w[default brisbane bologna].freeze`
 
-3. **Re-run production screenshots after fix**
+3. **Re-run production screenshots after deployment**
    ```bash
    node scripts/take-screenshots-prod.js
    ```
