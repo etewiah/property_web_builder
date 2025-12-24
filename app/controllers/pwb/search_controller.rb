@@ -12,6 +12,7 @@ module Pwb
 
     before_action :header_image_url
     before_action :normalize_url_params
+    before_action :setup_search_params_service
 
     # ===================
     # Search Actions
@@ -44,33 +45,98 @@ module Pwb
       @properties = load_properties_for(operation_type)
       apply_search_filter(filtering_params(params))
       set_map_markers
-      render "/pwb/search/search_ajax", layout: false
+
+      respond_to do |format|
+        format.js { render "/pwb/search/search_ajax", layout: false }
+        format.json { render_search_json }
+      end
     end
 
     def perform_search(operation_type:, page_slug:)
       @operation_type = operation_type
+      @page_slug = page_slug
       config = search_config_for(operation_type)
 
       setup_page(page_slug)
-      @properties = load_properties_for(operation_type).limit(45)
+      
+      # Apply pagination
+      page_number = [@search_criteria[:page].to_i, 1].max
+      per_page = 24
+
+      @properties = load_properties_for(operation_type)
       @prices_from_collection = config[:prices_from]
       @prices_till_collection = config[:prices_till]
 
       set_common_search_inputs
       set_select_picker_texts
       apply_search_filter(filtering_params(params))
+      apply_sorting
       set_map_markers
-      calculate_facets if params[:include_facets] || request.format.html?
+      calculate_facets if turbo_frame_request? || request.format.html?
+
+      # Paginate results
+      @properties = @properties.page(page_number).per(per_page)
 
       @search_defaults = params[:search].presence || {}
+      @search_criteria_for_view = @search_criteria
 
       set_listing_page_seo(
         operation: operation_type,
         location: params.dig(:search, :in_locality),
-        page: params[:page].to_i > 0 ? params[:page].to_i : 1
+        page: page_number
       )
 
-      render "/pwb/search/#{page_slug}"
+      # Set canonical URL
+      @canonical_url = @search_params_service.canonical_url(
+        @search_criteria,
+        locale: I18n.locale,
+        operation: page_slug
+      )
+
+      respond_to do |format|
+        format.html do
+          if turbo_frame_request?
+            render partial: "pwb/search/search_results_frame", layout: false
+          else
+            render "/pwb/search/#{page_slug}"
+          end
+        end
+        format.json { render_search_json }
+      end
+    end
+
+    # ===================
+    # Sorting
+    # ===================
+
+    def apply_sorting
+      return unless @search_criteria[:sort].present?
+
+      case @search_criteria[:sort]
+      when 'price-asc'
+        @properties = @properties.order(sale_price_cents: :asc, rent_price_cents: :asc)
+      when 'price-desc'
+        @properties = @properties.order(sale_price_cents: :desc, rent_price_cents: :desc)
+      when 'newest'
+        @properties = @properties.order(created_at: :desc)
+      when 'oldest'
+        @properties = @properties.order(created_at: :asc)
+      end
+    end
+
+    # ===================
+    # JSON Response
+    # ===================
+
+    def render_search_json
+      render json: {
+        html: render_to_string(partial: 'pwb/search/search_results', formats: [:html]),
+        markers: @map_markers,
+        facets: @facets,
+        total_count: @properties.respond_to?(:total_count) ? @properties.total_count : @properties.count,
+        current_page: @properties.respond_to?(:current_page) ? @properties.current_page : 1,
+        total_pages: @properties.respond_to?(:total_pages) ? @properties.total_pages : 1
+      }
     end
 
     # ===================
@@ -106,6 +172,15 @@ module Pwb
     end
 
     # ===================
+    # Search Params Service
+    # ===================
+
+    def setup_search_params_service
+      @search_params_service = SearchParamsService.new
+      @search_criteria = @search_params_service.from_url_params(params)
+    end
+
+    # ===================
     # Faceted Search
     # ===================
 
@@ -138,13 +213,62 @@ module Pwb
     # ===================
 
     def normalize_url_params
-      return unless params[:type].present? || params[:features].present? || params[:state].present?
-
-      friendly_params = parse_friendly_url_params(params)
+      # Convert new URL format to legacy search params format for compatibility
       params[:search] ||= {}
-      friendly_params.each do |key, value|
-        params[:search][key] = value if value.present?
+
+      # Map new format params to legacy format
+      if @search_criteria.present?
+        map_criteria_to_search_params
       end
+
+      # Also handle direct friendly params (backwards compatibility)
+      if params[:type].present? || params[:features].present? || params[:state].present?
+        friendly_params = parse_friendly_url_params(params)
+        friendly_params.each do |key, value|
+          params[:search][key] = value if value.present?
+        end
+      end
+    end
+
+    def map_criteria_to_search_params
+      return unless @search_criteria
+
+      # Property type
+      if @search_criteria[:property_type].present?
+        params[:search][:property_type] = @search_criteria[:property_type]
+      end
+
+      # Bedrooms/Bathrooms
+      params[:search][:count_bedrooms] = @search_criteria[:bedrooms] if @search_criteria[:bedrooms]
+      params[:search][:count_bathrooms] = @search_criteria[:bathrooms] if @search_criteria[:bathrooms]
+
+      # Price (we'll set both for_sale and for_rent, filtering concern will use appropriate one)
+      if @search_criteria[:price_min]
+        params[:search][:for_sale_price_from] = @search_criteria[:price_min]
+        params[:search][:for_rent_price_from] = @search_criteria[:price_min]
+      end
+
+      if @search_criteria[:price_max]
+        params[:search][:for_sale_price_till] = @search_criteria[:price_max]
+        params[:search][:for_rent_price_till] = @search_criteria[:price_max]
+      end
+
+      # Location
+      params[:search][:in_zone] = @search_criteria[:zone] if @search_criteria[:zone]
+      params[:search][:in_locality] = @search_criteria[:locality] if @search_criteria[:locality]
+
+      # Features
+      if @search_criteria[:features].present?
+        params[:search][:features] = @search_criteria[:features]
+      end
+    end
+
+    # ===================
+    # Turbo Frame Detection
+    # ===================
+
+    def turbo_frame_request?
+      request.headers["Turbo-Frame"].present?
     end
   end
 end
