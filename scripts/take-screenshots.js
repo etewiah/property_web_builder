@@ -23,6 +23,14 @@ const THEME = process.env.SCREENSHOT_THEME || 'default';
 const MAX_SIZE_MB = parseFloat(process.env.MAX_SIZE_MB || '2');
 const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
 
+// Build URL with theme parameter (unless theme is 'default')
+function buildUrl(basePath) {
+  const url = `${BASE_URL}${basePath}`;
+  if (THEME === 'default') return url;
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}theme=${THEME}`;
+}
+
 // Pages to capture for each theme
 const PAGES = [
   { name: 'home', path: '/' },
@@ -171,8 +179,8 @@ async function discoverAndCaptureDynamicPage(page, themeName, dynamicPage) {
   console.log(`  Discovering ${dynamicPage.description}...`);
 
   try {
-    // Navigate to the discovery page
-    const discoverUrl = `${BASE_URL}${dynamicPage.discoverFrom}`;
+    // Navigate to the discovery page (with theme parameter)
+    const discoverUrl = buildUrl(dynamicPage.discoverFrom);
     await page.goto(discoverUrl, { waitUntil: 'networkidle', timeout: 30000 });
     await page.waitForTimeout(1000);
 
@@ -189,8 +197,12 @@ async function discoverAndCaptureDynamicPage(page, themeName, dynamicPage) {
       return;
     }
 
-    // Navigate to the property page
-    const propertyUrl = href.startsWith('http') ? href : `${BASE_URL}${href}`;
+    // Navigate to the property page (with theme parameter)
+    let propertyUrl = href.startsWith('http') ? href : `${BASE_URL}${href}`;
+    if (THEME !== 'default') {
+      const separator = propertyUrl.includes('?') ? '&' : '?';
+      propertyUrl = `${propertyUrl}${separator}theme=${THEME}`;
+    }
     console.log(`  Loading: ${propertyUrl}`);
     await page.goto(propertyUrl, { waitUntil: 'networkidle', timeout: 30000 });
     await page.waitForTimeout(1000);
@@ -212,7 +224,7 @@ async function captureTheme(browser, themeName) {
 
   // Capture static pages
   for (const pageInfo of PAGES) {
-    const url = `${BASE_URL}${pageInfo.path}`;
+    const url = buildUrl(pageInfo.path);
     console.log(`  Loading: ${url}`);
 
     try {
