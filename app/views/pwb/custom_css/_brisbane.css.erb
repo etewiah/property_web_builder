@@ -4,12 +4,14 @@
  */
 
 :root {
-  /* Primary Luxury Colors */
-  --brisbane-navy: <%= @current_website.style_variables["primary_color"] || "#1a2744" %>;
-  --brisbane-gold: <%= @current_website.style_variables["secondary_color"] || "#c9a962" %>;
-  --brisbane-cream: <%= @current_website.style_variables["cream_color"] || "#faf8f5" %>;
-  --brisbane-charcoal: <%= @current_website.style_variables["charcoal_color"] || "#2d2d2d" %>;
-  --brisbane-pearl: <%= @current_website.style_variables["pearl_color"] || "#f5f3f0" %>;
+  /* Primary Luxury Colors - Brisbane theme uses its own color scheme
+   * These use brisbane-specific variables to avoid conflicts with generic website colors
+   */
+  --brisbane-navy: <%= @current_website.style_variables["brisbane_navy_color"] || "#1a2744" %>;
+  --brisbane-gold: <%= @current_website.style_variables["brisbane_gold_color"] || "#c9a962" %>;
+  --brisbane-cream: <%= @current_website.style_variables["brisbane_cream_color"] || "#faf8f5" %>;
+  --brisbane-charcoal: <%= @current_website.style_variables["brisbane_charcoal_color"] || "#2d2d2d" %>;
+  --brisbane-pearl: <%= @current_website.style_variables["brisbane_pearl_color"] || "#f5f3f0" %>;
 
   /* Accent Colors */
   --brisbane-gold-light: #d4b978;
@@ -17,12 +19,12 @@
   --brisbane-navy-light: #2a3a5c;
   --brisbane-navy-dark: #0f1a2e;
 
-  /* Footer Colors */
-  --footer-bg-color: <%= @current_website.style_variables["footer_bg_color"] || "#1a2744" %>;
-  --footer-text-color: <%= @current_website.style_variables["footer_main_text_color"] || "#faf8f5" %>;
+  /* Footer Colors - Use brisbane navy by default */
+  --footer-bg-color: <%= @current_website.style_variables["brisbane_footer_bg_color"] || "#1a2744" %>;
+  --footer-text-color: <%= @current_website.style_variables["brisbane_footer_text_color"] || "#faf8f5" %>;
 
-  /* Action Colors */
-  --action-color: <%= @current_website.style_variables["action_color"] || "#c9a962" %>;
+  /* Action Colors - Use brisbane gold for actions */
+  --action-color: <%= @current_website.style_variables["brisbane_action_color"] || "#c9a962" %>;
 
   /* Typography */
   --font-primary: <%= @current_website.style_variables["font_primary"] || "Cormorant Garamond" %>;

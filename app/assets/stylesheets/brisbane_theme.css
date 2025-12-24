@@ -300,6 +300,18 @@
   color: #c9a962;
 }
 
+.brisbane-theme .text-luxury-cream {
+  color: #faf8f5;
+}
+
+.brisbane-theme .text-luxury-cream\/80 {
+  color: rgba(250, 248, 245, 0.8);
+}
+
+.brisbane-theme .text-luxury-cream\/70 {
+  color: rgba(250, 248, 245, 0.7);
+}
+
 .brisbane-theme .bg-luxury-navy {
   background-color: #1a2744;
 }
@@ -312,8 +324,61 @@
   background-color: #f5f3f0;
 }
 
+.brisbane-theme .bg-luxury-gold {
+  background-color: #c9a962;
+}
+
 .brisbane-theme .border-luxury-gold {
   border-color: #c9a962;
+}
+
+.brisbane-theme .border-luxury-gold\/20 {
+  border-color: rgba(201, 169, 98, 0.2);
+}
+
+.brisbane-theme .border-luxury-navy\/5 {
+  border-color: rgba(26, 39, 68, 0.05);
+}
+
+/* Global utility classes for Tailwind JIT fallback - ensure luxury colors always apply */
+.bg-luxury-navy {
+  background-color: #1a2744 !important;
+}
+
+.bg-luxury-gold {
+  background-color: #c9a962 !important;
+}
+
+.bg-luxury-cream {
+  background-color: #faf8f5 !important;
+}
+
+.text-luxury-navy {
+  color: #1a2744 !important;
+}
+
+.text-luxury-gold {
+  color: #c9a962 !important;
+}
+
+.text-luxury-cream {
+  color: #faf8f5 !important;
+}
+
+.text-luxury-cream\/80 {
+  color: rgba(250, 248, 245, 0.8) !important;
+}
+
+.text-luxury-cream\/70 {
+  color: rgba(250, 248, 245, 0.7) !important;
+}
+
+.border-luxury-gold\/20 {
+  border-color: rgba(201, 169, 98, 0.2) !important;
+}
+
+.border-luxury-navy\/5 {
+  border-color: rgba(26, 39, 68, 0.05) !important;
 }
 
 /* ========================================
