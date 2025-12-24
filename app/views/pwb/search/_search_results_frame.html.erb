@@ -1,15 +1,15 @@
 <%# Turbo Frame wrapper for search results - used for AJAX updates %>
 <%= turbo_frame_tag "search-results", data: { turbo_action: "advance" } do %>
-  <%# Results header with count and sort %>
+  <%# Results header with count and sort - uses search-header controller for Turbo Frame compatibility %>
   <div class="search-results-header flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200"
        data-controller="search-header">
-    
+
     <%# Results count %>
     <div class="results-count text-gray-700" aria-live="polite">
       <% total = @properties.respond_to?(:total_count) ? @properties.total_count : @properties.size %>
       <span class="font-semibold"><%= total %></span>
       <%= t('search.properties_found', count: total, default: 'properties found') %>
-      
+
       <% if @search_criteria_for_view.present? %>
         <% active_filters = @search_criteria_for_view.reject { |k, v| v.blank? || k == :page } %>
         <% if active_filters.any? %>
@@ -25,10 +25,10 @@
       <%# Sort dropdown %>
       <div class="sort-control">
         <label for="search-sort" class="sr-only"><%= t('search.sort_by', default: 'Sort by') %></label>
-        <select id="search-sort" 
+        <select id="search-sort"
                 name="sort"
-                data-filter="sort"
-                data-action="change->search#filterChanged"
+                data-search-header-target="sortSelect"
+                data-action="change->search-header#sort"
                 class="form-select text-sm border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
           <option value="" <%= 'selected' if @search_criteria_for_view[:sort].blank? %>>
             <%= t('search.sort_default', default: 'Sort by') %>
@@ -49,7 +49,8 @@
       <div class="view-toggle flex rounded-md shadow-sm" role="group" aria-label="<%= t('search.view_options', default: 'View options') %>">
         <button type="button"
                 data-view="grid"
-                data-action="click->search#setView"
+                data-search-header-target="viewButton"
+                data-action="click->search-header#setView"
                 class="view-btn px-3 py-2 text-sm font-medium border border-gray-300 rounded-l-md hover:bg-gray-50 <%= @search_criteria_for_view[:view] != 'list' ? 'bg-blue-50 text-blue-700 border-blue-500' : 'bg-white text-gray-700' %>"
                 aria-pressed="<%= @search_criteria_for_view[:view] != 'list' %>">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,7 +59,8 @@
         </button>
         <button type="button"
                 data-view="list"
-                data-action="click->search#setView"
+                data-search-header-target="viewButton"
+                data-action="click->search-header#setView"
                 class="view-btn px-3 py-2 text-sm font-medium border border-gray-300 rounded-r-md hover:bg-gray-50 <%= @search_criteria_for_view[:view] == 'list' ? 'bg-blue-50 text-blue-700 border-blue-500' : 'bg-white text-gray-700' %>"
                 aria-pressed="<%= @search_criteria_for_view[:view] == 'list' %>">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

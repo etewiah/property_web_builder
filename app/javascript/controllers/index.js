@@ -29,3 +29,9 @@ application.register("map", MapController)
 
 import SearchFormController from "controllers/search_form_controller"
 application.register("search-form", SearchFormController)
+
+import SearchController from "controllers/search_controller"
+application.register("search", SearchController)
+
+import SearchHeaderController from "controllers/search_header_controller"
+application.register("search-header", SearchHeaderController)
