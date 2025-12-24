@@ -24,3 +24,161 @@ html {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* ==========================================================================
+   PWB Hero Sections (Liquid page parts)
+   ========================================================================== */
+.pwb-hero {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.pwb-hero--centered {
+  text-align: center;
+}
+
+.pwb-hero--search {
+  min-height: 60vh;
+}
+
+.pwb-hero__bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+.pwb-hero__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(17, 24, 39, 0.6) 0%, rgba(17, 24, 39, 0.4) 100%);
+  z-index: 1;
+}
+
+.pwb-hero__content {
+  position: relative;
+  z-index: 2;
+  padding: 2rem 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.pwb-hero__pretitle {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+  margin-bottom: 1rem;
+}
+
+.pwb-hero__title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.pwb-hero__subtitle {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
+}
+
+.pwb-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.pwb-hero__search-box {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 640px) {
+  .pwb-hero__title {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .pwb-hero__title {
+    font-size: 3.5rem;
+  }
+}
+
+/* ==========================================================================
+   PWB Container
+   ========================================================================== */
+.pwb-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* ==========================================================================
+   PWB Buttons
+   ========================================================================== */
+.pwb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.pwb-btn--primary {
+  background-color: var(--primary-color, #3b82f6);
+  color: #ffffff;
+  border: none;
+}
+
+.pwb-btn--primary:hover {
+  background-color: var(--secondary-color, #2563eb);
+  transform: translateY(-1px);
+}
+
+.pwb-btn--outline {
+  background-color: transparent;
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.pwb-btn--outline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #ffffff;
+}
+
+.pwb-btn--lg {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+}

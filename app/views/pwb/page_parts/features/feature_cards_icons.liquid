@@ -14,9 +14,9 @@
       {% if page_part.card_1_title.content %}
         <div class="pwb-icon-card">
           <div class="pwb-icon-card__icon pwb-icon-card__icon--{{ page_part.card_1_color.content | default: 'primary' }}">
-            <i class="{{ page_part.card_1_icon.content | default: 'fa fa-home' }}"></i>
+            <i class="{{ page_part.card_1_icon.content | default: 'fa fa-home' }}" aria-hidden="true"></i>
           </div>
-          <h4 class="pwb-icon-card__title">{{ page_part.card_1_title.content }}</h4>
+          <h3 class="pwb-icon-card__title">{{ page_part.card_1_title.content }}</h3>
           <p class="pwb-icon-card__text">{{ page_part.card_1_text.content }}</p>
         </div>
       {% endif %}
@@ -25,9 +25,9 @@
       {% if page_part.card_2_title.content %}
         <div class="pwb-icon-card">
           <div class="pwb-icon-card__icon pwb-icon-card__icon--{{ page_part.card_2_color.content | default: 'secondary' }}">
-            <i class="{{ page_part.card_2_icon.content | default: 'fa fa-search' }}"></i>
+            <i class="{{ page_part.card_2_icon.content | default: 'fa fa-search' }}" aria-hidden="true"></i>
           </div>
-          <h4 class="pwb-icon-card__title">{{ page_part.card_2_title.content }}</h4>
+          <h3 class="pwb-icon-card__title">{{ page_part.card_2_title.content }}</h3>
           <p class="pwb-icon-card__text">{{ page_part.card_2_text.content }}</p>
         </div>
       {% endif %}
@@ -36,9 +36,9 @@
       {% if page_part.card_3_title.content %}
         <div class="pwb-icon-card">
           <div class="pwb-icon-card__icon pwb-icon-card__icon--{{ page_part.card_3_color.content | default: 'accent' }}">
-            <i class="{{ page_part.card_3_icon.content | default: 'fa fa-key' }}"></i>
+            <i class="{{ page_part.card_3_icon.content | default: 'fa fa-key' }}" aria-hidden="true"></i>
           </div>
-          <h4 class="pwb-icon-card__title">{{ page_part.card_3_title.content }}</h4>
+          <h3 class="pwb-icon-card__title">{{ page_part.card_3_title.content }}</h3>
           <p class="pwb-icon-card__text">{{ page_part.card_3_text.content }}</p>
         </div>
       {% endif %}
@@ -47,9 +47,9 @@
       {% if page_part.card_4_title.content %}
         <div class="pwb-icon-card">
           <div class="pwb-icon-card__icon pwb-icon-card__icon--{{ page_part.card_4_color.content | default: 'success' }}">
-            <i class="{{ page_part.card_4_icon.content | default: 'fa fa-handshake' }}"></i>
+            <i class="{{ page_part.card_4_icon.content | default: 'fa fa-handshake' }}" aria-hidden="true"></i>
           </div>
-          <h4 class="pwb-icon-card__title">{{ page_part.card_4_title.content }}</h4>
+          <h3 class="pwb-icon-card__title">{{ page_part.card_4_title.content }}</h3>
           <p class="pwb-icon-card__text">{{ page_part.card_4_text.content }}</p>
         </div>
       {% endif %}

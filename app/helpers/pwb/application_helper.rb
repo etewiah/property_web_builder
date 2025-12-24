@@ -189,9 +189,10 @@ module Pwb
         social_media = agency.social_media
       end
       if social_media
+        aria_label = "Follow us on #{field_label}"
         html = <<-HTML
-        <a href="#{agency.social_media[field_name]}" title="#{field_label}" target="_blank" class="">
-        <i class="fa #{field_icon}"></i>
+        <a href="#{agency.social_media[field_name]}" title="#{field_label}" target="_blank" rel="noopener noreferrer" aria-label="#{aria_label}">
+        <i class="fa #{field_icon}" aria-hidden="true"></i>
         </a>
         HTML
 

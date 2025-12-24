@@ -19,38 +19,43 @@
         </p>
 
         <!-- Social Icons - Refined Style -->
-        <div class="flex items-center space-x-4">
+        <nav class="flex items-center space-x-4" aria-label="Social media links">
           <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
-            <a href="<%= @current_website.social_media_facebook %>" target="_blank"
-               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300">
-              <i class="fab fa-facebook-f"></i>
+            <a href="<%= @current_website.social_media_facebook %>" target="_blank" rel="noopener noreferrer"
+               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
+               aria-label="Follow us on Facebook">
+              <i class="fab fa-facebook-f" aria-hidden="true"></i>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
-            <a href="<%= @current_website.social_media_twitter %>" target="_blank"
-               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300">
-              <i class="fab fa-x-twitter"></i>
+            <a href="<%= @current_website.social_media_twitter %>" target="_blank" rel="noopener noreferrer"
+               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
+               aria-label="Follow us on Twitter">
+              <i class="fab fa-x-twitter" aria-hidden="true"></i>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
-            <a href="<%= @current_website.social_media_linkedin %>" target="_blank"
-               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300">
-              <i class="fab fa-linkedin-in"></i>
+            <a href="<%= @current_website.social_media_linkedin %>" target="_blank" rel="noopener noreferrer"
+               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
+               aria-label="Connect with us on LinkedIn">
+              <i class="fab fa-linkedin-in" aria-hidden="true"></i>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present? %>
-            <a href="<%= @current_website.social_media_instagram %>" target="_blank"
-               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300">
-              <i class="fab fa-instagram"></i>
+            <a href="<%= @current_website.social_media_instagram %>" target="_blank" rel="noopener noreferrer"
+               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
+               aria-label="Follow us on Instagram">
+              <i class="fab fa-instagram" aria-hidden="true"></i>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
-            <a href="<%= @current_website.social_media_youtube %>" target="_blank"
-               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300">
-              <i class="fab fa-youtube"></i>
+            <a href="<%= @current_website.social_media_youtube %>" target="_blank" rel="noopener noreferrer"
+               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
+               aria-label="Subscribe to our YouTube channel">
+              <i class="fab fa-youtube" aria-hidden="true"></i>
             </a>
           <% end %>
-        </div>
+        </nav>
       </div>
 
       <!-- Contact Column -->

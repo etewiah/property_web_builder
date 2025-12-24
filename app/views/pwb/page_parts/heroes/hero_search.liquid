@@ -1,4 +1,12 @@
-<section class="pwb-hero pwb-hero--search" style="background-image: url('{{ page_part.background_image.content }}');">
+<section class="pwb-hero pwb-hero--search">
+  {% if page_part.background_image.content %}
+    <img src="{{ page_part.background_image.content }}"
+         alt="{{ page_part.title.content | default: 'Hero background' }}"
+         class="pwb-hero__bg-image"
+         fetchpriority="high"
+         decoding="async"
+         loading="eager">
+  {% endif %}
   <div class="pwb-hero__overlay"></div>
   <div class="pwb-container">
     <div class="pwb-hero__content">

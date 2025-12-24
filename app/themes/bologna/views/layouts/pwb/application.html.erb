@@ -8,9 +8,10 @@
     <%= favicon_tags %>
     <%= yield(:page_head) %>
 
-    <%# DNS Prefetch for external resources (fonts now self-hosted) %>
-    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="//unpkg.com">
+    <%# Preconnect for external resources (more aggressive than dns-prefetch) %>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://pub-be9416af8a3c406f859765586492c927.r2.dev" crossorigin>
 
     <%# Critical CSS - loaded synchronously (includes self-hosted fonts) %>
     <%= stylesheet_link_tag "tailwind-bologna", media: "all" %>

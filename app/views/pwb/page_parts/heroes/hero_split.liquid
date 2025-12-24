@@ -27,7 +27,12 @@
       </div>
       <div class="pwb-hero__media">
         {% if page_part.image.content %}
-          <img src="{{ page_part.image.content }}" alt="{{ page_part.image_alt.content | default: page_part.title.content }}" class="pwb-hero__image">
+          <img src="{{ page_part.image.content }}"
+               alt="{{ page_part.image_alt.content | default: page_part.title.content }}"
+               class="pwb-hero__image"
+               fetchpriority="high"
+               decoding="async"
+               loading="eager">
         {% endif %}
       </div>
     </div>

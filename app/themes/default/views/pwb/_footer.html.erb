@@ -26,35 +26,35 @@
       </div>
 
       <!-- Social Media -->
-      <div class="footer-social-wrapper">
+      <nav class="footer-social-wrapper" aria-label="Social media links">
         <div class="footer-social-icons">
           <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
-            <a href="<%= @current_website.social_media_facebook %>" target="_blank" class="social-icon-link">
-              <i class="fa fa-facebook fa-lg"></i>
+            <a href="<%= @current_website.social_media_facebook %>" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Follow us on Facebook">
+              <i class="fa fa-facebook fa-lg" aria-hidden="true"></i>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
-            <a href="<%= @current_website.social_media_twitter %>" target="_blank" class="social-icon-link">
-              <i class="fa fa-twitter fa-lg"></i>
+            <a href="<%= @current_website.social_media_twitter %>" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Follow us on Twitter">
+              <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
-            <a href="<%= @current_website.social_media_linkedin %>" target="_blank" class="social-icon-link">
-              <i class="fa fa-linkedin fa-lg"></i>
+            <a href="<%= @current_website.social_media_linkedin %>" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Connect with us on LinkedIn">
+              <i class="fa fa-linkedin fa-lg" aria-hidden="true"></i>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
-            <a href="<%= @current_website.social_media_youtube %>" target="_blank" class="social-icon-link">
-              <i class="fa fa-youtube fa-lg"></i>
+            <a href="<%= @current_website.social_media_youtube %>" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Subscribe to our YouTube channel">
+              <i class="fa fa-youtube fa-lg" aria-hidden="true"></i>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_pinterest) && @current_website.social_media_pinterest.present? %>
-            <a href="<%= @current_website.social_media_pinterest %>" target="_blank" class="social-icon-link">
-              <i class="fa fa-pinterest fa-lg"></i>
+            <a href="<%= @current_website.social_media_pinterest %>" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Follow us on Pinterest">
+              <i class="fa fa-pinterest fa-lg" aria-hidden="true"></i>
             </a>
           <% end %>
         </div>
-      </div>
+      </nav>
 
       <!-- Extra Content -->
       <div class="footer-extra-content">
