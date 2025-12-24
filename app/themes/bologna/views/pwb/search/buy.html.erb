@@ -4,6 +4,13 @@
 <%# Bologna Theme - Property Search Page %>
 <%# Clean, modern layout with soft colors and rounded elements %>
 
+<%# Canonical URL for SEO %>
+<% content_for :head do %>
+  <% if @canonical_url.present? %>
+    <link rel="canonical" href="<%= @canonical_url %>">
+  <% end %>
+<% end %>
+
 <!-- Page Header -->
 <section class="bg-gradient-to-br from-terra-50 via-white to-olive-50 border-b border-warm-gray-100">
   <div class="container mx-auto px-6 py-10">
@@ -42,8 +49,11 @@
   </div>
 </section>
 
-<!-- Main Content with Stimulus controller -->
-<section class="bg-warm-gray-50" data-controller="search-form">
+<%# Main Content with URL-based Stimulus controller %>
+<section class="bg-warm-gray-50"
+         data-controller="search"
+         data-search-operation-value="buy"
+         data-search-locale-value="<%= I18n.locale %>">
   <div class="container mx-auto px-6 py-10">
     <div class="search-layout flex flex-wrap -mx-4">
       <!-- Sidebar Filters - Desktop: always visible, Mobile: toggleable -->
@@ -51,13 +61,21 @@
         <!-- Mobile Filter Toggle -->
         <div class="filter-toggle lg:hidden mb-4">
           <button type="button"
-                  data-action="search-form#toggleFilters"
-                  data-search-form-target="filterToggle"
+                  data-action="click->search#toggleFilters"
+                  data-search-target="filterToggle"
                   aria-expanded="false"
                   aria-controls="sidebar-filters"
                   class="w-full flex items-center justify-center px-6 py-3 bg-white text-warm-gray-700 font-medium rounded-soft shadow-soft hover:shadow-medium transition-all duration-300">
             <i class="ph ph-funnel mr-2 text-terra-500"></i>
             <%= t('filter', default: 'Filters') %>
+            <% if @search_criteria_for_view.present? %>
+              <% active_count = @search_criteria_for_view.reject { |k, v| v.blank? || k == :page }.size %>
+              <% if active_count > 0 %>
+                <span class="ml-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-terra-600 rounded-full">
+                  <%= active_count %>
+                </span>
+              <% end %>
+            <% end %>
             <i class="ph ph-caret-down ml-2"></i>
           </button>
         </div>
@@ -65,40 +83,36 @@
         <!-- Filter Panel - hidden on mobile, visible on desktop -->
         <div id="sidebar-filters"
              class="filter-content hidden lg:block"
-             data-search-form-target="filterPanel">
+             data-search-target="filterPanel">
           <div class="bg-white rounded-softer shadow-soft p-6 sticky top-28">
-            <div class="flex items-center mb-6">
-              <i class="ph ph-sliders text-terra-500 text-xl mr-3"></i>
-              <h3 class="font-display font-semibold text-lg text-warm-gray-900">
-                <%= t('pwb.search.filters', default: 'Filters') %>
-              </h3>
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center">
+                <i class="ph ph-sliders text-terra-500 text-xl mr-3"></i>
+                <h3 class="font-display font-semibold text-lg text-warm-gray-900">
+                  <%= t('pwb.search.filters', default: 'Filters') %>
+                </h3>
+              </div>
+              <button type="button"
+                      class="text-sm text-terra-600 hover:text-terra-800 font-medium"
+                      data-action="click->search#clearFilters">
+                <%= I18n.t("search.clear_all", default: "Clear all") %>
+              </button>
             </div>
-            <%= render '/pwb/search/search_form_for_sale' %>
+            <%= render 'pwb/search/search_form_for_sale' %>
           </div>
         </div>
       </aside>
 
       <!-- Results Column -->
-      <main class="search-results w-full lg:w-3/4 px-4">
-        <!-- Loading Spinner -->
-        <div data-search-form-target="spinner" class="hidden">
-          <div class="flex flex-col items-center justify-center py-16">
-            <div class="w-16 h-16 border-4 border-terra-200 border-t-terra-500 rounded-full animate-spin mb-4"></div>
-            <p class="text-warm-gray-500 font-medium"><%= t('pwb.search.loading', default: 'Loading properties...') %></p>
-          </div>
-        </div>
-
-        <!-- Search Results Container -->
-        <div id="inmo-search-results" data-search-form-target="results" class="transition-opacity duration-300">
-          <%= render 'search_results' %>
-        </div>
+      <main class="search-results w-full lg:w-3/4 px-4 relative">
+        <%= render 'pwb/search/search_results_frame' %>
       </main>
     </div>
   </div>
 </section>
 
-<!-- Map Section with Stimulus controller -->
-<% if @map_markers.length > 0 %>
+<%# Map Section with Stimulus controller %>
+<% if @map_markers.present? && @map_markers.length > 0 %>
   <section class="border-t border-warm-gray-200 bg-white">
     <div class="container mx-auto px-6 py-8">
       <div class="flex items-center mb-6">
@@ -111,12 +125,19 @@
       </div>
     </div>
     <div class="w-full" style="height: 500px;">
-      <div id="search-map" 
+      <div id="search-map"
            class="w-full h-full"
            data-controller="map"
            data-map-target="canvas"
-           data-map-markers-value="<%= @map_markers.to_json %>">
+           data-map-markers-value="<%= @map_markers.to_json %>"
+           data-search-target="map">
       </div>
     </div>
   </section>
 <% end %>
+
+<%# Mobile filter backdrop %>
+<div class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden"
+     data-search-target="backdrop"
+     data-action="click->search#toggleFilters">
+</div>

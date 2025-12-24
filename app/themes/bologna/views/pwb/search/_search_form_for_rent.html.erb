@@ -1,22 +1,22 @@
-<%# Brisbane Theme Search Form For Sale - URL-based with Turbo Frames %>
-<%= form_with url: buy_path, method: :get, local: true,
+<%# Bologna Theme Search Form For Rent - URL-based with Turbo Frames %>
+<%= form_with url: rent_path, method: :get, local: true,
               data: {
                 turbo_frame: "search-results",
                 action: "submit->search#handleSubmit",
                 search_target: "form"
               },
-              class: "search-filter-form space-y-4" do |f| %>
+              class: "search-filter-form space-y-5" do |f| %>
 
   <%# Property Type %>
   <div>
-    <label for="filter-type" class="block text-sm font-medium text-gray-700 mb-1">
+    <label for="filter-type" class="block text-sm font-medium text-warm-gray-700 mb-2">
       <%= I18n.t("propertyTypes.label", default: "Property Type") %>
     </label>
     <select id="filter-type"
             name="type"
             data-filter="type"
             data-action="change->search#filterChanged"
-            class="w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500">
+            class="w-full border-warm-gray-300 rounded-soft shadow-sm focus:border-olive-500 focus:ring-olive-500 text-warm-gray-900">
       <option value=""><%= I18n.t("propertyTypes.all", default: "All Types") %></option>
       <% Pwb::ListedProperty.distinct.pluck(:prop_type_key).compact.each do |type| %>
         <% type_slug = type.to_s.split('.').last %>
@@ -30,47 +30,46 @@
     </select>
   </div>
 
-  <%# Price Range %>
-  <div class="grid grid-cols-2 gap-3">
-    <div>
-      <label for="filter-price-min" class="block text-sm font-medium text-gray-700 mb-1">
-        <%= I18n.t("search.min_price", default: "Min Price") %>
-      </label>
-      <select id="filter-price-min"
-              name="price_min"
-              data-filter="price_min"
-              data-action="change->search#filterChanged"
-              class="w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm">
-        <option value=""><%= I18n.t("search.any", default: "Any") %></option>
-        <% @prices_from_collection&.each do |price| %>
-          <option value="<%= price %>" <%= 'selected' if @search_criteria_for_view[:price_min].to_i == price.to_i && price.present? %>>
-            <%= number_to_currency(price, precision: 0) %>
-          </option>
-        <% end %>
-      </select>
-    </div>
-    <div>
-      <label for="filter-price-max" class="block text-sm font-medium text-gray-700 mb-1">
-        <%= I18n.t("search.max_price", default: "Max Price") %>
-      </label>
-      <select id="filter-price-max"
-              name="price_max"
-              data-filter="price_max"
-              data-action="change->search#filterChanged"
-              class="w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm">
-        <option value=""><%= I18n.t("search.any", default: "Any") %></option>
-        <% @prices_till_collection&.each do |price| %>
-          <option value="<%= price %>" <%= 'selected' if @search_criteria_for_view[:price_max].to_i == price.to_i && price.present? %>>
-            <%= number_to_currency(price, precision: 0) %>
-          </option>
-        <% end %>
-      </select>
+  <%# Monthly Rent Range %>
+  <div>
+    <label class="block text-sm font-medium text-warm-gray-700 mb-2">
+      <%= I18n.t("search.rent_range", default: "Monthly Rent") %>
+    </label>
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <select id="filter-price-min"
+                name="price_min"
+                data-filter="price_min"
+                data-action="change->search#filterChanged"
+                class="w-full border-warm-gray-300 rounded-soft shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
+          <option value=""><%= I18n.t("search.min", default: "Min") %></option>
+          <% @prices_from_collection&.each do |price| %>
+            <option value="<%= price %>" <%= 'selected' if @search_criteria_for_view[:price_min].to_i == price.to_i && price.present? %>>
+              <%= number_to_currency(price, precision: 0) %>/mo
+            </option>
+          <% end %>
+        </select>
+      </div>
+      <div>
+        <select id="filter-price-max"
+                name="price_max"
+                data-filter="price_max"
+                data-action="change->search#filterChanged"
+                class="w-full border-warm-gray-300 rounded-soft shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
+          <option value=""><%= I18n.t("search.max", default: "Max") %></option>
+          <% @prices_till_collection&.each do |price| %>
+            <option value="<%= price %>" <%= 'selected' if @search_criteria_for_view[:price_max].to_i == price.to_i && price.present? %>>
+              <%= number_to_currency(price, precision: 0) %>/mo
+            </option>
+          <% end %>
+        </select>
+      </div>
     </div>
   </div>
 
   <%# Bedrooms %>
   <div>
-    <label class="block text-sm font-medium text-gray-700 mb-2">
+    <label class="block text-sm font-medium text-warm-gray-700 mb-3">
       <%= I18n.t("amenities.bedrooms", default: "Bedrooms") %>
     </label>
     <div class="flex flex-wrap gap-2">
@@ -83,7 +82,7 @@
                  data-action="change->search#filterChanged"
                  class="sr-only peer"
                  <%= 'checked' if @search_criteria_for_view[:bedrooms].to_i == num.to_i && (num.present? || @search_criteria_for_view[:bedrooms].blank?) %>>
-          <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium cursor-pointer border border-gray-300 bg-white text-gray-700 peer-checked:bg-orange-600 peer-checked:text-white peer-checked:border-orange-600 hover:bg-gray-50 peer-checked:hover:bg-orange-700 transition-colors">
+          <span class="inline-flex items-center px-3 py-1.5 rounded-pill text-sm font-medium cursor-pointer border border-warm-gray-300 bg-white text-warm-gray-700 peer-checked:bg-olive-500 peer-checked:text-white peer-checked:border-olive-500 hover:bg-warm-gray-50 peer-checked:hover:bg-olive-600 transition-all duration-200">
             <%= num.nil? ? I18n.t("search.any", default: "Any") : "#{num}+" %>
           </span>
         </label>
@@ -93,7 +92,7 @@
 
   <%# Bathrooms %>
   <div>
-    <label class="block text-sm font-medium text-gray-700 mb-2">
+    <label class="block text-sm font-medium text-warm-gray-700 mb-3">
       <%= I18n.t("amenities.bathrooms", default: "Bathrooms") %>
     </label>
     <div class="flex flex-wrap gap-2">
@@ -106,7 +105,7 @@
                  data-action="change->search#filterChanged"
                  class="sr-only peer"
                  <%= 'checked' if @search_criteria_for_view[:bathrooms].to_i == num.to_i && (num.present? || @search_criteria_for_view[:bathrooms].blank?) %>>
-          <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium cursor-pointer border border-gray-300 bg-white text-gray-700 peer-checked:bg-orange-600 peer-checked:text-white peer-checked:border-orange-600 hover:bg-gray-50 peer-checked:hover:bg-orange-700 transition-colors">
+          <span class="inline-flex items-center px-3 py-1.5 rounded-pill text-sm font-medium cursor-pointer border border-warm-gray-300 bg-white text-warm-gray-700 peer-checked:bg-olive-500 peer-checked:text-white peer-checked:border-olive-500 hover:bg-warm-gray-50 peer-checked:hover:bg-olive-600 transition-all duration-200">
             <%= num.nil? ? I18n.t("search.any", default: "Any") : "#{num}+" %>
           </span>
         </label>
@@ -117,14 +116,14 @@
   <%# Location (Zone) %>
   <% if @zones.present? && @zones.length > 1 %>
     <div>
-      <label for="filter-zone" class="block text-sm font-medium text-gray-700 mb-1">
+      <label for="filter-zone" class="block text-sm font-medium text-warm-gray-700 mb-2">
         <%= I18n.t("search.zone", default: "Zone") %>
       </label>
       <select id="filter-zone"
               name="zone"
               data-filter="zone"
               data-action="change->search#filterChanged"
-              class="w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500">
+              class="w-full border-warm-gray-300 rounded-soft shadow-sm focus:border-olive-500 focus:ring-olive-500">
         <option value=""><%= I18n.t("search.all_zones", default: "All Zones") %></option>
         <% @zones.each do |zone| %>
           <option value="<%= zone.key %>" <%= 'selected' if @search_criteria_for_view[:zone] == zone.key %>>
@@ -138,14 +137,14 @@
   <%# Location (Locality) %>
   <% if @localities.present? && @localities.length > 1 %>
     <div>
-      <label for="filter-locality" class="block text-sm font-medium text-gray-700 mb-1">
+      <label for="filter-locality" class="block text-sm font-medium text-warm-gray-700 mb-2">
         <%= I18n.t("search.locality", default: "Locality") %>
       </label>
       <select id="filter-locality"
               name="locality"
               data-filter="locality"
               data-action="change->search#filterChanged"
-              class="w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500">
+              class="w-full border-warm-gray-300 rounded-soft shadow-sm focus:border-olive-500 focus:ring-olive-500">
         <option value=""><%= I18n.t("search.all_localities", default: "All Localities") %></option>
         <% @localities.each do |locality| %>
           <option value="<%= locality.key %>" <%= 'selected' if @search_criteria_for_view[:locality] == locality.key %>>
@@ -158,21 +157,21 @@
 
   <%# Features %>
   <% if @feature_list.present? %>
-    <div class="border-t border-gray-200 pt-4">
-      <label class="block text-sm font-medium text-gray-700 mb-2">
+    <div class="border-t border-warm-gray-200 pt-5">
+      <label class="block text-sm font-medium text-warm-gray-700 mb-3">
         <%= I18n.t("search.features", default: "Features") %>
       </label>
       <div class="space-y-2 max-h-48 overflow-y-auto">
         <% @feature_list.each do |feature| %>
-          <label class="flex items-center">
+          <label class="flex items-center group cursor-pointer">
             <input type="checkbox"
                    name="features[]"
                    value="<%= feature[:key] %>"
                    data-filter="feature"
                    data-action="change->search#filterChanged"
-                   class="rounded border-gray-300 text-orange-600 focus:ring-orange-500"
+                   class="rounded-soft border-warm-gray-300 text-olive-500 focus:ring-olive-500"
                    <%= 'checked' if @search_criteria_for_view[:features]&.include?(feature[:key]) %>>
-            <span class="ml-2 text-sm text-gray-700"><%= feature[:label] %></span>
+            <span class="ml-2 text-sm text-warm-gray-600 group-hover:text-warm-gray-900 transition-colors"><%= feature[:label] %></span>
           </label>
         <% end %>
       </div>
@@ -180,9 +179,9 @@
   <% end %>
 
   <%# Mobile: Apply filters button %>
-  <div class="lg:hidden pt-4 border-t border-gray-200">
+  <div class="lg:hidden pt-5 border-t border-warm-gray-200">
     <button type="submit"
-            class="w-full bg-orange-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+            class="w-full bg-olive-500 text-white font-medium py-3 px-4 rounded-soft shadow-soft hover:bg-olive-600 hover:shadow-medium focus:outline-none focus:ring-2 focus:ring-olive-500 focus:ring-offset-2 transition-all duration-200"
             data-action="click->search#applyAndClose">
       <%= I18n.t("search.show_results", default: "Show Results") %>
     </button>

@@ -7,8 +7,8 @@ This document outlines the plan to implement the search improvements across all 
 | Theme    | URL State | Turbo Frames | Filter Population | Status      |
 |----------|-----------|--------------|-------------------|-------------|
 | default  | ✅        | ✅           | ✅                | Complete    |
-| brisbane | ❌        | ❌           | ❌                | Not started |
-| bologna  | ❌        | ❌           | ❌                | Not started |
+| brisbane | ✅        | ✅           | ✅                | Complete    |
+| bologna  | ✅        | ✅           | ✅                | Complete    |
 
 ## Shared Components (Already Updated)
 
@@ -48,32 +48,32 @@ app/themes/brisbane/views/pwb/search/
 
 **Task List:**
 
-- [ ] **1. Update `buy.html.erb`**
+- [x] **1. Update `buy.html.erb`**
   - Change `data-controller="search-form"` to `data-controller="search"`
   - Add `data-search-operation-value="buy"` and `data-search-locale-value`
   - Add canonical URL meta tag in head
   - Replace `<%= render 'search_results' %>` with `<%= render 'pwb/search/search_results_frame' %>`
   - Add mobile filter backdrop div
 
-- [ ] **2. Update `rent.html.erb`**
+- [x] **2. Update `rent.html.erb`**
   - Same changes as buy.html.erb
   - Change operation value to "rent"
 
-- [ ] **3. Update `_search_form_for_sale.html.erb`**
+- [x] **3. Update `_search_form_for_sale.html.erb`**
   - Change form to use `method: :get` with `data: { turbo_frame: "search-results" }`
   - Update property type dropdown to use slugs and match correctly
   - Update price dropdowns to populate from `@search_criteria_for_view`
   - Update bedroom/bathroom inputs to check against criteria
   - Add `data-action="change->search#filterChanged"` to all filter inputs
 
-- [ ] **4. Update `_search_form_for_rent.html.erb`**
+- [x] **4. Update `_search_form_for_rent.html.erb`**
   - Same changes as sale form
   - Ensure price labels say "Monthly Rent"
 
-- [ ] **5. Update `_search_results.html.erb`** (if theme-specific)
+- [x] **5. Update `_search_results.html.erb`** (if theme-specific)
   - Ensure compatibility with Turbo Frame updates
 
-**Estimated effort:** 2-3 hours
+**Estimated effort:** 2-3 hours (COMPLETED)
 
 ---
 
@@ -88,26 +88,26 @@ app/themes/bologna/views/pwb/search/
 └── _search_results.html.erb          # Results display
 ```
 
-**Note:** Bologna uses shared form partials from `app/views/pwb/search/`
+**Note:** Bologna now has theme-specific form partials in `app/themes/bologna/views/pwb/search/`
 
 **Task List:**
 
-- [ ] **1. Update `buy.html.erb`**
+- [x] **1. Update `buy.html.erb`**
   - Change `data-controller="search-form"` to `data-controller="search"`
   - Add `data-search-operation-value="buy"` and `data-search-locale-value`
   - Add canonical URL meta tag
   - Replace results rendering with Turbo Frame
   - Add mobile filter backdrop
 
-- [ ] **2. Update `rent.html.erb`**
+- [x] **2. Update `rent.html.erb`**
   - Same changes as buy.html.erb
   - Change operation value to "rent"
 
-- [ ] **3. Update shared form partials** (if not already done)
-  - `app/views/pwb/search/_search_form_for_sale.html.erb`
-  - `app/views/pwb/search/_search_form_for_rent.html.erb`
+- [x] **3. Create theme-specific form partials**
+  - `app/themes/bologna/views/pwb/search/_search_form_for_sale.html.erb`
+  - `app/themes/bologna/views/pwb/search/_search_form_for_rent.html.erb`
 
-**Estimated effort:** 1-2 hours
+**Estimated effort:** 1-2 hours (COMPLETED)
 
 ---
 

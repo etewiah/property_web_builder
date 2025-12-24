@@ -1,158 +1,190 @@
-<!-- Brisbane Theme Search Form For Rent - Tailwind CSS -->
-<div class="bg-white rounded-lg shadow-sm border border-gray-200">
-  <div class="bg-gray-800 px-4 py-3 rounded-t-lg">
-    <h2 class="text-lg font-semibold text-white">
-      <%= I18n.t("search.filters", default: "Filters") %>
-    </h2>
+<%# Brisbane Theme Search Form For Rent - URL-based with Turbo Frames %>
+<%= form_with url: rent_path, method: :get, local: true,
+              data: {
+                turbo_frame: "search-results",
+                action: "submit->search#handleSubmit",
+                search_target: "form"
+              },
+              class: "search-filter-form space-y-4" do |f| %>
+
+  <%# Property Type %>
+  <div>
+    <label for="filter-type" class="block text-sm font-medium text-gray-700 mb-1">
+      <%= I18n.t("propertyTypes.label", default: "Property Type") %>
+    </label>
+    <select id="filter-type"
+            name="type"
+            data-filter="type"
+            data-action="change->search#filterChanged"
+            class="w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500">
+      <option value=""><%= I18n.t("propertyTypes.all", default: "All Types") %></option>
+      <% Pwb::ListedProperty.distinct.pluck(:prop_type_key).compact.each do |type| %>
+        <% type_slug = type.to_s.split('.').last %>
+        <% is_selected = @search_criteria_for_view[:property_type].present? &&
+                         (type == @search_criteria_for_view[:property_type] ||
+                          type_slug == @search_criteria_for_view[:property_type]) %>
+        <option value="<%= type_slug %>" <%= 'selected' if is_selected %>>
+          <%= I18n.t("propertyTypes.#{type_slug}", default: type_slug.titleize) %>
+        </option>
+      <% end %>
+    </select>
   </div>
-  <div class="p-4">
-    <%= simple_form_for :search, url: '/search_ajax_for_rent.js',
-        method: 'post',
-        html: { class: 'space-y-4' }, remote: true do |f| %>
 
-            <div class="grid grid-cols-2 gap-4">
-        <div class="form-group">
-          <label class="block text-sm font-medium text-gray-700 mb-1">
-            <%= I18n.t("simple_form.labels.search.for_rent_price_from") %>
-          </label>
-          <%= render partial: "pwb/shared/flowbite_select", locals: {
-              name: "search[for_rent_price_from]",
-              id: "search_for_rent_price_from",
-              options: @prices_from_collection.map { |p| p.blank? ? ["Any", ""] : [p, p] },
-              selected: @search_defaults["for_rent_price_from"],
-              placeholder: "Any"
-          } %>
-        </div>
-        <div class="form-group">
-          <label class="block text-sm font-medium text-gray-700 mb-1">
-            <%= I18n.t("simple_form.labels.search.for_rent_price_till") %>
-          </label>
-          <%= render partial: "pwb/shared/flowbite_select", locals: {
-              name: "search[for_rent_price_till]",
-              id: "search_for_rent_price_till",
-              options: @prices_till_collection.map { |p| p.blank? ? ["Any", ""] : [p, p] },
-              selected: @search_defaults["for_rent_price_till"],
-              placeholder: "Any"
-          } %>
-        </div>
-      </div>      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          <%= I18n.t("simple_form.labels.search.property_type") %>
+  <%# Monthly Rent Range %>
+  <div class="grid grid-cols-2 gap-3">
+    <div>
+      <label for="filter-price-min" class="block text-sm font-medium text-gray-700 mb-1">
+        <%= I18n.t("search.min_rent", default: "Min Rent") %>
+      </label>
+      <select id="filter-price-min"
+              name="price_min"
+              data-filter="price_min"
+              data-action="change->search#filterChanged"
+              class="w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm">
+        <option value=""><%= I18n.t("search.any", default: "Any") %></option>
+        <% @prices_from_collection&.each do |price| %>
+          <option value="<%= price %>" <%= 'selected' if @search_criteria_for_view[:price_min].to_i == price.to_i && price.present? %>>
+            <%= number_to_currency(price, precision: 0) %>/mo
+          </option>
+        <% end %>
+      </select>
+    </div>
+    <div>
+      <label for="filter-price-max" class="block text-sm font-medium text-gray-700 mb-1">
+        <%= I18n.t("search.max_rent", default: "Max Rent") %>
+      </label>
+      <select id="filter-price-max"
+              name="price_max"
+              data-filter="price_max"
+              data-action="change->search#filterChanged"
+              class="w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm">
+        <option value=""><%= I18n.t("search.any", default: "Any") %></option>
+        <% @prices_till_collection&.each do |price| %>
+          <option value="<%= price %>" <%= 'selected' if @search_criteria_for_view[:price_max].to_i == price.to_i && price.present? %>>
+            <%= number_to_currency(price, precision: 0) %>/mo
+          </option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+
+  <%# Bedrooms %>
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-2">
+      <%= I18n.t("amenities.bedrooms", default: "Bedrooms") %>
+    </label>
+    <div class="flex flex-wrap gap-2">
+      <% [nil, 1, 2, 3, 4, 5].each do |num| %>
+        <label class="bedroom-chip">
+          <input type="radio"
+                 name="bedrooms"
+                 value="<%= num %>"
+                 data-filter="bedrooms"
+                 data-action="change->search#filterChanged"
+                 class="sr-only peer"
+                 <%= 'checked' if @search_criteria_for_view[:bedrooms].to_i == num.to_i && (num.present? || @search_criteria_for_view[:bedrooms].blank?) %>>
+          <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium cursor-pointer border border-gray-300 bg-white text-gray-700 peer-checked:bg-orange-600 peer-checked:text-white peer-checked:border-orange-600 hover:bg-gray-50 peer-checked:hover:bg-orange-700 transition-colors">
+            <%= num.nil? ? I18n.t("search.any", default: "Any") : "#{num}+" %>
+          </span>
         </label>
-        <%= render partial: "pwb/shared/flowbite_select", locals: {
-            name: "search[property_type]",
-            id: "search_property_type",
-            options: [["Any", ""]] + @property_types.map { |pt| [pt.label, pt.value] },
-            selected: @search_defaults["property_type"],
-            placeholder: "Any"
-        } %>
-      </div>
-
-      <% if @zones && (@zones.length > 1) %>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">
-            <%= I18n.t("simple_form.labels.search.in_zone") %>
-          </label>
-          <%= render partial: "pwb/shared/flowbite_select", locals: {
-              name: "search[in_zone]",
-              id: "search_in_zone",
-              options: [["Any", ""]] + @zones.map { |z| [z.to_s, z.key] },
-              selected: @search_defaults["in_zone"],
-              placeholder: "Any"
-          } %>
-        </div>
       <% end %>
+    </div>
+  </div>
 
-      <% if @localities && (@localities.length > 1) %>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">
-            <%= I18n.t("simple_form.labels.search.in_locality") %>
-          </label>
-          <%= render partial: "pwb/shared/flowbite_select", locals: {
-              name: "search[in_locality]",
-              id: "search_in_locality",
-              options: [["Any", ""]] + @localities.map { |l| [l.to_s, l.key] },
-              selected: @search_defaults["in_locality"],
-              placeholder: "Any"
-          } %>
-        </div>
+  <%# Bathrooms %>
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-2">
+      <%= I18n.t("amenities.bathrooms", default: "Bathrooms") %>
+    </label>
+    <div class="flex flex-wrap gap-2">
+      <% [nil, 1, 2, 3, 4].each do |num| %>
+        <label class="bathroom-chip">
+          <input type="radio"
+                 name="bathrooms"
+                 value="<%= num %>"
+                 data-filter="bathrooms"
+                 data-action="change->search#filterChanged"
+                 class="sr-only peer"
+                 <%= 'checked' if @search_criteria_for_view[:bathrooms].to_i == num.to_i && (num.present? || @search_criteria_for_view[:bathrooms].blank?) %>>
+          <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium cursor-pointer border border-gray-300 bg-white text-gray-700 peer-checked:bg-orange-600 peer-checked:text-white peer-checked:border-orange-600 hover:bg-gray-50 peer-checked:hover:bg-orange-700 transition-colors">
+            <%= num.nil? ? I18n.t("search.any", default: "Any") : "#{num}+" %>
+          </span>
+        </label>
       <% end %>
+    </div>
+  </div>
 
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">
-            <%= I18n.t("simple_form.labels.search.count_bedrooms") %>
+  <%# Location (Zone) %>
+  <% if @zones.present? && @zones.length > 1 %>
+    <div>
+      <label for="filter-zone" class="block text-sm font-medium text-gray-700 mb-1">
+        <%= I18n.t("search.zone", default: "Zone") %>
+      </label>
+      <select id="filter-zone"
+              name="zone"
+              data-filter="zone"
+              data-action="change->search#filterChanged"
+              class="w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500">
+        <option value=""><%= I18n.t("search.all_zones", default: "All Zones") %></option>
+        <% @zones.each do |zone| %>
+          <option value="<%= zone.key %>" <%= 'selected' if @search_criteria_for_view[:zone] == zone.key %>>
+            <%= zone.to_s %>
+          </option>
+        <% end %>
+      </select>
+    </div>
+  <% end %>
+
+  <%# Location (Locality) %>
+  <% if @localities.present? && @localities.length > 1 %>
+    <div>
+      <label for="filter-locality" class="block text-sm font-medium text-gray-700 mb-1">
+        <%= I18n.t("search.locality", default: "Locality") %>
+      </label>
+      <select id="filter-locality"
+              name="locality"
+              data-filter="locality"
+              data-action="change->search#filterChanged"
+              class="w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500">
+        <option value=""><%= I18n.t("search.all_localities", default: "All Localities") %></option>
+        <% @localities.each do |locality| %>
+          <option value="<%= locality.key %>" <%= 'selected' if @search_criteria_for_view[:locality] == locality.key %>>
+            <%= locality.to_s %>
+          </option>
+        <% end %>
+      </select>
+    </div>
+  <% end %>
+
+  <%# Features %>
+  <% if @feature_list.present? %>
+    <div class="border-t border-gray-200 pt-4">
+      <label class="block text-sm font-medium text-gray-700 mb-2">
+        <%= I18n.t("search.features", default: "Features") %>
+      </label>
+      <div class="space-y-2 max-h-48 overflow-y-auto">
+        <% @feature_list.each do |feature| %>
+          <label class="flex items-center">
+            <input type="checkbox"
+                   name="features[]"
+                   value="<%= feature[:key] %>"
+                   data-filter="feature"
+                   data-action="change->search#filterChanged"
+                   class="rounded border-gray-300 text-orange-600 focus:ring-orange-500"
+                   <%= 'checked' if @search_criteria_for_view[:features]&.include?(feature[:key]) %>>
+            <span class="ml-2 text-sm text-gray-700"><%= feature[:label] %></span>
           </label>
-          <%= render partial: "pwb/shared/flowbite_select", locals: {
-              name: "search[count_bedrooms]",
-              id: "search_count_bedrooms",
-              options: [["Any", ""]] + (0..50).map { |n| [n, n] },
-              selected: @search_defaults["count_bedrooms"],
-              placeholder: "Any"
-          } %>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">
-            <%= I18n.t("simple_form.labels.search.count_bathrooms") %>
-          </label>
-          <%= render partial: "pwb/shared/flowbite_select", locals: {
-              name: "search[count_bathrooms]",
-              id: "search_count_bathrooms",
-              options: [["Any", ""]] + (0..20).map { |n| [n, n] },
-              selected: @search_defaults["count_bathrooms"],
-              placeholder: "Any"
-          } %>
-        </div>
-      </div>
-
-      <% if @property_features.present? && @property_features.any? %>
-        <div class="border-t border-gray-200 pt-4 mt-4">
-          <button type="button" class="w-full flex items-center justify-between text-left text-sm font-medium text-gray-700 mb-2" onclick="document.getElementById('features-panel-rent').classList.toggle('hidden');">
-            <span><%= I18n.t("search.features_label", default: "Features") %></span>
-            <svg class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
-          <div id="features-panel-rent" class="space-y-2 max-h-48 overflow-y-auto">
-            <% @property_features.each do |feature| %>
-              <label class="flex items-center text-sm text-gray-600 hover:text-gray-900 cursor-pointer">
-                <input type="checkbox" name="search[features][]" value="<%= feature.value %>"
-                       class="h-4 w-4 border border-gray-300 rounded text-blue-600 focus:ring-blue-500 focus:ring-2 accent-blue-600 mr-2"
-                       <%= 'checked' if @search_defaults.dig("features")&.include?(feature.value) %>>
-                <%= feature.label %>
-              </label>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-
-      <div class="pt-2">
-        <%= f.button :button, class: "w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition flex items-center justify-center",
-            id: "btn_buscar_inmuebles" do %>
-          <i class="fa fa-search mr-2"></i>
-          <%= I18n.t("search") %>
         <% end %>
       </div>
-    <% end %>
+    </div>
+  <% end %>
+
+  <%# Mobile: Apply filters button %>
+  <div class="lg:hidden pt-4 border-t border-gray-200">
+    <button type="submit"
+            class="w-full bg-orange-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+            data-action="click->search#applyAndClose">
+      <%= I18n.t("search.show_results", default: "Show Results") %>
+    </button>
   </div>
-</div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('form[action="/search_ajax_for_rent.js"]');
-    if (form) {
-      form.addEventListener('submit', function(e) {
-        const formData = new FormData(form);
-        const params = new URLSearchParams();
-        for (const [key, value] of formData.entries()) {
-          if (value && key.startsWith('search[')) {
-             params.append(key, value);
-          }
-        }
-        const newUrl = window.location.pathname + '?' + params.toString();
-        window.history.pushState({path: newUrl}, '', newUrl);
-      });
-    }
-  });
-</script>
-
+<% end %>
