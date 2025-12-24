@@ -109,11 +109,11 @@
     <% end %>
   </div>
 
-  <%# Pagination %>
-  <% if @properties.respond_to?(:total_pages) && @properties.total_pages > 1 %>
+  <%# Pagination with Pagy %>
+  <% if @pagy && @pagy.pages > 1 %>
     <nav class="search-pagination flex items-center justify-center mt-8 gap-2" aria-label="<%= t('search.pagination', default: 'Pagination') %>">
-      <% current_page = @properties.current_page %>
-      <% total_pages = @properties.total_pages %>
+      <% current_page = @pagy.page %>
+      <% total_pages = @pagy.pages %>
       
       <%# Previous button %>
       <% if current_page > 1 %>
