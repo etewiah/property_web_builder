@@ -36,6 +36,15 @@ Three themes implement search pages with varying designs:
 - **brisbane** - Tailwind CSS, blue accent colors
 - **bologna** - Tailwind CSS, warm terra cotta/olive palette
 
+### Technology Stack
+
+- **Stimulus.js** - All JavaScript interactions (filter toggles, form handling)
+- **Leaflet** - Map rendering with OpenStreetMap tiles
+- **Rails UJS** - AJAX form submissions (`remote: true`)
+- **Vanilla JavaScript** - AJAX response handling (no jQuery)
+
+> **Note**: Vue.js and jQuery have been fully removed from search functionality.
+
 ---
 
 ## Search Pages
@@ -267,9 +276,8 @@ Uses **Leaflet** with OpenStreetMap tiles.
 - [ ] Styled appropriately for theme
 
 #### AJAX Updates
-- [ ] **ISSUE**: Current AJAX response calls `INMOAPP.pwbVue.$refs.inmomap.resetMarkers(markers)`
-- [ ] This references Vue which may not exist after Vue removal
-- [ ] Map markers should update when filters change
+- [ ] Map markers update via Stimulus controller when filters change
+- [ ] Custom `search:updated` event is dispatched for coordination
 
 ---
 
@@ -285,51 +293,49 @@ Uses **Leaflet** with OpenStreetMap tiles.
 ### Current AJAX Response (`search_ajax.js.erb`)
 
 ```javascript
-$('#inmo-search-results').html("<%= j (render 'search_results') %>");
-var markers = <%= @map_markers.to_json.html_safe %>;
-INMOAPP.pwbVue.$refs.inmomap.resetMarkers(markers);
-INMOAPP.truncateDescriptions();
-INMOAPP.sortSearchResults();
+// Update search results (vanilla JS - no jQuery)
+(function() {
+  var resultsContainer = document.getElementById('inmo-search-results');
+  if (resultsContainer) {
+    resultsContainer.innerHTML = "<%= j (render 'search_results') %>";
+  }
+
+  // Update map markers if map controller exists
+  var markers = <%= @map_markers.to_json.html_safe %>;
+  var mapElement = document.querySelector('[data-controller~="map"]');
+  if (mapElement && mapElement.mapController) {
+    mapElement.mapController.updateMarkers(markers);
+  }
+
+  // Trigger custom event for Stimulus controllers to react
+  document.dispatchEvent(new CustomEvent('search:updated', {
+    detail: { markers: markers }
+  }));
+})();
 ```
 
 ### Expected Behaviors
 
-- [ ] Results HTML replaced atomically
-- [ ] Map markers array updated
-- [ ] Description truncation applied
-- [ ] Sort functionality available
-
-### Known Issues with AJAX
-
-1. **Vue Reference**: `INMOAPP.pwbVue.$refs.inmomap` may not exist after Vue removal
-2. **jQuery Dependency**: Requires jQuery to be loaded and available
-3. **Map Update**: Map may not update correctly after AJAX
+- [ ] Results HTML replaced atomically using vanilla JavaScript
+- [ ] Map markers updated via Stimulus controller
+- [ ] Custom event dispatched for other Stimulus controllers to react
 
 ---
 
 ## Known Issues
-
-### Critical
-
-| Issue | Description | Location |
-|-------|-------------|----------|
-| Vue Reference in AJAX | `INMOAPP.pwbVue.$refs.inmomap.resetMarkers` references removed Vue | `search_ajax.js.erb:3` |
-| Pagination Hidden | Pagination exists but is `display:none` | `_search_results.html.erb:22` |
 
 ### Moderate
 
 | Issue | Description | Location |
 |-------|-------------|----------|
 | 45 Result Limit | No pagination means results are capped | `search_controller.rb:55` |
-| jQuery Timing | Deferred jQuery may cause timing issues | All themes |
-| Clear Filters Button | Uses jQuery with selectpicker which may not exist | `_search_results.html.erb:12` |
+| Pagination Hidden | Pagination exists but is `display:none` | `_search_results.html.erb:22` |
 
 ### Minor
 
 | Issue | Description | Location |
 |-------|-------------|----------|
 | Description Truncation | `truncated_description` div is `display:none` | `_search_result_item.html.erb:31` |
-| Legacy Commented Code | Old form HTML commented out | `_search_form_for_sale.html.erb:63-211` |
 
 ---
 
@@ -377,30 +383,21 @@ INMOAPP.sortSearchResults();
 
 ## Recommended Fixes
 
-### Priority 1 - Critical
+### Priority 1 - Important
 
-1. **Fix AJAX Map Update**: Replace Vue reference with Leaflet-native update
-   ```javascript
-   // Replace:
-   INMOAPP.pwbVue.$refs.inmomap.resetMarkers(markers);
-   // With Leaflet-native marker update function
-   ```
+1. **Implement Pagination**: Enable functional pagination or infinite scroll to handle more than 45 results
 
-2. **Implement Pagination**: Enable functional pagination or infinite scroll
+### Priority 2 - Nice to Have
 
-### Priority 2 - Important
-
-3. **Remove Legacy Code**: Delete commented HTML in search forms
-4. **Fix Clear Filters**: Update to work without selectpicker
-
-### Priority 3 - Nice to Have
-
-5. **Add Loading States**: Better visual feedback during AJAX
-6. **Add Result Count**: Show "X properties found"
-7. **Add Sort Controls**: UI for price/date sorting
+2. **Add Result Count**: Show "X properties found"
+3. **Add Sort Controls**: UI for price/date sorting
 
 ---
 
-**Document Version:** 1.0
+**Document Version:** 1.1
 **Created:** 2024-12-22
+**Updated:** 2024-12-24
 **Based on:** Current codebase analysis
+
+### Changelog
+- **1.1** (2024-12-24): Removed Vue.js and jQuery references. Updated AJAX implementation to reflect vanilla JS approach with Stimulus controllers.
