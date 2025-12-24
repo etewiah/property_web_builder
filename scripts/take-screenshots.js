@@ -29,6 +29,7 @@ const PAGES = [
   { name: 'home-en', path: '/en' },
   { name: 'buy', path: '/en/buy' },
   { name: 'rent', path: '/en/rent' },
+  { name: 'sell', path: '/p/sell' },
   { name: 'contact', path: '/contact-us' },
   { name: 'about', path: '/about-us' },
 ];
