@@ -160,9 +160,6 @@
     --radius: var(--border-radius, 0.375rem);
     --color-primary: var(--primary-color, #3b82f6);
     --color-secondary: var(--secondary-color, #64748b);
-    --color-services-bg: var(--services-bg-color, #f8fafc);
-    --color-services-card: var(--services-card-bg, #ffffff);
-    --color-services-text: var(--services-text-color, #1e293b);
   }
 }
 @layer base {
@@ -1434,12 +1431,6 @@
   .bg-red-600 {
     background-color: var(--color-red-600);
   }
-  .bg-services-bg {
-    background-color: var(--color-services-bg);
-  }
-  .bg-services-card {
-    background-color: var(--color-services-card);
-  }
   .bg-sky-100 {
     background-color: var(--color-sky-100);
   }
@@ -2004,9 +1995,6 @@
   }
   .text-red-800 {
     color: var(--color-red-800);
-  }
-  .text-services-text {
-    color: var(--color-services-text);
   }
   .text-sky-500 {
     color: var(--color-sky-500);
@@ -4497,7 +4485,7 @@
 }
 @media (min-width: 768px) {
   .services-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 }
 @property --tw-translate-x {
