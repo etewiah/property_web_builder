@@ -1,5 +1,6 @@
 <% page_title @property_details.title %>
 <%= render '/pwb/props/meta_tags' %>
+<%= render 'pwb/shared/leaflet_assets' %>
 
 <%# Bologna Theme - Property Detail Page %>
 <%# Modern, clean layout with generous whitespace and soft curves %>
@@ -148,7 +149,7 @@
 </section>
 
 <!-- Map Section -->
-<% if @property_details.show_map %>
+<% if @property_details.show_map && @map_markers.present? %>
   <section class="bg-warm-gray-50 border-t border-warm-gray-100">
     <div class="container mx-auto px-6 py-12">
       <div class="flex items-center mb-8">
@@ -159,12 +160,13 @@
           <%= t('pwb.property.location', default: 'Location') %>
         </h2>
       </div>
-      <div class="rounded-softer overflow-hidden shadow-soft">
-        <div id="inmo-map-canvas" class="w-full">
-          <inmo-map style="min-height: 500px;"
-                    :markers="<%= @map_markers.to_json %>"
-                    :zoom="15">
-          </inmo-map>
+      <div class="rounded-softer overflow-hidden shadow-soft" style="height: 400px;">
+        <div id="property-map"
+             class="w-full h-full"
+             data-controller="map"
+             data-map-target="canvas"
+             data-map-markers-value="<%= @map_markers.to_json %>"
+             data-map-zoom-value="15">
         </div>
       </div>
     </div>
