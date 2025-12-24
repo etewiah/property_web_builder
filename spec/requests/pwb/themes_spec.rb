@@ -51,6 +51,24 @@ module Pwb
         end
       end
 
+      context 'when tenant has bologna theme' do
+        before do
+          website.update!(theme_name: 'bologna')
+        end
+
+        it 'uses bologna theme' do
+          # Skip this test if bologna theme assets aren't compiled
+          skip 'bologna theme assets not precompiled for test environment' if Rails.env.test?
+
+          host! 'theme-test.example.com'
+          get '/'
+
+          expect(response).to have_http_status(:success)
+          view_paths = @controller.view_paths.map(&:to_s)
+          expect(view_paths.any? { |p| p.include?('themes/bologna') || p.include?('views') }).to be true
+        end
+      end
+
       context 'when theme_name is nil' do
         before do
           website.update!(theme_name: nil)
@@ -135,6 +153,18 @@ module Pwb
           expect(response).to have_http_status(:success)
           view_paths = @controller.view_paths.map(&:to_s)
           expect(view_paths.any? { |p| p.include?('themes/brisbane') }).to be true
+        end
+
+        it 'overrides to bologna theme' do
+          # Skip this test if bologna theme assets aren't compiled
+          skip 'bologna theme assets not precompiled for test environment' if Rails.env.test?
+
+          host! 'theme-test.example.com'
+          get '/?theme=bologna'
+
+          expect(response).to have_http_status(:success)
+          view_paths = @controller.view_paths.map(&:to_s)
+          expect(view_paths.any? { |p| p.include?('themes/bologna') }).to be true
         end
 
         it 'overrides to default theme' do

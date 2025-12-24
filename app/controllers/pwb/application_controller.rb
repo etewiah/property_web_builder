@@ -6,10 +6,13 @@ module Pwb
     before_action :current_agency_and_website, :check_locked_website, :nav_links,
       :set_locale, :set_theme_path, :footer_content
 
+    # Themes allowed to be switched via ?theme= URL parameter
+    ALLOWED_THEMES = %w[default brisbane bologna].freeze
+
     def set_theme_path
       theme_name = current_website&.theme_name
       if params[:theme].present?
-        if %w(default brisbane).include? params[:theme]
+        if ALLOWED_THEMES.include?(params[:theme])
           theme_name = params[:theme]
         end
       end
