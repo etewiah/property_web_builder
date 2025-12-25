@@ -134,7 +134,7 @@ Rails.application.routes.draw do
     # Image library API for page part editor
     resources :images, only: %i[index create]
 
-    resources :props, only: %i[index show] do
+    resources :props, only: %i[index show new create] do
       member do
         get 'edit/general', to: 'props#edit_general', as: 'edit_general'
         get 'edit/text', to: 'props#edit_text', as: 'edit_text'
