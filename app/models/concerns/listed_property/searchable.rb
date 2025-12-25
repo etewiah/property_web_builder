@@ -8,7 +8,8 @@ module ListedProperty
 
     included do
       # Default scope to eager load commonly used associations
-      scope :with_eager_loading, -> { includes(:website, :prop_photos) }
+      # Include image_attachment and blob for PropPhoto to avoid N+1 queries
+      scope :with_eager_loading, -> { includes(:website, prop_photos: { image_attachment: :blob }) }
 
       # Basic visibility and operation type scopes
       scope :visible, -> { where(visible: true) }
