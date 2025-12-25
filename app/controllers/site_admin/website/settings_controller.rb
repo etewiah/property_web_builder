@@ -246,6 +246,16 @@ module SiteAdmin
         )
       end
 
+      def seo_settings_params
+        param_key = params.key?(:pwb_website) ? :pwb_website : :website
+        params.require(param_key).permit(
+          :default_seo_title,
+          :default_meta_description,
+          :favicon_url,
+          :main_logo_url
+        )
+      end
+
       # Build locale details for the website's supported locales
       # Uses Pwb::Config for centralized locale configuration
       def build_website_locales
