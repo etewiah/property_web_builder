@@ -1,0 +1,208 @@
+<div class="max-w-4xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Billing & Subscription</h1>
+    <p class="mt-2 text-gray-600">Manage your subscription and view usage for <%= current_website.subdomain %></p>
+  </div>
+
+  <% if @subscription.present? %>
+    <!-- Current Plan -->
+    <div class="bg-white rounded-lg shadow mb-6">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900">Current Plan</h2>
+      </div>
+      <div class="p-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-2xl font-bold text-gray-900"><%= @plan&.name || 'Free' %></h3>
+            <p class="text-gray-600"><%= @plan&.description %></p>
+          </div>
+          <div class="text-right">
+            <% if @plan&.price_cents.to_i > 0 %>
+              <p class="text-3xl font-bold text-gray-900">
+                <%= number_to_currency(@plan.price_cents / 100.0, unit: @plan.currency || '€') %>
+              </p>
+              <p class="text-gray-500">per <%= @plan.billing_interval || 'month' %></p>
+            <% else %>
+              <p class="text-3xl font-bold text-green-600">Free</p>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Status Badge -->
+        <div class="mt-4">
+          <% status_class = case @subscription.status
+             when 'active' then 'bg-green-100 text-green-800'
+             when 'trialing' then 'bg-blue-100 text-blue-800'
+             when 'past_due' then 'bg-yellow-100 text-yellow-800'
+             when 'canceled' then 'bg-red-100 text-red-800'
+             else 'bg-gray-100 text-gray-800'
+             end %>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <%= status_class %>">
+            <%= @subscription.status.titleize %>
+          </span>
+
+          <% if @subscription.trialing? && @subscription.trial_days_remaining.present? %>
+            <span class="ml-2 text-sm text-gray-600">
+              <%= @subscription.trial_days_remaining %> days remaining in trial
+            </span>
+          <% end %>
+
+          <% if @subscription.cancel_at_period_end? %>
+            <span class="ml-2 text-sm text-red-600">
+              Cancels at end of billing period
+            </span>
+          <% end %>
+        </div>
+
+        <!-- Billing Period -->
+        <% if @subscription.current_period_ends_at.present? %>
+          <div class="mt-4 text-sm text-gray-600">
+            <% if @subscription.trialing? %>
+              Trial ends on <%= @subscription.trial_ends_at&.strftime('%B %d, %Y') %>
+            <% else %>
+              Current period: <%= @subscription.current_period_starts_at&.strftime('%b %d, %Y') %> - 
+              <%= @subscription.current_period_ends_at&.strftime('%b %d, %Y') %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Usage -->
+    <div class="bg-white rounded-lg shadow mb-6">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900">Usage</h2>
+      </div>
+      <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Properties Usage -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm font-medium text-gray-700">Properties</span>
+              <span class="text-sm text-gray-600">
+                <%= @usage[:properties][:current] %> / 
+                <%= @usage[:properties][:unlimited] ? '∞' : @usage[:properties][:limit] %>
+              </span>
+            </div>
+            <% unless @usage[:properties][:unlimited] %>
+              <% percentage = @usage[:properties][:limit].to_i > 0 ? 
+                 (@usage[:properties][:current].to_f / @usage[:properties][:limit] * 100).round : 0 %>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="h-2 rounded-full <%= percentage > 90 ? 'bg-red-500' : percentage > 70 ? 'bg-yellow-500' : 'bg-green-500' %>"
+                     style="width: <%= [percentage, 100].min %>%"></div>
+              </div>
+            <% else %>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+              </div>
+              <p class="text-xs text-gray-500 mt-1">Unlimited properties</p>
+            <% end %>
+          </div>
+
+          <!-- Users Usage -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm font-medium text-gray-700">Team Members</span>
+              <span class="text-sm text-gray-600">
+                <%= @usage[:users][:current] %> / 
+                <%= @usage[:users][:unlimited] ? '∞' : @usage[:users][:limit] %>
+              </span>
+            </div>
+            <% unless @usage[:users][:unlimited] %>
+              <% percentage = @usage[:users][:limit].to_i > 0 ? 
+                 (@usage[:users][:current].to_f / @usage[:users][:limit] * 100).round : 0 %>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="h-2 rounded-full <%= percentage > 90 ? 'bg-red-500' : percentage > 70 ? 'bg-yellow-500' : 'bg-green-500' %>"
+                     style="width: <%= [percentage, 100].min %>%"></div>
+              </div>
+            <% else %>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+              </div>
+              <p class="text-xs text-gray-500 mt-1">Unlimited team members</p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plan Features -->
+    <% if @plan&.features.present? %>
+      <div class="bg-white rounded-lg shadow mb-6">
+        <div class="px-6 py-4 border-b border-gray-200">
+          <h2 class="text-lg font-medium text-gray-900">Plan Features</h2>
+        </div>
+        <div class="p-6">
+          <ul class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <% @plan.features.each do |feature| %>
+              <li class="flex items-center">
+                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="text-gray-700"><%= feature %></span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Actions -->
+    <div class="bg-white rounded-lg shadow">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900">Manage Subscription</h2>
+      </div>
+      <div class="p-6">
+        <div class="flex flex-wrap gap-4">
+          <button disabled class="px-4 py-2 bg-blue-600 text-white rounded-lg opacity-50 cursor-not-allowed">
+            Upgrade Plan
+          </button>
+          <button disabled class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg opacity-50 cursor-not-allowed">
+            View Invoices
+          </button>
+          <button disabled class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg opacity-50 cursor-not-allowed">
+            Update Payment Method
+          </button>
+        </div>
+        <p class="mt-4 text-sm text-gray-500">
+          Contact support to make changes to your subscription.
+        </p>
+      </div>
+    </div>
+
+  <% else %>
+    <!-- No Subscription -->
+    <div class="bg-white rounded-lg shadow p-8 text-center">
+      <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+      </svg>
+      <h3 class="mt-4 text-lg font-medium text-gray-900">No Active Subscription</h3>
+      <p class="mt-2 text-gray-600">
+        You're currently using the free tier. Upgrade to unlock more features.
+      </p>
+      <div class="mt-6">
+        <button disabled class="px-6 py-2 bg-blue-600 text-white rounded-lg opacity-50 cursor-not-allowed">
+          View Available Plans
+        </button>
+      </div>
+      <p class="mt-4 text-sm text-gray-500">
+        Contact support to upgrade your subscription.
+      </p>
+    </div>
+  <% end %>
+
+  <!-- Contact Support -->
+  <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+    <div class="flex">
+      <svg class="w-5 h-5 text-blue-600 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+      </svg>
+      <div>
+        <h3 class="text-sm font-medium text-blue-800">Need Help?</h3>
+        <p class="mt-1 text-sm text-blue-700">
+          For billing questions or to make changes to your subscription, please contact our support team.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

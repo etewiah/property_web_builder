@@ -131,6 +131,15 @@ Rails.application.routes.draw do
       post :verify
     end
 
+    # Agency profile management
+    resource :agency, only: %i[edit update]
+
+    # Billing/subscription management
+    resource :billing, only: %i[show]
+
+    # Activity logs
+    resources :activity_logs, only: %i[index show]
+
     # Image library API for page part editor
     resources :images, only: %i[index create]
 
@@ -185,7 +194,14 @@ Rails.application.routes.draw do
     resources :contents, only: %i[index show]
     resources :messages, only: %i[index show]
     resources :contacts, only: %i[index show]
-    resources :users, only: %i[index show]
+    resources :users do
+      member do
+        post :resend_invitation
+        patch :update_role
+        patch :deactivate
+        patch :reactivate
+      end
+    end
 
     # Email template management
     resources :email_templates do

@@ -6,7 +6,7 @@ module SiteAdmin
       before_action :set_website
       before_action :set_tab
 
-      VALID_TABS = %w[general appearance navigation home notifications].freeze
+      VALID_TABS = %w[general appearance navigation home notifications seo].freeze
 
       def show
         # Always load website locales for multilingual editing
@@ -22,6 +22,8 @@ module SiteAdmin
         when 'appearance'
           @themes = Pwb::Theme.all
           @style_variables = @website.style_variables
+        when 'seo'
+          @social_media = @website.social_media || {}
         end
       end
 
@@ -35,6 +37,8 @@ module SiteAdmin
           update_home_settings
         when 'notifications'
           update_notification_settings
+        when 'seo'
+          update_seo_settings
         else
           redirect_to site_admin_website_settings_path, alert: 'Invalid tab'
           return
@@ -148,6 +152,22 @@ module SiteAdmin
         end
       end
 
+      def update_seo_settings
+        # Merge social_media settings
+        if params[:social_media].present?
+          current_social = @website.social_media || {}
+          @website.social_media = current_social.merge(params[:social_media].to_unsafe_h)
+        end
+
+        if @website.update(seo_settings_params)
+          redirect_to site_admin_website_settings_tab_path('seo'), notice: 'SEO settings updated successfully'
+        else
+          @social_media = @website.social_media || {}
+          flash.now[:alert] = 'Failed to update SEO settings'
+          render :show, status: :unprocessable_entity
+        end
+      end
+
       def update_navigation_links
         params[:links].each do |link_params|
           link = @website.links.find_by(id: link_params[:id])
@@ -223,6 +243,16 @@ module SiteAdmin
           :ntfy_notify_listings,
           :ntfy_notify_users,
           :ntfy_notify_security
+        )
+      end
+
+      def seo_settings_params
+        param_key = params.key?(:pwb_website) ? :pwb_website : :website
+        params.require(param_key).permit(
+          :default_seo_title,
+          :default_meta_description,
+          :favicon_url,
+          :main_logo_url
         )
       end
 

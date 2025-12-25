@@ -1,0 +1,85 @@
+<div class="max-w-2xl mx-auto">
+  <div class="mb-6">
+    <%= link_to '← Back to Team', site_admin_users_path, class: 'text-blue-600 hover:text-blue-800' %>
+  </div>
+
+  <div class="mb-6">
+    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Invite Team Member</h1>
+    <p class="mt-2 text-gray-600">Add a new user to your website team. They'll receive an email invitation.</p>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <%= form_with model: @user, url: site_admin_users_path, local: true do |f| %>
+      <% if @user.errors.any? %>
+        <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <h3 class="text-red-800 font-medium">Please fix the following errors:</h3>
+          <ul class="mt-2 list-disc list-inside text-red-700 text-sm">
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="space-y-6">
+        <!-- Email -->
+        <div>
+          <%= f.label :email, class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.email_field :email, 
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              placeholder: "colleague@example.com",
+              required: true %>
+          <p class="mt-1 text-sm text-gray-500">If this email already has an account, they'll be added to your team.</p>
+        </div>
+
+        <!-- Name Fields -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <%= f.label :first_names, "First Name", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.text_field :first_names, 
+                class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                placeholder: "John" %>
+          </div>
+          <div>
+            <%= f.label :last_names, "Last Name", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.text_field :last_names, 
+                class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                placeholder: "Doe" %>
+          </div>
+        </div>
+
+        <!-- Role Selection -->
+        <div>
+          <%= f.label :role, class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.select :role, 
+              [
+                ['Viewer - Can view properties and content', 'viewer'],
+                ['Member - Can edit properties and content', 'member'],
+                ['Admin - Full access except ownership transfer', 'admin'],
+                ['Owner - Full access including billing', 'owner']
+              ],
+              { selected: 'member' },
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+          <p class="mt-1 text-sm text-gray-500">Choose what level of access this user should have.</p>
+        </div>
+
+        <!-- Role Descriptions -->
+        <div class="bg-gray-50 rounded-lg p-4">
+          <h4 class="text-sm font-medium text-gray-700 mb-2">Role Permissions</h4>
+          <ul class="text-sm text-gray-600 space-y-1">
+            <li><strong>Viewer:</strong> View-only access to dashboard and properties</li>
+            <li><strong>Member:</strong> Create and edit properties, pages, and content</li>
+            <li><strong>Admin:</strong> Manage team members, settings, and all content</li>
+            <li><strong>Owner:</strong> Full access including billing and ownership transfer</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="mt-8 pt-6 border-t flex justify-between items-center">
+        <%= link_to "Cancel", site_admin_users_path, class: "text-gray-600 hover:text-gray-800" %>
+        <%= f.submit "Send Invitation", class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+</div>
