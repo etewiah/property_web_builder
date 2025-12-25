@@ -145,3 +145,66 @@
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 }
+
+/* ==========================================================================
+   Search Results View Modes
+   Controls layout for grid and list views of property cards
+   ========================================================================== */
+
+/* Base property card inner - default to column layout */
+.property-item .property-card-inner {
+  flex-direction: column;
+}
+
+.property-item .property-image {
+  width: 100%;
+}
+
+.property-item .property-image img {
+  height: 12rem;
+}
+
+/* List view container */
+.search-results-grid.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* List view: horizontal card layout */
+.results-list .property-item .property-card-inner {
+  flex-direction: row;
+}
+
+.results-list .property-item .property-image {
+  width: 33.333333%;
+  flex-shrink: 0;
+}
+
+.results-list .property-item .property-image img {
+  height: 100%;
+  min-height: 200px;
+}
+
+.results-list .property-item .property-details {
+  width: 66.666667%;
+}
+
+/* Stack list items vertically on mobile */
+@media (max-width: 767px) {
+  .results-list .property-item .property-card-inner {
+    flex-direction: column;
+  }
+
+  .results-list .property-item .property-image {
+    width: 100%;
+  }
+
+  .results-list .property-item .property-image img {
+    height: 12rem;
+  }
+
+  .results-list .property-item .property-details {
+    width: 100%;
+  }
+}

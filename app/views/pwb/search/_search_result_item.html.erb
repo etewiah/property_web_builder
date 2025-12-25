@@ -1,69 +1,76 @@
 <%# Fragment cache for property card - invalidates when property or photos update %>
-<% cache [property_card_cache_key(property, @operation_type), "v1"] do %>
-<li class="property-item row <%= 'featured' if property.highlighted %> cuadro_inmueble"
-    data-price="<%= property.contextual_price @operation_type  %>"
-    style="margin-bottom: 20px; padding: 15px; background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-  <!-- data-price above used for client side sorting with paloma -->
+<% cache [property_card_cache_key(property, @operation_type), "v2"] do %>
+<article class="property-item bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
+         data-price="<%= property.contextual_price @operation_type %>">
+
+  <%# Highlighted badge %>
   <% if property.highlighted %>
-    <div class="prop-listing-header fondo_secundario">
+    <div class="highlighted-badge bg-blue-600 text-white text-xs font-semibold px-3 py-1">
       <%= t "property.highlightedProperty" %>
     </div>
   <% end %>
-  <div class="prop-listing-image col-xs-12 col-sm-5 col-md-4">
-    <div class="prop-figure">
-      <%= link_to property.contextual_show_path( @operation_type ) do %>
+
+  <%# Card content - layout controlled by parent .results-list or .results-grid class via CSS %>
+  <div class="property-card-inner flex">
+    <%# Property Image - height controlled by CSS based on view mode %>
+    <div class="property-image flex-shrink-0">
+      <%= link_to property.contextual_show_path(@operation_type), class: "block h-full" do %>
         <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
-            height: 240, crop: "scale", class: "img-responsive", loading: "lazy",
+            height: 240, crop: "scale",
+            class: "w-full object-cover",
+            loading: "lazy",
             alt: property.title.presence || "Property listing") %>
       <% end %>
     </div>
-  </div>
-  <div class="prop-listing-body col-xs-12 col-sm-7 col-md-8" style="padding-bottom:0;">
-    <div class="prop-listing-text">
-      <h3>
-        <%= link_to property.contextual_show_path( @operation_type ), class: "action_link" do %>
-          <%= property.title %>
-        <% end %>
+
+    <%# Property Details %>
+    <div class="property-details p-4 flex flex-col flex-grow">
+      <%# Title %>
+      <h3 class="text-lg font-semibold text-gray-900 mb-1">
+        <%= link_to property.title, property.contextual_show_path(@operation_type),
+            class: "hover:text-blue-600 transition-colors" %>
       </h3>
-      <div>
-        <%= property.reference %>
-      </div>
-      <div class="truncated_description" style="display:none;">
-        <%# property.description %>
-      </div>
-    </div>
-    <div class="meta-info">
-      <div>
-        <%= link_to property.contextual_show_path( @operation_type ), :class => "ver_inmueble" do %>
-          <i class="fa fa-chevron-right"></i>
-          <%= t "property.goToProperty" %>
+
+      <%# Reference %>
+      <p class="text-sm text-gray-500 mb-3"><%= property.reference %></p>
+
+      <%# Spacer for list view %>
+      <div class="flex-grow"></div>
+
+      <%# Property Features %>
+      <div class="property-features flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
+        <span class="flex items-center" title="<%= t('property.bedrooms', count: property.count_bedrooms) rescue 'Bedrooms' %>">
+          <i class="fa fa-bed mr-1.5 text-blue-500"></i>
+          <%= property.count_bedrooms %>
+        </span>
+        <span class="flex items-center" title="<%= t('property.bathrooms', count: property.count_bathrooms) rescue 'Bathrooms' %>">
+          <i class="fa fa-shower mr-1.5 text-blue-500"></i>
+          <%= property.count_bathrooms %>
+        </span>
+        <span class="flex items-center" title="<%= t('property.area', default: 'Area') %>">
+          <i class="fa fa-arrows-alt mr-1.5 text-blue-500"></i>
+          <%= property.constructed_area %><%= area_unit property %>
+        </span>
+        <% if property.count_garages && property.count_garages > 0 %>
+          <span class="flex items-center" title="<%= t('property.garages', default: 'Garages') %>">
+            <i class="fa fa-car mr-1.5 text-blue-500"></i>
+            <%= property.count_garages %>
+          </span>
         <% end %>
       </div>
-      <ul>
-        <li><span class="precio negrita" style="font-size: 1.4em; color: #333;">
-            <%= property.contextual_price_with_currency @operation_type  %>
-          </span></li>
-        <li class=""><i class="fa fa-bed"></i> <small>
-            <%= property.count_bedrooms %>
-          </small></li>
-        <li class=""><i class="fa fa-shower"></i> <small>
-            <%= property.count_bathrooms %>
-          </small></li>
-        <li class=""><i class="fa fa-arrows-alt"></i> <small>
-            <%= property.constructed_area %> <%= area_unit property %>
-          </small></li>
-        <li class=""><i class="fa fa-car"></i> <small>
-            <%= property.count_garages %>
-          </small>
-        </li>
-        <!-- <li class="hidden text-right">&nbsp;</li> -->
-      </ul>
+
+      <%# Price and Action %>
+      <div class="property-footer flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-gray-100">
+        <span class="text-xl font-bold text-blue-600">
+          <%= property.contextual_price_with_currency @operation_type %>
+        </span>
+        <%= link_to property.contextual_show_path(@operation_type),
+            class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors" do %>
+          <%= t "property.goToProperty" %>
+          <i class="fa fa-chevron-right ml-2"></i>
+        <% end %>
+      </div>
     </div>
-    <% if property.highlighted && (property.contextual_price_with_currency @operation_type) %>
-      <div style="" class="ribbon dark fondo_accion"><span>
-          <%= property.contextual_price_with_currency @operation_type  %>
-        </span></div>
-    <% end %>
   </div>
-</li>
+</article>
 <% end %>
