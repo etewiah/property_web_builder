@@ -53,9 +53,9 @@
               <i class="fa fa-youtube fa-lg" aria-hidden="true"></i>
             </a>
           <% end %>
-          <% if @current_website.respond_to?(:social_media_pinterest) && @current_website.social_media_pinterest.present? %>
-            <a href="<%= @current_website.social_media_pinterest %>" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Follow us on Pinterest">
-              <i class="fa fa-pinterest fa-lg" aria-hidden="true"></i>
+          <% if @current_website.respond_to?(:social_media_whatsapp) && @current_website.social_media_whatsapp.present? %>
+            <a href="<%= @current_website.social_media_whatsapp %>" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Contact us on WhatsApp">
+              <i class="fa fa-whatsapp fa-lg" aria-hidden="true"></i>
             </a>
           <% end %>
         </div>
