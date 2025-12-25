@@ -11,6 +11,89 @@
       "http://propertywebbuilder.com/images/rerenting-landing_framed.png",
       "http://propertywebbuilder.com/images/rerenting-landing_framed.png"
     ],
+    "palettes": {
+      "classic_red": {
+        "id": "classic_red",
+        "name": "Classic Red",
+        "description": "Bold and energetic with professional appeal",
+        "preview_colors": ["#e91b23", "#2c3e50", "#3498db"],
+        "is_default": true,
+        "colors": {
+          "primary_color": "#e91b23",
+          "secondary_color": "#2c3e50",
+          "accent_color": "#3498db",
+          "background_color": "#ffffff",
+          "text_color": "#333333",
+          "light_color": "#f8f9fa",
+          "link_color": "#e91b23",
+          "header_bg_color": "#ffffff",
+          "header_text_color": "#333333",
+          "footer_bg_color": "#2c3e50",
+          "footer_text_color": "#ffffff",
+          "action_color": "#e91b23"
+        }
+      },
+      "ocean_blue": {
+        "id": "ocean_blue",
+        "name": "Ocean Blue",
+        "description": "Professional and trustworthy",
+        "preview_colors": ["#3498db", "#2c3e50", "#e74c3c"],
+        "colors": {
+          "primary_color": "#3498db",
+          "secondary_color": "#2c3e50",
+          "accent_color": "#e74c3c",
+          "background_color": "#ffffff",
+          "text_color": "#333333",
+          "light_color": "#f0f7fc",
+          "link_color": "#3498db",
+          "header_bg_color": "#ffffff",
+          "header_text_color": "#333333",
+          "footer_bg_color": "#2c3e50",
+          "footer_text_color": "#ffffff",
+          "action_color": "#3498db"
+        }
+      },
+      "forest_green": {
+        "id": "forest_green",
+        "name": "Forest Green",
+        "description": "Fresh, natural, and eco-friendly",
+        "preview_colors": ["#27ae60", "#2c3e50", "#f39c12"],
+        "colors": {
+          "primary_color": "#27ae60",
+          "secondary_color": "#2c3e50",
+          "accent_color": "#f39c12",
+          "background_color": "#ffffff",
+          "text_color": "#333333",
+          "light_color": "#f0faf4",
+          "link_color": "#27ae60",
+          "header_bg_color": "#ffffff",
+          "header_text_color": "#333333",
+          "footer_bg_color": "#2c3e50",
+          "footer_text_color": "#ffffff",
+          "action_color": "#27ae60"
+        }
+      },
+      "sunset_orange": {
+        "id": "sunset_orange",
+        "name": "Sunset Orange",
+        "description": "Warm, inviting, and creative",
+        "preview_colors": ["#e67e22", "#2c3e50", "#9b59b6"],
+        "colors": {
+          "primary_color": "#e67e22",
+          "secondary_color": "#2c3e50",
+          "accent_color": "#9b59b6",
+          "background_color": "#ffffff",
+          "text_color": "#333333",
+          "light_color": "#fef9f3",
+          "link_color": "#e67e22",
+          "header_bg_color": "#ffffff",
+          "header_text_color": "#333333",
+          "footer_bg_color": "#2c3e50",
+          "footer_text_color": "#ffffff",
+          "action_color": "#e67e22"
+        }
+      }
+    },
     "supports": {
       "page_parts": [
         "heroes/hero_centered",
@@ -193,6 +276,89 @@
     "description": "A luxurious, elegant theme perfect for high-end real estate agencies",
     "author": "PropertyWebBuilder",
     "tags": ["luxury", "elegant", "premium", "real-estate"],
+    "palettes": {
+      "gold_navy": {
+        "id": "gold_navy",
+        "name": "Gold & Navy",
+        "description": "Classic luxury with timeless elegance",
+        "preview_colors": ["#c9a962", "#1a1a2e", "#16213e"],
+        "is_default": true,
+        "colors": {
+          "primary_color": "#c9a962",
+          "secondary_color": "#1a1a2e",
+          "accent_color": "#16213e",
+          "background_color": "#fafafa",
+          "text_color": "#2d2d2d",
+          "light_color": "#fafafa",
+          "link_color": "#c9a962",
+          "header_bg_color": "#1a1a2e",
+          "header_text_color": "#ffffff",
+          "footer_bg_color": "#1a1a2e",
+          "footer_text_color": "#e8e8e8",
+          "action_color": "#c9a962"
+        }
+      },
+      "rose_gold": {
+        "id": "rose_gold",
+        "name": "Rose Gold",
+        "description": "Modern elegance with feminine warmth",
+        "preview_colors": ["#b76e79", "#2d2d2d", "#e8d4d4"],
+        "colors": {
+          "primary_color": "#b76e79",
+          "secondary_color": "#2d2d2d",
+          "accent_color": "#e8d4d4",
+          "background_color": "#fdfbfb",
+          "text_color": "#2d2d2d",
+          "light_color": "#fdfbfb",
+          "link_color": "#b76e79",
+          "header_bg_color": "#2d2d2d",
+          "header_text_color": "#ffffff",
+          "footer_bg_color": "#2d2d2d",
+          "footer_text_color": "#e8e8e8",
+          "action_color": "#b76e79"
+        }
+      },
+      "platinum": {
+        "id": "platinum",
+        "name": "Platinum",
+        "description": "Sophisticated and understated luxury",
+        "preview_colors": ["#8c8c8c", "#1a1a2e", "#c9a962"],
+        "colors": {
+          "primary_color": "#8c8c8c",
+          "secondary_color": "#1a1a2e",
+          "accent_color": "#c9a962",
+          "background_color": "#fafafa",
+          "text_color": "#2d2d2d",
+          "light_color": "#f5f5f5",
+          "link_color": "#c9a962",
+          "header_bg_color": "#1a1a2e",
+          "header_text_color": "#ffffff",
+          "footer_bg_color": "#1a1a2e",
+          "footer_text_color": "#e8e8e8",
+          "action_color": "#c9a962"
+        }
+      },
+      "emerald_luxury": {
+        "id": "emerald_luxury",
+        "name": "Emerald Luxury",
+        "description": "Rich green with golden accents",
+        "preview_colors": ["#2d6a4f", "#1a1a2e", "#c9a962"],
+        "colors": {
+          "primary_color": "#2d6a4f",
+          "secondary_color": "#1a1a2e",
+          "accent_color": "#c9a962",
+          "background_color": "#fafafa",
+          "text_color": "#2d2d2d",
+          "light_color": "#f0f7f4",
+          "link_color": "#2d6a4f",
+          "header_bg_color": "#1a1a2e",
+          "header_text_color": "#ffffff",
+          "footer_bg_color": "#1a1a2e",
+          "footer_text_color": "#e8e8e8",
+          "action_color": "#2d6a4f"
+        }
+      }
+    },
     "supports": {
       "page_parts": [
         "heroes/hero_centered",
@@ -375,6 +541,93 @@
     "description": "A fresh, contemporary theme with warm Mediterranean colors and clean minimalist design",
     "author": "PropertyWebBuilder",
     "tags": ["modern", "minimal", "contemporary", "warm", "fresh"],
+    "palettes": {
+      "terracotta_classic": {
+        "id": "terracotta_classic",
+        "name": "Terracotta Classic",
+        "description": "Warm Mediterranean tones with earthy accents",
+        "preview_colors": ["#c45d3e", "#5c6b4d", "#d4a574"],
+        "is_default": true,
+        "colors": {
+          "primary_color": "#c45d3e",
+          "secondary_color": "#5c6b4d",
+          "accent_color": "#d4a574",
+          "background_color": "#faf9f7",
+          "text_color": "#3d3d3d",
+          "light_color": "#faf9f7",
+          "link_color": "#c45d3e",
+          "header_bg_color": "#ffffff",
+          "header_text_color": "#3d3d3d",
+          "footer_bg_color": "#3d3d3d",
+          "footer_main_text_color": "#d5d0c8",
+          "footer_text_color": "#d5d0c8",
+          "action_color": "#c45d3e"
+        }
+      },
+      "sage_stone": {
+        "id": "sage_stone",
+        "name": "Sage & Stone",
+        "description": "Natural greens with warm neutral tones",
+        "preview_colors": ["#5c6b4d", "#8b9c7a", "#c4b5a0"],
+        "colors": {
+          "primary_color": "#5c6b4d",
+          "secondary_color": "#8b9c7a",
+          "accent_color": "#c4b5a0",
+          "background_color": "#f8f7f4",
+          "text_color": "#3d3d3d",
+          "light_color": "#f8f7f4",
+          "link_color": "#5c6b4d",
+          "header_bg_color": "#ffffff",
+          "header_text_color": "#3d3d3d",
+          "footer_bg_color": "#3d3d3d",
+          "footer_main_text_color": "#d5d0c8",
+          "footer_text_color": "#d5d0c8",
+          "action_color": "#5c6b4d"
+        }
+      },
+      "coastal_warmth": {
+        "id": "coastal_warmth",
+        "name": "Coastal Warmth",
+        "description": "Ocean blues with warm sand accents",
+        "preview_colors": ["#2d5a7b", "#c45d3e", "#e8c9a9"],
+        "colors": {
+          "primary_color": "#2d5a7b",
+          "secondary_color": "#c45d3e",
+          "accent_color": "#e8c9a9",
+          "background_color": "#fafbfc",
+          "text_color": "#2d3748",
+          "light_color": "#fafbfc",
+          "link_color": "#2d5a7b",
+          "header_bg_color": "#ffffff",
+          "header_text_color": "#2d3748",
+          "footer_bg_color": "#2d3748",
+          "footer_main_text_color": "#e2e8f0",
+          "footer_text_color": "#e2e8f0",
+          "action_color": "#2d5a7b"
+        }
+      },
+      "modern_slate": {
+        "id": "modern_slate",
+        "name": "Modern Slate",
+        "description": "Contemporary grays with warm terracotta accent",
+        "preview_colors": ["#4a5568", "#718096", "#c45d3e"],
+        "colors": {
+          "primary_color": "#4a5568",
+          "secondary_color": "#718096",
+          "accent_color": "#c45d3e",
+          "background_color": "#f7fafc",
+          "text_color": "#2d3748",
+          "light_color": "#f7fafc",
+          "link_color": "#4a5568",
+          "header_bg_color": "#ffffff",
+          "header_text_color": "#2d3748",
+          "footer_bg_color": "#2d3748",
+          "footer_main_text_color": "#e2e8f0",
+          "footer_text_color": "#e2e8f0",
+          "action_color": "#c45d3e"
+        }
+      }
+    },
     "supports": {
       "page_parts": [
         "heroes/hero_centered",
