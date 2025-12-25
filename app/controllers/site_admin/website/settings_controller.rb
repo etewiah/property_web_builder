@@ -152,6 +152,22 @@ module SiteAdmin
         end
       end
 
+      def update_seo_settings
+        # Merge social_media settings
+        if params[:social_media].present?
+          current_social = @website.social_media || {}
+          @website.social_media = current_social.merge(params[:social_media].to_unsafe_h)
+        end
+
+        if @website.update(seo_settings_params)
+          redirect_to site_admin_website_settings_tab_path('seo'), notice: 'SEO settings updated successfully'
+        else
+          @social_media = @website.social_media || {}
+          flash.now[:alert] = 'Failed to update SEO settings'
+          render :show, status: :unprocessable_entity
+        end
+      end
+
       def update_navigation_links
         params[:links].each do |link_params|
           link = @website.links.find_by(id: link_params[:id])
