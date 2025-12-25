@@ -172,6 +172,17 @@ module SiteAdmin
         end
       end
 
+      def update_social_settings
+        if params[:social_links].present?
+          params[:social_links].each do |platform, url|
+            @website.update_social_media_link(platform, url)
+          end
+          redirect_to site_admin_website_settings_tab_path('social'), notice: 'Social media links updated successfully'
+        else
+          redirect_to site_admin_website_settings_tab_path('social'), alert: 'No social media data provided'
+        end
+      end
+
       def update_navigation_links
         params[:links].each do |link_params|
           link = @website.links.find_by(id: link_params[:id])
