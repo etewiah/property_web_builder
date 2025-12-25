@@ -158,7 +158,7 @@ module Pwb
     # Get all palettes for this theme
     # @return [Hash] palette configurations keyed by palette ID
     def palettes
-      attributes["palettes"] || {}
+      attributes[:palettes] || {}
     end
 
     # Get the default palette ID for this theme

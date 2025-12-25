@@ -54,6 +54,7 @@
 #  search_config_landing               :json
 #  search_config_rent                  :json
 #  seed_pack_name                      :string
+#  selected_palette                    :string
 #  site_type                           :string
 #  slug                                :string
 #  social_media                        :json
@@ -74,6 +75,7 @@
 #  index_pwb_websites_on_custom_domain             (custom_domain) UNIQUE WHERE ((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))
 #  index_pwb_websites_on_email_verification_token  (email_verification_token) UNIQUE WHERE (email_verification_token IS NOT NULL)
 #  index_pwb_websites_on_provisioning_state        (provisioning_state)
+#  index_pwb_websites_on_selected_palette          (selected_palette)
 #  index_pwb_websites_on_site_type                 (site_type)
 #  index_pwb_websites_on_slug                      (slug)
 #  index_pwb_websites_on_subdomain                 (subdomain) UNIQUE

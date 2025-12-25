@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_20_145953) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_25_200000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -845,6 +845,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_145953) do
     t.json "search_config_landing", default: {}
     t.json "search_config_rent", default: {}
     t.string "seed_pack_name"
+    t.string "selected_palette"
     t.string "site_type"
     t.string "slug"
     t.json "social_media", default: {}
@@ -859,6 +860,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_20_145953) do
     t.index ["custom_domain"], name: "index_pwb_websites_on_custom_domain", unique: true, where: "((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))"
     t.index ["email_verification_token"], name: "index_pwb_websites_on_email_verification_token", unique: true, where: "(email_verification_token IS NOT NULL)"
     t.index ["provisioning_state"], name: "index_pwb_websites_on_provisioning_state"
+    t.index ["selected_palette"], name: "index_pwb_websites_on_selected_palette"
     t.index ["site_type"], name: "index_pwb_websites_on_site_type"
     t.index ["slug"], name: "index_pwb_websites_on_slug"
     t.index ["subdomain"], name: "index_pwb_websites_on_subdomain", unique: true

@@ -29,7 +29,7 @@ module Pwb
       # Apply palette colors if a palette is selected
       if selected_palette.present? && current_theme
         palette_colors = current_theme.palette_colors(selected_palette)
-        base_vars.merge(palette_colors) if palette_colors.present?
+        palette_colors.present? ? base_vars.merge(palette_colors) : base_vars
       else
         base_vars
       end
