@@ -46,22 +46,6 @@ module SiteAdmin
       end
     end
 
-    # Duplicated index search logic removed - now in single index method above
-    def _removed_duplicate_search
-
-      if params[:search].present?
-        props = props.where(
-          'reference ILIKE ? OR title ILIKE ? OR street_address ILIKE ? OR city ILIKE ?',
-          "%#{params[:search]}%",
-          "%#{params[:search]}%",
-          "%#{params[:search]}%",
-          "%#{params[:search]}%"
-        )
-      end
-
-      @pagy, @props = pagy(props, limit: 25)
-    end
-
     def show
       # @prop set by before_action (uses Property view)
     end
