@@ -195,6 +195,7 @@ module SiteAdmin
       def appearance_settings_params
         params.require(:website).permit(
           :theme_name,
+          :selected_palette,
           :raw_css
         )
       end
