@@ -4,27 +4,28 @@
  */
 
 :root {
-  /* Primary Luxury Colors - Brisbane theme uses its own color scheme
-   * These use brisbane-specific variables to avoid conflicts with generic website colors
+  /* Primary Luxury Colors - Now using standard palette color names
+   * Palette colors: primary_color, secondary_color, accent_color, etc.
    */
-  --brisbane-navy: <%= @current_website.style_variables["brisbane_navy_color"] || "#1a2744" %>;
-  --brisbane-gold: <%= @current_website.style_variables["brisbane_gold_color"] || "#c9a962" %>;
-  --brisbane-cream: <%= @current_website.style_variables["brisbane_cream_color"] || "#faf8f5" %>;
-  --brisbane-charcoal: <%= @current_website.style_variables["brisbane_charcoal_color"] || "#2d2d2d" %>;
-  --brisbane-pearl: <%= @current_website.style_variables["brisbane_pearl_color"] || "#f5f3f0" %>;
+  --brisbane-gold: <%= @current_website.style_variables["primary_color"] || "#c9a962" %>;
+  --brisbane-navy: <%= @current_website.style_variables["secondary_color"] || "#1a1a2e" %>;
+  --brisbane-accent: <%= @current_website.style_variables["accent_color"] || "#16213e" %>;
+  --brisbane-cream: <%= @current_website.style_variables["background_color"] || "#fafafa" %>;
+  --brisbane-charcoal: <%= @current_website.style_variables["text_color"] || "#2d2d2d" %>;
+  --brisbane-pearl: <%= @current_website.style_variables["light_color"] || "#fafafa" %>;
 
-  /* Accent Colors */
-  --brisbane-gold-light: #d4b978;
-  --brisbane-gold-dark: #a88a4a;
-  --brisbane-navy-light: #2a3a5c;
-  --brisbane-navy-dark: #0f1a2e;
+  /* Accent Colors - derived from primary */
+  --brisbane-gold-light: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#c9a962" %> 70%, white);
+  --brisbane-gold-dark: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#c9a962" %> 70%, black);
+  --brisbane-navy-light: color-mix(in srgb, <%= @current_website.style_variables["secondary_color"] || "#1a1a2e" %> 70%, white);
+  --brisbane-navy-dark: color-mix(in srgb, <%= @current_website.style_variables["secondary_color"] || "#1a1a2e" %> 70%, black);
 
-  /* Footer Colors - Use brisbane navy by default */
-  --footer-bg-color: <%= @current_website.style_variables["brisbane_footer_bg_color"] || "#1a2744" %>;
-  --footer-text-color: <%= @current_website.style_variables["brisbane_footer_text_color"] || "#faf8f5" %>;
+  /* Footer Colors - from palette */
+  --footer-bg-color: <%= @current_website.style_variables["footer_bg_color"] || "#1a1a2e" %>;
+  --footer-text-color: <%= @current_website.style_variables["footer_text_color"] || "#e8e8e8" %>;
 
-  /* Action Colors - Use brisbane gold for actions */
-  --action-color: <%= @current_website.style_variables["brisbane_action_color"] || "#c9a962" %>;
+  /* Action Colors - from palette */
+  --action-color: <%= @current_website.style_variables["action_color"] || "#c9a962" %>;
 
   /* Typography */
   --font-primary: <%= @current_website.style_variables["font_primary"] || "Cormorant Garamond" %>;
