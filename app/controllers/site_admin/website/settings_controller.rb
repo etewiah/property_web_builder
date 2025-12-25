@@ -6,7 +6,7 @@ module SiteAdmin
       before_action :set_website
       before_action :set_tab
 
-      VALID_TABS = %w[general appearance navigation home notifications seo].freeze
+      VALID_TABS = %w[general appearance navigation home notifications seo social].freeze
 
       def show
         # Always load website locales for multilingual editing
@@ -24,6 +24,8 @@ module SiteAdmin
           @style_variables = @website.style_variables
         when 'seo'
           @social_media = @website.social_media || {}
+        when 'social'
+          @social_links = @website.social_media_links_for_admin
         end
       end
 
@@ -39,6 +41,8 @@ module SiteAdmin
           update_notification_settings
         when 'seo'
           update_seo_settings
+        when 'social'
+          update_social_settings
         else
           redirect_to site_admin_website_settings_path, alert: 'Invalid tab'
           return
@@ -165,6 +169,17 @@ module SiteAdmin
           @social_media = @website.social_media || {}
           flash.now[:alert] = 'Failed to update SEO settings'
           render :show, status: :unprocessable_entity
+        end
+      end
+
+      def update_social_settings
+        if params[:social_links].present?
+          params[:social_links].each do |platform, url|
+            @website.update_social_media_link(platform, url)
+          end
+          redirect_to site_admin_website_settings_tab_path('social'), notice: 'Social media links updated successfully'
+        else
+          redirect_to site_admin_website_settings_tab_path('social'), alert: 'No social media data provided'
         end
       end
 

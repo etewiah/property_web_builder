@@ -28,5 +28,13 @@ module Website
     def social_media_pinterest
       links.find_by(slug: "social_media_pinterest")&.link_url
     end
+
+    def social_media_instagram
+      links.find_by(slug: "social_media_instagram")&.link_url
+    end
+
+    def social_media_whatsapp
+      links.find_by(slug: "social_media_whatsapp")&.link_url
+    end
   end
 end

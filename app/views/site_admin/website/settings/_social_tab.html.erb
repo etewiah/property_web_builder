@@ -1,0 +1,77 @@
+<div class="p-6">
+  <div class="mb-6">
+    <h2 class="text-xl font-semibold text-gray-900">Social Media Links</h2>
+    <p class="mt-1 text-sm text-gray-500">
+      Add your social media profiles to display them in your website footer.
+      Leave a field empty to hide that platform.
+    </p>
+  </div>
+
+  <%= form_with url: site_admin_website_settings_path, method: :patch, local: true, class: "space-y-6" do |f| %>
+    <input type="hidden" name="tab" value="social">
+
+    <div class="space-y-4">
+      <% @social_links.each do |link| %>
+        <div class="flex items-start p-4 bg-white border border-gray-200 rounded-lg">
+          <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-gray-100 rounded-lg">
+            <i class="fa fa-<%= link[:platform] %> text-xl text-gray-600"></i>
+          </div>
+          <div class="ml-4 flex-grow">
+            <label for="social_links_<%= link[:platform] %>" class="block text-sm font-medium text-gray-700 mb-1">
+              <%= link[:platform].titleize %>
+            </label>
+            <% placeholder = case link[:platform]
+               when 'facebook' then 'https://facebook.com/yourpage'
+               when 'instagram' then 'https://instagram.com/yourhandle'
+               when 'linkedin' then 'https://linkedin.com/company/yourcompany'
+               when 'youtube' then 'https://youtube.com/@yourchannel'
+               when 'twitter' then 'https://twitter.com/yourhandle'
+               when 'whatsapp' then 'https://wa.me/1234567890'
+               else 'https://'
+               end %>
+            <input type="url"
+                   name="social_links[<%= link[:platform] %>]"
+                   id="social_links_<%= link[:platform] %>"
+                   value="<%= link[:url] %>"
+                   placeholder="<%= placeholder %>"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <% if link[:platform] == 'whatsapp' %>
+              <p class="mt-1 text-sm text-gray-500">
+                Use format: https://wa.me/[country code][phone number] (e.g., https://wa.me/14155551234)
+              </p>
+            <% end %>
+          </div>
+          <% if link[:url].present? %>
+            <div class="ml-4 flex-shrink-0">
+              <a href="<%= link[:url] %>" target="_blank" rel="noopener noreferrer" 
+                 class="text-blue-600 hover:text-blue-800" title="Open link">
+                <i class="fa fa-external-link"></i>
+              </a>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Info Box -->
+    <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <i class="fa fa-info-circle text-blue-600"></i>
+        </div>
+        <div class="ml-3">
+          <h4 class="text-sm font-medium text-blue-900">Display Location</h4>
+          <p class="mt-1 text-sm text-blue-800">
+            Social media icons will appear in your website footer. Only platforms with URLs entered will be displayed.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="pt-4 border-t border-gray-200">
+      <%= f.submit "Save Social Media Links",
+          class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
+    </div>
+  <% end %>
+</div>
