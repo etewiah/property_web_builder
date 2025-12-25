@@ -137,6 +137,9 @@ Rails.application.routes.draw do
     # Billing/subscription management
     resource :billing, only: %i[show]
 
+    # Activity logs
+    resources :activity_logs, only: %i[index show]
+
     # Image library API for page part editor
     resources :images, only: %i[index create]
 
