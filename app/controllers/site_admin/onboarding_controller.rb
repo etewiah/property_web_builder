@@ -158,7 +158,7 @@ module SiteAdmin
 
       agency_params = params.require(:pwb_agency).permit(
         :display_name, :email_primary, :phone_number_primary,
-        :company_name, :skype
+        :company_name
       )
 
       if @agency.update(agency_params)
