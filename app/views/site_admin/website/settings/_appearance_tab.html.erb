@@ -1,4 +1,21 @@
-<div class="p-6">
+<%
+  # Build palettes data for all themes (for dynamic switching)
+  all_theme_palettes = @themes.each_with_object({}) do |theme, hash|
+    hash[theme.name] = theme.palettes.transform_values do |p|
+      {
+        name: p['name'],
+        description: p['description'],
+        preview_colors: p['preview_colors'],
+        colors: p['colors'],
+        is_default: p['is_default']
+      }
+    end
+  end
+%>
+
+<div class="p-6" data-controller="theme-palette"
+     data-theme-palette-palettes-value="<%= all_theme_palettes.to_json %>"
+     data-theme-palette-current-theme-value="<%= @website.theme_name %>">
   <h2 class="text-xl font-semibold text-gray-900 mb-6">Appearance Settings</h2>
 
   <%= form_with model: @website, url: site_admin_website_settings_path, method: :patch, local: true, class: "space-y-6" do |f| %>
@@ -14,7 +31,9 @@
           <label class="relative cursor-pointer">
             <input type="radio" name="website[theme_name]" value="<%= theme.name %>"
                    <%= 'checked' if @website.theme_name == theme.name %>
-                   class="sr-only peer">
+                   class="sr-only peer"
+                   data-theme-palette-target="themeRadio"
+                   data-action="change->theme-palette#selectTheme">
             <div class="border-2 rounded-lg p-4 peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-400 transition-colors">
               <div class="h-24 bg-gray-100 rounded mb-3 flex items-center justify-center">
                 <span class="text-gray-400 text-sm"><%= theme.friendly_name %></span>
@@ -34,44 +53,45 @@
     </div>
 
     <!-- Color Palette Selection -->
-    <% if @website.current_theme&.palettes&.any? %>
-    <div class="border-t border-gray-200 pt-6" data-controller="palette-selector">
+    <div class="border-t border-gray-200 pt-6">
       <h3 class="text-lg font-medium text-gray-900 mb-4">Color Palette</h3>
       <p class="text-sm text-gray-600 mb-4">Choose a curated color palette for your theme. This will set harmonious colors for your entire site.</p>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <% @website.current_theme.palettes.each do |palette_id, palette| %>
-          <label class="relative cursor-pointer group">
-            <input type="radio" name="website[selected_palette]" value="<%= palette_id %>"
-                   <%= 'checked' if @website.effective_palette_id == palette_id %>
-                   class="sr-only peer"
-                   data-action="change->palette-selector#selectPalette"
-                   data-palette-colors="<%= palette['colors'].to_json %>">
-            <div class="border-2 rounded-lg p-4 peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-400 transition-all">
-              <!-- Color Preview Swatches -->
-              <div class="flex h-12 rounded-lg overflow-hidden mb-3 shadow-sm">
-                <% palette['preview_colors'].each_with_index do |color, i| %>
-                  <div class="flex-1 <%= 'rounded-l-lg' if i == 0 %> <%= 'rounded-r-lg' if i == palette['preview_colors'].length - 1 %>"
-                       style="background-color: <%= color %>"></div>
-                <% end %>
-              </div>
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="font-medium text-gray-900 block"><%= palette['name'] %></span>
-                  <span class="text-xs text-gray-500"><%= palette['description'] %></span>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" data-theme-palette-target="paletteContainer">
+        <% if @website.current_theme&.palettes&.any? %>
+          <% @website.current_theme.palettes.each do |palette_id, palette| %>
+            <label class="relative cursor-pointer group">
+              <input type="radio" name="website[selected_palette]" value="<%= palette_id %>"
+                     <%= 'checked' if @website.effective_palette_id == palette_id %>
+                     class="sr-only peer"
+                     data-palette-colors="<%= palette['colors'].to_json %>">
+              <div class="border-2 rounded-lg p-4 peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-400 transition-all">
+                <!-- Color Preview Swatches -->
+                <div class="flex h-12 rounded-lg overflow-hidden mb-3 shadow-sm">
+                  <% palette['preview_colors'].each_with_index do |color, i| %>
+                    <div class="flex-1 <%= 'rounded-l-lg' if i == 0 %> <%= 'rounded-r-lg' if i == palette['preview_colors'].length - 1 %>"
+                         style="background-color: <%= color %>"></div>
+                  <% end %>
                 </div>
-                <span class="hidden peer-checked:inline-block text-blue-600">
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                  </svg>
-                </span>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <span class="font-medium text-gray-900 block"><%= palette['name'] %></span>
+                    <span class="text-xs text-gray-500"><%= palette['description'] %></span>
+                  </div>
+                  <span class="hidden peer-checked:inline-block text-blue-600">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                  </span>
+                </div>
               </div>
-            </div>
-          </label>
+            </label>
+          <% end %>
+        <% else %>
+          <p class="text-gray-500 col-span-full">No palettes available for this theme.</p>
         <% end %>
       </div>
     </div>
-    <% end %>
 
     <!-- Color Settings (Advanced) -->
     <div class="border-t border-gray-200 pt-6">

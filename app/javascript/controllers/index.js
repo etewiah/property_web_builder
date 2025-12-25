@@ -35,3 +35,6 @@ application.register("search", SearchController)
 
 import SearchHeaderController from "controllers/search_header_controller"
 application.register("search-header", SearchHeaderController)
+
+import ThemePaletteController from "controllers/theme_palette_controller"
+application.register("theme-palette", ThemePaletteController)
