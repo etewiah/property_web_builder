@@ -153,6 +153,55 @@ module Pwb
       base_schema
     end
 
+    # ===== Palette Support =====
+
+    # Get all palettes for this theme
+    # @return [Hash] palette configurations keyed by palette ID
+    def palettes
+      attributes["palettes"] || {}
+    end
+
+    # Get the default palette ID for this theme
+    # @return [String, nil] the default palette ID or first available
+    def default_palette_id
+      default = palettes.find { |_, config| config["is_default"] }
+      default&.first || palettes.keys.first
+    end
+
+    # Get a specific palette by ID
+    # @param palette_id [String] the palette ID
+    # @return [Hash, nil] the palette configuration or nil
+    def palette(palette_id)
+      palettes[palette_id.to_s]
+    end
+
+    # Get the colors hash from a palette
+    # @param palette_id [String] the palette ID
+    # @return [Hash] the colors hash or empty hash
+    def palette_colors(palette_id)
+      palette(palette_id)&.dig("colors") || {}
+    end
+
+    # Get preview colors for UI display
+    # @param palette_id [String] the palette ID
+    # @return [Array<String>] array of color hex values for preview
+    def palette_preview_colors(palette_id)
+      palette(palette_id)&.dig("preview_colors") || []
+    end
+
+    # Get all palette options for select dropdowns
+    # @return [Array<Array>] array of [name, id] pairs for form selects
+    def palette_options
+      palettes.map { |id, config| [config["name"], id] }
+    end
+
+    # Check if a palette ID is valid for this theme
+    # @param palette_id [String] the palette ID
+    # @return [Boolean]
+    def valid_palette?(palette_id)
+      palettes.key?(palette_id.to_s)
+    end
+
     # ===== Page Part Configuration =====
 
     # Get configuration for a specific page part
