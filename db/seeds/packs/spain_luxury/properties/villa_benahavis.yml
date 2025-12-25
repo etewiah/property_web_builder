@@ -47,5 +47,5 @@ features:
   - amenities.home_automation
   - amenities.security
 
-# Image
-image: villa_luxury.jpg
+# Image (uses shared seed images from db/example_images/)
+image: new_villa.jpg

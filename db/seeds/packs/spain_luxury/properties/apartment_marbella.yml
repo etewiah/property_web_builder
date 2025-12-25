@@ -42,5 +42,5 @@ features:
   - amenities.elevator
   - amenities.video_entry
 
-# Image
-image: apartment_beach.jpg
+# Image (uses shared seed images from db/example_images/)
+image: flat_luxury_living_area.jpg

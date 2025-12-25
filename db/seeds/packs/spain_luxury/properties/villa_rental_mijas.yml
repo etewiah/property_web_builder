@@ -46,5 +46,5 @@ features:
   - amenities.alarm_system
   - amenities.home_automation
 
-# Image
-image: villa_pool.jpg
+# Image (uses shared seed images from db/example_images/)
+image: mansion_front.jpg

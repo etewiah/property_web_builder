@@ -43,5 +43,5 @@ features:
   - amenities.central_heating
   - amenities.alarm_system
 
-# Image
-image: townhouse_modern.jpg
+# Image (uses shared seed images from db/example_images/)
+image: lounge_cosy.jpg

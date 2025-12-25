@@ -40,5 +40,5 @@ features:
   - amenities.air_conditioning
   - amenities.elevator
 
-# Image
-image: apartment_modern.jpg
+# Image (uses shared seed images from db/example_images/)
+image: flat_balcony.jpg
