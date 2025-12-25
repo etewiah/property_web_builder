@@ -1,0 +1,152 @@
+<%= form_with model: @website, url: site_admin_website_settings_path, method: :patch, local: true do |f| %>
+  <div class="space-y-8">
+    <!-- Basic SEO Settings -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Basic SEO Settings</h2>
+      <p class="text-sm text-gray-600 mb-6">These defaults are used when pages don't have their own SEO settings.</p>
+      
+      <div class="space-y-4">
+        <div>
+          <%= f.label :default_seo_title, "Default Page Title", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.text_field :default_seo_title, 
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              placeholder: "Your Agency Name | Real Estate in Your City" %>
+          <p class="mt-1 text-sm text-gray-500">Appears in browser tabs and search results. Keep it under 60 characters.</p>
+        </div>
+
+        <div>
+          <%= f.label :default_meta_description, "Default Meta Description", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.text_area :default_meta_description, 
+              rows: 3,
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              placeholder: "Find your dream home with our extensive property listings..." %>
+          <p class="mt-1 text-sm text-gray-500">Appears in search results. Keep it between 150-160 characters for best results.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Branding -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Branding</h2>
+      
+      <div class="space-y-4">
+        <div>
+          <%= f.label :favicon_url, "Favicon URL", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.url_field :favicon_url, 
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              placeholder: "https://example.com/favicon.ico" %>
+          <p class="mt-1 text-sm text-gray-500">The small icon that appears in browser tabs. Use .ico, .png, or .svg format.</p>
+        </div>
+
+        <div>
+          <%= f.label :main_logo_url, "Logo URL", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.url_field :main_logo_url, 
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              placeholder: "https://example.com/logo.png" %>
+          <p class="mt-1 text-sm text-gray-500">Used for Open Graph sharing and other branding purposes.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Media / Open Graph -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Social Media Sharing</h2>
+      <p class="text-sm text-gray-600 mb-6">These settings control how your website appears when shared on social media.</p>
+      
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Open Graph Image URL</label>
+          <%= text_field_tag 'social_media[og_image]', @social_media['og_image'],
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              placeholder: "https://example.com/og-image.jpg" %>
+          <p class="mt-1 text-sm text-gray-500">Image shown when sharing on Facebook, LinkedIn, etc. Recommended: 1200x630px</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Twitter Card Type</label>
+          <%= select_tag 'social_media[twitter_card]', 
+              options_for_select([
+                ['Summary', 'summary'],
+                ['Summary with Large Image', 'summary_large_image']
+              ], @social_media['twitter_card'] || 'summary_large_image'),
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Twitter Handle</label>
+          <%= text_field_tag 'social_media[twitter_handle]', @social_media['twitter_handle'],
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              placeholder: "@yourcompany" %>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Facebook Page URL</label>
+          <%= text_field_tag 'social_media[facebook_url]', @social_media['facebook_url'],
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              placeholder: "https://facebook.com/yourcompany" %>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Instagram Handle</label>
+          <%= text_field_tag 'social_media[instagram_handle]', @social_media['instagram_handle'],
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              placeholder: "@yourcompany" %>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">LinkedIn URL</label>
+          <%= text_field_tag 'social_media[linkedin_url]', @social_media['linkedin_url'],
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              placeholder: "https://linkedin.com/company/yourcompany" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Verification & Integration -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Search Engine Verification</h2>
+      <p class="text-sm text-gray-600 mb-6">Add verification codes from search engines to prove site ownership.</p>
+      
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Google Search Console Verification</label>
+          <%= text_field_tag 'social_media[google_site_verification]', @social_media['google_site_verification'],
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              placeholder: "google-site-verification=xxxxxx" %>
+          <p class="mt-1 text-sm text-gray-500">The content value from your Google Search Console meta tag.</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Bing Webmaster Verification</label>
+          <%= text_field_tag 'social_media[bing_site_verification]', @social_media['bing_site_verification'],
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              placeholder: "bing-site-verification=xxxxxx" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="flex justify-end">
+      <%= f.submit "Save SEO Settings", class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer" %>
+    </div>
+  </div>
+<% end %>
+
+<!-- SEO Tips -->
+<div class="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+  <div class="flex">
+    <svg class="w-5 h-5 text-green-600 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+    </svg>
+    <div>
+      <h3 class="text-sm font-medium text-green-800">SEO Tips</h3>
+      <ul class="mt-2 text-sm text-green-700 list-disc list-inside space-y-1">
+        <li>Keep page titles under 60 characters to avoid truncation in search results</li>
+        <li>Meta descriptions between 150-160 characters perform best</li>
+        <li>Use unique, descriptive titles for each property page</li>
+        <li>Ensure your Open Graph image is at least 1200x630 pixels</li>
+        <li>Your sitemap is automatically generated at <code class="bg-green-100 px-1 rounded">/sitemap.xml</code></li>
+      </ul>
+    </div>
+  </div>
+</div>
