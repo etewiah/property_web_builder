@@ -30,6 +30,38 @@ module SiteAdmin
       @pagy, @props = pagy(props, limit: 25)
     end
 
+    def new
+      @prop = Pwb::RealtyAsset.new(website: current_website)
+    end
+
+    def create
+      @prop = Pwb::RealtyAsset.new(new_prop_params)
+      @prop.website = current_website
+
+      if @prop.save
+        redirect_to edit_general_site_admin_prop_path(@prop),
+                    notice: 'Property created successfully. Now add more details.'
+      else
+        render :new, status: :unprocessable_entity
+      end
+    end
+
+    # Duplicated index search logic removed - now in single index method above
+    def _removed_duplicate_search
+
+      if params[:search].present?
+        props = props.where(
+          'reference ILIKE ? OR title ILIKE ? OR street_address ILIKE ? OR city ILIKE ?',
+          "%#{params[:search]}%",
+          "%#{params[:search]}%",
+          "%#{params[:search]}%",
+          "%#{params[:search]}%"
+        )
+      end
+
+      @pagy, @props = pagy(props, limit: 25)
+    end
+
     def show
       # @prop set by before_action (uses Property view)
     end
