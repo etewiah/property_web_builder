@@ -41,6 +41,8 @@ module SiteAdmin
           update_notification_settings
         when 'seo'
           update_seo_settings
+        when 'social'
+          update_social_settings
         else
           redirect_to site_admin_website_settings_path, alert: 'Invalid tab'
           return
