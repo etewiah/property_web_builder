@@ -134,6 +134,9 @@ Rails.application.routes.draw do
     # Agency profile management
     resource :agency, only: %i[edit update]
 
+    # Billing/subscription management
+    resource :billing, only: %i[show]
+
     # Image library API for page part editor
     resources :images, only: %i[index create]
 
