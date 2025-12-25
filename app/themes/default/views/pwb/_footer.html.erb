@@ -38,6 +38,11 @@
               <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>
             </a>
           <% end %>
+          <% if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present? %>
+            <a href="<%= @current_website.social_media_instagram %>" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Follow us on Instagram">
+              <i class="fa fa-instagram fa-lg" aria-hidden="true"></i>
+            </a>
+          <% end %>
           <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
             <a href="<%= @current_website.social_media_linkedin %>" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Connect with us on LinkedIn">
               <i class="fa fa-linkedin fa-lg" aria-hidden="true"></i>
