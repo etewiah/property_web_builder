@@ -356,4 +356,241 @@ RSpec.describe Pwb::Theme do
       expect(theme1).not_to eq(theme2)
     end
   end
+
+  # ============================================
+  # Palette Support Tests
+  # ============================================
+
+  describe "#palettes" do
+    context "with default theme" do
+      let(:theme) { described_class.find_by(name: "default") }
+
+      it "returns a hash of palettes" do
+        palettes = theme.palettes
+
+        expect(palettes).to be_a(Hash)
+        expect(palettes).not_to be_empty
+      end
+
+      it "includes expected palette keys" do
+        palettes = theme.palettes
+
+        expect(palettes.keys).to include("classic_red", "ocean_blue", "forest_green", "sunset_orange")
+      end
+
+      it "each palette has required structure" do
+        theme.palettes.each do |id, config|
+          expect(config).to have_key("id")
+          expect(config).to have_key("name")
+          expect(config).to have_key("colors")
+          expect(config["colors"]).to be_a(Hash)
+        end
+      end
+    end
+
+    context "with brisbane theme" do
+      let(:theme) { described_class.find_by(name: "brisbane") }
+
+      it "returns brisbane-specific palettes" do
+        palettes = theme.palettes
+
+        expect(palettes.keys).to include("gold_navy", "rose_gold", "platinum", "emerald_luxury")
+      end
+    end
+
+    context "with bologna theme" do
+      let(:theme) { described_class.find_by(name: "bologna") }
+
+      it "returns bologna-specific palettes" do
+        palettes = theme.palettes
+
+        expect(palettes.keys).to include("terracotta_classic", "sage_stone", "coastal_warmth", "modern_slate")
+      end
+    end
+  end
+
+  describe "#default_palette_id" do
+    let(:theme) { described_class.find_by(name: "default") }
+
+    it "returns the palette marked as default" do
+      default_id = theme.default_palette_id
+
+      expect(default_id).to eq("classic_red")
+    end
+
+    it "the default palette has is_default flag" do
+      default_id = theme.default_palette_id
+      palette = theme.palettes[default_id]
+
+      expect(palette["is_default"]).to be true
+    end
+  end
+
+  describe "#palette" do
+    let(:theme) { described_class.find_by(name: "default") }
+
+    it "returns palette config for valid palette id" do
+      palette = theme.palette("ocean_blue")
+
+      expect(palette).to be_a(Hash)
+      expect(palette["id"]).to eq("ocean_blue")
+      expect(palette["name"]).to eq("Ocean Blue")
+    end
+
+    it "returns nil for invalid palette id" do
+      palette = theme.palette("nonexistent")
+
+      expect(palette).to be_nil
+    end
+
+    it "works with string palette id" do
+      palette = theme.palette("forest_green")
+
+      expect(palette).to be_present
+    end
+  end
+
+  describe "#palette_colors" do
+    let(:theme) { described_class.find_by(name: "default") }
+
+    it "returns colors hash for valid palette" do
+      colors = theme.palette_colors("ocean_blue")
+
+      expect(colors).to be_a(Hash)
+      expect(colors).to have_key("primary_color")
+      expect(colors).to have_key("secondary_color")
+    end
+
+    it "returns correct color values" do
+      colors = theme.palette_colors("ocean_blue")
+
+      expect(colors["primary_color"]).to eq("#3498db")
+      expect(colors["secondary_color"]).to eq("#2c3e50")
+    end
+
+    it "returns empty hash for invalid palette" do
+      colors = theme.palette_colors("nonexistent")
+
+      expect(colors).to eq({})
+    end
+
+    context "with brisbane theme emerald_luxury palette" do
+      let(:theme) { described_class.find_by(name: "brisbane") }
+
+      it "returns emerald green as primary color" do
+        colors = theme.palette_colors("emerald_luxury")
+
+        expect(colors["primary_color"]).to eq("#2d6a4f")
+        expect(colors["action_color"]).to eq("#2d6a4f")
+      end
+    end
+  end
+
+  describe "#palette_preview_colors" do
+    let(:theme) { described_class.find_by(name: "default") }
+
+    it "returns array of preview colors" do
+      preview = theme.palette_preview_colors("ocean_blue")
+
+      expect(preview).to be_an(Array)
+      expect(preview.length).to eq(3)
+    end
+
+    it "returns correct preview colors" do
+      preview = theme.palette_preview_colors("ocean_blue")
+
+      expect(preview).to eq(["#3498db", "#2c3e50", "#e74c3c"])
+    end
+
+    it "returns empty array for invalid palette" do
+      preview = theme.palette_preview_colors("nonexistent")
+
+      expect(preview).to eq([])
+    end
+  end
+
+  describe "#palette_options" do
+    let(:theme) { described_class.find_by(name: "default") }
+
+    it "returns array of [name, id] pairs for form selects" do
+      options = theme.palette_options
+
+      expect(options).to be_an(Array)
+      expect(options.first).to be_an(Array)
+      expect(options.first.length).to eq(2)
+    end
+
+    it "includes all palette options" do
+      options = theme.palette_options
+      names = options.map(&:first)
+      ids = options.map(&:last)
+
+      expect(names).to include("Classic Red", "Ocean Blue", "Forest Green", "Sunset Orange")
+      expect(ids).to include("classic_red", "ocean_blue", "forest_green", "sunset_orange")
+    end
+  end
+
+  describe "#valid_palette?" do
+    let(:theme) { described_class.find_by(name: "default") }
+
+    it "returns true for valid palette id" do
+      expect(theme.valid_palette?("classic_red")).to be true
+      expect(theme.valid_palette?("ocean_blue")).to be true
+    end
+
+    it "returns false for invalid palette id" do
+      expect(theme.valid_palette?("nonexistent")).to be false
+      expect(theme.valid_palette?(nil)).to be false
+      expect(theme.valid_palette?("")).to be false
+    end
+
+    it "works with symbol palette id converted to string" do
+      expect(theme.valid_palette?(:classic_red)).to be true
+    end
+
+    context "cross-theme validation" do
+      let(:default_theme) { described_class.find_by(name: "default") }
+      let(:brisbane_theme) { described_class.find_by(name: "brisbane") }
+
+      it "default theme does not validate brisbane palettes" do
+        expect(default_theme.valid_palette?("gold_navy")).to be false
+        expect(default_theme.valid_palette?("emerald_luxury")).to be false
+      end
+
+      it "brisbane theme does not validate default palettes" do
+        expect(brisbane_theme.valid_palette?("classic_red")).to be false
+        expect(brisbane_theme.valid_palette?("ocean_blue")).to be false
+      end
+    end
+  end
+
+  describe "palette color consistency" do
+    # Ensure all themes define palettes with standard color keys
+    described_class.all.each do |theme|
+      context "#{theme.name} theme" do
+        let(:required_keys) { %w[primary_color secondary_color] }
+        let(:recommended_keys) { %w[accent_color background_color text_color action_color] }
+
+        it "all palettes have required color keys" do
+          theme.palettes.each do |palette_id, config|
+            colors = config["colors"] || {}
+            missing = required_keys - colors.keys
+
+            expect(missing).to be_empty,
+              "Palette '#{palette_id}' in theme '#{theme.name}' missing required keys: #{missing.join(', ')}"
+          end
+        end
+
+        it "all palettes have recommended color keys" do
+          theme.palettes.each do |palette_id, config|
+            colors = config["colors"] || {}
+            missing = recommended_keys - colors.keys
+
+            expect(missing).to be_empty,
+              "Palette '#{palette_id}' in theme '#{theme.name}' missing recommended keys: #{missing.join(', ')}"
+          end
+        end
+      end
+    end
+  end
 end

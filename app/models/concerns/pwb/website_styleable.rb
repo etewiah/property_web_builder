@@ -24,7 +24,7 @@ module Pwb
     # Get style variables for the current theme
     # If a palette is selected, merge palette colors into style variables
     def style_variables
-      base_vars = style_variables_for_theme["default"] || DEFAULT_STYLE_VARIABLES.dup
+      base_vars = style_variables_for_theme&.dig("default") || DEFAULT_STYLE_VARIABLES.dup
 
       # Apply palette colors if a palette is selected
       if selected_palette.present? && current_theme

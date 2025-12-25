@@ -201,5 +201,223 @@ module Pwb
         expect(website.supported_locales_with_variants).to eq([])
       end
     end
+
+    # ============================================
+    # Palette Integration Tests
+    # ============================================
+
+    describe '#selected_palette' do
+      it 'can be set and persisted' do
+        website.selected_palette = 'ocean_blue'
+        website.save!
+        website.reload
+
+        expect(website.selected_palette).to eq('ocean_blue')
+      end
+
+      it 'defaults to nil' do
+        new_website = FactoryBot.create(:pwb_website)
+        expect(new_website.selected_palette).to be_nil
+      end
+    end
+
+    describe '#current_theme' do
+      it 'returns Theme instance for theme_name' do
+        website.theme_name = 'brisbane'
+        website.save!
+
+        expect(website.current_theme).to be_a(Pwb::Theme)
+        expect(website.current_theme.name).to eq('brisbane')
+      end
+
+      it 'returns nil for invalid theme' do
+        website.update_column(:theme_name, 'nonexistent')
+
+        expect(website.current_theme).to be_nil
+      end
+    end
+
+    describe '#effective_palette_id' do
+      context 'with selected palette' do
+        before do
+          website.theme_name = 'default'
+          website.selected_palette = 'ocean_blue'
+          website.save!
+        end
+
+        it 'returns selected palette when valid' do
+          expect(website.effective_palette_id).to eq('ocean_blue')
+        end
+      end
+
+      context 'without selected palette' do
+        before do
+          website.theme_name = 'default'
+          website.selected_palette = nil
+          website.save!
+        end
+
+        it 'returns theme default palette' do
+          expect(website.effective_palette_id).to eq('classic_red')
+        end
+      end
+
+      context 'with invalid selected palette' do
+        before do
+          website.theme_name = 'default'
+          website.update_column(:selected_palette, 'nonexistent')
+        end
+
+        it 'falls back to theme default' do
+          expect(website.effective_palette_id).to eq('classic_red')
+        end
+      end
+    end
+
+    describe '#apply_palette!' do
+      before do
+        website.theme_name = 'default'
+        website.save!
+      end
+
+      it 'sets selected_palette for valid palette' do
+        result = website.apply_palette!('forest_green')
+
+        expect(result).to be true
+        expect(website.reload.selected_palette).to eq('forest_green')
+      end
+
+      it 'returns false for invalid palette' do
+        result = website.apply_palette!('nonexistent')
+
+        expect(result).to be false
+      end
+
+      it 'does not change palette for invalid input' do
+        website.update!(selected_palette: 'ocean_blue')
+        website.apply_palette!('nonexistent')
+
+        expect(website.reload.selected_palette).to eq('ocean_blue')
+      end
+    end
+
+    describe '#available_palettes' do
+      it 'returns palettes for current theme' do
+        website.theme_name = 'brisbane'
+        website.save!
+
+        palettes = website.available_palettes
+
+        expect(palettes).to be_a(Hash)
+        expect(palettes.keys).to include('gold_navy', 'emerald_luxury')
+      end
+
+      it 'returns empty hash when no theme' do
+        website.update_column(:theme_name, 'nonexistent')
+
+        expect(website.available_palettes).to eq({})
+      end
+    end
+
+    describe '#palette_options_for_select' do
+      before do
+        website.theme_name = 'default'
+        website.save!
+      end
+
+      it 'returns options suitable for form select' do
+        options = website.palette_options_for_select
+
+        expect(options).to be_an(Array)
+        expect(options.first).to be_an(Array)
+      end
+
+      it 'includes all theme palettes' do
+        options = website.palette_options_for_select
+        ids = options.map(&:last)
+
+        expect(ids).to include('classic_red', 'ocean_blue', 'forest_green', 'sunset_orange')
+      end
+    end
+
+    describe '#style_variables with palette' do
+      context 'with selected palette' do
+        before do
+          website.theme_name = 'brisbane'
+          website.selected_palette = 'emerald_luxury'
+          website.save!
+        end
+
+        it 'includes palette colors in style_variables' do
+          vars = website.style_variables
+
+          expect(vars['primary_color']).to eq('#2d6a4f')
+          expect(vars['action_color']).to eq('#2d6a4f')
+        end
+
+        it 'palette colors override base variables' do
+          # Set a different primary_color in base vars
+          website.style_variables = { 'primary_color' => '#ff0000' }
+          website.save!
+
+          vars = website.style_variables
+
+          # Palette should override
+          expect(vars['primary_color']).to eq('#2d6a4f')
+        end
+      end
+
+      context 'without selected palette' do
+        before do
+          website.theme_name = 'default'
+          website.selected_palette = nil
+          website.save!
+        end
+
+        it 'returns base style variables' do
+          vars = website.style_variables
+
+          expect(vars).to be_a(Hash)
+          expect(vars).to have_key('primary_color')
+        end
+      end
+
+      context 'switching palettes' do
+        before do
+          website.theme_name = 'default'
+          website.save!
+        end
+
+        it 'reflects new palette colors after change' do
+          website.selected_palette = 'classic_red'
+          vars_red = website.style_variables.dup
+
+          website.selected_palette = 'ocean_blue'
+          # Clear memoized current_theme
+          website.instance_variable_set(:@current_theme, nil)
+          vars_blue = website.style_variables
+
+          expect(vars_red['primary_color']).to eq('#e91b23')
+          expect(vars_blue['primary_color']).to eq('#3498db')
+        end
+      end
+    end
+
+    describe 'theme and palette interaction' do
+      it 'switching theme clears invalid palette' do
+        website.theme_name = 'brisbane'
+        website.selected_palette = 'gold_navy'
+        website.save!
+
+        # Change to default theme
+        website.theme_name = 'default'
+        website.save!
+
+        # gold_navy is not valid for default theme
+        expect(website.current_theme.valid_palette?('gold_navy')).to be false
+        # effective_palette_id should fall back to default theme's default
+        expect(website.effective_palette_id).to eq('classic_red')
+      end
+    end
   end
 end
