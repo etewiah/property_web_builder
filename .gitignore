@@ -112,3 +112,6 @@ docs/screenshots/
 offline
 marketing
 lib/signup_component
+
+# Playwright visual test snapshots (platform-specific)
+tests/e2e/**/*-snapshots/

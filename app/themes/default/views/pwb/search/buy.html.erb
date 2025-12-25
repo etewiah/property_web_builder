@@ -91,9 +91,11 @@
               </button>
             </div>
             
-            <%# Search form - uses GET for URL state %>
+            <%# Search form - uses GET for URL state with Turbo Frame %>
             <%= form_with url: buy_path, method: :get, local: true,
                           data: {
+                            turbo_frame: "search-results",
+                            action: "submit->search#handleSubmit",
                             search_target: "form"
                           },
                           class: "search-filter-form space-y-6" do |f| %>

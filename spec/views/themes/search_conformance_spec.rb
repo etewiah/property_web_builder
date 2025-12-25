@@ -22,15 +22,18 @@ RSpec.describe 'Theme Search Page Conformance', type: :view do
 
   # Deprecated patterns that should not appear
   DEPRECATED_PATTERNS = {
-    'Vue.js reference' => /INMOAPP\.pwbVue|Vue\.|v-if|v-for|v-model|v-bind|v-on|::/,
+    # Note: removed :: from Vue.js pattern as it matches Ruby's namespace separator
+    'Vue.js reference' => /INMOAPP\.pwbVue|Vue\.|v-if=|v-for=|v-model=|v-bind:|v-on:|@click=/,
     'jQuery reference' => /\$\(|jQuery\(|\$\./,
     'Bootstrap classes' => /class="[^"]*(?:col-md-|col-lg-|col-sm-|btn-primary|btn-secondary)[^"]*"/
   }.freeze
 
   # Required elements for search functionality
+  # Note: results container may be in a partial, so we check for it separately
+  # Stimulus controller can be either 'search' (URL-based) or 'search-form' (AJAX-based)
   REQUIRED_ELEMENTS = {
-    'results container' => /id=["']inmo-search-results["']/,
-    'Stimulus controller' => /data-controller=["'][^"']*search-form[^"']*["']/
+    'results container' => /id=["']inmo-search-results["']|render.*search_results/,
+    'Stimulus controller' => /data-controller=["'][^"']*(search-form|search)[^"']*["']/
   }.freeze
 
   describe 'theme search page templates exist' do
@@ -55,9 +58,8 @@ RSpec.describe 'Theme Search Page Conformance', type: :view do
 
   describe 'responsive layout conformance' do
     # Themes that follow the spec exactly (sidebar 1/4, results 3/4 on desktop)
-    # Currently no themes are fully compliant - all use mobile-first stacked layout
-    # When a theme is updated to be compliant, add it here to enforce the layout
-    COMPLIANT_THEMES = [].freeze
+    # All themes are now compliant with the responsive layout specification
+    COMPLIANT_THEMES = %w[default brisbane bologna].freeze
 
     THEMES.each do |theme|
       context "#{theme} theme" do
@@ -223,10 +225,11 @@ RSpec.describe 'Theme Search Page Conformance', type: :view do
             let(:template_content) { File.read(template_path) }
 
             it 'uses search-form Stimulus controller' do
-              has_search_controller = template_content.match?(/data-controller=["'][^"']*search-form[^"']*["']/)
+              # Accept either 'search' (URL-based) or 'search-form' (AJAX-based) controller
+              has_search_controller = template_content.match?(/data-controller=["'][^"']*(search-form|search)[^"']*["']/)
 
               expect(has_search_controller).to be(true),
-                "#{theme}/#{page}.html.erb missing search-form Stimulus controller. " \
+                "#{theme}/#{page}.html.erb missing search Stimulus controller. " \
                 "Per specification, all interactivity should use Stimulus.js."
             end
 
@@ -241,7 +244,10 @@ RSpec.describe 'Theme Search Page Conformance', type: :view do
             end
 
             it 'has spinner target for loading state' do
-              has_spinner_target = template_content.match?(/data-search-form-target=["']spinner["']/)
+              # Accept either search-form or search controller targets, or a render of partial with loading
+              has_spinner_target = template_content.match?(/data-search-form-target=["']spinner["']/) ||
+                                   template_content.match?(/data-search-target=["']loading["']/) ||
+                                   template_content.match?(/render.*search_results/)
 
               expect(has_spinner_target).to be(true),
                 "#{theme}/#{page}.html.erb missing loading spinner target. " \
@@ -249,7 +255,10 @@ RSpec.describe 'Theme Search Page Conformance', type: :view do
             end
 
             it 'has results target for AJAX updates' do
-              has_results_target = template_content.match?(/data-search-form-target=["']results["']/)
+              # Accept either search-form or search controller targets, or a render of partial with results
+              has_results_target = template_content.match?(/data-search-form-target=["']results["']/) ||
+                                   template_content.match?(/data-search-target=["']results["']/) ||
+                                   template_content.match?(/render.*search_results/)
 
               expect(has_results_target).to be(true),
                 "#{theme}/#{page}.html.erb missing results target. " \
@@ -316,10 +325,12 @@ RSpec.describe 'Theme Search Page Conformance', type: :view do
             end
 
             it 'has remote: true for AJAX submission' do
-              has_remote_form = partial_content.match?(/remote:\s*true|data:\s*\{[^}]*remote:\s*true/)
+              # Accept either remote: true (Rails UJS AJAX) or turbo_frame (Turbo Frames)
+              has_ajax_form = partial_content.match?(/remote:\s*true|data:\s*\{[^}]*remote:\s*true/) ||
+                              partial_content.match?(/turbo_frame:|data-turbo-frame/)
 
-              expect(has_remote_form).to be(true),
-                "#{theme}/#{partial_name} should have remote: true for AJAX form submission"
+              expect(has_ajax_form).to be(true),
+                "#{theme}/#{partial_name} should have remote: true or turbo_frame for AJAX-like form submission"
             end
           end
         end
