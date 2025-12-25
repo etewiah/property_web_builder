@@ -198,6 +198,14 @@ module SiteAdmin
       @prop = Pwb::RealtyAsset.where(website_id: current_website&.id).find(params[:id])
     end
 
+    def new_prop_params
+      params.require(:pwb_realty_asset).permit(
+        :reference, :prop_type_key,
+        :count_bedrooms, :count_bathrooms,
+        :street_address, :city, :region, :postal_code, :country
+      )
+    end
+
     def asset_params
       return {} unless params[:pwb_realty_asset].present? || params[:pwb_prop].present?
 
