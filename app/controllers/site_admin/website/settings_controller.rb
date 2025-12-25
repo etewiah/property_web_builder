@@ -6,7 +6,7 @@ module SiteAdmin
       before_action :set_website
       before_action :set_tab
 
-      VALID_TABS = %w[general appearance navigation home notifications].freeze
+      VALID_TABS = %w[general appearance navigation home notifications seo].freeze
 
       def show
         # Always load website locales for multilingual editing
