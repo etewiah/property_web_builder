@@ -34,7 +34,6 @@ module SiteAdmin
         :phone_number_primary,
         :phone_number_mobile,
         :phone_number_other,
-        :skype,
         :url
       )
     end

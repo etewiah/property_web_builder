@@ -4,14 +4,12 @@
   admin: true
   first_names: Admin
   last_names: Example
-  skype: ae_skype
   phone_number_primary: 789 101
 - email: non_admin@example.com
   password: pwb123456
   admin: false
   first_names: Nonadm
   last_names: Example
-  skype: na_skype
   phone_number_primary: 123 456
 
 
