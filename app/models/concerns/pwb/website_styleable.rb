@@ -22,8 +22,47 @@ module Pwb
     }.freeze
 
     # Get style variables for the current theme
+    # If a palette is selected, merge palette colors into style variables
     def style_variables
-      style_variables_for_theme["default"] || DEFAULT_STYLE_VARIABLES.dup
+      base_vars = style_variables_for_theme["default"] || DEFAULT_STYLE_VARIABLES.dup
+
+      # Apply palette colors if a palette is selected
+      if selected_palette.present? && current_theme
+        palette_colors = current_theme.palette_colors(selected_palette)
+        base_vars.merge(palette_colors) if palette_colors.present?
+      else
+        base_vars
+      end
+    end
+
+    # Get the current theme object
+    def current_theme
+      @current_theme ||= Pwb::Theme.find_by(name: theme_name)
+    end
+
+    # Get effective palette ID (selected or theme default)
+    def effective_palette_id
+      return selected_palette if selected_palette.present? && current_theme&.valid_palette?(selected_palette)
+
+      current_theme&.default_palette_id
+    end
+
+    # Apply a palette to the website
+    # This updates both the selected_palette and merges colors into style_variables
+    def apply_palette!(palette_id)
+      return false unless current_theme&.valid_palette?(palette_id)
+
+      update(selected_palette: palette_id)
+    end
+
+    # Get available palettes for the current theme
+    def available_palettes
+      current_theme&.palettes || {}
+    end
+
+    # Get palette options for form selects
+    def palette_options_for_select
+      current_theme&.palette_options || []
     end
 
     # Set style variables for the current theme
