@@ -1,22 +1,23 @@
 <div class="border-b border-gray-200 mb-6">
   <nav class="-mb-px flex space-x-8">
-    <%= link_to "General",
-        site_admin_website_settings_tab_path('general'),
-        class: tab_link_class('general', current_tab) %>
-    <%= link_to "Appearance",
-        site_admin_website_settings_tab_path('appearance'),
-        class: tab_link_class('appearance', current_tab) %>
-    <%= link_to "Navigation",
-        site_admin_website_settings_tab_path('navigation'),
-        class: tab_link_class('navigation', current_tab) %>
-    <%#= link_to "Home",
-        site_admin_website_settings_tab_path('home'),
-        class: tab_link_class('home', current_tab) %>
-    <%= link_to "Notifications",
-        site_admin_website_settings_tab_path('notifications'),
-        class: tab_link_class('notifications', current_tab) %>
-    <%= link_to "SEO",
-        site_admin_website_settings_tab_path('seo'),
-        class: tab_link_class('seo', current_tab) %>
+    <% if ['appearance', 'seo'].include?(current_tab) %>
+      <%# Appearance and SEO are now top-level nav items - show breadcrumb-style header %>
+      <span class="border-b-2 border-blue-500 py-4 px-1 text-sm font-medium text-blue-600">
+        <%= current_tab.titleize %>
+      </span>
+    <% else %>
+      <%= link_to "General",
+          site_admin_website_settings_tab_path('general'),
+          class: tab_link_class('general', current_tab) %>
+      <%= link_to "Navigation",
+          site_admin_website_settings_tab_path('navigation'),
+          class: tab_link_class('navigation', current_tab) %>
+      <%#= link_to "Home",
+          site_admin_website_settings_tab_path('home'),
+          class: tab_link_class('home', current_tab) %>
+      <%= link_to "Notifications",
+          site_admin_website_settings_tab_path('notifications'),
+          class: tab_link_class('notifications', current_tab) %>
+    <% end %>
   </nav>
 </div>
