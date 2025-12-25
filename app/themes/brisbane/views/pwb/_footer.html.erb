@@ -55,6 +55,13 @@
               <i class="fab fa-youtube" aria-hidden="true"></i>
             </a>
           <% end %>
+          <% if @current_website.respond_to?(:social_media_whatsapp) && @current_website.social_media_whatsapp.present? %>
+            <a href="<%= @current_website.social_media_whatsapp %>" target="_blank" rel="noopener noreferrer"
+               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
+               aria-label="Contact us on WhatsApp">
+              <i class="fab fa-whatsapp" aria-hidden="true"></i>
+            </a>
+          <% end %>
         </nav>
       </div>
 
