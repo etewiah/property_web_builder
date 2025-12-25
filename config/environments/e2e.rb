@@ -10,11 +10,15 @@ Rails.application.configure do
   # E2E testing environment - similar to development but isolated
   # This environment is optimized for running Playwright end-to-end tests
 
-  # Make code changes take effect immediately without server restart.
-  config.enable_reloading = true
+  # Disable reloading for rake tasks (like seeding) to prevent Zeitwerk
+  # from unloading/reloading classes mid-process, which causes NameError
+  # and AssociationTypeMismatch errors. Enable reloading for the web server
+  # so hot reload works during development.
+  running_in_rake = defined?(Rake) && !Rake.application.top_level_tasks.empty?
+  config.enable_reloading = !running_in_rake
 
-  # Do not eager load code on boot.
-  config.eager_load = false
+  # Eager load code for rake tasks to ensure all constants are available
+  config.eager_load = running_in_rake
 
   # Show full error reports.
   config.consider_all_requests_local = true
