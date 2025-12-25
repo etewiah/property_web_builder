@@ -132,10 +132,10 @@ Rails.application.routes.draw do
     end
 
     # Agency profile management
-    resource :agency, only: %i[edit update]
+    resource :agency, only: %i[edit update], controller: 'agency'
 
     # Billing/subscription management
-    resource :billing, only: %i[show]
+    resource :billing, only: %i[show], controller: 'billing'
 
     # Activity logs
     resources :activity_logs, only: %i[index show]

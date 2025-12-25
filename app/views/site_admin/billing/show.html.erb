@@ -19,7 +19,7 @@
           <div class="text-right">
             <% if @plan&.price_cents.to_i > 0 %>
               <p class="text-3xl font-bold text-gray-900">
-                <%= number_to_currency(@plan.price_cents / 100.0, unit: @plan.currency || '€') %>
+                <%= number_to_currency(@plan.price_cents / 100.0, unit: @plan.price_currency || '€') %>
               </p>
               <p class="text-gray-500">per <%= @plan.billing_interval || 'month' %></p>
             <% else %>

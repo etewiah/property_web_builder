@@ -73,7 +73,8 @@ module Pwb
     
     def can_manage?(other_membership)
       return false unless active?
-      role_level > other_membership.role_level
+      # Lower role_level means higher authority (owner=0 is highest)
+      role_level < other_membership.role_level
     end
   end
 end
