@@ -1,0 +1,132 @@
+<div class="max-w-3xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Agency Profile</h1>
+    <p class="mt-2 text-gray-600">Manage your company information that appears on your website.</p>
+  </div>
+
+  <div class="bg-white rounded-lg shadow">
+    <%= form_with model: @agency, url: site_admin_agency_path, method: :patch, local: true do |f| %>
+      <% if @agency.errors.any? %>
+        <div class="p-4 bg-red-50 border-b border-red-200">
+          <h3 class="text-red-800 font-medium">Please fix the following errors:</h3>
+          <ul class="mt-2 list-disc list-inside text-red-700 text-sm">
+            <% @agency.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- Company Information -->
+      <div class="p-6 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900 mb-4">Company Information</h2>
+        <div class="space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <%= f.label :display_name, "Display Name", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= f.text_field :display_name, 
+                  class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                  placeholder: "Your Agency Name" %>
+              <p class="mt-1 text-sm text-gray-500">The name shown to visitors on your website</p>
+            </div>
+            <div>
+              <%= f.label :company_name, "Legal Company Name", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= f.text_field :company_name, 
+                  class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                  placeholder: "Your Company Ltd." %>
+              <p class="mt-1 text-sm text-gray-500">Used in legal documents and invoices</p>
+            </div>
+          </div>
+
+          <div>
+            <%= f.label :url, "Website URL", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.url_field :url, 
+                class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                placeholder: "https://www.yourcompany.com" %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Information -->
+      <div class="p-6 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900 mb-4">Contact Information</h2>
+        <div class="space-y-4">
+          <!-- Email Addresses -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <%= f.label :email_primary, "Primary Email", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= f.email_field :email_primary, 
+                  class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                  placeholder: "info@yourcompany.com" %>
+            </div>
+            <div>
+              <%= f.label :email_for_general_contact_form, "General Inquiries Email", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= f.email_field :email_for_general_contact_form, 
+                  class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                  placeholder: "contact@yourcompany.com" %>
+              <p class="mt-1 text-sm text-gray-500">Receives messages from the contact form</p>
+            </div>
+          </div>
+
+          <div>
+            <%= f.label :email_for_property_contact_form, "Property Inquiries Email", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.email_field :email_for_property_contact_form, 
+                class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                placeholder: "sales@yourcompany.com" %>
+            <p class="mt-1 text-sm text-gray-500">Receives inquiries about specific properties</p>
+          </div>
+
+          <!-- Phone Numbers -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <%= f.label :phone_number_primary, "Primary Phone", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= f.text_field :phone_number_primary, 
+                  class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                  placeholder: "+1 234 567 8900" %>
+            </div>
+            <div>
+              <%= f.label :phone_number_mobile, "Mobile Phone", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= f.text_field :phone_number_mobile, 
+                  class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                  placeholder: "+1 234 567 8901" %>
+            </div>
+            <div>
+              <%= f.label :phone_number_other, "Other Phone", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= f.text_field :phone_number_other, 
+                  class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                  placeholder: "+1 234 567 8902" %>
+            </div>
+          </div>
+
+          <div>
+            <%= f.label :skype, "Skype Username", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.text_field :skype, 
+                class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                placeholder: "your.skype.name" %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="p-6 bg-gray-50 flex justify-end">
+        <%= f.submit "Save Changes", class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Additional Info -->
+  <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+    <div class="flex">
+      <svg class="w-5 h-5 text-blue-600 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+      </svg>
+      <div>
+        <h3 class="text-sm font-medium text-blue-800">About Agency Profile</h3>
+        <p class="mt-1 text-sm text-blue-700">
+          This information is used throughout your website in the header, footer, contact pages, and property listings.
+          Make sure to keep it up to date so visitors can reach you.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
