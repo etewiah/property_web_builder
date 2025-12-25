@@ -1,0 +1,129 @@
+<div class="max-w-4xl mx-auto">
+  <div class="mb-6">
+    <%= link_to '← Back to Activity Logs', site_admin_activity_logs_path, class: 'text-blue-600 hover:text-blue-800' %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <!-- Header -->
+    <div class="px-6 py-4 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-gray-900">Event Details</h1>
+        <% event_class = case @log.event_type
+           when 'login_success', 'oauth_success', 'registration' then 'bg-green-100 text-green-800'
+           when 'login_failure', 'oauth_failure', 'account_locked' then 'bg-red-100 text-red-800'
+           when 'logout', 'session_timeout' then 'bg-gray-100 text-gray-800'
+           when 'password_reset_request', 'password_reset_success', 'account_unlocked' then 'bg-yellow-100 text-yellow-800'
+           else 'bg-blue-100 text-blue-800'
+           end %>
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <%= event_class %>">
+          <%= @log.event_type.titleize %>
+        </span>
+      </div>
+    </div>
+
+    <!-- Details -->
+    <div class="p-6">
+      <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Event Type</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @log.event_type.titleize %></dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Timestamp</dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            <%= @log.created_at.strftime('%B %d, %Y at %H:%M:%S') %>
+            <span class="text-gray-500">(<%= time_ago_in_words(@log.created_at) %> ago)</span>
+          </dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Email</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @log.email || '-' %></dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">User</dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            <% if @log.user.present? %>
+              <%= link_to @log.user.email, site_admin_user_path(@log.user), class: 'text-blue-600 hover:text-blue-800' %>
+            <% else %>
+              <span class="text-gray-500">Not linked to user</span>
+            <% end %>
+          </dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">IP Address</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @log.ip_address || '-' %></dd>
+        </div>
+
+        <% if @log.provider.present? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Provider</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @log.provider.titleize %></dd>
+          </div>
+        <% end %>
+
+        <% if @log.failure_reason.present? %>
+          <div class="sm:col-span-2">
+            <dt class="text-sm font-medium text-gray-500">Failure Reason</dt>
+            <dd class="mt-1 text-sm text-red-600"><%= @log.failure_reason %></dd>
+          </div>
+        <% end %>
+
+        <div class="sm:col-span-2">
+          <dt class="text-sm font-medium text-gray-500">User Agent</dt>
+          <dd class="mt-1 text-sm text-gray-900 break-all"><%= @log.user_agent || '-' %></dd>
+        </div>
+
+        <% if @log.request_path.present? %>
+          <div class="sm:col-span-2">
+            <dt class="text-sm font-medium text-gray-500">Request Path</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @log.request_path %></dd>
+          </div>
+        <% end %>
+
+        <% if @log.metadata.present? && @log.metadata.any? %>
+          <div class="sm:col-span-2">
+            <dt class="text-sm font-medium text-gray-500">Additional Data</dt>
+            <dd class="mt-1">
+              <pre class="text-sm text-gray-900 bg-gray-50 rounded p-3 overflow-x-auto"><%= JSON.pretty_generate(@log.metadata) %></pre>
+            </dd>
+          </div>
+        <% end %>
+      </dl>
+    </div>
+  </div>
+
+  <!-- Related Events -->
+  <% if @log.user.present? %>
+    <div class="mt-6 bg-white rounded-lg shadow overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900">Recent Activity from This User</h2>
+      </div>
+      <div class="p-6">
+        <% recent_logs = Pwb::AuthAuditLog.where(user: @log.user, website: current_website)
+                                          .where.not(id: @log.id)
+                                          .recent.limit(5) %>
+        <% if recent_logs.any? %>
+          <ul class="space-y-3">
+            <% recent_logs.each do |log| %>
+              <li class="flex items-center justify-between">
+                <div>
+                  <span class="text-sm font-medium text-gray-900"><%= log.event_type.titleize %></span>
+                  <span class="text-sm text-gray-500">from <%= log.ip_address %></span>
+                </div>
+                <span class="text-sm text-gray-500"><%= time_ago_in_words(log.created_at) %> ago</span>
+              </li>
+            <% end %>
+          </ul>
+          <%= link_to "View all activity", site_admin_activity_logs_path(user_id: @log.user_id), 
+              class: "mt-4 inline-block text-blue-600 hover:text-blue-800" %>
+        <% else %>
+          <p class="text-gray-500">No other recent activity</p>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
