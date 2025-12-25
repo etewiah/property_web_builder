@@ -24,6 +24,8 @@ module SiteAdmin
           @style_variables = @website.style_variables
         when 'seo'
           @social_media = @website.social_media || {}
+        when 'social'
+          @social_links = @website.social_media_links_for_admin
         end
       end
 
