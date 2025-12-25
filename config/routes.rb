@@ -131,6 +131,9 @@ Rails.application.routes.draw do
       post :verify
     end
 
+    # Agency profile management
+    resource :agency, only: %i[edit update]
+
     # Image library API for page part editor
     resources :images, only: %i[index create]
 
