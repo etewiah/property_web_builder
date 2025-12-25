@@ -1,14 +1,14 @@
 ---
 - reference: re-r3
-  year_construction: 1920
+  year_construction: 2020
   count_bedrooms: 1
   count_bathrooms: 1
   count_toilets: 1
-  count_garages: 0
+  count_garages: 1
   flags: 0
-  furnished:
-  sold:
-  reserved:
+  furnished: true
+  sold: false
+  reserved: false
   highlighted: true
   archived: false
   visible: true
@@ -23,7 +23,7 @@
   available_to_rent_from:
   available_to_rent_till:
   price_sale_current_cents: 0
-  price_rental_monthly_current_cents: 50000
+  price_rental_monthly_current_cents: 285000
   commission_cents: 0
   commission_currency: USD
   service_charge_yearly_cents: 0
@@ -33,22 +33,23 @@
   prop_state_key: 'states.excellent'
   prop_type_key: 'types.penthouse'
   street_address: Old Water Works Road
-  street_name: 
+  street_name:
   street_number: 9-13
   postal_code: 08857
   city: Old Bridge Township
   region: New Jersey
+  currency: USD
   country: United States
   longitude: -74.3508907
   latitude: 40.4148037
   plot_area: 0
   constructed_area: 90.0
-  energy_rating:
-  energy_performance:
-  title_en: Example luxury flat to rent 2.
-  title_es: Ejemplo de un piso para arrendar 2.
-  description_en: Description of the amazing flat to rent 2.
-  description_es: Descripción de una flat estupenda para arrendar 2.
+  energy_rating: A
+  energy_performance: 40
+  title_en: Stunning Top-Floor Penthouse with Panoramic Views
+  title_es: Impresionante Ático con Vistas Panorámicas
+  description_en: Experience luxury living in this exquisite top-floor penthouse offering breathtaking panoramic views. This fully furnished one-bedroom retreat features premium finishes, a gourmet kitchen with high-end appliances, and a private balcony perfect for entertaining. Building amenities include 24-hour concierge, fitness center, and residents' lounge. One covered parking space included. Ideal for executives or those seeking an elevated lifestyle.
+  description_es: Experimente la vida de lujo en este exquisito ático en el último piso que ofrece impresionantes vistas panorámicas. Este refugio de un dormitorio completamente amueblado cuenta con acabados premium, una cocina gourmet con electrodomésticos de alta gama y un balcón privado perfecto para entretenimiento. Las comodidades del edificio incluyen conserjería 24 horas, gimnasio y salón para residentes. Un espacio de estacionamiento cubierto incluido. Ideal para ejecutivos o quienes buscan un estilo de vida elevado.
   photo_files:
     - db/example_images/flat_luxury_living_area.jpg
     - db/example_images/lounge_cosy.jpg

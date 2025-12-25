@@ -1,15 +1,15 @@
 ---
 - reference: re-s1
-  year_construction: 0
+  year_construction: 1985
   count_bedrooms: 2
   count_bathrooms: 2
   count_toilets: 1
   count_garages: 1
   flags: 0
-  furnished:
-  sold:
-  reserved:
-  highlighted: false
+  furnished: false
+  sold: false
+  reserved: false
+  highlighted: true
   archived: false
   visible: true
   for_rent_short_term: false
@@ -22,18 +22,18 @@
   active_from:
   available_to_rent_from:
   available_to_rent_till:
-  price_sale_current_cents: 30000000
+  price_sale_current_cents: 32500000
   price_rental_monthly_current_cents: 0
   commission_cents: 0
   commission_currency: USD
   service_charge_yearly_cents: 0
   service_charge_yearly_currency: USD
-  currency:
+  currency: USD
   prop_origin_key: 'origin.direct'
   prop_state_key: 'states.good'
   prop_type_key: 'types.country_house'
   street_address: Providence Boulevard
-  street_name: 
+  street_name:
   street_number: 131
   postal_code: 08824
   city: South Brunswick Township
@@ -44,12 +44,12 @@
   latitude: 40.4076591
   plot_area: 550.0
   constructed_area: 190.0
-  energy_rating:
-  energy_performance:
-  title_en: Example country house for sale.
-  title_es: Ejemplo de una villa para vender.  
-  description_en: Description of the amazing country house for sale. 
-  description_es: Descripción de una villa estupenda para vender.
+  energy_rating: C
+  energy_performance: 85
+  title_en: Charming Country House with Modern Updates
+  title_es: Encantadora Casa de Campo con Mejoras Modernas
+  description_en: Spacious country home nestled on a generous half-acre lot in the desirable South Brunswick area. This well-maintained 2-bedroom residence features an updated kitchen with stainless steel appliances, hardwood floors throughout, and a cozy fireplace in the living room. The attached garage and private backyard make this an ideal retreat for those seeking suburban tranquility with easy access to major highways.
+  description_es: Amplia casa de campo ubicada en un generoso terreno de media hectárea en la codiciada zona de South Brunswick. Esta residencia de 2 dormitorios bien mantenida cuenta con una cocina renovada con electrodomésticos de acero inoxidable, pisos de madera en toda la casa y una acogedora chimenea en la sala de estar. El garaje adjunto y el patio privado hacen de esta propiedad un refugio ideal para quienes buscan tranquilidad suburbana con fácil acceso a las principales autopistas.
   photo_files:
     - db/example_images/new_villa.jpg
     - db/example_images/kitchen_modern.jpg

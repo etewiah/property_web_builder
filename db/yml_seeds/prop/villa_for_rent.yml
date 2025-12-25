@@ -1,15 +1,15 @@
 ---
 - reference: pwb-r1
-  year_construction: 1970
+  year_construction: 1978
   count_bedrooms: 2
   count_bathrooms: 2
   count_toilets: 1
   count_garages: 1
   flags: 0
-  furnished:
-  sold:
-  reserved:
-  highlighted: false
+  furnished: true
+  sold: false
+  reserved: false
+  highlighted: true
   archived: false
   visible: true
   for_rent_short_term: true
@@ -23,17 +23,17 @@
   available_to_rent_from:
   available_to_rent_till:
   price_sale_current_cents: 0
-  price_rental_monthly_current_cents: 100000
+  price_rental_monthly_current_cents: 220000
   commission_cents: 0
   commission_currency: USD
   service_charge_yearly_cents: 0
   service_charge_yearly_currency: USD
-  currency:
+  currency: USD
   prop_origin_key: 'origin.direct'
   prop_state_key: 'states.excellent'
   prop_type_key: 'types.villa'
   street_address: Providence Boulevard
-  street_name: 
+  street_name:
   street_number: 131
   postal_code: 08824
   city: South Brunswick Township
@@ -44,12 +44,12 @@
   latitude: 40.4076591
   plot_area: 150.0
   constructed_area: 90.0
-  energy_rating:
-  energy_performance:
-  title_en: Example mansion for rent.
-  title_es: Una mansion estupenda para aliquilar.  
-  description_en: Description of the amazing mansion for rent. 
-  description_es: Descripción de una mansion estupenda para aliquilar.
+  energy_rating: B
+  energy_performance: 65
+  title_en: Elegant Furnished Villa with Private Garden
+  title_es: Elegante Villa Amueblada con Jardín Privado
+  description_en: Move right into this beautifully furnished villa in a quiet residential neighborhood. This tastefully decorated 2-bedroom home offers a bright open floor plan, updated bathrooms, and a fully equipped kitchen. Enjoy peaceful mornings on the private patio overlooking the landscaped garden. Perfect for professionals or small families seeking comfort and convenience. Utilities included in rent.
+  description_es: Múdese directamente a esta hermosa villa amueblada en un tranquilo vecindario residencial. Esta casa de 2 dormitorios elegantemente decorada ofrece un plano abierto y luminoso, baños renovados y una cocina totalmente equipada. Disfrute de mañanas tranquilas en el patio privado con vistas al jardín. Perfecta para profesionales o familias pequeñas que buscan comodidad y conveniencia. Servicios incluidos en el alquiler.
   photo_files:
     - db/example_images/mansion_front.jpg
     - db/example_images/mansion_bedroom.jpg

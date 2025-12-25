@@ -1,15 +1,15 @@
 ---
 - reference: re-s3
-  year_construction: 0
+  year_construction: 2023
   count_bedrooms: 1
   count_bathrooms: 1
   count_toilets: 1
   count_garages: 0
   flags: 0
-  furnished:
-  sold:
-  reserved:
-  highlighted: false
+  furnished: false
+  sold: false
+  reserved: false
+  highlighted: true
   archived: false
   visible: true
   for_rent_short_term: false
@@ -22,32 +22,33 @@
   active_from:
   available_to_rent_from:
   available_to_rent_till:
-  price_sale_current_cents: 5000000
+  price_sale_current_cents: 27500000
   price_rental_monthly_current_cents: 0
   commission_cents: 0
   commission_currency: USD
-  service_charge_yearly_cents: 0
+  service_charge_yearly_cents: 240000
   service_charge_yearly_currency: USD
   prop_origin_key: 'origin.direct'
   prop_state_key: 'states.new_build'
   prop_type_key: 'types.apartment'
   street_address: Old Water Works Road
-  street_name: 
+  street_name:
   street_number: 9-13
   postal_code: 08857
   city: Old Bridge Township
   region: New Jersey
+  currency: USD
   country: United States
   longitude: -74.3508907
   latitude: 40.4148037
   plot_area: 0
   constructed_area: 80.0
-  energy_rating:
-  energy_performance:
-  title_en: Example flat for sale 2.
-  title_es: Ejemplo de un piso para vender 2.  
-  description_en: Description of the amazing flat for sale 2. 
-  description_es: Descripción de una flat estupenda para vender 2.
+  energy_rating: A
+  energy_performance: 35
+  title_en: Brand New Modern Apartment in Luxury Development
+  title_es: Apartamento Moderno de Estreno en Desarrollo de Lujo
+  description_en: Be the first to live in this stunning new-construction apartment in Old Bridge's premier residential development. This contemporary 1-bedroom unit features high-end finishes including quartz countertops, stainless steel appliances, and premium flooring throughout. Floor-to-ceiling windows flood the space with natural light. Building amenities include fitness center, rooftop terrace, and secure package room. Energy-efficient design with low utility costs.
+  description_es: Sea el primero en vivir en este impresionante apartamento de nueva construcción en el principal desarrollo residencial de Old Bridge. Esta unidad contemporánea de 1 dormitorio cuenta con acabados de alta gama que incluyen encimeras de cuarzo, electrodomésticos de acero inoxidable y pisos premium. Los ventanales del piso al techo inundan el espacio con luz natural. Las comodidades del edificio incluyen gimnasio, terraza en la azotea y sala de paquetes segura. Diseño energéticamente eficiente con bajos costos de servicios.
   photo_files:
     - db/example_images/flat_luxury_dining_area.jpg
     - db/example_images/kitchen_classic.jpg

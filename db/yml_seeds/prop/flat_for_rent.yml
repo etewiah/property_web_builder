@@ -6,9 +6,9 @@
   count_toilets: 1
   count_garages: 0
   flags: 0
-  furnished:
-  sold:
-  reserved:
+  furnished: false
+  sold: false
+  reserved: false
   highlighted: true
   archived: false
   visible: true
@@ -23,17 +23,17 @@
   available_to_rent_from:
   available_to_rent_till:
   price_sale_current_cents: 0
-  price_rental_monthly_current_cents: 50000
+  price_rental_monthly_current_cents: 165000
   commission_cents: 0
   commission_currency: USD
   service_charge_yearly_cents: 0
   service_charge_yearly_currency: USD
-  currency:
+  currency: USD
   prop_origin_key: 'origin.direct'
   prop_state_key: 'states.renovated'
   prop_type_key: 'types.apartment'
   street_address: Dunhams Corner Road
-  street_name: Calle Sup
+  street_name:
   street_number: 57
   postal_code: 08816
   city: East Brunswick
@@ -44,12 +44,12 @@
   latitude: 40.4306235
   plot_area: 0
   constructed_area: 90.0
-  energy_rating:
-  energy_performance:
-  title_en: Example flat to rent.
-  title_es: Ejemplo de un piso para arrendar.
-  description_en: Description of the amazing flat to rent.
-  description_es: Descripción de una flat estupenda para arrendar
+  energy_rating: C
+  energy_performance: 95
+  title_en: Renovated Historic Apartment with Character
+  title_es: Apartamento Histórico Renovado con Carácter
+  description_en: Beautifully renovated apartment in a classic 1920s building that blends historic charm with modern convenience. Original hardwood floors and high ceilings complement the updated kitchen and bathroom. This spacious one-bedroom unit features a separate dining area and ample storage. Heat and hot water included. Pet-friendly building with on-site laundry. Close to downtown shops and NJ Transit bus lines.
+  description_es: Apartamento bellamente renovado en un edificio clásico de los años 1920 que combina encanto histórico con comodidades modernas. Los pisos de madera originales y los techos altos complementan la cocina y el baño renovados. Esta espaciosa unidad de un dormitorio cuenta con un comedor separado y amplio almacenamiento. Calefacción y agua caliente incluidas. Edificio que acepta mascotas con lavandería en el lugar. Cerca de tiendas del centro y líneas de autobús de NJ Transit.
   photo_files:
     - db/example_images/flat_balcony.jpg
     - db/example_images/lounge_cosy.jpg

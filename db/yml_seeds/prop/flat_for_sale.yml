@@ -1,14 +1,14 @@
 ---
 - reference: re-s2
-  year_construction: 0
+  year_construction: 1995
   count_bedrooms: 1
   count_bathrooms: 1
   count_toilets: 1
   count_garages: 0
   flags: 0
-  furnished:
-  sold:
-  reserved:
+  furnished: false
+  sold: false
+  reserved: false
   highlighted: false
   archived: false
   visible: true
@@ -22,17 +22,17 @@
   active_from:
   available_to_rent_from:
   available_to_rent_till:
-  price_sale_current_cents: 5000000
+  price_sale_current_cents: 18500000
   price_rental_monthly_current_cents: 0
   commission_cents: 0
   commission_currency: USD
-  service_charge_yearly_cents: 0
+  service_charge_yearly_cents: 180000
   service_charge_yearly_currency: USD
   prop_origin_key: 'origin.direct'
   prop_state_key: 'states.good'
   prop_type_key: 'types.flat'
   street_address: Dunhams Corner Road
-  street_name: Calle Sup
+  street_name:
   street_number: 57
   postal_code: 08816
   city: East Brunswick
@@ -43,12 +43,12 @@
   latitude: 40.4306235
   plot_area: 0
   constructed_area: 80.0
-  energy_rating:
-  energy_performance:
-  title_en: Example flat for sale.
-  title_es: Ejemplo de un piso para vender.  
-  description_en: Description of the amazing flat for sale. 
-  description_es: Descripción de una flat estupenda para vender.
+  energy_rating: C
+  energy_performance: 90
+  title_en: Bright One-Bedroom Flat in Prime Location
+  title_es: Luminoso Apartamento de Un Dormitorio en Ubicación Privilegiada
+  description_en: Well-maintained one-bedroom flat in a sought-after East Brunswick neighborhood. This comfortable unit features abundant natural light, an efficient layout with separate kitchen, and generous closet space. The building offers laundry facilities and assigned parking. Walking distance to shops, restaurants, and public transit. Ideal for first-time buyers or investors seeking a low-maintenance property.
+  description_es: Apartamento de un dormitorio bien mantenido en un codiciado vecindario de East Brunswick. Esta cómoda unidad cuenta con abundante luz natural, una distribución eficiente con cocina separada y amplio espacio de armarios. El edificio ofrece lavandería y estacionamiento asignado. A poca distancia de tiendas, restaurantes y transporte público. Ideal para compradores primerizos o inversores que buscan una propiedad de bajo mantenimiento.
   photo_files:
     - db/example_images/flat_window.jpg
     - db/example_images/kitchen_classic.jpg
