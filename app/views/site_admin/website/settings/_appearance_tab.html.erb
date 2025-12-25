@@ -33,11 +33,60 @@
       </div>
     </div>
 
-    <!-- Color Settings -->
-    <div class="border-t border-gray-200 pt-6">
-      <h3 class="text-lg font-medium text-gray-900 mb-4">Colors</h3>
+    <!-- Color Palette Selection -->
+    <% if @website.current_theme&.palettes&.any? %>
+    <div class="border-t border-gray-200 pt-6" data-controller="palette-selector">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Color Palette</h3>
+      <p class="text-sm text-gray-600 mb-4">Choose a curated color palette for your theme. This will set harmonious colors for your entire site.</p>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <% @website.current_theme.palettes.each do |palette_id, palette| %>
+          <label class="relative cursor-pointer group">
+            <input type="radio" name="website[selected_palette]" value="<%= palette_id %>"
+                   <%= 'checked' if @website.effective_palette_id == palette_id %>
+                   class="sr-only peer"
+                   data-action="change->palette-selector#selectPalette"
+                   data-palette-colors="<%= palette['colors'].to_json %>">
+            <div class="border-2 rounded-lg p-4 peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-400 transition-all">
+              <!-- Color Preview Swatches -->
+              <div class="flex h-12 rounded-lg overflow-hidden mb-3 shadow-sm">
+                <% palette['preview_colors'].each_with_index do |color, i| %>
+                  <div class="flex-1 <%= 'rounded-l-lg' if i == 0 %> <%= 'rounded-r-lg' if i == palette['preview_colors'].length - 1 %>"
+                       style="background-color: <%= color %>"></div>
+                <% end %>
+              </div>
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="font-medium text-gray-900 block"><%= palette['name'] %></span>
+                  <span class="text-xs text-gray-500"><%= palette['description'] %></span>
+                </div>
+                <span class="hidden peer-checked:inline-block text-blue-600">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </label>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+
+    <!-- Color Settings (Advanced) -->
+    <div class="border-t border-gray-200 pt-6">
+      <details class="group">
+        <summary class="flex items-center justify-between cursor-pointer list-none">
+          <h3 class="text-lg font-medium text-gray-900">Advanced Color Settings</h3>
+          <span class="text-gray-500 group-open:rotate-180 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </span>
+        </summary>
+        <p class="text-sm text-gray-600 mt-2 mb-4">Override individual colors. Note: These settings override the selected palette.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
         <!-- Primary Color -->
         <div>
           <label for="primary_color" class="block text-sm font-medium text-gray-700 mb-1">
