@@ -309,6 +309,70 @@
   link_title_pt: Twitter
   link_title_it: Twitter
 
+- slug: social_media_instagram
+  link_url: ""
+  sort_order: 3
+  visible: false
+  icon_class: "fa-instagram fa"
+  href_target: "_blank"
+  is_external: true
+  placement: :social_media
+  link_title_en: Instagram
+  link_title_es: Instagram
+  link_title_fr: Instagram
+  link_title_de: Instagram
+  link_title_nl: Instagram
+  link_title_pt: Instagram
+  link_title_it: Instagram
+
+- slug: social_media_linkedin
+  link_url: ""
+  sort_order: 4
+  visible: false
+  icon_class: "fa-linkedin fa"
+  href_target: "_blank"
+  is_external: true
+  placement: :social_media
+  link_title_en: LinkedIn
+  link_title_es: LinkedIn
+  link_title_fr: LinkedIn
+  link_title_de: LinkedIn
+  link_title_nl: LinkedIn
+  link_title_pt: LinkedIn
+  link_title_it: LinkedIn
+
+- slug: social_media_youtube
+  link_url: ""
+  sort_order: 5
+  visible: false
+  icon_class: "fa-youtube fa"
+  href_target: "_blank"
+  is_external: true
+  placement: :social_media
+  link_title_en: YouTube
+  link_title_es: YouTube
+  link_title_fr: YouTube
+  link_title_de: YouTube
+  link_title_nl: YouTube
+  link_title_pt: YouTube
+  link_title_it: YouTube
+
+- slug: social_media_whatsapp
+  link_url: ""
+  sort_order: 6
+  visible: false
+  icon_class: "fa-whatsapp fa"
+  href_target: "_blank"
+  is_external: true
+  placement: :social_media
+  link_title_en: WhatsApp
+  link_title_es: WhatsApp
+  link_title_fr: WhatsApp
+  link_title_de: WhatsApp
+  link_title_nl: WhatsApp
+  link_title_pt: WhatsApp
+  link_title_it: WhatsApp
+
 # Admin navigation links
 - slug: admin_home
   page_slug: home
