@@ -22,6 +22,8 @@ module SiteAdmin
         when 'appearance'
           @themes = Pwb::Theme.all
           @style_variables = @website.style_variables
+        when 'seo'
+          @social_media = @website.social_media || {}
         end
       end
 
