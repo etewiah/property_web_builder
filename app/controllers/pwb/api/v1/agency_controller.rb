@@ -32,7 +32,7 @@ module Pwb
           agency: {},
           primary_address: {},
           website: @website
-          # current_user: current_user.as_json(:only => ["email", "first_names","last_names","phone_number_primary","skype"])
+          # current_user: current_user.as_json(:only => ["email", "first_names","last_names","phone_number_primary"])
         }
 
       end
