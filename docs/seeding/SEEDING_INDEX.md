@@ -38,6 +38,14 @@ This directory contains comprehensive documentation of the PropertyWebBuilder se
 - Common pitfalls and solutions
 - ~350 lines, practical guide
 
+### 4. **SEED_DATA_*.md** - Analysis & Planning (December 2024)
+**Best for**: Understanding seed data structure and planning improvements
+- **SEED_DATA_ANALYSIS.md** - Comprehensive analysis of current seed data
+- **SEED_DATA_ACTION_PLAN.md** - Improvement roadmap
+- **SEED_DATA_QUICK_REFERENCE.md** - Quick lookup for seed data structure
+- **SEED_DATA_INDEX.md** - Navigation for seed data docs
+- **SEED_DATA_SUMMARY.md** - Executive summary of seed data system
+
 ---
 
 ## Quick Navigation by Topic

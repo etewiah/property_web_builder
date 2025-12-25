@@ -314,6 +314,32 @@ If issues are discovered after deployment:
 
 ---
 
+## Recent Fixes (December 2024)
+
+### List View Layout Fix
+- **Issue:** List view (`?view=list`) was showing vertical card layout instead of horizontal
+- **Root cause:** Tailwind utility classes overriding CSS rules
+- **Fix:** Updated `_search_result_item.html.erb` to use CSS-controlled layout
+- **CSS added:** List/grid view styles in theme CSS files
+- **Files changed:**
+  - `app/views/pwb/search/_search_result_item.html.erb`
+  - `app/assets/stylesheets/tailwind-brisbane.css`
+  - `app/assets/stylesheets/tailwind-bologna.css`
+  - `app/assets/stylesheets/tailwind-input.css`
+
+### Font Awesome Icons Fix (Bologna)
+- **Issue:** Property feature icons (bed, bath, area, car) not displaying in Bologna theme
+- **Root cause:** Bologna only had Phosphor Icons, missing Font Awesome
+- **Fix:** Added Font Awesome 6.5.1 with v4 shims to Bologna layout
+- **File changed:** `app/themes/bologna/views/layouts/pwb/application.html.erb`
+
+### N+1 Query Fix
+- **Issue:** N+1 queries when loading property photos for map markers
+- **Fix:** Added eager loading of `image_attachment` and `blob` in `with_eager_loading` scope
+- **File changed:** `app/models/concerns/listed_property/searchable.rb`
+
+---
+
 ## Future Considerations
 
 1. **Extract to ViewComponent** - Consider converting filter forms to ViewComponents for better reusability

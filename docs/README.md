@@ -35,6 +35,7 @@ Welcome to PropertyWebBuilder's documentation. This folder contains guides and r
 | **[signup/](./signup/)** | Self-service signup flow |
 | **[testing/](./testing/)** | Testing guides (RSpec, Playwright) |
 | **[theming/](./theming/)** | Theme system and Tailwind CSS |
+| **[ui/](./ui/)** | UI specifications and search improvements |
 | **[claude_thoughts/](./claude_thoughts/)** | Claude's research notes and analysis |
 
 ## Key References
@@ -107,9 +108,29 @@ docs/
 ├── signup/                # Signup flow
 ├── testing/               # Test guides
 ├── theming/               # Theme system
+├── ui/                    # UI specs & search
 └── claude_thoughts/       # Research notes
 ```
 
+## Recent Updates
+
+### December 2024
+
+**Search System Improvements** (see [ui/SEARCH_THEME_IMPLEMENTATION_PLAN.md](./ui/SEARCH_THEME_IMPLEMENTATION_PLAN.md))
+- URL-based search state management across all themes
+- Turbo Frames integration for seamless search updates
+- Filter population from URL parameters
+
+**Bug Fixes**
+- **List View Layout** - Fixed search results list view showing vertical cards instead of horizontal layout. CSS now properly controls flex-direction for grid vs list views.
+- **Font Awesome Icons** - Added Font Awesome 6.5.1 to Bologna theme (was missing, only had Phosphor Icons). Property feature icons (bed, bath, area) now display correctly.
+- **N+1 Queries** - Fixed N+1 query issue for property photos by adding eager loading of `image_attachment` and `blob` in the `with_eager_loading` scope.
+
+**Documentation**
+- Moved `SEED_DATA_*.md` files to `docs/seeding/` folder
+- Updated seeding documentation index
+- Added recent fixes section to search implementation plan
+
 ## Last Updated
 
-2024-12-21 - Reorganized documentation into topic-based subfolders
+2024-12-25 - Added UI documentation folder, documented recent search fixes
