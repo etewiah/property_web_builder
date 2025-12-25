@@ -185,7 +185,14 @@ Rails.application.routes.draw do
     resources :contents, only: %i[index show]
     resources :messages, only: %i[index show]
     resources :contacts, only: %i[index show]
-    resources :users, only: %i[index show]
+    resources :users do
+      member do
+        post :resend_invitation
+        patch :update_role
+        patch :deactivate
+        patch :reactivate
+      end
+    end
 
     # Email template management
     resources :email_templates do
