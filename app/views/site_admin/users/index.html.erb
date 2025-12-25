@@ -1,7 +1,17 @@
 <div class="max-w-7xl mx-auto">
-  <div class="mb-6">
-    <h1 class="text-3xl font-bold text-gray-900">Users</h1>
-    <p class="mt-2 text-gray-600">View users for <%= current_website.subdomain %></p>
+  <div class="mb-6 flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Team Members</h1>
+      <p class="mt-2 text-gray-600">Manage users for <%= current_website.subdomain %></p>
+    </div>
+    <div>
+      <%= link_to new_site_admin_user_path, class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" do %>
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+        </svg>
+        Invite User
+      <% end %>
+    </div>
   </div>
 
   <!-- Search Form -->
@@ -10,7 +20,7 @@
       <div class="flex-1">
         <%= f.text_field :search, value: params[:search], placeholder: "Search by email...", class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
       </div>
-      <%= f.submit "Search", class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" %>
+      <%= f.submit "Search", class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer" %>
     <% end %>
   </div>
 
@@ -19,34 +29,87 @@
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
         <tr>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Sign In</th>
           <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
         <% if @users.any? %>
           <% @users.each do |user| %>
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                <%= user.email %>
+            <% membership = user.user_memberships.find { |m| m.website_id == current_website.id } %>
+            <tr class="<%= membership&.active? ? '' : 'bg-gray-50 opacity-60' %>">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10">
+                    <div class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
+                      <span class="text-gray-600 font-medium text-sm">
+                        <%= user.email[0..1].upcase %>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">
+                      <%= user.first_names.present? ? "#{user.first_names} #{user.last_names}" : user.email %>
+                    </div>
+                    <div class="text-sm text-gray-500"><%= user.email %></div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <% if membership %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                    <%= case membership.role
+                        when 'owner' then 'bg-purple-100 text-purple-800'
+                        when 'admin' then 'bg-blue-100 text-blue-800'
+                        when 'member' then 'bg-green-100 text-green-800'
+                        else 'bg-gray-100 text-gray-800'
+                        end %>">
+                    <%= membership.role.titleize %>
+                  </span>
+                <% else %>
+                  <span class="text-gray-400">-</span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <% if membership&.active? %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    Active
+                  </span>
+                <% else %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                    Inactive
+                  </span>
+                <% end %>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <%= format_date(user.created_at) %>
+                <%= user.current_sign_in_at.present? ? format_date(user.current_sign_in_at) : 'Never' %>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm">
-                <%= link_to 'View', site_admin_user_path(user), class: 'text-blue-600 hover:text-blue-800' %>
+                <%= link_to 'View', site_admin_user_path(user), class: 'text-blue-600 hover:text-blue-800 mr-3' %>
+                <%= link_to 'Edit', edit_site_admin_user_path(user), class: 'text-green-600 hover:text-green-800' %>
               </td>
             </tr>
           <% end %>
         <% else %>
           <tr>
-            <td colspan="3" class="px-6 py-4 text-center text-gray-500">
-              No users found
+            <td colspan="5" class="px-6 py-8 text-center text-gray-500">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <p class="mt-2">No team members found</p>
+              <%= link_to 'Invite your first team member', new_site_admin_user_path, class: 'text-blue-600 hover:text-blue-800' %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
   </div>
+
+  <%# Pagination %>
+  <% if defined?(@pagy) && @pagy.pages > 1 %>
+    <%= render 'shared/pagination', pagy: @pagy %>
+  <% end %>
 </div>
