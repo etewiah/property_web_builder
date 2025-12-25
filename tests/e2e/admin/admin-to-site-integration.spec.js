@@ -174,8 +174,7 @@ test.describe('Admin to Site Integration', () => {
   });
 
   test.describe('Language Settings', () => {
-    // FIXME: Language select change doesn't persist after save - form submission issue
-    test.fixme('changing default language setting persists', async ({ page }) => {
+    test('changing default language setting persists', async ({ page }) => {
       // Step 1: Go to admin general settings
       await page.goto(`${BASE_URL}/site_admin/website/settings?tab=general`);
       await waitForPageLoad(page);
@@ -191,8 +190,19 @@ test.describe('Admin to Site Integration', () => {
       // Get current value
       const currentLocale = await localeSelect.inputValue();
 
-      // Change to a different locale (using actual available locales: en, es, de, fr, etc.)
+      // Determine new locale
       const newLocale = currentLocale === 'en' ? 'es' : 'en';
+
+      // Step 3b: First ensure the new locale is in supported_locales
+      // The form disables locale options that aren't in supported_locales
+      const supportedLocaleCheckbox = page.locator(`input[name="pwb_website[supported_locales][]"][value="${newLocale}"]`);
+      if (await supportedLocaleCheckbox.count() > 0 && !(await supportedLocaleCheckbox.isChecked())) {
+        await supportedLocaleCheckbox.check();
+        // Wait for JS to update the dropdown
+        await page.waitForTimeout(500);
+      }
+
+      // Now select the new locale
       await localeSelect.selectOption(newLocale);
 
       // Step 4: Save settings

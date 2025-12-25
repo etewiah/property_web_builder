@@ -40,7 +40,7 @@
               <img src="<%= @current_website.logo_url %>" alt="Logo">
             <% else %>
               <div class="text-navbar-brand" style="">
-                <%= @current_agency.company_name %>
+                <%= @current_website.company_display_name.presence || @current_agency.company_name %>
               </div>
             <% end %>
           <% end %>

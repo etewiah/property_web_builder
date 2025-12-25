@@ -41,7 +41,7 @@
         <% if @current_website.logo_url %>
           <img src="<%= @current_website.logo_url %>" alt="Logo" class="h-10 md:h-14 transition-transform duration-300 group-hover:scale-105">
         <% else %>
-          <span class="font-serif text-2xl md:text-3xl text-luxury-navy tracking-wide"><%= @current_agency.display_name %></span>
+          <span class="font-serif text-2xl md:text-3xl text-luxury-navy tracking-wide"><%= @current_website.company_display_name.presence || @current_agency.display_name %></span>
         <% end %>
       <% end %>
 

@@ -4,7 +4,7 @@
     <div class="footer-grid">
       <!-- Company Info -->
       <div class="footer-company-info">
-        <h4 class="footer-company-name"><%= @current_agency.company_name %></h4>
+        <h4 class="footer-company-name"><%= @current_website.company_display_name.presence || @current_agency.company_name %></h4>
         <ul class="footer-contact-list">
           <% if @current_agency.phone_number_primary.present? %>
             <li class="footer-contact-item">

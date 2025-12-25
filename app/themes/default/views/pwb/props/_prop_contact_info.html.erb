@@ -6,7 +6,7 @@
     </h2>
   </div>
   <div class="p-4">
-    <h4 class="font-semibold text-gray-800 mb-2"><%= @current_agency.company_name %></h4>
+    <h4 class="font-semibold text-gray-800 mb-2"><%= @current_website.company_display_name.presence || @current_agency.company_name %></h4>
     
     <p class="text-gray-600 mb-4">
       <% if @current_agency.street_number.present? || @current_agency.street_address.present? %>

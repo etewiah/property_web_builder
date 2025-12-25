@@ -11,11 +11,11 @@
           <% if @current_website.logo_url %>
             <img src="<%= @current_website.logo_url %>" alt="Logo" class="h-12 brightness-0 invert opacity-90">
           <% else %>
-            <span class="font-serif text-2xl text-luxury-cream tracking-wide"><%= @current_agency.display_name %></span>
+            <span class="font-serif text-2xl text-luxury-cream tracking-wide"><%= @current_website.company_display_name.presence || @current_agency.display_name %></span>
           <% end %>
         </div>
         <p class="text-sm leading-relaxed text-luxury-cream/70 mb-6">
-          <%= @current_agency.company_name %>
+          <%= @current_website.company_display_name.presence || @current_agency.company_name %>
         </p>
 
         <!-- Social Icons - Refined Style -->
@@ -146,7 +146,7 @@
       <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
         <!-- Copyright -->
         <p class="text-xs text-luxury-cream/50 tracking-wide">
-          &copy; <%= Time.current.year %> <%= @current_agency.company_name %>. All rights reserved.
+          &copy; <%= Time.current.year %> <%= @current_website.company_display_name.presence || @current_agency.company_name %>. All rights reserved.
         </p>
 
         <!-- Powered By -->
