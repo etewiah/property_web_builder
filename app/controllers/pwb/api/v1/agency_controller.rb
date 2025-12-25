@@ -23,7 +23,7 @@ module Pwb
           agency: @agency,
           primary_address: @agency.primary_address,
           setup: @admin_setup.as_json["attributes"]
-          # current_user: current_user.as_json(:only => ["email", "first_names","last_names","phone_number_primary","skype"])
+          # current_user: current_user.as_json(:only => ["email", "first_names","last_names","phone_number_primary"])
         }
 
       else
