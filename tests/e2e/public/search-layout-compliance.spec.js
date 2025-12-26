@@ -19,7 +19,7 @@ const { test, expect } = require('@playwright/test');
 
 // All themes that should be tested
 // Add new themes here as they are created
-const THEMES = ['default', 'brisbane', 'bologna'];
+const THEMES = ['default', 'brisbane', 'bologna', 'barcelona'];
 
 // Desktop viewport for testing side-by-side layout
 const DESKTOP_VIEWPORT = { width: 1440, height: 900 };
@@ -324,6 +324,7 @@ test.describe('Theme Discovery', () => {
     expect(THEMES).toContain('default');
     expect(THEMES).toContain('brisbane');
     expect(THEMES).toContain('bologna');
+    expect(THEMES).toContain('barcelona');
 
     // Log for visibility
     console.log(`Testing ${THEMES.length} themes: ${THEMES.join(', ')}`);

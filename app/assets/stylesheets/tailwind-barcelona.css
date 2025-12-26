@@ -1,0 +1,336 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts - eliminates Google Fonts dependency */
+@import "@fontsource-variable/montserrat";
+@import "@fontsource/cormorant-garamond/400.css";
+@import "@fontsource/cormorant-garamond/500.css";
+@import "@fontsource/cormorant-garamond/600.css";
+@import "@fontsource/cormorant-garamond/700.css";
+
+/* Barcelona Mediterranean Theme */
+@theme {
+  /* Mediterranean Blue palette - inspired by the sea */
+  --color-med-50: #eff6ff;
+  --color-med-100: #dbeafe;
+  --color-med-200: #bfdbfe;
+  --color-med-300: #93c5fd;
+  --color-med-400: #60a5fa;
+  --color-med-500: #0B5394;
+  --color-med-600: #0a4a84;
+  --color-med-700: #084174;
+  --color-med-800: #063864;
+  --color-med-900: #042f54;
+
+  /* Terracotta palette - inspired by rooftops */
+  --color-terra-50: #fdf5f3;
+  --color-terra-100: #fbe9e4;
+  --color-terra-200: #f6d3c9;
+  --color-terra-300: #efb5a3;
+  --color-terra-400: #e48b70;
+  --color-terra-500: #B8503E;
+  --color-terra-600: #a54738;
+  --color-terra-700: #8a3c2f;
+  --color-terra-800: #723328;
+  --color-terra-900: #5f2c23;
+
+  /* Golden palette - inspired by Gaudí's tiles */
+  --color-gold-50: #fefce8;
+  --color-gold-100: #fef9c3;
+  --color-gold-200: #fef08a;
+  --color-gold-300: #fde047;
+  --color-gold-400: #E5B45A;
+  --color-gold-500: #d4a34d;
+  --color-gold-600: #b88a3d;
+  --color-gold-700: #9a7133;
+  --color-gold-800: #7f5d2b;
+  --color-gold-900: #6a4d25;
+
+  /* Warm Gray palette */
+  --color-warm-50: #FEFCF9;
+  --color-warm-100: #faf8f5;
+  --color-warm-200: #f5f3f0;
+  --color-warm-300: #e8e5e0;
+  --color-warm-400: #d5d0c8;
+  --color-warm-500: #9c9285;
+  --color-warm-600: #817669;
+  --color-warm-700: #6a6156;
+  --color-warm-800: #584f47;
+  --color-warm-900: #2D3436;
+
+  /* Primary colors */
+  --color-primary: #0B5394;
+  --color-secondary: #B8503E;
+  --color-accent: #E5B45A;
+
+  /* Font families */
+  --font-family-sans: 'Montserrat Variable', system-ui, sans-serif;
+  --font-family-display: 'Cormorant Garamond', Georgia, serif;
+
+  /* Border radius - organic Mediterranean curves */
+  --radius-soft: 12px;
+  --radius-softer: 16px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-soft: 0 4px 24px -4px rgba(45, 52, 54, 0.08);
+  --shadow-medium: 0 8px 32px -8px rgba(45, 52, 54, 0.12);
+  --shadow-elevated: 0 16px 48px -12px rgba(45, 52, 54, 0.16);
+  --shadow-glow: 0 0 40px rgba(11, 83, 148, 0.15);
+
+  /* Spacing */
+  --spacing-18: 4.5rem;
+  --spacing-22: 5.5rem;
+
+  /* Animations */
+  --animate-fade-up: fadeUp 0.6s ease-out forwards;
+  --animate-scale-in: scaleIn 0.5s ease-out forwards;
+  --animate-slide-in: slideIn 0.4s ease-out forwards;
+}
+
+/* Keyframes */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideIn {
+  0% { opacity: 0; transform: translateX(-10px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+/* ==========================================================================
+   Search Layout - Explicit non-nested responsive rules
+   These override Tailwind's nested @media syntax for better browser support
+   ========================================================================== */
+@media (min-width: 1024px) {
+  /* Sidebar filters: 1/4 width on large screens (LEFT side) */
+  .search-layout .search-sidebar {
+    width: 25%;
+    /* No order property - sidebar stays LEFT per HTML source order */
+  }
+
+  /* Search results: 3/4 width on large screens (RIGHT side) */
+  .search-layout .search-results,
+  .search-layout .search-results-main {
+    width: 75%;
+  }
+
+  /* Show filters on large screens */
+  .search-layout .search-sidebar .filter-toggle {
+    display: none;
+  }
+
+  .search-layout .search-sidebar .filter-content {
+    display: block !important;
+  }
+}
+
+/* ==========================================================================
+   Team Grid - Explicit non-nested responsive rules
+   ========================================================================== */
+@media (min-width: 640px) {
+  .team-grid-members {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .team-grid-members {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+/* ==========================================================================
+   Contact Page Grid - Explicit non-nested responsive rules
+   ========================================================================== */
+@media (min-width: 1024px) {
+  .contact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* ==========================================================================
+   Services/Features Grid - Explicit non-nested responsive rules
+   ========================================================================== */
+@media (min-width: 768px) {
+  .services-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+/* ==========================================================================
+   Search Results View Modes
+   Controls layout for grid and list views of property cards
+   ========================================================================== */
+
+/* Base property card inner - default to column layout */
+.property-item .property-card-inner {
+  flex-direction: column;
+}
+
+.property-item .property-image {
+  width: 100%;
+}
+
+.property-item .property-image img {
+  height: 12rem;
+}
+
+/* List view container */
+.search-results-grid.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* List view: horizontal card layout */
+.results-list .property-item .property-card-inner {
+  flex-direction: row;
+}
+
+.results-list .property-item .property-image {
+  width: 33.333333%;
+  flex-shrink: 0;
+}
+
+.results-list .property-item .property-image img {
+  height: 100%;
+  min-height: 200px;
+}
+
+.results-list .property-item .property-details {
+  width: 66.666667%;
+}
+
+/* Stack list items vertically on mobile */
+@media (max-width: 767px) {
+  .results-list .property-item .property-card-inner {
+    flex-direction: column;
+  }
+
+  .results-list .property-item .property-image {
+    width: 100%;
+  }
+
+  .results-list .property-item .property-image img {
+    height: 12rem;
+  }
+
+  .results-list .property-item .property-details {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   Property Detail Page Layout
+   Controls layout for property detail pages on desktop vs mobile
+   ========================================================================== */
+
+/* Property detail page wrapper - constrain max width on desktop */
+.property-detail-page {
+  width: 100%;
+}
+
+/* Property detail container - max width constraint */
+.property-detail-container {
+  width: 100%;
+  max-width: 80rem; /* 1280px - matches max-w-7xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .property-detail-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* Property detail two-column layout */
+.property-detail-layout {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
+/* Main content column - full width on mobile, 2/3 on desktop */
+.property-detail-main {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Sidebar column - full width on mobile, 1/3 on desktop */
+.property-detail-sidebar {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .property-detail-main {
+    width: 66.666667%; /* 2/3 */
+  }
+
+  .property-detail-sidebar {
+    width: 33.333333%; /* 1/3 */
+    margin-top: 0;
+  }
+}
+
+/* Map section - full width but constrained container */
+.property-detail-map {
+  width: 100%;
+}
+
+.property-detail-map-inner {
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .property-detail-map-inner {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* ==========================================================================
+   Barcelona Theme Specific Styles
+   ========================================================================== */
+
+/* Decorative mosaic accent (Gaudí-inspired) */
+.barcelona-mosaic-accent {
+  background: linear-gradient(135deg,
+    var(--color-med-500) 0%,
+    var(--color-terra-500) 50%,
+    var(--color-gold-400) 100%);
+}
+
+/* Mediterranean wave decoration */
+.barcelona-wave {
+  background: linear-gradient(180deg,
+    var(--color-med-100) 0%,
+    transparent 100%);
+}
+
+/* Warm sunset gradient */
+.barcelona-sunset-gradient {
+  background: linear-gradient(135deg,
+    var(--color-gold-100) 0%,
+    var(--color-terra-100) 50%,
+    var(--color-med-100) 100%);
+}

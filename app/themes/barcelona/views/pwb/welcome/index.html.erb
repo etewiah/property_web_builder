@@ -1,0 +1,63 @@
+<% page_title @page_title %>
+<%= render '/pwb/meta_tags' %>
+
+<%# Barcelona Theme - Mediterranean Landing Page %>
+<%# Vibrant design with coastal blues and warm accents %>
+
+<%# Hero / Dynamic Page Content %>
+<div class="barcelona-landing">
+  <% @page.ordered_visible_page_contents.each do |page_content| %>
+    <%= page_part page_content %>
+  <% end %>
+</div>
+
+<%# Featured Properties - For Sale %>
+<% if @properties_for_sale.length > 0 %>
+  <%= render partial: '/pwb/welcome/single_property_row',
+             locals: {
+               properties: @properties_for_sale,
+               rent_or_sale: 'for_sale',
+               title_key: 'propertyForSale',
+               subtitle: t('pwb.home.featured_sale_subtitle', default: 'Discover your next home')
+             } %>
+<% end %>
+
+<%# Featured Properties - For Rent %>
+<% if @properties_for_rent.length > 0 %>
+  <%= render partial: '/pwb/welcome/single_property_row',
+             locals: {
+               properties: @properties_for_rent,
+               rent_or_sale: 'for_rent',
+               title_key: 'propertyForRent',
+               subtitle: t('pwb.home.featured_rent_subtitle', default: 'Find your perfect rental')
+             } %>
+<% end %>
+
+<%# Call to Action Section %>
+<section class="py-20 bg-gradient-to-br from-med-50 via-white to-gold-50">
+  <div class="container mx-auto px-6">
+    <div class="max-w-4xl mx-auto text-center">
+      <span class="inline-block px-4 py-2 bg-med-100 text-med-700 text-sm font-medium rounded-soft mb-6">
+        <%= t('pwb.home.cta_pretitle', default: 'Start Your Search') %>
+      </span>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-warm-900 mb-6">
+        <%= t('pwb.home.cta_title', default: 'Ready to Find Your Dream Property?') %>
+      </h2>
+      <p class="text-lg text-warm-600 mb-10 max-w-2xl mx-auto">
+        <%= t('pwb.home.cta_description', default: 'Browse our collection of properties or get in touch with our team for personalized assistance.') %>
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="<%= buy_path %>"
+           class="inline-flex items-center px-8 py-4 bg-med-500 text-white font-medium rounded-soft hover:bg-med-600 transition-all duration-300 shadow-soft hover:shadow-medium">
+          <i class="ph ph-magnifying-glass mr-2"></i>
+          <%= t('pwb.home.browse_properties', default: 'Browse Properties') %>
+        </a>
+        <a href="<%= contact_us_path %>"
+           class="inline-flex items-center px-8 py-4 bg-white text-warm-700 font-medium rounded-soft border-2 border-warm-200 hover:border-med-300 hover:text-med-600 transition-all duration-300">
+          <i class="ph ph-chat-circle-text mr-2"></i>
+          <%= t('pwb.home.contact_us', default: 'Contact Us') %>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

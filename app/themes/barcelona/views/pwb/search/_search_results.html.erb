@@ -1,0 +1,152 @@
+<!-- Barcelona Theme Search Results - Mediterranean Design -->
+<div id="resp_buscar_inmuebles">
+  <% unless @properties && (@properties.size > 0) %>
+    <div class="rounded-softer p-12 text-center my-6 border border-warm-200" style="background: linear-gradient(135deg, #FEFCF9 0%, #eff6ff 100%);">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 bg-med-100">
+        <i class="ph ph-magnifying-glass text-4xl text-med-400"></i>
+      </div>
+      <h4 class="text-2xl font-display font-bold text-warm-900 mb-3">
+        <%= I18n.t "noResultsForSearch", default: "No properties found" %>
+      </h4>
+      <p class="text-warm-500 mb-8 max-w-md mx-auto">
+        <%= I18n.t "tryChangingFilters", default: "Try adjusting your search filters to find more properties" %>
+      </p>
+      <button class="inline-flex items-center px-6 py-3 text-white font-semibold rounded-soft transition-all duration-200 bg-med-500 hover:bg-med-600 shadow-soft hover:shadow-medium"
+              onclick="clearSearchFilters()">
+        <i class="ph ph-arrows-counter-clockwise mr-2"></i>
+        <%= I18n.t "clearFilters", default: "Clear All Filters" %>
+      </button>
+      <script>
+        function clearSearchFilters() {
+          var form = document.querySelector('form.simple_form') || document.querySelector('form.form-light');
+          if (form) {
+            form.querySelectorAll('input[type=hidden]').forEach(function(input) {
+              if (input.name && input.name.startsWith('search[')) {
+                input.value = '';
+              }
+            });
+            form.querySelectorAll('input[type=checkbox]').forEach(function(cb) {
+              cb.checked = false;
+            });
+            form.querySelectorAll('select').forEach(function(select) {
+              select.selectedIndex = 0;
+              select.dispatchEvent(new Event('change', { bubbles: true }));
+            });
+            form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+          }
+        }
+      </script>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 gap-6" id="ordered-properties">
+    <% @properties.each_with_index do |property, index| %>
+      <div class="bg-white rounded-softer shadow-soft overflow-hidden hover:shadow-elevated transition-all duration-300 property-item border border-warm-100"
+           data-price="<%= property.contextual_price @operation_type %>">
+        <div class="flex flex-col md:flex-row">
+          <!-- Property Image -->
+          <div class="md:w-2/5 relative">
+            <%= link_to property.contextual_show_path(@operation_type), class: "block h-full" do %>
+              <div class="relative h-64 md:h-full min-h-[280px]">
+                <% if property.ordered_photo(1).present? %>
+                  <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
+                      height: 320, crop: "fill", class: "w-full h-full object-cover", loading: "lazy",
+                      use_picture: true, alt: property.title.presence || "Property listing") %>
+                <% else %>
+                  <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-warm-100 to-warm-200">
+                    <i class="ph ph-image text-6xl text-warm-400"></i>
+                  </div>
+                <% end %>
+                <!-- Overlay gradient -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent md:bg-gradient-to-r"></div>
+              </div>
+            <% end %>
+
+            <!-- Badges -->
+            <div class="absolute top-4 left-4 flex flex-col gap-2">
+              <% if property.highlighted %>
+                <span class="inline-flex items-center px-3 py-1 text-xs font-bold rounded-soft text-white bg-gold-500">
+                  <i class="ph ph-star-fill mr-1"></i>
+                  <%= I18n.t "property.featured", default: "Featured" %>
+                </span>
+              <% end %>
+            </div>
+
+            <!-- Price Badge on Image (Mobile) -->
+            <div class="absolute bottom-4 left-4 md:hidden">
+              <span class="text-2xl font-bold text-white drop-shadow-lg">
+                <%= property.contextual_price_with_currency @operation_type %>
+              </span>
+            </div>
+          </div>
+
+          <!-- Property Details -->
+          <div class="md:w-3/5 p-6 flex flex-col">
+            <!-- Reference -->
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs text-warm-400">
+                REF: <%= property.reference %>
+              </span>
+            </div>
+
+            <!-- Title -->
+            <h3 class="text-xl font-display font-bold text-warm-900 mb-2 line-clamp-2">
+              <%= link_to (property.title.presence || "#{I18n.t('property.property', default: 'Property')} #{property.reference}"),
+                  property.contextual_show_path(@operation_type),
+                  class: "hover:text-med-600 transition-colors" %>
+            </h3>
+
+            <div class="flex-grow"></div>
+
+            <!-- Property Features -->
+            <div class="flex flex-wrap items-center gap-x-6 gap-y-2 py-4 border-t border-b border-warm-100 mb-4">
+              <% if property.count_bedrooms && property.count_bedrooms > 0 %>
+                <span class="flex items-center text-sm text-warm-600">
+                  <i class="ph ph-bed text-lg mr-2 text-med-500"></i>
+                  <span class="font-semibold"><%= property.count_bedrooms %></span>
+                  <span class="ml-1 text-warm-400"><%= I18n.t("beds", default: "Beds") %></span>
+                </span>
+              <% end %>
+              <% if property.count_bathrooms && property.count_bathrooms > 0 %>
+                <span class="flex items-center text-sm text-warm-600">
+                  <i class="ph ph-shower text-lg mr-2 text-med-500"></i>
+                  <span class="font-semibold"><%= property.count_bathrooms %></span>
+                  <span class="ml-1 text-warm-400"><%= I18n.t("baths", default: "Baths") %></span>
+                </span>
+              <% end %>
+              <% if property.constructed_area && property.constructed_area > 0 %>
+                <span class="flex items-center text-sm text-warm-600">
+                  <i class="ph ph-ruler text-lg mr-2 text-med-500"></i>
+                  <span class="font-semibold"><%= property.constructed_area %></span>
+                  <span class="ml-1 text-warm-400"><%= area_unit property %></span>
+                </span>
+              <% end %>
+              <% if property.count_garages && property.count_garages > 0 %>
+                <span class="flex items-center text-sm text-warm-600">
+                  <i class="ph ph-car text-lg mr-2 text-med-500"></i>
+                  <span class="font-semibold"><%= property.count_garages %></span>
+                  <span class="ml-1 text-warm-400"><%= I18n.t("garage", default: "Garage") %></span>
+                </span>
+              <% end %>
+            </div>
+
+            <!-- Price and Action -->
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <div class="hidden md:block">
+                <p class="text-xs text-warm-400 mb-1"><%= I18n.t("price", default: "Price") %></p>
+                <span class="text-2xl font-bold text-med-600">
+                  <%= property.contextual_price_with_currency @operation_type %>
+                </span>
+              </div>
+              <%= link_to property.contextual_show_path(@operation_type),
+                  class: "inline-flex items-center px-5 py-2.5 font-semibold rounded-soft transition-all duration-200 text-white bg-med-500 hover:bg-med-600 shadow-soft hover:shadow-medium" do %>
+                <%= I18n.t "property.viewDetails", default: "View Details" %>
+                <i class="ph ph-arrow-right ml-2"></i>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
