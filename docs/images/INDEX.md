@@ -1,21 +1,24 @@
 # Image Processing Documentation
 
-This folder contains documentation for PropertyWebBuilder's image handling system, including the mobile optimization specification.
+This folder contains documentation for PropertyWebBuilder's image handling system, including both current architecture and future mobile optimization plans.
 
-## Documents
+## Current State (How It Works Today)
+
+| Document | Description |
+|----------|-------------|
+| [CURRENT_ARCHITECTURE.md](CURRENT_ARCHITECTURE.md) | Current image handling system overview |
+| [DATA_FLOW.md](DATA_FLOW.md) | Visual diagrams of image processing flows |
+| [EXAMPLES.md](EXAMPLES.md) | Working code examples for current system |
+| [QUICK_REFERENCE.md](QUICK_REFERENCE.md) | Quick reference for current helpers |
+
+## Future State (Mobile Optimization Plan)
 
 | Document | Description |
 |----------|-------------|
 | [MOBILE_OPTIMIZATION_SPEC.md](MOBILE_OPTIMIZATION_SPEC.md) | Technical specification for mobile-optimized images |
 | [RESPONSIVE_VARIANTS.md](RESPONSIVE_VARIANTS.md) | Breakpoint and variant definitions |
 | [IMPLEMENTATION_GUIDE.md](IMPLEMENTATION_GUIDE.md) | Step-by-step implementation guide |
-| [HELPER_API.md](HELPER_API.md) | API reference for image helpers |
-
-## Related Documentation
-
-- [Image Handling Architecture](../image_handling_architecture.md) - Current system overview
-- [Image Handling Examples](../image_handling_examples.md) - Code examples
-- [Image Handling Data Flow](../image_handling_data_flow.md) - Flow diagrams
+| [HELPER_API.md](HELPER_API.md) | API reference for new responsive helpers |
 
 ## Quick Links
 
