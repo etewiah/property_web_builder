@@ -26,22 +26,7 @@
             </div>
           <% end %>
           <!-- Social Sharing -->
-          <social-sharing class="text-center" inline-template>
-            <div class="flex justify-center space-x-4 py-6 border-t border-gray-100">
-              <network network="facebook">
-                <i class="fa fa-facebook text-2xl text-blue-600 hover:text-blue-800 cursor-pointer"></i>
-              </network>
-              <network network="linkedin">
-                <i class="fa fa-linkedin text-2xl text-blue-700 hover:text-blue-900 cursor-pointer"></i>
-              </network>
-              <network network="twitter">
-                <i class="fa fa-twitter text-2xl text-blue-400 hover:text-blue-600 cursor-pointer"></i>
-              </network>
-              <network network="whatsapp">
-                <i class="fa fa-whatsapp text-2xl text-green-600 hover:text-green-800 cursor-pointer"></i>
-              </network>
-            </div>
-          </social-sharing>
+          <%= render 'pwb/shared/social_sharing', url: request.original_url, title: @property_details.title %>
         </div>
         <div class="property-detail-sidebar">
           <div class="space-y-6 lg:sticky lg:top-24">

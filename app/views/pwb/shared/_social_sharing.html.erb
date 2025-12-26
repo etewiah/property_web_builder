@@ -1,0 +1,95 @@
+<%#
+  Social Sharing Component
+
+  Usage:
+    <%= render 'pwb/shared/social_sharing', url: request.original_url, title: @property_details.title %>
+
+  Options:
+    url:        (required) The URL to share
+    title:      (required) The title/text to share
+    icon_style: :fontawesome (default) or :phosphor
+    style:      :default (centered, border-top) or :bologna (left-aligned, no border)
+    networks:   Array of networks to show (default: [:facebook, :linkedin, :twitter, :whatsapp])
+%>
+<% url ||= request.original_url %>
+<% title ||= '' %>
+<% icon_style ||= :fontawesome %>
+<% style ||= :default %>
+<% networks ||= [:facebook, :linkedin, :twitter, :whatsapp] %>
+
+<% encoded_url = ERB::Util.url_encode(url) %>
+<% encoded_title = ERB::Util.url_encode(title) %>
+<% encoded_both = ERB::Util.url_encode(title + ' ' + url) %>
+
+<%
+  # Define share URLs
+  share_urls = {
+    facebook: "https://www.facebook.com/sharer/sharer.php?u=#{encoded_url}",
+    linkedin: "https://www.linkedin.com/sharing/share-offsite/?url=#{encoded_url}",
+    twitter: "https://twitter.com/intent/tweet?url=#{encoded_url}&text=#{encoded_title}",
+    whatsapp: "https://wa.me/?text=#{encoded_both}"
+  }
+
+  # Define icons based on style
+  if icon_style == :phosphor
+    icons = {
+      facebook: 'ph ph-facebook-logo',
+      linkedin: 'ph ph-linkedin-logo',
+      twitter: 'ph ph-x-logo',
+      whatsapp: 'ph ph-whatsapp-logo'
+    }
+  else
+    icons = {
+      facebook: 'fa fa-facebook',
+      linkedin: 'fa fa-linkedin',
+      twitter: 'fa fa-twitter',
+      whatsapp: 'fa fa-whatsapp'
+    }
+  end
+
+  # Define link classes based on style
+  if style == :bologna
+    link_classes = {
+      facebook: 'w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-600 rounded-full hover:bg-blue-600 hover:text-white transition-all duration-300',
+      linkedin: 'w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full hover:bg-blue-700 hover:text-white transition-all duration-300',
+      twitter: 'w-10 h-10 flex items-center justify-center bg-sky-100 text-sky-500 rounded-full hover:bg-sky-500 hover:text-white transition-all duration-300',
+      whatsapp: 'w-10 h-10 flex items-center justify-center bg-green-100 text-green-600 rounded-full hover:bg-green-600 hover:text-white transition-all duration-300'
+    }
+    icon_classes = {}
+  else
+    link_classes = {
+      facebook: '',
+      linkedin: '',
+      twitter: '',
+      whatsapp: ''
+    }
+    icon_classes = {
+      facebook: 'text-2xl text-blue-600 hover:text-blue-800 cursor-pointer',
+      linkedin: 'text-2xl text-blue-700 hover:text-blue-900 cursor-pointer',
+      twitter: 'text-2xl text-blue-400 hover:text-blue-600 cursor-pointer',
+      whatsapp: 'text-2xl text-green-600 hover:text-green-800 cursor-pointer'
+    }
+  end
+
+  # Define titles
+  titles = {
+    facebook: 'Share on Facebook',
+    linkedin: 'Share on LinkedIn',
+    twitter: 'Share on Twitter',
+    whatsapp: 'Share on WhatsApp'
+  }
+%>
+
+<% container_class = style == :bologna ? 'flex items-center space-x-3' : 'flex justify-center space-x-4 py-6 border-t border-gray-100' %>
+
+<div class="<%= container_class %>">
+  <% networks.each do |network| %>
+    <a href="<%= share_urls[network] %>"
+       target="_blank"
+       rel="noopener noreferrer"
+       title="<%= titles[network] %>"
+       <% if link_classes[network].present? %>class="<%= link_classes[network] %>"<% end %>>
+      <i class="<%= icons[network] %> <%= icon_classes[network] %>"></i>
+    </a>
+  <% end %>
+</div>

@@ -111,22 +111,7 @@
         <!-- Social Sharing -->
         <div class="border-t border-warm-gray-100 pt-8">
           <p class="text-warm-gray-500 text-sm mb-4"><%= t('pwb.property.share', default: 'Share this property') %>:</p>
-          <social-sharing inline-template>
-            <div class="flex items-center space-x-3">
-              <network network="facebook" class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-600 rounded-full hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer">
-                <i class="ph ph-facebook-logo"></i>
-              </network>
-              <network network="linkedin" class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full hover:bg-blue-700 hover:text-white transition-all duration-300 cursor-pointer">
-                <i class="ph ph-linkedin-logo"></i>
-              </network>
-              <network network="twitter" class="w-10 h-10 flex items-center justify-center bg-sky-100 text-sky-500 rounded-full hover:bg-sky-500 hover:text-white transition-all duration-300 cursor-pointer">
-                <i class="ph ph-x-logo"></i>
-              </network>
-              <network network="whatsapp" class="w-10 h-10 flex items-center justify-center bg-green-100 text-green-600 rounded-full hover:bg-green-600 hover:text-white transition-all duration-300 cursor-pointer">
-                <i class="ph ph-whatsapp-logo"></i>
-              </network>
-            </div>
-          </social-sharing>
+          <%= render 'pwb/shared/social_sharing', url: request.original_url, title: @property_details.title, icon_style: :phosphor, style: :bologna %>
         </div>
       </div>
 
