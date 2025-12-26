@@ -1,0 +1,228 @@
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold text-gray-900 mb-2">Property Import/Export</h1>
+  <p class="text-gray-600 mb-8">Bulk import properties from CSV or export your current listings.</p>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Import Section -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div class="flex items-center mb-4">
+        <svg class="w-6 h-6 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+        </svg>
+        <h2 class="text-lg font-semibold text-gray-900">Import Properties</h2>
+      </div>
+      
+      <p class="text-sm text-gray-600 mb-4">
+        Upload a CSV file to bulk import properties. Download the template for the correct format.
+      </p>
+
+      <%= form_tag import_site_admin_property_import_export_path, method: :post, multipart: true, class: "space-y-4" do %>
+        <!-- File Upload -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">CSV File</label>
+          <input type="file" name="file" accept=".csv,.tsv,.txt" 
+                 class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" required>
+        </div>
+
+        <!-- Options -->
+        <div class="space-y-3 pt-2 border-t border-gray-100">
+          <h3 class="text-sm font-medium text-gray-700">Import Options</h3>
+          
+          <label class="flex items-center">
+            <input type="checkbox" name="update_existing" value="1" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+            <span class="ml-2 text-sm text-gray-600">Update existing properties (match by reference)</span>
+          </label>
+          
+          <label class="flex items-center">
+            <input type="checkbox" name="create_visible" value="1" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+            <span class="ml-2 text-sm text-gray-600">Create listings as visible (publish immediately)</span>
+          </label>
+          
+          <label class="flex items-center">
+            <input type="checkbox" name="dry_run" value="1" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+            <span class="ml-2 text-sm text-gray-600">Dry run (validate only, don't save)</span>
+          </label>
+          
+          <div>
+            <label class="block text-sm text-gray-600 mb-1">Default Currency</label>
+            <select name="default_currency" class="rounded-md border-gray-300 text-sm focus:ring-blue-500 focus:border-blue-500">
+              <option value="EUR">EUR</option>
+              <option value="USD">USD</option>
+              <option value="GBP">GBP</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-3 pt-4">
+          <button type="submit" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            Import Properties
+          </button>
+          <%= link_to "Download Template", download_template_site_admin_property_import_export_path, 
+              class: "px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200" %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Export Section -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div class="flex items-center mb-4">
+        <svg class="w-6 h-6 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+        </svg>
+        <h2 class="text-lg font-semibold text-gray-900">Export Properties</h2>
+      </div>
+      
+      <p class="text-sm text-gray-600 mb-4">
+        Download all your properties as a CSV file. This file can be re-imported after editing.
+      </p>
+
+      <!-- Stats -->
+      <div class="bg-gray-50 rounded-lg p-4 mb-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <p class="text-2xl font-bold text-gray-900"><%= @property_count %></p>
+            <p class="text-sm text-gray-600">Total Properties</p>
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-gray-900"><%= @active_listings_count %></p>
+            <p class="text-sm text-gray-600">Active Listings</p>
+          </div>
+        </div>
+      </div>
+
+      <%= form_tag export_site_admin_property_import_export_path, method: :get, class: "space-y-4" do %>
+        <!-- Options -->
+        <div class="space-y-3">
+          <h3 class="text-sm font-medium text-gray-700">Export Options</h3>
+          
+          <label class="flex items-center">
+            <input type="checkbox" name="include_inactive" value="1" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+            <span class="ml-2 text-sm text-gray-600">Include properties without active listings</span>
+          </label>
+        </div>
+
+        <!-- Actions -->
+        <div class="pt-4">
+          <button type="submit" class="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+            Export to CSV
+          </button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Import Results -->
+  <% if session[:import_result].present? %>
+    <div class="mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold text-gray-900">
+          <% if session[:import_result][:dry_run] %>
+            Validation Results (Dry Run)
+          <% else %>
+            Import Results
+          <% end %>
+        </h2>
+        <%= link_to clear_results_site_admin_property_import_export_path, method: :delete, 
+            class: "text-sm text-gray-500 hover:text-gray-700" do %>
+          Clear Results
+        <% end %>
+      </div>
+
+      <!-- Summary -->
+      <div class="grid grid-cols-4 gap-4 mb-6">
+        <div class="bg-gray-50 rounded-lg p-3 text-center">
+          <p class="text-2xl font-bold text-gray-900"><%= session[:import_result][:total_rows] %></p>
+          <p class="text-sm text-gray-600">Total Rows</p>
+        </div>
+        <div class="bg-green-50 rounded-lg p-3 text-center">
+          <p class="text-2xl font-bold text-green-600"><%= session[:import_result][:imported_count] %></p>
+          <p class="text-sm text-gray-600">
+            <% if session[:import_result][:dry_run] %>Valid<% else %>Imported<% end %>
+          </p>
+        </div>
+        <div class="bg-yellow-50 rounded-lg p-3 text-center">
+          <p class="text-2xl font-bold text-yellow-600"><%= session[:import_result][:skipped_count] %></p>
+          <p class="text-sm text-gray-600">Skipped</p>
+        </div>
+        <div class="bg-red-50 rounded-lg p-3 text-center">
+          <p class="text-2xl font-bold text-red-600"><%= session[:import_result][:error_count] %></p>
+          <p class="text-sm text-gray-600">Errors</p>
+        </div>
+      </div>
+
+      <!-- Errors -->
+      <% if session[:import_result][:errors].present? %>
+        <div class="mb-4">
+          <h3 class="text-sm font-medium text-red-700 mb-2">Errors</h3>
+          <div class="bg-red-50 rounded-lg p-3 max-h-48 overflow-y-auto">
+            <ul class="text-sm text-red-700 space-y-1">
+              <% session[:import_result][:errors].each do |error| %>
+                <li>
+                  <% if error[:line] %>
+                    <span class="font-medium">Line <%= error[:line] %>:</span>
+                  <% end %>
+                  <%= error[:error] %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Skipped -->
+      <% if session[:import_result][:skipped].present? %>
+        <div>
+          <h3 class="text-sm font-medium text-yellow-700 mb-2">Skipped Rows</h3>
+          <div class="bg-yellow-50 rounded-lg p-3 max-h-48 overflow-y-auto">
+            <ul class="text-sm text-yellow-700 space-y-1">
+              <% session[:import_result][:skipped].each do |skipped| %>
+                <li>
+                  <span class="font-medium">Line <%= skipped[:line] %>:</span>
+                  <%= skipped[:reference] %> - <%= skipped[:reason] %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- Help Section -->
+  <div class="mt-8 bg-blue-50 rounded-lg p-6">
+    <h2 class="text-lg font-semibold text-blue-900 mb-3">CSV Format Guide</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-blue-800">
+      <div>
+        <h3 class="font-medium mb-2">Required Columns</h3>
+        <ul class="list-disc list-inside space-y-1">
+          <li><code class="bg-blue-100 px-1 rounded">reference</code> - Unique property identifier</li>
+        </ul>
+        
+        <h3 class="font-medium mt-4 mb-2">Location Columns</h3>
+        <ul class="list-disc list-inside space-y-1">
+          <li><code class="bg-blue-100 px-1 rounded">street_address</code>, <code class="bg-blue-100 px-1 rounded">city</code>, <code class="bg-blue-100 px-1 rounded">region</code></li>
+          <li><code class="bg-blue-100 px-1 rounded">postal_code</code>, <code class="bg-blue-100 px-1 rounded">country</code></li>
+          <li><code class="bg-blue-100 px-1 rounded">latitude</code>, <code class="bg-blue-100 px-1 rounded">longitude</code></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-medium mb-2">Listing Columns</h3>
+        <ul class="list-disc list-inside space-y-1">
+          <li><code class="bg-blue-100 px-1 rounded">for_sale</code> - true/false</li>
+          <li><code class="bg-blue-100 px-1 rounded">for_rent</code> - true/false</li>
+          <li><code class="bg-blue-100 px-1 rounded">price_sale</code> - Sale price (whole units)</li>
+          <li><code class="bg-blue-100 px-1 rounded">price_rental_monthly</code> - Monthly rent</li>
+          <li><code class="bg-blue-100 px-1 rounded">currency</code> - EUR, USD, GBP</li>
+        </ul>
+        
+        <h3 class="font-medium mt-4 mb-2">Property Details</h3>
+        <ul class="list-disc list-inside space-y-1">
+          <li><code class="bg-blue-100 px-1 rounded">count_bedrooms</code>, <code class="bg-blue-100 px-1 rounded">count_bathrooms</code></li>
+          <li><code class="bg-blue-100 px-1 rounded">constructed_area</code>, <code class="bg-blue-100 px-1 rounded">plot_area</code></li>
+          <li><code class="bg-blue-100 px-1 rounded">title_en</code>, <code class="bg-blue-100 px-1 rounded">description_en</code></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
