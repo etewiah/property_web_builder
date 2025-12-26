@@ -118,15 +118,28 @@ module Pwb
     end
 
     # Get URL for the original file
+    #
+    # Returns a direct CDN URL when CDN_IMAGES_URL is configured,
+    # otherwise returns a Rails redirect URL.
+    #
+    # @return [String, nil] The URL to the original file
     def url
       return nil unless file.attached?
-      
-      Rails.application.routes.url_helpers.rails_blob_url(file, only_path: true)
-    rescue StandardError
+
+      # Use direct URL from storage service (respects CDN_IMAGES_URL/R2_PUBLIC_URL)
+      file.url
+    rescue StandardError => e
+      Rails.logger.warn "Failed to generate URL for Media##{id}: #{e.message}"
       nil
     end
 
     # Get URL for a specific variant (images only)
+    #
+    # Returns a direct CDN URL for the processed variant when CDN_IMAGES_URL
+    # is configured. The variant is processed on first request and cached.
+    #
+    # @param variant_name [Symbol] One of :thumb/:thumbnail, :small, :medium, :large
+    # @return [String, nil] The URL to the variant
     def variant_url(variant_name)
       return url unless image? && file.attached?
 
@@ -140,11 +153,14 @@ module Pwb
                 when :large
                   file.variant(resize_to_limit: [1200, 1200])
                 else
-                  file
+                  # Return original file URL for unknown variant names
+                  return url
                 end
 
-      Rails.application.routes.url_helpers.rails_representation_url(variant, only_path: true)
-    rescue StandardError
+      # Process the variant and get direct CDN URL (respects CDN_IMAGES_URL/R2_PUBLIC_URL)
+      variant.processed.url
+    rescue StandardError => e
+      Rails.logger.warn "Failed to generate variant URL for Media##{id}: #{e.message}"
       url
     end
 

@@ -23,8 +23,14 @@ Rails.application.configure do
   config.assets.js_compressor = :terser
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  # Uses R2 public URL for CDN delivery of static assets
-  config.asset_host = ENV["ASSET_HOST"] if ENV["ASSET_HOST"].present?
+  # Uses CDN for delivery of static assets (JS, CSS, fonts, theme images)
+  #
+  # Environment Variables:
+  #   CDN_ASSETS_URL - Public CDN URL for static assets (preferred)
+  #   ASSET_HOST     - Legacy alias for CDN_ASSETS_URL
+  #
+  cdn_assets_url = ENV["CDN_ASSETS_URL"] || ENV["ASSET_HOST"]
+  config.asset_host = cdn_assets_url if cdn_assets_url.present?
 
   # Store uploaded files on Cloudflare R2 (see config/storage.yml for options).
   config.active_storage.service = :cloudflare_r2

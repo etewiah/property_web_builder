@@ -11,6 +11,12 @@ This folder contains documentation for PropertyWebBuilder's image handling syste
 | [EXAMPLES.md](EXAMPLES.md) | Working code examples for current system |
 | [QUICK_REFERENCE.md](QUICK_REFERENCE.md) | Quick reference for current helpers |
 
+## CDN & Hosting Configuration
+
+| Document | Description |
+|----------|-------------|
+| [CDN_HOSTING_IMPROVEMENT_PLAN.md](CDN_HOSTING_IMPROVEMENT_PLAN.md) | Environment variable naming, CDN URL fixes, and test specs |
+
 ## Future State (Mobile Optimization Plan)
 
 | Document | Description |

@@ -1,28 +1,63 @@
 # frozen_string_literal: true
 
+# Asset CDN deployment tasks for Cloudflare R2
+#
+# Environment Variables (in order of precedence):
+#
+# Bucket:
+#   CDN_ASSETS_BUCKET      - Preferred: Bucket for static assets
+#   R2_ASSETS_BUCKET       - Legacy alias
+#   R2_BUCKET              - Fallback (shared bucket)
+#
+# Access Key:
+#   CDN_ASSETS_ACCESS_KEY_ID    - Preferred: Separate key for assets
+#   R2_ASSETS_ACCESS_KEY_ID     - Legacy alias
+#   R2_ACCESS_KEY_ID            - Fallback (shared key)
+#
+# Secret Key:
+#   CDN_ASSETS_SECRET_ACCESS_KEY - Preferred: Separate secret for assets
+#   R2_ASSETS_SECRET_ACCESS_KEY  - Legacy alias
+#   R2_SECRET_ACCESS_KEY         - Fallback (shared secret)
+#
+# Account:
+#   R2_ACCOUNT_ID          - Cloudflare account ID (required)
+
 namespace :assets do
-  desc "Sync compiled assets to Cloudflare R2 for CDN delivery"
-  task sync_to_r2: :environment do
+  # Helper method to get assets bucket name
+  def assets_bucket
+    ENV["CDN_ASSETS_BUCKET"] || ENV["R2_ASSETS_BUCKET"] || ENV.fetch("R2_BUCKET")
+  end
+
+  # Helper method to get assets access key
+  def assets_access_key_id
+    ENV["CDN_ASSETS_ACCESS_KEY_ID"] || ENV["R2_ASSETS_ACCESS_KEY_ID"] || ENV.fetch("R2_ACCESS_KEY_ID")
+  end
+
+  # Helper method to get assets secret key
+  def assets_secret_access_key
+    ENV["CDN_ASSETS_SECRET_ACCESS_KEY"] || ENV["R2_ASSETS_SECRET_ACCESS_KEY"] || ENV.fetch("R2_SECRET_ACCESS_KEY")
+  end
+
+  # Helper method to create R2 client for assets
+  def assets_r2_client
     require "aws-sdk-s3"
 
-    # R2 configuration from environment
-    # Uses R2_ASSETS_BUCKET if set, otherwise falls back to R2_BUCKET
-    account_id = ENV.fetch("R2_ACCOUNT_ID")
-    access_key_id = ENV["R2_ASSETS_ACCESS_KEY_ID"] || ENV.fetch("R2_ACCESS_KEY_ID")
-    secret_access_key = ENV["R2_ASSETS_SECRET_ACCESS_KEY"] || ENV.fetch("R2_SECRET_ACCESS_KEY")
-    bucket = ENV["R2_ASSETS_BUCKET"] || ENV.fetch("R2_BUCKET")
+    endpoint = "https://#{ENV.fetch("R2_ACCOUNT_ID")}.r2.cloudflarestorage.com"
 
-    endpoint = "https://#{account_id}.r2.cloudflarestorage.com"
-
-    client = Aws::S3::Client.new(
-      access_key_id: access_key_id,
-      secret_access_key: secret_access_key,
+    Aws::S3::Client.new(
+      access_key_id: assets_access_key_id,
+      secret_access_key: assets_secret_access_key,
       endpoint: endpoint,
       region: "auto",
       force_path_style: true,
       ssl_verify_peer: false  # Workaround for macOS CRL verification issues
     )
+  end
 
+  desc "Sync compiled assets to Cloudflare R2 for CDN delivery"
+  task sync_to_r2: :environment do
+    bucket = assets_bucket
+    client = assets_r2_client
     assets_path = Rails.root.join("public", "assets")
 
     unless assets_path.exist?
@@ -98,23 +133,8 @@ namespace :assets do
 
   desc "Configure CORS on R2 bucket for CDN delivery"
   task configure_cors: :environment do
-    require "aws-sdk-s3"
-
-    account_id = ENV.fetch("R2_ACCOUNT_ID")
-    access_key_id = ENV["R2_ASSETS_ACCESS_KEY_ID"] || ENV.fetch("R2_ACCESS_KEY_ID")
-    secret_access_key = ENV["R2_ASSETS_SECRET_ACCESS_KEY"] || ENV.fetch("R2_SECRET_ACCESS_KEY")
-    bucket = ENV["R2_ASSETS_BUCKET"] || ENV.fetch("R2_BUCKET")
-
-    endpoint = "https://#{account_id}.r2.cloudflarestorage.com"
-
-    client = Aws::S3::Client.new(
-      access_key_id: access_key_id,
-      secret_access_key: secret_access_key,
-      endpoint: endpoint,
-      region: "auto",
-      force_path_style: true,
-      ssl_verify_peer: false
-    )
+    bucket = assets_bucket
+    client = assets_r2_client
 
     cors_configuration = {
       cors_rules: [
@@ -155,23 +175,8 @@ namespace :assets do
 
   desc "Clear all objects from R2 assets bucket"
   task clear_r2: :environment do
-    require "aws-sdk-s3"
-
-    account_id = ENV.fetch("R2_ACCOUNT_ID")
-    access_key_id = ENV["R2_ASSETS_ACCESS_KEY_ID"] || ENV.fetch("R2_ACCESS_KEY_ID")
-    secret_access_key = ENV["R2_ASSETS_SECRET_ACCESS_KEY"] || ENV.fetch("R2_SECRET_ACCESS_KEY")
-    bucket = ENV["R2_ASSETS_BUCKET"] || ENV.fetch("R2_BUCKET")
-
-    endpoint = "https://#{account_id}.r2.cloudflarestorage.com"
-
-    client = Aws::S3::Client.new(
-      access_key_id: access_key_id,
-      secret_access_key: secret_access_key,
-      endpoint: endpoint,
-      region: "auto",
-      force_path_style: true,
-      ssl_verify_peer: false
-    )
+    bucket = assets_bucket
+    client = assets_r2_client
 
     puts "Clearing all objects from R2 bucket: #{bucket}"
     puts "This may take a while for large buckets..."

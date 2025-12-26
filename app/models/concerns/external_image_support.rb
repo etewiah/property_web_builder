@@ -35,6 +35,10 @@ module ExternalImageSupport
   end
 
   # Returns a thumbnail URL for the image
+  #
+  # Returns a direct CDN URL when CDN_IMAGES_URL is configured.
+  # For external URLs, returns the original (no resizing available).
+  #
   # @param size [Array<Integer, Integer>] Thumbnail dimensions [width, height]
   # @return [String, nil] The thumbnail URL or nil if no image
   def thumbnail_url(size: [200, 200])
@@ -43,13 +47,15 @@ module ExternalImageSupport
       # A future enhancement could use an image proxy service for resizing
       external_url
     elsif image.attached? && image.variable?
-      Rails.application.routes.url_helpers.rails_representation_path(
-        image.variant(resize_to_limit: size),
-        only_path: true
-      )
+      # Use direct CDN URL (respects CDN_IMAGES_URL/R2_PUBLIC_URL)
+      image.variant(resize_to_limit: size).processed.url
     elsif image.attached?
-      Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
+      # Use direct CDN URL for original file
+      image.url
     end
+  rescue StandardError => e
+    Rails.logger.warn "Failed to generate thumbnail URL: #{e.message}"
+    image.attached? ? image.url : nil
   end
 
   # Check if this photo has any image (external or uploaded)
@@ -59,16 +65,25 @@ module ExternalImageSupport
 
   private
 
+  # Returns direct CDN URL for ActiveStorage attachment
+  #
+  # Uses direct storage service URL which respects CDN_IMAGES_URL/R2_PUBLIC_URL
+  # configuration instead of Rails redirect URLs.
+  #
+  # @param variant_options [Hash, nil] Options for image variant
+  # @return [String, nil] Direct CDN URL
   def active_storage_url(variant_options: nil)
     return nil unless image.attached?
 
     if variant_options && image.variable?
-      Rails.application.routes.url_helpers.rails_representation_path(
-        image.variant(variant_options),
-        only_path: true
-      )
+      # Process variant and get direct CDN URL
+      image.variant(variant_options).processed.url
     else
-      Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
+      # Get direct CDN URL for original file
+      image.url
     end
+  rescue StandardError => e
+    Rails.logger.warn "Failed to generate ActiveStorage URL: #{e.message}"
+    nil
   end
 end

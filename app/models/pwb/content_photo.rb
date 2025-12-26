@@ -29,6 +29,12 @@ module Pwb
     # I use block_key col to indicate if there is a fragment block associated
     # with this photo
 
+    # Returns optimized image URL
+    #
+    # Returns a direct CDN URL when CDN_IMAGES_URL is configured.
+    # Falls back to external URL if in external image mode.
+    #
+    # @return [String, nil] The optimized image URL
     def optimized_image_url
       # Use external URL if available
       return external_url if external?
@@ -36,14 +42,15 @@ module Pwb
       return nil unless image.attached?
 
       # Use variants for optimization when possible
+      # Returns direct CDN URL (respects CDN_IMAGES_URL/R2_PUBLIC_URL)
       if image.variable?
-        Rails.application.routes.url_helpers.rails_representation_path(
-          image.variant(resize_to_limit: [800, 600]),
-          only_path: true
-        )
+        image.variant(resize_to_limit: [800, 600]).processed.url
       else
-        Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
+        image.url
       end
+    rescue StandardError => e
+      Rails.logger.warn "Failed to generate optimized URL for ContentPhoto##{id}: #{e.message}"
+      image.attached? ? image.url : nil
     end
 
     def image_filename
