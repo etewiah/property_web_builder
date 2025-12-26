@@ -44,20 +44,20 @@ RSpec.describe 'Site Admin Routes', type: :routing do
         expect(site_admin_property_import_export_path).to eq('/site_admin/property_import_export')
       end
 
-      it 'generates import_site_admin_property_import_export_path' do
-        expect(import_site_admin_property_import_export_path).to eq('/site_admin/property_import_export/import')
+      it 'generates site_admin_property_import_export_import_path' do
+        expect(site_admin_property_import_export_import_path).to eq('/site_admin/property_import_export/import')
       end
 
-      it 'generates export_site_admin_property_import_export_path' do
-        expect(export_site_admin_property_import_export_path).to eq('/site_admin/property_import_export/export')
+      it 'generates site_admin_property_import_export_export_path' do
+        expect(site_admin_property_import_export_export_path).to eq('/site_admin/property_import_export/export')
       end
 
-      it 'generates download_template_site_admin_property_import_export_path' do
-        expect(download_template_site_admin_property_import_export_path).to eq('/site_admin/property_import_export/download_template')
+      it 'generates site_admin_property_import_export_download_template_path' do
+        expect(site_admin_property_import_export_download_template_path).to eq('/site_admin/property_import_export/download_template')
       end
 
-      it 'generates clear_results_site_admin_property_import_export_path' do
-        expect(clear_results_site_admin_property_import_export_path).to eq('/site_admin/property_import_export/clear_results')
+      it 'generates site_admin_property_import_export_clear_results_path' do
+        expect(site_admin_property_import_export_clear_results_path).to eq('/site_admin/property_import_export/clear_results')
       end
     end
   end
