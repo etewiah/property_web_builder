@@ -140,6 +140,21 @@ jobs:
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
 ```
 
+## Asset CDN Deployment
+
+Assets are automatically uploaded to Cloudflare R2 during the release phase. The Procfile includes:
+
+```
+release: bundle exec rake db:migrate && bundle exec rake assets:sync_to_r2
+```
+
+This means:
+1. Assets are precompiled during Docker build
+2. During deployment, assets are synced to R2 before the new container starts
+3. **No need to run `assets:cdn_deploy` manually** - it happens automatically
+
+Ensure these R2 environment variables are set (see below).
+
 ## Build Process
 
 The Dockerfile performs a multi-stage build:
