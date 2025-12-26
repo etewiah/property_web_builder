@@ -156,14 +156,12 @@ Rails.application.routes.draw do
     end
 
     # Property bulk import/export
-    resource :property_import_export, only: %i[index], controller: 'property_import_export' do
-      collection do
-        get '/', action: :index
-        post :import
-        get :export
-        get :download_template
-        delete :clear_results
-      end
+    scope :property_import_export, controller: 'property_import_export', as: 'property_import_export' do
+      get '/', action: :index
+      post :import, action: :import
+      get :export, action: :export
+      get :download_template, action: :download_template
+      delete :clear_results, action: :clear_results
     end
 
     resources :props, only: %i[index show new create] do
