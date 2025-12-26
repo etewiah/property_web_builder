@@ -91,4 +91,115 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
       expect(response.body).to include('Push Notifications')
     end
   end
+
+  describe 'GET /site_admin/website/settings/social' do
+    it 'renders the social settings tab successfully' do
+      get site_admin_website_settings_path(tab: 'social'),
+          headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Social Media Links')
+    end
+
+    it 'displays all 6 social media platforms' do
+      get site_admin_website_settings_path(tab: 'social'),
+          headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response.body).to include('Facebook')
+      expect(response.body).to include('Instagram')
+      expect(response.body).to include('Linkedin')
+      expect(response.body).to include('Youtube')
+      expect(response.body).to include('Twitter')
+      expect(response.body).to include('Whatsapp')
+    end
+
+    it 'shows existing social media link URLs' do
+      website.links.create!(
+        slug: 'social_media_facebook',
+        link_url: 'https://facebook.com/existingpage',
+        placement: :social_media
+      )
+
+      get site_admin_website_settings_path(tab: 'social'),
+          headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response.body).to include('https://facebook.com/existingpage')
+    end
+  end
+
+  describe 'PATCH /site_admin/website/settings (social tab)' do
+    it 'creates new social media links' do
+      patch site_admin_website_settings_path,
+            params: {
+              tab: 'social',
+              social_links: {
+                facebook: 'https://facebook.com/newpage',
+                instagram: 'https://instagram.com/newhandle'
+              }
+            },
+            headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to(site_admin_website_settings_tab_path('social'))
+
+      facebook_link = website.links.find_by(slug: 'social_media_facebook')
+      expect(facebook_link.link_url).to eq('https://facebook.com/newpage')
+
+      instagram_link = website.links.find_by(slug: 'social_media_instagram')
+      expect(instagram_link.link_url).to eq('https://instagram.com/newhandle')
+    end
+
+    it 'updates existing social media links' do
+      website.links.create!(
+        slug: 'social_media_facebook',
+        link_url: 'https://facebook.com/oldpage',
+        placement: :social_media
+      )
+
+      patch site_admin_website_settings_path,
+            params: {
+              tab: 'social',
+              social_links: {
+                facebook: 'https://facebook.com/updatedpage'
+              }
+            },
+            headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:redirect)
+
+      facebook_link = website.links.find_by(slug: 'social_media_facebook')
+      expect(facebook_link.link_url).to eq('https://facebook.com/updatedpage')
+    end
+
+    it 'sets link visibility based on URL presence' do
+      patch site_admin_website_settings_path,
+            params: {
+              tab: 'social',
+              social_links: {
+                facebook: 'https://facebook.com/page',
+                twitter: ''
+              }
+            },
+            headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      facebook_link = website.links.find_by(slug: 'social_media_facebook')
+      twitter_link = website.links.find_by(slug: 'social_media_twitter')
+
+      expect(facebook_link.visible).to be true
+      expect(twitter_link.visible).to be false
+    end
+
+    it 'shows success notice after update' do
+      patch site_admin_website_settings_path,
+            params: {
+              tab: 'social',
+              social_links: {
+                whatsapp: 'https://wa.me/1234567890'
+              }
+            },
+            headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(flash[:notice]).to eq('Social media links updated successfully')
+    end
+  end
 end

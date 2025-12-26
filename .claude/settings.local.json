@@ -111,7 +111,10 @@
       "Bash(docs/SEED_DATA_ANALYSIS.md )",
       "Bash(docs/SEED_DATA_INDEX.md )",
       "Bash(docs/SEED_DATA_QUICK_REFERENCE.md )",
-      "Bash(docs/SEED_DATA_SUMMARY.md)"
+      "Bash(docs/SEED_DATA_SUMMARY.md)",
+      "Bash(asdf current:*)",
+      "Bash(asdf list:*)",
+      "WebFetch(domain:www.ruby-lang.org)"
     ],
     "deny": [],
     "ask": []

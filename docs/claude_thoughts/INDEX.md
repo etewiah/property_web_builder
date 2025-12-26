@@ -1,297 +1,349 @@
-# Tailwind CDN to Compiled CSS Migration - Complete Documentation Index
+# PropertyWebBuilder Property Model Documentation Index
 
-## 📋 Documents Overview
+## Overview
 
-This analysis contains 4 comprehensive documents covering every aspect of migrating PropertyWebBuilder from Tailwind CDN to compiled CSS.
+Complete exploration and analysis of the PropertyWebBuilder property (RealtyAsset) model architecture and existing import/export functionality, created December 26, 2024.
 
-### 1. **SUMMARY.md** - Start Here! 📖
-**Quick overview of the entire migration project**
+---
 
-- Current architecture overview
+## Documentation Files
+
+### Start Here
+
+**[QUICKSTART.md](./QUICKSTART.md)** ⭐ **START HERE** (10 min read)
+- 30-second summary of property model
+- Essential file paths
+- Field cheat sheets
+- Code examples
+- Common operations
+- Debugging tips
+- **Best for:** Quick reference and understanding the big picture
+
+---
+
+### Deep Dives
+
+**[property_model_analysis.md](./property_model_analysis.md)** (60 min read, 500+ lines)
+- Complete RealtyAsset model structure (section 1)
+- SaleListing and RentalListing transaction models (sections 2-3)
+- PropPhoto and Feature models (sections 4-5)
+- ListedProperty materialized view (section 6)
+- Related models (section 7)
+- Database schema overview (section 8)
+- Data relationships and constraints (section 9)
+- Current import/export gaps (section 10)
+- Implementation strategy for bulk import/export (section 11)
+- File structure summary (section 12)
+- Key implementation considerations (section 13)
+- Summary table of all models (section 14)
+- Next steps for implementation (section 15)
+- **Best for:** Complete understanding of the architecture
+
+**[property_files_reference.md](./property_files_reference.md)** (30 min read, 300+ lines)
+- Critical files table (with line counts)
+- Import/export services and utilities
+- Controllers and related models
+- Import configuration files
+- Database migrations
+- Key data structures and enumerables
+- Field groups and classifications
+- Import/export workflow elements
+- Method signatures for implementation
+- Database connection points
+- Important constraints and validations
+- Development checklist for bulk import
+- **Best for:** Locating files and understanding method signatures
+
+**[property_schema_diagram.md](./property_schema_diagram.md)** (40 min read, 400+ lines)
+- ER diagram (ASCII art)
+- Data flow diagrams (Create, Read, Update flows)
+- Multi-tenancy scoping diagram
+- Listing uniqueness constraints
+- Internationalization (i18n) structure
+- Complete database table structures (SQL-like)
+- Import data structure mapping
+- Key validation points
+- Summary table of relationships
+- **Best for:** Database schema understanding and visual diagrams
+
+**[SUMMARY.md](./SUMMARY.md)** (15 min read, 300+ lines)
 - Key findings summary
-- Files affected
-- High-level migration steps
-- Risk assessment
-- Implementation recommendation
-
-**Read this first** for a 5-minute overview of the entire project.
-
----
-
-### 2. **tailwind_migration_analysis.md** - Deep Dive 🔍
-**Comprehensive technical analysis of the current system**
-
-**Covers:**
-- Theme layout files examination (Default, Bologna, Brisbane)
-- CSS variable usage by theme (130+ variables)
-- CSS variable definition system (3-layer architecture)
-- Per-tenant customization mechanism
-- Current compiled Tailwind setup
-- Theme-specific Tailwind extensions
-- Migration paths and strategies
-- Variables to replace with arbitrary syntax
-- Detailed recommendations
-
-**Read this** when you need to understand the technical details or design the migration approach.
+- Property model architecture overview
+- RealtyAsset structure summary
+- SaleListing & RentalListing overview
+- PropPhoto model summary
+- Feature model summary
+- ListedProperty overview
+- Existing import/export functionality status
+- What's missing (gaps)
+- Database schema overview
+- Import/export strategy
+- Files to reference (with paths)
+- Key implementation tips
+- Next steps for implementation
+- **Best for:** Executive summary and implementation planning
 
 ---
 
-### 3. **css_variables_inventory.md** - Reference Guide 📚
-**Quick lookup tables and variable inventory**
+## Quick Navigation
 
-**Contains:**
-- CSS variables by theme (tables)
-- Per-tenant customizable variables
-- How CSS variables are rendered (flow diagram)
-- CSS variables usage examples
-- Summary statistics
-- Migration impact analysis
+### If You Need To...
 
-**Use this** as a quick reference when working with specific variables or when you need to look up a variable name/value.
+**Understand the property model architecture**
+→ Start with QUICKSTART.md (10 min)
+→ Then read property_model_analysis.md section 1 (20 min)
 
----
+**Implement bulk import**
+→ Read QUICKSTART.md examples (10 min)
+→ Review property_files_reference.md sections (15 min)
+→ Study property_model_analysis.md sections 11-13 (30 min)
+→ Reference actual model files listed in property_files_reference.md
 
-### 4. **migration_implementation_plan.md** - How-To Guide 🛠️
-**Step-by-step implementation instructions**
+**Understand the database schema**
+→ Read property_schema_diagram.md (40 min)
+→ Reference SQL-like table structures (section 6)
+→ Check ER diagram (section 1)
 
-**Includes:**
-- 7 phases of implementation
-- Detailed tasks for each phase
-- Code examples for each step
-- File changes checklist
-- Risk mitigation strategies
-- Commands reference
-- Testing procedures
-- Deployment guidelines
-- Timeline and effort estimates
+**Find a specific file**
+→ Use property_files_reference.md "Critical Files" table
+→ All paths are absolute and verified
 
-**Use this** when actually implementing the migration. Follow phase-by-phase.
+**Understand data relationships**
+→ Read property_schema_diagram.md sections 1-5
+→ Check property_model_analysis.md section 9
+→ Review QUICKSTART.md "Key Constraints & Rules"
 
----
+**Get code examples**
+→ QUICKSTART.md (simple examples)
+→ property_files_reference.md method signatures
+→ PropsController source code (/app/controllers/site_admin/props_controller.rb)
 
-## 🎯 Quick Navigation by Use Case
-
-### "I need a 5-minute overview"
-→ Read **SUMMARY.md**
-
-### "I need to understand the current system"
-→ Read **tailwind_migration_analysis.md** (Part 1-4)
-
-### "I need to know all CSS variables"
-→ Reference **css_variables_inventory.md**
-
-### "I need to implement the migration"
-→ Follow **migration_implementation_plan.md** step-by-step
-
-### "I need to find a specific CSS variable"
-→ Use `Ctrl+F` in **css_variables_inventory.md**
-
-### "I need to understand per-tenant customization"
-→ Read **tailwind_migration_analysis.md** (Part 4 & 9)
-
-### "I need risk assessment"
-→ Read **SUMMARY.md** (Risks & Mitigation section)
-
-### "I need effort estimate"
-→ See **migration_implementation_plan.md** (Phase breakdown + Timeline)
-
-### "I need to know if this is feasible"
-→ Read **SUMMARY.md** (Migration Feasibility section)
-
-### "I need to understand theme differences"
-→ Read **tailwind_migration_analysis.md** (Part 1-2) or **css_variables_inventory.md** (tables)
+**Plan import/export implementation**
+→ Read SUMMARY.md sections 4-7
+→ Review property_model_analysis.md section 11
+→ Check property_files_reference.md "Development Checklist"
 
 ---
 
-## 📊 Document Statistics
+## Document Statistics
 
-| Document | Pages | Words | Sections | Focus |
-|----------|-------|-------|----------|-------|
-| SUMMARY.md | ~8 | 3,500 | 14 | Overview & decision |
-| tailwind_migration_analysis.md | ~20 | 12,000 | 9 | Technical analysis |
-| css_variables_inventory.md | ~15 | 7,000 | 12 | Reference tables |
-| migration_implementation_plan.md | ~18 | 9,500 | 7 | Implementation steps |
-| **Total** | **~61** | **32,000** | **42** | Complete guide |
-
----
-
-## 🔗 Cross-References
-
-### Key Concepts Explained In
-
-**CSS Variables System**:
-- Part 1 of SUMMARY
-- Part 3 & 9 of analysis
-- Tables in css_variables_inventory
-- Task 2.2 of implementation_plan
-
-**Per-Tenant Customization**:
-- Part 2 of SUMMARY
-- Part 4 of analysis
-- Usage examples in css_variables_inventory
-- Task 3.4 of implementation_plan
-
-**Theme Configurations**:
-- Part 2 of SUMMARY
-- Part 2 of analysis
-- Tables in css_variables_inventory
-- Task 2.1 of implementation_plan
-
-**Build Process**:
-- Phase 2 of implementation_plan
-- Task 2.3-2.4 of implementation_plan
-- Commands reference in implementation_plan
-
-**Testing Strategy**:
-- Phase 6 of implementation_plan
-- Risks section of SUMMARY
-
-**Deployment**:
-- Phase 7 of implementation_plan
-- Risk mitigation in SUMMARY
+| Document | Size | Lines | Read Time | Best For |
+|----------|------|-------|-----------|----------|
+| QUICKSTART.md | 10K | 300 | 10 min | Quick reference |
+| property_model_analysis.md | 23K | 500+ | 60 min | Complete understanding |
+| property_files_reference.md | 11K | 300+ | 30 min | File locations & signatures |
+| property_schema_diagram.md | 27K | 400+ | 40 min | Database & diagrams |
+| SUMMARY.md | 11K | 300+ | 15 min | Executive summary |
+| **TOTAL** | **82K** | **1800+** | **155 min** | Complete reference |
 
 ---
 
-## 🚀 Getting Started Checklist
+## Key Content Areas
 
-- [ ] Read SUMMARY.md (5 min)
-- [ ] Skim tailwind_migration_analysis.md (15 min)
-- [ ] Review css_variables_inventory.md sections (10 min)
-- [ ] Understand current architecture (Part 1-4 of analysis)
-- [ ] Review migration_implementation_plan.md phases (20 min)
-- [ ] Identify team members responsible
-- [ ] Plan timeline
-- [ ] Setup feature branch
-- [ ] Begin Phase 1
+### 1. Models & Associations
 
----
+**Core Models:**
+- RealtyAsset (physical property) - 277 lines
+- SaleListing (sale transaction) - 71 lines
+- RentalListing (rental transaction) - 83 lines
+- PropPhoto (images) - 40 lines
+- Feature (amenities) - 44 lines
+- ListedProperty (materialized view) - 243 lines
 
-## 💡 Pro Tips
+**Related Models:**
+- Website (multi-tenant anchor)
+- Address (location reference)
+- FieldKey (feature definitions)
 
-1. **Start with Phase 1 (Default theme)** - Simplest, lowest risk
-2. **Use css_variables_inventory.md as a bookmark** - Keep it open while working
-3. **Follow implementation_plan.md exactly** - Each task builds on previous
-4. **Commit frequently** - After each successful test
-5. **Keep CSS variable system intact** - It's the key to per-tenant customization
-6. **Test per-tenant customization thoroughly** - Most critical risk
-7. **Measure performance before/after** - Quantify benefits
+### 2. Services & Utilities
 
----
+- ImportProperties (CSV/TSV parsing - INCOMPLETE)
+- ImportMapper (field mapping orchestration)
+- ImportSource (RETS source definitions)
+- ImportMapping (JSON-based field mappings)
+- ScraperMapping (scraper field mappings)
 
-## ❓ FAQ
+### 3. Controllers
 
-**Q: How long will this take?**
-A: 7-12 days solo, 1-2 weeks with 2 devs. See timeline in SUMMARY.
+- PropsController (CRUD operations, photo management)
 
-**Q: Is this necessary?**
-A: Not critical, but provides 20-30% performance improvement. Recommended.
+### 4. Configuration
 
-**Q: Can we rollback easily?**
-A: Yes, just revert to CDN layouts. CSS variable system is unchanged.
+- `/config/import_mappings/api_pwb.json` - **RECOMMENDED FOR BULK IMPORT**
+- `/config/import_mappings/mls_interealty.json`
+- `/config/import_mappings/mls_mris.json`
+- `/config/import_mappings/mls_csv_jon.json`
+- `/config/import_mappings/mls_olr.json`
 
-**Q: Will per-tenant customization still work?**
-A: Yes, 100% compatible. No API changes.
+### 5. Database
 
-**Q: Do we need to change anything else?**
-A: No changes to models, helpers, or admin interface. Pure CSS improvement.
-
-**Q: What if something breaks?**
-A: Revert the layout files. Comprehensive rollback plan in implementation_plan.
-
-**Q: Can we do this in parallel?**
-A: Yes, 3 themes can be built in parallel. See Phase 3-4.
-
-**Q: Where do we start?**
-A: Read SUMMARY.md, then Phase 1 of implementation_plan.
+- `pwb_realty_assets` - Physical property data
+- `pwb_sale_listings` - Sale transactions
+- `pwb_rental_listings` - Rental transactions
+- `pwb_prop_photos` - Images
+- `pwb_features` - Amenities
+- `pwb_properties` - Materialized view (read-only, optimized)
 
 ---
 
-## 📝 Document Metadata
+## Key Findings Summary
 
-- **Analysis Date**: 2025-12-17
-- **Scope**: All 3 themes + CSS variables + per-tenant customization
-- **Status**: Ready for implementation
-- **Confidence**: High
-- **Version**: 1.0
-- **Author**: Claude Code Analysis
+### Architecture Highlights
 
----
+✓ Normalized design with separate RealtyAsset + Listing models
+✓ Supports both sale AND rental listings simultaneously
+✓ Multi-tenant scoping via website_id
+✓ Multi-locale support via Mobility gem (JSONB translations)
+✓ Materialized view for optimized property search
+✓ ActiveStorage for images + external URL support
+✓ Feature-based amenity system with FieldKey definitions
 
-## 🎓 Learning Resources
+### Import/Export Status
 
-### Understand Current System
-1. Read Part 1-4 of tailwind_migration_analysis.md
-2. Review CSS variable diagrams in css_variables_inventory.md
-3. Examine actual files:
-   - `app/themes/default/views/layouts/pwb/application.html.erb`
-   - `app/views/pwb/custom_css/_default.css.erb`
-   - `app/helpers/pwb/css_helper.rb`
+✗ ImportProperties service is incomplete (parsing only, no creation)
+✗ No image download/attachment handling
+✗ No feature import logic
+✗ No transaction data (listing) creation
+✗ No export functionality at all
+✓ Field mapping system in place (ImportMapper, JSON configs)
+✓ Multiple MLS format support configured
 
-### Learn Tailwind CSS
-1. Official docs: https://tailwindcss.com/docs
-2. Tailwind config: https://tailwindcss.com/docs/configuration
-3. Arbitrary values: https://tailwindcss.com/docs/arbitrary-values
-4. CSS variables: https://tailwindcss.com/docs/using-arbitrary-values#using-css-variables
+### Critical Implementation Gaps
 
-### Understand Rails Asset Pipeline
-1. Rails Guides: https://guides.rubyonrails.org/asset_pipeline.html
-2. Sprockets: https://github.com/rails/sprockets
-
----
-
-## 📞 Support & Questions
-
-If you have questions while working with these documents:
-
-1. **Check the cross-reference section above** - Find which doc explains the concept
-2. **Use Ctrl+F to search** within documents
-3. **Review examples in css_variables_inventory.md**
-4. **Check Phase 6.2 of implementation_plan.md** for testing strategies
-5. **Consult actual code files** mentioned throughout
+1. No bulk property creation from CSV
+2. No image handling for bulk imports
+3. No feature/amenity import
+4. No export service
+5. No async job support for bulk operations
+6. No progress tracking or error recovery
+7. No UI for import/export forms
+8. No duplicate detection/merge
 
 ---
 
-## ✅ Validation Checklist
+## Implementation Roadmap
 
-Before starting implementation:
+### Phase 1: Core Import (Extends Existing Code)
+- Extend ImportProperties service
+- Create PropertyBuilder for atomic creation
+- Add image download/attach
+- Handle features array
+- Write comprehensive tests
 
-- [ ] All 4 documents reviewed
-- [ ] Current architecture understood
-- [ ] CSS variable system understood
-- [ ] Per-tenant customization understood
-- [ ] Implementation plan reviewed
-- [ ] Timeline agreed upon
-- [ ] Team members assigned
-- [ ] Rollback plan understood
-- [ ] Testing strategy agreed
-- [ ] Approval from stakeholders
+### Phase 2: UI & Async
+- Add import form controller actions
+- Create Sidekiq/SolidQueue job
+- Track progress
+- Handle errors gracefully
 
----
+### Phase 3: Export
+- Create BulkExporter service
+- Add export controller actions
+- Support CSV/JSON formats
 
-## 📅 Recommended Reading Order
-
-**For Project Managers/Decision Makers**:
-1. SUMMARY.md
-2. migration_implementation_plan.md (Timeline section)
-
-**For Developers Implementing**:
-1. SUMMARY.md
-2. tailwind_migration_analysis.md
-3. css_variables_inventory.md
-4. migration_implementation_plan.md
-
-**For Code Reviewers**:
-1. SUMMARY.md
-2. css_variables_inventory.md
-3. Specific sections of analysis as needed
-
-**For Future Reference**:
-1. css_variables_inventory.md (bookmark this)
-2. Relevant sections of analysis
+### Phase 4: Polish
+- Duplicate detection
+- Custom mapping UI
+- Validation messages
+- Comprehensive documentation
 
 ---
 
-**Last Updated**: 2025-12-17
-**Status**: Analysis Complete - Ready to Implement
-**Next Step**: Review documents and begin Phase 1
+## Essential Code References
 
+All absolute paths verified and working:
+
+**Core Property Models:**
+```
+/Users/etewiah/dev/sites-older/property_web_builder/app/models/pwb/realty_asset.rb
+/Users/etewiah/dev/sites-older/property_web_builder/app/models/pwb/sale_listing.rb
+/Users/etewiah/dev/sites-older/property_web_builder/app/models/pwb/rental_listing.rb
+/Users/etewiah/dev/sites-older/property_web_builder/app/models/pwb/prop_photo.rb
+/Users/etewiah/dev/sites-older/property_web_builder/app/models/pwb/feature.rb
+/Users/etewiah/dev/sites-older/property_web_builder/app/models/pwb/listed_property.rb
+```
+
+**Import Services:**
+```
+/Users/etewiah/dev/sites-older/property_web_builder/app/services/pwb/import_properties.rb
+/Users/etewiah/dev/sites-older/property_web_builder/app/services/pwb/import_mapper.rb
+```
+
+**Controller Reference:**
+```
+/Users/etewiah/dev/sites-older/property_web_builder/app/controllers/site_admin/props_controller.rb
+```
+
+**Import Configs:**
+```
+/Users/etewiah/dev/sites-older/property_web_builder/config/import_mappings/api_pwb.json (BEST FOR BULK)
+/Users/etewiah/dev/sites-older/property_web_builder/config/import_mappings/mls_olr.json
+```
+
+---
+
+## Reading Guide by Role
+
+### For Developers Implementing Bulk Import
+
+1. QUICKSTART.md (10 min) - Get oriented
+2. property_files_reference.md (30 min) - Know what exists
+3. property_model_analysis.md sections 1, 11-13 (40 min) - Understand design
+4. Code examples section of QUICKSTART.md (5 min)
+5. Reference actual model files in /app/models/pwb/
+6. **Total time:** ~90 minutes to get started
+
+### For Architects Planning Feature
+
+1. SUMMARY.md (15 min) - Executive overview
+2. property_model_analysis.md sections 1-5 (30 min) - Understand current state
+3. property_schema_diagram.md sections 1-3 (20 min) - Visual understanding
+4. property_model_analysis.md sections 10-11 (30 min) - Understand gaps & strategy
+5. property_files_reference.md development checklist (5 min)
+6. **Total time:** ~100 minutes for comprehensive planning
+
+### For Database Administrators
+
+1. property_schema_diagram.md (entire document, 40 min)
+2. property_model_analysis.md section 8 (20 min)
+3. property_files_reference.md constraint section (10 min)
+4. **Total time:** ~70 minutes for schema understanding
+
+### For Project Managers/Product
+
+1. SUMMARY.md sections 1-4 (15 min) - Current state
+2. SUMMARY.md sections 8-10 (10 min) - What's missing & strategy
+3. property_files_reference.md development checklist (5 min)
+4. **Total time:** ~30 minutes for business context
+
+---
+
+## Key Takeaways
+
+1. **Architecture:** PropertyWebBuilder uses normalized design with separate RealtyAsset + Listing models
+2. **Technology:** Uses Mobility (i18n), Monetize (pricing), Scenic (views), ActiveStorage (images)
+3. **Status:** Partial import infrastructure exists; full import/export needs to be built
+4. **Complexity:** Moderate - existing models and services provide good foundation
+5. **Dependencies:** Multi-tenancy, subscription limits, materialized view refresh
+6. **Critical:** Use transactions for atomic operations, handle slug uniqueness, refresh views
+
+---
+
+## Document Revision History
+
+- **Created:** December 26, 2024
+- **Scope:** Complete property model architecture + import/export analysis
+- **Coverage:** 6 core models, 3 services, 1 controller, 5 import configs, full database schema
+- **Total Content:** 82KB, 1800+ lines across 5 documents
+- **Status:** ✅ Complete and ready for implementation
+
+---
+
+## Contact/Questions
+
+For clarification on any section:
+1. Check the referenced source code files (all paths are absolute)
+2. Read the related section in the comprehensive documents
+3. Review code examples in QUICKSTART.md
+
+All documentation is self-contained and cross-referenced.

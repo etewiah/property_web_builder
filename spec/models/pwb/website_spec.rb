@@ -419,5 +419,127 @@ module Pwb
         expect(website.effective_palette_id).to eq('classic_red')
       end
     end
+
+    # ============================================
+    # Social Media Link Tests (WebsiteSocialLinkable)
+    # ============================================
+
+    describe 'WebsiteSocialLinkable concern' do
+      describe '#social_media_facebook' do
+        it 'returns nil when no facebook link exists' do
+          expect(website.social_media_facebook).to be_nil
+        end
+
+        it 'returns the URL when facebook link exists' do
+          website.links.create!(
+            slug: 'social_media_facebook',
+            link_url: 'https://facebook.com/testpage',
+            placement: :social_media
+          )
+          expect(website.social_media_facebook).to eq('https://facebook.com/testpage')
+        end
+      end
+
+      describe '#social_media_instagram' do
+        it 'returns nil when no instagram link exists' do
+          expect(website.social_media_instagram).to be_nil
+        end
+
+        it 'returns the URL when instagram link exists' do
+          website.links.create!(
+            slug: 'social_media_instagram',
+            link_url: 'https://instagram.com/testhandle',
+            placement: :social_media
+          )
+          expect(website.social_media_instagram).to eq('https://instagram.com/testhandle')
+        end
+      end
+
+      describe '#social_media_whatsapp' do
+        it 'returns nil when no whatsapp link exists' do
+          expect(website.social_media_whatsapp).to be_nil
+        end
+
+        it 'returns the URL when whatsapp link exists' do
+          website.links.create!(
+            slug: 'social_media_whatsapp',
+            link_url: 'https://wa.me/1234567890',
+            placement: :social_media
+          )
+          expect(website.social_media_whatsapp).to eq('https://wa.me/1234567890')
+        end
+      end
+
+      describe '#social_media_links_for_admin' do
+        it 'returns all 6 platforms' do
+          result = website.social_media_links_for_admin
+
+          expect(result.length).to eq(6)
+          expect(result.map { |r| r[:platform] }).to contain_exactly(
+            'facebook', 'instagram', 'linkedin', 'youtube', 'twitter', 'whatsapp'
+          )
+        end
+
+        it 'includes existing link URLs' do
+          website.links.create!(
+            slug: 'social_media_facebook',
+            link_url: 'https://facebook.com/test',
+            placement: :social_media
+          )
+
+          result = website.social_media_links_for_admin
+          facebook_link = result.find { |r| r[:platform] == 'facebook' }
+
+          expect(facebook_link[:url]).to eq('https://facebook.com/test')
+        end
+
+        it 'returns nil URL for platforms without links' do
+          result = website.social_media_links_for_admin
+          twitter_link = result.find { |r| r[:platform] == 'twitter' }
+
+          expect(twitter_link[:url]).to be_nil
+        end
+      end
+
+      describe '#update_social_media_link' do
+        it 'creates a new link when none exists' do
+          expect {
+            website.update_social_media_link('facebook', 'https://facebook.com/newpage')
+          }.to change { website.links.count }.by(1)
+
+          link = website.links.find_by(slug: 'social_media_facebook')
+          expect(link.link_url).to eq('https://facebook.com/newpage')
+          expect(link.placement).to eq('social_media')
+          expect(link.visible).to be true
+        end
+
+        it 'updates an existing link' do
+          website.links.create!(
+            slug: 'social_media_facebook',
+            link_url: 'https://facebook.com/oldpage',
+            placement: :social_media
+          )
+
+          website.update_social_media_link('facebook', 'https://facebook.com/newpage')
+
+          link = website.links.find_by(slug: 'social_media_facebook')
+          expect(link.link_url).to eq('https://facebook.com/newpage')
+        end
+
+        it 'sets visible to false when URL is blank' do
+          website.update_social_media_link('facebook', '')
+
+          link = website.links.find_by(slug: 'social_media_facebook')
+          expect(link.visible).to be false
+        end
+
+        it 'sets icon_class correctly' do
+          website.update_social_media_link('instagram', 'https://instagram.com/test')
+
+          link = website.links.find_by(slug: 'social_media_instagram')
+          expect(link.icon_class).to eq('fa fa-instagram')
+        end
+      end
+    end
   end
 end
