@@ -37,6 +37,13 @@
           <span>Properties</span>
         <% end %>
 
+        <%= link_to site_admin_property_import_export_path, id: "tour-import-export", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.include?('property_import_export') ? 'bg-gray-700' : ''}" do %>
+          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+          <span>Import/Export</span>
+        <% end %>
+
         <%= link_to site_admin_properties_settings_path, id: "tour-labels", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_properties_settings_path) ? 'bg-gray-700' : ''}" do %>
           <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
