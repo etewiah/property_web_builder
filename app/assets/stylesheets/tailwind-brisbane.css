@@ -92,14 +92,15 @@
    These override Tailwind's nested @media syntax for better browser support
    ========================================================================== */
 @media (min-width: 1024px) {
-  /* Sidebar filters: 1/4 width on large screens */
+  /* Sidebar filters: 1/4 width on large screens (LEFT side) */
   .search-layout .search-sidebar {
     width: 25%;
-    order: 2;
+    /* No order property - sidebar stays LEFT per HTML source order */
   }
 
-  /* Search results: 3/4 width on large screens */
-  .search-layout .search-results {
+  /* Search results: 3/4 width on large screens (RIGHT side) */
+  .search-layout .search-results,
+  .search-layout .search-results-main {
     width: 75%;
   }
 
