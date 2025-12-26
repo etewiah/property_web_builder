@@ -34,7 +34,7 @@
               <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
                   height: 350, crop: "fill",
                   class: "w-full h-full object-cover transition-transform duration-700 group-hover:scale-110",
-                  loading: "lazy",
+                  loading: "lazy", use_picture: true,
                   alt: property.title.presence || "Property listing") %>
 
               <!-- Gradient Overlay -->

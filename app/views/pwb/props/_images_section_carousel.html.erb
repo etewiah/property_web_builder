@@ -11,6 +11,7 @@
           <%= opt_image_tag((photo ), :quality => "auto", height: 600, crop: "scale", class: "",
               alt: @property_details.title.presence || "Property photo",
               loading: index == 0 ? "eager" : "lazy",
+              use_picture: true,
               fetchpriority: index == 0 ? "high" : nil) %>
           <% if @property_details.contextual_price_with_currency @operation_type %>
             <div class="ribbon dark fondo_accion">

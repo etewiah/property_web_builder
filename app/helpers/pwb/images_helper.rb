@@ -60,7 +60,11 @@ module Pwb
 
       # Handle external URLs first
       if photo.respond_to?(:external?) && photo.external?
-        return image_tag(photo.external_url, options)
+        if use_picture
+          return external_image_picture(photo.external_url, options)
+        else
+          return image_tag(photo.external_url, options)
+        end
       end
 
       # Fall back to ActiveStorage
@@ -79,6 +83,26 @@ module Pwb
         image_tag photo.image.variant(variant_options), options
       else
         image_tag url_for(photo.image), options
+      end
+    end
+
+    # Generate a <picture> element with WebP source for external URLs
+    # Assumes WebP version exists at same path with .webp extension
+    # @param url [String] The JPEG image URL
+    # @param html_options [Hash] HTML options for the img tag
+    # @return [String] Picture element HTML
+    def external_image_picture(url, html_options = {})
+      return image_tag(url, html_options) unless url.to_s.match?(/\.jpe?g$/i)
+
+      webp_url = url.sub(/\.jpe?g$/i, '.webp')
+
+      content_tag(:picture) do
+        # WebP source for modern browsers
+        webp_source = tag(:source, srcset: webp_url, type: "image/webp")
+        # Fallback img tag with original JPEG
+        fallback_img = image_tag(url, html_options)
+
+        safe_join([webp_source, fallback_img])
       end
     end
 

@@ -54,7 +54,7 @@
                 <% if property.ordered_photo(1).present? %>
                   <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
                       height: 320, crop: "fill", class: "w-full h-full object-cover", loading: "lazy",
-                      alt: property.title.presence || "Property listing") %>
+                      use_picture: true, alt: property.title.presence || "Property listing") %>
                 <% else %>
                   <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, #e7e5e4 0%, #d6d3d1 100%);">
                     <i class="ph ph-image text-6xl" style="color: #a8a29e;"></i>

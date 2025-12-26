@@ -10,7 +10,7 @@
           <div class="relative">
             <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
               height: 300, crop: "scale", class: "w-full h-64 object-cover", loading: "lazy",
-              alt: property.title.presence || "Property listing") %>
+              use_picture: true, alt: property.title.presence || "Property listing") %>
           </div>
           <% end %>
           <div class="p-4">

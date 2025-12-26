@@ -51,7 +51,7 @@
             <%= link_to property.contextual_show_path(@operation_type) do %>
               <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
                   height: 240, crop: "scale", class: "w-full h-48 md:h-full object-cover", loading: "lazy",
-                  alt: property.title.presence || "Property listing") %>
+                  use_picture: true, alt: property.title.presence || "Property listing") %>
             <% end %>
           </div>
 
