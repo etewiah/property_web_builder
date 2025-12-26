@@ -1,0 +1,120 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900"><%= @media.display_name %></h1>
+      <p class="text-gray-600 mt-1">Media Details</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <%= link_to edit_site_admin_media_library_path(@media),
+          class: "px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700" do %>
+        Edit
+      <% end %>
+      <%= link_to site_admin_media_library_index_path,
+          class: "px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200" do %>
+        Back to Library
+      <% end %>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+    <div class="grid grid-cols-2 gap-6 p-6">
+      <!-- Preview -->
+      <div>
+        <% if @media.image? && @media.file.attached? %>
+          <%= image_tag @media.variant_url(:large),
+              alt: @media.alt_text || @media.filename,
+              class: "w-full rounded-lg" %>
+        <% else %>
+          <div class="aspect-square bg-gray-100 rounded-lg flex items-center justify-center">
+            <svg class="w-24 h-24 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Details -->
+      <div class="space-y-4">
+        <div>
+          <label class="text-sm font-medium text-gray-700">Filename</label>
+          <p class="text-gray-900 mt-1"><%= @media.filename %></p>
+        </div>
+
+        <% if @media.title.present? %>
+          <div>
+            <label class="text-sm font-medium text-gray-700">Title</label>
+            <p class="text-gray-900 mt-1"><%= @media.title %></p>
+          </div>
+        <% end %>
+
+        <% if @media.alt_text.present? %>
+          <div>
+            <label class="text-sm font-medium text-gray-700">Alt Text</label>
+            <p class="text-gray-900 mt-1"><%= @media.alt_text %></p>
+          </div>
+        <% end %>
+
+        <% if @media.description.present? %>
+          <div>
+            <label class="text-sm font-medium text-gray-700">Description</label>
+            <p class="text-gray-900 mt-1"><%= @media.description %></p>
+          </div>
+        <% end %>
+
+        <div>
+          <label class="text-sm font-medium text-gray-700">Type</label>
+          <p class="text-gray-900 mt-1"><%= @media.content_type %></p>
+        </div>
+
+        <div>
+          <label class="text-sm font-medium text-gray-700">Size</label>
+          <p class="text-gray-900 mt-1"><%= @media.human_file_size %></p>
+        </div>
+
+        <% if @media.dimensions %>
+          <div>
+            <label class="text-sm font-medium text-gray-700">Dimensions</label>
+            <p class="text-gray-900 mt-1"><%= @media.dimensions %></p>
+          </div>
+        <% end %>
+
+        <% if @media.folder %>
+          <div>
+            <label class="text-sm font-medium text-gray-700">Folder</label>
+            <p class="text-gray-900 mt-1"><%= @media.folder.name %></p>
+          </div>
+        <% end %>
+
+        <div>
+          <label class="text-sm font-medium text-gray-700">Uploaded</label>
+          <p class="text-gray-900 mt-1"><%= @media.created_at.strftime('%B %d, %Y at %H:%M') %></p>
+        </div>
+
+        <% if @media.tags.any? %>
+          <div>
+            <label class="text-sm font-medium text-gray-700">Tags</label>
+            <div class="flex flex-wrap gap-2 mt-1">
+              <% @media.tags.each do |tag| %>
+                <span class="px-2 py-1 bg-blue-100 text-blue-700 text-sm rounded"><%= tag %></span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @media.url %>
+          <div>
+            <label class="text-sm font-medium text-gray-700">URL</label>
+            <div class="flex items-center gap-2 mt-1">
+              <input type="text" readonly value="<%= @media.url %>"
+                     class="flex-1 px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm">
+              <button type="button" onclick="navigator.clipboard.writeText('<%= @media.url %>')"
+                      class="px-3 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
+                Copy
+              </button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

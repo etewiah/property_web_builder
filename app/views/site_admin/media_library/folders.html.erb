@@ -1,0 +1,167 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Manage Folders</h1>
+      <p class="text-gray-600 mt-1">Organize your media library</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <button type="button" onclick="document.getElementById('new-folder-modal').classList.remove('hidden')"
+              class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700">
+        New Folder
+      </button>
+      <%= link_to site_admin_media_library_index_path,
+          class: "px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200" do %>
+        Back to Library
+      <% end %>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg border border-gray-200">
+    <% if @folders.any? %>
+      <ul class="divide-y divide-gray-200">
+        <% @folders.each do |folder| %>
+          <li class="p-4 flex items-center justify-between hover:bg-gray-50">
+            <div class="flex items-center gap-3">
+              <svg class="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"></path>
+              </svg>
+              <div>
+                <p class="font-medium text-gray-900"><%= folder.name %></p>
+                <p class="text-sm text-gray-500"><%= folder.media.count %> files</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <%= link_to site_admin_media_library_index_path(folder: folder.id),
+                  class: "p-2 text-gray-400 hover:text-blue-600" do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+              <% end %>
+              <button type="button" onclick="editFolder(<%= folder.id %>, '<%= j(folder.name) %>')"
+                      class="p-2 text-gray-400 hover:text-blue-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+              </button>
+              <%= link_to destroy_folder_site_admin_media_library_index_path(id: folder.id),
+                  method: :delete,
+                  data: { confirm: "Delete folder '#{folder.name}'?" },
+                  class: "p-2 text-gray-400 hover:text-red-600" do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+              <% end %>
+            </div>
+          </li>
+
+          <!-- Nested folders -->
+          <% folder.children.each do |child| %>
+            <li class="p-4 pl-12 flex items-center justify-between hover:bg-gray-50 bg-gray-50">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"></path>
+                </svg>
+                <div>
+                  <p class="font-medium text-gray-900"><%= child.name %></p>
+                  <p class="text-sm text-gray-500"><%= child.media.count %> files</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <%= link_to site_admin_media_library_index_path(folder: child.id),
+                    class: "p-2 text-gray-400 hover:text-blue-600" do %>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                  </svg>
+                <% end %>
+                <%= link_to destroy_folder_site_admin_media_library_index_path(id: child.id),
+                    method: :delete,
+                    data: { confirm: "Delete folder '#{child.name}'?" },
+                    class: "p-2 text-gray-400 hover:text-red-600" do %>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                  </svg>
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="p-12 text-center">
+        <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+        </svg>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">No folders yet</h3>
+        <p class="text-gray-600 mb-4">Create folders to organize your media.</p>
+        <button type="button" onclick="document.getElementById('new-folder-modal').classList.remove('hidden')"
+                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          Create Folder
+        </button>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- New Folder Modal -->
+<div id="new-folder-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+  <div class="flex items-center justify-center min-h-screen px-4">
+    <div class="fixed inset-0 bg-black bg-opacity-50" onclick="document.getElementById('new-folder-modal').classList.add('hidden')"></div>
+    <div class="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">Create New Folder</h3>
+      <%= form_tag create_folder_site_admin_media_library_index_path, method: :post do %>
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Folder Name</label>
+          <input type="text" name="folder[name]" required
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div class="flex justify-end gap-3">
+          <button type="button" onclick="document.getElementById('new-folder-modal').classList.add('hidden')"
+                  class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+            Cancel
+          </button>
+          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Create Folder
+          </button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Folder Modal -->
+<div id="edit-folder-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+  <div class="flex items-center justify-center min-h-screen px-4">
+    <div class="fixed inset-0 bg-black bg-opacity-50" onclick="document.getElementById('edit-folder-modal').classList.add('hidden')"></div>
+    <div class="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">Rename Folder</h3>
+      <form id="edit-folder-form" method="post">
+        <input type="hidden" name="_method" value="patch">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Folder Name</label>
+          <input type="text" name="folder[name]" id="edit-folder-name" required
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div class="flex justify-end gap-3">
+          <button type="button" onclick="document.getElementById('edit-folder-modal').classList.add('hidden')"
+                  class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+            Cancel
+          </button>
+          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+function editFolder(id, name) {
+  document.getElementById('edit-folder-form').action = '/site_admin/media_library/folders/' + id;
+  document.getElementById('edit-folder-name').value = name;
+  document.getElementById('edit-folder-modal').classList.remove('hidden');
+}
+</script>

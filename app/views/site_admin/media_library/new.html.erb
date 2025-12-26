@@ -1,0 +1,76 @@
+<div class="max-w-2xl mx-auto px-4 py-8">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Upload Files</h1>
+      <p class="text-gray-600 mt-1">Add new images or documents to your library</p>
+    </div>
+    <%= link_to site_admin_media_library_index_path,
+        class: "px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200" do %>
+      Cancel
+    <% end %>
+  </div>
+
+  <div class="bg-white rounded-lg border border-gray-200 p-6">
+    <%= form_tag site_admin_media_library_index_path, method: :post, multipart: true, class: "space-y-6" do %>
+      <!-- File Input -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Files</label>
+        <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors">
+          <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+          <input type="file" name="files[]" multiple
+                 accept="image/*,.pdf,.doc,.docx,.xls,.xlsx"
+                 class="hidden" id="file-input">
+          <label for="file-input" class="cursor-pointer">
+            <span class="text-blue-600 font-medium hover:underline">Choose files</span>
+            <span class="text-gray-600"> or drag and drop</span>
+          </label>
+          <p class="text-sm text-gray-500 mt-2">
+            Images, PDFs, and documents up to 25MB
+          </p>
+        </div>
+        <div id="file-list" class="mt-4 space-y-2"></div>
+      </div>
+
+      <!-- Folder Selection -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Upload to Folder</label>
+        <select name="folder_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+          <option value="">Root (No folder)</option>
+          <% @folders.each do |folder| %>
+            <option value="<%= folder.id %>"><%= folder.name %></option>
+          <% end %>
+        </select>
+      </div>
+
+      <!-- Submit -->
+      <div class="flex justify-end gap-3">
+        <%= link_to site_admin_media_library_index_path,
+            class: "px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg" do %>
+          Cancel
+        <% end %>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          Upload Files
+        </button>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+document.getElementById('file-input').addEventListener('change', function(e) {
+  const fileList = document.getElementById('file-list');
+  fileList.innerHTML = '';
+
+  Array.from(e.target.files).forEach(file => {
+    const div = document.createElement('div');
+    div.className = 'flex items-center justify-between p-2 bg-gray-50 rounded';
+    div.innerHTML = `
+      <span class="text-sm text-gray-700">${file.name}</span>
+      <span class="text-xs text-gray-500">${(file.size / 1024 / 1024).toFixed(2)} MB</span>
+    `;
+    fileList.appendChild(div);
+  });
+});
+</script>
