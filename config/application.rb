@@ -25,6 +25,10 @@ module StandalonePwb
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
+    # Enable gzip compression for all responses (HTML, CSS, JS, JSON)
+    # This significantly reduces transfer sizes and improves page load times
+    config.middleware.use Rack::Deflater
+
     # Opt in to Rails 8.1 timezone behavior
     config.active_support.to_time_preserves_timezone = :zone
 

@@ -242,3 +242,6 @@ gem 'get_process_mem'
 gem 'ahoy_matey', '~> 5.0'    # Visit and event tracking
 gem 'chartkick', '~> 5.0'     # Beautiful charts for dashboards
 gem 'groupdate', '~> 6.0'     # Time-based grouping for analytics
+
+# JavaScript minification for production assets
+gem 'terser'

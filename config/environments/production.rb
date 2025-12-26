@@ -19,6 +19,9 @@ Rails.application.configure do
   config.public_file_server.headers = { "cache-control" => "public, max-age=#{1.year.to_i}" }
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
+  # Minify JavaScript in production for smaller file sizes
+  config.assets.js_compressor = :terser
+
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # Uses R2 public URL for CDN delivery of static assets
   config.asset_host = ENV["ASSET_HOST"] if ENV["ASSET_HOST"].present?
