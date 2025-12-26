@@ -15,7 +15,7 @@
 
     <%# Preconnect for external resources - do this FIRST %>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="preconnect" href="https://pub-be9416af8a3c406f859765586492c927.r2.dev" crossorigin>
+    <link rel="preconnect" href="https://seed-assets.propertywebbuilder.com" crossorigin>
     <link rel="dns-prefetch" href="//unpkg.com">
 
     <%# CRITICAL CSS - Inlined for fastest FCP %>
@@ -39,6 +39,10 @@
     <style>@font-face{font-family:'Font Awesome 6 Free';font-display:swap}@font-face{font-family:'Font Awesome 6 Brands';font-display:swap}</style>
 
     <%= csrf_meta_tags %>
+
+    <%# PWA manifest and theme color %>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#b8860b">
   </head>
 
   <body class="tnt-body brisbane-theme <%= @current_website.body_style %> font-sans antialiased bg-luxury-cream text-luxury-charcoal">
@@ -87,5 +91,20 @@
     <% if params[:edit_mode] == 'true' %>
       <%= javascript_include_tag "pwb/editor_client" %>
     <% end %>
+
+    <%# Service Worker registration for PWA/offline support %>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(function(registration) {
+              console.log('SW registered:', registration.scope);
+            })
+            .catch(function(error) {
+              console.log('SW registration failed:', error);
+            });
+        });
+      }
+    </script>
   </body>
 </html>

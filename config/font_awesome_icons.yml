@@ -1,0 +1,58 @@
+# Font Awesome icons used in PropertyWebBuilder
+# This file documents all FA icons for subset generation
+# Run: rake assets:font_awesome_subset to generate optimized CSS
+
+solid:
+  - angle-left
+  - angle-right
+  - arrows-alt
+  - bars
+  - bath
+  - bed
+  - car
+  - check
+  - chevron-down
+  - chevron-right
+  - chevron-up
+  - cloud-upload-alt
+  - edit
+  - envelope
+  - expand
+  - filter
+  - globe
+  - images
+  - info-circle
+  - lock
+  - map-marker-alt
+  - mouse-pointer
+  - pencil
+  - pencil-alt
+  - phone
+  - phone-square
+  - refresh
+  - search
+  - shower
+  - sign-out-alt
+  - spinner
+  - user
+
+brands:
+  - facebook
+  - facebook-f
+  - google-plus
+  - instagram
+  - linkedin
+  - linkedin-in
+  - pinterest
+  - twitter
+  - whatsapp
+  - x-twitter
+  - youtube
+
+# Utility classes also needed
+utilities:
+  - fa-2x
+  - fa-4x
+  - fa-lg
+  - fa-spin
+  - external-link

@@ -10,6 +10,7 @@ module Pwb
     include Search::PropertyFiltering
     include Search::MapMarkers
     include Search::FormSetup
+    include HttpCacheable
 
     before_action :header_image_url
     before_action :setup_search_params_service
@@ -93,6 +94,16 @@ module Pwb
         locale: I18n.locale,
         operation: page_slug
       )
+
+      # Set cache headers for search pages
+      # Only cache the initial page load (no search filters)
+      if params[:search].blank?
+        set_cache_control_headers(
+          max_age: 5.minutes,
+          public: true,
+          stale_while_revalidate: 30.minutes
+        )
+      end
 
       respond_to do |format|
         format.html do

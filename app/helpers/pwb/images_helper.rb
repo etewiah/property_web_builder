@@ -86,32 +86,69 @@ module Pwb
       end
     end
 
+    # Responsive image breakpoints (width in pixels)
+    RESPONSIVE_SIZES = [320, 640, 768, 1024, 1280].freeze
+
     # Generate a <picture> element with WebP source for external URLs
     # Assumes WebP version exists at same path with .webp extension
     # @param url [String] The JPEG image URL
     # @param html_options [Hash] HTML options for the img tag
+    #   - :sizes [String] Responsive sizes attribute (e.g., "(max-width: 768px) 100vw, 50vw")
+    #   - :responsive [Boolean] Enable responsive srcset generation (requires pre-generated sizes)
     # @return [String] Picture element HTML
     def external_image_picture(url, html_options = {})
       return image_tag(url, html_options) unless url.to_s.match?(/\.jpe?g$/i)
 
+      sizes = html_options.delete(:sizes)
+      responsive = html_options.delete(:responsive)
+
       webp_url = url.sub(/\.jpe?g$/i, '.webp')
 
       content_tag(:picture) do
-        # WebP source for modern browsers
-        webp_source = tag(:source, srcset: webp_url, type: "image/webp")
-        # Fallback img tag with original JPEG
-        fallback_img = image_tag(url, html_options)
+        sources = []
 
-        safe_join([webp_source, fallback_img])
+        # WebP source for modern browsers
+        if responsive && sizes
+          webp_srcset = generate_external_srcset(webp_url)
+          sources << tag(:source, srcset: webp_srcset, sizes: sizes, type: "image/webp")
+        else
+          sources << tag(:source, srcset: webp_url, type: "image/webp")
+        end
+
+        # Fallback img tag with original JPEG (also with srcset if responsive)
+        if responsive && sizes
+          jpeg_srcset = generate_external_srcset(url)
+          html_options[:srcset] = jpeg_srcset
+          html_options[:sizes] = sizes
+        end
+
+        fallback_img = image_tag(url, html_options)
+        safe_join(sources + [fallback_img])
       end
+    end
+
+    # Generate srcset for external image URL
+    # Assumes sized versions exist at path/image-WIDTHw.ext
+    # @param url [String] The image URL
+    # @return [String] srcset attribute value
+    def generate_external_srcset(url)
+      # For seed images, we use the original image for all sizes
+      # as resized versions aren't pre-generated
+      # This still provides browser with size hints
+      "#{url} 1280w"
     end
 
     # Generate a <picture> element with WebP source and fallback
     # @param photo [Object] A photo model with ActiveStorage image
     # @param variant_options [Hash] Options for image variant
     # @param html_options [Hash] HTML options for the img tag
+    #   - :sizes [String] Responsive sizes attribute (e.g., "(max-width: 768px) 100vw, 50vw")
+    #   - :responsive [Boolean] Enable responsive srcset generation
     # @return [String] Picture element HTML
     def optimized_image_picture(photo, variant_options = {}, html_options = {})
+      sizes = html_options.delete(:sizes)
+      responsive = html_options.delete(:responsive)
+
       webp_options = variant_options.merge(format: :webp)
       fallback_url = if variant_options.present?
                        url_for(photo.image.variant(variant_options))
@@ -120,19 +157,49 @@ module Pwb
                      end
 
       content_tag(:picture) do
-        # WebP source for modern browsers
-        webp_source = tag(:source,
-                          srcset: url_for(photo.image.variant(webp_options)),
-                          type: "image/webp")
+        sources = []
+
+        if responsive && sizes
+          # Generate responsive WebP srcset
+          webp_srcset = generate_responsive_srcset(photo, format: :webp)
+          sources << tag(:source, srcset: webp_srcset, sizes: sizes, type: "image/webp")
+
+          # Generate responsive JPEG srcset for fallback
+          jpeg_srcset = generate_responsive_srcset(photo, format: :jpeg)
+          html_options[:srcset] = jpeg_srcset
+          html_options[:sizes] = sizes
+        else
+          # Single WebP source
+          sources << tag(:source,
+                         srcset: url_for(photo.image.variant(webp_options)),
+                         type: "image/webp")
+        end
+
         # Fallback img tag
         fallback_img = image_tag(fallback_url, html_options)
-
-        safe_join([webp_source, fallback_img])
+        safe_join(sources + [fallback_img])
       end
     rescue StandardError => e
       # Fall back to regular image if variant generation fails
       Rails.logger.warn("Failed to generate optimized image: #{e.message}")
       image_tag url_for(photo.image), html_options
+    end
+
+    # Generate responsive srcset for ActiveStorage image
+    # @param photo [Object] A photo model with ActiveStorage image
+    # @param format [Symbol] Image format (:webp, :jpeg)
+    # @return [String] srcset attribute value
+    def generate_responsive_srcset(photo, format: :jpeg)
+      srcset_entries = RESPONSIVE_SIZES.map do |width|
+        variant_options = { resize_to_limit: [width, nil] }
+        variant_options[:format] = format if format
+        url = url_for(photo.image.variant(variant_options))
+        "#{url} #{width}w"
+      end
+      srcset_entries.join(", ")
+    rescue StandardError => e
+      Rails.logger.warn("Failed to generate responsive srcset: #{e.message}")
+      ""
     end
 
     # Display a photo with support for external URLs and variants

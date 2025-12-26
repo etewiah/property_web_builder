@@ -3,6 +3,7 @@ require_dependency 'pwb/application_controller'
 module Pwb
   class PagesController < ApplicationController
     include SeoHelper
+    include HttpCacheable
 
     before_action :header_image_url
     before_action :extract_lcp_image, only: [:show_page]
@@ -33,6 +34,13 @@ module Pwb
 
         # Set SEO for the page
         set_page_seo(@page)
+
+        # HTTP caching for pages - cache for 10 minutes, stale for 1 hour
+        set_cache_control_headers(
+          max_age: 10.minutes,
+          public: true,
+          stale_while_revalidate: 1.hour
+        )
       end
 
       render "/pwb/pages/show"
