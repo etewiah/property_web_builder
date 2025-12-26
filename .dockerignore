@@ -1,0 +1,133 @@
+# .dockerignore - Files to exclude from Docker build context
+# This reduces build context size and improves build speed
+
+# =============================================================================
+# Git
+# =============================================================================
+.git
+.gitignore
+.gitattributes
+
+# =============================================================================
+# IDE and Editor files
+# =============================================================================
+.idea
+.vscode
+*.swp
+*.swo
+*~
+.DS_Store
+
+# =============================================================================
+# Documentation (not needed in production)
+# =============================================================================
+docs/
+README*.md
+CHANGELOG.md
+CONTRIBUTING.md
+CLAUDE.md
+*.md
+!app/**/*.md
+
+# =============================================================================
+# Test files and artifacts
+# =============================================================================
+spec/
+tests/
+test/
+coverage/
+test-results/
+playwright-report/
+playwright.config.js
+.rspec
+
+# =============================================================================
+# Development configuration
+# =============================================================================
+.env
+.env.*
+!.env.example
+docker-compose*.yml
+Vagrantfile
+.vagrant/
+
+# =============================================================================
+# Local development files
+# =============================================================================
+tmp/
+log/
+storage/
+!storage/.keep
+.byebug_history
+.ruby-version
+.ruby-gemset
+.tool-versions
+.rvmrc
+.rbenv-version
+
+# =============================================================================
+# Node.js development files (node_modules rebuilt in Docker)
+# =============================================================================
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+.pnp.*
+
+# =============================================================================
+# Build artifacts (rebuilt in Docker)
+# =============================================================================
+public/assets/
+public/packs/
+public/packs-test/
+public/vite*
+/app/assets/builds/*
+
+# =============================================================================
+# Vendor bundles (gems installed in Docker)
+# =============================================================================
+vendor/bundle/
+.bundle/
+
+# =============================================================================
+# Credentials and secrets (never include in image)
+# =============================================================================
+config/master.key
+config/credentials.yml.enc
+config/credentials/
+*.key
+*.pem
+
+# =============================================================================
+# Uploads and user data
+# =============================================================================
+public/uploads/
+uploads/
+
+# =============================================================================
+# Deprecated and legacy code
+# =============================================================================
+standalone_quasar_app/
+pwb-frontend-quasar/
+for_the_ai/
+offline/
+marketing/
+pwb_support_website/
+
+# =============================================================================
+# CI/CD configuration (not needed in production image)
+# =============================================================================
+.github/
+.gitlab-ci.yml
+.travis.yml
+.circleci/
+Jenkinsfile
+
+# =============================================================================
+# Miscellaneous
+# =============================================================================
+*.gem
+*.log
+index/
+notes/
