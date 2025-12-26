@@ -6,12 +6,12 @@ module SiteAdmin
     before_action :set_media, only: [:show, :edit, :update, :destroy]
 
     def index
-      @media = current_website.media
-                              .by_folder(@folder)
-                              .search(params[:q])
-                              .recent
-                              .page(params[:page])
-                              .per(24)
+      media_scope = current_website.media
+                                   .by_folder(@folder)
+                                   .search(params[:q])
+                                   .recent
+
+      @pagy, @media = pagy(media_scope, limit: 24)
 
       @folders = current_website.media_folders.root.ordered
       @current_folder = @folder
@@ -19,7 +19,7 @@ module SiteAdmin
 
       respond_to do |format|
         format.html
-        format.json { render json: media_json(@media) }
+        format.json { render json: media_json(@media, @pagy) }
       end
     end
 
@@ -220,13 +220,13 @@ module SiteAdmin
       }
     end
 
-    def media_json(media)
+    def media_json(media, pagy)
       {
         items: media.map { |m| media_item_json(m) },
         pagination: {
-          current_page: media.current_page,
-          total_pages: media.total_pages,
-          total_count: media.total_count
+          current_page: pagy.page,
+          total_pages: pagy.pages,
+          total_count: pagy.count
         }
       }
     end

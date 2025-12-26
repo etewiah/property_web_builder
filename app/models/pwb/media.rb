@@ -74,7 +74,7 @@ module Pwb
     scope :images, -> { where("content_type LIKE 'image/%'") }
     scope :documents, -> { where("content_type NOT LIKE 'image/%'") }
     scope :recent, -> { order(created_at: :desc) }
-    scope :by_folder, ->(folder) { folder ? where(folder: folder) : where(folder: nil) }
+    scope :by_folder, ->(folder) { folder ? where(folder: folder) : all }
     scope :search, ->(query) {
       return all if query.blank?
       where("filename ILIKE :q OR title ILIKE :q OR alt_text ILIKE :q OR description ILIKE :q",

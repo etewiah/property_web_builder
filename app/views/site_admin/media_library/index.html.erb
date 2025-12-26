@@ -164,9 +164,9 @@
         </div>
 
         <!-- Pagination -->
-        <% if @media.total_pages > 1 %>
+        <% if @pagy.pages > 1 %>
           <div class="mt-6 flex justify-center">
-            <%= paginate @media, theme: 'tailwind' %>
+            <%== pagy_nav(@pagy) %>
           </div>
         <% end %>
       <% else %>
