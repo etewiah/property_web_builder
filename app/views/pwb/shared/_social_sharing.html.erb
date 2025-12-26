@@ -23,9 +23,13 @@
 
 <%
   # Define share URLs
+  # Facebook: sharer.php accepts 'u' for URL and 'quote' for text (though FB primarily uses OG meta tags)
+  # LinkedIn: shareArticle endpoint supports title/summary; mini=true is required
+  # Twitter: intent/tweet accepts 'url' and 'text'
+  # WhatsApp: wa.me accepts 'text' with message content
   share_urls = {
     facebook: "https://www.facebook.com/sharer/sharer.php?u=#{encoded_url}&quote=#{encoded_title}",
-    linkedin: "https://www.linkedin.com/sharing/share-offsite/?url=#{encoded_url}",
+    linkedin: "https://www.linkedin.com/shareArticle?mini=true&url=#{encoded_url}&title=#{encoded_title}",
     twitter: "https://twitter.com/intent/tweet?url=#{encoded_url}&text=#{encoded_title}",
     whatsapp: "https://wa.me/?text=#{encoded_both}"
   }

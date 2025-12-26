@@ -40,9 +40,11 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
       expect(rendered).to include("quote=#{ERB::Util.url_encode(share_title)}")
     end
 
-    it "LinkedIn share link includes URL" do
-      expect(rendered).to include("linkedin.com/sharing/share-offsite")
+    it "LinkedIn share link includes URL and title" do
+      expect(rendered).to include("linkedin.com/shareArticle")
+      expect(rendered).to include("mini=true")
       expect(rendered).to include("url=#{ERB::Util.url_encode(share_url)}")
+      expect(rendered).to include("title=#{ERB::Util.url_encode(share_title)}")
     end
 
     it "Twitter share link includes both URL and title" do
@@ -199,6 +201,9 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
       # Facebook
       expect(rendered).to include("u=#{encoded_url}")
       expect(rendered).to include("quote=#{encoded_title}")
+
+      # LinkedIn
+      expect(rendered).to include("title=#{encoded_title}")
 
       # Twitter
       expect(rendered).to include("text=#{encoded_title}")
