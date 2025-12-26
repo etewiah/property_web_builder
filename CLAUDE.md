@@ -2,6 +2,17 @@
 
 This file contains instructions for Claude Code instances working on this project.
 
+## Critical Rules
+
+### No Direct Database Changes
+
+**NEVER make direct database changes to fix issues.** All fixes must be made in code (seed files, migrations, rake tasks, etc.) that can be committed to git.
+
+- If you modify database records directly (e.g., via `rails runner`, `rails console`, or any SQL), you have NOT fixed the issue
+- Always find and edit the source files (seed YAML files, migrations, etc.) that populate the database
+- If the only solution appears to be a direct database edit, you MUST explicitly ask for permission first and explain why a code-based solution isn't possible
+- Never claim an issue is "fixed" when only database records were changed - such changes are lost on reseed/reset
+
 ## Documentation Guidelines
 
 **IMPORTANT: Never create documentation files at the project root.**
