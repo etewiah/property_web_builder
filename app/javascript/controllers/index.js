@@ -38,3 +38,6 @@ application.register("search-header", SearchHeaderController)
 
 import ThemePaletteController from "controllers/theme_palette_controller"
 application.register("theme-palette", ThemePaletteController)
+
+import SkeletonController from "controllers/skeleton_controller"
+application.register("skeleton", SkeletonController)

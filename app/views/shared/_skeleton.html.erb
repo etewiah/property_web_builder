@@ -1,0 +1,134 @@
+<%#
+  Skeleton Loading Components
+
+  Usage:
+    <%= render 'shared/skeleton', type: :property_card %>
+    <%= render 'shared/skeleton', type: :property_card, count: 3 %>
+    <%= render 'shared/skeleton', type: :text, lines: 4 %>
+    <%= render 'shared/skeleton', type: :image, aspect: 'aspect-video' %>
+    <%= render 'shared/skeleton', type: :stat_card, count: 4 %>
+    <%= render 'shared/skeleton', type: :table_row, count: 5 %>
+
+  Types available:
+    - :property_card - Property listing card skeleton
+    - :text - Text lines skeleton
+    - :image - Image placeholder skeleton
+    - :stat_card - Dashboard stat card skeleton
+    - :table_row - Table row skeleton
+    - :list_item - Simple list item skeleton
+    - :avatar - Circular avatar skeleton
+%>
+
+<% type ||= :text %>
+<% count ||= 1 %>
+<% lines ||= 3 %>
+<% aspect ||= 'aspect-video' %>
+
+<% count.times do %>
+  <% case type %>
+  <% when :property_card %>
+    <%# Property card skeleton - matches property listing cards %>
+    <div class="bg-white rounded-lg shadow-sm border overflow-hidden animate-pulse">
+      <div class="<%= aspect %> bg-gray-200"></div>
+      <div class="p-4">
+        <div class="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+        <div class="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
+        <div class="flex items-center justify-between">
+          <div class="flex space-x-3">
+            <div class="h-3 bg-gray-200 rounded w-8"></div>
+            <div class="h-3 bg-gray-200 rounded w-8"></div>
+            <div class="h-3 bg-gray-200 rounded w-12"></div>
+          </div>
+          <div class="h-5 bg-gray-200 rounded w-20"></div>
+        </div>
+      </div>
+    </div>
+
+  <% when :text %>
+    <%# Text lines skeleton %>
+    <div class="animate-pulse space-y-2">
+      <% lines.times do |i| %>
+        <div class="h-4 bg-gray-200 rounded <%= i == lines - 1 ? 'w-2/3' : 'w-full' %>"></div>
+      <% end %>
+    </div>
+
+  <% when :image %>
+    <%# Image placeholder skeleton %>
+    <div class="animate-pulse">
+      <div class="<%= aspect %> bg-gray-200 rounded-lg flex items-center justify-center">
+        <svg class="w-12 h-12 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+      </div>
+    </div>
+
+  <% when :stat_card %>
+    <%# Dashboard stat card skeleton %>
+    <div class="bg-white rounded-lg shadow-sm border p-4 animate-pulse">
+      <div class="h-3 bg-gray-200 rounded w-1/2 mb-3"></div>
+      <div class="h-8 bg-gray-200 rounded w-1/3 mb-2"></div>
+      <div class="h-2 bg-gray-200 rounded w-2/3"></div>
+    </div>
+
+  <% when :table_row %>
+    <%# Table row skeleton %>
+    <tr class="animate-pulse">
+      <td class="px-4 py-3">
+        <div class="h-4 bg-gray-200 rounded w-24"></div>
+      </td>
+      <td class="px-4 py-3">
+        <div class="h-4 bg-gray-200 rounded w-32"></div>
+      </td>
+      <td class="px-4 py-3">
+        <div class="h-4 bg-gray-200 rounded w-20"></div>
+      </td>
+      <td class="px-4 py-3">
+        <div class="h-4 bg-gray-200 rounded w-16"></div>
+      </td>
+    </tr>
+
+  <% when :list_item %>
+    <%# Simple list item skeleton %>
+    <div class="flex items-center space-x-3 p-3 animate-pulse">
+      <div class="w-10 h-10 bg-gray-200 rounded"></div>
+      <div class="flex-1">
+        <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+        <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+      </div>
+    </div>
+
+  <% when :avatar %>
+    <%# Avatar skeleton %>
+    <div class="animate-pulse">
+      <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+    </div>
+
+  <% when :media_grid %>
+    <%# Media library grid item skeleton %>
+    <div class="animate-pulse">
+      <div class="aspect-square bg-gray-200 rounded-lg mb-2"></div>
+      <div class="h-3 bg-gray-200 rounded w-3/4"></div>
+    </div>
+
+  <% when :search_result %>
+    <%# Search result skeleton %>
+    <div class="bg-white rounded-lg shadow-sm border p-4 animate-pulse">
+      <div class="flex">
+        <div class="w-32 h-24 bg-gray-200 rounded-lg mr-4 flex-shrink-0"></div>
+        <div class="flex-1">
+          <div class="h-5 bg-gray-200 rounded w-2/3 mb-2"></div>
+          <div class="h-3 bg-gray-200 rounded w-1/2 mb-3"></div>
+          <div class="flex space-x-4">
+            <div class="h-3 bg-gray-200 rounded w-12"></div>
+            <div class="h-3 bg-gray-200 rounded w-12"></div>
+            <div class="h-3 bg-gray-200 rounded w-16"></div>
+          </div>
+        </div>
+        <div class="ml-4">
+          <div class="h-6 bg-gray-200 rounded w-24"></div>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+<% end %>
