@@ -115,3 +115,6 @@ lib/signup_component
 
 # Playwright visual test snapshots (platform-specific)
 tests/e2e/**/*-snapshots/
+
+# Support website (static HTML documentation)
+pwb_support_website/

@@ -18,6 +18,22 @@
 #  user_id        :bigint
 #  website_id     :bigint
 #
+# Indexes
+#
+#  index_pwb_auth_audit_logs_on_created_at                 (created_at)
+#  index_pwb_auth_audit_logs_on_email                      (email)
+#  index_pwb_auth_audit_logs_on_event_type                 (event_type)
+#  index_pwb_auth_audit_logs_on_ip_address                 (ip_address)
+#  index_pwb_auth_audit_logs_on_user_id                    (user_id)
+#  index_pwb_auth_audit_logs_on_user_id_and_event_type     (user_id,event_type)
+#  index_pwb_auth_audit_logs_on_website_id                 (website_id)
+#  index_pwb_auth_audit_logs_on_website_id_and_event_type  (website_id,event_type)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => pwb_users.id)
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 FactoryBot.define do
   factory :pwb_auth_audit_log, class: 'Pwb::AuthAuditLog' do
     association :website, factory: :pwb_website

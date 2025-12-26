@@ -114,7 +114,8 @@
       "Bash(docs/SEED_DATA_SUMMARY.md)",
       "Bash(asdf current:*)",
       "Bash(asdf list:*)",
-      "WebFetch(domain:www.ruby-lang.org)"
+      "WebFetch(domain:www.ruby-lang.org)",
+      "mcp__filesystem__read_multiple_files"
     ],
     "deny": [],
     "ask": []

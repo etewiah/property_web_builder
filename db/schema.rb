@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_25_200000) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_26_200000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -348,6 +348,49 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_25_200000) do
     t.index ["translations"], name: "index_pwb_links_on_translations", using: :gin
     t.index ["website_id", "slug"], name: "index_pwb_links_on_website_id_and_slug", unique: true
     t.index ["website_id"], name: "index_pwb_links_on_website_id"
+  end
+
+  create_table "pwb_media", force: :cascade do |t|
+    t.string "alt_text"
+    t.bigint "byte_size"
+    t.string "caption"
+    t.string "checksum"
+    t.string "content_type"
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "filename", null: false
+    t.bigint "folder_id"
+    t.integer "height"
+    t.datetime "last_used_at"
+    t.integer "sort_order", default: 0
+    t.string "source_type"
+    t.string "source_url"
+    t.string "tags", default: [], array: true
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.integer "usage_count", default: 0
+    t.bigint "website_id", null: false
+    t.integer "width"
+    t.index ["folder_id"], name: "index_pwb_media_on_folder_id"
+    t.index ["tags"], name: "index_pwb_media_on_tags", using: :gin
+    t.index ["website_id", "content_type"], name: "index_pwb_media_on_website_id_and_content_type"
+    t.index ["website_id", "created_at"], name: "index_pwb_media_on_website_id_and_created_at"
+    t.index ["website_id", "folder_id"], name: "index_pwb_media_on_website_id_and_folder_id"
+    t.index ["website_id"], name: "index_pwb_media_on_website_id"
+  end
+
+  create_table "pwb_media_folders", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "parent_id"
+    t.string "slug"
+    t.integer "sort_order", default: 0
+    t.datetime "updated_at", null: false
+    t.bigint "website_id", null: false
+    t.index ["parent_id"], name: "index_pwb_media_folders_on_parent_id"
+    t.index ["website_id", "parent_id"], name: "index_pwb_media_folders_on_website_id_and_parent_id"
+    t.index ["website_id", "slug"], name: "index_pwb_media_folders_on_website_id_and_slug", unique: true
+    t.index ["website_id"], name: "index_pwb_media_folders_on_website_id"
   end
 
   create_table "pwb_messages", id: :serial, force: :cascade do |t|
@@ -1010,6 +1053,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_25_200000) do
   add_foreign_key "pwb_email_templates", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_features", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_field_keys", "pwb_websites"
+  add_foreign_key "pwb_media", "pwb_media_folders", column: "folder_id"
+  add_foreign_key "pwb_media", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_media_folders", "pwb_media_folders", column: "parent_id"
+  add_foreign_key "pwb_media_folders", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_messages", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_prop_photos", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_prop_translations", "pwb_realty_assets", column: "realty_asset_id"
