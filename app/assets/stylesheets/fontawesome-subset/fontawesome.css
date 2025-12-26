@@ -16,6 +16,12 @@
   text-rendering: auto;
 }
 
+/* FA4 backwards compatibility - .fa defaults to solid */
+.fa {
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+}
+
 /* Sizing */
 .fa-2x { font-size: 2em; }
 .fa-3x { font-size: 3em; }

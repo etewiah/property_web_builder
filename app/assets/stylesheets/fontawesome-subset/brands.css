@@ -28,3 +28,19 @@
 .fa-whatsapp:before { content: "\f232"; }
 .fa-x-twitter:before { content: "\e61b"; }
 .fa-youtube:before { content: "\f167"; }
+
+/* FA4 backwards compatibility - brand icons with .fa class */
+.fa.fa-facebook,
+.fa.fa-facebook-f,
+.fa.fa-google-plus,
+.fa.fa-instagram,
+.fa.fa-linkedin,
+.fa.fa-linkedin-in,
+.fa.fa-pinterest,
+.fa.fa-twitter,
+.fa.fa-whatsapp,
+.fa.fa-x-twitter,
+.fa.fa-youtube {
+  font-family: 'Font Awesome 6 Brands';
+  font-weight: 400;
+}
