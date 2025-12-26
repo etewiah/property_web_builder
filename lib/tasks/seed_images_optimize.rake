@@ -218,6 +218,10 @@ namespace :seed_images do
     # Base seed images
     dirs[base.join("images").to_s] = :property
 
+    # Example images (content, carousels, etc.)
+    example_path = Rails.root.join("db/example_images")
+    dirs[example_path.to_s] = :content if example_path.exist?
+
     # Seed pack images
     Dir.glob(base.join("packs/*/images")).each do |pack_dir|
       pack_name = File.basename(File.dirname(pack_dir))
