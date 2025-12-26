@@ -37,7 +37,7 @@
           </button>
           <%= link_to main_app.root_path(locale: locale), class: "navbar-brand" do %>
             <% if @current_website.logo_url  %>
-              <img src="<%= @current_website.logo_url %>" alt="Logo">
+              <img src="<%= @current_website.logo_url %>" alt="Logo" loading="eager" fetchpriority="high">
             <% else %>
               <div class="text-navbar-brand" style="">
                 <%= @current_website.company_display_name.presence || @current_agency.company_name %>

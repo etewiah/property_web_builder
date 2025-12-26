@@ -1,6 +1,7 @@
 {
   "devDependencies": {
-    "@playwright/test": "^1.57.0"
+    "@playwright/test": "^1.57.0",
+    "critical": "^7.2.1"
   },
   "dependencies": {
     "sharp": "^0.33.5",
@@ -20,9 +21,15 @@
     "tailwind:bologna": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-bologna.css -o ./app/assets/builds/tailwind-bologna.css",
     "tailwind:brisbane": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-brisbane.css -o ./app/assets/builds/tailwind-brisbane.css",
     "tailwind:build": "npm run tailwind:default && npm run tailwind:bologna && npm run tailwind:brisbane",
+    "tailwind:build:prod": "npm run tailwind:default:prod && npm run tailwind:bologna:prod && npm run tailwind:brisbane:prod",
+    "tailwind:default:prod": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-input.css -o ./app/assets/builds/tailwind-default.css --minify",
+    "tailwind:bologna:prod": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-bologna.css -o ./app/assets/builds/tailwind-bologna.css --minify",
+    "tailwind:brisbane:prod": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-brisbane.css -o ./app/assets/builds/tailwind-brisbane.css --minify",
     "tailwind:watch:default": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-input.css -o ./app/assets/builds/tailwind-default.css --watch",
     "tailwind:watch:bologna": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-bologna.css -o ./app/assets/builds/tailwind-bologna.css --watch",
     "tailwind:watch:brisbane": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-brisbane.css -o ./app/assets/builds/tailwind-brisbane.css --watch",
+    "css:build": "npm run tailwind:build:prod",
+    "critical:extract": "node scripts/extract-critical-css.js",
     "lighthouse": "npx lhci autorun"
   },
   "engines": {

@@ -20,7 +20,7 @@
       <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <% website = defined?(current_website) ? current_website : @current_website %>
         <% if website&.main_logo_url.present? %>
-          <img class="mx-auto h-12 w-auto" src="<%= website.main_logo_url %>" alt="Logo">
+          <img class="mx-auto h-12 w-auto" src="<%= website.main_logo_url %>" alt="Logo" loading="eager" fetchpriority="high">
         <% else %>
           <h2 class="text-center text-3xl font-bold text-gray-900">
             <%= website&.company_display_name || "PropertyWebBuilder" %>

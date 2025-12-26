@@ -2,6 +2,10 @@
 
 module Pwb
   module ImagesHelper
+    # Default loading behavior for images
+    # Set to "lazy" for below-the-fold images, "eager" for critical images
+    DEFAULT_LOADING = "lazy"
+
     # Generate background-image CSS style for a photo
     # @param photo [Object] A photo model (PropPhoto, ContentPhoto, WebsitePhoto)
     # @param options [Hash] Options including :gradient for overlay
@@ -24,6 +28,9 @@ module Pwb
     #   - :width, :height [Integer] Resize dimensions
     #   - :quality [String] Image quality (e.g., "auto", "80")
     #   - :crop [String] Crop mode (e.g., "scale", "fill")
+    #   - :lazy [Boolean] Enable lazy loading (default: true)
+    #   - :eager [Boolean] Disable lazy loading for above-the-fold images
+    #   - :fetchpriority [String] Set fetch priority ("high", "low", "auto")
     # @return [String, nil] Image tag or nil if no image
     def opt_image_tag(photo, options = {})
       return nil unless photo
@@ -34,6 +41,22 @@ module Pwb
       height = options.delete(:height)
       _quality = options.delete(:quality) # Reserved for future CDN usage
       _crop = options.delete(:crop) # Reserved for future CDN usage
+
+      # Handle lazy loading - default to lazy unless eager is specified
+      eager = options.delete(:eager)
+      lazy = options.delete(:lazy)
+
+      # Apply lazy loading unless explicitly disabled
+      unless eager == true || lazy == false
+        options[:loading] ||= DEFAULT_LOADING
+        options[:decoding] ||= "async"
+      end
+
+      # For eager/critical images, set high fetch priority
+      if eager == true
+        options[:fetchpriority] ||= "high"
+        options[:loading] = "eager"
+      end
 
       # Handle external URLs first
       if photo.respond_to?(:external?) && photo.external?
@@ -92,9 +115,27 @@ module Pwb
     # @param photo [Object] A photo model (PropPhoto, ContentPhoto, WebsitePhoto)
     # @param variant_options [Hash] Options for image variant (e.g., resize_to_limit: [200, 200])
     # @param html_options [Hash] HTML options for the image tag (e.g., class, alt)
+    #   - :lazy [Boolean] Enable lazy loading (default: true)
+    #   - :eager [Boolean] Disable lazy loading for above-the-fold images
+    #   - :fetchpriority [String] Set fetch priority ("high", "low", "auto")
     # @return [String, nil] Image tag or nil if no image
     def photo_image_tag(photo, variant_options: nil, **html_options)
       return nil unless photo
+
+      # Handle lazy loading - default to lazy unless eager is specified
+      eager = html_options.delete(:eager)
+      lazy = html_options.delete(:lazy)
+
+      unless eager == true || lazy == false
+        html_options[:loading] ||= DEFAULT_LOADING
+        html_options[:decoding] ||= "async"
+      end
+
+      # For eager/critical images, set high fetch priority
+      if eager == true
+        html_options[:fetchpriority] ||= "high"
+        html_options[:loading] = "eager"
+      end
 
       # Handle external URLs - variants not supported for external URLs
       if photo.respond_to?(:external?) && photo.external?

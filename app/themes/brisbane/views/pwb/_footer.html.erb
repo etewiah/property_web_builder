@@ -9,7 +9,7 @@
       <div class="lg:col-span-1">
         <div class="mb-6">
           <% if @current_website.logo_url %>
-            <img src="<%= @current_website.logo_url %>" alt="Logo" class="h-12 brightness-0 invert opacity-90">
+            <img src="<%= @current_website.logo_url %>" alt="Logo" class="h-12 brightness-0 invert opacity-90" loading="lazy" decoding="async">
           <% else %>
             <span class="font-serif text-2xl text-luxury-cream tracking-wide"><%= @current_website.company_display_name.presence || @current_agency.display_name %></span>
           <% end %>

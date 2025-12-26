@@ -50,7 +50,7 @@
       <!-- Logo -->
       <%= link_to main_app.root_path(locale: locale), class: "flex items-center" do %>
         <% if @current_website.logo_url %>
-          <img src="<%= @current_website.logo_url %>" alt="Logo" class="h-8 md:h-12">
+          <img src="<%= @current_website.logo_url %>" alt="Logo" class="h-8 md:h-12" loading="eager" fetchpriority="high">
         <% else %>
           <span class="text-xl font-bold text-gray-800"><%= @current_agency.display_name %></span>
         <% end %>
