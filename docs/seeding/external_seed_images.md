@@ -274,7 +274,7 @@ This ensures development works without R2 configuration.
 ## Image Requirements
 
 Seed images should be:
-- JPEG format (`.jpg`)
+- JPEG format (`.jpg`) with WebP version (`.webp`)
 - Reasonable size (800-1200px wide)
 - Optimized for web (compressed)
 - Royalty-free (we use Unsplash images)
@@ -282,6 +282,25 @@ Seed images should be:
 ## Adding New Seed Images
 
 1. Add the image file to `db/seeds/images/`
-2. Upload to R2 bucket under `seed-images/` prefix
-3. Add mapping to `config/seed_images.yml`
-4. Reference in seed files by filename
+2. Run optimization: `rails seed_images:optimize`
+3. Upload to R2 bucket: `rails pwb:seed_images:upload`
+4. Add mapping to `config/seed_images.yml`
+5. Reference in seed files by filename
+
+## WebP Support
+
+All seed images are available in both JPEG and WebP formats:
+
+```ruby
+# Get JPEG URL (default)
+Pwb::SeedImages.property_url('villa_ocean')
+
+# Get WebP URL (30-50% smaller)
+Pwb::SeedImages.property_url('villa_ocean', format: :webp)
+
+# Get both for <picture> element
+Pwb::SeedImages.urls_for_picture(:properties, 'villa_ocean')
+# => { jpg: "...jpg", webp: "...webp" }
+```
+
+See [seed_image_optimization.md](./seed_image_optimization.md) for optimization details.

@@ -8,40 +8,58 @@ module Pwb
   #
   # Usage in seeds:
   #   Pwb::SeedImages.property_url('villa_ocean')
-  #   # => "https://pub-pwb-seed-images.r2.dev/seed-images/villa_ocean.jpg"
+  #   # => "https://seed-assets.propertywebbuilder.com/seeds/villa_ocean.jpg"
+  #
+  #   Pwb::SeedImages.property_url('villa_ocean', format: :webp)
+  #   # => "https://seed-assets.propertywebbuilder.com/seeds/villa_ocean.webp"
   #
   #   Pwb::SeedImages.content_url('hero_amsterdam_canal')
-  #   # => "https://pub-pwb-seed-images.r2.dev/seed-images/hero_amsterdam_canal.jpg"
+  #   # => "https://seed-assets.propertywebbuilder.com/packs/netherlands_urban/hero_amsterdam_canal.jpg"
   #
   module SeedImages
     class << self
       # Get the full URL for a property image
       # @param image_key [String, Symbol] The image key (e.g., 'villa_ocean' or filename 'villa_ocean.jpg')
+      # @param format [Symbol] Image format (:jpg or :webp), defaults to :jpg
       # @return [String] The full URL to the image
-      def property_url(image_key)
-        build_url(:properties, image_key)
+      def property_url(image_key, format: :jpg)
+        build_url(:properties, image_key, format: format)
       end
 
       # Get the full URL for a content image (heroes, carousels, etc.)
       # @param image_key [String, Symbol] The image key
+      # @param format [Symbol] Image format (:jpg or :webp), defaults to :jpg
       # @return [String] The full URL to the image
-      def content_url(image_key)
-        build_url(:content, image_key)
+      def content_url(image_key, format: :jpg)
+        build_url(:content, image_key, format: format)
       end
 
       # Get the full URL for a team member image
       # @param image_key [String, Symbol] The image key
+      # @param format [Symbol] Image format (:jpg or :webp), defaults to :jpg
       # @return [String] The full URL to the image
-      def team_url(image_key)
-        build_url(:team, image_key)
+      def team_url(image_key, format: :jpg)
+        build_url(:team, image_key, format: format)
       end
 
       # Get any image URL by category and key
       # @param category [Symbol] Category (:properties, :content, :team)
       # @param image_key [String, Symbol] The image key
+      # @param format [Symbol] Image format (:jpg or :webp), defaults to :jpg
       # @return [String] The full URL to the image
-      def url(category, image_key)
-        build_url(category, image_key)
+      def url(category, image_key, format: :jpg)
+        build_url(category, image_key, format: format)
+      end
+
+      # Get both JPEG and WebP URLs for use in <picture> element srcset
+      # @param category [Symbol] Category (:properties, :content, :team)
+      # @param image_key [String, Symbol] The image key
+      # @return [Hash] Hash with :jpg and :webp URLs
+      def urls_for_picture(category, image_key)
+        {
+          jpg: build_url(category, image_key, format: :jpg),
+          webp: build_url(category, image_key, format: :webp)
+        }
       end
 
       # Check if external seed images are enabled
@@ -228,15 +246,20 @@ module Pwb
             .fetch(Rails.env, {})
       end
 
-      def build_url(category, image_key)
-        # Normalize the key - remove .jpg extension if present
-        key = image_key.to_s.sub(/\.jpe?g$/i, '')
+      def build_url(category, image_key, format: :jpg)
+        # Normalize the key - remove any extension if present
+        key = image_key.to_s.sub(/\.(jpe?g|webp|png)$/i, '')
 
         # Look up the full path from config (now includes prefix like seeds/, example/, packs/*)
         path = config.dig(category.to_s, key)
 
         # If not found in config, fall back to seeds/ prefix (default for db/seeds/images/)
         path ||= "seeds/#{key}.jpg"
+
+        # Replace extension if WebP format requested
+        if format.to_sym == :webp
+          path = path.sub(/\.jpe?g$/i, '.webp')
+        end
 
         "#{base_url}/#{path}"
       end

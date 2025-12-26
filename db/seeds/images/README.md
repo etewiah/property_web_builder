@@ -3,6 +3,7 @@
 These images are used for E2E testing and development seeds.
 
 ## Source
+
 All images are from [Unsplash](https://unsplash.com) which provides free-to-use images under the [Unsplash License](https://unsplash.com/license).
 
 ## Images
@@ -18,10 +19,34 @@ All images are from [Unsplash](https://unsplash.com) which provides free-to-use 
 | studio_modern.jpg | Modern Studio | 1560448204-e02f11c3d0e2 |
 | penthouse_luxury.jpg | Luxury Penthouse | 1600607687939-ce8a6c25118c |
 
+## Formats
+
+Each image is available in two formats:
+- **JPEG** (.jpg) - Primary format, ~60-90 KB each
+- **WebP** (.webp) - Modern format, ~30-50% smaller
+
+## Optimization
+
+Images are optimized for web delivery:
+- Progressive JPEG encoding
+- Compressed to 80-85% quality
+- Resized to max 800x533 (property cards) or 1200x800 (detail pages)
+- Metadata stripped
+
+To re-optimize after adding new images:
+```bash
+rails seed_images:optimize
+```
+
+See [docs/seeding/seed_image_optimization.md](../../docs/seeding/seed_image_optimization.md) for details.
+
 ## Usage
 
 These images are automatically attached to properties during the E2E seed process.
 They are stored in the repository to ensure consistent test data across environments.
+
+For external URL mode (production), images are served from R2 CDN.
+See [docs/seeding/external_seed_images.md](../../docs/seeding/external_seed_images.md).
 
 ## License
 
