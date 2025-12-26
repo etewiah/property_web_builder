@@ -3,39 +3,48 @@
 <%= render 'pwb/shared/leaflet_assets' %>
 <%= render '/pwb/props/breadcrumb_row' %>
 <!-- MAIN CONTENT -->
-<section class="bg-white border-b border-gray-200">
+<section class="property-detail-page bg-white border-b border-gray-200">
   <div class="py-8">
-    <div class="container mx-auto px-4">
-      <div class="flex flex-wrap -mx-4">
-        <div class="w-full lg:w-3/4 px-4">
-          <div class="flex flex-wrap -mx-4">
-            <div class="w-full px-4 mb-6">
-              <%= render '/pwb/props/images_section_carousel' %>
-            </div>
-            <div class="w-full px-4 mb-6">
-              <%= render '/pwb/props/prop_info_list' %>
-            </div>
+    <div class="property-detail-container">
+      <div class="property-detail-layout">
+        <div class="property-detail-main">
+          <div class="mb-6">
+            <%= render '/pwb/props/images_section_carousel' %>
+          </div>
+          <div class="mb-6">
+            <%= render '/pwb/props/prop_info_list' %>
           </div>
           <!-- PROPERTY DESCRIPTION -->
-          <div class="flex flex-wrap -mx-4">
-            <div class="w-full px-4 mb-6">
-              <h3 class="text-xl font-bold mb-4"><%= I18n.t("property.description") %></h3>
-              <%== @property_details.description %>
-              <br>
-              <br>
-            </div>
-            <div class="w-full px-4">
-              <% if @property_details.extras_for_display.present? %>
-                <h3 class="text-xl font-bold mb-4"><%= I18n.t("property.extras") %></h3>
-                <%= render '/pwb/props/extras' %>
-                <br>
-                <br>
-              <% end %>
-            </div>
+          <div class="mb-6">
+            <h3 class="text-xl font-bold mb-4"><%= I18n.t("property.description") %></h3>
+            <%== @property_details.description %>
           </div>
+          <% if @property_details.extras_for_display.present? %>
+            <div class="mb-6">
+              <h3 class="text-xl font-bold mb-4"><%= I18n.t("property.extras") %></h3>
+              <%= render '/pwb/props/extras' %>
+            </div>
+          <% end %>
+          <!-- Social Sharing -->
+          <social-sharing class="text-center" inline-template>
+            <div class="flex justify-center space-x-4 py-6 border-t border-gray-100">
+              <network network="facebook">
+                <i class="fa fa-facebook text-2xl text-blue-600 hover:text-blue-800 cursor-pointer"></i>
+              </network>
+              <network network="linkedin">
+                <i class="fa fa-linkedin text-2xl text-blue-700 hover:text-blue-900 cursor-pointer"></i>
+              </network>
+              <network network="twitter">
+                <i class="fa fa-twitter text-2xl text-blue-400 hover:text-blue-600 cursor-pointer"></i>
+              </network>
+              <network network="whatsapp">
+                <i class="fa fa-whatsapp text-2xl text-green-600 hover:text-green-800 cursor-pointer"></i>
+              </network>
+            </div>
+          </social-sharing>
         </div>
-        <div class="w-full lg:w-1/4 px-4">
-          <div class="space-y-6">
+        <div class="property-detail-sidebar">
+          <div class="space-y-6 lg:sticky lg:top-24">
             <%= render '/pwb/props/request_prop_info' %>
             <%= render '/pwb/props/prop_contact_info' %>
           </div>
@@ -43,31 +52,20 @@
       </div>
     </div>
   </div>
-  <social-sharing  class="text-center"  inline-template>
-    <div class="flex justify-center space-x-4 pb-6">
-      <network network="facebook">
-        <i class="fa fa-facebook text-2xl text-blue-600 hover:text-blue-800"></i>
-      </network>
-      <network network="googleplus">
-        <i class="fa fa-google-plus text-2xl text-red-600 hover:text-red-800"></i>
-      </network>
-      <network network="linkedin">
-        <i class="fa fa-linkedin text-2xl text-blue-700 hover:text-blue-900"></i>
-      </network>
-      <network network="twitter">
-        <i class="fa fa-twitter text-2xl text-blue-400 hover:text-blue-600"></i>
-      </network>
-    </div>
-  </social-sharing>
 </section>
 <% if @property_details.show_map && @map_markers.present? %>
-  <div class="w-full border-t border-gray-200" style="height: 400px;">
-    <div id="property-map"
-         class="w-full h-full"
-         data-controller="map"
-         data-map-target="canvas"
-         data-map-markers-value="<%= @map_markers.to_json %>"
-         data-map-zoom-value="15">
+  <section class="property-detail-map border-t border-gray-200">
+    <div class="property-detail-map-inner py-8">
+      <h3 class="text-xl font-bold mb-4"><%= I18n.t("property.location", default: "Location") %></h3>
+      <div class="rounded-lg overflow-hidden shadow-sm" style="height: 400px;">
+        <div id="property-map"
+             class="w-full h-full"
+             data-controller="map"
+             data-map-target="canvas"
+             data-map-markers-value="<%= @map_markers.to_json %>"
+             data-map-zoom-value="15">
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 <% end %>
