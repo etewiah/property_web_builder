@@ -173,6 +173,25 @@ module Pwb
       end
     end
 
+    # Generate preload link tag for LCP image
+    # Use in page_head yield block for hero/banner images
+    # @param url [String] The image URL to preload
+    # @param options [Hash] Options including :as, :type, :fetchpriority
+    # @return [String] Preload link tag HTML
+    def preload_image_tag(url, options = {})
+      return "" if url.blank?
+
+      as_type = options.delete(:as) || "image"
+      fetchpriority = options.delete(:fetchpriority) || "high"
+
+      tag(:link,
+          rel: "preload",
+          href: url,
+          as: as_type,
+          fetchpriority: fetchpriority,
+          **options)
+    end
+
     # Check if photo has an image (external or uploaded)
     # @param photo [Object] A photo model
     # @return [Boolean]
