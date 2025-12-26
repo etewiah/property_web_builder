@@ -73,6 +73,25 @@ RSpec.describe Pwb::ImagesHelper, type: :helper do
         expect(result).to include('src="https://cdn.example.com/property.jpg"')
         expect(result).to include('class="thumbnail"')
       end
+
+      it 'includes lazy loading by default' do
+        result = helper.photo_image_tag(photo)
+        expect(result).to include('loading="lazy"')
+        expect(result).to include('decoding="async"')
+      end
+
+      it 'uses eager loading when specified' do
+        result = helper.photo_image_tag(photo, eager: true)
+        expect(result).to include('loading="eager"')
+        expect(result).to include('fetchpriority="high"')
+        expect(result).not_to include('decoding="async"')
+      end
+
+      it 'disables lazy loading when lazy: false' do
+        result = helper.photo_image_tag(photo, lazy: false)
+        expect(result).not_to include('loading="lazy"')
+        expect(result).not_to include('decoding="async"')
+      end
     end
 
     context 'without external URL or attached image' do
@@ -97,6 +116,30 @@ RSpec.describe Pwb::ImagesHelper, type: :helper do
       it 'returns an image tag with the external URL' do
         result = helper.opt_image_tag(photo, class: 'photo')
         expect(result).to include('src="https://cdn.example.com/property.jpg"')
+      end
+
+      it 'includes lazy loading by default' do
+        result = helper.opt_image_tag(photo)
+        expect(result).to include('loading="lazy"')
+        expect(result).to include('decoding="async"')
+      end
+
+      it 'uses eager loading when specified' do
+        result = helper.opt_image_tag(photo, eager: true)
+        expect(result).to include('loading="eager"')
+        expect(result).to include('fetchpriority="high"')
+        expect(result).not_to include('decoding="async"')
+      end
+
+      it 'disables lazy loading when lazy: false' do
+        result = helper.opt_image_tag(photo, lazy: false)
+        expect(result).not_to include('loading="lazy"')
+        expect(result).not_to include('decoding="async"')
+      end
+
+      it 'does not override explicitly set loading attribute' do
+        result = helper.opt_image_tag(photo, loading: 'eager')
+        expect(result).to include('loading="eager"')
       end
     end
 

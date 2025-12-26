@@ -170,94 +170,107 @@ PropertyWebBuilder has a solid foundation with materialized views for optimal da
 
 ## 2. Image Optimization
 
-### 2.1 Image Helper Methods - Underutilized
+### 2.1 Image Helper Methods - IMPLEMENTED (December 2025)
 
 **Current State:**
 Location: `/app/helpers/pwb/images_helper.rb`
 
 **Available Methods:**
-- `photo_image_tag()` - Supports variants (resize_to_limit, crop)
-- `opt_image_tag()` - Handles external and uploaded images
+- `photo_image_tag()` - Supports variants (resize_to_limit, crop) with lazy loading
+- `opt_image_tag()` - Handles external and uploaded images with lazy loading
 - `photo_url()` - Gets URL with external fallback
+- `optimized_image_picture()` - Generates `<picture>` element with WebP source
 
-**Implementation:**
+**Lazy Loading Implementation (Added December 2025):**
 ```ruby
-def photo_image_tag(photo, variant_options: nil, **html_options)
-  if variant_options && photo.image.variable?
-    image_tag photo.image.variant(variant_options), html_options
-  else
-    image_tag url_for(photo.image), html_options
+DEFAULT_LOADING = "lazy"
+
+def opt_image_tag(photo, options = {})
+  # Handle lazy loading - default to lazy unless eager is specified
+  eager = options.delete(:eager)
+  lazy = options.delete(:lazy)
+
+  unless eager == true || lazy == false
+    options[:loading] ||= DEFAULT_LOADING
+    options[:decoding] ||= "async"
   end
+
+  # For eager/critical images, set high fetch priority
+  if eager == true
+    options[:fetchpriority] ||= "high"
+    options[:loading] = "eager"
+  end
+  # ... rest of method
 end
 ```
 
-### 2.2 Property Images - Lazy Loading Partially Implemented
-
-**Good Practice - Search Results:**
-`/app/views/pwb/search/_search_result_item.html.erb` (Line 14)
+**Usage Examples:**
 ```erb
-<%= opt_image_tag((property.ordered_photo 1), quality: "auto",
-    height: 240, crop: "scale", class: "img-responsive", loading: "lazy") %>
-```
-- **Good:** Has `loading: "lazy"`
-- **Issue:** Uses variant options but not with `photo_image_tag` method
+<%# Default: lazy loading %>
+<%= opt_image_tag(photo, class: "property-image") %>
 
-**Missing Lazy Loading - Property Carousel:**
-`/app/themes/default/views/pwb/props/_images_section_carousel.html.erb` (Line 11)
-```erb
-<%= opt_image_tag((photo ), :quality => "auto", height: 600, crop: "scale", class: "", alt: "") %>
-```
-- **Problem:** No `loading: "lazy"` despite showing all carousel images
-- **Impact:** Loads all images even if user never scrolls to carousel
-- **Severity:** MEDIUM (Carousel is visible on property detail pages)
-- **Recommendation:** Add `loading: "lazy"` for off-screen carousel images
+<%# Above-the-fold images: eager loading %>
+<%= opt_image_tag(photo, eager: true, class: "hero-image") %>
 
-**Missing Srcset/Responsive Images:**
-- No responsive image variants (mobile vs desktop)
-- All images load at same resolution regardless of device
-- **Impact:** Mobile users download desktop-sized images
-- **Severity:** HIGH for mobile performance
-
-### 2.3 Image Variants Not Used Systematically
-
-**Issue:** Helper supports variants but views don't use them:
-
-Current usage:
-```erb
-<%= opt_image_tag(photo, :quality => "auto", height: 240, crop: "scale", ...) %>
+<%# Explicitly disable lazy loading %>
+<%= opt_image_tag(photo, lazy: false) %>
 ```
 
-Should be:
-```erb
-<%= photo_image_tag(photo, variant_options: { resize_to_limit: [240, 240] }, 
-                           loading: "lazy", alt: "...", class: "...") %>
-```
+### 2.2 Property Images - Lazy Loading IMPLEMENTED
 
-**Problem:** Without variant usage:
-- Images aren't resized by Rails
-- Full-resolution images sent to browsers
-- No WebP alternative generation
+**Status: COMPLETE**
+
+All image helpers now default to `loading="lazy"` and `decoding="async"`. This was implemented in December 2025.
+
+**Carousel Images:**
+`/app/themes/default/views/pwb/props/_images_section_carousel.html.erb`
+```erb
+<%= opt_image_tag(photo, quality: "auto", height: 600, crop: "scale",
+    class: "absolute block w-full h-full object-cover",
+    alt: @property_details.title.presence || "Property photo",
+    loading: index == 0 ? "eager" : "lazy",
+    fetchpriority: index == 0 ? "high" : nil) %>
+```
+- **Status:** OPTIMIZED - First image is eager, rest are lazy
+
+**Header Logos (Above-the-fold):**
+All theme headers now use `loading="eager" fetchpriority="high"` for logos:
+- `/app/themes/default/views/pwb/_header.html.erb`
+- `/app/themes/bologna/views/pwb/_header.html.erb`
+- `/app/themes/brisbane/views/pwb/_header.html.erb`
+
+**Footer Logos (Below-the-fold):**
+All theme footers now use `loading="lazy" decoding="async"` for logos:
+- `/app/themes/bologna/views/pwb/_footer.html.erb`
+- `/app/themes/brisbane/views/pwb/_footer.html.erb`
+
+### 2.3 Remaining Optimizations
+
+**Still To Do:**
+- Add `srcset` for responsive images (mobile vs desktop)
+- Implement WebP serving with fallback (helper exists: `optimized_image_picture`)
+
+**Recommendations:**
+- Use `optimized_image_picture` for critical images to serve WebP
+- Consider adding srcset support for different viewport sizes
 
 ### 2.4 Images Across Views
 
-**Locations Checked:**
-- Property carousel: `/app/themes/default/views/pwb/props/_images_section_carousel.html.erb`
-- Single property row: `/app/themes/*/views/pwb/welcome/_single_property_row.html.erb`
-- Search results: `/app/views/pwb/search/_search_result_item.html.erb`
-- Site admin: `/app/views/site_admin/props/edit_photos.html.erb`
-- Settings: `/app/views/site_admin/website/settings/_home_tab.html.erb`
+**Locations Updated:**
+- Property carousel: All themes - lazy loading with eager first image
+- Single property row: Uses `opt_image_tag` (lazy by default)
+- Search results: Uses `opt_image_tag` (lazy by default)
+- Header logos: All themes - eager loading with high priority
+- Footer logos: All themes - lazy loading
 
-**Issues:**
-- Inconsistent use of image helpers
-- No srcset for responsive images
-- Limited use of lazy loading
-- No WebP format served
+**Completed:**
+- ✅ Systematic lazy loading via helper defaults
+- ✅ Eager loading for above-the-fold images
+- ✅ fetchpriority="high" for critical images
 
-**Recommendations:**
-- Standardize on `photo_image_tag` with proper variants
-- Add `srcset` for responsive images (mobile/tablet/desktop)
-- Add `loading="lazy"` systematically
-- Implement WebP serving with JPEG fallback
+**Remaining:**
+- ⏳ srcset for responsive images
+- ⏳ Wider use of WebP via `optimized_image_picture`
 
 ---
 
@@ -460,55 +473,84 @@ expires_in 1.hour, public: true   # For search results
 
 ## 6. Critical CSS & Above-the-Fold Optimization
 
-### 6.1 Current State
+### 6.1 Current State - PARTIALLY IMPLEMENTED (December 2025)
 
-**No Critical CSS Extraction Found**
+**CSS Minification: IMPLEMENTED**
 
-All CSS loaded in `<head>`:
-- Tailwind CSS (complete file)
-- Flowbite CSS
-- Theme CSS
-- Inline custom styles
+Production builds now use minification via Tailwind CLI:
+```json
+// package.json
+{
+  "scripts": {
+    "tailwind:build:prod": "npm run tailwind:default:prod && npm run tailwind:bologna:prod && npm run tailwind:brisbane:prod",
+    "tailwind:default:prod": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-input.css -o ./app/assets/builds/tailwind-default.css --minify",
+    "css:build": "npm run tailwind:build:prod"
+  }
+}
+```
 
-**Issues:**
-- Tailwind CSS includes all utilities (large file)
-- Flowbite CSS includes all components
-- Custom styles generated dynamically
+**Critical CSS Extraction: TOOL AVAILABLE**
 
-**Impact:**
-- Large render-blocking CSS
-- Slower First Contentful Paint (FCP)
-- Slow First Input Delay (FID) while parsing CSS
+A critical CSS extraction script has been created:
+- Location: `/scripts/extract-critical-css.js`
+- Uses the `critical` npm package
+- Extracts above-the-fold CSS for each theme
+- Run with: `npm run critical:extract`
 
-### 6.2 Recommendations
+**Usage:**
+```bash
+# Start Rails server first
+rails s
 
-1. **Extract Critical CSS**
-   - Analyze above-the-fold content
-   - Extract only needed styles for LCP
-   - Load non-critical CSS async
+# In another terminal, extract critical CSS
+npm run critical:extract
+```
 
-2. **Optimize CSS Files**
-   - Check if full Tailwind CSS needed (likely over-provisioned)
-   - Check if full Flowbite CSS needed
-   - Use PurgeCSS/Tailwind content configuration
+Output files:
+- `app/assets/builds/critical-default.css`
+- `app/assets/builds/critical-bologna.css`
+- `app/assets/builds/critical-brisbane.css`
 
-3. **Inline vs External**
-   - Move custom styles to external file with cache-busting
-   - Or use asset digest for cache-busting on changes
+### 6.2 Completed Optimizations
 
-### 6.3 Custom Styles Generation Issue
+1. **CSS Minification** ✅
+   - All production builds use `--minify` flag
+   - Uses LightningCSS under the hood for optimal compression
+
+2. **Critical CSS Tool** ✅
+   - Script created for extracting above-the-fold CSS
+   - Supports all three themes
+   - Generates per-theme critical CSS files
+
+3. **Tailwind CSS Purging** ✅
+   - Tailwind 4 automatically purges unused CSS
+   - Content paths configured in tailwind config files
+
+### 6.3 Remaining Work
+
+**To Inline Critical CSS:**
+Add to layout files:
+```erb
+<style><%= Rails.root.join("app/assets/builds/critical-#{theme_name}.css").read %></style>
+```
+
+**To Defer Non-Critical CSS:**
+```html
+<link rel="preload" href="tailwind.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="tailwind.css"></noscript>
+```
+
+### 6.4 Custom Styles Generation Issue
 
 **Location:** `<style><%= custom_styles "default" %></style>`
 
-**Problems:**
-- Inline styles block rendering
-- Generated fresh on each request (if not cached in Rails)
-- Can be large depending on website customization
+**Current Status:**
+- Still inline (blocks rendering)
+- Generated dynamically per request
 
-**Recommendation:**
-- Extract to external stylesheet
-- Cache-bust using asset digest
-- Serve with long Cache-Control header
+**Future Recommendation:**
+- Extract to external stylesheet with cache-busting
+- Or cache the generated CSS
 
 ---
 
@@ -540,7 +582,26 @@ All CSS loaded in `<head>`:
 
 ## 8. Opportunities Summary
 
-### HIGH PRIORITY (Significant Impact)
+### COMPLETED (December 2025)
+
+1. ✅ **Implement Lazy Loading for Images**
+   - Added `loading="lazy"` to all below-fold images via helper defaults
+   - Header logos use `loading="eager" fetchpriority="high"`
+   - Footer logos use `loading="lazy" decoding="async"`
+   - Carousels: first image eager, rest lazy
+   - **Impact:** 20-30% reduction in image bytes on initial load
+
+2. ✅ **CSS Minification**
+   - Production Tailwind builds now use `--minify` flag
+   - Uses LightningCSS for optimal compression
+   - Run with: `npm run css:build`
+
+3. ✅ **Critical CSS Extraction Tool**
+   - Created `/scripts/extract-critical-css.js`
+   - Extracts above-the-fold CSS per theme
+   - Run with: `npm run critical:extract`
+
+### HIGH PRIORITY (Remaining)
 
 1. **Fix render-blocking JavaScript**
    - Add `async` or `defer` to:
@@ -566,18 +627,11 @@ All CSS loaded in `<head>`:
    - **Effort:** Medium
    - **Location:** `/app/views/pwb/_analytics.html.erb`
 
-4. **Implement Lazy Loading for Images**
-   - Add `loading="lazy"` to all below-fold images
-   - Use `photo_image_tag` with proper variants
-   - **Impact:** 20-30% reduction in image bytes on initial load
-   - **Effort:** Medium (systematic changes)
-   - **Locations:** Search results, carousels, property listings
-
-5. **Defer CSS and Fonts**
-   - Reduce critical CSS payload
-   - Move non-critical CSS to async loading
+4. **Inline Critical CSS**
+   - Use extracted critical CSS in layout head
+   - Defer non-critical CSS loading
    - **Impact:** 200-500ms FCP improvement
-   - **Effort:** Medium-High
+   - **Effort:** Medium
    - **Locations:** All layout files
 
 ### MEDIUM PRIORITY (Noticeable Impact)
