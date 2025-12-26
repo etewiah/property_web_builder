@@ -18,6 +18,7 @@ RSpec.describe "pwb/sections/contact_us", type: :view do
       @page = FactoryBot.create(:contact_us_with_rails_page_part, website: website)
     end
     assign(:current_agency, @agency)
+    assign(:current_website, website)
     assign(:page, @page)
   end
 

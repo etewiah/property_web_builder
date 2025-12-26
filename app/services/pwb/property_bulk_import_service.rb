@@ -136,10 +136,19 @@ module Pwb
     end
 
     def parse_csv
-      content = file.respond_to?(:read) ? file.read : File.read(file)
+      content = if file.respond_to?(:read)
+                  file.rewind if file.respond_to?(:rewind)
+                  file.read
+                else
+                  File.read(file)
+                end
+      # Ensure UTF-8 encoding
+      content = content.force_encoding('UTF-8')
+      content = content.encode('UTF-8', invalid: :replace, undef: :replace, replace: '')
+
       # Try to detect delimiter (comma or tab)
       delimiter = content.lines.first&.include?("\t") ? "\t" : ","
-      
+
       CSV.parse(content, headers: true, col_sep: delimiter, liberal_parsing: true)
     rescue CSV::MalformedCSVError => e
       Rails.logger.error "CSV parsing error: #{e.message}"

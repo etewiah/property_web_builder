@@ -140,8 +140,9 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
 
     it 'scopes agency queries to current tenant' do
       within_tenant(website_a) do
-        expect(PwbTenant::Agency.all).to include(agency_a)
-        expect(PwbTenant::Agency.all).not_to include(agency_b)
+        agency_ids = PwbTenant::Agency.pluck(:id)
+        expect(agency_ids).to include(agency_a.id)
+        expect(agency_ids).not_to include(agency_b.id)
       end
     end
   end

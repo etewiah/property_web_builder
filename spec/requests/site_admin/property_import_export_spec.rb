@@ -51,11 +51,10 @@ RSpec.describe 'SiteAdmin::PropertyImportExport', type: :request do
     end
 
     let(:csv_file) do
-      Rack::Test::UploadedFile.new(
-        StringIO.new(csv_content),
-        'text/csv',
-        original_filename: 'properties.csv'
-      )
+      file = Tempfile.new(['properties', '.csv'], encoding: 'UTF-8')
+      file.write(csv_content.encode('UTF-8'))
+      file.rewind
+      Rack::Test::UploadedFile.new(file.path, 'text/csv', true, original_filename: 'properties.csv')
     end
 
     context 'with valid CSV file' do
@@ -123,11 +122,10 @@ RSpec.describe 'SiteAdmin::PropertyImportExport', type: :request do
 
     context 'with invalid CSV' do
       let(:invalid_csv) do
-        Rack::Test::UploadedFile.new(
-          StringIO.new("not,valid\n\"unclosed quote"),
-          'text/csv',
-          original_filename: 'invalid.csv'
-        )
+        file = Tempfile.new(['invalid', '.csv'])
+        file.write("not,valid\n\"unclosed quote")
+        file.rewind
+        Rack::Test::UploadedFile.new(file.path, 'text/csv', true, original_filename: 'invalid.csv')
       end
 
       it 'handles parsing errors gracefully' do
@@ -216,12 +214,11 @@ RSpec.describe 'SiteAdmin::PropertyImportExport', type: :request do
   describe 'DELETE /site_admin/property_import_export/clear_results' do
     before do
       # Simulate stored import results
+      file = Tempfile.new(['test', '.csv'])
+      file.write("reference\nTEST-001")
+      file.rewind
       post site_admin_property_import_export_import_path, params: {
-        file: Rack::Test::UploadedFile.new(
-          StringIO.new("reference\nTEST-001"),
-          'text/csv',
-          original_filename: 'test.csv'
-        )
+        file: Rack::Test::UploadedFile.new(file.path, 'text/csv', true, original_filename: 'test.csv')
       }
     end
 
