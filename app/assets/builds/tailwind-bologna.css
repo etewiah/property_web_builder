@@ -4823,6 +4823,66 @@
     width: 100%;
   }
 }
+.property-detail-page {
+  width: 100%;
+}
+.property-detail-container {
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media (min-width: 640px) {
+  .property-detail-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+.property-detail-layout {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+.property-detail-main {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.property-detail-sidebar {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-top: 2rem;
+}
+@media (min-width: 1024px) {
+  .property-detail-main {
+    width: 66.666667%;
+  }
+  .property-detail-sidebar {
+    width: 33.333333%;
+    margin-top: 0;
+  }
+}
+.property-detail-map {
+  width: 100%;
+}
+.property-detail-map-inner {
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media (min-width: 640px) {
+  .property-detail-map-inner {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
 @property --tw-translate-x {
   syntax: "*";
   inherits: false;
