@@ -1,0 +1,122 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="flex items-center gap-4 mb-6">
+    <%= link_to site_admin_media_library_index_path, class: "text-gray-500 hover:text-gray-700" do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    <% end %>
+    <h1 class="text-2xl font-bold text-gray-900">Edit Media</h1>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Preview -->
+    <div class="bg-white rounded-lg border border-gray-200 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Preview</h2>
+      
+      <% if @media.image? && @media.file.attached? %>
+        <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden mb-4">
+          <%= image_tag @media.variant_url(:large), 
+              alt: @media.alt_text || @media.filename,
+              class: "w-full h-full object-contain" %>
+        </div>
+      <% else %>
+        <div class="aspect-video bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+          <svg class="w-20 h-20 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      <% end %>
+
+      <!-- File info -->
+      <dl class="grid grid-cols-2 gap-4 text-sm">
+        <div>
+          <dt class="text-gray-500">Filename</dt>
+          <dd class="font-medium text-gray-900"><%= @media.filename %></dd>
+        </div>
+        <div>
+          <dt class="text-gray-500">Type</dt>
+          <dd class="font-medium text-gray-900"><%= @media.content_type %></dd>
+        </div>
+        <div>
+          <dt class="text-gray-500">Size</dt>
+          <dd class="font-medium text-gray-900"><%= @media.human_file_size %></dd>
+        </div>
+        <% if @media.dimensions %>
+          <div>
+            <dt class="text-gray-500">Dimensions</dt>
+            <dd class="font-medium text-gray-900"><%= @media.dimensions %></dd>
+          </div>
+        <% end %>
+        <div>
+          <dt class="text-gray-500">Uploaded</dt>
+          <dd class="font-medium text-gray-900"><%= @media.created_at.strftime('%b %d, %Y') %></dd>
+        </div>
+        <div>
+          <dt class="text-gray-500">Used</dt>
+          <dd class="font-medium text-gray-900"><%= @media.usage_count %> times</dd>
+        </div>
+      </dl>
+
+      <!-- File URL -->
+      <div class="mt-4 pt-4 border-t border-gray-200">
+        <label class="block text-sm text-gray-500 mb-1">File URL</label>
+        <div class="flex items-center gap-2">
+          <input type="text" value="<%= @media.url %>" readonly 
+                 class="flex-1 px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm">
+          <button type="button" onclick="navigator.clipboard.writeText('<%= @media.url %>')"
+                  class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm">
+            Copy
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Form -->
+    <div class="bg-white rounded-lg border border-gray-200 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Details</h2>
+      
+      <%= form_with model: @media, url: site_admin_media_library_path(@media), method: :patch, local: true, class: "space-y-4" do |f| %>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+          <%= f.text_field :title, class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500", placeholder: "Display title (optional)" %>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Alt Text</label>
+          <%= f.text_field :alt_text, class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500", placeholder: "Describe the image for accessibility" %>
+          <p class="mt-1 text-xs text-gray-500">Important for SEO and screen readers</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Caption</label>
+          <%= f.text_field :caption, class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500", placeholder: "Caption to display with the image" %>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+          <%= f.text_area :description, rows: 3, class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500", placeholder: "Longer description (optional)" %>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Folder</label>
+          <%= f.select :folder_id, 
+              options_for_select([['No folder', nil]] + @folders.map { |fo| [fo.name, fo.id] }, @media.folder_id),
+              {}, 
+              class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" %>
+        </div>
+
+        <div class="flex items-center justify-between pt-4 border-t border-gray-200">
+          <%= link_to "Cancel", site_admin_media_library_index_path, class: "text-gray-600 hover:text-gray-800" %>
+          
+          <div class="flex items-center gap-3">
+            <%= link_to "Delete", site_admin_media_library_path(@media), 
+                method: :delete, 
+                data: { confirm: "Are you sure you want to delete this file?" },
+                class: "px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg" %>
+            <%= f.submit "Save Changes", class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
