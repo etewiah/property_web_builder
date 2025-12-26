@@ -55,6 +55,15 @@ module.exports = defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      // Exclude admin tests - they run in a separate serial project
+      testIgnore: '**/admin/**',
+    },
+    {
+      // Admin tests modify shared state and must run serially
+      name: 'chromium-admin',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: '**/admin/**',
+      fullyParallel: false,
     },
     // Uncomment for additional browser testing
     // {

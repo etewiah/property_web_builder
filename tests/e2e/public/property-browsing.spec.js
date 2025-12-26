@@ -76,24 +76,36 @@ test.describe('Property Browsing', () => {
     test('can navigate from buy to rent page', async ({ page }) => {
       await goToTenant(page, tenant, ROUTES.BUY);
 
-      // Look for rent/rental link in navigation
-      const rentLink = page.locator('a:has-text("Rent")');
-      if (await rentLink.count() > 0) {
-        await rentLink.first().click();
+      // Look for rent link specifically in navigation by href
+      // Navigation links come from database, so text may vary
+      const rentLink = page.locator('nav a[href*="/rent"]').first();
+      const count = await rentLink.count();
+
+      if (count > 0) {
+        await rentLink.click();
         await waitForPageLoad(page);
         await expect(page).toHaveURL(/\/rent/);
+      } else {
+        // Skip test if no rent link in navigation (database-dependent)
+        test.skip();
       }
     });
 
     test('can navigate from rent to buy page', async ({ page }) => {
       await goToTenant(page, tenant, ROUTES.RENT);
 
-      // Look for buy/sale link in navigation
-      const buyLink = page.locator('a:has-text("Buy"), a:has-text("Sale")');
-      if (await buyLink.count() > 0) {
-        await buyLink.first().click();
+      // Look for buy link specifically in navigation by href
+      // Navigation links come from database, so text may vary
+      const buyLink = page.locator('nav a[href*="/buy"]').first();
+      const count = await buyLink.count();
+
+      if (count > 0) {
+        await buyLink.click();
         await waitForPageLoad(page);
         await expect(page).toHaveURL(/\/buy/);
+      } else {
+        // Skip test if no buy link in navigation (database-dependent)
+        test.skip();
       }
     });
   });
