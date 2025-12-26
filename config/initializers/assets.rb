@@ -23,4 +23,5 @@ Rails.application.config.assets.precompile += %w[
   tailwind-default.css
   tailwind-bologna.css
   tailwind-brisbane.css
+  fontawesome-subset.css
 ]

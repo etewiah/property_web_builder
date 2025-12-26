@@ -1,0 +1,11 @@
+/*
+ * Font Awesome 6 Subset for PropertyWebBuilder
+ * Only includes 43 icons actually used in the application
+ * Full library: ~300KB, Subset: ~16KB (95% smaller)
+ *
+ * To regenerate: rake assets:font_awesome_subset
+ */
+
+@import 'fontawesome-subset/fontawesome';
+@import 'fontawesome-subset/solid';
+@import 'fontawesome-subset/brands';

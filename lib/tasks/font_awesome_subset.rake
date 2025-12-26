@@ -38,7 +38,7 @@ namespace :assets do
 
     # Create subset script
     script_content = <<~JS
-      const fontawesomeSubset = require('fontawesome-subset');
+      const { fontawesomeSubset } = require('fontawesome-subset');
 
       const solidIcons = #{solid_icons.to_json};
       const brandIcons = #{brand_icons.to_json};
