@@ -1,0 +1,187 @@
+name: CI
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+jobs:
+  # Fast check - catches asset manifest issues early
+  assets:
+    name: Asset Precompilation Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Build Tailwind CSS
+        run: npm run tailwind:build
+
+      - name: Precompile assets (production mode)
+        env:
+          RAILS_ENV: production
+          SECRET_KEY_BASE: dummy_secret_for_asset_precompile
+        run: bundle exec rake assets:precompile
+        # This will fail if any assets referenced in views are not in manifest.js
+
+  test:
+    name: RSpec Tests
+    runs-on: ubuntu-latest
+    needs: assets  # Only run tests if assets compile successfully
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: pwb_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/pwb_test
+      REDIS_URL: redis://localhost:6379/0
+      DISABLE_SPRING: 1
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          bundle exec rake db:create db:schema:load
+
+      - name: Build assets
+        run: |
+          npm run tailwind:build
+          bundle exec rake assets:precompile
+
+      - name: Run RSpec tests
+        run: bundle exec rspec --format progress --format RspecJunitFormatter --out tmp/rspec_results.xml
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rspec-results
+          path: tmp/rspec_results.xml
+
+  e2e:
+    name: Playwright E2E Tests
+    runs-on: ubuntu-latest
+    needs: assets
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: pwb_e2e
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      RAILS_ENV: e2e
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/pwb_e2e
+      REDIS_URL: redis://localhost:6379/0
+      DISABLE_SPRING: 1
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Setup database
+        run: |
+          bundle exec rake db:create db:schema:load
+          bundle exec rake db:seed
+
+      - name: Build assets
+        run: |
+          npm run tailwind:build
+          bundle exec rake assets:precompile
+
+      - name: Run Playwright tests
+        run: npx playwright test --project=chromium
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
