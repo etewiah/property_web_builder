@@ -143,6 +143,18 @@ Rails.application.routes.draw do
     # Image library API for page part editor
     resources :images, only: %i[index create]
 
+    # Media Library
+    resources :media_library, only: %i[index show new create edit update destroy] do
+      collection do
+        post :bulk_destroy
+        post :bulk_move
+        get :folders
+        post :create_folder
+        patch 'folders/:id', action: :update_folder, as: :update_folder
+        delete 'folders/:id', action: :destroy_folder, as: :destroy_folder
+      end
+    end
+
     # Property bulk import/export
     resource :property_import_export, only: %i[index], controller: 'property_import_export' do
       collection do
