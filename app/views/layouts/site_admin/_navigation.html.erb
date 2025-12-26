@@ -58,6 +58,13 @@
           <span>Pages</span>
         <% end %>
 
+        <%= link_to site_admin_media_library_index_path, id: "tour-media", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.include?('media_library') ? 'bg-gray-700' : ''}" do %>
+          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
+          </svg>
+          <span>Media Library</span>
+        <% end %>
+
        <% if false %>
        <%# commenting out page parts and contents for now %>
         <% link_to site_admin_page_parts_path, class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_page_parts_path) ? 'bg-gray-700' : ''}" do %>
