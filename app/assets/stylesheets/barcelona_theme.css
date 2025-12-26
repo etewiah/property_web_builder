@@ -1,0 +1,608 @@
+/* Barcelona Theme Stylesheet */
+/* Mediterranean coastal styling with deep blues and warm accents */
+/* Rounded corners, soft shadows, and airy whitespace */
+
+/* ========================================
+   Base Theme Styles
+   ======================================== */
+
+.barcelona-theme {
+  font-family: 'Montserrat', 'Helvetica Neue', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   Typography
+   ======================================== */
+
+.barcelona-theme h1,
+.barcelona-theme h2,
+.barcelona-theme h3,
+.barcelona-theme h4,
+.barcelona-theme h5,
+.barcelona-theme h6 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.barcelona-theme .font-display {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* ========================================
+   Modern Buttons
+   ======================================== */
+
+.barcelona-theme .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: linear-gradient(135deg, #0B5394 0%, #0a4a84 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px -4px rgba(11, 83, 148, 0.4);
+  transition: all 0.3s ease;
+}
+
+.barcelona-theme .btn-primary:hover {
+  background: linear-gradient(135deg, #0a4a84 0%, #084174 100%);
+  box-shadow: 0 6px 20px -4px rgba(11, 83, 148, 0.5);
+  transform: translateY(-2px);
+}
+
+.barcelona-theme .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: #ffffff;
+  color: #2D3436;
+  border: 2px solid #e8e5e0;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.barcelona-theme .btn-secondary:hover {
+  border-color: #0B5394;
+  color: #0B5394;
+  background-color: #eff6ff;
+}
+
+.barcelona-theme .btn-terra {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: linear-gradient(135deg, #B8503E 0%, #a54738 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px -4px rgba(184, 80, 62, 0.4);
+  transition: all 0.3s ease;
+}
+
+.barcelona-theme .btn-terra:hover {
+  background: linear-gradient(135deg, #a54738 0%, #8a3c2f 100%);
+  box-shadow: 0 6px 20px -4px rgba(184, 80, 62, 0.5);
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   Cards with Soft Shadows
+   ======================================== */
+
+.barcelona-theme .card-modern {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px -4px rgba(45, 52, 54, 0.08);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.barcelona-theme .card-modern:hover {
+  box-shadow: 0 16px 48px -12px rgba(45, 52, 54, 0.16);
+  transform: translateY(-4px);
+}
+
+/* ========================================
+   Form Elements
+   ======================================== */
+
+.barcelona-theme input[type="text"],
+.barcelona-theme input[type="email"],
+.barcelona-theme input[type="tel"],
+.barcelona-theme input[type="password"],
+.barcelona-theme input[type="number"],
+.barcelona-theme textarea,
+.barcelona-theme select {
+  border: 2px solid #e8e5e0;
+  padding: 0.875rem 1.25rem;
+  font-size: 0.9375rem;
+  border-radius: 12px;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.barcelona-theme input:focus,
+.barcelona-theme textarea:focus,
+.barcelona-theme select:focus {
+  border-color: #0B5394;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(11, 83, 148, 0.1);
+}
+
+.barcelona-theme select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239c9285'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.25rem;
+  padding-right: 3rem;
+}
+
+/* ========================================
+   Property Cards
+   ======================================== */
+
+.barcelona-theme .property-card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px -4px rgba(45, 52, 54, 0.08);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.barcelona-theme .property-card:hover {
+  box-shadow: 0 16px 48px -12px rgba(45, 52, 54, 0.16);
+  transform: translateY(-6px);
+}
+
+.barcelona-theme .property-card .property-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.barcelona-theme .property-card .property-image img {
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.barcelona-theme .property-card:hover .property-image img {
+  transform: scale(1.1);
+}
+
+.barcelona-theme .property-price {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0B5394;
+}
+
+.barcelona-theme .property-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 12px;
+}
+
+.barcelona-theme .property-badge-sale {
+  background-color: #0B5394;
+  color: #ffffff;
+}
+
+.barcelona-theme .property-badge-rent {
+  background-color: #B8503E;
+  color: #ffffff;
+}
+
+/* ========================================
+   Hero Section
+   ======================================== */
+
+.barcelona-theme .hero-modern {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.barcelona-theme .hero-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(4, 47, 84, 0.6) 0%,
+    rgba(4, 47, 84, 0.3) 50%,
+    rgba(45, 52, 54, 0.5) 100%
+  );
+  z-index: 1;
+}
+
+.barcelona-theme .hero-modern .hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #ffffff;
+  padding: 2rem;
+}
+
+.barcelona-theme .hero-modern h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .barcelona-theme .hero-modern h1 {
+    font-size: 2.5rem;
+  }
+}
+
+/* ========================================
+   Section Styling
+   ======================================== */
+
+.barcelona-theme .section-modern {
+  padding: 6rem 0;
+}
+
+.barcelona-theme .section-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2D3436;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.barcelona-theme .section-pretitle {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background-color: #eff6ff;
+  color: #0B5394;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.barcelona-theme .section-subtitle {
+  font-size: 1.125rem;
+  color: #9c9285;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ========================================
+   Decorative Elements
+   ======================================== */
+
+.barcelona-theme .gradient-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.4;
+}
+
+.barcelona-theme .gradient-blob-med {
+  background: linear-gradient(135deg, #bfdbfe, #60a5fa);
+}
+
+.barcelona-theme .gradient-blob-terra {
+  background: linear-gradient(135deg, #f6d3c9, #e48b70);
+}
+
+/* ========================================
+   Animations
+   ======================================== */
+
+@keyframes floatUp {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.barcelona-theme .animate-float {
+  animation: floatUp 4s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+.barcelona-theme .animate-pulse-gentle {
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+
+/* Smooth fade-in for scroll animations */
+.barcelona-theme .animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.barcelona-theme .animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========================================
+   Utility Classes
+   ======================================== */
+
+.barcelona-theme .text-med {
+  color: #0B5394;
+}
+
+.barcelona-theme .text-terra {
+  color: #B8503E;
+}
+
+.barcelona-theme .text-gold {
+  color: #E5B45A;
+}
+
+.barcelona-theme .bg-med {
+  background-color: #0B5394;
+}
+
+.barcelona-theme .bg-terra {
+  background-color: #B8503E;
+}
+
+.barcelona-theme .bg-warm-light {
+  background-color: #FEFCF9;
+}
+
+.barcelona-theme .border-med {
+  border-color: #0B5394;
+}
+
+.barcelona-theme .rounded-soft {
+  border-radius: 12px;
+}
+
+.barcelona-theme .rounded-softer {
+  border-radius: 16px;
+}
+
+.barcelona-theme .rounded-pill {
+  border-radius: 9999px;
+}
+
+.barcelona-theme .shadow-soft {
+  box-shadow: 0 4px 24px -4px rgba(45, 52, 54, 0.08);
+}
+
+.barcelona-theme .shadow-medium {
+  box-shadow: 0 8px 32px -8px rgba(45, 52, 54, 0.12);
+}
+
+.barcelona-theme .shadow-elevated {
+  box-shadow: 0 16px 48px -12px rgba(45, 52, 54, 0.16);
+}
+
+/* ========================================
+   Line Clamp Utilities
+   ======================================== */
+
+.barcelona-theme .line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.barcelona-theme .line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* ========================================
+   Aspect Ratio
+   ======================================== */
+
+.barcelona-theme .aspect-\[4\/3\] {
+  aspect-ratio: 4 / 3;
+}
+
+.barcelona-theme .aspect-\[16\/9\] {
+  aspect-ratio: 16 / 9;
+}
+
+/* ========================================
+   Dropdown Menus
+   ======================================== */
+
+.barcelona-theme #language-dropdown,
+.barcelona-theme #user-dropdown {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ========================================
+   Responsive Adjustments
+   ======================================== */
+
+@media (max-width: 768px) {
+  .barcelona-theme .section-modern {
+    padding: 4rem 0;
+  }
+
+  .barcelona-theme .section-title {
+    font-size: 2rem;
+  }
+}
+
+/* ========================================
+   Scrollbar Styling
+   ======================================== */
+
+.barcelona-theme ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.barcelona-theme ::-webkit-scrollbar-track {
+  background: #f5f3f0;
+  border-radius: 10px;
+}
+
+.barcelona-theme ::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #60a5fa, #0B5394);
+  border-radius: 10px;
+  border: 2px solid #f5f3f0;
+}
+
+.barcelona-theme ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #0B5394, #0a4a84);
+}
+
+/* ========================================
+   Selection Styling
+   ======================================== */
+
+.barcelona-theme ::selection {
+  background-color: #dbeafe;
+  color: #0B5394;
+}
+
+.barcelona-theme ::-moz-selection {
+  background-color: #dbeafe;
+  color: #0B5394;
+}
+
+/* ========================================
+   PWB Component Styles
+   ======================================== */
+
+/* Container */
+.barcelona-theme .pwb-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .barcelona-theme .pwb-container {
+    padding: 0 2rem;
+  }
+}
+
+/* Section Base */
+.barcelona-theme .pwb-section {
+  padding: 5rem 0;
+}
+
+.barcelona-theme .pwb-section__header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.barcelona-theme .pwb-section__pretitle {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: #0B5394;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.barcelona-theme .pwb-section__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #2D3436;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.02em;
+}
+
+.barcelona-theme .pwb-section__subtitle {
+  font-size: 1.125rem;
+  color: #9c9285;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* PWB Buttons */
+.barcelona-theme .pwb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.barcelona-theme .pwb-btn--primary {
+  background: linear-gradient(135deg, #0B5394 0%, #0a4a84 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px -4px rgba(11, 83, 148, 0.4);
+}
+
+.barcelona-theme .pwb-btn--primary:hover {
+  box-shadow: 0 8px 25px -5px rgba(11, 83, 148, 0.5);
+  transform: translateY(-2px);
+}
+
+.barcelona-theme .pwb-btn--outline {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+.barcelona-theme .pwb-btn--outline:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.barcelona-theme .pwb-btn--lg {
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+}
