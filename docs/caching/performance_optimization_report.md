@@ -601,16 +601,26 @@ Add to layout files:
    - Extracts above-the-fold CSS per theme
    - Run with: `npm run critical:extract`
 
+4. ✅ **Inline Critical CSS & Async Load Main CSS**
+   - All theme layouts now inline minimal critical CSS in `<head>`
+   - Main CSS loaded asynchronously via `rel="preload" as="style"`
+   - JavaScript moved to end of `<body>` with `defer`
+   - **Impact:** Reduced render-blocking resources to 0ms
+
+5. ✅ **LCP Image Preloading**
+   - Added `extract_lcp_image` to PagesController
+   - Automatically extracts hero background image URL from first hero page part
+   - Adds `<link rel="preload" as="image">` in layout head
+   - Works for `hero_centered`, `hero_search`, and `hero_split` templates
+   - **Location:** `/app/controllers/pwb/pages_controller.rb`
+   - **Impact:** Earlier discovery of LCP image, potential 200-500ms LCP improvement
+
 ### HIGH PRIORITY (Remaining)
 
-1. **Fix render-blocking JavaScript**
-   - Add `async` or `defer` to:
-     - Flowbite JS (all themes)
-     - Leaflet JS (all themes)
-     - Main application.js
-   - **Impact:** 500ms-1s+ improvement in FCP/LCP
-   - **Effort:** Low (add attributes)
-   - **Location:** All layout files
+1. ✅ **Fix render-blocking JavaScript** - COMPLETED
+   - All layouts now use `defer` on JavaScript
+   - JS moved to end of body
+   - **Status:** Lighthouse shows 0ms render-blocking
 
 2. **Fix Google Fonts in Default Theme**
    - Move fonts from noscript to head
@@ -627,12 +637,24 @@ Add to layout files:
    - **Effort:** Medium
    - **Location:** `/app/views/pwb/_analytics.html.erb`
 
-4. **Inline Critical CSS**
-   - Use extracted critical CSS in layout head
-   - Defer non-critical CSS loading
-   - **Impact:** 200-500ms FCP improvement
-   - **Effort:** Medium
-   - **Locations:** All layout files
+4. ✅ **Inline Critical CSS** - COMPLETED
+   - Used `critical_css` helper in all theme layouts
+   - Non-critical CSS loaded via preload with onload
+   - **Status:** FCP improvement verified
+
+5. **Enable Text Compression (Production)**
+   - Lighthouse shows 236KB potential savings with gzip/brotli
+   - Configure web server or Rails middleware for compression
+   - **Impact:** 1.4s LCP improvement (per Lighthouse)
+   - **Effort:** Low (server config)
+   - **Note:** This is a production/deployment concern, not code change
+
+6. **Optimize Hero Image Size**
+   - Current hero image: 514KB, 298KB savings if properly sized
+   - Generate smaller variants for different viewport sizes
+   - Serve WebP format where supported
+   - **Impact:** Significant LCP improvement
+   - **Effort:** Medium (requires image processing pipeline)
 
 ### MEDIUM PRIORITY (Noticeable Impact)
 

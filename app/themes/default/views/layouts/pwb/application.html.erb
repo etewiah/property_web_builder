@@ -7,45 +7,37 @@
     <%= seo_meta_tags %>
     <%= yield(:page_head) %>
 
-    <%# Preconnect for external resources (more aggressive than dns-prefetch) %>
+    <%# Preload LCP image for faster Largest Contentful Paint %>
+    <% if @lcp_image_url.present? %>
+      <link rel="preload" href="<%= @lcp_image_url %>" as="image" fetchpriority="high">
+    <% end %>
+
+    <%# Preconnect for external resources - do this FIRST %>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://pub-be9416af8a3c406f859765586492c927.r2.dev" crossorigin>
     <link rel="dns-prefetch" href="//unpkg.com">
 
-    <%# Critical CSS - loaded synchronously (includes self-hosted fonts) %>
-    <%= stylesheet_link_tag "tailwind-default", media: "all" %>
-    <%= stylesheet_link_tag "pwb/themes/default", media: "all" %>
-    <style>
-      <%= custom_styles "default" %>
-    </style>
+    <%# CRITICAL CSS - Inlined for fastest FCP %>
+    <style><%= critical_css %><%= custom_styles "default" %></style>
 
-    <%# Flowbite CSS - deferred (only needed for interactive components) %>
+    <%# Main CSS - async loaded to not block rendering %>
+    <link rel="preload" href="<%= asset_path('tailwind-default.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="<%= asset_path('pwb/themes/default.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+      <%= stylesheet_link_tag "tailwind-default", media: "all" %>
+      <%= stylesheet_link_tag "pwb/themes/default", media: "all" %>
+    </noscript>
+
+    <%# Flowbite CSS - deferred %>
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"></noscript>
 
-    <%# Leaflet loaded only on pages that need maps - see pwb/shared/leaflet_assets %>
-
-    <%# Font Awesome 6 - deferred loading with font-display: swap for FOIT prevention %>
+    <%# Font Awesome 6 - deferred loading %>
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/v4-shims.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
-    <noscript>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/v4-shims.min.css" crossorigin="anonymous">
-    </noscript>
-    <style>
-      /* Font-display: swap override for Font Awesome to prevent FOIT */
-      @font-face { font-family: 'Font Awesome 6 Free'; font-display: swap; }
-      @font-face { font-family: 'Font Awesome 6 Brands'; font-display: swap; }
-      @font-face { font-family: 'FontAwesome'; font-display: swap; }
-    </style>
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"></noscript>
+    <style>@font-face{font-family:'Font Awesome 6 Free';font-display:swap}@font-face{font-family:'Font Awesome 6 Brands';font-display:swap}</style>
 
-    <%# Deferred JavaScript for better page speed %>
-    <%= javascript_include_tag "pwb/application", defer: true %>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
     <%= csrf_meta_tags %>
-
-    <%# Stimulus.js via importmap %>
-    <%= javascript_importmap_tags %>
   </head>
   <body class="tnt-body default-theme <%= @current_website.body_style %> bg-gray-50 text-gray-900">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-white focus:text-blue-600">Skip to main content</a>
@@ -63,10 +55,12 @@
       <%= render :partial => '/pwb/analytics', :locals => {}  %>
     </div>
 
+    <%# JavaScript loaded at end of body for best performance %>
+    <%= javascript_include_tag "pwb/application", defer: true %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
+    <%= javascript_importmap_tags %>
+
     <%= yield(:page_script) %>
-    <%# Mobile menu and dropdown interactions are now handled by Stimulus controllers %>
-    <%# See: app/javascript/controllers/toggle_controller.js %>
-    <%# See: app/javascript/controllers/dropdown_controller.js %>
     <% if params[:edit_mode] == 'true' %>
       <%= javascript_include_tag "pwb/editor_client" %>
     <% end %>

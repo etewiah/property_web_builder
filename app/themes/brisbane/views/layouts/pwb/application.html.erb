@@ -8,45 +8,37 @@
     <%= favicon_tags %>
     <%= yield(:page_head) %>
 
-    <%# Preconnect for external resources (more aggressive than dns-prefetch) %>
+    <%# Preload LCP image for faster Largest Contentful Paint %>
+    <% if @lcp_image_url.present? %>
+      <link rel="preload" href="<%= @lcp_image_url %>" as="image" fetchpriority="high">
+    <% end %>
+
+    <%# Preconnect for external resources - do this FIRST %>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://pub-be9416af8a3c406f859765586492c927.r2.dev" crossorigin>
     <link rel="dns-prefetch" href="//unpkg.com">
 
-    <%# Critical CSS - loaded synchronously (includes self-hosted fonts) %>
-    <%= stylesheet_link_tag "tailwind-brisbane", media: "all" %>
-    <%= stylesheet_link_tag "brisbane_theme", media: "all" %>
-    <style>
-      <%= custom_styles "brisbane" %>
-    </style>
+    <%# CRITICAL CSS - Inlined for fastest FCP %>
+    <style><%= critical_css %><%= custom_styles "brisbane" %></style>
 
-    <%# Flowbite CSS - deferred (only needed for interactive components) %>
+    <%# Main CSS - async loaded to not block rendering %>
+    <link rel="preload" href="<%= asset_path('tailwind-brisbane.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="<%= asset_path('brisbane_theme.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+      <%= stylesheet_link_tag "tailwind-brisbane", media: "all" %>
+      <%= stylesheet_link_tag "brisbane_theme", media: "all" %>
+    </noscript>
+
+    <%# Flowbite CSS - deferred %>
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"></noscript>
 
-    <%# Leaflet loaded only on pages that need maps - see pwb/shared/leaflet_assets %>
-
-    <%# Font Awesome 6 - deferred loading with font-display: swap for FOIT prevention %>
+    <%# Font Awesome 6 - deferred loading %>
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/v4-shims.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
-    <noscript>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/v4-shims.min.css" crossorigin="anonymous">
-    </noscript>
-    <style>
-      /* Font-display: swap override for Font Awesome to prevent FOIT */
-      @font-face { font-family: 'Font Awesome 6 Free'; font-display: swap; }
-      @font-face { font-family: 'Font Awesome 6 Brands'; font-display: swap; }
-      @font-face { font-family: 'FontAwesome'; font-display: swap; }
-    </style>
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"></noscript>
+    <style>@font-face{font-family:'Font Awesome 6 Free';font-display:swap}@font-face{font-family:'Font Awesome 6 Brands';font-display:swap}</style>
 
-    <%# Deferred JavaScript for better page speed %>
-    <%= javascript_include_tag "pwb/application", defer: true %>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
     <%= csrf_meta_tags %>
-
-    <%# Stimulus.js via importmap %>
-    <%= javascript_importmap_tags %>
   </head>
 
   <body class="tnt-body brisbane-theme <%= @current_website.body_style %> font-sans antialiased bg-luxury-cream text-luxury-charcoal">
@@ -71,86 +63,27 @@
       <%= render partial: '/pwb/analytics', locals: {} %>
     </div>
 
-    <script>
-      // Navbar scroll effect for luxury feel
+    <%# JavaScript loaded at end of body for best performance %>
+    <%= javascript_include_tag "pwb/application", defer: true %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
+    <%= javascript_importmap_tags %>
+
+    <%# Deferred UI enhancements - loaded after main content %>
+    <script defer>
       document.addEventListener('DOMContentLoaded', function() {
+        // Navbar scroll effect
         const navbar = document.querySelector('nav, header');
         if (navbar) {
           window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-              navbar.classList.add('shadow-elegant');
-              navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
-            } else {
-              navbar.classList.remove('shadow-elegant');
-              navbar.style.backgroundColor = '';
-            }
-          });
+            navbar.classList.toggle('shadow-elegant', window.scrollY > 50);
+            navbar.style.backgroundColor = window.scrollY > 50 ? 'rgba(255,255,255,0.98)' : '';
+          }, {passive: true});
         }
-
-        // Mobile menu toggle
-        const menuButton = document.querySelector('[data-collapse-toggle="navbar-main"]');
-        const menu = document.getElementById('navbar-main');
-
-        if (menuButton && menu) {
-          menuButton.addEventListener('click', function() {
-            menu.classList.toggle('hidden');
-          });
-        }
-
-        // User dropdown toggle
-        const dropdownButton = document.querySelector('[data-dropdown-toggle="user-dropdown"]');
-        const dropdown = document.getElementById('user-dropdown');
-
-        if (dropdownButton && dropdown) {
-          dropdownButton.addEventListener('click', function(e) {
-            e.stopPropagation();
-            dropdown.classList.toggle('hidden');
-          });
-
-          document.addEventListener('click', function() {
-            if (!dropdown.classList.contains('hidden')) {
-              dropdown.classList.add('hidden');
-            }
-          });
-        }
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-          anchor.addEventListener('click', function (e) {
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-              e.preventDefault();
-              target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-              });
-            }
-          });
-        });
-
-        // Animate elements on scroll
-        const observerOptions = {
-          threshold: 0.1,
-          rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('animate-fade-in-up');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, observerOptions);
-
-        document.querySelectorAll('.animate-on-scroll').forEach(el => {
-          observer.observe(el);
-        });
+        // Mobile menu & dropdown handled by Stimulus controllers
       });
     </script>
 
     <%= yield(:page_script) %>
-
     <% if params[:edit_mode] == 'true' %>
       <%= javascript_include_tag "pwb/editor_client" %>
     <% end %>

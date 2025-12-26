@@ -5,6 +5,7 @@ module Pwb
     include SeoHelper
 
     before_action :header_image_url
+    before_action :extract_lcp_image, only: [:show_page]
 
     def show_page
       default_page_slug = "home"
@@ -71,6 +72,46 @@ module Pwb
       lc_photo = ContentPhoto.find_by_block_key "landing_img"
       # used for header background images
       @header_image_url = lc_photo.present? ? lc_photo.optimized_image_url : nil
+    end
+
+    # Extract LCP (Largest Contentful Paint) image from page content
+    # for preloading in the <head> to improve page load performance.
+    # Looks for hero page parts which typically contain the LCP image.
+    def extract_lcp_image
+      @lcp_image_url = nil
+      page_slug = params[:page_slug] || "home"
+      page = @current_website.pages.find_by_slug(page_slug)
+      return unless page
+
+      # Find the first hero page part on this page
+      hero_page_part = find_hero_page_part(page)
+      return unless hero_page_part
+
+      # Extract background_image from block_contents
+      locale = I18n.locale.to_s
+      blocks = hero_page_part.block_contents&.dig(locale, "blocks")
+      blocks ||= hero_page_part.block_contents&.dig("en", "blocks") # fallback to English
+
+      @lcp_image_url = blocks&.dig("background_image", "content")
+      @lcp_image_url ||= blocks&.dig("image", "content") # fallback for hero_split
+    end
+
+    def find_hero_page_part(page)
+      # Get visible page contents ordered by sort_order
+      hero_keys = %w[heroes/hero_centered heroes/hero_search heroes/hero_split]
+
+      page.page_contents.ordered_visible.each do |page_content|
+        next if page_content.is_rails_part
+
+        if hero_keys.include?(page_content.page_part_key)
+          return Pwb::PagePart.find_by(
+            website_id: @current_website.id,
+            page_part_key: page_content.page_part_key
+          )
+        end
+      end
+
+      nil
     end
   end
 end
