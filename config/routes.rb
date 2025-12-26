@@ -143,6 +143,17 @@ Rails.application.routes.draw do
     # Image library API for page part editor
     resources :images, only: %i[index create]
 
+    # Property bulk import/export
+    resource :property_import_export, only: %i[index], controller: 'property_import_export' do
+      collection do
+        get '/', action: :index
+        post :import
+        get :export
+        get :download_template
+        delete :clear_results
+      end
+    end
+
     resources :props, only: %i[index show new create] do
       member do
         get 'edit/general', to: 'props#edit_general', as: 'edit_general'
