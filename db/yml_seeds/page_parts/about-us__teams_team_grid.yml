@@ -64,7 +64,12 @@
           {% if page_part["member_1_name"]["content"] != blank %}
             <div class="team-member text-center flex flex-col h-full">
               {% if page_part["member_1_image"]["content"] != blank %}
-                <img src="{{ page_part["member_1_image"]["content"] }}" alt="{{ page_part["member_1_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+                {% assign member1_img = page_part["member_1_image"]["content"] %}
+                {% assign member1_webp = member1_img | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
+                <picture>
+                  <source srcset="{{ member1_webp }}" type="image/webp">
+                  <img src="{{ member1_img }}" alt="{{ page_part["member_1_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+                </picture>
               {% else %}
                 <div class="w-32 h-32 rounded-full mx-auto mb-4 bg-gray-200 flex items-center justify-center">
                   <span class="text-3xl text-gray-400">{{ page_part["member_1_name"]["content"] | slice: 0 }}</span>
@@ -77,7 +82,12 @@
           {% if page_part["member_2_name"]["content"] != blank %}
             <div class="team-member text-center flex flex-col h-full">
               {% if page_part["member_2_image"]["content"] != blank %}
-                <img src="{{ page_part["member_2_image"]["content"] }}" alt="{{ page_part["member_2_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+                {% assign member2_img = page_part["member_2_image"]["content"] %}
+                {% assign member2_webp = member2_img | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
+                <picture>
+                  <source srcset="{{ member2_webp }}" type="image/webp">
+                  <img src="{{ member2_img }}" alt="{{ page_part["member_2_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+                </picture>
               {% else %}
                 <div class="w-32 h-32 rounded-full mx-auto mb-4 bg-gray-200 flex items-center justify-center">
                   <span class="text-3xl text-gray-400">{{ page_part["member_2_name"]["content"] | slice: 0 }}</span>
@@ -90,7 +100,12 @@
           {% if page_part["member_3_name"]["content"] != blank %}
             <div class="team-member text-center flex flex-col h-full">
               {% if page_part["member_3_image"]["content"] != blank %}
-                <img src="{{ page_part["member_3_image"]["content"] }}" alt="{{ page_part["member_3_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+                {% assign member3_img = page_part["member_3_image"]["content"] %}
+                {% assign member3_webp = member3_img | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
+                <picture>
+                  <source srcset="{{ member3_webp }}" type="image/webp">
+                  <img src="{{ member3_img }}" alt="{{ page_part["member_3_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+                </picture>
               {% else %}
                 <div class="w-32 h-32 rounded-full mx-auto mb-4 bg-gray-200 flex items-center justify-center">
                   <span class="text-3xl text-gray-400">{{ page_part["member_3_name"]["content"] | slice: 0 }}</span>
@@ -103,7 +118,12 @@
           {% if page_part["member_4_name"]["content"] != blank %}
             <div class="team-member text-center flex flex-col h-full">
               {% if page_part["member_4_image"]["content"] != blank %}
-                <img src="{{ page_part["member_4_image"]["content"] }}" alt="{{ page_part["member_4_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+                {% assign member4_img = page_part["member_4_image"]["content"] %}
+                {% assign member4_webp = member4_img | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
+                <picture>
+                  <source srcset="{{ member4_webp }}" type="image/webp">
+                  <img src="{{ member4_img }}" alt="{{ page_part["member_4_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+                </picture>
               {% else %}
                 <div class="w-32 h-32 rounded-full mx-auto mb-4 bg-gray-200 flex items-center justify-center">
                   <span class="text-3xl text-gray-400">{{ page_part["member_4_name"]["content"] | slice: 0 }}</span>

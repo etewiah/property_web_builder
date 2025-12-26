@@ -29,7 +29,12 @@
     <section class="hero-section hero-centered relative min-h-[600px] flex items-center justify-center overflow-hidden">
       {% if page_part["background_image"]["content"] %}
         <div class="absolute inset-0 z-0">
-          <img src="{{ page_part["background_image"]["content"] }}" alt="" class="w-full h-full object-cover">
+          {% assign bg_img_url = page_part["background_image"]["content"] %}
+          {% assign webp_url = bg_img_url | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
+          <picture>
+            <source srcset="{{ webp_url }}" type="image/webp">
+            <img src="{{ bg_img_url }}" alt="" class="w-full h-full object-cover">
+          </picture>
           <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40"></div>
         </div>
       {% else %}

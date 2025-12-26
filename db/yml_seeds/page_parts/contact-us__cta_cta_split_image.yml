@@ -50,7 +50,12 @@
           </div>
           <div class="cta-image">
             {% if page_part["image"]["content"] %}
-              <img src="{{ page_part["image"]["content"] }}" alt="" class="w-full rounded-lg shadow-lg">
+              {% assign cta_img = page_part["image"]["content"] %}
+              {% assign cta_webp = cta_img | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
+              <picture>
+                <source srcset="{{ cta_webp }}" type="image/webp">
+                <img src="{{ cta_img }}" alt="" class="w-full rounded-lg shadow-lg">
+              </picture>
             {% endif %}
           </div>
         </div>
