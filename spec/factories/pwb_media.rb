@@ -1,5 +1,45 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_media
+#
+#  id           :bigint           not null, primary key
+#  alt_text     :string
+#  byte_size    :bigint
+#  caption      :string
+#  checksum     :string
+#  content_type :string
+#  description  :text
+#  filename     :string           not null
+#  height       :integer
+#  last_used_at :datetime
+#  sort_order   :integer          default(0)
+#  source_type  :string
+#  source_url   :string
+#  tags         :string           default([]), is an Array
+#  title        :string
+#  usage_count  :integer          default(0)
+#  width        :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  folder_id    :bigint
+#  website_id   :bigint           not null
+#
+# Indexes
+#
+#  index_pwb_media_on_folder_id                    (folder_id)
+#  index_pwb_media_on_tags                         (tags) USING gin
+#  index_pwb_media_on_website_id                   (website_id)
+#  index_pwb_media_on_website_id_and_content_type  (website_id,content_type)
+#  index_pwb_media_on_website_id_and_created_at    (website_id,created_at)
+#  index_pwb_media_on_website_id_and_folder_id     (website_id,folder_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (folder_id => pwb_media_folders.id)
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 FactoryBot.define do
   factory :pwb_media, class: 'Pwb::Media' do
     association :website, factory: :pwb_website
