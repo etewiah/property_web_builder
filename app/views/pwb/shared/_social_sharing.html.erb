@@ -1,15 +1,15 @@
-<%#
-  Social Sharing Component
-
-  Usage:
-    <%= render 'pwb/shared/social_sharing', url: request.original_url, title: @property_details.title %>
-
-  Options:
-    url:        (required) The URL to share
-    title:      (required) The title/text to share
-    icon_style: :fontawesome (default) or :phosphor
-    style:      :default (centered, border-top) or :bologna (left-aligned, no border)
-    networks:   Array of networks to show (default: [:facebook, :linkedin, :twitter, :whatsapp])
+<%
+# Social Sharing Component
+#
+# Usage:
+#   render 'pwb/shared/social_sharing', url: request.original_url, title: @property_details.title
+#
+# Options:
+#   url:        (required) The URL to share
+#   title:      (required) The title/text to share
+#   icon_style: :fontawesome (default) or :phosphor
+#   style:      :default (centered, border-top) or :bologna (left-aligned, no border)
+#   networks:   Array of networks to show (default: [:facebook, :linkedin, :twitter, :whatsapp])
 %>
 <% url ||= request.original_url %>
 <% title ||= '' %>
@@ -24,7 +24,7 @@
 <%
   # Define share URLs
   share_urls = {
-    facebook: "https://www.facebook.com/sharer/sharer.php?u=#{encoded_url}",
+    facebook: "https://www.facebook.com/sharer/sharer.php?u=#{encoded_url}&quote=#{encoded_title}",
     linkedin: "https://www.linkedin.com/sharing/share-offsite/?url=#{encoded_url}",
     twitter: "https://twitter.com/intent/tweet?url=#{encoded_url}&text=#{encoded_title}",
     whatsapp: "https://wa.me/?text=#{encoded_both}"
@@ -40,10 +40,10 @@
     }
   else
     icons = {
-      facebook: 'fa fa-facebook',
-      linkedin: 'fa fa-linkedin',
-      twitter: 'fa fa-twitter',
-      whatsapp: 'fa fa-whatsapp'
+      facebook: 'fa fa-fw fa-facebook',
+      linkedin: 'fa fa-fw fa-linkedin',
+      twitter: 'fa fa-fw fa-twitter',
+      whatsapp: 'fa fa-fw fa-whatsapp'
     }
   end
 
@@ -58,10 +58,10 @@
     icon_classes = {}
   else
     link_classes = {
-      facebook: '',
-      linkedin: '',
-      twitter: '',
-      whatsapp: ''
+      facebook: 'w-8 h-8 flex items-center justify-center',
+      linkedin: 'w-8 h-8 flex items-center justify-center',
+      twitter: 'w-8 h-8 flex items-center justify-center',
+      whatsapp: 'w-8 h-8 flex items-center justify-center'
     }
     icon_classes = {
       facebook: 'text-2xl text-blue-600 hover:text-blue-800 cursor-pointer',
@@ -80,7 +80,7 @@
   }
 %>
 
-<% container_class = style == :bologna ? 'flex items-center space-x-3' : 'flex justify-center space-x-4 py-6 border-t border-gray-100' %>
+<% container_class = style == :bologna ? 'flex items-center gap-3' : 'flex justify-center gap-4 py-6 border-t border-gray-100' %>
 
 <div class="<%= container_class %>">
   <% networks.each do |network| %>
@@ -88,7 +88,7 @@
        target="_blank"
        rel="noopener noreferrer"
        title="<%= titles[network] %>"
-       <% if link_classes[network].present? %>class="<%= link_classes[network] %>"<% end %>>
+       class="<%= link_classes[network] %>">
       <i class="<%= icons[network] %> <%= icon_classes[network] %>"></i>
     </a>
   <% end %>

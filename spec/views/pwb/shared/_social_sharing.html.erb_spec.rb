@@ -4,6 +4,60 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
   let(:share_url) { "https://example.com/property/123" }
   let(:share_title) { "Beautiful 3BR Apartment" }
 
+  describe "rendered output quality" do
+    before do
+      render partial: "pwb/shared/social_sharing", locals: {
+        url: share_url,
+        title: share_title
+      }
+    end
+
+    it "does not leak ERB comments or documentation to HTML" do
+      expect(rendered).not_to include("Options:")
+      expect(rendered).not_to include("(required)")
+      expect(rendered).not_to include("Usage:")
+      expect(rendered).not_to include(":fontawesome")
+      expect(rendered).not_to include(":phosphor")
+      expect(rendered).not_to include("%>")
+    end
+
+    it "does not contain empty class attributes" do
+      expect(rendered).not_to match(/class=["']\s*["']/)
+    end
+  end
+
+  describe "share URL parameters" do
+    before do
+      render partial: "pwb/shared/social_sharing", locals: {
+        url: share_url,
+        title: share_title
+      }
+    end
+
+    it "Facebook share link includes both URL and title (quote parameter)" do
+      expect(rendered).to include("facebook.com/sharer/sharer.php")
+      expect(rendered).to include("u=#{ERB::Util.url_encode(share_url)}")
+      expect(rendered).to include("quote=#{ERB::Util.url_encode(share_title)}")
+    end
+
+    it "LinkedIn share link includes URL" do
+      expect(rendered).to include("linkedin.com/sharing/share-offsite")
+      expect(rendered).to include("url=#{ERB::Util.url_encode(share_url)}")
+    end
+
+    it "Twitter share link includes both URL and title" do
+      expect(rendered).to include("twitter.com/intent/tweet")
+      expect(rendered).to include("url=#{ERB::Util.url_encode(share_url)}")
+      expect(rendered).to include("text=#{ERB::Util.url_encode(share_title)}")
+    end
+
+    it "WhatsApp share link includes both title and URL in text" do
+      expect(rendered).to include("wa.me/")
+      encoded_both = ERB::Util.url_encode("#{share_title} #{share_url}")
+      expect(rendered).to include("text=#{encoded_both}")
+    end
+  end
+
   describe "default style with FontAwesome icons" do
     before do
       render partial: "pwb/shared/social_sharing", locals: {
@@ -12,32 +66,21 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
       }
     end
 
-    it "renders Facebook share link" do
-      expect(rendered).to include("facebook.com/sharer/sharer.php")
-      expect(rendered).to include(ERB::Util.url_encode(share_url))
+    it "uses FontAwesome fixed-width icons for consistent spacing" do
+      expect(rendered).to include("fa fa-fw fa-facebook")
+      expect(rendered).to include("fa fa-fw fa-linkedin")
+      expect(rendered).to include("fa fa-fw fa-twitter")
+      expect(rendered).to include("fa fa-fw fa-whatsapp")
     end
 
-    it "renders LinkedIn share link" do
-      expect(rendered).to include("linkedin.com/sharing/share-offsite")
-      expect(rendered).to include(ERB::Util.url_encode(share_url))
+    it "wraps each icon in fixed-width container for consistent spacing" do
+      # Each link should have w-8 h-8 for consistent clickable area
+      expect(rendered.scan(/w-8 h-8/).count).to eq(4)
     end
 
-    it "renders Twitter share link" do
-      expect(rendered).to include("twitter.com/intent/tweet")
-      expect(rendered).to include(ERB::Util.url_encode(share_url))
-      expect(rendered).to include(ERB::Util.url_encode(share_title))
-    end
-
-    it "renders WhatsApp share link" do
-      expect(rendered).to include("wa.me/")
-      expect(rendered).to include(ERB::Util.url_encode(share_title))
-    end
-
-    it "uses FontAwesome icons by default" do
-      expect(rendered).to include("fa fa-facebook")
-      expect(rendered).to include("fa fa-linkedin")
-      expect(rendered).to include("fa fa-twitter")
-      expect(rendered).to include("fa fa-whatsapp")
+    it "uses gap utility instead of space-x for consistent spacing" do
+      expect(rendered).to include("gap-4")
+      expect(rendered).not_to include("space-x-4")
     end
 
     it "opens links in new tab with security attributes" do
@@ -45,14 +88,14 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
       expect(rendered).to include('rel="noopener noreferrer"')
     end
 
-    it "includes accessible title attributes" do
+    it "includes accessible title attributes for all networks" do
       expect(rendered).to include('title="Share on Facebook"')
       expect(rendered).to include('title="Share on LinkedIn"')
       expect(rendered).to include('title="Share on Twitter"')
       expect(rendered).to include('title="Share on WhatsApp"')
     end
 
-    it "uses default centered layout" do
+    it "uses default centered layout with border" do
       expect(rendered).to include("justify-center")
       expect(rendered).to include("border-t")
     end
@@ -75,16 +118,19 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
       expect(rendered).to include("ph ph-whatsapp-logo")
     end
 
-    it "uses bologna container layout" do
-      # Bologna uses 'flex items-center space-x-3' for the container
-      expect(rendered).to include("flex items-center space-x-3")
-      # Should not have border-t in the container (default style has it)
+    it "uses bologna container layout with gap" do
+      expect(rendered).to include("flex items-center gap-3")
       expect(rendered).not_to include("border-t border-gray-100")
     end
 
-    it "uses rounded button styling" do
+    it "uses rounded button styling with consistent size" do
       expect(rendered).to include("rounded-full")
-      expect(rendered).to include("w-10 h-10")
+      expect(rendered.scan(/w-10 h-10/).count).to eq(4)
+    end
+
+    it "includes all share parameters in URLs" do
+      expect(rendered).to include("quote=#{ERB::Util.url_encode(share_title)}")
+      expect(rendered).to include("text=#{ERB::Util.url_encode(share_title)}")
     end
   end
 
@@ -96,10 +142,10 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
         networks: [:facebook, :whatsapp]
       }
 
-      expect(rendered).to include("fa fa-facebook")
-      expect(rendered).to include("fa fa-whatsapp")
-      expect(rendered).not_to include("fa fa-linkedin")
-      expect(rendered).not_to include("fa fa-twitter")
+      expect(rendered).to include("fa-facebook")
+      expect(rendered).to include("fa-whatsapp")
+      expect(rendered).not_to include("fa-linkedin")
+      expect(rendered).not_to include("fa-twitter")
     end
 
     it "renders single network" do
@@ -109,8 +155,19 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
         networks: [:twitter]
       }
 
-      expect(rendered).to include("fa fa-twitter")
-      expect(rendered).not_to include("fa fa-facebook")
+      expect(rendered).to include("fa-twitter")
+      expect(rendered).not_to include("fa-facebook")
+    end
+
+    it "maintains consistent container structure with fewer networks" do
+      render partial: "pwb/shared/social_sharing", locals: {
+        url: share_url,
+        title: share_title,
+        networks: [:facebook]
+      }
+
+      expect(rendered).to include("gap-4")
+      expect(rendered).to include("w-8 h-8")
     end
   end
 
@@ -130,9 +187,24 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
       expect(rendered).to include("%26")
     end
 
-    it "properly encodes special characters in title" do
-      # & in title should be encoded
-      expect(rendered).to include("Apartment")
+    it "properly encodes ampersand in title" do
+      # & in title should be encoded as %26
+      expect(rendered).to include("Apartment%20%26%20Terrace")
+    end
+
+    it "all networks receive properly encoded parameters" do
+      encoded_url = ERB::Util.url_encode(share_url)
+      encoded_title = ERB::Util.url_encode(share_title)
+
+      # Facebook
+      expect(rendered).to include("u=#{encoded_url}")
+      expect(rendered).to include("quote=#{encoded_title}")
+
+      # Twitter
+      expect(rendered).to include("text=#{encoded_title}")
+
+      # WhatsApp
+      expect(rendered).to include(ERB::Util.url_encode("#{share_title} #{share_url}"))
     end
   end
 end
