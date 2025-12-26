@@ -141,7 +141,7 @@ module Pwb
         category: :teams,
         label: 'Team Grid',
         description: 'Grid of team member cards with social links',
-        fields: %w[section_title section_subtitle member_1_name member_1_role member_1_image member_1_bio member_1_linkedin member_1_email member_2_name member_2_role member_2_image member_3_name member_3_role member_4_name member_4_role]
+        fields: %w[section_title section_subtitle member_1_name member_1_role member_1_image member_1_bio member_1_linkedin member_1_email member_2_name member_2_role member_2_image member_2_bio member_3_name member_3_role member_3_image member_3_bio member_4_name member_4_role member_4_image member_4_bio]
       },
 
       # Galleries

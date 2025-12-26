@@ -207,8 +207,13 @@ de:
       member_3_name: Robert Weber
       member_3_role: Vertriebsleiter
       member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
+      member_3_bio: >
+        Robert leitet unser Vertriebsteam mit Expertise in Gewerbe- und Wohnimmobilien.
       member_4_name: Lisa Fischer
       member_4_role: Kundenbeziehungen
+      member_4_image: "db/seeds/packs/netherlands_urban/images/team_assistant.jpg"
+      member_4_bio: >
+        Lisa stellt sicher, dass jeder Kunde während seiner Reise außergewöhnlichen Service und Unterstützung erhält.
 
   contact-us:
     content_html:

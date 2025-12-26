@@ -180,8 +180,13 @@ es:
       member_3_name: Roberto Sánchez
       member_3_role: Director de Ventas
       member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
+      member_3_bio: >
+        Roberto lidera nuestro equipo de ventas con experiencia en propiedades comerciales y residenciales.
       member_4_name: Laura Fernández
       member_4_role: Relaciones con Clientes
+      member_4_image: "db/seeds/packs/netherlands_urban/images/team_assistant.jpg"
+      member_4_bio: >
+        Laura asegura que cada cliente reciba un servicio y apoyo excepcional durante todo su viaje.
 
   contact-us:
     content_html:

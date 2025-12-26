@@ -181,8 +181,13 @@ nl:
       member_3_name: Pieter Jansen
       member_3_role: Verkoopdirecteur
       member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
+      member_3_bio: >
+        Pieter leidt ons verkoopteam met expertise in commercieel en residentieel vastgoed.
       member_4_name: Lisa van den Berg
       member_4_role: Klantrelaties
+      member_4_image: "db/seeds/packs/netherlands_urban/images/team_assistant.jpg"
+      member_4_bio: >
+        Lisa zorgt ervoor dat elke klant uitzonderlijke service en ondersteuning ontvangt tijdens hun reis.
 
   contact-us:
     content_html:

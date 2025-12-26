@@ -212,8 +212,13 @@ en:
       member_3_name: Robert Brown
       member_3_role: Sales Director
       member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
+      member_3_bio: >
+        Robert leads our sales team with expertise in commercial and residential properties.
       member_4_name: Lisa Martinez
       member_4_role: Client Relations
+      member_4_image: "db/seeds/packs/netherlands_urban/images/team_assistant.jpg"
+      member_4_bio: >
+        Lisa ensures every client receives exceptional service and support throughout their journey.
 
   contact-us:
     content_html:

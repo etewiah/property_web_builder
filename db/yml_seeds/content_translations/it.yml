@@ -174,8 +174,13 @@ it:
       member_3_name: Roberto Verdi
       member_3_role: Direttore Vendite
       member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
+      member_3_bio: >
+        Roberto guida il nostro team di vendita con competenza in immobili commerciali e residenziali.
       member_4_name: Laura Marino
       member_4_role: Relazioni con i Clienti
+      member_4_image: "db/seeds/packs/netherlands_urban/images/team_assistant.jpg"
+      member_4_bio: >
+        Laura garantisce che ogni cliente riceva un servizio e un supporto eccezionali durante il loro percorso.
 
   contact-us:
     content_html:

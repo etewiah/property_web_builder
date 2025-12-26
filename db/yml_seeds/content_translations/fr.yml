@@ -207,8 +207,13 @@ fr:
       member_3_name: Robert Leroy
       member_3_role: Directeur des Ventes
       member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
+      member_3_bio: >
+        Robert dirige notre équipe de vente avec une expertise en immobilier commercial et résidentiel.
       member_4_name: Sophie Bernard
       member_4_role: Relations Clients
+      member_4_image: "db/seeds/packs/netherlands_urban/images/team_assistant.jpg"
+      member_4_bio: >
+        Sophie veille à ce que chaque client reçoive un service et un soutien exceptionnels tout au long de son parcours.
 
   contact-us:
     content_html:

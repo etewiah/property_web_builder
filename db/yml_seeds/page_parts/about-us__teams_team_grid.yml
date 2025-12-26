@@ -60,75 +60,99 @@
             {% endif %}
           </div>
         {% endif %}
-        <div class="team-grid-members grid grid-cols-1 gap-8 items-stretch">
+        <div class="team-grid-members grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 items-stretch">
           {% if page_part["member_1_name"]["content"] != blank %}
             <div class="team-member text-center flex flex-col h-full">
-              {% if page_part["member_1_image"]["content"] != blank %}
-                {% assign member1_img = page_part["member_1_image"]["content"] %}
-                {% assign member1_webp = member1_img | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
-                <picture>
-                  <source srcset="{{ member1_webp }}" type="image/webp">
-                  <img src="{{ member1_img }}" alt="{{ page_part["member_1_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
-                </picture>
-              {% else %}
-                <div class="w-32 h-32 rounded-full mx-auto mb-4 bg-gray-200 flex items-center justify-center">
-                  <span class="text-3xl text-gray-400">{{ page_part["member_1_name"]["content"] | slice: 0 }}</span>
-                </div>
-              {% endif %}
+              <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                {% if page_part["member_1_image"]["content"] != blank %}
+                  {% assign member1_img = page_part["member_1_image"]["content"] %}
+                  {% assign member1_webp = member1_img | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
+                  {% assign member1_mobile = member1_img | replace: '.jpg', '_mobile.jpg' | replace: '.jpeg', '_mobile.jpeg' %}
+                  {% assign member1_mobile_webp = member1_mobile | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
+                  <picture>
+                    <source media="(max-width: 640px)" srcset="{{ member1_mobile_webp }}" type="image/webp">
+                    <source media="(max-width: 640px)" srcset="{{ member1_mobile }}" type="image/jpeg">
+                    <source srcset="{{ member1_webp }}" type="image/webp">
+                    <img src="{{ member1_img }}" alt="{{ page_part["member_1_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+                  </picture>
+                {% else %}
+                  <div class="w-full h-full flex items-center justify-center">
+                    <span class="text-3xl text-gray-400">{{ page_part["member_1_name"]["content"] | slice: 0 }}</span>
+                  </div>
+                {% endif %}
+              </div>
               <h3 class="font-semibold text-gray-900">{{ page_part["member_1_name"]["content"] }}</h3>
               <p class="text-sm text-primary">{{ page_part["member_1_role"]["content"] }}</p>
             </div>
           {% endif %}
           {% if page_part["member_2_name"]["content"] != blank %}
             <div class="team-member text-center flex flex-col h-full">
-              {% if page_part["member_2_image"]["content"] != blank %}
-                {% assign member2_img = page_part["member_2_image"]["content"] %}
-                {% assign member2_webp = member2_img | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
-                <picture>
-                  <source srcset="{{ member2_webp }}" type="image/webp">
-                  <img src="{{ member2_img }}" alt="{{ page_part["member_2_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
-                </picture>
-              {% else %}
-                <div class="w-32 h-32 rounded-full mx-auto mb-4 bg-gray-200 flex items-center justify-center">
-                  <span class="text-3xl text-gray-400">{{ page_part["member_2_name"]["content"] | slice: 0 }}</span>
-                </div>
-              {% endif %}
+              <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                {% if page_part["member_2_image"]["content"] != blank %}
+                  {% assign member2_img = page_part["member_2_image"]["content"] %}
+                  {% assign member2_webp = member2_img | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
+                  {% assign member2_mobile = member2_img | replace: '.jpg', '_mobile.jpg' | replace: '.jpeg', '_mobile.jpeg' %}
+                  {% assign member2_mobile_webp = member2_mobile | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
+                  <picture>
+                    <source media="(max-width: 640px)" srcset="{{ member2_mobile_webp }}" type="image/webp">
+                    <source media="(max-width: 640px)" srcset="{{ member2_mobile }}" type="image/jpeg">
+                    <source srcset="{{ member2_webp }}" type="image/webp">
+                    <img src="{{ member2_img }}" alt="{{ page_part["member_2_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+                  </picture>
+                {% else %}
+                  <div class="w-full h-full flex items-center justify-center">
+                    <span class="text-3xl text-gray-400">{{ page_part["member_2_name"]["content"] | slice: 0 }}</span>
+                  </div>
+                {% endif %}
+              </div>
               <h3 class="font-semibold text-gray-900">{{ page_part["member_2_name"]["content"] }}</h3>
               <p class="text-sm text-primary">{{ page_part["member_2_role"]["content"] }}</p>
             </div>
           {% endif %}
           {% if page_part["member_3_name"]["content"] != blank %}
             <div class="team-member text-center flex flex-col h-full">
-              {% if page_part["member_3_image"]["content"] != blank %}
-                {% assign member3_img = page_part["member_3_image"]["content"] %}
-                {% assign member3_webp = member3_img | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
-                <picture>
-                  <source srcset="{{ member3_webp }}" type="image/webp">
-                  <img src="{{ member3_img }}" alt="{{ page_part["member_3_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
-                </picture>
-              {% else %}
-                <div class="w-32 h-32 rounded-full mx-auto mb-4 bg-gray-200 flex items-center justify-center">
-                  <span class="text-3xl text-gray-400">{{ page_part["member_3_name"]["content"] | slice: 0 }}</span>
-                </div>
-              {% endif %}
+              <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                {% if page_part["member_3_image"]["content"] != blank %}
+                  {% assign member3_img = page_part["member_3_image"]["content"] %}
+                  {% assign member3_webp = member3_img | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
+                  {% assign member3_mobile = member3_img | replace: '.jpg', '_mobile.jpg' | replace: '.jpeg', '_mobile.jpeg' %}
+                  {% assign member3_mobile_webp = member3_mobile | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
+                  <picture>
+                    <source media="(max-width: 640px)" srcset="{{ member3_mobile_webp }}" type="image/webp">
+                    <source media="(max-width: 640px)" srcset="{{ member3_mobile }}" type="image/jpeg">
+                    <source srcset="{{ member3_webp }}" type="image/webp">
+                    <img src="{{ member3_img }}" alt="{{ page_part["member_3_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+                  </picture>
+                {% else %}
+                  <div class="w-full h-full flex items-center justify-center">
+                    <span class="text-3xl text-gray-400">{{ page_part["member_3_name"]["content"] | slice: 0 }}</span>
+                  </div>
+                {% endif %}
+              </div>
               <h3 class="font-semibold text-gray-900">{{ page_part["member_3_name"]["content"] }}</h3>
               <p class="text-sm text-primary">{{ page_part["member_3_role"]["content"] }}</p>
             </div>
           {% endif %}
           {% if page_part["member_4_name"]["content"] != blank %}
             <div class="team-member text-center flex flex-col h-full">
-              {% if page_part["member_4_image"]["content"] != blank %}
-                {% assign member4_img = page_part["member_4_image"]["content"] %}
-                {% assign member4_webp = member4_img | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
-                <picture>
-                  <source srcset="{{ member4_webp }}" type="image/webp">
-                  <img src="{{ member4_img }}" alt="{{ page_part["member_4_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
-                </picture>
-              {% else %}
-                <div class="w-32 h-32 rounded-full mx-auto mb-4 bg-gray-200 flex items-center justify-center">
-                  <span class="text-3xl text-gray-400">{{ page_part["member_4_name"]["content"] | slice: 0 }}</span>
-                </div>
-              {% endif %}
+              <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                {% if page_part["member_4_image"]["content"] != blank %}
+                  {% assign member4_img = page_part["member_4_image"]["content"] %}
+                  {% assign member4_webp = member4_img | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
+                  {% assign member4_mobile = member4_img | replace: '.jpg', '_mobile.jpg' | replace: '.jpeg', '_mobile.jpeg' %}
+                  {% assign member4_mobile_webp = member4_mobile | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
+                  <picture>
+                    <source media="(max-width: 640px)" srcset="{{ member4_mobile_webp }}" type="image/webp">
+                    <source media="(max-width: 640px)" srcset="{{ member4_mobile }}" type="image/jpeg">
+                    <source srcset="{{ member4_webp }}" type="image/webp">
+                    <img src="{{ member4_img }}" alt="{{ page_part["member_4_name"]["content"] }}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4">
+                  </picture>
+                {% else %}
+                  <div class="w-full h-full flex items-center justify-center">
+                    <span class="text-3xl text-gray-400">{{ page_part["member_4_name"]["content"] | slice: 0 }}</span>
+                  </div>
+                {% endif %}
+              </div>
               <h3 class="font-semibold text-gray-900">{{ page_part["member_4_name"]["content"] }}</h3>
               <p class="text-sm text-primary">{{ page_part["member_4_role"]["content"] }}</p>
             </div>
