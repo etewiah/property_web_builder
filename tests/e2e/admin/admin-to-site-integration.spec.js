@@ -1,7 +1,7 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 const { TENANTS, ROUTES } = require('../fixtures/test-data');
-const { waitForPageLoad, goToAdminPage } = require('../fixtures/helpers');
+const { waitForPageLoad, goToAdminPage, resetWebsiteSettings } = require('../fixtures/helpers');
 
 /**
  * Admin to Site Integration Tests
@@ -18,6 +18,11 @@ const { waitForPageLoad, goToAdminPage } = require('../fixtures/helpers');
 
 const tenant = TENANTS.A;
 const BASE_URL = tenant.baseURL;
+
+// Reset website settings before each test to ensure clean state
+test.beforeEach(async ({ page }) => {
+  await resetWebsiteSettings(page, tenant);
+});
 
 /**
  * Helper to verify we have admin access (auth bypass is working)

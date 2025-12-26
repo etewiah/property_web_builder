@@ -8,6 +8,13 @@ Rails.application.routes.draw do
   get '/health/ready', to: 'health#ready'
   get '/health/details', to: 'health#details'
 
+  # E2E test support endpoints (only available in e2e environment)
+  namespace :e2e, defaults: { format: :json } do
+    get 'health', to: 'test_support#health'
+    post 'reset_website_settings', to: 'test_support#reset_website_settings'
+    post 'reset_all', to: 'test_support#reset_all'
+  end
+
   # On-demand TLS verification endpoint
   # Reverse proxies (like Caddy) query this to verify domains before issuing certificates
   get '/tls/check', to: 'pwb/tls#check'

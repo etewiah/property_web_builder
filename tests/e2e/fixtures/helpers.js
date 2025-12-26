@@ -162,6 +162,58 @@ async function saveAndWait(page, buttonText = 'Save') {
   await page.waitForLoadState('networkidle');
 }
 
+/**
+ * Reset website settings to seed values
+ * Calls the E2E test support endpoint to reset state
+ * @param {import('@playwright/test').Page} page
+ * @param {Object} tenant - Tenant configuration object
+ * @returns {Promise<boolean>} - Whether reset was successful
+ */
+async function resetWebsiteSettings(page, tenant) {
+  try {
+    const response = await page.request.post(`${tenant.baseURL}/e2e/reset_website_settings`);
+    const data = await response.json();
+    return data.success === true;
+  } catch (error) {
+    console.warn('Failed to reset website settings:', error.message);
+    return false;
+  }
+}
+
+/**
+ * Reset all test data to seed values
+ * More comprehensive reset including agency data
+ * @param {import('@playwright/test').Page} page
+ * @param {Object} tenant - Tenant configuration object
+ * @returns {Promise<boolean>} - Whether reset was successful
+ */
+async function resetAllTestData(page, tenant) {
+  try {
+    const response = await page.request.post(`${tenant.baseURL}/e2e/reset_all`);
+    const data = await response.json();
+    return data.success === true;
+  } catch (error) {
+    console.warn('Failed to reset test data:', error.message);
+    return false;
+  }
+}
+
+/**
+ * Check if E2E test support endpoints are available
+ * @param {import('@playwright/test').Page} page
+ * @param {Object} tenant - Tenant configuration object
+ * @returns {Promise<boolean>}
+ */
+async function isE2eEnvironment(page, tenant) {
+  try {
+    const response = await page.request.get(`${tenant.baseURL}/e2e/health`);
+    const data = await response.json();
+    return data.success === true && data.bypass_auth === true;
+  } catch (error) {
+    return false;
+  }
+}
+
 module.exports = {
   loginAsAdmin,
   expectPageToHaveAnyContent,
@@ -174,4 +226,7 @@ module.exports = {
   submitFormWithCsrf,
   goToAdminPage,
   saveAndWait,
+  resetWebsiteSettings,
+  resetAllTestData,
+  isE2eEnvironment,
 };
