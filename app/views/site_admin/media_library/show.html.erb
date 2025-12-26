@@ -20,8 +20,9 @@
     <div class="grid grid-cols-2 gap-6 p-6">
       <!-- Preview -->
       <div>
-        <% if @media.image? && @media.file.attached? %>
-          <%= image_tag @media.variant_url(:large),
+        <% large_url = @media.image? && @media.file.attached? ? @media.variant_url(:large) : nil %>
+        <% if large_url.present? %>
+          <%= image_tag large_url,
               alt: @media.alt_text || @media.filename,
               class: "w-full rounded-lg" %>
         <% else %>

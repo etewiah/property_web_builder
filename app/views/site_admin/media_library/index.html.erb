@@ -119,8 +119,9 @@
             <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow group">
               <!-- Thumbnail -->
               <div class="aspect-square bg-gray-100 relative">
-                <% if media.image? && media.file.attached? %>
-                  <%= image_tag media.variant_url(:thumb), 
+                <% thumb_url = media.image? && media.file.attached? ? media.variant_url(:thumb) : nil %>
+                <% if thumb_url.present? %>
+                  <%= image_tag thumb_url,
                       alt: media.alt_text || media.filename,
                       class: "w-full h-full object-cover" %>
                 <% else %>

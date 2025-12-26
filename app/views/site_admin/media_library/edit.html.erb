@@ -13,9 +13,10 @@
     <div class="bg-white rounded-lg border border-gray-200 p-6">
       <h2 class="text-lg font-semibold text-gray-900 mb-4">Preview</h2>
       
-      <% if @media.image? && @media.file.attached? %>
+      <% large_url = @media.image? && @media.file.attached? ? @media.variant_url(:large) : nil %>
+      <% if large_url.present? %>
         <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden mb-4">
-          <%= image_tag @media.variant_url(:large), 
+          <%= image_tag large_url,
               alt: @media.alt_text || @media.filename,
               class: "w-full h-full object-contain" %>
         </div>
