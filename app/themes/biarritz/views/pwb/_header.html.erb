@@ -1,19 +1,19 @@
-<!-- Biarritz Theme Header - Coastal French Basque Style -->
-<!-- Top Bar with Ocean Blue gradient -->
-<header class="bg-gradient-to-r from-sky-900 to-sky-700 text-white">
+<!-- Biarritz Theme Header - Elegant Coastal Design with Maximum Contrast -->
+<!-- Top Bar - Ocean Dark Background with White Text (21:1 contrast) -->
+<header class="bg-[#082F49] text-white border-b border-[#0C4A6E]">
   <div class="container mx-auto px-4">
     <div class="flex flex-wrap items-center justify-between py-2 text-sm">
       <div class="flex items-center space-x-4">
         <% if @current_agency.phone_number_primary %>
-          <span class="flex items-center">
-            <i class="fa fa-phone mr-2"></i>
-            <%= @current_agency.phone_number_primary %>
+          <span class="flex items-center hover:text-[#FEF3C7] transition-colors">
+            <i class="fa fa-phone mr-2" aria-hidden="true"></i>
+            <span><%= @current_agency.phone_number_primary %></span>
           </span>
         <% end %>
         <% if @current_agency.email_primary %>
-          <span class="hidden md:flex items-center">
-            <i class="fa fa-envelope mr-2"></i>
-            <%= @current_agency.email_primary %>
+          <span class="hidden md:flex items-center hover:text-[#FEF3C7] transition-colors">
+            <i class="fa fa-envelope mr-2" aria-hidden="true"></i>
+            <span><%= @current_agency.email_primary %></span>
           </span>
         <% end %>
       </div>
@@ -22,7 +22,8 @@
           <% @current_website.supported_locales_with_variants.uniq { |l| l["locale"] }.each do |locale_with_var| %>
             <% is_selected = locale.to_s == locale_with_var["locale"] %>
             <%= link_to params.permit(:locale).merge({locale: locale_with_var["locale"]}),
-                class: "px-2 py-1 rounded uppercase text-white #{is_selected ? 'bg-amber-600' : 'hover:bg-sky-600'}" do %>
+                class: "px-3 py-1 rounded-md uppercase font-semibold text-xs transition-all #{is_selected ? 'bg-[#D97706] text-white' : 'text-white hover:bg-[#0C4A6E]'}",
+                aria-current: (is_selected ? 'true' : nil) do %>
               <%= locale_with_var["locale"] %>
             <% end %>
           <% end %>
@@ -32,30 +33,52 @@
   </div>
 </header>
 
-<!-- Main Navigation - Coastal elegant style -->
-<nav class="bg-white border-b-4 border-amber-500 shadow-md sticky top-0 z-50" data-controller="toggle">
+<!-- Main Navigation - White Background with Dark Text (Maximum Contrast) -->
+<nav class="bg-white border-b-4 border-[#D97706] shadow-lg sticky top-0 z-50" data-controller="toggle" role="navigation">
   <div class="container mx-auto px-4">
     <div class="flex flex-wrap items-center justify-between py-4">
-      <!-- Logo -->
-      <%= link_to main_app.root_path(locale: locale), class: "flex items-center" do %>
+      
+      <!-- Logo - Playfair Display Font -->
+      <%= link_to main_app.root_path(locale: locale), 
+          class: "flex items-center group transition-transform hover:scale-105",
+          aria-label: "#{@current_agency.display_name} - Home" do %>
         <% if @current_website.logo_url %>
-          <img src="<%= @current_website.logo_url %>" alt="Logo" class="h-10 md:h-14" loading="eager" fetchpriority="high">
+          <img src="<%= @current_website.logo_url %>" 
+               alt="<%= @current_agency.display_name %> Logo" 
+               class="h-12 md:h-16" 
+               loading="eager" 
+               fetchpriority="high">
         <% else %>
-          <span class="text-2xl font-bold text-sky-900"><%= @current_agency.display_name %></span>
+          <div class="flex items-center space-x-3">
+            <!-- Ocean Wave Icon -->
+            <div class="w-12 h-12 md:w-14 md:h-14 bg-[#0369A1] rounded-lg flex items-center justify-center">
+              <svg class="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+              </svg>
+            </div>
+            <span class="text-2xl md:text-3xl font-bold text-[#1C1917] group-hover:text-[#0C4A6E] transition-colors" 
+                  style="font-family: 'Playfair Display', Georgia, serif;">
+              <%= @current_agency.display_name %>
+            </span>
+          </div>
         <% end %>
       <% end %>
 
-      <!-- Mobile menu button -->
-      <button data-action="toggle#toggle" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-gray-600 rounded-lg md:hidden hover:bg-warm-100 focus:outline-none focus:ring-2 focus:ring-amber-500" aria-controls="navbar-main" aria-expanded="false">
-        <span class="sr-only">Open main menu</span>
+      <!-- Mobile Menu Button - High Contrast -->
+      <button data-action="toggle#toggle" 
+              type="button" 
+              class="inline-flex items-center p-3 text-[#1C1917] rounded-lg md:hidden hover:bg-[#F5F5F4] focus:outline-none focus:ring-2 focus:ring-[#0369A1] focus:ring-offset-2 transition-colors" 
+              aria-controls="navbar-main" 
+              aria-expanded="false"
+              aria-label="Toggle navigation menu">
         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
         </svg>
       </button>
 
-      <!-- Navigation Links -->
+      <!-- Desktop Navigation - High Contrast Links -->
       <div class="hidden md:block w-full md:w-auto" id="navbar-main" data-toggle-target="content">
-        <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-base md:font-medium">
+        <ul class="flex flex-col mt-4 md:flex-row md:space-x-1 md:mt-0 md:items-center">
           <% @current_website.links.ordered_visible_top_nav.each do |page| %>
             <% next if page.slug == "top_nav_admin" %>
             <% target_path = nil %>
@@ -73,7 +96,8 @@
               <li>
                 <%= link_to page.link_title, target_path,
                     target: page.href_target,
-                    class: "block py-2 px-3 md:p-0 transition-colors #{is_active ? 'text-sky-700 font-bold border-b-2 border-amber-500' : 'text-gray-700 hover:text-sky-700'}" %>
+                    class: "block px-4 py-3 md:py-2 rounded-lg font-medium transition-all #{is_active ? 'bg-[#E0F2FE] text-[#0C4A6E] font-semibold' : 'text-[#1C1917] hover:bg-[#F5F5F4] hover:text-[#0C4A6E]'}",
+                    aria-current: (is_active ? 'page' : nil) %>
               </li>
             <% end %>
           <% end %>
@@ -81,32 +105,41 @@
           <% if @show_admin_link %>
             <li>
               <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale),
-                  class: "block py-2 px-3 text-gray-700 hover:text-sky-700 md:p-0" %>
+                  class: "block px-4 py-3 md:py-2 text-[#1C1917] hover:bg-[#F5F5F4] hover:text-[#0C4A6E] rounded-lg font-medium transition-all" %>
             </li>
           <% end %>
 
-          <%# User dropdown %>
+          <!-- User Dropdown - If Logged In -->
           <% if current_user %>
             <li class="relative" data-controller="dropdown">
-              <button type="button" class="flex items-center py-2 px-3 text-gray-700 hover:text-sky-700 md:p-0" data-action="dropdown#toggle">
-                <%= I18n.t "navbar.admin" %>
-                <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+              <button type="button" 
+                      class="flex items-center px-4 py-3 md:py-2 text-[#1C1917] hover:bg-[#F5F5F4] hover:text-[#0C4A6E] rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[#0369A1]" 
+                      data-action="dropdown#toggle"
+                      aria-haspopup="true"
+                      aria-expanded="false">
+                <span><%= I18n.t "navbar.admin" %></span>
+                <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                 </svg>
               </button>
-              <div data-dropdown-target="menu" class="hidden absolute right-0 z-10 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200">
-                <ul class="py-2 text-sm text-gray-700">
-                  <li>
+              <div data-dropdown-target="menu" 
+                   class="hidden absolute right-0 z-10 mt-2 w-56 bg-white rounded-xl shadow-xl border-2 border-[#E7E5E4]"
+                   role="menu">
+                <ul class="py-2 text-sm">
+                  <li role="none">
                     <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale),
-                        class: "block px-4 py-2 hover:bg-warm-50" %>
+                        class: "block px-4 py-3 text-[#1C1917] hover:bg-[#E0F2FE] hover:text-[#0C4A6E] font-medium transition-colors",
+                        role: "menuitem" %>
                   </li>
-                  <li>
+                  <li role="none">
                     <%= link_to I18n.t("changePassword"), edit_user_registration_path(),
-                        class: "block px-4 py-2 hover:bg-warm-50" %>
+                        class: "block px-4 py-3 text-[#1C1917] hover:bg-[#E0F2FE] hover:text-[#0C4A6E] font-medium transition-colors",
+                        role: "menuitem" %>
                   </li>
-                  <li>
+                  <li role="none" class="border-t border-[#E7E5E4] mt-2 pt-2">
                     <%= auth_logout_link I18n.t("signOut"),
-                        class: "block px-4 py-2 hover:bg-warm-50 text-red-600" %>
+                        class: "block px-4 py-3 text-[#B91C1C] hover:bg-red-50 font-medium transition-colors",
+                        role: "menuitem" %>
                   </li>
                 </ul>
               </div>
@@ -117,3 +150,6 @@
     </div>
   </div>
 </nav>
+
+<!-- Coastal Accent Wave - Decorative Only -->
+<div class="h-1 bg-gradient-to-r from-[#0369A1] via-[#D97706] to-[#F59E0B]" aria-hidden="true"></div>

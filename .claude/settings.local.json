@@ -118,7 +118,10 @@
       "mcp__filesystem__read_multiple_files",
       "Bash(lsof:*)",
       "WebSearch",
-      "Skill(theme-creation)"
+      "Skill(theme-creation)",
+      "Bash(ACTIVE_STORAGE_SERVICE=cloudflare_r2 RAILS_ENV=development bundle exec rails runner:*)",
+      "Bash(R2_USE_CDN=false RAILS_ENV=development bundle exec rails runner:*)",
+      "Bash(gzip:*)"
     ],
     "deny": [],
     "ask": []
