@@ -149,6 +149,110 @@ RSpec.describe SiteAdmin::OnboardingController, type: :controller do
       end
     end
 
+    context 'step 3 (property)' do
+      let(:valid_property_params) do
+        {
+          pwb_realty_asset: {
+            title: 'Beautiful Family Home',
+            description: 'A lovely 3-bedroom home in a quiet neighborhood.',
+            city: 'Test City',
+            # Note: controller permits :bedrooms/:bathrooms but model uses count_bedrooms/count_bathrooms
+            # The onboarding form uses field names that may differ from model columns
+            bedrooms: 3,
+            bathrooms: 2
+          }
+        }
+      end
+
+      it 'saves the property and advances to step 4' do
+        expect {
+          post :update, params: { step: 3 }.merge(valid_property_params)
+        }.to change(Pwb::RealtyAsset, :count).by(1)
+
+        expect(response).to redirect_to(site_admin_onboarding_path(step: 4))
+      end
+
+      it 'associates property with current website' do
+        post :update, params: { step: 3 }.merge(valid_property_params)
+
+        property = Pwb::RealtyAsset.last
+        expect(property.website).to eq(website)
+        # Note: RealtyAsset#title method returns nil (title/description are on listings)
+        # but the column value is still saved - access via read_attribute
+        expect(property.read_attribute(:title)).to eq('Beautiful Family Home')
+      end
+
+      it 'auto-generates slug for property' do
+        post :update, params: { step: 3 }.merge(valid_property_params)
+
+        property = Pwb::RealtyAsset.last
+        expect(property.slug).to be_present
+      end
+
+      it 'updates user onboarding step to 4' do
+        post :update, params: { step: 3 }.merge(valid_property_params)
+        expect(user.reload.onboarding_step).to eq(4)
+      end
+
+      context 'with minimal valid params' do
+        it 'creates property with just a title' do
+          expect {
+            post :update, params: { step: 3, pwb_realty_asset: { title: 'Minimal Property' } }
+          }.to change(Pwb::RealtyAsset, :count).by(1)
+
+          expect(response).to redirect_to(site_admin_onboarding_path(step: 4))
+        end
+      end
+
+      context 'with location attributes' do
+        let(:location_property_params) do
+          {
+            pwb_realty_asset: {
+              title: 'Downtown Apartment',
+              street_address: '123 Main St',
+              city: 'San Francisco',
+              postal_code: '94102',
+              country: 'United States'
+            }
+          }
+        end
+
+        it 'creates property with location details' do
+          post :update, params: { step: 3 }.merge(location_property_params)
+          expect(response).to redirect_to(site_admin_onboarding_path(step: 4))
+
+          property = Pwb::RealtyAsset.last
+          expect(property.city).to eq('San Francisco')
+          expect(property.postal_code).to eq('94102')
+        end
+      end
+
+      context 'with property details' do
+        let(:detailed_property_params) do
+          {
+            pwb_realty_asset: {
+              title: 'Spacious Family Home',
+              bedrooms: 4,
+              bathrooms: 2.5,
+              constructed_size: 2500,
+              plot_size: 5000
+            }
+          }
+        end
+
+        it 'creates property with bedroom/bathroom counts' do
+          post :update, params: { step: 3 }.merge(detailed_property_params)
+          expect(response).to redirect_to(site_admin_onboarding_path(step: 4))
+
+          property = Pwb::RealtyAsset.last
+          expect(property.count_bedrooms).to eq(4)
+          expect(property.count_bathrooms).to eq(2.5)
+          expect(property.constructed_area).to eq(2500)
+          expect(property.plot_area).to eq(5000)
+        end
+      end
+    end
+
     context 'step 4 (theme)' do
       it 'saves the theme and advances to step 5' do
         # Use 'brisbane' which exists in Pwb::Theme (not 'flavor' which is in controller list but not Theme model)

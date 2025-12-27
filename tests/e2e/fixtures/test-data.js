@@ -66,6 +66,8 @@ const ROUTES = {
     WEBSITE_SETTINGS_APPEARANCE: '/site_admin/website/settings?tab=appearance',
     WEBSITE_SETTINGS_NAVIGATION: '/site_admin/website/settings?tab=navigation',
     WEBSITE_SETTINGS_NOTIFICATIONS: '/site_admin/website/settings?tab=notifications',
+    ONBOARDING: '/site_admin/onboarding',
+    ONBOARDING_STEP: (step) => `/site_admin/onboarding?step=${step}`,
   }
 };
 

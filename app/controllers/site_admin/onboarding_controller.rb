@@ -205,13 +205,22 @@ module SiteAdmin
     end
 
     def property_params
-      params.require(:pwb_realty_asset).permit(
+      # Map form field names to model column names
+      permitted = params.require(:pwb_realty_asset).permit(
         :title, :description, :price_sale_current_cents,
         :price_rental_monthly_current_cents, :for_sale, :for_rent,
         :bedrooms, :bathrooms, :plot_size, :constructed_size,
         :street_address, :city, :postal_code, :country,
         :property_type_key
       )
+
+      # Rename bedrooms/bathrooms to count_bedrooms/count_bathrooms
+      result = permitted.to_h
+      result[:count_bedrooms] = result.delete(:bedrooms) if result.key?(:bedrooms)
+      result[:count_bathrooms] = result.delete(:bathrooms) if result.key?(:bathrooms)
+      result[:plot_area] = result.delete(:plot_size) if result.key?(:plot_size)
+      result[:constructed_area] = result.delete(:constructed_size) if result.key?(:constructed_size)
+      result
     end
 
     def available_themes
