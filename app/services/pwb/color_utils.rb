@@ -235,6 +235,220 @@ module Pwb
         luminance > 0.179 ? "#000000" : "#ffffff"
       end
 
+      # ===== Dark Mode Generation =====
+
+      # Default dark mode background colors
+      DARK_MODE_DEFAULTS = {
+        background_color: "#121212",
+        surface_color: "#1e1e1e",
+        surface_alt_color: "#2d2d2d",
+        card_background_color: "#1e1e1e",
+        header_background_color: "#1a1a1a",
+        footer_background_color: "#0d0d0d",
+        input_background_color: "#2d2d2d",
+        border_color: "#3d3d3d"
+      }.freeze
+
+      # Generate dark mode colors from light mode colors
+      # @param light_colors [Hash] Light mode color hash
+      # @return [Hash] Generated dark mode colors
+      def generate_dark_mode_colors(light_colors)
+        dark_colors = {}
+
+        light_colors.each do |key, value|
+          dark_colors[key] = transform_color_for_dark_mode(key, value, light_colors)
+        end
+
+        dark_colors
+      end
+
+      # Transform a single color for dark mode
+      # @param key [String] The color key
+      # @param value [String] The hex color value
+      # @param all_colors [Hash] All light mode colors for context
+      # @return [String] Dark mode hex color
+      def transform_color_for_dark_mode(key, value, all_colors = {})
+        return value unless valid_hex?(value)
+
+        case key.to_s
+        # Background colors - use dark defaults or invert
+        when "background_color"
+          DARK_MODE_DEFAULTS[:background_color]
+        when "surface_color"
+          DARK_MODE_DEFAULTS[:surface_color]
+        when "surface_alt_color"
+          DARK_MODE_DEFAULTS[:surface_alt_color]
+        when "card_background_color"
+          DARK_MODE_DEFAULTS[:card_background_color]
+        when "header_background_color"
+          DARK_MODE_DEFAULTS[:header_background_color]
+        when "footer_background_color"
+          DARK_MODE_DEFAULTS[:footer_background_color]
+        when "input_background_color"
+          DARK_MODE_DEFAULTS[:input_background_color]
+        when "border_color", "input_border_color"
+          DARK_MODE_DEFAULTS[:border_color]
+
+        # Text colors - invert to light
+        when "text_color"
+          "#e8e8e8"
+        when "header_text_color", "footer_text_color", "card_text_color"
+          "#e8e8e8"
+        when "muted_text_color"
+          "#a0a0a0"
+
+        # Primary/Secondary/Accent - adjust for dark backgrounds
+        when "primary_color", "secondary_color", "accent_color", "link_color"
+          adjust_for_dark_background(value)
+
+        # Button colors - adjust for visibility
+        when "button_primary_background"
+          adjust_for_dark_background(all_colors["primary_color"] || value)
+        when "button_primary_text"
+          suggest_text_color(adjust_for_dark_background(all_colors["primary_color"] || "#3498db"))
+        when "button_secondary_background"
+          "#3d3d3d"
+        when "button_secondary_text"
+          "#e8e8e8"
+
+        # Status colors - adjust saturation for dark mode
+        when "success_color"
+          "#4ade80" # Brighter green for dark mode
+        when "warning_color"
+          "#fbbf24" # Brighter yellow for dark mode
+        when "error_color"
+          "#f87171" # Brighter red for dark mode
+
+        # Link hover - lighten the link color
+        when "link_hover_color"
+          link_color = all_colors["link_color"] || all_colors["primary_color"] || value
+          lighten(adjust_for_dark_background(link_color), 15)
+
+        # Focus colors - use accent or adjust
+        when "input_focus_color"
+          adjust_for_dark_background(all_colors["accent_color"] || all_colors["primary_color"] || value)
+
+        # Light color (used for subtle backgrounds) - make it dark
+        when "light_color"
+          "#1e1e1e"
+
+        # Action color - same as primary adjustment
+        when "action_color"
+          adjust_for_dark_background(all_colors["primary_color"] || value)
+
+        # Default - pass through or adjust based on luminance
+        else
+          luminance = relative_luminance(value)
+          if luminance > 0.5
+            # Light color - darken for dark mode
+            darken(value, 60)
+          elsif luminance < 0.2
+            # Very dark color - lighten for dark mode
+            lighten(value, 40)
+          else
+            # Mid-range - adjust slightly for dark background visibility
+            adjust_for_dark_background(value)
+          end
+        end
+      end
+
+      # Adjust a color to be visible on dark backgrounds
+      # @param hex [String] Hex color
+      # @return [String] Adjusted color
+      def adjust_for_dark_background(hex)
+        return hex unless valid_hex?(hex)
+
+        r, g, b = hex_to_rgb(hex)
+        h, s, l = rgb_to_hsl(r, g, b)
+
+        # Ensure minimum lightness for visibility on dark backgrounds
+        # But don't go too light (max ~70%) to preserve color character
+        if l < 45
+          l = 55
+        elsif l > 70
+          l = 65
+        end
+
+        # Slightly boost saturation for vibrancy on dark backgrounds
+        s = [s * 1.1, 100].min if s > 20
+
+        new_r, new_g, new_b = hsl_to_rgb(h, s, l)
+        rgb_to_hex(new_r, new_g, new_b)
+      end
+
+      # Check if a string is a valid hex color
+      # @param value [String] Value to check
+      # @return [Boolean]
+      def valid_hex?(value)
+        value.is_a?(String) && value.match?(/\A#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})\z/)
+      end
+
+      # Generate CSS custom properties for both light and dark modes
+      # @param light_colors [Hash] Light mode colors
+      # @param dark_colors [Hash, nil] Dark mode colors (auto-generated if nil)
+      # @return [String] CSS with light and dark mode variables
+      def generate_dual_mode_css_variables(light_colors, dark_colors = nil)
+        dark_colors ||= generate_dark_mode_colors(light_colors)
+
+        css_lines = []
+        css_lines << "/* Light mode (default) */"
+        css_lines << ":root {"
+
+        light_colors.each do |key, hex|
+          css_name = key.gsub("_", "-")
+          css_lines << "  --pwb-#{css_name}: #{hex};"
+
+          # Generate shades for main colors
+          if key.match?(/^(primary|secondary|accent)_color$/)
+            color_name = key.gsub("_color", "")
+            generate_shade_scale(hex).each do |step, shade_hex|
+              css_lines << "  --pwb-#{color_name}-#{step}: #{shade_hex};"
+            end
+          end
+        end
+
+        css_lines << "}"
+        css_lines << ""
+        css_lines << "/* Dark mode */"
+        css_lines << "@media (prefers-color-scheme: dark) {"
+        css_lines << "  :root {"
+
+        dark_colors.each do |key, hex|
+          css_name = key.gsub("_", "-")
+          css_lines << "    --pwb-#{css_name}: #{hex};"
+
+          # Generate shades for main colors in dark mode
+          if key.match?(/^(primary|secondary|accent)_color$/)
+            color_name = key.gsub("_color", "")
+            generate_shade_scale(hex).each do |step, shade_hex|
+              css_lines << "    --pwb-#{color_name}-#{step}: #{shade_hex};"
+            end
+          end
+        end
+
+        css_lines << "  }"
+        css_lines << "}"
+        css_lines << ""
+        css_lines << "/* Dark mode class override */"
+        css_lines << ".dark {"
+
+        dark_colors.each do |key, hex|
+          css_name = key.gsub("_", "-")
+          css_lines << "  --pwb-#{css_name}: #{hex};"
+
+          if key.match?(/^(primary|secondary|accent)_color$/)
+            color_name = key.gsub("_color", "")
+            generate_shade_scale(hex).each do |step, shade_hex|
+              css_lines << "  --pwb-#{color_name}-#{step}: #{shade_hex};"
+            end
+          end
+        end
+
+        css_lines << "}"
+
+        css_lines.join("\n")
+      end
+
       private
 
       def hue_to_rgb(p, q, t)

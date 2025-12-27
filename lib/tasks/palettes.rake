@@ -93,6 +93,53 @@ namespace :palettes do
     puts "}"
   end
 
+  desc "Generate CSS with both light and dark mode support"
+  task :css_dark, [:theme, :palette] => :environment do |_t, args|
+    theme = args[:theme] || "default"
+    palette_id = args[:palette]
+
+    loader = Pwb::PaletteLoader.new
+    css = loader.generate_full_css(theme, palette_id)
+
+    if css.empty?
+      puts "No palette found for theme '#{theme}'"
+      exit 1
+    end
+
+    puts css
+  end
+
+  desc "Show dark mode color generation for a palette"
+  task :dark_mode, [:theme, :palette] => :environment do |_t, args|
+    theme = args[:theme] || "default"
+    palette_id = args[:palette]
+
+    loader = Pwb::PaletteLoader.new
+    palette = palette_id ? loader.get_palette(theme, palette_id) : loader.get_default_palette(theme)
+
+    unless palette
+      puts "Palette not found"
+      exit 1
+    end
+
+    puts "Dark Mode Colors for '#{palette['name']}'"
+    puts "=" * 60
+
+    if loader.has_explicit_dark_mode?(palette)
+      puts "\e[32mUsing explicit dark mode from palette\e[0m"
+      dark_colors = palette.dig("modes", "dark")
+    else
+      puts "\e[33mAuto-generating dark mode from light colors\e[0m"
+      light_colors = loader.get_light_colors(theme, palette_id || loader.get_default_palette(theme)["id"])
+      dark_colors = Pwb::ColorUtils.generate_dark_mode_colors(light_colors)
+    end
+
+    puts "-" * 60
+    dark_colors.each do |key, value|
+      puts "  #{key}: #{value}"
+    end
+  end
+
   desc "Generate all shade variants for main colors"
   task :shades, [:hex] => :environment do |_t, args|
     hex = args[:hex]

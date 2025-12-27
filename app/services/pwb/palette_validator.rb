@@ -2,6 +2,7 @@
 
 module Pwb
   # Validates theme color palettes against the standardized schema
+  # Supports both single color set (colors) and multi-mode (modes.light/dark)
   #
   # Usage:
   #   validator = Pwb::PaletteValidator.new
@@ -11,7 +12,7 @@ module Pwb
   #   result.warnings    # => ["warning message", ...]
   #
   class PaletteValidator
-    REQUIRED_KEYS = %w[id name colors].freeze
+    REQUIRED_KEYS = %w[id name].freeze
 
     REQUIRED_COLORS = %w[
       primary_color
@@ -29,6 +30,8 @@ module Pwb
       card_background_color
       card_text_color
       border_color
+      surface_color
+      surface_alt_color
       success_color
       warning_color
       error_color
@@ -42,11 +45,15 @@ module Pwb
       input_background_color
       input_border_color
       input_focus_color
+      light_color
+      action_color
     ].freeze
 
     # Legacy key mappings for backward compatibility
     LEGACY_KEY_MAPPINGS = {
-      "footer_main_text_color" => "footer_text_color"
+      "footer_main_text_color" => "footer_text_color",
+      "header_bg_color" => "header_background_color",
+      "footer_bg_color" => "footer_background_color"
     }.freeze
 
     HEX_COLOR_PATTERN = /\A#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})\z/
@@ -70,7 +77,7 @@ module Pwb
       validate_structure(normalized, errors)
       validate_id(normalized, errors)
       validate_name(normalized, errors)
-      validate_colors(normalized, errors, warnings)
+      validate_color_structure(normalized, errors, warnings)
       validate_preview_colors(normalized, errors, warnings)
 
       Result.new(
@@ -110,16 +117,12 @@ module Pwb
     # @param warnings [Array] Array to append warnings to
     # @return [Hash] Normalized palette
     def normalize_palette(palette, warnings = [])
-      return palette unless palette["colors"].is_a?(Hash)
-
-      LEGACY_KEY_MAPPINGS.each do |old_key, new_key|
-        if palette["colors"].key?(old_key) && !palette["colors"].key?(new_key)
-          palette["colors"][new_key] = palette["colors"].delete(old_key)
-          warnings << "Migrated legacy key '#{old_key}' to '#{new_key}'"
-        elsif palette["colors"].key?(old_key)
-          palette["colors"].delete(old_key)
-          warnings << "Removed duplicate legacy key '#{old_key}' (#{new_key} already exists)"
-        end
+      # Handle both `colors` and `modes` structures
+      if palette["colors"].is_a?(Hash)
+        normalize_color_set(palette["colors"], warnings)
+      elsif palette["modes"].is_a?(Hash)
+        normalize_color_set(palette.dig("modes", "light"), warnings, "modes.light") if palette.dig("modes", "light")
+        normalize_color_set(palette.dig("modes", "dark"), warnings, "modes.dark") if palette.dig("modes", "dark")
       end
 
       palette
@@ -137,6 +140,20 @@ module Pwb
       REQUIRED_COLORS + OPTIONAL_COLORS
     end
 
+    # Check if palette has modes structure
+    # @param palette [Hash]
+    # @return [Boolean]
+    def has_modes?(palette)
+      palette["modes"].is_a?(Hash) && palette.dig("modes", "light").is_a?(Hash)
+    end
+
+    # Check if palette has explicit dark mode
+    # @param palette [Hash]
+    # @return [Boolean]
+    def has_dark_mode?(palette)
+      has_modes?(palette) && palette.dig("modes", "dark").is_a?(Hash)
+    end
+
     private
 
     def default_schema_path
@@ -146,6 +163,18 @@ module Pwb
     def validate_structure(palette, errors)
       REQUIRED_KEYS.each do |key|
         errors << "Missing required key: '#{key}'" unless palette.key?(key)
+      end
+
+      # Must have either `colors` or `modes.light`
+      has_colors = palette["colors"].is_a?(Hash)
+      has_light_mode = palette.dig("modes", "light").is_a?(Hash)
+
+      unless has_colors || has_light_mode
+        errors << "Palette must have either 'colors' or 'modes.light'"
+      end
+
+      if has_colors && has_light_mode
+        errors << "Palette cannot have both 'colors' and 'modes' - use one or the other"
       end
     end
 
@@ -164,30 +193,68 @@ module Pwb
       errors << "Name too long (max 50 characters)" if name.to_s.length > 50
     end
 
-    def validate_colors(palette, errors, warnings)
-      colors = palette["colors"]
-      return errors << "Colors must be a hash" unless colors.is_a?(Hash)
+    def validate_color_structure(palette, errors, warnings)
+      if palette["colors"].is_a?(Hash)
+        validate_colors(palette["colors"], errors, warnings)
+      elsif palette["modes"].is_a?(Hash)
+        validate_modes(palette["modes"], errors, warnings)
+      end
+    end
+
+    def validate_modes(modes, errors, warnings)
+      unless modes["light"].is_a?(Hash)
+        errors << "modes.light is required"
+        return
+      end
+
+      # Validate light mode colors
+      validate_colors(modes["light"], errors, warnings, "modes.light")
+
+      # Validate dark mode colors if present
+      if modes["dark"].is_a?(Hash)
+        validate_colors(modes["dark"], errors, warnings, "modes.dark")
+      end
+    end
+
+    def validate_colors(colors, errors, warnings, prefix = nil)
+      prefix_str = prefix ? "#{prefix}." : ""
 
       # Check required colors
       REQUIRED_COLORS.each do |key|
         if colors.key?(key)
-          validate_color_value(key, colors[key], errors)
+          validate_color_value("#{prefix_str}#{key}", colors[key], errors)
         else
-          errors << "Missing required color: '#{key}'"
+          errors << "Missing required color: '#{prefix_str}#{key}'"
         end
       end
 
       # Validate optional colors if present
       OPTIONAL_COLORS.each do |key|
-        validate_color_value(key, colors[key], errors) if colors.key?(key)
+        validate_color_value("#{prefix_str}#{key}", colors[key], errors) if colors.key?(key)
       end
 
-      # Warn about unknown color keys
+      # Warn about unknown color keys (but don't error)
       known_keys = REQUIRED_COLORS + OPTIONAL_COLORS + LEGACY_KEY_MAPPINGS.keys
       unknown_keys = colors.keys - known_keys
       unknown_keys.each do |key|
-        warnings << "Unknown color key: '#{key}' (will be preserved but not validated)"
-        validate_color_value(key, colors[key], errors) # Still validate the format
+        # Still validate the format
+        validate_color_value("#{prefix_str}#{key}", colors[key], errors)
+      end
+    end
+
+    def normalize_color_set(colors, warnings, prefix = nil)
+      return unless colors.is_a?(Hash)
+
+      prefix_str = prefix ? " in #{prefix}" : ""
+
+      LEGACY_KEY_MAPPINGS.each do |old_key, new_key|
+        if colors.key?(old_key) && !colors.key?(new_key)
+          colors[new_key] = colors.delete(old_key)
+          warnings << "Migrated legacy key '#{old_key}' to '#{new_key}'#{prefix_str}"
+        elsif colors.key?(old_key)
+          colors.delete(old_key)
+          warnings << "Removed duplicate legacy key '#{old_key}' (#{new_key} already exists)#{prefix_str}"
+        end
       end
     end
 

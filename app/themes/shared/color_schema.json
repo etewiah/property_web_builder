@@ -1,9 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "PWB Theme Color Palette Schema",
-  "description": "Standardized color schema for PropertyWebBuilder theme palettes",
+  "description": "Standardized color schema for PropertyWebBuilder theme palettes with light/dark mode support",
   "type": "object",
-  "required": ["id", "name", "colors"],
+  "required": ["id", "name"],
   "properties": {
     "id": {
       "type": "string",
@@ -26,6 +26,11 @@
       "default": false,
       "description": "Whether this is the default palette for the theme"
     },
+    "supports_dark_mode": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this palette has explicit dark mode colors (if false, dark mode is auto-generated)"
+    },
     "preview_colors": {
       "type": "array",
       "items": {
@@ -37,6 +42,36 @@
       "description": "Colors shown in palette preview (3-5 hex colors)"
     },
     "colors": {
+      "$ref": "#/definitions/colorSet",
+      "description": "Single color set (used as light mode, dark mode auto-generated)"
+    },
+    "modes": {
+      "type": "object",
+      "description": "Explicit light and dark mode color sets",
+      "properties": {
+        "light": {
+          "$ref": "#/definitions/colorSet",
+          "description": "Light mode colors"
+        },
+        "dark": {
+          "$ref": "#/definitions/colorSet",
+          "description": "Dark mode colors"
+        }
+      },
+      "required": ["light"]
+    }
+  },
+  "oneOf": [
+    { "required": ["colors"] },
+    { "required": ["modes"] }
+  ],
+  "definitions": {
+    "hexColor": {
+      "type": "string",
+      "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+      "description": "Hex color value (e.g., #FF5733 or #F53)"
+    },
+    "colorSet": {
       "type": "object",
       "required": [
         "primary_color",
@@ -84,7 +119,7 @@
         },
         "footer_text_color": {
           "$ref": "#/definitions/hexColor",
-          "description": "Footer text color (standardized from footer_main_text_color)"
+          "description": "Footer text color"
         },
         "card_background_color": {
           "$ref": "#/definitions/hexColor",
@@ -97,6 +132,14 @@
         "border_color": {
           "$ref": "#/definitions/hexColor",
           "description": "Default border color for elements"
+        },
+        "surface_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Elevated surface color (cards, modals, dropdowns)"
+        },
+        "surface_alt_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Alternative surface color for contrast"
         },
         "success_color": {
           "$ref": "#/definitions/hexColor",
@@ -154,13 +197,6 @@
       "additionalProperties": {
         "$ref": "#/definitions/hexColor"
       }
-    }
-  },
-  "definitions": {
-    "hexColor": {
-      "type": "string",
-      "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
-      "description": "Hex color value (e.g., #FF5733 or #F53)"
     }
   }
 }

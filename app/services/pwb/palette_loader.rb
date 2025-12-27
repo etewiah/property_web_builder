@@ -2,6 +2,7 @@
 
 module Pwb
   # Loads and manages theme color palettes from separate JSON files
+  # Supports both single color set (colors) and multi-mode (modes.light/dark) palettes
   #
   # Usage:
   #   loader = Pwb::PaletteLoader.new
@@ -10,6 +11,10 @@ module Pwb
   #
   #   palette = loader.get_palette("brisbane", "gold_navy")
   #   default_palette = loader.get_default_palette("brisbane")
+  #
+  #   # Get colors for specific mode
+  #   light = loader.get_light_colors("brisbane", "gold_navy")
+  #   dark = loader.get_dark_colors("brisbane", "gold_navy")  # auto-generated if not explicit
   #
   class PaletteLoader
     attr_reader :themes_path
@@ -66,15 +71,64 @@ module Pwb
       default || palettes.values.first
     end
 
-    # Get palette colors with legacy key mappings for backward compatibility
+    # Get light mode colors from a palette
+    # Works with both `colors` and `modes.light` structures
     # @param theme_name [String] The theme name
     # @param palette_id [String] The palette identifier
-    # @return [Hash] Colors hash with both new and legacy keys
-    def get_palette_colors_with_legacy(theme_name, palette_id)
+    # @return [Hash] Light mode colors
+    def get_light_colors(theme_name, palette_id)
+      palette = get_palette(theme_name, palette_id)
+      extract_light_colors(palette)
+    end
+
+    # Get dark mode colors from a palette
+    # Returns explicit dark mode if available, otherwise auto-generates
+    # @param theme_name [String] The theme name
+    # @param palette_id [String] The palette identifier
+    # @return [Hash] Dark mode colors
+    def get_dark_colors(theme_name, palette_id)
       palette = get_palette(theme_name, palette_id)
       return {} unless palette
 
-      colors = palette["colors"].dup
+      # Check for explicit dark mode
+      if has_explicit_dark_mode?(palette)
+        return palette.dig("modes", "dark").dup
+      end
+
+      # Auto-generate dark mode from light colors
+      light_colors = extract_light_colors(palette)
+      ColorUtils.generate_dark_mode_colors(light_colors)
+    end
+
+    # Check if a palette has explicit dark mode colors
+    # @param palette [Hash] The palette data
+    # @return [Boolean]
+    def has_explicit_dark_mode?(palette)
+      return false unless palette
+
+      palette.dig("modes", "dark").is_a?(Hash)
+    end
+
+    # Check if a palette uses the modes structure
+    # @param palette [Hash] The palette data
+    # @return [Boolean]
+    def has_modes?(palette)
+      return false unless palette
+
+      palette["modes"].is_a?(Hash) && palette.dig("modes", "light").is_a?(Hash)
+    end
+
+    # Get palette colors with legacy key mappings for backward compatibility
+    # Returns light mode colors by default
+    # @param theme_name [String] The theme name
+    # @param palette_id [String] The palette identifier
+    # @param mode [Symbol] :light or :dark (default: :light)
+    # @return [Hash] Colors hash with both new and legacy keys
+    def get_palette_colors_with_legacy(theme_name, palette_id, mode: :light)
+      colors = mode == :dark ? get_dark_colors(theme_name, palette_id) : get_light_colors(theme_name, palette_id)
+      return {} unless colors
+
+      colors = colors.dup
 
       # Add legacy key mappings for backward compatibility
       colors["header_bg_color"] ||= colors["header_background_color"]
@@ -95,7 +149,9 @@ module Pwb
           name: data["name"],
           description: data["description"],
           preview_colors: data["preview_colors"],
-          is_default: data["is_default"] || false
+          is_default: data["is_default"] || false,
+          supports_dark_mode: data["supports_dark_mode"] || false,
+          has_explicit_dark_mode: has_explicit_dark_mode?(data)
         }
       end
     end
@@ -103,12 +159,27 @@ module Pwb
     # Generate CSS custom properties for a palette
     # @param theme_name [String] The theme name
     # @param palette_id [String] The palette identifier
+    # @param include_dark_mode [Boolean] Whether to include dark mode CSS
     # @return [String] CSS custom properties
-    def generate_css_variables(theme_name, palette_id = nil)
+    def generate_css_variables(theme_name, palette_id = nil, include_dark_mode: false)
       palette = palette_id ? get_palette(theme_name, palette_id) : get_default_palette(theme_name)
       return "" unless palette
 
-      ColorUtils.generate_palette_css_variables(palette)
+      if include_dark_mode
+        light_colors = extract_light_colors(palette)
+        dark_colors = has_explicit_dark_mode?(palette) ? palette.dig("modes", "dark") : nil
+        ColorUtils.generate_dual_mode_css_variables(light_colors, dark_colors)
+      else
+        ColorUtils.generate_palette_css_variables(palette)
+      end
+    end
+
+    # Generate full CSS with both light and dark mode support
+    # @param theme_name [String] The theme name
+    # @param palette_id [String] The palette identifier
+    # @return [String] Complete CSS with :root, dark mode media query, and .dark class
+    def generate_full_css(theme_name, palette_id = nil)
+      generate_css_variables(theme_name, palette_id, include_dark_mode: true)
     end
 
     # Clear cached palettes
@@ -148,6 +219,22 @@ module Pwb
     end
 
     private
+
+    # Extract light mode colors from a palette
+    # Handles both `colors` and `modes.light` structures
+    # @param palette [Hash] The palette data
+    # @return [Hash] Light mode colors or empty hash
+    def extract_light_colors(palette)
+      return {} unless palette
+
+      if palette["modes"].is_a?(Hash) && palette.dig("modes", "light").is_a?(Hash)
+        palette.dig("modes", "light").dup
+      elsif palette["colors"].is_a?(Hash)
+        palette["colors"].dup
+      else
+        {}
+      end
+    end
 
     # Fallback to loading from config.json for backward compatibility
     def fallback_to_config(theme_name)
