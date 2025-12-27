@@ -1,7 +1,7 @@
 # Admin Settings Consolidation Plan
 
 **Date:** December 2024
-**Status:** Proposed
+**Status:** IMPLEMENTED (Phase 1 Complete)
 
 ## Problem Summary
 
@@ -13,9 +13,33 @@ The site_admin interface has confusing duplicate inputs where the same informati
 
 ---
 
-## Issue #1: Company Display Name (CRITICAL)
+## Issue #1: Company Display Name (RESOLVED)
 
-### Current State
+### Resolution (December 2024)
+
+**IMPLEMENTED:** Agency Profile is now the primary source for company display name.
+
+The `company_display_name` helper in `app/helpers/pwb/application_helper.rb` now uses this priority:
+
+```ruby
+# Priority: agency.display_name > agency.company_name > website.company_display_name (deprecated) > default
+def company_display_name(default_value = "Real Estate")
+  @current_agency&.display_name.presence ||
+    @current_agency&.company_name.presence ||
+    @current_website&.company_display_name.presence ||
+    default_value
+end
+```
+
+### What This Means
+
+| Field | Location | Status | Purpose |
+|-------|----------|--------|---------|
+| `display_name` | Agency Profile | **PRIMARY** | Company name shown to visitors (header, footer, emails) |
+| `company_name` | Agency Profile | Secondary | Legal name for invoices and contracts |
+| `company_display_name` | Website | **DEPRECATED** | Legacy fallback only - do not use for new sites |
+
+### Previous State (Before Fix)
 
 | Location | Field | Model | Help Text |
 |----------|-------|-------|-----------|
@@ -23,9 +47,9 @@ The site_admin interface has confusing duplicate inputs where the same informati
 | Agency Profile | `display_name` | Pwb::Agency | "The name shown to visitors on your website" |
 | Agency Profile | `company_name` | Pwb::Agency | "Used in legal documents and invoices" |
 
-**Problem:** Both fields have nearly identical descriptions but `website.company_display_name` takes precedence when set.
+**Problem:** Both fields had nearly identical descriptions but `website.company_display_name` took precedence when set, causing confusion.
 
-### Current Precedence Logic (Inconsistent!)
+### Previous Precedence Logic (Was Inconsistent!)
 
 ```
 Brisbane theme: website.company_display_name.presence || agency.display_name
@@ -34,35 +58,26 @@ Default theme:   website.company_display_name.presence || agency.company_name
 Bologna theme:   website.company_display_name || "Real Estate" (IGNORES AGENCY!)
 ```
 
-### Recommended Solution
+### Current Precedence Logic (Consistent!)
 
-**Option A: Consolidate to Agency Profile (Recommended)**
+All themes now use the `company_display_name` helper with consistent fallback:
 
-1. Remove `company_display_name` from Website Settings > General tab
-2. Add deprecation warning if `website.company_display_name` is set
-3. Create a migration helper method:
-   ```ruby
-   def company_display_name
-     @current_website.company_display_name.presence ||
-       @current_agency&.display_name.presence ||
-       @current_agency&.company_name
-   end
-   ```
-4. Use this helper consistently in ALL themes
-5. Update Agency Profile to clarify:
-   - `display_name` - "Company name shown to visitors (header, footer, emails)"
-   - `company_name` - "Legal name for invoices and contracts"
+```
+agency.display_name > agency.company_name > website.company_display_name > "Real Estate"
+```
 
-**Benefits:**
-- Single source of truth in Agency Profile
-- Clear distinction between display name and legal name
-- Agency Profile already has all contact info, so it's the natural home
+### Migration Notes
 
-**Migration Path:**
-1. Phase 1: Add helper method, update themes to use it
-2. Phase 2: Add warning to Website Settings if field is populated
-3. Phase 3: Hide field from Website Settings, auto-migrate values to Agency
-4. Phase 4: Remove database column (after data verification)
+- `website.company_display_name` in seed files has been commented out with deprecation note
+- `agency.display_name` in seed files is now the primary source
+- Factory tests updated to use agency.display_name
+- Existing sites with `website.company_display_name` set will continue to work (legacy fallback)
+
+### Remaining Work (Future Phases)
+
+1. Phase 2: Add warning to Website Settings if field is populated
+2. Phase 3: Hide field from Website Settings, auto-migrate values to Agency
+3. Phase 4: Remove database column (after data verification)
 
 ---
 

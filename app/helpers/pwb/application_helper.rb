@@ -2,18 +2,25 @@ module Pwb
   module ApplicationHelper
     # Consolidated company display name resolution
     # Provides consistent fallback logic across all themes
-    # Priority: website.company_display_name > agency.display_name > agency.company_name > default
+    # Priority: agency.display_name > agency.company_name > website.company_display_name (deprecated) > default
+    #
+    # NOTE: website.company_display_name is DEPRECATED and only used as a legacy fallback.
+    # New installations should set display_name on the Agency model instead.
+    # The agency display_name field can be edited in Admin > Agency Profile.
     def company_display_name(default_value = "Real Estate")
-      @current_website&.company_display_name.presence ||
-        @current_agency&.display_name.presence ||
+      @current_agency&.display_name.presence ||
         @current_agency&.company_name.presence ||
+        @current_website&.company_display_name.presence ||
         default_value
     end
 
     # Legal company name for copyright/contracts
-    # Priority: agency.company_name > website.company_display_name > default
+    # Priority: agency.company_name > agency.display_name > website.company_display_name (deprecated) > default
+    #
+    # NOTE: website.company_display_name is DEPRECATED - see company_display_name above.
     def company_legal_name(default_value = "Real Estate")
       @current_agency&.company_name.presence ||
+        @current_agency&.display_name.presence ||
         @current_website&.company_display_name.presence ||
         default_value
     end

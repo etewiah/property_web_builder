@@ -12,6 +12,109 @@ require 'rails_helper'
 # end
 module Pwb
   RSpec.describe ApplicationHelper, type: :helper do
+    describe "#company_display_name" do
+      let(:website) { instance_double(Pwb::Website) }
+      let(:agency) { instance_double(Pwb::Agency) }
+
+      before do
+        helper.instance_variable_set(:@current_website, website)
+        helper.instance_variable_set(:@current_agency, agency)
+      end
+
+      context "when agency display_name is present" do
+        it "returns agency display_name (highest priority)" do
+          allow(agency).to receive(:display_name).and_return("Agency Display Name")
+          allow(agency).to receive(:company_name).and_return("Agency Company")
+          allow(website).to receive(:company_display_name).and_return("Website Company")
+
+          expect(helper.company_display_name).to eq("Agency Display Name")
+        end
+      end
+
+      context "when agency display_name is blank but company_name is present" do
+        it "returns agency company_name" do
+          allow(agency).to receive(:display_name).and_return("")
+          allow(agency).to receive(:company_name).and_return("Agency Company")
+          allow(website).to receive(:company_display_name).and_return("Website Company")
+
+          expect(helper.company_display_name).to eq("Agency Company")
+        end
+      end
+
+      context "when agency fields are blank but website company_display_name is present" do
+        it "returns website company_display_name (deprecated fallback)" do
+          allow(agency).to receive(:display_name).and_return(nil)
+          allow(agency).to receive(:company_name).and_return(nil)
+          allow(website).to receive(:company_display_name).and_return("Website Company")
+
+          expect(helper.company_display_name).to eq("Website Company")
+        end
+      end
+
+      context "when all fields are blank" do
+        it "returns the default value" do
+          allow(agency).to receive(:display_name).and_return(nil)
+          allow(agency).to receive(:company_name).and_return(nil)
+          allow(website).to receive(:company_display_name).and_return(nil)
+
+          expect(helper.company_display_name).to eq("Real Estate")
+          expect(helper.company_display_name("My Default")).to eq("My Default")
+        end
+      end
+
+      context "when agency is nil" do
+        before do
+          helper.instance_variable_set(:@current_agency, nil)
+        end
+
+        it "falls back to website company_display_name" do
+          allow(website).to receive(:company_display_name).and_return("Website Company")
+
+          expect(helper.company_display_name).to eq("Website Company")
+        end
+      end
+    end
+
+    describe "#company_legal_name" do
+      let(:website) { instance_double(Pwb::Website) }
+      let(:agency) { instance_double(Pwb::Agency) }
+
+      before do
+        helper.instance_variable_set(:@current_website, website)
+        helper.instance_variable_set(:@current_agency, agency)
+      end
+
+      context "when agency company_name is present" do
+        it "returns agency company_name (highest priority)" do
+          allow(agency).to receive(:company_name).and_return("Agency Legal Name")
+          allow(agency).to receive(:display_name).and_return("Agency Display")
+          allow(website).to receive(:company_display_name).and_return("Website Company")
+
+          expect(helper.company_legal_name).to eq("Agency Legal Name")
+        end
+      end
+
+      context "when agency company_name is blank but display_name is present" do
+        it "returns agency display_name" do
+          allow(agency).to receive(:company_name).and_return("")
+          allow(agency).to receive(:display_name).and_return("Agency Display")
+          allow(website).to receive(:company_display_name).and_return("Website Company")
+
+          expect(helper.company_legal_name).to eq("Agency Display")
+        end
+      end
+
+      context "when agency fields are blank" do
+        it "falls back to website company_display_name (deprecated)" do
+          allow(agency).to receive(:company_name).and_return(nil)
+          allow(agency).to receive(:display_name).and_return(nil)
+          allow(website).to receive(:company_display_name).and_return("Website Company")
+
+          expect(helper.company_legal_name).to eq("Website Company")
+        end
+      end
+    end
+
     describe "#localized_link_to" do
       context 'for devise controller' do
         it "returns correct link" do

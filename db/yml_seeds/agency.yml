@@ -3,8 +3,11 @@ phone_number_mobile:
 phone_number_other:
 analytics_id:
 analytics_id_type:
+# Legal company name (used for contracts, copyright, invoices)
 company_name: Example RE
-display_name: Example RE
+# Display name shown to visitors (header, footer, emails)
+# This is the primary source for the company name shown on the public website
+display_name: Example Real Estate
 email_primary: contact@example.com
 email_for_general_contact_form:
 email_for_property_contact_form:

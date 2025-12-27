@@ -8,7 +8,7 @@
         <% if @current_website.logo_url.present? %>
           <img src="<%= @current_website.logo_url %>"
                class="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
-               alt="<%= @current_website.company_display_name %>"
+               alt="<%= company_display_name %>"
                loading="eager" fetchpriority="high">
         <% else %>
           <div class="flex items-center space-x-2">

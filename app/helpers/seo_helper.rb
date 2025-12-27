@@ -269,7 +269,11 @@ module SeoHelper
     data = {
       '@context' => 'https://schema.org',
       '@type' => 'RealEstateAgent',
-      'name' => current_website.company_display_name.presence || current_website.subdomain,
+      # Use agency display_name (primary), fallback to website.company_display_name (deprecated), then subdomain
+      'name' => current_website.agency&.display_name.presence ||
+                current_website.agency&.company_name.presence ||
+                current_website.company_display_name.presence ||
+                current_website.subdomain,
       'url' => root_url
     }
 
