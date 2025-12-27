@@ -1,0 +1,47 @@
+/* Custom CSS for Biarritz Theme - Coastal French Basque Style */
+/* This file is rendered as a partial by the custom_styles helper */
+:root {
+  --primary-color: <%= @current_website.style_variables['primary_color'] || '#0C4A6E' %>;
+  --secondary-color: <%= @current_website.style_variables['secondary_color'] || '#D97706' %>;
+  --accent-color: <%= @current_website.style_variables['accent_color'] || '#FBBF24' %>;
+  --background-color: <%= @current_website.style_variables['background_color'] || '#FAFAF9' %>;
+  --text-color: <%= @current_website.style_variables['text_color'] || '#1C1917' %>;
+  --font-primary: <%= @current_website.style_variables['font_primary'] || 'Open Sans' %>;
+  --font-heading: <%= @current_website.style_variables['font_heading'] || 'Playfair Display' %>;
+  --border-radius: <%= @current_website.style_variables['border_radius'] || '12px' %>;
+  --container-padding: <%= @current_website.style_variables['container_padding'] || '1rem' %>;
+}
+
+.biarritz-theme {
+  font-family: var(--font-primary), sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.biarritz-theme h1,
+.biarritz-theme h2,
+.biarritz-theme h3,
+.biarritz-theme h4,
+.biarritz-theme h5,
+.biarritz-theme h6 {
+  font-family: var(--font-heading), serif;
+}
+
+/* Primary color utilities */
+.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.border-primary {
+  border-color: var(--primary-color) !important;
+}
+
+/* Coastal wave effect */
+.wave-divider {
+  position: relative;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+}
