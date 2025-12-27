@@ -231,6 +231,7 @@ module SiteAdmin
         params.require(:website).permit(
           :theme_name,
           :selected_palette,
+          :dark_mode_setting,
           :raw_css
         )
       end

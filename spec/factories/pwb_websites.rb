@@ -11,6 +11,7 @@
 #  custom_domain_verification_token    :string
 #  custom_domain_verified              :boolean          default(FALSE)
 #  custom_domain_verified_at           :datetime
+#  dark_mode_setting                   :string           default("light_only"), not null
 #  default_admin_locale                :string           default("en-UK")
 #  default_area_unit                   :integer          default("sqmt")
 #  default_client_locale               :string           default("en-UK")
@@ -73,6 +74,7 @@
 # Indexes
 #
 #  index_pwb_websites_on_custom_domain             (custom_domain) UNIQUE WHERE ((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))
+#  index_pwb_websites_on_dark_mode_setting         (dark_mode_setting)
 #  index_pwb_websites_on_email_verification_token  (email_verification_token) UNIQUE WHERE (email_verification_token IS NOT NULL)
 #  index_pwb_websites_on_provisioning_state        (provisioning_state)
 #  index_pwb_websites_on_selected_palette          (selected_palette)
@@ -83,7 +85,9 @@
 FactoryBot.define do
   factory :pwb_website, class: 'Pwb::Website' do
     sequence(:subdomain) { |n| "tenant#{n}" }
-    company_display_name { 'Test Company' }
+    # NOTE: company_display_name is DEPRECATED - use agency.display_name instead
+    # Keeping nil here so agency.display_name takes priority
+    company_display_name { nil }
     theme_name { 'default' }
     default_currency { 'EUR' }
     default_client_locale { 'en-UK' }
@@ -102,6 +106,11 @@ FactoryBot.define do
       end
     end
 
+    # Trait for testing legacy company_display_name fallback
+    trait :with_legacy_company_display_name do
+      company_display_name { 'Legacy Website Company' }
+    end
+
     after(:create) do |website, evaluator|
       # Create an agency for the website if not already created
       # Skip if using :without_agency trait
@@ -110,7 +119,8 @@ FactoryBot.define do
       unless website.agency.present?
         agency = Pwb::Agency.create!(
           company_name: 'Test Company',
-          display_name: 'Test Agency',
+          # display_name is the primary source for the company name shown on the public website
+          display_name: 'Test Company',
           website: website
         )
         website.update(agency: agency)

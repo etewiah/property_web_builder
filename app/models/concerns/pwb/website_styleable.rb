@@ -21,6 +21,13 @@ module Pwb
       "container_padding" => "1rem"
     }.freeze
 
+    # Dark mode setting options
+    DARK_MODE_SETTINGS = {
+      light_only: "light_only", # Only light mode, no dark CSS
+      auto: "auto",             # Respects user's system preference
+      dark: "dark"              # Forces dark mode
+    }.freeze
+
     # Get style variables for the current theme
     # If a palette is selected, merge palette colors into style variables
     def style_variables
@@ -125,6 +132,79 @@ module Pwb
     # Check if Google Analytics should render
     def render_google_analytics
       Rails.env.production? && analytics_id.present?
+    end
+
+    # ===================
+    # Dark Mode Support
+    # ===================
+
+    # Check if dark mode is enabled for this website
+    # Returns true for 'auto' or 'dark' settings
+    def dark_mode_enabled?
+      %w[auto dark].include?(dark_mode_setting)
+    end
+
+    # Check if dark mode should be forced (no system preference)
+    def force_dark_mode?
+      dark_mode_setting == "dark"
+    end
+
+    # Check if dark mode respects system preference
+    def auto_dark_mode?
+      dark_mode_setting == "auto"
+    end
+
+    # Get HTML class for dark mode
+    # Returns 'pwb-dark' for forced dark mode, nil otherwise
+    def dark_mode_html_class
+      force_dark_mode? ? "pwb-dark" : nil
+    end
+
+    # Get dark mode colors for the current palette
+    def dark_mode_colors
+      return {} unless dark_mode_enabled? && current_theme && effective_palette_id
+
+      palette_loader.get_dark_colors(theme_name, effective_palette_id)
+    end
+
+    # Get CSS variables with dark mode support
+    # Returns full CSS with :root, @media (prefers-color-scheme: dark), and .dark class
+    def css_variables_with_dark_mode
+      return css_variables unless dark_mode_enabled?
+
+      return "" unless current_theme && effective_palette_id
+
+      palette_loader.generate_full_css(theme_name, effective_palette_id)
+    end
+
+    # Get light mode only CSS variables
+    def css_variables
+      return "" unless current_theme && effective_palette_id
+
+      palette_loader.generate_css_variables(theme_name, effective_palette_id)
+    end
+
+    # Check if current palette has explicit dark mode colors
+    def palette_has_explicit_dark_mode?
+      return false unless current_theme && effective_palette_id
+
+      palette = palette_loader.get_palette(theme_name, effective_palette_id)
+      palette_loader.has_explicit_dark_mode?(palette)
+    end
+
+    # Get dark mode setting options for form
+    def self.dark_mode_setting_options
+      [
+        ["Light Only (no dark mode)", "light_only"],
+        ["Auto (follow system preference)", "auto"],
+        ["Always Dark", "dark"]
+      ]
+    end
+
+    private
+
+    def palette_loader
+      @palette_loader ||= PaletteLoader.new
     end
   end
 end

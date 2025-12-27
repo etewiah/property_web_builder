@@ -11,6 +11,7 @@
 #  custom_domain_verification_token    :string
 #  custom_domain_verified              :boolean          default(FALSE)
 #  custom_domain_verified_at           :datetime
+#  dark_mode_setting                   :string           default("light_only"), not null
 #  default_admin_locale                :string           default("en-UK")
 #  default_area_unit                   :integer          default("sqmt")
 #  default_client_locale               :string           default("en-UK")
@@ -73,6 +74,7 @@
 # Indexes
 #
 #  index_pwb_websites_on_custom_domain             (custom_domain) UNIQUE WHERE ((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))
+#  index_pwb_websites_on_dark_mode_setting         (dark_mode_setting)
 #  index_pwb_websites_on_email_verification_token  (email_verification_token) UNIQUE WHERE (email_verification_token IS NOT NULL)
 #  index_pwb_websites_on_provisioning_state        (provisioning_state)
 #  index_pwb_websites_on_selected_palette          (selected_palette)

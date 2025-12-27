@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_26_200000) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_27_154344) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -845,6 +845,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_26_200000) do
     t.string "custom_domain_verification_token"
     t.boolean "custom_domain_verified", default: false
     t.datetime "custom_domain_verified_at"
+    t.string "dark_mode_setting", default: "light_only", null: false
     t.string "default_admin_locale", default: "en-UK"
     t.integer "default_area_unit", default: 0
     t.string "default_client_locale", default: "en-UK"
@@ -901,6 +902,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_26_200000) do
     t.datetime "updated_at", precision: nil, null: false
     t.json "whitelabel_config", default: {}
     t.index ["custom_domain"], name: "index_pwb_websites_on_custom_domain", unique: true, where: "((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))"
+    t.index ["dark_mode_setting"], name: "index_pwb_websites_on_dark_mode_setting"
     t.index ["email_verification_token"], name: "index_pwb_websites_on_email_verification_token", unique: true, where: "(email_verification_token IS NOT NULL)"
     t.index ["provisioning_state"], name: "index_pwb_websites_on_provisioning_state"
     t.index ["selected_palette"], name: "index_pwb_websites_on_selected_palette"
