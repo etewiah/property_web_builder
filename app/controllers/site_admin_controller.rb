@@ -44,7 +44,8 @@ class SiteAdminController < ActionController::Base
     unless current_user && user_is_admin_for_subdomain?
       @subdomain = request.subdomain
       @website = current_website
-      render 'pwb/errors/admin_required', layout: 'site_admin', status: :forbidden
+      # Use minimal layout without navigation for error page
+      render 'pwb/errors/admin_required', layout: 'pwb/admin_panel_error', status: :forbidden
     end
   end
 
