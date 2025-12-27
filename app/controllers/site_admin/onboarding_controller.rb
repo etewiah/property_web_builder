@@ -39,6 +39,7 @@ module SiteAdmin
         render :welcome
       when 2
         @agency = current_website.agency || current_website.build_agency
+        @website = current_website
         render :profile
       when 3
         @property = current_website.realty_assets.new
@@ -155,11 +156,18 @@ module SiteAdmin
     # Step 2: Save profile/agency
     def save_profile
       @agency = current_website.agency || current_website.build_agency
+      @website = current_website
 
       agency_params = params.require(:pwb_agency).permit(
         :display_name, :email_primary, :phone_number_primary,
         :company_name
       )
+
+      # Save currency to website (this is a permanent setting)
+      currency = params[:default_currency]
+      if currency.present? && Pwb::Config::CURRENCIES.key?(currency)
+        current_website.update!(default_currency: currency)
+      end
 
       if @agency.update(agency_params)
         advance_step!

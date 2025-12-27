@@ -10,6 +10,45 @@
 
     <%= form_with model: @agency, url: site_admin_onboarding_path(step: @step), method: :post, local: true do |f| %>
       <div class="space-y-6">
+
+        <!-- Currency Selection - PERMANENT SETTING -->
+        <div class="bg-amber-50 border-2 border-amber-300 rounded-lg p-5">
+          <div class="flex items-start mb-3">
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <h3 class="text-lg font-semibold text-amber-800">Choose Your Currency</h3>
+              <p class="text-sm text-amber-700 mt-1">
+                <strong>Important:</strong> This setting is permanent and cannot be changed later.
+                All your property prices will be stored in this currency.
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <label for="default_currency" class="block text-sm font-medium text-gray-700 mb-2">
+              Primary Currency <span class="text-red-500">*</span>
+            </label>
+            <select name="default_currency" id="default_currency" required
+                    class="block w-full rounded-lg border-2 border-amber-300 bg-white shadow-sm focus:border-amber-500 focus:ring-amber-500 text-base px-4 py-3">
+              <% Pwb::Config.currency_options_for_select.each do |label, code| %>
+                <option value="<%= code %>" <%= 'selected' if code == (@website&.default_currency || 'EUR') %>>
+                  <%= label %>
+                </option>
+              <% end %>
+            </select>
+            <p class="mt-2 text-xs text-amber-600">
+              <svg class="inline h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+              </svg>
+              Choose the currency you will use to list property prices. Visitors can optionally view converted prices in other currencies.
+            </p>
+          </div>
+        </div>
+
         <!-- Business Name -->
         <div>
           <%= f.label :display_name, "Business / Agency Name", class: "block text-sm font-medium text-gray-700 mb-1" %>
