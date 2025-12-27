@@ -1,0 +1,21 @@
+{
+  "id": "tuscan_vineyard",
+  "name": "Tuscan Vineyard",
+  "description": "Rich wine country tones with rustic elegance",
+  "preview_colors": ["#722F37", "#5C6B4D", "#F5F0E6"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#722F37",
+    "secondary_color": "#5C6B4D",
+    "accent_color": "#8B7355",
+    "background_color": "#FAF8F5",
+    "text_color": "#3D3D3D",
+    "header_background_color": "#FAF8F5",
+    "header_text_color": "#3D3D3D",
+    "footer_background_color": "#3D3D3D",
+    "footer_text_color": "#E8E4DE",
+    "light_color": "#F5F0E6",
+    "link_color": "#722F37",
+    "action_color": "#722F37"
+  }
+}

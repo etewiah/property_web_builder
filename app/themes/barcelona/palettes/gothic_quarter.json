@@ -1,0 +1,21 @@
+{
+  "id": "gothic_quarter",
+  "name": "Gothic Quarter",
+  "description": "Historic charm with dramatic elegance",
+  "preview_colors": ["#800020", "#6B7280", "#D4AF37"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#800020",
+    "secondary_color": "#6B7280",
+    "accent_color": "#D4AF37",
+    "background_color": "#FAFAFA",
+    "text_color": "#1F2937",
+    "header_background_color": "#FAFAFA",
+    "header_text_color": "#1F2937",
+    "footer_background_color": "#1F2937",
+    "footer_text_color": "#D1D5DB",
+    "light_color": "#F3F4F6",
+    "link_color": "#800020",
+    "action_color": "#800020"
+  }
+}

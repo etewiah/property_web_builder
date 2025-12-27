@@ -1,0 +1,21 @@
+{
+  "id": "ibiza_white",
+  "name": "Ibiza White",
+  "description": "Bright Mediterranean beach house style",
+  "preview_colors": ["#40E0D0", "#FFFFFF", "#FF6B6B"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#0D9488",
+    "secondary_color": "#40E0D0",
+    "accent_color": "#FF6B6B",
+    "background_color": "#FFFFFF",
+    "text_color": "#374151",
+    "header_background_color": "#FFFFFF",
+    "header_text_color": "#374151",
+    "footer_background_color": "#0F766E",
+    "footer_text_color": "#ECFDF5",
+    "light_color": "#F0FDFA",
+    "link_color": "#0D9488",
+    "action_color": "#0D9488"
+  }
+}

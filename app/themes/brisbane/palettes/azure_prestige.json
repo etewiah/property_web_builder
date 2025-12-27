@@ -1,0 +1,21 @@
+{
+  "id": "azure_prestige",
+  "name": "Azure Prestige",
+  "description": "Sophisticated waterfront luxury appeal",
+  "preview_colors": ["#1E3A5F", "#FAFAFA", "#CD7F32"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#1E3A5F",
+    "secondary_color": "#CD7F32",
+    "accent_color": "#4A90A4",
+    "background_color": "#FAFAFA",
+    "text_color": "#1E293B",
+    "header_background_color": "#1E3A5F",
+    "header_text_color": "#FFFFFF",
+    "footer_background_color": "#1E3A5F",
+    "footer_text_color": "#E2E8F0",
+    "light_color": "#F1F5F9",
+    "link_color": "#1E3A5F",
+    "action_color": "#CD7F32"
+  }
+}

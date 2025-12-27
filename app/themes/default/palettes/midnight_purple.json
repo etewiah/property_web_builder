@@ -1,0 +1,21 @@
+{
+  "id": "midnight_purple",
+  "name": "Midnight Purple",
+  "description": "Modern and creative with sophisticated depth",
+  "preview_colors": ["#5B21B6", "#1F2937", "#A78BFA"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#5B21B6",
+    "secondary_color": "#1F2937",
+    "accent_color": "#A78BFA",
+    "background_color": "#ffffff",
+    "text_color": "#1F2937",
+    "header_background_color": "#ffffff",
+    "header_text_color": "#1F2937",
+    "footer_background_color": "#1F2937",
+    "footer_text_color": "#E5E7EB",
+    "light_color": "#F5F3FF",
+    "link_color": "#5B21B6",
+    "action_color": "#5B21B6"
+  }
+}

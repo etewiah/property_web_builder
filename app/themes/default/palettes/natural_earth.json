@@ -1,0 +1,21 @@
+{
+  "id": "natural_earth",
+  "name": "Natural Earth",
+  "description": "Organic and warm with eco-friendly appeal",
+  "preview_colors": ["#78350F", "#F5F5DC", "#4D7C0F"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#78350F",
+    "secondary_color": "#4D7C0F",
+    "accent_color": "#A16207",
+    "background_color": "#FFFBEB",
+    "text_color": "#422006",
+    "header_background_color": "#FFFBEB",
+    "header_text_color": "#422006",
+    "footer_background_color": "#422006",
+    "footer_text_color": "#FEF3C7",
+    "light_color": "#FEF3C7",
+    "link_color": "#78350F",
+    "action_color": "#4D7C0F"
+  }
+}

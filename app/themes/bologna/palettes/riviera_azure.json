@@ -1,0 +1,21 @@
+{
+  "id": "riviera_azure",
+  "name": "Riviera Azure",
+  "description": "Mediterranean coastal blues with sunny warmth",
+  "preview_colors": ["#0077B6", "#FFFFFF", "#FF6B6B"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#0077B6",
+    "secondary_color": "#023E8A",
+    "accent_color": "#FF6B6B",
+    "background_color": "#FFFFFF",
+    "text_color": "#2D3748",
+    "header_background_color": "#FFFFFF",
+    "header_text_color": "#2D3748",
+    "footer_background_color": "#023E8A",
+    "footer_text_color": "#E2E8F0",
+    "light_color": "#F0F9FF",
+    "link_color": "#0077B6",
+    "action_color": "#0077B6"
+  }
+}
