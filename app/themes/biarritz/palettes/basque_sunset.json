@@ -1,0 +1,21 @@
+{
+  "id": "basque_sunset",
+  "name": "Basque Sunset",
+  "description": "Warm sunset tones over the ocean",
+  "preview_colors": ["#F59E0B", "#0369A1", "#FB923C"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#F59E0B",
+    "secondary_color": "#0369A1",
+    "accent_color": "#FB923C",
+    "background_color": "#FFFBF5",
+    "text_color": "#1C1917",
+    "header_background_color": "#0369A1",
+    "header_text_color": "#FFFFFF",
+    "footer_background_color": "#075985",
+    "footer_text_color": "#F0F9FF",
+    "light_color": "#FFFBF5",
+    "link_color": "#F59E0B",
+    "action_color": "#F59E0B"
+  }
+}

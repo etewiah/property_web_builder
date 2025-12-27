@@ -1,0 +1,21 @@
+{
+  "id": "ocean_blue",
+  "name": "Ocean Blue",
+  "description": "Professional and trustworthy",
+  "preview_colors": ["#3498db", "#2c3e50", "#e74c3c"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#3498db",
+    "secondary_color": "#2c3e50",
+    "accent_color": "#e74c3c",
+    "background_color": "#ffffff",
+    "text_color": "#333333",
+    "header_background_color": "#ffffff",
+    "header_text_color": "#333333",
+    "footer_background_color": "#2c3e50",
+    "footer_text_color": "#ffffff",
+    "light_color": "#f0f7fc",
+    "link_color": "#3498db",
+    "action_color": "#3498db"
+  }
+}

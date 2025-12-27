@@ -1,0 +1,21 @@
+{
+  "id": "gold_navy",
+  "name": "Gold & Navy",
+  "description": "Classic luxury with timeless elegance",
+  "preview_colors": ["#c9a962", "#1a1a2e", "#16213e"],
+  "is_default": true,
+  "colors": {
+    "primary_color": "#c9a962",
+    "secondary_color": "#1a1a2e",
+    "accent_color": "#16213e",
+    "background_color": "#fafafa",
+    "text_color": "#2d2d2d",
+    "header_background_color": "#1a1a2e",
+    "header_text_color": "#ffffff",
+    "footer_background_color": "#1a1a2e",
+    "footer_text_color": "#e8e8e8",
+    "light_color": "#fafafa",
+    "link_color": "#c9a962",
+    "action_color": "#c9a962"
+  }
+}

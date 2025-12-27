@@ -1,0 +1,21 @@
+{
+  "id": "sunset_orange",
+  "name": "Sunset Orange",
+  "description": "Warm, inviting, and creative",
+  "preview_colors": ["#e67e22", "#2c3e50", "#9b59b6"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#e67e22",
+    "secondary_color": "#2c3e50",
+    "accent_color": "#9b59b6",
+    "background_color": "#ffffff",
+    "text_color": "#333333",
+    "header_background_color": "#ffffff",
+    "header_text_color": "#333333",
+    "footer_background_color": "#2c3e50",
+    "footer_text_color": "#ffffff",
+    "light_color": "#fef9f3",
+    "link_color": "#e67e22",
+    "action_color": "#e67e22"
+  }
+}

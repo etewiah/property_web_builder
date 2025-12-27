@@ -156,9 +156,10 @@ module Pwb
     # ===== Palette Support =====
 
     # Get all palettes for this theme
+    # Uses PaletteLoader to load from separate JSON files, falling back to config.json
     # @return [Hash] palette configurations keyed by palette ID
     def palettes
-      attributes[:palettes] || {}
+      @palettes ||= palette_loader.load_theme_palettes(name)
     end
 
     # Get the default palette ID for this theme
@@ -166,6 +167,12 @@ module Pwb
     def default_palette_id
       default = palettes.find { |_, config| config["is_default"] }
       default&.first || palettes.keys.first
+    end
+
+    # Get the default palette object for this theme
+    # @return [Hash, nil] the default palette or first available
+    def default_palette
+      palette_loader.get_default_palette(name)
     end
 
     # Get a specific palette by ID
@@ -180,6 +187,13 @@ module Pwb
     # @return [Hash] the colors hash or empty hash
     def palette_colors(palette_id)
       palette(palette_id)&.dig("colors") || {}
+    end
+
+    # Get palette colors with legacy key mappings for backward compatibility
+    # @param palette_id [String] the palette ID
+    # @return [Hash] the colors hash with both new and legacy keys
+    def palette_colors_with_legacy(palette_id)
+      palette_loader.get_palette_colors_with_legacy(name, palette_id)
     end
 
     # Get preview colors for UI display
@@ -200,6 +214,19 @@ module Pwb
     # @return [Boolean]
     def valid_palette?(palette_id)
       palettes.key?(palette_id.to_s)
+    end
+
+    # Generate CSS custom properties for a palette
+    # @param palette_id [String, nil] the palette ID (nil for default)
+    # @return [String] CSS custom properties
+    def generate_palette_css(palette_id = nil)
+      palette_loader.generate_css_variables(name, palette_id)
+    end
+
+    # List all available palettes with summary info
+    # @return [Array<Hash>] array of palette summaries
+    def list_palettes
+      palette_loader.list_palettes(name)
     end
 
     # ===== Page Part Configuration =====
@@ -288,6 +315,12 @@ module Pwb
         style_variable_schema: style_variable_schema,
         default_style_variables: default_style_variables
       }
+    end
+
+    private
+
+    def palette_loader
+      @palette_loader ||= PaletteLoader.new
     end
   end
 end

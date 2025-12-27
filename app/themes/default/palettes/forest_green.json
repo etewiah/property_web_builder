@@ -1,0 +1,21 @@
+{
+  "id": "forest_green",
+  "name": "Forest Green",
+  "description": "Fresh, natural, and eco-friendly",
+  "preview_colors": ["#27ae60", "#2c3e50", "#f39c12"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#27ae60",
+    "secondary_color": "#2c3e50",
+    "accent_color": "#f39c12",
+    "background_color": "#ffffff",
+    "text_color": "#333333",
+    "header_background_color": "#ffffff",
+    "header_text_color": "#333333",
+    "footer_background_color": "#2c3e50",
+    "footer_text_color": "#ffffff",
+    "light_color": "#f0faf4",
+    "link_color": "#27ae60",
+    "action_color": "#27ae60"
+  }
+}

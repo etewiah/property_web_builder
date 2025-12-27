@@ -1,0 +1,21 @@
+{
+  "id": "coastal_sunset",
+  "name": "Coastal Sunset",
+  "description": "Warm sunset tones over the Mediterranean",
+  "preview_colors": ["#D35400", "#1A5276", "#F5B041"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#D35400",
+    "secondary_color": "#1A5276",
+    "accent_color": "#F5B041",
+    "background_color": "#FDF8F4",
+    "text_color": "#2C3E50",
+    "header_background_color": "#ffffff",
+    "header_text_color": "#2C3E50",
+    "footer_background_color": "#1A5276",
+    "footer_text_color": "#EBF5FB",
+    "light_color": "#FDF8F4",
+    "link_color": "#D35400",
+    "action_color": "#D35400"
+  }
+}

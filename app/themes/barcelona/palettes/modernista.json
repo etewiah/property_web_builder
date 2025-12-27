@@ -1,0 +1,21 @@
+{
+  "id": "modernista",
+  "name": "Modernista",
+  "description": "Elegant and refined Art Nouveau inspired",
+  "preview_colors": ["#5D4E6D", "#8B7355", "#C9A962"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#5D4E6D",
+    "secondary_color": "#8B7355",
+    "accent_color": "#C9A962",
+    "background_color": "#FAF9F7",
+    "text_color": "#3D3D3D",
+    "header_background_color": "#ffffff",
+    "header_text_color": "#3D3D3D",
+    "footer_background_color": "#3D3D3D",
+    "footer_text_color": "#E8E8E8",
+    "light_color": "#FAF9F7",
+    "link_color": "#5D4E6D",
+    "action_color": "#5D4E6D"
+  }
+}

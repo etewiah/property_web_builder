@@ -1,0 +1,21 @@
+{
+  "id": "rose_gold",
+  "name": "Rose Gold",
+  "description": "Modern elegance with feminine warmth",
+  "preview_colors": ["#b76e79", "#2d2d2d", "#e8d4d4"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#b76e79",
+    "secondary_color": "#2d2d2d",
+    "accent_color": "#e8d4d4",
+    "background_color": "#fdfbfb",
+    "text_color": "#2d2d2d",
+    "header_background_color": "#2d2d2d",
+    "header_text_color": "#ffffff",
+    "footer_background_color": "#2d2d2d",
+    "footer_text_color": "#e8e8e8",
+    "light_color": "#fdfbfb",
+    "link_color": "#b76e79",
+    "action_color": "#b76e79"
+  }
+}

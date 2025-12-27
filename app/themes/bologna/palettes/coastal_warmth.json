@@ -1,0 +1,21 @@
+{
+  "id": "coastal_warmth",
+  "name": "Coastal Warmth",
+  "description": "Ocean blues with warm sand accents",
+  "preview_colors": ["#2d5a7b", "#c45d3e", "#e8c9a9"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#2d5a7b",
+    "secondary_color": "#c45d3e",
+    "accent_color": "#e8c9a9",
+    "background_color": "#fafbfc",
+    "text_color": "#2d3748",
+    "header_background_color": "#ffffff",
+    "header_text_color": "#2d3748",
+    "footer_background_color": "#2d3748",
+    "footer_text_color": "#e2e8f0",
+    "light_color": "#fafbfc",
+    "link_color": "#2d5a7b",
+    "action_color": "#2d5a7b"
+  }
+}

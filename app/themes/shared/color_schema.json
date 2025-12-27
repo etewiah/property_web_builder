@@ -1,0 +1,166 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PWB Theme Color Palette Schema",
+  "description": "Standardized color schema for PropertyWebBuilder theme palettes",
+  "type": "object",
+  "required": ["id", "name", "colors"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "description": "Unique identifier for the palette (snake_case)"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "description": "Human-readable palette name"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Brief description of the palette style"
+    },
+    "is_default": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is the default palette for the theme"
+    },
+    "preview_colors": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+      },
+      "minItems": 3,
+      "maxItems": 5,
+      "description": "Colors shown in palette preview (3-5 hex colors)"
+    },
+    "colors": {
+      "type": "object",
+      "required": [
+        "primary_color",
+        "secondary_color",
+        "accent_color",
+        "background_color",
+        "text_color",
+        "header_background_color",
+        "header_text_color",
+        "footer_background_color",
+        "footer_text_color"
+      ],
+      "properties": {
+        "primary_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Main brand color used for CTAs, links, and emphasis"
+        },
+        "secondary_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Supporting color for secondary elements"
+        },
+        "accent_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Highlight color for special elements and hover states"
+        },
+        "background_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Main page background color"
+        },
+        "text_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Primary text color"
+        },
+        "header_background_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Header/navigation background"
+        },
+        "header_text_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Header/navigation text and links"
+        },
+        "footer_background_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Footer background color"
+        },
+        "footer_text_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Footer text color (standardized from footer_main_text_color)"
+        },
+        "card_background_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Background for property cards and content boxes"
+        },
+        "card_text_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Text color within cards"
+        },
+        "border_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Default border color for elements"
+        },
+        "success_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Color for success states and messages"
+        },
+        "warning_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Color for warning states and messages"
+        },
+        "error_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Color for error states and messages"
+        },
+        "muted_text_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Subdued text for secondary information"
+        },
+        "link_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Color for hyperlinks (defaults to primary_color if not set)"
+        },
+        "link_hover_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Color for hyperlinks on hover"
+        },
+        "button_primary_background": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Primary button background"
+        },
+        "button_primary_text": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Primary button text color"
+        },
+        "button_secondary_background": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Secondary button background"
+        },
+        "button_secondary_text": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Secondary button text color"
+        },
+        "input_background_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Form input background"
+        },
+        "input_border_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Form input border"
+        },
+        "input_focus_color": {
+          "$ref": "#/definitions/hexColor",
+          "description": "Form input focus ring color"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/hexColor"
+      }
+    }
+  },
+  "definitions": {
+    "hexColor": {
+      "type": "string",
+      "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+      "description": "Hex color value (e.g., #FF5733 or #F53)"
+    }
+  }
+}

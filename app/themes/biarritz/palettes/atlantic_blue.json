@@ -1,0 +1,21 @@
+{
+  "id": "atlantic_blue",
+  "name": "Atlantic Blue",
+  "description": "Deep ocean blues with golden sunset accents",
+  "preview_colors": ["#0C4A6E", "#D97706", "#FBBF24"],
+  "is_default": true,
+  "colors": {
+    "primary_color": "#0C4A6E",
+    "secondary_color": "#D97706",
+    "accent_color": "#FBBF24",
+    "background_color": "#FAFAF9",
+    "text_color": "#1C1917",
+    "header_background_color": "#0C4A6E",
+    "header_text_color": "#FFFFFF",
+    "footer_background_color": "#082F49",
+    "footer_text_color": "#F5F5F4",
+    "light_color": "#FAFAF9",
+    "link_color": "#0C4A6E",
+    "action_color": "#D97706"
+  }
+}
