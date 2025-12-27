@@ -98,9 +98,9 @@ fr:
         Nous nous engageons à vous aider à trouver la propriété parfaite.
         Que vous achetiez, vendiez ou louiez, notre équipe d'experts est là pour vous guider à chaque étape.
       cta_text: Parcourir les Propriétés
-      cta_link: /search/buy
+      cta_link: /buy
       cta_secondary_text: Contactez-Nous
-      cta_secondary_link: /contact
+      cta_secondary_link: /contact-us
       background_image: db/example_images/carousel_villa_with_pool.jpg
 
     features/feature_grid_3col:
@@ -112,28 +112,28 @@ fr:
       feature_1_description: >
         Dites-nous exactement ce que vous recherchez et nous trouverons cette propriété idéale
         qui répond à tous vos besoins et à votre budget.
-      feature_1_link: /search/buy
+      feature_1_link: /buy
       feature_2_icon: fa-user
       feature_2_title: Agents Professionnels
       feature_2_description: >
         Nos agents expérimentés gèrent toutes les formalités et négociations,
         vous faisant gagner du temps et de l'argent tout au long du processus.
-      feature_2_link: /about
+      feature_2_link: /about-us
       feature_3_icon: fa-money
       feature_3_title: Vendez Votre Propriété
       feature_3_description: >
         Obtenez le meilleur prix pour votre propriété avec nos stratégies marketing éprouvées
         et notre vaste réseau d'acheteurs qualifiés.
-      feature_3_link: /sell
+      feature_3_link: /contact-us
 
     cta/cta_banner:
       title: Prêt à Trouver Votre Maison Parfaite ?
       subtitle: Contactez-nous aujourd'hui pour une consultation gratuite et laissez-nous vous aider à naviguer sur le marché immobilier en toute confiance.
       button_text: Commencer
-      button_link: /contact
+      button_link: /contact-us
       button_style: primary
       secondary_button_text: Voir les Propriétés
-      secondary_button_link: /search/buy
+      secondary_button_link: /buy
       style: primary
 
     stats/stats_counter:

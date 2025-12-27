@@ -72,9 +72,9 @@ nl:
         Wij zijn toegewijd om je te helpen de perfecte woning te vinden.
         Of je nu koopt, verkoopt of huurt, ons deskundige team staat klaar om je bij elke stap te begeleiden.
       cta_text: Bekijk Woningen
-      cta_link: /search/buy
+      cta_link: /buy
       cta_secondary_text: Neem Contact Op
-      cta_secondary_link: /contact
+      cta_secondary_link: /contact-us
       background_image: db/example_images/carousel_villa_with_pool.jpg
 
     features/feature_grid_3col:
@@ -86,28 +86,28 @@ nl:
       feature_1_description: >
         Vertel ons precies wat je zoekt en wij vinden die ideale woning
         die aan al je wensen en budget voldoet.
-      feature_1_link: /search/buy
+      feature_1_link: /buy
       feature_2_icon: fa-user
       feature_2_title: Professionele Makelaars
       feature_2_description: >
         Onze ervaren makelaars regelen alle papierwerk en onderhandelingen,
         waardoor je tijd en geld bespaart tijdens het hele proces.
-      feature_2_link: /about
+      feature_2_link: /about-us
       feature_3_icon: fa-money
       feature_3_title: Verkoop Je Woning
       feature_3_description: >
         Krijg de beste prijs voor je woning met onze bewezen marketingstrategieën
         en ons uitgebreide netwerk van gekwalificeerde kopers.
-      feature_3_link: /sell
+      feature_3_link: /contact-us
 
     cta/cta_banner:
       title: Klaar om Je Perfecte Woning te Vinden?
       subtitle: Neem vandaag contact met ons op voor een gratis consult en laat ons je helpen om met vertrouwen de vastgoedmarkt te navigeren.
       button_text: Aan de Slag
-      button_link: /contact
+      button_link: /contact-us
       button_style: primary
       secondary_button_text: Bekijk Woningen
-      secondary_button_link: /search/buy
+      secondary_button_link: /buy
       style: primary
 
     stats/stats_counter:
