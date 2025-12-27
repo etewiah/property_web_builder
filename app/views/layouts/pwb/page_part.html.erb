@@ -9,9 +9,10 @@
     <%# Fonts (Vollkorn, Open Sans) loaded via Fontsource in Tailwind CSS %>
     <%
       theme_name = @current_website&.theme_name || 'default'
+      tailwind_file = "tailwind-#{theme_name}"
       # All themes now use Tailwind CSS
     %>
-        <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+        <%= stylesheet_link_tag tailwind_file, "data-turbo-track": "reload" %>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <%
       case theme_name
