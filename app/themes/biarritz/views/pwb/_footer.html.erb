@@ -1,81 +1,99 @@
-<!-- Biarritz Theme Footer - Coastal Elegance -->
-<footer class="bg-gradient-to-br from-sky-900 via-sky-800 to-sky-900 text-white mt-16">
+<!-- Biarritz Theme Footer - High Contrast Coastal Design -->
+
+<!-- Wave Divider - Decorative transition from content to footer -->
+<div class="relative">
+  <svg class="w-full h-16 md:h-20 text-[#082F49]" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="currentColor"/>
+  </svg>
+</div>
+
+<!-- Main Footer - Dark Ocean Background with White Text -->
+<footer class="bg-[#082F49] text-white" role="contentinfo">
   <div class="container mx-auto px-4 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <!-- Company Info -->
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+      
+      <!-- Company Info Column -->
       <div>
-        <h4 class="text-xl font-bold text-amber-400 mb-4"><%= @current_website.company_display_name.presence || @current_agency.company_name %></h4>
-        <ul class="space-y-3 text-warm-100">
+        <h4 class="text-2xl font-bold text-white mb-6" style="font-family: 'Playfair Display', Georgia, serif;">
+          <%= @current_website.company_display_name.presence || @current_agency.company_name %>
+        </h4>
+        <ul class="space-y-4">
           <% if @current_agency.phone_number_primary.present? %>
-            <li class="flex items-center">
-              <i class="fa fa-phone mr-3 text-amber-400"></i>
-              <a href="tel:<%= @current_agency.phone_number_primary %>" class="hover:text-amber-400 transition-colors">
-                <%= @current_agency.phone_number_primary %>
+            <li>
+              <a href="tel:<%= @current_agency.phone_number_primary %>" 
+                 class="flex items-center text-white hover:text-[#FEF3C7] transition-colors group">
+                <span class="w-10 h-10 flex items-center justify-center bg-[#0C4A6E] rounded-lg mr-3 group-hover:bg-[#D97706] transition-colors">
+                  <i class="fa fa-phone" aria-hidden="true"></i>
+                </span>
+                <span class="font-medium"><%= @current_agency.phone_number_primary %></span>
               </a>
             </li>
           <% end %>
+          
           <% if @current_agency.email_primary.present? %>
-            <li class="flex items-center">
-              <i class="fa fa-envelope mr-3 text-amber-400"></i>
-              <a href="mailto:<%= @current_agency.email_primary %>" class="hover:text-amber-400 transition-colors">
-                <%= @current_agency.email_primary %>
+            <li>
+              <a href="mailto:<%= @current_agency.email_primary %>" 
+                 class="flex items-center text-white hover:text-[#FEF3C7] transition-colors group">
+                <span class="w-10 h-10 flex items-center justify-center bg-[#0C4A6E] rounded-lg mr-3 group-hover:bg-[#D97706] transition-colors">
+                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                </span>
+                <span class="font-medium"><%= @current_agency.email_primary %></span>
               </a>
             </li>
           <% end %>
         </ul>
       </div>
 
-      <!-- Social Media -->
+      <!-- Social Media Column -->
       <nav class="flex flex-col items-center justify-center" aria-label="Social media links">
-        <h5 class="text-lg font-semibold text-amber-400 mb-4">Follow Us</h5>
-        <div class="flex space-x-4">
-          <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
-            <a href="<%= @current_website.social_media_facebook %>" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-sky-700 hover:bg-amber-500 rounded-full transition-colors" aria-label="Follow us on Facebook">
-              <i class="fa fa-facebook" aria-hidden="true"></i>
-            </a>
-          <% end %>
-          <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
-            <a href="<%= @current_website.social_media_twitter %>" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-sky-700 hover:bg-amber-500 rounded-full transition-colors" aria-label="Follow us on Twitter">
-              <i class="fa fa-twitter" aria-hidden="true"></i>
-            </a>
-          <% end %>
-          <% if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present? %>
-            <a href="<%= @current_website.social_media_instagram %>" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-sky-700 hover:bg-amber-500 rounded-full transition-colors" aria-label="Follow us on Instagram">
-              <i class="fa fa-instagram" aria-hidden="true"></i>
-            </a>
-          <% end %>
-          <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
-            <a href="<%= @current_website.social_media_linkedin %>" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-sky-700 hover:bg-amber-500 rounded-full transition-colors" aria-label="Connect with us on LinkedIn">
-              <i class="fa fa-linkedin" aria-hidden="true"></i>
-            </a>
-          <% end %>
-          <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
-            <a href="<%= @current_website.social_media_youtube %>" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-sky-700 hover:bg-amber-500 rounded-full transition-colors" aria-label="Subscribe to our YouTube channel">
-              <i class="fa fa-youtube" aria-hidden="true"></i>
-            </a>
-          <% end %>
-          <% if @current_website.respond_to?(:social_media_whatsapp) && @current_website.social_media_whatsapp.present? %>
-            <a href="<%= @current_website.social_media_whatsapp %>" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-sky-700 hover:bg-amber-500 rounded-full transition-colors" aria-label="Contact us on WhatsApp">
-              <i class="fa fa-whatsapp" aria-hidden="true"></i>
+        <h5 class="text-xl font-semibold text-white mb-6">Follow Us</h5>
+        <div class="flex flex-wrap justify-center gap-3">
+          <% 
+            social_links = []
+            social_links << {url: @current_website.social_media_facebook, icon: 'facebook', label: 'Facebook'} if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present?
+            social_links << {url: @current_website.social_media_twitter, icon: 'twitter', label: 'Twitter'} if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present?
+            social_links << {url: @current_website.social_media_instagram, icon: 'instagram', label: 'Instagram'} if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present?
+            social_links << {url: @current_website.social_media_linkedin, icon: 'linkedin', label: 'LinkedIn'} if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present?
+            social_links << {url: @current_website.social_media_youtube, icon: 'youtube', label: 'YouTube'} if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present?
+            social_links << {url: @current_website.social_media_whatsapp, icon: 'whatsapp', label: 'WhatsApp'} if @current_website.respond_to?(:social_media_whatsapp) && @current_website.social_media_whatsapp.present?
+          %>
+          
+          <% social_links.each do |social| %>
+            <a href="<%= social[:url] %>" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="w-12 h-12 flex items-center justify-center bg-[#0C4A6E] hover:bg-[#D97706] text-white rounded-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#FEF3C7] focus:ring-offset-2 focus:ring-offset-[#082F49]" 
+               aria-label="Follow us on <%= social[:label] %>">
+              <i class="fa fa-<%= social[:icon] %> text-lg" aria-hidden="true"></i>
             </a>
           <% end %>
         </div>
       </nav>
 
-      <!-- Extra Content -->
-      <div class="text-warm-100">
+      <!-- Extra Content / Registration Info -->
+      <div class="text-white">
         <% if @footer_content.present? %>
-          <%== @footer_content.raw %>
+          <div class="prose prose-invert max-w-none">
+            <%== @footer_content.raw %>
+          </div>
+        <% else %>
+          <h5 class="text-xl font-semibold text-white mb-4">About Us</h5>
+          <p class="text-[#D4D4D8] leading-relaxed">
+            Your trusted partner in finding the perfect coastal property.
+          </p>
         <% end %>
       </div>
     </div>
 
     <!-- Divider -->
-    <hr class="my-8 border-sky-700">
+    <div class="border-t-2 border-[#0C4A6E] my-8"></div>
 
-    <!-- Bottom Bar -->
-    <div class="flex flex-col md:flex-row justify-between items-center text-sm text-warm-200">
-      <div class="flex flex-wrap gap-4 mb-4 md:mb-0">
+    <!-- Bottom Bar - Footer Links & Copyright -->
+    <div class="flex flex-col md:flex-row justify-between items-center text-sm">
+      
+      <!-- Footer Navigation Links -->
+      <nav class="flex flex-wrap justify-center gap-6 mb-6 md:mb-0" aria-label="Footer navigation">
         <% @current_website.links.ordered_visible_footer.each do |page| %>
           <% target_path = nil %>
           <% begin %>
@@ -87,13 +105,28 @@
           <% rescue StandardError %>
           <% end %>
           <% if target_path %>
-            <%= link_to page.link_title, target_path, class: "hover:text-amber-400 transition-colors" %>
+            <%= link_to page.link_title, target_path, 
+                class: "text-[#D4D4D8] hover:text-[#FEF3C7] transition-colors font-medium" %>
           <% end %>
         <% end %>
+      </nav>
+      
+      <!-- Copyright & Attribution -->
+      <div class="text-center md:text-right text-[#D4D4D8]">
+        <p class="mb-2">
+          © <%= Time.current.year %> <%= @current_website.company_display_name.presence || @current_agency.company_name %>. 
+          All rights reserved.
+        </p>
+        <p class="text-xs">
+          Powered by 
+          <a href="https://www.propertywebbuilder.com" 
+             class="text-[#FEF3C7] hover:text-[#D97706] font-semibold transition-colors"
+             target="_blank"
+             rel="noopener noreferrer">
+            PropertyWebBuilder
+          </a>
+        </p>
       </div>
-      <p class="text-center md:text-right">
-        Powered by <a href="https://www.propertywebbuilder.com" class="text-amber-400 hover:text-amber-300 font-semibold">PropertyWebBuilder</a>
-      </p>
     </div>
   </div>
 </footer>
