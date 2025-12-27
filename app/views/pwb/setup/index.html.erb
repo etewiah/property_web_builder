@@ -14,15 +14,18 @@
 
   <!-- Setup Form -->
   <%= form_with url: pwb_setup_path, method: :post, local: true, class: "w-full max-w-4xl" do |f| %>
-    <!-- Subdomain Display -->
+    <!-- Subdomain Input -->
     <div class="bg-white rounded-xl p-6 mb-8 border border-gray-200 shadow-sm">
       <label class="block text-sm font-medium text-gray-700 mb-2">Your Website Subdomain</label>
       <div class="flex items-center">
         <input type="text" name="subdomain" value="<%= @subdomain %>"
-               class="flex-1 bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-               readonly>
+               class="flex-1 bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+               placeholder="my-website"
+               pattern="[a-z0-9\-]+"
+               title="Only lowercase letters, numbers, and hyphens are allowed">
         <span class="ml-3 text-gray-500">.propertywebbuilder.com</span>
       </div>
+      <p class="mt-2 text-sm text-gray-500">Choose a unique subdomain for your website (lowercase letters, numbers, and hyphens only)</p>
     </div>
 
     <!-- Seed Pack Selection -->
