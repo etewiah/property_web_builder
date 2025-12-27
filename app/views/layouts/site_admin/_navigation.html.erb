@@ -1,5 +1,12 @@
 <aside id="tour-sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-gray-800 text-white flex-shrink-0 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0"
-       :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
+       :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+       x-data="{
+         contentOpen: true,
+         communicationOpen: true,
+         insightsOpen: true,
+         usersOpen: true,
+         websiteOpen: true
+       }">
   <div class="flex flex-col h-full">
     <!-- Logo/Brand -->
     <div class="flex items-center justify-between h-16 bg-gray-900 px-4">
@@ -26,193 +33,218 @@
 
       <!-- Content Management -->
       <div id="tour-content-section" class="px-4 mb-4">
-        <h3 class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
-          Content Management
-        </h3>
-
-        <%= link_to site_admin_props_path, id: "tour-properties", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_props_path) ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="even odd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd"></path>
+        <button @click="contentOpen = !contentOpen" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
+          <span>Content Management</span>
+          <svg class="w-4 h-4 transition-transform duration-200" :class="contentOpen ? 'rotate-0' : '-rotate-90'" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
           </svg>
-          <span>Properties</span>
-        <% end %>
+        </button>
 
-        <%= link_to site_admin_property_import_export_path, id: "tour-import-export", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.include?('property_import_export') ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-          </svg>
-          <span>Import/Export</span>
-        <% end %>
+        <div x-show="contentOpen" x-collapse>
+          <%= link_to site_admin_props_path, id: "tour-properties", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_props_path) ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="even odd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Properties</span>
+          <% end %>
 
-        <%= link_to site_admin_properties_settings_path, id: "tour-labels", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_properties_settings_path) ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
-          </svg>
-          <span>Labels</span>
-        <% end %>
+          <%= link_to site_admin_property_import_export_path, id: "tour-import-export", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.include?('property_import_export') ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Import/Export</span>
+          <% end %>
 
-        <%= link_to site_admin_pages_path, id: "tour-pages", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_pages_path) ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
-          </svg>
-          <span>Pages</span>
-        <% end %>
+          <%= link_to site_admin_properties_settings_path, id: "tour-labels", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_properties_settings_path) ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Labels</span>
+          <% end %>
 
-        <%= link_to site_admin_media_library_index_path, id: "tour-media", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.include?('media_library') ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
-          </svg>
-          <span>Media Library</span>
-        <% end %>
+          <%= link_to site_admin_pages_path, id: "tour-pages", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_pages_path) ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Pages</span>
+          <% end %>
 
-       <% if false %>
-       <%# commenting out page parts and contents for now %>
-        <% link_to site_admin_page_parts_path, class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_page_parts_path) ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
-          </svg>
-          <span>Page Parts</span>
-        <% end %>
+          <%= link_to site_admin_media_library_index_path, id: "tour-media", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.include?('media_library') ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Media Library</span>
+          <% end %>
 
-        <%= link_to site_admin_contents_path, class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_contents_path) ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd"></path>
-          </svg>
-          <span>Contents</span>
-        <% end %>
-        <% end %>
+         <% if false %>
+         <%# commenting out page parts and contents for now %>
+          <% link_to site_admin_page_parts_path, class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_page_parts_path) ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+            </svg>
+            <span>Page Parts</span>
+          <% end %>
+
+          <%= link_to site_admin_contents_path, class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_contents_path) ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Contents</span>
+          <% end %>
+          <% end %>
+        </div>
       </div>
 
       <!-- Communication -->
       <div id="tour-communication-section" class="px-4 mb-4">
-        <h3 class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
-          Communication
-        </h3>
-
-        <%= link_to site_admin_messages_path, id: "tour-messages", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_messages_path) ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+        <button @click="communicationOpen = !communicationOpen" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
+          <span>Communication</span>
+          <svg class="w-4 h-4 transition-transform duration-200" :class="communicationOpen ? 'rotate-0' : '-rotate-90'" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
           </svg>
-          <span>Messages</span>
-        <% end %>
+        </button>
 
-        <%= link_to site_admin_contacts_path, id: "tour-contacts", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_contacts_path) ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path>
-            <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path>
-          </svg>
-          <span>Contacts</span>
-        <% end %>
+        <div x-show="communicationOpen" x-collapse>
+          <%= link_to site_admin_messages_path, id: "tour-messages", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_messages_path) ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+            </svg>
+            <span>Messages</span>
+          <% end %>
 
-        <%= link_to site_admin_email_templates_path, id: "tour-email-templates", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/email_templates') ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M5 2a2 2 0 00-2 2v14l3.5-2 3.5 2 3.5-2 3.5 2V4a2 2 0 00-2-2H5zm2.5 3a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm6.207.293a1 1 0 00-1.414 0l-6 6a1 1 0 101.414 1.414l6-6a1 1 0 000-1.414zM12.5 10a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" clip-rule="evenodd"></path>
-          </svg>
-          <span>Email Templates</span>
-        <% end %>
+          <%= link_to site_admin_contacts_path, id: "tour-contacts", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_contacts_path) ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path>
+              <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path>
+            </svg>
+            <span>Contacts</span>
+          <% end %>
+
+          <%= link_to site_admin_email_templates_path, id: "tour-email-templates", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/email_templates') ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5 2a2 2 0 00-2 2v14l3.5-2 3.5 2 3.5-2 3.5 2V4a2 2 0 00-2-2H5zm2.5 3a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm6.207.293a1 1 0 00-1.414 0l-6 6a1 1 0 101.414 1.414l6-6a1 1 0 000-1.414zM12.5 10a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Email Templates</span>
+          <% end %>
+        </div>
       </div>
 
       <!-- Insights -->
       <div class="px-4 mb-4">
-        <h3 class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
-          Insights
-        </h3>
-
-        <%= link_to site_admin_analytics_path, id: "tour-analytics", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/analytics') ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path>
+        <button @click="insightsOpen = !insightsOpen" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
+          <span>Insights</span>
+          <svg class="w-4 h-4 transition-transform duration-200" :class="insightsOpen ? 'rotate-0' : '-rotate-90'" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
           </svg>
-          <span>Analytics</span>
-        <% end %>
+        </button>
+
+        <div x-show="insightsOpen" x-collapse>
+          <%= link_to site_admin_analytics_path, id: "tour-analytics", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/analytics') ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path>
+            </svg>
+            <span>Analytics</span>
+          <% end %>
+        </div>
       </div>
 
       <!-- User Management -->
       <div class="px-4 mb-4">
-        <h3 class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
-          User Management
-        </h3>
-
-        <%= link_to site_admin_users_path, id: "tour-users", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_users_path) ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
+        <button @click="usersOpen = !usersOpen" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
+          <span>User Management</span>
+          <svg class="w-4 h-4 transition-transform duration-200" :class="usersOpen ? 'rotate-0' : '-rotate-90'" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
           </svg>
-          <span>Users</span>
-        <% end %>
+        </button>
 
-        <%= link_to site_admin_activity_logs_path, id: "tour-activity", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/activity_logs') ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-          </svg>
-          <span>Activity Logs</span>
-        <% end %>
+        <div x-show="usersOpen" x-collapse>
+          <%= link_to site_admin_users_path, id: "tour-users", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_users_path) ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
+            </svg>
+            <span>Users</span>
+          <% end %>
+
+          <%= link_to site_admin_activity_logs_path, id: "tour-activity", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/activity_logs') ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Activity Logs</span>
+          <% end %>
+        </div>
       </div>
 
       <!-- Website Settings -->
       <div id="tour-website-section" class="px-4 mb-4">
-        <h3 class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
-          Website
-        </h3>
+        <button @click="websiteOpen = !websiteOpen" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
+          <span>Website</span>
+          <svg class="w-4 h-4 transition-transform duration-200" :class="websiteOpen ? 'rotate-0' : '-rotate-90'" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
 
-        <%= link_to site_admin_website_settings_tab_path('appearance'), id: "tour-appearance", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{params[:tab] == 'appearance' ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z" clip-rule="evenodd"></path>
-          </svg>
-          <span>Appearance</span>
-        <% end %>
+        <div x-show="websiteOpen" x-collapse>
+          <%= link_to site_admin_website_settings_tab_path('appearance'), id: "tour-appearance", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{params[:tab] == 'appearance' ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Appearance</span>
+          <% end %>
 
-        <%= link_to site_admin_website_settings_tab_path('seo'), id: "tour-seo", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{params[:tab] == 'seo' ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-          </svg>
-          <span>SEO</span>
-        <% end %>
+          <%= link_to site_admin_website_settings_tab_path('seo'), id: "tour-seo", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{params[:tab] == 'seo' ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+            </svg>
+            <span>SEO</span>
+          <% end %>
 
-        <%= link_to site_admin_website_settings_path, id: "tour-settings", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/website') && !['appearance', 'seo'].include?(params[:tab]) ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
-          </svg>
-          <span>Settings</span>
-        <% end %>
+          <%= link_to site_admin_website_settings_path, id: "tour-settings", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/website') && !['appearance', 'seo'].include?(params[:tab]) ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Settings</span>
+          <% end %>
 
-        <%= link_to edit_site_admin_agency_path, id: "tour-agency", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/agency') ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd"></path>
-          </svg>
-          <span>Agency Profile</span>
-        <% end %>
+          <%= link_to edit_site_admin_agency_path, id: "tour-agency", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/agency') ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Agency Profile</span>
+          <% end %>
 
-        <%= link_to site_admin_billing_path, id: "tour-billing", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/billing') ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
-          </svg>
-          <span>Billing</span>
-        <% end %>
+          <%= link_to site_admin_billing_path, id: "tour-billing", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/billing') ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Billing</span>
+          <% end %>
 
-        <%= link_to site_admin_domain_path, id: "tour-domain", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_domain_path) ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd"></path>
-          </svg>
-          <span>Domain</span>
-        <% end %>
+          <%= link_to site_admin_domain_path, id: "tour-domain", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_domain_path) ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Domain</span>
+          <% end %>
 
-        <%= link_to site_admin_onboarding_path, id: "tour-onboarding", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/onboarding') ? 'bg-gray-700' : ''}" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-          </svg>
-          <span>Setup Wizard</span>
-        <% end %>
+          <%= link_to site_admin_onboarding_path, id: "tour-onboarding", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/onboarding') ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Setup Wizard</span>
+          <% end %>
 
-        <%= link_to root_path, id: "tour-view-site", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700", target: "_blank" do %>
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"></path>
-          </svg>
-          <span>View Site</span>
-          <svg class="w-3 h-3 ml-auto text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
-            <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
-          </svg>
-        <% end %>
+          <%= link_to root_path, id: "tour-view-site", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700", target: "_blank" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"></path>
+            </svg>
+            <span>View Site</span>
+            <svg class="w-3 h-3 ml-auto text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
+              <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
+            </svg>
+          <% end %>
+        </div>
       </div>
 
       <!-- Take a Tour Button -->
