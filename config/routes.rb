@@ -278,6 +278,10 @@ Rails.application.routes.draw do
 
   # devise_for :users, class_name: "Pwb::User", module: :devise
   scope module: :pwb do
+    # Setup page for unseeded websites
+    get "/setup" => "setup#index", as: "pwb_setup"
+    post "/setup" => "setup#create"
+
     root to: "welcome#index"
     resources :welcome, only: :index
 

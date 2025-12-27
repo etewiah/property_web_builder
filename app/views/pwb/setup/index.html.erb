@@ -1,0 +1,109 @@
+<div class="min-h-screen flex flex-col items-center justify-center px-4 py-12">
+  <!-- Logo/Brand -->
+  <div class="text-center mb-12">
+    <div class="inline-flex items-center justify-center w-20 h-20 bg-white/10 rounded-2xl mb-6">
+      <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+      </svg>
+    </div>
+    <h1 class="text-4xl font-bold text-white mb-2">Welcome to PropertyWebBuilder</h1>
+    <p class="text-slate-400 text-lg">
+      This website hasn't been set up yet. Choose a template to get started.
+    </p>
+  </div>
+
+  <!-- Setup Form -->
+  <%= form_with url: pwb_setup_path, method: :post, local: true, class: "w-full max-w-4xl" do |f| %>
+    <!-- Subdomain Display -->
+    <div class="bg-white/5 backdrop-blur-sm rounded-xl p-6 mb-8 border border-white/10">
+      <label class="block text-sm font-medium text-slate-300 mb-2">Your Website Subdomain</label>
+      <div class="flex items-center">
+        <input type="text" name="subdomain" value="<%= @subdomain %>"
+               class="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+               readonly>
+        <span class="ml-3 text-slate-400">.propertywebbuilder.com</span>
+      </div>
+    </div>
+
+    <!-- Seed Pack Selection -->
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold text-white mb-4">Choose a Template</h2>
+      <p class="text-slate-400 mb-6">Select a pre-configured template that matches your business type. Each template comes with sample properties, pages, and settings.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <% @seed_packs.each do |pack| %>
+          <label class="relative cursor-pointer group">
+            <input type="radio" name="pack_name" value="<%= pack.name %>" class="sr-only peer" <%= 'checked' if pack.name == 'netherlands_urban' %>>
+            <div class="bg-white/5 backdrop-blur-sm border-2 border-white/10 rounded-xl p-6 transition-all duration-200
+                        peer-checked:border-blue-500 peer-checked:bg-blue-500/10
+                        hover:border-white/30 hover:bg-white/10
+                        h-full flex flex-col">
+              <!-- Pack Icon -->
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                  <% case pack.name %>
+                  <% when 'netherlands_urban' %>
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                  <% when 'spain_luxury' %>
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                    </svg>
+                  <% else %>
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
+                    </svg>
+                  <% end %>
+                </div>
+                <span class="hidden peer-checked:block text-blue-400">
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                </span>
+              </div>
+
+              <!-- Pack Info -->
+              <h3 class="text-lg font-semibold text-white mb-2"><%= pack.display_name %></h3>
+              <p class="text-slate-400 text-sm flex-grow"><%= pack.description %></p>
+
+              <!-- Pack Details -->
+              <div class="mt-4 pt-4 border-t border-white/10">
+                <div class="flex flex-wrap gap-2">
+                  <% if pack.config.dig(:website, :supported_locales)&.any? %>
+                    <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-slate-700 text-slate-300">
+                      <%= pack.config.dig(:website, :supported_locales).join(', ').upcase %>
+                    </span>
+                  <% end %>
+                  <% if pack.config.dig(:website, :country) %>
+                    <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-slate-700 text-slate-300">
+                      <%= pack.config.dig(:website, :country) %>
+                    </span>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <button type="submit" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:from-blue-700 hover:to-purple-700 focus:ring-4 focus:ring-blue-500/50 transition-all duration-200">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+        Create Website
+      </button>
+      <p class="mt-4 text-slate-500 text-sm">
+        This will create your website with sample content. You can customize everything later.
+      </p>
+    </div>
+  <% end %>
+
+  <!-- Footer -->
+  <div class="mt-16 text-center text-slate-500 text-sm">
+    <p>Powered by <a href="https://github.com/etewiah/property_web_builder" class="text-blue-400 hover:text-blue-300" target="_blank">PropertyWebBuilder</a></p>
+  </div>
+</div>
