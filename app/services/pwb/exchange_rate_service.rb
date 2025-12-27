@@ -49,9 +49,9 @@ module Pwb
 
         rates = build_rates_hash(bank, base_currency, target_currencies)
 
+        # Store rates with timestamp in the JSON column
         website.update!(
-          exchange_rates: rates,
-          exchange_rates_updated_at: Time.current
+          exchange_rates: rates.merge('_updated_at' => Time.current.iso8601)
         )
 
         Rails.logger.info "[ExchangeRates] Updated #{rates.size} rates for website #{website.id}"
@@ -132,9 +132,15 @@ module Pwb
       # @param website [Pwb::Website] the website to check
       # @return [Boolean] true if rates need updating
       def rates_stale?(website)
-        return true if website.exchange_rates_updated_at.nil?
+        rates = website.exchange_rates
+        return true if rates.blank?
 
-        website.exchange_rates_updated_at < 24.hours.ago
+        updated_at = rates['_updated_at']
+        return true if updated_at.nil?
+
+        Time.parse(updated_at) < 24.hours.ago
+      rescue ArgumentError
+        true
       end
 
       # Get list of available currencies from ECB
