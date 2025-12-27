@@ -14,8 +14,11 @@ module SiteAdmin
 
     def index
       # Use Pwb::ListedProperty (materialized view) for listing - it's optimized for reads
-      # Scope to current website
-      props = Pwb::ListedProperty.where(website_id: current_website&.id).order(created_at: :desc)
+      # Scope to current website and eager load prop_photos to avoid N+1 queries
+      props = Pwb::ListedProperty
+              .with_eager_loading
+              .where(website_id: current_website&.id)
+              .order(created_at: :desc)
 
       if params[:search].present?
         props = props.where(
@@ -48,6 +51,10 @@ module SiteAdmin
 
     def show
       # @prop set by before_action (uses Property view)
+      # Pre-load all FieldKeys needed for display to avoid N+1 queries
+      feature_keys = @prop.features.map(&:feature_key).compact
+      all_keys = [feature_keys, @prop.prop_type_key, @prop.prop_state_key].flatten.compact.uniq
+      @field_keys_by_key = Pwb::FieldKey.where(global_key: all_keys).index_by(&:global_key)
     end
 
     def edit_general

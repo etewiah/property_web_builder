@@ -16,9 +16,9 @@ module Pwb
 
         # Note: translations are now stored in JSONB column via Mobility, no need to eager load
         # Use listed_properties (materialized view) instead of deprecated props
-        # Include :website to avoid N+1 queries, prop_photos without image_attachment (Bullet warning)
-        @properties_for_sale = @current_website.listed_properties.for_sale.visible.includes(:website, :prop_photos).order('highlighted DESC').limit 9
-        @properties_for_rent = @current_website.listed_properties.for_rent.visible.includes(:website, :prop_photos).order('highlighted DESC').limit 9
+        # Use with_eager_loading scope to include website, prop_photos, and blobs
+        @properties_for_sale = @current_website.listed_properties.for_sale.visible.with_eager_loading.order('highlighted DESC').limit 9
+        @properties_for_rent = @current_website.listed_properties.for_rent.visible.with_eager_loading.order('highlighted DESC').limit 9
 
         # @search_defaults = params[:search].present? ? params[:search] : {}
 
