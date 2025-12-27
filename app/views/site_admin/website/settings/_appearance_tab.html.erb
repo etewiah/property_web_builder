@@ -93,7 +93,19 @@
       </div>
     </div>
 
-    <!-- Dark Mode Setting -->
+    <%#
+      ==========================================================================
+      HIDDEN: Dark Mode Setting
+      ==========================================================================
+      This section is temporarily hidden. It may be enabled in a future release
+      once dark mode functionality is fully tested and ready for production use.
+      The backend support (dark_mode_setting field, palette dark colors) exists
+      but the UI is disabled until the feature is complete.
+
+      To re-enable: Change "if false" to "if true" below
+      ==========================================================================
+    %>
+    <% if false # HIDDEN: Dark Mode Setting - change to 'true' to re-enable %>
     <div class="border-t border-gray-200 pt-6">
       <h3 class="text-lg font-medium text-gray-900 mb-4">Dark Mode</h3>
       <p class="text-sm text-gray-600 mb-4">Control how your website appears in dark mode. Dark mode colors are automatically generated from your selected palette.</p>
@@ -156,8 +168,20 @@
         </div>
       <% end %>
     </div>
+    <% end # END HIDDEN: Dark Mode Setting %>
 
-    <!-- Color Settings (Advanced) -->
+    <%#
+      ==========================================================================
+      HIDDEN: Advanced Color Settings
+      ==========================================================================
+      This section is temporarily hidden to simplify the UI. The palette system
+      provides sufficient color customization for most users. Advanced color
+      overrides may be re-enabled in a future release for power users.
+
+      To re-enable: Change "if false" to "if true" below
+      ==========================================================================
+    %>
+    <% if false # HIDDEN: Advanced Color Settings - change to 'true' to re-enable %>
     <div class="border-t border-gray-200 pt-6">
       <details class="group">
         <summary class="flex items-center justify-between cursor-pointer list-none">
@@ -226,6 +250,7 @@
       </div>
       </details>
     </div>
+    <% end # END HIDDEN: Advanced Color Settings %>
 
     <!-- Custom CSS -->
     <div class="border-t border-gray-200 pt-6">
@@ -247,6 +272,17 @@
   <% end %>
 </div>
 
+<%#
+  ==========================================================================
+  HIDDEN: Color Picker Sync Script
+  ==========================================================================
+  This script is for the Advanced Color Settings section which is currently
+  hidden. Re-enable this when Advanced Color Settings is re-enabled.
+
+  To re-enable: Change "if false" to "if true" below
+  ==========================================================================
+%>
+<% if false # HIDDEN: Color Picker Script - change to 'true' to re-enable %>
 <script>
   // Sync color picker with text input
   document.querySelectorAll('input[type="color"]').forEach(colorInput => {
@@ -263,3 +299,4 @@
     });
   });
 </script>
+<% end # END HIDDEN: Color Picker Script %>
