@@ -7,6 +7,9 @@ module Pwb
   #   {{ "/search/buy" | localize_url }}
   #   {{ page_part.cta_link.content | localize_url }}
   #
+  # This module wraps UrlLocalizationHelper for use in Liquid templates.
+  # The core URL localization logic is shared with ERB views via UrlLocalizationHelper.
+  #
   module LiquidFilters
     # Prepend the current locale to a URL path
     #
