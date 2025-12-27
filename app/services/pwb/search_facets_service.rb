@@ -51,6 +51,8 @@ module Pwb
         return [] if feature_keys.empty?
 
         # Get property IDs from the current scope
+        # Note: Using pluck here because scope may be Prop (integer ID) or
+        # ListedProperty (uuid ID), and Feature.realty_asset_id is UUID
         property_ids = scope.pluck(:id)
         return build_empty_facet_list("property-features", website) if property_ids.empty?
 
@@ -118,15 +120,17 @@ module Pwb
       private
 
       # Build facet list from field keys and counts
+      # Uses already-loaded field keys to avoid N+1 queries
       def build_facet_list(tag, counts, website)
         field_keys = FieldKey.by_tag(tag)
         field_keys = field_keys.where("pwb_website_id IS NULL OR pwb_website_id = ?", website.id) if website
 
+        # Use the already-loaded field_key object for label instead of re-querying
         field_keys.visible.order(:global_key).map do |fk|
           {
             global_key: fk.global_key,
             value: fk.global_key,
-            label: translate_key(fk.global_key),
+            label: fk.display_label.presence || humanize_key(fk.global_key),
             count: counts[fk.global_key] || 0
           }
         end.sort_by { |f| [-f[:count], f[:label].to_s.downcase] }
@@ -141,22 +145,17 @@ module Pwb
           {
             global_key: fk.global_key,
             value: fk.global_key,
-            label: translate_key(fk.global_key),
+            label: fk.display_label.presence || humanize_key(fk.global_key),
             count: 0
           }
         end
       end
 
-      # Translate a field key using Mobility, with fallback to humanized key name
-      def translate_key(global_key)
+      # Humanize a global key for display
+      # e.g., "features.private_pool" -> "Private Pool"
+      def humanize_key(global_key)
         return global_key.to_s if global_key.blank?
 
-        # Look up FieldKey to get Mobility-based label
-        field_key = Pwb::FieldKey.find_by(global_key: global_key)
-        return field_key.display_label if field_key.present?
-
-        # Fallback: humanize the last part of the key
-        # e.g., "features.private_pool" -> "Private Pool"
         global_key.to_s.split('.').last.to_s.humanize.titleize
       end
     end

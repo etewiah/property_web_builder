@@ -6,9 +6,7 @@
     <title><%= @page&.page_title %> - <%= @page_part_key %></title>
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <%# Fonts (Vollkorn, Open Sans) loaded via Fontsource in Tailwind CSS %>
     <%
       theme_name = @current_website&.theme_name || 'default'
       # All themes now use Tailwind CSS

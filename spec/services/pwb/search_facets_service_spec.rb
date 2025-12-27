@@ -47,48 +47,48 @@ module Pwb
       @new_state_key.save!
     end
 
-    describe '.translate_key (private method via calculate)' do
-      it 'returns Mobility label when FieldKey exists with translation' do
+    describe '.humanize_key (private method for fallback labels)' do
+      it 'returns humanized fallback for unknown key' do
+        result = described_class.send(:humanize_key, 'unknown.nonexistent_key')
+        expect(result).to eq('Nonexistent Key')
+      end
+
+      describe 'nil handling' do
+        it 'returns empty string for nil input' do
+          result = described_class.send(:humanize_key, nil)
+          expect(result).to eq('')
+        end
+
+        it 'returns empty string for blank input' do
+          result = described_class.send(:humanize_key, '')
+          expect(result).to eq('')
+        end
+
+        it 'handles key with no dot separator' do
+          result = described_class.send(:humanize_key, 'simple_key')
+          expect(result).to eq('Simple Key')
+        end
+      end
+    end
+
+    describe 'label translation via display_label' do
+      it 'uses Mobility label from FieldKey directly' do
         I18n.with_locale(:en) do
-          result = described_class.send(:translate_key, 'types.apartment')
-          expect(result).to eq('Apartment')
+          # Labels are accessed via fk.display_label in build_facet_list
+          expect(@apartment_key.display_label).to eq('Apartment')
         end
       end
 
       it 'returns Spanish translation when locale is Spanish' do
         I18n.with_locale(:es) do
-          result = described_class.send(:translate_key, 'types.apartment')
-          expect(result).to eq('Apartamento')
+          expect(@apartment_key.display_label).to eq('Apartamento')
         end
-      end
-
-      it 'returns humanized fallback when FieldKey does not exist' do
-        result = described_class.send(:translate_key, 'unknown.nonexistent_key')
-        expect(result).to eq('Nonexistent Key')
       end
 
       it 'uses Mobility fallback when no translation for current locale' do
         I18n.with_locale(:fr) do
           # No French translation set - Mobility falls back to English
-          result = described_class.send(:translate_key, 'types.villa')
-          expect(result).to eq('Villa')
-        end
-      end
-
-      describe 'nil handling' do
-        it 'returns empty string for nil input' do
-          result = described_class.send(:translate_key, nil)
-          expect(result).to eq('')
-        end
-
-        it 'returns empty string for blank input' do
-          result = described_class.send(:translate_key, '')
-          expect(result).to eq('')
-        end
-
-        it 'handles key with no dot separator' do
-          result = described_class.send(:translate_key, 'simple_key')
-          expect(result).to eq('Simple Key')
+          expect(@villa_key.display_label).to eq('Villa')
         end
       end
     end

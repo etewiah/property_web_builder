@@ -96,14 +96,13 @@ module Pwb
       )
 
       # Set cache headers for search pages
-      # Only cache the initial page load (no search filters)
-      if params[:search].blank?
-        set_cache_control_headers(
-          max_age: 5.minutes,
-          public: true,
-          stale_while_revalidate: 30.minutes
-        )
-      end
+      # Longer cache for unfiltered results, shorter for filtered
+      cache_duration = params[:search].blank? ? 10.minutes : 2.minutes
+      set_cache_control_headers(
+        max_age: cache_duration,
+        public: true,
+        stale_while_revalidate: 1.hour
+      )
 
       respond_to do |format|
         format.html do
