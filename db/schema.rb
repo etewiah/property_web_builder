@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_27_154344) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_27_182239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -837,6 +837,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_27_154344) do
     t.json "admin_config", default: {}
     t.string "analytics_id"
     t.integer "analytics_id_type"
+    t.text "available_currencies", default: [], array: true
     t.string "company_display_name"
     t.json "configuration", default: {}
     t.integer "contact_address_id"

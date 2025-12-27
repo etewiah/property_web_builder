@@ -61,6 +61,24 @@ module Pwb
       'NZD' => { label: 'New Zealand Dollar', symbol: 'NZ$' }
     }.freeze
 
+    # Common currencies for display conversion (subset of ECB-supported currencies)
+    # These are shown in the admin UI for selecting additional display currencies
+    COMMON_CURRENCIES = {
+      'EUR' => 'Euro (€)',
+      'USD' => 'US Dollar ($)',
+      'GBP' => 'British Pound (£)',
+      'CHF' => 'Swiss Franc (CHF)',
+      'AUD' => 'Australian Dollar (A$)',
+      'CAD' => 'Canadian Dollar (CA$)',
+      'NZD' => 'New Zealand Dollar (NZ$)',
+      'SEK' => 'Swedish Krona (kr)',
+      'NOK' => 'Norwegian Krone (kr)',
+      'DKK' => 'Danish Krone (kr)',
+      'PLN' => 'Polish Zloty (zł)',
+      'CZK' => 'Czech Koruna (Kč)',
+      'HUF' => 'Hungarian Forint (Ft)'
+    }.freeze
+
     # ==========================================================================
     # AREA UNITS
     # ==========================================================================

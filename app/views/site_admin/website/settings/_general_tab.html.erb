@@ -70,6 +70,51 @@
       <p class="mt-1 text-sm text-gray-500">Currency used for property prices</p>
     </div>
 
+    <!-- Available Currencies for Display -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">
+        Additional Display Currencies
+      </label>
+      <p class="text-sm text-gray-500 mb-3">
+        Select additional currencies visitors can view prices in. When selected, prices will show
+        conversion alongside the original price (e.g., "€250,000 (~$270,000 USD)").
+      </p>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        <%
+          current_currencies = @website.available_currencies || []
+          default_currency = @website.default_currency || 'EUR'
+        %>
+        <% Pwb::Config::COMMON_CURRENCIES.each do |currency_code, label| %>
+          <% currency_str = currency_code.to_s %>
+          <% is_default = currency_str == default_currency %>
+          <label class="flex items-center p-2 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer <%= 'opacity-50' if is_default %>">
+            <input type="checkbox"
+                   name="pwb_website[available_currencies][]"
+                   value="<%= currency_str %>"
+                   <%= 'checked disabled' if is_default %>
+                   <%= 'checked' if current_currencies.include?(currency_str) && !is_default %>
+                   class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+            <span class="ml-2 text-sm text-gray-700">
+              <%= label %>
+              <% if is_default %>
+                <span class="text-xs text-gray-400">(default)</span>
+              <% end %>
+            </span>
+          </label>
+        <% end %>
+      </div>
+
+      <!-- Hidden field to ensure empty array is submitted when no checkboxes selected -->
+      <input type="hidden" name="pwb_website[available_currencies][]" value="">
+
+      <p class="mt-2 text-sm text-gray-500">
+        <strong>Currency conversion:</strong>
+        Exchange rates are updated daily from the European Central Bank.
+        Conversions are approximate and for display purposes only.
+      </p>
+    </div>
+
     <!-- Default Area Unit -->
     <div>
       <label for="default_area_unit" class="block text-sm font-medium text-gray-700 mb-1">

@@ -223,7 +223,8 @@ module SiteAdmin
           :analytics_id,
           :analytics_id_type,
           :external_image_mode,
-          supported_locales: []
+          supported_locales: [],
+          available_currencies: []
         )
       end
 
