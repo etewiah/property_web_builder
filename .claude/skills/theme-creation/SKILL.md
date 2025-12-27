@@ -571,6 +571,96 @@ effective_styles = defaults.merge(website.style_variables || {})
 2. Modify as needed
 3. Child theme file automatically takes precedence
 
+## Creating Color Palettes
+
+### Palette File Location
+Palettes are stored in separate JSON files per theme:
+```
+app/themes/[theme_name]/palettes/
+├── classic_red.json
+├── ocean_blue.json
+├── forest_green.json
+└── sunset_orange.json
+```
+
+### Palette JSON Structure
+Create a new palette file with this structure:
+
+```json
+{
+  "id": "my_palette",
+  "name": "My Palette",
+  "description": "A custom color palette",
+  "preview_colors": ["#primary", "#secondary", "#accent"],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#e91b23",
+    "secondary_color": "#2c3e50",
+    "accent_color": "#3498db",
+    "background_color": "#ffffff",
+    "text_color": "#333333",
+    "header_background_color": "#ffffff",
+    "header_text_color": "#333333",
+    "footer_background_color": "#2c3e50",
+    "footer_text_color": "#ffffff",
+    "light_color": "#f8f9fa",
+    "link_color": "#e91b23",
+    "action_color": "#e91b23"
+  }
+}
+```
+
+### Dark Mode Support
+For explicit dark mode, use the `modes` structure instead of `colors`:
+
+```json
+{
+  "id": "modern_dark",
+  "name": "Modern with Dark Mode",
+  "supports_dark_mode": true,
+  "modes": {
+    "light": {
+      "primary_color": "#3498db",
+      "background_color": "#ffffff",
+      "text_color": "#333333"
+    },
+    "dark": {
+      "primary_color": "#5dade2",
+      "background_color": "#121212",
+      "text_color": "#e8e8e8"
+    }
+  }
+}
+```
+
+If you only provide `colors`, dark mode is auto-generated using `ColorUtils.generate_dark_mode_colors()`.
+
+### Validation & Tools
+```bash
+# Validate all palettes
+rake palettes:validate
+
+# List available palettes
+rake palettes:list
+
+# Generate CSS with dark mode
+rake palettes:css_dark[mytheme,my_palette]
+
+# Check accessibility contrast
+rake palettes:contrast[mytheme,my_palette]
+
+# Generate shade scale for a color
+rake palettes:shades[#3498db]
+```
+
+### Using Palettes in Ruby
+```ruby
+loader = Pwb::PaletteLoader.new
+light = loader.get_light_colors("mytheme", "my_palette")
+dark = loader.get_dark_colors("mytheme", "my_palette")
+css = loader.generate_full_css("mytheme", "my_palette")  # Includes dark mode
+```
+
 ## Brisbane Theme Reference (Luxury Theme Pattern)
 
 ### Color Palette
@@ -603,7 +693,11 @@ app/themes/brisbane/views/pwb/welcome/index.html.erb
 ## Documentation Reference
 
 For complete documentation, see:
+- `docs/architecture/COLOR_PALETTES_ARCHITECTURE.md` - Color palette system
 - `docs/11_Theming_System.md` - Full theming system documentation
 - `docs/08_PagePart_System.md` - Page part system details
 - `app/lib/pwb/page_part_library.rb` - Page part definitions
 - `app/lib/pwb/theme_settings_schema.rb` - Settings schema
+- `app/themes/shared/color_schema.json` - Palette JSON schema
+- `app/services/pwb/palette_loader.rb` - Palette loading service
+- `app/services/pwb/color_utils.rb` - Color utilities
