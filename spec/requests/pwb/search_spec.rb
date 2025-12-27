@@ -6,11 +6,12 @@ RSpec.describe 'Property Search', type: :request do
   let!(:website) { create(:pwb_website) }
 
   before do
-    host! "#{website.subdomain}.example.com"
-    ActsAsTenant.current_tenant = website
+    # Use a platform domain so SubdomainTenant can resolve the tenant from the host
+    host! "#{website.subdomain}.localhost"
   end
 
   after do
+    # Clean up tenant after each test
     ActsAsTenant.current_tenant = nil
   end
 

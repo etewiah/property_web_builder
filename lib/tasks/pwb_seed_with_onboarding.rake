@@ -254,9 +254,11 @@ def seed_minimal_content(website)
   # Seed field keys (property types, features, amenities, etc.)
   begin
     seed_field_keys_for_website(website)
-    puts "   ✓ Field keys seeded"
+    validate_field_keys!(website)
+    puts "   ✓ Field keys seeded (#{website.field_keys.count} keys)"
   rescue StandardError => e
     puts "   ⚠️  Field keys seeding error: #{e.message}"
+    raise # Re-raise to prevent continuing with broken state
   end
 
   # Seed essential pages and navigation
@@ -309,5 +311,35 @@ def seed_field_keys_for_website(website)
       end
     end
     field_key.save!
+  end
+end
+
+def validate_field_keys!(website)
+  # Ensure field keys were properly seeded and scoped to this website
+  count = website.field_keys.count
+
+  if count < 5
+    raise "Field keys validation failed: expected at least 5, got #{count}"
+  end
+
+  # Verify key categories have content
+  missing_categories = []
+  required_categories = %w[property-types property-features]
+
+  required_categories.each do |tag|
+    category_count = website.field_keys.where(tag: tag).count
+    missing_categories << tag if category_count.zero?
+  end
+
+  if missing_categories.any?
+    raise "Field keys validation failed: missing categories: #{missing_categories.join(', ')}"
+  end
+
+  # Verify tenant scoping works
+  ActsAsTenant.with_tenant(website) do
+    tenant_count = PwbTenant::FieldKey.count
+    if tenant_count != count
+      raise "Field keys tenant scoping error: expected #{count}, got #{tenant_count} via PwbTenant::FieldKey"
+    end
   end
 end

@@ -12,7 +12,13 @@ module ControllerMacros
       @test_website = Pwb::Website.first || FactoryBot.create(:pwb_website)
       user = FactoryBot.create(:pwb_user, email: 'non_admin@pwb.com', password: '123456', admin: false, website: @test_website)
       # user.confirm! # or set a confirmed_at inside the factory. Only necessary if you are using the "confirmable" module
+      # Set tenant for tenant-scoped queries
+      ActsAsTenant.current_tenant = @test_website
       sign_in user, scope: :user
+    end
+
+    after(:each) do
+      ActsAsTenant.current_tenant = nil
     end
   end
 
@@ -25,7 +31,13 @@ module ControllerMacros
       # user.confirm! # or set a confirmed_at inside the factory. Only necessary if you are using the "confirmable" module
       # Ensure the controller can find the correct website
       allow(Pwb::Current).to receive(:website).and_return(@test_website)
+      # Set tenant for tenant-scoped queries
+      ActsAsTenant.current_tenant = @test_website
       sign_in user, scope: :user
+    end
+
+    after(:each) do
+      ActsAsTenant.current_tenant = nil
     end
   end
 end

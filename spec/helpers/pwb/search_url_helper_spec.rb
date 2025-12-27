@@ -190,6 +190,16 @@ module Pwb
     end
 
     describe '#search_filter_description' do
+      let(:website) { create(:pwb_website, subdomain: 'filter-desc-test') }
+
+      before do
+        ActsAsTenant.current_tenant = website
+      end
+
+      after do
+        ActsAsTenant.current_tenant = nil
+      end
+
       it 'includes property type' do
         result = helper.search_filter_description(property_type: 'types.apartment')
         expect(result).to be_present
@@ -218,22 +228,29 @@ module Pwb
       let(:website) { create(:pwb_website, subdomain: 'translate-test') }
 
       before do
-        @apartment_key = Pwb::FieldKey.create!(
-          global_key: 'types.apartment',
-          tag: 'property-types',
-          website: website
-        )
-        Mobility.with_locale(:en) { @apartment_key.label = 'Apartment' }
-        Mobility.with_locale(:es) { @apartment_key.label = 'Apartamento' }
-        @apartment_key.save!
+        ActsAsTenant.with_tenant(website) do
+          @apartment_key = Pwb::FieldKey.create!(
+            global_key: 'types.apartment',
+            tag: 'property-types',
+            website: website
+          )
+          Mobility.with_locale(:en) { @apartment_key.label = 'Apartment' }
+          Mobility.with_locale(:es) { @apartment_key.label = 'Apartamento' }
+          @apartment_key.save!
 
-        @pool_key = Pwb::FieldKey.create!(
-          global_key: 'features.pool',
-          tag: 'property-features',
-          website: website
-        )
-        Mobility.with_locale(:en) { @pool_key.label = 'Swimming Pool' }
-        @pool_key.save!
+          @pool_key = Pwb::FieldKey.create!(
+            global_key: 'features.pool',
+            tag: 'property-features',
+            website: website
+          )
+          Mobility.with_locale(:en) { @pool_key.label = 'Swimming Pool' }
+          @pool_key.save!
+        end
+        ActsAsTenant.current_tenant = website
+      end
+
+      after do
+        ActsAsTenant.current_tenant = nil
       end
 
       it 'returns Mobility label for existing FieldKey' do

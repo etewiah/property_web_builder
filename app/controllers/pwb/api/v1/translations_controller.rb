@@ -37,7 +37,8 @@ module Pwb
       batch_key = params[:batch_key]
       # prefix = ""
       translation_keys = []
-      translation_keys = FieldKey.where(tag: params[:batch_key]).visible.pluck("global_key")
+      # Use tenant-scoped query
+      translation_keys = PwbTenant::FieldKey.where(tag: params[:batch_key]).visible.pluck("global_key")
 
       translations = I18n::Backend::ActiveRecord::Translation.where("key IN (?)", translation_keys)
       render json: {
@@ -48,7 +49,8 @@ module Pwb
 
     # deletes the field_key referencing the translation
     def delete_translation_values
-      field_key = FieldKey.find_by_global_key(params[:i18n_key])
+      # Use tenant-scoped query
+      field_key = PwbTenant::FieldKey.find_by(global_key: params[:i18n_key])
       field_key.visible = false
 
       # not convinced it makes sense to delete the associated translations
@@ -70,8 +72,9 @@ module Pwb
       # subdomain = request.subdomain.downcase
 
       # http://stackoverflow.com/questions/5917355/find-or-create-race-conditions
+      # Use tenant-scoped query (creates with current tenant's website_id)
       begin
-        field_key = FieldKey.find_or_initialize_by(global_key: full_i18n_key)
+        field_key = PwbTenant::FieldKey.find_or_initialize_by(global_key: full_i18n_key)
         field_key.tag = batch_key
         field_key.save!
       rescue ActiveRecord::StatementInvalid => error
@@ -108,7 +111,8 @@ module Pwb
 
     # below for adding new locale to an existing translation
     def create_for_locale
-      field_key = FieldKey.find_by_global_key(params[:i18n_key])
+      # Use tenant-scoped query
+      field_key = PwbTenant::FieldKey.find_by(global_key: params[:i18n_key])
       phrase = I18n::Backend::ActiveRecord::Translation.find_or_create_by(
         key: field_key.global_key,
       locale: params[:locale]

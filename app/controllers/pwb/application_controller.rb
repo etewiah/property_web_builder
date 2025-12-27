@@ -3,7 +3,7 @@ module Pwb
     protect_from_forgery with: :exception
     helper AuthHelper
 
-    before_action :current_agency_and_website, :check_locked_website, :nav_links,
+    before_action :current_agency_and_website, :check_unseeded_website, :check_locked_website, :nav_links,
       :set_locale, :set_theme_path, :footer_content
 
     # Themes allowed to be switched via ?theme= URL parameter
@@ -51,7 +51,21 @@ module Pwb
       @current_website = current_website_from_subdomain || Pwb::Current.website || Website.first
       # Ensure Pwb::Current.website is set for Ahoy analytics and other services
       Pwb::Current.website ||= @current_website
+      # Set ActsAsTenant for PwbTenant:: models
+      ActsAsTenant.current_tenant = @current_website
       @current_agency = @current_website&.agency || @current_website&.build_agency
+    end
+
+    # Check if no website exists for this subdomain and redirect to setup
+    # This happens when a new subdomain is accessed that hasn't been seeded
+    def check_unseeded_website
+      return if @current_website.present?
+
+      # Skip for setup routes
+      return if request.path.start_with?('/setup')
+
+      # Redirect to setup page
+      redirect_to pwb_setup_path
     end
 
     # Check if the website is in a locked state and render appropriate view

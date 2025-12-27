@@ -27,8 +27,8 @@ module Pwb
       prefix = tag_prefix(tag)
       key = "#{prefix}.#{slug.tr('-', '_')}"
 
-      # Verify the key exists
-      Pwb::FieldKey.find_by(global_key: key)&.global_key
+      # Verify the key exists (tenant-scoped)
+      PwbTenant::FieldKey.find_by(global_key: key)&.global_key
     end
 
     # Get the prefix for a given tag
@@ -188,7 +188,8 @@ module Pwb
     def translate_field_key(global_key)
       return nil if global_key.blank?
 
-      field_key = Pwb::FieldKey.find_by(global_key: global_key)
+      # Use tenant-scoped query
+      field_key = PwbTenant::FieldKey.find_by(global_key: global_key)
       field_key&.display_label || feature_to_slug(global_key)&.titleize
     end
   end

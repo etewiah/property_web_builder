@@ -38,8 +38,8 @@ module Pwb
         # extras
         field_name_id = field_name_id.strip
 
-        # gets a list of translation keys for a given field:
-        translation_keys = FieldKey.where(tag: field_name_id).visible.pluck("global_key")
+        # gets a list of translation keys for a given field (tenant-scoped):
+        translation_keys = PwbTenant::FieldKey.where(tag: field_name_id).visible.pluck("global_key")
         select_values[field_name_id] = translation_keys
       end
       render json: select_values

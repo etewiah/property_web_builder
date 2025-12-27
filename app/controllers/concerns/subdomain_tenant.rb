@@ -32,7 +32,10 @@ module SubdomainTenant
     slug = request.headers["X-Website-Slug"]
     if slug.present?
       Pwb::Current.website = Pwb::Website.find_by(slug: slug)
-      return if Pwb::Current.website.present?
+      if Pwb::Current.website.present?
+        ActsAsTenant.current_tenant = Pwb::Current.website
+        return
+      end
     end
 
     # Use the unified find_by_host method which handles both
@@ -42,6 +45,9 @@ module SubdomainTenant
 
     # Fallback to default if not found
     Pwb::Current.website ||= Pwb::Website.first
+
+    # Set ActsAsTenant for PwbTenant:: models
+    ActsAsTenant.current_tenant = Pwb::Current.website
 
     # Log tenant resolution for debugging (only in development)
     if Rails.env.development? && Pwb::Current.website

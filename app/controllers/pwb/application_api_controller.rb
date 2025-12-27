@@ -41,7 +41,12 @@ module Pwb
     end
 
     def current_website
-      @current_website ||= current_website_from_subdomain || Pwb::Current.website || Website.first
+      return @current_website if defined?(@current_website)
+
+      @current_website = current_website_from_subdomain || Pwb::Current.website || Website.first
+      # Set ActsAsTenant for PwbTenant:: models
+      ActsAsTenant.current_tenant = @current_website
+      @current_website
     end
 
     def current_website_from_subdomain

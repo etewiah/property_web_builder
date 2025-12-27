@@ -18,8 +18,8 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include('General Settings')
-      expect(response.body).to include('Company Display Name')
       expect(response.body).to include('Supported Languages')
+      expect(response.body).to include('Primary Currency')
     end
   end
 
