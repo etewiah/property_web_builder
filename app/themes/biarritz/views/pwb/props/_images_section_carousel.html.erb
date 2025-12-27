@@ -1,0 +1,154 @@
+<%# Biarritz Theme - Property Image Carousel %>
+<%# Coastal French Basque design with ocean blues and sand accents %>
+
+<div class="relative bg-gray-100 rounded-lg overflow-hidden shadow-md">
+  <!-- Main Carousel -->
+  <div id="propCarousel" class="relative">
+    <!-- Carousel wrapper -->
+    <div class="relative h-64 md:h-96 lg:h-[500px] overflow-hidden">
+      <% @property_details.prop_photos.each.with_index do |photo, index| %>
+        <div class="<%= index == 0 ? 'block' : 'hidden' %> duration-700 ease-in-out absolute w-full h-full top-0 left-0" data-carousel-item="<%= index == 0 ? 'active' : '' %>">
+          <%= opt_image_tag(photo, quality: "auto", height: 600, crop: "scale",
+              class: "absolute block w-full h-full object-cover",
+              alt: @property_details.title.presence || "Property photo",
+              loading: index == 0 ? "eager" : "lazy",
+              use_picture: true,
+              fetchpriority: index == 0 ? "high" : nil) %>
+          <% if @property_details.contextual_price_with_currency(@operation_type) %>
+            <div class="absolute top-6 right-6 bg-sky-700 text-white px-6 py-3 rounded-lg font-bold shadow-lg text-lg">
+              <%= @property_details.contextual_price_with_currency @operation_type %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Slider indicators -->
+    <% if @property_details.prop_photos.count > 1 %>
+      <div class="absolute z-30 flex space-x-2 -translate-x-1/2 bottom-6 left-1/2">
+        <% @property_details.prop_photos.each.with_index do |photo, index| %>
+          <button type="button"
+                  class="w-2.5 h-2.5 rounded-full transition-all <%= index == 0 ? 'bg-white w-8' : 'bg-white/60 hover:bg-white/80' %>"
+                  aria-current="<%= index == 0 ? 'true' : 'false' %>"
+                  aria-label="Slide <%= index + 1 %>"
+                  data-carousel-slide-to="<%= index %>"></button>
+        <% end %>
+      </div>
+
+      <!-- Slider controls -->
+      <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+        <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/40 backdrop-blur-sm group-hover:bg-white/60 transition-all shadow-md">
+          <svg class="w-5 h-5 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+          </svg>
+          <span class="sr-only">Previous</span>
+        </span>
+      </button>
+      <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+        <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/40 backdrop-blur-sm group-hover:bg-white/60 transition-all shadow-md">
+          <svg class="w-5 h-5 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+          </svg>
+          <span class="sr-only">Next</span>
+        </span>
+      </button>
+    <% end %>
+  </div>
+
+  <!-- Property Quick Info Bar -->
+  <div class="bg-gradient-to-r from-white to-gray-50 border-t border-gray-200 p-5">
+    <div class="flex flex-wrap items-center justify-center gap-8 text-gray-700">
+      <div class="flex items-center space-x-2">
+        <span class="w-10 h-10 flex items-center justify-center bg-sky-100 rounded-full">
+          <i class="fa fa-arrows-alt text-sky-700 text-lg"></i>
+        </span>
+        <div class="flex flex-col">
+          <span class="text-xs text-gray-500 font-medium"><%= I18n.t("property.area", default: "Area") %></span>
+          <span class="font-bold text-gray-900"><%= @property_details.constructed_area %><%= area_unit @property_details %></span>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="w-10 h-10 flex items-center justify-center bg-amber-100 rounded-full">
+          <i class="fa fa-bed text-amber-700 text-lg"></i>
+        </span>
+        <div class="flex flex-col">
+          <span class="text-xs text-gray-500 font-medium"><%= I18n.t("property.bedrooms_short", default: "Beds") %></span>
+          <span class="font-bold text-gray-900"><%= @property_details.count_bedrooms %></span>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="w-10 h-10 flex items-center justify-center bg-cyan-100 rounded-full">
+          <i class="fa fa-shower text-cyan-700 text-lg"></i>
+        </span>
+        <div class="flex flex-col">
+          <span class="text-xs text-gray-500 font-medium"><%= I18n.t("property.bathrooms_short", default: "Baths") %></span>
+          <span class="font-bold text-gray-900"><%= @property_details.count_bathrooms %></span>
+        </div>
+      </div>
+      <% if @property_details.has_garage %>
+        <div class="flex items-center space-x-2">
+          <span class="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full">
+            <i class="fa fa-car text-gray-700 text-lg"></i>
+          </span>
+          <div class="flex flex-col">
+            <span class="text-xs text-gray-500 font-medium"><%= I18n.t("property.garage", default: "Garage") %></span>
+            <span class="font-bold text-gray-900"><%= @property_details.count_garages %></span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const carouselElement = document.getElementById('propCarousel');
+    if (!carouselElement) return;
+
+    const initCarousel = (retryCount = 0) => {
+      const Flowbite = window.Flowbite;
+      const CarouselConstructor = (Flowbite && Flowbite.Carousel) ? Flowbite.Carousel : window.Carousel;
+
+      if (!CarouselConstructor) {
+        if (retryCount > 50) {
+          console.error('Flowbite Library failed to load after 5 seconds.');
+          return;
+        }
+        setTimeout(() => initCarousel(retryCount + 1), 100);
+        return;
+      }
+
+      const items = [];
+      carouselElement.querySelectorAll('[data-carousel-item]').forEach((el, index) => {
+        items.push({ position: index, el: el });
+      });
+
+      const indicators = [];
+      carouselElement.querySelectorAll('[data-carousel-slide-to]').forEach((el, index) => {
+        indicators.push({ position: index, el: el });
+      });
+
+      const options = {
+        defaultPosition: 0,
+        interval: <%= @carousel_speed || 3000 %>,
+        indicators: {
+          activeClasses: 'bg-white w-8',
+          inactiveClasses: 'bg-white/60 hover:bg-white/80',
+          items: indicators
+        }
+      };
+
+      const carousel = new CarouselConstructor(carouselElement, items, options);
+
+      const prevBtn = carouselElement.querySelector('[data-carousel-prev]');
+      const nextBtn = carouselElement.querySelector('[data-carousel-next]');
+
+      if (prevBtn) prevBtn.addEventListener('click', () => carousel.prev());
+      if (nextBtn) nextBtn.addEventListener('click', () => carousel.next());
+
+      carousel.cycle();
+    };
+
+    initCarousel();
+  });
+</script>
