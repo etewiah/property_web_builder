@@ -21,9 +21,10 @@
         <div class="flex items-center space-x-2">
           <% @current_website.supported_locales_with_variants.uniq { |l| l["locale"] }.each do |locale_with_var| %>
             <% is_selected = locale.to_s == locale_with_var["locale"] %>
+            <% link_classes = "px-3 py-1 rounded-md uppercase font-semibold text-xs transition-all #{is_selected ? 'bg-[#D97706] text-white' : 'text-white hover:bg-[#0C4A6E]'}" %>
             <%= link_to params.permit(:locale).merge({locale: locale_with_var["locale"]}),
-                class: "px-3 py-1 rounded-md uppercase font-semibold text-xs transition-all #{is_selected ? 'bg-[#D97706] text-white' : 'text-white hover:bg-[#0C4A6E]'}",
-                aria-current: (is_selected ? 'true' : nil) do %>
+                class: link_classes,
+                "aria-current": (is_selected ? 'true' : nil) do %>
               <%= locale_with_var["locale"] %>
             <% end %>
           <% end %>
@@ -41,7 +42,7 @@
       <!-- Logo - Playfair Display Font -->
       <%= link_to main_app.root_path(locale: locale), 
           class: "flex items-center group transition-transform hover:scale-105",
-          aria-label: "#{@current_agency.display_name} - Home" do %>
+          "aria-label": "#{@current_agency.display_name} - Home" do %>
         <% if @current_website.logo_url %>
           <img src="<%= @current_website.logo_url %>" 
                alt="<%= @current_agency.display_name %> Logo" 
@@ -94,10 +95,11 @@
             <% if target_path %>
               <% is_active = current_page?(target_path) || (current_page?("/") && page.link_path == "home_path") %>
               <li>
+                <% link_classes = "block px-4 py-3 md:py-2 rounded-lg font-medium transition-all #{is_active ? 'bg-[#E0F2FE] text-[#0C4A6E] font-semibold' : 'text-[#1C1917] hover:bg-[#F5F5F4] hover:text-[#0C4A6E]'}" %>
                 <%= link_to page.link_title, target_path,
                     target: page.href_target,
-                    class: "block px-4 py-3 md:py-2 rounded-lg font-medium transition-all #{is_active ? 'bg-[#E0F2FE] text-[#0C4A6E] font-semibold' : 'text-[#1C1917] hover:bg-[#F5F5F4] hover:text-[#0C4A6E]'}",
-                    aria-current: (is_active ? 'page' : nil) %>
+                    class: link_classes,
+                    "aria-current": (is_active ? 'page' : nil) %>
               </li>
             <% end %>
           <% end %>

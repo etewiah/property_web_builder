@@ -17,12 +17,9 @@
         <article class="card-coastal group" itemscope itemtype="https://schema.org/RealEstateListing">
           
           <!-- Property Image with Hover Effect -->
-          <%= link_to property.contextual_show_path(rent_or_sale), 
-              class: "block relative overflow-hidden",
-              aria-label: "View details for #{property.title}" do %>
+          <%= link_to property.contextual_show_path(rent_or_sale) do %>
             <div class="relative overflow-hidden rounded-t-xl">
-              <%= opt_image_tag((property.ordered_photo 1), 
-                  quality: "auto",
+              <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
                   height: 300, 
                   crop: "scale", 
                   class: "w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110", 
@@ -111,19 +108,5 @@
         </article>
       <% end %>
     </div>
-    
-    <!-- View All Link (if needed) -->
-    <% if properties.count >= 3 %>
-      <div class="text-center mt-10">
-        <%= link_to I18n.t("viewAllProperties", default: "View All Properties"), 
-            rent_or_sale == 'for_sale' ? buy_path : rent_path,
-            class: "btn-ocean-primary inline-flex items-center" do %>
-          <span>View All Properties</span>
-          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        <% end %>
-      </div>
-    <% end %>
   </div>
 </section>
