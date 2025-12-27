@@ -79,7 +79,7 @@
             <!-- Price Badge on Image (Mobile) -->
             <div class="absolute bottom-4 left-4 md:hidden">
               <span class="text-2xl font-bold text-white drop-shadow-lg">
-                <%= property.contextual_price_with_currency @operation_type %>
+                <%= property_price(property, @operation_type) %>
               </span>
             </div>
           </div>
@@ -139,7 +139,7 @@
               <div class="hidden md:block">
                 <p class="text-xs text-stone-400 mb-1"><%= I18n.t("price", default: "Price") %></p>
                 <span class="text-2xl font-bold" style="color: #b45309;">
-                  <%= property.contextual_price_with_currency @operation_type %>
+                  <%= property_price(property, @operation_type) %>
                 </span>
               </div>
               <%= link_to property.contextual_show_path(@operation_type),

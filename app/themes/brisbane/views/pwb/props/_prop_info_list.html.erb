@@ -21,7 +21,7 @@
                 <%= I18n.t "property.price" %>:
               </td>
               <td class="px-4 py-3 text-gray-900 font-bold text-blue-600">
-                <%= @property_details.contextual_price_with_currency @operation_type %>
+                <%= property_price(@property_details, @operation_type) %>
               </td>
             </tr>
           <% end %>

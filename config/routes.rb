@@ -281,6 +281,9 @@ Rails.application.routes.draw do
     root to: "welcome#index"
     resources :welcome, only: :index
 
+    # Currency preference
+    post "/set_currency" => "currencies#set", as: "set_currency"
+
     # Locked website pages (email verification, registration pending)
     get "/resend_verification" => "locked#resend_verification", as: "resend_verification"
     post "/resend_verification" => "locked#submit_resend_verification"

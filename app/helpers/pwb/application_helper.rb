@@ -1,5 +1,27 @@
 module Pwb
   module ApplicationHelper
+    include CurrencyHelper
+
+    # Display property price with optional currency conversion
+    #
+    # If the user has selected a different currency and exchange rates are available,
+    # shows the original price with converted price in parentheses.
+    #
+    # @param property [ListedProperty] the property to get price from
+    # @param operation_type [String] "for_sale" or "for_rent"
+    # @param show_conversion [Boolean] whether to show converted price
+    # @return [String] formatted price string (HTML safe)
+    #
+    # @example
+    #   property_price(@property, "for_sale")
+    #   # => "€250,000" (default currency)
+    #   # => "€250,000 <span class='text-gray-500'>(~$270,000 USD)</span>" (with conversion)
+    #
+    def property_price(property, operation_type, show_conversion: true)
+      money = property.contextual_price(operation_type)
+      display_price(money, show_conversion: show_conversion)
+    end
+
     # Consolidated company display name resolution
     # Provides consistent fallback logic across all themes
     # Priority: agency.display_name > agency.company_name > website.company_display_name (deprecated) > default

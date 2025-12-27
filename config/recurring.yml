@@ -19,3 +19,9 @@ production:
     queue: low
     description: "Purge ActiveStorage blobs that have been orphaned for more than 24 hours"
     schedule: every day at 3am
+
+  update_exchange_rates:
+    class: Pwb::UpdateExchangeRatesJob
+    queue: default
+    description: "Fetch latest currency exchange rates from ECB"
+    schedule: every day at 6am

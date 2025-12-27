@@ -13,10 +13,10 @@
               loading: index == 0 ? "eager" : "lazy",
               use_picture: true,
               fetchpriority: index == 0 ? "high" : nil) %>
-          <% if @property_details.contextual_price_with_currency @operation_type %>
+          <% if property_price(@property_details, @operation_type) %>
             <div class="ribbon dark fondo_accion">
               <span>
-                <%= @property_details.contextual_price_with_currency @operation_type %>
+                <%= property_price(@property_details, @operation_type) %>
               </span>
             </div>
           <% end %>

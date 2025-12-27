@@ -187,6 +187,10 @@ GEM
     erubi (1.13.1)
     et-orbi (1.4.0)
       tzinfo
+    eu_central_bank (2.0.0)
+      bigdecimal
+      money (~> 7.0)
+      nokogiri (~> 1.11)
     execjs (2.10.0)
     factory_bot (6.5.6)
       activesupport (>= 6.1.0)
@@ -780,6 +784,7 @@ DEPENDENCIES
   database_cleaner
   devise (~> 4.8)
   dotenv-rails
+  eu_central_bank (~> 2.0)
   factory_bot_rails
   faker
   faraday (~> 2.3)

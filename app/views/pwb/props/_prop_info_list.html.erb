@@ -17,7 +17,7 @@
           <tr>
             <td><strong><%= t "property.price" %>:</strong></td>
             <td>
-              <%=  @property_details.contextual_price_with_currency @operation_type %>
+              <%= property_price(@property_details, @operation_type) %>
             </td>
           </tr>
           <% end %>

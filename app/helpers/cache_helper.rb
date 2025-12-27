@@ -54,14 +54,19 @@ module CacheHelper
   end
 
   # Cache key for property card (used in listings)
+  # Includes user's currency preference to cache converted prices correctly
   def property_card_cache_key(property, operation_type = nil)
     return nil unless property
+
+    # Include currency preference if CurrencyHelper is available
+    currency = respond_to?(:user_preferred_currency) ? user_preferred_currency : "default"
 
     cache_key_for(
       "card",
       property.id,
       property.updated_at.to_i,
-      operation_type || "default"
+      operation_type || "default",
+      "c#{currency}"
     )
   end
 

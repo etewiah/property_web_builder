@@ -1,0 +1,92 @@
+<%# Currency Selector Component
+
+    Allows users to select their preferred display currency.
+    Prices will be shown with conversion to the selected currency.
+
+    Usage:
+      <%= render 'shared/currency_selector' %>
+      <%= render 'shared/currency_selector', style: :dropdown %>
+      <%= render 'shared/currency_selector', style: :buttons %>
+
+    Requires:
+      - CurrencyHelper included in controller
+      - Pwb::CurrenciesController#set endpoint
+      - Website with available_currencies configured
+%>
+<% style ||= :dropdown %>
+
+<% if multiple_currencies_available? %>
+  <div class="currency-selector" data-controller="currency-selector">
+    <% if style == :dropdown %>
+      <%# Dropdown style - compact for headers/footers %>
+      <div class="relative">
+        <select
+          data-currency-selector-target="select"
+          data-action="change->currency-selector#change"
+          class="appearance-none bg-transparent border border-gray-300 rounded px-3 py-1.5 pr-8 text-sm cursor-pointer hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          aria-label="<%= t('currency.select_currency', default: 'Select currency') %>"
+        >
+          <% currency_select_options.each do |label, code| %>
+            <option value="<%= code %>" <%= 'selected' if code == user_preferred_currency %>>
+              <%= label %>
+            </option>
+          <% end %>
+        </select>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+          <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </div>
+    <% elsif style == :buttons %>
+      <%# Button style - for more prominent display %>
+      <div class="flex gap-1 rounded-lg bg-gray-100 p-1">
+        <% available_display_currencies.each do |code| %>
+          <button
+            type="button"
+            data-action="click->currency-selector#select"
+            data-currency="<%= code %>"
+            class="px-3 py-1 text-sm rounded-md transition-colors
+                   <%= code == user_preferred_currency ? 'bg-white shadow text-gray-900 font-medium' : 'text-gray-600 hover:text-gray-900' %>"
+          >
+            <%= currency_symbol(code) %> <%= code %>
+          </button>
+        <% end %>
+      </div>
+    <% else %>
+      <%# Minimal style - just the current currency with dropdown on click %>
+      <button
+        type="button"
+        data-action="click->currency-selector#toggle"
+        class="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900"
+      >
+        <span><%= currency_symbol(user_preferred_currency) %></span>
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div
+        data-currency-selector-target="menu"
+        class="hidden absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50"
+      >
+        <% available_display_currencies.each do |code| %>
+          <button
+            type="button"
+            data-action="click->currency-selector#select"
+            data-currency="<%= code %>"
+            class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100
+                   <%= code == user_preferred_currency ? 'font-medium text-primary' : 'text-gray-700' %>"
+          >
+            <%= currency_symbol(code) %> <%= code %>
+          </button>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# Hidden form for submitting currency change %>
+    <%= form_with url: set_currency_path, method: :post, data: { currency_selector_target: 'form' }, local: false, class: 'hidden' do |f| %>
+      <%= f.hidden_field :currency, data: { currency_selector_target: 'input' } %>
+    <% end %>
+  </div>
+<% end %>

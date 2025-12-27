@@ -1,5 +1,5 @@
-<%# Fragment cache for property info - invalidates when property updates %>
-<% cache [property_cache_key(@property_details, variant: "info"), @operation_type, "v1"] do %>
+<%# Fragment cache for property info - invalidates when property updates or currency changes %>
+<% cache [property_cache_key(@property_details, variant: "info"), @operation_type, user_preferred_currency, "v2"] do %>
 <!-- Bristol Theme Property Info List - Tailwind CSS -->
 <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
   <div class="p-6">
@@ -23,7 +23,7 @@
                 <%= I18n.t "property.price" %>:
               </td>
               <td class="px-4 py-3 text-gray-900 font-bold text-blue-600">
-                <%= @property_details.contextual_price_with_currency @operation_type %>
+                <%= property_price(@property_details, @operation_type) %>
               </td>
             </tr>
           <% end %>

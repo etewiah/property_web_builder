@@ -67,7 +67,7 @@
                 <%= @property_details.for_sale? ? t('pwb.properties.for_sale', default: 'For Sale') : t('pwb.properties.for_rent', default: 'For Rent') %>
               </span>
               <p class="font-display text-3xl font-bold text-terra-600">
-                <%= @property_details.contextual_price_with_currency(@property_details.for_sale? ? 'for_sale' : 'for_rent') %>
+                <%= property_price(@property_details, @property_details.for_sale? ? 'for_sale' : 'for_rent') %>
               </p>
             </div>
           </div>

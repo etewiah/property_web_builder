@@ -38,10 +38,10 @@
     <%# Spacer to push footer to bottom %>
     <div class="flex-grow"></div>
 
-    <%# Price %>
+    <%# Price with optional currency conversion %>
     <div class="mb-3">
       <span class="text-xl font-bold text-blue-600">
-        <%= property.contextual_price_with_currency @operation_type %>
+        <%= property_price(property, @operation_type) %>
       </span>
     </div>
 

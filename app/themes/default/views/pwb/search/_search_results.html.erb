@@ -97,7 +97,7 @@
             <!-- Price and Action -->
             <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-gray-200">
               <span class="text-xl font-bold text-blue-600">
-                <%= property.contextual_price_with_currency @operation_type %>
+                <%= property_price(property, @operation_type) %>
               </span>
               <%= link_to property.contextual_show_path(@operation_type),
                   class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition" do %>

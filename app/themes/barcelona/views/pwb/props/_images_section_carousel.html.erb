@@ -14,9 +14,9 @@
               loading: index == 0 ? "eager" : "lazy",
               use_picture: true,
               fetchpriority: index == 0 ? "high" : nil) %>
-          <% if @property_details.contextual_price_with_currency(@operation_type) %>
+          <% if property_price(@property_details, @operation_type) %>
             <div class="absolute top-6 right-6 bg-gradient-to-r from-med-600 to-med-500 text-white px-6 py-3 rounded-pill font-display font-bold shadow-strong text-lg">
-              <%= @property_details.contextual_price_with_currency @operation_type %>
+              <%= property_price(@property_details, @operation_type) %>
             </div>
           <% end %>
         </div>
