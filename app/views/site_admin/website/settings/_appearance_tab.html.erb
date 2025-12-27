@@ -60,12 +60,12 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" data-theme-palette-target="paletteContainer">
         <% if @website.current_theme&.palettes&.any? %>
           <% @website.current_theme.palettes.each do |palette_id, palette| %>
-            <label class="relative cursor-pointer group">
+            <label class="relative cursor-pointer group h-full">
               <input type="radio" name="website[selected_palette]" value="<%= palette_id %>"
                      <%= 'checked' if @website.effective_palette_id == palette_id %>
                      class="sr-only peer"
                      data-palette-colors="<%= palette['colors'].to_json %>">
-              <div class="border-2 rounded-lg p-4 peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-400 transition-all">
+              <div class="border-2 rounded-lg p-4 peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-400 transition-all h-full flex flex-col">
                 <!-- Color Preview Swatches -->
                 <div class="flex h-12 rounded-lg overflow-hidden mb-3 shadow-sm">
                   <% palette['preview_colors'].each_with_index do |color, i| %>
@@ -73,10 +73,10 @@
                          style="background-color: <%= color %>"></div>
                   <% end %>
                 </div>
-                <div class="flex items-center justify-between">
-                  <div>
+                <div class="flex items-center justify-between flex-grow">
+                  <div class="flex flex-col justify-center">
                     <span class="font-medium text-gray-900 block"><%= palette['name'] %></span>
-                    <span class="text-xs text-gray-500"><%= palette['description'] %></span>
+                    <span class="text-xs text-gray-500 line-clamp-2"><%= palette['description'] %></span>
                   </div>
                   <span class="hidden peer-checked:inline-block text-blue-600">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
