@@ -1081,9 +1081,90 @@ end
 
 ---
 
+## Alternative Frameworks Analysis
+
+### DSPy (https://dspy.ai/)
+
+**What it is:** A declarative Python framework for building modular AI software from Stanford NLP. Uses "signatures" and "modules" instead of prompt strings, with automatic optimization.
+
+**Key Features:**
+- Modular programming with signatures (input/output specs) and modules
+- Automatic prompt optimization via optimizers (BootstrapRS, MIPROv2, etc.)
+- Supports 500+ LLM providers
+- Good for complex multi-stage pipelines (RAG, agent chains)
+
+**Pros:**
+- Best-in-class for complex AI pipelines
+- Automatic prompt tuning based on examples
+- Testable, modular code
+- Active research community
+
+**Cons:**
+- **Python-only** (PWB is Ruby/Rails) - requires separate microservice
+- Overkill for simple use cases like description generation
+- Adds architectural complexity
+- Learning curve for team
+
+**When to Consider DSPy:**
+- Building complex RAG systems (e.g., property Q&A with document retrieval)
+- Need automatic optimization across many tenants/use cases
+- Building AI-first features requiring multi-stage pipelines
+- Have Python expertise on team
+
+**Recommendation:** Start with `ruby_llm` for native Rails integration. Consider DSPy only for Phase 7 (Conversational Agent) if complex reasoning chains are needed. Could deploy as a separate Python microservice that PWB calls via HTTP API.
+
+**Example DSPy Use Case for PWB:**
+```python
+# Python microservice for complex property matching
+import dspy
+
+class PropertyMatcher(dspy.Signature):
+    """Match properties to buyer requirements with reasoning."""
+    requirements = dspy.InputField(desc="Buyer requirements in natural language")
+    properties = dspy.InputField(desc="Available property listings as JSON")
+    matches = dspy.OutputField(desc="Top 5 matching properties with reasoning")
+
+class PropertyMatchingAgent(dspy.Module):
+    def __init__(self):
+        super().__init__()
+        self.matcher = dspy.ChainOfThought(PropertyMatcher)
+
+    def forward(self, requirements, properties):
+        return self.matcher(requirements=requirements, properties=properties)
+```
+
+### Framework Comparison Summary
+
+| Criteria | ruby_llm | DSPy | Direct API |
+|----------|----------|------|------------|
+| Language | Ruby | Python | Any |
+| Rails Integration | Native | Microservice | Manual |
+| Complexity | Low | High | Low |
+| Multi-provider | 500+ models | 500+ models | Per-provider |
+| Auto-optimization | No | Yes | No |
+| Best for | Simple-medium features | Complex pipelines | Quick prototypes |
+| Learning Curve | Low | Medium-High | Low |
+
+### Recommended Approach
+
+1. **Phases 1-6**: Use `ruby_llm` for native Rails integration
+2. **Phase 7 (Chat Agent)**: Evaluate if DSPy complexity is needed
+3. **Future**: Consider DSPy microservice for:
+   - Complex property matching algorithms
+   - Multi-step reasoning chains
+   - A/B testing different prompting strategies
+
+---
+
 ## References
 
 - [ruby_llm Documentation](https://github.com/crmne/ruby_llm)
+- [DSPy Documentation](https://dspy.ai/)
+- [DSPy GitHub](https://github.com/stanfordnlp/dspy)
 - [OpenAI API Pricing](https://openai.com/pricing)
 - [Anthropic API Pricing](https://www.anthropic.com/pricing)
 - [Rails Background Jobs](https://guides.rubyonrails.org/active_job_basics.html)
+
+---
+
+*Last updated: December 2024*

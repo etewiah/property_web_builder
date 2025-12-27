@@ -109,13 +109,13 @@
       The backend code (verification_meta_tags helper) is also commented out.
 
       To re-enable:
-      1. Uncomment this section
+      1. Remove the "if false" wrapper below
       2. Uncomment verification_meta_tags in app/helpers/seo_helper.rb
       3. Run specs: bundle exec rspec spec/helpers/seo_helper_spec.rb
 
       See: docs/TODO_SEARCH_ENGINE_VERIFICATION.md
     %>
-    <%# -- START HIDDEN SECTION --
+    <% if false # -- START HIDDEN SECTION -- %>
     <!-- Verification & Integration -->
     <div class="bg-white rounded-lg shadow p-6">
       <h2 class="text-lg font-medium text-gray-900 mb-4">Search Engine Verification</h2>
@@ -138,7 +138,7 @@
         </div>
       </div>
     </div>
-    -- END HIDDEN SECTION -- %>
+    <% end # -- END HIDDEN SECTION -- %>
 
     <!-- Submit -->
     <div class="flex justify-end">
