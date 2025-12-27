@@ -37,7 +37,7 @@
           <% end %>
           <% if target_path %>
             <a href="<%= target_path %>"
-               class="px-4 py-2 text-sm font-medium text-warm-800 hover:text-med-600 hover:bg-med-50 rounded-soft transition-all duration-200">
+               class="px-4 py-2 text-sm font-medium text-warm-900 hover:text-med-600 hover:bg-med-50 rounded-soft transition-all duration-200">
               <%= page.link_title %>
             </a>
           <% end %>
@@ -50,7 +50,7 @@
         <% if @current_website.is_multilingual && not_devise %>
           <div class="relative hidden md:block">
             <button type="button"
-                    class="flex items-center space-x-1 px-3 py-2 text-sm text-warm-500 hover:text-warm-700 rounded-soft hover:bg-warm-100 transition-colors"
+                    class="flex items-center space-x-1 px-3 py-2 text-sm text-warm-700 hover:text-med-600 rounded-soft hover:bg-warm-100 transition-colors"
                     data-dropdown-toggle="language-dropdown">
               <i class="ph ph-globe text-lg"></i>
               <span class="uppercase text-xs font-medium"><%= I18n.locale %></span>
@@ -61,7 +61,7 @@
               <% @current_website.supported_locales_with_variants.uniq { |l| l["locale"] }.each do |locale_with_var| %>
                 <% is_selected = locale.to_s == locale_with_var["locale"] %>
                 <%= link_to params.permit(:locale).merge({locale: locale_with_var["locale"]}),
-                    class: "block px-4 py-2 text-sm text-warm-600 hover:bg-med-50 hover:text-med-600 transition-colors #{is_selected ? 'bg-med-50 text-med-600' : ''}" do %>
+                    class: "block px-4 py-2 text-sm text-warm-700 hover:bg-med-50 hover:text-med-600 transition-colors #{is_selected ? 'bg-med-50 text-med-600' : ''}" do %>
                   <%= t("admin.#{locale_with_var['locale']}", default: locale_with_var["locale"].to_s.upcase) %>
                 <% end %>
               <% end %>
@@ -71,9 +71,9 @@
 
         <%# Admin Link %>
         <% if @show_admin_link %>
-          <div class="h-10 bg-warm-100 text-warm-600 rounded-soft hidden md:flex items-center justify-center hover:bg-warm-200 transition-colors">
+          <div class="h-10 bg-warm-100 text-warm-800 rounded-soft hidden md:flex items-center justify-center hover:bg-warm-200 transition-colors">
             <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale),
-                class: "block py-3 px-5 text-xs font-medium uppercase tracking-wide text-warm-700 hover:text-med-600 transition-all duration-300" %>
+                class: "block py-3 px-5 text-xs font-medium uppercase tracking-wide text-warm-800 hover:text-med-600 transition-all duration-300" %>
           </div>
         <% end %>
 
@@ -89,15 +89,15 @@
                  class="hidden absolute right-0 mt-2 w-56 bg-white rounded-soft shadow-elevated border border-warm-100 py-2 z-50">
               <div class="px-4 py-3 border-b border-warm-100">
                 <p class="text-sm font-medium text-warm-900"><%= current_user.email %></p>
-                <p class="text-xs text-warm-500">Signed in</p>
+                <p class="text-xs text-warm-700">Signed in</p>
               </div>
               <% if current_user.admin? %>
-                <a href="/site_admin" class="flex items-center px-4 py-2.5 text-sm text-warm-600 hover:bg-med-50 hover:text-med-600">
+                <a href="/site_admin" class="flex items-center px-4 py-2.5 text-sm text-warm-700 hover:bg-med-50 hover:text-med-600">
                   <i class="ph ph-gear mr-3"></i>
                   Admin Dashboard
                 </a>
               <% end %>
-              <a href="<%= edit_user_registration_path %>" class="flex items-center px-4 py-2.5 text-sm text-warm-600 hover:bg-med-50 hover:text-med-600">
+              <a href="<%= edit_user_registration_path %>" class="flex items-center px-4 py-2.5 text-sm text-warm-700 hover:bg-med-50 hover:text-med-600">
                 <i class="ph ph-user-circle mr-3"></i>
                 Account Settings
               </a>
@@ -113,7 +113,7 @@
 
         <%# Mobile Menu Button %>
         <button type="button"
-                class="lg:hidden w-10 h-10 bg-warm-100 text-warm-600 rounded-soft flex items-center justify-center hover:bg-warm-200 transition-colors"
+                class="lg:hidden w-10 h-10 bg-warm-100 text-warm-800 rounded-soft flex items-center justify-center hover:bg-warm-200 transition-colors"
                 data-collapse-toggle="navbar-main"
                 aria-controls="navbar-main"
                 aria-expanded="false">
@@ -138,7 +138,7 @@
           <% end %>
           <% if target_path %>
             <a href="<%= target_path %>"
-               class="flex items-center px-5 py-3 text-warm-800 hover:bg-med-50 hover:text-med-600 border-b border-warm-50 last:border-b-0 transition-colors">
+               class="flex items-center px-5 py-3 text-warm-900 hover:bg-med-50 hover:text-med-600 border-b border-warm-50 last:border-b-0 transition-colors">
               <%= page.link_title %>
             </a>
           <% end %>
