@@ -251,6 +251,14 @@ def apply_seed_pack_for_onboarding(website, pack_name, skip_properties)
 end
 
 def seed_minimal_content(website)
+  # Seed field keys (property types, features, amenities, etc.)
+  begin
+    seed_field_keys_for_website(website)
+    puts "   ✓ Field keys seeded"
+  rescue StandardError => e
+    puts "   ⚠️  Field keys seeding error: #{e.message}"
+  end
+
   # Seed essential pages and navigation
   begin
     Pwb::PagesSeeder.seed_page_parts!(website: website)
@@ -266,5 +274,40 @@ def seed_minimal_content(website)
     puts "   ✓ Content translations seeded"
   rescue StandardError => e
     puts "   ⚠️  Content seeding error: #{e.message}"
+  end
+end
+
+def seed_field_keys_for_website(website)
+  # Load field keys from the default seed file
+  yml_path = Rails.root.join('db', 'yml_seeds', 'field_keys.yml')
+  return unless File.exist?(yml_path)
+
+  field_keys_yml = YAML.load_file(yml_path)
+  return if field_keys_yml.blank?
+
+  field_keys_yml.each do |field_key_data|
+    global_key = field_key_data["global_key"]
+
+    # Check if field_key already exists for this website
+    existing = website.field_keys.find_by(global_key: global_key)
+    next if existing.present?
+
+    # Extract translations before creating
+    translations = field_key_data.delete("translations")
+
+    # Create field_key with website association
+    field_key = website.field_keys.create!(field_key_data)
+
+    # Set translations using Mobility
+    next unless translations.present?
+
+    translations.each do |locale, label|
+      next if label.blank?
+
+      Mobility.with_locale(locale.to_sym) do
+        field_key.label = label
+      end
+    end
+    field_key.save!
   end
 end
