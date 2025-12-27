@@ -2,7 +2,6 @@
 //= link_tree ../builds
 //= link_directory ../javascripts .js
 //= link pwb/application.js
-//= link pwb_admin_panel/application.js
 
 // Importmap JavaScript (app/javascript/)
 //= link application.js
