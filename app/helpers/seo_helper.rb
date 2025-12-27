@@ -84,24 +84,41 @@ module SeoHelper
     safe_join(tags, "\n")
   end
 
-  # Generate search engine verification meta tags
-  # Values are stored in website.social_media hash
+  # TODO: Search Engine Verification - DISABLED FOR PERFORMANCE
+  # ============================================================
+  # This feature is implemented but disabled until proper testing.
+  # The admin UI section is also hidden.
+  #
+  # To re-enable:
+  # 1. Uncomment this method
+  # 2. Uncomment the call in seo_meta_tags below
+  # 3. Uncomment <%= verification_meta_tags %> in theme layouts
+  # 4. Uncomment the admin UI in _seo_tab.html.erb
+  # 5. Run specs: bundle exec rspec spec/helpers/seo_helper_spec.rb
+  #
+  # See: docs/TODO_SEARCH_ENGINE_VERIFICATION.md
+  #
+  # def verification_meta_tags
+  #   return nil unless current_website.present?
+  #
+  #   social_media = current_website.social_media || {}
+  #   tags = []
+  #
+  #   # Google Search Console verification
+  #   google_verification = social_media['google_site_verification'].presence
+  #   tags << tag.meta(name: 'google-site-verification', content: google_verification) if google_verification
+  #
+  #   # Bing Webmaster Tools verification
+  #   bing_verification = social_media['bing_site_verification'].presence
+  #   tags << tag.meta(name: 'msvalidate.01', content: bing_verification) if bing_verification
+  #
+  #   return nil if tags.empty?
+  #   safe_join(tags, "\n")
+  # end
+  #
+  # Stub method to prevent errors while feature is disabled
   def verification_meta_tags
-    return nil unless current_website.present?
-
-    social_media = current_website.social_media || {}
-    tags = []
-
-    # Google Search Console verification
-    google_verification = social_media['google_site_verification'].presence
-    tags << tag.meta(name: 'google-site-verification', content: google_verification) if google_verification
-
-    # Bing Webmaster Tools verification
-    bing_verification = social_media['bing_site_verification'].presence
-    tags << tag.meta(name: 'msvalidate.01', content: bing_verification) if bing_verification
-
-    return nil if tags.empty?
-    safe_join(tags, "\n")
+    nil
   end
 
   # Generate all meta tags
@@ -111,8 +128,9 @@ module SeoHelper
     # Favicon tags
     tags << favicon_tags
 
-    # Search engine verification tags (Google, Bing)
-    tags << verification_meta_tags
+    # TODO: Uncomment when re-enabling search engine verification
+    # See: docs/TODO_SEARCH_ENGINE_VERIFICATION.md
+    # tags << verification_meta_tags
 
     # Basic meta tags
     tags << tag.meta(name: 'description', content: seo_description) if seo_description.present?

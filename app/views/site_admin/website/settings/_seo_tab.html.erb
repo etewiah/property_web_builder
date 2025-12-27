@@ -102,11 +102,25 @@
       </div>
     </div>
 
+    <%#
+      TODO: Search Engine Verification - HIDDEN FOR NOW
+      ================================================
+      This section is hidden until proper testing is complete.
+      The backend code (verification_meta_tags helper) is also commented out.
+
+      To re-enable:
+      1. Uncomment this section
+      2. Uncomment verification_meta_tags in app/helpers/seo_helper.rb
+      3. Run specs: bundle exec rspec spec/helpers/seo_helper_spec.rb
+
+      See: docs/TODO_SEARCH_ENGINE_VERIFICATION.md
+    %>
+    <%# -- START HIDDEN SECTION --
     <!-- Verification & Integration -->
     <div class="bg-white rounded-lg shadow p-6">
       <h2 class="text-lg font-medium text-gray-900 mb-4">Search Engine Verification</h2>
       <p class="text-sm text-gray-600 mb-6">Add verification codes from search engines to prove site ownership.</p>
-      
+
       <div class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Google Search Console Verification</label>
@@ -124,6 +138,7 @@
         </div>
       </div>
     </div>
+    -- END HIDDEN SECTION -- %>
 
     <!-- Submit -->
     <div class="flex justify-end">
