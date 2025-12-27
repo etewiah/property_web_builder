@@ -1,11 +1,15 @@
 <aside id="tour-sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-gray-800 text-white flex-shrink-0 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0"
        :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
        x-data="{
-         contentOpen: true,
-         communicationOpen: true,
-         insightsOpen: true,
-         usersOpen: true,
-         websiteOpen: true
+         contentOpen: localStorage.getItem('nav_contentOpen') !== 'false',
+         communicationOpen: localStorage.getItem('nav_communicationOpen') !== 'false',
+         insightsOpen: localStorage.getItem('nav_insightsOpen') !== 'false',
+         usersOpen: localStorage.getItem('nav_usersOpen') !== 'false',
+         websiteOpen: localStorage.getItem('nav_websiteOpen') !== 'false',
+         toggle(key) {
+           this[key] = !this[key];
+           localStorage.setItem('nav_' + key, this[key]);
+         }
        }">
   <div class="flex flex-col h-full">
     <!-- Logo/Brand -->
@@ -33,7 +37,7 @@
 
       <!-- Content Management -->
       <div id="tour-content-section" class="px-4 mb-4">
-        <button @click="contentOpen = !contentOpen" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
+        <button @click="toggle('contentOpen')" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
           <span>Content Management</span>
           <svg class="w-4 h-4 transition-transform duration-200" :class="contentOpen ? 'rotate-0' : '-rotate-90'" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -97,7 +101,7 @@
 
       <!-- Communication -->
       <div id="tour-communication-section" class="px-4 mb-4">
-        <button @click="communicationOpen = !communicationOpen" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
+        <button @click="toggle('communicationOpen')" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
           <span>Communication</span>
           <svg class="w-4 h-4 transition-transform duration-200" :class="communicationOpen ? 'rotate-0' : '-rotate-90'" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -132,7 +136,7 @@
 
       <!-- Insights -->
       <div class="px-4 mb-4">
-        <button @click="insightsOpen = !insightsOpen" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
+        <button @click="toggle('insightsOpen')" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
           <span>Insights</span>
           <svg class="w-4 h-4 transition-transform duration-200" :class="insightsOpen ? 'rotate-0' : '-rotate-90'" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -151,7 +155,7 @@
 
       <!-- User Management -->
       <div class="px-4 mb-4">
-        <button @click="usersOpen = !usersOpen" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
+        <button @click="toggle('usersOpen')" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
           <span>User Management</span>
           <svg class="w-4 h-4 transition-transform duration-200" :class="usersOpen ? 'rotate-0' : '-rotate-90'" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -177,7 +181,7 @@
 
       <!-- Website Settings -->
       <div id="tour-website-section" class="px-4 mb-4">
-        <button @click="websiteOpen = !websiteOpen" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
+        <button @click="toggle('websiteOpen')" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
           <span>Website</span>
           <svg class="w-4 h-4 transition-transform duration-200" :class="websiteOpen ? 'rotate-0' : '-rotate-90'" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
