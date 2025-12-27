@@ -44,16 +44,36 @@ Every theme MUST have these templates to function correctly. Run the theme compl
 - [ ] `pwb/components/_generic_page_part.html.erb` - Generic page part component
 - [ ] `pwb/components/_form_and_map.html.erb` - Contact form and map component
 
+## Required CSS Partial (1 file)
+
+**CRITICAL**: Every theme MUST have a custom CSS partial for theme-specific styling:
+
+- [ ] `app/views/pwb/custom_css/_<theme_name>.css.erb` - Custom CSS with theme variables
+
+**Example structure:**
+```erb
+/* Custom CSS for YourTheme */
+:root {
+  --primary-color: <%= @current_website.style_variables['primary_color'] || '#default' %>;
+  --secondary-color: <%= @current_website.style_variables['secondary_color'] || '#default' %>;
+  /* Add other CSS variables */
+}
+```
+
+This file is loaded by `layouts/pwb/application.html.erb` via the `custom_styles` helper. Without it, the page will fail to render with `ActionView::MissingTemplate` error.
+
 ## Recommended Templates (Optional but Helpful)
 
 These templates improve the theme but the app will fall back to defaults if missing:
 
+- [ ] `pwb/welcome/_single_property_row.html.erb` - Featured property row (**Recommended if showing properties on home page**)
 - [ ] `pwb/search/_search_form_landing.html.erb` - Landing page search form
-- [ ] `pwb/welcome/_single_property_row.html.erb` - Featured property row
 - [ ] `pwb/welcome/_about_us.html.erb` - About us section on home
 - [ ] `pwb/props/_breadcrumb_row.html.erb` - Breadcrumb navigation
 - [ ] `pwb/props/_images_section_carousel.html.erb` - Image carousel
 - [ ] `pwb/props/_request_prop_info.html.erb` - Request info form
+
+**Note:** While `_single_property_row.html.erb` is marked as optional, it's practically required if your home page displays property listings (which most themes do). Missing this will cause `ActionView::MissingTemplate` errors.
 
 ## CSS/Styling Files
 
@@ -134,11 +154,13 @@ These tests help catch common theme issues like:
 
 ## Common Mistakes to Avoid
 
-1. **Missing `pwb/pages/show.html.erb`** - Causes About Us and other content pages to break
-2. **Missing `pwb/sections/contact_us.html.erb`** - Causes Contact page to break
-3. **Missing `pwb/components/_form_and_map.html.erb`** - Causes Contact page map/form to break
-4. **Forgetting to add CSS to asset precompile list** - Causes styling to fail in production
-5. **Not testing all pages** - Easy to miss broken pages
+1. **Missing `app/views/pwb/custom_css/_<theme>.css.erb`** - **CRITICAL**: Theme won't render without this
+2. **Missing `pwb/welcome/_single_property_row.html.erb`** - Causes errors if home page shows properties
+3. **Missing `pwb/pages/show.html.erb`** - Causes About Us and other content pages to break
+4. **Missing `pwb/sections/contact_us.html.erb`** - Causes Contact page to break
+5. **Missing `pwb/components/_form_and_map.html.erb`** - Causes Contact page map/form to break
+6. **Forgetting to add CSS to asset precompile list** - Causes styling to fail in production
+7. **Not testing all pages** - Easy to miss broken pages
 
 ## Using the Theme
 

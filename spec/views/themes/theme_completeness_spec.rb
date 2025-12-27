@@ -47,6 +47,12 @@ RSpec.describe 'Theme Completeness', type: :view do
     'pwb/props/_request_prop_info.html.erb',
   ].freeze
 
+  # Custom CSS partials required for theme rendering
+  REQUIRED_CSS_PARTIALS = [
+    # Custom CSS partial in app/views/pwb/custom_css/_<theme>.css.erb
+    # This is loaded by the layout via custom_styles helper
+  ].freeze
+
   # Get all theme directories
   def theme_directories
     themes_path = Rails.root.join('app', 'themes')
@@ -96,6 +102,23 @@ RSpec.describe 'Theme Completeness', type: :view do
     end
   end
 
+  describe 'Custom CSS partials' do
+    theme_directories_for_test = Dir.glob(Rails.root.join('app', 'themes', '*')).select { |f| File.directory?(f) }.map { |f| File.basename(f) }
+
+    theme_directories_for_test.each do |theme|
+      context "#{theme} theme" do
+        it "has custom CSS partial at app/views/pwb/custom_css/_#{theme}.css.erb" do
+          css_partial = Rails.root.join('app', 'views', 'pwb', 'custom_css', "_#{theme}.css.erb")
+          expect(css_partial).to exist,
+            "Missing required CSS partial: _#{theme}.css.erb\n" \
+            "Expected at: #{css_partial}\n" \
+            "This partial is required by the layout's custom_styles helper.\n" \
+            "Create it with theme-specific CSS variables and styles."
+        end
+      end
+    end
+  end
+
   describe 'Theme summary' do
     it 'reports completeness for all themes' do
       themes_path = Rails.root.join('app', 'themes')
@@ -108,15 +131,17 @@ RSpec.describe 'Theme Completeness', type: :view do
       themes.each do |theme|
         required_count = REQUIRED_TEMPLATES.count { |t| Rails.root.join('app', 'themes', theme, 'views', t).exist? }
         recommended_count = RECOMMENDED_TEMPLATES.count { |t| Rails.root.join('app', 'themes', theme, 'views', t).exist? }
+        has_css_partial = Rails.root.join('app', 'views', 'pwb', 'custom_css', "_#{theme}.css.erb").exist?
 
         required_percentage = (required_count.to_f / REQUIRED_TEMPLATES.size * 100).round(1)
         total_percentage = ((required_count + recommended_count).to_f / (REQUIRED_TEMPLATES.size + RECOMMENDED_TEMPLATES.size) * 100).round(1)
 
-        status = required_percentage == 100 ? 'COMPLETE' : 'INCOMPLETE'
+        status = required_percentage == 100 && has_css_partial ? 'COMPLETE' : 'INCOMPLETE'
 
         puts "\n#{theme.upcase} THEME [#{status}]"
         puts "-" * 40
         puts "  Required:    #{required_count}/#{REQUIRED_TEMPLATES.size} (#{required_percentage}%)"
+        puts "  CSS Partial: #{has_css_partial ? 'YES' : 'NO'}"
         puts "  Recommended: #{recommended_count}/#{RECOMMENDED_TEMPLATES.size}"
         puts "  Overall:     #{total_percentage}%"
 
@@ -124,6 +149,11 @@ RSpec.describe 'Theme Completeness', type: :view do
           missing = REQUIRED_TEMPLATES.reject { |t| Rails.root.join('app', 'themes', theme, 'views', t).exist? }
           puts "  MISSING REQUIRED:"
           missing.each { |t| puts "    - #{t}" }
+        end
+
+        unless has_css_partial
+          puts "  MISSING CSS PARTIAL:"
+          puts "    - app/views/pwb/custom_css/_#{theme}.css.erb"
         end
       end
 
