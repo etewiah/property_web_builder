@@ -24,6 +24,7 @@ Rails.application.config.assets.precompile += %w[
   tailwind-bologna.css
   tailwind-brisbane.css
   tailwind-barcelona.css
+  tailwind-biarritz.css
   barcelona_theme.css
   fontawesome-subset.css
 ]

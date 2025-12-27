@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= seo_title %></title>
+    <%= seo_meta_tags %>
+    <%= yield(:page_head) %>
+
+    <%# Preload LCP image for faster Largest Contentful Paint %>
+    <% if @lcp_image_url.present? %>
+      <link rel="preload" href="<%= @lcp_image_url %>" as="image" fetchpriority="high">
+    <% end %>
+
+    <%# Preconnect for external resources - do this FIRST %>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://seed-assets.propertywebbuilder.com" crossorigin>
+    <link rel="dns-prefetch" href="//unpkg.com">
+
+    <%# CRITICAL CSS - Inlined for fastest FCP %>
+    <style><%= critical_css %><%= custom_styles "biarritz" %></style>
+
+    <%# Main CSS - async loaded to not block rendering %>
+    <link rel="preload" href="<%= asset_path('tailwind-biarritz.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="<%= asset_path('pwb/themes/default.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+      <%= stylesheet_link_tag "tailwind-biarritz", media: "all" %>
+      <%= stylesheet_link_tag "pwb/themes/default", media: "all" %>
+    </noscript>
+
+    <%# Flowbite CSS - deferred %>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"></noscript>
+
+    <%# Font Awesome 6 Subset - only icons used in the app (43 icons vs 2000+) %>
+    <%= stylesheet_link_tag "fontawesome-subset", media: "all" %>
+
+    <%= csrf_meta_tags %>
+
+    <%# PWA manifest and theme color %>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0C4A6E">
+  </head>
+  <body class="tnt-body biarritz-theme <%= @current_website.body_style %> bg-warm-50 text-gray-900">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-white focus:text-sky-700">Skip to main content</a>
+
+    <%# MAIN WRAPPER %>
+    <div id="main-vue" class="body-wrap sticky-wrap <%= @current_website.body_style %> flex flex-col min-h-screen">
+      <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
+
+      <main id="main-content" class="sticky-body flex-grow" role="main">
+        <%= render 'devise/shared/messages' %>
+        <%= yield %>
+      </main>
+
+      <%= render :partial => '/pwb/footer', :locals => {}  %>
+      <%= render :partial => '/pwb/analytics', :locals => {}  %>
+    </div>
+
+    <%# JavaScript loaded at end of body for best performance %>
+    <%= javascript_include_tag "pwb/application", defer: true %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
+    <%= javascript_importmap_tags %>
+
+    <%= yield(:page_script) %>
+    <% if params[:edit_mode] == 'true' %>
+      <%= javascript_include_tag "pwb/editor_client" %>
+    <% end %>
+
+    <%# Service Worker registration for PWA/offline support %>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(function(registration) {
+              console.log('SW registered:', registration.scope);
+            })
+            .catch(function(error) {
+              console.log('SW registration failed:', error);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+<!-- Biarritz Theme Footer - Coastal Elegance -->
+<footer class="bg-gradient-to-br from-sky-900 via-sky-800 to-sky-900 text-white mt-16">
+  <div class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Company Info -->
+      <div>
+        <h4 class="text-xl font-bold text-amber-400 mb-4"><%= @current_website.company_display_name.presence || @current_agency.company_name %></h4>
+        <ul class="space-y-3 text-warm-100">
+          <% if @current_agency.phone_number_primary.present? %>
+            <li class="flex items-center">
+              <i class="fa fa-phone mr-3 text-amber-400"></i>
+              <a href="tel:<%= @current_agency.phone_number_primary %>" class="hover:text-amber-400 transition-colors">
+                <%= @current_agency.phone_number_primary %>
+              </a>
+            </li>
+          <% end %>
+          <% if @current_agency.email_primary.present? %>
+            <li class="flex items-center">
+              <i class="fa fa-envelope mr-3 text-amber-400"></i>
+              <a href="mailto:<%= @current_agency.email_primary %>" class="hover:text-amber-400 transition-colors">
+                <%= @current_agency.email_primary %>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <!-- Social Media -->
+      <nav class="flex flex-col items-center justify-center" aria-label="Social media links">
+        <h5 class="text-lg font-semibold text-amber-400 mb-4">Follow Us</h5>
+        <div class="flex space-x-4">
+          <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
+            <a href="<%= @current_website.social_media_facebook %>" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-sky-700 hover:bg-amber-500 rounded-full transition-colors" aria-label="Follow us on Facebook">
+              <i class="fa fa-facebook" aria-hidden="true"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
+            <a href="<%= @current_website.social_media_twitter %>" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-sky-700 hover:bg-amber-500 rounded-full transition-colors" aria-label="Follow us on Twitter">
+              <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present? %>
+            <a href="<%= @current_website.social_media_instagram %>" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-sky-700 hover:bg-amber-500 rounded-full transition-colors" aria-label="Follow us on Instagram">
+              <i class="fa fa-instagram" aria-hidden="true"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
+            <a href="<%= @current_website.social_media_linkedin %>" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-sky-700 hover:bg-amber-500 rounded-full transition-colors" aria-label="Connect with us on LinkedIn">
+              <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
+            <a href="<%= @current_website.social_media_youtube %>" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-sky-700 hover:bg-amber-500 rounded-full transition-colors" aria-label="Subscribe to our YouTube channel">
+              <i class="fa fa-youtube" aria-hidden="true"></i>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_whatsapp) && @current_website.social_media_whatsapp.present? %>
+            <a href="<%= @current_website.social_media_whatsapp %>" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-sky-700 hover:bg-amber-500 rounded-full transition-colors" aria-label="Contact us on WhatsApp">
+              <i class="fa fa-whatsapp" aria-hidden="true"></i>
+            </a>
+          <% end %>
+        </div>
+      </nav>
+
+      <!-- Extra Content -->
+      <div class="text-warm-100">
+        <% if @footer_content.present? %>
+          <%== @footer_content.raw %>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <hr class="my-8 border-sky-700">
+
+    <!-- Bottom Bar -->
+    <div class="flex flex-col md:flex-row justify-between items-center text-sm text-warm-200">
+      <div class="flex flex-wrap gap-4 mb-4 md:mb-0">
+        <% @current_website.links.ordered_visible_footer.each do |page| %>
+          <% target_path = nil %>
+          <% begin %>
+            <% if page.link_path.present? %>
+              <% target_path = main_app.send(page.link_path, page.link_path_params, { locale: locale }) %>
+            <% elsif page.link_url.present? %>
+              <% target_path = page.link_url %>
+            <% end %>
+          <% rescue StandardError %>
+          <% end %>
+          <% if target_path %>
+            <%= link_to page.link_title, target_path, class: "hover:text-amber-400 transition-colors" %>
+          <% end %>
+        <% end %>
+      </div>
+      <p class="text-center md:text-right">
+        Powered by <a href="https://www.propertywebbuilder.com" class="text-amber-400 hover:text-amber-300 font-semibold">PropertyWebBuilder</a>
+      </p>
+    </div>
+  </div>
+</footer>

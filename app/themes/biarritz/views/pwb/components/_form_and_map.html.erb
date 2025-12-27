@@ -1,0 +1,24 @@
+<!-- Default Theme Form and Map Component - Tailwind CSS -->
+<section class="py-8">
+  <div class="container mx-auto px-4">
+    <div class="contact-grid grid grid-cols-1 gap-8">
+      <div class="">
+        <%= render 'pwb/sections/contact_us_form' %>
+      </div>
+      <div class="space-y-6">
+        <%= render '/pwb/props/prop_contact_info' %>
+        <% if @current_agency.show_contact_map && @map_markers.present? %>
+          <div class="rounded-lg overflow-hidden shadow-sm border border-gray-200" style="height: 400px;">
+            <div id="contact-map"
+                 class="w-full h-full"
+                 data-controller="map"
+                 data-map-target="canvas"
+                 data-map-markers-value="<%= @map_markers.to_json %>"
+                 data-map-zoom-value="15">
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

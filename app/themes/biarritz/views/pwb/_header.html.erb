@@ -1,0 +1,119 @@
+<!-- Biarritz Theme Header - Coastal French Basque Style -->
+<!-- Top Bar with Ocean Blue gradient -->
+<header class="bg-gradient-to-r from-sky-900 to-sky-700 text-white">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap items-center justify-between py-2 text-sm">
+      <div class="flex items-center space-x-4">
+        <% if @current_agency.phone_number_primary %>
+          <span class="flex items-center">
+            <i class="fa fa-phone mr-2"></i>
+            <%= @current_agency.phone_number_primary %>
+          </span>
+        <% end %>
+        <% if @current_agency.email_primary %>
+          <span class="hidden md:flex items-center">
+            <i class="fa fa-envelope mr-2"></i>
+            <%= @current_agency.email_primary %>
+          </span>
+        <% end %>
+      </div>
+      <% if @current_website.is_multilingual && not_devise %>
+        <div class="flex items-center space-x-2">
+          <% @current_website.supported_locales_with_variants.uniq { |l| l["locale"] }.each do |locale_with_var| %>
+            <% is_selected = locale.to_s == locale_with_var["locale"] %>
+            <%= link_to params.permit(:locale).merge({locale: locale_with_var["locale"]}),
+                class: "px-2 py-1 rounded uppercase text-white #{is_selected ? 'bg-amber-600' : 'hover:bg-sky-600'}" do %>
+              <%= locale_with_var["locale"] %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</header>
+
+<!-- Main Navigation - Coastal elegant style -->
+<nav class="bg-white border-b-4 border-amber-500 shadow-md sticky top-0 z-50" data-controller="toggle">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap items-center justify-between py-4">
+      <!-- Logo -->
+      <%= link_to main_app.root_path(locale: locale), class: "flex items-center" do %>
+        <% if @current_website.logo_url %>
+          <img src="<%= @current_website.logo_url %>" alt="Logo" class="h-10 md:h-14" loading="eager" fetchpriority="high">
+        <% else %>
+          <span class="text-2xl font-bold text-sky-900"><%= @current_agency.display_name %></span>
+        <% end %>
+      <% end %>
+
+      <!-- Mobile menu button -->
+      <button data-action="toggle#toggle" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-gray-600 rounded-lg md:hidden hover:bg-warm-100 focus:outline-none focus:ring-2 focus:ring-amber-500" aria-controls="navbar-main" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+        </svg>
+      </button>
+
+      <!-- Navigation Links -->
+      <div class="hidden md:block w-full md:w-auto" id="navbar-main" data-toggle-target="content">
+        <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-base md:font-medium">
+          <% @current_website.links.ordered_visible_top_nav.each do |page| %>
+            <% next if page.slug == "top_nav_admin" %>
+            <% target_path = nil %>
+            <% begin %>
+              <% if page.link_path.present? %>
+                <% target_path = main_app.send(page.link_path, page.link_path_params, { locale: locale }) %>
+              <% elsif page.link_url.present? %>
+                <% target_path = page.link_url %>
+              <% end %>
+            <% rescue StandardError %>
+            <% end %>
+
+            <% if target_path %>
+              <% is_active = current_page?(target_path) || (current_page?("/") && page.link_path == "home_path") %>
+              <li>
+                <%= link_to page.link_title, target_path,
+                    target: page.href_target,
+                    class: "block py-2 px-3 md:p-0 transition-colors #{is_active ? 'text-sky-700 font-bold border-b-2 border-amber-500' : 'text-gray-700 hover:text-sky-700'}" %>
+              </li>
+            <% end %>
+          <% end %>
+
+          <% if @show_admin_link %>
+            <li>
+              <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale),
+                  class: "block py-2 px-3 text-gray-700 hover:text-sky-700 md:p-0" %>
+            </li>
+          <% end %>
+
+          <%# User dropdown %>
+          <% if current_user %>
+            <li class="relative" data-controller="dropdown">
+              <button type="button" class="flex items-center py-2 px-3 text-gray-700 hover:text-sky-700 md:p-0" data-action="dropdown#toggle">
+                <%= I18n.t "navbar.admin" %>
+                <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+              </button>
+              <div data-dropdown-target="menu" class="hidden absolute right-0 z-10 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200">
+                <ul class="py-2 text-sm text-gray-700">
+                  <li>
+                    <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale),
+                        class: "block px-4 py-2 hover:bg-warm-50" %>
+                  </li>
+                  <li>
+                    <%= link_to I18n.t("changePassword"), edit_user_registration_path(),
+                        class: "block px-4 py-2 hover:bg-warm-50" %>
+                  </li>
+                  <li>
+                    <%= auth_logout_link I18n.t("signOut"),
+                        class: "block px-4 py-2 hover:bg-warm-50 text-red-600" %>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

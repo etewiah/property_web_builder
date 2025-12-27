@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+/* Biarritz Theme - Coastal French Basque Aesthetic */
+/* Ocean blues, warm sand tones, and elegant design inspired by the Atlantic coast */
+
+@layer base {
+  :root {
+    /* Primary - Ocean Blue */
+    --color-primary: #0C4A6E; /* Deep ocean blue */
+    --color-primary-light: #0369A1;
+    --color-primary-dark: #082F49;
+    
+    /* Secondary - Warm Sand */
+    --color-secondary: #D97706; /* Warm amber */
+    --color-secondary-light: #F59E0B;
+    --color-secondary-dark: #B45309;
+    
+    /* Accent - Golden Sunset */
+    --color-accent: #FBBF24; /* Sunset gold */
+    --color-accent-light: #FCD34D;
+    --color-accent-dark: #F59E0B;
+    
+    /* Neutral - Warm Grays */
+    --color-warm-50: #FAFAF9;
+    --color-warm-100: #F5F5F4;
+    --color-warm-200: #E7E5E4;
+    
+    /* Text */
+    --color-text-primary: #1C1917;
+    --color-text-secondary: #57534E;
+  }
+}
+
+@layer components {
+  /* Biarritz specific button styles */
+  .btn-biarritz-primary {
+    @apply bg-sky-700 hover:bg-sky-800 text-white font-medium py-3 px-6 rounded-lg transition-colors shadow-md;
+  }
+  
+  .btn-biarritz-secondary {
+    @apply bg-amber-600 hover:bg-amber-700 text-white font-medium py-3 px-6 rounded-lg transition-colors shadow-md;
+  }
+  
+  .btn-biarritz-outline {
+    @apply border-2 border-sky-700 text-sky-700 hover:bg-sky-700 hover:text-white font-medium py-3 px-6 rounded-lg transition-colors;
+  }
+  
+  /* Card styles */
+  .card-biarritz {
+    @apply bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-amber-500 hover:shadow-xl transition-shadow;
+  }
+  
+  /* Coastal wave decoration */
+  .wave-divider {
+    @apply relative bg-gradient-to-r from-sky-900 to-sky-700;
+  }
+  
+  .wave-divider::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-12;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%23ffffff'/%3E%3C/svg%3E") no-repeat center bottom;
+    background-size: cover;
+  }
+  
+  /* Section headings */
+  .section-heading-biarritz {
+    @apply text-3xl md:text-4xl font-bold text-sky-900 mb-6;
+    font-family: 'Playfair Display', serif;
+  }
+  
+  /* Property price badge */
+  .price-badge-biarritz {
+    @apply bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold py-2 px-4 rounded-full shadow-md;
+  }
+}
+
+@layer utilities {
+  /* Coastal gradients */
+  .bg-ocean-gradient {
+    background: linear-gradient(135deg, #0C4A6E 0%, #0369A1 100%);
+  }
+  
+  .bg-sand-gradient {
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  }
+  
+  .bg-sunset-gradient {
+    background: linear-gradient(135deg, #F59E0B 0%, #FB923C 50%, #F97316 100%);
+  }
+  
+  /* Text gradients */
+  .text-ocean-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #0C4A6E 0%, #0369A1 100%);
+  }
+  
+  /* Hover effects */
+  .hover-lift {
+    @apply transition-transform hover:-translate-y-1;
+  }
+}

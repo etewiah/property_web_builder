@@ -1067,5 +1067,273 @@
         "available_variants": ["cta_banner", "cta_split_image"]
       }
     }
+  },
+  {
+    "name": "biarritz",
+    "friendly_name": "Biarritz Coastal Theme",
+    "id": "biarritz",
+    "version": "1.0.0",
+    "parent_theme": "default",
+    "description": "A sophisticated coastal theme inspired by the French Basque Atlantic shore, featuring ocean blues and warm sand tones",
+    "author": "PropertyWebBuilder",
+    "tags": ["coastal", "french", "basque", "elegant", "ocean"],
+    "palettes": {
+      "atlantic_blue": {
+        "id": "atlantic_blue",
+        "name": "Atlantic Blue",
+        "description": "Deep ocean blues with golden sunset accents",
+        "preview_colors": ["#0C4A6E", "#D97706", "#FBBF24"],
+        "is_default": true,
+        "colors": {
+          "primary_color": "#0C4A6E",
+          "secondary_color": "#D97706",
+          "accent_color": "#FBBF24",
+          "background_color": "#FAFAF9",
+          "text_color": "#1C1917",
+          "light_color": "#FAFAF9",
+          "link_color": "#0C4A6E",
+          "header_bg_color": "#0C4A6E",
+          "header_text_color": "#FFFFFF",
+          "footer_bg_color": "#082F49",
+          "footer_text_color": "#F5F5F4",
+          "action_color": "#D97706"
+        }
+      },
+      "basque_sunset": {
+        "id": "basque_sunset",
+        "name": "Basque Sunset",
+        "description": "Warm sunset tones over the ocean",
+        "preview_colors": ["#F59E0B", "#0369A1", "#FB923C"],
+        "colors": {
+          "primary_color": "#F59E0B",
+          "secondary_color": "#0369A1",
+          "accent_color": "#FB923C",
+          "background_color": "#FFFBF5",
+          "text_color": "#1C1917",
+          "light_color": "#FFFBF5",
+          "link_color": "#F59E0B",
+          "header_bg_color": "#0369A1",
+          "header_text_color": "#FFFFFF",
+          "footer_bg_color": "#075985",
+          "footer_text_color": "#F0F9FF",
+          "action_color": "#F59E0B"
+        }
+      },
+      "coastal_elegance": {
+        "id": "coastal_elegance",
+        "name": "Coastal Elegance",
+        "description": "Refined navy with sandy beige accents",
+        "preview_colors": ["#1E3A8A", "#B8903C", "#E8DCC4"],
+        "colors": {
+          "primary_color": "#1E3A8A",
+          "secondary_color": "#B8903C",
+          "accent_color": "#E8DCC4",
+          "background_color": "#FEFEFE",
+          "text_color": "#1E293B",
+          "light_color": "#F8FAFC",
+          "link_color": "#1E3A8A",
+          "header_bg_color": "#1E3A8A",
+          "header_text_color": "#FFFFFF",
+          "footer_bg_color": "#1E293B",
+          "footer_text_color": "#E2E8F0",
+          "action_color": "#B8903C"
+        }
+      },
+      "surf_vibes": {
+        "id": "surf_vibes",
+        "name": "Surf Vibes",
+        "description": "Vibrant turquoise with coral accents",
+        "preview_colors": ["#06B6D4", "#F97316", "#FDE047"],
+        "colors": {
+          "primary_color": "#06B6D4",
+          "secondary_color": "#F97316",
+          "accent_color": "#FDE047",
+          "background_color": "#F0FDFA",
+          "text_color": "#134E4A",
+          "light_color": "#F0FDFA",
+          "link_color": "#06B6D4",
+          "header_bg_color": "#0E7490",
+          "header_text_color": "#FFFFFF",
+          "footer_bg_color": "#164E63",
+          "footer_text_color": "#ECFEFF",
+          "action_color": "#F97316"
+        }
+      }
+    },
+    "supports": {
+      "page_parts": [
+        "heroes/hero_centered",
+        "heroes/hero_split",
+        "heroes/hero_search",
+        "features/feature_grid_3col",
+        "features/feature_cards_icons",
+        "testimonials/testimonial_carousel",
+        "testimonials/testimonial_grid",
+        "cta/cta_banner",
+        "cta/cta_split_image",
+        "stats/stats_counter",
+        "teams/team_grid",
+        "galleries/image_gallery",
+        "faqs/faq_accordion",
+        "pricing/pricing_table",
+        "our_agency",
+        "about_us_services",
+        "content_html",
+        "footer_content_html",
+        "footer_social_links",
+        "form_and_map",
+        "search_cmpt"
+      ],
+      "layouts": ["default", "landing", "full_width", "sidebar"],
+      "color_schemes": ["light", "coastal", "warm"],
+      "features": {
+        "sticky_header": true,
+        "back_to_top": true,
+        "preloader": false,
+        "animations": true,
+        "gradient_accents": true,
+        "wave_dividers": true
+      }
+    },
+    "style_variables": {
+      "colors": {
+        "primary_color": {
+          "type": "color",
+          "default": "#0C4A6E",
+          "label": "Primary Color",
+          "description": "Deep ocean blue for main elements"
+        },
+        "secondary_color": {
+          "type": "color",
+          "default": "#D97706",
+          "label": "Secondary Color",
+          "description": "Warm amber for contrast and accents"
+        },
+        "accent_color": {
+          "type": "color",
+          "default": "#FBBF24",
+          "label": "Accent Color",
+          "description": "Golden sunset for highlights"
+        },
+        "background_color": {
+          "type": "color",
+          "default": "#FAFAF9",
+          "label": "Background Color"
+        },
+        "text_color": {
+          "type": "color",
+          "default": "#1C1917",
+          "label": "Text Color"
+        },
+        "link_color": {
+          "type": "color",
+          "default": "#0C4A6E",
+          "label": "Link Color"
+        }
+      },
+      "typography": {
+        "font_primary": {
+          "type": "font_select",
+          "default": "Open Sans",
+          "label": "Primary Font",
+          "options": ["Open Sans", "Inter", "DM Sans", "Outfit", "Poppins", "Lato"]
+        },
+        "font_heading": {
+          "type": "font_select",
+          "default": "Playfair Display",
+          "label": "Heading Font",
+          "options": ["Playfair Display", "Montserrat", "Cormorant Garamond", "Merriweather", "Libre Baskerville"]
+        },
+        "font_size_base": {
+          "type": "select",
+          "default": "16px",
+          "label": "Base Font Size",
+          "options": ["14px", "15px", "16px", "17px", "18px"]
+        }
+      },
+      "layout": {
+        "container_width": {
+          "type": "select",
+          "default": "1280px",
+          "label": "Container Width",
+          "options": ["1100px", "1200px", "1280px", "1400px"]
+        },
+        "border_radius": {
+          "type": "select",
+          "default": "12px",
+          "label": "Border Radius",
+          "options": ["4px", "8px", "12px", "16px", "20px"]
+        }
+      },
+      "header": {
+        "header_style": {
+          "type": "select",
+          "default": "default",
+          "label": "Header Style",
+          "options": ["default", "transparent", "centered", "minimal"]
+        },
+        "header_bg_color": {
+          "type": "color",
+          "default": "#0C4A6E",
+          "label": "Header Background"
+        },
+        "header_text_color": {
+          "type": "color",
+          "default": "#FFFFFF",
+          "label": "Header Text Color"
+        }
+      },
+      "footer": {
+        "footer_bg_color": {
+          "type": "color",
+          "default": "#082F49",
+          "label": "Footer Background"
+        },
+        "footer_text_color": {
+          "type": "color",
+          "default": "#F5F5F4",
+          "label": "Footer Text Color"
+        },
+        "footer_columns": {
+          "type": "select",
+          "default": "3",
+          "label": "Footer Columns",
+          "options": ["2", "3", "4"]
+        }
+      },
+      "buttons": {
+        "button_style": {
+          "type": "select",
+          "default": "rounded",
+          "label": "Button Style",
+          "options": ["square", "rounded", "pill"]
+        },
+        "button_size": {
+          "type": "select",
+          "default": "medium",
+          "label": "Button Size",
+          "options": ["small", "medium", "large"]
+        }
+      }
+    },
+    "page_parts_config": {
+      "heroes": {
+        "default_variant": "hero_centered",
+        "available_variants": ["hero_centered", "hero_split", "hero_search"]
+      },
+      "features": {
+        "default_variant": "feature_grid_3col",
+        "available_variants": ["feature_grid_3col", "feature_cards_icons"]
+      },
+      "testimonials": {
+        "default_variant": "testimonial_carousel",
+        "available_variants": ["testimonial_carousel", "testimonial_grid"]
+      },
+      "cta": {
+        "default_variant": "cta_split_image",
+        "available_variants": ["cta_banner", "cta_split_image"]
+      }
+    }
   }
 ]
+
