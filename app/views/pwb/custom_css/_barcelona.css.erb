@@ -3,6 +3,9 @@
  * Color Palette: Mediterranean Blue, Terracotta, Golden Yellow, Warm Grays
  */
 
+<%# Include base CSS variables with dark mode support %>
+<%= render partial: '/pwb/custom_css/base_variables', locals: {} %>
+
 :root {
   /* Primary Colors */
   --barcelona-med: <%= @current_website.style_variables["primary_color"] || "#0B5394" %>;
@@ -617,5 +620,98 @@
 .barcelona-theme .color_secundario {
   color: var(--barcelona-terra) !important;
 }
+
+/* ============================================
+   DARK MODE SUPPORT
+   ============================================ */
+
+<%
+  dark_colors = @current_website&.dark_mode_enabled? ? (@current_website.dark_mode_colors || {}) : {}
+  dark_bg = dark_colors["background_color"] || "#121212"
+  dark_text = dark_colors["text_color"] || "#e8e8e8"
+  dark_med = dark_colors["primary_color"] || "#3b82f6"
+  dark_terra = dark_colors["secondary_color"] || "#d97a5e"
+%>
+
+<% if @current_website&.dark_mode_enabled? %>
+/* Auto dark mode */
+@media (prefers-color-scheme: dark) {
+  .pwb-auto-dark.barcelona-theme,
+  .pwb-auto-dark .barcelona-theme {
+    --barcelona-light: <%= dark_bg %>;
+    --barcelona-warm: <%= dark_text %>;
+    --barcelona-med: <%= dark_med %>;
+    background-color: var(--barcelona-light);
+    color: var(--barcelona-warm);
+  }
+}
+
+/* Forced dark mode */
+.pwb-dark.barcelona-theme,
+.pwb-dark .barcelona-theme,
+html.pwb-dark .barcelona-theme {
+  --barcelona-light: <%= dark_bg %>;
+  --barcelona-warm: <%= dark_text %>;
+  --barcelona-med: <%= dark_med %>;
+  background-color: var(--barcelona-light);
+  color: var(--barcelona-warm);
+}
+
+.pwb-dark .barcelona-theme .property-card,
+.pwb-dark .barcelona-theme .card,
+.pwb-dark .barcelona-theme .search-container,
+html.pwb-dark .barcelona-theme .property-card,
+html.pwb-dark .barcelona-theme .card,
+html.pwb-dark .barcelona-theme .search-container {
+  background: color-mix(in srgb, <%= dark_bg %> 85%, white);
+}
+
+.pwb-dark .barcelona-theme h1,
+.pwb-dark .barcelona-theme h2,
+.pwb-dark .barcelona-theme h3,
+.pwb-dark .barcelona-theme h4,
+.pwb-dark .barcelona-theme h5,
+.pwb-dark .barcelona-theme h6,
+html.pwb-dark .barcelona-theme h1,
+html.pwb-dark .barcelona-theme h2,
+html.pwb-dark .barcelona-theme h3,
+html.pwb-dark .barcelona-theme h4,
+html.pwb-dark .barcelona-theme h5,
+html.pwb-dark .barcelona-theme h6 {
+  color: <%= dark_text %>;
+}
+
+.pwb-dark .barcelona-theme .form-control,
+.pwb-dark .barcelona-theme select,
+.pwb-dark .barcelona-theme input,
+html.pwb-dark .barcelona-theme .form-control,
+html.pwb-dark .barcelona-theme select,
+html.pwb-dark .barcelona-theme input {
+  background: color-mix(in srgb, <%= dark_bg %> 80%, white);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: <%= dark_text %>;
+}
+
+.pwb-dark .bg-white,
+html.pwb-dark .bg-white {
+  background-color: color-mix(in srgb, <%= dark_bg %> 85%, white) !important;
+}
+
+.pwb-dark .text-gray-900,
+.pwb-dark .text-gray-800,
+.pwb-dark .text-gray-700,
+html.pwb-dark .text-gray-900,
+html.pwb-dark .text-gray-800,
+html.pwb-dark .text-gray-700 {
+  color: <%= dark_text %> !important;
+}
+
+.pwb-dark .border-gray-200,
+.pwb-dark .border-gray-300,
+html.pwb-dark .border-gray-200,
+html.pwb-dark .border-gray-300 {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+<% end %>
 
 <%= render partial: '/pwb/custom_css/shared', locals: {} %>

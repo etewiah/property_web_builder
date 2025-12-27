@@ -1,6 +1,9 @@
 /* Custom CSS for Biarritz Theme - Coastal French Basque Style */
 /* This file is rendered as a partial by the custom_styles helper */
 
+<%# Include base CSS variables with dark mode support %>
+<%= render partial: '/pwb/custom_css/base_variables', locals: {} %>
+
 /* WCAG AA Compliant Color System */
 :root {
   /* Base Colors - All tested for WCAG AA contrast */
@@ -200,3 +203,86 @@
   outline: 2px solid var(--ocean-primary);
   outline-offset: 2px;
 }
+
+/* ============================================
+   DARK MODE SUPPORT
+   ============================================ */
+
+<%
+  dark_colors = @current_website&.dark_mode_enabled? ? (@current_website.dark_mode_colors || {}) : {}
+  dark_bg = dark_colors["background_color"] || "#121212"
+  dark_text = dark_colors["text_color"] || "#e8e8e8"
+  dark_ocean = dark_colors["primary_color"] || "#38bdf8"
+  dark_sand = dark_colors["secondary_color"] || "#fbbf24"
+%>
+
+<% if @current_website&.dark_mode_enabled? %>
+/* Auto dark mode */
+@media (prefers-color-scheme: dark) {
+  .pwb-auto-dark.biarritz-theme,
+  .pwb-auto-dark .biarritz-theme {
+    --color-bg-page: <%= dark_bg %>;
+    --color-text-primary: <%= dark_text %>;
+    --neutral-50: <%= dark_bg %>;
+    --neutral-900: <%= dark_text %>;
+    background-color: var(--color-bg-page);
+    color: var(--color-text-primary);
+  }
+}
+
+/* Forced dark mode */
+.pwb-dark.biarritz-theme,
+.pwb-dark .biarritz-theme,
+html.pwb-dark .biarritz-theme {
+  --color-bg-page: <%= dark_bg %>;
+  --color-text-primary: <%= dark_text %>;
+  --neutral-50: <%= dark_bg %>;
+  --neutral-900: <%= dark_text %>;
+  --color-bg-card: color-mix(in srgb, <%= dark_bg %> 85%, white);
+  background-color: var(--color-bg-page);
+  color: var(--color-text-primary);
+}
+
+.pwb-dark .biarritz-theme h1,
+.pwb-dark .biarritz-theme h2,
+.pwb-dark .biarritz-theme h3,
+.pwb-dark .biarritz-theme h4,
+.pwb-dark .biarritz-theme h5,
+.pwb-dark .biarritz-theme h6,
+html.pwb-dark .biarritz-theme h1,
+html.pwb-dark .biarritz-theme h2,
+html.pwb-dark .biarritz-theme h3,
+html.pwb-dark .biarritz-theme h4,
+html.pwb-dark .biarritz-theme h5,
+html.pwb-dark .biarritz-theme h6 {
+  color: <%= dark_text %>;
+}
+
+.pwb-dark .biarritz-theme .card-coastal,
+.pwb-dark .biarritz-theme .card,
+html.pwb-dark .biarritz-theme .card-coastal,
+html.pwb-dark .biarritz-theme .card {
+  background: color-mix(in srgb, <%= dark_bg %> 85%, white);
+}
+
+.pwb-dark .bg-white,
+html.pwb-dark .bg-white {
+  background-color: color-mix(in srgb, <%= dark_bg %> 85%, white) !important;
+}
+
+.pwb-dark .text-gray-900,
+.pwb-dark .text-gray-800,
+.pwb-dark .text-gray-700,
+html.pwb-dark .text-gray-900,
+html.pwb-dark .text-gray-800,
+html.pwb-dark .text-gray-700 {
+  color: <%= dark_text %> !important;
+}
+
+.pwb-dark .border-gray-200,
+.pwb-dark .border-gray-300,
+html.pwb-dark .border-gray-200,
+html.pwb-dark .border-gray-300 {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+<% end %>

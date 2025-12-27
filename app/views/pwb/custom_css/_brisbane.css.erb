@@ -3,6 +3,9 @@
  * Color Palette: Deep Navy, Champagne Gold, Warm Cream, Rich Charcoal
  */
 
+<%# Include base CSS variables with dark mode support %>
+<%= render partial: '/pwb/custom_css/base_variables', locals: {} %>
+
 :root {
   /* Primary Luxury Colors - Now using standard palette color names
    * Palette colors: primary_color, secondary_color, accent_color, etc.
@@ -599,5 +602,152 @@
 .color_secundario {
   color: var(--brisbane-gold) !important;
 }
+
+/* ============================================
+   DARK MODE SUPPORT
+   ============================================ */
+
+<%
+  # Get dark mode colors from palette (if dark mode is enabled)
+  dark_colors = @current_website&.dark_mode_enabled? ? (@current_website.dark_mode_colors || {}) : {}
+
+  # Dark mode Brisbane colors (inverted for readability)
+  dark_brisbane_bg = dark_colors["background_color"] || "#121212"
+  dark_brisbane_text = dark_colors["text_color"] || "#e8e8e8"
+  dark_brisbane_gold = dark_colors["primary_color"] || "#d4b574"
+  dark_brisbane_navy = dark_colors["secondary_color"] || "#2a3f5f"
+%>
+
+<% if @current_website&.dark_mode_enabled? %>
+/* Auto dark mode (respects system preference) */
+@media (prefers-color-scheme: dark) {
+  .pwb-auto-dark.brisbane-theme,
+  .pwb-auto-dark .brisbane-theme {
+    --brisbane-cream: <%= dark_brisbane_bg %>;
+    --brisbane-charcoal: <%= dark_brisbane_text %>;
+    --brisbane-gold: <%= dark_brisbane_gold %>;
+    --brisbane-pearl: color-mix(in srgb, <%= dark_brisbane_bg %> 90%, white);
+    background-color: var(--brisbane-cream);
+    color: var(--brisbane-charcoal);
+  }
+
+  .pwb-auto-dark .brisbane-theme .navbar,
+  .pwb-auto-dark .brisbane-theme header,
+  .pwb-auto-dark .brisbane-theme .property-card,
+  .pwb-auto-dark .brisbane-theme .card,
+  .pwb-auto-dark .brisbane-theme .search-container,
+  .pwb-auto-dark .brisbane-theme .contact-form {
+    background: color-mix(in srgb, <%= dark_brisbane_bg %> 85%, white);
+  }
+
+  .pwb-auto-dark .brisbane-theme h1,
+  .pwb-auto-dark .brisbane-theme h2,
+  .pwb-auto-dark .brisbane-theme h3,
+  .pwb-auto-dark .brisbane-theme h4,
+  .pwb-auto-dark .brisbane-theme h5,
+  .pwb-auto-dark .brisbane-theme h6 {
+    color: <%= dark_brisbane_text %>;
+  }
+}
+
+/* Forced dark mode */
+.pwb-dark.brisbane-theme,
+.pwb-dark .brisbane-theme,
+html.pwb-dark .brisbane-theme {
+  --brisbane-cream: <%= dark_brisbane_bg %>;
+  --brisbane-charcoal: <%= dark_brisbane_text %>;
+  --brisbane-gold: <%= dark_brisbane_gold %>;
+  --brisbane-pearl: color-mix(in srgb, <%= dark_brisbane_bg %> 90%, white);
+  background-color: var(--brisbane-cream);
+  color: var(--brisbane-charcoal);
+}
+
+.pwb-dark .brisbane-theme .navbar,
+.pwb-dark .brisbane-theme header,
+html.pwb-dark .brisbane-theme .navbar,
+html.pwb-dark .brisbane-theme header {
+  background: color-mix(in srgb, <%= dark_brisbane_bg %> 85%, white);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.pwb-dark .brisbane-theme .property-card,
+.pwb-dark .brisbane-theme .card,
+.pwb-dark .brisbane-theme .search-container,
+.pwb-dark .brisbane-theme .contact-form,
+html.pwb-dark .brisbane-theme .property-card,
+html.pwb-dark .brisbane-theme .card,
+html.pwb-dark .brisbane-theme .search-container,
+html.pwb-dark .brisbane-theme .contact-form {
+  background: color-mix(in srgb, <%= dark_brisbane_bg %> 85%, white);
+}
+
+.pwb-dark .brisbane-theme h1,
+.pwb-dark .brisbane-theme h2,
+.pwb-dark .brisbane-theme h3,
+.pwb-dark .brisbane-theme h4,
+.pwb-dark .brisbane-theme h5,
+.pwb-dark .brisbane-theme h6,
+html.pwb-dark .brisbane-theme h1,
+html.pwb-dark .brisbane-theme h2,
+html.pwb-dark .brisbane-theme h3,
+html.pwb-dark .brisbane-theme h4,
+html.pwb-dark .brisbane-theme h5,
+html.pwb-dark .brisbane-theme h6 {
+  color: <%= dark_brisbane_text %>;
+}
+
+.pwb-dark .brisbane-theme .nav-link,
+html.pwb-dark .brisbane-theme .nav-link {
+  color: <%= dark_brisbane_text %>;
+}
+
+.pwb-dark .brisbane-theme .form-control,
+.pwb-dark .brisbane-theme select,
+.pwb-dark .brisbane-theme input[type="text"],
+.pwb-dark .brisbane-theme input[type="number"],
+html.pwb-dark .brisbane-theme .form-control,
+html.pwb-dark .brisbane-theme select,
+html.pwb-dark .brisbane-theme input[type="text"],
+html.pwb-dark .brisbane-theme input[type="number"] {
+  background: color-mix(in srgb, <%= dark_brisbane_bg %> 80%, white);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: <%= dark_brisbane_text %>;
+}
+
+/* Override Tailwind utility classes in dark mode */
+.pwb-dark .bg-luxury-cream,
+html.pwb-dark .bg-luxury-cream {
+  background-color: <%= dark_brisbane_bg %> !important;
+}
+
+.pwb-dark .text-luxury-charcoal,
+html.pwb-dark .text-luxury-charcoal {
+  color: <%= dark_brisbane_text %> !important;
+}
+
+.pwb-dark .bg-white,
+html.pwb-dark .bg-white {
+  background-color: color-mix(in srgb, <%= dark_brisbane_bg %> 85%, white) !important;
+}
+
+.pwb-dark .text-gray-900,
+html.pwb-dark .text-gray-900 {
+  color: <%= dark_brisbane_text %> !important;
+}
+
+.pwb-dark .text-gray-700,
+.pwb-dark .text-gray-600,
+html.pwb-dark .text-gray-700,
+html.pwb-dark .text-gray-600 {
+  color: color-mix(in srgb, <%= dark_brisbane_text %> 80%, black) !important;
+}
+
+.pwb-dark .border-gray-200,
+.pwb-dark .border-gray-300,
+html.pwb-dark .border-gray-200,
+html.pwb-dark .border-gray-300 {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+<% end %>
 
 <%= render partial: '/pwb/custom_css/shared', locals: {} %>

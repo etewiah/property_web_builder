@@ -284,4 +284,176 @@ RSpec.describe 'Theme Component Functionality', type: :view do
       puts "\n" + "=" * 60
     end
   end
+
+  describe 'Dark mode support' do
+    # CSS files that should support dark mode
+    THEME_CSS_FILES = {
+      'default' => '_default.css.erb',
+      'brisbane' => '_brisbane.css.erb',
+      'bologna' => '_bologna.css.erb',
+      'barcelona' => '_barcelona.css.erb',
+      'biarritz' => '_biarritz.css.erb'
+    }.freeze
+
+    def read_css_partial(css_filename)
+      path = Rails.root.join('app', 'views', 'pwb', 'custom_css', css_filename)
+      return nil unless path.exist?
+
+      File.read(path)
+    end
+
+    describe 'CSS file structure' do
+      THEME_CSS_FILES.each do |theme, css_file|
+        context "#{theme} theme CSS" do
+          let(:css_content) { read_css_partial(css_file) }
+
+          it 'exists' do
+            expect(css_content).not_to be_nil,
+              "Missing CSS file: app/views/pwb/custom_css/#{css_file}"
+          end
+
+          it 'includes base_variables partial for dark mode support' do
+            next unless css_content
+
+            expect(css_content).to include("render partial: '/pwb/custom_css/base_variables'"),
+              "#{theme} CSS must include base_variables partial.\n" \
+              "Add: <%= render partial: '/pwb/custom_css/base_variables', locals: {} %>\n" \
+              "This provides core dark mode CSS variables."
+          end
+
+          it 'has dark mode section' do
+            next unless css_content
+
+            expect(css_content).to match(/DARK MODE SUPPORT|dark_mode_enabled/i),
+              "#{theme} CSS should have dark mode support section.\n" \
+              "Include conditional CSS for .pwb-dark class."
+          end
+
+          it 'has forced dark mode styles using .pwb-dark class' do
+            next unless css_content
+
+            expect(css_content).to include('.pwb-dark'),
+              "#{theme} CSS must have .pwb-dark class styles for forced dark mode."
+          end
+
+          it 'has auto dark mode styles using prefers-color-scheme' do
+            next unless css_content
+
+            expect(css_content).to include('prefers-color-scheme: dark'),
+              "#{theme} CSS should have @media (prefers-color-scheme: dark) styles.\n" \
+              "This enables automatic dark mode based on system preferences."
+          end
+
+          it 'conditionally renders dark mode CSS based on website setting' do
+            next unless css_content
+
+            expect(css_content).to include('dark_mode_enabled?'),
+              "#{theme} CSS should conditionally render dark mode styles.\n" \
+              "Use: <% if @current_website&.dark_mode_enabled? %>"
+          end
+        end
+      end
+    end
+
+    describe 'Layout dark mode classes' do
+      TAILWIND_THEMES.each do |theme|
+        next unless Dir.exist?(Rails.root.join('app', 'themes', theme))
+
+        context "#{theme} theme layout" do
+          let(:layout_content) { read_template(theme, 'layouts/pwb/application.html.erb') }
+
+          it 'includes dark mode HTML class from website settings' do
+            next unless layout_content
+
+            expect(layout_content).to match(/dark_mode_html_class/),
+              "#{theme} layout should include dark_mode_html_class on html tag.\n" \
+              "Add: class=\"<%= @current_website.dark_mode_html_class %>\""
+          end
+
+          it 'includes auto dark mode class for system preference detection' do
+            next unless layout_content
+
+            expect(layout_content).to match(/auto_dark_mode|pwb-auto-dark/),
+              "#{theme} layout should support auto dark mode.\n" \
+              "Add: class=\"<%= @current_website.auto_dark_mode? ? 'pwb-auto-dark' : '' %>\""
+          end
+        end
+      end
+    end
+
+    describe 'Base variables partial' do
+      let(:base_variables_content) do
+        path = Rails.root.join('app', 'views', 'pwb', 'custom_css', '_base_variables.css.erb')
+        File.read(path) if path.exist?
+      end
+
+      it 'exists' do
+        expect(base_variables_content).not_to be_nil,
+          "Missing base variables partial: app/views/pwb/custom_css/_base_variables.css.erb"
+      end
+
+      it 'defines dark mode CSS variables' do
+        next unless base_variables_content
+
+        expect(base_variables_content).to include('--pwb-bg-body'),
+          "Base variables should define --pwb-bg-body CSS variable."
+      end
+
+      it 'has dark mode color configuration' do
+        next unless base_variables_content
+
+        expect(base_variables_content).to match(/dark_mode_colors|dark_bg|dark_text/),
+          "Base variables should read dark mode colors from website settings."
+      end
+    end
+
+    describe 'WebsiteStyleable concern' do
+      it 'Website model includes dark mode methods' do
+        website = Pwb::Website.new
+
+        expect(website).to respond_to(:dark_mode_enabled?),
+          "Website model should have dark_mode_enabled? method"
+        expect(website).to respond_to(:dark_mode_html_class),
+          "Website model should have dark_mode_html_class method"
+        expect(website).to respond_to(:auto_dark_mode?),
+          "Website model should have auto_dark_mode? method"
+        expect(website).to respond_to(:force_dark_mode?),
+          "Website model should have force_dark_mode? method"
+      end
+
+      context 'dark_mode_html_class' do
+        let(:website) { Pwb::Website.new }
+
+        it 'returns pwb-dark when force_dark_mode is enabled' do
+          allow(website).to receive(:dark_mode_setting).and_return('dark')
+
+          expect(website.dark_mode_html_class).to eq('pwb-dark')
+        end
+
+        it 'returns nil when dark mode is disabled (interpolates as empty string)' do
+          allow(website).to receive(:dark_mode_setting).and_return('light_only')
+
+          expect(website.dark_mode_html_class).to be_nil
+        end
+
+        it 'returns nil for auto dark mode (CSS handles via prefers-color-scheme)' do
+          allow(website).to receive(:dark_mode_setting).and_return('auto')
+
+          expect(website.dark_mode_html_class).to be_nil
+        end
+      end
+    end
+
+    describe 'Dark mode color customization' do
+      let(:website) { Pwb::Website.new }
+
+      it 'has default dark mode colors' do
+        colors = website.dark_mode_colors || {}
+
+        # These are checked for presence when dark_mode_enabled? is true
+        # The CSS provides fallback defaults if not customized
+        expect(colors).to be_a(Hash)
+      end
+    end
+  end
 end

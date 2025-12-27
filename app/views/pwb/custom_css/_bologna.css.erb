@@ -3,6 +3,9 @@
  * Color Palette: Terracotta, Olive, Sand, Warm Grays
  */
 
+<%# Include base CSS variables with dark mode support %>
+<%= render partial: '/pwb/custom_css/base_variables', locals: {} %>
+
 :root {
   /* Primary Colors */
   --bologna-terra: <%= @current_website.style_variables["primary_color"] || "#c45d3e" %>;
@@ -607,5 +610,102 @@
 .bologna-theme .color_secundario {
   color: var(--bologna-olive) !important;
 }
+
+/* ============================================
+   DARK MODE SUPPORT
+   ============================================ */
+
+<%
+  dark_colors = @current_website&.dark_mode_enabled? ? (@current_website.dark_mode_colors || {}) : {}
+  dark_bg = dark_colors["background_color"] || "#121212"
+  dark_text = dark_colors["text_color"] || "#e8e8e8"
+  dark_terra = dark_colors["primary_color"] || "#d97a5e"
+  dark_olive = dark_colors["secondary_color"] || "#7a8b6d"
+%>
+
+<% if @current_website&.dark_mode_enabled? %>
+/* Auto dark mode */
+@media (prefers-color-scheme: dark) {
+  .pwb-auto-dark.bologna-theme,
+  .pwb-auto-dark .bologna-theme {
+    --bologna-light: <%= dark_bg %>;
+    --bologna-warm-gray: <%= dark_text %>;
+    --bologna-terra: <%= dark_terra %>;
+    background-color: var(--bologna-light);
+    color: var(--bologna-warm-gray);
+  }
+}
+
+/* Forced dark mode */
+.pwb-dark.bologna-theme,
+.pwb-dark .bologna-theme,
+html.pwb-dark .bologna-theme {
+  --bologna-light: <%= dark_bg %>;
+  --bologna-warm-gray: <%= dark_text %>;
+  --bologna-terra: <%= dark_terra %>;
+  background-color: var(--bologna-light);
+  color: var(--bologna-warm-gray);
+}
+
+.pwb-dark .bologna-theme .navbar,
+.pwb-dark .bologna-theme header,
+.pwb-dark .bologna-theme .property-card,
+.pwb-dark .bologna-theme .card,
+.pwb-dark .bologna-theme .search-container,
+html.pwb-dark .bologna-theme .navbar,
+html.pwb-dark .bologna-theme header,
+html.pwb-dark .bologna-theme .property-card,
+html.pwb-dark .bologna-theme .card,
+html.pwb-dark .bologna-theme .search-container {
+  background: color-mix(in srgb, <%= dark_bg %> 85%, white);
+}
+
+.pwb-dark .bologna-theme h1,
+.pwb-dark .bologna-theme h2,
+.pwb-dark .bologna-theme h3,
+.pwb-dark .bologna-theme h4,
+.pwb-dark .bologna-theme h5,
+.pwb-dark .bologna-theme h6,
+html.pwb-dark .bologna-theme h1,
+html.pwb-dark .bologna-theme h2,
+html.pwb-dark .bologna-theme h3,
+html.pwb-dark .bologna-theme h4,
+html.pwb-dark .bologna-theme h5,
+html.pwb-dark .bologna-theme h6 {
+  color: <%= dark_text %>;
+}
+
+.pwb-dark .bologna-theme .form-control,
+.pwb-dark .bologna-theme select,
+.pwb-dark .bologna-theme input,
+html.pwb-dark .bologna-theme .form-control,
+html.pwb-dark .bologna-theme select,
+html.pwb-dark .bologna-theme input {
+  background: color-mix(in srgb, <%= dark_bg %> 80%, white);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: <%= dark_text %>;
+}
+
+.pwb-dark .bg-white,
+html.pwb-dark .bg-white {
+  background-color: color-mix(in srgb, <%= dark_bg %> 85%, white) !important;
+}
+
+.pwb-dark .text-gray-900,
+.pwb-dark .text-gray-800,
+.pwb-dark .text-gray-700,
+html.pwb-dark .text-gray-900,
+html.pwb-dark .text-gray-800,
+html.pwb-dark .text-gray-700 {
+  color: <%= dark_text %> !important;
+}
+
+.pwb-dark .border-gray-200,
+.pwb-dark .border-gray-300,
+html.pwb-dark .border-gray-200,
+html.pwb-dark .border-gray-300 {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+<% end %>
 
 <%= render partial: '/pwb/custom_css/shared', locals: {} %>

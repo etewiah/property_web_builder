@@ -1,5 +1,9 @@
 /* Custom CSS for Default Theme (Tailwind/Flowbite) */
 /* This file is rendered as a partial by the custom_styles helper */
+
+<%# Include base CSS variables with dark mode support %>
+<%= render partial: '/pwb/custom_css/base_variables', locals: {} %>
+
 :root {
   --primary-color: <%= @current_website.style_variables['primary_color'] || '#3b82f6' %>;
   --secondary-color: <%= @current_website.style_variables['secondary_color'] || '#1e40af' %>;
@@ -528,5 +532,143 @@
 @media (min-width: 1024px) { .content-container { max-width: 1024px; } }
 @media (min-width: 1280px) { .content-container { max-width: 1280px; } }
 
+/* ============================================
+   DARK MODE SUPPORT
+   ============================================ */
+
+<%
+  dark_colors = @current_website&.dark_mode_enabled? ? (@current_website.dark_mode_colors || {}) : {}
+  dark_bg = dark_colors["background_color"] || "#121212"
+  dark_text = dark_colors["text_color"] || "#e8e8e8"
+  dark_primary = dark_colors["primary_color"] || "#60a5fa"
+  dark_secondary = dark_colors["secondary_color"] || "#93c5fd"
+%>
+
+<% if @current_website&.dark_mode_enabled? %>
+/* Auto dark mode - respects system preference */
+@media (prefers-color-scheme: dark) {
+  .pwb-auto-dark.default-theme,
+  .pwb-auto-dark .default-theme {
+    --services-bg-color: <%= dark_bg %>;
+    --services-card-bg: color-mix(in srgb, <%= dark_bg %> 85%, white);
+    --services-text-color: <%= dark_text %>;
+    background-color: <%= dark_bg %>;
+    color: <%= dark_text %>;
+  }
+}
+
+/* Forced dark mode - always dark */
+.pwb-dark.default-theme,
+.pwb-dark .default-theme,
+html.pwb-dark .default-theme {
+  --services-bg-color: <%= dark_bg %>;
+  --services-card-bg: color-mix(in srgb, <%= dark_bg %> 85%, white);
+  --services-text-color: <%= dark_text %>;
+  background-color: <%= dark_bg %>;
+  color: <%= dark_text %>;
+}
+
+/* Service cards dark mode */
+.pwb-dark .service-card,
+html.pwb-dark .service-card {
+  background: color-mix(in srgb, <%= dark_bg %> 85%, white);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.pwb-dark .service-content,
+html.pwb-dark .service-content {
+  color: color-mix(in srgb, <%= dark_text %> 80%, white);
+}
+
+/* Agency section dark mode */
+.pwb-dark .our-agency-section,
+html.pwb-dark .our-agency-section {
+  background-color: <%= dark_bg %>;
+}
+
+.pwb-dark .agency-title,
+html.pwb-dark .agency-title {
+  color: <%= dark_text %>;
+}
+
+.pwb-dark .agency-description,
+html.pwb-dark .agency-description {
+  color: color-mix(in srgb, <%= dark_text %> 80%, white);
+}
+
+/* Contact section dark mode */
+.pwb-dark .contact-us-component,
+html.pwb-dark .contact-us-component {
+  background-color: <%= dark_bg %>;
+}
+
+.pwb-dark .contact-map-wrapper,
+html.pwb-dark .contact-map-wrapper {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Tailwind utility class overrides for dark mode */
+.pwb-dark .bg-white,
+html.pwb-dark .bg-white {
+  background-color: color-mix(in srgb, <%= dark_bg %> 85%, white) !important;
+}
+
+.pwb-dark .bg-gray-50,
+.pwb-dark .bg-gray-100,
+html.pwb-dark .bg-gray-50,
+html.pwb-dark .bg-gray-100 {
+  background-color: <%= dark_bg %> !important;
+}
+
+.pwb-dark .text-gray-900,
+.pwb-dark .text-gray-800,
+.pwb-dark .text-gray-700,
+html.pwb-dark .text-gray-900,
+html.pwb-dark .text-gray-800,
+html.pwb-dark .text-gray-700 {
+  color: <%= dark_text %> !important;
+}
+
+.pwb-dark .text-gray-600,
+.pwb-dark .text-gray-500,
+html.pwb-dark .text-gray-600,
+html.pwb-dark .text-gray-500 {
+  color: color-mix(in srgb, <%= dark_text %> 80%, white) !important;
+}
+
+.pwb-dark .border-gray-200,
+.pwb-dark .border-gray-300,
+html.pwb-dark .border-gray-200,
+html.pwb-dark .border-gray-300 {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Card backgrounds */
+.pwb-dark .card,
+.pwb-dark [class*="card"],
+html.pwb-dark .card,
+html.pwb-dark [class*="card"] {
+  background: color-mix(in srgb, <%= dark_bg %> 85%, white);
+}
+
+/* Form inputs dark mode */
+.pwb-dark input,
+.pwb-dark select,
+.pwb-dark textarea,
+html.pwb-dark input,
+html.pwb-dark select,
+html.pwb-dark textarea {
+  background-color: color-mix(in srgb, <%= dark_bg %> 90%, white);
+  color: <%= dark_text %>;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.pwb-dark input::placeholder,
+.pwb-dark textarea::placeholder,
+html.pwb-dark input::placeholder,
+html.pwb-dark textarea::placeholder {
+  color: color-mix(in srgb, <%= dark_text %> 60%, transparent);
+}
+<% end %>
 
 
