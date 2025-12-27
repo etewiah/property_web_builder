@@ -1,0 +1,74 @@
+<%# Barcelona Theme Contact Us Form - Mediterranean Styling %>
+<div data-controller="contact-form">
+  <%= form_for :contact, url: '/contact_us.js', method: 'post',
+      html: {
+        class: 'space-y-4',
+        data: {
+          contact_form_target: 'form',
+          action: 'ajax:beforeSend->contact-form#handleBeforeSend ajax:complete->contact-form#handleComplete ajax:success->contact-form#handleAjaxSuccess ajax:error->contact-form#handleAjaxError'
+        }
+      }, remote: true do |f| %>
+
+    <%= f.hidden_field :locale, value: I18n.locale %>
+
+    <div>
+      <label for="contact_name" class="block text-sm font-medium text-warm-700 mb-1">
+        <%= I18n.t("name") %> <span class="text-terra-500">*</span>
+      </label>
+      <%= f.text_field :name,
+          class: "w-full px-4 py-2.5 rounded-lg border border-warm-300 focus:border-med-500 focus:ring-2 focus:ring-med-200 transition",
+          placeholder: I18n.t("name"),
+          required: true %>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label for="contact_email" class="block text-sm font-medium text-warm-700 mb-1">
+          <%= I18n.t("email") %> <span class="text-terra-500">*</span>
+        </label>
+        <%= f.email_field :email,
+            class: "w-full px-4 py-2.5 rounded-lg border border-warm-300 focus:border-med-500 focus:ring-2 focus:ring-med-200 transition",
+            placeholder: I18n.t("email"),
+            required: true %>
+      </div>
+      <div>
+        <label for="contact_tel" class="block text-sm font-medium text-warm-700 mb-1">
+          <%= I18n.t("tel") %>
+        </label>
+        <%= f.text_field :tel,
+            class: "w-full px-4 py-2.5 rounded-lg border border-warm-300 focus:border-med-500 focus:ring-2 focus:ring-med-200 transition",
+            placeholder: I18n.t("tel") %>
+      </div>
+    </div>
+
+    <div>
+      <label for="contact_subject" class="block text-sm font-medium text-warm-700 mb-1">
+        <%= I18n.t("subject") %>
+      </label>
+      <%= f.text_field :subject,
+          class: "w-full px-4 py-2.5 rounded-lg border border-warm-300 focus:border-med-500 focus:ring-2 focus:ring-med-200 transition",
+          placeholder: I18n.t("subject") %>
+    </div>
+
+    <div>
+      <label for="contact_message" class="block text-sm font-medium text-warm-700 mb-1">
+        <%= I18n.t("message") %>
+      </label>
+      <%= f.text_area :message,
+          rows: 5,
+          class: "w-full px-4 py-2.5 rounded-lg border border-warm-300 focus:border-med-500 focus:ring-2 focus:ring-med-200 transition resize-none",
+          placeholder: I18n.t("message") %>
+    </div>
+
+    <div id="contact-us-result" data-contact-form-target="result"></div>
+
+    <button type="submit"
+            class="bg-med-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-med-700 transition flex items-center shadow-md"
+            data-contact-form-target="submitButton">
+      <i class="fa-solid fa-paper-plane mr-2"></i>
+      <%= I18n.t("send") %>
+    </button>
+
+    <div id="resp_enviar"></div>
+  <% end %>
+</div>

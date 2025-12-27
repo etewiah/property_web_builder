@@ -1,0 +1,43 @@
+<% page_title @page_title %>
+<%= render '/pwb/meta_tags' %>
+<%= render 'pwb/shared/leaflet_assets' %>
+
+<!-- Barcelona Theme Contact Us - Mediterranean Styling -->
+<section class="bg-gradient-to-r from-med-800 to-med-700 py-6">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-display font-bold text-white mb-1">
+          <%= I18n.t("contactUs") %>
+        </h1>
+        <p class="text-med-200">
+          <%= I18n.t("contactUsPrompt") %>
+        </p>
+      </div>
+      <nav class="hidden md:flex" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+          <li class="inline-flex items-center">
+            <a href="/" class="text-med-200 hover:text-white transition">
+              <i class="fa-solid fa-house mr-1"></i>
+              <%= I18n.t("webContentSections.home") %>
+            </a>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <i class="fa-solid fa-chevron-right text-med-400 mx-2 text-sm"></i>
+              <span class="text-white font-medium">
+                <%= I18n.t("contactUs") %>
+              </span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<section class="bg-warm-50 py-12">
+  <div class="container mx-auto px-4">
+    <%= page_component "form_and_map", @page %>
+  </div>
+</section>

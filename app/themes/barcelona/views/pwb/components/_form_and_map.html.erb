@@ -1,0 +1,79 @@
+<!-- Barcelona Theme Form and Map Component - Mediterranean Styling -->
+<div class="contact-grid grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+  <!-- Contact Form -->
+  <div class="order-2 lg:order-1">
+    <div class="bg-white rounded-2xl p-6 lg:p-8 shadow-sm border border-warm-200">
+      <h2 class="text-2xl font-display font-bold text-med-800 mb-2">
+        <i class="fa-solid fa-envelope text-gold-500 mr-2"></i>
+        <%= I18n.t("sendUsAMessage", default: "Send us a message") %>
+      </h2>
+      <p class="text-warm-600 mb-6">
+        <%= I18n.t("weWillGetBackToYou", default: "We'll get back to you as soon as possible.") %>
+      </p>
+      <%= render 'pwb/sections/contact_us_form' %>
+    </div>
+  </div>
+
+  <!-- Contact Info & Map -->
+  <div class="order-1 lg:order-2 space-y-6">
+    <!-- Contact Information Card -->
+    <div class="rounded-2xl p-6 lg:p-8 text-white shadow-lg bg-gradient-to-br from-med-700 to-med-800">
+      <h2 class="text-2xl font-display font-bold mb-6">
+        <i class="fa-solid fa-location-dot mr-2"></i>
+        <%= I18n.t("contactInformation", default: "Contact Information") %>
+      </h2>
+
+      <div class="space-y-4">
+        <div class="flex items-start">
+          <i class="fa-solid fa-building text-xl mr-3 mt-1 text-gold-400"></i>
+          <div>
+            <p class="font-semibold"><%= @current_agency.display_name %></p>
+            <p class="text-med-200">
+              <%= [@current_agency.street_number, @current_agency.street_address].compact.join(', ') %>
+              <% if @current_agency.city.present? || @current_agency.postal_code.present? %>
+                <br><%= [@current_agency.city, @current_agency.postal_code].compact.join(', ') %>
+              <% end %>
+            </p>
+          </div>
+        </div>
+
+        <% if @current_agency.phone_number_primary.present? %>
+          <div class="flex items-center">
+            <i class="fa-solid fa-phone text-xl mr-3 text-gold-400"></i>
+            <div>
+              <p class="text-sm text-med-200"><%= I18n.t("telephone", default: "Telephone") %></p>
+              <a href="tel:<%= @current_agency.phone_number_primary %>" class="font-semibold hover:text-gold-300 transition">
+                <%= @current_agency.phone_number_primary %>
+              </a>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @current_agency.email_primary.present? %>
+          <div class="flex items-center">
+            <i class="fa-solid fa-envelope text-xl mr-3 text-gold-400"></i>
+            <div>
+              <p class="text-sm text-med-200"><%= I18n.t("email", default: "Email") %></p>
+              <a href="mailto:<%= @current_agency.email_primary %>" class="font-semibold hover:text-gold-300 transition">
+                <%= @current_agency.email_primary %>
+              </a>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <% if @current_agency.show_contact_map && @map_markers.present? %>
+      <div class="rounded-2xl overflow-hidden shadow-lg border border-warm-200" style="height: 350px;">
+        <div id="contact-map"
+             class="w-full h-full"
+             data-controller="map"
+             data-map-target="canvas"
+             data-map-markers-value="<%= @map_markers.to_json %>"
+             data-map-zoom-value="15">
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
