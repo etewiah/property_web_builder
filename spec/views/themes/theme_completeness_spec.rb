@@ -67,8 +67,14 @@ RSpec.describe 'Theme Completeness', type: :view do
     full_path.exist?
   end
 
+  # Directories in app/themes/ that are not actual themes
+  NON_THEME_DIRECTORIES = %w[shared].freeze
+
   describe 'Required templates' do
-    theme_directories_for_test = Dir.glob(Rails.root.join('app', 'themes', '*')).select { |f| File.directory?(f) }.map { |f| File.basename(f) }
+    theme_directories_for_test = Dir.glob(Rails.root.join('app', 'themes', '*'))
+      .select { |f| File.directory?(f) }
+      .map { |f| File.basename(f) }
+      .reject { |name| NON_THEME_DIRECTORIES.include?(name) }
 
     theme_directories_for_test.each do |theme|
       context "#{theme} theme" do
@@ -86,7 +92,10 @@ RSpec.describe 'Theme Completeness', type: :view do
   end
 
   describe 'Recommended templates' do
-    theme_directories_for_test = Dir.glob(Rails.root.join('app', 'themes', '*')).select { |f| File.directory?(f) }.map { |f| File.basename(f) }
+    theme_directories_for_test = Dir.glob(Rails.root.join('app', 'themes', '*'))
+      .select { |f| File.directory?(f) }
+      .map { |f| File.basename(f) }
+      .reject { |name| NON_THEME_DIRECTORIES.include?(name) }
 
     theme_directories_for_test.each do |theme|
       context "#{theme} theme" do
@@ -103,7 +112,10 @@ RSpec.describe 'Theme Completeness', type: :view do
   end
 
   describe 'Custom CSS partials' do
-    theme_directories_for_test = Dir.glob(Rails.root.join('app', 'themes', '*')).select { |f| File.directory?(f) }.map { |f| File.basename(f) }
+    theme_directories_for_test = Dir.glob(Rails.root.join('app', 'themes', '*'))
+      .select { |f| File.directory?(f) }
+      .map { |f| File.basename(f) }
+      .reject { |name| NON_THEME_DIRECTORIES.include?(name) }
 
     theme_directories_for_test.each do |theme|
       context "#{theme} theme" do
