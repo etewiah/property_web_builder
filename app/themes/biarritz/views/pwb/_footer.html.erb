@@ -16,7 +16,7 @@
       <!-- Company Info Column -->
       <div>
         <h4 class="text-2xl font-bold text-white mb-6" style="font-family: 'Playfair Display', Georgia, serif;">
-          <%= @current_website.company_display_name.presence || @current_agency.company_name %>
+          <%= company_display_name %>
         </h4>
         <ul class="space-y-4">
           <% if @current_agency.phone_number_primary.present? %>
@@ -114,7 +114,7 @@
       <!-- Copyright & Attribution -->
       <div class="text-center md:text-right text-[#D4D4D8]">
         <p class="mb-2">
-          © <%= Time.current.year %> <%= @current_website.company_display_name.presence || @current_agency.company_name %>. 
+          © <%= Time.current.year %> <%= company_display_name %>. 
           All rights reserved.
         </p>
         <p class="text-xs">

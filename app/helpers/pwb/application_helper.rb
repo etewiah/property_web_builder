@@ -1,5 +1,23 @@
 module Pwb
   module ApplicationHelper
+    # Consolidated company display name resolution
+    # Provides consistent fallback logic across all themes
+    # Priority: website.company_display_name > agency.display_name > agency.company_name > default
+    def company_display_name(default_value = "Real Estate")
+      @current_website&.company_display_name.presence ||
+        @current_agency&.display_name.presence ||
+        @current_agency&.company_name.presence ||
+        default_value
+    end
+
+    # Legal company name for copyright/contracts
+    # Priority: agency.company_name > website.company_display_name > default
+    def company_legal_name(default_value = "Real Estate")
+      @current_agency&.company_name.presence ||
+        @current_website&.company_display_name.presence ||
+        default_value
+    end
+
     def properties_carousel_footer
       # TODO: - diplay array of thumbnails below main
       # properties carousel is images count > ...

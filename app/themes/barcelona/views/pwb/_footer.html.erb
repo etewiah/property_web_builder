@@ -18,7 +18,7 @@
           <% if @current_website.logo_url.present? %>
             <img src="<%= @current_website.logo_url %>"
                  class="h-12 w-auto brightness-0 invert opacity-80"
-                 alt="<%= @current_website.company_display_name %>"
+                 alt="<%= company_display_name %>"
                  loading="lazy" decoding="async">
           <% else %>
             <div class="flex items-center space-x-3">
@@ -26,7 +26,7 @@
                 <i class="ph ph-house-line text-med-900 text-2xl"></i>
               </div>
               <span class="font-display font-semibold text-2xl text-white">
-                <%= @current_website.company_display_name || "Real Estate" %>
+                <%= company_display_name %>
               </span>
             </div>
           <% end %>
@@ -195,7 +195,7 @@
       <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
         <!-- Copyright -->
         <p class="text-sm text-med-400">
-          &copy; <%= Time.current.year %> <%= @current_agency&.company_name || @current_website.company_display_name %>.
+          &copy; <%= Time.current.year %> <%= company_legal_name %>.
           <%= t('pwb.footer.rights', default: 'All rights reserved.') %>
         </p>
 
