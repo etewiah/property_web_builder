@@ -35,7 +35,7 @@
             {% endfor %}
           </ul>
           <div class="pwb-pricing-card__footer">
-            <a href="{{ page_part.plan_1_link.content | default: '#' }}" class="pwb-btn pwb-btn--outline pwb-btn--block">
+            <a href="{{ page_part.plan_1_link.content | default: '#' | localize_url }}" class="pwb-btn pwb-btn--outline pwb-btn--block">
               {{ page_part.plan_1_button.content | default: 'Get Started' }}
             </a>
           </div>
@@ -70,7 +70,7 @@
             {% endfor %}
           </ul>
           <div class="pwb-pricing-card__footer">
-            <a href="{{ page_part.plan_2_link.content | default: '#' }}" class="pwb-btn pwb-btn--primary pwb-btn--block">
+            <a href="{{ page_part.plan_2_link.content | default: '#' | localize_url }}" class="pwb-btn pwb-btn--primary pwb-btn--block">
               {{ page_part.plan_2_button.content | default: 'Get Started' }}
             </a>
           </div>
@@ -102,7 +102,7 @@
             {% endfor %}
           </ul>
           <div class="pwb-pricing-card__footer">
-            <a href="{{ page_part.plan_3_link.content | default: '#' }}" class="pwb-btn pwb-btn--outline pwb-btn--block">
+            <a href="{{ page_part.plan_3_link.content | default: '#' | localize_url }}" class="pwb-btn pwb-btn--outline pwb-btn--block">
               {{ page_part.plan_3_button.content | default: 'Get Started' }}
             </a>
           </div>

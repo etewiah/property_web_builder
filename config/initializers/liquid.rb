@@ -11,14 +11,17 @@ Liquid::Environment.default.file_system = Liquid::LocalFileSystem.new(
   Rails.root.join("app/views/pwb/partials")
 )
 
-# Register custom filters if needed in the future
-# Liquid::Template.register_filter(Pwb::LiquidFilters)
-
-# Load custom Liquid tags for PropertyWebBuilder
-# These tags provide convenient helpers for theme templates
+# Load custom Liquid tags and filters for PropertyWebBuilder
 Rails.application.config.to_prepare do
-  # Load tag class definitions (without registration)
+  # Load filters
+  require Rails.root.join("app/lib/pwb/liquid_filters")
+
+  # Load tag class definitions
   Dir[Rails.root.join("app/lib/pwb/liquid_tags/*.rb")].each { |f| require f }
+
+  # Register filters globally on the default environment
+  # Provides: localize_url - prepends locale to URL paths
+  Liquid::Environment.default.register_filter(Pwb::LiquidFilters)
 
   # Register tags on the default environment (not Template which is deprecated)
   # This prevents: "Template.register_tag is deprecated. Use Environment#register_tag instead"

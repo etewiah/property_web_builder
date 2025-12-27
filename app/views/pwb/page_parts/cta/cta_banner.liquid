@@ -8,11 +8,11 @@
         {% endif %}
       </div>
       <div class="pwb-cta__actions">
-        <a href="{{ page_part.button_link.content | default: '#' }}" class="pwb-btn pwb-btn--{{ page_part.button_style.content | default: 'white' }} pwb-btn--lg">
+        <a href="{{ page_part.button_link.content | default: '#' | localize_url }}" class="pwb-btn pwb-btn--{{ page_part.button_style.content | default: 'white' }} pwb-btn--lg">
           {{ page_part.button_text.content | default: 'Get Started' }}
         </a>
         {% if page_part.secondary_button_text.content %}
-          <a href="{{ page_part.secondary_button_link.content | default: '#' }}" class="pwb-btn pwb-btn--outline-white pwb-btn--lg">
+          <a href="{{ page_part.secondary_button_link.content | default: '#' | localize_url }}" class="pwb-btn pwb-btn--outline-white pwb-btn--lg">
             {{ page_part.secondary_button_text.content }}
           </a>
         {% endif %}

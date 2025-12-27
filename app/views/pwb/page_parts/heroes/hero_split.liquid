@@ -14,11 +14,11 @@
         {% endif %}
         {% if page_part.cta_text.content %}
           <div class="pwb-hero__actions">
-            <a href="{{ page_part.cta_link.content | default: '#' }}" class="pwb-btn pwb-btn--primary">
+            <a href="{{ page_part.cta_link.content | default: '#' | localize_url }}" class="pwb-btn pwb-btn--primary">
               {{ page_part.cta_text.content }}
             </a>
             {% if page_part.cta_secondary_text.content %}
-              <a href="{{ page_part.cta_secondary_link.content | default: '#' }}" class="pwb-btn pwb-btn--secondary">
+              <a href="{{ page_part.cta_secondary_link.content | default: '#' | localize_url }}" class="pwb-btn pwb-btn--secondary">
                 {{ page_part.cta_secondary_text.content }}
               </a>
             {% endif %}

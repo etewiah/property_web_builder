@@ -23,7 +23,7 @@
         {% endif %}
 
         <div class="pwb-cta__actions">
-          <a href="{{ page_part.button_link.content | default: '#' }}" class="pwb-btn pwb-btn--white pwb-btn--lg">
+          <a href="{{ page_part.button_link.content | default: '#' | localize_url }}" class="pwb-btn pwb-btn--white pwb-btn--lg">
             {{ page_part.button_text.content | default: 'Learn More' }}
           </a>
         </div>
