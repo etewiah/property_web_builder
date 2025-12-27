@@ -456,4 +456,90 @@ RSpec.describe 'Theme Component Functionality', type: :view do
       end
     end
   end
+
+  describe 'Layout Tailwind CSS references' do
+    # Layout files that should use tailwind-default (admin/system layouts)
+    ADMIN_LAYOUTS = {
+      'app/views/layouts/devise_tailwind.html.erb' => 'Devise login layout',
+      'app/views/layouts/tenant_admin.html.erb' => 'Tenant admin layout',
+      'app/views/layouts/pwb/admin_panel_error.html.erb' => 'Admin panel error layout',
+      'app/views/layouts/pwb/signup.html.erb' => 'Signup wizard layout'
+    }.freeze
+
+    # Layout files that should use theme-specific tailwind
+    THEME_AWARE_LAYOUTS = {
+      'app/views/layouts/pwb/page_part.html.erb' => 'Page part preview layout'
+    }.freeze
+
+    # Available themed tailwind files
+    AVAILABLE_TAILWIND_FILES = %w[
+      tailwind-default
+      tailwind-brisbane
+      tailwind-bologna
+      tailwind-barcelona
+      tailwind-biarritz
+    ].freeze
+
+    describe 'Admin layouts use tailwind-default' do
+      ADMIN_LAYOUTS.each do |layout_path, description|
+        it "#{description} references tailwind-default" do
+          full_path = Rails.root.join(layout_path)
+          next unless full_path.exist?
+
+          content = File.read(full_path)
+
+          # Should NOT reference bare "tailwind" (without theme suffix)
+          expect(content).not_to match(/stylesheet_link_tag\s+["']tailwind["']\s*,/),
+            "#{layout_path} should NOT reference 'tailwind' (non-existent asset).\n" \
+            "Use 'tailwind-default' instead."
+
+          # Should reference tailwind-default
+          expect(content).to match(/stylesheet_link_tag\s+["']tailwind-default["']/),
+            "#{layout_path} should reference 'tailwind-default' for proper styling."
+        end
+      end
+    end
+
+    describe 'Theme-aware layouts use dynamic tailwind file' do
+      THEME_AWARE_LAYOUTS.each do |layout_path, description|
+        it "#{description} uses theme-specific tailwind" do
+          full_path = Rails.root.join(layout_path)
+          next unless full_path.exist?
+
+          content = File.read(full_path)
+
+          # Should NOT reference bare "tailwind"
+          expect(content).not_to match(/stylesheet_link_tag\s+["']tailwind["']\s*,/),
+            "#{layout_path} should NOT reference 'tailwind' (non-existent asset)."
+
+          # Should reference a variable/dynamic tailwind file
+          expect(content).to match(/stylesheet_link_tag\s+(tailwind_file|["']tailwind-)/),
+            "#{layout_path} should use theme-aware tailwind file (e.g., tailwind_file variable or tailwind-{theme})."
+        end
+      end
+    end
+
+    describe 'No layouts reference non-existent tailwind.css' do
+      it 'searches all ERB layouts for bare tailwind references' do
+        layouts_path = Rails.root.join('app', 'views', 'layouts')
+        erb_files = Dir.glob("#{layouts_path}/**/*.erb")
+
+        problematic_files = []
+        erb_files.each do |file_path|
+          content = File.read(file_path)
+          # Match stylesheet_link_tag "tailwind" or 'tailwind' followed by comma or close paren
+          # but not tailwind-something
+          if content.match?(/stylesheet_link_tag\s+["']tailwind["']\s*[,)]/)
+            problematic_files << file_path.sub(Rails.root.to_s + '/', '')
+          end
+        end
+
+        expect(problematic_files).to be_empty,
+          "The following layouts reference 'tailwind' which doesn't exist:\n" \
+          "#{problematic_files.join("\n")}\n\n" \
+          "Use 'tailwind-default' or a theme-specific file instead.\n" \
+          "Available: #{AVAILABLE_TAILWIND_FILES.join(', ')}"
+      end
+    end
+  end
 end
