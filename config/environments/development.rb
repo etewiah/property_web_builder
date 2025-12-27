@@ -29,7 +29,8 @@ Rails.application.configure do
   config.cache_store = :memory_store
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :cloudflare_r2 # :local
+  # Use :local for development (reliable), or :cloudflare_r2 for testing CDN integration
+  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", "local").to_sym
 
   # Email configuration for development
   # By default, emails are opened in browser via letter_opener (if installed)

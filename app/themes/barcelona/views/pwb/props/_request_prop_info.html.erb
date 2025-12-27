@@ -1,0 +1,58 @@
+<%# Barcelona Theme - Request Property Info Form %>
+<%# Mediterranean design with coastal blues and warm accents %>
+
+<div class="bg-white rounded-softer overflow-hidden">
+  <div class="bg-gradient-to-r from-med-600 to-med-500 px-6 py-4">
+    <h2 class="font-display text-lg font-bold text-white flex items-center">
+      <i class="ph ph-envelope-simple text-white mr-3"></i>
+      <%= I18n.t("requestPropertyInfo") %>
+    </h2>
+  </div>
+  <div class="p-6">
+    <%= form_for :contact, url: '/request_property_info.js', method: 'post',
+        html: { class: 'space-y-4' }, remote: true do |f| %>
+
+      <%= f.hidden_field :locale, value: I18n.locale %>
+      <%= f.hidden_field :property_id, value: @property_details.id %>
+
+      <div>
+        <%= f.label :name, I18n.t("name"), class: "block text-sm font-semibold text-warm-700 mb-2" %>
+        <%= f.text_field :name, required: true, 
+            class: "w-full px-4 py-3 border border-warm-200 rounded-soft focus:ring-2 focus:ring-med-500 focus:border-med-500 transition-all text-warm-900 placeholder-warm-400",
+            placeholder: I18n.t("name") %>
+      </div>
+
+      <div>
+        <%= f.label :email, I18n.t("email"), class: "block text-sm font-semibold text-warm-700 mb-2" %>
+        <%= f.email_field :email, required: true,
+            class: "w-full px-4 py-3 border border-warm-200 rounded-soft focus:ring-2 focus:ring-med-500 focus:border-med-500 transition-all text-warm-900 placeholder-warm-400",
+            placeholder: I18n.t("email") %>
+      </div>
+
+      <div>
+        <%= f.label :tel, I18n.t("tel"), class: "block text-sm font-semibold text-warm-700 mb-2" %>
+        <%= f.text_field :tel,
+            class: "w-full px-4 py-3 border border-warm-200 rounded-soft focus:ring-2 focus:ring-med-500 focus:border-med-500 transition-all text-warm-900 placeholder-warm-400",
+            placeholder: I18n.t("tel") %>
+      </div>
+
+      <div>
+        <%= f.label :message, I18n.t("message"), class: "block text-sm font-semibold text-warm-700 mb-2" %>
+        <%= f.text_area :message, rows: 4,
+            class: "w-full px-4 py-3 border border-warm-200 rounded-soft focus:ring-2 focus:ring-med-500 focus:border-med-500 transition-all text-warm-900 placeholder-warm-400 resize-none",
+            placeholder: I18n.t("message") %>
+      </div>
+
+      <div id="request-info-result"></div>
+
+      <button type="submit"
+              class="w-full bg-gradient-to-r from-med-600 to-med-500 text-white font-semibold py-3 px-6 rounded-soft hover:from-med-700 hover:to-med-600 transition-all shadow-soft hover:shadow-medium flex items-center justify-center">
+        <i class="ph ph-paper-plane-tilt mr-2"></i>
+        <%= I18n.t("send") %>
+      </button>
+
+      <div id="resp_enviar"></div>
+    <% end %>
+  </div>
+</div>
+

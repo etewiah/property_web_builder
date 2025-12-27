@@ -115,7 +115,10 @@
       "Bash(asdf current:*)",
       "Bash(asdf list:*)",
       "WebFetch(domain:www.ruby-lang.org)",
-      "mcp__filesystem__read_multiple_files"
+      "mcp__filesystem__read_multiple_files",
+      "Bash(lsof:*)",
+      "WebSearch",
+      "Skill(theme-creation)"
     ],
     "deny": [],
     "ask": []

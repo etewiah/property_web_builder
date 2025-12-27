@@ -119,15 +119,16 @@ module Pwb
 
     # Get URL for the original file
     #
-    # Returns a direct CDN URL when CDN_IMAGES_URL is configured,
-    # otherwise returns a Rails redirect URL.
+    # Uses Rails representation URLs which work reliably in all environments.
+    # These redirect through the Rails app to the storage service.
     #
     # @return [String, nil] The URL to the original file
     def url
       return nil unless file.attached?
 
-      # Use direct URL from storage service (respects CDN_IMAGES_URL/R2_PUBLIC_URL)
-      file.url
+      # Use Rails blob URL for reliable access across all environments
+      # This generates a redirect URL that works with any storage backend
+      Rails.application.routes.url_helpers.rails_blob_path(file, only_path: true)
     rescue StandardError => e
       Rails.logger.warn "Failed to generate URL for Media##{id}: #{e.message}"
       nil
@@ -135,8 +136,8 @@ module Pwb
 
     # Get URL for a specific variant (images only)
     #
-    # Returns a direct CDN URL for the processed variant when CDN_IMAGES_URL
-    # is configured. The variant is processed on first request and cached.
+    # Uses Rails representation URLs which handle variant processing
+    # and redirect to the storage service.
     #
     # @param variant_name [Symbol] One of :thumb/:thumbnail, :small, :medium, :large
     # @return [String, nil] The URL to the variant
@@ -157,8 +158,8 @@ module Pwb
                   return url
                 end
 
-      # Process the variant and get direct CDN URL (respects CDN_IMAGES_URL/R2_PUBLIC_URL)
-      variant.processed.url
+      # Use Rails representation URL for reliable variant access
+      Rails.application.routes.url_helpers.rails_representation_path(variant.processed, only_path: true)
     rescue StandardError => e
       Rails.logger.warn "Failed to generate variant URL for Media##{id}: #{e.message}"
       url

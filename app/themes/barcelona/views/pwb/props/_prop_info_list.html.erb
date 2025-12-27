@@ -1,0 +1,100 @@
+<%# Barcelona Theme - Property Info List %>
+<%# Mediterranean design with coastal blues and warm accents %>
+
+<% cache [property_cache_key(@property_details, variant: "info"), @operation_type, "v1"] do %>
+<div class="bg-white rounded-softer shadow-soft border border-warm-100 overflow-hidden">
+  <div class="bg-gradient-to-r from-med-50 to-warm-50 px-6 py-4 border-b border-warm-100">
+    <h3 class="font-display text-xl font-bold text-warm-900 flex items-center">
+      <i class="ph ph-info text-med-600 mr-3"></i>
+      <%= I18n.t("property.details") %>
+    </h3>
+  </div>
+  
+  <div class="p-6">
+    <div class="overflow-x-auto">
+      <table class="min-w-full">
+        <tbody class="divide-y divide-warm-100">
+          <tr class="hover:bg-warm-50 transition-colors">
+            <td class="px-4 py-4 bg-warm-50/50 font-semibold text-warm-700 w-2/5 rounded-l-soft">
+              <i class="ph ph-hash text-med-500 mr-2"></i>
+              <%= I18n.t "property.ref" %>:
+            </td>
+            <td class="px-4 py-4 text-warm-900 font-medium">
+              <%= @property_details.reference %>
+            </td>
+          </tr>
+          
+          <% unless @show_vacational_rental %>
+            <tr class="hover:bg-warm-50 transition-colors">
+              <td class="px-4 py-4 bg-warm-50/50 font-semibold text-warm-700 rounded-l-soft">
+                <i class="ph ph-currency-circle-dollar text-med-500 mr-2"></i>
+                <%= I18n.t "property.price" %>:
+              </td>
+              <td class="px-4 py-4 text-med-600 font-display font-bold text-lg">
+                <%= @property_details.contextual_price_with_currency @operation_type %>
+              </td>
+            </tr>
+          <% end %>
+
+          <% if @show_vacational_rental && @property_details.price_rental_monthly_low_season_cents? %>
+            <tr class="hover:bg-warm-50 transition-colors">
+              <td class="px-4 py-4 bg-warm-50/50 font-semibold text-warm-700 rounded-l-soft">
+                <i class="ph ph-sun text-gold-500 mr-2"></i>
+                <%= I18n.t "property.monthlyRentalPriceLowSeason" %>:
+              </td>
+              <td class="px-4 py-4 text-warm-900 font-medium">
+                <%= money_without_cents_and_with_symbol @property_details.price_rental_monthly_low_season %>
+              </td>
+            </tr>
+          <% end %>
+          
+          <% if @show_vacational_rental && @property_details.price_rental_monthly_standard_season_cents? %>
+            <tr class="hover:bg-warm-50 transition-colors">
+              <td class="px-4 py-4 bg-warm-50/50 font-semibold text-warm-700 rounded-l-soft">
+                <i class="ph ph-sun-horizon text-gold-500 mr-2"></i>
+                <%= I18n.t "property.monthlyRentalPriceStandardSeason" %>:
+              </td>
+              <td class="px-4 py-4 text-warm-900 font-medium">
+                <%= money_without_cents_and_with_symbol @property_details.price_rental_monthly_standard_season %>
+              </td>
+            </tr>
+          <% end %>
+          
+          <% if @show_vacational_rental && @property_details.price_rental_monthly_high_season_cents? %>
+            <tr class="hover:bg-warm-50 transition-colors">
+              <td class="px-4 py-4 bg-warm-50/50 font-semibold text-warm-700 rounded-l-soft">
+                <i class="ph ph-sun-dim text-gold-500 mr-2"></i>
+                <%= I18n.t "property.monthlyRentalPriceHighSeason" %>:
+              </td>
+              <td class="px-4 py-4 text-warm-900 font-medium">
+                <%= money_without_cents_and_with_symbol @property_details.price_rental_monthly_high_season %>
+              </td>
+            </tr>
+          <% end %>
+
+          <tr class="hover:bg-warm-50 transition-colors">
+            <td class="px-4 py-4 bg-warm-50/50 font-semibold text-warm-700 rounded-l-soft">
+              <i class="ph ph-tag text-terra-500 mr-2"></i>
+              <%= I18n.t "property.operationType" %>:
+            </td>
+            <td class="px-4 py-4 text-warm-900 font-medium">
+              <%= I18n.t @operation_type_key %>
+            </td>
+          </tr>
+          
+          <tr class="hover:bg-warm-50 transition-colors">
+            <td class="px-4 py-4 bg-warm-50/50 font-semibold text-warm-700 rounded-l-soft">
+              <i class="ph ph-house-line text-terra-500 mr-2"></i>
+              <%= I18n.t "property.propertyType" %>:
+            </td>
+            <td class="px-4 py-4 text-warm-900 font-medium">
+              <%= t_or_unknown @property_details.prop_type_key %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<% end %>
+

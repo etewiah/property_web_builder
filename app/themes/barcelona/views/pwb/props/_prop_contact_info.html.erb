@@ -1,0 +1,59 @@
+<%# Barcelona Theme - Property Contact Info %>
+<%# Mediterranean design with coastal blues and warm accents %>
+
+<div class="bg-white rounded-softer overflow-hidden">
+  <div class="bg-gradient-to-r from-terra-500 to-terra-400 px-6 py-4">
+    <h2 class="font-display text-lg font-bold text-white flex items-center">
+      <i class="ph ph-address-book text-white mr-3"></i>
+      <%= I18n.t("webContentSections.contactInformation") %>
+    </h2>
+  </div>
+  <div class="p-6">
+    <h4 class="font-display font-bold text-warm-900 text-lg mb-4">
+      <%= @current_website.company_display_name.presence || @current_agency.company_name %>
+    </h4>
+    
+    <div class="mb-6 text-warm-600 leading-relaxed">
+      <% if @current_agency.street_number.present? || @current_agency.street_address.present? %>
+        <p class="flex items-start mb-2">
+          <i class="ph ph-map-pin text-terra-500 mr-2 mt-1 flex-shrink-0"></i>
+          <span>
+            <%= @current_agency.street_number %><%= ', ' if @current_agency.street_number.present? && @current_agency.street_address.present? %><%= @current_agency.street_address %>
+          </span>
+        </p>
+      <% end %>
+      <p class="flex items-start">
+        <i class="ph ph-buildings text-terra-500 mr-2 mt-1 flex-shrink-0"></i>
+        <span>
+          <%= @current_agency.city %>
+          <% if @current_agency.postal_code.present? %>
+            , <%= @current_agency.postal_code %>
+          <% end %>
+        </span>
+      </p>
+    </div>
+
+    <div class="space-y-3">
+      <% if @current_agency.phone_number_primary.present? %>
+        <a href="tel:<%= @current_agency.phone_number_primary %>" 
+           class="flex items-center text-warm-700 hover:text-med-600 transition-colors group">
+          <span class="w-10 h-10 flex items-center justify-center bg-med-100 rounded-full mr-3 group-hover:bg-med-200 transition-colors">
+            <i class="ph ph-phone text-med-600 text-lg"></i>
+          </span>
+          <span class="font-medium"><%= @current_agency.phone_number_primary %></span>
+        </a>
+      <% end %>
+      
+      <% if @current_agency.email_primary.present? %>
+        <a href="mailto:<%= @current_agency.email_primary %>" 
+           class="flex items-center text-warm-700 hover:text-med-600 transition-colors group">
+          <span class="w-10 h-10 flex items-center justify-center bg-sky-100 rounded-full mr-3 group-hover:bg-sky-200 transition-colors">
+            <i class="ph ph-envelope text-sky-600 text-lg"></i>
+          </span>
+          <span class="font-medium break-all"><%= @current_agency.email_primary %></span>
+        </a>
+      <% end %>
+    </div>
+  </div>
+</div>
+

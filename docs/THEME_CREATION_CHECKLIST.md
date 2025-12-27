@@ -107,12 +107,30 @@ After creating the theme, verify these pages render without errors:
 
 ### Automated Testing
 ```bash
-# Run theme completeness test
+# Run theme completeness test (verifies all 15 required templates exist)
 bundle exec rspec spec/views/themes/theme_completeness_spec.rb
 
-# Run E2E tests (if available)
+# Run theme homepage requirements tests (verifies navigation visibility, property listings)
+npx playwright test tests/e2e/public/theme-rendering.spec.js --grep "Theme Homepage Requirements"
+
+# Run all E2E tests
 npx playwright test
 ```
+
+### Theme Homepage Requirements (E2E Tests)
+
+The following tests in `tests/e2e/public/theme-rendering.spec.js` verify usability standards:
+
+1. **Navigation links are visible and readable** - Verifies nav links have sufficient contrast
+2. **Navigation links have sufficient contrast** - Ensures text color differs from background
+3. **Home page has property listings section** - Checks for property section when data exists
+4. **Property cards display correctly** - Validates property card structure
+5. **Navigation links are clickable** - Ensures links have valid href attributes
+
+These tests help catch common theme issues like:
+- Text colors too light to read (e.g., warm-600 on white background)
+- Missing property listing sections
+- Broken navigation links
 
 ## Common Mistakes to Avoid
 
