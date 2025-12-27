@@ -208,6 +208,32 @@ module Pwb
       end
     end
 
+    # ============================================
+    # URL Helper Methods
+    # ============================================
+
+    # Generate a URL-friendly title for use in property URLs
+    def url_friendly_title
+      # RealtyAsset stores title as nil (it's on the listing), use slug instead
+      slug.presence || reference.presence&.parameterize || 'show'
+    end
+
+    # Generate the contextual show path based on listing type
+    # @param rent_or_sale [String] 'for_rent' or 'for_sale'
+    # @return [String] URL path for viewing the property
+    def contextual_show_path(rent_or_sale)
+      rent_or_sale ||= for_rent? ? 'for_rent' : 'for_sale'
+      if rent_or_sale == 'for_rent'
+        Rails.application.routes.url_helpers.prop_show_for_rent_path(
+          locale: I18n.locale, id: id, url_friendly_title: url_friendly_title
+        )
+      else
+        Rails.application.routes.url_helpers.prop_show_for_sale_path(
+          locale: I18n.locale, id: id, url_friendly_title: url_friendly_title
+        )
+      end
+    end
+
     private
 
     def refresh_properties_view

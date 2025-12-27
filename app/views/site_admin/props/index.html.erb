@@ -41,8 +41,24 @@
         <% if @props.any? %>
           <% @props.each do |prop| %>
             <tr class="hover:bg-gray-50">
-              <td class="px-4 md:px-6 py-4">
+              <td class="px-4 md:px-6 py-2">
                 <div class="flex items-center">
+                  <%# Property Thumbnail %>
+                  <% primary_photo = prop.ordered_photo(1) %>
+                  <% if primary_photo&.has_image? %>
+                    <div class="flex-shrink-0 mr-3">
+                      <%= image_tag primary_photo.thumbnail_url(size: [48, 48]),
+                          class: 'w-12 h-12 rounded-lg object-cover',
+                          alt: prop.reference,
+                          loading: 'lazy' %>
+                    </div>
+                  <% else %>
+                    <div class="flex-shrink-0 mr-3 w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center">
+                      <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                  <% end %>
                   <div>
                     <div class="text-sm font-medium text-gray-900">
                       <%= prop.reference %>
@@ -53,7 +69,7 @@
                   </div>
                 </div>
               </td>
-              <td class="hidden sm:table-cell px-4 md:px-6 py-4 whitespace-nowrap">
+              <td class="hidden sm:table-cell px-4 md:px-6 py-2 whitespace-nowrap">
                 <div class="flex flex-col gap-1">
                   <% if prop.for_sale && prop.sale_listing_id.present? %>
                     <%= link_to edit_site_admin_prop_sale_listing_path(prop, prop.sale_listing_id),
@@ -88,7 +104,7 @@
                   <% end %>
                 </div>
               </td>
-              <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td class="px-4 md:px-6 py-2 whitespace-nowrap text-sm text-gray-500">
                 <% if prop.for_sale && prop.price_sale_current_cents.to_i > 0 %>
                   <%= number_to_currency(prop.price_sale_current_cents / 100.0, unit: prop.price_sale_current_currency || 'EUR', precision: 0) %>
                 <% elsif prop.for_rent && prop.price_rental_monthly_current_cents.to_i > 0 %>
@@ -97,10 +113,10 @@
                   -
                 <% end %>
               </td>
-              <td class="hidden lg:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td class="hidden lg:table-cell px-4 md:px-6 py-2 whitespace-nowrap text-sm text-gray-500">
                 <%= format_date(prop.created_at) %>
               </td>
-              <td class="px-4 md:px-6 py-4 whitespace-nowrap text-sm">
+              <td class="px-4 md:px-6 py-2 whitespace-nowrap text-sm">
                 <%= link_to 'View', site_admin_prop_path(prop), class: 'text-blue-600 hover:text-blue-800 mr-2 md:mr-3' %>
                 <%= link_to 'Edit', edit_site_admin_prop_path(prop), class: 'text-green-600 hover:text-green-800 mr-2 md:mr-3' %>
                 <span class="hidden sm:inline">
