@@ -4,13 +4,80 @@
   </div>
 
   <div class="bg-white rounded-lg shadow overflow-hidden">
+    <!-- Hero Thumbnail Section -->
+    <% primary_photo = @prop.prop_photos.first %>
+    <% if primary_photo && photo_has_image?(primary_photo) %>
+      <div class="relative h-64 bg-gray-100">
+        <%= photo_image_tag primary_photo, variant_options: { resize_to_limit: [800, 400] }, class: "w-full h-full object-cover" %>
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+          <div class="flex items-end justify-between">
+            <div>
+              <h1 class="text-2xl font-bold text-white drop-shadow-lg">
+                <%= @prop.title.presence || @prop.reference || 'Property Details' %>
+              </h1>
+              <% if @prop.reference.present? %>
+                <p class="text-sm text-white/80">Ref: <%= @prop.reference %></p>
+              <% end %>
+            </div>
+            <% if @prop.prop_photos.count > 1 %>
+              <%= link_to edit_photos_site_admin_prop_path(@prop), class: 'inline-flex items-center px-3 py-1.5 bg-white/90 backdrop-blur-sm text-gray-800 text-sm font-medium rounded-lg hover:bg-white transition-colors' do %>
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <%= @prop.prop_photos.count %> photos
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <!-- No Photo Placeholder -->
+      <div class="relative h-48 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+        <div class="text-center">
+          <svg class="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+          <p class="mt-2 text-sm text-gray-500">No photos yet</p>
+          <%= link_to 'Add Photos', edit_photos_site_admin_prop_path(@prop), class: 'mt-2 inline-flex items-center px-3 py-1.5 bg-white text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 shadow-sm' %>
+        </div>
+      </div>
+    <% end %>
+
     <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">
-          <%= @prop.title.presence || @prop.reference || 'Property Details' %>
-        </h1>
-        <% if @prop.reference.present? %>
-          <p class="text-sm text-gray-500">Ref: <%= @prop.reference %></p>
+        <% unless primary_photo && photo_has_image?(primary_photo) %>
+          <h1 class="text-2xl font-bold text-gray-900">
+            <%= @prop.title.presence || @prop.reference || 'Property Details' %>
+          </h1>
+          <% if @prop.reference.present? %>
+            <p class="text-sm text-gray-500">Ref: <%= @prop.reference %></p>
+          <% end %>
+        <% end %>
+        <!-- View on Main Site Links -->
+        <% if @prop.visible && (@prop.for_sale || @prop.for_rent) %>
+          <div class="<%= 'mt-2' unless primary_photo && photo_has_image?(primary_photo) %> flex flex-wrap items-center gap-2 text-sm">
+            <span class="text-gray-500">View on site:</span>
+            <% if @prop.for_sale %>
+              <%= link_to @prop.contextual_show_path('for_sale'), target: '_blank', class: 'inline-flex items-center text-blue-600 hover:text-blue-800 hover:underline' do %>
+                <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+                For Sale
+              <% end %>
+            <% end %>
+            <% if @prop.for_rent %>
+              <%= link_to @prop.contextual_show_path('for_rent'), target: '_blank', class: 'inline-flex items-center text-blue-600 hover:text-blue-800 hover:underline' do %>
+                <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+                For Rent
+              <% end %>
+            <% end %>
+          </div>
+        <% elsif !@prop.visible %>
+          <p class="<%= 'mt-2' unless primary_photo && photo_has_image?(primary_photo) %> text-sm text-gray-500 italic">
+            Property is hidden - make it visible to view on the main site
+          </p>
         <% end %>
       </div>
       <%= link_to 'Edit Property', edit_site_admin_prop_path(@prop), class: 'px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700' %>

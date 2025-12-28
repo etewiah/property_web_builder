@@ -7,9 +7,13 @@ module ListedProperty
     extend ActiveSupport::Concern
 
     included do
-      # Default scope to eager load commonly used associations
-      # Include image_attachment and blob for PropPhoto to avoid N+1 queries
-      scope :with_eager_loading, -> { includes(:website, prop_photos: { image_attachment: :blob }) }
+      # Eager load photos with their ActiveStorage attachments for efficient image access
+      # Note: Only include :website when you actually need to access prop.website
+      # Site admin views use current_website instead, so :website is usually not needed
+      scope :with_eager_loading, -> { includes(prop_photos: { image_attachment: :blob }) }
+
+      # Use this when you need both website and photos (e.g., cross-tenant operations)
+      scope :with_full_eager_loading, -> { includes(:website, prop_photos: { image_attachment: :blob }) }
 
       # Basic visibility and operation type scopes
       scope :visible, -> { where(visible: true) }
