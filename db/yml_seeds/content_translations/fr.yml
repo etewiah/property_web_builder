@@ -232,7 +232,5 @@ fr:
           <li>Service personnalisé</li>
           <li>Disponible 7 jours sur 7</li>
         </ul>
-      button_text: Planifier un Appel
-      button_link: "#contact-form"
       image: db/example_images/carousel_grass.jpg
       bg_style: light

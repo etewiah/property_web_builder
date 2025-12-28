@@ -78,28 +78,17 @@
             <% end %>
           <% end %>
 
-          <% if @show_admin_link %>
-            <li>
-              <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale),
-                  class: "block py-2 px-3 text-gray-700 hover:text-blue-600 md:p-0" %>
-            </li>
-          <% end %>
-
           <%# User dropdown - using Stimulus dropdown controller %>
           <% if current_user %>
             <li class="relative" data-controller="dropdown">
               <button type="button" class="flex items-center py-2 px-3 text-gray-700 hover:text-blue-600 md:p-0" data-action="dropdown#toggle">
-                <%= I18n.t "navbar.admin" %>
+                <%= current_user.email.split('@').first %>
                 <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                 </svg>
               </button>
               <div data-dropdown-target="menu" class="hidden absolute right-0 z-10 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200">
                 <ul class="py-2 text-sm text-gray-700">
-                  <li>
-                    <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale),
-                        class: "block px-4 py-2 hover:bg-gray-100" %>
-                  </li>
                   <li>
                     <%= link_to I18n.t("changePassword"), edit_user_registration_path(),
                         class: "block px-4 py-2 hover:bg-gray-100" %>

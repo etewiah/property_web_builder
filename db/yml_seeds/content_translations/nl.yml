@@ -206,8 +206,6 @@ nl:
           <li>Persoonlijke service</li>
           <li>7 dagen per week beschikbaar</li>
         </ul>
-      button_text: Plan een Gesprek
-      button_link: "#contact-form"
       image: db/example_images/carousel_grass.jpg
       bg_style: light
 

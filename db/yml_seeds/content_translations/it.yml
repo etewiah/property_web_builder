@@ -199,8 +199,6 @@ it:
           <li>Servizio personalizzato</li>
           <li>Disponibile 7 giorni su 7</li>
         </ul>
-      button_text: Prenota una Chiamata
-      button_link: "#contact-form"
       image: db/example_images/carousel_grass.jpg
       bg_style: light
 

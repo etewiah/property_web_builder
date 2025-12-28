@@ -232,7 +232,5 @@ de:
           <li>Persönlicher Service</li>
           <li>7 Tage die Woche erreichbar</li>
         </ul>
-      button_text: Gespräch Vereinbaren
-      button_link: "#contact-form"
       image: db/example_images/carousel_grass.jpg
       bg_style: light

@@ -69,15 +69,6 @@
           </div>
         <% end %>
 
-        <%# Contact CTA %>
-
-          <% if @show_admin_link %>
-            <div    class="h-10 bg-warm-gray-100 text-warm-gray-600 rounded-full hidden md:flex items-center justify-center hover:bg-warm-gray-200 transition-colors">
-              <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale),
-                  class: "block py-3 px-5 text-xs font-medium uppercase tracking-luxury text-luxury-navy hover:text-luxury-gold transition-all duration-300" %>
-            </div>
-          <% end %>
-
         <%# User Menu or Login %>
         <% if user_signed_in? %>
           <div class="relative">
@@ -92,12 +83,6 @@
                 <p class="text-sm font-medium text-warm-gray-900"><%= current_user.email %></p>
                 <p class="text-xs text-warm-gray-500">Signed in</p>
               </div>
-              <% if current_user.admin? %>
-                <a href="/site_admin" class="flex items-center px-4 py-2.5 text-sm text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600">
-                  <i class="ph ph-gear mr-3"></i>
-                  Admin Dashboard
-                </a>
-              <% end %>
               <a href="<%= edit_user_registration_path %>" class="flex items-center px-4 py-2.5 text-sm text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600">
                 <i class="ph ph-user-circle mr-3"></i>
                 Account Settings

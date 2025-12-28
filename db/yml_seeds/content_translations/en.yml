@@ -243,7 +243,5 @@ en:
           <li>Personalized service</li>
           <li>Available 7 days a week</li>
         </ul>
-      button_text: Schedule a Call
-      button_link: "#contact-form"
       image: db/example_images/carousel_grass.jpg
       bg_style: light

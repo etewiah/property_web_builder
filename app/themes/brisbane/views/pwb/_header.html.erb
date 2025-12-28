@@ -78,18 +78,11 @@
             <% end %>
           <% end %>
 
-          <% if @show_admin_link %>
-            <li>
-              <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale),
-                  class: "block py-3 px-5 text-xs font-medium uppercase tracking-luxury text-luxury-navy hover:text-luxury-gold transition-all duration-300" %>
-            </li>
-          <% end %>
-
           <% if current_user %>
             <li class="relative group md:ml-4">
               <button type="button" class="flex items-center py-2.5 px-5 text-xs font-medium uppercase tracking-luxury text-luxury-navy hover:text-luxury-gold transition-all duration-300 border border-luxury-navy/20 hover:border-luxury-gold" data-dropdown-toggle="user-dropdown">
                 <i class="fa fa-user mr-2"></i>
-                <%= I18n.t "navbar.admin" %>
+                <%= current_user.email.split('@').first %>
                 <svg class="w-3 h-3 ml-2" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                 </svg>
@@ -97,10 +90,6 @@
               <div id="user-dropdown" class="hidden absolute right-0 z-10 mt-2 w-56 bg-white shadow-hover border border-luxury-navy/10">
                 <ul class="py-1">
                   <li>
-                    <%= link_to I18n.t("navbar.admin"), admin_with_locale_path(locale: locale),
-                        class: "block px-5 py-3 text-xs uppercase tracking-wider text-luxury-charcoal hover:bg-luxury-pearl hover:text-luxury-gold transition-colors duration-300" %>
-                  </li>
-                  <li class="border-t border-luxury-navy/5">
                     <%= link_to I18n.t("changePassword"), edit_user_registration_path(),
                         class: "block px-5 py-3 text-xs uppercase tracking-wider text-luxury-charcoal hover:bg-luxury-pearl hover:text-luxury-gold transition-colors duration-300" %>
                   </li>

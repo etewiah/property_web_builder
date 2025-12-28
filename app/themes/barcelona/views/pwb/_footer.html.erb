@@ -114,6 +114,12 @@
               </li>
             <% end %>
           <% end %>
+          <li>
+            <%= link_to new_user_session_path, class: "text-med-300 hover:text-gold-400 transition-colors duration-200 flex items-center group" do %>
+              <i class="ph ph-caret-right text-xs mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+              <%= I18n.t("signIn") %>
+            <% end %>
+          </li>
         </ul>
       </div>
 

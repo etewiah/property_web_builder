@@ -105,10 +105,12 @@
           <% rescue StandardError %>
           <% end %>
           <% if target_path %>
-            <%= link_to page.link_title, target_path, 
+            <%= link_to page.link_title, target_path,
                 class: "text-[#D4D4D8] hover:text-[#FEF3C7] transition-colors font-medium" %>
           <% end %>
         <% end %>
+        <%= link_to I18n.t("signIn"), new_user_session_path,
+            class: "text-[#D4D4D8] hover:text-[#FEF3C7] transition-colors font-medium" %>
       </nav>
       
       <!-- Copyright & Attribution -->

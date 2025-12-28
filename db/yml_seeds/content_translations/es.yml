@@ -205,8 +205,6 @@ es:
           <li>Servicio personalizado</li>
           <li>Disponible 7 días a la semana</li>
         </ul>
-      button_text: Programar una Llamada
-      button_link: "#contact-form"
       image: db/example_images/carousel_grass.jpg
       bg_style: light
 
