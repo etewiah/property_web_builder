@@ -425,6 +425,143 @@ module Pwb
     end
 
     # ============================================
+    # Theme Availability Tests (WebsiteThemeable)
+    # ============================================
+
+    describe 'WebsiteThemeable concern' do
+      before do
+        # Set up tenant settings with default themes
+        Pwb::TenantSettings.delete_all
+        Pwb::TenantSettings.create!(
+          singleton_key: 'default',
+          default_available_themes: %w[default brisbane bologna]
+        )
+      end
+
+      describe '#accessible_theme_names' do
+        it 'returns tenant default themes when no website-specific themes set' do
+          website.available_themes = nil
+          expect(website.accessible_theme_names).to contain_exactly('default', 'brisbane', 'bologna')
+        end
+
+        it 'returns website-specific themes when set' do
+          website.available_themes = %w[default brisbane]
+          expect(website.accessible_theme_names).to contain_exactly('default', 'brisbane')
+        end
+
+        it 'always includes default theme' do
+          website.available_themes = %w[brisbane bologna]
+          expect(website.accessible_theme_names).to include('default')
+        end
+      end
+
+      describe '#accessible_themes' do
+        it 'returns Theme objects for accessible themes' do
+          website.available_themes = nil
+          themes = website.accessible_themes
+
+          expect(themes).to all(be_a(Pwb::Theme))
+          expect(themes.map(&:name)).to contain_exactly('default', 'brisbane', 'bologna')
+        end
+
+        it 'only returns enabled themes' do
+          website.available_themes = %w[default brisbane nonexistent]
+          themes = website.accessible_themes
+
+          expect(themes.map(&:name)).not_to include('nonexistent')
+        end
+      end
+
+      describe '#theme_accessible?' do
+        before do
+          website.available_themes = %w[default brisbane]
+        end
+
+        it 'returns true for accessible themes' do
+          expect(website.theme_accessible?('default')).to be true
+          expect(website.theme_accessible?('brisbane')).to be true
+        end
+
+        it 'returns false for inaccessible themes' do
+          expect(website.theme_accessible?('bologna')).to be false
+          expect(website.theme_accessible?('barcelona')).to be false
+        end
+
+        it 'always returns true for default theme' do
+          website.available_themes = %w[brisbane]
+          expect(website.theme_accessible?('default')).to be true
+        end
+
+        it 'handles symbol input' do
+          expect(website.theme_accessible?(:brisbane)).to be true
+        end
+      end
+
+      describe '#custom_theme_availability?' do
+        it 'returns true when website has custom themes' do
+          website.available_themes = %w[default brisbane]
+          expect(website.custom_theme_availability?).to be true
+        end
+
+        it 'returns false when using tenant defaults' do
+          website.available_themes = nil
+          expect(website.custom_theme_availability?).to be false
+        end
+
+        it 'returns false when available_themes is empty array' do
+          website.available_themes = []
+          expect(website.custom_theme_availability?).to be false
+        end
+      end
+
+      describe '#update_available_themes' do
+        it 'updates available themes' do
+          website.update_available_themes(%w[default brisbane])
+          expect(website.reload.available_themes).to eq(%w[default brisbane])
+        end
+
+        it 'rejects blank values' do
+          website.update_available_themes(['default', '', 'brisbane', nil])
+          expect(website.reload.available_themes).to eq(%w[default brisbane])
+        end
+      end
+
+      describe '#reset_to_default_themes' do
+        it 'clears website-specific themes' do
+          website.available_themes = %w[default brisbane]
+          website.save!
+
+          website.reset_to_default_themes
+
+          expect(website.reload.available_themes).to be_nil
+        end
+      end
+
+      describe 'theme validation' do
+        before do
+          website.available_themes = %w[default brisbane]
+          website.save!
+        end
+
+        it 'allows setting accessible themes' do
+          website.theme_name = 'brisbane'
+          expect(website).to be_valid
+        end
+
+        it 'prevents setting inaccessible themes' do
+          website.theme_name = 'bologna'
+          expect(website).not_to be_valid
+          expect(website.errors[:theme_name]).to include('is not available for this website')
+        end
+
+        it 'always allows default theme' do
+          website.theme_name = 'default'
+          expect(website).to be_valid
+        end
+      end
+    end
+
+    # ============================================
     # Social Media Link Tests (WebsiteSocialLinkable)
     # ============================================
 

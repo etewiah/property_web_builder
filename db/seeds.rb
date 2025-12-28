@@ -7,6 +7,17 @@ require_relative 'seeds/plans_seeds'
 # Seed subscription plans (needed in all environments)
 Pwb::PlansSeeder.seed!
 
+# Seed tenant settings with default available themes (needed in all environments)
+# Default themes: default (Bristol), brisbane, bologna
+puts "Seeding tenant settings..."
+tenant_settings = Pwb::TenantSettings.instance
+if tenant_settings.default_available_themes.blank?
+  tenant_settings.update!(default_available_themes: %w[default brisbane bologna])
+  puts "  Set default available themes: default, brisbane, bologna"
+else
+  puts "  Tenant settings already configured"
+end
+
 # Load environment-specific seeds
 case Rails.env
 when 'e2e'

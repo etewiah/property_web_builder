@@ -1,9 +1,15 @@
-
 # E2E Test Data Seeds
 # This file contains seed data specifically for Playwright end-to-end tests
 # Run with: RAILS_ENV=e2e bin/rails db:seed
 
 puts "🌱 Seeding E2E test data..."
+
+# Ensure tenant settings are configured with default themes
+# (should already be done by main seeds.rb, but ensure for e2e)
+puts "Configuring tenant settings..."
+tenant_settings = Pwb::TenantSettings.instance
+tenant_settings.update!(default_available_themes: %w[default brisbane bologna])
+puts "  Default available themes: default, brisbane, bologna"
 
 # Helper to seed using main YAML files
 def seed_for_website(website)
