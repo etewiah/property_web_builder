@@ -1,4 +1,5 @@
 <%= form_with model: @website, url: site_admin_website_settings_path, method: :patch, local: true do |f| %>
+  <%= hidden_field_tag :tab, 'seo' %>
   <div class="space-y-8">
     <!-- Basic SEO Settings -->
     <div class="bg-white rounded-lg shadow p-6">
