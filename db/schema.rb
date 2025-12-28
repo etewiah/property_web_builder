@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_27_182239) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_27_234829) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -408,6 +408,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_27_182239) do
     t.float "longitude"
     t.string "origin_email"
     t.string "origin_ip"
+    t.boolean "read", default: false, null: false
     t.string "title"
     t.datetime "updated_at", precision: nil, null: false
     t.string "url"

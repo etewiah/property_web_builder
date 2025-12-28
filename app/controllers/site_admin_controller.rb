@@ -27,6 +27,7 @@ class SiteAdminController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   before_action :require_admin!, unless: :bypass_admin_auth?
+  before_action :set_nav_counts
 
   layout 'site_admin'
 
@@ -67,5 +68,12 @@ class SiteAdminController < ActionController::Base
   # Set the current tenant for acts_as_tenant from the subdomain
   def set_tenant_from_subdomain
     ActsAsTenant.current_tenant = current_website
+  end
+
+  # Set navigation counts for badges (unread messages, etc.)
+  def set_nav_counts
+    return unless current_website
+
+    @unread_messages_count = Pwb::Message.where(website_id: current_website.id, read: false).count
   end
 end

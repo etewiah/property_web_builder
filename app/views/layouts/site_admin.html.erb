@@ -120,10 +120,87 @@
       <%= render 'layouts/site_admin/header' %>
 
       <!-- Content Area -->
-      <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-4 md:p-6">
+      <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-4 md:p-6 pb-20 md:pb-6">
         <%= render 'layouts/site_admin/flash' %>
         <%= yield %>
       </main>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 md:hidden z-40">
+      <div class="flex justify-around items-center h-16">
+        <%= link_to site_admin_root_path, class: "flex flex-col items-center justify-center flex-1 py-2 #{current_page?(site_admin_root_path) ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'}" do %>
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+          </svg>
+          <span class="text-xs mt-1">Home</span>
+        <% end %>
+
+        <%= link_to site_admin_props_path, class: "flex flex-col items-center justify-center flex-1 py-2 #{current_page?(site_admin_props_path) ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'}" do %>
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="text-xs mt-1">Properties</span>
+        <% end %>
+
+        <%= link_to site_admin_messages_path, class: "flex flex-col items-center justify-center flex-1 py-2 relative #{current_page?(site_admin_messages_path) ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'}" do %>
+          <div class="relative">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+            </svg>
+            <% if @unread_messages_count.to_i > 0 %>
+              <span class="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
+                <%= @unread_messages_count > 9 ? '9+' : @unread_messages_count %>
+              </span>
+            <% end %>
+          </div>
+          <span class="text-xs mt-1">Messages</span>
+        <% end %>
+
+        <%= link_to site_admin_pages_path, class: "flex flex-col items-center justify-center flex-1 py-2 #{current_page?(site_admin_pages_path) ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'}" do %>
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="text-xs mt-1">Pages</span>
+        <% end %>
+
+        <button @click="sidebarOpen = true" class="flex flex-col items-center justify-center flex-1 py-2 text-gray-500 hover:text-gray-700">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          <span class="text-xs mt-1">More</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Floating Action Button (Mobile) - Add New Property -->
+    <div class="fixed right-4 bottom-20 md:hidden z-50" x-data="{ open: false }">
+      <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute bottom-16 right-0 bg-white rounded-lg shadow-lg p-2 mb-2 min-w-max" @click.away="open = false">
+        <%= link_to new_site_admin_prop_path, class: "flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg" do %>
+          <svg class="w-5 h-5 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4z" clip-rule="evenodd"></path>
+          </svg>
+          <span>New Property</span>
+        <% end %>
+        <%= link_to site_admin_media_library_index_path, class: "flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg" do %>
+          <svg class="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
+          </svg>
+          <span>Upload Media</span>
+        <% end %>
+        <%= link_to site_admin_pages_path, class: "flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg" do %>
+          <svg class="w-5 h-5 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
+          </svg>
+          <span>Edit Pages</span>
+        <% end %>
+      </div>
+      <button @click="open = !open" class="w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-transform" :class="{ 'rotate-45': open }">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+      </button>
     </div>
   </div>
 

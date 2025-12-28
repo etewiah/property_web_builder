@@ -22,6 +22,7 @@ module Pwb
 #  longitude        :float
 #  origin_email     :string
 #  origin_ip        :string
+#  read             :boolean          default(FALSE), not null
 #  title            :string
 #  url              :string
 #  user_agent       :string
@@ -39,7 +40,6 @@ module Pwb
 #
 #  fk_rails_...  (website_id => pwb_websites.id)
 #
-  #
   class Message < ApplicationRecord
     self.table_name = 'pwb_messages'
 

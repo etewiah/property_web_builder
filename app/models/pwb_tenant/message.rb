@@ -23,6 +23,7 @@ module PwbTenant
 #  longitude        :float
 #  origin_email     :string
 #  origin_ip        :string
+#  read             :boolean          default(FALSE), not null
 #  title            :string
 #  url              :string
 #  user_agent       :string
@@ -40,7 +41,6 @@ module PwbTenant
 #
 #  fk_rails_...  (website_id => pwb_websites.id)
 #
-  #
   class Message < Pwb::Message
     include RequiresTenant
     acts_as_tenant :website, class_name: 'Pwb::Website'
