@@ -142,6 +142,7 @@ module Pwb
       email
       mail
       person
+      account_circle
       people
       group
       location_on
@@ -359,6 +360,12 @@ module Pwb
       "ph-chat-circle-text" => "chat",
       "ph-address-book" => "contacts",
 
+      # Material icon aliases (same icon, different names)
+      "keyboard_arrow_down" => "expand_more",
+      "keyboard_arrow_up" => "expand_less",
+      "keyboard_arrow_left" => "chevron_left",
+      "keyboard_arrow_right" => "chevron_right",
+
       # Semantic aliases
       bedroom: "bed",
       bedrooms: "bed",
@@ -412,6 +419,9 @@ module Pwb
     def normalize_icon_name(name)
       name = name.to_s.strip.downcase
 
+      # Check aliases first with original name (e.g., "ph-magnifying-glass")
+      return ICON_ALIASES[name]&.to_s if ICON_ALIASES.key?(name)
+
       # Remove legacy prefixes
       name = name.gsub(/^(fa|fas|fab|ph)\s+/, "")
       name = name.gsub(/^(fa-|ph-)/, "")
@@ -419,7 +429,7 @@ module Pwb
       # Convert to underscore format
       name = name.tr("-", "_")
 
-      # Check aliases
+      # Check aliases again with normalized name
       ICON_ALIASES[name.to_sym]&.to_s || ICON_ALIASES[name]&.to_s || name
     end
 
