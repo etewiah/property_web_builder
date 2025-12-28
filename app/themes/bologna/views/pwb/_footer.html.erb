@@ -1,12 +1,15 @@
 <%# Bologna Theme - Modern Minimal Footer %>
 <%# Warm, inviting design with soft curves and generous spacing %>
-<footer class="bg-warm-gray-900 text-warm-gray-300">
-  <!-- Wave Decoration - Organic Shape -->
-  <div class="relative -mb-1">
-    <svg class="w-full h-16 text-warm-gray-50 fill-current" viewBox="0 0 1440 64" preserveAspectRatio="none">
-      <path d="M0,32 C180,64 360,0 540,32 C720,64 900,0 1080,32 C1260,64 1440,32 1440,32 L1440,64 L0,64 Z"></path>
-    </svg>
-  </div>
+
+<!-- Wave Decoration - Transition from light content to dark footer -->
+<!-- Uses CSS variables from palette: --bologna-light (page bg) and --footer-bg-color (footer bg) -->
+<div class="relative -mb-px" style="background-color: var(--bologna-light);">
+  <svg class="w-full h-16 block" viewBox="0 0 1440 64" preserveAspectRatio="none" style="fill: var(--footer-bg-color);">
+    <path d="M0,32 C180,64 360,0 540,32 C720,64 900,0 1080,32 C1260,64 1440,32 1440,32 L1440,64 L0,64 Z"></path>
+  </svg>
+</div>
+
+<footer style="background-color: var(--footer-bg-color); color: var(--footer-text-color);">
 
   <!-- Main Footer Content -->
   <div class="container mx-auto px-6 py-16">
