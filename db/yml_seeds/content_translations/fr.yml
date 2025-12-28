@@ -73,9 +73,8 @@ fr:
         Le meilleur agent immobilier à Springfield
       landing_content_a: >
         <ul class="list-carousel">
-          <li><i class="fa fa-check-square">
-            </i> Personnel professionnel</li>
-          <li><i class="fa fa-check-square"></i> Nous vous trouverons la meilleure propriété sur le marché</li>
+          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span> Personnel professionnel</li>
+          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span> Nous vous trouverons la meilleure propriété sur le marché</li>
         </ul>
       landing_img:
         db/example_images/carousel_villa_with_pool.jpg
@@ -107,19 +106,19 @@ fr:
       section_pretitle: Nos Services
       section_title: Ce Que Nous Offrons
       section_subtitle: Services immobiliers complets adaptés à vos besoins
-      feature_1_icon: fa-home
+      feature_1_icon: home
       feature_1_title: Trouvez Votre Maison
       feature_1_description: >
         Dites-nous exactement ce que vous recherchez et nous trouverons cette propriété idéale
         qui répond à tous vos besoins et à votre budget.
       feature_1_link: /buy
-      feature_2_icon: fa-user
+      feature_2_icon: person
       feature_2_title: Agents Professionnels
       feature_2_description: >
         Nos agents expérimentés gèrent toutes les formalités et négociations,
         vous faisant gagner du temps et de l'argent tout au long du processus.
       feature_2_link: /about-us
-      feature_3_icon: fa-money
+      feature_3_icon: attach_money
       feature_3_title: Vendez Votre Propriété
       feature_3_description: >
         Obtenez le meilleur prix pour votre propriété avec nos stratégies marketing éprouvées

@@ -41,20 +41,20 @@
       <%# Property Features %>
       <div class="property-features flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
         <span class="flex items-center" title="<%= t('property.bedrooms', count: property.count_bedrooms) rescue 'Bedrooms' %>">
-          <i class="fa fa-bed mr-1.5 text-blue-500"></i>
+          <%= icon(:bed, size: :sm, class: "mr-1.5 text-blue-500") %>
           <%= property.count_bedrooms %>
         </span>
         <span class="flex items-center" title="<%= t('property.bathrooms', count: property.count_bathrooms) rescue 'Bathrooms' %>">
-          <i class="fa fa-shower mr-1.5 text-blue-500"></i>
+          <%= icon(:shower, size: :sm, class: "mr-1.5 text-blue-500") %>
           <%= property.count_bathrooms %>
         </span>
         <span class="flex items-center" title="<%= t('property.area', default: 'Area') %>">
-          <i class="fa fa-arrows-alt mr-1.5 text-blue-500"></i>
+          <%= icon(:fullscreen, size: :sm, class: "mr-1.5 text-blue-500") %>
           <%= property.constructed_area %><%= area_unit property %>
         </span>
         <% if property.count_garages && property.count_garages > 0 %>
           <span class="flex items-center" title="<%= t('property.garages', default: 'Garages') %>">
-            <i class="fa fa-car mr-1.5 text-blue-500"></i>
+            <%= icon(:directions_car, size: :sm, class: "mr-1.5 text-blue-500") %>
             <%= property.count_garages %>
           </span>
         <% end %>
@@ -68,7 +68,7 @@
         <%= link_to property.contextual_show_path(@operation_type),
             class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors" do %>
           <%= t "property.goToProperty" %>
-          <i class="fa fa-chevron-right ml-2"></i>
+          <%= icon(:chevron_right, size: :sm, class: "ml-2") %>
         <% end %>
       </div>
     </div>

@@ -15,7 +15,7 @@
         <div class="pwb-testimonial-card">
           <div class="pwb-testimonial-card__rating">
             {% for i in (1..5) %}
-              <i class="fa fa-star"></i>
+              {{ "star" | material_icon: "sm" }}
             {% endfor %}
           </div>
           <p class="pwb-testimonial-card__text">"{{ page_part.testimonial_1_text.content }}"</p>
@@ -38,7 +38,7 @@
         <div class="pwb-testimonial-card">
           <div class="pwb-testimonial-card__rating">
             {% for i in (1..5) %}
-              <i class="fa fa-star"></i>
+              {{ "star" | material_icon: "sm" }}
             {% endfor %}
           </div>
           <p class="pwb-testimonial-card__text">"{{ page_part.testimonial_2_text.content }}"</p>
@@ -61,7 +61,7 @@
         <div class="pwb-testimonial-card">
           <div class="pwb-testimonial-card__rating">
             {% for i in (1..5) %}
-              <i class="fa fa-star"></i>
+              {{ "star" | material_icon: "sm" }}
             {% endfor %}
           </div>
           <p class="pwb-testimonial-card__text">"{{ page_part.testimonial_3_text.content }}"</p>

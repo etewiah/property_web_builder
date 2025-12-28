@@ -18,13 +18,13 @@
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
           <li class="inline-flex items-center">
             <a href="/" class="text-stone-600 hover:text-amber-700 transition">
-              <i class="ph ph-house mr-1"></i>
+              <%= icon(:home, size: :sm, class: "mr-1") %>
               <%= I18n.t("webContentSections.home") %>
             </a>
           </li>
           <li>
             <div class="flex items-center">
-              <i class="ph ph-caret-right text-stone-400 mx-2"></i>
+              <%= icon(:chevron_right, size: :xs, class: "text-stone-400 mx-2") %>
               <span class="text-amber-700 font-medium">
                 <%= I18n.t("contactUs") %>
               </span>

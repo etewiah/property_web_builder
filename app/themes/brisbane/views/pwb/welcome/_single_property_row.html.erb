@@ -39,20 +39,20 @@
           <div class="px-6 pb-6 pt-4 border-t border-luxury-navy/10">
             <ul class="flex items-center justify-start space-x-6 text-sm text-luxury-charcoal/70">
               <li class="flex items-center">
-                <i class="fa fa-bed mr-2 text-luxury-gold"></i>
+                <%= icon(:bed, size: :sm, class: "mr-2 text-luxury-gold") %>
                 <span><%= format_bedroom_count(property.count_bedrooms) %></span>
               </li>
               <li class="flex items-center">
-                <i class="fa fa-bath mr-2 text-luxury-gold"></i>
+                <%= icon(:shower, size: :sm, class: "mr-2 text-luxury-gold") %>
                 <span><%= format_bathroom_count(property.count_bathrooms) %></span>
               </li>
               <li class="flex items-center">
-                <i class="fa fa-expand mr-2 text-luxury-gold"></i>
+                <%= icon(:fullscreen, size: :sm, class: "mr-2 text-luxury-gold") %>
                 <span><%= property.constructed_area %><%= area_unit property %></span>
               </li>
               <% if property.has_garage %>
                 <li class="flex items-center">
-                  <i class="fa fa-car mr-2 text-luxury-gold"></i>
+                  <%= icon(:directions_car, size: :sm, class: "mr-2 text-luxury-gold") %>
                   <span><%= property.count_garages %></span>
                 </li>
               <% end %>

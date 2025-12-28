@@ -60,32 +60,32 @@
             <!-- Property Features - Dark Icons & Text -->
             <div class="border-t-2 border-[#F5F5F4] pt-4">
               <ul class="flex items-center justify-between text-sm text-[#44403C]" role="list">
-                
+
                 <!-- Bedrooms -->
                 <li class="flex flex-col items-center" title="<%= format_bedroom_count(property.count_bedrooms) %> Bedrooms">
-                  <i class="fa fa-bed text-lg text-[#0369A1] mb-1" aria-hidden="true"></i>
+                  <%= icon(:bed, class: "text-lg text-[#0369A1] mb-1") %>
                   <span class="font-semibold text-[#1C1917]"><%= format_bedroom_count(property.count_bedrooms) %></span>
                   <span class="text-xs hidden sm:block">Beds</span>
                 </li>
 
                 <!-- Bathrooms -->
                 <li class="flex flex-col items-center" title="<%= format_bathroom_count(property.count_bathrooms) %> Bathrooms">
-                  <i class="fa fa-shower text-lg text-[#0369A1] mb-1" aria-hidden="true"></i>
+                  <%= icon(:shower, class: "text-lg text-[#0369A1] mb-1") %>
                   <span class="font-semibold text-[#1C1917]"><%= format_bathroom_count(property.count_bathrooms) %></span>
                   <span class="text-xs hidden sm:block">Baths</span>
                 </li>
-                
+
                 <!-- Area -->
                 <li class="flex flex-col items-center" title="<%= property.constructed_area %><%= area_unit property %>">
-                  <i class="fa fa-arrows-alt text-lg text-[#0369A1] mb-1" aria-hidden="true"></i>
+                  <%= icon(:fullscreen, class: "text-lg text-[#0369A1] mb-1") %>
                   <span class="font-semibold text-[#1C1917]"><%= property.constructed_area %></span>
                   <span class="text-xs hidden sm:block"><%= area_unit property %></span>
                 </li>
-                
+
                 <!-- Garage (if available) -->
                 <% if property.has_garage %>
                   <li class="flex flex-col items-center" title="<%= property.count_garages %> Garage Spaces">
-                    <i class="fa fa-car text-lg text-[#0369A1] mb-1" aria-hidden="true"></i>
+                    <%= icon(:directions_car, class: "text-lg text-[#0369A1] mb-1") %>
                     <span class="font-semibold text-[#1C1917]"><%= property.count_garages %></span>
                     <span class="text-xs hidden sm:block">Garage</span>
                   </li>

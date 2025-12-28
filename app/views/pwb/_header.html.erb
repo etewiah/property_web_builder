@@ -5,10 +5,10 @@
       <div class="row">
         <div class="col-sm-6 hidden-xs contacto_header">
           <% if @current_agency.phone_number_primary %>
-            <i class="fa fa-phone-square fa-lg"></i><%= @current_agency.phone_number_primary %> &nbsp;&nbsp;
+            <%= icon(:phone, size: :sm) %><%= @current_agency.phone_number_primary %> &nbsp;&nbsp;
           <% end %>
           <% if @current_agency.email_primary %>
-            <i class="fa fa-envelope fa-lg"></i><%= @current_agency.email_primary %>
+            <%= icon(:email, size: :sm) %><%= @current_agency.email_primary %>
           <% end %>
         </div>
         <div class="col-sm-6">
@@ -33,7 +33,7 @@
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <i class="fa fa-bars icon-custom"></i>
+            <%= icon(:menu, class: "icon-custom") %>
           </button>
           <%= link_to main_app.root_path(locale: locale), class: "navbar-brand" do %>
             <% if @current_website.logo_url  %>

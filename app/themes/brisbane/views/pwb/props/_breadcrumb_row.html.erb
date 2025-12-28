@@ -6,7 +6,7 @@
       <div class="w-full mb-2">
         <span class="inline-block">
           <a href="<%= @property_details.admin_url %>" class="text-blue-600 hover:text-blue-800">
-            <i class="fa fa-pencil"></i>
+            <%= icon(:edit, size: :sm) %>
             <%= I18n.t "labels.edit" %>
           </a>
         </span>

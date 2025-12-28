@@ -13,12 +13,12 @@
       <ol class="flex items-center space-x-2 text-sm">
         <li>
           <a href="<%= root_path %>" class="text-warm-gray-500 hover:text-terra-600 transition-colors">
-            <i class="ph ph-house mr-1"></i>
+            <%= icon(:home, size: :xs, class: "mr-1") %>
             <%= t('pwb.breadcrumb.home', default: 'Home') %>
           </a>
         </li>
         <li class="text-warm-gray-400">
-          <i class="ph ph-caret-right text-xs"></i>
+          <%= icon(:chevron_right, size: :xs) %>
         </li>
         <li>
           <a href="<%= @property_details.for_sale? ? localized_buy_path : localized_rent_path %>"
@@ -27,7 +27,7 @@
           </a>
         </li>
         <li class="text-warm-gray-400">
-          <i class="ph ph-caret-right text-xs"></i>
+          <%= icon(:chevron_right, size: :xs) %>
         </li>
         <li class="text-warm-gray-900 font-medium truncate max-w-[200px]">
           <%= @property_details.title %>
@@ -57,7 +57,7 @@
               </h1>
               <% if @property_details.respond_to?(:address_locality) && @property_details.address_locality.present? %>
                 <p class="flex items-center text-warm-gray-500">
-                  <i class="ph ph-map-pin text-terra-400 mr-2"></i>
+                  <%= icon(:location_on, size: :sm, class: "text-terra-400 mr-2") %>
                   <%= @property_details.address_locality %>
                 </p>
               <% end %>
@@ -82,7 +82,7 @@
         <div class="mb-10">
           <div class="flex items-center mb-6">
             <span class="w-12 h-12 flex items-center justify-center bg-terra-100 rounded-full mr-4">
-              <i class="ph ph-file-text text-terra-600 text-xl"></i>
+              <%= icon(:description, size: :md, class: "text-terra-600") %>
             </span>
             <h2 class="font-display text-2xl font-bold text-warm-gray-900">
               <%= t('property.description', default: 'Description') %>
@@ -98,7 +98,7 @@
           <div class="mb-10">
             <div class="flex items-center mb-6">
               <span class="w-12 h-12 flex items-center justify-center bg-olive-100 rounded-full mr-4">
-                <i class="ph ph-star text-olive-600 text-xl"></i>
+                <%= icon(:star, size: :md, class: "text-olive-600") %>
               </span>
               <h2 class="font-display text-2xl font-bold text-warm-gray-900">
                 <%= t('property.extras', default: 'Features & Amenities') %>
@@ -139,7 +139,7 @@
     <div class="property-detail-map-inner py-12">
       <div class="flex items-center mb-8">
         <span class="w-12 h-12 flex items-center justify-center bg-sand-100 rounded-full mr-4">
-          <i class="ph ph-map-trifold text-sand-600 text-xl"></i>
+          <%= icon(:map, size: :md, class: "text-sand-600") %>
         </span>
         <h2 class="font-display text-2xl font-bold text-warm-gray-900">
           <%= t('pwb.property.location', default: 'Location') %>

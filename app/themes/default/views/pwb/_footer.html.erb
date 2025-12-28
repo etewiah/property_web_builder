@@ -8,7 +8,7 @@
         <ul class="footer-contact-list">
           <% if @current_agency.phone_number_primary.present? %>
             <li class="footer-contact-item">
-              <i class="fa fa-phone footer-icon"></i>
+              <%= icon(:phone, class: "footer-icon") %>
               <a href="tel:<%= @current_agency.phone_number_primary %>" class="footer-link">
                 <%= @current_agency.phone_number_primary %>
               </a>
@@ -16,7 +16,7 @@
           <% end %>
           <% if @current_agency.email_primary.present? %>
             <li class="footer-contact-item">
-              <i class="fa fa-envelope footer-icon"></i>
+              <%= icon(:email, class: "footer-icon") %>
               <a href="mailto:<%= @current_agency.email_primary %>" class="footer-link">
                 <%= @current_agency.email_primary %>
               </a>
@@ -30,32 +30,32 @@
         <div class="footer-social-icons">
           <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
             <a href="<%= @current_website.social_media_facebook %>" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Follow us on Facebook">
-              <i class="fa fa-facebook fa-lg" aria-hidden="true"></i>
+              <%= brand_icon(:facebook, size: 24) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
             <a href="<%= @current_website.social_media_twitter %>" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Follow us on Twitter">
-              <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>
+              <%= brand_icon(:x, size: 24) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present? %>
             <a href="<%= @current_website.social_media_instagram %>" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Follow us on Instagram">
-              <i class="fa fa-instagram fa-lg" aria-hidden="true"></i>
+              <%= brand_icon(:instagram, size: 24) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
             <a href="<%= @current_website.social_media_linkedin %>" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Connect with us on LinkedIn">
-              <i class="fa fa-linkedin fa-lg" aria-hidden="true"></i>
+              <%= brand_icon(:linkedin, size: 24) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
             <a href="<%= @current_website.social_media_youtube %>" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Subscribe to our YouTube channel">
-              <i class="fa fa-youtube fa-lg" aria-hidden="true"></i>
+              <%= brand_icon(:youtube, size: 24) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_whatsapp) && @current_website.social_media_whatsapp.present? %>
             <a href="<%= @current_website.social_media_whatsapp %>" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="Contact us on WhatsApp">
-              <i class="fa fa-whatsapp fa-lg" aria-hidden="true"></i>
+              <%= brand_icon(:whatsapp, size: 24) %>
             </a>
           <% end %>
         </div>

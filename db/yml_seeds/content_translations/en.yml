@@ -78,9 +78,8 @@ en:
         The best realtor in Springfield
       landing_content_a: >
         <ul class="list-carousel">
-          <li><i class="fa fa-check-square">
-            </i> Professional staff</li>
-          <li><i class="fa fa-check-square"></i> We will find you the best property on the market</li>
+          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span> Professional staff</li>
+          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span> We will find you the best property on the market</li>
         </ul>
       landing_img:
         db/example_images/carousel_villa_with_pool.jpg
@@ -112,19 +111,19 @@ en:
       section_pretitle: Our Services
       section_title: What We Offer
       section_subtitle: Comprehensive real estate services tailored to your needs
-      feature_1_icon: fa-home
+      feature_1_icon: home
       feature_1_title: Find Your Home
       feature_1_description: >
         Tell us exactly what you're looking for and we'll find that ideal property
         that meets all your needs and budget.
       feature_1_link: /buy
-      feature_2_icon: fa-user
+      feature_2_icon: person
       feature_2_title: Professional Agents
       feature_2_description: >
         Our experienced agents handle all the paperwork and negotiations,
         saving you time and money throughout the process.
       feature_2_link: /about-us
-      feature_3_icon: fa-money
+      feature_3_icon: attach_money
       feature_3_title: Sell Your Property
       feature_3_description: >
         Get the best price for your property with our proven marketing strategies

@@ -73,9 +73,8 @@ de:
         Der beste Makler in Springfield
       landing_content_a: >
         <ul class="list-carousel">
-          <li><i class="fa fa-check-square">
-            </i> Professionelles Personal</li>
-          <li><i class="fa fa-check-square"></i> Wir finden Ihnen die beste Immobilie auf dem Markt</li>
+          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span> Professionelles Personal</li>
+          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span> Wir finden Ihnen die beste Immobilie auf dem Markt</li>
         </ul>
       landing_img:
         db/example_images/carousel_villa_with_pool.jpg
@@ -107,19 +106,19 @@ de:
       section_pretitle: Unsere Dienstleistungen
       section_title: Was Wir Anbieten
       section_subtitle: Umfassende Immobiliendienstleistungen, die auf Ihre Bedürfnisse zugeschnitten sind
-      feature_1_icon: fa-home
+      feature_1_icon: home
       feature_1_title: Finden Sie Ihr Zuhause
       feature_1_description: >
         Sagen Sie uns genau, was Sie suchen, und wir finden diese ideale Immobilie,
         die all Ihren Bedürfnissen und Ihrem Budget entspricht.
       feature_1_link: /buy
-      feature_2_icon: fa-user
+      feature_2_icon: person
       feature_2_title: Professionelle Makler
       feature_2_description: >
         Unsere erfahrenen Makler kümmern sich um alle Formalitäten und Verhandlungen
         und sparen Ihnen Zeit und Geld während des gesamten Prozesses.
       feature_2_link: /about-us
-      feature_3_icon: fa-money
+      feature_3_icon: attach_money
       feature_3_title: Verkaufen Sie Ihre Immobilie
       feature_3_description: >
         Erzielen Sie den besten Preis für Ihre Immobilie mit unseren bewährten Marketingstrategien

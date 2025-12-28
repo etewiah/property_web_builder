@@ -23,7 +23,7 @@
           <% else %>
             <div class="flex items-center space-x-3">
               <div class="w-12 h-12 bg-gradient-to-br from-gold-400 to-gold-500 rounded-soft flex items-center justify-center">
-                <i class="ph ph-house-line text-med-900 text-2xl"></i>
+                <%= icon(:home, class: "text-med-900 text-2xl") %>
               </div>
               <span class="font-display font-semibold text-2xl text-white">
                 <%= company_display_name %>
@@ -41,37 +41,37 @@
           <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
             <a href="<%= @current_website.social_media_facebook %>" target="_blank"
                class="w-11 h-11 flex items-center justify-center bg-med-700 text-med-300 rounded-full hover:bg-gold-500 hover:text-med-900 transition-all duration-300">
-              <i class="ph ph-facebook-logo text-lg"></i>
+              <%= brand_icon(:facebook, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
             <a href="<%= @current_website.social_media_twitter %>" target="_blank"
                class="w-11 h-11 flex items-center justify-center bg-med-700 text-med-300 rounded-full hover:bg-gold-500 hover:text-med-900 transition-all duration-300">
-              <i class="ph ph-x-logo text-lg"></i>
+              <%= brand_icon(:x, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
             <a href="<%= @current_website.social_media_linkedin %>" target="_blank"
                class="w-11 h-11 flex items-center justify-center bg-med-700 text-med-300 rounded-full hover:bg-gold-500 hover:text-med-900 transition-all duration-300">
-              <i class="ph ph-linkedin-logo text-lg"></i>
+              <%= brand_icon(:linkedin, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present? %>
             <a href="<%= @current_website.social_media_instagram %>" target="_blank"
                class="w-11 h-11 flex items-center justify-center bg-med-700 text-med-300 rounded-full hover:bg-gold-500 hover:text-med-900 transition-all duration-300">
-              <i class="ph ph-instagram-logo text-lg"></i>
+              <%= brand_icon(:instagram, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
             <a href="<%= @current_website.social_media_youtube %>" target="_blank"
                class="w-11 h-11 flex items-center justify-center bg-med-700 text-med-300 rounded-full hover:bg-gold-500 hover:text-med-900 transition-all duration-300">
-              <i class="ph ph-youtube-logo text-lg"></i>
+              <%= brand_icon(:youtube, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_whatsapp) && @current_website.social_media_whatsapp.present? %>
             <a href="<%= @current_website.social_media_whatsapp %>" target="_blank"
                class="w-11 h-11 flex items-center justify-center bg-med-700 text-med-300 rounded-full hover:bg-gold-500 hover:text-med-900 transition-all duration-300">
-              <i class="ph ph-whatsapp-logo text-lg"></i>
+              <%= brand_icon(:whatsapp, size: 20) %>
             </a>
           <% end %>
         </div>
@@ -85,13 +85,13 @@
         <ul class="space-y-3">
           <li>
             <a href="<%= localized_buy_path %>" class="text-med-300 hover:text-gold-400 transition-colors duration-200 flex items-center group">
-              <i class="ph ph-caret-right text-xs mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+              <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
               <%= t('pwb.navbar.buy', default: 'Buy') %>
             </a>
           </li>
           <li>
             <a href="<%= localized_rent_path %>" class="text-med-300 hover:text-gold-400 transition-colors duration-200 flex items-center group">
-              <i class="ph ph-caret-right text-xs mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+              <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
               <%= t('pwb.navbar.rent', default: 'Rent') %>
             </a>
           </li>
@@ -108,7 +108,7 @@
             <% if target_path %>
               <li>
                 <%= link_to target_path, class: "text-med-300 hover:text-gold-400 transition-colors duration-200 flex items-center group" do %>
-                  <i class="ph ph-caret-right text-xs mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                  <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
                   <%= page.link_title %>
                 <% end %>
               </li>
@@ -116,7 +116,7 @@
           <% end %>
           <li>
             <%= link_to "/pwb_login", class: "text-med-300 hover:text-gold-400 transition-colors duration-200 flex items-center group" do %>
-              <i class="ph ph-caret-right text-xs mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+              <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
               <%= I18n.t("signIn") %>
             <% end %>
           </li>
@@ -134,7 +134,7 @@
               <a href="tel:<%= @current_agency.phone_number_primary %>"
                  class="flex items-start text-med-300 hover:text-gold-400 transition-colors duration-200 group">
                 <span class="w-10 h-10 flex items-center justify-center bg-med-700 rounded-full mr-4 group-hover:bg-gold-500/20 transition-colors">
-                  <i class="ph ph-phone text-gold-400"></i>
+                  <%= icon(:phone, class: "text-gold-400") %>
                 </span>
                 <span class="pt-2"><%= @current_agency.phone_number_primary %></span>
               </a>
@@ -145,7 +145,7 @@
               <a href="mailto:<%= @current_agency.email_primary %>"
                  class="flex items-start text-med-300 hover:text-gold-400 transition-colors duration-200 group">
                 <span class="w-10 h-10 flex items-center justify-center bg-med-700 rounded-full mr-4 group-hover:bg-gold-500/20 transition-colors">
-                  <i class="ph ph-envelope-simple text-gold-400"></i>
+                  <%= icon(:email, class: "text-gold-400") %>
                 </span>
                 <span class="pt-2 break-all"><%= @current_agency.email_primary %></span>
               </a>
@@ -154,7 +154,7 @@
           <% if @current_agency.respond_to?(:full_address) && @current_agency.full_address.present? %>
             <li class="flex items-start text-med-300">
               <span class="w-10 h-10 flex items-center justify-center bg-med-700 rounded-full mr-4 flex-shrink-0">
-                <i class="ph ph-map-pin text-gold-400"></i>
+                <%= icon(:location_on, class: "text-gold-400") %>
               </span>
               <span class="pt-2 leading-relaxed"><%= @current_agency.full_address %></span>
             </li>
@@ -187,7 +187,7 @@
             <button type="submit"
                     class="w-full bg-gradient-to-r from-gold-400 to-gold-500 text-med-900 px-6 py-4 rounded-soft font-medium hover:from-gold-500 hover:to-gold-600 transition-all duration-300 flex items-center justify-center space-x-2">
               <span><%= t('pwb.footer.subscribe', default: 'Subscribe') %></span>
-              <i class="ph ph-paper-plane-right"></i>
+              <%= icon(:send, size: :sm) %>
             </button>
           </form>
         <% end %>

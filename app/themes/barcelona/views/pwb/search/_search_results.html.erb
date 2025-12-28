@@ -3,7 +3,7 @@
   <% unless @properties && (@properties.size > 0) %>
     <div class="rounded-softer p-12 text-center my-6 border border-warm-200" style="background: linear-gradient(135deg, #FEFCF9 0%, #eff6ff 100%);">
       <div class="inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 bg-med-100">
-        <i class="ph ph-magnifying-glass text-4xl text-med-400"></i>
+        <%= icon(:search, size: :xl, class: "text-med-400") %>
       </div>
       <h4 class="text-2xl font-display font-bold text-warm-900 mb-3">
         <%= I18n.t "noResultsForSearch", default: "No properties found" %>
@@ -13,7 +13,7 @@
       </p>
       <button class="inline-flex items-center px-6 py-3 text-white font-semibold rounded-soft transition-all duration-200 bg-med-500 hover:bg-med-600 shadow-soft hover:shadow-medium"
               onclick="clearSearchFilters()">
-        <i class="ph ph-arrows-counter-clockwise mr-2"></i>
+        <%= icon(:refresh, size: :sm, class: "mr-2") %>
         <%= I18n.t "clearFilters", default: "Clear All Filters" %>
       </button>
       <script>
@@ -54,7 +54,7 @@
                       use_picture: true, alt: property.title.presence || "Property listing") %>
                 <% else %>
                   <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-warm-100 to-warm-200">
-                    <i class="ph ph-image text-6xl text-warm-400"></i>
+                    <%= icon(:image, size: :xl, class: "text-warm-400") %>
                   </div>
                 <% end %>
                 <!-- Overlay gradient -->
@@ -66,7 +66,7 @@
             <div class="absolute top-4 left-4 flex flex-col gap-2">
               <% if property.highlighted %>
                 <span class="inline-flex items-center px-3 py-1 text-xs font-bold rounded-soft text-white bg-gold-500">
-                  <i class="ph ph-star-fill mr-1"></i>
+                  <%= icon(:star, size: :xs, class: "mr-1") %>
                   <%= I18n.t "property.featured", default: "Featured" %>
                 </span>
               <% end %>
@@ -102,28 +102,28 @@
             <div class="flex flex-wrap items-center gap-x-6 gap-y-2 py-4 border-t border-b border-warm-100 mb-4">
               <% if property.count_bedrooms && property.count_bedrooms > 0 %>
                 <span class="flex items-center text-sm text-warm-600">
-                  <i class="ph ph-bed text-lg mr-2 text-med-500"></i>
+                  <%= icon(:bed, size: :sm, class: "mr-2 text-med-500") %>
                   <span class="font-semibold"><%= format_bedroom_count(property.count_bedrooms) %></span>
                   <span class="ml-1 text-warm-400"><%= I18n.t("beds", default: "Beds") %></span>
                 </span>
               <% end %>
               <% if property.count_bathrooms && property.count_bathrooms > 0 %>
                 <span class="flex items-center text-sm text-warm-600">
-                  <i class="ph ph-shower text-lg mr-2 text-med-500"></i>
+                  <%= icon(:shower, size: :sm, class: "mr-2 text-med-500") %>
                   <span class="font-semibold"><%= format_bathroom_count(property.count_bathrooms) %></span>
                   <span class="ml-1 text-warm-400"><%= I18n.t("baths", default: "Baths") %></span>
                 </span>
               <% end %>
               <% if property.constructed_area && property.constructed_area > 0 %>
                 <span class="flex items-center text-sm text-warm-600">
-                  <i class="ph ph-ruler text-lg mr-2 text-med-500"></i>
+                  <%= icon(:straighten, size: :sm, class: "mr-2 text-med-500") %>
                   <span class="font-semibold"><%= property.constructed_area %></span>
                   <span class="ml-1 text-warm-400"><%= area_unit property %></span>
                 </span>
               <% end %>
               <% if property.count_garages && property.count_garages > 0 %>
                 <span class="flex items-center text-sm text-warm-600">
-                  <i class="ph ph-car text-lg mr-2 text-med-500"></i>
+                  <%= icon(:directions_car, size: :sm, class: "mr-2 text-med-500") %>
                   <span class="font-semibold"><%= property.count_garages %></span>
                   <span class="ml-1 text-warm-400"><%= I18n.t("garage", default: "Garage") %></span>
                 </span>
@@ -141,7 +141,7 @@
               <%= link_to property.contextual_show_path(@operation_type),
                   class: "inline-flex items-center px-5 py-2.5 font-semibold rounded-soft transition-all duration-200 text-white bg-med-500 hover:bg-med-600 shadow-soft hover:shadow-medium" do %>
                 <%= I18n.t "property.viewDetails", default: "View Details" %>
-                <i class="ph ph-arrow-right ml-2"></i>
+                <%= icon(:arrow_forward, size: :sm, class: "ml-2") %>
               <% end %>
             </div>
           </div>

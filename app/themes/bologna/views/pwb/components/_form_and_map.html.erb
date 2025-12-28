@@ -4,7 +4,7 @@
   <div class="order-2 lg:order-1">
     <div class="bg-stone-50 rounded-2xl p-6 lg:p-8 shadow-sm border border-stone-200">
       <h2 class="text-2xl font-bold text-stone-800 mb-2">
-        <i class="ph ph-envelope text-amber-600 mr-2"></i>
+        <%= icon(:email, size: :md, class: "text-amber-600 mr-2") %>
         <%= I18n.t("sendUsAMessage", default: "Send us a message") %>
       </h2>
       <p class="text-stone-600 mb-6">
@@ -19,13 +19,13 @@
     <!-- Contact Information Card -->
     <div class="rounded-2xl p-6 lg:p-8 text-white shadow-lg" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%);">
       <h2 class="text-2xl font-bold mb-6">
-        <i class="ph ph-map-pin mr-2"></i>
+        <%= icon(:location_on, size: :md, class: "mr-2") %>
         <%= I18n.t("contactInformation", default: "Contact Information") %>
       </h2>
 
       <div class="space-y-4">
         <div class="flex items-start">
-          <i class="ph ph-buildings text-xl mr-3 mt-1" style="color: #fde68a;"></i>
+          <%= icon(:apartment, size: :md, class: "mr-3 mt-1", style: "color: #fde68a;") %>
           <div>
             <p class="font-semibold"><%= @current_agency.display_name %></p>
             <p style="color: #fef3c7;">
@@ -39,7 +39,7 @@
 
         <% if @current_agency.phone_number_primary.present? %>
           <div class="flex items-center">
-            <i class="ph ph-phone text-xl mr-3" style="color: #fde68a;"></i>
+            <%= icon(:phone, size: :md, class: "mr-3", style: "color: #fde68a;") %>
             <div>
               <p class="text-sm" style="color: #fef3c7;"><%= I18n.t("telephone", default: "Telephone") %></p>
               <a href="tel:<%= @current_agency.phone_number_primary %>" class="font-semibold hover:opacity-80 transition">
@@ -51,7 +51,7 @@
 
         <% if @current_agency.email_primary.present? %>
           <div class="flex items-center">
-            <i class="ph ph-envelope text-xl mr-3" style="color: #fde68a;"></i>
+            <%= icon(:email, size: :md, class: "mr-3", style: "color: #fde68a;") %>
             <div>
               <p class="text-sm" style="color: #fef3c7;"><%= I18n.t("email", default: "Email") %></p>
               <a href="mailto:<%= @current_agency.email_primary %>" class="font-semibold hover:opacity-80 transition">

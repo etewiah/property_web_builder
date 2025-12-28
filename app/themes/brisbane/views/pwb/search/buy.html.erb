@@ -58,7 +58,7 @@
                     data-search-target="filterToggle"
                     aria-expanded="false"
                     aria-controls="sidebar-filters">
-              <i class="fa fa-filter mr-2"></i> <%= I18n.t("filter", default: "Filters") %>
+              <%= icon(:filter_list, size: :sm, class: "mr-2") %> <%= I18n.t("filter", default: "Filters") %>
               <% if @search_criteria_for_view.present? %>
                 <% active_count = @search_criteria_for_view.reject { |k, v| v.blank? || k == :page }.size %>
                 <% if active_count > 0 %>

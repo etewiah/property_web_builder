@@ -17,13 +17,13 @@
             <img src="{{ page_part.member_1_image.content | default: '/assets/placeholder-avatar.png' }}" alt="{{ page_part.member_1_name.content }}">
             <div class="pwb-team-card__social">
               {% if page_part.member_1_linkedin.content %}
-                <a href="{{ page_part.member_1_linkedin.content }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+                <a href="{{ page_part.member_1_linkedin.content }}" target="_blank">{{ "linkedin" | brand_icon }}</a>
               {% endif %}
               {% if page_part.member_1_email.content %}
-                <a href="mailto:{{ page_part.member_1_email.content }}"><i class="fa fa-envelope"></i></a>
+                <a href="mailto:{{ page_part.member_1_email.content }}">{{ "email" | material_icon }}</a>
               {% endif %}
               {% if page_part.member_1_phone.content %}
-                <a href="tel:{{ page_part.member_1_phone.content }}"><i class="fa fa-phone"></i></a>
+                <a href="tel:{{ page_part.member_1_phone.content }}">{{ "phone" | material_icon }}</a>
               {% endif %}
             </div>
           </div>
@@ -44,10 +44,10 @@
             <img src="{{ page_part.member_2_image.content | default: '/assets/placeholder-avatar.png' }}" alt="{{ page_part.member_2_name.content }}">
             <div class="pwb-team-card__social">
               {% if page_part.member_2_linkedin.content %}
-                <a href="{{ page_part.member_2_linkedin.content }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+                <a href="{{ page_part.member_2_linkedin.content }}" target="_blank">{{ "linkedin" | brand_icon }}</a>
               {% endif %}
               {% if page_part.member_2_email.content %}
-                <a href="mailto:{{ page_part.member_2_email.content }}"><i class="fa fa-envelope"></i></a>
+                <a href="mailto:{{ page_part.member_2_email.content }}">{{ "email" | material_icon }}</a>
               {% endif %}
             </div>
           </div>
@@ -65,10 +65,10 @@
             <img src="{{ page_part.member_3_image.content | default: '/assets/placeholder-avatar.png' }}" alt="{{ page_part.member_3_name.content }}">
             <div class="pwb-team-card__social">
               {% if page_part.member_3_linkedin.content %}
-                <a href="{{ page_part.member_3_linkedin.content }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+                <a href="{{ page_part.member_3_linkedin.content }}" target="_blank">{{ "linkedin" | brand_icon }}</a>
               {% endif %}
               {% if page_part.member_3_email.content %}
-                <a href="mailto:{{ page_part.member_3_email.content }}"><i class="fa fa-envelope"></i></a>
+                <a href="mailto:{{ page_part.member_3_email.content }}">{{ "email" | material_icon }}</a>
               {% endif %}
             </div>
           </div>
@@ -86,10 +86,10 @@
             <img src="{{ page_part.member_4_image.content | default: '/assets/placeholder-avatar.png' }}" alt="{{ page_part.member_4_name.content }}">
             <div class="pwb-team-card__social">
               {% if page_part.member_4_linkedin.content %}
-                <a href="{{ page_part.member_4_linkedin.content }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+                <a href="{{ page_part.member_4_linkedin.content }}" target="_blank">{{ "linkedin" | brand_icon }}</a>
               {% endif %}
               {% if page_part.member_4_email.content %}
-                <a href="mailto:{{ page_part.member_4_email.content }}"><i class="fa fa-envelope"></i></a>
+                <a href="mailto:{{ page_part.member_4_email.content }}">{{ "email" | material_icon }}</a>
               {% endif %}
             </div>
           </div>

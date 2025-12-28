@@ -47,9 +47,8 @@ nl:
         The best realtor in Springfield
       landing_content_a: >
         <ul class="list-carousel">
-          <li><i class="fa fa-check-square">
-            </i> Professional staff</li>   
-          <li><i class="fa fa-check-square"></i> We will find you the best property on the market</li>
+          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span> Professional staff</li>
+          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span> We will find you the best property on the market</li>
         </ul>
       landing_img:
         db/example_images/carousel_villa_with_pool.jpg
@@ -81,19 +80,19 @@ nl:
       section_pretitle: Onze Diensten
       section_title: Wat Wij Bieden
       section_subtitle: Uitgebreide vastgoeddiensten op maat van jouw behoeften
-      feature_1_icon: fa-home
+      feature_1_icon: home
       feature_1_title: Vind Je Woning
       feature_1_description: >
         Vertel ons precies wat je zoekt en wij vinden die ideale woning
         die aan al je wensen en budget voldoet.
       feature_1_link: /buy
-      feature_2_icon: fa-user
+      feature_2_icon: person
       feature_2_title: Professionele Makelaars
       feature_2_description: >
         Onze ervaren makelaars regelen alle papierwerk en onderhandelingen,
         waardoor je tijd en geld bespaart tijdens het hele proces.
       feature_2_link: /about-us
-      feature_3_icon: fa-money
+      feature_3_icon: attach_money
       feature_3_title: Verkoop Je Woning
       feature_3_description: >
         Krijg de beste prijs voor je woning met onze bewezen marketingstrategieën

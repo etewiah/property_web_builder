@@ -13,7 +13,7 @@
         <% else %>
           <div class="flex items-center space-x-2">
             <div class="w-10 h-10 bg-gradient-to-br from-terra-400 to-terra-600 rounded-soft flex items-center justify-center">
-              <i class="ph ph-house-line text-white text-xl"></i>
+              <%= icon(:home, size: :md, class: "text-white") %>
             </div>
             <span class="font-display font-semibold text-xl text-warm-gray-900 hidden sm:block">
               <%= company_display_name %>
@@ -52,9 +52,9 @@
             <button type="button"
                     class="flex items-center space-x-1 px-3 py-2 text-sm text-warm-gray-500 hover:text-warm-gray-700 rounded-soft hover:bg-warm-gray-100 transition-colors"
                     data-dropdown-toggle="language-dropdown">
-              <i class="ph ph-globe text-lg"></i>
+              <%= icon(:language, size: :sm) %>
               <span class="uppercase text-xs font-medium"><%= I18n.locale %></span>
-              <i class="ph ph-caret-down text-xs"></i>
+              <%= icon(:keyboard_arrow_down, size: :xs) %>
             </button>
             <div id="language-dropdown"
                  class="hidden absolute right-0 mt-2 w-40 bg-white rounded-soft shadow-elevated border border-warm-gray-100 py-2 z-50">
@@ -75,7 +75,7 @@
             <button type="button"
                     class="w-10 h-10 bg-olive-100 text-olive-600 rounded-full flex items-center justify-center hover:bg-olive-200 transition-colors"
                     data-dropdown-toggle="user-dropdown">
-              <i class="ph ph-user text-lg"></i>
+              <%= icon(:person, size: :sm) %>
             </button>
             <div id="user-dropdown"
                  class="hidden absolute right-0 mt-2 w-56 bg-white rounded-soft shadow-elevated border border-warm-gray-100 py-2 z-50">
@@ -84,12 +84,12 @@
                 <p class="text-xs text-warm-gray-500">Signed in</p>
               </div>
               <a href="<%= edit_user_registration_path %>" class="flex items-center px-4 py-2.5 text-sm text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600">
-                <i class="ph ph-user-circle mr-3"></i>
+                <%= icon(:account_circle, size: :sm, class: "mr-3") %>
                 Account Settings
               </a>
               <div class="border-t border-warm-gray-100 mt-1 pt-1">
                 <%= link_to destroy_user_session_path, method: :delete, class: "flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50" do %>
-                  <i class="ph ph-sign-out mr-3"></i>
+                  <%= icon(:logout, size: :sm, class: "mr-3") %>
                   Sign Out
                 <% end %>
               </div>
@@ -103,7 +103,7 @@
                 data-collapse-toggle="navbar-main"
                 aria-controls="navbar-main"
                 aria-expanded="false">
-          <i class="ph ph-list text-xl"></i>
+          <%= icon(:menu, size: :md) %>
         </button>
       </div>
     </div>

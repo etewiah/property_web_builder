@@ -25,7 +25,7 @@
               <a href="tel:<%= @current_agency.phone_number_primary %>"
                  class="biarritz-footer-link flex items-center transition-colors group">
                 <span class="biarritz-footer-icon w-10 h-10 flex items-center justify-center rounded-lg mr-3 transition-colors">
-                  <i class="fa fa-phone" aria-hidden="true"></i>
+                  <%= icon(:phone) %>
                 </span>
                 <span class="font-medium"><%= @current_agency.phone_number_primary %></span>
               </a>
@@ -37,7 +37,7 @@
               <a href="mailto:<%= @current_agency.email_primary %>"
                  class="biarritz-footer-link flex items-center transition-colors group">
                 <span class="biarritz-footer-icon w-10 h-10 flex items-center justify-center rounded-lg mr-3 transition-colors">
-                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                  <%= icon(:email) %>
                 </span>
                 <span class="font-medium"><%= @current_agency.email_primary %></span>
               </a>
@@ -66,7 +66,7 @@
                rel="noopener noreferrer"
                class="biarritz-social-icon w-12 h-12 flex items-center justify-center rounded-lg transition-all"
                aria-label="Follow us on <%= social[:label] %>">
-              <i class="fa fa-<%= social[:icon] %> text-lg" aria-hidden="true"></i>
+              <%= brand_icon(social[:icon] == 'twitter' ? :x : social[:icon].to_sym, size: 20) %>
             </a>
           <% end %>
         </div>

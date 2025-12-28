@@ -38,13 +38,13 @@
       <!-- Slider controls -->
       <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
         <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/40 backdrop-blur-sm group-hover:bg-white/60 transition-all shadow-soft">
-          <i class="ph ph-caret-left text-warm-900 text-2xl"></i>
+          <%= icon(:chevron_left, size: :lg, class: "text-warm-900") %>
           <span class="sr-only">Previous</span>
         </span>
       </button>
       <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
         <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/40 backdrop-blur-sm group-hover:bg-white/60 transition-all shadow-soft">
-          <i class="ph ph-caret-right text-warm-900 text-2xl"></i>
+          <%= icon(:chevron_right, size: :lg, class: "text-warm-900") %>
           <span class="sr-only">Next</span>
         </span>
       </button>
@@ -56,7 +56,7 @@
     <div class="flex flex-wrap items-center justify-center gap-8 text-warm-700">
       <div class="flex items-center space-x-2">
         <span class="w-10 h-10 flex items-center justify-center bg-med-100 rounded-full">
-          <i class="ph ph-arrows-out text-med-600 text-lg"></i>
+          <%= icon(:fullscreen, size: :sm, class: "text-med-600") %>
         </span>
         <div class="flex flex-col">
           <span class="text-xs text-warm-500 font-medium"><%= I18n.t("property.area", default: "Area") %></span>
@@ -65,7 +65,7 @@
       </div>
       <div class="flex items-center space-x-2">
         <span class="w-10 h-10 flex items-center justify-center bg-terra-100 rounded-full">
-          <i class="ph ph-bed text-terra-600 text-lg"></i>
+          <%= icon(:bed, size: :sm, class: "text-terra-600") %>
         </span>
         <div class="flex flex-col">
           <span class="text-xs text-warm-500 font-medium"><%= I18n.t("property.bedrooms_short", default: "Beds") %></span>
@@ -74,7 +74,7 @@
       </div>
       <div class="flex items-center space-x-2">
         <span class="w-10 h-10 flex items-center justify-center bg-sky-100 rounded-full">
-          <i class="ph ph-shower text-sky-600 text-lg"></i>
+          <%= icon(:shower, size: :sm, class: "text-sky-600") %>
         </span>
         <div class="flex flex-col">
           <span class="text-xs text-warm-500 font-medium"><%= I18n.t("property.bathrooms_short", default: "Baths") %></span>
@@ -84,7 +84,7 @@
       <% if @property_details.has_garage %>
         <div class="flex items-center space-x-2">
           <span class="w-10 h-10 flex items-center justify-center bg-gold-100 rounded-full">
-            <i class="ph ph-car text-gold-600 text-lg"></i>
+            <%= icon(:directions_car, size: :sm, class: "text-gold-600") %>
           </span>
           <div class="flex flex-col">
             <span class="text-xs text-warm-500 font-medium"><%= I18n.t("property.garage", default: "Garage") %></span>

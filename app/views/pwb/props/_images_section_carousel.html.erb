@@ -25,10 +25,10 @@
     </div>
     <!-- Controls -->
     <a class="left carousel-control" href="#propCarousel" data-slide="prev">
-      <i class="fa fa-angle-left"></i>
+      <%= icon(:chevron_left, size: :lg) %>
     </a>
     <a class="right carousel-control" href="#propCarousel" data-slide="next">
-      <i class="fa fa-angle-right"></i>
+      <%= icon(:chevron_right, size: :lg) %>
     </a>
   </div>
   <div class="thumbnail-images" style="display:none;">
@@ -38,18 +38,18 @@
     <div class="wp-block-content clearfix">
       <div class="wp-block-footer style2">
         <ul class="aux-info">
-          <li><i class="fa fa-arrows-alt"></i>
+          <li><%= icon(:fullscreen) %>
             <%= @property_details.constructed_area %><%= area_unit @property_details %>
           </li>
-          <li><i class="fa fa-bed"></i>
+          <li><%= icon(:bed) %>
             <%= format_bedroom_count(@property_details.count_bedrooms) %>
           </li>
-          <li><i class="fa fa-shower"></i>
+          <li><%= icon(:shower) %>
             <%= format_bathroom_count(@property_details.count_bathrooms) %>
           </li>
           <li>
             <% if @property_details.has_garage %>
-              <i class="fa fa-car"></i>
+              <%= icon(:directions_car) %>
               <%= @property_details.count_garages %>
             <% end %>
           </li>

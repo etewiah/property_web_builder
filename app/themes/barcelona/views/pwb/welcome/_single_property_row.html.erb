@@ -19,7 +19,7 @@
       <a href="<%= rent_or_sale == 'for_sale' ? localized_buy_path : localized_rent_path %>"
          class="inline-flex items-center text-med-600 font-medium hover:text-med-700 transition-colors group">
         <span><%= t('pwb.properties.view_all', default: 'View All Properties') %></span>
-        <i class="ph ph-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+        <%= icon(:arrow_forward, size: :sm, class: "ml-2 group-hover:translate-x-1 transition-transform") %>
       </a>
     </div>
 
@@ -65,7 +65,7 @@
 
             <% if property.respond_to?(:address_locality) && property.address_locality.present? %>
               <p class="flex items-center text-warm-500 text-sm mb-4">
-                <i class="ph ph-map-pin mr-2 text-gold-500"></i>
+                <%= icon(:location_on, size: :sm, class: "mr-2 text-gold-500") %>
                 <%= property.address_locality %>
               </p>
             <% end %>
@@ -77,19 +77,19 @@
             <ul class="flex items-center justify-between text-sm">
               <li class="flex items-center text-warm-600">
                 <span class="w-8 h-8 flex items-center justify-center bg-med-50 rounded-full mr-2">
-                  <i class="ph ph-bed text-med-500"></i>
+                  <%= icon(:bed, size: :sm, class: "text-med-500") %>
                 </span>
                 <span><%= format_bedroom_count(property.count_bedrooms) %> <%= t('pwb.properties.beds', default: 'Beds') %></span>
               </li>
               <li class="flex items-center text-warm-600">
                 <span class="w-8 h-8 flex items-center justify-center bg-med-50 rounded-full mr-2">
-                  <i class="ph ph-bathtub text-med-500"></i>
+                  <%= icon(:shower, size: :sm, class: "text-med-500") %>
                 </span>
                 <span><%= format_bathroom_count(property.count_bathrooms) %> <%= t('pwb.properties.baths', default: 'Baths') %></span>
               </li>
               <li class="flex items-center text-warm-600">
                 <span class="w-8 h-8 flex items-center justify-center bg-med-50 rounded-full mr-2">
-                  <i class="ph ph-ruler text-med-500"></i>
+                  <%= icon(:straighten, size: :sm, class: "text-med-500") %>
                 </span>
                 <span><%= property.constructed_area %><%= area_unit property %></span>
               </li>

@@ -5,7 +5,7 @@
   <% @property_details.extras_for_display.each do |extra| %>
     <li class="flex items-center text-warm-700 bg-warm-50 rounded-soft px-4 py-3 hover:bg-med-50 hover:text-med-700 transition-colors">
       <span class="w-6 h-6 flex items-center justify-center bg-gradient-to-br from-med-500 to-med-600 rounded-full mr-3 flex-shrink-0">
-        <i class="ph ph-check text-white text-sm font-bold"></i>
+        <%= icon(:check, size: :xs, class: "text-white font-bold") %>
       </span>
       <span class="font-medium"><%= extra %></span>
     </li>

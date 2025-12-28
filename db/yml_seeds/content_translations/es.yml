@@ -48,9 +48,8 @@ es:
         El mejor inmobiliario en Springfield
       landing_content_a: >
         <ul class="list-carousel">
-          <li><i class="fa fa-check-square">
-            </i>Nuestro equipo está formado por profesionales</li>
-          <li><i class="fa fa-check-square"></i>Encontraremos lo mejor para usted</li>
+          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span>Nuestro equipo está formado por profesionales</li>
+          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span>Encontraremos lo mejor para usted</li>
         </ul>
       landing_img:
         db/example_images/carousel_villa_with_pool.jpg
@@ -81,19 +80,19 @@ es:
       section_pretitle: Nuestros Servicios
       section_title: Lo Que Ofrecemos
       section_subtitle: Servicios inmobiliarios completos adaptados a tus necesidades
-      feature_1_icon: fa-home
+      feature_1_icon: home
       feature_1_title: Encuentra tu Hogar
       feature_1_description: >
         Cuéntanos exactamente lo que buscas y encontraremos esa propiedad ideal
         que satisfaga todas tus necesidades y presupuesto.
       feature_1_link: /buy
-      feature_2_icon: fa-user
+      feature_2_icon: person
       feature_2_title: Agentes Profesionales
       feature_2_description: >
         Nuestros agentes experimentados manejan todo el papeleo y las negociaciones,
         ahorrándote tiempo y dinero durante todo el proceso.
       feature_2_link: /about-us
-      feature_3_icon: fa-money
+      feature_3_icon: attach_money
       feature_3_title: Vende tu Propiedad
       feature_3_description: >
         Obtén el mejor precio por tu propiedad con nuestras estrategias de marketing probadas

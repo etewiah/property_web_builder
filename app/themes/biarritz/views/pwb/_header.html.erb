@@ -7,13 +7,13 @@
       <div class="flex items-center space-x-4">
         <% if @current_agency.phone_number_primary %>
           <span class="biarritz-header-link flex items-center transition-colors">
-            <i class="fa fa-phone mr-2" aria-hidden="true"></i>
+            <%= icon(:phone, size: :sm, class: "mr-2") %>
             <span><%= @current_agency.phone_number_primary %></span>
           </span>
         <% end %>
         <% if @current_agency.email_primary %>
           <span class="biarritz-header-link hidden md:flex items-center transition-colors">
-            <i class="fa fa-envelope mr-2" aria-hidden="true"></i>
+            <%= icon(:email, size: :sm, class: "mr-2") %>
             <span><%= @current_agency.email_primary %></span>
           </span>
         <% end %>

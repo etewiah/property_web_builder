@@ -64,7 +64,7 @@
     <div class="flex justify-center">
       <%= f.button :button, class: "bg-blue-600 text-white font-medium py-3 px-8 rounded-lg hover:bg-blue-700 transition flex items-center",
           id: "btn_buscar_inmuebles" do %>
-        <i class="fa fa-search mr-2"></i>
+        <%= icon(:search, size: :sm, class: "mr-2") %>
         <%= I18n.t("search") %>
       <% end %>
     </div>

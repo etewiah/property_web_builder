@@ -1,0 +1,298 @@
+/*
+ * Material Symbols Outlined for PropertyWebBuilder
+ * https://fonts.google.com/icons
+ *
+ * This is the ONLY approved icon system for this project.
+ * Use the icon(:name) helper to render icons.
+ * See: docs/architecture/MATERIAL_ICONS_MIGRATION_PLAN.md
+ */
+
+/* ============================================
+ * Font Face Declaration
+ * ============================================ */
+
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url('/fonts/material-symbols/MaterialSymbolsOutlined.woff2') format('woff2');
+}
+
+/* ============================================
+ * Base Icon Styles
+ * ============================================ */
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  vertical-align: middle;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'liga';
+
+  /* Default: outlined style */
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+/* ============================================
+ * Size Variants
+ * ============================================ */
+
+.material-symbols-outlined.md-14 {
+  font-size: 14px;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+}
+
+.material-symbols-outlined.md-18 {
+  font-size: 18px;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+}
+
+.material-symbols-outlined.md-24 {
+  font-size: 24px;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.material-symbols-outlined.md-36 {
+  font-size: 36px;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40;
+}
+
+.material-symbols-outlined.md-48 {
+  font-size: 48px;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+}
+
+/* ============================================
+ * Style Variants
+ * ============================================ */
+
+/* Filled variant */
+.material-symbols-outlined.filled {
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+/* Bold/emphasized variant */
+.material-symbols-outlined.bold {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 700,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+/* Light variant */
+.material-symbols-outlined.light {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 300,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+/* Filled + Bold */
+.material-symbols-outlined.filled.bold {
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 700,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+/* ============================================
+ * Utility Classes
+ * ============================================ */
+
+/* Fixed width for alignment in lists */
+.material-symbols-outlined.icon-fw {
+  width: 1.5em;
+  text-align: center;
+}
+
+/* Spin animation for loading states */
+.material-symbols-outlined.icon-spin {
+  animation: icon-spin 1s linear infinite;
+}
+
+@keyframes icon-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Pulse animation */
+.material-symbols-outlined.icon-pulse {
+  animation: icon-pulse 1s ease-in-out infinite;
+}
+
+@keyframes icon-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ============================================
+ * Icon Button Component
+ * ============================================ */
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.icon-button:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.icon-button:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.icon-button:active {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+/* ============================================
+ * Brand Icons (SVG Sprite)
+ * ============================================ */
+
+.brand-icon {
+  display: inline-block;
+  vertical-align: middle;
+  fill: currentColor;
+}
+
+/* Social link styling */
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.15s ease-in-out;
+  color: inherit;
+  text-decoration: none;
+}
+
+.social-link:hover {
+  transform: scale(1.1);
+}
+
+/* Platform-specific colors on hover */
+.social-link-facebook:hover { color: #1877F2; }
+.social-link-instagram:hover { color: #E4405F; }
+.social-link-linkedin:hover { color: #0A66C2; }
+.social-link-youtube:hover { color: #FF0000; }
+.social-link-twitter:hover,
+.social-link-x:hover { color: #000000; }
+.social-link-whatsapp:hover { color: #25D366; }
+.social-link-pinterest:hover { color: #BD081C; }
+.social-link-tiktok:hover { color: #000000; }
+
+/* Social icons in colored circles */
+.social-icons-colored .social-link {
+  color: white;
+}
+
+.social-icons-colored .social-link-facebook { background-color: #1877F2; }
+.social-icons-colored .social-link-instagram {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+.social-icons-colored .social-link-linkedin { background-color: #0A66C2; }
+.social-icons-colored .social-link-youtube { background-color: #FF0000; }
+.social-icons-colored .social-link-twitter,
+.social-icons-colored .social-link-x { background-color: #000000; }
+.social-icons-colored .social-link-whatsapp { background-color: #25D366; }
+.social-icons-colored .social-link-pinterest { background-color: #BD081C; }
+
+/* ============================================
+ * Contextual Icon Styling
+ * ============================================ */
+
+/* Property feature icons */
+.property-feature-icon {
+  font-size: 20px;
+  margin-right: 0.25rem;
+  color: var(--text-muted, #6b7280);
+}
+
+/* Navigation icons */
+.nav-icon {
+  font-size: 20px;
+  margin-right: 0.5rem;
+}
+
+/* Action button icons */
+.btn .material-symbols-outlined {
+  margin-right: 0.375rem;
+  font-size: 1.25em;
+}
+
+.btn-icon-only .material-symbols-outlined {
+  margin-right: 0;
+}
+
+/* Form input icons */
+.input-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted, #6b7280);
+  pointer-events: none;
+}
+
+.input-with-icon {
+  padding-left: 2.5rem;
+}
+
+/* ============================================
+ * Accessibility
+ * ============================================ */
+
+/* Ensure icons don't interfere with screen readers when decorative */
+.material-symbols-outlined[aria-hidden="true"],
+.brand-icon[aria-hidden="true"] {
+  speak: never;
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+  .material-symbols-outlined,
+  .brand-icon {
+    forced-color-adjust: auto;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .material-symbols-outlined.icon-spin,
+  .material-symbols-outlined.icon-pulse {
+    animation: none;
+  }
+}

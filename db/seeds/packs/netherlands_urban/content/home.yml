@@ -33,7 +33,7 @@ features/feature_grid_3col:
   section_subtitle:
     nl: "Complete makelaardijdiensten op maat voor uw situatie"
     en: "Complete real estate services tailored to your situation"
-  feature_1_icon: "fa-home"
+  feature_1_icon: "home"
   feature_1_title:
     nl: "Kopen"
     en: "Buying"
@@ -41,7 +41,7 @@ features/feature_grid_3col:
     nl: "Van eerste bezichtiging tot sleuteloverdracht - wij begeleiden u door het gehele aankoopproces met persoonlijk advies."
     en: "From first viewing to key handover - we guide you through the entire purchase process with personal advice."
   feature_1_link: "/search/buy"
-  feature_2_icon: "fa-hand-holding-usd"
+  feature_2_icon: "payments"
   feature_2_title:
     nl: "Verkopen"
     en: "Selling"
@@ -49,7 +49,7 @@ features/feature_grid_3col:
     nl: "Maximaliseer de waarde van uw woning met onze bewezen verkoopaanpak en uitgebreid netwerk van kopers."
     en: "Maximize your property's value with our proven sales approach and extensive network of buyers."
   feature_2_link: "/sell"
-  feature_3_icon: "fa-key"
+  feature_3_icon: "key"
   feature_3_title:
     nl: "Verhuren"
     en: "Rental"

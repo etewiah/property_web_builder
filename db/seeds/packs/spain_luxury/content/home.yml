@@ -41,7 +41,7 @@ features/feature_grid_3col:
     es: "Servicios inmobiliarios completos adaptados a sus necesidades"
     en: "Comprehensive real estate services tailored to your needs"
     de: "Umfassende Immobiliendienstleistungen nach Ihren Bedürfnissen"
-  feature_1_icon: "fa-home"
+  feature_1_icon: "home"
   feature_1_title:
     es: "Compra"
     en: "Buying"
@@ -51,7 +51,7 @@ features/feature_grid_3col:
     en: "We guide you through the entire buying process, from search to closing."
     de: "Wir begleiten Sie durch den gesamten Kaufprozess, von der Suche bis zum Abschluss."
   feature_1_link: "/search/buy"
-  feature_2_icon: "fa-hand-holding-usd"
+  feature_2_icon: "payments"
   feature_2_title:
     es: "Venta"
     en: "Selling"
@@ -61,7 +61,7 @@ features/feature_grid_3col:
     en: "Maximize your property's value with our proven marketing strategies."
     de: "Maximieren Sie den Wert Ihrer Immobilie mit unseren bewährten Marketingstrategien."
   feature_2_link: "/sell"
-  feature_3_icon: "fa-key"
+  feature_3_icon: "key"
   feature_3_title:
     es: "Alquiler"
     en: "Rental"

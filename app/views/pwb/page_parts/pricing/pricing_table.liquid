@@ -31,7 +31,7 @@
           <ul class="pwb-pricing-card__features">
             {% assign features = page_part.plan_1_features.content | split: '|' %}
             {% for feature in features %}
-              <li><i class="fa fa-check"></i> {{ feature }}</li>
+              <li>{{ "check" | material_icon }} {{ feature }}</li>
             {% endfor %}
           </ul>
           <div class="pwb-pricing-card__footer">
@@ -66,7 +66,7 @@
           <ul class="pwb-pricing-card__features">
             {% assign features = page_part.plan_2_features.content | split: '|' %}
             {% for feature in features %}
-              <li><i class="fa fa-check"></i> {{ feature }}</li>
+              <li>{{ "check" | material_icon }} {{ feature }}</li>
             {% endfor %}
           </ul>
           <div class="pwb-pricing-card__footer">
@@ -98,7 +98,7 @@
           <ul class="pwb-pricing-card__features">
             {% assign features = page_part.plan_3_features.content | split: '|' %}
             {% for feature in features %}
-              <li><i class="fa fa-check"></i> {{ feature }}</li>
+              <li>{{ "check" | material_icon }} {{ feature }}</li>
             {% endfor %}
           </ul>
           <div class="pwb-pricing-card__footer">

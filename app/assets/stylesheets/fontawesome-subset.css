@@ -1,6 +1,6 @@
 /*
  * Font Awesome 6 Subset for PropertyWebBuilder
- * Only includes 43 icons actually used in the application
+ * Only includes 49 icons actually used in the application
  * Full library: ~300KB, Subset: ~16KB (95% smaller)
  *
  * To regenerate: rake assets:font_awesome_subset
@@ -79,6 +79,7 @@
 .fa-bed:before { content: "\f236"; }
 .fa-car:before { content: "\f1b9"; }
 .fa-check:before { content: "\f00c"; }
+.fa-check-square:before { content: "\f14a"; }
 .fa-chevron-down:before { content: "\f078"; }
 .fa-chevron-right:before { content: "\f054"; }
 .fa-chevron-up:before { content: "\f077"; }
@@ -89,10 +90,14 @@
 .fa-external-link:before { content: "\f08e"; }
 .fa-filter:before { content: "\f0b0"; }
 .fa-globe:before { content: "\f0ac"; }
+.fa-hand-holding-usd:before { content: "\f4c0"; }
+.fa-home:before { content: "\f015"; }
 .fa-images:before { content: "\f302"; }
 .fa-info-circle:before { content: "\f05a"; }
 .fa-lock:before { content: "\f023"; }
+.fa-key:before { content: "\f084"; }
 .fa-map-marker-alt:before { content: "\f3c5"; }
+.fa-money:before { content: "\f0d6"; }
 .fa-mouse-pointer:before { content: "\f245"; }
 .fa-pencil:before { content: "\f303"; }
 .fa-pencil-alt:before { content: "\f303"; }

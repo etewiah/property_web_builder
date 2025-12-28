@@ -25,9 +25,9 @@
       </div>
     </div>
     <div class="panel-footer">
-      <%= f.button :button, :class=> "btn fondo_accion btn-icon", 
+      <%= f.button :button, :class=> "btn fondo_accion btn-icon",
         :id => "btn_buscar_inmuebles" do %>
-        <i class="fa fa-search"></i>
+        <%= icon(:search, size: :sm) %>
         <%= I18n.t("search") %>
       <% end %>
     </div>

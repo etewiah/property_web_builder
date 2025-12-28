@@ -7,13 +7,11 @@
 # Options:
 #   url:        (required) The URL to share
 #   title:      (required) The title/text to share
-#   icon_style: :fontawesome (default) or :phosphor
 #   style:      :default (centered, border-top) or :bologna (left-aligned, no border)
 #   networks:   Array of networks to show (default: [:facebook, :linkedin, :twitter, :whatsapp])
 %>
 <% url ||= request.original_url %>
 <% title ||= '' %>
-<% icon_style ||= :fontawesome %>
 <% style ||= :default %>
 <% networks ||= [:facebook, :linkedin, :twitter, :whatsapp] %>
 
@@ -23,10 +21,6 @@
 
 <%
   # Define share URLs
-  # Facebook: sharer.php accepts 'u' for URL and 'quote' for text (though FB primarily uses OG meta tags)
-  # LinkedIn: shareArticle endpoint supports title/summary; mini=true is required
-  # Twitter: intent/tweet accepts 'url' and 'text'
-  # WhatsApp: wa.me accepts 'text' with message content
   share_urls = {
     facebook: "https://www.facebook.com/sharer/sharer.php?u=#{encoded_url}&quote=#{encoded_title}",
     linkedin: "https://www.linkedin.com/shareArticle?mini=true&url=#{encoded_url}&title=#{encoded_title}",
@@ -34,22 +28,13 @@
     whatsapp: "https://wa.me/?text=#{encoded_both}"
   }
 
-  # Define icons based on style
-  if icon_style == :phosphor
-    icons = {
-      facebook: 'ph ph-facebook-logo',
-      linkedin: 'ph ph-linkedin-logo',
-      twitter: 'ph ph-x-logo',
-      whatsapp: 'ph ph-whatsapp-logo'
-    }
-  else
-    icons = {
-      facebook: 'fa fa-fw fa-facebook',
-      linkedin: 'fa fa-fw fa-linkedin',
-      twitter: 'fa fa-fw fa-twitter',
-      whatsapp: 'fa fa-fw fa-whatsapp'
-    }
-  end
+  # Map network to brand name (for X/Twitter)
+  brand_names = {
+    facebook: :facebook,
+    linkedin: :linkedin,
+    twitter: :x,
+    whatsapp: :whatsapp
+  }
 
   # Define link classes based on style
   if style == :bologna
@@ -59,19 +44,12 @@
       twitter: 'w-10 h-10 flex items-center justify-center bg-sky-100 text-sky-500 rounded-full hover:bg-sky-500 hover:text-white transition-all duration-300',
       whatsapp: 'w-10 h-10 flex items-center justify-center bg-green-100 text-green-600 rounded-full hover:bg-green-600 hover:text-white transition-all duration-300'
     }
-    icon_classes = {}
   else
     link_classes = {
-      facebook: 'w-8 h-8 flex items-center justify-center',
-      linkedin: 'w-8 h-8 flex items-center justify-center',
-      twitter: 'w-8 h-8 flex items-center justify-center',
-      whatsapp: 'w-8 h-8 flex items-center justify-center'
-    }
-    icon_classes = {
-      facebook: 'text-2xl text-blue-600 hover:text-blue-800 cursor-pointer',
-      linkedin: 'text-2xl text-blue-700 hover:text-blue-900 cursor-pointer',
-      twitter: 'text-2xl text-blue-400 hover:text-blue-600 cursor-pointer',
-      whatsapp: 'text-2xl text-green-600 hover:text-green-800 cursor-pointer'
+      facebook: 'w-8 h-8 flex items-center justify-center text-blue-600 hover:text-blue-800',
+      linkedin: 'w-8 h-8 flex items-center justify-center text-blue-700 hover:text-blue-900',
+      twitter: 'w-8 h-8 flex items-center justify-center text-blue-400 hover:text-blue-600',
+      whatsapp: 'w-8 h-8 flex items-center justify-center text-green-600 hover:text-green-800'
     }
   end
 
@@ -93,7 +71,7 @@
        rel="noopener noreferrer"
        title="<%= titles[network] %>"
        class="<%= link_classes[network] %>">
-      <i class="<%= icons[network] %> <%= icon_classes[network] %>"></i>
+      <%= brand_icon(brand_names[network], size: style == :bologna ? 20 : 24) %>
     </a>
   <% end %>
 </div>

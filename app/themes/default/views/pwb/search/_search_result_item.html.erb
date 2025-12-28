@@ -50,25 +50,25 @@
       <div class="flex items-center gap-4 text-sm text-gray-600">
         <% if property.count_bedrooms.present? && property.count_bedrooms > 0 %>
           <span class="flex items-center" title="<%= I18n.t('amenities.bedrooms', default: 'Bedrooms') %>">
-            <i class="fa fa-bed text-gray-400 mr-1" aria-hidden="true"></i>
+            <%= icon(:bed, size: :sm, class: "text-gray-400 mr-1") %>
             <span><%= format_bedroom_count(property.count_bedrooms) %></span>
           </span>
         <% end %>
         <% if property.count_bathrooms.present? && property.count_bathrooms > 0 %>
           <span class="flex items-center" title="<%= I18n.t('amenities.bathrooms', default: 'Bathrooms') %>">
-            <i class="fa fa-shower text-gray-400 mr-1" aria-hidden="true"></i>
+            <%= icon(:shower, size: :sm, class: "text-gray-400 mr-1") %>
             <span><%= format_bathroom_count(property.count_bathrooms) %></span>
           </span>
         <% end %>
         <% if property.constructed_area.present? && property.constructed_area > 0 %>
           <span class="flex items-center" title="<%= I18n.t('amenities.area', default: 'Area') %>">
-            <i class="fa fa-arrows-alt text-gray-400 mr-1" aria-hidden="true"></i>
+            <%= icon(:fullscreen, size: :sm, class: "text-gray-400 mr-1") %>
             <span><%= property.constructed_area %><%= area_unit property %></span>
           </span>
         <% end %>
         <% if property.count_garages.present? && property.count_garages > 0 %>
           <span class="flex items-center" title="<%= I18n.t('amenities.parking', default: 'Parking') %>">
-            <i class="fa fa-car text-gray-400 mr-1" aria-hidden="true"></i>
+            <%= icon(:directions_car, size: :sm, class: "text-gray-400 mr-1") %>
             <span><%= property.count_garages %></span>
           </span>
         <% end %>
@@ -78,7 +78,7 @@
       <%= link_to property.contextual_show_path(@operation_type),
           class: "text-blue-600 hover:text-blue-700 text-sm font-medium inline-flex items-center whitespace-nowrap",
           title: I18n.t("property.goToProperty", default: "View Property") do %>
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        <%= icon(:chevron_right, size: :sm) %>
         <span class="ml-1"><%= I18n.t "property.goToProperty", default: "View Property" %></span>
       <% end %>
     </div>

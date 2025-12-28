@@ -4,7 +4,7 @@
 <div class="bg-white rounded-softer overflow-hidden">
   <div class="bg-gradient-to-r from-med-600 to-med-500 px-6 py-4">
     <h2 class="font-display text-lg font-bold text-white flex items-center">
-      <i class="ph ph-envelope-simple text-white mr-3"></i>
+      <%= icon(:email, size: :sm, class: "text-white mr-3") %>
       <%= I18n.t("requestPropertyInfo") %>
     </h2>
   </div>
@@ -47,7 +47,7 @@
 
       <button type="submit"
               class="w-full bg-gradient-to-r from-med-600 to-med-500 text-white font-semibold py-3 px-6 rounded-soft hover:from-med-700 hover:to-med-600 transition-all shadow-soft hover:shadow-medium flex items-center justify-center">
-        <i class="ph ph-paper-plane-tilt mr-2"></i>
+        <%= icon(:send, size: :sm, class: "mr-2") %>
         <%= I18n.t("send") %>
       </button>
 

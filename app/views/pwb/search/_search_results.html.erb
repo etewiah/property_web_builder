@@ -2,7 +2,7 @@
   <ul class="list-listings" id="ordered-properties">
     <% unless @properties && (@properties.size > 0 ) %>
       <div class="text-center" style="padding: 40px 0;">
-        <i class="fa fa-search fa-4x text-muted" style="margin-bottom: 20px;"></i>
+        <%= icon(:search, size: :xl, class: "text-muted") %>
         <h4 style="text-transform: none; margin-bottom: 20px;">
           <%= t "noResultsForSearch" %>
         </h4>
@@ -10,7 +10,7 @@
           <%= t "tryChangingFilters", default: "Try changing your filters" %>
         </p>
         <button class="btn btn-primary" onclick="clearSearchFilters()">
-          <i class="fa fa-refresh"></i> <%= t "clearFilters", default: "Clear Filters" %>
+          <%= icon(:refresh) %> <%= t "clearFilters", default: "Clear Filters" %>
         </button>
         <script>
           function clearSearchFilters() {

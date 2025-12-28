@@ -20,12 +20,12 @@
           <ol class="flex items-center space-x-2 text-sm">
             <li>
               <a href="<%= root_path %>" class="text-warm-500 hover:text-med-600 transition-colors">
-                <i class="ph ph-house mr-1"></i>
+                <%= icon(:home, size: :xs, class: "mr-1") %>
                 <%= t('pwb.breadcrumb.home', default: 'Home') %>
               </a>
             </li>
             <li class="text-warm-400">
-              <i class="ph ph-caret-right text-xs"></i>
+              <%= icon(:chevron_right, size: :xs) %>
             </li>
             <li class="text-warm-900 font-medium">
               <%= t('pwb.breadcrumb.rent', default: 'Rent') %>
@@ -41,7 +41,7 @@
       </div>
       <div class="mt-6 md:mt-0">
         <span class="inline-flex items-center px-4 py-2 bg-terra-100 text-terra-700 rounded-soft text-sm font-medium">
-          <i class="ph ph-key mr-2"></i>
+          <%= icon(:vpn_key, size: :sm, class: "mr-2") %>
           <%= t('pwb.search.for_rent', default: 'For Rent') %>
         </span>
       </div>
@@ -66,7 +66,7 @@
                   aria-expanded="false"
                   aria-controls="sidebar-filters"
                   class="w-full flex items-center justify-center px-6 py-3 bg-white text-warm-700 font-medium rounded-soft shadow-soft hover:shadow-medium transition-all duration-300">
-            <i class="ph ph-funnel mr-2 text-terra-500"></i>
+            <%= icon(:filter_list, size: :sm, class: "mr-2 text-terra-500") %>
             <%= t('filter', default: 'Filters') %>
             <% if @search_criteria_for_view.present? %>
               <% active_count = @search_criteria_for_view.reject { |k, v| v.blank? || k == :page }.size %>
@@ -76,7 +76,7 @@
                 </span>
               <% end %>
             <% end %>
-            <i class="ph ph-caret-down ml-2"></i>
+            <%= icon(:keyboard_arrow_down, size: :sm, class: "ml-2") %>
           </button>
         </div>
 
@@ -87,7 +87,7 @@
           <div class="bg-white rounded-softer shadow-soft p-6 sticky top-28">
             <div class="flex items-center justify-between mb-6">
               <div class="flex items-center">
-                <i class="ph ph-sliders text-terra-500 text-xl mr-3"></i>
+                <%= icon(:tune, size: :md, class: "text-terra-500 mr-3") %>
                 <h3 class="font-display font-semibold text-lg text-warm-900">
                   <%= t('pwb.search.filters', default: 'Filters') %>
                 </h3>
@@ -117,7 +117,7 @@
     <div class="container mx-auto px-6 py-8">
       <div class="flex items-center mb-6">
         <span class="w-10 h-10 flex items-center justify-center bg-gold-100 rounded-full mr-3">
-          <i class="ph ph-map-trifold text-gold-600"></i>
+          <%= icon(:map, size: :sm, class: "text-gold-600") %>
         </span>
         <h2 class="font-display text-xl font-bold text-warm-900">
           <%= t('pwb.search.map_view', default: 'Map View') %>

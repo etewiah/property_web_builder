@@ -24,42 +24,42 @@
             <a href="<%= @current_website.social_media_facebook %>" target="_blank" rel="noopener noreferrer"
                class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
                aria-label="Follow us on Facebook">
-              <i class="fab fa-facebook-f" aria-hidden="true"></i>
+              <%= brand_icon(:facebook, size: 18) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
             <a href="<%= @current_website.social_media_twitter %>" target="_blank" rel="noopener noreferrer"
                class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
                aria-label="Follow us on Twitter">
-              <i class="fab fa-x-twitter" aria-hidden="true"></i>
+              <%= brand_icon(:x, size: 18) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
             <a href="<%= @current_website.social_media_linkedin %>" target="_blank" rel="noopener noreferrer"
                class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
                aria-label="Connect with us on LinkedIn">
-              <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+              <%= brand_icon(:linkedin, size: 18) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present? %>
             <a href="<%= @current_website.social_media_instagram %>" target="_blank" rel="noopener noreferrer"
                class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
                aria-label="Follow us on Instagram">
-              <i class="fab fa-instagram" aria-hidden="true"></i>
+              <%= brand_icon(:instagram, size: 18) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
             <a href="<%= @current_website.social_media_youtube %>" target="_blank" rel="noopener noreferrer"
                class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
                aria-label="Subscribe to our YouTube channel">
-              <i class="fab fa-youtube" aria-hidden="true"></i>
+              <%= brand_icon(:youtube, size: 18) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_whatsapp) && @current_website.social_media_whatsapp.present? %>
             <a href="<%= @current_website.social_media_whatsapp %>" target="_blank" rel="noopener noreferrer"
                class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
                aria-label="Contact us on WhatsApp">
-              <i class="fab fa-whatsapp" aria-hidden="true"></i>
+              <%= brand_icon(:whatsapp, size: 18) %>
             </a>
           <% end %>
         </nav>
@@ -71,7 +71,7 @@
         <ul class="space-y-4">
           <% if @current_agency.phone_number_primary.present? %>
             <li class="flex items-start">
-              <i class="fa fa-phone text-luxury-gold/60 mr-4 mt-1 text-sm"></i>
+              <%= icon(:phone, size: :sm, class: "text-luxury-gold/60 mr-4 mt-1") %>
               <a href="tel:<%= @current_agency.phone_number_primary %>"
                  class="text-sm text-luxury-cream/80 hover:text-luxury-gold transition-colors duration-300">
                 <%= @current_agency.phone_number_primary %>
@@ -80,7 +80,7 @@
           <% end %>
           <% if @current_agency.email_primary.present? %>
             <li class="flex items-start">
-              <i class="fa fa-envelope text-luxury-gold/60 mr-4 mt-1 text-sm"></i>
+              <%= icon(:email, size: :sm, class: "text-luxury-gold/60 mr-4 mt-1") %>
               <a href="mailto:<%= @current_agency.email_primary %>"
                  class="text-sm text-luxury-cream/80 hover:text-luxury-gold transition-colors duration-300">
                 <%= @current_agency.email_primary %>
@@ -89,7 +89,7 @@
           <% end %>
           <% if @current_agency.respond_to?(:full_address) && @current_agency.full_address.present? %>
             <li class="flex items-start">
-              <i class="fa fa-map-marker-alt text-luxury-gold/60 mr-4 mt-1 text-sm"></i>
+              <%= icon(:location_on, size: :sm, class: "text-luxury-gold/60 mr-4 mt-1") %>
               <span class="text-sm text-luxury-cream/80 leading-relaxed">
                 <%= @current_agency.full_address %>
               </span>

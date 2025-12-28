@@ -6,13 +6,13 @@
       <div class="flex items-center space-x-4">
         <% if @current_agency.phone_number_primary %>
           <span class="flex items-center">
-            <i class="fa fa-phone mr-2"></i>
+            <%= icon(:phone, size: :sm, class: "mr-2") %>
             <%= @current_agency.phone_number_primary %>
           </span>
         <% end %>
         <% if @current_agency.email_primary %>
           <span class="hidden md:flex items-center">
-            <i class="fa fa-envelope mr-2"></i>
+            <%= icon(:email, size: :sm, class: "mr-2") %>
             <%= @current_agency.email_primary %>
           </span>
         <% end %>

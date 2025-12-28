@@ -3,7 +3,7 @@
   <% unless @properties && (@properties.size > 0) %>
     <div class="bg-white rounded-lg shadow-sm p-10 text-center my-6 border border-gray-200">
       <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
-        <i class="fa fa-search text-2xl text-gray-400"></i>
+        <%= icon(:search, size: :lg, class: "text-gray-400") %>
       </div>
       <h4 class="text-xl font-medium text-gray-900 mb-2">
         <%= I18n.t "noResultsForSearch" %>
@@ -12,7 +12,7 @@
         <%= I18n.t "tryChangingFilters", default: "Try changing your filters" %>
       </p>
       <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="clearSearchFilters()">
-        <i class="fa fa-refresh mr-2"></i> <%= I18n.t "clearFilters", default: "Clear Filters" %>
+        <%= icon(:refresh, size: :sm, class: "mr-2") %> <%= I18n.t "clearFilters", default: "Clear Filters" %>
       </button>
       <script>
         function clearSearchFilters() {
@@ -75,20 +75,20 @@
             <!-- Property Features -->
             <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
               <span class="flex items-center">
-                <i class="fa fa-bed mr-1 text-blue-500"></i>
+                <%= icon(:bed, size: :sm, class: "mr-1 text-blue-500") %>
                 <%= format_bedroom_count(property.count_bedrooms) %> <%= I18n.t("property.bedrooms", count: property.count_bedrooms) rescue "Beds" %>
               </span>
               <span class="flex items-center">
-                <i class="fa fa-shower mr-1 text-blue-500"></i>
+                <%= icon(:shower, size: :sm, class: "mr-1 text-blue-500") %>
                 <%= format_bathroom_count(property.count_bathrooms) %> <%= I18n.t("property.bathrooms", count: property.count_bathrooms) rescue "Baths" %>
               </span>
               <span class="flex items-center">
-                <i class="fa fa-arrows-alt mr-1 text-blue-500"></i>
+                <%= icon(:fullscreen, size: :sm, class: "mr-1 text-blue-500") %>
                 <%= property.constructed_area %><%= area_unit property %>
               </span>
               <% if property.count_garages && property.count_garages > 0 %>
                 <span class="flex items-center">
-                  <i class="fa fa-car mr-1 text-blue-500"></i>
+                  <%= icon(:directions_car, size: :sm, class: "mr-1 text-blue-500") %>
                   <%= property.count_garages %>
                 </span>
               <% end %>
@@ -102,7 +102,7 @@
               <%= link_to property.contextual_show_path(@operation_type),
                   class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition" do %>
                 <%= I18n.t "property.goToProperty" %>
-                <i class="fa fa-chevron-right ml-2"></i>
+                <%= icon(:chevron_right, size: :sm, class: "ml-2") %>
               <% end %>
             </div>
           </div>

@@ -22,16 +22,16 @@
     <div class="space-y-2">
       <% if @current_agency.phone_number_primary.present? %>
         <div class="flex items-center text-gray-700">
-          <i class="fa fa-phone text-blue-600 w-5"></i>
+          <%= icon(:phone, size: :sm, class: "text-blue-600 w-5") %>
           <a href="tel:<%= @current_agency.phone_number_primary %>" class="ml-2 hover:text-blue-600">
             <%= @current_agency.phone_number_primary %>
           </a>
         </div>
       <% end %>
-      
+
       <% if @current_agency.email_primary.present? %>
         <div class="flex items-center text-gray-700">
-          <i class="fa fa-envelope text-blue-600 w-5"></i>
+          <%= icon(:email, size: :sm, class: "text-blue-600 w-5") %>
           <a href="mailto:<%= @current_agency.email_primary %>" class="ml-2 hover:text-blue-600">
             <%= @current_agency.email_primary %>
           </a>

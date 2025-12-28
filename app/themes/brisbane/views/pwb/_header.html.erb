@@ -6,13 +6,13 @@
       <div class="flex items-center space-x-6">
         <% if @current_agency.phone_number_primary %>
           <span class="flex items-center text-luxury-cream/80 hover:text-luxury-gold transition-colors duration-300">
-            <i class="fa fa-phone mr-2 text-luxury-gold"></i>
+            <%= icon(:phone, size: :sm, class: "mr-2 text-luxury-gold") %>
             <%= @current_agency.phone_number_primary %>
           </span>
         <% end %>
         <% if @current_agency.email_primary %>
           <span class="hidden md:flex items-center text-luxury-cream/80 hover:text-luxury-gold transition-colors duration-300">
-            <i class="fa fa-envelope mr-2 text-luxury-gold"></i>
+            <%= icon(:email, size: :sm, class: "mr-2 text-luxury-gold") %>
             <%= @current_agency.email_primary %>
           </span>
         <% end %>
@@ -81,7 +81,7 @@
           <% if current_user %>
             <li class="relative group md:ml-4">
               <button type="button" class="flex items-center py-2.5 px-5 text-xs font-medium uppercase tracking-luxury text-luxury-navy hover:text-luxury-gold transition-all duration-300 border border-luxury-navy/20 hover:border-luxury-gold" data-dropdown-toggle="user-dropdown">
-                <i class="fa fa-user mr-2"></i>
+                <%= icon(:person, size: :sm, class: "mr-2") %>
                 <%= current_user.email.split('@').first %>
                 <svg class="w-3 h-3 ml-2" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
