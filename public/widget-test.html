@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Widget Test Page</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #f5f5f5;
+    }
+    h1 { color: #1f2937; margin-bottom: 8px; }
+    .subtitle { color: #6b7280; margin-bottom: 32px; }
+    .test-section {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .test-section h2 {
+      font-size: 18px;
+      color: #374151;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .widget-container {
+      min-height: 200px;
+      border: 2px dashed #d1d5db;
+      border-radius: 8px;
+      padding: 16px;
+      background: #fafafa;
+    }
+    .instructions {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .instructions h3 { color: #1e40af; margin-bottom: 8px; font-size: 14px; }
+    .instructions ol { margin: 0; padding-left: 20px; color: #1e3a8a; }
+    .instructions li { margin-bottom: 4px; }
+    .instructions code {
+      background: #dbeafe;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    #widget-key-input {
+      width: 200px;
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-family: monospace;
+    }
+    button {
+      padding: 8px 16px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+    button:hover { background: #2563eb; }
+    .input-group { margin-bottom: 16px; }
+    label { display: block; margin-bottom: 4px; font-weight: 500; color: #374151; }
+  </style>
+</head>
+<body>
+  <h1>Widget Test Page</h1>
+  <p class="subtitle">Test your PropertyWebBuilder embeddable widgets here</p>
+
+  <div class="instructions">
+    <h3>How to test:</h3>
+    <ol>
+      <li>Create a widget at <code>/site_admin/widgets/new</code></li>
+      <li>Copy the widget key (e.g., <code>abc123xyz</code>)</li>
+      <li>Paste it below and click "Load Widget"</li>
+    </ol>
+  </div>
+
+  <div class="test-section">
+    <h2>JavaScript Embed Test</h2>
+    <div class="input-group">
+      <label for="widget-key-input">Widget Key:</label>
+      <input type="text" id="widget-key-input" placeholder="e.g., abc123xyz">
+      <button onclick="loadWidget()">Load Widget</button>
+    </div>
+    <div id="js-widget-container" class="widget-container">
+      <p style="color: #9ca3af; text-align: center; margin-top: 60px;">
+        Enter a widget key above to load the widget
+      </p>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>Iframe Embed Test</h2>
+    <div class="input-group">
+      <label for="iframe-key-input">Widget Key:</label>
+      <input type="text" id="iframe-key-input" placeholder="e.g., abc123xyz">
+      <button onclick="loadIframe()">Load Iframe</button>
+    </div>
+    <div id="iframe-widget-container" class="widget-container">
+      <p style="color: #9ca3af; text-align: center; margin-top: 60px;">
+        Enter a widget key above to load the iframe widget
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function loadWidget() {
+      const key = document.getElementById('widget-key-input').value.trim();
+      if (!key) {
+        alert('Please enter a widget key');
+        return;
+      }
+
+      const container = document.getElementById('js-widget-container');
+      container.innerHTML = '<div id="pwb-widget-' + key + '"></div>';
+
+      // Remove any existing script
+      const existingScript = document.getElementById('pwb-widget-script');
+      if (existingScript) existingScript.remove();
+
+      // Load the widget script
+      const script = document.createElement('script');
+      script.id = 'pwb-widget-script';
+      script.src = '/widget.js';
+      script.dataset.widgetId = key;
+      script.async = true;
+      container.appendChild(script);
+    }
+
+    function loadIframe() {
+      const key = document.getElementById('iframe-key-input').value.trim();
+      if (!key) {
+        alert('Please enter a widget key');
+        return;
+      }
+
+      const container = document.getElementById('iframe-widget-container');
+      container.innerHTML = `
+        <iframe
+          src="/widget/${key}"
+          width="100%"
+          height="600"
+          frameborder="0"
+          style="border: none; width: 100%; min-height: 600px;"
+          loading="lazy"
+          title="Property Listings">
+        </iframe>
+      `;
+    }
+  </script>
+</body>
+</html>

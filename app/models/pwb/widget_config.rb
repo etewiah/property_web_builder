@@ -50,7 +50,7 @@ module Pwb
     validates :layout, inclusion: { in: %w[grid list carousel] }
     validates :columns, numericality: { in: 1..6 }
     validates :max_properties, numericality: { greater_than: 0, less_than_or_equal_to: 100 }
-    validates :listing_type, inclusion: { in: %w[sale rent] }, allow_nil: true
+    validates :listing_type, inclusion: { in: %w[sale rent] }, allow_blank: true
 
     # Callbacks
     before_validation :generate_widget_key, on: :create
@@ -152,7 +152,7 @@ module Pwb
 
     # Generate embed code for this widget
     def embed_code(host: nil)
-      widget_host = host || website.primary_host || "#{website.subdomain}.propertywebbuilder.com"
+      widget_host = host || website.custom_domain.presence || "#{website.subdomain}.propertywebbuilder.com"
 
       <<~HTML.strip
         <!-- PropertyWebBuilder Widget -->
@@ -163,7 +163,7 @@ module Pwb
 
     # Generate iframe embed code (alternative)
     def iframe_embed_code(host: nil)
-      widget_host = host || website.primary_host || "#{website.subdomain}.propertywebbuilder.com"
+      widget_host = host || website.custom_domain.presence || "#{website.subdomain}.propertywebbuilder.com"
 
       <<~HTML.strip
         <!-- PropertyWebBuilder Widget (iframe) -->

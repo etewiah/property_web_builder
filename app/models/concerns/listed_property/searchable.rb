@@ -15,6 +15,10 @@ module ListedProperty
       # Use this when you need both website and photos (e.g., cross-tenant operations)
       scope :with_full_eager_loading, -> { includes(:website, prop_photos: { image_attachment: :blob }) }
 
+      # Lighter scope for widgets - only loads photos without attachment blob data
+      # Use when you only need first photo or just need to check has_image?
+      scope :with_photos_only, -> { includes(:prop_photos) }
+
       # Basic visibility and operation type scopes
       scope :visible, -> { where(visible: true) }
       scope :for_sale, -> { where(for_sale: true) }

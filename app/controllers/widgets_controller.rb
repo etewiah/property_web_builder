@@ -24,7 +24,7 @@ class WidgetsController < ApplicationController
   # Renders the widget in an iframe-friendly format
   def iframe
     @widget_config = Pwb::WidgetConfig.active.find_by!(widget_key: params[:widget_key])
-    @properties = @widget_config.properties_query.with_eager_loading
+    @properties = @widget_config.properties_query.with_photos_only
 
     # Record impression
     @widget_config.record_impression!

@@ -63,18 +63,29 @@ module SiteAdmin
     end
 
     def widget_params
-      params.require(:pwb_widget_config).permit(
+      permitted = params.require(:pwb_widget_config).permit(
         :name, :active, :layout, :columns, :max_properties,
         :show_search, :show_filters, :show_pagination,
         :listing_type, :min_price_cents, :max_price_cents,
         :min_bedrooms, :max_bedrooms, :highlighted_only,
-        property_types: [], allowed_domains: [],
+        :allowed_domains,
+        property_types: [],
         theme: [:primary_color, :secondary_color, :text_color,
                 :background_color, :card_background, :border_color,
                 :border_radius, :font_family],
         visible_fields: [:price, :bedrooms, :bathrooms, :area,
                          :location, :reference, :property_type]
       )
+
+      # Convert allowed_domains from textarea (newline-separated) to array
+      if permitted[:allowed_domains].is_a?(String)
+        permitted[:allowed_domains] = permitted[:allowed_domains]
+          .split(/[\r\n]+/)
+          .map(&:strip)
+          .reject(&:blank?)
+      end
+
+      permitted
     end
   end
 end

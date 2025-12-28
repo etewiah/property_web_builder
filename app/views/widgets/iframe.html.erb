@@ -1,10 +1,11 @@
 <% visible = @widget_config.effective_visible_fields %>
+<% widget_host = @widget_config.website.custom_domain.presence || request.host %>
 
 <% if @properties.any? %>
   <div class="pwb-grid">
     <% @properties.each do |prop| %>
       <div class="pwb-card">
-        <a href="<%= prop.for_sale ? prop_show_for_sale_url(id: prop.id, url_friendly_title: prop.url_friendly_title, host: @widget_config.website.primary_host || "#{@widget_config.website.subdomain}.propertywebbuilder.com", protocol: 'https') : prop_show_for_rent_url(id: prop.id, url_friendly_title: prop.url_friendly_title, host: @widget_config.website.primary_host || "#{@widget_config.website.subdomain}.propertywebbuilder.com", protocol: 'https') %>" target="_blank" rel="noopener">
+        <a href="<%= prop.for_sale ? prop_show_for_sale_url(id: prop.id, url_friendly_title: prop.url_friendly_title, host: widget_host, protocol: request.protocol.delete(':')) : prop_show_for_rent_url(id: prop.id, url_friendly_title: prop.url_friendly_title, host: widget_host, protocol: request.protocol.delete(':')) %>" target="_blank" rel="noopener">
           <div class="pwb-card-image">
             <% first_photo = prop.prop_photos.first %>
             <% if first_photo&.has_image? %>
