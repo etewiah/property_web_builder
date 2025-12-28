@@ -1,444 +1,330 @@
-# PropertyWebBuilder Onboarding & Seeding - Quick Reference
+# PropertyWebBuilder Inquiry System - Quick Reference
 
-## At a Glance
+## Absolute Basics
 
-### Two Onboarding Flows
+**What is PropertyWebBuilder?**
+- Multi-tenant real estate agency website builder
+- Each agency = 1 Website (tenant)
+- Multiple users can work on multiple websites
 
-**1. User Signup Onboarding** (User state)
-- States: lead → registered → email_verified → onboarding → active
-- Tracked in: `User.onboarding_state`, `User.onboarding_step`
-- Completed when: `User.onboarding_completed_at` set
-- Duration: Email verification + signup flow
-
-**2. Site Admin Onboarding** (Setup wizard)
-- 5 Steps: Welcome → Profile → Property → Theme → Complete
-- Tracked in: `User.site_admin_onboarding_completed_at`
-- Completed when: User finishes step 5
-- Duration: Few minutes to set up site
-
-### Website Provisioning States
-
-```
-pending → owner_assigned → agency_created → links_created → 
-field_keys_created → properties_seeded → ready → 
-locked_pending_email_verification → locked_pending_registration → live
-```
-
-Tracked in: `Website.provisioning_state`
+**Inquiry System Basics**
+- Visitors fill form on property page → Creates Contact + Message
+- System emails agency automatically
+- Message tracked (delivery success/failure)
+- Contact history maintained via Messages
 
 ---
 
-## Seeding Systems
+## Essential Models
 
-### SeedPack (Scenario-Based)
-```ruby
-pack = Pwb::SeedPack.find('spain_luxury')
-pack.apply!(website: website)
-```
-- Pre-configured bundles in `/db/seeds/packs/{name}/`
-- Include: agency, field keys, properties, pages, users, translations
-- Supports inheritance
-
-### SeedRunner (File-Based)
-```ruby
-Pwb::SeedRunner.run(website: website, mode: :create_only)
-```
-- Loads from `/db/yml_seeds/`
-- Modes: interactive, create_only, force_update, upsert
-- Has dry-run support
-
-### ProvisioningService (Workflow)
-```ruby
-service = Pwb::ProvisioningService.new
-result = service.start_signup(email: "user@example.com")
-result = service.configure_site(user: user, subdomain_name: "my-site", site_type: "residential")
-result = service.provision_website(website: website)
-```
-- Orchestrates entire signup → live flow
-- 3 main steps: signup, configure, provision
+| Model | Purpose | Tenant-Scoped? | Key Fields |
+|-------|---------|---|---|
+| Website | Agency/Tenant | N/A | company_display_name, emails, config |
+| Contact | Visitor/Lead | YES | first_name, primary_email, phone, addresses |
+| Message | Inquiry/Email | YES | title, content, origin_email, delivery_status |
+| User | Agency Staff | NO | email, password, roles |
+| UserMembership | User↔Website | N/A | user_id, website_id, role, active |
+| Agency | Company Info | YES | display_name, phone, emails, address |
+| Address | Street Address | NO | street, city, postal_code, lat/lng |
 
 ---
 
-## Key Database Fields
+## Quick Code Examples
 
-### User Model
-```
-onboarding_state                    -- ENUM: lead, registered, email_verified, onboarding, active, churned
-onboarding_step                     -- INT: current step (1-4)
-onboarding_started_at               -- TIMESTAMP
-onboarding_completed_at             -- TIMESTAMP
-site_admin_onboarding_completed_at  -- TIMESTAMP (site setup wizard)
-```
-
-### Website Model
-```
-provisioning_state                  -- ENUM: pending, owner_assigned, ..., live
-provisioning_started_at             -- TIMESTAMP
-provisioning_completed_at           -- TIMESTAMP
-provisioning_error                  -- TEXT
-seed_pack_name                      -- VARCHAR: which pack used
-site_type                           -- VARCHAR: residential|commercial|vacation_rental
-owner_email                         -- VARCHAR
-email_verification_token            -- VARCHAR
-email_verified_at                   -- TIMESTAMP
-```
-
----
-
-## Important Methods
-
-### User Model
+### Create a Contact (in web request)
 ```ruby
-user.onboarding_state                     -- Current state
-user.onboarding_step_title                -- Get display name
-user.advance_onboarding_step!             -- Increment step
-user.onboarding_progress_percentage       -- 0-100
-user.needs_onboarding?                    -- Check if eligible
-user.admin_for?(website)                  -- Check if owner/admin
-user.can_access_website?(website)         -- Check membership
-
-# State machine events:
-user.register!                            -- lead → registered
-user.verify_email!                        -- registered → email_verified  
-user.start_onboarding!                    -- email_verified → onboarding
-user.complete_onboarding!                 -- onboarding → active
-user.activate!                            -- any → active (direct)
-user.mark_churned!                        -- any → churned
-user.reactivate!                          -- churned → lead
-```
-
-### Website Model
-```ruby
-website.provisioning_state                -- Current state
-website.seed_pack_name                    -- Which pack used
-website.provisioning_complete?            -- All required items present?
-website.has_owner?                        -- Owner membership exists?
-website.has_agency?                       -- Agency record exists?
-website.has_links?                        -- >= 3 links exist?
-website.has_field_keys?                   -- >= 5 field keys exist?
-website.can_go_live?                      -- Ready for live state?
-
-# State machine events:
-website.assign_owner!                     -- pending → owner_assigned
-website.complete_agency!                  -- owner_assigned → agency_created
-website.complete_links!                   -- agency_created → links_created
-website.complete_field_keys!              -- links_created → field_keys_created
-website.seed_properties!                  -- field_keys_created → properties_seeded
-website.skip_properties!                  -- field_keys_created → properties_seeded (no data)
-website.mark_ready!                       -- properties_seeded → ready
-website.enter_locked_state!               -- ready → locked_pending_email_verification
-website.verify_owner_email!               -- locked_pending_email_verification → locked_pending_registration
-website.go_live!                          -- locked_pending_registration → live
-```
-
-### SeedPack
-```ruby
-Pwb::SeedPack.available                   -- List all packs
-Pwb::SeedPack.find('name')                -- Load specific pack
-pack.apply!(website: w)                   -- Apply to website
-pack.preview                              -- What would be created
-pack.seed_agency!(website: w)             -- Individual step
-pack.seed_properties!(website: w)         -- Individual step
-```
-
-### ProvisioningService
-```ruby
-service = Pwb::ProvisioningService.new
-service.start_signup(email: "user@example.com")
-service.verify_email(user: user, token: token)
-service.configure_site(user: user, subdomain_name: "site", site_type: "residential")
-service.provision_website(website: website)
-service.errors                            -- Array of error messages
-```
-
----
-
-## Query Examples
-
-### Find Users Needing Site Setup
-```ruby
-User.where(onboarding_state: 'active')
-    .where(site_admin_onboarding_completed_at: nil)
-    .where('created_at > ?', 7.days.ago)
-```
-
-### Find Failed Provisioning
-```ruby
-Website.where(provisioning_state: 'failed')
-```
-
-### Get Signup Funnel
-```ruby
-User.where(onboarding_state: 'lead').count           # Email captured
-User.where(onboarding_state: 'registered').count     # Account created
-User.where(onboarding_state: 'active').count         # Email verified
-User.where(onboarding_state: 'active',
-           site_admin_onboarding_completed_at: nil).count  # Pending site setup
-```
-
-### Get Provisioning Stats
-```ruby
-Website.where(provisioning_state: 'live').count      # Live
-Website.where(provisioning_state: 'pending').count   # Not started
-Website.where(provisioning_state: 'failed').count    # Failed
-Website.where('provisioning_started_at IS NOT NULL').average(
-  "EXTRACT(EPOCH FROM (provisioning_completed_at - provisioning_started_at))"
-).to_i.minutes                                        # Avg provisioning time
-```
-
----
-
-## File Locations
-
-```
-lib/pwb/
-  ├── seed_pack.rb                    # Seed pack system
-  ├── seed_runner.rb                  # Enhanced seeding
-  ├── seeder.rb                       # Legacy seeder
-  ├── pages_seeder.rb                 # Page seeding
-  └── contents_seeder.rb              # Content seeding
-
-app/services/pwb/
-  └── provisioning_service.rb         # Provisioning workflow
-
-app/models/pwb/
-  ├── user.rb                         # User with AASM
-  └── website.rb                      # Website with provisioning
-
-app/models/concerns/pwb/
-  └── website_provisionable.rb        # Website state machine
-
-app/controllers/site_admin/
-  └── onboarding_controller.rb        # 5-step wizard
-
-app/controllers/concerns/
-  └── site_admin_onboarding.rb        # Auto-redirect concern
-
-db/seeds/
-  └── packs/                          # Seed pack definitions
-     ├── base/                        # Base/default pack
-     └── {custom_pack}/
-        ├── pack.yml
-        ├── agency.yml
-        ├── field_keys.yml
-        ├── pages/
-        ├── properties/
-        └── ...
-
-db/yml_seeds/                         # Legacy seed files
-  ├── agency.yml
-  ├── field_keys.yml
-  ├── users.yml
-  ├── prop/
-  └── ...
-
-db/migrate/
-  ├── 20251209122403_add_onboarding_state_to_users.rb
-  ├── 20251216200000_add_site_admin_onboarding_to_users.rb
-  └── 20251209122349_add_provisioning_state_to_websites.rb
-```
-
----
-
-## Common Workflows
-
-### Onboard a User Completely
-```ruby
-# 1. User signs up
-service = Pwb::ProvisioningService.new
-result = service.start_signup(email: "owner@example.com")
-user = result[:user]
-
-# 2. Email verification (in real flow, user clicks link)
-service.verify_email(user: user, token: token)
-
-# 3. Configure site
-result = service.configure_site(
-  user: user,
-  subdomain_name: "my-agency",
-  site_type: "residential"
-)
-website = result[:website]
-
-# 4. Provision website (background job)
-service.provision_website(website: website)
-
-# 5. User completes setup wizard (through browser)
-# OnboardingController handles this automatically
-
-# 6. Check status
-user.reload
-user.site_admin_onboarding_completed_at.present?  # => true
-website.provisioning_state                        # => "live"
-```
-
-### Apply Seed Pack to New Website
-```ruby
-website = Pwb::Website.create!(subdomain: 'test', theme_name: 'bristol')
-pack = Pwb::SeedPack.find('spain_luxury')
-pack.apply!(website: website)
-
-# Or with options:
-pack.apply!(
-  website: website,
-  options: {
-    skip_properties: false,
-    dry_run: false,
-    verbose: true
-  }
+# In controller (auto-scoped to current website)
+contact = PwbTenant::Contact.create(
+  first_name: "John",
+  last_name: "Doe",
+  primary_email: "john@example.com",
+  primary_phone_number: "+1234567890"
 )
 ```
 
-### Check Onboarding Progress
+### Create a Message
 ```ruby
-user = Pwb::User.find(1)
+# In controller
+message = PwbTenant::Message.create(
+  title: "Property Inquiry",
+  content: "I'm interested in the penthouse",
+  origin_email: "john@example.com",
+  origin_ip: request.ip,
+  contact_id: contact.id,
+  delivery_email: current_website.email_for_property_contact_form
+)
+```
 
-# Signup flow progress
-user.onboarding_state                       # "active"
-user.onboarding_progress_percentage         # 100
-user.onboarding_completed_at                # <timestamp>
+### Send Email
+```ruby
+# Async (queued job)
+EnquiryMailer.property_enquiry_targeting_agency(contact, message, property).deliver_later
 
-# Site setup wizard progress
-user.site_admin_onboarding_completed_at     # nil if not done, timestamp if done
+# Sync (immediate)
+EnquiryMailer.property_enquiry_targeting_agency(contact, message, property).deliver_now
+```
 
-# Website provisioning progress
-website = user.website
-website.provisioning_state                  # "live", "pending", etc.
-website.provisioning_completed_at           # timestamp when done
+### Query Contacts
+```ruby
+# In web request (auto-scoped)
+contacts = PwbTenant::Contact.all  # Only current website
+by_email = PwbTenant::Contact.find_by(primary_email: email)
+
+# In console (manual scope)
+contacts = Pwb::Contact.where(website_id: website.id)
+```
+
+### Get Contact Inquiry History
+```ruby
+contact.messages  # All inquiries from this contact
+message.contact   # Which contact submitted this
 ```
 
 ---
 
-## Troubleshooting
+## Current Inquiry Workflow
 
-### User stuck in onboarding state
-```ruby
-user = Pwb::User.find(1)
-user.onboarding_state  # => "onboarding"
-
-# Manually activate if needed:
-user.activate!
-user.site_admin_onboarding_completed_at = Time.current
-user.save!
 ```
+1. Visitor on property page fills form:
+   - Name, Email, Phone, Message
 
-### Website stuck in provisioning
-```ruby
-website = Pwb::Website.find(1)
-website.provisioning_state  # => "pending"
+2. Form POST to /pwb/props/request_property_info_ajax
 
-# Check what's missing:
-website.provisioning_complete?      # false
-website.provisioning_missing_items  # array of missing items
+3. Controller:
+   - Finds/creates Contact by email
+   - Creates Message record
+   - Saves both
+   - Queues email job
 
-# Reset and retry:
-service = Pwb::ProvisioningService.new
-service.provision_website(website: website)
-```
+4. EnquiryMailer (async):
+   - Sends email to: Website.email_for_property_contact_form
+   - Reply-To: Visitor email
+   - Updates Message: delivery_success, delivered_at
 
-### Reseed a website
-```ruby
-website = Pwb::Website.find(1)
-pack = Pwb::SeedPack.find(website.seed_pack_name)
-
-# Delete existing data (careful!)
-website.agency.destroy if website.agency
-website.field_keys.destroy_all
-website.links.destroy_all
-
-# Re-apply pack
-pack.apply!(website: website)
+5. Result:
+   - Contact record exists with history
+   - Message shows delivery status
+   - Agency received email
 ```
 
 ---
 
-## State Machine Diagrams
+## Important Constraints
 
-### User Onboarding States
-```
-                    ┌─────────────┐
-                    │    lead     │  (initial)
-                    └──────┬──────┘
-                           │ register()
-                           ▼
-                    ┌─────────────┐
-                    │ registered  │
-                    └──────┬──────┘
-                           │ verify_email()
-                           ▼
-                    ┌─────────────────┐
-                    │ email_verified  │
-                    └──────┬──────────┘
-         ┌────────────────┤
-         │                │ start_onboarding()
-    activate()            ▼
-         │          ┌──────────────┐
-         │          │ onboarding   │
-         │          └──────┬───────┘
-         │                 │ complete_onboarding()
-         └────────────────►├──────────────────┐
-                           ▼                  ▼
-                    ┌──────────────┐   ┌───────────┐
-                    │    active    │   │  churned  │
-                    └──────────────┘   └─────┬─────┘
-                                             │ reactivate()
-                                             ▼ (→lead)
+### Multi-Tenancy
+```ruby
+# ALWAYS include website_id when creating models in web requests
+Contact.create(
+  primary_email: email,
+  website_id: Pwb::Current.website.id  # REQUIRED
+)
+
+# In console, you can omit it but should scope
+Pwb::Contact.where(website_id: website.id)
 ```
 
-### Website Provisioning States
+### Scoping
+```ruby
+# Web requests (GOOD)
+PwbTenant::Contact.find(id)  # Auto-scoped
+
+# Web requests (BAD)
+Pwb::Contact.find(id)  # UNSCOPED - security issue!
+
+# Console (OK)
+Pwb::Contact.find(id)  # OK - careful work
 ```
-    pending
-      │ assign_owner() [has_owner?]
-      ▼
-  owner_assigned
-      │ complete_agency() [has_agency?]
-      ▼
-  agency_created
-      │ complete_links() [has_links? >= 3]
-      ▼
-  links_created
-      │ complete_field_keys() [has_field_keys? >= 5]
-      ▼
-  field_keys_created
-      │ seed_properties() OR skip_properties()
-      ▼
-  properties_seeded
-      │ mark_ready() [provisioning_complete?]
-      ▼
-  ready
-      │ enter_locked_state() [can_go_live?]
-      ▼
-  locked_pending_email_verification
-      │ verify_owner_email()
-      ▼
-  locked_pending_registration
-      │ go_live()
-      ▼
-  live
-  
-Failed state reachable from: any (fail_provisioning())
-Suspended/Terminated: manual states
+
+### User Roles
+```ruby
+# Check user role for website
+user.role_for(website)  # Returns: owner, admin, member, viewer
+
+# Check if admin
+user.admin_for?(website)
+
+# Can access?
+user.can_access_website?(website)
 ```
 
 ---
 
-## Performance Considerations
+## What DOESN'T Exist (Yet)
 
-- **Indexes:** Both state columns are indexed for fast queries
-- **Seed Pack Inheritance:** Parent packs applied first, then child
-- **Materialized View:** Properties materialized view refreshed after seeding
-- **Background Jobs:** Provisioning should be async (respects `skip_properties` to reduce time)
-- **State Transitions:** Guards prevent invalid transitions, logged for audit
+**No Agent Assignment**
+- No way to assign contacts/inquiries to specific agents
+- All website users see all inquiries
+- No territory/region routing
+
+**No Lead Pipeline**
+- No status field (new, contacted, interested, rejected)
+- No priority/rating
+- No notes or comments
+- No follow-ups or reminders
+
+**No SMS/Alternative Channels**
+- Email only (one-way)
+- No Twilio/SMS integration
+- No WhatsApp
+- No in-app messaging
+- Replies come back via email only
+
+**No Two-Way Messaging**
+- Agents can't reply within system
+- No message threads
+- No attachment support
 
 ---
 
-## Testing
+## File Locations Cheat Sheet
 
-Key test files:
-- `spec/models/pwb/user_onboarding_spec.rb`
-- `spec/controllers/site_admin/onboarding_controller_spec.rb`
-- `spec/services/pwb/provisioning_service_spec.rb`
-- `spec/services/pwb/provisioning_seeding_spec.rb`
-- `spec/lib/pwb/seed_pack_spec.rb`
+```
+Models:
+  app/models/pwb/contact.rb
+  app/models/pwb/message.rb
+  app/models/pwb/website.rb
+  app/models/pwb/user.rb
+  app/models/pwb/agency.rb
+  app/models/pwb_tenant/contact.rb (scoped version)
+  app/models/pwb_tenant/message.rb (scoped version)
 
-Test with factories: `spec/factories/pwb_users.rb`
+Controllers:
+  app/controllers/pwb/props_controller.rb (form handling)
+  app/controllers/pwb/api/v1/contacts_controller.rb (API)
+
+Mailers:
+  app/mailers/pwb/enquiry_mailer.rb
+
+Database:
+  db/schema.rb (search: pwb_contacts, pwb_messages)
+
+Tests:
+  spec/models/pwb/contact_spec.rb
+  spec/models/pwb/message_spec.rb
+  spec/mailers/pwb/enquiry_mailer_spec.rb
+```
+
+---
+
+## Common Tasks
+
+### Check If Email Was Delivered
+```ruby
+message = Message.find(id)
+if message.delivery_success
+  puts "Email sent successfully at #{message.delivered_at}"
+else
+  puts "Email failed: #{message.delivery_error}"
+end
+```
+
+### Find All Unread Inquiries
+```ruby
+unread = PwbTenant::Message.where(read: false)
+unread.count
+```
+
+### Get Contact by Phone
+```ruby
+contact = PwbTenant::Contact.find_by(primary_phone_number: "+1234567890")
+```
+
+### Mark Message as Read
+```ruby
+message.update(read: true)
+```
+
+### Check User Websites
+```ruby
+user.websites  # All websites user has access to
+user.user_memberships  # Membership records
+user.admin_for?(website)  # Check if admin on website
+```
+
+### Get Agency Contact Info
+```ruby
+website.agency.email_for_property_contact_form
+website.agency.phone_number_primary
+website.agency.primary_address
+```
+
+---
+
+## Important Database Tables
+
+```sql
+pwb_websites        -- Agency tenants
+pwb_users           -- User accounts
+pwb_user_memberships -- User → Website mapping
+pwb_contacts        -- Contact/Lead records (website_scoped)
+pwb_messages        -- Inquiries/emails (website_scoped)
+pwb_addresses       -- Address records (shared)
+pwb_agencies        -- Agency details (website_scoped)
+pwb_realty_assets   -- Properties
+pwb_sale_listings   -- Sale transactions
+pwb_rental_listings -- Rental transactions
+```
+
+---
+
+## Common Queries
+
+```ruby
+# All contacts for website
+Pwb::Contact.where(website_id: website_id)
+
+# Recent inquiries (last 7 days)
+Pwb::Message.where(website_id: website_id, created_at: 7.days.ago..)
+
+# Undelivered emails
+Pwb::Message.where(website_id: website_id, delivery_success: false)
+
+# Contact with most inquiries
+Pwb::Contact.where(website_id: website_id).find_by("(SELECT COUNT(*) FROM pwb_messages WHERE pwb_messages.contact_id = pwb_contacts.id) = (SELECT MAX(cnt) FROM (SELECT COUNT(*) as cnt FROM pwb_messages GROUP BY contact_id) AS counts)")
+
+# Better: Group by contact
+Pwb::Message.where(website_id: website_id).group(:contact_id).count
+
+# Find contact inquiries
+contact.messages  # or
+Pwb::Message.where(contact_id: contact_id)
+```
+
+---
+
+## Debugging Checklist
+
+**Contact Not Found After Inquiry?**
+- Check website_id matches Pwb::Current.website.id
+- Check primary_email (case sensitivity)
+- Check database directly: `SELECT * FROM pwb_contacts WHERE primary_email = '...'`
+
+**Email Not Sent?**
+- Check Message.delivery_success = true/false
+- Check Message.delivery_error for error details
+- Check Agency.email_for_property_contact_form is set
+- Check Solid Queue jobs: `SolidQueue::Job.where(class_name: 'EnquiryMailer*')`
+
+**Can't Find Message?**
+- Verify website_id (might be different website)
+- Use Pwb::Message for console (unscoped)
+- Check message was actually saved (validate before save)
+
+**Authorization Issues?**
+- Check user.role_for(website)
+- Check UserMembership.active = true
+- Check user has access with: user.can_access_website?(website)
+
+---
+
+## Key Architecture Decisions
+
+1. **Website = Tenant**: Everything scoped to website_id
+2. **Contact = Lead**: No separate lead model, contacts are leads
+3. **Message = Inquiry + Status**: One model for everything
+4. **Email Only**: No SMS/messaging yet, just email outbound
+5. **One-Way**: Agencies receive email, replies come back via email
+6. **Flexible User**: UserMembership enables multi-website per user
+7. **No Agent Assignment**: All users see all inquiries
+8. **JSON Fields**: Contact.details and Website.config for extensibility
+
