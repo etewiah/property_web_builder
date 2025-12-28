@@ -7,23 +7,58 @@
 /* WCAG AA Compliant Color System */
 :root {
   /* Base Colors - All tested for WCAG AA contrast */
-  --ocean-dark: #0C4A6E;      /* Deep ocean blue - text on light BG */
+  --ocean-darker: #082F49;     /* Darkest ocean blue - header/footer bg */
+  --ocean-dark: #0C4A6E;       /* Deep ocean blue - text on light BG */
   --ocean-primary: #0369A1;    /* Ocean blue - backgrounds */
   --ocean-light: #E0F2FE;      /* Light ocean - backgrounds */
-  
+
   --sand-dark: #B45309;        /* Dark sand - text on light BG */
   --sand-primary: #D97706;     /* Warm sand - accents */
   --sand-light: #FEF3C7;       /* Light sand - backgrounds */
-  
+
   --sunset-dark: #B45309;      /* Dark sunset - text */
   --sunset-primary: #F59E0B;   /* Golden sunset - accents */
   --sunset-light: #FEF3C7;     /* Light sunset - backgrounds */
-  
+
   --neutral-900: #1C1917;      /* Almost black - primary text */
   --neutral-800: #292524;      /* Dark gray - secondary text */
   --neutral-700: #44403C;      /* Medium gray - muted text */
+  --neutral-200: #E7E5E4;      /* Light border - dividers */
   --neutral-100: #F5F5F4;      /* Light gray - backgrounds */
   --neutral-50: #FAFAF9;       /* Almost white - page background */
+
+  --danger-red: #B91C1C;       /* Red for destructive actions */
+  --light-gray-text: #D4D4D8;  /* Light gray for footer text */
+
+  /* Header/Footer Semantic Colors */
+  --header-bg: var(--ocean-darker);
+  --header-border: var(--ocean-dark);
+  --header-text: white;
+  --header-hover-text: var(--sand-light);
+  --header-icon-bg: var(--ocean-dark);
+  --header-icon-hover-bg: var(--sand-primary);
+  --header-lang-active-bg: var(--sand-primary);
+  --header-lang-hover-bg: var(--ocean-dark);
+
+  --nav-bg: white;
+  --nav-border-accent: var(--sand-primary);
+  --nav-text: var(--neutral-900);
+  --nav-text-hover: var(--ocean-dark);
+  --nav-active-bg: var(--ocean-light);
+  --nav-active-text: var(--ocean-dark);
+  --nav-icon-bg: var(--ocean-primary);
+  --nav-focus-ring: var(--ocean-primary);
+
+  --footer-bg: var(--ocean-darker);
+  --footer-text: white;
+  --footer-text-muted: var(--light-gray-text);
+  --footer-link-color: var(--light-gray-text);
+  --footer-link-hover: var(--sand-light);
+  --footer-border: var(--ocean-dark);
+  --footer-icon-bg: var(--ocean-dark);
+  --footer-icon-hover-bg: var(--sand-primary);
+  --footer-pwb-link: var(--sand-light);
+  --footer-pwb-link-hover: var(--sand-primary);
   
   /* Semantic Colors - Guaranteed Contrast */
   --color-primary: var(--ocean-dark);
@@ -202,6 +237,154 @@
 .biarritz-theme a:focus {
   outline: 2px solid var(--ocean-primary);
   outline-offset: 2px;
+}
+
+/* ============================================
+   HEADER/NAVIGATION STYLES (CSS Variable Based)
+   ============================================ */
+
+/* Header Links */
+.biarritz-header-link {
+  color: var(--header-text);
+}
+.biarritz-header-link:hover {
+  color: var(--header-hover-text);
+}
+
+/* Language Switcher */
+.biarritz-lang-link {
+  color: var(--header-text);
+}
+.biarritz-lang-link:hover {
+  background-color: var(--header-lang-hover-bg);
+}
+.biarritz-lang-link.biarritz-lang-active {
+  background-color: var(--header-lang-active-bg);
+  color: var(--header-text);
+}
+
+/* Logo Text */
+.biarritz-logo-text {
+  color: var(--nav-text);
+}
+.group:hover .biarritz-logo-text {
+  color: var(--nav-text-hover);
+}
+
+/* Mobile Menu Button */
+.biarritz-mobile-menu {
+  color: var(--nav-text);
+}
+.biarritz-mobile-menu:hover {
+  background-color: var(--neutral-100);
+}
+.biarritz-mobile-menu:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--nav-focus-ring);
+}
+
+/* Navigation Links */
+.biarritz-nav-link {
+  color: var(--nav-text);
+}
+.biarritz-nav-link:hover {
+  background-color: var(--neutral-100);
+  color: var(--nav-text-hover);
+}
+.biarritz-nav-link.biarritz-nav-active {
+  background-color: var(--nav-active-bg);
+  color: var(--nav-active-text);
+}
+
+/* Dropdown Menu */
+.biarritz-dropdown-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--nav-focus-ring);
+}
+.biarritz-dropdown-menu {
+  border-color: var(--neutral-200);
+}
+.biarritz-dropdown-item {
+  color: var(--nav-text);
+}
+.biarritz-dropdown-item:hover {
+  background-color: var(--nav-active-bg);
+  color: var(--nav-active-text);
+}
+.biarritz-dropdown-divider {
+  border-color: var(--neutral-200);
+}
+.biarritz-signout-link {
+  color: var(--danger-red);
+}
+.biarritz-signout-link:hover {
+  background-color: #fef2f2;
+}
+
+/* Accent Wave */
+.biarritz-accent-wave {
+  background: linear-gradient(to right, var(--ocean-primary), var(--sand-primary), var(--sunset-primary));
+}
+
+/* ============================================
+   FOOTER STYLES (CSS Variable Based)
+   ============================================ */
+
+/* Footer Wave SVG */
+.biarritz-footer-wave {
+  color: var(--footer-bg);
+}
+
+/* Footer Links */
+.biarritz-footer-link {
+  color: var(--footer-text);
+}
+.biarritz-footer-link:hover {
+  color: var(--footer-link-hover);
+}
+
+/* Footer Icon Containers */
+.biarritz-footer-icon {
+  background-color: var(--footer-icon-bg);
+}
+.biarritz-footer-icon:hover,
+.group:hover .biarritz-footer-icon {
+  background-color: var(--footer-icon-hover-bg);
+}
+
+/* Footer Social Icons */
+.biarritz-social-icon {
+  background-color: var(--footer-icon-bg);
+  color: var(--footer-text);
+}
+.biarritz-social-icon:hover {
+  background-color: var(--footer-icon-hover-bg);
+  transform: scale(1.1);
+}
+.biarritz-social-icon:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--footer-link-hover), 0 0 0 4px var(--footer-bg);
+}
+
+/* Footer Text */
+.biarritz-footer-text-muted {
+  color: var(--footer-text-muted);
+}
+.biarritz-footer-text-muted:hover {
+  color: var(--footer-link-hover);
+}
+
+/* Footer Divider */
+.biarritz-footer-divider {
+  border-color: var(--footer-border);
+}
+
+/* Footer PWB Attribution */
+.biarritz-pwb-link {
+  color: var(--footer-pwb-link);
+}
+.biarritz-pwb-link:hover {
+  color: var(--footer-pwb-link-hover);
 }
 
 /* ============================================

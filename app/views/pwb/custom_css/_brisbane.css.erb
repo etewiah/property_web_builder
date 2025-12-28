@@ -26,6 +26,8 @@
   /* Footer Colors - from palette */
   --footer-bg-color: <%= @current_website.style_variables["footer_bg_color"] || "#1a1a2e" %>;
   --footer-text-color: <%= @current_website.style_variables["footer_text_color"] || "#e8e8e8" %>;
+  --footer-link-color: var(--brisbane-gold);
+  --footer-link-hover-color: color-mix(in srgb, var(--brisbane-gold) 80%, white);
 
   /* Action Colors - from palette */
   --action-color: <%= @current_website.style_variables["action_color"] || "#c9a962" %>;

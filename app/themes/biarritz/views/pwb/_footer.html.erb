@@ -1,18 +1,19 @@
 <!-- Biarritz Theme Footer - High Contrast Coastal Design -->
+<!-- Colors use CSS variables from _biarritz.css.erb for palette consistency -->
 
 <!-- Wave Divider - Decorative transition from content to footer -->
 <div class="relative">
-  <svg class="w-full h-16 md:h-20 text-[#082F49]" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+  <svg class="biarritz-footer-wave w-full h-16 md:h-20" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
     <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="currentColor"/>
   </svg>
 </div>
 
 <!-- Main Footer - Dark Ocean Background with White Text -->
-<footer class="bg-[#082F49] text-white" role="contentinfo">
+<footer class="text-white" style="background-color: var(--footer-bg);" role="contentinfo">
   <div class="container mx-auto px-4 py-12">
-    
+
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-      
+
       <!-- Company Info Column -->
       <div>
         <h4 class="text-2xl font-bold text-white mb-6" style="font-family: 'Playfair Display', Georgia, serif;">
@@ -21,21 +22,21 @@
         <ul class="space-y-4">
           <% if @current_agency.phone_number_primary.present? %>
             <li>
-              <a href="tel:<%= @current_agency.phone_number_primary %>" 
-                 class="flex items-center text-white hover:text-[#FEF3C7] transition-colors group">
-                <span class="w-10 h-10 flex items-center justify-center bg-[#0C4A6E] rounded-lg mr-3 group-hover:bg-[#D97706] transition-colors">
+              <a href="tel:<%= @current_agency.phone_number_primary %>"
+                 class="biarritz-footer-link flex items-center transition-colors group">
+                <span class="biarritz-footer-icon w-10 h-10 flex items-center justify-center rounded-lg mr-3 transition-colors">
                   <i class="fa fa-phone" aria-hidden="true"></i>
                 </span>
                 <span class="font-medium"><%= @current_agency.phone_number_primary %></span>
               </a>
             </li>
           <% end %>
-          
+
           <% if @current_agency.email_primary.present? %>
             <li>
-              <a href="mailto:<%= @current_agency.email_primary %>" 
-                 class="flex items-center text-white hover:text-[#FEF3C7] transition-colors group">
-                <span class="w-10 h-10 flex items-center justify-center bg-[#0C4A6E] rounded-lg mr-3 group-hover:bg-[#D97706] transition-colors">
+              <a href="mailto:<%= @current_agency.email_primary %>"
+                 class="biarritz-footer-link flex items-center transition-colors group">
+                <span class="biarritz-footer-icon w-10 h-10 flex items-center justify-center rounded-lg mr-3 transition-colors">
                   <i class="fa fa-envelope" aria-hidden="true"></i>
                 </span>
                 <span class="font-medium"><%= @current_agency.email_primary %></span>
@@ -49,7 +50,7 @@
       <nav class="flex flex-col items-center justify-center" aria-label="Social media links">
         <h5 class="text-xl font-semibold text-white mb-6">Follow Us</h5>
         <div class="flex flex-wrap justify-center gap-3">
-          <% 
+          <%
             social_links = []
             social_links << {url: @current_website.social_media_facebook, icon: 'facebook', label: 'Facebook'} if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present?
             social_links << {url: @current_website.social_media_twitter, icon: 'twitter', label: 'Twitter'} if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present?
@@ -58,12 +59,12 @@
             social_links << {url: @current_website.social_media_youtube, icon: 'youtube', label: 'YouTube'} if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present?
             social_links << {url: @current_website.social_media_whatsapp, icon: 'whatsapp', label: 'WhatsApp'} if @current_website.respond_to?(:social_media_whatsapp) && @current_website.social_media_whatsapp.present?
           %>
-          
+
           <% social_links.each do |social| %>
-            <a href="<%= social[:url] %>" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="w-12 h-12 flex items-center justify-center bg-[#0C4A6E] hover:bg-[#D97706] text-white rounded-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#FEF3C7] focus:ring-offset-2 focus:ring-offset-[#082F49]" 
+            <a href="<%= social[:url] %>"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="biarritz-social-icon w-12 h-12 flex items-center justify-center rounded-lg transition-all"
                aria-label="Follow us on <%= social[:label] %>">
               <i class="fa fa-<%= social[:icon] %> text-lg" aria-hidden="true"></i>
             </a>
@@ -79,7 +80,7 @@
           </div>
         <% else %>
           <h5 class="text-xl font-semibold text-white mb-4">About Us</h5>
-          <p class="text-[#D4D4D8] leading-relaxed">
+          <p class="biarritz-footer-text-muted leading-relaxed">
             Your trusted partner in finding the perfect coastal property.
           </p>
         <% end %>
@@ -87,11 +88,11 @@
     </div>
 
     <!-- Divider -->
-    <div class="border-t-2 border-[#0C4A6E] my-8"></div>
+    <div class="biarritz-footer-divider border-t-2 my-8"></div>
 
     <!-- Bottom Bar - Footer Links & Copyright -->
     <div class="flex flex-col md:flex-row justify-between items-center text-sm">
-      
+
       <!-- Footer Navigation Links -->
       <nav class="flex flex-wrap justify-center gap-6 mb-6 md:mb-0" aria-label="Footer navigation">
         <% @current_website.links.ordered_visible_footer.each do |page| %>
@@ -106,23 +107,23 @@
           <% end %>
           <% if target_path %>
             <%= link_to page.link_title, target_path,
-                class: "text-[#D4D4D8] hover:text-[#FEF3C7] transition-colors font-medium" %>
+                class: "biarritz-footer-text-muted transition-colors font-medium" %>
           <% end %>
         <% end %>
         <%= link_to I18n.t("signIn"), "/pwb_login",
-            class: "text-[#D4D4D8] hover:text-[#FEF3C7] transition-colors font-medium" %>
+            class: "biarritz-footer-text-muted transition-colors font-medium" %>
       </nav>
-      
+
       <!-- Copyright & Attribution -->
-      <div class="text-center md:text-right text-[#D4D4D8]">
+      <div class="biarritz-footer-text-muted text-center md:text-right">
         <p class="mb-2">
-          © <%= Time.current.year %> <%= company_display_name %>. 
+          © <%= Time.current.year %> <%= company_display_name %>.
           All rights reserved.
         </p>
         <p class="text-xs">
-          Powered by 
-          <a href="https://www.propertywebbuilder.com" 
-             class="text-[#FEF3C7] hover:text-[#D97706] font-semibold transition-colors"
+          Powered by
+          <a href="https://www.propertywebbuilder.com"
+             class="biarritz-pwb-link font-semibold transition-colors"
              target="_blank"
              rel="noopener noreferrer">
             PropertyWebBuilder

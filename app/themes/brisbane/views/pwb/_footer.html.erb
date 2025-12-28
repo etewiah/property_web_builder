@@ -175,12 +175,13 @@
 </footer>
 
 <style>
+  /* Uses CSS variables from _brisbane.css.erb for palette consistency */
   .footer-custom-content a {
-    color: #c9a962;
-    transition: opacity 0.3s ease;
+    color: var(--footer-link-color);
+    transition: color 0.3s ease;
   }
   .footer-custom-content a:hover {
-    opacity: 0.8;
+    color: var(--footer-link-hover-color);
   }
   .footer-custom-content p {
     margin-bottom: 0.75rem;

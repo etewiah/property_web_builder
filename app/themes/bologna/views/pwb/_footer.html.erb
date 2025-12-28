@@ -223,12 +223,13 @@
 </footer>
 
 <style>
+  /* Uses CSS variables from _bologna.css.erb for palette consistency */
   .footer-custom-content a {
-    color: #d98e6e;
+    color: var(--footer-link-color);
     transition: color 0.2s ease;
   }
   .footer-custom-content a:hover {
-    color: #e7b5a0;
+    color: var(--footer-link-hover-color);
   }
   .footer-custom-content p {
     margin-bottom: 0.75rem;

@@ -220,12 +220,13 @@
 </footer>
 
 <style>
+  /* Uses CSS variables from _barcelona.css.erb for palette consistency */
   .footer-custom-content a {
-    color: #E5B45A;
+    color: var(--footer-link-color);
     transition: color 0.2s ease;
   }
   .footer-custom-content a:hover {
-    color: #fde047;
+    color: var(--footer-link-hover-color);
   }
   .footer-custom-content p {
     margin-bottom: 0.75rem;
