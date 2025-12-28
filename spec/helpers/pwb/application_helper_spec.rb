@@ -170,5 +170,217 @@ module Pwb
         expect(result).to include("<textarea") # textarea element
       end
     end
+
+    describe "#format_bathroom_count" do
+      it "returns empty string for nil" do
+        expect(helper.format_bathroom_count(nil)).to eq("")
+      end
+
+      it "removes unnecessary decimal for whole numbers" do
+        expect(helper.format_bathroom_count(2.0)).to eq("2")
+        expect(helper.format_bathroom_count(1.0)).to eq("1")
+        expect(helper.format_bathroom_count(3.0)).to eq("3")
+      end
+
+      it "preserves decimal for half values" do
+        expect(helper.format_bathroom_count(1.5)).to eq("1.5")
+        expect(helper.format_bathroom_count(2.5)).to eq("2.5")
+      end
+
+      it "handles integer input" do
+        expect(helper.format_bathroom_count(2)).to eq("2")
+        expect(helper.format_bathroom_count(0)).to eq("0")
+      end
+
+      it "preserves other decimal values" do
+        expect(helper.format_bathroom_count(1.25)).to eq("1.25")
+        expect(helper.format_bathroom_count(2.75)).to eq("2.75")
+      end
+    end
+
+    describe "#format_bedroom_count" do
+      it "returns empty string for nil" do
+        expect(helper.format_bedroom_count(nil)).to eq("")
+      end
+
+      it "removes unnecessary decimal for whole numbers" do
+        expect(helper.format_bedroom_count(3.0)).to eq("3")
+        expect(helper.format_bedroom_count(5.0)).to eq("5")
+      end
+
+      it "preserves decimal for fractional values" do
+        expect(helper.format_bedroom_count(2.5)).to eq("2.5")
+      end
+
+      it "handles integer input" do
+        expect(helper.format_bedroom_count(4)).to eq("4")
+        expect(helper.format_bedroom_count(0)).to eq("0")
+      end
+    end
+
+    describe "#property_price" do
+      let(:website) { instance_double(Pwb::Website, default_currency: 'EUR', available_currencies: []) }
+      let(:property) { double("property") }
+
+      before do
+        helper.instance_variable_set(:@current_website, website)
+        allow(helper).to receive(:current_website).and_return(website)
+        allow(helper).to receive(:session).and_return({})
+        allow(helper).to receive(:cookies).and_return({})
+      end
+
+      context "for sale properties" do
+        let(:price) { Money.new(25000000, 'EUR') } # €250,000
+
+        before do
+          allow(property).to receive(:contextual_price).with("for_sale").and_return(price)
+        end
+
+        it "returns formatted price without /month suffix" do
+          result = helper.property_price(property, "for_sale")
+          expect(result).to include('€')
+          expect(result).to include('250,000')
+          expect(result).not_to include('/month')
+        end
+      end
+
+      context "for rent properties" do
+        let(:price) { Money.new(220000, 'EUR') } # €2,200
+
+        before do
+          allow(property).to receive(:contextual_price).with("for_rent").and_return(price)
+        end
+
+        it "appends /month suffix to rental price" do
+          result = helper.property_price(property, "for_rent")
+          expect(result).to include('€')
+          expect(result).to include('2,200')
+          expect(result).to include('/month')
+        end
+
+        it "handles string operation_type" do
+          result = helper.property_price(property, "for_rent")
+          expect(result).to include('/month')
+        end
+
+        it "handles symbol operation_type converted to string" do
+          # The helper uses operation_type.to_s == "for_rent"
+          allow(property).to receive(:contextual_price).with(:for_rent).and_return(price)
+          result = helper.property_price(property, :for_rent)
+          expect(result).to include('/month')
+        end
+      end
+
+      context "with nil or zero price" do
+        it "returns nil for nil price" do
+          allow(property).to receive(:contextual_price).with("for_rent").and_return(nil)
+          result = helper.property_price(property, "for_rent")
+          expect(result).to be_nil
+        end
+
+        it "returns nil for zero price" do
+          zero_price = Money.new(0, 'EUR')
+          allow(property).to receive(:contextual_price).with("for_rent").and_return(zero_price)
+          result = helper.property_price(property, "for_rent")
+          expect(result).to be_nil
+        end
+      end
+
+      context "with currency conversion" do
+        let(:website_with_conversion) do
+          instance_double(Pwb::Website,
+            default_currency: 'EUR',
+            available_currencies: ['USD'],
+            subdomain: 'test'
+          )
+        end
+        let(:price) { Money.new(150000, 'EUR') } # €1,500
+
+        before do
+          helper.instance_variable_set(:@current_website, website_with_conversion)
+          allow(helper).to receive(:current_website).and_return(website_with_conversion)
+          allow(helper).to receive(:session).and_return({ preferred_currency: 'USD' })
+          allow(property).to receive(:contextual_price).with("for_rent").and_return(price)
+          # Mock the conversion service to return converted price
+          allow(Pwb::ExchangeRateService).to receive(:convert).and_return(Money.new(165000, 'USD'))
+        end
+
+        it "inserts /month before conversion span for rentals" do
+          result = helper.property_price(property, "for_rent")
+          expect(result).to include('/month')
+          # The /month should come before the conversion span
+          expect(result).to match(%r{/month.*<span})
+        end
+      end
+    end
+
+    describe "#localized_buy_path" do
+      before do
+        # Mock the route helper
+        allow(helper).to receive(:buy_path).with(locale: :en).and_return('/en/buy')
+        allow(helper).to receive(:buy_path).with(locale: :es).and_return('/es/buy')
+      end
+
+      it "returns path with current locale" do
+        allow(I18n).to receive(:locale).and_return(:en)
+        expect(helper.localized_buy_path).to eq('/en/buy')
+      end
+
+      it "returns path with Spanish locale" do
+        allow(I18n).to receive(:locale).and_return(:es)
+        expect(helper.localized_buy_path).to eq('/es/buy')
+      end
+    end
+
+    describe "#localized_rent_path" do
+      before do
+        allow(helper).to receive(:rent_path).with(locale: :en).and_return('/en/rent')
+        allow(helper).to receive(:rent_path).with(locale: :fr).and_return('/fr/rent')
+      end
+
+      it "returns path with current locale" do
+        allow(I18n).to receive(:locale).and_return(:en)
+        expect(helper.localized_rent_path).to eq('/en/rent')
+      end
+
+      it "returns path with French locale" do
+        allow(I18n).to receive(:locale).and_return(:fr)
+        expect(helper.localized_rent_path).to eq('/fr/rent')
+      end
+    end
+
+    describe "#localized_contact_path" do
+      before do
+        allow(helper).to receive(:contact_us_path).with(locale: :en).and_return('/en/contact')
+        allow(helper).to receive(:contact_us_path).with(locale: :de).and_return('/de/contact')
+      end
+
+      it "returns contact path with current locale" do
+        allow(I18n).to receive(:locale).and_return(:en)
+        expect(helper.localized_contact_path).to eq('/en/contact')
+      end
+
+      it "returns contact path with German locale" do
+        allow(I18n).to receive(:locale).and_return(:de)
+        expect(helper.localized_contact_path).to eq('/de/contact')
+      end
+    end
+
+    describe "#localized_home_path" do
+      before do
+        allow(helper).to receive(:home_path).with(locale: :en).and_return('/en')
+        allow(helper).to receive(:home_path).with(locale: :nl).and_return('/nl')
+      end
+
+      it "returns home path with current locale" do
+        allow(I18n).to receive(:locale).and_return(:en)
+        expect(helper.localized_home_path).to eq('/en')
+      end
+
+      it "returns home path with Dutch locale" do
+        allow(I18n).to receive(:locale).and_return(:nl)
+        expect(helper.localized_home_path).to eq('/nl')
+      end
+    end
   end
 end
