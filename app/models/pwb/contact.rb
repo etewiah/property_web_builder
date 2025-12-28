@@ -59,10 +59,26 @@ module Pwb
     belongs_to :website, class_name: 'Pwb::Website', optional: true
 
     # Associations
-    has_many :messages, class_name: 'Pwb::Message'
+    # NOTE: messages association is scoped to same website to prevent cross-tenant data leakage
+    has_many :messages,
+             ->(contact) { where(website_id: contact.website_id) },
+             class_name: 'Pwb::Message',
+             foreign_key: :contact_id,
+             inverse_of: :contact,
+             dependent: :nullify
+
     belongs_to :primary_address, optional: true, class_name: 'Pwb::Address', foreign_key: 'primary_address_id'
     belongs_to :secondary_address, optional: true, class_name: 'Pwb::Address', foreign_key: 'secondary_address_id'
     belongs_to :user, optional: true, class_name: 'Pwb::User'
+
+    # Scopes
+    scope :with_messages, -> { joins(:messages).distinct }
+    scope :ordered_by_recent_message, -> {
+      joins(:messages)
+        .select('pwb_contacts.*, MAX(pwb_messages.created_at) as last_message_at')
+        .group('pwb_contacts.id')
+        .order('last_message_at DESC')
+    }
 
     # Enums
     enum :title, { mr: 0, mrs: 1 }
@@ -82,6 +98,22 @@ module Pwb
 
     def postal_code
       primary_address&.postal_code
+    end
+
+    # Display name for inbox/CRM views
+    def display_name
+      name = [first_name, last_name].compact.join(' ')
+      name.presence || primary_email&.split('@')&.first || 'Unknown Contact'
+    end
+
+    # Count of unread messages for this contact
+    def unread_messages_count
+      messages.where(read: false).count
+    end
+
+    # Most recent message from this contact
+    def last_message
+      messages.order(created_at: :desc).first
     end
   end
 end

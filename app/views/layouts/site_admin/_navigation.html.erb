@@ -43,13 +43,13 @@
           <span>Properties</span>
         <% end %>
 
-        <%= link_to site_admin_messages_path, class: "flex items-center justify-between px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_messages_path) ? 'bg-gray-700' : ''}" do %>
+        <%= link_to site_admin_inbox_index_path, class: "flex items-center justify-between px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/inbox') ? 'bg-gray-700' : ''}" do %>
           <span class="flex items-center">
             <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
               <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
               <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
             </svg>
-            <span>Messages</span>
+            <span>Inbox</span>
           </span>
           <% if @unread_messages_count.to_i > 0 %>
             <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
@@ -149,13 +149,12 @@
         </button>
 
         <div x-show="communicationOpen" x-collapse>
-          <%= link_to site_admin_messages_path, id: "tour-messages", class: "flex items-center justify-between px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_messages_path) ? 'bg-gray-700' : ''}" do %>
+          <%= link_to site_admin_inbox_index_path, id: "tour-inbox", class: "flex items-center justify-between px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/inbox') ? 'bg-gray-700' : ''}" do %>
             <span class="flex items-center">
               <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                <path fill-rule="evenodd" d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z" clip-rule="evenodd"></path>
               </svg>
-              <span>Messages</span>
+              <span>Inbox</span>
             </span>
             <% if @unread_messages_count.to_i > 0 %>
               <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
@@ -164,12 +163,20 @@
             <% end %>
           <% end %>
 
-          <%= link_to site_admin_contacts_path, id: "tour-contacts", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_contacts_path) ? 'bg-gray-700' : ''}" do %>
+          <%= link_to site_admin_messages_path, id: "tour-messages", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 text-gray-400 #{current_page?(site_admin_messages_path) ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+            </svg>
+            <span>All Messages</span>
+          <% end %>
+
+          <%= link_to site_admin_contacts_path, id: "tour-contacts", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 text-gray-400 #{current_page?(site_admin_contacts_path) ? 'bg-gray-700' : ''}" do %>
             <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
               <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path>
               <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path>
             </svg>
-            <span>Contacts</span>
+            <span>All Contacts</span>
           <% end %>
 
           <%= link_to site_admin_email_templates_path, id: "tour-email-templates", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/email_templates') ? 'bg-gray-700' : ''}" do %>

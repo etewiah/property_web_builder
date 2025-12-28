@@ -225,6 +225,14 @@ Rails.application.routes.draw do
     resources :contents, only: %i[index show]
     resources :messages, only: %i[index show]
     resources :contacts, only: %i[index show]
+
+    # Unified Inbox - CRM-style contact/message view
+    resources :inbox, only: [:index] do
+      member do
+        get '/', action: :show, as: 'conversation'
+      end
+    end
+
     resources :users do
       member do
         post :resend_invitation

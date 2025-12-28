@@ -1,0 +1,87 @@
+<div class="h-[calc(100vh-8rem)] flex">
+  <!-- Left Panel: Contact List -->
+  <div class="w-80 flex-shrink-0 bg-white border-r border-gray-200 flex flex-col">
+    <!-- Search Header -->
+    <div class="p-4 border-b border-gray-200">
+      <h1 class="text-xl font-bold text-gray-900 mb-3">Inbox</h1>
+      <%= form_with url: site_admin_inbox_index_path, method: :get, local: true, class: "relative" do |f| %>
+        <div class="relative">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <%= f.text_field :search,
+              value: params[:search],
+              placeholder: "Search contacts...",
+              class: "w-full pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Contact List -->
+    <div class="flex-1 overflow-y-auto">
+      <% if @contacts.any? %>
+        <% @contacts.each do |contact| %>
+          <% is_selected = @selected_contact&.id == contact.id %>
+          <%= link_to site_admin_inbox_conversation_path(contact),
+                      class: "block px-4 py-3 border-b border-gray-100 hover:bg-gray-50 transition-colors #{is_selected ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''}" do %>
+            <div class="flex items-start justify-between">
+              <div class="flex-1 min-w-0">
+                <!-- Contact Name -->
+                <div class="flex items-center gap-2">
+                  <% name = [contact.first_name, contact.last_name].compact.join(' ').presence %>
+                  <p class="text-sm font-medium text-gray-900 truncate">
+                    <%= name || contact.primary_email&.split('@')&.first || 'Unknown' %>
+                  </p>
+                  <% if contact.unread_count.to_i > 0 %>
+                    <span class="inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-blue-600 rounded-full">
+                      <%= contact.unread_count.to_i > 9 ? '9+' : contact.unread_count %>
+                    </span>
+                  <% end %>
+                </div>
+
+                <!-- Email -->
+                <p class="text-xs text-gray-500 truncate mt-0.5">
+                  <%= contact.primary_email || 'No email' %>
+                </p>
+
+                <!-- Message count -->
+                <p class="text-xs text-gray-400 truncate mt-1">
+                  <%= pluralize(contact.messages_count.to_i, 'message') %>
+                </p>
+              </div>
+
+              <!-- Timestamp -->
+              <div class="ml-2 flex-shrink-0 text-xs text-gray-400">
+                <%= contact.last_message_at ? time_ago_in_words(contact.last_message_at) : '' %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      <% else %>
+        <div class="p-6 text-center text-gray-500">
+          <svg class="mx-auto h-12 w-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+          </svg>
+          <p class="text-sm">No contacts with messages</p>
+        </div>
+      <% end %>
+
+      <% if @orphan_messages_count > 0 %>
+        <div class="px-4 py-3 bg-yellow-50 border-t border-yellow-100">
+          <p class="text-xs text-yellow-700">
+            <svg class="inline w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+            <%= pluralize(@orphan_messages_count, 'message') %> without contact
+            <%= link_to 'View', site_admin_messages_path, class: 'underline hover:text-yellow-800' %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Right Panel: Conversation -->
+  <div class="flex-1 flex flex-col bg-gray-50">
+    <%= render 'conversation', contact: @selected_contact, messages: @messages %>
+  </div>
+</div>

@@ -44,6 +44,21 @@ module Pwb
     self.table_name = 'pwb_messages'
 
     belongs_to :website, class_name: 'Pwb::Website', optional: true
-    belongs_to :contact, optional: true, class_name: 'Pwb::Contact'
+    belongs_to :contact, optional: true, class_name: 'Pwb::Contact', inverse_of: :messages
+
+    # Scopes
+    scope :unread, -> { where(read: false) }
+    scope :read, -> { where(read: true) }
+    scope :recent, -> { order(created_at: :desc) }
+
+    # Get sender email - prefer contact email, fall back to origin_email
+    def sender_email
+      contact&.primary_email || origin_email
+    end
+
+    # Get sender name - from contact or extract from email
+    def sender_name
+      contact&.display_name || origin_email&.split('@')&.first || 'Unknown'
+    end
   end
 end
