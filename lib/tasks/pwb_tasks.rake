@@ -30,12 +30,23 @@ namespace :pwb do
   namespace :db do
     desc 'Seeds the database with all seed data for the default website. Set SKIP_PROPERTIES=true to skip sample properties.'
     task seed: [:environment] do
-      website = Pwb::Website.first || Pwb::Website.create!(subdomain: 'default', theme_name: 'bristol', default_currency: 'EUR', default_client_locale: 'en-UK')
+      # Seed tenant settings with default available themes first
+      # This ensures all 3 themes (default, brisbane, bologna) are available
+      puts "🎨 Setting up tenant settings..."
+      tenant_settings = Pwb::TenantSettings.instance
+      if tenant_settings.default_available_themes.blank?
+        tenant_settings.update!(default_available_themes: %w[default brisbane bologna])
+        puts "   Set default available themes: default, brisbane, bologna"
+      else
+        puts "   Tenant settings already configured with themes: #{tenant_settings.default_available_themes.join(', ')}"
+      end
+
+      website = Pwb::Website.first || Pwb::Website.create!(subdomain: 'default', theme_name: 'default', default_currency: 'EUR', default_client_locale: 'en-UK')
       skip_properties = ENV['SKIP_PROPERTIES'].to_s.downcase == 'true'
-      
+
       puts "🌱 Seeding data for website: #{website.slug || 'default'} (ID: #{website.id})"
       puts "   ⏭️  Skipping sample properties" if skip_properties
-      
+
       Pwb::Seeder.seed!(website: website, skip_properties: skip_properties)
       Pwb::PagesSeeder.seed_page_parts!(website: website)
       Pwb::PagesSeeder.seed_page_basics!(website: website)
@@ -104,7 +115,7 @@ namespace :pwb do
       
       if websites.empty?
         puts "⚠️  No websites found. Creating default website..."
-        websites = [Pwb::Website.first || Pwb::Website.create!(subdomain: 'default', theme_name: 'bristol', default_currency: 'EUR', default_client_locale: 'en-UK')]
+        websites = [Pwb::Website.first || Pwb::Website.create!(subdomain: 'default', theme_name: 'default', default_currency: 'EUR', default_client_locale: 'en-UK')]
       end
       
       puts "🌱 Seeding data for #{websites.count} website(s)..."
@@ -162,7 +173,7 @@ namespace :pwb do
         subdomain: subdomain,
         slug: slug,
         company_display_name: name,
-        theme_name: 'bristol'
+        theme_name: 'default'
       )
       
       puts "✅ Website created with ID: #{website.id}"
@@ -198,7 +209,7 @@ namespace :pwb do
 
     desc 'Seeds the database with seed data for I18n, properties and field_keys. Set SKIP_PROPERTIES=true to skip sample properties.'
     task seed_base: [:environment] do
-      website = Pwb::Website.first || Pwb::Website.create!(subdomain: 'default', theme_name: 'bristol', default_currency: 'EUR', default_client_locale: 'en-UK')
+      website = Pwb::Website.first || Pwb::Website.create!(subdomain: 'default', theme_name: 'default', default_currency: 'EUR', default_client_locale: 'en-UK')
       skip_properties = ENV['SKIP_PROPERTIES'].to_s.downcase == 'true'
       
       puts "🌱 Seeding base data..."
@@ -209,7 +220,7 @@ namespace :pwb do
 
     desc 'Seeds the database with PropertyWebBuilder default page content seed data. Will override existing content.'
     task seed_pages: [:environment] do
-      website = Pwb::Website.first || Pwb::Website.create!(subdomain: 'default', theme_name: 'bristol', default_currency: 'EUR', default_client_locale: 'en-UK')
+      website = Pwb::Website.first || Pwb::Website.create!(subdomain: 'default', theme_name: 'default', default_currency: 'EUR', default_client_locale: 'en-UK')
       puts "🌱 Seeding pages for website: #{website.slug || 'default'} (ID: #{website.id})"
       
       p 'seed_page_parts!'
@@ -235,7 +246,13 @@ namespace :pwb do
     
     desc 'Enhanced seeding with interactive mode, dry-run support, and safety warnings. See ENV vars: SEED_MODE, DRY_RUN, SKIP_PROPERTIES, VERBOSE'
     task seed_enhanced: [:environment] do
-      website = Pwb::Website.first || Pwb::Website.create!(subdomain: 'default', theme_name: 'bristol', default_currency: 'EUR', default_client_locale: 'en-UK')
+      # Ensure tenant settings have default themes
+      tenant_settings = Pwb::TenantSettings.instance
+      if tenant_settings.default_available_themes.blank?
+        tenant_settings.update!(default_available_themes: %w[default brisbane bologna])
+      end
+
+      website = Pwb::Website.first || Pwb::Website.create!(subdomain: 'default', theme_name: 'default', default_currency: 'EUR', default_client_locale: 'en-UK')
       
       mode = parse_seed_mode(ENV['SEED_MODE'])
       dry_run = ENV['DRY_RUN'].to_s.downcase == 'true'
