@@ -145,6 +145,7 @@ fr:
       stat_1_suffix: +
       stat_2_value: 98
       stat_2_label: Satisfaction Client
+      stat_2_suffix: "%"
       stat_3_value: 15
       stat_3_label: Années d'Expérience
       stat_4_value: 50
@@ -183,7 +184,7 @@ fr:
       content_a:
         <p>Nous sommes des agents immobiliers professionnels avec de nombreuses années d'expérience dans la fourniture d'un excellent service
         à nos clients.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>Notre équipe de professionnels dévoués réunit des décennies d'expérience combinée sur le marché immobilier. Nous nous enorgueillissons de fournir un service personnalisé, une communication transparente et des conseils experts tout au long de votre parcours immobilier. Que vous achetiez votre première maison, vendiez une propriété ou cherchiez à investir, nous sommes là pour vous aider à atteindre vos objectifs en toute confiance.</p>
       our_agency_img:
         db/example_images/carousel_grass.jpg
 

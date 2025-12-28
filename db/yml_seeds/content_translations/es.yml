@@ -119,6 +119,7 @@ es:
       stat_1_suffix: +
       stat_2_value: 98
       stat_2_label: Satisfacción del Cliente
+      stat_2_suffix: "%"
       stat_3_value: 15
       stat_3_label: Años de Experiencia
       stat_4_value: 50
@@ -155,8 +156,8 @@ es:
       title_a:
         Sobre nosotros
       content_a:
-        <p>Llevamos muchos años comprometidos con ofrecer un servicio integral y conseguir solo transacciones con éxito y felicidad por parte de los compradores y vendedores.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>Llevamos muchos años comprometidos con ofrecer un servicio integral y conseguir transacciones exitosas que satisfagan tanto a compradores como a vendedores.</p>
+        <p>Nuestro equipo de profesionales dedicados reúne décadas de experiencia combinada en el mercado inmobiliario. Nos enorgullecemos de brindar un servicio personalizado, comunicación transparente y orientación experta a lo largo de todo su proceso inmobiliario. Ya sea que esté comprando su primera casa, vendiendo una propiedad o buscando invertir, estamos aquí para ayudarle a alcanzar sus objetivos con confianza.</p>
       our_agency_img:
         db/example_images/carousel_grass.jpg
 

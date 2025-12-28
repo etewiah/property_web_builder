@@ -363,6 +363,15 @@
    Utility Classes
    ======================================== */
 
+/* Primary color alias for generic templates */
+.bologna-theme .text-primary {
+  color: #c45d3e;
+}
+
+.bologna-theme .bg-primary {
+  background-color: #c45d3e;
+}
+
 .bologna-theme .text-terra {
   color: #c45d3e;
 }
