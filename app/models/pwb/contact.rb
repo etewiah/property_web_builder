@@ -59,9 +59,10 @@ module Pwb
     belongs_to :website, class_name: 'Pwb::Website', optional: true
 
     # Associations
-    # NOTE: messages association is scoped to same website to prevent cross-tenant data leakage
+    # NOTE: Tenant scoping for messages is handled at the query level in controllers
+    # to avoid instance-dependent scope limitations with joins/eager loading.
+    # Always filter by website_id when querying messages through this association.
     has_many :messages,
-             ->(contact) { where(website_id: contact.website_id) },
              class_name: 'Pwb::Message',
              foreign_key: :contact_id,
              inverse_of: :contact,
@@ -72,7 +73,10 @@ module Pwb
     belongs_to :user, optional: true, class_name: 'Pwb::User'
 
     # Scopes
-    scope :with_messages, -> { joins(:messages).distinct }
+    # Use exists subquery instead of DISTINCT to avoid PostgreSQL JSON column comparison issues
+    scope :with_messages, -> {
+      where('EXISTS (SELECT 1 FROM pwb_messages WHERE pwb_messages.contact_id = pwb_contacts.id)')
+    }
     scope :ordered_by_recent_message, -> {
       joins(:messages)
         .select('pwb_contacts.*, MAX(pwb_messages.created_at) as last_message_at')
@@ -106,14 +110,14 @@ module Pwb
       name.presence || primary_email&.split('@')&.first || 'Unknown Contact'
     end
 
-    # Count of unread messages for this contact
+    # Count of unread messages for this contact (scoped to same website)
     def unread_messages_count
-      messages.where(read: false).count
+      messages.where(website_id: website_id, read: false).count
     end
 
-    # Most recent message from this contact
+    # Most recent message from this contact (scoped to same website)
     def last_message
-      messages.order(created_at: :desc).first
+      messages.where(website_id: website_id).order(created_at: :desc).first
     end
   end
 end

@@ -33,7 +33,10 @@
 #  fk_rails_...  (website_id => pwb_websites.id)
 #
 FactoryBot.define do
-  factory :pwb_message, class: 'PwbTenant::Message' do
+  factory :pwb_message, class: 'Pwb::Message', aliases: [:message] do
     website { Pwb::Website.first || association(:pwb_website) }
+    origin_email { 'visitor@example.com' }
+    content { 'Test message content' }
+    read { false }
   end
 end

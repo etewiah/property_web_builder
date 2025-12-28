@@ -45,7 +45,10 @@
 #  fk_rails_...  (website_id => pwb_websites.id)
 #
 FactoryBot.define do
-  factory :pwb_contact, class: 'PwbTenant::Contact' do
+  factory :pwb_contact, class: 'Pwb::Contact', aliases: [:contact] do
     website { Pwb::Website.first || association(:pwb_website) }
+    sequence(:primary_email) { |n| "contact#{n}@example.com" }
+    first_name { 'Test' }
+    last_name { 'Contact' }
   end
 end

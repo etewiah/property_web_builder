@@ -22,7 +22,7 @@
       <% if @contacts.any? %>
         <% @contacts.each do |contact| %>
           <% is_selected = @selected_contact&.id == contact.id %>
-          <%= link_to site_admin_inbox_conversation_path(contact),
+          <%= link_to conversation_site_admin_inbox_path(contact),
                       class: "block px-4 py-3 border-b border-gray-100 hover:bg-gray-50 transition-colors #{is_selected ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''}" do %>
             <div class="flex items-start justify-between">
               <div class="flex-1 min-w-0">

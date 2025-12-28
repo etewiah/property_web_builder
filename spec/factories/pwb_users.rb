@@ -54,7 +54,7 @@
 #  index_pwb_users_on_website_id                          (website_id)
 #
 FactoryBot.define do
-  factory :pwb_user, class: 'Pwb::User' do
+  factory :pwb_user, class: 'Pwb::User', aliases: [:user] do
     sequence(:email) { |n| "user#{n}@example.com" }
     password { 'password123' }
 

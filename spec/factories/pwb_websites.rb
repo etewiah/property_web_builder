@@ -85,7 +85,7 @@
 #  index_pwb_websites_on_subdomain                 (subdomain) UNIQUE
 #
 FactoryBot.define do
-  factory :pwb_website, class: 'Pwb::Website' do
+  factory :pwb_website, class: 'Pwb::Website', aliases: [:website] do
     sequence(:subdomain) { |n| "tenant#{n}" }
     # NOTE: company_display_name is DEPRECATED - use agency.display_name instead
     # Keeping nil here so agency.display_name takes priority
