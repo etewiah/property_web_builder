@@ -116,5 +116,13 @@ Rails.application.configure do
     Bullet.console       = true
     Bullet.rails_logger  = true
     Bullet.add_footer    = true
+
+    # Safelist for known false positives:
+    # PropPhoto => image_attachment is eagerly loaded for ActiveStorage images,
+    # but seed data uses external URLs which don't access image_attachment.
+    # This is expected behavior - the eager loading is needed for real uploads.
+    Bullet.add_safelist type: :unused_eager_loading,
+                        class_name: "Pwb::PropPhoto",
+                        association: :image_attachment
   end
 end
