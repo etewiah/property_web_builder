@@ -32,7 +32,10 @@
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"></noscript>
 
-    <%# Font Awesome 6 Subset - only icons used in the app (43 icons vs 2000+) %>
+    <%# Material Symbols - primary icon font %>
+    <%= stylesheet_link_tag "material-icons", media: "all" %>
+
+    <%# Font Awesome 6 Subset - legacy support for admin editor (to be removed) %>
     <%= stylesheet_link_tag "fontawesome-subset", media: "all" %>
 
     <%= csrf_meta_tags %>
