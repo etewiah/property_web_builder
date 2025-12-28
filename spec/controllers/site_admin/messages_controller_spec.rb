@@ -88,7 +88,8 @@ RSpec.describe SiteAdmin::MessagesController, type: :controller do
       Pwb::Message.create!(
         origin_email: 'sender@own.com',
         content: 'Own message',
-        website_id: website.id
+        website_id: website.id,
+        read: false
       )
     end
 
@@ -119,6 +120,52 @@ RSpec.describe SiteAdmin::MessagesController, type: :controller do
 
       expect(response).to have_http_status(:not_found)
       expect(response).to render_template('site_admin/shared/record_not_found')
+    end
+
+    describe 'marking message as read' do
+      it 'marks an unread message as read when viewed' do
+        expect(message_own.read?).to be false
+
+        get :show, params: { id: message_own.id }
+
+        message_own.reload
+        expect(message_own.read?).to be true
+      end
+
+      it 'does not update an already-read message' do
+        message_own.update!(read: true)
+
+        # Record original timestamps
+        original_updated_at = message_own.updated_at
+
+        get :show, params: { id: message_own.id }
+
+        message_own.reload
+        expect(message_own.read?).to be true
+        # updated_at should not change since we skip the update for already-read messages
+        expect(message_own.updated_at).to be_within(1.second).of(original_updated_at)
+      end
+
+      it 'creates an audit log entry when marking as read' do
+        expect {
+          get :show, params: { id: message_own.id }
+        }.to change(Pwb::AuthAuditLog, :count).by(1)
+
+        audit_log = Pwb::AuthAuditLog.last
+        expect(audit_log.event_type).to eq('message_read')
+        expect(audit_log.user).to eq(user)
+        expect(audit_log.website).to eq(website)
+        expect(audit_log.metadata['message_id']).to eq(message_own.id)
+        expect(audit_log.metadata['message_origin_email']).to eq('sender@own.com')
+      end
+
+      it 'does not create an audit log for already-read messages' do
+        message_own.update!(read: true)
+
+        expect {
+          get :show, params: { id: message_own.id }
+        }.not_to change(Pwb::AuthAuditLog, :count)
+      end
     end
   end
 

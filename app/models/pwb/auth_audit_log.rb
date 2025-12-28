@@ -69,6 +69,7 @@ module Pwb
       account_unlocked
       session_timeout
       registration
+      message_read
     ].freeze
 
     validates :event_type, presence: true, inclusion: { in: EVENT_TYPES }
@@ -202,6 +203,21 @@ module Pwb
           event_type: 'registration',
           user: user,
           email: user.email,
+          website: website || Pwb::Current.website,
+          request: request
+        )
+      end
+
+      def log_message_read(user:, message:, request:, website: nil)
+        create_log(
+          event_type: 'message_read',
+          user: user,
+          email: user.email,
+          metadata: {
+            message_id: message.id,
+            message_origin_email: message.origin_email,
+            message_title: message.title&.truncate(100)
+          },
           website: website || Pwb::Current.website,
           request: request
         )
