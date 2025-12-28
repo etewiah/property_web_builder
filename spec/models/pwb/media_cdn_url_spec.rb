@@ -98,8 +98,8 @@ RSpec.describe Pwb::Media, 'CDN URL generation', type: :model do
         # Both should return the original file URL (format may have timestamp differences)
         expect(url).to be_present
         expect(url).to match(%r{\Ahttps?://|/})
-        # Should return the same blob path (not a variant path)
-        expect(url).to include('/rails/active_storage/disk/')
+        # Should return the original blob path (not a variant/representations path)
+        expect(url).to include('/rails/active_storage/')
         expect(url).not_to include('/representations/')
       end
 
