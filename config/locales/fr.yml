@@ -125,6 +125,7 @@ fr:
     thankYouForTrusting: "%{company_name} vous remercie de votre confiance"
     urlNotAvailable: Cette adresse url n'est pas disponible
     weAreCreatingSite: Nous sommes en train de créer votre site
+  signIn: Se connecter
   signOut: Fermer la session
   simple_form:
     error_notification:

@@ -125,6 +125,7 @@ es:
     thankYouForTrusting: Gracias por confiar en %{company_name}
     urlNotAvailable: Este url no está disponible
     weAreCreatingSite: Estamos creando su sitio web
+  signIn: Iniciar sesión
   signOut: Cerrar sesión
   simple_form:
     error_notification:

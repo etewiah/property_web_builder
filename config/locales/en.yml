@@ -128,6 +128,7 @@ en:
     thankYouForTrusting: Thank you for trusting %{company_name}
     urlNotAvailable: Sorry, this url is not available
     weAreCreatingSite: We are creating your site
+  signIn: Sign In
   signOut: Sign Out
   simple_form:
     error_notification:

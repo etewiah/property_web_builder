@@ -128,6 +128,7 @@ it:
     thankYouForTrusting: Grazie per aver scelto %{company_name}
     urlNotAvailable: Spiacenti, questo url  non è disponibile
     weAreCreatingSite: Stiamo creando il vostro sito
+  signIn: Accedi
   signOut: Esci
   simple_form:
     error_notification:

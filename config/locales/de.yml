@@ -126,6 +126,7 @@ de:
     thankYouForTrusting: Vielen Dank für dein Vertrauen %{company_name}
     urlNotAvailable: Leider ist diese URL ist nicht verfügbar
     weAreCreatingSite: Wir erstellen deine Website
+  signIn: Anmelden
   signOut: Ausloggen
   simple_form:
     error_notification:

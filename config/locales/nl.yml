@@ -128,6 +128,7 @@ nl:
     thankYouForTrusting: Bedankt voor het vertrouwen in %{company_name}
     urlNotAvailable: Sorry, deze url is niet beschikbaar
     weAreCreatingSite: Uw site wordt aangemaakt
+  signIn: Inloggen
   signOut: uitloggen
   simple_form:
     error_notification:
