@@ -232,8 +232,8 @@ module SiteAdmin
     end
 
     def available_themes
-      # Return list of available theme names from Pwb::Theme
-      Pwb::Theme.all.map(&:name)
+      # Return list of enabled theme names from Pwb::Theme
+      Pwb::Theme.enabled.map(&:name)
     end
   end
 end

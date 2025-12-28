@@ -1,7 +1,7 @@
 [
   {
     "name": "default",
-    "friendly_name": "Default Theme",
+    "friendly_name": "Default Theme (Bristol)",
     "id": "default",
     "version": "2.0.0",
     "description": "A clean, modern theme suitable for any real estate website",
@@ -807,6 +807,7 @@
     "friendly_name": "Barcelona Mediterranean Theme",
     "id": "barcelona",
     "version": "1.0.0",
+    "enabled": false,
     "parent_theme": "default",
     "description": "A vibrant Mediterranean theme inspired by Barcelona's modernist architecture, featuring warm coastal colors and elegant design",
     "author": "PropertyWebBuilder",
@@ -1073,6 +1074,7 @@
     "friendly_name": "Biarritz Coastal Theme",
     "id": "biarritz",
     "version": "1.0.0",
+    "enabled": false,
     "parent_theme": "default",
     "description": "A sophisticated coastal theme inspired by the French Basque Atlantic shore, featuring ocean blues and warm sand tones",
     "author": "PropertyWebBuilder",

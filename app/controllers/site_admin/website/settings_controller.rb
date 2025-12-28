@@ -20,7 +20,7 @@ module SiteAdmin
           @home_page = @website.pages.find_by(slug: 'home')
           @carousel_contents = @website.contents.where(tag: 'carousel')
         when 'appearance'
-          @themes = Pwb::Theme.all
+          @themes = Pwb::Theme.enabled
           @style_variables = @website.style_variables
         when 'seo'
           @social_media = @website.social_media || {}
@@ -104,7 +104,7 @@ module SiteAdmin
         if @website.update(appearance_settings_params)
           redirect_to site_admin_website_settings_tab_path('appearance'), notice: 'Appearance settings updated successfully'
         else
-          @themes = Pwb::Theme.all
+          @themes = Pwb::Theme.enabled
           @style_variables = @website.style_variables
           flash.now[:alert] = 'Failed to update appearance settings'
           render :show, status: :unprocessable_entity

@@ -248,6 +248,20 @@ module Pwb
       page_part_config(page_part_key)["variants"] || []
     end
 
+    # ===== Enabled/Disabled Support =====
+
+    # Check if this theme is enabled
+    # @return [Boolean] true if enabled (default), false if explicitly disabled
+    def enabled?
+      attributes["enabled"] != false
+    end
+
+    # Get all enabled themes
+    # @return [Array<Theme>] array of enabled themes
+    def self.enabled
+      all.select(&:enabled?)
+    end
+
     # ===== Theme Info =====
 
     # Get screenshots for this theme

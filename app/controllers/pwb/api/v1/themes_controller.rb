@@ -1,7 +1,7 @@
 module Pwb
   class Api::V1::ThemesController < ApplicationApiController
     def index
-      themes = Theme.all
+      themes = Theme.enabled
       # Theme is active_hash so have to manually construct json
       @themes_array = []
       themes.each do |theme|
