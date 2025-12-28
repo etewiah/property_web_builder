@@ -197,7 +197,7 @@ en:
       section_subtitle: Experienced professionals with a passion for real estate
       member_1_name: Willem van der Berg
       member_1_role: Director / Licensed Agent
-      member_1_image: "db/seeds/packs/netherlands_urban/images/team_director.jpg"
+      member_1_image: "https://seed-assets.propertywebbuilder.com/packs/netherlands_urban/team_director.webp"
       member_1_bio: >
         Willem founded Van der Berg Real Estate in 1998. With over 30 years of experience
         in the Amsterdam property market, he is a recognized expert in monumental properties
@@ -206,21 +206,21 @@ en:
       member_1_linkedin: ""
       member_2_name: Sophie Jansen
       member_2_role: Senior Agent - Amsterdam
-      member_2_image: "db/seeds/packs/netherlands_urban/images/team_agent_female.jpg"
+      member_2_image: "https://seed-assets.propertywebbuilder.com/packs/netherlands_urban/team_agent_female.webp"
       member_2_bio: >
         Sophie specializes in selling apartments and lofts in Amsterdam. Her enthusiasm
         and thorough market knowledge ensure excellent results for her clients.
       member_2_email: sophie@vanderbergmakelaars.nl
       member_3_name: Thomas de Groot
       member_3_role: Agent - Expat Services
-      member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
+      member_3_image: "https://seed-assets.propertywebbuilder.com/packs/netherlands_urban/team_agent_male.webp"
       member_3_bio: >
         Thomas guides international clients in finding their perfect home in the Netherlands.
         Fluent in Dutch, English, and German.
       member_3_email: thomas@vanderbergmakelaars.nl
       member_4_name: Lisa Vermeer
       member_4_role: Client Relations & Marketing
-      member_4_image: "db/seeds/packs/netherlands_urban/images/team_assistant.jpg"
+      member_4_image: "https://seed-assets.propertywebbuilder.com/packs/netherlands_urban/team_assistant.webp"
       member_4_bio: >
         Lisa ensures every client has an excellent experience and that our properties
         are presented optimally.

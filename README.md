@@ -12,6 +12,34 @@ Please help support this project by making a contribution to PropertyWebBuilder 
 [![Open Source Helpers](https://www.codetriage.com/etewiah/property_web_builder/badges/users.svg)](https://www.codetriage.com/etewiah/property_web_builder)
 
 
+## Version 2.1.0 - December 2025
+
+PropertyWebBuilder continues to evolve with powerful new features for property websites.
+
+### Latest Updates (v2.1)
+
+**Embeddable Property Widgets**
+- Embed property listings on any external website
+- JavaScript and iframe embed options
+- Customizable themes, colors, and layouts
+- Domain restrictions for security
+- Impression and click analytics
+
+**Enhanced Admin Experience**
+- Interactive map location picker for properties
+- Improved dashboard with quick actions
+- Setup wizard for new websites
+- Multiple color palettes per theme (10 total)
+- Better navigation organization
+
+**Developer Improvements**
+- Comprehensive request specs for all controllers
+- Idempotent seeding (prevents duplicate data)
+- Organized documentation structure
+- E2E testing with Playwright support
+
+---
+
 ## Version 2.0.0 Released - December 2025
 
 PropertyWebBuilder 2.0 is a major release representing 5 years of development and 500+ commits since v1.4.0. This is essentially a complete rewrite with a modern architecture.
@@ -111,14 +139,16 @@ PropertyWebBuilder runs with Ruby 3.4.7 or higher.
 * **Multi-currency** - Handle properties in different currencies
 * **Powerful Search** - Faceted search with field key filtering
 * **Dual Admin Panels** - Site admin (super admin) and tenant admin interfaces
+* **Embeddable Widgets** - Embed property listings on external websites with customizable themes
 * **Firebase Auth** - Optional Firebase authentication with Devise fallback
-* **Modern Themes** - Brisbane, Bologna, Bristol themes with Tailwind CSS
+* **Modern Themes** - Brisbane, Bologna, Bristol themes with Tailwind CSS and color palettes
 * **Seed Packs** - Scenario-based seeding for quick site setup
-* **Google Maps Integration** - Interactive property maps
+* **Google Maps Integration** - Interactive property maps with location picker
 * **Customisable** - CSS variables, Liquid templates, page parts system
 * **SEO Friendly** - Comprehensive SEO implementation
 * **Responsive Design** - Mobile-friendly layouts
-* **ActiveStorage** - S3/R2 compatible file storage
+* **ActiveStorage** - S3/R2 compatible file storage (Cloudflare R2, AWS S3)
+* **Setup Wizard** - Guided onboarding for new websites
 * **Fully Open Source** - MIT License
 
 ## Deployment Options
@@ -143,15 +173,16 @@ For development setup instructions, see [DEVELOPMENT.md](DEVELOPMENT.md).
 
 These are features planned for future releases. If there's something you need that's not on the list, please let us know. Your feedback helps us prioritize!
 
-* Instant price conversions into other currencies
-* [More languages](https://github.com/etewiah/property_web_builder/issues/4) - help with translations appreciated!
-* [More themes](https://github.com/etewiah/property_web_builder/issues/3)
-* Mobile apps (iOS and Android)
-* [RETS support](https://github.com/etewiah/property_web_builder/issues/2) - for synchronizing MLS content
-* Integration with third-party CRM systems (Insightly, Basecamp)
-* Full calendaring functionality for rental properties
-* WordPress blog import functionality
-* Neighborhood information from Zillow API
+* **Property Comparisons** - Side-by-side property comparison tool
+* **Saved Searches** - Allow users to save and receive alerts for new matches
+* **Virtual Tours** - 360° photo and video tour integration
+* **Mobile Apps** - iOS and Android native apps
+* **RETS/IDX Support** - MLS content synchronization
+* **CRM Integrations** - HubSpot, Salesforce, Pipedrive
+* **Rental Calendar** - Availability and booking for short-term rentals
+* **AI Property Descriptions** - Auto-generate property descriptions
+* **More Languages** - [Help with translations appreciated!](https://github.com/etewiah/property_web_builder/issues/4)
+* **More Themes** - [Community theme contributions welcome](https://github.com/etewiah/property_web_builder/issues/3)
 
 
 ## Contribute and spread the love
