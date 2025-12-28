@@ -15,7 +15,9 @@ class SitemapsController < ActionController::Base
     @protocol = request.protocol
 
     # Get all published/visible content for this website
-    @properties = fetch_properties
+    # Fetch properties for sale and rent separately to avoid .select(&:for_sale) in view
+    @properties_for_sale = fetch_properties.for_sale
+    @properties_for_rent = fetch_properties.for_rent
     @pages = fetch_pages
 
     respond_to do |format|
@@ -28,11 +30,12 @@ class SitemapsController < ActionController::Base
   def fetch_properties
     # Use the materialized view for efficient querying
     # Note: title is computed from associated listings, not a column
-    # Eager load photos for image sitemap
+    # Eager load photos with attachment blob for image sitemap
+    # Pre-order photos by sort_order to avoid N+1 in view
     Pwb::ListedProperty
       .where(website_id: @website.id)
       .where(visible: true)
-      .includes(:prop_photos)
+      .includes(prop_photos: { image_attachment: :blob })
       .order(updated_at: :desc)
   end
 

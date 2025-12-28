@@ -107,7 +107,10 @@ module TenantAdmin
     private
 
     def set_subdomain
-      @subdomain = Pwb::Subdomain.find(params[:id])
+      # Eager load website with user_memberships and users to avoid N+1 in show view
+      @subdomain = Pwb::Subdomain
+                     .includes(website: { user_memberships: :user })
+                     .find(params[:id])
     end
 
     def subdomain_params

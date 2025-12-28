@@ -52,10 +52,12 @@
         </div>
 
         <% if @subdomain.website %>
+        <%# Pre-load memberships to use already-loaded data from controller %>
+        <% memberships = @subdomain.website.user_memberships.to_a %>
+        <% owner_membership = memberships.find { |m| m.role == 'owner' } || memberships.find { |m| m.role == 'admin' } %>
         <div>
           <dt class="text-sm font-medium text-gray-500">Allocated To (Owner)</dt>
           <dd class="mt-1 text-lg text-gray-900">
-            <% owner_membership = @subdomain.website.user_memberships.find_by(role: 'owner') || @subdomain.website.user_memberships.find_by(role: 'admin') %>
             <% if owner_membership&.user %>
               <div class="flex items-center">
                 <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center">
@@ -81,9 +83,9 @@
           </dd>
         </div>
 
-        <% # Show all users with access to this website %>
-        <% all_memberships = @subdomain.website.user_memberships.includes(:user).where.not(user: nil) %>
-        <% if all_memberships.count > 1 %>
+        <%# Show all users with access to this website - use pre-loaded memberships %>
+        <% all_memberships = memberships.select { |m| m.user.present? } %>
+        <% if all_memberships.size > 1 %>
         <div class="md:col-span-2">
           <dt class="text-sm font-medium text-gray-500">All Users with Access (<%= all_memberships.count %>)</dt>
           <dd class="mt-2">

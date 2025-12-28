@@ -18,8 +18,9 @@ module TenantAdmin
       end
 
       # Search by website subdomain
+      # Use references to ensure includes works with joins for eager loading
       if params[:search].present?
-        @subscriptions = @subscriptions.joins(:website).where(
+        @subscriptions = @subscriptions.references(:website).where(
           "pwb_websites.subdomain ILIKE ?",
           "%#{params[:search]}%"
         )
@@ -129,7 +130,7 @@ module TenantAdmin
     private
 
     def set_subscription
-      @subscription = Pwb::Subscription.find(params[:id])
+      @subscription = Pwb::Subscription.includes(:website, :plan).find(params[:id])
     end
 
     def subscription_params

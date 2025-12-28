@@ -11,14 +11,14 @@
   </url>
 
   <%# Properties for sale %>
-  <% @properties.select(&:for_sale).each do |property| %>
+  <% @properties_for_sale.each do |property| %>
   <url>
     <loc><%= @protocol %><%= @host %>/properties/for-sale/<%= property.slug.presence || property.id %>/<%= property.title.to_s.parameterize %></loc>
     <lastmod><%= property.updated_at.strftime('%Y-%m-%d') %></lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <%# Include property images (up to 5 per URL) %>
-    <% property.prop_photos.order(:sort_order).limit(5).each do |photo| %>
+    <%# Include property images (up to 5 per URL) - photos are pre-loaded %>
+    <% property.prop_photos.sort_by(&:sort_order).first(5).each do |photo| %>
     <% photo_url = photo.image_url rescue nil %>
     <% if photo_url.present? %>
     <image:image>
@@ -32,14 +32,14 @@
   <% end %>
 
   <%# Properties for rent %>
-  <% @properties.select(&:for_rent).each do |property| %>
+  <% @properties_for_rent.each do |property| %>
   <url>
     <loc><%= @protocol %><%= @host %>/properties/for-rent/<%= property.slug.presence || property.id %>/<%= property.title.to_s.parameterize %></loc>
     <lastmod><%= property.updated_at.strftime('%Y-%m-%d') %></lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <%# Include property images (up to 5 per URL) %>
-    <% property.prop_photos.order(:sort_order).limit(5).each do |photo| %>
+    <%# Include property images (up to 5 per URL) - photos are pre-loaded %>
+    <% property.prop_photos.sort_by(&:sort_order).first(5).each do |photo| %>
     <% photo_url = photo.image_url rescue nil %>
     <% if photo_url.present? %>
     <image:image>

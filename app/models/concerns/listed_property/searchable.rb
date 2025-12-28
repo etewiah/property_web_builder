@@ -8,9 +8,8 @@ module ListedProperty
 
     included do
       # Eager load photos with their ActiveStorage attachments for efficient image access
-      # Note: Only include :website when you actually need to access prop.website
-      # Site admin views use current_website instead, so :website is usually not needed
-      scope :with_eager_loading, -> { includes(prop_photos: { image_attachment: :blob }) }
+      # Also includes :website to prevent N+1 when accessing area_unit, currency, etc.
+      scope :with_eager_loading, -> { includes(:website, prop_photos: { image_attachment: :blob }) }
 
       # Use this when you need both website and photos (e.g., cross-tenant operations)
       scope :with_full_eager_loading, -> { includes(:website, prop_photos: { image_attachment: :blob }) }
