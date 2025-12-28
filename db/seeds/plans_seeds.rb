@@ -13,13 +13,13 @@ module Pwb
         slug: 'starter',
         display_name: 'Starter',
         description: 'Perfect for getting started with your real estate website.',
-        price_cents: 2900,
+        price_cents: 1000,
         price_currency: 'USD',
         billing_interval: 'month',
-        trial_days: 14,
-        property_limit: 25,
-        user_limit: 2,
-        features: %w[basic_themes],
+        trial_days: 30,
+        property_limit: 5,
+        user_limit: 1,
+        features: %w[basic_themes ssl_included email_support],
         position: 1
       },
       {
@@ -27,13 +27,13 @@ module Pwb
         slug: 'professional',
         display_name: 'Professional',
         description: 'For growing agencies that need more properties and features.',
-        price_cents: 7900,
+        price_cents: 9900,
         price_currency: 'USD',
         billing_interval: 'month',
-        trial_days: 14,
+        trial_days: 30,
         property_limit: 100,
         user_limit: 5,
-        features: %w[basic_themes premium_themes analytics custom_domain],
+        features: %w[basic_themes premium_themes analytics custom_domain multi_language priority_support],
         position: 2
       },
       {
@@ -41,28 +41,28 @@ module Pwb
         slug: 'enterprise',
         display_name: 'Enterprise',
         description: 'Unlimited properties and all features for large agencies.',
-        price_cents: 19900,
+        price_cents: 74900,
         price_currency: 'USD',
         billing_interval: 'month',
-        trial_days: 14,
+        trial_days: 30,
         property_limit: nil, # Unlimited
         user_limit: nil,     # Unlimited
-        features: %w[basic_themes premium_themes analytics custom_domain api_access white_label priority_support],
+        features: %w[basic_themes premium_themes analytics custom_domain api_access white_label dedicated_support all_languages],
         position: 3
       },
-      # Annual plans (discounted)
+      # Annual plans (20% discount)
       {
         name: 'starter_annual',
         slug: 'starter-annual',
         display_name: 'Starter (Annual)',
-        description: 'Starter plan billed annually - save 2 months!',
-        price_cents: 29000, # ~$290/year = $24.17/month (2 months free)
+        description: 'Starter plan billed annually - save 20%!',
+        price_cents: 9600, # $96/year = $8/month (20% off $10/month)
         price_currency: 'USD',
         billing_interval: 'year',
-        trial_days: 14,
-        property_limit: 25,
-        user_limit: 2,
-        features: %w[basic_themes],
+        trial_days: 30,
+        property_limit: 5,
+        user_limit: 1,
+        features: %w[basic_themes ssl_included email_support],
         position: 4,
         public: false # Don't show on main pricing page, offer as upgrade
       },
@@ -70,14 +70,14 @@ module Pwb
         name: 'professional_annual',
         slug: 'professional-annual',
         display_name: 'Professional (Annual)',
-        description: 'Professional plan billed annually - save 2 months!',
-        price_cents: 79000, # ~$790/year = $65.83/month (2 months free)
+        description: 'Professional plan billed annually - save 20%!',
+        price_cents: 95040, # $950.40/year = $79.20/month (20% off $99/month)
         price_currency: 'USD',
         billing_interval: 'year',
-        trial_days: 14,
+        trial_days: 30,
         property_limit: 100,
         user_limit: 5,
-        features: %w[basic_themes premium_themes analytics custom_domain],
+        features: %w[basic_themes premium_themes analytics custom_domain multi_language priority_support],
         position: 5,
         public: false
       },
@@ -85,14 +85,14 @@ module Pwb
         name: 'enterprise_annual',
         slug: 'enterprise-annual',
         display_name: 'Enterprise (Annual)',
-        description: 'Enterprise plan billed annually - save 2 months!',
-        price_cents: 199000, # ~$1990/year = $165.83/month (2 months free)
+        description: 'Enterprise plan billed annually - save 20%!',
+        price_cents: 719040, # $7190.40/year = $599.20/month (20% off $749/month)
         price_currency: 'USD',
         billing_interval: 'year',
-        trial_days: 14,
+        trial_days: 30,
         property_limit: nil,
         user_limit: nil,
-        features: %w[basic_themes premium_themes analytics custom_domain api_access white_label priority_support],
+        features: %w[basic_themes premium_themes analytics custom_domain api_access white_label dedicated_support all_languages],
         position: 6,
         public: false
       }
