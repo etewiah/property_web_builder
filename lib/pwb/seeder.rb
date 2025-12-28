@@ -212,10 +212,22 @@ module Pwb
       def seed_links(yml_file)
         links_yml = load_seed_yml yml_file
         links_yml.each do |single_link_yml|
-          # Check if this link already exists for this website
+          # Check if this link already exists for this website by slug
           link_record = current_website.links.find_by(slug: single_link_yml["slug"])
 
+          # Also check for semantic duplicates (same link_path + placement)
+          # This prevents creating duplicate links with different slugs
           unless link_record.present?
+            semantic_duplicate = current_website.links.find_by(
+              link_path: single_link_yml["link_path"],
+              link_path_params: single_link_yml["link_path_params"],
+              placement: single_link_yml["placement"]
+            )
+            if semantic_duplicate
+              Rails.logger.info "Skipping link '#{single_link_yml['slug']}' - semantic duplicate of '#{semantic_duplicate.slug}'"
+              next
+            end
+
             # Filter out unsupported locale attributes before creating
             filtered_attrs = filter_supported_locale_attrs(single_link_yml)
             # Create link with website association

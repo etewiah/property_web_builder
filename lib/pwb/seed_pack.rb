@@ -378,16 +378,33 @@ module Pwb
 
       links = YAML.safe_load(File.read(links_file), symbolize_names: true) || []
       count = 0
+      skipped = 0
 
       links.each do |link_data|
+        # Check by slug first
         existing = @website.links.find_by(slug: link_data[:slug])
-        unless existing
-          @website.links.create!(link_data)
-          count += 1
+        if existing
+          skipped += 1
+          next
         end
+
+        # Also check for semantic duplicates (same link_path + placement)
+        semantic_duplicate = @website.links.find_by(
+          link_path: link_data[:link_path],
+          link_path_params: link_data[:link_path_params],
+          placement: link_data[:placement]
+        )
+        if semantic_duplicate
+          log "  Skipping '#{link_data[:slug]}' - semantic duplicate of '#{semantic_duplicate.slug}'", :detail
+          skipped += 1
+          next
+        end
+
+        @website.links.create!(link_data)
+        count += 1
       end
 
-      log "  Created #{count} links", :detail
+      log "  Created #{count} links (#{skipped} skipped)", :detail
     end
 
     def seed_pages
@@ -397,18 +414,23 @@ module Pwb
       log "Seeding pages...", :info
 
       count = 0
+      skipped = 0
       Dir.glob(pages_dir.join('*.yml')).each do |page_file|
         page_data = YAML.safe_load(File.read(page_file), symbolize_names: true)
         next unless page_data
 
+        # Check by slug to prevent duplicates
         existing = @website.pages.find_by(slug: page_data[:slug])
-        unless existing
-          @website.pages.create!(page_data)
-          count += 1
+        if existing
+          skipped += 1
+          next
         end
+
+        @website.pages.create!(page_data)
+        count += 1
       end
 
-      log "  Created #{count} pages", :detail
+      log "  Created #{count} pages (#{skipped} skipped)", :detail
     end
 
     def seed_page_parts
