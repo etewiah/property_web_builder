@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_28_100000) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_28_161431) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -759,6 +759,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_100000) do
     t.index ["website_id"], name: "index_pwb_subscriptions_on_website_unique", unique: true
   end
 
+  create_table "pwb_tenant_settings", force: :cascade do |t|
+    t.jsonb "configuration", default: {}
+    t.datetime "created_at", null: false
+    t.text "default_available_themes", default: [], array: true
+    t.string "singleton_key", default: "default", null: false
+    t.datetime "updated_at", null: false
+    t.index ["singleton_key"], name: "index_pwb_tenant_settings_on_singleton_key", unique: true
+  end
+
   create_table "pwb_user_memberships", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
@@ -839,6 +848,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_100000) do
     t.string "analytics_id"
     t.integer "analytics_id_type"
     t.text "available_currencies", default: [], array: true
+    t.text "available_themes", array: true
     t.string "company_display_name"
     t.json "configuration", default: {}
     t.integer "contact_address_id"

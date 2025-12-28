@@ -112,6 +112,9 @@ Rails.application.routes.draw do
         get :preview_default
       end
     end
+
+    # Tenant Settings (singleton resource)
+    resource :settings, only: %i[show update], controller: 'settings'
   end
 
   # Site Admin - Single website/tenant management dashboard

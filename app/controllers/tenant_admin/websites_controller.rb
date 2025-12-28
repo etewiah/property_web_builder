@@ -33,6 +33,8 @@ module TenantAdmin
 
     def new
       @website = Pwb::Website.new
+      @themes = Pwb::Theme.enabled
+      @all_themes = @themes
     end
 
     def create
@@ -74,12 +76,16 @@ module TenantAdmin
 
     def edit
       # @website set by before_action
+      @themes = Pwb::Theme.enabled
+      @all_themes = @themes
     end
 
     def update
       if @website.update(website_params)
         redirect_to tenant_admin_website_path(@website), notice: "Website updated successfully."
       else
+        @themes = Pwb::Theme.enabled
+        @all_themes = @themes
         render :edit, status: :unprocessable_entity
       end
     end
@@ -118,7 +124,8 @@ module TenantAdmin
         :landing_hide_for_sale,
         :landing_hide_search_bar,
         :available_currencies,
-        supported_locales: []
+        supported_locales: [],
+        available_themes: []
       )
     end
   end

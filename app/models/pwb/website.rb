@@ -8,6 +8,7 @@
 #  admin_config                        :json
 #  analytics_id_type                   :integer
 #  available_currencies                :text             default([]), is an Array
+#  available_themes                    :text             is an Array
 #  company_display_name                :string
 #  configuration                       :json
 #  custom_domain                       :string
@@ -96,6 +97,7 @@ module Pwb
     include Pwb::WebsiteSubscribable
     include Pwb::WebsiteSocialLinkable
     include Pwb::WebsiteLocalizable
+    include Pwb::WebsiteThemeable
     include FlagShihTzu
 
     # Virtual attributes for form handling (avoid conflict with AASM events)

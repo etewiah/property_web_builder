@@ -26,9 +26,10 @@
       </div>
 
       <div class="col-span-6 sm:col-span-3">
-        <%= f.label :theme_name, "Theme", class: "block mb-2 text-sm font-medium text-gray-900" %>
-        <%= f.select :theme_name, 
-          options_for_select([['Default', 'default'], ['Bristol', 'bristol'], ['Berlin', 'berlin']], @website.theme_name),
+        <%= f.label :theme_name, "Active Theme", class: "block mb-2 text-sm font-medium text-gray-900" %>
+        <% theme_options = @themes.map { |t| [t.friendly_name || t.name.titleize, t.name] } %>
+        <%= f.select :theme_name,
+          options_for_select(theme_options, @website.theme_name),
           { include_blank: 'Select a theme' },
           class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" %>
       </div>
@@ -111,19 +112,67 @@
     <h3 class="mb-4 text-lg font-semibold text-gray-900">Feature Flags</h3>
     <div class="space-y-4">
       <div class="flex items-center">
-        <%= f.check_box :landing_hide_for_rent, class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 focus:ring-2" %>
+        <%= f.check_box :landing_hide_for_rent, class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" %>
         <%= f.label :landing_hide_for_rent, "Hide 'For Rent' on Landing Page", class: "ml-2 text-sm font-medium text-gray-900" %>
       </div>
       <div class="flex items-center">
-        <%= f.check_box :landing_hide_for_sale, class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 focus:ring-2" %>
+        <%= f.check_box :landing_hide_for_sale, class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" %>
         <%= f.label :landing_hide_for_sale, "Hide 'For Sale' on Landing Page", class: "ml-2 text-sm font-medium text-gray-900" %>
       </div>
       <div class="flex items-center">
-        <%= f.check_box :landing_hide_search_bar, class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 focus:ring-2" %>
+        <%= f.check_box :landing_hide_search_bar, class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" %>
         <%= f.label :landing_hide_search_bar, "Hide Search Bar on Landing Page", class: "ml-2 text-sm font-medium text-gray-900" %>
       </div>
     </div>
   </div>
+
+  <% unless @website.new_record? %>
+  <!-- Theme Availability Override -->
+  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900">Theme Availability</h3>
+    <p class="text-sm text-gray-600 mb-4">
+      <% if @website.custom_theme_availability? %>
+        <span class="text-blue-600">Custom themes configured</span> - This website has specific themes enabled.
+      <% else %>
+        <span class="text-gray-500">Using tenant defaults</span> - This website uses the tenant-wide default themes.
+      <% end %>
+    </p>
+
+    <div class="mb-4">
+      <label class="flex items-center">
+        <input type="checkbox" id="use_custom_themes" <%= 'checked' if @website.custom_theme_availability? %>
+               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+               onchange="document.getElementById('custom_themes_section').classList.toggle('hidden')">
+        <span class="ml-2 text-sm font-medium text-gray-900">Use custom theme availability for this website</span>
+      </label>
+    </div>
+
+    <div id="custom_themes_section" class="<%= 'hidden' unless @website.custom_theme_availability? %>">
+      <p class="text-sm text-gray-600 mb-3">Select which themes this website can use:</p>
+      <!-- Hidden field to clear array when no checkboxes selected -->
+      <%= hidden_field_tag "website[available_themes][]", "" %>
+      <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        <% @all_themes.each do |theme| %>
+          <div class="flex items-center p-2 border rounded <%= theme.name == 'default' ? 'bg-blue-50 border-blue-200' : 'bg-white border-gray-200' %>">
+            <% if theme.name == 'default' %>
+              <input type="hidden" name="website[available_themes][]" value="default">
+              <input type="checkbox" checked disabled
+                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded opacity-50 cursor-not-allowed">
+            <% else %>
+              <input type="checkbox"
+                     name="website[available_themes][]"
+                     value="<%= theme.name %>"
+                     <%= 'checked' if @website.available_themes&.include?(theme.name) %>
+                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+            <% end %>
+            <span class="ml-2 text-sm text-gray-900"><%= theme.friendly_name || theme.name.titleize %></span>
+          </div>
+        <% end %>
+      </div>
+      <p class="mt-2 text-xs text-gray-500">The default theme is always available.</p>
+    </div>
+  </div>
+  <% end %>
 
   <!-- Form Actions -->
   <div class="flex items-center space-x-4">

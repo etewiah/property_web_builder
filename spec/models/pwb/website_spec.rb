@@ -6,6 +6,7 @@
 #  admin_config                        :json
 #  analytics_id_type                   :integer
 #  available_currencies                :text             default([]), is an Array
+#  available_themes                    :text             is an Array
 #  company_display_name                :string
 #  configuration                       :json
 #  custom_domain                       :string
