@@ -76,11 +76,11 @@
             <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
               <span class="flex items-center">
                 <i class="fa fa-bed mr-1 text-blue-500"></i>
-                <%= property.count_bedrooms %> <%= I18n.t("property.bedrooms", count: property.count_bedrooms) rescue "Beds" %>
+                <%= format_bedroom_count(property.count_bedrooms) %> <%= I18n.t("property.bedrooms", count: property.count_bedrooms) rescue "Beds" %>
               </span>
               <span class="flex items-center">
                 <i class="fa fa-shower mr-1 text-blue-500"></i>
-                <%= property.count_bathrooms %> <%= I18n.t("property.bathrooms", count: property.count_bathrooms) rescue "Baths" %>
+                <%= format_bathroom_count(property.count_bathrooms) %> <%= I18n.t("property.bathrooms", count: property.count_bathrooms) rescue "Baths" %>
               </span>
               <span class="flex items-center">
                 <i class="fa fa-arrows-alt mr-1 text-blue-500"></i>

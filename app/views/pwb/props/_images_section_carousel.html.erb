@@ -42,10 +42,10 @@
             <%= @property_details.constructed_area %><%= area_unit @property_details %>
           </li>
           <li><i class="fa fa-bed"></i>
-            <%= @property_details.count_bedrooms %>
+            <%= format_bedroom_count(@property_details.count_bedrooms) %>
           </li>
           <li><i class="fa fa-shower"></i>
-            <%= @property_details.count_bathrooms %>
+            <%= format_bathroom_count(@property_details.count_bathrooms) %>
           </li>
           <li>
             <% if @property_details.has_garage %>

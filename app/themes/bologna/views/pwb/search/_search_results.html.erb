@@ -107,14 +107,14 @@
               <% if property.count_bedrooms && property.count_bedrooms > 0 %>
                 <span class="flex items-center text-sm text-stone-600">
                   <i class="ph ph-bed text-lg mr-2" style="color: #78716c;"></i>
-                  <span class="font-semibold"><%= property.count_bedrooms %></span>
+                  <span class="font-semibold"><%= format_bedroom_count(property.count_bedrooms) %></span>
                   <span class="ml-1 text-stone-400"><%= I18n.t("beds", default: "Beds") %></span>
                 </span>
               <% end %>
               <% if property.count_bathrooms && property.count_bathrooms > 0 %>
                 <span class="flex items-center text-sm text-stone-600">
                   <i class="ph ph-shower text-lg mr-2" style="color: #78716c;"></i>
-                  <span class="font-semibold"><%= property.count_bathrooms %></span>
+                  <span class="font-semibold"><%= format_bathroom_count(property.count_bathrooms) %></span>
                   <span class="ml-1 text-stone-400"><%= I18n.t("baths", default: "Baths") %></span>
                 </span>
               <% end %>

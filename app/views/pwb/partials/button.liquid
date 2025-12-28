@@ -16,7 +16,7 @@
 {%- assign btn_class = class | default: 'pwb-btn' -%}
 {%- assign btn_target = target | default: '' -%}
 
-<a href="{{ url }}" class="{{ btn_class }}"
+<a href="{{ url | localize_url }}" class="{{ btn_class }}"
    {%- if id %} id="{{ id }}"{% endif %}
    {%- if btn_target != '' %} target="{{ btn_target }}"{% endif %}>
   {{ text }}

@@ -51,13 +51,13 @@
         <% if property.count_bedrooms.present? && property.count_bedrooms > 0 %>
           <span class="flex items-center" title="<%= I18n.t('amenities.bedrooms', default: 'Bedrooms') %>">
             <i class="fa fa-bed text-gray-400 mr-1" aria-hidden="true"></i>
-            <span><%= property.count_bedrooms %></span>
+            <span><%= format_bedroom_count(property.count_bedrooms) %></span>
           </span>
         <% end %>
         <% if property.count_bathrooms.present? && property.count_bathrooms > 0 %>
           <span class="flex items-center" title="<%= I18n.t('amenities.bathrooms', default: 'Bathrooms') %>">
             <i class="fa fa-shower text-gray-400 mr-1" aria-hidden="true"></i>
-            <span><%= property.count_bathrooms %></span>
+            <span><%= format_bathroom_count(property.count_bathrooms) %></span>
           </span>
         <% end %>
         <% if property.constructed_area.present? && property.constructed_area > 0 %>

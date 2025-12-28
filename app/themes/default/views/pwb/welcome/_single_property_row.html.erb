@@ -25,11 +25,11 @@
             <ul class="flex items-center space-x-4 text-sm text-gray-600">
               <li class="hidden md:flex items-center">
                 <i class="fa fa-bed mr-1"></i>
-                <small><%= property.count_bedrooms %></small>
+                <small><%= format_bedroom_count(property.count_bedrooms) %></small>
               </li>
               <li class="hidden md:flex items-center">
                 <i class="fa fa-shower mr-1"></i>
-                <small><%= property.count_bathrooms %></small>
+                <small><%= format_bathroom_count(property.count_bathrooms) %></small>
               </li>
               <li class="hidden md:flex items-center">
                 <i class="fa fa-arrows-alt mr-1"></i>

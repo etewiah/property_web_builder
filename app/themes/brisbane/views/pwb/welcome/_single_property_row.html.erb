@@ -40,11 +40,11 @@
             <ul class="flex items-center justify-start space-x-6 text-sm text-luxury-charcoal/70">
               <li class="flex items-center">
                 <i class="fa fa-bed mr-2 text-luxury-gold"></i>
-                <span><%= property.count_bedrooms %></span>
+                <span><%= format_bedroom_count(property.count_bedrooms) %></span>
               </li>
               <li class="flex items-center">
                 <i class="fa fa-bath mr-2 text-luxury-gold"></i>
-                <span><%= property.count_bathrooms %></span>
+                <span><%= format_bathroom_count(property.count_bathrooms) %></span>
               </li>
               <li class="flex items-center">
                 <i class="fa fa-expand mr-2 text-luxury-gold"></i>

@@ -62,16 +62,16 @@
               <ul class="flex items-center justify-between text-sm text-[#44403C]" role="list">
                 
                 <!-- Bedrooms -->
-                <li class="flex flex-col items-center" title="<%= property.count_bedrooms %> Bedrooms">
+                <li class="flex flex-col items-center" title="<%= format_bedroom_count(property.count_bedrooms) %> Bedrooms">
                   <i class="fa fa-bed text-lg text-[#0369A1] mb-1" aria-hidden="true"></i>
-                  <span class="font-semibold text-[#1C1917]"><%= property.count_bedrooms %></span>
+                  <span class="font-semibold text-[#1C1917]"><%= format_bedroom_count(property.count_bedrooms) %></span>
                   <span class="text-xs hidden sm:block">Beds</span>
                 </li>
-                
+
                 <!-- Bathrooms -->
-                <li class="flex flex-col items-center" title="<%= property.count_bathrooms %> Bathrooms">
+                <li class="flex flex-col items-center" title="<%= format_bathroom_count(property.count_bathrooms) %> Bathrooms">
                   <i class="fa fa-shower text-lg text-[#0369A1] mb-1" aria-hidden="true"></i>
-                  <span class="font-semibold text-[#1C1917]"><%= property.count_bathrooms %></span>
+                  <span class="font-semibold text-[#1C1917]"><%= format_bathroom_count(property.count_bathrooms) %></span>
                   <span class="text-xs hidden sm:block">Baths</span>
                 </li>
                 

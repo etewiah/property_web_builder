@@ -73,7 +73,7 @@
         </span>
         <div class="flex flex-col">
           <span class="text-xs text-gray-500 font-medium"><%= I18n.t("property.bedrooms_short", default: "Beds") %></span>
-          <span class="font-bold text-gray-900"><%= @property_details.count_bedrooms %></span>
+          <span class="font-bold text-gray-900"><%= format_bedroom_count(@property_details.count_bedrooms) %></span>
         </div>
       </div>
       <div class="flex items-center space-x-2">
@@ -82,7 +82,7 @@
         </span>
         <div class="flex flex-col">
           <span class="text-xs text-gray-500 font-medium"><%= I18n.t("property.bathrooms_short", default: "Baths") %></span>
-          <span class="font-bold text-gray-900"><%= @property_details.count_bathrooms %></span>
+          <span class="font-bold text-gray-900"><%= format_bathroom_count(@property_details.count_bathrooms) %></span>
         </div>
       </div>
       <% if @property_details.has_garage %>

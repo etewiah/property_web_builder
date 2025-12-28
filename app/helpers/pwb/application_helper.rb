@@ -6,6 +6,7 @@ module Pwb
     #
     # If the user has selected a different currency and exchange rates are available,
     # shows the original price with converted price in parentheses.
+    # For rental properties, appends "/month" to indicate the rental period.
     #
     # @param property [ListedProperty] the property to get price from
     # @param operation_type [String] "for_sale" or "for_rent"
@@ -16,10 +17,75 @@ module Pwb
     #   property_price(@property, "for_sale")
     #   # => "€250,000" (default currency)
     #   # => "€250,000 <span class='text-gray-500'>(~$270,000 USD)</span>" (with conversion)
+    #   property_price(@property, "for_rent")
+    #   # => "$2,200/month"
     #
     def property_price(property, operation_type, show_conversion: true)
       money = property.contextual_price(operation_type)
-      display_price(money, show_conversion: show_conversion)
+      formatted = display_price(money, show_conversion: show_conversion)
+
+      # Add "/month" suffix for rental prices
+      if formatted.present? && operation_type.to_s == "for_rent"
+        # Insert /month before any conversion span or at the end
+        if formatted.include?("<span")
+          formatted.sub(" <span", "/#{t('properties.month', default: 'month')} <span").html_safe
+        else
+          "#{formatted}/#{t('properties.month', default: 'month')}".html_safe
+        end
+      else
+        formatted
+      end
+    end
+
+    # Format bathroom count, removing unnecessary decimals
+    #
+    # @param count [Float, Integer, nil] the bathroom count
+    # @return [String] formatted count (e.g., "2" instead of "2.0", but "1.5" preserved)
+    #
+    # @example
+    #   format_bathroom_count(2.0)  # => "2"
+    #   format_bathroom_count(1.5)  # => "1.5"
+    #   format_bathroom_count(nil)  # => ""
+    #
+    def format_bathroom_count(count)
+      return "" if count.nil?
+
+      # If it's a whole number, display as integer
+      count == count.to_i ? count.to_i.to_s : count.to_s
+    end
+
+    # Format bedroom count, removing unnecessary decimals
+    #
+    # @param count [Float, Integer, nil] the bedroom count
+    # @return [String] formatted count
+    #
+    def format_bedroom_count(count)
+      return "" if count.nil?
+
+      count == count.to_i ? count.to_i.to_s : count.to_s
+    end
+
+    # Locale-aware path helpers
+    # These ensure URLs always include the current locale prefix for consistency
+    #
+    # @example
+    #   localized_buy_path  # => "/en/buy" (when locale is :en)
+    #   localized_rent_path # => "/es/rent" (when locale is :es)
+    #
+    def localized_buy_path
+      buy_path(locale: I18n.locale)
+    end
+
+    def localized_rent_path
+      rent_path(locale: I18n.locale)
+    end
+
+    def localized_contact_path
+      contact_us_path(locale: I18n.locale)
+    end
+
+    def localized_home_path
+      home_path(locale: I18n.locale)
     end
 
     # Consolidated company display name resolution
