@@ -31,7 +31,7 @@
             <% @contents.each do |content| %>
               <tr class="hover:bg-gray-100">
                 <td class="p-4 text-sm font-medium text-gray-900">
-                  <%= link_to content.key || "Content ##{content.id}", tenant_admin_content_path(content), class: "text-primary-600 hover:underline" %>
+                  <%= link_to content.key || "Content ##{content.id}", tenant_admin_content_path(content), class: "text-blue-600 hover:underline" %>
                 </td>
                 <td class="p-4 text-sm text-gray-500">
                   <%= content.tag || "N/A" %>
@@ -47,7 +47,7 @@
                   <%= time_ago_in_words(content.created_at) %> ago
                 </td>
                 <td class="p-4 space-x-2 whitespace-nowrap">
-                  <%= link_to "View", tenant_admin_content_path(content), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800" %>
+                  <%= link_to "View", tenant_admin_content_path(content), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-600 hover:bg-blue-700" %>
                 </td>
               </tr>
             <% end %>

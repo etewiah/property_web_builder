@@ -28,7 +28,7 @@
                   <%= prop.reference || "N/A" %>
                 </td>
                 <td class="p-4 text-sm text-gray-900">
-                  <%= link_to prop.title || "Property ##{prop.id}", tenant_admin_prop_path(prop), class: "text-primary-600 hover:underline" %>
+                  <%= link_to prop.title || "Property ##{prop.id}", tenant_admin_prop_path(prop), class: "text-blue-600 hover:underline" %>
                 </td>
                 <td class="p-4 text-sm text-gray-500">
                   <% if prop.respond_to?(:website) %>
@@ -41,7 +41,7 @@
                   <%= time_ago_in_words(prop.created_at) %> ago
                 </td>
                 <td class="p-4">
-                  <%= link_to "View", tenant_admin_prop_path(prop), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800" %>
+                  <%= link_to "View", tenant_admin_prop_path(prop), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-600 hover:bg-blue-700" %>
                 </td>
               </tr>
             <% end %>

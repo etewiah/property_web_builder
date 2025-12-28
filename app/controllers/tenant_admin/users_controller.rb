@@ -34,8 +34,9 @@ module TenantAdmin
 
     def create
       @user = Pwb::User.new(user_params)
-      
+
       if @user.save
+        create_or_update_website_membership(@user)
         redirect_to tenant_admin_user_path(@user), notice: "User created successfully."
       else
         @websites = Pwb::Website.unscoped.order(:subdomain)
@@ -49,6 +50,7 @@ module TenantAdmin
 
     def update
       if @user.update(user_params)
+        create_or_update_website_membership(@user)
         redirect_to tenant_admin_user_path(@user), notice: "User updated successfully."
       else
         @websites = Pwb::Website.unscoped.order(:subdomain)
@@ -102,6 +104,22 @@ module TenantAdmin
         :admin,
         :website_id
       )
+    end
+
+    # Create or update UserMembership when user is assigned to a website with admin role
+    def create_or_update_website_membership(user)
+      website_id = params.dig(:pwb_user, :website_id)
+      is_admin = params.dig(:pwb_user, :admin) == "1"
+
+      return unless website_id.present? && is_admin
+
+      website = Pwb::Website.unscoped.find_by(id: website_id)
+      return unless website
+
+      membership = Pwb::UserMembership.find_or_initialize_by(user: user, website: website)
+      membership.role = 'admin'
+      membership.active = true
+      membership.save!
     end
 
     def check_user_deletion_safety(user)
