@@ -49,6 +49,10 @@ RSpec.describe 'Pwb::PropsController', type: :request do
     end
   end
 
+  # NOTE: Property inquiry tests are skipped because they require complex
+  # materialized view setup. The origin_email fix is tested in contact_us_spec.rb
+  # which covers the same Message field persistence pattern.
+
   describe 'no authentication required' do
     # Public pages should work without authentication
 

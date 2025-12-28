@@ -30,11 +30,12 @@ module Mutations
       @enquiry = Pwb::Message.new({
         website: current_website,
         title: title,
-        # content: contact[:message],
-        # locale: contact[:locale],
+        content: contact["message"],
+        locale: contact["locale"],
         url: context[:request_url],
         host: context[:request_host],
         origin_ip: context[:request_ip],
+        origin_email: contact["email"],
         user_agent: context[:request_user_agent],
         delivery_email: current_agency.email_for_property_contact_form,
       })

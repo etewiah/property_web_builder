@@ -74,6 +74,7 @@ module Pwb
           url: request.referer,
           host: request.host,
           origin_ip: request.ip,
+          origin_email: params[:contact][:email],
           user_agent: request.user_agent,
           delivery_email: @current_agency.email_for_general_contact_form
         }

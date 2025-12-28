@@ -24,22 +24,12 @@ export default class extends Controller {
   }
 
   connect() {
-    // If using Rails UJS remote forms, listen for those events too
-    if (this.hasFormTarget) {
-      this.formTarget.addEventListener("ajax:success", this.handleAjaxSuccess.bind(this))
-      this.formTarget.addEventListener("ajax:error", this.handleAjaxError.bind(this))
-      this.formTarget.addEventListener("ajax:beforeSend", this.handleBeforeSend.bind(this))
-      this.formTarget.addEventListener("ajax:complete", this.handleComplete.bind(this))
-    }
+    // Event handlers are registered via data-action attributes on the form
+    // No need for manual addEventListener - Stimulus handles this
   }
 
   disconnect() {
-    if (this.hasFormTarget) {
-      this.formTarget.removeEventListener("ajax:success", this.handleAjaxSuccess.bind(this))
-      this.formTarget.removeEventListener("ajax:error", this.handleAjaxError.bind(this))
-      this.formTarget.removeEventListener("ajax:beforeSend", this.handleBeforeSend.bind(this))
-      this.formTarget.removeEventListener("ajax:complete", this.handleComplete.bind(this))
-    }
+    // Stimulus automatically removes event listeners from data-action
   }
 
   /**
@@ -130,7 +120,11 @@ export default class extends Controller {
   showLoading() {
     if (this.hasSubmitButtonTarget) {
       this.submitButtonTarget.disabled = true
-      this.originalButtonText = this.submitButtonTarget.innerHTML
+      // Only save original text if not already in loading state
+      if (!this.isLoading) {
+        this.originalButtonText = this.submitButtonTarget.innerHTML
+        this.isLoading = true
+      }
       this.submitButtonTarget.innerHTML = `
         <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -145,6 +139,7 @@ export default class extends Controller {
     if (this.hasSubmitButtonTarget && this.originalButtonText) {
       this.submitButtonTarget.disabled = false
       this.submitButtonTarget.innerHTML = this.originalButtonText
+      this.isLoading = false
     }
   }
 
