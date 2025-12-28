@@ -212,7 +212,7 @@ module Pwb
         create_log(
           event_type: 'message_read',
           user: user,
-          email: user.email,
+          email: user&.email,
           metadata: {
             message_id: message.id,
             message_origin_email: message.origin_email,

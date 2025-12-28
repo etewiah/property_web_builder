@@ -18,13 +18,15 @@ module SiteAdmin
       unless @message.read?
         @message.update(read: true)
 
-        # Log the audit entry
-        Pwb::AuthAuditLog.log_message_read(
-          user: current_user,
-          message: @message,
-          request: request,
-          website: current_website
-        )
+        # Log the audit entry (only if user is authenticated)
+        if current_user
+          Pwb::AuthAuditLog.log_message_read(
+            user: current_user,
+            message: @message,
+            request: request,
+            website: current_website
+          )
+        end
       end
     end
   end
