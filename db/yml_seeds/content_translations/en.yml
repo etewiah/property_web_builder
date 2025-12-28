@@ -194,31 +194,37 @@ en:
 
     teams/team_grid:
       section_title: Meet Our Team
-      section_subtitle: Dedicated professionals committed to your success
-      member_1_name: John Smith
-      member_1_role: Senior Agent
+      section_subtitle: Experienced professionals with a passion for real estate
+      member_1_name: Willem van der Berg
+      member_1_role: Director / Licensed Agent
       member_1_image: "db/seeds/packs/netherlands_urban/images/team_director.jpg"
       member_1_bio: >
-        John has over 15 years of experience in real estate and has helped hundreds
-        of families find their perfect homes.
-      member_1_email: john@example.com
+        Willem founded Van der Berg Real Estate in 1998. With over 30 years of experience
+        in the Amsterdam property market, he is a recognized expert in monumental properties
+        and canal houses.
+      member_1_email: willem@vanderbergmakelaars.nl
       member_1_linkedin: ""
-      member_2_name: Emily Davis
-      member_2_role: Property Consultant
+      member_2_name: Sophie Jansen
+      member_2_role: Senior Agent - Amsterdam
       member_2_image: "db/seeds/packs/netherlands_urban/images/team_agent_female.jpg"
       member_2_bio: >
-        Emily specializes in luxury properties and brings a keen eye for detail
-        to every transaction.
-      member_3_name: Robert Brown
-      member_3_role: Sales Director
+        Sophie specializes in selling apartments and lofts in Amsterdam. Her enthusiasm
+        and thorough market knowledge ensure excellent results for her clients.
+      member_2_email: sophie@vanderbergmakelaars.nl
+      member_3_name: Thomas de Groot
+      member_3_role: Agent - Expat Services
       member_3_image: "db/seeds/packs/netherlands_urban/images/team_agent_male.jpg"
       member_3_bio: >
-        Robert leads our sales team with expertise in commercial and residential properties.
-      member_4_name: Lisa Martinez
-      member_4_role: Client Relations
+        Thomas guides international clients in finding their perfect home in the Netherlands.
+        Fluent in Dutch, English, and German.
+      member_3_email: thomas@vanderbergmakelaars.nl
+      member_4_name: Lisa Vermeer
+      member_4_role: Client Relations & Marketing
       member_4_image: "db/seeds/packs/netherlands_urban/images/team_assistant.jpg"
       member_4_bio: >
-        Lisa ensures every client receives exceptional service and support throughout their journey.
+        Lisa ensures every client has an excellent experience and that our properties
+        are presented optimally.
+      member_4_email: lisa@vanderbergmakelaars.nl
 
   contact-us:
     content_html:
