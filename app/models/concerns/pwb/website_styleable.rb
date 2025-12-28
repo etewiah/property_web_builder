@@ -49,8 +49,12 @@ module Pwb
     end
 
     # Get the current theme object
+    # Falls back to 'default' theme if theme_name is blank
     def current_theme
-      @current_theme ||= Pwb::Theme.find_by(name: theme_name)
+      @current_theme ||= begin
+        name = theme_name.presence || "default"
+        Pwb::Theme.find_by(name: name)
+      end
     end
 
     # Get effective palette ID (selected or theme default)
