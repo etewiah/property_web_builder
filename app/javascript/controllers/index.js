@@ -41,3 +41,6 @@ application.register("theme-palette", ThemePaletteController)
 
 import SkeletonController from "controllers/skeleton_controller"
 application.register("skeleton", SkeletonController)
+
+import LocationPickerController from "controllers/location_picker_controller"
+application.register("location-picker", LocationPickerController)
