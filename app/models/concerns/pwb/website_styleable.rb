@@ -9,6 +9,12 @@ module Pwb
   module WebsiteStyleable
     extend ActiveSupport::Concern
 
+    included do
+      # Clear memoized theme data when theme_name changes
+      before_save :clear_theme_cache, if: :theme_name_changed?
+      after_save :clear_palette_loader_cache, if: :saved_change_to_selected_palette?
+    end
+
     DEFAULT_STYLE_VARIABLES = {
       "primary_color" => "#e91b23",
       "secondary_color" => "#3498db",
@@ -201,10 +207,28 @@ module Pwb
       ]
     end
 
+    # Force refresh of theme data (useful after theme changes)
+    def refresh_theme_data!
+      clear_theme_cache
+      clear_palette_loader_cache
+      current_theme # Re-memoize
+    end
+
     private
 
     def palette_loader
       @palette_loader ||= PaletteLoader.new
+    end
+
+    # Clear memoized theme when theme_name changes
+    def clear_theme_cache
+      @current_theme = nil
+    end
+
+    # Clear palette loader cache to force re-read from files
+    def clear_palette_loader_cache
+      @palette_loader&.clear_cache!
+      @palette_loader = nil
     end
   end
 end

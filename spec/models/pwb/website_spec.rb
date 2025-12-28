@@ -88,6 +88,19 @@ require 'rails_helper'
 
 module Pwb
   RSpec.describe Website, type: :model do
+    # Set up tenant settings to allow all themes used in tests
+    before(:all) do
+      Pwb::TenantSettings.delete_all
+      Pwb::TenantSettings.create!(
+        singleton_key: "default",
+        default_available_themes: %w[default brisbane bologna barcelona biarritz]
+      )
+    end
+
+    after(:all) do
+      Pwb::TenantSettings.delete_all
+    end
+
     let(:website) { FactoryBot.create(:pwb_website) }
     # let(:website2) { FactoryBot.create(:pwb_website) }
 
