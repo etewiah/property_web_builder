@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_27_234829) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_28_100000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -913,6 +913,36 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_27_234829) do
     t.index ["subdomain"], name: "index_pwb_websites_on_subdomain", unique: true
   end
 
+  create_table "pwb_widget_configs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.string "allowed_domains", default: [], array: true
+    t.integer "clicks_count", default: 0
+    t.integer "columns", default: 3
+    t.datetime "created_at", null: false
+    t.boolean "highlighted_only", default: false
+    t.integer "impressions_count", default: 0
+    t.string "layout", default: "grid"
+    t.string "listing_type"
+    t.integer "max_bedrooms"
+    t.integer "max_price_cents"
+    t.integer "max_properties", default: 12
+    t.integer "min_bedrooms"
+    t.integer "min_price_cents"
+    t.string "name", null: false
+    t.string "property_types", default: [], array: true
+    t.boolean "show_filters", default: false
+    t.boolean "show_pagination", default: true
+    t.boolean "show_search", default: false
+    t.jsonb "theme", default: {}
+    t.datetime "updated_at", null: false
+    t.jsonb "visible_fields", default: {}
+    t.bigint "website_id", null: false
+    t.string "widget_key", null: false
+    t.index ["website_id", "active"], name: "index_pwb_widget_configs_on_website_id_and_active"
+    t.index ["website_id"], name: "index_pwb_widget_configs_on_website_id"
+    t.index ["widget_key"], name: "index_pwb_widget_configs_on_widget_key", unique: true
+  end
+
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
     t.string "concurrency_key", null: false
     t.datetime "created_at", null: false
@@ -1073,6 +1103,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_27_234829) do
   add_foreign_key "pwb_user_memberships", "pwb_users", column: "user_id"
   add_foreign_key "pwb_user_memberships", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_website_photos", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_widget_configs", "pwb_websites", column: "website_id"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

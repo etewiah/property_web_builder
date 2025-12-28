@@ -1,0 +1,130 @@
+<div class="max-w-6xl mx-auto">
+  <div class="mb-6 flex justify-between items-center">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Embeddable Widgets</h1>
+      <p class="mt-1 text-sm text-gray-600">Create widgets to display your properties on external websites</p>
+    </div>
+    <%= link_to new_site_admin_widget_path, class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" do %>
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+      </svg>
+      Create Widget
+    <% end %>
+  </div>
+
+  <% if @widgets.any? %>
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Widget</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Layout</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stats</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% @widgets.each do |widget| %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4">
+                <div class="font-medium text-gray-900"><%= widget.name %></div>
+                <div class="text-xs text-gray-500 font-mono"><%= widget.widget_key %></div>
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                  <%= widget.layout.capitalize %>
+                  <% if widget.layout == 'grid' %>
+                    (<%= widget.columns %> cols)
+                  <% end %>
+                </span>
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500">
+                <% if widget.listing_type == 'sale' %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Sale</span>
+                <% elsif widget.listing_type == 'rent' %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">Rent</span>
+                <% else %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">All</span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500">
+                <div class="flex gap-4">
+                  <span title="Impressions">
+                    <svg class="w-4 h-4 inline text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
+                    <%= number_with_delimiter(widget.impressions_count) %>
+                  </span>
+                  <span title="Clicks">
+                    <svg class="w-4 h-4 inline text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
+                    </svg>
+                    <%= number_with_delimiter(widget.clicks_count) %>
+                  </span>
+                </div>
+              </td>
+              <td class="px-6 py-4">
+                <% if widget.active %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
+                <% else %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">Inactive</span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 text-sm">
+                <div class="flex gap-2">
+                  <%= link_to 'View', site_admin_widget_path(widget), class: 'text-blue-600 hover:text-blue-800' %>
+                  <%= link_to 'Edit', edit_site_admin_widget_path(widget), class: 'text-gray-600 hover:text-gray-800' %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="bg-white rounded-lg shadow p-12 text-center">
+      <svg class="w-16 h-16 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+      </svg>
+      <h3 class="mt-4 text-lg font-medium text-gray-900">No widgets yet</h3>
+      <p class="mt-2 text-gray-500">Create your first widget to embed property listings on external websites.</p>
+      <%= link_to new_site_admin_widget_path, class: "mt-4 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" do %>
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+        Create Your First Widget
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- How It Works -->
+  <div class="mt-8 bg-blue-50 rounded-lg p-6">
+    <h3 class="text-lg font-medium text-blue-900 mb-4">How Embeddable Widgets Work</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="flex gap-3">
+        <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+        <div>
+          <h4 class="font-medium text-blue-900">Create a Widget</h4>
+          <p class="text-sm text-blue-700">Configure which properties to show and customize the appearance.</p>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+        <div>
+          <h4 class="font-medium text-blue-900">Copy Embed Code</h4>
+          <p class="text-sm text-blue-700">Get a simple HTML snippet to add to any website.</p>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+        <div>
+          <h4 class="font-medium text-blue-900">Properties Update Automatically</h4>
+          <p class="text-sm text-blue-700">Changes to your listings sync to embedded widgets automatically.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

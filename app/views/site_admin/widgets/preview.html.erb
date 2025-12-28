@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Widget Preview - <%= @widget.name %></title>
+  <style>
+    :root {
+      --pwb-primary: <%= @widget.effective_theme['primary_color'] %>;
+      --pwb-secondary: <%= @widget.effective_theme['secondary_color'] %>;
+      --pwb-text: <%= @widget.effective_theme['text_color'] %>;
+      --pwb-bg: <%= @widget.effective_theme['background_color'] %>;
+      --pwb-card-bg: <%= @widget.effective_theme['card_background'] %>;
+      --pwb-border: <%= @widget.effective_theme['border_color'] %>;
+      --pwb-radius: <%= @widget.effective_theme['border_radius'] %>;
+      --pwb-font: <%= @widget.effective_theme['font_family'] %>;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--pwb-font);
+      background: #f3f4f6;
+      padding: 20px;
+    }
+
+    .preview-header {
+      background: white;
+      padding: 16px 24px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .preview-header h1 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .preview-header .badge {
+      background: #dbeafe;
+      color: #1d4ed8;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .widget-container {
+      background: var(--pwb-bg);
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .pwb-grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(<%= @widget.columns %>, 1fr);
+    }
+
+    @media (max-width: 1024px) {
+      .pwb-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .pwb-grid { grid-template-columns: 1fr; }
+    }
+
+    .pwb-card {
+      background: var(--pwb-card-bg);
+      border: 1px solid var(--pwb-border);
+      border-radius: var(--pwb-radius);
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .pwb-card:hover {
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .pwb-card a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .pwb-card-image {
+      position: relative;
+      padding-top: 66.67%;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .pwb-card-image img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pwb-card-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--pwb-primary);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .pwb-card-body { padding: 16px; }
+
+    .pwb-card-price {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--pwb-primary);
+      margin-bottom: 8px;
+    }
+
+    .pwb-card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--pwb-text);
+    }
+
+    .pwb-card-location {
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-bottom: 12px;
+    }
+
+    .pwb-card-specs {
+      display: flex;
+      gap: 16px;
+      font-size: 0.875rem;
+      color: #4b5563;
+    }
+
+    .pwb-card-spec {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pwb-empty {
+      text-align: center;
+      padding: 48px 24px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-header">
+    <h1>Widget Preview: <%= @widget.name %></h1>
+    <span class="badge">Preview Mode</span>
+  </div>
+
+  <div class="widget-container">
+    <% visible = @widget.effective_visible_fields %>
+
+    <% if @properties.any? %>
+      <div class="pwb-grid">
+        <% @properties.each do |prop| %>
+          <div class="pwb-card">
+            <a href="#" onclick="return false;">
+              <div class="pwb-card-image">
+                <% first_photo = prop.prop_photos.first %>
+                <% if first_photo&.has_image? %>
+                  <img src="<%= first_photo.thumbnail_url(size: [400, 300]) %>" alt="<%= prop.title %>" loading="lazy">
+                <% else %>
+                  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#f3f4f6;">
+                    <svg width="48" height="48" fill="none" stroke="#9ca3af" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                  </div>
+                <% end %>
+
+                <% if prop.for_sale %>
+                  <span class="pwb-card-badge">For Sale</span>
+                <% elsif prop.for_rent %>
+                  <span class="pwb-card-badge" style="background:#7c3aed;">For Rent</span>
+                <% end %>
+              </div>
+
+              <div class="pwb-card-body">
+                <% if visible['price'] %>
+                  <div class="pwb-card-price">
+                    <% if prop.for_sale && prop.price_sale_current_cents.present? %>
+                      <%= Money.new(prop.price_sale_current_cents, prop.price_sale_current_currency || 'EUR').format %>
+                    <% elsif prop.for_rent && prop.price_rental_monthly_current_cents.present? %>
+                      <%= Money.new(prop.price_rental_monthly_current_cents, prop.price_rental_monthly_current_currency || 'EUR').format %>/mo
+                    <% end %>
+                  </div>
+                <% end %>
+
+                <div class="pwb-card-title"><%= prop.title.presence || prop.reference %></div>
+
+                <% if visible['location'] && prop.city.present? %>
+                  <div class="pwb-card-location"><%= prop.city %></div>
+                <% end %>
+
+                <div class="pwb-card-specs">
+                  <% if visible['bedrooms'] && prop.count_bedrooms.to_i > 0 %>
+                    <span class="pwb-card-spec"><%= prop.count_bedrooms %> bed</span>
+                  <% end %>
+                  <% if visible['bathrooms'] && prop.count_bathrooms.to_f > 0 %>
+                    <span class="pwb-card-spec"><%= prop.count_bathrooms.to_i %> bath</span>
+                  <% end %>
+                  <% if visible['area'] && prop.constructed_area.to_f > 0 %>
+                    <span class="pwb-card-spec"><%= number_with_delimiter(prop.constructed_area.to_i) %> m<sup>2</sup></span>
+                  <% end %>
+                </div>
+              </div>
+            </a>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="pwb-empty">
+        <p>No properties match the widget filters.</p>
+      </div>
+    <% end %>
+  </div>
+</body>
+</html>

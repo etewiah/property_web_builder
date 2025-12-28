@@ -1,0 +1,102 @@
+<% visible = @widget_config.effective_visible_fields %>
+
+<% if @properties.any? %>
+  <div class="pwb-grid">
+    <% @properties.each do |prop| %>
+      <div class="pwb-card">
+        <a href="<%= prop.for_sale ? prop_show_for_sale_url(id: prop.id, url_friendly_title: prop.url_friendly_title, host: @widget_config.website.primary_host || "#{@widget_config.website.subdomain}.propertywebbuilder.com", protocol: 'https') : prop_show_for_rent_url(id: prop.id, url_friendly_title: prop.url_friendly_title, host: @widget_config.website.primary_host || "#{@widget_config.website.subdomain}.propertywebbuilder.com", protocol: 'https') %>" target="_blank" rel="noopener">
+          <div class="pwb-card-image">
+            <% first_photo = prop.prop_photos.first %>
+            <% if first_photo&.has_image? %>
+              <img src="<%= first_photo.thumbnail_url(size: [400, 300]) %>" alt="<%= prop.title %>" loading="lazy">
+            <% else %>
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#f3f4f6;">
+                <svg width="48" height="48" fill="none" stroke="#9ca3af" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+              </div>
+            <% end %>
+
+            <% if prop.for_sale %>
+              <span class="pwb-card-badge">For Sale</span>
+            <% elsif prop.for_rent %>
+              <span class="pwb-card-badge" style="background:#7c3aed;">For Rent</span>
+            <% end %>
+
+            <% if prop.prop_photos.size > 1 %>
+              <span class="pwb-card-photos">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <%= prop.prop_photos.size %>
+              </span>
+            <% end %>
+          </div>
+
+          <div class="pwb-card-body">
+            <% if visible['price'] %>
+              <div class="pwb-card-price">
+                <% if prop.for_sale && prop.price_sale_current_cents.present? %>
+                  <%= Money.new(prop.price_sale_current_cents, prop.price_sale_current_currency || 'EUR').format %>
+                <% elsif prop.for_rent && prop.price_rental_monthly_current_cents.present? %>
+                  <%= Money.new(prop.price_rental_monthly_current_cents, prop.price_rental_monthly_current_currency || 'EUR').format %>/mo
+                <% end %>
+              </div>
+            <% end %>
+
+            <div class="pwb-card-title"><%= prop.title.presence || prop.reference %></div>
+
+            <% if visible['location'] && prop.city.present? %>
+              <div class="pwb-card-location">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display:inline;vertical-align:-2px;margin-right:2px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                </svg>
+                <%= prop.city %>
+              </div>
+            <% end %>
+
+            <div class="pwb-card-specs">
+              <% if visible['bedrooms'] && prop.count_bedrooms.to_i > 0 %>
+                <span class="pwb-card-spec">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                  </svg>
+                  <%= prop.count_bedrooms %> bed
+                </span>
+              <% end %>
+
+              <% if visible['bathrooms'] && prop.count_bathrooms.to_f > 0 %>
+                <span class="pwb-card-spec">
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5 2a2 2 0 00-2 2v14l3.5-2 3.5 2 3.5-2 3.5 2V4a2 2 0 00-2-2H5zm2.5 3a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm6.207.293a1 1 0 00-1.414 0l-6 6a1 1 0 101.414 1.414l6-6a1 1 0 000-1.414zM12.5 10a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" clip-rule="evenodd"/>
+                  </svg>
+                  <%= prop.count_bathrooms.to_i %> bath
+                </span>
+              <% end %>
+
+              <% if visible['area'] && prop.constructed_area.to_f > 0 %>
+                <span class="pwb-card-spec">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                  </svg>
+                  <%= number_with_delimiter(prop.constructed_area.to_i) %> m<sup>2</sup>
+                </span>
+              <% end %>
+            </div>
+          </div>
+        </a>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="pwb-empty">
+    <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin:0 auto 16px;display:block;color:#9ca3af;">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+    </svg>
+    <p>No properties available at this time.</p>
+  </div>
+<% end %>
+
+<div class="pwb-powered">
+  Powered by <a href="https://propertywebbuilder.com" target="_blank" rel="noopener">PropertyWebBuilder</a>
+</div>

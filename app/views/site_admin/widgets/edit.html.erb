@@ -1,0 +1,12 @@
+<div class="max-w-4xl mx-auto">
+  <div class="mb-6">
+    <%= link_to '&larr; Back to Widget'.html_safe, site_admin_widget_path(@widget), class: 'text-blue-600 hover:text-blue-800' %>
+  </div>
+
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Edit Widget: <%= @widget.name %></h1>
+    <p class="mt-1 text-sm text-gray-500 font-mono">ID: <%= @widget.widget_key %></p>
+  </div>
+
+  <%= render 'form' %>
+</div>

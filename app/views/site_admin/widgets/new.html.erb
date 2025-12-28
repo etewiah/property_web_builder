@@ -1,0 +1,12 @@
+<div class="max-w-4xl mx-auto">
+  <div class="mb-6">
+    <%= link_to '&larr; Back to Widgets'.html_safe, site_admin_widgets_path, class: 'text-blue-600 hover:text-blue-800' %>
+  </div>
+
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Create New Widget</h1>
+    <p class="mt-1 text-sm text-gray-600">Configure a new embeddable property widget</p>
+  </div>
+
+  <%= render 'form' %>
+</div>

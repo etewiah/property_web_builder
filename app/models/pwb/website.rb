@@ -134,6 +134,9 @@ module Pwb
     has_many :media, class_name: 'Pwb::Media', dependent: :destroy
     has_many :media_folders, class_name: 'Pwb::MediaFolder', dependent: :destroy
 
+    # Embeddable Widgets
+    has_many :widget_configs, class_name: 'Pwb::WidgetConfig', dependent: :destroy
+
     # Multi-website support via memberships
     has_many :user_memberships, dependent: :destroy
     has_many :members, through: :user_memberships, source: :user

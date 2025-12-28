@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Listings</title>
+  <style>
+    :root {
+      --pwb-primary: <%= @widget_config.effective_theme['primary_color'] %>;
+      --pwb-secondary: <%= @widget_config.effective_theme['secondary_color'] %>;
+      --pwb-text: <%= @widget_config.effective_theme['text_color'] %>;
+      --pwb-bg: <%= @widget_config.effective_theme['background_color'] %>;
+      --pwb-card-bg: <%= @widget_config.effective_theme['card_background'] %>;
+      --pwb-border: <%= @widget_config.effective_theme['border_color'] %>;
+      --pwb-radius: <%= @widget_config.effective_theme['border_radius'] %>;
+      --pwb-font: <%= @widget_config.effective_theme['font_family'] %>;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--pwb-font);
+      background-color: var(--pwb-bg);
+      color: var(--pwb-text);
+      line-height: 1.5;
+      padding: 16px;
+    }
+
+    .pwb-grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(<%= @widget_config.columns %>, 1fr);
+    }
+
+    @media (max-width: 1024px) {
+      .pwb-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .pwb-grid { grid-template-columns: 1fr; }
+    }
+
+    .pwb-card {
+      background: var(--pwb-card-bg);
+      border: 1px solid var(--pwb-border);
+      border-radius: var(--pwb-radius);
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .pwb-card:hover {
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .pwb-card a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .pwb-card-image {
+      position: relative;
+      padding-top: 66.67%; /* 3:2 aspect ratio */
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .pwb-card-image img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pwb-card-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--pwb-primary);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .pwb-card-photos {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pwb-card-body {
+      padding: 16px;
+    }
+
+    .pwb-card-price {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--pwb-primary);
+      margin-bottom: 8px;
+    }
+
+    .pwb-card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .pwb-card-location {
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-bottom: 12px;
+    }
+
+    .pwb-card-specs {
+      display: flex;
+      gap: 16px;
+      font-size: 0.875rem;
+      color: #4b5563;
+    }
+
+    .pwb-card-spec {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pwb-empty {
+      text-align: center;
+      padding: 48px 24px;
+      color: #6b7280;
+    }
+
+    .pwb-loading {
+      text-align: center;
+      padding: 48px 24px;
+    }
+
+    .pwb-loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--pwb-border);
+      border-top-color: var(--pwb-primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .pwb-powered {
+      text-align: center;
+      padding: 16px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .pwb-powered a {
+      color: #6b7280;
+      text-decoration: none;
+    }
+
+    .pwb-powered a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <%= yield %>
+
+  <script>
+    // Send height to parent for iframe resizing
+    function sendHeight() {
+      var height = document.body.scrollHeight;
+      window.parent.postMessage({
+        type: 'pwb-widget-resize',
+        widgetId: '<%= @widget_config.widget_key %>',
+        height: height
+      }, '*');
+    }
+
+    // Track clicks
+    document.querySelectorAll('.pwb-card a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        fetch('/api_public/v1/widgets/<%= @widget_config.widget_key %>/click', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
+      });
+    });
+
+    // Send initial height and on resize
+    sendHeight();
+    window.addEventListener('resize', sendHeight);
+    setTimeout(sendHeight, 500); // Delayed check after images load
+  </script>
+</body>
+</html>

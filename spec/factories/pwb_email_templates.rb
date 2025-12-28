@@ -23,6 +23,10 @@
 #  index_pwb_email_templates_on_website_id                   (website_id)
 #  index_pwb_email_templates_on_website_id_and_template_key  (website_id,template_key) UNIQUE
 #
+# Foreign Keys
+#
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 FactoryBot.define do
   factory :pwb_email_template, class: 'Pwb::EmailTemplate' do
     association :website, factory: :pwb_website

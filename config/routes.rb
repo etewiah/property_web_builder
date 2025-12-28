@@ -254,6 +254,13 @@ Rails.application.routes.draw do
       get :realtime
     end
 
+    # Embeddable Widgets for external websites
+    resources :widgets do
+      member do
+        get :preview
+      end
+    end
+
     # Properties Settings
     namespace :properties do
       get 'settings', to: 'settings#index', as: 'settings'
@@ -534,8 +541,18 @@ Rails.application.routes.draw do
       get "/site_details" => "site_details#index"
       get "/select_values" => "select_values#index"
       post "/auth/firebase" => "auth#firebase"
+
+      # Embeddable Widget API
+      get "/widgets/:widget_key" => "widgets#show"
+      get "/widgets/:widget_key/properties" => "widgets#properties"
+      post "/widgets/:widget_key/impression" => "widgets#impression"
+      post "/widgets/:widget_key/click" => "widgets#click"
     end
   end
+
+  # Widget iframe/JavaScript serving routes (outside API namespace)
+  get "/widget.js" => "widgets#javascript", as: :widget_js
+  get "/widget/:widget_key" => "widgets#iframe", as: :widget_iframe
 
   # External Signup API
   # These endpoints are called by external signup UIs (like the signup_component)
