@@ -6,6 +6,149 @@
  * To regenerate: rake assets:font_awesome_subset
  */
 
-@import 'fontawesome-subset/fontawesome';
-@import 'fontawesome-subset/solid';
-@import 'fontawesome-subset/brands';
+/* ============================================
+ * Core Styles
+ * ============================================ */
+
+.fa,
+.fas,
+.fa-solid,
+.fab,
+.fa-brands {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-rendering: auto;
+}
+
+/* FA4 backwards compatibility - .fa defaults to solid */
+.fa {
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+}
+
+/* Sizing */
+.fa-2x { font-size: 2em; }
+.fa-3x { font-size: 3em; }
+.fa-4x { font-size: 4em; }
+.fa-lg { font-size: 1.33333em; line-height: 0.75em; vertical-align: -0.0667em; }
+
+/* Animation */
+.fa-spin {
+  animation: fa-spin 2s infinite linear;
+}
+@keyframes fa-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Fixed width */
+.fa-fw {
+  text-align: center;
+  width: 1.25em;
+}
+
+/* ============================================
+ * Solid Icons (32 icons)
+ * ============================================ */
+
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/fonts/fontawesome-subset/fa-solid-900.woff2') format('woff2'),
+       url('/fonts/fontawesome-subset/fa-solid-900.woff') format('woff');
+}
+
+.fa-solid,
+.fas {
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+}
+
+/* Solid icons used in the application */
+.fa-angle-left:before { content: "\f104"; }
+.fa-angle-right:before { content: "\f105"; }
+.fa-arrows-alt:before { content: "\f0b2"; }
+.fa-bars:before { content: "\f0c9"; }
+.fa-bath:before { content: "\f2cd"; }
+.fa-bed:before { content: "\f236"; }
+.fa-car:before { content: "\f1b9"; }
+.fa-check:before { content: "\f00c"; }
+.fa-chevron-down:before { content: "\f078"; }
+.fa-chevron-right:before { content: "\f054"; }
+.fa-chevron-up:before { content: "\f077"; }
+.fa-cloud-upload-alt:before { content: "\f382"; }
+.fa-edit:before { content: "\f044"; }
+.fa-envelope:before { content: "\f0e0"; }
+.fa-expand:before { content: "\f065"; }
+.fa-external-link:before { content: "\f08e"; }
+.fa-filter:before { content: "\f0b0"; }
+.fa-globe:before { content: "\f0ac"; }
+.fa-images:before { content: "\f302"; }
+.fa-info-circle:before { content: "\f05a"; }
+.fa-lock:before { content: "\f023"; }
+.fa-map-marker-alt:before { content: "\f3c5"; }
+.fa-mouse-pointer:before { content: "\f245"; }
+.fa-pencil:before { content: "\f303"; }
+.fa-pencil-alt:before { content: "\f303"; }
+.fa-phone:before { content: "\f095"; }
+.fa-phone-square:before { content: "\f098"; }
+.fa-refresh:before { content: "\f021"; }
+.fa-search:before { content: "\f002"; }
+.fa-shower:before { content: "\f2cc"; }
+.fa-sign-out-alt:before { content: "\f2f5"; }
+.fa-spinner:before { content: "\f110"; }
+.fa-user:before { content: "\f007"; }
+
+/* ============================================
+ * Brand Icons (11 icons)
+ * ============================================ */
+
+@font-face {
+  font-family: 'Font Awesome 6 Brands';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/fontawesome-subset/fa-brands-400.woff2') format('woff2'),
+       url('/fonts/fontawesome-subset/fa-brands-400.woff') format('woff');
+}
+
+.fa-brands,
+.fab {
+  font-family: 'Font Awesome 6 Brands';
+  font-weight: 400;
+}
+
+/* Brand icons used in the application */
+.fa-facebook:before { content: "\f09a"; }
+.fa-facebook-f:before { content: "\f39e"; }
+.fa-google-plus:before { content: "\f2b3"; }
+.fa-instagram:before { content: "\f16d"; }
+.fa-linkedin:before { content: "\f0e1"; }
+.fa-linkedin-in:before { content: "\f0e1"; }
+.fa-pinterest:before { content: "\f0d2"; }
+.fa-twitter:before { content: "\f099"; }
+.fa-whatsapp:before { content: "\f232"; }
+.fa-x-twitter:before { content: "\e61b"; }
+.fa-youtube:before { content: "\f167"; }
+
+/* FA4 backwards compatibility - brand icons with .fa class */
+.fa.fa-facebook,
+.fa.fa-facebook-f,
+.fa.fa-google-plus,
+.fa.fa-instagram,
+.fa.fa-linkedin,
+.fa.fa-linkedin-in,
+.fa.fa-pinterest,
+.fa.fa-twitter,
+.fa.fa-whatsapp,
+.fa.fa-x-twitter,
+.fa.fa-youtube {
+  font-family: 'Font Awesome 6 Brands';
+  font-weight: 400;
+}
