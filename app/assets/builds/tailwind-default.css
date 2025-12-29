@@ -5590,6 +5590,18 @@ input[type="checkbox"]:hover {
 .border-pwb-secondary {
   border-color: var(--pwb-secondary, var(--secondary-color, #64748b));
 }
+.border-pwb-secondary-200 {
+  border-color: var(--pwb-secondary-200, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 35%, white));
+  }
+}
+.border-pwb-secondary-700 {
+  border-color: var(--pwb-secondary-700, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, black));
+  }
+}
 .bg-pwb-accent {
   background-color: var(--pwb-accent, var(--accent-color, #f59e0b));
 }
@@ -5605,6 +5617,18 @@ input[type="checkbox"]:hover {
 .text-pwb-accent {
   color: var(--pwb-accent, var(--accent-color, #f59e0b));
 }
+.text-pwb-accent-300 {
+  color: var(--pwb-accent-300, var(--pwb-accent, var(--accent-color, #f59e0b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-accent-300, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 50%, white));
+  }
+}
+.text-pwb-accent-400 {
+  color: var(--pwb-accent-400, var(--pwb-accent, var(--accent-color, #f59e0b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-accent-400, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 70%, white));
+  }
+}
 .text-pwb-accent-600 {
   color: var(--pwb-accent-600, var(--pwb-accent, var(--accent-color, #f59e0b)));
   @supports (color: color-mix(in lab, red, red)) {
@@ -5614,8 +5638,23 @@ input[type="checkbox"]:hover {
 .border-pwb-accent {
   border-color: var(--pwb-accent, var(--accent-color, #f59e0b));
 }
+.ring-pwb-accent {
+  --tw-ring-color: var(--pwb-accent, var(--accent-color, #f59e0b));
+}
 .hover\:bg-pwb-primary:hover {
   background-color: var(--pwb-primary, var(--primary-color, #3b82f6));
+}
+.hover\:bg-pwb-primary-50:hover {
+  background-color: var(--pwb-primary-50, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 10%, white));
+  }
+}
+.hover\:bg-pwb-primary-200:hover {
+  background-color: var(--pwb-primary-200, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 35%, white));
+  }
 }
 .hover\:bg-pwb-primary-600:hover {
   background-color: var(--pwb-primary-600, var(--pwb-primary, var(--primary-color, #3b82f6)));
@@ -5686,6 +5725,12 @@ input[type="checkbox"]:hover {
 .hover\:bg-pwb-secondary:hover {
   background-color: var(--pwb-secondary, var(--secondary-color, #64748b));
 }
+.hover\:bg-pwb-secondary-200:hover {
+  background-color: var(--pwb-secondary-200, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 35%, white));
+  }
+}
 .hover\:bg-pwb-secondary-600:hover {
   background-color: var(--pwb-secondary-600, var(--pwb-secondary, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
@@ -5755,11 +5800,44 @@ input[type="checkbox"]:hover {
     color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, black));
   }
 }
+.hover\:text-pwb-secondary-900:hover {
+  color: var(--pwb-secondary-900, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 40%, black));
+  }
+}
+.hover\:bg-pwb-accent:hover {
+  background-color: var(--pwb-accent, var(--accent-color, #f59e0b));
+}
+.hover\:text-pwb-accent:hover {
+  color: var(--pwb-accent, var(--accent-color, #f59e0b));
+}
+.hover\:text-pwb-accent-300:hover {
+  color: var(--pwb-accent-300, var(--pwb-accent, var(--accent-color, #f59e0b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-accent-300, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 50%, white));
+  }
+}
+.hover\:text-pwb-accent-400:hover {
+  color: var(--pwb-accent-400, var(--pwb-accent, var(--accent-color, #f59e0b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-accent-400, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 70%, white));
+  }
+}
+.hover\:border-pwb-accent:hover {
+  border-color: var(--pwb-accent, var(--accent-color, #f59e0b));
+}
 .focus\:ring-pwb-primary:focus {
   --tw-ring-color: var(--pwb-primary, var(--primary-color, #3b82f6));
 }
+.focus\:ring-pwb-accent:focus {
+  --tw-ring-color: var(--pwb-accent, var(--accent-color, #f59e0b));
+}
 .focus\:border-pwb-primary:focus {
   border-color: var(--pwb-primary, var(--primary-color, #3b82f6));
+}
+.focus\:border-pwb-accent:focus {
+  border-color: var(--pwb-accent, var(--accent-color, #f59e0b));
 }
 .focus\:outline-pwb-primary:focus {
   outline-color: var(--pwb-primary, var(--primary-color, #3b82f6));
