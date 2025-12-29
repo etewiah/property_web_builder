@@ -90,7 +90,7 @@ Estas son algunas características que planeo añadir en los próximos meses. Si
 * More languages
 * More themes
 * Mobile app (iOS and android)
-* RETS support (to allow synchronizing MLS content)
+* ~~RETS support~~ *(Deprecated - consider RESO Web API instead)*
 * Integration with third party apps such as Insightly and Basecamp
 * Full calendering functionality for rental properties
 * Ability to import WordPress blogs

@@ -1,5 +1,14 @@
+# frozen_string_literal: true
+
+# DEPRECATED: This controller is deprecated and non-functional.
+# The RETS gem has been removed from the project (Dec 2024).
+# MLS/RETS integration was experimental and never fully implemented.
+# See docs/claude_thoughts/DEPRECATED_FEATURES.md for details.
+
 module Pwb
+  # @deprecated This controller is deprecated - RETS integration removed Dec 2024
   class Import::MlsController < ApplicationApiController
+    # @deprecated RETS integration has been removed
     def retrieve
       %i[username password login_url mls_unique_name].each do |param_name|
         unless params[param_name].present?

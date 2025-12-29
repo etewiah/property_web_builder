@@ -165,7 +165,8 @@ gem "graphiql-rails", group: :development
 
 gem "faraday", "~> 2.3"
 
-gem "rets", "~> 0.11.2"
+# RETS gem removed - MLS/RETS integration deprecated (Dec 2024)
+# See docs/claude_thoughts/DEPRECATED_FEATURES.md for details
 
 gem "rack-cors", "~> 3.0"
 

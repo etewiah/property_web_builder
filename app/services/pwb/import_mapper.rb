@@ -1,5 +1,14 @@
-require 'rets'
+# frozen_string_literal: true
+
+# DEPRECATED: This file is deprecated and will be removed in a future version.
+# The RETS gem has been removed from the project (Dec 2024).
+# MLS/RETS integration was experimental and never fully implemented.
+# See docs/claude_thoughts/DEPRECATED_FEATURES.md for details.
+
+# require 'rets'  # REMOVED - gem no longer available
+
 module Pwb
+  # @deprecated This class is deprecated. MLS import functionality has been removed.
   class ImportMapper
     attr_accessor :mls_mapping
 

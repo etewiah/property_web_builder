@@ -177,7 +177,7 @@ These are features planned for future releases. If there's something you need th
 * **Saved Searches** - Allow users to save and receive alerts for new matches
 * **Virtual Tours** - 360° photo and video tour integration
 * **Mobile Apps** - iOS and Android native apps
-* **RETS/IDX Support** - MLS content synchronization
+* ~~**RETS/IDX Support**~~ - *(Deprecated - RETS protocol being phased out; consider RESO Web API)*
 * **CRM Integrations** - HubSpot, Salesforce, Pipedrive
 * **Rental Calendar** - Availability and booking for short-term rentals
 * **AI Property Descriptions** - Auto-generate property descriptions

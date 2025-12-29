@@ -1,7 +1,20 @@
-require 'rets'
+# frozen_string_literal: true
+
+# DEPRECATED: This file is deprecated and will be removed in a future version.
+# The RETS gem has been removed from the project (Dec 2024).
+# MLS/RETS integration was experimental and never fully implemented.
+# See docs/claude_thoughts/DEPRECATED_FEATURES.md for details.
+#
+# If you need MLS integration, consider:
+# - Using a third-party MLS API service
+# - Implementing a custom CSV/XML import solution
+# - Using property data aggregation services
+
+# require 'rets'  # REMOVED - gem no longer available
 require 'faraday'
 
 module Pwb
+  # @deprecated This class is deprecated and non-functional without the rets gem.
   class MlsConnector
     attr_accessor :import_source
 
@@ -10,11 +23,11 @@ module Pwb
     end
 
     def retrieve(query, limit)
-      unless import_source.source_type == "rets"
-        raise ArgumentError, "Unsupported source type: #{import_source.source_type}. Only RETS is supported."
-      end
-
-      retrieve_via_rets(query, limit)
+      raise NotImplementedError, <<~MSG
+        DEPRECATED: MLS/RETS integration has been removed (Dec 2024).
+        The rets gem is no longer included in this project.
+        See docs/claude_thoughts/DEPRECATED_FEATURES.md for alternatives.
+      MSG
     end
 
     private

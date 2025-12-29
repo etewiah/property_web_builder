@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Deprecated
+* **RETS/MLS Integration**: Removed `rets` gem and deprecated MLS integration code. The feature was experimental and never fully implemented. See `docs/claude_thoughts/DEPRECATED_FEATURES.md` for details and alternatives.
+
 ## 2.2.0 / 2025-12-21
 
 ### Major Features
