@@ -1628,6 +1628,12 @@
   .border-white {
     border-color: var(--color-white);
   }
+  .border-white\/20 {
+    border-color: color-mix(in srgb, #fff 20%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--color-white) 20%, transparent);
+    }
+  }
   .border-yellow-100 {
     border-color: var(--color-yellow-100);
   }
@@ -2759,6 +2765,18 @@
   .text-white {
     color: var(--color-white);
   }
+  .text-white\/40 {
+    color: color-mix(in srgb, #fff 40%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(in oklab, var(--color-white) 40%, transparent);
+    }
+  }
+  .text-white\/50 {
+    color: color-mix(in srgb, #fff 50%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(in oklab, var(--color-white) 50%, transparent);
+    }
+  }
   .text-white\/70 {
     color: color-mix(in srgb, #fff 70%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -2824,6 +2842,14 @@
   .placeholder-warm-400 {
     &::placeholder {
       color: var(--color-warm-400);
+    }
+  }
+  .placeholder-white\/40 {
+    &::placeholder {
+      color: color-mix(in srgb, #fff 40%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        color: color-mix(in oklab, var(--color-white) 40%, transparent);
+      }
     }
   }
   .accent-blue-600 {
@@ -3161,16 +3187,6 @@
     &:is(:where(.group):hover *) {
       @media (hover: hover) {
         background-color: var(--color-sky-200);
-      }
-    }
-  }
-  .group-hover\:bg-terra-500\/20 {
-    &:is(:where(.group):hover *) {
-      @media (hover: hover) {
-        background-color: color-mix(in srgb, #B8503E 20%, transparent);
-        @supports (color: color-mix(in lab, red, red)) {
-          background-color: color-mix(in oklab, var(--color-terra-500) 20%, transparent);
-        }
       }
     }
   }
@@ -3846,13 +3862,6 @@
       }
     }
   }
-  .hover\:bg-med-200 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-med-200);
-      }
-    }
-  }
   .hover\:bg-med-600 {
     &:hover {
       @media (hover: hover) {
@@ -4312,13 +4321,6 @@
       }
     }
   }
-  .hover\:text-terra-300 {
-    &:hover {
-      @media (hover: hover) {
-        color: var(--color-terra-300);
-      }
-    }
-  }
   .hover\:text-terra-400 {
     &:hover {
       @media (hover: hover) {
@@ -4770,16 +4772,6 @@
   .focus-visible\:ring-blue-500 {
     &:focus-visible {
       --tw-ring-color: var(--color-blue-500);
-    }
-  }
-  .focus-visible\:ring-med-500 {
-    &:focus-visible {
-      --tw-ring-color: var(--color-med-500);
-    }
-  }
-  .focus-visible\:ring-terra-500 {
-    &:focus-visible {
-      --tw-ring-color: var(--color-terra-500);
     }
   }
   .active\:cursor-grabbing {

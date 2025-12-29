@@ -25,7 +25,7 @@
                  loading="lazy" decoding="async">
           <% else %>
             <div class="flex items-center space-x-3">
-              <div class="w-12 h-12 bg-gradient-to-br from-terra-400 to-terra-600 rounded-soft flex items-center justify-center">
+              <div class="w-12 h-12 bg-gradient-to-br from-pwb-primary-400 to-pwb-primary-600 rounded-soft flex items-center justify-center">
                 <%= icon(:home, class: "text-white text-2xl") %>
               </div>
               <span class="font-display font-semibold text-2xl text-white">
@@ -43,37 +43,37 @@
         <div class="flex items-center space-x-3">
           <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
             <a href="<%= @current_website.social_media_facebook %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-terra-500 hover:text-white transition-all duration-300">
+               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
               <%= brand_icon(:facebook, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
             <a href="<%= @current_website.social_media_twitter %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-terra-500 hover:text-white transition-all duration-300">
+               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
               <%= brand_icon(:x, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
             <a href="<%= @current_website.social_media_linkedin %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-terra-500 hover:text-white transition-all duration-300">
+               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
               <%= brand_icon(:linkedin, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present? %>
             <a href="<%= @current_website.social_media_instagram %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-terra-500 hover:text-white transition-all duration-300">
+               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
               <%= brand_icon(:instagram, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
             <a href="<%= @current_website.social_media_youtube %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-terra-500 hover:text-white transition-all duration-300">
+               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
               <%= brand_icon(:youtube, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_whatsapp) && @current_website.social_media_whatsapp.present? %>
             <a href="<%= @current_website.social_media_whatsapp %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-terra-500 hover:text-white transition-all duration-300">
+               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
               <%= brand_icon(:whatsapp, size: 20) %>
             </a>
           <% end %>
@@ -87,13 +87,13 @@
         </h4>
         <ul class="space-y-3">
           <li>
-            <a href="<%= localized_buy_path %>" class="text-warm-gray-400 hover:text-terra-400 transition-colors duration-200 flex items-center group">
+            <a href="<%= localized_buy_path %>" class="text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 flex items-center group">
               <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
               <%= t('pwb.navbar.buy', default: 'Buy') %>
             </a>
           </li>
           <li>
-            <a href="<%= localized_rent_path %>" class="text-warm-gray-400 hover:text-terra-400 transition-colors duration-200 flex items-center group">
+            <a href="<%= localized_rent_path %>" class="text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 flex items-center group">
               <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
               <%= t('pwb.navbar.rent', default: 'Rent') %>
             </a>
@@ -110,7 +110,7 @@
             <% end %>
             <% if target_path %>
               <li>
-                <%= link_to target_path, class: "text-warm-gray-400 hover:text-terra-400 transition-colors duration-200 flex items-center group" do %>
+                <%= link_to target_path, class: "text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 flex items-center group" do %>
                   <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
                   <%= page.link_title %>
                 <% end %>
@@ -118,7 +118,7 @@
             <% end %>
           <% end %>
           <li>
-            <%= link_to "/pwb_login", class: "text-warm-gray-400 hover:text-terra-400 transition-colors duration-200 flex items-center group" do %>
+            <%= link_to "/pwb_login", class: "text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 flex items-center group" do %>
               <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
               <%= I18n.t("signIn") %>
             <% end %>
@@ -135,9 +135,9 @@
           <% if @current_agency&.phone_number_primary.present? %>
             <li>
               <a href="tel:<%= @current_agency.phone_number_primary %>"
-                 class="flex items-start text-warm-gray-400 hover:text-terra-400 transition-colors duration-200 group">
-                <span class="w-10 h-10 flex items-center justify-center bg-warm-gray-800 rounded-full mr-4 group-hover:bg-terra-500/20 transition-colors">
-                  <%= icon(:phone, class: "text-terra-400") %>
+                 class="flex items-start text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 group">
+                <span class="w-10 h-10 flex items-center justify-center bg-warm-gray-800 rounded-full mr-4 group-hover:bg-pwb-primary/20 transition-colors">
+                  <%= icon(:phone, class: "text-pwb-primary-400") %>
                 </span>
                 <span class="pt-2"><%= @current_agency.phone_number_primary %></span>
               </a>
@@ -146,9 +146,9 @@
           <% if @current_agency&.email_primary.present? %>
             <li>
               <a href="mailto:<%= @current_agency.email_primary %>"
-                 class="flex items-start text-warm-gray-400 hover:text-terra-400 transition-colors duration-200 group">
-                <span class="w-10 h-10 flex items-center justify-center bg-warm-gray-800 rounded-full mr-4 group-hover:bg-terra-500/20 transition-colors">
-                  <%= icon(:email, class: "text-terra-400") %>
+                 class="flex items-start text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 group">
+                <span class="w-10 h-10 flex items-center justify-center bg-warm-gray-800 rounded-full mr-4 group-hover:bg-pwb-primary/20 transition-colors">
+                  <%= icon(:email, class: "text-pwb-primary-400") %>
                 </span>
                 <span class="pt-2 break-all"><%= @current_agency.email_primary %></span>
               </a>
@@ -157,7 +157,7 @@
           <% if @current_agency.respond_to?(:full_address) && @current_agency.full_address.present? %>
             <li class="flex items-start text-warm-gray-400">
               <span class="w-10 h-10 flex items-center justify-center bg-warm-gray-800 rounded-full mr-4 flex-shrink-0">
-                <%= icon(:location_on, class: "text-terra-400") %>
+                <%= icon(:location_on, class: "text-pwb-primary-400") %>
               </span>
               <span class="pt-2 leading-relaxed"><%= @current_agency.full_address %></span>
             </li>
@@ -185,10 +185,10 @@
             <div class="relative">
               <input type="email"
                      placeholder="<%= t('pwb.footer.email_placeholder', default: 'Enter your email') %>"
-                     class="w-full bg-warm-gray-800 border-0 rounded-soft px-5 py-4 text-white placeholder-warm-gray-500 focus:ring-2 focus:ring-terra-500 focus:outline-none transition-all duration-200">
+                     class="w-full bg-warm-gray-800 border-0 rounded-soft px-5 py-4 text-white placeholder-warm-gray-500 focus:ring-2 focus:ring-pwb-primary focus:outline-none transition-all duration-200">
             </div>
             <button type="submit"
-                    class="w-full bg-gradient-to-r from-terra-500 to-terra-600 text-white px-6 py-4 rounded-soft font-medium hover:from-terra-600 hover:to-terra-700 transition-all duration-300 flex items-center justify-center space-x-2">
+                    class="w-full bg-gradient-to-r from-pwb-primary to-pwb-primary-600 text-white px-6 py-4 rounded-soft font-medium hover:from-pwb-primary-600 hover:to-pwb-primary-700 transition-all duration-300 flex items-center justify-center space-x-2">
               <span><%= t('pwb.footer.subscribe', default: 'Subscribe') %></span>
               <%= icon(:send, size: :sm) %>
             </button>
@@ -212,7 +212,7 @@
         <p class="text-sm text-warm-gray-600 flex items-center">
           <span class="mr-2"><%= t('pwb.footer.powered_by', default: 'Powered by') %></span>
           <a href="https://www.propertywebbuilder.com"
-             class="text-terra-400 hover:text-terra-300 transition-colors duration-200 font-medium"
+             class="text-pwb-primary-400 hover:text-pwb-primary-300 transition-colors duration-200 font-medium"
              target="_blank">
             PropertyWebBuilder
           </a>

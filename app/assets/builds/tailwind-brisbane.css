@@ -1511,12 +1511,6 @@
   .border-indigo-600 {
     border-color: var(--color-indigo-600);
   }
-  .border-luxury-cream\/20 {
-    border-color: color-mix(in srgb, #faf8f5 20%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      border-color: color-mix(in oklab, var(--color-luxury-cream) 20%, transparent);
-    }
-  }
   .border-luxury-gold {
     border-color: var(--color-luxury-gold);
   }
@@ -1548,12 +1542,6 @@
     border-color: color-mix(in srgb, #1a2744 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       border-color: color-mix(in oklab, var(--color-luxury-navy) 10%, transparent);
-    }
-  }
-  .border-luxury-navy\/20 {
-    border-color: color-mix(in srgb, #1a2744 20%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      border-color: color-mix(in oklab, var(--color-luxury-navy) 20%, transparent);
     }
   }
   .border-neutral-100 {
@@ -1591,6 +1579,12 @@
   }
   .border-white {
     border-color: var(--color-white);
+  }
+  .border-white\/20 {
+    border-color: color-mix(in srgb, #fff 20%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--color-white) 20%, transparent);
+    }
   }
   .border-yellow-100 {
     border-color: var(--color-yellow-100);
@@ -2458,12 +2452,6 @@
   .text-luxury-cream {
     color: var(--color-luxury-cream);
   }
-  .text-luxury-cream\/40 {
-    color: color-mix(in srgb, #faf8f5 40%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      color: color-mix(in oklab, var(--color-luxury-cream) 40%, transparent);
-    }
-  }
   .text-luxury-cream\/50 {
     color: color-mix(in srgb, #faf8f5 50%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -2490,12 +2478,6 @@
   }
   .text-luxury-gold {
     color: var(--color-luxury-gold);
-  }
-  .text-luxury-gold\/60 {
-    color: color-mix(in srgb, #c9a962 60%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      color: color-mix(in oklab, var(--color-luxury-gold) 60%, transparent);
-    }
   }
   .text-luxury-navy {
     color: var(--color-luxury-navy);
@@ -2575,6 +2557,18 @@
   .text-white {
     color: var(--color-white);
   }
+  .text-white\/40 {
+    color: color-mix(in srgb, #fff 40%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(in oklab, var(--color-white) 40%, transparent);
+    }
+  }
+  .text-white\/50 {
+    color: color-mix(in srgb, #fff 50%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(in oklab, var(--color-white) 50%, transparent);
+    }
+  }
   .text-white\/70 {
     color: color-mix(in srgb, #fff 70%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -2632,11 +2626,11 @@
       color: var(--color-gray-400);
     }
   }
-  .placeholder-luxury-cream\/40 {
+  .placeholder-white\/40 {
     &::placeholder {
-      color: color-mix(in srgb, #faf8f5 40%, transparent);
+      color: color-mix(in srgb, #fff 40%, transparent);
       @supports (color: color-mix(in lab, red, red)) {
-        color: color-mix(in oklab, var(--color-luxury-cream) 40%, transparent);
+        color: color-mix(in oklab, var(--color-white) 40%, transparent);
       }
     }
   }
@@ -2680,10 +2674,6 @@
   }
   .shadow-elegant {
     --tw-shadow: 0 4px 20px var(--tw-shadow-color, rgba(26, 39, 68, 0.08));
-    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  }
-  .shadow-hover {
-    --tw-shadow: 0 8px 30px var(--tw-shadow-color, rgba(26, 39, 68, 0.12));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
   .shadow-inner {
@@ -3569,20 +3559,6 @@
       }
     }
   }
-  .hover\:bg-luxury-gold {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-luxury-gold);
-      }
-    }
-  }
-  .hover\:bg-luxury-pearl {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-luxury-pearl);
-      }
-    }
-  }
   .hover\:bg-orange-700 {
     &:hover {
       @media (hover: hover) {
@@ -3861,13 +3837,6 @@
       }
     }
   }
-  .hover\:text-luxury-navy {
-    &:hover {
-      @media (hover: hover) {
-        color: var(--color-luxury-navy);
-      }
-    }
-  }
   .hover\:text-orange-800 {
     &:hover {
       @media (hover: hover) {
@@ -4049,11 +4018,6 @@
   .focus\:border-indigo-500 {
     &:focus {
       border-color: var(--color-indigo-500);
-    }
-  }
-  .focus\:border-luxury-gold {
-    &:focus {
-      border-color: var(--color-luxury-gold);
     }
   }
   .focus\:border-orange-500 {
@@ -4248,11 +4212,6 @@
   .focus-visible\:ring-blue-500 {
     &:focus-visible {
       --tw-ring-color: var(--color-blue-500);
-    }
-  }
-  .focus-visible\:ring-luxury-gold {
-    &:focus-visible {
-      --tw-ring-color: var(--color-luxury-gold);
     }
   }
   .active\:cursor-grabbing {

@@ -1,6 +1,6 @@
-<!-- Brisbane Luxury Theme Footer -->
-<!-- Refined elegance with subtle gold accents -->
-<footer class="bg-luxury-navy text-luxury-cream/90">
+<!-- Brisbane Luxury Theme Footer - Uses semantic palette classes -->
+<!-- Refined elegance with accent highlights -->
+<footer class="bg-pwb-secondary-900 text-white/90">
   <!-- Main Footer Content -->
   <div class="container mx-auto px-6 py-16">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -11,10 +11,10 @@
           <% if @current_website.logo_url %>
             <img src="<%= @current_website.logo_url %>" alt="<%= company_display_name %>" class="h-12 brightness-0 invert opacity-90" loading="lazy" decoding="async">
           <% else %>
-            <span class="font-serif text-2xl text-luxury-cream tracking-wide"><%= company_display_name %></span>
+            <span class="font-serif text-2xl text-white tracking-wide"><%= company_display_name %></span>
           <% end %>
         </div>
-        <p class="text-sm leading-relaxed text-luxury-cream/70 mb-6">
+        <p class="text-sm leading-relaxed text-white/70 mb-6">
           <%= company_display_name %>
         </p>
 
@@ -22,42 +22,42 @@
         <nav class="flex items-center space-x-4" aria-label="Social media links">
           <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
             <a href="<%= @current_website.social_media_facebook %>" target="_blank" rel="noopener noreferrer"
-               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
+               class="w-10 h-10 flex items-center justify-center border border-pwb-accent/30 text-white/70 hover:text-pwb-accent hover:border-pwb-accent transition-all duration-300"
                aria-label="Follow us on Facebook">
               <%= brand_icon(:facebook, size: 18) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
             <a href="<%= @current_website.social_media_twitter %>" target="_blank" rel="noopener noreferrer"
-               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
+               class="w-10 h-10 flex items-center justify-center border border-pwb-accent/30 text-white/70 hover:text-pwb-accent hover:border-pwb-accent transition-all duration-300"
                aria-label="Follow us on Twitter">
               <%= brand_icon(:x, size: 18) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
             <a href="<%= @current_website.social_media_linkedin %>" target="_blank" rel="noopener noreferrer"
-               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
+               class="w-10 h-10 flex items-center justify-center border border-pwb-accent/30 text-white/70 hover:text-pwb-accent hover:border-pwb-accent transition-all duration-300"
                aria-label="Connect with us on LinkedIn">
               <%= brand_icon(:linkedin, size: 18) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present? %>
             <a href="<%= @current_website.social_media_instagram %>" target="_blank" rel="noopener noreferrer"
-               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
+               class="w-10 h-10 flex items-center justify-center border border-pwb-accent/30 text-white/70 hover:text-pwb-accent hover:border-pwb-accent transition-all duration-300"
                aria-label="Follow us on Instagram">
               <%= brand_icon(:instagram, size: 18) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
             <a href="<%= @current_website.social_media_youtube %>" target="_blank" rel="noopener noreferrer"
-               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
+               class="w-10 h-10 flex items-center justify-center border border-pwb-accent/30 text-white/70 hover:text-pwb-accent hover:border-pwb-accent transition-all duration-300"
                aria-label="Subscribe to our YouTube channel">
               <%= brand_icon(:youtube, size: 18) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_whatsapp) && @current_website.social_media_whatsapp.present? %>
             <a href="<%= @current_website.social_media_whatsapp %>" target="_blank" rel="noopener noreferrer"
-               class="w-10 h-10 flex items-center justify-center border border-luxury-gold/30 text-luxury-cream/70 hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300"
+               class="w-10 h-10 flex items-center justify-center border border-pwb-accent/30 text-white/70 hover:text-pwb-accent hover:border-pwb-accent transition-all duration-300"
                aria-label="Contact us on WhatsApp">
               <%= brand_icon(:whatsapp, size: 18) %>
             </a>
@@ -67,30 +67,30 @@
 
       <!-- Contact Column -->
       <div class="lg:col-span-1">
-        <h4 class="text-xs uppercase tracking-luxury text-luxury-gold mb-6 font-medium">Contact</h4>
+        <h4 class="text-xs uppercase tracking-widest text-pwb-accent mb-6 font-medium">Contact</h4>
         <ul class="space-y-4">
           <% if @current_agency.phone_number_primary.present? %>
             <li class="flex items-start">
-              <%= icon(:phone, size: :sm, class: "text-luxury-gold/60 mr-4 mt-1") %>
+              <%= icon(:phone, size: :sm, class: "text-pwb-accent/60 mr-4 mt-1") %>
               <a href="tel:<%= @current_agency.phone_number_primary %>"
-                 class="text-sm text-luxury-cream/80 hover:text-luxury-gold transition-colors duration-300">
+                 class="text-sm text-white/80 hover:text-pwb-accent transition-colors duration-300">
                 <%= @current_agency.phone_number_primary %>
               </a>
             </li>
           <% end %>
           <% if @current_agency.email_primary.present? %>
             <li class="flex items-start">
-              <%= icon(:email, size: :sm, class: "text-luxury-gold/60 mr-4 mt-1") %>
+              <%= icon(:email, size: :sm, class: "text-pwb-accent/60 mr-4 mt-1") %>
               <a href="mailto:<%= @current_agency.email_primary %>"
-                 class="text-sm text-luxury-cream/80 hover:text-luxury-gold transition-colors duration-300">
+                 class="text-sm text-white/80 hover:text-pwb-accent transition-colors duration-300">
                 <%= @current_agency.email_primary %>
               </a>
             </li>
           <% end %>
           <% if @current_agency.respond_to?(:full_address) && @current_agency.full_address.present? %>
             <li class="flex items-start">
-              <%= icon(:location_on, size: :sm, class: "text-luxury-gold/60 mr-4 mt-1") %>
-              <span class="text-sm text-luxury-cream/80 leading-relaxed">
+              <%= icon(:location_on, size: :sm, class: "text-pwb-accent/60 mr-4 mt-1") %>
+              <span class="text-sm text-white/80 leading-relaxed">
                 <%= @current_agency.full_address %>
               </span>
             </li>
@@ -100,7 +100,7 @@
 
       <!-- Quick Links Column -->
       <div class="lg:col-span-1">
-        <h4 class="text-xs uppercase tracking-luxury text-luxury-gold mb-6 font-medium">Quick Links</h4>
+        <h4 class="text-xs uppercase tracking-widest text-pwb-accent mb-6 font-medium">Quick Links</h4>
         <ul class="space-y-3">
           <% @current_website.links.ordered_visible_footer.each do |page| %>
             <% target_path = nil %>
@@ -115,13 +115,13 @@
             <% if target_path %>
               <li>
                 <%= link_to page.link_title, target_path,
-                    class: "text-sm text-luxury-cream/80 hover:text-luxury-gold hover:pl-2 transition-all duration-300 inline-block" %>
+                    class: "text-sm text-white/80 hover:text-pwb-accent hover:pl-2 transition-all duration-300 inline-block" %>
               </li>
             <% end %>
           <% end %>
           <li>
             <%= link_to I18n.t("signIn"), "/pwb_login",
-                class: "text-sm text-luxury-cream/80 hover:text-luxury-gold hover:pl-2 transition-all duration-300 inline-block" %>
+                class: "text-sm text-white/80 hover:text-pwb-accent hover:pl-2 transition-all duration-300 inline-block" %>
           </li>
         </ul>
       </div>
@@ -129,20 +129,20 @@
       <!-- Newsletter / Extra Content Column -->
       <div class="lg:col-span-1">
         <% if @footer_content.present? && @footer_content.respond_to?(:raw) && @footer_content.raw.present? %>
-          <h4 class="text-xs uppercase tracking-luxury text-luxury-gold mb-6 font-medium">About Us</h4>
-          <div class="text-sm text-luxury-cream/70 leading-relaxed footer-custom-content">
+          <h4 class="text-xs uppercase tracking-widest text-pwb-accent mb-6 font-medium">About Us</h4>
+          <div class="text-sm text-white/70 leading-relaxed">
             <%== @footer_content.raw %>
           </div>
         <% else %>
-          <h4 class="text-xs uppercase tracking-luxury text-luxury-gold mb-6 font-medium">Subscribe</h4>
-          <p class="text-sm text-luxury-cream/70 mb-4 leading-relaxed">
+          <h4 class="text-xs uppercase tracking-widest text-pwb-accent mb-6 font-medium">Subscribe</h4>
+          <p class="text-sm text-white/70 mb-4 leading-relaxed">
             Stay informed about exclusive listings and market insights.
           </p>
           <form class="flex flex-col space-y-3">
             <input type="email" placeholder="Your email address"
-                   class="bg-transparent border border-luxury-cream/20 px-4 py-3 text-sm text-luxury-cream placeholder-luxury-cream/40 focus:border-luxury-gold focus:outline-none transition-colors duration-300">
+                   class="bg-transparent border border-white/20 px-4 py-3 text-sm text-white placeholder-white/40 focus:border-pwb-accent focus:outline-none transition-colors duration-300">
             <button type="submit"
-                    class="bg-luxury-gold text-luxury-navy px-6 py-3 text-xs uppercase tracking-luxury font-medium hover:bg-luxury-cream transition-colors duration-300">
+                    class="bg-pwb-accent text-pwb-secondary-900 px-6 py-3 text-xs uppercase tracking-widest font-medium hover:bg-pwb-primary transition-colors duration-300">
               Subscribe
             </button>
           </form>
@@ -152,19 +152,19 @@
   </div>
 
   <!-- Elegant Divider -->
-  <div class="border-t border-luxury-gold/10">
+  <div class="border-t border-pwb-accent/10">
     <div class="container mx-auto px-6 py-6">
       <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
         <!-- Copyright -->
-        <p class="text-xs text-luxury-cream/50 tracking-wide">
+        <p class="text-xs text-white/50 tracking-wide">
           &copy; <%= Time.current.year %> <%= company_display_name %>. All rights reserved.
         </p>
 
         <!-- Powered By -->
-        <p class="text-xs text-luxury-cream/40">
+        <p class="text-xs text-white/40">
           Powered by
           <a href="https://www.propertywebbuilder.com"
-             class="text-luxury-gold/60 hover:text-luxury-gold transition-colors duration-300"
+             class="text-pwb-accent/60 hover:text-pwb-accent transition-colors duration-300"
              target="_blank">
             PropertyWebBuilder
           </a>
@@ -173,17 +173,3 @@
     </div>
   </div>
 </footer>
-
-<style>
-  /* Uses CSS variables from _brisbane.css.erb for palette consistency */
-  .footer-custom-content a {
-    color: var(--footer-link-color);
-    transition: color 0.3s ease;
-  }
-  .footer-custom-content a:hover {
-    color: var(--footer-link-hover-color);
-  }
-  .footer-custom-content p {
-    margin-bottom: 0.75rem;
-  }
-</style>

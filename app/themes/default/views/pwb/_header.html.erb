@@ -1,6 +1,6 @@
 <!-- Default Theme Header - Tailwind CSS + Flowbite -->
-<!-- Top Bar -->
-<header class="bg-gray-800 text-white">
+<!-- Top Bar - Uses semantic palette classes for theme customization -->
+<header class="bg-pwb-secondary-800 text-white">
   <div class="container mx-auto px-4">
     <div class="flex flex-wrap items-center justify-between py-2 text-sm">
       <div class="flex items-center space-x-4">
@@ -26,7 +26,7 @@
                 lang: locale_with_var["locale"],
                 hreflang: locale_with_var["locale"],
                 "aria-current": is_selected ? "page" : nil,
-                class: "min-h-[44px] min-w-[44px] px-3 py-2 rounded text-sm font-medium text-white inline-flex items-center justify-center #{is_selected ? 'bg-blue-600' : 'hover:bg-gray-700'}" do %>
+                class: "min-h-[44px] min-w-[44px] px-3 py-2 rounded text-sm font-medium text-white inline-flex items-center justify-center #{is_selected ? 'bg-pwb-primary' : 'hover:bg-pwb-secondary-700'}" do %>
               <%= locale_name %>
             <% end %>
           <% end %>
@@ -83,7 +83,7 @@
               <li>
                 <%= link_to page.link_title, target_path,
                     target: page.href_target,
-                    class: "block py-2 px-3 md:p-0 #{is_active ? 'text-blue-600 font-semibold' : 'text-gray-700 hover:text-blue-600'}" %>
+                    class: "block py-2 px-3 md:p-0 #{is_active ? 'text-pwb-primary font-semibold' : 'text-gray-700 hover:text-pwb-primary'}" %>
               </li>
             <% end %>
           <% end %>
@@ -91,7 +91,7 @@
           <%# User dropdown - using Stimulus dropdown controller %>
           <% if current_user %>
             <li class="relative" data-controller="dropdown">
-              <button type="button" class="flex items-center py-2 px-3 text-gray-700 hover:text-blue-600 md:p-0" data-action="dropdown#toggle">
+              <button type="button" class="flex items-center py-2 px-3 text-gray-700 hover:text-pwb-primary md:p-0" data-action="dropdown#toggle">
                 <%= current_user.email.split('@').first %>
                 <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>

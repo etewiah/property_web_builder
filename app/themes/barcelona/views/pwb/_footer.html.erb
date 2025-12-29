@@ -1,6 +1,6 @@
 <%# Barcelona Theme - Mediterranean Coastal Footer %>
 <%# Warm, inviting design with coastal blues and golden accents %>
-<footer class="bg-gradient-to-b from-med-800 to-med-900 text-warm-200">
+<footer class="bg-gradient-to-b from-pwb-secondary-800 to-pwb-secondary-900 text-warm-200">
   <!-- Wave Decoration - Mediterranean Coastal Wave -->
   <div class="relative -mb-1">
     <svg class="w-full h-16 text-warm-50 fill-current" viewBox="0 0 1440 64" preserveAspectRatio="none">
@@ -22,8 +22,8 @@
                  loading="lazy" decoding="async">
           <% else %>
             <div class="flex items-center space-x-3">
-              <div class="w-12 h-12 bg-gradient-to-br from-gold-400 to-gold-500 rounded-soft flex items-center justify-center">
-                <%= icon(:home, class: "text-med-900 text-2xl") %>
+              <div class="w-12 h-12 bg-gradient-to-br from-pwb-accent-400 to-pwb-accent-500 rounded-soft flex items-center justify-center">
+                <%= icon(:home, class: "text-pwb-secondary-900 text-2xl") %>
               </div>
               <span class="font-display font-semibold text-2xl text-white">
                 <%= company_display_name %>
@@ -32,7 +32,7 @@
           <% end %>
         </div>
 
-        <p class="text-med-200 leading-relaxed mb-8 max-w-sm">
+        <p class="text-pwb-secondary-200 leading-relaxed mb-8 max-w-sm">
           <%= @current_agency&.company_name || "Your trusted partner in finding the perfect property." %>
         </p>
 
@@ -40,37 +40,37 @@
         <div class="flex items-center space-x-3">
           <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
             <a href="<%= @current_website.social_media_facebook %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-med-700 text-med-300 rounded-full hover:bg-gold-500 hover:text-med-900 transition-all duration-300">
+               class="w-11 h-11 flex items-center justify-center bg-pwb-secondary-700 text-pwb-secondary-300 rounded-full hover:bg-pwb-accent hover:text-pwb-secondary-900 transition-all duration-300">
               <%= brand_icon(:facebook, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
             <a href="<%= @current_website.social_media_twitter %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-med-700 text-med-300 rounded-full hover:bg-gold-500 hover:text-med-900 transition-all duration-300">
+               class="w-11 h-11 flex items-center justify-center bg-pwb-secondary-700 text-pwb-secondary-300 rounded-full hover:bg-pwb-accent hover:text-pwb-secondary-900 transition-all duration-300">
               <%= brand_icon(:x, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
             <a href="<%= @current_website.social_media_linkedin %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-med-700 text-med-300 rounded-full hover:bg-gold-500 hover:text-med-900 transition-all duration-300">
+               class="w-11 h-11 flex items-center justify-center bg-pwb-secondary-700 text-pwb-secondary-300 rounded-full hover:bg-pwb-accent hover:text-pwb-secondary-900 transition-all duration-300">
               <%= brand_icon(:linkedin, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present? %>
             <a href="<%= @current_website.social_media_instagram %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-med-700 text-med-300 rounded-full hover:bg-gold-500 hover:text-med-900 transition-all duration-300">
+               class="w-11 h-11 flex items-center justify-center bg-pwb-secondary-700 text-pwb-secondary-300 rounded-full hover:bg-pwb-accent hover:text-pwb-secondary-900 transition-all duration-300">
               <%= brand_icon(:instagram, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
             <a href="<%= @current_website.social_media_youtube %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-med-700 text-med-300 rounded-full hover:bg-gold-500 hover:text-med-900 transition-all duration-300">
+               class="w-11 h-11 flex items-center justify-center bg-pwb-secondary-700 text-pwb-secondary-300 rounded-full hover:bg-pwb-accent hover:text-pwb-secondary-900 transition-all duration-300">
               <%= brand_icon(:youtube, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_whatsapp) && @current_website.social_media_whatsapp.present? %>
             <a href="<%= @current_website.social_media_whatsapp %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-med-700 text-med-300 rounded-full hover:bg-gold-500 hover:text-med-900 transition-all duration-300">
+               class="w-11 h-11 flex items-center justify-center bg-pwb-secondary-700 text-pwb-secondary-300 rounded-full hover:bg-pwb-accent hover:text-pwb-secondary-900 transition-all duration-300">
               <%= brand_icon(:whatsapp, size: 20) %>
             </a>
           <% end %>
@@ -84,13 +84,13 @@
         </h4>
         <ul class="space-y-3">
           <li>
-            <a href="<%= localized_buy_path %>" class="text-med-300 hover:text-gold-400 transition-colors duration-200 flex items-center group">
+            <a href="<%= localized_buy_path %>" class="text-pwb-secondary-300 hover:text-pwb-accent-400 transition-colors duration-200 flex items-center group">
               <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
               <%= t('pwb.navbar.buy', default: 'Buy') %>
             </a>
           </li>
           <li>
-            <a href="<%= localized_rent_path %>" class="text-med-300 hover:text-gold-400 transition-colors duration-200 flex items-center group">
+            <a href="<%= localized_rent_path %>" class="text-pwb-secondary-300 hover:text-pwb-accent-400 transition-colors duration-200 flex items-center group">
               <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
               <%= t('pwb.navbar.rent', default: 'Rent') %>
             </a>
@@ -107,7 +107,7 @@
             <% end %>
             <% if target_path %>
               <li>
-                <%= link_to target_path, class: "text-med-300 hover:text-gold-400 transition-colors duration-200 flex items-center group" do %>
+                <%= link_to target_path, class: "text-pwb-secondary-300 hover:text-pwb-accent-400 transition-colors duration-200 flex items-center group" do %>
                   <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
                   <%= page.link_title %>
                 <% end %>
@@ -115,7 +115,7 @@
             <% end %>
           <% end %>
           <li>
-            <%= link_to "/pwb_login", class: "text-med-300 hover:text-gold-400 transition-colors duration-200 flex items-center group" do %>
+            <%= link_to "/pwb_login", class: "text-pwb-secondary-300 hover:text-pwb-accent-400 transition-colors duration-200 flex items-center group" do %>
               <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
               <%= I18n.t("signIn") %>
             <% end %>
@@ -132,9 +132,9 @@
           <% if @current_agency&.phone_number_primary.present? %>
             <li>
               <a href="tel:<%= @current_agency.phone_number_primary %>"
-                 class="flex items-start text-med-300 hover:text-gold-400 transition-colors duration-200 group">
-                <span class="w-10 h-10 flex items-center justify-center bg-med-700 rounded-full mr-4 group-hover:bg-gold-500/20 transition-colors">
-                  <%= icon(:phone, class: "text-gold-400") %>
+                 class="flex items-start text-pwb-secondary-300 hover:text-pwb-accent-400 transition-colors duration-200 group">
+                <span class="w-10 h-10 flex items-center justify-center bg-pwb-secondary-700 rounded-full mr-4 group-hover:bg-pwb-accent/20 transition-colors">
+                  <%= icon(:phone, class: "text-pwb-accent-400") %>
                 </span>
                 <span class="pt-2"><%= @current_agency.phone_number_primary %></span>
               </a>
@@ -143,18 +143,18 @@
           <% if @current_agency&.email_primary.present? %>
             <li>
               <a href="mailto:<%= @current_agency.email_primary %>"
-                 class="flex items-start text-med-300 hover:text-gold-400 transition-colors duration-200 group">
-                <span class="w-10 h-10 flex items-center justify-center bg-med-700 rounded-full mr-4 group-hover:bg-gold-500/20 transition-colors">
-                  <%= icon(:email, class: "text-gold-400") %>
+                 class="flex items-start text-pwb-secondary-300 hover:text-pwb-accent-400 transition-colors duration-200 group">
+                <span class="w-10 h-10 flex items-center justify-center bg-pwb-secondary-700 rounded-full mr-4 group-hover:bg-pwb-accent/20 transition-colors">
+                  <%= icon(:email, class: "text-pwb-accent-400") %>
                 </span>
                 <span class="pt-2 break-all"><%= @current_agency.email_primary %></span>
               </a>
             </li>
           <% end %>
           <% if @current_agency.respond_to?(:full_address) && @current_agency.full_address.present? %>
-            <li class="flex items-start text-med-300">
-              <span class="w-10 h-10 flex items-center justify-center bg-med-700 rounded-full mr-4 flex-shrink-0">
-                <%= icon(:location_on, class: "text-gold-400") %>
+            <li class="flex items-start text-pwb-secondary-300">
+              <span class="w-10 h-10 flex items-center justify-center bg-pwb-secondary-700 rounded-full mr-4 flex-shrink-0">
+                <%= icon(:location_on, class: "text-pwb-accent-400") %>
               </span>
               <span class="pt-2 leading-relaxed"><%= @current_agency.full_address %></span>
             </li>
@@ -168,24 +168,24 @@
           <h4 class="font-display font-semibold text-white text-lg mb-6">
             <%= t('pwb.footer.about', default: 'About Us') %>
           </h4>
-          <div class="text-med-300 leading-relaxed footer-custom-content">
+          <div class="text-pwb-secondary-300 leading-relaxed footer-custom-content">
             <%== @footer_content.raw %>
           </div>
         <% else %>
           <h4 class="font-display font-semibold text-white text-lg mb-6">
             <%= t('pwb.footer.newsletter', default: 'Stay Updated') %>
           </h4>
-          <p class="text-med-300 mb-6 leading-relaxed">
+          <p class="text-pwb-secondary-300 mb-6 leading-relaxed">
             <%= t('pwb.footer.newsletter_text', default: 'Get the latest listings and market insights delivered to your inbox.') %>
           </p>
           <form class="space-y-3">
             <div class="relative">
               <input type="email"
                      placeholder="<%= t('pwb.footer.email_placeholder', default: 'Enter your email') %>"
-                     class="w-full bg-med-700 border-0 rounded-soft px-5 py-4 text-white placeholder-med-400 focus:ring-2 focus:ring-gold-400 focus:outline-none transition-all duration-200">
+                     class="w-full bg-pwb-secondary-700 border-0 rounded-soft px-5 py-4 text-white placeholder-pwb-secondary-400 focus:ring-2 focus:ring-pwb-accent focus:outline-none transition-all duration-200">
             </div>
             <button type="submit"
-                    class="w-full bg-gradient-to-r from-gold-400 to-gold-500 text-med-900 px-6 py-4 rounded-soft font-medium hover:from-gold-500 hover:to-gold-600 transition-all duration-300 flex items-center justify-center space-x-2">
+                    class="w-full bg-gradient-to-r from-pwb-accent-400 to-pwb-accent-500 text-pwb-secondary-900 px-6 py-4 rounded-soft font-medium hover:from-pwb-accent-500 hover:to-pwb-accent-600 transition-all duration-300 flex items-center justify-center space-x-2">
               <span><%= t('pwb.footer.subscribe', default: 'Subscribe') %></span>
               <%= icon(:send, size: :sm) %>
             </button>
@@ -196,20 +196,20 @@
   </div>
 
   <!-- Bottom Bar -->
-  <div class="border-t border-med-700">
+  <div class="border-t border-pwb-secondary-700">
     <div class="container mx-auto px-6 py-6">
       <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
         <!-- Copyright -->
-        <p class="text-sm text-med-400">
+        <p class="text-sm text-pwb-secondary-400">
           &copy; <%= Time.current.year %> <%= company_legal_name %>.
           <%= t('pwb.footer.rights', default: 'All rights reserved.') %>
         </p>
 
         <!-- Powered By -->
-        <p class="text-sm text-med-500 flex items-center">
+        <p class="text-sm text-pwb-secondary-500 flex items-center">
           <span class="mr-2"><%= t('pwb.footer.powered_by', default: 'Powered by') %></span>
           <a href="https://www.propertywebbuilder.com"
-             class="text-gold-400 hover:text-gold-300 transition-colors duration-200 font-medium"
+             class="text-pwb-accent-400 hover:text-pwb-accent-300 transition-colors duration-200 font-medium"
              target="_blank">
             PropertyWebBuilder
           </a>

@@ -12,7 +12,7 @@
                loading="eager" fetchpriority="high">
         <% else %>
           <div class="flex items-center space-x-2">
-            <div class="w-10 h-10 bg-gradient-to-br from-terra-400 to-terra-600 rounded-soft flex items-center justify-center">
+            <div class="w-10 h-10 bg-gradient-to-br from-pwb-primary-400 to-pwb-primary-600 rounded-soft flex items-center justify-center">
               <%= icon(:home, size: :md, class: "text-white") %>
             </div>
             <span class="font-display font-semibold text-xl text-warm-gray-900 hidden sm:block">
@@ -37,7 +37,7 @@
           <% end %>
           <% if target_path %>
             <a href="<%= target_path %>"
-               class="px-4 py-2 text-sm font-medium text-warm-gray-600 hover:text-terra-600 hover:bg-terra-50 rounded-pill transition-all duration-200">
+               class="px-4 py-2 text-sm font-medium text-warm-gray-600 hover:text-pwb-primary hover:bg-pwb-primary-50 rounded-pill transition-all duration-200">
               <%= page.link_title %>
             </a>
           <% end %>
@@ -61,7 +61,7 @@
               <% @current_website.supported_locales_with_variants.uniq { |l| l["locale"] }.each do |locale_with_var| %>
                 <% is_selected = locale.to_s == locale_with_var["locale"] %>
                 <%= link_to params.permit(:locale).merge({locale: locale_with_var["locale"]}),
-                    class: "block px-4 py-2 text-sm text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600 transition-colors #{is_selected ? 'bg-terra-50 text-terra-600' : ''}" do %>
+                    class: "block px-4 py-2 text-sm text-warm-gray-600 hover:bg-pwb-primary-50 hover:text-pwb-primary transition-colors #{is_selected ? 'bg-pwb-primary-50 text-pwb-primary' : ''}" do %>
                   <%= t("admin.#{locale_with_var['locale']}", default: locale_with_var["locale"].to_s.upcase) %>
                 <% end %>
               <% end %>
@@ -73,7 +73,7 @@
         <% if user_signed_in? %>
           <div class="relative">
             <button type="button"
-                    class="w-10 h-10 bg-olive-100 text-olive-600 rounded-full flex items-center justify-center hover:bg-olive-200 transition-colors"
+                    class="w-10 h-10 bg-pwb-secondary-100 text-pwb-secondary-600 rounded-full flex items-center justify-center hover:bg-pwb-secondary-200 transition-colors"
                     data-dropdown-toggle="user-dropdown">
               <%= icon(:person, size: :sm) %>
             </button>
@@ -83,7 +83,7 @@
                 <p class="text-sm font-medium text-warm-gray-900"><%= current_user.email %></p>
                 <p class="text-xs text-warm-gray-500">Signed in</p>
               </div>
-              <a href="<%= edit_user_registration_path %>" class="flex items-center px-4 py-2.5 text-sm text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600">
+              <a href="<%= edit_user_registration_path %>" class="flex items-center px-4 py-2.5 text-sm text-warm-gray-600 hover:bg-pwb-primary-50 hover:text-pwb-primary">
                 <%= icon(:account_circle, size: :sm, class: "mr-3") %>
                 Account Settings
               </a>
@@ -99,7 +99,7 @@
 
         <%# Mobile Menu Button %>
         <button type="button"
-                class="lg:hidden min-w-[44px] min-h-[44px] w-10 h-10 bg-warm-gray-100 text-warm-gray-600 rounded-soft flex items-center justify-center hover:bg-warm-gray-200 focus-visible:ring-2 focus-visible:ring-terra-500 transition-colors"
+                class="lg:hidden min-w-[44px] min-h-[44px] w-10 h-10 bg-warm-gray-100 text-warm-gray-600 rounded-soft flex items-center justify-center hover:bg-warm-gray-200 focus-visible:ring-2 focus-visible:ring-pwb-primary transition-colors"
                 data-collapse-toggle="navbar-main"
                 aria-controls="navbar-main"
                 aria-expanded="false"
@@ -125,7 +125,7 @@
           <% end %>
           <% if target_path %>
             <a href="<%= target_path %>"
-               class="flex items-center px-5 py-3 text-warm-gray-600 hover:bg-terra-50 hover:text-terra-600 border-b border-warm-gray-50 last:border-b-0 transition-colors">
+               class="flex items-center px-5 py-3 text-warm-gray-600 hover:bg-pwb-primary-50 hover:text-pwb-primary border-b border-warm-gray-50 last:border-b-0 transition-colors">
               <%= page.link_title %>
             </a>
           <% end %>
