@@ -15,17 +15,29 @@ PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
 # Load .env file if it exists (from project root)
 if [ -f "$PROJECT_ROOT/.env" ]; then
-    # Export variables from .env, ignoring comments and empty lines
-    set -a
-    source <(grep -v '^\s*#' "$PROJECT_ROOT/.env" | grep -v '^\s*$')
-    set +a
+    # Export only valid VAR=value lines (no spaces, no commands)
+    while IFS='=' read -r key value; do
+        # Skip comments, empty lines, and lines with spaces in key
+        [[ "$key" =~ ^[[:space:]]*# ]] && continue
+        [[ -z "$key" ]] && continue
+        [[ "$key" =~ [[:space:]] ]] && continue
+        # Only export if key is a valid variable name
+        if [[ "$key" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]]; then
+            export "$key=$value"
+        fi
+    done < "$PROJECT_ROOT/.env"
 fi
 
 # Also check for .env.local (for local overrides, typically gitignored)
 if [ -f "$PROJECT_ROOT/.env.local" ]; then
-    set -a
-    source <(grep -v '^\s*#' "$PROJECT_ROOT/.env.local" | grep -v '^\s*$')
-    set +a
+    while IFS='=' read -r key value; do
+        [[ "$key" =~ ^[[:space:]]*# ]] && continue
+        [[ -z "$key" ]] && continue
+        [[ "$key" =~ [[:space:]] ]] && continue
+        if [[ "$key" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]]; then
+            export "$key=$value"
+        fi
+    done < "$PROJECT_ROOT/.env.local"
 fi
 
 # === CONFIGURATION ===
