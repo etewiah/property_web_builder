@@ -62,13 +62,18 @@ module Pwb
                                              'twitter' => 'http://twitter.com/test',
                                              'youtube' => ''
                                            })
-        expect(website.style_variables).to eq({
-                                                'primary_color' => '#3498db',
-                                                'secondary_color' => '#563d7c',
-                                                'action_color' => 'green',
-                                                'body_style' => 'siteLayout.boxed',
-                                                'theme' => 'light'
-                                              })
+        # style_variables now merges palette colors, so use include matcher
+        # to verify the raw settings were stored correctly
+        expect(website.style_variables).to include(
+          'body_style' => 'siteLayout.boxed',
+          'theme' => 'light'
+        )
+        # Raw stored values can be checked via style_variables_for_theme
+        expect(website.style_variables_for_theme['default']).to include(
+          'primary_color' => '#3498db',
+          'secondary_color' => '#563d7c',
+          'action_color' => 'green'
+        )
       end
 
       it 'updates raw_css' do
@@ -132,14 +137,20 @@ module Pwb
 
       it 'does not leak style_variables between tenants' do
         # Update tenant1 styles via model (subdomain resolution doesn't work in test requests)
-        website1.update!(style_variables: website1.style_variables.merge('primary_color' => '#ff0000'))
-        website2.update!(style_variables: website2.style_variables.merge('primary_color' => '#00ff00'))
+        # Use style_variables_for_theme directly since style_variables now merges palette colors
+        website1.style_variables_for_theme['default'] ||= {}
+        website1.style_variables_for_theme['default']['primary_color'] = '#ff0000'
+        website1.save!
 
-        # Verify each tenant has correct styles
+        website2.style_variables_for_theme['default'] ||= {}
+        website2.style_variables_for_theme['default']['primary_color'] = '#00ff00'
+        website2.save!
+
+        # Verify each tenant has correct styles via raw storage
         website1.reload
         website2.reload
-        expect(website1.style_variables['primary_color']).to eq('#ff0000')
-        expect(website2.style_variables['primary_color']).to eq('#00ff00')
+        expect(website1.style_variables_for_theme['default']['primary_color']).to eq('#ff0000')
+        expect(website2.style_variables_for_theme['default']['primary_color']).to eq('#00ff00')
       end
     end
 

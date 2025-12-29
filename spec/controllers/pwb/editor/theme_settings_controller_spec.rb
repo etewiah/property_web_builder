@@ -45,21 +45,31 @@ module Pwb
         
         json = JSON.parse(response.body)
         expect(json["status"]).to eq("success")
-        expect(json["style_variables"]["primary_color"]).to eq("#ff0000")
+        # style_variables includes custom and palette colors; check custom was stored
+        expect(json["style_variables"]).to include("primary_color")
+        # Verify the raw stored value
+        website.reload
+        expect(website.style_variables_for_theme['default']['primary_color']).to eq("#ff0000")
       end
 
       it "merges with existing style variables" do
-        # First, set some initial values
-        website.style_variables = { "primary_color" => "#111111", "action_color" => "#222222" }
-        website.save!
+        # Set initial values via the controller
+        # Using body_style and theme which are NOT in the palette colors
+        patch :update, params: { style_variables: { primary_color: "#111111", body_style: "siteLayout.boxed", theme: "dark" } }, format: :json
+        expect(response).to have_http_status(:success)
 
         # Update only primary_color
         patch :update, params: { style_variables: { primary_color: "#333333" } }, format: :json
-        
+
         json = JSON.parse(response.body)
-        expect(json["style_variables"]["primary_color"]).to eq("#333333")
-        # action_color should be preserved
-        expect(json["style_variables"]["action_color"]).to eq("#222222")
+        expect(response).to have_http_status(:success)
+
+        # Verify raw stored values
+        website.reload
+        expect(website.style_variables_for_theme['default']['primary_color']).to eq("#333333")
+        # body_style and theme should be preserved (not in palette colors)
+        expect(website.style_variables_for_theme['default']['body_style']).to eq("siteLayout.boxed")
+        expect(website.style_variables_for_theme['default']['theme']).to eq("dark")
       end
 
       it "returns success message" do

@@ -139,14 +139,16 @@ module Pwb
 
       it 'does not leak theme settings between tenants' do
         # Verify themes are isolated at model level
-        website1.update(style_variables: { 'primary_color' => '#ff0000' })
+        # Use style_variables_for_theme directly since style_variables now merges palette colors
+        website1.style_variables_for_theme['default'] = { 'primary_color' => '#ff0000' }
+        website1.save!
         website2.reload
 
-        # Website1 should have the updated value
-        expect(website1.style_variables['primary_color']).to eq('#ff0000')
+        # Website1 should have the updated value in raw storage
+        expect(website1.style_variables_for_theme['default']['primary_color']).to eq('#ff0000')
 
         # Website2 should NOT have website1's value
-        expect(website2.style_variables['primary_color']).not_to eq('#ff0000')
+        expect(website2.style_variables_for_theme['default']&.dig('primary_color')).not_to eq('#ff0000')
       end
     end
 
