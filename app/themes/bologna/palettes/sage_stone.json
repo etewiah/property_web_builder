@@ -2,7 +2,11 @@
   "id": "sage_stone",
   "name": "Sage & Stone",
   "description": "Natural greens with warm neutral tones",
-  "preview_colors": ["#5c6b4d", "#8b9c7a", "#c4b5a0"],
+  "preview_colors": [
+    "#5c6b4d",
+    "#8b9c7a",
+    "#c4b5a0"
+  ],
   "is_default": false,
   "colors": {
     "primary_color": "#5c6b4d",
@@ -14,8 +18,16 @@
     "header_text_color": "#3d3d3d",
     "footer_background_color": "#3d3d3d",
     "footer_text_color": "#d5d0c8",
-    "light_color": "#f8f7f4",
     "link_color": "#5c6b4d",
-    "action_color": "#5c6b4d"
+    "card_background_color": "#ffffff",
+    "card_text_color": "#3d3d3d",
+    "border_color": "#e5e7eb",
+    "surface_color": "#ffffff",
+    "surface_alt_color": "#f9fafb",
+    "success_color": "#10b981",
+    "warning_color": "#f59e0b",
+    "error_color": "#ef4444",
+    "muted_text_color": "#6b7280",
+    "link_hover_color": "#364527"
   }
 }

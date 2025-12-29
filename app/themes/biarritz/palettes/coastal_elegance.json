@@ -2,7 +2,11 @@
   "id": "coastal_elegance",
   "name": "Coastal Elegance",
   "description": "Refined navy with sandy beige accents",
-  "preview_colors": ["#1E3A8A", "#B8903C", "#E8DCC4"],
+  "preview_colors": [
+    "#1E3A8A",
+    "#B8903C",
+    "#E8DCC4"
+  ],
   "is_default": false,
   "colors": {
     "primary_color": "#1E3A8A",
@@ -14,8 +18,16 @@
     "header_text_color": "#FFFFFF",
     "footer_background_color": "#1E293B",
     "footer_text_color": "#E2E8F0",
-    "light_color": "#F8FAFC",
     "link_color": "#1E3A8A",
-    "action_color": "#B8903C"
+    "card_background_color": "#ffffff",
+    "card_text_color": "#1E293B",
+    "border_color": "#e5e7eb",
+    "surface_color": "#ffffff",
+    "surface_alt_color": "#f9fafb",
+    "success_color": "#10b981",
+    "warning_color": "#f59e0b",
+    "error_color": "#ef4444",
+    "muted_text_color": "#6b7280",
+    "link_hover_color": "#001464"
   }
 }

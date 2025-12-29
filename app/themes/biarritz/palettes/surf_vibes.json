@@ -2,7 +2,11 @@
   "id": "surf_vibes",
   "name": "Surf Vibes",
   "description": "Vibrant turquoise with coral accents",
-  "preview_colors": ["#06B6D4", "#F97316", "#FDE047"],
+  "preview_colors": [
+    "#06B6D4",
+    "#F97316",
+    "#FDE047"
+  ],
   "is_default": false,
   "colors": {
     "primary_color": "#06B6D4",
@@ -14,8 +18,16 @@
     "header_text_color": "#FFFFFF",
     "footer_background_color": "#164E63",
     "footer_text_color": "#ECFEFF",
-    "light_color": "#F0FDFA",
     "link_color": "#06B6D4",
-    "action_color": "#F97316"
+    "card_background_color": "#ffffff",
+    "card_text_color": "#134E4A",
+    "border_color": "#e5e7eb",
+    "surface_color": "#ffffff",
+    "surface_alt_color": "#f9fafb",
+    "success_color": "#10b981",
+    "warning_color": "#f59e0b",
+    "error_color": "#ef4444",
+    "muted_text_color": "#6b7280",
+    "link_hover_color": "#0090ae"
   }
 }

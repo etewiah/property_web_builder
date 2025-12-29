@@ -6,94 +6,15 @@
     "version": "2.0.0",
     "description": "A clean, modern theme suitable for any real estate website",
     "author": "PropertyWebBuilder",
-    "tags": ["modern", "minimal", "responsive"],
+    "tags": [
+      "modern",
+      "minimal",
+      "responsive"
+    ],
     "screenshots": [
       "http://propertywebbuilder.com/images/rerenting-landing_framed.png",
       "http://propertywebbuilder.com/images/rerenting-landing_framed.png"
     ],
-    "palettes": {
-      "classic_red": {
-        "id": "classic_red",
-        "name": "Classic Red",
-        "description": "Bold and energetic with professional appeal",
-        "preview_colors": ["#e91b23", "#2c3e50", "#3498db"],
-        "is_default": true,
-        "colors": {
-          "primary_color": "#e91b23",
-          "secondary_color": "#2c3e50",
-          "accent_color": "#3498db",
-          "background_color": "#ffffff",
-          "text_color": "#333333",
-          "light_color": "#f8f9fa",
-          "link_color": "#e91b23",
-          "header_bg_color": "#ffffff",
-          "header_text_color": "#333333",
-          "footer_bg_color": "#2c3e50",
-          "footer_text_color": "#ffffff",
-          "action_color": "#e91b23"
-        }
-      },
-      "ocean_blue": {
-        "id": "ocean_blue",
-        "name": "Ocean Blue",
-        "description": "Professional and trustworthy",
-        "preview_colors": ["#3498db", "#2c3e50", "#e74c3c"],
-        "colors": {
-          "primary_color": "#3498db",
-          "secondary_color": "#2c3e50",
-          "accent_color": "#e74c3c",
-          "background_color": "#ffffff",
-          "text_color": "#333333",
-          "light_color": "#f0f7fc",
-          "link_color": "#3498db",
-          "header_bg_color": "#ffffff",
-          "header_text_color": "#333333",
-          "footer_bg_color": "#2c3e50",
-          "footer_text_color": "#ffffff",
-          "action_color": "#3498db"
-        }
-      },
-      "forest_green": {
-        "id": "forest_green",
-        "name": "Forest Green",
-        "description": "Fresh, natural, and eco-friendly",
-        "preview_colors": ["#27ae60", "#2c3e50", "#f39c12"],
-        "colors": {
-          "primary_color": "#27ae60",
-          "secondary_color": "#2c3e50",
-          "accent_color": "#f39c12",
-          "background_color": "#ffffff",
-          "text_color": "#333333",
-          "light_color": "#f0faf4",
-          "link_color": "#27ae60",
-          "header_bg_color": "#ffffff",
-          "header_text_color": "#333333",
-          "footer_bg_color": "#2c3e50",
-          "footer_text_color": "#ffffff",
-          "action_color": "#27ae60"
-        }
-      },
-      "sunset_orange": {
-        "id": "sunset_orange",
-        "name": "Sunset Orange",
-        "description": "Warm, inviting, and creative",
-        "preview_colors": ["#e67e22", "#2c3e50", "#9b59b6"],
-        "colors": {
-          "primary_color": "#e67e22",
-          "secondary_color": "#2c3e50",
-          "accent_color": "#9b59b6",
-          "background_color": "#ffffff",
-          "text_color": "#333333",
-          "light_color": "#fef9f3",
-          "link_color": "#e67e22",
-          "header_bg_color": "#ffffff",
-          "header_text_color": "#333333",
-          "footer_bg_color": "#2c3e50",
-          "footer_text_color": "#ffffff",
-          "action_color": "#e67e22"
-        }
-      }
-    },
     "supports": {
       "page_parts": [
         "heroes/hero_centered",
@@ -118,8 +39,16 @@
         "form_and_map",
         "search_cmpt"
       ],
-      "layouts": ["default", "landing", "full_width", "sidebar"],
-      "color_schemes": ["light", "dark"],
+      "layouts": [
+        "default",
+        "landing",
+        "full_width",
+        "sidebar"
+      ],
+      "color_schemes": [
+        "light",
+        "dark"
+      ],
       "features": {
         "sticky_header": true,
         "back_to_top": true,
@@ -168,19 +97,44 @@
           "type": "font_select",
           "default": "Open Sans",
           "label": "Primary Font",
-          "options": ["Open Sans", "Roboto", "Lato", "Montserrat", "Poppins", "Raleway", "Source Sans Pro", "Inter", "Nunito", "Work Sans"]
+          "options": [
+            "Open Sans",
+            "Roboto",
+            "Lato",
+            "Montserrat",
+            "Poppins",
+            "Raleway",
+            "Source Sans Pro",
+            "Inter",
+            "Nunito",
+            "Work Sans"
+          ]
         },
         "font_heading": {
           "type": "font_select",
           "default": "Montserrat",
           "label": "Heading Font",
-          "options": ["Montserrat", "Playfair Display", "Merriweather", "Oswald", "Roboto Slab", "Lora", "Libre Baskerville"]
+          "options": [
+            "Montserrat",
+            "Playfair Display",
+            "Merriweather",
+            "Oswald",
+            "Roboto Slab",
+            "Lora",
+            "Libre Baskerville"
+          ]
         },
         "font_size_base": {
           "type": "select",
           "default": "16px",
           "label": "Base Font Size",
-          "options": ["14px", "15px", "16px", "17px", "18px"]
+          "options": [
+            "14px",
+            "15px",
+            "16px",
+            "17px",
+            "18px"
+          ]
         }
       },
       "layout": {
@@ -188,13 +142,25 @@
           "type": "select",
           "default": "1200px",
           "label": "Container Width",
-          "options": ["1000px", "1100px", "1200px", "1320px", "1400px"]
+          "options": [
+            "1000px",
+            "1100px",
+            "1200px",
+            "1320px",
+            "1400px"
+          ]
         },
         "border_radius": {
           "type": "select",
           "default": "8px",
           "label": "Border Radius",
-          "options": ["0px", "4px", "8px", "12px", "16px"]
+          "options": [
+            "0px",
+            "4px",
+            "8px",
+            "12px",
+            "16px"
+          ]
         }
       },
       "header": {
@@ -202,7 +168,12 @@
           "type": "select",
           "default": "default",
           "label": "Header Style",
-          "options": ["default", "transparent", "centered", "minimal"]
+          "options": [
+            "default",
+            "transparent",
+            "centered",
+            "minimal"
+          ]
         },
         "header_bg_color": {
           "type": "color",
@@ -230,7 +201,11 @@
           "type": "select",
           "default": "4",
           "label": "Footer Columns",
-          "options": ["2", "3", "4"]
+          "options": [
+            "2",
+            "3",
+            "4"
+          ]
         }
       },
       "buttons": {
@@ -238,32 +213,53 @@
           "type": "select",
           "default": "rounded",
           "label": "Button Style",
-          "options": ["square", "rounded", "pill"]
+          "options": [
+            "square",
+            "rounded",
+            "pill"
+          ]
         },
         "button_size": {
           "type": "select",
           "default": "medium",
           "label": "Button Size",
-          "options": ["small", "medium", "large"]
+          "options": [
+            "small",
+            "medium",
+            "large"
+          ]
         }
       }
     },
     "page_parts_config": {
       "heroes": {
         "default_variant": "hero_centered",
-        "available_variants": ["hero_centered", "hero_split", "hero_search"]
+        "available_variants": [
+          "hero_centered",
+          "hero_split",
+          "hero_search"
+        ]
       },
       "features": {
         "default_variant": "feature_grid_3col",
-        "available_variants": ["feature_grid_3col", "feature_cards_icons"]
+        "available_variants": [
+          "feature_grid_3col",
+          "feature_cards_icons"
+        ]
       },
       "testimonials": {
         "default_variant": "testimonial_carousel",
-        "available_variants": ["testimonial_carousel", "testimonial_grid"]
+        "available_variants": [
+          "testimonial_carousel",
+          "testimonial_grid"
+        ]
       },
       "cta": {
         "default_variant": "cta_banner",
-        "available_variants": ["cta_banner", "cta_split_image"]
+        "available_variants": [
+          "cta_banner",
+          "cta_split_image"
+        ]
       }
     }
   },
@@ -275,90 +271,12 @@
     "parent_theme": "default",
     "description": "A luxurious, elegant theme perfect for high-end real estate agencies",
     "author": "PropertyWebBuilder",
-    "tags": ["luxury", "elegant", "premium", "real-estate"],
-    "palettes": {
-      "gold_navy": {
-        "id": "gold_navy",
-        "name": "Gold & Navy",
-        "description": "Classic luxury with timeless elegance",
-        "preview_colors": ["#c9a962", "#1a1a2e", "#16213e"],
-        "is_default": true,
-        "colors": {
-          "primary_color": "#c9a962",
-          "secondary_color": "#1a1a2e",
-          "accent_color": "#16213e",
-          "background_color": "#fafafa",
-          "text_color": "#2d2d2d",
-          "light_color": "#fafafa",
-          "link_color": "#c9a962",
-          "header_bg_color": "#1a1a2e",
-          "header_text_color": "#ffffff",
-          "footer_bg_color": "#1a1a2e",
-          "footer_text_color": "#e8e8e8",
-          "action_color": "#c9a962"
-        }
-      },
-      "rose_gold": {
-        "id": "rose_gold",
-        "name": "Rose Gold",
-        "description": "Modern elegance with feminine warmth",
-        "preview_colors": ["#b76e79", "#2d2d2d", "#e8d4d4"],
-        "colors": {
-          "primary_color": "#b76e79",
-          "secondary_color": "#2d2d2d",
-          "accent_color": "#e8d4d4",
-          "background_color": "#fdfbfb",
-          "text_color": "#2d2d2d",
-          "light_color": "#fdfbfb",
-          "link_color": "#b76e79",
-          "header_bg_color": "#2d2d2d",
-          "header_text_color": "#ffffff",
-          "footer_bg_color": "#2d2d2d",
-          "footer_text_color": "#e8e8e8",
-          "action_color": "#b76e79"
-        }
-      },
-      "platinum": {
-        "id": "platinum",
-        "name": "Platinum",
-        "description": "Sophisticated and understated luxury",
-        "preview_colors": ["#8c8c8c", "#1a1a2e", "#c9a962"],
-        "colors": {
-          "primary_color": "#8c8c8c",
-          "secondary_color": "#1a1a2e",
-          "accent_color": "#c9a962",
-          "background_color": "#fafafa",
-          "text_color": "#2d2d2d",
-          "light_color": "#f5f5f5",
-          "link_color": "#c9a962",
-          "header_bg_color": "#1a1a2e",
-          "header_text_color": "#ffffff",
-          "footer_bg_color": "#1a1a2e",
-          "footer_text_color": "#e8e8e8",
-          "action_color": "#c9a962"
-        }
-      },
-      "emerald_luxury": {
-        "id": "emerald_luxury",
-        "name": "Emerald Luxury",
-        "description": "Rich green with golden accents",
-        "preview_colors": ["#2d6a4f", "#1a1a2e", "#c9a962"],
-        "colors": {
-          "primary_color": "#2d6a4f",
-          "secondary_color": "#1a1a2e",
-          "accent_color": "#c9a962",
-          "background_color": "#fafafa",
-          "text_color": "#2d2d2d",
-          "light_color": "#f0f7f4",
-          "link_color": "#2d6a4f",
-          "header_bg_color": "#1a1a2e",
-          "header_text_color": "#ffffff",
-          "footer_bg_color": "#1a1a2e",
-          "footer_text_color": "#e8e8e8",
-          "action_color": "#2d6a4f"
-        }
-      }
-    },
+    "tags": [
+      "luxury",
+      "elegant",
+      "premium",
+      "real-estate"
+    ],
     "supports": {
       "page_parts": [
         "heroes/hero_centered",
@@ -383,8 +301,17 @@
         "form_and_map",
         "search_cmpt"
       ],
-      "layouts": ["default", "landing", "full_width", "sidebar"],
-      "color_schemes": ["light", "dark", "warm"],
+      "layouts": [
+        "default",
+        "landing",
+        "full_width",
+        "sidebar"
+      ],
+      "color_schemes": [
+        "light",
+        "dark",
+        "warm"
+      ],
       "features": {
         "sticky_header": true,
         "back_to_top": true,
@@ -433,19 +360,38 @@
           "type": "font_select",
           "default": "Cormorant Garamond",
           "label": "Primary Font",
-          "options": ["Cormorant Garamond", "Libre Baskerville", "Playfair Display", "Lora", "Merriweather", "EB Garamond"]
+          "options": [
+            "Cormorant Garamond",
+            "Libre Baskerville",
+            "Playfair Display",
+            "Lora",
+            "Merriweather",
+            "EB Garamond"
+          ]
         },
         "font_heading": {
           "type": "font_select",
           "default": "Playfair Display",
           "label": "Heading Font",
-          "options": ["Playfair Display", "Cormorant Garamond", "Libre Baskerville", "Lora", "Crimson Text"]
+          "options": [
+            "Playfair Display",
+            "Cormorant Garamond",
+            "Libre Baskerville",
+            "Lora",
+            "Crimson Text"
+          ]
         },
         "font_size_base": {
           "type": "select",
           "default": "17px",
           "label": "Base Font Size",
-          "options": ["15px", "16px", "17px", "18px", "19px"]
+          "options": [
+            "15px",
+            "16px",
+            "17px",
+            "18px",
+            "19px"
+          ]
         }
       },
       "layout": {
@@ -453,13 +399,24 @@
           "type": "select",
           "default": "1320px",
           "label": "Container Width",
-          "options": ["1100px", "1200px", "1320px", "1400px"]
+          "options": [
+            "1100px",
+            "1200px",
+            "1320px",
+            "1400px"
+          ]
         },
         "border_radius": {
           "type": "select",
           "default": "4px",
           "label": "Border Radius",
-          "options": ["0px", "2px", "4px", "6px", "8px"]
+          "options": [
+            "0px",
+            "2px",
+            "4px",
+            "6px",
+            "8px"
+          ]
         }
       },
       "header": {
@@ -467,7 +424,12 @@
           "type": "select",
           "default": "transparent",
           "label": "Header Style",
-          "options": ["default", "transparent", "centered", "minimal"]
+          "options": [
+            "default",
+            "transparent",
+            "centered",
+            "minimal"
+          ]
         },
         "header_bg_color": {
           "type": "color",
@@ -495,7 +457,11 @@
           "type": "select",
           "default": "4",
           "label": "Footer Columns",
-          "options": ["2", "3", "4"]
+          "options": [
+            "2",
+            "3",
+            "4"
+          ]
         }
       },
       "buttons": {
@@ -503,32 +469,53 @@
           "type": "select",
           "default": "square",
           "label": "Button Style",
-          "options": ["square", "rounded", "pill"]
+          "options": [
+            "square",
+            "rounded",
+            "pill"
+          ]
         },
         "button_size": {
           "type": "select",
           "default": "large",
           "label": "Button Size",
-          "options": ["small", "medium", "large"]
+          "options": [
+            "small",
+            "medium",
+            "large"
+          ]
         }
       }
     },
     "page_parts_config": {
       "heroes": {
         "default_variant": "hero_split",
-        "available_variants": ["hero_centered", "hero_split", "hero_search"]
+        "available_variants": [
+          "hero_centered",
+          "hero_split",
+          "hero_search"
+        ]
       },
       "features": {
         "default_variant": "feature_cards_icons",
-        "available_variants": ["feature_grid_3col", "feature_cards_icons"]
+        "available_variants": [
+          "feature_grid_3col",
+          "feature_cards_icons"
+        ]
       },
       "testimonials": {
         "default_variant": "testimonial_grid",
-        "available_variants": ["testimonial_carousel", "testimonial_grid"]
+        "available_variants": [
+          "testimonial_carousel",
+          "testimonial_grid"
+        ]
       },
       "cta": {
         "default_variant": "cta_split_image",
-        "available_variants": ["cta_banner", "cta_split_image"]
+        "available_variants": [
+          "cta_banner",
+          "cta_split_image"
+        ]
       }
     }
   },
@@ -540,94 +527,13 @@
     "parent_theme": "default",
     "description": "A fresh, contemporary theme with warm Mediterranean colors and clean minimalist design",
     "author": "PropertyWebBuilder",
-    "tags": ["modern", "minimal", "contemporary", "warm", "fresh"],
-    "palettes": {
-      "terracotta_classic": {
-        "id": "terracotta_classic",
-        "name": "Terracotta Classic",
-        "description": "Warm Mediterranean tones with earthy accents",
-        "preview_colors": ["#c45d3e", "#5c6b4d", "#d4a574"],
-        "is_default": true,
-        "colors": {
-          "primary_color": "#c45d3e",
-          "secondary_color": "#5c6b4d",
-          "accent_color": "#d4a574",
-          "background_color": "#faf9f7",
-          "text_color": "#3d3d3d",
-          "light_color": "#faf9f7",
-          "link_color": "#c45d3e",
-          "header_bg_color": "#ffffff",
-          "header_text_color": "#3d3d3d",
-          "footer_bg_color": "#3d3d3d",
-          "footer_main_text_color": "#d5d0c8",
-          "footer_text_color": "#d5d0c8",
-          "action_color": "#c45d3e"
-        }
-      },
-      "sage_stone": {
-        "id": "sage_stone",
-        "name": "Sage & Stone",
-        "description": "Natural greens with warm neutral tones",
-        "preview_colors": ["#5c6b4d", "#8b9c7a", "#c4b5a0"],
-        "colors": {
-          "primary_color": "#5c6b4d",
-          "secondary_color": "#8b9c7a",
-          "accent_color": "#c4b5a0",
-          "background_color": "#f8f7f4",
-          "text_color": "#3d3d3d",
-          "light_color": "#f8f7f4",
-          "link_color": "#5c6b4d",
-          "header_bg_color": "#ffffff",
-          "header_text_color": "#3d3d3d",
-          "footer_bg_color": "#3d3d3d",
-          "footer_main_text_color": "#d5d0c8",
-          "footer_text_color": "#d5d0c8",
-          "action_color": "#5c6b4d"
-        }
-      },
-      "coastal_warmth": {
-        "id": "coastal_warmth",
-        "name": "Coastal Warmth",
-        "description": "Ocean blues with warm sand accents",
-        "preview_colors": ["#2d5a7b", "#c45d3e", "#e8c9a9"],
-        "colors": {
-          "primary_color": "#2d5a7b",
-          "secondary_color": "#c45d3e",
-          "accent_color": "#e8c9a9",
-          "background_color": "#fafbfc",
-          "text_color": "#2d3748",
-          "light_color": "#fafbfc",
-          "link_color": "#2d5a7b",
-          "header_bg_color": "#ffffff",
-          "header_text_color": "#2d3748",
-          "footer_bg_color": "#2d3748",
-          "footer_main_text_color": "#e2e8f0",
-          "footer_text_color": "#e2e8f0",
-          "action_color": "#2d5a7b"
-        }
-      },
-      "modern_slate": {
-        "id": "modern_slate",
-        "name": "Modern Slate",
-        "description": "Contemporary grays with warm terracotta accent",
-        "preview_colors": ["#4a5568", "#718096", "#c45d3e"],
-        "colors": {
-          "primary_color": "#4a5568",
-          "secondary_color": "#718096",
-          "accent_color": "#c45d3e",
-          "background_color": "#f7fafc",
-          "text_color": "#2d3748",
-          "light_color": "#f7fafc",
-          "link_color": "#4a5568",
-          "header_bg_color": "#ffffff",
-          "header_text_color": "#2d3748",
-          "footer_bg_color": "#2d3748",
-          "footer_main_text_color": "#e2e8f0",
-          "footer_text_color": "#e2e8f0",
-          "action_color": "#c45d3e"
-        }
-      }
-    },
+    "tags": [
+      "modern",
+      "minimal",
+      "contemporary",
+      "warm",
+      "fresh"
+    ],
     "supports": {
       "page_parts": [
         "heroes/hero_centered",
@@ -652,8 +558,17 @@
         "form_and_map",
         "search_cmpt"
       ],
-      "layouts": ["default", "landing", "full_width", "sidebar"],
-      "color_schemes": ["light", "warm", "earth"],
+      "layouts": [
+        "default",
+        "landing",
+        "full_width",
+        "sidebar"
+      ],
+      "color_schemes": [
+        "light",
+        "warm",
+        "earth"
+      ],
       "features": {
         "sticky_header": true,
         "back_to_top": true,
@@ -703,19 +618,41 @@
           "type": "font_select",
           "default": "DM Sans",
           "label": "Primary Font",
-          "options": ["DM Sans", "Inter", "Outfit", "Plus Jakarta Sans", "Space Grotesk", "Sora", "Urbanist"]
+          "options": [
+            "DM Sans",
+            "Inter",
+            "Outfit",
+            "Plus Jakarta Sans",
+            "Space Grotesk",
+            "Sora",
+            "Urbanist"
+          ]
         },
         "font_heading": {
           "type": "font_select",
           "default": "Outfit",
           "label": "Heading Font",
-          "options": ["Outfit", "DM Sans", "Plus Jakarta Sans", "Sora", "Space Grotesk", "Urbanist", "Manrope"]
+          "options": [
+            "Outfit",
+            "DM Sans",
+            "Plus Jakarta Sans",
+            "Sora",
+            "Space Grotesk",
+            "Urbanist",
+            "Manrope"
+          ]
         },
         "font_size_base": {
           "type": "select",
           "default": "16px",
           "label": "Base Font Size",
-          "options": ["14px", "15px", "16px", "17px", "18px"]
+          "options": [
+            "14px",
+            "15px",
+            "16px",
+            "17px",
+            "18px"
+          ]
         }
       },
       "layout": {
@@ -723,13 +660,24 @@
           "type": "select",
           "default": "1280px",
           "label": "Container Width",
-          "options": ["1100px", "1200px", "1280px", "1400px"]
+          "options": [
+            "1100px",
+            "1200px",
+            "1280px",
+            "1400px"
+          ]
         },
         "border_radius": {
           "type": "select",
           "default": "16px",
           "label": "Border Radius",
-          "options": ["8px", "12px", "16px", "20px", "24px"]
+          "options": [
+            "8px",
+            "12px",
+            "16px",
+            "20px",
+            "24px"
+          ]
         }
       },
       "header": {
@@ -737,7 +685,12 @@
           "type": "select",
           "default": "minimal",
           "label": "Header Style",
-          "options": ["default", "transparent", "centered", "minimal"]
+          "options": [
+            "default",
+            "transparent",
+            "centered",
+            "minimal"
+          ]
         },
         "header_bg_color": {
           "type": "color",
@@ -765,7 +718,11 @@
           "type": "select",
           "default": "3",
           "label": "Footer Columns",
-          "options": ["2", "3", "4"]
+          "options": [
+            "2",
+            "3",
+            "4"
+          ]
         }
       },
       "buttons": {
@@ -773,32 +730,53 @@
           "type": "select",
           "default": "pill",
           "label": "Button Style",
-          "options": ["square", "rounded", "pill"]
+          "options": [
+            "square",
+            "rounded",
+            "pill"
+          ]
         },
         "button_size": {
           "type": "select",
           "default": "medium",
           "label": "Button Size",
-          "options": ["small", "medium", "large"]
+          "options": [
+            "small",
+            "medium",
+            "large"
+          ]
         }
       }
     },
     "page_parts_config": {
       "heroes": {
         "default_variant": "hero_centered",
-        "available_variants": ["hero_centered", "hero_split", "hero_search"]
+        "available_variants": [
+          "hero_centered",
+          "hero_split",
+          "hero_search"
+        ]
       },
       "features": {
         "default_variant": "feature_grid_3col",
-        "available_variants": ["feature_grid_3col", "feature_cards_icons"]
+        "available_variants": [
+          "feature_grid_3col",
+          "feature_cards_icons"
+        ]
       },
       "testimonials": {
         "default_variant": "testimonial_carousel",
-        "available_variants": ["testimonial_carousel", "testimonial_grid"]
+        "available_variants": [
+          "testimonial_carousel",
+          "testimonial_grid"
+        ]
       },
       "cta": {
         "default_variant": "cta_banner",
-        "available_variants": ["cta_banner", "cta_split_image"]
+        "available_variants": [
+          "cta_banner",
+          "cta_split_image"
+        ]
       }
     }
   },
@@ -811,90 +789,13 @@
     "parent_theme": "default",
     "description": "A vibrant Mediterranean theme inspired by Barcelona's modernist architecture, featuring warm coastal colors and elegant design",
     "author": "PropertyWebBuilder",
-    "tags": ["mediterranean", "modern", "vibrant", "coastal", "warm"],
-    "palettes": {
-      "catalan_classic": {
-        "id": "catalan_classic",
-        "name": "Catalan Classic",
-        "description": "Mediterranean blues with warm terracotta accents",
-        "preview_colors": ["#0B5394", "#B8503E", "#E5B45A"],
-        "is_default": true,
-        "colors": {
-          "primary_color": "#0B5394",
-          "secondary_color": "#B8503E",
-          "accent_color": "#E5B45A",
-          "background_color": "#FEFCF9",
-          "text_color": "#2D3436",
-          "light_color": "#FEFCF9",
-          "link_color": "#0B5394",
-          "header_bg_color": "#ffffff",
-          "header_text_color": "#2D3436",
-          "footer_bg_color": "#1a365d",
-          "footer_text_color": "#E2E8F0",
-          "action_color": "#0B5394"
-        }
-      },
-      "gaudi_mosaic": {
-        "id": "gaudi_mosaic",
-        "name": "Gaudí Mosaic",
-        "description": "Colorful and artistic inspired by trencadís mosaics",
-        "preview_colors": ["#2D6A4F", "#E07A5F", "#F4D35E"],
-        "colors": {
-          "primary_color": "#2D6A4F",
-          "secondary_color": "#E07A5F",
-          "accent_color": "#F4D35E",
-          "background_color": "#FFFBF5",
-          "text_color": "#2D3436",
-          "light_color": "#FFFBF5",
-          "link_color": "#2D6A4F",
-          "header_bg_color": "#ffffff",
-          "header_text_color": "#2D3436",
-          "footer_bg_color": "#264653",
-          "footer_text_color": "#E9ECEF",
-          "action_color": "#2D6A4F"
-        }
-      },
-      "coastal_sunset": {
-        "id": "coastal_sunset",
-        "name": "Coastal Sunset",
-        "description": "Warm sunset tones over the Mediterranean",
-        "preview_colors": ["#D35400", "#1A5276", "#F5B041"],
-        "colors": {
-          "primary_color": "#D35400",
-          "secondary_color": "#1A5276",
-          "accent_color": "#F5B041",
-          "background_color": "#FDF8F4",
-          "text_color": "#2C3E50",
-          "light_color": "#FDF8F4",
-          "link_color": "#D35400",
-          "header_bg_color": "#ffffff",
-          "header_text_color": "#2C3E50",
-          "footer_bg_color": "#1A5276",
-          "footer_text_color": "#EBF5FB",
-          "action_color": "#D35400"
-        }
-      },
-      "modernista": {
-        "id": "modernista",
-        "name": "Modernista",
-        "description": "Elegant and refined Art Nouveau inspired",
-        "preview_colors": ["#5D4E6D", "#8B7355", "#C9A962"],
-        "colors": {
-          "primary_color": "#5D4E6D",
-          "secondary_color": "#8B7355",
-          "accent_color": "#C9A962",
-          "background_color": "#FAF9F7",
-          "text_color": "#3D3D3D",
-          "light_color": "#FAF9F7",
-          "link_color": "#5D4E6D",
-          "header_bg_color": "#ffffff",
-          "header_text_color": "#3D3D3D",
-          "footer_bg_color": "#3D3D3D",
-          "footer_text_color": "#E8E8E8",
-          "action_color": "#5D4E6D"
-        }
-      }
-    },
+    "tags": [
+      "mediterranean",
+      "modern",
+      "vibrant",
+      "coastal",
+      "warm"
+    ],
     "supports": {
       "page_parts": [
         "heroes/hero_centered",
@@ -919,8 +820,17 @@
         "form_and_map",
         "search_cmpt"
       ],
-      "layouts": ["default", "landing", "full_width", "sidebar"],
-      "color_schemes": ["light", "warm", "coastal"],
+      "layouts": [
+        "default",
+        "landing",
+        "full_width",
+        "sidebar"
+      ],
+      "color_schemes": [
+        "light",
+        "warm",
+        "coastal"
+      ],
       "features": {
         "sticky_header": true,
         "back_to_top": true,
@@ -970,19 +880,40 @@
           "type": "font_select",
           "default": "Inter",
           "label": "Primary Font",
-          "options": ["Inter", "DM Sans", "Outfit", "Plus Jakarta Sans", "Space Grotesk", "Sora", "Urbanist"]
+          "options": [
+            "Inter",
+            "DM Sans",
+            "Outfit",
+            "Plus Jakarta Sans",
+            "Space Grotesk",
+            "Sora",
+            "Urbanist"
+          ]
         },
         "font_heading": {
           "type": "font_select",
           "default": "Playfair Display",
           "label": "Heading Font",
-          "options": ["Playfair Display", "Cormorant Garamond", "Libre Baskerville", "Lora", "Crimson Text", "Merriweather"]
+          "options": [
+            "Playfair Display",
+            "Cormorant Garamond",
+            "Libre Baskerville",
+            "Lora",
+            "Crimson Text",
+            "Merriweather"
+          ]
         },
         "font_size_base": {
           "type": "select",
           "default": "16px",
           "label": "Base Font Size",
-          "options": ["14px", "15px", "16px", "17px", "18px"]
+          "options": [
+            "14px",
+            "15px",
+            "16px",
+            "17px",
+            "18px"
+          ]
         }
       },
       "layout": {
@@ -990,13 +921,24 @@
           "type": "select",
           "default": "1280px",
           "label": "Container Width",
-          "options": ["1100px", "1200px", "1280px", "1400px"]
+          "options": [
+            "1100px",
+            "1200px",
+            "1280px",
+            "1400px"
+          ]
         },
         "border_radius": {
           "type": "select",
           "default": "12px",
           "label": "Border Radius",
-          "options": ["4px", "8px", "12px", "16px", "20px"]
+          "options": [
+            "4px",
+            "8px",
+            "12px",
+            "16px",
+            "20px"
+          ]
         }
       },
       "header": {
@@ -1004,7 +946,12 @@
           "type": "select",
           "default": "default",
           "label": "Header Style",
-          "options": ["default", "transparent", "centered", "minimal"]
+          "options": [
+            "default",
+            "transparent",
+            "centered",
+            "minimal"
+          ]
         },
         "header_bg_color": {
           "type": "color",
@@ -1032,7 +979,11 @@
           "type": "select",
           "default": "4",
           "label": "Footer Columns",
-          "options": ["2", "3", "4"]
+          "options": [
+            "2",
+            "3",
+            "4"
+          ]
         }
       },
       "buttons": {
@@ -1040,32 +991,53 @@
           "type": "select",
           "default": "rounded",
           "label": "Button Style",
-          "options": ["square", "rounded", "pill"]
+          "options": [
+            "square",
+            "rounded",
+            "pill"
+          ]
         },
         "button_size": {
           "type": "select",
           "default": "medium",
           "label": "Button Size",
-          "options": ["small", "medium", "large"]
+          "options": [
+            "small",
+            "medium",
+            "large"
+          ]
         }
       }
     },
     "page_parts_config": {
       "heroes": {
         "default_variant": "hero_centered",
-        "available_variants": ["hero_centered", "hero_split", "hero_search"]
+        "available_variants": [
+          "hero_centered",
+          "hero_split",
+          "hero_search"
+        ]
       },
       "features": {
         "default_variant": "feature_grid_3col",
-        "available_variants": ["feature_grid_3col", "feature_cards_icons"]
+        "available_variants": [
+          "feature_grid_3col",
+          "feature_cards_icons"
+        ]
       },
       "testimonials": {
         "default_variant": "testimonial_carousel",
-        "available_variants": ["testimonial_carousel", "testimonial_grid"]
+        "available_variants": [
+          "testimonial_carousel",
+          "testimonial_grid"
+        ]
       },
       "cta": {
         "default_variant": "cta_banner",
-        "available_variants": ["cta_banner", "cta_split_image"]
+        "available_variants": [
+          "cta_banner",
+          "cta_split_image"
+        ]
       }
     }
   },
@@ -1078,90 +1050,13 @@
     "parent_theme": "default",
     "description": "A sophisticated coastal theme inspired by the French Basque Atlantic shore, featuring ocean blues and warm sand tones",
     "author": "PropertyWebBuilder",
-    "tags": ["coastal", "french", "basque", "elegant", "ocean"],
-    "palettes": {
-      "atlantic_blue": {
-        "id": "atlantic_blue",
-        "name": "Atlantic Blue",
-        "description": "Deep ocean blues with golden sunset accents",
-        "preview_colors": ["#0C4A6E", "#D97706", "#FBBF24"],
-        "is_default": true,
-        "colors": {
-          "primary_color": "#0C4A6E",
-          "secondary_color": "#D97706",
-          "accent_color": "#FBBF24",
-          "background_color": "#FAFAF9",
-          "text_color": "#1C1917",
-          "light_color": "#FAFAF9",
-          "link_color": "#0C4A6E",
-          "header_bg_color": "#0C4A6E",
-          "header_text_color": "#FFFFFF",
-          "footer_bg_color": "#082F49",
-          "footer_text_color": "#F5F5F4",
-          "action_color": "#D97706"
-        }
-      },
-      "basque_sunset": {
-        "id": "basque_sunset",
-        "name": "Basque Sunset",
-        "description": "Warm sunset tones over the ocean",
-        "preview_colors": ["#F59E0B", "#0369A1", "#FB923C"],
-        "colors": {
-          "primary_color": "#F59E0B",
-          "secondary_color": "#0369A1",
-          "accent_color": "#FB923C",
-          "background_color": "#FFFBF5",
-          "text_color": "#1C1917",
-          "light_color": "#FFFBF5",
-          "link_color": "#F59E0B",
-          "header_bg_color": "#0369A1",
-          "header_text_color": "#FFFFFF",
-          "footer_bg_color": "#075985",
-          "footer_text_color": "#F0F9FF",
-          "action_color": "#F59E0B"
-        }
-      },
-      "coastal_elegance": {
-        "id": "coastal_elegance",
-        "name": "Coastal Elegance",
-        "description": "Refined navy with sandy beige accents",
-        "preview_colors": ["#1E3A8A", "#B8903C", "#E8DCC4"],
-        "colors": {
-          "primary_color": "#1E3A8A",
-          "secondary_color": "#B8903C",
-          "accent_color": "#E8DCC4",
-          "background_color": "#FEFEFE",
-          "text_color": "#1E293B",
-          "light_color": "#F8FAFC",
-          "link_color": "#1E3A8A",
-          "header_bg_color": "#1E3A8A",
-          "header_text_color": "#FFFFFF",
-          "footer_bg_color": "#1E293B",
-          "footer_text_color": "#E2E8F0",
-          "action_color": "#B8903C"
-        }
-      },
-      "surf_vibes": {
-        "id": "surf_vibes",
-        "name": "Surf Vibes",
-        "description": "Vibrant turquoise with coral accents",
-        "preview_colors": ["#06B6D4", "#F97316", "#FDE047"],
-        "colors": {
-          "primary_color": "#06B6D4",
-          "secondary_color": "#F97316",
-          "accent_color": "#FDE047",
-          "background_color": "#F0FDFA",
-          "text_color": "#134E4A",
-          "light_color": "#F0FDFA",
-          "link_color": "#06B6D4",
-          "header_bg_color": "#0E7490",
-          "header_text_color": "#FFFFFF",
-          "footer_bg_color": "#164E63",
-          "footer_text_color": "#ECFEFF",
-          "action_color": "#F97316"
-        }
-      }
-    },
+    "tags": [
+      "coastal",
+      "french",
+      "basque",
+      "elegant",
+      "ocean"
+    ],
     "supports": {
       "page_parts": [
         "heroes/hero_centered",
@@ -1186,8 +1081,17 @@
         "form_and_map",
         "search_cmpt"
       ],
-      "layouts": ["default", "landing", "full_width", "sidebar"],
-      "color_schemes": ["light", "coastal", "warm"],
+      "layouts": [
+        "default",
+        "landing",
+        "full_width",
+        "sidebar"
+      ],
+      "color_schemes": [
+        "light",
+        "coastal",
+        "warm"
+      ],
       "features": {
         "sticky_header": true,
         "back_to_top": true,
@@ -1238,19 +1142,38 @@
           "type": "font_select",
           "default": "Open Sans",
           "label": "Primary Font",
-          "options": ["Open Sans", "Inter", "DM Sans", "Outfit", "Poppins", "Lato"]
+          "options": [
+            "Open Sans",
+            "Inter",
+            "DM Sans",
+            "Outfit",
+            "Poppins",
+            "Lato"
+          ]
         },
         "font_heading": {
           "type": "font_select",
           "default": "Playfair Display",
           "label": "Heading Font",
-          "options": ["Playfair Display", "Montserrat", "Cormorant Garamond", "Merriweather", "Libre Baskerville"]
+          "options": [
+            "Playfair Display",
+            "Montserrat",
+            "Cormorant Garamond",
+            "Merriweather",
+            "Libre Baskerville"
+          ]
         },
         "font_size_base": {
           "type": "select",
           "default": "16px",
           "label": "Base Font Size",
-          "options": ["14px", "15px", "16px", "17px", "18px"]
+          "options": [
+            "14px",
+            "15px",
+            "16px",
+            "17px",
+            "18px"
+          ]
         }
       },
       "layout": {
@@ -1258,13 +1181,24 @@
           "type": "select",
           "default": "1280px",
           "label": "Container Width",
-          "options": ["1100px", "1200px", "1280px", "1400px"]
+          "options": [
+            "1100px",
+            "1200px",
+            "1280px",
+            "1400px"
+          ]
         },
         "border_radius": {
           "type": "select",
           "default": "12px",
           "label": "Border Radius",
-          "options": ["4px", "8px", "12px", "16px", "20px"]
+          "options": [
+            "4px",
+            "8px",
+            "12px",
+            "16px",
+            "20px"
+          ]
         }
       },
       "header": {
@@ -1272,7 +1206,12 @@
           "type": "select",
           "default": "default",
           "label": "Header Style",
-          "options": ["default", "transparent", "centered", "minimal"]
+          "options": [
+            "default",
+            "transparent",
+            "centered",
+            "minimal"
+          ]
         },
         "header_bg_color": {
           "type": "color",
@@ -1300,7 +1239,11 @@
           "type": "select",
           "default": "3",
           "label": "Footer Columns",
-          "options": ["2", "3", "4"]
+          "options": [
+            "2",
+            "3",
+            "4"
+          ]
         }
       },
       "buttons": {
@@ -1308,34 +1251,54 @@
           "type": "select",
           "default": "rounded",
           "label": "Button Style",
-          "options": ["square", "rounded", "pill"]
+          "options": [
+            "square",
+            "rounded",
+            "pill"
+          ]
         },
         "button_size": {
           "type": "select",
           "default": "medium",
           "label": "Button Size",
-          "options": ["small", "medium", "large"]
+          "options": [
+            "small",
+            "medium",
+            "large"
+          ]
         }
       }
     },
     "page_parts_config": {
       "heroes": {
         "default_variant": "hero_centered",
-        "available_variants": ["hero_centered", "hero_split", "hero_search"]
+        "available_variants": [
+          "hero_centered",
+          "hero_split",
+          "hero_search"
+        ]
       },
       "features": {
         "default_variant": "feature_grid_3col",
-        "available_variants": ["feature_grid_3col", "feature_cards_icons"]
+        "available_variants": [
+          "feature_grid_3col",
+          "feature_cards_icons"
+        ]
       },
       "testimonials": {
         "default_variant": "testimonial_carousel",
-        "available_variants": ["testimonial_carousel", "testimonial_grid"]
+        "available_variants": [
+          "testimonial_carousel",
+          "testimonial_grid"
+        ]
       },
       "cta": {
         "default_variant": "cta_split_image",
-        "available_variants": ["cta_banner", "cta_split_image"]
+        "available_variants": [
+          "cta_banner",
+          "cta_split_image"
+        ]
       }
     }
   }
 ]
-

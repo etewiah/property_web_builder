@@ -2,7 +2,11 @@
   "id": "dune_sand",
   "name": "Dune & Sand",
   "description": "Natural beach tones with organic warmth",
-  "preview_colors": ["#C2B280", "#5C4033", "#4A90A4"],
+  "preview_colors": [
+    "#C2B280",
+    "#5C4033",
+    "#4A90A4"
+  ],
   "is_default": false,
   "colors": {
     "primary_color": "#A67B5B",
@@ -14,8 +18,16 @@
     "header_text_color": "#3D3D3D",
     "footer_background_color": "#5C4033",
     "footer_text_color": "#E8E4DE",
-    "light_color": "#FDF8F0",
     "link_color": "#A67B5B",
-    "action_color": "#A67B5B"
+    "card_background_color": "#ffffff",
+    "card_text_color": "#3D3D3D",
+    "border_color": "#e5e7eb",
+    "surface_color": "#ffffff",
+    "surface_alt_color": "#f9fafb",
+    "success_color": "#10b981",
+    "warning_color": "#f59e0b",
+    "error_color": "#ef4444",
+    "muted_text_color": "#6b7280",
+    "link_hover_color": "#805535"
   }
 }

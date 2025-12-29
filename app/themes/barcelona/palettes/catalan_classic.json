@@ -2,7 +2,11 @@
   "id": "catalan_classic",
   "name": "Catalan Classic",
   "description": "Mediterranean blues with warm terracotta accents",
-  "preview_colors": ["#0B5394", "#B8503E", "#E5B45A"],
+  "preview_colors": [
+    "#0B5394",
+    "#B8503E",
+    "#E5B45A"
+  ],
   "is_default": true,
   "colors": {
     "primary_color": "#0B5394",
@@ -14,8 +18,16 @@
     "header_text_color": "#2D3436",
     "footer_background_color": "#1a365d",
     "footer_text_color": "#E2E8F0",
-    "light_color": "#FEFCF9",
     "link_color": "#0B5394",
-    "action_color": "#0B5394"
+    "card_background_color": "#ffffff",
+    "card_text_color": "#2D3436",
+    "border_color": "#e5e7eb",
+    "surface_color": "#ffffff",
+    "surface_alt_color": "#f9fafb",
+    "success_color": "#10b981",
+    "warning_color": "#f59e0b",
+    "error_color": "#ef4444",
+    "muted_text_color": "#6b7280",
+    "link_hover_color": "#002d6e"
   }
 }

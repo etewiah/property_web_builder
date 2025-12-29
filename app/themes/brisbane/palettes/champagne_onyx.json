@@ -2,7 +2,11 @@
   "id": "champagne_onyx",
   "name": "Champagne & Onyx",
   "description": "Ultra-luxury with refined sophistication",
-  "preview_colors": ["#F7E7CE", "#0A0A0A", "#D4AF37"],
+  "preview_colors": [
+    "#F7E7CE",
+    "#0A0A0A",
+    "#D4AF37"
+  ],
   "is_default": false,
   "colors": {
     "primary_color": "#D4AF37",
@@ -14,8 +18,16 @@
     "header_text_color": "#F7E7CE",
     "footer_background_color": "#0A0A0A",
     "footer_text_color": "#D4D4D4",
-    "light_color": "#F5F5F5",
     "link_color": "#D4AF37",
-    "action_color": "#D4AF37"
+    "card_background_color": "#ffffff",
+    "card_text_color": "#1A1A1A",
+    "border_color": "#e5e7eb",
+    "surface_color": "#ffffff",
+    "surface_alt_color": "#f9fafb",
+    "success_color": "#10b981",
+    "warning_color": "#f59e0b",
+    "error_color": "#ef4444",
+    "muted_text_color": "#6b7280",
+    "link_hover_color": "#ae8911"
   }
 }

@@ -2,7 +2,11 @@
   "id": "storm_gray",
   "name": "Storm Gray",
   "description": "Dramatic coastal moods with modern edge",
-  "preview_colors": ["#475569", "#FFFFFF", "#0EA5E9"],
+  "preview_colors": [
+    "#475569",
+    "#FFFFFF",
+    "#0EA5E9"
+  ],
   "is_default": false,
   "colors": {
     "primary_color": "#475569",
@@ -14,8 +18,16 @@
     "header_text_color": "#1E293B",
     "footer_background_color": "#1E293B",
     "footer_text_color": "#CBD5E1",
-    "light_color": "#F1F5F9",
     "link_color": "#475569",
-    "action_color": "#0EA5E9"
+    "card_background_color": "#ffffff",
+    "card_text_color": "#1E293B",
+    "border_color": "#e5e7eb",
+    "surface_color": "#ffffff",
+    "surface_alt_color": "#f9fafb",
+    "success_color": "#10b981",
+    "warning_color": "#f59e0b",
+    "error_color": "#ef4444",
+    "muted_text_color": "#6b7280",
+    "link_hover_color": "#212f43"
   }
 }

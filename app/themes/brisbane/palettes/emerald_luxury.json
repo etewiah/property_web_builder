@@ -2,7 +2,11 @@
   "id": "emerald_luxury",
   "name": "Emerald Luxury",
   "description": "Rich green with golden accents",
-  "preview_colors": ["#2d6a4f", "#1a1a2e", "#c9a962"],
+  "preview_colors": [
+    "#2d6a4f",
+    "#1a1a2e",
+    "#c9a962"
+  ],
   "is_default": false,
   "colors": {
     "primary_color": "#2d6a4f",
@@ -14,8 +18,16 @@
     "header_text_color": "#ffffff",
     "footer_background_color": "#1a1a2e",
     "footer_text_color": "#e8e8e8",
-    "light_color": "#f0f7f4",
     "link_color": "#2d6a4f",
-    "action_color": "#2d6a4f"
+    "card_background_color": "#ffffff",
+    "card_text_color": "#2d2d2d",
+    "border_color": "#e5e7eb",
+    "surface_color": "#ffffff",
+    "surface_alt_color": "#f9fafb",
+    "success_color": "#10b981",
+    "warning_color": "#f59e0b",
+    "error_color": "#ef4444",
+    "muted_text_color": "#6b7280",
+    "link_hover_color": "#074429"
   }
 }

@@ -2,7 +2,11 @@
   "id": "terracotta_classic",
   "name": "Terracotta Classic",
   "description": "Warm Mediterranean tones with earthy accents",
-  "preview_colors": ["#c45d3e", "#5c6b4d", "#d4a574"],
+  "preview_colors": [
+    "#c45d3e",
+    "#5c6b4d",
+    "#d4a574"
+  ],
   "is_default": true,
   "colors": {
     "primary_color": "#c45d3e",
@@ -14,8 +18,16 @@
     "header_text_color": "#3d3d3d",
     "footer_background_color": "#3d3d3d",
     "footer_text_color": "#d5d0c8",
-    "light_color": "#faf9f7",
     "link_color": "#c45d3e",
-    "action_color": "#c45d3e"
+    "card_background_color": "#ffffff",
+    "card_text_color": "#3d3d3d",
+    "border_color": "#e5e7eb",
+    "surface_color": "#ffffff",
+    "surface_alt_color": "#f9fafb",
+    "success_color": "#10b981",
+    "warning_color": "#f59e0b",
+    "error_color": "#ef4444",
+    "muted_text_color": "#6b7280",
+    "link_hover_color": "#9e3718"
   }
 }

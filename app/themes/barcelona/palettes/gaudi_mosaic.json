@@ -2,7 +2,11 @@
   "id": "gaudi_mosaic",
   "name": "Gaudi Mosaic",
   "description": "Colorful and artistic inspired by trencadis mosaics",
-  "preview_colors": ["#2D6A4F", "#E07A5F", "#F4D35E"],
+  "preview_colors": [
+    "#2D6A4F",
+    "#E07A5F",
+    "#F4D35E"
+  ],
   "is_default": false,
   "colors": {
     "primary_color": "#2D6A4F",
@@ -14,8 +18,16 @@
     "header_text_color": "#2D3436",
     "footer_background_color": "#264653",
     "footer_text_color": "#E9ECEF",
-    "light_color": "#FFFBF5",
     "link_color": "#2D6A4F",
-    "action_color": "#2D6A4F"
+    "card_background_color": "#ffffff",
+    "card_text_color": "#2D3436",
+    "border_color": "#e5e7eb",
+    "surface_color": "#ffffff",
+    "surface_alt_color": "#f9fafb",
+    "success_color": "#10b981",
+    "warning_color": "#f59e0b",
+    "error_color": "#ef4444",
+    "muted_text_color": "#6b7280",
+    "link_hover_color": "#074429"
   }
 }
