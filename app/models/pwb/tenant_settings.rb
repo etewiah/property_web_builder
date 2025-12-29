@@ -8,21 +8,21 @@ module Pwb
   #   Pwb::TenantSettings.instance.default_available_themes
   #   Pwb::TenantSettings.default_themes
   #
-  # == Schema Information
-  #
-  # Table name: pwb_tenant_settings
-  #
-  #  id                       :bigint           not null, primary key
-  #  singleton_key            :string           default("default"), not null
-  #  default_available_themes :text             default([]), is an Array
-  #  configuration            :jsonb            default({})
-  #  created_at               :datetime         not null
-  #  updated_at               :datetime         not null
-  #
-  # Indexes
-  #
-  #  index_pwb_tenant_settings_on_singleton_key  (singleton_key) UNIQUE
-  #
+# == Schema Information
+#
+# Table name: pwb_tenant_settings
+#
+#  id                       :bigint           not null, primary key
+#  configuration            :jsonb
+#  default_available_themes :text             default([]), is an Array
+#  singleton_key            :string           default("default"), not null
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#
+# Indexes
+#
+#  index_pwb_tenant_settings_on_singleton_key  (singleton_key) UNIQUE
+#
   class TenantSettings < ApplicationRecord
     self.table_name = 'pwb_tenant_settings'
 

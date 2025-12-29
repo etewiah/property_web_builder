@@ -1,5 +1,20 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_tenant_settings
+#
+#  id                       :bigint           not null, primary key
+#  configuration            :jsonb
+#  default_available_themes :text             default([]), is an Array
+#  singleton_key            :string           default("default"), not null
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#
+# Indexes
+#
+#  index_pwb_tenant_settings_on_singleton_key  (singleton_key) UNIQUE
+#
 require 'rails_helper'
 
 module Pwb
