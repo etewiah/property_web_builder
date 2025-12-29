@@ -108,6 +108,10 @@ module Pwb
 
     belongs_to :website, class_name: 'Pwb::Website', optional: true
 
+    # Listing associations - these can be eager loaded to avoid N+1 queries
+    belongs_to :sale_listing, class_name: 'Pwb::SaleListing', optional: true
+    belongs_to :rental_listing, class_name: 'Pwb::RentalListing', optional: true
+
     has_many :prop_photos,
              -> { order(:sort_order) },
              class_name: 'Pwb::PropPhoto',
@@ -125,14 +129,6 @@ module Pwb
 
     def realty_asset
       Pwb::RealtyAsset.find(id)
-    end
-
-    def sale_listing
-      Pwb::SaleListing.find_by(id: sale_listing_id) if sale_listing_id.present?
-    end
-
-    def rental_listing
-      Pwb::RentalListing.find_by(id: rental_listing_id) if rental_listing_id.present?
     end
 
     # ============================================
