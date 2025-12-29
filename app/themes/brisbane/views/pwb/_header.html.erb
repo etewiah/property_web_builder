@@ -39,7 +39,7 @@
       <!-- Logo with Luxury Styling -->
       <%= link_to main_app.root_path(locale: locale), class: "flex items-center group" do %>
         <% if @current_website.logo_url %>
-          <img src="<%= @current_website.logo_url %>" alt="Logo" class="h-10 md:h-14 transition-transform duration-300 group-hover:scale-105" loading="eager" fetchpriority="high">
+          <img src="<%= @current_website.logo_url %>" alt="<%= company_display_name %>" class="h-10 md:h-14 transition-transform duration-300 group-hover:scale-105" loading="eager" fetchpriority="high">
         <% else %>
           <span class="font-serif text-2xl md:text-3xl text-luxury-navy tracking-wide"><%= company_display_name %></span>
         <% end %>
