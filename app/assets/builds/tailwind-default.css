@@ -2502,6 +2502,14 @@
   .italic {
     font-style: italic;
   }
+  .slashed-zero {
+    --tw-slashed-zero: slashed-zero;
+    font-variant-numeric: var(--tw-ordinal,) var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,);
+  }
+  .tabular-nums {
+    --tw-numeric-spacing: tabular-nums;
+    font-variant-numeric: var(--tw-ordinal,) var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,);
+  }
   .underline {
     text-decoration-line: underline;
   }
@@ -2632,11 +2640,6 @@
   .drop-shadow-lg {
     --tw-drop-shadow-size: drop-shadow(0 4px 4px var(--tw-drop-shadow-color, rgb(0 0 0 / 0.15)));
     --tw-drop-shadow: drop-shadow(var(--drop-shadow-lg));
-    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
-  }
-  .drop-shadow-md {
-    --tw-drop-shadow-size: drop-shadow(0 3px 3px var(--tw-drop-shadow-color, rgb(0 0 0 / 0.12)));
-    --tw-drop-shadow: drop-shadow(var(--drop-shadow-md));
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
   .grayscale {
@@ -5390,6 +5393,39 @@ input[type="checkbox"]:hover {
 .text-pwb-primary {
   color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
 }
+.text-pwb-primary-50 {
+  color: var(--pwb-primary-50, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 10%, white));
+  }
+}
+.text-pwb-primary-100 {
+  color: var(--pwb-primary-100, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 20%, white));
+  }
+}
+.text-pwb-primary-200 {
+  color: var(--pwb-primary-200, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 35%, white));
+  }
+}
+.text-pwb-primary-300 {
+  color: var(--pwb-primary-300, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 50%, white));
+  }
+}
+.text-pwb-primary-400 {
+  color: var(--pwb-primary-400, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, white));
+  }
+}
+.text-pwb-primary-500 {
+  color: var(--pwb-primary-500, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
+}
 .text-pwb-primary-600 {
   color: var(--pwb-primary-600, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
@@ -5447,6 +5483,24 @@ input[type="checkbox"]:hover {
     background-color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 20%, white));
   }
 }
+.bg-pwb-secondary-200 {
+  background-color: var(--pwb-secondary-200, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white));
+  }
+}
+.bg-pwb-secondary-300 {
+  background-color: var(--pwb-secondary-300, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 50%, white));
+  }
+}
+.bg-pwb-secondary-400 {
+  background-color: var(--pwb-secondary-400, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, white));
+  }
+}
 .bg-pwb-secondary-500 {
   background-color: var(--pwb-secondary-500, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
 }
@@ -5462,8 +5516,53 @@ input[type="checkbox"]:hover {
     background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black));
   }
 }
+.bg-pwb-secondary-800 {
+  background-color: var(--pwb-secondary-800, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 55%, black));
+  }
+}
+.bg-pwb-secondary-900 {
+  background-color: var(--pwb-secondary-900, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 40%, black));
+  }
+}
 .text-pwb-secondary {
   color: var(--pwb-secondary-color, var(--secondary-color, #64748b));
+}
+.text-pwb-secondary-50 {
+  color: var(--pwb-secondary-50, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 10%, white));
+  }
+}
+.text-pwb-secondary-100 {
+  color: var(--pwb-secondary-100, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 20%, white));
+  }
+}
+.text-pwb-secondary-200 {
+  color: var(--pwb-secondary-200, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white));
+  }
+}
+.text-pwb-secondary-300 {
+  color: var(--pwb-secondary-300, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 50%, white));
+  }
+}
+.text-pwb-secondary-400 {
+  color: var(--pwb-secondary-400, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, white));
+  }
+}
+.text-pwb-secondary-500 {
+  color: var(--pwb-secondary-500, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
 }
 .text-pwb-secondary-600 {
   color: var(--pwb-secondary-600, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
@@ -5475,6 +5574,18 @@ input[type="checkbox"]:hover {
   color: var(--pwb-secondary-700, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
     color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black));
+  }
+}
+.text-pwb-secondary-800 {
+  color: var(--pwb-secondary-800, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 55%, black));
+  }
+}
+.text-pwb-secondary-900 {
+  color: var(--pwb-secondary-900, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 40%, black));
   }
 }
 .border-pwb-secondary {
@@ -5528,6 +5639,36 @@ input[type="checkbox"]:hover {
 .hover\:text-pwb-primary:hover {
   color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
 }
+.hover\:text-pwb-primary-50:hover {
+  color: var(--pwb-primary-50, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 10%, white));
+  }
+}
+.hover\:text-pwb-primary-100:hover {
+  color: var(--pwb-primary-100, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 20%, white));
+  }
+}
+.hover\:text-pwb-primary-200:hover {
+  color: var(--pwb-primary-200, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 35%, white));
+  }
+}
+.hover\:text-pwb-primary-300:hover {
+  color: var(--pwb-primary-300, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 50%, white));
+  }
+}
+.hover\:text-pwb-primary-400:hover {
+  color: var(--pwb-primary-400, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, white));
+  }
+}
 .hover\:text-pwb-primary-600:hover {
   color: var(--pwb-primary-600, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
@@ -5558,8 +5699,62 @@ input[type="checkbox"]:hover {
     background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black));
   }
 }
+.hover\:bg-pwb-secondary-800:hover {
+  background-color: var(--pwb-secondary-800, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 55%, black));
+  }
+}
+.hover\:bg-pwb-secondary-900:hover {
+  background-color: var(--pwb-secondary-900, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 40%, black));
+  }
+}
 .hover\:text-pwb-secondary:hover {
   color: var(--pwb-secondary-color, var(--secondary-color, #64748b));
+}
+.hover\:text-pwb-secondary-50:hover {
+  color: var(--pwb-secondary-50, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 10%, white));
+  }
+}
+.hover\:text-pwb-secondary-100:hover {
+  color: var(--pwb-secondary-100, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 20%, white));
+  }
+}
+.hover\:text-pwb-secondary-200:hover {
+  color: var(--pwb-secondary-200, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white));
+  }
+}
+.hover\:text-pwb-secondary-300:hover {
+  color: var(--pwb-secondary-300, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 50%, white));
+  }
+}
+.hover\:text-pwb-secondary-400:hover {
+  color: var(--pwb-secondary-400, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, white));
+  }
+}
+.hover\:text-pwb-secondary-600:hover {
+  color: var(--pwb-secondary-600, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 85%, black));
+  }
+}
+.hover\:text-pwb-secondary-700:hover {
+  color: var(--pwb-secondary-700, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black));
+  }
 }
 .focus\:ring-pwb-primary:focus {
   --tw-ring-color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
@@ -5809,6 +6004,26 @@ input[type="checkbox"]:hover {
   syntax: "*";
   inherits: false;
 }
+@property --tw-ordinal {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-slashed-zero {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-numeric-figure {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-numeric-spacing {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-numeric-fraction {
+  syntax: "*";
+  inherits: false;
+}
 @property --tw-shadow {
   syntax: "*";
   inherits: false;
@@ -6026,6 +6241,11 @@ input[type="checkbox"]:hover {
       --tw-leading: initial;
       --tw-font-weight: initial;
       --tw-tracking: initial;
+      --tw-ordinal: initial;
+      --tw-slashed-zero: initial;
+      --tw-numeric-figure: initial;
+      --tw-numeric-spacing: initial;
+      --tw-numeric-fraction: initial;
       --tw-shadow: 0 0 #0000;
       --tw-shadow-color: initial;
       --tw-shadow-alpha: 100%;

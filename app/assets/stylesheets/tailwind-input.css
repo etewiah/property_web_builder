@@ -431,8 +431,14 @@ input[type="checkbox"]:hover {
 .bg-pwb-primary-800 { background-color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 55%, black)); }
 .bg-pwb-primary-900 { background-color: var(--pwb-primary-900, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 40%, black)); }
 
-/* Primary color utilities - text */
+/* Primary color utilities - text (full scale including light shades for dark backgrounds) */
 .text-pwb-primary { color: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
+.text-pwb-primary-50 { color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 10%, white)); }
+.text-pwb-primary-100 { color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 20%, white)); }
+.text-pwb-primary-200 { color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 35%, white)); }
+.text-pwb-primary-300 { color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 50%, white)); }
+.text-pwb-primary-400 { color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, white)); }
+.text-pwb-primary-500 { color: var(--pwb-primary-500, var(--pwb-primary-color, var(--primary-color, #3b82f6))); }
 .text-pwb-primary-600 { color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 85%, black)); }
 .text-pwb-primary-700 { color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black)); }
 .text-pwb-primary-800 { color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 55%, black)); }
@@ -450,14 +456,27 @@ input[type="checkbox"]:hover {
 .bg-pwb-secondary { background-color: var(--pwb-secondary-color, var(--secondary-color, #64748b)); }
 .bg-pwb-secondary-50 { background-color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 10%, white)); }
 .bg-pwb-secondary-100 { background-color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 20%, white)); }
+.bg-pwb-secondary-200 { background-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white)); }
+.bg-pwb-secondary-300 { background-color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 50%, white)); }
+.bg-pwb-secondary-400 { background-color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, white)); }
 .bg-pwb-secondary-500 { background-color: var(--pwb-secondary-500, var(--pwb-secondary-color, var(--secondary-color, #64748b))); }
 .bg-pwb-secondary-600 { background-color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 85%, black)); }
 .bg-pwb-secondary-700 { background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black)); }
+.bg-pwb-secondary-800 { background-color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 55%, black)); }
+.bg-pwb-secondary-900 { background-color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 40%, black)); }
 
-/* Secondary color utilities - text */
+/* Secondary color utilities - text (full scale for all contrast scenarios) */
 .text-pwb-secondary { color: var(--pwb-secondary-color, var(--secondary-color, #64748b)); }
+.text-pwb-secondary-50 { color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 10%, white)); }
+.text-pwb-secondary-100 { color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 20%, white)); }
+.text-pwb-secondary-200 { color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white)); }
+.text-pwb-secondary-300 { color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 50%, white)); }
+.text-pwb-secondary-400 { color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, white)); }
+.text-pwb-secondary-500 { color: var(--pwb-secondary-500, var(--pwb-secondary-color, var(--secondary-color, #64748b))); }
 .text-pwb-secondary-600 { color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 85%, black)); }
 .text-pwb-secondary-700 { color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black)); }
+.text-pwb-secondary-800 { color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 55%, black)); }
+.text-pwb-secondary-900 { color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 40%, black)); }
 
 /* Secondary color utilities - borders */
 .border-pwb-secondary { border-color: var(--pwb-secondary-color, var(--secondary-color, #64748b)); }
@@ -480,6 +499,11 @@ input[type="checkbox"]:hover {
 .hover\:bg-pwb-primary-700:hover { background-color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black)); }
 .hover\:bg-pwb-primary-800:hover { background-color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 55%, black)); }
 .hover\:text-pwb-primary:hover { color: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
+.hover\:text-pwb-primary-50:hover { color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 10%, white)); }
+.hover\:text-pwb-primary-100:hover { color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 20%, white)); }
+.hover\:text-pwb-primary-200:hover { color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 35%, white)); }
+.hover\:text-pwb-primary-300:hover { color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 50%, white)); }
+.hover\:text-pwb-primary-400:hover { color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, white)); }
 .hover\:text-pwb-primary-600:hover { color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 85%, black)); }
 .hover\:text-pwb-primary-700:hover { color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black)); }
 .hover\:border-pwb-primary:hover { border-color: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
@@ -488,7 +512,16 @@ input[type="checkbox"]:hover {
 .hover\:bg-pwb-secondary:hover { background-color: var(--pwb-secondary-color, var(--secondary-color, #64748b)); }
 .hover\:bg-pwb-secondary-600:hover { background-color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 85%, black)); }
 .hover\:bg-pwb-secondary-700:hover { background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black)); }
+.hover\:bg-pwb-secondary-800:hover { background-color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 55%, black)); }
+.hover\:bg-pwb-secondary-900:hover { background-color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 40%, black)); }
 .hover\:text-pwb-secondary:hover { color: var(--pwb-secondary-color, var(--secondary-color, #64748b)); }
+.hover\:text-pwb-secondary-50:hover { color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 10%, white)); }
+.hover\:text-pwb-secondary-100:hover { color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 20%, white)); }
+.hover\:text-pwb-secondary-200:hover { color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white)); }
+.hover\:text-pwb-secondary-300:hover { color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 50%, white)); }
+.hover\:text-pwb-secondary-400:hover { color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, white)); }
+.hover\:text-pwb-secondary-600:hover { color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 85%, black)); }
+.hover\:text-pwb-secondary-700:hover { color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black)); }
 
 /* Focus variants */
 .focus\:ring-pwb-primary:focus { --tw-ring-color: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
