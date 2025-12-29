@@ -26,15 +26,15 @@
         - label: style
           isSingleLineText: "true"
   template: |
-    <section class="cta-banner py-16 bg-primary text-white">
+    <section class="cta-banner py-16 bg-pwb-primary text-white">
       <div class="max-w-4xl mx-auto px-4 text-center">
         <h2 class="text-3xl font-bold mb-4">{{ page_part["title"]["content"] }}</h2>
         {% if page_part["subtitle"]["content"] %}
-          <p class="text-xl opacity-90 mb-8">{{ page_part["subtitle"]["content"] }}</p>
+          <p class="text-xl text-pwb-primary-100 mb-8">{{ page_part["subtitle"]["content"] }}</p>
         {% endif %}
         <div class="flex flex-wrap justify-center gap-4">
           {% if page_part["button_text"]["content"] %}
-            <a href="{{ page_part["button_link"]["content"] }}" class="px-8 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition">
+            <a href="{{ page_part["button_link"]["content"] }}" class="px-8 py-3 bg-white text-pwb-primary-900 font-semibold rounded-lg hover:bg-pwb-primary-50 transition">
               {{ page_part["button_text"]["content"] }}
             </a>
           {% endif %}

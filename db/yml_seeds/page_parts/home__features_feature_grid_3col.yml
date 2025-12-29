@@ -40,16 +40,16 @@
         - label: feature_3_link
           isSingleLineText: "true"
   template: |
-    <section class="services-section-wrapper py-16 bg-gray-50" id="home-services">
+    <section class="services-section-wrapper py-16 bg-pwb-secondary-50" id="home-services">
       <div class="services-container max-w-6xl mx-auto px-4">
         {% if page_part["section_title"]["content"] != blank %}
           <div class="text-center mb-12">
             {% if page_part["section_pretitle"]["content"] != blank %}
-              <p class="text-sm uppercase tracking-widest text-amber-700 mb-2">{{ page_part["section_pretitle"]["content"] }}</p>
+              <p class="text-sm uppercase tracking-widest text-pwb-accent mb-2">{{ page_part["section_pretitle"]["content"] }}</p>
             {% endif %}
-            <h2 class="text-3xl font-bold text-gray-900 mb-4">{{ page_part["section_title"]["content"] }}</h2>
+            <h2 class="text-3xl font-bold text-pwb-secondary-900 mb-4">{{ page_part["section_title"]["content"] }}</h2>
             {% if page_part["section_subtitle"]["content"] != blank %}
-              <p class="text-lg text-gray-600 max-w-2xl mx-auto">{{ page_part["section_subtitle"]["content"] }}</p>
+              <p class="text-lg text-pwb-secondary-600 max-w-2xl mx-auto">{{ page_part["section_subtitle"]["content"] }}</p>
             {% endif %}
           </div>
         {% endif %}
@@ -57,36 +57,36 @@
           {% if page_part["feature_1_title"]["content"] != blank %}
             <div class="service-card bg-white p-8 rounded-lg shadow-md text-center hover:shadow-lg transition">
               {% if page_part["feature_1_icon"]["content"] != blank %}
-                <div class="service-icon-wrapper text-4xl text-amber-700 mb-4">{{ page_part["feature_1_icon"]["content"] | material_icon: "xl" }}</div>
+                <div class="service-icon-wrapper text-4xl text-pwb-accent mb-4">{{ page_part["feature_1_icon"]["content"] | material_icon: "xl" }}</div>
               {% endif %}
-              <h3 class="service-title text-xl font-semibold text-gray-900 mb-3">{{ page_part["feature_1_title"]["content"] }}</h3>
-              <p class="service-content text-gray-600">{{ page_part["feature_1_description"]["content"] }}</p>
+              <h3 class="service-title text-xl font-semibold text-pwb-secondary-900 mb-3">{{ page_part["feature_1_title"]["content"] }}</h3>
+              <p class="service-content text-pwb-secondary-600">{{ page_part["feature_1_description"]["content"] }}</p>
               {% if page_part["feature_1_link"]["content"] != blank %}
-                <a href="{{ page_part["feature_1_link"]["content"] }}" class="inline-block mt-4 text-amber-700 hover:underline">Learn more &rarr;</a>
+                <a href="{{ page_part["feature_1_link"]["content"] }}" class="inline-block mt-4 text-pwb-primary hover:text-pwb-primary-700 hover:underline">Learn more &rarr;</a>
               {% endif %}
             </div>
           {% endif %}
           {% if page_part["feature_2_title"]["content"] != blank %}
             <div class="service-card bg-white p-8 rounded-lg shadow-md text-center hover:shadow-lg transition">
               {% if page_part["feature_2_icon"]["content"] != blank %}
-                <div class="service-icon-wrapper text-4xl text-amber-700 mb-4">{{ page_part["feature_2_icon"]["content"] | material_icon: "xl" }}</div>
+                <div class="service-icon-wrapper text-4xl text-pwb-accent mb-4">{{ page_part["feature_2_icon"]["content"] | material_icon: "xl" }}</div>
               {% endif %}
-              <h3 class="service-title text-xl font-semibold text-gray-900 mb-3">{{ page_part["feature_2_title"]["content"] }}</h3>
-              <p class="service-content text-gray-600">{{ page_part["feature_2_description"]["content"] }}</p>
+              <h3 class="service-title text-xl font-semibold text-pwb-secondary-900 mb-3">{{ page_part["feature_2_title"]["content"] }}</h3>
+              <p class="service-content text-pwb-secondary-600">{{ page_part["feature_2_description"]["content"] }}</p>
               {% if page_part["feature_2_link"]["content"] != blank %}
-                <a href="{{ page_part["feature_2_link"]["content"] }}" class="inline-block mt-4 text-amber-700 hover:underline">Learn more &rarr;</a>
+                <a href="{{ page_part["feature_2_link"]["content"] }}" class="inline-block mt-4 text-pwb-primary hover:text-pwb-primary-700 hover:underline">Learn more &rarr;</a>
               {% endif %}
             </div>
           {% endif %}
           {% if page_part["feature_3_title"]["content"] != blank %}
             <div class="service-card bg-white p-8 rounded-lg shadow-md text-center hover:shadow-lg transition">
               {% if page_part["feature_3_icon"]["content"] != blank %}
-                <div class="service-icon-wrapper text-4xl text-amber-700 mb-4">{{ page_part["feature_3_icon"]["content"] | material_icon: "xl" }}</div>
+                <div class="service-icon-wrapper text-4xl text-pwb-accent mb-4">{{ page_part["feature_3_icon"]["content"] | material_icon: "xl" }}</div>
               {% endif %}
-              <h3 class="service-title text-xl font-semibold text-gray-900 mb-3">{{ page_part["feature_3_title"]["content"] }}</h3>
-              <p class="service-content text-gray-600">{{ page_part["feature_3_description"]["content"] }}</p>
+              <h3 class="service-title text-xl font-semibold text-pwb-secondary-900 mb-3">{{ page_part["feature_3_title"]["content"] }}</h3>
+              <p class="service-content text-pwb-secondary-600">{{ page_part["feature_3_description"]["content"] }}</p>
               {% if page_part["feature_3_link"]["content"] != blank %}
-                <a href="{{ page_part["feature_3_link"]["content"] }}" class="inline-block mt-4 text-amber-700 hover:underline">Learn more &rarr;</a>
+                <a href="{{ page_part["feature_3_link"]["content"] }}" class="inline-block mt-4 text-pwb-primary hover:text-pwb-primary-700 hover:underline">Learn more &rarr;</a>
               {% endif %}
             </div>
           {% endif %}

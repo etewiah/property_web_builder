@@ -26,25 +26,25 @@
         - label: bg_style
           isSingleLineText: "true"
   template: |
-    <section class="cta-split py-16 bg-gray-50">
+    <section class="cta-split py-16 bg-pwb-secondary-50">
       <div class="max-w-6xl mx-auto px-4">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div class="cta-content">
             {% if page_part["pretitle"]["content"] != blank %}
-              <p class="text-sm uppercase tracking-widest text-primary mb-2">{{ page_part["pretitle"]["content"] }}</p>
+              <p class="text-sm uppercase tracking-widest text-pwb-primary mb-2">{{ page_part["pretitle"]["content"] }}</p>
             {% endif %}
-            <h2 class="text-3xl font-bold text-gray-900 mb-4">{{ page_part["title"]["content"] }}</h2>
+            <h2 class="text-3xl font-bold text-pwb-secondary-900 mb-4">{{ page_part["title"]["content"] }}</h2>
             {% if page_part["description"]["content"] != blank %}
-              <p class="text-lg text-gray-600 mb-6">{{ page_part["description"]["content"] }}</p>
+              <p class="text-lg text-pwb-secondary-600 mb-6">{{ page_part["description"]["content"] }}</p>
             {% endif %}
             {% if page_part["features"]["content"] != blank %}
-              <div class="features-list mb-8 [&_ul]:space-y-3 [&_li]:flex [&_li]:items-start [&_li]:gap-3 [&_li]:text-gray-700 [&_li]:before:content-['✓'] [&_li]:before:text-primary [&_li]:before:font-bold [&_li]:before:text-lg">
+              <div class="features-list mb-8 [&_ul]:space-y-3 [&_li]:flex [&_li]:items-start [&_li]:gap-3 [&_li]:text-pwb-secondary-700 [&_li]:before:content-['✓'] [&_li]:before:text-pwb-primary [&_li]:before:font-bold [&_li]:before:text-lg">
                 {{ page_part["features"]["content"] }}
               </div>
             {% endif %}
             {% assign btn_text = page_part["button_text"]["content"] | strip %}
             {% if btn_text != blank and btn_text != "" %}
-              <a href="{{ page_part["button_link"]["content"] }}" class="inline-block px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition">
+              <a href="{{ page_part["button_link"]["content"] }}" class="inline-block px-8 py-3 bg-pwb-primary text-white font-semibold rounded-lg hover:bg-pwb-primary/90 transition">
                 {{ btn_text }}
               </a>
             {% endif %}

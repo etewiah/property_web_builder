@@ -38,7 +38,7 @@
           <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40"></div>
         </div>
       {% else %}
-        <div class="absolute inset-0 bg-gradient-to-br from-primary to-secondary z-0"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-pwb-primary to-pwb-secondary z-0"></div>
       {% endif %}
       <div class="hero-content-wrapper relative z-10 text-center px-4 max-w-4xl mx-auto">
         {% if page_part["pretitle"]["content"] %}
@@ -52,7 +52,7 @@
         {% endif %}
         <div class="flex flex-wrap justify-center gap-4">
           {% if page_part["cta_text"]["content"] %}
-            <a href="{{ page_part["cta_link"]["content"] }}" class="px-8 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition">
+            <a href="{{ page_part["cta_link"]["content"] }}" class="px-8 py-3 bg-white text-pwb-primary-900 font-semibold rounded-lg hover:bg-pwb-primary-50 transition">
               {{ page_part["cta_text"]["content"] }}
             </a>
           {% endif %}
