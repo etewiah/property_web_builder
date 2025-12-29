@@ -43,6 +43,7 @@
     --color-yellow-600: oklch(68.1% 0.162 75.834);
     --color-yellow-700: oklch(55.4% 0.135 66.442);
     --color-yellow-800: oklch(47.6% 0.114 61.907);
+    --color-lime-400: oklch(84.1% 0.238 128.85);
     --color-green-50: oklch(98.2% 0.018 155.826);
     --color-green-100: oklch(96.2% 0.044 156.743);
     --color-green-200: oklch(92.5% 0.084 155.995);
@@ -54,8 +55,10 @@
     --color-green-800: oklch(44.8% 0.119 151.328);
     --color-teal-100: oklch(95.3% 0.051 180.801);
     --color-teal-500: oklch(70.4% 0.14 182.503);
+    --color-teal-600: oklch(60% 0.118 184.704);
     --color-teal-800: oklch(43.7% 0.078 188.216);
     --color-cyan-100: oklch(95.6% 0.045 203.388);
+    --color-cyan-500: oklch(71.5% 0.143 215.221);
     --color-cyan-700: oklch(52% 0.105 223.128);
     --color-sky-100: oklch(95.1% 0.026 236.824);
     --color-sky-200: oklch(90.1% 0.058 230.902);
@@ -182,8 +185,9 @@
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
     --radius: var(--border-radius, 0.375rem);
-    --color-primary: var(--primary-color, #3b82f6);
-    --color-secondary: var(--secondary-color, #64748b);
+    --color-primary: var(--pwb-primary-color, #3b82f6);
+    --color-secondary: var(--pwb-secondary-color, #64748b);
+    --color-accent: var(--pwb-accent-color, #f59e0b);
     --font-family-sans: 'Open Sans', var(--font-primary, system-ui, sans-serif);
   }
 }
@@ -336,6 +340,9 @@
   }
 }
 @layer utilities {
+  .\@container {
+    container-type: inline-size;
+  }
   .pointer-events-none {
     pointer-events: none;
   }
@@ -734,6 +741,9 @@
   .inline-flex {
     display: inline-flex;
   }
+  .list-item {
+    display: list-item;
+  }
   .table {
     display: table;
   }
@@ -1018,6 +1028,9 @@
   }
   .flex-shrink-0 {
     flex-shrink: 0;
+  }
+  .shrink {
+    flex-shrink: 1;
   }
   .flex-grow {
     flex-grow: 1;
@@ -1588,6 +1601,9 @@
   }
   .bg-\[var\(--pwb-primary\)\] {
     background-color: var(--pwb-primary);
+  }
+  .bg-accent {
+    background-color: var(--color-accent);
   }
   .bg-amber-50 {
     background-color: var(--color-amber-50);
@@ -2282,6 +2298,9 @@
   .text-\[var\(--secondary-color\)\] {
     color: var(--secondary-color);
   }
+  .text-accent {
+    color: var(--color-accent);
+  }
   .text-amber-100 {
     color: var(--color-amber-100);
   }
@@ -2726,6 +2745,9 @@
   .ease-out {
     --tw-ease: var(--ease-out);
     transition-timing-function: var(--ease-out);
+  }
+  .\[xml\:lang\] {
+    xml: lang;
   }
   .group-open\:rotate-90 {
     &:is(:where(.group):is([open], :popover-open, :open) *) {

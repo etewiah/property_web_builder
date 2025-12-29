@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: var(--pwb-primary-color);
+  --color-secondary: var(--pwb-secondary-color);
+  --color-accent: var(--pwb-accent-color);
+}
+
 /* Biarritz Theme - Coastal French Basque Aesthetic */
 /* High-contrast, accessible design with ocean blues and warm sand tones */
 

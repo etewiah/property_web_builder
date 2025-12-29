@@ -67,8 +67,9 @@
   --color-luxury-pearl: #f5f3f0;
 
   /* Primary colors */
-  --color-primary: #1a2744;
-  --color-secondary: #c9a962;
+  --color-primary: var(--pwb-primary-color);
+  --color-secondary: var(--pwb-secondary-color);
+  --color-accent: var(--pwb-accent-color);
 
   /* Font families */
   --font-family-serif: 'Cormorant Garamond', Georgia, serif;

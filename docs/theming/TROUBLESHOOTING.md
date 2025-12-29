@@ -44,3 +44,29 @@ Legacy themes often use legacy keys (e.g., `footer_bg_color`) while new palettes
 
 **Solution:**
 Ensure the theme CSS uses the standard keys or maps the legacy keys to the standard PWB variables (e.g., `var(--pwb-footer-background-color)`).
+
+## Issue: Tailwind Utility Classes (e.g., bg-primary) Not Updating
+
+**Symptoms:**
+- You use classes like `bg-primary` or `text-primary` in your HTML.
+- Changing the palette does not update these colors.
+- Inspecting the element shows the class is using a hardcoded hex value.
+
+**Cause:**
+The Tailwind CSS build process may be using hardcoded values in the `@theme` configuration block within `app/assets/stylesheets/tailwind-*.css`.
+
+**Solution:**
+1. Update the `app/assets/stylesheets/tailwind-theme_name.css` file to use CSS variables in the `@theme` block.
+
+```css
+@theme {
+  --color-primary: var(--pwb-primary-color);
+  --color-secondary: var(--pwb-secondary-color);
+  --color-accent: var(--pwb-accent-color);
+}
+```
+
+2. Rebuild the Tailwind CSS assets:
+```bash
+npm run tailwind:build
+```

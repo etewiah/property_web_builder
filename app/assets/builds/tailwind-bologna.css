@@ -43,6 +43,7 @@
     --color-yellow-600: oklch(68.1% 0.162 75.834);
     --color-yellow-700: oklch(55.4% 0.135 66.442);
     --color-yellow-800: oklch(47.6% 0.114 61.907);
+    --color-lime-400: oklch(84.1% 0.238 128.85);
     --color-green-50: oklch(98.2% 0.018 155.826);
     --color-green-100: oklch(96.2% 0.044 156.743);
     --color-green-200: oklch(92.5% 0.084 155.995);
@@ -54,8 +55,10 @@
     --color-green-800: oklch(44.8% 0.119 151.328);
     --color-teal-100: oklch(95.3% 0.051 180.801);
     --color-teal-500: oklch(70.4% 0.14 182.503);
+    --color-teal-600: oklch(60% 0.118 184.704);
     --color-teal-800: oklch(43.7% 0.078 188.216);
     --color-cyan-100: oklch(95.6% 0.045 203.388);
+    --color-cyan-500: oklch(71.5% 0.143 215.221);
     --color-cyan-700: oklch(52% 0.105 223.128);
     --color-sky-100: oklch(95.1% 0.026 236.824);
     --color-sky-200: oklch(90.1% 0.058 230.902);
@@ -208,9 +211,9 @@
     --color-warm-gray-700: #6a6156;
     --color-warm-gray-800: #584f47;
     --color-warm-gray-900: #3d3d3d;
-    --color-primary: #c45d3e;
-    --color-secondary: #5c6b4d;
-    --color-accent: #d4a574;
+    --color-primary: var(--pwb-primary-color);
+    --color-secondary: var(--pwb-secondary-color);
+    --color-accent: var(--pwb-accent-color);
     --font-family-sans: 'DM Sans', system-ui, sans-serif;
     --font-family-display: 'Outfit', system-ui, sans-serif;
     --radius-soft: 16px;
@@ -372,6 +375,9 @@
   }
 }
 @layer utilities {
+  .\@container {
+    container-type: inline-size;
+  }
   .pointer-events-none {
     pointer-events: none;
   }
@@ -770,6 +776,9 @@
   .inline-flex {
     display: inline-flex;
   }
+  .list-item {
+    display: list-item;
+  }
   .table {
     display: table;
   }
@@ -1054,6 +1063,9 @@
   }
   .flex-shrink-0 {
     flex-shrink: 0;
+  }
+  .shrink {
+    flex-shrink: 1;
   }
   .flex-grow {
     flex-grow: 1;
@@ -2948,6 +2960,9 @@
     --tw-ease: var(--ease-out);
     transition-timing-function: var(--ease-out);
   }
+  .\[xml\:lang\] {
+    xml: lang;
+  }
   .group-open\:rotate-90 {
     &:is(:where(.group):is([open], :popover-open, :open) *) {
       rotate: 90deg;
@@ -3710,7 +3725,7 @@
   .hover\:bg-primary\/90 {
     &:hover {
       @media (hover: hover) {
-        background-color: color-mix(in srgb, #c45d3e 90%, transparent);
+        background-color: var(--color-primary);
         @supports (color: color-mix(in lab, red, red)) {
           background-color: color-mix(in oklab, var(--color-primary) 90%, transparent);
         }

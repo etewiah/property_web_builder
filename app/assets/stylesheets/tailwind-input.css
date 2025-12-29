@@ -80,8 +80,9 @@
 /* Base theme customizations shared by all themes */
 @theme {
   /* These are set via CSS variables for per-tenant customization */
-  --color-primary: var(--primary-color, #3b82f6);
-  --color-secondary: var(--secondary-color, #64748b);
+  --color-primary: var(--pwb-primary-color, #3b82f6);
+  --color-secondary: var(--pwb-secondary-color, #64748b);
+  --color-accent: var(--pwb-accent-color, #f59e0b);
   --color-services-bg: var(--services-bg-color, #f8fafc);
   --color-services-card: var(--services-card-bg, #ffffff);
   --color-services-text: var(--services-text-color, #1e293b);

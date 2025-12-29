@@ -55,9 +55,9 @@
   --color-warm-gray-900: #3d3d3d;
 
   /* Primary colors */
-  --color-primary: #c45d3e;
-  --color-secondary: #5c6b4d;
-  --color-accent: #d4a574;
+  --color-primary: var(--pwb-primary-color);
+  --color-secondary: var(--pwb-secondary-color);
+  --color-accent: var(--pwb-accent-color);
 
   /* Font families */
   --font-family-sans: 'DM Sans', system-ui, sans-serif;

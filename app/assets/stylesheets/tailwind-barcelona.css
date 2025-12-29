@@ -70,9 +70,9 @@
   --color-sky-900: #0c4a6e;
 
   /* Primary colors */
-  --color-primary: #0B5394;
-  --color-secondary: #B8503E;
-  --color-accent: #E5B45A;
+  --color-primary: var(--pwb-primary-color);
+  --color-secondary: var(--pwb-secondary-color);
+  --color-accent: var(--pwb-accent-color);
 
   /* Font families */
   --font-family-sans: 'Montserrat Variable', system-ui, sans-serif;
