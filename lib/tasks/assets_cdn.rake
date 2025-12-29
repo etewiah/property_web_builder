@@ -54,6 +54,69 @@ namespace :assets do
     )
   end
 
+  # Content type mapping for uploads
+  def content_type_for(ext)
+    {
+      ".js" => "application/javascript",
+      ".css" => "text/css",
+      ".png" => "image/png",
+      ".jpg" => "image/jpeg",
+      ".jpeg" => "image/jpeg",
+      ".gif" => "image/gif",
+      ".svg" => "image/svg+xml",
+      ".woff" => "font/woff",
+      ".woff2" => "font/woff2",
+      ".ttf" => "font/ttf",
+      ".eot" => "application/vnd.ms-fontobject",
+      ".otf" => "font/otf",
+      ".ico" => "image/x-icon",
+      ".map" => "application/json",
+      ".json" => "application/json",
+      ".webp" => "image/webp"
+    }[ext.downcase] || "application/octet-stream"
+  end
+
+  # Helper to sync a directory to R2
+  def sync_directory_to_r2(client, bucket, local_path, r2_prefix, cache_control: "public, max-age=31536000, immutable")
+    uploaded = 0
+    skipped = 0
+
+    Dir.glob("#{local_path}/**/*").each do |file_path|
+      next if File.directory?(file_path)
+
+      key = "#{r2_prefix}/#{file_path.sub("#{local_path}/", "")}"
+      ext = File.extname(file_path)
+      content_type = content_type_for(ext)
+
+      # Check if file already exists with same size
+      begin
+        head = client.head_object(bucket: bucket, key: key)
+        if head.content_length == File.size(file_path)
+          skipped += 1
+          next
+        end
+      rescue Aws::S3::Errors::NotFound
+        # File doesn't exist, will upload
+      end
+
+      # Upload with cache headers
+      File.open(file_path, "rb") do |file|
+        client.put_object(
+          bucket: bucket,
+          key: key,
+          body: file,
+          content_type: content_type,
+          cache_control: cache_control
+        )
+      end
+
+      uploaded += 1
+      puts "  Uploaded: #{key}" if ENV["VERBOSE"]
+    end
+
+    { uploaded: uploaded, skipped: skipped }
+  end
+
   desc "Sync compiled assets to Cloudflare R2 for CDN delivery"
   task sync_to_r2: :environment do
     bucket = assets_bucket
@@ -67,68 +130,34 @@ namespace :assets do
 
     puts "Syncing assets to R2 bucket: #{bucket}"
 
-    # Content type mapping
-    content_types = {
-      ".js" => "application/javascript",
-      ".css" => "text/css",
-      ".png" => "image/png",
-      ".jpg" => "image/jpeg",
-      ".jpeg" => "image/jpeg",
-      ".gif" => "image/gif",
-      ".svg" => "image/svg+xml",
-      ".woff" => "font/woff",
-      ".woff2" => "font/woff2",
-      ".ttf" => "font/ttf",
-      ".eot" => "application/vnd.ms-fontobject",
-      ".ico" => "image/x-icon",
-      ".map" => "application/json",
-      ".json" => "application/json",
-      ".webp" => "image/webp"
-    }
+    result = sync_directory_to_r2(client, bucket, assets_path, "assets")
 
-    uploaded = 0
-    skipped = 0
-
-    Dir.glob("#{assets_path}/**/*").each do |file_path|
-      next if File.directory?(file_path)
-
-      key = "assets/#{file_path.sub("#{assets_path}/", "")}"
-      ext = File.extname(file_path).downcase
-      content_type = content_types[ext] || "application/octet-stream"
-
-      # Check if file already exists with same size
-      begin
-        head = client.head_object(bucket: bucket, key: key)
-        if head.content_length == File.size(file_path)
-          skipped += 1
-          next
-        end
-      rescue Aws::S3::Errors::NotFound
-        # File doesn't exist, will upload
-      end
-
-      # Upload with cache headers (assets are digest-stamped, cache forever)
-      File.open(file_path, "rb") do |file|
-        client.put_object(
-          bucket: bucket,
-          key: key,
-          body: file,
-          content_type: content_type,
-          cache_control: "public, max-age=31536000, immutable"
-        )
-      end
-
-      uploaded += 1
-      puts "  Uploaded: #{key}" if ENV["VERBOSE"]
-    end
-
-    puts "Done! Uploaded: #{uploaded}, Skipped (unchanged): #{skipped}"
+    puts "Done! Uploaded: #{result[:uploaded]}, Skipped (unchanged): #{result[:skipped]}"
   end
 
-  desc "Precompile assets and sync to R2"
+  desc "Sync public/fonts to Cloudflare R2 for CDN delivery"
+  task sync_fonts_to_r2: :environment do
+    bucket = assets_bucket
+    client = assets_r2_client
+    fonts_path = Rails.root.join("public", "fonts")
+
+    unless fonts_path.exist?
+      puts "No fonts directory found at public/fonts."
+      exit 1
+    end
+
+    puts "Syncing fonts to R2 bucket: #{bucket}"
+
+    result = sync_directory_to_r2(client, bucket, fonts_path, "fonts")
+
+    puts "Done! Uploaded: #{result[:uploaded]}, Skipped (unchanged): #{result[:skipped]}"
+  end
+
+  desc "Precompile assets and sync to R2 (includes fonts)"
   task cdn_deploy: :environment do
     Rake::Task["assets:precompile"].invoke
     Rake::Task["assets:sync_to_r2"].invoke
+    Rake::Task["assets:sync_fonts_to_r2"].invoke
   end
 
   desc "Configure CORS on R2 bucket for CDN delivery"
