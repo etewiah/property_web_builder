@@ -419,150 +419,154 @@ input[type="checkbox"]:hover {
    set per-tenant via the palette system
    ========================================================================== */
 
-/* Primary color utilities - backgrounds */
-.bg-pwb-primary { background-color: var(--pwb-primary, var(--primary-color, #3b82f6)); }
-.bg-pwb-primary-50 { background-color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 10%, white)); }
-.bg-pwb-primary-100 { background-color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 20%, white)); }
-.bg-pwb-primary-200 { background-color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 35%, white)); }
-.bg-pwb-primary-300 { background-color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 50%, white)); }
-.bg-pwb-primary-400 { background-color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, white)); }
-.bg-pwb-primary-500 { background-color: var(--pwb-primary-500, var(--pwb-primary, var(--primary-color, #3b82f6))); }
-.bg-pwb-primary-600 { background-color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 85%, black)); }
-.bg-pwb-primary-700 { background-color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, black)); }
-.bg-pwb-primary-800 { background-color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 55%, black)); }
-.bg-pwb-primary-900 { background-color: var(--pwb-primary-900, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 40%, black)); }
+/* Primary color utilities - backgrounds
+   Uses --pwb-primary-color (set by palette_css) with fallback to --primary-color */
+.bg-pwb-primary { background-color: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
+.bg-pwb-primary-50 { background-color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 10%, white)); }
+.bg-pwb-primary-100 { background-color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 20%, white)); }
+.bg-pwb-primary-200 { background-color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 35%, white)); }
+.bg-pwb-primary-300 { background-color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 50%, white)); }
+.bg-pwb-primary-400 { background-color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, white)); }
+.bg-pwb-primary-500 { background-color: var(--pwb-primary-500, var(--pwb-primary-color, var(--primary-color, #3b82f6))); }
+.bg-pwb-primary-600 { background-color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 85%, black)); }
+.bg-pwb-primary-700 { background-color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black)); }
+.bg-pwb-primary-800 { background-color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 55%, black)); }
+.bg-pwb-primary-900 { background-color: var(--pwb-primary-900, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 40%, black)); }
 
 /* Primary color utilities - text (full scale including light shades for dark backgrounds) */
-.text-pwb-primary { color: var(--pwb-primary, var(--primary-color, #3b82f6)); }
-.text-pwb-primary-50 { color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 10%, white)); }
-.text-pwb-primary-100 { color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 20%, white)); }
-.text-pwb-primary-200 { color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 35%, white)); }
-.text-pwb-primary-300 { color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 50%, white)); }
-.text-pwb-primary-400 { color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, white)); }
-.text-pwb-primary-500 { color: var(--pwb-primary-500, var(--pwb-primary, var(--primary-color, #3b82f6))); }
-.text-pwb-primary-600 { color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 85%, black)); }
-.text-pwb-primary-700 { color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, black)); }
-.text-pwb-primary-800 { color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 55%, black)); }
-.text-pwb-primary-900 { color: var(--pwb-primary-900, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 40%, black)); }
+.text-pwb-primary { color: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
+.text-pwb-primary-50 { color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 10%, white)); }
+.text-pwb-primary-100 { color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 20%, white)); }
+.text-pwb-primary-200 { color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 35%, white)); }
+.text-pwb-primary-300 { color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 50%, white)); }
+.text-pwb-primary-400 { color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, white)); }
+.text-pwb-primary-500 { color: var(--pwb-primary-500, var(--pwb-primary-color, var(--primary-color, #3b82f6))); }
+.text-pwb-primary-600 { color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 85%, black)); }
+.text-pwb-primary-700 { color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black)); }
+.text-pwb-primary-800 { color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 55%, black)); }
+.text-pwb-primary-900 { color: var(--pwb-primary-900, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 40%, black)); }
 
 /* Primary color utilities - borders */
-.border-pwb-primary { border-color: var(--pwb-primary, var(--primary-color, #3b82f6)); }
-.border-pwb-primary-200 { border-color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 35%, white)); }
-.border-pwb-primary-300 { border-color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 50%, white)); }
+.border-pwb-primary { border-color: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
+.border-pwb-primary-200 { border-color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 35%, white)); }
+.border-pwb-primary-300 { border-color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 50%, white)); }
 
 /* Primary color utilities - ring */
-.ring-pwb-primary { --tw-ring-color: var(--pwb-primary, var(--primary-color, #3b82f6)); }
+.ring-pwb-primary { --tw-ring-color: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
 
-/* Secondary color utilities - backgrounds */
-.bg-pwb-secondary { background-color: var(--pwb-secondary, var(--secondary-color, #64748b)); }
-.bg-pwb-secondary-50 { background-color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 10%, white)); }
-.bg-pwb-secondary-100 { background-color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 20%, white)); }
-.bg-pwb-secondary-200 { background-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 35%, white)); }
-.bg-pwb-secondary-300 { background-color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 50%, white)); }
-.bg-pwb-secondary-400 { background-color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, white)); }
-.bg-pwb-secondary-500 { background-color: var(--pwb-secondary-500, var(--pwb-secondary, var(--secondary-color, #64748b))); }
-.bg-pwb-secondary-600 { background-color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 85%, black)); }
-.bg-pwb-secondary-700 { background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, black)); }
-.bg-pwb-secondary-800 { background-color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 55%, black)); }
-.bg-pwb-secondary-900 { background-color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 40%, black)); }
+/* Secondary color utilities - backgrounds
+   Uses --pwb-secondary-color (set by palette_css) with fallback to --secondary-color */
+.bg-pwb-secondary { background-color: var(--pwb-secondary-color, var(--secondary-color, #64748b)); }
+.bg-pwb-secondary-50 { background-color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 10%, white)); }
+.bg-pwb-secondary-100 { background-color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 20%, white)); }
+.bg-pwb-secondary-200 { background-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white)); }
+.bg-pwb-secondary-300 { background-color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 50%, white)); }
+.bg-pwb-secondary-400 { background-color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, white)); }
+.bg-pwb-secondary-500 { background-color: var(--pwb-secondary-500, var(--pwb-secondary-color, var(--secondary-color, #64748b))); }
+.bg-pwb-secondary-600 { background-color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 85%, black)); }
+.bg-pwb-secondary-700 { background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black)); }
+.bg-pwb-secondary-800 { background-color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 55%, black)); }
+.bg-pwb-secondary-900 { background-color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 40%, black)); }
 
 /* Secondary color utilities - text (full scale for all contrast scenarios) */
-.text-pwb-secondary { color: var(--pwb-secondary, var(--secondary-color, #64748b)); }
-.text-pwb-secondary-50 { color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 10%, white)); }
-.text-pwb-secondary-100 { color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 20%, white)); }
-.text-pwb-secondary-200 { color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 35%, white)); }
-.text-pwb-secondary-300 { color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 50%, white)); }
-.text-pwb-secondary-400 { color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, white)); }
-.text-pwb-secondary-500 { color: var(--pwb-secondary-500, var(--pwb-secondary, var(--secondary-color, #64748b))); }
-.text-pwb-secondary-600 { color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 85%, black)); }
-.text-pwb-secondary-700 { color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, black)); }
-.text-pwb-secondary-800 { color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 55%, black)); }
-.text-pwb-secondary-900 { color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 40%, black)); }
+.text-pwb-secondary { color: var(--pwb-secondary-color, var(--secondary-color, #64748b)); }
+.text-pwb-secondary-50 { color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 10%, white)); }
+.text-pwb-secondary-100 { color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 20%, white)); }
+.text-pwb-secondary-200 { color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white)); }
+.text-pwb-secondary-300 { color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 50%, white)); }
+.text-pwb-secondary-400 { color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, white)); }
+.text-pwb-secondary-500 { color: var(--pwb-secondary-500, var(--pwb-secondary-color, var(--secondary-color, #64748b))); }
+.text-pwb-secondary-600 { color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 85%, black)); }
+.text-pwb-secondary-700 { color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black)); }
+.text-pwb-secondary-800 { color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 55%, black)); }
+.text-pwb-secondary-900 { color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 40%, black)); }
 
 /* Secondary color utilities - borders */
-.border-pwb-secondary { border-color: var(--pwb-secondary, var(--secondary-color, #64748b)); }
-.border-pwb-secondary-200 { border-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 35%, white)); }
-.border-pwb-secondary-700 { border-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, black)); }
+.border-pwb-secondary { border-color: var(--pwb-secondary-color, var(--secondary-color, #64748b)); }
+.border-pwb-secondary-200 { border-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white)); }
+.border-pwb-secondary-700 { border-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black)); }
 
-/* Accent color utilities - backgrounds */
-.bg-pwb-accent { background-color: var(--pwb-accent, var(--accent-color, #f59e0b)); }
-.bg-pwb-accent-500 { background-color: var(--pwb-accent-500, var(--pwb-accent, var(--accent-color, #f59e0b))); }
-.bg-pwb-accent-600 { background-color: var(--pwb-accent-600, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 85%, black)); }
+/* Accent color utilities - backgrounds
+   Uses --pwb-accent-color (set by palette_css) with fallback to --accent-color */
+.bg-pwb-accent { background-color: var(--pwb-accent-color, var(--accent-color, #f59e0b)); }
+.bg-pwb-accent-500 { background-color: var(--pwb-accent-500, var(--pwb-accent-color, var(--accent-color, #f59e0b))); }
+.bg-pwb-accent-600 { background-color: var(--pwb-accent-600, color-mix(in srgb, var(--pwb-accent-color, var(--accent-color, #f59e0b)) 85%, black)); }
 
 /* Accent color utilities - text */
-.text-pwb-accent { color: var(--pwb-accent, var(--accent-color, #f59e0b)); }
-.text-pwb-accent-300 { color: var(--pwb-accent-300, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 50%, white)); }
-.text-pwb-accent-400 { color: var(--pwb-accent-400, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 70%, white)); }
-.text-pwb-accent-600 { color: var(--pwb-accent-600, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 85%, black)); }
+.text-pwb-accent { color: var(--pwb-accent-color, var(--accent-color, #f59e0b)); }
+.text-pwb-accent-300 { color: var(--pwb-accent-300, color-mix(in srgb, var(--pwb-accent-color, var(--accent-color, #f59e0b)) 50%, white)); }
+.text-pwb-accent-400 { color: var(--pwb-accent-400, color-mix(in srgb, var(--pwb-accent-color, var(--accent-color, #f59e0b)) 70%, white)); }
+.text-pwb-accent-600 { color: var(--pwb-accent-600, color-mix(in srgb, var(--pwb-accent-color, var(--accent-color, #f59e0b)) 85%, black)); }
 
 /* Accent color utilities - borders */
-.border-pwb-accent { border-color: var(--pwb-accent, var(--accent-color, #f59e0b)); }
+.border-pwb-accent { border-color: var(--pwb-accent-color, var(--accent-color, #f59e0b)); }
 
 /* Accent color utilities - ring */
-.ring-pwb-accent { --tw-ring-color: var(--pwb-accent, var(--accent-color, #f59e0b)); }
+.ring-pwb-accent { --tw-ring-color: var(--pwb-accent-color, var(--accent-color, #f59e0b)); }
 
 /* Hover variants for primary colors */
-.hover\:bg-pwb-primary:hover { background-color: var(--pwb-primary, var(--primary-color, #3b82f6)); }
-.hover\:bg-pwb-primary-50:hover { background-color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 10%, white)); }
-.hover\:bg-pwb-primary-200:hover { background-color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 35%, white)); }
-.hover\:bg-pwb-primary-600:hover { background-color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 85%, black)); }
-.hover\:bg-pwb-primary-700:hover { background-color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, black)); }
-.hover\:bg-pwb-primary-800:hover { background-color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 55%, black)); }
-.hover\:text-pwb-primary:hover { color: var(--pwb-primary, var(--primary-color, #3b82f6)); }
-.hover\:text-pwb-primary-50:hover { color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 10%, white)); }
-.hover\:text-pwb-primary-100:hover { color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 20%, white)); }
-.hover\:text-pwb-primary-200:hover { color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 35%, white)); }
-.hover\:text-pwb-primary-300:hover { color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 50%, white)); }
-.hover\:text-pwb-primary-400:hover { color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, white)); }
-.hover\:text-pwb-primary-600:hover { color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 85%, black)); }
-.hover\:text-pwb-primary-700:hover { color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, black)); }
-.hover\:border-pwb-primary:hover { border-color: var(--pwb-primary, var(--primary-color, #3b82f6)); }
+.hover\:bg-pwb-primary:hover { background-color: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
+.hover\:bg-pwb-primary-50:hover { background-color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 10%, white)); }
+.hover\:bg-pwb-primary-200:hover { background-color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 35%, white)); }
+.hover\:bg-pwb-primary-600:hover { background-color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 85%, black)); }
+.hover\:bg-pwb-primary-700:hover { background-color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black)); }
+.hover\:bg-pwb-primary-800:hover { background-color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 55%, black)); }
+.hover\:text-pwb-primary:hover { color: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
+.hover\:text-pwb-primary-50:hover { color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 10%, white)); }
+.hover\:text-pwb-primary-100:hover { color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 20%, white)); }
+.hover\:text-pwb-primary-200:hover { color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 35%, white)); }
+.hover\:text-pwb-primary-300:hover { color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 50%, white)); }
+.hover\:text-pwb-primary-400:hover { color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, white)); }
+.hover\:text-pwb-primary-600:hover { color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 85%, black)); }
+.hover\:text-pwb-primary-700:hover { color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black)); }
+.hover\:border-pwb-primary:hover { border-color: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
 
 /* Hover variants for secondary colors */
-.hover\:bg-pwb-secondary:hover { background-color: var(--pwb-secondary, var(--secondary-color, #64748b)); }
-.hover\:bg-pwb-secondary-200:hover { background-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 35%, white)); }
-.hover\:bg-pwb-secondary-600:hover { background-color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 85%, black)); }
-.hover\:bg-pwb-secondary-700:hover { background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, black)); }
-.hover\:bg-pwb-secondary-800:hover { background-color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 55%, black)); }
-.hover\:bg-pwb-secondary-900:hover { background-color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 40%, black)); }
-.hover\:text-pwb-secondary:hover { color: var(--pwb-secondary, var(--secondary-color, #64748b)); }
-.hover\:text-pwb-secondary-50:hover { color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 10%, white)); }
-.hover\:text-pwb-secondary-100:hover { color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 20%, white)); }
-.hover\:text-pwb-secondary-200:hover { color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 35%, white)); }
-.hover\:text-pwb-secondary-300:hover { color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 50%, white)); }
-.hover\:text-pwb-secondary-400:hover { color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, white)); }
-.hover\:text-pwb-secondary-600:hover { color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 85%, black)); }
-.hover\:text-pwb-secondary-700:hover { color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, black)); }
-.hover\:text-pwb-secondary-900:hover { color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 40%, black)); }
+.hover\:bg-pwb-secondary:hover { background-color: var(--pwb-secondary-color, var(--secondary-color, #64748b)); }
+.hover\:bg-pwb-secondary-100:hover { background-color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 20%, white)); }
+.hover\:bg-pwb-secondary-200:hover { background-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white)); }
+.hover\:bg-pwb-secondary-600:hover { background-color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 85%, black)); }
+.hover\:bg-pwb-secondary-700:hover { background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black)); }
+.hover\:bg-pwb-secondary-800:hover { background-color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 55%, black)); }
+.hover\:bg-pwb-secondary-900:hover { background-color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 40%, black)); }
+.hover\:text-pwb-secondary:hover { color: var(--pwb-secondary-color, var(--secondary-color, #64748b)); }
+.hover\:text-pwb-secondary-50:hover { color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 10%, white)); }
+.hover\:text-pwb-secondary-100:hover { color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 20%, white)); }
+.hover\:text-pwb-secondary-200:hover { color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white)); }
+.hover\:text-pwb-secondary-300:hover { color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 50%, white)); }
+.hover\:text-pwb-secondary-400:hover { color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, white)); }
+.hover\:text-pwb-secondary-600:hover { color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 85%, black)); }
+.hover\:text-pwb-secondary-700:hover { color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black)); }
+.hover\:text-pwb-secondary-900:hover { color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 40%, black)); }
 
 /* Hover variants for accent colors */
-.hover\:bg-pwb-accent:hover { background-color: var(--pwb-accent, var(--accent-color, #f59e0b)); }
-.hover\:text-pwb-accent:hover { color: var(--pwb-accent, var(--accent-color, #f59e0b)); }
-.hover\:text-pwb-accent-300:hover { color: var(--pwb-accent-300, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 50%, white)); }
-.hover\:text-pwb-accent-400:hover { color: var(--pwb-accent-400, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 70%, white)); }
-.hover\:border-pwb-accent:hover { border-color: var(--pwb-accent, var(--accent-color, #f59e0b)); }
+.hover\:bg-pwb-accent:hover { background-color: var(--pwb-accent-color, var(--accent-color, #f59e0b)); }
+.hover\:text-pwb-accent:hover { color: var(--pwb-accent-color, var(--accent-color, #f59e0b)); }
+.hover\:text-pwb-accent-300:hover { color: var(--pwb-accent-300, color-mix(in srgb, var(--pwb-accent-color, var(--accent-color, #f59e0b)) 50%, white)); }
+.hover\:text-pwb-accent-400:hover { color: var(--pwb-accent-400, color-mix(in srgb, var(--pwb-accent-color, var(--accent-color, #f59e0b)) 70%, white)); }
+.hover\:border-pwb-accent:hover { border-color: var(--pwb-accent-color, var(--accent-color, #f59e0b)); }
 
 /* Focus variants */
-.focus\:ring-pwb-primary:focus { --tw-ring-color: var(--pwb-primary, var(--primary-color, #3b82f6)); }
-.focus\:ring-pwb-accent:focus { --tw-ring-color: var(--pwb-accent, var(--accent-color, #f59e0b)); }
-.focus\:border-pwb-primary:focus { border-color: var(--pwb-primary, var(--primary-color, #3b82f6)); }
-.focus\:border-pwb-accent:focus { border-color: var(--pwb-accent, var(--accent-color, #f59e0b)); }
-.focus\:outline-pwb-primary:focus { outline-color: var(--pwb-primary, var(--primary-color, #3b82f6)); }
+.focus\:ring-pwb-primary:focus { --tw-ring-color: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
+.focus\:ring-pwb-accent:focus { --tw-ring-color: var(--pwb-accent-color, var(--accent-color, #f59e0b)); }
+.focus\:border-pwb-primary:focus { border-color: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
+.focus\:border-pwb-accent:focus { border-color: var(--pwb-accent-color, var(--accent-color, #f59e0b)); }
+.focus\:outline-pwb-primary:focus { outline-color: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
 
 /* Active variants */
-.active\:bg-pwb-primary-800:active { background-color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 55%, black)); }
+.active\:bg-pwb-primary-800:active { background-color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 55%, black)); }
 
 /* Gradient utilities with palette colors */
-.from-pwb-primary { --tw-gradient-from: var(--pwb-primary, var(--primary-color, #3b82f6)); }
-.to-pwb-primary { --tw-gradient-to: var(--pwb-primary, var(--primary-color, #3b82f6)); }
-.from-pwb-primary-600 { --tw-gradient-from: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 85%, black)); }
-.to-pwb-primary-700 { --tw-gradient-to: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, black)); }
-.from-pwb-secondary { --tw-gradient-from: var(--pwb-secondary, var(--secondary-color, #64748b)); }
-.to-pwb-secondary { --tw-gradient-to: var(--pwb-secondary, var(--secondary-color, #64748b)); }
+.from-pwb-primary { --tw-gradient-from: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
+.to-pwb-primary { --tw-gradient-to: var(--pwb-primary-color, var(--primary-color, #3b82f6)); }
+.from-pwb-primary-600 { --tw-gradient-from: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 85%, black)); }
+.to-pwb-primary-700 { --tw-gradient-to: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black)); }
+.from-pwb-secondary { --tw-gradient-from: var(--pwb-secondary-color, var(--secondary-color, #64748b)); }
+.to-pwb-secondary { --tw-gradient-to: var(--pwb-secondary-color, var(--secondary-color, #64748b)); }
 
 /* Button component classes using palette colors */
 .btn-pwb-primary {
-  background-color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  background-color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
@@ -570,15 +574,15 @@ input[type="checkbox"]:hover {
   transition: background-color 0.2s;
 }
 .btn-pwb-primary:hover {
-  background-color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, black));
+  background-color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black));
 }
 .btn-pwb-primary:focus {
-  outline: 2px solid var(--pwb-primary, var(--primary-color, #3b82f6));
+  outline: 2px solid var(--pwb-primary-color, var(--primary-color, #3b82f6));
   outline-offset: 2px;
 }
 
 .btn-pwb-secondary {
-  background-color: var(--pwb-secondary, var(--secondary-color, #64748b));
+  background-color: var(--pwb-secondary-color, var(--secondary-color, #64748b));
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
@@ -586,38 +590,38 @@ input[type="checkbox"]:hover {
   transition: background-color 0.2s;
 }
 .btn-pwb-secondary:hover {
-  background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, black));
+  background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black));
 }
 
 .btn-pwb-outline {
   background-color: transparent;
-  color: var(--pwb-primary, var(--primary-color, #3b82f6));
-  border: 2px solid var(--pwb-primary, var(--primary-color, #3b82f6));
+  color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
+  border: 2px solid var(--pwb-primary-color, var(--primary-color, #3b82f6));
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
   font-weight: 500;
   transition: all 0.2s;
 }
 .btn-pwb-outline:hover {
-  background-color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  background-color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
   color: white;
 }
 
 /* Link styles using palette colors */
 .link-pwb-primary {
-  color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
   text-decoration: none;
   transition: color 0.2s;
 }
 .link-pwb-primary:hover {
-  color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, black));
+  color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black));
   text-decoration: underline;
 }
 
 /* Badge/tag styles using palette colors */
 .badge-pwb-primary {
-  background-color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 20%, white));
-  color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 55%, black));
+  background-color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 20%, white));
+  color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 55%, black));
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   font-size: 0.875rem;

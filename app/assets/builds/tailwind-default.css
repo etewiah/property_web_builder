@@ -1611,6 +1611,9 @@
   .bg-amber-100 {
     background-color: var(--color-amber-100);
   }
+  .bg-amber-500 {
+    background-color: var(--color-amber-500);
+  }
   .bg-black {
     background-color: var(--color-black);
   }
@@ -1872,10 +1875,6 @@
     --tw-gradient-from: var(--color-pink-400);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
-  .from-primary {
-    --tw-gradient-from: var(--color-primary);
-    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
-  }
   .from-purple-400 {
     --tw-gradient-from: var(--color-purple-400);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
@@ -1952,10 +1951,6 @@
   }
   .to-rose-500 {
     --tw-gradient-to: var(--color-rose-500);
-    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
-  }
-  .to-secondary {
-    --tw-gradient-to: var(--color-secondary);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
   .to-teal-500 {
@@ -2562,9 +2557,6 @@
   }
   .opacity-60 {
     opacity: 60%;
-  }
-  .opacity-70 {
-    opacity: 70%;
   }
   .opacity-75 {
     opacity: 75%;
@@ -3457,16 +3449,6 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-pink-50);
-      }
-    }
-  }
-  .hover\:bg-primary\/90 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-primary);
-        @supports (color: color-mix(in lab, red, red)) {
-          background-color: color-mix(in oklab, var(--color-primary) 90%, transparent);
-        }
       }
     }
   }
@@ -5017,11 +4999,6 @@
       gap: calc(var(--spacing) * 3);
     }
   }
-  .\[\&_li\]\:text-gray-700 {
-    & li {
-      color: var(--color-gray-700);
-    }
-  }
   .\[\&_li\]\:before\:text-lg {
     & li {
       &::before {
@@ -5037,14 +5014,6 @@
         content: var(--tw-content);
         --tw-font-weight: var(--font-weight-bold);
         font-weight: var(--font-weight-bold);
-      }
-    }
-  }
-  .\[\&_li\]\:before\:text-primary {
-    & li {
-      &::before {
-        content: var(--tw-content);
-        color: var(--color-primary);
       }
     }
   }
@@ -5352,550 +5321,556 @@ input[type="checkbox"]:hover {
   }
 }
 .bg-pwb-primary {
-  background-color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  background-color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
 }
 .bg-pwb-primary-50 {
-  background-color: var(--pwb-primary-50, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-50, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 10%, white));
+    background-color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 10%, white));
   }
 }
 .bg-pwb-primary-100 {
-  background-color: var(--pwb-primary-100, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-100, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 20%, white));
+    background-color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 20%, white));
   }
 }
 .bg-pwb-primary-200 {
-  background-color: var(--pwb-primary-200, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-200, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 35%, white));
+    background-color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 35%, white));
   }
 }
 .bg-pwb-primary-300 {
-  background-color: var(--pwb-primary-300, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-300, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 50%, white));
+    background-color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 50%, white));
   }
 }
 .bg-pwb-primary-400 {
-  background-color: var(--pwb-primary-400, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-400, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, white));
+    background-color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, white));
   }
 }
 .bg-pwb-primary-500 {
-  background-color: var(--pwb-primary-500, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-500, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
 }
 .bg-pwb-primary-600 {
-  background-color: var(--pwb-primary-600, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-600, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 85%, black));
+    background-color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 85%, black));
   }
 }
 .bg-pwb-primary-700 {
-  background-color: var(--pwb-primary-700, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-700, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, black));
+    background-color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black));
   }
 }
 .bg-pwb-primary-800 {
-  background-color: var(--pwb-primary-800, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-800, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 55%, black));
+    background-color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 55%, black));
   }
 }
 .bg-pwb-primary-900 {
-  background-color: var(--pwb-primary-900, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-900, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-900, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 40%, black));
+    background-color: var(--pwb-primary-900, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 40%, black));
   }
 }
 .text-pwb-primary {
-  color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
 }
 .text-pwb-primary-50 {
-  color: var(--pwb-primary-50, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-50, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 10%, white));
+    color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 10%, white));
   }
 }
 .text-pwb-primary-100 {
-  color: var(--pwb-primary-100, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-100, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 20%, white));
+    color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 20%, white));
   }
 }
 .text-pwb-primary-200 {
-  color: var(--pwb-primary-200, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-200, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 35%, white));
+    color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 35%, white));
   }
 }
 .text-pwb-primary-300 {
-  color: var(--pwb-primary-300, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-300, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 50%, white));
+    color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 50%, white));
   }
 }
 .text-pwb-primary-400 {
-  color: var(--pwb-primary-400, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-400, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, white));
+    color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, white));
   }
 }
 .text-pwb-primary-500 {
-  color: var(--pwb-primary-500, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-500, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
 }
 .text-pwb-primary-600 {
-  color: var(--pwb-primary-600, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-600, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 85%, black));
+    color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 85%, black));
   }
 }
 .text-pwb-primary-700 {
-  color: var(--pwb-primary-700, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-700, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, black));
+    color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black));
   }
 }
 .text-pwb-primary-800 {
-  color: var(--pwb-primary-800, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-800, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 55%, black));
+    color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 55%, black));
   }
 }
 .text-pwb-primary-900 {
-  color: var(--pwb-primary-900, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-900, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-900, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 40%, black));
+    color: var(--pwb-primary-900, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 40%, black));
   }
 }
 .border-pwb-primary {
-  border-color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  border-color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
 }
 .border-pwb-primary-200 {
-  border-color: var(--pwb-primary-200, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  border-color: var(--pwb-primary-200, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    border-color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 35%, white));
+    border-color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 35%, white));
   }
 }
 .border-pwb-primary-300 {
-  border-color: var(--pwb-primary-300, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  border-color: var(--pwb-primary-300, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    border-color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 50%, white));
+    border-color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 50%, white));
   }
 }
 .ring-pwb-primary {
-  --tw-ring-color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  --tw-ring-color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
 }
 .bg-pwb-secondary {
-  background-color: var(--pwb-secondary, var(--secondary-color, #64748b));
+  background-color: var(--pwb-secondary-color, var(--secondary-color, #64748b));
 }
 .bg-pwb-secondary-50 {
-  background-color: var(--pwb-secondary-50, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-50, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 10%, white));
+    background-color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 10%, white));
   }
 }
 .bg-pwb-secondary-100 {
-  background-color: var(--pwb-secondary-100, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-100, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 20%, white));
+    background-color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 20%, white));
   }
 }
 .bg-pwb-secondary-200 {
-  background-color: var(--pwb-secondary-200, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-200, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 35%, white));
+    background-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white));
   }
 }
 .bg-pwb-secondary-300 {
-  background-color: var(--pwb-secondary-300, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-300, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 50%, white));
+    background-color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 50%, white));
   }
 }
 .bg-pwb-secondary-400 {
-  background-color: var(--pwb-secondary-400, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-400, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, white));
+    background-color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, white));
   }
 }
 .bg-pwb-secondary-500 {
-  background-color: var(--pwb-secondary-500, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-500, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
 }
 .bg-pwb-secondary-600 {
-  background-color: var(--pwb-secondary-600, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-600, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 85%, black));
+    background-color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 85%, black));
   }
 }
 .bg-pwb-secondary-700 {
-  background-color: var(--pwb-secondary-700, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-700, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, black));
+    background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black));
   }
 }
 .bg-pwb-secondary-800 {
-  background-color: var(--pwb-secondary-800, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-800, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 55%, black));
+    background-color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 55%, black));
   }
 }
 .bg-pwb-secondary-900 {
-  background-color: var(--pwb-secondary-900, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-900, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 40%, black));
+    background-color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 40%, black));
   }
 }
 .text-pwb-secondary {
-  color: var(--pwb-secondary, var(--secondary-color, #64748b));
+  color: var(--pwb-secondary-color, var(--secondary-color, #64748b));
 }
 .text-pwb-secondary-50 {
-  color: var(--pwb-secondary-50, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-50, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 10%, white));
+    color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 10%, white));
   }
 }
 .text-pwb-secondary-100 {
-  color: var(--pwb-secondary-100, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-100, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 20%, white));
+    color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 20%, white));
   }
 }
 .text-pwb-secondary-200 {
-  color: var(--pwb-secondary-200, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-200, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 35%, white));
+    color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white));
   }
 }
 .text-pwb-secondary-300 {
-  color: var(--pwb-secondary-300, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-300, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 50%, white));
+    color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 50%, white));
   }
 }
 .text-pwb-secondary-400 {
-  color: var(--pwb-secondary-400, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-400, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, white));
+    color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, white));
   }
 }
 .text-pwb-secondary-500 {
-  color: var(--pwb-secondary-500, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-500, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
 }
 .text-pwb-secondary-600 {
-  color: var(--pwb-secondary-600, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-600, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 85%, black));
+    color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 85%, black));
   }
 }
 .text-pwb-secondary-700 {
-  color: var(--pwb-secondary-700, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-700, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, black));
+    color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black));
   }
 }
 .text-pwb-secondary-800 {
-  color: var(--pwb-secondary-800, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-800, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 55%, black));
+    color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 55%, black));
   }
 }
 .text-pwb-secondary-900 {
-  color: var(--pwb-secondary-900, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-900, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 40%, black));
+    color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 40%, black));
   }
 }
 .border-pwb-secondary {
-  border-color: var(--pwb-secondary, var(--secondary-color, #64748b));
+  border-color: var(--pwb-secondary-color, var(--secondary-color, #64748b));
 }
 .border-pwb-secondary-200 {
-  border-color: var(--pwb-secondary-200, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  border-color: var(--pwb-secondary-200, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    border-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 35%, white));
+    border-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white));
   }
 }
 .border-pwb-secondary-700 {
-  border-color: var(--pwb-secondary-700, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  border-color: var(--pwb-secondary-700, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    border-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, black));
+    border-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black));
   }
 }
 .bg-pwb-accent {
-  background-color: var(--pwb-accent, var(--accent-color, #f59e0b));
+  background-color: var(--pwb-accent-color, var(--accent-color, #f59e0b));
 }
 .bg-pwb-accent-500 {
-  background-color: var(--pwb-accent-500, var(--pwb-accent, var(--accent-color, #f59e0b)));
+  background-color: var(--pwb-accent-500, var(--pwb-accent-color, var(--accent-color, #f59e0b)));
 }
 .bg-pwb-accent-600 {
-  background-color: var(--pwb-accent-600, var(--pwb-accent, var(--accent-color, #f59e0b)));
+  background-color: var(--pwb-accent-600, var(--pwb-accent-color, var(--accent-color, #f59e0b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-accent-600, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 85%, black));
+    background-color: var(--pwb-accent-600, color-mix(in srgb, var(--pwb-accent-color, var(--accent-color, #f59e0b)) 85%, black));
   }
 }
 .text-pwb-accent {
-  color: var(--pwb-accent, var(--accent-color, #f59e0b));
+  color: var(--pwb-accent-color, var(--accent-color, #f59e0b));
 }
 .text-pwb-accent-300 {
-  color: var(--pwb-accent-300, var(--pwb-accent, var(--accent-color, #f59e0b)));
+  color: var(--pwb-accent-300, var(--pwb-accent-color, var(--accent-color, #f59e0b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-accent-300, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 50%, white));
+    color: var(--pwb-accent-300, color-mix(in srgb, var(--pwb-accent-color, var(--accent-color, #f59e0b)) 50%, white));
   }
 }
 .text-pwb-accent-400 {
-  color: var(--pwb-accent-400, var(--pwb-accent, var(--accent-color, #f59e0b)));
+  color: var(--pwb-accent-400, var(--pwb-accent-color, var(--accent-color, #f59e0b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-accent-400, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 70%, white));
+    color: var(--pwb-accent-400, color-mix(in srgb, var(--pwb-accent-color, var(--accent-color, #f59e0b)) 70%, white));
   }
 }
 .text-pwb-accent-600 {
-  color: var(--pwb-accent-600, var(--pwb-accent, var(--accent-color, #f59e0b)));
+  color: var(--pwb-accent-600, var(--pwb-accent-color, var(--accent-color, #f59e0b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-accent-600, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 85%, black));
+    color: var(--pwb-accent-600, color-mix(in srgb, var(--pwb-accent-color, var(--accent-color, #f59e0b)) 85%, black));
   }
 }
 .border-pwb-accent {
-  border-color: var(--pwb-accent, var(--accent-color, #f59e0b));
+  border-color: var(--pwb-accent-color, var(--accent-color, #f59e0b));
 }
 .ring-pwb-accent {
-  --tw-ring-color: var(--pwb-accent, var(--accent-color, #f59e0b));
+  --tw-ring-color: var(--pwb-accent-color, var(--accent-color, #f59e0b));
 }
 .hover\:bg-pwb-primary:hover {
-  background-color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  background-color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
 }
 .hover\:bg-pwb-primary-50:hover {
-  background-color: var(--pwb-primary-50, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-50, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 10%, white));
+    background-color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 10%, white));
   }
 }
 .hover\:bg-pwb-primary-200:hover {
-  background-color: var(--pwb-primary-200, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-200, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 35%, white));
+    background-color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 35%, white));
   }
 }
 .hover\:bg-pwb-primary-600:hover {
-  background-color: var(--pwb-primary-600, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-600, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 85%, black));
+    background-color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 85%, black));
   }
 }
 .hover\:bg-pwb-primary-700:hover {
-  background-color: var(--pwb-primary-700, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-700, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, black));
+    background-color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black));
   }
 }
 .hover\:bg-pwb-primary-800:hover {
-  background-color: var(--pwb-primary-800, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-800, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 55%, black));
+    background-color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 55%, black));
   }
 }
 .hover\:text-pwb-primary:hover {
-  color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
 }
 .hover\:text-pwb-primary-50:hover {
-  color: var(--pwb-primary-50, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-50, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 10%, white));
+    color: var(--pwb-primary-50, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 10%, white));
   }
 }
 .hover\:text-pwb-primary-100:hover {
-  color: var(--pwb-primary-100, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-100, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 20%, white));
+    color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 20%, white));
   }
 }
 .hover\:text-pwb-primary-200:hover {
-  color: var(--pwb-primary-200, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-200, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 35%, white));
+    color: var(--pwb-primary-200, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 35%, white));
   }
 }
 .hover\:text-pwb-primary-300:hover {
-  color: var(--pwb-primary-300, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-300, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 50%, white));
+    color: var(--pwb-primary-300, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 50%, white));
   }
 }
 .hover\:text-pwb-primary-400:hover {
-  color: var(--pwb-primary-400, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-400, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, white));
+    color: var(--pwb-primary-400, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, white));
   }
 }
 .hover\:text-pwb-primary-600:hover {
-  color: var(--pwb-primary-600, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-600, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 85%, black));
+    color: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 85%, black));
   }
 }
 .hover\:text-pwb-primary-700:hover {
-  color: var(--pwb-primary-700, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-700, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, black));
+    color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black));
   }
 }
 .hover\:border-pwb-primary:hover {
-  border-color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  border-color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
 }
 .hover\:bg-pwb-secondary:hover {
-  background-color: var(--pwb-secondary, var(--secondary-color, #64748b));
+  background-color: var(--pwb-secondary-color, var(--secondary-color, #64748b));
+}
+.hover\:bg-pwb-secondary-100:hover {
+  background-color: var(--pwb-secondary-100, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 20%, white));
+  }
 }
 .hover\:bg-pwb-secondary-200:hover {
-  background-color: var(--pwb-secondary-200, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-200, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 35%, white));
+    background-color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white));
   }
 }
 .hover\:bg-pwb-secondary-600:hover {
-  background-color: var(--pwb-secondary-600, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-600, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 85%, black));
+    background-color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 85%, black));
   }
 }
 .hover\:bg-pwb-secondary-700:hover {
-  background-color: var(--pwb-secondary-700, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-700, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, black));
+    background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black));
   }
 }
 .hover\:bg-pwb-secondary-800:hover {
-  background-color: var(--pwb-secondary-800, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-800, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 55%, black));
+    background-color: var(--pwb-secondary-800, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 55%, black));
   }
 }
 .hover\:bg-pwb-secondary-900:hover {
-  background-color: var(--pwb-secondary-900, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-900, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 40%, black));
+    background-color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 40%, black));
   }
 }
 .hover\:text-pwb-secondary:hover {
-  color: var(--pwb-secondary, var(--secondary-color, #64748b));
+  color: var(--pwb-secondary-color, var(--secondary-color, #64748b));
 }
 .hover\:text-pwb-secondary-50:hover {
-  color: var(--pwb-secondary-50, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-50, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 10%, white));
+    color: var(--pwb-secondary-50, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 10%, white));
   }
 }
 .hover\:text-pwb-secondary-100:hover {
-  color: var(--pwb-secondary-100, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-100, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 20%, white));
+    color: var(--pwb-secondary-100, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 20%, white));
   }
 }
 .hover\:text-pwb-secondary-200:hover {
-  color: var(--pwb-secondary-200, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-200, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 35%, white));
+    color: var(--pwb-secondary-200, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 35%, white));
   }
 }
 .hover\:text-pwb-secondary-300:hover {
-  color: var(--pwb-secondary-300, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-300, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 50%, white));
+    color: var(--pwb-secondary-300, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 50%, white));
   }
 }
 .hover\:text-pwb-secondary-400:hover {
-  color: var(--pwb-secondary-400, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-400, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, white));
+    color: var(--pwb-secondary-400, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, white));
   }
 }
 .hover\:text-pwb-secondary-600:hover {
-  color: var(--pwb-secondary-600, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-600, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 85%, black));
+    color: var(--pwb-secondary-600, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 85%, black));
   }
 }
 .hover\:text-pwb-secondary-700:hover {
-  color: var(--pwb-secondary-700, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-700, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, black));
+    color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black));
   }
 }
 .hover\:text-pwb-secondary-900:hover {
-  color: var(--pwb-secondary-900, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  color: var(--pwb-secondary-900, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 40%, black));
+    color: var(--pwb-secondary-900, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 40%, black));
   }
 }
 .hover\:bg-pwb-accent:hover {
-  background-color: var(--pwb-accent, var(--accent-color, #f59e0b));
+  background-color: var(--pwb-accent-color, var(--accent-color, #f59e0b));
 }
 .hover\:text-pwb-accent:hover {
-  color: var(--pwb-accent, var(--accent-color, #f59e0b));
+  color: var(--pwb-accent-color, var(--accent-color, #f59e0b));
 }
 .hover\:text-pwb-accent-300:hover {
-  color: var(--pwb-accent-300, var(--pwb-accent, var(--accent-color, #f59e0b)));
+  color: var(--pwb-accent-300, var(--pwb-accent-color, var(--accent-color, #f59e0b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-accent-300, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 50%, white));
+    color: var(--pwb-accent-300, color-mix(in srgb, var(--pwb-accent-color, var(--accent-color, #f59e0b)) 50%, white));
   }
 }
 .hover\:text-pwb-accent-400:hover {
-  color: var(--pwb-accent-400, var(--pwb-accent, var(--accent-color, #f59e0b)));
+  color: var(--pwb-accent-400, var(--pwb-accent-color, var(--accent-color, #f59e0b)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-accent-400, color-mix(in srgb, var(--pwb-accent, var(--accent-color, #f59e0b)) 70%, white));
+    color: var(--pwb-accent-400, color-mix(in srgb, var(--pwb-accent-color, var(--accent-color, #f59e0b)) 70%, white));
   }
 }
 .hover\:border-pwb-accent:hover {
-  border-color: var(--pwb-accent, var(--accent-color, #f59e0b));
+  border-color: var(--pwb-accent-color, var(--accent-color, #f59e0b));
 }
 .focus\:ring-pwb-primary:focus {
-  --tw-ring-color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  --tw-ring-color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
 }
 .focus\:ring-pwb-accent:focus {
-  --tw-ring-color: var(--pwb-accent, var(--accent-color, #f59e0b));
+  --tw-ring-color: var(--pwb-accent-color, var(--accent-color, #f59e0b));
 }
 .focus\:border-pwb-primary:focus {
-  border-color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  border-color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
 }
 .focus\:border-pwb-accent:focus {
-  border-color: var(--pwb-accent, var(--accent-color, #f59e0b));
+  border-color: var(--pwb-accent-color, var(--accent-color, #f59e0b));
 }
 .focus\:outline-pwb-primary:focus {
-  outline-color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  outline-color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
 }
 .active\:bg-pwb-primary-800:active {
-  background-color: var(--pwb-primary-800, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-800, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 55%, black));
+    background-color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 55%, black));
   }
 }
 .from-pwb-primary {
-  --tw-gradient-from: var(--pwb-primary, var(--primary-color, #3b82f6));
+  --tw-gradient-from: var(--pwb-primary-color, var(--primary-color, #3b82f6));
 }
 .to-pwb-primary {
-  --tw-gradient-to: var(--pwb-primary, var(--primary-color, #3b82f6));
+  --tw-gradient-to: var(--pwb-primary-color, var(--primary-color, #3b82f6));
 }
 .from-pwb-primary-600 {
-  --tw-gradient-from: var(--pwb-primary-600, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  --tw-gradient-from: var(--pwb-primary-600, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    --tw-gradient-from: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 85%, black));
+    --tw-gradient-from: var(--pwb-primary-600, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 85%, black));
   }
 }
 .to-pwb-primary-700 {
-  --tw-gradient-to: var(--pwb-primary-700, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  --tw-gradient-to: var(--pwb-primary-700, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    --tw-gradient-to: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, black));
+    --tw-gradient-to: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black));
   }
 }
 .from-pwb-secondary {
-  --tw-gradient-from: var(--pwb-secondary, var(--secondary-color, #64748b));
+  --tw-gradient-from: var(--pwb-secondary-color, var(--secondary-color, #64748b));
 }
 .to-pwb-secondary {
-  --tw-gradient-to: var(--pwb-secondary, var(--secondary-color, #64748b));
+  --tw-gradient-to: var(--pwb-secondary-color, var(--secondary-color, #64748b));
 }
 .btn-pwb-primary {
-  background-color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  background-color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
@@ -5903,17 +5878,17 @@ input[type="checkbox"]:hover {
   transition: background-color 0.2s;
 }
 .btn-pwb-primary:hover {
-  background-color: var(--pwb-primary-700, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-700, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, black));
+    background-color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black));
   }
 }
 .btn-pwb-primary:focus {
-  outline: 2px solid var(--pwb-primary, var(--primary-color, #3b82f6));
+  outline: 2px solid var(--pwb-primary-color, var(--primary-color, #3b82f6));
   outline-offset: 2px;
 }
 .btn-pwb-secondary {
-  background-color: var(--pwb-secondary, var(--secondary-color, #64748b));
+  background-color: var(--pwb-secondary-color, var(--secondary-color, #64748b));
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
@@ -5921,44 +5896,44 @@ input[type="checkbox"]:hover {
   transition: background-color 0.2s;
 }
 .btn-pwb-secondary:hover {
-  background-color: var(--pwb-secondary-700, var(--pwb-secondary, var(--secondary-color, #64748b)));
+  background-color: var(--pwb-secondary-700, var(--pwb-secondary-color, var(--secondary-color, #64748b)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary, var(--secondary-color, #64748b)) 70%, black));
+    background-color: var(--pwb-secondary-700, color-mix(in srgb, var(--pwb-secondary-color, var(--secondary-color, #64748b)) 70%, black));
   }
 }
 .btn-pwb-outline {
   background-color: transparent;
-  color: var(--pwb-primary, var(--primary-color, #3b82f6));
-  border: 2px solid var(--pwb-primary, var(--primary-color, #3b82f6));
+  color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
+  border: 2px solid var(--pwb-primary-color, var(--primary-color, #3b82f6));
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
   font-weight: 500;
   transition: all 0.2s;
 }
 .btn-pwb-outline:hover {
-  background-color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  background-color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
   color: white;
 }
 .link-pwb-primary {
-  color: var(--pwb-primary, var(--primary-color, #3b82f6));
+  color: var(--pwb-primary-color, var(--primary-color, #3b82f6));
   text-decoration: none;
   transition: color 0.2s;
 }
 .link-pwb-primary:hover {
-  color: var(--pwb-primary-700, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-700, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 70%, black));
+    color: var(--pwb-primary-700, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 70%, black));
   }
   text-decoration: underline;
 }
 .badge-pwb-primary {
-  background-color: var(--pwb-primary-100, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  background-color: var(--pwb-primary-100, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    background-color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 20%, white));
+    background-color: var(--pwb-primary-100, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 20%, white));
   }
-  color: var(--pwb-primary-800, var(--pwb-primary, var(--primary-color, #3b82f6)));
+  color: var(--pwb-primary-800, var(--pwb-primary-color, var(--primary-color, #3b82f6)));
   @supports (color: color-mix(in lab, red, red)) {
-    color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary, var(--primary-color, #3b82f6)) 55%, black));
+    color: var(--pwb-primary-800, color-mix(in srgb, var(--pwb-primary-color, var(--primary-color, #3b82f6)) 55%, black));
   }
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
