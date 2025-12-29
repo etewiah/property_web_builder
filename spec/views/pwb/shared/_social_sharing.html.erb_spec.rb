@@ -60,7 +60,7 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
     end
   end
 
-  describe "default style with FontAwesome icons" do
+  describe "default style with brand icons" do
     before do
       render partial: "pwb/shared/social_sharing", locals: {
         url: share_url,
@@ -68,11 +68,11 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
       }
     end
 
-    it "uses FontAwesome fixed-width icons for consistent spacing" do
-      expect(rendered).to include("fa fa-fw fa-facebook")
-      expect(rendered).to include("fa fa-fw fa-linkedin")
-      expect(rendered).to include("fa fa-fw fa-twitter")
-      expect(rendered).to include("fa fa-fw fa-whatsapp")
+    it "uses SVG brand icons for social networks" do
+      expect(rendered).to include("brand-icon-facebook")
+      expect(rendered).to include("brand-icon-linkedin")
+      expect(rendered).to include("brand-icon-x") # X (formerly Twitter)
+      expect(rendered).to include("brand-icon-whatsapp")
     end
 
     it "wraps each icon in fixed-width container for consistent spacing" do
@@ -103,21 +103,20 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
     end
   end
 
-  describe "bologna style with Phosphor icons" do
+  describe "bologna style with brand icons" do
     before do
       render partial: "pwb/shared/social_sharing", locals: {
         url: share_url,
         title: share_title,
-        icon_style: :phosphor,
         style: :bologna
       }
     end
 
-    it "uses Phosphor icons" do
-      expect(rendered).to include("ph ph-facebook-logo")
-      expect(rendered).to include("ph ph-linkedin-logo")
-      expect(rendered).to include("ph ph-x-logo")
-      expect(rendered).to include("ph ph-whatsapp-logo")
+    it "uses SVG brand icons" do
+      expect(rendered).to include("brand-icon-facebook")
+      expect(rendered).to include("brand-icon-linkedin")
+      expect(rendered).to include("brand-icon-x") # X (formerly Twitter)
+      expect(rendered).to include("brand-icon-whatsapp")
     end
 
     it "uses bologna container layout with gap" do
@@ -144,10 +143,10 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
         networks: [:facebook, :whatsapp]
       }
 
-      expect(rendered).to include("fa-facebook")
-      expect(rendered).to include("fa-whatsapp")
-      expect(rendered).not_to include("fa-linkedin")
-      expect(rendered).not_to include("fa-twitter")
+      expect(rendered).to include("brand-icon-facebook")
+      expect(rendered).to include("brand-icon-whatsapp")
+      expect(rendered).not_to include("brand-icon-linkedin")
+      expect(rendered).not_to include("brand-icon-x")
     end
 
     it "renders single network" do
@@ -157,8 +156,8 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
         networks: [:twitter]
       }
 
-      expect(rendered).to include("fa-twitter")
-      expect(rendered).not_to include("fa-facebook")
+      expect(rendered).to include("brand-icon-x") # X (formerly Twitter)
+      expect(rendered).not_to include("brand-icon-facebook")
     end
 
     it "maintains consistent container structure with fewer networks" do

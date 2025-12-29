@@ -30,6 +30,20 @@ require "rails_helper"
 module Pwb
   RSpec.describe PagePart, type: :model do
     include FactoryBot::Syntax::Methods
+
+    # Set up tenant settings to allow all themes used in tests
+    before(:all) do
+      Pwb::TenantSettings.delete_all
+      Pwb::TenantSettings.create!(
+        singleton_key: "default",
+        default_available_themes: %w[default brisbane bologna barcelona biarritz]
+      )
+    end
+
+    after(:all) do
+      Pwb::TenantSettings.delete_all
+    end
+
     # Use "brisbane" as it's a valid theme (bristol doesn't exist)
     let(:website) { create(:pwb_website, theme_name: "brisbane") }
     let(:page_part) { create(:pwb_page_part, page_part_key: "landing_hero", website: website) }

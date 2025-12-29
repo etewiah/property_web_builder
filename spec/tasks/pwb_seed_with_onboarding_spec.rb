@@ -6,6 +6,17 @@ require 'rake'
 RSpec.describe 'pwb:seed_for_onboarding rake task', type: :task do
   before(:all) do
     Rails.application.load_tasks
+
+    # Set up tenant settings to allow all themes used in tests
+    Pwb::TenantSettings.delete_all
+    Pwb::TenantSettings.create!(
+      singleton_key: "default",
+      default_available_themes: %w[default brisbane bologna barcelona biarritz]
+    )
+  end
+
+  after(:all) do
+    Pwb::TenantSettings.delete_all
   end
 
   before do

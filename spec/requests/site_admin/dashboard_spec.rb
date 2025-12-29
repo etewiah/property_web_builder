@@ -6,6 +6,19 @@ RSpec.describe 'SiteAdmin::DashboardController', type: :request do
   # Dashboard is the main entry point for site admins
   # Must verify: authentication, statistics, multi-tenancy isolation
 
+  # Set up tenant settings to allow all themes used in tests
+  before(:all) do
+    Pwb::TenantSettings.delete_all
+    Pwb::TenantSettings.create!(
+      singleton_key: "default",
+      default_available_themes: %w[default brisbane bologna barcelona biarritz]
+    )
+  end
+
+  after(:all) do
+    Pwb::TenantSettings.delete_all
+  end
+
   let!(:website) { create(:pwb_website, subdomain: 'dashboard-test') }
   let!(:agency) { create(:pwb_agency, website: website, company_name: 'Test Agency', email_primary: 'agency@test.com') }
   let!(:admin_user) { create(:pwb_user, :admin, website: website, email: 'admin@dashboard-test.test') }

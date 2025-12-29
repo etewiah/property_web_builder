@@ -476,29 +476,35 @@ RSpec.describe Pwb::WebsiteStyleable do
   end
 
   describe "website without theme_name" do
-    it "returns nil for current_theme when theme_name is nil" do
+    it "falls back to default theme when theme_name is nil" do
       website.update_column(:theme_name, nil)
+      website.instance_variable_set(:@current_theme, nil) # Clear memoization
 
-      expect(website.current_theme).to be_nil
+      expect(website.current_theme).to be_present
+      expect(website.current_theme.name).to eq("default")
     end
 
-    it "returns empty palettes when theme_name is nil" do
+    it "returns default theme palettes when theme_name is nil" do
       website.update_column(:theme_name, nil)
+      website.instance_variable_set(:@current_theme, nil) # Clear memoization
 
-      expect(website.available_palettes).to eq({})
+      expect(website.available_palettes).not_to be_empty
     end
 
-    it "returns default style variables when theme_name is nil" do
+    it "returns style variables from default theme when theme_name is nil" do
       website.update_column(:theme_name, nil)
+      website.instance_variable_set(:@current_theme, nil) # Clear memoization
 
       vars = website.style_variables
-      expect(vars).to eq(Pwb::WebsiteStyleable::DEFAULT_STYLE_VARIABLES)
+      expect(vars).to be_a(Hash)
+      expect(vars).to have_key("primary_color")
     end
 
-    it "effective_palette_id returns nil when theme_name is nil" do
+    it "effective_palette_id returns default theme palette when theme_name is nil" do
       website.update_column(:theme_name, nil)
+      website.instance_variable_set(:@current_theme, nil) # Clear memoization
 
-      expect(website.effective_palette_id).to be_nil
+      expect(website.effective_palette_id).to be_present
     end
   end
 

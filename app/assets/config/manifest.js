@@ -15,3 +15,4 @@
 //= link brisbane_theme.css
 //= link bologna_theme.css
 //= link fontawesome-subset.css
+//= link material-icons.css

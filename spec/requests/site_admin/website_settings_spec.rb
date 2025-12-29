@@ -3,6 +3,19 @@
 require 'rails_helper'
 
 RSpec.describe 'Site Admin Website Settings', type: :request do
+  # Set up tenant settings to allow all themes used in tests
+  before(:all) do
+    Pwb::TenantSettings.delete_all
+    Pwb::TenantSettings.create!(
+      singleton_key: "default",
+      default_available_themes: %w[default brisbane bologna barcelona biarritz]
+    )
+  end
+
+  after(:all) do
+    Pwb::TenantSettings.delete_all
+  end
+
   let!(:website) { create(:pwb_website, subdomain: 'settings-test') }
   let!(:admin_user) { create(:pwb_user, :admin, website: website, email: 'admin@settings-test.test') }
 

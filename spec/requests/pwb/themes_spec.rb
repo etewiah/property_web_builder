@@ -6,6 +6,19 @@ module Pwb
   RSpec.describe 'Themes', type: :request do
     include FactoryBot::Syntax::Methods
 
+    # Set up tenant settings to allow all themes used in tests
+    before(:all) do
+      Pwb::TenantSettings.delete_all
+      Pwb::TenantSettings.create!(
+        singleton_key: "default",
+        default_available_themes: %w[default brisbane bologna barcelona biarritz]
+      )
+    end
+
+    after(:all) do
+      Pwb::TenantSettings.delete_all
+    end
+
     before(:each) do
       Pwb::Current.reset
     end

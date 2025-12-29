@@ -6,6 +6,19 @@ require 'rails_helper'
 # These tests verify that acts_as_tenant properly scopes queries
 # and prevents cross-tenant data access.
 RSpec.describe 'PwbTenant Model Scoping', type: :model do
+  # Set up tenant settings to allow all themes used in tests
+  before(:all) do
+    Pwb::TenantSettings.delete_all
+    Pwb::TenantSettings.create!(
+      singleton_key: "default",
+      default_available_themes: %w[default brisbane bologna barcelona biarritz]
+    )
+  end
+
+  after(:all) do
+    Pwb::TenantSettings.delete_all
+  end
+
   let!(:website_a) { create(:pwb_website, subdomain: 'tenant-a-model') }
   let!(:website_b) { create(:pwb_website, subdomain: 'tenant-b-model') }
 

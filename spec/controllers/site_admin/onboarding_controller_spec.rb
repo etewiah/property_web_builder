@@ -3,6 +3,19 @@
 require 'rails_helper'
 
 RSpec.describe SiteAdmin::OnboardingController, type: :controller do
+  # Set up tenant settings to allow all themes used in tests
+  before(:all) do
+    Pwb::TenantSettings.delete_all
+    Pwb::TenantSettings.create!(
+      singleton_key: "default",
+      default_available_themes: %w[default brisbane bologna barcelona biarritz]
+    )
+  end
+
+  after(:all) do
+    Pwb::TenantSettings.delete_all
+  end
+
   let(:website) { create(:pwb_website, subdomain: 'test-onboarding') }
   let(:user) { create(:pwb_user, email: 'owner@example.com', website: website) }
   let!(:membership) { create(:pwb_user_membership, user: user, website: website, role: 'owner', active: true) }
