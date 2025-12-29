@@ -33,8 +33,16 @@ module Pwb
     # @return [ActiveSupport::SafeBuffer] HTML span element with icon
     #
     def icon(name, options = {})
+      original_name = name.to_s
       name = normalize_icon_name(name)
-      validate_icon_name!(name)
+      fallback_info = validate_icon_name!(name, original_name)
+
+      # Use fallback icon if validation failed
+      if fallback_info
+        name = fallback_info[:fallback]
+        options = options.merge(class: [options[:class], "icon-fallback"].compact.join(" "))
+        options[:data] = (options[:data] || {}).merge(original_icon: fallback_info[:original])
+      end
 
       size_class = icon_size_class(options[:size])
       filled_class = options[:filled] ? "filled" : nil
@@ -79,16 +87,36 @@ module Pwb
     # @return [ActiveSupport::SafeBuffer] HTML SVG element
     #
     def brand_icon(name, options = {})
-      name = name.to_s.downcase
-      validate_brand_name!(name)
+      original_name = name.to_s.downcase
+      fallback_info = validate_brand_name!(original_name)
 
       size = options[:size] || 24
-      css_class = ["brand-icon", "brand-icon-#{name}", options[:class]].compact.join(" ")
+
+      # Use fallback Material icon if brand not found
+      if fallback_info
+        return icon(fallback_info[:fallback],
+                    size: size_to_symbol(size),
+                    class: [options[:class], "brand-icon-fallback"].compact.join(" "),
+                    data: { original_brand: fallback_info[:original] })
+      end
+
+      css_class = ["brand-icon", "brand-icon-#{original_name}", options[:class]].compact.join(" ")
 
       content_tag(:svg, class: css_class, width: size, height: size,
                         viewBox: "0 0 24 24", fill: "currentColor",
                         "aria-hidden": "true") do
-        content_tag(:use, nil, href: "#icon-#{name}")
+        content_tag(:use, nil, href: "#icon-#{original_name}")
+      end
+    end
+
+    # Convert pixel size to symbol size for icon helper
+    def size_to_symbol(size)
+      case size.to_i
+      when 0..17 then :xs
+      when 18..23 then :sm
+      when 24..35 then :md
+      when 36..47 then :lg
+      else :xl
       end
     end
 
@@ -434,13 +462,22 @@ module Pwb
       ICON_ALIASES[name.to_sym]&.to_s || ICON_ALIASES[name]&.to_s || name
     end
 
-    def validate_icon_name!(name)
-      return if ALLOWED_ICONS.include?(name)
+    # Fallback icon for unknown icons
+    FALLBACK_ICON = "help_outline"
 
-      # In development, raise an error to catch issues early
+    # Validate icon name and return fallback info if invalid
+    # @param name [String] Normalized icon name
+    # @param original_name [String] Original icon name before normalization
+    # @return [Hash, nil] Fallback info hash or nil if valid
+    def validate_icon_name!(name, original_name = nil)
+      return nil if ALLOWED_ICONS.include?(name)
+
+      original_name ||= name
+
+      # In development/test, raise an error to catch issues early
       if Rails.env.development? || Rails.env.test?
         raise ArgumentError, <<~MSG
-          Unknown icon: '#{name}'
+          Unknown icon: '#{name}'#{original_name != name ? " (from '#{original_name}')" : ""}
 
           If this is a valid Material Symbol, add it to ALLOWED_ICONS in IconHelper.
           Browse icons at: https://fonts.google.com/icons
@@ -448,13 +485,20 @@ module Pwb
           For brand icons (Facebook, Instagram, etc.), use brand_icon(:name) instead.
         MSG
       else
-        # In production, log warning but render anyway
-        Rails.logger.warn("IconHelper: Unknown icon '#{name}' - consider adding to ALLOWED_ICONS")
+        # In production, log warning and return fallback
+        Rails.logger.warn("IconHelper: Unknown icon '#{name}' (from '#{original_name}') - using fallback '#{FALLBACK_ICON}'")
+        { fallback: FALLBACK_ICON, original: original_name }
       end
     end
 
+    # Fallback brand icon (generic link icon)
+    FALLBACK_BRAND = "link"
+
+    # Validate brand name and return fallback info if invalid
+    # @param name [String] Brand name
+    # @return [Hash, nil] Fallback info hash or nil if valid
     def validate_brand_name!(name)
-      return if ALLOWED_BRANDS.include?(name)
+      return nil if ALLOWED_BRANDS.include?(name)
 
       if Rails.env.development? || Rails.env.test?
         raise ArgumentError, <<~MSG
@@ -465,7 +509,8 @@ module Pwb
           To add a new brand, update ALLOWED_BRANDS and add the SVG to brands.svg sprite.
         MSG
       else
-        Rails.logger.warn("IconHelper: Unknown brand icon '#{name}'")
+        Rails.logger.warn("IconHelper: Unknown brand icon '#{name}' - using fallback")
+        { fallback: FALLBACK_BRAND, original: name }
       end
     end
 
