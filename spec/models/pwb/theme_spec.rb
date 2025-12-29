@@ -583,7 +583,8 @@ RSpec.describe Pwb::Theme do
 
         it "all palettes have recommended color keys" do
           theme.palettes.each do |palette_id, config|
-            colors = config["colors"] || {}
+            # Use palette_colors which includes auto-derived keys like action_color
+            colors = theme.palette_colors(palette_id)
             missing = recommended_keys - colors.keys
 
             expect(missing).to be_empty,

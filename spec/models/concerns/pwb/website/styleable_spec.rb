@@ -18,7 +18,8 @@ RSpec.describe Pwb::WebsiteStyleable, type: :model do
 
       expect(vars['primary_color']).to eq('#e91b23')
       expect(vars['secondary_color']).to eq('#3498db')
-      expect(vars['action_color']).to eq('green')
+      # action_color defaults to primary_color (hex value, not named color)
+      expect(vars['action_color']).to eq('#e91b23')
       expect(vars['body_style']).to eq('siteLayout.wide')
       expect(vars['theme']).to eq('light')
     end

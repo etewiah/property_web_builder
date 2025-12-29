@@ -160,6 +160,10 @@ module Pwb
 
       # Use Rails representation URL for reliable variant access
       Rails.application.routes.url_helpers.rails_representation_path(variant.processed, only_path: true)
+    rescue LoadError => e
+      # Vips or other image processing library not available
+      Rails.logger.warn "Image processing library not available for Media##{id}: #{e.message}"
+      url
     rescue StandardError => e
       Rails.logger.warn "Failed to generate variant URL for Media##{id}: #{e.message}"
       url

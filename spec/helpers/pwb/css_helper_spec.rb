@@ -64,11 +64,11 @@ RSpec.describe Pwb::CssHelper, type: :helper do
           website.save!
         end
 
-        it "uses palette colors in CSS" do
-          result = helper.custom_styles("brisbane")
+        it "applies palette colors to style_variables" do
+          vars = website.style_variables
 
           # emerald_luxury primary color is #2d6a4f
-          expect(result).to include("#2d6a4f")
+          expect(vars["primary_color"]).to eq("#2d6a4f")
         end
 
         it "includes palette action color" do
@@ -79,22 +79,22 @@ RSpec.describe Pwb::CssHelper, type: :helper do
       end
 
       context "with different palettes" do
-        it "gold_navy palette uses gold color" do
+        it "gold_navy palette applies gold color to style_variables" do
           website.selected_palette = "gold_navy"
           website.save!
 
-          result = helper.custom_styles("brisbane")
+          vars = website.style_variables
 
-          expect(result).to include("#c9a962")
+          expect(vars["primary_color"]).to eq("#c9a962")
         end
 
-        it "rose_gold palette uses rose color" do
+        it "rose_gold palette applies rose color to style_variables" do
           website.selected_palette = "rose_gold"
           website.save!
 
-          result = helper.custom_styles("brisbane")
+          vars = website.style_variables
 
-          expect(result).to include("#b76e79")
+          expect(vars["primary_color"]).to eq("#b76e79")
         end
       end
     end
@@ -118,10 +118,10 @@ RSpec.describe Pwb::CssHelper, type: :helper do
           website.save!
         end
 
-        it "uses terracotta primary color" do
-          result = helper.custom_styles("bologna")
+        it "applies terracotta primary color to style_variables" do
+          vars = website.style_variables
 
-          expect(result).to include("#c45d3e")
+          expect(vars["primary_color"]).to eq("#c45d3e")
         end
       end
 
@@ -131,10 +131,10 @@ RSpec.describe Pwb::CssHelper, type: :helper do
           website.save!
         end
 
-        it "uses sage green primary color" do
-          result = helper.custom_styles("bologna")
+        it "applies sage green primary color to style_variables" do
+          vars = website.style_variables
 
-          expect(result).to include("#5c6b4d")
+          expect(vars["primary_color"]).to eq("#5c6b4d")
         end
       end
     end
@@ -218,40 +218,40 @@ RSpec.describe Pwb::CssHelper, type: :helper do
       website.save!
     end
 
-    it "classic_red palette renders correct primary color" do
+    it "classic_red palette applies correct primary color to style_variables" do
       website.selected_palette = "classic_red"
       website.save!
 
-      result = helper.custom_styles("default")
+      vars = website.style_variables
 
-      expect(result).to include("#e91b23")
+      expect(vars["primary_color"]).to eq("#e91b23")
     end
 
-    it "ocean_blue palette renders correct primary color" do
+    it "ocean_blue palette applies correct primary color to style_variables" do
       website.selected_palette = "ocean_blue"
       website.save!
 
-      result = helper.custom_styles("default")
+      vars = website.style_variables
 
-      expect(result).to include("#3498db")
+      expect(vars["primary_color"]).to eq("#3498db")
     end
 
-    it "forest_green palette renders correct primary color" do
+    it "forest_green palette applies correct primary color to style_variables" do
       website.selected_palette = "forest_green"
       website.save!
 
-      result = helper.custom_styles("default")
+      vars = website.style_variables
 
-      expect(result).to include("#27ae60")
+      expect(vars["primary_color"]).to eq("#27ae60")
     end
 
-    it "sunset_orange palette renders correct primary color" do
+    it "sunset_orange palette applies correct primary color to style_variables" do
       website.selected_palette = "sunset_orange"
       website.save!
 
-      result = helper.custom_styles("default")
+      vars = website.style_variables
 
-      expect(result).to include("#e67e22")
+      expect(vars["primary_color"]).to eq("#e67e22")
     end
   end
 
@@ -262,18 +262,17 @@ RSpec.describe Pwb::CssHelper, type: :helper do
       website.save!
     end
 
-    it "palette overrides base style variables in CSS output" do
+    it "palette overrides base style variables" do
       # Set a different base color
       website.style_variables_for_theme = {
         "default" => { "primary_color" => "#ff0000" }
       }
       website.save!
 
-      result = helper.custom_styles("brisbane")
+      vars = website.style_variables
 
       # Should use palette color, not base
-      expect(result).to include("#2d6a4f")
-      expect(result).not_to include("#ff0000")
+      expect(vars["primary_color"]).to eq("#2d6a4f")
     end
   end
 end

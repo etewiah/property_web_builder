@@ -27,7 +27,7 @@ module Pwb
     DEFAULT_STYLE_VARIABLES = {
       "primary_color" => "#e91b23",
       "secondary_color" => "#3498db",
-      "action_color" => "green",
+      "action_color" => "#e91b23",  # Default to primary_color for CTA buttons
       "body_style" => "siteLayout.wide",
       "theme" => "light",
       "font_primary" => "Open Sans",

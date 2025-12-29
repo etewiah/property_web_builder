@@ -45,13 +45,16 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
 
       it 'scopes queries to current tenant' do
         within_tenant(website_a) do
-          expect(model_class.all).to include(record_a)
-          expect(model_class.all).not_to include(record_b)
+          # Compare by ID since factory creates Pwb:: models but query returns PwbTenant:: models
+          all_ids = model_class.all.pluck(:id)
+          expect(all_ids).to include(record_a.id)
+          expect(all_ids).not_to include(record_b.id)
         end
 
         within_tenant(website_b) do
-          expect(model_class.all).to include(record_b)
-          expect(model_class.all).not_to include(record_a)
+          all_ids = model_class.all.pluck(:id)
+          expect(all_ids).to include(record_b.id)
+          expect(all_ids).not_to include(record_a.id)
         end
       end
 
@@ -64,8 +67,10 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
       it 'allows cross-tenant access with without_tenant' do
         ActsAsTenant.without_tenant do
           all_records = model_class.unscoped.where(id: [record_a.id, record_b.id])
-          expect(all_records).to include(record_a)
-          expect(all_records).to include(record_b)
+          # Compare by ID since factory creates Pwb:: models but query returns PwbTenant:: models
+          all_ids = all_records.pluck(:id)
+          expect(all_ids).to include(record_a.id)
+          expect(all_ids).to include(record_b.id)
         end
       end
     end
@@ -97,8 +102,10 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
 
     it 'scopes message queries to current tenant' do
       within_tenant(website_a) do
-        expect(PwbTenant::Message.all).to include(message_a)
-        expect(PwbTenant::Message.all).not_to include(message_b)
+        # Compare by ID since factory creates Pwb:: models but query returns PwbTenant:: models
+        all_ids = PwbTenant::Message.all.pluck(:id)
+        expect(all_ids).to include(message_a.id)
+        expect(all_ids).not_to include(message_b.id)
       end
     end
 

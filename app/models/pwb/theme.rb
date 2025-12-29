@@ -183,10 +183,17 @@ module Pwb
     end
 
     # Get the colors hash from a palette
+    # Automatically derives action_color from primary_color if not explicitly set
     # @param palette_id [String] the palette ID
     # @return [Hash] the colors hash or empty hash
     def palette_colors(palette_id)
-      palette(palette_id)&.dig("colors") || {}
+      colors = palette(palette_id)&.dig("colors") || {}
+      return {} if colors.empty?
+
+      # Derive action_color from primary_color if not explicitly set
+      colors = colors.dup
+      colors["action_color"] ||= colors["primary_color"]
+      colors
     end
 
     # Get palette colors with legacy key mappings for backward compatibility
