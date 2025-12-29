@@ -3,6 +3,35 @@ module Pwb
   #
 
   class TlsController < ApplicationController
+    # Subdomains that are always valid for TLS certificates.
+    # These are demo sites, city-themed instances, and infrastructure subdomains.
+    ALWAYS_VALID_SUBDOMAINS = %w[
+      beijing
+      bangkok
+      buenos-aires
+      bangalore
+      bogota
+      baghdad
+      berlin
+      barcelona
+      boston
+      brisbane
+      birmingham
+      brasilia
+      brussels
+      budapest
+      bristol
+      baltimore
+      baku
+      beirut
+      biarritz
+      busan
+      dedo
+      dedo-1
+      demo
+      htz-2
+      demo-1
+    ].freeze
     # Skip authentication - this is called by the TLS proxy, not users
     skip_before_action :authenticate_user!, raise: false
     skip_before_action :verify_authenticity_token, raise: false
@@ -71,13 +100,20 @@ module Pwb
         return { status: :ok, reason: "Platform domain" }
       end
 
+      normalized_subdomain = subdomain.downcase
+
+      # Check if subdomain is in the always-valid list (demo sites, city instances)
+      if ALWAYS_VALID_SUBDOMAINS.include?(normalized_subdomain)
+        return { status: :ok, reason: "Always-valid subdomain" }
+      end
+
       # Check if subdomain is reserved (admin, www, api, etc.)
-      if Website::RESERVED_SUBDOMAINS.include?(subdomain.downcase)
+      if Website::RESERVED_SUBDOMAINS.include?(normalized_subdomain)
         return { status: :ok, reason: "Reserved subdomain" }
       end
 
       # Look up the website first
-      website = Website.find_by_subdomain(subdomain)
+      website = Website.find_by_subdomain(normalized_subdomain)
 
       if website.present?
         # Check website status
@@ -85,7 +121,7 @@ module Pwb
       end
 
       # No website yet - check if subdomain is in the pool (available, reserved, or allocated)
-      subdomain_record = Subdomain.find_by(name: subdomain.downcase)
+      subdomain_record = Subdomain.find_by(name: normalized_subdomain)
 
       if subdomain_record.present?
         # Subdomain is in the pool - allow certificate issuance
