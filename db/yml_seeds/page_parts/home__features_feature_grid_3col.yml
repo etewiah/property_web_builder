@@ -45,7 +45,7 @@
         {% if page_part["section_title"]["content"] != blank %}
           <div class="text-center mb-12">
             {% if page_part["section_pretitle"]["content"] != blank %}
-              <p class="text-sm uppercase tracking-widest text-amber-600 mb-2">{{ page_part["section_pretitle"]["content"] }}</p>
+              <p class="text-sm uppercase tracking-widest text-amber-700 mb-2">{{ page_part["section_pretitle"]["content"] }}</p>
             {% endif %}
             <h2 class="text-3xl font-bold text-gray-900 mb-4">{{ page_part["section_title"]["content"] }}</h2>
             {% if page_part["section_subtitle"]["content"] != blank %}
@@ -57,36 +57,36 @@
           {% if page_part["feature_1_title"]["content"] != blank %}
             <div class="service-card bg-white p-8 rounded-lg shadow-md text-center hover:shadow-lg transition">
               {% if page_part["feature_1_icon"]["content"] != blank %}
-                <div class="service-icon-wrapper text-4xl text-amber-600 mb-4">{{ page_part["feature_1_icon"]["content"] | material_icon: "xl" }}</div>
+                <div class="service-icon-wrapper text-4xl text-amber-700 mb-4">{{ page_part["feature_1_icon"]["content"] | material_icon: "xl" }}</div>
               {% endif %}
               <h3 class="service-title text-xl font-semibold text-gray-900 mb-3">{{ page_part["feature_1_title"]["content"] }}</h3>
               <p class="service-content text-gray-600">{{ page_part["feature_1_description"]["content"] }}</p>
               {% if page_part["feature_1_link"]["content"] != blank %}
-                <a href="{{ page_part["feature_1_link"]["content"] }}" class="inline-block mt-4 text-amber-600 hover:underline">Learn more &rarr;</a>
+                <a href="{{ page_part["feature_1_link"]["content"] }}" class="inline-block mt-4 text-amber-700 hover:underline">Learn more &rarr;</a>
               {% endif %}
             </div>
           {% endif %}
           {% if page_part["feature_2_title"]["content"] != blank %}
             <div class="service-card bg-white p-8 rounded-lg shadow-md text-center hover:shadow-lg transition">
               {% if page_part["feature_2_icon"]["content"] != blank %}
-                <div class="service-icon-wrapper text-4xl text-amber-600 mb-4">{{ page_part["feature_2_icon"]["content"] | material_icon: "xl" }}</div>
+                <div class="service-icon-wrapper text-4xl text-amber-700 mb-4">{{ page_part["feature_2_icon"]["content"] | material_icon: "xl" }}</div>
               {% endif %}
               <h3 class="service-title text-xl font-semibold text-gray-900 mb-3">{{ page_part["feature_2_title"]["content"] }}</h3>
               <p class="service-content text-gray-600">{{ page_part["feature_2_description"]["content"] }}</p>
               {% if page_part["feature_2_link"]["content"] != blank %}
-                <a href="{{ page_part["feature_2_link"]["content"] }}" class="inline-block mt-4 text-amber-600 hover:underline">Learn more &rarr;</a>
+                <a href="{{ page_part["feature_2_link"]["content"] }}" class="inline-block mt-4 text-amber-700 hover:underline">Learn more &rarr;</a>
               {% endif %}
             </div>
           {% endif %}
           {% if page_part["feature_3_title"]["content"] != blank %}
             <div class="service-card bg-white p-8 rounded-lg shadow-md text-center hover:shadow-lg transition">
               {% if page_part["feature_3_icon"]["content"] != blank %}
-                <div class="service-icon-wrapper text-4xl text-amber-600 mb-4">{{ page_part["feature_3_icon"]["content"] | material_icon: "xl" }}</div>
+                <div class="service-icon-wrapper text-4xl text-amber-700 mb-4">{{ page_part["feature_3_icon"]["content"] | material_icon: "xl" }}</div>
               {% endif %}
               <h3 class="service-title text-xl font-semibold text-gray-900 mb-3">{{ page_part["feature_3_title"]["content"] }}</h3>
               <p class="service-content text-gray-600">{{ page_part["feature_3_description"]["content"] }}</p>
               {% if page_part["feature_3_link"]["content"] != blank %}
-                <a href="{{ page_part["feature_3_link"]["content"] }}" class="inline-block mt-4 text-amber-600 hover:underline">Learn more &rarr;</a>
+                <a href="{{ page_part["feature_3_link"]["content"] }}" class="inline-block mt-4 text-amber-700 hover:underline">Learn more &rarr;</a>
               {% endif %}
             </div>
           {% endif %}

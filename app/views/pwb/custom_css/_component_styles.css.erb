@@ -398,8 +398,16 @@
 }
 
 .pwb-cta--primary {
-  background: var(--pwb-primary);
+  /* Use a darker shade of primary to ensure WCAG AA contrast with white text (4.5:1) */
+  background: var(--pwb-primary-dark, var(--pwb-primary));
   color: var(--pwb-text-on-primary);
+}
+
+/* Fallback for browsers that don't support color-mix: add overlay to darken */
+@supports not (color: color-mix(in srgb, red, white)) {
+  .pwb-cta--primary {
+    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), var(--pwb-primary);
+  }
 }
 
 .pwb-cta--secondary {
