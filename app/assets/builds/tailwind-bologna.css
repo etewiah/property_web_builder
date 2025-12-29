@@ -5530,6 +5530,122 @@
   src: url(./files/outfit-latin-wght-normal.woff2) format('woff2-variations');
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
+:root {
+  --color-terra-500: var(--bologna-terra, #c45d3e);
+  --color-terra-50: var(--bologna-terra, #c45d3e);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-terra-50: color-mix(in srgb, var(--bologna-terra, #c45d3e) 10%, white);
+  }
+  --color-terra-100: var(--bologna-terra, #c45d3e);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-terra-100: color-mix(in srgb, var(--bologna-terra, #c45d3e) 20%, white);
+  }
+  --color-terra-200: var(--bologna-terra, #c45d3e);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-terra-200: color-mix(in srgb, var(--bologna-terra, #c45d3e) 35%, white);
+  }
+  --color-terra-300: var(--bologna-terra, #c45d3e);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-terra-300: color-mix(in srgb, var(--bologna-terra, #c45d3e) 50%, white);
+  }
+  --color-terra-400: var(--bologna-terra, #c45d3e);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-terra-400: color-mix(in srgb, var(--bologna-terra, #c45d3e) 70%, white);
+  }
+  --color-terra-600: var(--bologna-terra, #c45d3e);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-terra-600: color-mix(in srgb, var(--bologna-terra, #c45d3e) 85%, black);
+  }
+  --color-terra-700: var(--bologna-terra, #c45d3e);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-terra-700: color-mix(in srgb, var(--bologna-terra, #c45d3e) 70%, black);
+  }
+  --color-terra-800: var(--bologna-terra, #c45d3e);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-terra-800: color-mix(in srgb, var(--bologna-terra, #c45d3e) 55%, black);
+  }
+  --color-terra-900: var(--bologna-terra, #c45d3e);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-terra-900: color-mix(in srgb, var(--bologna-terra, #c45d3e) 40%, black);
+  }
+  --color-olive-500: var(--bologna-olive, #5c6b4d);
+  --color-olive-50: var(--bologna-olive, #5c6b4d);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-olive-50: color-mix(in srgb, var(--bologna-olive, #5c6b4d) 10%, white);
+  }
+  --color-olive-100: var(--bologna-olive, #5c6b4d);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-olive-100: color-mix(in srgb, var(--bologna-olive, #5c6b4d) 20%, white);
+  }
+  --color-olive-200: var(--bologna-olive, #5c6b4d);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-olive-200: color-mix(in srgb, var(--bologna-olive, #5c6b4d) 35%, white);
+  }
+  --color-olive-300: var(--bologna-olive, #5c6b4d);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-olive-300: color-mix(in srgb, var(--bologna-olive, #5c6b4d) 50%, white);
+  }
+  --color-olive-400: var(--bologna-olive, #5c6b4d);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-olive-400: color-mix(in srgb, var(--bologna-olive, #5c6b4d) 70%, white);
+  }
+  --color-olive-600: var(--bologna-olive, #5c6b4d);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-olive-600: color-mix(in srgb, var(--bologna-olive, #5c6b4d) 85%, black);
+  }
+  --color-olive-700: var(--bologna-olive, #5c6b4d);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-olive-700: color-mix(in srgb, var(--bologna-olive, #5c6b4d) 70%, black);
+  }
+  --color-olive-800: var(--bologna-olive, #5c6b4d);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-olive-800: color-mix(in srgb, var(--bologna-olive, #5c6b4d) 55%, black);
+  }
+  --color-olive-900: var(--bologna-olive, #5c6b4d);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-olive-900: color-mix(in srgb, var(--bologna-olive, #5c6b4d) 40%, black);
+  }
+  --color-sand-400: var(--bologna-sand, #d4a574);
+  --color-sand-500: var(--bologna-sand, #d4a574);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-sand-500: color-mix(in srgb, var(--bologna-sand, #d4a574) 90%, black);
+  }
+  --color-sand-50: var(--bologna-sand, #d4a574);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-sand-50: color-mix(in srgb, var(--bologna-sand, #d4a574) 10%, white);
+  }
+  --color-sand-100: var(--bologna-sand, #d4a574);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-sand-100: color-mix(in srgb, var(--bologna-sand, #d4a574) 20%, white);
+  }
+  --color-sand-200: var(--bologna-sand, #d4a574);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-sand-200: color-mix(in srgb, var(--bologna-sand, #d4a574) 35%, white);
+  }
+  --color-sand-300: var(--bologna-sand, #d4a574);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-sand-300: color-mix(in srgb, var(--bologna-sand, #d4a574) 50%, white);
+  }
+  --color-sand-600: var(--bologna-sand, #d4a574);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-sand-600: color-mix(in srgb, var(--bologna-sand, #d4a574) 75%, black);
+  }
+  --color-sand-700: var(--bologna-sand, #d4a574);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-sand-700: color-mix(in srgb, var(--bologna-sand, #d4a574) 60%, black);
+  }
+  --color-sand-800: var(--bologna-sand, #d4a574);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-sand-800: color-mix(in srgb, var(--bologna-sand, #d4a574) 45%, black);
+  }
+  --color-sand-900: var(--bologna-sand, #d4a574);
+  @supports (color: color-mix(in lab, red, red)) {
+    --color-sand-900: color-mix(in srgb, var(--bologna-sand, #d4a574) 30%, black);
+  }
+  --color-primary: var(--bologna-terra, #c45d3e);
+  --color-secondary: var(--bologna-olive, #5c6b4d);
+  --color-accent: var(--bologna-sand, #d4a574);
+}
 @keyframes fadeUp {
   0% {
     opacity: 0;
