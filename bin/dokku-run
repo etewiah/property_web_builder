@@ -1,0 +1,86 @@
+#!/bin/bash
+#
+# Run Rails commands on Dokku server from local terminal
+#
+# Usage:
+#   bin/dokku-run rails "tls:check[domain.com]"
+#   bin/dokku-run rails db:migrate
+#   bin/dokku-run rails console
+#   bin/dokku-run bundle exec rake some:task
+#
+
+# Get the directory where this script lives
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+# Load .env file if it exists (from project root)
+if [ -f "$PROJECT_ROOT/.env" ]; then
+    # Export variables from .env, ignoring comments and empty lines
+    set -a
+    source <(grep -v '^\s*#' "$PROJECT_ROOT/.env" | grep -v '^\s*$')
+    set +a
+fi
+
+# Also check for .env.local (for local overrides, typically gitignored)
+if [ -f "$PROJECT_ROOT/.env.local" ]; then
+    set -a
+    source <(grep -v '^\s*#' "$PROJECT_ROOT/.env.local" | grep -v '^\s*$')
+    set +a
+fi
+
+# === CONFIGURATION ===
+# These can be set in .env, .env.local, or as environment variables
+DOKKU_HOST="${DOKKU_HOST:-your-dokku-server.com}"
+DOKKU_APP="${DOKKU_APP:-your-app-name}"
+DOKKU_USER="${DOKKU_USER:-dokku}"
+
+# === END CONFIGURATION ===
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Show usage if no arguments
+if [ $# -eq 0 ]; then
+    echo -e "${YELLOW}Usage:${NC} bin/dokku-run <command>"
+    echo ""
+    echo "Examples:"
+    echo "  bin/dokku-run rails 'tls:check[domain.com]'"
+    echo "  bin/dokku-run rails db:migrate"
+    echo "  bin/dokku-run rails console"
+    echo "  bin/dokku-run bundle exec rake some:task"
+    echo ""
+    echo -e "${YELLOW}Configuration:${NC}"
+    echo "  Add to .env or .env.local in project root:"
+    echo "    DOKKU_HOST=your-server.com"
+    echo "    DOKKU_APP=your-app-name"
+    echo "    DOKKU_USER=dokku"
+    echo ""
+    echo "  Current values:"
+    echo "    DOKKU_HOST=${DOKKU_HOST}"
+    echo "    DOKKU_APP=${DOKKU_APP}"
+    echo "    DOKKU_USER=${DOKKU_USER}"
+    exit 1
+fi
+
+# Check if configuration is set
+if [ "$DOKKU_HOST" = "your-dokku-server.com" ] || [ "$DOKKU_APP" = "your-app-name" ]; then
+    echo -e "${RED}Error:${NC} Please configure DOKKU_HOST and DOKKU_APP"
+    echo ""
+    echo "Add to .env or .env.local in project root:"
+    echo "  DOKKU_HOST=your-server.com"
+    echo "  DOKKU_APP=your-app-name"
+    echo "  DOKKU_USER=dokku"
+    exit 1
+fi
+
+# Build the command
+COMMAND="$*"
+
+echo -e "${GREEN}Running on ${DOKKU_APP}@${DOKKU_HOST}:${NC} $COMMAND"
+echo ""
+
+# Execute via SSH
+ssh "${DOKKU_USER}@${DOKKU_HOST}" -- run "$DOKKU_APP" $COMMAND

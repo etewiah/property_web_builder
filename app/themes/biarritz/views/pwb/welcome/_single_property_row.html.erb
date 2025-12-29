@@ -60,39 +60,39 @@
 
             <!-- Property Features - Dark Icons & Text -->
             <div class="border-t-2 border-neutral-100 pt-4">
-              <ul class="flex items-center justify-between text-sm text-neutral-700" role="list">
+              <ul class="flex items-center justify-between text-sm text-neutral-700" role="list" aria-label="<%= t('pwb.accessibility.property_features', default: 'Property features') %>">
 
                 <!-- Bedrooms -->
-                <li class="flex flex-col items-center" title="<%= format_bedroom_count(property.count_bedrooms) %> Bedrooms">
-                  <%= icon(:bed, class: "text-lg text-ocean-primary mb-1") %>
+                <li class="flex flex-col items-center" aria-label="<%= t('pwb.accessibility.bedrooms_count', count: property.count_bedrooms, default: '%{count} bedrooms') %>">
+                  <%= icon(:bed, class: "text-lg text-ocean-primary mb-1", aria_hidden: true) %>
                   <span class="font-semibold text-neutral-900"><%= format_bedroom_count(property.count_bedrooms) %></span>
                   <span class="text-xs hidden sm:block">Beds</span>
                 </li>
 
                 <!-- Bathrooms -->
-                <li class="flex flex-col items-center" title="<%= format_bathroom_count(property.count_bathrooms) %> Bathrooms">
-                  <%= icon(:shower, class: "text-lg text-ocean-primary mb-1") %>
+                <li class="flex flex-col items-center" aria-label="<%= t('pwb.accessibility.bathrooms_count', count: property.count_bathrooms, default: '%{count} bathrooms') %>">
+                  <%= icon(:shower, class: "text-lg text-ocean-primary mb-1", aria_hidden: true) %>
                   <span class="font-semibold text-neutral-900"><%= format_bathroom_count(property.count_bathrooms) %></span>
                   <span class="text-xs hidden sm:block">Baths</span>
                 </li>
 
                 <!-- Area -->
-                <li class="flex flex-col items-center" title="<%= property.constructed_area %><%= area_unit property %>">
-                  <%= icon(:fullscreen, class: "text-lg text-ocean-primary mb-1") %>
+                <li class="flex flex-col items-center" aria-label="<%= t('pwb.accessibility.area_size', area: property.constructed_area, unit: area_unit(property), default: '%{area} %{unit}') %>">
+                  <%= icon(:fullscreen, class: "text-lg text-ocean-primary mb-1", aria_hidden: true) %>
                   <span class="font-semibold text-neutral-900"><%= property.constructed_area %></span>
                   <span class="text-xs hidden sm:block"><%= area_unit property %></span>
                 </li>
 
                 <!-- Garage (if available) -->
                 <% if property.has_garage %>
-                  <li class="flex flex-col items-center" title="<%= property.count_garages %> Garage Spaces">
-                    <%= icon(:directions_car, class: "text-lg text-ocean-primary mb-1") %>
+                  <li class="flex flex-col items-center" aria-label="<%= t('pwb.accessibility.garages_count', count: property.count_garages, default: '%{count} garage spaces') %>">
+                    <%= icon(:directions_car, class: "text-lg text-ocean-primary mb-1", aria_hidden: true) %>
                     <span class="font-semibold text-neutral-900"><%= property.count_garages %></span>
                     <span class="text-xs hidden sm:block">Garage</span>
                   </li>
                 <% else %>
                   <!-- Spacer for alignment -->
-                  <li class="w-12"></li>
+                  <li class="w-12" aria-hidden="true"></li>
                 <% end %>
               </ul>
             </div>

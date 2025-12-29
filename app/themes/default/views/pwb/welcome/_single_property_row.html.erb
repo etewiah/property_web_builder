@@ -6,11 +6,12 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <% properties.each_with_index do |property, index| %>
         <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-          <%= link_to property.contextual_show_path(rent_or_sale) do %>
+          <%= link_to property.contextual_show_path(rent_or_sale),
+              "aria-label": t('pwb.accessibility.view_property_details', title: property.title.presence || property.reference, default: 'View details for %{title}') do %>
           <div class="relative">
             <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
               height: 300, crop: "scale", class: "w-full h-64 object-cover", loading: "lazy",
-              use_picture: true, alt: property.title.presence || "Property listing") %>
+              use_picture: true, alt: property.title.presence || t('pwb.accessibility.property_image', default: 'Property listing photo')) %>
           </div>
           <% end %>
           <div class="p-4">
@@ -22,25 +23,25 @@
             </h2>
           </div>
           <div class="px-4 pb-4 border-t border-gray-200 pt-3">
-            <ul class="flex items-center space-x-4 text-sm text-gray-600">
-              <li class="hidden md:flex items-center">
-                <%= icon(:bed, size: :sm, class: "mr-1") %>
+            <ul class="flex items-center space-x-4 text-sm text-gray-600" aria-label="<%= t('pwb.accessibility.property_features', default: 'Property features') %>">
+              <li class="hidden md:flex items-center" aria-label="<%= t('pwb.accessibility.bedrooms_count', count: property.count_bedrooms, default: '%{count} bedrooms') %>">
+                <%= icon(:bed, size: :sm, class: "mr-1", aria_hidden: true) %>
                 <small><%= format_bedroom_count(property.count_bedrooms) %></small>
               </li>
-              <li class="hidden md:flex items-center">
-                <%= icon(:shower, size: :sm, class: "mr-1") %>
+              <li class="hidden md:flex items-center" aria-label="<%= t('pwb.accessibility.bathrooms_count', count: property.count_bathrooms, default: '%{count} bathrooms') %>">
+                <%= icon(:shower, size: :sm, class: "mr-1", aria_hidden: true) %>
                 <small><%= format_bathroom_count(property.count_bathrooms) %></small>
               </li>
-              <li class="hidden md:flex items-center">
-                <%= icon(:fullscreen, size: :sm, class: "mr-1") %>
+              <li class="hidden md:flex items-center" aria-label="<%= t('pwb.accessibility.area_size', area: property.constructed_area, unit: area_unit(property), default: '%{area} %{unit}') %>">
+                <%= icon(:fullscreen, size: :sm, class: "mr-1", aria_hidden: true) %>
                 <small><%= property.constructed_area %><%= area_unit property %></small>
               </li>
-              <li class="hidden md:flex items-center">
-                <% if property.has_garage %>
-                  <%= icon(:directions_car, size: :sm, class: "mr-1") %>
+              <% if property.has_garage %>
+                <li class="hidden md:flex items-center" aria-label="<%= t('pwb.accessibility.garages_count', count: property.count_garages, default: '%{count} garage spaces') %>">
+                  <%= icon(:directions_car, size: :sm, class: "mr-1", aria_hidden: true) %>
                   <small><%= property.count_garages %></small>
-                <% end %>
-              </li>
+                </li>
+              <% end %>
             </ul>
           </div>
         </div>

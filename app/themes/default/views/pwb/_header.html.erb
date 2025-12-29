@@ -18,15 +18,19 @@
         <% end %>
       </div>
       <% if @current_website.is_multilingual && not_devise %>
-        <div class="flex items-center space-x-2">
+        <nav aria-label="<%= t('pwb.accessibility.language_selector', default: 'Language selector') %>" class="flex items-center space-x-2">
           <% @current_website.supported_locales_with_variants.uniq { |l| l["locale"] }.each do |locale_with_var| %>
             <% is_selected = locale.to_s == locale_with_var["locale"] %>
+            <% locale_name = t("languages.#{locale_with_var['locale']}", default: locale_with_var['locale'].upcase) %>
             <%= link_to params.permit(:locale).merge({locale: locale_with_var["locale"]}),
-                class: "px-2 py-1 rounded uppercase text-white #{is_selected ? 'bg-blue-600' : 'hover:bg-gray-700'}" do %>
-              <%= locale_with_var["locale"] %>
+                lang: locale_with_var["locale"],
+                hreflang: locale_with_var["locale"],
+                "aria-current": is_selected ? "page" : nil,
+                class: "min-h-[44px] min-w-[44px] px-3 py-2 rounded text-sm font-medium text-white inline-flex items-center justify-center #{is_selected ? 'bg-blue-600' : 'hover:bg-gray-700'}" do %>
+              <%= locale_name %>
             <% end %>
           <% end %>
-        </div>
+        </nav>
       <% end %>
     </div>
   </div>
@@ -46,8 +50,14 @@
       <% end %>
 
       <!-- Mobile menu button -->
-      <button data-action="toggle#toggle" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-main" aria-expanded="false">
-        <span class="sr-only">Open main menu</span>
+      <button
+        data-action="toggle#toggle"
+        data-toggle-target="trigger"
+        type="button"
+        class="inline-flex items-center justify-center min-h-[44px] min-w-[44px] p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 focus-visible:ring-blue-500"
+        aria-controls="navbar-main"
+        aria-expanded="false"
+        aria-label="<%= t('pwb.accessibility.open_main_menu', default: 'Open main navigation') %>">
         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
         </svg>

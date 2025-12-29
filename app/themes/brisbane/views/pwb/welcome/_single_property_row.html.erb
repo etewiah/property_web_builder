@@ -37,22 +37,22 @@
 
           <!-- Property Features -->
           <div class="px-6 pb-6 pt-4 border-t border-luxury-navy/10">
-            <ul class="flex items-center justify-start space-x-6 text-sm text-luxury-charcoal/70">
-              <li class="flex items-center">
-                <%= icon(:bed, size: :sm, class: "mr-2 text-luxury-gold") %>
+            <ul class="flex items-center justify-start space-x-6 text-sm text-luxury-charcoal/70" aria-label="<%= t('pwb.accessibility.property_features', default: 'Property features') %>">
+              <li class="flex items-center" aria-label="<%= t('pwb.accessibility.bedrooms_count', count: property.count_bedrooms, default: '%{count} bedrooms') %>">
+                <%= icon(:bed, size: :sm, class: "mr-2 text-luxury-gold", aria_hidden: true) %>
                 <span><%= format_bedroom_count(property.count_bedrooms) %></span>
               </li>
-              <li class="flex items-center">
-                <%= icon(:shower, size: :sm, class: "mr-2 text-luxury-gold") %>
+              <li class="flex items-center" aria-label="<%= t('pwb.accessibility.bathrooms_count', count: property.count_bathrooms, default: '%{count} bathrooms') %>">
+                <%= icon(:shower, size: :sm, class: "mr-2 text-luxury-gold", aria_hidden: true) %>
                 <span><%= format_bathroom_count(property.count_bathrooms) %></span>
               </li>
-              <li class="flex items-center">
-                <%= icon(:fullscreen, size: :sm, class: "mr-2 text-luxury-gold") %>
+              <li class="flex items-center" aria-label="<%= t('pwb.accessibility.area_size', area: property.constructed_area, unit: area_unit(property), default: '%{area} %{unit}') %>">
+                <%= icon(:fullscreen, size: :sm, class: "mr-2 text-luxury-gold", aria_hidden: true) %>
                 <span><%= property.constructed_area %><%= area_unit property %></span>
               </li>
               <% if property.has_garage %>
-                <li class="flex items-center">
-                  <%= icon(:directions_car, size: :sm, class: "mr-2 text-luxury-gold") %>
+                <li class="flex items-center" aria-label="<%= t('pwb.accessibility.garages_count', count: property.count_garages, default: '%{count} garage spaces') %>">
+                  <%= icon(:directions_car, size: :sm, class: "mr-2 text-luxury-gold", aria_hidden: true) %>
                   <span><%= property.count_garages %></span>
                 </li>
               <% end %>

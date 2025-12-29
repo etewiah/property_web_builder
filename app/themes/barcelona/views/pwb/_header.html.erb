@@ -99,11 +99,12 @@
 
         <%# Mobile Menu Button %>
         <button type="button"
-                class="lg:hidden w-10 h-10 bg-warm-100 text-warm-800 rounded-soft flex items-center justify-center hover:bg-warm-200 transition-colors"
+                class="lg:hidden min-w-[44px] min-h-[44px] w-10 h-10 bg-warm-100 text-warm-800 rounded-soft flex items-center justify-center hover:bg-warm-200 focus-visible:ring-2 focus-visible:ring-med-500 transition-colors"
                 data-collapse-toggle="navbar-main"
                 aria-controls="navbar-main"
-                aria-expanded="false">
-          <%= icon(:menu, size: :md) %>
+                aria-expanded="false"
+                aria-label="<%= t('pwb.accessibility.open_main_menu', default: 'Open main navigation') %>">
+          <%= icon(:menu, size: :md, aria_hidden: true) %>
         </button>
       </div>
     </div>

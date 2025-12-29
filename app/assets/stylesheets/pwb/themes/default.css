@@ -207,3 +207,41 @@ html {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: #ffffff;
 }
+
+/* ==========================================================================
+   Accessibility Focus States (WCAG 2.1 AA)
+   ========================================================================== */
+/* Global focus-visible styles for better keyboard navigation */
+.pwb-btn:focus-visible,
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 3px solid #005fcc;
+  outline-offset: 2px;
+}
+
+/* High contrast focus for buttons on dark backgrounds */
+.pwb-hero .pwb-btn:focus-visible,
+.pwb-hero a:focus-visible {
+  outline-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Minimum touch target size (44x44px per WCAG 2.1) */
+.pwb-btn {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Screen reader only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

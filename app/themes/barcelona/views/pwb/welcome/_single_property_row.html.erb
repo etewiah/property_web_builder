@@ -74,22 +74,22 @@
             <div class="border-t border-warm-100 my-4"></div>
 
             <!-- Property Features -->
-            <ul class="flex items-center justify-between text-sm">
-              <li class="flex items-center text-warm-600">
+            <ul class="flex items-center justify-between text-sm" aria-label="<%= t('pwb.accessibility.property_features', default: 'Property features') %>">
+              <li class="flex items-center text-warm-600" aria-label="<%= t('pwb.accessibility.bedrooms_count', count: property.count_bedrooms, default: '%{count} bedrooms') %>">
                 <span class="w-8 h-8 flex items-center justify-center bg-med-50 rounded-full mr-2">
-                  <%= icon(:bed, size: :sm, class: "text-med-500") %>
+                  <%= icon(:bed, size: :sm, class: "text-med-500", aria_hidden: true) %>
                 </span>
                 <span><%= format_bedroom_count(property.count_bedrooms) %> <%= t('pwb.properties.beds', default: 'Beds') %></span>
               </li>
-              <li class="flex items-center text-warm-600">
+              <li class="flex items-center text-warm-600" aria-label="<%= t('pwb.accessibility.bathrooms_count', count: property.count_bathrooms, default: '%{count} bathrooms') %>">
                 <span class="w-8 h-8 flex items-center justify-center bg-med-50 rounded-full mr-2">
-                  <%= icon(:shower, size: :sm, class: "text-med-500") %>
+                  <%= icon(:shower, size: :sm, class: "text-med-500", aria_hidden: true) %>
                 </span>
                 <span><%= format_bathroom_count(property.count_bathrooms) %> <%= t('pwb.properties.baths', default: 'Baths') %></span>
               </li>
-              <li class="flex items-center text-warm-600">
+              <li class="flex items-center text-warm-600" aria-label="<%= t('pwb.accessibility.area_size', area: property.constructed_area, unit: area_unit(property), default: '%{area} %{unit}') %>">
                 <span class="w-8 h-8 flex items-center justify-center bg-med-50 rounded-full mr-2">
-                  <%= icon(:straighten, size: :sm, class: "text-med-500") %>
+                  <%= icon(:straighten, size: :sm, class: "text-med-500", aria_hidden: true) %>
                 </span>
                 <span><%= property.constructed_area %><%= area_unit property %></span>
               </li>
