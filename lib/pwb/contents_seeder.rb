@@ -53,6 +53,7 @@ module Pwb
         # Use the current website being seeded
         current_website.page_parts.each do |page_part|
           page_part_key = page_part.page_part_key
+          next unless page_part_key.present?  # Skip page parts without valid key
 
           page_part_manager = Pwb::PagePartManager.new page_part_key, current_website
           set_page_part_content yml, page_part_key, page_part_manager, "website", locale
@@ -62,6 +63,7 @@ module Pwb
         current_website.pages.each do |page|
           page.page_parts.each do |page_part|
             page_part_key = page_part.page_part_key
+            next unless page_part_key.present?  # Skip page parts without valid key
             page_part_manager = Pwb::PagePartManager.new page_part_key, page
 
             # if page_part.is_rails_part
