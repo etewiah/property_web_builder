@@ -144,7 +144,9 @@ test.describe('Property Search', () => {
       const propertyItems = page.locator('.property-item, .property-card, [data-price]');
       if (await propertyItems.count() > 0) {
         const firstCard = propertyItems.first();
-        await expect(firstCard.locator('i.fa-bed')).toBeVisible();
+        // Material Symbols: bed icon or legacy Font Awesome
+        const bedroomIcon = firstCard.locator('.material-symbols-outlined:has-text("bed"), i.fa-bed');
+        await expect(bedroomIcon).toBeVisible();
       }
     });
 
@@ -154,7 +156,9 @@ test.describe('Property Search', () => {
       const propertyItems = page.locator('.property-item, .property-card, [data-price]');
       if (await propertyItems.count() > 0) {
         const firstCard = propertyItems.first();
-        await expect(firstCard.locator('i.fa-shower')).toBeVisible();
+        // Material Symbols: bathroom/bathtub/shower icon or legacy Font Awesome
+        const bathroomIcon = firstCard.locator('.material-symbols-outlined:has-text("bathroom"), .material-symbols-outlined:has-text("bathtub"), .material-symbols-outlined:has-text("shower"), i.fa-shower');
+        await expect(bathroomIcon).toBeVisible();
       }
     });
 
@@ -164,7 +168,9 @@ test.describe('Property Search', () => {
       const propertyItems = page.locator('.property-item, .property-card, [data-price]');
       if (await propertyItems.count() > 0) {
         const firstCard = propertyItems.first();
-        await expect(firstCard.locator('i.fa-arrows-alt')).toBeVisible();
+        // Material Symbols: square_foot/crop_square/fullscreen icon or legacy Font Awesome
+        const areaIcon = firstCard.locator('.material-symbols-outlined:has-text("square_foot"), .material-symbols-outlined:has-text("crop_square"), .material-symbols-outlined:has-text("fullscreen"), i.fa-arrows-alt');
+        await expect(areaIcon).toBeVisible();
       }
     });
 
