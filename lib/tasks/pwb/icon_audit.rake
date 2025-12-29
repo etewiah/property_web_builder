@@ -15,23 +15,23 @@ namespace :pwb do
       brand_icons_used = Set.new
       files_with_issues = []
 
-      # Patterns to search for
+      # Patterns to search for - more precise to avoid false positives
       icon_patterns = [
-        /icon[:\s]+['":]+(\w+)/,           # icon(:name) or icon("name") or icon: "name"
-        /icon\s*\(\s*:(\w+)/,               # icon(:name
-        /icon\s*\(\s*['"]([^'"]+)['"]/,     # icon("name" or icon('name'
-        /icon\s+['"]?(\w+)['"]?/            # icon "name" or icon 'name'
+        /\bicon\s*\(\s*:(\w+)/,                    # icon(:name) - Ruby symbol
+        /\bicon\s*\(\s*['"]([a-z_]+)['"]/,         # icon("name") - Ruby string, lowercase only
+        /\bicon\s*['"]([a-z_]+)['"]/,              # icon "name" - shorthand
+        /<%=\s*icon\s+:(\w+)/,                     # <%= icon :name - ERB
+        /\{\{\s*icon\s+['"]([a-z_]+)['"]/          # {{ icon "name" - Liquid
       ]
 
-      brand_pattern = /brand_icon[:\s]+['":]+(\w+)/
+      brand_pattern = /\bbrand_icon\s*\(\s*:(\w+)/
 
-      # Scan ERB files
+      # Scan view files only (skip helpers which contain documentation/examples)
       erb_files = Dir.glob(Rails.root.join("app/**/*.erb"))
       liquid_files = Dir.glob(Rails.root.join("app/**/*.liquid"))
-      helper_files = Dir.glob(Rails.root.join("app/helpers/**/*.rb"))
-      view_files = Dir.glob(Rails.root.join("app/views/**/*.rb"))
 
-      all_files = erb_files + liquid_files + helper_files + view_files
+      # Skip icon_helper.rb itself (it contains documentation examples)
+      all_files = (erb_files + liquid_files).reject { |f| f.include?("icon_helper") }
 
       puts "\n📁 Scanning #{all_files.count} files..."
 

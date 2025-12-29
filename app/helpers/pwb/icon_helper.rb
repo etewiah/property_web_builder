@@ -223,6 +223,7 @@ module Pwb
       euro_symbol
       handshake
       wb_sunny
+      wb_twilight
       light_mode
       dark_mode
       brightness_5
