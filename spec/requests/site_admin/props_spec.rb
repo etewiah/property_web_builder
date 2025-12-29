@@ -149,6 +149,11 @@ RSpec.describe 'SiteAdmin::PropsController', type: :request do
 
   describe 'GET /site_admin/props/:id (show)' do
     let!(:property) { create(:pwb_realty_asset, website: website, reference: 'SHOW-PROP') }
+    let!(:sale_listing) { create(:pwb_sale_listing, realty_asset: property, visible: true) }
+
+    before do
+      Pwb::ListedProperty.refresh rescue nil
+    end
 
     it 'renders the property show page' do
       get site_admin_prop_path(property),

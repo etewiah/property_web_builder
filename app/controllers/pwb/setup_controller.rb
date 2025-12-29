@@ -45,11 +45,12 @@ module Pwb
         begin
           pack.apply!(website: website, options: { verbose: false })
           flash[:success] = "Website '#{subdomain}' created and seeded successfully!"
-          redirect_to root_url(subdomain: subdomain)
+          # allow_other_host: true is needed because we're redirecting to a different subdomain
+          redirect_to root_url(subdomain: subdomain), allow_other_host: true
         rescue StandardError => e
           Rails.logger.error("Seed pack application failed: #{e.message}")
           flash[:error] = "Website created but seeding failed: #{e.message}"
-          redirect_to root_url(subdomain: subdomain)
+          redirect_to root_url(subdomain: subdomain), allow_other_host: true
         end
       else
         flash[:error] = "Failed to create website: #{website.errors.full_messages.join(', ')}"

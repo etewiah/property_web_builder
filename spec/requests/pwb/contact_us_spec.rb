@@ -135,7 +135,7 @@ RSpec.describe 'Pwb::ContactUsController', type: :request do
                params: valid_params,
                headers: js_headers,
                as: :js
-        }.to have_enqueued_job.on_queue('mailers')
+        }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
       end
 
       it 'renders success response' do
