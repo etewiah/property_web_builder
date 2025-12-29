@@ -12,8 +12,9 @@ RSpec.describe Pwb::WebsiteStyleable, type: :model do
   end
 
   describe '#style_variables' do
-    it 'returns default values when none are set' do
+    it 'returns default values when none are set and no palette selected' do
       website.style_variables_for_theme = {}
+      website.selected_palette = nil  # Clear auto-assigned palette
       vars = website.style_variables
 
       expect(vars['primary_color']).to eq('#e91b23')
@@ -24,7 +25,18 @@ RSpec.describe Pwb::WebsiteStyleable, type: :model do
       expect(vars['theme']).to eq('light')
     end
 
-    it 'returns stored values when set' do
+    it 'returns palette colors when palette is selected' do
+      # Palette colors override stored values
+      website.style_variables = { 'primary_color' => '#ff0000' }
+      website.selected_palette = 'classic_red'  # classic_red has primary #e91b23
+      vars = website.style_variables
+
+      # Palette colors take precedence
+      expect(vars['primary_color']).to eq('#e91b23')
+    end
+
+    it 'returns stored values when set and no palette selected' do
+      website.selected_palette = nil  # Clear auto-assigned palette
       website.style_variables = { 'primary_color' => '#ff0000' }
       expect(website.style_variables['primary_color']).to eq('#ff0000')
     end

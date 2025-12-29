@@ -255,14 +255,46 @@ module Pwb
 
       website_config = config[:website] || {}
 
+      # Determine supported locales - ensure we have a valid default
+      supported_locales = website_config[:supported_locales] || ['en']
+      default_locale = website_config[:default_client_locale] || supported_locales.first || 'en'
+
+      # Ensure default_locale is in supported_locales to pass validation
+      supported_locales = supported_locales.map(&:to_s)
+      supported_locales << default_locale unless supported_locales.any? { |l| l.to_s.split('-').first.downcase == default_locale.to_s.split('-').first.downcase }
+
+      # Determine theme name
+      theme_name = website_config[:theme_name] || 'default'
+
       @website.update!(
-        theme_name: website_config[:theme_name] || 'bristol',
-        default_client_locale: website_config[:default_client_locale] || 'en',
+        theme_name: theme_name,
+        supported_locales: supported_locales,
+        default_client_locale: default_locale,
         default_area_unit: website_config[:area_unit] || 'sqm',
         default_currency: website_config[:currency] || 'EUR'
       )
 
-      log "  Website configured: theme=#{@website.theme_name}, locale=#{@website.default_client_locale}", :detail
+      # Set color palette - use pack config or fall back to theme's default
+      palette_id = determine_palette_id(website_config, theme_name)
+      if palette_id.present?
+        @website.update!(selected_palette: palette_id)
+        log "  Palette set: #{palette_id}", :detail
+      end
+
+      log "  Website configured: theme=#{@website.theme_name}, palette=#{@website.selected_palette}, locale=#{@website.default_client_locale}", :detail
+    end
+
+    # Determine which palette to use for the website
+    # Priority: 1) Pack config, 2) Theme's default palette
+    def determine_palette_id(website_config, theme_name)
+      # Use explicitly configured palette from pack
+      return website_config[:selected_palette] if website_config[:selected_palette].present?
+
+      # Fall back to theme's default palette
+      theme = Pwb::Theme.find_by(name: theme_name)
+      return nil unless theme
+
+      theme.default_palette_id
     end
 
     def seed_agency

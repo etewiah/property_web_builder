@@ -12,7 +12,8 @@ inherits_from: null
 
 # Default website configuration (can be overridden by child packs)
 website:
-  theme_name: bristol
+  theme_name: default
+  selected_palette: classic_red
   default_client_locale: en
   supported_locales:
     - en

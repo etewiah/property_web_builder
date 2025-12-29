@@ -16,7 +16,8 @@ inherits_from: base
 
 # Website Configuration
 website:
-  theme_name: bristol
+  theme_name: brisbane
+  selected_palette: emerald_luxury
   default_client_locale: es
   supported_locales:
     - es
@@ -24,7 +25,7 @@ website:
     - de
   country: Spain
   currency: EUR
-  area_unit: sqm
+  area_unit: sqmt
 
 # Agency Configuration
 agency:

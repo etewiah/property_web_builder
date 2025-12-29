@@ -16,7 +16,8 @@ inherits_from: base
 
 # Website Configuration
 website:
-  theme_name: bristol
+  theme_name: bologna
+  selected_palette: modern_slate
   default_client_locale: nl
   supported_locales:
     - nl

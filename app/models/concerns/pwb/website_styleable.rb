@@ -20,6 +20,9 @@ module Pwb
       before_save :clear_theme_cache, if: :theme_name_changed?
       after_save :clear_palette_loader_cache, if: :saved_change_to_selected_palette?
 
+      # Set default palette when theme changes or on creation
+      before_save :ensure_palette_selected, if: :should_set_default_palette?
+
       # Validate palette_mode if the column exists
       validates :palette_mode, inclusion: { in: PALETTE_MODES }, allow_nil: true, if: -> { respond_to?(:palette_mode) }
     end
@@ -360,6 +363,23 @@ module Pwb
 
     def palette_loader
       @palette_loader ||= PaletteLoader.new
+    end
+
+    # Check if we should set a default palette
+    # Returns true if:
+    # - selected_palette is blank AND
+    # - theme_name is present AND
+    # - either this is a new record OR theme_name has changed
+    def should_set_default_palette?
+      selected_palette.blank? && theme_name.present? && (new_record? || theme_name_changed?)
+    end
+
+    # Set the default palette from the current theme
+    def ensure_palette_selected
+      return unless current_theme
+
+      default_palette = current_theme.default_palette_id
+      self.selected_palette = default_palette if default_palette.present?
     end
 
     # Clear memoized theme when theme_name changes
