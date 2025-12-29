@@ -1,0 +1,266 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Smoke Test Script for PropertyWebBuilder
+#
+# Runs quick sanity checks to verify the application can start correctly
+# and critical services are available. Run this before deploying to catch
+# configuration and loading issues early.
+#
+# Usage:
+#   bin/smoke_test              # Run all checks
+#   bin/smoke_test --quick      # Skip slow checks (database queries)
+#   bin/smoke_test --verbose    # Show detailed output
+#
+# Exit codes:
+#   0 - All checks passed
+#   1 - One or more checks failed
+
+require "optparse"
+
+options = { verbose: false, quick: false }
+OptionParser.new do |opts|
+  opts.banner = "Usage: bin/smoke_test [options]"
+  opts.on("-v", "--verbose", "Show detailed output") { options[:verbose] = true }
+  opts.on("-q", "--quick", "Skip slow checks") { options[:quick] = true }
+  opts.on("-h", "--help", "Show this help") { puts opts; exit }
+end.parse!
+
+# ANSI color codes
+class Colors
+  def self.green(text)  = "\e[32m#{text}\e[0m"
+  def self.red(text)    = "\e[31m#{text}\e[0m"
+  def self.yellow(text) = "\e[33m#{text}\e[0m"
+  def self.blue(text)   = "\e[34m#{text}\e[0m"
+  def self.bold(text)   = "\e[1m#{text}\e[0m"
+end
+
+class SmokeTest
+  attr_reader :options, :results
+
+  def initialize(options)
+    @options = options
+    @results = { passed: [], failed: [], skipped: [] }
+  end
+
+  def run
+    puts Colors.bold("\nPropertyWebBuilder Smoke Test")
+    puts "=" * 40
+    puts
+
+    # Phase 1: Pre-Rails checks
+    section("Environment") do
+      check("Ruby version") { ruby_version_check }
+      check("Bundler") { bundler_check }
+    end
+
+    # Phase 2: Rails loading
+    section("Rails Application") do
+      check("Environment loads") { rails_environment_check }
+    end
+
+    # Load Rails for remaining checks
+    load_rails!
+
+    # Phase 2b: Post-load Rails checks
+    section("Rails Loading") do
+      check("Eager loading") { eager_load_check }
+    end
+
+    # Phase 3: Service checks
+    section("Services") do
+      check("ActiveStorage R2 service") { r2_service_check }
+      check("Cache store") { cache_check }
+    end
+
+    # Phase 4: Database checks (skip with --quick)
+    section("Database", skip: options[:quick]) do
+      check("Database connection") { database_connection_check }
+      check("Migrations current") { migrations_check }
+      check("Website model") { website_model_check }
+      check("Theme loading") { theme_loading_check }
+    end
+
+    # Phase 5: Asset checks
+    section("Assets") do
+      check("Asset pipeline") { asset_pipeline_check }
+    end
+
+    print_summary
+    exit(@results[:failed].empty? ? 0 : 1)
+  end
+
+  private
+
+  def section(name, skip: false)
+    puts Colors.blue("#{name}:")
+    if skip
+      puts "  #{Colors.yellow('SKIPPED')} (use without --quick to run)"
+      puts
+      return
+    end
+    yield
+    puts
+  end
+
+  def check(name)
+    print "  #{name}... "
+    $stdout.flush
+
+    start_time = Time.now
+    result = yield
+    elapsed = ((Time.now - start_time) * 1000).round
+
+    if result[:success]
+      @results[:passed] << name
+      puts Colors.green("OK") + (options[:verbose] ? " (#{elapsed}ms)" : "")
+      puts "    #{result[:detail]}" if options[:verbose] && result[:detail]
+    else
+      @results[:failed] << { name: name, error: result[:error] }
+      puts Colors.red("FAILED")
+      puts "    #{Colors.red(result[:error])}"
+    end
+  rescue StandardError => e
+    @results[:failed] << { name: name, error: e.message }
+    puts Colors.red("FAILED")
+    puts "    #{Colors.red(e.message)}"
+    puts "    #{e.backtrace.first(3).join("\n    ")}" if options[:verbose]
+  end
+
+  def ruby_version_check
+    required = File.read(".ruby-version").strip rescue nil
+    current = RUBY_VERSION
+
+    if required && current != required
+      { success: false, error: "Expected #{required}, got #{current}" }
+    else
+      { success: true, detail: "Ruby #{current}" }
+    end
+  end
+
+  def bundler_check
+    output = `bundle check 2>&1`
+    if $?.success?
+      { success: true, detail: "All gems installed" }
+    else
+      { success: false, error: output.lines.first&.strip || "Bundle check failed" }
+    end
+  end
+
+  def rails_environment_check
+    # Verify config files exist
+    %w[config/application.rb config/environment.rb].each do |file|
+      unless File.exist?(file)
+        return { success: false, error: "Missing #{file}" }
+      end
+    end
+    { success: true, detail: "Config files present" }
+  end
+
+  def eager_load_check
+    # Skip if already eager loaded (production mode)
+    return { success: true, detail: "Already eager loaded" } if Rails.application.config.eager_load
+
+    Rails.application.eager_load!
+    { success: true, detail: "All application code loaded" }
+  end
+
+  def load_rails!
+    puts "  Loading Rails environment..."
+    $stdout.flush
+    start = Time.now
+    require_relative "../config/environment"
+    elapsed = ((Time.now - start) * 1000).round
+    puts "  #{Colors.green('OK')} (#{elapsed}ms)"
+    puts
+  rescue StandardError => e
+    puts Colors.red("\nFATAL: Could not load Rails environment")
+    puts e.message
+    puts e.backtrace.first(5).join("\n") if options[:verbose]
+    exit 1
+  end
+
+  def r2_service_check
+    # Verify the R2 service class is loadable
+    klass = ActiveStorage::Service::R2Service
+    { success: true, detail: klass.to_s }
+  rescue NameError, LoadError => e
+    { success: false, error: e.message }
+  end
+
+  def cache_check
+    test_key = "smoke_test_#{Time.now.to_i}"
+    Rails.cache.write(test_key, "test_value", expires_in: 1.minute)
+    value = Rails.cache.read(test_key)
+    Rails.cache.delete(test_key)
+
+    if value == "test_value"
+      { success: true, detail: Rails.cache.class.name }
+    else
+      { success: false, error: "Cache read/write failed" }
+    end
+  end
+
+  def database_connection_check
+    ActiveRecord::Base.connection.execute("SELECT 1")
+    adapter = ActiveRecord::Base.connection.adapter_name
+    { success: true, detail: adapter }
+  end
+
+  def migrations_check
+    context = ActiveRecord::MigrationContext.new(Rails.root.join("db/migrate"))
+    pending = context.migrations.size - context.get_all_versions.size
+
+    if pending.zero?
+      { success: true, detail: "All migrations applied" }
+    else
+      { success: false, error: "#{pending} pending migration(s)" }
+    end
+  end
+
+  def website_model_check
+    count = Pwb::Website.count
+    { success: true, detail: "#{count} website(s) in database" }
+  end
+
+  def theme_loading_check
+    themes = Pwb::Theme.all.map(&:name)
+    if themes.any?
+      { success: true, detail: "Themes: #{themes.join(', ')}" }
+    else
+      { success: false, error: "No themes found" }
+    end
+  end
+
+  def asset_pipeline_check
+    # Check that Propshaft/Sprockets is configured
+    if defined?(Propshaft) || defined?(Sprockets)
+      pipeline = defined?(Propshaft) ? "Propshaft" : "Sprockets"
+      { success: true, detail: pipeline }
+    else
+      { success: false, error: "No asset pipeline configured" }
+    end
+  end
+
+  def print_summary
+    puts "=" * 40
+    puts Colors.bold("Summary")
+    puts
+
+    total = @results[:passed].size + @results[:failed].size
+    passed = @results[:passed].size
+    failed = @results[:failed].size
+
+    if failed.zero?
+      puts Colors.green("All #{total} checks passed!")
+    else
+      puts Colors.red("#{failed} of #{total} checks failed:")
+      @results[:failed].each do |failure|
+        puts "  - #{failure[:name]}: #{failure[:error]}"
+      end
+    end
+    puts
+  end
+end
+
+SmokeTest.new(options).run
