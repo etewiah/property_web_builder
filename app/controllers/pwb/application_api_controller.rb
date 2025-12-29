@@ -43,10 +43,35 @@ module Pwb
     def current_website
       return @current_website if defined?(@current_website)
 
-      @current_website = current_website_from_subdomain || Pwb::Current.website || Website.first
+      @current_website = current_website_from_subdomain ||
+                         current_website_from_header ||
+                         Pwb::Current.website ||
+                         fallback_website
+
+      unless @current_website
+        render json: { error: 'No website found for this request' }, status: :bad_request
+        return nil
+      end
+
       # Set ActsAsTenant for PwbTenant:: models
       ActsAsTenant.current_tenant = @current_website
       @current_website
+    end
+
+    # Allow tenant resolution via X-Website-Slug header (for API clients)
+    def current_website_from_header
+      slug = request.headers['X-Website-Slug']
+      return nil unless slug.present?
+
+      Website.find_by(subdomain: slug)
+    end
+
+    # Only use Website.first as fallback in non-production environments
+    def fallback_website
+      return nil if Rails.env.production?
+
+      Rails.logger.warn "[API] Using Website.first fallback - configure proper tenant resolution"
+      Website.first
     end
 
     def current_website_from_subdomain

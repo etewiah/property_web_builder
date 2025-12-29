@@ -6,10 +6,20 @@ module Pwb
   # This job fetches the latest rates from the European Central Bank
   # and stores them in each website's exchange_rates column.
   #
+  # MULTI-TENANCY:
+  #   This job operates in two modes:
+  #   - Global mode (no website_id): Updates ALL websites' exchange rates
+  #   - Single tenant mode (website_id provided): Updates one website
+  #
+  #   No ActsAsTenant context is set because:
+  #   - Updates are made directly via Pwb::Website (cross-tenant namespace)
+  #   - Each website's data is updated independently using explicit website_id
+  #   - No tenant-scoped queries are performed
+  #
   # Schedule: Run daily (configure in config/recurring.yml for Solid Queue)
   #
   # Usage:
-  #   # Run manually
+  #   # Run manually for all websites
   #   Pwb::UpdateExchangeRatesJob.perform_later
   #
   #   # Run for specific website

@@ -5,6 +5,14 @@
 # The pwb_properties materialized view denormalizes property data for fast reads.
 # This job should be enqueued after property updates to keep the view current.
 #
+# MULTI-TENANCY:
+#   This is a GLOBAL operation that refreshes data for ALL tenants.
+#   The materialized view includes website_id for tenant filtering at query time.
+#   No ActsAsTenant context is needed because:
+#   - The view refresh operates on all data
+#   - Individual tenant queries filter by website_id automatically
+#   - Cache invalidation uses website_id parameter for tenant-specific caches
+#
 # Usage:
 #   RefreshPropertiesViewJob.perform_later
 #   RefreshPropertiesViewJob.perform_later(website_id: 123) # For cache invalidation

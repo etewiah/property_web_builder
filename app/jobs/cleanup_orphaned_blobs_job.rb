@@ -7,6 +7,16 @@
 # - Direct uploads fail before attachment
 # - Database transactions roll back after blob creation
 #
+# MULTI-TENANCY:
+#   This is a GLOBAL cleanup operation across all tenants.
+#   ActiveStorage blobs don't have direct website_id columns, but are
+#   associated with tenant-scoped records through attachments.
+#
+#   No ActsAsTenant context is needed because:
+#   - Orphaned blobs have NO attachments (by definition)
+#   - The cleanup targets unattached blobs regardless of original tenant
+#   - Blob purging is a storage-level operation, not tenant-scoped
+#
 # This job runs daily via Solid Queue recurring tasks and purges
 # blobs that have been unattached for more than 24 hours.
 #

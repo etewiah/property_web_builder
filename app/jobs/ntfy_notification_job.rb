@@ -6,12 +6,19 @@
 # Notifications are sent in the background and failures are logged
 # without affecting the main application flow.
 #
+# MULTI-TENANCY:
+#   This job includes TenantAwareJob and sets tenant context before
+#   accessing any tenant-scoped records (messages, users, listings).
+#   All record lookups are performed within the tenant context for safety.
+#
 # Usage:
 #   NtfyNotificationJob.perform_later(website_id, :inquiry, message_id)
 #   NtfyNotificationJob.perform_later(website_id, :listing_change, listing_id, 'SaleListing', :published)
 #   NtfyNotificationJob.perform_later(website_id, :security, nil, nil, 'login_failed', { email: 'user@example.com' })
 #
 class NtfyNotificationJob < ActiveJob::Base
+  include TenantAwareJob
+
   queue_as :notifications
 
   # Retry failed jobs with exponential backoff
@@ -24,19 +31,24 @@ class NtfyNotificationJob < ActiveJob::Base
     website = Pwb::Website.find(website_id)
     return unless website.ntfy_enabled?
 
-    case notification_type.to_sym
-    when :inquiry
-      handle_inquiry(website, record_id)
-    when :listing_change
-      handle_listing_change(website, record_id, record_class, action)
-    when :user_event
-      handle_user_event(website, record_id, action)
-    when :security
-      handle_security_event(website, action, details)
-    when :admin
-      handle_admin_notification(website, action, details)
-    else
-      Rails.logger.warn("[NtfyNotificationJob] Unknown notification type: #{notification_type}")
+    # Set tenant context for all record lookups
+    ActsAsTenant.with_tenant(website) do
+      Pwb::Current.website = website
+
+      case notification_type.to_sym
+      when :inquiry
+        handle_inquiry(website, record_id)
+      when :listing_change
+        handle_listing_change(website, record_id, record_class, action)
+      when :user_event
+        handle_user_event(website, record_id, action)
+      when :security
+        handle_security_event(website, action, details)
+      when :admin
+        handle_admin_notification(website, action, details)
+      else
+        Rails.logger.warn("[NtfyNotificationJob] Unknown notification type: #{notification_type}")
+      end
     end
   end
 
