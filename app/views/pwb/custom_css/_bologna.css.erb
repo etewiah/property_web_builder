@@ -7,39 +7,39 @@
 <%= render partial: '/pwb/custom_css/base_variables', locals: {} %>
 
 :root {
-  /* Primary Colors */
-  --bologna-terra: <%= @current_website.style_variables["primary_color"] || "#c45d3e" %>;
-  --bologna-olive: <%= @current_website.style_variables["secondary_color"] || "#5c6b4d" %>;
-  --bologna-sand: <%= @current_website.style_variables["accent_color"] || "#d4a574" %>;
-  --bologna-warm-gray: <%= @current_website.style_variables["text_color"] || "#3d3d3d" %>;
-  --bologna-light: <%= @current_website.style_variables["light_color"] || "#faf9f7" %>;
+  /* Primary Colors - Mapped to PWB Standard Variables */
+  --bologna-terra: var(--pwb-primary-color);
+  --bologna-olive: var(--pwb-secondary-color);
+  --bologna-sand: var(--pwb-accent-color);
+  --bologna-warm-gray: var(--pwb-text-color);
+  --bologna-light: var(--pwb-background-color);
 
-  /* Extended Terra Palette */
-  --bologna-terra-50: #fdf8f6;
-  --bologna-terra-100: #f9ece6;
-  --bologna-terra-200: #f2d5c9;
-  --bologna-terra-300: #e7b5a0;
-  --bologna-terra-400: #d98e6e;
-  --bologna-terra-500: var(--bologna-terra);
-  --bologna-terra-600: #b14a2e;
+  /* Extended Terra Palette - Mapped to PWB Dynamic Shades */
+  --bologna-terra-50: var(--pwb-primary-50);
+  --bologna-terra-100: var(--pwb-primary-100);
+  --bologna-terra-200: var(--pwb-primary-200);
+  --bologna-terra-300: var(--pwb-primary-300);
+  --bologna-terra-400: var(--pwb-primary-400);
+  --bologna-terra-500: var(--pwb-primary-500);
+  --bologna-terra-600: var(--pwb-primary-600);
 
-  /* Extended Olive Palette */
-  --bologna-olive-50: #f6f7f4;
-  --bologna-olive-100: #e8ebe3;
-  --bologna-olive-200: #d3d9c9;
-  --bologna-olive-300: #b4bfa4;
-  --bologna-olive-400: #95a37f;
-  --bologna-olive-500: var(--bologna-olive);
-  --bologna-olive-600: #4a5640;
+  /* Extended Olive Palette - Mapped to PWB Dynamic Shades */
+  --bologna-olive-50: var(--pwb-secondary-50);
+  --bologna-olive-100: var(--pwb-secondary-100);
+  --bologna-olive-200: var(--pwb-secondary-200);
+  --bologna-olive-300: var(--pwb-secondary-300);
+  --bologna-olive-400: var(--pwb-secondary-400);
+  --bologna-olive-500: var(--pwb-secondary-500);
+  --bologna-olive-600: var(--pwb-secondary-600);
 
   /* Footer Colors */
-  --footer-bg-color: <%= @current_website.style_variables["footer_bg_color"] || "#3d3d3d" %>;
-  --footer-text-color: <%= @current_website.style_variables["footer_main_text_color"] || "#d5d0c8" %>;
-  --footer-link-color: var(--bologna-terra-400);
-  --footer-link-hover-color: var(--bologna-terra-300);
+  --footer-bg-color: var(--pwb-footer-background-color);
+  --footer-text-color: var(--pwb-footer-text-color);
+  --footer-link-color: var(--pwb-primary-400);
+  --footer-link-hover-color: var(--pwb-primary-300);
 
   /* Action Colors */
-  --action-color: <%= @current_website.style_variables["action_color"] || "#c45d3e" %>;
+  --action-color: var(--pwb-primary-color);
 
   /* Typography */
   --font-display: <%= @current_website.style_variables["font_primary"] || "Outfit" %>;

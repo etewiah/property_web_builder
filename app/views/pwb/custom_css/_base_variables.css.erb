@@ -56,48 +56,49 @@
 %>
 
 :root {
-  /* ===== Color System ===== */
-  --pwb-primary: <%= primary_color %>;
-  --pwb-primary-light: color-mix(in srgb, <%= primary_color %> 70%, white);
-  --pwb-primary-dark: color-mix(in srgb, <%= primary_color %> 70%, black);
+  /* ===== Color System - Mapped to PWB Standard Variables ===== */
+  --pwb-primary: var(--pwb-primary-color);
+  --pwb-primary-light: var(--pwb-primary-100);
+  --pwb-primary-dark: var(--pwb-primary-700);
+  /* RGB fallback for legacy support */
   --pwb-primary-rgb: <%= primary_color.gsub('#', '').scan(/../).map { |c| c.to_i(16) }.join(', ') rescue '233, 27, 35' %>;
 
-  --pwb-secondary: <%= secondary_color %>;
-  --pwb-secondary-light: color-mix(in srgb, <%= secondary_color %> 70%, white);
-  --pwb-secondary-dark: color-mix(in srgb, <%= secondary_color %> 70%, black);
+  --pwb-secondary: var(--pwb-secondary-color);
+  --pwb-secondary-light: var(--pwb-secondary-100);
+  --pwb-secondary-dark: var(--pwb-secondary-700);
 
-  --pwb-accent: <%= accent_color %>;
-  --pwb-accent-light: color-mix(in srgb, <%= accent_color %> 70%, white);
-  --pwb-accent-dark: color-mix(in srgb, <%= accent_color %> 70%, black);
+  --pwb-accent: var(--pwb-accent-color);
+  --pwb-accent-light: var(--pwb-accent-100);
+  --pwb-accent-dark: var(--pwb-accent-700);
 
   /* Status colors */
-  --pwb-success: #28a745;
-  --pwb-warning: #ffc107;
-  --pwb-danger: #dc3545;
+  --pwb-success: var(--pwb-success-color, #28a745);
+  --pwb-warning: var(--pwb-warning-color, #ffc107);
+  --pwb-danger: var(--pwb-error-color, #dc3545);
   --pwb-info: #17a2b8;
 
   /* Background colors */
-  --pwb-bg-light: <%= bg_light %>;
+  --pwb-bg-light: var(--pwb-surface-alt-color, <%= bg_light %>);
   --pwb-bg-dark: <%= bg_dark %>;
-  --pwb-bg-body: #ffffff;
-  --pwb-bg-surface: #ffffff;
-  --pwb-bg-muted: #f1f3f4;
+  --pwb-bg-body: var(--pwb-background-color, #ffffff);
+  --pwb-bg-surface: var(--pwb-surface-color, #ffffff);
+  --pwb-bg-muted: var(--pwb-surface-alt-color, #f1f3f4);
 
   /* Text colors */
-  --pwb-text-primary: <%= text_primary %>;
-  --pwb-text-secondary: <%= text_secondary %>;
-  --pwb-text-muted: #9ca3af;
+  --pwb-text-primary: var(--pwb-text-color, <%= text_primary %>);
+  --pwb-text-secondary: var(--pwb-muted-text-color, <%= text_secondary %>);
+  --pwb-text-muted: var(--pwb-muted-text-color, #9ca3af);
   --pwb-text-light: <%= text_light %>;
   --pwb-text-on-primary: #ffffff;
   --pwb-text-on-secondary: #ffffff;
 
   /* Border colors */
-  --pwb-border-color: #e5e7eb;
+  --pwb-border-color: var(--pwb-border-color, #e5e7eb);
   --pwb-border-color-dark: #d1d5db;
 
   /* Footer */
-  --pwb-footer-bg: <%= footer_bg %>;
-  --pwb-footer-text: <%= footer_text %>;
+  --pwb-footer-bg: var(--pwb-footer-background-color, <%= footer_bg %>);
+  --pwb-footer-text: var(--pwb-footer-text-color, <%= footer_text %>);
   --pwb-footer-link: <%= footer_link %>;
 
   /* ===== Typography ===== */

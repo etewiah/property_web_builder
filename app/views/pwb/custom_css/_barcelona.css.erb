@@ -7,66 +7,66 @@
 <%= render partial: '/pwb/custom_css/base_variables', locals: {} %>
 
 :root {
-  /* Primary Colors - from palette with fallbacks */
-  --barcelona-med: <%= @current_website.style_variables["primary_color"] || "#0B5394" %>;
-  --barcelona-terra: <%= @current_website.style_variables["secondary_color"] || "#B8503E" %>;
-  --barcelona-gold: <%= @current_website.style_variables["accent_color"] || "#E5B45A" %>;
-  --barcelona-warm: <%= @current_website.style_variables["text_color"] || "#2D3436" %>;
-  --barcelona-light: <%= @current_website.style_variables["background_color"] || @current_website.style_variables["light_color"] || "#FEFCF9" %>;
+  /* Primary Colors - Mapped to PWB Standard Variables */
+  --barcelona-med: var(--pwb-primary-color);
+  --barcelona-terra: var(--pwb-secondary-color);
+  --barcelona-gold: var(--pwb-accent-color);
+  --barcelona-warm: var(--pwb-text-color);
+  --barcelona-light: var(--pwb-background-color);
 
-  /* Extended Mediterranean Blue Palette - derived using color-mix */
-  --barcelona-med-50: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0B5394" %> 5%, white);
-  --barcelona-med-100: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0B5394" %> 15%, white);
-  --barcelona-med-200: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0B5394" %> 25%, white);
-  --barcelona-med-300: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0B5394" %> 40%, white);
-  --barcelona-med-400: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0B5394" %> 60%, white);
-  --barcelona-med-500: var(--barcelona-med);
-  --barcelona-med-600: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0B5394" %> 85%, black);
-  --barcelona-med-700: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0B5394" %> 70%, black);
-  --barcelona-med-800: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0B5394" %> 55%, black);
-  --barcelona-med-900: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0B5394" %> 40%, black);
+  /* Extended Mediterranean Blue Palette - Mapped to PWB Dynamic Shades */
+  --barcelona-med-50: var(--pwb-primary-50);
+  --barcelona-med-100: var(--pwb-primary-100);
+  --barcelona-med-200: var(--pwb-primary-200);
+  --barcelona-med-300: var(--pwb-primary-300);
+  --barcelona-med-400: var(--pwb-primary-400);
+  --barcelona-med-500: var(--pwb-primary-500);
+  --barcelona-med-600: var(--pwb-primary-600);
+  --barcelona-med-700: var(--pwb-primary-700);
+  --barcelona-med-800: var(--pwb-primary-800);
+  --barcelona-med-900: var(--pwb-primary-900);
 
-  /* Extended Terracotta Palette - derived using color-mix */
-  --barcelona-terra-50: color-mix(in srgb, <%= @current_website.style_variables["secondary_color"] || "#B8503E" %> 5%, white);
-  --barcelona-terra-100: color-mix(in srgb, <%= @current_website.style_variables["secondary_color"] || "#B8503E" %> 15%, white);
-  --barcelona-terra-200: color-mix(in srgb, <%= @current_website.style_variables["secondary_color"] || "#B8503E" %> 25%, white);
-  --barcelona-terra-300: color-mix(in srgb, <%= @current_website.style_variables["secondary_color"] || "#B8503E" %> 40%, white);
-  --barcelona-terra-400: color-mix(in srgb, <%= @current_website.style_variables["secondary_color"] || "#B8503E" %> 70%, white);
-  --barcelona-terra-500: var(--barcelona-terra);
-  --barcelona-terra-600: color-mix(in srgb, <%= @current_website.style_variables["secondary_color"] || "#B8503E" %> 80%, black);
+  /* Extended Terracotta Palette - Mapped to PWB Dynamic Shades */
+  --barcelona-terra-50: var(--pwb-secondary-50);
+  --barcelona-terra-100: var(--pwb-secondary-100);
+  --barcelona-terra-200: var(--pwb-secondary-200);
+  --barcelona-terra-300: var(--pwb-secondary-300);
+  --barcelona-terra-400: var(--pwb-secondary-400);
+  --barcelona-terra-500: var(--pwb-secondary-500);
+  --barcelona-terra-600: var(--pwb-secondary-600);
 
-  /* Extended Gold Palette - derived using color-mix */
-  --barcelona-gold-50: color-mix(in srgb, <%= @current_website.style_variables["accent_color"] || "#E5B45A" %> 5%, white);
-  --barcelona-gold-100: color-mix(in srgb, <%= @current_website.style_variables["accent_color"] || "#E5B45A" %> 15%, white);
-  --barcelona-gold-200: color-mix(in srgb, <%= @current_website.style_variables["accent_color"] || "#E5B45A" %> 30%, white);
-  --barcelona-gold-300: color-mix(in srgb, <%= @current_website.style_variables["accent_color"] || "#E5B45A" %> 50%, white);
-  --barcelona-gold-400: var(--barcelona-gold);
-  --barcelona-gold-500: color-mix(in srgb, <%= @current_website.style_variables["accent_color"] || "#E5B45A" %> 80%, black);
+  /* Extended Gold Palette - Mapped to PWB Dynamic Shades */
+  --barcelona-gold-50: var(--pwb-accent-50);
+  --barcelona-gold-100: var(--pwb-accent-100);
+  --barcelona-gold-200: var(--pwb-accent-200);
+  --barcelona-gold-300: var(--pwb-accent-300);
+  --barcelona-gold-400: var(--pwb-accent-400);
+  --barcelona-gold-500: var(--pwb-accent-500);
 
-  /* Footer Colors - from palette */
-  --footer-bg-color: <%= @current_website.style_variables["footer_bg_color"] || "var(--barcelona-med-900)" %>;
-  --footer-text-color: <%= @current_website.style_variables["footer_text_color"] || @current_website.style_variables["footer_main_text_color"] || "#d5d0c8" %>;
+  /* Footer Colors */
+  --footer-bg-color: var(--pwb-footer-background-color);
+  --footer-text-color: var(--pwb-footer-text-color);
   --footer-link-color: var(--barcelona-gold-400);
   --footer-link-hover-color: var(--barcelona-gold-300);
 
-  /* Action Colors - from palette */
-  --action-color: <%= @current_website.style_variables["action_color"] || "var(--barcelona-med)" %>;
+  /* Action Colors */
+  --action-color: var(--pwb-primary-color);
 
-  /* Typography - from palette */
+  /* Typography */
   --font-display: <%= @current_website.style_variables["font_primary"] || "Cormorant Garamond" %>;
   --font-body: <%= @current_website.style_variables["font_secondary"] || "Montserrat" %>;
 
-  /* Spacing & Sizing - from palette */
+  /* Spacing & Sizing */
   --border-radius-soft: <%= @current_website.style_variables["border_radius"] || "12px" %>;
   --border-radius-softer: 16px;
   --border-radius-pill: 9999px;
   --container-padding: <%= @current_website.style_variables["container_padding"] || "1rem" %>;
 
-  /* Soft Shadows - using primary color for tinted shadows */
-  --shadow-soft: 0 4px 24px -4px color-mix(in srgb, <%= @current_website.style_variables["text_color"] || "#2D3436" %> 8%, transparent);
-  --shadow-medium: 0 8px 32px -8px color-mix(in srgb, <%= @current_website.style_variables["text_color"] || "#2D3436" %> 12%, transparent);
-  --shadow-elevated: 0 16px 48px -12px color-mix(in srgb, <%= @current_website.style_variables["text_color"] || "#2D3436" %> 16%, transparent);
-  --shadow-glow: 0 0 40px color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0B5394" %> 15%, transparent);
+  /* Soft Shadows */
+  --shadow-soft: 0 4px 24px -4px color-mix(in srgb, var(--pwb-text-color) 8%, transparent);
+  --shadow-medium: 0 8px 32px -8px color-mix(in srgb, var(--pwb-text-color) 12%, transparent);
+  --shadow-elevated: 0 16px 48px -12px color-mix(in srgb, var(--pwb-text-color) 16%, transparent);
+  --shadow-glow: 0 0 40px color-mix(in srgb, var(--pwb-primary-color) 15%, transparent);
 }
 
 /* ============================================

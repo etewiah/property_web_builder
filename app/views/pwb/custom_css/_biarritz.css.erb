@@ -17,36 +17,36 @@
 
 /* WCAG AA Compliant Color System - Using Palette Variables */
 :root {
-  /* Primary Ocean Colors - from palette with fallbacks */
-  --biarritz-ocean: <%= @current_website.style_variables["primary_color"] || "#0369A1" %>;
-  --biarritz-sand: <%= @current_website.style_variables["secondary_color"] || "#D97706" %>;
-  --biarritz-sunset: <%= @current_website.style_variables["accent_color"] || "#F59E0B" %>;
-  --biarritz-bg: <%= @current_website.style_variables["background_color"] || "#FAFAF9" %>;
-  --biarritz-text: <%= @current_website.style_variables["text_color"] || "#1C1917" %>;
+  /* Primary Ocean Colors - Mapped to PWB Standard Variables */
+  --biarritz-ocean: var(--pwb-primary-color);
+  --biarritz-sand: var(--pwb-secondary-color);
+  --biarritz-sunset: var(--pwb-accent-color);
+  --biarritz-bg: var(--pwb-background-color);
+  --biarritz-text: var(--pwb-text-color);
 
-  /* Derived Ocean shades using color-mix */
-  --ocean-darker: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0369A1" %> 60%, black);
-  --ocean-dark: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0369A1" %> 80%, black);
-  --ocean-primary: <%= @current_website.style_variables["primary_color"] || "#0369A1" %>;
-  --ocean-light: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0369A1" %> 15%, white);
+  /* Derived Ocean shades - Mapped to PWB Dynamic Shades */
+  --ocean-darker: var(--pwb-primary-800);
+  --ocean-dark: var(--pwb-primary-700);
+  --ocean-primary: var(--pwb-primary-color);
+  --ocean-light: var(--pwb-primary-100);
 
-  /* Derived Sand shades using color-mix */
-  --sand-dark: color-mix(in srgb, <%= @current_website.style_variables["secondary_color"] || "#D97706" %> 70%, black);
-  --sand-primary: <%= @current_website.style_variables["secondary_color"] || "#D97706" %>;
-  --sand-light: color-mix(in srgb, <%= @current_website.style_variables["secondary_color"] || "#D97706" %> 15%, white);
+  /* Derived Sand shades - Mapped to PWB Dynamic Shades */
+  --sand-dark: var(--pwb-secondary-700);
+  --sand-primary: var(--pwb-secondary-color);
+  --sand-light: var(--pwb-secondary-100);
 
-  /* Derived Sunset shades using color-mix */
-  --sunset-dark: color-mix(in srgb, <%= @current_website.style_variables["accent_color"] || "#F59E0B" %> 70%, black);
-  --sunset-primary: <%= @current_website.style_variables["accent_color"] || "#F59E0B" %>;
-  --sunset-light: color-mix(in srgb, <%= @current_website.style_variables["accent_color"] || "#F59E0B" %> 15%, white);
+  /* Derived Sunset shades - Mapped to PWB Dynamic Shades */
+  --sunset-dark: var(--pwb-accent-700);
+  --sunset-primary: var(--pwb-accent-color);
+  --sunset-light: var(--pwb-accent-100);
 
   /* Neutral colors - derived from text color */
-  --neutral-900: <%= @current_website.style_variables["text_color"] || "#1C1917" %>;
-  --neutral-800: color-mix(in srgb, <%= @current_website.style_variables["text_color"] || "#1C1917" %> 85%, white);
-  --neutral-700: color-mix(in srgb, <%= @current_website.style_variables["text_color"] || "#1C1917" %> 65%, white);
-  --neutral-200: color-mix(in srgb, <%= @current_website.style_variables["text_color"] || "#1C1917" %> 15%, white);
-  --neutral-100: color-mix(in srgb, <%= @current_website.style_variables["background_color"] || "#FAFAF9" %> 95%, <%= @current_website.style_variables["text_color"] || "#1C1917" %>);
-  --neutral-50: <%= @current_website.style_variables["background_color"] || "#FAFAF9" %>;
+  --neutral-900: var(--pwb-text-color);
+  --neutral-800: color-mix(in srgb, var(--pwb-text-color) 85%, white);
+  --neutral-700: color-mix(in srgb, var(--pwb-text-color) 65%, white);
+  --neutral-200: color-mix(in srgb, var(--pwb-text-color) 15%, white);
+  --neutral-100: color-mix(in srgb, var(--pwb-background-color) 95%, var(--pwb-text-color));
+  --neutral-50: var(--pwb-background-color);
 
   --danger-red: #B91C1C;       /* Red for destructive actions */
   --light-gray-text: #D4D4D8;  /* Light gray for footer text */
@@ -71,11 +71,11 @@
   --nav-focus-ring: var(--ocean-primary);
 
   /* Footer colors - from palette */
-  --footer-bg: <%= @current_website.style_variables["footer_bg_color"] || "var(--ocean-darker)" %>;
-  --footer-text: <%= @current_website.style_variables["footer_text_color"] || "white" %>;
+  --footer-bg: var(--pwb-footer-background-color);
+  --footer-text: var(--pwb-footer-text-color);
   /* WCAG AA: Improved footer contrast ratios for 4.5:1+ */
-  --footer-text-muted: color-mix(in srgb, <%= @current_website.style_variables["footer_text_color"] || "white" %> 85%, transparent);
-  --footer-link-color: color-mix(in srgb, <%= @current_website.style_variables["footer_text_color"] || "white" %> 90%, transparent);
+  --footer-text-muted: color-mix(in srgb, var(--pwb-footer-text-color) 85%, transparent);
+  --footer-link-color: color-mix(in srgb, var(--pwb-footer-text-color) 90%, transparent);
   --footer-link-hover: var(--sand-light);
   --footer-border: var(--ocean-dark);
   --footer-icon-bg: var(--ocean-dark);

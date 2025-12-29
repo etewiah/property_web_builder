@@ -5,11 +5,11 @@
 <%= render partial: '/pwb/custom_css/base_variables', locals: {} %>
 
 :root {
-  --primary-color: <%= @current_website.style_variables['primary_color'] || '#3b82f6' %>;
-  --secondary-color: <%= @current_website.style_variables['secondary_color'] || '#1e40af' %>;
-  --services-bg-color: <%= @current_website.style_variables['services_bg_color'] || '#f9fafb' %>;
-  --services-card-bg: <%= @current_website.style_variables['services_card_bg'] || '#ffffff' %>;
-  --services-text-color: <%= @current_website.style_variables['services_text_color'] || '#1f2937' %>;
+  --primary-color: var(--pwb-primary-color);
+  --secondary-color: var(--pwb-secondary-color);
+  --services-bg-color: var(--pwb-surface-alt-color);
+  --services-card-bg: var(--pwb-card-background-color);
+  --services-text-color: var(--pwb-text-color);
   --font-primary: <%= @current_website.style_variables['font_primary'] || 'Open Sans' %>;
   --font-secondary: <%= @current_website.style_variables['font_secondary'] || 'Vollkorn' %>;
   --border-radius: <%= @current_website.style_variables['border_radius'] || '0.5rem' %>;
