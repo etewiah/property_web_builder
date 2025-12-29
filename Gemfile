@@ -228,7 +228,7 @@ gem 'logstash-event'
 # Background job processing (Rails 8 native)
 # Used for async email delivery and other background tasks
 gem 'solid_queue', '~> 1.0'
-gem 'mission_control-jobs', '~> 0.3'
+gem 'mission_control-jobs', '~> 1.0'
 
 # Performance monitoring dashboard (self-hosted, free alternative to New Relic)
 # Data stored in Redis, never sent externally
