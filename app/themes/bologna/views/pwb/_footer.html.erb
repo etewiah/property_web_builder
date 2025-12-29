@@ -1,6 +1,8 @@
 <%# Bologna Theme - Modern Minimal Footer %>
 <%# Warm, inviting design with soft curves and generous spacing %>
 
+<%# Cache the footer per website/locale - invalidates when website or agency updates %>
+<% cache ["footer/bologna/v1", @current_website.id, I18n.locale, @current_website.updated_at, @current_agency&.updated_at] do %>
 <!-- Wave Decoration - Transition from light content to dark footer -->
 <!-- Uses CSS variables from palette: --bologna-light (page bg) and --footer-bg-color (footer bg) -->
 <div class="relative -mb-px" style="background-color: var(--bologna-light);">
@@ -235,3 +237,4 @@
     margin-bottom: 0.75rem;
   }
 </style>
+<% end %> <%# End footer cache %>

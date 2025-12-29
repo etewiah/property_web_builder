@@ -26,6 +26,8 @@
     <!-- Property Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <% properties.each_with_index do |property, index| %>
+        <%# Cache each property card - invalidates when property is updated %>
+        <% cache ["property_card/bologna/v1", property.id, rent_or_sale, I18n.locale, property.updated_at], skip_digest: true do %>
         <article class="group bg-white rounded-softer overflow-hidden shadow-soft hover:shadow-elevated transition-all duration-500 animate-on-scroll flex flex-col h-full"
                  style="animation-delay: <%= index * 100 %>ms">
           <!-- Property Image -->
@@ -104,6 +106,7 @@
             </ul>
           </div>
         </article>
+        <% end %> <%# End property card cache %>
       <% end %>
     </div>
   </div>
