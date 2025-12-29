@@ -60,5 +60,34 @@ module Pwb
         CRITICAL_CSS
       end
     end
+
+    # Render palette CSS based on the website's palette mode
+    # In compiled mode: returns pre-generated static CSS
+    # In dynamic mode: returns CSS with variable declarations
+    #
+    # @return [String] CSS string (safe to inline in <style> tag)
+    def palette_css
+      return "" unless @current_website
+
+      @current_website.palette_css
+    end
+
+    # Check if website is in dynamic palette mode
+    # @return [Boolean]
+    def palette_dynamic?
+      @current_website&.palette_dynamic?
+    end
+
+    # Check if website is in compiled palette mode
+    # @return [Boolean]
+    def palette_compiled?
+      @current_website&.palette_compiled?
+    end
+
+    # Check if compiled palette is stale and needs recompilation
+    # @return [Boolean]
+    def palette_stale?
+      @current_website&.palette_stale?
+    end
   end
 end

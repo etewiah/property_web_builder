@@ -5,14 +5,23 @@
 # Manages theme styling, CSS variables, and visual configuration.
 # Provides methods for style variable access and preset style application.
 #
+# Palette Modes:
+# - "dynamic": CSS variables set at runtime (default, allows live experimentation)
+# - "compiled": Pre-generated CSS with baked-in hex values (maximum performance)
+#
 module Pwb
   module WebsiteStyleable
     extend ActiveSupport::Concern
+
+    PALETTE_MODES = %w[dynamic compiled].freeze
 
     included do
       # Clear memoized theme data when theme_name changes
       before_save :clear_theme_cache, if: :theme_name_changed?
       after_save :clear_palette_loader_cache, if: :saved_change_to_selected_palette?
+
+      # Validate palette_mode if the column exists
+      validates :palette_mode, inclusion: { in: PALETTE_MODES }, allow_nil: true, if: -> { respond_to?(:palette_mode) }
     end
 
     DEFAULT_STYLE_VARIABLES = {
@@ -218,6 +227,135 @@ module Pwb
       current_theme # Re-memoize
     end
 
+    # ===================
+    # Palette Mode Support
+    # ===================
+
+    # Check if palette is in dynamic mode (CSS variables set at runtime)
+    def palette_dynamic?
+      !respond_to?(:palette_mode) || palette_mode.blank? || palette_mode == "dynamic"
+    end
+
+    # Check if palette is in compiled mode (pre-generated static CSS)
+    def palette_compiled?
+      respond_to?(:palette_mode) && palette_mode == "compiled"
+    end
+
+    # Compile the current palette into static CSS for production performance
+    # This generates CSS with actual hex values baked in (no CSS variables)
+    #
+    # @return [Boolean] true if compilation was successful
+    def compile_palette!
+      return false unless respond_to?(:palette_mode)
+
+      compiler = PaletteCompiler.new(self)
+      css = compiler.compile
+
+      update!(
+        palette_mode: "compiled",
+        compiled_palette_css: css,
+        palette_compiled_at: Time.current
+      )
+
+      true
+    rescue StandardError => e
+      Rails.logger.error("Palette compilation failed for website #{id}: #{e.message}")
+      false
+    end
+
+    # Revert to dynamic mode (CSS variables set at runtime)
+    # This allows live experimentation with colors again
+    #
+    # @return [Boolean] true if unpin was successful
+    def unpin_palette!
+      return true unless respond_to?(:palette_mode)
+
+      update!(
+        palette_mode: "dynamic",
+        compiled_palette_css: nil,
+        palette_compiled_at: nil
+      )
+
+      true
+    end
+
+    # Check if compiled palette is stale (style_variables changed after compilation)
+    # @return [Boolean] true if palette needs recompilation
+    def palette_stale?
+      return false unless palette_compiled?
+      return true if compiled_palette_css.blank?
+      return true if palette_compiled_at.blank?
+
+      # Check if record was updated after compilation
+      # Note: Use 1-second threshold to handle same-transaction updates
+      # where palette_compiled_at and updated_at differ by microseconds
+      (updated_at - palette_compiled_at) > 1.second
+    end
+
+    # Get CSS for the current palette mode
+    # In compiled mode, returns pre-generated CSS
+    # In dynamic mode, returns CSS variable declarations
+    #
+    # @return [String] CSS string
+    def palette_css
+      if palette_compiled? && compiled_palette_css.present?
+        compiled_palette_css
+      else
+        generate_dynamic_palette_css
+      end
+    end
+
+    # Generate dynamic CSS with CSS variables
+    # This is used in dynamic mode for live color changes
+    #
+    # @return [String] CSS with variable declarations
+    def generate_dynamic_palette_css
+      vars = style_variables
+      return "" if vars.blank?
+
+      css_lines = []
+      css_lines << ":root {"
+
+      # Primary color and shades
+      primary = vars["primary_color"] || "#3b82f6"
+      css_lines << "  --pwb-primary-color: #{primary};"
+      css_lines << "  --primary-color: #{primary};"
+      css_lines << generate_shade_variables("primary", primary)
+
+      # Secondary color and shades
+      secondary = vars["secondary_color"] || "#64748b"
+      css_lines << "  --pwb-secondary-color: #{secondary};"
+      css_lines << "  --secondary-color: #{secondary};"
+      css_lines << generate_shade_variables("secondary", secondary)
+
+      # Accent color and shades
+      accent = vars["accent_color"] || "#f59e0b"
+      css_lines << "  --pwb-accent-color: #{accent};"
+      css_lines << "  --accent-color: #{accent};"
+      css_lines << generate_shade_variables("accent", accent)
+
+      # Additional palette colors
+      additional_color_keys.each do |key|
+        value = vars[key]
+        next unless value.present?
+
+        css_key = key.gsub("_", "-")
+        css_lines << "  --pwb-#{css_key}: #{value};"
+        css_lines << "  --#{css_key}: #{value};"
+      end
+
+      css_lines << "}"
+      css_lines.join("\n")
+    end
+
+    # Get palette mode options for admin UI select
+    def self.palette_mode_options
+      [
+        ["Dynamic (live experimentation)", "dynamic"],
+        ["Compiled (production performance)", "compiled"]
+      ]
+    end
+
     private
 
     def palette_loader
@@ -233,6 +371,35 @@ module Pwb
     def clear_palette_loader_cache
       @palette_loader&.clear_cache!
       @palette_loader = nil
+    end
+
+    # Generate CSS variable declarations for color shades using color-mix
+    def generate_shade_variables(name, base_color)
+      shades = []
+      # Light shades (mixing with white)
+      shades << "  --pwb-#{name}-50: color-mix(in srgb, #{base_color} 10%, white);"
+      shades << "  --pwb-#{name}-100: color-mix(in srgb, #{base_color} 20%, white);"
+      shades << "  --pwb-#{name}-200: color-mix(in srgb, #{base_color} 35%, white);"
+      shades << "  --pwb-#{name}-300: color-mix(in srgb, #{base_color} 50%, white);"
+      shades << "  --pwb-#{name}-400: color-mix(in srgb, #{base_color} 70%, white);"
+      shades << "  --pwb-#{name}-500: #{base_color};"
+      # Dark shades (mixing with black)
+      shades << "  --pwb-#{name}-600: color-mix(in srgb, #{base_color} 85%, black);"
+      shades << "  --pwb-#{name}-700: color-mix(in srgb, #{base_color} 70%, black);"
+      shades << "  --pwb-#{name}-800: color-mix(in srgb, #{base_color} 55%, black);"
+      shades << "  --pwb-#{name}-900: color-mix(in srgb, #{base_color} 40%, black);"
+      shades.join("\n")
+    end
+
+    # Keys for additional palette colors beyond primary/secondary/accent
+    def additional_color_keys
+      %w[
+        background_color text_color
+        header_background_color header_text_color
+        footer_background_color footer_text_color
+        card_background_color border_color
+        link_color success_color warning_color error_color
+      ]
     end
   end
 end

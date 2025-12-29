@@ -22,7 +22,8 @@
     <link rel="dns-prefetch" href="//unpkg.com">
 
     <%# CRITICAL CSS - Inlined for fastest FCP %>
-    <style><%= critical_css %><%= custom_styles "barcelona" %></style>
+    <%# Palette CSS - dynamic variables or compiled static CSS %>
+    <style><%= critical_css %><%= palette_css %><%= custom_styles "barcelona" %></style>
 
     <%# Main CSS - async loaded to not block rendering %>
     <link rel="preload" href="<%= asset_path('tailwind-barcelona.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">

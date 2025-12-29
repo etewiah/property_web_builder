@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_28_161431) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_29_132632) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -850,6 +850,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_161431) do
     t.text "available_currencies", default: [], array: true
     t.text "available_themes", array: true
     t.string "company_display_name"
+    t.text "compiled_palette_css"
     t.json "configuration", default: {}
     t.integer "contact_address_id"
     t.datetime "created_at", precision: nil, null: false
@@ -886,6 +887,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_161431) do
     t.string "ntfy_server_url", default: "https://ntfy.sh"
     t.string "ntfy_topic_prefix"
     t.string "owner_email"
+    t.datetime "palette_compiled_at"
+    t.string "palette_mode", default: "dynamic", null: false
     t.datetime "provisioning_completed_at"
     t.text "provisioning_error"
     t.datetime "provisioning_failed_at"
@@ -916,6 +919,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_161431) do
     t.index ["custom_domain"], name: "index_pwb_websites_on_custom_domain", unique: true, where: "((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))"
     t.index ["dark_mode_setting"], name: "index_pwb_websites_on_dark_mode_setting"
     t.index ["email_verification_token"], name: "index_pwb_websites_on_email_verification_token", unique: true, where: "(email_verification_token IS NOT NULL)"
+    t.index ["palette_mode"], name: "index_pwb_websites_on_palette_mode"
     t.index ["provisioning_state"], name: "index_pwb_websites_on_provisioning_state"
     t.index ["selected_palette"], name: "index_pwb_websites_on_selected_palette"
     t.index ["site_type"], name: "index_pwb_websites_on_site_type"
