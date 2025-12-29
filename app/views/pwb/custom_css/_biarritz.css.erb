@@ -4,28 +4,49 @@
 <%# Include base CSS variables with dark mode support %>
 <%= render partial: '/pwb/custom_css/base_variables', locals: {} %>
 
-/* WCAG AA Compliant Color System */
+<%#
+  Biarritz Theme Color Mapping:
+  - primary_color -> Ocean (deep blue) - main brand color
+  - secondary_color -> Sand (warm amber) - accent/highlights
+  - accent_color -> Sunset (golden) - tertiary accents
+  - background_color -> Page background
+  - text_color -> Primary text color
+  - footer_bg_color -> Footer background
+  - footer_text_color -> Footer text
+%>
+
+/* WCAG AA Compliant Color System - Using Palette Variables */
 :root {
-  /* Base Colors - All tested for WCAG AA contrast */
-  --ocean-darker: #082F49;     /* Darkest ocean blue - header/footer bg */
-  --ocean-dark: #0C4A6E;       /* Deep ocean blue - text on light BG */
-  --ocean-primary: #0369A1;    /* Ocean blue - backgrounds */
-  --ocean-light: #E0F2FE;      /* Light ocean - backgrounds */
+  /* Primary Ocean Colors - from palette with fallbacks */
+  --biarritz-ocean: <%= @current_website.style_variables["primary_color"] || "#0369A1" %>;
+  --biarritz-sand: <%= @current_website.style_variables["secondary_color"] || "#D97706" %>;
+  --biarritz-sunset: <%= @current_website.style_variables["accent_color"] || "#F59E0B" %>;
+  --biarritz-bg: <%= @current_website.style_variables["background_color"] || "#FAFAF9" %>;
+  --biarritz-text: <%= @current_website.style_variables["text_color"] || "#1C1917" %>;
 
-  --sand-dark: #B45309;        /* Dark sand - text on light BG */
-  --sand-primary: #D97706;     /* Warm sand - accents */
-  --sand-light: #FEF3C7;       /* Light sand - backgrounds */
+  /* Derived Ocean shades using color-mix */
+  --ocean-darker: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0369A1" %> 60%, black);
+  --ocean-dark: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0369A1" %> 80%, black);
+  --ocean-primary: <%= @current_website.style_variables["primary_color"] || "#0369A1" %>;
+  --ocean-light: color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0369A1" %> 15%, white);
 
-  --sunset-dark: #B45309;      /* Dark sunset - text */
-  --sunset-primary: #F59E0B;   /* Golden sunset - accents */
-  --sunset-light: #FEF3C7;     /* Light sunset - backgrounds */
+  /* Derived Sand shades using color-mix */
+  --sand-dark: color-mix(in srgb, <%= @current_website.style_variables["secondary_color"] || "#D97706" %> 70%, black);
+  --sand-primary: <%= @current_website.style_variables["secondary_color"] || "#D97706" %>;
+  --sand-light: color-mix(in srgb, <%= @current_website.style_variables["secondary_color"] || "#D97706" %> 15%, white);
 
-  --neutral-900: #1C1917;      /* Almost black - primary text */
-  --neutral-800: #292524;      /* Dark gray - secondary text */
-  --neutral-700: #44403C;      /* Medium gray - muted text */
-  --neutral-200: #E7E5E4;      /* Light border - dividers */
-  --neutral-100: #F5F5F4;      /* Light gray - backgrounds */
-  --neutral-50: #FAFAF9;       /* Almost white - page background */
+  /* Derived Sunset shades using color-mix */
+  --sunset-dark: color-mix(in srgb, <%= @current_website.style_variables["accent_color"] || "#F59E0B" %> 70%, black);
+  --sunset-primary: <%= @current_website.style_variables["accent_color"] || "#F59E0B" %>;
+  --sunset-light: color-mix(in srgb, <%= @current_website.style_variables["accent_color"] || "#F59E0B" %> 15%, white);
+
+  /* Neutral colors - derived from text color */
+  --neutral-900: <%= @current_website.style_variables["text_color"] || "#1C1917" %>;
+  --neutral-800: color-mix(in srgb, <%= @current_website.style_variables["text_color"] || "#1C1917" %> 85%, white);
+  --neutral-700: color-mix(in srgb, <%= @current_website.style_variables["text_color"] || "#1C1917" %> 65%, white);
+  --neutral-200: color-mix(in srgb, <%= @current_website.style_variables["text_color"] || "#1C1917" %> 15%, white);
+  --neutral-100: color-mix(in srgb, <%= @current_website.style_variables["background_color"] || "#FAFAF9" %> 95%, <%= @current_website.style_variables["text_color"] || "#1C1917" %>);
+  --neutral-50: <%= @current_website.style_variables["background_color"] || "#FAFAF9" %>;
 
   --danger-red: #B91C1C;       /* Red for destructive actions */
   --light-gray-text: #D4D4D8;  /* Light gray for footer text */
@@ -49,53 +70,57 @@
   --nav-icon-bg: var(--ocean-primary);
   --nav-focus-ring: var(--ocean-primary);
 
-  --footer-bg: var(--ocean-darker);
-  --footer-text: white;
-  --footer-text-muted: var(--light-gray-text);
-  --footer-link-color: var(--light-gray-text);
+  /* Footer colors - from palette */
+  --footer-bg: <%= @current_website.style_variables["footer_bg_color"] || "var(--ocean-darker)" %>;
+  --footer-text: <%= @current_website.style_variables["footer_text_color"] || "white" %>;
+  --footer-text-muted: color-mix(in srgb, <%= @current_website.style_variables["footer_text_color"] || "white" %> 70%, transparent);
+  --footer-link-color: color-mix(in srgb, <%= @current_website.style_variables["footer_text_color"] || "white" %> 80%, transparent);
   --footer-link-hover: var(--sand-light);
   --footer-border: var(--ocean-dark);
   --footer-icon-bg: var(--ocean-dark);
   --footer-icon-hover-bg: var(--sand-primary);
   --footer-pwb-link: var(--sand-light);
   --footer-pwb-link-hover: var(--sand-primary);
-  
+
   /* Semantic Colors - Guaranteed Contrast */
   --color-primary: var(--ocean-dark);
-  --color-primary-hover: #075985;
+  --color-primary-hover: var(--ocean-darker);
   --color-secondary: var(--sand-dark);
   --color-accent: var(--sunset-dark);
-  
+
   --color-text-primary: var(--neutral-900);
   --color-text-secondary: var(--neutral-800);
   --color-text-muted: var(--neutral-700);
   --color-text-on-dark: #FFFFFF;
   --color-text-on-primary: #FFFFFF;
-  
+
   --color-bg-page: var(--neutral-50);
   --color-bg-card: #FFFFFF;
   --color-bg-muted: var(--neutral-100);
   --color-bg-ocean: var(--ocean-primary);
   --color-bg-sand: var(--sand-light);
-  
-  --color-border: #E7E5E4;
+
+  --color-border: var(--neutral-200);
   --color-border-accent: var(--sand-primary);
-  
-  /* Typography */
-  --font-primary: <%= @current_website.style_variables['font_primary'] || 'system-ui, -apple-system, "Open Sans", sans-serif' %>;
-  --font-heading: <%= @current_website.style_variables['font_heading'] || 'Georgia, "Playfair Display", serif' %>;
-  
+
+  /* Action Colors - from palette */
+  --action-color: <%= @current_website.style_variables["action_color"] || "var(--sand-primary)" %>;
+
+  /* Typography - from palette */
+  --font-primary: <%= @current_website.style_variables["font_primary"] || 'system-ui, -apple-system, "Open Sans", sans-serif' %>;
+  --font-heading: <%= @current_website.style_variables["font_secondary"] || @current_website.style_variables["font_heading"] || 'Georgia, "Playfair Display", serif' %>;
+
   /* Spacing & Layout */
-  --border-radius: 0.75rem;
+  --border-radius: <%= @current_website.style_variables["border_radius"] || "0.75rem" %>;
   --border-radius-sm: 0.5rem;
   --border-radius-lg: 1rem;
-  --container-padding: 1rem;
-  
-  /* Shadows */
+  --container-padding: <%= @current_website.style_variables["container_padding"] || "1rem" %>;
+
+  /* Shadows - using primary color for tinted shadows */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-  --shadow-ocean: 0 10px 25px -5px rgba(12, 74, 110, 0.15);
+  --shadow-ocean: 0 10px 25px -5px color-mix(in srgb, <%= @current_website.style_variables["primary_color"] || "#0369A1" %> 15%, transparent);
 }
 
 /* Base Theme Styles */

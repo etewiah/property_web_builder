@@ -44,9 +44,9 @@
 
     <%= csrf_meta_tags %>
 
-    <%# PWA manifest and theme color %>
+    <%# PWA manifest and theme color - uses palette primary color %>
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#b8860b">
+    <meta name="theme-color" content="<%= @current_website.style_variables["primary_color"] || "#c9a962" %>">
   </head>
 
   <body class="tnt-body brisbane-theme <%= @current_website.body_style %> font-sans antialiased bg-luxury-cream text-luxury-charcoal">
@@ -82,12 +82,13 @@
     <%# Deferred UI enhancements - loaded after main content %>
     <script defer>
       document.addEventListener('DOMContentLoaded', function() {
-        // Navbar scroll effect
+        // Navbar scroll effect - uses CSS variable for background
         const navbar = document.querySelector('nav, header');
         if (navbar) {
           window.addEventListener('scroll', function() {
             navbar.classList.toggle('shadow-elegant', window.scrollY > 50);
-            navbar.style.backgroundColor = window.scrollY > 50 ? 'rgba(255,255,255,0.98)' : '';
+            // Uses color-mix with CSS variable for consistent theming
+            navbar.style.backgroundColor = window.scrollY > 50 ? 'color-mix(in srgb, var(--brisbane-cream, #fafafa) 98%, transparent)' : '';
           }, {passive: true});
         }
         // Mobile menu & dropdown handled by Stimulus controllers

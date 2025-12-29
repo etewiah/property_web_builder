@@ -1,34 +1,35 @@
 <!-- Biarritz Property Row - High Contrast Coastal Design -->
-<section class="bg-[#FAFAF9] border-b-2 border-[#E7E5E4] py-12">
+<!-- Uses CSS variables from _biarritz.css.erb for palette consistency -->
+<section class="bg-neutral-50 border-b-2 border-neutral-200 py-12">
   <div class="container mx-auto px-4">
-    
+
     <!-- Section Header - High Contrast -->
     <div class="mb-8">
-      <h3 class="text-3xl md:text-4xl font-bold text-[#1C1917] mb-2" style="font-family: 'Playfair Display', Georgia, serif;">
+      <h3 class="text-3xl md:text-4xl font-bold text-neutral-900 mb-2" style="font-family: var(--font-heading), 'Playfair Display', Georgia, serif;">
         <%= I18n.t title_key %>
       </h3>
-      <div class="w-24 h-1 bg-gradient-to-r from-[#0369A1] to-[#D97706] rounded-full"></div>
+      <div class="w-24 h-1 bg-gradient-to-r from-ocean-primary to-sand-primary rounded-full biarritz-accent-wave"></div>
     </div>
-    
+
     <!-- Property Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <% properties.each_with_index do |property, index| %>
         <!-- Property Card - Coastal Style -->
         <article class="card-coastal group" itemscope itemtype="https://schema.org/RealEstateListing">
-          
+
           <!-- Property Image with Hover Effect -->
-          <%= link_to property.contextual_show_path(rent_or_sale) do %>
+          <%= link_to property.contextual_show_path(rent_or_sale), "aria-label": t("property.view_details_for", title: property.title.presence || property.reference, default: "View details for %{title}") do %>
             <div class="relative overflow-hidden rounded-t-xl">
               <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
-                  height: 300, 
-                  crop: "scale", 
-                  class: "w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110", 
+                  height: 300,
+                  crop: "scale",
+                  class: "w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110",
                   loading: index < 3 ? "eager" : "lazy",
-                  use_picture: true, 
+                  use_picture: true,
                   alt: property.title.presence || "Property listing") %>
-              
+
               <!-- Overlay on Hover -->
-              <div class="absolute inset-0 bg-gradient-to-t from-[#082F49]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+              <div class="absolute inset-0 bg-gradient-to-t from-ocean-darker/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                 <span class="text-white font-semibold text-sm flex items-center">
                   View Details
                   <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -38,55 +39,55 @@
               </div>
             </div>
           <% end %>
-          
+
           <!-- Card Body -->
           <div class="p-6 bg-white">
-            
+
             <!-- Property Title - High Contrast -->
-            <h2 class="text-xl font-semibold text-[#1C1917] mb-3 line-clamp-2 min-h-[3.5rem]" itemprop="name">
-              <%= link_to property.title, 
-                  property.contextual_show_path(rent_or_sale), 
-                  class: "hover:text-[#0C4A6E] transition-colors",
+            <h2 class="text-xl font-semibold text-neutral-900 mb-3 line-clamp-2 min-h-[3.5rem]" itemprop="name">
+              <%= link_to property.title,
+                  property.contextual_show_path(rent_or_sale),
+                  class: "hover:text-ocean-dark transition-colors",
                   title: property.title %>
             </h2>
-            
+
             <!-- Property Price - Ocean Blue -->
             <div class="mb-4">
-              <span class="text-3xl font-bold text-[#0C4A6E]" itemprop="price">
+              <span class="text-3xl font-bold text-ocean-dark" itemprop="price">
                 <%= property_price(property, rent_or_sale) %>
               </span>
             </div>
-            
+
             <!-- Property Features - Dark Icons & Text -->
-            <div class="border-t-2 border-[#F5F5F4] pt-4">
-              <ul class="flex items-center justify-between text-sm text-[#44403C]" role="list">
+            <div class="border-t-2 border-neutral-100 pt-4">
+              <ul class="flex items-center justify-between text-sm text-neutral-700" role="list">
 
                 <!-- Bedrooms -->
                 <li class="flex flex-col items-center" title="<%= format_bedroom_count(property.count_bedrooms) %> Bedrooms">
-                  <%= icon(:bed, class: "text-lg text-[#0369A1] mb-1") %>
-                  <span class="font-semibold text-[#1C1917]"><%= format_bedroom_count(property.count_bedrooms) %></span>
+                  <%= icon(:bed, class: "text-lg text-ocean-primary mb-1") %>
+                  <span class="font-semibold text-neutral-900"><%= format_bedroom_count(property.count_bedrooms) %></span>
                   <span class="text-xs hidden sm:block">Beds</span>
                 </li>
 
                 <!-- Bathrooms -->
                 <li class="flex flex-col items-center" title="<%= format_bathroom_count(property.count_bathrooms) %> Bathrooms">
-                  <%= icon(:shower, class: "text-lg text-[#0369A1] mb-1") %>
-                  <span class="font-semibold text-[#1C1917]"><%= format_bathroom_count(property.count_bathrooms) %></span>
+                  <%= icon(:shower, class: "text-lg text-ocean-primary mb-1") %>
+                  <span class="font-semibold text-neutral-900"><%= format_bathroom_count(property.count_bathrooms) %></span>
                   <span class="text-xs hidden sm:block">Baths</span>
                 </li>
 
                 <!-- Area -->
                 <li class="flex flex-col items-center" title="<%= property.constructed_area %><%= area_unit property %>">
-                  <%= icon(:fullscreen, class: "text-lg text-[#0369A1] mb-1") %>
-                  <span class="font-semibold text-[#1C1917]"><%= property.constructed_area %></span>
+                  <%= icon(:fullscreen, class: "text-lg text-ocean-primary mb-1") %>
+                  <span class="font-semibold text-neutral-900"><%= property.constructed_area %></span>
                   <span class="text-xs hidden sm:block"><%= area_unit property %></span>
                 </li>
 
                 <!-- Garage (if available) -->
                 <% if property.has_garage %>
                   <li class="flex flex-col items-center" title="<%= property.count_garages %> Garage Spaces">
-                    <%= icon(:directions_car, class: "text-lg text-[#0369A1] mb-1") %>
-                    <span class="font-semibold text-[#1C1917]"><%= property.count_garages %></span>
+                    <%= icon(:directions_car, class: "text-lg text-ocean-primary mb-1") %>
+                    <span class="font-semibold text-neutral-900"><%= property.count_garages %></span>
                     <span class="text-xs hidden sm:block">Garage</span>
                   </li>
                 <% else %>
@@ -95,11 +96,11 @@
                 <% end %>
               </ul>
             </div>
-            
+
             <!-- Property Type Badge (Optional) -->
             <% if property.prop_type_key.present? %>
               <div class="mt-4">
-                <span class="inline-block bg-[#FEF3C7] text-[#92400E] px-3 py-1 rounded-full text-xs font-semibold">
+                <span class="inline-block bg-sand-light text-sand-dark px-3 py-1 rounded-full text-xs font-semibold">
                   <%= I18n.t("activerecord.attributes.pwb/property.prop_types.#{property.prop_type_key}", default: property.prop_type_key.humanize) %>
                 </span>
               </div>

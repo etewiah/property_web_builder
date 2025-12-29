@@ -34,7 +34,7 @@
         {% endif %}
         <div class="flex flex-wrap justify-center gap-4">
           {% if page_part["button_text"]["content"] %}
-            <a href="{{ page_part["button_link"]["content"] }}" class="px-8 py-3 bg-white text-primary font-semibold rounded-lg hover:bg-gray-100 transition">
+            <a href="{{ page_part["button_link"]["content"] }}" class="px-8 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition">
               {{ page_part["button_text"]["content"] }}
             </a>
           {% endif %}

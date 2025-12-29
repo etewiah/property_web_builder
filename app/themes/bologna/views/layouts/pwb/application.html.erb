@@ -44,9 +44,9 @@
 
     <%= csrf_meta_tags %>
 
-    <%# PWA manifest and theme color %>
+    <%# PWA manifest and theme color - uses palette primary color %>
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#c2410c">
+    <meta name="theme-color" content="<%= @current_website.style_variables["primary_color"] || "#c2410c" %>">
   </head>
 
   <body class="tnt-body bologna-theme <%= @current_website.body_style %> font-sans antialiased bg-warm-gray-50 text-warm-gray-900">

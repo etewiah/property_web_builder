@@ -40,9 +40,9 @@
 
     <%= csrf_meta_tags %>
 
-    <%# PWA manifest and theme color %>
+    <%# PWA manifest and theme color - uses palette primary color %>
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#3b82f6">
+    <meta name="theme-color" content="<%= @current_website.style_variables["primary_color"] || "#3b82f6" %>">
   </head>
   <body class="tnt-body default-theme <%= @current_website.body_style %> bg-gray-50 text-gray-900">
     <%# Brand icons SVG sprite - must be early in body for <use> references %>

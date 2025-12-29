@@ -16,8 +16,8 @@
 
   <!-- Contact Info & Map -->
   <div class="order-1 lg:order-2 space-y-6">
-    <!-- Contact Information Card -->
-    <div class="rounded-2xl p-6 lg:p-8 text-white shadow-lg" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%);">
+    <!-- Contact Information Card - uses Bologna theme variables -->
+    <div class="rounded-2xl p-6 lg:p-8 text-white shadow-lg bg-gradient-to-br from-terra-500 to-terra-600">
       <h2 class="text-2xl font-bold mb-6">
         <%= icon(:location_on, size: :md, class: "mr-2") %>
         <%= I18n.t("contactInformation", default: "Contact Information") %>
@@ -25,10 +25,10 @@
 
       <div class="space-y-4">
         <div class="flex items-start">
-          <%= icon(:apartment, size: :md, class: "mr-3 mt-1", style: "color: #fde68a;") %>
+          <%= icon(:apartment, size: :md, class: "mr-3 mt-1 text-amber-200") %>
           <div>
             <p class="font-semibold"><%= @current_agency.display_name %></p>
-            <p style="color: #fef3c7;">
+            <p class="text-amber-100">
               <%= [@current_agency.street_number, @current_agency.street_address].compact.join(', ') %>
               <% if @current_agency.city.present? || @current_agency.postal_code.present? %>
                 <br><%= [@current_agency.city, @current_agency.postal_code].compact.join(', ') %>
@@ -39,9 +39,9 @@
 
         <% if @current_agency.phone_number_primary.present? %>
           <div class="flex items-center">
-            <%= icon(:phone, size: :md, class: "mr-3", style: "color: #fde68a;") %>
+            <%= icon(:phone, size: :md, class: "mr-3 text-amber-200") %>
             <div>
-              <p class="text-sm" style="color: #fef3c7;"><%= I18n.t("telephone", default: "Telephone") %></p>
+              <p class="text-sm text-amber-100"><%= I18n.t("telephone", default: "Telephone") %></p>
               <a href="tel:<%= @current_agency.phone_number_primary %>" class="font-semibold hover:opacity-80 transition">
                 <%= @current_agency.phone_number_primary %>
               </a>
@@ -51,9 +51,9 @@
 
         <% if @current_agency.email_primary.present? %>
           <div class="flex items-center">
-            <%= icon(:email, size: :md, class: "mr-3", style: "color: #fde68a;") %>
+            <%= icon(:email, size: :md, class: "mr-3 text-amber-200") %>
             <div>
-              <p class="text-sm" style="color: #fef3c7;"><%= I18n.t("email", default: "Email") %></p>
+              <p class="text-sm text-amber-100"><%= I18n.t("email", default: "Email") %></p>
               <a href="mailto:<%= @current_agency.email_primary %>" class="font-semibold hover:opacity-80 transition">
                 <%= @current_agency.email_primary %>
               </a>
