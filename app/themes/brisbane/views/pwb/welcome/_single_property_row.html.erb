@@ -13,7 +13,7 @@
       <% properties.each_with_index do |property, index| %>
         <div class="card-luxury bg-white overflow-hidden group animate-on-scroll">
           <!-- Property Image with Overlay -->
-          <%= link_to property.contextual_show_path(rent_or_sale), class: "block relative overflow-hidden" do %>
+          <%= link_to property.contextual_show_path(rent_or_sale), class: "block relative overflow-hidden", "aria-label": t("property.view_details_for", title: property.title.presence || property.reference, default: "View details for %{title}") do %>
             <div class="property-image aspect-[4/3]">
               <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
                 height: 350, crop: "fill", class: "w-full h-full object-cover transition-transform duration-700 group-hover:scale-105",

@@ -1,0 +1,82 @@
+name: Icon Enforcement
+
+on:
+  pull_request:
+    paths:
+      - '**/*.erb'
+      - '**/*.html'
+      - '**/*.liquid'
+      - '**/*.rb'
+      - '**/*.yml'
+      - '**/*.yaml'
+
+jobs:
+  check-icons:
+    name: Check for forbidden icon patterns
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for Font Awesome icons
+        run: |
+          echo "Checking for Font Awesome icon patterns..."
+
+          # Check for fa fa-* pattern
+          if grep -rn "fa fa-" \
+            --include="*.erb" \
+            --include="*.html" \
+            --include="*.liquid" \
+            --include="*.rb" \
+            --include="*.yml" \
+            --include="*.yaml" \
+            app/ db/ lib/ config/ 2>/dev/null; then
+            echo ""
+            echo "::error::Font Awesome icons (fa fa-*) found. Use icon(:name) helper instead."
+            exit 1
+          fi
+
+          echo "No Font Awesome patterns found."
+
+      - name: Check for Phosphor icons
+        run: |
+          echo "Checking for Phosphor icon patterns..."
+
+          if grep -rn "ph ph-" \
+            --include="*.erb" \
+            --include="*.html" \
+            --include="*.liquid" \
+            --include="*.rb" \
+            --include="*.yml" \
+            --include="*.yaml" \
+            app/ db/ lib/ config/ 2>/dev/null; then
+            echo ""
+            echo "::error::Phosphor icons (ph ph-*) found. Use icon(:name) helper instead."
+            exit 1
+          fi
+
+          echo "No Phosphor patterns found."
+
+      - name: Check for Glyphicons
+        run: |
+          echo "Checking for Glyphicon patterns..."
+
+          if grep -rn "glyphicon-" \
+            --include="*.erb" \
+            --include="*.html" \
+            --include="*.liquid" \
+            --include="*.rb" \
+            app/ 2>/dev/null; then
+            echo ""
+            echo "::error::Glyphicons found. Use icon(:name) helper instead."
+            exit 1
+          fi
+
+          echo "No Glyphicon patterns found."
+
+      - name: Success
+        run: |
+          echo ""
+          echo "All icon checks passed!"
+          echo "Only Material Icons via icon(:name) helper are in use."

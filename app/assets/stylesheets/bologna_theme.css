@@ -635,7 +635,7 @@
 
 .bologna-theme .service-card .service-content {
   font-size: 0.9375rem;
-  color: #9c9285;
+  color: #6a6156; /* Improved contrast ratio for WCAG AA compliance */
   line-height: 1.7;
 }
 
@@ -957,7 +957,7 @@
 
 .bologna-theme .pwb-icon-card__text {
   font-size: 0.9375rem;
-  color: #9c9285;
+  color: #6a6156; /* Improved contrast ratio for WCAG AA compliance */
   line-height: 1.7;
   margin: 0;
 }
@@ -1304,4 +1304,25 @@
 .bologna-theme .pwb-stats--cards .pwb-stat:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 40px -10px rgba(196, 93, 62, 0.2);
+}
+
+/* Stats Dark Style - WCAG AA compliant contrast */
+.bologna-theme .pwb-stats--dark {
+  background: linear-gradient(135deg, #3d3d3d 0%, #2d2d2d 100%);
+}
+
+.bologna-theme .pwb-stats--dark .pwb-section__title {
+  color: #ffffff;
+}
+
+.bologna-theme .pwb-stats--dark .pwb-section__subtitle {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.bologna-theme .pwb-stats--dark .pwb-stat__value {
+  color: #d98e6e; /* Bologna terra-400 for better contrast on dark */
+}
+
+.bologna-theme .pwb-stats--dark .pwb-stat__label {
+  color: rgba(255, 255, 255, 0.75);
 }

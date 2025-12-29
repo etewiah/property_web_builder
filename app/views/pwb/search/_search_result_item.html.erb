@@ -14,7 +14,7 @@
   <div class="property-card-inner flex">
     <%# Property Image - height controlled by CSS based on view mode %>
     <div class="property-image flex-shrink-0">
-      <%= link_to property.contextual_show_path(@operation_type), class: "block h-full" do %>
+      <%= link_to property.contextual_show_path(@operation_type), class: "block h-full", "aria-label": t("property.view_details_for", title: property.title.presence || property.reference, default: "View details for %{title}") do %>
         <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
             height: 240, crop: "scale",
             class: "w-full object-cover",

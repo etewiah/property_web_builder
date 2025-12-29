@@ -26,10 +26,10 @@
     <!-- Property Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <% properties.each_with_index do |property, index| %>
-        <article class="group bg-white rounded-softer overflow-hidden shadow-soft hover:shadow-elevated transition-all duration-500 animate-on-scroll"
+        <article class="group bg-white rounded-softer overflow-hidden shadow-soft hover:shadow-elevated transition-all duration-500 animate-on-scroll flex flex-col h-full"
                  style="animation-delay: <%= index * 100 %>ms">
           <!-- Property Image -->
-          <%= link_to property.contextual_show_path(rent_or_sale), class: "block relative overflow-hidden" do %>
+          <%= link_to property.contextual_show_path(rent_or_sale), class: "block relative overflow-hidden", "aria-label": t("property.view_details_for", title: property.title.presence || property.reference, default: "View details for %{title}") do %>
             <div class="aspect-[4/3] relative">
               <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
                   height: 350, crop: "fill",
@@ -57,7 +57,7 @@
           <% end %>
 
           <!-- Property Details -->
-          <div class="p-6">
+          <div class="p-6 flex flex-col flex-grow">
             <!-- Title & Location -->
             <h3 class="font-display font-semibold text-xl text-warm-gray-900 mb-2 line-clamp-1 group-hover:text-terra-600 transition-colors">
               <%= link_to property.title, property.contextual_show_path(rent_or_sale) %>
@@ -68,7 +68,15 @@
                 <%= icon(:location_on, size: :sm, class: "mr-2 text-terra-400") %>
                 <%= property.address_locality %>
               </p>
+            <% else %>
+              <p class="flex items-center text-warm-gray-500 text-sm mb-4 invisible">
+                <%= icon(:location_on, size: :sm, class: "mr-2 text-terra-400") %>
+                &nbsp;
+              </p>
             <% end %>
+
+            <!-- Spacer to push features to bottom -->
+            <div class="flex-grow"></div>
 
             <!-- Divider -->
             <div class="border-t border-warm-gray-100 my-4"></div>

@@ -29,7 +29,7 @@
         <article class="group bg-white rounded-softer overflow-hidden shadow-soft hover:shadow-elevated transition-all duration-500 animate-on-scroll"
                  style="animation-delay: <%= index * 100 %>ms">
           <!-- Property Image -->
-          <%= link_to property.contextual_show_path(rent_or_sale), class: "block relative overflow-hidden" do %>
+          <%= link_to property.contextual_show_path(rent_or_sale), class: "block relative overflow-hidden", "aria-label": t("property.view_details_for", title: property.title.presence || property.reference, default: "View details for %{title}") do %>
             <div class="aspect-[4/3] relative">
               <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
                   height: 350, crop: "fill",

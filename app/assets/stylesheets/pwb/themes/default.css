@@ -182,3 +182,28 @@ html {
   padding: 1rem 2rem;
   font-size: 1.125rem;
 }
+
+/* White button - for use on dark/primary backgrounds */
+.pwb-btn--white {
+  background-color: #ffffff;
+  color: var(--primary-color, #3b82f6);
+  border: none;
+}
+
+.pwb-btn--white:hover {
+  background-color: #f8fafc;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Outline white button - for use on dark/primary backgrounds */
+.pwb-btn--outline-white {
+  background-color: transparent;
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.pwb-btn--outline-white:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #ffffff;
+}
