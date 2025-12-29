@@ -22,15 +22,13 @@ Bundler.require(*Rails.groups)
 
 module StandalonePwb
   class Application < Rails::Application
-    # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.2
+    # Initialize configuration defaults for Rails 8.0
+    # Migrated from 5.2 - see config/initializers/new_framework_defaults_migration.rb
+    config.load_defaults 8.0
 
     # Enable gzip compression for all responses (HTML, CSS, JS, JSON)
     # This significantly reduces transfer sizes and improves page load times
     config.middleware.use Rack::Deflater
-
-    # Opt in to Rails 8.1 timezone behavior
-    config.active_support.to_time_preserves_timezone = :zone
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
