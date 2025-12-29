@@ -53,6 +53,7 @@
 #  provisioning_started_at             :datetime
 #  provisioning_state                  :string           default("live"), not null
 #  raw_css                             :text
+#  realty_assets_count                 :integer          default(0), not null
 #  recaptcha_key                       :string
 #  rent_price_options_from             :text             default(["", "250", "500", "750", "1,000", "1,500", "2,500", "5,000"]), is an Array
 #  rent_price_options_till             :text             default(["", "250", "500", "750", "1,000", "1,500", "2,500", "5,000"]), is an Array
@@ -85,6 +86,7 @@
 #  index_pwb_websites_on_email_verification_token  (email_verification_token) UNIQUE WHERE (email_verification_token IS NOT NULL)
 #  index_pwb_websites_on_palette_mode              (palette_mode)
 #  index_pwb_websites_on_provisioning_state        (provisioning_state)
+#  index_pwb_websites_on_realty_assets_count       (realty_assets_count)
 #  index_pwb_websites_on_selected_palette          (selected_palette)
 #  index_pwb_websites_on_site_type                 (site_type)
 #  index_pwb_websites_on_slug                      (slug)

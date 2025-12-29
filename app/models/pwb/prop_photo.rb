@@ -30,7 +30,7 @@ module Pwb
     has_one_attached :image, dependent: :purge_later
     # Both associations supported for backwards compatibility
     belongs_to :prop, optional: true
-    belongs_to :realty_asset, optional: true
+    belongs_to :realty_asset, optional: true, counter_cache: :prop_photos_count
 
     # Check if website is in external image mode
     def external_image_mode?

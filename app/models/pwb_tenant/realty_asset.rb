@@ -27,6 +27,7 @@ module PwbTenant
 #  plot_area          :float            default(0.0)
 #  postal_code        :string
 #  prop_origin_key    :string
+#  prop_photos_count  :integer          default(0), not null
 #  prop_state_key     :string
 #  prop_type_key      :string
 #  reference          :string
@@ -44,6 +45,7 @@ module PwbTenant
 #
 # Indexes
 #
+#  index_pwb_realty_assets_on_prop_photos_count             (prop_photos_count)
 #  index_pwb_realty_assets_on_prop_state_key                (prop_state_key)
 #  index_pwb_realty_assets_on_prop_type_key                 (prop_type_key)
 #  index_pwb_realty_assets_on_slug                          (slug) UNIQUE
@@ -51,7 +53,6 @@ module PwbTenant
 #  index_pwb_realty_assets_on_website_id                    (website_id)
 #  index_pwb_realty_assets_on_website_id_and_prop_type_key  (website_id,prop_type_key)
 #
-  #
   class RealtyAsset < Pwb::RealtyAsset
     include RequiresTenant
     acts_as_tenant :website, class_name: 'Pwb::Website'

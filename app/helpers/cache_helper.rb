@@ -53,6 +53,27 @@ module CacheHelper
     cache_key_for(*parts)
   end
 
+  # Cache key for property detail page sections
+  # Separate keys for different sections enable Russian doll caching
+  def property_detail_cache_key(property, section = "main")
+    return nil unless property
+
+    base_parts = [
+      "prop_detail",
+      property.id,
+      section,
+      property.updated_at.to_i
+    ]
+
+    # For image carousel, include photo timestamp for proper invalidation
+    if section == "carousel"
+      photo_updated = property.prop_photos.maximum(:updated_at)&.to_i || 0
+      base_parts << photo_updated
+    end
+
+    cache_key_for(*base_parts)
+  end
+
   # Cache key for property card (used in listings)
   # Includes user's currency preference to cache converted prices correctly
   def property_card_cache_key(property, operation_type = nil)

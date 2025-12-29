@@ -35,10 +35,13 @@
       </ol>
     </nav>
 
-    <!-- Property Images -->
-    <div class="mb-8">
-      <%= render '/pwb/props/images_section_carousel' %>
-    </div>
+    <%# Fragment cache for image carousel - invalidates when photos change %>
+    <% cache property_detail_cache_key(@property_details, "carousel") do %>
+      <!-- Property Images -->
+      <div class="mb-8">
+        <%= render '/pwb/props/images_section_carousel' %>
+      </div>
+    <% end %>
   </div>
 </section>
 
@@ -48,64 +51,67 @@
     <div class="property-detail-layout">
       <!-- Left Column - Property Details -->
       <div class="property-detail-main">
-        <!-- Title & Price Card -->
-        <div class="bg-gradient-to-r from-warm-gray-50 to-white rounded-softer p-8 mb-8 shadow-soft">
-          <div class="flex flex-col md:flex-row md:items-start md:justify-between">
-            <div class="mb-4 md:mb-0">
-              <h1 class="font-display text-2xl md:text-3xl font-bold text-warm-gray-900 mb-3">
-                <%= @property_details.title %>
-              </h1>
-              <% if @property_details.respond_to?(:address_locality) && @property_details.address_locality.present? %>
-                <p class="flex items-center text-warm-gray-500">
-                  <%= icon(:location_on, size: :sm, class: "text-terra-400 mr-2") %>
-                  <%= @property_details.address_locality %>
+        <%# Fragment cache for property info - invalidates when property updates %>
+        <% cache property_detail_cache_key(@property_details, "info") do %>
+          <!-- Title & Price Card -->
+          <div class="bg-gradient-to-r from-warm-gray-50 to-white rounded-softer p-8 mb-8 shadow-soft">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between">
+              <div class="mb-4 md:mb-0">
+                <h1 class="font-display text-2xl md:text-3xl font-bold text-warm-gray-900 mb-3">
+                  <%= @property_details.title %>
+                </h1>
+                <% if @property_details.respond_to?(:address_locality) && @property_details.address_locality.present? %>
+                  <p class="flex items-center text-warm-gray-500">
+                    <%= icon(:location_on, size: :sm, class: "text-terra-400 mr-2") %>
+                    <%= @property_details.address_locality %>
+                  </p>
+                <% end %>
+              </div>
+              <div class="text-left md:text-right">
+                <span class="inline-block px-4 py-1.5 bg-<%= @property_details.for_sale? ? 'terra' : 'olive' %>-100 text-<%= @property_details.for_sale? ? 'terra' : 'olive' %>-600 text-sm font-medium rounded-pill mb-2">
+                  <%= @property_details.for_sale? ? t('pwb.properties.for_sale', default: 'For Sale') : t('pwb.properties.for_rent', default: 'For Rent') %>
+                </span>
+                <p class="font-display text-3xl font-bold text-terra-600">
+                  <%= property_price(@property_details, @property_details.for_sale? ? 'for_sale' : 'for_rent') %>
                 </p>
-              <% end %>
-            </div>
-            <div class="text-left md:text-right">
-              <span class="inline-block px-4 py-1.5 bg-<%= @property_details.for_sale? ? 'terra' : 'olive' %>-100 text-<%= @property_details.for_sale? ? 'terra' : 'olive' %>-600 text-sm font-medium rounded-pill mb-2">
-                <%= @property_details.for_sale? ? t('pwb.properties.for_sale', default: 'For Sale') : t('pwb.properties.for_rent', default: 'For Rent') %>
-              </span>
-              <p class="font-display text-3xl font-bold text-terra-600">
-                <%= property_price(@property_details, @property_details.for_sale? ? 'for_sale' : 'for_rent') %>
-              </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Property Info Grid -->
-        <div class="mb-10">
-          <%= render '/pwb/props/prop_info_list' %>
-        </div>
-
-        <!-- Description Section -->
-        <div class="mb-10">
-          <div class="flex items-center mb-6">
-            <span class="w-12 h-12 flex items-center justify-center bg-terra-100 rounded-full mr-4">
-              <%= icon(:description, size: :md, class: "text-terra-600") %>
-            </span>
-            <h2 class="font-display text-2xl font-bold text-warm-gray-900">
-              <%= t('property.description', default: 'Description') %>
-            </h2>
+          <!-- Property Info Grid -->
+          <div class="mb-10">
+            <%= render '/pwb/props/prop_info_list' %>
           </div>
-          <div class="prose prose-warm-gray max-w-none text-warm-gray-600 leading-relaxed">
-            <%== @property_details.description %>
-          </div>
-        </div>
 
-        <!-- Extras Section -->
-        <% if @property_details.extras_for_display.present? %>
+          <!-- Description Section -->
           <div class="mb-10">
             <div class="flex items-center mb-6">
-              <span class="w-12 h-12 flex items-center justify-center bg-olive-100 rounded-full mr-4">
-                <%= icon(:star, size: :md, class: "text-olive-600") %>
+              <span class="w-12 h-12 flex items-center justify-center bg-terra-100 rounded-full mr-4">
+                <%= icon(:description, size: :md, class: "text-terra-600") %>
               </span>
               <h2 class="font-display text-2xl font-bold text-warm-gray-900">
-                <%= t('property.extras', default: 'Features & Amenities') %>
+                <%= t('property.description', default: 'Description') %>
               </h2>
             </div>
-            <%= render '/pwb/props/extras' %>
+            <div class="prose prose-warm-gray max-w-none text-warm-gray-600 leading-relaxed">
+              <%== @property_details.description %>
+            </div>
           </div>
+
+          <!-- Extras Section -->
+          <% if @property_details.extras_for_display.present? %>
+            <div class="mb-10">
+              <div class="flex items-center mb-6">
+                <span class="w-12 h-12 flex items-center justify-center bg-olive-100 rounded-full mr-4">
+                  <%= icon(:star, size: :md, class: "text-olive-600") %>
+                </span>
+                <h2 class="font-display text-2xl font-bold text-warm-gray-900">
+                  <%= t('property.extras', default: 'Features & Amenities') %>
+                </h2>
+              </div>
+              <%= render '/pwb/props/extras' %>
+            </div>
+          <% end %>
         <% end %>
 
         <!-- Social Sharing -->

@@ -34,6 +34,7 @@ module Pwb
 #  plot_area          :float            default(0.0)
 #  postal_code        :string
 #  prop_origin_key    :string
+#  prop_photos_count  :integer          default(0), not null
 #  prop_state_key     :string
 #  prop_type_key      :string
 #  reference          :string
@@ -51,6 +52,7 @@ module Pwb
 #
 # Indexes
 #
+#  index_pwb_realty_assets_on_prop_photos_count             (prop_photos_count)
 #  index_pwb_realty_assets_on_prop_state_key                (prop_state_key)
 #  index_pwb_realty_assets_on_prop_type_key                 (prop_type_key)
 #  index_pwb_realty_assets_on_slug                          (slug) UNIQUE
@@ -58,7 +60,6 @@ module Pwb
 #  index_pwb_realty_assets_on_website_id                    (website_id)
 #  index_pwb_realty_assets_on_website_id_and_prop_type_key  (website_id,prop_type_key)
 #
-  #
   class RealtyAsset < ApplicationRecord
     include RefreshesPropertiesView
 
@@ -80,7 +81,7 @@ module Pwb
     # Note: Translations are now stored in pwb_props.translations JSONB column via Mobility
     # Access via the associated prop model
 
-    belongs_to :website, class_name: 'Pwb::Website', optional: true
+    belongs_to :website, class_name: 'Pwb::Website', optional: true, counter_cache: :realty_assets_count
 
     # Geocoding
     geocoded_by :geocodeable_address do |obj, results|
@@ -96,8 +97,8 @@ module Pwb
       end
     end
 
-    # Refresh the materialized view after changes
-    after_commit :refresh_properties_view
+    # NOTE: Materialized view refresh is handled async via RefreshesPropertiesView concern
+    # This provides debounced background refresh (200-400ms faster property updates)
 
     # ============================================
     # View Compatibility Helpers
@@ -235,12 +236,6 @@ module Pwb
     end
 
     private
-
-    def refresh_properties_view
-      Pwb::ListedProperty.refresh
-    rescue StandardError => e
-      Rails.logger.warn "Failed to refresh properties view: #{e.message}"
-    end
 
     # Generate a URL-friendly slug based on property attributes
     def generate_slug

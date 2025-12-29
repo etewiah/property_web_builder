@@ -18,6 +18,7 @@
 #  plot_area          :float            default(0.0)
 #  postal_code        :string
 #  prop_origin_key    :string
+#  prop_photos_count  :integer          default(0), not null
 #  prop_state_key     :string
 #  prop_type_key      :string
 #  reference          :string
@@ -35,6 +36,7 @@
 #
 # Indexes
 #
+#  index_pwb_realty_assets_on_prop_photos_count             (prop_photos_count)
 #  index_pwb_realty_assets_on_prop_state_key                (prop_state_key)
 #  index_pwb_realty_assets_on_prop_type_key                 (prop_type_key)
 #  index_pwb_realty_assets_on_slug                          (slug) UNIQUE

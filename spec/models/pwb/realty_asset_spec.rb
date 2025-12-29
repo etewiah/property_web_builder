@@ -18,6 +18,7 @@
 #  plot_area          :float            default(0.0)
 #  postal_code        :string
 #  prop_origin_key    :string
+#  prop_photos_count  :integer          default(0), not null
 #  prop_state_key     :string
 #  prop_type_key      :string
 #  reference          :string
@@ -35,6 +36,7 @@
 #
 # Indexes
 #
+#  index_pwb_realty_assets_on_prop_photos_count             (prop_photos_count)
 #  index_pwb_realty_assets_on_prop_state_key                (prop_state_key)
 #  index_pwb_realty_assets_on_prop_type_key                 (prop_type_key)
 #  index_pwb_realty_assets_on_slug                          (slug) UNIQUE
@@ -252,20 +254,23 @@ module Pwb
     end
 
     describe 'materialized view refresh' do
-      it 'triggers refresh after create' do
-        expect(Pwb::ListedProperty).to receive(:refresh)
+      # NOTE: View refresh is now async via RefreshPropertiesViewJob
+      # (see RefreshesPropertiesView concern)
+
+      it 'schedules async refresh after create' do
+        expect(RefreshPropertiesViewJob).to receive(:perform_later).with(website_id: website.id)
         create(:pwb_realty_asset, website: website)
       end
 
-      it 'triggers refresh after update' do
+      it 'schedules async refresh after update' do
         realty_asset # create it first
-        expect(Pwb::ListedProperty).to receive(:refresh)
+        expect(RefreshPropertiesViewJob).to receive(:perform_later).with(website_id: website.id)
         realty_asset.update(count_bedrooms: 5)
       end
 
-      it 'triggers refresh after destroy' do
+      it 'schedules async refresh after destroy' do
         realty_asset # create it first
-        expect(Pwb::ListedProperty).to receive(:refresh)
+        expect(RefreshPropertiesViewJob).to receive(:perform_later).with(website_id: website.id)
         realty_asset.destroy
       end
     end

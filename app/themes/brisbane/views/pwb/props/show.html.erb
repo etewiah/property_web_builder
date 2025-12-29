@@ -8,22 +8,28 @@
     <div class="property-detail-container">
       <div class="property-detail-layout">
         <div class="property-detail-main">
-          <div class="mb-6">
-            <%= render '/pwb/props/images_section_carousel' %>
-          </div>
-          <div class="mb-6">
-            <%= render '/pwb/props/prop_info_list' %>
-          </div>
-          <!-- PROPERTY DESCRIPTION -->
-          <div class="mb-6">
-            <h3 class="text-xl font-bold mb-4"><%= I18n.t("property.description") %></h3>
-            <%== @property_details.description %>
-          </div>
-          <% if @property_details.extras_for_display.present? %>
+          <%# Fragment cache for image carousel - invalidates when photos change %>
+          <% cache property_detail_cache_key(@property_details, "carousel") do %>
             <div class="mb-6">
-              <h3 class="text-xl font-bold mb-4"><%= I18n.t("property.extras") %></h3>
-              <%= render '/pwb/props/extras' %>
+              <%= render '/pwb/props/images_section_carousel' %>
             </div>
+          <% end %>
+          <%# Fragment cache for property info - invalidates when property updates %>
+          <% cache property_detail_cache_key(@property_details, "info") do %>
+            <div class="mb-6">
+              <%= render '/pwb/props/prop_info_list' %>
+            </div>
+            <!-- PROPERTY DESCRIPTION -->
+            <div class="mb-6">
+              <h3 class="text-xl font-bold mb-4"><%= I18n.t("property.description") %></h3>
+              <%== @property_details.description %>
+            </div>
+            <% if @property_details.extras_for_display.present? %>
+              <div class="mb-6">
+                <h3 class="text-xl font-bold mb-4"><%= I18n.t("property.extras") %></h3>
+                <%= render '/pwb/props/extras' %>
+              </div>
+            <% end %>
           <% end %>
           <!-- Social Sharing -->
           <%= render 'pwb/shared/social_sharing', url: request.original_url, title: @property_details.title %>
