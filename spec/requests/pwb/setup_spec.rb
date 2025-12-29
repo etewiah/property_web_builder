@@ -6,6 +6,19 @@ RSpec.describe 'Pwb::SetupController', type: :request do
   # Setup controller handles initial website creation when no website exists
   # for the current subdomain. This is the onboarding flow for new tenants.
 
+  # Ensure TenantSettings allows all themes for tests
+  before(:all) do
+    Pwb::TenantSettings.delete_all
+    Pwb::TenantSettings.create!(
+      singleton_key: 'default',
+      default_available_themes: %w[default brisbane bologna barcelona biarritz]
+    )
+  end
+
+  after(:all) do
+    Pwb::TenantSettings.delete_all
+  end
+
   describe 'GET /setup (index)' do
     context 'when no website exists for subdomain' do
       it 'renders the setup page successfully' do
@@ -84,8 +97,8 @@ RSpec.describe 'Pwb::SetupController', type: :request do
         website = Pwb::Website.find_by(subdomain: 'themedsite')
         # Website should be created with some theme (default or from pack)
         expect(website).to be_present
-        # Theme defaults to 'default' if not specified in pack
-        expect(website.theme_name).to eq('default').or eq('brisbane').or be_nil
+        # netherlands_urban pack uses 'bologna' theme
+        expect(website.theme_name).to eq('bologna')
       end
     end
 

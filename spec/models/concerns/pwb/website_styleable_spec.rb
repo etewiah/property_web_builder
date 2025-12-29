@@ -139,8 +139,10 @@ RSpec.describe Pwb::WebsiteStyleable do
 
     it "returns nil for invalid theme_name" do
       website.update_column(:theme_name, "nonexistent")
+      # Get a fresh instance since reload doesn't clear memoized @current_theme
+      fresh_website = Pwb::Website.find(website.id)
 
-      expect(website.current_theme).to be_nil
+      expect(fresh_website.current_theme).to be_nil
     end
 
     it "memoizes the result" do
@@ -190,12 +192,12 @@ RSpec.describe Pwb::WebsiteStyleable do
     end
 
     context "with no current theme" do
-      before do
-        website.update_column(:theme_name, "nonexistent")
-      end
-
       it "returns nil" do
-        expect(website.effective_palette_id).to be_nil
+        website.update_column(:theme_name, "nonexistent")
+        # Get a fresh instance since reload doesn't clear memoized @current_theme
+        fresh_website = Pwb::Website.find(website.id)
+
+        expect(fresh_website.effective_palette_id).to be_nil
       end
     end
   end
@@ -234,8 +236,10 @@ RSpec.describe Pwb::WebsiteStyleable do
 
     it "returns false when no theme" do
       website.update_column(:theme_name, "nonexistent")
+      # Get a fresh instance since reload doesn't clear memoized @current_theme
+      fresh_website = Pwb::Website.find(website.id)
 
-      result = website.apply_palette!("ocean_blue")
+      result = fresh_website.apply_palette!("ocean_blue")
 
       expect(result).to be false
     end
@@ -254,8 +258,10 @@ RSpec.describe Pwb::WebsiteStyleable do
 
     it "returns empty hash when no theme" do
       website.update_column(:theme_name, "nonexistent")
+      # Get a fresh instance since reload doesn't clear memoized @current_theme
+      fresh_website = Pwb::Website.find(website.id)
 
-      expect(website.available_palettes).to eq({})
+      expect(fresh_website.available_palettes).to eq({})
     end
 
     it "returns theme-specific palettes" do
@@ -289,8 +295,10 @@ RSpec.describe Pwb::WebsiteStyleable do
 
     it "returns empty array when no theme" do
       website.update_column(:theme_name, "nonexistent")
+      # Get a fresh instance since reload doesn't clear memoized @current_theme
+      fresh_website = Pwb::Website.find(website.id)
 
-      expect(website.palette_options_for_select).to eq([])
+      expect(fresh_website.palette_options_for_select).to eq([])
     end
   end
 

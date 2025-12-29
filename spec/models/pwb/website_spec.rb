@@ -238,9 +238,11 @@ module Pwb
         expect(website.selected_palette).to eq('ocean_blue')
       end
 
-      it 'defaults to nil' do
+      it 'defaults to theme default palette when theme has palettes' do
+        # Website factory sets theme_name to 'default', which triggers ensure_palette_selected
+        # to auto-set the theme's default palette
         new_website = FactoryBot.create(:pwb_website)
-        expect(new_website.selected_palette).to be_nil
+        expect(new_website.selected_palette).to eq('classic_red')
       end
     end
 
@@ -255,8 +257,11 @@ module Pwb
 
       it 'returns nil for invalid theme' do
         website.update_column(:theme_name, 'nonexistent')
+        # Get a fresh instance since update_column bypasses callbacks and
+        # reload doesn't clear memoized @current_theme
+        fresh_website = Pwb::Website.find(website.id)
 
-        expect(website.current_theme).to be_nil
+        expect(fresh_website.current_theme).to be_nil
       end
     end
 
@@ -337,8 +342,11 @@ module Pwb
 
       it 'returns empty hash when no theme' do
         website.update_column(:theme_name, 'nonexistent')
+        # Get a fresh instance since update_column bypasses callbacks and
+        # reload doesn't clear memoized @current_theme
+        fresh_website = Pwb::Website.find(website.id)
 
-        expect(website.available_palettes).to eq({})
+        expect(fresh_website.available_palettes).to eq({})
       end
     end
 
