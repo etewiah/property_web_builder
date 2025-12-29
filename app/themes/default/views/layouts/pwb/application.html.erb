@@ -45,6 +45,9 @@
     <meta name="theme-color" content="#3b82f6">
   </head>
   <body class="tnt-body default-theme <%= @current_website.body_style %> bg-gray-50 text-gray-900">
+    <%# Brand icons SVG sprite - must be early in body for <use> references %>
+    <%= render partial: '/pwb/brand_icons_sprite' %>
+
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-white focus:text-blue-600">Skip to main content</a>
 
     <%# MAIN WRAPPER %>
