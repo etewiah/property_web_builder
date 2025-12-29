@@ -73,8 +73,9 @@
   /* Footer colors - from palette */
   --footer-bg: <%= @current_website.style_variables["footer_bg_color"] || "var(--ocean-darker)" %>;
   --footer-text: <%= @current_website.style_variables["footer_text_color"] || "white" %>;
-  --footer-text-muted: color-mix(in srgb, <%= @current_website.style_variables["footer_text_color"] || "white" %> 70%, transparent);
-  --footer-link-color: color-mix(in srgb, <%= @current_website.style_variables["footer_text_color"] || "white" %> 80%, transparent);
+  /* WCAG AA: Improved footer contrast ratios for 4.5:1+ */
+  --footer-text-muted: color-mix(in srgb, <%= @current_website.style_variables["footer_text_color"] || "white" %> 85%, transparent);
+  --footer-link-color: color-mix(in srgb, <%= @current_website.style_variables["footer_text_color"] || "white" %> 90%, transparent);
   --footer-link-hover: var(--sand-light);
   --footer-border: var(--ocean-dark);
   --footer-icon-bg: var(--ocean-dark);

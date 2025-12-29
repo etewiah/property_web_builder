@@ -288,7 +288,7 @@
 }
 
 .brisbane-theme footer a {
-  color: rgba(250, 248, 245, 0.8);
+  color: rgba(250, 248, 245, 0.9); /* Improved from 0.8 for WCAG AA compliance */
   transition: color 0.3s ease;
 }
 
@@ -322,11 +322,12 @@
   left: 0;
   right: 0;
   bottom: 0;
+  /* Increased overlay opacity for WCAG AA contrast (minimum 4.5:1 for text) */
   background: linear-gradient(
     135deg,
-    rgba(26, 39, 68, 0.7) 0%,
-    rgba(26, 39, 68, 0.4) 50%,
-    rgba(26, 39, 68, 0.6) 100%
+    rgba(26, 39, 68, 0.75) 0%,
+    rgba(26, 39, 68, 0.55) 50%,
+    rgba(26, 39, 68, 0.7) 100%
   );
 }
 

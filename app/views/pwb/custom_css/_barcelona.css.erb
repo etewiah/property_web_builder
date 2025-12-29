@@ -318,7 +318,8 @@
 }
 
 .barcelona-theme footer a {
-  color: rgba(213, 208, 200, 0.8);
+  /* WCAG AA: Improved contrast from 0.8 to 0.95 for 4.5:1+ ratio */
+  color: rgba(213, 208, 200, 0.95);
   transition: color 0.3s ease;
 }
 
@@ -347,11 +348,12 @@
   left: 0;
   right: 0;
   bottom: 0;
+  /* Increased overlay opacity for WCAG AA contrast (minimum 4.5:1 for text) */
   background: linear-gradient(
     135deg,
-    rgba(4, 47, 84, 0.6) 0%,
-    rgba(4, 47, 84, 0.3) 50%,
-    rgba(45, 52, 54, 0.5) 100%
+    rgba(4, 47, 84, 0.7) 0%,
+    rgba(4, 47, 84, 0.5) 50%,
+    rgba(45, 52, 54, 0.65) 100%
   );
 }
 

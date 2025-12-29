@@ -307,7 +307,7 @@
 }
 
 .bologna-theme footer a {
-  color: rgba(213, 208, 200, 0.8);
+  color: rgba(213, 208, 200, 0.95); /* Improved from 0.8 for WCAG AA compliance */
   transition: color 0.3s ease;
 }
 
@@ -336,11 +336,12 @@
   left: 0;
   right: 0;
   bottom: 0;
+  /* Increased overlay opacity for WCAG AA contrast (minimum 4.5:1 for text) */
   background: linear-gradient(
     135deg,
-    rgba(61, 61, 61, 0.4) 0%,
-    rgba(61, 61, 61, 0.2) 50%,
-    rgba(61, 61, 61, 0.5) 100%
+    rgba(61, 61, 61, 0.55) 0%,
+    rgba(61, 61, 61, 0.4) 50%,
+    rgba(61, 61, 61, 0.6) 100%
   );
 }
 
