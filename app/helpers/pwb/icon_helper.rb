@@ -169,6 +169,7 @@ module Pwb
       zoom_in
       zoom_out
       filter_list
+      tune
       sort
       photo_library
       image
