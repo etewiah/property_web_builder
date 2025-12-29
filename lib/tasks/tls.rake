@@ -55,17 +55,29 @@ namespace :tls do
       return { status: :ok, reason: "Reserved subdomain" }
     end
 
+    # Check for existing website first
     website = Pwb::Website.find_by_subdomain(subdomain)
 
-    if website.nil?
-      return { status: :not_found, reason: "Subdomain not registered" }
+    if website.present?
+      puts "Website ID: #{website.id}"
+      puts "Subdomain: #{website.subdomain}"
+      puts "Provisioning state: #{website.provisioning_state}"
+      return validate_website_status(website)
     end
 
-    puts "Website ID: #{website.id}"
-    puts "Subdomain: #{website.subdomain}"
-    puts "Provisioning state: #{website.provisioning_state}"
+    # No website yet - check if subdomain is in the pool
+    subdomain_record = Pwb::Subdomain.find_by(name: subdomain.downcase)
 
-    validate_website_status(website)
+    if subdomain_record.present?
+      puts "Subdomain pool entry found:"
+      puts "  Name: #{subdomain_record.name}"
+      puts "  State: #{subdomain_record.aasm_state}"
+      puts "  Reserved by: #{subdomain_record.reserved_by_email || 'N/A'}"
+      puts "  Reserved until: #{subdomain_record.reserved_until || 'N/A'}"
+      return { status: :ok, reason: "Subdomain in pool (#{subdomain_record.aasm_state})" }
+    end
+
+    { status: :not_found, reason: "Subdomain not registered" }
   end
 
   def verify_custom_domain(domain)

@@ -76,15 +76,25 @@ module Pwb
         return { status: :ok, reason: "Reserved subdomain" }
       end
 
-      # Look up the website
+      # Look up the website first
       website = Website.find_by_subdomain(subdomain)
 
-      if website.nil?
-        return { status: :not_found, reason: "Subdomain not registered" }
+      if website.present?
+        # Check website status
+        return validate_website_status(website)
       end
 
-      # Check website status
-      validate_website_status(website)
+      # No website yet - check if subdomain is in the pool (available, reserved, or allocated)
+      subdomain_record = Subdomain.find_by(name: subdomain.downcase)
+
+      if subdomain_record.present?
+        # Subdomain is in the pool - allow certificate issuance
+        # (it's either available for signup, reserved for a user, or allocated to a pending website)
+        return { status: :ok, reason: "Subdomain in pool (#{subdomain_record.aasm_state})" }
+      end
+
+      # Subdomain not in pool and no website - not found
+      { status: :not_found, reason: "Subdomain not registered" }
     end
 
     def verify_custom_domain(domain)

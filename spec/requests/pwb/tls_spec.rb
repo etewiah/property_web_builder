@@ -181,5 +181,80 @@ RSpec.describe "Pwb::Tls", type: :request do
         expect(response).to have_http_status(:forbidden)
       end
     end
+
+    describe "subdomain pool verification" do
+      context "when subdomain is in pool with 'available' state" do
+        let!(:available_subdomain) do
+          FactoryBot.create(:pwb_subdomain, name: 'gentle-cove-47', aasm_state: 'available')
+        end
+
+        it "returns 200 OK" do
+          get '/tls/check', params: { domain: "gentle-cove-47.#{platform_domain}" }
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to eq('OK')
+        end
+      end
+
+      context "when subdomain is in pool with 'reserved' state" do
+        let!(:reserved_subdomain) do
+          FactoryBot.create(:pwb_subdomain,
+            name: 'reserved-sub-12',
+            aasm_state: 'reserved',
+            reserved_by_email: 'user@example.com',
+            reserved_until: 10.minutes.from_now)
+        end
+
+        it "returns 200 OK" do
+          get '/tls/check', params: { domain: "reserved-sub-12.#{platform_domain}" }
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to eq('OK')
+        end
+      end
+
+      context "when subdomain is in pool with 'allocated' state but no website yet" do
+        let!(:allocated_subdomain) do
+          FactoryBot.create(:pwb_subdomain, name: 'allocated-sub', aasm_state: 'allocated')
+        end
+
+        it "returns 200 OK" do
+          get '/tls/check', params: { domain: "allocated-sub.#{platform_domain}" }
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to eq('OK')
+        end
+      end
+
+      context "when subdomain is not in pool and no website exists" do
+        it "returns 404 Not Found" do
+          get '/tls/check', params: { domain: "unknown-subdomain.#{platform_domain}" }
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+
+      context "when subdomain has both pool entry and website" do
+        let!(:website_with_pool_entry) do
+          FactoryBot.create(:pwb_website,
+            subdomain: 'pooled-tenant',
+            provisioning_state: 'live')
+        end
+
+        let!(:pooled_subdomain) do
+          FactoryBot.create(:pwb_subdomain,
+            name: 'pooled-tenant',
+            aasm_state: 'allocated',
+            website: website_with_pool_entry)
+        end
+
+        it "returns 200 OK based on website status" do
+          get '/tls/check', params: { domain: "pooled-tenant.#{platform_domain}" }
+          expect(response).to have_http_status(:ok)
+        end
+
+        it "respects website suspension even if in pool" do
+          website_with_pool_entry.update!(provisioning_state: 'suspended')
+          get '/tls/check', params: { domain: "pooled-tenant.#{platform_domain}" }
+          expect(response).to have_http_status(:forbidden)
+        end
+      end
+    end
   end
 end
