@@ -89,5 +89,94 @@ module Pwb
     def palette_stale?
       @current_website&.palette_stale?
     end
+
+    # ===================
+    # Font Loading Helpers
+    # ===================
+
+    # Get the FontLoader instance (memoized)
+    # @return [Pwb::FontLoader]
+    def font_loader
+      @font_loader ||= Pwb::FontLoader.new
+    end
+
+    # Generate complete font loading HTML for the current website
+    # Includes preconnect, Google Fonts link, and CSS variables
+    # Use this in the <head> section of layouts
+    #
+    # @return [String] HTML for font loading
+    def font_loading_tags
+      return "" unless @current_website
+
+      font_loader.font_loading_html(@current_website)
+    end
+
+    # Generate Google Fonts preconnect tags
+    # Use early in <head> for best performance
+    #
+    # @return [String] Preconnect link tags
+    def font_preconnect_tags
+      return "" unless @current_website
+      return "" unless fonts_need_loading?
+
+      font_loader.preconnect_tags
+    end
+
+    # Generate Google Fonts stylesheet link
+    # @return [String] Link tag for Google Fonts or empty string
+    def google_fonts_link_tag
+      return "" unless @current_website
+
+      url = font_loader.google_fonts_url_for_website(@current_website)
+      return "" unless url
+
+      %(<link href="#{url}" rel="stylesheet">).html_safe
+    end
+
+    # Generate Google Fonts preload link for better performance
+    # @return [String] Preload link tag
+    def google_fonts_preload_tag
+      return "" unless @current_website
+
+      url = font_loader.google_fonts_url_for_website(@current_website)
+      return "" unless url
+
+      <<~HTML.html_safe
+        <link rel="preload" href="#{url}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link href="#{url}" rel="stylesheet"></noscript>
+      HTML
+    end
+
+    # Generate CSS variables for fonts
+    # @return [String] CSS with --pwb-font-* variables
+    def font_css_variables
+      return "" unless @current_website
+
+      font_loader.font_css_variables(@current_website)
+    end
+
+    # Check if the current website requires font loading
+    # @return [Boolean]
+    def fonts_need_loading?
+      return false unless @current_website
+
+      font_loader.fonts_to_load(@current_website).any?
+    end
+
+    # Get the current primary font name
+    # @return [String]
+    def primary_font_name
+      return "Open Sans" unless @current_website
+
+      font_loader.fonts_for_website(@current_website)[:primary]
+    end
+
+    # Get the current heading font name
+    # @return [String]
+    def heading_font_name
+      return "Montserrat" unless @current_website
+
+      font_loader.fonts_for_website(@current_website)[:heading]
+    end
   end
 end

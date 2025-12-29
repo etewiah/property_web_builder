@@ -20,10 +20,15 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://seed-assets.propertywebbuilder.com" crossorigin>
     <link rel="dns-prefetch" href="//unpkg.com">
+    <%= font_preconnect_tags %>
 
     <%# CRITICAL CSS - Inlined for fastest FCP %>
     <%# Palette CSS - dynamic variables or compiled static CSS %>
-    <style><%= critical_css %><%= palette_css %><%= custom_styles "brisbane" %></style>
+    <%# Font CSS - font-family variables and base styles %>
+    <style><%= critical_css %><%= palette_css %><%= font_css_variables %><%= custom_styles "brisbane" %></style>
+
+    <%# Google Fonts - async loaded %>
+    <%= google_fonts_preload_tag %>
 
     <%# Main CSS - async loaded to not block rendering %>
     <link rel="preload" href="<%= asset_path('tailwind-brisbane.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">

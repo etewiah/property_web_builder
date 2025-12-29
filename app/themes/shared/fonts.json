@@ -1,0 +1,195 @@
+{
+  "$schema": "fonts_schema.json",
+  "description": "Font configuration for PropertyWebBuilder themes. Defines available fonts and their loading sources.",
+  "fonts": {
+    "Open Sans": {
+      "provider": "google",
+      "category": "sans-serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "system-ui, -apple-system, sans-serif",
+      "google_family": "Open+Sans:wght@400;500;600;700"
+    },
+    "Roboto": {
+      "provider": "google",
+      "category": "sans-serif",
+      "weights": [400, 500, 700],
+      "fallback": "system-ui, -apple-system, sans-serif",
+      "google_family": "Roboto:wght@400;500;700"
+    },
+    "Lato": {
+      "provider": "google",
+      "category": "sans-serif",
+      "weights": [400, 700],
+      "fallback": "system-ui, -apple-system, sans-serif",
+      "google_family": "Lato:wght@400;700"
+    },
+    "Montserrat": {
+      "provider": "google",
+      "category": "sans-serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "system-ui, -apple-system, sans-serif",
+      "google_family": "Montserrat:wght@400;500;600;700"
+    },
+    "Poppins": {
+      "provider": "google",
+      "category": "sans-serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "system-ui, -apple-system, sans-serif",
+      "google_family": "Poppins:wght@400;500;600;700"
+    },
+    "Raleway": {
+      "provider": "google",
+      "category": "sans-serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "system-ui, -apple-system, sans-serif",
+      "google_family": "Raleway:wght@400;500;600;700"
+    },
+    "Source Sans Pro": {
+      "provider": "google",
+      "category": "sans-serif",
+      "weights": [400, 600, 700],
+      "fallback": "system-ui, -apple-system, sans-serif",
+      "google_family": "Source+Sans+Pro:wght@400;600;700"
+    },
+    "Inter": {
+      "provider": "google",
+      "category": "sans-serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "system-ui, -apple-system, sans-serif",
+      "google_family": "Inter:wght@400;500;600;700"
+    },
+    "Nunito": {
+      "provider": "google",
+      "category": "sans-serif",
+      "weights": [400, 600, 700],
+      "fallback": "system-ui, -apple-system, sans-serif",
+      "google_family": "Nunito:wght@400;600;700"
+    },
+    "Work Sans": {
+      "provider": "google",
+      "category": "sans-serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "system-ui, -apple-system, sans-serif",
+      "google_family": "Work+Sans:wght@400;500;600;700"
+    },
+    "DM Sans": {
+      "provider": "google",
+      "category": "sans-serif",
+      "weights": [400, 500, 700],
+      "fallback": "system-ui, -apple-system, sans-serif",
+      "google_family": "DM+Sans:wght@400;500;700"
+    },
+    "Playfair Display": {
+      "provider": "google",
+      "category": "serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "Georgia, serif",
+      "google_family": "Playfair+Display:wght@400;500;600;700"
+    },
+    "Cormorant Garamond": {
+      "provider": "google",
+      "category": "serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "Georgia, serif",
+      "google_family": "Cormorant+Garamond:wght@400;500;600;700"
+    },
+    "Libre Baskerville": {
+      "provider": "google",
+      "category": "serif",
+      "weights": [400, 700],
+      "fallback": "Georgia, serif",
+      "google_family": "Libre+Baskerville:wght@400;700"
+    },
+    "Lora": {
+      "provider": "google",
+      "category": "serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "Georgia, serif",
+      "google_family": "Lora:wght@400;500;600;700"
+    },
+    "Merriweather": {
+      "provider": "google",
+      "category": "serif",
+      "weights": [400, 700],
+      "fallback": "Georgia, serif",
+      "google_family": "Merriweather:wght@400;700"
+    },
+    "EB Garamond": {
+      "provider": "google",
+      "category": "serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "Georgia, serif",
+      "google_family": "EB+Garamond:wght@400;500;600;700"
+    },
+    "Vollkorn": {
+      "provider": "google",
+      "category": "serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "Georgia, serif",
+      "google_family": "Vollkorn:wght@400;500;600;700"
+    },
+    "Crimson Pro": {
+      "provider": "google",
+      "category": "serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "Georgia, serif",
+      "google_family": "Crimson+Pro:wght@400;500;600;700"
+    },
+    "Josefin Sans": {
+      "provider": "google",
+      "category": "display",
+      "weights": [400, 500, 600, 700],
+      "fallback": "system-ui, sans-serif",
+      "google_family": "Josefin+Sans:wght@400;500;600;700"
+    },
+    "Oswald": {
+      "provider": "google",
+      "category": "display",
+      "weights": [400, 500, 600, 700],
+      "fallback": "system-ui, sans-serif",
+      "google_family": "Oswald:wght@400;500;600;700"
+    },
+    "Archivo": {
+      "provider": "google",
+      "category": "sans-serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "system-ui, sans-serif",
+      "google_family": "Archivo:wght@400;500;600;700"
+    },
+    "Quicksand": {
+      "provider": "google",
+      "category": "sans-serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "system-ui, sans-serif",
+      "google_family": "Quicksand:wght@400;500;600;700"
+    },
+    "Rubik": {
+      "provider": "google",
+      "category": "sans-serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "system-ui, sans-serif",
+      "google_family": "Rubik:wght@400;500;600;700"
+    },
+    "Cabin": {
+      "provider": "google",
+      "category": "sans-serif",
+      "weights": [400, 500, 600, 700],
+      "fallback": "system-ui, sans-serif",
+      "google_family": "Cabin:wght@400;500;600;700"
+    }
+  },
+  "system_fonts": {
+    "System UI": {
+      "provider": "system",
+      "category": "sans-serif",
+      "fallback": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      "font_family": "system-ui"
+    },
+    "Georgia": {
+      "provider": "system",
+      "category": "serif",
+      "fallback": "Georgia, 'Times New Roman', serif",
+      "font_family": "Georgia"
+    }
+  }
+}
