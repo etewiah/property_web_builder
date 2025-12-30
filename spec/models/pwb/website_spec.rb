@@ -639,12 +639,12 @@ module Pwb
       end
 
       describe '#social_media_links_for_admin' do
-        it 'returns all 6 platforms' do
+        it 'returns all 7 platforms' do
           result = website.social_media_links_for_admin
 
-          expect(result.length).to eq(6)
+          expect(result.length).to eq(7)
           expect(result.map { |r| r[:platform] }).to contain_exactly(
-            'facebook', 'instagram', 'linkedin', 'youtube', 'twitter', 'whatsapp'
+            'facebook', 'instagram', 'linkedin', 'youtube', 'twitter', 'whatsapp', 'pinterest'
           )
         end
 
