@@ -1,0 +1,157 @@
+{
+  "version": "1.0.0",
+  "description": "Skill activation rules for PropertyWebBuilder",
+  "skills": {
+    "rails-testing": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "description": "Rails testing best practices and debugging",
+      "promptTriggers": {
+        "keywords": [
+          "test",
+          "spec",
+          "rspec",
+          "fixture",
+          "factory",
+          "failing test",
+          "test failure",
+          "debug test"
+        ],
+        "intentPatterns": [
+          "run.*test",
+          "fix.*test",
+          "write.*spec",
+          "test.*failing",
+          "why.*test.*fail"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "spec/**/*.rb",
+          "test/**/*.rb"
+        ],
+        "contentPatterns": [
+          "RSpec.describe",
+          "FactoryBot"
+        ]
+      }
+    },
+    "e2e-testing": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "description": "Playwright E2E testing and Lighthouse auditing",
+      "promptTriggers": {
+        "keywords": [
+          "e2e",
+          "playwright",
+          "end-to-end",
+          "browser test",
+          "visual test",
+          "lighthouse",
+          "performance audit",
+          "visual regression"
+        ],
+        "intentPatterns": [
+          "run.*e2e",
+          "playwright.*test",
+          "visual.*test",
+          "browser.*test",
+          "lighthouse.*audit"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "tests/e2e/**/*.js",
+          "tests/e2e/**/*.spec.js"
+        ]
+      }
+    },
+    "seed-packs": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "medium",
+      "description": "Create and manage seed packs for multi-tenant websites",
+      "promptTriggers": {
+        "keywords": [
+          "seed pack",
+          "seed data",
+          "tenant data",
+          "demo data",
+          "sample properties",
+          "yml seeds",
+          "yaml seeds"
+        ],
+        "intentPatterns": [
+          "create.*seed",
+          "add.*seed.*pack",
+          "new.*tenant.*data",
+          "sample.*properties"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "db/seeds/**/*",
+          "db/yml_seeds/**/*"
+        ]
+      }
+    },
+    "theme-creation": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "description": "Create and customize themes for PropertyWebBuilder",
+      "promptTriggers": {
+        "keywords": [
+          "theme",
+          "create theme",
+          "new theme",
+          "custom theme",
+          "styling",
+          "tailwind",
+          "css",
+          "palette"
+        ],
+        "intentPatterns": [
+          "create.*theme",
+          "new.*theme",
+          "style.*website",
+          "customize.*look",
+          "change.*design"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "app/themes/**/*",
+          "app/assets/stylesheets/**/*"
+        ]
+      }
+    },
+    "theme-evaluation": {
+      "type": "guardrail",
+      "enforcement": "suggest",
+      "priority": "high",
+      "description": "Evaluate themes for accessibility and contrast issues",
+      "promptTriggers": {
+        "keywords": [
+          "accessibility",
+          "a11y",
+          "wcag",
+          "contrast",
+          "color contrast",
+          "audit theme",
+          "evaluate theme",
+          "theme issues"
+        ],
+        "intentPatterns": [
+          "check.*accessibility",
+          "audit.*theme",
+          "evaluate.*contrast",
+          "wcag.*compliance",
+          "fix.*contrast"
+        ]
+      }
+    }
+  }
+}
