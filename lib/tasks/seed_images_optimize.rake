@@ -6,9 +6,104 @@
 # - Compress JPEGs to reduce file size
 # - Resize oversized images to appropriate dimensions
 # - Generate WebP versions for modern browsers
+# - Generate responsive variants (400w, 800w) for srcset
 # - Report size savings
+#
+# New Developer Setup:
+#   bundle exec rake seed_images:setup
+#
+# This will:
+#   1. Check for required dependencies (ImageMagick, cwebp)
+#   2. Generate responsive image variants if missing
+#   3. Optionally upload to R2 if credentials are configured
 
 namespace :seed_images do
+  desc "Setup seed images for development (generates responsive variants)"
+  task setup: :environment do
+    puts "=" * 60
+    puts "Seed Images Setup"
+    puts "=" * 60
+    puts ""
+
+    # Step 1: Check dependencies
+    puts "Step 1: Checking dependencies..."
+    deps_ok = check_dependencies_quietly
+
+    if deps_ok
+      puts "  ImageMagick: OK"
+      puts "  cwebp: OK"
+    else
+      puts ""
+      puts "Missing dependencies. Install with:"
+      puts "  brew install imagemagick webp"
+      puts ""
+      puts "After installing, run this task again."
+      exit 1
+    end
+
+    # Step 2: Check if responsive variants exist
+    puts ""
+    puts "Step 2: Checking responsive image variants..."
+
+    example_dir = Rails.root.join("db/example_images")
+    responsive_count = Dir.glob("#{example_dir}/*-{400,800}.{jpg,webp}").count
+    original_count = Dir.glob("#{example_dir}/*.{jpg,webp}").reject { |f| f.match?(/-\d+\.(jpg|webp)$/) }.count
+
+    expected_responsive = original_count * 4 # 2 sizes x 2 formats (jpg + webp)
+
+    if responsive_count >= expected_responsive * 0.8 # Allow some tolerance
+      puts "  Responsive variants: #{responsive_count} files (OK)"
+    else
+      puts "  Responsive variants: #{responsive_count} files (expected ~#{expected_responsive})"
+      puts ""
+      puts "Step 3: Generating responsive image variants..."
+      Rake::Task["seed_images:generate_responsive"].invoke
+    end
+
+    # Step 3: Check R2 upload configuration
+    puts ""
+    puts "Step 3: Checking R2 configuration..."
+
+    if ENV["R2_ACCESS_KEY_ID"].present? && ENV["R2_SECRET_ACCESS_KEY"].present?
+      puts "  R2 credentials: Configured"
+      puts ""
+      print "  Upload images to R2? (y/N): "
+
+      if ENV["CI"] || !$stdin.tty?
+        puts "Skipping (non-interactive mode)"
+      else
+        response = $stdin.gets&.strip&.downcase
+        if response == "y"
+          Rake::Task["pwb:seed_images:upload"].invoke
+        else
+          puts "  Skipped. Run 'rake pwb:seed_images:upload' later to upload."
+        end
+      end
+    else
+      puts "  R2 credentials: Not configured (optional)"
+      puts "  Images will be served from local files in development."
+      puts ""
+      puts "  To enable R2 CDN, set these environment variables:"
+      puts "    R2_ACCESS_KEY_ID"
+      puts "    R2_SECRET_ACCESS_KEY"
+      puts "    R2_ACCOUNT_ID"
+      puts "    R2_SEED_IMAGES_BUCKET"
+    end
+
+    puts ""
+    puts "=" * 60
+    puts "Setup complete!"
+    puts "=" * 60
+    puts ""
+    puts "Responsive images are ready for development."
+    puts "Hero images will use srcset for optimal mobile performance."
+  end
+
+  def check_dependencies_quietly
+    magick_ok = system("which magick > /dev/null 2>&1")
+    cwebp_ok = system("which cwebp > /dev/null 2>&1")
+    magick_ok && cwebp_ok
+  end
   # Image size targets by category
   IMAGE_TARGETS = {
     property: { width: 1200, height: 800, quality: 82 },
