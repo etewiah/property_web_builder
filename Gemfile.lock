@@ -612,6 +612,16 @@ GEM
     rubocop-ast (1.49.0)
       parser (>= 3.3.7.2)
       prism (~> 1.7)
+    rubocop-performance (1.26.1)
+      lint_roller (~> 1.1)
+      rubocop (>= 1.75.0, < 2.0)
+      rubocop-ast (>= 1.47.1, < 2.0)
+    rubocop-rails (2.34.2)
+      activesupport (>= 4.2.0)
+      lint_roller (~> 1.1)
+      rack (>= 1.1)
+      rubocop (>= 1.75.0, < 2.0)
+      rubocop-ast (>= 1.44.0, < 2.0)
     ruby-prof (1.7.2)
       base64
     ruby-progressbar (1.13.0)
@@ -828,6 +838,8 @@ DEPENDENCIES
   rswag-specs
   rswag-ui
   rubocop
+  rubocop-performance
+  rubocop-rails
   ruby-prof
   scenic
   selenium-webdriver

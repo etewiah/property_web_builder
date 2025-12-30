@@ -340,6 +340,22 @@ namespace :seed_images do
     puts "Removed #{count} WebP files."
   end
 
+  desc "Clean up responsive image variants (remove generated -400 and -800 files)"
+  task clean_responsive: :environment do
+    puts "Removing responsive image variants..."
+
+    count = 0
+    example_dir = Rails.root.join("db/example_images")
+
+    Dir.glob("#{example_dir}/*-{400,800}.{jpg,webp}").each do |file|
+      File.delete(file)
+      count += 1
+      puts "  Deleted: #{File.basename(file)}"
+    end
+
+    puts "Removed #{count} responsive variant files."
+  end
+
   # Helper methods
 
   def seed_image_dirs

@@ -132,6 +132,7 @@ module Pwb
     has_many :pages, class_name: 'Pwb::Page'
     has_many :links, class_name: 'Pwb::Link'
     has_many :users
+    has_many :auth_audit_logs, class_name: 'Pwb::AuthAuditLog', dependent: :destroy
     has_many :contacts, class_name: 'Pwb::Contact'
     has_many :messages, class_name: 'Pwb::Message'
     has_many :website_photos
