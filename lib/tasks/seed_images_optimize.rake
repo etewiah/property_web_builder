@@ -204,6 +204,42 @@ namespace :seed_images do
     end
   end
 
+  desc "Generate responsive image variants (400w, 800w) for srcset"
+  task generate_responsive: :environment do
+    check_dependencies!
+
+    puts "Generating responsive image variants..."
+
+    example_dir = Rails.root.join("db/example_images")
+    sizes = [400, 800]
+
+    Dir.glob("#{example_dir}/*.jpg").each do |file|
+      # Skip already-generated responsive variants
+      next if file.match?(/-\d+\.jpg$/)
+
+      basename = File.basename(file, ".jpg")
+
+      sizes.each do |width|
+        # Generate JPG variant
+        jpg_output = "#{example_dir}/#{basename}-#{width}.jpg"
+        unless File.exist?(jpg_output)
+          system("magick", file, "-resize", "#{width}x>", "-quality", "82", jpg_output)
+          puts "  Created: #{File.basename(jpg_output)}"
+        end
+
+        # Generate WebP variant
+        webp_output = "#{example_dir}/#{basename}-#{width}.webp"
+        unless File.exist?(webp_output)
+          system("cwebp", "-q", "80", "-resize", width.to_s, "0", file, "-o", webp_output,
+                 out: File::NULL, err: File::NULL)
+          puts "  Created: #{File.basename(webp_output)}"
+        end
+      end
+    end
+
+    puts "Done!"
+  end
+
   desc "Generate WebP versions of all seed images"
   task generate_webp: :environment do
     check_dependencies!
