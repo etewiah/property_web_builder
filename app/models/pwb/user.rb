@@ -298,7 +298,7 @@ module Pwb
     private
 
     def log_registration
-      Pwb::AuthAuditLog.log_registration(user: self, request: nil)
+      Pwb::AuthAuditLog.log_registration(user: self, request: nil, website: self.website)
     rescue StandardError => e
       Rails.logger.error("[AuthAuditLog] Failed to log registration: #{e.message}")
     end

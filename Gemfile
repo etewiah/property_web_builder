@@ -53,6 +53,8 @@ group :development, :test do
   # launchy allows me to use save_and_open_page
   # in feature specs to see current page being tested
   gem "rubocop", require: false
+  gem "rubocop-rails", require: false
+  gem "rubocop-performance", require: false
   gem "pry-byebug"
   gem "capybara"
   gem "database_cleaner"
