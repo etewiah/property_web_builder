@@ -20,8 +20,8 @@ RSpec.describe 'Theme Search Page Conformance', type: :view do
   REQUIRED_SIDEBAR_CLASSES = %w[lg:w-1/4].freeze
   REQUIRED_RESULTS_CLASSES = %w[lg:w-3/4].freeze
 
-  # Deprecated patterns that should not appear
-  DEPRECATED_PATTERNS = {
+  # Deprecated patterns that should not appear in search templates
+  DEPRECATED_SEARCH_PATTERNS = {
     # Note: removed :: from Vue.js pattern as it matches Ruby's namespace separator
     'Vue.js reference' => /INMOAPP\.pwbVue|Vue\.|v-if=|v-for=|v-model=|v-bind:|v-on:|@click=/,
     'jQuery reference' => /\$\(|jQuery\(|\$\./,
@@ -190,7 +190,7 @@ RSpec.describe 'Theme Search Page Conformance', type: :view do
           Dir.glob(Rails.root.join('app', 'themes', theme, 'views', 'pwb', 'search', '*.html.erb'))
         end
 
-        DEPRECATED_PATTERNS.each do |pattern_name, pattern|
+        DEPRECATED_SEARCH_PATTERNS.each do |pattern_name, pattern|
           it "does not contain #{pattern_name}" do
             violations = []
 
