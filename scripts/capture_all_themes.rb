@@ -4,7 +4,7 @@
 
 require 'open3'
 
-THEMES = ['default', 'brisbane', 'bologna']
+THEMES = ['default', 'barcelona', 'biarritz', 'bologna', 'brisbane']
 SCREENSHOT_SCRIPT = Rails.root.join('scripts', 'take-screenshots.js')
 
 website = Pwb::Website.first
