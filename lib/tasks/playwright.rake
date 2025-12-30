@@ -95,4 +95,38 @@ namespace :playwright do
 
     load Rails.root.join('db', 'seeds', 'e2e_seeds.rb')
   end
+
+  desc "Run Playwright E2E tests (sets up env, starts server, runs tests)"
+  task :test, [:args] => :environment do |_t, task_args|
+    script_path = Rails.root.join('scripts', 'run-e2e-tests.sh')
+
+    unless File.exist?(script_path)
+      puts "❌ E2E test runner script not found at #{script_path}"
+      exit 1
+    end
+
+    # Pass any additional arguments to the script
+    args = task_args[:args] || ''
+    puts "🎭 Running Playwright E2E tests..."
+    puts ""
+
+    # Execute the wrapper script
+    exec "#{script_path} #{args}"
+  end
+
+  desc "Run Playwright E2E tests with UI mode"
+  task ui: :environment do
+    Rake::Task['playwright:test'].invoke('--ui')
+  end
+
+  desc "Run Playwright E2E tests in headed mode (visible browser)"
+  task headed: :environment do
+    Rake::Task['playwright:test'].invoke('--headed')
+  end
+
+  desc "Show Playwright test report"
+  task report: :environment do
+    puts "📊 Opening Playwright report..."
+    exec "npx playwright show-report"
+  end
 end
