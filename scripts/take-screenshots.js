@@ -18,7 +18,18 @@ try {
 }
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
-const SCREENSHOT_DIR = path.join(__dirname, '..', 'docs', 'screenshots', 'dev');
+
+// Generate date string in YYYY-MM-DD format
+function getDateString() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+const DATE_STRING = getDateString();
+const SCREENSHOT_DIR = path.join(__dirname, '..', 'docs', 'screenshots', 'dev', DATE_STRING);
 const THEME = process.env.SCREENSHOT_THEME || 'default';
 const MAX_SIZE_MB = parseFloat(process.env.MAX_SIZE_MB || '2');
 const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
