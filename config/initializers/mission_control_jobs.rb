@@ -3,10 +3,9 @@
 # Mission Control Jobs 1.0+ requires authentication configuration
 # See: https://github.com/rails/mission_control-jobs#authentication
 
-Rails.application.configure do
-  # Use HTTP Basic authentication for the jobs dashboard
-  # Credentials can be set via environment variables
-  config.mission_control.jobs.http_basic_auth_enabled = true
-  config.mission_control.jobs.http_basic_auth_user = ENV.fetch("JOBS_AUTH_USER", "admin")
-  config.mission_control.jobs.http_basic_auth_password = ENV.fetch("JOBS_AUTH_PASSWORD") { SecureRandom.hex(16) }
+Rails.application.config.after_initialize do
+  # Disable Mission Control's built-in HTTP Basic auth.
+  # Authentication is handled by the TenantAdminConstraint route constraint
+  # which uses the same logic as /tenant_admin (checks TENANT_ADMIN_EMAILS env var).
+  MissionControl::Jobs.http_basic_auth_enabled = false
 end
