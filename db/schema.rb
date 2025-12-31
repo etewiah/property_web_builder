@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_29_172206) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_31_160000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -506,6 +506,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_29_172206) do
     t.boolean "public", default: true, null: false
     t.string "slug", null: false
     t.integer "trial_days", default: 14, null: false
+    t.string "trial_unit", default: "days"
+    t.integer "trial_value", default: 14
     t.datetime "updated_at", null: false
     t.integer "user_limit"
     t.index ["active", "position"], name: "index_pwb_plans_on_active_and_position"

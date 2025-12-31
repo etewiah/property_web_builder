@@ -18,6 +18,8 @@
 #  public           :boolean          default(TRUE), not null
 #  slug             :string           not null
 #  trial_days       :integer          default(14), not null
+#  trial_unit       :string           default("days")
+#  trial_value      :integer          default(14)
 #  user_limit       :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null

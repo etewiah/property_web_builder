@@ -1,0 +1,97 @@
+# Subscription Plans Configuration
+#
+# This file defines the available subscription plans.
+# Run `bundle exec rake subscriptions:seed_plans` to apply changes.
+#
+# Each plan supports:
+#   name:             Internal identifier (lowercase, unique)
+#   slug:             URL-friendly identifier (lowercase, hyphens allowed)
+#   display_name:     User-facing name
+#   description:      Short marketing description
+#   price_cents:      Price in cents (9900 = $99.00)
+#   price_currency:   Currency code (USD, EUR, GBP)
+#   billing_interval: 'month' or 'year'
+#   trial_value:      Trial period value (number)
+#   trial_unit:       Trial period unit: 'days', 'weeks', or 'months'
+#   property_limit:   Max properties (null = unlimited)
+#   user_limit:       Max team members (null = unlimited)
+#   position:         Display order (lower = first)
+#   active:           Whether plan is available
+#   public:           Whether plan shows on pricing page
+#   features:         Array of feature keys (see available features below)
+#
+# Available feature keys:
+#   Themes:    default_theme, all_themes, custom_theme
+#   Domain:    subdomain_only, custom_domain
+#   Languages: single_language, multi_language_3, multi_language_8
+#   Support:   email_support, priority_support, dedicated_support
+#   Features:  ssl_included, analytics, custom_integrations, api_access, white_label
+
+plans:
+  - name: starter
+    slug: starter
+    display_name: Starter
+    description: Perfect for getting started
+    price_cents: 9900
+    price_currency: USD
+    billing_interval: month
+    trial_value: 1
+    trial_unit: months
+    property_limit: 50
+    user_limit: 2
+    position: 1
+    active: true
+    public: true
+    features:
+      - default_theme
+      - subdomain_only
+      - single_language
+      - ssl_included
+      - email_support
+
+  - name: professional
+    slug: professional
+    display_name: Professional
+    description: For serious agencies
+    price_cents: 29900
+    price_currency: USD
+    billing_interval: month
+    trial_value: 1
+    trial_unit: months
+    property_limit: 200
+    user_limit: 5
+    position: 2
+    active: true
+    public: true
+    features:
+      - all_themes
+      - custom_domain
+      - multi_language_3
+      - ssl_included
+      - priority_support
+      - analytics
+
+  - name: enterprise
+    slug: enterprise
+    display_name: Enterprise
+    description: For large agencies & franchises
+    price_cents: 249900
+    price_currency: USD
+    billing_interval: month
+    trial_value: 1
+    trial_unit: months
+    property_limit: ~  # null = unlimited
+    user_limit: ~      # null = unlimited
+    position: 3
+    active: true
+    public: true
+    features:
+      - custom_theme
+      - custom_domain
+      - multi_language_8
+      - ssl_included
+      - dedicated_support
+      - analytics
+      - custom_integrations
+      - api_access
+      - white_label
