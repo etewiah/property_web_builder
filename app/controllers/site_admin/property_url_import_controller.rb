@@ -28,6 +28,19 @@ module SiteAdmin
         return
       end
 
+      # Check for existing scrape/import (duplicate detection)
+      existing = Pwb::ScrapedProperty.find_duplicate(url, website: current_website)
+      if existing&.already_imported?
+        redirect_to site_admin_prop_path(existing.realty_asset),
+                    alert: "This property has already been imported from this URL."
+        return
+      elsif existing&.can_preview?
+        # URL was scraped but not imported - offer to continue
+        redirect_to site_admin_property_url_import_preview_path(existing),
+                    notice: "This URL was previously scraped. You can continue the import."
+        return
+      end
+
       service = Pwb::PropertyScraperService.new(url, website: current_website)
       @scraped_property = service.call
 
@@ -113,6 +126,59 @@ module SiteAdmin
         .limit(50)
     end
 
+    # GET /site_admin/property_url_import/batch
+    # Show batch import form (CSV or URL list)
+    def batch
+      @batch_result = nil
+    end
+
+    # POST /site_admin/property_url_import/batch_process
+    # Process batch import
+    def batch_process
+      urls = extract_urls_from_params
+      csv_content = extract_csv_from_params
+
+      if urls.blank? && csv_content.blank?
+        flash.now[:alert] = "Please provide URLs or upload a CSV file."
+        render :batch
+        return
+      end
+
+      # For small batches, process synchronously
+      # For larger batches, queue a background job
+      total_count = urls&.count || count_csv_urls(csv_content)
+
+      if total_count > 10
+        # Queue background job
+        Pwb::BatchUrlImportJob.perform_later(
+          current_website.id,
+          urls: urls,
+          csv_content: csv_content,
+          notify_email: current_user.email
+        )
+
+        redirect_to site_admin_property_url_import_history_path,
+                    notice: "Batch import started for #{total_count} URLs. You'll receive an email when complete."
+      else
+        # Process synchronously
+        service = Pwb::BatchUrlImportService.new(
+          current_website,
+          urls: urls,
+          csv_content: csv_content
+        )
+
+        @batch_result = service.call
+
+        if @batch_result.successful > 0
+          flash.now[:notice] = @batch_result.summary
+        else
+          flash.now[:alert] = @batch_result.summary
+        end
+
+        render :batch
+      end
+    end
+
     private
 
     def set_scraped_property
@@ -146,6 +212,30 @@ module SiteAdmin
           ]
         )[:listing_data]&.to_h || {}
       }
+    end
+
+    def extract_urls_from_params
+      url_text = params[:urls].to_s.strip
+      return nil if url_text.blank?
+
+      url_text.split(/[\n\r]+/).map(&:strip).reject(&:blank?).select { |u| valid_url?(u) }
+    end
+
+    def extract_csv_from_params
+      csv_file = params[:csv_file]
+      return nil unless csv_file.respond_to?(:read)
+
+      csv_file.read
+    rescue StandardError
+      nil
+    end
+
+    def count_csv_urls(csv_content)
+      return 0 if csv_content.blank?
+
+      csv_content.lines.count - 1 # Subtract header row
+    rescue StandardError
+      0
     end
   end
 end

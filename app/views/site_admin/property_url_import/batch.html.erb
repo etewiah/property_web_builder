@@ -1,0 +1,127 @@
+<% content_for :title, "Batch Import Properties" %>
+
+<div class="max-w-4xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Batch Import Properties</h1>
+    <p class="mt-1 text-sm text-gray-500">
+      Import multiple properties at once by pasting URLs or uploading a CSV file.
+    </p>
+  </div>
+
+  <% if @batch_result %>
+    <div class="mb-6 p-4 rounded-lg <%= @batch_result.failed == 0 ? 'bg-green-50 border border-green-200' : 'bg-yellow-50 border border-yellow-200' %>">
+      <h3 class="font-medium <%= @batch_result.failed == 0 ? 'text-green-800' : 'text-yellow-800' %>">
+        <%= @batch_result.summary %>
+      </h3>
+
+      <% if @batch_result.results.any? %>
+        <div class="mt-4 max-h-64 overflow-y-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">URL</th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+              <% @batch_result.results.each do |result| %>
+                <tr>
+                  <td class="px-3 py-2 text-sm text-gray-900 truncate max-w-xs" title="<%= result.url %>">
+                    <%= truncate(result.url, length: 60) %>
+                  </td>
+                  <td class="px-3 py-2">
+                    <% if result.success %>
+                      <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                        Success
+                      </span>
+                    <% else %>
+                      <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800" title="<%= result.error %>">
+                        Failed
+                      </span>
+                    <% end %>
+                  </td>
+                  <td class="px-3 py-2 text-sm">
+                    <% if result.scraped_property %>
+                      <% if result.scraped_property.can_preview? %>
+                        <%= link_to "Preview", site_admin_property_url_import_preview_path(result.scraped_property),
+                            class: "text-blue-600 hover:text-blue-800" %>
+                      <% elsif result.scraped_property.already_imported? %>
+                        <%= link_to "View", site_admin_prop_path(result.scraped_property.realty_asset),
+                            class: "text-gray-600 hover:text-gray-800" %>
+                      <% end %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= form_with url: site_admin_property_url_import_batch_process_path, method: :post, local: true,
+      html: { class: "space-y-6", enctype: "multipart/form-data" } do |f| %>
+
+    <!-- URL List Input -->
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Option 1: Paste URLs</h2>
+      <p class="text-sm text-gray-500 mb-4">
+        Enter one property URL per line (maximum 50 URLs).
+      </p>
+
+      <div>
+        <%= f.text_area :urls, rows: 8,
+            class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500",
+            placeholder: "https://www.rightmove.co.uk/properties/123456\nhttps://www.zoopla.co.uk/for-sale/details/12345\nhttps://www.idealista.com/inmueble/123456/" %>
+      </div>
+    </div>
+
+    <!-- CSV Upload -->
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Option 2: Upload CSV</h2>
+      <p class="text-sm text-gray-500 mb-4">
+        Upload a CSV file with URLs and optional property data.
+        <a href="#" class="text-blue-600 hover:text-blue-800" onclick="document.getElementById('csv-format-help').classList.toggle('hidden'); return false;">
+          View format
+        </a>
+      </p>
+
+      <div id="csv-format-help" class="hidden mb-4 p-3 bg-gray-50 rounded text-sm font-mono">
+        <p class="text-gray-700 mb-2">CSV columns (first row is header):</p>
+        <code class="text-xs text-gray-600">
+          url,bedrooms,bathrooms,city,price,property_type,notes<br>
+          https://...,3,2,London,450000,apartment,Main property
+        </code>
+      </div>
+
+      <div>
+        <%= f.file_field :csv_file, accept: ".csv,text/csv",
+            class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="flex items-center justify-between">
+      <div class="text-sm text-gray-500">
+        <span class="font-medium">Note:</span> Large batches (>10 URLs) will be processed in the background.
+      </div>
+
+      <div class="flex space-x-3">
+        <%= link_to "Cancel", site_admin_property_url_import_path,
+            class: "px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50" %>
+        <%= f.submit "Start Import",
+            class: "px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 cursor-pointer" %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Navigation -->
+  <div class="mt-6 flex space-x-4">
+    <%= link_to "Single URL Import", site_admin_property_url_import_path,
+        class: "text-sm text-gray-600 hover:text-gray-900" %>
+    <%= link_to "Import History", site_admin_property_url_import_history_path,
+        class: "text-sm text-gray-600 hover:text-gray-900" %>
+  </div>
+</div>

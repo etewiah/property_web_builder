@@ -98,14 +98,48 @@ module Pwb
 
       def extract_listing_data(og_tags, json_ld, next_data)
         price_data = extract_price(json_ld, next_data)
+        listing_type = detect_listing_type_from_data(json_ld, next_data)
 
-        {
+        result = {
           "title" => extract_title(og_tags, json_ld, next_data),
           "description" => extract_description(og_tags, json_ld, next_data),
-          "price_sale_current" => price_data[:price],
           "currency" => price_data[:currency] || "EUR",
-          "visible" => true
-        }.compact
+          "visible" => true,
+          "listing_type" => listing_type
+        }
+
+        # Add appropriate price field based on listing type
+        if listing_type == "rental"
+          result["price_rental_monthly"] = price_data[:price]
+        else
+          result["price_sale_current"] = price_data[:price]
+        end
+
+        result.compact
+      end
+
+      def detect_listing_type_from_data(json_ld, next_data)
+        # Check JSON-LD for type hints
+        if json_ld["@type"].to_s.downcase.include?("rental")
+          return "rental"
+        end
+
+        # Check Next.js data
+        listing_type = next_data["listingType"] || next_data["listing_type"] || next_data["type"]
+        if listing_type.to_s.downcase.match?(/rent|alquiler|location|affitto/)
+          return "rental"
+        end
+
+        # Check page text for rental indicators
+        page_text = doc.text.downcase
+        rental_indicators = page_text.scan(/\b(per month|pcm|pw|per week|rent|to let|alquiler|mensual|affitto)\b/).flatten
+        sale_indicators = page_text.scan(/\b(for sale|asking price|offers over|venta|verkauf)\b/).flatten
+
+        if rental_indicators.length > sale_indicators.length * 2
+          "rental"
+        else
+          "sale"
+        end
       end
 
       # --- Field Extraction Methods ---

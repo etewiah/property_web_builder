@@ -76,6 +76,40 @@ module Pwb
       )
     end
 
+    # Class method to find duplicate scraped properties for a URL
+    # @param url [String] The URL to check
+    # @param website [Pwb::Website] The website context
+    # @return [ScrapedProperty, nil] Existing scraped property if found
+    def self.find_duplicate(url, website:)
+      normalized = normalize_url_string(url)
+      where(website: website, source_url_normalized: normalized).first
+    end
+
+    # Check if a URL has already been scraped
+    # @param url [String] The URL to check
+    # @param website [Pwb::Website] The website context
+    # @return [Boolean]
+    def self.url_already_scraped?(url, website:)
+      find_duplicate(url, website: website).present?
+    end
+
+    # Check if a URL has been imported (not just scraped)
+    # @param url [String] The URL to check
+    # @param website [Pwb::Website] The website context
+    # @return [Boolean]
+    def self.url_already_imported?(url, website:)
+      existing = find_duplicate(url, website: website)
+      existing&.already_imported? || false
+    end
+
+    # Normalize a URL string for comparison (class method version)
+    def self.normalize_url_string(url_string)
+      uri = URI.parse(url_string.strip)
+      "#{uri.host}#{uri.path}".downcase.gsub(%r{/$}, "")
+    rescue URI::InvalidURIError
+      url_string.downcase.strip
+    end
+
     private
 
     def normalize_source_url

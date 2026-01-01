@@ -58,6 +58,8 @@ RSpec.describe "SiteAdmin::PropertyUrlImportController", type: :request do
         connector_double = instance_double(Pwb::ScraperConnectors::Http)
         allow(Pwb::ScraperConnectors::Http).to receive(:new).and_return(connector_double)
         allow(connector_double).to receive(:fetch).and_return(fetch_result)
+        # Disable Playwright fallback in tests
+        allow(Pwb::ScraperConnectors::Playwright).to receive(:available?).and_return(false)
       end
 
       context "when scraping succeeds" do

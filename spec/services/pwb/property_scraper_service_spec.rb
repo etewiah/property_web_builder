@@ -5,7 +5,7 @@ require "rails_helper"
 module Pwb
   RSpec.describe PropertyScraperService do
     let(:website) { create(:pwb_website) }
-    let(:url) { "https://www.rightmove.co.uk/properties/123456789" }
+    let(:url) { "https://www.example-realty.com/properties/123456789" }
 
     describe "#initialize" do
       it "initializes with url and website" do
@@ -113,7 +113,7 @@ module Pwb
         it "detects the source portal" do
           service = described_class.new(url, website: website)
           result = service.call
-          expect(result.source_portal).to eq("rightmove")
+          expect(result.source_portal).to eq("generic")
         end
       end
 
@@ -126,6 +126,8 @@ module Pwb
             error: "Request blocked by Cloudflare",
             error_class: "Pwb::ScraperConnectors::BlockedError"
           })
+          # Disable Playwright fallback in tests
+          allow(ScraperConnectors::Playwright).to receive(:available?).and_return(false)
         end
 
         it "creates a ScrapedProperty record" do

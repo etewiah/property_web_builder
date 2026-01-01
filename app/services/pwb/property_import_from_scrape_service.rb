@@ -14,10 +14,14 @@ module Pwb
 
     # @param scraped_property [Pwb::ScrapedProperty] The scraped property with extracted data
     # @param overrides [Hash] Optional user overrides for extracted data
-    def initialize(scraped_property, overrides: {})
+    # @param download_images [Boolean] Whether to queue background job to download images (default: false)
+    # @param listing_type [Symbol] Force listing type (:sale or :rental), or nil to auto-detect
+    def initialize(scraped_property, overrides: {}, download_images: false, listing_type: nil)
       @scraped_property = scraped_property
       @website = scraped_property.website
       @overrides = overrides.deep_symbolize_keys
+      @download_images = download_images
+      @listing_type = listing_type
     end
 
     # Creates the property from scraped data.
@@ -33,14 +37,24 @@ module Pwb
         # Create RealtyAsset
         realty_asset = create_realty_asset(asset_data)
 
-        # Create SaleListing (default to sale listing for scraped properties)
-        create_sale_listing(realty_asset, listing_data)
+        # Create listing based on detected or specified type
+        listing_type = detect_listing_type(listing_data)
+        if listing_type == :rental
+          create_rental_listing(realty_asset, listing_data)
+        else
+          create_sale_listing(realty_asset, listing_data)
+        end
 
         # Import images as PropPhotos
         import_images(realty_asset)
 
         # Mark as imported
         scraped_property.mark_as_imported!(realty_asset)
+
+        # Optionally queue background job to download images
+        if @download_images
+          DownloadScrapedImagesJob.perform_later(realty_asset.id)
+        end
 
         Result.new(success: true, realty_asset: realty_asset)
       end
@@ -135,6 +149,78 @@ module Pwb
       else
         (price_value * 100).to_i
       end
+    end
+
+    def detect_listing_type(listing_data)
+      # Use explicitly specified type first
+      return @listing_type if @listing_type.present?
+
+      # Check for rental price fields
+      has_rental_price = listing_data[:price_rental_monthly].present? ||
+                         listing_data[:price_rental].present? ||
+                         listing_data[:rent].present?
+
+      has_sale_price = listing_data[:price_sale_current].present? ||
+                       listing_data[:price].present?
+
+      # Detect from URL patterns
+      url = scraped_property.source_url.to_s.downcase
+      rental_keywords_in_url = url.include?("/rent") ||
+                               url.include?("/to-rent") ||
+                               url.include?("/alquiler") ||
+                               url.include?("/location") ||
+                               url.include?("/affitto")
+
+      sale_keywords_in_url = url.include?("/sale") ||
+                             url.include?("/for-sale") ||
+                             url.include?("/venta") ||
+                             url.include?("/vendita")
+
+      # Detect from listing data
+      listing_type_hint = listing_data[:listing_type]&.to_s&.downcase
+      if listing_type_hint
+        return :rental if listing_type_hint.include?("rent") || listing_type_hint.include?("alquiler")
+        return :sale if listing_type_hint.include?("sale") || listing_type_hint.include?("venta")
+      end
+
+      # Priority: explicit prices > URL patterns > default to sale
+      if has_rental_price && !has_sale_price
+        :rental
+      elsif rental_keywords_in_url && !sale_keywords_in_url
+        :rental
+      else
+        :sale
+      end
+    end
+
+    def create_rental_listing(realty_asset, data)
+      # Support various price field names
+      monthly_price = data[:price_rental_monthly] || data[:price_rental] || data[:rent] || data[:price]
+      price_cents = calculate_price_cents(monthly_price)
+      currency = data[:currency] || website.default_currency || "EUR"
+
+      listing = realty_asset.rental_listings.build(
+        active: true,
+        visible: data[:visible].nil? ? true : data[:visible],
+        highlighted: data[:highlighted] || false,
+        furnished: data[:furnished] || false,
+        for_rent_long_term: true,
+        for_rent_short_term: false,
+        price_rental_monthly_current_cents: price_cents,
+        price_rental_monthly_current_currency: currency
+      )
+
+      # Set title and description
+      if data[:title].present?
+        listing.title = data[:title]
+      end
+
+      if data[:description].present?
+        listing.description = data[:description]
+      end
+
+      listing.save!
+      listing
     end
 
     def import_images(realty_asset)

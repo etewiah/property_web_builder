@@ -8,9 +8,11 @@ module Pwb
 
     # @param url [String] The property listing URL to scrape
     # @param website [Pwb::Website] The website to associate the scraped property with
-    def initialize(url, website:)
+    # @param connector [Symbol] Force a specific connector (:http or :playwright)
+    def initialize(url, website:, connector: nil)
       @url = url.to_s.strip
       @website = website
+      @preferred_connector = connector
     end
 
     # Attempts to automatically scrape the URL.
@@ -44,6 +46,8 @@ module Pwb
         pasarela = select_pasarela
         pasarela.call
 
+        # Reload to get the extracted_data saved by pasarela
+        scraped_property.reload
         scraped_property.update!(import_status: "previewing")
       else
         scraped_property.update!(
@@ -75,6 +79,8 @@ module Pwb
       pasarela = select_pasarela
       pasarela.call
 
+      # Reload to get the extracted_data saved by pasarela
+      scraped_property.reload
       scraped_property.update!(import_status: "previewing")
       scraped_property
     end
@@ -115,24 +121,51 @@ module Pwb
     end
 
     def attempt_scrape
-      connector = ScraperConnectors::Http.new(@url)
-      connector.fetch
+      connector = select_connector
+      result = connector.fetch
+
+      # If HTTP fails with blocking error and Playwright is available, try Playwright
+      if !result[:success] && should_retry_with_playwright?(result)
+        playwright_connector = ScraperConnectors::Playwright.new(@url)
+        result = playwright_connector.fetch
+      end
+
+      result
+    end
+
+    def select_connector
+      case @preferred_connector
+      when :playwright
+        ScraperConnectors::Playwright.new(@url)
+      when :http
+        ScraperConnectors::Http.new(@url)
+      else
+        # Default to HTTP, Playwright will be tried as fallback if needed
+        ScraperConnectors::Http.new(@url)
+      end
+    end
+
+    def should_retry_with_playwright?(result)
+      return false if @preferred_connector == :http # User explicitly chose HTTP
+      return false unless ScraperConnectors::Playwright.available?
+
+      error = result[:error].to_s.downcase
+      error.include?("cloudflare") ||
+        error.include?("blocked") ||
+        error.include?("bot protection")
     end
 
     def select_pasarela
       portal = scraped_property.source_portal
 
-      # Currently only Generic pasarela is implemented.
-      # Add portal-specific pasarelas here as they're created:
-      #
-      # pasarela_class = case portal
-      # when "rightmove" then Pasarelas::Rightmove
-      # when "zoopla" then Pasarelas::Zoopla
-      # when "idealista" then Pasarelas::Idealista
-      # else Pasarelas::Generic
-      # end
+      pasarela_class = case portal
+                       when "rightmove" then Pasarelas::Rightmove
+                       when "zoopla" then Pasarelas::Zoopla
+                       when "idealista" then Pasarelas::Idealista
+                       else Pasarelas::Generic
+                       end
 
-      Pasarelas::Generic.new(scraped_property)
+      pasarela_class.new(scraped_property)
     end
 
     def detect_portal(host)

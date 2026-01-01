@@ -191,6 +191,8 @@ Rails.application.routes.draw do
       get ':id/preview', action: :preview, as: :preview
       post ':id/confirm', action: :confirm_import, as: :confirm
       get :history, action: :history
+      get :batch, action: :batch
+      post :batch_process, action: :batch_process
     end
 
     resources :props, only: %i[index show new create] do
