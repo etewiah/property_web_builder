@@ -1,0 +1,69 @@
+<div class="max-w-2xl mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold text-gray-900 mb-2">Import Property from URL</h1>
+  <p class="text-gray-600 mb-8">
+    Paste the URL of a property from another website to import its details.
+  </p>
+
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="flex items-center mb-4">
+      <svg class="w-6 h-6 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+      </svg>
+      <h2 class="text-lg font-semibold text-gray-900">Enter Property URL</h2>
+    </div>
+
+    <%= form_with url: site_admin_property_url_import_path, method: :post, local: true, class: "space-y-4" do |f| %>
+      <div>
+        <label for="url" class="block text-sm font-medium text-gray-700 mb-1">Property URL</label>
+        <%= text_field_tag :url, params[:url],
+            type: "url",
+            placeholder: "https://www.rightmove.co.uk/properties/12345678",
+            class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm",
+            required: true,
+            autofocus: true %>
+        <p class="mt-1 text-sm text-gray-500">
+          Paste the full URL of the property listing you want to import.
+        </p>
+      </div>
+
+      <div class="pt-4">
+        <button type="submit" class="w-full px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+          Fetch Property Data
+        </button>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Supported Sites Info -->
+  <div class="mt-8 bg-blue-50 rounded-lg p-6">
+    <h2 class="text-lg font-semibold text-blue-900 mb-3">Supported Websites</h2>
+    <p class="text-sm text-blue-800 mb-4">
+      The system will attempt to extract property data from any website. Best results are achieved with these popular property portals:
+    </p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+      <div class="bg-white rounded px-3 py-2 text-center text-gray-700">Rightmove</div>
+      <div class="bg-white rounded px-3 py-2 text-center text-gray-700">Zoopla</div>
+      <div class="bg-white rounded px-3 py-2 text-center text-gray-700">Idealista</div>
+      <div class="bg-white rounded px-3 py-2 text-center text-gray-700">OnTheMarket</div>
+      <div class="bg-white rounded px-3 py-2 text-center text-gray-700">Zillow</div>
+      <div class="bg-white rounded px-3 py-2 text-center text-gray-700">Realtor.com</div>
+      <div class="bg-white rounded px-3 py-2 text-center text-gray-700">Redfin</div>
+      <div class="bg-white rounded px-3 py-2 text-center text-gray-700">Any website</div>
+    </div>
+    <p class="mt-4 text-sm text-blue-700">
+      <strong>Note:</strong> Some websites may block automatic access. In that case, you'll be able to paste the page's HTML source manually.
+    </p>
+  </div>
+
+  <!-- Other Import Options -->
+  <div class="mt-6 text-center">
+    <p class="text-sm text-gray-500 mb-2">Other import options:</p>
+    <div class="flex justify-center gap-4">
+      <%= link_to "Bulk Import (CSV)", site_admin_property_import_export_path,
+          class: "text-sm text-blue-600 hover:text-blue-800" %>
+      <span class="text-gray-300">|</span>
+      <%= link_to "Create Manually", new_site_admin_prop_path,
+          class: "text-sm text-blue-600 hover:text-blue-800" %>
+    </div>
+  </div>
+</div>

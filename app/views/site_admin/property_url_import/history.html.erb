@@ -1,0 +1,84 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Import History</h1>
+      <p class="text-gray-600">Previously scraped properties from URLs.</p>
+    </div>
+    <%= link_to new_site_admin_property_url_import_path, class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700" do %>
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+      </svg>
+      Import New
+    <% end %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+    <% if @scraped_properties.any? %>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Source</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% @scraped_properties.each do |sp| %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4">
+                <div class="text-sm font-medium text-gray-900"><%= sp.source_portal&.titleize || "Unknown" %></div>
+                <div class="text-sm text-gray-500 truncate max-w-xs"><%= truncate(sp.source_url, length: 50) %></div>
+              </td>
+              <td class="px-6 py-4">
+                <% case sp.import_status %>
+                <% when "imported" %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    Imported
+                  </span>
+                <% when "previewing" %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    Pending Review
+                  </span>
+                <% when "failed" %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                    Failed
+                  </span>
+                <% else %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                    Pending
+                  </span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500">
+                <%= sp.created_at.strftime("%b %d, %Y") %>
+              </td>
+              <td class="px-6 py-4 text-sm">
+                <% if sp.import_status == "imported" && sp.realty_asset %>
+                  <%= link_to "View Property", site_admin_prop_path(sp.realty_asset), class: "text-blue-600 hover:text-blue-800" %>
+                <% elsif sp.can_preview? %>
+                  <%= link_to "Review", preview_site_admin_property_url_import_path(sp), class: "text-blue-600 hover:text-blue-800" %>
+                <% else %>
+                  <span class="text-gray-400">-</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <div class="text-center py-12">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No import history</h3>
+        <p class="mt-1 text-sm text-gray-500">Get started by importing a property from a URL.</p>
+        <div class="mt-6">
+          <%= link_to new_site_admin_property_url_import_path, class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700" do %>
+            Import Property
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

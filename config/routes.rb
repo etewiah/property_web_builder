@@ -183,6 +183,16 @@ Rails.application.routes.draw do
       delete :clear_results, action: :clear_results
     end
 
+    # Property URL import (scraping)
+    scope :property_url_import, controller: 'property_url_import', as: 'property_url_import' do
+      get '/', action: :new
+      post '/', action: :create
+      post :manual_html, action: :manual_html
+      get ':id/preview', action: :preview, as: :preview
+      post ':id/confirm', action: :confirm_import, as: :confirm
+      get :history, action: :history
+    end
+
     resources :props, only: %i[index show new create] do
       member do
         get 'edit/general', to: 'props#edit_general', as: 'edit_general'

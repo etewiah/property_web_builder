@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_01_123933) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_01_125759) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -714,6 +714,32 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_123933) do
     t.index ["translations"], name: "index_pwb_sale_listings_on_translations", using: :gin
   end
 
+  create_table "pwb_scraped_properties", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "connector_used"
+    t.datetime "created_at", null: false
+    t.jsonb "extracted_data", default: {}
+    t.jsonb "extracted_images", default: []
+    t.string "import_status", default: "pending"
+    t.datetime "imported_at"
+    t.text "raw_html"
+    t.uuid "realty_asset_id"
+    t.string "scrape_error_message"
+    t.string "scrape_method"
+    t.boolean "scrape_successful", default: false
+    t.text "script_json"
+    t.string "source_host"
+    t.string "source_portal"
+    t.string "source_url", null: false
+    t.string "source_url_normalized"
+    t.datetime "updated_at", null: false
+    t.bigint "website_id", null: false
+    t.index ["import_status"], name: "index_pwb_scraped_properties_on_import_status"
+    t.index ["realty_asset_id"], name: "index_pwb_scraped_properties_on_realty_asset_id"
+    t.index ["source_url_normalized"], name: "index_pwb_scraped_properties_on_source_url_normalized"
+    t.index ["website_id", "source_host"], name: "index_pwb_scraped_properties_on_website_id_and_source_host"
+    t.index ["website_id"], name: "index_pwb_scraped_properties_on_website_id"
+  end
+
   create_table "pwb_subdomains", force: :cascade do |t|
     t.string "aasm_state", default: "available", null: false
     t.datetime "created_at", null: false
@@ -1172,6 +1198,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_123933) do
   add_foreign_key "pwb_prop_translations", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_rental_listings", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_sale_listings", "pwb_realty_assets", column: "realty_asset_id"
+  add_foreign_key "pwb_scraped_properties", "pwb_realty_assets", column: "realty_asset_id"
+  add_foreign_key "pwb_scraped_properties", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_subdomains", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_subscription_events", "pwb_subscriptions", column: "subscription_id"
   add_foreign_key "pwb_subscriptions", "pwb_plans", column: "plan_id"

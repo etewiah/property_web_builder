@@ -1,0 +1,202 @@
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold text-gray-900 mb-2">Review Imported Data</h1>
+  <p class="text-gray-600 mb-6">
+    Review and edit the extracted property data before importing.
+    <span class="text-sm text-gray-500">Source: <%= link_to truncate(@scraped_property.source_url, length: 60), @scraped_property.source_url, target: "_blank", class: "text-blue-600 hover:underline" %></span>
+  </p>
+
+  <%= form_with url: confirm_site_admin_property_url_import_path(@scraped_property), method: :post, local: true do |f| %>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Property Details (2 columns) -->
+      <div class="lg:col-span-2 space-y-6">
+
+        <!-- Basic Info -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Property Details</h2>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Bedrooms</label>
+              <%= number_field_tag "asset_data[count_bedrooms]", @asset_data["count_bedrooms"],
+                  class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm",
+                  min: 0 %>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Bathrooms</label>
+              <%= number_field_tag "asset_data[count_bathrooms]", @asset_data["count_bathrooms"],
+                  class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm",
+                  min: 0, step: 0.5 %>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Property Type</label>
+              <%= select_tag "asset_data[prop_type_key]",
+                  options_for_select([
+                    ["Apartment", "apartment"],
+                    ["House", "house"],
+                    ["Villa", "villa"],
+                    ["Studio", "studio"],
+                    ["Land", "land"],
+                    ["Commercial", "commercial"],
+                    ["Other", "other"]
+                  ], @asset_data["prop_type_key"] || "apartment"),
+                  class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Built Area (m<sup>2</sup>)</label>
+              <%= number_field_tag "asset_data[constructed_area]", @asset_data["constructed_area"],
+                  class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm",
+                  min: 0, step: 0.1 %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Location</h2>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+              <%= text_field_tag "asset_data[street_address]", @asset_data["street_address"],
+                  class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm",
+                  placeholder: "Street address" %>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">City</label>
+                <%= text_field_tag "asset_data[city]", @asset_data["city"],
+                    class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Region</label>
+                <%= text_field_tag "asset_data[region]", @asset_data["region"],
+                    class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Postal Code</label>
+                <%= text_field_tag "asset_data[postal_code]", @asset_data["postal_code"],
+                    class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                <%= text_field_tag "asset_data[country]", @asset_data["country"],
+                    class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Listing Details -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Listing Details</h2>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+              <%= text_field_tag "listing_data[title]", @listing_data["title"],
+                  class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
+                <%= number_field_tag "listing_data[price_sale_current]", @listing_data["price_sale_current"],
+                    class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm",
+                    min: 0, step: 1 %>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Currency</label>
+                <%= select_tag "listing_data[currency]",
+                    options_for_select([
+                      ["EUR", "EUR"],
+                      ["GBP", "GBP"],
+                      ["USD", "USD"]
+                    ], @listing_data["currency"] || "EUR"),
+                    class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+              <%= text_area_tag "listing_data[description]", @listing_data["description"],
+                  rows: 6,
+                  class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Images & Actions (1 column) -->
+      <div class="space-y-6">
+
+        <!-- Images Preview -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">
+            Images
+            <span class="text-sm font-normal text-gray-500">(<%= @images.size %> found)</span>
+          </h2>
+
+          <% if @images.any? %>
+            <div class="grid grid-cols-2 gap-2">
+              <% @images.first(8).each do |img_url| %>
+                <div class="relative aspect-video bg-gray-100 rounded overflow-hidden">
+                  <img src="<%= img_url %>"
+                       alt="Property image"
+                       class="absolute inset-0 w-full h-full object-cover"
+                       onerror="this.style.display='none'; this.parentElement.classList.add('bg-gray-200');">
+                </div>
+              <% end %>
+            </div>
+            <% if @images.size > 8 %>
+              <p class="mt-2 text-sm text-gray-500 text-center">
+                +<%= @images.size - 8 %> more images
+              </p>
+            <% end %>
+          <% else %>
+            <p class="text-sm text-gray-500 text-center py-8">No images found</p>
+          <% end %>
+        </div>
+
+        <!-- Source Info -->
+        <div class="bg-gray-50 rounded-lg p-4">
+          <h3 class="text-sm font-medium text-gray-700 mb-2">Import Source</h3>
+          <dl class="text-sm space-y-1">
+            <div class="flex justify-between">
+              <dt class="text-gray-500">Portal:</dt>
+              <dd class="text-gray-900 font-medium"><%= @scraped_property.source_portal&.titleize || "Unknown" %></dd>
+            </div>
+            <div class="flex justify-between">
+              <dt class="text-gray-500">Method:</dt>
+              <dd class="text-gray-900"><%= @scraped_property.scrape_method == "auto" ? "Automatic" : "Manual HTML" %></dd>
+            </div>
+            <div class="flex justify-between">
+              <dt class="text-gray-500">Scraped:</dt>
+              <dd class="text-gray-900"><%= time_ago_in_words(@scraped_property.created_at) %> ago</dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- Actions -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <button type="submit" class="w-full px-4 py-3 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 mb-3">
+            Create Property
+          </button>
+
+          <%= link_to "Try Different URL", new_site_admin_property_url_import_path,
+              class: "block w-full px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200 text-center" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

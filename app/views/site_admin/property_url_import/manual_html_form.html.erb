@@ -1,0 +1,72 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold text-gray-900 mb-2">Manual HTML Entry</h1>
+  <p class="text-gray-600 mb-6">
+    Automatic scraping was not possible. You can manually paste the HTML source of the property page.
+  </p>
+
+  <!-- Error Alert -->
+  <% if @scraped_property&.scrape_error_message.present? %>
+    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm text-yellow-700">
+            <strong>Scraping failed:</strong> <%= @scraped_property.scrape_error_message %>
+          </p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <!-- Instructions -->
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-3">How to get the HTML source</h2>
+      <ol class="list-decimal list-inside space-y-2 text-sm text-gray-600">
+        <li>Open the property page in your browser: <code class="bg-gray-100 px-2 py-0.5 rounded text-xs"><%= @scraped_property&.source_url || params[:url] %></code></li>
+        <li>Right-click anywhere on the page</li>
+        <li>Select <strong>"View Page Source"</strong> (or press <kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Ctrl</kbd>+<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">U</kbd> on Windows, <kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Cmd</kbd>+<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Option</kbd>+<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">U</kbd> on Mac)</li>
+        <li>Select all (<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Ctrl</kbd>/<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Cmd</kbd>+<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">A</kbd>) and copy (<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Ctrl</kbd>/<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">Cmd</kbd>+<kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">C</kbd>)</li>
+        <li>Paste the HTML below</li>
+      </ol>
+    </div>
+
+    <%= form_with url: manual_html_site_admin_property_url_import_path, method: :post, local: true, class: "space-y-4" do |f| %>
+      <%= hidden_field_tag :url, @scraped_property&.source_url || params[:url] %>
+
+      <div>
+        <label for="raw_html" class="block text-sm font-medium text-gray-700 mb-1">HTML Source</label>
+        <%= text_area_tag :raw_html, nil,
+            rows: 15,
+            class: "block w-full font-mono text-xs rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500",
+            placeholder: "<!DOCTYPE html>\n<html>\n...",
+            required: true %>
+        <p class="mt-1 text-sm text-gray-500">
+          Paste the complete HTML source code of the property page.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3 pt-4">
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+          Parse HTML
+        </button>
+        <%= link_to "Cancel", new_site_admin_property_url_import_path,
+            class: "px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Tips -->
+  <div class="mt-6 bg-gray-50 rounded-lg p-4">
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Tips</h3>
+    <ul class="text-sm text-gray-600 space-y-1">
+      <li>Make sure to copy the <strong>entire</strong> page source, including the <code class="bg-gray-200 px-1 rounded">&lt;html&gt;</code> tags.</li>
+      <li>The HTML should be at least a few thousand characters long for a valid property page.</li>
+      <li>If the page uses JavaScript to load content, the extracted data may be incomplete.</li>
+    </ul>
+  </div>
+</div>

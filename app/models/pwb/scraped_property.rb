@@ -1,0 +1,106 @@
+# frozen_string_literal: true
+
+module Pwb
+  class ScrapedProperty < ApplicationRecord
+    self.table_name = "pwb_scraped_properties"
+
+    belongs_to :website, class_name: "Pwb::Website"
+    belongs_to :realty_asset, class_name: "Pwb::RealtyAsset", optional: true
+
+    validates :source_url, presence: true
+    validates :website, presence: true
+
+    before_save :normalize_source_url, if: :source_url_changed?
+    before_save :detect_source_portal, if: :source_url_changed?
+
+    scope :pending, -> { where(import_status: "pending") }
+    scope :previewing, -> { where(import_status: "previewing") }
+    scope :imported, -> { where(import_status: "imported") }
+    scope :successful, -> { where(scrape_successful: true) }
+    scope :failed, -> { where(scrape_successful: false) }
+
+    IMPORT_STATUSES = %w[pending previewing imported failed].freeze
+    SCRAPE_METHODS = %w[auto manual_html].freeze
+    CONNECTORS = %w[http playwright].freeze
+
+    # Known property portals with specific parsing requirements
+    KNOWN_PORTALS = {
+      "rightmove.co.uk" => "rightmove",
+      "zoopla.co.uk" => "zoopla",
+      "idealista.com" => "idealista",
+      "onthemarket.com" => "onthemarket",
+      "zillow.com" => "zillow",
+      "redfin.com" => "redfin",
+      "realtor.com" => "realtor",
+      "trulia.com" => "trulia",
+      "daft.ie" => "daft",
+      "domain.com.au" => "domain"
+    }.freeze
+
+    def asset_data
+      extracted_data&.dig("asset_data") || {}
+    end
+
+    def listing_data
+      extracted_data&.dig("listing_data") || {}
+    end
+
+    def images
+      extracted_images || []
+    end
+
+    def can_preview?
+      scrape_successful? && extracted_data.present?
+    end
+
+    def already_imported?
+      import_status == "imported" && realty_asset.present?
+    end
+
+    def mark_as_previewing!
+      update!(import_status: "previewing")
+    end
+
+    def mark_as_imported!(asset)
+      update!(
+        import_status: "imported",
+        imported_at: Time.current,
+        realty_asset: asset
+      )
+    end
+
+    def mark_as_failed!(error_message)
+      update!(
+        import_status: "failed",
+        scrape_error_message: error_message
+      )
+    end
+
+    private
+
+    def normalize_source_url
+      return if source_url.blank?
+
+      begin
+        uri = URI.parse(source_url.strip)
+        self.source_url_normalized = "#{uri.host}#{uri.path}".downcase.gsub(%r{/$}, "")
+        self.source_host = uri.host&.downcase
+      rescue URI::InvalidURIError
+        self.source_url_normalized = source_url.downcase.strip
+      end
+    end
+
+    def detect_source_portal
+      return if source_host.blank?
+
+      KNOWN_PORTALS.each do |domain_pattern, portal_name|
+        if source_host.include?(domain_pattern.split(".").first)
+          self.source_portal = portal_name
+          return
+        end
+      end
+
+      self.source_portal = "generic"
+    end
+  end
+end
