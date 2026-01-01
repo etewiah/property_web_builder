@@ -67,8 +67,6 @@ group :development, :test do
   gem "rspec-rails"
   gem "shoulda-matchers"
   gem "font-awesome-rails"
-  gem "guard"
-  gem "guard-rspec", require: false
   gem "zeus"
   gem "json_spec"
 
@@ -83,7 +81,6 @@ gem "rswag-api"
 gem "rswag-ui"
 
 group :development do
-  gem "guard-rubocop"
   # below 2 for precompiling assets
   gem "closure-compiler"
   gem "yui-compressor"
