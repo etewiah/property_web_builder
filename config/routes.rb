@@ -326,6 +326,12 @@ Rails.application.routes.draw do
         post :add_message
       end
     end
+
+    # External Feed Configuration
+    resource :external_feed, only: %i[show update] do
+      post :test_connection
+      post :clear_cache
+    end
   end
 
   # devise_for :users, class_name: "Pwb::User", module: :devise
