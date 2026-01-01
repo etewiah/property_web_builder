@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_31_160000) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_01_112948) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -763,6 +763,36 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_160000) do
     t.index ["website_id"], name: "index_pwb_subscriptions_on_website_unique", unique: true
   end
 
+  create_table "pwb_support_tickets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "assigned_at"
+    t.bigint "assigned_to_id"
+    t.string "category", limit: 50
+    t.datetime "closed_at"
+    t.datetime "created_at", null: false
+    t.bigint "creator_id", null: false
+    t.text "description"
+    t.datetime "first_response_at"
+    t.datetime "last_message_at"
+    t.boolean "last_message_from_platform", default: false
+    t.integer "message_count", default: 0
+    t.integer "priority", default: 1, null: false
+    t.datetime "resolved_at"
+    t.integer "status", default: 0, null: false
+    t.string "subject", limit: 255, null: false
+    t.string "ticket_number", limit: 20, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "website_id", null: false
+    t.index ["assigned_to_id", "status"], name: "index_pwb_support_tickets_on_assigned_to_id_and_status"
+    t.index ["assigned_to_id"], name: "index_pwb_support_tickets_on_assigned_to_id"
+    t.index ["creator_id"], name: "index_pwb_support_tickets_on_creator_id"
+    t.index ["priority"], name: "index_pwb_support_tickets_on_priority"
+    t.index ["status"], name: "index_pwb_support_tickets_on_status"
+    t.index ["ticket_number"], name: "index_pwb_support_tickets_on_ticket_number", unique: true
+    t.index ["website_id", "created_at"], name: "index_pwb_support_tickets_on_website_id_and_created_at"
+    t.index ["website_id", "status"], name: "index_pwb_support_tickets_on_website_id_and_status"
+    t.index ["website_id"], name: "index_pwb_support_tickets_on_website_id"
+  end
+
   create_table "pwb_tenant_settings", force: :cascade do |t|
     t.jsonb "configuration", default: {}
     t.datetime "created_at", null: false
@@ -770,6 +800,24 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_160000) do
     t.string "singleton_key", default: "default", null: false
     t.datetime "updated_at", null: false
     t.index ["singleton_key"], name: "index_pwb_tenant_settings_on_singleton_key", unique: true
+  end
+
+  create_table "pwb_ticket_messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.boolean "from_platform_admin", default: false
+    t.boolean "internal_note", default: false
+    t.string "status_changed_from", limit: 50
+    t.string "status_changed_to", limit: 50
+    t.uuid "support_ticket_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.bigint "website_id", null: false
+    t.index ["support_ticket_id", "created_at"], name: "index_pwb_ticket_messages_on_support_ticket_id_and_created_at"
+    t.index ["support_ticket_id"], name: "index_pwb_ticket_messages_on_support_ticket_id"
+    t.index ["user_id"], name: "index_pwb_ticket_messages_on_user_id"
+    t.index ["website_id", "created_at"], name: "index_pwb_ticket_messages_on_website_id_and_created_at"
+    t.index ["website_id"], name: "index_pwb_ticket_messages_on_website_id"
   end
 
   create_table "pwb_user_memberships", force: :cascade do |t|
@@ -1120,6 +1168,12 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_160000) do
   add_foreign_key "pwb_subscription_events", "pwb_subscriptions", column: "subscription_id"
   add_foreign_key "pwb_subscriptions", "pwb_plans", column: "plan_id"
   add_foreign_key "pwb_subscriptions", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_support_tickets", "pwb_users", column: "assigned_to_id"
+  add_foreign_key "pwb_support_tickets", "pwb_users", column: "creator_id"
+  add_foreign_key "pwb_support_tickets", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_ticket_messages", "pwb_support_tickets", column: "support_ticket_id"
+  add_foreign_key "pwb_ticket_messages", "pwb_users", column: "user_id"
+  add_foreign_key "pwb_ticket_messages", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_user_memberships", "pwb_users", column: "user_id"
   add_foreign_key "pwb_user_memberships", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_website_photos", "pwb_websites", column: "website_id"

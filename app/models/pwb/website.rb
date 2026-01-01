@@ -135,6 +135,8 @@ module Pwb
     has_many :auth_audit_logs, class_name: 'Pwb::AuthAuditLog', dependent: :destroy
     has_many :contacts, class_name: 'Pwb::Contact'
     has_many :messages, class_name: 'Pwb::Message'
+    has_many :support_tickets, class_name: 'Pwb::SupportTicket', dependent: :destroy
+    has_many :ticket_messages, class_name: 'Pwb::TicketMessage', dependent: :destroy
     has_many :website_photos
     has_many :field_keys, class_name: 'Pwb::FieldKey', foreign_key: :pwb_website_id
     has_many :email_templates, class_name: 'Pwb::EmailTemplate', dependent: :destroy

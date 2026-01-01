@@ -1,0 +1,159 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900">Support Tickets</h1>
+    <p class="text-sm text-gray-500 mt-1">Manage support requests from all websites</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
+    <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+      <p class="text-2xl font-bold text-gray-900"><%= @stats[:total] %></p>
+      <p class="text-sm text-gray-500">Total</p>
+    </div>
+    <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+      <p class="text-2xl font-bold text-yellow-600"><%= @stats[:open] %></p>
+      <p class="text-sm text-gray-500">Open</p>
+    </div>
+    <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+      <p class="text-2xl font-bold text-blue-600"><%= @stats[:in_progress] %></p>
+      <p class="text-sm text-gray-500">In Progress</p>
+    </div>
+    <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+      <p class="text-2xl font-bold text-purple-600"><%= @stats[:waiting] %></p>
+      <p class="text-sm text-gray-500">Waiting</p>
+    </div>
+    <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+      <p class="text-2xl font-bold text-red-600"><%= @stats[:needs_response] %></p>
+      <p class="text-sm text-gray-500">Needs Response</p>
+    </div>
+    <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+      <p class="text-2xl font-bold text-orange-600"><%= @stats[:unassigned] %></p>
+      <p class="text-sm text-gray-500">Unassigned</p>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+    <%= form_with url: tenant_admin_support_tickets_path, method: :get, local: true, class: "flex flex-wrap gap-4 items-end" do |f| %>
+      <div class="flex-1 min-w-[200px]">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+        <%= f.text_field :search,
+            value: params[:search],
+            placeholder: "Subject or ticket #",
+            class: "w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+      <div class="w-36">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+        <%= f.select :status,
+            options_for_select(
+              [["All", ""]] + Pwb::SupportTicket.statuses.keys.map { |s| [s.humanize, s] },
+              params[:status]
+            ),
+            {},
+            class: "w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" %>
+      </div>
+      <div class="w-32">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+        <%= f.select :priority,
+            options_for_select(
+              [["All", ""]] + Pwb::SupportTicket.priorities.keys.map { |p| [p.humanize, p] },
+              params[:priority]
+            ),
+            {},
+            class: "w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" %>
+      </div>
+      <div class="w-40">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Website</label>
+        <%= f.select :website_id,
+            options_for_select(
+              [["All Websites", ""]] + @websites.map { |w| [w.subdomain, w.id] },
+              params[:website_id]
+            ),
+            {},
+            class: "w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" %>
+      </div>
+      <div class="w-40">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Assigned To</label>
+        <%= f.select :assigned_to,
+            options_for_select(
+              [["All", ""], ["Unassigned", "unassigned"]] + @platform_admins.map { |u| [u.email, u.id] },
+              params[:assigned_to]
+            ),
+            {},
+            class: "w-full px-3 py-2 text-sm border border-gray-300 rounded-lg" %>
+      </div>
+      <div>
+        <%= f.submit "Filter",
+            class: "px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200 cursor-pointer" %>
+        <% if params.except(:controller, :action).any? %>
+          <%= link_to "Clear", tenant_admin_support_tickets_path, class: "ml-2 text-sm text-gray-500 hover:text-gray-700" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Ticket List -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <% if @tickets.any? %>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ticket</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Website</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Priority</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Assigned</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Created</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <% @tickets.each do |ticket| %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-4 py-3">
+                <%= link_to tenant_admin_support_ticket_path(ticket), class: "block" do %>
+                  <span class="text-xs font-mono text-gray-500 block"><%= ticket.ticket_number %></span>
+                  <span class="text-sm font-medium text-gray-900 hover:text-blue-600"><%= truncate(ticket.subject, length: 50) %></span>
+                  <span class="text-xs text-gray-500 block"><%= ticket.creator.email %></span>
+                <% end %>
+              </td>
+              <td class="px-4 py-3">
+                <span class="text-sm text-gray-900"><%= ticket.website.subdomain %></span>
+              </td>
+              <td class="px-4 py-3">
+                <%= render 'shared/support_tickets/status_badge', status: ticket.status %>
+              </td>
+              <td class="px-4 py-3">
+                <%= render 'shared/support_tickets/priority_badge', priority: ticket.priority %>
+              </td>
+              <td class="px-4 py-3">
+                <% if ticket.assigned_to %>
+                  <span class="text-sm text-gray-900"><%= ticket.assigned_to.email.split('@').first %></span>
+                <% else %>
+                  <span class="text-sm text-gray-400">Unassigned</span>
+                <% end %>
+              </td>
+              <td class="px-4 py-3">
+                <span class="text-sm text-gray-500"><%= time_ago_in_words(ticket.created_at) %> ago</span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <% if @pagy.pages > 1 %>
+        <div class="px-4 py-3 border-t border-gray-200">
+          <%== pagy_nav(@pagy) %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="p-12 text-center">
+        <svg class="mx-auto h-12 w-12 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <h3 class="text-sm font-medium text-gray-900 mb-1">No tickets found</h3>
+        <p class="text-sm text-gray-500">Try adjusting your filters</p>
+      </div>
+    <% end %>
+  </div>
+</div>

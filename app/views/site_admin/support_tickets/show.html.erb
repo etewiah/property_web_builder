@@ -1,0 +1,102 @@
+<div class="max-w-4xl mx-auto space-y-6">
+  <!-- Back link -->
+  <%= link_to site_admin_support_tickets_path, class: "inline-flex items-center text-sm text-gray-500 hover:text-gray-700" do %>
+    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+    </svg>
+    Back to tickets
+  <% end %>
+
+  <!-- Ticket Header -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="flex justify-between items-start">
+      <div class="flex-1">
+        <!-- Ticket number and badges -->
+        <div class="flex items-center gap-2 flex-wrap mb-2">
+          <span class="text-sm font-mono text-gray-500"><%= @ticket.ticket_number %></span>
+          <%= render 'shared/support_tickets/status_badge', status: @ticket.status %>
+          <%= render 'shared/support_tickets/priority_badge', priority: @ticket.priority %>
+          <% if @ticket.category.present? %>
+            <span class="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-600"><%= @ticket.category.humanize %></span>
+          <% end %>
+        </div>
+
+        <!-- Subject -->
+        <h1 class="text-xl font-bold text-gray-900"><%= @ticket.subject %></h1>
+
+        <!-- Meta info -->
+        <p class="text-sm text-gray-500 mt-2">
+          Created by <%= @ticket.creator.display_name %>
+          on <%= @ticket.created_at.strftime("%B %d, %Y at %H:%M") %>
+          <% if @ticket.assigned_to %>
+            <span class="mx-1">&middot;</span>
+            Assigned to <span class="font-medium"><%= @ticket.assigned_to.display_name %></span>
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message Thread -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 divide-y divide-gray-200">
+    <% if @messages.any? %>
+      <% @messages.each do |message| %>
+        <div class="p-4 <%= message.from_platform_admin ? 'bg-blue-50' : '' %>">
+          <!-- Message header -->
+          <div class="flex items-center gap-2 mb-2">
+            <% if message.from_platform_admin %>
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                Support Team
+              </span>
+            <% end %>
+            <span class="text-sm font-medium text-gray-900">
+              <%= message.author_name %>
+            </span>
+            <span class="text-xs text-gray-500">
+              <%= time_ago_in_words(message.created_at) %> ago
+            </span>
+            <% if message.status_change? %>
+              <span class="text-xs px-2 py-0.5 rounded bg-gray-200 text-gray-600">Status Update</span>
+            <% end %>
+          </div>
+
+          <!-- Message content -->
+          <div class="prose prose-sm max-w-none text-gray-700">
+            <%= simple_format(message.content) %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="p-8 text-center text-gray-500">
+        <p>No messages yet</p>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Reply Form (only if ticket is not closed) -->
+  <% unless @ticket.status_closed? %>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h3 class="text-sm font-medium text-gray-900 mb-4">Add a Reply</h3>
+
+      <%= form_with url: add_message_site_admin_support_ticket_path(@ticket), method: :post, local: true, class: "space-y-4" do |f| %>
+        <div>
+          <%= f.text_area :content,
+              name: "message[content]",
+              rows: 4,
+              class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              placeholder: "Type your message..." %>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <%= f.submit "Send Reply",
+              class: "px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors cursor-pointer" %>
+          <span class="text-xs text-gray-500">Our team will respond as soon as possible</span>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="bg-gray-100 rounded-lg p-4 text-center text-gray-600 text-sm">
+      This ticket is closed. If you need further assistance, please create a new ticket.
+    </div>
+  <% end %>
+</div>

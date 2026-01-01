@@ -1,0 +1,122 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex justify-between items-center">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Support Tickets</h1>
+      <p class="text-sm text-gray-500 mt-1">Get help from our support team</p>
+    </div>
+    <%= link_to new_site_admin_support_ticket_path,
+                class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors" do %>
+      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+      </svg>
+      New Ticket
+    <% end %>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+      <p class="text-2xl font-bold text-gray-900"><%= @stats[:total] %></p>
+      <p class="text-sm text-gray-500">Total Tickets</p>
+    </div>
+    <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+      <p class="text-2xl font-bold text-yellow-600"><%= @stats[:open] %></p>
+      <p class="text-sm text-gray-500">Open</p>
+    </div>
+    <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+      <p class="text-2xl font-bold text-blue-600"><%= @stats[:in_progress] %></p>
+      <p class="text-sm text-gray-500">In Progress</p>
+    </div>
+    <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+      <p class="text-2xl font-bold text-green-600"><%= @stats[:resolved] %></p>
+      <p class="text-sm text-gray-500">Resolved</p>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+    <%= form_with url: site_admin_support_tickets_path, method: :get, local: true, class: "flex flex-wrap gap-4 items-end" do |f| %>
+      <div class="flex-1 min-w-[200px]">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+        <%= f.text_field :search,
+            value: params[:search],
+            placeholder: "Search by subject or ticket #",
+            class: "w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+      <div class="w-40">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+        <%= f.select :status,
+            options_for_select(
+              [["All Statuses", ""]] + Pwb::SupportTicket.statuses.keys.map { |s| [s.humanize, s] },
+              params[:status]
+            ),
+            {},
+            class: "w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+      <div>
+        <%= f.submit "Filter",
+            class: "px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200 transition-colors cursor-pointer" %>
+        <% if params[:search].present? || params[:status].present? %>
+          <%= link_to "Clear", site_admin_support_tickets_path, class: "ml-2 text-sm text-gray-500 hover:text-gray-700" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Ticket List -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 divide-y divide-gray-200">
+    <% if @tickets.any? %>
+      <% @tickets.each do |ticket| %>
+        <%= link_to site_admin_support_ticket_path(ticket),
+                    class: "block p-4 hover:bg-gray-50 transition-colors" do %>
+          <div class="flex justify-between items-start">
+            <div class="flex-1 min-w-0">
+              <!-- Ticket number and badges -->
+              <div class="flex items-center gap-2 flex-wrap mb-1">
+                <span class="text-xs font-mono text-gray-500"><%= ticket.ticket_number %></span>
+                <%= render 'shared/support_tickets/status_badge', status: ticket.status %>
+                <%= render 'shared/support_tickets/priority_badge', priority: ticket.priority %>
+                <% if ticket.category.present? %>
+                  <span class="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-600"><%= ticket.category.humanize %></span>
+                <% end %>
+              </div>
+
+              <!-- Subject -->
+              <h3 class="text-sm font-medium text-gray-900 truncate"><%= ticket.subject %></h3>
+
+              <!-- Meta info -->
+              <p class="text-xs text-gray-500 mt-1">
+                Created <%= time_ago_in_words(ticket.created_at) %> ago
+                <% if ticket.assigned_to %>
+                  <span class="mx-1">&middot;</span>
+                  Assigned to <%= ticket.assigned_to.display_name %>
+                <% end %>
+              </p>
+            </div>
+
+            <!-- Message count -->
+            <div class="ml-4 flex-shrink-0 text-right">
+              <% if ticket.message_count > 1 %>
+                <span class="text-xs text-gray-500"><%= ticket.message_count %> messages</span>
+              <% end %>
+              <% if ticket.last_message_from_platform && ticket.active? %>
+                <span class="block text-xs text-blue-600 mt-1">Awaiting your reply</span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <div class="p-12 text-center">
+        <svg class="mx-auto h-12 w-12 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <h3 class="text-sm font-medium text-gray-900 mb-1">No support tickets</h3>
+        <p class="text-sm text-gray-500 mb-4">Create a ticket to get help from our team</p>
+        <%= link_to "Create Ticket", new_site_admin_support_ticket_path,
+                    class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700" %>
+      </div>
+    <% end %>
+  </div>
+</div>

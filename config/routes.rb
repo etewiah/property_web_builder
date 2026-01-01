@@ -76,6 +76,15 @@ Rails.application.routes.draw do
     resources :messages, only: %i[index show]
     resources :contacts, only: %i[index show]
 
+    # Support Tickets - Platform-wide support management
+    resources :support_tickets, only: %i[index show] do
+      member do
+        patch :assign
+        patch :change_status
+        post :add_message
+      end
+    end
+
     # Subdomain Pool Management
     resources :subdomains do
       member do
@@ -291,6 +300,13 @@ Rails.application.routes.draw do
       patch 'settings/links', to: 'settings#update_links', as: 'update_links'
       # Notification testing
       post 'test_notifications', to: 'settings#test_notifications'
+    end
+
+    # Support Tickets - Website admin support requests
+    resources :support_tickets, only: %i[index show new create] do
+      member do
+        post :add_message
+      end
     end
   end
 

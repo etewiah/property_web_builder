@@ -1,0 +1,185 @@
+<div class="max-w-4xl mx-auto space-y-6">
+  <!-- Back link -->
+  <%= link_to tenant_admin_support_tickets_path, class: "inline-flex items-center text-sm text-gray-500 hover:text-gray-700" do %>
+    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+    </svg>
+    Back to tickets
+  <% end %>
+
+  <!-- Ticket Header -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="flex justify-between items-start gap-4">
+      <div class="flex-1">
+        <!-- Ticket number and badges -->
+        <div class="flex items-center gap-2 flex-wrap mb-2">
+          <span class="text-sm font-mono text-gray-500"><%= @ticket.ticket_number %></span>
+          <%= render 'shared/support_tickets/status_badge', status: @ticket.status %>
+          <%= render 'shared/support_tickets/priority_badge', priority: @ticket.priority %>
+          <% if @ticket.category.present? %>
+            <span class="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-600"><%= @ticket.category.humanize %></span>
+          <% end %>
+        </div>
+
+        <!-- Subject -->
+        <h1 class="text-xl font-bold text-gray-900"><%= @ticket.subject %></h1>
+
+        <!-- Meta info -->
+        <div class="text-sm text-gray-500 mt-2 space-y-1">
+          <p>
+            <span class="font-medium">Website:</span>
+            <%= link_to @ticket.website.subdomain, tenant_admin_website_path(@ticket.website), class: "text-blue-600 hover:underline" %>
+          </p>
+          <p>
+            <span class="font-medium">Created by:</span>
+            <%= @ticket.creator.email %>
+            on <%= @ticket.created_at.strftime("%B %d, %Y at %H:%M") %>
+          </p>
+          <% if @ticket.first_response_at %>
+            <p>
+              <span class="font-medium">First response:</span>
+              <%= time_ago_in_words(@ticket.first_response_at) %> after creation
+            </p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex flex-col gap-2">
+        <!-- Status change -->
+        <div class="relative" data-controller="dropdown">
+          <button type="button" data-action="dropdown#toggle" class="px-3 py-1.5 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-1">
+            Change Status
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div data-dropdown-target="menu" class="hidden absolute right-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-10">
+            <% Pwb::SupportTicket.statuses.keys.each do |status| %>
+              <% unless status == @ticket.status %>
+                <%= button_to status.humanize,
+                    change_status_tenant_admin_support_ticket_path(@ticket, status: status),
+                    method: :patch,
+                    class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Assignment -->
+        <div class="relative" data-controller="dropdown">
+          <button type="button" data-action="dropdown#toggle" class="px-3 py-1.5 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-1">
+            <% if @ticket.assigned_to %>
+              <%= @ticket.assigned_to.email.split('@').first %>
+            <% else %>
+              Assign
+            <% end %>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div data-dropdown-target="menu" class="hidden absolute right-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-10">
+            <% if @ticket.assigned_to %>
+              <%= button_to "Unassign",
+                  assign_tenant_admin_support_ticket_path(@ticket),
+                  method: :patch,
+                  class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+              <hr class="my-1">
+            <% end %>
+            <% @platform_admins.each do |admin| %>
+              <% unless admin.id == @ticket.assigned_to_id %>
+                <%= button_to admin.email,
+                    assign_tenant_admin_support_ticket_path(@ticket, user_id: admin.id),
+                    method: :patch,
+                    class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message Thread -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 divide-y divide-gray-200">
+    <% if @messages.any? %>
+      <% @messages.each do |message| %>
+        <div class="p-4 <%= message.from_platform_admin ? 'bg-blue-50' : '' %> <%= message.internal_note ? 'bg-yellow-50 border-l-4 border-yellow-400' : '' %>">
+          <!-- Message header -->
+          <div class="flex items-center gap-2 mb-2 flex-wrap">
+            <% if message.internal_note %>
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                Internal Note
+              </span>
+            <% elsif message.from_platform_admin %>
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                Support Team
+              </span>
+            <% else %>
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                Customer
+              </span>
+            <% end %>
+            <span class="text-sm font-medium text-gray-900">
+              <%= message.author_name %>
+            </span>
+            <span class="text-xs text-gray-500">
+              <%= message.created_at.strftime("%b %d, %Y at %H:%M") %>
+            </span>
+            <% if message.status_change? %>
+              <span class="text-xs px-2 py-0.5 rounded bg-gray-200 text-gray-600">Status Update</span>
+            <% end %>
+          </div>
+
+          <!-- Message content -->
+          <div class="prose prose-sm max-w-none text-gray-700">
+            <%= simple_format(message.content) %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="p-8 text-center text-gray-500">
+        <p>No messages yet</p>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Reply Form -->
+  <% unless @ticket.status_closed? %>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h3 class="text-sm font-medium text-gray-900 mb-4">Add Reply</h3>
+
+      <%= form_with url: add_message_tenant_admin_support_ticket_path(@ticket), method: :post, local: true, class: "space-y-4" do |f| %>
+        <div>
+          <%= f.text_area :content,
+              name: "message[content]",
+              rows: 4,
+              class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              placeholder: "Type your reply..." %>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <label class="inline-flex items-center">
+            <%= f.check_box :internal_note,
+                { name: "message[internal_note]" },
+                "1", "0" %>
+            <span class="ml-2 text-sm text-gray-600">Internal note (not visible to customer)</span>
+          </label>
+
+          <div class="flex items-center gap-3">
+            <%= f.submit "Send Reply",
+                class: "px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 cursor-pointer" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="bg-gray-100 rounded-lg p-4 text-center text-gray-600 text-sm">
+      This ticket is closed.
+      <%= button_to "Reopen Ticket",
+          change_status_tenant_admin_support_ticket_path(@ticket, status: "open"),
+          method: :patch,
+          class: "ml-2 text-blue-600 hover:underline" %>
+    </div>
+  <% end %>
+</div>
