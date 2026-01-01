@@ -4,6 +4,26 @@ This file contains instructions for Claude Code instances working on this projec
 
 ## Critical Rules
 
+### Git Commit Safety
+
+**NEVER commit changes you did not make in this session.**
+
+Before committing:
+1. Run `git status` to see ALL modified and untracked files
+2. Identify which files YOU modified vs files that were already modified before your session
+3. Only stage files YOU explicitly created or modified
+4. If you see untracked files or modifications you didn't make, DO NOT add them
+
+When staging files:
+- Use specific file paths: `git add path/to/file.rb` instead of `git add .` or `git add -A`
+- After staging, verify with `git diff --cached --stat` that only your changes are included
+- If unsure, ask the user before committing
+
+Common mistakes to avoid:
+- Using `git add .` which adds ALL changes including other sessions' work
+- Using `git add folder/` when other files in that folder were modified by someone else
+- Not checking `git status` before committing
+
 ### No Direct Database Changes
 
 **NEVER make direct database changes to fix issues.** All fixes must be made in code (seed files, migrations, rake tasks, etc.) that can be committed to git.
