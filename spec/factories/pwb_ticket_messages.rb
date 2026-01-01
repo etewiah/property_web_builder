@@ -16,6 +16,20 @@
 #  user_id             :bigint           not null
 #  website_id          :bigint           not null
 #
+# Indexes
+#
+#  index_pwb_ticket_messages_on_support_ticket_id                 (support_ticket_id)
+#  index_pwb_ticket_messages_on_support_ticket_id_and_created_at  (support_ticket_id,created_at)
+#  index_pwb_ticket_messages_on_user_id                           (user_id)
+#  index_pwb_ticket_messages_on_website_id                        (website_id)
+#  index_pwb_ticket_messages_on_website_id_and_created_at         (website_id,created_at)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (support_ticket_id => pwb_support_tickets.id)
+#  fk_rails_...  (user_id => pwb_users.id)
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 FactoryBot.define do
   factory :pwb_ticket_message, class: 'Pwb::TicketMessage', aliases: [:ticket_message] do
     support_ticket { association(:pwb_support_ticket) }

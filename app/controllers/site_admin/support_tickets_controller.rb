@@ -65,7 +65,7 @@ module SiteAdmin
 
       if @ticket.save
         # Queue notification to platform admins
-        # TicketNotificationJob.perform_later(@ticket.id, :created)
+        TicketNotificationJob.perform_later(@ticket.id, :created)
 
         redirect_to site_admin_support_ticket_path(@ticket),
                     notice: "Support ticket created successfully. Your ticket number is #{@ticket.ticket_number}"
@@ -89,6 +89,11 @@ module SiteAdmin
         from_platform_admin: false
       )
 
+      # Handle file attachments if present
+      if params[:message][:attachments].present?
+        @message.attachments.attach(params[:message][:attachments])
+      end
+
       if @message.save
         # Reopen ticket if it was waiting on customer
         if @ticket.status_waiting_on_customer?
@@ -96,13 +101,13 @@ module SiteAdmin
         end
 
         # Queue notification to platform admins
-        # TicketNotificationJob.perform_later(@message.id, :new_message)
+        TicketNotificationJob.perform_later(@message.id, :new_message)
 
         redirect_to site_admin_support_ticket_path(@ticket),
                     notice: "Your reply has been added"
       else
         redirect_to site_admin_support_ticket_path(@ticket),
-                    alert: "Could not add your reply. Please try again."
+                    alert: @message.errors.full_messages.first || "Could not add your reply. Please try again."
       end
     end
 

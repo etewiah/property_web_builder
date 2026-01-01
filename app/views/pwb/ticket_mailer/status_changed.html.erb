@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header { padding: 20px 0; border-bottom: 1px solid #eee; }
+    .content { padding: 20px 0; }
+    .status-change {
+      background: #f9fafb;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+    .status-open { background: #fef3c7; color: #92400e; }
+    .status-in_progress { background: #dbeafe; color: #1e40af; }
+    .status-waiting_on_customer { background: #e9d5ff; color: #6b21a8; }
+    .status-resolved { background: #d1fae5; color: #065f46; }
+    .status-closed { background: #e5e7eb; color: #374151; }
+    .arrow { color: #9ca3af; margin: 0 15px; font-size: 20px; }
+    .ticket-info { margin: 20px 0; }
+    .button {
+      display: inline-block;
+      background-color: #3b82f6;
+      color: white;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+    .footer {
+      font-size: 12px;
+      color: #9ca3af;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2 style="margin: 0;">Ticket Status Updated</h2>
+  </div>
+
+  <div class="content">
+    <p>The status of your support ticket has been updated.</p>
+
+    <div class="ticket-info">
+      <strong><%= @ticket.ticket_number %></strong> - <%= @ticket.subject %>
+    </div>
+
+    <div class="status-change">
+      <span class="status-badge status-<%= @old_status %>"><%= @old_status.humanize %></span>
+      <span class="arrow">&rarr;</span>
+      <span class="status-badge status-<%= @new_status %>"><%= @new_status.humanize %></span>
+    </div>
+
+    <% if @new_status == 'resolved' %>
+      <p>Your ticket has been marked as resolved. If you still need assistance, you can reply to reopen the ticket.</p>
+    <% elsif @new_status == 'waiting_on_customer' %>
+      <p>We're waiting for your response. Please reply to the ticket when you have the information requested.</p>
+    <% elsif @new_status == 'in_progress' %>
+      <p>A support team member is actively working on your request.</p>
+    <% elsif @new_status == 'closed' %>
+      <p>This ticket has been closed. If you need further assistance, please create a new ticket.</p>
+    <% end %>
+
+    <p style="text-align: center; margin-top: 25px;">
+      <a href="<%= site_admin_support_ticket_url(@ticket, host: @website.primary_url || ENV.fetch('BASE_DOMAIN', 'localhost:3000')) %>" class="button">
+        View Ticket
+      </a>
+    </p>
+  </div>
+
+  <div class="footer">
+    <p>Ticket: <%= @ticket.ticket_number %> | Website: <%= @website.subdomain %></p>
+  </div>
+</body>
+</html>

@@ -1,5 +1,55 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_support_tickets
+#
+#  id                         :uuid             not null, primary key
+#  assigned_at                :datetime
+#  category                   :string(50)
+#  closed_at                  :datetime
+#  description                :text
+#  first_response_at          :datetime
+#  last_message_at            :datetime
+#  last_message_from_platform :boolean          default(FALSE)
+#  message_count              :integer          default(0)
+#  priority                   :integer          default("normal"), not null
+#  resolved_at                :datetime
+#  sla_resolution_breached    :boolean          default(FALSE)
+#  sla_resolution_due_at      :datetime
+#  sla_response_breached      :boolean          default(FALSE)
+#  sla_response_due_at        :datetime
+#  sla_warning_sent_at        :datetime
+#  status                     :integer          default("open"), not null
+#  subject                    :string(255)      not null
+#  ticket_number              :string(20)       not null
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  assigned_to_id             :bigint
+#  creator_id                 :bigint           not null
+#  website_id                 :bigint           not null
+#
+# Indexes
+#
+#  idx_tickets_sla_response_breach_status                  (sla_response_breached,status)
+#  index_pwb_support_tickets_on_assigned_to_id             (assigned_to_id)
+#  index_pwb_support_tickets_on_assigned_to_id_and_status  (assigned_to_id,status)
+#  index_pwb_support_tickets_on_creator_id                 (creator_id)
+#  index_pwb_support_tickets_on_priority                   (priority)
+#  index_pwb_support_tickets_on_sla_resolution_due_at      (sla_resolution_due_at)
+#  index_pwb_support_tickets_on_sla_response_due_at        (sla_response_due_at)
+#  index_pwb_support_tickets_on_status                     (status)
+#  index_pwb_support_tickets_on_ticket_number              (ticket_number) UNIQUE
+#  index_pwb_support_tickets_on_website_id                 (website_id)
+#  index_pwb_support_tickets_on_website_id_and_created_at  (website_id,created_at)
+#  index_pwb_support_tickets_on_website_id_and_status      (website_id,status)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (assigned_to_id => pwb_users.id)
+#  fk_rails_...  (creator_id => pwb_users.id)
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 module Pwb
   class SupportTicket < ApplicationRecord
     self.table_name = "pwb_support_tickets"
@@ -30,6 +80,22 @@ module Pwb
     # Constants
     CATEGORIES = %w[billing technical feature_request bug general].freeze
 
+    # SLA response time targets in hours based on priority
+    SLA_RESPONSE_HOURS = {
+      "low" => 48,
+      "normal" => 24,
+      "high" => 8,
+      "urgent" => 2
+    }.freeze
+
+    # SLA resolution time targets in hours based on priority
+    SLA_RESOLUTION_HOURS = {
+      "low" => 168,      # 7 days
+      "normal" => 72,    # 3 days
+      "high" => 24,      # 1 day
+      "urgent" => 8      # 8 hours
+    }.freeze
+
     # Validations
     validates :subject, presence: true, length: { maximum: 255 }
     validates :description, presence: true, on: :create
@@ -39,6 +105,7 @@ module Pwb
     # Callbacks
     before_validation :generate_ticket_number, on: :create
     after_create :create_initial_message
+    after_create :set_sla_deadlines
 
     # Scopes
     scope :recent, -> { order(created_at: :desc) }
@@ -50,6 +117,33 @@ module Pwb
         .where(last_message_from_platform: false)
     }
     scope :for_website, ->(website) { where(website_id: website.id) }
+
+    # SLA-related scopes
+    scope :sla_response_at_risk, -> {
+      active
+        .where(first_response_at: nil)
+        .where(sla_response_breached: false)
+        .where("sla_response_due_at <= ?", 1.hour.from_now)
+    }
+
+    scope :sla_response_breached_pending, -> {
+      active
+        .where(first_response_at: nil)
+        .where(sla_response_breached: false)
+        .where("sla_response_due_at < ?", Time.current)
+    }
+
+    scope :sla_resolution_at_risk, -> {
+      active
+        .where(sla_resolution_breached: false)
+        .where("sla_resolution_due_at <= ?", 2.hours.from_now)
+    }
+
+    scope :sla_resolution_breached_pending, -> {
+      active
+        .where(sla_resolution_breached: false)
+        .where("sla_resolution_due_at < ?", Time.current)
+    }
 
     # Instance Methods
     def assign_to!(user)
@@ -111,6 +205,94 @@ module Pwb
       end
     end
 
+    # SLA Methods
+    def sla_response_target_hours
+      SLA_RESPONSE_HOURS[priority] || 24
+    end
+
+    def sla_resolution_target_hours
+      SLA_RESOLUTION_HOURS[priority] || 72
+    end
+
+    def sla_response_met?
+      return true unless sla_response_due_at
+      return true if first_response_at && first_response_at <= sla_response_due_at
+
+      !sla_response_breached? && sla_response_due_at > Time.current
+    end
+
+    def sla_resolution_met?
+      return true unless sla_resolution_due_at
+      return true if resolved_at && resolved_at <= sla_resolution_due_at
+
+      !sla_resolution_breached? && sla_resolution_due_at > Time.current
+    end
+
+    def time_until_sla_breach
+      return nil unless active?
+      return nil if first_response_at # Already responded
+
+      return 0 if sla_response_breached?
+      return nil unless sla_response_due_at
+
+      [sla_response_due_at - Time.current, 0].max
+    end
+
+    def time_until_sla_breach_in_words
+      seconds = time_until_sla_breach
+      return "Breached" if seconds.nil? || seconds <= 0
+
+      hours = (seconds / 3600).floor
+      minutes = ((seconds % 3600) / 60).floor
+
+      if hours > 24
+        days = (hours / 24).floor
+        "#{days} day#{'s' if days != 1}"
+      elsif hours > 0
+        "#{hours} hour#{'s' if hours != 1}, #{minutes} min"
+      else
+        "#{minutes} minute#{'s' if minutes != 1}"
+      end
+    end
+
+    def sla_status
+      return :not_applicable if status_resolved? || status_closed?
+      return :breached if sla_response_breached? || sla_resolution_breached?
+
+      if sla_response_due_at && !first_response_at
+        return :breached if sla_response_due_at < Time.current
+        return :at_risk if sla_response_due_at <= 1.hour.from_now
+      end
+
+      if sla_resolution_due_at
+        return :at_risk if sla_resolution_due_at <= 2.hours.from_now
+      end
+
+      :on_track
+    end
+
+    def sla_status_color
+      case sla_status
+      when :on_track then "green"
+      when :at_risk then "yellow"
+      when :breached then "red"
+      else "gray"
+      end
+    end
+
+    def mark_sla_response_breached!
+      update!(sla_response_breached: true) unless sla_response_breached?
+    end
+
+    def mark_sla_resolution_breached!
+      update!(sla_resolution_breached: true) unless sla_resolution_breached?
+    end
+
+    def recalculate_sla_deadlines!
+      set_sla_deadlines
+      save!
+    end
+
     private
 
     def generate_ticket_number
@@ -131,6 +313,12 @@ module Pwb
         content: description,
         from_platform_admin: false
       )
+    end
+
+    def set_sla_deadlines
+      base_time = created_at || Time.current
+      self.sla_response_due_at = base_time + sla_response_target_hours.hours
+      self.sla_resolution_due_at = base_time + sla_resolution_target_hours.hours
     end
   end
 end

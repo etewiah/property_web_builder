@@ -56,7 +56,7 @@ module TenantAdmin
         @ticket.assign_to!(assignee)
 
         # Queue notification
-        # TicketNotificationJob.perform_later(@ticket.id, :assigned)
+        TicketNotificationJob.perform_later(@ticket.id, :assigned)
 
         redirect_to tenant_admin_support_ticket_path(@ticket),
                     notice: "Ticket assigned to #{assignee.display_name}"
@@ -101,7 +101,12 @@ module TenantAdmin
       )
 
       # Queue notification to website admin
-      # TicketNotificationJob.perform_later(@ticket.id, :status_changed)
+      TicketNotificationJob.perform_later(@ticket.id, :status_changed, old_status: old_status)
+
+      # Send resolution notification if resolved
+      if new_status == "resolved"
+        TicketNotificationJob.perform_later(@ticket.id, :resolved)
+      end
 
       redirect_to tenant_admin_support_ticket_path(@ticket),
                   notice: "Ticket status updated to #{new_status.humanize}"
@@ -125,6 +130,11 @@ module TenantAdmin
         internal_note: is_internal
       )
 
+      # Handle file attachments if present
+      if params[:message][:attachments].present?
+        @message.attachments.attach(params[:message][:attachments])
+      end
+
       if @message.save
         # Update ticket status if sending a public reply and ticket is open
         if !is_internal && @ticket.status_open?
@@ -132,13 +142,13 @@ module TenantAdmin
         end
 
         # Queue notification to website admin (only for non-internal messages)
-        # TicketNotificationJob.perform_later(@message.id, :new_message) unless is_internal
+        TicketNotificationJob.perform_later(@message.id, :new_message) unless is_internal
 
         notice = is_internal ? "Internal note added" : "Reply sent to customer"
         redirect_to tenant_admin_support_ticket_path(@ticket), notice: notice
       else
         redirect_to tenant_admin_support_ticket_path(@ticket),
-                    alert: "Could not add message. Please try again."
+                    alert: @message.errors.full_messages.first || "Could not add message. Please try again."
       end
     end
 

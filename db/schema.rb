@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_01_112948) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_01_123933) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -777,6 +777,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_112948) do
     t.integer "message_count", default: 0
     t.integer "priority", default: 1, null: false
     t.datetime "resolved_at"
+    t.boolean "sla_resolution_breached", default: false
+    t.datetime "sla_resolution_due_at"
+    t.boolean "sla_response_breached", default: false
+    t.datetime "sla_response_due_at"
+    t.datetime "sla_warning_sent_at"
     t.integer "status", default: 0, null: false
     t.string "subject", limit: 255, null: false
     t.string "ticket_number", limit: 20, null: false
@@ -786,6 +791,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_112948) do
     t.index ["assigned_to_id"], name: "index_pwb_support_tickets_on_assigned_to_id"
     t.index ["creator_id"], name: "index_pwb_support_tickets_on_creator_id"
     t.index ["priority"], name: "index_pwb_support_tickets_on_priority"
+    t.index ["sla_resolution_due_at"], name: "index_pwb_support_tickets_on_sla_resolution_due_at"
+    t.index ["sla_response_breached", "status"], name: "idx_tickets_sla_response_breach_status"
+    t.index ["sla_response_due_at"], name: "index_pwb_support_tickets_on_sla_response_due_at"
     t.index ["status"], name: "index_pwb_support_tickets_on_status"
     t.index ["ticket_number"], name: "index_pwb_support_tickets_on_ticket_number", unique: true
     t.index ["website_id", "created_at"], name: "index_pwb_support_tickets_on_website_id_and_created_at"

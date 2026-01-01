@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header {
+      padding: 20px 0;
+      border-bottom: 1px solid #eee;
+      background: #fef3c7;
+      margin: -20px -20px 0 -20px;
+      padding: 20px;
+    }
+    .warning-icon {
+      display: inline-block;
+      font-size: 24px;
+      margin-right: 10px;
+    }
+    .content { padding: 20px 0; }
+    .priority-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .priority-low { background: #e5e7eb; color: #374151; }
+    .priority-normal { background: #dbeafe; color: #1e40af; }
+    .priority-high { background: #ffedd5; color: #9a3412; }
+    .priority-urgent { background: #fee2e2; color: #991b1b; }
+    .ticket-info {
+      background: #f9fafb;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .time-remaining {
+      background: #fef3c7;
+      border: 2px solid #f59e0b;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .time-remaining strong {
+      font-size: 24px;
+      color: #92400e;
+    }
+    .button {
+      display: inline-block;
+      background-color: #f59e0b;
+      color: white;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+    .footer {
+      font-size: 12px;
+      color: #9ca3af;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2 style="margin: 0; color: #92400e;">
+      <span class="warning-icon">&#9888;</span>
+      SLA Warning
+    </h2>
+  </div>
+
+  <div class="content">
+    <p>This ticket is approaching its SLA deadline and requires immediate attention.</p>
+
+    <div class="ticket-info">
+      <span class="priority-badge priority-<%= @ticket.priority %>"><%= @ticket.priority %></span>
+      <br><br>
+      <strong><%= @ticket.ticket_number %></strong> - <%= @ticket.subject %><br>
+      <span style="color: #6b7280;">Website: <%= @website.subdomain %> | Customer: <%= @ticket.creator.display_name %></span>
+    </div>
+
+    <div class="time-remaining">
+      Time Remaining<br>
+      <strong><%= distance_of_time_in_words(@time_remaining) %></strong>
+    </div>
+
+    <p style="text-align: center; margin-top: 25px;">
+      <a href="<%= tenant_admin_support_ticket_url(@ticket, host: ENV.fetch('BASE_DOMAIN', 'localhost:3000')) %>" class="button">
+        Respond Now
+      </a>
+    </p>
+  </div>
+
+  <div class="footer">
+    <p>This is an automated SLA monitoring notification.</p>
+  </div>
+</body>
+</html>
