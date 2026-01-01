@@ -35,7 +35,7 @@
       </ol>
     </div>
 
-    <%= form_with url: manual_html_site_admin_property_url_import_path, method: :post, local: true, class: "space-y-4" do |f| %>
+    <%= form_with url: site_admin_property_url_import_manual_html_path, method: :post, local: true, class: "space-y-4" do |f| %>
       <%= hidden_field_tag :url, @scraped_property&.source_url || params[:url] %>
 
       <div>

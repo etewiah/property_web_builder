@@ -32,7 +32,7 @@ module SiteAdmin
       @scraped_property = service.call
 
       if @scraped_property.scrape_successful?
-        redirect_to preview_site_admin_property_url_import_path(@scraped_property),
+        redirect_to site_admin_property_url_import_preview_path(@scraped_property),
                     notice: "Property data extracted successfully. Please review before importing."
       else
         # Show manual HTML entry form
@@ -59,7 +59,7 @@ module SiteAdmin
       service = Pwb::PropertyScraperService.new(url, website: current_website)
       @scraped_property = service.import_from_manual_html(html)
 
-      redirect_to preview_site_admin_property_url_import_path(@scraped_property),
+      redirect_to site_admin_property_url_import_preview_path(@scraped_property),
                   notice: "HTML parsed successfully. Please review the extracted data."
     end
 

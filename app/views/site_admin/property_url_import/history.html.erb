@@ -57,7 +57,7 @@
                 <% if sp.import_status == "imported" && sp.realty_asset %>
                   <%= link_to "View Property", site_admin_prop_path(sp.realty_asset), class: "text-blue-600 hover:text-blue-800" %>
                 <% elsif sp.can_preview? %>
-                  <%= link_to "Review", preview_site_admin_property_url_import_path(sp), class: "text-blue-600 hover:text-blue-800" %>
+                  <%= link_to "Review", site_admin_property_url_import_preview_path(sp), class: "text-blue-600 hover:text-blue-800" %>
                 <% else %>
                   <span class="text-gray-400">-</span>
                 <% end %>

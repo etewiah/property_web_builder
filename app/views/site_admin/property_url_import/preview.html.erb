@@ -5,7 +5,7 @@
     <span class="text-sm text-gray-500">Source: <%= link_to truncate(@scraped_property.source_url, length: 60), @scraped_property.source_url, target: "_blank", class: "text-blue-600 hover:underline" %></span>
   </p>
 
-  <%= form_with url: confirm_site_admin_property_url_import_path(@scraped_property), method: :post, local: true do |f| %>
+  <%= form_with url: site_admin_property_url_import_confirm_path(@scraped_property), method: :post, local: true do |f| %>
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
       <!-- Property Details (2 columns) -->
