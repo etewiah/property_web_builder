@@ -1,5 +1,42 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_scraped_properties
+#
+#  id                    :uuid             not null, primary key
+#  connector_used        :string
+#  extracted_data        :jsonb
+#  extracted_images      :jsonb
+#  import_status         :string           default("pending")
+#  imported_at           :datetime
+#  raw_html              :text
+#  scrape_error_message  :string
+#  scrape_method         :string
+#  scrape_successful     :boolean          default(FALSE)
+#  script_json           :text
+#  source_host           :string
+#  source_portal         :string
+#  source_url            :string           not null
+#  source_url_normalized :string
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  realty_asset_id       :uuid
+#  website_id            :bigint           not null
+#
+# Indexes
+#
+#  index_pwb_scraped_properties_on_import_status               (import_status)
+#  index_pwb_scraped_properties_on_realty_asset_id             (realty_asset_id)
+#  index_pwb_scraped_properties_on_source_url_normalized       (source_url_normalized)
+#  index_pwb_scraped_properties_on_website_id                  (website_id)
+#  index_pwb_scraped_properties_on_website_id_and_source_host  (website_id,source_host)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (realty_asset_id => pwb_realty_assets.id)
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 require "rails_helper"
 
 module Pwb
