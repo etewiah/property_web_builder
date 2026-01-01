@@ -10,6 +10,7 @@ module SiteAdmin
   # - Add replies to existing tickets
   # - Receive updates from platform support team
   class SupportTicketsController < SiteAdminController
+    before_action :require_authenticated_user!, only: [:new, :create, :add_message]
     before_action :load_ticket, only: [:show, :add_message]
 
     # GET /site_admin/support_tickets
@@ -112,7 +113,14 @@ module SiteAdmin
     end
 
     def ticket_params
-      params.require(:support_ticket).permit(:subject, :description, :category, :priority)
+      params.require(:pwb_support_ticket).permit(:subject, :description, :category, :priority)
+    end
+
+    def require_authenticated_user!
+      unless current_user
+        redirect_to site_admin_support_tickets_path,
+                    alert: "You must be logged in to create or reply to support tickets."
+      end
     end
   end
 end

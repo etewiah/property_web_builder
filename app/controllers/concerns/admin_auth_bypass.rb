@@ -34,7 +34,11 @@ module AdminAuthBypass
   def sign_in_bypass_user
     # Find or create a bypass admin user for the current website
     bypass_user = find_or_create_bypass_user
-    sign_in(bypass_user) if bypass_user
+    if bypass_user
+      # Use Warden's set_user to immediately authenticate for this request
+      # This ensures current_user returns the bypass user in the same request
+      warden.set_user(bypass_user, scope: :user)
+    end
   end
 
   def find_or_create_bypass_user
