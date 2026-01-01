@@ -50,12 +50,29 @@
                       <svg class="w-4 h-4 mr-1 group-open:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                       </svg>
-                      SEO Overrides (<%= locale %>)
+                      SEO Settings (<%= locale %>)
                     </summary>
-                    <div class="mt-3 ml-5 space-y-3 p-3 bg-gray-50 rounded-md">
+                    <div class="mt-3 ml-5 space-y-4 p-4 bg-gray-50 rounded-md">
                       <p class="text-xs text-gray-500">
-                        Optional: Override meta tags for search engines. Leave blank to use title/description above.
+                        Customize how this listing appears in search engines. Leave blank to use title/description above.
                       </p>
+
+                      <!-- Google Preview -->
+                      <div class="p-3 bg-white rounded border border-gray-200">
+                        <p class="text-xs font-medium text-gray-500 mb-2">Google Preview</p>
+                        <div class="google-preview" data-locale="<%= locale %>" data-listing="sale">
+                          <p class="text-blue-800 text-lg font-normal hover:underline cursor-pointer truncate preview-title">
+                            <%= @sale_listing.send("seo_title_#{locale}").presence || @sale_listing.send("title_#{locale}").presence || "Property Title" %>
+                          </p>
+                          <p class="text-green-700 text-sm preview-url">
+                            <%= request.host %>/properties/for-sale/...
+                          </p>
+                          <p class="text-gray-600 text-sm line-clamp-2 preview-description">
+                            <%= @sale_listing.send("meta_description_#{locale}").presence || @sale_listing.send("description_#{locale}").to_s.truncate(160) %>
+                          </p>
+                        </div>
+                      </div>
+
                       <div>
                         <label class="block text-xs font-medium text-gray-600 mb-1">
                           SEO Title <span class="text-gray-400">(50-60 chars recommended)</span>
@@ -65,7 +82,8 @@
                             class: "seo-field block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
                             placeholder: "Custom SEO title...",
                             maxlength: 70,
-                            data: { max_length: 70, optimal_max: 60 } %>
+                            id: "sale_seo_title_#{locale}",
+                            data: { max_length: 70, optimal_max: 60, preview_target: "title", listing: "sale", locale: locale } %>
                         <p class="mt-1 text-xs text-gray-500 char-counter" data-for="sale_listing_seo_title_<%= locale %>">0 / 70 characters</p>
                       </div>
                       <div>
@@ -78,7 +96,8 @@
                             class: "seo-field block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
                             placeholder: "Custom meta description...",
                             maxlength: 200,
-                            data: { max_length: 200, optimal_max: 160 } %>
+                            id: "sale_meta_description_#{locale}",
+                            data: { max_length: 200, optimal_max: 160, preview_target: "description", listing: "sale", locale: locale } %>
                         <p class="mt-1 text-xs text-gray-500 char-counter" data-for="sale_listing_meta_description_<%= locale %>">0 / 200 characters</p>
                       </div>
                     </div>
@@ -132,12 +151,29 @@
                       <svg class="w-4 h-4 mr-1 group-open:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                       </svg>
-                      SEO Overrides (<%= locale %>)
+                      SEO Settings (<%= locale %>)
                     </summary>
-                    <div class="mt-3 ml-5 space-y-3 p-3 bg-gray-50 rounded-md">
+                    <div class="mt-3 ml-5 space-y-4 p-4 bg-gray-50 rounded-md">
                       <p class="text-xs text-gray-500">
-                        Optional: Override meta tags for search engines. Leave blank to use title/description above.
+                        Customize how this listing appears in search engines. Leave blank to use title/description above.
                       </p>
+
+                      <!-- Google Preview -->
+                      <div class="p-3 bg-white rounded border border-gray-200">
+                        <p class="text-xs font-medium text-gray-500 mb-2">Google Preview</p>
+                        <div class="google-preview" data-locale="<%= locale %>" data-listing="rental">
+                          <p class="text-blue-800 text-lg font-normal hover:underline cursor-pointer truncate preview-title">
+                            <%= @rental_listing.send("seo_title_#{locale}").presence || @rental_listing.send("title_#{locale}").presence || "Property Title" %>
+                          </p>
+                          <p class="text-green-700 text-sm preview-url">
+                            <%= request.host %>/properties/for-rent/...
+                          </p>
+                          <p class="text-gray-600 text-sm line-clamp-2 preview-description">
+                            <%= @rental_listing.send("meta_description_#{locale}").presence || @rental_listing.send("description_#{locale}").to_s.truncate(160) %>
+                          </p>
+                        </div>
+                      </div>
+
                       <div>
                         <label class="block text-xs font-medium text-gray-600 mb-1">
                           SEO Title <span class="text-gray-400">(50-60 chars recommended)</span>
@@ -147,7 +183,8 @@
                             class: "seo-field block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
                             placeholder: "Custom SEO title...",
                             maxlength: 70,
-                            data: { max_length: 70, optimal_max: 60 } %>
+                            id: "rental_seo_title_#{locale}",
+                            data: { max_length: 70, optimal_max: 60, preview_target: "title", listing: "rental", locale: locale } %>
                         <p class="mt-1 text-xs text-gray-500 char-counter" data-for="rental_listing_seo_title_<%= locale %>">0 / 70 characters</p>
                       </div>
                       <div>
@@ -160,7 +197,8 @@
                             class: "seo-field block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
                             placeholder: "Custom meta description...",
                             maxlength: 200,
-                            data: { max_length: 200, optimal_max: 160 } %>
+                            id: "rental_meta_description_#{locale}",
+                            data: { max_length: 200, optimal_max: 160, preview_target: "description", listing: "rental", locale: locale } %>
                         <p class="mt-1 text-xs text-gray-500 char-counter" data-for="rental_listing_meta_description_<%= locale %>">0 / 200 characters</p>
                       </div>
                     </div>
@@ -230,6 +268,71 @@
 
       // Update on input
       field.addEventListener('input', updateCounter);
+
+      // Update Google preview if this field affects it
+      const previewTarget = field.dataset.previewTarget;
+      const listing = field.dataset.listing;
+      const locale = field.dataset.locale;
+
+      if (previewTarget && listing && locale) {
+        field.addEventListener('input', function() {
+          const preview = document.querySelector(`.google-preview[data-listing="${listing}"][data-locale="${locale}"]`);
+          if (preview) {
+            const targetEl = preview.querySelector(`.preview-${previewTarget}`);
+            if (targetEl && this.value.trim()) {
+              targetEl.textContent = this.value.trim();
+            }
+          }
+        });
+      }
+    });
+
+    // Also update preview when title/description (non-SEO fields) change
+    const titleFields = document.querySelectorAll('input[name*="title_"]');
+    const descFields = document.querySelectorAll('textarea[name*="description_"]');
+
+    titleFields.forEach(function(field) {
+      field.addEventListener('input', function() {
+        // Extract locale from field name (e.g., sale_listing[title_en])
+        const nameMatch = this.name.match(/(sale|rental)_listing\[title_(\w+)\]/);
+        if (nameMatch) {
+          const listing = nameMatch[1];
+          const locale = nameMatch[2];
+          const seoField = document.getElementById(`${listing}_seo_title_${locale}`);
+          // Only update preview if SEO field is empty
+          if (!seoField || !seoField.value.trim()) {
+            const preview = document.querySelector(`.google-preview[data-listing="${listing}"][data-locale="${locale}"]`);
+            if (preview) {
+              const titleEl = preview.querySelector('.preview-title');
+              if (titleEl) {
+                titleEl.textContent = this.value.trim() || 'Property Title';
+              }
+            }
+          }
+        }
+      });
+    });
+
+    descFields.forEach(function(field) {
+      field.addEventListener('input', function() {
+        const nameMatch = this.name.match(/(sale|rental)_listing\[description_(\w+)\]/);
+        if (nameMatch) {
+          const listing = nameMatch[1];
+          const locale = nameMatch[2];
+          const seoField = document.getElementById(`${listing}_meta_description_${locale}`);
+          // Only update preview if SEO field is empty
+          if (!seoField || !seoField.value.trim()) {
+            const preview = document.querySelector(`.google-preview[data-listing="${listing}"][data-locale="${locale}"]`);
+            if (preview) {
+              const descEl = preview.querySelector('.preview-description');
+              if (descEl) {
+                const truncated = this.value.trim().substring(0, 160);
+                descEl.textContent = truncated || 'Property description...';
+              }
+            }
+          }
+        }
+      });
     });
   });
 </script>

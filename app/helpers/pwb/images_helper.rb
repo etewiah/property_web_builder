@@ -6,6 +6,36 @@ module Pwb
     # Set to "lazy" for below-the-fold images, "eager" for critical images
     DEFAULT_LOADING = "lazy"
 
+    # Get the alt text for a photo, falling back to description or generic text
+    # @param photo [Object] A photo model (PropPhoto, ContentPhoto, WebsitePhoto)
+    # @param fallback [String] Fallback text if no description available
+    # @return [String] Alt text for the image
+    def photo_alt_text(photo, fallback: "Image")
+      return fallback unless photo
+
+      # Use description if available (stored alt-text)
+      if photo.respond_to?(:description) && photo.description.present?
+        return photo.description
+      end
+
+      # For prop photos, try to get a descriptive fallback from the property
+      if photo.respond_to?(:realty_asset) && photo.realty_asset.present?
+        asset = photo.realty_asset
+        # Build a descriptive alt from available data
+        parts = []
+        parts << asset.prop_type_key&.humanize if asset.respond_to?(:prop_type_key) && asset.prop_type_key.present?
+        parts << "in #{asset.city}" if asset.respond_to?(:city) && asset.city.present?
+        return "#{parts.join(' ')} - property photo" if parts.any?
+      end
+
+      # For content photos, use content title
+      if photo.respond_to?(:content) && photo.content&.respond_to?(:title) && photo.content.title.present?
+        return photo.content.title
+      end
+
+      fallback
+    end
+
     # Generate background-image CSS style for a photo
     # @param photo [Object] A photo model (PropPhoto, ContentPhoto, WebsitePhoto)
     # @param options [Hash] Options including :gradient for overlay
@@ -31,6 +61,7 @@ module Pwb
     #   - :lazy [Boolean] Enable lazy loading (default: true)
     #   - :eager [Boolean] Disable lazy loading for above-the-fold images
     #   - :fetchpriority [String] Set fetch priority ("high", "low", "auto")
+    #   - :alt [String] Alt text (defaults to photo description if not provided)
     # @return [String, nil] Image tag or nil if no image
     def opt_image_tag(photo, options = {})
       return nil unless photo
@@ -41,6 +72,9 @@ module Pwb
       height = options.delete(:height)
       _quality = options.delete(:quality) # Reserved for future CDN usage
       _crop = options.delete(:crop) # Reserved for future CDN usage
+
+      # Set alt text from photo description if not explicitly provided
+      options[:alt] ||= photo_alt_text(photo, fallback: "Property photo")
 
       # Handle lazy loading - default to lazy unless eager is specified
       eager = options.delete(:eager)
@@ -233,9 +267,13 @@ module Pwb
     #   - :lazy [Boolean] Enable lazy loading (default: true)
     #   - :eager [Boolean] Disable lazy loading for above-the-fold images
     #   - :fetchpriority [String] Set fetch priority ("high", "low", "auto")
+    #   - :alt [String] Alt text (defaults to photo description if not provided)
     # @return [String, nil] Image tag or nil if no image
     def photo_image_tag(photo, variant_options: nil, **html_options)
       return nil unless photo
+
+      # Set alt text from photo description if not explicitly provided
+      html_options[:alt] ||= photo_alt_text(photo, fallback: "Property photo")
 
       # Handle lazy loading - default to lazy unless eager is specified
       eager = html_options.delete(:eager)

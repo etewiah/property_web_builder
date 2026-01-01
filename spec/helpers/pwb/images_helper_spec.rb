@@ -14,6 +14,48 @@ RSpec.describe Pwb::ImagesHelper, type: :helper do
     Pwb::Current.reset
   end
 
+  describe '#photo_alt_text' do
+    let(:photo) { Pwb::PropPhoto.new(realty_asset: realty_asset) }
+
+    context 'with description (alt-text) set' do
+      before { photo.description = 'Beautiful living room with hardwood floors' }
+
+      it 'returns the description' do
+        expect(helper.photo_alt_text(photo)).to eq('Beautiful living room with hardwood floors')
+      end
+    end
+
+    context 'without description but with realty_asset data' do
+      before do
+        realty_asset.update!(prop_type_key: 'apartment', city: 'London')
+      end
+
+      it 'returns a fallback from property data' do
+        expect(helper.photo_alt_text(photo)).to include('Apartment')
+        expect(helper.photo_alt_text(photo)).to include('London')
+        expect(helper.photo_alt_text(photo)).to include('property photo')
+      end
+    end
+
+    context 'without description or realty_asset' do
+      let(:orphan_photo) { Pwb::PropPhoto.new }
+
+      it 'returns the fallback text' do
+        expect(helper.photo_alt_text(orphan_photo)).to eq('Image')
+      end
+
+      it 'returns custom fallback when specified' do
+        expect(helper.photo_alt_text(orphan_photo, fallback: 'Property photo')).to eq('Property photo')
+      end
+    end
+
+    context 'with nil photo' do
+      it 'returns the fallback' do
+        expect(helper.photo_alt_text(nil)).to eq('Image')
+      end
+    end
+  end
+
   describe '#photo_has_image?' do
     let(:photo) { Pwb::PropPhoto.new(realty_asset: realty_asset) }
 

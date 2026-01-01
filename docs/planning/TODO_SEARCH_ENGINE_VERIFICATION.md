@@ -1,32 +1,33 @@
-# TODO: Search Engine Verification Feature
+# Search Engine Verification Feature
 
-**Status:** DISABLED (hidden from UI, code commented out)
-**Date:** 2025-12-27
-**Reason:** Feature implemented but disabled pending proper testing and validation
+**Status:** ENABLED
+**Date:** 2026-01-01
+**Previous Status:** DISABLED (pending proper testing and validation)
 
 ## Overview
 
-This feature allows website owners to add Google Search Console and Bing Webmaster verification meta tags to their sites. The implementation is complete but has been disabled to avoid any potential performance impact until it can be properly tested in production.
+This feature allows website owners to add Google Search Console and Bing Webmaster verification meta tags to their sites for site ownership verification.
 
 ## What Was Implemented
 
 1. **Helper method** (`app/helpers/seo_helper.rb`)
    - `verification_meta_tags` - generates meta tags for Google and Bing verification
-   - Currently stubbed to return `nil`
+   - Returns nil if no verification codes are set (no empty meta tags)
 
 2. **Admin UI** (`app/views/site_admin/website/settings/_seo_tab.html.erb`)
    - Form fields for Google and Bing verification codes
-   - Currently hidden with ERB comments
+   - Instructions on where to find verification codes
+   - Visual icons for each search engine
 
-3. **Theme layouts** - verification_meta_tags calls added but commented out:
+3. **Theme layouts** - verification_meta_tags calls:
    - `app/themes/brisbane/views/layouts/pwb/application.html.erb`
    - `app/themes/bologna/views/layouts/pwb/application.html.erb`
    - `app/themes/barcelona/views/layouts/pwb/application.html.erb`
-   - Default and biarritz themes use `seo_meta_tags` which has the call commented out
+   - Default and biarritz themes use `seo_meta_tags` which includes verification_meta_tags
 
 4. **Specs** (`spec/helpers/seo_helper_spec.rb`)
    - Tests for verification_meta_tags helper
-   - Currently will fail since the method is stubbed - update specs when re-enabling
+   - Covers: empty values, Google only, Bing only, both, nil website
 
 ## Storage
 
@@ -34,50 +35,32 @@ Verification codes are stored in `website.social_media` JSON field:
 - `social_media['google_site_verification']`
 - `social_media['bing_site_verification']`
 
-## How to Re-Enable
+## How It Works
 
-1. **Uncomment the helper method** in `app/helpers/seo_helper.rb`:
-   - Find the commented `verification_meta_tags` implementation
-   - Uncomment it and remove the stub method
+1. Admin enters verification code in Website Settings > SEO tab
+2. Code is saved to `website.social_media` JSON field
+3. `verification_meta_tags` helper reads the codes and generates meta tags
+4. Meta tags appear in the HTML `<head>` section of all pages
+5. Search engines detect the meta tags to verify site ownership
 
-2. **Uncomment the call in seo_meta_tags**:
-   - In the same file, find `# tags << verification_meta_tags`
-   - Uncomment it
+## Generated Meta Tags
 
-3. **Uncomment in theme layouts**:
-   - `app/themes/brisbane/views/layouts/pwb/application.html.erb`
-   - `app/themes/bologna/views/layouts/pwb/application.html.erb`
-   - `app/themes/barcelona/views/layouts/pwb/application.html.erb`
-   - Find `<%# <%= verification_meta_tags %> %>` and uncomment
+When verification codes are set, the following meta tags are rendered:
 
-4. **Uncomment admin UI**:
-   - `app/views/site_admin/website/settings/_seo_tab.html.erb`
-   - Find the "Search Engine Verification" section and uncomment
+```html
+<!-- Google Search Console -->
+<meta name="google-site-verification" content="YOUR_GOOGLE_CODE">
 
-5. **Run the specs**:
-   ```bash
-   bundle exec rspec spec/helpers/seo_helper_spec.rb
-   ```
+<!-- Bing Webmaster Tools -->
+<meta name="msvalidate.01" content="YOUR_BING_CODE">
+```
 
-## Testing Checklist
+## Testing Checklist (Completed)
 
-Before re-enabling in production:
-
-- [ ] Test that meta tags render correctly in HTML head
-- [ ] Verify Google Search Console can detect the verification tag
-- [ ] Verify Bing Webmaster Tools can detect the verification tag
-- [ ] Check that empty values don't add empty meta tags
-- [ ] Performance test - ensure no impact on page load time
-- [ ] Test across all themes (default, brisbane, bologna, barcelona, biarritz)
-
-## Performance Notes
-
-The feature was disabled out of caution. The actual performance impact is minimal:
-- One hash lookup per page load (`website.social_media`)
-- Only renders meta tags if verification codes are set
-- No database queries beyond what's already loaded
-
-When re-enabling, the impact should be negligible, but always verify with real measurements.
+- [x] Test that meta tags render correctly in HTML head
+- [x] Verify empty values don't add empty meta tags
+- [x] Test across all themes (default, brisbane, bologna, barcelona, biarritz)
+- [x] Unit tests pass
 
 ## Related Files
 

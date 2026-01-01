@@ -9,7 +9,7 @@ module SiteAdmin
     before_action :set_realty_asset, only: [
       :edit_general, :edit_text, :edit_sale_rental, :edit_location,
       :edit_labels, :edit_photos, :upload_photos, :remove_photo,
-      :reorder_photos, :update
+      :reorder_photos, :update_photo_alt, :update
     ]
 
     def index
@@ -160,6 +160,21 @@ module SiteAdmin
         redirect_to edit_photos_site_admin_prop_path(@prop), notice: 'Photo order updated successfully.'
       else
         redirect_to edit_photos_site_admin_prop_path(@prop), alert: 'No order specified.'
+      end
+    end
+
+    def update_photo_alt
+      photo = @prop.prop_photos.find(params[:photo_id])
+      if photo.update(description: params[:description])
+        respond_to do |format|
+          format.html { redirect_to edit_photos_site_admin_prop_path(@prop), notice: 'Alt text updated successfully.' }
+          format.json { render json: { success: true, description: photo.description } }
+        end
+      else
+        respond_to do |format|
+          format.html { redirect_to edit_photos_site_admin_prop_path(@prop), alert: 'Failed to update alt text.' }
+          format.json { render json: { success: false, errors: photo.errors.full_messages }, status: :unprocessable_entity }
+        end
       end
     end
 

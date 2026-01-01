@@ -4,36 +4,82 @@
     <%= render 'navigation', current_tab: 'photos' %>
     <div class="p-6">
       <div class="mb-6">
-        <p class="text-sm text-gray-600">Manage photos for this property. Drag and drop to reorder.</p>
+        <p class="text-sm text-gray-600">Manage photos for this property. Drag and drop to reorder. Click on a photo to edit its alt text for SEO.</p>
       </div>
       <!-- Current Photos -->
       <% if @prop.respond_to?(:prop_photos) && @prop.prop_photos.any? %>
         <div class="mb-8">
           <h3 class="text-lg font-semibold text-gray-900 mb-4">Current Photos (<%= @prop.prop_photos.count %>)</h3>
-          <div id="sortable-photos" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+          <!-- Alt-text warning banner if missing -->
+          <% missing_alt_count = @prop.prop_photos.where(description: [nil, '']).count %>
+          <% if missing_alt_count > 0 %>
+            <div class="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg flex items-start gap-3">
+              <svg class="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+              </svg>
+              <div>
+                <p class="text-sm font-medium text-yellow-800">
+                  <%= missing_alt_count %> photo<%= missing_alt_count > 1 ? 's are' : ' is' %> missing alt text
+                </p>
+                <p class="text-xs text-yellow-700 mt-1">Alt text improves accessibility and SEO. Click on a photo to add descriptive text.</p>
+              </div>
+            </div>
+          <% end %>
+
+          <div id="sortable-photos" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             <% @prop.prop_photos.order(:sort_order).each_with_index do |photo, index| %>
-              <div class="relative group photo-item" data-photo-id="<%= photo.id %>">
-                <% if photo_has_image?(photo) %>
-                  <%= photo_image_tag photo, variant_options: { resize_to_limit: [200, 200] }, class: "w-full h-32 object-cover rounded-lg cursor-move" %>
-                  <% if photo.external? %>
-                    <div class="absolute top-1 right-1 bg-blue-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="External URL">
-                      ext
+              <div class="relative group photo-item bg-gray-50 rounded-lg p-2" data-photo-id="<%= photo.id %>">
+                <div class="relative">
+                  <% if photo_has_image?(photo) %>
+                    <%= photo_image_tag photo, variant_options: { resize_to_limit: [200, 200] }, class: "w-full h-32 object-cover rounded cursor-move", alt: photo.description.presence || "Photo #{index + 1}" %>
+                    <% if photo.external? %>
+                      <div class="absolute top-1 right-1 bg-blue-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="External URL">
+                        ext
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <div class="w-full h-32 bg-gray-200 rounded flex items-center justify-center">
+                      <span class="text-gray-400 text-sm">No image</span>
                     </div>
                   <% end %>
-                <% else %>
-                  <div class="w-full h-32 bg-gray-200 rounded-lg flex items-center justify-center">
-                    <span class="text-gray-400 text-sm">No image</span>
+                  <div class="absolute top-1 left-1 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">
+                    #<%= index + 1 %>
                   </div>
-                <% end %>
-                <div class="absolute top-1 left-1 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">
-                  #<%= index + 1 %>
+                  <!-- Alt text status indicator -->
+                  <div class="absolute bottom-1 right-1">
+                    <% if photo.description.present? %>
+                      <span class="bg-green-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="Has alt text">
+                        <svg class="w-3 h-3 inline" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                        ALT
+                      </span>
+                    <% else %>
+                      <span class="bg-yellow-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="Missing alt text">
+                        <svg class="w-3 h-3 inline" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                      </span>
+                    <% end %>
+                  </div>
+                  <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded flex items-center justify-center gap-2">
+                    <button type="button"
+                            onclick="openAltTextModal('<%= photo.id %>', '<%= j(photo.description.to_s) %>')"
+                            class="text-white text-xs hover:underline bg-blue-600 px-2 py-1 rounded">
+                      Edit Alt
+                    </button>
+                    <%= button_to 'Remove',
+                        remove_photo_site_admin_prop_path(@prop, photo_id: photo.id),
+                        method: :delete,
+                        class: 'text-white text-xs hover:underline bg-red-600 px-2 py-1 rounded',
+                        data: { turbo_confirm: 'Are you sure you want to remove this photo?' } %>
+                  </div>
                 </div>
-                <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
-                  <%= button_to 'Remove', 
-                      remove_photo_site_admin_prop_path(@prop, photo_id: photo.id), 
-                      method: :delete, 
-                      class: 'text-white text-sm hover:underline bg-red-600 px-3 py-1 rounded',
-                      data: { turbo_confirm: 'Are you sure you want to remove this photo?' } %>
+                <!-- Inline alt text display -->
+                <div class="mt-2">
+                  <p class="text-xs text-gray-500 truncate" title="<%= photo.description %>">
+                    <span class="font-medium">Alt:</span>
+                    <span class="alt-text-display" data-photo-id="<%= photo.id %>">
+                      <%= photo.description.present? ? photo.description : '<em class="text-yellow-600">Not set</em>'.html_safe %>
+                    </span>
+                  </p>
                 </div>
               </div>
             <% end %>
@@ -202,3 +248,147 @@
     </div>
   </div>
 </div>
+
+<!-- Alt Text Edit Modal -->
+<div id="alt-text-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50" onclick="closeAltTextModal(event)">
+  <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4" onclick="event.stopPropagation()">
+    <div class="p-4 border-b border-gray-200">
+      <h3 class="text-lg font-semibold text-gray-900">Edit Alt Text</h3>
+      <p class="text-sm text-gray-500 mt-1">Describe this image for accessibility and SEO</p>
+    </div>
+    <div class="p-4">
+      <label for="alt-text-input" class="block text-sm font-medium text-gray-700 mb-2">
+        Alt Text (Image Description)
+      </label>
+      <textarea id="alt-text-input"
+                rows="3"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                placeholder="e.g., Spacious living room with hardwood floors and large windows overlooking the garden"></textarea>
+      <p class="text-xs text-gray-500 mt-2">
+        <span id="alt-char-count">0</span>/125 characters recommended
+      </p>
+      <div class="mt-3 p-3 bg-gray-50 rounded-lg">
+        <p class="text-xs text-gray-600 font-medium">Tips for good alt text:</p>
+        <ul class="text-xs text-gray-500 mt-1 space-y-1">
+          <li>• Be descriptive but concise</li>
+          <li>• Describe what's in the image, not just "photo of..."</li>
+          <li>• Include key features visible in the image</li>
+          <li>• Don't repeat property title - add unique details</li>
+        </ul>
+      </div>
+    </div>
+    <div class="p-4 border-t border-gray-200 flex justify-end gap-3">
+      <button type="button"
+              onclick="closeAltTextModal()"
+              class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+        Cancel
+      </button>
+      <button type="button"
+              id="save-alt-text-btn"
+              onclick="saveAltText()"
+              class="px-4 py-2 bg-blue-600 text-white rounded-md shadow-sm text-sm font-medium hover:bg-blue-700">
+        Save Alt Text
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentPhotoId = null;
+  const altTextModal = document.getElementById('alt-text-modal');
+  const altTextInput = document.getElementById('alt-text-input');
+  const altCharCount = document.getElementById('alt-char-count');
+  const saveBtn = document.getElementById('save-alt-text-btn');
+
+  // Character count update
+  altTextInput.addEventListener('input', function() {
+    const count = this.value.length;
+    altCharCount.textContent = count;
+    if (count > 125) {
+      altCharCount.classList.add('text-yellow-600');
+    } else {
+      altCharCount.classList.remove('text-yellow-600');
+    }
+  });
+
+  function openAltTextModal(photoId, currentAltText) {
+    currentPhotoId = photoId;
+    altTextInput.value = currentAltText || '';
+    altCharCount.textContent = altTextInput.value.length;
+    altTextModal.classList.remove('hidden');
+    altTextModal.classList.add('flex');
+    altTextInput.focus();
+  }
+
+  function closeAltTextModal(event) {
+    if (event && event.target !== altTextModal) return;
+    altTextModal.classList.add('hidden');
+    altTextModal.classList.remove('flex');
+    currentPhotoId = null;
+  }
+
+  // Close on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !altTextModal.classList.contains('hidden')) {
+      closeAltTextModal();
+    }
+  });
+
+  function saveAltText() {
+    if (!currentPhotoId) return;
+
+    const description = altTextInput.value.trim();
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving...';
+
+    fetch('<%= update_photo_alt_site_admin_prop_path(@prop) %>', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+        'Accept': 'application/json'
+      },
+      body: `photo_id=${currentPhotoId}&description=${encodeURIComponent(description)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Update the display
+        const displayEl = document.querySelector(`.alt-text-display[data-photo-id="${currentPhotoId}"]`);
+        if (displayEl) {
+          displayEl.innerHTML = description || '<em class="text-yellow-600">Not set</em>';
+        }
+
+        // Update the status indicator
+        const photoItem = document.querySelector(`.photo-item[data-photo-id="${currentPhotoId}"]`);
+        if (photoItem) {
+          const indicator = photoItem.querySelector('.absolute.bottom-1.right-1');
+          if (indicator) {
+            if (description) {
+              indicator.innerHTML = `<span class="bg-green-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="Has alt text">
+                <svg class="w-3 h-3 inline" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                ALT
+              </span>`;
+            } else {
+              indicator.innerHTML = `<span class="bg-yellow-500 bg-opacity-75 text-white text-xs px-1.5 py-0.5 rounded" title="Missing alt text">
+                <svg class="w-3 h-3 inline" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+              </span>`;
+            }
+          }
+        }
+
+        closeAltTextModal();
+      } else {
+        alert('Failed to save alt text: ' + (data.errors || ['Unknown error']).join(', '));
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Failed to save alt text. Please try again.');
+    })
+    .finally(() => {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save Alt Text';
+    });
+  }
+</script>

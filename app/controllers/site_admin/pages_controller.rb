@@ -70,7 +70,11 @@ module SiteAdmin
     end
 
     def page_params
-      params.require(:pwb_page).permit(:slug, :visible, :show_in_top_nav, :show_in_footer, :sort_order_top_nav, :sort_order_footer)
+      params.require(:pwb_page).permit(
+        :slug, :visible, :show_in_top_nav, :show_in_footer,
+        :sort_order_top_nav, :sort_order_footer,
+        :seo_title, :meta_description
+      )
     end
   end
 end

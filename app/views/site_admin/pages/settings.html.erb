@@ -1,3 +1,9 @@
+<%
+  # Determine the public page URL for previews
+  page_path = @page.slug == 'home' ? '/' : "/p/#{@page.slug}"
+  public_page_url = "#{request.protocol}#{request.host_with_port}#{page_path}"
+%>
+
 <div class="max-w-4xl mx-auto">
   <div class="mb-6 flex items-center justify-between">
     <%= link_to '← Back to Pages', site_admin_pages_path, class: 'text-blue-600 hover:text-blue-800' %>
@@ -9,27 +15,28 @@
     <% end %>
   </div>
 
-  <div class="bg-white rounded-lg shadow overflow-hidden">
-    <div class="px-6 py-4 border-b border-gray-200">
-      <h1 class="text-2xl font-bold text-gray-900">Page Settings</h1>
-      <p class="text-sm text-gray-500 mt-1">Configure URL, navigation visibility, and sort order for "<%= @page.slug.titleize %>"</p>
-    </div>
+  <%= form_with model: @page, url: settings_site_admin_page_path(@page), method: :patch, local: true do |f| %>
+    <!-- Navigation Settings Card -->
+    <div class="bg-white rounded-lg shadow overflow-hidden mb-6">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-bold text-gray-900">Navigation Settings</h2>
+        <p class="text-sm text-gray-500 mt-1">Configure URL and navigation visibility for "<%= @page.slug.titleize %>"</p>
+      </div>
 
-    <div class="p-6">
-      <%= form_with model: @page, url: settings_site_admin_page_path(@page), method: :patch, local: true do |f| %>
-        <div class="space-y-6">
-          <div>
-            <label for="page_slug" class="block text-sm font-medium text-gray-700">Slug</label>
-            <%= f.text_field :slug, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
-            <p class="mt-1 text-sm text-gray-500">The URL-friendly identifier for this page</p>
-          </div>
+      <div class="p-6 space-y-6">
+        <div>
+          <label for="page_slug" class="block text-sm font-medium text-gray-700">Slug</label>
+          <%= f.text_field :slug, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          <p class="mt-1 text-sm text-gray-500">The URL-friendly identifier for this page</p>
+        </div>
 
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="flex items-center">
               <%= f.check_box :visible, class: "rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" %>
               <span class="ml-2 text-sm font-medium text-gray-700">Visible</span>
             </label>
-            <p class="mt-1 text-sm text-gray-500">Show this page in navigation</p>
+            <p class="mt-1 text-sm text-gray-500 ml-6">Show this page in navigation</p>
           </div>
 
           <div>
@@ -45,7 +52,9 @@
               <span class="ml-2 text-sm font-medium text-gray-700">Show in Footer</span>
             </label>
           </div>
+        </div>
 
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label for="page_sort_order_top_nav" class="block text-sm font-medium text-gray-700">Sort Order (Top Nav)</label>
             <%= f.number_field :sort_order_top_nav, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
@@ -55,13 +64,141 @@
             <label for="page_sort_order_footer" class="block text-sm font-medium text-gray-700">Sort Order (Footer)</label>
             <%= f.number_field :sort_order_footer, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
           </div>
+        </div>
+      </div>
+    </div>
 
-          <div class="flex justify-end space-x-3">
-            <%= link_to 'Cancel', site_admin_pages_path, class: 'px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50' %>
-            <%= f.submit 'Update Settings', class: 'px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 cursor-pointer' %>
+    <!-- SEO Settings Card -->
+    <div class="bg-white rounded-lg shadow overflow-hidden mb-6">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-bold text-gray-900 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          SEO Settings
+        </h2>
+        <p class="text-sm text-gray-500 mt-1">Optimize how this page appears in search engine results</p>
+      </div>
+
+      <div class="p-6 space-y-6">
+        <!-- Google Preview -->
+        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+          <p class="text-xs font-medium text-gray-500 mb-3">Search Engine Preview</p>
+          <div class="bg-white p-4 rounded border border-gray-200">
+            <p id="preview-title" class="text-blue-800 text-xl font-normal hover:underline cursor-pointer truncate">
+              <%= @page.seo_title.presence || @page.page_title.presence || @page.slug.titleize %>
+            </p>
+            <p class="text-green-700 text-sm mt-1">
+              <%= request.host %><%= page_path %>
+            </p>
+            <p id="preview-description" class="text-gray-600 text-sm mt-1 line-clamp-2">
+              <%= @page.meta_description.presence || "Page description will appear here..." %>
+            </p>
           </div>
         </div>
-      <% end %>
+
+        <div>
+          <label for="page_seo_title" class="block text-sm font-medium text-gray-700">
+            SEO Title
+            <span class="text-gray-400 font-normal">(50-60 characters recommended)</span>
+          </label>
+          <%= f.text_field :seo_title,
+              class: "seo-field mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+              placeholder: "Custom title for search engines...",
+              maxlength: 70,
+              data: { max_length: 70, optimal_max: 60, preview_target: "title" } %>
+          <div class="mt-1 flex justify-between">
+            <p class="text-xs text-gray-500">Leave blank to use the page title</p>
+            <p class="text-xs char-counter text-gray-500"><%= @page.seo_title.to_s.length %> / 70 characters</p>
+          </div>
+        </div>
+
+        <div>
+          <label for="page_meta_description" class="block text-sm font-medium text-gray-700">
+            Meta Description
+            <span class="text-gray-400 font-normal">(150-160 characters recommended)</span>
+          </label>
+          <%= f.text_area :meta_description,
+              rows: 3,
+              class: "seo-field mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+              placeholder: "A brief description of this page for search engines...",
+              maxlength: 200,
+              data: { max_length: 200, optimal_max: 160, preview_target: "description" } %>
+          <div class="mt-1 flex justify-between">
+            <p class="text-xs text-gray-500">Appears in search results below the title</p>
+            <p class="text-xs char-counter text-gray-500"><%= @page.meta_description.to_s.length %> / 200 characters</p>
+          </div>
+        </div>
+
+        <!-- SEO Tips -->
+        <div class="p-4 bg-blue-50 rounded-lg border border-blue-100">
+          <p class="text-sm font-medium text-blue-800 mb-2">SEO Tips</p>
+          <ul class="text-xs text-blue-700 space-y-1">
+            <li>• Include your main keyword in the SEO title</li>
+            <li>• Write a compelling meta description that encourages clicks</li>
+            <li>• Keep titles under 60 characters to avoid truncation</li>
+            <li>• Make each page's title and description unique</li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </div>
+
+    <!-- Form Actions -->
+    <div class="flex justify-end space-x-3">
+      <%= link_to 'Cancel', site_admin_pages_path, class: 'px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50' %>
+      <%= f.submit 'Save Settings', class: 'px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 cursor-pointer' %>
+    </div>
+  <% end %>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const seoFields = document.querySelectorAll('.seo-field');
+
+    seoFields.forEach(function(field) {
+      const maxLength = parseInt(field.dataset.maxLength) || 200;
+      const optimalMax = parseInt(field.dataset.optimalMax) || maxLength;
+      const counter = field.parentElement.querySelector('.char-counter');
+      const previewTarget = field.dataset.previewTarget;
+
+      function updateCounter() {
+        const length = field.value.length;
+        if (counter) {
+          counter.textContent = length + ' / ' + maxLength + ' characters';
+          counter.classList.remove('text-gray-500', 'text-yellow-600', 'text-red-600', 'text-green-600');
+
+          if (length === 0) {
+            counter.classList.add('text-gray-500');
+          } else if (length <= optimalMax) {
+            counter.classList.add('text-green-600');
+          } else if (length <= maxLength) {
+            counter.classList.add('text-yellow-600');
+          } else {
+            counter.classList.add('text-red-600');
+          }
+        }
+      }
+
+      function updatePreview() {
+        if (previewTarget) {
+          const previewEl = document.getElementById('preview-' + previewTarget);
+          if (previewEl) {
+            const defaultText = previewTarget === 'title'
+              ? '<%= j(@page.page_title.presence || @page.slug.titleize) %>'
+              : 'Page description will appear here...';
+            previewEl.textContent = field.value.trim() || defaultText;
+          }
+        }
+      }
+
+      // Initial updates
+      updateCounter();
+
+      // Update on input
+      field.addEventListener('input', function() {
+        updateCounter();
+        updatePreview();
+      });
+    });
+  });
+</script>

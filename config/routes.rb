@@ -195,6 +195,11 @@ Rails.application.routes.draw do
       post :batch_process, action: :batch_process
     end
 
+    # SEO Audit Dashboard
+    resource :seo_audit, only: [:show], controller: 'seo_audit', as: 'seo_audit' do
+      get '/', action: :index, on: :collection
+    end
+
     resources :props, only: %i[index show new create] do
       member do
         get 'edit/general', to: 'props#edit_general', as: 'edit_general'
@@ -206,6 +211,7 @@ Rails.application.routes.draw do
         post 'upload_photos', to: 'props#upload_photos', as: 'upload_photos'
         delete 'remove_photo', to: 'props#remove_photo', as: 'remove_photo'
         patch 'reorder_photos', to: 'props#reorder_photos', as: 'reorder_photos'
+        patch 'update_photo_alt', to: 'props#update_photo_alt', as: 'update_photo_alt'
         get 'edit', to: 'props#edit_general' # Default to general tab
         patch :update
       end

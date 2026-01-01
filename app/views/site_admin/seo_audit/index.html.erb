@@ -1,0 +1,336 @@
+<div class="max-w-7xl mx-auto">
+  <!-- Header -->
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">SEO Audit Dashboard</h1>
+    <p class="text-sm text-gray-500 mt-1">Monitor and improve the SEO health of your website</p>
+  </div>
+
+  <!-- Overall Score Card -->
+  <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-6">
+    <div class="p-6 flex items-center justify-between">
+      <div>
+        <h2 class="text-lg font-semibold text-gray-900">Overall SEO Score</h2>
+        <p class="text-sm text-gray-500 mt-1"><%= @score_grade[:message] %></p>
+      </div>
+      <div class="flex items-center">
+        <div class="text-center">
+          <div class="w-24 h-24 rounded-full flex items-center justify-center border-8
+                      <%= case @score_grade[:color]
+                          when 'green' then 'border-green-500 bg-green-50'
+                          when 'blue' then 'border-blue-500 bg-blue-50'
+                          when 'yellow' then 'border-yellow-500 bg-yellow-50'
+                          when 'orange' then 'border-orange-500 bg-orange-50'
+                          else 'border-red-500 bg-red-50'
+                          end %>">
+            <span class="text-3xl font-bold
+                        <%= case @score_grade[:color]
+                            when 'green' then 'text-green-600'
+                            when 'blue' then 'text-blue-600'
+                            when 'yellow' then 'text-yellow-600'
+                            when 'orange' then 'text-orange-600'
+                            else 'text-red-600'
+                            end %>">
+              <%= @score_grade[:letter] %>
+            </span>
+          </div>
+          <p class="text-sm font-medium text-gray-600 mt-2"><%= @overall_score %>%</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <!-- Property Stats -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+        <h3 class="text-sm font-semibold text-gray-700 flex items-center">
+          <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+          </svg>
+          Properties (<%= @property_stats[:total] %>)
+        </h3>
+      </div>
+      <div class="p-4 space-y-4">
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="text-gray-600">Titles</span>
+            <span class="font-medium"><%= @property_stats[:with_title] %>/<%= @property_stats[:total] %></span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div class="h-2 rounded-full <%= @property_stats[:title_percentage] >= 80 ? 'bg-green-500' : @property_stats[:title_percentage] >= 50 ? 'bg-yellow-500' : 'bg-red-500' %>"
+                 style="width: <%= @property_stats[:title_percentage] %>%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="text-gray-600">Meta Descriptions</span>
+            <span class="font-medium"><%= @property_stats[:with_description] %>/<%= @property_stats[:total] %></span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div class="h-2 rounded-full <%= @property_stats[:description_percentage] >= 80 ? 'bg-green-500' : @property_stats[:description_percentage] >= 50 ? 'bg-yellow-500' : 'bg-red-500' %>"
+                 style="width: <%= @property_stats[:description_percentage] %>%"></div>
+          </div>
+        </div>
+        <% if @property_stats[:missing_title] > 0 || @property_stats[:missing_description] > 0 %>
+          <p class="text-xs text-yellow-600">
+            <span class="font-medium"><%= @property_stats[:missing_title] + @property_stats[:missing_description] %></span> issues to fix
+          </p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Page Stats -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+        <h3 class="text-sm font-semibold text-gray-700 flex items-center">
+          <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          Pages (<%= @page_stats[:total] %>)
+        </h3>
+      </div>
+      <div class="p-4 space-y-4">
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="text-gray-600">SEO Titles</span>
+            <span class="font-medium"><%= @page_stats[:with_title] %>/<%= @page_stats[:total] %></span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div class="h-2 rounded-full <%= @page_stats[:title_percentage] >= 80 ? 'bg-green-500' : @page_stats[:title_percentage] >= 50 ? 'bg-yellow-500' : 'bg-red-500' %>"
+                 style="width: <%= @page_stats[:title_percentage] %>%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="text-gray-600">Meta Descriptions</span>
+            <span class="font-medium"><%= @page_stats[:with_description] %>/<%= @page_stats[:total] %></span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div class="h-2 rounded-full <%= @page_stats[:description_percentage] >= 80 ? 'bg-green-500' : @page_stats[:description_percentage] >= 50 ? 'bg-yellow-500' : 'bg-red-500' %>"
+                 style="width: <%= @page_stats[:description_percentage] %>%"></div>
+          </div>
+        </div>
+        <% if @page_stats[:missing_title] > 0 || @page_stats[:missing_description] > 0 %>
+          <p class="text-xs text-yellow-600">
+            <span class="font-medium"><%= @page_stats[:missing_title] + @page_stats[:missing_description] %></span> issues to fix
+          </p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Image Stats -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+        <h3 class="text-sm font-semibold text-gray-700 flex items-center">
+          <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+          Images (<%= @image_stats[:total] %>)
+        </h3>
+      </div>
+      <div class="p-4 space-y-4">
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span class="text-gray-600">With Alt Text</span>
+            <span class="font-medium"><%= @image_stats[:with_alt] %>/<%= @image_stats[:total] %></span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div class="h-2 rounded-full <%= @image_stats[:alt_percentage] >= 80 ? 'bg-green-500' : @image_stats[:alt_percentage] >= 50 ? 'bg-yellow-500' : 'bg-red-500' %>"
+                 style="width: <%= @image_stats[:alt_percentage] %>%"></div>
+          </div>
+        </div>
+        <% if @image_stats[:missing_alt] > 0 %>
+          <p class="text-xs text-yellow-600">
+            <span class="font-medium"><%= @image_stats[:missing_alt] %></span> images missing alt text
+          </p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Issues List -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Properties Missing SEO -->
+    <% if @properties_missing_seo.any? %>
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="px-4 py-3 border-b border-gray-200 bg-yellow-50">
+          <h3 class="text-sm font-semibold text-yellow-800 flex items-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+            Properties Needing SEO Attention
+          </h3>
+        </div>
+        <ul class="divide-y divide-gray-100">
+          <% @properties_missing_seo.each do |prop| %>
+            <li class="px-4 py-3 hover:bg-gray-50">
+              <div class="flex items-center justify-between">
+                <div class="min-w-0 flex-1">
+                  <p class="text-sm font-medium text-gray-900 truncate">
+                    <%= prop.title.presence || prop.reference || "Property ##{prop.id[0..7]}" %>
+                  </p>
+                  <div class="flex gap-2 mt-1">
+                    <% if prop.title.blank? %>
+                      <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                        Missing title
+                      </span>
+                    <% end %>
+                    <% if prop.description.blank? %>
+                      <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800">
+                        Missing description
+                      </span>
+                    <% end %>
+                  </div>
+                </div>
+                <%= link_to edit_text_site_admin_prop_path(prop.id),
+                            class: 'ml-4 text-xs text-blue-600 hover:text-blue-800 font-medium' do %>
+                  Fix →
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+        <% if @property_stats[:missing_title] > 10 || @property_stats[:missing_description] > 10 %>
+          <div class="px-4 py-3 bg-gray-50 border-t border-gray-200">
+            <p class="text-xs text-gray-500">
+              Showing 10 of <%= [@property_stats[:missing_title], @property_stats[:missing_description]].max %> items
+            </p>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- Pages Missing SEO -->
+    <% if @pages_missing_seo.any? %>
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="px-4 py-3 border-b border-gray-200 bg-yellow-50">
+          <h3 class="text-sm font-semibold text-yellow-800 flex items-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+            Pages Needing SEO Attention
+          </h3>
+        </div>
+        <ul class="divide-y divide-gray-100">
+          <% @pages_missing_seo.each do |page| %>
+            <li class="px-4 py-3 hover:bg-gray-50">
+              <div class="flex items-center justify-between">
+                <div class="min-w-0 flex-1">
+                  <p class="text-sm font-medium text-gray-900 truncate">
+                    <%= page.page_title.presence || page.slug.titleize %>
+                  </p>
+                  <p class="text-xs text-gray-500">/<%= page.slug %></p>
+                  <div class="flex gap-2 mt-1">
+                    <% if page.seo_title.blank? && page.page_title.blank? %>
+                      <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                        Missing title
+                      </span>
+                    <% end %>
+                    <% if page.meta_description.blank? %>
+                      <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800">
+                        Missing description
+                      </span>
+                    <% end %>
+                  </div>
+                </div>
+                <%= link_to settings_site_admin_page_path(page),
+                            class: 'ml-4 text-xs text-blue-600 hover:text-blue-800 font-medium' do %>
+                  Fix →
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Properties with Images Missing Alt Text -->
+    <% if @properties_with_missing_alt.any? %>
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="px-4 py-3 border-b border-gray-200 bg-yellow-50">
+          <h3 class="text-sm font-semibold text-yellow-800 flex items-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            Properties with Images Missing Alt Text
+          </h3>
+        </div>
+        <ul class="divide-y divide-gray-100">
+          <% @properties_with_missing_alt.each do |asset| %>
+            <li class="px-4 py-3 hover:bg-gray-50">
+              <div class="flex items-center justify-between">
+                <div class="min-w-0 flex-1">
+                  <p class="text-sm font-medium text-gray-900 truncate">
+                    <%= asset.reference || "Property ##{asset.id[0..7]}" %>
+                  </p>
+                  <p class="text-xs text-gray-500">
+                    <%= asset.prop_photos.where(description: [nil, '']).count %> images missing alt text
+                  </p>
+                </div>
+                <%= link_to edit_photos_site_admin_prop_path(asset),
+                            class: 'ml-4 text-xs text-blue-600 hover:text-blue-800 font-medium' do %>
+                  Fix →
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- All Good Message -->
+    <% if @properties_missing_seo.empty? && @pages_missing_seo.empty? && @properties_with_missing_alt.empty? %>
+      <div class="col-span-full bg-green-50 rounded-lg p-8 text-center">
+        <svg class="mx-auto h-12 w-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-green-900">Excellent SEO Health!</h3>
+        <p class="mt-1 text-sm text-green-700">All your content has proper SEO metadata configured.</p>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- SEO Tips -->
+  <div class="mt-6 bg-blue-50 rounded-lg p-6 border border-blue-100">
+    <h3 class="text-sm font-semibold text-blue-800 mb-3">SEO Best Practices</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-700">
+      <div>
+        <p class="font-medium mb-1">For Titles:</p>
+        <ul class="list-disc list-inside space-y-1 text-xs">
+          <li>Keep under 60 characters</li>
+          <li>Include main keyword near the start</li>
+          <li>Make each title unique</li>
+          <li>Be descriptive and compelling</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-medium mb-1">For Descriptions:</p>
+        <ul class="list-disc list-inside space-y-1 text-xs">
+          <li>Keep between 150-160 characters</li>
+          <li>Include a call to action</li>
+          <li>Summarize the page content</li>
+          <li>Use active voice</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-medium mb-1">For Images:</p>
+        <ul class="list-disc list-inside space-y-1 text-xs">
+          <li>Add descriptive alt text to all images</li>
+          <li>Keep alt text under 125 characters</li>
+          <li>Describe what's in the image</li>
+          <li>Include keywords naturally</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-medium mb-1">General Tips:</p>
+        <ul class="list-disc list-inside space-y-1 text-xs">
+          <li>Check your sitemap at <a href="/sitemap.xml" target="_blank" class="underline">/sitemap.xml</a></li>
+          <li>Verify robots.txt at <a href="/robots.txt" target="_blank" class="underline">/robots.txt</a></li>
+          <li>Use Google Search Console</li>
+          <li>Monitor Core Web Vitals</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
