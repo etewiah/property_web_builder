@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'swagger_helper'
 
 RSpec.describe 'API V1', type: :request, openapi_spec: 'v1/swagger.yaml' do

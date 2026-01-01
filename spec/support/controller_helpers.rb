@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ControllerHelpers
   # https://github.com/plataformatec/devise/wiki/How-To:-Stub-authentication-in-controller-specs
   def sign_in_stub(user = double('user'))

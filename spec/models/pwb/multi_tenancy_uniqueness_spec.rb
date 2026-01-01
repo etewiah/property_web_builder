@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 # These specs ensure that database uniqueness constraints are properly scoped

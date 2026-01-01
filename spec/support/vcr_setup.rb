@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 VCR.configure do |vc|
   # the directory where your cassettes will be saved
   vc.cassette_library_dir = 'spec/fixtures/vcr'

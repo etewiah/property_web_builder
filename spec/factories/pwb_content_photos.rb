@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # https://til.codes/testing-carrierwave-file-uploads-with-rspec-and-factorygirl/
 # == Schema Information
 #

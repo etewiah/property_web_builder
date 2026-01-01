@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FeatureHelpers
   # https://code.tutsplus.com/articles/ruby-page-objects-for-capybara-connoisseurs--cms-25204
   def sign_in_as(email, password)

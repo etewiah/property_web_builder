@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RequestSpecHelpers
   # https://github.com/plataformatec/devise/wiki/How-To:-sign-in-and-out-a-user-in-Request-type-specs-(specs-tagged-with-type:-:request)
   include Warden::Test::Helpers

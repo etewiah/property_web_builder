@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'pwb/pages_seeder'
 require 'pwb/contents_seeder'
