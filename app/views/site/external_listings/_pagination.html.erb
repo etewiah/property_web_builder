@@ -1,0 +1,133 @@
+<%# Pagination for External Listings %>
+<nav class="mt-8 flex items-center justify-between border-t border-gray-200 pt-6" aria-label="Pagination">
+  <%# Mobile view %>
+  <div class="flex flex-1 justify-between sm:hidden">
+    <% if result.prev_page %>
+      <%= link_to t("external_feed.pagination.previous", default: "Previous"),
+          external_listings_path(request.query_parameters.merge(page: result.prev_page)),
+          class: "relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50" %>
+    <% else %>
+      <span class="relative inline-flex items-center rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-400 cursor-not-allowed">
+        <%= t("external_feed.pagination.previous", default: "Previous") %>
+      </span>
+    <% end %>
+
+    <% if result.next_page %>
+      <%= link_to t("external_feed.pagination.next", default: "Next"),
+          external_listings_path(request.query_parameters.merge(page: result.next_page)),
+          class: "relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50" %>
+    <% else %>
+      <span class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-400 cursor-not-allowed">
+        <%= t("external_feed.pagination.next", default: "Next") %>
+      </span>
+    <% end %>
+  </div>
+
+  <%# Desktop view %>
+  <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+    <div>
+      <p class="text-sm text-gray-700">
+        <%= t("external_feed.pagination.showing_results",
+              range: result.results_range,
+              total: result.total_count,
+              default: "Showing %{range} of %{total} results") %>
+      </p>
+    </div>
+
+    <div>
+      <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+        <%# Previous button %>
+        <% if result.prev_page %>
+          <%= link_to external_listings_path(request.query_parameters.merge(page: result.prev_page)),
+              class: "relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" do %>
+            <span class="sr-only"><%= t("external_feed.pagination.previous", default: "Previous") %></span>
+            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+            </svg>
+          <% end %>
+        <% else %>
+          <span class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-300 ring-1 ring-inset ring-gray-300 cursor-not-allowed">
+            <span class="sr-only"><%= t("external_feed.pagination.previous", default: "Previous") %></span>
+            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+            </svg>
+          </span>
+        <% end %>
+
+        <%# Page numbers %>
+        <%
+          # Calculate page window
+          current = result.current_page
+          total = result.total_pages
+          window_size = 2
+
+          # Determine which pages to show
+          pages_to_show = []
+
+          # Always show first page
+          pages_to_show << 1
+
+          # Calculate window around current page
+          window_start = [current - window_size, 2].max
+          window_end = [current + window_size, total - 1].min
+
+          # Add ellipsis before window if needed
+          if window_start > 2
+            pages_to_show << :ellipsis_start
+          elsif window_start == 2
+            pages_to_show << 2
+          end
+
+          # Add window pages
+          (window_start..window_end).each do |p|
+            pages_to_show << p unless pages_to_show.include?(p)
+          end
+
+          # Add ellipsis after window if needed
+          if window_end < total - 1
+            pages_to_show << :ellipsis_end
+          elsif window_end == total - 1 && total > 1
+            pages_to_show << total - 1 unless pages_to_show.include?(total - 1)
+          end
+
+          # Always show last page if more than 1 page
+          pages_to_show << total if total > 1 && !pages_to_show.include?(total)
+        %>
+
+        <% pages_to_show.each do |page| %>
+          <% if page == :ellipsis_start || page == :ellipsis_end %>
+            <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300">
+              ...
+            </span>
+          <% elsif page == current %>
+            <span aria-current="page" class="relative z-10 inline-flex items-center bg-blue-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+              <%= page %>
+            </span>
+          <% else %>
+            <%= link_to page.to_s,
+                external_listings_path(request.query_parameters.merge(page: page)),
+                class: "relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" %>
+          <% end %>
+        <% end %>
+
+        <%# Next button %>
+        <% if result.next_page %>
+          <%= link_to external_listings_path(request.query_parameters.merge(page: result.next_page)),
+              class: "relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" do %>
+            <span class="sr-only"><%= t("external_feed.pagination.next", default: "Next") %></span>
+            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+          <% end %>
+        <% else %>
+          <span class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-300 ring-1 ring-inset ring-gray-300 cursor-not-allowed">
+            <span class="sr-only"><%= t("external_feed.pagination.next", default: "Next") %></span>
+            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+          </span>
+        <% end %>
+      </nav>
+    </div>
+  </div>
+</nav>

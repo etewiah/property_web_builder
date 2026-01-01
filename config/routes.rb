@@ -434,6 +434,21 @@ Rails.application.routes.draw do
       get "/buy" => "search#buy"
       get "/rent" => "search#rent"
 
+      # External property listings (from third-party feeds)
+      scope module: :site do
+        resources :external_listings, only: [:index, :show], param: :reference do
+          collection do
+            get :search
+            get :locations
+            get :property_types
+            get :filters
+          end
+          member do
+            get :similar
+          end
+        end
+      end
+
       post "/search_ajax_for_sale" => "search#search_ajax_for_sale"
       post "/search_ajax_for_rent" => "search#search_ajax_for_rent"
       # post "/ajax_find_by_ref" => "search#ajax_find_by_ref"

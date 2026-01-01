@@ -29,6 +29,9 @@
 #  email_verification_token_expires_at :datetime
 #  email_verified_at                   :datetime
 #  exchange_rates                      :json
+#  external_feed_config                :json
+#  external_feed_enabled               :boolean          default(FALSE), not null
+#  external_feed_provider              :string
 #  external_image_mode                 :boolean          default(FALSE), not null
 #  favicon_url                         :string
 #  flags                               :integer          default(0), not null
@@ -84,6 +87,8 @@
 #  index_pwb_websites_on_custom_domain             (custom_domain) UNIQUE WHERE ((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))
 #  index_pwb_websites_on_dark_mode_setting         (dark_mode_setting)
 #  index_pwb_websites_on_email_verification_token  (email_verification_token) UNIQUE WHERE (email_verification_token IS NOT NULL)
+#  index_pwb_websites_on_external_feed_enabled     (external_feed_enabled)
+#  index_pwb_websites_on_external_feed_provider    (external_feed_provider)
 #  index_pwb_websites_on_palette_mode              (palette_mode)
 #  index_pwb_websites_on_provisioning_state        (provisioning_state)
 #  index_pwb_websites_on_realty_assets_count       (realty_assets_count)

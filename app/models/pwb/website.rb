@@ -29,6 +29,9 @@
 #  email_verification_token_expires_at :datetime
 #  email_verified_at                   :datetime
 #  exchange_rates                      :json
+#  external_feed_config                :json
+#  external_feed_enabled               :boolean          default(FALSE), not null
+#  external_feed_provider              :string
 #  external_image_mode                 :boolean          default(FALSE), not null
 #  favicon_url                         :string
 #  flags                               :integer          default(0), not null
@@ -84,6 +87,8 @@
 #  index_pwb_websites_on_custom_domain             (custom_domain) UNIQUE WHERE ((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))
 #  index_pwb_websites_on_dark_mode_setting         (dark_mode_setting)
 #  index_pwb_websites_on_email_verification_token  (email_verification_token) UNIQUE WHERE (email_verification_token IS NOT NULL)
+#  index_pwb_websites_on_external_feed_enabled     (external_feed_enabled)
+#  index_pwb_websites_on_external_feed_provider    (external_feed_provider)
 #  index_pwb_websites_on_palette_mode              (palette_mode)
 #  index_pwb_websites_on_provisioning_state        (provisioning_state)
 #  index_pwb_websites_on_realty_assets_count       (realty_assets_count)
@@ -216,6 +221,44 @@ module Pwb
 
     def footer_display_links
       links.ordered_footer.where(visible: true)
+    end
+
+    # ===================
+    # External Feed Integration
+    # ===================
+
+    # Check if external feeds are enabled for this website
+    # @return [Boolean]
+    def external_feed_enabled?
+      external_feed_enabled && external_feed_provider.present?
+    end
+
+    # Get the external feed manager for this website
+    # @return [Pwb::ExternalFeed::Manager]
+    def external_feed
+      @external_feed ||= Pwb::ExternalFeed::Manager.new(self)
+    end
+
+    # Configure external feed with a provider and settings
+    # @param provider [String, Symbol] Provider name (e.g., :resales_online)
+    # @param config [Hash] Provider-specific configuration
+    # @param enabled [Boolean] Whether to enable the feed (default: true)
+    def configure_external_feed(provider:, config:, enabled: true)
+      update!(
+        external_feed_enabled: enabled,
+        external_feed_provider: provider.to_s,
+        external_feed_config: config
+      )
+    end
+
+    # Disable external feed
+    def disable_external_feed
+      update!(external_feed_enabled: false)
+    end
+
+    # Clear external feed cache
+    def clear_external_feed_cache
+      external_feed.invalidate_cache if external_feed_enabled?
     end
 
     # ===================

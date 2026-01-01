@@ -1,0 +1,191 @@
+<%# Search Filters Form for External Listings %>
+<%= form_with url: external_listings_path, method: :get, local: true, class: "bg-white rounded-lg shadow p-4" do |form| %>
+  <h2 class="text-lg font-semibold text-gray-900 mb-4">
+    <%= t("external_feed.search.filters", default: "Filters") %>
+  </h2>
+
+  <%# Listing Type %>
+  <div class="mb-4">
+    <label class="block text-sm font-medium text-gray-700 mb-2">
+      <%= t("external_feed.search.listing_type", default: "Listing Type") %>
+    </label>
+    <div class="flex gap-2">
+      <label class="flex-1">
+        <input type="radio" name="listing_type" value="sale"
+               <%= 'checked' if search_params[:listing_type].to_s == 'sale' || search_params[:listing_type].nil? %>
+               class="sr-only peer">
+        <span class="block text-center py-2 px-3 text-sm font-medium rounded-md border cursor-pointer
+                     peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600
+                     border-gray-300 text-gray-700 hover:bg-gray-50">
+          <%= t("external_feed.listing_type.sale", default: "Buy") %>
+        </span>
+      </label>
+      <label class="flex-1">
+        <input type="radio" name="listing_type" value="rental"
+               <%= 'checked' if search_params[:listing_type].to_s == 'rental' %>
+               class="sr-only peer">
+        <span class="block text-center py-2 px-3 text-sm font-medium rounded-md border cursor-pointer
+                     peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600
+                     border-gray-300 text-gray-700 hover:bg-gray-50">
+          <%= t("external_feed.listing_type.rental", default: "Rent") %>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <%# Location %>
+  <div class="mb-4">
+    <label for="location" class="block text-sm font-medium text-gray-700 mb-1">
+      <%= t("external_feed.search.location", default: "Location") %>
+    </label>
+    <select id="location" name="location"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+      <option value=""><%= t("external_feed.search.any_location", default: "Any Location") %></option>
+      <% filter_options[:locations]&.each do |loc| %>
+        <option value="<%= loc[:value] %>" <%= 'selected' if search_params[:location].to_s == loc[:value].to_s %>>
+          <%= loc[:label] %>
+        </option>
+      <% end %>
+    </select>
+  </div>
+
+  <%# Property Types %>
+  <div class="mb-4">
+    <label class="block text-sm font-medium text-gray-700 mb-2">
+      <%= t("external_feed.search.property_type", default: "Property Type") %>
+    </label>
+    <div class="space-y-2 max-h-40 overflow-y-auto">
+      <% filter_options[:property_types]&.each do |pt| %>
+        <label class="flex items-center">
+          <input type="checkbox" name="property_types[]" value="<%= pt[:value] %>"
+                 <%= 'checked' if search_params[:property_types]&.include?(pt[:value].to_s) %>
+                 class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+          <span class="ml-2 text-sm text-gray-700"><%= pt[:label] %></span>
+        </label>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Price Range %>
+  <div class="mb-4">
+    <label class="block text-sm font-medium text-gray-700 mb-2">
+      <%= t("external_feed.search.price_range", default: "Price Range") %>
+    </label>
+    <div class="grid grid-cols-2 gap-2">
+      <div>
+        <label for="min_price" class="sr-only"><%= t("external_feed.search.min_price", default: "Min Price") %></label>
+        <input type="number" id="min_price" name="min_price"
+               value="<%= search_params[:min_price] %>"
+               placeholder="<%= t('external_feed.search.min', default: 'Min') %>"
+               class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+      </div>
+      <div>
+        <label for="max_price" class="sr-only"><%= t("external_feed.search.max_price", default: "Max Price") %></label>
+        <input type="number" id="max_price" name="max_price"
+               value="<%= search_params[:max_price] %>"
+               placeholder="<%= t('external_feed.search.max', default: 'Max') %>"
+               class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+      </div>
+    </div>
+  </div>
+
+  <%# Bedrooms %>
+  <div class="mb-4">
+    <label class="block text-sm font-medium text-gray-700 mb-2">
+      <%= t("external_feed.search.bedrooms", default: "Bedrooms") %>
+    </label>
+    <div class="grid grid-cols-2 gap-2">
+      <select name="min_bedrooms"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+        <option value=""><%= t("external_feed.search.min", default: "Min") %></option>
+        <% (1..6).each do |n| %>
+          <option value="<%= n %>" <%= 'selected' if search_params[:min_bedrooms].to_i == n %>><%= n %>+</option>
+        <% end %>
+      </select>
+      <select name="max_bedrooms"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+        <option value=""><%= t("external_feed.search.max", default: "Max") %></option>
+        <% (1..10).each do |n| %>
+          <option value="<%= n %>" <%= 'selected' if search_params[:max_bedrooms].to_i == n %>><%= n %></option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+
+  <%# Bathrooms %>
+  <div class="mb-4">
+    <label class="block text-sm font-medium text-gray-700 mb-2">
+      <%= t("external_feed.search.bathrooms", default: "Bathrooms") %>
+    </label>
+    <div class="grid grid-cols-2 gap-2">
+      <select name="min_bathrooms"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+        <option value=""><%= t("external_feed.search.min", default: "Min") %></option>
+        <% (1..5).each do |n| %>
+          <option value="<%= n %>" <%= 'selected' if search_params[:min_bathrooms].to_i == n %>><%= n %>+</option>
+        <% end %>
+      </select>
+      <select name="max_bathrooms"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+        <option value=""><%= t("external_feed.search.max", default: "Max") %></option>
+        <% (1..8).each do |n| %>
+          <option value="<%= n %>" <%= 'selected' if search_params[:max_bathrooms].to_i == n %>><%= n %></option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+
+  <%# Area Range %>
+  <div class="mb-4">
+    <label class="block text-sm font-medium text-gray-700 mb-2">
+      <%= t("external_feed.search.area", default: "Area (m²)") %>
+    </label>
+    <div class="grid grid-cols-2 gap-2">
+      <div>
+        <label for="min_area" class="sr-only"><%= t("external_feed.search.min_area", default: "Min Area") %></label>
+        <input type="number" id="min_area" name="min_area"
+               value="<%= search_params[:min_area] %>"
+               placeholder="<%= t('external_feed.search.min', default: 'Min') %>"
+               class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+      </div>
+      <div>
+        <label for="max_area" class="sr-only"><%= t("external_feed.search.max_area", default: "Max Area") %></label>
+        <input type="number" id="max_area" name="max_area"
+               value="<%= search_params[:max_area] %>"
+               placeholder="<%= t('external_feed.search.max', default: 'Max') %>"
+               class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+      </div>
+    </div>
+  </div>
+
+  <%# Features %>
+  <% if filter_options[:features].present? %>
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700 mb-2">
+        <%= t("external_feed.search.features", default: "Features") %>
+      </label>
+      <div class="space-y-2 max-h-40 overflow-y-auto">
+        <% filter_options[:features].each do |feature| %>
+          <label class="flex items-center">
+            <input type="checkbox" name="features[]" value="<%= feature[:value] %>"
+                   <%= 'checked' if search_params[:features]&.include?(feature[:value].to_s) %>
+                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+            <span class="ml-2 text-sm text-gray-700"><%= feature[:label] %></span>
+          </label>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <%# Submit Button %>
+  <div class="pt-4 border-t">
+    <button type="submit"
+            class="w-full bg-blue-600 text-white py-2 px-4 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+      <%= t("external_feed.search.apply_filters", default: "Apply Filters") %>
+    </button>
+    <a href="<%= external_listings_path %>"
+       class="block w-full text-center mt-2 text-sm text-gray-600 hover:text-gray-900">
+      <%= t("external_feed.search.clear_filters", default: "Clear Filters") %>
+    </a>
+  </div>
+<% end %>

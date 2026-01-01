@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_01_125759) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_01_211558) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -957,6 +957,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_125759) do
     t.datetime "email_verification_token_expires_at"
     t.datetime "email_verified_at"
     t.json "exchange_rates", default: {}
+    t.json "external_feed_config", default: {}
+    t.boolean "external_feed_enabled", default: false, null: false
+    t.string "external_feed_provider"
     t.boolean "external_image_mode", default: false, null: false
     t.string "favicon_url"
     t.integer "flags", default: 0, null: false
@@ -1006,6 +1009,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_125759) do
     t.index ["custom_domain"], name: "index_pwb_websites_on_custom_domain", unique: true, where: "((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))"
     t.index ["dark_mode_setting"], name: "index_pwb_websites_on_dark_mode_setting"
     t.index ["email_verification_token"], name: "index_pwb_websites_on_email_verification_token", unique: true, where: "(email_verification_token IS NOT NULL)"
+    t.index ["external_feed_enabled"], name: "index_pwb_websites_on_external_feed_enabled"
+    t.index ["external_feed_provider"], name: "index_pwb_websites_on_external_feed_provider"
     t.index ["palette_mode"], name: "index_pwb_websites_on_palette_mode"
     t.index ["provisioning_state"], name: "index_pwb_websites_on_provisioning_state"
     t.index ["realty_assets_count"], name: "index_pwb_websites_on_realty_assets_count"

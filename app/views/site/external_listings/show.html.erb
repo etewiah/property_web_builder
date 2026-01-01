@@ -1,0 +1,380 @@
+<%# External Listing Property Detail Page %>
+<div class="external-listing-detail">
+  <%# Breadcrumb %>
+  <nav class="bg-gray-50 border-b" aria-label="Breadcrumb">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <ol class="flex items-center space-x-2 text-sm">
+        <li>
+          <a href="<%= root_path %>" class="text-gray-500 hover:text-gray-700">
+            <%= t("external_feed.breadcrumb.home", default: "Home") %>
+          </a>
+        </li>
+        <li class="flex items-center">
+          <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/>
+          </svg>
+          <a href="<%= external_listings_path(listing_type: @listing.listing_type) %>" class="ml-2 text-gray-500 hover:text-gray-700">
+            <%= @listing.listing_type == :rental ?
+                t("external_feed.breadcrumb.rentals", default: "Rentals") :
+                t("external_feed.breadcrumb.sales", default: "Properties for Sale") %>
+          </a>
+        </li>
+        <li class="flex items-center">
+          <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/>
+          </svg>
+          <span class="ml-2 text-gray-900 font-medium truncate max-w-xs">
+            <%= @listing.title %>
+          </span>
+        </li>
+      </ol>
+    </div>
+  </nav>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="lg:grid lg:grid-cols-3 lg:gap-8">
+      <%# Main Content %>
+      <div class="lg:col-span-2">
+        <%# Image Gallery %>
+        <div class="mb-8">
+          <% if @listing.images.any? %>
+            <div class="relative">
+              <%# Main Image %>
+              <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden bg-gray-100">
+                <img id="main-image"
+                     src="<%= @listing.main_image %>"
+                     alt="<%= @listing.title %>"
+                     class="w-full h-96 object-cover">
+              </div>
+
+              <%# Thumbnail Strip %>
+              <% if @listing.images.size > 1 %>
+                <div class="mt-4 flex gap-2 overflow-x-auto pb-2">
+                  <% @listing.images.each_with_index do |img, idx| %>
+                    <button type="button"
+                            onclick="document.getElementById('main-image').src = '<%= img[:url] %>'"
+                            class="flex-shrink-0 w-20 h-20 rounded-md overflow-hidden border-2 hover:border-blue-500 focus:outline-none focus:border-blue-500 <%= idx == 0 ? 'border-blue-500' : 'border-transparent' %>">
+                      <img src="<%= img[:thumbnail] || img[:url] %>"
+                           alt="<%= @listing.title %> - Image <%= idx + 1 %>"
+                           class="w-full h-full object-cover">
+                    </button>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center">
+              <svg class="h-24 w-24 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+            </div>
+          <% end %>
+        </div>
+
+        <%# Property Title and Location %>
+        <div class="mb-6">
+          <div class="flex items-start justify-between">
+            <div>
+              <h1 class="text-2xl font-bold text-gray-900 mb-2">
+                <%= @listing.title %>
+              </h1>
+              <p class="text-gray-600 flex items-center">
+                <svg class="h-5 w-5 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <%= [@listing.location, @listing.province, @listing.country].compact.join(", ") %>
+              </p>
+            </div>
+            <div class="text-right">
+              <p class="text-sm text-gray-500">
+                <%= t("external_feed.property.reference", default: "Ref:") %> <%= @listing.reference %>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <%# Key Features Bar %>
+        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <% if @listing.bedrooms.present? && @listing.bedrooms > 0 %>
+              <div>
+                <p class="text-2xl font-bold text-gray-900"><%= @listing.bedrooms %></p>
+                <p class="text-sm text-gray-600"><%= t("external_feed.features.bedrooms", default: "Bedrooms") %></p>
+              </div>
+            <% end %>
+            <% if @listing.bathrooms.present? && @listing.bathrooms > 0 %>
+              <div>
+                <p class="text-2xl font-bold text-gray-900"><%= @listing.bathrooms %></p>
+                <p class="text-sm text-gray-600"><%= t("external_feed.features.bathrooms", default: "Bathrooms") %></p>
+              </div>
+            <% end %>
+            <% if @listing.built_area.present? && @listing.built_area > 0 %>
+              <div>
+                <p class="text-2xl font-bold text-gray-900"><%= number_with_delimiter(@listing.built_area.to_i) %></p>
+                <p class="text-sm text-gray-600"><%= t("external_feed.features.built_area_m2", default: "m² Built") %></p>
+              </div>
+            <% end %>
+            <% if @listing.plot_area.present? && @listing.plot_area > 0 %>
+              <div>
+                <p class="text-2xl font-bold text-gray-900"><%= number_with_delimiter(@listing.plot_area.to_i) %></p>
+                <p class="text-sm text-gray-600"><%= t("external_feed.features.plot_area_m2", default: "m² Plot") %></p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <%# Description %>
+        <div class="mb-8">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">
+            <%= t("external_feed.property.description", default: "Description") %>
+          </h2>
+          <div class="prose max-w-none text-gray-700">
+            <%= simple_format(@listing.description) %>
+          </div>
+        </div>
+
+        <%# Features List %>
+        <% if @listing.features.present? && @listing.features.any? %>
+          <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">
+              <%= t("external_feed.property.features", default: "Features") %>
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <% @listing.features.each do |feature| %>
+                <div class="flex items-center text-sm text-gray-700">
+                  <svg class="h-4 w-4 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                  </svg>
+                  <%= feature %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Energy Rating %>
+        <% if @listing.energy_rating.present? || @listing.energy_consumption.present? %>
+          <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">
+              <%= t("external_feed.property.energy", default: "Energy Rating") %>
+            </h2>
+            <div class="flex gap-6">
+              <% if @listing.energy_rating.present? %>
+                <div class="text-center">
+                  <span class="inline-block px-4 py-2 text-lg font-bold rounded
+                    <%= case @listing.energy_rating.upcase
+                        when 'A' then 'bg-green-500 text-white'
+                        when 'B' then 'bg-green-400 text-white'
+                        when 'C' then 'bg-yellow-400 text-gray-900'
+                        when 'D' then 'bg-yellow-500 text-gray-900'
+                        when 'E' then 'bg-orange-400 text-white'
+                        when 'F' then 'bg-orange-500 text-white'
+                        when 'G' then 'bg-red-500 text-white'
+                        else 'bg-gray-300 text-gray-700'
+                        end %>">
+                    <%= @listing.energy_rating %>
+                  </span>
+                  <p class="text-sm text-gray-600 mt-1"><%= t("external_feed.property.energy_rating", default: "Energy Rating") %></p>
+                </div>
+              <% end %>
+              <% if @listing.energy_consumption.present? %>
+                <div>
+                  <p class="text-lg font-semibold text-gray-900"><%= @listing.energy_consumption %> kWh/m²</p>
+                  <p class="text-sm text-gray-600"><%= t("external_feed.property.energy_consumption", default: "Consumption") %></p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Map %>
+        <% if @listing.latitude.present? && @listing.longitude.present? %>
+          <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">
+              <%= t("external_feed.property.location_map", default: "Location") %>
+            </h2>
+            <div id="property-map" class="h-80 rounded-lg bg-gray-200"
+                 data-latitude="<%= @listing.latitude %>"
+                 data-longitude="<%= @listing.longitude %>">
+              <%# Map will be rendered by JavaScript if maps API is configured %>
+              <div class="h-full flex items-center justify-center text-gray-500">
+                <p><%= t("external_feed.property.map_loading", default: "Map loading...") %></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <%# Sidebar %>
+      <div class="lg:col-span-1">
+        <div class="sticky top-4 space-y-6">
+          <%# Price Card %>
+          <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="mb-4">
+              <% if @listing.listing_type == :rental %>
+                <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                  <%= t("external_feed.listing_type.rental", default: "For Rent") %>
+                </span>
+              <% else %>
+                <span class="inline-block bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                  <%= t("external_feed.listing_type.sale", default: "For Sale") %>
+                </span>
+              <% end %>
+            </div>
+
+            <p class="text-3xl font-bold text-gray-900">
+              <%= @listing.formatted_price %>
+            </p>
+            <% if @listing.listing_type == :rental && @listing.price_frequency.present? %>
+              <p class="text-gray-600">
+                / <%= t("external_feed.frequency.#{@listing.price_frequency}", default: @listing.price_frequency.to_s) %>
+              </p>
+            <% end %>
+
+            <% if @listing.price_reduced? && @listing.original_price.present? %>
+              <p class="text-sm text-gray-500 line-through mt-1">
+                <%= number_to_currency(@listing.original_price, unit: @listing.currency, precision: 0) %>
+              </p>
+              <span class="inline-block bg-red-100 text-red-800 text-xs font-semibold px-2 py-0.5 rounded mt-1">
+                <%= t("external_feed.badges.reduced", default: "Price Reduced") %>
+              </span>
+            <% end %>
+
+            <div class="mt-6 space-y-3">
+              <a href="#contact-form" class="block w-full bg-blue-600 text-white text-center py-3 px-4 rounded-md font-medium hover:bg-blue-700 transition-colors">
+                <%= t("external_feed.property.contact_agent", default: "Contact Agent") %>
+              </a>
+              <a href="tel:" class="block w-full border border-gray-300 text-gray-700 text-center py-3 px-4 rounded-md font-medium hover:bg-gray-50 transition-colors">
+                <%= t("external_feed.property.call_now", default: "Call Now") %>
+              </a>
+            </div>
+          </div>
+
+          <%# Property Details Card %>
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+              <%= t("external_feed.property.details", default: "Property Details") %>
+            </h3>
+            <dl class="space-y-3 text-sm">
+              <div class="flex justify-between">
+                <dt class="text-gray-600"><%= t("external_feed.property.type", default: "Type") %></dt>
+                <dd class="font-medium text-gray-900">
+                  <%= t("external_feed.property_types.#{@listing.property_type}", default: @listing.property_type.to_s.titleize) %>
+                </dd>
+              </div>
+              <% if @listing.bedrooms.present? %>
+                <div class="flex justify-between">
+                  <dt class="text-gray-600"><%= t("external_feed.features.bedrooms", default: "Bedrooms") %></dt>
+                  <dd class="font-medium text-gray-900"><%= @listing.bedrooms %></dd>
+                </div>
+              <% end %>
+              <% if @listing.bathrooms.present? %>
+                <div class="flex justify-between">
+                  <dt class="text-gray-600"><%= t("external_feed.features.bathrooms", default: "Bathrooms") %></dt>
+                  <dd class="font-medium text-gray-900"><%= @listing.bathrooms %></dd>
+                </div>
+              <% end %>
+              <% if @listing.built_area.present? %>
+                <div class="flex justify-between">
+                  <dt class="text-gray-600"><%= t("external_feed.features.built_area", default: "Built Area") %></dt>
+                  <dd class="font-medium text-gray-900"><%= number_with_delimiter(@listing.built_area.to_i) %> m²</dd>
+                </div>
+              <% end %>
+              <% if @listing.plot_area.present? %>
+                <div class="flex justify-between">
+                  <dt class="text-gray-600"><%= t("external_feed.features.plot_area", default: "Plot Area") %></dt>
+                  <dd class="font-medium text-gray-900"><%= number_with_delimiter(@listing.plot_area.to_i) %> m²</dd>
+                </div>
+              <% end %>
+              <% if @listing.terrace_area.present? && @listing.terrace_area > 0 %>
+                <div class="flex justify-between">
+                  <dt class="text-gray-600"><%= t("external_feed.features.terrace", default: "Terrace") %></dt>
+                  <dd class="font-medium text-gray-900"><%= number_with_delimiter(@listing.terrace_area.to_i) %> m²</dd>
+                </div>
+              <% end %>
+              <% if @listing.year_built.present? %>
+                <div class="flex justify-between">
+                  <dt class="text-gray-600"><%= t("external_feed.features.year_built", default: "Year Built") %></dt>
+                  <dd class="font-medium text-gray-900"><%= @listing.year_built %></dd>
+                </div>
+              <% end %>
+              <% if @listing.orientation.present? %>
+                <div class="flex justify-between">
+                  <dt class="text-gray-600"><%= t("external_feed.features.orientation", default: "Orientation") %></dt>
+                  <dd class="font-medium text-gray-900"><%= @listing.orientation %></dd>
+                </div>
+              <% end %>
+              <% if @listing.parking_spaces.present? && @listing.parking_spaces > 0 %>
+                <div class="flex justify-between">
+                  <dt class="text-gray-600"><%= t("external_feed.features.parking", default: "Parking") %></dt>
+                  <dd class="font-medium text-gray-900"><%= @listing.parking_spaces %></dd>
+                </div>
+              <% end %>
+            </dl>
+          </div>
+
+          <%# Share Card %>
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+              <%= t("external_feed.property.share", default: "Share Property") %>
+            </h3>
+            <div class="flex gap-3">
+              <a href="https://www.facebook.com/sharer/sharer.php?u=<%= CGI.escape(request.original_url) %>"
+                 target="_blank" rel="noopener"
+                 class="p-2 text-gray-600 hover:text-blue-600 transition-colors">
+                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+              <a href="https://twitter.com/intent/tweet?url=<%= CGI.escape(request.original_url) %>&text=<%= CGI.escape(@listing.title) %>"
+                 target="_blank" rel="noopener"
+                 class="p-2 text-gray-600 hover:text-blue-400 transition-colors">
+                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                </svg>
+              </a>
+              <a href="https://wa.me/?text=<%= CGI.escape(@listing.title + ' - ' + request.original_url) %>"
+                 target="_blank" rel="noopener"
+                 class="p-2 text-gray-600 hover:text-green-500 transition-colors">
+                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+              </a>
+              <a href="mailto:?subject=<%= CGI.escape(@listing.title) %>&body=<%= CGI.escape(request.original_url) %>"
+                 class="p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# Similar Properties %>
+    <% if @similar.present? && @similar.any? %>
+      <div class="mt-12 border-t pt-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">
+          <%= t("external_feed.property.similar", default: "Similar Properties") %>
+        </h2>
+        <%= render "similar", properties: @similar %>
+      </div>
+    <% end %>
+
+    <%# Contact Form %>
+    <div id="contact-form" class="mt-12 border-t pt-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">
+        <%= t("external_feed.property.inquire", default: "Inquire About This Property") %>
+      </h2>
+      <div class="max-w-2xl">
+        <%# Contact form would go here - integrate with existing PWB contact system %>
+        <p class="text-gray-600">
+          <%= t("external_feed.property.contact_info",
+                default: "Please contact us for more information about this property.") %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
