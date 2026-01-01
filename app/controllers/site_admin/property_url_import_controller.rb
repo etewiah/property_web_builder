@@ -19,12 +19,12 @@ module SiteAdmin
       url = params[:url].to_s.strip
 
       if url.blank?
-        redirect_to new_site_admin_property_url_import_path, alert: "Please enter a property URL."
+        redirect_to site_admin_property_url_import_path, alert: "Please enter a property URL."
         return
       end
 
       unless valid_url?(url)
-        redirect_to new_site_admin_property_url_import_path, alert: "Please enter a valid URL."
+        redirect_to site_admin_property_url_import_path, alert: "Please enter a valid URL."
         return
       end
 
@@ -67,7 +67,7 @@ module SiteAdmin
     # Show extracted data for review before import
     def preview
       unless @scraped_property.can_preview?
-        redirect_to new_site_admin_property_url_import_path,
+        redirect_to site_admin_property_url_import_path,
                     alert: "Unable to preview this property. Please try again."
         return
       end
