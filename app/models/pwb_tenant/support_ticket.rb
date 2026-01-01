@@ -3,5 +3,6 @@
 module PwbTenant
   class SupportTicket < Pwb::SupportTicket
     # Automatically scoped to current_website via acts_as_tenant
+    acts_as_tenant :website, class_name: 'Pwb::Website'
   end
 end

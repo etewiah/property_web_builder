@@ -183,6 +183,12 @@ module Pwb
       %w[lead registered email_verified onboarding].include?(onboarding_state)
     end
 
+    # Returns user's display name (full name or email)
+    def display_name
+      name = [first_names, last_names].compact_blank.join(' ')
+      name.presence || email
+    end
+
     # Helper methods for role-based access
     def admin_for?(website)
       user_memberships.active.where(website: website, role: ['owner', 'admin']).exists?
