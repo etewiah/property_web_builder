@@ -28,8 +28,16 @@ AllCops:
 Style/Documentation:
   Enabled: false
 
+# Disable string quote enforcement - too many changes for minimal benefit
 Style/StringLiterals:
-  EnforcedStyle: double_quotes
+  Enabled: false
+
+Style/StringLiteralsInInterpolation:
+  Enabled: false
+
+# Disable - breaks classes that extend framework classes (e.g., ActiveStorage::Service)
+Style/ClassAndModuleChildren:
+  Enabled: false
 
 Style/FrozenStringLiteralComment:
   Enabled: true
@@ -58,3 +66,15 @@ Rails/Output:
   Enabled: true
   Exclude:
     - 'db/seeds.rb'
+
+# Disable - falsely triggers on non-AR classes like Pwb::Theme
+Rails/FindEach:
+  Enabled: false
+
+# Disable - can incorrectly modify case statements
+Style/EmptyCaseCondition:
+  Enabled: false
+
+# Disable - can break method return values
+Style/RedundantReturn:
+  Enabled: false
