@@ -76,7 +76,7 @@ module Pwb
         city: data[:city],
         region: data[:region],
         postal_code: data[:postal_code],
-        country: data[:country] || website.default_country || "ES",
+        country: data[:country] || "ES",
         latitude: data[:latitude],
         longitude: data[:longitude],
         prop_type_key: data[:prop_type_key] || "apartment",
