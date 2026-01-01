@@ -90,14 +90,19 @@ module Pwb
     RESPONSIVE_SIZES = [320, 640, 768, 1024, 1280].freeze
 
     # Generate a <picture> element with WebP source for external URLs
-    # Assumes WebP version exists at same path with .webp extension
+    # Only uses WebP optimization for known seed image URLs where WebP versions exist
+    # For third-party URLs (e.g., rightmove, zoopla), just renders the original image
     # @param url [String] The JPEG image URL
     # @param html_options [Hash] HTML options for the img tag
     #   - :sizes [String] Responsive sizes attribute (e.g., "(max-width: 768px) 100vw, 50vw")
     #   - :responsive [Boolean] Enable responsive srcset generation (requires pre-generated sizes)
     # @return [String] Picture element HTML
     def external_image_picture(url, html_options = {})
-      return image_tag(url, html_options) unless url.to_s.match?(/\.jpe?g$/i)
+      # Only use picture element optimization for our own seed images
+      # Third-party URLs won't have WebP versions available
+      unless url.to_s.match?(/\.jpe?g$/i) && trusted_webp_source?(url)
+        return image_tag(url, html_options)
+      end
 
       sizes = html_options.delete(:sizes)
       responsive = html_options.delete(:responsive)
@@ -125,6 +130,25 @@ module Pwb
         fallback_img = image_tag(url, html_options)
         safe_join(sources + [fallback_img])
       end
+    end
+
+    # Check if the URL is from a trusted source where WebP versions are available
+    # Currently only our seed images bucket has pre-generated WebP versions
+    # @param url [String] The image URL to check
+    # @return [Boolean] true if WebP version should exist
+    def trusted_webp_source?(url)
+      return false if url.blank?
+
+      # Only our seed images bucket has WebP versions
+      # Add other trusted domains here as needed
+      trusted_domains = [
+        'pwb-seed-images.s3',
+        'cloudflare-ipfs.com', # IPFS gateway for seed images
+        'localhost',           # Local development
+        '127.0.0.1'            # Local development
+      ]
+
+      trusted_domains.any? { |domain| url.to_s.include?(domain) }
     end
 
     # Generate srcset for external image URL
