@@ -296,9 +296,19 @@ module Pwb
           :sort,
           :page,
           :per_page,
+          :reference,
           property_types: [],
           features: []
         ).to_h.symbolize_keys
+
+        # Remove blank values (empty strings from form submission)
+        permitted.reject! { |_, v| v.blank? }
+
+        # Filter out empty arrays
+        permitted[:property_types] = permitted[:property_types]&.reject(&:blank?)
+        permitted.delete(:property_types) if permitted[:property_types]&.empty?
+        permitted[:features] = permitted[:features]&.reject(&:blank?)
+        permitted.delete(:features) if permitted[:features]&.empty?
 
         # Set defaults
         permitted[:locale] = I18n.locale

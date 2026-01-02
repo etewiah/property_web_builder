@@ -3,12 +3,13 @@
 require "rails_helper"
 
 RSpec.describe Pwb::ExternalFeed::NormalizedProperty do
+  # Note: Prices are stored in cents (e.g., 50_000_000 cents = EUR 500,000)
   describe "#initialize" do
     it "accepts all standard attributes" do
       property = described_class.new(
         reference: "REF123",
         title: "Beautiful Villa",
-        price: 500_000,
+        price: 50_000_000, # EUR 500,000 in cents
         currency: "EUR",
         bedrooms: 4,
         bathrooms: 3,
@@ -18,7 +19,7 @@ RSpec.describe Pwb::ExternalFeed::NormalizedProperty do
 
       expect(property.reference).to eq("REF123")
       expect(property.title).to eq("Beautiful Villa")
-      expect(property.price).to eq(500_000)
+      expect(property.price).to eq(50_000_000)
       expect(property.currency).to eq("EUR")
       expect(property.bedrooms).to eq(4)
       expect(property.bathrooms).to eq(3)
@@ -49,8 +50,9 @@ RSpec.describe Pwb::ExternalFeed::NormalizedProperty do
 
   describe "#formatted_price" do
     it "formats price with currency symbol" do
-      property = described_class.new(reference: "REF123", price: 500_000, currency: "EUR")
-      expect(property.formatted_price).to include("500")
+      # 50_000_000 cents = EUR 500,000
+      property = described_class.new(reference: "REF123", price: 50_000_000, currency: "EUR")
+      expect(property.formatted_price).to eq("EUR 500,000")
     end
 
     it "returns nil when price is nil" do
@@ -108,22 +110,22 @@ RSpec.describe Pwb::ExternalFeed::NormalizedProperty do
     it "returns true when original_price is higher than price" do
       property = described_class.new(
         reference: "REF123",
-        price: 400_000,
-        original_price: 500_000
+        price: 40_000_000, # EUR 400,000 in cents
+        original_price: 50_000_000 # EUR 500,000 in cents
       )
       expect(property.price_reduced?).to be true
     end
 
     it "returns false when no original_price" do
-      property = described_class.new(reference: "REF123", price: 400_000)
+      property = described_class.new(reference: "REF123", price: 40_000_000)
       expect(property.price_reduced?).to be false
     end
 
     it "returns false when original_price equals price" do
       property = described_class.new(
         reference: "REF123",
-        price: 400_000,
-        original_price: 400_000
+        price: 40_000_000,
+        original_price: 40_000_000
       )
       expect(property.price_reduced?).to be false
     end
@@ -157,38 +159,42 @@ RSpec.describe Pwb::ExternalFeed::NormalizedProperty do
       property = described_class.new(
         reference: "REF123",
         title: "Test Property",
-        price: 300_000
+        price: 30_000_000 # EUR 300,000 in cents
       )
       hash = property.to_h
 
       expect(hash).to be_a(Hash)
       expect(hash[:reference]).to eq("REF123")
       expect(hash[:title]).to eq("Test Property")
-      expect(hash[:price]).to eq(300_000)
+      expect(hash[:price]).to eq(30_000_000)
     end
   end
 
   describe "#price_in_units" do
     it "returns price per square meter for built area" do
+      # 30_000_000 cents = EUR 300,000, area = 150 m2
+      # Price per m2 = 300,000 / 150 = 2000 EUR/m2
       property = described_class.new(
         reference: "REF123",
-        price: 300_000,
+        price: 30_000_000, # EUR 300,000 in cents
         built_area: 150
       )
       expect(property.price_in_units(:built)).to eq(2000)
     end
 
     it "returns price per square meter for plot area" do
+      # 30_000_000 cents = EUR 300,000, area = 500 m2
+      # Price per m2 = 300,000 / 500 = 600 EUR/m2
       property = described_class.new(
         reference: "REF123",
-        price: 300_000,
+        price: 30_000_000, # EUR 300,000 in cents
         plot_area: 500
       )
       expect(property.price_in_units(:plot)).to eq(600)
     end
 
     it "returns nil when area is zero" do
-      property = described_class.new(reference: "REF123", price: 300_000, built_area: 0)
+      property = described_class.new(reference: "REF123", price: 30_000_000, built_area: 0)
       expect(property.price_in_units(:built)).to be_nil
     end
 

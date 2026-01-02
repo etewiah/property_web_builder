@@ -125,14 +125,17 @@ module Pwb
       def price_in_units(area_type = nil)
         return nil unless price
 
+        # Convert from cents to major units
+        price_major = price / 100.0
+
         if area_type == :built
           return nil if built_area.nil? || built_area.zero?
-          price / built_area.to_f
+          price_major / built_area.to_f
         elsif area_type == :plot
           return nil if plot_area.nil? || plot_area.zero?
-          price / plot_area.to_f
+          price_major / plot_area.to_f
         else
-          price.to_f
+          price_major
         end
       end
 
@@ -142,7 +145,9 @@ module Pwb
         return nil unless price
 
         curr = currency || "EUR"
-        formatted = ActiveSupport::NumberHelper.number_to_delimited(price.round(0))
+        # Price is stored in cents, convert to major units for display
+        price_in_major_units = (price / 100.0).round(0)
+        formatted = ActiveSupport::NumberHelper.number_to_delimited(price_in_major_units)
         "#{curr} #{formatted}"
       end
 
