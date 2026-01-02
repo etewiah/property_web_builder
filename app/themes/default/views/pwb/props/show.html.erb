@@ -10,7 +10,17 @@
         <div class="property-detail-main">
           <%# Fragment cache for image carousel - invalidates when photos change %>
           <% cache property_detail_cache_key(@property_details, "carousel") do %>
-            <div class="mb-6">
+            <div class="mb-6 relative">
+              <%# Favorite Button %>
+              <button type="button"
+                      onclick="togglePropertyFavorite(event, '<%= @property_details.reference %>', '<%= j(@property_details.title) %>')"
+                      class="favorite-btn absolute top-4 right-4 z-10 p-3 bg-white/90 hover:bg-white rounded-full shadow-lg transition-colors"
+                      data-reference="<%= @property_details.reference %>"
+                      title="<%= t('favorites.save_to_favorites', default: 'Save to favorites') %>">
+                <svg class="h-6 w-6 text-gray-400 hover:text-red-500 favorite-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </button>
               <%= render '/pwb/props/images_section_carousel' %>
             </div>
           <% end %>
@@ -60,3 +70,107 @@
     </div>
   </section>
 <% end %>
+
+<%# Favorite Modal %>
+<div id="property-favorite-modal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onclick="closePropertyFavoriteModal()"></div>
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+
+    <div class="relative inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full sm:p-6">
+      <div class="absolute top-0 right-0 pt-4 pr-4">
+        <button type="button" onclick="closePropertyFavoriteModal()" class="text-gray-400 hover:text-gray-500">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="sm:flex sm:items-start">
+        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+          <svg class="h-6 w-6 text-red-600" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        </div>
+        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left flex-1">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            <%= t('favorites.save_to_favorites', default: 'Save to Favorites') %>
+          </h3>
+          <p class="mt-2 text-sm text-gray-500" id="property-favorite-name">
+            <%= t('favorites.enter_email', default: 'Enter your email to save this property.') %>
+          </p>
+        </div>
+      </div>
+
+      <%= form_with url: my_favorites_path, method: :post, local: true, id: "property-favorite-form", class: "mt-5" do |f| %>
+        <input type="hidden" name="saved_property[external_reference]" id="property-favorite-reference" value="<%= @property_details.reference %>">
+        <input type="hidden" name="saved_property[provider]" value="internal">
+        <input type="hidden" name="saved_property[property_data]" id="property-favorite-data" value="<%= {
+          title: @property_details.title,
+          price: @property_details.send(@operation_type == 'for_rent' ? :price_rental_monthly_current : :price_sale_current),
+          currency: @current_website.default_currency,
+          bedrooms: @property_details.count_bedrooms,
+          bathrooms: @property_details.count_bathrooms,
+          city: @property_details.city,
+          listing_type: @operation_type == 'for_rent' ? 'rental' : 'sale',
+          images: @property_details.photo_urls.first(5)
+        }.to_json %>">
+
+        <div class="space-y-4">
+          <div>
+            <label for="property_favorite_email" class="block text-sm font-medium text-gray-700">
+              <%= t('favorites.email_address', default: 'Email Address') %>
+            </label>
+            <input type="email" name="saved_property[email]" id="property_favorite_email" required
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                   placeholder="your@email.com">
+          </div>
+
+          <div>
+            <label for="property_favorite_notes" class="block text-sm font-medium text-gray-700">
+              <%= t('favorites.notes_optional', default: 'Notes (optional)') %>
+            </label>
+            <textarea name="saved_property[notes]" id="property_favorite_notes" rows="2"
+                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      placeholder="<%= t('favorites.notes_placeholder', default: 'e.g., Great location, schedule viewing...') %>"></textarea>
+          </div>
+        </div>
+
+        <div class="mt-5 sm:mt-6 sm:flex sm:flex-row-reverse gap-3">
+          <button type="submit"
+                  class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto sm:text-sm">
+            <%= t('favorites.save_button', default: 'Save to Favorites') %>
+          </button>
+          <button type="button" onclick="closePropertyFavoriteModal()"
+                  class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm">
+            <%= t('common.cancel', default: 'Cancel') %>
+          </button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+  function togglePropertyFavorite(event, reference, title) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    document.getElementById('property-favorite-reference').value = reference;
+    document.getElementById('property-favorite-name').textContent = title;
+    document.getElementById('property-favorite-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePropertyFavoriteModal() {
+    document.getElementById('property-favorite-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  // Close modal on escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closePropertyFavoriteModal();
+    }
+  });
+</script>
