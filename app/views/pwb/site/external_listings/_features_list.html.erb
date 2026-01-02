@@ -1,0 +1,46 @@
+<%# Features list for external listings %>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+  <% @listing.features.each do |feature| %>
+    <div class="flex items-center text-sm text-gray-700">
+      <svg class="h-4 w-4 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+      </svg>
+      <%= feature %>
+    </div>
+  <% end %>
+</div>
+
+<%# Energy Rating %>
+<% if @listing.energy_rating.present? || @listing.energy_consumption.present? %>
+  <div class="mt-6 pt-6 border-t border-gray-200">
+    <h4 class="text-lg font-semibold text-gray-900 mb-4">
+      <%= t("external_feed.property.energy", default: "Energy Rating") %>
+    </h4>
+    <div class="flex gap-6">
+      <% if @listing.energy_rating.present? %>
+        <div class="text-center">
+          <span class="inline-block px-4 py-2 text-lg font-bold rounded
+            <%= case @listing.energy_rating.upcase
+                when 'A' then 'bg-green-500 text-white'
+                when 'B' then 'bg-green-400 text-white'
+                when 'C' then 'bg-yellow-400 text-gray-900'
+                when 'D' then 'bg-yellow-500 text-gray-900'
+                when 'E' then 'bg-orange-400 text-white'
+                when 'F' then 'bg-orange-500 text-white'
+                when 'G' then 'bg-red-500 text-white'
+                else 'bg-gray-300 text-gray-700'
+                end %>">
+            <%= @listing.energy_rating %>
+          </span>
+          <p class="text-sm text-gray-600 mt-1"><%= t("external_feed.property.energy_rating", default: "Energy Rating") %></p>
+        </div>
+      <% end %>
+      <% if @listing.energy_consumption.present? %>
+        <div>
+          <p class="text-lg font-semibold text-gray-900"><%= @listing.energy_consumption %> kWh/m2</p>
+          <p class="text-sm text-gray-600"><%= t("external_feed.property.energy_consumption", default: "Consumption") %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

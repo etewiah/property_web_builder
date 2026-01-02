@@ -1,0 +1,62 @@
+<%# Property details card for external listings sidebar %>
+<div class="bg-white rounded-lg shadow p-6">
+  <h3 class="text-lg font-semibold text-gray-900 mb-4">
+    <%= t("external_feed.property.details", default: "Property Details") %>
+  </h3>
+  <dl class="space-y-3 text-sm">
+    <div class="flex justify-between">
+      <dt class="text-gray-600"><%= t("external_feed.property.type", default: "Type") %></dt>
+      <dd class="font-medium text-gray-900">
+        <%= t("external_feed.property_types.#{@listing.property_type}", default: @listing.property_type.to_s.titleize) %>
+      </dd>
+    </div>
+    <% if @listing.bedrooms.present? %>
+      <div class="flex justify-between">
+        <dt class="text-gray-600"><%= t("external_feed.features.bedrooms", default: "Bedrooms") %></dt>
+        <dd class="font-medium text-gray-900"><%= @listing.bedrooms %></dd>
+      </div>
+    <% end %>
+    <% if @listing.bathrooms.present? %>
+      <div class="flex justify-between">
+        <dt class="text-gray-600"><%= t("external_feed.features.bathrooms", default: "Bathrooms") %></dt>
+        <dd class="font-medium text-gray-900"><%= @listing.bathrooms %></dd>
+      </div>
+    <% end %>
+    <% if @listing.built_area.present? %>
+      <div class="flex justify-between">
+        <dt class="text-gray-600"><%= t("external_feed.features.built_area", default: "Built Area") %></dt>
+        <dd class="font-medium text-gray-900"><%= number_with_delimiter(@listing.built_area.to_i) %> m2</dd>
+      </div>
+    <% end %>
+    <% if @listing.plot_area.present? %>
+      <div class="flex justify-between">
+        <dt class="text-gray-600"><%= t("external_feed.features.plot_area", default: "Plot Area") %></dt>
+        <dd class="font-medium text-gray-900"><%= number_with_delimiter(@listing.plot_area.to_i) %> m2</dd>
+      </div>
+    <% end %>
+    <% if @listing.terrace_area.present? && @listing.terrace_area > 0 %>
+      <div class="flex justify-between">
+        <dt class="text-gray-600"><%= t("external_feed.features.terrace", default: "Terrace") %></dt>
+        <dd class="font-medium text-gray-900"><%= number_with_delimiter(@listing.terrace_area.to_i) %> m2</dd>
+      </div>
+    <% end %>
+    <% if @listing.year_built.present? %>
+      <div class="flex justify-between">
+        <dt class="text-gray-600"><%= t("external_feed.features.year_built", default: "Year Built") %></dt>
+        <dd class="font-medium text-gray-900"><%= @listing.year_built %></dd>
+      </div>
+    <% end %>
+    <% if @listing.orientation.present? %>
+      <div class="flex justify-between">
+        <dt class="text-gray-600"><%= t("external_feed.features.orientation", default: "Orientation") %></dt>
+        <dd class="font-medium text-gray-900"><%= @listing.orientation %></dd>
+      </div>
+    <% end %>
+    <% if @listing.parking_spaces.present? && @listing.parking_spaces > 0 %>
+      <div class="flex justify-between">
+        <dt class="text-gray-600"><%= t("external_feed.features.parking", default: "Parking") %></dt>
+        <dd class="font-medium text-gray-900"><%= @listing.parking_spaces %></dd>
+      </div>
+    <% end %>
+  </dl>
+</div>

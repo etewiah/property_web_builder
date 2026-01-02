@@ -1,0 +1,129 @@
+<%# Brisbane Theme - External Listing Property Detail Page %>
+<%# Uses brisbane's property-detail-* CSS classes for consistent styling %>
+<% page_title @page_title %>
+<%= render 'pwb/site/external_listings/meta_tags' %>
+<%= render 'pwb/shared/leaflet_assets' %>
+
+<%# Breadcrumb %>
+<nav class="bg-gray-50 border-b border-gray-200" aria-label="Breadcrumb">
+  <div class="property-detail-container py-3">
+    <ol class="flex items-center space-x-2 text-sm">
+      <li>
+        <a href="<%= root_path %>" class="text-gray-500 hover:text-gray-700">
+          <%= t("external_feed.breadcrumb.home", default: "Home") %>
+        </a>
+      </li>
+      <li class="flex items-center">
+        <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/>
+        </svg>
+        <a href="<%= external_listings_path(listing_type: @listing.listing_type) %>" class="ml-2 text-gray-500 hover:text-gray-700">
+          <%= @listing.listing_type == :rental ?
+              t("external_feed.breadcrumb.rentals", default: "Rentals") :
+              t("external_feed.breadcrumb.sales", default: "Properties for Sale") %>
+        </a>
+      </li>
+      <li class="flex items-center">
+        <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/>
+        </svg>
+        <span class="ml-2 text-gray-900 font-medium truncate max-w-xs">
+          <%= @listing.title %>
+        </span>
+      </li>
+    </ol>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<section class="property-detail-page bg-white border-b border-gray-200">
+  <div class="py-8">
+    <div class="property-detail-container">
+      <div class="property-detail-layout">
+        <div class="property-detail-main">
+          <%# Fragment cache for image gallery %>
+          <% cache external_listing_cache_key(@listing, "gallery") do %>
+            <div class="mb-6">
+              <%= render 'pwb/site/external_listings/images_carousel' %>
+            </div>
+          <% end %>
+
+          <%# Fragment cache for property info %>
+          <% cache external_listing_cache_key(@listing, "info") do %>
+            <div class="mb-6">
+              <%= render 'pwb/site/external_listings/info_list' %>
+            </div>
+
+            <!-- PROPERTY DESCRIPTION -->
+            <div class="mb-6">
+              <h3 class="text-xl font-bold mb-4"><%= t("external_feed.property.description", default: "Description") %></h3>
+              <div class="prose max-w-none text-gray-700">
+                <%= simple_format(@listing.description) %>
+              </div>
+            </div>
+
+            <%# Features List %>
+            <% if @listing.features.present? && @listing.features.any? %>
+              <div class="mb-6">
+                <h3 class="text-xl font-bold mb-4"><%= t("external_feed.property.features", default: "Features") %></h3>
+                <%= render 'pwb/site/external_listings/features_list' %>
+              </div>
+            <% end %>
+          <% end %>
+
+          <!-- Social Sharing -->
+          <%= render 'pwb/shared/social_sharing', url: request.original_url, title: @listing.title %>
+        </div>
+
+        <div class="property-detail-sidebar">
+          <div class="space-y-6 lg:sticky lg:top-24">
+            <%= render 'pwb/site/external_listings/price_card' %>
+            <%= render 'pwb/site/external_listings/details_card' %>
+            <% if @current_agency.present? %>
+              <%= render 'pwb/site/external_listings/agency_card' %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%# Map Section %>
+<% if @listing.latitude.present? && @listing.longitude.present? %>
+  <section class="property-detail-map border-t border-gray-200">
+    <div class="property-detail-map-inner py-8">
+      <h3 class="text-xl font-bold mb-4"><%= t("external_feed.property.location_map", default: "Location") %></h3>
+      <div class="rounded-lg overflow-hidden shadow-sm" style="height: 400px;">
+        <% map_markers = [{ lat: @listing.latitude, lng: @listing.longitude, title: @listing.title }] %>
+        <div id="property-map"
+             class="w-full h-full"
+             data-controller="map"
+             data-map-target="canvas"
+             data-map-markers-value="<%= map_markers.to_json %>"
+             data-map-zoom-value="15">
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<%# Similar Properties %>
+<% if @similar.present? && @similar.any? %>
+  <section class="property-detail-container py-12 border-t border-gray-200">
+    <h2 class="text-2xl font-bold text-gray-900 mb-6">
+      <%= t("external_feed.property.similar", default: "Similar Properties") %>
+    </h2>
+    <%= render "pwb/site/external_listings/similar", properties: @similar %>
+  </section>
+<% end %>
+
+<%# Contact Form Section %>
+<section class="property-detail-container py-12 border-t border-gray-200" id="contact-form">
+  <h2 class="text-2xl font-bold text-gray-900 mb-6">
+    <%= t("external_feed.property.inquire", default: "Inquire About This Property") %>
+  </h2>
+  <div class="max-w-2xl">
+    <%= render 'pwb/site/external_listings/contact_form' %>
+  </div>
+</section>

@@ -1,0 +1,298 @@
+<%# Bologna Theme - External Listing Property Detail Page %>
+<%# Modern, clean layout with generous whitespace and soft curves %>
+<% page_title @page_title %>
+<%= render 'pwb/site/external_listings/meta_tags' %>
+<%= render 'pwb/shared/leaflet_assets' %>
+
+<!-- Hero Section with Image Gallery -->
+<section class="property-detail-page bg-warm-gray-50">
+  <div class="property-detail-container py-8">
+    <!-- Breadcrumb -->
+    <nav class="mb-6">
+      <ol class="flex items-center space-x-2 text-sm">
+        <li>
+          <a href="<%= root_path %>" class="text-warm-gray-500 hover:text-terra-600 transition-colors flex items-center">
+            <%= icon(:home, size: :xs, class: "mr-1") rescue nil %>
+            <%= t('external_feed.breadcrumb.home', default: 'Home') %>
+          </a>
+        </li>
+        <li class="text-warm-gray-400">
+          <%= icon(:chevron_right, size: :xs) rescue '>' %>
+        </li>
+        <li>
+          <a href="<%= external_listings_path(listing_type: @listing.listing_type) %>"
+             class="text-warm-gray-500 hover:text-terra-600 transition-colors">
+            <%= @listing.listing_type == :rental ?
+                t('external_feed.breadcrumb.rentals', default: 'Rentals') :
+                t('external_feed.breadcrumb.sales', default: 'Properties for Sale') %>
+          </a>
+        </li>
+        <li class="text-warm-gray-400">
+          <%= icon(:chevron_right, size: :xs) rescue '>' %>
+        </li>
+        <li class="text-warm-gray-900 font-medium truncate max-w-[200px]">
+          <%= @listing.title %>
+        </li>
+      </ol>
+    </nav>
+
+    <%# Fragment cache for image carousel %>
+    <% cache external_listing_cache_key(@listing, "gallery") do %>
+      <!-- Property Images -->
+      <div class="mb-8">
+        <%= render 'pwb/site/external_listings/images_carousel' %>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<!-- Main Content -->
+<section class="bg-white">
+  <div class="property-detail-container py-12">
+    <div class="property-detail-layout">
+      <!-- Left Column - Property Details -->
+      <div class="property-detail-main">
+        <%# Fragment cache for property info %>
+        <% cache external_listing_cache_key(@listing, "info") do %>
+          <!-- Title & Price Card -->
+          <div class="bg-gradient-to-r from-warm-gray-50 to-white rounded-softer p-8 mb-8 shadow-soft">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between">
+              <div class="mb-4 md:mb-0">
+                <h1 class="font-display text-2xl md:text-3xl font-bold text-warm-gray-900 mb-3">
+                  <%= @listing.title %>
+                </h1>
+                <% location = [@listing.location, @listing.province].compact.join(", ") %>
+                <% if location.present? %>
+                  <p class="flex items-center text-warm-gray-500">
+                    <%= icon(:location_on, size: :sm, class: "text-terra-400 mr-2") rescue nil %>
+                    <%= location %>
+                  </p>
+                <% end %>
+              </div>
+              <div class="text-left md:text-right">
+                <span class="inline-block px-4 py-1.5 bg-<%= @listing.listing_type == :rental ? 'olive' : 'terra' %>-100 text-<%= @listing.listing_type == :rental ? 'olive' : 'terra' %>-600 text-sm font-medium rounded-pill mb-2">
+                  <%= @listing.listing_type == :rental ?
+                      t('external_feed.listing_type.rental', default: 'For Rent') :
+                      t('external_feed.listing_type.sale', default: 'For Sale') %>
+                </span>
+                <p class="font-display text-3xl font-bold text-terra-600">
+                  <%= @listing.formatted_price %>
+                </p>
+                <% if @listing.listing_type == :rental && @listing.price_frequency.present? %>
+                  <p class="text-warm-gray-500 text-sm">
+                    / <%= t("external_feed.frequency.#{@listing.price_frequency}", default: @listing.price_frequency.to_s) %>
+                  </p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <!-- Key Features -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <% if @listing.bedrooms.present? && @listing.bedrooms > 0 %>
+              <div class="bg-warm-gray-50 rounded-softer p-4 text-center">
+                <%= icon(:bed, size: :md, class: "text-terra-400 mx-auto mb-2") rescue nil %>
+                <p class="text-2xl font-bold text-warm-gray-900"><%= @listing.bedrooms %></p>
+                <p class="text-sm text-warm-gray-500"><%= t("external_feed.features.bedrooms", default: "Bedrooms") %></p>
+              </div>
+            <% end %>
+            <% if @listing.bathrooms.present? && @listing.bathrooms > 0 %>
+              <div class="bg-warm-gray-50 rounded-softer p-4 text-center">
+                <%= icon(:bathtub, size: :md, class: "text-terra-400 mx-auto mb-2") rescue nil %>
+                <p class="text-2xl font-bold text-warm-gray-900"><%= @listing.bathrooms %></p>
+                <p class="text-sm text-warm-gray-500"><%= t("external_feed.features.bathrooms", default: "Bathrooms") %></p>
+              </div>
+            <% end %>
+            <% if @listing.built_area.present? && @listing.built_area > 0 %>
+              <div class="bg-warm-gray-50 rounded-softer p-4 text-center">
+                <%= icon(:square_foot, size: :md, class: "text-terra-400 mx-auto mb-2") rescue nil %>
+                <p class="text-2xl font-bold text-warm-gray-900"><%= number_with_delimiter(@listing.built_area.to_i) %></p>
+                <p class="text-sm text-warm-gray-500"><%= t("external_feed.features.built_area_m2", default: "m2 Built") %></p>
+              </div>
+            <% end %>
+            <% if @listing.plot_area.present? && @listing.plot_area > 0 %>
+              <div class="bg-warm-gray-50 rounded-softer p-4 text-center">
+                <%= icon(:landscape, size: :md, class: "text-terra-400 mx-auto mb-2") rescue nil %>
+                <p class="text-2xl font-bold text-warm-gray-900"><%= number_with_delimiter(@listing.plot_area.to_i) %></p>
+                <p class="text-sm text-warm-gray-500"><%= t("external_feed.features.plot_area_m2", default: "m2 Plot") %></p>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Description -->
+          <div class="mb-8">
+            <h2 class="font-display text-xl font-bold text-warm-gray-900 mb-4">
+              <%= t("external_feed.property.description", default: "Description") %>
+            </h2>
+            <div class="prose prose-warm max-w-none text-warm-gray-600">
+              <%= simple_format(@listing.description) %>
+            </div>
+          </div>
+
+          <%# Features List %>
+          <% if @listing.features.present? && @listing.features.any? %>
+            <div class="mb-8">
+              <h2 class="font-display text-xl font-bold text-warm-gray-900 mb-4">
+                <%= t("external_feed.property.features", default: "Features & Amenities") %>
+              </h2>
+              <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <% @listing.features.each do |feature| %>
+                  <div class="flex items-center text-sm text-warm-gray-600 bg-warm-gray-50 rounded-soft px-3 py-2">
+                    <svg class="h-4 w-4 text-olive-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                    <%= feature %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+
+        <!-- Social Sharing -->
+        <%= render 'pwb/shared/social_sharing', url: request.original_url, title: @listing.title, style: :bologna %>
+      </div>
+
+      <!-- Right Column - Sidebar -->
+      <div class="property-detail-sidebar">
+        <div class="space-y-6 lg:sticky lg:top-24">
+          <!-- Contact Card -->
+          <div class="bg-white rounded-softer shadow-soft p-6 border border-warm-gray-100">
+            <h3 class="font-display text-lg font-bold text-warm-gray-900 mb-4">
+              <%= t("external_feed.property.interested", default: "Interested?") %>
+            </h3>
+            <p class="text-warm-gray-500 text-sm mb-4">
+              <%= t("external_feed.property.contact_prompt", default: "Contact us for more information about this property.") %>
+            </p>
+            <div class="space-y-3">
+              <a href="#contact-form" class="block w-full bg-terra-500 text-white text-center py-3 px-4 rounded-soft font-medium hover:bg-terra-600 transition-all duration-300 shadow-sm hover:shadow">
+                <%= t("external_feed.property.contact_agent", default: "Contact Agent") %>
+              </a>
+              <% if @current_agency&.phone_number_primary.present? %>
+                <a href="tel:<%= @current_agency.phone_number_primary %>" class="block w-full border border-terra-200 text-terra-600 text-center py-3 px-4 rounded-soft font-medium hover:bg-terra-50 transition-all duration-300">
+                  <%= icon(:phone, size: :sm, class: "mr-2") rescue nil %>
+                  <%= t("external_feed.property.call_now", default: "Call Now") %>
+                </a>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Property Details Card -->
+          <div class="bg-white rounded-softer shadow-soft p-6 border border-warm-gray-100">
+            <h3 class="font-display text-lg font-bold text-warm-gray-900 mb-4">
+              <%= t("external_feed.property.details", default: "Property Details") %>
+            </h3>
+            <dl class="space-y-3 text-sm">
+              <div class="flex justify-between py-2 border-b border-warm-gray-100">
+                <dt class="text-warm-gray-500"><%= t("external_feed.property.reference", default: "Reference") %></dt>
+                <dd class="font-medium text-warm-gray-900"><%= @listing.reference %></dd>
+              </div>
+              <div class="flex justify-between py-2 border-b border-warm-gray-100">
+                <dt class="text-warm-gray-500"><%= t("external_feed.property.type", default: "Type") %></dt>
+                <dd class="font-medium text-warm-gray-900">
+                  <%= t("external_feed.property_types.#{@listing.property_type}", default: @listing.property_type.to_s.titleize) %>
+                </dd>
+              </div>
+              <% if @listing.year_built.present? %>
+                <div class="flex justify-between py-2 border-b border-warm-gray-100">
+                  <dt class="text-warm-gray-500"><%= t("external_feed.features.year_built", default: "Year Built") %></dt>
+                  <dd class="font-medium text-warm-gray-900"><%= @listing.year_built %></dd>
+                </div>
+              <% end %>
+              <% if @listing.orientation.present? %>
+                <div class="flex justify-between py-2 border-b border-warm-gray-100">
+                  <dt class="text-warm-gray-500"><%= t("external_feed.features.orientation", default: "Orientation") %></dt>
+                  <dd class="font-medium text-warm-gray-900"><%= @listing.orientation %></dd>
+                </div>
+              <% end %>
+              <% if @listing.parking_spaces.present? && @listing.parking_spaces > 0 %>
+                <div class="flex justify-between py-2">
+                  <dt class="text-warm-gray-500"><%= t("external_feed.features.parking", default: "Parking") %></dt>
+                  <dd class="font-medium text-warm-gray-900"><%= @listing.parking_spaces %> spaces</dd>
+                </div>
+              <% end %>
+            </dl>
+          </div>
+
+          <%# Agency Contact Info %>
+          <% if @current_agency.present? %>
+            <div class="bg-warm-gray-50 rounded-softer p-6">
+              <h3 class="font-display text-lg font-bold text-warm-gray-900 mb-4">
+                <%= t("external_feed.property.contact_info", default: "Contact") %>
+              </h3>
+              <p class="font-semibold text-warm-gray-800 mb-2">
+                <%= @current_agency.display_name.presence || @current_agency.company_name %>
+              </p>
+              <div class="space-y-2 text-sm text-warm-gray-600">
+                <% if @current_agency.phone_number_primary.present? %>
+                  <p class="flex items-center">
+                    <%= icon(:phone, size: :sm, class: "text-terra-400 mr-2") rescue nil %>
+                    <a href="tel:<%= @current_agency.phone_number_primary %>" class="hover:text-terra-600">
+                      <%= @current_agency.phone_number_primary %>
+                    </a>
+                  </p>
+                <% end %>
+                <% if @current_agency.email_primary.present? %>
+                  <p class="flex items-center">
+                    <%= icon(:email, size: :sm, class: "text-terra-400 mr-2") rescue nil %>
+                    <a href="mailto:<%= @current_agency.email_primary %>" class="hover:text-terra-600">
+                      <%= @current_agency.email_primary %>
+                    </a>
+                  </p>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%# Map Section %>
+<% if @listing.latitude.present? && @listing.longitude.present? %>
+  <section class="bg-warm-gray-50 border-t border-warm-gray-200">
+    <div class="property-detail-container py-12">
+      <h2 class="font-display text-xl font-bold text-warm-gray-900 mb-6">
+        <%= t("external_feed.property.location_map", default: "Location") %>
+      </h2>
+      <div class="rounded-softer overflow-hidden shadow-soft" style="height: 400px;">
+        <% map_markers = [{ lat: @listing.latitude, lng: @listing.longitude, title: @listing.title }] %>
+        <div id="property-map"
+             class="w-full h-full"
+             data-controller="map"
+             data-map-target="canvas"
+             data-map-markers-value="<%= map_markers.to_json %>"
+             data-map-zoom-value="15">
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<%# Similar Properties %>
+<% if @similar.present? && @similar.any? %>
+  <section class="bg-white border-t border-warm-gray-200">
+    <div class="property-detail-container py-12">
+      <h2 class="font-display text-2xl font-bold text-warm-gray-900 mb-8">
+        <%= t("external_feed.property.similar", default: "Similar Properties") %>
+      </h2>
+      <%= render "pwb/site/external_listings/similar", properties: @similar %>
+    </div>
+  </section>
+<% end %>
+
+<%# Contact Form Section %>
+<section class="bg-warm-gray-50 border-t border-warm-gray-200" id="contact-form">
+  <div class="property-detail-container py-12">
+    <div class="max-w-2xl">
+      <h2 class="font-display text-2xl font-bold text-warm-gray-900 mb-2">
+        <%= t("external_feed.property.inquire", default: "Inquire About This Property") %>
+      </h2>
+      <p class="text-warm-gray-500 mb-8">
+        <%= t("external_feed.contact.prompt", default: "Fill out the form below and we'll get back to you shortly.") %>
+      </p>
+      <%= render 'pwb/site/external_listings/contact_form' %>
+    </div>
+  </div>
+</section>

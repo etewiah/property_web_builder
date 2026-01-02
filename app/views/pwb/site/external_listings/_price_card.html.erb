@@ -1,0 +1,43 @@
+<%# Price card for external listings sidebar %>
+<div class="bg-white rounded-lg shadow-lg p-6">
+  <div class="mb-4">
+    <% if @listing.listing_type == :rental %>
+      <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+        <%= t("external_feed.listing_type.rental", default: "For Rent") %>
+      </span>
+    <% else %>
+      <span class="inline-block bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+        <%= t("external_feed.listing_type.sale", default: "For Sale") %>
+      </span>
+    <% end %>
+  </div>
+
+  <p class="text-3xl font-bold text-gray-900">
+    <%= @listing.formatted_price %>
+  </p>
+  <% if @listing.listing_type == :rental && @listing.price_frequency.present? %>
+    <p class="text-gray-600">
+      / <%= t("external_feed.frequency.#{@listing.price_frequency}", default: @listing.price_frequency.to_s) %>
+    </p>
+  <% end %>
+
+  <% if @listing.price_reduced? && @listing.original_price.present? %>
+    <p class="text-sm text-gray-500 line-through mt-1">
+      <%= number_to_currency(@listing.original_price, unit: @listing.currency, precision: 0) %>
+    </p>
+    <span class="inline-block bg-red-100 text-red-800 text-xs font-semibold px-2 py-0.5 rounded mt-1">
+      <%= t("external_feed.badges.reduced", default: "Price Reduced") %>
+    </span>
+  <% end %>
+
+  <div class="mt-6 space-y-3">
+    <a href="#contact-form" class="block w-full bg-blue-600 text-white text-center py-3 px-4 rounded-md font-medium hover:bg-blue-700 transition-colors">
+      <%= t("external_feed.property.contact_agent", default: "Contact Agent") %>
+    </a>
+    <% if @current_agency&.phone_number_primary.present? %>
+      <a href="tel:<%= @current_agency.phone_number_primary %>" class="block w-full border border-gray-300 text-gray-700 text-center py-3 px-4 rounded-md font-medium hover:bg-gray-50 transition-colors">
+        <%= t("external_feed.property.call_now", default: "Call Now") %>
+      </a>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<%# Property info list for external listings - shows key features in a grid %>
+<%# Property Title and Location %>
+<div class="mb-6">
+  <div class="flex items-start justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 mb-2">
+        <%= @listing.title %>
+      </h1>
+      <p class="text-gray-600 flex items-center">
+        <svg class="h-5 w-5 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+        <%= [@listing.location, @listing.province, @listing.country].compact.join(", ") %>
+      </p>
+    </div>
+    <div class="text-right">
+      <p class="text-sm text-gray-500">
+        <%= t("external_feed.property.reference", default: "Ref:") %> <%= @listing.reference %>
+      </p>
+    </div>
+  </div>
+</div>
+
+<%# Key Features Bar %>
+<div class="bg-gray-50 rounded-lg p-4">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+    <% if @listing.bedrooms.present? && @listing.bedrooms > 0 %>
+      <div>
+        <p class="text-2xl font-bold text-gray-900"><%= @listing.bedrooms %></p>
+        <p class="text-sm text-gray-600"><%= t("external_feed.features.bedrooms", default: "Bedrooms") %></p>
+      </div>
+    <% end %>
+    <% if @listing.bathrooms.present? && @listing.bathrooms > 0 %>
+      <div>
+        <p class="text-2xl font-bold text-gray-900"><%= @listing.bathrooms %></p>
+        <p class="text-sm text-gray-600"><%= t("external_feed.features.bathrooms", default: "Bathrooms") %></p>
+      </div>
+    <% end %>
+    <% if @listing.built_area.present? && @listing.built_area > 0 %>
+      <div>
+        <p class="text-2xl font-bold text-gray-900"><%= number_with_delimiter(@listing.built_area.to_i) %></p>
+        <p class="text-sm text-gray-600"><%= t("external_feed.features.built_area_m2", default: "m2 Built") %></p>
+      </div>
+    <% end %>
+    <% if @listing.plot_area.present? && @listing.plot_area > 0 %>
+      <div>
+        <p class="text-2xl font-bold text-gray-900"><%= number_with_delimiter(@listing.plot_area.to_i) %></p>
+        <p class="text-sm text-gray-600"><%= t("external_feed.features.plot_area_m2", default: "m2 Plot") %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
