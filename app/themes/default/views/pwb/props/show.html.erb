@@ -97,11 +97,9 @@
         <input type="hidden" name="saved_property[external_reference]" id="property-favorite-reference" value="<%= @property_details.slug_or_id %>">
         <input type="hidden" name="saved_property[provider]" value="internal">
         <%
-          # Build image URLs - use rails_blob_url for full URLs that work when stored
+          # Build image URLs - use image_url which handles both external URLs and attached images
           saved_images = @property_details.prop_photos.first(5).filter_map do |photo|
-            if photo.image.attached?
-              rails_blob_url(photo.image, host: request.base_url)
-            end
+            photo.image_url
           end
         %>
         <input type="hidden" name="saved_property[property_data]" id="property-favorite-data" value="<%= {
@@ -157,6 +155,14 @@
 
     document.getElementById('property-favorite-reference').value = reference;
     document.getElementById('property-favorite-name').textContent = title;
+
+    // Pre-fill email from localStorage if available
+    var savedEmail = localStorage.getItem('pwb_favorites_email');
+    var emailInput = document.getElementById('property_favorite_email');
+    if (savedEmail && emailInput) {
+      emailInput.value = savedEmail;
+    }
+
     document.getElementById('property-favorite-modal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
   }
@@ -165,6 +171,19 @@
     document.getElementById('property-favorite-modal').classList.add('hidden');
     document.body.style.overflow = '';
   }
+
+  // Save email to localStorage when form is submitted
+  document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('property-favorite-form');
+    if (form) {
+      form.addEventListener('submit', function() {
+        var emailInput = document.getElementById('property_favorite_email');
+        if (emailInput && emailInput.value) {
+          localStorage.setItem('pwb_favorites_email', emailInput.value);
+        }
+      });
+    }
+  });
 
   // Close modal on escape key
   document.addEventListener('keydown', function(e) {

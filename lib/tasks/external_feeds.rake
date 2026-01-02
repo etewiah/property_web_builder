@@ -237,8 +237,14 @@ namespace :external_feeds do
       puts "Configuration:"
       website.external_feed_config.each do |key, value|
         # Mask sensitive values
-        display_value = %w[api_key password secret token].any? { |s| key.to_s.include?(s) }
-        display_value = display_value ? "#{value[0..3]}#{'*' * (value.length - 4)}" : value
+        is_sensitive = %w[api_key password secret token].any? { |s| key.to_s.include?(s) }
+        display_value = if is_sensitive && value.to_s.length > 4
+                          "#{value[0..3]}#{'*' * (value.length - 4)}"
+                        elsif is_sensitive
+                          '****'
+                        else
+                          value
+                        end
         puts "  #{key}: #{display_value}"
       end
     else
