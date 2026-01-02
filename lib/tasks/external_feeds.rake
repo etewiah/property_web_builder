@@ -213,10 +213,11 @@ namespace :external_feeds do
     end
   end
 
-  desc "Show feed configuration for a website"
+  desc "Show feed configuration for a website (use show_secrets=true to reveal sensitive values)"
   task :config, [:subdomain] => :environment do |_t, args|
     unless args[:subdomain]
       puts "Usage: rake external_feeds:config[subdomain]"
+      puts "       rake external_feeds:config[subdomain] show_secrets=true"
       exit 1
     end
 
@@ -227,6 +228,8 @@ namespace :external_feeds do
       exit 1
     end
 
+    show_secrets = ENV["show_secrets"] == "true"
+
     puts "External Feed Configuration: #{website.subdomain}"
     puts "-" * 40
     puts "Enabled: #{website.external_feed_enabled?}"
@@ -236,17 +239,19 @@ namespace :external_feeds do
     if website.external_feed_config.present?
       puts "Configuration:"
       website.external_feed_config.each do |key, value|
-        # Mask sensitive values
+        # Mask sensitive values unless show_secrets is enabled
         is_sensitive = %w[api_key password secret token].any? { |s| key.to_s.include?(s) }
-        display_value = if is_sensitive && value.to_s.length > 4
-                          "#{value[0..3]}#{'*' * (value.length - 4)}"
-                        elsif is_sensitive
-                          '****'
-                        else
+        display_value = if show_secrets || !is_sensitive
                           value
+                        elsif value.to_s.length > 4
+                          "#{value[0..3]}#{'*' * (value.length - 4)}"
+                        else
+                          '****'
                         end
         puts "  #{key}: #{display_value}"
       end
+      puts ""
+      puts "(Use show_secrets=true to reveal sensitive values)" unless show_secrets
     else
       puts "Configuration: (none)"
     end
