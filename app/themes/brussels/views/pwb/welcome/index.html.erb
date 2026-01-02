@@ -1,0 +1,109 @@
+<% page_title @page_title %>
+<%= render '/pwb/meta_tags' %>
+
+<%# Brussels Modern Theme - Landing Page %>
+
+<%# Hero / Dynamic Page Content - Full Width %>
+<div class="brussels-landing">
+  <% @page.ordered_visible_page_contents.each do |page_content| %>
+    <%= page_part page_content %>
+  <% end %>
+</div>
+
+<%# Latest Properties - Sale %>
+<% if @properties_for_sale.length > 0 %>
+  <section class="py-12 bg-brussels-light">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl font-normal text-brussels-dark"><%= I18n.t('propertyForSale') %></h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <% @properties_for_sale.each do |property| %>
+          <div class="property-card bg-white shadow-card hover:shadow-card-hover transition-all duration-200 group">
+            <%= link_to property.contextual_show_path('for_sale'), class: "block relative overflow-hidden", "aria-label": t("property.view_details_for", title: property.title.presence || property.reference, default: "View details") do %>
+              <div class="aspect-[4/3]">
+                <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
+                  height: 280, crop: "fill", class: "w-full h-full object-cover transition-transform duration-300 group-hover:scale-105",
+                  loading: "lazy", use_picture: true,
+                  alt: property.title.presence || "Property") %>
+              </div>
+            <% end %>
+            <div class="p-4">
+              <h3 class="text-base font-semibold text-brussels-dark mb-1 line-clamp-1">
+                <%= link_to property.title, property.contextual_show_path('for_sale'),
+                    class: "hover:text-brussels-lime transition-colors duration-200" %>
+              </h3>
+              <p class="text-xs text-gray-500 mb-2"><%= property.locality.presence || property.region %></p>
+              <p class="text-lg font-bold text-brussels-lime"><%= property_price(property, 'for_sale') %></p>
+            </div>
+            <div class="px-4 pb-4 pt-3 border-t border-gray-100">
+              <ul class="flex items-center space-x-4 text-xs text-gray-600">
+                <li class="flex items-center">
+                  <%= icon(:bed, size: :sm, class: "mr-1 text-brussels-lime") %>
+                  <span><%= format_bedroom_count(property.count_bedrooms) %></span>
+                </li>
+                <li class="flex items-center">
+                  <%= icon(:shower, size: :sm, class: "mr-1 text-brussels-lime") %>
+                  <span><%= format_bathroom_count(property.count_bathrooms) %></span>
+                </li>
+                <li class="flex items-center">
+                  <%= icon(:fullscreen, size: :sm, class: "mr-1 text-brussels-lime") %>
+                  <span><%= property.constructed_area %><%= area_unit property %></span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<%# Latest Properties - Rent %>
+<% if @properties_for_rent.length > 0 %>
+  <section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl font-normal text-brussels-dark"><%= I18n.t('propertyForRent') %></h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <% @properties_for_rent.each do |property| %>
+          <div class="property-card bg-white shadow-card hover:shadow-card-hover transition-all duration-200 group">
+            <%= link_to property.contextual_show_path('for_rent'), class: "block relative overflow-hidden", "aria-label": t("property.view_details_for", title: property.title.presence || property.reference, default: "View details") do %>
+              <div class="aspect-[4/3]">
+                <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
+                  height: 280, crop: "fill", class: "w-full h-full object-cover transition-transform duration-300 group-hover:scale-105",
+                  loading: "lazy", use_picture: true,
+                  alt: property.title.presence || "Property") %>
+              </div>
+            <% end %>
+            <div class="p-4">
+              <h3 class="text-base font-semibold text-brussels-dark mb-1 line-clamp-1">
+                <%= link_to property.title, property.contextual_show_path('for_rent'),
+                    class: "hover:text-brussels-lime transition-colors duration-200" %>
+              </h3>
+              <p class="text-xs text-gray-500 mb-2"><%= property.locality.presence || property.region %></p>
+              <p class="text-lg font-bold text-brussels-lime"><%= property_price(property, 'for_rent') %></p>
+            </div>
+            <div class="px-4 pb-4 pt-3 border-t border-gray-100">
+              <ul class="flex items-center space-x-4 text-xs text-gray-600">
+                <li class="flex items-center">
+                  <%= icon(:bed, size: :sm, class: "mr-1 text-brussels-lime") %>
+                  <span><%= format_bedroom_count(property.count_bedrooms) %></span>
+                </li>
+                <li class="flex items-center">
+                  <%= icon(:shower, size: :sm, class: "mr-1 text-brussels-lime") %>
+                  <span><%= format_bathroom_count(property.count_bathrooms) %></span>
+                </li>
+                <li class="flex items-center">
+                  <%= icon(:fullscreen, size: :sm, class: "mr-1 text-brussels-lime") %>
+                  <span><%= property.constructed_area %><%= area_unit property %></span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+<% end %>

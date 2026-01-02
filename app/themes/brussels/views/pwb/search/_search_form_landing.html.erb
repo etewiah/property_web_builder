@@ -1,0 +1,72 @@
+<!-- Brussels Modern Theme - Property Search Form -->
+<div class="bg-white/95 backdrop-blur-sm shadow-elevated">
+  <%= simple_form_for :search, url: "/#{I18n.locale}/buy", method: 'get',
+      html: { class: 'p-6' }, remote: false do |f| %>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+      <!-- Property Type -->
+      <div>
+        <label class="block text-xs font-medium text-gray-600 mb-1">
+          <%= I18n.t("simple_form.labels.search.property_type") %>
+        </label>
+        <%= render partial: "pwb/shared/flowbite_select", locals: {
+            name: "search[property_type]",
+            id: "search_property_type",
+            options: [["Any", ""]] + @property_types.map { |pt| [pt.label, pt.value] },
+            selected: "",
+            placeholder: "Any"
+        } %>
+      </div>
+
+      <!-- Price From -->
+      <div>
+        <label class="block text-xs font-medium text-gray-600 mb-1">
+          <%= I18n.t("simple_form.labels.search.for_sale_price_from") %>
+        </label>
+        <%= render partial: "pwb/shared/flowbite_select", locals: {
+            name: "search[for_sale_price_from]",
+            id: "search_for_sale_price_from",
+            options: @prices_collection.map { |p| p.blank? ? ["Any", ""] : [p, p] },
+            selected: '',
+            placeholder: "Any"
+        } %>
+      </div>
+
+      <!-- Price To -->
+      <div>
+        <label class="block text-xs font-medium text-gray-600 mb-1">
+          <%= I18n.t("simple_form.labels.search.for_sale_price_till") %>
+        </label>
+        <%= render partial: "pwb/shared/flowbite_select", locals: {
+            name: "search[for_sale_price_till]",
+            id: "search_for_sale_price_till",
+            options: @prices_collection.map { |p| p.blank? ? ["Any", ""] : [p, p] },
+            selected: '',
+            placeholder: "Any"
+        } %>
+      </div>
+
+      <!-- Bedrooms -->
+      <div>
+        <label class="block text-xs font-medium text-gray-600 mb-1">
+          <%= I18n.t("simple_form.labels.search.num_bedrooms") %>
+        </label>
+        <%= render partial: "pwb/shared/flowbite_select", locals: {
+            name: "search[num_bedrooms]",
+            id: "search_num_bedrooms",
+            options: [["Any", ""]] + (0..10).map { |n| [n, n] },
+            selected: '',
+            placeholder: "Any"
+        } %>
+      </div>
+    </div>
+
+    <div class="flex justify-center">
+      <%= f.button :button, class: "bg-brussels-lime text-gray-900 font-medium px-8 py-3 hover:brightness-110 transition-all duration-200 flex items-center justify-center",
+          id: "btn_buscar_inmuebles" do %>
+        <%= icon(:search, size: :sm, class: "mr-2") %>
+        <%= I18n.t("search") %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

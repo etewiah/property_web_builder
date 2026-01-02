@@ -1,0 +1,111 @@
+<% page_title @page_title %>
+<%= render 'pwb/shared/leaflet_assets' %>
+
+<%# Canonical URL for SEO %>
+<% content_for :head do %>
+  <% if @canonical_url.present? %>
+    <link rel="canonical" href="<%= @canonical_url %>">
+  <% end %>
+<% end %>
+
+<!-- Breadcrumb -->
+<div class="bg-gray-100 py-4">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap items-center justify-between">
+      <h1 class="text-xl font-normal text-brussels-dark">
+        <%= I18n.t("searchForRentals", default: "Properties for Rent") %>
+      </h1>
+      <nav class="flex" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 text-sm">
+          <li>
+            <a href="/" class="text-gray-600 hover:text-brussels-lime transition-colors">
+              <%= I18n.t("webContentSections.home") %>
+            </a>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+              <span class="ml-1 text-gray-500"><%= I18n.t("searchForRentals", default: "Properties for Rent") %></span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<%# Main search section %>
+<section class="bg-white border-b border-gray-200"
+         data-controller="search"
+         data-search-operation-value="rent"
+         data-search-locale-value="<%= I18n.locale %>">
+  <div class="py-8">
+    <div class="container mx-auto px-4">
+      <div class="search-layout flex flex-wrap -mx-4">
+        <!-- Sidebar (Filters) -->
+        <aside class="search-sidebar w-full lg:w-1/4 px-4 mb-6 lg:mb-0">
+          <%# Mobile filter toggle %>
+          <div class="filter-toggle lg:hidden mb-4">
+            <button type="button"
+                    class="w-full bg-white border border-gray-200 text-gray-700 font-medium py-2 px-4 shadow-card hover:shadow-card-hover focus:outline-none focus:ring-2 focus:ring-brussels-lime flex items-center justify-center transition-all duration-200"
+                    data-action="click->search#toggleFilters"
+                    data-search-target="filterToggle"
+                    aria-expanded="false"
+                    aria-controls="sidebar-filters">
+              <%= icon(:filter_list, size: :sm, class: "mr-2") %> <%= I18n.t("filter", default: "Filters") %>
+              <% if @search_criteria_for_view.present? %>
+                <% active_count = @search_criteria_for_view.reject { |k, v| v.blank? || k == :page }.size %>
+                <% if active_count > 0 %>
+                  <span class="ml-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-gray-900 bg-brussels-lime">
+                    <%= active_count %>
+                  </span>
+                <% end %>
+              <% end %>
+            </button>
+          </div>
+
+          <%# Filter panel %>
+          <div id="sidebar-filters"
+               class="filter-content hidden lg:block bg-white shadow-card p-6"
+               data-search-target="filterPanel">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-base font-semibold text-brussels-dark">
+                <%= I18n.t("search.filters", default: "Filters") %>
+              </h3>
+              <button type="button"
+                      class="text-sm text-brussels-lime hover:brightness-90 font-medium transition-all"
+                      data-action="click->search#clearFilters">
+                <%= I18n.t("search.clear_all", default: "Clear all") %>
+              </button>
+            </div>
+            <%= render 'pwb/search/search_form_for_rent' %>
+          </div>
+        </aside>
+
+        <!-- Results -->
+        <main class="search-results-main w-full lg:w-3/4 px-4 relative">
+          <%= render 'pwb/search/search_results_frame' %>
+        </main>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%# Map section %>
+<% if @map_markers.present? && @map_markers.length > 0 %>
+  <section class="w-full border-t border-gray-200" style="height: 500px;">
+    <div id="search-map"
+         class="w-full h-full"
+         data-controller="map"
+         data-map-target="canvas"
+         data-map-markers-value="<%= @map_markers.to_json %>"
+         data-search-target="map">
+    </div>
+  </section>
+<% end %>
+
+<%# Mobile filter backdrop %>
+<div class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden"
+     data-search-target="backdrop"
+     data-action="click->search#toggleFilters">
+</div>

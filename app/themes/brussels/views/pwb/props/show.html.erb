@@ -1,0 +1,74 @@
+<% page_title @property_details.title %>
+<%= render '/pwb/props/meta_tags' %>
+<%= render 'pwb/shared/leaflet_assets' %>
+<%= render '/pwb/props/breadcrumb_row' %>
+
+<!-- MAIN CONTENT -->
+<section class="property-detail-page bg-white border-b border-gray-200">
+  <div class="py-8">
+    <div class="property-detail-container">
+      <div class="property-detail-layout">
+        <!-- Main Content -->
+        <div class="property-detail-main">
+          <%# Image Carousel %>
+          <% cache property_detail_cache_key(@property_details, "carousel") do %>
+            <div class="mb-6">
+              <%= render '/pwb/props/images_section_carousel' %>
+            </div>
+          <% end %>
+
+          <%# Property Info %>
+          <% cache property_detail_cache_key(@property_details, "info") do %>
+            <div class="mb-6">
+              <%= render '/pwb/props/prop_info_list' %>
+            </div>
+
+            <!-- Property Description -->
+            <div class="mb-6">
+              <h3 class="text-lg font-semibold text-brussels-dark mb-4"><%= I18n.t("property.description") %></h3>
+              <div class="prose prose-sm max-w-none text-gray-700">
+                <%== @property_details.description %>
+              </div>
+            </div>
+
+            <% if @property_details.extras_for_display.present? %>
+              <div class="mb-6">
+                <h3 class="text-lg font-semibold text-brussels-dark mb-4"><%= I18n.t("property.extras") %></h3>
+                <%= render '/pwb/props/extras' %>
+              </div>
+            <% end %>
+          <% end %>
+
+          <!-- Social Sharing -->
+          <%= render 'pwb/shared/social_sharing', url: request.original_url, title: @property_details.title %>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="property-detail-sidebar">
+          <div class="space-y-6 lg:sticky lg:top-24">
+            <%= render '/pwb/props/request_prop_info' %>
+            <%= render '/pwb/props/prop_contact_info' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%# Map Section %>
+<% if @property_details.show_map && @map_markers.present? %>
+  <section class="property-detail-map border-t border-gray-200">
+    <div class="property-detail-map-inner py-8">
+      <h3 class="text-lg font-semibold text-brussels-dark mb-4"><%= I18n.t("property.location", default: "Location") %></h3>
+      <div class="overflow-hidden shadow-card" style="height: 400px;">
+        <div id="property-map"
+             class="w-full h-full"
+             data-controller="map"
+             data-map-target="canvas"
+             data-map-markers-value="<%= @map_markers.to_json %>"
+             data-map-zoom-value="15">
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>

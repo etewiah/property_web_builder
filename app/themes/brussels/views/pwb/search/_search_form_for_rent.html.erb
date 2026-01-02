@@ -1,0 +1,190 @@
+<%# Brussels Theme Search Form For Rent - URL-based with Turbo Frames %>
+<%= form_with url: rent_path, method: :get, local: true,
+              data: {
+                turbo_frame: "search-results",
+                action: "submit->search#handleSubmit",
+                search_target: "form"
+              },
+              class: "search-filter-form space-y-4" do |f| %>
+
+  <%# Property Type %>
+  <div>
+    <label for="filter-type" class="block text-xs font-medium text-gray-600 mb-1">
+      <%= I18n.t("propertyTypes.label", default: "Property Type") %>
+    </label>
+    <select id="filter-type"
+            name="type"
+            data-filter="type"
+            data-action="change->search#filterChanged"
+            class="w-full border-gray-300 shadow-sm focus:border-brussels-lime focus:ring-brussels-lime">
+      <option value=""><%= I18n.t("propertyTypes.all", default: "All Types") %></option>
+      <% Pwb::ListedProperty.distinct.pluck(:prop_type_key).compact.each do |type| %>
+        <% type_slug = type.to_s.split('.').last %>
+        <% is_selected = @search_criteria_for_view[:property_type].present? &&
+                         (type == @search_criteria_for_view[:property_type] ||
+                          type_slug == @search_criteria_for_view[:property_type]) %>
+        <option value="<%= type_slug %>" <%= 'selected' if is_selected %>>
+          <%= I18n.t("propertyTypes.#{type_slug}", default: type_slug.titleize) %>
+        </option>
+      <% end %>
+    </select>
+  </div>
+
+  <%# Monthly Rent Range %>
+  <div class="grid grid-cols-2 gap-3">
+    <div>
+      <label for="filter-price-min" class="block text-xs font-medium text-gray-600 mb-1">
+        <%= I18n.t("search.min_rent", default: "Min Rent") %>
+      </label>
+      <select id="filter-price-min"
+              name="price_min"
+              data-filter="price_min"
+              data-action="change->search#filterChanged"
+              class="w-full border-gray-300 shadow-sm focus:border-brussels-lime focus:ring-brussels-lime text-sm">
+        <option value=""><%= I18n.t("search.any", default: "Any") %></option>
+        <% @prices_from_collection&.each do |price| %>
+          <option value="<%= price %>" <%= 'selected' if @search_criteria_for_view[:price_min].to_i == price.to_i && price.present? %>>
+            <%= number_to_currency(price, precision: 0) %>/mo
+          </option>
+        <% end %>
+      </select>
+    </div>
+    <div>
+      <label for="filter-price-max" class="block text-xs font-medium text-gray-600 mb-1">
+        <%= I18n.t("search.max_rent", default: "Max Rent") %>
+      </label>
+      <select id="filter-price-max"
+              name="price_max"
+              data-filter="price_max"
+              data-action="change->search#filterChanged"
+              class="w-full border-gray-300 shadow-sm focus:border-brussels-lime focus:ring-brussels-lime text-sm">
+        <option value=""><%= I18n.t("search.any", default: "Any") %></option>
+        <% @prices_till_collection&.each do |price| %>
+          <option value="<%= price %>" <%= 'selected' if @search_criteria_for_view[:price_max].to_i == price.to_i && price.present? %>>
+            <%= number_to_currency(price, precision: 0) %>/mo
+          </option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+
+  <%# Bedrooms %>
+  <div>
+    <label class="block text-xs font-medium text-gray-600 mb-2">
+      <%= I18n.t("amenities.bedrooms", default: "Bedrooms") %>
+    </label>
+    <div class="flex flex-wrap gap-2">
+      <% [nil, 1, 2, 3, 4, 5].each do |num| %>
+        <label class="bedroom-chip">
+          <input type="radio"
+                 name="bedrooms"
+                 value="<%= num %>"
+                 data-filter="bedrooms"
+                 data-action="change->search#filterChanged"
+                 class="sr-only peer"
+                 <%= 'checked' if @search_criteria_for_view[:bedrooms].to_i == num.to_i && (num.present? || @search_criteria_for_view[:bedrooms].blank?) %>>
+          <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium cursor-pointer border border-gray-300 bg-white text-gray-700 peer-checked:bg-brussels-lime peer-checked:text-gray-900 peer-checked:border-brussels-lime hover:bg-gray-50 peer-checked:hover:brightness-110 transition-all">
+            <%= num.nil? ? I18n.t("search.any", default: "Any") : "#{num}+" %>
+          </span>
+        </label>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Bathrooms %>
+  <div>
+    <label class="block text-xs font-medium text-gray-600 mb-2">
+      <%= I18n.t("amenities.bathrooms", default: "Bathrooms") %>
+    </label>
+    <div class="flex flex-wrap gap-2">
+      <% [nil, 1, 2, 3, 4].each do |num| %>
+        <label class="bathroom-chip">
+          <input type="radio"
+                 name="bathrooms"
+                 value="<%= num %>"
+                 data-filter="bathrooms"
+                 data-action="change->search#filterChanged"
+                 class="sr-only peer"
+                 <%= 'checked' if @search_criteria_for_view[:bathrooms].to_i == num.to_i && (num.present? || @search_criteria_for_view[:bathrooms].blank?) %>>
+          <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium cursor-pointer border border-gray-300 bg-white text-gray-700 peer-checked:bg-brussels-lime peer-checked:text-gray-900 peer-checked:border-brussels-lime hover:bg-gray-50 peer-checked:hover:brightness-110 transition-all">
+            <%= num.nil? ? I18n.t("search.any", default: "Any") : "#{num}+" %>
+          </span>
+        </label>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Location (Zone) %>
+  <% if @zones.present? && @zones.length > 1 %>
+    <div>
+      <label for="filter-zone" class="block text-xs font-medium text-gray-600 mb-1">
+        <%= I18n.t("search.zone", default: "Zone") %>
+      </label>
+      <select id="filter-zone"
+              name="zone"
+              data-filter="zone"
+              data-action="change->search#filterChanged"
+              class="w-full border-gray-300 shadow-sm focus:border-brussels-lime focus:ring-brussels-lime">
+        <option value=""><%= I18n.t("search.all_zones", default: "All Zones") %></option>
+        <% @zones.each do |zone| %>
+          <option value="<%= zone.key %>" <%= 'selected' if @search_criteria_for_view[:zone] == zone.key %>>
+            <%= zone.to_s %>
+          </option>
+        <% end %>
+      </select>
+    </div>
+  <% end %>
+
+  <%# Location (Locality) %>
+  <% if @localities.present? && @localities.length > 1 %>
+    <div>
+      <label for="filter-locality" class="block text-xs font-medium text-gray-600 mb-1">
+        <%= I18n.t("search.locality", default: "Locality") %>
+      </label>
+      <select id="filter-locality"
+              name="locality"
+              data-filter="locality"
+              data-action="change->search#filterChanged"
+              class="w-full border-gray-300 shadow-sm focus:border-brussels-lime focus:ring-brussels-lime">
+        <option value=""><%= I18n.t("search.all_localities", default: "All Localities") %></option>
+        <% @localities.each do |locality| %>
+          <option value="<%= locality.key %>" <%= 'selected' if @search_criteria_for_view[:locality] == locality.key %>>
+            <%= locality.to_s %>
+          </option>
+        <% end %>
+      </select>
+    </div>
+  <% end %>
+
+  <%# Features %>
+  <% if @feature_list.present? %>
+    <div class="border-t border-gray-200 pt-4">
+      <label class="block text-xs font-medium text-gray-600 mb-2">
+        <%= I18n.t("search.features", default: "Features") %>
+      </label>
+      <div class="space-y-2 max-h-48 overflow-y-auto">
+        <% @feature_list.each do |feature| %>
+          <label class="flex items-center">
+            <input type="checkbox"
+                   name="features[]"
+                   value="<%= feature[:key] %>"
+                   data-filter="feature"
+                   data-action="change->search#filterChanged"
+                   class="border-gray-300 text-brussels-lime focus:ring-brussels-lime"
+                   <%= 'checked' if @search_criteria_for_view[:features]&.include?(feature[:key]) %>>
+            <span class="ml-2 text-sm text-gray-700"><%= feature[:label] %></span>
+          </label>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <%# Mobile: Apply filters button %>
+  <div class="lg:hidden pt-4 border-t border-gray-200">
+    <button type="submit"
+            class="w-full bg-brussels-lime text-gray-900 font-medium py-3 px-4 hover:brightness-110 transition-all focus:outline-none focus:ring-2 focus:ring-brussels-lime focus:ring-offset-2"
+            data-action="click->search#applyAndClose">
+      <%= I18n.t("search.show_results", default: "Show Results") %>
+    </button>
+  </div>
+<% end %>

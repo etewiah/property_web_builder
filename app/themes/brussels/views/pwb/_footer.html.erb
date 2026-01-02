@@ -1,0 +1,151 @@
+<!-- Brussels Modern Theme Footer - Gray background with lime green accents -->
+<footer class="bg-brussels-gray text-white">
+  <!-- Main Footer Content -->
+  <div class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- Brand Column -->
+      <div>
+        <div class="mb-4">
+          <% if @current_website.logo_url %>
+            <img src="<%= @current_website.logo_url %>" alt="<%= company_display_name %>" class="h-10 brightness-0 invert opacity-90" loading="lazy" decoding="async">
+          <% else %>
+            <span class="text-xl font-semibold text-white"><%= company_display_name %></span>
+          <% end %>
+        </div>
+        <p class="text-sm text-white/70 mb-4 leading-relaxed">
+          <%= company_display_name %>
+        </p>
+
+        <!-- Social Icons -->
+        <nav class="flex items-center space-x-3" aria-label="Social media links">
+          <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
+            <a href="<%= @current_website.social_media_facebook %>" target="_blank" rel="noopener noreferrer"
+               class="w-9 h-9 flex items-center justify-center border border-white/30 text-white/70 hover:text-brussels-lime hover:border-brussels-lime transition-all duration-200"
+               aria-label="Follow us on Facebook">
+              <%= brand_icon(:facebook, size: 16) %>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
+            <a href="<%= @current_website.social_media_twitter %>" target="_blank" rel="noopener noreferrer"
+               class="w-9 h-9 flex items-center justify-center border border-white/30 text-white/70 hover:text-brussels-lime hover:border-brussels-lime transition-all duration-200"
+               aria-label="Follow us on Twitter">
+              <%= brand_icon(:x, size: 16) %>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
+            <a href="<%= @current_website.social_media_linkedin %>" target="_blank" rel="noopener noreferrer"
+               class="w-9 h-9 flex items-center justify-center border border-white/30 text-white/70 hover:text-brussels-lime hover:border-brussels-lime transition-all duration-200"
+               aria-label="Connect with us on LinkedIn">
+              <%= brand_icon(:linkedin, size: 16) %>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present? %>
+            <a href="<%= @current_website.social_media_instagram %>" target="_blank" rel="noopener noreferrer"
+               class="w-9 h-9 flex items-center justify-center border border-white/30 text-white/70 hover:text-brussels-lime hover:border-brussels-lime transition-all duration-200"
+               aria-label="Follow us on Instagram">
+              <%= brand_icon(:instagram, size: 16) %>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
+            <a href="<%= @current_website.social_media_youtube %>" target="_blank" rel="noopener noreferrer"
+               class="w-9 h-9 flex items-center justify-center border border-white/30 text-white/70 hover:text-brussels-lime hover:border-brussels-lime transition-all duration-200"
+               aria-label="Subscribe to our YouTube channel">
+              <%= brand_icon(:youtube, size: 16) %>
+            </a>
+          <% end %>
+          <% if @current_website.respond_to?(:social_media_whatsapp) && @current_website.social_media_whatsapp.present? %>
+            <a href="<%= @current_website.social_media_whatsapp %>" target="_blank" rel="noopener noreferrer"
+               class="w-9 h-9 flex items-center justify-center border border-white/30 text-white/70 hover:text-brussels-lime hover:border-brussels-lime transition-all duration-200"
+               aria-label="Contact us on WhatsApp">
+              <%= brand_icon(:whatsapp, size: 16) %>
+            </a>
+          <% end %>
+        </nav>
+      </div>
+
+      <!-- Contact Column -->
+      <div>
+        <h4 class="text-sm font-semibold text-white mb-4">Contact</h4>
+        <ul class="space-y-3">
+          <% if @current_agency.phone_number_primary.present? %>
+            <li class="flex items-start">
+              <%= icon(:phone, size: :sm, class: "text-brussels-lime mr-3 mt-0.5") %>
+              <a href="tel:<%= @current_agency.phone_number_primary %>"
+                 class="text-sm text-white/80 hover:text-brussels-lime transition-colors duration-200">
+                <%= @current_agency.phone_number_primary %>
+              </a>
+            </li>
+          <% end %>
+          <% if @current_agency.email_primary.present? %>
+            <li class="flex items-start">
+              <%= icon(:email, size: :sm, class: "text-brussels-lime mr-3 mt-0.5") %>
+              <a href="mailto:<%= @current_agency.email_primary %>"
+                 class="text-sm text-white/80 hover:text-brussels-lime transition-colors duration-200">
+                <%= @current_agency.email_primary %>
+              </a>
+            </li>
+          <% end %>
+          <% if @current_agency.respond_to?(:full_address) && @current_agency.full_address.present? %>
+            <li class="flex items-start">
+              <%= icon(:location_on, size: :sm, class: "text-brussels-lime mr-3 mt-0.5") %>
+              <span class="text-sm text-white/80 leading-relaxed">
+                <%= @current_agency.full_address %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <!-- Quick Links Column -->
+      <div>
+        <h4 class="text-sm font-semibold text-white mb-4">Quick Links</h4>
+        <ul class="space-y-2">
+          <% @current_website.links.ordered_visible_footer.each do |page| %>
+            <% target_path = nil %>
+            <% begin %>
+              <% if page.link_path.present? %>
+                <% target_path = main_app.send(page.link_path, page.link_path_params, { locale: locale }) %>
+              <% elsif page.link_url.present? %>
+                <% target_path = page.link_url %>
+              <% end %>
+            <% rescue StandardError %>
+            <% end %>
+            <% if target_path %>
+              <li>
+                <%= link_to page.link_title, target_path,
+                    class: "text-sm text-white/80 hover:text-brussels-lime transition-colors duration-200 inline-block" %>
+              </li>
+            <% end %>
+          <% end %>
+          <li>
+            <%= link_to I18n.t("signIn"), "/pwb_login",
+                class: "text-sm text-white/80 hover:text-brussels-lime transition-colors duration-200 inline-block" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="border-t border-white/10">
+    <div class="container mx-auto px-4 py-4">
+      <div class="flex flex-col md:flex-row items-center justify-between space-y-2 md:space-y-0">
+        <!-- Copyright -->
+        <p class="text-xs text-white/50">
+          &copy; <%= Time.current.year %> <%= company_display_name %>. All rights reserved.
+        </p>
+
+        <!-- Powered By -->
+        <p class="text-xs text-white/40">
+          Powered by
+          <a href="https://www.propertywebbuilder.com"
+             class="text-brussels-lime/60 hover:text-brussels-lime transition-colors duration-200"
+             target="_blank">
+            PropertyWebBuilder
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

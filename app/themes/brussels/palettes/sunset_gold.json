@@ -1,0 +1,33 @@
+{
+  "id": "sunset_gold",
+  "name": "Sunset Gold",
+  "description": "Warm golden variant with earthy tones",
+  "preview_colors": [
+    "#FFA000",
+    "#5D4037",
+    "#616161"
+  ],
+  "is_default": false,
+  "colors": {
+    "primary_color": "#FFA000",
+    "secondary_color": "#5D4037",
+    "accent_color": "#FFB300",
+    "background_color": "#FAFAFA",
+    "text_color": "#212121",
+    "header_background_color": "rgba(93, 64, 55, 0.85)",
+    "header_text_color": "#FFFFFF",
+    "footer_background_color": "#4E342E",
+    "footer_text_color": "#FFFFFF",
+    "link_color": "#FFA000",
+    "card_background_color": "#FFFFFF",
+    "card_text_color": "#212121",
+    "border_color": "#E0E0E0",
+    "surface_color": "#FFFFFF",
+    "surface_alt_color": "#FFF8E1",
+    "success_color": "#8BC34A",
+    "warning_color": "#FF9800",
+    "error_color": "#F44336",
+    "muted_text_color": "#757575",
+    "link_hover_color": "#FF8F00"
+  }
+}

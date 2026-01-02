@@ -1,0 +1,58 @@
+<!-- Brussels Modern Theme - Property Listing Section -->
+<section class="py-12 bg-brussels-light">
+  <div class="container mx-auto px-4">
+    <!-- Section Header -->
+    <div class="text-center mb-8">
+      <h3 class="text-2xl font-normal text-brussels-dark"><%= I18n.t title_key %></h3>
+    </div>
+
+    <!-- Property Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <% properties.each_with_index do |property, index| %>
+        <div class="property-card bg-white shadow-card hover:shadow-card-hover transition-all duration-200 group">
+          <!-- Property Image -->
+          <%= link_to property.contextual_show_path(rent_or_sale), class: "block relative overflow-hidden", "aria-label": t("property.view_details_for", title: property.title.presence || property.reference, default: "View details for %{title}") do %>
+            <div class="aspect-[4/3]">
+              <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
+                height: 280, crop: "fill", class: "w-full h-full object-cover transition-transform duration-300 group-hover:scale-105",
+                loading: "lazy", use_picture: true,
+                alt: property.title.presence || "Property listing") %>
+            </div>
+          <% end %>
+
+          <!-- Property Details -->
+          <div class="p-4">
+            <h2 class="text-base font-semibold text-brussels-dark mb-1 line-clamp-1">
+              <%= link_to property.title, property.contextual_show_path(rent_or_sale),
+                  class: "hover:text-brussels-lime transition-colors duration-200" %>
+            </h2>
+            <p class="text-xs text-gray-500 mb-2">
+              <%= property.locality.presence || property.region %>
+            </p>
+            <p class="text-lg font-bold text-brussels-lime">
+              <%= property_price(property, rent_or_sale) %>
+            </p>
+          </div>
+
+          <!-- Property Features -->
+          <div class="px-4 pb-4 pt-3 border-t border-gray-100">
+            <ul class="flex items-center justify-start space-x-4 text-xs text-gray-600" aria-label="<%= t('pwb.accessibility.property_features', default: 'Property features') %>">
+              <li class="flex items-center" aria-label="<%= t('pwb.accessibility.bedrooms_count', count: property.count_bedrooms, default: '%{count} bedrooms') %>">
+                <%= icon(:bed, size: :sm, class: "mr-1 text-brussels-lime", aria_hidden: true) %>
+                <span><%= format_bedroom_count(property.count_bedrooms) %></span>
+              </li>
+              <li class="flex items-center" aria-label="<%= t('pwb.accessibility.bathrooms_count', count: property.count_bathrooms, default: '%{count} bathrooms') %>">
+                <%= icon(:shower, size: :sm, class: "mr-1 text-brussels-lime", aria_hidden: true) %>
+                <span><%= format_bathroom_count(property.count_bathrooms) %></span>
+              </li>
+              <li class="flex items-center" aria-label="<%= t('pwb.accessibility.area_size', area: property.constructed_area, unit: area_unit(property), default: '%{area} %{unit}') %>">
+                <%= icon(:fullscreen, size: :sm, class: "mr-1 text-brussels-lime", aria_hidden: true) %>
+                <span><%= property.constructed_area %><%= area_unit property %></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

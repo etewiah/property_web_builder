@@ -1,0 +1,356 @@
+@import "tailwindcss";
+
+/* Self-hosted Catamaran font via jsDelivr CDN */
+@font-face {
+  font-family: 'Catamaran';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/catamaran@5.2.4/files/catamaran-latin-400-normal.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/npm/@fontsource/catamaran@5.2.4/files/catamaran-latin-400-normal.woff') format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Catamaran';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/catamaran@5.2.4/files/catamaran-latin-500-normal.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/npm/@fontsource/catamaran@5.2.4/files/catamaran-latin-500-normal.woff') format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Catamaran';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/catamaran@5.2.4/files/catamaran-latin-600-normal.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/npm/@fontsource/catamaran@5.2.4/files/catamaran-latin-600-normal.woff') format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Catamaran';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/catamaran@5.2.4/files/catamaran-latin-700-normal.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/npm/@fontsource/catamaran@5.2.4/files/catamaran-latin-700-normal.woff') format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Brussels Modern Theme */
+@theme {
+  /* Brussels palette - fresh lime green */
+  --color-brussels-lime: #9ACD32;
+  --color-brussels-lime-dark: #7CB342;
+  --color-brussels-dark: #131313;
+  --color-brussels-gray: #616161;
+  --color-brussels-light: #FAFAFA;
+  --color-brussels-surface: #FFFFFF;
+
+  /* Primary colors - use CSS variables for dynamic theming */
+  --color-primary: var(--pwb-primary-color, #9ACD32);
+  --color-secondary: var(--pwb-secondary-color, #131313);
+  --color-accent: var(--pwb-accent-color, #9FCB00);
+
+  /* Font families - Catamaran for clean modern look */
+  --font-family-sans: 'Catamaran', system-ui, -apple-system, sans-serif;
+
+  /* Border radius - minimal for sharp modern look */
+  --radius: 2px;
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
+
+  /* Material Design Shadows */
+  --shadow-card: 0 3px 1px -2px rgba(0,0,0,0.2), 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12);
+  --shadow-card-hover: 0 5px 5px -3px rgba(0,0,0,0.2), 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12);
+  --shadow-elevated: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.2);
+}
+
+/* ==========================================================================
+   Material Design Shadow Utilities
+   ========================================================================== */
+@layer utilities {
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-card-hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+
+  /* Brussels-specific background utilities */
+  .bg-brussels-lime { background-color: var(--color-brussels-lime); }
+  .bg-brussels-dark { background-color: var(--color-brussels-dark); }
+  .bg-brussels-gray { background-color: var(--color-brussels-gray); }
+  .bg-brussels-light { background-color: var(--color-brussels-light); }
+
+  /* Brussels-specific text utilities */
+  .text-brussels-lime { color: var(--color-brussels-lime); }
+  .text-brussels-dark { color: var(--color-brussels-dark); }
+  .text-brussels-gray { color: var(--color-brussels-gray); }
+}
+
+/* ==========================================================================
+   Search Layout - Explicit non-nested responsive rules
+   ========================================================================== */
+@media (min-width: 1024px) {
+  /* Sidebar filters: 1/4 width on large screens (LEFT side) */
+  .search-layout .search-sidebar {
+    width: 25%;
+  }
+
+  /* Search results: 3/4 width on large screens (RIGHT side) */
+  .search-layout .search-results,
+  .search-layout .search-results-main {
+    width: 75%;
+  }
+
+  /* Show filters on large screens */
+  .search-layout .search-sidebar .filter-toggle {
+    display: none;
+  }
+
+  .search-layout .search-sidebar .filter-content {
+    display: block !important;
+  }
+}
+
+/* ==========================================================================
+   Team Grid - Explicit non-nested responsive rules
+   ========================================================================== */
+@media (min-width: 640px) {
+  .team-grid-members {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .team-grid-members {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+/* ==========================================================================
+   Contact Page Grid - Explicit non-nested responsive rules
+   ========================================================================== */
+@media (min-width: 1024px) {
+  .contact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* ==========================================================================
+   Services/Features Grid - Explicit non-nested responsive rules
+   ========================================================================== */
+@media (min-width: 768px) {
+  .services-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+/* ==========================================================================
+   Search Results View Modes
+   Controls layout for grid and list views of property cards
+   ========================================================================== */
+
+/* Base property card inner - default to column layout */
+.property-item .property-card-inner {
+  flex-direction: column;
+}
+
+.property-item .property-image {
+  width: 100%;
+}
+
+.property-item .property-image img {
+  height: 12rem;
+}
+
+/* List view container */
+.search-results-grid.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* List view: horizontal card layout */
+.results-list .property-item .property-card-inner {
+  flex-direction: row;
+}
+
+.results-list .property-item .property-image {
+  width: 33.333333%;
+  flex-shrink: 0;
+}
+
+.results-list .property-item .property-image img {
+  height: 100%;
+  min-height: 200px;
+}
+
+.results-list .property-item .property-details {
+  width: 66.666667%;
+}
+
+/* Stack list items vertically on mobile */
+@media (max-width: 767px) {
+  .results-list .property-item .property-card-inner {
+    flex-direction: column;
+  }
+
+  .results-list .property-item .property-image {
+    width: 100%;
+  }
+
+  .results-list .property-item .property-image img {
+    height: 12rem;
+  }
+
+  .results-list .property-item .property-details {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   Property Detail Page Layout
+   ========================================================================== */
+
+/* Property detail page wrapper */
+.property-detail-page {
+  width: 100%;
+}
+
+/* Property detail container - max width constraint */
+.property-detail-container {
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .property-detail-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* Property detail two-column layout */
+.property-detail-layout {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
+/* Main content column - full width on mobile, 2/3 on desktop */
+.property-detail-main {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Sidebar column - full width on mobile, 1/3 on desktop */
+.property-detail-sidebar {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .property-detail-main {
+    width: 66.666667%;
+  }
+
+  .property-detail-sidebar {
+    width: 33.333333%;
+    margin-top: 0;
+  }
+}
+
+/* Map section - full width but constrained container */
+.property-detail-map {
+  width: 100%;
+}
+
+.property-detail-map-inner {
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .property-detail-map-inner {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* ==========================================================================
+   Brussels Theme Specific Styles
+   ========================================================================== */
+
+/* Property cards with Material Design shadows */
+.brussels-theme .property-card {
+  background: #FFFFFF;
+  border-radius: 0;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.brussels-theme .property-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+/* Primary buttons */
+.brussels-theme .btn-primary,
+.brussels-theme .pwb-btn--primary {
+  background-color: var(--pwb-primary-color, #9ACD32);
+  color: rgba(0, 0, 0, 0.87);
+  border-radius: 2px;
+  font-weight: 500;
+  transition: filter 0.2s ease;
+}
+
+.brussels-theme .btn-primary:hover,
+.brussels-theme .pwb-btn--primary:hover {
+  filter: brightness(1.1);
+}
+
+/* Focus states for accessibility */
+.brussels-theme *:focus-visible {
+  outline: 2px solid var(--pwb-primary-color, #9ACD32);
+  outline-offset: 2px;
+}
+
+/* Search form styling */
+.brussels-theme .search-form {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.brussels-theme .search-form input,
+.brussels-theme .search-form select {
+  border-radius: 0;
+  border: 1px solid #E0E0E0;
+}
+
+.brussels-theme .search-form input:focus,
+.brussels-theme .search-form select:focus {
+  border-color: var(--pwb-primary-color, #9ACD32);
+  outline: none;
+}

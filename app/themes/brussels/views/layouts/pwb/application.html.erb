@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>" class="<%= @current_website.auto_dark_mode? ? 'pwb-auto-dark' : '' %> <%= @current_website.dark_mode_html_class %>">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title><%= yield(:page_title) %></title>
+    <%= favicon_tags %>
+    <%= verification_meta_tags %>
+    <%= yield(:page_head) %>
+
+    <%# Preload LCP image for faster Largest Contentful Paint %>
+    <% if @lcp_image_url.present? %>
+      <link rel="preload" href="<%= @lcp_image_url %>" as="image" fetchpriority="high">
+    <% end %>
+
+    <%# Preconnect for external resources %>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://seed-assets.propertywebbuilder.com" crossorigin>
+    <link rel="dns-prefetch" href="//unpkg.com">
+    <%= font_preconnect_tags %>
+
+    <%# CRITICAL CSS - Inlined for fastest FCP %>
+    <style><%= critical_css %><%= palette_css %><%= font_css_variables %><%= custom_styles "brussels" %></style>
+
+    <%# Google Fonts - async loaded %>
+    <%= google_fonts_preload_tag %>
+
+    <%# Main CSS - async loaded to not block rendering %>
+    <link rel="preload" href="<%= asset_path('tailwind-brussels.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="<%= asset_path('brussels_theme.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+      <%= stylesheet_link_tag "tailwind-brussels", media: "all" %>
+      <%= stylesheet_link_tag "brussels_theme", media: "all" %>
+    </noscript>
+
+    <%# Flowbite CSS - deferred %>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"></noscript>
+
+    <%# Material Symbols - primary icon font %>
+    <%= stylesheet_link_tag "material-icons", media: "all" %>
+
+    <%# Font Awesome 6 Subset - legacy support %>
+    <%= stylesheet_link_tag "fontawesome-subset", media: "all" %>
+
+    <%= csrf_meta_tags %>
+
+    <%# PWA manifest and theme color %>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="<%= @current_website.style_variables["primary_color"] || "#9ACD32" %>">
+  </head>
+
+  <body class="tnt-body brussels-theme <%= @current_website.body_style %> font-sans antialiased bg-brussels-light text-brussels-dark">
+    <%# Brand icons SVG sprite %>
+    <%= render partial: '/pwb/brand_icons_sprite' %>
+
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-white focus:text-brussels-lime">Skip to main content</a>
+
+    <%# MAIN WRAPPER %>
+    <div id="main-vue" class="body-wrap sticky-wrap <%= @current_website.body_style %> flex flex-col min-h-screen">
+
+      <%# Header %>
+      <%= render partial: '/pwb/header', locals: { not_devise: true } %>
+
+      <%# Main Content %>
+      <main id="main-content" class="sticky-body flex-grow" role="main">
+        <%= render 'devise/shared/messages' %>
+        <%= yield %>
+      </main>
+
+      <%# Footer %>
+      <%= render partial: '/pwb/footer', locals: {} %>
+
+      <%# Analytics %>
+      <%= render partial: '/pwb/analytics', locals: {} %>
+    </div>
+
+    <%# JavaScript loaded at end of body for best performance %>
+    <%= javascript_include_tag "pwb/application", defer: true %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
+    <%= javascript_importmap_tags %>
+
+    <%# Header scroll effect %>
+    <script defer>
+      document.addEventListener('DOMContentLoaded', function() {
+        const navbar = document.querySelector('nav, header');
+        if (navbar) {
+          window.addEventListener('scroll', function() {
+            navbar.classList.toggle('shadow-card', window.scrollY > 50);
+            navbar.style.backgroundColor = window.scrollY > 50 ? 'rgba(19, 19, 19, 0.85)' : '';
+          }, {passive: true});
+        }
+      });
+    </script>
+
+    <%= yield(:page_script) %>
+    <% if params[:edit_mode] == 'true' %>
+      <%= javascript_include_tag "pwb/editor_client" %>
+    <% end %>
+
+    <%# Service Worker registration for PWA %>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(function(registration) {
+              console.log('SW registered:', registration.scope);
+            })
+            .catch(function(error) {
+              console.log('SW registration failed:', error);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>

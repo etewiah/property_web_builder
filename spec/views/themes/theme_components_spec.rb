@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Theme Component Functionality', type: :view do
   # Themes that use Tailwind/Flowbite (not Bootstrap)
-  TAILWIND_THEMES = %w[bologna barcelona brisbane biarritz default].freeze
+  TAILWIND_THEMES = %w[bologna barcelona brisbane biarritz brussels default].freeze
 
   # Required patterns for Flowbite carousel to work
   FLOWBITE_CAROUSEL_PATTERNS = {
@@ -292,7 +292,8 @@ RSpec.describe 'Theme Component Functionality', type: :view do
       'brisbane' => '_brisbane.css.erb',
       'bologna' => '_bologna.css.erb',
       'barcelona' => '_barcelona.css.erb',
-      'biarritz' => '_biarritz.css.erb'
+      'biarritz' => '_biarritz.css.erb',
+      'brussels' => '_brussels.css.erb'
     }.freeze
 
     def read_css_partial(css_filename)
@@ -478,6 +479,7 @@ RSpec.describe 'Theme Component Functionality', type: :view do
       tailwind-bologna
       tailwind-barcelona
       tailwind-biarritz
+      tailwind-brussels
     ].freeze
 
     describe 'Admin layouts use tailwind-default' do

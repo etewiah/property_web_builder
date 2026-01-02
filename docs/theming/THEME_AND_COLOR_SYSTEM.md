@@ -49,6 +49,14 @@ app/themes/
 │   │   ├── coastal_warmth.json
 │   │   └── modern_slate.json
 │   └── views/
+├── brussels/
+│   ├── palettes/
+│   │   └── lime_green.json             # Default palette (Material Design)
+│   └── views/
+│       ├── pwb/components/
+│       ├── pwb/sections/
+│       ├── pwb/search/
+│       └── pwb/props/
 ├── barcelona/                           # Disabled theme (enabled: false)
 │   ├── palettes/
 │   └── views/
@@ -344,8 +352,9 @@ Tailwind CSS is compiled per-theme to separate CSS files using the CLI:
     "tailwind:default": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-input.css -o ./app/assets/builds/tailwind-default.css",
     "tailwind:brisbane": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-brisbane.css -o ./app/assets/builds/tailwind-brisbane.css",
     "tailwind:bologna": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-bologna.css -o ./app/assets/builds/tailwind-bologna.css",
-    "tailwind:build": "npm run tailwind:default && npm run tailwind:brisbane && npm run tailwind:bologna",
-    "tailwind:build:prod": "npm run tailwind:default:prod && npm run tailwind:brisbane:prod && npm run tailwind:bologna:prod"
+    "tailwind:brussels": "npx @tailwindcss/cli -i ./app/assets/stylesheets/tailwind-brussels.css -o ./app/assets/builds/tailwind-brussels.css",
+    "tailwind:build": "npm run tailwind:default && npm run tailwind:brisbane && npm run tailwind:bologna && npm run tailwind:brussels",
+    "tailwind:build:prod": "npm run tailwind:default:prod && npm run tailwind:brisbane:prod && npm run tailwind:bologna:prod && npm run tailwind:brussels:prod"
   }
 }
 ```
@@ -357,6 +366,7 @@ Each theme has a corresponding input file:
 - `app/assets/stylesheets/tailwind-input.css` → `tailwind-default.css`
 - `app/assets/stylesheets/tailwind-brisbane.css` → `tailwind-brisbane.css`
 - `app/assets/stylesheets/tailwind-bologna.css` → `tailwind-bologna.css`
+- `app/assets/stylesheets/tailwind-brussels.css` → `tailwind-brussels.css`
 
 **Example: `tailwind-input.css`**
 
@@ -415,6 +425,7 @@ app/assets/builds/
 ├── tailwind-default.css        # Pre-built, includes all Tailwind utilities
 ├── tailwind-brisbane.css       # Pre-built, includes all Tailwind utilities
 ├── tailwind-bologna.css        # Pre-built, includes all Tailwind utilities
+├── tailwind-brussels.css       # Pre-built, Material Design shadows
 ├── tailwind-barcelona.css
 ├── tailwind-biarritz.css
 ├── critical-default.css        # (Optional) Above-the-fold CSS for LCP
@@ -521,7 +532,7 @@ theme.style_variables
 
 The theme configuration system is exposed in admin UI:
 
-1. **Theme Selection** - Choose base theme (default, brisbane, bologna, barcelona, biarritz)
+1. **Theme Selection** - Choose base theme (default, brisbane, bologna, brussels, barcelona, biarritz)
 2. **Palette Selection** - Choose color palette within theme
 3. **Style Variables** - Customize individual style settings
 4. **Dark Mode** - Toggle dark mode support (light_only, auto, dark)
@@ -685,5 +696,5 @@ This updates `selected_palette` and the colors are immediately available via `we
 
 ---
 
-**Last Updated:** 2025-12-29
+**Last Updated:** 2026-01-02
 **Author:** Research conducted by Claude Code

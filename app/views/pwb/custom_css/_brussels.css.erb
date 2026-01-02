@@ -1,0 +1,608 @@
+/* Theme: Brussels Modern
+ * A fresh, clean theme with lime green accents and Material Design influences
+ * Color Palette: Lime Green, Dark Gray, Medium Gray, Light Background
+ */
+
+<%# Include base CSS variables with dark mode support %>
+<%= render partial: '/pwb/custom_css/base_variables', locals: {} %>
+
+:root {
+  /* Brussels Theme Colors - Mapped to PWB Standard Variables */
+  --brussels-lime: var(--pwb-primary-color);
+  --brussels-dark: var(--pwb-secondary-color);
+  --brussels-accent: var(--pwb-accent-color);
+  --brussels-light: var(--pwb-background-color);
+  --brussels-text: var(--pwb-text-color);
+
+  /* Accent Colors - Mapped to PWB Dynamic Shades */
+  --brussels-lime-light: var(--pwb-primary-200);
+  --brussels-lime-dark: var(--pwb-primary-700);
+  --brussels-dark-light: var(--pwb-secondary-200);
+
+  /* Header Colors */
+  --header-bg-color: var(--pwb-header-background-color, rgba(19, 19, 19, 0.52));
+  --header-text-color: var(--pwb-header-text-color, #FFFFFF);
+
+  /* Footer Colors */
+  --footer-bg-color: var(--pwb-footer-background-color, #616161);
+  --footer-text-color: var(--pwb-footer-text-color, #FFFFFF);
+  --footer-link-color: var(--brussels-lime);
+  --footer-link-hover-color: var(--pwb-primary-100);
+
+  /* Action Colors */
+  --action-color: var(--pwb-primary-color);
+
+  /* Typography - Catamaran for clean modern look */
+  --font-primary: <%= @current_website&.style_variables&.dig("font_primary") || "Catamaran" %>;
+  --font-secondary: <%= @current_website&.style_variables&.dig("font_secondary") || "Catamaran" %>;
+
+  /* Spacing & Sizing - Minimal for sharp modern look */
+  --border-radius: <%= @current_website&.style_variables&.dig("border_radius") || "2px" %>;
+  --container-padding: <%= @current_website&.style_variables&.dig("container_padding") || "1.5rem" %>;
+
+  /* Material Design Shadows */
+  --shadow-card: 0 3px 1px -2px rgba(0,0,0,0.2), 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12);
+  --shadow-card-hover: 0 5px 5px -3px rgba(0,0,0,0.2), 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12);
+  --shadow-elevated: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.2);
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+.brussels-theme {
+  font-family: var(--font-primary), system-ui, -apple-system, sans-serif;
+  color: var(--brussels-text);
+  background-color: var(--brussels-light);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.brussels-theme h1,
+.brussels-theme h2,
+.brussels-theme h3,
+.brussels-theme h4,
+.brussels-theme h5,
+.brussels-theme h6 {
+  font-family: var(--font-primary), sans-serif;
+  font-weight: 600;
+  color: var(--brussels-dark);
+}
+
+.brussels-theme h1 {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.brussels-theme h2 {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.brussels-theme h3 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.brussels-theme h4 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* ============================================
+   BUTTONS - Material Design Style
+   ============================================ */
+
+.brussels-theme .btn-primary,
+.brussels-theme .btn-base,
+.brussels-theme .pwb-btn--primary {
+  background: var(--brussels-lime);
+  color: rgba(0, 0, 0, 0.87);
+  border: none;
+  padding: 8px 16px;
+  font-family: var(--font-primary), sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: none;
+  border-radius: 2px;
+  transition: filter 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--shadow-card);
+}
+
+.brussels-theme .btn-primary:hover,
+.brussels-theme .btn-base:hover,
+.brussels-theme .pwb-btn--primary:hover {
+  filter: brightness(1.1);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.brussels-theme .btn-secondary,
+.brussels-theme .btn-outline {
+  background: transparent;
+  color: var(--brussels-lime);
+  border: 1px solid var(--brussels-lime);
+  padding: 8px 16px;
+  font-family: var(--font-primary), sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.brussels-theme .btn-secondary:hover,
+.brussels-theme .btn-outline:hover {
+  background: var(--brussels-lime);
+  color: rgba(0, 0, 0, 0.87);
+}
+
+/* ============================================
+   CARDS - Material Design with Sharp Corners
+   ============================================ */
+
+.brussels-theme .property-card,
+.brussels-theme .card {
+  background: white;
+  border: none;
+  border-radius: 0;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.brussels-theme .property-card:hover,
+.brussels-theme .card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+.brussels-theme .property-card .card-body,
+.brussels-theme .card .card-body {
+  padding: 1rem;
+}
+
+.brussels-theme .property-card .property-title {
+  font-family: var(--font-primary), sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--brussels-dark);
+  margin-bottom: 0.25rem;
+}
+
+.brussels-theme .property-card .property-price {
+  font-family: var(--font-primary), sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--brussels-lime);
+}
+
+.brussels-theme .property-card .property-location {
+  font-size: 12px;
+  color: #757575;
+}
+
+/* Property features (beds, baths, area) */
+.brussels-theme .property-card .property-features {
+  display: flex;
+  gap: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #E0E0E0;
+  margin-top: 0.75rem;
+}
+
+.brussels-theme .property-card .property-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 12px;
+  color: #616161;
+}
+
+/* ============================================
+   HEADER & NAVIGATION
+   ============================================ */
+
+.brussels-theme header,
+.brussels-theme .site-header {
+  background: var(--header-bg-color);
+  color: var(--header-text-color);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.brussels-theme header a,
+.brussels-theme .site-header a {
+  color: var(--header-text-color);
+  transition: color 0.2s ease;
+}
+
+.brussels-theme header a:hover,
+.brussels-theme header a.active,
+.brussels-theme .site-header a:hover,
+.brussels-theme .site-header a.active {
+  color: var(--brussels-lime);
+}
+
+.brussels-theme .nav-link {
+  font-family: var(--font-primary), sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 0.5rem 1rem;
+  transition: color 0.2s ease;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.brussels-theme footer,
+.brussels-theme .site-footer {
+  background: var(--footer-bg-color);
+  color: var(--footer-text-color);
+  padding: 3rem 0 1.5rem;
+}
+
+.brussels-theme footer h4,
+.brussels-theme footer h5 {
+  font-family: var(--font-primary), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--footer-text-color);
+  margin-bottom: 1rem;
+}
+
+.brussels-theme footer a {
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.2s ease;
+}
+
+.brussels-theme footer a:hover {
+  color: var(--brussels-lime);
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+
+.brussels-theme .hero-section {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+}
+
+.brussels-theme .hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(19, 19, 19, 0.4);
+}
+
+.brussels-theme .hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: white;
+  max-width: 900px;
+  padding: 2rem;
+}
+
+.brussels-theme .hero-title {
+  font-family: var(--font-primary), sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+/* ============================================
+   SEARCH FORM
+   ============================================ */
+
+.brussels-theme .search-container,
+.brussels-theme .search-form {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-elevated);
+}
+
+.brussels-theme .form-control,
+.brussels-theme select,
+.brussels-theme input[type="text"],
+.brussels-theme input[type="number"],
+.brussels-theme input[type="email"] {
+  border: 1px solid #E0E0E0;
+  border-radius: 0;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-primary), sans-serif;
+  font-size: 14px;
+  color: var(--brussels-text);
+  transition: border-color 0.2s ease;
+}
+
+.brussels-theme .form-control:focus,
+.brussels-theme select:focus,
+.brussels-theme input:focus {
+  border-color: var(--brussels-lime);
+  outline: none;
+  box-shadow: none;
+}
+
+.brussels-theme .form-label {
+  font-family: var(--font-primary), sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #616161;
+  margin-bottom: 0.25rem;
+}
+
+/* ============================================
+   PROPERTY DETAILS PAGE
+   ============================================ */
+
+.brussels-theme .property-detail-header {
+  background: #F5F5F5;
+  padding: 2rem 0;
+}
+
+.brussels-theme .property-detail-title {
+  font-family: var(--font-primary), sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--brussels-dark);
+}
+
+.brussels-theme .property-detail-price {
+  font-family: var(--font-primary), sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--brussels-lime);
+}
+
+.brussels-theme .property-features-list {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem 0;
+  border-top: 1px solid #E0E0E0;
+  border-bottom: 1px solid #E0E0E0;
+  margin: 1.5rem 0;
+}
+
+.brussels-theme .property-feature-item {
+  text-align: center;
+}
+
+.brussels-theme .property-feature-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--brussels-dark);
+}
+
+.brussels-theme .property-feature-label {
+  font-size: 12px;
+  color: #757575;
+}
+
+/* ============================================
+   BADGES
+   ============================================ */
+
+.brussels-theme .property-badge,
+.brussels-theme .badge {
+  background: var(--brussels-lime);
+  color: rgba(0, 0, 0, 0.87);
+  font-family: var(--font-primary), sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 2px;
+}
+
+.brussels-theme .badge-featured {
+  background: var(--brussels-dark);
+  color: white;
+}
+
+/* ============================================
+   FOCUS STATES (WCAG Accessibility)
+   ============================================ */
+
+.brussels-theme *:focus-visible {
+  outline: 2px solid var(--brussels-lime);
+  outline-offset: 2px;
+}
+
+/* Link indicators for accessibility */
+.brussels-theme a:not(.btn):not(.property-card) {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.brussels-theme .bg-brussels-lime {
+  background-color: var(--brussels-lime);
+}
+
+.brussels-theme .bg-brussels-dark {
+  background-color: var(--brussels-dark);
+}
+
+.brussels-theme .bg-brussels-light {
+  background-color: var(--brussels-light);
+}
+
+.brussels-theme .text-brussels-lime {
+  color: var(--brussels-lime);
+}
+
+.brussels-theme .text-brussels-dark {
+  color: var(--brussels-dark);
+}
+
+/* Primary/Secondary semantic colors */
+.brussels-theme .fondo_principal {
+  background: var(--brussels-lime);
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.brussels-theme .fondo_secundario {
+  background: var(--brussels-dark);
+  color: white;
+}
+
+.brussels-theme .color_principal {
+  color: var(--brussels-lime) !important;
+}
+
+.brussels-theme .color_secundario {
+  color: var(--brussels-dark) !important;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .brussels-theme h1 {
+    font-size: 20px;
+  }
+
+  .brussels-theme h2 {
+    font-size: 18px;
+  }
+
+  .brussels-theme .hero-section {
+    min-height: 60vh;
+  }
+
+  .brussels-theme .hero-title {
+    font-size: 22px;
+  }
+
+  .brussels-theme .property-features-list {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+
+/* ============================================
+   DARK MODE SUPPORT
+   ============================================ */
+
+<%
+  # Get dark mode colors from palette (if dark mode is enabled)
+  dark_colors = @current_website&.dark_mode_enabled? ? (@current_website.dark_mode_colors || {}) : {}
+
+  # Dark mode Brussels colors
+  dark_brussels_bg = dark_colors["background_color"] || "#121212"
+  dark_brussels_text = dark_colors["text_color"] || "#e8e8e8"
+  dark_brussels_lime = dark_colors["primary_color"] || "#b8e04d"
+  dark_brussels_dark = dark_colors["secondary_color"] || "#2a2a2a"
+%>
+
+<% if @current_website&.dark_mode_enabled? %>
+/* Auto dark mode (respects system preference) */
+@media (prefers-color-scheme: dark) {
+  .pwb-auto-dark.brussels-theme,
+  .pwb-auto-dark .brussels-theme {
+    --brussels-light: <%= dark_brussels_bg %>;
+    --brussels-text: <%= dark_brussels_text %>;
+    --brussels-lime: <%= dark_brussels_lime %>;
+    --brussels-dark: <%= dark_brussels_dark %>;
+    background-color: var(--brussels-light);
+    color: var(--brussels-text);
+  }
+
+  .pwb-auto-dark .brussels-theme .navbar,
+  .pwb-auto-dark .brussels-theme header,
+  .pwb-auto-dark .brussels-theme .property-card,
+  .pwb-auto-dark .brussels-theme .card,
+  .pwb-auto-dark .brussels-theme .search-container,
+  .pwb-auto-dark .brussels-theme .contact-form {
+    background: color-mix(in srgb, <%= dark_brussels_bg %> 85%, white);
+  }
+
+  .pwb-auto-dark .brussels-theme h1,
+  .pwb-auto-dark .brussels-theme h2,
+  .pwb-auto-dark .brussels-theme h3,
+  .pwb-auto-dark .brussels-theme h4,
+  .pwb-auto-dark .brussels-theme h5,
+  .pwb-auto-dark .brussels-theme h6 {
+    color: <%= dark_brussels_text %>;
+  }
+}
+
+/* Forced dark mode */
+.pwb-dark.brussels-theme,
+.pwb-dark .brussels-theme,
+html.pwb-dark .brussels-theme {
+  --brussels-light: <%= dark_brussels_bg %>;
+  --brussels-text: <%= dark_brussels_text %>;
+  --brussels-lime: <%= dark_brussels_lime %>;
+  --brussels-dark: <%= dark_brussels_dark %>;
+  background-color: var(--brussels-light);
+  color: var(--brussels-text);
+}
+
+.pwb-dark .brussels-theme .navbar,
+.pwb-dark .brussels-theme header,
+.pwb-dark .brussels-theme .property-card,
+.pwb-dark .brussels-theme .card,
+.pwb-dark .brussels-theme .search-container,
+html.pwb-dark .brussels-theme .navbar,
+html.pwb-dark .brussels-theme header,
+html.pwb-dark .brussels-theme .property-card,
+html.pwb-dark .brussels-theme .card,
+html.pwb-dark .brussels-theme .search-container {
+  background: color-mix(in srgb, <%= dark_brussels_bg %> 85%, white);
+}
+
+.pwb-dark .brussels-theme h1,
+.pwb-dark .brussels-theme h2,
+.pwb-dark .brussels-theme h3,
+.pwb-dark .brussels-theme h4,
+.pwb-dark .brussels-theme h5,
+.pwb-dark .brussels-theme h6,
+html.pwb-dark .brussels-theme h1,
+html.pwb-dark .brussels-theme h2,
+html.pwb-dark .brussels-theme h3,
+html.pwb-dark .brussels-theme h4,
+html.pwb-dark .brussels-theme h5,
+html.pwb-dark .brussels-theme h6 {
+  color: <%= dark_brussels_text %>;
+}
+
+/* Dark mode form elements */
+.pwb-dark .brussels-theme .form-control,
+.pwb-dark .brussels-theme select,
+.pwb-dark .brussels-theme input,
+html.pwb-dark .brussels-theme .form-control,
+html.pwb-dark .brussels-theme select,
+html.pwb-dark .brussels-theme input {
+  background: color-mix(in srgb, <%= dark_brussels_bg %> 90%, white);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: <%= dark_brussels_text %>;
+}
+
+/* Dark mode footer */
+.pwb-dark .brussels-theme footer,
+html.pwb-dark .brussels-theme footer {
+  background: color-mix(in srgb, <%= dark_brussels_bg %> 70%, black);
+}
+<% end %>
+
+<%= render partial: '/pwb/custom_css/shared', locals: {} %>
