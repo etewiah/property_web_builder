@@ -109,7 +109,7 @@
         </p>
         <div class="flex items-center gap-2">
           <input type="text"
-                 value="<%= price_game_url(listing.game_token) %>"
+                 value="<%= price_game_url(token: listing.game_token) %>"
                  readonly
                  class="flex-1 px-3 py-2 bg-white border border-purple-200 rounded-lg text-sm text-gray-700"
                  id="game-url-<%= listing.id %>">
@@ -118,7 +118,7 @@
                   class="px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition">
             Copy
           </button>
-          <a href="<%= price_game_path(listing.game_token) %>"
+          <a href="<%= price_game_path(token: listing.game_token) %>"
              target="_blank"
              class="px-4 py-2 bg-white border border-purple-300 text-purple-700 text-sm font-medium rounded-lg hover:bg-purple-50 transition">
             Preview
