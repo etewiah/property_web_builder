@@ -84,28 +84,28 @@
     </div>
   </div>
 
-  <%# Price Range %>
+  <%# Price Range - Uses @search_config for presets %>
+  <% if @search_config&.filter_enabled?(:price) %>
   <div class="mb-4">
     <label class="block text-sm font-medium text-gray-700 mb-2">
       <%= t("external_feed.search.price_range", default: "Price Range") %>
     </label>
     <div class="grid grid-cols-2 gap-2">
-      <div>
-        <label for="min_price" class="sr-only"><%= t("external_feed.search.min_price", default: "Min Price") %></label>
-        <input type="number" id="min_price" name="min_price"
-               value="<%= search_params[:min_price] %>"
-               placeholder="<%= t('external_feed.search.min', default: 'Min') %>"
-               class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
-      </div>
-      <div>
-        <label for="max_price" class="sr-only"><%= t("external_feed.search.max_price", default: "Max Price") %></label>
-        <input type="number" id="max_price" name="max_price"
-               value="<%= search_params[:max_price] %>"
-               placeholder="<%= t('external_feed.search.max', default: 'Max') %>"
-               class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
-      </div>
+      <select name="min_price"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+        <% @search_config.price_min_options_for_view.each do |opt| %>
+          <option value="<%= opt[:value] %>" <%= 'selected' if search_params[:min_price].to_s == opt[:value].to_s %>><%= opt[:label] %></option>
+        <% end %>
+      </select>
+      <select name="max_price"
+              class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+        <% @search_config.price_max_options_for_view.each do |opt| %>
+          <option value="<%= opt[:value] %>" <%= 'selected' if search_params[:max_price].to_s == opt[:value].to_s %>><%= opt[:label] %></option>
+        <% end %>
+      </select>
     </div>
   </div>
+  <% end %>
 
   <%# Bedrooms - Uses @search_config for options %>
   <% if @search_config&.filter_enabled?(:bedrooms) %>

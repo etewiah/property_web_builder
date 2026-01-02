@@ -5,6 +5,9 @@ module Pwb
     # Controller for displaying external property listings from feed providers.
     # Handles search, property details, and similar properties for external feeds.
     class ExternalListingsController < Pwb::ApplicationController
+      include SeoHelper
+      include HttpCacheable
+
       before_action :ensure_feed_enabled
       before_action :set_listing, only: [:show, :similar]
 
@@ -19,8 +22,25 @@ module Pwb
         listing_type = @search_params[:listing_type] == :rental ? :rental : :sale
         @search_config = Pwb::SearchConfig.new(current_website, listing_type: listing_type)
 
+        # SEO setup
+        set_external_listings_seo
+
+        # HTTP caching - longer cache for unfiltered results
+        cache_duration = has_active_filters? ? 2.minutes : 10.minutes
+        set_cache_control_headers(
+          max_age: cache_duration,
+          public: true,
+          stale_while_revalidate: 1.hour
+        )
+
         respond_to do |format|
-          format.html
+          format.html do
+            if turbo_frame_request?
+              render partial: "search_results_frame", layout: false
+            else
+              render :index
+            end
+          end
           format.json { render json: @result.to_h }
         end
       end
@@ -146,6 +166,58 @@ module Pwb
       def listing_type_param
         type = params[:listing_type] || params[:type] || "sale"
         type.to_sym
+      end
+
+      # Check if there are any active search filters
+      def has_active_filters?
+        @search_params[:min_price].present? ||
+          @search_params[:max_price].present? ||
+          @search_params[:min_bedrooms].present? ||
+          @search_params[:max_bedrooms].present? ||
+          @search_params[:min_bathrooms].present? ||
+          @search_params[:max_bathrooms].present? ||
+          @search_params[:location].present? ||
+          @search_params[:property_types].present? ||
+          @search_params[:features].present?
+      end
+
+      # Set SEO meta tags for external listings page
+      def set_external_listings_seo
+        listing_type = @search_params[:listing_type] == :rental ? "rent" : "buy"
+        location = @search_params[:location]
+
+        # Build page title
+        if location.present?
+          @page_title = t("external_feed.seo.title_with_location",
+                          type: listing_type.capitalize,
+                          location: location,
+                          default: "Properties to #{listing_type.capitalize} in #{location}")
+        else
+          @page_title = t("external_feed.seo.title",
+                          type: listing_type.capitalize,
+                          default: "Properties to #{listing_type.capitalize}")
+        end
+        @page_title = "#{@page_title} | #{@current_agency&.company_name || current_website.company_display_name}"
+
+        # Meta description
+        count = @result&.total_count || 0
+        @meta_description = t("external_feed.seo.description",
+                              count: count,
+                              type: listing_type,
+                              default: "Browse #{count} properties available to #{listing_type}. Find your perfect property today.")
+
+        # Canonical URL - remove pagination for canonical
+        @canonical_url = external_listings_url(canonical_params)
+      end
+
+      # Get canonical URL params (remove page param for canonical)
+      def canonical_params
+        params.permit(:listing_type, :location).to_h.reject { |_, v| v.blank? }
+      end
+
+      # Check if request is a Turbo Frame request
+      def turbo_frame_request?
+        request.headers["Turbo-Frame"].present?
       end
     end
   end

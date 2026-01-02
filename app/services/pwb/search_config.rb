@@ -665,6 +665,20 @@ module Pwb
       bathroom_min_options_for_view
     end
 
+    # Get price min options formatted for select dropdown
+    #
+    # @return [Array<Hash>] Array of {value:, label:} hashes
+    def price_min_options_for_view
+      format_price_options_for_view(price_min_presets, min: true)
+    end
+
+    # Get price max options formatted for select dropdown
+    #
+    # @return [Array<Hash>] Array of {value:, label:} hashes
+    def price_max_options_for_view
+      format_price_options_for_view(price_max_presets, min: false)
+    end
+
     private
 
     # Format min options for view (handles "Any" as no minimum)
@@ -696,6 +710,40 @@ module Pwb
         else
           { value: opt.to_s, label: opt.to_s }
         end
+      end
+    end
+
+    # Format price options for view with currency formatting
+    #
+    # @param options [Array] Raw price options array
+    # @param min [Boolean] Whether these are min options (affects label for "No min")
+    # @return [Array<Hash>] Array of {value:, label:} hashes
+    def format_price_options_for_view(options, min: true)
+      options.map do |opt|
+        if opt == "No min"
+          { value: "", label: I18n.t("search.no_min", default: "No min") }
+        elsif opt == "No max"
+          { value: "", label: I18n.t("search.no_max", default: "No max") }
+        elsif opt.is_a?(Integer)
+          { value: opt.to_s, label: format_price_label(opt) }
+        else
+          { value: opt.to_s, label: opt.to_s }
+        end
+      end
+    end
+
+    # Format a price value as a display label
+    #
+    # @param price [Integer] Price value
+    # @return [String] Formatted price label
+    def format_price_label(price)
+      # Use compact formatting for large numbers
+      if price >= 1_000_000
+        "#{(price / 1_000_000.0).round(1)}M"
+      elsif price >= 1_000
+        "#{(price / 1_000).round}K"
+      else
+        price.to_s
       end
     end
 
