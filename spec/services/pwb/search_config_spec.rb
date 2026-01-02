@@ -13,8 +13,8 @@ RSpec.describe Pwb::SearchConfig do
         expect(config.price_presets).to be_present
         # First element is "No min" for min presets
         expect(config.price_presets.first).to eq("No min")
-        # Numeric values follow
-        expect(config.price_presets[1]).to eq(50_000)
+        # Numeric values follow (starting at 200k to match typical market ranges)
+        expect(config.price_presets[1]).to eq(200_000)
       end
 
       it "provides separate min and max presets" do
@@ -145,9 +145,9 @@ RSpec.describe Pwb::SearchConfig do
 
       it "returns sale price presets" do
         expect(config.listing_type).to eq(:sale)
-        # First element is "No min", followed by numeric values
+        # First element is "No min", followed by numeric values (starting at 200k)
         expect(config.price_presets.first).to eq("No min")
-        expect(config.price_presets[1]).to eq(50_000)
+        expect(config.price_presets[1]).to eq(200_000)
       end
     end
 

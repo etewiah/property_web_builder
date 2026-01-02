@@ -21,15 +21,16 @@ module Pwb
   # @see docs/architecture/SEARCH_OPTIONS_STRATEGY.md
   class SearchConfig
     # Default sale price min presets (EUR)
+    # Starting at 200k to match typical property market price ranges
     DEFAULT_SALE_MIN_PRESETS = [
-      "No min", 50_000, 100_000, 150_000, 200_000, 300_000, 400_000, 500_000,
-      750_000, 1_000_000, 1_500_000, 2_000_000, 3_000_000
+      "No min", 200_000, 250_000, 300_000, 400_000, 500_000, 600_000,
+      750_000, 1_000_000, 1_500_000, 2_000_000, 3_000_000, 5_000_000
     ].freeze
 
     # Default sale price max presets (EUR)
     DEFAULT_SALE_MAX_PRESETS = [
-      100_000, 150_000, 200_000, 300_000, 400_000, 500_000,
-      750_000, 1_000_000, 1_500_000, 2_000_000, 3_000_000, 5_000_000, "No max"
+      300_000, 400_000, 500_000, 600_000, 750_000, 1_000_000,
+      1_500_000, 2_000_000, 3_000_000, 5_000_000, 7_500_000, 10_000_000, "No max"
     ].freeze
 
     # Default rental price min presets (EUR/month)
