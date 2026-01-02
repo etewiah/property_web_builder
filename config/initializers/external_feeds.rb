@@ -12,7 +12,9 @@
 # Example:
 #   Pwb::ExternalFeed::Registry.register(Pwb::ExternalFeed::Providers::MyProvider)
 
-Rails.application.config.after_initialize do
+# Use to_prepare to ensure providers are registered after each code reload in development
+# This is necessary because the Registry class gets reloaded and loses its state
+Rails.application.config.to_prepare do
   # Register Resales Online provider for Costa del Sol properties
   Pwb::ExternalFeed::Registry.register(Pwb::ExternalFeed::Providers::ResalesOnline)
 

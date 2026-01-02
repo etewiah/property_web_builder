@@ -52,7 +52,7 @@ module Pwb
         cache.fetch_data(:search, normalized_params) do
           provider.search(normalized_params)
         end
-      rescue Error => e
+      rescue Pwb::ExternalFeed::Error => e
         Rails.logger.error("[ExternalFeed::Manager] Search error: #{e.message}")
         error_search_result(params, e.message)
       rescue StandardError => e
@@ -73,9 +73,9 @@ module Pwb
         cache.fetch_data(:property, cache_params) do
           provider.find(reference, params)
         end
-      rescue PropertyNotFoundError
+      rescue Pwb::ExternalFeed::PropertyNotFoundError
         nil
-      rescue Error => e
+      rescue Pwb::ExternalFeed::Error => e
         Rails.logger.error("[ExternalFeed::Manager] Find error for #{reference}: #{e.message}")
         nil
       rescue StandardError => e
@@ -96,7 +96,7 @@ module Pwb
         cache.fetch_data(:similar, cache_params) do
           provider.similar(property, params)
         end
-      rescue Error => e
+      rescue Pwb::ExternalFeed::Error => e
         Rails.logger.error("[ExternalFeed::Manager] Similar error: #{e.message}")
         []
       rescue StandardError => e
@@ -113,7 +113,7 @@ module Pwb
         cache.fetch_data(:locations, params) do
           provider.locations(params)
         end
-      rescue Error => e
+      rescue Pwb::ExternalFeed::Error => e
         Rails.logger.error("[ExternalFeed::Manager] Locations error: #{e.message}")
         []
       end
@@ -127,7 +127,7 @@ module Pwb
         cache.fetch_data(:property_types, params) do
           provider.property_types(params)
         end
-      rescue Error => e
+      rescue Pwb::ExternalFeed::Error => e
         Rails.logger.error("[ExternalFeed::Manager] Property types error: #{e.message}")
         []
       end
@@ -181,14 +181,16 @@ module Pwb
         provider_name = website.external_feed_provider&.to_sym
 
         unless provider_name
-          raise ConfigurationError, "No external feed provider configured for website #{website.id}"
+          raise Pwb::ExternalFeed::ConfigurationError,
+                "No external feed provider configured for website #{website.id}"
         end
 
         provider_class = Registry.find(provider_name)
 
         unless provider_class
-          raise ConfigurationError, "Unknown external feed provider: #{provider_name}. " \
-                                    "Available: #{Registry.available_providers.join(', ')}"
+          raise Pwb::ExternalFeed::ConfigurationError,
+                "Unknown external feed provider: #{provider_name}. " \
+                "Available: #{Registry.available_providers.join(', ')}"
         end
 
         provider_class.new(website, config)

@@ -77,21 +77,24 @@ module SiteAdmin
     end
 
     def external_feed_params
+      # Use pwb_website key to match form_with model: @website (Pwb::Website)
+      param_key = params.key?(:pwb_website) ? :pwb_website : :website
+
       # Permit the main settings
-      permitted = params.require(:website).permit(
+      permitted = params.require(param_key).permit(
         :external_feed_enabled,
         :external_feed_provider
       )
 
       # Handle the config hash - convert to proper structure
-      if params[:website][:external_feed_config].present?
-        config_params = params[:website][:external_feed_config].to_unsafe_h
+      if params[param_key][:external_feed_config].present?
+        config_params = params[param_key][:external_feed_config].to_unsafe_h
         # Filter out empty values and handle password masking
         config_params = config_params.reject { |_k, v| v.blank? || v == "••••••••••••" }
 
         # Merge with existing config to preserve unchanged secret values
         if @website.external_feed_config.present?
-          existing_config = @website.external_feed_config
+          existing_config = @website.external_feed_config.dup
           config_params.each do |key, value|
             # Only update if not the placeholder
             existing_config[key] = value unless value == "••••••••••••"

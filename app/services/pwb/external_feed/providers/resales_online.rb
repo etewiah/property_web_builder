@@ -256,27 +256,27 @@ module Pwb
         rescue OpenURI::HTTPError => e
           handle_http_error(e)
         rescue JSON::ParserError => e
-          raise InvalidResponseError, "Invalid JSON from Resales API: #{e.message}"
+          raise Pwb::ExternalFeed::InvalidResponseError, "Invalid JSON from Resales API: #{e.message}"
         rescue Timeout::Error, Net::OpenTimeout, Net::ReadTimeout
-          raise ProviderUnavailableError, "Resales API request timed out"
+          raise Pwb::ExternalFeed::ProviderUnavailableError, "Resales API request timed out"
         rescue StandardError => e
           log(:error, "Fetch error: #{e.class} - #{e.message}")
-          raise ProviderUnavailableError, "Failed to fetch from Resales API: #{e.message}"
+          raise Pwb::ExternalFeed::ProviderUnavailableError, "Failed to fetch from Resales API: #{e.message}"
         end
 
         def handle_http_error(error)
           code = error.io.status[0]
           case code
           when "401", "403"
-            raise AuthenticationError, "Resales API authentication failed (#{code})"
+            raise Pwb::ExternalFeed::AuthenticationError, "Resales API authentication failed (#{code})"
           when "429"
-            raise RateLimitError, "Resales API rate limit exceeded"
+            raise Pwb::ExternalFeed::RateLimitError, "Resales API rate limit exceeded"
           when "404"
-            raise PropertyNotFoundError, "Property not found"
+            raise Pwb::ExternalFeed::PropertyNotFoundError, "Property not found"
           when "500", "502", "503", "504"
-            raise ProviderUnavailableError, "Resales API server error (#{code})"
+            raise Pwb::ExternalFeed::ProviderUnavailableError, "Resales API server error (#{code})"
           else
-            raise Error, "Resales API HTTP error: #{code}"
+            raise Pwb::ExternalFeed::Error, "Resales API HTTP error: #{code}"
           end
         end
 
@@ -285,7 +285,7 @@ module Pwb
         def normalize_search_results(response, params)
           unless response.dig("transaction", "status") == "success"
             error_msg = response.dig("transaction", "message") || "Search failed"
-            raise Error, "Resales API error: #{error_msg}"
+            raise Pwb::ExternalFeed::Error, "Resales API error: #{error_msg}"
           end
 
           properties_data = response["Property"]

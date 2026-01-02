@@ -97,7 +97,7 @@ module Pwb
       def validate_config!
         missing = required_config_keys.map(&:to_sym) - config.keys
         if missing.any?
-          raise ConfigurationError,
+          raise Pwb::ExternalFeed::ConfigurationError,
                 "Missing required configuration for #{self.class.provider_name}: #{missing.join(', ')}"
         end
       end
