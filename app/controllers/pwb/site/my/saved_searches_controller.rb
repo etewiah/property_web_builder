@@ -23,14 +23,14 @@ module Pwb
 
             respond_to do |format|
               format.html do
-                redirect_to my_saved_search_path(token: @saved_search.manage_token),
+                redirect_to my_saved_search_path(@saved_search.manage_token),
                             notice: "Search saved! You'll receive alerts for new properties."
               end
               format.json do
                 render json: {
                   success: true,
                   message: "Search saved successfully",
-                  manage_url: my_saved_searches_url(token: @saved_search.manage_token)
+                  manage_url: my_saved_search_url(@saved_search.manage_token)
                 }, status: :created
               end
             end
