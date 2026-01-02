@@ -1,5 +1,6 @@
 <%# Search Filters Form for External Listings %>
-<%= form_with url: external_listings_path, method: :get, local: true, class: "bg-white rounded-lg shadow p-4 lg:sticky lg:top-4" do |form| %>
+<%# Form submits to the current listing type URL (buy or rent) %>
+<%= form_with url: external_listings_index_path(@listing_type), method: :get, local: true, id: "external-search-form", class: "bg-white rounded-lg shadow p-4 lg:sticky lg:top-4", data: { buy_url: external_buy_path, rent_url: external_rent_path } do |form| %>
   <h2 class="text-lg font-semibold text-gray-900 mb-4">
     <%= t("external_feed.search.filters", default: "Filters") %>
   </h2>
@@ -22,32 +23,22 @@
     </div>
   </div>
 
-  <%# Listing Type %>
+  <%# Listing Type - Now changes form action URL instead of adding query param %>
   <div class="mb-4">
     <label class="block text-sm font-medium text-gray-700 mb-2">
       <%= t("external_feed.search.listing_type", default: "Listing Type") %>
     </label>
     <div class="flex gap-2">
-      <label class="flex-1">
-        <input type="radio" name="listing_type" value="sale"
-               <%= 'checked' if search_params[:listing_type].to_s == 'sale' || search_params[:listing_type].nil? %>
-               class="sr-only peer">
-        <span class="block text-center py-2 px-3 text-sm font-medium rounded-md border cursor-pointer
-                     peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600
-                     border-gray-300 text-gray-700 hover:bg-gray-50">
-          <%= t("external_feed.listing_type.sale", default: "Buy") %>
-        </span>
-      </label>
-      <label class="flex-1">
-        <input type="radio" name="listing_type" value="rental"
-               <%= 'checked' if search_params[:listing_type].to_s == 'rental' %>
-               class="sr-only peer">
-        <span class="block text-center py-2 px-3 text-sm font-medium rounded-md border cursor-pointer
-                     peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600
-                     border-gray-300 text-gray-700 hover:bg-gray-50">
-          <%= t("external_feed.listing_type.rental", default: "Rent") %>
-        </span>
-      </label>
+      <a href="<%= external_buy_path %>"
+         class="flex-1 block text-center py-2 px-3 text-sm font-medium rounded-md border transition-colors
+                <%= @listing_type == :sale ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-300 text-gray-700 hover:bg-gray-50' %>">
+        <%= t("external_feed.listing_type.sale", default: "Buy") %>
+      </a>
+      <a href="<%= external_rent_path %>"
+         class="flex-1 block text-center py-2 px-3 text-sm font-medium rounded-md border transition-colors
+                <%= @listing_type == :rental ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-300 text-gray-700 hover:bg-gray-50' %>">
+        <%= t("external_feed.listing_type.rental", default: "Rent") %>
+      </a>
     </div>
   </div>
 
@@ -201,7 +192,7 @@
             class="w-full bg-blue-600 text-white py-2 px-4 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
       <%= t("external_feed.search.apply_filters", default: "Apply Filters") %>
     </button>
-    <a href="<%= external_listings_path %>"
+    <a href="<%= external_listings_index_path(@listing_type) %>"
        class="block w-full text-center mt-2 text-sm text-gray-600 hover:text-gray-900">
       <%= t("external_feed.search.clear_filters", default: "Clear Filters") %>
     </a>

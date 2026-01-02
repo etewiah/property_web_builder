@@ -156,7 +156,7 @@
                   end
                   remove_params.delete(:page) # Reset to first page
                 %>
-                <a href="<%= external_listings_path(remove_params) %>"
+                <a href="<%= external_listings_search_path(@listing_type, remove_params) %>"
                    class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
                    title="<%= t('external_feed.active_filters.remove', default: 'Remove filter') %>">
                   <%= filter[:label] %>
@@ -165,7 +165,7 @@
                   </svg>
                 </a>
               <% end %>
-              <a href="<%= external_listings_path(listing_type: @search_params[:listing_type]) %>"
+              <a href="<%= external_listings_index_path(@listing_type) %>"
                  class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors">
                 <%= t("external_feed.active_filters.clear_all", default: "Clear All") %>
               </a>

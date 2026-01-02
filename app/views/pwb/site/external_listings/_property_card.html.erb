@@ -1,7 +1,7 @@
 <%# Property Card for External Listings %>
 <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200">
   <%# Property Image %>
-  <a href="<%= external_listing_path(reference: property.reference, listing_type: property.listing_type) %>" class="block relative">
+  <a href="<%= external_listing_show_path(property) %>" class="block relative">
     <% if property.main_image.present? %>
       <img src="<%= property.main_image %>"
            alt="<%= t('external_feed.property_image_alt', property: property.title, default: 'Photo of %{property}') %>"
@@ -85,7 +85,7 @@
 
     <%# Title %>
     <h3 class="text-sm font-semibold text-gray-900 mb-1 line-clamp-1">
-      <a href="<%= external_listing_path(reference: property.reference, listing_type: property.listing_type) %>" class="hover:text-blue-600">
+      <a href="<%= external_listing_show_path(property) %>" class="hover:text-blue-600">
         <%= property.title %>
       </a>
     </h3>

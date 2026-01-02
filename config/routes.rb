@@ -443,10 +443,23 @@ Rails.application.routes.draw do
       get "/rent" => "search#rent"
 
       # External property listings (from third-party feeds)
+      # New URL structure aligned with internal listings:
+      #   /external/buy, /external/rent - listing pages
+      #   /external/for-sale/:ref/:title, /external/for-rent/:ref/:title - detail pages
       scope module: :site do
-        resources :external_listings, only: [:index, :show], param: :reference do
+        # Type-specific index pages (like /buy and /rent for internal)
+        get "external/buy" => "external_listings#buy", as: "external_buy"
+        get "external/rent" => "external_listings#rent", as: "external_rent"
+
+        # SEO-friendly show pages with listing type in path
+        get "external/for-sale/:reference/:url_friendly_title" => "external_listings#show_for_sale",
+            as: "external_show_for_sale"
+        get "external/for-rent/:reference/:url_friendly_title" => "external_listings#show_for_rent",
+            as: "external_show_for_rent"
+
+        # API/AJAX endpoints (keep original paths for backward compatibility)
+        resources :external_listings, only: [], param: :reference do
           collection do
-            get :search
             get :locations
             get :property_types
             get :filters
@@ -455,6 +468,11 @@ Rails.application.routes.draw do
             get :similar
           end
         end
+
+        # Legacy redirects for old URL patterns
+        get "external_listings" => "external_listings#legacy_index"
+        get "external_listings/search" => "external_listings#legacy_index"
+        get "external_listings/:reference" => "external_listings#legacy_show", as: "legacy_external_listing"
 
         # User's saved searches and favorites (token-based, no login required)
         namespace :my do

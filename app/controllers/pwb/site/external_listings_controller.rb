@@ -10,9 +10,71 @@ module Pwb
       include CacheHelper
 
       before_action :ensure_feed_enabled
-      before_action :set_listing, only: [:show, :similar]
+      before_action :set_listing, only: [:show, :show_for_sale, :show_for_rent, :similar, :legacy_show]
 
-      # GET /external_listings
+      # GET /external/buy - Properties for sale
+      def buy
+        @listing_type = :sale
+        perform_index_search(:sale)
+      end
+
+      # GET /external/rent - Properties for rent
+      def rent
+        @listing_type = :rental
+        perform_index_search(:rental)
+      end
+
+      # GET /external/for-sale/:reference/:url_friendly_title
+      def show_for_sale
+        @listing_type = :sale
+        perform_show
+      end
+
+      # GET /external/for-rent/:reference/:url_friendly_title
+      def show_for_rent
+        @listing_type = :rental
+        perform_show
+      end
+
+      # Legacy redirect: GET /external_listings and /external_listings/search
+      def legacy_index
+        listing_type = params[:listing_type]&.to_sym
+        redirect_path = listing_type == :rental ? external_rent_path : external_buy_path
+
+        # Preserve search params
+        redirect_params = params.permit(
+          :location, :min_price, :max_price, :min_bedrooms, :max_bedrooms,
+          :min_bathrooms, :max_bathrooms, :min_area, :max_area, :sort, :page,
+          property_types: [], features: []
+        ).to_h.reject { |_, v| v.blank? }
+
+        redirect_to "#{redirect_path}?#{redirect_params.to_query}".chomp("?"), status: :moved_permanently
+      end
+
+      # Legacy redirect: GET /external_listings/:reference
+      def legacy_show
+        set_listing
+        if @listing.nil?
+          render "pwb/props/not_found", status: :not_found
+          return
+        end
+
+        # Redirect to new URL pattern
+        new_path = if @listing.listing_type == :rental
+                     external_show_for_rent_path(
+                       reference: @listing.reference,
+                       url_friendly_title: url_friendly_title(@listing)
+                     )
+                   else
+                     external_show_for_sale_path(
+                       reference: @listing.reference,
+                       url_friendly_title: url_friendly_title(@listing)
+                     )
+                   end
+        redirect_to new_path, status: :moved_permanently
+      end
+
+      # GET /external_listings (kept for backward compatibility, redirects to new URL)
       # GET /external_listings/search
       def index
         @search_params = search_params
@@ -123,6 +185,78 @@ module Pwb
 
       private
 
+      # Shared logic for buy/rent index pages
+      def perform_index_search(listing_type)
+        @search_params = search_params.merge(listing_type: listing_type)
+        @result = external_feed.search(@search_params)
+        @filter_options = external_feed.filter_options(locale: I18n.locale)
+
+        # Setup search config for consistent filter options across the site
+        @search_config = Pwb::SearchConfig.new(current_website, listing_type: listing_type)
+
+        # SEO setup
+        set_external_listings_seo
+
+        # HTTP caching - longer cache for unfiltered results
+        cache_duration = has_active_filters? ? 2.minutes : 10.minutes
+        set_cache_control_headers(
+          max_age: cache_duration,
+          public: true,
+          stale_while_revalidate: 1.hour
+        )
+
+        respond_to do |format|
+          format.html do
+            if turbo_frame_request?
+              render partial: "search_results_frame", layout: false
+            else
+              render :index
+            end
+          end
+          format.json { render json: @result.to_h }
+        end
+      end
+
+      # Shared logic for show_for_sale/show_for_rent pages
+      def perform_show
+        if @listing.nil?
+          render "pwb/props/not_found", status: :not_found
+          return
+        end
+
+        unless @listing.available?
+          @status_message = case @listing.status
+                            when :sold then t("external_feed.status.sold", default: "This property has been sold")
+                            when :rented then t("external_feed.status.rented", default: "This property has been rented")
+                            else t("external_feed.status.unavailable", default: "This property is no longer available")
+                            end
+          render "unavailable", status: :gone
+          return
+        end
+
+        @similar = external_feed.similar(@listing, limit: 6, locale: I18n.locale)
+
+        # SEO for property detail page
+        set_external_listing_detail_seo
+
+        # HTTP caching for property details
+        set_cache_control_headers(
+          max_age: 15.minutes,
+          public: true,
+          stale_while_revalidate: 1.hour
+        )
+
+        respond_to do |format|
+          format.html { render :show }
+          format.json { render json: @listing.to_h }
+        end
+      end
+
+      # Generate URL-friendly title from listing
+      def url_friendly_title(listing)
+        listing&.title.present? && listing.title.length > 2 ? listing.title.parameterize : "property"
+      end
+
       def ensure_feed_enabled
         unless external_feed.configured?
           redirect_to root_path, alert: t("external_feed.not_configured", default: "External listings are not available")
@@ -194,7 +328,8 @@ module Pwb
 
       # Set SEO meta tags for external listings page
       def set_external_listings_seo
-        listing_type = @search_params[:listing_type] == :rental ? "rent" : "buy"
+        listing_type_sym = @search_params[:listing_type]
+        listing_type = listing_type_sym == :rental ? "rent" : "buy"
         location = @search_params[:location]
 
         # Build page title
@@ -217,13 +352,16 @@ module Pwb
                               type: listing_type,
                               default: "Browse #{count} properties available to #{listing_type}. Find your perfect property today.")
 
-        # Canonical URL - remove pagination for canonical
-        @canonical_url = external_listings_url(canonical_params)
+        # Canonical URL using new URL pattern - remove pagination for canonical
+        base_url = listing_type_sym == :rental ? external_rent_url : external_buy_url
+        canonical_query = canonical_params.to_query
+        @canonical_url = canonical_query.present? ? "#{base_url}?#{canonical_query}" : base_url
       end
 
-      # Get canonical URL params (remove page param for canonical)
+      # Get canonical URL params (remove page and listing_type params for canonical)
       def canonical_params
-        params.permit(:listing_type, :location).to_h.reject { |_, v| v.blank? }
+        # listing_type is now in the URL path, not needed as query param
+        params.permit(:location).to_h.reject { |_, v| v.blank? }
       end
 
       # Check if request is a Turbo Frame request
@@ -250,8 +388,13 @@ module Pwb
                               features: features.join(", "),
                               default: "#{@listing.title} - #{@listing.formatted_price}. #{features.join(', ')} in #{location_parts}.")
 
-        # Canonical URL
-        @canonical_url = external_listing_url(@listing.reference, listing_type: @listing.listing_type)
+        # Canonical URL using new URL pattern with listing type in path
+        friendly_title = url_friendly_title(@listing)
+        @canonical_url = if @listing.listing_type == :rental
+                           external_show_for_rent_url(reference: @listing.reference, url_friendly_title: friendly_title)
+                         else
+                           external_show_for_sale_url(reference: @listing.reference, url_friendly_title: friendly_title)
+                         end
 
         # Open Graph / Social sharing meta
         @og_title = @listing.title

@@ -1,10 +1,14 @@
 <%# Pagination for External Listings %>
+<%
+  # Get pagination params excluding listing_type (now in URL path)
+  pagination_params = request.query_parameters.except(:listing_type).symbolize_keys
+%>
 <nav class="mt-8 flex items-center justify-between border-t border-gray-200 pt-6" aria-label="Pagination">
   <%# Mobile view %>
   <div class="flex flex-1 justify-between sm:hidden">
     <% if result.prev_page %>
       <%= link_to t("external_feed.pagination.previous", default: "Previous"),
-          external_listings_path(request.query_parameters.merge(page: result.prev_page)),
+          external_listings_page_path(@listing_type, result.prev_page, pagination_params),
           class: "relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50" %>
     <% else %>
       <span class="relative inline-flex items-center rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-400 cursor-not-allowed">
@@ -14,7 +18,7 @@
 
     <% if result.next_page %>
       <%= link_to t("external_feed.pagination.next", default: "Next"),
-          external_listings_path(request.query_parameters.merge(page: result.next_page)),
+          external_listings_page_path(@listing_type, result.next_page, pagination_params),
           class: "relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50" %>
     <% else %>
       <span class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-400 cursor-not-allowed">
@@ -59,7 +63,7 @@
       <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
         <%# Previous button %>
         <% if result.prev_page %>
-          <%= link_to external_listings_path(request.query_parameters.merge(page: result.prev_page)),
+          <%= link_to external_listings_page_path(@listing_type, result.prev_page, pagination_params),
               class: "relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" do %>
             <span class="sr-only"><%= t("external_feed.pagination.previous", default: "Previous") %></span>
             <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -126,14 +130,14 @@
             </span>
           <% else %>
             <%= link_to page.to_s,
-                external_listings_path(request.query_parameters.merge(page: page)),
+                external_listings_page_path(@listing_type, page, pagination_params),
                 class: "relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" %>
           <% end %>
         <% end %>
 
         <%# Next button %>
         <% if result.next_page %>
-          <%= link_to external_listings_path(request.query_parameters.merge(page: result.next_page)),
+          <%= link_to external_listings_page_path(@listing_type, result.next_page, pagination_params),
               class: "relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" do %>
             <span class="sr-only"><%= t("external_feed.pagination.next", default: "Next") %></span>
             <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
