@@ -26,11 +26,16 @@
   <%# Desktop view %>
   <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
     <div class="flex items-center gap-4">
+      <%
+        start_num = result.offset + 1
+        end_num = [result.offset + result.per_page, result.total_count].min
+      %>
       <p class="text-sm text-gray-700">
         <%= t("external_feed.pagination.showing_results",
-              range: result.results_range,
+              start: start_num,
+              end: end_num,
               total: result.total_count,
-              default: "Showing %{range} of %{total} results") %>
+              default: "Showing %{start}-%{end} of %{total} results") %>
       </p>
 
       <%# Results per page selector %>

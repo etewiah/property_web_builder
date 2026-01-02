@@ -110,20 +110,24 @@
     <%# Property Features %>
     <div class="flex items-center gap-4 text-sm text-gray-600 border-t pt-3">
       <% if property.bedrooms.present? && property.bedrooms > 0 %>
-        <div class="flex items-center gap-1" title="<%= t('external_feed.features.bedrooms', default: 'Bedrooms') %>" aria-label="<%= property.bedrooms %> <%= t('external_feed.features.bedrooms', default: 'bedrooms') %>">
+        <% bedrooms_count = property.bedrooms.to_i %>
+        <% bedroom_label = bedrooms_count == 1 ? t('external_feed.features.bedroom', default: 'Bedroom') : t('external_feed.features.bedrooms', default: 'Bedrooms') %>
+        <div class="flex items-center gap-1" title="<%= bedroom_label %>" aria-label="<%= bedrooms_count %> <%= bedroom_label.downcase %>">
           <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
           </svg>
-          <span><%= property.bedrooms %></span>
+          <span><%= bedrooms_count %></span>
         </div>
       <% end %>
 
       <% if property.bathrooms.present? && property.bathrooms > 0 %>
-        <div class="flex items-center gap-1" title="<%= t('external_feed.features.bathrooms', default: 'Bathrooms') %>" aria-label="<%= property.bathrooms %> <%= t('external_feed.features.bathrooms', default: 'bathrooms') %>">
+        <% bathrooms_count = property.bathrooms.to_i %>
+        <% bathroom_label = bathrooms_count == 1 ? t('external_feed.features.bathroom', default: 'Bathroom') : t('external_feed.features.bathrooms', default: 'Bathrooms') %>
+        <div class="flex items-center gap-1" title="<%= bathroom_label %>" aria-label="<%= bathrooms_count %> <%= bathroom_label.downcase %>">
           <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/>
           </svg>
-          <span><%= property.bathrooms %></span>
+          <span><%= bathrooms_count %></span>
         </div>
       <% end %>
 

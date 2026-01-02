@@ -181,22 +181,37 @@ es:
       apply_filters: Aplicar Filtros
       clear_filters: Limpiar Filtros
       sort_by: Ordenar por
-      showing: Mostrando %{range} propiedades
+      showing: Mostrando %{start}-%{end} de %{total} propiedades
       no_results: No se encontraron propiedades
       no_properties: No se encontraron propiedades
       try_different: Intenta ajustar tus filtros de búsqueda
       error: No se pudieron cargar las propiedades en este momento. Por favor, intenta más tarde.
       reference: Referencia
       search_reference: Buscar por referencia
+      location_not_specified: Ubicación no especificada
+    # Sort options (used by manager.rb)
+    sort:
+      price_asc: Precio (Menor a Mayor)
+      price_desc: Precio (Mayor a Menor)
+      newest: Más Recientes
+      updated: Actualizados Recientemente
+    # Listing types - singular form for labels
     listing_type:
+      sale: En Venta
+      rental: En Alquiler
+    # Listing types - plural form for manager.rb filter_options
+    listing_types:
       sale: En Venta
       rental: En Alquiler
     badges:
       reduced: Rebajado
     features:
       bedrooms: Habitaciones
+      bedroom: Habitación
       bathrooms: Baños
+      bathroom: Baño
       built_area: Superficie Construida
+      square_meters: metros cuadrados
     frequency:
       month: mes
       week: semana
@@ -215,7 +230,7 @@ es:
     pagination:
       previous: Anterior
       next: Siguiente
-      showing_results: Mostrando %{range} de %{total} resultados
+      showing_results: Mostrando %{start}-%{end} de %{total} resultados
       go_to_page: Ir a página
       results_per_page: Resultados por página
     save_search:

@@ -25,10 +25,16 @@
         <div class="flex items-center justify-between mb-6">
           <div>
             <% if @result.any? %>
+              <%
+                start_num = @result.offset + 1
+                end_num = [@result.offset + @result.per_page, @result.total_count].min
+              %>
               <p class="text-sm text-gray-700">
                 <%= t("external_feed.search.showing",
-                      range: @result.results_range,
-                      default: "Showing %{range} properties") %>
+                      start: start_num,
+                      end: end_num,
+                      total: @result.total_count,
+                      default: "Showing %{start}-%{end} of %{total} properties") %>
               </p>
             <% else %>
               <p class="text-sm text-gray-700">
