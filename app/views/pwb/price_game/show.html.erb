@@ -9,7 +9,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="<%= request.original_url %>">
   <% if @property&.photos&.first %>
-    <meta property="og:image" content="<%= url_for(@property.photos.first.image_variant(:large)) rescue @property.photos.first.image.url %>">
+    <meta property="og:image" content="<%= @property.photos.first.image_url %>">
   <% end %>
   <meta name="twitter:card" content="summary_large_image">
   <meta name="robots" content="noindex, nofollow">
@@ -20,8 +20,8 @@
      data-price-game-token-value="<%= @listing.game_token %>"
      data-price-game-currency-value="<%= @listing.game_price_currency %>"
      data-price-game-has-guessed-value="<%= @existing_guess.present? %>"
-     data-price-game-guess-url-value="<%= price_game_guess_path(@listing.game_token) %>"
-     data-price-game-share-url-value="<%= price_game_share_path(@listing.game_token) %>">
+     data-price-game-guess-url-value="<%= price_game_guess_path(token: @listing.game_token) %>"
+     data-price-game-share-url-value="<%= price_game_share_path(token: @listing.game_token) %>">
 
   <div class="max-w-4xl mx-auto px-4 py-8">
     <%# Header %>
@@ -46,10 +46,10 @@
             <div class="swiper-wrapper">
               <% @property.photos.each do |photo| %>
                 <div class="swiper-slide">
-                  <%= image_tag photo.image_variant(:large),
+                  <%= image_tag photo.image_url,
                       class: "w-full h-full object-cover",
-                      alt: photo.alt_text.presence || @property.title,
-                      loading: "lazy" rescue "" %>
+                      alt: @property.title,
+                      loading: "lazy" %>
                 </div>
               <% end %>
             </div>
@@ -85,14 +85,14 @@
           <% if @property&.bedrooms.present? && @property.bedrooms > 0 %>
             <div class="bg-purple-50 rounded-xl p-4 text-center">
               <span class="text-2xl mb-1 block">🛏️</span>
-              <p class="text-2xl font-bold text-gray-900"><%= @property.bedrooms %></p>
+              <p class="text-2xl font-bold text-gray-900"><%= @property.bedrooms.to_i %></p>
               <p class="text-sm text-gray-500"><%= t('price_game.bedrooms') %></p>
             </div>
           <% end %>
           <% if @property&.bathrooms.present? && @property.bathrooms > 0 %>
             <div class="bg-purple-50 rounded-xl p-4 text-center">
               <span class="text-2xl mb-1 block">🚿</span>
-              <p class="text-2xl font-bold text-gray-900"><%= @property.bathrooms %></p>
+              <p class="text-2xl font-bold text-gray-900"><%= @property.bathrooms.to_i %></p>
               <p class="text-sm text-gray-500"><%= t('price_game.bathrooms') %></p>
             </div>
           <% end %>
