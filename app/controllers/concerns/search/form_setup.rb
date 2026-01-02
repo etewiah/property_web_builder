@@ -8,6 +8,12 @@ module Search
 
     private
 
+    # Set up the search configuration object for views
+    # @param listing_type [Symbol] :sale or :rental
+    def setup_search_config(listing_type: :sale)
+      @search_config = Pwb::SearchConfig.new(@current_website, listing_type: listing_type)
+    end
+
     # Set up common search form inputs (property types, states, features, amenities)
     # Uses PwbTenant::FieldKey with ActsAsTenant to scope by current website
     def set_common_search_inputs

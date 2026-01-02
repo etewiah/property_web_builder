@@ -57,17 +57,23 @@ module Pwb
     def perform_search(operation_type:, page_slug:)
       @operation_type = operation_type
       @page_slug = page_slug
-      config = search_config_for(operation_type)
+      listing_type = operation_type == "for_rent" ? :rental : :sale
+
+      # Setup search configuration for views
+      setup_search_config(listing_type: listing_type)
 
       setup_page(page_slug)
-      
-      # Apply pagination
+
+      # Apply pagination - use config for default per page
       page_number = [@search_criteria[:page].to_i, 1].max
-      per_page = 24
+      per_page = @search_config.default_results_per_page
 
       @properties = load_properties_for(operation_type)
-      @prices_from_collection = config[:prices_from]
-      @prices_till_collection = config[:prices_till]
+
+      # Legacy price collections for backwards compatibility with old views
+      # New views should use @search_config.price_min_presets / price_max_presets
+      @prices_from_collection = @search_config.price_min_presets.reject { |p| p.is_a?(String) }
+      @prices_till_collection = @search_config.price_max_presets.reject { |p| p.is_a?(String) }
 
       set_common_search_inputs
       set_select_picker_texts

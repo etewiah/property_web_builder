@@ -90,33 +90,37 @@
       </div>
     <% end %>
 
-    <%# Bedrooms & Bathrooms %>
+    <%# Bedrooms & Bathrooms - Uses @search_config for options %>
+    <% if @search_config&.filter_enabled?(:bedrooms) || @search_config&.filter_enabled?(:bathrooms) %>
     <div class="grid grid-cols-2 gap-3">
+      <% if @search_config&.filter_enabled?(:bedrooms) %>
       <div>
         <label for="search_count_bedrooms" class="block text-sm font-medium text-gray-700 mb-1">
           <%= I18n.t("simple_form.labels.search.count_bedrooms", default: "Bedrooms") %>
         </label>
         <select name="search[count_bedrooms]" id="search_count_bedrooms"
                 class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-          <option value=""><%= I18n.t("search.any", default: "Any") %></option>
-          <% (1..6).each do |n| %>
-            <option value="<%= n %>" <%= 'selected' if @search_defaults["count_bedrooms"].to_i == n %>><%= n %>+</option>
+          <% @search_config.bedroom_min_options_for_view.each do |opt| %>
+            <option value="<%= opt[:value] %>" <%= 'selected' if @search_defaults["count_bedrooms"].to_s == opt[:value].to_s %>><%= opt[:label] %></option>
           <% end %>
         </select>
       </div>
+      <% end %>
+      <% if @search_config&.filter_enabled?(:bathrooms) %>
       <div>
         <label for="search_count_bathrooms" class="block text-sm font-medium text-gray-700 mb-1">
           <%= I18n.t("simple_form.labels.search.count_bathrooms", default: "Bathrooms") %>
         </label>
         <select name="search[count_bathrooms]" id="search_count_bathrooms"
                 class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-          <option value=""><%= I18n.t("search.any", default: "Any") %></option>
-          <% (1..4).each do |n| %>
-            <option value="<%= n %>" <%= 'selected' if @search_defaults["count_bathrooms"].to_i == n %>><%= n %>+</option>
+          <% @search_config.bathroom_min_options_for_view.each do |opt| %>
+            <option value="<%= opt[:value] %>" <%= 'selected' if @search_defaults["count_bathrooms"].to_s == opt[:value].to_s %>><%= opt[:label] %></option>
           <% end %>
         </select>
       </div>
+      <% end %>
     </div>
+    <% end %>
 
     <%# Features (if available) %>
     <% if @property_features.present? && @property_features.any? %>
