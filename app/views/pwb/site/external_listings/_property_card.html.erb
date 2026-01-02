@@ -4,12 +4,12 @@
   <a href="<%= external_listing_path(reference: property.reference, listing_type: property.listing_type) %>" class="block relative">
     <% if property.main_image.present? %>
       <img src="<%= property.main_image %>"
-           alt="<%= property.title %>"
+           alt="<%= t('external_feed.property_image_alt', property: property.title, default: 'Photo of %{property}') %>"
            class="w-full h-48 object-cover"
            loading="lazy">
     <% else %>
-      <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
-        <svg class="h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="w-full h-48 bg-gray-200 flex items-center justify-center" role="img" aria-label="<%= t('external_feed.no_image', default: 'No image available') %>">
+        <svg class="h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
         </svg>
       </div>
@@ -34,20 +34,34 @@
     <% end %>
 
     <%# Favorite Button %>
+    <%
+      property_data_for_favorite = {
+        title: property.title,
+        price: property.price,
+        currency: property.currency,
+        bedrooms: property.bedrooms,
+        bathrooms: property.bathrooms,
+        city: property.location,
+        listing_type: property.listing_type.to_s,
+        images: property.images.first(5)
+      }
+    %>
     <button type="button"
-            onclick="toggleFavorite(event, '<%= property.reference %>', '<%= property.title.gsub("'", "\\\\'") %>')"
+            onclick="toggleFavorite(event, '<%= property.reference %>', '<%= j(property.title) %>', <%= property_data_for_favorite.to_json %>)"
             class="favorite-btn absolute top-2 right-2 p-2 bg-white/90 hover:bg-white rounded-full shadow-md transition-colors"
             data-reference="<%= property.reference %>"
-            title="Save to favorites">
-      <svg class="h-5 w-5 text-gray-400 hover:text-red-500 favorite-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            aria-label="<%= t('favorites.save_to_favorites', default: 'Save to favorites') %>: <%= property.title %>"
+            title="<%= t('favorites.save_to_favorites', default: 'Save to favorites') %>">
+      <svg class="h-5 w-5 text-gray-400 hover:text-red-500 favorite-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
       </svg>
     </button>
 
     <%# Image Count %>
     <% if property.images.size > 1 %>
-      <span class="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
-        <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <span class="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded flex items-center gap-1"
+            aria-label="<%= t('external_feed.image_count', count: property.images.size, default: '%{count} photos') %>">
+        <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
         </svg>
         <%= property.images.size %>
@@ -76,20 +90,28 @@
       </a>
     </h3>
 
-    <%# Location %>
-    <p class="text-sm text-gray-600 mb-3 line-clamp-1">
-      <svg class="inline-block h-4 w-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-      </svg>
-      <%= [property.location, property.province].compact.join(", ") %>
-    </p>
+    <%# Location - only show if we have location data %>
+    <% location_text = [property.location, property.province].compact.reject(&:blank?).join(", ") %>
+    <% if location_text.present? %>
+      <p class="text-sm text-gray-600 mb-3 line-clamp-1">
+        <svg class="inline-block h-4 w-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+        <%= location_text %>
+      </p>
+    <% else %>
+      <%# Empty placeholder to maintain spacing %>
+      <p class="text-sm text-gray-400 mb-3 italic">
+        <%= t("external_feed.search.location_not_specified", default: "Location not specified") %>
+      </p>
+    <% end %>
 
     <%# Property Features %>
     <div class="flex items-center gap-4 text-sm text-gray-600 border-t pt-3">
       <% if property.bedrooms.present? && property.bedrooms > 0 %>
-        <div class="flex items-center gap-1" title="<%= t('external_feed.features.bedrooms', default: 'Bedrooms') %>">
-          <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="flex items-center gap-1" title="<%= t('external_feed.features.bedrooms', default: 'Bedrooms') %>" aria-label="<%= property.bedrooms %> <%= t('external_feed.features.bedrooms', default: 'bedrooms') %>">
+          <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
           </svg>
           <span><%= property.bedrooms %></span>
@@ -97,8 +119,8 @@
       <% end %>
 
       <% if property.bathrooms.present? && property.bathrooms > 0 %>
-        <div class="flex items-center gap-1" title="<%= t('external_feed.features.bathrooms', default: 'Bathrooms') %>">
-          <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="flex items-center gap-1" title="<%= t('external_feed.features.bathrooms', default: 'Bathrooms') %>" aria-label="<%= property.bathrooms %> <%= t('external_feed.features.bathrooms', default: 'bathrooms') %>">
+          <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/>
           </svg>
           <span><%= property.bathrooms %></span>
@@ -106,8 +128,8 @@
       <% end %>
 
       <% if property.built_area.present? && property.built_area > 0 %>
-        <div class="flex items-center gap-1" title="<%= t('external_feed.features.built_area', default: 'Built Area') %>">
-          <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="flex items-center gap-1" title="<%= t('external_feed.features.built_area', default: 'Built Area') %>" aria-label="<%= number_with_delimiter(property.built_area.to_i) %> <%= t('external_feed.features.square_meters', default: 'square meters') %>">
+          <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
           </svg>
           <span><%= number_with_delimiter(property.built_area.to_i) %> m²</span>
@@ -116,7 +138,7 @@
 
       <% if property.property_type.present? %>
         <div class="flex items-center gap-1 ml-auto text-xs text-gray-500">
-          <%= t("external_feed.property_types.#{property.property_type}", default: property.property_type.to_s.titleize) %>
+          <%= t("external_feed.property_types.#{property.property_type.to_s.downcase.gsub(/\s+/, '_')}", default: property.property_type.to_s.titleize) %>
         </div>
       <% end %>
     </div>

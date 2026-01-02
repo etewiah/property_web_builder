@@ -25,16 +25,32 @@
 
   <%# Desktop view %>
   <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-    <div>
+    <div class="flex items-center gap-4">
       <p class="text-sm text-gray-700">
         <%= t("external_feed.pagination.showing_results",
               range: result.results_range,
               total: result.total_count,
               default: "Showing %{range} of %{total} results") %>
       </p>
+
+      <%# Results per page selector %>
+      <div class="flex items-center gap-2">
+        <label for="per_page" class="text-sm text-gray-600">
+          <%= t("external_feed.pagination.results_per_page", default: "Results per page") %>:
+        </label>
+        <select id="per_page" name="per_page"
+                class="text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 py-1"
+                onchange="updatePerPage(this.value)">
+          <% [12, 24, 48].each do |count| %>
+            <option value="<%= count %>" <%= 'selected' if (request.query_parameters[:per_page] || 12).to_i == count %>>
+              <%= count %>
+            </option>
+          <% end %>
+        </select>
+      </div>
     </div>
 
-    <div>
+    <div class="flex items-center gap-4">
       <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
         <%# Previous button %>
         <% if result.prev_page %>
@@ -128,6 +144,44 @@
           </span>
         <% end %>
       </nav>
+
+      <%# Go to page input %>
+      <% if result.total_pages > 5 %>
+        <div class="flex items-center gap-2 ml-4">
+          <label for="go_to_page" class="text-sm text-gray-600">
+            <%= t("external_feed.pagination.go_to_page", default: "Go to page") %>:
+          </label>
+          <input type="number" id="go_to_page" name="go_to_page"
+                 min="1" max="<%= result.total_pages %>"
+                 value="<%= result.current_page %>"
+                 class="w-16 text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 py-1 text-center"
+                 onkeydown="if(event.key==='Enter'){goToPage(this.value, <%= result.total_pages %>);}"
+                 aria-label="<%= t('external_feed.pagination.go_to_page', default: 'Go to page') %>">
+          <button type="button"
+                  onclick="goToPage(document.getElementById('go_to_page').value, <%= result.total_pages %>)"
+                  class="px-2 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <%= t("go", default: "Go") %>
+          </button>
+        </div>
+      <% end %>
     </div>
   </div>
 </nav>
+
+<script>
+  function updatePerPage(value) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('per_page', value);
+    url.searchParams.delete('page'); // Reset to first page when changing per_page
+    window.location.href = url.toString();
+  }
+
+  function goToPage(page, totalPages) {
+    const pageNum = parseInt(page, 10);
+    if (pageNum >= 1 && pageNum <= totalPages) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('page', pageNum);
+      window.location.href = url.toString();
+    }
+  }
+</script>

@@ -158,3 +158,87 @@ es:
     home: Inicio
     sell: Vender
     tagLine: Lema
+  external_feed:
+    search:
+      title: Búsqueda de Propiedades
+      subtitle: Explora propiedades disponibles de nuestra red de socios
+      filters: Filtros
+      listing_type: Tipo de Listado
+      location: Ubicación
+      any_location: Cualquier Ubicación
+      property_type: Tipo de Propiedad
+      price_range: Rango de Precio
+      min_price: Precio Mínimo
+      max_price: Precio Máximo
+      min: Mín
+      max: Máx
+      bedrooms: Habitaciones
+      bathrooms: Baños
+      area: Superficie (m²)
+      min_area: Superficie Mínima
+      max_area: Superficie Máxima
+      features: Características
+      apply_filters: Aplicar Filtros
+      clear_filters: Limpiar Filtros
+      sort_by: Ordenar por
+      showing: Mostrando %{range} propiedades
+      no_results: No se encontraron propiedades
+      no_properties: No se encontraron propiedades
+      try_different: Intenta ajustar tus filtros de búsqueda
+      error: No se pudieron cargar las propiedades en este momento. Por favor, intenta más tarde.
+      reference: Referencia
+      search_reference: Buscar por referencia
+    listing_type:
+      sale: En Venta
+      rental: En Alquiler
+    badges:
+      reduced: Rebajado
+    features:
+      bedrooms: Habitaciones
+      bathrooms: Baños
+      built_area: Superficie Construida
+    frequency:
+      month: mes
+      week: semana
+      day: día
+    property_types:
+      apartment: Apartamento
+      villa: Villa
+      townhouse: Adosado
+      penthouse: Ático
+      studio: Estudio
+      duplex: Dúplex
+      bungalow: Bungalow
+      finca: Finca
+      country_house: Casa de Campo
+      other: Otro
+    pagination:
+      previous: Anterior
+      next: Siguiente
+      showing_results: Mostrando %{range} de %{total} resultados
+      go_to_page: Ir a página
+      results_per_page: Resultados por página
+    save_search:
+      title: Guardar Esta Búsqueda
+      description: Recibe alertas por email cuando nuevas propiedades coincidan con tus criterios de búsqueda.
+      email_label: Correo Electrónico
+      email_placeholder: tu@email.com
+      name_label: Nombre de la Búsqueda (opcional)
+      name_placeholder: ej., Mi Búsqueda de Casa Ideal
+      frequency_label: Frecuencia de Alertas
+      frequency_daily: Diario - Notificación una vez al día
+      frequency_weekly: Semanal - Notificación una vez a la semana
+      frequency_none: Sin alertas - Solo guardar la búsqueda
+      save_button: Guardar Búsqueda
+      cancel: Cancelar
+    favorites:
+      title: Guardar en Favoritos
+      description: Introduce tu email para guardar esta propiedad.
+      email_label: Correo Electrónico
+      notes_label: Notas (opcional)
+      notes_placeholder: ej., Buena ubicación, necesito visitar...
+      save_button: Guardar en Favoritos
+      cancel: Cancelar
+    active_filters:
+      title: Filtros Activos
+      clear_all: Limpiar Todo

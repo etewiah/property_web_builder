@@ -42,11 +42,12 @@
             <%# Save Search Button %>
             <button type="button"
                     onclick="openSaveSearchModal()"
-                    class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-blue-600 hover:text-blue-800 border border-blue-300 rounded-md hover:bg-blue-50">
-              <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-blue-600 hover:text-blue-800 border border-blue-300 rounded-md hover:bg-blue-50"
+                    aria-label="<%= t('external_feed.save_search.title', default: 'Save This Search') %>">
+              <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
               </svg>
-              Save Search
+              <%= t("external_feed.save_search.save_button", default: "Save Search") %>
             </button>
 
             <div class="flex items-center gap-2">
@@ -83,6 +84,88 @@
           </div>
         <% end %>
 
+        <%# Active Filter Chips %>
+        <%
+          active_filters = []
+          # Reference
+          active_filters << { key: :reference, label: "Ref: #{@search_params[:reference]}", value: @search_params[:reference] } if @search_params[:reference].present?
+          # Location
+          if @search_params[:location].present?
+            loc_label = @filter_options[:locations]&.find { |l| l[:value].to_s == @search_params[:location].to_s }&.dig(:label) || @search_params[:location]
+            active_filters << { key: :location, label: loc_label, value: @search_params[:location] }
+          end
+          # Property Types
+          @search_params[:property_types]&.each do |pt|
+            pt_label = @filter_options[:property_types]&.find { |p| p[:value].to_s == pt.to_s }&.dig(:label) || pt
+            active_filters << { key: :property_types, label: pt_label, value: pt, array: true }
+          end
+          # Price Range
+          if @search_params[:min_price].present? || @search_params[:max_price].present?
+            price_label = [@search_params[:min_price], @search_params[:max_price]].compact.join(" - ")
+            price_label = "#{t('external_feed.search.price_range', default: 'Price')}: #{price_label}"
+            active_filters << { key: :price, label: price_label, keys: [:min_price, :max_price] }
+          end
+          # Bedrooms
+          if @search_params[:min_bedrooms].present? || @search_params[:max_bedrooms].present?
+            beds_label = [@search_params[:min_bedrooms].present? ? "#{@search_params[:min_bedrooms]}+" : nil, @search_params[:max_bedrooms]].compact.join(" - ")
+            beds_label = "#{t('external_feed.search.bedrooms', default: 'Beds')}: #{beds_label}"
+            active_filters << { key: :bedrooms, label: beds_label, keys: [:min_bedrooms, :max_bedrooms] }
+          end
+          # Bathrooms
+          if @search_params[:min_bathrooms].present? || @search_params[:max_bathrooms].present?
+            baths_label = [@search_params[:min_bathrooms].present? ? "#{@search_params[:min_bathrooms]}+" : nil, @search_params[:max_bathrooms]].compact.join(" - ")
+            baths_label = "#{t('external_feed.search.bathrooms', default: 'Baths')}: #{baths_label}"
+            active_filters << { key: :bathrooms, label: baths_label, keys: [:min_bathrooms, :max_bathrooms] }
+          end
+          # Area
+          if @search_params[:min_area].present? || @search_params[:max_area].present?
+            area_label = [@search_params[:min_area], @search_params[:max_area]].compact.join(" - ")
+            area_label = "#{t('external_feed.search.area', default: 'Area')}: #{area_label} m²"
+            active_filters << { key: :area, label: area_label, keys: [:min_area, :max_area] }
+          end
+          # Features
+          @search_params[:features]&.each do |feat|
+            feat_label = @filter_options[:features]&.find { |f| f[:value].to_s == feat.to_s }&.dig(:label) || feat
+            active_filters << { key: :features, label: feat_label, value: feat, array: true }
+          end
+        %>
+        <% if active_filters.any? %>
+          <div class="mb-6">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-sm font-medium text-gray-700">
+                <%= t("external_feed.active_filters.title", default: "Active Filters") %>:
+              </span>
+              <% active_filters.each do |filter| %>
+                <%
+                  # Build URL without this filter
+                  remove_params = request.query_parameters.dup
+                  if filter[:array]
+                    remove_params[filter[:key]] = remove_params[filter[:key]]&.reject { |v| v == filter[:value] }
+                    remove_params.delete(filter[:key]) if remove_params[filter[:key]]&.empty?
+                  elsif filter[:keys]
+                    filter[:keys].each { |k| remove_params.delete(k) }
+                  else
+                    remove_params.delete(filter[:key])
+                  end
+                  remove_params.delete(:page) # Reset to first page
+                %>
+                <a href="<%= external_listings_path(remove_params) %>"
+                   class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+                   title="<%= t('external_feed.active_filters.remove', default: 'Remove filter') %>">
+                  <%= filter[:label] %>
+                  <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </a>
+              <% end %>
+              <a href="<%= external_listings_path(listing_type: @search_params[:listing_type]) %>"
+                 class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors">
+                <%= t("external_feed.active_filters.clear_all", default: "Clear All") %>
+              </a>
+            </div>
+          </div>
+        <% end %>
+
         <%# Property Grid %>
         <% if @result.any? %>
           <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -114,14 +197,14 @@
 </div>
 
 <%# Save Search Modal %>
-<div id="save-search-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+<div id="save-search-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="save-search-modal-title" role="dialog" aria-modal="true">
   <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onclick="closeSaveSearchModal()"></div>
 
     <div class="relative inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full sm:p-6">
       <div class="absolute top-0 right-0 pt-4 pr-4">
-        <button type="button" onclick="closeSaveSearchModal()" class="text-gray-400 hover:text-gray-500">
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button type="button" onclick="closeSaveSearchModal()" class="text-gray-400 hover:text-gray-500" aria-label="<%= t('common.close', default: 'Close') %>">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
@@ -129,16 +212,16 @@
 
       <div class="sm:flex sm:items-start">
         <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
-          <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
           </svg>
         </div>
         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left flex-1">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Save This Search
+          <h3 id="save-search-modal-title" class="text-lg leading-6 font-medium text-gray-900">
+            <%= t("external_feed.save_search.title", default: "Save This Search") %>
           </h3>
           <p class="mt-2 text-sm text-gray-500">
-            Get email alerts when new properties match your search criteria.
+            <%= t("external_feed.save_search.description", default: "Get email alerts when new properties match your search criteria.") %>
           </p>
         </div>
       </div>
@@ -149,31 +232,31 @@
         <div class="space-y-4">
           <div>
             <label for="save_search_email" class="block text-sm font-medium text-gray-700">
-              Email Address
+              <%= t("external_feed.save_search.email_label", default: "Email Address") %>
             </label>
             <input type="email" name="saved_search[email]" id="save_search_email" required
                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                   placeholder="your@email.com">
+                   placeholder="<%= t('external_feed.save_search.email_placeholder', default: 'your@email.com') %>">
           </div>
 
           <div>
             <label for="save_search_name" class="block text-sm font-medium text-gray-700">
-              Search Name (optional)
+              <%= t("external_feed.save_search.name_label", default: "Search Name (optional)") %>
             </label>
             <input type="text" name="saved_search[name]" id="save_search_name"
                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                   placeholder="e.g., My Dream Home Search">
+                   placeholder="<%= t('external_feed.save_search.name_placeholder', default: 'e.g., My Dream Home Search') %>">
           </div>
 
           <div>
             <label for="save_search_frequency" class="block text-sm font-medium text-gray-700">
-              Alert Frequency
+              <%= t("external_feed.save_search.frequency_label", default: "Alert Frequency") %>
             </label>
             <select name="saved_search[alert_frequency]" id="save_search_frequency"
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-              <option value="daily">Daily - Get notified once per day</option>
-              <option value="weekly">Weekly - Get notified once per week</option>
-              <option value="none">No alerts - Just save the search</option>
+              <option value="daily"><%= t("external_feed.save_search.frequency_daily", default: "Daily - Get notified once per day") %></option>
+              <option value="weekly"><%= t("external_feed.save_search.frequency_weekly", default: "Weekly - Get notified once per week") %></option>
+              <option value="none"><%= t("external_feed.save_search.frequency_none", default: "No alerts - Just save the search") %></option>
             </select>
           </div>
         </div>
@@ -181,11 +264,11 @@
         <div class="mt-5 sm:mt-6 sm:flex sm:flex-row-reverse gap-3">
           <button type="submit"
                   class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
-            Save Search
+            <%= t("external_feed.save_search.save_button", default: "Save Search") %>
           </button>
           <button type="button" onclick="closeSaveSearchModal()"
                   class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm">
-            Cancel
+            <%= t("external_feed.save_search.cancel", default: "Cancel") %>
           </button>
         </div>
       <% end %>
@@ -194,14 +277,14 @@
 </div>
 
 <%# Favorite Property Modal %>
-<div id="favorite-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+<div id="favorite-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="favorite-modal-title" role="dialog" aria-modal="true">
   <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onclick="closeFavoriteModal()"></div>
 
     <div class="relative inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full sm:p-6">
       <div class="absolute top-0 right-0 pt-4 pr-4">
-        <button type="button" onclick="closeFavoriteModal()" class="text-gray-400 hover:text-gray-500">
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button type="button" onclick="closeFavoriteModal()" class="text-gray-400 hover:text-gray-500" aria-label="<%= t('common.close', default: 'Close') %>">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
@@ -209,16 +292,16 @@
 
       <div class="sm:flex sm:items-start">
         <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-          <svg class="h-6 w-6 text-red-600" fill="currentColor" viewBox="0 0 24 24">
+          <svg class="h-6 w-6 text-red-600" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
         </div>
         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left flex-1">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Save to Favorites
+          <h3 id="favorite-modal-title" class="text-lg leading-6 font-medium text-gray-900">
+            <%= t("external_feed.favorites.title", default: "Save to Favorites") %>
           </h3>
           <p class="mt-2 text-sm text-gray-500" id="favorite-property-name">
-            Enter your email to save this property.
+            <%= t("external_feed.favorites.description", default: "Enter your email to save this property.") %>
           </p>
         </div>
       </div>
@@ -231,31 +314,31 @@
         <div class="space-y-4">
           <div>
             <label for="favorite_email" class="block text-sm font-medium text-gray-700">
-              Email Address
+              <%= t("external_feed.favorites.email_label", default: "Email Address") %>
             </label>
             <input type="email" name="saved_property[email]" id="favorite_email" required
                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                   placeholder="your@email.com">
+                   placeholder="<%= t('external_feed.favorites.email_placeholder', default: 'your@email.com') %>">
           </div>
 
           <div>
             <label for="favorite_notes" class="block text-sm font-medium text-gray-700">
-              Notes (optional)
+              <%= t("external_feed.favorites.notes_label", default: "Notes (optional)") %>
             </label>
             <textarea name="saved_property[notes]" id="favorite_notes" rows="2"
                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                      placeholder="e.g., Great location, needs to visit..."></textarea>
+                      placeholder="<%= t('external_feed.favorites.notes_placeholder', default: 'e.g., Great location, schedule viewing...') %>"></textarea>
           </div>
         </div>
 
         <div class="mt-5 sm:mt-6 sm:flex sm:flex-row-reverse gap-3">
           <button type="submit"
                   class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto sm:text-sm">
-            Save to Favorites
+            <%= t("external_feed.favorites.save_button", default: "Save to Favorites") %>
           </button>
           <button type="button" onclick="closeFavoriteModal()"
                   class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm">
-            Cancel
+            <%= t("external_feed.favorites.cancel", default: "Cancel") %>
           </button>
         </div>
       <% end %>
@@ -271,6 +354,12 @@
   }
 
   function openSaveSearchModal() {
+    // Pre-fill email from localStorage if available
+    var savedEmail = localStorage.getItem('pwb_favorites_email');
+    var emailInput = document.getElementById('save_search_email');
+    if (savedEmail && emailInput) {
+      emailInput.value = savedEmail;
+    }
     document.getElementById('save-search-modal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
   }
@@ -280,12 +369,23 @@
     document.body.style.overflow = '';
   }
 
-  function toggleFavorite(event, reference, title) {
+  function toggleFavorite(event, reference, title, propertyData) {
     event.preventDefault();
     event.stopPropagation();
 
     document.getElementById('favorite-reference').value = reference;
     document.getElementById('favorite-property-name').textContent = title;
+    if (propertyData) {
+      document.getElementById('favorite-property-data').value = JSON.stringify(propertyData);
+    }
+
+    // Pre-fill email from localStorage if available
+    var savedEmail = localStorage.getItem('pwb_favorites_email');
+    var emailInput = document.getElementById('favorite_email');
+    if (savedEmail && emailInput) {
+      emailInput.value = savedEmail;
+    }
+
     document.getElementById('favorite-modal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
   }
@@ -300,6 +400,29 @@
     if (e.key === 'Escape') {
       closeSaveSearchModal();
       closeFavoriteModal();
+    }
+  });
+
+  // Save email to localStorage when forms are submitted
+  document.addEventListener('DOMContentLoaded', function() {
+    var favoriteForm = document.getElementById('favorite-form');
+    if (favoriteForm) {
+      favoriteForm.addEventListener('submit', function() {
+        var emailInput = document.getElementById('favorite_email');
+        if (emailInput && emailInput.value) {
+          localStorage.setItem('pwb_favorites_email', emailInput.value);
+        }
+      });
+    }
+
+    var saveSearchForm = document.getElementById('save-search-form');
+    if (saveSearchForm) {
+      saveSearchForm.addEventListener('submit', function() {
+        var emailInput = document.getElementById('save_search_email');
+        if (emailInput && emailInput.value) {
+          localStorage.setItem('pwb_favorites_email', emailInput.value);
+        }
+      });
     }
   });
 </script>
