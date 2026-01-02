@@ -15,6 +15,39 @@ This skill provides comprehensive theme evaluation focusing on:
 - Dark mode compatibility
 - Responsive design problems
 
+## Quick Evaluation Commands
+
+### Using Built-in Tools
+
+```ruby
+# Check WCAG AA compliance for any color pair
+Pwb::ColorUtils.wcag_aa_compliant?('#ffffff', '#333333')
+# => true (14.0:1 ratio)
+
+# Get exact contrast ratio
+Pwb::ColorUtils.contrast_ratio('#ffffff', '#6b7280')
+# => 4.5:1 (borderline AA for normal text)
+
+# Suggest text color for a background
+Pwb::ColorUtils.suggest_text_color('#1a2744')
+# => '#ffffff' (white for dark backgrounds)
+
+# Check if ratio meets specific threshold
+Pwb::ColorUtils.meets_contrast_threshold?('#fff', '#666', 4.5)
+# => true/false
+```
+
+```bash
+# Validate all palettes
+rake palettes:validate
+
+# Check contrast for a specific palette
+rake palettes:contrast[default,classic_red]
+
+# List all palettes for a theme
+rake palettes:list[brisbane]
+```
+
 ## WCAG Contrast Requirements
 
 ### Minimum Ratios (WCAG 2.1 AA)
@@ -32,25 +65,6 @@ This skill provides comprehensive theme evaluation focusing on:
 |-----------|---------------|
 | Normal text | 7:1 |
 | Large text | 4.5:1 |
-
-## Contrast Calculation Formula
-
-```ruby
-# Relative luminance calculation
-def relative_luminance(r, g, b)
-  [r, g, b].map do |c|
-    c = c / 255.0
-    c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
-  end.then { |r, g, b| 0.2126 * r + 0.7152 * g + 0.0722 * b }
-end
-
-# Contrast ratio
-def contrast_ratio(l1, l2)
-  lighter = [l1, l2].max
-  darker = [l1, l2].min
-  (lighter + 0.05) / (darker + 0.05)
-end
-```
 
 ## Common Color Reference
 
@@ -228,6 +242,31 @@ app/views/pwb/custom_css/
 └── _base_variables.css.erb
 ```
 
+### Palette Files Location
+
+```
+app/themes/
+├── default/palettes/
+│   ├── classic_red.json
+│   ├── ocean_blue.json
+│   ├── forest_green.json
+│   ├── sunset_orange.json
+│   ├── midnight_purple.json
+│   └── natural_earth.json
+├── brisbane/palettes/
+│   ├── gold_navy.json
+│   ├── rose_gold.json
+│   ├── platinum.json
+│   ├── emerald_luxury.json
+│   ├── azure_prestige.json
+│   └── champagne_onyx.json
+└── bologna/palettes/
+    ├── terracotta_classic.json
+    ├── sage_stone.json
+    ├── coastal_warmth.json
+    └── modern_slate.json
+```
+
 ### Key CSS Selectors to Audit
 
 ```css
@@ -250,37 +289,75 @@ footer, .site-footer, .footer-links, .footer-contact-list
 /* Buttons */
 .btn-primary, .btn-secondary, .btn-outline
 .btn-base, .btn-action
+.pwb-btn--primary, .pwb-btn--secondary
 ```
 
 ## Running an Evaluation
 
-### Step 1: Identify Theme CSS
+### Step 1: Load Theme and Palette Colors
 
-```bash
-# Find theme CSS file
-ls app/views/pwb/custom_css/_*.css.erb
+```ruby
+# Get theme info
+theme = Pwb::Theme.find_by(name: 'brisbane')
+theme.palettes.keys
+# => ["gold_navy", "rose_gold", "platinum", ...]
+
+# Load specific palette colors
+loader = Pwb::PaletteLoader.new
+colors = loader.get_light_colors('brisbane', 'gold_navy')
+# => { "primary_color" => "#c9a962", "secondary_color" => "#1a2744", ... }
 ```
 
-### Step 2: Extract Color Pairs
+### Step 2: Check Critical Color Pairs
 
-Look for these patterns in CSS:
-- `color: #xxx` with parent `background: #xxx`
-- `rgba(r,g,b, opacity)` values
-- CSS variable definitions in `:root`
-- Overlay gradients (`linear-gradient`)
+```ruby
+# Check all critical combinations
+colors = loader.get_light_colors('brisbane', 'gold_navy')
 
-### Step 3: Calculate Contrast Ratios
+# Text on backgrounds
+Pwb::ColorUtils.contrast_ratio(colors['text_color'], colors['background_color'])
+Pwb::ColorUtils.contrast_ratio(colors['header_text_color'], colors['header_background_color'])
+Pwb::ColorUtils.contrast_ratio(colors['footer_text_color'], colors['footer_background_color'])
 
-Use online tools or the formula above:
-- WebAIM Contrast Checker: https://webaim.org/resources/contrastchecker/
-- Coolors Contrast Checker: https://coolors.co/contrast-checker
+# Primary color on white (for buttons)
+Pwb::ColorUtils.contrast_ratio('#ffffff', colors['primary_color'])
+
+# Links on background
+Pwb::ColorUtils.contrast_ratio(colors['link_color'], colors['background_color'])
+```
+
+### Step 3: Generate Contrast Report
+
+```ruby
+# Quick contrast audit
+def audit_palette(theme_name, palette_id)
+  loader = Pwb::PaletteLoader.new
+  colors = loader.get_light_colors(theme_name, palette_id)
+
+  checks = [
+    ['Body text', colors['text_color'], colors['background_color'], 4.5],
+    ['Header text', colors['header_text_color'], colors['header_background_color'], 4.5],
+    ['Footer text', colors['footer_text_color'], colors['footer_background_color'], 4.5],
+    ['Link on bg', colors['link_color'], colors['background_color'], 4.5],
+    ['Primary on white', '#ffffff', colors['primary_color'], 4.5],
+  ]
+
+  checks.each do |name, fg, bg, required|
+    ratio = Pwb::ColorUtils.contrast_ratio(fg, bg)
+    status = ratio >= required ? 'PASS' : 'FAIL'
+    puts "#{status} #{name}: #{ratio.round(2)}:1 (need #{required}:1)"
+  end
+end
+
+audit_palette('brisbane', 'gold_navy')
+```
 
 ### Step 4: Document Failures
 
 Create a report:
 
 ```markdown
-## Theme: [theme_name] Contrast Audit
+## Theme: brisbane Contrast Audit
 
 ### FAILURES (Must Fix)
 
@@ -299,45 +376,55 @@ Create a report:
 
 - Hero title: White on overlay (21:1)
 - Primary buttons: White on brand (8.2:1)
+- Body text: #333 on white (12.6:1)
 ```
 
-### Step 5: Apply Fixes
+## Using ColorUtils API
 
-Common fix patterns:
+### Full API Reference
 
-```css
-/* 1. Add overlay to hero */
-.hero-bg-wrapper::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  z-index: 1;
-}
+```ruby
+# Contrast calculations
+Pwb::ColorUtils.contrast_ratio('#ffffff', '#333333')
+# => 12.63
 
-/* 2. Improve footer text */
-.footer-links { color: #d1d5db; }
-.footer-copyright { color: #d1d5db; }
+Pwb::ColorUtils.wcag_aa_compliant?(foreground, background)
+# => true/false (checks 4.5:1)
 
-/* 3. Fix testimonials */
-.testimonial-text { color: #374151; }
+Pwb::ColorUtils.wcag_aa_large_compliant?(foreground, background)
+# => true/false (checks 3:1 for large text)
 
-/* 4. Fix outline buttons */
-.hero-section .btn-outline {
-  background: rgba(0, 0, 0, 0.35);
-  color: #ffffff;
-  border-color: #ffffff;
-}
+Pwb::ColorUtils.meets_contrast_threshold?(fg, bg, threshold)
+# => true/false
 
-/* 5. Increase gradient opacity */
-.theme .hero-section::before {
-  background: linear-gradient(
-    135deg,
-    rgba(0, 0, 0, 0.7) 0%,   /* was 0.5 */
-    rgba(0, 0, 0, 0.5) 50%,  /* was 0.3 */
-    rgba(0, 0, 0, 0.65) 100% /* was 0.4 */
-  );
-}
+# Color suggestions
+Pwb::ColorUtils.suggest_text_color(background_color)
+# => '#ffffff' or '#000000' based on luminance
+
+# Shade generation
+Pwb::ColorUtils.generate_shades('#3498db')
+# => { 50 => '#ebf5fc', 100 => '#d6ebf9', ..., 900 => '#0a2d4a' }
+
+Pwb::ColorUtils.lighten('#3498db', 20)
+# => lighter shade
+
+Pwb::ColorUtils.darken('#3498db', 20)
+# => darker shade
+
+# Dark mode generation
+Pwb::ColorUtils.generate_dark_mode_colors(light_colors_hash)
+# => { 'primary_color' => '#...', 'background_color' => '#121212', ... }
+
+# Color parsing
+Pwb::ColorUtils.hex_to_rgb('#3498db')
+# => [52, 152, 219]
+
+Pwb::ColorUtils.rgb_to_hex(52, 152, 219)
+# => '#3498db'
+
+# Luminance
+Pwb::ColorUtils.relative_luminance('#3498db')
+# => 0.284 (0-1 scale)
 ```
 
 ## Additional Checks
@@ -362,7 +449,7 @@ Check that:
 ```css
 /* Must have visible focus states */
 *:focus {
-  outline: 2px solid var(--primary-color);
+  outline: 2px solid var(--pwb-primary);
   outline-offset: 2px;
 }
 
@@ -423,30 +510,34 @@ Example:
 ```
 ## Theme Evaluation: brisbane
 
-### Summary: FAIL (3 critical issues)
+### Summary: PASS with 2 warnings
 
 ### Critical Failures
-
-1. **Footer links** - 3.8:1 contrast (needs 4.5:1)
-   - Location: `_brisbane.css.erb` line 320
-   - Fix: Change `rgba(250,248,245,0.8)` to `0.9`
-
-2. **Hero subtitle** - ~4.1:1 on image
-   - Location: Hero section overlay
-   - Fix: Increase overlay opacity from 0.4 to 0.5
-
-3. **Testimonial quotes** - 4.2:1 contrast
-   - Location: Testimonial section
-   - Fix: Change text color from #6b7280 to #374151
+None - all color pairs meet WCAG AA requirements.
 
 ### Warnings
 
-- Consider darkening muted footer text for better readability
-- Outline buttons could use background for better visibility
+1. **Footer muted text** - 4.6:1 contrast (borderline)
+   - Location: `_brisbane.css.erb` line 320
+   - Recommendation: Consider using #d1d5db instead of #9ca3af
 
-### Recommended Fixes
+2. **Testimonial quotes** - 4.5:1 contrast (exactly at threshold)
+   - Location: Testimonial section
+   - Recommendation: Darken text from #6b7280 to #4b5563
 
-[Include CSS code blocks with exact fixes]
+### Passed Checks
+
+- Hero title: White on overlay (21:1) ✓
+- Body text: #333 on white (12.6:1) ✓
+- Primary buttons: White on gold (8.2:1) ✓
+- Footer text: White on navy (14.3:1) ✓
+- Header navigation: Navy on white (14.3:1) ✓
+
+### Recommendations
+
+1. Add `prefers-reduced-motion` media query for animations
+2. Ensure all interactive elements have visible focus states
+3. Consider adding underlines to links for color-blind users
 ```
 
 ## Related Documentation
@@ -454,4 +545,6 @@ Example:
 - WCAG 2.1 Guidelines: https://www.w3.org/WAI/WCAG21/quickref/
 - WebAIM Contrast Checker: https://webaim.org/resources/contrastchecker/
 - Theme Creation Skill: `.claude/skills/theme-creation/SKILL.md`
-- Color Palettes Architecture: `docs/architecture/COLOR_PALETTES_ARCHITECTURE.md`
+- Color Palettes Architecture: `docs/theming/color-palettes/COLOR_PALETTES_ARCHITECTURE.md`
+- Biarritz Contrast Guide: `docs/theming/BIARRITZ_CONTRAST_GUIDE.md`
+- Theme System Documentation: `docs/theming/README.md`
