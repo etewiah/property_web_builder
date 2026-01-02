@@ -1,0 +1,33 @@
+<div class="container mx-auto px-4 py-16 max-w-2xl text-center">
+  <div class="mb-6">
+    <svg class="mx-auto h-16 w-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7" />
+    </svg>
+  </div>
+
+  <h1 class="text-2xl font-bold text-gray-900 mb-4">Unsubscribed Successfully</h1>
+
+  <p class="text-gray-600 mb-8">
+    You have been unsubscribed from property alerts for
+    <strong><%= @email %></strong>.
+  </p>
+
+  <p class="text-gray-500 text-sm mb-8">
+    You will no longer receive email notifications about new properties matching
+    "<%= @saved_search.name %>".
+  </p>
+
+  <div class="space-y-4">
+    <p class="text-sm text-gray-600">
+      Changed your mind?
+      <%= link_to "Manage your alerts",
+          my_saved_searches_path(token: @saved_search.manage_token),
+          class: "text-blue-600 hover:underline" %>
+      to re-enable notifications.
+    </p>
+
+    <%= link_to "Continue browsing properties",
+        external_listings_path,
+        class: "inline-flex items-center text-blue-600 hover:underline" %>
+  </div>
+</div>

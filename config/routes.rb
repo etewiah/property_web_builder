@@ -453,6 +453,22 @@ Rails.application.routes.draw do
             get :similar
           end
         end
+
+        # User's saved searches and favorites (token-based, no login required)
+        namespace :my do
+          resources :saved_searches, only: [:index, :show, :create, :update, :destroy] do
+            collection do
+              get :unsubscribe
+              get :verify
+            end
+          end
+
+          resources :saved_properties, path: "favorites", as: "favorites", only: [:index, :show, :create, :update, :destroy] do
+            collection do
+              post :check
+            end
+          end
+        end
       end
 
       post "/search_ajax_for_sale" => "search#search_ajax_for_sale"

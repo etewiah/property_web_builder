@@ -1,0 +1,38 @@
+<%= @new_properties.size %> NEW <%= @new_properties.size == 1 ? 'PROPERTY' : 'PROPERTIES' %> FOUND
+================================================================================
+
+Matching your saved search: <%= @saved_search.name %>
+<%= @saved_search.criteria_summary %>
+
+--------------------------------------------------------------------------------
+
+<% @new_properties.first(10).each_with_index do |property, index| %>
+<%= index + 1 %>. <%= property.title.presence || "Property #{property.reference}" %>
+<% if property.price.present? %>
+   Price: <%= property.currency || 'EUR' %> <%= number_with_delimiter(property.price.to_i) %><%= property.listing_type.to_s == 'rental' ? '/month' : '' %>
+<% end %>
+<% if property.city.present? || property.location.present? %>
+   Location: <%= property.city.presence || property.location %>
+<% end %>
+<% if property.bedrooms.present? || property.bathrooms.present? %>
+   <%= [property.bedrooms.present? ? "#{property.bedrooms} beds" : nil, property.bathrooms.present? ? "#{property.bathrooms} baths" : nil].compact.join(' | ') %>
+<% end %>
+   View: <%= @host %>/external_listings/<%= property.reference %>
+
+<% end %>
+<% if @new_properties.size > 10 %>
+... and <%= @new_properties.size - 10 %> more new properties
+
+<% end %>
+--------------------------------------------------------------------------------
+
+View all results (<%= @alert.total_results_count %>):
+<%= @host %>/external_listings?<%= @saved_search.search_criteria.to_query %>
+
+--------------------------------------------------------------------------------
+
+Manage your alerts: <%= @manage_url %>
+Unsubscribe: <%= @unsubscribe_url %>
+
+You're receiving this email because you set up a property alert on
+<%= @website.company_display_name.presence || @website.subdomain %>.

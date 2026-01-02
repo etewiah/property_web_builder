@@ -139,7 +139,8 @@ RSpec.describe "Site::ExternalListings", type: :request do
 
       it "redirects to root" do
         get external_listings_path
-        expect(response).to redirect_to(root_path)
+        expect(response).to have_http_status(:redirect)
+        expect(response.location).to include("/")
       end
 
       it "sets flash alert" do

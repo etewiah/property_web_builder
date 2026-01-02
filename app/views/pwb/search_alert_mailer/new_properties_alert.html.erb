@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Properties Alert</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header {
+      background-color: #2563eb;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .header p {
+      margin: 10px 0 0;
+      opacity: 0.9;
+    }
+    .content {
+      background-color: white;
+      padding: 30px 20px;
+      border-radius: 0 0 8px 8px;
+    }
+    .search-info {
+      background-color: #f0f9ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 25px;
+    }
+    .search-info h3 {
+      margin: 0 0 5px;
+      font-size: 14px;
+      color: #1e40af;
+    }
+    .search-info p {
+      margin: 0;
+      color: #1e3a8a;
+    }
+    .properties {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .property-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .property-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+    .property-image-placeholder {
+      width: 100%;
+      height: 180px;
+      background-color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+    }
+    .property-details {
+      padding: 15px;
+    }
+    .property-title {
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #111827;
+    }
+    .property-title a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .property-title a:hover {
+      color: #2563eb;
+    }
+    .property-price {
+      font-size: 18px;
+      font-weight: 700;
+      color: #059669;
+      margin-bottom: 8px;
+    }
+    .property-location {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .property-features {
+      display: flex;
+      gap: 15px;
+      color: #6b7280;
+      font-size: 13px;
+    }
+    .property-features span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .view-button {
+      display: inline-block;
+      background-color: #2563eb;
+      color: white !important;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 10px;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: #6b7280;
+      font-size: 13px;
+    }
+    .footer a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    .manage-links {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><%= @new_properties.size %> New <%= @new_properties.size == 1 ? 'Property' : 'Properties' %> Found</h1>
+      <p>Matching your saved search criteria</p>
+    </div>
+
+    <div class="content">
+      <div class="search-info">
+        <h3>Search: <%= @saved_search.name %></h3>
+        <p><%= @saved_search.criteria_summary %></p>
+      </div>
+
+      <ul class="properties">
+        <% @new_properties.first(5).each do |property| %>
+          <li class="property-card">
+            <% if property.main_image.present? %>
+              <img src="<%= property.main_image %>" alt="<%= property.title %>" class="property-image">
+            <% else %>
+              <div class="property-image-placeholder">No image available</div>
+            <% end %>
+
+            <div class="property-details">
+              <h3 class="property-title">
+                <a href="<%= @host %>/external_listings/<%= property.reference %>">
+                  <%= property.title.presence || "Property #{property.reference}" %>
+                </a>
+              </h3>
+
+              <% if property.price.present? %>
+                <div class="property-price">
+                  <%= property.currency || 'EUR' %> <%= number_with_delimiter(property.price.to_i) %>
+                  <% if property.listing_type.to_s == 'rental' %>/month<% end %>
+                </div>
+              <% end %>
+
+              <% if property.city.present? || property.location.present? %>
+                <div class="property-location">
+                  <%= property.city.presence || property.location %>
+                </div>
+              <% end %>
+
+              <div class="property-features">
+                <% if property.bedrooms.present? %>
+                  <span><%= property.bedrooms %> bed<%= property.bedrooms == 1 ? '' : 's' %></span>
+                <% end %>
+                <% if property.bathrooms.present? %>
+                  <span><%= property.bathrooms %> bath<%= property.bathrooms == 1 ? '' : 's' %></span>
+                <% end %>
+                <% if property.built_area.present? %>
+                  <span><%= number_with_delimiter(property.built_area.to_i) %> m&sup2;</span>
+                <% end %>
+              </div>
+
+              <a href="<%= @host %>/external_listings/<%= property.reference %>" class="view-button">
+                View Property
+              </a>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+
+      <% if @new_properties.size > 5 %>
+        <p style="text-align: center; color: #6b7280; margin-top: 20px;">
+          ... and <%= @new_properties.size - 5 %> more new <%= (@new_properties.size - 5) == 1 ? 'property' : 'properties' %>
+        </p>
+      <% end %>
+
+      <div style="text-align: center; margin-top: 25px;">
+        <a href="<%= @host %>/external_listings?<%= @saved_search.search_criteria.to_query %>" class="view-button">
+          View All Results (<%= @alert.total_results_count %>)
+        </a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>
+        You're receiving this email because you set up a property alert on
+        <a href="<%= @host %>"><%= @website.company_display_name.presence || @website.subdomain %></a>.
+      </p>
+      <div class="manage-links">
+        <a href="<%= @manage_url %>">Manage your alerts</a>
+        &nbsp;&bull;&nbsp;
+        <a href="<%= @unsubscribe_url %>">Unsubscribe</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+  <div class="mb-6">
+    <%= link_to my_saved_searches_path(token: params[:token]),
+        class: "text-blue-600 hover:underline text-sm" do %>
+      &larr; Back to all searches
+    <% end %>
+  </div>
+
+  <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div class="p-6 border-b border-gray-200">
+      <h1 class="text-xl font-bold text-gray-900"><%= @saved_search.name %></h1>
+      <p class="mt-1 text-gray-600"><%= @saved_search.criteria_summary %></p>
+    </div>
+
+    <%= form_with model: @saved_search,
+                  url: my_saved_search_path(id: @saved_search.id, token: params[:token]),
+                  method: :patch,
+                  local: true,
+                  class: "p-6" do |f| %>
+
+      <div class="space-y-6">
+        <!-- Name -->
+        <div>
+          <label for="saved_search_name" class="block text-sm font-medium text-gray-700 mb-1">
+            Search Name
+          </label>
+          <%= f.text_field :name,
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+        </div>
+
+        <!-- Alert Frequency -->
+        <div>
+          <label for="saved_search_alert_frequency" class="block text-sm font-medium text-gray-700 mb-1">
+            Alert Frequency
+          </label>
+          <%= f.select :alert_frequency,
+              [
+                ["No alerts (just save search)", "none"],
+                ["Daily - Get notified once per day", "daily"],
+                ["Weekly - Get notified once per week", "weekly"]
+              ],
+              {},
+              class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+          <p class="mt-1 text-sm text-gray-500">
+            You'll receive an email when new properties match your search criteria.
+          </p>
+        </div>
+
+        <!-- Enabled Toggle -->
+        <div class="flex items-start">
+          <div class="flex items-center h-5">
+            <%= f.check_box :enabled,
+                class: "h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" %>
+          </div>
+          <div class="ml-3">
+            <label for="saved_search_enabled" class="text-sm font-medium text-gray-700">
+              Enable this search
+            </label>
+            <p class="text-sm text-gray-500">
+              Uncheck to pause alerts without deleting the search.
+            </p>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-between pt-4 border-t border-gray-200">
+          <%= f.submit "Save Changes",
+              class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
+
+          <%= button_to "Delete Search",
+              my_saved_search_path(id: @saved_search.id, token: params[:token]),
+              method: :delete,
+              class: "px-4 py-2 text-red-600 hover:text-red-800",
+              data: { confirm: "Are you sure you want to delete this saved search?" } %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Recent Alerts -->
+  <% if @alerts.any? %>
+    <div class="mt-8">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Recent Alerts</h2>
+      <div class="bg-white border border-gray-200 rounded-lg divide-y divide-gray-200">
+        <% @alerts.each do |alert| %>
+          <div class="p-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="font-medium text-gray-900">
+                  <%= alert.properties_count %> new <%= alert.properties_count == 1 ? 'property' : 'properties' %>
+                </span>
+                <span class="text-gray-500 text-sm ml-2">
+                  <%= time_ago_in_words(alert.created_at) %> ago
+                </span>
+              </div>
+              <div>
+                <% if alert.sent? %>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                    Sent
+                  </span>
+                <% elsif alert.failed? %>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                    Failed
+                  </span>
+                <% else %>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                    Pending
+                  </span>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- View Current Results -->
+  <div class="mt-8">
+    <%= link_to external_listings_path(@saved_search.search_criteria_hash),
+        class: "inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50" do %>
+      View Current Search Results
+      <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+      </svg>
+    <% end %>
+  </div>
+</div>

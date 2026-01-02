@@ -1,0 +1,114 @@
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+  <div class="mb-8">
+    <h1 class="text-2xl font-bold text-gray-900">My Favorite Properties</h1>
+    <p class="mt-1 text-gray-600">
+      Your saved properties for <strong><%= @email %></strong>
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% @saved_properties.each do |saved| %>
+      <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+        <!-- Image -->
+        <div class="relative aspect-[4/3]">
+          <% if saved.main_image.present? %>
+            <img src="<%= saved.main_image %>"
+                 alt="<%= saved.title %>"
+                 class="w-full h-full object-cover">
+          <% else %>
+            <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+              <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+            </div>
+          <% end %>
+
+          <!-- Favorite badge -->
+          <div class="absolute top-2 right-2">
+            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-500 text-white">
+              <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+              </svg>
+              Saved
+            </span>
+          </div>
+
+          <!-- Price change badge -->
+          <% if saved.price_changed? %>
+            <div class="absolute top-2 left-2">
+              <% if saved.price_decreased? %>
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-500 text-white">
+                  Price dropped <%= saved.price_change_percentage.abs %>%
+                </span>
+              <% else %>
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-500 text-white">
+                  Price up <%= saved.price_change_percentage %>%
+                </span>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Details -->
+        <div class="p-4">
+          <h3 class="font-semibold text-gray-900 truncate">
+            <%= saved.title %>
+          </h3>
+
+          <% if saved.location.present? %>
+            <p class="text-sm text-gray-500 mt-1">
+              <%= saved.location %>
+            </p>
+          <% end %>
+
+          <% if saved.price.present? %>
+            <p class="text-lg font-bold text-green-600 mt-2">
+              <%= saved.price_formatted %>
+              <% if saved.listing_type.to_s == 'rental' %>
+                <span class="text-sm font-normal text-gray-500">/month</span>
+              <% end %>
+            </p>
+          <% end %>
+
+          <div class="flex items-center gap-3 text-sm text-gray-500 mt-2">
+            <% if saved.bedrooms.present? %>
+              <span><%= saved.bedrooms %> beds</span>
+            <% end %>
+            <% if saved.bathrooms.present? %>
+              <span><%= saved.bathrooms %> baths</span>
+            <% end %>
+          </div>
+
+          <% if saved.notes.present? %>
+            <p class="text-sm text-gray-600 mt-3 italic line-clamp-2">
+              "<%= saved.notes %>"
+            </p>
+          <% end %>
+
+          <div class="mt-4 flex items-center gap-2">
+            <%= link_to external_listing_path(reference: saved.external_reference),
+                class: "flex-1 text-center px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700" do %>
+              View Property
+            <% end %>
+
+            <%= button_to my_favorite_path(id: saved.id, token: params[:token]),
+                method: :delete,
+                class: "px-3 py-2 text-red-600 hover:text-red-800 text-sm",
+                data: { confirm: "Remove from favorites?" } do %>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-8 pt-8 border-t border-gray-200">
+    <p class="text-gray-600">
+      Browse more properties on the
+      <%= link_to "property search page", external_listings_path, class: "text-blue-600 hover:underline" %>.
+    </p>
+  </div>
+</div>

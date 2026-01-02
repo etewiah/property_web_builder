@@ -1,0 +1,27 @@
+<div class="container mx-auto px-4 py-16 max-w-2xl text-center">
+  <div class="mb-6">
+    <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+  </div>
+
+  <h1 class="text-2xl font-bold text-gray-900 mb-4">No Saved Searches Found</h1>
+
+  <p class="text-gray-600 mb-8">
+    The link you used is invalid or expired, or you don't have any saved searches yet.
+  </p>
+
+  <div class="space-y-4">
+    <%= link_to external_listings_path,
+        class: "inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700" do %>
+      <svg class="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      Search Properties
+    <% end %>
+
+    <p class="text-sm text-gray-500">
+      Find properties and save your search to receive email alerts for new listings.
+    </p>
+  </div>
+</div>

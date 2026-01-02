@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_01_211558) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_01_225644) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -714,6 +714,53 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_211558) do
     t.index ["translations"], name: "index_pwb_sale_listings_on_translations", using: :gin
   end
 
+  create_table "pwb_saved_properties", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "current_price_cents"
+    t.string "email", null: false
+    t.string "external_reference", null: false
+    t.string "manage_token", null: false
+    t.text "notes"
+    t.integer "original_price_cents"
+    t.datetime "price_changed_at"
+    t.jsonb "property_data", default: {}, null: false
+    t.string "provider", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "website_id", null: false
+    t.index ["email", "provider", "external_reference"], name: "index_saved_properties_unique_per_email", unique: true
+    t.index ["email"], name: "index_pwb_saved_properties_on_email"
+    t.index ["manage_token"], name: "index_pwb_saved_properties_on_manage_token", unique: true
+    t.index ["website_id", "email"], name: "index_pwb_saved_properties_on_website_id_and_email"
+    t.index ["website_id", "provider", "external_reference"], name: "index_saved_properties_on_provider_ref"
+    t.index ["website_id"], name: "index_pwb_saved_properties_on_website_id"
+  end
+
+  create_table "pwb_saved_searches", force: :cascade do |t|
+    t.integer "alert_frequency", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.boolean "email_verified", default: false, null: false
+    t.boolean "enabled", default: true, null: false
+    t.integer "last_result_count", default: 0
+    t.datetime "last_run_at"
+    t.string "manage_token", null: false
+    t.string "name"
+    t.jsonb "search_criteria", default: {}, null: false
+    t.jsonb "seen_property_refs", default: [], null: false
+    t.string "unsubscribe_token", null: false
+    t.datetime "updated_at", null: false
+    t.string "verification_token"
+    t.datetime "verified_at"
+    t.bigint "website_id", null: false
+    t.index ["email"], name: "index_pwb_saved_searches_on_email"
+    t.index ["manage_token"], name: "index_pwb_saved_searches_on_manage_token", unique: true
+    t.index ["unsubscribe_token"], name: "index_pwb_saved_searches_on_unsubscribe_token", unique: true
+    t.index ["verification_token"], name: "index_pwb_saved_searches_on_verification_token", unique: true
+    t.index ["website_id", "email"], name: "index_pwb_saved_searches_on_website_id_and_email"
+    t.index ["website_id", "enabled", "alert_frequency"], name: "index_saved_searches_for_alerts"
+    t.index ["website_id"], name: "index_pwb_saved_searches_on_website_id"
+  end
+
   create_table "pwb_scraped_properties", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "connector_used"
     t.datetime "created_at", null: false
@@ -738,6 +785,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_211558) do
     t.index ["source_url_normalized"], name: "index_pwb_scraped_properties_on_source_url_normalized"
     t.index ["website_id", "source_host"], name: "index_pwb_scraped_properties_on_website_id_and_source_host"
     t.index ["website_id"], name: "index_pwb_scraped_properties_on_website_id"
+  end
+
+  create_table "pwb_search_alerts", force: :cascade do |t|
+    t.datetime "clicked_at"
+    t.datetime "created_at", null: false
+    t.datetime "delivered_at"
+    t.string "email_status"
+    t.text "error_message"
+    t.jsonb "new_properties", default: [], null: false
+    t.datetime "opened_at"
+    t.integer "properties_count", default: 0, null: false
+    t.bigint "saved_search_id", null: false
+    t.datetime "sent_at"
+    t.integer "total_results_count", default: 0
+    t.datetime "updated_at", null: false
+    t.index ["saved_search_id", "created_at"], name: "index_pwb_search_alerts_on_saved_search_id_and_created_at"
+    t.index ["saved_search_id"], name: "index_pwb_search_alerts_on_saved_search_id"
+    t.index ["sent_at"], name: "index_pwb_search_alerts_on_sent_at"
   end
 
   create_table "pwb_subdomains", force: :cascade do |t|
@@ -1203,8 +1268,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_211558) do
   add_foreign_key "pwb_prop_translations", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_rental_listings", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_sale_listings", "pwb_realty_assets", column: "realty_asset_id"
+  add_foreign_key "pwb_saved_properties", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_saved_searches", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_scraped_properties", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_scraped_properties", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_search_alerts", "pwb_saved_searches", column: "saved_search_id"
   add_foreign_key "pwb_subdomains", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_subscription_events", "pwb_subscriptions", column: "subscription_id"
   add_foreign_key "pwb_subscriptions", "pwb_plans", column: "plan_id"
