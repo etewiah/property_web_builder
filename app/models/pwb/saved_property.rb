@@ -42,13 +42,29 @@ module Pwb
     end
 
     def price
-      property_data_hash[:price]
+      raw_price = property_data_hash[:price]
+      return nil unless raw_price
+
+      # Handle Money-like hash format from internal properties: {"cents" => 27500000, "currency_iso" => "USD"}
+      if raw_price.is_a?(Hash)
+        cents = raw_price[:cents] || raw_price["cents"]
+        cents.to_i / 100 if cents
+      else
+        raw_price.to_i
+      end
     end
 
     def price_formatted
       return nil unless price
 
-      currency = property_data_hash[:currency] || "EUR"
+      # Get currency - check both formats
+      raw_price = property_data_hash[:price]
+      currency = if raw_price.is_a?(Hash)
+                   raw_price[:currency_iso] || raw_price["currency_iso"] || property_data_hash[:currency] || "EUR"
+                 else
+                   property_data_hash[:currency] || "EUR"
+                 end
+
       "#{currency} #{price.to_i.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse}"
     end
 
@@ -116,12 +132,17 @@ module Pwb
     end
 
     def self.extract_price_cents(data)
-      data = data.is_a?(Hash) ? data : data.to_h
-      price = data[:price] || data["price"]
-      return nil unless price
+      data = data.is_a?(Hash) ? data.deep_symbolize_keys : data.to_h.deep_symbolize_keys
+      raw_price = data[:price]
+      return nil unless raw_price
 
-      # Price might already be in cents or whole units
-      price.to_i
+      # Handle Money-like hash format: {"cents" => 27500000, "currency_iso" => "USD"}
+      if raw_price.is_a?(Hash)
+        raw_price[:cents] || raw_price["cents"]
+      else
+        # Price might already be in cents or whole units
+        raw_price.to_i
+      end
     end
 
     private

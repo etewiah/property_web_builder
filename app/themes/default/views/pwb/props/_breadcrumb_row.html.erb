@@ -13,10 +13,20 @@
       </div>
       <% end %>
 
-      <div class="w-full md:w-5/6">
+      <div class="w-full md:w-5/6 flex items-center gap-3">
         <h2 class="text-2xl font-bold text-gray-800">
           <%= @property_details.title %>
         </h2>
+        <%# Use slug_or_id so the View Property link works correctly %>
+        <button type="button"
+                onclick="togglePropertyFavorite(event, '<%= @property_details.slug_or_id %>', '<%= j(@property_details.title) %>')"
+                class="favorite-btn p-2 text-gray-400 hover:text-red-500 rounded-full hover:bg-gray-200 transition-colors"
+                data-reference="<%= @property_details.slug_or_id %>"
+                title="<%= t('favorites.save_to_favorites', default: 'Save to favorites') %>">
+          <svg class="h-6 w-6 favorite-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        </button>
       </div>
       <div class="w-full md:w-1/2 hidden">
         <nav class="flex" aria-label="Breadcrumb">

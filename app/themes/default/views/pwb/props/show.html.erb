@@ -10,17 +10,7 @@
         <div class="property-detail-main">
           <%# Fragment cache for image carousel - invalidates when photos change %>
           <% cache property_detail_cache_key(@property_details, "carousel") do %>
-            <div class="mb-6 relative">
-              <%# Favorite Button %>
-              <button type="button"
-                      onclick="togglePropertyFavorite(event, '<%= @property_details.reference %>', '<%= j(@property_details.title) %>')"
-                      class="favorite-btn absolute top-4 right-4 z-10 p-3 bg-white/90 hover:bg-white rounded-full shadow-lg transition-colors"
-                      data-reference="<%= @property_details.reference %>"
-                      title="<%= t('favorites.save_to_favorites', default: 'Save to favorites') %>">
-                <svg class="h-6 w-6 text-gray-400 hover:text-red-500 favorite-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </button>
+            <div class="mb-6">
               <%= render '/pwb/props/images_section_carousel' %>
             </div>
           <% end %>
@@ -103,8 +93,17 @@
       </div>
 
       <%= form_with url: my_favorites_path, method: :post, local: true, id: "property-favorite-form", class: "mt-5" do |f| %>
-        <input type="hidden" name="saved_property[external_reference]" id="property-favorite-reference" value="<%= @property_details.reference %>">
+        <%# Use slug_or_id for the reference so View Property links work correctly %>
+        <input type="hidden" name="saved_property[external_reference]" id="property-favorite-reference" value="<%= @property_details.slug_or_id %>">
         <input type="hidden" name="saved_property[provider]" value="internal">
+        <%
+          # Build image URLs - use rails_blob_url for full URLs that work when stored
+          saved_images = @property_details.prop_photos.first(5).filter_map do |photo|
+            if photo.image.attached?
+              rails_blob_url(photo.image, host: request.base_url)
+            end
+          end
+        %>
         <input type="hidden" name="saved_property[property_data]" id="property-favorite-data" value="<%= {
           title: @property_details.title,
           price: @property_details.send(@operation_type == 'for_rent' ? :price_rental_monthly_current : :price_sale_current),
@@ -113,7 +112,7 @@
           bathrooms: @property_details.count_bathrooms,
           city: @property_details.city,
           listing_type: @operation_type == 'for_rent' ? 'rental' : 'sale',
-          images: @property_details.photo_urls.first(5)
+          images: saved_images
         }.to_json %>">
 
         <div class="space-y-4">

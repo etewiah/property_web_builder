@@ -86,7 +86,22 @@
           <% end %>
 
           <div class="mt-4 flex items-center gap-2">
-            <%= link_to external_listing_path(reference: saved.external_reference),
+            <%
+              # Internal properties link to props#show, external to external_listings#show
+              property_url = if saved.provider == "internal"
+                # For internal properties, use the listing type to determine the path
+                # Generate a URL-friendly title from the saved title
+                url_title = saved.title.to_s.parameterize.presence || "property"
+                if saved.listing_type.to_s == "rental"
+                  prop_show_for_rent_path(id: saved.external_reference, url_friendly_title: url_title)
+                else
+                  prop_show_for_sale_path(id: saved.external_reference, url_friendly_title: url_title)
+                end
+              else
+                external_listing_path(reference: saved.external_reference)
+              end
+            %>
+            <%= link_to property_url,
                 class: "flex-1 text-center px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700" do %>
               View Property
             <% end %>

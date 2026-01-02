@@ -6,7 +6,7 @@ module Pwb
       # Controller for managing saved/favorited properties.
       # Users access this via token-based authentication (no login required).
       class SavedPropertiesController < Pwb::ApplicationController
-        before_action :ensure_feed_enabled, only: [:create]
+        before_action :ensure_favorites_available, only: [:create]
         before_action :set_saved_property_by_token, only: [:show, :update, :destroy]
         before_action :set_properties_by_manage_token, only: [:index]
 
@@ -128,7 +128,11 @@ module Pwb
 
         private
 
-        def ensure_feed_enabled
+        def ensure_favorites_available
+          # Internal properties (provider: "internal") don't require external feed
+          return if params.dig(:saved_property, :provider) == "internal"
+
+          # External properties require configured feed
           feed = current_website.external_feed
           unless feed.configured?
             redirect_to root_path, alert: "Favorites are not available"
