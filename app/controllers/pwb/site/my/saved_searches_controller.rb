@@ -149,9 +149,9 @@ module Pwb
         end
 
         def set_saved_search_by_token
-          # Find by manage token or unsubscribe token
-          @saved_search = PwbTenant::SavedSearch.find_by(manage_token: params[:token])
-          @saved_search ||= PwbTenant::SavedSearch.find_by(id: params[:id], manage_token: params[:token])
+          # Find by manage token - token can come as :id (RESTful route) or :token (query param)
+          token = params[:id] || params[:token]
+          @saved_search = PwbTenant::SavedSearch.find_by(manage_token: token)
 
           unless @saved_search
             flash[:alert] = "Invalid or expired link"
