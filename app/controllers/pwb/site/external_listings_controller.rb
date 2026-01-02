@@ -15,6 +15,10 @@ module Pwb
         @result = external_feed.search(@search_params)
         @filter_options = external_feed.filter_options(locale: I18n.locale)
 
+        # Setup search config for consistent filter options across the site
+        listing_type = @search_params[:listing_type] == :rental ? :rental : :sale
+        @search_config = Pwb::SearchConfig.new(current_website, listing_type: listing_type)
+
         respond_to do |format|
           format.html
           format.json { render json: @result.to_h }

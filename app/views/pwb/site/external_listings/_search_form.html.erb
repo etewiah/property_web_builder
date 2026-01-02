@@ -107,7 +107,8 @@
     </div>
   </div>
 
-  <%# Bedrooms %>
+  <%# Bedrooms - Uses @search_config for options %>
+  <% if @search_config&.filter_enabled?(:bedrooms) %>
   <div class="mb-4">
     <label class="block text-sm font-medium text-gray-700 mb-2">
       <%= t("external_feed.search.bedrooms", default: "Bedrooms") %>
@@ -115,22 +116,22 @@
     <div class="grid grid-cols-2 gap-2">
       <select name="min_bedrooms"
               class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
-        <option value=""><%= t("external_feed.search.min", default: "Min") %></option>
-        <% (1..6).each do |n| %>
-          <option value="<%= n %>" <%= 'selected' if search_params[:min_bedrooms].to_i == n %>><%= n %>+</option>
+        <% @search_config.bedroom_min_options_for_view.each do |opt| %>
+          <option value="<%= opt[:value] %>" <%= 'selected' if search_params[:min_bedrooms].to_s == opt[:value].to_s %>><%= opt[:label] %></option>
         <% end %>
       </select>
       <select name="max_bedrooms"
               class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
-        <option value=""><%= t("external_feed.search.max", default: "Max") %></option>
-        <% (1..10).each do |n| %>
-          <option value="<%= n %>" <%= 'selected' if search_params[:max_bedrooms].to_i == n %>><%= n %></option>
+        <% @search_config.bedroom_max_options_for_view.each do |opt| %>
+          <option value="<%= opt[:value] %>" <%= 'selected' if search_params[:max_bedrooms].to_s == opt[:value].to_s %>><%= opt[:label] %></option>
         <% end %>
       </select>
     </div>
   </div>
+  <% end %>
 
-  <%# Bathrooms %>
+  <%# Bathrooms - Uses @search_config for options %>
+  <% if @search_config&.filter_enabled?(:bathrooms) %>
   <div class="mb-4">
     <label class="block text-sm font-medium text-gray-700 mb-2">
       <%= t("external_feed.search.bathrooms", default: "Bathrooms") %>
@@ -138,20 +139,19 @@
     <div class="grid grid-cols-2 gap-2">
       <select name="min_bathrooms"
               class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
-        <option value=""><%= t("external_feed.search.min", default: "Min") %></option>
-        <% (1..5).each do |n| %>
-          <option value="<%= n %>" <%= 'selected' if search_params[:min_bathrooms].to_i == n %>><%= n %>+</option>
+        <% @search_config.bathroom_min_options_for_view.each do |opt| %>
+          <option value="<%= opt[:value] %>" <%= 'selected' if search_params[:min_bathrooms].to_s == opt[:value].to_s %>><%= opt[:label] %></option>
         <% end %>
       </select>
       <select name="max_bathrooms"
               class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
-        <option value=""><%= t("external_feed.search.max", default: "Max") %></option>
-        <% (1..8).each do |n| %>
-          <option value="<%= n %>" <%= 'selected' if search_params[:max_bathrooms].to_i == n %>><%= n %></option>
+        <% @search_config.bathroom_max_options_for_view.each do |opt| %>
+          <option value="<%= opt[:value] %>" <%= 'selected' if search_params[:max_bathrooms].to_s == opt[:value].to_s %>><%= opt[:label] %></option>
         <% end %>
       </select>
     </div>
   </div>
+  <% end %>
 
   <%# Area Range %>
   <div class="mb-4">
