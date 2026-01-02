@@ -11,27 +11,26 @@
   <div class="space-y-2">
     <% guesses.each_with_index do |guess, index| %>
       <% is_current = current_guess && guess.id == current_guess.id %>
+      <% rank = index + 1 %>
+      <%
+        badge_class = case rank
+                      when 1 then 'bg-yellow-400 text-yellow-900'
+                      when 2 then 'bg-gray-300 text-gray-700'
+                      when 3 then 'bg-orange-300 text-orange-800'
+                      else 'bg-gray-200 text-gray-600'
+                      end
+        badge_content = case rank
+                        when 1 then '🥇'
+                        when 2 then '🥈'
+                        when 3 then '🥉'
+                        else rank.to_s
+                        end
+      %>
       <div class="flex items-center justify-between p-3 rounded-lg <%= is_current ? 'bg-purple-100 border-2 border-purple-300' : 'bg-gray-50' %>">
         <div class="flex items-center">
           <%# Rank badge %>
-          <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3 font-bold text-sm
-            <% case index + 1 %>
-            <% when 1 %>
-              bg-yellow-400 text-yellow-900
-            <% when 2 %>
-              bg-gray-300 text-gray-700
-            <% when 3 %>
-              bg-orange-300 text-orange-800
-            <% else %>
-              bg-gray-200 text-gray-600
-            <% end %>
-          ">
-            <% case index + 1 %>
-            <% when 1 %>🥇
-            <% when 2 %>🥈
-            <% when 3 %>🥉
-            <% else %><%= index + 1 %>
-            <% end %>
+          <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3 font-bold text-sm <%= badge_class %>">
+            <%= badge_content %>
           </div>
 
           <%# Anonymous player label %>
@@ -39,7 +38,7 @@
             <% if is_current %>
               <span class="font-semibold text-purple-700"><%= t('price_game.leaderboard.you') %></span>
             <% else %>
-              <%= t('price_game.leaderboard.player', number: index + 1) %>
+              <%= t('price_game.leaderboard.player', number: rank) %>
             <% end %>
           </span>
         </div>
