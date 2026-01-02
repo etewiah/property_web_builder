@@ -1,0 +1,41 @@
+<%# SEO Meta Tags for External Listing Detail Page %>
+<% content_for :page_head do %>
+  <%# Open Graph meta tags %>
+  <meta property="og:title" content="<%= @og_title %>">
+  <meta property="og:description" content="<%= @og_description %>">
+  <meta property="og:type" content="<%= @og_type || 'website' %>">
+  <meta property="og:url" content="<%= @canonical_url %>">
+  <% if @og_image.present? %>
+    <meta property="og:image" content="<%= @og_image %>">
+  <% end %>
+  <meta property="og:site_name" content="<%= @current_agency&.company_name || current_website.company_display_name %>">
+
+  <%# Twitter Card meta tags %>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= @og_title %>">
+  <meta name="twitter:description" content="<%= @og_description %>">
+  <% if @og_image.present? %>
+    <meta name="twitter:image" content="<%= @og_image %>">
+  <% end %>
+
+  <%# Location metadata for mapping services %>
+  <% if @listing.latitude.present? && @listing.longitude.present? %>
+    <meta property="place:location:latitude" content="<%= @listing.latitude %>">
+    <meta property="place:location:longitude" content="<%= @listing.longitude %>">
+  <% end %>
+
+  <%# Canonical URL %>
+  <% if @canonical_url.present? %>
+    <link rel="canonical" href="<%= @canonical_url %>">
+  <% end %>
+
+  <%# Legacy image link for older social platforms %>
+  <% if @listing.main_image.present? %>
+    <link rel="image_src" href="<%= @listing.main_image %>">
+  <% end %>
+
+  <%# JSON-LD Structured Data %>
+  <script type="application/ld+json">
+    <%= external_listing_json_ld(@listing).html_safe %>
+  </script>
+<% end %>

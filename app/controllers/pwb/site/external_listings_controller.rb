@@ -7,6 +7,7 @@ module Pwb
     class ExternalListingsController < Pwb::ApplicationController
       include SeoHelper
       include HttpCacheable
+      include CacheHelper
 
       before_action :ensure_feed_enabled
       before_action :set_listing, only: [:show, :similar]
@@ -69,6 +70,16 @@ module Pwb
         end
 
         @similar = external_feed.similar(@listing, limit: 6, locale: I18n.locale)
+
+        # SEO for property detail page
+        set_external_listing_detail_seo
+
+        # HTTP caching for property details
+        set_cache_control_headers(
+          max_age: 15.minutes,
+          public: true,
+          stale_while_revalidate: 1.hour
+        )
 
         respond_to do |format|
           format.html
@@ -218,6 +229,35 @@ module Pwb
       # Check if request is a Turbo Frame request
       def turbo_frame_request?
         request.headers["Turbo-Frame"].present?
+      end
+
+      # Set SEO for property detail page
+      def set_external_listing_detail_seo
+        # Page title
+        @page_title = "#{@listing.title} | #{@current_agency&.company_name || current_website.company_display_name}"
+
+        # Meta description
+        location_parts = [@listing.location, @listing.province].compact.join(", ")
+        features = []
+        features << "#{@listing.bedrooms} #{t('external_feed.features.bedrooms', default: 'bedrooms')}" if @listing.bedrooms.present?
+        features << "#{@listing.bathrooms} #{t('external_feed.features.bathrooms', default: 'bathrooms')}" if @listing.bathrooms.present?
+        features << "#{@listing.built_area.to_i}m²" if @listing.built_area.present?
+
+        @meta_description = t("external_feed.seo.property_description",
+                              title: @listing.title,
+                              price: @listing.formatted_price,
+                              location: location_parts,
+                              features: features.join(", "),
+                              default: "#{@listing.title} - #{@listing.formatted_price}. #{features.join(', ')} in #{location_parts}.")
+
+        # Canonical URL
+        @canonical_url = external_listing_url(@listing.reference, listing_type: @listing.listing_type)
+
+        # Open Graph / Social sharing meta
+        @og_title = @listing.title
+        @og_description = @meta_description
+        @og_image = @listing.main_image
+        @og_type = "website"
       end
     end
   end

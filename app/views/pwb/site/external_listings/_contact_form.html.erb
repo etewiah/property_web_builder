@@ -1,0 +1,93 @@
+<%# Contact form for external listing inquiries %>
+<%# Uses the same contact endpoint as the main contact form %>
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <p class="text-gray-600 mb-6">
+    <%= t("external_feed.contact.prompt",
+          default: "Interested in this property? Fill out the form below and we'll get back to you.") %>
+  </p>
+
+  <%= form_with url: '/contact_us.js', method: :post, local: false, class: 'space-y-4', data: { turbo: false } do |f| %>
+    <%= hidden_field_tag :locale, I18n.locale %>
+    <%= hidden_field_tag 'contact[property_reference]', @listing.reference %>
+    <%= hidden_field_tag 'contact[property_title]', @listing.title %>
+    <%= hidden_field_tag 'contact[property_url]', request.original_url %>
+    <%= hidden_field_tag 'contact[listing_type]', 'external' %>
+
+    <%# Name field %>
+    <div>
+      <label for="contact_name" class="block text-sm font-medium text-gray-700 mb-1">
+        <%= t("contact.name", default: "Name") %> <span class="text-red-500">*</span>
+      </label>
+      <input type="text"
+             name="contact[name]"
+             id="contact_name"
+             required
+             class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+             placeholder="<%= t('contact.name_placeholder', default: 'Your name') %>">
+    </div>
+
+    <%# Email and Phone in 2 columns on larger screens %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label for="contact_email" class="block text-sm font-medium text-gray-700 mb-1">
+          <%= t("contact.email", default: "Email") %> <span class="text-red-500">*</span>
+        </label>
+        <input type="email"
+               name="contact[email]"
+               id="contact_email"
+               required
+               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+               placeholder="<%= t('contact.email_placeholder', default: 'your@email.com') %>">
+      </div>
+
+      <div>
+        <label for="contact_tel" class="block text-sm font-medium text-gray-700 mb-1">
+          <%= t("contact.phone", default: "Phone") %>
+        </label>
+        <input type="tel"
+               name="contact[tel]"
+               id="contact_tel"
+               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+               placeholder="<%= t('contact.phone_placeholder', default: 'Your phone number') %>">
+      </div>
+    </div>
+
+    <%# Subject field (pre-filled with property reference) %>
+    <div>
+      <label for="contact_subject" class="block text-sm font-medium text-gray-700 mb-1">
+        <%= t("contact.subject", default: "Subject") %>
+      </label>
+      <input type="text"
+             name="contact[subject]"
+             id="contact_subject"
+             value="<%= t('external_feed.contact.subject_template', ref: @listing.reference, default: "Inquiry about property #{@listing.reference}") %>"
+             class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+    </div>
+
+    <%# Message field %>
+    <div>
+      <label for="contact_message" class="block text-sm font-medium text-gray-700 mb-1">
+        <%= t("contact.message", default: "Message") %>
+      </label>
+      <textarea name="contact[message]"
+                id="contact_message"
+                rows="4"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="<%= t('external_feed.contact.message_placeholder', default: 'I would like more information about this property...') %>"><%= t('external_feed.contact.default_message', title: @listing.title, ref: @listing.reference, default: "I am interested in the property: #{@listing.title} (Ref: #{@listing.reference}). Please contact me with more information.") %></textarea>
+    </div>
+
+    <%# Result placeholder for AJAX response %>
+    <div id="contact-us-result"></div>
+
+    <%# Submit button %>
+    <button type="submit"
+            class="inline-flex items-center bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+      <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+      </svg>
+      <%= t("contact.send", default: "Send Message") %>
+    </button>
+
+    <div id="resp_enviar"></div>
+  <% end %>
+</div>

@@ -381,4 +381,67 @@ module SeoHelper
       urls[locale.to_s] = "#{base_url}#{alternate_path}"
     end
   end
+
+  # Generate JSON-LD structured data for external listing
+  # @param listing [Pwb::ExternalFeed::NormalizedProperty]
+  # @return [String] JSON-LD script content
+  def external_listing_json_ld(listing)
+    return "{}" unless listing.present?
+
+    data = {
+      '@context' => 'https://schema.org',
+      '@type' => 'RealEstateListing',
+      'name' => listing.title,
+      'description' => listing.description&.truncate(500),
+      'url' => request.original_url
+    }
+
+    # Price
+    if listing.price.present?
+      data['offers'] = {
+        '@type' => 'Offer',
+        'price' => listing.price,
+        'priceCurrency' => listing.currency || 'EUR',
+        'availability' => 'https://schema.org/InStock'
+      }
+    end
+
+    # Location
+    if listing.location.present? || listing.latitude.present?
+      data['address'] = {
+        '@type' => 'PostalAddress',
+        'addressLocality' => listing.location,
+        'addressRegion' => listing.province,
+        'addressCountry' => listing.country
+      }.compact
+    end
+
+    # Geo coordinates
+    if listing.latitude.present? && listing.longitude.present?
+      data['geo'] = {
+        '@type' => 'GeoCoordinates',
+        'latitude' => listing.latitude,
+        'longitude' => listing.longitude
+      }
+    end
+
+    # Images
+    if listing.images.present? && listing.images.any?
+      data['image'] = listing.images.first(5).map { |img| img[:url] }
+    end
+
+    # Property details
+    data['numberOfBedrooms'] = listing.bedrooms if listing.bedrooms.present?
+    data['numberOfBathroomsTotal'] = listing.bathrooms if listing.bathrooms.present?
+
+    if listing.built_area.present?
+      data['floorSize'] = {
+        '@type' => 'QuantitativeValue',
+        'value' => listing.built_area,
+        'unitCode' => 'MTK'
+      }
+    end
+
+    data.compact.to_json
+  end
 end

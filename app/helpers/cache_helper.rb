@@ -152,6 +152,22 @@ module CacheHelper
     )
   end
 
+  # Cache key for external listing detail page sections
+  # Uses reference ID and listing type as identifier since external listings aren't AR models
+  # @param listing [Pwb::ExternalFeed::NormalizedProperty] the listing object
+  # @param section [String] the section name (e.g., "gallery", "info", "features")
+  def external_listing_cache_key(listing, section = "main")
+    return nil unless listing
+
+    cache_key_for(
+      "ext_listing",
+      listing.reference,
+      listing.listing_type,
+      section,
+      listing.updated_at&.to_i || Time.current.to_i
+    )
+  end
+
   private
 
   def current_website_id
