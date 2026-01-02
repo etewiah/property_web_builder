@@ -62,6 +62,7 @@
 #  rent_price_options_till             :text             default(["", "250", "500", "750", "1,000", "1,500", "2,500", "5,000"]), is an Array
 #  sale_price_options_from             :text             default(["", "25,000", "50,000", "75,000", "100,000", "150,000", "250,000", "500,000", "1,000,000", "2,000,000", "5,000,000", "10,000,000"]), is an Array
 #  sale_price_options_till             :text             default(["", "25,000", "50,000", "75,000", "100,000", "150,000", "250,000", "500,000", "1,000,000", "2,000,000", "5,000,000", "10,000,000"]), is an Array
+#  search_config                       :jsonb            not null
 #  search_config_buy                   :json
 #  search_config_landing               :json
 #  search_config_rent                  :json
@@ -92,6 +93,7 @@
 #  index_pwb_websites_on_palette_mode              (palette_mode)
 #  index_pwb_websites_on_provisioning_state        (provisioning_state)
 #  index_pwb_websites_on_realty_assets_count       (realty_assets_count)
+#  index_pwb_websites_on_search_config             (search_config) USING gin
 #  index_pwb_websites_on_selected_palette          (selected_palette)
 #  index_pwb_websites_on_site_type                 (site_type)
 #  index_pwb_websites_on_slug                      (slug)
@@ -260,6 +262,68 @@ module Pwb
     def clear_external_feed_cache
       external_feed.invalidate_cache if external_feed_enabled?
     end
+
+    # ===================
+    # Search Configuration
+    # ===================
+
+    # Get the search configuration for this website
+    # Uses unified configuration that works for both internal and external listings
+    #
+    # @return [Pwb::SearchConfig]
+    def search_configuration
+      @search_configuration ||= Pwb::SearchConfig.new(self)
+    end
+
+    # Get search configuration for a specific listing type
+    #
+    # @param listing_type [Symbol, String] The listing type (:sale or :rental)
+    # @return [Pwb::SearchConfig]
+    def search_configuration_for(listing_type)
+      Pwb::SearchConfig.new(self, listing_type: listing_type)
+    end
+
+    # Update specific search config keys while preserving existing values
+    # This performs a deep merge of the updates with the current configuration
+    #
+    # @param updates [Hash] Hash of configuration updates
+    # @return [Boolean] Whether the update was successful
+    # @example
+    #   website.update_search_config(
+    #     filters: { price: { sale: { presets: [100_000, 200_000] } } },
+    #     display: { show_results_map: true }
+    #   )
+    def update_search_config(updates)
+      current = search_config || {}
+      self.search_config = deep_merge_hash(current, updates.deep_stringify_keys)
+      save
+    end
+
+    # Reset search config to empty (will use defaults from SearchConfig)
+    #
+    # @return [Boolean] Whether the reset was successful
+    def reset_search_config
+      update(search_config: {})
+    end
+
+    private
+
+    # Deep merge two hashes
+    #
+    # @param base [Hash] Base hash
+    # @param override [Hash] Hash to merge in
+    # @return [Hash] Merged hash
+    def deep_merge_hash(base, override)
+      base.deep_merge(override) do |_key, old_val, new_val|
+        if old_val.is_a?(Hash) && new_val.is_a?(Hash)
+          deep_merge_hash(old_val, new_val)
+        else
+          new_val
+        end
+      end
+    end
+
+    public
 
     # ===================
     # Serialization

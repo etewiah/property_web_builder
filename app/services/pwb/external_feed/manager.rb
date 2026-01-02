@@ -132,26 +132,61 @@ module Pwb
         []
       end
 
+      # Get the search configuration for this website
+      # @param listing_type [Symbol, String] The listing type (default: :sale)
+      # @return [Pwb::SearchConfig]
+      def search_config_for(listing_type = :sale)
+        Pwb::SearchConfig.new(website, listing_type: listing_type)
+      end
+
       # Get filter options for search forms
-      # @param params [Hash] Parameters (locale)
+      # Uses SearchConfig for configurable options (bedrooms, bathrooms, price presets)
+      # and provider for dynamic options (locations, property_types)
+      #
+      # @param params [Hash] Parameters (locale, listing_type)
       # @return [Hash] Filter options grouped by type
       def filter_options(params = {})
+        listing_type = params[:listing_type] || :sale
+        search_cfg = search_config_for(listing_type)
+
         {
           locations: locations(params),
           property_types: property_types(params),
-          listing_types: [
-            { value: "sale", label: I18n.t("external_feed.listing_types.sale", default: "For Sale") },
-            { value: "rental", label: I18n.t("external_feed.listing_types.rental", default: "For Rent") }
-          ],
-          sort_options: [
-            { value: "price_asc", label: I18n.t("external_feed.sort.price_asc", default: "Price (Low to High)") },
-            { value: "price_desc", label: I18n.t("external_feed.sort.price_desc", default: "Price (High to Low)") },
-            { value: "newest", label: I18n.t("external_feed.sort.newest", default: "Newest First") },
-            { value: "updated", label: I18n.t("external_feed.sort.updated", default: "Recently Updated") }
-          ],
-          bedrooms: (1..6).map { |n| { value: n.to_s, label: "#{n}+" } },
-          bathrooms: (1..4).map { |n| { value: n.to_s, label: "#{n}+" } }
+          features: features(params),
+          listing_types: search_cfg.listing_types_for_view,
+          sort_options: search_cfg.sort_options_for_view,
+          bedrooms: search_cfg.bedroom_options_for_view,
+          bathrooms: search_cfg.bathroom_options_for_view,
+          price_presets: search_cfg.price_presets,
+          price_input_type: search_cfg.price_input_type,
+          default_min_price: search_cfg.default_min_price,
+          default_max_price: search_cfg.default_max_price,
+          area_presets: search_cfg.area_presets,
+          area_unit: search_cfg.area_unit,
+          display: {
+            show_results_map: search_cfg.show_map?,
+            show_active_filters: search_cfg.show_active_filters?,
+            show_save_search: search_cfg.show_save_search?,
+            show_favorites: search_cfg.show_favorites?,
+            default_sort: search_cfg.default_sort,
+            default_results_per_page: search_cfg.default_results_per_page,
+            results_per_page_options: search_cfg.results_per_page_options
+          }
         }
+      end
+
+      # Get available features for filters
+      # @param params [Hash] Filter parameters
+      # @return [Array<Hash>]
+      def features(params = {})
+        return [] unless configured?
+
+        cache.fetch_data(:features, params) do
+          provider.respond_to?(:features) ? provider.features(params) : []
+        end
+      rescue Pwb::ExternalFeed::Error => e
+        Rails.logger.error("[ExternalFeed::Manager] Features error: #{e.message}")
+        []
       end
 
       # Invalidate all cached data for this website
@@ -199,11 +234,15 @@ module Pwb
       def normalize_search_params(params)
         params = params.to_h.deep_symbolize_keys
 
-        # Set defaults
+        # Get search configuration for defaults
+        search_cfg = search_config_for(params[:listing_type] || :sale)
+
+        # Set defaults from SearchConfig
         params[:locale] ||= I18n.locale
-        params[:listing_type] ||= :sale
+        params[:listing_type] ||= search_cfg.default_listing_type
         params[:page] ||= 1
-        params[:per_page] ||= config[:results_per_page] || 24
+        params[:per_page] ||= search_cfg.default_results_per_page
+        params[:sort] ||= search_cfg.default_sort.to_sym
 
         # Normalize listing type
         params[:listing_type] = params[:listing_type].to_sym if params[:listing_type].is_a?(String)

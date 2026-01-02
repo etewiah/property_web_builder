@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_01_225644) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_02_154132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -1055,6 +1055,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_225644) do
     t.text "rent_price_options_till", default: ["", "250", "500", "750", "1,000", "1,500", "2,500", "5,000"], array: true
     t.text "sale_price_options_from", default: ["", "25,000", "50,000", "75,000", "100,000", "150,000", "250,000", "500,000", "1,000,000", "2,000,000", "5,000,000", "10,000,000"], array: true
     t.text "sale_price_options_till", default: ["", "25,000", "50,000", "75,000", "100,000", "150,000", "250,000", "500,000", "1,000,000", "2,000,000", "5,000,000", "10,000,000"], array: true
+    t.jsonb "search_config", default: {}, null: false
     t.json "search_config_buy", default: {}
     t.json "search_config_landing", default: {}
     t.json "search_config_rent", default: {}
@@ -1079,6 +1080,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_225644) do
     t.index ["palette_mode"], name: "index_pwb_websites_on_palette_mode"
     t.index ["provisioning_state"], name: "index_pwb_websites_on_provisioning_state"
     t.index ["realty_assets_count"], name: "index_pwb_websites_on_realty_assets_count"
+    t.index ["search_config"], name: "index_pwb_websites_on_search_config", using: :gin
     t.index ["selected_palette"], name: "index_pwb_websites_on_selected_palette"
     t.index ["site_type"], name: "index_pwb_websites_on_site_type"
     t.index ["slug"], name: "index_pwb_websites_on_slug"

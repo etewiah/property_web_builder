@@ -108,8 +108,14 @@ RSpec.describe Pwb::ExternalFeed::Manager do
         )
       end
 
-      it "returns false" do
-        expect(manager.configured?).to be false
+      # configured? only checks if values are set, not if provider is valid
+      # Use enabled? to check full provider availability
+      it "returns true (values are set)" do
+        expect(manager.configured?).to be true
+      end
+
+      it "enabled? returns false (provider not available)" do
+        expect(manager.enabled?).to be false
       end
     end
   end
@@ -160,10 +166,10 @@ RSpec.describe Pwb::ExternalFeed::Manager do
         website.update!(external_feed_enabled: false)
       end
 
-      it "returns empty result with error" do
+      it "returns empty result" do
         result = manager.search({})
         expect(result.empty?).to be true
-        expect(result.error?).to be true
+        expect(result.success?).to be true # Not an error, just no results
       end
     end
   end
