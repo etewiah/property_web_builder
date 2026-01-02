@@ -274,6 +274,12 @@ module Pwb
         default_currency: website_config[:currency] || 'EUR'
       )
 
+      # Apply search configuration if provided
+      if website_config[:search_config].present?
+        @website.update_search_config(website_config[:search_config])
+        log "  Search config applied", :detail
+      end
+
       # Set color palette - use pack config or fall back to theme's default
       palette_id = determine_palette_id(website_config, theme_name)
       if palette_id.present?

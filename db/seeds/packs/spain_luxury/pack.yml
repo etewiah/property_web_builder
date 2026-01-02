@@ -27,6 +27,64 @@ website:
   currency: EUR
   area_unit: sqmt
 
+  # Search configuration for luxury market
+  search_config:
+    filters:
+      price:
+        enabled: true
+        sale:
+          min_presets:
+            - "No min"
+            - 200000
+            - 500000
+            - 750000
+            - 1000000
+            - 1500000
+            - 2000000
+          max_presets:
+            - 500000
+            - 750000
+            - 1000000
+            - 1500000
+            - 2000000
+            - 3000000
+            - 5000000
+            - "No max"
+        rental:
+          min_presets:
+            - "No min"
+            - 1000
+            - 2000
+            - 3000
+            - 5000
+          max_presets:
+            - 2000
+            - 3000
+            - 5000
+            - 7500
+            - 10000
+            - "No max"
+      bedrooms:
+        enabled: true
+        min_options:
+          - "Any"
+          - 2
+          - 3
+          - 4
+          - 5
+          - "6+"
+      bathrooms:
+        enabled: true
+        min_options:
+          - "Any"
+          - 2
+          - 3
+          - 4
+          - "5+"
+    display:
+      default_results_per_page: 12
+      show_results_map: true
+
 # Agency Configuration
 agency:
   display_name: "Costa Luxury Properties"

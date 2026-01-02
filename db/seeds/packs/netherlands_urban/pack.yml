@@ -26,6 +26,63 @@ website:
   currency: EUR
   area_unit: sqmt
 
+  # Search configuration for Dutch urban market
+  search_config:
+    filters:
+      price:
+        enabled: true
+        sale:
+          min_presets:
+            - "No min"
+            - 150000
+            - 250000
+            - 350000
+            - 450000
+            - 600000
+            - 800000
+          max_presets:
+            - 250000
+            - 350000
+            - 450000
+            - 600000
+            - 800000
+            - 1000000
+            - 1500000
+            - "No max"
+        rental:
+          min_presets:
+            - "No min"
+            - 800
+            - 1200
+            - 1500
+            - 2000
+          max_presets:
+            - 1200
+            - 1500
+            - 2000
+            - 2500
+            - 3000
+            - "No max"
+      bedrooms:
+        enabled: true
+        min_options:
+          - "Any"
+          - 1
+          - 2
+          - 3
+          - 4
+          - "5+"
+      bathrooms:
+        enabled: true
+        min_options:
+          - "Any"
+          - 1
+          - 2
+          - 3
+    display:
+      default_results_per_page: 24
+      show_results_map: true
+
 # Agency Configuration
 agency:
   display_name: "Van der Berg Makelaars"
