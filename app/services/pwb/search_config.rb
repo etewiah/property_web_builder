@@ -20,27 +20,52 @@ module Pwb
   #
   # @see docs/architecture/SEARCH_OPTIONS_STRATEGY.md
   class SearchConfig
-    # Default sale price presets (EUR)
-    DEFAULT_SALE_PRESETS = [
-      50_000, 100_000, 150_000, 200_000, 300_000, 400_000, 500_000,
-      750_000, 1_000_000, 1_500_000, 2_000_000, 3_000_000, 5_000_000
+    # Default sale price min presets (EUR)
+    DEFAULT_SALE_MIN_PRESETS = [
+      "No min", 50_000, 100_000, 150_000, 200_000, 300_000, 400_000, 500_000,
+      750_000, 1_000_000, 1_500_000, 2_000_000, 3_000_000
     ].freeze
 
-    # Default rental price presets (EUR/month)
-    DEFAULT_RENTAL_PRESETS = [
-      250, 500, 750, 1_000, 1_250, 1_500, 2_000, 2_500, 3_000, 4_000, 5_000, 7_500, 10_000
+    # Default sale price max presets (EUR)
+    DEFAULT_SALE_MAX_PRESETS = [
+      100_000, 150_000, 200_000, 300_000, 400_000, 500_000,
+      750_000, 1_000_000, 1_500_000, 2_000_000, 3_000_000, 5_000_000, "No max"
     ].freeze
+
+    # Default rental price min presets (EUR/month)
+    DEFAULT_RENTAL_MIN_PRESETS = [
+      "No min", 250, 500, 750, 1_000, 1_250, 1_500, 2_000, 2_500, 3_000, 4_000, 5_000
+    ].freeze
+
+    # Default rental price max presets (EUR/month)
+    DEFAULT_RENTAL_MAX_PRESETS = [
+      500, 750, 1_000, 1_250, 1_500, 2_000, 2_500, 3_000, 4_000, 5_000, 7_500, 10_000, "No max"
+    ].freeze
+
+    # Legacy: single presets array (for backwards compatibility)
+    DEFAULT_SALE_PRESETS = DEFAULT_SALE_MIN_PRESETS
+    DEFAULT_RENTAL_PRESETS = DEFAULT_RENTAL_MIN_PRESETS
 
     # Default area presets (sqm)
     DEFAULT_AREA_PRESETS = [
       25, 50, 75, 100, 150, 200, 300, 400, 500, 750, 1_000, 1_500, 2_000
     ].freeze
 
-    # Default bedroom options
-    DEFAULT_BEDROOM_OPTIONS = ["Any", 1, 2, 3, 4, 5, "6+"].freeze
+    # Default bedroom options for min selector
+    DEFAULT_BEDROOM_MIN_OPTIONS = ["Any", 1, 2, 3, 4, 5, "6+"].freeze
 
-    # Default bathroom options
-    DEFAULT_BATHROOM_OPTIONS = ["Any", 1, 2, 3, 4, "5+"].freeze
+    # Default bedroom options for max selector
+    DEFAULT_BEDROOM_MAX_OPTIONS = [1, 2, 3, 4, 5, 6, "No max"].freeze
+
+    # Default bathroom options for min selector
+    DEFAULT_BATHROOM_MIN_OPTIONS = ["Any", 1, 2, 3, 4, "5+"].freeze
+
+    # Default bathroom options for max selector
+    DEFAULT_BATHROOM_MAX_OPTIONS = [1, 2, 3, 4, 5, "No max"].freeze
+
+    # Legacy: single options array (for backwards compatibility)
+    DEFAULT_BEDROOM_OPTIONS = DEFAULT_BEDROOM_MIN_OPTIONS
+    DEFAULT_BATHROOM_OPTIONS = DEFAULT_BATHROOM_MIN_OPTIONS
 
     # Comprehensive defaults - used when website has no custom config
     DEFAULT_CONFIG = {
@@ -60,7 +85,9 @@ module Pwb
             default_min: nil,
             default_max: nil,
             step: 50_000,
-            presets: DEFAULT_SALE_PRESETS
+            min_presets: DEFAULT_SALE_MIN_PRESETS,
+            max_presets: DEFAULT_SALE_MAX_PRESETS,
+            presets: DEFAULT_SALE_PRESETS # Legacy fallback
           },
           rental: {
             min: 0,
@@ -68,7 +95,9 @@ module Pwb
             default_min: nil,
             default_max: nil,
             step: 100,
-            presets: DEFAULT_RENTAL_PRESETS
+            min_presets: DEFAULT_RENTAL_MIN_PRESETS,
+            max_presets: DEFAULT_RENTAL_MAX_PRESETS,
+            presets: DEFAULT_RENTAL_PRESETS # Legacy fallback
           }
         },
         bedrooms: {
@@ -79,7 +108,9 @@ module Pwb
           max: 10,
           default_min: nil,
           default_max: nil,
-          options: DEFAULT_BEDROOM_OPTIONS,
+          min_options: DEFAULT_BEDROOM_MIN_OPTIONS,
+          max_options: DEFAULT_BEDROOM_MAX_OPTIONS,
+          options: DEFAULT_BEDROOM_OPTIONS, # Legacy fallback
           show_max_filter: false
         },
         bathrooms: {
@@ -90,7 +121,9 @@ module Pwb
           max: 8,
           default_min: nil,
           default_max: nil,
-          options: DEFAULT_BATHROOM_OPTIONS,
+          min_options: DEFAULT_BATHROOM_MIN_OPTIONS,
+          max_options: DEFAULT_BATHROOM_MAX_OPTIONS,
+          options: DEFAULT_BATHROOM_OPTIONS, # Legacy fallback
           show_max_filter: false
         },
         area: {
@@ -197,11 +230,40 @@ module Pwb
       filter(:price)&.dig(listing_type) || filter(:price)&.dig(:sale) || {}
     end
 
-    # Get price presets for current listing type
+    # Get price min presets for current listing type
+    # Checks for custom min_presets, then legacy presets, then default
     #
-    # @return [Array<Integer>]
+    # @return [Array]
+    def price_min_presets
+      type_key = listing_type == :rental ? :rental : :sale
+      custom_min = website_config.dig(:filters, :price, type_key, :min_presets)
+      return custom_min if custom_min.present?
+
+      # Check for legacy presets key (backwards compatibility)
+      legacy = website_config.dig(:filters, :price, type_key, :presets)
+      return legacy if legacy.present?
+
+      # Fall back to default
+      listing_type == :rental ? DEFAULT_RENTAL_MIN_PRESETS.dup : DEFAULT_SALE_MIN_PRESETS.dup
+    end
+
+    # Get price max presets for current listing type
+    #
+    # @return [Array]
+    def price_max_presets
+      type_key = listing_type == :rental ? :rental : :sale
+      custom_max = website_config.dig(:filters, :price, type_key, :max_presets)
+      return custom_max if custom_max.present?
+
+      # Fall back to default
+      listing_type == :rental ? DEFAULT_RENTAL_MAX_PRESETS.dup : DEFAULT_SALE_MAX_PRESETS.dup
+    end
+
+    # Get price presets for current listing type (legacy - returns min_presets)
+    #
+    # @return [Array]
     def price_presets
-      price_config[:presets] || (listing_type == :rental ? DEFAULT_RENTAL_PRESETS : DEFAULT_SALE_PRESETS)
+      price_min_presets
     end
 
     # Get price input type
@@ -250,18 +312,72 @@ module Pwb
     # Bedroom/Bathroom Configuration
     # ============================================
 
-    # Get bedroom options for dropdowns
+    # Get bedroom options for min selector
+    # Checks for custom min_options, then legacy options, then default
+    #
+    # @return [Array]
+    def bedroom_min_options
+      # Check if website has custom min_options
+      custom_min = website_config.dig(:filters, :bedrooms, :min_options)
+      return custom_min if custom_min.present?
+
+      # Check for legacy options key (backwards compatibility)
+      legacy_opts = website_config.dig(:filters, :bedrooms, :options)
+      return legacy_opts if legacy_opts.present?
+
+      # Fall back to default
+      DEFAULT_BEDROOM_MIN_OPTIONS.dup
+    end
+
+    # Get bedroom options for max selector
+    #
+    # @return [Array]
+    def bedroom_max_options
+      custom_max = website_config.dig(:filters, :bedrooms, :max_options)
+      return custom_max if custom_max.present?
+
+      DEFAULT_BEDROOM_MAX_OPTIONS.dup
+    end
+
+    # Get bedroom options for dropdowns (legacy - returns min_options for backwards compatibility)
     #
     # @return [Array]
     def bedroom_options
-      filter(:bedrooms)&.dig(:options) || DEFAULT_BEDROOM_OPTIONS.dup
+      bedroom_min_options
     end
 
-    # Get bathroom options for dropdowns
+    # Get bathroom options for min selector
+    # Checks for custom min_options, then legacy options, then default
+    #
+    # @return [Array]
+    def bathroom_min_options
+      # Check if website has custom min_options
+      custom_min = website_config.dig(:filters, :bathrooms, :min_options)
+      return custom_min if custom_min.present?
+
+      # Check for legacy options key (backwards compatibility)
+      legacy_opts = website_config.dig(:filters, :bathrooms, :options)
+      return legacy_opts if legacy_opts.present?
+
+      # Fall back to default
+      DEFAULT_BATHROOM_MIN_OPTIONS.dup
+    end
+
+    # Get bathroom options for max selector
+    #
+    # @return [Array]
+    def bathroom_max_options
+      custom_max = website_config.dig(:filters, :bathrooms, :max_options)
+      return custom_max if custom_max.present?
+
+      DEFAULT_BATHROOM_MAX_OPTIONS.dup
+    end
+
+    # Get bathroom options for dropdowns (legacy - returns min_options for backwards compatibility)
     #
     # @return [Array]
     def bathroom_options
-      filter(:bathrooms)&.dig(:options) || DEFAULT_BATHROOM_OPTIONS.dup
+      bathroom_min_options
     end
 
     # Get default min bedrooms
@@ -271,11 +387,25 @@ module Pwb
       filter(:bedrooms)&.dig(:default_min)
     end
 
+    # Get default max bedrooms
+    #
+    # @return [Integer, nil]
+    def default_max_bedrooms
+      filter(:bedrooms)&.dig(:default_max)
+    end
+
     # Get default min bathrooms
     #
     # @return [Integer, nil]
     def default_min_bathrooms
       filter(:bathrooms)&.dig(:default_min)
+    end
+
+    # Get default max bathrooms
+    #
+    # @return [Integer, nil]
+    def default_max_bathrooms
+      filter(:bathrooms)&.dig(:default_max)
     end
 
     # Check if max bedroom filter should be shown
@@ -493,27 +623,56 @@ module Pwb
       end
     end
 
-    # Get bedroom options formatted for select dropdown
+    # Get bedroom min options formatted for select dropdown
+    #
+    # @return [Array<Hash>] Array of {value:, label:} hashes
+    def bedroom_min_options_for_view
+      format_min_options_for_view(bedroom_min_options)
+    end
+
+    # Get bedroom max options formatted for select dropdown
+    #
+    # @return [Array<Hash>] Array of {value:, label:} hashes
+    def bedroom_max_options_for_view
+      format_max_options_for_view(bedroom_max_options)
+    end
+
+    # Get bedroom options formatted for select dropdown (legacy - returns min options)
     #
     # @return [Array<Hash>] Array of {value:, label:} hashes
     def bedroom_options_for_view
-      options = bedroom_options.map do |opt|
-        if opt == "Any"
-          { value: "", label: I18n.t("search.any", default: "Any") }
-        elsif opt.is_a?(String) && opt.include?("+")
-          { value: opt.gsub("+", ""), label: opt }
-        else
-          { value: opt.to_s, label: "#{opt}+" }
-        end
-      end
-      options
+      bedroom_min_options_for_view
     end
 
-    # Get bathroom options formatted for select dropdown
+    # Get bathroom min options formatted for select dropdown
+    #
+    # @return [Array<Hash>] Array of {value:, label:} hashes
+    def bathroom_min_options_for_view
+      format_min_options_for_view(bathroom_min_options)
+    end
+
+    # Get bathroom max options formatted for select dropdown
+    #
+    # @return [Array<Hash>] Array of {value:, label:} hashes
+    def bathroom_max_options_for_view
+      format_max_options_for_view(bathroom_max_options)
+    end
+
+    # Get bathroom options formatted for select dropdown (legacy - returns min options)
     #
     # @return [Array<Hash>] Array of {value:, label:} hashes
     def bathroom_options_for_view
-      bathroom_options.map do |opt|
+      bathroom_min_options_for_view
+    end
+
+    private
+
+    # Format min options for view (handles "Any" as no minimum)
+    #
+    # @param options [Array] Raw options array
+    # @return [Array<Hash>] Array of {value:, label:} hashes
+    def format_min_options_for_view(options)
+      options.map do |opt|
         if opt == "Any"
           { value: "", label: I18n.t("search.any", default: "Any") }
         elsif opt.is_a?(String) && opt.include?("+")
@@ -524,7 +683,21 @@ module Pwb
       end
     end
 
-    private
+    # Format max options for view (handles "No max" as no maximum)
+    #
+    # @param options [Array] Raw options array
+    # @return [Array<Hash>] Array of {value:, label:} hashes
+    def format_max_options_for_view(options)
+      options.map do |opt|
+        if opt == "No max" || opt == "Any"
+          { value: "", label: I18n.t("search.no_max", default: "No max") }
+        elsif opt.is_a?(String) && opt.include?("+")
+          { value: opt.gsub("+", ""), label: opt }
+        else
+          { value: opt.to_s, label: opt.to_s }
+        end
+      end
+    end
 
     # Get website-specific configuration
     #

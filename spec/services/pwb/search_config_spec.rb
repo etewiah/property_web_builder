@@ -11,8 +11,15 @@ RSpec.describe Pwb::SearchConfig do
     describe "price configuration" do
       it "provides default sale price presets" do
         expect(config.price_presets).to be_present
-        expect(config.price_presets).to all(be_a(Integer))
-        expect(config.price_presets.first).to eq(50_000)
+        # First element is "No min" for min presets
+        expect(config.price_presets.first).to eq("No min")
+        # Numeric values follow
+        expect(config.price_presets[1]).to eq(50_000)
+      end
+
+      it "provides separate min and max presets" do
+        expect(config.price_min_presets.first).to eq("No min")
+        expect(config.price_max_presets.last).to eq("No max")
       end
 
       it "defaults to dropdown_with_manual input type" do
@@ -138,7 +145,9 @@ RSpec.describe Pwb::SearchConfig do
 
       it "returns sale price presets" do
         expect(config.listing_type).to eq(:sale)
-        expect(config.price_presets.first).to eq(50_000)
+        # First element is "No min", followed by numeric values
+        expect(config.price_presets.first).to eq("No min")
+        expect(config.price_presets[1]).to eq(50_000)
       end
     end
 
@@ -147,7 +156,9 @@ RSpec.describe Pwb::SearchConfig do
 
       it "returns rental price presets" do
         expect(config.listing_type).to eq(:rental)
-        expect(config.price_presets.first).to be < 1000
+        # First element is "No min", followed by numeric values < 1000
+        expect(config.price_presets.first).to eq("No min")
+        expect(config.price_presets[1]).to be < 1000
       end
 
       it "returns lower max price for rentals" do

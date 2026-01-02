@@ -6,7 +6,7 @@ module SiteAdmin
       before_action :set_website
       before_action :set_tab
 
-      VALID_TABS = %w[general appearance navigation home notifications seo social].freeze
+      VALID_TABS = %w[general appearance navigation home notifications seo social search].freeze
 
       def show
         # Always load website locales for multilingual editing
@@ -27,6 +27,8 @@ module SiteAdmin
           @social_media = @website.social_media || {}
         when 'social'
           @social_links = @website.social_media_links_for_admin
+        when 'search'
+          @search_config = @website.search_configuration
         end
       end
 
@@ -44,6 +46,8 @@ module SiteAdmin
           update_seo_settings
         when 'social'
           update_social_settings
+        when 'search'
+          update_search_settings
         else
           redirect_to site_admin_website_settings_path, alert: 'Invalid tab'
           return
@@ -65,6 +69,14 @@ module SiteAdmin
           redirect_to site_admin_website_settings_tab_path('navigation'), notice: 'Navigation links updated successfully'
         else
           redirect_to site_admin_website_settings_tab_path('navigation'), alert: 'No links data provided'
+        end
+      end
+
+      def reset_search_config
+        if @website.update(search_config: {})
+          redirect_to site_admin_website_settings_tab_path('search'), notice: 'Search configuration has been reset to defaults'
+        else
+          redirect_to site_admin_website_settings_tab_path('search'), alert: 'Failed to reset search configuration'
         end
       end
 
@@ -184,6 +196,19 @@ module SiteAdmin
         end
       end
 
+      def update_search_settings
+        # Build the search config from form params
+        new_config = build_search_config_from_params
+
+        if @website.update_search_config(new_config)
+          redirect_to site_admin_website_settings_tab_path('search'), notice: 'Search configuration updated successfully'
+        else
+          @search_config = @website.search_configuration
+          flash.now[:alert] = 'Failed to update search configuration'
+          render :show, status: :unprocessable_entity
+        end
+      end
+
       def update_navigation_links
         params[:links].each do |link_params|
           link = @website.links.find_by(id: link_params[:id])
@@ -272,6 +297,170 @@ module SiteAdmin
           :favicon_url,
           :main_logo_url
         )
+      end
+
+      # Build search config hash from form parameters
+      # Handles nested structure for filters, display, and listing_types
+      def build_search_config_from_params
+        return {} unless params[:search_config].present?
+
+        config = {}
+        search_params = params[:search_config]
+
+        # Build filters config
+        if search_params[:filters].present?
+          config[:filters] = {}
+
+          search_params[:filters].each do |filter_name, filter_config|
+            config[:filters][filter_name] = build_filter_config(filter_name, filter_config)
+          end
+        end
+
+        # Build display config
+        if search_params[:display].present?
+          config[:display] = {
+            show_results_map: search_params[:display][:show_results_map] == '1',
+            show_active_filters: search_params[:display][:show_active_filters] == '1',
+            show_save_search: search_params[:display][:show_save_search] == '1',
+            show_favorites: search_params[:display][:show_favorites] == '1',
+            default_sort: search_params[:display][:default_sort],
+            default_results_per_page: search_params[:display][:default_results_per_page].to_i
+          }.compact
+        end
+
+        # Build listing_types config
+        if search_params[:listing_types].present?
+          config[:listing_types] = {}
+          search_params[:listing_types].each do |type, type_config|
+            config[:listing_types][type] = {
+              enabled: type_config[:enabled] == '1',
+              is_default: type_config[:is_default] == '1'
+            }
+          end
+        end
+
+        config
+      end
+
+      # Build config for a single filter from form params
+      def build_filter_config(filter_name, filter_config)
+        result = {
+          enabled: filter_config[:enabled] == '1',
+          position: filter_config[:position].to_i
+        }
+
+        # Input type
+        result[:input_type] = filter_config[:input_type] if filter_config[:input_type].present?
+
+        # Price filter has sale/rental specific config
+        if filter_name.to_s == 'price'
+          %w[sale rental].each do |listing_type|
+            if filter_config[listing_type].present?
+              type_config = filter_config[listing_type]
+              result[listing_type.to_sym] = {
+                min: parse_price_value(type_config[:min]),
+                max: parse_price_value(type_config[:max]),
+                default_min: parse_price_value(type_config[:default_min]),
+                default_max: parse_price_value(type_config[:default_max]),
+                step: type_config[:step].to_i.positive? ? type_config[:step].to_i : nil,
+                min_presets: parse_price_presets(type_config[:min_presets]),
+                max_presets: parse_price_presets(type_config[:max_presets]),
+                presets: parse_presets(type_config[:presets]) # Legacy
+              }.compact
+            end
+          end
+        end
+
+        # Bedroom/bathroom min/max options (new separate options)
+        if filter_config[:min_options].present?
+          result[:min_options] = parse_options(filter_config[:min_options])
+        end
+        if filter_config[:max_options].present?
+          result[:max_options] = parse_options(filter_config[:max_options])
+        end
+
+        # Legacy: single options array (for backwards compatibility)
+        if filter_config[:options].present?
+          result[:options] = parse_options(filter_config[:options])
+        end
+
+        # Show max filter flag
+        if filter_config.key?(:show_max_filter)
+          result[:show_max_filter] = filter_config[:show_max_filter] == '1'
+        end
+
+        # Default values for non-price filters
+        result[:default_min] = filter_config[:default_min].to_i if filter_config[:default_min].present?
+        result[:default_max] = filter_config[:default_max].to_i if filter_config[:default_max].present?
+
+        # Area-specific config
+        result[:unit] = filter_config[:unit] if filter_config[:unit].present?
+        if filter_config[:presets].present? && filter_name.to_s != 'price'
+          result[:presets] = parse_presets(filter_config[:presets])
+        end
+
+        result.compact
+      end
+
+      # Parse price value, returning nil for blank/zero
+      def parse_price_value(value)
+        return nil if value.blank?
+
+        parsed = value.to_s.gsub(/[,\s]/, '').to_i
+        parsed.positive? ? parsed : nil
+      end
+
+      # Parse presets from comma-separated string or array
+      def parse_presets(value)
+        return nil if value.blank?
+
+        if value.is_a?(String)
+          value.split(',').map { |v| v.gsub(/[,\s]/, '').to_i }.reject(&:zero?)
+        elsif value.is_a?(Array)
+          value.map(&:to_i).reject(&:zero?)
+        end
+      end
+
+      # Parse price presets that can include "No min" and "No max" strings
+      def parse_price_presets(value)
+        return nil if value.blank?
+
+        if value.is_a?(String)
+          value.split(',').map(&:strip).map do |v|
+            # Keep "No min" and "No max" as strings
+            if v.downcase == 'no min' || v.downcase == 'no max'
+              v.downcase == 'no min' ? 'No min' : 'No max'
+            else
+              parsed = v.gsub(/[,\s]/, '').to_i
+              parsed.positive? ? parsed : nil
+            end
+          end.compact
+        elsif value.is_a?(Array)
+          value.map do |v|
+            if v.is_a?(String) && (v.downcase == 'no min' || v.downcase == 'no max')
+              v.downcase == 'no min' ? 'No min' : 'No max'
+            else
+              parsed = v.to_i
+              parsed.positive? ? parsed : nil
+            end
+          end.compact
+        end
+      end
+
+      # Parse options for bedroom/bathroom dropdowns
+      def parse_options(value)
+        return nil if value.blank?
+
+        if value.is_a?(String)
+          value.split(',').map(&:strip).map do |opt|
+            # Keep "Any" and "6+" as strings, convert numbers
+            opt.match?(/^\d+$/) ? opt.to_i : opt
+          end
+        elsif value.is_a?(Array)
+          value.map do |opt|
+            opt.to_s.match?(/^\d+$/) ? opt.to_i : opt.to_s
+          end
+        end
       end
 
       # Build locale details for the website's supported locales

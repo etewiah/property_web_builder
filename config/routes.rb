@@ -316,6 +316,8 @@ Rails.application.routes.draw do
       patch 'settings', to: 'settings#update'
       # Navigation links management
       patch 'settings/links', to: 'settings#update_links', as: 'update_links'
+      # Reset search configuration to defaults
+      delete 'settings/search/reset', to: 'settings#reset_search_config', as: 'reset_search_config'
       # Notification testing
       post 'test_notifications', to: 'settings#test_notifications'
     end

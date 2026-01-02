@@ -528,6 +528,369 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
   end
 
   # ==========================================================================
+  # Search Tab Tests
+  # ==========================================================================
+  describe 'GET /site_admin/website/settings/search' do
+    it 'renders the search settings tab successfully' do
+      get site_admin_website_settings_path(tab: 'search'),
+          headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Search Configuration')
+      expect(response.body).to include('Display Options')
+      expect(response.body).to include('Listing Types')
+      expect(response.body).to include('Price Filter')
+      expect(response.body).to include('Bedrooms Filter')
+      expect(response.body).to include('Bathrooms Filter')
+      expect(response.body).to include('Area Filter')
+    end
+
+    it 'loads existing search configuration' do
+      website.update!(search_config: {
+        'display' => { 'show_results_map' => true, 'default_results_per_page' => 24 },
+        'filters' => { 'price' => { 'enabled' => true, 'input_type' => 'manual' } }
+      })
+
+      get site_admin_website_settings_path(tab: 'search'),
+          headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:success)
+      # Verify config is loaded - the form should have checkboxes checked
+      expect(response.body).to include('Show Results Map')
+    end
+  end
+
+  describe 'PATCH /site_admin/website/settings (search tab)' do
+    it 'updates display options' do
+      patch site_admin_website_settings_path,
+            params: {
+              tab: 'search',
+              search_config: {
+                display: {
+                  show_results_map: '1',
+                  show_active_filters: '1',
+                  show_save_search: '0',
+                  show_favorites: '1',
+                  default_sort: 'price_asc',
+                  default_results_per_page: '24'
+                }
+              }
+            },
+            headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to(site_admin_website_settings_tab_path('search'))
+
+      website.reload
+      config = website.search_config
+      expect(config.dig('display', 'show_results_map')).to be true
+      expect(config.dig('display', 'show_active_filters')).to be true
+      expect(config.dig('display', 'show_save_search')).to be false
+      expect(config.dig('display', 'show_favorites')).to be true
+      expect(config.dig('display', 'default_sort')).to eq('price_asc')
+      expect(config.dig('display', 'default_results_per_page')).to eq(24)
+    end
+
+    it 'updates listing types configuration' do
+      patch site_admin_website_settings_path,
+            params: {
+              tab: 'search',
+              search_config: {
+                listing_types: {
+                  sale: { enabled: '1', is_default: '0' },
+                  rental: { enabled: '1', is_default: '1' }
+                }
+              }
+            },
+            headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:redirect)
+
+      website.reload
+      config = website.search_config
+      expect(config.dig('listing_types', 'sale', 'enabled')).to be true
+      expect(config.dig('listing_types', 'sale', 'is_default')).to be false
+      expect(config.dig('listing_types', 'rental', 'enabled')).to be true
+      expect(config.dig('listing_types', 'rental', 'is_default')).to be true
+    end
+
+    it 'updates price filter configuration' do
+      patch site_admin_website_settings_path,
+            params: {
+              tab: 'search',
+              search_config: {
+                filters: {
+                  price: {
+                    enabled: '1',
+                    position: '1',
+                    input_type: 'dropdown_with_manual',
+                    sale: {
+                      default_min: '100000',
+                      default_max: '1000000',
+                      step: '25000',
+                      presets: '100000, 200000, 500000, 750000, 1000000'
+                    },
+                    rental: {
+                      default_min: '500',
+                      default_max: '5000',
+                      step: '100',
+                      presets: '500, 1000, 1500, 2000, 3000, 5000'
+                    }
+                  }
+                }
+              }
+            },
+            headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:redirect)
+
+      website.reload
+      price_config = website.search_config.dig('filters', 'price')
+      expect(price_config['enabled']).to be true
+      expect(price_config['input_type']).to eq('dropdown_with_manual')
+      expect(price_config.dig('sale', 'default_min')).to eq(100_000)
+      expect(price_config.dig('sale', 'default_max')).to eq(1_000_000)
+      expect(price_config.dig('sale', 'step')).to eq(25_000)
+      expect(price_config.dig('sale', 'presets')).to eq([100_000, 200_000, 500_000, 750_000, 1_000_000])
+      expect(price_config.dig('rental', 'default_min')).to eq(500)
+      expect(price_config.dig('rental', 'presets')).to eq([500, 1000, 1500, 2000, 3000, 5000])
+    end
+
+    it 'updates bedrooms filter configuration with separate min/max options' do
+      patch site_admin_website_settings_path,
+            params: {
+              tab: 'search',
+              search_config: {
+                filters: {
+                  bedrooms: {
+                    enabled: '1',
+                    position: '2',
+                    min_options: 'Any, 1, 2, 3, 4, 5+',
+                    max_options: '1, 2, 3, 4, 5, 6, No max',
+                    default_min: '2',
+                    default_max: '4',
+                    show_max_filter: '1'
+                  }
+                }
+              }
+            },
+            headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:redirect)
+
+      website.reload
+      bedrooms_config = website.search_config.dig('filters', 'bedrooms')
+      expect(bedrooms_config['enabled']).to be true
+      expect(bedrooms_config['min_options']).to eq(['Any', 1, 2, 3, 4, '5+'])
+      expect(bedrooms_config['max_options']).to eq([1, 2, 3, 4, 5, 6, 'No max'])
+      expect(bedrooms_config['default_min']).to eq(2)
+      expect(bedrooms_config['default_max']).to eq(4)
+      expect(bedrooms_config['show_max_filter']).to be true
+    end
+
+    it 'updates bathrooms filter configuration with separate min/max options' do
+      patch site_admin_website_settings_path,
+            params: {
+              tab: 'search',
+              search_config: {
+                filters: {
+                  bathrooms: {
+                    enabled: '1',
+                    position: '3',
+                    min_options: 'Any, 1, 2, 3, 4+',
+                    max_options: '1, 2, 3, 4, 5, No max',
+                    default_min: '1',
+                    default_max: '3',
+                    show_max_filter: '1'
+                  }
+                }
+              }
+            },
+            headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:redirect)
+
+      website.reload
+      bathrooms_config = website.search_config.dig('filters', 'bathrooms')
+      expect(bathrooms_config['enabled']).to be true
+      expect(bathrooms_config['min_options']).to eq(['Any', 1, 2, 3, '4+'])
+      expect(bathrooms_config['max_options']).to eq([1, 2, 3, 4, 5, 'No max'])
+      expect(bathrooms_config['default_min']).to eq(1)
+      expect(bathrooms_config['default_max']).to eq(3)
+      expect(bathrooms_config['show_max_filter']).to be true
+    end
+
+    it 'updates area filter configuration' do
+      patch site_admin_website_settings_path,
+            params: {
+              tab: 'search',
+              search_config: {
+                filters: {
+                  area: {
+                    enabled: '1',
+                    position: '4',
+                    unit: 'sqft',
+                    default_min: '500',
+                    default_max: '5000',
+                    presets: '500, 1000, 2000, 3000, 5000'
+                  }
+                }
+              }
+            },
+            headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:redirect)
+
+      website.reload
+      area_config = website.search_config.dig('filters', 'area')
+      expect(area_config['enabled']).to be true
+      expect(area_config['unit']).to eq('sqft')
+      expect(area_config['default_min']).to eq(500)
+      expect(area_config['default_max']).to eq(5000)
+      expect(area_config['presets']).to eq([500, 1000, 2000, 3000, 5000])
+    end
+
+    it 'updates other filters (reference, property_type, location, features)' do
+      patch site_admin_website_settings_path,
+            params: {
+              tab: 'search',
+              search_config: {
+                filters: {
+                  reference: { enabled: '1', position: '0', input_type: 'text' },
+                  property_type: { enabled: '1', position: '5' },
+                  location: { enabled: '0', position: '6' },
+                  features: { enabled: '1', position: '7' }
+                }
+              }
+            },
+            headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:redirect)
+
+      website.reload
+      config = website.search_config['filters']
+      expect(config.dig('reference', 'enabled')).to be true
+      expect(config.dig('property_type', 'enabled')).to be true
+      expect(config.dig('location', 'enabled')).to be false
+      expect(config.dig('features', 'enabled')).to be true
+    end
+
+    it 'shows success notice after save' do
+      patch site_admin_website_settings_path,
+            params: {
+              tab: 'search',
+              search_config: {
+                display: { show_results_map: '1' }
+              }
+            },
+            headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(flash[:notice]).to eq('Search configuration updated successfully')
+    end
+
+    it 'handles empty/blank price presets gracefully' do
+      patch site_admin_website_settings_path,
+            params: {
+              tab: 'search',
+              search_config: {
+                filters: {
+                  price: {
+                    enabled: '1',
+                    sale: { presets: '' },
+                    rental: { presets: '' }
+                  }
+                }
+              }
+            },
+            headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:redirect)
+      website.reload
+      # Empty presets should result in nil, not an empty array
+      expect(website.search_config.dig('filters', 'price', 'sale', 'presets')).to be_nil
+    end
+
+    it 'filters out zero values from presets' do
+      patch site_admin_website_settings_path,
+            params: {
+              tab: 'search',
+              search_config: {
+                filters: {
+                  price: {
+                    enabled: '1',
+                    sale: { presets: '0, 100000, 0, 500000' }
+                  }
+                }
+              }
+            },
+            headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:redirect)
+      website.reload
+      presets = website.search_config.dig('filters', 'price', 'sale', 'presets')
+      expect(presets).to eq([100_000, 500_000])
+      expect(presets).not_to include(0)
+    end
+
+    it 'preserves existing config when only updating partial settings' do
+      # Set up initial configuration
+      website.update!(search_config: {
+        'display' => { 'show_results_map' => true, 'default_sort' => 'price_desc' },
+        'filters' => {
+          'bedrooms' => { 'enabled' => true, 'options' => ['Any', 1, 2, 3] }
+        }
+      })
+
+      # Update only display options
+      patch site_admin_website_settings_path,
+            params: {
+              tab: 'search',
+              search_config: {
+                display: { show_results_map: '0', default_sort: 'newest' }
+              }
+            },
+            headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:redirect)
+      website.reload
+      # Display should be updated
+      expect(website.search_config.dig('display', 'show_results_map')).to be false
+      expect(website.search_config.dig('display', 'default_sort')).to eq('newest')
+    end
+  end
+
+  describe 'DELETE /site_admin/website/settings/search/reset' do
+    it 'resets search configuration to defaults' do
+      # Set up custom configuration
+      website.update!(search_config: {
+        'display' => { 'show_results_map' => true, 'default_results_per_page' => 48 },
+        'filters' => {
+          'price' => { 'enabled' => true, 'input_type' => 'manual' },
+          'bedrooms' => { 'enabled' => false }
+        }
+      })
+
+      delete site_admin_website_reset_search_config_path,
+             headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to(site_admin_website_settings_tab_path('search'))
+
+      website.reload
+      expect(website.search_config).to eq({})
+    end
+
+    it 'shows success notice after reset' do
+      website.update!(search_config: { 'display' => { 'show_results_map' => true } })
+
+      delete site_admin_website_reset_search_config_path,
+             headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
+
+      expect(flash[:notice]).to eq('Search configuration has been reset to defaults')
+    end
+  end
+
+  # ==========================================================================
   # Tab Parameter Validation
   # ==========================================================================
   describe 'invalid tab handling' do

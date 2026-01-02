@@ -1,0 +1,500 @@
+<div class="p-6">
+  <h2 class="text-xl font-semibold text-gray-900 mb-2">Search Configuration</h2>
+  <p class="text-sm text-gray-600 mb-6">Configure how property search filters appear and behave on your website.</p>
+
+  <%= form_with url: site_admin_website_settings_path, method: :patch, local: true, class: "space-y-8" do |f| %>
+    <input type="hidden" name="tab" value="search">
+
+    <!-- Display Options Section -->
+    <div class="bg-gray-50 rounded-lg p-6">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Display Options</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Show Results Map -->
+        <label class="flex items-start p-3 bg-white rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer">
+          <input type="hidden" name="search_config[display][show_results_map]" value="0">
+          <input type="checkbox" name="search_config[display][show_results_map]" value="1"
+                 <%= 'checked' if @search_config.show_map? %>
+                 class="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+          <div class="ml-3">
+            <span class="text-sm font-medium text-gray-700">Show Results Map</span>
+            <p class="text-xs text-gray-500">Display a map alongside search results</p>
+          </div>
+        </label>
+
+        <!-- Show Active Filters -->
+        <label class="flex items-start p-3 bg-white rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer">
+          <input type="hidden" name="search_config[display][show_active_filters]" value="0">
+          <input type="checkbox" name="search_config[display][show_active_filters]" value="1"
+                 <%= 'checked' if @search_config.show_active_filters? %>
+                 class="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+          <div class="ml-3">
+            <span class="text-sm font-medium text-gray-700">Show Active Filter Chips</span>
+            <p class="text-xs text-gray-500">Display removable chips for active filters</p>
+          </div>
+        </label>
+
+        <!-- Show Save Search -->
+        <label class="flex items-start p-3 bg-white rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer">
+          <input type="hidden" name="search_config[display][show_save_search]" value="0">
+          <input type="checkbox" name="search_config[display][show_save_search]" value="1"
+                 <%= 'checked' if @search_config.show_save_search? %>
+                 class="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+          <div class="ml-3">
+            <span class="text-sm font-medium text-gray-700">Show Save Search</span>
+            <p class="text-xs text-gray-500">Allow users to save their search criteria</p>
+          </div>
+        </label>
+
+        <!-- Show Favorites -->
+        <label class="flex items-start p-3 bg-white rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer">
+          <input type="hidden" name="search_config[display][show_favorites]" value="0">
+          <input type="checkbox" name="search_config[display][show_favorites]" value="1"
+                 <%= 'checked' if @search_config.show_favorites? %>
+                 class="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+          <div class="ml-3">
+            <span class="text-sm font-medium text-gray-700">Show Favorites</span>
+            <p class="text-xs text-gray-500">Allow users to save favorite properties</p>
+          </div>
+        </label>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <!-- Default Sort -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Default Sort Order</label>
+          <select name="search_config[display][default_sort]"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
+            <% @search_config.sort_options.each do |opt| %>
+              <option value="<%= opt %>" <%= 'selected' if @search_config.default_sort == opt %>>
+                <%= t("external_feed.sort.#{opt}", default: opt.titleize) %>
+              </option>
+            <% end %>
+          </select>
+        </div>
+
+        <!-- Default Results Per Page -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Default Results Per Page</label>
+          <select name="search_config[display][default_results_per_page]"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
+            <% @search_config.results_per_page_options.each do |count| %>
+              <option value="<%= count %>" <%= 'selected' if @search_config.default_results_per_page == count %>>
+                <%= count %> results
+              </option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Listing Types Section -->
+    <div class="bg-gray-50 rounded-lg p-6">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Listing Types</h3>
+      <p class="text-sm text-gray-500 mb-4">Configure which listing types are available and which is the default.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <% [:sale, :rental].each do |type| %>
+          <div class="bg-white rounded-lg border border-gray-200 p-4">
+            <div class="flex items-center justify-between mb-3">
+              <label class="flex items-center">
+                <input type="hidden" name="search_config[listing_types][<%= type %>][enabled]" value="0">
+                <input type="checkbox" name="search_config[listing_types][<%= type %>][enabled]" value="1"
+                       <%= 'checked' if @search_config.listing_type_enabled?(type) %>
+                       class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                <span class="ml-2 text-sm font-medium text-gray-700">
+                  <%= type == :sale ? 'For Sale' : 'For Rent' %>
+                </span>
+              </label>
+              <label class="flex items-center text-sm text-gray-600">
+                <input type="radio" name="default_listing_type" value="<%= type %>"
+                       <%= 'checked' if @search_config.default_listing_type == type %>
+                       onchange="document.querySelector('input[name=\\'search_config[listing_types][<%= type %>][is_default]\\']').value = '1'; document.querySelector('input[name=\\'search_config[listing_types][<%= type == :sale ? :rental : :sale %>][is_default]\\']').value = '0';"
+                       class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                <span class="ml-1">Default</span>
+              </label>
+            </div>
+            <input type="hidden" name="search_config[listing_types][<%= type %>][is_default]"
+                   value="<%= @search_config.default_listing_type == type ? '1' : '0' %>">
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Price Filter Section -->
+    <div class="bg-gray-50 rounded-lg p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-medium text-gray-900">Price Filter</h3>
+        <label class="flex items-center">
+          <input type="hidden" name="search_config[filters][price][enabled]" value="0">
+          <input type="checkbox" name="search_config[filters][price][enabled]" value="1"
+                 <%= 'checked' if @search_config.filter_enabled?(:price) %>
+                 class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+          <span class="ml-2 text-sm text-gray-700">Enabled</span>
+        </label>
+      </div>
+
+      <input type="hidden" name="search_config[filters][price][position]" value="<%= @search_config.filter(:price)&.dig(:position) || 1 %>">
+
+      <!-- Input Type -->
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Input Type</label>
+        <div class="flex flex-wrap gap-3">
+          <% %w[dropdown manual dropdown_with_manual].each do |input_type| %>
+            <label class="flex items-center">
+              <input type="radio" name="search_config[filters][price][input_type]" value="<%= input_type %>"
+                     <%= 'checked' if @search_config.price_input_type == input_type %>
+                     class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+              <span class="ml-2 text-sm text-gray-700">
+                <%= input_type == 'dropdown' ? 'Dropdown Only' : input_type == 'manual' ? 'Manual Entry Only' : 'Dropdown + Manual' %>
+              </span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Sale Price Config -->
+      <div class="bg-white rounded-lg border border-gray-200 p-4 mb-4">
+        <h4 class="text-sm font-medium text-gray-900 mb-3">For Sale Prices</h4>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs text-gray-600 mb-1">Default Min</label>
+            <input type="text" name="search_config[filters][price][sale][default_min]"
+                   value="<%= @search_config.price_config&.dig(:default_min) %>"
+                   placeholder="None"
+                   class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block text-xs text-gray-600 mb-1">Default Max</label>
+            <input type="text" name="search_config[filters][price][sale][default_max]"
+                   value="<%= @search_config.price_config&.dig(:default_max) %>"
+                   placeholder="None"
+                   class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block text-xs text-gray-600 mb-1">Step</label>
+            <input type="text" name="search_config[filters][price][sale][step]"
+                   value="<%= @search_config.price_config&.dig(:step) || 50000 %>"
+                   class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+          <div>
+            <label class="block text-xs text-gray-600 mb-1">Min Price Options (comma-separated)</label>
+            <input type="text" name="search_config[filters][price][sale][min_presets]"
+                   value="<%= @search_config.price_min_presets.join(', ') %>"
+                   placeholder="No min, 50000, 100000, 200000, 500000"
+                   class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
+            <p class="mt-1 text-xs text-gray-500">Use "No min" for no minimum option</p>
+          </div>
+          <div>
+            <label class="block text-xs text-gray-600 mb-1">Max Price Options (comma-separated)</label>
+            <input type="text" name="search_config[filters][price][sale][max_presets]"
+                   value="<%= @search_config.price_max_presets.join(', ') %>"
+                   placeholder="100000, 200000, 500000, 1000000, No max"
+                   class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
+            <p class="mt-1 text-xs text-gray-500">Use "No max" for no maximum option</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rental Price Config -->
+      <% rental_config = Pwb::SearchConfig.new(@website, listing_type: :rental) %>
+      <div class="bg-white rounded-lg border border-gray-200 p-4">
+        <h4 class="text-sm font-medium text-gray-900 mb-3">For Rent Prices</h4>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs text-gray-600 mb-1">Default Min</label>
+            <input type="text" name="search_config[filters][price][rental][default_min]"
+                   value="<%= rental_config.price_config&.dig(:default_min) %>"
+                   placeholder="None"
+                   class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block text-xs text-gray-600 mb-1">Default Max</label>
+            <input type="text" name="search_config[filters][price][rental][default_max]"
+                   value="<%= rental_config.price_config&.dig(:default_max) %>"
+                   placeholder="None"
+                   class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block text-xs text-gray-600 mb-1">Step</label>
+            <input type="text" name="search_config[filters][price][rental][step]"
+                   value="<%= rental_config.price_config&.dig(:step) || 100 %>"
+                   class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+          <div>
+            <label class="block text-xs text-gray-600 mb-1">Min Price Options (comma-separated)</label>
+            <input type="text" name="search_config[filters][price][rental][min_presets]"
+                   value="<%= rental_config.price_min_presets.join(', ') %>"
+                   placeholder="No min, 500, 1000, 1500, 2000"
+                   class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
+            <p class="mt-1 text-xs text-gray-500">Use "No min" for no minimum option</p>
+          </div>
+          <div>
+            <label class="block text-xs text-gray-600 mb-1">Max Price Options (comma-separated)</label>
+            <input type="text" name="search_config[filters][price][rental][max_presets]"
+                   value="<%= rental_config.price_max_presets.join(', ') %>"
+                   placeholder="1000, 1500, 2000, 3000, No max"
+                   class="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-blue-500 focus:border-blue-500">
+            <p class="mt-1 text-xs text-gray-500">Use "No max" for no maximum option</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bedrooms Filter Section -->
+    <div class="bg-gray-50 rounded-lg p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-medium text-gray-900">Bedrooms Filter</h3>
+        <label class="flex items-center">
+          <input type="hidden" name="search_config[filters][bedrooms][enabled]" value="0">
+          <input type="checkbox" name="search_config[filters][bedrooms][enabled]" value="1"
+                 <%= 'checked' if @search_config.filter_enabled?(:bedrooms) %>
+                 class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+          <span class="ml-2 text-sm text-gray-700">Enabled</span>
+        </label>
+      </div>
+
+      <input type="hidden" name="search_config[filters][bedrooms][position]" value="<%= @search_config.filter(:bedrooms)&.dig(:position) || 2 %>">
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Min Options (comma-separated)</label>
+          <input type="text" name="search_config[filters][bedrooms][min_options]"
+                 value="<%= @search_config.bedroom_min_options.join(', ') %>"
+                 placeholder="Any, 1, 2, 3, 4, 5, 6+"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
+          <p class="mt-1 text-xs text-gray-500">Use "Any" for no minimum, "6+" for open-ended</p>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Max Options (comma-separated)</label>
+          <input type="text" name="search_config[filters][bedrooms][max_options]"
+                 value="<%= @search_config.bedroom_max_options.join(', ') %>"
+                 placeholder="1, 2, 3, 4, 5, 6, No max"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
+          <p class="mt-1 text-xs text-gray-500">Use "No max" for unlimited</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Default Minimum</label>
+          <input type="text" name="search_config[filters][bedrooms][default_min]"
+                 value="<%= @search_config.default_min_bedrooms %>"
+                 placeholder="None"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Default Maximum</label>
+          <input type="text" name="search_config[filters][bedrooms][default_max]"
+                 value="<%= @search_config.default_max_bedrooms %>"
+                 placeholder="None"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+      </div>
+
+      <label class="flex items-center mt-3">
+        <input type="hidden" name="search_config[filters][bedrooms][show_max_filter]" value="0">
+        <input type="checkbox" name="search_config[filters][bedrooms][show_max_filter]" value="1"
+               <%= 'checked' if @search_config.show_max_bedrooms? %>
+               class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+        <span class="ml-2 text-sm text-gray-700">Show separate max bedrooms filter</span>
+      </label>
+    </div>
+
+    <!-- Bathrooms Filter Section -->
+    <div class="bg-gray-50 rounded-lg p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-medium text-gray-900">Bathrooms Filter</h3>
+        <label class="flex items-center">
+          <input type="hidden" name="search_config[filters][bathrooms][enabled]" value="0">
+          <input type="checkbox" name="search_config[filters][bathrooms][enabled]" value="1"
+                 <%= 'checked' if @search_config.filter_enabled?(:bathrooms) %>
+                 class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+          <span class="ml-2 text-sm text-gray-700">Enabled</span>
+        </label>
+      </div>
+
+      <input type="hidden" name="search_config[filters][bathrooms][position]" value="<%= @search_config.filter(:bathrooms)&.dig(:position) || 3 %>">
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Min Options (comma-separated)</label>
+          <input type="text" name="search_config[filters][bathrooms][min_options]"
+                 value="<%= @search_config.bathroom_min_options.join(', ') %>"
+                 placeholder="Any, 1, 2, 3, 4, 5+"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
+          <p class="mt-1 text-xs text-gray-500">Use "Any" for no minimum</p>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Max Options (comma-separated)</label>
+          <input type="text" name="search_config[filters][bathrooms][max_options]"
+                 value="<%= @search_config.bathroom_max_options.join(', ') %>"
+                 placeholder="1, 2, 3, 4, 5, No max"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
+          <p class="mt-1 text-xs text-gray-500">Use "No max" for unlimited</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Default Minimum</label>
+          <input type="text" name="search_config[filters][bathrooms][default_min]"
+                 value="<%= @search_config.default_min_bathrooms %>"
+                 placeholder="None"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Default Maximum</label>
+          <input type="text" name="search_config[filters][bathrooms][default_max]"
+                 value="<%= @search_config.default_max_bathrooms %>"
+                 placeholder="None"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+      </div>
+
+      <label class="flex items-center mt-3">
+        <input type="hidden" name="search_config[filters][bathrooms][show_max_filter]" value="0">
+        <input type="checkbox" name="search_config[filters][bathrooms][show_max_filter]" value="1"
+               <%= 'checked' if @search_config.show_max_bathrooms? %>
+               class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+        <span class="ml-2 text-sm text-gray-700">Show separate max bathrooms filter</span>
+      </label>
+    </div>
+
+    <!-- Area Filter Section -->
+    <div class="bg-gray-50 rounded-lg p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-medium text-gray-900">Area Filter</h3>
+        <label class="flex items-center">
+          <input type="hidden" name="search_config[filters][area][enabled]" value="0">
+          <input type="checkbox" name="search_config[filters][area][enabled]" value="1"
+                 <%= 'checked' if @search_config.filter_enabled?(:area) %>
+                 class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+          <span class="ml-2 text-sm text-gray-700">Enabled</span>
+        </label>
+      </div>
+
+      <input type="hidden" name="search_config[filters][area][position]" value="<%= @search_config.filter(:area)&.dig(:position) || 4 %>">
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Unit</label>
+          <select name="search_config[filters][area][unit]"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
+            <option value="sqm" <%= 'selected' if @search_config.area_unit == 'sqm' %>>Square Meters (m&sup2;)</option>
+            <option value="sqft" <%= 'selected' if @search_config.area_unit == 'sqft' %>>Square Feet (ft&sup2;)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Default Min</label>
+          <input type="text" name="search_config[filters][area][default_min]"
+                 value="<%= @search_config.default_min_area %>"
+                 placeholder="None"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Default Max</label>
+          <input type="text" name="search_config[filters][area][default_max]"
+                 value="<%= @search_config.default_max_area %>"
+                 placeholder="None"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Area Presets (comma-separated)</label>
+        <input type="text" name="search_config[filters][area][presets]"
+               value="<%= @search_config.area_presets.join(', ') %>"
+               placeholder="50, 100, 150, 200, 300, 500"
+               class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
+      </div>
+    </div>
+
+    <!-- Other Filters Section -->
+    <div class="bg-gray-50 rounded-lg p-6">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Other Filters</h3>
+
+      <div class="space-y-3">
+        <!-- Reference Search -->
+        <label class="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200">
+          <div>
+            <span class="text-sm font-medium text-gray-700">Reference Search</span>
+            <p class="text-xs text-gray-500">Allow searching by property reference number</p>
+          </div>
+          <div class="flex items-center">
+            <input type="hidden" name="search_config[filters][reference][enabled]" value="0">
+            <input type="checkbox" name="search_config[filters][reference][enabled]" value="1"
+                   <%= 'checked' if @search_config.filter_enabled?(:reference) %>
+                   class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+            <input type="hidden" name="search_config[filters][reference][position]" value="0">
+            <input type="hidden" name="search_config[filters][reference][input_type]" value="text">
+          </div>
+        </label>
+
+        <!-- Property Type -->
+        <label class="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200">
+          <div>
+            <span class="text-sm font-medium text-gray-700">Property Type</span>
+            <p class="text-xs text-gray-500">Filter by apartment, villa, etc.</p>
+          </div>
+          <div class="flex items-center">
+            <input type="hidden" name="search_config[filters][property_type][enabled]" value="0">
+            <input type="checkbox" name="search_config[filters][property_type][enabled]" value="1"
+                   <%= 'checked' if @search_config.filter_enabled?(:property_type) %>
+                   class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+            <input type="hidden" name="search_config[filters][property_type][position]" value="5">
+          </div>
+        </label>
+
+        <!-- Location -->
+        <label class="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200">
+          <div>
+            <span class="text-sm font-medium text-gray-700">Location</span>
+            <p class="text-xs text-gray-500">Filter by location/area</p>
+          </div>
+          <div class="flex items-center">
+            <input type="hidden" name="search_config[filters][location][enabled]" value="0">
+            <input type="checkbox" name="search_config[filters][location][enabled]" value="1"
+                   <%= 'checked' if @search_config.filter_enabled?(:location) %>
+                   class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+            <input type="hidden" name="search_config[filters][location][position]" value="6">
+          </div>
+        </label>
+
+        <!-- Features -->
+        <label class="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200">
+          <div>
+            <span class="text-sm font-medium text-gray-700">Features</span>
+            <p class="text-xs text-gray-500">Filter by amenities (pool, parking, etc.)</p>
+          </div>
+          <div class="flex items-center">
+            <input type="hidden" name="search_config[filters][features][enabled]" value="0">
+            <input type="checkbox" name="search_config[filters][features][enabled]" value="1"
+                   <%= 'checked' if @search_config.filter_enabled?(:features) %>
+                   class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+            <input type="hidden" name="search_config[filters][features][position]" value="7">
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Reset to Defaults -->
+    <div class="flex items-center justify-between pt-4 border-t border-gray-200">
+      <div>
+        <%= link_to "Reset to Defaults",
+            site_admin_website_reset_search_config_path,
+            method: :delete,
+            data: { confirm: "Are you sure you want to reset all search settings to defaults?" },
+            class: "text-sm text-red-600 hover:text-red-700" %>
+      </div>
+      <div>
+        <%= f.submit "Save Search Configuration",
+            class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
+      </div>
+    </div>
+  <% end %>
+</div>
