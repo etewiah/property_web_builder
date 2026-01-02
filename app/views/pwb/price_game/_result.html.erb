@@ -1,0 +1,57 @@
+<%# Price Game Result - shown after guess %>
+<% guess ||= @existing_guess %>
+
+<div class="text-center">
+  <%# Emoji and Score %>
+  <div class="text-6xl mb-4"><%= guess.emoji %></div>
+
+  <% case guess.score %>
+  <% when 90..100 %>
+    <h3 class="text-3xl font-bold text-green-600 mb-2"><%= t('price_game.result.excellent') %></h3>
+  <% when 70..89 %>
+    <h3 class="text-3xl font-bold text-blue-600 mb-2"><%= t('price_game.result.great') %></h3>
+  <% when 50..69 %>
+    <h3 class="text-3xl font-bold text-yellow-600 mb-2"><%= t('price_game.result.good') %></h3>
+  <% when 30..49 %>
+    <h3 class="text-3xl font-bold text-orange-600 mb-2"><%= t('price_game.result.not_bad') %></h3>
+  <% else %>
+    <h3 class="text-3xl font-bold text-red-600 mb-2"><%= t('price_game.result.keep_trying') %></h3>
+  <% end %>
+
+  <%# Score Badge %>
+  <div class="inline-flex items-center justify-center px-6 py-2 bg-purple-100 text-purple-800 rounded-full text-lg font-bold mb-6">
+    <span class="mr-2">🎯</span>
+    <%= t('price_game.result.score', score: guess.score) %>
+  </div>
+
+  <%# Price Comparison %>
+  <div class="grid grid-cols-2 gap-4 max-w-md mx-auto mb-6">
+    <div class="bg-gray-50 rounded-xl p-4">
+      <p class="text-sm text-gray-500 mb-1"><%= t('price_game.result.your_guess') %></p>
+      <p class="text-2xl font-bold text-gray-900"><%= guess.formatted_guessed_price %></p>
+    </div>
+    <div class="bg-green-50 rounded-xl p-4">
+      <p class="text-sm text-gray-500 mb-1"><%= t('price_game.result.actual_price') %></p>
+      <p class="text-2xl font-bold text-green-600"><%= guess.formatted_actual_price %></p>
+    </div>
+  </div>
+
+  <%# Difference %>
+  <p class="text-lg text-gray-600 mb-6">
+    <%= guess.feedback_message %>
+  </p>
+
+  <%# CTA to view listing %>
+  <% if @listing.respond_to?(:realty_asset) && @listing.realty_asset&.slug.present? %>
+    <% listing_path = @listing.game_listing_type == :rental ?
+         prop_show_for_rent_path(id: @listing.realty_asset.slug, url_friendly_title: @listing.title.to_s.parameterize.presence || 'show') :
+         prop_show_for_sale_path(id: @listing.realty_asset.slug, url_friendly_title: @listing.title.to_s.parameterize.presence || 'show') %>
+    <a href="<%= listing_path %>"
+       class="inline-flex items-center px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition">
+      <%= t('price_game.result.view_listing') %>
+      <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+      </svg>
+    </a>
+  <% end %>
+</div>

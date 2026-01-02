@@ -17,6 +17,10 @@ module PwbTenant
 #  commission_cents            :bigint           default(0)
 #  commission_currency         :string           default("EUR")
 #  furnished                   :boolean          default(FALSE)
+#  game_enabled                :boolean          default(FALSE)
+#  game_shares_count           :integer          default(0)
+#  game_token                  :string
+#  game_views_count            :integer          default(0)
 #  highlighted                 :boolean          default(FALSE)
 #  noindex                     :boolean          default(FALSE), not null
 #  price_sale_current_cents    :bigint           default(0)
@@ -31,6 +35,7 @@ module PwbTenant
 #
 # Indexes
 #
+#  index_pwb_sale_listings_on_game_token       (game_token) UNIQUE WHERE (game_token IS NOT NULL)
 #  index_pwb_sale_listings_on_noindex          (noindex)
 #  index_pwb_sale_listings_on_realty_asset_id  (realty_asset_id)
 #  index_pwb_sale_listings_on_translations     (translations) USING gin

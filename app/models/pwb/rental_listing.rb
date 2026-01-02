@@ -16,6 +16,10 @@ module Pwb
 #  for_rent_long_term                     :boolean          default(FALSE)
 #  for_rent_short_term                    :boolean          default(FALSE)
 #  furnished                              :boolean          default(FALSE)
+#  game_enabled                           :boolean          default(FALSE)
+#  game_shares_count                      :integer          default(0)
+#  game_token                             :string
+#  game_views_count                       :integer          default(0)
 #  highlighted                            :boolean          default(FALSE)
 #  noindex                                :boolean          default(FALSE), not null
 #  price_rental_monthly_current_cents     :bigint           default(0)
@@ -32,6 +36,7 @@ module Pwb
 #
 # Indexes
 #
+#  index_pwb_rental_listings_on_game_token       (game_token) UNIQUE WHERE (game_token IS NOT NULL)
 #  index_pwb_rental_listings_on_noindex          (noindex)
 #  index_pwb_rental_listings_on_realty_asset_id  (realty_asset_id)
 #  index_pwb_rental_listings_on_translations     (translations) USING gin
@@ -46,6 +51,7 @@ module Pwb
     include ListingStateable
     include SeoValidatable
     include RefreshesPropertiesView
+    include Gameable
     extend Mobility
 
     self.table_name = 'pwb_rental_listings'
@@ -71,6 +77,19 @@ module Pwb
     # Convenience method to check if this is a vacation rental
     def vacation_rental?
       for_rent_short_term?
+    end
+
+    # Gameable interface - price to guess
+    def game_price_cents
+      price_rental_monthly_current_cents
+    end
+
+    def game_price_currency
+      price_rental_monthly_current_currency
+    end
+
+    def game_listing_type
+      :rental
     end
 
     private

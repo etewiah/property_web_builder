@@ -44,3 +44,6 @@ application.register("skeleton", SkeletonController)
 
 import LocationPickerController from "controllers/location_picker_controller"
 application.register("location-picker", LocationPickerController)
+
+import PriceGameController from "controllers/price_game_controller"
+application.register("price-game", PriceGameController)

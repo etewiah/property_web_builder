@@ -6,7 +6,7 @@ module SiteAdmin
     # Manages rental listings for a specific realty asset (property)
     class RentalListingsController < SiteAdminController
       before_action :set_realty_asset
-      before_action :set_rental_listing, only: [:edit, :update, :destroy, :activate, :archive, :unarchive]
+      before_action :set_rental_listing, only: [:edit, :update, :destroy, :activate, :archive, :unarchive, :enable_game, :disable_game]
 
       def new
         @rental_listing = @realty_asset.rental_listings.build
@@ -79,6 +79,24 @@ module SiteAdmin
       rescue ActiveRecord::RecordInvalid => e
         redirect_to edit_sale_rental_site_admin_prop_path(@realty_asset),
                     alert: "Failed to unarchive listing: #{e.message}"
+      end
+
+      def enable_game
+        @rental_listing.enable_game!
+        redirect_to edit_site_admin_prop_rental_listing_path(@realty_asset, @rental_listing),
+                    notice: 'Price guessing game enabled! Share the link to engage your audience.'
+      rescue ActiveRecord::RecordInvalid => e
+        redirect_to edit_site_admin_prop_rental_listing_path(@realty_asset, @rental_listing),
+                    alert: "Failed to enable game: #{e.message}"
+      end
+
+      def disable_game
+        @rental_listing.disable_game!
+        redirect_to edit_site_admin_prop_rental_listing_path(@realty_asset, @rental_listing),
+                    notice: 'Price guessing game disabled.'
+      rescue ActiveRecord::RecordInvalid => e
+        redirect_to edit_site_admin_prop_rental_listing_path(@realty_asset, @rental_listing),
+                    alert: "Failed to disable game: #{e.message}"
       end
 
       private

@@ -222,6 +222,8 @@ Rails.application.routes.draw do
           patch :activate
           patch :archive
           patch :unarchive
+          patch :enable_game
+          patch :disable_game
         end
       end
 
@@ -231,6 +233,8 @@ Rails.application.routes.draw do
           patch :activate
           patch :archive
           patch :unarchive
+          patch :enable_game
+          patch :disable_game
         end
       end
     end
@@ -427,6 +431,12 @@ Rails.application.routes.draw do
       # https://github.com/plataformatec/devise/wiki/How-To:-Customize-the-redirect-after-a-user-edits-their-profile
 
       get "/" => "welcome#index", as: "home"
+
+      # Price Game - "Guess the Price" shareable game for listings
+      get "/g/:token" => "price_game#show", as: "price_game"
+      post "/g/:token/guess" => "price_game#guess", as: "price_game_guess"
+      post "/g/:token/share" => "price_game#track_share", as: "price_game_share"
+
       get "/p/:page_slug" => "pages#show_page", as: "show_page"
       # page_part_key can contain slashes like "cta/cta_split_image"
       get "/p/:page_slug/*page_part_key" => "pages#show_page_part", as: "show_page_part"

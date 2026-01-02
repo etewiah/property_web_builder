@@ -10,6 +10,10 @@
 #  for_rent_long_term                     :boolean          default(FALSE)
 #  for_rent_short_term                    :boolean          default(FALSE)
 #  furnished                              :boolean          default(FALSE)
+#  game_enabled                           :boolean          default(FALSE)
+#  game_shares_count                      :integer          default(0)
+#  game_token                             :string
+#  game_views_count                       :integer          default(0)
 #  highlighted                            :boolean          default(FALSE)
 #  noindex                                :boolean          default(FALSE), not null
 #  price_rental_monthly_current_cents     :bigint           default(0)
@@ -26,6 +30,7 @@
 #
 # Indexes
 #
+#  index_pwb_rental_listings_on_game_token       (game_token) UNIQUE WHERE (game_token IS NOT NULL)
 #  index_pwb_rental_listings_on_noindex          (noindex)
 #  index_pwb_rental_listings_on_realty_asset_id  (realty_asset_id)
 #  index_pwb_rental_listings_on_translations     (translations) USING gin

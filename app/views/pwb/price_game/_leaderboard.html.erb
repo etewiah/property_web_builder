@@ -1,0 +1,67 @@
+<%# Price Game Leaderboard - Anonymous %>
+<% guesses ||= @leaderboard %>
+<% current_guess ||= @existing_guess %>
+
+<div>
+  <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+    <span class="mr-2">🏆</span>
+    <%= t('price_game.leaderboard.title') %>
+  </h3>
+
+  <div class="space-y-2">
+    <% guesses.each_with_index do |guess, index| %>
+      <% is_current = current_guess && guess.id == current_guess.id %>
+      <div class="flex items-center justify-between p-3 rounded-lg <%= is_current ? 'bg-purple-100 border-2 border-purple-300' : 'bg-gray-50' %>">
+        <div class="flex items-center">
+          <%# Rank badge %>
+          <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3 font-bold text-sm
+            <% case index + 1 %>
+            <% when 1 %>
+              bg-yellow-400 text-yellow-900
+            <% when 2 %>
+              bg-gray-300 text-gray-700
+            <% when 3 %>
+              bg-orange-300 text-orange-800
+            <% else %>
+              bg-gray-200 text-gray-600
+            <% end %>
+          ">
+            <% case index + 1 %>
+            <% when 1 %>🥇
+            <% when 2 %>🥈
+            <% when 3 %>🥉
+            <% else %><%= index + 1 %>
+            <% end %>
+          </div>
+
+          <%# Anonymous player label %>
+          <span class="text-gray-700">
+            <% if is_current %>
+              <span class="font-semibold text-purple-700"><%= t('price_game.leaderboard.you') %></span>
+            <% else %>
+              <%= t('price_game.leaderboard.player', number: index + 1) %>
+            <% end %>
+          </span>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <%# Accuracy %>
+          <span class="text-sm text-gray-500">
+            <%= guess.percentage_diff&.abs&.round(1) %>% <%= guess.percentage_diff&.positive? ? '↑' : '↓' %>
+          </span>
+
+          <%# Score %>
+          <span class="font-bold text-lg <%= is_current ? 'text-purple-700' : 'text-gray-900' %>">
+            <%= guess.score %><span class="text-sm text-gray-400">/100</span>
+          </span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if guesses.count >= 10 %>
+    <p class="text-center text-gray-400 text-sm mt-4">
+      <%= t('price_game.leaderboard.showing_top', count: guesses.count) %>
+    </p>
+  <% end %>
+</div>

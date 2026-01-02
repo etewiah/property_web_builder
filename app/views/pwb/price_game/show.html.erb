@@ -1,0 +1,230 @@
+<%# Price Game - Guess the Price %>
+<% content_for :title, @page_title %>
+
+<%# SEO Meta Tags - Don't reveal price! %>
+<% content_for :meta_tags do %>
+  <meta name="description" content="<%= t('price_game.meta_description', property: @property&.title) %>">
+  <meta property="og:title" content="<%= t('price_game.og_title') %>">
+  <meta property="og:description" content="<%= t('price_game.og_description', property: @property&.title) %>">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= request.original_url %>">
+  <% if @property&.photos&.first %>
+    <meta property="og:image" content="<%= url_for(@property.photos.first.image_variant(:large)) rescue @property.photos.first.image.url %>">
+  <% end %>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="robots" content="noindex, nofollow">
+<% end %>
+
+<div class="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50"
+     data-controller="price-game"
+     data-price-game-token-value="<%= @listing.game_token %>"
+     data-price-game-currency-value="<%= @listing.game_price_currency %>"
+     data-price-game-has-guessed-value="<%= @existing_guess.present? %>"
+     data-price-game-guess-url-value="<%= price_game_guess_path(@listing.game_token) %>"
+     data-price-game-share-url-value="<%= price_game_share_path(@listing.game_token) %>">
+
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <%# Header %>
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
+        <span class="text-3xl">🏠</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+        <%= t('price_game.heading') %>
+      </h1>
+      <p class="text-lg text-gray-600">
+        <%= @listing_type == :rental ? t('price_game.subheading_rental') : t('price_game.subheading_sale') %>
+      </p>
+    </div>
+
+    <%# Property Card %>
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
+      <%# Image Gallery %>
+      <% if @property&.photos&.any? %>
+        <div class="relative aspect-video bg-gray-100">
+          <div class="swiper price-game-gallery h-full" data-price-game-target="gallery">
+            <div class="swiper-wrapper">
+              <% @property.photos.each do |photo| %>
+                <div class="swiper-slide">
+                  <%= image_tag photo.image_variant(:large),
+                      class: "w-full h-full object-cover",
+                      alt: photo.alt_text.presence || @property.title,
+                      loading: "lazy" rescue "" %>
+                </div>
+              <% end %>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
+          <%# Photo count badge %>
+          <div class="absolute bottom-4 right-4 bg-black/60 text-white px-3 py-1 rounded-full text-sm">
+            📷 <%= @property.photos.count %> <%= t('price_game.photos') %>
+          </div>
+        </div>
+      <% end %>
+
+      <%# Property Details %>
+      <div class="p-6 md:p-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">
+          <%= @property&.title %>
+        </h2>
+
+        <% if @property&.city.present? || @property&.region.present? %>
+          <p class="flex items-center text-gray-600 mb-6">
+            <svg class="w-5 h-5 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <%= [@property.city, @property.region].compact.join(", ") %>
+          </p>
+        <% end %>
+
+        <%# Key Features Grid %>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <% if @property&.bedrooms.present? && @property.bedrooms > 0 %>
+            <div class="bg-purple-50 rounded-xl p-4 text-center">
+              <span class="text-2xl mb-1 block">🛏️</span>
+              <p class="text-2xl font-bold text-gray-900"><%= @property.bedrooms %></p>
+              <p class="text-sm text-gray-500"><%= t('price_game.bedrooms') %></p>
+            </div>
+          <% end %>
+          <% if @property&.bathrooms.present? && @property.bathrooms > 0 %>
+            <div class="bg-purple-50 rounded-xl p-4 text-center">
+              <span class="text-2xl mb-1 block">🚿</span>
+              <p class="text-2xl font-bold text-gray-900"><%= @property.bathrooms %></p>
+              <p class="text-sm text-gray-500"><%= t('price_game.bathrooms') %></p>
+            </div>
+          <% end %>
+          <% if @property&.built_area.present? && @property.built_area > 0 %>
+            <div class="bg-purple-50 rounded-xl p-4 text-center">
+              <span class="text-2xl mb-1 block">📐</span>
+              <p class="text-2xl font-bold text-gray-900"><%= number_with_delimiter(@property.built_area.to_i) %></p>
+              <p class="text-sm text-gray-500">m²</p>
+            </div>
+          <% end %>
+          <% if @property&.year_built.present? && @property.year_built > 0 %>
+            <div class="bg-purple-50 rounded-xl p-4 text-center">
+              <span class="text-2xl mb-1 block">📅</span>
+              <p class="text-2xl font-bold text-gray-900"><%= @property.year_built %></p>
+              <p class="text-sm text-gray-500"><%= t('price_game.year_built') %></p>
+            </div>
+          <% end %>
+        </div>
+
+        <%# Features List %>
+        <% if @property&.features&.any? %>
+          <div class="mb-6">
+            <h3 class="font-semibold text-gray-900 mb-3"><%= t('price_game.features') %></h3>
+            <div class="flex flex-wrap gap-2">
+              <% @property.features.first(8).each do |feature| %>
+                <span class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
+                  <svg class="w-4 h-4 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                  </svg>
+                  <%= feature %>
+                </span>
+              <% end %>
+              <% if @property.features.count > 8 %>
+                <span class="text-gray-500 text-sm">+<%= @property.features.count - 8 %> <%= t('price_game.more') %></span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Guess Form or Result %>
+    <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-8" data-price-game-target="formContainer">
+      <% if @existing_guess.present? %>
+        <%# Already Guessed - Show Result %>
+        <%= render 'result', guess: @existing_guess %>
+      <% else %>
+        <%# Guess Form %>
+        <div data-price-game-target="form">
+          <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">
+            <%= @listing_type == :rental ? t('price_game.question_rental') : t('price_game.question_sale') %>
+          </h3>
+          <p class="text-gray-500 text-center mb-6">
+            <%= t('price_game.one_chance') %>
+          </p>
+
+          <div class="max-w-md mx-auto">
+            <div class="relative mb-4">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-2xl font-bold text-gray-400">
+                <%= Money::Currency.find(@listing.game_price_currency)&.symbol || '€' %>
+              </span>
+              <input type="text"
+                     data-price-game-target="input"
+                     data-action="input->price-game#formatInput keydown->price-game#handleKeydown"
+                     placeholder="<%= t('price_game.enter_guess') %>"
+                     class="w-full pl-12 pr-4 py-4 text-2xl font-bold text-center border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                     inputmode="numeric"
+                     autocomplete="off">
+            </div>
+
+            <button type="button"
+                    data-action="click->price-game#submitGuess"
+                    data-price-game-target="submitBtn"
+                    class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 px-8 rounded-xl text-xl font-bold hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+              🎯 <%= t('price_game.submit_guess') %>
+            </button>
+
+            <p class="text-center text-gray-400 text-sm mt-4" data-price-game-target="error"></p>
+          </div>
+        </div>
+
+        <%# Result (hidden until guess submitted) %>
+        <div data-price-game-target="result" class="hidden"></div>
+      <% end %>
+    </div>
+
+    <%# Leaderboard %>
+    <% if @leaderboard.any? %>
+      <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-8">
+        <%= render 'leaderboard', guesses: @leaderboard, current_guess: @existing_guess %>
+      </div>
+    <% end %>
+
+    <%# Social Sharing %>
+    <div class="text-center mb-8">
+      <p class="text-gray-600 mb-4"><%= t('price_game.challenge_friends') %></p>
+      <div class="flex justify-center gap-3">
+        <button data-action="click->price-game#shareTwitter"
+                class="inline-flex items-center px-4 py-2 bg-[#1DA1F2] text-white rounded-lg hover:bg-[#1a8cd8] transition">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+          Twitter
+        </button>
+        <button data-action="click->price-game#shareFacebook"
+                class="inline-flex items-center px-4 py-2 bg-[#1877F2] text-white rounded-lg hover:bg-[#166fe5] transition">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook
+        </button>
+        <button data-action="click->price-game#shareWhatsApp"
+                class="inline-flex items-center px-4 py-2 bg-[#25D366] text-white rounded-lg hover:bg-[#20bd5a] transition">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </button>
+        <button data-action="click->price-game#copyLink"
+                data-price-game-target="copyBtn"
+                class="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          <span data-price-game-target="copyText"><%= t('price_game.copy_link') %></span>
+        </button>
+      </div>
+    </div>
+
+    <%# Footer %>
+    <div class="text-center text-gray-400 text-sm">
+      <p><%= t('price_game.powered_by', agency: @current_agency&.display_name || @current_agency&.company_name) %></p>
+    </div>
+  </div>
+</div>
+
+<%# Swiper CSS/JS for gallery %>
+<% content_for :head do %>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<% end %>
+<% content_for :scripts do %>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<% end %>

@@ -16,6 +16,10 @@ module Pwb
 #  commission_cents            :bigint           default(0)
 #  commission_currency         :string           default("EUR")
 #  furnished                   :boolean          default(FALSE)
+#  game_enabled                :boolean          default(FALSE)
+#  game_shares_count           :integer          default(0)
+#  game_token                  :string
+#  game_views_count            :integer          default(0)
 #  highlighted                 :boolean          default(FALSE)
 #  noindex                     :boolean          default(FALSE), not null
 #  price_sale_current_cents    :bigint           default(0)
@@ -30,6 +34,7 @@ module Pwb
 #
 # Indexes
 #
+#  index_pwb_sale_listings_on_game_token       (game_token) UNIQUE WHERE (game_token IS NOT NULL)
 #  index_pwb_sale_listings_on_noindex          (noindex)
 #  index_pwb_sale_listings_on_realty_asset_id  (realty_asset_id)
 #  index_pwb_sale_listings_on_translations     (translations) USING gin
@@ -44,6 +49,7 @@ module Pwb
     include ListingStateable
     include SeoValidatable
     include RefreshesPropertiesView
+    include Gameable
     extend Mobility
 
     self.table_name = 'pwb_sale_listings'
@@ -60,6 +66,19 @@ module Pwb
     delegate :reference, :website, :website_id,
              :count_bedrooms, :count_bathrooms, :street_address, :city,
              :prop_photos, :features, to: :realty_asset, allow_nil: true
+
+    # Gameable interface - price to guess
+    def game_price_cents
+      price_sale_current_cents
+    end
+
+    def game_price_currency
+      price_sale_current_currency
+    end
+
+    def game_listing_type
+      :sale
+    end
 
     private
 

@@ -24,6 +24,9 @@ RSpec.describe "Pwb Model Associations", type: :model do
 
     models.each do |model|
       model.reflect_on_all_associations.each do |assoc|
+        # Skip polymorphic associations as they don't have a fixed klass
+        next if assoc.polymorphic?
+
         begin
           # This triggers the class lookup
           klass = assoc.klass

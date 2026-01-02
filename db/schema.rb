@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_02_154132) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_02_212506) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -514,6 +514,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_02_154132) do
     t.index ["slug"], name: "index_pwb_plans_on_slug", unique: true
   end
 
+  create_table "pwb_price_guesses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "actual_price_cents", null: false
+    t.string "actual_price_currency", default: "EUR"
+    t.datetime "created_at", null: false
+    t.bigint "guessed_price_cents", null: false
+    t.string "guessed_price_currency", default: "EUR"
+    t.uuid "listing_id", null: false
+    t.string "listing_type", null: false
+    t.decimal "percentage_diff", precision: 8, scale: 2
+    t.integer "score", default: 0
+    t.datetime "updated_at", null: false
+    t.string "visitor_token", null: false
+    t.bigint "website_id", null: false
+    t.index ["listing_type", "listing_id", "score"], name: "index_price_guesses_on_listing_and_score"
+    t.index ["listing_type", "listing_id", "visitor_token"], name: "index_price_guesses_on_listing_and_visitor", unique: true
+    t.index ["listing_type", "listing_id"], name: "index_pwb_price_guesses_on_listing"
+    t.index ["website_id"], name: "index_pwb_price_guesses_on_website_id"
+  end
+
   create_table "pwb_prop_photos", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.string "description"
@@ -673,6 +692,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_02_154132) do
     t.boolean "for_rent_long_term", default: false
     t.boolean "for_rent_short_term", default: false
     t.boolean "furnished", default: false
+    t.boolean "game_enabled", default: false
+    t.integer "game_shares_count", default: 0
+    t.string "game_token"
+    t.integer "game_views_count", default: 0
     t.boolean "highlighted", default: false
     t.boolean "noindex", default: false, null: false
     t.bigint "price_rental_monthly_current_cents", default: 0
@@ -685,6 +708,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_02_154132) do
     t.jsonb "translations", default: {}, null: false
     t.datetime "updated_at", null: false
     t.boolean "visible", default: false
+    t.index ["game_token"], name: "index_pwb_rental_listings_on_game_token", unique: true, where: "(game_token IS NOT NULL)"
     t.index ["noindex"], name: "index_pwb_rental_listings_on_noindex"
     t.index ["realty_asset_id", "active"], name: "index_pwb_rental_listings_unique_active", unique: true, where: "(active = true)"
     t.index ["realty_asset_id"], name: "index_pwb_rental_listings_on_realty_asset_id"
@@ -698,6 +722,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_02_154132) do
     t.string "commission_currency", default: "EUR"
     t.datetime "created_at", null: false
     t.boolean "furnished", default: false
+    t.boolean "game_enabled", default: false
+    t.integer "game_shares_count", default: 0
+    t.string "game_token"
+    t.integer "game_views_count", default: 0
     t.boolean "highlighted", default: false
     t.boolean "noindex", default: false, null: false
     t.bigint "price_sale_current_cents", default: 0
@@ -708,6 +736,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_02_154132) do
     t.jsonb "translations", default: {}, null: false
     t.datetime "updated_at", null: false
     t.boolean "visible", default: false
+    t.index ["game_token"], name: "index_pwb_sale_listings_on_game_token", unique: true, where: "(game_token IS NOT NULL)"
     t.index ["noindex"], name: "index_pwb_sale_listings_on_noindex"
     t.index ["realty_asset_id", "active"], name: "index_pwb_sale_listings_unique_active", unique: true, where: "(active = true)"
     t.index ["realty_asset_id"], name: "index_pwb_sale_listings_on_realty_asset_id"
@@ -1266,6 +1295,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_02_154132) do
   add_foreign_key "pwb_media_folders", "pwb_media_folders", column: "parent_id"
   add_foreign_key "pwb_media_folders", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_messages", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_price_guesses", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_prop_photos", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_prop_translations", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_rental_listings", "pwb_realty_assets", column: "realty_asset_id"
