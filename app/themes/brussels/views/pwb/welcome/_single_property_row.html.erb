@@ -27,7 +27,7 @@
                   class: "hover:text-brussels-lime transition-colors duration-200" %>
             </h2>
             <p class="text-xs text-gray-500 mb-2">
-              <%= property.locality.presence || property.region %>
+              <%= property.city.presence || property.region %>
             </p>
             <p class="text-lg font-bold text-brussels-lime">
               <%= property_price(property, rent_or_sale) %>

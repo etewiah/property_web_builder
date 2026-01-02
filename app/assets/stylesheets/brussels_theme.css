@@ -1,0 +1,214 @@
+/* Brussels Modern Theme Stylesheet */
+/* Clean, modern styling for professional real estate */
+
+/* ========================================
+   Base Theme Styles
+   ======================================== */
+
+.brussels-theme {
+  font-family: 'Inter', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   Typography
+   ======================================== */
+
+.brussels-theme h1,
+.brussels-theme h2,
+.brussels-theme h3,
+.brussels-theme h4,
+.brussels-theme h5,
+.brussels-theme h6 {
+  font-family: 'Inter', 'Helvetica Neue', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* ========================================
+   Brussels Color Variables
+   ======================================== */
+
+:root {
+  --brussels-dark: #1a1a1a;
+  --brussels-light: #f5f5f5;
+  --brussels-lime: #84cc16;
+  --brussels-lime-dark: #65a30d;
+}
+
+/* ========================================
+   Buttons
+   ======================================== */
+
+.brussels-theme .btn-primary {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: var(--brussels-lime);
+  color: #ffffff;
+  border: none;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+.brussels-theme .btn-primary:hover {
+  background-color: var(--brussels-lime-dark);
+}
+
+.brussels-theme .btn-outline {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: transparent;
+  color: var(--brussels-dark);
+  border: 1px solid var(--brussels-dark);
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+.brussels-theme .btn-outline:hover {
+  background-color: var(--brussels-dark);
+  color: #ffffff;
+}
+
+/* ========================================
+   Cards
+   ======================================== */
+
+.brussels-theme .property-card {
+  background: #ffffff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.brussels-theme .property-card:hover {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Shadow utilities */
+.shadow-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-card-hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* ========================================
+   Form Elements
+   ======================================== */
+
+.brussels-theme input[type="text"],
+.brussels-theme input[type="email"],
+.brussels-theme input[type="tel"],
+.brussels-theme input[type="password"],
+.brussels-theme input[type="number"],
+.brussels-theme textarea,
+.brussels-theme select {
+  border: 1px solid #e5e5e5;
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease;
+}
+
+.brussels-theme input:focus,
+.brussels-theme textarea:focus,
+.brussels-theme select:focus {
+  border-color: var(--brussels-lime);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.1);
+}
+
+/* ========================================
+   Navigation
+   ======================================== */
+
+.brussels-theme .nav-link {
+  color: var(--brussels-dark);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.brussels-theme .nav-link:hover {
+  color: var(--brussels-lime);
+}
+
+/* ========================================
+   Property Listing Grid
+   ======================================== */
+
+.brussels-landing .property-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .brussels-landing .property-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .brussels-landing .property-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ========================================
+   Footer
+   ======================================== */
+
+.brussels-theme footer {
+  background-color: var(--brussels-dark);
+  color: #ffffff;
+}
+
+.brussels-theme footer a {
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.2s ease;
+}
+
+.brussels-theme footer a:hover {
+  color: var(--brussels-lime);
+}
+
+/* ========================================
+   Utilities
+   ======================================== */
+
+.text-brussels-dark {
+  color: var(--brussels-dark);
+}
+
+.text-brussels-lime {
+  color: var(--brussels-lime);
+}
+
+.bg-brussels-light {
+  background-color: var(--brussels-light);
+}
+
+.bg-brussels-dark {
+  background-color: var(--brussels-dark);
+}
+
+/* Line clamp utility */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
