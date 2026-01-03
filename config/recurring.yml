@@ -25,3 +25,9 @@ production:
     queue: default
     description: "Fetch latest currency exchange rates from ECB"
     schedule: every day at 6am
+
+  subscription_lifecycle:
+    class: SubscriptionLifecycleJob
+    queue: default
+    description: "Expire ended trials and subscriptions, send warning notifications"
+    schedule: every hour at minute 30

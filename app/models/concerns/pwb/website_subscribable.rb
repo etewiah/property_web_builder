@@ -67,5 +67,28 @@ module Pwb
     def property_limit
       plan&.property_limit
     end
+
+    # Check if adding a user would exceed the limit
+    #
+    # @return [Boolean] true if can add more users
+    def can_add_user?
+      return true unless subscription # No subscription = no limits (legacy behavior)
+
+      subscription.within_user_limit?(users.count + 1)
+    end
+
+    # Get remaining user slots
+    #
+    # @return [Integer, nil] nil means unlimited
+    def remaining_users
+      subscription&.remaining_users
+    end
+
+    # Get user limit for current plan
+    #
+    # @return [Integer, nil] nil means unlimited
+    def user_limit
+      plan&.user_limit
+    end
   end
 end

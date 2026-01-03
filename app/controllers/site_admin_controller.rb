@@ -27,6 +27,7 @@ class SiteAdminController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   before_action :require_admin!, unless: :bypass_admin_auth?
+  before_action :check_subscription_access, unless: :bypass_admin_auth?
   before_action :set_nav_counts
 
   layout 'site_admin'
@@ -76,4 +77,26 @@ class SiteAdminController < ActionController::Base
 
     @unread_messages_count = Pwb::Message.where(website_id: current_website.id, read: false).count
   end
+
+  # Check if subscription allows access to admin functionality
+  # Allows access if:
+  # - No subscription (legacy/free tier)
+  # - Subscription is trialing or active
+  # - Subscription is past_due (grace period)
+  def check_subscription_access
+    return if current_website.nil?
+    return if current_website.subscription.nil? # No subscription = legacy access
+
+    unless current_website.subscription.allows_access?
+      redirect_to billing_path,
+                  alert: 'Your subscription has expired. Please upgrade to continue using the admin panel.'
+    end
+  end
+
+  # Helper method to check if subscription is in good standing
+  # More strict than allows_access? - blocks on past_due
+  def subscription_in_good_standing?
+    current_website&.subscription.nil? || current_website&.subscription&.in_good_standing?
+  end
+  helper_method :subscription_in_good_standing?
 end

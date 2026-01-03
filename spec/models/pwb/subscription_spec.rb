@@ -213,5 +213,63 @@ module Pwb
         expect(subscription.change_plan(plan)).to be false
       end
     end
+
+    describe '#within_user_limit?' do
+      let(:limited_plan) { Plan.create!(name: 'limited_users', slug: 'limited-users', display_name: 'Limited Users', user_limit: 5) }
+      let(:unlimited_plan) { Plan.create!(name: 'unlimited_users', slug: 'unlimited-users', display_name: 'Unlimited Users', user_limit: nil) }
+
+      it 'returns true when within limit' do
+        subscription = Subscription.new(plan: limited_plan)
+        expect(subscription.within_user_limit?(3)).to be true
+        expect(subscription.within_user_limit?(5)).to be true
+      end
+
+      it 'returns false when exceeding limit' do
+        subscription = Subscription.new(plan: limited_plan)
+        expect(subscription.within_user_limit?(6)).to be false
+      end
+
+      it 'always returns true for unlimited plans' do
+        subscription = Subscription.new(plan: unlimited_plan)
+        expect(subscription.within_user_limit?(1000)).to be true
+      end
+    end
+
+    describe '#remaining_users' do
+      let(:limited_plan) { Plan.create!(name: 'limited_users_2', slug: 'limited-users-2', display_name: 'Limited Users 2', user_limit: 5) }
+      let(:unlimited_plan) { Plan.create!(name: 'unlimited_users_2', slug: 'unlimited-users-2', display_name: 'Unlimited Users 2', user_limit: nil) }
+
+      it 'returns remaining user slots for limited plan' do
+        subscription = Subscription.create!(website: website, plan: limited_plan)
+        # Create 2 users
+        FactoryBot.create(:pwb_user, email: 'test1@example.com', website: website)
+        FactoryBot.create(:pwb_user, email: 'test2@example.com', website: website)
+
+        expect(subscription.remaining_users).to eq(3)
+      end
+
+      it 'returns nil for unlimited plan' do
+        subscription = Subscription.create!(website: website, plan: unlimited_plan)
+        expect(subscription.remaining_users).to be_nil
+      end
+
+      it 'returns 0 when at capacity' do
+        subscription = Subscription.create!(website: website, plan: limited_plan)
+        5.times { |i| FactoryBot.create(:pwb_user, email: "capacity#{i}@example.com", website: website) }
+
+        expect(subscription.remaining_users).to eq(0)
+      end
+
+      it 'returns 0 when over capacity (should not happen but handles edge case)' do
+        subscription = Subscription.create!(website: website, plan: limited_plan)
+        # First create users at limit, then change to smaller plan
+        3.times { |i| FactoryBot.create(:pwb_user, email: "over#{i}@example.com", website: website) }
+
+        smaller_plan = Plan.create!(name: 'tiny', slug: 'tiny', display_name: 'Tiny', user_limit: 2)
+        subscription.update!(plan: smaller_plan)
+
+        expect(subscription.remaining_users).to eq(0)
+      end
+    end
   end
 end

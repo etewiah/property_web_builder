@@ -250,6 +250,72 @@ module Pwb
       end
     end
 
+    describe 'user limit enforcement' do
+      let(:limited_plan) { Pwb::Plan.create!(name: 'limited', slug: 'limited', display_name: 'Limited', user_limit: 3, property_limit: 10) }
+      let(:unlimited_plan) { Pwb::Plan.create!(name: 'unlimited', slug: 'unlimited', display_name: 'Unlimited', user_limit: nil, property_limit: nil) }
+      let(:website) { FactoryBot.create(:pwb_website) }
+
+      context 'with a subscription that has user limit' do
+        let!(:subscription) { Pwb::Subscription.create!(website: website, plan: limited_plan, status: 'active') }
+
+        it 'allows creating users under the limit' do
+          expect {
+            FactoryBot.create(:pwb_user, email: 'user1@example.com', website: website)
+            FactoryBot.create(:pwb_user, email: 'user2@example.com', website: website)
+            FactoryBot.create(:pwb_user, email: 'user3@example.com', website: website)
+          }.to change(User.where(website: website), :count).by(3)
+        end
+
+        it 'prevents creating users over the limit' do
+          # Create users up to the limit
+          3.times { |i| FactoryBot.create(:pwb_user, email: "user#{i}@example.com", website: website) }
+
+          # Try to create one more
+          user = User.new(email: 'user_over_limit@example.com', password: 'password123', website: website)
+          expect(user.save).to be false
+          expect(user.errors[:base]).to include(/User limit reached/)
+        end
+
+        it 'includes the limit in the error message' do
+          3.times { |i| FactoryBot.create(:pwb_user, email: "user#{i}@example.com", website: website) }
+
+          user = User.new(email: 'user_over_limit@example.com', password: 'password123', website: website)
+          user.save
+          expect(user.errors[:base].first).to include('3 users')
+        end
+      end
+
+      context 'with a subscription that has unlimited users' do
+        let!(:subscription) { Pwb::Subscription.create!(website: website, plan: unlimited_plan, status: 'active') }
+
+        it 'allows creating many users' do
+          expect {
+            10.times { |i| FactoryBot.create(:pwb_user, email: "user#{i}@unlimited.com", website: website) }
+          }.to change(User.where(website: website), :count).by(10)
+        end
+      end
+
+      context 'with no subscription' do
+        it 'allows creating users without limit (legacy behavior)' do
+          expect {
+            5.times { |i| FactoryBot.create(:pwb_user, email: "user#{i}@nosubscription.com", website: website) }
+          }.to change(User.where(website: website), :count).by(5)
+        end
+      end
+
+      context 'with trialing subscription' do
+        let!(:subscription) { Pwb::Subscription.create!(website: website, plan: limited_plan, status: 'trialing', trial_ends_at: 14.days.from_now) }
+
+        it 'enforces user limits during trial' do
+          3.times { |i| FactoryBot.create(:pwb_user, email: "trial_user#{i}@example.com", website: website) }
+
+          user = User.new(email: 'trial_user_over@example.com', password: 'password123', website: website)
+          expect(user.save).to be false
+          expect(user.errors[:base]).to include(/User limit reached/)
+        end
+      end
+    end
+
     # tests authorization with omniauth
     describe '.find_for_oauth' do
       let!(:user) { FactoryBot.create(:pwb_user, email: "user@example.org", password: "very-secret") }

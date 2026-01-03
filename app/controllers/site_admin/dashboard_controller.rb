@@ -52,10 +52,28 @@ module SiteAdmin
           trial_days_remaining: @subscription.trial_days_remaining,
           trial_ending_soon: @subscription.trial_ending_soon?,
           in_good_standing: @subscription.in_good_standing?,
+          allows_access: @subscription.allows_access?,
           current_period_ends_at: @subscription.current_period_ends_at,
           property_limit: @subscription.plan.property_limit,
           remaining_properties: @subscription.remaining_properties,
-          features: @subscription.plan.enabled_features
+          user_limit: @subscription.plan.user_limit,
+          remaining_users: @subscription.remaining_users,
+          features: @subscription.plan.enabled_features,
+          cancel_at_period_end: @subscription.cancel_at_period_end?
+        }
+
+        # Usage data for meters
+        @usage = {
+          properties: {
+            current: @stats[:total_properties],
+            limit: @subscription.plan.property_limit,
+            unlimited: @subscription.plan.unlimited_properties?
+          },
+          users: {
+            current: current_website.users.count,
+            limit: @subscription.plan.user_limit,
+            unlimited: @subscription.plan.unlimited_users?
+          }
         }
       end
 

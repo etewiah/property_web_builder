@@ -203,6 +203,7 @@ module Pwb
     end
 
     validates :website, presence: true, if: -> { user_memberships.none? } # Require either website or memberships
+    validate :within_subscription_user_limit, on: :create
 
     # Devise hook to check if user should be allowed to sign in
     # This ensures users can only authenticate on their assigned website/subdomain
@@ -322,6 +323,17 @@ module Pwb
       end
     rescue StandardError => e
       Rails.logger.error("[AuthAuditLog] Failed to log lockout event: #{e.message}")
+    end
+
+    # Validate that creating this user doesn't exceed the subscription's user limit
+    def within_subscription_user_limit
+      return unless website # Skip if no website (validation will catch this separately)
+      return unless website.subscription # No subscription = no limits (legacy behavior)
+
+      unless website.can_add_user?
+        limit = website.subscription.plan.user_limit
+        errors.add(:base, "User limit reached. Your plan allows #{limit} users. Please upgrade to add more.")
+      end
     end
   end
 end

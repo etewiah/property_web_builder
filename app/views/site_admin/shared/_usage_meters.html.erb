@@ -1,0 +1,139 @@
+<%#
+  Usage Meters Partial
+  Shows usage meters for properties, users, and other limited resources.
+
+  Required locals:
+    - usage: Hash with :properties and :users keys, each containing :current, :limit, :unlimited
+
+  Optional locals:
+    - compact: boolean (default: false) - Use compact styling
+    - show_warnings: boolean (default: true) - Show warning text when nearing limits
+%>
+<% usage ||= @usage %>
+<% compact = local_assigns.fetch(:compact, false) %>
+<% show_warnings = local_assigns.fetch(:show_warnings, true) %>
+
+<%
+  # Helper to calculate usage percentage
+  def usage_percentage(usage_data)
+    return 100 if usage_data[:unlimited]
+    return 0 if usage_data[:limit].nil? || usage_data[:limit].zero?
+    ((usage_data[:current].to_f / usage_data[:limit]) * 100).round
+  end
+
+  # Helper to check if usage is at warning level
+  def usage_warning?(usage_data, threshold = 80)
+    return false if usage_data[:unlimited]
+    usage_percentage(usage_data) >= threshold
+  end
+
+  # Helper to get remaining count
+  def remaining_count(usage_data)
+    return nil if usage_data[:unlimited]
+    [usage_data[:limit] - usage_data[:current], 0].max
+  end
+
+  # Helper to get progress bar color class
+  def progress_color_class(usage_data)
+    percentage = usage_percentage(usage_data)
+    if percentage >= 90
+      'bg-red-500'
+    elsif percentage >= 75
+      'bg-yellow-500'
+    else
+      'bg-green-500'
+    end
+  end
+%>
+
+<% if usage.present? %>
+  <div class="<%= compact ? 'space-y-3' : 'space-y-4' %>">
+    <%# Properties Usage Meter %>
+    <% if usage[:properties].present? %>
+      <div class="usage-meter">
+        <div class="flex justify-between text-sm <%= compact ? 'mb-1' : 'mb-2' %>">
+          <span class="font-medium text-gray-700">Properties</span>
+          <span class="text-gray-600">
+            <% if usage[:properties][:unlimited] %>
+              <%= usage[:properties][:current] %> <span class="text-gray-400">(Unlimited)</span>
+            <% else %>
+              <%= usage[:properties][:current] %> / <%= usage[:properties][:limit] %>
+            <% end %>
+          </span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full <%= compact ? 'h-1.5' : 'h-2' %>">
+          <div class="<%= progress_color_class(usage[:properties]) %> <%= compact ? 'h-1.5' : 'h-2' %> rounded-full transition-all duration-300"
+               style="width: <%= [usage_percentage(usage[:properties]), 100].min %>%"></div>
+        </div>
+        <% if show_warnings && usage_warning?(usage[:properties]) %>
+          <p class="text-xs text-red-600 mt-1">
+            <% remaining = remaining_count(usage[:properties]) %>
+            <% if remaining == 0 %>
+              Property limit reached.
+              <%= link_to 'Upgrade', billing_path, class: 'underline font-medium' %>
+            <% else %>
+              Only <%= remaining %> <%= 'slot'.pluralize(remaining) %> remaining.
+            <% end %>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# Users Usage Meter %>
+    <% if usage[:users].present? %>
+      <div class="usage-meter">
+        <div class="flex justify-between text-sm <%= compact ? 'mb-1' : 'mb-2' %>">
+          <span class="font-medium text-gray-700">Team Members</span>
+          <span class="text-gray-600">
+            <% if usage[:users][:unlimited] %>
+              <%= usage[:users][:current] %> <span class="text-gray-400">(Unlimited)</span>
+            <% else %>
+              <%= usage[:users][:current] %> / <%= usage[:users][:limit] %>
+            <% end %>
+          </span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full <%= compact ? 'h-1.5' : 'h-2' %>">
+          <div class="<%= progress_color_class(usage[:users]) %> <%= compact ? 'h-1.5' : 'h-2' %> rounded-full transition-all duration-300"
+               style="width: <%= [usage_percentage(usage[:users]), 100].min %>%"></div>
+        </div>
+        <% if show_warnings && usage_warning?(usage[:users]) %>
+          <p class="text-xs text-red-600 mt-1">
+            <% remaining = remaining_count(usage[:users]) %>
+            <% if remaining == 0 %>
+              User limit reached.
+              <%= link_to 'Upgrade', billing_path, class: 'underline font-medium' %>
+            <% else %>
+              Only <%= remaining %> <%= 'slot'.pluralize(remaining) %> remaining.
+            <% end %>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# Storage Usage Meter (if available) %>
+    <% if usage[:storage].present? %>
+      <div class="usage-meter">
+        <div class="flex justify-between text-sm <%= compact ? 'mb-1' : 'mb-2' %>">
+          <span class="font-medium text-gray-700">Storage</span>
+          <span class="text-gray-600">
+            <% if usage[:storage][:unlimited] %>
+              <%= number_to_human_size(usage[:storage][:current]) %> <span class="text-gray-400">(Unlimited)</span>
+            <% else %>
+              <%= number_to_human_size(usage[:storage][:current]) %> / <%= number_to_human_size(usage[:storage][:limit]) %>
+            <% end %>
+          </span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full <%= compact ? 'h-1.5' : 'h-2' %>">
+          <div class="<%= progress_color_class(usage[:storage]) %> <%= compact ? 'h-1.5' : 'h-2' %> rounded-full transition-all duration-300"
+               style="width: <%= [usage_percentage(usage[:storage]), 100].min %>%"></div>
+        </div>
+        <% if show_warnings && usage_warning?(usage[:storage]) %>
+          <p class="text-xs text-red-600 mt-1">
+            Storage almost full.
+            <%= link_to 'Upgrade', billing_path, class: 'underline font-medium' %>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

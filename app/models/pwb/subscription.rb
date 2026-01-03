@@ -197,6 +197,17 @@ module Pwb
       [plan.property_limit - current, 0].max
     end
 
+    # Remaining users allowed
+    #
+    # @return [Integer, nil] Remaining count or nil if unlimited
+    #
+    def remaining_users
+      return nil if plan.unlimited_users?
+
+      current = website.users.count
+      [plan.user_limit - current, 0].max
+    end
+
     # Check if plan includes a feature
     #
     # @param feature_key [Symbol, String] Feature to check
