@@ -5,7 +5,9 @@ module SiteAdmin
   # Provides visitor analytics dashboards for website owners
   # Shows traffic, property engagement, and conversion metrics
   class AnalyticsController < SiteAdminController
-    before_action :check_analytics_feature
+    include FeatureAuthorized
+
+    before_action -> { require_feature("analytics") }
     before_action :set_period
 
     def show
@@ -62,24 +64,6 @@ module SiteAdmin
     end
 
     private
-
-    def check_analytics_feature
-      return if analytics_enabled?
-
-      redirect_to site_admin_root_path,
-        alert: "Analytics is available on paid plans. Please upgrade to access visitor analytics."
-    end
-
-    def analytics_enabled?
-      # Allow analytics if:
-      # 1. No subscription system (free mode)
-      # 2. Plan includes analytics feature
-      subscription = current_website.subscription
-      return true if subscription.nil?
-
-      subscription.plan&.features&.include?("analytics") ||
-        subscription.plan&.features&.include?("basic_analytics")
-    end
 
     def set_period
       @period = (params[:period] || 30).to_i

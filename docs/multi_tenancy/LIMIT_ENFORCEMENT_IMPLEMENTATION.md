@@ -2,14 +2,16 @@
 
 ## Summary
 
-PropertyWebBuilder has a **robust subscription/plan infrastructure** already in place, but **limit enforcement is only partially implemented**. This document provides a roadmap for completing the enforcement system.
+PropertyWebBuilder has a **robust subscription/plan infrastructure** with **full limit enforcement implemented**. This document describes the enforcement system.
+
+> **Status: FULLY IMPLEMENTED** (as of January 2026)
 
 ---
 
-## What Currently Works
+## What Is Implemented
 
 ### Property Limits
-**Status:** FULLY ENFORCED
+**Status:** ✅ FULLY ENFORCED
 
 The system prevents users from adding more properties than their plan allows:
 
@@ -24,44 +26,78 @@ The system prevents users from adding more properties than their plan allows:
 "Property limit reached. Your plan allows 25 properties. Please upgrade to add more."
 ```
 
-**Validation Location:** `/app/models/pwb/realty_asset.rb` (line 288)
+**Validation Location:** `/app/models/pwb/realty_asset.rb`
 
-### Feature Flags
-**Status:** CHECKABLE BUT NOT ENFORCED
+### User Limits
+**Status:** ✅ FULLY ENFORCED
 
-Features can be checked but there's no automatic access control:
+The system prevents adding more users than the plan allows:
 
 ```ruby
-# You can check:
-website.has_feature?('analytics')
-website.has_feature?('custom_domain')
-
-# But no controller filters prevent access to restricted features
-# Manual checks required in every controller that needs feature-gating
+# Flow:
+# 1. User tries to create a new user
+# 2. Validation runs: validate :within_subscription_user_limit, on: :create
+# 3. Calls: website.can_add_user?
+# 4. Returns error if limit exceeded
 ```
 
+**Validation Location:** `/app/models/pwb/user.rb`
+**Helper Methods:** `/app/models/concerns/pwb/website_subscribable.rb`
+
+### Feature Flags
+**Status:** ✅ FULLY ENFORCED
+
+Features are gated using the `FeatureAuthorized` concern:
+
+```ruby
+# In controllers:
+class SiteAdmin::AnalyticsController < SiteAdminController
+  include FeatureAuthorized
+  before_action -> { require_feature("analytics") }
+end
+
+class SiteAdmin::DomainsController < SiteAdminController
+  include FeatureAuthorized
+  before_action -> { require_feature("custom_domain") }
+end
+```
+
+**Concern Location:** `/app/controllers/concerns/feature_authorized.rb`
+
 ### Subscription Status
-**Status:** FULLY WORKING
+**Status:** ✅ FULLY WORKING
 
 The system has full lifecycle management:
 - Trial → Active → Past Due → Canceled → Expired
 - Proper state machine with AASM
 - All transitions validated and audited
+- Access control via `SiteAdminController#check_subscription_access`
+
+### Dashboard Usage Display
+**Status:** ✅ FULLY IMPLEMENTED
+
+- Usage meters in billing page showing properties/users
+- Subscription warning banners for trials, past-due, expiring
+- Located in `/app/views/site_admin/shared/_usage_meters.html.erb`
+- Located in `/app/views/site_admin/shared/_subscription_warning.html.erb`
+
+### Scheduled Lifecycle Tasks
+**Status:** ✅ FULLY IMPLEMENTED
+
+Background job handles:
+- Expiring ended trials
+- Expiring ended subscriptions
+- Sending trial-ending warnings
+
+**Job Location:** `/app/jobs/subscription_lifecycle_job.rb`
 
 ---
 
-## What Needs Implementation
+## Reference: Implementation Details
 
-### 1. User Limit Enforcement
+### User Limit Enforcement
 
-**Current State:**
-- Plans have a `user_limit` field
-- No validation on user creation
-- Limits can be checked but are never enforced
-
-**To Implement:**
-
-Create a validation in the User model:
+Validation in the User model:
 
 ```ruby
 # app/models/pwb/user.rb
@@ -541,18 +577,18 @@ end
 
 ---
 
-## Summary of Changes
+## Summary of Implementation Status
 
-| Area | Status | Effort | Impact |
-|------|--------|--------|--------|
-| Property limits | ✅ Done | - | High |
-| User limits | ❌ Missing | Low | Medium |
-| Feature enforcement | ❌ Missing | Medium | High |
-| Subscription access | ❌ Missing | Low | High |
-| Dashboard display | ⚠️ Partial | Medium | Low |
-| Scheduled tasks | ❌ Missing | Low | High |
+| Area | Status | Location |
+|------|--------|----------|
+| Property limits | ✅ Done | `app/models/pwb/realty_asset.rb` |
+| User limits | ✅ Done | `app/models/pwb/user.rb` |
+| Feature enforcement | ✅ Done | `app/controllers/concerns/feature_authorized.rb` |
+| Subscription access | ✅ Done | `app/controllers/site_admin_controller.rb` |
+| Dashboard display | ✅ Done | `app/views/site_admin/shared/_usage_meters.html.erb` |
+| Scheduled tasks | ✅ Done | `app/jobs/subscription_lifecycle_job.rb` |
 
-**Total Effort to Complete:** 2-3 hours
+**All enforcement tasks are complete.**
 
 ---
 

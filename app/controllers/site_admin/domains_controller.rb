@@ -2,6 +2,9 @@
 
 module SiteAdmin
   class DomainsController < SiteAdminController
+    include FeatureAuthorized
+
+    before_action -> { require_feature("custom_domain") }
     before_action :set_website
 
     def show
