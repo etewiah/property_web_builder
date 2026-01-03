@@ -47,11 +47,28 @@
                 </span>
               </div>
 
-              <!-- Sale/Rent Badge -->
-              <div class="absolute top-4 right-4">
+              <!-- Sale/Rent Badge & Favorite Button -->
+              <div class="absolute top-4 right-4 flex items-center gap-2">
                 <span class="inline-block px-3 py-1.5 bg-<%= rent_or_sale == 'for_sale' ? 'med' : 'terra' %>-500 text-white text-xs font-medium uppercase tracking-wide rounded-soft">
                   <%= rent_or_sale == 'for_sale' ? t('pwb.properties.sale', default: 'Sale') : t('pwb.properties.rent', default: 'Rent') %>
                 </span>
+                <%# Local Favorite Toggle Button %>
+                <div data-controller="local-favorites"
+                     data-local-favorites-property-ref-value="<%= property.reference %>"
+                     data-local-favorites-property-title-value="<%= property.title.presence || property.reference %>"
+                     data-local-favorites-property-image-value="<%= property.ordered_photo(1)&.image_url %>"
+                     data-local-favorites-property-price-value="<%= property_price(property, rent_or_sale) %>"
+                     data-local-favorites-property-url-value="<%= property.contextual_show_path(rent_or_sale) %>">
+                  <button type="button"
+                          data-local-favorites-target="toggleButton"
+                          data-action="local-favorites#toggle"
+                          class="w-9 h-9 flex items-center justify-center bg-white/90 backdrop-blur-sm rounded-full shadow-soft hover:bg-white transition-colors"
+                          aria-label="<%= t('pwb.favorites.toggle', default: 'Save to favorites') %>">
+                    <span data-local-favorites-target="icon" class="text-gray-400 hover:text-red-500">
+                      <%= icon(:favorite_border, size: :sm) rescue content_tag(:span, "♡", class: "text-lg") %>
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           <% end %>

@@ -72,6 +72,25 @@
               <% end %>
             </div>
 
+            <%# Local Favorite Toggle Button %>
+            <div class="absolute top-4 right-4"
+                 data-controller="local-favorites"
+                 data-local-favorites-property-ref-value="<%= property.reference %>"
+                 data-local-favorites-property-title-value="<%= property.title.presence || property.reference %>"
+                 data-local-favorites-property-image-value="<%= property.ordered_photo(1)&.image_url %>"
+                 data-local-favorites-property-price-value="<%= property_price(property, @operation_type) %>"
+                 data-local-favorites-property-url-value="<%= property.contextual_show_path(@operation_type) %>">
+              <button type="button"
+                      data-local-favorites-target="toggleButton"
+                      data-action="local-favorites#toggle"
+                      class="w-10 h-10 flex items-center justify-center bg-white/90 backdrop-blur-sm rounded-full shadow-soft hover:bg-white transition-colors"
+                      aria-label="<%= t('pwb.favorites.toggle', default: 'Save to favorites') %>">
+                <span data-local-favorites-target="icon" class="text-gray-400 hover:text-red-500">
+                  <%= icon(:favorite_border, size: :md) rescue content_tag(:span, "♡", class: "text-xl") %>
+                </span>
+              </button>
+            </div>
+
             <!-- Price Badge on Image (Mobile) -->
             <div class="absolute bottom-4 left-4 md:hidden">
               <span class="text-2xl font-bold text-white drop-shadow-lg">

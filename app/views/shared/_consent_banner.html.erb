@@ -1,0 +1,115 @@
+<%# GDPR-Compliant Consent Banner for localStorage %>
+<%# Uses Stimulus consent controller for interaction %>
+<div data-controller="consent" data-consent-auto-show-value="true">
+  <%# Main Consent Banner %>
+  <div data-consent-target="banner"
+       class="hidden fixed bottom-0 left-0 right-0 z-50 p-4 bg-white border-t border-gray-200 shadow-elevated"
+       role="dialog"
+       aria-labelledby="consent-title"
+       aria-describedby="consent-description"
+       aria-hidden="true">
+    <div class="container mx-auto max-w-6xl">
+      <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
+        <%# Icon and Text %>
+        <div class="flex items-start gap-3 flex-1">
+          <div class="flex-shrink-0 w-10 h-10 bg-pwb-primary-100 rounded-full flex items-center justify-center">
+            <%= icon(:cookie, class: "text-pwb-primary-600") rescue content_tag(:span, "🍪", class: "text-xl") %>
+          </div>
+          <div class="flex-1">
+            <h3 id="consent-title" class="font-semibold text-gray-900 mb-1">
+              <%= t('pwb.consent.title', default: 'Save Your Preferences Locally') %>
+            </h3>
+            <p id="consent-description" class="text-sm text-gray-600">
+              <%= t('pwb.consent.description', default: 'We can save your favorite properties and recent searches in your browser for easy access. This data stays on your device and is never sent to our servers.') %>
+            </p>
+          </div>
+        </div>
+
+        <%# Buttons %>
+        <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+          <button type="button"
+                  data-action="consent#acceptEssential"
+                  class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+            <%= t('pwb.consent.decline', default: 'No Thanks') %>
+          </button>
+          <button type="button"
+                  data-action="consent#openSettings"
+                  class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+            <%= t('pwb.consent.settings', default: 'Settings') %>
+          </button>
+          <button type="button"
+                  data-action="consent#acceptAll"
+                  class="px-6 py-2 text-sm font-medium text-white bg-pwb-primary-600 hover:bg-pwb-primary-700 rounded-lg transition-colors">
+            <%= t('pwb.consent.accept', default: 'Enable Saving') %>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# Settings Panel (Modal) %>
+  <div data-consent-target="settingsPanel"
+       class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50"
+       role="dialog"
+       aria-labelledby="settings-title"
+       aria-modal="true">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h3 id="settings-title" class="font-semibold text-lg text-gray-900">
+          <%= t('pwb.consent.settings_title', default: 'Privacy Settings') %>
+        </h3>
+        <button type="button"
+                data-action="consent#closeSettings"
+                class="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                aria-label="<%= t('pwb.consent.close', default: 'Close') %>">
+          <%= icon(:close, size: :sm) rescue "✕" %>
+        </button>
+      </div>
+
+      <div class="space-y-4 mb-6">
+        <%# Essential Storage - Always On %>
+        <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+          <input type="checkbox" checked disabled
+                 class="mt-1 w-4 h-4 text-pwb-primary-600 border-gray-300 rounded cursor-not-allowed">
+          <div>
+            <label class="font-medium text-gray-900">
+              <%= t('pwb.consent.essential', default: 'Essential') %>
+            </label>
+            <p class="text-sm text-gray-500">
+              <%= t('pwb.consent.essential_desc', default: 'Required for the website to function. No personal data is stored.') %>
+            </p>
+          </div>
+        </div>
+
+        <%# Preferences Storage - Optional %>
+        <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+          <input type="checkbox"
+                 data-consent-target="preferencesCheckbox"
+                 id="preferences-consent"
+                 class="mt-1 w-4 h-4 text-pwb-primary-600 border-gray-300 rounded focus:ring-pwb-primary-500 cursor-pointer">
+          <div>
+            <label for="preferences-consent" class="font-medium text-gray-900 cursor-pointer">
+              <%= t('pwb.consent.preferences', default: 'Favorites & Searches') %>
+            </label>
+            <p class="text-sm text-gray-500">
+              <%= t('pwb.consent.preferences_desc', default: 'Save your favorite properties and recent searches locally in your browser for quick access.') %>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3">
+        <button type="button"
+                data-action="consent#closeSettings"
+                class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+          <%= t('pwb.consent.cancel', default: 'Cancel') %>
+        </button>
+        <button type="button"
+                data-action="consent#saveSettings"
+                class="px-6 py-2 text-sm font-medium text-white bg-pwb-primary-600 hover:bg-pwb-primary-700 rounded-lg transition-colors">
+          <%= t('pwb.consent.save', default: 'Save Settings') %>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -46,6 +46,70 @@
 
       <%# Right Side Actions %>
       <div class="flex items-center space-x-3">
+        <%# Local Favorites Dropdown %>
+        <div class="relative hidden md:block"
+             data-controller="local-favorites dropdown"
+             data-action="pwb:favorites-updated@window->local-favorites#updateAll">
+          <button type="button"
+                  class="relative flex items-center space-x-1 px-3 py-2 text-warm-700 hover:text-pwb-primary rounded-soft hover:bg-warm-100 transition-colors"
+                  data-action="dropdown#toggle"
+                  aria-label="<%= t('pwb.favorites.my_favorites', default: 'My Favorites') %>">
+            <%= icon(:favorite_border, size: :sm) rescue content_tag(:span, "♡", class: "text-lg") %>
+            <span data-local-favorites-target="count" class="hidden absolute -top-1 -right-1 w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full flex items-center justify-center">0</span>
+          </button>
+          <div data-dropdown-target="menu"
+               class="hidden absolute right-0 mt-2 w-80 bg-white rounded-soft shadow-elevated border border-warm-100 z-50">
+            <div class="px-4 py-3 border-b border-warm-100 flex items-center justify-between">
+              <h4 class="font-medium text-warm-900"><%= t('pwb.favorites.saved_properties', default: 'Saved Properties') %></h4>
+              <button type="button"
+                      data-action="local-favorites#clearAll"
+                      class="text-xs text-red-500 hover:text-red-600">
+                <%= t('pwb.favorites.clear_all', default: 'Clear All') %>
+              </button>
+            </div>
+            <div data-local-favorites-target="list" class="max-h-80 overflow-y-auto p-3 space-y-2">
+              <p class="text-sm text-gray-500 py-4 text-center"><%= t('pwb.favorites.no_favorites', default: 'No favorites yet') %></p>
+            </div>
+            <div data-local-favorites-target="emptyState" class="hidden px-4 py-6 text-center">
+              <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <%= icon(:favorite_border, size: :md, class: "text-gray-400") rescue content_tag(:span, "♡", class: "text-2xl text-gray-400") %>
+              </div>
+              <p class="text-sm text-gray-500"><%= t('pwb.favorites.empty_message', default: 'Click the heart icon on any property to save it here') %></p>
+            </div>
+          </div>
+        </div>
+
+        <%# Local Saved Searches Dropdown %>
+        <div class="relative hidden md:block"
+             data-controller="local-searches dropdown"
+             data-action="pwb:searches-updated@window->local-searches#updateUI"
+             data-local-searches-search-url-value="<%= localized_buy_path rescue root_path %>">
+          <button type="button"
+                  class="flex items-center space-x-1 px-3 py-2 text-warm-700 hover:text-pwb-primary rounded-soft hover:bg-warm-100 transition-colors"
+                  data-action="dropdown#toggle"
+                  aria-label="<%= t('pwb.searches.my_searches', default: 'My Searches') %>">
+            <%= icon(:history, size: :sm) rescue content_tag(:span, "🔍", class: "text-lg") %>
+          </button>
+          <div data-dropdown-target="menu"
+               class="hidden absolute right-0 mt-2 w-72 bg-white rounded-soft shadow-elevated border border-warm-100 z-50">
+            <div class="px-4 py-3 border-b border-warm-100">
+              <h4 class="font-medium text-warm-900"><%= t('pwb.searches.saved_searches', default: 'Saved Searches') %></h4>
+            </div>
+            <div data-local-searches-target="savedList" class="max-h-40 overflow-y-auto p-2">
+              <p class="text-sm text-gray-500 py-2"><%= t('pwb.searches.no_saved', default: 'No saved searches') %></p>
+            </div>
+            <div class="px-4 py-3 border-t border-warm-100">
+              <h5 class="text-xs font-medium text-gray-400 uppercase mb-2"><%= t('pwb.searches.recent', default: 'Recent') %></h5>
+            </div>
+            <div data-local-searches-target="recentList" class="max-h-32 overflow-y-auto px-2 pb-2">
+              <p class="text-sm text-gray-500 py-2 px-2"><%= t('pwb.searches.no_recent', default: 'No recent searches') %></p>
+            </div>
+            <div data-local-searches-target="emptyState" class="hidden px-4 py-6 text-center">
+              <p class="text-sm text-gray-500"><%= t('pwb.searches.empty_message', default: 'Your search history will appear here') %></p>
+            </div>
+          </div>
+        </div>
+
         <%# Language Switcher - Compact %>
         <% if @current_website.is_multilingual && not_devise %>
           <div class="relative hidden md:block">

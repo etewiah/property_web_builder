@@ -106,6 +106,50 @@ en:
     tagLine: Professional websites for estate agents in minutes
     tagLineExt: Beautiful websites that have to be seen to be believed.<br>No one
       gets you online quicker.
+    consent:
+      title: Save Your Preferences Locally
+      description: We can save your favorite properties and recent searches in your browser for easy access. This data stays on your device and is never sent to our servers.
+      accept: Enable Saving
+      decline: No Thanks
+      settings: Settings
+      settings_title: Privacy Settings
+      essential: Essential
+      essential_desc: Required for the website to function. No personal data is stored.
+      preferences: Favorites & Searches
+      preferences_desc: Save your favorite properties and recent searches locally in your browser for quick access.
+      save: Save Settings
+      cancel: Cancel
+      close: Close
+    favorites:
+      toggle: Save to favorites
+      my_favorites: My Favorites
+      saved_properties: Saved Properties
+      clear_all: Clear All
+      no_favorites: No favorites yet
+      empty_message: Click the heart icon on any property to save it here
+      added: Added to favorites
+      removed: Removed from favorites
+      max_reached: "Maximum %{count} favorites reached. Remove some to add more."
+    searches:
+      my_searches: My Searches
+      saved_searches: Saved Searches
+      recent: Recent
+      no_saved: No saved searches
+      no_recent: No recent searches
+      empty_message: Your search history will appear here
+      save: Save Search
+      save_search: Save this search
+      save_button: Save
+      cancel: Cancel
+      name_your_search: Name Your Search
+      search_name_placeholder: "e.g., 3 Bedroom Houses"
+      saved: "Search \"%{name}\" saved!"
+      deleted: Search deleted
+      cleared: All searches cleared
+      enter_name: Please enter a name for this search
+      no_criteria: No search criteria to save
+      max_reached: "Maximum %{count} saved searches. Delete some to add more."
+      duplicate: "A search named \"%{name}\" already exists. Replace it?"
   requestPropertyInfo: Request info
   search: Search
   searchForProperties: Search for properties

@@ -83,6 +83,9 @@
         <%= icon(:keyboard_arrow_up, size: :md, class: "") %>
       </button>
 
+      <%# GDPR Consent Banner for localStorage %>
+      <%= render partial: 'shared/consent_banner' %>
+
       <%# Analytics %>
       <%= render partial: '/pwb/analytics', locals: {} %>
     </div>

@@ -51,10 +51,30 @@
         <!-- Title & Price Card -->
         <div class="bg-gradient-to-r from-warm-50 to-white rounded-softer p-8 mb-8 shadow-soft">
           <div class="flex flex-col md:flex-row md:items-start md:justify-between">
-            <div class="mb-4 md:mb-0">
-              <h1 class="font-display text-2xl md:text-3xl font-bold text-warm-900 mb-3">
-                <%= @property_details.title %>
-              </h1>
+            <div class="mb-4 md:mb-0 flex-1">
+              <div class="flex items-start justify-between gap-4">
+                <h1 class="font-display text-2xl md:text-3xl font-bold text-warm-900 mb-3">
+                  <%= @property_details.title %>
+                </h1>
+                <%# Local Favorite Toggle Button %>
+                <% operation_type = @property_details.for_sale? ? 'for_sale' : 'for_rent' %>
+                <div data-controller="local-favorites"
+                     data-local-favorites-property-ref-value="<%= @property_details.reference %>"
+                     data-local-favorites-property-title-value="<%= @property_details.title.presence || @property_details.reference %>"
+                     data-local-favorites-property-image-value="<%= @property_details.ordered_photo(1)&.image_url %>"
+                     data-local-favorites-property-price-value="<%= property_price(@property_details, operation_type) %>"
+                     data-local-favorites-property-url-value="<%= @property_details.contextual_show_path(operation_type) %>">
+                  <button type="button"
+                          data-local-favorites-target="toggleButton"
+                          data-action="local-favorites#toggle"
+                          class="w-12 h-12 flex items-center justify-center bg-white border border-warm-200 rounded-full shadow-soft hover:shadow-medium hover:border-red-300 transition-all"
+                          aria-label="<%= t('pwb.favorites.toggle', default: 'Save to favorites') %>">
+                    <span data-local-favorites-target="icon" class="text-gray-400 hover:text-red-500">
+                      <%= icon(:favorite_border, size: :md) rescue content_tag(:span, "♡", class: "text-xl") %>
+                    </span>
+                  </button>
+                </div>
+              </div>
               <% if @property_details.respond_to?(:address_locality) && @property_details.address_locality.present? %>
                 <p class="flex items-center text-warm-500">
                   <%= icon(:location_on, size: :sm, class: "text-gold-400 mr-2") %>

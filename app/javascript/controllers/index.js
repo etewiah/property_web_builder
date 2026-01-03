@@ -47,3 +47,13 @@ application.register("location-picker", LocationPickerController)
 
 import PriceGameController from "controllers/price_game_controller"
 application.register("price-game", PriceGameController)
+
+// Local storage controllers (GDPR-compliant)
+import ConsentController from "controllers/consent_controller"
+application.register("consent", ConsentController)
+
+import LocalFavoritesController from "controllers/local_favorites_controller"
+application.register("local-favorites", LocalFavoritesController)
+
+import LocalSearchesController from "controllers/local_searches_controller"
+application.register("local-searches", LocalSearchesController)

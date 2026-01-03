@@ -1,8 +1,12 @@
 <%# Turbo Frame wrapper for search results - used for AJAX updates %>
 <%= turbo_frame_tag "search-results", data: { turbo_action: "advance" } do %>
   <%# Results header with count and sort - uses search-header controller for Turbo Frame compatibility %>
+  <%# Include local-searches controller for save search functionality %>
+  <% search_criteria_json = (@search_criteria_for_view || {}).reject { |k, v| v.blank? || [:page, :sort, :view].include?(k) }.to_json %>
   <div class="search-results-header flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200"
-       data-controller="search-header">
+       data-controller="search-header local-searches"
+       data-local-searches-current-criteria-value="<%= search_criteria_json %>"
+       data-local-searches-search-url-value="<%= request.path %>">
 
     <%# Results count %>
     <div class="results-count text-gray-700" aria-live="polite">
@@ -68,6 +72,45 @@
           </svg>
         </button>
       </div>
+
+      <%# Save Search Button (LocalStorage) %>
+      <% active_filters = (@search_criteria_for_view || {}).reject { |k, v| v.blank? || [:page, :sort, :view].include?(k) } %>
+      <% if active_filters.any? %>
+        <div class="relative">
+          <button type="button"
+                  data-local-searches-target="saveButton"
+                  data-action="local-searches#showSaveForm"
+                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-purple-700 bg-purple-50 border border-purple-200 rounded-md hover:bg-purple-100 transition-colors"
+                  aria-label="<%= t('pwb.searches.save_search', default: 'Save this search') %>">
+            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+            </svg>
+            <%= t('pwb.searches.save', default: 'Save Search') %>
+          </button>
+
+          <%# Save Search Form (inline popup) %>
+          <div data-local-searches-target="saveForm"
+               class="hidden absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-xl border border-gray-200 p-4 z-20">
+            <h4 class="font-medium text-gray-900 mb-3"><%= t('pwb.searches.name_your_search', default: 'Name Your Search') %></h4>
+            <input type="text"
+                   data-local-searches-target="nameInput"
+                   placeholder="<%= t('pwb.searches.search_name_placeholder', default: 'e.g., 3 Bedroom Houses') %>"
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-purple-500 focus:border-purple-500 mb-3">
+            <div class="flex items-center justify-end gap-2">
+              <button type="button"
+                      data-action="local-searches#hideSaveForm"
+                      class="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800">
+                <%= t('pwb.searches.cancel', default: 'Cancel') %>
+              </button>
+              <button type="button"
+                      data-action="local-searches#saveSearch"
+                      class="px-4 py-1.5 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700">
+                <%= t('pwb.searches.save_button', default: 'Save') %>
+              </button>
+            </div>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 
