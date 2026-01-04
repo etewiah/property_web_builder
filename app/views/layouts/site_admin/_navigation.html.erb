@@ -1,11 +1,13 @@
+<% current_section = current_nav_section %>
 <aside id="tour-sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-gray-800 text-white flex-shrink-0 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0"
        :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
        x-data="{
-         listingsOpen: localStorage.getItem('nav_listingsOpen') !== 'false',
-         leadsOpen: localStorage.getItem('nav_leadsOpen') !== 'false',
-         siteDesignOpen: localStorage.getItem('nav_siteDesignOpen') !== 'false',
-         analyticsOpen: localStorage.getItem('nav_analyticsOpen') !== 'false',
-         settingsOpen: localStorage.getItem('nav_settingsOpen') === 'true',
+         currentSection: '<%= current_section %>',
+         listingsOpen: '<%= current_section %>' === 'listings' || localStorage.getItem('nav_listingsOpen') !== 'false',
+         leadsOpen: '<%= current_section %>' === 'leads' || localStorage.getItem('nav_leadsOpen') !== 'false',
+         siteDesignOpen: '<%= current_section %>' === 'siteDesign' || localStorage.getItem('nav_siteDesignOpen') !== 'false',
+         analyticsOpen: '<%= current_section %>' === 'analytics' || localStorage.getItem('nav_analyticsOpen') !== 'false',
+         settingsOpen: '<%= current_section %>' === 'settings' || localStorage.getItem('nav_settingsOpen') === 'true',
          toggle(key) {
            this[key] = !this[key];
            localStorage.setItem('nav_' + key, this[key]);
