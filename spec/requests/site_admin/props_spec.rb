@@ -37,19 +37,11 @@ RSpec.describe 'SiteAdmin::PropsController', type: :request do
         expect(response).to have_http_status(:success)
       end
 
-      # Note: Search by title is broken due to missing 'title' column in ListedProperty view
-      # This test uses reference search only
       it 'supports search by reference' do
-        # Skip this test if the view doesn't have the title column (known issue)
-        begin
-          get site_admin_props_path, params: { search: 'PROP001' },
-              headers: { 'HTTP_HOST' => 'props-test.test.localhost' }
+        get site_admin_props_path, params: { search: 'PROP001' },
+            headers: { 'HTTP_HOST' => 'props-test.test.localhost' }
 
-          expect(response).to have_http_status(:success)
-        rescue ActiveRecord::StatementInvalid => e
-          # Known issue: search includes title column that doesn't exist in materialized view
-          skip "Search functionality broken due to missing title column: #{e.message}"
-        end
+        expect(response).to have_http_status(:success)
       end
     end
 

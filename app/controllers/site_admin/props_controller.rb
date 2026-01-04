@@ -21,12 +21,12 @@ module SiteAdmin
               .order(created_at: :desc)
 
       if params[:search].present?
+        search_term = "%#{params[:search]}%"
+        # Search on columns available in the materialized view
+        # Note: title is on listing translations, not the view, so we exclude it
         props = props.where(
-          'reference ILIKE ? OR title ILIKE ? OR street_address ILIKE ? OR city ILIKE ?',
-          "%#{params[:search]}%",
-          "%#{params[:search]}%",
-          "%#{params[:search]}%",
-          "%#{params[:search]}%"
+          'reference ILIKE ? OR street_address ILIKE ? OR city ILIKE ? OR region ILIKE ?',
+          search_term, search_term, search_term, search_term
         )
       end
 
