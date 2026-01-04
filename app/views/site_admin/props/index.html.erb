@@ -131,14 +131,13 @@
           <% end %>
         <% else %>
           <tr>
-            <td colspan="5" class="px-6 py-8 text-center text-gray-500">
-              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
-              <p class="mt-2">No properties found</p>
-              <% if params[:search].present? %>
-                <p class="mt-1 text-sm">Try adjusting your search terms</p>
-              <% end %>
+            <td colspan="5" class="px-6 py-12">
+              <%= render 'site_admin/shared/empty_state',
+                  title: 'No properties yet',
+                  description: params[:search].present? ? 'Try adjusting your search terms.' : 'Get started by adding your first property listing.',
+                  icon: 'property',
+                  action_text: params[:search].blank? ? 'Add Property' : nil,
+                  action_path: params[:search].blank? ? new_site_admin_prop_path : nil %>
             </td>
           </tr>
         <% end %>

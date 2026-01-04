@@ -44,8 +44,11 @@
           <% end %>
         <% else %>
           <tr>
-            <td colspan="4" class="px-6 py-4 text-center text-gray-500">
-              No contacts found
+            <td colspan="4" class="px-6 py-12">
+              <%= render 'site_admin/shared/empty_state',
+                  title: 'No contacts yet',
+                  description: params[:search].present? ? 'Try adjusting your search terms.' : 'When visitors contact you through your website, they will appear here.',
+                  icon: 'contact' %>
             </td>
           </tr>
         <% end %>

@@ -1,8 +1,7 @@
 <div class="max-w-7xl mx-auto">
-  <div class="mb-6">
-    <h1 class="text-3xl font-bold text-gray-900">Messages</h1>
-    <p class="mt-2 text-gray-600">View messages for <%= current_website.subdomain %></p>
-  </div>
+  <%= render 'site_admin/shared/page_header',
+      title: 'Messages',
+      description: "View messages for #{current_website.subdomain}" %>
 
   <!-- Search Form -->
   <div class="mb-6 bg-white rounded-lg shadow p-4">
@@ -41,8 +40,11 @@
           <% end %>
         <% else %>
           <tr>
-            <td colspan="3" class="px-6 py-4 text-center text-gray-500">
-              No messages found
+            <td colspan="3" class="px-6 py-12">
+              <%= render 'site_admin/shared/empty_state',
+                  title: 'No messages yet',
+                  description: params[:search].present? ? 'Try adjusting your search terms.' : 'When visitors send inquiries through your website, they will appear here.',
+                  icon: 'message' %>
             </td>
           </tr>
         <% end %>
