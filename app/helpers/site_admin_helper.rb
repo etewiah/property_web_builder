@@ -114,8 +114,7 @@ module SiteAdminHelper
     return 'leads' if path.include?('/inbox') ||
                       path.include?('/messages') ||
                       path.include?('/contacts') ||
-                      path.include?('/email_templates') ||
-                      path.include?('/support_tickets')
+                      path.include?('/email_templates')
 
     # Analytics section
     return 'analytics' if path.include?('/analytics') ||
@@ -128,6 +127,7 @@ module SiteAdminHelper
                          path.include?('/domain') ||
                          path.include?('/onboarding') ||
                          path.include?('/storage_stats') ||
+                         path.include?('/support_tickets') ||
                          tab.in?(%w[general notifications social])
 
     # Site Design section
@@ -178,7 +178,7 @@ module SiteAdminHelper
       'messages' => { section: 'Leads & Messages', label: 'Messages', url: :site_admin_messages_path },
       'contacts' => { section: 'Leads & Messages', label: 'Contacts', url: :site_admin_contacts_path },
       'email_templates' => { section: 'Leads & Messages', label: 'Email Templates', url: :site_admin_email_templates_path },
-      'support_tickets' => { section: 'Leads & Messages', label: 'Support Tickets', url: :site_admin_support_tickets_path },
+      'support_tickets' => { section: 'Settings', label: 'Support', url: :site_admin_support_tickets_path },
       'analytics' => { section: 'Analytics', label: 'Analytics', url: :site_admin_analytics_path },
       'activity_logs' => { section: 'Analytics', label: 'Activity Logs', url: :site_admin_activity_logs_path },
       'users' => { section: 'Settings', label: 'Team & Users', url: :site_admin_users_path },
