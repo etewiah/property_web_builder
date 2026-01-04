@@ -13,10 +13,12 @@
 # Authorization: Requires user to be admin/owner for the current website
 #
 # Dev/E2E bypass: Set BYPASS_ADMIN_AUTH=true to skip authentication
+# Dev plan override: Set DEV_SUBSCRIPTION_PLAN=enterprise|professional|starter
 class SiteAdminController < ActionController::Base
   include ::Devise::Controllers::Helpers
   include SubdomainTenant
   include AdminAuthBypass
+  include DevSubscriptionBypass
   include Pagy::Method
   helper AuthHelper
   helper_method :current_user
