@@ -1,0 +1,229 @@
+<%#
+  Command Palette Component
+
+  A quick-access search modal triggered by Cmd/Ctrl+K
+  Allows fast navigation to any section of site_admin
+%>
+<div x-data="commandPalette()"
+     x-show="open"
+     x-cloak
+     @keydown.window.prevent.cmd.k="open = true"
+     @keydown.window.prevent.ctrl.k="open = true"
+     @keydown.escape.window="open = false"
+     class="fixed inset-0 z-50 overflow-y-auto">
+
+  <!-- Backdrop -->
+  <div x-show="open"
+       x-transition:enter="ease-out duration-200"
+       x-transition:enter-start="opacity-0"
+       x-transition:enter-end="opacity-100"
+       x-transition:leave="ease-in duration-150"
+       x-transition:leave-start="opacity-100"
+       x-transition:leave-end="opacity-0"
+       class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm"
+       @click="open = false">
+  </div>
+
+  <!-- Modal -->
+  <div class="relative min-h-screen flex items-start justify-center pt-16 md:pt-24 px-4">
+    <div x-show="open"
+         x-transition:enter="ease-out duration-200"
+         x-transition:enter-start="opacity-0 scale-95"
+         x-transition:enter-end="opacity-100 scale-100"
+         x-transition:leave="ease-in duration-150"
+         x-transition:leave-start="opacity-100 scale-100"
+         x-transition:leave-end="opacity-0 scale-95"
+         @click.away="open = false"
+         class="relative w-full max-w-xl bg-white rounded-xl shadow-2xl ring-1 ring-gray-200 overflow-hidden">
+
+      <!-- Search Input -->
+      <div class="flex items-center px-4 border-b border-gray-200">
+        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <input type="text"
+               x-ref="searchInput"
+               x-model="query"
+               @keydown.arrow-down.prevent="selectNext()"
+               @keydown.arrow-up.prevent="selectPrev()"
+               @keydown.enter.prevent="navigateToSelected()"
+               placeholder="Search pages, properties, contacts..."
+               class="w-full px-3 py-4 text-gray-900 placeholder-gray-400 bg-transparent border-0 focus:outline-none focus:ring-0">
+        <div class="flex-shrink-0 text-xs text-gray-400 hidden md:block">
+          <kbd class="px-1.5 py-0.5 bg-gray-100 rounded">esc</kbd> to close
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="max-h-80 overflow-y-auto p-2" x-show="filteredItems.length > 0">
+        <!-- Navigation Section -->
+        <template x-if="filteredNavItems.length > 0">
+          <div>
+            <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Pages
+            </div>
+            <template x-for="(item, index) in filteredNavItems" :key="item.url">
+              <a :href="item.url"
+                 class="flex items-center px-3 py-2 rounded-lg cursor-pointer"
+                 :class="selectedIndex === index ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'"
+                 @mouseenter="selectedIndex = index"
+                 @click="open = false">
+                <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg mr-3"
+                      :class="selectedIndex === index ? 'bg-blue-100' : 'bg-gray-100'">
+                  <span x-html="item.icon"></span>
+                </span>
+                <div class="flex-1 min-w-0">
+                  <div class="font-medium truncate" x-text="item.name"></div>
+                  <div class="text-xs text-gray-500 truncate" x-text="item.section"></div>
+                </div>
+                <span class="flex-shrink-0 text-xs text-gray-400" x-show="item.shortcut" x-text="item.shortcut"></span>
+              </a>
+            </template>
+          </div>
+        </template>
+
+        <!-- Quick Actions Section -->
+        <template x-if="filteredActions.length > 0">
+          <div class="mt-2">
+            <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Quick Actions
+            </div>
+            <template x-for="(item, index) in filteredActions" :key="item.url">
+              <a :href="item.url"
+                 class="flex items-center px-3 py-2 rounded-lg cursor-pointer"
+                 :class="selectedIndex === (filteredNavItems.length + index) ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'"
+                 @mouseenter="selectedIndex = filteredNavItems.length + index"
+                 @click="open = false">
+                <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg mr-3 bg-green-100">
+                  <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                  </svg>
+                </span>
+                <div class="flex-1 min-w-0">
+                  <div class="font-medium truncate" x-text="item.name"></div>
+                </div>
+              </a>
+            </template>
+          </div>
+        </template>
+      </div>
+
+      <!-- Empty State -->
+      <div x-show="query.length > 0 && filteredItems.length === 0" class="px-4 py-8 text-center text-gray-500">
+        <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <p class="mt-2">No results found for "<span x-text="query"></span>"</p>
+      </div>
+
+      <!-- Footer -->
+      <div class="px-4 py-3 bg-gray-50 border-t border-gray-200 text-xs text-gray-500 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <span class="flex items-center">
+            <kbd class="px-1.5 py-0.5 bg-white border border-gray-300 rounded shadow-sm mr-1">&uarr;</kbd>
+            <kbd class="px-1.5 py-0.5 bg-white border border-gray-300 rounded shadow-sm mr-1">&darr;</kbd>
+            to navigate
+          </span>
+          <span class="flex items-center">
+            <kbd class="px-1.5 py-0.5 bg-white border border-gray-300 rounded shadow-sm mr-1">&crarr;</kbd>
+            to select
+          </span>
+        </div>
+        <span class="hidden md:inline">
+          <kbd class="px-1.5 py-0.5 bg-white border border-gray-300 rounded shadow-sm">Cmd</kbd> +
+          <kbd class="px-1.5 py-0.5 bg-white border border-gray-300 rounded shadow-sm">K</kbd>
+          to open
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function commandPalette() {
+    return {
+      open: false,
+      query: '',
+      selectedIndex: 0,
+
+      navItems: [
+        { name: 'Dashboard', section: 'Home', url: '<%= site_admin_root_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>' },
+        { name: 'Properties', section: 'Listings', url: '<%= site_admin_props_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4z" clip-rule="evenodd"></path></svg>' },
+        { name: 'Import/Export', section: 'Listings', url: '<%= site_admin_property_import_export_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>' },
+        { name: 'Labels & Categories', section: 'Listings', url: '<%= site_admin_properties_settings_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>' },
+        { name: 'Inbox', section: 'Leads & Messages', url: '<%= site_admin_inbox_index_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z" clip-rule="evenodd"></path></svg>' },
+        { name: 'Contacts', section: 'Leads & Messages', url: '<%= site_admin_contacts_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path></svg>' },
+        { name: 'Messages', section: 'Leads & Messages', url: '<%= site_admin_messages_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>' },
+        { name: 'Email Templates', section: 'Leads & Messages', url: '<%= site_admin_email_templates_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 2a2 2 0 00-2 2v14l3.5-2 3.5 2 3.5-2 3.5 2V4a2 2 0 00-2-2H5z" clip-rule="evenodd"></path></svg>' },
+        { name: 'Pages', section: 'Site Design', url: '<%= site_admin_pages_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path></svg>' },
+        { name: 'Media Library', section: 'Site Design', url: '<%= site_admin_media_library_index_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path></svg>' },
+        { name: 'Theme & Appearance', section: 'Site Design', url: '<%= site_admin_website_settings_tab_path("appearance") %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z" clip-rule="evenodd"></path></svg>' },
+        { name: 'Analytics', section: 'Analytics', url: '<%= site_admin_analytics_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>' },
+        { name: 'Activity Logs', section: 'Analytics', url: '<%= site_admin_activity_logs_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path></svg>' },
+        { name: 'Team & Users', section: 'Settings', url: '<%= site_admin_users_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path></svg>' },
+        { name: 'Agency Profile', section: 'Settings', url: '<%= edit_site_admin_agency_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" clip-rule="evenodd"></path></svg>' },
+        { name: 'Billing', section: 'Settings', url: '<%= site_admin_billing_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>' },
+        { name: 'General Settings', section: 'Settings', url: '<%= site_admin_website_settings_tab_path("general") %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>' },
+        { name: 'Domain', section: 'Settings', url: '<%= site_admin_domain_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4z" clip-rule="evenodd"></path></svg>' },
+        { name: 'Support', section: 'Settings', url: '<%= site_admin_support_tickets_path %>', icon: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>' },
+      ],
+
+      actions: [
+        { name: 'Add New Property', url: '<%= new_site_admin_prop_path %>' },
+        { name: 'Invite Team Member', url: '<%= new_site_admin_user_path %>' },
+      ],
+
+      get filteredNavItems() {
+        if (!this.query) return this.navItems.slice(0, 8);
+        const q = this.query.toLowerCase();
+        return this.navItems.filter(item =>
+          item.name.toLowerCase().includes(q) ||
+          item.section.toLowerCase().includes(q)
+        );
+      },
+
+      get filteredActions() {
+        if (!this.query) return this.actions;
+        const q = this.query.toLowerCase();
+        return this.actions.filter(item => item.name.toLowerCase().includes(q));
+      },
+
+      get filteredItems() {
+        return [...this.filteredNavItems, ...this.filteredActions];
+      },
+
+      selectNext() {
+        if (this.selectedIndex < this.filteredItems.length - 1) {
+          this.selectedIndex++;
+        }
+      },
+
+      selectPrev() {
+        if (this.selectedIndex > 0) {
+          this.selectedIndex--;
+        }
+      },
+
+      navigateToSelected() {
+        const item = this.filteredItems[this.selectedIndex];
+        if (item) {
+          window.location.href = item.url;
+        }
+      },
+
+      init() {
+        this.$watch('open', (value) => {
+          if (value) {
+            this.query = '';
+            this.selectedIndex = 0;
+            this.$nextTick(() => this.$refs.searchInput.focus());
+          }
+        });
+
+        this.$watch('query', () => {
+          this.selectedIndex = 0;
+        });
+      }
+    }
+  }
+</script>

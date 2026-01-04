@@ -446,6 +446,8 @@ Rails.application.routes.draw do
       get "omniauth/:provider" => "omniauth#localized", as: :localized_omniauth
 
       # https://github.com/plataformatec/devise/wiki/How-To:-Use-devise-inside-a-mountable-engine
+      # Note: The deprecation warnings about 'resource received a hash argument' come from
+      # Devise 4.9.4 internally and will be fixed in a future Devise release for Rails 8.2
       devise_for :users, skip: :omniauth_callbacks, class_name: "Pwb::User", module: :devise, controllers: {
         registrations: "pwb/devise/registrations",
         omniauth_callbacks: "pwb/devise/omniauth_callbacks",

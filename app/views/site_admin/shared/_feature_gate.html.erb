@@ -1,0 +1,98 @@
+<%#
+  Feature Gate Component
+
+  Displays a friendly "upgrade required" message when a feature is not available.
+
+  Usage:
+    render 'site_admin/shared/feature_gate',
+      feature: 'analytics',
+      title: 'Analytics Dashboard',
+      description: 'Track visitor behavior and property engagement.',
+      icon: 'chart' # optional: chart, lock, star, rocket
+
+  Options:
+    - feature: The feature key to check
+    - title: The feature name to display
+    - description: A brief description of what the feature does
+    - icon: Icon type (chart, lock, star, rocket) - defaults to 'lock'
+    - benefits: Optional array of benefit strings
+%>
+<% icon_type = local_assigns[:icon] || 'lock' %>
+<% benefits = local_assigns[:benefits] || [] %>
+
+<div class="max-w-2xl mx-auto">
+  <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+    <!-- Header with gradient -->
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-8 text-center">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4">
+        <% case icon_type %>
+        <% when 'chart' %>
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+        <% when 'star' %>
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+          </svg>
+        <% when 'rocket' %>
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+          </svg>
+        <% else %>
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+          </svg>
+        <% end %>
+      </div>
+      <h2 class="text-2xl font-bold text-white"><%= title %></h2>
+      <p class="mt-2 text-blue-100"><%= description %></p>
+    </div>
+
+    <!-- Content -->
+    <div class="px-6 py-8">
+      <div class="text-center mb-6">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-amber-100 text-amber-800">
+          <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5 2a2 2 0 00-2 2v14l3.5-2 3.5 2 3.5-2 3.5 2V4a2 2 0 00-2-2H5zm4.707 5.707a1 1 0 00-1.414-1.414l-2 2a1 1 0 000 1.414l2 2a1 1 0 001.414-1.414L8.414 9H12a1 1 0 100-2H8.414l1.293-1.293z" clip-rule="evenodd"></path>
+          </svg>
+          Upgrade Required
+        </span>
+      </div>
+
+      <% if benefits.any? %>
+        <div class="mb-6">
+          <h3 class="text-sm font-semibold text-gray-900 mb-3">What you'll get:</h3>
+          <ul class="space-y-2">
+            <% benefits.each do |benefit| %>
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="text-gray-600"><%= benefit %></span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <%= link_to site_admin_billing_path, class: "inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors" do %>
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+          View Plans & Upgrade
+        <% end %>
+        <%= link_to site_admin_root_path, class: "inline-flex items-center justify-center px-6 py-3 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors" do %>
+          Back to Dashboard
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+      <p class="text-sm text-gray-500 text-center">
+        Questions? <%= link_to 'Contact Support', site_admin_support_tickets_path, class: 'text-blue-600 hover:text-blue-800' %>
+      </p>
+    </div>
+  </div>
+</div>

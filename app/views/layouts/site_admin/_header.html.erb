@@ -23,6 +23,18 @@
     </div>
 
     <div class="flex items-center space-x-2 md:space-x-4">
+      <!-- Search Button (opens command palette) -->
+      <button type="button"
+              onclick="document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))"
+              class="flex items-center px-3 py-1.5 text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              title="Search (Cmd+K)">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <span class="hidden md:inline ml-2 text-sm">Search</span>
+        <kbd class="hidden md:inline ml-2 px-1.5 py-0.5 text-xs bg-white border border-gray-300 rounded">⌘K</kbd>
+      </button>
+
       <% if current_user %>
         <div class="relative">
           <button type="button" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900" data-dropdown-toggle="user-dropdown">

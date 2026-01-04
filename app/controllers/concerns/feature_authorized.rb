@@ -83,6 +83,54 @@ module FeatureAuthorized
     end
   end
 
+  # Feature metadata for displaying upgrade prompts
+  # Controllers can override this to customize the feature gate display
+  FEATURE_METADATA = {
+    'analytics' => {
+      title: 'Analytics Dashboard',
+      description: 'Track visitor behavior, property engagement, and conversion metrics.',
+      icon: 'chart',
+      benefits: [
+        'Real-time visitor tracking',
+        'Property view analytics',
+        'Traffic source insights',
+        'Conversion funnel analysis'
+      ]
+    },
+    'advanced_seo' => {
+      title: 'Advanced SEO Tools',
+      description: 'Optimize your listings for search engines.',
+      icon: 'rocket',
+      benefits: [
+        'SEO audit reports',
+        'Meta tag optimization',
+        'Sitemap generation',
+        'Search ranking insights'
+      ]
+    },
+    'email_templates' => {
+      title: 'Custom Email Templates',
+      description: 'Create branded email responses for inquiries.',
+      icon: 'star',
+      benefits: [
+        'Custom email designs',
+        'Auto-response templates',
+        'Personalization tokens',
+        'Multi-language support'
+      ]
+    }
+  }.freeze
+
+  # Get metadata for a feature (for displaying in feature gates)
+  def feature_metadata(feature_key)
+    FEATURE_METADATA[feature_key.to_s] || {
+      title: feature_key.to_s.humanize,
+      description: "This feature requires a plan upgrade.",
+      icon: 'lock',
+      benefits: []
+    }
+  end
+
   # Helper to define feature requirements declaratively
   #
   # @example
