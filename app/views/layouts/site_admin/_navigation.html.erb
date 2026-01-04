@@ -4,7 +4,7 @@
          listingsOpen: localStorage.getItem('nav_listingsOpen') !== 'false',
          leadsOpen: localStorage.getItem('nav_leadsOpen') !== 'false',
          siteDesignOpen: localStorage.getItem('nav_siteDesignOpen') !== 'false',
-         insightsOpen: localStorage.getItem('nav_insightsOpen') !== 'false',
+         analyticsOpen: localStorage.getItem('nav_analyticsOpen') !== 'false',
          settingsOpen: localStorage.getItem('nav_settingsOpen') === 'true',
          toggle(key) {
            this[key] = !this[key];
@@ -172,16 +172,16 @@
         </div>
       </div>
 
-      <!-- Insights -->
+      <!-- Analytics -->
       <div class="px-4 mb-4">
-        <button @click="toggle('insightsOpen')" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
-          <span>Insights</span>
-          <svg class="w-4 h-4 transition-transform duration-200" :class="insightsOpen ? 'rotate-0' : '-rotate-90'" fill="currentColor" viewBox="0 0 20 20">
+        <button @click="toggle('analyticsOpen')" class="flex items-center justify-between w-full px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors">
+          <span>Analytics</span>
+          <svg class="w-4 h-4 transition-transform duration-200" :class="analyticsOpen ? 'rotate-0' : '-rotate-90'" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
           </svg>
         </button>
 
-        <div x-show="insightsOpen" x-collapse>
+        <div x-show="analyticsOpen" x-collapse>
           <%= link_to site_admin_analytics_path, id: "tour-analytics", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/analytics') ? 'bg-gray-700' : ''}" do %>
             <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
               <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path>
@@ -194,22 +194,6 @@
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
             </svg>
             <span>Activity Logs</span>
-          <% end %>
-
-          <%= link_to site_admin_seo_audit_path, id: "tour-seo-audit", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/seo_audit') ? 'bg-gray-700' : ''}" do %>
-            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-            </svg>
-            <span>SEO Audit</span>
-          <% end %>
-
-          <%= link_to site_admin_storage_stats_path, id: "tour-storage", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/storage_stats') ? 'bg-gray-700' : ''}" do %>
-            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z"></path>
-              <path d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z"></path>
-              <path d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z"></path>
-            </svg>
-            <span>Storage Stats</span>
           <% end %>
         </div>
       </div>
@@ -279,6 +263,15 @@
             </svg>
             <span>Setup Wizard</span>
           <% end %>
+
+          <%= link_to site_admin_storage_stats_path, id: "tour-storage", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/storage_stats') ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z"></path>
+              <path d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z"></path>
+              <path d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z"></path>
+            </svg>
+            <span>Storage Stats</span>
+          <% end %>
         </div>
       </div>
 
@@ -325,6 +318,13 @@
               <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
             </svg>
             <span>SEO</span>
+          <% end %>
+
+          <%= link_to site_admin_seo_audit_path, id: "tour-seo-audit", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/seo_audit') ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span>SEO Audit</span>
           <% end %>
 
           <%= link_to root_path, id: "tour-view-site", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700", target: "_blank" do %>

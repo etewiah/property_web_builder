@@ -42,9 +42,9 @@ RSpec.describe 'Site Admin Navigation', type: :request do
       expect(response.body).to include(site_admin_media_library_index_path)
     end
 
-    it 'renders the Insights section' do
+    it 'renders the Analytics section' do
       get site_admin_root_path
-      expect(response.body).to include('Insights')
+      expect(response.body).to include('Analytics')
     end
 
     it 'renders the Settings section' do

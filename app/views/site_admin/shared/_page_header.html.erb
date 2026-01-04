@@ -1,0 +1,35 @@
+<%#
+  Shared page header component for site_admin pages
+
+  Usage:
+    actions_content = capture { link_to 'Add', new_path, class: '...' }
+    render 'site_admin/shared/page_header',
+        title: 'Properties',
+        description: '25 properties',
+        actions: actions_content
+
+  Options:
+    - title (required): Page title
+    - description (optional): Subtitle/description text
+    - actions (optional): Action buttons block (use capture helper)
+%>
+<div class="mb-4 md:mb-6">
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+    <div class="flex-1">
+      <h1 class="text-2xl md:text-3xl font-bold text-gray-900">
+        <%= title %>
+      </h1>
+      <% if local_assigns[:description].present? %>
+        <p class="mt-1 md:mt-2 text-sm md:text-base text-gray-600">
+          <%= description %>
+        </p>
+      <% end %>
+    </div>
+
+    <% if local_assigns[:actions].present? %>
+      <div class="flex-shrink-0 flex flex-wrap gap-2">
+        <%= actions %>
+      </div>
+    <% end %>
+  </div>
+</div>
