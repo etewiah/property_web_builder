@@ -1,0 +1,134 @@
+<%= form_with model: @property_type,
+              url: @property_type.persisted? ? site_admin_search_filters_property_type_path(@property_type) : site_admin_search_filters_property_types_path,
+              scope: :search_filter_option,
+              method: @property_type.persisted? ? :patch : :post,
+              local: true,
+              class: "space-y-6" do |f| %>
+  <% if @property_type.errors.any? %>
+    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+      <div class="flex">
+        <svg class="w-5 h-5 text-red-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <div>
+          <h3 class="text-sm font-medium text-red-800">Please fix the following errors:</h3>
+          <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+            <% @property_type.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Basic Settings -->
+  <div class="bg-white rounded-lg shadow">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Basic Settings</h2>
+    </div>
+    <div class="px-6 py-4 space-y-4">
+      <div>
+        <%= f.label :global_key, "Key", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :global_key,
+                         class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-mono",
+                         placeholder: "e.g., apartment, villa, townhouse" %>
+        <p class="mt-1 text-xs text-gray-500">
+          Unique identifier (lowercase, hyphens allowed). Leave blank to auto-generate from name.
+        </p>
+      </div>
+
+      <div>
+        <%= f.label :external_code, "External Provider Code", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :external_code,
+                         class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 font-mono",
+                         placeholder: "e.g., 1-1, APT, VILLA" %>
+        <p class="mt-1 text-xs text-gray-500">
+          Maps to external feed provider's property type code (e.g., Resales Online).
+        </p>
+      </div>
+
+      <div>
+        <%= f.label :parent_id, "Parent Type", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :parent_id,
+                     options_for_select(@parent_options.map { |pt| [pt.display_label, pt.id] }, @property_type.parent_id),
+                     { include_blank: "None (Top Level)" },
+                     class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+        <p class="mt-1 text-xs text-gray-500">
+          Optional: Create a sub-type under a parent (e.g., "Detached Villa" under "Villa").
+        </p>
+      </div>
+
+      <div>
+        <%= f.label :icon, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :icon,
+                         class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500",
+                         placeholder: "e.g., fa-building, home, apartment" %>
+        <p class="mt-1 text-xs text-gray-500">
+          Optional icon class or name for display.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Translations -->
+  <div class="bg-white rounded-lg shadow">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Labels</h2>
+      <p class="mt-1 text-sm text-gray-500">Enter the display name for each language.</p>
+    </div>
+    <div class="px-6 py-4 space-y-4">
+      <% I18n.available_locales.first(6).each do |locale| %>
+        <div>
+          <%= f.label "label_#{locale}", locale_name(locale), class: "block text-sm font-medium text-gray-700" %>
+          <%= f.text_field "label_#{locale}",
+                           value: @property_type.translations.dig(locale.to_s) || @property_type.translations.dig(locale),
+                           class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500",
+                           placeholder: "e.g., Apartment, Apartamento, Appartement" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Visibility Options -->
+  <div class="bg-white rounded-lg shadow">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Visibility</h2>
+    </div>
+    <div class="px-6 py-4 space-y-4">
+      <div class="flex items-center">
+        <%= f.check_box :visible, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+        <%= f.label :visible, class: "ml-2 text-sm text-gray-700" do %>
+          <span class="font-medium">Visible</span>
+          <span class="text-gray-500 ml-1">(Show this type in dropdowns and listings)</span>
+        <% end %>
+      </div>
+
+      <div class="flex items-center">
+        <%= f.check_box :show_in_search, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+        <%= f.label :show_in_search, class: "ml-2 text-sm text-gray-700" do %>
+          <span class="font-medium">Show in Search</span>
+          <span class="text-gray-500 ml-1">(Include in search filter options)</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Actions -->
+  <div class="flex items-center justify-between pt-4">
+    <div>
+      <% if @property_type.persisted? %>
+        <%= button_to "Delete",
+                      site_admin_search_filters_property_type_path(@property_type),
+                      method: :delete,
+                      class: "text-red-600 hover:text-red-800 text-sm",
+                      form: { data: { turbo_confirm: "Are you sure you want to delete this property type?" } } %>
+      <% end %>
+    </div>
+    <div class="flex space-x-3">
+      <%= link_to "Cancel", site_admin_search_filters_property_types_path, class: "px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50" %>
+      <%= f.submit @property_type.persisted? ? "Update Property Type" : "Create Property Type",
+                   class: "px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer" %>
+    </div>
+  </div>
+<% end %>

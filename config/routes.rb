@@ -303,6 +303,31 @@ Rails.application.routes.draw do
       end
     end
 
+    # Search Filter Management (Property Types, Features, etc.)
+    namespace :search_filters do
+      resources :property_types do
+        member do
+          patch :toggle_visibility
+          patch :toggle_search
+        end
+        collection do
+          post :reorder
+          post :import_from_provider
+        end
+      end
+
+      resources :features do
+        member do
+          patch :toggle_visibility
+          patch :toggle_search
+        end
+        collection do
+          post :reorder
+          post :import_from_provider
+        end
+      end
+    end
+
     # Properties Settings
     namespace :properties do
       get 'settings', to: 'settings#index', as: 'settings'

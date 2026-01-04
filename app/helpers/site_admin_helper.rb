@@ -7,6 +7,7 @@ module SiteAdminHelper
   # Format date consistently
   def format_date(date)
     return 'N/A' if date.blank?
+
     date.strftime('%Y-%m-%d %H:%M')
   end
 
@@ -68,7 +69,29 @@ module SiteAdminHelper
   # Helper for sortable column headers
   def sortable_column(column, title = nil)
     title ||= column.titleize
-    direction = (column == params[:sort] && params[:direction] == 'asc') ? 'desc' : 'asc'
+    direction = column == params[:sort] && params[:direction] == 'asc' ? 'desc' : 'asc'
     link_to title, { sort: column, direction: direction }, class: 'text-blue-600 hover:text-blue-800'
+  end
+
+  # Get human-readable locale name
+  #
+  # @param locale [Symbol, String] The locale code
+  # @return [String] Human-readable locale name
+  def locale_name(locale)
+    locale_names = {
+      'en' => 'English',
+      'es' => 'Spanish',
+      'fr' => 'French',
+      'de' => 'German',
+      'it' => 'Italian',
+      'pt' => 'Portuguese',
+      'nl' => 'Dutch',
+      'ru' => 'Russian',
+      'tr' => 'Turkish',
+      'ar' => 'Arabic',
+      'zh' => 'Chinese',
+      'ja' => 'Japanese'
+    }
+    locale_names[locale.to_s] || locale.to_s.upcase
   end
 end

@@ -1,0 +1,231 @@
+<div class="max-w-7xl mx-auto">
+  <div class="mb-6 flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Property Types</h1>
+      <p class="mt-2 text-gray-600">Manage property types for search filters</p>
+    </div>
+    <div class="flex items-center space-x-3">
+      <% if current_website.external_feed_enabled? %>
+        <%= button_to "Import from Provider",
+                      import_from_provider_site_admin_search_filters_property_types_path,
+                      method: :post,
+                      class: "inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors",
+                      data: { confirm: "This will import property types from your external feed provider. Continue?" } %>
+      <% end %>
+      <%= link_to new_site_admin_search_filters_property_type_path, class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" do %>
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        Add Property Type
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Info Banner -->
+  <div class="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+    <div class="flex">
+      <svg class="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <div>
+        <h3 class="text-sm font-medium text-blue-800">How it works</h3>
+        <p class="mt-1 text-sm text-blue-700">
+          Property types appear in search filters and dropdown menus. Toggle "Visible" to show/hide a type,
+          or "In Search" to include/exclude from search filters. External codes map to feed provider types.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Property Types Table -->
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200" id="property-types-table">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-8">
+            <span class="sr-only">Drag</span>
+          </th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">External Code</th>
+          <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Visible</th>
+          <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">In Search</th>
+          <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200" id="sortable-property-types">
+        <% if @property_types.any? %>
+          <% @property_types.each do |property_type| %>
+            <tr class="hover:bg-gray-50" data-id="<%= property_type.id %>">
+              <td class="px-6 py-4 whitespace-nowrap cursor-move drag-handle">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path>
+                </svg>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <% if property_type.icon.present? %>
+                    <span class="mr-2 text-gray-500"><%= property_type.icon %></span>
+                  <% end %>
+                  <div>
+                    <div class="text-sm font-medium text-gray-900"><%= property_type.display_label %></div>
+                    <div class="text-xs text-gray-500"><%= property_type.global_key %></div>
+                  </div>
+                </div>
+                <% if property_type.children.any? %>
+                  <div class="mt-1 ml-6 space-y-1">
+                    <% property_type.children.ordered.each do |child| %>
+                      <div class="text-xs text-gray-500 flex items-center">
+                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                        <%= child.display_label %>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <% if property_type.external_code.present? %>
+                  <code class="text-xs bg-gray-100 px-2 py-1 rounded"><%= property_type.external_code %></code>
+                <% else %>
+                  <span class="text-gray-400">-</span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center">
+                <%= button_to toggle_visibility_site_admin_search_filters_property_type_path(property_type),
+                              method: :patch,
+                              class: "inline-flex items-center justify-center",
+                              form: { data: { turbo_frame: "_top" } } do %>
+                  <% if property_type.visible? %>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                      </svg>
+                      Yes
+                    </span>
+                  <% else %>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500">
+                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                      </svg>
+                      No
+                    </span>
+                  <% end %>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-center">
+                <%= button_to toggle_search_site_admin_search_filters_property_type_path(property_type),
+                              method: :patch,
+                              class: "inline-flex items-center justify-center",
+                              form: { data: { turbo_frame: "_top" } } do %>
+                  <% if property_type.show_in_search? %>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                      </svg>
+                      Yes
+                    </span>
+                  <% else %>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500">
+                      No
+                    </span>
+                  <% end %>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
+                <%= link_to edit_site_admin_search_filters_property_type_path(property_type), class: 'text-blue-600 hover:text-blue-800 mr-3' do %>
+                  Edit
+                <% end %>
+                <%= button_to site_admin_search_filters_property_type_path(property_type),
+                              method: :delete,
+                              class: 'text-red-600 hover:text-red-800',
+                              form: { data: { turbo_confirm: "Are you sure you want to delete '#{property_type.display_label}'?" } } do %>
+                  Delete
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="6" class="px-6 py-8 text-center text-gray-500">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+              </svg>
+              <p class="mt-2">No property types defined yet</p>
+              <div class="mt-4 space-x-3">
+                <%= link_to 'Add your first property type', new_site_admin_search_filters_property_type_path, class: 'text-blue-600 hover:text-blue-800' %>
+                <% if current_website.external_feed_enabled? %>
+                  <span class="text-gray-400">or</span>
+                  <%= button_to "Import from provider",
+                                import_from_provider_site_admin_search_filters_property_types_path,
+                                method: :post,
+                                class: "text-green-600 hover:text-green-800" %>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // Simple drag-and-drop reordering
+  document.addEventListener('DOMContentLoaded', function() {
+    const tbody = document.getElementById('sortable-property-types');
+    if (!tbody) return;
+
+    let draggedRow = null;
+
+    tbody.addEventListener('dragstart', function(e) {
+      if (e.target.tagName === 'TR') {
+        draggedRow = e.target;
+        e.target.classList.add('opacity-50');
+      }
+    });
+
+    tbody.addEventListener('dragend', function(e) {
+      if (e.target.tagName === 'TR') {
+        e.target.classList.remove('opacity-50');
+        draggedRow = null;
+      }
+    });
+
+    tbody.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      const targetRow = e.target.closest('tr');
+      if (targetRow && targetRow !== draggedRow) {
+        const rect = targetRow.getBoundingClientRect();
+        const midY = rect.top + rect.height / 2;
+        if (e.clientY < midY) {
+          targetRow.parentNode.insertBefore(draggedRow, targetRow);
+        } else {
+          targetRow.parentNode.insertBefore(draggedRow, targetRow.nextSibling);
+        }
+      }
+    });
+
+    tbody.addEventListener('drop', function(e) {
+      e.preventDefault();
+      saveOrder();
+    });
+
+    // Make rows draggable
+    tbody.querySelectorAll('tr[data-id]').forEach(row => {
+      row.setAttribute('draggable', 'true');
+    });
+
+    function saveOrder() {
+      const ids = Array.from(tbody.querySelectorAll('tr[data-id]')).map(row => row.dataset.id);
+      fetch('<%= reorder_site_admin_search_filters_property_types_path %>', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({ ids: ids })
+      });
+    }
+  });
+</script>

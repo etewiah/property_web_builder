@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_02_212506) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_03_084538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -834,6 +834,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_02_212506) do
     t.index ["sent_at"], name: "index_pwb_search_alerts_on_sent_at"
   end
 
+  create_table "pwb_search_filter_options", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "external_code"
+    t.string "filter_type", null: false
+    t.string "global_key", null: false
+    t.string "icon"
+    t.jsonb "metadata", default: {}, null: false
+    t.bigint "parent_id"
+    t.boolean "show_in_search", default: true, null: false
+    t.integer "sort_order", default: 0, null: false
+    t.jsonb "translations", default: {}, null: false
+    t.datetime "updated_at", null: false
+    t.boolean "visible", default: true, null: false
+    t.bigint "website_id", null: false
+    t.index ["parent_id"], name: "index_pwb_search_filter_options_on_parent_id"
+    t.index ["website_id", "external_code"], name: "index_search_filter_options_on_external_code", where: "(external_code IS NOT NULL)"
+    t.index ["website_id", "filter_type", "global_key"], name: "index_search_filter_options_unique_key", unique: true
+    t.index ["website_id", "filter_type", "sort_order"], name: "index_search_filter_options_on_order"
+    t.index ["website_id", "filter_type"], name: "index_search_filter_options_on_type"
+    t.index ["website_id"], name: "index_pwb_search_filter_options_on_website_id"
+  end
+
   create_table "pwb_subdomains", force: :cascade do |t|
     t.string "aasm_state", default: "available", null: false
     t.datetime "created_at", null: false
@@ -1305,6 +1327,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_02_212506) do
   add_foreign_key "pwb_scraped_properties", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_scraped_properties", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_search_alerts", "pwb_saved_searches", column: "saved_search_id"
+  add_foreign_key "pwb_search_filter_options", "pwb_search_filter_options", column: "parent_id"
+  add_foreign_key "pwb_search_filter_options", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_subdomains", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_subscription_events", "pwb_subscriptions", column: "subscription_id"
   add_foreign_key "pwb_subscriptions", "pwb_plans", column: "plan_id"

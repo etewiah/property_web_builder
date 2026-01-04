@@ -1,0 +1,120 @@
+<div class="max-w-7xl mx-auto">
+  <div class="mb-6 flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Features</h1>
+      <p class="mt-2 text-gray-600">Manage property features for search filters</p>
+    </div>
+    <div class="flex items-center space-x-3">
+      <% if current_website.external_feed_enabled? %>
+        <%= button_to "Import from Provider",
+                      import_from_provider_site_admin_search_filters_features_path,
+                      method: :post,
+                      class: "inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors",
+                      data: { confirm: "This will import features from your external feed provider. Continue?" } %>
+      <% end %>
+      <%= link_to new_site_admin_search_filters_feature_path, class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" do %>
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        Add Feature
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Info Banner -->
+  <div class="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+    <div class="flex">
+      <svg class="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <div>
+        <h3 class="text-sm font-medium text-blue-800">How it works</h3>
+        <p class="mt-1 text-sm text-blue-700">
+          Features are property amenities like pool, garage, or garden. They appear in search filters
+          as checkboxes. Toggle "In Search" to include/exclude from search forms.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <% if @features_by_category.keys.reject(&:blank?).any? %>
+    <!-- Features organized by category -->
+    <% @features_by_category.each do |category, features| %>
+      <div class="mb-6">
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+          <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+            <h2 class="text-lg font-semibold text-gray-900 capitalize">
+              <%= category.presence || 'Uncategorized' %>
+            </h2>
+          </div>
+          <%= render partial: 'features_table', locals: { features: features } %>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <!-- Single table when no categories -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <%= render partial: 'features_table', locals: { features: @features } %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  // Simple drag-and-drop reordering
+  document.addEventListener('DOMContentLoaded', function() {
+    const tbody = document.getElementById('sortable-features');
+    if (!tbody) return;
+
+    let draggedRow = null;
+
+    tbody.addEventListener('dragstart', function(e) {
+      if (e.target.tagName === 'TR') {
+        draggedRow = e.target;
+        e.target.classList.add('opacity-50');
+      }
+    });
+
+    tbody.addEventListener('dragend', function(e) {
+      if (e.target.tagName === 'TR') {
+        e.target.classList.remove('opacity-50');
+        draggedRow = null;
+      }
+    });
+
+    tbody.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      const targetRow = e.target.closest('tr');
+      if (targetRow && targetRow !== draggedRow) {
+        const rect = targetRow.getBoundingClientRect();
+        const midY = rect.top + rect.height / 2;
+        if (e.clientY < midY) {
+          targetRow.parentNode.insertBefore(draggedRow, targetRow);
+        } else {
+          targetRow.parentNode.insertBefore(draggedRow, targetRow.nextSibling);
+        }
+      }
+    });
+
+    tbody.addEventListener('drop', function(e) {
+      e.preventDefault();
+      saveOrder();
+    });
+
+    // Make rows draggable
+    tbody.querySelectorAll('tr[data-id]').forEach(row => {
+      row.setAttribute('draggable', 'true');
+    });
+
+    function saveOrder() {
+      const ids = Array.from(tbody.querySelectorAll('tr[data-id]')).map(row => row.dataset.id);
+      fetch('<%= reorder_site_admin_search_filters_features_path %>', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({ ids: ids })
+      });
+    }
+  });
+</script>

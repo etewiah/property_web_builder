@@ -140,8 +140,9 @@ module Pwb
       end
 
       # Get filter options for search forms
+      # Uses SearchFilterOption model for managed options (property_types, features)
+      # Falls back to provider data if no managed options exist
       # Uses SearchConfig for configurable options (bedrooms, bathrooms, price presets)
-      # and provider for dynamic options (locations, property_types)
       #
       # @param params [Hash] Parameters (locale, listing_type)
       # @return [Hash] Filter options grouped by type
@@ -151,8 +152,8 @@ module Pwb
 
         {
           locations: locations(params),
-          property_types: property_types(params),
-          features: features(params),
+          property_types: managed_property_types,
+          features: managed_features,
           listing_types: search_cfg.listing_types_for_view,
           sort_options: search_cfg.sort_options_for_view,
           bedrooms: search_cfg.bedroom_options_for_view,
@@ -173,6 +174,64 @@ module Pwb
             results_per_page_options: search_cfg.results_per_page_options
           }
         }
+      end
+
+      # Get managed property types from SearchFilterOption model
+      # Falls back to provider data if no managed options exist
+      # @return [Array<Hash>]
+      def managed_property_types
+        managed = Pwb::SearchFilterOption.property_types
+                                         .where(website: website)
+                                         .visible
+                                         .show_in_search
+                                         .ordered
+        return managed.map(&:to_option) if managed.any?
+
+        # Fall back to provider data
+        property_types
+      end
+
+      # Get managed features from SearchFilterOption model
+      # Falls back to provider data if no managed options exist
+      # @return [Array<Hash>]
+      def managed_features
+        managed = Pwb::SearchFilterOption.features
+                                         .where(website: website)
+                                         .visible
+                                         .show_in_search
+                                         .ordered
+        return managed.map(&:to_option) if managed.any?
+
+        # Fall back to provider data
+        features
+      end
+
+      # Translate property type keys to external codes for API calls
+      # @param keys [Array<String>] Global keys from user selection
+      # @return [Array<String>] External codes for provider API
+      def property_type_keys_to_external(keys)
+        return keys if keys.blank?
+
+        keys.map do |key|
+          option = Pwb::SearchFilterOption.property_types
+                                          .where(website: website, global_key: key)
+                                          .first
+          option&.external_code || key
+        end.compact
+      end
+
+      # Translate feature keys to external codes/param names for API calls
+      # @param keys [Array<String>] Global keys from user selection
+      # @return [Array<String>] External codes for provider API
+      def feature_keys_to_external(keys)
+        return keys if keys.blank?
+
+        keys.map do |key|
+          option = Pwb::SearchFilterOption.features
+                                          .where(website: website, global_key: key)
+                                          .first
+          option&.feature_param_name || option&.external_code || key
+        end.compact
       end
 
       # Get available features for filters
@@ -250,15 +309,13 @@ module Pwb
         # Normalize sort
         params[:sort] = params[:sort].to_sym if params[:sort].is_a?(String)
 
-        # Normalize property_types to array
-        if params[:property_types].is_a?(String)
-          params[:property_types] = params[:property_types].split(",").map(&:strip)
-        end
+        # Normalize property_types to array and translate to external codes
+        params[:property_types] = params[:property_types].split(",").map(&:strip) if params[:property_types].is_a?(String)
+        params[:property_types] = property_type_keys_to_external(params[:property_types]) if params[:property_types].present?
 
-        # Normalize features to array
-        if params[:features].is_a?(String)
-          params[:features] = params[:features].split(",").map(&:strip)
-        end
+        # Normalize features to array and translate to external codes
+        params[:features] = params[:features].split(",").map(&:strip) if params[:features].is_a?(String)
+        params[:features] = feature_keys_to_external(params[:features]) if params[:features].present?
 
         # Convert numeric strings
         %i[min_price max_price min_bedrooms max_bedrooms min_bathrooms max_bathrooms
