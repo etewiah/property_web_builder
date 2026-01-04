@@ -1,11 +1,46 @@
 <div class="max-w-7xl mx-auto">
   <div class="mb-6">
-    <h1 class="text-3xl font-bold text-gray-900">Website Settings</h1>
-    <p class="mt-2 text-gray-600">Configure settings for <%= current_website.subdomain %></p>
+    <h1 class="text-3xl font-bold text-gray-900">
+      <% case @tab %>
+      <% when 'general' %>
+        General Settings
+      <% when 'appearance' %>
+        Theme & Appearance
+      <% when 'navigation' %>
+        Site Navigation
+      <% when 'notifications' %>
+        Notification Settings
+      <% when 'seo' %>
+        SEO Settings
+      <% when 'social' %>
+        Social Links
+      <% when 'search' %>
+        Search Settings
+      <% else %>
+        <%= @tab.titleize %> Settings
+      <% end %>
+    </h1>
+    <p class="mt-2 text-gray-600">
+      <% case @tab %>
+      <% when 'general' %>
+        Configure basic website settings
+      <% when 'appearance' %>
+        Customize your site's look and feel
+      <% when 'navigation' %>
+        Manage your site's navigation menus
+      <% when 'notifications' %>
+        Configure email and notification preferences
+      <% when 'seo' %>
+        Optimize your site for search engines
+      <% when 'social' %>
+        Add links to your social media profiles
+      <% when 'search' %>
+        Configure property search options and filters
+      <% else %>
+        Configure settings for <%= current_website.subdomain %>
+      <% end %>
+    </p>
   </div>
-
-  <!-- Tab Navigation -->
-  <%= render 'tab_navigation', current_tab: @tab %>
 
   <!-- Tab Content -->
   <div class="bg-white rounded-lg shadow overflow-hidden">

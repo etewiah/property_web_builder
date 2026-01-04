@@ -83,6 +83,13 @@
             <span>Search Settings</span>
           <% end %>
 
+          <%= link_to site_admin_widgets_path, id: "tour-widgets", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/widgets') ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Embed Widgets</span>
+          <% end %>
+
          <% if false %>
          <%# commenting out page parts and contents for now %>
           <% link_to site_admin_page_parts_path, class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_page_parts_path) ? 'bg-gray-700' : ''}" do %>
@@ -238,11 +245,25 @@
             <span>Billing</span>
           <% end %>
 
-          <%= link_to site_admin_website_settings_path, id: "tour-website-settings", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/website') && !['appearance', 'seo'].include?(params[:tab]) ? 'bg-gray-700' : ''}" do %>
+          <%= link_to site_admin_website_settings_tab_path('general'), id: "tour-general-settings", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{params[:tab] == 'general' || (request.path.start_with?('/site_admin/website') && !['appearance', 'seo', 'navigation', 'notifications', 'social'].include?(params[:tab])) ? 'bg-gray-700' : ''}" do %>
             <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
             </svg>
-            <span>Website Settings</span>
+            <span>General Settings</span>
+          <% end %>
+
+          <%= link_to site_admin_website_settings_tab_path('notifications'), id: "tour-notifications", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{params[:tab] == 'notifications' ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
+            </svg>
+            <span>Notifications</span>
+          <% end %>
+
+          <%= link_to site_admin_website_settings_tab_path('social'), id: "tour-social", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{params[:tab] == 'social' ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"></path>
+            </svg>
+            <span>Social Links</span>
           <% end %>
 
           <%= link_to site_admin_domain_path, id: "tour-domain", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{current_page?(site_admin_domain_path) ? 'bg-gray-700' : ''}" do %>
@@ -250,13 +271,6 @@
               <path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd"></path>
             </svg>
             <span>Domain</span>
-          <% end %>
-
-          <%= link_to site_admin_widgets_path, id: "tour-widgets", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/widgets') ? 'bg-gray-700' : ''}" do %>
-            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-            </svg>
-            <span>Embed Widgets</span>
           <% end %>
 
           <%= link_to site_admin_onboarding_path, id: "tour-onboarding", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/onboarding') ? 'bg-gray-700' : ''}" do %>
@@ -297,6 +311,13 @@
               <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
             </svg>
             <span>Media Library</span>
+          <% end %>
+
+          <%= link_to site_admin_website_settings_tab_path('navigation'), id: "tour-navigation", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{params[:tab] == 'navigation' ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Site Navigation</span>
           <% end %>
 
           <%= link_to site_admin_website_settings_tab_path('seo'), id: "tour-seo", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{params[:tab] == 'seo' ? 'bg-gray-700' : ''}" do %>

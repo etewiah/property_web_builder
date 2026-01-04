@@ -71,7 +71,7 @@ module FeatureAuthorized
     respond_to do |format|
       format.html do
         flash[:alert] = exception.message
-        redirect_to billing_path
+        redirect_to site_admin_billing_path
       end
       format.json do
         render json: {
