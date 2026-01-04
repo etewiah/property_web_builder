@@ -1,0 +1,84 @@
+<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
+  <div class="w-full mb-1">
+    <div class="mb-4">
+      <nav class="flex mb-5" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+          <li class="inline-flex items-center">
+            <%= link_to tenant_admin_root_path, class: "inline-flex items-center text-gray-700 hover:text-blue-600" do %>
+              <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+              Dashboard
+            <% end %>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+              <span class="ml-1 text-gray-400 md:ml-2" aria-current="page">Site Imports</span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+      <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl">Site Imports</h1>
+      <p class="mt-1 text-sm text-gray-500">Import content from existing PWB websites to create seed packs.</p>
+    </div>
+
+    <div class="sm:flex">
+      <div class="flex items-center ml-auto space-x-2 sm:space-x-3">
+        <%= link_to new_tenant_admin_site_import_path, class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-200" do %>
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
+          </svg>
+          Import New Site
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="p-4">
+  <% if @import_packs.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <% @import_packs.each do |pack| %>
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 class="text-lg font-medium text-gray-900"><%= pack[:display_name] %></h3>
+              <p class="text-sm text-gray-500 mt-1"><%= pack[:name] %></p>
+            </div>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              Ready
+            </span>
+          </div>
+
+          <% if pack[:description].present? %>
+            <p class="text-sm text-gray-600 mt-3"><%= pack[:description] %></p>
+          <% end %>
+
+          <p class="text-xs text-gray-400 mt-3">
+            Created: <%= pack[:created_at].strftime('%Y-%m-%d %H:%M') %>
+          </p>
+
+          <div class="mt-4 flex space-x-2">
+            <%= link_to "View", tenant_admin_site_import_path(pack[:name]), class: "inline-flex items-center px-3 py-1.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100" %>
+            <%= button_to "Delete", tenant_admin_site_import_path(pack[:name]), method: :delete, data: { confirm: "Are you sure you want to delete this import pack?" }, class: "inline-flex items-center px-3 py-1.5 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-12 bg-white rounded-lg shadow">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+      </svg>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">No imported sites</h3>
+      <p class="mt-1 text-sm text-gray-500">Get started by importing content from an existing PWB website.</p>
+      <div class="mt-6">
+        <%= link_to new_tenant_admin_site_import_path, class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700" do %>
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
+          </svg>
+          Import New Site
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -124,6 +124,13 @@ Rails.application.routes.draw do
 
     # Tenant Settings (singleton resource)
     resource :settings, only: %i[show update], controller: 'settings'
+
+    # Site Imports - Scrape content from existing PWB websites to create seed packs
+    resources :site_imports, only: %i[index new create show destroy] do
+      member do
+        post :apply
+      end
+    end
   end
 
   # Site Admin - Single website/tenant management dashboard

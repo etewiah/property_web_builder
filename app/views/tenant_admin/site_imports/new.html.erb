@@ -1,0 +1,92 @@
+<div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
+  <div class="w-full mb-1">
+    <div class="mb-4">
+      <nav class="flex mb-5" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+          <li class="inline-flex items-center">
+            <%= link_to tenant_admin_root_path, class: "inline-flex items-center text-gray-700 hover:text-blue-600" do %>
+              <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+              Dashboard
+            <% end %>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+              <%= link_to "Site Imports", tenant_admin_site_imports_path, class: "ml-1 text-gray-700 hover:text-blue-600 md:ml-2" %>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+              <span class="ml-1 text-gray-400 md:ml-2" aria-current="page">Import New Site</span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+      <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl">Import Site Content</h1>
+      <p class="mt-1 text-sm text-gray-500">Scrape content from an existing PropertyWebBuilder website to create a seed pack.</p>
+    </div>
+  </div>
+</div>
+
+<div class="p-4">
+  <div class="bg-white rounded-lg shadow p-6 max-w-2xl">
+    <%= form_with url: tenant_admin_site_imports_path, method: :post, local: true, class: "space-y-6" do |f| %>
+      <div>
+        <label for="url" class="block text-sm font-medium text-gray-700">Website URL <span class="text-red-500">*</span></label>
+        <div class="mt-1">
+          <input type="url" name="url" id="url" required
+                 placeholder="https://example.propertywebbuilder.com"
+                 value="<%= params[:url] %>"
+                 class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <p class="mt-1 text-sm text-gray-500">Enter the full URL of the PWB website you want to import content from.</p>
+      </div>
+
+      <div>
+        <label for="pack_name" class="block text-sm font-medium text-gray-700">Pack Name</label>
+        <div class="mt-1">
+          <input type="text" name="pack_name" id="pack_name"
+                 placeholder="my_imported_site"
+                 value="<%= params[:pack_name] %>"
+                 pattern="[a-z0-9_]+"
+                 class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <p class="mt-1 text-sm text-gray-500">Optional. Use lowercase letters, numbers, and underscores. Auto-generated from URL if empty.</p>
+      </div>
+
+      <div>
+        <label for="locales" class="block text-sm font-medium text-gray-700">Locales</label>
+        <div class="mt-1">
+          <input type="text" name="locales" id="locales"
+                 placeholder="en, es, fr"
+                 value="<%= params[:locales] || 'en' %>"
+                 class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <p class="mt-1 text-sm text-gray-500">Comma-separated list of locales to scrape. Default: en</p>
+      </div>
+
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <div class="flex">
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+          </svg>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-yellow-800">Note</h3>
+            <p class="mt-1 text-sm text-yellow-700">
+              This scraper is designed for PropertyWebBuilder websites. Results may vary for non-PWB sites.
+              The scraping process may take a few minutes depending on the site size.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end space-x-3">
+        <%= link_to "Cancel", tenant_admin_site_imports_path, class: "px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50" %>
+        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-200">
+          Start Import
+        </button>
+      </div>
+    <% end %>
+  </div>
+</div>

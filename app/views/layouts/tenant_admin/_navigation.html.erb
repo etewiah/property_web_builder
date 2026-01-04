@@ -57,6 +57,13 @@
           </svg>
           <span>Domains</span>
         <% end %>
+
+        <%= link_to tenant_admin_site_imports_path, class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.include?('site_imports') ? 'bg-gray-700' : ''}" do %>
+          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+          <span>Site Imports</span>
+        <% end %>
       </div>
 
       <!-- User Management -->
