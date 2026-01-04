@@ -6,6 +6,7 @@
 // Importmap JavaScript (app/javascript/)
 //= link application.js
 //= link_tree ../../javascript/controllers .js
+//= link_tree ../../javascript/services .js
 
 //= link pwb/editor_client.js
 //= link pwb/editor.css
