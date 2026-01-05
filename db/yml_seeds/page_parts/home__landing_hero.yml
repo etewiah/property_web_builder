@@ -34,7 +34,7 @@
           {% assign webp_url = hero_img_url | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
           <picture>
             <source srcset="{{ webp_url }}" type="image/webp">
-            <img src="{{ hero_img_url }}" alt="Hero Background" class="hero-bg-img">
+            <img src="{{ hero_img_url }}" alt="Hero Background" class="hero-bg-img" fetchpriority="high">
           </picture>
         {% else %}
           <div class="hero-bg-placeholder"></div>
