@@ -1,0 +1,162 @@
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8">
+    <nav class="flex mb-4" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+        <li class="inline-flex items-center">
+          <%= link_to tenant_admin_root_path, class: "inline-flex items-center text-gray-700 hover:text-blue-600" do %>
+            <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+            Dashboard
+          <% end %>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+            <%= link_to "Websites", tenant_admin_websites_path, class: "ml-1 text-gray-700 hover:text-blue-600 md:ml-2" %>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+            <%= link_to @website.subdomain || "No subdomain", tenant_admin_website_path(@website), class: "ml-1 text-gray-700 hover:text-blue-600 md:ml-2" %>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+            <span class="ml-1 text-gray-400 md:ml-2" aria-current="page">Seeding & Reset</span>
+          </div>
+        </li>
+      </ol>
+    </nav>
+    <h1 class="text-3xl font-bold text-gray-900">Seeding & Content Reset</h1>
+    <p class="mt-2 text-gray-600">Populate your website with sample data or reset specific sections to their defaults.</p>
+  </div>
+
+  <%= form_with url: seed_tenant_admin_website_path(@website), method: :post, local: true, data: { turbo: false } do |f| %>
+    
+    <!-- Step 1: Choose Pack -->
+    <div class="bg-white shadow rounded-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+        <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-200 dark:text-blue-800">1</span>
+        Choose Seed Pack
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <% @seed_packs.each do |pack| %>
+          <label class="relative border rounded-lg p-4 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-colors <%= 'border-blue-500 bg-blue-50 ring-2 ring-blue-500' if pack.name == @current_pack_name %>">
+            <div class="flex items-center mb-2">
+              <%= radio_button_tag :pack_name, pack.name, pack.name == @current_pack_name, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300" %>
+              <span class="ml-2 font-medium text-gray-900"><%= pack.display_name %></span>
+            </div>
+            <% if pack.description.present? %>
+              <p class="text-sm text-gray-500 ml-6"><%= pack.description %></p>
+            <% end %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Step 2: Select Scope -->
+    <div class="bg-white shadow rounded-lg p-6 mb-8">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+        <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-200 dark:text-blue-800">2</span>
+        Select Scope
+      </h2>
+      
+      <div class="space-y-4">
+        
+        <!-- Safe Options Group -->
+        <div class="p-4 bg-green-50 rounded-md border border-green-100">
+          <h3 class="text-sm font-medium text-green-800 mb-2 uppercase tracking-wide">Safe & Additive</h3>
+          <div class="space-y-3">
+             <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <%= check_box_tag :seed_scope_agency, "1", true, class: "focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded" %>
+              </div>
+              <div class="ml-3 text-sm">
+                <label for="seed_scope_agency" class="font-medium text-gray-700">Restore Agency Details</label>
+                <p class="text-gray-500">Adds agency name, email, and address if missing.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <%= check_box_tag :seed_scope_users, "1", true, class: "focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded" %>
+              </div>
+              <div class="ml-3 text-sm">
+                <label for="seed_scope_users" class="font-medium text-gray-700">Restore Default Users</label>
+                <p class="text-gray-500">Recreated admin users if they were deleted.</p>
+              </div>
+            </div>
+
+             <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <%= check_box_tag :seed_scope_links, "1", true, class: "focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded" %>
+              </div>
+              <div class="ml-3 text-sm">
+                <label for="seed_scope_links" class="font-medium text-gray-700">Restore Navigation Links</label>
+                <p class="text-gray-500">Adds default menu items (Home, Buy, Rent) if they are missing.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <%= check_box_tag :seed_scope_field_keys, "1", true, class: "focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded" %>
+              </div>
+              <div class="ml-3 text-sm">
+                <label for="seed_scope_field_keys" class="font-medium text-gray-700">Restore Field Keys</label>
+                <p class="text-gray-500">Restores property features and types to standard list.</p>
+              </div>
+            </div>
+
+             <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <%= check_box_tag :seed_scope_properties, "1", false, class: "focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded" %>
+              </div>
+              <div class="ml-3 text-sm">
+                <label for="seed_scope_properties" class="font-medium text-gray-700">Restore Sample Properties</label>
+                <p class="text-gray-500">Adds sample listings (Villa for Sale, etc.) only if they don't exist.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Destructive Options Group -->
+         <div class="p-4 bg-red-50 rounded-md border border-red-100">
+           <h3 class="text-sm font-medium text-red-800 mb-2 uppercase tracking-wide flex items-center">
+             <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+             Destructive Actions
+           </h3>
+          <div class="space-y-3">
+             <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <%= check_box_tag :seed_scope_pages, "1", false, class: "focus:ring-red-500 h-4 w-4 text-red-600 border-gray-300 rounded" %>
+              </div>
+              <div class="ml-3 text-sm">
+                <label for="seed_scope_pages" class="font-medium text-gray-900">Reset Page Content & Structure</label>
+                <p class="text-red-600 text-xs mt-0.5">WARNING: This will overwrite ALL text on standard pages (Home, About Us, Legal) with default content. Your manual edits to these pages will be LOST.</p>
+              </div>
+            </div>
+
+             <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <%= check_box_tag :seed_scope_content, "1", false, class: "focus:ring-red-500 h-4 w-4 text-red-600 border-gray-300 rounded" %>
+              </div>
+              <div class="ml-3 text-sm">
+                <label for="seed_scope_content" class="font-medium text-gray-900">Reset Translations & Text</label>
+                <p class="text-red-600 text-xs mt-0.5">WARNING: Overwrites localized text for standard UI elements.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+    
+    <div class="flex justify-end space-x-3">
+      <%= link_to "Cancel", tenant_admin_website_path(@website), class: "py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      <%= f.submit "Run Seeding", data: { turbo_confirm: "Are you sure? Review your selections carefully, especially destructive options." }, class: "py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    </div>
+
+  <% end %>
+</div>

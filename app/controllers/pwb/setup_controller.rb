@@ -63,9 +63,14 @@ module Pwb
     def check_already_setup
       # Check if a website already exists for this subdomain
       subdomain = request.subdomain
-      return if subdomain.blank?
 
-      website = Pwb::Website.find_by_subdomain(subdomain)
+      website = if subdomain.present?
+                  Pwb::Website.find_by_subdomain(subdomain)
+                else
+                  # For localhost/IP access, check for default or any website
+                  Pwb::Website.find_by_subdomain('default') || Pwb::Website.first
+                end
+
       return if website.nil?
 
       # Website exists, redirect to home

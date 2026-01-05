@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     resources :websites do
       member do
         post :seed
+        get :seed, action: :seed_form
         post :retry_provisioning
       end
       # Nested resources for tenant-specific data

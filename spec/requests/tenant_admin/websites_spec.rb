@@ -152,4 +152,16 @@ RSpec.describe 'TenantAdmin::Websites', type: :request do
       expect(response.body).to include('seeded').or include('success')
     end
   end
+
+  describe 'GET /tenant_admin/websites/:id/seed' do
+    let!(:target_website) { create(:pwb_website, subdomain: 'seed-site') }
+    let!(:agency) { create(:pwb_agency, display_name: 'Test Agency') } # Ensure dependencies exist
+
+    it 'renders the seeding form successfully' do
+      get "/tenant_admin/websites/#{target_website.id}/seed"
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('Seeding & Reset')
+      expect(response.body).to include('Choose Seed Pack')
+    end
+  end
 end
