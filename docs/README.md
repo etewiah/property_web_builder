@@ -29,7 +29,6 @@ Welcome to PropertyWebBuilder's documentation. This folder contains guides and r
 | **[migrations/](./migrations/)** | Major migration guides (Globalize, CarrierWave) |
 | **[multi_tenancy/](./multi_tenancy/)** | Multi-tenant architecture and routing |
 | **[provisioning/](./provisioning/)** | Website provisioning workflows |
-| **[quasar/](./quasar/)** | Quasar admin frontend docs |
 | **[seeding/](./seeding/)** | Seed packs and sample data |
 | **[seo/](./seo/)** | SEO implementation and meta tags |
 | **[signup/](./signup/)** | Self-service signup flow |
@@ -57,7 +56,7 @@ Welcome to PropertyWebBuilder's documentation. This folder contains guides and r
 
 ### For Frontend Developers
 1. [theming/](./theming/) - Theme system
-2. [quasar/](./quasar/) - Admin frontend
+
 3. [branding/](./branding/) - Design guidelines
 
 ## Quick Commands

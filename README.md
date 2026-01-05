@@ -58,7 +58,6 @@ PropertyWebBuilder 2.0 is a major release representing 5 years of development an
 - Bootstrap → Tailwind CSS for public themes
 - Globalize → Mobility for translations
 - Cloudinary → ActiveStorage (S3/R2 compatible)
-- Vite + Vue.js 3 + Quasar for admin panel
 
 **New Features:**
 - Seed packs system for scenario-based site setup
@@ -111,7 +110,7 @@ git checkout v2.0.0
 
 For detailed documentation, see the [docs folder](./docs/), which includes:
 - [API Documentation](./docs/04_API.md)
-- [Frontend/Vue.js Documentation](./docs/05_Frontend.md)
+- [Frontend Documentation](./docs/05_Frontend.md)
 - [Multi-Tenancy Guide](./docs/multi_tenancy/README.md)
 - [Theming System](./docs/11_Theming_System.md)
 - [Seeding Guide](./docs/seeding/)
@@ -133,7 +132,7 @@ PropertyWebBuilder runs with Ruby 3.4.7 or higher.
 
 ## Features
 
-* **Modern Tech Stack** - Rails 8, Ruby 3.4.7, Vue.js 3, Quasar, Vite, Tailwind CSS
+* **Modern Tech Stack** - Rails 8, Ruby 3.4.7, Tailwind CSS
 * **Multi-Tenancy** - Host multiple websites from a single installation
 * **Multilingual** - Support for multiple languages with Mobility gem
 * **Multi-currency** - Handle properties in different currencies

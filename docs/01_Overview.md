@@ -19,7 +19,7 @@ PropertyWebBuilder is a multi-tenant Ruby on Rails application for creating real
 *   **Data Models:** Database schema, models, and associations including the tenant-scoped `PwbTenant::` namespace.
 *   **Controllers:** Controller actions, request handling, and the dual admin architecture.
 *   **API:** RESTful and GraphQL API documentation.
-*   **Frontend:** Vue.js 3 admin applications and Tailwind CSS public themes.
+*   **Frontend:** Tailwind CSS public themes.
 *   **Multi-Tenancy:** How tenant isolation works with `acts_as_tenant`.
 *   **Theming System:** Creating and customizing themes.
 *   **Authentication:** Firebase and Devise authentication options.
@@ -30,8 +30,7 @@ PropertyWebBuilder is a multi-tenant Ruby on Rails application with a modern tec
 
 - **Backend:** Ruby on Rails 8.0, Ruby 3.4.7, PostgreSQL
 - **Multi-Tenancy:** `acts_as_tenant` gem with `Pwb::` (base) and `PwbTenant::` (tenant-scoped) namespaces
-- **Frontend:** Rails Views (ERB) with Tailwind CSS, Vue.js 3 with Quasar Framework for admin
-- **Build Tool:** Vite with vite-plugin-ruby
+- **Frontend:** Rails Views (ERB) with Tailwind CSS for admin and public themes
 - **API:** RESTful API for admin panel and external integrations, GraphQL API for flexible data querying
 - **Authentication:** Firebase authentication with Devise fallback
 - **File Storage:** ActiveStorage with S3/Cloudflare R2 support

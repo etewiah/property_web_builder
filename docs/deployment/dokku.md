@@ -84,7 +84,7 @@ Ensure your `package.json` specifies a Node version compatible with your depende
 ```
 
 ### NPM Configuration
-If you encounter dependency conflicts (common with Vite/Quasar), create a `.npmrc` file:
+If you encounter dependency conflicts, create a `.npmrc` file:
 
 ```
 legacy-peer-deps=true

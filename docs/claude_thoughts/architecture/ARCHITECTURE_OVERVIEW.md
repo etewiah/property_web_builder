@@ -5,7 +5,7 @@
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                     FRONTEND LAYER                              │
-│  Vue.js 3 + Quasar (Admin) | Public Website (Theme-based)      │
+│  Admin Panel (ERB & Stimulus) | Public Website (Theme-based)      │
 │                                                                 │
 │  ┌────────────────┐  ┌────────────────┐  ┌──────────────────┐ │
 │  │  Site Admin    │  │ Tenant Admin    │  │  Public Website  │ │

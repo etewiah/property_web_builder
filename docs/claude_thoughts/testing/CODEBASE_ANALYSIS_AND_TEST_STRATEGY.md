@@ -2,11 +2,11 @@
 
 ## Executive Summary
 
-PropertyWebBuilder is a modern Rails 8 real estate website builder with a multi-tenant architecture. It allows agencies to create and manage property listings, pages, and contact forms without technical knowledge. The application has been recently upgraded from a Rails engine to a standalone Rails application with Vue.js 3, Quasar, and modern build tooling.
+PropertyWebBuilder is a modern Rails 8 real estate website builder with a multi-tenant architecture. It allows agencies to create and manage property listings, pages, and contact forms without technical knowledge.
 
 ### Key Stack
 - **Backend**: Rails 8, Ruby 3.4.7
-- **Frontend**: Vue.js 3, Quasar Framework, Vite
+- **Frontend**: Tailwind CSS
 - **Database**: PostgreSQL (multi-tenant with subdomain isolation)
 - **APIs**: REST (public and private), GraphQL
 - **Authentication**: Devise with OmniAuth (Facebook, Firebase)
@@ -863,9 +863,6 @@ photos = asset.prop_photos.create!(image: file)
 ### Latest Upgrades (November 2024)
 - Rails 8.0 upgrade
 - Ruby 3.4.7
-- Vite build tooling (replacing Webpacker)
-- Vue.js 3 admin panel (in development)
-- Quasar framework integration
 - Comprehensive documentation in `docs/` folder
 
 ### Current Architecture Files

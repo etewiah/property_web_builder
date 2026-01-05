@@ -24,8 +24,7 @@ docs/site_admin/
 ├── architecture/                # System design & structure
 │   ├── ADMIN_ARCHITECTURE.md    # System diagrams & data flows
 │   ├── TENANT_ADMIN_STRUCTURE.md # Multi-tenant admin structure
-│   ├── 01_Implementation_Details.md
-│   └── 02_Quasar_Frontend_Implementation.md (deprecated)
+│   └── 01_Implementation_Details.md
 │
 ├── research/                    # Inventory & analysis
 │   ├── ADMIN_AREA_RESEARCH.md   # Comprehensive research document

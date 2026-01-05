@@ -2,7 +2,7 @@
 
 ## Overview
 
-PropertyWebBuilder is a modern, open-source real estate website platform built on Rails 8, Ruby 3.4.7, with a modern tech stack including Vue.js 3, Quasar, and Vite. It's a multi-tenant SaaS application where each website is a separate tenant with complete data isolation.
+PropertyWebBuilder is a modern, open-source real estate website platform built on Rails 8, Ruby 3.4.7. It's a multi-tenant SaaS application where each website is a separate tenant with complete data isolation.
 
 **Repository**: https://github.com/etewiah/property_web_builder
 
@@ -774,9 +774,7 @@ PropertyWebBuilder is a modern, open-source real estate website platform built o
 - **Framework**: Rails 8.0
 - **Ruby**: 3.4.7
 - **Database**: PostgreSQL with extensions (pgcrypto)
-- **Frontend**: Vue.js 3 + Quasar framework
-- **Build Tool**: Vite with vite-ruby
-- **CSS**: Tailwind CSS support
+- **Frontend**: Tailwind CSS
 - **Styling**: Custom CSS variables system
 
 ### Key Gems & Libraries
@@ -894,7 +892,7 @@ Comprehensive deployment guides for:
 ### Available Documentation
 - Comprehensive README with features list
 - API documentation (Swagger/RSwag)
-- Frontend documentation (Vue.js/Quasar)
+- Frontend documentation
 - Multi-tenancy guides
 - Authentication/authorization guides
 - Theming system documentation
