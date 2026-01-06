@@ -56,6 +56,7 @@ config/locales/admin.zh.yml.tmp
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
+/db_imports
 !/log/.keep
 !/tmp/.keep
 
