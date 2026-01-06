@@ -7,6 +7,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_saved_properties
+# Database name: primary
 #
 #  id                   :bigint           not null, primary key
 #  current_price_cents  :integer

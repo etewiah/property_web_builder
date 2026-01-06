@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_scraped_properties
+# Database name: primary
 #
 #  id                    :uuid             not null, primary key
 #  connector_used        :string

@@ -1,6 +1,7 @@
 # == Schema Information
 #
 # Table name: pwb_addresses
+# Database name: primary
 #
 #  id             :integer          not null, primary key
 #  city           :string

@@ -10,6 +10,7 @@ module PwbTenant
 # == Schema Information
 #
 # Table name: pwb_rental_listings
+# Database name: primary
 #
 #  id                                     :uuid             not null, primary key
 #  active                                 :boolean          default(FALSE), not null

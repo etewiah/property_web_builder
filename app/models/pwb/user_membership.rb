@@ -7,6 +7,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_user_memberships
+# Database name: primary
 #
 #  id         :bigint           not null, primary key
 #  active     :boolean          default(TRUE), not null
@@ -27,7 +28,6 @@ module Pwb
 #  fk_rails_...  (user_id => pwb_users.id)
 #  fk_rails_...  (website_id => pwb_websites.id)
 #
-  #
   class UserMembership < ApplicationRecord
     # Available roles in hierarchical order
     ROLES = %w[owner admin member viewer].freeze

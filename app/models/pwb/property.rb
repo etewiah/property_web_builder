@@ -3,6 +3,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_properties
+# Database name: primary
 #
 #  id                                     :uuid             primary key
 #  city                                   :string

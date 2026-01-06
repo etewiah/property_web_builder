@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_support_tickets
+# Database name: primary
 #
 #  id                         :uuid             not null, primary key
 #  assigned_at                :datetime

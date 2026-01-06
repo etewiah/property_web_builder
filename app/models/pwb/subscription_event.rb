@@ -15,6 +15,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_subscription_events
+# Database name: primary
 #
 #  id              :bigint           not null, primary key
 #  event_type      :string           not null
@@ -32,7 +33,6 @@ module Pwb
 #
 #  fk_rails_...  (subscription_id => pwb_subscriptions.id)
 #
-  #
   class SubscriptionEvent < ApplicationRecord
     self.table_name = 'pwb_subscription_events'
 

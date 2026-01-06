@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_features
+# Database name: primary
 #
 #  id              :integer          not null, primary key
 #  feature_key     :string

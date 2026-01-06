@@ -11,6 +11,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_field_keys
+# Database name: primary
 #
 #  id                  :integer          not null
 #  global_key          :string           primary key
@@ -34,7 +35,6 @@ module Pwb
 #
 #  fk_rails_...  (pwb_website_id => pwb_websites.id)
 #
-  #
   class FieldKey < ApplicationRecord
     extend Mobility
 

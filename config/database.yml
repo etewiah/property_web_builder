@@ -22,8 +22,13 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
-  <<: *default
-  database: pwb_development
+  primary:
+    <<: *default
+    database: pwb_development
+  tenant_shard_1:
+    <<: *default
+    database: pwb_development_shard_1
+    migrations_paths: db/tenant_shard_1_migrate
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -56,8 +61,13 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
-  database: pwb_test
+  primary:
+    <<: *default
+    database: pwb_test
+  tenant_shard_1:
+    <<: *default
+    database: pwb_test_shard_1
+    migrations_paths: db/tenant_shard_1_migrate
 
 # E2E testing environment for Playwright tests
 # Uses a separate database to keep test data isolated

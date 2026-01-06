@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_page_contents
+# Database name: primary
 #
 #  id              :bigint           not null, primary key
 #  is_rails_part   :boolean          default(FALSE)

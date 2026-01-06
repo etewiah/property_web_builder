@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_messages
+# Database name: primary
 #
 #  id               :integer          not null, primary key
 #  content          :text

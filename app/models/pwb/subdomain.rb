@@ -1,6 +1,7 @@
 # == Schema Information
 #
 # Table name: pwb_subdomains
+# Database name: primary
 #
 #  id                :bigint           not null, primary key
 #  aasm_state        :string           default("available"), not null

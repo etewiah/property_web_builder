@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_media_folders
+# Database name: primary
 #
 #  id         :bigint           not null, primary key
 #  name       :string           not null

@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_ticket_messages
+# Database name: primary
 #
 #  id                  :uuid             not null, primary key
 #  content             :text             not null

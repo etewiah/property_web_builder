@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: ahoy_visits
+# Database name: primary
 #
 #  id               :bigint           not null, primary key
 #  browser          :string

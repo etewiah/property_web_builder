@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_links
+# Database name: primary
 #
 #  id               :integer          not null, primary key
 #  flags            :integer          default(0), not null

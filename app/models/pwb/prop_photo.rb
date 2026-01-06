@@ -1,6 +1,7 @@
 # == Schema Information
 #
 # Table name: pwb_prop_photos
+# Database name: primary
 #
 #  id              :integer          not null, primary key
 #  description     :string

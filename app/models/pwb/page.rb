@@ -9,6 +9,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_pages
+# Database name: primary
 #
 #  id                      :integer          not null, primary key
 #  details                 :json
@@ -37,7 +38,6 @@ module Pwb
 #  index_pwb_pages_on_translations         (translations) USING gin
 #  index_pwb_pages_on_website_id           (website_id)
 #
-  #
   class Page < ApplicationRecord
     extend Mobility
     extend ActiveHash::Associations::ActiveRecordExtensions

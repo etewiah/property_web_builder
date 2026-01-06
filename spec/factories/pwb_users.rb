@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_users
+# Database name: primary
 #
 #  id                                 :integer          not null, primary key
 #  admin                              :boolean          default(FALSE)

@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_page_parts
+# Database name: primary
 #
 #  id              :bigint           not null, primary key
 #  block_contents  :json

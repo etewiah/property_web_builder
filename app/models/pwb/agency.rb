@@ -9,6 +9,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_agencies
+# Database name: primary
 #
 #  id                              :integer          not null, primary key
 #  analytics_id_type               :integer
@@ -50,7 +51,6 @@ module Pwb
 #
 #  index_pwb_agencies_on_website_id  (website_id)
 #
-  #
   class Agency < ApplicationRecord
     self.table_name = 'pwb_agencies'
 

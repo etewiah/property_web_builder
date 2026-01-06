@@ -18,6 +18,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_auth_audit_logs
+# Database name: primary
 #
 #  id             :bigint           not null, primary key
 #  email          :string
@@ -49,7 +50,6 @@ module Pwb
 #  fk_rails_...  (user_id => pwb_users.id)
 #  fk_rails_...  (website_id => pwb_websites.id)
 #
-  #
   class AuthAuditLog < ApplicationRecord
     self.table_name = 'pwb_auth_audit_logs'
 

@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_email_templates
+# Database name: primary
 #
 #  id           :bigint           not null, primary key
 #  active       :boolean          default(TRUE), not null

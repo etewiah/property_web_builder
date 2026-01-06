@@ -27,6 +27,11 @@ module PwbTenant
     # The tenant is Pwb::Website
     acts_as_tenant :website, class_name: 'Pwb::Website'
 
+    connects_to shards: {
+      default: { writing: :primary, reading: :primary },
+      shard_1: { writing: :tenant_shard_1, reading: :tenant_shard_1 }
+    }
+
     # Ensure website is always present
     validates :website, presence: true
   end

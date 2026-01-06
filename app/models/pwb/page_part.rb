@@ -11,6 +11,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_page_parts
+# Database name: primary
 #
 #  id              :bigint           not null, primary key
 #  block_contents  :json
@@ -35,7 +36,6 @@ module Pwb
 #  index_pwb_page_parts_on_page_slug      (page_slug)
 #  index_pwb_page_parts_on_website_id     (website_id)
 #
-  #
   class PagePart < ApplicationRecord
     self.table_name = 'pwb_page_parts'
 

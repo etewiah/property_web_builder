@@ -11,6 +11,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_page_contents
+# Database name: primary
 #
 #  id              :bigint           not null, primary key
 #  is_rails_part   :boolean          default(FALSE)
@@ -30,7 +31,6 @@ module Pwb
 #  index_pwb_page_contents_on_page_id     (page_id)
 #  index_pwb_page_contents_on_website_id  (website_id)
 #
-  #
   class PageContent < ApplicationRecord
     self.table_name = 'pwb_page_contents'
 

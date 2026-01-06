@@ -23,6 +23,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_search_filter_options
+# Database name: primary
 #
 #  id             :bigint           not null, primary key
 #  external_code  :string
@@ -53,7 +54,6 @@ module Pwb
 #  fk_rails_...  (parent_id => pwb_search_filter_options.id)
 #  fk_rails_...  (website_id => pwb_websites.id)
 #
-  #
   class SearchFilterOption < ApplicationRecord
     extend Mobility
 

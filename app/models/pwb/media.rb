@@ -13,6 +13,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_media
+# Database name: primary
 #
 #  id           :bigint           not null, primary key
 #  alt_text     :string
@@ -50,7 +51,6 @@ module Pwb
 #  fk_rails_...  (folder_id => pwb_media_folders.id)
 #  fk_rails_...  (website_id => pwb_websites.id)
 #
-  #
   class Media < ApplicationRecord
     self.table_name = 'pwb_media'
 

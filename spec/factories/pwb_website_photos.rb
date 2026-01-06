@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_website_photos
+# Database name: primary
 #
 #  id           :bigint           not null, primary key
 #  description  :string

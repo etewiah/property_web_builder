@@ -13,6 +13,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_plans
+# Database name: primary
 #
 #  id               :bigint           not null, primary key
 #  active           :boolean          default(TRUE), not null

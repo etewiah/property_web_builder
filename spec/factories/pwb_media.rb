@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_media
+# Database name: primary
 #
 #  id           :bigint           not null, primary key
 #  alt_text     :string

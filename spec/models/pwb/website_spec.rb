@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_websites
+# Database name: primary
 #
 #  id                                  :integer          not null, primary key
 #  admin_config                        :json
@@ -68,6 +69,7 @@
 #  search_config_rent                  :json
 #  seed_pack_name                      :string
 #  selected_palette                    :string
+#  shard_name                          :string           default("default")
 #  site_type                           :string
 #  slug                                :string
 #  social_media                        :json

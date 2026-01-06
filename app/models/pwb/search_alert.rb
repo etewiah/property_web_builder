@@ -6,6 +6,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_search_alerts
+# Database name: primary
 #
 #  id                  :bigint           not null, primary key
 #  clicked_at          :datetime

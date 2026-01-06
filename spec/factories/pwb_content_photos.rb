@@ -4,6 +4,7 @@
 # == Schema Information
 #
 # Table name: pwb_content_photos
+# Database name: primary
 #
 #  id           :integer          not null, primary key
 #  block_key    :string

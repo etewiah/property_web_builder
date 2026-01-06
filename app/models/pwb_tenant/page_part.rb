@@ -10,6 +10,7 @@ module PwbTenant
 # == Schema Information
 #
 # Table name: pwb_page_parts
+# Database name: primary
 #
 #  id              :bigint           not null, primary key
 #  block_contents  :json
@@ -34,7 +35,6 @@ module PwbTenant
 #  index_pwb_page_parts_on_page_slug      (page_slug)
 #  index_pwb_page_parts_on_website_id     (website_id)
 #
-  #
   class PagePart < Pwb::PagePart
     include RequiresTenant
     acts_as_tenant :website, class_name: 'Pwb::Website'

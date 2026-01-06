@@ -10,6 +10,7 @@ module PwbTenant
 # == Schema Information
 #
 # Table name: pwb_pages
+# Database name: primary
 #
 #  id                      :integer          not null, primary key
 #  details                 :json
@@ -38,7 +39,6 @@ module PwbTenant
 #  index_pwb_pages_on_translations         (translations) USING gin
 #  index_pwb_pages_on_website_id           (website_id)
 #
-  #
   class Page < Pwb::Page
     include RequiresTenant
     acts_as_tenant :website, class_name: 'Pwb::Website'

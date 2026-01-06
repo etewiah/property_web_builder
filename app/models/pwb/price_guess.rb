@@ -7,6 +7,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_price_guesses
+# Database name: primary
 #
 #  id                     :uuid             not null, primary key
 #  actual_price_cents     :bigint           not null

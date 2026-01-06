@@ -9,6 +9,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_website_photos
+# Database name: primary
 #
 #  id           :bigint           not null, primary key
 #  description  :string
@@ -30,7 +31,6 @@ module Pwb
 #
 #  fk_rails_...  (website_id => pwb_websites.id)
 #
-  #
   class WebsitePhoto < ApplicationRecord
     include ExternalImageSupport
 

@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_contacts
+# Database name: primary
 #
 #  id                   :bigint           not null, primary key
 #  details              :json

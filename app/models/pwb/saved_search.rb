@@ -6,6 +6,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_saved_searches
+# Database name: primary
 #
 #  id                 :bigint           not null, primary key
 #  alert_frequency    :integer          default("none"), not null

@@ -10,6 +10,7 @@ module PwbTenant
 # == Schema Information
 #
 # Table name: pwb_users
+# Database name: primary
 #
 #  id                                 :integer          not null, primary key
 #  admin                              :boolean          default(FALSE)
@@ -62,7 +63,6 @@ module PwbTenant
 #  index_pwb_users_on_unlock_token                        (unlock_token) UNIQUE
 #  index_pwb_users_on_website_id                          (website_id)
 #
-  #
   class User < Pwb::User
     include RequiresTenant
     acts_as_tenant :website, class_name: 'Pwb::Website'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_03_084538) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_06_154936) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -1112,6 +1112,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_03_084538) do
     t.json "search_config_rent", default: {}
     t.string "seed_pack_name"
     t.string "selected_palette"
+    t.string "shard_name", default: "default"
     t.string "site_type"
     t.string "slug"
     t.json "social_media", default: {}

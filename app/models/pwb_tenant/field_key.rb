@@ -10,6 +10,7 @@ module PwbTenant
 # == Schema Information
 #
 # Table name: pwb_field_keys
+# Database name: primary
 #
 #  id                  :integer          not null
 #  global_key          :string           primary key
@@ -33,7 +34,6 @@ module PwbTenant
 #
 #  fk_rails_...  (pwb_website_id => pwb_websites.id)
 #
-  #
   class FieldKey < Pwb::FieldKey
     include RequiresTenant
     acts_as_tenant :website, foreign_key: 'pwb_website_id', class_name: 'Pwb::Website'

@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_search_filter_options
+# Database name: primary
 #
 #  id             :bigint           not null, primary key
 #  external_code  :string

@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_websites
+# Database name: primary
 #
 #  id                                  :integer          not null, primary key
 #  admin_config                        :json
@@ -68,6 +69,7 @@
 #  search_config_rent                  :json
 #  seed_pack_name                      :string
 #  selected_palette                    :string
+#  shard_name                          :string           default("default")
 #  site_type                           :string
 #  slug                                :string
 #  social_media                        :json
@@ -185,6 +187,11 @@ module Pwb
 
     def admins
       members.where(pwb_user_memberships: { role: ['owner', 'admin'], active: true })
+    end
+
+    def database_shard
+      # Ensure we return a symbol that matches our database.yml/connects_to config
+      (shard_name.presence || 'default').to_sym
     end
 
     def page_parts

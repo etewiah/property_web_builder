@@ -14,6 +14,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_subscriptions
+# Database name: primary
 #
 #  id                       :bigint           not null, primary key
 #  cancel_at_period_end     :boolean          default(FALSE), not null
@@ -45,7 +46,6 @@ module Pwb
 #  fk_rails_...  (plan_id => pwb_plans.id)
 #  fk_rails_...  (website_id => pwb_websites.id)
 #
-  #
   class Subscription < ApplicationRecord
     include AASM
 

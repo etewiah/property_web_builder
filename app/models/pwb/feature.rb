@@ -12,6 +12,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_features
+# Database name: primary
 #
 #  id              :integer          not null, primary key
 #  feature_key     :string
@@ -30,7 +31,6 @@ module Pwb
 #
 #  fk_rails_...  (realty_asset_id => pwb_realty_assets.id)
 #
-  #
   class Feature < ActiveRecord::Base
     self.table_name = 'pwb_features'
 

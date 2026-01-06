@@ -10,6 +10,7 @@ module PwbTenant
 # == Schema Information
 #
 # Table name: pwb_contents
+# Database name: primary
 #
 #  id                      :integer          not null, primary key
 #  input_type              :string
@@ -32,7 +33,6 @@ module PwbTenant
 #  index_pwb_contents_on_website_id          (website_id)
 #  index_pwb_contents_on_website_id_and_key  (website_id,key) UNIQUE
 #
-  #
   class Content < Pwb::Content
     include RequiresTenant
     acts_as_tenant :website, class_name: 'Pwb::Website'

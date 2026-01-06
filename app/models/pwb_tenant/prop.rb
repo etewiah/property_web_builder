@@ -10,6 +10,7 @@ module PwbTenant
 # == Schema Information
 #
 # Table name: pwb_props
+# Database name: primary
 #
 #  id                                            :integer          not null, primary key
 #  active_from                                   :datetime
@@ -97,7 +98,6 @@ module PwbTenant
 #  index_pwb_props_on_visible                             (visible)
 #  index_pwb_props_on_website_id                          (website_id)
 #
-  #
   class Prop < Pwb::Prop
     include RequiresTenant
     acts_as_tenant :website, class_name: 'Pwb::Website'

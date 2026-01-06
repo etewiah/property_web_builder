@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_tenant_settings
+# Database name: primary
 #
 #  id                       :bigint           not null, primary key
 #  configuration            :jsonb

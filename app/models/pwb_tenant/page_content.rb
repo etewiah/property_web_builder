@@ -10,6 +10,7 @@ module PwbTenant
 # == Schema Information
 #
 # Table name: pwb_page_contents
+# Database name: primary
 #
 #  id              :bigint           not null, primary key
 #  is_rails_part   :boolean          default(FALSE)
@@ -29,7 +30,6 @@ module PwbTenant
 #  index_pwb_page_contents_on_page_id     (page_id)
 #  index_pwb_page_contents_on_website_id  (website_id)
 #
-  #
   class PageContent < Pwb::PageContent
     include RequiresTenant
     acts_as_tenant :website, class_name: 'Pwb::Website'

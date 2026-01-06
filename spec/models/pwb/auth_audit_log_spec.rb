@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_auth_audit_logs
+# Database name: primary
 #
 #  id             :bigint           not null, primary key
 #  email          :string

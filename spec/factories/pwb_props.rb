@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_props
+# Database name: primary
 #
 #  id                                            :integer          not null, primary key
 #  active_from                                   :datetime

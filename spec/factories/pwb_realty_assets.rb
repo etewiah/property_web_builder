@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_realty_assets
+# Database name: primary
 #
 #  id                 :uuid             not null, primary key
 #  city               :string

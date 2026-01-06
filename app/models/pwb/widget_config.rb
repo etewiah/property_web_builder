@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_widget_configs
+# Database name: primary
 #
 #  id                :uuid             not null, primary key
 #  active            :boolean          default(TRUE), not null

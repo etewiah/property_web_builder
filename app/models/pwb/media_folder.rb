@@ -8,6 +8,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_media_folders
+# Database name: primary
 #
 #  id         :bigint           not null, primary key
 #  name       :string           not null
@@ -30,7 +31,6 @@ module Pwb
 #  fk_rails_...  (parent_id => pwb_media_folders.id)
 #  fk_rails_...  (website_id => pwb_websites.id)
 #
-  #
   class MediaFolder < ApplicationRecord
     self.table_name = 'pwb_media_folders'
 

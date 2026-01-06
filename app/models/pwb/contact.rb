@@ -9,6 +9,7 @@ module Pwb
 # == Schema Information
 #
 # Table name: pwb_contacts
+# Database name: primary
 #
 #  id                   :bigint           not null, primary key
 #  details              :json
@@ -52,7 +53,6 @@ module Pwb
 #
 #  fk_rails_...  (website_id => pwb_websites.id)
 #
-  #
   class Contact < ApplicationRecord
     self.table_name = 'pwb_contacts'
 

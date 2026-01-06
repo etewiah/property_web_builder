@@ -10,6 +10,7 @@ module PwbTenant
 # == Schema Information
 #
 # Table name: pwb_contacts
+# Database name: primary
 #
 #  id                   :bigint           not null, primary key
 #  details              :json
@@ -53,7 +54,6 @@ module PwbTenant
 #
 #  fk_rails_...  (website_id => pwb_websites.id)
 #
-  #
   class Contact < Pwb::Contact
     include RequiresTenant
     acts_as_tenant :website, class_name: 'Pwb::Website'

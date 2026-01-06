@@ -10,6 +10,7 @@ module PwbTenant
 # == Schema Information
 #
 # Table name: pwb_user_memberships
+# Database name: primary
 #
 #  id         :bigint           not null, primary key
 #  active     :boolean          default(TRUE), not null
@@ -30,7 +31,6 @@ module PwbTenant
 #  fk_rails_...  (user_id => pwb_users.id)
 #  fk_rails_...  (website_id => pwb_websites.id)
 #
-  #
   class UserMembership < Pwb::UserMembership
     include RequiresTenant
     acts_as_tenant :website, class_name: 'Pwb::Website'

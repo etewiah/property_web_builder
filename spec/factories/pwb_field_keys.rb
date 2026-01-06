@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_field_keys
+# Database name: primary
 #
 #  id                  :integer          not null
 #  global_key          :string           primary key

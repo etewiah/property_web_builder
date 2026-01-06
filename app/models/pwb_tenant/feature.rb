@@ -13,6 +13,7 @@ module PwbTenant
 # == Schema Information
 #
 # Table name: pwb_features
+# Database name: primary
 #
 #  id              :integer          not null, primary key
 #  feature_key     :string
@@ -31,7 +32,6 @@ module PwbTenant
 #
 #  fk_rails_...  (realty_asset_id => pwb_realty_assets.id)
 #
-  #
   class Feature < Pwb::Feature
     # No acts_as_tenant since Feature doesn't have website_id
     # Tenant scoping is handled through the parent RealtyAsset/Prop

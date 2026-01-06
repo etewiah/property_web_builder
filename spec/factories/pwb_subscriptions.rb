@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: pwb_subscriptions
+# Database name: primary
 #
 #  id                       :bigint           not null, primary key
 #  cancel_at_period_end     :boolean          default(FALSE), not null

@@ -10,6 +10,7 @@ module PwbTenant
 # == Schema Information
 #
 # Table name: pwb_properties
+# Database name: primary
 #
 #  id                                     :uuid             primary key
 #  city                                   :string
@@ -82,7 +83,6 @@ module PwbTenant
 #  index_pwb_properties_on_visible             (visible)
 #  index_pwb_properties_on_website_id          (website_id)
 #
-  #
   class ListedProperty < Pwb::ListedProperty
     include RequiresTenant
     acts_as_tenant :website, class_name: 'Pwb::Website'

@@ -10,6 +10,7 @@ module PwbTenant
 # == Schema Information
 #
 # Table name: pwb_links
+# Database name: primary
 #
 #  id               :integer          not null, primary key
 #  flags            :integer          default(0), not null
@@ -41,7 +42,6 @@ module PwbTenant
 #  index_pwb_links_on_website_id           (website_id)
 #  index_pwb_links_on_website_id_and_slug  (website_id,slug) UNIQUE
 #
-  #
   class Link < Pwb::Link
     include RequiresTenant
     acts_as_tenant :website, class_name: 'Pwb::Website'

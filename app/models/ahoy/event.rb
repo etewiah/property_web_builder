@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: ahoy_events
+# Database name: primary
 #
 #  id         :bigint           not null, primary key
 #  name       :string           not null
