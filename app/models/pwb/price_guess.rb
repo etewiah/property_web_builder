@@ -4,24 +4,35 @@ module Pwb
   # PriceGuess represents a visitor's guess in the "Guess the Price" game.
   # Polymorphic: can belong to either SaleListing or RentalListing.
   #
-  # == Schema Information
-  #
-  # Table name: pwb_price_guesses
-  #
-  #  id                      :uuid             not null, primary key
-  #  listing_type            :string           not null (Pwb::SaleListing or Pwb::RentalListing)
-  #  listing_id              :uuid             not null
-  #  website_id              :integer          not null
-  #  visitor_token           :string           not null
-  #  guessed_price_cents     :bigint           not null
-  #  guessed_price_currency  :string           default("EUR")
-  #  actual_price_cents      :bigint           not null
-  #  actual_price_currency   :string           default("EUR")
-  #  percentage_diff         :decimal(8, 2)
-  #  score                   :integer          default(0)
-  #  created_at              :datetime         not null
-  #  updated_at              :datetime         not null
-  #
+# == Schema Information
+#
+# Table name: pwb_price_guesses
+#
+#  id                     :uuid             not null, primary key
+#  actual_price_cents     :bigint           not null
+#  actual_price_currency  :string           default("EUR")
+#  guessed_price_cents    :bigint           not null
+#  guessed_price_currency :string           default("EUR")
+#  listing_type           :string           not null
+#  percentage_diff        :decimal(8, 2)
+#  score                  :integer          default(0)
+#  visitor_token          :string           not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  listing_id             :uuid             not null
+#  website_id             :bigint           not null
+#
+# Indexes
+#
+#  index_price_guesses_on_listing_and_score    (listing_type,listing_id,score)
+#  index_price_guesses_on_listing_and_visitor  (listing_type,listing_id,visitor_token) UNIQUE
+#  index_pwb_price_guesses_on_listing          (listing_type,listing_id)
+#  index_pwb_price_guesses_on_website_id       (website_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
   class PriceGuess < ApplicationRecord
     self.table_name = "pwb_price_guesses"
 

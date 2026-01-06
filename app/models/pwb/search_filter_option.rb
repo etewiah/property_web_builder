@@ -20,6 +20,39 @@ module Pwb
   #
   # @example Mapping to external provider
   #   option.external_mapping_for('resales_online') # => "1-1"
+# == Schema Information
+#
+# Table name: pwb_search_filter_options
+#
+#  id             :bigint           not null, primary key
+#  external_code  :string
+#  filter_type    :string           not null
+#  global_key     :string           not null
+#  icon           :string
+#  metadata       :jsonb            not null
+#  show_in_search :boolean          default(TRUE), not null
+#  sort_order     :integer          default(0), not null
+#  translations   :jsonb            not null
+#  visible        :boolean          default(TRUE), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  parent_id      :bigint
+#  website_id     :bigint           not null
+#
+# Indexes
+#
+#  index_pwb_search_filter_options_on_parent_id   (parent_id)
+#  index_pwb_search_filter_options_on_website_id  (website_id)
+#  index_search_filter_options_on_external_code   (website_id,external_code) WHERE (external_code IS NOT NULL)
+#  index_search_filter_options_on_order           (website_id,filter_type,sort_order)
+#  index_search_filter_options_on_type            (website_id,filter_type)
+#  index_search_filter_options_unique_key         (website_id,filter_type,global_key) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (parent_id => pwb_search_filter_options.id)
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
   #
   class SearchFilterOption < ApplicationRecord
     extend Mobility
