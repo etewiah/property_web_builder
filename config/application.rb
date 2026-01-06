@@ -1,4 +1,12 @@
 require_relative "boot"
+
+# Alias DATABASE_URL to PWB_DATABASE_URL to prevent Rails from automatically
+# flattening the multi-database configuration.
+if ENV["DATABASE_URL"]
+  ENV["PWB_DATABASE_URL"] = ENV["DATABASE_URL"]
+  ENV.delete("DATABASE_URL")
+end
+
 require_relative "../lib/pwb/version"
 
 require "rails"

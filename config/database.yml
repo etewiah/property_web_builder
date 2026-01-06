@@ -101,11 +101,20 @@ e2e:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: pwb_production
-  username: pwb
-  password: <%= ENV['PWB_DATABASE_PASSWORD'] %>
-  prepared_statements: false
+  primary:
+    <<: *default
+    database: pwb_production
+    username: pwb
+    url: <%= ENV['PWB_DATABASE_URL'] %>
+    password: <%= ENV['PWB_DATABASE_PASSWORD'] %>
+    prepared_statements: false
+  tenant_shard_1:
+    <<: *default
+    database: pwb_production_shard_1
+    migrations_paths: db/tenant_shard_1_migrate
+    username: pwb
+    password: <%= ENV['PWB_DATABASE_PASSWORD'] %>
+    prepared_statements: false
 
 staging:
   primary:
