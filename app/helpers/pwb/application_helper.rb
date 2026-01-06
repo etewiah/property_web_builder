@@ -297,7 +297,7 @@ module Pwb
 
     def social_media_link(agency, field_name, field_label, field_icon)
       social_media = nil
-      # binding.pry
+
       if agency.social_media.present? && agency.social_media[field_name].present?
         social_media = agency.social_media
       end

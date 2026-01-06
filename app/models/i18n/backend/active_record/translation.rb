@@ -70,7 +70,7 @@ module I18n
 
         class << self
           def import(file)
-            # byebug
+
             CSV.foreach(file.path, headers: true) do |row|
               if row.to_hash["locale"].present? && row.to_hash["key"].present?
                 # Translation.create! row.to_hash
