@@ -105,7 +105,7 @@ production:
     <<: *default
     database: pwb_production
     username: pwb
-    url: <%= ENV['PWB_DATABASE_URL'] %>
+    url: <%= ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
     password: <%= ENV['PWB_DATABASE_PASSWORD'] %>
     prepared_statements: false
   tenant_shard_1:
@@ -113,6 +113,7 @@ production:
     database: pwb_production_shard_1
     migrations_paths: db/tenant_shard_1_migrate
     username: pwb
+    url: <%= ENV['PWB_TENANT_SHARD_1_DATABASE_URL'] || ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
     password: <%= ENV['PWB_DATABASE_PASSWORD'] %>
     prepared_statements: false
 
@@ -121,6 +122,7 @@ staging:
     <<: *default
     database: pwb_staging
     username: pwb
+    url: <%= ENV['PWB_STAGING_DATABASE_URL'] || ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
     password: <%= ENV['PWB_STAGING_DATABASE_PASSWORD'] || ENV['PWB_DATABASE_PASSWORD'] %>
     prepared_statements: false
   tenant_shard_1:
@@ -128,5 +130,6 @@ staging:
     database: pwb_staging_shard_1
     migrations_paths: db/tenant_shard_1_migrate
     username: pwb
+    url: <%= ENV['PWB_STAGING_TENANT_SHARD_1_DATABASE_URL'] || ENV['PWB_STAGING_DATABASE_URL'] || ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
     password: <%= ENV['PWB_STAGING_DATABASE_PASSWORD'] || ENV['PWB_DATABASE_PASSWORD'] %>
     prepared_statements: false
