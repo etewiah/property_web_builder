@@ -18,6 +18,7 @@ module Pwb
     protect_from_forgery with: :exception
     layout 'pwb/signup'
 
+    before_action :check_provisioning_status, only: [:new, :start]
     before_action :require_signup_user, except: [:new, :start]
     before_action :redirect_if_completed, only: [:new, :configure, :provisioning]
 
@@ -226,6 +227,23 @@ module Pwb
 
     def log_signup_error(message, **details)
       StructuredLogger.error("[Signup] #{message}", **details.merge(origin_ip: request.ip))
+    end
+
+    def check_provisioning_status
+      # Check if a website already exists for this subdomain (or root/localhost)
+      subdomain = request.subdomain
+
+      website = if subdomain.present?
+                  Pwb::Website.find_by_subdomain(subdomain)
+                else
+                  # For localhost/IP access, check for default or any website
+                  Pwb::Website.find_by_subdomain('default') || Pwb::Website.first
+                end
+
+      return if website.nil?
+
+      # Website exists, redirect to home to prevent unauthorized provisioning
+      redirect_to root_path
     end
   end
 end
