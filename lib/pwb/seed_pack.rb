@@ -19,9 +19,22 @@ module Pwb
     class PackNotFoundError < StandardError; end
     class InvalidPackError < StandardError; end
 
-    PACKS_PATH = Rails.root.join('db', 'seeds', 'packs')
+    PACKS_PATHS = [
+      Rails.root.join('db', 'seeds', 'packs'),
+      Rails.root.join('db', 'seeds', 'site_import_packs')
+    ].freeze
 
     attr_reader :name, :config, :path
+
+    # Helper to find pack path
+    def find_pack_path(pack_name)
+      PACKS_PATHS.each do |base_path|
+        path = base_path.join(pack_name)
+        return path if path.exist?
+      end
+      # Default to first path if not found (will fail validation)
+      PACKS_PATHS.first.join(pack_name)
+    end
 
     # Convenience accessors for common config values
     def display_name
@@ -38,7 +51,7 @@ module Pwb
 
     def initialize(name)
       @name = name.to_s
-      @path = PACKS_PATH.join(@name)
+      @path = find_pack_path(@name)
       validate_pack_exists!
       @config = load_config
     end
@@ -109,18 +122,24 @@ module Pwb
 
     # List all available seed packs
     def self.available
-      return [] unless PACKS_PATH.exist?
+      packs = []
+      
+      PACKS_PATHS.each do |path|
+        next unless path.exist?
 
-      PACKS_PATH.children.select(&:directory?).filter_map do |dir|
-        pack_file = dir.join('pack.yml')
-        next unless pack_file.exist?
+        path.children.select(&:directory?).each do |dir|
+          pack_file = dir.join('pack.yml')
+          next unless pack_file.exist?
 
-        begin
-          new(dir.basename.to_s)
-        rescue StandardError
-          nil
+          begin
+            packs << new(dir.basename.to_s)
+          rescue StandardError
+            nil
+          end
         end
       end
+      
+      packs.uniq(&:name)
     end
 
     # Find a pack by name
@@ -203,9 +222,9 @@ module Pwb
     end
 
     def validate_pack_exists!
-      unless @path.exist?
+      unless @path && @path.exist?
         available = self.class.available.map(&:name).join(', ')
-        raise PackNotFoundError, "Seed pack '#{@name}' not found at #{@path}. Available packs: #{available}"
+        raise PackNotFoundError, "Seed pack '#{@name}' not found. Available packs: #{available}"
       end
 
       pack_file = @path.join('pack.yml')
