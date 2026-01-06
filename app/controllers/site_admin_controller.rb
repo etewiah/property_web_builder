@@ -90,7 +90,7 @@ class SiteAdminController < ActionController::Base
     return if current_website.subscription.nil? # No subscription = legacy access
 
     unless current_website.subscription.allows_access?
-      redirect_to billing_path,
+      redirect_to site_admin_billing_path,
                   alert: 'Your subscription has expired. Please upgrade to continue using the admin panel.'
     end
   end

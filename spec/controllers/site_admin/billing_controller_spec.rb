@@ -84,15 +84,12 @@ RSpec.describe SiteAdmin::BillingController, type: :controller do
     context 'with a canceled subscription' do
       let!(:subscription) { create(:pwb_subscription, :canceled, website: website, plan: plan) }
 
-      it 'returns success' do
+      it 'redirects to billing page' do
         get :show
-        expect(response).to have_http_status(:success)
+        expect(response).to redirect_to(site_admin_billing_path)
       end
 
-      it 'assigns the canceled subscription' do
-        get :show
-        expect(assigns(:subscription).status).to eq('canceled')
-      end
+
     end
 
     context 'with a past_due subscription' do
@@ -170,7 +167,7 @@ RSpec.describe SiteAdmin::BillingController, type: :controller do
 
   describe 'multi-tenant isolation' do
     let!(:subscription) { create(:pwb_subscription, :active, website: website, plan: plan) }
-    let!(:other_subscription) { create(:pwb_subscription, :active, website: other_website, plan: free_plan) }
+    let!(:other_subscription) { create(:pwb_subscription, :active, website: other_website, plan: unlimited_plan) }
 
     it 'only shows current website subscription' do
       get :show

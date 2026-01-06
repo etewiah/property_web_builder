@@ -98,7 +98,12 @@
                   prop_show_for_sale_path(id: saved.external_reference, url_friendly_title: url_title)
                 end
               else
-                external_listing_path(reference: saved.external_reference)
+                url_title = saved.title.to_s.parameterize.presence || "property"
+                if saved.listing_type.to_s == "rental"
+                  external_show_for_rent_path(reference: saved.external_reference, url_friendly_title: url_title)
+                else
+                  external_show_for_sale_path(reference: saved.external_reference, url_friendly_title: url_title)
+                end
               end
             %>
             <%= link_to property_url,
@@ -123,7 +128,7 @@
   <div class="mt-8 pt-8 border-t border-gray-200">
     <p class="text-gray-600">
       Browse more properties on the
-      <%= link_to "property search page", external_listings_path, class: "text-blue-600 hover:underline" %>.
+      <%= link_to "property search page", external_buy_path, class: "text-blue-600 hover:underline" %>.
     </p>
   </div>
 </div>

@@ -42,7 +42,8 @@ module Pwb
     # @param feature_key [Symbol, String] The feature to check
     # @return [Boolean]
     def has_feature?(feature_key)
-      subscription&.has_feature?(feature_key) || false
+      return false unless subscription
+      subscription.has_feature?(feature_key)
     end
 
     # Check if adding a property would exceed the limit

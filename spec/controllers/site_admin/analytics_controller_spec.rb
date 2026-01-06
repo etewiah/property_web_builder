@@ -60,9 +60,9 @@ RSpec.describe SiteAdmin::AnalyticsController, type: :controller do
         allow(website).to receive(:subscription).and_return(subscription)
       end
 
-      it 'redirects to dashboard' do
+      it 'redirects to billing page' do
         get :show
-        expect(response).to redirect_to(site_admin_root_path)
+        expect(response).to redirect_to(site_admin_billing_path)
       end
 
       it 'sets flash alert' do
