@@ -91,3 +91,10 @@ production:
   username: pwb
   password: <%= ENV['PWB_DATABASE_PASSWORD'] %>
   prepared_statements: false
+
+staging:
+  <<: *default
+  database: pwb_staging
+  username: pwb
+  password: <%= ENV['PWB_STAGING_DATABASE_PASSWORD'] || ENV['PWB_DATABASE_PASSWORD'] %>
+  prepared_statements: false

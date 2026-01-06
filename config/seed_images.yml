@@ -106,5 +106,8 @@ test:
 e2e:
   <<: *default
 
+staging:
+  <<: *default
+
 production:
   <<: *default

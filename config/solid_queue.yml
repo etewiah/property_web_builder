@@ -16,7 +16,7 @@ development:
 test:
   <<: *default
 
-production:
+production: &production
   dispatchers:
     - polling_interval: 1
       batch_size: 500
@@ -38,3 +38,6 @@ production:
     - queues: [low]
       threads: 1
       polling_interval: 2
+
+staging:
+  <<: *production
