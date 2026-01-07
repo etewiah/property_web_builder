@@ -191,6 +191,7 @@ const ALLOWED_ICONS = [
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const REQUIRED_CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_';
+const LAYOUT_FEATURES = ['liga', 'dlig', 'calt', 'ccmp', 'kern'];
 const SOURCE_FONT = path.join(ROOT_DIR, 'node_modules/material-symbols/material-symbols-outlined.woff2');
 const OUTPUT_DIR = path.join(ROOT_DIR, 'app/assets/fonts');
 const OUTPUT_FONT = path.join(OUTPUT_DIR, 'material-symbols-subset.woff2');
@@ -284,16 +285,21 @@ function subsetFont(chars) {
   
   // Use pyftsubset from fonttools
   // The font is a variable font, so we need to handle it properly
-  const cmd = [
+  const cmdParts = [
     'pyftsubset',
     `"${SOURCE_FONT}"`,
     `--text-file="${charsFile}"`,
     `--output-file="${OUTPUT_FONT}"`,
     '--flavor=woff2',
-    '--layout-features=liga,kern',
     '--no-hinting',
     '--desubroutinize'
-  ].join(' ');
+  ];
+
+  if (LAYOUT_FEATURES && LAYOUT_FEATURES.length > 0) {
+    cmdParts.push(`--layout-features=${LAYOUT_FEATURES.join(',')}`);
+  }
+
+  const cmd = cmdParts.join(' ');
   
   console.log('Running:', cmd);
   
