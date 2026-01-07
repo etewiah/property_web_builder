@@ -131,12 +131,18 @@ RSpec.describe Pwb::LiquidFilters do
   end
 
   describe '#material_icon' do
+    def expect_icon_markup(result, icon_name:, size_class: 'icon-md')
+      expect(result).to include('<svg')
+      expect(result).to include(%(class="icon #{size_class}"))
+      expect(result).to include(%(data-icon-name="#{icon_name}"))
+      expect(result).to include('aria-hidden="true"')
+      expect(result.strip).to end_with('</svg>')
+    end
+
     context 'basic rendering' do
-      it 'renders a Material Symbol icon with the given name' do
+      it 'renders an inline SVG with the mapped Lucide icon' do
         result = filter.material_icon('home')
-        expect(result).to include('material-symbols-outlined')
-        expect(result).to include('>home</span>')
-        expect(result).to include('aria-hidden="true"')
+        expect_icon_markup(result, icon_name: 'house')
       end
 
       it 'returns empty string for blank input' do
@@ -146,164 +152,90 @@ RSpec.describe Pwb::LiquidFilters do
 
       it 'trims whitespace from icon name' do
         result = filter.material_icon('  search  ')
-        expect(result).to include('>search</span>')
+        expect_icon_markup(result, icon_name: 'search')
       end
     end
 
     context 'size classes' do
-      it 'applies xs size class' do
-        result = filter.material_icon('home', 'xs')
-        expect(result).to include('md-14')
+      {
+        'xs' => 'icon-xs',
+        'sm' => 'icon-sm',
+        'md' => 'icon-md',
+        'lg' => 'icon-lg',
+        'xl' => 'icon-xl'
+      }.each do |size, class_name|
+        it "applies #{size} size class" do
+          result = filter.material_icon('home', size)
+          expect(result).to include(%(class="icon #{class_name}"))
+        end
       end
 
-      it 'applies sm size class' do
-        result = filter.material_icon('home', 'sm')
-        expect(result).to include('md-18')
-      end
-
-      it 'applies md size class' do
-        result = filter.material_icon('home', 'md')
-        expect(result).to include('md-24')
-      end
-
-      it 'applies lg size class' do
-        result = filter.material_icon('home', 'lg')
-        expect(result).to include('md-36')
-      end
-
-      it 'applies xl size class' do
-        result = filter.material_icon('home', 'xl')
-        expect(result).to include('md-48')
-      end
-
-      it 'has no size class for nil' do
+      it 'defaults to md when size is nil' do
         result = filter.material_icon('home', nil)
-        expect(result).not_to include('md-')
+        expect(result).to include('class="icon icon-md"')
       end
     end
 
     context 'legacy Font Awesome mappings' do
-      it 'maps fa fa-home to home' do
-        result = filter.material_icon('fa fa-home')
-        expect(result).to include('>home</span>')
-      end
-
-      it 'maps fa-home to home' do
-        result = filter.material_icon('fa-home')
-        expect(result).to include('>home</span>')
-      end
-
-      it 'maps fa fa-search to search' do
-        result = filter.material_icon('fa fa-search')
-        expect(result).to include('>search</span>')
-      end
-
-      it 'maps fa fa-envelope to email' do
-        result = filter.material_icon('fa fa-envelope')
-        expect(result).to include('>email</span>')
-      end
-
-      it 'maps fa fa-phone to phone' do
-        result = filter.material_icon('fa fa-phone')
-        expect(result).to include('>phone</span>')
-      end
-
-      it 'maps fa fa-map-marker to location_on' do
-        result = filter.material_icon('fa fa-map-marker')
-        expect(result).to include('>location_on</span>')
-      end
-
-      it 'maps fa fa-bed to bed' do
-        result = filter.material_icon('fa fa-bed')
-        expect(result).to include('>bed</span>')
-      end
-
-      it 'maps fa fa-bath to bathroom' do
-        result = filter.material_icon('fa fa-bath')
-        expect(result).to include('>bathroom</span>')
-      end
-
-      it 'maps fa fa-chevron-left to chevron_left' do
-        result = filter.material_icon('fa fa-chevron-left')
-        expect(result).to include('>chevron_left</span>')
-      end
-
-      it 'maps fa fa-chevron-right to chevron_right' do
-        result = filter.material_icon('fa fa-chevron-right')
-        expect(result).to include('>chevron_right</span>')
+      {
+        'fa fa-home' => 'house',
+        'fa-home' => 'house',
+        'fa fa-search' => 'search',
+        'fa fa-envelope' => 'mail',
+        'fa fa-phone' => 'phone',
+        'fa fa-map-marker' => 'map-pin',
+        'fa fa-bed' => 'bed',
+        'fa fa-bath' => 'bath',
+        'fa fa-chevron-left' => 'chevron-left',
+        'fa fa-chevron-right' => 'chevron-right'
+      }.each do |input, lucide|
+        it "maps #{input} to #{lucide}" do
+          result = filter.material_icon(input)
+          expect_icon_markup(result, icon_name: lucide)
+        end
       end
     end
 
     context 'legacy Phosphor mappings' do
-      it 'maps ph ph-house to home' do
-        result = filter.material_icon('ph ph-house')
-        expect(result).to include('>home</span>')
-      end
-
-      it 'maps ph-house to home' do
-        result = filter.material_icon('ph-house')
-        expect(result).to include('>home</span>')
-      end
-
-      it 'maps ph ph-magnifying-glass to search' do
-        result = filter.material_icon('ph ph-magnifying-glass')
-        expect(result).to include('>search</span>')
-      end
-
-      it 'maps ph ph-envelope to email' do
-        result = filter.material_icon('ph ph-envelope')
-        expect(result).to include('>email</span>')
-      end
-
-      it 'maps ph ph-bed to bed' do
-        result = filter.material_icon('ph ph-bed')
-        expect(result).to include('>bed</span>')
-      end
-
-      it 'maps ph ph-caret-left to chevron_left' do
-        result = filter.material_icon('ph ph-caret-left')
-        expect(result).to include('>chevron_left</span>')
-      end
-
-      it 'maps ph ph-arrow-right to arrow_forward' do
-        result = filter.material_icon('ph ph-arrow-right')
-        expect(result).to include('>arrow_forward</span>')
-      end
-
-      it 'maps ph ph-paper-plane-tilt to send' do
-        result = filter.material_icon('ph ph-paper-plane-tilt')
-        expect(result).to include('>send</span>')
+      {
+        'ph ph-house' => 'house',
+        'ph-house' => 'house',
+        'ph ph-magnifying-glass' => 'search',
+        'ph ph-envelope' => 'mail',
+        'ph ph-bed' => 'bed',
+        'ph ph-caret-left' => 'chevron-left',
+        'ph ph-arrow-right' => 'arrow-right',
+        'ph ph-paper-plane-tilt' => 'send'
+      }.each do |input, lucide|
+        it "maps #{input} to #{lucide}" do
+          result = filter.material_icon(input)
+          expect_icon_markup(result, icon_name: lucide)
+        end
       end
     end
 
     context 'dash to underscore conversion' do
-      it 'converts dashes to underscores for unmapped icons' do
+      it 'converts dashed names to underscores before mapping' do
         result = filter.material_icon('arrow-forward')
-        expect(result).to include('>arrow_forward</span>')
+        expect_icon_markup(result, icon_name: 'arrow-right')
       end
 
-      it 'handles icons already with underscores' do
+      it 'handles existing underscore names' do
         result = filter.material_icon('arrow_forward')
-        expect(result).to include('>arrow_forward</span>')
+        expect_icon_markup(result, icon_name: 'arrow-right')
       end
     end
 
     context 'HTML structure' do
-      it 'renders as a span element' do
+      it 'renders an SVG element' do
         result = filter.material_icon('home')
-        expect(result).to start_with('<span')
-        expect(result).to end_with('</span>')
+        expect(result).to include('<svg')
+        expect(result.strip).to end_with('</svg>')
       end
 
       it 'includes aria-hidden for decorative icons' do
         result = filter.material_icon('home')
         expect(result).to include('aria-hidden="true"')
-      end
-
-      it 'produces valid HTML' do
-        result = filter.material_icon('search', 'lg')
-        # Should have proper structure
-        expect(result).to match(/<span class="[^"]*" aria-hidden="true">[^<]+<\/span>/)
       end
     end
   end
@@ -368,20 +300,20 @@ RSpec.describe Pwb::LiquidFilters do
     it 'works as a Liquid filter' do
       template = Liquid::Template.parse('{{ "home" | material_icon }}')
       result = template.render
-      expect(result).to include('material-symbols-outlined')
-      expect(result).to include('>home</span>')
+      expect(result).to include('data-icon-name="house"')
+      expect(result).to include('class="icon icon-md"')
     end
 
     it 'works with size parameter' do
       template = Liquid::Template.parse('{{ "search" | material_icon: "lg" }}')
       result = template.render
-      expect(result).to include('md-36')
+      expect(result).to include('class="icon icon-lg"')
     end
 
     it 'works with variable icon names' do
       template = Liquid::Template.parse('{{ icon_name | material_icon }}')
       result = template.render('icon_name' => 'phone')
-      expect(result).to include('>phone</span>')
+      expect(result).to include('data-icon-name="phone"')
     end
 
     it 'handles blank icon names gracefully' do

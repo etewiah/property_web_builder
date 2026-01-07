@@ -47,8 +47,8 @@ nl:
         The best realtor in Springfield
       landing_content_a: >
         <ul class="list-carousel">
-          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span> Professional staff</li>
-          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span> We will find you the best property on the market</li>
+          <li><span class="hero-check-icon" aria-hidden="true"></span> Professional staff</li>
+          <li><span class="hero-check-icon" aria-hidden="true"></span> We will find you the best property on the market</li>
         </ul>
       landing_img:
         db/example_images/carousel_villa_with_pool.jpg

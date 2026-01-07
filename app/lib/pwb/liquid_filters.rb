@@ -318,12 +318,12 @@ module Pwb
         svg_content = svg_content
           .gsub(/\s*width="[^"]*"/, "")
           .gsub(/\s*height="[^"]*"/, "")
-          .gsub(/<svg/, %(<svg class="#{css_classes}" aria-hidden="true"))
+          .gsub(/<svg/, %(<svg class="#{css_classes}" aria-hidden="true" data-icon-name="#{lucide_name}"))
 
         svg_content
       else
         # Fallback: render a placeholder
-        %(<span class="#{css_classes} icon-missing" aria-hidden="true">[#{lucide_name}]</span>)
+        %(<span class="#{css_classes} icon-missing" aria-hidden="true" data-icon-name="#{lucide_name}">[#{lucide_name}]</span>)
       end
     end
   end

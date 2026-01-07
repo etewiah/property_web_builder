@@ -73,8 +73,8 @@ fr:
         Le meilleur agent immobilier à Springfield
       landing_content_a: >
         <ul class="list-carousel">
-          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span> Personnel professionnel</li>
-          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span> Nous vous trouverons la meilleure propriété sur le marché</li>
+          <li><span class="hero-check-icon" aria-hidden="true"></span> Personnel professionnel</li>
+          <li><span class="hero-check-icon" aria-hidden="true"></span> Nous vous trouverons la meilleure propriété sur le marché</li>
         </ul>
       landing_img:
         db/example_images/carousel_villa_with_pool.jpg

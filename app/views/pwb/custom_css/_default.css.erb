@@ -185,8 +185,15 @@
   gap: 0.5rem;
 }
 
-.hero-subtitle .list-carousel li i {
+.hero-subtitle .list-carousel li .hero-check-icon {
+  display: inline-flex;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.35rem;
   color: var(--primary-color);
+  background-color: currentColor;
+  mask: url('<%= asset_path("icons/check.svg") %>') center / contain no-repeat;
+  -webkit-mask: url('<%= asset_path("icons/check.svg") %>') center / contain no-repeat;
 }
 
 /* Our Agency Section */

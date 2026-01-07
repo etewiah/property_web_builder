@@ -166,17 +166,12 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
       Dir.glob(Rails.root.join('db/yml_seeds/content_translations/*.yml'))
     end
 
-    it 'uses material-symbols-rounded for inline icons' do
+    it 'does not reference deprecated icon fonts' do
       violations = []
 
       translation_files.each do |file|
         content = File.read(file)
-        # Check for old <i class="fa "> pattern
-        if content.match?(/<i\s+class=["']fa\s+/)
-          violations << file.sub(Rails.root.to_s + '/', '')
-        end
-        # Check for old <i class="ph "> pattern
-        if content.match?(/<i\s+class=["']ph\s+/)
+        if content.match?(/<i\s+class=["']fa\s+/) || content.match?(/<i\s+class=["']ph\s+/) || content.include?('material-symbols')
           violations << file.sub(Rails.root.to_s + '/', '')
         end
       end
@@ -184,7 +179,7 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
       if violations.any?
         failure_message = "Found deprecated icon patterns in translation files:\n"
         violations.uniq.each { |v| failure_message += "  - #{v}\n" }
-        failure_message += "\nUse <span class=\"material-symbols-rounded\">icon_name</span> for inline icons."
+        failure_message += "\nUse inline Lucide SVG markup (e.g., hero-check-icon spans or icon helpers) instead."
         fail failure_message
       end
     end

@@ -144,7 +144,8 @@ module Pwb
 
       classes = ["icon", size_class, filled_class, custom_class].compact.join(" ")
       aria_attrs = build_aria_attributes(options[:aria])
-      data_attrs = options[:data] || {}
+      data_attrs = (options[:data] || {}).dup
+      data_attrs[:icon_name] ||= lucide_name
 
       # Read SVG file
       svg_path = Rails.root.join("app", "assets", "images", "icons", "#{lucide_name}.svg")

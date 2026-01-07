@@ -16,7 +16,6 @@
     "@tailwindcss/cli": "^4.1.17",
     "flowbite": "^4.0.1",
     "lodash": "^4.17.21",
-    "material-symbols": "^0.40.2",
     "sharp": "^0.33.5",
     "tailwindcss": "^4.1.17"
   },

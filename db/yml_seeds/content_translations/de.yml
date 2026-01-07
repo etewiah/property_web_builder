@@ -73,8 +73,8 @@ de:
         Der beste Makler in Springfield
       landing_content_a: >
         <ul class="list-carousel">
-          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span> Professionelles Personal</li>
-          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span> Wir finden Ihnen die beste Immobilie auf dem Markt</li>
+          <li><span class="hero-check-icon" aria-hidden="true"></span> Professionelles Personal</li>
+          <li><span class="hero-check-icon" aria-hidden="true"></span> Wir finden Ihnen die beste Immobilie auf dem Markt</li>
         </ul>
       landing_img:
         db/example_images/carousel_villa_with_pool.jpg

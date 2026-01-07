@@ -17,5 +17,4 @@
 //= link bologna_theme.css
 //= link brussels_theme.css
 //= link fontawesome-subset.css
-//= link material-icons.css
-//= link material-symbols-subset.css
+//= link icons.css

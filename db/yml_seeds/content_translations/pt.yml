@@ -41,8 +41,8 @@ pt:
         El mejor inmobiliario en Springfield
       landing_content_a: >
         <ul class="list-carousel">
-          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span>Nuestro equipo está formado por profesionales</li>
-          <li><span class="material-symbols-rounded" style="font-size: 18px;">check_box</span>Encontraremos lo mejor para usted</li>
+          <li><span class="hero-check-icon" aria-hidden="true"></span>Nuestro equipo está formado por profesionales</li>
+          <li><span class="hero-check-icon" aria-hidden="true"></span>Encontraremos lo mejor para usted</li>
         </ul>
       landing_img:
         db/example_images/carousel_villa_with_pool.jpg
