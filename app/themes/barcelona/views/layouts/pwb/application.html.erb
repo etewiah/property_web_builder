@@ -55,6 +55,7 @@
   </head>
 
   <body class="tnt-body barcelona-theme <%= @current_website.body_style %> font-sans antialiased bg-warm-50 text-warm-900">
+    <%= render 'shared/demo_banner' %>
     <%# Brand icons SVG sprite - must be early in body for <use> references %>
     <%= render partial: '/pwb/brand_icons_sprite' %>
 

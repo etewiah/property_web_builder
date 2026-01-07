@@ -29,6 +29,10 @@ development:
     <<: *default
     database: pwb_development_shard_1
     migrations_paths: db/tenant_shard_1_migrate
+  demo_shard:
+    <<: *default
+    database: pwb_demo_shard
+    migrations_paths: db/demo_shard_migrate
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -68,6 +72,10 @@ test:
     <<: *default
     database: pwb_test_shard_1
     migrations_paths: db/tenant_shard_1_migrate
+  demo_shard:
+    <<: *default
+    database: pwb_test_demo_shard
+    migrations_paths: db/demo_shard_migrate
 
 # E2E testing environment for Playwright tests
 # Uses a separate database to keep test data isolated
@@ -79,6 +87,10 @@ e2e:
     <<: *default
     database: pwb_e2e_shard_1
     migrations_paths: db/tenant_shard_1_migrate
+  demo_shard:
+    <<: *default
+    database: pwb_e2e_demo_shard
+    migrations_paths: db/demo_shard_migrate
 
 
 # As with config/secrets.yml, you never want to store sensitive information,
@@ -116,6 +128,14 @@ production:
     url: <%= ENV['PWB_TENANT_SHARD_1_DATABASE_URL'] || ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
     password: <%= ENV['PWB_DATABASE_PASSWORD'] %>
     prepared_statements: false
+  demo_shard:
+    <<: *default
+    database: pwb_production_demo_shard
+    migrations_paths: db/demo_shard_migrate
+    username: pwb
+    url: <%= ENV['PWB_DEMO_SHARD_DATABASE_URL'] || ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
+    password: <%= ENV['PWB_DATABASE_PASSWORD'] %>
+    prepared_statements: false
 
 staging:
   primary:
@@ -131,5 +151,13 @@ staging:
     migrations_paths: db/tenant_shard_1_migrate
     username: pwb
     url: <%= ENV['PWB_STAGING_TENANT_SHARD_1_DATABASE_URL'] || ENV['PWB_STAGING_DATABASE_URL'] || ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
+    password: <%= ENV['PWB_STAGING_DATABASE_PASSWORD'] || ENV['PWB_DATABASE_PASSWORD'] %>
+    prepared_statements: false
+  demo_shard:
+    <<: *default
+    database: pwb_staging_demo_shard
+    migrations_paths: db/demo_shard_migrate
+    username: pwb
+    url: <%= ENV['PWB_STAGING_DEMO_SHARD_DATABASE_URL'] || ENV['PWB_STAGING_DATABASE_URL'] || ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
     password: <%= ENV['PWB_STAGING_DATABASE_PASSWORD'] || ENV['PWB_DATABASE_PASSWORD'] %>
     prepared_statements: false

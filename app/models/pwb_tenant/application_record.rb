@@ -29,7 +29,8 @@ module PwbTenant
 
     connects_to shards: {
       default: { writing: :primary, reading: :primary },
-      shard_1: { writing: :tenant_shard_1, reading: :tenant_shard_1 }
+      shard_1: { writing: :tenant_shard_1, reading: :tenant_shard_1 },
+      demo: { writing: :demo_shard, reading: :demo_shard }
     }
 
     # Ensure website is always present

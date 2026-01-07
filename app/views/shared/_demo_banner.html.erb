@@ -1,0 +1,8 @@
+<% if current_website&.demo? %>
+  <% interval = current_website.demo_reset_interval_duration %>
+  <div class="demo-banner bg-amber-500 text-white text-center py-2 text-sm">
+    <strong>Demo Mode:</strong>
+    Data resets every <%= distance_of_time_in_words(Time.current, Time.current + interval) %>.
+    <%= link_to 'Create your own site', '/signup', class: 'underline font-semibold ml-1' %>
+  </div>
+<% end %>

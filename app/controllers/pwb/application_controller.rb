@@ -9,18 +9,18 @@ module Pwb
     # Themes allowed to be switched via ?theme= URL parameter
     ALLOWED_THEMES = %w[default brisbane bologna].freeze
 
-    around_action :switch_tenant_shard
+    include DemoRestrictions
 
-    def switch_tenant_shard
-      # Ensure website is loaded to determine shard
+    around_action :connect_to_tenant_shard
+
+    def connect_to_tenant_shard
       website = current_website
       shard = website&.database_shard || :default
-      
-      # Use the shard for all PwbTenant models
-      # Note: We use writing role for both reading/writing in this simple example
-      # to avoid connection switching complexity during the demo
-      PwbTenant::ApplicationRecord.connected_to(shard: shard, role: :writing) do
-        yield
+
+      ActiveRecord::Base.connected_to(role: :writing, shard: shard) do
+        PwbTenant::ApplicationRecord.connected_to(shard: shard, role: :writing) do
+          yield
+        end
       end
     end
 

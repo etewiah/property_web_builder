@@ -53,6 +53,7 @@
     <meta name="theme-color" content="<%= @current_website.style_variables["primary_color"] || "#3b82f6" %>">
   </head>
   <body class="tnt-body default-theme <%= @current_website.body_style %> bg-gray-50 text-gray-900">
+    <%= render 'shared/demo_banner' %>
     <%# Brand icons SVG sprite - must be early in body for <use> references %>
     <%= render partial: '/pwb/brand_icons_sprite' %>
 

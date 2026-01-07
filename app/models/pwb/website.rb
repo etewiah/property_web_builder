@@ -113,6 +113,7 @@ module Pwb
     include Pwb::WebsiteSocialLinkable
     include Pwb::WebsiteLocalizable
     include Pwb::WebsiteThemeable
+    include Pwb::DemoWebsite
     include FlagShihTzu
 
     # Virtual attributes for form handling (avoid conflict with AASM events)

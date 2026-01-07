@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_06_154936) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_07_133100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -1067,6 +1067,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_06_154936) do
     t.string "default_currency", default: "EUR"
     t.text "default_meta_description"
     t.string "default_seo_title"
+    t.datetime "demo_last_reset_at"
+    t.boolean "demo_mode", default: false, null: false
+    t.interval "demo_reset_interval", default: "PT24H"
+    t.string "demo_seed_pack"
     t.string "email_for_general_contact_form"
     t.string "email_for_property_contact_form"
     t.string "email_verification_token"
@@ -1126,6 +1130,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_06_154936) do
     t.json "whitelabel_config", default: {}
     t.index ["custom_domain"], name: "index_pwb_websites_on_custom_domain", unique: true, where: "((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))"
     t.index ["dark_mode_setting"], name: "index_pwb_websites_on_dark_mode_setting"
+    t.index ["demo_mode", "shard_name"], name: "index_pwb_websites_on_demo_mode_and_shard_name"
     t.index ["email_verification_token"], name: "index_pwb_websites_on_email_verification_token", unique: true, where: "(email_verification_token IS NOT NULL)"
     t.index ["external_feed_enabled"], name: "index_pwb_websites_on_external_feed_enabled"
     t.index ["external_feed_provider"], name: "index_pwb_websites_on_external_feed_provider"

@@ -9,6 +9,7 @@ end
 
 require_relative "../lib/pwb/version"
 
+require_relative "../app/middleware/demo_shard_middleware"
 require "rails"
 # Pick the frameworks you want:
 require "active_model/railtie"
@@ -37,11 +38,13 @@ module StandalonePwb
     # Enable gzip compression for all responses (HTML, CSS, JS, JSON)
     # This significantly reduces transfer sizes and improves page load times
     config.middleware.use Rack::Deflater
+    config.middleware.use DemoShardMiddleware
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks pwb/version.rb signup_component])
+    config.autoload_paths << Rails.root.join('app', 'middleware')
     config.assets.css_compressor = nil
 
     # Configuration for the application, engines, and railties goes here.
