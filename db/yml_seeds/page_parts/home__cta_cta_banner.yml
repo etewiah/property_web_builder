@@ -30,7 +30,7 @@
       <div class="max-w-4xl mx-auto px-4 text-center">
         <h2 class="text-3xl font-bold mb-4">{{ page_part["title"]["content"] }}</h2>
         {% if page_part["subtitle"]["content"] %}
-          <p class="text-xl text-pwb-primary-100 mb-8">{{ page_part["subtitle"]["content"] }}</p>
+          <p class="text-xl text-white/90 mb-8">{{ page_part["subtitle"]["content"] }}</p>
         {% endif %}
         <div class="flex flex-wrap justify-center gap-4">
           {% if page_part["button_text"]["content"] %}
