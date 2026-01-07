@@ -13,7 +13,7 @@ module Pwb
   # The core URL localization logic is shared with ERB views via UrlLocalizationHelper.
   #
   module LiquidFilters
-    # Icon name mappings from legacy formats to Material Symbols
+    # Icon name mappings from legacy formats to normalized icon names
     # Mirrors the mappings in Pwb::IconHelper::ICON_ALIASES
     ICON_MAPPINGS = {
       # Legacy Font Awesome mappings
@@ -89,11 +89,89 @@ module Pwb
       "ph ph-address-book" => "contacts", "ph-address-book" => "contacts"
     }.freeze
 
-    # Render a Material Symbol icon from an icon name
+    # Map normalized icon names to Lucide SVG filenames
+    # Mirrors Pwb::IconHelper::ICON_MAP
+    LUCIDE_MAP = {
+      "home" => "house", "apartment" => "building", "bed" => "bed",
+      "shower" => "shower-head", "bathtub" => "bath", "bathroom" => "bath",
+      "directions_car" => "car", "local_parking" => "car", "garage" => "warehouse",
+      "square_foot" => "square", "straighten" => "ruler", "landscape" => "mountain",
+      "terrain" => "mountain", "pool" => "waves", "fitness_center" => "dumbbell",
+      "ac_unit" => "snowflake", "kitchen" => "cooking-pot", "balcony" => "fence",
+      "deck" => "fence", "roofing" => "home", "stairs" => "arrow-up-down",
+      "elevator" => "arrow-up-down", "accessible" => "accessibility",
+      "pets" => "paw-print", "smoke_free" => "cigarette-off", "wifi" => "wifi",
+      "tv" => "tv", "security" => "shield", "solar_power" => "sun", "bolt" => "zap",
+      "water_drop" => "droplet", "thermostat" => "thermometer", "house" => "house",
+      "villa" => "castle", "cottage" => "home", "real_estate_agent" => "user",
+      "home_work" => "building-2", "park" => "trees",
+      "local_laundry_service" => "shirt", "foundation" => "layers",
+      "doorbell" => "bell", "camera_outdoor" => "camera",
+      "local_fire_department" => "flame",
+      # Navigation
+      "chevron_left" => "chevron-left", "chevron_right" => "chevron-right",
+      "expand_more" => "chevron-down", "expand_less" => "chevron-up",
+      "keyboard_arrow_down" => "chevron-down", "keyboard_arrow_up" => "chevron-up",
+      "arrow_back" => "arrow-left", "arrow_forward" => "arrow-right",
+      "arrow_drop_down" => "chevron-down", "arrow_drop_up" => "chevron-up",
+      "arrow_right_alt" => "arrow-right", "close" => "x", "menu" => "menu",
+      # Communication
+      "email" => "mail", "mail" => "mail", "phone" => "phone",
+      "location_on" => "map-pin", "place" => "map-pin", "map" => "map",
+      "public" => "globe", "language" => "globe", "send" => "send",
+      "chat" => "message-circle", "forum" => "messages-square",
+      "contacts" => "contact", "comment" => "message-square", "notifications" => "bell",
+      # Actions
+      "search" => "search", "filter_list" => "filter", "tune" => "sliders-horizontal",
+      "sort" => "arrow-up-down", "refresh" => "refresh-cw", "sync" => "refresh-cw",
+      "autorenew" => "refresh-cw", "check" => "check", "check_circle" => "check-circle",
+      "edit" => "pencil", "delete" => "trash-2", "add" => "plus", "remove" => "minus",
+      "fullscreen" => "maximize", "fullscreen_exit" => "minimize",
+      "zoom_in" => "zoom-in", "zoom_out" => "zoom-out", "visibility" => "eye",
+      "visibility_off" => "eye-off", "upload" => "upload", "download" => "download",
+      "cloud_upload" => "cloud-upload", "cloud_download" => "cloud-download",
+      "open_in_new" => "external-link", "link" => "link", "content_copy" => "copy",
+      "print" => "printer", "share" => "share-2",
+      # UI Elements
+      "tag" => "tag", "label" => "tag", "category" => "folder",
+      "description" => "file-text", "file_copy" => "files", "article" => "file-text",
+      "grid_view" => "grid-3x3", "view_list" => "list", "list" => "list",
+      "photo_library" => "images", "image" => "image", "photo" => "image",
+      "collections" => "images", "layers" => "layers", "aspect_ratio" => "ratio",
+      "crop_square" => "square",
+      # Status/Info
+      "info" => "info", "warning" => "alert-triangle", "error" => "alert-circle",
+      "help" => "help-circle", "help_outline" => "help-circle",
+      "verified" => "badge-check", "thumb_up" => "thumbs-up",
+      "thumb_down" => "thumbs-down", "trending_up" => "trending-up",
+      "trending_down" => "trending-down",
+      # User/Account
+      "person" => "user", "account_circle" => "user-circle", "people" => "users",
+      "group" => "users", "login" => "log-in", "logout" => "log-out",
+      "settings" => "settings", "lock" => "lock", "lock_open" => "unlock",
+      "key" => "key", "vpn_key" => "key",
+      # Commerce
+      "attach_money" => "dollar-sign", "payments" => "credit-card", "euro" => "euro",
+      "euro_symbol" => "euro", "shopping_cart" => "shopping-cart",
+      "receipt" => "receipt", "calculate" => "calculator", "sell" => "tag",
+      "handshake" => "handshake",
+      # Favorites/Rating
+      "star" => "star", "star_border" => "star", "star_half" => "star-half",
+      "favorite" => "heart", "favorite_border" => "heart",
+      # Misc
+      "format_quote" => "quote", "wb_sunny" => "sun", "wb_twilight" => "sun",
+      "light_mode" => "sun", "dark_mode" => "moon", "brightness_5" => "sun",
+      "brightness_6" => "sun", "brightness_7" => "sun", "calendar_today" => "calendar",
+      "schedule" => "clock", "access_time" => "clock",
+      "dashboard" => "layout-dashboard", "analytics" => "bar-chart-2",
+      "insights" => "lightbulb"
+    }.freeze
+
+    # Render an SVG icon from Lucide icons
     #
-    # @param name [String] Icon name (Material Symbol name, or legacy FA/Phosphor)
-    # @param size [String, nil] Size: "sm" (18px), "md" (24px), "lg" (36px), "xl" (48px)
-    # @return [String] HTML span element with icon
+    # @param name [String] Icon name (normalized name, or legacy FA/Phosphor)
+    # @param size [String, nil] Size: "xs" (14px), "sm" (18px), "md" (24px), "lg" (36px), "xl" (48px)
+    # @return [String] HTML SVG element with icon
     #
     # Examples:
     #   {{ "home" | material_icon }}
@@ -104,12 +182,16 @@ module Pwb
     def material_icon(name, size = nil)
       return "" if name.blank?
 
-      # Normalize icon name
-      icon_name = normalize_icon_name(name.to_s.strip)
+      # Normalize icon name (legacy FA/Phosphor -> normalized name)
+      normalized_name = normalize_icon_name(name.to_s.strip)
+      # Map normalized name to Lucide filename
+      lucide_name = LUCIDE_MAP[normalized_name] || "help-circle"
       size_class = icon_size_class(size)
 
-      css_classes = ["material-symbols-outlined", size_class].compact.join(" ")
-      %(<span class="#{css_classes}" aria-hidden="true">#{icon_name}</span>)
+      css_classes = ["icon", size_class].compact.join(" ")
+
+      # Read and return inline SVG
+      render_svg_icon(lucide_name, css_classes)
     end
 
     # Render a brand/social icon using SVG sprite
@@ -194,7 +276,7 @@ module Pwb
       end
     end
 
-    # Normalize icon name from legacy formats to Material Symbol name
+    # Normalize icon name from legacy formats to normalized icon name
     def normalize_icon_name(name)
       # Check if it's in the mappings
       return ICON_MAPPINGS[name] if ICON_MAPPINGS.key?(name)
@@ -206,19 +288,42 @@ module Pwb
       # Check mappings again after stripping prefix
       return ICON_MAPPINGS[name] if ICON_MAPPINGS.key?(name)
 
-      # Convert dashes to underscores (Material uses underscores)
+      # Convert dashes to underscores
       name.tr("-", "_")
     end
 
-    # Get CSS size class for icon
+    # Get CSS size class for SVG icon
     def icon_size_class(size)
       case size&.to_s&.downcase
-      when "xs" then "md-14"
-      when "sm" then "md-18"
-      when "md" then "md-24"
-      when "lg" then "md-36"
-      when "xl" then "md-48"
-      else nil # Default size (24px)
+      when "xs" then "icon-xs"
+      when "sm" then "icon-sm"
+      when "md" then "icon-md"
+      when "lg" then "icon-lg"
+      when "xl" then "icon-xl"
+      else "icon-md" # Default size (24px)
+      end
+    end
+
+    # Render an SVG icon by reading the file
+    # @param lucide_name [String] The Lucide icon filename (without .svg)
+    # @param css_classes [String] CSS classes to add to the SVG
+    # @return [String] The SVG element HTML
+    def render_svg_icon(lucide_name, css_classes)
+      svg_path = Rails.root.join("app", "assets", "images", "icons", "#{lucide_name}.svg")
+
+      if File.exist?(svg_path)
+        svg_content = File.read(svg_path)
+
+        # Remove width/height attributes (we use CSS), add our classes and aria
+        svg_content = svg_content
+          .gsub(/\s*width="[^"]*"/, "")
+          .gsub(/\s*height="[^"]*"/, "")
+          .gsub(/<svg/, %(<svg class="#{css_classes}" aria-hidden="true"))
+
+        svg_content
+      else
+        # Fallback: render a placeholder
+        %(<span class="#{css_classes} icon-missing" aria-hidden="true">[#{lucide_name}]</span>)
       end
     end
   end

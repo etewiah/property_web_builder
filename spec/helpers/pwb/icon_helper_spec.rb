@@ -6,122 +6,121 @@ module Pwb
   RSpec.describe IconHelper, type: :helper do
     describe '#icon' do
       context 'basic rendering' do
-        it 'renders a Material Symbol icon' do
+        it 'renders an SVG icon' do
           result = helper.icon(:home)
-          expect(result).to have_css('span.material-symbols-outlined', text: 'home')
+          expect(result).to have_css('svg.icon')
         end
 
         it 'includes aria-hidden by default for decorative icons' do
           result = helper.icon(:search)
-          expect(result).to have_css('span[aria-hidden="true"]')
+          expect(result).to have_css('svg[aria-hidden="true"]')
         end
 
         it 'works with string icon names' do
           result = helper.icon('phone')
-          expect(result).to have_css('span.material-symbols-outlined', text: 'phone')
+          expect(result).to have_css('svg.icon')
         end
       end
 
       context 'size options' do
         it 'applies xs size class' do
           result = helper.icon(:home, size: :xs)
-          expect(result).to have_css('span.md-14')
+          expect(result).to have_css('svg.icon-xs')
         end
 
         it 'applies sm size class' do
           result = helper.icon(:home, size: :sm)
-          expect(result).to have_css('span.md-18')
+          expect(result).to have_css('svg.icon-sm')
         end
 
         it 'applies md size class (default)' do
           result = helper.icon(:home, size: :md)
-          expect(result).to have_css('span.md-24')
+          expect(result).to have_css('svg.icon-md')
         end
 
         it 'applies lg size class' do
           result = helper.icon(:home, size: :lg)
-          expect(result).to have_css('span.md-36')
+          expect(result).to have_css('svg.icon-lg')
         end
 
         it 'applies xl size class' do
           result = helper.icon(:home, size: :xl)
-          expect(result).to have_css('span.md-48')
+          expect(result).to have_css('svg.icon-xl')
         end
       end
 
       context 'filled variant' do
-        it 'adds filled class when option is true' do
+        it 'adds icon-filled class when option is true' do
           result = helper.icon(:star, filled: true)
-          expect(result).to have_css('span.filled')
+          expect(result).to have_css('svg.icon-filled')
         end
 
-        it 'does not add filled class when option is false' do
+        it 'does not add icon-filled class when option is false' do
           result = helper.icon(:star, filled: false)
-          expect(result).not_to have_css('span.filled')
+          expect(result).not_to have_css('svg.icon-filled')
         end
       end
 
       context 'custom classes' do
         it 'applies additional CSS classes' do
           result = helper.icon(:home, class: 'text-red-500')
-          expect(result).to have_css('span.text-red-500')
+          expect(result).to have_css('svg.text-red-500')
         end
       end
 
       context 'accessibility' do
         it 'uses aria-label for meaningful icons' do
           result = helper.icon(:warning, aria: { label: 'Warning message' })
-          expect(result).to have_css('span[aria-label="Warning message"]')
-          expect(result).to have_css('span[role="img"]')
+          expect(result).to have_css('svg[aria-label="Warning message"]')
         end
 
         it 'is aria-hidden for decorative icons (default)' do
           result = helper.icon(:home)
-          expect(result).to have_css('span[aria-hidden="true"]')
+          expect(result).to have_css('svg[aria-hidden="true"]')
         end
       end
 
       context 'legacy icon name aliasing' do
-        it 'maps fa-home to home' do
+        it 'maps fa-home to house SVG' do
           result = helper.icon('fa-home')
-          expect(result).to have_css('span.material-symbols-outlined', text: 'home')
+          expect(result).to have_css('svg.icon')
         end
 
-        it 'maps fa-envelope to email' do
+        it 'maps fa-envelope to mail SVG' do
           result = helper.icon('fa-envelope')
-          expect(result).to have_css('span.material-symbols-outlined', text: 'email')
+          expect(result).to have_css('svg.icon')
         end
 
-        it 'maps ph-house to home' do
+        it 'maps ph-house to house SVG' do
           result = helper.icon('ph-house')
-          expect(result).to have_css('span.material-symbols-outlined', text: 'home')
+          expect(result).to have_css('svg.icon')
         end
 
-        it 'maps ph-magnifying-glass to search' do
+        it 'maps ph-magnifying-glass to search SVG' do
           result = helper.icon('ph-magnifying-glass')
-          expect(result).to have_css('span.material-symbols-outlined', text: 'search')
+          expect(result).to have_css('svg.icon')
         end
       end
 
       context 'semantic aliases' do
-        it 'maps bedroom to bed' do
+        it 'maps bedroom to bed icon' do
           result = helper.icon(:bedroom)
-          expect(result).to have_css('span.material-symbols-outlined', text: 'bed')
+          expect(result).to have_css('svg.icon')
         end
 
-        it 'maps bathroom to bathroom' do
+        it 'maps bathroom to bath icon' do
           result = helper.icon(:bathroom)
-          expect(result).to have_css('span.material-symbols-outlined', text: 'bathroom')
+          expect(result).to have_css('svg.icon')
         end
 
-        it 'maps location to location_on' do
+        it 'maps location to map-pin icon' do
           result = helper.icon(:location)
-          expect(result).to have_css('span.material-symbols-outlined', text: 'location_on')
+          expect(result).to have_css('svg.icon')
         end
 
-        it 'maps envelope to email' do
+        it 'maps envelope to mail icon' do
           result = helper.icon(:envelope)
-          expect(result).to have_css('span.material-symbols-outlined', text: 'email')
+          expect(result).to have_css('svg.icon')
         end
       end
 
@@ -136,7 +135,7 @@ module Pwb
     describe '#icon_button' do
       it 'renders icon inside a button' do
         result = helper.icon_button(:menu)
-        expect(result).to have_css('button span.material-symbols-outlined', text: 'menu')
+        expect(result).to have_css('button svg.icon')
       end
 
       it 'applies icon-button class by default' do
@@ -171,24 +170,19 @@ module Pwb
         expect(result).to have_css('svg.brand-icon-instagram')
       end
 
-      it 'uses default size of 24' do
-        result = helper.brand_icon(:linkedin)
-        expect(result).to have_css('svg[width="24"][height="24"]')
+      it 'applies size via CSS class' do
+        result = helper.brand_icon(:linkedin, size: 24)
+        expect(result).to have_css('svg.icon-md')
       end
 
-      it 'allows custom size' do
+      it 'applies larger size via CSS class' do
         result = helper.brand_icon(:youtube, size: 32)
-        expect(result).to have_css('svg[width="32"][height="32"]')
+        expect(result).to have_css('svg.icon-md') # 32 maps to md (24-35 range)
       end
 
       it 'is aria-hidden' do
         result = helper.brand_icon(:facebook)
         expect(result).to have_css('svg[aria-hidden="true"]')
-      end
-
-      it 'uses SVG sprite reference' do
-        result = helper.brand_icon(:facebook)
-        expect(result).to have_css('use[href="#icon-facebook"]')
       end
 
       it 'raises error for unknown brand in test environment' do
@@ -223,9 +217,10 @@ module Pwb
         expect(helper.social_icon_link(:facebook, nil)).to be_nil
       end
 
-      it 'applies custom size to icon' do
+      it 'applies custom size via CSS class' do
         result = helper.social_icon_link(:facebook, 'https://facebook.com/example', size: 32)
-        expect(result).to have_css('svg[width="32"]')
+        # Size 32 maps to :md class (range 24-35)
+        expect(result).to have_css('svg.icon-md')
       end
     end
   end

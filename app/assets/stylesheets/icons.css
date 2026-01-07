@@ -1,116 +1,78 @@
 /*
- * Material Symbols Outlined for PropertyWebBuilder
- * https://fonts.google.com/icons
+ * SVG Icon Styles for PropertyWebBuilder
+ * Using Lucide Icons (https://lucide.dev)
  *
- * This is the ONLY approved icon system for this project.
+ * This replaces the Material Symbols font-based icons.
  * Use the icon(:name) helper to render icons.
- * See: docs/architecture/MATERIAL_ICONS_MIGRATION_PLAN.md
  */
-
-/* ============================================
- * Font Face Declaration
- * ============================================ */
-
-/* Font face removed in favor of Google Fonts CDN to save 3.8MB */
 
 /* ============================================
  * Base Icon Styles
  * ============================================ */
 
-.material-symbols-outlined {
-  font-family: 'Material Symbols Outlined' !important;
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
+.icon {
   display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
   vertical-align: middle;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  /* Material Symbols requires 'rlig' (required ligatures) for icon substitution */
-  font-feature-settings: 'rlig' !important;
-
-  /* Default: outlined style */
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24 !important;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
 }
 
 /* ============================================
  * Size Variants
- * ============================================ */
+ * ============================================
+ * Matching the old Material Symbols sizes:
+ * :xs (14px), :sm (18px), :md (24px), :lg (36px), :xl (48px)
+ */
 
-.material-symbols-outlined.md-14 {
-  font-size: 14px;
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+.icon-xs {
+  width: 14px;
+  height: 14px;
 }
 
-.material-symbols-outlined.md-18 {
-  font-size: 18px;
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+.icon-sm {
+  width: 18px;
+  height: 18px;
 }
 
-.material-symbols-outlined.md-24 {
-  font-size: 24px;
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+.icon-md {
+  width: 24px;
+  height: 24px;
 }
 
-.material-symbols-outlined.md-36 {
-  font-size: 36px;
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40;
+.icon-lg {
+  width: 36px;
+  height: 36px;
 }
 
-.material-symbols-outlined.md-48 {
-  font-size: 48px;
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+.icon-xl {
+  width: 48px;
+  height: 48px;
 }
 
 /* ============================================
  * Style Variants
  * ============================================ */
 
-/* Filled variant */
-.material-symbols-outlined.filled {
-  font-variation-settings:
-    'FILL' 1,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24;
+/* Filled variant - changes stroke to fill */
+.icon-filled {
+  fill: currentColor;
+  stroke: none;
 }
 
-/* Bold/emphasized variant */
-.material-symbols-outlined.bold {
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 700,
-    'GRAD' 0,
-    'opsz' 24;
+/* Thicker stroke for emphasis */
+.icon-bold {
+  stroke-width: 2.5;
 }
 
-/* Light variant */
-.material-symbols-outlined.light {
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 300,
-    'GRAD' 0,
-    'opsz' 24;
-}
-
-/* Filled + Bold */
-.material-symbols-outlined.filled.bold {
-  font-variation-settings:
-    'FILL' 1,
-    'wght' 700,
-    'GRAD' 0,
-    'opsz' 24;
+/* Thinner stroke for subtle icons */
+.icon-light {
+  stroke-width: 1.5;
 }
 
 /* ============================================
@@ -118,13 +80,13 @@
  * ============================================ */
 
 /* Fixed width for alignment in lists */
-.material-symbols-outlined.icon-fw {
+.icon-fw {
   width: 1.5em;
   text-align: center;
 }
 
 /* Spin animation for loading states */
-.material-symbols-outlined.icon-spin {
+.icon-spin {
   animation: icon-spin 1s linear infinite;
 }
 
@@ -134,7 +96,7 @@
 }
 
 /* Pulse animation */
-.material-symbols-outlined.icon-pulse {
+.icon-pulse {
   animation: icon-pulse 1s ease-in-out infinite;
 }
 
@@ -173,13 +135,16 @@
 }
 
 /* ============================================
- * Brand Icons (SVG Sprite)
+ * Brand Icons (SVG)
  * ============================================ */
 
 .brand-icon {
   display: inline-block;
   vertical-align: middle;
+  width: 24px;
+  height: 24px;
   fill: currentColor;
+  stroke: none;
 }
 
 /* Social link styling */
@@ -231,24 +196,25 @@
 
 /* Property feature icons */
 .property-feature-icon {
-  font-size: 20px;
+  width: 20px;
+  height: 20px;
   margin-right: 0.25rem;
   color: var(--text-muted, #6b7280);
 }
 
 /* Navigation icons */
 .nav-icon {
-  font-size: 20px;
+  width: 20px;
+  height: 20px;
   margin-right: 0.5rem;
 }
 
 /* Action button icons */
-.btn .material-symbols-outlined {
+.btn .icon {
   margin-right: 0.375rem;
-  font-size: 1.25em;
 }
 
-.btn-icon-only .material-symbols-outlined {
+.btn-icon-only .icon {
   margin-right: 0;
 }
 
@@ -271,14 +237,14 @@
  * ============================================ */
 
 /* Ensure icons don't interfere with screen readers when decorative */
-.material-symbols-outlined[aria-hidden="true"],
+.icon[aria-hidden="true"],
 .brand-icon[aria-hidden="true"] {
   speak: never;
 }
 
 /* High contrast mode support */
 @media (forced-colors: active) {
-  .material-symbols-outlined,
+  .icon,
   .brand-icon {
     forced-color-adjust: auto;
   }
@@ -286,8 +252,28 @@
 
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
-  .material-symbols-outlined.icon-spin,
-  .material-symbols-outlined.icon-pulse {
+  .icon-spin,
+  .icon-pulse {
     animation: none;
   }
 }
+
+/* ============================================
+ * Legacy Compatibility
+ * ============================================
+ * These classes map old Material Symbols classes to new SVG styles
+ * for any templates that haven't been updated yet.
+ */
+
+.material-symbols-outlined {
+  /* Fallback: if old class is used, apply icon base styles */
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Size mappings for old classes */
+.md-14 { font-size: 14px; }
+.md-18 { font-size: 18px; }
+.md-24 { font-size: 24px; }
+.md-36 { font-size: 36px; }
+.md-48 { font-size: 48px; }

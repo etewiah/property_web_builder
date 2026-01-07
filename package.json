@@ -3,7 +3,8 @@
     "@fortawesome/fontawesome-free": "^7.1.0",
     "@playwright/test": "^1.57.0",
     "critical": "^7.2.1",
-    "fontawesome-subset": "^4.6.0"
+    "fontawesome-subset": "^4.6.0",
+    "lucide-static": "^0.562.0"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.2.8",

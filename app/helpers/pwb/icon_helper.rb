@@ -3,15 +3,15 @@
 module Pwb
   # Central icon helper - THE ONLY approved way to render icons in the application.
   #
-  # This helper enforces the use of Material Icons across the entire application
+  # This helper renders inline SVG icons from Lucide (https://lucide.dev)
   # and provides a consistent API for rendering icons with proper accessibility.
   #
   # @example Basic usage in ERB
   #   <%= icon(:home) %>
-  #   # => <span class="material-symbols-outlined" aria-hidden="true">home</span>
+  #   # => <svg class="icon icon-md" aria-hidden="true">...</svg>
   #
   # @example With size and style options
-  #   <%= icon(:search, size: :lg, filled: true) %>
+  #   <%= icon(:search, size: :lg, class: "text-gray-500") %>
   #
   # @example Accessible icon with label
   #   <%= icon(:warning, aria: { label: "Warning message" }) %>
@@ -20,40 +20,34 @@ module Pwb
   #   <%= brand_icon(:facebook) %>
   #
   module IconHelper
-    # Render a Material Symbol icon
+    # Render an icon from Lucide SVG icons
     #
-    # @param name [Symbol, String] Icon name from Material Symbols
+    # @param name [Symbol, String] Icon name (Material Symbols name, will be mapped to Lucide)
     # @param options [Hash] Rendering options
-    # @option options [Symbol] :size Icon size - :sm (18px), :md (24px), :lg (36px), :xl (48px)
-    # @option options [Boolean] :filled Use filled variant instead of outlined
+    # @option options [Symbol] :size Icon size - :xs (14px), :sm (18px), :md (24px), :lg (36px), :xl (48px)
+    # @option options [Boolean] :filled Use filled variant (adds fill, removes stroke)
     # @option options [String] :class Additional CSS classes
     # @option options [Hash] :aria Accessibility attributes (use :label for meaningful icons)
     # @option options [Hash] :data Data attributes for Stimulus controllers, etc.
     #
-    # @return [ActiveSupport::SafeBuffer] HTML span element with icon
+    # @return [ActiveSupport::SafeBuffer] HTML SVG element with icon
     #
     def icon(name, options = {})
       original_name = name.to_s
-      name = normalize_icon_name(name)
-      fallback_info = validate_icon_name!(name, original_name)
+      normalized_name = normalize_icon_name(name)
+      lucide_name = ICON_MAP[normalized_name]
 
-      # Use fallback icon if validation failed
-      if fallback_info
-        name = fallback_info[:fallback]
-        options = options.merge(class: [options[:class], "icon-fallback"].compact.join(" "))
-        options[:data] = (options[:data] || {}).merge(original_icon: fallback_info[:original])
+      # Validate icon exists
+      unless lucide_name
+        fallback_info = validate_icon_name!(normalized_name, original_name)
+        if fallback_info
+          lucide_name = ICON_MAP[fallback_info[:fallback]] || "help-circle"
+          options = options.merge(class: [options[:class], "icon-fallback"].compact.join(" "))
+          options[:data] = (options[:data] || {}).merge(original_icon: fallback_info[:original])
+        end
       end
 
-      size_class = icon_size_class(options[:size])
-      filled_class = options[:filled] ? "filled" : nil
-      custom_class = options[:class]
-
-      classes = ["material-symbols-outlined", size_class, filled_class, custom_class].compact.join(" ")
-
-      aria_attrs = build_aria_attributes(options[:aria])
-      data_attrs = options[:data] || {}
-
-      content_tag(:span, name, class: classes, **aria_attrs, data: data_attrs)
+      render_svg_icon(lucide_name, options)
     end
 
     # Render an icon inside a button element
@@ -74,10 +68,7 @@ module Pwb
       content_tag(:button, icon(name, options.merge(aria: nil)), **button_attrs)
     end
 
-    # Render a brand/logo icon using SVG sprite
-    #
-    # Material Icons doesn't include brand logos (Facebook, Instagram, etc.)
-    # so we use an SVG sprite for these.
+    # Render a brand/logo icon using inline SVG
     #
     # @param name [Symbol, String] Brand name (facebook, instagram, linkedin, etc.)
     # @param options [Hash] Rendering options
@@ -92,7 +83,7 @@ module Pwb
 
       size = options[:size] || 24
 
-      # Use fallback Material icon if brand not found
+      # Use fallback icon if brand not found
       if fallback_info
         return icon(fallback_info[:fallback],
                     size: size_to_symbol(size),
@@ -100,13 +91,11 @@ module Pwb
                     data: { original_brand: fallback_info[:original] })
       end
 
+      # Brand icons use the Lucide social icons
+      lucide_name = BRAND_ICON_MAP[original_name] || original_name
       css_class = ["brand-icon", "brand-icon-#{original_name}", options[:class]].compact.join(" ")
 
-      content_tag(:svg, class: css_class, width: size, height: size,
-                        viewBox: "0 0 24 24", fill: "currentColor",
-                        "aria-hidden": "true") do
-        content_tag(:use, nil, href: "#icon-#{original_name}")
-      end
+      render_svg_icon(lucide_name, size: size_to_symbol(size), class: css_class, filled: true)
     end
 
     # Convert pixel size to symbol size for icon helper
@@ -142,172 +131,260 @@ module Pwb
 
     private
 
-    # List of allowed Material Symbol icon names
-    # Add new icons here as needed
-    ALLOWED_ICONS = %w[
-      home
-      search
-      arrow_back
-      arrow_forward
-      chevron_left
-      chevron_right
-      expand_more
-      expand_less
-      arrow_drop_down
-      arrow_drop_up
-      menu
-      close
-      check
-      check_circle
-      bed
-      bathroom
-      bathtub
-      shower
-      local_parking
-      directions_car
-      garage
-      phone
-      email
-      mail
-      person
-      account_circle
-      people
-      group
-      location_on
-      place
-      map
-      public
-      language
-      edit
-      delete
-      add
-      remove
-      visibility
-      visibility_off
-      star
-      star_border
-      star_half
-      favorite
-      favorite_border
-      share
-      send
-      contacts
-      fullscreen
-      fullscreen_exit
-      zoom_in
-      zoom_out
-      filter_list
-      tune
-      sort
-      photo_library
-      image
-      photo
-      collections
-      info
-      warning
-      error
-      help
-      help_outline
-      login
-      logout
-      settings
-      format_quote
-      lock
-      lock_open
-      key
-      vpn_key
-      attach_money
-      payments
-      euro
-      euro_symbol
-      handshake
-      wb_sunny
-      wb_twilight
-      light_mode
-      dark_mode
-      brightness_5
-      brightness_6
-      brightness_7
-      tag
-      label
-      category
-      description
-      file_copy
-      article
-      grid_view
-      view_list
-      list
-      refresh
-      sync
-      autorenew
-      upload
-      download
-      cloud_upload
-      cloud_download
-      open_in_new
-      link
-      content_copy
-      print
-      calendar_today
-      schedule
-      access_time
-      verified
-      thumb_up
-      thumb_down
-      comment
-      chat
-      forum
-      notifications
-      arrow_right_alt
-      trending_up
-      trending_down
-      analytics
-      insights
-      dashboard
-      home_work
-      apartment
-      house
-      villa
-      cottage
-      real_estate_agent
-      sell
-      shopping_cart
-      receipt
-      calculate
-      straighten
-      square_foot
-      crop_square
-      aspect_ratio
-      layers
-      terrain
-      park
-      pool
-      fitness_center
-      ac_unit
-      local_laundry_service
-      kitchen
-      balcony
-      deck
-      roofing
-      foundation
-      stairs
-      elevator
-      accessible
-      pets
-      smoke_free
-      wifi
-      tv
-      security
-      camera_outdoor
-      doorbell
-      solar_power
-      bolt
-      water_drop
-      local_fire_department
-      thermostat
-    ].freeze
+    # Render an SVG icon by reading the file and inlining it
+    #
+    # @param lucide_name [String] The Lucide icon filename (without .svg)
+    # @param options [Hash] Rendering options
+    # @return [ActiveSupport::SafeBuffer] The SVG element
+    #
+    def render_svg_icon(lucide_name, options = {})
+      size_class = icon_size_class(options[:size])
+      filled_class = options[:filled] ? "icon-filled" : nil
+      custom_class = options[:class]
 
-    # Map common aliases and legacy names to Material icon names
+      classes = ["icon", size_class, filled_class, custom_class].compact.join(" ")
+      aria_attrs = build_aria_attributes(options[:aria])
+      data_attrs = options[:data] || {}
+
+      # Read SVG file
+      svg_path = Rails.root.join("app", "assets", "images", "icons", "#{lucide_name}.svg")
+
+      if File.exist?(svg_path)
+        svg_content = File.read(svg_path)
+
+        # Parse and modify SVG attributes
+        # Remove width/height attributes (we use CSS), add our classes and aria
+        svg_content = svg_content
+          .gsub(/\s*width="[^"]*"/, "")
+          .gsub(/\s*height="[^"]*"/, "")
+          .gsub(/<svg/, "<svg class=\"#{classes}\"")
+
+        # Add aria attributes
+        if aria_attrs[:role]
+          svg_content = svg_content.gsub(/<svg/, "<svg role=\"#{aria_attrs[:role]}\"")
+        end
+        if aria_attrs["aria-hidden"]
+          svg_content = svg_content.gsub(/<svg/, "<svg aria-hidden=\"true\"")
+        end
+        if aria_attrs["aria-label"]
+          svg_content = svg_content.gsub(/<svg/, "<svg aria-label=\"#{aria_attrs["aria-label"]}\"")
+        end
+
+        # Add data attributes
+        data_attrs.each do |key, value|
+          svg_content = svg_content.gsub(/<svg/, "<svg data-#{key.to_s.dasherize}=\"#{value}\"")
+        end
+
+        svg_content.html_safe
+      else
+        # Fallback: render a placeholder with error indication
+        Rails.logger.warn("IconHelper: SVG file not found: #{svg_path}")
+        content_tag(:span, "[#{lucide_name}]", class: "#{classes} icon-missing", **aria_attrs, data: data_attrs)
+      end
+    end
+
+    # Map Material Symbols icon names to Lucide icon filenames
+    # Format: 'material_name' => 'lucide-filename'
+    ICON_MAP = {
+      # Property/Real Estate
+      "home" => "house",
+      "apartment" => "building",
+      "bed" => "bed",
+      "shower" => "shower-head",
+      "bathtub" => "bath",
+      "bathroom" => "bath",
+      "directions_car" => "car",
+      "local_parking" => "car",
+      "garage" => "warehouse",
+      "square_foot" => "square",
+      "straighten" => "ruler",
+      "landscape" => "mountain",
+      "terrain" => "mountain",
+      "pool" => "waves",
+      "fitness_center" => "dumbbell",
+      "ac_unit" => "snowflake",
+      "kitchen" => "cooking-pot",
+      "balcony" => "fence",
+      "deck" => "fence",
+      "roofing" => "home",
+      "stairs" => "arrow-up-down",
+      "elevator" => "arrow-up-down",
+      "accessible" => "accessibility",
+      "pets" => "paw-print",
+      "smoke_free" => "cigarette-off",
+      "wifi" => "wifi",
+      "tv" => "tv",
+      "security" => "shield",
+      "solar_power" => "sun",
+      "bolt" => "zap",
+      "water_drop" => "droplet",
+      "thermostat" => "thermometer",
+      "house" => "house",
+      "villa" => "castle",
+      "cottage" => "home",
+      "real_estate_agent" => "user",
+      "home_work" => "building-2",
+      "park" => "trees",
+      "local_laundry_service" => "shirt",
+      "foundation" => "layers",
+      "doorbell" => "bell",
+      "camera_outdoor" => "camera",
+      "local_fire_department" => "flame",
+
+      # Navigation
+      "chevron_left" => "chevron-left",
+      "chevron_right" => "chevron-right",
+      "expand_more" => "chevron-down",
+      "expand_less" => "chevron-up",
+      "keyboard_arrow_down" => "chevron-down",
+      "keyboard_arrow_up" => "chevron-up",
+      "arrow_back" => "arrow-left",
+      "arrow_forward" => "arrow-right",
+      "arrow_drop_down" => "chevron-down",
+      "arrow_drop_up" => "chevron-up",
+      "arrow_right_alt" => "arrow-right",
+      "close" => "x",
+      "menu" => "menu",
+
+      # Communication
+      "email" => "mail",
+      "mail" => "mail",
+      "phone" => "phone",
+      "location_on" => "map-pin",
+      "place" => "map-pin",
+      "map" => "map",
+      "public" => "globe",
+      "language" => "globe",
+      "send" => "send",
+      "chat" => "message-circle",
+      "forum" => "messages-square",
+      "contacts" => "contact",
+      "comment" => "message-square",
+      "notifications" => "bell",
+
+      # Actions
+      "search" => "search",
+      "filter_list" => "filter",
+      "tune" => "sliders-horizontal",
+      "sort" => "arrow-up-down",
+      "refresh" => "refresh-cw",
+      "sync" => "refresh-cw",
+      "autorenew" => "refresh-cw",
+      "check" => "check",
+      "check_circle" => "check-circle",
+      "edit" => "pencil",
+      "delete" => "trash-2",
+      "add" => "plus",
+      "remove" => "minus",
+      "fullscreen" => "maximize",
+      "fullscreen_exit" => "minimize",
+      "zoom_in" => "zoom-in",
+      "zoom_out" => "zoom-out",
+      "visibility" => "eye",
+      "visibility_off" => "eye-off",
+      "upload" => "upload",
+      "download" => "download",
+      "cloud_upload" => "cloud-upload",
+      "cloud_download" => "cloud-download",
+      "open_in_new" => "external-link",
+      "link" => "link",
+      "content_copy" => "copy",
+      "print" => "printer",
+      "share" => "share-2",
+
+      # UI Elements
+      "tag" => "tag",
+      "label" => "tag",
+      "category" => "folder",
+      "description" => "file-text",
+      "file_copy" => "files",
+      "article" => "file-text",
+      "grid_view" => "grid-3x3",
+      "view_list" => "list",
+      "list" => "list",
+      "photo_library" => "images",
+      "image" => "image",
+      "photo" => "image",
+      "collections" => "images",
+      "layers" => "layers",
+      "aspect_ratio" => "ratio",
+      "crop_square" => "square",
+
+      # Status/Info
+      "info" => "info",
+      "warning" => "alert-triangle",
+      "error" => "alert-circle",
+      "help" => "help-circle",
+      "help_outline" => "help-circle",
+      "verified" => "badge-check",
+      "thumb_up" => "thumbs-up",
+      "thumb_down" => "thumbs-down",
+      "trending_up" => "trending-up",
+      "trending_down" => "trending-down",
+
+      # User/Account
+      "person" => "user",
+      "account_circle" => "user-circle",
+      "people" => "users",
+      "group" => "users",
+      "login" => "log-in",
+      "logout" => "log-out",
+      "settings" => "settings",
+      "lock" => "lock",
+      "lock_open" => "unlock",
+      "key" => "key",
+      "vpn_key" => "key",
+
+      # Commerce
+      "attach_money" => "dollar-sign",
+      "payments" => "credit-card",
+      "euro" => "euro",
+      "euro_symbol" => "euro",
+      "shopping_cart" => "shopping-cart",
+      "receipt" => "receipt",
+      "calculate" => "calculator",
+      "sell" => "tag",
+      "handshake" => "handshake",
+
+      # Favorites/Rating
+      "star" => "star",
+      "star_border" => "star",
+      "star_half" => "star-half",
+      "favorite" => "heart",
+      "favorite_border" => "heart",
+
+      # Misc
+      "format_quote" => "quote",
+      "wb_sunny" => "sun",
+      "wb_twilight" => "sun",
+      "light_mode" => "sun",
+      "dark_mode" => "moon",
+      "brightness_5" => "sun",
+      "brightness_6" => "sun",
+      "brightness_7" => "sun",
+      "calendar_today" => "calendar",
+      "schedule" => "clock",
+      "access_time" => "clock",
+      "dashboard" => "layout-dashboard",
+      "analytics" => "bar-chart-2",
+      "insights" => "lightbulb",
+    }.freeze
+
+    # Map brand names to Lucide icon filenames (for social media)
+    BRAND_ICON_MAP = {
+      "facebook" => "facebook",
+      "instagram" => "instagram",
+      "linkedin" => "linkedin",
+      "youtube" => "youtube",
+      "twitter" => "twitter",
+      "x" => "twitter",
+      "whatsapp" => "message-circle",
+      "pinterest" => "pin",
+      "tiktok" => "music",
+      "google" => "globe",
+    }.freeze
+
+    # Map common aliases and legacy names to normalized icon names
     ICON_ALIASES = {
       # Legacy Font Awesome mappings
       "fa-home" => "home",
@@ -389,47 +466,38 @@ module Pwb
       "ph-chat-circle-text" => "chat",
       "ph-address-book" => "contacts",
 
-      # Material icon aliases (same icon, different names)
-      "keyboard_arrow_down" => "expand_more",
-      "keyboard_arrow_up" => "expand_less",
-      "keyboard_arrow_left" => "chevron_left",
-      "keyboard_arrow_right" => "chevron_right",
-
       # Semantic aliases
-      bedroom: "bed",
-      bedrooms: "bed",
-      bathroom: "bathroom",
-      bathrooms: "bathroom",
-      parking: "local_parking",
-      car: "directions_car",
-      back: "arrow_back",
-      forward: "arrow_forward",
-      left: "chevron_left",
-      right: "chevron_right",
-      down: "expand_more",
-      up: "expand_less",
-      hamburger: "menu",
-      envelope: "email",
-      user: "person",
-      marker: "location_on",
-      location: "location_on",
-      globe: "public",
-      info_outline: "info",
-      pencil: "edit",
-      trash: "delete",
-      plus: "add",
-      minus: "remove",
-      eye: "visibility",
-      eye_off: "visibility_off",
-      expand: "fullscreen",
-      quote: "format_quote",
-      money: "attach_money",
-      price: "attach_money",
-      sun: "wb_sunny",
-      property: "home",
-      house: "home",
-      apartment: "apartment",
-      building: "apartment"
+      "bedroom" => "bed",
+      "bedrooms" => "bed",
+      "bathrooms" => "bathroom",
+      "parking" => "local_parking",
+      "car" => "directions_car",
+      "back" => "arrow_back",
+      "forward" => "arrow_forward",
+      "left" => "chevron_left",
+      "right" => "chevron_right",
+      "down" => "expand_more",
+      "up" => "expand_less",
+      "hamburger" => "menu",
+      "envelope" => "email",
+      "user" => "person",
+      "marker" => "location_on",
+      "location" => "location_on",
+      "globe" => "public",
+      "info_outline" => "info",
+      "pencil" => "edit",
+      "trash" => "delete",
+      "plus" => "add",
+      "minus" => "remove",
+      "eye" => "visibility",
+      "eye_off" => "visibility_off",
+      "expand" => "fullscreen",
+      "quote" => "format_quote",
+      "money" => "attach_money",
+      "price" => "attach_money",
+      "sun" => "wb_sunny",
+      "property" => "home",
+      "building" => "apartment",
     }.freeze
 
     # Allowed brand icon names
@@ -450,7 +518,7 @@ module Pwb
       name = name.to_s.strip.downcase
 
       # Check aliases first with original name (e.g., "ph-magnifying-glass")
-      return ICON_ALIASES[name]&.to_s if ICON_ALIASES.key?(name)
+      return ICON_ALIASES[name] if ICON_ALIASES.key?(name)
 
       # Remove legacy prefixes
       name = name.gsub(/^(fa|fas|fab|ph)\s+/, "")
@@ -460,7 +528,7 @@ module Pwb
       name = name.tr("-", "_")
 
       # Check aliases again with normalized name
-      ICON_ALIASES[name.to_sym]&.to_s || ICON_ALIASES[name]&.to_s || name
+      ICON_ALIASES[name.to_sym]&.to_s || ICON_ALIASES[name] || name
     end
 
     # Fallback icon for unknown icons
@@ -471,7 +539,7 @@ module Pwb
     # @param original_name [String] Original icon name before normalization
     # @return [Hash, nil] Fallback info hash or nil if valid
     def validate_icon_name!(name, original_name = nil)
-      return nil if ALLOWED_ICONS.include?(name)
+      return nil if ICON_MAP.key?(name)
 
       original_name ||= name
 
@@ -480,8 +548,8 @@ module Pwb
         raise ArgumentError, <<~MSG
           Unknown icon: '#{name}'#{original_name != name ? " (from '#{original_name}')" : ""}
 
-          If this is a valid Material Symbol, add it to ALLOWED_ICONS in IconHelper.
-          Browse icons at: https://fonts.google.com/icons
+          If this is a valid icon, add it to ICON_MAP in IconHelper.
+          Browse Lucide icons at: https://lucide.dev/icons
 
           For brand icons (Facebook, Instagram, etc.), use brand_icon(:name) instead.
         MSG
@@ -507,7 +575,7 @@ module Pwb
 
           Allowed brands: #{ALLOWED_BRANDS.join(", ")}
 
-          To add a new brand, update ALLOWED_BRANDS and add the SVG to brands.svg sprite.
+          To add a new brand, update ALLOWED_BRANDS and BRAND_ICON_MAP.
         MSG
       else
         Rails.logger.warn("IconHelper: Unknown brand icon '#{name}' - using fallback")
@@ -517,12 +585,12 @@ module Pwb
 
     def icon_size_class(size)
       case size&.to_sym
-      when :xs then "md-14"
-      when :sm then "md-18"
-      when :md, nil then "md-24"
-      when :lg then "md-36"
-      when :xl then "md-48"
-      else "md-24"
+      when :xs then "icon-xs"
+      when :sm then "icon-sm"
+      when :md, nil then "icon-md"
+      when :lg then "icon-lg"
+      when :xl then "icon-xl"
+      else "icon-md"
       end
     end
 
