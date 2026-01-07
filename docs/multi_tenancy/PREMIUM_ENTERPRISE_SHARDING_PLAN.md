@@ -117,13 +117,17 @@ Assigns a **new, empty** tenant to a specific shard. Useful for provisioning new
 ### `rake pwb:sharding:migrate[tenant_id, target_shard]`
 **DANGER**: Moves an existing tenant's data from their current shard to the target shard.
 *   **Usage**: `rake pwb:sharding:migrate[123, shard_1]`
+*   **Implementation Status**: ✅ Implemented via `Pwb::TenantShardMigrator`. The task copies every `PwbTenant::` model in batches, verifies there are no ID collisions on the destination, inserts the rows, and then deletes them from the source before updating `website.shard_name`.
+*   **Prerequisites**:
+    * Target shard must be configured in `database.yml` and up to date schema-wise.
+    * Destination shard should not contain colliding primary keys for the migrating tenant tables. (The migrator aborts if conflicts are detected.)
 *   **Steps**:
-    1.  Puts tenant in "Maintenance Mode" (locks site).
-    2.  Dumps data.
-    3.  Restores to target.
-    4.  Verifies row counts match.
-    5.  Updates `website.shard_name`.
-    6.  Unlocks site.
+    1.  Acquire a lock on the website record to prevent concurrent shard changes.
+    2.  Stream tenant data from the source shard in batches.
+    3.  Insert batches into the target shard (raising if any ID conflict is detected).
+    4.  Delete migrated rows from the source shard.
+    5.  Update `website.shard_name`.
+    6.  Release the lock.
 
 ## Tenant Admin UI
 We will add a "Platform Operations" section to the Super Admin interface (`/admin`).
