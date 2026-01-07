@@ -18,7 +18,7 @@
  * ============================================ */
 
 .material-symbols-outlined {
-  font-family: 'Material Symbols Outlined';
+  font-family: 'Material Symbols Outlined' !important;
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
@@ -33,14 +33,15 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  font-feature-settings: 'liga';
+  /* Material Symbols requires 'rlig' (required ligatures) for icon substitution */
+  font-feature-settings: 'rlig' !important;
 
   /* Default: outlined style */
   font-variation-settings:
     'FILL' 0,
     'wght' 400,
     'GRAD' 0,
-    'opsz' 24;
+    'opsz' 24 !important;
 }
 
 /* ============================================
