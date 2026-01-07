@@ -314,11 +314,13 @@ module Pwb
       if File.exist?(svg_path)
         svg_content = File.read(svg_path)
 
-        # Remove width/height attributes (we use CSS), add our classes and aria
-        svg_content = svg_content
-          .gsub(/\s*width="[^"]*"/, "")
-          .gsub(/\s*height="[^"]*"/, "")
-          .gsub(/<svg/, %(<svg class="#{css_classes}" aria-hidden="true" data-icon-name="#{lucide_name}"))
+        # Remove width/height attributes from root SVG, add our classes and aria
+        svg_content = svg_content.sub(/<svg[^>]*>/) do |svg_tag|
+          svg_tag
+            .gsub(/\swidth="[^"]*"/, "")
+            .gsub(/\sheight="[^"]*"/, "")
+            .gsub(/<svg/, %(<svg class="#{css_classes}" aria-hidden="true" data-icon-name="#{lucide_name}"))
+        end
 
         svg_content
       else

@@ -91,11 +91,27 @@ module Pwb
                     data: { original_brand: fallback_info[:original] })
       end
 
-      # Brand icons use the Lucide social icons
-      lucide_name = BRAND_ICON_MAP[original_name] || original_name
-      css_class = ["brand-icon", "brand-icon-#{original_name}", options[:class]].compact.join(" ")
+      sprite_name = BRAND_SPRITE_MAP[original_name] || original_name
+      size_symbol = size_to_symbol(size)
+      css_class = ["icon", icon_size_class(size_symbol), "brand-icon", "brand-icon-#{original_name}", options[:class]].compact.join(" ")
 
-      render_svg_icon(lucide_name, size: size_to_symbol(size), class: css_class, filled: true)
+      aria_attrs = build_aria_attributes(options[:aria])
+      data_attrs = (options[:data] || {}).dup
+      data_attrs[:icon_name] ||= "brand-#{sprite_name}"
+
+      svg_attrs = {
+        class: css_class,
+        width: size,
+        height: size,
+        viewBox: "0 0 24 24",
+        fill: "currentColor",
+        data: data_attrs
+      }
+      aria_attrs.each { |key, value| svg_attrs[key.to_sym] = value }
+
+      content_tag(:svg, **svg_attrs) do
+        tag.use(href: "#icon-#{sprite_name}", "xlink:href": "#icon-#{sprite_name}")
+      end
     end
 
     # Convert pixel size to symbol size for icon helper
@@ -154,11 +170,13 @@ module Pwb
         svg_content = File.read(svg_path)
 
         # Parse and modify SVG attributes
-        # Remove width/height attributes (we use CSS), add our classes and aria
-        svg_content = svg_content
-          .gsub(/\s*width="[^"]*"/, "")
-          .gsub(/\s*height="[^"]*"/, "")
-          .gsub(/<svg/, "<svg class=\"#{classes}\"")
+        # Remove width/height attributes from the root SVG (we use CSS), add our classes and aria
+        svg_content = svg_content.sub(/<svg[^>]*>/) do |svg_tag|
+          svg_tag
+            .gsub(/\swidth="[^"]*"/, "")
+            .gsub(/\sheight="[^"]*"/, "")
+            .gsub(/<svg/, "<svg class=\"#{classes}\"")
+        end
 
         # Add aria attributes
         if aria_attrs[:role]
@@ -371,18 +389,18 @@ module Pwb
       "insights" => "lightbulb",
     }.freeze
 
-    # Map brand names to Lucide icon filenames (for social media)
-    BRAND_ICON_MAP = {
+    # Map brand names to SVG sprite IDs
+    BRAND_SPRITE_MAP = {
       "facebook" => "facebook",
       "instagram" => "instagram",
       "linkedin" => "linkedin",
       "youtube" => "youtube",
-      "twitter" => "twitter",
-      "x" => "twitter",
-      "whatsapp" => "message-circle",
-      "pinterest" => "pin",
-      "tiktok" => "music",
-      "google" => "globe",
+      "twitter" => "x",
+      "x" => "x",
+      "whatsapp" => "whatsapp",
+      "pinterest" => "pinterest",
+      "tiktok" => "tiktok",
+      "google" => "google"
     }.freeze
 
     # Map common aliases and legacy names to normalized icon names
@@ -576,7 +594,7 @@ module Pwb
 
           Allowed brands: #{ALLOWED_BRANDS.join(", ")}
 
-          To add a new brand, update ALLOWED_BRANDS and BRAND_ICON_MAP.
+          To add a new brand, update ALLOWED_BRANDS and BRAND_SPRITE_MAP.
         MSG
       else
         Rails.logger.warn("IconHelper: Unknown brand icon '#{name}' - using fallback")
