@@ -24,6 +24,10 @@
 #  default_currency                    :string           default("EUR")
 #  default_meta_description            :text
 #  default_seo_title                   :string
+#  demo_last_reset_at                  :datetime
+#  demo_mode                           :boolean          default(FALSE), not null
+#  demo_reset_interval                 :interval         default(24 hours)
+#  demo_seed_pack                      :string
 #  email_for_general_contact_form      :string
 #  email_for_property_contact_form     :string
 #  email_verification_token            :string
@@ -89,6 +93,7 @@
 #
 #  index_pwb_websites_on_custom_domain             (custom_domain) UNIQUE WHERE ((custom_domain IS NOT NULL) AND ((custom_domain)::text <> ''::text))
 #  index_pwb_websites_on_dark_mode_setting         (dark_mode_setting)
+#  index_pwb_websites_on_demo_mode_and_shard_name  (demo_mode,shard_name)
 #  index_pwb_websites_on_email_verification_token  (email_verification_token) UNIQUE WHERE (email_verification_token IS NOT NULL)
 #  index_pwb_websites_on_external_feed_enabled     (external_feed_enabled)
 #  index_pwb_websites_on_external_feed_provider    (external_feed_provider)

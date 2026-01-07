@@ -35,7 +35,13 @@ bin/rails db:migrate:tenant_shard_1
 bin/rails db:migrate:demo_shard
 ```
 
-> **Tip:** `bin/rails db:prepare` will run the primary migrations automatically, but you still need the explicit `:tenant_shard_1` and `:demo_shard` tasks until we wire them into the default prepare hook.
+or run everything at once:
+
+```bash
+bin/rails db:shards:prepare
+```
+
+> **Tip:** `bin/rails db:prepare` will run the primary migrations automatically, but you still need the explicit `:tenant_shard_1` and `:demo_shard` tasks unless you use the helper above.
 
 ## 4. Provisioning Demo Tenants
 
