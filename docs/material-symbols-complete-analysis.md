@@ -1,5 +1,7 @@
 # Material Symbols Icon System - Complete Analysis & Recommendations
 
+> **Note:** Material Symbols have been fully replaced by Lucide inline SVG icons as of January 7, 2026. This document is retained for historical context.
+
 **Date:** January 7, 2026  
 **Issue:** Material Symbols icons displaying as text instead of glyphs  
 **Root Cause:** Multiple compounding issues with font subsetting and CSS configuration  

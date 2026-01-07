@@ -192,7 +192,7 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
 
     # TODO: Remove Font Awesome stylesheet includes from theme layouts after
     # confirming all icons are migrated. This test will fail until then.
-    it 'does not reference Font Awesome CDN in theme layouts', :pending do
+    it 'does not reference Font Awesome CDN in theme layouts' do
       violations = []
 
       theme_layout_files.each do |file|
@@ -205,14 +205,12 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
       if violations.any?
         failure_message = "Found Font Awesome CDN references in theme layouts:\n"
         violations.uniq.each { |v| failure_message += "  - #{v}\n" }
-        failure_message += "\nTheme layouts should use Material Symbols font."
+        failure_message += "\nTheme layouts should rely on Lucide inline SVGs, not Font Awesome."
         fail failure_message
       end
     end
 
-    # TODO: Remove Phosphor stylesheet includes from theme layouts after
-    # confirming all icons are migrated.
-    it 'does not reference Phosphor in theme layouts', :pending do
+    it 'does not reference Phosphor in theme layouts' do
       violations = []
 
       theme_layout_files.each do |file|
@@ -225,7 +223,7 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
       if violations.any?
         failure_message = "Found Phosphor references in theme layouts:\n"
         violations.uniq.each { |v| failure_message += "  - #{v}\n" }
-        failure_message += "\nTheme layouts should use Material Symbols font."
+        failure_message += "\nTheme layouts should rely on Lucide inline SVGs, not Phosphor webfonts."
         fail failure_message
       end
     end

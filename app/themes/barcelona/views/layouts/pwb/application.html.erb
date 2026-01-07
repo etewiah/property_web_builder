@@ -43,8 +43,9 @@
     <%# Lucide Icons - inline SVG styles %>
     <%= stylesheet_link_tag "icons", media: "all" %>
 
-    <%# Font Awesome 6 Subset - legacy support for admin editor (to be removed) %>
-    <%= stylesheet_link_tag "fontawesome-subset", media: "all" %>
+    <% if params[:edit_mode] == 'true' %>
+      <%= render 'pwb/editor_legacy_icon_support' %>
+    <% end %>
 
     <%= csrf_meta_tags %>
 
@@ -93,7 +94,6 @@
     <%# JavaScript loaded at end of body for best performance %>
     <%= javascript_include_tag "pwb/application", defer: true %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
-    <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
     <%= javascript_importmap_tags %>
 
     <%# Deferred UI enhancements %>

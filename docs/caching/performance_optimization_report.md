@@ -55,6 +55,7 @@ PropertyWebBuilder has a solid foundation with materialized views for optimal da
    - Problem: `<script src="https://unpkg.com/@phosphor-icons/web"></script>` - render blocking
    - **Size:** ~15KB
    - **Severity:** MEDIUM
+   - **Update (Jan 2026):** Removed as part of the Lucide icon migration and now loaded only inside the page editor.
 
 **Recommendations:**
 - Add `async: true` or `defer: true` to main application JavaScript

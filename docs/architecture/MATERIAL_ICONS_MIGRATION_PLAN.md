@@ -1,5 +1,7 @@
 # Material Icons Migration Plan
 
+> **Note:** This plan is now deprecated. PropertyWebBuilder ships with Lucide inline SVG icons (see `docs/lucide-migration-guide.md`). The details below remain for historical reference only.
+
 ## Executive Summary
 
 This document outlines the complete migration from Font Awesome and Phosphor Icons to Google Material Icons, with enforcement mechanisms to prevent future use of other icon libraries.

@@ -1,5 +1,7 @@
 # Material Symbols Icon Rendering Issue - Fixed
 
+> **Note:** Material Symbols have since been removed in favor of Lucide SVG icons. This investigation is filed here for posterity.
+
 ## Problem
 
 After self-hosting the Material Symbols font subset (commits e7d18b04, 651142b8, 1b22fb41), icons were not rendering correctly. Instead of showing icons, the text names (e.g., "home") were displayed.

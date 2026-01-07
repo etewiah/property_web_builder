@@ -41,8 +41,9 @@
     <%# Lucide Icons - inline SVG styles %>
     <%= stylesheet_link_tag "icons", media: "all" %>
 
-    <%# Font Awesome 6 Subset - legacy support for admin editor (to be removed) %>
-    <%= stylesheet_link_tag "fontawesome-subset", media: "all" %>
+    <% if params[:edit_mode] == 'true' %>
+      <%= render 'pwb/editor_legacy_icon_support' %>
+    <% end %>
 
     <%= csrf_meta_tags %>
 

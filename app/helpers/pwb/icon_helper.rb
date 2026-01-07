@@ -95,7 +95,7 @@ module Pwb
       lucide_name = BRAND_ICON_MAP[original_name] || original_name
       css_class = ["brand-icon", "brand-icon-#{original_name}", options[:class]].compact.join(" ")
 
-      render_svg_icon(lucide_name, size: size_to_symbol(size), class: css_class)
+      render_svg_icon(lucide_name, size: size_to_symbol(size), class: css_class, filled: true)
     end
 
     # Convert pixel size to symbol size for icon helper
