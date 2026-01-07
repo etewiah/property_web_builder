@@ -98,6 +98,59 @@ Working code examples and patterns for common tasks.
 - **Comprehensive error handling:** Graceful degradation
 - **Well-documented:** Code has good comments
 
+---
+
+## Website Locking Feature Documents
+
+Located in `website_locking/` subdirectory.
+
+### 1. **website_locking/ARCHITECTURE_SUMMARY.md** (Start Here)
+Executive summary of the website locking feature for pre-compiling pages to static HTML.
+
+**Contents:**
+- Quick reference overview
+- Three-layer architecture (Compilation, Storage, Serving)
+- Data model changes
+- Key components
+- Implementation roadmap (4 phases)
+- Performance impact (10-15x faster)
+- Success criteria
+
+**Best for:** Quick overview, sprint planning, stakeholder communication.
+
+### 2. **website_locking/website_locking_architecture_investigation.md**
+Deep technical investigation of current rendering pipeline and proposed changes.
+
+**Contents:**
+- Current page rendering flow
+- Dynamic vs. static content analysis
+- PaletteCompiler pattern (precedent)
+- Detailed file inventory
+- Challenges and gotchas
+- Implementation suggestions
+
+**Best for:** Developers, detailed technical planning.
+
+### 3. **website_locking/rendering_pipeline_diagram.md**
+Visual ASCII diagrams showing current and proposed architecture.
+
+**Best for:** Visual learners, whiteboarding, presentations.
+
+### 4. **website_locking/website_locking_code_examples.md**
+Implementation-ready code examples.
+
+**Contents:**
+- Database migration
+- Model definitions
+- PageCompiler service
+- Controller modifications
+- RSpec tests
+- Rake tasks
+
+**Best for:** Developers implementing the feature.
+
+---
+
 ## Document Maintenance
 
 These documents should be updated when:
