@@ -56,6 +56,12 @@ This folder contains comprehensive documentation about PropertyWebBuilder's mult
 
 **Best for:** Developers writing code, adding new features, or learning the patterns used in PropertyWebBuilder.
 
+### 4. [DEMO_SHARD_GUIDE.md](./DEMO_SHARD_GUIDE.md) - Demo Environment Playbook
+
+**Purpose:** Everything you need to run the isolated demo shard: database tasks, provisioning workflow, reset strategy, UI safeguards, and testing notes.
+
+**Best for:** Platform engineers, developer advocates, or anyone maintaining the public demo sites.
+
 ## Quick Navigation
 
 ### I want to...
@@ -75,6 +81,7 @@ This folder contains comprehensive documentation about PropertyWebBuilder's mult
 - **Set up cross-tenant access** → Check [routing_implementation.md](./routing_implementation.md) "TenantAdminController" section and [multi_tenancy_guide.md](./multi_tenancy_guide.md) "Cross-Tenant Queries"
 
 - **Add a new model** → Follow [multi_tenancy_guide.md](./multi_tenancy_guide.md) "Model Patterns" section
+- **Operate demo subdomains** → Use [DEMO_SHARD_GUIDE.md](./DEMO_SHARD_GUIDE.md)
 
 ## Key Concepts Quick Reference
 
