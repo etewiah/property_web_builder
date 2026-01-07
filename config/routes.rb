@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
+
   post "/graphql", to: "graphql#execute"
 
   # Tenant Admin - Cross-tenant management dashboard
@@ -407,6 +408,7 @@ Rails.application.routes.draw do
     constraints Constraints::TenantAdminConstraint.new do
       mount ActiveStorageDashboard::Engine => "/active_storage_dashboard"
       mount Logster::Web, at: "/logs"
+      mount PgHero::Engine, at: "/pghero" if defined?(PgHero)
 
       # Performance monitoring dashboard (self-hosted APM)
       mount RailsPerformance::Engine, at: "/performance"

@@ -191,6 +191,8 @@ gem "stimulus-rails", "~> 1.3"
 # This allows redis 5.x and removes httparty/redis-namespace dependencies
 gem "active_storage_dashboard"
 
+gem "pghero"
+
 # AWS SDK for S3-compatible storage (Cloudflare R2)
 gem "aws-sdk-s3", require: false
 

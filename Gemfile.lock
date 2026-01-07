@@ -434,6 +434,8 @@ GEM
     pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
     pg (1.6.3-x86_64-linux-musl)
+    pghero (3.7.0)
+      activerecord (>= 7.1)
     poltergeist (1.18.1)
       capybara (>= 2.1, < 4)
       cliver (~> 0.3.1)
@@ -786,6 +788,7 @@ DEPENDENCIES
   omniauth-facebook
   pagy (~> 43.0)
   pg
+  pghero
   poltergeist
   pry-byebug
   puma
