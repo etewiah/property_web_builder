@@ -36,9 +36,9 @@
       <%= stylesheet_link_tag "bologna_theme", media: "all" %>
     </noscript>
 
-    <%# Flowbite CSS - deferred %>
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet"></noscript>
+    <%# Flowbite CSS - deferred (JS loaded via importmap) %>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.2/flowbite.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.2/flowbite.min.css" rel="stylesheet"></noscript>
 
     <%# Lucide Icons - inline SVG styles %>
     <%= stylesheet_link_tag "icons", media: "all" %>
@@ -54,7 +54,7 @@
     <meta name="theme-color" content="<%= @current_website.style_variables["primary_color"] || "#c2410c" %>">
   </head>
 
-  <body class="tnt-body bologna-theme <%= @current_website.body_style %> font-sans antialiased bg-warm-gray-50 text-warm-gray-900">
+  <body class="tnt-body bologna-theme <%= @current_website.body_style %> font-sans antialiased bg-warm-gray-50 text-warm-gray-900" data-controller="flowbite">
     <%= render 'shared/demo_banner' %>
     <%# Brand icons SVG sprite - must be early in body for <use> references %>
     <%= render partial: '/pwb/brand_icons_sprite' %>
@@ -91,7 +91,7 @@
 
     <%# JavaScript loaded at end of body for best performance %>
     <%= javascript_include_tag "pwb/application", defer: true %>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
+    <%# Flowbite JS now loaded via importmap in application.js %>
     <%= javascript_importmap_tags %>
 
     <%# Deferred UI enhancements %>

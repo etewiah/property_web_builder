@@ -5,4 +5,8 @@
 import Rails from "@rails/ujs"
 Rails.start()
 
+// Flowbite UI components (Carousel, Dropdown)
+// Imported here to ensure it's available for the Stimulus controller
+import "flowbite"
+
 import "controllers"
