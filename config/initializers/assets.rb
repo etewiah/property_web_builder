@@ -27,4 +27,5 @@ Rails.application.config.assets.precompile += %w[
   tailwind-biarritz.css
   barcelona_theme.css
   fontawesome-subset.css
+  material-symbols-subset.css
 ]

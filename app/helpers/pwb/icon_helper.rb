@@ -204,7 +204,6 @@ module Pwb
       photo
       collections
       info
-      info_outline
       warning
       error
       help
@@ -415,6 +414,7 @@ module Pwb
       marker: "location_on",
       location: "location_on",
       globe: "public",
+      info_outline: "info",
       pencil: "edit",
       trash: "delete",
       plus: "add",
