@@ -120,22 +120,26 @@ production:
     url: <%= ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
     password: <%= ENV['PWB_DATABASE_PASSWORD'] %>
     prepared_statements: false
+  <% if ENV['PWB_TENANT_SHARD_1_DATABASE_URL'].present? %>
   tenant_shard_1:
     <<: *default
     database: pwb_production_shard_1
     migrations_paths: db/tenant_shard_1_migrate
     username: pwb
-    url: <%= ENV['PWB_TENANT_SHARD_1_DATABASE_URL'] || ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
+    url: <%= ENV['PWB_TENANT_SHARD_1_DATABASE_URL'] %>
     password: <%= ENV['PWB_DATABASE_PASSWORD'] %>
     prepared_statements: false
+  <% end %>
+  <% if ENV['PWB_DEMO_SHARD_DATABASE_URL'].present? %>
   demo_shard:
     <<: *default
     database: pwb_production_demo_shard
     migrations_paths: db/demo_shard_migrate
     username: pwb
-    url: <%= ENV['PWB_DEMO_SHARD_DATABASE_URL'] || ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
+    url: <%= ENV['PWB_DEMO_SHARD_DATABASE_URL'] %>
     password: <%= ENV['PWB_DATABASE_PASSWORD'] %>
     prepared_statements: false
+  <% end %>
 
 staging:
   primary:
@@ -145,19 +149,23 @@ staging:
     url: <%= ENV['PWB_STAGING_DATABASE_URL'] || ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
     password: <%= ENV['PWB_STAGING_DATABASE_PASSWORD'] || ENV['PWB_DATABASE_PASSWORD'] %>
     prepared_statements: false
+  <% if ENV['PWB_STAGING_TENANT_SHARD_1_DATABASE_URL'].present? %>
   tenant_shard_1:
     <<: *default
     database: pwb_staging_shard_1
     migrations_paths: db/tenant_shard_1_migrate
     username: pwb
-    url: <%= ENV['PWB_STAGING_TENANT_SHARD_1_DATABASE_URL'] || ENV['PWB_STAGING_DATABASE_URL'] || ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
+    url: <%= ENV['PWB_STAGING_TENANT_SHARD_1_DATABASE_URL'] %>
     password: <%= ENV['PWB_STAGING_DATABASE_PASSWORD'] || ENV['PWB_DATABASE_PASSWORD'] %>
     prepared_statements: false
+  <% end %>
+  <% if ENV['PWB_STAGING_DEMO_SHARD_DATABASE_URL'].present? %>
   demo_shard:
     <<: *default
     database: pwb_staging_demo_shard
     migrations_paths: db/demo_shard_migrate
     username: pwb
-    url: <%= ENV['PWB_STAGING_DEMO_SHARD_DATABASE_URL'] || ENV['PWB_STAGING_DATABASE_URL'] || ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
+    url: <%= ENV['PWB_STAGING_DEMO_SHARD_DATABASE_URL'] %>
     password: <%= ENV['PWB_STAGING_DATABASE_PASSWORD'] || ENV['PWB_DATABASE_PASSWORD'] %>
     prepared_statements: false
+  <% end %>
