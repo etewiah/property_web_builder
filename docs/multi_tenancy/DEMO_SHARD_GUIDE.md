@@ -75,7 +75,46 @@ bin/rails db:shards:prepare
 2. Run `Pwb::SeedPack.find(pack).apply!(website: demo_site)` once, or call `demo_site.reset_demo_data!` to exercise the full workflow. Stubbing `Pwb::SeedPack` is also acceptable in automated tests.
 3. The new automated specs (`spec/models/concerns/pwb/demo_website_spec.rb` and `spec/services/pwb/demo_provisioner_spec.rb`) show how to stub `Pwb::SeedPack`, how to assert `demo_last_reset_at` updates, and how to keep tests fast without touching the actual demo shard.
 
-## 8. Operations Checklist
+## 8. Dokku Deployment
+
+When deploying to Dokku, use the `postgres:link` command with aliases to set up shard database URLs:
+
+```bash
+# Create the shard databases
+dokku postgres:create pwb-demo-shard
+dokku postgres:create pwb-shard-1  # Optional: for tenant_shard_1
+
+# Link with aliases that match config/database.yml expectations
+# The --alias flag sets the environment variable name prefix
+dokku postgres:link pwb-demo-shard your-app --alias PWB_DEMO_SHARD_DATABASE
+dokku postgres:link pwb-shard-1 your-app --alias PWB_TENANT_SHARD_1_DATABASE
+
+# This automatically sets:
+# - PWB_DEMO_SHARD_DATABASE_URL=postgres://...
+# - PWB_TENANT_SHARD_1_DATABASE_URL=postgres://...
+```
+
+**Verify the links:**
+```bash
+dokku postgres:app-links your-app
+# Should show: pwb-demo-shard, pwb-shard-1
+
+dokku config:show your-app | grep SHARD
+# Should show the DATABASE_URL environment variables
+```
+
+**Run migrations on shards after deploy:**
+```bash
+dokku run your-app bin/rails db:migrate:demo_shard
+dokku run your-app bin/rails db:migrate:tenant_shard_1
+```
+
+**Troubleshooting:**
+- If you see "No connection pool" errors, ensure the shard database is linked
+- Check that `PWB_DEMO_SHARD_DATABASE_URL` is set (not just `DATABASE_URL`)
+- The app conditionally loads shards based on env vars - see `config/database.yml`
+
+## 9. Operations Checklist
 
 - [ ] Ensure `PWB_DEMO_SHARD_DATABASE_URL` (or equivalent) is set in every deploy environment.
 - [ ] Run the `db:create`/`db:migrate` commands for the demo shard after each release with migrations.

@@ -13,14 +13,20 @@ module Pwb
 
     around_action :connect_to_tenant_shard
 
+    # Connect PwbTenant:: models to the appropriate shard based on current website.
+    #
+    # IMPORTANT: Only PwbTenant::ApplicationRecord is switched to the shard.
+    # Pwb:: models (ContentPhoto, Website, etc.) always use the primary database.
+    # This prevents "No connection pool" errors when Pwb:: models are queried
+    # inside the shard connection block.
     def connect_to_tenant_shard
       website = current_website
       shard = website&.database_shard || :default
 
-      ActiveRecord::Base.connected_to(role: :writing, shard: shard) do
-        PwbTenant::ApplicationRecord.connected_to(shard: shard, role: :writing) do
-          yield
-        end
+      # Only switch PwbTenant models to the shard
+      # Pwb:: models continue using primary database automatically
+      PwbTenant::ApplicationRecord.connected_to(shard: shard, role: :writing) do
+        yield
       end
     end
 
