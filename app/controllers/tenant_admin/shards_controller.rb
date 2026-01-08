@@ -58,11 +58,11 @@ module TenantAdmin
 
     # GET /tenant_admin/shards/health_summary
     def health_summary
-      @health_checks = Pwb::ShardHealthCheck.check_all
+      @health_data = Pwb::ShardHealthCheck.check_all
       
       respond_to do |format|
         format.html
-        format.json { render json: @health_checks }
+        format.json { render json: @health_data }
       end
     end
 

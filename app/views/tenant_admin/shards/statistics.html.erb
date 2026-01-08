@@ -1,0 +1,77 @@
+<div class="max-w-6xl mx-auto">
+  <div class="mb-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Statistics: <%= @shard_name %></h1>
+        <p class="mt-1 text-sm text-gray-600">Detailed database shard statistics and performance metrics</p>
+      </div>
+      <%= link_to "← Back to Shard", tenant_admin_shard_path(@shard_name),
+          class: "text-sm text-blue-600 hover:text-blue-800" %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+    <!-- Website Statistics -->
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Website Distribution</h2>
+      <dl class="space-y-3">
+        <div class="flex justify-between">
+          <dt class="text-sm text-gray-600">Total Websites:</dt>
+          <dd class="text-sm font-medium text-gray-900"><%= @stats[:website_count] %></dd>
+        </div>
+        <div class="flex justify-between">
+          <dt class="text-sm text-gray-600">Active Websites:</dt>
+          <dd class="text-sm font-medium text-gray-900"><%= @stats[:active_websites] %></dd>
+        </div>
+        <div class="flex justify-between">
+          <dt class="text-sm text-gray-600">Inactive Websites:</dt>
+          <dd class="text-sm font-medium text-gray-900"><%= @stats[:inactive_websites] %></dd>
+        </div>
+      </dl>
+    </div>
+
+    <!-- Database Statistics -->
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Database Metrics</h2>
+      <dl class="space-y-3">
+        <div class="flex justify-between">
+          <dt class="text-sm text-gray-600">Total Size:</dt>
+          <dd class="text-sm font-medium text-gray-900"><%= @stats[:total_size] %></dd>
+        </div>
+        <div class="flex justify-between">
+          <dt class="text-sm text-gray-600">Table Count:</dt>
+          <dd class="text-sm font-medium text-gray-900"><%= @stats[:table_count] %></dd>
+        </div>
+        <div class="flex justify-between">
+          <dt class="text-sm text-gray-600">Index Count:</dt>
+          <dd class="text-sm font-medium text-gray-900"><%= @stats[:index_count] %></dd>
+        </div>
+      </dl>
+    </div>
+
+    <!-- Top Tables by Size -->
+    <div class="bg-white shadow rounded-lg p-6 lg:col-span-2">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Largest Tables</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Table Name</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Row Count</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% (@stats[:top_tables] || []).each do |table| %>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= table[:name] %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= table[:size] %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= number_with_delimiter(table[:rows]) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
