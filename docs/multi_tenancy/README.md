@@ -1,270 +1,141 @@
-# Multi-Tenancy Documentation
+# Multi-Tenancy & Sharding Documentation
 
-This folder contains comprehensive documentation about PropertyWebBuilder's multi-tenant architecture, including routing, data isolation, and development patterns.
+This directory contains documentation for PropertyWebBuilder's multi-tenancy architecture and database sharding system.
 
-## Documentation Files
+## Core Documentation
 
-### 1. [routing_implementation.md](./routing_implementation.md) - Technical Reference
+### Architecture & Reference
+- **[MULTI_TENANCY_DATABASE_REFERENCE.md](MULTI_TENANCY_DATABASE_REFERENCE.md)** - Complete database architecture reference
+- **[MULTI_TENANCY_EXPLORATION_SUMMARY.md](MULTI_TENANCY_EXPLORATION_SUMMARY.md)** - System exploration summary
+- **[MULTI_TENANCY_QUICK_START.md](MULTI_TENANCY_QUICK_START.md)** - Quick start guide
 
-**Purpose:** Comprehensive technical reference of all multi-tenancy components.
+### Sharding
+- **[PREMIUM_ENTERPRISE_SHARDING_PLAN.md](PREMIUM_ENTERPRISE_SHARDING_PLAN.md)** - Enterprise sharding plan
+- **[DEMO_SHARD_GUIDE.md](DEMO_SHARD_GUIDE.md)** - Demo shard setup guide
 
-**Contains:**
-- Website model and database schema details
-- SubdomainTenant concern implementation
-- Current attributes pattern explanation
-- Controller architecture (SiteAdmin, TenantAdmin, Public)
-- Acts-as-tenant configuration
-- Model hierarchy (Pwb:: vs PwbTenant::)
-- Route constraints and structure
-- Data isolation and scoping mechanisms
-- Subdomain resolution priority
-- Detailed file listing with line numbers
+### Shard Admin Implementation (NEW - 2026-01-08)
+- **[SHARD_ADMIN_IMPLEMENTATION_PLAN.md](SHARD_ADMIN_IMPLEMENTATION_PLAN.md)** - Complete implementation plan (48KB)
+- **[SHARD_ADMIN_IMPLEMENTATION_UPDATES.md](SHARD_ADMIN_IMPLEMENTATION_UPDATES.md)** - Codebase-aligned updates (28KB)
 
-**Best for:** Developers who need to understand implementation details, debugging issues, or making changes to the multi-tenancy system.
+## Shard Admin Implementation
 
-### 2. [routing_architecture.md](./routing_architecture.md) - Visual Diagrams
+### Overview
+The Shard Admin project adds a complete UI for managing database shards in the Tenant Admin interface.
 
-**Purpose:** Visual representations of the multi-tenancy system.
+**Status:** Planning Complete ✅  
+**Implementation:** Not Started  
+**Estimated Effort:** 2-3 weeks  
 
-**Contains:**
-- High-level request flow diagram
-- Controller hierarchy tree
-- Data flow for scoped queries
-- Website lookup flow chart
-- Database schema relationships
-- Request routing decision tree
-- Authorization levels visualization
-- Environment variable configuration
-- Cross-tenant data isolation example
+### What Will Be Built
 
-**Best for:** Quick visual understanding, onboarding new developers, or explaining the system to stakeholders.
+**Phase 1 (Week 1):** Foundation
+- Shard dashboard showing all configured shards
+- Website shard assignment UI
+- Audit logging for all changes
+- Health monitoring basics
 
-### 3. [multi_tenancy_guide.md](./multi_tenancy_guide.md) - Development Guide
+**Phase 2 (Week 2):** Advanced Features
+- Detailed health monitoring with PgHero
+- Bulk shard assignment
+- Statistics & capacity tracking
+- Turbo/Stimulus dynamic UI
 
-**Purpose:** Practical guide for working with multi-tenancy as a developer.
+**Phase 3 (Week 3):** Migration Tools
+- Background migration jobs
+- Progress tracking
+- Verification & rollback
+- Email notifications
 
-**Contains:**
-- Quick start for different controller types
-- Model patterns and usage examples
-- Routing patterns and examples
-- Query examples for common scenarios
-- Controller best practices
-- Common pitfalls and how to avoid them
-- Testing strategies with code examples
-- Debugging techniques
-- Summary comparison table
+### Key Features
 
-**Best for:** Developers writing code, adding new features, or learning the patterns used in PropertyWebBuilder.
+✅ **Read from Actual Codebase**
+- Uses `Pwb::ShardRegistry` (not invented API)
+- Uses `Pwb::TenantShardMigrator` (actual class name)
+- Integrates with existing PgHero installation
 
-### 4. [DEMO_SHARD_GUIDE.md](./DEMO_SHARD_GUIDE.md) - Demo Environment Playbook
+✅ **Modern Rails 8**
+- Turbo Streams for instant updates
+- Stimulus controllers for interactivity
+- Solid Queue for background jobs
+- Feature flags for gradual rollout
 
-**Purpose:** Everything you need to run the isolated demo shard: database tasks, provisioning workflow, reset strategy, UI safeguards, and testing notes.
+✅ **Production Ready**
+- Comprehensive validation
+- Risk mitigation strategies
+- Audit trail for all operations
+- CLI tools (Rake tasks)
+- API endpoints for monitoring
 
-**Best for:** Platform engineers, developer advocates, or anyone maintaining the public demo sites.
+### Quick Reference
 
-## Quick Navigation
+**Access:** `/tenant_admin/shards` (requires TENANT_ADMIN_EMAILS)
 
-### I want to...
+**CLI Commands:**
+```bash
+# Status check
+bin/rails pwb:shards:status
 
-- **Understand how requests are routed to tenants** → Read [routing_implementation.md](./routing_implementation.md) "Subdomain-Based Routing Concern" section
+# Assign website to shard
+bin/rails pwb:shards:assign[42,shard_1]
 
-- **See a visual overview** → Look at [routing_architecture.md](./routing_architecture.md) "High-Level Request Flow" diagram
-
-- **Create a new controller** → Follow [multi_tenancy_guide.md](./multi_tenancy_guide.md) "Quick Start" section
-
-- **Write a query** → Check [multi_tenancy_guide.md](./multi_tenancy_guide.md) "Query Examples" section
-
-- **Debug a tenant isolation issue** → See [multi_tenancy_guide.md](./multi_tenancy_guide.md) "Debugging Multi-Tenancy Issues"
-
-- **Understand data scoping** → Read [routing_implementation.md](./routing_implementation.md) "Data Isolation & Scoping" section
-
-- **Set up cross-tenant access** → Check [routing_implementation.md](./routing_implementation.md) "TenantAdminController" section and [multi_tenancy_guide.md](./multi_tenancy_guide.md) "Cross-Tenant Queries"
-
-- **Add a new model** → Follow [multi_tenancy_guide.md](./multi_tenancy_guide.md) "Model Patterns" section
-- **Operate demo subdomains** → Use [DEMO_SHARD_GUIDE.md](./DEMO_SHARD_GUIDE.md)
-
-## Key Concepts Quick Reference
-
-### Subdomain-Based Routing
-
-Each tenant is identified by a unique subdomain (e.g., `myagency.example.com`). The `SubdomainTenant` concern extracts and resolves the subdomain to a `Pwb::Website` record.
-
-**Priority:**
-1. `X-Website-Slug` header (for API clients)
-2. Request subdomain (for browsers)
-3. First website (fallback)
-
-### Automatic Tenant Scoping
-
-Models inheriting from `PwbTenant::ApplicationRecord` are automatically scoped to the current tenant via `acts_as_tenant`. No manual WHERE clauses needed for tenant isolation.
-
-```ruby
-PwbTenant::Contact.all  # => Auto-scoped to current website
+# Health check
+bin/rails pwb:shards:health
 ```
 
-### Two Model Namespaces
-
-- **Pwb::** - Non-scoped models (Website, User). Global access, manual scoping needed.
-- **PwbTenant::** - Scoped models (Contact, Prop). Auto-scoped to current tenant.
-
-### Three Controller Types
-
-| Type | Scope | Use Case |
-|------|-------|----------|
-| Pwb::* | Single website (public) | Public website content |
-| SiteAdmin::* | Single website (admin) | Admin dashboard for one website |
-| TenantAdmin::* | All websites | Super-admin cross-tenant management |
-
-### Authorization
-
-- **Public:** No authentication needed
-- **Site Admin:** User must be authenticated + admin for that website
-- **Tenant Admin:** User email must be in `TENANT_ADMIN_EMAILS` environment variable
-
-## Architecture Layers
-
-```
-┌─────────────────────────────────────────┐
-│         ROUTING LAYER                   │
-│  SubdomainTenant concern                │
-│  - Extracts subdomain/header            │
-│  - Sets Pwb::Current.website            │
-└─────────────────────────────────────────┘
-              ▼
-┌─────────────────────────────────────────┐
-│         CONTROLLER LAYER                │
-│  - SiteAdminController (single tenant)  │
-│  - TenantAdminController (cross-tenant) │
-│  - Pwb::ApplicationController (public)  │
-└─────────────────────────────────────────┘
-              ▼
-┌─────────────────────────────────────────┐
-│         TENANT CONTEXT LAYER            │
-│  ActsAsTenant.current_tenant            │
-│  - Set in controller before_action      │
-└─────────────────────────────────────────┘
-              ▼
-┌─────────────────────────────────────────┐
-│         MODEL LAYER                     │
-│  - Pwb:: models (non-scoped)            │
-│  - PwbTenant:: models (auto-scoped)     │
-└─────────────────────────────────────────┘
-              ▼
-┌─────────────────────────────────────────┐
-│         DATABASE LAYER                  │
-│  - website_id foreign key on all tables │
-│  - Unique indexes per-website where needed
-└─────────────────────────────────────────┘
+**Feature Flags (Progressive Rollout):**
+```bash
+SHARD_ADMIN_ENABLED=true          # Enable dashboard
+SHARD_ASSIGNMENT_ENABLED=true     # Enable assignment
+SHARD_MIGRATIONS_ENABLED=true     # Enable data migration
 ```
 
-## Common Tasks
+### Getting Started
 
-### Creating a New Controller for Single Website Admin
+1. **Read the Plan:**
+   - Start with `SHARD_ADMIN_IMPLEMENTATION_PLAN.md`
+   - Review `SHARD_ADMIN_IMPLEMENTATION_UPDATES.md` for codebase-specific details
 
-1. Create controller inheriting from `SiteAdminController`
-2. It automatically:
-   - Resolves website from subdomain
-   - Requires authentication + authorization
-   - Sets tenant context for models
-3. Use `PwbTenant::` models for auto-scoped queries
+2. **Understand Dependencies:**
+   - Existing: `Pwb::ShardRegistry`, `Pwb::TenantShardMigrator`, PgHero
+   - New: `Pwb::ShardService`, `Pwb::ShardHealthCheck`, `Pwb::ShardAuditLog`
 
-See example in [multi_tenancy_guide.md](./multi_tenancy_guide.md)
+3. **Phase 1 Implementation:**
+   - Create database migration for `pwb_shard_audit_logs`
+   - Create routes in `tenant_admin` namespace
+   - Create `ShardsController`
+   - Create views with Tailwind CSS
+   - Add shard column to websites index
 
-### Adding a New Tenant-Scoped Model
+### Risk Assessment
 
-1. Create model in `app/models/pwb_tenant/` namespace
-2. Inherit from `PwbTenant::ApplicationRecord`
-3. Ensure table has `website_id` column (indexed)
-4. Queries are automatically scoped
+| Risk | Mitigation |
+|------|------------|
+| Unconfigured shard assignment | Validate with `ShardRegistry.configured?` |
+| Data loss during migration | Transactions, verification, source preservation |
+| Concurrent operations | Database locks, single-queue processing |
+| Permission escalation | Strict TENANT_ADMIN_EMAILS validation |
 
-See example in [multi_tenancy_guide.md](./multi_tenancy_guide.md)
+### Success Criteria
 
-### Cross-Tenant Admin Query
+- [ ] All tests passing (unit, controller, integration)
+- [ ] Can view all configured shards
+- [ ] Can assign websites to shards
+- [ ] Audit logs created for all changes
+- [ ] Health monitoring working
+- [ ] Documentation complete
 
-1. Use `TenantAdminController` (no SubdomainTenant concern)
-2. For PwbTenant:: models, use `ActsAsTenant.with_tenant(website)` or `ActsAsTenant.without_tenant`
-3. Or manually use Pwb:: models with `where(website_id: ...)`
+## Additional Resources
 
-See example in [multi_tenancy_guide.md](./multi_tenancy_guide.md)
+- Database configuration: `config/database.yml`
+- Shard registry: `app/lib/pwb/shard_registry.rb`
+- Migrator service: `app/services/pwb/tenant_shard_migrator.rb`
+- Application record: `app/models/pwb_tenant/application_record.rb`
 
-### Testing Multi-Tenancy
+## Questions?
 
-1. Create fixtures with multiple websites
-2. Set host/subdomain in request specs
-3. Verify queries are scoped correctly
-4. Test authorization boundaries
-
-See examples in [multi_tenancy_guide.md](./multi_tenancy_guide.md)
-
-## File Reference
-
-**Controllers:**
-- `/app/controllers/pwb/application_controller.rb` - Public website base
-- `/app/controllers/site_admin_controller.rb` - Single-tenant admin base
-- `/app/controllers/tenant_admin_controller.rb` - Cross-tenant admin base
-
-**Models:**
-- `/app/models/pwb/website.rb` - Website model (tenant identifier)
-- `/app/models/pwb/application_record.rb` - Non-scoped model base
-- `/app/models/pwb/current.rb` - Request-scoped current attributes
-- `/app/models/pwb_tenant/application_record.rb` - Scoped model base
-
-**Concerns:**
-- `/app/controllers/concerns/subdomain_tenant.rb` - Subdomain routing logic
-
-**Configuration:**
-- `/config/routes.rb` - Route definitions
-- `/config/initializers/acts_as_tenant.rb` - Acts_as_tenant config
-- `/lib/constraints/tenant_admin_constraint.rb` - Route constraint
-
-**Schema:**
-- `/db/schema.rb` - Database schema (see pwb_websites table)
-
-## Related Documentation
-
-- [Architecture decisions](../architecture/) - Design decisions and patterns
-- [Seed packs](../seeding/) - Multi-tenant seed data
-- [Field keys system](../field_keys/) - Tenant-scoped configuration
-
-## Troubleshooting
-
-### Issue: Wrong website data showing
-
-**Cause:** Not using auto-scoped models or missing WHERE clause
-
-**Solution:** 
-- Use `PwbTenant::` models for auto-scoping
-- Or manually add `where(website_id: current_website.id)`
-
-### Issue: Subdomain not resolving
-
-**Cause:** 
-- DNS not configured
-- Rails domain configuration issue
-- Reserved subdomain being used
-
-**Solution:**
-- Check DNS A/CNAME records
-- Verify `config.hosts` in environment file
-- See reserved subdomains list in Website model
-
-### Issue: Authorization failing
-
-**Cause:** 
-- Not authenticated
-- User not admin for website
-- Not in TENANT_ADMIN_EMAILS list
-
-**Solution:**
-- Check authentication status
-- Verify user role with `user.admin_for?(website)`
-- Check TENANT_ADMIN_EMAILS environment variable
-
-## More Information
-
-For implementation details, see the individual documentation files:
-- **Technical details:** [routing_implementation.md](./routing_implementation.md)
-- **Visual diagrams:** [routing_architecture.md](./routing_architecture.md)
-- **Development guide:** [multi_tenancy_guide.md](./multi_tenancy_guide.md)
-
-For questions or contributions, follow the project's CONTRIBUTING guidelines.
+See the implementation plan for detailed answers on:
+- Architecture decisions
+- Security model
+- Testing strategy
+- Deployment procedures
+- Troubleshooting guide
