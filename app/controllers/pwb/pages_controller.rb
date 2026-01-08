@@ -4,6 +4,7 @@ module Pwb
   class PagesController < ApplicationController
     include SeoHelper
     include HttpCacheable
+    include CacheHelper
 
     before_action :header_image_url
     before_action :extract_lcp_image, only: [:show_page]
@@ -17,6 +18,7 @@ module Pwb
       end
       @content_to_show = []
       @page_contents_for_edit = []
+      @has_rails_parts = false
 
       # @page.ordered_visible_contents.each do |page_content|
       # above does not get ordered correctly
@@ -25,6 +27,7 @@ module Pwb
           if page_content.is_rails_part
             # Rails parts are rendered as partials in the view, skip content extraction
             @content_to_show.push nil
+            @has_rails_parts = true
           else
             @content_to_show.push page_content.content&.raw
           end
@@ -36,11 +39,14 @@ module Pwb
         set_page_seo(@page)
 
         # HTTP caching for pages - cache for 10 minutes, stale for 1 hour
-        set_cache_control_headers(
-          max_age: 10.minutes,
-          public: true,
-          stale_while_revalidate: 1.hour
-        )
+        # Skip caching in edit mode to ensure fresh content for editors
+        unless edit_mode?
+          set_cache_control_headers(
+            max_age: 10.minutes,
+            public: true,
+            stale_while_revalidate: 1.hour
+          )
+        end
       end
 
       render "/pwb/pages/show"

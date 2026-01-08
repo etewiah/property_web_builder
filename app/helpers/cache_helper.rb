@@ -6,8 +6,24 @@
 # All cache keys are scoped to the current website (tenant) to prevent
 # cross-tenant data leakage.
 #
+# EDIT MODE & WEBSITE LOCKING:
+# When edit_mode is active or website is being compiled for locking,
+# caching should be skipped to ensure fresh content is rendered.
+# Use `cacheable?` to check before caching, or use `cache_unless_editing`
+# helper which handles this automatically.
+#
 # Usage in views:
-#   <% cache property_cache_key(@property) do %>
+#   <%# Automatic edit mode handling: %>
+#   <% cache_unless_editing page_cache_key(@page) do %>
+#     <%= render @page %>
+#   <% end %>
+#
+#   <%# Or manual check: %>
+#   <% if cacheable? %>
+#     <% cache property_cache_key(@property) do %>
+#       <%= render @property %>
+#     <% end %>
+#   <% else %>
 #     <%= render @property %>
 #   <% end %>
 #
@@ -166,6 +182,92 @@ module CacheHelper
       section,
       listing.updated_at&.to_i || Time.current.to_i
     )
+  end
+
+  # Cache key for a page part/component
+  # Includes page part version and block contents hash for proper invalidation
+  # @param page_part [Pwb::PagePart] the page part object
+  # @param page_content [Pwb::PageContent] optional page content for context-specific caching
+  def page_part_cache_key(page_part, page_content = nil)
+    return nil unless page_part
+
+    parts = [
+      "page_part",
+      page_part.page_part_key,
+      page_part.updated_at.to_i
+    ]
+
+    # Include page content version if provided (for page-specific overrides)
+    if page_content
+      parts << "pc#{page_content.id}"
+      parts << page_content.updated_at.to_i
+    end
+
+    # Include block_contents hash for JSON data changes
+    if page_part.respond_to?(:block_contents) && page_part.block_contents.present?
+      parts << Digest::MD5.hexdigest(page_part.block_contents.to_json)[0..8]
+    end
+
+    cache_key_for(*parts)
+  end
+
+  # ---------------------------------------------------------------------------
+  # Edit Mode & Website Locking Compatibility
+  # ---------------------------------------------------------------------------
+
+  # Check if the current request is in edit mode
+  # Edit mode should never use cached content as editors need fresh data
+  def edit_mode?
+    # Return memoized value if already computed (not nil)
+    return @_edit_mode unless @_edit_mode.nil?
+
+    @_edit_mode = if defined?(params) && params[:edit_mode] == "true"
+                    true
+                  elsif defined?(@edit_mode) && @edit_mode
+                    true
+                  else
+                    false
+                  end
+  end
+
+  # Check if the website is being compiled for locking
+  # During compilation, we want fresh content, not cached
+  def compiling_for_lock?
+    # Return memoized value if already computed (not nil)
+    return @_compiling_for_lock unless @_compiling_for_lock.nil?
+
+    @_compiling_for_lock = if defined?(@compiling_for_lock) && @compiling_for_lock
+                             true
+                           else
+                             false
+                           end
+  end
+
+  # Check if fragment caching should be used
+  # Returns false when in edit mode or during lock compilation
+  # This ensures editors always see fresh content and locked pages
+  # are compiled from the true source of truth
+  def cacheable?
+    !edit_mode? && !compiling_for_lock?
+  end
+
+  # Helper to conditionally cache content based on edit mode
+  # Skips caching when editing, uses cache otherwise
+  #
+  # Usage:
+  #   <% cache_unless_editing page_cache_key(@page) do %>
+  #     <%= expensive_render %>
+  #   <% end %>
+  #
+  # @param key [String, Array] the cache key (from cache_key_for or similar)
+  # @param options [Hash] options passed to Rails cache helper
+  # @yield the content to cache/render
+  def cache_unless_editing(key, options = {}, &block)
+    if cacheable? && key.present?
+      cache(key, options, &block)
+    else
+      capture(&block)
+    end
   end
 
   private

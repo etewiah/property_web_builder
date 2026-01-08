@@ -1,4 +1,11 @@
 <% page_title @page.page_title  %>
+<%#
+  Fragment Caching Strategy:
+  - Pages WITHOUT Rails parts: Cache the entire page content
+  - Pages WITH Rails parts: Cache individual Liquid sections only
+  - Edit mode: Skip all caching (editors need fresh content)
+  - Compiling for lock: Skip caching (need fresh source for compilation)
+%>
 <!-- MAIN CONTENT -->
 <div class="bg-gray-100 py-4">
   <div class="container mx-auto px-4">
@@ -32,10 +39,12 @@
 </div>
 <div class="container mx-auto px-4 py-8">
   <% @page_contents_for_edit.each_with_index do |page_content, index| %>
-    <div class="w-full mb-6" <%= "data-pwb-page-part=#{page_content.page_part_key}".html_safe if params[:edit_mode] == 'true' %>>
+    <div class="w-full mb-6" <%= "data-pwb-page-part=#{page_content.page_part_key}".html_safe if edit_mode? %>>
       <% if page_content.is_rails_part %>
+        <%# Rails parts are dynamic - never cache them %>
         <%= render partial: "pwb/components/#{page_content.page_part_key}", locals: {} rescue nil %>
       <% else %>
+        <%# Liquid-rendered content - already stored in DB, output directly %>
         <%== @content_to_show[index] %>
       <% end %>
     </div>
