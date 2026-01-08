@@ -1,0 +1,179 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="breadcrumbs text-sm mb-4">
+    <ul>
+      <li><%= link_to "Websites", tenant_admin_websites_path %></li>
+      <li><%= link_to @website.subdomain, tenant_admin_website_path(@website) %></li>
+      <li>Shard Assignment</li>
+    </ul>
+  </div>
+
+  <h1 class="text-3xl font-bold mb-6">Shard Assignment: <%= @website.subdomain %></h1>
+
+  <%# Current Shard Info %>
+  <div class="alert alert-info mb-6">
+    <div>
+      <div class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <div>
+          <p><strong>Current shard:</strong> <%= @current_shard %></p>
+          <p class="text-sm">
+            Last changed: 
+            <% if @audit_logs.any? %>
+              <%= time_ago_in_words(@audit_logs.first.created_at) %> ago
+              by <%= @audit_logs.first.changed_by_email %>
+            <% else %>
+              Never
+            <% end %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# Assignment Form %>
+  <div class="card bg-base-100 shadow-xl mb-6">
+    <div class="card-body">
+      <h2 class="card-title">Assign to Different Shard</h2>
+      
+      <%= form_with url: assign_shard_tenant_admin_website_path(@website),
+          method: :patch,
+          local: true,
+          class: "space-y-4 mt-4",
+          data: { turbo: true } do |f| %>
+        
+        <div class="form-control">
+          <%= label_tag :shard_name, "Target Shard", class: "label" %>
+          <%= select_tag :shard_name, 
+              options_for_select(@available_shards, @current_shard),
+              class: "select select-bordered w-full",
+              required: true %>
+          <label class="label">
+            <span class="label-text-alt">
+              Choose the database shard for this website
+            </span>
+          </label>
+        </div>
+
+        <div class="form-control">
+          <%= label_tag :notes, "Reason for Change", class: "label" %>
+          <%= text_area_tag :notes, 
+              nil,
+              rows: 3,
+              placeholder: "Optional: Explain why you're changing shards",
+              class: "textarea textarea-bordered w-full" %>
+        </div>
+
+        <div class="alert alert-warning">
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <div>
+              <p class="font-bold">Warning: Routing Change Only</p>
+              <p class="text-sm">
+                This only updates the shard routing configuration. Data is NOT automatically migrated.
+                To migrate data, you must use the migration wizard separately (Phase 3 feature).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-actions justify-end">
+          <%= link_to "Cancel", 
+              tenant_admin_website_path(@website), 
+              class: "btn btn-ghost" %>
+          <%= f.submit "Assign to Shard", 
+              class: "btn btn-primary",
+              data: { confirm: "Are you sure? This will change where database queries are routed for this website." } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Current Shard Health %>
+  <% if @shard_health %>
+    <div class="card bg-base-100 shadow-xl mb-6">
+      <div class="card-body">
+        <h2 class="card-title">Current Shard Health</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <div class="stat bg-base-200 rounded-lg p-4">
+            <div class="stat-title text-xs">Status</div>
+            <div class="stat-value text-lg">
+              <span class="badge badge-<%= @shard_health.status_color %> badge-lg">
+                <%= @shard_health.status_label %>
+              </span>
+            </div>
+          </div>
+          
+          <div class="stat bg-base-200 rounded-lg p-4">
+            <div class="stat-title text-xs">Avg Query Time</div>
+            <div class="stat-value text-lg">
+              <%= @shard_health.avg_query_ms || 'N/A' %><% if @shard_health.avg_query_ms %>ms<% end %>
+            </div>
+          </div>
+          
+          <div class="stat bg-base-200 rounded-lg p-4">
+            <div class="stat-title text-xs">Database Size</div>
+            <div class="stat-value text-sm">
+              <%= number_to_human_size(@shard_health.database_size) if @shard_health.database_size %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%# Shard Assignment History %>
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="card-title">Shard Assignment History</h2>
+        <%= link_to "View All", 
+            shard_history_tenant_admin_website_path(@website), 
+            class: "btn btn-sm btn-ghost" if @audit_logs.count >= 5 %>
+      </div>
+      
+      <% if @audit_logs.any? %>
+        <div class="overflow-x-auto">
+          <table class="table table-zebra w-full">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Changed By</th>
+                <th>Notes</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @audit_logs.each do |log| %>
+                <tr>
+                  <td class="text-sm"><%= log.created_at.to_fs(:short) %></td>
+                  <td><%= log.old_shard_name || 'N/A' %></td>
+                  <td class="font-medium"><%= log.new_shard_name %></td>
+                  <td class="text-sm"><%= log.changed_by_email %></td>
+                  <td class="text-sm"><%= truncate(log.notes, length: 50) if log.notes %></td>
+                  <td>
+                    <% if log.successful? %>
+                      <span class="badge badge-success badge-sm">✓</span>
+                    <% elsif log.failed? %>
+                      <span class="badge badge-error badge-sm">✗</span>
+                    <% else %>
+                      <span class="badge badge-warning badge-sm">⏳</span>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <p class="text-gray-500 italic">No shard changes recorded</p>
+      <% end %>
+    </div>
+  </div>
+</div>

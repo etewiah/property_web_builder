@@ -135,6 +135,31 @@
         <% end %>
       </div>
     </div>
+
+    <%# Shard Info Card %>
+    <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-900">Database Shard</h3>
+        <%= render partial: "tenant_admin/shared/shard_badge", locals: { website: @website } %>
+      </div>
+      <div class="space-y-3">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Current Shard</dt>
+          <dd class="mt-1 text-sm font-semibold text-gray-900"><%= @website.shard_name || 'default' %></dd>
+        </div>
+        <% if @website.shard_audit_logs.any? %>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Last Changed</dt>
+            <dd class="mt-1 text-sm text-gray-900">
+              <%= time_ago_in_words(@website.shard_audit_logs.first.created_at) %> ago
+            </dd>
+          </div>
+        <% end %>
+        <%= link_to "Manage Shard Assignment →", 
+            shard_tenant_admin_website_path(@website), 
+            class: "block w-full px-3 py-2 mt-4 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-blue-300" %>
+      </div>
+    </div>
   </div>
 </div>
 

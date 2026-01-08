@@ -5,7 +5,7 @@ require 'pwb/contents_seeder'
 
 module TenantAdmin
   class WebsitesController < TenantAdminController
-    before_action :set_website, only: [:show, :edit, :update, :destroy, :seed, :seed_form, :retry_provisioning]
+    before_action :set_website, only: [:show, :edit, :update, :destroy, :seed, :seed_form, :retry_provisioning, :shard_form, :assign_shard, :shard_history]
 
     def index
       websites = Pwb::Website.unscoped.order(created_at: :desc)
@@ -132,6 +132,69 @@ module TenantAdmin
     def destroy
       @website.destroy
       redirect_to tenant_admin_websites_path, notice: "Website deleted successfully."
+    end
+
+    # GET /tenant_admin/websites/:id/shard
+    def shard_form
+      @available_shards = Pwb::ShardService.configured_shards
+      @current_shard = @website.shard_name || 'default'
+      @shard_health = Pwb::ShardHealthCheck.check(@current_shard)
+      @audit_logs = @website.shard_audit_logs.recent.limit(5)
+    end
+
+    # PATCH /tenant_admin/websites/:id/assign_shard
+    def assign_shard
+      result = Pwb::ShardService.assign_shard(
+        website: @website,
+        new_shard: params[:shard_name],
+        changed_by: current_user.email,
+        notes: params[:notes]
+      )
+
+      respond_to do |format|
+        if result.success?
+          format.html do
+            redirect_to tenant_admin_website_path(@website),
+                        notice: "Website assigned to shard '#{params[:shard_name]}'"
+          end
+          format.turbo_stream do
+            render turbo_stream: [
+              turbo_stream.replace(
+                "shard_badge_#{@website.id}",
+                partial: "tenant_admin/shared/shard_badge",
+                locals: { website: @website.reload }
+              ),
+              turbo_stream.prepend(
+                "flash_messages",
+                partial: "shared/flash",
+                locals: { type: :notice, message: "Assigned to #{params[:shard_name]}" }
+              )
+            ]
+          end
+        else
+          format.html do
+            flash.now[:alert] = result.error
+            @available_shards = Pwb::ShardService.configured_shards
+            @current_shard = @website.shard_name || 'default'
+            @shard_health = Pwb::ShardHealthCheck.check(@current_shard)
+            @audit_logs = @website.shard_audit_logs.recent.limit(5)
+            render :shard_form, status: :unprocessable_entity
+          end
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.replace(
+              "shard_form",
+              partial: "tenant_admin/websites/shard_form",
+              locals: { website: @website, error: result.error }
+            )
+          end
+        end
+      end
+    end
+
+    # GET /tenant_admin/websites/:id/shard_history
+    def shard_history
+      @audit_logs = @website.shard_audit_logs.recent
+      @pagy, @audit_logs = pagy(@audit_logs, limit: 20)
     end
 
     private

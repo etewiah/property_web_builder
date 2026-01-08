@@ -1,0 +1,10 @@
+<% shard_name = website.shard_name || 'default' %>
+<% badge_class = case shard_name
+   when 'default', 'primary' then 'badge-primary'
+   when 'demo', 'demo_shard' then 'badge-secondary'
+   else 'badge-accent'
+   end %>
+
+<span class="badge <%= badge_class %> badge-sm" id="shard_badge_<%= website.id %>">
+  <%= shard_name %>
+</span>

@@ -1,0 +1,153 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Shards Dashboard</h1>
+    <%= link_to "Health Summary", 
+        health_summary_tenant_admin_shards_path, 
+        class: "btn btn-sm btn-outline" %>
+  </div>
+
+  <%# Shard Cards Grid %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <% @shards.each do |shard| %>
+      <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+          <div class="flex justify-between items-start mb-4">
+            <h2 class="card-title text-xl"><%= shard.display_name %></h2>
+            <% if shard.configured %>
+              <% if shard.connection_status %>
+                <span class="badge badge-success badge-sm">✓ Healthy</span>
+              <% else %>
+                <span class="badge badge-error badge-sm">✗ Down</span>
+              <% end %>
+            <% else %>
+              <span class="badge badge-warning badge-sm">Not Configured</span>
+            <% end %>
+          </div>
+          
+          <% if shard.configured %>
+            <div class="space-y-2 text-sm">
+              <div class="stat">
+                <div class="stat-title text-xs">Websites</div>
+                <div class="stat-value text-2xl"><%= number_with_delimiter(shard.website_count) %></div>
+              </div>
+              
+              <% if shard.database_size %>
+                <div class="stat">
+                  <div class="stat-title text-xs">Database Size</div>
+                  <div class="stat-value text-lg"><%= number_to_human_size(shard.database_size) %></div>
+                </div>
+              <% end %>
+              
+              <% if shard.avg_query_ms %>
+                <div class="stat">
+                  <div class="stat-title text-xs">Avg Query Time</div>
+                  <div class="stat-value text-lg"><%= shard.avg_query_ms %>ms</div>
+                </div>
+              <% end %>
+            </div>
+            
+            <div class="card-actions justify-end mt-4">
+              <%= link_to "Details", 
+                  tenant_admin_shard_path(shard.name), 
+                  class: "btn btn-sm btn-primary" %>
+              <%= link_to "Websites", 
+                  websites_tenant_admin_shard_path(shard.name), 
+                  class: "btn btn-sm btn-ghost" %>
+            </div>
+          <% else %>
+            <div class="alert alert-warning text-sm">
+              <p>Shard not configured in database.yml</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <%# Distribution Chart %>
+  <div class="card bg-base-100 shadow-xl mb-6">
+    <div class="card-body">
+      <h2 class="card-title">Website Distribution</h2>
+      
+      <% if @distribution[:total] > 0 %>
+        <div class="space-y-3 mt-4">
+          <% @distribution[:distribution].each do |shard_name, count| %>
+            <% percentage = @distribution[:percentages][shard_name] || 0 %>
+            <div>
+              <div class="flex justify-between text-sm mb-1">
+                <span class="font-medium"><%= shard_name || 'Unassigned' %></span>
+                <span class="text-gray-600"><%= count %> websites (<%= number_with_precision(percentage, precision: 1) %>%)</span>
+              </div>
+              <div class="progress progress-primary h-2">
+                <div class="progress-bar bg-primary" style="width: <%= percentage %>%"></div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        
+        <div class="mt-4 text-sm text-gray-600">
+          <strong>Total:</strong> <%= number_with_delimiter(@distribution[:total]) %> websites
+        </div>
+      <% else %>
+        <p class="text-gray-500 italic mt-4">No websites yet</p>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Recent Shard Changes %>
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="card-title">Recent Shard Changes</h2>
+        <%= link_to "View All", 
+            tenant_admin_shard_audit_logs_path, 
+            class: "btn btn-sm btn-ghost" %>
+      </div>
+      
+      <% if @recent_logs.any? %>
+        <div class="overflow-x-auto">
+          <table class="table table-zebra w-full">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Website</th>
+                <th>Change</th>
+                <th>Changed By</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @recent_logs.each do |log| %>
+                <tr>
+                  <td class="text-sm"><%= time_ago_in_words(log.created_at) %> ago</td>
+                  <td>
+                    <%= link_to log.website.subdomain, 
+                        tenant_admin_website_path(log.website), 
+                        class: "link link-primary" %>
+                  </td>
+                  <td class="text-sm">
+                    <span class="text-gray-600"><%= log.old_shard_name || 'unassigned' %></span>
+                    →
+                    <span class="font-medium"><%= log.new_shard_name %></span>
+                  </td>
+                  <td class="text-sm"><%= log.changed_by_email %></td>
+                  <td>
+                    <% if log.successful? %>
+                      <span class="badge badge-success badge-sm">✓</span>
+                    <% elsif log.failed? %>
+                      <span class="badge badge-error badge-sm">✗</span>
+                    <% else %>
+                      <span class="badge badge-warning badge-sm">⏳</span>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <p class="text-gray-500 italic">No shard changes yet</p>
+      <% end %>
+    </div>
+  </div>
+</div>

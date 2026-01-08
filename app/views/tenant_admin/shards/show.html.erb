@@ -1,0 +1,119 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="breadcrumbs text-sm mb-4">
+    <ul>
+      <li><%= link_to "Shards", tenant_admin_shards_path %></li>
+      <li><%= @shard_name.titleize %></li>
+    </ul>
+  </div>
+
+  <h1 class="text-3xl font-bold mb-6"><%= @shard_name.titleize %> Shard</h1>
+
+  <%# Health Status Card %>
+  <div class="card bg-base-100 shadow-xl mb-6">
+    <div class="card-body">
+      <h2 class="card-title">Health Status</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+        <div class="stat bg-base-200 rounded-lg p-4">
+          <div class="stat-title text-xs">Connection</div>
+          <div class="stat-value text-xl">
+            <% if @health.connection_status %>
+              <span class="text-success">✓ Connected</span>
+            <% else %>
+              <span class="text-error">✗ Failed</span>
+            <% end %>
+          </div>
+        </div>
+        
+        <div class="stat bg-base-200 rounded-lg p-4">
+          <div class="stat-title text-xs">Avg Query Time</div>
+          <div class="stat-value text-xl">
+            <%= @health.avg_query_ms || 'N/A' %><% if @health.avg_query_ms %>ms<% end %>
+          </div>
+        </div>
+        
+        <div class="stat bg-base-200 rounded-lg p-4">
+          <div class="stat-title text-xs">Active Connections</div>
+          <div class="stat-value text-xl"><%= @health.active_connections || 0 %></div>
+        </div>
+        
+        <div class="stat bg-base-200 rounded-lg p-4">
+          <div class="stat-title text-xs">Last Checked</div>
+          <div class="stat-value text-sm">
+            <%= time_ago_in_words(@health.checked_at) %> ago
+          </div>
+        </div>
+      </div>
+
+      <% if @health.error_message %>
+        <div class="alert alert-error mt-4">
+          <p><strong>Error:</strong> <%= @health.error_message %></p>
+        </div>
+      <% end %>
+
+      <%= link_to "Refresh Health", 
+          health_tenant_admin_shard_path(@shard_name), 
+          method: :get,
+          class: "btn btn-sm btn-primary mt-4" %>
+    </div>
+  </div>
+
+  <%# Statistics Card %>
+  <div class="card bg-base-100 shadow-xl mb-6">
+    <div class="card-body">
+      <h2 class="card-title">Statistics</h2>
+      
+      <% if @stats[:error] %>
+        <div class="alert alert-error mt-4">
+          <p><%= @stats[:error] %></p>
+        </div>
+      <% else %>
+        <div class="overflow-x-auto mt-4">
+          <table class="table table-zebra">
+            <tbody>
+              <tr>
+                <td class="font-bold">Total Websites</td>
+                <td><%= number_with_delimiter(@stats[:website_count]) %></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Total Properties</td>
+                <td><%= number_with_delimiter(@stats[:property_count]) %></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Total Pages</td>
+                <td><%= number_with_delimiter(@stats[:page_count]) %></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Database Size</td>
+                <td><%= number_to_human_size(@stats[:database_size]) %></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Table Count</td>
+                <td><%= @stats[:table_count] %></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Index Size</td>
+                <td><%= number_to_human_size(@stats[:index_size]) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <%= link_to "View Websites on This Shard →", 
+            websites_tenant_admin_shard_path(@shard_name),
+            class: "btn btn-primary mt-4" %>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Configuration Card %>
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title">Database Configuration</h2>
+      
+      <div class="mockup-code mt-4">
+        <pre><code><%= JSON.pretty_generate(@shard_info) %></code></pre>
+      </div>
+    </div>
+  </div>
+</div>

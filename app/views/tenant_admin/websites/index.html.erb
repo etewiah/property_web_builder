@@ -30,6 +30,7 @@
           <tr>
             <th class="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subdomain</th>
             <th class="hidden sm:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company Name</th>
+            <th class="hidden xl:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shard</th>
             <th class="hidden lg:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Theme</th>
             <th class="hidden lg:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
             <th class="hidden md:table-cell px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Users</th>
@@ -46,6 +47,9 @@
                 </td>
                 <td class="hidden sm:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <%= website.company_display_name || "N/A" %>
+                </td>
+                <td class="hidden xl:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm">
+                  <%= render partial: "tenant_admin/shared/shard_badge", locals: { website: website } %>
                 </td>
                 <td class="hidden lg:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <%= website.theme_name || "default" %>
