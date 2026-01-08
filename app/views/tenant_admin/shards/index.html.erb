@@ -1,20 +1,20 @@
-<div class="container mx-auto px-4 py-8" data-controller="shard-dashboard">
-  <%# Header with actions %>
-  <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+<div class="max-w-7xl mx-auto" data-controller="shard-dashboard">
+  <%# Header %>
+  <div class="mb-4 md:mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
     <div>
-      <h1 class="text-3xl font-bold text-gray-900">Shards Dashboard</h1>
-      <p class="text-gray-500 text-sm mt-1">Manage database shards and monitor health</p>
+      <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Shards Dashboard</h1>
+      <p class="mt-1 md:mt-2 text-sm md:text-base text-gray-600">Manage database shards and monitor health</p>
     </div>
     <div class="flex gap-2">
       <button data-action="click->shard-dashboard#refresh"
-              class="btn btn-sm btn-ghost gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center text-sm">
+        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
         Refresh
       </button>
-      <%= link_to health_summary_tenant_admin_shards_path, class: "btn btn-sm btn-outline gap-2" do %>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <%= link_to health_summary_tenant_admin_shards_path, class: "px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center text-sm" do %>
+        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
         </svg>
         Health Summary
@@ -22,133 +22,148 @@
     </div>
   </div>
 
-  <%# Quick Stats Bar %>
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-    <div class="stat bg-base-100 shadow rounded-lg">
-      <div class="stat-figure text-primary hidden sm:block">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
-        </svg>
+  <%# Statistics Cards %>
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-8">
+    <%# Total Shards %>
+    <div class="bg-white rounded-lg shadow p-4 md:p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-xs md:text-sm font-medium text-gray-600">Total Shards</p>
+          <p class="text-2xl md:text-3xl font-bold text-gray-900 mt-1 md:mt-2"><%= @shards.count { |s| s.configured } %></p>
+        </div>
+        <div class="bg-blue-100 rounded-full p-2 md:p-3 hidden sm:block">
+          <svg class="w-6 h-6 md:w-8 md:h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+          </svg>
+        </div>
       </div>
-      <div class="stat-title">Total Shards</div>
-      <div class="stat-value text-primary"><%= @shards.count { |s| s.configured } %></div>
-      <div class="stat-desc"><%= @shards.count { |s| !s.configured } %> not configured</div>
+      <p class="text-xs text-gray-500 mt-2"><%= @shards.count { |s| !s.configured } %> not configured</p>
     </div>
-    <div class="stat bg-base-100 shadow rounded-lg">
-      <div class="stat-figure text-success hidden sm:block">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
+
+    <%# Healthy Shards %>
+    <div class="bg-white rounded-lg shadow p-4 md:p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-xs md:text-sm font-medium text-gray-600">Healthy</p>
+          <p class="text-2xl md:text-3xl font-bold text-green-600 mt-1 md:mt-2"><%= @shards.count { |s| s.connection_status } %></p>
+        </div>
+        <div class="bg-green-100 rounded-full p-2 md:p-3 hidden sm:block">
+          <svg class="w-6 h-6 md:w-8 md:h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
       </div>
-      <div class="stat-title">Healthy</div>
-      <div class="stat-value text-success"><%= @shards.count { |s| s.connection_status } %></div>
-      <div class="stat-desc">of <%= @shards.count { |s| s.configured } %> configured</div>
+      <p class="text-xs text-gray-500 mt-2">of <%= @shards.count { |s| s.configured } %> configured</p>
     </div>
-    <div class="stat bg-base-100 shadow rounded-lg">
-      <div class="stat-figure text-secondary hidden sm:block">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
-        </svg>
+
+    <%# Total Websites %>
+    <div class="bg-white rounded-lg shadow p-4 md:p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-xs md:text-sm font-medium text-gray-600">Total Websites</p>
+          <p class="text-2xl md:text-3xl font-bold text-gray-900 mt-1 md:mt-2"><%= number_with_delimiter(@distribution[:total]) %></p>
+        </div>
+        <div class="bg-purple-100 rounded-full p-2 md:p-3 hidden sm:block">
+          <svg class="w-6 h-6 md:w-8 md:h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+          </svg>
+        </div>
       </div>
-      <div class="stat-title">Total Websites</div>
-      <div class="stat-value"><%= number_with_delimiter(@distribution[:total]) %></div>
-      <div class="stat-desc">across all shards</div>
+      <p class="text-xs text-gray-500 mt-2">across all shards</p>
     </div>
-    <div class="stat bg-base-100 shadow rounded-lg">
-      <div class="stat-figure text-info hidden sm:block">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
+
+    <%# Avg Query Time %>
+    <div class="bg-white rounded-lg shadow p-4 md:p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-xs md:text-sm font-medium text-gray-600">Avg Query Time</p>
+          <% avg_query = @shards.select { |s| s.avg_query_ms }.map(&:avg_query_ms).then { |arr| arr.any? ? (arr.sum / arr.size).round(2) : 0 } %>
+          <p class="text-2xl md:text-3xl font-bold text-gray-900 mt-1 md:mt-2"><%= avg_query %>ms</p>
+        </div>
+        <div class="bg-yellow-100 rounded-full p-2 md:p-3 hidden sm:block">
+          <svg class="w-6 h-6 md:w-8 md:h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
       </div>
-      <div class="stat-title">Avg Query Time</div>
-      <% avg_query = @shards.select { |s| s.avg_query_ms }.map(&:avg_query_ms).then { |arr| arr.any? ? (arr.sum / arr.size).round(2) : 0 } %>
-      <div class="stat-value text-info"><%= avg_query %>ms</div>
-      <div class="stat-desc">across healthy shards</div>
+      <p class="text-xs text-gray-500 mt-2">across healthy shards</p>
     </div>
   </div>
 
   <%# Shard Cards Grid %>
-  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
     <% @shards.each do |shard| %>
-      <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-200 <%= 'border-l-4 border-success' if shard.connection_status %><%= 'border-l-4 border-error' if shard.configured && !shard.connection_status %><%= 'border-l-4 border-warning opacity-75' unless shard.configured %>">
-        <div class="card-body">
-          <div class="flex justify-between items-start">
+      <div class="bg-white rounded-lg shadow overflow-hidden <%= 'border-l-4 border-green-500' if shard.connection_status %><%= 'border-l-4 border-red-500' if shard.configured && !shard.connection_status %><%= 'border-l-4 border-yellow-500 opacity-75' unless shard.configured %>">
+        <div class="p-4 md:p-6">
+          <div class="flex justify-between items-start mb-4">
             <div>
-              <h2 class="card-title text-xl"><%= shard.display_name %></h2>
+              <h3 class="text-lg font-semibold text-gray-900"><%= shard.display_name %></h3>
               <span class="text-xs text-gray-500 font-mono"><%= shard.name %></span>
             </div>
             <% if shard.configured %>
               <% if shard.connection_status %>
-                <div class="tooltip" data-tip="Connected and responding">
-                  <span class="badge badge-success gap-1">
-                    <span class="w-2 h-2 rounded-full bg-success-content animate-pulse"></span>
-                    Healthy
-                  </span>
-                </div>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  <span class="w-2 h-2 mr-1 rounded-full bg-green-500 animate-pulse"></span>
+                  Healthy
+                </span>
               <% else %>
-                <div class="tooltip" data-tip="Connection failed">
-                  <span class="badge badge-error gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                    Down
-                  </span>
-                </div>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                  <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  Down
+                </span>
               <% end %>
             <% else %>
-              <div class="tooltip" data-tip="Add configuration to database.yml">
-                <span class="badge badge-warning badge-outline gap-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  Not Configured
-                </span>
-              </div>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Not Configured
+              </span>
             <% end %>
           </div>
 
           <% if shard.configured %>
-            <div class="divider my-2"></div>
-
-            <div class="grid grid-cols-3 gap-2 text-center">
-              <div class="bg-base-200 rounded-lg p-3">
-                <div class="text-2xl font-bold text-primary"><%= number_with_delimiter(shard.website_count) %></div>
+            <div class="grid grid-cols-3 gap-2 text-center mb-4">
+              <div class="bg-gray-50 rounded-lg p-3">
+                <div class="text-xl md:text-2xl font-bold text-blue-600"><%= number_with_delimiter(shard.website_count) %></div>
                 <div class="text-xs text-gray-500">Websites</div>
               </div>
-
-              <div class="bg-base-200 rounded-lg p-3">
-                <div class="text-lg font-bold"><%= shard.database_size ? number_to_human_size(shard.database_size) : 'N/A' %></div>
+              <div class="bg-gray-50 rounded-lg p-3">
+                <div class="text-sm md:text-lg font-bold text-gray-900"><%= shard.database_size ? number_to_human_size(shard.database_size) : 'N/A' %></div>
                 <div class="text-xs text-gray-500">DB Size</div>
               </div>
-
-              <div class="bg-base-200 rounded-lg p-3">
-                <% query_color = shard.avg_query_ms.to_f > 100 ? 'text-warning' : 'text-success' %>
-                <div class="text-lg font-bold <%= query_color %>"><%= shard.avg_query_ms ? "#{shard.avg_query_ms}ms" : 'N/A' %></div>
+              <div class="bg-gray-50 rounded-lg p-3">
+                <% query_color = shard.avg_query_ms.to_f > 100 ? 'text-yellow-600' : 'text-green-600' %>
+                <div class="text-sm md:text-lg font-bold <%= query_color %>"><%= shard.avg_query_ms ? "#{shard.avg_query_ms}ms" : 'N/A' %></div>
                 <div class="text-xs text-gray-500">Query Time</div>
               </div>
             </div>
 
-            <%# Capacity indicator %>
+            <%# Load Distribution %>
             <% if @distribution[:total] > 0 %>
               <% percentage = @distribution[:percentages][shard.name] || 0 %>
-              <div class="mt-4">
+              <div class="mb-4">
                 <div class="flex justify-between text-xs mb-1">
                   <span class="text-gray-500">Load Distribution</span>
-                  <span class="font-medium"><%= number_with_precision(percentage, precision: 1) %>%</span>
+                  <span class="font-medium text-gray-700"><%= number_with_precision(percentage, precision: 1) %>%</span>
                 </div>
-                <progress class="progress progress-primary w-full h-2" value="<%= percentage %>" max="100"></progress>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                  <div class="bg-blue-600 h-2 rounded-full" style="width: <%= percentage %>%"></div>
+                </div>
               </div>
             <% end %>
 
-            <div class="card-actions justify-between mt-4 pt-2 border-t border-base-200">
-              <%= link_to tenant_admin_shard_path(shard.name), class: "btn btn-sm btn-primary" do %>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="flex justify-between pt-4 border-t border-gray-200">
+              <%= link_to tenant_admin_shard_path(shard.name), class: "px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 flex items-center" do %>
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 Details
               <% end %>
-              <%= link_to websites_tenant_admin_shard_path(shard.name), class: "btn btn-sm btn-ghost" do %>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <%= link_to websites_tenant_admin_shard_path(shard.name), class: "px-3 py-1.5 text-gray-700 text-sm hover:text-gray-900 flex items-center" do %>
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                 </svg>
                 Websites
@@ -156,11 +171,11 @@
             </div>
           <% else %>
             <div class="flex flex-col items-center justify-center py-6 text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="h-12 w-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
               </svg>
               <p class="text-sm text-gray-500 mb-2">Shard not configured</p>
-              <p class="text-xs text-gray-400">Add to <code class="bg-base-200 px-1 rounded">database.yml</code></p>
+              <p class="text-xs text-gray-400">Add to <code class="bg-gray-100 px-1 rounded">database.yml</code></p>
             </div>
           <% end %>
         </div>
@@ -169,148 +184,134 @@
   </div>
 
   <%# Distribution & Recent Changes Grid %>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
     <%# Distribution Chart %>
-    <div class="card bg-base-100 shadow-xl">
-      <div class="card-body">
-        <h2 class="card-title flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-          </svg>
-          Website Distribution
-        </h2>
+    <div class="bg-white rounded-lg shadow p-4 md:p-6">
+      <h3 class="text-base md:text-lg font-semibold text-gray-900 mb-4 flex items-center">
+        <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+        </svg>
+        Website Distribution
+      </h3>
 
-        <% if @distribution[:total] > 0 %>
-          <div class="space-y-4 mt-4">
-            <% @distribution[:distribution].each do |shard_name, count| %>
-              <% percentage = @distribution[:percentages][shard_name] || 0 %>
-              <% shard = @shards.find { |s| s.name == shard_name } %>
-              <div class="flex items-center gap-4">
-                <div class="w-24 text-sm font-medium truncate">
-                  <%= shard_name&.titleize || 'Unassigned' %>
-                </div>
-                <div class="flex-1">
-                  <div class="flex items-center gap-2">
-                    <progress class="progress <%= percentage > 50 ? 'progress-warning' : 'progress-primary' %> flex-1 h-3"
-                              value="<%= percentage %>" max="100"></progress>
-                    <span class="text-sm font-bold w-12 text-right"><%= number_with_precision(percentage, precision: 1) %>%</span>
-                  </div>
-                </div>
-                <div class="badge badge-ghost badge-sm"><%= count %></div>
+      <% if @distribution[:total] > 0 %>
+        <div class="space-y-4">
+          <% @distribution[:distribution].each do |shard_name, count| %>
+            <% percentage = @distribution[:percentages][shard_name] || 0 %>
+            <div class="flex items-center gap-4">
+              <div class="w-20 text-sm font-medium text-gray-700 truncate">
+                <%= shard_name&.titleize || 'Unassigned' %>
               </div>
-            <% end %>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="flex justify-between items-center text-sm">
-            <span class="text-gray-500">Total Websites</span>
-            <span class="font-bold text-lg"><%= number_with_delimiter(@distribution[:total]) %></span>
-          </div>
-        <% else %>
-          <div class="flex flex-col items-center justify-center py-8 text-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-200 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
-            </svg>
-            <p class="text-gray-500">No websites yet</p>
-            <p class="text-xs text-gray-400 mt-1">Create your first website to see distribution</p>
-          </div>
-        <% end %>
-      </div>
-    </div>
-
-    <%# Recent Shard Changes %>
-    <div class="card bg-base-100 shadow-xl">
-      <div class="card-body">
-        <div class="flex justify-between items-center">
-          <h2 class="card-title flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Recent Shard Changes
-          </h2>
-          <%= link_to tenant_admin_shard_audit_logs_path, class: "btn btn-xs btn-ghost" do %>
-            View All
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
+              <div class="flex-1">
+                <div class="flex items-center gap-2">
+                  <div class="flex-1 bg-gray-200 rounded-full h-3">
+                    <div class="<%= percentage > 50 ? 'bg-yellow-500' : 'bg-blue-600' %> h-3 rounded-full" style="width: <%= percentage %>%"></div>
+                  </div>
+                  <span class="text-sm font-bold text-gray-700 w-12 text-right"><%= number_with_precision(percentage, precision: 1) %>%</span>
+                </div>
+              </div>
+              <span class="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded"><%= count %></span>
+            </div>
           <% end %>
         </div>
 
-        <% if @recent_logs.any? %>
-          <div class="overflow-x-auto mt-4">
-            <table class="table table-sm">
-              <thead>
-                <tr class="text-xs">
-                  <th>When</th>
-                  <th>Website</th>
-                  <th>Migration</th>
-                  <th class="text-center">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @recent_logs.each do |log| %>
-                  <tr class="hover">
-                    <td class="text-xs text-gray-500 whitespace-nowrap">
-                      <div class="tooltip" data-tip="<%= log.created_at.strftime('%Y-%m-%d %H:%M') %>">
-                        <%= time_ago_in_words(log.created_at) %>
-                      </div>
-                    </td>
-                    <td>
-                      <%= link_to log.website&.subdomain || 'Unknown',
-                          log.website ? tenant_admin_website_path(log.website) : '#',
-                          class: "link link-primary text-sm font-medium" %>
-                    </td>
-                    <td class="text-xs">
-                      <div class="flex items-center gap-1">
-                        <span class="badge badge-ghost badge-xs"><%= log.old_shard_name || '—' %></span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                        </svg>
-                        <span class="badge badge-primary badge-xs"><%= log.new_shard_name %></span>
-                      </div>
-                    </td>
-                    <td class="text-center">
-                      <% if log.successful? %>
-                        <div class="tooltip" data-tip="Completed successfully">
-                          <span class="badge badge-success badge-xs gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                          </span>
-                        </div>
-                      <% elsif log.failed? %>
-                        <div class="tooltip" data-tip="<%= log.error_message rescue 'Migration failed' %>">
-                          <span class="badge badge-error badge-xs gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                          </span>
-                        </div>
-                      <% else %>
-                        <div class="tooltip" data-tip="In progress">
-                          <span class="badge badge-warning badge-xs gap-1">
-                            <span class="loading loading-spinner loading-xs"></span>
-                          </span>
-                        </div>
-                      <% end %>
-                    </td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
-        <% else %>
-          <div class="flex flex-col items-center justify-center py-8 text-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-200 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-            </svg>
-            <p class="text-gray-500">No shard changes yet</p>
-            <p class="text-xs text-gray-400 mt-1">Migrations will appear here</p>
-          </div>
+        <div class="border-t border-gray-200 mt-4 pt-4 flex justify-between items-center text-sm">
+          <span class="text-gray-500">Total Websites</span>
+          <span class="font-bold text-lg text-gray-900"><%= number_with_delimiter(@distribution[:total]) %></span>
+        </div>
+      <% else %>
+        <div class="flex flex-col items-center justify-center py-8 text-center">
+          <svg class="h-16 w-16 text-gray-200 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+          </svg>
+          <p class="text-gray-500">No websites yet</p>
+          <p class="text-xs text-gray-400 mt-1">Create your first website to see distribution</p>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Recent Shard Changes %>
+    <div class="bg-white rounded-lg shadow p-4 md:p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-base md:text-lg font-semibold text-gray-900 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Recent Shard Changes
+        </h3>
+        <%= link_to tenant_admin_shard_audit_logs_path, class: "text-sm text-blue-600 hover:text-blue-800" do %>
+          View All →
         <% end %>
       </div>
+
+      <% if @recent_logs.any? %>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">When</th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Website</th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Migration</th>
+                <th class="px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <% @recent_logs.each do |log| %>
+                <tr>
+                  <td class="px-3 py-2 whitespace-nowrap text-xs text-gray-500" title="<%= log.created_at.strftime('%Y-%m-%d %H:%M') %>">
+                    <%= time_ago_in_words(log.created_at) %>
+                  </td>
+                  <td class="px-3 py-2 whitespace-nowrap">
+                    <%= link_to log.website&.subdomain || 'Unknown',
+                        log.website ? tenant_admin_website_path(log.website) : '#',
+                        class: "text-sm font-medium text-blue-600 hover:text-blue-800" %>
+                  </td>
+                  <td class="px-3 py-2 whitespace-nowrap text-xs">
+                    <div class="flex items-center gap-1">
+                      <span class="bg-gray-100 px-1.5 py-0.5 rounded text-gray-600"><%= log.old_shard_name || '—' %></span>
+                      <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                      <span class="bg-blue-100 px-1.5 py-0.5 rounded text-blue-600"><%= log.new_shard_name %></span>
+                    </div>
+                  </td>
+                  <td class="px-3 py-2 whitespace-nowrap text-center">
+                    <% if log.successful? %>
+                      <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100" title="Completed successfully">
+                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </span>
+                    <% elsif log.failed? %>
+                      <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100" title="<%= log.error_message rescue 'Migration failed' %>">
+                        <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </span>
+                    <% else %>
+                      <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-yellow-100" title="In progress">
+                        <svg class="w-4 h-4 text-yellow-600 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                      </span>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="flex flex-col items-center justify-center py-8 text-center">
+          <svg class="h-16 w-16 text-gray-200 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
+          <p class="text-gray-500">No shard changes yet</p>
+          <p class="text-xs text-gray-400 mt-1">Migrations will appear here</p>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
