@@ -1,118 +1,156 @@
-<div class="container mx-auto px-4 py-8">
-  <div class="breadcrumbs text-sm mb-4">
-    <ul>
-      <li><%= link_to "Shards", tenant_admin_shards_path %></li>
-      <li><%= @shard_name.titleize %></li>
-    </ul>
+<div class="max-w-7xl mx-auto">
+  <!-- Breadcrumbs -->
+  <nav class="text-sm mb-4">
+    <ol class="flex items-center space-x-2 text-gray-500">
+      <li><%= link_to "Shards", tenant_admin_shards_path, class: "hover:text-blue-600" %></li>
+      <li><span class="mx-2">/</span></li>
+      <li class="text-gray-900 font-medium"><%= @shard_name.titleize %></li>
+    </ol>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="mb-6">
+    <h1 class="text-2xl md:text-3xl font-bold text-gray-900"><%= @shard_name.titleize %></h1>
+    <p class="mt-1 text-sm text-gray-600">Database shard details and health status</p>
   </div>
 
-  <h1 class="text-3xl font-bold mb-6"><%= @shard_name.titleize %> Shard</h1>
-
-  <%# Health Status Card %>
-  <div class="card bg-base-100 shadow-xl mb-6">
-    <div class="card-body">
-      <h2 class="card-title">Health Status</h2>
-      
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
-        <div class="stat bg-base-200 rounded-lg p-4">
-          <div class="stat-title text-xs">Connection</div>
-          <div class="stat-value text-xl">
+  <!-- Health Status Card -->
+  <div class="bg-white rounded-lg shadow mb-6">
+    <div class="px-4 md:px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Health Status</h2>
+    </div>
+    <div class="p-4 md:p-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- Connection Status -->
+        <div class="bg-gray-50 rounded-lg p-4">
+          <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Connection</p>
+          <p class="mt-2 text-xl font-semibold">
             <% if @health.connection_status %>
-              <span class="text-success">✓ Connected</span>
+              <span class="text-green-600 flex items-center">
+                <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                Connected
+              </span>
             <% else %>
-              <span class="text-error">✗ Failed</span>
+              <span class="text-red-600 flex items-center">
+                <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                </svg>
+                Failed
+              </span>
             <% end %>
-          </div>
+          </p>
         </div>
-        
-        <div class="stat bg-base-200 rounded-lg p-4">
-          <div class="stat-title text-xs">Avg Query Time</div>
-          <div class="stat-value text-xl">
-            <%= @health.avg_query_ms || 'N/A' %><% if @health.avg_query_ms %>ms<% end %>
-          </div>
+
+        <!-- Query Time -->
+        <div class="bg-gray-50 rounded-lg p-4">
+          <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Avg Query Time</p>
+          <p class="mt-2 text-xl font-semibold text-gray-900">
+            <%= @health.avg_query_ms ? "#{@health.avg_query_ms}ms" : 'N/A' %>
+          </p>
         </div>
-        
-        <div class="stat bg-base-200 rounded-lg p-4">
-          <div class="stat-title text-xs">Active Connections</div>
-          <div class="stat-value text-xl"><%= @health.active_connections || 0 %></div>
+
+        <!-- Active Connections -->
+        <div class="bg-gray-50 rounded-lg p-4">
+          <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Active Connections</p>
+          <p class="mt-2 text-xl font-semibold text-gray-900"><%= @health.active_connections || 0 %></p>
         </div>
-        
-        <div class="stat bg-base-200 rounded-lg p-4">
-          <div class="stat-title text-xs">Last Checked</div>
-          <div class="stat-value text-sm">
-            <%= time_ago_in_words(@health.checked_at) %> ago
-          </div>
+
+        <!-- Last Checked -->
+        <div class="bg-gray-50 rounded-lg p-4">
+          <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Last Checked</p>
+          <p class="mt-2 text-sm font-semibold text-gray-900"><%= time_ago_in_words(@health.checked_at) %> ago</p>
         </div>
       </div>
 
       <% if @health.error_message %>
-        <div class="alert alert-error mt-4">
-          <p><strong>Error:</strong> <%= @health.error_message %></p>
+        <div class="mt-4 bg-red-50 border border-red-200 rounded-lg p-4">
+          <div class="flex">
+            <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+            </svg>
+            <p class="ml-3 text-sm text-red-700"><strong>Error:</strong> <%= @health.error_message %></p>
+          </div>
         </div>
       <% end %>
 
-      <%= link_to "Refresh Health", 
-          health_tenant_admin_shard_path(@shard_name), 
-          method: :get,
-          class: "btn btn-sm btn-primary mt-4" %>
+      <div class="mt-4">
+        <%= link_to health_tenant_admin_shard_path(@shard_name), class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700" do %>
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+          Refresh Health
+        <% end %>
+      </div>
     </div>
   </div>
 
-  <%# Statistics Card %>
-  <div class="card bg-base-100 shadow-xl mb-6">
-    <div class="card-body">
-      <h2 class="card-title">Statistics</h2>
-      
+  <!-- Statistics Card -->
+  <div class="bg-white rounded-lg shadow mb-6">
+    <div class="px-4 md:px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Statistics</h2>
+    </div>
+    <div class="p-4 md:p-6">
       <% if @stats[:error] %>
-        <div class="alert alert-error mt-4">
-          <p><%= @stats[:error] %></p>
+        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+          <p class="text-sm text-red-700"><%= @stats[:error] %></p>
         </div>
       <% else %>
-        <div class="overflow-x-auto mt-4">
-          <table class="table table-zebra">
-            <tbody>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+          <div class="bg-blue-50 rounded-lg p-4">
+            <p class="text-xs font-medium text-blue-600 uppercase tracking-wider">Websites</p>
+            <p class="mt-2 text-2xl font-bold text-blue-900"><%= number_with_delimiter(@stats[:website_count]) %></p>
+          </div>
+          <div class="bg-green-50 rounded-lg p-4">
+            <p class="text-xs font-medium text-green-600 uppercase tracking-wider">Properties</p>
+            <p class="mt-2 text-2xl font-bold text-green-900"><%= number_with_delimiter(@stats[:property_count]) %></p>
+          </div>
+          <div class="bg-purple-50 rounded-lg p-4">
+            <p class="text-xs font-medium text-purple-600 uppercase tracking-wider">Pages</p>
+            <p class="mt-2 text-2xl font-bold text-purple-900"><%= number_with_delimiter(@stats[:page_count]) %></p>
+          </div>
+        </div>
+
+        <div class="overflow-hidden">
+          <table class="min-w-full">
+            <tbody class="divide-y divide-gray-200">
               <tr>
-                <td class="font-bold">Total Websites</td>
-                <td><%= number_with_delimiter(@stats[:website_count]) %></td>
+                <td class="py-3 text-sm font-medium text-gray-500">Database Size</td>
+                <td class="py-3 text-sm text-gray-900 text-right"><%= number_to_human_size(@stats[:database_size]) %></td>
               </tr>
               <tr>
-                <td class="font-bold">Total Properties</td>
-                <td><%= number_with_delimiter(@stats[:property_count]) %></td>
+                <td class="py-3 text-sm font-medium text-gray-500">Table Count</td>
+                <td class="py-3 text-sm text-gray-900 text-right"><%= @stats[:table_count] %></td>
               </tr>
               <tr>
-                <td class="font-bold">Total Pages</td>
-                <td><%= number_with_delimiter(@stats[:page_count]) %></td>
-              </tr>
-              <tr>
-                <td class="font-bold">Database Size</td>
-                <td><%= number_to_human_size(@stats[:database_size]) %></td>
-              </tr>
-              <tr>
-                <td class="font-bold">Table Count</td>
-                <td><%= @stats[:table_count] %></td>
-              </tr>
-              <tr>
-                <td class="font-bold">Index Size</td>
-                <td><%= number_to_human_size(@stats[:index_size]) %></td>
+                <td class="py-3 text-sm font-medium text-gray-500">Index Size</td>
+                <td class="py-3 text-sm text-gray-900 text-right"><%= number_to_human_size(@stats[:index_size]) %></td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <%= link_to "View Websites on This Shard →", 
-            websites_tenant_admin_shard_path(@shard_name),
-            class: "btn btn-primary mt-4" %>
+        <div class="mt-6">
+          <%= link_to websites_tenant_admin_shard_path(@shard_name), class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700" do %>
+            View Websites on This Shard
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+            </svg>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>
 
-  <%# Configuration Card %>
-  <div class="card bg-base-100 shadow-xl">
-    <div class="card-body">
-      <h2 class="card-title">Database Configuration</h2>
-      
-      <div class="mockup-code mt-4">
-        <pre><code><%= JSON.pretty_generate(@shard_info) %></code></pre>
+  <!-- Configuration Card -->
+  <div class="bg-white rounded-lg shadow">
+    <div class="px-4 md:px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Database Configuration</h2>
+    </div>
+    <div class="p-4 md:p-6">
+      <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+        <pre class="text-sm text-green-400 font-mono"><%= JSON.pretty_generate(@shard_info) %></pre>
       </div>
     </div>
   </div>
