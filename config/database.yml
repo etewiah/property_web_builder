@@ -115,6 +115,8 @@ e2e:
 production:
   primary:
     <<: *default
+    # When url is provided (Dokku/Heroku), it overrides database/username/password
+    # These fallbacks are only used if no URL is set
     database: pwb_production
     username: pwb
     url: <%= ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
@@ -123,27 +125,24 @@ production:
   <% if ENV['PWB_TENANT_SHARD_1_DATABASE_URL'].present? %>
   tenant_shard_1:
     <<: *default
-    database: pwb_production_shard_1
-    migrations_paths: db/tenant_shard_1_migrate
-    username: pwb
+    # URL from Dokku: dokku postgres:link pwb-shard-1 app --alias PWB_TENANT_SHARD_1_DATABASE
     url: <%= ENV['PWB_TENANT_SHARD_1_DATABASE_URL'] %>
-    password: <%= ENV['PWB_DATABASE_PASSWORD'] %>
+    migrations_paths: db/tenant_shard_1_migrate
     prepared_statements: false
   <% end %>
   <% if ENV['PWB_DEMO_SHARD_DATABASE_URL'].present? %>
   demo_shard:
     <<: *default
-    database: pwb_production_demo_shard
-    migrations_paths: db/demo_shard_migrate
-    username: pwb
+    # URL from Dokku: dokku postgres:link pwb-demo-shard app --alias PWB_DEMO_SHARD_DATABASE
     url: <%= ENV['PWB_DEMO_SHARD_DATABASE_URL'] %>
-    password: <%= ENV['PWB_DATABASE_PASSWORD'] %>
+    migrations_paths: db/demo_shard_migrate
     prepared_statements: false
   <% end %>
 
 staging:
   primary:
     <<: *default
+    # Fallbacks only used if no URL is set
     database: pwb_staging
     username: pwb
     url: <%= ENV['PWB_STAGING_DATABASE_URL'] || ENV['PWB_DATABASE_URL'] || ENV['DATABASE_URL'] %>
@@ -152,20 +151,14 @@ staging:
   <% if ENV['PWB_STAGING_TENANT_SHARD_1_DATABASE_URL'].present? %>
   tenant_shard_1:
     <<: *default
-    database: pwb_staging_shard_1
-    migrations_paths: db/tenant_shard_1_migrate
-    username: pwb
     url: <%= ENV['PWB_STAGING_TENANT_SHARD_1_DATABASE_URL'] %>
-    password: <%= ENV['PWB_STAGING_DATABASE_PASSWORD'] || ENV['PWB_DATABASE_PASSWORD'] %>
+    migrations_paths: db/tenant_shard_1_migrate
     prepared_statements: false
   <% end %>
   <% if ENV['PWB_STAGING_DEMO_SHARD_DATABASE_URL'].present? %>
   demo_shard:
     <<: *default
-    database: pwb_staging_demo_shard
-    migrations_paths: db/demo_shard_migrate
-    username: pwb
     url: <%= ENV['PWB_STAGING_DEMO_SHARD_DATABASE_URL'] %>
-    password: <%= ENV['PWB_STAGING_DATABASE_PASSWORD'] || ENV['PWB_DATABASE_PASSWORD'] %>
+    migrations_paths: db/demo_shard_migrate
     prepared_statements: false
   <% end %>
