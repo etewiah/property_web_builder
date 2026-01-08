@@ -155,6 +155,7 @@ module Pwb
     has_many :website_photos
     has_many :field_keys, class_name: 'Pwb::FieldKey', foreign_key: :pwb_website_id
     has_many :email_templates, class_name: 'Pwb::EmailTemplate', dependent: :destroy
+    has_many :shard_audit_logs, class_name: 'Pwb::ShardAuditLog', dependent: :destroy
 
     # Media Library
     has_many :media, class_name: 'Pwb::Media', dependent: :destroy

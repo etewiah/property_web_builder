@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_07_133100) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_08_135240) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -856,6 +856,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_07_133100) do
     t.index ["website_id"], name: "index_pwb_search_filter_options_on_website_id"
   end
 
+  create_table "pwb_shard_audit_logs", force: :cascade do |t|
+    t.string "changed_by_email", null: false
+    t.datetime "created_at", null: false
+    t.string "new_shard_name", null: false
+    t.string "notes"
+    t.string "old_shard_name"
+    t.string "status", default: "completed", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "website_id", null: false
+    t.index ["changed_by_email"], name: "index_pwb_shard_audit_logs_on_changed_by_email"
+    t.index ["created_at"], name: "index_pwb_shard_audit_logs_on_created_at"
+    t.index ["status"], name: "index_pwb_shard_audit_logs_on_status"
+    t.index ["website_id"], name: "index_pwb_shard_audit_logs_on_website_id"
+  end
+
   create_table "pwb_subdomains", force: :cascade do |t|
     t.string "aasm_state", default: "available", null: false
     t.datetime "created_at", null: false
@@ -1335,6 +1350,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_07_133100) do
   add_foreign_key "pwb_search_alerts", "pwb_saved_searches", column: "saved_search_id"
   add_foreign_key "pwb_search_filter_options", "pwb_search_filter_options", column: "parent_id"
   add_foreign_key "pwb_search_filter_options", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_shard_audit_logs", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_subdomains", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_subscription_events", "pwb_subscriptions", column: "subscription_id"
   add_foreign_key "pwb_subscriptions", "pwb_plans", column: "plan_id"

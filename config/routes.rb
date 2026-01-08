@@ -133,6 +133,35 @@ Rails.application.routes.draw do
         post :apply
       end
     end
+    
+    # Shard Management
+    resources :shards, only: %i[index show] do
+      member do
+        get :health
+        get :websites
+        get :statistics
+      end
+      collection do
+        get :health_summary
+      end
+    end
+    
+    # Shard operations on websites
+    resources :websites do
+      member do
+        get :shard, action: :shard_form
+        patch :assign_shard
+        get :shard_history
+      end
+    end
+    
+    # Shard Audit Logs
+    resources :shard_audit_logs, only: %i[index show] do
+      collection do
+        get 'website/:website_id', action: :website_logs, as: :website
+        get 'user/:email', action: :user_logs, as: :user
+      end
+    end
   end
 
   # Site Admin - Single website/tenant management dashboard
