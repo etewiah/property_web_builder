@@ -203,7 +203,7 @@ namespace :pwb do
         next
       end
 
-      website.verify_and_go_live!
+      website.go_live!
       puts "Website #{website.subdomain} is now live!"
     rescue AASM::InvalidTransition => e
       puts "ERROR: Cannot transition to live: #{e.message}"
