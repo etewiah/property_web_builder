@@ -30,7 +30,7 @@ module Pwb
         subscriptions = ::Pwb::Subscription
           .trialing
           .where(trial_ends_at: target_date.beginning_of_day..target_date.end_of_day)
-          .includes(website: :owner)
+          .includes(:website)
 
         Rails.logger.info "[Zoho] Found #{subscriptions.count} trials ending in #{days} days"
 
@@ -39,7 +39,7 @@ module Pwb
           next unless user
 
           lead_sync_service.update_trial_ending(user, days)
-        rescue Zoho::Error => e
+        rescue Pwb::Zoho::Error => e
           Rails.logger.error "[Zoho] Failed to update trial reminder for subscription #{subscription.id}: #{e.message}"
         end
       end

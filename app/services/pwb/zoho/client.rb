@@ -211,23 +211,6 @@ module Pwb
       end
     end
 
-    # Custom error classes for Zoho API
-    class Error < StandardError; end
-    class ConfigurationError < Error; end
-    class AuthenticationError < Error; end
-    class ValidationError < Error; end
-    class NotFoundError < Error; end
-    class ApiError < Error; end
-    class TimeoutError < Error; end
-    class ConnectionError < Error; end
-
-    class RateLimitError < Error
-      attr_reader :retry_after
-
-      def initialize(message, retry_after: 60)
-        super(message)
-        @retry_after = retry_after
-      end
-    end
+    # Error classes are defined in errors.rb
   end
 end
