@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Load error classes explicitly since they don't follow zeitwerk naming convention
-require_relative 'errors'
+# Load error classes explicitly
+require_relative 'error'
 
 module Pwb
   module Zoho

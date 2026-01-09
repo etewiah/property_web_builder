@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../../../services/pwb/zoho/errors'
+require_relative '../../../services/pwb/zoho/error'
 
 module Pwb
   module Zoho
