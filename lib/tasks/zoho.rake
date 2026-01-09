@@ -9,27 +9,48 @@ namespace :zoho do
 
     if client.configured?
       puts "Status: CONFIGURED"
+      
+      # Show configuration (without revealing full tokens)
+      creds = Rails.application.credentials.zoho || {}
+      client_id = creds[:client_id] || ENV['ZOHO_CLIENT_ID']
+      api_domain = creds[:api_domain] || ENV['ZOHO_API_DOMAIN'] || 'https://www.zohoapis.com'
+      accounts_url = creds[:accounts_url] || ENV['ZOHO_ACCOUNTS_URL'] || 'https://accounts.zoho.com'
+      
+      puts ""
+      puts "Configuration:"
+      puts "  Client ID: #{client_id ? "#{client_id[0..10]}...#{client_id[-4..]}" : 'not set'}"
+      puts "  API Domain: #{api_domain}"
+      puts "  Accounts URL: #{accounts_url}"
       puts ""
 
       # Test the connection
       print "Testing API connection... "
       begin
-        # Try to get organization info as a simple API test
-        response = client.get('/org')
-        if response['org']
+        # Try to get users as a simple API test (most reliable endpoint)
+        # Note: Zoho API is case-sensitive for parameter names
+        response = client.get('/users', { 'type' => 'CurrentUser' })
+        if response['users']
           puts "SUCCESS"
-          org = response['org'].first
-          puts "  Organization: #{org['company_name']}" if org
+          user = response['users'].first
+          puts "  Connected as: #{user['full_name']} (#{user['email']})" if user
+        elsif response['code'] == 'SUCCESS' || response.key?('users')
+          puts "SUCCESS (authenticated)"
         else
-          puts "Connected (no org data returned)"
+          puts "Connected (unexpected response format)"
+          puts "  Response: #{response.inspect[0..100]}"
         end
       rescue Pwb::Zoho::AuthenticationError => e
         puts "FAILED"
         puts "  Error: Authentication failed - #{e.message}"
-        puts "  Action: Regenerate your refresh token"
+        puts "  Action: Your refresh token may have expired. Run: rake zoho:generate_tokens"
       rescue Pwb::Zoho::Error => e
         puts "FAILED"
         puts "  Error: #{e.message}"
+        puts "  "
+        puts "  Common causes:"
+        puts "    - Refresh token expired (regenerate with: rake zoho:generate_tokens)"
+        puts "    - Wrong API domain (check if you need .eu, .in, .com.au, etc.)"
+        puts "    - Insufficient permissions on the Zoho CRM app"
       end
     else
       puts "Status: NOT CONFIGURED"
@@ -179,20 +200,35 @@ namespace :zoho do
     puts ""
   end
 
-  desc "Sync a specific user to Zoho CRM"
-  task :sync_user, [:user_id] => :environment do |_t, args|
-    user_id = args[:user_id]
+  desc "Sync a specific user to Zoho CRM (by ID or email)"
+  task :sync_user, [:user_identifier] => :environment do |_t, args|
+    user_identifier = args[:user_identifier]
 
-    unless user_id
-      puts "Usage: rake zoho:sync_user[USER_ID]"
+    unless user_identifier
+      puts "Usage: rake zoho:sync_user[USER_ID_OR_EMAIL]"
+      puts ""
+      puts "Examples:"
+      puts "  rake zoho:sync_user[123]"
+      puts "  rake zoho:sync_user[user@example.com]"
       exit 1
     end
 
-    user = Pwb::User.find(user_id)
+    # Try to find user by ID first, then by email
+    user = if user_identifier.match?(/^\d+$/)
+             Pwb::User.find_by(id: user_identifier)
+           else
+             Pwb::User.find_by(email: user_identifier)
+           end
+
+    unless user
+      puts "ERROR: User not found with identifier: #{user_identifier}"
+      exit 1
+    end
+
     service = Pwb::Zoho::LeadSyncService.new
 
     if user.zoho_synced?
-      puts "User #{user.id} already synced to Zoho (Lead ID: #{user.zoho_lead_id})"
+      puts "User #{user.id} (#{user.email}) already synced to Zoho (Lead ID: #{user.zoho_lead_id})"
       print "Update existing lead? (y/n): "
       exit 0 unless $stdin.gets.chomp.downcase == 'y'
     end
