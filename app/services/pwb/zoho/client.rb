@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Load error classes explicitly since they don't follow zeitwerk naming convention
+require_relative 'errors'
+
 module Pwb
   module Zoho
     # HTTP client for Zoho CRM API with OAuth token management
