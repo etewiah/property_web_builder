@@ -3,61 +3,47 @@
 require 'rails_helper'
 
 RSpec.describe PlatformNtfyService do
-  around do |example|
-    # Backup original ENV values
-    original_env = ENV.to_h.dup
-    
-    # Set test ENV values
-    ENV['PLATFORM_NTFY_ENABLED'] = 'false'
-    ENV['PLATFORM_NTFY_SERVER_URL'] = 'https://ntfy.sh'
-    ENV['PLATFORM_NTFY_TOPIC_PREFIX'] = 'pwb-platform'
-    ENV['PLATFORM_NTFY_NOTIFY_SIGNUPS'] = 'true'
-    ENV['PLATFORM_NTFY_NOTIFY_PROVISIONING'] = 'true'
-    ENV['PLATFORM_NTFY_NOTIFY_SUBSCRIPTIONS'] = 'true'
-    ENV['PLATFORM_NTFY_NOTIFY_SYSTEM_HEALTH'] = 'true'
-    ENV['PLATFORM_DOMAIN'] = 'propertywebbuilder.com'
-    ENV['TENANT_ADMIN_DOMAIN'] = 'admin.propertywebbuilder.com'
-    
-    # Run example
-    example.run
-    
-    # Restore original ENV
-    ENV.replace(original_env)
+  # Helper to stub credentials
+  def stub_credentials(config = {})
+    allow(Rails.application.credentials).to receive(:dig).with(:platform_ntfy, :topic).and_return(config[:topic])
+    allow(Rails.application.credentials).to receive(:dig).with(:platform_ntfy, :server_url).and_return(config[:server_url])
+    allow(Rails.application.credentials).to receive(:dig).with(:platform_ntfy, :access_token).and_return(config[:access_token])
   end
 
   describe '.enabled?' do
-    context 'when PLATFORM_NTFY_ENABLED is true' do
+    context 'when topic is configured' do
       it 'returns true' do
-        ENV['PLATFORM_NTFY_ENABLED'] = 'true'
+        stub_credentials(topic: 'test-topic')
         expect(described_class.enabled?).to be true
       end
     end
 
-    context 'when PLATFORM_NTFY_ENABLED is false' do
+    context 'when topic is not configured' do
       it 'returns false' do
-        ENV['PLATFORM_NTFY_ENABLED'] = 'false'
+        stub_credentials(topic: nil)
         expect(described_class.enabled?).to be false
       end
     end
   end
 
   describe '.test_configuration' do
-    context 'when ntfy is disabled' do
+    context 'when ntfy is not configured' do
       it 'returns failure message' do
-        ENV['PLATFORM_NTFY_ENABLED'] = 'false'
+        stub_credentials(topic: nil)
         result = described_class.test_configuration
         expect(result[:success]).to be false
-        expect(result[:message]).to include('not enabled')
+        expect(result[:message]).to include('not configured')
       end
     end
 
-    context 'when ntfy is enabled but topic prefix is missing' do
-      it 'returns failure message' do
-        ENV['PLATFORM_NTFY_ENABLED'] = 'true'
-        ENV['PLATFORM_NTFY_TOPIC_PREFIX'] = ''
+    context 'when ntfy is configured' do
+      it 'sends test notification' do
+        stub_credentials(topic: 'test-topic')
+        allow(described_class).to receive(:perform_request).and_return(true)
+        
         result = described_class.test_configuration
-        expect(result[:success]).to be false
-        expect(result[:message]).to include('Topic prefix is required')
+        expect(result[:success]).to be true
+        expect(result[:message]).to include('Test notification sent')
       end
     end
   end
@@ -65,20 +51,20 @@ RSpec.describe PlatformNtfyService do
   describe '.notify_user_signup' do
     let(:user) { create(:pwb_user, email: 'test@example.com') }
 
-    context 'when signups notifications are disabled' do
-      it 'does not send notification' do
-        ENV['PLATFORM_NTFY_ENABLED'] = 'false'
-        expect(described_class).not_to receive(:perform_request)
-        described_class.notify_user_signup(user, reserved_subdomain: 'test')
-      end
-    end
-
-    context 'when signups notifications are enabled' do
+    context 'when notifications are enabled' do
       it 'sends notification' do
-        ENV['PLATFORM_NTFY_ENABLED'] = 'true'
+        stub_credentials(topic: 'test-topic')
         allow(described_class).to receive(:perform_request).and_return(true)
         described_class.notify_user_signup(user, reserved_subdomain: 'test')
         expect(described_class).to have_received(:perform_request).once
+      end
+    end
+
+    context 'when notifications are disabled' do
+      it 'does not send notification' do
+        stub_credentials(topic: nil)
+        expect(described_class).not_to receive(:perform_request)
+        described_class.notify_user_signup(user, reserved_subdomain: 'test')
       end
     end
   end
@@ -86,9 +72,9 @@ RSpec.describe PlatformNtfyService do
   describe '.notify_provisioning_complete' do
     let!(:website) { create(:pwb_website, subdomain: 'test-site') }
 
-    context 'when provisioning notifications are enabled' do
+    context 'when notifications are enabled' do
       it 'sends notification' do
-        ENV['PLATFORM_NTFY_ENABLED'] = 'true'
+        stub_credentials(topic: 'test-topic')
         allow(described_class).to receive(:perform_request).and_return(true)
         described_class.notify_provisioning_complete(website)
         expect(described_class).to have_received(:perform_request).once
@@ -101,9 +87,9 @@ RSpec.describe PlatformNtfyService do
     let(:plan) { create(:pwb_plan, name: 'Professional', price_cents: 4900) }
     let(:subscription) { create(:pwb_subscription, website: website, plan: plan, status: 'active') }
 
-    context 'when subscription notifications are enabled' do
+    context 'when notifications are enabled' do
       it 'sends notification' do
-        ENV['PLATFORM_NTFY_ENABLED'] = 'true'
+        stub_credentials(topic: 'test-topic')
         allow(described_class).to receive(:perform_request).and_return(true)
         described_class.notify_subscription_activated(subscription)
         expect(described_class).to have_received(:perform_request).once
