@@ -43,14 +43,14 @@ RSpec.describe 'API V1', type: :request, openapi_spec: 'v1/swagger.yaml' do
       produces 'application/json'
 
       response '200', 'agency details found' do
-        # Note: primary_address can be null when no address is set
+        # NOTE: primary_address can be null when no address is set
         schema type: :object,
-          properties: {
-            agency: { type: :object },
-            website: { type: :object },
-            primary_address: { type: [:object, :null] },
-            setup: { type: :object }
-          }
+               properties: {
+                 agency: { type: :object },
+                 website: { type: :object },
+                 primary_address: { type: %i[object null] },
+                 setup: { type: :object }
+               }
         run_test!
       end
     end
@@ -202,7 +202,7 @@ RSpec.describe 'API V1', type: :request, openapi_spec: 'v1/swagger.yaml' do
         let(:propertiesJSON) do
           {
             propertiesJSON: [
-              { reference: 'SWAGGER-001', title: 'Test Property', price_sale_current_cents: 100000 }
+              { reference: 'SWAGGER-001', title: 'Test Property', price_sale_current_cents: 100_000 }
             ]
           }
         end

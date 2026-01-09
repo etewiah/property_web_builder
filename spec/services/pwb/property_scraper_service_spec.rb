@@ -63,10 +63,10 @@ module Pwb
           connector_double = instance_double(ScraperConnectors::Http)
           allow(ScraperConnectors::Http).to receive(:new).and_return(connector_double)
           allow(connector_double).to receive(:fetch).and_return({
-            success: true,
-            html: html_content,
-            final_url: url
-          })
+                                                                  success: true,
+                                                                  html: html_content,
+                                                                  final_url: url
+                                                                })
         end
 
         it "creates a ScrapedProperty record" do
@@ -122,10 +122,10 @@ module Pwb
           connector_double = instance_double(ScraperConnectors::Http)
           allow(ScraperConnectors::Http).to receive(:new).and_return(connector_double)
           allow(connector_double).to receive(:fetch).and_return({
-            success: false,
-            error: "Request blocked by Cloudflare",
-            error_class: "Pwb::ScraperConnectors::BlockedError"
-          })
+                                                                  success: false,
+                                                                  error: "Request blocked by Cloudflare",
+                                                                  error_class: "Pwb::ScraperConnectors::BlockedError"
+                                                                })
           # Disable Playwright fallback in tests
           allow(ScraperConnectors::Playwright).to receive(:available?).and_return(false)
         end
@@ -159,10 +159,10 @@ module Pwb
           connector_double = instance_double(ScraperConnectors::Http)
           allow(ScraperConnectors::Http).to receive(:new).and_return(connector_double)
           allow(connector_double).to receive(:fetch).and_return({
-            success: true,
-            html: "<html><body>Test</body></html>",
-            final_url: url
-          })
+                                                                  success: true,
+                                                                  html: "<html><body>Test</body></html>",
+                                                                  final_url: url
+                                                                })
         end
 
         it "detects zoopla portal" do

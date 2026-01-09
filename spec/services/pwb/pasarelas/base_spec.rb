@@ -165,19 +165,19 @@ module Pwb
 
         describe "#clean_price" do
           it "cleans price with currency symbol" do
-            expect(test_pasarela.clean_price("£450,000")).to eq(450000.0)
+            expect(test_pasarela.clean_price("£450,000")).to eq(450_000.0)
           end
 
           it "cleans price with euro symbol" do
-            expect(test_pasarela.clean_price("€250.000")).to eq(250000.0)
+            expect(test_pasarela.clean_price("€250.000")).to eq(250_000.0)
           end
 
           it "cleans price with dollar symbol" do
-            expect(test_pasarela.clean_price("$1,234,567")).to eq(1234567.0)
+            expect(test_pasarela.clean_price("$1,234,567")).to eq(1_234_567.0)
           end
 
           it "handles European format" do
-            expect(test_pasarela.clean_price("1.234.567,89")).to eq(1234567.89)
+            expect(test_pasarela.clean_price("1.234.567,89")).to eq(1_234_567.89)
           end
 
           it "returns nil for blank input" do

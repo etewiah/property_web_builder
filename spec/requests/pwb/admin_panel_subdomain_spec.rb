@@ -4,6 +4,7 @@ require "rails_helper"
 
 RSpec.describe "AdminPanel subdomain login enforcement", type: :request do
   include Warden::Test::Helpers
+
   after { Warden.test_reset! }
 
   let!(:website1) { Pwb::Website.create!(subdomain: "site1", company_display_name: "Site 1") }

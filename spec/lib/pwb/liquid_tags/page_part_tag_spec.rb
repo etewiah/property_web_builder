@@ -7,10 +7,10 @@ RSpec.describe Pwb::LiquidTags::PagePartTag do
   let(:view) { double("view", render: "<rendered content>") }
   let(:context) do
     Liquid::Context.new({}, {}, {
-      view: view,
-      website: website,
-      locale: :en
-    })
+                          view: view,
+                          website: website,
+                          locale: :en
+                        })
   end
 
   before do
@@ -53,8 +53,7 @@ RSpec.describe Pwb::LiquidTags::PagePartTag do
                   "title" => { "content" => "Welcome" }
                 }
               }
-            }
-          )
+            })
         end
       end
 

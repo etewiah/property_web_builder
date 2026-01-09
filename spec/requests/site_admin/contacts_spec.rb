@@ -26,9 +26,9 @@ RSpec.describe 'SiteAdmin::ContactsController', type: :request do
       before do
         ActsAsTenant.with_tenant(website) do
           create(:pwb_contact, website: website, first_name: 'John', last_name: 'Doe',
-                 primary_email: 'john@example.com')
+                               primary_email: 'john@example.com')
           create(:pwb_contact, website: website, first_name: 'Jane', last_name: 'Smith',
-                 primary_email: 'jane@example.com')
+                               primary_email: 'jane@example.com')
         end
       end
 
@@ -50,36 +50,36 @@ RSpec.describe 'SiteAdmin::ContactsController', type: :request do
       before do
         ActsAsTenant.with_tenant(website) do
           create(:pwb_contact, website: website, first_name: 'John', last_name: 'Doe',
-                 primary_email: 'john@example.com')
+                               primary_email: 'john@example.com')
           create(:pwb_contact, website: website, first_name: 'Jane', last_name: 'Smith',
-                 primary_email: 'jane@example.com')
+                               primary_email: 'jane@example.com')
         end
       end
 
       it 'searches by email' do
         get site_admin_contacts_path, params: { search: 'john@' },
-            headers: { 'HTTP_HOST' => 'contacts-test.test.localhost' }
+                                      headers: { 'HTTP_HOST' => 'contacts-test.test.localhost' }
 
         expect(response).to have_http_status(:success)
       end
 
       it 'searches by first name' do
         get site_admin_contacts_path, params: { search: 'Jane' },
-            headers: { 'HTTP_HOST' => 'contacts-test.test.localhost' }
+                                      headers: { 'HTTP_HOST' => 'contacts-test.test.localhost' }
 
         expect(response).to have_http_status(:success)
       end
 
       it 'searches by last name' do
         get site_admin_contacts_path, params: { search: 'Smith' },
-            headers: { 'HTTP_HOST' => 'contacts-test.test.localhost' }
+                                      headers: { 'HTTP_HOST' => 'contacts-test.test.localhost' }
 
         expect(response).to have_http_status(:success)
       end
 
       it 'returns empty results for non-matching search' do
         get site_admin_contacts_path, params: { search: 'nonexistent12345' },
-            headers: { 'HTTP_HOST' => 'contacts-test.test.localhost' }
+                                      headers: { 'HTTP_HOST' => 'contacts-test.test.localhost' }
 
         expect(response).to have_http_status(:success)
       end
@@ -111,7 +111,7 @@ RSpec.describe 'SiteAdmin::ContactsController', type: :request do
     let!(:contact) do
       ActsAsTenant.with_tenant(website) do
         create(:pwb_contact, website: website, first_name: 'Visitor', last_name: 'Test',
-               primary_email: 'visitor@example.com', primary_phone_number: '+1 555-1234')
+                             primary_email: 'visitor@example.com', primary_phone_number: '+1 555-1234')
       end
     end
 

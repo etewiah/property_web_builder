@@ -93,7 +93,7 @@ FactoryBot.define do
     end
 
     trait :yearly do
-      association :plan, factory: [:pwb_plan, :yearly]
+      association :plan, factory: %i[pwb_plan yearly]
       current_period_ends_at { 1.year.from_now }
     end
   end

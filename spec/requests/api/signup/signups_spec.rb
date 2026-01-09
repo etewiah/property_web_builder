@@ -71,7 +71,7 @@ RSpec.describe "Api::Signup::Signups", type: :request do
         subdomain = json_response[:subdomain]
         # Subdomain should be a valid name (letters, numbers, hyphens)
         expect(subdomain).to be_present
-        expect(subdomain).to match(/^[a-z0-9][a-z0-9\-]*[a-z0-9]$/)
+        expect(subdomain).to match(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/)
       end
 
       it "returns signup_token for subsequent requests" do
@@ -103,9 +103,9 @@ RSpec.describe "Api::Signup::Signups", type: :request do
       end
 
       it "returns existing user for signup continuation" do
-        expect {
+        expect do
           post '/api/signup/start', params: { email: 'existing@example.com' }
-        }.not_to change(Pwb::User, :count)
+        end.not_to change(Pwb::User, :count)
 
         expect(response).to have_http_status(:ok)
         expect(json_response[:success]).to be true
@@ -176,13 +176,13 @@ RSpec.describe "Api::Signup::Signups", type: :request do
         it "creates a website with the specified subdomain" do
           token = signup_token # Capture token before count check
 
-          expect {
+          expect do
             post '/api/signup/configure', params: {
               signup_token: token,
               subdomain: 'my-awesome-site',
               site_type: 'residential'
             }
-          }.to change(Pwb::Website, :count).by(1)
+          end.to change(Pwb::Website, :count).by(1)
 
           expect(response).to have_http_status(:ok)
           expect(json_response[:success]).to be true
@@ -206,7 +206,7 @@ RSpec.describe "Api::Signup::Signups", type: :request do
           %w[residential commercial vacation_rental].each do |site_type|
             # Start a new signup for each site type with unique email
             email = unique_email(site_type)
-            subdomain = unique_subdomain(site_type.gsub('_', '-'))
+            subdomain = unique_subdomain(site_type.tr('_', '-'))
 
             post '/api/signup/start', params: { email: email }
             expect(response).to have_http_status(:ok), "start_signup failed for #{site_type}: #{response.body}"
@@ -567,7 +567,7 @@ RSpec.describe "Api::Signup::Signups", type: :request do
 
       expect(response).to have_http_status(:ok)
       # Subdomain should be a valid name (letters, numbers, hyphens)
-      expect(json_response[:subdomain]).to match(/^[a-z0-9][a-z0-9\-]*[a-z0-9]$/)
+      expect(json_response[:subdomain]).to match(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/)
     end
 
     it "returns different subdomains on multiple calls" do
@@ -592,7 +592,7 @@ RSpec.describe "Api::Signup::Signups", type: :request do
 
     it "does not suggest subdomains already used by websites" do
       # Create a subdomain in the pool marked as available
-      used_subdomain = Pwb::Subdomain.create!(name: 'taken-subdomain-99', aasm_state: 'available')
+      Pwb::Subdomain.create!(name: 'taken-subdomain-99', aasm_state: 'available')
 
       # Create a website using that subdomain (simulating data inconsistency)
       FactoryBot.create(:pwb_website, subdomain: 'taken-subdomain-99')
@@ -629,7 +629,7 @@ RSpec.describe "Api::Signup::Signups", type: :request do
       get '/api/signup/site_types'
 
       expect(response).to have_http_status(:ok)
-      values = json_response[:site_types].map { |t| t[:value] }
+      values = json_response[:site_types].pluck(:value)
       expect(values).to include('residential')
       expect(values).to include('commercial')
       expect(values).to include('vacation_rental')

@@ -91,9 +91,9 @@ RSpec.describe SiteAdmin::OnboardingController, type: :controller do
       end
 
       it 'marks onboarding as completed' do
-        expect {
+        expect do
           get :show, params: { step: 5 }
-        }.to change { user.reload.site_admin_onboarding_completed_at }.from(nil)
+        end.to change { user.reload.site_admin_onboarding_completed_at }.from(nil)
       end
     end
 
@@ -169,7 +169,7 @@ RSpec.describe SiteAdmin::OnboardingController, type: :controller do
             title: 'Beautiful Family Home',
             description: 'A lovely 3-bedroom home in a quiet neighborhood.',
             city: 'Test City',
-            # Note: controller permits :bedrooms/:bathrooms but model uses count_bedrooms/count_bathrooms
+            # NOTE: controller permits :bedrooms/:bathrooms but model uses count_bedrooms/count_bathrooms
             # The onboarding form uses field names that may differ from model columns
             bedrooms: 3,
             bathrooms: 2
@@ -178,9 +178,9 @@ RSpec.describe SiteAdmin::OnboardingController, type: :controller do
       end
 
       it 'saves the property and advances to step 4' do
-        expect {
+        expect do
           post :update, params: { step: 3 }.merge(valid_property_params)
-        }.to change(Pwb::RealtyAsset, :count).by(1)
+        end.to change(Pwb::RealtyAsset, :count).by(1)
 
         expect(response).to redirect_to(site_admin_onboarding_path(step: 4))
       end
@@ -190,7 +190,7 @@ RSpec.describe SiteAdmin::OnboardingController, type: :controller do
 
         property = Pwb::RealtyAsset.last
         expect(property.website).to eq(website)
-        # Note: RealtyAsset#title method returns nil (title/description are on listings)
+        # NOTE: RealtyAsset#title method returns nil (title/description are on listings)
         # but the column value is still saved - access via read_attribute
         expect(property.read_attribute(:title)).to eq('Beautiful Family Home')
       end
@@ -209,9 +209,9 @@ RSpec.describe SiteAdmin::OnboardingController, type: :controller do
 
       context 'with minimal valid params' do
         it 'creates property with just a title' do
-          expect {
+          expect do
             post :update, params: { step: 3, pwb_realty_asset: { title: 'Minimal Property' } }
-          }.to change(Pwb::RealtyAsset, :count).by(1)
+          end.to change(Pwb::RealtyAsset, :count).by(1)
 
           expect(response).to redirect_to(site_admin_onboarding_path(step: 4))
         end

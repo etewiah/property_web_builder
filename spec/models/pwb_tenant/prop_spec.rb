@@ -137,9 +137,9 @@ module PwbTenant
       end
 
       it 'raises RecordNotFound for prop belonging to other website' do
-        expect {
+        expect do
           described_class.find(prop_b.id)
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 

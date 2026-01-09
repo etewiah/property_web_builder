@@ -137,7 +137,7 @@ RSpec.describe 'TenantAdmin Authorization', type: :controller do
       get :index, format: :json
       expect(response).to have_http_status(:forbidden)
       expect(response.content_type).to include('application/json')
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       expect(json['error']).to include('Access denied')
     end
   end

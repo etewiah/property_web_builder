@@ -108,10 +108,10 @@ RSpec.describe Pwb::PropertyDisplayable, type: :model do
   describe '#extras_for_display' do
     before do
       allow(prop).to receive(:get_features).and_return({
-        'propertyFeatures.pool' => true,
-        'propertyFeatures.garden' => true,
-        'propertyFeatures.garage' => true
-      })
+                                                         'propertyFeatures.pool' => true,
+                                                         'propertyFeatures.garden' => true,
+                                                         'propertyFeatures.garage' => true
+                                                       })
       allow(I18n).to receive(:t).with('propertyFeatures.pool').and_return('Swimming Pool')
       allow(I18n).to receive(:t).with('propertyFeatures.garden').and_return('Garden')
       allow(I18n).to receive(:t).with('propertyFeatures.garage').and_return('Garage')

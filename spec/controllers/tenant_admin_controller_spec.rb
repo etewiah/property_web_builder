@@ -130,7 +130,7 @@ RSpec.describe TenantAdminController, type: :controller do
       end
 
       it 'bypasses both authentication and authorization' do
-        # Note: This test verifies bypass works, but actual bypass behavior
+        # NOTE: This test verifies bypass works, but actual bypass behavior
         # depends on the AdminAuthBypass concern creating a user
         get :index
         # In bypass mode, we should not get a 401/403
@@ -149,7 +149,7 @@ RSpec.describe TenantAdminController, type: :controller do
       sign_in user, scope: :user
       get :index, format: :json
       expect(response).to have_http_status(:forbidden)
-      expect(JSON.parse(response.body)['error']).to include('not authorized')
+      expect(response.parsed_body['error']).to include('not authorized')
     end
   end
 end

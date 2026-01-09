@@ -7,7 +7,7 @@ RSpec.describe "ApiPublic::V1::Translations", type: :request do
     it "returns translations for a locale" do
       get "/api_public/v1/translations", params: { locale: "en" }
       expect(response).to have_http_status(200)
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       expect(json["locale"]).to eq("en")
       expect(json["result"]).to be_present
     end

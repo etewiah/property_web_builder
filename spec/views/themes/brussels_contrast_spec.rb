@@ -15,9 +15,9 @@ RSpec.describe 'Brussels Theme WCAG Contrast Compliance', type: :view do
     def self.relative_luminance(hex_color)
       rgb = hex_to_rgb(hex_color)
       rgb.map do |c|
-        c = c / 255.0
+        c /= 255.0
         c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055)**2.4
-      end.then { |r, g, b| 0.2126 * r + 0.7152 * g + 0.0722 * b }
+      end.then { |r, g, b| (0.2126 * r) + (0.7152 * g) + (0.0722 * b) }
     end
 
     # Calculate contrast ratio between two colors
@@ -31,7 +31,7 @@ RSpec.describe 'Brussels Theme WCAG Contrast Compliance', type: :view do
 
     # Convert hex color to RGB array
     def self.hex_to_rgb(hex)
-      hex = hex.gsub('#', '')
+      hex = hex.delete('#')
       hex = hex.chars.map { |c| c * 2 }.join if hex.length == 3
       [hex[0..1], hex[2..3], hex[4..5]].map { |c| c.to_i(16) }
     end
@@ -204,7 +204,7 @@ RSpec.describe 'Brussels Theme WCAG Contrast Compliance', type: :view do
 
   describe 'Summary report' do
     it 'generates contrast summary' do
-      puts "\n" + "=" * 60
+      puts "\n" + ("=" * 60)
       puts "BRUSSELS THEME CONTRAST REPORT"
       puts "=" * 60
 
@@ -230,7 +230,7 @@ RSpec.describe 'Brussels Theme WCAG Contrast Compliance', type: :view do
         failed.each { |f| puts f }
       end
 
-      puts "\n" + "=" * 60
+      puts "\n" + ("=" * 60)
 
       # This test always passes - it's just for reporting
       expect(true).to be true

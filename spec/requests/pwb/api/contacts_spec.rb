@@ -49,7 +49,7 @@ module Pwb
         get '/api/v1/contacts', headers: request_headers
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json).to be_an(Array)
       end
 
@@ -108,9 +108,9 @@ module Pwb
       it 'creates a contact for the current tenant' do
         host! 'contacts-api-test.example.com'
 
-        expect {
+        expect do
           post '/api/v1/contacts', params: valid_params.to_json, headers: request_headers
-        }.to change { website.contacts.count }.by(1)
+        end.to change { website.contacts.count }.by(1)
       end
     end
 

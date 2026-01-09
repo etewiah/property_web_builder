@@ -16,12 +16,12 @@ RSpec.describe Pwb::ShardService do
       allow(Pwb::ShardHealthCheck).to receive(:check).with('shard_1').and_return(health_ok)
 
       expect(Pwb::ShardAuditLog).to receive(:create!).with(hash_including(
-        website: website,
-        old_shard_name: 'default',
-        new_shard_name: 'shard_1',
-        changed_by_email: 'admin@example.com',
-        status: 'completed'
-      ))
+                                                             website: website,
+                                                             old_shard_name: 'default',
+                                                             new_shard_name: 'shard_1',
+                                                             changed_by_email: 'admin@example.com',
+                                                             status: 'completed'
+                                                           ))
 
       result = described_class.assign_shard(
         website: website,

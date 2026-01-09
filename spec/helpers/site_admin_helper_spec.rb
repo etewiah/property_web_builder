@@ -5,9 +5,9 @@ require 'rails_helper'
 RSpec.describe SiteAdminHelper, type: :helper do
   describe '#format_date' do
     it 'formats date correctly' do
-      date = Time.new(2024, 6, 15, 14, 30, 0)
+      date = Time.zone.local(2024, 6, 15, 14, 30, 0)
       result = helper.format_date(date)
-      # Note: Multiple helpers define format_date with different formats
+      # NOTE: Multiple helpers define format_date with different formats
       # In test environment, the actual format may vary due to helper loading order
       expect(result).to match(/2024.*6.*15.*14.*30|Jun 15, 2024 14:30/)
     end

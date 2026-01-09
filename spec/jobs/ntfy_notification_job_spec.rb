@@ -30,9 +30,9 @@ RSpec.describe NtfyNotificationJob, type: :job do
 
     context 'when website is not found' do
       it 'discards the job without error' do
-        expect {
-          described_class.new.perform(999999, :inquiry, 123)
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        expect do
+          described_class.new.perform(999_999, :inquiry, 123)
+        end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
@@ -61,9 +61,9 @@ RSpec.describe NtfyNotificationJob, type: :job do
       end
 
       it 'raises error when message not found' do
-        expect {
-          described_class.new.perform(website.id, :inquiry, 999999)
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        expect do
+          described_class.new.perform(website.id, :inquiry, 999_999)
+        end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 

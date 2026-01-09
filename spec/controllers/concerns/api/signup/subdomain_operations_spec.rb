@@ -8,7 +8,7 @@ RSpec.describe Api::Signup::SubdomainOperations, type: :request do
       get '/api/signup/check_subdomain', params: { name: 'valid-test-name' }
 
       expect(response).to have_http_status(:ok)
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       expect(json).to have_key('available')
       expect(json).to have_key('normalized')
     end
@@ -16,7 +16,7 @@ RSpec.describe Api::Signup::SubdomainOperations, type: :request do
     it 'returns unavailable for invalid subdomain format' do
       get '/api/signup/check_subdomain', params: { name: '-invalid' }
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       expect(json['available']).to be false
       expect(json['errors']).to be_present
     end
@@ -24,7 +24,7 @@ RSpec.describe Api::Signup::SubdomainOperations, type: :request do
     it 'returns unavailable for reserved names' do
       get '/api/signup/check_subdomain', params: { name: 'admin' }
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       expect(json['available']).to be false
     end
   end
@@ -39,7 +39,7 @@ RSpec.describe Api::Signup::SubdomainOperations, type: :request do
         get '/api/signup/suggest_subdomain'
 
         expect(response).to have_http_status(:ok)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['subdomain']).to be_present
       end
     end
@@ -49,7 +49,7 @@ RSpec.describe Api::Signup::SubdomainOperations, type: :request do
         get '/api/signup/suggest_subdomain'
 
         expect(response).to have_http_status(:ok)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['subdomain']).to be_present
       end
     end
@@ -70,7 +70,7 @@ RSpec.describe Api::Signup::SubdomainOperations, type: :request do
         get '/api/signup/lookup_subdomain', params: { email: user.email }
 
         expect(response).to have_http_status(:ok)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['success']).to be true
         expect(json['subdomain']).to eq('my-test-site')
         expect(json['full_subdomain']).to include('my-test-site')
@@ -81,7 +81,7 @@ RSpec.describe Api::Signup::SubdomainOperations, type: :request do
       # TODO: This test has a transient failure with status 0 - investigate
       # The functionality works in manual testing but request spec has issues
       it 'returns the reserved subdomain information', skip: 'Transient request spec issue - status 0' do
-        subdomain = Pwb::Subdomain.create!(
+        Pwb::Subdomain.create!(
           name: 'lookup-reserved-site',
           aasm_state: 'reserved',
           reserved_by_email: 'lookup-reserved@example.com',
@@ -92,7 +92,7 @@ RSpec.describe Api::Signup::SubdomainOperations, type: :request do
         get '/api/signup/lookup_subdomain', params: { email: 'lookup-reserved@example.com' }
 
         expect(response).to have_http_status(:ok)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['success']).to be true
         expect(json['subdomain']).to eq('lookup-reserved-site')
         expect(json['status']).to eq('reserved')
@@ -104,7 +104,7 @@ RSpec.describe Api::Signup::SubdomainOperations, type: :request do
         get '/api/signup/lookup_subdomain', params: { email: '' }
 
         expect(response).to have_http_status(:bad_request)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['success']).to be false
       end
 
@@ -120,7 +120,7 @@ RSpec.describe Api::Signup::SubdomainOperations, type: :request do
         get '/api/signup/lookup_subdomain', params: { email: 'unknown@example.com' }
 
         expect(response).to have_http_status(:not_found)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['success']).to be false
       end
     end

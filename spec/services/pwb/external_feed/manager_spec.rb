@@ -21,7 +21,7 @@ RSpec.describe Pwb::ExternalFeed::Manager do
         [:api_key]
       end
 
-      def search(params)
+      def search(_params)
         Pwb::ExternalFeed::NormalizedSearchResult.new(
           properties: [
             Pwb::ExternalFeed::NormalizedProperty.new(reference: "TEST1", title: "Test Property")
@@ -30,19 +30,19 @@ RSpec.describe Pwb::ExternalFeed::Manager do
         )
       end
 
-      def find(reference, params = {})
+      def find(reference, _params = {})
         Pwb::ExternalFeed::NormalizedProperty.new(reference: reference, title: "Found Property")
       end
 
-      def similar(property, params = {})
+      def similar(_property, _params = {})
         [Pwb::ExternalFeed::NormalizedProperty.new(reference: "SIM1", title: "Similar")]
       end
 
-      def locations(params = {})
+      def locations(_params = {})
         [{ value: "loc1", label: "Location 1" }]
       end
 
-      def property_types(params = {})
+      def property_types(_params = {})
         [{ value: "apartment", label: "Apartment" }]
       end
 

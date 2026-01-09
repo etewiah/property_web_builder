@@ -104,7 +104,7 @@ module Pwb
 
         it 'sets reserved_until to specified duration' do
           subdomain.reserve!('user@example.com', 10.minutes)
-          expect(subdomain.reserved_until).to be_within(1.second).of(Time.current + 10.minutes)
+          expect(subdomain.reserved_until).to be_within(1.second).of(10.minutes.from_now)
         end
 
         it 'cannot reserve if already reserved' do
@@ -167,9 +167,9 @@ module Pwb
         allow(Subdomain).to receive(:available).and_return(Subdomain.none)
         allow(Subdomain).to receive(:count).and_return(0)
         # Use a unique email to avoid finding existing reservations
-        expect {
+        expect do
           Subdomain.reserve_for_email("noavail-#{rand(1000..9999)}@example.com")
-        }.to raise_error(Subdomain::SubdomainPoolEmptyError)
+        end.to raise_error(Subdomain::SubdomainPoolEmptyError)
       end
 
       it 'returns existing reservation for same email' do

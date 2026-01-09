@@ -3,7 +3,6 @@
 require 'swagger_helper'
 
 RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swagger.yaml' do
-
   # Helper to create properties that appear in the materialized view
   def create_listed_sale_property(website:, reference:)
     realty_asset = Pwb::RealtyAsset.create!(website: website, reference: reference)
@@ -50,30 +49,30 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
 
       response '200', 'property found' do
         schema type: :object,
-          properties: {
-            id: { type: :string },  # UUID
-            reference: { type: :string },
-            title: { type: [:string, :null] },
-            description: { type: [:string, :null] },
-            prop_photos: {
-              type: :array,
-              items: {
-                type: :object,
-                properties: {
-                  image: { type: :string }
-                }
-              }
-            },
-            price_sale_current_cents: { type: :integer },
-            price_rental_monthly_current_cents: { type: :integer },
-            currency: { type: :string },
-            area_unit: { type: :string },
-            count_bedrooms: { type: :integer },
-            count_bathrooms: { type: :number },
-            count_garages: { type: :integer },
-            for_sale: { type: :boolean },
-            for_rent: { type: :boolean }
-          }
+               properties: {
+                 id: { type: :string }, # UUID
+                 reference: { type: :string },
+                 title: { type: %i[string null] },
+                 description: { type: %i[string null] },
+                 prop_photos: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       image: { type: :string }
+                     }
+                   }
+                 },
+                 price_sale_current_cents: { type: :integer },
+                 price_rental_monthly_current_cents: { type: :integer },
+                 currency: { type: :string },
+                 area_unit: { type: :string },
+                 count_bedrooms: { type: :integer },
+                 count_bathrooms: { type: :number },
+                 count_garages: { type: :integer },
+                 for_sale: { type: :boolean },
+                 for_rent: { type: :boolean }
+               }
 
         let!(:property) { create_listed_sale_property(website: test_website, reference: 'SWAGGER-PROP-001') }
         let(:id) { property.id }
@@ -103,26 +102,26 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
 
       response '200', 'properties found' do
         schema type: :array,
-          items: {
-            type: :object,
-            properties: {
-              id: { type: :string },  # UUID
-              reference: { type: :string },
-              title: { type: [:string, :null] },
-              price_sale_current_cents: { type: :integer },
-              price_rental_monthly_current_cents: { type: :integer },
-              currency: { type: :string },
-              prop_photos: {
-                type: :array,
-                items: {
-                  type: :object,
-                  properties: {
-                    image: { type: :string }
-                  }
-                }
-              }
-            }
-          }
+               items: {
+                 type: :object,
+                 properties: {
+                   id: { type: :string }, # UUID
+                   reference: { type: :string },
+                   title: { type: %i[string null] },
+                   price_sale_current_cents: { type: :integer },
+                   price_rental_monthly_current_cents: { type: :integer },
+                   currency: { type: :string },
+                   prop_photos: {
+                     type: :array,
+                     items: {
+                       type: :object,
+                       properties: {
+                         image: { type: :string }
+                       }
+                     }
+                   }
+                 }
+               }
 
         let(:sale_or_rental) { 'sale' }
         run_test!
@@ -138,20 +137,20 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
 
       response '200', 'page found' do
         schema type: :object,
-          properties: {
-            slug: { type: [:string, :null] },
-            link_path: { type: [:string, :null] },
-            visible: { type: :boolean },
-            page_title: { type: [:string, :null] },
-            link_title: { type: [:string, :null] },
-            raw_html: { type: [:string, :null] },
-            show_in_top_nav: { type: :boolean },
-            show_in_footer: { type: :boolean },
-            page_contents: {
-              type: :array,
-              items: { type: :object }
-            }
-          }
+               properties: {
+                 slug: { type: %i[string null] },
+                 link_path: { type: %i[string null] },
+                 visible: { type: :boolean },
+                 page_title: { type: %i[string null] },
+                 link_title: { type: %i[string null] },
+                 raw_html: { type: %i[string null] },
+                 show_in_top_nav: { type: :boolean },
+                 show_in_footer: { type: :boolean },
+                 page_contents: {
+                   type: :array,
+                   items: { type: :object }
+                 }
+               }
 
         let!(:page) { FactoryBot.create(:pwb_page, website: test_website, slug: 'test-page') }
         let(:id) { page.id }
@@ -174,20 +173,20 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
 
       response '200', 'page found' do
         schema type: :object,
-          properties: {
-            slug: { type: [:string, :null] },
-            link_path: { type: [:string, :null] },
-            visible: { type: :boolean },
-            page_title: { type: [:string, :null] },
-            link_title: { type: [:string, :null] },
-            raw_html: { type: [:string, :null] },
-            show_in_top_nav: { type: :boolean },
-            show_in_footer: { type: :boolean },
-            page_contents: {
-              type: :array,
-              items: { type: :object }
-            }
-          }
+               properties: {
+                 slug: { type: %i[string null] },
+                 link_path: { type: %i[string null] },
+                 visible: { type: :boolean },
+                 page_title: { type: %i[string null] },
+                 link_title: { type: %i[string null] },
+                 raw_html: { type: %i[string null] },
+                 show_in_top_nav: { type: :boolean },
+                 show_in_footer: { type: :boolean },
+                 page_contents: {
+                   type: :array,
+                   items: { type: :object }
+                 }
+               }
 
         let!(:page) { FactoryBot.create(:pwb_page, website: test_website, slug: 'another-page') }
         let(:slug) { page.slug }
@@ -209,10 +208,10 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
 
       response '200', 'translations found' do
         schema type: :object,
-          properties: {
-            locale: { type: :string },
-            result: { type: :object }
-          }
+               properties: {
+                 locale: { type: :string },
+                 result: { type: :object }
+               }
         let(:locale) { 'en' }
         run_test!
       end
@@ -229,19 +228,19 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
 
       response '200', 'links found' do
         schema type: :array,
-          items: {
-            type: :object,
-            properties: {
-              slug: { type: :string },
-              link_path: { type: :string },
-              visible: { type: :boolean },
-              link_title: { type: :string },
-              page_slug: { type: :string },
-              placement: { type: :string },
-              href_class: { type: :string },
-              is_deletable: { type: :boolean }
-            }
-          }
+               items: {
+                 type: :object,
+                 properties: {
+                   slug: { type: :string },
+                   link_path: { type: :string },
+                   visible: { type: :boolean },
+                   link_title: { type: :string },
+                   page_slug: { type: :string },
+                   placement: { type: :string },
+                   href_class: { type: :string },
+                   is_deletable: { type: :boolean }
+                 }
+               }
         run_test!
       end
     end
@@ -255,16 +254,16 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
 
       response '200', 'site details found' do
         schema type: :object,
-          properties: {
-            company_display_name: { type: :string },
-            theme_name: { type: [:string, :null] },
-            default_currency: { type: :string },
-            supported_locales: { type: :array, items: { type: :string } },
-            social_media: { type: :object },
-            agency: { type: [:object, :null] },
-            top_nav_display_links: { type: :array, items: { type: :object } },
-            footer_display_links: { type: :array, items: { type: :object } }
-          }
+               properties: {
+                 company_display_name: { type: :string },
+                 theme_name: { type: %i[string null] },
+                 default_currency: { type: :string },
+                 supported_locales: { type: :array, items: { type: :string } },
+                 social_media: { type: :object },
+                 agency: { type: %i[object null] },
+                 top_nav_display_links: { type: :array, items: { type: :object } },
+                 footer_display_links: { type: :array, items: { type: :object } }
+               }
         run_test!
       end
     end
@@ -278,16 +277,16 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
 
       response '200', 'select values found' do
         schema type: :object,
-          additionalProperties: {
-            type: :array,
-            items: {
-              type: :object,
-              properties: {
-                value: { type: :string },
-                label: { type: :string }
-              }
-            }
-          }
+               additionalProperties: {
+                 type: :array,
+                 items: {
+                   type: :object,
+                   properties: {
+                     value: { type: :string },
+                     label: { type: :string }
+                   }
+                 }
+               }
         run_test!
       end
     end

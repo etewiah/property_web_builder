@@ -29,8 +29,8 @@ RSpec.describe 'ERB Template Syntax', type: :view do
 
   describe 'site_admin layout templates' do
     let(:site_admin_erb_files) do
-      Dir.glob(Rails.root.join('app', 'views', 'layouts', 'site_admin*.erb')) +
-        Dir.glob(Rails.root.join('app', 'views', 'layouts', 'site_admin', '**', '*.erb'))
+      Rails.root.glob('app/views/layouts/site_admin*.erb') +
+        Rails.root.glob('app/views/layouts/site_admin/**/*.erb')
     end
 
     it 'all compile without syntax errors' do
@@ -52,7 +52,7 @@ RSpec.describe 'ERB Template Syntax', type: :view do
 
   describe 'site_admin/dashboard views' do
     let(:dashboard_erb_files) do
-      Dir.glob(Rails.root.join('app', 'views', 'site_admin', 'dashboard', '**', '*.erb'))
+      Rails.root.glob('app/views/site_admin/dashboard/**/*.erb')
     end
 
     it 'all compile without errors' do
@@ -79,9 +79,9 @@ RSpec.describe 'ERB Template Syntax', type: :view do
     it 'compiles without orphan end tag errors' do
       skip 'Navigation file not found' unless File.exist?(navigation_file)
 
-      expect {
+      expect do
         compile_erb_template(navigation_file)
-      }.not_to raise_error
+      end.not_to raise_error
     end
 
     it 'does not use <%# %> to comment out blocks with ERB tags' do
@@ -106,9 +106,9 @@ RSpec.describe 'ERB Template Syntax', type: :view do
       it 'compiles without errors' do
         skip "#{admin_type} layout not found" unless File.exist?(layout_file)
 
-        expect {
+        expect do
           compile_erb_template(layout_file)
-        }.not_to raise_error
+        end.not_to raise_error
       end
     end
   end

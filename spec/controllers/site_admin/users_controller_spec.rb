@@ -138,9 +138,9 @@ RSpec.describe SiteAdmin::UsersController, type: :controller do
       end
 
       it 'creates a new user' do
-        expect {
+        expect do
           post :create, params: valid_params
-        }.to change(Pwb::User, :count).by(1)
+        end.to change(Pwb::User, :count).by(1)
       end
 
       it 'creates a membership for the new user' do
@@ -177,9 +177,9 @@ RSpec.describe SiteAdmin::UsersController, type: :controller do
         end
 
         it 'does not create a new user' do
-          expect {
+          expect do
             post :create, params: params
-          }.not_to change(Pwb::User, :count)
+          end.not_to change(Pwb::User, :count)
         end
 
         it 'adds the existing user to this website' do
@@ -209,9 +209,9 @@ RSpec.describe SiteAdmin::UsersController, type: :controller do
         end
 
         it 'does not create duplicate membership' do
-          expect {
+          expect do
             post :create, params: params
-          }.not_to change(Pwb::UserMembership, :count)
+          end.not_to change(Pwb::UserMembership, :count)
         end
 
         it 'renders new with alert' do
@@ -234,9 +234,9 @@ RSpec.describe SiteAdmin::UsersController, type: :controller do
       end
 
       it 'does not create a user' do
-        expect {
+        expect do
           post :create, params: invalid_params
-        }.not_to change(Pwb::User, :count)
+        end.not_to change(Pwb::User, :count)
       end
 
       it 'renders new template' do
@@ -349,9 +349,9 @@ RSpec.describe SiteAdmin::UsersController, type: :controller do
     end
 
     it 'removes the user membership' do
-      expect {
+      expect do
         delete :destroy, params: { id: member_user.id }
-      }.to change { member_user.user_memberships.count }.by(-1)
+      end.to change { member_user.user_memberships.count }.by(-1)
     end
 
     it 'redirects with success notice' do
@@ -361,9 +361,9 @@ RSpec.describe SiteAdmin::UsersController, type: :controller do
     end
 
     it 'does not delete the user record' do
-      expect {
+      expect do
         delete :destroy, params: { id: member_user.id }
-      }.not_to change(Pwb::User, :count)
+      end.not_to change(Pwb::User, :count)
     end
 
     context 'when trying to remove self' do

@@ -213,7 +213,7 @@ RSpec.describe SignupSession do
 
   describe 'controller integration' do
     let(:controller_class) do
-      Class.new(ActionController::Base) do
+      Class.new(ApplicationController) do
         include SignupSession
       end
     end

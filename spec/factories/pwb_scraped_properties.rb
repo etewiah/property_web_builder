@@ -41,7 +41,7 @@
 FactoryBot.define do
   factory :pwb_scraped_property, class: "Pwb::ScrapedProperty" do
     association :website, factory: :pwb_website
-    sequence(:source_url) { |n| "https://www.rightmove.co.uk/properties/#{100000 + n}" }
+    sequence(:source_url) { |n| "https://www.rightmove.co.uk/properties/#{100_000 + n}" }
     import_status { "pending" }
     scrape_successful { false }
 
@@ -65,7 +65,7 @@ FactoryBot.define do
           "listing_data" => {
             "title" => "Beautiful 3 Bedroom Apartment",
             "description" => "A stunning property in the heart of London.",
-            "price_sale_current" => 450000,
+            "price_sale_current" => 450_000,
             "currency" => "GBP"
           }
         }

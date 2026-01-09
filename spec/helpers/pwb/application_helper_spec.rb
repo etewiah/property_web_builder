@@ -121,10 +121,10 @@ module Pwb
       context 'for devise controller' do
         it "returns correct link" do
           # helper.stub(:params).and_return({controller: "devise/sessions",locale: "en"})
-          allow(helper).to receive(:params).and_return({"controller" => "devise/sessions", "locale" => "en"}.with_indifferent_access)
+          allow(helper).to receive(:params).and_return({ "controller" => "devise/sessions", "locale" => "en" }.with_indifferent_access)
           # before(:all) { helper.stub!(:params).and_return(id: 1) }
           # assign(:title, "My Title")
-          result = helper.localized_link_to "", {"locale" => "en"}
+          result = helper.localized_link_to "", { "locale" => "en" }
           expect(result).to have_link '', href: '/en'
         end
       end
@@ -232,7 +232,7 @@ module Pwb
       end
 
       context "for sale properties" do
-        let(:price) { Money.new(25000000, 'EUR') } # €250,000
+        let(:price) { Money.new(25_000_000, 'EUR') } # €250,000
 
         before do
           allow(property).to receive(:contextual_price).with("for_sale").and_return(price)
@@ -247,7 +247,7 @@ module Pwb
       end
 
       context "for rent properties" do
-        let(:price) { Money.new(220000, 'EUR') } # €2,200
+        let(:price) { Money.new(220_000, 'EUR') } # €2,200
 
         before do
           allow(property).to receive(:contextual_price).with("for_rent").and_return(price)
@@ -293,10 +293,9 @@ module Pwb
           instance_double(Pwb::Website,
             default_currency: 'EUR',
             available_currencies: ['USD'],
-            subdomain: 'test'
-          )
+            subdomain: 'test')
         end
-        let(:price) { Money.new(150000, 'EUR') } # €1,500
+        let(:price) { Money.new(150_000, 'EUR') } # €1,500
 
         before do
           helper.instance_variable_set(:@current_website, website_with_conversion)
@@ -304,7 +303,7 @@ module Pwb
           allow(helper).to receive(:session).and_return({ preferred_currency: 'USD' })
           allow(property).to receive(:contextual_price).with("for_rent").and_return(price)
           # Mock the conversion service to return converted price
-          allow(Pwb::ExchangeRateService).to receive(:convert).and_return(Money.new(165000, 'USD'))
+          allow(Pwb::ExchangeRateService).to receive(:convert).and_return(Money.new(165_000, 'USD'))
         end
 
         it "inserts /month before conversion span for rentals" do

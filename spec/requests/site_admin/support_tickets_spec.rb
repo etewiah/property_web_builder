@@ -127,9 +127,9 @@ RSpec.describe 'SiteAdmin::SupportTickets', type: :request do
     end
 
     it 'creates a new ticket' do
-      expect {
+      expect do
         post site_admin_support_tickets_path, params: valid_params, headers: { 'HTTP_HOST' => 'support-test.test.localhost' }
-      }.to change(Pwb::SupportTicket, :count).by(1)
+      end.to change(Pwb::SupportTicket, :count).by(1)
     end
 
     it 'redirects to the ticket' do
@@ -158,9 +158,9 @@ RSpec.describe 'SiteAdmin::SupportTickets', type: :request do
       end
 
       it 'does not create a ticket' do
-        expect {
+        expect do
           post site_admin_support_tickets_path, params: invalid_params, headers: { 'HTTP_HOST' => 'support-test.test.localhost' }
-        }.not_to change(Pwb::SupportTicket, :count)
+        end.not_to change(Pwb::SupportTicket, :count)
       end
 
       it 'renders the form with errors' do
@@ -174,9 +174,9 @@ RSpec.describe 'SiteAdmin::SupportTickets', type: :request do
       before { sign_out admin_user }
 
       it 'does not create a ticket' do
-        expect {
+        expect do
           post site_admin_support_tickets_path, params: valid_params, headers: { 'HTTP_HOST' => 'support-test.test.localhost' }
-        }.not_to change(Pwb::SupportTicket, :count)
+        end.not_to change(Pwb::SupportTicket, :count)
       end
     end
   end
@@ -249,11 +249,11 @@ RSpec.describe 'SiteAdmin::SupportTickets', type: :request do
     end
 
     it 'adds a message to the ticket' do
-      expect {
+      expect do
         post add_message_site_admin_support_ticket_path(ticket),
              params: { message: { content: 'New reply' } },
              headers: { 'HTTP_HOST' => 'support-test.test.localhost' }
-      }.to change(Pwb::TicketMessage, :count).by(1)
+      end.to change(Pwb::TicketMessage, :count).by(1)
     end
 
     it 'redirects to the ticket' do
@@ -283,11 +283,11 @@ RSpec.describe 'SiteAdmin::SupportTickets', type: :request do
 
     context 'with empty message' do
       it 'does not add a message' do
-        expect {
+        expect do
           post add_message_site_admin_support_ticket_path(ticket),
                params: { message: { content: '' } },
                headers: { 'HTTP_HOST' => 'support-test.test.localhost' }
-        }.not_to change(Pwb::TicketMessage, :count)
+        end.not_to change(Pwb::TicketMessage, :count)
       end
 
       it 'redirects with alert' do

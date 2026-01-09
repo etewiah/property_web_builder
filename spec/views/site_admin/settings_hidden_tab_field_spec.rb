@@ -56,10 +56,10 @@ RSpec.describe 'Settings tab forms have hidden tab fields', type: :view do
 
           expect(has_raw_hidden_field || has_rails_helper).to be(true),
             "Expected #{tab_name}_tab.html.erb to contain a hidden 'tab' field with value '#{tab_name}'.\n" \
-            "Add one of:\n" \
-            "  <input type=\"hidden\" name=\"tab\" value=\"#{tab_name}\">\n" \
-            "  OR\n" \
-            "  <%= hidden_field_tag :tab, '#{tab_name}' %>\n\n" \
+            "Add one of:\n  " \
+            "<input type=\"hidden\" name=\"tab\" value=\"#{tab_name}\">\n  " \
+            "OR\n  " \
+            "<%= hidden_field_tag :tab, '#{tab_name}' %>\n\n" \
             "Without this field, the SettingsController won't know to call update_#{tab_name}_settings " \
             "and will default to update_general_settings, causing the save to silently fail."
         end

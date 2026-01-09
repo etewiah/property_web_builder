@@ -20,16 +20,16 @@ RSpec.describe Pwb::PropertyPriceable, type: :model do
     end
 
     it 'monetizes price_rental_monthly_current' do
-      prop.price_rental_monthly_current_cents = 1500_00
+      prop.price_rental_monthly_current_cents = 150_000
       expect(prop.price_rental_monthly_current).to be_a(Money)
-      expect(prop.price_rental_monthly_current.cents).to eq(1500_00)
+      expect(prop.price_rental_monthly_current.cents).to eq(150_000)
     end
   end
 
   describe '#contextual_price' do
     before do
       prop.price_sale_current_cents = 500_000_00
-      prop.price_rental_monthly_for_search_cents = 2000_00
+      prop.price_rental_monthly_for_search_cents = 200_000
     end
 
     it 'returns sale price for for_sale' do
@@ -37,7 +37,7 @@ RSpec.describe Pwb::PropertyPriceable, type: :model do
     end
 
     it 'returns rental price for for_rent' do
-      expect(prop.contextual_price('for_rent').cents).to eq(2000_00)
+      expect(prop.contextual_price('for_rent').cents).to eq(200_000)
     end
 
     it 'defaults to sale price based on property availability' do
@@ -50,7 +50,7 @@ RSpec.describe Pwb::PropertyPriceable, type: :model do
     it 'defaults to rental price when property is for rent' do
       prop.for_sale = false
       prop.for_rent_long_term = true
-      expect(prop.contextual_price(nil).cents).to eq(2000_00)
+      expect(prop.contextual_price(nil).cents).to eq(200_000)
     end
   end
 
@@ -72,20 +72,20 @@ RSpec.describe Pwb::PropertyPriceable, type: :model do
       before { prop.for_rent_short_term = true }
 
       it 'returns lowest short term price when available' do
-        prop.price_rental_monthly_low_season_cents = 1000_00
-        prop.price_rental_monthly_standard_season_cents = 1500_00
-        prop.price_rental_monthly_high_season_cents = 2000_00
+        prop.price_rental_monthly_low_season_cents = 100_000
+        prop.price_rental_monthly_standard_season_cents = 150_000
+        prop.price_rental_monthly_high_season_cents = 200_000
 
-        expect(prop.rental_price.cents).to eq(1000_00)
+        expect(prop.rental_price.cents).to eq(100_000)
       end
 
       it 'falls back to current price when no seasonal prices' do
         prop.price_rental_monthly_low_season_cents = 0
         prop.price_rental_monthly_standard_season_cents = 0
         prop.price_rental_monthly_high_season_cents = 0
-        prop.price_rental_monthly_current_cents = 1500_00
+        prop.price_rental_monthly_current_cents = 150_000
 
-        expect(prop.rental_price.cents).to eq(1500_00)
+        expect(prop.rental_price.cents).to eq(150_000)
       end
     end
 
@@ -96,8 +96,8 @@ RSpec.describe Pwb::PropertyPriceable, type: :model do
       end
 
       it 'returns current rental price' do
-        prop.price_rental_monthly_current_cents = 1800_00
-        expect(prop.rental_price.cents).to eq(1800_00)
+        prop.price_rental_monthly_current_cents = 180_000
+        expect(prop.rental_price.cents).to eq(180_000)
       end
     end
 
@@ -110,19 +110,19 @@ RSpec.describe Pwb::PropertyPriceable, type: :model do
 
   describe '#lowest_short_term_price' do
     it 'returns the minimum of seasonal prices' do
-      prop.price_rental_monthly_low_season_cents = 1500_00
-      prop.price_rental_monthly_standard_season_cents = 2000_00
-      prop.price_rental_monthly_high_season_cents = 2500_00
+      prop.price_rental_monthly_low_season_cents = 150_000
+      prop.price_rental_monthly_standard_season_cents = 200_000
+      prop.price_rental_monthly_high_season_cents = 250_000
 
-      expect(prop.lowest_short_term_price.cents).to eq(1500_00)
+      expect(prop.lowest_short_term_price.cents).to eq(150_000)
     end
 
     it 'excludes zero prices' do
       prop.price_rental_monthly_low_season_cents = 0
-      prop.price_rental_monthly_standard_season_cents = 2000_00
-      prop.price_rental_monthly_high_season_cents = 2500_00
+      prop.price_rental_monthly_standard_season_cents = 200_000
+      prop.price_rental_monthly_high_season_cents = 250_000
 
-      expect(prop.lowest_short_term_price.cents).to eq(2000_00)
+      expect(prop.lowest_short_term_price.cents).to eq(200_000)
     end
 
     it 'returns nil when all prices are zero' do
@@ -137,10 +137,10 @@ RSpec.describe Pwb::PropertyPriceable, type: :model do
   describe 'before_save callback' do
     it 'sets rental search price from rental_price' do
       prop.for_rent_long_term = true
-      prop.price_rental_monthly_current_cents = 1500_00
+      prop.price_rental_monthly_current_cents = 150_000
       prop.save!
 
-      expect(prop.price_rental_monthly_for_search_cents).to eq(1500_00)
+      expect(prop.price_rental_monthly_for_search_cents).to eq(150_000)
     end
   end
 end

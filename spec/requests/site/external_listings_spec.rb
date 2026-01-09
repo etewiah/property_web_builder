@@ -38,7 +38,8 @@ RSpec.describe "Site::ExternalListings", type: :request do
       end
 
       def find(reference, params = {})
-        if reference == "TEST1"
+        case reference
+        when "TEST1"
           Pwb::ExternalFeed::NormalizedProperty.new(
             reference: reference,
             title: "Test Villa",
@@ -49,14 +50,14 @@ RSpec.describe "Site::ExternalListings", type: :request do
             status: :available,
             listing_type: params[:listing_type] || :sale
           )
-        elsif reference == "SOLD1"
+        when "SOLD1"
           Pwb::ExternalFeed::NormalizedProperty.new(
             reference: reference,
             title: "Sold Property",
             status: :sold,
             listing_type: :sale
           )
-        elsif reference == "RENT1"
+        when "RENT1"
           Pwb::ExternalFeed::NormalizedProperty.new(
             reference: reference,
             title: "Test Rental Apartment",
@@ -70,7 +71,7 @@ RSpec.describe "Site::ExternalListings", type: :request do
         end
       end
 
-      def similar(property, params = {})
+      def similar(_property, _params = {})
         [
           Pwb::ExternalFeed::NormalizedProperty.new(
             reference: "SIM1",
@@ -80,11 +81,11 @@ RSpec.describe "Site::ExternalListings", type: :request do
         ]
       end
 
-      def locations(params = {})
+      def locations(_params = {})
         [{ value: "marbella", label: "Marbella" }]
       end
 
-      def property_types(params = {})
+      def property_types(_params = {})
         [{ value: "villa", label: "Villa" }]
       end
 
@@ -386,7 +387,7 @@ RSpec.describe "Site::ExternalListings", type: :request do
       it "returns array of similar properties" do
         get similar_external_listing_path(reference: "TEST1", format: :json)
         expect(response.content_type).to include("application/json")
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json).to be_an(Array)
       end
     end
@@ -398,7 +399,7 @@ RSpec.describe "Site::ExternalListings", type: :request do
       expect(response).to have_http_status(:success)
       expect(response.content_type).to include("application/json")
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       expect(json).to be_an(Array)
       expect(json.first["value"]).to eq("marbella")
     end
@@ -410,7 +411,7 @@ RSpec.describe "Site::ExternalListings", type: :request do
       expect(response).to have_http_status(:success)
       expect(response.content_type).to include("application/json")
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       expect(json).to be_an(Array)
       expect(json.first["value"]).to eq("villa")
     end
@@ -422,7 +423,7 @@ RSpec.describe "Site::ExternalListings", type: :request do
       expect(response).to have_http_status(:success)
       expect(response.content_type).to include("application/json")
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       expect(json).to have_key("locations")
       expect(json).to have_key("property_types")
       expect(json).to have_key("sort_options")

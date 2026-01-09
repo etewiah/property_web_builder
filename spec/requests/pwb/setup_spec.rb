@@ -59,11 +59,11 @@ RSpec.describe 'Pwb::SetupController', type: :request do
   describe 'POST /setup (create)' do
     context 'with valid parameters' do
       it 'creates a new website with specified subdomain' do
-        expect {
+        expect do
           post '/setup',
                params: { pack_name: 'netherlands_urban', subdomain: 'mynewsite' },
                headers: { 'HTTP_HOST' => 'mynewsite.test.localhost' }
-        }.to change(Pwb::Website, :count).by(1)
+        end.to change(Pwb::Website, :count).by(1)
 
         website = Pwb::Website.find_by(subdomain: 'mynewsite')
         expect(website).to be_present
@@ -113,11 +113,11 @@ RSpec.describe 'Pwb::SetupController', type: :request do
       end
 
       it 'does not create a website' do
-        expect {
+        expect do
           post '/setup',
                params: { subdomain: 'nopack' },
                headers: { 'HTTP_HOST' => 'nopack.test.localhost' }
-        }.not_to change(Pwb::Website, :count)
+        end.not_to change(Pwb::Website, :count)
       end
     end
 
@@ -132,11 +132,11 @@ RSpec.describe 'Pwb::SetupController', type: :request do
       end
 
       it 'does not create a website' do
-        expect {
+        expect do
           post '/setup',
                params: { pack_name: 'nonexistent_pack', subdomain: 'badpack' },
                headers: { 'HTTP_HOST' => 'badpack.test.localhost' }
-        }.not_to change(Pwb::Website, :count)
+        end.not_to change(Pwb::Website, :count)
       end
     end
 
@@ -165,11 +165,11 @@ RSpec.describe 'Pwb::SetupController', type: :request do
       end
 
       it 'does not create another website' do
-        expect {
+        expect do
           post '/setup',
                params: { pack_name: 'netherlands_urban', subdomain: 'alreadyhere' },
                headers: { 'HTTP_HOST' => 'alreadyhere.test.localhost' }
-        }.not_to change(Pwb::Website, :count)
+        end.not_to change(Pwb::Website, :count)
       end
     end
 

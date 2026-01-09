@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Rack::Attack', type: :request do
-  # Note: These tests verify the rate limiting configuration is properly loaded
+  # NOTE: These tests verify the rate limiting configuration is properly loaded
   # and the middleware is active. Full integration testing of rate limits
   # requires testing against actual request patterns.
 

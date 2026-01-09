@@ -15,16 +15,16 @@ module Pwb
       it "returns theme settings as JSON" do
         get :show, format: :json
         expect(response).to have_http_status(:success)
-        
-        json = JSON.parse(response.body)
+
+        json = response.parsed_body
         expect(json).to have_key("style_variables")
         expect(json).to have_key("theme_name")
       end
 
       it "includes default style variables" do
         get :show, format: :json
-        json = JSON.parse(response.body)
-        
+        json = response.parsed_body
+
         expect(json["style_variables"]).to have_key("primary_color")
         expect(json["style_variables"]).to have_key("secondary_color")
       end
@@ -44,8 +44,8 @@ module Pwb
       it "updates the style variables" do
         patch :update, params: valid_params, format: :json
         expect(response).to have_http_status(:success)
-        
-        json = JSON.parse(response.body)
+
+        json = response.parsed_body
         expect(json["status"]).to eq("success")
         # style_variables includes custom and palette colors; check custom was stored
         expect(json["style_variables"]).to include("primary_color")
@@ -63,7 +63,7 @@ module Pwb
         # Update only primary_color
         patch :update, params: { style_variables: { primary_color: "#333333" } }, format: :json
 
-        json = JSON.parse(response.body)
+        response.parsed_body
         expect(response).to have_http_status(:success)
 
         # Verify raw stored values
@@ -76,8 +76,8 @@ module Pwb
 
       it "returns success message" do
         patch :update, params: valid_params, format: :json
-        json = JSON.parse(response.body)
-        
+        json = response.parsed_body
+
         expect(json["message"]).to eq("Theme settings saved successfully")
       end
     end

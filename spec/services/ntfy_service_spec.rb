@@ -49,7 +49,7 @@ RSpec.describe NtfyService do
           message: 'Test',
           title: 'My Title',
           priority: NtfyService::PRIORITY_HIGH,
-          tags: ['warning', 'bell']
+          tags: %w[warning bell]
         )
 
         expect(WebMock).to have_requested(:post, 'https://ntfy.sh/test-prefix-admin')
@@ -182,8 +182,7 @@ RSpec.describe NtfyService do
           first_name: 'John',
           primary_email: 'john@example.com',
           primary_phone_number: '+1234567890',
-          website: website
-        )
+          website: website)
       end
     end
     let(:message) do
@@ -192,8 +191,7 @@ RSpec.describe NtfyService do
           title: 'Property Inquiry',
           content: 'I am interested in this property.',
           contact: contact,
-          website: website
-        )
+          website: website)
       end
     end
 
@@ -223,9 +221,9 @@ RSpec.describe NtfyService do
         .to_return(status: 200)
 
       described_class.notify_security_event(website, 'login_failed', {
-        email: 'attacker@example.com',
-        ip: '192.168.1.100'
-      })
+                                              email: 'attacker@example.com',
+                                              ip: '192.168.1.100'
+                                            })
 
       expect(WebMock).to have_requested(:post, 'https://ntfy.sh/test-prefix-security')
         .with(
@@ -241,8 +239,8 @@ RSpec.describe NtfyService do
         .to_return(status: 200)
 
       described_class.notify_security_event(website, 'account_locked', {
-        email: 'locked@example.com'
-      })
+                                              email: 'locked@example.com'
+                                            })
 
       expect(WebMock).to have_requested(:post, 'https://ntfy.sh/test-prefix-security')
         .with(

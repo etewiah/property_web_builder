@@ -164,8 +164,7 @@ RSpec.describe Pwb::ExternalFeed::NormalizedSearchResult do
   describe "#each" do
     it "yields each property" do
       result = described_class.new(properties: properties)
-      refs = []
-      result.each { |p| refs << p.reference }
+      refs = result.map(&:reference)
       expect(refs).to eq(%w[REF1 REF2 REF3])
     end
 

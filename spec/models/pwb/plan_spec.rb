@@ -127,7 +127,7 @@ module Pwb
       end
 
       it 'formats yearly EUR price correctly' do
-        plan = Plan.new(price_cents: 29000, price_currency: 'EUR', billing_interval: 'year')
+        plan = Plan.new(price_cents: 29_000, price_currency: 'EUR', billing_interval: 'year')
         expect(plan.formatted_price).to eq('€290/year')
       end
     end
@@ -146,7 +146,7 @@ module Pwb
 
       it 'returns first active plan if no starter' do
         pro = Plan.create!(name: 'pro', slug: 'pro', display_name: 'Pro', position: 1)
-        enterprise = Plan.create!(name: 'enterprise', slug: 'enterprise', display_name: 'Enterprise', position: 2)
+        Plan.create!(name: 'enterprise', slug: 'enterprise', display_name: 'Enterprise', position: 2)
 
         expect(Plan.default_plan).to eq(pro)
       end

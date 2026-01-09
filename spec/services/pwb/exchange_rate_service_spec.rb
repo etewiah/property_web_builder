@@ -6,7 +6,7 @@ RSpec.describe Pwb::ExchangeRateService do
   let(:website) do
     create(:pwb_website,
            default_currency: 'EUR',
-           available_currencies: ['USD', 'GBP'],
+           available_currencies: %w[USD GBP],
            exchange_rates: {})
   end
 
@@ -54,10 +54,10 @@ RSpec.describe Pwb::ExchangeRateService do
     before do
       # Service stores rates as { 'USD' => 1.1, 'GBP' => 0.85 }
       website.update(exchange_rates: {
-        'USD' => 1.1,
-        'GBP' => 0.85,
-        '_updated_at' => Time.current.iso8601
-      })
+                       'USD' => 1.1,
+                       'GBP' => 0.85,
+                       '_updated_at' => Time.current.iso8601
+                     })
     end
 
     it 'returns the exchange rate from base to target currency' do
@@ -89,20 +89,20 @@ RSpec.describe Pwb::ExchangeRateService do
   describe '.convert' do
     before do
       website.update(exchange_rates: {
-        'USD' => 1.1,
-        'GBP' => 0.85,
-        '_updated_at' => Time.current.iso8601
-      })
+                       'USD' => 1.1,
+                       'GBP' => 0.85,
+                       '_updated_at' => Time.current.iso8601
+                     })
     end
 
-    let(:eur_price) { Money.new(25000000, 'EUR') } # €250,000
+    let(:eur_price) { Money.new(25_000_000, 'EUR') } # €250,000
 
     it 'converts money to target currency' do
       result = described_class.convert(eur_price, 'USD', website)
 
       expect(result).to be_a(Money)
       expect(result.currency.iso_code).to eq('USD')
-      expect(result.cents).to eq(27500000) # 250,000 * 1.1 = 275,000 USD
+      expect(result.cents).to eq(27_500_000) # 250,000 * 1.1 = 275,000 USD
     end
 
     it 'returns nil for unsupported conversion' do
@@ -152,9 +152,9 @@ RSpec.describe Pwb::ExchangeRateService do
     context 'with recent rates' do
       it 'returns false' do
         website.update(exchange_rates: {
-          'USD' => 1.1,
-          '_updated_at' => Time.current.iso8601
-        })
+                         'USD' => 1.1,
+                         '_updated_at' => Time.current.iso8601
+                       })
         expect(described_class.rates_stale?(website)).to be false
       end
     end
@@ -162,9 +162,9 @@ RSpec.describe Pwb::ExchangeRateService do
     context 'with old rates' do
       it 'returns true' do
         website.update(exchange_rates: {
-          'USD' => 1.1,
-          '_updated_at' => 25.hours.ago.iso8601
-        })
+                         'USD' => 1.1,
+                         '_updated_at' => 25.hours.ago.iso8601
+                       })
         expect(described_class.rates_stale?(website)).to be true
       end
     end

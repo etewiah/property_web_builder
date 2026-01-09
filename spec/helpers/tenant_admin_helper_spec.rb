@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe TenantAdminHelper, type: :helper do
   describe '#format_date' do
     it 'formats date with month abbreviation' do
-      date = Time.new(2024, 6, 15, 14, 30, 0)
+      date = Time.zone.local(2024, 6, 15, 14, 30, 0)
       result = helper.format_date(date)
       expect(result).to eq('Jun 15, 2024 14:30')
     end

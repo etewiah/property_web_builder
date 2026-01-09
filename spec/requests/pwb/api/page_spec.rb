@@ -70,7 +70,7 @@ module Pwb
       it 'sets page_part visibility correctly' do
         host! 'pages-test.example.com'
 
-        target_page_content = page.page_contents.find_by_page_part_key('content_html')
+        target_page_content = page.page_contents.find_by(page_part_key: 'content_html')
         expect(target_page_content).to be_present
 
         put '/api/v1/pages/page_part_visibility', params: {

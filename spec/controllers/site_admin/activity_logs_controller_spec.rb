@@ -198,7 +198,7 @@ RSpec.describe SiteAdmin::ActivityLogsController, type: :controller do
     end
 
     it 'returns 404 for non-existent log' do
-      get :show, params: { id: 999999 }
+      get :show, params: { id: 999_999 }
       expect(response).to have_http_status(:not_found)
     end
   end

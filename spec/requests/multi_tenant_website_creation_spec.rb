@@ -15,12 +15,12 @@ RSpec.describe 'Multi-tenant website creation', type: :request do
       website1 = FactoryBot.create(:pwb_website, subdomain: 'first')
       website2 = FactoryBot.create(:pwb_website, subdomain: 'second')
       website3 = FactoryBot.create(:pwb_website, subdomain: 'third')
-      
+
       ids = [website1.id, website2.id, website3.id]
-      
+
       # IDs should be unique
       expect(ids.uniq.count).to eq(3)
-      
+
       # All websites should be persisted
       expect(Pwb::Website.count).to eq(3)
     end
@@ -28,7 +28,7 @@ RSpec.describe 'Multi-tenant website creation', type: :request do
     it 'does not have sequence conflicts after explicit ID assignment' do
       # This simulates the old unique_instance behavior
       # where ID was set explicitly
-      
+
       # Create manually with specific ID (should advance sequence)
       manual_website = Pwb::Website.create!(
         subdomain: 'manual',
@@ -36,10 +36,10 @@ RSpec.describe 'Multi-tenant website creation', type: :request do
         default_currency: 'EUR',
         default_client_locale: 'en-UK'
       )
-      
+
       # Now create via factory (should use next sequence value)
       factory_website = FactoryBot.create(:pwb_website, subdomain: 'factory')
-      
+
       # Both should succeed without UniqueViolation
       expect(manual_website.persisted?).to be true
       expect(factory_website.persisted?).to be true
@@ -54,7 +54,7 @@ RSpec.describe 'Multi-tenant website creation', type: :request do
       website1.destroy
 
       website2 = FactoryBot.create(:pwb_website, subdomain: 'temp2')
-      
+
       # New website should have different ID (sequence moved forward)
       expect(website2.id).not_to eq(id1)
       expect(website2.id).to be > id1

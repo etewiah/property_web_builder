@@ -37,8 +37,8 @@ module Pwb
         website_params = {
           website: {
             company_display_name: 'Updated Company Name',
-            supported_locales: ['fr', 'es'],
-            default_client_locale: 'fr',  # Must be one of supported_locales
+            supported_locales: %w[fr es],
+            default_client_locale: 'fr', # Must be one of supported_locales
             social_media: {
               twitter: 'http://twitter.com/test',
               youtube: ''
@@ -57,7 +57,7 @@ module Pwb
 
         expect(response).to have_http_status(:success)
         website.reload
-        expect(website.supported_locales).to eq(['fr', 'es'])
+        expect(website.supported_locales).to eq(%w[fr es])
         expect(website.social_media).to eq({
                                              'twitter' => 'http://twitter.com/test',
                                              'youtube' => ''
@@ -109,7 +109,7 @@ module Pwb
         website1.update!(
           company_display_name: 'Updated Tenant 1 Company',
           supported_locales: ['de'],
-          default_client_locale: 'de'  # Must be one of supported_locales
+          default_client_locale: 'de' # Must be one of supported_locales
         )
 
         website1.reload

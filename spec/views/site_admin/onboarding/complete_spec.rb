@@ -69,6 +69,6 @@ RSpec.describe 'site_admin/onboarding/complete.html.erb', type: :view do
 
     # Should have a link to view the live site
     expect(rendered).to have_selector('a[target="_blank"]') |
-      have_link(text: /view|website/i)
+                        have_link(text: /view|website/i)
   end
 end

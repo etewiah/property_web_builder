@@ -21,14 +21,14 @@ module Pages
       # ")
       # select(min_price, from: 'search_for_rent_price_from')
       # page.execute_script("document.getElementById('search_for_rent_price_from').style.display = 'none';")
-      
+
       # Direct JS manipulation to set value and trigger change
       page.execute_script("
         var select = document.getElementById('search_for_rent_price_from');
         select.value = '#{min_price}';
         select.dispatchEvent(new Event('change'));
       ")
-      
+
       click_button('Search')
     end
 

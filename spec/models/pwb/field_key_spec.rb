@@ -392,9 +392,9 @@ module PwbTenant
       end
 
       it 'raises error when no tenant is set' do
-        expect {
+        expect do
           PwbTenant::FieldKey.count
-        }.to raise_error(ActsAsTenant::Errors::NoTenantSet)
+        end.to raise_error(ActsAsTenant::Errors::NoTenantSet)
       end
 
       it 'scopes queries to current tenant' do

@@ -123,19 +123,19 @@ RSpec.describe 'TenantAdmin::SupportTickets', type: :request do
       let!(:customer_message) do
         ActsAsTenant.with_tenant(website) do
           create(:pwb_ticket_message, support_ticket: ticket, website: website, user: website_admin,
-                 content: 'Customer message', from_platform_admin: false)
+                                      content: 'Customer message', from_platform_admin: false)
         end
       end
       let!(:platform_message) do
         ActsAsTenant.with_tenant(website) do
           create(:pwb_ticket_message, :from_platform, support_ticket: ticket, website: website, user: platform_admin,
-                 content: 'Platform reply')
+                                                      content: 'Platform reply')
         end
       end
       let!(:internal_note) do
         ActsAsTenant.with_tenant(website) do
           create(:pwb_ticket_message, :internal_note, support_ticket: ticket, website: website, user: platform_admin,
-                 content: 'Internal team note')
+                                                      content: 'Internal team note')
         end
       end
 
@@ -208,10 +208,10 @@ RSpec.describe 'TenantAdmin::SupportTickets', type: :request do
 
     context 'adding a public reply' do
       it 'adds a message marked as from platform' do
-        expect {
+        expect do
           post add_message_tenant_admin_support_ticket_path(ticket),
                params: { message: { content: 'Platform response' } }
-        }.to change(Pwb::TicketMessage, :count).by(1)
+        end.to change(Pwb::TicketMessage, :count).by(1)
 
         # The newly created message should be from platform
         new_message = ticket.messages.order(created_at: :desc).first
@@ -230,10 +230,10 @@ RSpec.describe 'TenantAdmin::SupportTickets', type: :request do
 
     context 'adding an internal note' do
       it 'creates an internal note' do
-        expect {
+        expect do
           post add_message_tenant_admin_support_ticket_path(ticket),
                params: { message: { content: 'Internal discussion', internal_note: '1' } }
-        }.to change(Pwb::TicketMessage, :count).by(1)
+        end.to change(Pwb::TicketMessage, :count).by(1)
 
         # The newly created message should be an internal note
         new_message = ticket.messages.order(created_at: :desc).first
@@ -244,10 +244,10 @@ RSpec.describe 'TenantAdmin::SupportTickets', type: :request do
 
     context 'with empty content' do
       it 'does not create a message' do
-        expect {
+        expect do
           post add_message_tenant_admin_support_ticket_path(ticket),
                params: { message: { content: '' } }
-        }.not_to change(Pwb::TicketMessage, :count)
+        end.not_to change(Pwb::TicketMessage, :count)
       end
     end
   end

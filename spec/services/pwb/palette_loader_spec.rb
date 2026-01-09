@@ -139,7 +139,7 @@ RSpec.describe Pwb::PaletteLoader do
     it "validates all palettes for a theme" do
       results = loader.validate_theme_palettes("default")
       expect(results).to be_a(Hash)
-      results.each do |_file, result|
+      results.each_value do |result|
         expect(result[:valid]).to be true
         expect(result[:errors]).to be_empty
       end

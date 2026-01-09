@@ -17,7 +17,7 @@ RSpec.describe "ApiPublic::V1::Properties", type: :request do
       host! 'properties-test.example.com'
       get "/api_public/v1/properties/#{realty_asset.id}"
       expect(response).to have_http_status(200)
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       expect(json["id"]).to eq(realty_asset.id)
     end
 

@@ -20,7 +20,7 @@ RSpec.describe Pwb::Media, 'CDN URL generation', type: :model do
       let(:media) do
         media = build(:pwb_media, website: website)
         media.file.attach(
-          io: File.open(Rails.root.join('spec/fixtures/files/test_image.jpg')),
+          io: Rails.root.join('spec/fixtures/files/test_image.jpg').open,
           filename: 'test_image.jpg',
           content_type: 'image/jpeg'
         )
@@ -65,7 +65,7 @@ RSpec.describe Pwb::Media, 'CDN URL generation', type: :model do
       let(:media) do
         media = build(:pwb_media, website: website)
         media.file.attach(
-          io: File.open(Rails.root.join('spec/fixtures/files/test_image.jpg')),
+          io: Rails.root.join('spec/fixtures/files/test_image.jpg').open,
           filename: 'test_image.jpg',
           content_type: 'image/jpeg'
         )

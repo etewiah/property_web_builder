@@ -25,26 +25,26 @@ RSpec.describe "External Listings Theme Support", type: :request do
         [:api_key]
       end
 
-      def search(params)
+      def search(_params)
         Pwb::ExternalFeed::NormalizedSearchResult.new(
           properties: [mock_property],
           total_count: 1
         )
       end
 
-      def find(reference, params = {})
+      def find(_reference, _params = {})
         mock_property
       end
 
-      def similar(property, params = {})
+      def similar(_property, _params = {})
         []
       end
 
-      def locations(params = {})
+      def locations(_params = {})
         []
       end
 
-      def property_types(params = {})
+      def property_types(_params = {})
         []
       end
 
@@ -72,7 +72,7 @@ RSpec.describe "External Listings Theme Support", type: :request do
           latitude: 40.4168,
           longitude: -3.7038,
           images: [{ url: "https://example.com/image1.jpg" }],
-          features: ["Pool", "Garage", "Garden"],
+          features: %w[Pool Garage Garden],
           status: :available
         )
       end

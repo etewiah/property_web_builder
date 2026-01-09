@@ -15,33 +15,31 @@ module Pwb
       # Pwb::PagesSeeder.seed_content_translations!
     end
 
-
     it 'sets visibility correctly' do
-      home_page = Pwb::Page.find_by_slug "home"
+      home_page = Pwb::Page.find_by slug: "home"
       rails_part_key = "search_cmpt"
       # A rails part can be found in page_contents not contents:
-      search_cmpt_placeholder = home_page.page_contents.find_by_page_part_key rails_part_key
+      search_cmpt_placeholder = home_page.page_contents.find_by page_part_key: rails_part_key
 
       expect(search_cmpt_placeholder.visible_on_page).to eq(false)
     end
 
-
     it 'sets sort order correctly' do
-      about_us_page = Pwb::Page.find_by_slug "about-us"
+      about_us_page = Pwb::Page.find_by slug: "about-us"
       our_agency_content_key = "our_agency"
-      our_agency_content = about_us_page.contents.find_by_page_part_key our_agency_content_key
-      our_agency_join_model = our_agency_content.page_contents.find_by_page_id about_us_page.id
+      our_agency_content = about_us_page.contents.find_by page_part_key: our_agency_content_key
+      our_agency_join_model = our_agency_content.page_contents.find_by page_id: about_us_page.id
       content_html_content_key = "content_html"
-      content_html_content = about_us_page.contents.find_by_page_part_key content_html_content_key
-      content_html_join_model = content_html_content.page_contents.find_by_page_id about_us_page.id
+      content_html_content = about_us_page.contents.find_by page_part_key: content_html_content_key
+      content_html_join_model = content_html_content.page_contents.find_by page_id: about_us_page.id
 
       expect(our_agency_join_model.sort_order).to eq(2)
       expect(content_html_join_model.sort_order).to eq(1)
     end
 
     it 'creates our_agency content blocks' do
-      about_us_page = Pwb::Page.find_by_slug "about-us"
-      html_web_part = about_us_page.page_parts.find_by_page_part_key "content_html"
+      about_us_page = Pwb::Page.find_by slug: "about-us"
+      html_web_part = about_us_page.page_parts.find_by page_part_key: "content_html"
 
       expect(html_web_part.block_contents.to_json).to have_json_path("en/blocks")
       expect(html_web_part.block_contents["en"]["blocks"].count).to eq(1)
@@ -51,9 +49,9 @@ module Pwb
     end
 
     it 'creates our_agency html content' do
-      about_us_page = Pwb::Page.find_by_slug "about-us"
+      about_us_page = Pwb::Page.find_by slug: "about-us"
       content_key =   "our_agency"
-      about_us_page_content = about_us_page.contents.find_by_page_part_key content_key
+      about_us_page_content = about_us_page.contents.find_by page_part_key: content_key
 
       expect(about_us_page_content.raw_en).to include("professional")
       expect(about_us_page_content.raw_es).to include("Llevamos muchos años comprometidos")
@@ -61,9 +59,9 @@ module Pwb
     end
 
     it 'creates home html content' do
-      home_page = Pwb::Page.find_by_slug "home"
+      home_page = Pwb::Page.find_by slug: "home"
       content_key = "landing_hero"
-      home_page_content = home_page.contents.find_by_page_part_key content_key
+      home_page_content = home_page.contents.find_by page_part_key: content_key
       expect(home_page_content.raw_en).to include("The best realtor")
       expect(home_page_content.content_photos.count).to eq(1)
       # expect(home_page.details["fragments"]["landing_hero"]["en"]["blocks"].count).to eq(3)
@@ -72,7 +70,7 @@ module Pwb
     it 'creates website footer content' do
       current_website = Pwb::Website.last
       content_key = "footer_content_html"
-      footer_html_content = current_website.contents.find_by_page_part_key content_key
+      footer_html_content = current_website.contents.find_by page_part_key: content_key
       expect(footer_html_content.raw_en).to include("We are proud to be registered")
     end
   end

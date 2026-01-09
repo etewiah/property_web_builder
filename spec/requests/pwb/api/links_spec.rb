@@ -61,7 +61,7 @@ module Pwb
         get '/api/v1/links', headers: request_headers
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
 
         expect(json).to have_key('top_nav_links')
         expect(json).to have_key('footer_links')
@@ -85,11 +85,11 @@ module Pwb
         get '/api/v1/links', headers: request_headers
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
 
         # Should not include links from other tenant
         all_links = json['top_nav_links'] + json['footer_links']
-        expect(all_links.map { |l| l['id'] }).not_to include(other_link.id)
+        expect(all_links.pluck('id')).not_to include(other_link.id)
       end
     end
 
@@ -138,7 +138,7 @@ module Pwb
             headers: request_headers
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['success']).to eq(true)
       end
 

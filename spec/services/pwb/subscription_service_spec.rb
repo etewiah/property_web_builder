@@ -152,7 +152,7 @@ module Pwb
       end
 
       it 'creates plan_changed event' do
-        result = service.change_plan(subscription: subscription, new_plan: pro_plan)
+        service.change_plan(subscription: subscription, new_plan: pro_plan)
 
         event = subscription.events.find_by(event_type: 'plan_changed')
         expect(event).to be_present

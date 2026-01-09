@@ -64,9 +64,7 @@ RSpec.describe "Page Parts Color System", type: :view do
 
         FORBIDDEN_COLOR_PATTERNS.each do |pattern|
           matches = content.scan(pattern)
-          if matches.any?
-            violations << "#{filename}: #{matches.uniq.join(', ')}"
-          end
+          violations << "#{filename}: #{matches.uniq.join(', ')}" if matches.any?
         end
       end
 
@@ -84,9 +82,7 @@ RSpec.describe "Page Parts Color System", type: :view do
 
         FORBIDDEN_INTERACTIVE_PATTERNS.each do |pattern|
           matches = content.scan(pattern)
-          if matches.any?
-            violations << "#{filename}: #{matches.uniq.join(', ')}"
-          end
+          violations << "#{filename}: #{matches.uniq.join(', ')}" if matches.any?
         end
       end
 
@@ -115,9 +111,7 @@ RSpec.describe "Page Parts Color System", type: :view do
         has_tailwind_colors = tailwind_color_patterns.any? { |pattern| content.match?(pattern) }
 
         # If the template uses Tailwind color utilities, it should use PWB colors
-        if has_tailwind_colors && !has_pwb_colors
-          files_without_pwb_colors << filename
-        end
+        files_without_pwb_colors << filename if has_tailwind_colors && !has_pwb_colors
       end
 
       expect(files_without_pwb_colors).to be_empty,
@@ -139,9 +133,7 @@ RSpec.describe "Page Parts Color System", type: :view do
 
         # Find all pwb color usages with shade numbers
         content.scan(/pwb-(?:primary|secondary|accent)-(\d+)/).flatten.each do |shade|
-          unless valid_shades.include?(shade)
-            invalid_shade_usages << "#{filename}: invalid shade -#{shade}"
-          end
+          invalid_shade_usages << "#{filename}: invalid shade -#{shade}" unless valid_shades.include?(shade)
         end
       end
 
@@ -160,11 +152,9 @@ RSpec.describe "Page Parts Color System", type: :view do
         # Find pwb color usages with opacity that might be invalid
         # Valid: pwb-primary/90, text-pwb-secondary-900/50
         # Invalid: pwb-primary/101, pwb-secondary/-5
-        content.scan(/pwb-(?:primary|secondary|accent)(?:-\d+)?\/(\d+)/).flatten.each do |opacity|
+        content.scan(%r{pwb-(?:primary|secondary|accent)(?:-\d+)?/(\d+)}).flatten.each do |opacity|
           opacity_val = opacity.to_i
-          if opacity_val < 0 || opacity_val > 100
-            invalid_opacity_usages << "#{filename}: invalid opacity /#{opacity}"
-          end
+          invalid_opacity_usages << "#{filename}: invalid opacity /#{opacity}" if opacity_val < 0 || opacity_val > 100
         end
       end
 
@@ -183,17 +173,14 @@ RSpec.describe "Page Parts Color System", type: :view do
       light_on_light_pattern = /bg-pwb-(?:primary|secondary|accent)-(?:50|100|200)[^"]*text-pwb-(?:primary|secondary|accent)-(?:50|100|200|300)/
 
       # Dark backgrounds (700-900) should not have dark text (600-900) unless white
-      dark_on_dark_pattern = /bg-pwb-(?:primary|secondary|accent)-(?:700|800|900)[^"]*text-pwb-(?:primary|secondary|accent)-(?:600|700|800|900)/
 
       page_part_files.each do |file|
         content = File.read(file)
         filename = File.basename(file)
 
-        if content.match?(light_on_light_pattern)
-          potential_issues << "#{filename}: potential light-on-light contrast issue"
-        end
+        potential_issues << "#{filename}: potential light-on-light contrast issue" if content.match?(light_on_light_pattern)
 
-        # Note: This is a simplified check - dark backgrounds often use text-white which is fine
+        # NOTE: This is a simplified check - dark backgrounds often use text-white which is fine
         # We're just looking for obvious mismatches
       end
 
@@ -216,9 +203,9 @@ RSpec.describe "Page Parts Color System", type: :view do
         next unless has_dark_bg
 
         # Check if it also has appropriate light text (white or 50-200 shades)
-        has_light_text = content.match?(/text-white/) ||
+        has_light_text = content.include?('text-white') ||
                          content.match?(/text-pwb-(?:primary|secondary|accent)-(?:50|100|200)/) ||
-                         content.match?(/text-pwb-accent\b/)  # Accent can be used on dark bg
+                         content.match?(/text-pwb-accent\b/) # Accent can be used on dark bg
 
         # Files with dark bg should have some form of light text
         dark_bg_files << filename unless has_light_text
@@ -273,14 +260,10 @@ RSpec.describe "Page Parts Color System", type: :view do
 
         # Check for common class syntax errors
         # Double spaces in class attributes
-        if content.match?(/class="[^"]*  [^"]*"/)
-          invalid_class_syntax << "#{filename}: double spaces in class attribute"
-        end
+        invalid_class_syntax << "#{filename}: double spaces in class attribute" if content.match?(/class="[^"]*  [^"]*"/)
 
         # Unclosed brackets in arbitrary values
-        if content.match?(/\[[^\]]*pwb-/)
-          invalid_class_syntax << "#{filename}: possible unclosed bracket with PWB class"
-        end
+        invalid_class_syntax << "#{filename}: possible unclosed bracket with PWB class" if content.match?(/\[[^\]]*pwb-/)
       end
 
       expect(invalid_class_syntax).to be_empty,
@@ -306,17 +289,13 @@ RSpec.describe "Page Parts Color System", type: :view do
         if_count = template.scan(/\{%\s*if\b/).length
         endif_count = template.scan(/\{%\s*endif\s*%\}/).length
 
-        if if_count != endif_count
-          unbalanced_templates << "#{filename}: #{if_count} if blocks, #{endif_count} endif blocks"
-        end
+        unbalanced_templates << "#{filename}: #{if_count} if blocks, #{endif_count} endif blocks" if if_count != endif_count
 
         # Count for/endfor pairs
         for_count = template.scan(/\{%\s*for\b/).length
         endfor_count = template.scan(/\{%\s*endfor\s*%\}/).length
 
-        if for_count != endfor_count
-          unbalanced_templates << "#{filename}: #{for_count} for blocks, #{endfor_count} endfor blocks"
-        end
+        unbalanced_templates << "#{filename}: #{for_count} for blocks, #{endfor_count} endfor blocks" if for_count != endfor_count
       end
 
       expect(unbalanced_templates).to be_empty,

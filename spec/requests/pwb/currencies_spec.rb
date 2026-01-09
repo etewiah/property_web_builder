@@ -7,7 +7,7 @@ RSpec.describe 'Currency Selection', type: :request do
     create(:pwb_website,
            subdomain: 'currency-test',
            default_currency: 'EUR',
-           available_currencies: ['USD', 'GBP'])
+           available_currencies: %w[USD GBP])
   end
   let!(:agency) { create(:pwb_agency, website: website) }
 
@@ -38,7 +38,7 @@ RSpec.describe 'Currency Selection', type: :request do
           post '/set_currency', params: { currency: 'USD' }, as: :json
 
           expect(response).to have_http_status(:success)
-          json = JSON.parse(response.body)
+          json = response.parsed_body
           expect(json['success']).to be true
           expect(json['currency']).to eq('USD')
         end
@@ -57,7 +57,7 @@ RSpec.describe 'Currency Selection', type: :request do
           post '/set_currency', params: { currency: 'XXX' }, as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
-          json = JSON.parse(response.body)
+          json = response.parsed_body
           expect(json['success']).to be false
         end
       end
@@ -84,7 +84,7 @@ RSpec.describe 'Currency Selection', type: :request do
         post '/set_currency', params: { currency: 'usd' }, as: :json
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['currency']).to eq('USD')
       end
     end

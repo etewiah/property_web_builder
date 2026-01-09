@@ -67,21 +67,21 @@ module Pwb
         let!(:message) { create(:message, website: website, contact: contact) }
 
         it 'can be used with joins without raising ArgumentError' do
-          expect {
+          expect do
             Contact.joins(:messages).where(id: contact.id).to_a
-          }.not_to raise_error
+          end.not_to raise_error
         end
 
         it 'can be used with includes without raising ArgumentError' do
-          expect {
+          expect do
             Contact.includes(:messages).where(id: contact.id).to_a
-          }.not_to raise_error
+          end.not_to raise_error
         end
 
         it 'can be used with eager_load without raising ArgumentError' do
-          expect {
+          expect do
             Contact.eager_load(:messages).where(id: contact.id).to_a
-          }.not_to raise_error
+          end.not_to raise_error
         end
       end
     end

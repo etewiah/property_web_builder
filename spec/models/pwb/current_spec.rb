@@ -70,10 +70,10 @@ RSpec.describe Pwb::Current, type: :model do
     it 'provides automatic reset after request' do
       # Set website
       Pwb::Current.website = website
-      
+
       # Simulate request completion (Rails does this automatically)
       Pwb::Current.reset
-      
+
       # Should be nil after reset
       expect(Pwb::Current.website).to be_nil
     end

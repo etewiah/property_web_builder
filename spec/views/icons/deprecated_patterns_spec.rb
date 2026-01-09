@@ -31,7 +31,7 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
     # Phosphor patterns
     { pattern: /<i\s+class=["']ph\s+ph-/, description: 'Phosphor Icons <i class="ph ph-*">' }
 
-    # Note: Dynamic class without filter is checked separately for Liquid templates
+    # NOTE: Dynamic class without filter is checked separately for Liquid templates
   ].freeze
 
   # YAML embedded templates need special handling for icon patterns
@@ -55,8 +55,8 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
 
   describe 'ERB templates (public-facing)' do
     let(:erb_files) do
-      (Dir.glob(Rails.root.join('app/views/**/*.erb')) +
-        Dir.glob(Rails.root.join('app/themes/**/*.erb')))
+      (Rails.root.glob('app/views/**/*.erb') +
+        Rails.root.glob('app/themes/**/*.erb'))
         .reject { |f| excluded?(f) }
     end
 
@@ -76,7 +76,7 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
           failure_message = "Found #{check[:description]} in:\n"
           violations.each { |v| failure_message += "  - #{v[:file]} (#{v[:matches]} occurrences)\n" }
           failure_message += "\nUse <%= icon(:name) %> helper instead."
-          fail failure_message
+          raise failure_message
         end
       end
     end
@@ -84,8 +84,8 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
 
   describe 'Liquid templates' do
     let(:liquid_files) do
-      Dir.glob(Rails.root.join('app/views/**/*.liquid')) +
-        Dir.glob(Rails.root.join('app/themes/**/*.liquid'))
+      Rails.root.glob('app/views/**/*.liquid') +
+        Rails.root.glob('app/themes/**/*.liquid')
     end
 
     DEPRECATED_PATTERNS.each do |check|
@@ -104,7 +104,7 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
           failure_message = "Found #{check[:description]} in:\n"
           violations.each { |v| failure_message += "  - #{v[:file]} (#{v[:matches]} occurrences)\n" }
           failure_message += "\nUse {{ \"name\" | material_icon }} filter instead."
-          fail failure_message
+          raise failure_message
         end
       end
     end
@@ -119,9 +119,7 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
         # Only flag if it doesn't have material_icon nearby
         lines = content.lines
         lines.each_with_index do |line, idx|
-          if line.match?(pattern) && !line.include?('material_icon')
-            violations << { file: file.sub(Rails.root.to_s + '/', ''), line: idx + 1, content: line.strip }
-          end
+          violations << { file: file.sub(Rails.root.to_s + '/', ''), line: idx + 1, content: line.strip } if line.match?(pattern) && line.exclude?('material_icon')
         end
       end
 
@@ -129,14 +127,14 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
         failure_message = "Found dynamic <i class=\"{{ }}\"> without material_icon filter:\n"
         violations.each { |v| failure_message += "  - #{v[:file]}:#{v[:line]}: #{v[:content]}\n" }
         failure_message += "\nUse {{ variable | material_icon }} filter instead."
-        fail failure_message
+        raise failure_message
       end
     end
   end
 
   describe 'YAML seed templates' do
     let(:yaml_files) do
-      Dir.glob(Rails.root.join('db/yml_seeds/page_parts/*.yml'))
+      Rails.root.glob('db/yml_seeds/page_parts/*.yml')
     end
 
     YAML_DEPRECATED_PATTERNS.each do |check|
@@ -155,7 +153,7 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
           failure_message = "Found #{check[:description]} in:\n"
           violations.each { |v| failure_message += "  - #{v[:file]} (#{v[:matches]} occurrences)\n" }
           failure_message += "\nUse {{ page_part[\"icon\"][\"content\"] | material_icon: \"size\" }} filter instead."
-          fail failure_message
+          raise failure_message
         end
       end
     end
@@ -163,7 +161,7 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
 
   describe 'Content translation templates' do
     let(:translation_files) do
-      Dir.glob(Rails.root.join('db/yml_seeds/content_translations/*.yml'))
+      Rails.root.glob('db/yml_seeds/content_translations/*.yml')
     end
 
     it 'does not reference deprecated icon fonts' do
@@ -171,23 +169,21 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
 
       translation_files.each do |file|
         content = File.read(file)
-        if content.match?(/<i\s+class=["']fa\s+/) || content.match?(/<i\s+class=["']ph\s+/) || content.include?('material-symbols')
-          violations << file.sub(Rails.root.to_s + '/', '')
-        end
+        violations << file.sub(Rails.root.to_s + '/', '') if content.match?(/<i\s+class=["']fa\s+/) || content.match?(/<i\s+class=["']ph\s+/) || content.include?('material-symbols')
       end
 
       if violations.any?
         failure_message = "Found deprecated icon patterns in translation files:\n"
         violations.uniq.each { |v| failure_message += "  - #{v}\n" }
         failure_message += "\nUse inline Lucide SVG markup (e.g., hero-check-icon spans or icon helpers) instead."
-        fail failure_message
+        raise failure_message
       end
     end
   end
 
   describe 'Theme layouts use Material Symbols' do
     let(:theme_layout_files) do
-      Dir.glob(Rails.root.join('app/themes/**/layouts/**/*.erb'))
+      Rails.root.glob('app/themes/**/layouts/**/*.erb')
     end
 
     # TODO: Remove Font Awesome stylesheet includes from theme layouts after
@@ -197,16 +193,14 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
 
       theme_layout_files.each do |file|
         content = File.read(file)
-        if content.match?(/font-awesome/i) || content.match?(/fontawesome/i)
-          violations << file.sub(Rails.root.to_s + '/', '')
-        end
+        violations << file.sub(Rails.root.to_s + '/', '') if content.match?(/font-awesome/i) || content.match?(/fontawesome/i)
       end
 
       if violations.any?
         failure_message = "Found Font Awesome CDN references in theme layouts:\n"
         violations.uniq.each { |v| failure_message += "  - #{v}\n" }
         failure_message += "\nTheme layouts should rely on Lucide inline SVGs, not Font Awesome."
-        fail failure_message
+        raise failure_message
       end
     end
 
@@ -215,16 +209,14 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
 
       theme_layout_files.each do |file|
         content = File.read(file)
-        if content.match?(/@phosphor-icons/i) || content.match?(/phosphor\.css/i)
-          violations << file.sub(Rails.root.to_s + '/', '')
-        end
+        violations << file.sub(Rails.root.to_s + '/', '') if content.match?(/@phosphor-icons/i) || content.match?(/phosphor\.css/i)
       end
 
       if violations.any?
         failure_message = "Found Phosphor references in theme layouts:\n"
         violations.uniq.each { |v| failure_message += "  - #{v}\n" }
         failure_message += "\nTheme layouts should rely on Lucide inline SVGs, not Phosphor webfonts."
-        fail failure_message
+        raise failure_message
       end
     end
   end

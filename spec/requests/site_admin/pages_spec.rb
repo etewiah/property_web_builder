@@ -53,14 +53,14 @@ RSpec.describe 'SiteAdmin::PagesController', type: :request do
 
       it 'searches by slug' do
         get site_admin_pages_path, params: { search: 'contact' },
-            headers: { 'HTTP_HOST' => 'pages-test.test.localhost' }
+                                   headers: { 'HTTP_HOST' => 'pages-test.test.localhost' }
 
         expect(response).to have_http_status(:success)
       end
 
       it 'returns empty results for non-matching search' do
         get site_admin_pages_path, params: { search: 'nonexistent12345' },
-            headers: { 'HTTP_HOST' => 'pages-test.test.localhost' }
+                                   headers: { 'HTTP_HOST' => 'pages-test.test.localhost' }
 
         expect(response).to have_http_status(:success)
       end

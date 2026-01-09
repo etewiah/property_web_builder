@@ -59,9 +59,9 @@ RSpec.describe 'SiteAdmin::PropertyImportExport', type: :request do
 
     context 'with valid CSV file' do
       it 'imports properties successfully' do
-        expect {
+        expect do
           post site_admin_property_import_export_import_path, params: { file: csv_file }
-        }.to change { website.realty_assets.count }.by(2)
+        end.to change { website.realty_assets.count }.by(2)
 
         expect(response).to redirect_to(site_admin_property_import_export_path)
         expect(flash[:notice]).to include('2')
@@ -72,18 +72,18 @@ RSpec.describe 'SiteAdmin::PropertyImportExport', type: :request do
 
         prop = website.realty_assets.find_by(reference: 'PROP-001')
         expect(prop.sale_listings.count).to eq(1)
-        expect(prop.sale_listings.first.price_sale_current_cents).to eq(25000000)
+        expect(prop.sale_listings.first.price_sale_current_cents).to eq(25_000_000)
       end
     end
 
     context 'with dry_run option' do
       it 'validates but does not save' do
-        expect {
+        expect do
           post site_admin_property_import_export_import_path, params: {
             file: csv_file,
             dry_run: '1'
           }
-        }.not_to change { website.realty_assets.count }
+        end.not_to(change { website.realty_assets.count })
 
         expect(response).to redirect_to(site_admin_property_import_export_path)
         expect(flash[:notice]).to include('Dry run')
@@ -96,9 +96,9 @@ RSpec.describe 'SiteAdmin::PropertyImportExport', type: :request do
       end
 
       it 'skips duplicates by default' do
-        expect {
+        expect do
           post site_admin_property_import_export_import_path, params: { file: csv_file }
-        }.to change { website.realty_assets.count }.by(1)
+        end.to change { website.realty_assets.count }.by(1)
       end
 
       it 'updates existing when update_existing is set' do
@@ -141,14 +141,12 @@ RSpec.describe 'SiteAdmin::PropertyImportExport', type: :request do
         website: website,
         reference: 'EXPORT-001',
         street_address: '123 Export St',
-        city: 'Barcelona'
-      )
+        city: 'Barcelona')
       create(:pwb_sale_listing,
         realty_asset: asset,
         active: true,
         visible: true,
-        price_sale_current_cents: 50000000
-      )
+        price_sale_current_cents: 50_000_000)
     end
 
     it 'returns CSV file' do

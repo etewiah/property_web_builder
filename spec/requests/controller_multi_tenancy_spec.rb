@@ -50,8 +50,8 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
     let!(:page1) { Pwb::Page.create!(website: website1, slug: "home", visible: true) }
     let!(:page2) { Pwb::Page.create!(website: website2, slug: "home", visible: true) }
 
-    let!(:prop1) { create_sale_property(website: website1, reference: "T1-PROP-001", price_cents: 50000000) }
-    let!(:prop2) { create_sale_property(website: website2, reference: "T2-PROP-001", price_cents: 75000000) }
+    let!(:prop1) { create_sale_property(website: website1, reference: "T1-PROP-001", price_cents: 50_000_000) }
+    let!(:prop2) { create_sale_property(website: website2, reference: "T2-PROP-001", price_cents: 75_000_000) }
 
     it "shows only tenant1's properties on tenant1 subdomain" do
       host! "tenant1.example.com"
@@ -92,10 +92,10 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
     let!(:agency1) { Pwb::Agency.create!(website: website1, company_name: "Search Agency 1") }
     let!(:agency2) { Pwb::Agency.create!(website: website2, company_name: "Search Agency 2") }
 
-    let!(:sale_prop1) { create_sale_property(website: website1, reference: "SALE-T1-001", price_cents: 100000000) }
-    let!(:sale_prop2) { create_sale_property(website: website2, reference: "SALE-T2-001", price_cents: 200000000) }
-    let!(:rent_prop1) { create_rental_property(website: website1, reference: "RENT-T1-001", price_cents: 1000000) }
-    let!(:rent_prop2) { create_rental_property(website: website2, reference: "RENT-T2-001", price_cents: 2000000) }
+    let!(:sale_prop1) { create_sale_property(website: website1, reference: "SALE-T1-001", price_cents: 100_000_000) }
+    let!(:sale_prop2) { create_sale_property(website: website2, reference: "SALE-T2-001", price_cents: 200_000_000) }
+    let!(:rent_prop1) { create_rental_property(website: website1, reference: "RENT-T1-001", price_cents: 1_000_000) }
+    let!(:rent_prop2) { create_rental_property(website: website2, reference: "RENT-T2-001", price_cents: 2_000_000) }
 
     describe "#buy" do
       it "returns only tenant1's for-sale properties" do
@@ -148,8 +148,8 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
     let!(:agency1) { Pwb::Agency.create!(website: website1, company_name: "Props Agency 1") }
     let!(:agency2) { Pwb::Agency.create!(website: website2, company_name: "Props Agency 2") }
 
-    let!(:prop1) { create_sale_property(website: website1, reference: "SHOW-T1-001", price_cents: 100000000) }
-    let!(:prop2) { create_sale_property(website: website2, reference: "SHOW-T2-001", price_cents: 200000000) }
+    let!(:prop1) { create_sale_property(website: website1, reference: "SHOW-T1-001", price_cents: 100_000_000) }
+    let!(:prop2) { create_sale_property(website: website2, reference: "SHOW-T2-001", price_cents: 200_000_000) }
 
     describe "#show_for_sale" do
       it "shows tenant1's property on tenant1 subdomain" do
@@ -255,7 +255,7 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
     describe "Api::V1::AgencyController" do
       around do |example|
         # Temporarily bypass authentication for this test
-        original_value = ENV['BYPASS_API_AUTH']
+        original_value = ENV.fetch('BYPASS_API_AUTH', nil)
         ENV['BYPASS_API_AUTH'] = 'true'
         example.run
         ENV['BYPASS_API_AUTH'] = original_value
@@ -276,8 +276,8 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
     let!(:website1) { Pwb::Website.create!(slug: "public1", subdomain: "public1", company_display_name: "Public Tenant 1", default_client_locale: "en-GB", supported_locales: ["en-GB"]) }
     let!(:website2) { Pwb::Website.create!(slug: "public2", subdomain: "public2", company_display_name: "Public Tenant 2", default_client_locale: "en-GB", supported_locales: ["en-GB"]) }
 
-    let!(:prop1) { create_sale_property(website: website1, reference: "PUB-T1-001", price_cents: 100000000) }
-    let!(:prop2) { create_sale_property(website: website2, reference: "PUB-T2-001", price_cents: 200000000) }
+    let!(:prop1) { create_sale_property(website: website1, reference: "PUB-T1-001", price_cents: 100_000_000) }
+    let!(:prop2) { create_sale_property(website: website2, reference: "PUB-T2-001", price_cents: 200_000_000) }
 
     describe "properties#show" do
       it "returns tenant1's property on tenant1 subdomain" do
@@ -286,7 +286,7 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
         get "/api_public/v1/properties/#{listed_prop.id}"
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json["reference"]).to eq("PUB-T1-001")
       end
 
@@ -305,8 +305,8 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
         get "/api_public/v1/properties"
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
-        references = json.map { |p| p["reference"] }
+        json = response.parsed_body
+        references = json.pluck("reference")
         expect(references).to include("PUB-T1-001")
         expect(references).not_to include("PUB-T2-001")
       end
@@ -321,8 +321,8 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
         get "/api_public/v1/links", params: { placement: "top_nav" }
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
-        slugs = json.map { |l| l["slug"] }
+        json = response.parsed_body
+        slugs = json.pluck("slug")
         expect(slugs).to include("api-link-1")
         expect(slugs).not_to include("api-link-2")
       end
@@ -339,8 +339,8 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
       logo_content2 = Pwb::Content.create!(key: "logo", tag: "appearance", website: website2)
 
       # Verify that each content belongs to its respective website
-      expect(Pwb::Content.where(website_id: website1.id).find_by_key("logo")).to eq(logo_content1)
-      expect(Pwb::Content.where(website_id: website2.id).find_by_key("logo")).to eq(logo_content2)
+      expect(Pwb::Content.where(website_id: website1.id).find_by(key: "logo")).to eq(logo_content1)
+      expect(Pwb::Content.where(website_id: website2.id).find_by(key: "logo")).to eq(logo_content2)
       # Contents are isolated by website_id
       expect(logo_content1.website_id).to eq(website1.id)
       expect(logo_content2.website_id).to eq(website2.id)
@@ -387,15 +387,15 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
     let!(:agency1) { Pwb::Agency.create!(website: website1, company_name: "JSONAPI Agency 1") }
     let!(:agency2) { Pwb::Agency.create!(website: website2, company_name: "JSONAPI Agency 2") }
 
-    let!(:prop1) { create_sale_property(website: website1, reference: "JSONAPI-T1-001", price_cents: 100000000) }
-    let!(:prop2) { create_sale_property(website: website2, reference: "JSONAPI-T2-001", price_cents: 200000000) }
+    let!(:prop1) { create_sale_property(website: website1, reference: "JSONAPI-T1-001", price_cents: 100_000_000) }
+    let!(:prop2) { create_sale_property(website: website2, reference: "JSONAPI-T2-001", price_cents: 200_000_000) }
 
     let!(:content1) { Pwb::Content.create!(website: website1, key: "tagline1", tag: "home") }
     let!(:content2) { Pwb::Content.create!(website: website2, key: "tagline2", tag: "home") }
 
     around do |example|
       # Bypass authentication for JSONAPI tests
-      original_value = ENV['BYPASS_API_AUTH']
+      original_value = ENV.fetch('BYPASS_API_AUTH', nil)
       ENV['BYPASS_API_AUTH'] = 'true'
       example.run
       ENV['BYPASS_API_AUTH'] = original_value
@@ -407,7 +407,7 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
         get "/api/v1/lite-properties", headers: { "Accept" => "application/vnd.api+json" }
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         references = json["data"].map { |p| p["attributes"]["reference"] }
         expect(references).to include("JSONAPI-T1-001")
         expect(references).not_to include("JSONAPI-T2-001")
@@ -418,7 +418,7 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
         get "/api/v1/lite-properties", headers: { "Accept" => "application/vnd.api+json" }
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         references = json["data"].map { |p| p["attributes"]["reference"] }
         expect(references).to include("JSONAPI-T2-001")
         expect(references).not_to include("JSONAPI-T1-001")
@@ -428,7 +428,7 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
         host! "jsonapi1.example.com"
         get "/api/v1/lite-properties", headers: { "Accept" => "application/vnd.api+json" }
 
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         references = json["data"].map { |p| p["attributes"]["reference"] }
         expect(references).not_to include("JSONAPI-T2-001")
       end
@@ -440,7 +440,7 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
         get "/api/v1/properties", headers: { "Accept" => "application/vnd.api+json" }
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         references = json["data"].map { |p| p["attributes"]["reference"] }
         expect(references).to include("JSONAPI-T1-001")
         expect(references).not_to include("JSONAPI-T2-001")
@@ -451,14 +451,14 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
         get "/api/v1/properties", headers: { "Accept" => "application/vnd.api+json" }
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         references = json["data"].map { |p| p["attributes"]["reference"] }
         expect(references).to include("JSONAPI-T2-001")
         expect(references).not_to include("JSONAPI-T1-001")
       end
     end
 
-    # Note: web-contents JSONAPI endpoint is not testable because the route
+    # NOTE: web-contents JSONAPI endpoint is not testable because the route
     # /api/v1/web-contents is overridden by a custom route that maps to agency#infos
     # The WebContentResource scoping is tested indirectly through the resource itself
   end

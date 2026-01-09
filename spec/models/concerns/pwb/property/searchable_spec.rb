@@ -47,8 +47,8 @@ RSpec.describe Pwb::PropertySearchable, type: :model do
     let!(:cheap_sale) { create(:pwb_prop, website: website, for_sale: true, price_sale_current_cents: 100_000_00) }
     let!(:expensive_sale) { create(:pwb_prop, website: website, for_sale: true, price_sale_current_cents: 500_000_00) }
     # Use price_rental_monthly_current_cents because the before_save callback calculates price_rental_monthly_for_search
-    let!(:cheap_rent) { create(:pwb_prop, website: website, for_rent_long_term: true, price_rental_monthly_current_cents: 1000_00) }
-    let!(:expensive_rent) { create(:pwb_prop, website: website, for_rent_long_term: true, price_rental_monthly_current_cents: 3000_00) }
+    let!(:cheap_rent) { create(:pwb_prop, website: website, for_rent_long_term: true, price_rental_monthly_current_cents: 100_000) }
+    let!(:expensive_rent) { create(:pwb_prop, website: website, for_rent_long_term: true, price_rental_monthly_current_cents: 300_000) }
 
     describe '.for_sale_price_from' do
       it 'filters properties above minimum sale price' do
@@ -68,7 +68,7 @@ RSpec.describe Pwb::PropertySearchable, type: :model do
 
     describe '.for_rent_price_from' do
       it 'filters properties above minimum rent price' do
-        result = Pwb::Prop.where(website: website).for_rent_price_from(2000_00)
+        result = Pwb::Prop.where(website: website).for_rent_price_from(200_000)
         expect(result).to include(expensive_rent)
         expect(result).not_to include(cheap_rent)
       end
@@ -76,7 +76,7 @@ RSpec.describe Pwb::PropertySearchable, type: :model do
 
     describe '.for_rent_price_till' do
       it 'filters properties below maximum rent price' do
-        result = Pwb::Prop.where(website: website).for_rent_price_till(2000_00)
+        result = Pwb::Prop.where(website: website).for_rent_price_till(200_000)
         expect(result).to include(cheap_rent)
         expect(result).not_to include(expensive_rent)
       end
@@ -150,8 +150,7 @@ RSpec.describe Pwb::PropertySearchable, type: :model do
         visible: true,
         price_sale_current_cents: 300_000_00,
         count_bedrooms: 3,
-        prop_type_key: 'propertyTypes.apartment'
-      )
+        prop_type_key: 'propertyTypes.apartment')
     end
 
     let!(:non_matching_prop) do
@@ -160,8 +159,7 @@ RSpec.describe Pwb::PropertySearchable, type: :model do
         for_sale: true,
         visible: true,
         price_sale_current_cents: 100_000_00,
-        count_bedrooms: 1
-      )
+        count_bedrooms: 1)
     end
 
     it 'combines multiple search filters' do

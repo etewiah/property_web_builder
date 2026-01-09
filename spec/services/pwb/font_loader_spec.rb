@@ -183,9 +183,7 @@ RSpec.describe Pwb::FontLoader do
       it "generates URL for website fonts" do
         url = loader.google_fonts_url_for_website(website)
         # Should return URL or nil depending on website config
-        if url
-          expect(url).to include("fonts.googleapis.com")
-        end
+        expect(url).to include("fonts.googleapis.com") if url
       end
     end
 

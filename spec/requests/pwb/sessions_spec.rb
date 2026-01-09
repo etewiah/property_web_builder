@@ -90,7 +90,7 @@ module Pwb
         # When validation passes, user should NOT get the subdomain access error
         # The actual Devise authentication may still redirect for other reasons in test env
         expect(flash[:alert]).to be_nil.or(be_blank).or(
-          satisfy { |msg| !msg.include?("don't have access") }
+          satisfy { |msg| msg.exclude?("don't have access") }
         )
       end
 

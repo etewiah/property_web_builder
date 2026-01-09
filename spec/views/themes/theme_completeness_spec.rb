@@ -34,7 +34,7 @@ RSpec.describe 'Theme Completeness', type: :view do
 
     # Components
     'pwb/components/_generic_page_part.html.erb',
-    'pwb/components/_form_and_map.html.erb',
+    'pwb/components/_form_and_map.html.erb'
   ].freeze
 
   # Optional but recommended templates
@@ -44,7 +44,7 @@ RSpec.describe 'Theme Completeness', type: :view do
     'pwb/welcome/_about_us.html.erb',
     'pwb/props/_breadcrumb_row.html.erb',
     'pwb/props/_images_section_carousel.html.erb',
-    'pwb/props/_request_prop_info.html.erb',
+    'pwb/props/_request_prop_info.html.erb'
   ].freeze
 
   # Custom CSS partials required for theme rendering
@@ -71,10 +71,10 @@ RSpec.describe 'Theme Completeness', type: :view do
   NON_THEME_DIRECTORIES = %w[shared].freeze
 
   describe 'Required templates' do
-    theme_directories_for_test = Dir.glob(Rails.root.join('app', 'themes', '*'))
-      .select { |f| File.directory?(f) }
-      .map { |f| File.basename(f) }
-      .reject { |name| NON_THEME_DIRECTORIES.include?(name) }
+    theme_directories_for_test = Rails.root.glob('app/themes/*')
+                                      .select { |f| File.directory?(f) }
+                                      .map { |f| File.basename(f) }
+                                      .reject { |name| NON_THEME_DIRECTORIES.include?(name) }
 
     theme_directories_for_test.each do |theme|
       context "#{theme} theme" do
@@ -92,10 +92,10 @@ RSpec.describe 'Theme Completeness', type: :view do
   end
 
   describe 'Recommended templates' do
-    theme_directories_for_test = Dir.glob(Rails.root.join('app', 'themes', '*'))
-      .select { |f| File.directory?(f) }
-      .map { |f| File.basename(f) }
-      .reject { |name| NON_THEME_DIRECTORIES.include?(name) }
+    theme_directories_for_test = Rails.root.glob('app/themes/*')
+                                      .select { |f| File.directory?(f) }
+                                      .map { |f| File.basename(f) }
+                                      .reject { |name| NON_THEME_DIRECTORIES.include?(name) }
 
     theme_directories_for_test.each do |theme|
       context "#{theme} theme" do
@@ -112,10 +112,10 @@ RSpec.describe 'Theme Completeness', type: :view do
   end
 
   describe 'Custom CSS partials' do
-    theme_directories_for_test = Dir.glob(Rails.root.join('app', 'themes', '*'))
-      .select { |f| File.directory?(f) }
-      .map { |f| File.basename(f) }
-      .reject { |name| NON_THEME_DIRECTORIES.include?(name) }
+    theme_directories_for_test = Rails.root.glob('app/themes/*')
+                                      .select { |f| File.directory?(f) }
+                                      .map { |f| File.basename(f) }
+                                      .reject { |name| NON_THEME_DIRECTORIES.include?(name) }
 
     theme_directories_for_test.each do |theme|
       context "#{theme} theme" do
@@ -136,7 +136,7 @@ RSpec.describe 'Theme Completeness', type: :view do
       themes_path = Rails.root.join('app', 'themes')
       themes = Dir.glob(themes_path.join('*')).select { |f| File.directory?(f) }.map { |f| File.basename(f) }
 
-      puts "\n" + "=" * 60
+      puts "\n" + ("=" * 60)
       puts "THEME COMPLETENESS REPORT"
       puts "=" * 60
 
@@ -169,7 +169,7 @@ RSpec.describe 'Theme Completeness', type: :view do
         end
       end
 
-      puts "\n" + "=" * 60
+      puts "\n" + ("=" * 60)
     end
   end
 end

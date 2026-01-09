@@ -114,7 +114,7 @@ module Pwb
         result = helper.search_url_with_features(
           base_path: '/en/buy',
           bedrooms: 3,
-          price_from: 100000
+          price_from: 100_000
         )
         expect(result).to include('bedrooms=3')
         expect(result).to include('price_from=100000')

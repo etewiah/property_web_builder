@@ -5,14 +5,14 @@ require "rails_helper"
 module Pwb
   RSpec.describe PropsController, type: :controller do
     routes { Rails.application.routes }
-    let(:prop_for_long_term_rent) {
+    let(:prop_for_long_term_rent) do
       FactoryBot.create(:pwb_prop, :long_term_rent,
                         price_rental_monthly_current_cents: 100_000)
-    }
-    let(:prop_for_sale) {
+    end
+    let(:prop_for_sale) do
       FactoryBot.create(:pwb_prop, :sale,
                         price_sale_current_cents: 10_000_000)
-    }
+    end
 
     describe "GET #show_for_rent" do
       it "renders correct template" do

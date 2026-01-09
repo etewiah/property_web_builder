@@ -4,11 +4,12 @@ require "rails_helper"
 
 RSpec.describe Pwb::WebsiteStyleable, "palette mode support" do
   include ActiveSupport::Testing::TimeHelpers
+
   let(:website) do
     create(:website,
            subdomain: "palette-test",
            theme_name: "default",
-           selected_palette: nil)  # Don't use theme palette, use our custom colors
+           selected_palette: nil) # Don't use theme palette, use our custom colors
   end
 
   let(:test_colors) do

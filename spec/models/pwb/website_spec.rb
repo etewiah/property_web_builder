@@ -163,19 +163,19 @@ module Pwb
 
     describe 'default_locale_in_supported_locales validation' do
       it 'is valid when default locale is in supported locales' do
-        website.supported_locales = ['en', 'es', 'fr']
+        website.supported_locales = %w[en es fr]
         website.default_client_locale = 'en'
         expect(website).to be_valid
       end
 
       it 'is valid when default locale base matches a supported locale' do
-        website.supported_locales = ['en', 'es']
+        website.supported_locales = %w[en es]
         website.default_client_locale = 'en-UK'
         expect(website).to be_valid
       end
 
       it 'is invalid when default locale is not in supported locales' do
-        website.supported_locales = ['es', 'fr']
+        website.supported_locales = %w[es fr]
         website.default_client_locale = 'en'
         expect(website).not_to be_valid
         expect(website.errors[:default_client_locale]).to include('must be one of the supported languages')
@@ -188,7 +188,7 @@ module Pwb
       end
 
       it 'is valid when default locale is blank' do
-        website.supported_locales = ['en', 'es']
+        website.supported_locales = %w[en es]
         website.default_client_locale = nil
         expect(website).to be_valid
       end
@@ -196,7 +196,7 @@ module Pwb
 
     describe '#is_multilingual' do
       it 'returns true when multiple non-blank locales exist' do
-        website.supported_locales = ['en', 'es']
+        website.supported_locales = %w[en es]
         expect(website.is_multilingual).to be true
       end
 
@@ -218,7 +218,7 @@ module Pwb
 
     describe '#supported_locales_with_variants' do
       it 'returns locale and variant for each supported locale' do
-        website.supported_locales = ['en-UK', 'es']
+        website.supported_locales = %w[en-UK es]
         result = website.supported_locales_with_variants
 
         expect(result).to contain_exactly(
@@ -232,7 +232,7 @@ module Pwb
         result = website.supported_locales_with_variants
 
         expect(result.length).to eq(2)
-        expect(result.map { |r| r['locale'] }).to eq(['de', 'fr'])
+        expect(result.pluck('locale')).to eq(%w[de fr])
       end
 
       it 'returns empty array when only blank entries exist' do
@@ -659,7 +659,7 @@ module Pwb
           result = website.social_media_links_for_admin
 
           expect(result.length).to eq(7)
-          expect(result.map { |r| r[:platform] }).to contain_exactly(
+          expect(result.pluck(:platform)).to contain_exactly(
             'facebook', 'instagram', 'linkedin', 'youtube', 'twitter', 'whatsapp', 'pinterest'
           )
         end
@@ -687,9 +687,9 @@ module Pwb
 
       describe '#update_social_media_link' do
         it 'creates a new link when none exists' do
-          expect {
+          expect do
             website.update_social_media_link('facebook', 'https://facebook.com/newpage')
-          }.to change { website.links.count }.by(1)
+          end.to change { website.links.count }.by(1)
 
           link = website.links.find_by(slug: 'social_media_facebook')
           expect(link.link_url).to eq('https://facebook.com/newpage')

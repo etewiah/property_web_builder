@@ -19,9 +19,9 @@ RSpec.describe 'Theme Rendering', type: :request do
     return [] unless themes_path.exist?
 
     themes_path.children
-      .select(&:directory?)
-      .map { |d| d.basename.to_s }
-      .reject { |name| EXCLUDED_DIRECTORIES.include?(name) }
+               .select(&:directory?)
+               .map { |d| d.basename.to_s }
+               .reject { |name| EXCLUDED_DIRECTORIES.include?(name) }
   end
 
   # Helper to create property with sale listing
@@ -277,9 +277,7 @@ RSpec.describe 'Theme Rendering', type: :request do
 
         INVALID_PROPERTY_METHODS.each do |method|
           # Match property.method_name patterns (word boundary to avoid false positives)
-          if content.match?(/property\.#{method}\b/)
-            invalid_usages << "#{relative_path}: uses property.#{method}"
-          end
+          invalid_usages << "#{relative_path}: uses property.#{method}" if content.match?(/property\.#{method}\b/)
         end
       end
 
@@ -298,14 +296,12 @@ RSpec.describe 'Theme Rendering', type: :request do
           errors = []
 
           Dir.glob(theme_path.join('**', '*.erb')).each do |file|
-            begin
-              # Try to compile the ERB template
-              content = File.read(file)
-              ERB.new(content)
-            rescue SyntaxError => e
-              relative_path = Pathname.new(file).relative_path_from(theme_path)
-              errors << "#{relative_path}: #{e.message}"
-            end
+            # Try to compile the ERB template
+            content = File.read(file)
+            ERB.new(content)
+          rescue SyntaxError => e
+            relative_path = Pathname.new(file).relative_path_from(theme_path)
+            errors << "#{relative_path}: #{e.message}"
           end
 
           expect(errors).to be_empty,
@@ -374,9 +370,7 @@ RSpec.describe 'Theme Rendering', type: :request do
 
       missing_methods = []
       EXPECTED_PROPERTY_METHODS.each do |method|
-        unless property.respond_to?(method)
-          missing_methods << method
-        end
+        missing_methods << method unless property.respond_to?(method)
       end
 
       expect(missing_methods).to be_empty,

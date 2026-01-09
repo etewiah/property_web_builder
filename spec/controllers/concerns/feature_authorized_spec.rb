@@ -34,14 +34,14 @@ RSpec.describe FeatureAuthorized, type: :request do
         get site_admin_domain_path, headers: { 'Accept' => 'application/json' }
 
         expect(response).to have_http_status(:forbidden)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['error']).to eq('feature_not_authorized')
         expect(json['feature']).to eq('custom_domain')
       end
     end
 
     context 'when feature IS available on the plan' do
-      let(:pro_plan) { create(:pwb_plan, :professional, features: ['basic_themes', 'custom_domain']) }
+      let(:pro_plan) { create(:pwb_plan, :professional, features: %w[basic_themes custom_domain]) }
 
       before do
         # Create subscription with a plan that has custom_domain

@@ -63,7 +63,7 @@ module Pwb
       it 'belongs to website (optional)' do
         assoc = PageContent.reflect_on_association(:website)
         expect(assoc.macro).to eq(:belongs_to)
-        # Note: website is optional in PageContent model
+        # NOTE: website is optional in PageContent model
         expect(assoc.options[:optional]).to be true
       end
     end
@@ -76,7 +76,7 @@ module Pwb
       end
 
       it 'allows page_content without website_id (website is optional)' do
-        # Note: website is optional in PageContent model
+        # NOTE: website is optional in PageContent model
         page_content = PageContent.new(page_part_key: 'test_key', page: nil, website: nil)
         expect(page_content).to be_valid
       end
@@ -85,7 +85,7 @@ module Pwb
         content1 = create(:pwb_content, website: website, key: 'content_key_1')
         content2 = create(:pwb_content, website: website, key: 'content_key_2')
         page_content = create(:pwb_page_content, page_part_key: 'test_key', website: website, content: content1)
-        
+
         page_content.content_id = content2.id
         expect(page_content).not_to be_valid
         expect(page_content.errors[:content_id]).to include('Change of content_id not allowed!')
@@ -94,7 +94,7 @@ module Pwb
       it 'allows content_id to be set if it was blank' do
         content = create(:pwb_content, website: website)
         page_content = create(:pwb_page_content, page_part_key: 'test_key', website: website, content: nil)
-        
+
         page_content.content = content
         expect(page_content).to be_valid
       end
@@ -148,20 +148,20 @@ module Pwb
       it 'returns the content page_part_key when content exists' do
         content = create(:pwb_content, website: website, page_part_key: 'my_content_key')
         page_content = create(:pwb_page_content, page_part_key: 'test_key', website: website, content: content)
-        
+
         expect(page_content.content_page_part_key).to eq('my_content_key')
       end
 
       it 'returns empty string when content is nil' do
         page_content = create(:pwb_page_content, page_part_key: 'test_key', website: website, content: nil)
-        
+
         expect(page_content.content_page_part_key).to eq('')
       end
     end
 
     describe 'multi-tenant isolation' do
       it 'allows page_content without website_id (website is optional for flexibility)' do
-        # Note: PageContent model has optional: true for website association
+        # NOTE: PageContent model has optional: true for website association
         # This allows legacy data and flexible content creation
         page_content = PageContent.new(page_part_key: 'orphan_key')
         expect(page_content).to be_valid

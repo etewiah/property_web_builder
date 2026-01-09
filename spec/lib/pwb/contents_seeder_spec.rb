@@ -32,9 +32,9 @@ module Pwb
             )
           end
 
-          expect {
+          expect do
             ContentsSeeder.seed_page_content_translations!(website: website)
-          }.not_to raise_error
+          end.not_to raise_error
         end
 
         it 'skips page-level page_parts with nil page_part_key without raising error' do
@@ -47,9 +47,9 @@ module Pwb
             )
           end
 
-          expect {
+          expect do
             ContentsSeeder.seed_page_content_translations!(website: website)
-          }.not_to raise_error
+          end.not_to raise_error
         end
 
         it 'skips page_parts with empty string page_part_key without raising error' do
@@ -61,9 +61,9 @@ module Pwb
             )
           end
 
-          expect {
+          expect do
             ContentsSeeder.seed_page_content_translations!(website: website)
-          }.not_to raise_error
+          end.not_to raise_error
         end
 
         it 'still processes page_parts with valid page_part_key' do
@@ -80,9 +80,9 @@ module Pwb
           end
 
           # Should not raise error and should process the valid page_part
-          expect {
+          expect do
             ContentsSeeder.seed_page_content_translations!(website: website)
-          }.not_to raise_error
+          end.not_to raise_error
         end
       end
     end

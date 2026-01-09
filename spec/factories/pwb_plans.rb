@@ -75,22 +75,22 @@ FactoryBot.define do
       price_cents { 7900 }
       property_limit { 100 }
       user_limit { 10 }
-      features { ["basic_themes", "premium_themes", "analytics", "custom_domain"] }
+      features { %w[basic_themes premium_themes analytics custom_domain] }
     end
 
     trait :enterprise do
       name { "enterprise" }
       slug { "enterprise" }
       display_name { "Enterprise" }
-      price_cents { 19900 }
+      price_cents { 19_900 }
       property_limit { nil }
       user_limit { nil }
-      features { ["basic_themes", "premium_themes", "analytics", "custom_domain", "api_access", "white_label", "priority_support", "dedicated_support"] }
+      features { %w[basic_themes premium_themes analytics custom_domain api_access white_label priority_support dedicated_support] }
     end
 
     trait :yearly do
       billing_interval { "year" }
-      price_cents { 29000 }
+      price_cents { 29_000 }
     end
 
     trait :inactive do

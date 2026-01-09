@@ -76,17 +76,17 @@ RSpec.describe Pwb::WebsiteDomainConfigurable, type: :model do
 
   describe '.find_by_subdomain' do
     it 'finds website by subdomain case-insensitively' do
-      expect(Pwb::Website.find_by_subdomain('TEST-SITE')).to eq(website)
-      expect(Pwb::Website.find_by_subdomain('test-site')).to eq(website)
+      expect(Pwb::Website.find_by(subdomain: 'TEST-SITE')).to eq(website)
+      expect(Pwb::Website.find_by(subdomain: 'test-site')).to eq(website)
     end
 
     it 'returns nil for non-existent subdomain' do
-      expect(Pwb::Website.find_by_subdomain('nonexistent')).to be_nil
+      expect(Pwb::Website.find_by(subdomain: 'nonexistent')).to be_nil
     end
 
     it 'returns nil for blank subdomain' do
-      expect(Pwb::Website.find_by_subdomain('')).to be_nil
-      expect(Pwb::Website.find_by_subdomain(nil)).to be_nil
+      expect(Pwb::Website.find_by(subdomain: '')).to be_nil
+      expect(Pwb::Website.find_by(subdomain: nil)).to be_nil
     end
   end
 
@@ -96,35 +96,35 @@ RSpec.describe Pwb::WebsiteDomainConfigurable, type: :model do
     end
 
     it 'finds website by exact domain' do
-      expect(Pwb::Website.find_by_custom_domain('example.com')).to eq(website)
+      expect(Pwb::Website.find_by(custom_domain: 'example.com')).to eq(website)
     end
 
     it 'finds website case-insensitively' do
-      expect(Pwb::Website.find_by_custom_domain('EXAMPLE.COM')).to eq(website)
+      expect(Pwb::Website.find_by(custom_domain: 'EXAMPLE.COM')).to eq(website)
     end
 
     it 'handles www prefix' do
-      expect(Pwb::Website.find_by_custom_domain('www.example.com')).to eq(website)
+      expect(Pwb::Website.find_by(custom_domain: 'www.example.com')).to eq(website)
     end
 
     it 'returns nil for non-existent domain' do
-      expect(Pwb::Website.find_by_custom_domain('other.com')).to be_nil
+      expect(Pwb::Website.find_by(custom_domain: 'other.com')).to be_nil
     end
   end
 
   describe '.find_by_host' do
     it 'finds by subdomain for platform domains' do
-      expect(Pwb::Website.find_by_host('test-site.localhost')).to eq(website)
+      expect(Pwb::Website.find_by(host: 'test-site.localhost')).to eq(website)
     end
 
     it 'finds by custom domain for non-platform domains' do
       website.update!(custom_domain: 'myrealestate.com')
-      expect(Pwb::Website.find_by_host('myrealestate.com')).to eq(website)
+      expect(Pwb::Website.find_by(host: 'myrealestate.com')).to eq(website)
     end
 
     it 'returns nil for blank host' do
-      expect(Pwb::Website.find_by_host('')).to be_nil
-      expect(Pwb::Website.find_by_host(nil)).to be_nil
+      expect(Pwb::Website.find_by(host: '')).to be_nil
+      expect(Pwb::Website.find_by(host: nil)).to be_nil
     end
   end
 

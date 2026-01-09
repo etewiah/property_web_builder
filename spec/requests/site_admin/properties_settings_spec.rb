@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Site Admin Properties Settings', type: :request do
-  let!(:website) { create(:pwb_website, subdomain: 'props-settings-test', supported_locales: ['en-UK', 'es']) }
+  let!(:website) { create(:pwb_website, subdomain: 'props-settings-test', supported_locales: %w[en-UK es]) }
   let!(:admin_user) { create(:pwb_user, :admin, website: website, email: 'admin@props-settings.test') }
 
   before do
@@ -116,9 +116,7 @@ RSpec.describe 'Site Admin Properties Settings', type: :request do
       # Check for success - either redirect to category page or to login if auth issue
       expect(response).to have_http_status(:redirect)
       # Verify field key was created if authenticated
-      if response.location.include?('property_types')
-        expect(Pwb::FieldKey.where(pwb_website_id: website.id).count).to eq(initial_count + 1)
-      end
+      expect(Pwb::FieldKey.where(pwb_website_id: website.id).count).to eq(initial_count + 1) if response.location.include?('property_types')
     end
   end
 end

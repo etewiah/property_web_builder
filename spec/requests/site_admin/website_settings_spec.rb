@@ -58,7 +58,7 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
 
     it 'filters out blank entries from supported locales' do
       # First set some locales, then clear them
-      website.update!(supported_locales: ['en', 'es'])
+      website.update!(supported_locales: %w[en es])
 
       patch site_admin_website_settings_path,
             params: {
@@ -547,9 +547,9 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
 
     it 'loads existing search configuration' do
       website.update!(search_config: {
-        'display' => { 'show_results_map' => true, 'default_results_per_page' => 24 },
-        'filters' => { 'price' => { 'enabled' => true, 'input_type' => 'manual' } }
-      })
+                        'display' => { 'show_results_map' => true, 'default_results_per_page' => 24 },
+                        'filters' => { 'price' => { 'enabled' => true, 'input_type' => 'manual' } }
+                      })
 
       get site_admin_website_settings_path(tab: 'search'),
           headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }
@@ -835,11 +835,11 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
     it 'preserves existing config when only updating partial settings' do
       # Set up initial configuration
       website.update!(search_config: {
-        'display' => { 'show_results_map' => true, 'default_sort' => 'price_desc' },
-        'filters' => {
-          'bedrooms' => { 'enabled' => true, 'options' => ['Any', 1, 2, 3] }
-        }
-      })
+                        'display' => { 'show_results_map' => true, 'default_sort' => 'price_desc' },
+                        'filters' => {
+                          'bedrooms' => { 'enabled' => true, 'options' => ['Any', 1, 2, 3] }
+                        }
+                      })
 
       # Update only display options
       patch site_admin_website_settings_path,
@@ -863,12 +863,12 @@ RSpec.describe 'Site Admin Website Settings', type: :request do
     it 'resets search configuration to defaults' do
       # Set up custom configuration
       website.update!(search_config: {
-        'display' => { 'show_results_map' => true, 'default_results_per_page' => 48 },
-        'filters' => {
-          'price' => { 'enabled' => true, 'input_type' => 'manual' },
-          'bedrooms' => { 'enabled' => false }
-        }
-      })
+                        'display' => { 'show_results_map' => true, 'default_results_per_page' => 48 },
+                        'filters' => {
+                          'price' => { 'enabled' => true, 'input_type' => 'manual' },
+                          'bedrooms' => { 'enabled' => false }
+                        }
+                      })
 
       delete site_admin_website_reset_search_config_path,
              headers: { 'HTTP_HOST' => 'settings-test.e2e.localhost' }

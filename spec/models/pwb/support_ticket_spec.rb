@@ -117,7 +117,7 @@ module Pwb
 
       it 'generates unique ticket numbers' do
         tickets = ActsAsTenant.with_tenant(website) do
-          3.times.map { create(:pwb_support_ticket, website: website, creator: creator) }
+          Array.new(3) { create(:pwb_support_ticket, website: website, creator: creator) }
         end
         ticket_numbers = tickets.map(&:ticket_number)
         expect(ticket_numbers.uniq.length).to eq(3)
@@ -210,7 +210,7 @@ module Pwb
       it 'includes tickets where last message is from customer' do
         ticket = ActsAsTenant.with_tenant(website) do
           create(:pwb_support_ticket, website: website, creator: creator,
-                 last_message_from_platform: false, status: :open)
+                                      last_message_from_platform: false, status: :open)
         end
         ActsAsTenant.with_tenant(website) do
           expect(SupportTicket.needs_response).to include(ticket)

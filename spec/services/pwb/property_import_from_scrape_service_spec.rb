@@ -105,7 +105,7 @@ module Pwb
         it "applies listing_data overrides" do
           overrides = {
             listing_data: {
-              price_sale_current: 500000,
+              price_sale_current: 500_000,
               title: "Updated Title"
             }
           }
@@ -178,15 +178,13 @@ module Pwb
           service = described_class.new(invalid_scraped)
           result = service.call
           # The import should fail or succeed - we're just testing the error handling
-          if !result.success?
-            expect(result.success?).to be false
-          end
+          expect(result.success?).to be false unless result.success?
         end
 
         it "does not mark as imported when it fails" do
           service = described_class.new(invalid_scraped)
           result = service.call
-          if !result.success?
+          unless result.success?
             invalid_scraped.reload
             expect(invalid_scraped.import_status).not_to eq("imported")
           end
@@ -265,7 +263,7 @@ module Pwb
                  website: website,
                  extracted_data: {
                    "asset_data" => { "city" => "London" },
-                   "listing_data" => { "price_sale_current" => 250000, "currency" => "EUR" }
+                   "listing_data" => { "price_sale_current" => 250_000, "currency" => "EUR" }
                  })
         end
 

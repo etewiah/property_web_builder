@@ -67,9 +67,9 @@ RSpec.describe 'TenantAdmin::Users', type: :request do
     end
 
     it 'creates a new user with valid params' do
-      expect {
+      expect do
         post '/tenant_admin/users', params: valid_params
-      }.to change(Pwb::User, :count).by(1)
+      end.to change(Pwb::User, :count).by(1)
 
       expect(response).to have_http_status(:redirect)
     end
@@ -138,9 +138,9 @@ RSpec.describe 'TenantAdmin::Users', type: :request do
     let!(:target_user) { create(:pwb_user, email: 'delete-user@example.com', website: website) }
 
     it 'deletes the user' do
-      expect {
+      expect do
         delete "/tenant_admin/users/#{target_user.id}"
-      }.to change(Pwb::User, :count).by(-1)
+      end.to change(Pwb::User, :count).by(-1)
 
       expect(response).to have_http_status(:redirect)
     end

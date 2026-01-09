@@ -255,7 +255,7 @@ RSpec.describe Pwb::SavedProperty, type: :model do
       end
 
       it "creates a new saved property" do
-        expect {
+        expect do
           described_class.save_property!(
             website: website,
             email: "user@example.com",
@@ -263,7 +263,7 @@ RSpec.describe Pwb::SavedProperty, type: :model do
             reference: "NEW001",
             property_data: property_data
           )
-        }.to change(described_class, :count).by(1)
+        end.to change(described_class, :count).by(1)
       end
 
       it "returns existing property if already saved" do

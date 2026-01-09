@@ -262,11 +262,11 @@ module Pwb
         let!(:subscription) { Pwb::Subscription.create!(website: website, plan: limited_plan, status: 'active') }
 
         it 'allows creating users under the limit' do
-          expect {
+          expect do
             FactoryBot.create(:pwb_user, email: 'user1@example.com', website: website)
             FactoryBot.create(:pwb_user, email: 'user2@example.com', website: website)
             FactoryBot.create(:pwb_user, email: 'user3@example.com', website: website)
-          }.to change(User.where(website: website), :count).by(3)
+          end.to change(User.where(website: website), :count).by(3)
         end
 
         it 'prevents creating users over the limit' do
@@ -292,17 +292,17 @@ module Pwb
         let!(:subscription) { Pwb::Subscription.create!(website: website, plan: unlimited_plan, status: 'active') }
 
         it 'allows creating many users' do
-          expect {
+          expect do
             10.times { |i| FactoryBot.create(:pwb_user, email: "user#{i}@unlimited.com", website: website) }
-          }.to change(User.where(website: website), :count).by(10)
+          end.to change(User.where(website: website), :count).by(10)
         end
       end
 
       context 'with no subscription' do
         it 'allows creating users without limit (legacy behavior)' do
-          expect {
+          expect do
             5.times { |i| FactoryBot.create(:pwb_user, email: "user#{i}@nosubscription.com", website: website) }
-          }.to change(User.where(website: website), :count).by(5)
+          end.to change(User.where(website: website), :count).by(5)
         end
       end
 

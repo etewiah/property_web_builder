@@ -193,16 +193,16 @@ RSpec.describe Pwb::SearchConfig do
     context "with custom price presets" do
       before do
         website.update!(search_config: {
-          "filters" => {
-            "price" => {
-              "enabled" => true,
-              "input_type" => "dropdown",
-              "sale" => {
-                "presets" => [100_000, 250_000, 500_000]
-              }
-            }
-          }
-        })
+                          "filters" => {
+                            "price" => {
+                              "enabled" => true,
+                              "input_type" => "dropdown",
+                              "sale" => {
+                                "presets" => [100_000, 250_000, 500_000]
+                              }
+                            }
+                          }
+                        })
       end
 
       subject(:config) { described_class.new(website) }
@@ -219,11 +219,11 @@ RSpec.describe Pwb::SearchConfig do
     context "with disabled filters" do
       before do
         website.update!(search_config: {
-          "filters" => {
-            "bedrooms" => { "enabled" => false },
-            "bathrooms" => { "enabled" => false }
-          }
-        })
+                          "filters" => {
+                            "bedrooms" => { "enabled" => false },
+                            "bathrooms" => { "enabled" => false }
+                          }
+                        })
       end
 
       subject(:config) { described_class.new(website) }
@@ -242,13 +242,13 @@ RSpec.describe Pwb::SearchConfig do
     context "with custom display settings" do
       before do
         website.update!(search_config: {
-          "display" => {
-            "show_results_map" => true,
-            "default_sort" => "price_asc",
-            "default_results_per_page" => 48,
-            "show_active_filters" => false
-          }
-        })
+                          "display" => {
+                            "show_results_map" => true,
+                            "default_sort" => "price_asc",
+                            "default_results_per_page" => 48,
+                            "show_active_filters" => false
+                          }
+                        })
       end
 
       subject(:config) { described_class.new(website) }
@@ -264,11 +264,11 @@ RSpec.describe Pwb::SearchConfig do
     context "with custom listing types" do
       before do
         website.update!(search_config: {
-          "listing_types" => {
-            "sale" => { "enabled" => true, "is_default" => false },
-            "rental" => { "enabled" => true, "is_default" => true }
-          }
-        })
+                          "listing_types" => {
+                            "sale" => { "enabled" => true, "is_default" => false },
+                            "rental" => { "enabled" => true, "is_default" => true }
+                          }
+                        })
       end
 
       subject(:config) { described_class.new(website) }
@@ -281,12 +281,12 @@ RSpec.describe Pwb::SearchConfig do
     context "with partial configuration" do
       before do
         website.update!(search_config: {
-          "filters" => {
-            "price" => {
-              "input_type" => "manual"
-            }
-          }
-        })
+                          "filters" => {
+                            "price" => {
+                              "input_type" => "manual"
+                            }
+                          }
+                        })
       end
 
       subject(:config) { described_class.new(website) }
@@ -303,12 +303,12 @@ RSpec.describe Pwb::SearchConfig do
     context "with custom filter positions" do
       before do
         website.update!(search_config: {
-          "filters" => {
-            "price" => { "position" => 5 },
-            "bedrooms" => { "position" => 1 },
-            "reference" => { "position" => 0 }
-          }
-        })
+                          "filters" => {
+                            "price" => { "position" => 5 },
+                            "bedrooms" => { "position" => 1 },
+                            "reference" => { "position" => 0 }
+                          }
+                        })
       end
 
       subject(:config) { described_class.new(website) }
@@ -324,22 +324,22 @@ RSpec.describe Pwb::SearchConfig do
     context "with default min/max values" do
       before do
         website.update!(search_config: {
-          "filters" => {
-            "price" => {
-              "sale" => {
-                "default_min" => 100_000,
-                "default_max" => 500_000
-              }
-            },
-            "bedrooms" => {
-              "default_min" => 2
-            },
-            "area" => {
-              "default_min" => 50,
-              "default_max" => 200
-            }
-          }
-        })
+                          "filters" => {
+                            "price" => {
+                              "sale" => {
+                                "default_min" => 100_000,
+                                "default_max" => 500_000
+                              }
+                            },
+                            "bedrooms" => {
+                              "default_min" => 2
+                            },
+                            "area" => {
+                              "default_min" => 50,
+                              "default_max" => 200
+                            }
+                          }
+                        })
       end
 
       subject(:config) { described_class.new(website) }
@@ -356,16 +356,16 @@ RSpec.describe Pwb::SearchConfig do
     context "with custom bedroom/bathroom options" do
       before do
         website.update!(search_config: {
-          "filters" => {
-            "bedrooms" => {
-              "options" => ["Any", 1, 2, 3, "4+"],
-              "show_max_filter" => true
-            },
-            "bathrooms" => {
-              "options" => ["Any", 1, 2, "3+"]
-            }
-          }
-        })
+                          "filters" => {
+                            "bedrooms" => {
+                              "options" => ["Any", 1, 2, 3, "4+"],
+                              "show_max_filter" => true
+                            },
+                            "bathrooms" => {
+                              "options" => ["Any", 1, 2, "3+"]
+                            }
+                          }
+                        })
       end
 
       subject(:config) { described_class.new(website) }
@@ -456,7 +456,7 @@ RSpec.describe Pwb::SearchConfig do
     end
 
     it "includes all default sort options" do
-      values = sort_options.map { |o| o[:value] }
+      values = sort_options.pluck(:value)
       expect(values).to include("price_asc", "price_desc", "newest", "updated")
     end
   end
@@ -472,7 +472,7 @@ RSpec.describe Pwb::SearchConfig do
     end
 
     it "includes sale and rental" do
-      values = listing_types.map { |t| t[:value] }
+      values = listing_types.pluck(:value)
       expect(values).to contain_exactly("sale", "rental")
     end
 
@@ -547,8 +547,8 @@ RSpec.describe Pwb::SearchConfig do
 
       it "preserves existing config" do
         website.update!(search_config: {
-          "filters" => { "bedrooms" => { "enabled" => false } }
-        })
+                          "filters" => { "bedrooms" => { "enabled" => false } }
+                        })
         website.update_search_config(
           filters: { price: { input_type: "dropdown" } }
         )
@@ -559,12 +559,12 @@ RSpec.describe Pwb::SearchConfig do
 
       it "deep merges nested values" do
         website.update!(search_config: {
-          "filters" => {
-            "price" => {
-              "sale" => { "presets" => [100_000] }
-            }
-          }
-        })
+                          "filters" => {
+                            "price" => {
+                              "sale" => { "presets" => [100_000] }
+                            }
+                          }
+                        })
         website.update_search_config(
           filters: { price: { input_type: "manual" } }
         )
@@ -586,8 +586,8 @@ RSpec.describe Pwb::SearchConfig do
 
       it "causes SearchConfig to use defaults" do
         website.update!(search_config: {
-          "filters" => { "price" => { "sale" => { "presets" => [999] } } }
-        })
+                          "filters" => { "price" => { "sale" => { "presets" => [999] } } }
+                        })
         website.reset_search_config
         website.reload
         config = described_class.new(website)

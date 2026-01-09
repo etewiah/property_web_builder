@@ -37,12 +37,12 @@ RSpec.describe Pwb::ColorUtils do
     end
 
     it "handles white" do
-      h, s, l = described_class.rgb_to_hsl(255, 255, 255)
+      _, _, l = described_class.rgb_to_hsl(255, 255, 255)
       expect(l).to be_within(1).of(100)
     end
 
     it "handles black" do
-      h, s, l = described_class.rgb_to_hsl(0, 0, 0)
+      _, _, l = described_class.rgb_to_hsl(0, 0, 0)
       expect(l).to be_within(1).of(0)
     end
   end
@@ -142,7 +142,7 @@ RSpec.describe Pwb::ColorUtils do
 
     it "preserves all keys from light colors" do
       dark = described_class.generate_dark_mode_colors(light_colors)
-      light_colors.keys.each do |key|
+      light_colors.each_key do |key|
         expect(dark).to have_key(key)
       end
     end

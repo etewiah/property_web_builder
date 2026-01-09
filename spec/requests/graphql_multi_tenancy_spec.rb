@@ -28,8 +28,8 @@ RSpec.describe "GraphQL Multi-tenancy", type: :request do
     let!(:website2) { Pwb::Website.create!(slug: "site2", subdomain: "site2") }
 
     # Create properties with proper sale listings for materialized view
-    let!(:prop1) { create_property_with_listing(website: website1, reference: "ref1", price_cents: 10000000) }
-    let!(:prop2) { create_property_with_listing(website: website2, reference: "ref2", price_cents: 20000000) }
+    let!(:prop1) { create_property_with_listing(website: website1, reference: "ref1", price_cents: 10_000_000) }
+    let!(:prop2) { create_property_with_listing(website: website2, reference: "ref2", price_cents: 20_000_000) }
 
     it "returns properties for site1" do
       query = <<~GQL
@@ -42,10 +42,10 @@ RSpec.describe "GraphQL Multi-tenancy", type: :request do
       GQL
 
       post "/graphql", params: { query: query }, headers: { "X-Website-Slug" => "site1" }
-      
-      json = JSON.parse(response.body)
+
+      json = response.parsed_body
       properties = json["data"]["searchProperties"]
-      
+
       expect(properties.length).to eq(1)
       expect(properties.first["reference"]).to eq("ref1")
     end
@@ -61,10 +61,10 @@ RSpec.describe "GraphQL Multi-tenancy", type: :request do
       GQL
 
       post "/graphql", params: { query: query }, headers: { "X-Website-Slug" => "site2" }
-      
-      json = JSON.parse(response.body)
+
+      json = response.parsed_body
       properties = json["data"]["searchProperties"]
-      
+
       expect(properties.length).to eq(1)
       expect(properties.first["reference"]).to eq("ref2")
     end
@@ -84,10 +84,10 @@ RSpec.describe "GraphQL Multi-tenancy", type: :request do
         GQL
 
         post "/graphql", params: { query: query }, headers: { "X-Website-Slug" => "site1" }
-        
-        json = JSON.parse(response.body)
+
+        json = response.parsed_body
         page = json["data"]["findPage"]
-        
+
         expect(page["id"].to_i).to eq(page1.id)
       end
 
@@ -102,10 +102,10 @@ RSpec.describe "GraphQL Multi-tenancy", type: :request do
         GQL
 
         post "/graphql", params: { query: query }, headers: { "X-Website-Slug" => "site2" }
-        
-        json = JSON.parse(response.body)
+
+        json = response.parsed_body
         page = json["data"]["findPage"]
-        
+
         expect(page["id"].to_i).to eq(page2.id)
       end
     end
@@ -124,10 +124,10 @@ RSpec.describe "GraphQL Multi-tenancy", type: :request do
         GQL
 
         post "/graphql", params: { query: query }, headers: { "X-Website-Slug" => "site1" }
-        
-        json = JSON.parse(response.body)
+
+        json = response.parsed_body
         links = json["data"]["getTopNavLinks"]
-        
+
         expect(links.length).to eq(1)
         expect(links.first["slug"]).to eq("link1")
       end
@@ -137,7 +137,7 @@ RSpec.describe "GraphQL Multi-tenancy", type: :request do
       it "uses default site when header is missing" do
         # In the controller we have: Pwb::Current.website ||= Pwb::Website.first
         # This will use the first website in the database if no header provided.
-        
+
         query = <<~GQL
           query {
             getSiteDetails(locale: "en") {
@@ -147,7 +147,7 @@ RSpec.describe "GraphQL Multi-tenancy", type: :request do
         GQL
 
         post "/graphql", params: { query: query }
-        
+
         # json = JSON.parse(response.body)
         # It might return a new website with ID 1 if not present.
         # Or if website1 happened to get ID 1.

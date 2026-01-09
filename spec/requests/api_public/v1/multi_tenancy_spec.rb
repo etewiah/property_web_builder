@@ -21,20 +21,20 @@ RSpec.describe 'API Public Multi-tenancy', type: :request do
     it 'returns links for correct tenant via subdomain' do
       host! 'tenant1.example.com'
       get '/api_public/v1/links'
-      
+
       expect(response).to have_http_status(:success)
-      json = JSON.parse(response.body)
-      slugs = json.map { |l| l['slug'] }
+      json = response.parsed_body
+      slugs = json.pluck('slug')
       expect(slugs).to include('link1')
       expect(slugs).not_to include('link2')
     end
 
     it 'returns links for correct tenant via header' do
       get '/api_public/v1/links', headers: { 'X-Website-Slug' => 'tenant-2' }
-      
+
       expect(response).to have_http_status(:success)
-      json = JSON.parse(response.body)
-      slugs = json.map { |l| l['slug'] }
+      json = response.parsed_body
+      slugs = json.pluck('slug')
       expect(slugs).to include('link2')
       expect(slugs).not_to include('link1')
     end
@@ -42,10 +42,10 @@ RSpec.describe 'API Public Multi-tenancy', type: :request do
     it 'header takes precedence over subdomain' do
       host! 'tenant1.example.com'
       get '/api_public/v1/links', headers: { 'X-Website-Slug' => 'tenant-2' }
-      
+
       expect(response).to have_http_status(:success)
-      json = JSON.parse(response.body)
-      slugs = json.map { |l| l['slug'] }
+      json = response.parsed_body
+      slugs = json.pluck('slug')
       expect(slugs).to include('link2')
       expect(slugs).not_to include('link1')
     end
@@ -55,18 +55,18 @@ RSpec.describe 'API Public Multi-tenancy', type: :request do
       host! 'tenant1.example.com'
       Pwb::Current.reset
       get '/api_public/v1/links'
-      tenant1_response = JSON.parse(response.body)
+      tenant1_response = response.parsed_body
 
       # Tenant 2 request - reset current between requests
       host! 'tenant2.example.com'
       Pwb::Current.reset
       ActsAsTenant.current_tenant = nil
       get '/api_public/v1/links'
-      tenant2_response = JSON.parse(response.body)
+      tenant2_response = response.parsed_body
 
       # Should return different links
-      tenant1_slugs = tenant1_response.map { |l| l['slug'] }
-      tenant2_slugs = tenant2_response.map { |l| l['slug'] }
+      tenant1_slugs = tenant1_response.pluck('slug')
+      tenant2_slugs = tenant2_response.pluck('slug')
 
       expect(tenant1_slugs).to include('link1')
       expect(tenant1_slugs).not_to include('link2')

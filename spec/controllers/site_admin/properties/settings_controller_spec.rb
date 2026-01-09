@@ -29,7 +29,7 @@ RSpec.describe SiteAdmin::Properties::SettingsController, type: :controller do
 
     it 'assigns categories' do
       get :index
-      expect(assigns(:categories)).to eq(['property_types', 'property_states', 'property_features', 'property_amenities', 'property_status', 'property_highlights', 'listing_origin'])
+      expect(assigns(:categories)).to eq(%w[property_types property_states property_features property_amenities property_status property_highlights listing_origin])
     end
   end
 
@@ -104,9 +104,9 @@ RSpec.describe SiteAdmin::Properties::SettingsController, type: :controller do
     end
 
     it 'creates a new field key' do
-      expect {
+      expect do
         post :create, params: valid_params
-      }.to change(Pwb::FieldKey, :count).by(1)
+      end.to change(Pwb::FieldKey, :count).by(1)
     end
 
     it 'associates field key with current website' do
@@ -149,7 +149,7 @@ RSpec.describe SiteAdmin::Properties::SettingsController, type: :controller do
       post :create, params: valid_params
 
       field_key = Pwb::FieldKey.last
-      # Note: Translation storage depends on I18n backend configuration
+      # NOTE: Translation storage depends on I18n backend configuration
       # This test verifies the controller calls the translation method
       expect(field_key.global_key).to be_present
     end
@@ -336,12 +336,12 @@ RSpec.describe SiteAdmin::Properties::SettingsController, type: :controller do
     end
 
     it 'destroys the field key' do
-      expect {
+      expect do
         delete :destroy, params: {
           category: 'property_types',
           id: field_key.global_key
         }
-      }.to change(Pwb::FieldKey, :count).by(-1)
+      end.to change(Pwb::FieldKey, :count).by(-1)
     end
 
     it 'redirects to show page with success notice' do
@@ -359,12 +359,12 @@ RSpec.describe SiteAdmin::Properties::SettingsController, type: :controller do
         create(:pwb_field_key, website: other_website, tag: 'property-types')
       end
 
-      expect {
+      expect do
         delete :destroy, params: {
           category: 'property_types',
           id: other_field_key.global_key
         }
-      }.not_to change(Pwb::FieldKey, :count)
+      end.not_to change(Pwb::FieldKey, :count)
     end
   end
 

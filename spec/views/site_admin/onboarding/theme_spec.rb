@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'site_admin/onboarding/theme.html.erb', type: :view do
   let(:website) { create(:pwb_website, subdomain: 'test-onboarding') }
   let(:user) { create(:pwb_user, email: 'owner@example.com', website: website) }
-  let(:themes) { ['default', 'brisbane', 'bologna'] }
+  let(:themes) { %w[default brisbane bologna] }
 
   let(:steps) do
     {

@@ -55,9 +55,9 @@ RSpec.describe "Pwb::LockedController", type: :request do
       it "sends verification email when email matches" do
         host! "test-locked.example.com"
 
-        expect {
+        expect do
           post "/resend_verification", params: { email: owner_email }
-        }.to have_enqueued_mail(Pwb::EmailVerificationMailer, :verification_email)
+        end.to have_enqueued_mail(Pwb::EmailVerificationMailer, :verification_email)
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include("Verification email sent")
@@ -91,9 +91,9 @@ RSpec.describe "Pwb::LockedController", type: :request do
       it "is case insensitive for email matching" do
         host! "test-locked.example.com"
 
-        expect {
+        expect do
           post "/resend_verification", params: { email: "OWNER@EXAMPLE.COM" }
-        }.to have_enqueued_mail(Pwb::EmailVerificationMailer, :verification_email)
+        end.to have_enqueued_mail(Pwb::EmailVerificationMailer, :verification_email)
 
         expect(response.body).to include("Verification email sent")
       end

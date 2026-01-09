@@ -25,7 +25,11 @@ RSpec.describe 'Site Admin Props Edit Labels', type: :request do
   before do
     sign_in admin_user
     allow(Pwb::Current).to receive(:website).and_return(website_a)
-    Pwb::ListedProperty.refresh rescue nil
+    begin
+      Pwb::ListedProperty.refresh
+    rescue StandardError
+      nil
+    end
   end
 
   describe 'GET /site_admin/props/:id/edit/labels' do
@@ -80,7 +84,7 @@ RSpec.describe 'Site Admin Props Edit Labels', type: :request do
 
           expect(response).to have_http_status(:success)
           # Count occurrences of the label - should only appear once per category
-          apartment_count = response.body.scan(/Apartment A/).count
+          apartment_count = response.body.scan('Apartment A').count
           # Each label appears in the checkbox and its label text
           expect(apartment_count).to be <= 2
         end

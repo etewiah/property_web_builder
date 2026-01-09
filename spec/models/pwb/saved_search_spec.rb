@@ -181,13 +181,13 @@ RSpec.describe Pwb::SavedSearch, type: :model do
     describe "#find_new_properties" do
       it "returns references not in seen list" do
         saved_search = create(:pwb_saved_search, :with_seen_properties)
-        new_refs = saved_search.find_new_properties(["REF001", "REF004", "REF005"])
+        new_refs = saved_search.find_new_properties(%w[REF001 REF004 REF005])
         expect(new_refs).to contain_exactly("REF004", "REF005")
       end
 
       it "returns all when none seen" do
         saved_search = create(:pwb_saved_search, seen_property_refs: [])
-        new_refs = saved_search.find_new_properties(["REF001", "REF002"])
+        new_refs = saved_search.find_new_properties(%w[REF001 REF002])
         expect(new_refs).to contain_exactly("REF001", "REF002")
       end
     end
@@ -195,13 +195,13 @@ RSpec.describe Pwb::SavedSearch, type: :model do
     describe "#record_new_properties!" do
       it "adds new references to seen list" do
         saved_search = create(:pwb_saved_search, seen_property_refs: ["REF001"])
-        saved_search.record_new_properties!(["REF002", "REF003"])
+        saved_search.record_new_properties!(%w[REF002 REF003])
         expect(saved_search.reload.seen_property_refs).to include("REF001", "REF002", "REF003")
       end
 
       it "does not duplicate existing refs" do
         saved_search = create(:pwb_saved_search, seen_property_refs: ["REF001"])
-        saved_search.record_new_properties!(["REF001", "REF002"])
+        saved_search.record_new_properties!(%w[REF001 REF002])
         expect(saved_search.reload.seen_property_refs.count("REF001")).to eq(1)
       end
     end

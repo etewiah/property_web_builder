@@ -21,7 +21,7 @@ module Pwb
     let(:carousel_content_attributes) do
       # skip("Add a hash of attributes valid for your model")
       {
-        "tag" => "landing-carousel",
+        "tag" => "landing-carousel"
       }
     end
 

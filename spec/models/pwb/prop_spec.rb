@@ -325,10 +325,10 @@ module Pwb
       it 'combines address components' do
         ActsAsTenant.with_tenant(website) do
           prop = build(:pwb_prop, website: website,
-                       street_address: '123 Main St',
-                       city: 'Madrid',
-                       province: 'Madrid',
-                       postal_code: '28001')
+                                  street_address: '123 Main St',
+                                  city: 'Madrid',
+                                  province: 'Madrid',
+                                  postal_code: '28001')
           expect(prop.geocodeable_address).to eq('123 Main St , Madrid , Madrid , 28001')
         end
       end
@@ -338,10 +338,10 @@ module Pwb
       it 'returns true when address exists but no coordinates' do
         ActsAsTenant.with_tenant(website) do
           prop = build(:pwb_prop, website: website,
-                       street_address: '123 Main St',
-                       city: 'Madrid',
-                       latitude: nil,
-                       longitude: nil)
+                                  street_address: '123 Main St',
+                                  city: 'Madrid',
+                                  latitude: nil,
+                                  longitude: nil)
           expect(prop.needs_geocoding?).to be_truthy
         end
       end
@@ -349,10 +349,10 @@ module Pwb
       it 'returns false when coordinates exist' do
         ActsAsTenant.with_tenant(website) do
           prop = build(:pwb_prop, website: website,
-                       street_address: '123 Main St',
-                       city: 'Madrid',
-                       latitude: 40.0,
-                       longitude: -3.0)
+                                  street_address: '123 Main St',
+                                  city: 'Madrid',
+                                  latitude: 40.0,
+                                  longitude: -3.0)
           expect(prop.needs_geocoding?).to be_falsey
         end
       end
