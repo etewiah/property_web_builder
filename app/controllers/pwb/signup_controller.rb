@@ -42,7 +42,17 @@ module Pwb
         return render :new
       end
 
-      result = ProvisioningService.new.start_signup(email: email)
+      # Capture request info for Zoho CRM lead tracking
+      zoho_request_info = {
+        ip: request.remote_ip,
+        utm_source: params[:utm_source],
+        utm_medium: params[:utm_medium],
+        utm_campaign: params[:utm_campaign]
+      }
+
+      result = Pwb::User.with_zoho_request_info(zoho_request_info) do
+        ProvisioningService.new.start_signup(email: email)
+      end
 
       if result[:success]
         signup_session.store_start_result(result)

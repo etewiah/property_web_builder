@@ -84,13 +84,17 @@ module Pwb
         after do
           log_event('activated')
           set_billing_period
+          sync_activation_to_zoho
         end
       end
 
       # Trial ends without payment
       event :expire_trial do
         transitions from: :trialing, to: :expired, guard: :trial_ended?
-        after { log_event('trial_expired') }
+        after do
+          log_event('trial_expired')
+          sync_expiration_to_zoho
+        end
       end
 
       # Payment fails
@@ -105,6 +109,7 @@ module Pwb
         after do
           update!(canceled_at: Time.current)
           log_event('canceled')
+          sync_cancellation_to_zoho
         end
       end
 
@@ -273,6 +278,28 @@ module Pwb
           status: status
         )
       )
+    end
+
+    # ===================
+    # Zoho CRM Sync
+    # ===================
+
+    def sync_activation_to_zoho
+      Pwb::Zoho::SyncSubscriptionJob.perform_later(id, 'activated')
+    rescue StandardError => e
+      Rails.logger.error("[Zoho] Failed to queue activation sync: #{e.message}")
+    end
+
+    def sync_cancellation_to_zoho
+      Pwb::Zoho::SyncSubscriptionJob.perform_later(id, 'canceled')
+    rescue StandardError => e
+      Rails.logger.error("[Zoho] Failed to queue cancellation sync: #{e.message}")
+    end
+
+    def sync_expiration_to_zoho
+      Pwb::Zoho::SyncSubscriptionJob.perform_later(id, 'expired')
+    rescue StandardError => e
+      Rails.logger.error("[Zoho] Failed to queue expiration sync: #{e.message}")
     end
   end
 end

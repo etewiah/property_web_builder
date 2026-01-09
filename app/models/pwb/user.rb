@@ -4,6 +4,10 @@ module Pwb
   # Note: This model is NOT tenant-scoped. Use PwbTenant::User for
   # tenant-scoped queries in web requests. This version is useful for
   # console work and cross-tenant operations.
+  #
+  # Zoho CRM Integration:
+  # This model includes ZohoSyncable which automatically syncs new signups
+  # to Zoho CRM as Leads. The Zoho lead ID is stored in the metadata JSONB column.
 # == Schema Information
 #
 # Table name: pwb_users
@@ -62,6 +66,7 @@ module Pwb
 #
   class User < ApplicationRecord
     include AASM
+    include ZohoSyncable
 
     # Include Devise modules for authentication:
     # - :database_authenticatable - email/password authentication
