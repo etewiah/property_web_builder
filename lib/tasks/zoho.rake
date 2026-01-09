@@ -232,8 +232,8 @@ namespace :zoho do
 
     # Recent syncs
     recent_syncs = Pwb::User.where("metadata->>'zoho_synced_at' IS NOT NULL")
-                           .order(Arel.sql("metadata->>'zoho_synced_at' DESC"))
-                           .limit(5)
+                            .order(Arel.sql("metadata->>'zoho_synced_at' DESC"))
+                            .limit(5)
 
     if recent_syncs.any?
       puts "Recent Syncs:"
