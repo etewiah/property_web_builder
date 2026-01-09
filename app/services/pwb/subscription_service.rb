@@ -161,6 +161,14 @@ module Pwb
           }
         )
 
+        # Notify platform of plan change
+        PlatformNtfyNotificationJob.perform_later(
+          :plan_changed,
+          subscription.id,
+          old_plan_id: old_plan.id,
+          new_plan_id: new_plan.id
+        )
+
         { success: true, subscription: subscription, old_plan: old_plan, new_plan: new_plan }
       end
     rescue StandardError => e
