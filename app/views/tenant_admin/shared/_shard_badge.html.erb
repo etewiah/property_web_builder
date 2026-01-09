@@ -1,10 +1,10 @@
 <% shard_name = website.shard_name || 'default' %>
 <% badge_class = case shard_name
-   when 'default', 'primary' then 'badge-primary'
-   when 'demo', 'demo_shard' then 'badge-secondary'
-   else 'badge-accent'
+   when 'default', 'primary' then 'bg-blue-100 text-blue-800'
+   when 'demo', 'demo_shard' then 'bg-purple-100 text-purple-800'
+   else 'bg-gray-100 text-gray-800'
    end %>
 
-<span class="badge <%= badge_class %> badge-sm" id="shard_badge_<%= website.id %>">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium <%= badge_class %>" id="shard_badge_<%= website.id %>">
   <%= shard_name %>
 </span>
