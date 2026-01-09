@@ -64,6 +64,9 @@ module Pwb
           raise ActiveRecord::Rollback
         end
 
+        # Notify platform admin of new signup
+        notify_platform(:user_signup, user.id, subdomain: subdomain)
+
         success_result(user: user, subdomain: subdomain)
       end
 
@@ -89,6 +92,7 @@ module Pwb
       # For now, just transition the state
       if user.may_verify_email?
         user.verify_email!
+        notify_platform(:email_verified, user.id)
         success_result(user: user)
       else
         @errors << "Unable to verify email in current state"
@@ -175,6 +179,9 @@ module Pwb
 
       begin
         Rails.logger.info("[Provisioning] Starting provisioning for website #{website.id} (#{website.subdomain})")
+        
+        # Notify that provisioning is starting
+        notify_platform(:provisioning_started, website.id)
 
         # Verify we're in a valid starting state
         unless website.owner_assigned? || website.pending?
@@ -264,18 +271,24 @@ module Pwb
         send_verification_email(website)
 
         Rails.logger.info("[Provisioning] Successfully provisioned website #{website.id} (#{website.subdomain}) - awaiting email verification")
+        
+        # Notify platform of successful provisioning
+        notify_platform(:provisioning_complete, website.id)
+        
         success_result(website: website)
 
       rescue AASM::InvalidTransition => e
         error_msg = "State transition failed: #{e.message}. Current state: #{website.provisioning_state}, Checklist: #{website.provisioning_checklist.to_json}"
         Rails.logger.error("[Provisioning] #{error_msg}")
         fail_with_details(website, error_msg)
+        notify_platform(:provisioning_failed, website.id, error: error_msg)
         failure_result
 
       rescue StandardError => e
         Rails.logger.error("[Provisioning] Failed for website #{website.id}: #{e.message}")
         Rails.logger.error(e.backtrace.first(10).join("\n"))
         fail_with_details(website, e.message)
+        notify_platform(:provisioning_failed, website.id, error: e.message)
         failure_result
       end
     end
@@ -556,6 +569,19 @@ module Pwb
 
     def failure_result
       { success: false, errors: @errors }
+    end
+
+    # Send platform notification asynchronously
+    #
+    # @param notification_type [Symbol] Type of notification
+    # @param args [Array] Arguments for the notification
+    def notify_platform(notification_type, *args)
+      return unless PlatformNtfyService.enabled?
+
+      PlatformNtfyNotificationJob.perform_later(notification_type, *args)
+    rescue StandardError => e
+      Rails.logger.warn("[Provisioning] Failed to queue platform notification: #{e.message}")
+      # Don't fail provisioning if notifications fail
     end
   end
 end

@@ -60,6 +60,12 @@ module Pwb
     validates :status, presence: true
     validates :website_id, uniqueness: true
 
+    # Platform notifications for subscription lifecycle
+    after_commit :notify_platform_trial_started, on: :create, if: :trialing?
+    after_commit :notify_platform_subscription_activated, if: :just_activated?
+    after_commit :notify_platform_trial_expired, if: :just_expired_from_trial?
+    after_commit :notify_platform_canceled, if: :just_canceled?
+
     # Scopes
     scope :trialing, -> { where(status: 'trialing') }
     scope :active_subscriptions, -> { where(status: 'active') }
@@ -300,6 +306,46 @@ module Pwb
       Pwb::Zoho::SyncSubscriptionJob.perform_later(id, 'expired')
     rescue StandardError => e
       Rails.logger.error("[Zoho] Failed to queue expiration sync: #{e.message}")
+    end
+
+    # ===================
+    # Platform Notifications
+    # ===================
+
+    def notify_platform_trial_started
+      PlatformNtfyNotificationJob.perform_later(:trial_started, id)
+    rescue StandardError => e
+      Rails.logger.warn("[PlatformNtfy] Failed to queue trial_started notification: #{e.message}")
+    end
+
+    def notify_platform_subscription_activated
+      PlatformNtfyNotificationJob.perform_later(:subscription_activated, id)
+    rescue StandardError => e
+      Rails.logger.warn("[PlatformNtfy] Failed to queue subscription_activated notification: #{e.message}")
+    end
+
+    def notify_platform_trial_expired
+      PlatformNtfyNotificationJob.perform_later(:trial_expired, id)
+    rescue StandardError => e
+      Rails.logger.warn("[PlatformNtfy] Failed to queue trial_expired notification: #{e.message}")
+    end
+
+    def notify_platform_canceled
+      PlatformNtfyNotificationJob.perform_later(:subscription_canceled, id)
+    rescue StandardError => e
+      Rails.logger.warn("[PlatformNtfy] Failed to queue subscription_canceled notification: #{e.message}")
+    end
+
+    def just_activated?
+      saved_change_to_status? && status == 'active'
+    end
+
+    def just_expired_from_trial?
+      saved_change_to_status? && status == 'expired' && status_before_last_save == 'trialing'
+    end
+
+    def just_canceled?
+      saved_change_to_status? && status == 'canceled'
     end
   end
 end
