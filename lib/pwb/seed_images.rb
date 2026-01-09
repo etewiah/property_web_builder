@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "pwb/r2_credentials"
+
 module Pwb
   # Helper module for accessing seed image URLs from R2
   #
@@ -89,18 +91,19 @@ module Pwb
       # Check if R2 upload configuration is complete
       # @return [Boolean] true if all required R2 vars are set
       def r2_upload_configured?
-        ENV['R2_ACCESS_KEY_ID'].present? &&
-          ENV['R2_SECRET_ACCESS_KEY'].present? &&
-          ENV['R2_ACCOUNT_ID'].present? &&
+        Pwb::R2Credentials.access_key_id.present? &&
+          Pwb::R2Credentials.secret_access_key.present? &&
+          (r2_account_id || Pwb::R2Credentials.account_id).present? &&
           r2_bucket.present?
       end
 
       # Get R2 endpoint URL for API operations
       # @return [String, nil]
       def r2_endpoint
-        return nil unless r2_account_id.present?
+        account_id = r2_account_id || Pwb::R2Credentials.account_id
+        return nil unless account_id.present?
 
-        "https://#{r2_account_id}.r2.cloudflarestorage.com"
+        "https://#{account_id}.r2.cloudflarestorage.com"
       end
 
       # Get all configured property images

@@ -446,7 +446,8 @@ module Pwb
         end
 
         # Check if external seed images are enabled
-        use_external = ENV['R2_SEED_IMAGES_BUCKET'].present? || ENV['SEED_IMAGES_BASE_URL'].present?
+        require_relative 'seed_images'
+        use_external = Pwb::SeedImages.enabled?
 
         photo_files.each do |photo_file|
           begin
@@ -454,7 +455,6 @@ module Pwb
 
             if use_external
               # Use external URL instead of uploading to avoid storage bloat
-              require_relative 'seed_images'
               # Map local file path to R2 key with prefix
               r2_key = file_path_to_r2_key(photo_file)
               external_url = "#{Pwb::SeedImages.base_url}/#{r2_key}"

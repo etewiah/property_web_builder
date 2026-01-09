@@ -64,7 +64,9 @@ namespace :seed_images do
     puts ""
     puts "Step 3: Checking R2 configuration..."
 
-    if ENV["R2_ACCESS_KEY_ID"].present? && ENV["R2_SECRET_ACCESS_KEY"].present?
+    require "pwb/r2_credentials"
+
+    if Pwb::R2Credentials.access_key_id.present? && Pwb::R2Credentials.secret_access_key.present?
       puts "  R2 credentials: Configured"
       puts ""
       print "  Upload images to R2? (y/N): "

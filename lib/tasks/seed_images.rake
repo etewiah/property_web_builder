@@ -3,6 +3,8 @@
 require 'net/http'
 require 'uri'
 
+require 'pwb/r2_credentials'
+
 namespace :pwb do
   namespace :seed_images do
     desc "Check if seed images are available (local or R2)"
@@ -12,7 +14,7 @@ namespace :pwb do
       puts "\n=== Seed Images Configuration ==="
 
       # Show configuration
-      puts "R2 Account ID:  #{ENV['R2_ACCOUNT_ID'] || '(not set)'}"
+      puts "R2 Account ID:  #{Pwb::R2Credentials.account_id || '(not set)'}"
       puts "R2 Bucket:      #{Pwb::SeedImages.r2_bucket || '(not set)'}"
       puts "Base URL:       #{Pwb::SeedImages.base_url || '(not configured)'}"
       puts ""
@@ -42,9 +44,9 @@ namespace :pwb do
 
       # Validate required environment variables
       missing_vars = []
-      missing_vars << 'R2_ACCESS_KEY_ID' unless ENV['R2_ACCESS_KEY_ID'].present?
-      missing_vars << 'R2_SECRET_ACCESS_KEY' unless ENV['R2_SECRET_ACCESS_KEY'].present?
-      missing_vars << 'R2_ACCOUNT_ID' unless ENV['R2_ACCOUNT_ID'].present?
+      missing_vars << 'R2_ACCESS_KEY_ID' unless Pwb::R2Credentials.access_key_id.present?
+      missing_vars << 'R2_SECRET_ACCESS_KEY' unless Pwb::R2Credentials.secret_access_key.present?
+      missing_vars << 'R2_ACCOUNT_ID' unless (Pwb::SeedImages.r2_account_id || Pwb::R2Credentials.account_id).present?
       missing_vars << 'R2_SEED_IMAGES_BUCKET' unless Pwb::SeedImages.r2_bucket.present?
 
       if missing_vars.any?
@@ -64,8 +66,8 @@ namespace :pwb do
 
       # Initialize S3 client for R2
       client = Aws::S3::Client.new(
-        access_key_id: ENV['R2_ACCESS_KEY_ID'],
-        secret_access_key: ENV['R2_SECRET_ACCESS_KEY'],
+        access_key_id: Pwb::R2Credentials.access_key_id,
+        secret_access_key: Pwb::R2Credentials.secret_access_key,
         endpoint: endpoint,
         region: 'auto',
         force_path_style: true
@@ -152,9 +154,9 @@ namespace :pwb do
       puts "\n=== Upload All Seed Images to R2 ==="
 
       missing_vars = []
-      missing_vars << 'R2_ACCESS_KEY_ID' unless ENV['R2_ACCESS_KEY_ID'].present?
-      missing_vars << 'R2_SECRET_ACCESS_KEY' unless ENV['R2_SECRET_ACCESS_KEY'].present?
-      missing_vars << 'R2_ACCOUNT_ID' unless ENV['R2_ACCOUNT_ID'].present?
+      missing_vars << 'R2_ACCESS_KEY_ID' unless Pwb::R2Credentials.access_key_id.present?
+      missing_vars << 'R2_SECRET_ACCESS_KEY' unless Pwb::R2Credentials.secret_access_key.present?
+      missing_vars << 'R2_ACCOUNT_ID' unless (Pwb::SeedImages.r2_account_id || Pwb::R2Credentials.account_id).present?
       missing_vars << 'R2_SEED_IMAGES_BUCKET' unless Pwb::SeedImages.r2_bucket.present?
 
       if missing_vars.any?
@@ -167,8 +169,8 @@ namespace :pwb do
       endpoint = Pwb::SeedImages.r2_endpoint
 
       client = Aws::S3::Client.new(
-        access_key_id: ENV['R2_ACCESS_KEY_ID'],
-        secret_access_key: ENV['R2_SECRET_ACCESS_KEY'],
+        access_key_id: Pwb::R2Credentials.access_key_id,
+        secret_access_key: Pwb::R2Credentials.secret_access_key,
         endpoint: endpoint,
         region: 'auto',
         force_path_style: true
@@ -227,9 +229,9 @@ namespace :pwb do
       require 'aws-sdk-s3'
 
       missing_vars = []
-      missing_vars << 'R2_ACCESS_KEY_ID' unless ENV['R2_ACCESS_KEY_ID'].present?
-      missing_vars << 'R2_SECRET_ACCESS_KEY' unless ENV['R2_SECRET_ACCESS_KEY'].present?
-      missing_vars << 'R2_ACCOUNT_ID' unless ENV['R2_ACCOUNT_ID'].present?
+      missing_vars << 'R2_ACCESS_KEY_ID' unless Pwb::R2Credentials.access_key_id.present?
+      missing_vars << 'R2_SECRET_ACCESS_KEY' unless Pwb::R2Credentials.secret_access_key.present?
+      missing_vars << 'R2_ACCOUNT_ID' unless (Pwb::SeedImages.r2_account_id || Pwb::R2Credentials.account_id).present?
       missing_vars << 'R2_SEED_IMAGES_BUCKET' unless Pwb::SeedImages.r2_bucket.present?
 
       if missing_vars.any?

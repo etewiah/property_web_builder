@@ -96,8 +96,11 @@ node_modules
 .env.*
 standalone_quasar_app/
 pwb-frontend-quasar/
-/config/credentials.yml.enc
 /config/credentials/*.key
+# Rails encrypted credentials should be committed (encrypted).
+# Keep keys out of git (config/master.key and config/credentials/*.key).
+!/config/credentials.yml.enc
+!/config/credentials/*.yml.enc
 # package-lock.json - removed from gitignore to ensure npm dependencies are locked
 
 # Asset builds - ignore most but commit Tailwind CSS for reliable deploys
