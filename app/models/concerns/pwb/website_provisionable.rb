@@ -41,6 +41,7 @@ module Pwb
           after do
             update!(provisioning_started_at: Time.current) if provisioning_started_at.blank?
             log_provisioning_step('owner_assigned')
+            sync_website_created_to_zoho
           end
         end
 
@@ -105,14 +106,20 @@ module Pwb
         # Step 9: Complete registration (user created Firebase account)
         event :complete_owner_registration do
           transitions from: :locked_pending_registration, to: :live
-          after { log_provisioning_step('live') }
+          after do
+            log_provisioning_step('live')
+            sync_website_live_to_zoho
+          end
         end
 
         # Direct go_live (for admin use or special cases)
         event :go_live do
           transitions from: [:ready, :locked_pending_email_verification, :locked_pending_registration],
                       to: :live, guard: :can_go_live?
-          after { log_provisioning_step('live') }
+          after do
+            log_provisioning_step('live')
+            sync_website_live_to_zoho
+          end
         end
 
         # Failure handling
@@ -304,6 +311,26 @@ module Pwb
       return 30 if has_agency?
       return 15 if has_owner?
       0
+    end
+
+    # ===================
+    # Zoho CRM Sync
+    # ===================
+
+    def sync_website_created_to_zoho
+      return unless owner
+
+      Pwb::Zoho::SyncWebsiteCreatedJob.perform_later(owner.id, id)
+    rescue StandardError => e
+      Rails.logger.error("[Zoho] Failed to queue website created sync: #{e.message}")
+    end
+
+    def sync_website_live_to_zoho
+      return unless owner
+
+      Pwb::Zoho::SyncWebsiteLiveJob.perform_later(owner.id, id)
+    rescue StandardError => e
+      Rails.logger.error("[Zoho] Failed to queue website live sync: #{e.message}")
     end
   end
 end
