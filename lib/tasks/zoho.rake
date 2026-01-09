@@ -119,19 +119,37 @@ namespace :zoho do
 
     require 'faraday'
 
+    # Zoho requires credentials in the POST body, not query params
     response = Faraday.post("#{accounts_url}/oauth/v2/token") do |req|
-      req.params = {
+      req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+      req.body = URI.encode_www_form(
         code: code,
         client_id: client_id,
         client_secret: client_secret,
         redirect_uri: redirect_uri,
         grant_type: 'authorization_code'
-      }
+      )
     end
 
     data = JSON.parse(response.body)
 
-    if data['refresh_token']
+    if data['error']
+      puts ""
+      puts "ERROR: Token exchange failed"
+      puts "Error: #{data['error']}"
+      puts "Description: #{data['error_description']}" if data['error_description']
+      puts ""
+      puts "Common issues:"
+      puts "  - 'invalid_client': Check client_id and client_secret are correct"
+      puts "  - 'invalid_code': Authorization code expired (they're single-use and expire quickly)"
+      puts "  - 'invalid_redirect_uri': Redirect URI must match exactly what's in Zoho console"
+      puts ""
+      puts "Debug info:"
+      puts "  Accounts URL: #{accounts_url}"
+      puts "  Client ID: #{client_id[0..10]}...#{client_id[-4..]}"
+      puts "  Redirect URI: #{redirect_uri}"
+      exit 1
+    elsif data['refresh_token']
       puts ""
       puts "SUCCESS! Here are your tokens:"
       puts ""
@@ -154,7 +172,7 @@ namespace :zoho do
       puts "  accounts_url: \"#{accounts_url}\""
     else
       puts ""
-      puts "ERROR: Token exchange failed"
+      puts "ERROR: Unexpected response (no refresh_token or error)"
       puts "Response: #{data}"
     end
 
