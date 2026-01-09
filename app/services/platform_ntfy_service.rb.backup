@@ -40,9 +40,10 @@ class PlatformNtfyService
     # @param user [Pwb::User] The newly registered user
     # @param reserved_subdomain [String] The subdomain they reserved
     def notify_user_signup(user, reserved_subdomain: nil)
-      return unless enabled?
+      return unless enabled_for?(:signups)
 
       publish(
+        channel: CHANNEL_SIGNUPS,
         title: '🎉 New User Signup',
         message: build_signup_message(user, reserved_subdomain),
         priority: PRIORITY_HIGH,
@@ -55,9 +56,10 @@ class PlatformNtfyService
     #
     # @param user [Pwb::User] The user who verified email
     def notify_email_verified(user)
-      return unless enabled?
+      return unless enabled_for?(:signups)
 
       publish(
+        channel: CHANNEL_SIGNUPS,
         title: '✅ Email Verified',
         message: "#{user.email} has verified their email address",
         priority: PRIORITY_DEFAULT,
@@ -71,9 +73,10 @@ class PlatformNtfyService
     # @param user [Pwb::User] The user
     # @param website [Pwb::Website] Their new website
     def notify_onboarding_complete(user, website)
-      return unless enabled?
+      return unless enabled_for?(:signups)
 
       publish(
+        channel: CHANNEL_SIGNUPS,
         title: '🎊 Onboarding Complete',
         message: "#{user.email} finished setup\nWebsite: #{website.subdomain}",
         priority: PRIORITY_HIGH,
@@ -90,9 +93,11 @@ class PlatformNtfyService
     #
     # @param website [Pwb::Website] The website being provisioned
     def notify_provisioning_started(website)
-      return unless enabled?
+      return unless enabled_for?(:provisioning)
 
-      publish(title: '⚙️ Provisioning Started',
+      publish(
+        channel: CHANNEL_PROVISIONING,
+        title: '⚙️ Provisioning Started',
         message: build_provisioning_message(website, 'started'),
         priority: PRIORITY_DEFAULT,
         tags: ['gear', 'hourglass'],
@@ -104,10 +109,12 @@ class PlatformNtfyService
     #
     # @param website [Pwb::Website] The website that's now live
     def notify_provisioning_complete(website)
-      return unless enabled?
+      return unless enabled_for?(:provisioning)
 
       owner = website.owner
-      publish(title: '✅ Website Live',
+      publish(
+        channel: CHANNEL_PROVISIONING,
+        title: '✅ Website Live',
         message: build_provisioning_message(website, 'complete'),
         priority: PRIORITY_HIGH,
         tags: ['white_check_mark', 'rocket'],
@@ -124,9 +131,11 @@ class PlatformNtfyService
     # @param website [Pwb::Website] The website that failed
     # @param error [String] Error message
     def notify_provisioning_failed(website, error)
-      return unless enabled?
+      return unless enabled_for?(:provisioning)
 
-      publish(title: '❌ Provisioning Failed',
+      publish(
+        channel: CHANNEL_PROVISIONING,
+        title: '❌ Provisioning Failed',
         message: "Subdomain: #{website.subdomain}\nError: #{error}",
         priority: PRIORITY_URGENT,
         tags: ['x', 'warning'],
@@ -142,9 +151,11 @@ class PlatformNtfyService
     #
     # @param subscription [Pwb::Subscription] The new subscription
     def notify_trial_started(subscription)
-      return unless enabled?
+      return unless enabled_for?(:subscriptions)
 
-      publish(title: '🆓 Trial Started',
+      publish(
+        channel: CHANNEL_SUBSCRIPTIONS,
+        title: '🆓 Trial Started',
         message: build_subscription_message(subscription, 'trial_started'),
         priority: PRIORITY_DEFAULT,
         tags: ['free', 'clock'],
@@ -156,9 +167,11 @@ class PlatformNtfyService
     #
     # @param subscription [Pwb::Subscription] The activated subscription
     def notify_subscription_activated(subscription)
-      return unless enabled?
+      return unless enabled_for?(:subscriptions)
 
-      publish(title: '💰 Subscription Activated',
+      publish(
+        channel: CHANNEL_SUBSCRIPTIONS,
+        title: '💰 Subscription Activated',
         message: build_subscription_message(subscription, 'activated'),
         priority: PRIORITY_HIGH,
         tags: ['moneybag', 'tada'],
@@ -170,9 +183,11 @@ class PlatformNtfyService
     #
     # @param subscription [Pwb::Subscription] The expired subscription
     def notify_trial_expired(subscription)
-      return unless enabled?
+      return unless enabled_for?(:subscriptions)
 
-      publish(title: '⏱️ Trial Expired',
+      publish(
+        channel: CHANNEL_SUBSCRIPTIONS,
+        title: '⏱️ Trial Expired',
         message: build_subscription_message(subscription, 'trial_expired'),
         priority: PRIORITY_DEFAULT,
         tags: ['hourglass', 'disappointed'],
@@ -185,12 +200,14 @@ class PlatformNtfyService
     # @param subscription [Pwb::Subscription] The canceled subscription
     # @param reason [String] Cancellation reason
     def notify_subscription_canceled(subscription, reason: nil)
-      return unless enabled?
+      return unless enabled_for?(:subscriptions)
 
       message = build_subscription_message(subscription, 'canceled')
       message += "\nReason: #{reason}" if reason.present?
 
-      publish(title: '😢 Subscription Canceled',
+      publish(
+        channel: CHANNEL_SUBSCRIPTIONS,
+        title: '😢 Subscription Canceled',
         message: message,
         priority: PRIORITY_HIGH,
         tags: ['disappointed', 'wave'],
@@ -203,12 +220,14 @@ class PlatformNtfyService
     # @param subscription [Pwb::Subscription] The subscription
     # @param error_details [String] Payment error details
     def notify_payment_failed(subscription, error_details: nil)
-      return unless enabled?
+      return unless enabled_for?(:subscriptions)
 
       message = build_subscription_message(subscription, 'payment_failed')
       message += "\nError: #{error_details}" if error_details.present?
 
-      publish(title: '⚠️ Payment Failed',
+      publish(
+        channel: CHANNEL_SUBSCRIPTIONS,
+        title: '⚠️ Payment Failed',
         message: message,
         priority: PRIORITY_URGENT,
         tags: ['warning', 'credit_card'],
@@ -222,11 +241,13 @@ class PlatformNtfyService
     # @param old_plan [Pwb::Plan] Previous plan
     # @param new_plan [Pwb::Plan] New plan
     def notify_plan_changed(subscription, old_plan, new_plan)
-      return unless enabled?
+      return unless enabled_for?(:subscriptions)
 
       direction = new_plan.price_cents > old_plan.price_cents ? '⬆️ Upgrade' : '⬇️ Downgrade'
 
-      publish(title: "🔄 Plan Changed (#{direction})",
+      publish(
+        channel: CHANNEL_SUBSCRIPTIONS,
+        title: "🔄 Plan Changed (#{direction})",
         message: build_plan_change_message(subscription, old_plan, new_plan),
         priority: PRIORITY_DEFAULT,
         tags: ['arrows_counterclockwise'],
@@ -244,9 +265,11 @@ class PlatformNtfyService
     # @param message [String] Alert message
     # @param priority [Integer] Priority level (default: URGENT)
     def notify_system_alert(title, message, priority: PRIORITY_URGENT)
-      return unless enabled?
+      return unless enabled_for?(:system_health)
 
-      publish(title: "🚨 #{title}",
+      publish(
+        channel: CHANNEL_SYSTEM,
+        title: "🚨 #{title}",
         message: message,
         priority: priority,
         tags: ['rotating_light', 'warning']
@@ -257,9 +280,11 @@ class PlatformNtfyService
     #
     # @param metrics [Hash] Metrics data
     def notify_daily_summary(metrics)
-      return unless enabled?
+      return unless enabled_for?(:system_health)
 
-      publish(title: '📊 Daily Platform Summary',
+      publish(
+        channel: CHANNEL_SYSTEM,
+        title: '📊 Daily Platform Summary',
         message: build_daily_summary_message(metrics),
         priority: PRIORITY_LOW,
         tags: ['bar_chart', 'calendar'],
@@ -271,13 +296,23 @@ class PlatformNtfyService
     # Configuration & Testing
     # ===================
 
+    # Check if platform ntfy is enabled
+    #
+    # @return [Boolean]
+    def enabled?
+      platform_ntfy_enabled? && topic_prefix.present?
+    end
+
     # Test the platform ntfy configuration
     #
     # @return [Hash] Result with :success and :message keys
     def test_configuration
-      return { success: false, message: 'Platform ntfy is not configured. Set credentials.platform_ntfy.topic to enable.' } unless enabled?
+      return { success: false, message: 'Platform ntfy is not enabled' } unless platform_ntfy_enabled?
+      return { success: false, message: 'Topic prefix is required' } if topic_prefix.blank?
 
-      result = publish(title: '✅ Test Notification',
+      result = publish(
+        channel: CHANNEL_TEST,
+        title: '✅ Test Notification',
         message: "Platform ntfy is configured correctly!\nTime: #{Time.current.strftime('%Y-%m-%d %H:%M:%S')}",
         priority: PRIORITY_DEFAULT,
         tags: ['white_check_mark', 'test_tube']
@@ -292,6 +327,7 @@ class PlatformNtfyService
 
     # Low-level publish method
     #
+    # @param channel [String] The notification channel
     # @param message [String] Notification body
     # @param title [String] Notification title
     # @param priority [Integer] Priority level (1-5)
@@ -299,10 +335,11 @@ class PlatformNtfyService
     # @param click_url [String] URL to open on click
     # @param actions [Array<Hash>] Action buttons
     # @return [Boolean] Success status
-    def publish(message:, title: nil, priority: PRIORITY_DEFAULT, tags: [], click_url: nil, actions: nil)
-      return false unless enabled?
+    def publish(channel:, message:, title: nil, priority: PRIORITY_DEFAULT, tags: [], click_url: nil, actions: nil)
+      return false unless platform_ntfy_enabled?
       return false if message.blank?
 
+      topic = build_topic(channel)
       headers = build_headers(
         title: title,
         priority: priority,
@@ -314,33 +351,43 @@ class PlatformNtfyService
       perform_request(topic, message, headers)
     end
 
-    # Check if platform ntfy is enabled
-    #
-    # @return [Boolean]
-    def enabled?
-      topic.present?
-    end
-
     private
 
     # ===================
     # Configuration
     # ===================
 
-    def server_url
-      credentials.dig(:platform_ntfy, :server_url).presence || 'https://ntfy.sh'
+    def platform_ntfy_enabled?
+      ENV.fetch('PLATFORM_NTFY_ENABLED', 'false').downcase == 'true'
     end
 
-    def topic
-      credentials.dig(:platform_ntfy, :topic)
+    def server_url
+      ENV.fetch('PLATFORM_NTFY_SERVER_URL', 'https://ntfy.sh')
+    end
+
+    def topic_prefix
+      ENV.fetch('PLATFORM_NTFY_TOPIC_PREFIX', 'pwb-platform')
     end
 
     def access_token
-      credentials.dig(:platform_ntfy, :access_token)
+      ENV['PLATFORM_NTFY_ACCESS_TOKEN']
     end
 
-    def credentials
-      Rails.application.credentials
+    def enabled_for?(channel)
+      return false unless platform_ntfy_enabled?
+
+      case channel
+      when :signups
+        ENV.fetch('PLATFORM_NTFY_NOTIFY_SIGNUPS', 'true').downcase == 'true'
+      when :provisioning
+        ENV.fetch('PLATFORM_NTFY_NOTIFY_PROVISIONING', 'true').downcase == 'true'
+      when :subscriptions
+        ENV.fetch('PLATFORM_NTFY_NOTIFY_SUBSCRIPTIONS', 'true').downcase == 'true'
+      when :system_health
+        ENV.fetch('PLATFORM_NTFY_NOTIFY_SYSTEM_HEALTH', 'true').downcase == 'true'
+      else
+        true
+      end
     end
 
     # ===================
@@ -461,6 +508,10 @@ class PlatformNtfyService
     # ===================
     # HTTP Request
     # ===================
+
+    def build_topic(channel)
+      "#{topic_prefix}-#{channel}"
+    end
 
     def build_headers(title:, priority:, tags:, click_url:, actions:)
       headers = {

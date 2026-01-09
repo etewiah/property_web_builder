@@ -63,17 +63,12 @@ module TenantAdmin
     private
 
     def check_configuration
+      credentials = Rails.application.credentials
       {
         enabled: PlatformNtfyService.enabled?,
-        server_url: ENV.fetch('PLATFORM_NTFY_SERVER_URL', 'https://ntfy.sh'),
-        topic_prefix: ENV.fetch('PLATFORM_NTFY_TOPIC_PREFIX', 'pwb-platform'),
-        has_access_token: ENV['PLATFORM_NTFY_ACCESS_TOKEN'].present?,
-        channels: {
-          signups: ENV.fetch('PLATFORM_NTFY_NOTIFY_SIGNUPS', 'true') == 'true',
-          provisioning: ENV.fetch('PLATFORM_NTFY_NOTIFY_PROVISIONING', 'true') == 'true',
-          subscriptions: ENV.fetch('PLATFORM_NTFY_NOTIFY_SUBSCRIPTIONS', 'true') == 'true',
-          system_health: ENV.fetch('PLATFORM_NTFY_NOTIFY_SYSTEM_HEALTH', 'true') == 'true'
-        }
+        server_url: credentials.dig(:platform_ntfy, :server_url) || 'https://ntfy.sh',
+        topic: credentials.dig(:platform_ntfy, :topic) || '(not configured)',
+        has_access_token: credentials.dig(:platform_ntfy, :access_token).present?
       }
     end
 
