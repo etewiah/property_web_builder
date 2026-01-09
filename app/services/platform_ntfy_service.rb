@@ -553,6 +553,13 @@ class PlatformNtfyService
 
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme == 'https'
+      
+      # In development/test, allow self-signed certificates
+      # In production, this should be properly configured
+      if Rails.env.development? || Rails.env.test?
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      end
+      
       http.open_timeout = 5
       http.read_timeout = 10
 
