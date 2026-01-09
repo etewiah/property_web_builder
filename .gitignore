@@ -141,3 +141,7 @@ db/seeds/site_import_packs/
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
+
+# Ignore key files for decrypting credentials and more.
+/config/credentials/*.key
+
