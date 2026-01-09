@@ -17,9 +17,9 @@ module Pwb
       cert.subject = OpenSSL::X509::Name.parse('/CN=test')
       cert.issuer = cert.subject
       cert.public_key = test_private_key.public_key
-      cert.not_before = Time.now - 3600
-      cert.not_after = Time.now + 3600
-      cert.sign(test_private_key, OpenSSL::Digest::SHA256.new)
+      cert.not_before = Time.zone.now - 3600
+      cert.not_after = Time.zone.now + 3600
+      cert.sign(test_private_key, OpenSSL::Digest.new('SHA256'))
       cert.to_pem
     end
 

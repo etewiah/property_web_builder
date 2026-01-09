@@ -92,8 +92,8 @@ RSpec.describe "PWB CSS Utilities", type: :view do
           "#{type}:\n  - #{classes.join("\n  - ")}"
         end.join("\n\n")
 
-        fail "Missing PWB utility classes in tailwind-input.css:\n\n#{error_message}\n\n" \
-             "Add these classes to app/assets/stylesheets/tailwind-input.css"
+        raise "Missing PWB utility classes in tailwind-input.css:\n\n#{error_message}\n\n" \
+              "Add these classes to app/assets/stylesheets/tailwind-input.css"
       end
     end
 
@@ -102,13 +102,11 @@ RSpec.describe "PWB CSS Utilities", type: :view do
 
       used_utility_classes.each do |cls|
         # Extract the color scale number if present
-        if match = cls.match(/-pwb-(?:primary|secondary|accent)-(\d+)/)
-          suffix = match[1].to_i
-          valid_suffixes = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]
-          unless valid_suffixes.include?(suffix)
-            invalid_suffixes << "#{cls} (#{suffix} is not a valid Tailwind scale)"
-          end
-        end
+        next unless (match = cls.match(/-pwb-(?:primary|secondary|accent)-(\d+)/))
+
+        suffix = match[1].to_i
+        valid_suffixes = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]
+        invalid_suffixes << "#{cls} (#{suffix} is not a valid Tailwind scale)" unless valid_suffixes.include?(suffix)
       end
 
       expect(invalid_suffixes).to be_empty,

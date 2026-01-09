@@ -74,11 +74,11 @@ RSpec.describe Pwb::PagePartDefinition do
     it "skips validation if template file doesn't exist" do
       FileUtils.rm_f(Rails.root.join("app/views/pwb/page_parts/test_part.liquid"))
 
-      expect {
+      expect do
         Pwb::PagePartDefinition.define :test_part do
           field :any_field, type: :single_line_text
         end
-      }.not_to raise_error
+      end.not_to raise_error
     end
   end
 

@@ -123,11 +123,11 @@ RSpec.describe 'SiteAdmin::EmailTemplatesController', type: :request do
 
     context 'with valid parameters' do
       it 'creates a new email template' do
-        expect {
+        expect do
           post site_admin_email_templates_path,
                params: valid_params,
                headers: { 'HTTP_HOST' => 'email-templates-test.test.localhost' }
-        }.to change(Pwb::EmailTemplate, :count).by(1)
+        end.to change(Pwb::EmailTemplate, :count).by(1)
       end
 
       it 'redirects to show page after creation' do
@@ -154,22 +154,22 @@ RSpec.describe 'SiteAdmin::EmailTemplatesController', type: :request do
         invalid_params = valid_params.deep_dup
         invalid_params[:pwb_email_template][:subject] = ''
 
-        expect {
+        expect do
           post site_admin_email_templates_path,
                params: invalid_params,
                headers: { 'HTTP_HOST' => 'email-templates-test.test.localhost' }
-        }.not_to change(Pwb::EmailTemplate, :count)
+        end.not_to change(Pwb::EmailTemplate, :count)
       end
 
       it 'does not create template without body_html' do
         invalid_params = valid_params.deep_dup
         invalid_params[:pwb_email_template][:body_html] = ''
 
-        expect {
+        expect do
           post site_admin_email_templates_path,
                params: invalid_params,
                headers: { 'HTTP_HOST' => 'email-templates-test.test.localhost' }
-        }.not_to change(Pwb::EmailTemplate, :count)
+        end.not_to change(Pwb::EmailTemplate, :count)
       end
 
       it 'returns unprocessable_entity for validation errors' do
@@ -190,11 +190,11 @@ RSpec.describe 'SiteAdmin::EmailTemplatesController', type: :request do
       end
 
       it 'does not create duplicate template for same key' do
-        expect {
+        expect do
           post site_admin_email_templates_path,
                params: valid_params,
                headers: { 'HTTP_HOST' => 'email-templates-test.test.localhost' }
-        }.not_to change(Pwb::EmailTemplate, :count)
+        end.not_to change(Pwb::EmailTemplate, :count)
       end
     end
   end
@@ -235,7 +235,7 @@ RSpec.describe 'SiteAdmin::EmailTemplatesController', type: :request do
   describe 'PATCH /site_admin/email_templates/:id (update)' do
     let!(:template) do
       create(:pwb_email_template, website: website, template_key: 'enquiry.general',
-             subject: 'Original Subject')
+                                  subject: 'Original Subject')
     end
 
     it 'updates the template successfully' do
@@ -273,10 +273,10 @@ RSpec.describe 'SiteAdmin::EmailTemplatesController', type: :request do
     end
 
     it 'deletes the template' do
-      expect {
+      expect do
         delete site_admin_email_template_path(template),
                headers: { 'HTTP_HOST' => 'email-templates-test.test.localhost' }
-      }.to change(Pwb::EmailTemplate, :count).by(-1)
+      end.to change(Pwb::EmailTemplate, :count).by(-1)
     end
 
     it 'redirects to index after deletion' do
@@ -291,9 +291,9 @@ RSpec.describe 'SiteAdmin::EmailTemplatesController', type: :request do
   describe 'GET /site_admin/email_templates/:id/preview' do
     let!(:template) do
       create(:pwb_email_template, website: website,
-             template_key: 'enquiry.general',
-             subject: 'Enquiry from {{ visitor_name }}',
-             body_html: '<p>Message from {{ visitor_name }}: {{ message }}</p>')
+                                  template_key: 'enquiry.general',
+                                  subject: 'Enquiry from {{ visitor_name }}',
+                                  body_html: '<p>Message from {{ visitor_name }}: {{ message }}</p>')
     end
 
     it 'renders preview page successfully' do
@@ -346,7 +346,7 @@ RSpec.describe 'SiteAdmin::EmailTemplatesController', type: :request do
             headers: { 'HTTP_HOST' => 'email-templates-test.test.localhost' }
 
         expect(response).to have_http_status(:bad_request)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['error']).to include('Invalid template type')
       end
     end

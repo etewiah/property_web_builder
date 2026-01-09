@@ -10,12 +10,12 @@ RSpec.describe "Pwb Model Associations", type: :model do
     # Find all classes inside Pwb module that inherit from ApplicationRecord
     # We filter by those that actually have a table or are abstract, to avoid issues with modules/helpers
     pwb_models = Pwb.constants.map { |c| Pwb.const_get(c) }
-                          .select { |c| c.is_a?(Class) && c < ActiveRecord::Base && !c.abstract_class? }
-    
+                    .select { |c| c.is_a?(Class) && c < ActiveRecord::Base && !c.abstract_class? }
+
     pwb_tenant_models = []
     if defined?(PwbTenant)
       pwb_tenant_models = PwbTenant.constants.map { |c| PwbTenant.const_get(c) }
-                            .select { |c| c.is_a?(Class) && c < ActiveRecord::Base && !c.abstract_class? }
+                                   .select { |c| c.is_a?(Class) && c < ActiveRecord::Base && !c.abstract_class? }
     end
 
     models = pwb_models + pwb_tenant_models
@@ -29,17 +29,15 @@ RSpec.describe "Pwb Model Associations", type: :model do
 
         begin
           # This triggers the class lookup
-          klass = assoc.klass
+          assoc.klass
         rescue NameError => e
           failures << "Model #{model.name} has invalid association '#{assoc.name}': #{e.message}"
-        rescue => e
+        rescue StandardError => e
           failures << "Model #{model.name} failed on association '#{assoc.name}': #{e.message}"
         end
       end
     end
 
-    if failures.any?
-      fail "Association errors found:\n#{failures.join("\n")}"
-    end
+    raise "Association errors found:\n#{failures.join("\n")}" if failures.any?
   end
 end

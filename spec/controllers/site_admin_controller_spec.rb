@@ -104,9 +104,9 @@ RSpec.describe SiteAdminController, type: :controller do
     end
 
     it 'raises error when accessing PwbTenant models' do
-      expect {
+      expect do
         PwbTenant::Contact.count
-      }.to raise_error(ActsAsTenant::Errors::NoTenantSet)
+      end.to raise_error(ActsAsTenant::Errors::NoTenantSet)
     end
   end
 end

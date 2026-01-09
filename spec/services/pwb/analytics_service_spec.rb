@@ -11,7 +11,7 @@ RSpec.describe Pwb::AnalyticsService do
       # Create visits with different visitor tokens
       create_list(:ahoy_visit, 5, website: website, visitor_token: 'unique1')
       create_list(:ahoy_visit, 3, website: website, visitor_token: 'unique2')
-      
+
       # Create events
       visit = create(:ahoy_visit, website: website)
       create_list(:ahoy_event, 10, :page_view, website: website, visit: visit)
@@ -43,7 +43,7 @@ RSpec.describe Pwb::AnalyticsService do
 
     it 'groups visits by day' do
       result = service.visits_by_day
-      
+
       expect(result).to be_a(Hash)
       expect(result.values.sum).to eq(4)
     end
@@ -52,7 +52,7 @@ RSpec.describe Pwb::AnalyticsService do
   describe '#top_properties' do
     before do
       visit = create(:ahoy_visit, website: website)
-      
+
       # Property 1 viewed 5 times
       5.times { create(:ahoy_event, :property_view, website: website, visit: visit, properties: { property_id: '1' }) }
       # Property 2 viewed 3 times
@@ -63,7 +63,7 @@ RSpec.describe Pwb::AnalyticsService do
 
     it 'returns properties ordered by view count' do
       result = service.top_properties(limit: 10)
-      
+
       expect(result.keys.first).to include(id: 1)
       expect(result.values.first).to eq(5)
     end
@@ -123,16 +123,16 @@ RSpec.describe Pwb::AnalyticsService do
     before do
       visit1 = create(:ahoy_visit, website: website)
       visit2 = create(:ahoy_visit, website: website)
-      visit3 = create(:ahoy_visit, website: website)
-      
+      create(:ahoy_visit, website: website)
+
       # Visit 1: Full funnel
       create(:ahoy_event, :property_view, website: website, visit: visit1)
       create(:ahoy_event, :contact_form_opened, website: website, visit: visit1)
       create(:ahoy_event, :inquiry, website: website, visit: visit1)
-      
+
       # Visit 2: Viewed property but didn't inquire
       create(:ahoy_event, :property_view, website: website, visit: visit2)
-      
+
       # Visit 3: Just visited, no property views
     end
 
@@ -164,7 +164,7 @@ RSpec.describe Pwb::AnalyticsService do
 
     it 'only includes data within the specified period' do
       overview = service.overview
-      
+
       expect(overview[:total_visits]).to eq(1)
     end
 
@@ -173,7 +173,7 @@ RSpec.describe Pwb::AnalyticsService do
 
       it 'includes data within the longer period' do
         overview = service.overview
-        
+
         expect(overview[:total_visits]).to eq(2)
       end
     end

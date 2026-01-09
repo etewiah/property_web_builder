@@ -68,11 +68,11 @@ RSpec.describe "SiteAdmin::PropertyUrlImportController", type: :request do
         end
 
         it "creates a ScrapedProperty record" do
-          expect {
+          expect do
             post site_admin_property_url_import_path,
                  params: { url: url },
                  headers: { "HTTP_HOST" => "url-import-test.test.localhost" }
-          }.to change(Pwb::ScrapedProperty, :count).by(1)
+          end.to change(Pwb::ScrapedProperty, :count).by(1)
         end
 
         it "redirects to preview page" do
@@ -146,11 +146,11 @@ RSpec.describe "SiteAdmin::PropertyUrlImportController", type: :request do
 
     context "with valid HTML" do
       it "creates/updates a ScrapedProperty record" do
-        expect {
+        expect do
           post site_admin_property_url_import_manual_html_path,
                params: { url: url, raw_html: html },
                headers: { "HTTP_HOST" => "url-import-test.test.localhost" }
-        }.to change(Pwb::ScrapedProperty, :count).by(1)
+        end.to change(Pwb::ScrapedProperty, :count).by(1)
       end
 
       it "redirects to preview page" do
@@ -229,17 +229,17 @@ RSpec.describe "SiteAdmin::PropertyUrlImportController", type: :request do
     end
 
     it "creates a RealtyAsset" do
-      expect {
+      expect do
         post site_admin_property_url_import_confirm_path(scraped_property),
              headers: { "HTTP_HOST" => "url-import-test.test.localhost" }
-      }.to change(Pwb::RealtyAsset, :count).by(1)
+      end.to change(Pwb::RealtyAsset, :count).by(1)
     end
 
     it "creates a SaleListing" do
-      expect {
+      expect do
         post site_admin_property_url_import_confirm_path(scraped_property),
              headers: { "HTTP_HOST" => "url-import-test.test.localhost" }
-      }.to change(Pwb::SaleListing, :count).by(1)
+      end.to change(Pwb::SaleListing, :count).by(1)
     end
 
     it "redirects to edit page" do
@@ -269,7 +269,7 @@ RSpec.describe "SiteAdmin::PropertyUrlImportController", type: :request do
 
       it "applies listing_data overrides" do
         post site_admin_property_url_import_confirm_path(scraped_property),
-             params: { listing_data: { title: "Custom Title", price_sale_current: 500000 } },
+             params: { listing_data: { title: "Custom Title", price_sale_current: 500_000 } },
              headers: { "HTTP_HOST" => "url-import-test.test.localhost" }
 
         listing = Pwb::SaleListing.last

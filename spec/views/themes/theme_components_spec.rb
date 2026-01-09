@@ -46,9 +46,9 @@ RSpec.describe 'Theme Component Functionality', type: :view do
   end
 
   describe 'ERB syntax validation' do
-    theme_directories_for_test = Dir.glob(Rails.root.join('app', 'themes', '*'))
-                                    .select { |f| File.directory?(f) }
-                                    .map { |f| File.basename(f) }
+    theme_directories_for_test = Rails.root.glob('app/themes/*')
+                                      .select { |f| File.directory?(f) }
+                                      .map { |f| File.basename(f) }
 
     theme_directories_for_test.each do |theme|
       context "#{theme} theme" do
@@ -72,8 +72,8 @@ RSpec.describe 'Theme Component Functionality', type: :view do
           # Check for common ERB artifacts that might be rendered
           # These patterns indicate broken ERB that will render as visible text
           dangerous_patterns = [
-            /^\s*%>\s*$/m,  # Lone %> on a line
-            /body[^>]*>[\s\n]*%>/m  # %> immediately after body tag
+            /^\s*%>\s*$/m, # Lone %> on a line
+            /body[^>]*>[\s\n]*%>/m # %> immediately after body tag
           ]
 
           dangerous_patterns.each do |pattern|
@@ -88,16 +88,12 @@ RSpec.describe 'Theme Component Functionality', type: :view do
 
   describe 'Carousel functionality for Tailwind themes' do
     TAILWIND_THEMES.each do |theme|
-      next unless Dir.exist?(Rails.root.join('app', 'themes', theme))
+      next unless Rails.root.join('app', 'themes', theme).exist?
 
       context "#{theme} theme" do
         it 'has a proper Flowbite-compatible carousel partial' do
           # Check theme-specific partial first, then fall back to default
-          carousel_path = if template_exists?(theme, 'pwb/props/_images_section_carousel.html.erb')
-                            "pwb/props/_images_section_carousel.html.erb"
-                          else
-                            nil
-                          end
+          carousel_path = ("pwb/props/_images_section_carousel.html.erb" if template_exists?(theme, 'pwb/props/_images_section_carousel.html.erb'))
 
           if carousel_path
             content = read_template(theme, carousel_path)
@@ -150,7 +146,7 @@ RSpec.describe 'Theme Component Functionality', type: :view do
 
   describe 'Dropdown functionality for Tailwind themes' do
     TAILWIND_THEMES.each do |theme|
-      next unless Dir.exist?(Rails.root.join('app', 'themes', theme))
+      next unless Rails.root.join('app', 'themes', theme).exist?
 
       context "#{theme} theme" do
         it 'header uses Flowbite-compatible dropdown patterns' do
@@ -175,12 +171,12 @@ RSpec.describe 'Theme Component Functionality', type: :view do
             next unless content
 
             # Check that select elements have proper structure
-            if content.include?('<select')
-              # Should have proper classes for Tailwind styling
-              expect(content).to match(/<select[^>]*class=/i),
-                "#{theme} #{form} has select elements without CSS classes.\n" \
-                "Add Tailwind/Flowbite classes for proper styling."
-            end
+            next unless content.include?('<select')
+
+            # Should have proper classes for Tailwind styling
+            expect(content).to match(/<select[^>]*class=/i),
+              "#{theme} #{form} has select elements without CSS classes.\n" \
+              "Add Tailwind/Flowbite classes for proper styling."
           end
         end
       end
@@ -189,7 +185,7 @@ RSpec.describe 'Theme Component Functionality', type: :view do
 
   describe 'CSS framework consistency' do
     TAILWIND_THEMES.each do |theme|
-      next unless Dir.exist?(Rails.root.join('app', 'themes', theme))
+      next unless Rails.root.join('app', 'themes', theme).exist?
 
       context "#{theme} theme" do
         it 'layout loads Tailwind CSS' do
@@ -233,11 +229,11 @@ RSpec.describe 'Theme Component Functionality', type: :view do
 
   describe 'Component summary' do
     it 'reports component status for all themes' do
-      themes = Dir.glob(Rails.root.join('app', 'themes', '*'))
-                  .select { |f| File.directory?(f) }
-                  .map { |f| File.basename(f) }
+      themes = Rails.root.glob('app/themes/*')
+                    .select { |f| File.directory?(f) }
+                    .map { |f| File.basename(f) }
 
-      puts "\n" + "=" * 60
+      puts "\n" + ("=" * 60)
       puts "THEME COMPONENT STATUS REPORT"
       puts "=" * 60
 
@@ -262,26 +258,22 @@ RSpec.describe 'Theme Component Functionality', type: :view do
 
         # Check layout
         layout_content = read_template(theme, 'layouts/pwb/application.html.erb')
-        if layout_content
-          has_tailwind = layout_content.match?(/tailwind.*\.css/i)
-          has_flowbite = layout_content.match?(/flowbite.*\.js/i)
-          has_bootstrap = layout_content.match?(/bootstrap.*\.css/i)
+        next unless layout_content
 
-          puts "  Tailwind:  #{has_tailwind ? 'YES' : 'NO'}"
-          puts "  Flowbite:  #{has_flowbite ? 'YES' : 'NO'}"
-          puts "  Bootstrap: #{has_bootstrap ? 'YES (potential conflict)' : 'NO'}"
+        has_tailwind = layout_content.match?(/tailwind.*\.css/i)
+        has_flowbite = layout_content.match?(/flowbite.*\.js/i)
+        has_bootstrap = layout_content.match?(/bootstrap.*\.css/i)
 
-          # Warn about mismatches
-          if has_tailwind && !has_carousel
-            puts "  WARNING:   Tailwind theme without Flowbite carousel"
-          end
-          if has_tailwind && carousel_type == 'Bootstrap'
-            puts "  WARNING:   Tailwind theme with Bootstrap carousel"
-          end
-        end
+        puts "  Tailwind:  #{has_tailwind ? 'YES' : 'NO'}"
+        puts "  Flowbite:  #{has_flowbite ? 'YES' : 'NO'}"
+        puts "  Bootstrap: #{has_bootstrap ? 'YES (potential conflict)' : 'NO'}"
+
+        # Warn about mismatches
+        puts "  WARNING:   Tailwind theme without Flowbite carousel" if has_tailwind && !has_carousel
+        puts "  WARNING:   Tailwind theme with Bootstrap carousel" if has_tailwind && carousel_type == 'Bootstrap'
       end
 
-      puts "\n" + "=" * 60
+      puts "\n" + ("=" * 60)
     end
   end
 
@@ -358,7 +350,7 @@ RSpec.describe 'Theme Component Functionality', type: :view do
 
     describe 'Layout dark mode classes' do
       TAILWIND_THEMES.each do |theme|
-        next unless Dir.exist?(Rails.root.join('app', 'themes', theme))
+        next unless Rails.root.join('app', 'themes', theme).exist?
 
         context "#{theme} theme layout" do
           let(:layout_content) { read_template(theme, 'layouts/pwb/application.html.erb') }
@@ -531,9 +523,7 @@ RSpec.describe 'Theme Component Functionality', type: :view do
           content = File.read(file_path)
           # Match stylesheet_link_tag "tailwind" or 'tailwind' followed by comma or close paren
           # but not tailwind-something
-          if content.match?(/stylesheet_link_tag\s+["']tailwind["']\s*[,)]/)
-            problematic_files << file_path.sub(Rails.root.to_s + '/', '')
-          end
+          problematic_files << file_path.sub(Rails.root.to_s + '/', '') if content.match?(/stylesheet_link_tag\s+["']tailwind["']\s*[,)]/)
         end
 
         expect(problematic_files).to be_empty,

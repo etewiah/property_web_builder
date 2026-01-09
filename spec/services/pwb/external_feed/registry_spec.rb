@@ -18,23 +18,23 @@ RSpec.describe Pwb::ExternalFeed::Registry do
         [:api_key]
       end
 
-      def search(params)
+      def search(_params)
         Pwb::ExternalFeed::NormalizedSearchResult.new(properties: [], total_count: 0)
       end
 
-      def find(reference, params = {})
+      def find(_reference, _params = {})
         nil
       end
 
-      def similar(property, params = {})
+      def similar(_property, _params = {})
         []
       end
 
-      def locations(params = {})
+      def locations(_params = {})
         []
       end
 
-      def property_types(params = {})
+      def property_types(_params = {})
         []
       end
 

@@ -21,16 +21,16 @@ RSpec.describe "Seeding Integration", type: :integration do
     context "page parts seeding" do
       it "seeds all page parts with valid templates" do
         # This should not raise any errors about missing templates
-        expect {
+        expect do
           Pwb::PagesSeeder.seed_page_parts!
-        }.not_to raise_error
+        end.not_to raise_error
       end
 
       it "creates page parts for all YAML seed files" do
         Pwb::PagesSeeder.seed_page_parts!
 
-        yml_files = Dir.glob(Rails.root.join("db", "yml_seeds", "page_parts", "*.yml"))
-          .reject { |f| File.basename(f).start_with?("ABOUT") }
+        yml_files = Rails.root.glob('db/yml_seeds/page_parts/*.yml')
+                         .reject { |f| File.basename(f).start_with?("ABOUT") }
 
         yml_files.each do |file|
           data = YAML.load_file(file)
@@ -59,9 +59,9 @@ RSpec.describe "Seeding Integration", type: :integration do
       end
 
       it "seeds page basics without errors" do
-        expect {
+        expect do
           Pwb::PagesSeeder.seed_page_basics!(website: website)
-        }.not_to raise_error
+        end.not_to raise_error
       end
 
       it "creates pages for the website" do
@@ -82,9 +82,9 @@ RSpec.describe "Seeding Integration", type: :integration do
       end
 
       it "seeds content translations without errors" do
-        expect {
+        expect do
           Pwb::ContentsSeeder.seed_page_content_translations!(website: website)
-        }.not_to raise_error
+        end.not_to raise_error
       end
 
       it "creates content with rendered HTML from templates" do
@@ -141,9 +141,9 @@ RSpec.describe "Seeding Integration", type: :integration do
       page_parts_with_templates = Pwb::PagePart.where.not(template: [nil, ""])
 
       page_parts_with_templates.each do |page_part|
-        expect {
+        expect do
           Liquid::Template.parse(page_part.template)
-        }.not_to raise_error,
+        end.not_to raise_error,
           "Failed to parse Liquid template for #{page_part.page_part_key}"
       end
     end
@@ -157,15 +157,16 @@ RSpec.describe "Seeding Integration", type: :integration do
         if page_part.editor_setup && page_part.editor_setup["editorBlocks"]
           page_part.editor_setup["editorBlocks"].flatten.each do |block|
             next unless block.is_a?(Hash) && block["label"]
+
             sample_blocks[block["label"]] = { "content" => "Sample content for #{block['label']}" }
           end
         end
 
         template = Liquid::Template.parse(page_part.template)
 
-        expect {
+        expect do
           template.render("page_part" => sample_blocks)
-        }.not_to raise_error,
+        end.not_to raise_error,
           "Failed to render template for #{page_part.page_part_key}"
       end
     end
@@ -175,8 +176,8 @@ RSpec.describe "Seeding Integration", type: :integration do
     let!(:website) { create(:pwb_website, subdomain: 'regression-test', slug: 'regression-test') }
 
     it "does not have page parts with missing templates in YAML seeds" do
-      yml_files = Dir.glob(Rails.root.join("db", "yml_seeds", "page_parts", "*.yml"))
-        .reject { |f| File.basename(f).start_with?("ABOUT") }
+      yml_files = Rails.root.glob('db/yml_seeds/page_parts/*.yml')
+                       .reject { |f| File.basename(f).start_with?("ABOUT") }
 
       missing_templates = []
 
@@ -186,9 +187,7 @@ RSpec.describe "Seeding Integration", type: :integration do
           # Skip rails parts as they render via Rails partials
           next if entry["is_rails_part"]
 
-          unless entry["template"].present?
-            missing_templates << "#{File.basename(file)}: #{entry['page_part_key']}"
-          end
+          missing_templates << "#{File.basename(file)}: #{entry['page_part_key']}" if entry["template"].blank?
         end
       end
 
@@ -206,12 +205,12 @@ RSpec.describe "Seeding Integration", type: :integration do
       themes = config.is_a?(Array) ? config : [config]
 
       themes.each do |theme_config|
-        theme_name = theme_config["name"] || "unknown"
+        theme_config["name"] || "unknown"
         page_parts = theme_config.dig("supports", "page_parts") || []
 
         # These page parts are global (not page-specific) and may have different naming conventions
         global_parts = %w[our_agency about_us_services content_html footer_content_html
-                         footer_social_links form_and_map search_cmpt landing_hero]
+                          footer_social_links form_and_map search_cmpt landing_hero]
 
         page_parts.each do |part_key|
           # Skip global parts that follow different naming conventions
@@ -223,8 +222,8 @@ RSpec.describe "Seeding Integration", type: :integration do
       end
 
       # Simply verify that we have page part YAML files
-      yml_files = Dir.glob(Rails.root.join("db", "yml_seeds", "page_parts", "*.yml"))
-        .reject { |f| File.basename(f).start_with?("ABOUT") }
+      yml_files = Rails.root.glob('db/yml_seeds/page_parts/*.yml')
+                       .reject { |f| File.basename(f).start_with?("ABOUT") }
 
       expect(yml_files.count).to be > 10,
         "Expected at least 10 page part YAML seed files"

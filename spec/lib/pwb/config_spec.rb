@@ -107,7 +107,7 @@ RSpec.describe Pwb::Config do
       options = described_class.locale_options_for_select
 
       expect(options).to be_an(Array)
-      expect(options.first).to eq(['English', 'en'])
+      expect(options.first).to eq(%w[English en])
     end
 
     it 'has same number of options as SUPPORTED_LOCALES' do
@@ -245,7 +245,7 @@ RSpec.describe Pwb::Config do
 
   describe '.build_locale_details' do
     it 'builds locale details from array of locales' do
-      details = described_class.build_locale_details(['en', 'es'])
+      details = described_class.build_locale_details(%w[en es])
 
       expect(details).to be_an(Array)
       expect(details.size).to eq(2)
@@ -265,7 +265,7 @@ RSpec.describe Pwb::Config do
       details = described_class.build_locale_details(['en', '', nil, 'es'])
 
       expect(details.size).to eq(2)
-      expect(details.map { |d| d[:locale] }).to eq(%w[en es])
+      expect(details.pluck(:locale)).to eq(%w[en es])
     end
 
     it 'returns empty array for blank input' do

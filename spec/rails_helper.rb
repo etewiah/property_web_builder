@@ -11,7 +11,7 @@ require "rspec/rails"
 require "rails-controller-testing"
 # Add additional requires below this line. Rails is not loaded until this point!
 
-# note: require 'devise' after require 'rspec/rails'
+# NOTE: require 'devise' after require 'rspec/rails'
 require "devise"
 
 # Configure Shoulda Matchers for association testing
@@ -74,9 +74,9 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   %i[controller view request].each do |type|
-    config.include ::Rails::Controller::Testing::TestProcess, type: type
-    config.include ::Rails::Controller::Testing::TemplateAssertions, type: type
-    config.include ::Rails::Controller::Testing::Integration, type: type
+    config.include Rails::Controller::Testing::TestProcess, type: type
+    config.include Rails::Controller::Testing::TemplateAssertions, type: type
+    config.include Rails::Controller::Testing::Integration, type: type
   end
   # config.include Pwb::ApplicationHelper
 

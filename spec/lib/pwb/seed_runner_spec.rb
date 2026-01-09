@@ -16,26 +16,26 @@ RSpec.describe Pwb::SeedRunner, type: :model do
 
   describe '.run' do
     it 'accepts a website parameter' do
-      expect {
+      expect do
         described_class.run(
           website: website,
           mode: :create_only,
           dry_run: true,
           verbose: false
         )
-      }.not_to raise_error
+      end.not_to raise_error
     end
 
     it 'creates a default website if none provided and none exist' do
       Pwb::Website.destroy_all
-      
-      expect {
+
+      expect do
         described_class.run(
           mode: :create_only,
           dry_run: true,
           verbose: false
         )
-      }.to change(Pwb::Website, :count).by(1)
+      end.to change(Pwb::Website, :count).by(1)
     end
   end
 
@@ -173,11 +173,11 @@ RSpec.describe Pwb::SeedRunner, type: :model do
   describe 'MODES constant' do
     it 'defines all available modes' do
       expect(described_class::MODES).to eq({
-        interactive: :interactive,
-        create_only: :create_only,
-        force_update: :force_update,
-        upsert: :upsert
-      })
+                                             interactive: :interactive,
+                                             create_only: :create_only,
+                                             force_update: :force_update,
+                                             upsert: :upsert
+                                           })
     end
   end
 
@@ -220,7 +220,7 @@ RSpec.describe Pwb::SeedRunner, type: :model do
     it 'maintains link isolation between websites' do
       # Create a link for website_a
       link_a = website_a.links.create!(slug: 'test_link', link_title: 'Test Link A')
-      
+
       # Create a link with same slug for website_b
       link_b = website_b.links.create!(slug: 'test_link', link_title: 'Test Link B')
 

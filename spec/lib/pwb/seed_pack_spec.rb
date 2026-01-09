@@ -25,9 +25,9 @@ module Pwb
       end
 
       it "raises PackNotFoundError for non-existent pack" do
-        expect {
+        expect do
           SeedPack.find('nonexistent-pack-12345')
-        }.to raise_error(SeedPack::PackNotFoundError)
+        end.to raise_error(SeedPack::PackNotFoundError)
       end
     end
 
@@ -56,9 +56,9 @@ module Pwb
 
       describe "#seed_links!" do
         it "creates navigation links for website" do
-          expect {
+          expect do
             pack.seed_links!(website: website)
-          }.to change { website.links.count }.by_at_least(3)
+          end.to change { website.links.count }.by_at_least(3)
         end
 
         it "is idempotent - does not duplicate links" do
@@ -72,9 +72,9 @@ module Pwb
 
       describe "#seed_field_keys!" do
         it "creates field keys for website" do
-          expect {
+          expect do
             pack.seed_field_keys!(website: website)
-          }.to change { website.field_keys.count }.by_at_least(5)
+          end.to change { website.field_keys.count }.by_at_least(5)
         end
 
         it "is idempotent - does not duplicate field keys" do
@@ -96,25 +96,25 @@ module Pwb
 
       describe "#seed_pages!" do
         it "does not raise error even if no pages directory" do
-          expect {
+          expect do
             pack.seed_pages!(website: website)
-          }.not_to raise_error
+          end.not_to raise_error
         end
       end
 
       describe "#seed_page_parts!" do
         it "seeds page parts using fallback seeder" do
-          expect {
+          expect do
             pack.seed_page_parts!(website: website)
-          }.not_to raise_error
+          end.not_to raise_error
         end
       end
 
       describe "#seed_properties!" do
         it "does not raise error even if no properties" do
-          expect {
+          expect do
             pack.seed_properties!(website: website)
-          }.not_to raise_error
+          end.not_to raise_error
         end
       end
     end
@@ -163,9 +163,9 @@ module Pwb
     describe "Error handling" do
       it "raises InvalidPackError for pack without pack.yml" do
         # This is tested implicitly - packs must have pack.yml
-        expect {
+        expect do
           SeedPack.find('base')
-        }.not_to raise_error
+        end.not_to raise_error
       end
     end
   end

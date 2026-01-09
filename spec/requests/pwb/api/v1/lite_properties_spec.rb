@@ -52,7 +52,7 @@ module Pwb
           get '/api/v1/lite-properties'
 
           expect(response).to have_http_status(:success)
-          json = JSON.parse(response.body)
+          json = response.parsed_body
           expect(json['data']).to be_an(Array)
         end
       end
@@ -88,7 +88,7 @@ module Pwb
             get '/api/v1/lite-properties'
 
             expect(response).to have_http_status(:success)
-            json = JSON.parse(response.body)
+            json = response.parsed_body
             expect(json).to have_key('data')
           end
         end
@@ -152,13 +152,13 @@ module Pwb
         # Skip if materialized view doesn't contain expected data
         # ListedProperty is backed by a materialized view that joins RealtyAsset/Listings
         # The factory creates Pwb::Prop (legacy table) which may not be reflected in the view
-        skip 'Materialized view requires RealtyAsset/Listing models, not legacy Prop model' if Pwb::ListedProperty.count == 0
+        skip 'Materialized view requires RealtyAsset/Listing models, not legacy Prop model' if Pwb::ListedProperty.none?
 
         host! 'lite-tenant1.example.com'
         get '/api/v1/lite-properties'
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         references = json['data'].map { |p| p['attributes']['reference'] }
         expect(references).to include('LITE-T1-001')
         expect(references).not_to include('LITE-T2-001')
@@ -169,7 +169,7 @@ module Pwb
         get '/api/v1/lite-properties'
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         references = json['data'].map { |p| p['attributes']['reference'] }
         expect(references).to include('LITE-T2-001')
         expect(references).not_to include('LITE-T1-001')
@@ -177,12 +177,12 @@ module Pwb
 
       it 'verifies correct website context via response data' do
         # Skip if materialized view doesn't contain expected data
-        skip 'Materialized view requires RealtyAsset/Listing models, not legacy Prop model' if Pwb::ListedProperty.count == 0
+        skip 'Materialized view requires RealtyAsset/Listing models, not legacy Prop model' if Pwb::ListedProperty.none?
 
         host! 'lite-tenant1.example.com'
         get '/api/v1/lite-properties'
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         # Verify tenant1's property is returned
         references = json['data'].map { |p| p['attributes']['reference'] }
         expect(references).to include('LITE-T1-001')
@@ -192,7 +192,7 @@ module Pwb
         host! 'lite-tenant2.example.com'
         get '/api/v1/lite-properties'
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         # Verify tenant2's property is returned
         references = json['data'].map { |p| p['attributes']['reference'] }
         expect(references).to include('LITE-T2-001')
@@ -200,7 +200,7 @@ module Pwb
     end
 
     describe 'X-Website-Slug header resolution' do
-      # Note: The Website model's `slug` method always returns "website"
+      # NOTE: The Website model's `slug` method always returns "website"
       # The X-Website-Slug header feature uses the subdomain field for lookup
       # This tests that the subdomain-based tenant resolution works correctly
 

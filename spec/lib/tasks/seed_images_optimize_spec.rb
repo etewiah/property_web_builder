@@ -45,9 +45,7 @@ RSpec.describe "seed_images rake tasks" do
       it "can find source images to process" do
         skip "Example images directory doesn't exist" unless example_images_dir.exist?
 
-        source_images = Dir.glob("#{example_images_dir}/*.{jpg,webp}").reject do |f|
-          f.match?(/-\d+\.(jpg|webp)$/)
-        end
+        source_images = Dir.glob("#{example_images_dir}/*.{jpg,webp}").grep_v(/-\d+\.(jpg|webp)$/)
 
         expect(source_images).not_to be_empty,
           "Expected source images in #{example_images_dir}"
@@ -61,9 +59,7 @@ RSpec.describe "seed_images rake tasks" do
         responsive_800 = Dir.glob("#{example_images_dir}/*-800.{jpg,webp}")
 
         # Either variants exist (already generated) or we have source files to generate from
-        source_images = Dir.glob("#{example_images_dir}/*.{jpg,webp}").reject do |f|
-          f.match?(/-\d+\.(jpg|webp)$/)
-        end
+        source_images = Dir.glob("#{example_images_dir}/*.{jpg,webp}").grep_v(/-\d+\.(jpg|webp)$/)
 
         if responsive_400.any? || responsive_800.any?
           expect(responsive_400.count + responsive_800.count).to be > 0
@@ -120,9 +116,7 @@ RSpec.describe "seed_images rake tasks" do
     it "has responsive variants for hero/carousel images" do
       skip "Example images directory doesn't exist" unless example_images_dir.exist?
 
-      hero_sources = Dir.glob("#{example_images_dir}/{carousel_*,hero_*}.{jpg,webp}").reject do |f|
-        f.match?(/-\d+\.(jpg|webp)$/)
-      end
+      hero_sources = Dir.glob("#{example_images_dir}/{carousel_*,hero_*}.{jpg,webp}").grep_v(/-\d+\.(jpg|webp)$/)
 
       skip "No hero/carousel source images found" if hero_sources.empty?
 

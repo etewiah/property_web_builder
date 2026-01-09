@@ -57,7 +57,7 @@ module Pwb
           expect(response.status).to eq(200)
           # expect(response.content_type).to eq("application/json")
 
-          result = JSON.parse(response.body)
+          result = response.parsed_body
 
           expect(result).to have_key("agency")
           expect(result["agency"]["company_name"]).to eq("my re")

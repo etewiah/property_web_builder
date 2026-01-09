@@ -157,7 +157,7 @@ RSpec.describe SiteAdmin::AnalyticsController, type: :controller do
       expect(response).to have_http_status(:success)
       expect(response.content_type).to include('application/json')
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       expect(json).to include('active_visitors', 'recent_pageviews')
     end
   end

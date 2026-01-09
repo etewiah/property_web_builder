@@ -59,7 +59,7 @@ RSpec.describe Pwb::ConsoleHelpers do
 
     context 'with invalid ID or subdomain' do
       it 'returns nil for non-existent ID' do
-        result = tenant(99999)
+        result = tenant(99_999)
         expect(result).to be_nil
       end
 
@@ -69,7 +69,7 @@ RSpec.describe Pwb::ConsoleHelpers do
       end
 
       it 'does not set tenant for invalid input' do
-        tenant(99999)
+        tenant(99_999)
         expect(ActsAsTenant.current_tenant).to be_nil
       end
     end

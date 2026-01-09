@@ -14,9 +14,7 @@ RSpec.describe "Page Part YAML Seeds Validation" do
   end
 
   describe "each page part seed file" do
-    page_part_files_for_testing = Dir.glob(
-      Rails.root.join("db", "yml_seeds", "page_parts", "*.yml")
-    ).reject { |f| File.basename(f).start_with?("ABOUT") }
+    page_part_files_for_testing = Rails.root.glob('db/yml_seeds/page_parts/*.yml').reject { |f| File.basename(f).start_with?("ABOUT") }
 
     page_part_files_for_testing.each do |file|
       filename = File.basename(file)
@@ -78,7 +76,7 @@ RSpec.describe "Page Part YAML Seeds Validation" do
             page_part_key = entry["page_part_key"]
 
             # filename format: page_slug__page_part_key.yml (with / replaced by _)
-            expected_prefix = "#{page_slug}__#{page_part_key.gsub('/', '_')}"
+            expected_prefix = "#{page_slug}__#{page_part_key.tr('/', '_')}"
             actual_prefix = filename.sub('.yml', '')
 
             expect(actual_prefix).to eq(expected_prefix),
@@ -91,9 +89,7 @@ RSpec.describe "Page Part YAML Seeds Validation" do
   end
 
   describe "template content validation" do
-    page_part_files_for_testing = Dir.glob(
-      Rails.root.join("db", "yml_seeds", "page_parts", "*.yml")
-    ).reject { |f| File.basename(f).start_with?("ABOUT") }
+    page_part_files_for_testing = Rails.root.glob('db/yml_seeds/page_parts/*.yml').reject { |f| File.basename(f).start_with?("ABOUT") }
 
     page_part_files_for_testing.each do |file|
       filename = File.basename(file)
@@ -103,21 +99,21 @@ RSpec.describe "Page Part YAML Seeds Validation" do
 
         it "has valid Liquid syntax" do
           file_content.each_with_index do |entry, index|
-            next unless entry["template"].present?
+            next if entry["template"].blank?
 
-            expect {
+            expect do
               Liquid::Template.parse(entry["template"])
-            }.not_to raise_error,
+            end.not_to raise_error,
               "Entry #{index} (#{entry['page_part_key']}) in #{filename} has invalid Liquid syntax"
           end
         end
 
         it "references only defined editor block labels" do
-          file_content.each_with_index do |entry, index|
+          file_content.each_with_index do |entry, _index|
             next unless entry["template"].present? && entry.dig("editor_setup", "editorBlocks")
 
             # Extract all labels from editorBlocks
-            defined_labels = entry["editor_setup"]["editorBlocks"].flatten.map { |b| b["label"] }.compact
+            defined_labels = entry["editor_setup"]["editorBlocks"].flatten.filter_map { |b| b["label"] }
 
             # Extract page_part["label"] references from template
             template = entry["template"]

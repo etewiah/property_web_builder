@@ -50,38 +50,38 @@ FactoryBot.define do
       page_part_key { "content_html" }
       template { "<p>{{ page_part['main_content']['content'] %> }}</p>" }
       # extra {} needed for json object below
-      editor_setup {
+      editor_setup do
         {
           tabTitleKey: "pageSections.rawHtml.title",
           editorBlocks: [
             [
               {
-                "label": "main_content",
-                "isHtml": "true",
-              },
-            ],
-          ],
+                label: "main_content",
+                isHtml: "true"
+              }
+            ]
+          ]
         }
-      }
+      end
     end
     trait :footer_content_html_for_website do
       page_part_key { "footer_content_html" }
       template { "<p>{{ page_part['main_content']['content'] %> }}</p>" }
       page_slug { "website" }
       # extra {} needed for json object below
-      editor_setup {
+      editor_setup do
         {
           tabTitleKey: "pageSections.rawHtml.title",
           editorBlocks: [
             [
               {
-                "label": "main_content",
-                "isHtml": "true",
-              },
-            ],
-          ],
+                label: "main_content",
+                isHtml: "true"
+              }
+            ]
+          ]
         }
-      }
+      end
     end
   end
 end

@@ -147,9 +147,9 @@ RSpec.describe SiteAdmin::MessagesController, type: :controller do
       end
 
       it 'creates an audit log entry when marking as read' do
-        expect {
+        expect do
           get :show, params: { id: message_own.id }
-        }.to change(Pwb::AuthAuditLog, :count).by(1)
+        end.to change(Pwb::AuthAuditLog, :count).by(1)
 
         audit_log = Pwb::AuthAuditLog.last
         expect(audit_log.event_type).to eq('message_read')
@@ -162,9 +162,9 @@ RSpec.describe SiteAdmin::MessagesController, type: :controller do
       it 'does not create an audit log for already-read messages' do
         message_own.update!(read: true)
 
-        expect {
+        expect do
           get :show, params: { id: message_own.id }
-        }.not_to change(Pwb::AuthAuditLog, :count)
+        end.not_to change(Pwb::AuthAuditLog, :count)
       end
     end
   end

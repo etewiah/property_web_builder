@@ -19,7 +19,7 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
       reference: reference,
       visible: true,
       archived: false,
-      active: true,  # Required for JOIN in materialized view
+      active: true, # Required for JOIN in materialized view
       price_sale_current_cents: price_cents,
       price_sale_current_currency: 'EUR'
     )
@@ -33,9 +33,9 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
     let!(:website2) { Pwb::Website.create!(slug: "site2", subdomain: "tenant2", company_display_name: "Tenant 2 Corp") }
 
     # Properties for each tenant with sale listings
-    let!(:prop1) { create_property_with_listing(website: website1, reference: "PROP-T1-001", price_cents: 50000000) }
-    let!(:prop2) { create_property_with_listing(website: website1, reference: "PROP-T1-002", price_cents: 75000000) }
-    let!(:prop3) { create_property_with_listing(website: website2, reference: "PROP-T2-001", price_cents: 100000000) }
+    let!(:prop1) { create_property_with_listing(website: website1, reference: "PROP-T1-001", price_cents: 50_000_000) }
+    let!(:prop2) { create_property_with_listing(website: website1, reference: "PROP-T1-002", price_cents: 75_000_000) }
+    let!(:prop3) { create_property_with_listing(website: website2, reference: "PROP-T2-001", price_cents: 100_000_000) }
 
     describe "Property isolation via subdomain" do
       it "returns only properties belonging to tenant1 subdomain" do
@@ -52,11 +52,11 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
         host! "tenant1.example.com"
         post "/graphql", params: { query: query }
 
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         properties = json["data"]["searchProperties"]
 
         expect(properties.length).to eq(2)
-        references = properties.map { |p| p["reference"] }
+        references = properties.pluck("reference")
         expect(references).to contain_exactly("PROP-T1-001", "PROP-T1-002")
         expect(references).not_to include("PROP-T2-001")
       end
@@ -75,12 +75,12 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
         host! "tenant2.example.com"
         post "/graphql", params: { query: query }
 
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         properties = json["data"]["searchProperties"]
 
         expect(properties.length).to eq(1)
         expect(properties.first["reference"]).to eq("PROP-T2-001")
-        expect(properties.map { |p| p["reference"] }).not_to include("PROP-T1-001", "PROP-T1-002")
+        expect(properties.pluck("reference")).not_to include("PROP-T1-001", "PROP-T1-002")
       end
     end
 
@@ -99,7 +99,7 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
         host! "tenant1.example.com"
         post "/graphql", params: { query: query }, headers: { "X-Website-Slug" => "site2" }
 
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         properties = json["data"]["searchProperties"]
 
         # Should get tenant2's properties due to header priority
@@ -123,7 +123,7 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
         host! "tenant1.example.com"
         post "/graphql", params: { query: query, variables: { id: prop3.id.to_s } }
 
-        json = JSON.parse(response.body)
+        json = response.parsed_body
 
         # Should either return nil data or have errors (property not found in tenant's scope)
         # The find method raises RecordNotFound, so we expect an error response
@@ -157,7 +157,7 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
       host! "agency1.example.com"
       post "/graphql", params: { query: query }
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       page = json["data"]["findPage"]
 
       expect(page["id"].to_i).to eq(page1.id)
@@ -177,7 +177,7 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
       host! "agency2.example.com"
       post "/graphql", params: { query: query }
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       page = json["data"]["findPage"]
 
       expect(page["id"].to_i).to eq(page2.id)
@@ -204,11 +204,11 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
       host! "realestate1.example.com"
       post "/graphql", params: { query: query }
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       links = json["data"]["getTopNavLinks"]
 
       expect(links.length).to eq(2)
-      slugs = links.map { |l| l["slug"] }
+      slugs = links.pluck("slug")
       expect(slugs).to contain_exactly("contact", "services")
       expect(slugs).not_to include("about-us")
     end
@@ -225,7 +225,7 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
       host! "realestate2.example.com"
       post "/graphql", params: { query: query }
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       links = json["data"]["getTopNavLinks"]
 
       expect(links.length).to eq(1)
@@ -249,7 +249,7 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
       host! "alpha.example.com"
       post "/graphql", params: { query: query }
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
 
       # Debug: print response if there's an issue
       if json["data"].nil?
@@ -275,7 +275,7 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
       host! "beta.example.com"
       post "/graphql", params: { query: query }
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
 
       # Debug: print response if there's an issue
       if json["data"].nil?
@@ -338,7 +338,7 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
 
     before do
       # Create property with listing for the test using helper
-      create_property_with_listing(website: website, reference: "CASE-TEST", price_cents: 10000000)
+      create_property_with_listing(website: website, reference: "CASE-TEST", price_cents: 10_000_000)
     end
 
     it "matches subdomain case-insensitively" do
@@ -354,7 +354,7 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
       host! "MYAGENCY.example.com"
       post "/graphql", params: { query: query }
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       properties = json["data"]["searchProperties"]
 
       expect(properties.length).to eq(1)
@@ -364,7 +364,7 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
 
   describe "Fallback behavior" do
     it "uses default website when subdomain is not found" do
-      default_website = Pwb::Website.find_or_create_by!(id: 1) do |w|
+      Pwb::Website.find_or_create_by!(id: 1) do |w|
         w.slug = "default"
         w.company_display_name = "Default Fallback"
       end
@@ -380,7 +380,7 @@ RSpec.describe "Subdomain Multi-tenancy Data Isolation", type: :request do
       host! "nonexistent.example.com"
       post "/graphql", params: { query: query }
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       site = json["data"]["getSiteDetails"]
 
       expect(site["companyDisplayName"]).to eq("Default Fallback")

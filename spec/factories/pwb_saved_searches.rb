@@ -75,13 +75,13 @@ FactoryBot.define do
           min_price: 250_000,
           max_price: 750_000,
           min_bedrooms: 3,
-          property_types: ["villa", "apartment"]
+          property_types: %w[villa apartment]
         }
       end
     end
 
     trait :with_seen_properties do
-      seen_property_refs { ["REF001", "REF002", "REF003"] }
+      seen_property_refs { %w[REF001 REF002 REF003] }
     end
 
     trait :ran_recently do

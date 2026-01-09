@@ -78,7 +78,7 @@ module Pwb
           get "/api/v1/properties/#{property.id}", headers: request_headers
 
           expect(response).to have_http_status(:success)
-          json = JSON.parse(response.body)
+          json = response.parsed_body
           expect(json['data']['id']).to eq(property.id.to_s)
           expect(response.body).to be_jsonapi_response_for('properties')
         end
@@ -86,7 +86,7 @@ module Pwb
 
       context 'without signed in user' do
         it 'allows access (JSONAPI resources controller behavior)' do
-          # Note: JSONAPI::ResourceController may have different auth behavior
+          # NOTE: JSONAPI::ResourceController may have different auth behavior
           host! 'props-test.example.com'
           get "/api/v1/properties/#{property.id}"
 
@@ -111,7 +111,7 @@ module Pwb
       end
 
       it 'manages property features via model (endpoint has controller bug)' do
-        # Note: The controller endpoint has a bug (current_website undefined)
+        # NOTE: The controller endpoint has a bug (current_website undefined)
         # This test verifies the model-level functionality for features/extras
 
         # Use the set_features= method that the controller uses
@@ -128,14 +128,14 @@ module Pwb
       end
 
       it 'creates properties via model (endpoint has controller bug)' do
-        # Note: The controller endpoint has a bug (current_website undefined)
+        # NOTE: The controller endpoint has a bug (current_website undefined)
         # This test verifies properties can be created for a website
-        expect {
+        expect do
           ActsAsTenant.with_tenant(website) do
             create(:pwb_prop, :sale, website: website, reference: 'BULK-001')
             create(:pwb_prop, :sale, website: website, reference: 'BULK-002')
           end
-        }.to change { website.props.count }.by(2)
+        end.to change { website.props.count }.by(2)
 
         expect(website.props.find_by(reference: 'BULK-001')).to be_present
         expect(website.props.find_by(reference: 'BULK-002')).to be_present
@@ -172,7 +172,7 @@ module Pwb
         get "/api/v1/properties/#{property1.id}", headers: request_headers
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['data']['id']).to eq(property1.id.to_s)
       end
 

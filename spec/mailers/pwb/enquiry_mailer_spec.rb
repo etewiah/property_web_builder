@@ -2,7 +2,6 @@
 
 require "rails_helper"
 
-
 module Pwb
   RSpec.describe EnquiryMailer, type: :mailer do
     # Get the configured default from address for assertions
@@ -27,7 +26,6 @@ module Pwb
       end
     end
 
-
     describe 'property enquiry' do
       let(:website) { FactoryBot.create(:pwb_website) }
       let(:contact) { Contact.new(first_name: "John Doe", primary_phone_number: "22 44", primary_email: "jd@example.com") }
@@ -39,8 +37,6 @@ module Pwb
       end
 
       let(:mail) { EnquiryMailer.property_enquiry_targeting_agency(contact, message, prop).deliver_now }
-
-
 
       it "sends enquiry successfully" do
         expect(mail.subject).to eq("Enquiry regarding a property")

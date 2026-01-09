@@ -71,9 +71,9 @@ module Pwb
         it "prevents duplicate slugs within the same website" do
           Link.create!(website: website1, slug: "top_nav_home", placement: :top_nav)
 
-          expect {
+          expect do
             Link.create!(website: website1, slug: "top_nav_home", placement: :footer)
-          }.to raise_error(ActiveRecord::RecordNotUnique)
+          end.to raise_error(ActiveRecord::RecordNotUnique)
         end
       end
 
@@ -87,11 +87,11 @@ module Pwb
           end
 
           # Should be able to create the same links for website2
-          expect {
+          expect do
             standard_link_slugs.each do |slug|
               Link.create!(website: website2, slug: slug, placement: :top_nav)
             end
-          }.not_to raise_error
+          end.not_to raise_error
 
           expect(website1.links.count).to eq(4)
           expect(website2.links.count).to eq(4)

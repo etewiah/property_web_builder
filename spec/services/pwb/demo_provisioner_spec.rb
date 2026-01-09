@@ -45,9 +45,9 @@ module Pwb
         )
         existing.update!(demo_last_reset_at: 3.days.ago)
 
-        expect {
+        expect do
           described_class.provision(subdomain: 'demo-beta', seed_pack: 'spain_luxury', shard: :demo)
-        }.not_to change(Pwb::Website, :count)
+        end.not_to change(Pwb::Website, :count)
 
         expect(seed_pack_double).to have_received(:apply!).with(website: existing, options: { verbose: true })
         expect(existing.reload.demo_last_reset_at).to be_within(1.second).of(Time.current)

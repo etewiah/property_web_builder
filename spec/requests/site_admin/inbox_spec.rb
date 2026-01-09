@@ -59,9 +59,9 @@ RSpec.describe 'SiteAdmin::Inbox', type: :request do
 
       # This test specifically catches the instance-dependent scope bug
       it 'can join contacts with messages without ArgumentError' do
-        expect {
+        expect do
           get site_admin_inbox_index_path, headers: { 'HTTP_HOST' => 'inbox-test.test.localhost' }
-        }.not_to raise_error
+        end.not_to raise_error
       end
     end
 
@@ -186,9 +186,9 @@ RSpec.describe 'SiteAdmin::Inbox', type: :request do
     end
 
     it 'creates audit log entries for read messages' do
-      expect {
+      expect do
         get conversation_site_admin_inbox_path(contact), headers: { 'HTTP_HOST' => 'inbox-test.test.localhost' }
-      }.to change(Pwb::AuthAuditLog, :count).by(2)
+      end.to change(Pwb::AuthAuditLog, :count).by(2)
     end
 
     context 'contact from another website' do

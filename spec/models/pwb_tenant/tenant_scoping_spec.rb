@@ -23,8 +23,8 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
   let!(:website_b) { create(:pwb_website, subdomain: 'tenant-b-model') }
 
   # Helper to create records within a tenant context
-  def within_tenant(website, &block)
-    ActsAsTenant.with_tenant(website, &block)
+  def within_tenant(website, &)
+    ActsAsTenant.with_tenant(website, &)
   end
 
   shared_examples 'tenant scoped model' do |model_class, factory_name, factory_traits = []|
@@ -46,13 +46,13 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
       it 'scopes queries to current tenant' do
         within_tenant(website_a) do
           # Compare by ID since factory creates Pwb:: models but query returns PwbTenant:: models
-          all_ids = model_class.all.pluck(:id)
+          all_ids = model_class.pluck(:id)
           expect(all_ids).to include(record_a.id)
           expect(all_ids).not_to include(record_b.id)
         end
 
         within_tenant(website_b) do
-          all_ids = model_class.all.pluck(:id)
+          all_ids = model_class.pluck(:id)
           expect(all_ids).to include(record_b.id)
           expect(all_ids).not_to include(record_a.id)
         end
@@ -103,7 +103,7 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
     it 'scopes message queries to current tenant' do
       within_tenant(website_a) do
         # Compare by ID since factory creates Pwb:: models but query returns PwbTenant:: models
-        all_ids = PwbTenant::Message.all.pluck(:id)
+        all_ids = PwbTenant::Message.pluck(:id)
         expect(all_ids).to include(message_a.id)
         expect(all_ids).not_to include(message_b.id)
       end
@@ -132,7 +132,7 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
     it 'scopes user queries to current tenant' do
       within_tenant(website_a) do
         # Compare by ID since factory creates Pwb::User but query returns PwbTenant::User
-        all_user_ids = PwbTenant::User.all.pluck(:id)
+        all_user_ids = PwbTenant::User.pluck(:id)
         expect(all_user_ids).to include(user_a.id)
         expect(all_user_ids).not_to include(user_b.id)
       end
@@ -343,9 +343,9 @@ RSpec.describe 'PwbTenant Model Scoping', type: :model do
     it 'raises error when querying without tenant context' do
       ActsAsTenant.current_tenant = nil
       # PwbTenant models should require a tenant to be set
-      expect {
+      expect do
         PwbTenant::Page.all.to_a
-      }.to raise_error(ActsAsTenant::Errors::NoTenantSet)
+      end.to raise_error(ActsAsTenant::Errors::NoTenantSet)
     end
   end
 end

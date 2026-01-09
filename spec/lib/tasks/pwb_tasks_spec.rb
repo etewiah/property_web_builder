@@ -37,9 +37,9 @@ RSpec.describe 'pwb:db rake tasks' do
 
     it 'runs in dry-run mode without making changes' do
       initial_link_count = Pwb::Link.count
-      
+
       expect { task.invoke }.to output(/DRY RUN MODE/).to_stdout
-      
+
       expect(Pwb::Link.count).to eq(initial_link_count)
     end
   end

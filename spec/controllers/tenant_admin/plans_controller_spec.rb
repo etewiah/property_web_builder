@@ -127,9 +127,9 @@ RSpec.describe TenantAdmin::PlansController, type: :controller do
 
     context 'with valid parameters' do
       it 'creates a new plan' do
-        expect {
+        expect do
           post :create, params: valid_params
-        }.to change(Pwb::Plan, :count).by(1)
+        end.to change(Pwb::Plan, :count).by(1)
       end
 
       it 'redirects to the created plan' do
@@ -145,9 +145,9 @@ RSpec.describe TenantAdmin::PlansController, type: :controller do
 
     context 'with invalid parameters' do
       it 'does not create a new plan' do
-        expect {
+        expect do
           post :create, params: invalid_params
-        }.not_to change(Pwb::Plan, :count)
+        end.not_to change(Pwb::Plan, :count)
       end
 
       it 'renders the new template' do
@@ -212,9 +212,9 @@ RSpec.describe TenantAdmin::PlansController, type: :controller do
     context 'when plan has no subscriptions' do
       it 'destroys the plan' do
         plan_to_delete = create(:pwb_plan)
-        expect {
+        expect do
           delete :destroy, params: { id: plan_to_delete.id }
-        }.to change(Pwb::Plan, :count).by(-1)
+        end.to change(Pwb::Plan, :count).by(-1)
       end
 
       it 'redirects to plans index' do
@@ -227,9 +227,9 @@ RSpec.describe TenantAdmin::PlansController, type: :controller do
       let!(:subscription) { create(:pwb_subscription, plan: plan) }
 
       it 'does not destroy the plan' do
-        expect {
+        expect do
           delete :destroy, params: { id: plan.id }
-        }.not_to change(Pwb::Plan, :count)
+        end.not_to change(Pwb::Plan, :count)
       end
 
       it 'redirects with an alert' do

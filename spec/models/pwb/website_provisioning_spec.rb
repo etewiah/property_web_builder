@@ -548,17 +548,17 @@ module Pwb
       describe '.find_by_verification_token' do
         it 'finds website by token' do
           website.generate_email_verification_token!
-          found = Pwb::Website.find_by_verification_token(website.email_verification_token)
+          found = Pwb::Website.find_by(verification_token: website.email_verification_token)
           expect(found).to eq(website)
         end
 
         it 'returns nil for blank token' do
-          expect(Pwb::Website.find_by_verification_token('')).to be_nil
-          expect(Pwb::Website.find_by_verification_token(nil)).to be_nil
+          expect(Pwb::Website.find_by(verification_token: '')).to be_nil
+          expect(Pwb::Website.find_by(verification_token: nil)).to be_nil
         end
 
         it 'returns nil for non-existent token' do
-          expect(Pwb::Website.find_by_verification_token('non-existent')).to be_nil
+          expect(Pwb::Website.find_by(verification_token: 'non-existent')).to be_nil
         end
       end
     end

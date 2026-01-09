@@ -74,22 +74,22 @@ RSpec.describe "Price Game", type: :request do
       it "creates a price guess" do
         expect do
           post price_game_guess_path(token: sale_listing.game_token),
-               params: { guessed_price: 280000, currency: "EUR" },
+               params: { guessed_price: 280_000, currency: "EUR" },
                as: :json
         end.to change(Pwb::PriceGuess, :count).by(1)
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json["success"]).to be true
         expect(json["guess"]["score"]).to be_present
       end
 
       it "returns the leaderboard" do
         post price_game_guess_path(token: sale_listing.game_token),
-             params: { guessed_price: 280000, currency: "EUR" },
+             params: { guessed_price: 280_000, currency: "EUR" },
              as: :json
 
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json["leaderboard"]).to be_an(Array)
       end
     end
@@ -106,11 +106,11 @@ RSpec.describe "Price Game", type: :request do
 
       it "returns error" do
         post price_game_guess_path(token: sale_listing.game_token),
-             params: { guessed_price: 280000, currency: "EUR" },
+             params: { guessed_price: 280_000, currency: "EUR" },
              as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json["error"]).to be_present
       end
     end
@@ -133,7 +133,7 @@ RSpec.describe "Price Game", type: :request do
       end.to change { sale_listing.reload.game_shares_count }.by(1)
 
       expect(response).to have_http_status(:success)
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       expect(json["success"]).to be true
     end
   end

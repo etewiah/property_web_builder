@@ -34,9 +34,9 @@ RSpec.describe Pwb::ExternalFeed::Providers::ResalesOnline do
     end
 
     it "raises error if required config missing" do
-      expect {
+      expect do
         described_class.new(website, { api_key: "test" })
-      }.to raise_error(Pwb::ExternalFeed::ConfigurationError)
+      end.to raise_error(Pwb::ExternalFeed::ConfigurationError)
     end
   end
 
@@ -255,7 +255,7 @@ RSpec.describe Pwb::ExternalFeed::Providers::ResalesOnline do
 
     it "includes common Costa del Sol areas" do
       locations = provider.locations
-      location_values = locations.map { |l| l[:value] }
+      location_values = locations.pluck(:value)
       expect(location_values).to include("Marbella")
       expect(location_values).to include("Estepona")
       expect(location_values).to include("Mijas")

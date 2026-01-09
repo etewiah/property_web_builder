@@ -135,13 +135,13 @@ RSpec.describe Pwb::Theme do
       it "includes theme view path" do
         paths = theme.view_paths
 
-        expect(paths.map(&:to_s)).to include(match(/default\/views/))
+        expect(paths.map(&:to_s)).to include(match(%r{default/views}))
       end
 
       it "includes app/views path" do
         paths = theme.view_paths
 
-        expect(paths.map(&:to_s)).to include(match(/app\/views$/))
+        expect(paths.map(&:to_s)).to include(match(%r{app/views$}))
       end
     end
 
@@ -151,7 +151,7 @@ RSpec.describe Pwb::Theme do
       it "includes child theme path" do
         paths = theme.view_paths
 
-        expect(paths.map(&:to_s)).to include(match(/brisbane\/views/))
+        expect(paths.map(&:to_s)).to include(match(%r{brisbane/views}))
       end
     end
   end
@@ -188,7 +188,7 @@ RSpec.describe Pwb::Theme do
       library_parts = Pwb::PagePartLibrary.all_keys
 
       # Should include at least some library parts
-      expect((parts & library_parts)).not_to be_empty
+      expect(parts & library_parts).not_to be_empty
     end
   end
 
@@ -298,7 +298,7 @@ RSpec.describe Pwb::Theme do
     it "returns nil or string" do
       path = theme.javascript_path
 
-      expect(path).to satisfy { |p| p.nil? || p.is_a?(String) }
+      expect(path).to(satisfy { |p| p.nil? || p.is_a?(String) })
     end
   end
 
@@ -379,7 +379,7 @@ RSpec.describe Pwb::Theme do
       end
 
       it "each palette has required structure" do
-        theme.palettes.each do |id, config|
+        theme.palettes.each_value do |config|
           expect(config).to have_key("id")
           expect(config).to have_key("name")
           expect(config).to have_key("colors")
@@ -582,7 +582,7 @@ RSpec.describe Pwb::Theme do
         end
 
         it "all palettes have recommended color keys" do
-          theme.palettes.each do |palette_id, config|
+          theme.palettes.each_key do |palette_id|
             # Use palette_colors which includes auto-derived keys like action_color
             colors = theme.palette_colors(palette_id)
             missing = recommended_keys - colors.keys

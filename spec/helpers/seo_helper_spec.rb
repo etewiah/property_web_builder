@@ -47,9 +47,9 @@ RSpec.describe SeoHelper, type: :helper do
     context 'when both verification codes are set' do
       before do
         website.update!(social_media: {
-          'google_site_verification' => 'google123',
-          'bing_site_verification' => 'bing456'
-        })
+                          'google_site_verification' => 'google123',
+                          'bing_site_verification' => 'bing456'
+                        })
       end
 
       it 'returns both verification meta tags' do
@@ -74,9 +74,9 @@ RSpec.describe SeoHelper, type: :helper do
     context 'when verification codes are empty strings' do
       before do
         website.update!(social_media: {
-          'google_site_verification' => '',
-          'bing_site_verification' => ''
-        })
+                          'google_site_verification' => '',
+                          'bing_site_verification' => ''
+                        })
       end
 
       it 'returns nil' do

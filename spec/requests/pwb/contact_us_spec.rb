@@ -54,21 +54,21 @@ RSpec.describe 'Pwb::ContactUsController', type: :request do
 
     context 'with valid parameters' do
       it 'creates a new contact' do
-        expect {
+        expect do
           post '/contact_us',
                params: valid_params,
                headers: js_headers,
                as: :js
-        }.to change(Pwb::Contact, :count).by(1)
+        end.to change(Pwb::Contact, :count).by(1)
       end
 
       it 'creates a new message/enquiry' do
-        expect {
+        expect do
           post '/contact_us',
                params: valid_params,
                headers: js_headers,
                as: :js
-        }.to change(Pwb::Message, :count).by(1)
+        end.to change(Pwb::Message, :count).by(1)
       end
 
       it 'associates contact and message with correct website' do
@@ -130,12 +130,12 @@ RSpec.describe 'Pwb::ContactUsController', type: :request do
       end
 
       it 'enqueues email delivery' do
-        expect {
+        expect do
           post '/contact_us',
                params: valid_params,
                headers: js_headers,
                as: :js
-        }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+        end.to have_enqueued_job(ActionMailer::MailDeliveryJob)
       end
 
       it 'renders success response' do
@@ -165,12 +165,12 @@ RSpec.describe 'Pwb::ContactUsController', type: :request do
       end
 
       it 'updates existing contact instead of creating new' do
-        expect {
+        expect do
           post '/contact_us',
                params: valid_params,
                headers: js_headers,
                as: :js
-        }.not_to change(Pwb::Contact, :count)
+        end.not_to change(Pwb::Contact, :count)
       end
 
       it 'updates contact details' do
@@ -185,12 +185,12 @@ RSpec.describe 'Pwb::ContactUsController', type: :request do
       end
 
       it 'still creates a new message' do
-        expect {
+        expect do
           post '/contact_us',
                params: valid_params,
                headers: js_headers,
                as: :js
-        }.to change(Pwb::Message, :count).by(1)
+        end.to change(Pwb::Message, :count).by(1)
       end
     end
 
@@ -264,12 +264,12 @@ RSpec.describe 'Pwb::ContactUsController', type: :request do
       end
 
       it 'enqueues notification job' do
-        expect {
+        expect do
           post '/contact_us',
                params: valid_params,
                headers: js_headers,
                as: :js
-        }.to have_enqueued_job(NtfyNotificationJob)
+        end.to have_enqueued_job(NtfyNotificationJob)
       end
     end
   end

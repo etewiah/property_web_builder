@@ -77,7 +77,7 @@ module Pwb
             listing_data = scraped_property.listing_data
             expect(listing_data["title"]).to eq("Beautiful 3 Bedroom Apartment")
             expect(listing_data["description"]).to eq("A stunning property in the heart of London")
-            expect(listing_data["price_sale_current"]).to eq(450000)
+            expect(listing_data["price_sale_current"]).to eq(450_000)
             expect(listing_data["currency"]).to eq("GBP")
           end
 
@@ -191,7 +191,7 @@ module Pwb
             pasarela.call
             scraped_property.reload
 
-            expect(scraped_property.listing_data["price_sale_current"]).to eq(275000)
+            expect(scraped_property.listing_data["price_sale_current"]).to eq(275_000)
             expect(scraped_property.listing_data["currency"]).to eq("GBP")
           end
 

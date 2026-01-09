@@ -322,9 +322,9 @@ RSpec.describe Pwb::ThemeSettingsSchema do
   describe ".validate" do
     it "returns empty array for valid values" do
       errors = described_class.validate({
-        "primary_color" => "#ff0000",
-        "secondary_color" => "#00ff00"
-      })
+                                          "primary_color" => "#ff0000",
+                                          "secondary_color" => "#00ff00"
+                                        })
 
       expect(errors).to be_empty
     end

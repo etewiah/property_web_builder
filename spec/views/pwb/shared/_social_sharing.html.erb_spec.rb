@@ -79,7 +79,7 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
 
     it "wraps each icon in fixed-width container for consistent spacing" do
       # Each link should have w-8 h-8 for consistent clickable area
-      expect(rendered.scan(/w-8 h-8/).count).to eq(4)
+      expect(rendered.scan('w-8 h-8').count).to eq(4)
     end
 
     it "uses gap utility instead of space-x for consistent spacing" do
@@ -128,7 +128,7 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
 
     it "uses rounded button styling with consistent size" do
       expect(rendered).to include("rounded-full")
-      expect(rendered.scan(/w-10 h-10/).count).to eq(4)
+      expect(rendered.scan('w-10 h-10').count).to eq(4)
     end
 
     it "includes all share parameters in URLs" do
@@ -142,7 +142,7 @@ RSpec.describe "pwb/shared/_social_sharing.html.erb", type: :view do
       render partial: "pwb/shared/social_sharing", locals: {
         url: share_url,
         title: share_title,
-        networks: [:facebook, :whatsapp]
+        networks: %i[facebook whatsapp]
       }
 
       expect(rendered).to include("brand-icon-facebook")

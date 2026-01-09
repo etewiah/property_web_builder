@@ -96,7 +96,7 @@ RSpec.describe 'SiteAdmin::AnalyticsController', type: :request do
       [7, 14, 30, 60, 90].each do |period|
         it "accepts period=#{period}" do
           get site_admin_analytics_path, params: { period: period },
-              headers: { 'HTTP_HOST' => 'analytics-test.test.localhost' }
+                                         headers: { 'HTTP_HOST' => 'analytics-test.test.localhost' }
 
           expect(response).to have_http_status(:success)
         end
@@ -106,7 +106,7 @@ RSpec.describe 'SiteAdmin::AnalyticsController', type: :request do
     context 'invalid periods' do
       it 'defaults to 30 days for invalid period' do
         get site_admin_analytics_path, params: { period: 999 },
-            headers: { 'HTTP_HOST' => 'analytics-test.test.localhost' }
+                                       headers: { 'HTTP_HOST' => 'analytics-test.test.localhost' }
 
         expect(response).to have_http_status(:success)
         # Controller should default to 30
@@ -114,7 +114,7 @@ RSpec.describe 'SiteAdmin::AnalyticsController', type: :request do
 
       it 'defaults to 30 days for negative period' do
         get site_admin_analytics_path, params: { period: -7 },
-            headers: { 'HTTP_HOST' => 'analytics-test.test.localhost' }
+                                       headers: { 'HTTP_HOST' => 'analytics-test.test.localhost' }
 
         expect(response).to have_http_status(:success)
       end
@@ -205,7 +205,7 @@ RSpec.describe 'SiteAdmin::AnalyticsController', type: :request do
             params: { format: :json },
             headers: { 'HTTP_HOST' => 'analytics-test.test.localhost' }
 
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response).to have_key('active_visitors')
         expect(json_response).to have_key('recent_pageviews')
       end

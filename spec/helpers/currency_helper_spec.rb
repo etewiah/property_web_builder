@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe CurrencyHelper, type: :helper do
-  let(:website) { create(:pwb_website, default_currency: 'EUR', available_currencies: ['USD', 'GBP']) }
+  let(:website) { create(:pwb_website, default_currency: 'EUR', available_currencies: %w[USD GBP]) }
 
   before do
     # Set up current website context
@@ -13,7 +13,7 @@ RSpec.describe CurrencyHelper, type: :helper do
   end
 
   describe '#display_price' do
-    let(:price) { Money.new(25000000, 'EUR') } # €250,000
+    let(:price) { Money.new(25_000_000, 'EUR') } # €250,000
 
     context 'with nil price' do
       it 'returns nil' do
@@ -79,7 +79,7 @@ RSpec.describe CurrencyHelper, type: :helper do
     end
 
     it 'returns unique values' do
-      website.update(available_currencies: ['EUR', 'USD', 'EUR'])
+      website.update(available_currencies: %w[EUR USD EUR])
       result = helper.available_display_currencies
       expect(result.count('EUR')).to eq(1)
     end

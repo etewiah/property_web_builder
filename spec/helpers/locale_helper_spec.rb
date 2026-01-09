@@ -57,12 +57,12 @@ RSpec.describe LocaleHelper, type: :helper do
 
   describe '#supported_locales_for_content' do
     it 'converts full locales to unique base locales' do
-      result = helper.supported_locales_for_content(['en-UK', 'en-US', 'es', 'pt-BR'])
+      result = helper.supported_locales_for_content(%w[en-UK en-US es pt-BR])
       expect(result).to eq(%w[en es pt])
     end
 
     it 'removes duplicates from same base language' do
-      result = helper.supported_locales_for_content(['en-UK', 'en-US', 'en-AU'])
+      result = helper.supported_locales_for_content(%w[en-UK en-US en-AU])
       expect(result).to eq(['en'])
     end
 
@@ -79,7 +79,7 @@ RSpec.describe LocaleHelper, type: :helper do
 
   describe '#build_locale_details' do
     it 'builds locale detail hashes with full, base, and label' do
-      result = helper.build_locale_details(['en-UK', 'es'])
+      result = helper.build_locale_details(%w[en-UK es])
 
       expect(result.length).to eq(2)
 
@@ -95,7 +95,7 @@ RSpec.describe LocaleHelper, type: :helper do
     end
 
     it 'handles various locale formats' do
-      result = helper.build_locale_details(['pt-BR', 'fr', 'de'])
+      result = helper.build_locale_details(%w[pt-BR fr de])
 
       expect(result[0][:label]).to eq('Portuguese (Brazil)')
       expect(result[1][:label]).to eq('French')
@@ -115,7 +115,7 @@ RSpec.describe LocaleHelper, type: :helper do
     it 'filters out blank locales' do
       result = helper.build_locale_details(['en-UK', '', 'es'])
       expect(result.length).to eq(2)
-      expect(result.map { |d| d[:base] }).to eq(%w[en es])
+      expect(result.pluck(:base)).to eq(%w[en es])
     end
 
     it 'returns default English for blank input' do
@@ -149,7 +149,7 @@ RSpec.describe LocaleHelper, type: :helper do
 
   describe '#base_to_full_locale' do
     it 'finds full locale matching base locale' do
-      supported = ['en-UK', 'es', 'pt-BR', 'fr']
+      supported = %w[en-UK es pt-BR fr]
 
       expect(helper.base_to_full_locale('en', supported)).to eq('en-UK')
       expect(helper.base_to_full_locale('es', supported)).to eq('es')
@@ -157,7 +157,7 @@ RSpec.describe LocaleHelper, type: :helper do
     end
 
     it 'returns base locale if no match found' do
-      supported = ['en-UK', 'es']
+      supported = %w[en-UK es]
       expect(helper.base_to_full_locale('fr', supported)).to eq('fr')
     end
 

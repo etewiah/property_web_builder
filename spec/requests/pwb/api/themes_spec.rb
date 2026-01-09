@@ -36,7 +36,7 @@ module Pwb
         get '/api/v1/themes', headers: request_headers
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
 
         expect(json).to be_an(Array)
         # Should have at least some themes available
@@ -48,7 +48,7 @@ module Pwb
         get '/api/v1/themes', headers: request_headers
 
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
 
         if json.any?
           first_theme = json.first

@@ -63,34 +63,34 @@ module Pwb
         before { website_with_domain }
 
         it 'finds website by exact domain match' do
-          result = Website.find_by_custom_domain('myrealestate.com')
+          result = Website.find_by(custom_domain: 'myrealestate.com')
           expect(result).to eq(website_with_domain)
         end
 
         it 'finds website case-insensitively' do
-          result = Website.find_by_custom_domain('MyRealEstate.COM')
+          result = Website.find_by(custom_domain: 'MyRealEstate.COM')
           expect(result).to eq(website_with_domain)
         end
 
         it 'finds website with www prefix when stored without' do
-          result = Website.find_by_custom_domain('www.myrealestate.com')
+          result = Website.find_by(custom_domain: 'www.myrealestate.com')
           expect(result).to eq(website_with_domain)
         end
 
         it 'finds website without www prefix when stored with www' do
           website_with_domain.update!(custom_domain: 'www.myrealestate.com')
-          result = Website.find_by_custom_domain('myrealestate.com')
+          result = Website.find_by(custom_domain: 'myrealestate.com')
           expect(result).to eq(website_with_domain)
         end
 
         it 'returns nil for non-existent domain' do
-          result = Website.find_by_custom_domain('nonexistent.com')
+          result = Website.find_by(custom_domain: 'nonexistent.com')
           expect(result).to be_nil
         end
 
         it 'returns nil for blank domain' do
-          expect(Website.find_by_custom_domain('')).to be_nil
-          expect(Website.find_by_custom_domain(nil)).to be_nil
+          expect(Website.find_by(custom_domain: '')).to be_nil
+          expect(Website.find_by(custom_domain: nil)).to be_nil
         end
       end
 
@@ -102,35 +102,35 @@ module Pwb
 
         context 'with custom domain' do
           it 'finds website by custom domain' do
-            result = Website.find_by_host('myrealestate.com')
+            result = Website.find_by(host: 'myrealestate.com')
             expect(result).to eq(website_with_domain)
           end
 
           it 'finds website by custom domain with www' do
-            result = Website.find_by_host('www.myrealestate.com')
+            result = Website.find_by(host: 'www.myrealestate.com')
             expect(result).to eq(website_with_domain)
           end
         end
 
         context 'with platform subdomain' do
           it 'finds website by subdomain on platform domain' do
-            result = Website.find_by_host('tenant-a.propertywebbuilder.com')
+            result = Website.find_by(host: 'tenant-a.propertywebbuilder.com')
             expect(result).to eq(website)
           end
 
           it 'finds website by subdomain on localhost' do
-            result = Website.find_by_host('tenant-a.localhost')
+            result = Website.find_by(host: 'tenant-a.localhost')
             expect(result).to eq(website)
           end
 
           it 'finds website by subdomain on e2e.localhost' do
-            result = Website.find_by_host('tenant-a.e2e.localhost')
+            result = Website.find_by(host: 'tenant-a.e2e.localhost')
             expect(result).to eq(website)
           end
         end
 
         it 'returns nil for non-existent host' do
-          expect(Website.find_by_host('unknown.example.com')).to be_nil
+          expect(Website.find_by(host: 'unknown.example.com')).to be_nil
         end
       end
 

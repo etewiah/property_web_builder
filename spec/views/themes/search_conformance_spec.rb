@@ -22,7 +22,7 @@ RSpec.describe 'Theme Search Page Conformance', type: :view do
 
   # Deprecated patterns that should not appear in search templates
   DEPRECATED_SEARCH_PATTERNS = {
-    # Note: removed :: from Vue.js pattern as it matches Ruby's namespace separator
+    # NOTE: removed :: from Vue.js pattern as it matches Ruby's namespace separator
     'Vue.js reference' => /INMOAPP\.pwbVue|Vue\.|v-if=|v-for=|v-model=|v-bind:|v-on:|@click=/,
     'jQuery reference' => /\$\(|jQuery\(|\$\./,
     'Bootstrap classes' => /class="[^"]*(?:col-md-|col-lg-|col-sm-|btn-primary|btn-secondary)[^"]*"/
@@ -170,8 +170,8 @@ RSpec.describe 'Theme Search Page Conformance', type: :view do
             it 'has map section conditional on markers' do
               # Map should only render when markers exist
               has_map_conditional = template_content.match?(/@map_markers\.length\s*>\s*0/) ||
-                                   template_content.match?(/@map_markers\.any\?/) ||
-                                   template_content.match?(/@map_markers\.present\?/)
+                                    template_content.match?(/@map_markers\.any\?/) ||
+                                    template_content.match?(/@map_markers\.present\?/)
 
               expect(has_map_conditional).to be(true),
                 "#{theme}/#{page}.html.erb missing conditional check for map markers. " \
@@ -187,7 +187,7 @@ RSpec.describe 'Theme Search Page Conformance', type: :view do
     THEMES.each do |theme|
       context "#{theme} theme" do
         let(:theme_search_files) do
-          Dir.glob(Rails.root.join('app', 'themes', theme, 'views', 'pwb', 'search', '*.html.erb'))
+          Rails.root.glob("app/themes/#{theme}/views/pwb/search/*.html.erb")
         end
 
         DEPRECATED_SEARCH_PATTERNS.each do |pattern_name, pattern|
@@ -198,12 +198,12 @@ RSpec.describe 'Theme Search Page Conformance', type: :view do
               content = File.read(file_path)
               relative_path = file_path.to_s.sub("#{Rails.root}/", '')
 
-              if content.match?(pattern)
-                # Extract matching lines for better error messages
-                matching_lines = content.lines.each_with_index.select { |line, _| line.match?(pattern) }
-                matching_lines.each do |line, index|
-                  violations << "#{relative_path}:#{index + 1}: #{line.strip}"
-                end
+              next unless content.match?(pattern)
+
+              # Extract matching lines for better error messages
+              matching_lines = content.lines.each_with_index.select { |line, _| line.match?(pattern) }
+              matching_lines.each do |line, index|
+                violations << "#{relative_path}:#{index + 1}: #{line.strip}"
               end
             end
 

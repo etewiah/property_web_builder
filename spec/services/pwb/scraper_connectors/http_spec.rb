@@ -248,7 +248,7 @@ module Pwb
           connector.fetch
 
           expect(WebMock).to have_requested(:get, url)
-            .with(headers: { "Accept" => /text\/html/ })
+            .with(headers: { "Accept" => %r{text/html} })
         end
 
         it "sends Accept-Language header" do

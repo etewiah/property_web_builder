@@ -77,13 +77,13 @@ RSpec.describe 'SiteAdmin::MediaLibrary', type: :request do
 
       it 'includes media items in JSON' do
         get site_admin_media_library_index_path, as: :json
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['items']).to be_an(Array)
       end
 
       it 'includes pagination in JSON' do
         get site_admin_media_library_index_path, as: :json
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['pagination']).to include('current_page', 'total_pages')
       end
     end
@@ -110,7 +110,7 @@ RSpec.describe 'SiteAdmin::MediaLibrary', type: :request do
     context 'with JSON format' do
       it 'returns media details as JSON' do
         get site_admin_media_library_path(media), as: :json
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['id']).to eq(media.id)
         expect(json['filename']).to eq('show-test.jpg')
       end
@@ -121,12 +121,10 @@ RSpec.describe 'SiteAdmin::MediaLibrary', type: :request do
       let!(:other_media) { create(:pwb_media, website: other_website, filename: 'other.jpg') }
 
       it 'returns not found or raises error' do
-        begin
-          get site_admin_media_library_path(other_media)
-          expect(response).to have_http_status(:not_found)
-        rescue ActiveRecord::RecordNotFound
-          # Expected behavior - exception is raised
-        end
+        get site_admin_media_library_path(other_media)
+        expect(response).to have_http_status(:not_found)
+      rescue ActiveRecord::RecordNotFound
+        # Expected behavior - exception is raised
       end
     end
   end
@@ -163,9 +161,9 @@ RSpec.describe 'SiteAdmin::MediaLibrary', type: :request do
       end
 
       it 'creates media successfully' do
-        expect {
+        expect do
           post site_admin_media_library_index_path, params: { files: [image_file] }
-        }.to change { website.media.count }.by(1)
+        end.to change { website.media.count }.by(1)
       end
 
       it 'redirects with success message' do
@@ -253,7 +251,7 @@ RSpec.describe 'SiteAdmin::MediaLibrary', type: :request do
       it 'returns updated media as JSON' do
         patch site_admin_media_library_path(media), params: { media: { title: 'JSON Update' } }, as: :json
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['title']).to eq('JSON Update')
       end
     end
@@ -263,9 +261,9 @@ RSpec.describe 'SiteAdmin::MediaLibrary', type: :request do
     let!(:media) { create(:pwb_media, website: website, filename: 'delete-test.jpg') }
 
     it 'deletes the media' do
-      expect {
+      expect do
         delete site_admin_media_library_path(media)
-      }.to change { website.media.count }.by(-1)
+      end.to change { website.media.count }.by(-1)
     end
 
     it 'redirects with success message' do
@@ -288,9 +286,9 @@ RSpec.describe 'SiteAdmin::MediaLibrary', type: :request do
     let!(:media3) { create(:pwb_media, website: website, filename: 'bulk3.jpg') }
 
     it 'deletes multiple media items' do
-      expect {
+      expect do
         post bulk_destroy_site_admin_media_library_index_path, params: { ids: [media1.id, media2.id] }
-      }.to change { website.media.count }.by(-2)
+      end.to change { website.media.count }.by(-2)
     end
 
     it 'does not delete unspecified items' do
@@ -346,9 +344,9 @@ RSpec.describe 'SiteAdmin::MediaLibrary', type: :request do
     context 'with JSON format' do
       it 'returns folders as JSON' do
         get folders_site_admin_media_library_index_path, as: :json
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json).to be_an(Array)
-        expect(json.map { |f| f['name'] }).to include('Folder A', 'Folder B')
+        expect(json.pluck('name')).to include('Folder A', 'Folder B')
       end
     end
   end
@@ -356,9 +354,9 @@ RSpec.describe 'SiteAdmin::MediaLibrary', type: :request do
   describe 'POST /site_admin/media_library/create_folder' do
     context 'with valid params' do
       it 'creates a folder' do
-        expect {
+        expect do
           post create_folder_site_admin_media_library_index_path, params: { folder: { name: 'New Folder' } }
-        }.to change { website.media_folders.count }.by(1)
+        end.to change { website.media_folders.count }.by(1)
       end
 
       it 'redirects with success message' do
@@ -409,9 +407,9 @@ RSpec.describe 'SiteAdmin::MediaLibrary', type: :request do
       let!(:folder) { create(:pwb_media_folder, website: website, name: 'Empty Folder') }
 
       it 'deletes the folder' do
-        expect {
+        expect do
           delete destroy_folder_site_admin_media_library_index_path(id: folder.id)
-        }.to change { website.media_folders.count }.by(-1)
+        end.to change { website.media_folders.count }.by(-1)
       end
 
       it 'redirects with success message' do
@@ -426,9 +424,9 @@ RSpec.describe 'SiteAdmin::MediaLibrary', type: :request do
       let!(:media) { create(:pwb_media, website: website, folder: folder, filename: 'in-folder.jpg') }
 
       it 'does not delete the folder' do
-        expect {
+        expect do
           delete destroy_folder_site_admin_media_library_index_path(id: folder.id)
-        }.not_to change { website.media_folders.count }
+        end.not_to(change { website.media_folders.count })
       end
 
       it 'redirects with error message' do
@@ -459,21 +457,17 @@ RSpec.describe 'SiteAdmin::MediaLibrary', type: :request do
     end
 
     it 'cannot access other website media' do
-      begin
-        get site_admin_media_library_path(other_media)
-        expect(response).to have_http_status(:not_found)
-      rescue ActiveRecord::RecordNotFound
-        # Expected behavior - exception is raised
-      end
+      get site_admin_media_library_path(other_media)
+      expect(response).to have_http_status(:not_found)
+    rescue ActiveRecord::RecordNotFound
+      # Expected behavior - exception is raised
     end
 
     it 'cannot delete other website media' do
-      begin
-        delete site_admin_media_library_path(other_media)
-        expect(response).to have_http_status(:not_found)
-      rescue ActiveRecord::RecordNotFound
-        # Expected behavior - exception is raised
-      end
+      delete site_admin_media_library_path(other_media)
+      expect(response).to have_http_status(:not_found)
+    rescue ActiveRecord::RecordNotFound
+      # Expected behavior - exception is raised
     end
 
     it 'only counts own media in stats' do

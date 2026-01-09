@@ -69,7 +69,7 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
         get site_admin_contacts_path, headers: { 'HTTP_HOST' => 'tenant-a.e2e.localhost' }
 
         # Should only see 1 contact (contact_a), not 4 total
-        expect(response.body.scan(/tenant-a\.test/).count).to be >= 1
+        expect(response.body.scan('tenant-a.test').count).to be >= 1
         expect(response.body).not_to include('tenant-b.test')
       end
     end
@@ -397,7 +397,11 @@ RSpec.describe 'Site Admin Multi-Tenant Isolation', type: :request do
       # Create sale listings and refresh materialized view
       Pwb::SaleListing.create!(realty_asset: realty_asset_a, visible: true, price_sale_current_cents: 100_000_00)
       Pwb::SaleListing.create!(realty_asset: realty_asset_b, visible: true, price_sale_current_cents: 200_000_00)
-      Pwb::ListedProperty.refresh rescue nil
+      begin
+        Pwb::ListedProperty.refresh
+      rescue StandardError
+        nil
+      end
     end
 
     describe 'GET /site_admin/props' do

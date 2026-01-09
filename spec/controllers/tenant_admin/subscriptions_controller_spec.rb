@@ -112,7 +112,7 @@ RSpec.describe TenantAdmin::SubscriptionsController, type: :controller do
     end
 
     it 'assigns active plans' do
-      create(:pwb_plan, :starter)  # Ensure at least one active plan exists
+      create(:pwb_plan, :starter) # Ensure at least one active plan exists
       get :new
       expect(assigns(:plans)).to be_present
     end
@@ -145,9 +145,9 @@ RSpec.describe TenantAdmin::SubscriptionsController, type: :controller do
 
     context 'with valid parameters' do
       it 'creates a new subscription' do
-        expect {
+        expect do
           post :create, params: valid_params
-        }.to change(Pwb::Subscription, :count).by(1)
+        end.to change(Pwb::Subscription, :count).by(1)
       end
 
       it 'redirects to the created subscription' do
@@ -193,9 +193,9 @@ RSpec.describe TenantAdmin::SubscriptionsController, type: :controller do
 
     context 'with invalid parameters' do
       it 'does not create a new subscription' do
-        expect {
+        expect do
           post :create, params: invalid_params
-        }.not_to change(Pwb::Subscription, :count)
+        end.not_to change(Pwb::Subscription, :count)
       end
 
       it 'renders the new template' do
@@ -250,9 +250,9 @@ RSpec.describe TenantAdmin::SubscriptionsController, type: :controller do
   describe 'DELETE #destroy' do
     it 'destroys the subscription' do
       subscription_to_delete = create(:pwb_subscription, plan: plan)
-      expect {
+      expect do
         delete :destroy, params: { id: subscription_to_delete.id }
-      }.to change(Pwb::Subscription, :count).by(-1)
+      end.to change(Pwb::Subscription, :count).by(-1)
     end
 
     it 'redirects to subscriptions index' do

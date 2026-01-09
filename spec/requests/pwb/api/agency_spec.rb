@@ -38,7 +38,7 @@ module Pwb
           get '/api/v1/agency'
 
           expect(response).to have_http_status(:success)
-          json = JSON.parse(response.body)
+          json = response.parsed_body
           expect(json['agency']).to be_present
           expect(json['agency']['company_name']).to eq(agency.company_name)
         end
@@ -74,7 +74,7 @@ module Pwb
         agency_params = {
           agency: {
             company_name: 'Updated Company Name',
-            supported_locales: ['fr', 'es'],
+            supported_locales: %w[fr es],
             social_media: {
               twitter: 'http://twitter.com/test',
               youtube: ''

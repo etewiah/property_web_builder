@@ -14,19 +14,19 @@ RSpec.describe Pwb::WebsiteLocalizable, type: :model do
   describe 'validations' do
     describe 'default_locale_in_supported_locales' do
       it 'is valid when default locale is in supported locales' do
-        website.supported_locales = ['en-UK', 'fr-FR']
+        website.supported_locales = %w[en-UK fr-FR]
         website.default_client_locale = 'en-UK'
         expect(website).to be_valid
       end
 
       it 'is valid when comparing base locale codes' do
-        website.supported_locales = ['en-UK', 'fr-FR']
+        website.supported_locales = %w[en-UK fr-FR]
         website.default_client_locale = 'en-US'
         expect(website).to be_valid
       end
 
       it 'is invalid when default locale is not in supported locales' do
-        website.supported_locales = ['en-UK', 'fr-FR']
+        website.supported_locales = %w[en-UK fr-FR]
         website.default_client_locale = 'de-DE'
         expect(website).not_to be_valid
         expect(website.errors[:default_client_locale]).to include('must be one of the supported languages')
@@ -59,7 +59,7 @@ RSpec.describe Pwb::WebsiteLocalizable, type: :model do
     end
 
     it 'returns true for multiple locales' do
-      website.supported_locales = ['en-UK', 'fr-FR']
+      website.supported_locales = %w[en-UK fr-FR]
       expect(website.is_multilingual).to be true
     end
 
@@ -85,14 +85,14 @@ RSpec.describe Pwb::WebsiteLocalizable, type: :model do
     end
 
     it 'parses multiple locales' do
-      website.supported_locales = ['en-UK', 'fr-FR', 'de-DE']
+      website.supported_locales = %w[en-UK fr-FR de-DE]
       result = website.supported_locales_with_variants
 
       expect(result).to eq([
-        { 'locale' => 'en', 'variant' => 'uk' },
-        { 'locale' => 'fr', 'variant' => 'fr' },
-        { 'locale' => 'de', 'variant' => 'de' }
-      ])
+                             { 'locale' => 'en', 'variant' => 'uk' },
+                             { 'locale' => 'fr', 'variant' => 'fr' },
+                             { 'locale' => 'de', 'variant' => 'de' }
+                           ])
     end
 
     it 'filters out blank entries' do

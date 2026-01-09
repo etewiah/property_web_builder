@@ -130,15 +130,14 @@ RSpec.describe Pwb::AuthAuditLog, type: :model do
         remote_ip: '10.0.0.1',
         ip: '10.0.0.1',
         user_agent: 'Mozilla/5.0 Test Browser',
-        fullpath: '/users/sign_in'
-      )
+        fullpath: '/users/sign_in')
     end
 
     describe '.log_login_success' do
       it 'creates a login_success log entry' do
-        expect {
+        expect do
           Pwb::AuthAuditLog.log_login_success(user: user, request: mock_request)
-        }.to change(Pwb::AuthAuditLog, :count).by(1)
+        end.to change(Pwb::AuthAuditLog, :count).by(1)
 
         log = Pwb::AuthAuditLog.last
         expect(log.event_type).to eq('login_success')
@@ -151,13 +150,13 @@ RSpec.describe Pwb::AuthAuditLog, type: :model do
 
     describe '.log_login_failure' do
       it 'creates a login_failure log entry' do
-        expect {
+        expect do
           Pwb::AuthAuditLog.log_login_failure(
             email: 'attacker@example.com',
             reason: 'invalid_credentials',
             request: mock_request
           )
-        }.to change(Pwb::AuthAuditLog, :count).by(1)
+        end.to change(Pwb::AuthAuditLog, :count).by(1)
 
         log = Pwb::AuthAuditLog.last
         expect(log.event_type).to eq('login_failure')
@@ -180,9 +179,9 @@ RSpec.describe Pwb::AuthAuditLog, type: :model do
 
     describe '.log_logout' do
       it 'creates a logout log entry' do
-        expect {
+        expect do
           Pwb::AuthAuditLog.log_logout(user: user, request: mock_request)
-        }.to change(Pwb::AuthAuditLog, :count).by(1)
+        end.to change(Pwb::AuthAuditLog, :count).by(1)
 
         log = Pwb::AuthAuditLog.last
         expect(log.event_type).to eq('logout')
@@ -192,13 +191,13 @@ RSpec.describe Pwb::AuthAuditLog, type: :model do
 
     describe '.log_oauth_success' do
       it 'creates an oauth_success log entry' do
-        expect {
+        expect do
           Pwb::AuthAuditLog.log_oauth_success(
             user: user,
             provider: 'facebook',
             request: mock_request
           )
-        }.to change(Pwb::AuthAuditLog, :count).by(1)
+        end.to change(Pwb::AuthAuditLog, :count).by(1)
 
         log = Pwb::AuthAuditLog.last
         expect(log.event_type).to eq('oauth_success')
@@ -208,12 +207,12 @@ RSpec.describe Pwb::AuthAuditLog, type: :model do
 
     describe '.log_password_reset_request' do
       it 'creates a password_reset_request log entry' do
-        expect {
+        expect do
           Pwb::AuthAuditLog.log_password_reset_request(
             email: user.email,
             request: mock_request
           )
-        }.to change(Pwb::AuthAuditLog, :count).by(1)
+        end.to change(Pwb::AuthAuditLog, :count).by(1)
 
         log = Pwb::AuthAuditLog.last
         expect(log.event_type).to eq('password_reset_request')
@@ -225,9 +224,9 @@ RSpec.describe Pwb::AuthAuditLog, type: :model do
       it 'creates an account_locked log entry' do
         user.update!(failed_attempts: 5)
 
-        expect {
+        expect do
           Pwb::AuthAuditLog.log_account_locked(user: user)
-        }.to change(Pwb::AuthAuditLog, :count).by(1)
+        end.to change(Pwb::AuthAuditLog, :count).by(1)
 
         log = Pwb::AuthAuditLog.last
         expect(log.event_type).to eq('account_locked')
@@ -237,9 +236,9 @@ RSpec.describe Pwb::AuthAuditLog, type: :model do
 
     describe '.log_account_unlocked' do
       it 'creates an account_unlocked log entry' do
-        expect {
+        expect do
           Pwb::AuthAuditLog.log_account_unlocked(user: user, unlock_method: 'email')
-        }.to change(Pwb::AuthAuditLog, :count).by(1)
+        end.to change(Pwb::AuthAuditLog, :count).by(1)
 
         log = Pwb::AuthAuditLog.last
         expect(log.event_type).to eq('account_unlocked')
@@ -319,9 +318,9 @@ RSpec.describe Pwb::AuthAuditLog, type: :model do
 
   describe 'user model integration' do
     it 'logs registration when user is created' do
-      expect {
+      expect do
         create(:pwb_user, website: website, email: 'newuser@example.com')
-      }.to change(Pwb::AuthAuditLog, :count).by(1)
+      end.to change(Pwb::AuthAuditLog, :count).by(1)
 
       log = Pwb::AuthAuditLog.last
       expect(log.event_type).to eq('registration')
@@ -330,17 +329,17 @@ RSpec.describe Pwb::AuthAuditLog, type: :model do
 
     describe 'lockout logging' do
       it 'logs when account is locked' do
-        expect {
+        expect do
           user.update!(locked_at: Time.current, failed_attempts: 5)
-        }.to change { Pwb::AuthAuditLog.where(event_type: 'account_locked').count }.by(1)
+        end.to change { Pwb::AuthAuditLog.where(event_type: 'account_locked').count }.by(1)
       end
 
       it 'logs when account is unlocked' do
         user.update!(locked_at: Time.current, unlock_token: 'test_token')
 
-        expect {
+        expect do
           user.update!(locked_at: nil, unlock_token: nil)
-        }.to change { Pwb::AuthAuditLog.where(event_type: 'account_unlocked').count }.by(1)
+        end.to change { Pwb::AuthAuditLog.where(event_type: 'account_unlocked').count }.by(1)
       end
     end
 

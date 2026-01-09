@@ -30,9 +30,9 @@ module Pwb
       it "prevents duplicate slugs within same website" do
         Link.create!(website: website1, slug: "unique_link", placement: :top_nav)
 
-        expect {
+        expect do
           Link.create!(website: website1, slug: "unique_link", placement: :footer)
-        }.to raise_error(ActiveRecord::RecordNotUnique)
+        end.to raise_error(ActiveRecord::RecordNotUnique)
       end
 
       context "seeding standard navigation links for multiple tenants" do
@@ -51,11 +51,11 @@ module Pwb
         end
 
         it "can create all standard links for tenant 1" do
-          expect {
+          expect do
             standard_nav_links.each do |slug|
               website1.links.create!(slug: slug, placement: :top_nav)
             end
-          }.not_to raise_error
+          end.not_to raise_error
 
           expect(website1.links.count).to eq(standard_nav_links.count)
         end
@@ -67,11 +67,11 @@ module Pwb
           end
 
           # Then create for tenant 2 - this should not fail
-          expect {
+          expect do
             standard_nav_links.each do |slug|
               website2.links.create!(slug: slug, placement: :top_nav)
             end
-          }.not_to raise_error
+          end.not_to raise_error
 
           expect(website2.links.count).to eq(standard_nav_links.count)
         end
@@ -90,9 +90,9 @@ module Pwb
       it "prevents duplicate slugs within same website" do
         Page.create!(website: website1, slug: "about-us")
 
-        expect {
+        expect do
           Page.create!(website: website1, slug: "about-us")
-        }.to raise_error(ActiveRecord::RecordNotUnique)
+        end.to raise_error(ActiveRecord::RecordNotUnique)
       end
 
       context "seeding standard pages for multiple tenants" do
@@ -105,11 +105,11 @@ module Pwb
           end
 
           # Create for tenant 2
-          expect {
+          expect do
             standard_pages.each do |slug|
               website2.pages.create!(slug: slug)
             end
-          }.not_to raise_error
+          end.not_to raise_error
 
           expect(website1.pages.count).to eq(standard_pages.count)
           expect(website2.pages.count).to eq(standard_pages.count)
@@ -139,9 +139,9 @@ module Pwb
       it "prevents duplicate keys within the same website" do
         Content.create!(website: website1, key: "unique_content")
 
-        expect {
+        expect do
           Content.create!(website: website1, key: "unique_content")
-        }.to raise_error(ActiveRecord::RecordNotUnique)
+        end.to raise_error(ActiveRecord::RecordNotUnique)
       end
 
       context "seeding standard content for multiple tenants" do
@@ -155,11 +155,11 @@ module Pwb
           end
 
           # Create for tenant 2 - should not fail
-          expect {
+          expect do
             standard_content_keys.each do |key|
               Content.create!(website: website2, key: key)
             end
-          }.not_to raise_error
+          end.not_to raise_error
 
           expect(Content.where(website: website1).count).to eq(standard_content_keys.count)
           expect(Content.where(website: website2).count).to eq(standard_content_keys.count)
@@ -172,13 +172,13 @@ module Pwb
         prop1 = Prop.create!(
           website: website1,
           reference: "PROP-001",
-          price_sale_current_cents: 100000,
+          price_sale_current_cents: 100_000,
           price_sale_current_currency: "EUR"
         )
         prop2 = Prop.create!(
           website: website2,
           reference: "PROP-001",
-          price_sale_current_cents: 200000,
+          price_sale_current_cents: 200_000,
           price_sale_current_currency: "EUR"
         )
 
@@ -238,13 +238,13 @@ module Pwb
         @prop1 = Prop.create!(
           website: website1,
           reference: "REF-1",
-          price_sale_current_cents: 100000,
+          price_sale_current_cents: 100_000,
           price_sale_current_currency: "EUR"
         )
         @prop2 = Prop.create!(
           website: website2,
           reference: "REF-1",
-          price_sale_current_cents: 200000,
+          price_sale_current_cents: 200_000,
           price_sale_current_currency: "EUR"
         )
       end
@@ -285,7 +285,7 @@ module Pwb
         Prop.create!(
           website: website1,
           reference: "TEST-PROP",
-          price_sale_current_cents: 100000,
+          price_sale_current_cents: 100_000,
           price_sale_current_currency: "EUR"
         )
       end
@@ -301,9 +301,9 @@ module Pwb
         website1.links.destroy_all
 
         # Should be able to recreate
-        expect {
+        expect do
           Link.create!(website: website1, slug: link_slug, placement: :top_nav)
-        }.not_to raise_error
+        end.not_to raise_error
       end
     end
   end

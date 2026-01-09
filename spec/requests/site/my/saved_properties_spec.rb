@@ -25,7 +25,7 @@ RSpec.describe "Pwb::Site::My::SavedProperties", type: :request do
       end
 
       it "creates a saved property for internal listings" do
-        expect {
+        expect do
           post my_favorites_path, params: {
             saved_property: {
               email: "user@example.com",
@@ -35,7 +35,7 @@ RSpec.describe "Pwb::Site::My::SavedProperties", type: :request do
               notes: "Great property!"
             }
           }
-        }.to change(Pwb::SavedProperty, :count).by(1)
+        end.to change(Pwb::SavedProperty, :count).by(1)
 
         saved = Pwb::SavedProperty.last
         expect(saved.email).to eq("user@example.com")
@@ -174,9 +174,9 @@ RSpec.describe "Pwb::Site::My::SavedProperties", type: :request do
     end
 
     it "removes the saved property" do
-      expect {
+      expect do
         delete my_favorite_path(id: saved_property.id, token: saved_property.manage_token)
-      }.to change(Pwb::SavedProperty, :count).by(-1)
+      end.to change(Pwb::SavedProperty, :count).by(-1)
     end
 
     it "redirects appropriately after deletion" do

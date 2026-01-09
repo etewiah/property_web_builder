@@ -140,7 +140,7 @@ FactoryBot.define do
       # Skip if using :without_agency trait
       next if evaluator.skip_agency
 
-      unless website.agency.present?
+      if website.agency.blank?
         agency = Pwb::Agency.create!(
           company_name: 'Test Company',
           # display_name is the primary source for the company name shown on the public website

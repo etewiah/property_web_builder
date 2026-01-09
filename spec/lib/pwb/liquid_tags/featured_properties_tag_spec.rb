@@ -7,9 +7,9 @@ RSpec.describe Pwb::LiquidTags::FeaturedPropertiesTag do
   let(:view) { double("view") }
   let(:context) do
     Liquid::Context.new({}, {}, {
-      view: view,
-      website: website
-    })
+                          view: view,
+                          website: website
+                        })
   end
 
   before do

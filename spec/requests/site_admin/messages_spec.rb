@@ -54,21 +54,21 @@ RSpec.describe 'SiteAdmin::MessagesController', type: :request do
 
       it 'searches by email' do
         get site_admin_messages_path, params: { search: 'john@' },
-            headers: { 'HTTP_HOST' => 'messages-test.test.localhost' }
+                                      headers: { 'HTTP_HOST' => 'messages-test.test.localhost' }
 
         expect(response).to have_http_status(:success)
       end
 
       it 'searches by content' do
         get site_admin_messages_path, params: { search: 'Another' },
-            headers: { 'HTTP_HOST' => 'messages-test.test.localhost' }
+                                      headers: { 'HTTP_HOST' => 'messages-test.test.localhost' }
 
         expect(response).to have_http_status(:success)
       end
 
       it 'returns empty results for non-matching search' do
         get site_admin_messages_path, params: { search: 'nonexistent12345' },
-            headers: { 'HTTP_HOST' => 'messages-test.test.localhost' }
+                                      headers: { 'HTTP_HOST' => 'messages-test.test.localhost' }
 
         expect(response).to have_http_status(:success)
       end
@@ -100,7 +100,7 @@ RSpec.describe 'SiteAdmin::MessagesController', type: :request do
     let!(:message) do
       ActsAsTenant.with_tenant(website) do
         create(:pwb_message, website: website, origin_email: 'visitor@example.com',
-               content: 'I would like more information about your properties')
+                             content: 'I would like more information about your properties')
       end
     end
 

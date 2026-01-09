@@ -39,7 +39,7 @@ RSpec.describe 'SiteAdmin::PropsController', type: :request do
 
       it 'supports search by reference' do
         get site_admin_props_path, params: { search: 'PROP001' },
-            headers: { 'HTTP_HOST' => 'props-test.test.localhost' }
+                                   headers: { 'HTTP_HOST' => 'props-test.test.localhost' }
 
         expect(response).to have_http_status(:success)
       end
@@ -86,11 +86,11 @@ RSpec.describe 'SiteAdmin::PropsController', type: :request do
 
     context 'with valid parameters' do
       it 'creates a new property' do
-        expect {
+        expect do
           post site_admin_props_path,
                params: valid_params,
                headers: { 'HTTP_HOST' => 'props-test.test.localhost' }
-        }.to change(Pwb::RealtyAsset, :count).by(1)
+        end.to change(Pwb::RealtyAsset, :count).by(1)
       end
 
       it 'redirects to edit general after creation' do
@@ -127,7 +127,7 @@ RSpec.describe 'SiteAdmin::PropsController', type: :request do
     context 'with invalid parameters' do
       it 'does not create property with missing required fields' do
         # Controller may redirect on validation error instead of rendering 422
-        original_count = Pwb::RealtyAsset.count
+        Pwb::RealtyAsset.count
 
         post site_admin_props_path,
              params: { pwb_realty_asset: { reference: '' } },
@@ -144,7 +144,9 @@ RSpec.describe 'SiteAdmin::PropsController', type: :request do
     let!(:sale_listing) { create(:pwb_sale_listing, realty_asset: property, visible: true) }
 
     before do
-      Pwb::ListedProperty.refresh rescue nil
+      Pwb::ListedProperty.refresh
+    rescue StandardError
+      nil
     end
 
     it 'renders the property show page' do
@@ -263,7 +265,7 @@ RSpec.describe 'SiteAdmin::PropsController', type: :request do
         patch site_admin_prop_path(property),
               params: {
                 pwb_realty_asset: { count_bedrooms: 4 },
-                sale_listing: { visible: true, price_sale_current_cents: 50000000 }
+                sale_listing: { visible: true, price_sale_current_cents: 50_000_000 }
               },
               headers: { 'HTTP_HOST' => 'props-test.test.localhost' }
 

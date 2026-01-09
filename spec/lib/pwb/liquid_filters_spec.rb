@@ -24,7 +24,7 @@ RSpec.describe Pwb::LiquidFilters do
       before do
         allow(I18n).to receive(:locale).and_return(:es)
         allow(I18n).to receive(:default_locale).and_return(:en)
-        allow(I18n).to receive(:available_locales).and_return([:en, :es, :fr, :de])
+        allow(I18n).to receive(:available_locales).and_return(%i[en es fr de])
       end
 
       it 'prepends locale to internal URLs' do
@@ -74,7 +74,7 @@ RSpec.describe Pwb::LiquidFilters do
       before do
         allow(I18n).to receive(:locale).and_return(:en)
         allow(I18n).to receive(:default_locale).and_return(:en)
-        allow(I18n).to receive(:available_locales).and_return([:en, :es, :fr])
+        allow(I18n).to receive(:available_locales).and_return(%i[en es fr])
       end
 
       it 'does not modify URLs when using default locale' do
@@ -90,7 +90,7 @@ RSpec.describe Pwb::LiquidFilters do
       before do
         allow(I18n).to receive(:locale).and_return(:fr)
         allow(I18n).to receive(:default_locale).and_return(:en)
-        allow(I18n).to receive(:available_locales).and_return([:en, :es, :fr, :de])
+        allow(I18n).to receive(:available_locales).and_return(%i[en es fr de])
       end
 
       it 'prepends French locale to URLs' do
@@ -102,7 +102,7 @@ RSpec.describe Pwb::LiquidFilters do
       before do
         allow(I18n).to receive(:locale).and_return(:es)
         allow(I18n).to receive(:default_locale).and_return(:en)
-        allow(I18n).to receive(:available_locales).and_return([:en, :es])
+        allow(I18n).to receive(:available_locales).and_return(%i[en es])
       end
 
       it 'handles root path' do

@@ -184,7 +184,7 @@ module Pwb
       describe "#listing_data" do
         it "returns listing_data from extracted_data" do
           sp = create(:pwb_scraped_property, :with_successful_scrape, website: website)
-          expect(sp.listing_data).to include("price_sale_current" => 450000)
+          expect(sp.listing_data).to include("price_sale_current" => 450_000)
         end
 
         it "returns empty hash when no extracted_data" do

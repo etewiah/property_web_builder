@@ -12,8 +12,8 @@ RSpec.describe Pwb::TenantShardMigrator do
 
       allow(migrator).to receive(:tenant_table_names).and_return(['pwb_contacts'])
       allow(migrator).to receive(:fetch_rows).and_return([
-                                                          { 'id' => 42, 'website_id' => website.id, 'first_name' => 'Jane' }
-                                                        ], [])
+                                                           { 'id' => 42, 'website_id' => website.id, 'first_name' => 'Jane' }
+                                                         ], [])
       allow(migrator).to receive(:ensure_no_conflicts!).and_return(true)
 
       expect(migrator).to receive(:insert_rows).with('pwb_contacts', array_including(hash_including('id' => 42)), :shard_1)
@@ -43,8 +43,8 @@ RSpec.describe Pwb::TenantShardMigrator do
 
       allow(migrator).to receive(:tenant_table_names).and_return(['pwb_contacts'])
       allow(migrator).to receive(:fetch_rows).and_return([
-        { 'id' => 7, 'website_id' => website.id, 'first_name' => 'Sam' }
-      ], [])
+                                                           { 'id' => 7, 'website_id' => website.id, 'first_name' => 'Sam' }
+                                                         ], [])
 
       allow(migrator).to receive(:ensure_no_conflicts!).and_raise(Pwb::TenantShardMigrator::MigrationError, 'ID conflict detected')
 

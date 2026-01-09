@@ -75,9 +75,9 @@ RSpec.describe 'TenantAdmin::Websites', type: :request do
     end
 
     it 'creates a new website with valid params' do
-      expect {
+      expect do
         post '/tenant_admin/websites', params: valid_params
-      }.to change(Pwb::Website, :count).by(1)
+      end.to change(Pwb::Website, :count).by(1)
 
       expect(response).to have_http_status(:redirect)
       follow_redirect!
@@ -134,9 +134,9 @@ RSpec.describe 'TenantAdmin::Websites', type: :request do
     let!(:target_website) { create(:pwb_website, subdomain: 'delete-site') }
 
     it 'deletes the website' do
-      expect {
+      expect do
         delete "/tenant_admin/websites/#{target_website.id}"
-      }.to change(Pwb::Website, :count).by(-1)
+      end.to change(Pwb::Website, :count).by(-1)
 
       expect(response).to have_http_status(:redirect)
     end

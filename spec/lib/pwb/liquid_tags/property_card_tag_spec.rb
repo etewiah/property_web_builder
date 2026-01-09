@@ -7,9 +7,9 @@ RSpec.describe Pwb::LiquidTags::PropertyCardTag do
   let(:view) { double("view") }
   let(:context) do
     Liquid::Context.new({}, {}, {
-      view: view,
-      website: website
-    })
+                          view: view,
+                          website: website
+                        })
   end
 
   before do
@@ -37,9 +37,9 @@ RSpec.describe Pwb::LiquidTags::PropertyCardTag do
     end
 
     it "raises syntax error without property id" do
-      expect {
+      expect do
         Liquid::Template.parse("{% property_card %}")
-      }.to raise_error(Liquid::SyntaxError)
+      end.to raise_error(Liquid::SyntaxError)
     end
   end
 

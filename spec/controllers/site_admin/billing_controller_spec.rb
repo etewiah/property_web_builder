@@ -88,8 +88,6 @@ RSpec.describe SiteAdmin::BillingController, type: :controller do
         get :show
         expect(response).to redirect_to(site_admin_billing_path)
       end
-
-
     end
 
     context 'with a past_due subscription' do

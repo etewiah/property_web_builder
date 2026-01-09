@@ -77,7 +77,6 @@ module Pwb
     #     @about_us_page.update_page_part_content  @page_part_key, "en", @fragment_block
     #     about_us__content_html__page_part  = @about_us_page.page_parts.find_by_page_part_key @page_part_key
 
-
     #     # the corresponding page_part will have that json element correctly set
     #     expect(about_us__content_html__page_part.block_contents.to_json).to have_json_path("en/blocks")
     #   end

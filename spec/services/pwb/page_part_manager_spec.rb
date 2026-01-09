@@ -13,11 +13,11 @@ module Pwb
       let!(:current_website) { FactoryBot.create(:pwb_website) }
       let(:page_part_key) { "footer_content_html" }
       let(:page_part_manager) { Pwb::PagePartManager.new page_part_key, current_website }
-      let!(:page_part) {
+      let!(:page_part) do
         ActsAsTenant.with_tenant(current_website) do
           FactoryBot.create(:pwb_page_part, :footer_content_html_for_website, website: current_website)
         end
-      }
+      end
 
       before do
         ActsAsTenant.current_tenant = current_website
@@ -42,20 +42,20 @@ module Pwb
         # below would fail:
         #         "main_content":"<p>We are proud to be registered with the national association of realtors.</p>"
 
-        result = page_part_manager.seed_container_block_content locale, seed_content
+        page_part_manager.seed_container_block_content locale, seed_content
 
-        expect(current_website.contents.find_by_page_part_key(page_part_key).raw).to include("We are proud to be registered with")
+        expect(current_website.contents.find_by(page_part_key: page_part_key).raw).to include("We are proud to be registered with")
       end
     end
     context 'for pages' do
       let!(:page_website) { FactoryBot.create(:pwb_website) }
-      let!(:contact_us_page) {
+      let!(:contact_us_page) do
         ActsAsTenant.with_tenant(page_website) do
           FactoryBot.create(:page_with_content_html_page_part,
                              slug: "contact-us",
                              website: page_website)
         end
-      }
+      end
 
       let(:page_part_key) { "content_html" }
       let(:page_part_manager) { Pwb::PagePartManager.new page_part_key, contact_us_page }
@@ -68,7 +68,6 @@ module Pwb
         content_for_container = page_part_manager.find_or_create_content
         content_for_container_2 = page_part_manager.find_or_create_content
 
-
         expect(content_for_container).to eq(content_for_container_2)
         expect(contact_us_page.contents).to include(content_for_container)
       end
@@ -78,17 +77,16 @@ module Pwb
         en_seed_content = {
           "main_content" => "<p>We are proud to be registered with the national association of realtors.</p>"
         }
-        result_en = page_part_manager.seed_container_block_content locale, en_seed_content
+        page_part_manager.seed_container_block_content locale, en_seed_content
 
         locale = "es"
         es_seed_content = {
           "main_content" => "<p>Estamos orgulloso.</p>"
         }
-        result_es = page_part_manager.seed_container_block_content locale, es_seed_content
+        page_part_manager.seed_container_block_content locale, es_seed_content
 
-
-        expect(contact_us_page.contents.find_by_page_part_key(page_part_key).raw).to include("We are proud to be registered with")
-        expect(contact_us_page.contents.find_by_page_part_key(page_part_key).raw_es).to include("Estamos orgulloso")
+        expect(contact_us_page.contents.find_by(page_part_key: page_part_key).raw).to include("We are proud to be registered with")
+        expect(contact_us_page.contents.find_by(page_part_key: page_part_key).raw_es).to include("Estamos orgulloso")
       end
     end
 
@@ -112,8 +110,7 @@ module Pwb
                   [{ "label" => "title", "isSingleLineText" => "true" }]
                 ]
               },
-              website: current_website
-            )
+              website: current_website)
           end
         end
 
@@ -125,7 +122,7 @@ module Pwb
 
           page_part_manager.seed_container_block_content(locale, seed_content)
 
-          content = current_website.contents.find_by_page_part_key("test_section")
+          content = current_website.contents.find_by(page_part_key: "test_section")
           expect(content.raw).to include("Hello World")
           expect(content.raw).to include('<div class="test">')
         end
@@ -134,7 +131,7 @@ module Pwb
           page_part_manager.seed_container_block_content("en", { "title" => "English Title" })
           page_part_manager.seed_container_block_content("es", { "title" => "Titulo Espanol" })
 
-          content = current_website.contents.find_by_page_part_key("test_section")
+          content = current_website.contents.find_by(page_part_key: "test_section")
           expect(content.raw).to include("English Title")
           expect(content.raw_es).to include("Titulo Espanol")
         end
@@ -153,17 +150,16 @@ module Pwb
                   [{ "label" => "content", "isHtml" => "true" }]
                 ]
               },
-              website: current_website
-            )
+              website: current_website)
           end
         end
 
         let(:page_part_manager) { Pwb::PagePartManager.new("no_template_section", current_website) }
 
         it 'raises an error about missing template' do
-          expect {
+          expect do
             page_part_manager.send(:rebuild_page_content, "en")
-          }.to raise_error(RuntimeError, /page_part with valid template not available/)
+          end.to raise_error(RuntimeError, /page_part with valid template not available/)
         end
       end
 
@@ -180,8 +176,7 @@ module Pwb
                   [{ "label" => "content", "isHtml" => "true" }]
                 ]
               },
-              website: current_website
-            )
+              website: current_website)
           end
         end
 
@@ -192,7 +187,7 @@ module Pwb
           seed_content = { "content" => "Some content" }
           page_part_manager.seed_container_block_content("en", seed_content)
 
-          content = current_website.contents.find_by_page_part_key("empty_template_section")
+          content = current_website.contents.find_by(page_part_key: "empty_template_section")
           # Empty template results in empty or nil raw content
           expect(content.raw.to_s).to eq("")
         end
@@ -223,8 +218,7 @@ module Pwb
                   ]
                 ]
               },
-              website: current_website
-            )
+              website: current_website)
           end
         end
 
@@ -234,7 +228,7 @@ module Pwb
           seed_content = { "title" => "Main Title", "subtitle" => "" }
           page_part_manager.seed_container_block_content("en", seed_content)
 
-          content = current_website.contents.find_by_page_part_key("conditional_section")
+          content = current_website.contents.find_by(page_part_key: "conditional_section")
           expect(content.raw).to include("Main Title")
           expect(content.raw).to include("<h2>")
         end
@@ -243,7 +237,7 @@ module Pwb
           seed_content = { "title" => "Only Title" }
           page_part_manager.seed_container_block_content("en", seed_content)
 
-          content = current_website.contents.find_by_page_part_key("conditional_section")
+          content = current_website.contents.find_by(page_part_key: "conditional_section")
           expect(content.raw).to include("Only Title")
         end
       end
@@ -268,8 +262,7 @@ module Pwb
                 [{ "label" => "text", "isSingleLineText" => "true" }]
               ]
             },
-            website: current_website
-          )
+            website: current_website)
         end
       end
 
@@ -322,8 +315,7 @@ module Pwb
                 ]
               ]
             },
-            website: current_website
-          )
+            website: current_website)
         end
       end
 
@@ -337,7 +329,7 @@ module Pwb
         }
         page_part_manager.seed_container_block_content("en", en_seed_content)
 
-        content = current_website.contents.find_by_page_part_key("testimonial_section")
+        content = current_website.contents.find_by(page_part_key: "testimonial_section")
         expect(content.raw).to include("John Smith")
         expect(content.raw).to include("https://ui-avatars.com/api/?name=John+Smith")
       end
@@ -357,7 +349,7 @@ module Pwb
         }
         page_part_manager.seed_container_block_content("es", es_seed_content)
 
-        content = current_website.contents.find_by_page_part_key("testimonial_section")
+        content = current_website.contents.find_by(page_part_key: "testimonial_section")
         # English content should have English name and avatar
         expect(content.raw).to include("Michael Chen")
         expect(content.raw).to include("name=Michael+Chen")

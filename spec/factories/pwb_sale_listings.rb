@@ -49,7 +49,7 @@ FactoryBot.define do
     archived { false }
     reserved { false }
     furnished { false }
-    active { true }  # Required for materialized view JOIN
+    active { true } # Required for materialized view JOIN
 
     price_sale_current_cents { 250_000_00 } # 250,000 EUR
     price_sale_current_currency { 'EUR' }
@@ -67,7 +67,7 @@ FactoryBot.define do
 
     trait :archived do
       archived { true }
-      active { false }  # Archived listings should not be active
+      active { false } # Archived listings should not be active
     end
 
     trait :reserved do

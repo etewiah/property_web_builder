@@ -11,7 +11,7 @@ module Pwb
       end
 
       it 'generates unique subdomains' do
-        names = 10.times.map { SubdomainGenerator.generate }
+        names = Array.new(10) { SubdomainGenerator.generate }
         expect(names.uniq.count).to eq(10)
       end
 
@@ -40,9 +40,9 @@ module Pwb
 
     describe '.populate_pool' do
       it 'creates subdomains in the database' do
-        expect {
+        expect do
           SubdomainGenerator.populate_pool(count: 10)
-        }.to change(Subdomain, :count).by(10)
+        end.to change(Subdomain, :count).by(10)
       end
 
       it 'creates subdomains in available state' do
@@ -54,17 +54,17 @@ module Pwb
     describe '.ensure_pool_minimum' do
       it 'replenishes pool when below minimum' do
         SubdomainGenerator.populate_pool(count: 5)
-        expect {
+        expect do
           SubdomainGenerator.ensure_pool_minimum(minimum: 20)
-        }.to change(Subdomain.available, :count)
+        end.to change(Subdomain.available, :count)
         expect(Subdomain.available.count).to be >= 20
       end
 
       it 'does nothing when pool is above minimum' do
         SubdomainGenerator.populate_pool(count: 30)
-        expect {
+        expect do
           SubdomainGenerator.ensure_pool_minimum(minimum: 20)
-        }.not_to change(Subdomain.available, :count)
+        end.not_to change(Subdomain.available, :count)
       end
     end
 

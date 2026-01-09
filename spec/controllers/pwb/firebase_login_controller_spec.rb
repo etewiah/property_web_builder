@@ -5,9 +5,9 @@ require 'rails_helper'
 module Pwb
   RSpec.describe FirebaseLoginController, type: :controller do
     routes { Rails.application.routes }
-    
+
     let(:website) { FactoryBot.create(:pwb_website) }
-    
+
     before do
       # Set up website context for all tests
       allow(controller).to receive(:current_website_from_subdomain).and_return(website)

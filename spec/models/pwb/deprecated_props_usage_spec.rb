@@ -37,15 +37,11 @@ RSpec.describe "Deprecated props association usage", type: :model do
           next if line.strip.start_with?('#')
 
           # Check for patterns like website.props, current_website.props, @current_website.props
-          if line.match?(/\.(props)\b(?!_)/) && !line.include?('listed_properties')
-            violations << "#{relative_path}:#{line_number}: #{line.strip}"
-          end
+          violations << "#{relative_path}:#{line_number}: #{line.strip}" if line.match?(/\.(props)\b(?!_)/) && line.exclude?('listed_properties')
         end
       end
 
-      if violations.any?
-        fail "Found deprecated .props usage in controllers (should use .listed_properties):\n#{violations.join("\n")}"
-      end
+      raise "Found deprecated .props usage in controllers (should use .listed_properties):\n#{violations.join("\n")}" if violations.any?
     end
 
     it "scans all controllers and views for unexpected .props usage" do
@@ -59,7 +55,7 @@ RSpec.describe "Deprecated props association usage", type: :model do
       violations = []
 
       patterns_to_check.each do |pattern|
-        Dir.glob(Rails.root.join(pattern)).each do |file_path|
+        Rails.root.glob(pattern).each do |file_path|
           relative_path = file_path.sub("#{Rails.root}/", '')
 
           # Skip excluded files (known legacy write APIs)
@@ -96,9 +92,7 @@ RSpec.describe "Deprecated props association usage", type: :model do
         end
       end
 
-      if violations.any?
-        fail "Found deprecated .props usage for read operations (should use .listed_properties):\n#{violations.join("\n")}"
-      end
+      raise "Found deprecated .props usage for read operations (should use .listed_properties):\n#{violations.join("\n")}" if violations.any?
     end
   end
 
@@ -128,14 +122,14 @@ RSpec.describe "Deprecated props association usage", type: :model do
 
   describe "Controller property loading" do
     it "WelcomeController uses listed_properties" do
-      source = File.read(Rails.root.join('app/controllers/pwb/welcome_controller.rb'))
+      source = Rails.root.join('app/controllers/pwb/welcome_controller.rb').read
       expect(source).to include('listed_properties')
       expect(source).not_to match(/\.props\.for_sale/)
       expect(source).not_to match(/\.props\.for_rent/)
     end
 
     it "SearchController uses listed_properties" do
-      source = File.read(Rails.root.join('app/controllers/pwb/search_controller.rb'))
+      source = Rails.root.join('app/controllers/pwb/search_controller.rb').read
       expect(source).to include('listed_properties')
       expect(source).not_to match(/\.props\.for_sale/)
       expect(source).not_to match(/\.props\.for_rent/)
@@ -143,27 +137,27 @@ RSpec.describe "Deprecated props association usage", type: :model do
     end
 
     it "PropsController uses listed_properties" do
-      source = File.read(Rails.root.join('app/controllers/pwb/props_controller.rb'))
+      source = Rails.root.join('app/controllers/pwb/props_controller.rb').read
       expect(source).to include('ListedProperty')
       expect(source).not_to match(/\.props\.find/)
       expect(source).not_to match(/Pwb::Prop\./)
     end
 
     it "Export::PropertiesController uses listed_properties" do
-      source = File.read(Rails.root.join('app/controllers/pwb/export/properties_controller.rb'))
+      source = Rails.root.join('app/controllers/pwb/export/properties_controller.rb').read
       expect(source).to include('listed_properties')
       expect(source).not_to match(/current_website\.props\b(?!_)/)
     end
 
     it "ApiPublic::V1::PropertiesController uses listed_properties" do
-      source = File.read(Rails.root.join('app/controllers/api_public/v1/properties_controller.rb'))
+      source = Rails.root.join('app/controllers/api_public/v1/properties_controller.rb').read
       expect(source).to include('listed_properties')
       expect(source).not_to match(/\.props\.find/)
       expect(source).not_to match(/\.props\.properties_search/)
     end
 
     it "SubmitListingEnquiry mutation uses listed_properties" do
-      source = File.read(Rails.root.join('app/graphql/mutations/submit_listing_enquiry.rb'))
+      source = Rails.root.join('app/graphql/mutations/submit_listing_enquiry.rb').read
       expect(source).to include('listed_properties')
       expect(source).not_to match(/\.props\.find/)
     end

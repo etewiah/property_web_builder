@@ -24,14 +24,14 @@ RSpec.describe Pwb::Agency, type: :model do
     it 'does not raise singularity exception when creating multiple agencies' do
       # This used to fail with "There can be only one agency"
       agencies = []
-      expect {
+      expect do
         3.times do |i|
           website = FactoryBot.create(:pwb_website, subdomain: "mt-sing-tenant#{i}")
           ActsAsTenant.with_tenant(website) do
             agencies << Pwb::Agency.create!(website: website, company_name: "MT Sing Agency #{i}")
           end
         end
-      }.not_to raise_error
+      end.not_to raise_error
 
       expect(agencies.length).to eq(3)
       expect(agencies.all?(&:persisted?)).to be true
@@ -58,7 +58,7 @@ RSpec.describe Pwb::Agency, type: :model do
     end
 
     it 'allows agencies with websites only' do
-      # Note: PwbTenant::Agency requires tenant context - agencies without websites
+      # NOTE: PwbTenant::Agency requires tenant context - agencies without websites
       # should use Pwb::Agency directly for cross-tenant operations
       website1 = FactoryBot.create(:pwb_website, subdomain: 'orphan-test1')
       website2 = FactoryBot.create(:pwb_website, subdomain: 'orphan-test2')

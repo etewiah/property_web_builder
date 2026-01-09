@@ -77,7 +77,7 @@ RSpec.describe Pwb::PriceGuess, type: :model do
     it "enforces one guess per visitor per listing" do
       visitor_token = SecureRandom.urlsafe_base64(16)
 
-      first_guess = described_class.create!(
+      described_class.create!(
         listing: sale_listing,
         website: website,
         visitor_token: visitor_token,
@@ -114,7 +114,7 @@ RSpec.describe Pwb::PriceGuess, type: :model do
         listing: sale_listing,
         website: website,
         visitor_token: SecureRandom.urlsafe_base64(16),
-        guessed_price_cents: 280_000_00  # ~7% off
+        guessed_price_cents: 280_000_00 # ~7% off
       )
 
       expect(guess.score).to be_between(80, 100)
@@ -129,7 +129,7 @@ RSpec.describe Pwb::PriceGuess, type: :model do
           listing: sale_listing,
           website: website,
           visitor_token: "visitor_#{i}",
-          guessed_price_cents: (280_000 + i * 10_000) * 100  # 280k, 290k, 300k
+          guessed_price_cents: (280_000 + (i * 10_000)) * 100 # 280k, 290k, 300k
         )
       end
     end

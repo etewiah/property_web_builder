@@ -209,9 +209,9 @@ RSpec.describe Pwb::WebsiteStyleable do
     end
 
     it "updates selected_palette for valid palette" do
-      expect {
+      expect do
         website.apply_palette!("sunset_orange")
-      }.to change { website.reload.selected_palette }.to("sunset_orange")
+      end.to change { website.reload.selected_palette }.to("sunset_orange")
     end
 
     it "returns true on success" do
@@ -554,8 +554,8 @@ RSpec.describe Pwb::WebsiteStyleable do
       website.save!
 
       # Access to memoize
-      old_theme = website.current_theme
-      old_vars = website.style_variables
+      website.current_theme
+      website.style_variables
 
       # Force refresh
       website.refresh_theme_data!

@@ -18,9 +18,9 @@ RSpec.describe 'ApiPublic::V1::Auth', type: :request do
     context 'with valid token' do
       it 'returns success and user info' do
         post '/api_public/v1/auth/firebase', params: { token: token }
-        
+
         expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['user']['email']).to eq(user.email)
         expect(json['user']['firebase_uid']).to eq(user.firebase_uid)
       end
@@ -33,7 +33,7 @@ RSpec.describe 'ApiPublic::V1::Auth', type: :request do
 
       it 'returns unauthorized' do
         post '/api_public/v1/auth/firebase', params: { token: 'invalid' }
-        
+
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -41,7 +41,7 @@ RSpec.describe 'ApiPublic::V1::Auth', type: :request do
     context 'missing token' do
       it 'returns bad request' do
         post '/api_public/v1/auth/firebase'
-        
+
         expect(response).to have_http_status(:bad_request)
       end
     end

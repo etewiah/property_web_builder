@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe Pwb::ExternalFeed::NormalizedProperty do
-  # Note: Prices are stored in cents (e.g., 50_000_000 cents = EUR 500,000)
+  # NOTE: Prices are stored in cents (e.g., 50_000_000 cents = EUR 500,000)
   describe "#initialize" do
     it "accepts all standard attributes" do
       property = described_class.new(

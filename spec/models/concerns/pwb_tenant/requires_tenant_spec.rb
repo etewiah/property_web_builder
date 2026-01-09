@@ -25,33 +25,33 @@ module PwbTenant
       end
 
       it 'raises NoTenantSet error on .all' do
-        expect {
+        expect do
           PwbTenant::Contact.all.to_a
-        }.to raise_error(ActsAsTenant::Errors::NoTenantSet)
+        end.to raise_error(ActsAsTenant::Errors::NoTenantSet)
       end
 
       it 'raises NoTenantSet error on .count' do
-        expect {
+        expect do
           PwbTenant::Contact.count
-        }.to raise_error(ActsAsTenant::Errors::NoTenantSet)
+        end.to raise_error(ActsAsTenant::Errors::NoTenantSet)
       end
 
       it 'raises NoTenantSet error on .find' do
-        expect {
+        expect do
           PwbTenant::Contact.find(contact_a.id)
-        }.to raise_error(ActsAsTenant::Errors::NoTenantSet)
+        end.to raise_error(ActsAsTenant::Errors::NoTenantSet)
       end
 
       it 'raises NoTenantSet error on .where' do
-        expect {
+        expect do
           PwbTenant::Contact.where(first_name: 'Alice').to_a
-        }.to raise_error(ActsAsTenant::Errors::NoTenantSet)
+        end.to raise_error(ActsAsTenant::Errors::NoTenantSet)
       end
 
       it 'includes helpful message in error' do
-        expect {
+        expect do
           PwbTenant::Contact.count
-        }.to raise_error(ActsAsTenant::Errors::NoTenantSet, /Use Pwb::Contact for cross-tenant queries/)
+        end.to raise_error(ActsAsTenant::Errors::NoTenantSet, /Use Pwb::Contact for cross-tenant queries/)
       end
     end
 
@@ -81,9 +81,9 @@ module PwbTenant
       end
 
       it 'raises RecordNotFound for records in other tenant' do
-        expect {
+        expect do
           PwbTenant::Contact.find(contact_b.id)
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
@@ -108,9 +108,9 @@ module PwbTenant
           PwbTenant::Contact.count # Works inside block
         end
 
-        expect {
+        expect do
           PwbTenant::Contact.count # Fails outside block
-        }.to raise_error(ActsAsTenant::Errors::NoTenantSet)
+        end.to raise_error(ActsAsTenant::Errors::NoTenantSet)
       end
     end
 

@@ -113,7 +113,7 @@ RSpec.describe 'pwb:seed_for_onboarding rake task', type: :task do
       let!(:existing_website) { create(:pwb_website, subdomain: 'onboarding', provisioning_state: 'pending') }
 
       it 'updates existing website to live state' do
-        expect { Rake::Task['pwb:seed_for_onboarding'].invoke }.not_to change { Pwb::Website.count }
+        expect { Rake::Task['pwb:seed_for_onboarding'].invoke }.not_to(change { Pwb::Website.count })
 
         existing_website.reload
         expect(existing_website.provisioning_state).to eq('live')

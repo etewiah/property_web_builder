@@ -93,7 +93,7 @@ RSpec.describe Pwb::PagePartLibrary do
 
     it "includes all definitions in grouped result" do
       grouped = described_class.by_category
-      total_parts = grouped.values.sum { |parts| parts.size }
+      total_parts = grouped.values.sum(&:size)
 
       expect(total_parts).to eq(described_class::DEFINITIONS.size)
     end
@@ -134,7 +134,7 @@ RSpec.describe Pwb::PagePartLibrary do
     end
 
     it "works with symbol key" do
-      definition = described_class.definition(:"heroes/hero_centered")
+      definition = described_class.definition(:'heroes/hero_centered')
 
       expect(definition).not_to be_nil
     end
@@ -174,9 +174,7 @@ RSpec.describe Pwb::PagePartLibrary do
     it "returns path for categorized page parts" do
       path = described_class.template_path("heroes/hero_centered")
 
-      if path
-        expect(path.to_s).to include("heroes/hero_centered.liquid")
-      end
+      expect(path.to_s).to include("heroes/hero_centered.liquid") if path
     end
 
     it "returns nil for nonexistent template" do
@@ -216,7 +214,7 @@ RSpec.describe Pwb::PagePartLibrary do
     it "excludes legacy page parts" do
       modern = described_class.modern_parts
 
-      modern.each do |_key, config|
+      modern.each_value do |config|
         expect(config[:legacy]).to be_falsey
       end
     end
@@ -232,7 +230,7 @@ RSpec.describe Pwb::PagePartLibrary do
     it "includes only legacy page parts" do
       legacy = described_class.legacy_parts
 
-      legacy.each do |_key, config|
+      legacy.each_value do |config|
         expect(config[:legacy]).to be true
       end
     end

@@ -96,7 +96,7 @@ RSpec.describe SiteAdmin::DashboardController, type: :controller do
           sign_in admin_a, scope: :user
 
           # Delete the website
-          website_a_id = website_a.id
+          website_a.id
           website_a.destroy
 
           allow(Pwb::Current).to receive(:website).and_return(nil)

@@ -311,8 +311,8 @@ RSpec.describe Pwb::SearchParamsService do
       parsed = service.from_url_params(original)
       regenerated = service.to_url_params(parsed)
       reparsed = service.from_url_params(ActionController::Parameters.new(
-        Rack::Utils.parse_query(regenerated)
-      ))
+                                           Rack::Utils.parse_query(regenerated)
+                                         ))
 
       # Features get sorted alphabetically for canonical URLs, so compare sorted
       expect(reparsed[:property_type]).to eq(parsed[:property_type])
