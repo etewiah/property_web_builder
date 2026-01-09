@@ -97,7 +97,12 @@ namespace :zoho do
     puts auth_url
     puts ""
     puts "Step 2: After authorizing, you'll be redirected to #{redirect_uri}"
-    puts "        Copy the 'code' parameter from the URL."
+    puts "        (The page will show an error - that's expected)"
+    puts ""
+    puts "        Look at the URL in your browser's address bar. It will look like:"
+    puts "        #{redirect_uri}?code=XXXX.YYYY.ZZZZ&..."
+    puts ""
+    puts "        Copy the 'code' parameter value (everything after 'code=' and before '&')"
     puts ""
     print "Step 3: Paste the authorization code here: "
 
