@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_08_135240) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_09_114702) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -1018,6 +1018,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_08_135240) do
     t.datetime "last_sign_in_at", precision: nil
     t.string "last_sign_in_ip"
     t.datetime "locked_at", precision: nil
+    t.jsonb "metadata", default: {}, null: false
     t.datetime "onboarding_completed_at"
     t.datetime "onboarding_started_at"
     t.string "onboarding_state", default: "active", null: false
@@ -1035,6 +1036,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_08_135240) do
     t.string "unlock_token"
     t.datetime "updated_at", precision: nil, null: false
     t.integer "website_id"
+    t.index "((metadata ->> 'zoho_lead_id'::text))", name: "index_pwb_users_on_zoho_lead_id", where: "((metadata ->> 'zoho_lead_id'::text) IS NOT NULL)"
     t.index ["confirmation_token"], name: "index_pwb_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_pwb_users_on_email", unique: true
     t.index ["firebase_uid"], name: "index_pwb_users_on_firebase_uid", unique: true

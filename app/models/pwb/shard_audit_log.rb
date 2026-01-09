@@ -13,6 +13,32 @@ module Pwb
   #     new_shard_name: 'shard_1',
   #     changed_by_email: 'admin@example.com',
   #     notes: 'Moving to dedicated shard for performance'
+# == Schema Information
+#
+# Table name: pwb_shard_audit_logs
+# Database name: primary
+#
+#  id               :bigint           not null, primary key
+#  changed_by_email :string           not null
+#  new_shard_name   :string           not null
+#  notes            :string
+#  old_shard_name   :string
+#  status           :string           default("completed"), not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  website_id       :bigint           not null
+#
+# Indexes
+#
+#  index_pwb_shard_audit_logs_on_changed_by_email  (changed_by_email)
+#  index_pwb_shard_audit_logs_on_created_at        (created_at)
+#  index_pwb_shard_audit_logs_on_status            (status)
+#  index_pwb_shard_audit_logs_on_website_id        (website_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
   #   )
   class ShardAuditLog < ApplicationRecord
     self.table_name = 'pwb_shard_audit_logs'
