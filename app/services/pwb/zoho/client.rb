@@ -102,11 +102,19 @@ module Pwb
       def request(method, endpoint, body = nil, params = {})
         ensure_configured!
 
+        # Remove leading slash if present to properly append to base URL
+        endpoint = endpoint.sub(/^\//, '')
+        
+        Rails.logger.info "[Zoho] #{method.upcase} #{api_base_url}/#{endpoint} (params: #{params.inspect})"
+        
         response = connection.send(method, endpoint) do |req|
           req.headers['Authorization'] = "Zoho-oauthtoken #{access_token}"
           req.params = params if params.any?
           req.body = body.to_json if body
         end
+
+        Rails.logger.info "[Zoho] Response status: #{response.status}"
+        Rails.logger.debug "[Zoho] Response body: #{response.body.inspect[0..200]}"
 
         handle_response(response)
       rescue Faraday::TimeoutError => e
@@ -117,16 +125,21 @@ module Pwb
 
       def connection
         @connection ||= Faraday.new(url: api_base_url) do |f|
-          f.request :json
+          f.request :url_encoded  # Use URL encoding for params instead of JSON
           f.response :json
           f.adapter Faraday.default_adapter
           f.options.timeout = DEFAULT_TIMEOUT
           f.options.open_timeout = 10
+          
+          # Add logging middleware for debugging
+          f.response :logger, Rails.logger, { headers: true, bodies: false } if Rails.env.development?
         end
       end
 
       def api_base_url
-        "#{@credentials[:api_domain]}/crm/v3"
+        # Use v2 API as it's more stable and widely supported
+        # v3 is available but has different endpoint structures
+        "#{@credentials[:api_domain]}/crm/v2"
       end
 
       def access_token
@@ -158,6 +171,7 @@ module Pwb
         else
           error_msg = data['error'] || data['error_description'] || 'Unknown error'
           Rails.logger.error "[Zoho] Token refresh failed: #{error_msg}"
+          Rails.logger.error "[Zoho] Response status: #{response.status}, body: #{response.body.inspect}"
           raise AuthenticationError, "Zoho token refresh failed: #{error_msg}"
         end
       end
@@ -194,6 +208,14 @@ module Pwb
       end
 
       def extract_error_details(body)
+        # Handle HTML error pages from Zoho
+        if body.is_a?(String) && body.strip.start_with?('<')
+          if body.include?('Invalid URL')
+            return "Invalid API endpoint - check your API version and credentials"
+          end
+          return "Zoho returned an HTML error page - likely authentication or configuration issue"
+        end
+
         return body.to_s unless body.is_a?(Hash)
 
         if body['data'].is_a?(Array) && body['data'].first
