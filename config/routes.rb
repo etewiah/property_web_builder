@@ -127,6 +127,15 @@ Rails.application.routes.draw do
     # Tenant Settings (singleton resource)
     resource :settings, only: %i[show update], controller: 'settings'
 
+    # Platform Notifications - ntfy management and metrics
+    resources :platform_notifications, only: %i[index] do
+      collection do
+        post :test
+        post :send_daily_summary
+        post :send_test_alert
+      end
+    end
+
     # Site Imports - Scrape content from existing PWB websites to create seed packs
     resources :site_imports, only: %i[index new create show destroy] do
       member do
