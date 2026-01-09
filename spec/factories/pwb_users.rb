@@ -25,6 +25,7 @@
 #  last_sign_in_at                    :datetime
 #  last_sign_in_ip                    :string
 #  locked_at                          :datetime
+#  metadata                           :jsonb            not null
 #  onboarding_completed_at            :datetime
 #  onboarding_started_at              :datetime
 #  onboarding_state                   :string           default("active"), not null
@@ -55,6 +56,7 @@
 #  index_pwb_users_on_site_admin_onboarding_completed_at  (site_admin_onboarding_completed_at)
 #  index_pwb_users_on_unlock_token                        (unlock_token) UNIQUE
 #  index_pwb_users_on_website_id                          (website_id)
+#  index_pwb_users_on_zoho_lead_id                        (((metadata ->> 'zoho_lead_id'::text))) WHERE ((metadata ->> 'zoho_lead_id'::text) IS NOT NULL)
 #
 FactoryBot.define do
   factory :pwb_user, class: 'Pwb::User', aliases: [:user] do
