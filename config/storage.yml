@@ -18,14 +18,18 @@ local:
 #
 cloudflare_r2:
   service: R2
-  access_key_id: <%= ENV['R2_ACCESS_KEY_ID'] %>
-  secret_access_key: <%= ENV['R2_SECRET_ACCESS_KEY'] %>
+  access_key_id: <%= Rails.application.credentials.dig(:r2, :access_key_id) || ENV['R2_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= Rails.application.credentials.dig(:r2, :secret_access_key) || ENV['R2_SECRET_ACCESS_KEY'] %>
   region: auto
-  bucket: <%= ENV['CDN_IMAGES_BUCKET'] || ENV['R2_BUCKET'] %>
-  endpoint: <%= "https://#{ENV['R2_ACCOUNT_ID']}.r2.cloudflarestorage.com" %>
+  bucket: <%= ENV['CDN_IMAGES_BUCKET'] || Rails.application.credentials.dig(:r2, :bucket) || ENV['R2_BUCKET'] %>
+  endpoint: <%= begin
+    r2_account_id = Rails.application.credentials.dig(:r2, :account_id) || ENV['R2_ACCOUNT_ID']
+    raise 'Missing R2 account id (set credentials.r2.account_id or R2_ACCOUNT_ID)' if r2_account_id.blank?
+    "https://#{r2_account_id}.r2.cloudflarestorage.com"
+  end %>
   force_path_style: true
   public: true
-  public_url: <%= ENV['CDN_IMAGES_URL'] || ENV['R2_PUBLIC_URL'] %>
+  public_url: <%= ENV['CDN_IMAGES_URL'] || Rails.application.credentials.dig(:r2, :public_url) || ENV['R2_PUBLIC_URL'] %>
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:

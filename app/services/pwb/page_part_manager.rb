@@ -237,9 +237,7 @@ module Pwb
 
       begin
         # Check if external seed images are enabled
-        use_external = ENV['R2_SEED_IMAGES_BUCKET'].present? || ENV['SEED_IMAGES_BASE_URL'].present?
-
-        if use_external && Pwb::SeedImages.enabled?
+        if Pwb::SeedImages.enabled?
           # Use external URL instead of uploading to avoid storage bloat
           external_url = build_content_image_url(photo_file)
           photo.external_url = external_url

@@ -20,15 +20,18 @@
 # (Custom domain for the pwb-seed-assets R2 bucket)
 
 <%
+  r2_seed_images_bucket = Rails.application.credentials.dig(:r2, :seed_images_bucket) || ENV['R2_SEED_IMAGES_BUCKET']
+  r2_account_id = Rails.application.credentials.dig(:r2, :account_id) || ENV['R2_ACCOUNT_ID']
+
   # Calculate base_url from R2 bucket if specified, otherwise use direct URL
   if ENV['SEED_IMAGES_BASE_URL'].present?
     seed_images_base_url = ENV['SEED_IMAGES_BASE_URL']
-  elsif ENV['R2_SEED_IMAGES_BUCKET'].present?
+  elsif r2_seed_images_bucket.present?
     # Use custom domain for pwb-seed-assets bucket, otherwise auto-calculate
-    if ENV['R2_SEED_IMAGES_BUCKET'] == 'pwb-seed-assets'
+    if r2_seed_images_bucket == 'pwb-seed-assets'
       seed_images_base_url = 'https://seed-assets.propertywebbuilder.com'
-    elsif ENV['R2_ACCOUNT_ID'].present?
-      seed_images_base_url = "https://pub-#{ENV['R2_ACCOUNT_ID']}.r2.dev/#{ENV['R2_SEED_IMAGES_BUCKET']}"
+    elsif r2_account_id.present?
+      seed_images_base_url = "https://pub-#{r2_account_id}.r2.dev/#{r2_seed_images_bucket}"
     else
       seed_images_base_url = nil
     end
@@ -42,8 +45,8 @@ default: &default
   base_url: <%= seed_images_base_url %>
 
   # R2 bucket configuration (for upload tasks)
-  r2_bucket: <%= ENV['R2_SEED_IMAGES_BUCKET'] %>
-  r2_account_id: <%= ENV['R2_ACCOUNT_ID'] %>
+  r2_bucket: <%= r2_seed_images_bucket %>
+  r2_account_id: <%= r2_account_id %>
 
   # Property images from db/seeds/images/ -> seeds/
   properties:

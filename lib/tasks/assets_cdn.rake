@@ -22,27 +22,30 @@
 # Account:
 #   R2_ACCOUNT_ID          - Cloudflare account ID (required)
 
+require "pwb/r2_credentials"
+
 namespace :assets do
   # Helper method to get assets bucket name
   def assets_bucket
-    ENV["CDN_ASSETS_BUCKET"] || ENV["R2_ASSETS_BUCKET"] || ENV.fetch("R2_BUCKET")
+    ENV["CDN_ASSETS_BUCKET"] || Pwb::R2Credentials.assets_bucket || Pwb::R2Credentials.bucket || ENV.fetch("R2_BUCKET")
   end
 
   # Helper method to get assets access key
   def assets_access_key_id
-    ENV["CDN_ASSETS_ACCESS_KEY_ID"] || ENV["R2_ASSETS_ACCESS_KEY_ID"] || ENV.fetch("R2_ACCESS_KEY_ID")
+    ENV["CDN_ASSETS_ACCESS_KEY_ID"] || Pwb::R2Credentials.assets_access_key_id || Pwb::R2Credentials.access_key_id || ENV.fetch("R2_ACCESS_KEY_ID")
   end
 
   # Helper method to get assets secret key
   def assets_secret_access_key
-    ENV["CDN_ASSETS_SECRET_ACCESS_KEY"] || ENV["R2_ASSETS_SECRET_ACCESS_KEY"] || ENV.fetch("R2_SECRET_ACCESS_KEY")
+    ENV["CDN_ASSETS_SECRET_ACCESS_KEY"] || Pwb::R2Credentials.assets_secret_access_key || Pwb::R2Credentials.secret_access_key || ENV.fetch("R2_SECRET_ACCESS_KEY")
   end
 
   # Helper method to create R2 client for assets
   def assets_r2_client
     require "aws-sdk-s3"
 
-    endpoint = "https://#{ENV.fetch("R2_ACCOUNT_ID")}.r2.cloudflarestorage.com"
+    account_id = Pwb::R2Credentials.account_id || ENV.fetch("R2_ACCOUNT_ID")
+    endpoint = "https://#{account_id}.r2.cloudflarestorage.com"
 
     Aws::S3::Client.new(
       access_key_id: assets_access_key_id,

@@ -48,6 +48,51 @@ This guide provides instructions for setting up PropertyWebBuilder v2.0.0 locall
     This starts both the Rails server and Vite for frontend asset compilation.
     The application should now be accessible at `http://localhost:3000`.
 
+## Secrets (Rails Encrypted Credentials)
+
+This project supports Rails encrypted credentials (preferred) with environment variable fallbacks.
+
+- Encrypted file(s) (safe to commit): `config/credentials.yml.enc` and/or `config/credentials/*.yml.enc`
+- Encryption key(s) (never commit): `config/master.key` and/or `config/credentials/*.key`
+
+### Create credentials locally
+
+```bash
+bin/rails credentials:edit
+```
+
+This generates `config/master.key` (kept out of git) and an encrypted credentials file.
+
+### Add Cloudflare R2 secrets to credentials
+
+Edit credentials and add a structure like:
+
+```yml
+r2:
+    access_key_id: "..."
+    secret_access_key: "..."
+    account_id: "..."
+    bucket: "..."            # uploads/images bucket (ActiveStorage)
+    public_url: "https://..." # CDN/public domain for images
+
+    # Optional (if you use separate buckets/keys)
+    assets_bucket: "..."
+    seed_images_bucket: "..."
+    assets_access_key_id: "..."
+    assets_secret_access_key: "..."
+```
+
+### Production/Dokku setup
+
+Set the master key in your hosting environment (example for Dokku):
+
+```bash
+# On your local machine, copy the contents of config/master.key
+dokku config:set <app> RAILS_MASTER_KEY=<paste-master-key>
+```
+
+If you don’t want to store R2 secrets in Dokku env vars anymore, remove them after verifying the app boots using credentials.
+
 ## Multi-Tenancy in Development
 
 PropertyWebBuilder is a multi-tenant application. Each website is identified by subdomain:
