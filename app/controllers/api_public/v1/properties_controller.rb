@@ -7,7 +7,9 @@ module ApiPublic
         locale = params[:locale] || I18n.default_locale
         I18n.locale = locale
         # Use listed_properties (materialized view) instead of deprecated props
-        property = Pwb::Current.website.listed_properties.find(params[:id])
+        scope = Pwb::Current.website.listed_properties
+        property = scope.find_by(slug: params[:id]) || scope.find_by(id: params[:id])
+        raise ActiveRecord::RecordNotFound unless property
         render json: property.as_json
       rescue ActiveRecord::RecordNotFound
         render json: { error: "Property not found" }, status: :not_found

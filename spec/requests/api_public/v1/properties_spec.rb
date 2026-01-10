@@ -21,6 +21,14 @@ RSpec.describe "ApiPublic::V1::Properties", type: :request do
       expect(json["id"]).to eq(realty_asset.id)
     end
 
+    it "returns the property by slug" do
+      host! 'properties-test.example.com'
+      get "/api_public/v1/properties/#{realty_asset.slug}"
+      expect(response).to have_http_status(200)
+      json = response.parsed_body
+      expect(json["id"]).to eq(realty_asset.id)
+    end
+
     it "returns 404 for non-existent property" do
       host! 'properties-test.example.com'
       get "/api_public/v1/properties/00000000-0000-0000-0000-000000000000"
