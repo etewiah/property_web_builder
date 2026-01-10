@@ -1,50 +1,49 @@
-<div class="panel panel-default panel-sidebar-1">
-  <div class="panel-heading">
-    <h2>
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <div class="mb-6">
+    <h2 class="text-xl font-semibold text-gray-900">
       <%= I18n.t("requestPropertyInfo") %>
     </h2>
   </div>
-  <div class="panel-body">
+  <div>
 
 <%= form_for :contact, :url => '/request_property_info.js', :method => 'post', 
-  :html => { :class => 'form-light mi_form' }, :remote => true do |f| %>
+  :html => { :class => 'space-y-4' }, :remote => true do |f| %>
 
-      <p style="display:none;">
+      <p class="hidden">
         <%= 'solicite_info' %>
       </p>
       <%=  f.hidden_field :locale, :value => I18n.locale %>
       <%=  f.hidden_field :property_id, :value => @property_details.id %>
 
-      <div class="form-group fila_form">
+      <div class="space-y-1">
 
         <%= simple_inmo_input f, "name", "name", "text", true %>
       </div>
-      <div class="form-group fila_form">
+      <div class="space-y-1">
         <%= simple_inmo_input f, "email", "email", "email", true %>
       </div>
 
-      <div class="form-group fila_form">
+      <div class="space-y-1">
         <%= simple_inmo_input f, "tel", "tel", "text", false %>
       </div>
 
-      <div class="form-group fila_form">
+      <div class="space-y-1">
         <%= simple_inmo_textarea f, "message", "message", "text", false %>
       </div>
 
-      <div class="row">
-        <div class="col-sm-12">
+      <div class="space-y-3">
+        <div>
           <div id="request-info-result"></div>
         </div>
-        <div class="col-sm-12">
-          <button type="submit" class="btn fondo_accion width100"><%= icon(:email, size: :sm) %>
-          <%= I18n.t("send") %>
+        <div>
+          <button type="submit" class="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <%= icon(:email, size: :sm) %>
+            <span class="ml-2"><%= I18n.t("send") %></span>
           </button>
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <div id="resp_enviar"></div>
-        </div>
+      <div>
+        <div id="resp_enviar"></div>
       </div>
 <% end %>
 

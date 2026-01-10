@@ -1,13 +1,15 @@
 <!-- MAIN CONTENT -->
-<section class="slice bg-white bb">
-  <div class="wp-section estate">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-9" style="min-height:300px;">
-          <h2>
-            <%= t "propertyNotFound" %>
-          </h2>
-        </div>
+<section class="min-h-screen flex items-center justify-center bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+      <div class="bg-white shadow-md rounded-lg px-8 py-12">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">
+          <%= t "propertyNotFound" %>
+        </h2>
+        <p class="text-gray-600 mb-6">
+          The property you're looking for doesn't exist or has been removed.
+        </p>
+        <%= link_to "← Back to Properties", root_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
       </div>
     </div>
   </div>
