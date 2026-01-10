@@ -129,9 +129,10 @@
         <%= link_to "View Properties", tenant_admin_website_props_path(@website), class: "block w-full px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-blue-300" %>
         <%= link_to "View Pages", tenant_admin_website_pages_path(@website), class: "block w-full px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-blue-300" %>
         <% if @website.subdomain.present? %>
-          <a href="http://<%= @website.subdomain %>.localhost:3000" target="_blank" class="block w-full px-3 py-2 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
-            Visit Public Site →
-          </a>
+          <%= link_to "Visit Public Site →", 
+              root_url(subdomain: @website.subdomain), 
+              target: "_blank", 
+              class: "block w-full px-3 py-2 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300" %>
         <% end %>
       </div>
     </div>
