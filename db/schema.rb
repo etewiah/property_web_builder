@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_09_114702) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_10_165317) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -967,6 +967,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_09_114702) do
     t.index ["singleton_key"], name: "index_pwb_tenant_settings_on_singleton_key", unique: true
   end
 
+  create_table "pwb_testimonials", force: :cascade do |t|
+    t.string "author_name", null: false
+    t.bigint "author_photo_id"
+    t.string "author_role"
+    t.datetime "created_at", null: false
+    t.boolean "featured", default: false, null: false
+    t.integer "position", default: 0, null: false
+    t.text "quote", null: false
+    t.integer "rating"
+    t.datetime "updated_at", null: false
+    t.boolean "visible", default: true, null: false
+    t.bigint "website_id", null: false
+    t.index ["author_photo_id"], name: "index_pwb_testimonials_on_author_photo_id"
+    t.index ["position"], name: "index_pwb_testimonials_on_position"
+    t.index ["visible"], name: "index_pwb_testimonials_on_visible"
+    t.index ["website_id"], name: "index_pwb_testimonials_on_website_id"
+  end
+
   create_table "pwb_ticket_messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "content", null: false
     t.datetime "created_at", null: false
@@ -1360,6 +1378,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_09_114702) do
   add_foreign_key "pwb_support_tickets", "pwb_users", column: "assigned_to_id"
   add_foreign_key "pwb_support_tickets", "pwb_users", column: "creator_id"
   add_foreign_key "pwb_support_tickets", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_testimonials", "pwb_media", column: "author_photo_id"
+  add_foreign_key "pwb_testimonials", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_ticket_messages", "pwb_support_tickets", column: "support_ticket_id"
   add_foreign_key "pwb_ticket_messages", "pwb_users", column: "user_id"
   add_foreign_key "pwb_ticket_messages", "pwb_websites", column: "website_id"

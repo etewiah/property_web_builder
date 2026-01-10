@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### New Features
+* **Theme API**: New `/api_public/v1/theme` endpoint exposing complete theme configuration including colors, fonts, border radius, dark mode settings, and ready-to-inject CSS variables for Next.js client integration
+* **Testimonials API**: New `/api_public/v1/testimonials` endpoint for dynamic testimonial management with support for featured filtering, limit parameter, and multi-tenant scoping
+* **Testimonials Model**: Added `Pwb::Testimonial` model with author name, role, quote, rating, and position fields, including visibility and featured flags
+* **Testimonials Seeding**: Added YAML seed files and rake task (`pwb:testimonials:seed`) for easy testimonial data population
+
+### API Enhancements
+* Theme endpoint provides complete branding data: palette colors, typography, spacing, and dark mode configuration
+* Testimonials endpoint supports query parameters: `limit`, `featured_only`, and `locale`
+* Both endpoints tested and production-ready for Next.js frontend integration
+
 ### Deprecated
 * **RETS/MLS Integration**: Removed `rets` gem and deprecated MLS integration code. The feature was experimental and never fully implemented. See `docs/claude_thoughts/DEPRECATED_FEATURES.md` for details and alternatives.
 
