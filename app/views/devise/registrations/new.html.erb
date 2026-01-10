@@ -1,27 +1,24 @@
-<div class="container">
-  <div class="row" style="margin: 80px;">
-    <div class="col-sm-4 col-sm-offset-4">
-      <div class="light-well border-form-div">
-        <h2 class="page-header text-center"><%= t(".sign_up") %></h2>
-        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name),
-                      html: { class: "form-horizontal center"}) do |f| %>
-          <%= f.error_notification %>
-          <%=  f.hidden_field :default_locale, :value => I18n.locale %>
-          <%= f.input :email, label: false, required: true, autofocus: true, placeholder: "Email Address", class: "form-control" %>
-          <%= f.input :password, label: false, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), placeholder: "Password"%>
-          <%= f.input :password_confirmation, label: false, required: true, placeholder: "Password Confirmation"%>
-          <div class="form-inputs">
-          </div>
-          <div class="form-actions">
-            <%= f.button :submit, t(".sign_up"), class: "btn btn-success btn-lg btn-block" %>
-          </div>
-        <% end %>
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
+      <h2 class="text-center text-3xl font-bold text-gray-900 mb-6"><%= t(".sign_up") %></h2>
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name),
+                    html: { class: "space-y-6"}) do |f| %>
+        <%= f.error_notification %>
+        <%=  f.hidden_field :default_locale, :value => I18n.locale %>
+        <%= f.input :email, label: false, required: true, autofocus: true, placeholder: "Email Address", 
+            input_html: { class: "appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" } %>
+        <%= f.input :password, label: false, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), placeholder: "Password",
+            input_html: { class: "appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" } %>
+        <%= f.input :password_confirmation, label: false, required: true, placeholder: "Password Confirmation",
+            input_html: { class: "appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" } %>
         <div>
-          <%= render "devise/shared/links" %>
+          <%= f.button :submit, t(".sign_up"), class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
         </div>
+      <% end %>
+      <div class="mt-4 text-center">
+        <%= render "devise/shared/links" %>
       </div>
-      <br>
-      <br>
     </div>
   </div>
 </div>

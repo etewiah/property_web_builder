@@ -1,12 +1,14 @@
 <!-- <p> <div class=''><%= @flash %></div></p> -->
 <% @error_messages.each do |key| %>
-  <div class="alert alert-danger">
-    <a href="#" data-dismiss="alert" class="close">×</a>
-      <ul>
-        <li style="list-style-type: none;">
-          <%= key %>
-        </li>
-      </ul>
+  <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded relative mb-4" role="alert">
+    <button type="button" class="absolute top-0 right-0 px-4 py-3" onclick="this.parentElement.remove()">
+      <span class="text-red-500 hover:text-red-700">&times;</span>
+    </button>
+    <ul class="list-none">
+      <li>
+        <%= key %>
+      </li>
+    </ul>
   </div>
 <% end %>
 

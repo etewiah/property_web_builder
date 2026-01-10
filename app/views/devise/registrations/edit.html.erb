@@ -1,31 +1,29 @@
-<div class="container">
-  <div class="row" style="margin: 80px;">
-    <div class="col-sm-6 col-sm-offset-2">
-      <div class="light-well border-form-div">
-        <h2><%= t(".title", resource: resource_class.model_name.human) %></h2>
-        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-          <%= f.error_notification %>
-          <div class="form-inputs">
-            <%= f.input :email, required: true, autofocus: true %>
-            <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-              <p>
-                <%= t(".currently_waiting_confirmation_for_email", email: resource.unconfirmed_email) %>
-              </p>
-            <% end %>
-            <%= f.input :password, autocomplete: "off", hint: t(".leave_blank_if_you_don_t_want_to_change_it"), required: false %>
-            <%= f.input :password_confirmation, required: false %>
-            <%= f.input :current_password, hint: t(".we_need_your_current_password_to_confirm_your_changes"), required: true %>
-          </div>
-          <div class="form-actions">
-            <%= f.button :submit, t(".update") %>
-            <%= link_to t("cancel"), :back %>
-          </div>
-        <% end %>
-        <div>
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-2xl w-full">
+    <div class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6"><%= t(".title", resource: resource_class.model_name.human) %></h2>
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-6" }) do |f| %>
+        <%= f.error_notification %>
+        <div class="space-y-4">
+          <%= f.input :email, required: true, autofocus: true,
+              input_html: { class: "appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" } %>
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <p class="text-sm text-gray-600">
+              <%= t(".currently_waiting_confirmation_for_email", email: resource.unconfirmed_email) %>
+            </p>
+          <% end %>
+          <%= f.input :password, autocomplete: "off", hint: t(".leave_blank_if_you_don_t_want_to_change_it"), required: false,
+              input_html: { class: "appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" } %>
+          <%= f.input :password_confirmation, required: false,
+              input_html: { class: "appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" } %>
+          <%= f.input :current_password, hint: t(".we_need_your_current_password_to_confirm_your_changes"), required: true,
+              input_html: { class: "appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" } %>
         </div>
-      </div>
-      <br>
-      <br>
+        <div class="flex items-center justify-between">
+          <%= f.button :submit, t(".update"), class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+          <%= link_to t("cancel"), :back, class: "text-sm text-gray-600 hover:text-gray-900" %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

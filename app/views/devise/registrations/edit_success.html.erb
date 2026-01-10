@@ -1,19 +1,13 @@
-<div class="container">
-  <div class="row" style="margin: 80px;">
-    <div class="col-sm-6 col-sm-offset-2">
-      <div class="light-well border-form-div">
-        <h2><%= t("devise.user_update_success_title") %></h2>
-        <div>
-          <%= t("devise.user_update_success") %>          
-        </div>
-        <div>
-        <div class="pull-right">
-        <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale)  %>
-        </div>
-        </div>
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-2xl w-full">
+    <div class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6"><%= t("devise.user_update_success_title") %></h2>
+      <div class="mb-6 text-gray-700">
+        <%= t("devise.user_update_success") %>          
       </div>
-      <br>
-      <br>
+      <div class="flex justify-end">
+        <%= link_to I18n.t("navbar.admin"), pwb.admin_with_locale_path(locale: locale), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
     </div>
   </div>
 </div>
