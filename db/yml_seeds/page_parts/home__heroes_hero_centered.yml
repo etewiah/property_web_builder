@@ -33,7 +33,7 @@
           {% assign webp_url = bg_img_url | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
           <picture>
             <source srcset="{{ webp_url }}" type="image/webp">
-            <img src="{{ bg_img_url }}" alt="" class="w-full h-full object-cover">
+            <img src="{{ bg_img_url }}" alt="" class="w-full h-full object-cover" fetchpriority="high" loading="eager" decoding="async">
           </picture>
           <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40"></div>
         </div>

@@ -177,6 +177,7 @@ module Pwb
       # Add other trusted domains here as needed
       trusted_domains = [
         'pwb-seed-images.s3',
+        'seed-assets.propertywebbuilder.com', # R2 seed assets bucket
         'cloudflare-ipfs.com', # IPFS gateway for seed images
         'localhost',           # Local development
         '127.0.0.1'            # Local development

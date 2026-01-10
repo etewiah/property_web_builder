@@ -18,6 +18,7 @@
               <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
                 height: 350, crop: "fill", class: "w-full h-full object-cover transition-transform duration-700 group-hover:scale-105",
                 loading: "lazy", use_picture: true,
+                sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
                 alt: property.title.presence || "Property listing") %>
               <!-- Subtle Gradient Overlay -->
               <div class="absolute inset-0 bg-gradient-to-t from-luxury-navy/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

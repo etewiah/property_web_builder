@@ -5,9 +5,31 @@
  * Theme-specific CSS variables are injected via custom_styles helper.
  */
 
+/* ========================================
+   Font Fallbacks for CLS Prevention
+   Size-adjusted fallback fonts to match Google Fonts metrics
+   ======================================== */
+@font-face {
+  font-family: 'Open Sans-fallback';
+  src: local('Arial');
+  size-adjust: 105%;
+  ascent-override: 98%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Montserrat-fallback';
+  src: local('Arial');
+  size-adjust: 112%;
+  ascent-override: 88%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
 /* Base theme styles - minimal since Tailwind handles most styling */
 .tnt-body {
-  font-family: var(--pwb-font-primary, 'Open Sans', sans-serif);
+  font-family: var(--pwb-font-primary, 'Open Sans'), 'Open Sans-fallback', sans-serif;
 }
 
 /* Ensure smooth scrolling */

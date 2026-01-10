@@ -2,11 +2,24 @@
 /* Clean, modern styling for professional real estate */
 
 /* ========================================
+   Font Fallbacks for CLS Prevention
+   Size-adjusted fallback fonts to match Google Fonts metrics
+   ======================================== */
+@font-face {
+  font-family: 'Inter-fallback';
+  src: local('Arial');
+  size-adjust: 107%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+/* ========================================
    Base Theme Styles
    ======================================== */
 
 .brussels-theme {
-  font-family: 'Inter', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', 'Inter-fallback', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -21,7 +34,7 @@
 .brussels-theme h4,
 .brussels-theme h5,
 .brussels-theme h6 {
-  font-family: 'Inter', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', 'Inter-fallback', 'Helvetica Neue', sans-serif;
   font-weight: 600;
   letter-spacing: -0.01em;
 }

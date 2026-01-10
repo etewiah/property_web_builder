@@ -26,6 +26,7 @@
                   class: "w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110",
                   loading: index < 3 ? "eager" : "lazy",
                   use_picture: true,
+                  sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
                   alt: property.title.presence || "Property listing") %>
 
               <!-- Overlay on Hover -->

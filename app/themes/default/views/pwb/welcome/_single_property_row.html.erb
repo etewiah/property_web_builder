@@ -11,7 +11,8 @@
           <div class="relative">
             <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
               height: 300, crop: "scale", class: "w-full h-64 object-cover", loading: "lazy",
-              use_picture: true, alt: property.title.presence || t('pwb.accessibility.property_image', default: 'Property listing photo')) %>
+              use_picture: true, sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw",
+              alt: property.title.presence || t('pwb.accessibility.property_image', default: 'Property listing photo')) %>
           </div>
           <% end %>
           <div class="p-4">

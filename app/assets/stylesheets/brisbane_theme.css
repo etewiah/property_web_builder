@@ -2,11 +2,33 @@
 /* Elegant styling for luxury real estate */
 
 /* ========================================
+   Font Fallbacks for CLS Prevention
+   Size-adjusted fallback fonts to match Google Fonts metrics
+   ======================================== */
+@font-face {
+  font-family: 'Montserrat-fallback';
+  src: local('Arial');
+  size-adjust: 112%;
+  ascent-override: 88%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond-fallback';
+  src: local('Times New Roman');
+  size-adjust: 108%;
+  ascent-override: 96%;
+  descent-override: 28%;
+  line-gap-override: 0%;
+}
+
+/* ========================================
    Base Theme Styles
    ======================================== */
 
 .brisbane-theme {
-  font-family: 'Montserrat', 'Helvetica Neue', sans-serif;
+  font-family: 'Montserrat', 'Montserrat-fallback', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -21,13 +43,13 @@
 .brisbane-theme h4,
 .brisbane-theme h5,
 .brisbane-theme h6 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Cormorant Garamond', 'Cormorant Garamond-fallback', Georgia, serif;
   font-weight: 500;
   letter-spacing: 0.02em;
 }
 
 .brisbane-theme .font-serif {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Cormorant Garamond', 'Cormorant Garamond-fallback', Georgia, serif;
 }
 
 /* ========================================
@@ -449,10 +471,12 @@
   padding: 2rem;
   max-width: 900px;
   margin: 0 auto;
+  /* Prevent CLS by reserving minimum height for hero content */
+  min-height: 200px;
 }
 
 .brisbane-theme .hero-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Cormorant Garamond', 'Cormorant Garamond-fallback', Georgia, serif;
   font-size: 3.5rem;
   font-weight: 400;
   color: #faf8f5;

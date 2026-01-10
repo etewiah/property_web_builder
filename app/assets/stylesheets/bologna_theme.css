@@ -3,11 +3,33 @@
 /* Rounded corners, soft shadows, and airy whitespace */
 
 /* ========================================
+   Font Fallbacks for CLS Prevention
+   Size-adjusted fallback fonts to match Google Fonts metrics
+   ======================================== */
+@font-face {
+  font-family: 'Outfit-fallback';
+  src: local('Arial');
+  size-adjust: 103%;
+  ascent-override: 95%;
+  descent-override: 23%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'DM Sans-fallback';
+  src: local('Arial');
+  size-adjust: 104%;
+  ascent-override: 97%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+/* ========================================
    Base Theme Styles
    ======================================== */
 
 .bologna-theme {
-  font-family: 'DM Sans', 'Helvetica Neue', system-ui, sans-serif;
+  font-family: 'DM Sans', 'DM Sans-fallback', 'Helvetica Neue', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -22,13 +44,13 @@
 .bologna-theme h4,
 .bologna-theme h5,
 .bologna-theme h6 {
-  font-family: 'Outfit', 'Helvetica Neue', system-ui, sans-serif;
+  font-family: 'Outfit', 'Outfit-fallback', 'Helvetica Neue', system-ui, sans-serif;
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 
 .bologna-theme .font-display {
-  font-family: 'Outfit', 'Helvetica Neue', system-ui, sans-serif;
+  font-family: 'Outfit', 'Outfit-fallback', 'Helvetica Neue', system-ui, sans-serif;
 }
 
 /* ========================================
@@ -484,10 +506,12 @@
   padding: 2rem;
   max-width: 900px;
   margin: 0 auto;
+  /* Prevent CLS by reserving minimum height for hero content */
+  min-height: 200px;
 }
 
 .bologna-theme .hero-title {
-  font-family: 'Outfit', system-ui, sans-serif;
+  font-family: 'Outfit', 'Outfit-fallback', system-ui, sans-serif;
   font-size: 3.5rem;
   font-weight: 700;
   color: #ffffff;
