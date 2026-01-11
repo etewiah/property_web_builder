@@ -42,5 +42,52 @@ RSpec.describe "ApiPublic::V1::Properties", type: :request do
       get "/api_public/v1/properties", params: { sale_or_rental: "sale" }
       expect(response).to have_http_status(200)
     end
+
+    it "returns data in correct structure with meta" do
+      host! 'properties-test.example.com'
+      get "/api_public/v1/properties", params: { sale_or_rental: "sale" }
+      json = response.parsed_body
+      expect(json).to have_key("data")
+      expect(json).to have_key("meta")
+      expect(json["meta"]).to have_key("total")
+      expect(json["meta"]).to have_key("page")
+      expect(json["meta"]).to have_key("per_page")
+      expect(json["meta"]).to have_key("total_pages")
+    end
+
+    it "returns map_markers array" do
+      host! 'properties-test.example.com'
+      get "/api_public/v1/properties", params: { sale_or_rental: "sale" }
+      json = response.parsed_body
+      expect(json).to have_key("map_markers")
+      expect(json["map_markers"]).to be_an(Array)
+    end
+
+    it "supports pagination parameters" do
+      host! 'properties-test.example.com'
+      get "/api_public/v1/properties", params: { sale_or_rental: "sale", page: 1, per_page: 5 }
+      expect(response).to have_http_status(200)
+      json = response.parsed_body
+      expect(json["meta"]["page"]).to eq(1)
+      expect(json["meta"]["per_page"]).to eq(5)
+    end
+
+    it "supports highlighted filter" do
+      host! 'properties-test.example.com'
+      get "/api_public/v1/properties", params: { sale_or_rental: "sale", highlighted: "true" }
+      expect(response).to have_http_status(200)
+    end
+
+    it "supports limit parameter" do
+      host! 'properties-test.example.com'
+      get "/api_public/v1/properties", params: { sale_or_rental: "sale", limit: 3 }
+      expect(response).to have_http_status(200)
+    end
+
+    it "respects locale parameter" do
+      host! 'properties-test.example.com'
+      get "/api_public/v1/properties", params: { sale_or_rental: "sale", locale: "es" }
+      expect(response).to have_http_status(200)
+    end
   end
 end

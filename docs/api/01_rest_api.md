@@ -145,6 +145,102 @@ The website endpoint is used to manage the website's configuration.
 
 ---
 
+## Public API (Headless Frontend)
+
+The Public API (`/api_public/v1/`) is designed for headless JavaScript frontends (Astro.js, Next.js, etc.) and does not require authentication.
+
+### Properties
+
+**`GET /api_public/v1/properties`** - Search properties
+
+Query Parameters:
+- `sale_or_rental` - "sale" or "rent"
+- `property_type` - Filter by property type
+- `for_sale_price_from/till` - Price range for sale
+- `for_rent_price_from/till` - Price range for rent
+- `bedrooms_from` - Minimum bedrooms
+- `bathrooms_from` - Minimum bathrooms
+- `highlighted` - "true" to filter featured properties
+- `limit` - Limit results
+- `page` - Page number (default: 1)
+- `per_page` - Results per page (default: 12)
+- `locale` - Locale code
+
+Response:
+```json
+{
+  "data": [...],
+  "map_markers": [{"id": 1, "lat": 41.40, "lng": 2.17, "title": "...", "price": "..."}],
+  "meta": {"total": 100, "page": 1, "per_page": 12, "total_pages": 9}
+}
+```
+
+**`GET /api_public/v1/properties/:id`** - Get property by ID or slug
+
+---
+
+### Search Configuration
+
+**`GET /api_public/v1/search/config`** - Get search filter options
+
+Response:
+```json
+{
+  "property_types": [{"key": "apartment", "label": "Apartment", "count": 15}],
+  "price_options": {"sale": {"from": [...], "to": [...]}, "rent": {...}},
+  "features": [{"key": "has_pool", "label": "Swimming Pool"}],
+  "bedrooms": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  "bathrooms": [0, 1, 2, 3, 4, 5, 6],
+  "sort_options": [{"value": "price_asc", "label": "Price: Low to High"}]
+}
+```
+
+---
+
+### Site Configuration
+
+**`GET /api_public/v1/site_details`** - Get website configuration
+
+Response includes: `company_display_name`, `theme_name`, `contact_info`, `social_links`, `top_nav_links`, `footer_links`, `agency`
+
+**`GET /api_public/v1/theme`** - Get theme/CSS configuration
+
+Response: `theme_name`, `colors`, `css_variables`, `fonts`, `dark_mode`
+
+---
+
+### Pages & Content
+
+**`GET /api_public/v1/pages/by_slug/:slug`** - Get page content by slug
+
+**`GET /api_public/v1/translations?locale=xx`** - Get all translations for a locale
+
+**`GET /api_public/v1/links?position=top_nav`** - Get navigation links
+
+---
+
+### Forms
+
+**`POST /api_public/v1/enquiries`** - Submit property enquiry
+```json
+{"enquiry": {"name": "...", "email": "...", "phone": "...", "message": "...", "property_id": "..."}}
+```
+
+**`POST /api_public/v1/contact`** - Submit general contact form
+```json
+{"contact": {"name": "...", "email": "...", "phone": "...", "subject": "...", "message": "..."}}
+```
+
+---
+
+### Dynamic Content
+
+**`GET /api_public/v1/testimonials`** - Get testimonials
+
+**`GET /api_public/v1/select_values?field_names=property-types`** - Get select options
+
+---
+
 ## GraphQL API
 
 The GraphQL API provides a more flexible and powerful way to query the application's data.
