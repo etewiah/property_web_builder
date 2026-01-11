@@ -18,10 +18,26 @@ module ListedProperty
     def primary_image_url
       first_photo = ordered_photo(1)
       if prop_photos.any? && first_photo&.image&.attached?
-        Rails.application.routes.url_helpers.rails_blob_path(first_photo.image, only_path: true)
+        Rails.application.routes.url_helpers.rails_blob_url(
+          first_photo.image,
+          host: resolve_asset_host
+        )
       else
         ""
       end
     end
+
+    private
+
+    def resolve_asset_host
+      ENV.fetch('ASSET_HOST') do
+        ENV.fetch('APP_HOST') do
+          Rails.application.config.action_controller.asset_host ||
+            Rails.application.routes.default_url_options[:host] ||
+            'http://localhost:3000'
+        end
+      end
+    end
   end
 end
+

@@ -69,6 +69,37 @@ module Pwb
       }.merge(options || {}))
     end
 
+    # API-formatted JSON for frontend consumption
+    # Uses consistent field names matching the frontend contract
+    def as_api_json
+      {
+        "id" => id,
+        "slug" => slug,
+        "title" => link_title,
+        "url" => resolved_url,
+        "position" => placement,
+        "order" => sort_order,
+        "visible" => visible,
+        "external" => is_external || false
+      }
+    end
+
+    # Resolves the URL for this link
+    # Prefers link_url (absolute), falls back to generating from link_path
+    def resolved_url
+      if link_url.present?
+        link_url
+      elsif link_path.present?
+        # Generate a basic path from the route helper name
+        path_name = link_path.gsub('_path', '')
+        "/#{I18n.locale}/#{path_name}"
+      elsif page_slug.present?
+        "/#{I18n.locale}/#{page_slug}"
+      else
+        "#"
+      end
+    end
+
     def admin_attribute_names
       mobility_attribute_names
     end
@@ -84,3 +115,4 @@ module Pwb
     end
   end
 end
+

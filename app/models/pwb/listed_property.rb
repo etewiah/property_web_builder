@@ -226,15 +226,77 @@ module Pwb
     def as_json(options = nil)
       super(options).tap do |hash|
         hash['prop_photos'] = prop_photos.map do |photo|
-          if photo.image.attached?
-            { 'image' => Rails.application.routes.url_helpers.rails_blob_path(photo.image, only_path: true) }
-          else
-            { 'image' => nil }
-          end
-        end
+          serialize_photo(photo)
+        end.compact
         hash['title'] = title
         hash['description'] = description
+        hash['meta_title'] = generate_meta_title
+        hash['meta_description'] = generate_meta_description
       end
+    end
+
+    private
+
+    def serialize_photo(photo)
+      return nil unless photo.image.attached?
+
+      {
+        'id' => photo.id,
+        'url' => absolute_image_url(photo.image),
+        'alt' => photo.respond_to?(:caption) ? photo.caption.presence : nil,
+        'position' => photo.sort_order,
+        'variants' => generate_image_variants(photo.image)
+      }
+    end
+
+    def absolute_image_url(image)
+      Rails.application.routes.url_helpers.rails_blob_url(
+        image,
+        host: resolve_asset_host
+      )
+    rescue StandardError => e
+      Rails.logger.warn("Failed to generate absolute image URL: #{e.message}")
+      nil
+    end
+
+    def generate_image_variants(image)
+      return {} unless image.variable?
+
+      {
+        'small' => variant_url(image, resize_to_limit: [300, 200]),
+        'medium' => variant_url(image, resize_to_limit: [600, 400]),
+        'large' => variant_url(image, resize_to_limit: [1200, 800])
+      }
+    rescue StandardError => e
+      Rails.logger.warn("Failed to generate image variants: #{e.message}")
+      {}
+    end
+
+    def variant_url(image, transformations)
+      Rails.application.routes.url_helpers.rails_representation_url(
+        image.variant(transformations).processed,
+        host: resolve_asset_host
+      )
+    rescue StandardError
+      nil
+    end
+
+    def resolve_asset_host
+      ENV.fetch('ASSET_HOST') do
+        ENV.fetch('APP_HOST') do
+          Rails.application.config.action_controller.asset_host ||
+            Rails.application.routes.default_url_options[:host] ||
+            'http://localhost:3000'
+        end
+      end
+    end
+
+    def generate_meta_title
+      title.presence || "Property #{reference}"
+    end
+
+    def generate_meta_description
+      description&.truncate(160)
     end
   end
 end

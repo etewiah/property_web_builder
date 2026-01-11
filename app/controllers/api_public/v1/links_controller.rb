@@ -3,7 +3,8 @@ module ApiPublic
     class LinksController < BaseController
 
       def index
-        placement = params[:placement]
+        # Accept both 'placement' and 'position' for API compatibility
+        placement = params[:placement] || params[:position]
         locale = params[:locale]
 
         if locale
@@ -18,11 +19,12 @@ module ApiPublic
 
         # Filter by visibility if needed, similar to GraphQL implementation
         if params[:visible_only] == 'true' || placement == 'top_nav' || placement == 'footer'
-           links = links.where(visible: true)
+           links = links.where(visible: true).order('sort_order asc')
         end
 
-        render json: links.as_json
+        render json: { data: links.map(&:as_api_json) }
       end
     end
   end
 end
+

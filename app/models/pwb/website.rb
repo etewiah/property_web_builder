@@ -353,13 +353,63 @@ module Pwb
         "company_display_name", "theme_name",
         "default_area_unit", "default_client_locale",
         "available_currencies", "default_currency",
-        "supported_locales", "social_media",
-        "raw_css", "analytics_id", "analytics_id_type",
-        "sale_price_options_from", "sale_price_options_till",
-        "rent_price_options_from", "rent_price_options_till",
+        "supported_locales", "dark_mode_setting"
       ],
-              methods: ["style_variables", "admin_page_links", "top_nav_display_links",
-                        "footer_display_links", "agency"] }.merge(options || {}))
+              methods: [
+                "logo_url", "favicon_url",
+                "style_variables", "css_variables",
+                "contact_info", "social_links",
+                "top_nav_links", "footer_links",
+                "agency"
+              ] }.merge(options || {}))
+    end
+
+    # API helper: Returns contact information from agency
+    def contact_info
+      return {} unless agency
+
+      {
+        "phone" => agency.phone_number_primary,
+        "phone_mobile" => agency.phone_number_mobile,
+        "email" => agency.email_primary,
+        "address" => format_agency_address
+      }
+    end
+
+    # API helper: Returns structured social media links
+    def social_links
+      {
+        "facebook" => social_media_facebook,
+        "twitter" => social_media_twitter,
+        "instagram" => social_media_instagram,
+        "linkedin" => social_media_linkedin,
+        "youtube" => social_media_youtube,
+        "whatsapp" => social_media_whatsapp,
+        "pinterest" => social_media_pinterest
+      }.compact
+    end
+
+    # API helper: Returns navigation links formatted for API consumption
+    def top_nav_links
+      links.ordered_visible_top_nav.map(&:as_api_json)
+    end
+
+    # API helper: Returns footer links formatted for API consumption
+    def footer_links
+      links.ordered_visible_footer.map(&:as_api_json)
+    end
+
+    private
+
+    def format_agency_address
+      return nil unless agency&.primary_address
+
+      [
+        agency.street_address,
+        agency.city,
+        agency.postal_code
+      ].compact.reject(&:blank?).join(", ")
     end
   end
 end
+
