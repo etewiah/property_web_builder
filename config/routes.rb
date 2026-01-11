@@ -729,6 +729,7 @@ Rails.application.routes.draw do
       get "/select_values" => "select_values#index"
       get "/theme" => "theme#index"
       get "/testimonials" => "testimonials#index"
+      post "/enquiries" => "enquiries#create"
       post "/auth/firebase" => "auth#firebase"
 
       # Embeddable Widget API
