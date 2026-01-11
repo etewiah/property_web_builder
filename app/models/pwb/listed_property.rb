@@ -232,6 +232,10 @@ module Pwb
         hash['description'] = description
         hash['meta_title'] = generate_meta_title
         hash['meta_description'] = generate_meta_description
+        hash['extras'] = extras_for_display
+        hash['features'] = get_features
+        hash['highlighted'] = highlighted
+        hash['primary_image_url'] = primary_image_url
       end
     end
 

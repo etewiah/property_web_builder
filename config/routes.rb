@@ -728,8 +728,10 @@ Rails.application.routes.draw do
       get "/site_details" => "site_details#index"
       get "/select_values" => "select_values#index"
       get "/theme" => "theme#index"
+      get "/search/config" => "search_config#index"
       get "/testimonials" => "testimonials#index"
       post "/enquiries" => "enquiries#create"
+      post "/contact" => "contact#create"
       post "/auth/firebase" => "auth#firebase"
 
       # Embeddable Widget API

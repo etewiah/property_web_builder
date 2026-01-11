@@ -274,12 +274,12 @@ Pages with `is_rails_part: true` render ERB partials on the server. JS clients m
 
 ### Backend Changes Needed
 
-- [ ] Create `SearchConfigController` with filter options
-- [ ] Add map_markers to properties search response
-- [ ] Add pagination meta to search response
-- [ ] Add `?highlighted=true` query support
-- [ ] Add `extras` and `features` to ListedProperty.as_json
-- [ ] Create general contact endpoint (optional)
+- [x] Create `SearchConfigController` with filter options
+- [x] Add map_markers to properties search response
+- [x] Add pagination meta to search response
+- [x] Add `?highlighted=true` query support
+- [x] Add `extras` and `features` to ListedProperty.as_json
+- [x] Create general contact endpoint
 
 ### Frontend Implementation
 
@@ -320,8 +320,8 @@ GET /api_public/v1/testimonials
 GET /api_public/v1/select_values?field_names=property-types
 
 # Future (to be implemented)
-GET /api_public/v1/search/config
-POST /api_public/v1/contact
+# GET /api_public/v1/search/config  <-- NOW IMPLEMENTED
+# POST /api_public/v1/contact       <-- NOW IMPLEMENTED
 ```
 
 ---
