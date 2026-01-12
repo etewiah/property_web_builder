@@ -90,6 +90,10 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
     get 'Retrieves properties' do
       tags 'Properties'
       produces 'application/json'
+      parameter name: :locale, in: :query, type: :string, required: false
+      parameter name: :page, in: :query, type: :integer, required: false
+      parameter name: :per_page, in: :query, type: :integer, required: false
+      parameter name: :limit, in: :query, type: :integer, required: false
       parameter name: :sale_or_rental, in: :query, type: :string, required: false
       parameter name: :currency, in: :query, type: :string, required: false
       parameter name: :for_sale_price_from, in: :query, type: :string, required: false
@@ -99,26 +103,61 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
       parameter name: :bedrooms_from, in: :query, type: :string, required: false
       parameter name: :bathrooms_from, in: :query, type: :string, required: false
       parameter name: :property_type, in: :query, type: :string, required: false
+      parameter name: :sort_by, in: :query, type: :string, required: false
+      parameter name: :sort, in: :query, type: :string, required: false, deprecated: true
+      parameter name: :featured, in: :query, type: :boolean, required: false
+      parameter name: :highlighted, in: :query, type: :boolean, required: false, deprecated: true
 
       response '200', 'properties found' do
-        schema type: :array,
-               items: {
-                 type: :object,
-                 properties: {
-                   id: { type: :string }, # UUID
-                   reference: { type: :string },
-                   title: { type: %i[string null] },
-                   price_sale_current_cents: { type: :integer },
-                   price_rental_monthly_current_cents: { type: :integer },
-                   currency: { type: :string },
-                   prop_photos: {
-                     type: :array,
-                     items: {
-                       type: :object,
-                       properties: {
-                         image: { type: :string }
+        schema type: :object,
+               properties: {
+                 data: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       id: { type: :string }, # UUID
+                       slug: { type: :string },
+                       reference: { type: :string },
+                       title: { type: %i[string null] },
+                       price_sale_current_cents: { type: :integer },
+                       price_rental_monthly_current_cents: { type: :integer },
+                       currency: { type: :string },
+                       prop_photos: {
+                         type: :array,
+                         items: {
+                           type: :object,
+                           properties: {
+                             image: { type: :string }
+                           }
+                         }
                        }
                      }
+                   }
+                 },
+                 map_markers: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       id: { type: :string },
+                       slug: { type: :string },
+                       lat: { type: :number, format: :float },
+                       lng: { type: :number, format: :float },
+                       title: { type: :string },
+                       price: { type: :string },
+                       image: { type: %i[string null] },
+                       url: { type: :string }
+                     }
+                   }
+                 },
+                 meta: {
+                   type: :object,
+                   properties: {
+                     total: { type: :integer },
+                     page: { type: :integer },
+                     per_page: { type: :integer },
+                     total_pages: { type: :integer }
                    }
                  }
                }
@@ -222,23 +261,29 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
     get 'Retrieves links' do
       tags 'Links'
       produces 'application/json'
-      parameter name: :placement, in: :query, type: :string, required: false
+      parameter name: :position, in: :query, type: :string, required: false
+      parameter name: :placement, in: :query, type: :string, required: false, deprecated: true
       parameter name: :locale, in: :query, type: :string, required: false
       parameter name: :visible_only, in: :query, type: :boolean, required: false
 
       response '200', 'links found' do
-        schema type: :array,
-               items: {
-                 type: :object,
-                 properties: {
-                   slug: { type: :string },
-                   link_path: { type: :string },
-                   visible: { type: :boolean },
-                   link_title: { type: :string },
-                   page_slug: { type: :string },
-                   placement: { type: :string },
-                   href_class: { type: :string },
-                   is_deletable: { type: :boolean }
+        schema type: :object,
+               properties: {
+                 data: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       id: { type: :integer },
+                       slug: { type: :string },
+                       title: { type: :string },
+                       url: { type: :string },
+                       position: { type: :string },
+                       order: { type: :integer },
+                       visible: { type: :boolean },
+                       external: { type: :boolean }
+                     }
+                   }
                  }
                }
         run_test!

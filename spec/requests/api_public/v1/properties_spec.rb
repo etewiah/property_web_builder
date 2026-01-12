@@ -4,8 +4,16 @@ require 'rails_helper'
 
 RSpec.describe "ApiPublic::V1::Properties", type: :request do
   let!(:website) { FactoryBot.create(:pwb_website, subdomain: 'properties-test') }
-  let!(:realty_asset) { FactoryBot.create(:pwb_realty_asset, website: website) }
+  let!(:realty_asset) { FactoryBot.create(:pwb_realty_asset, website: website, created_at: 2.days.ago) }
   let!(:sale_listing) { FactoryBot.create(:pwb_sale_listing, :visible, realty_asset: realty_asset) }
+  let!(:cheapest_asset) { FactoryBot.create(:pwb_realty_asset, website: website, created_at: 3.days.ago) }
+  let!(:cheapest_sale_listing) do
+    FactoryBot.create(:pwb_sale_listing, :visible, realty_asset: cheapest_asset, price_sale_current_cents: 100_000_00)
+  end
+  let!(:priciest_asset) { FactoryBot.create(:pwb_realty_asset, website: website, created_at: 1.day.ago) }
+  let!(:priciest_sale_listing) do
+    FactoryBot.create(:pwb_sale_listing, :visible, realty_asset: priciest_asset, price_sale_current_cents: 500_000_00)
+  end
 
   before do
     # Refresh the materialized view so properties are visible
@@ -88,6 +96,22 @@ RSpec.describe "ApiPublic::V1::Properties", type: :request do
       host! 'properties-test.example.com'
       get "/api_public/v1/properties", params: { sale_or_rental: "sale", locale: "es" }
       expect(response).to have_http_status(200)
+    end
+
+    it "supports sort_by price_asc" do
+      host! 'properties-test.example.com'
+      get "/api_public/v1/properties", params: { sale_or_rental: "sale", sort_by: "price_asc" }
+      json = response.parsed_body
+      prices = json["data"].map { |property| property["price_sale_current_cents"] }
+      expect(prices).to eq(prices.sort)
+    end
+
+    it "supports sort_by newest" do
+      host! 'properties-test.example.com'
+      get "/api_public/v1/properties", params: { sale_or_rental: "sale", sort_by: "newest" }
+      json = response.parsed_body
+      ordered_ids = json["data"].map { |property| property["id"] }
+      expect(ordered_ids.first).to eq(priciest_asset.id)
     end
   end
 end

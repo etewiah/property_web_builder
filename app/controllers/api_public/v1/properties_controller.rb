@@ -40,6 +40,9 @@ module ApiPublic
           properties = properties.where(highlighted: true)
         end
 
+        # Sorting support for API clients
+        properties = apply_sorting(properties, params[:sort_by] || params[:sort])
+
         # Apply limit if specified
         if params[:limit].present?
           properties = properties.limit(params[:limit].to_i)
@@ -79,6 +82,25 @@ module ApiPublic
             total_pages: total_pages
           }
         }
+      end
+
+      private
+
+      def apply_sorting(scope, sort_param)
+        return scope if sort_param.blank?
+
+        case sort_param
+        when 'price-asc', 'price_asc'
+          scope.order(price_sale_current_cents: :asc, price_rental_monthly_current_cents: :asc)
+        when 'price-desc', 'price_desc'
+          scope.order(price_sale_current_cents: :desc, price_rental_monthly_current_cents: :desc)
+        when 'newest', 'date-desc', 'date_desc'
+          scope.order(created_at: :desc)
+        when 'oldest', 'date-asc', 'date_asc'
+          scope.order(created_at: :asc)
+        else
+          scope
+        end
       end
     end
   end

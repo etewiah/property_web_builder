@@ -13,6 +13,7 @@ paths:
       - name: id
         in: path
         required: true
+        description: Property ID (UUID) or slug.
         schema:
           type: string
       - name: locale
@@ -71,6 +72,32 @@ paths:
       tags:
       - Properties
       parameters:
+      - name: locale
+        in: query
+        required: false
+        description: Locale to use for localized fields.
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        description: Page number (default 1).
+        schema:
+          type: integer
+          default: 1
+      - name: per_page
+        in: query
+        required: false
+        description: Items per page (default 12).
+        schema:
+          type: integer
+          default: 12
+      - name: limit
+        in: query
+        required: false
+        description: Hard cap on total results before pagination.
+        schema:
+          type: integer
       - name: sale_or_rental
         in: query
         required: false
@@ -116,36 +143,102 @@ paths:
         required: false
         schema:
           type: string
+      - name: sort_by
+        in: query
+        required: false
+        description: Sort order (price_asc, price_desc, newest, oldest).
+        schema:
+          type: string
+      - name: sort
+        in: query
+        required: false
+        deprecated: true
+        description: Deprecated alias for sort_by (price-asc, price-desc, newest, oldest).
+        schema:
+          type: string
+      - name: featured
+        in: query
+        required: false
+        description: Filter featured/highlighted properties.
+        schema:
+          type: boolean
+      - name: highlighted
+        in: query
+        required: false
+        deprecated: true
+        description: Deprecated alias for featured.
+        schema:
+          type: boolean
       responses:
         '200':
           description: properties found
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                    reference:
-                      type: string
-                    title:
-                      type: string
-                      nullable: true
-                    price_sale_current_cents:
-                      type: integer
-                    price_rental_monthly_current_cents:
-                      type: integer
-                    currency:
-                      type: string
-                    prop_photos:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          image:
-                            type: string
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        slug:
+                          type: string
+                        reference:
+                          type: string
+                        title:
+                          type: string
+                          nullable: true
+                        price_sale_current_cents:
+                          type: integer
+                        price_rental_monthly_current_cents:
+                          type: integer
+                        currency:
+                          type: string
+                        prop_photos:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              image:
+                                type: string
+                  map_markers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        slug:
+                          type: string
+                        lat:
+                          type: number
+                          format: float
+                        lng:
+                          type: number
+                          format: float
+                        title:
+                          type: string
+                        price:
+                          type: string
+                        image:
+                          type: string
+                          nullable: true
+                        url:
+                          type: string
+                  meta:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      page:
+                        type: integer
+                      per_page:
+                        type: integer
+                      total_pages:
+                        type: integer
   "/api_public/v1/pages/{id}":
     get:
       summary: Retrieves a page
@@ -262,9 +355,17 @@ paths:
       tags:
       - Links
       parameters:
+      - name: position
+        in: query
+        required: false
+        description: Link placement (e.g. top_nav, footer).
+        schema:
+          type: string
       - name: placement
         in: query
         required: false
+        deprecated: true
+        description: Deprecated alias for position.
         schema:
           type: string
       - name: locale
@@ -283,26 +384,29 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    slug:
-                      type: string
-                    link_path:
-                      type: string
-                    visible:
-                      type: boolean
-                    link_title:
-                      type: string
-                    page_slug:
-                      type: string
-                    placement:
-                      type: string
-                    href_class:
-                      type: string
-                    is_deletable:
-                      type: boolean
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        slug:
+                          type: string
+                        title:
+                          type: string
+                        url:
+                          type: string
+                        position:
+                          type: string
+                        order:
+                          type: integer
+                        visible:
+                          type: boolean
+                        external:
+                          type: boolean
   "/api_public/v1/site_details":
     get:
       summary: Retrieves site details
