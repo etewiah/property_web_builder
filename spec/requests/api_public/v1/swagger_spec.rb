@@ -291,4 +291,502 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
       end
     end
   end
+
+  path '/api_public/v1/theme' do
+    get 'Retrieves theme configuration' do
+      tags 'Theme'
+      produces 'application/json'
+      parameter name: :locale, in: :query, type: :string, required: false
+
+      response '200', 'theme found' do
+        schema type: :object,
+               properties: {
+                 theme: {
+                   type: :object,
+                   properties: {
+                     name: { type: :string },
+                     palette_id: { type: %i[string null] },
+                     palette_mode: { type: :string },
+                     colors: {
+                       type: :object,
+                       additionalProperties: { type: :string }
+                     },
+                     fonts: {
+                       type: :object,
+                       properties: {
+                         heading: { type: :string },
+                         body: { type: :string }
+                       }
+                     },
+                     border_radius: {
+                       type: :object,
+                       properties: {
+                         sm: { type: :string },
+                         md: { type: :string },
+                         lg: { type: :string },
+                         xl: { type: :string }
+                       }
+                     },
+                     dark_mode: {
+                       type: :object,
+                       properties: {
+                         enabled: { type: :boolean },
+                         setting: { type: :string },
+                         force_dark: { type: :boolean },
+                         auto: { type: :boolean }
+                       }
+                     },
+                     css_variables: { type: :string },
+                     custom_css: { type: %i[string null] }
+                   }
+                 }
+               }
+        run_test!
+      end
+    end
+  end
+
+  path '/api_public/v1/search/config' do
+    get 'Retrieves search configuration' do
+      tags 'Search Config'
+      produces 'application/json'
+      parameter name: :locale, in: :query, type: :string, required: false
+
+      response '200', 'search config found' do
+        schema type: :object,
+               properties: {
+                 property_types: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       key: { type: :string },
+                       label: { type: :string },
+                       count: { type: :integer }
+                     }
+                   }
+                 },
+                 price_options: {
+                   type: :object,
+                   properties: {
+                     sale: {
+                       type: :object,
+                       properties: {
+                         from: { type: :array, items: { type: :string } },
+                         to: { type: :array, items: { type: :string } }
+                       }
+                     },
+                     rent: {
+                       type: :object,
+                       properties: {
+                         from: { type: :array, items: { type: :string } },
+                         to: { type: :array, items: { type: :string } }
+                       }
+                     }
+                   }
+                 },
+                 features: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       key: { type: :string },
+                       label: { type: :string }
+                     }
+                   }
+                 },
+                 bedrooms: { type: :array, items: { type: :integer } },
+                 bathrooms: { type: :array, items: { type: :integer } },
+                 sort_options: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       value: { type: :string },
+                       label: { type: :string }
+                     }
+                   }
+                 },
+                 area_unit: { type: :string },
+                 currency: { type: :string }
+               }
+        run_test!
+      end
+    end
+  end
+
+  path '/api_public/v1/testimonials' do
+    get 'Retrieves testimonials' do
+      tags 'Testimonials'
+      produces 'application/json'
+      parameter name: :locale, in: :query, type: :string, required: false
+      parameter name: :limit, in: :query, type: :integer, required: false
+      parameter name: :featured_only, in: :query, type: :boolean, required: false
+
+      response '200', 'testimonials found' do
+        schema type: :object,
+               properties: {
+                 testimonials: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       id: { type: :integer },
+                       quote: { type: :string },
+                       author_name: { type: :string },
+                       author_role: { type: %i[string null] },
+                       author_photo: { type: %i[string null] },
+                       rating: { type: %i[integer null] },
+                       position: { type: :integer }
+                     }
+                   }
+                 }
+               }
+        run_test!
+      end
+    end
+  end
+
+  path '/api_public/v1/enquiries' do
+    post 'Creates a property enquiry' do
+      tags 'Enquiries'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: :enquiry, in: :body, schema: {
+        type: :object,
+        properties: {
+          enquiry: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              email: { type: :string },
+              phone: { type: :string },
+              message: { type: :string },
+              property_id: { type: :string }
+            }
+          },
+          locale: { type: :string }
+        }
+      }
+
+      response '201', 'enquiry created' do
+        schema type: :object,
+               properties: {
+                 success: { type: :boolean },
+                 message: { type: :string },
+                 data: {
+                   type: :object,
+                   properties: {
+                     contact_id: { type: :integer },
+                     message_id: { type: :integer }
+                   }
+                 }
+               }
+        let(:enquiry) do
+          {
+            enquiry: {
+              name: 'Swagger User',
+              email: 'swagger@example.com',
+              phone: '+1000000000',
+              message: 'Interested in this property.',
+              property_id: nil
+            }
+          }
+        end
+        run_test!
+      end
+    end
+  end
+
+  path '/api_public/v1/contact' do
+    post 'Creates a contact enquiry' do
+      tags 'Contact'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: :contact, in: :body, schema: {
+        type: :object,
+        properties: {
+          contact: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              email: { type: :string },
+              phone: { type: :string },
+              subject: { type: :string },
+              message: { type: :string }
+            }
+          },
+          locale: { type: :string }
+        }
+      }
+
+      response '201', 'contact created' do
+        schema type: :object,
+               properties: {
+                 success: { type: :boolean },
+                 message: { type: :string },
+                 data: {
+                   type: :object,
+                   properties: {
+                     contact_id: { type: :integer },
+                     message_id: { type: :integer }
+                   }
+                 }
+               }
+        let(:contact) do
+          {
+            contact: {
+              name: 'Swagger User',
+              email: 'swagger@example.com',
+              phone: '+1000000000',
+              subject: 'General Enquiry',
+              message: 'Hello from the API docs.'
+            }
+          }
+        end
+        run_test!
+      end
+    end
+  end
+
+  path '/api_public/v1/auth/firebase' do
+    post 'Authenticates via Firebase token' do
+      tags 'Auth'
+      consumes 'application/json'
+      produces 'application/json'
+      parameter name: :auth, in: :body, schema: {
+        type: :object,
+        properties: {
+          token: { type: :string },
+          verification_token: { type: :string }
+        }
+      }
+
+      response '200', 'authenticated' do
+        schema type: :object,
+               properties: {
+                 user: {
+                   type: :object,
+                   properties: {
+                     id: { type: :integer },
+                     email: { type: :string },
+                     firebase_uid: { type: :string }
+                   }
+                 },
+                 message: { type: :string }
+               }
+        let(:auth) { { token: 'valid_token' } }
+        before do
+          user = Pwb::User.create!(email: 'swagger@example.com', password: 'Password123!', website: test_website)
+          allow_any_instance_of(Pwb::FirebaseAuthService).to receive(:call).and_return(user)
+        end
+        run_test!
+      end
+
+      response '401', 'invalid token' do
+        schema type: :object,
+               properties: {
+                 error: { type: :string }
+               }
+        let(:auth) { { token: 'invalid_token' } }
+        before do
+          allow_any_instance_of(Pwb::FirebaseAuthService).to receive(:call).and_return(nil)
+        end
+        run_test!
+      end
+
+      response '400', 'missing token' do
+        schema type: :object,
+               properties: {
+                 error: { type: :string }
+               }
+        let(:auth) { {} }
+        run_test!
+      end
+    end
+  end
+
+  path '/api_public/v1/widgets/{widget_key}' do
+    get 'Retrieves widget configuration and properties' do
+      tags 'Widgets'
+      produces 'application/json'
+      parameter name: :widget_key, in: :path, type: :string
+      parameter name: :locale, in: :query, type: :string, required: false
+
+      response '200', 'widget found' do
+        schema type: :object,
+               properties: {
+                 config: {
+                   type: :object,
+                   properties: {
+                     widget_key: { type: :string },
+                     layout: { type: :string },
+                     columns: { type: :integer },
+                     max_properties: { type: :integer },
+                     show_search: { type: :boolean },
+                     show_filters: { type: :boolean },
+                     show_pagination: { type: :boolean },
+                     listing_type: { type: %i[string null] },
+                     theme: { type: :object },
+                     visible_fields: { type: :object }
+                   }
+                 },
+                 properties: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       id: { type: :string },
+                       title: { type: %i[string null] },
+                       url: { type: :string },
+                       photo_url: { type: %i[string null] },
+                       photo_count: { type: :integer },
+                       price: { type: %i[string null] },
+                       price_raw: { type: %i[integer null] },
+                       currency: { type: %i[string null] },
+                       bedrooms: { type: %i[integer null] },
+                       bathrooms: { type: %i[number null] },
+                       area: { type: %i[number null] },
+                       area_unit: { type: %i[string null] },
+                       location: { type: %i[string null] },
+                       reference: { type: %i[string null] },
+                       property_type: { type: %i[string null] },
+                       for_sale: { type: :boolean },
+                       for_rent: { type: :boolean },
+                       highlighted: { type: :boolean }
+                     }
+                   }
+                 },
+                 total_count: { type: :integer },
+                 website: {
+                   type: :object,
+                   properties: {
+                     name: { type: :string },
+                     currency: { type: :string },
+                     area_unit: { type: :string }
+                   }
+                 }
+               }
+        let!(:widget_config) do
+          Pwb::WidgetConfig.create!(
+            website: test_website,
+            name: 'Swagger Widget',
+            widget_key: 'swagger-widget',
+            layout: 'grid',
+            columns: 3,
+            max_properties: 12
+          )
+        end
+        let(:widget_key) { widget_config.widget_key }
+        run_test!
+      end
+    end
+  end
+
+  path '/api_public/v1/widgets/{widget_key}/properties' do
+    get 'Retrieves widget properties' do
+      tags 'Widgets'
+      produces 'application/json'
+      parameter name: :widget_key, in: :path, type: :string
+      parameter name: :page, in: :query, type: :integer, required: false
+      parameter name: :locale, in: :query, type: :string, required: false
+
+      response '200', 'properties found' do
+        schema type: :object,
+               properties: {
+                 properties: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       id: { type: :string },
+                       title: { type: %i[string null] },
+                       url: { type: :string },
+                       photo_url: { type: %i[string null] },
+                       photo_count: { type: :integer },
+                       price: { type: %i[string null] },
+                       price_raw: { type: %i[integer null] },
+                       currency: { type: %i[string null] },
+                       bedrooms: { type: %i[integer null] },
+                       bathrooms: { type: %i[number null] },
+                       area: { type: %i[number null] },
+                       area_unit: { type: %i[string null] },
+                       location: { type: %i[string null] },
+                       reference: { type: %i[string null] },
+                       property_type: { type: %i[string null] },
+                       for_sale: { type: :boolean },
+                       for_rent: { type: :boolean },
+                       highlighted: { type: :boolean }
+                     }
+                   }
+                 },
+                 pagination: {
+                   type: :object,
+                   properties: {
+                     current_page: { type: :integer },
+                     per_page: { type: :integer },
+                     total_count: { type: :integer },
+                     total_pages: { type: :integer }
+                   }
+                 }
+               }
+        let!(:widget_config) do
+          Pwb::WidgetConfig.create!(
+            website: test_website,
+            name: 'Swagger Widget',
+            widget_key: 'swagger-widget-props',
+            layout: 'grid',
+            columns: 3,
+            max_properties: 12
+          )
+        end
+        let(:widget_key) { widget_config.widget_key }
+        run_test!
+      end
+    end
+  end
+
+  path '/api_public/v1/widgets/{widget_key}/impression' do
+    post 'Tracks widget impression' do
+      tags 'Widgets'
+      parameter name: :widget_key, in: :path, type: :string
+
+      response '200', 'impression tracked' do
+        let!(:widget_config) do
+          Pwb::WidgetConfig.create!(
+            website: test_website,
+            name: 'Swagger Widget',
+            widget_key: 'swagger-widget-impression',
+            layout: 'grid',
+            columns: 3,
+            max_properties: 12
+          )
+        end
+        let(:widget_key) { widget_config.widget_key }
+        run_test!
+      end
+    end
+  end
+
+  path '/api_public/v1/widgets/{widget_key}/click' do
+    post 'Tracks widget click' do
+      tags 'Widgets'
+      parameter name: :widget_key, in: :path, type: :string
+
+      response '200', 'click tracked' do
+        let!(:widget_config) do
+          Pwb::WidgetConfig.create!(
+            website: test_website,
+            name: 'Swagger Widget',
+            widget_key: 'swagger-widget-click',
+            layout: 'grid',
+            columns: 3,
+            max_properties: 12
+          )
+        end
+        let(:widget_key) { widget_config.widget_key }
+        run_test!
+      end
+    end
+  end
 end

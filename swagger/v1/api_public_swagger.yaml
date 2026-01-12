@@ -29,11 +29,15 @@ paths:
                 type: object
                 properties:
                   id:
-                    type: integer
+                    type: string
+                  reference:
+                    type: string
                   title:
                     type: string
+                    nullable: true
                   description:
                     type: string
+                    nullable: true
                   prop_photos:
                     type: array
                     items:
@@ -52,7 +56,7 @@ paths:
                   count_bedrooms:
                     type: integer
                   count_bathrooms:
-                    type: integer
+                    type: number
                   count_garages:
                     type: integer
                   for_sale:
@@ -123,9 +127,12 @@ paths:
                   type: object
                   properties:
                     id:
-                      type: integer
+                      type: string
+                    reference:
+                      type: string
                     title:
                       type: string
+                      nullable: true
                     price_sale_current_cents:
                       type: integer
                     price_rental_monthly_current_cents:
@@ -365,6 +372,587 @@ paths:
                         type: string
                       label:
                         type: string
+  "/api_public/v1/theme":
+    get:
+      summary: Retrieves theme configuration
+      tags:
+      - Theme
+      parameters:
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: theme found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  theme:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      palette_id:
+                        type: string
+                        nullable: true
+                      palette_mode:
+                        type: string
+                      colors:
+                        type: object
+                        additionalProperties:
+                          type: string
+                      fonts:
+                        type: object
+                        properties:
+                          heading:
+                            type: string
+                          body:
+                            type: string
+                      border_radius:
+                        type: object
+                        properties:
+                          sm:
+                            type: string
+                          md:
+                            type: string
+                          lg:
+                            type: string
+                          xl:
+                            type: string
+                      dark_mode:
+                        type: object
+                        properties:
+                          enabled:
+                            type: boolean
+                          setting:
+                            type: string
+                          force_dark:
+                            type: boolean
+                          auto:
+                            type: boolean
+                      css_variables:
+                        type: string
+                      custom_css:
+                        type: string
+                        nullable: true
+  "/api_public/v1/search/config":
+    get:
+      summary: Retrieves search configuration
+      tags:
+      - Search Config
+      parameters:
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: search config found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  property_types:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                        label:
+                          type: string
+                        count:
+                          type: integer
+                  price_options:
+                    type: object
+                    properties:
+                      sale:
+                        type: object
+                        properties:
+                          from:
+                            type: array
+                            items:
+                              type: string
+                          to:
+                            type: array
+                            items:
+                              type: string
+                      rent:
+                        type: object
+                        properties:
+                          from:
+                            type: array
+                            items:
+                              type: string
+                          to:
+                            type: array
+                            items:
+                              type: string
+                  features:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                        label:
+                          type: string
+                  bedrooms:
+                    type: array
+                    items:
+                      type: integer
+                  bathrooms:
+                    type: array
+                    items:
+                      type: integer
+                  sort_options:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        value:
+                          type: string
+                        label:
+                          type: string
+                  area_unit:
+                    type: string
+                  currency:
+                    type: string
+  "/api_public/v1/testimonials":
+    get:
+      summary: Retrieves testimonials
+      tags:
+      - Testimonials
+      parameters:
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: featured_only
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: testimonials found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  testimonials:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        quote:
+                          type: string
+                        author_name:
+                          type: string
+                        author_role:
+                          type: string
+                          nullable: true
+                        author_photo:
+                          type: string
+                          nullable: true
+                        rating:
+                          type: integer
+                          nullable: true
+                        position:
+                          type: integer
+  "/api_public/v1/enquiries":
+    post:
+      summary: Creates a property enquiry
+      tags:
+      - Enquiries
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enquiry:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    phone:
+                      type: string
+                    message:
+                      type: string
+                    property_id:
+                      type: string
+                locale:
+                  type: string
+      responses:
+        '201':
+          description: enquiry created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      contact_id:
+                        type: integer
+                      message_id:
+                        type: integer
+  "/api_public/v1/contact":
+    post:
+      summary: Creates a contact enquiry
+      tags:
+      - Contact
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contact:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    phone:
+                      type: string
+                    subject:
+                      type: string
+                    message:
+                      type: string
+                locale:
+                  type: string
+      responses:
+        '201':
+          description: contact created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      contact_id:
+                        type: integer
+                      message_id:
+                        type: integer
+  "/api_public/v1/auth/firebase":
+    post:
+      summary: Authenticates via Firebase token
+      tags:
+      - Auth
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                verification_token:
+                  type: string
+      responses:
+        '200':
+          description: authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      firebase_uid:
+                        type: string
+                  message:
+                    type: string
+        '401':
+          description: invalid token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '400':
+          description: missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  "/api_public/v1/widgets/{widget_key}":
+    get:
+      summary: Retrieves widget configuration and properties
+      tags:
+      - Widgets
+      parameters:
+      - name: widget_key
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: widget found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  config:
+                    type: object
+                    properties:
+                      widget_key:
+                        type: string
+                      layout:
+                        type: string
+                      columns:
+                        type: integer
+                      max_properties:
+                        type: integer
+                      show_search:
+                        type: boolean
+                      show_filters:
+                        type: boolean
+                      show_pagination:
+                        type: boolean
+                      listing_type:
+                        type: string
+                        nullable: true
+                      theme:
+                        type: object
+                      visible_fields:
+                        type: object
+                  properties:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        title:
+                          type: string
+                          nullable: true
+                        url:
+                          type: string
+                        photo_url:
+                          type: string
+                          nullable: true
+                        photo_count:
+                          type: integer
+                        price:
+                          type: string
+                          nullable: true
+                        price_raw:
+                          type: integer
+                          nullable: true
+                        currency:
+                          type: string
+                          nullable: true
+                        bedrooms:
+                          type: integer
+                          nullable: true
+                        bathrooms:
+                          type: number
+                          nullable: true
+                        area:
+                          type: number
+                          nullable: true
+                        area_unit:
+                          type: string
+                          nullable: true
+                        location:
+                          type: string
+                          nullable: true
+                        reference:
+                          type: string
+                          nullable: true
+                        property_type:
+                          type: string
+                          nullable: true
+                        for_sale:
+                          type: boolean
+                        for_rent:
+                          type: boolean
+                        highlighted:
+                          type: boolean
+                  total_count:
+                    type: integer
+                  website:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      currency:
+                        type: string
+                      area_unit:
+                        type: string
+  "/api_public/v1/widgets/{widget_key}/properties":
+    get:
+      summary: Retrieves widget properties
+      tags:
+      - Widgets
+      parameters:
+      - name: widget_key
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: properties found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  properties:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        title:
+                          type: string
+                          nullable: true
+                        url:
+                          type: string
+                        photo_url:
+                          type: string
+                          nullable: true
+                        photo_count:
+                          type: integer
+                        price:
+                          type: string
+                          nullable: true
+                        price_raw:
+                          type: integer
+                          nullable: true
+                        currency:
+                          type: string
+                          nullable: true
+                        bedrooms:
+                          type: integer
+                          nullable: true
+                        bathrooms:
+                          type: number
+                          nullable: true
+                        area:
+                          type: number
+                          nullable: true
+                        area_unit:
+                          type: string
+                          nullable: true
+                        location:
+                          type: string
+                          nullable: true
+                        reference:
+                          type: string
+                          nullable: true
+                        property_type:
+                          type: string
+                          nullable: true
+                        for_sale:
+                          type: boolean
+                        for_rent:
+                          type: boolean
+                        highlighted:
+                          type: boolean
+                  pagination:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                      per_page:
+                        type: integer
+                      total_count:
+                        type: integer
+                      total_pages:
+                        type: integer
+  "/api_public/v1/widgets/{widget_key}/impression":
+    post:
+      summary: Tracks widget impression
+      tags:
+      - Widgets
+      parameters:
+      - name: widget_key
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: impression tracked
+  "/api_public/v1/widgets/{widget_key}/click":
+    post:
+      summary: Tracks widget click
+      tags:
+      - Widgets
+      parameters:
+      - name: widget_key
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: click tracked
 servers:
 - url: https://{defaultHost}
   variables:
