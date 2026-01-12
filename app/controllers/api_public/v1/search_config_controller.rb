@@ -5,11 +5,18 @@ module ApiPublic
     # SearchConfigController provides filter configuration for headless frontend search pages
     # Returns property types, price options, features, and sort options
     class SearchConfigController < BaseController
+      include ApiPublic::Cacheable
+
       # GET /api_public/v1/search/config
       def index
         website = Pwb::Current.website
         locale = params[:locale] || I18n.locale
         I18n.locale = locale
+
+        # Cache search config for 30 minutes - changes occasionally
+        etag_data = [website.id, website.updated_at, locale]
+        set_long_cache(max_age: 30.minutes, etag_data: etag_data)
+        return if performed?
 
         render json: {
           property_types: property_types_with_counts(website),
@@ -41,12 +48,13 @@ module ApiPublic
 
       def property_types_with_counts(website)
         counts = website.listed_properties
-                       .visible
-                       .group(:prop_type_key)
-                       .count
+                        .visible
+                        .group(:prop_type_key)
+                        .count
 
         counts.map do |key, count|
           next if key.blank?
+
           {
             key: key.to_s.split('.').last,
             label: I18n.t("propertyTypes.#{key.to_s.split('.').last}", default: key.to_s.split('.').last.titleize),
@@ -58,7 +66,7 @@ module ApiPublic
       def available_features(website)
         # Get features from FieldKeys if available
         feature_keys = PwbTenant::FieldKey.where(website: website, field_key_group_tag: 'feature')
-        
+
         if feature_keys.any?
           feature_keys.map do |fk|
             {

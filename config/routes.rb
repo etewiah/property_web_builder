@@ -142,7 +142,7 @@ Rails.application.routes.draw do
         post :apply
       end
     end
-    
+
     # Shard Management
     resources :shards, only: %i[index show] do
       member do
@@ -154,7 +154,7 @@ Rails.application.routes.draw do
         get :health_summary
       end
     end
-    
+
     # Shard operations on websites
     resources :websites do
       member do
@@ -163,7 +163,7 @@ Rails.application.routes.draw do
         get :shard_history
       end
     end
-    
+
     # Shard Audit Logs
     resources :shard_audit_logs, only: %i[index show] do
       collection do
@@ -721,6 +721,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get "/properties/:id" => "properties#show"
       get "/properties" => "properties#search"
+      get "/properties/:id/schema" => "properties#schema"
       get "/pages/:id" => "pages#show"
       get "/pages/by_slug/:slug" => "pages#show_by_slug"
       get "/translations" => "translations#index"
@@ -729,10 +730,29 @@ Rails.application.routes.draw do
       get "/select_values" => "select_values#index"
       get "/theme" => "theme#index"
       get "/search/config" => "search_config#index"
+      get "/search/facets" => "search_facets#index"
       get "/testimonials" => "testimonials#index"
+      get "/locales" => "locales#index"
       post "/enquiries" => "enquiries#create"
       post "/contact" => "contact#create"
       post "/auth/firebase" => "auth#firebase"
+
+      # Favorites API (server-persisted)
+      resources :favorites, only: [:index, :show, :create, :update, :destroy] do
+        collection do
+          post :check
+        end
+      end
+
+      # Saved Searches API
+      resources :saved_searches, only: [:index, :show, :create, :update, :destroy] do
+        member do
+          post :unsubscribe
+        end
+        collection do
+          get :verify
+        end
+      end
 
       # Embeddable Widget API
       get "/widgets/:widget_key" => "widgets#show"

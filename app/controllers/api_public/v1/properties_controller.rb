@@ -1,7 +1,7 @@
 module ApiPublic
   module V1
     class PropertiesController < BaseController
-      # TODO: Add authentication if needed, similar to other API controllers
+      include ApiPublic::Cacheable
 
       def show
         locale = params[:locale] || I18n.default_locale
@@ -10,6 +10,10 @@ module ApiPublic
         scope = Pwb::Current.website.listed_properties
         property = scope.find_by(slug: params[:id]) || scope.find_by(id: params[:id])
         raise ActiveRecord::RecordNotFound unless property
+
+        set_short_cache(max_age: 5.minutes, etag_data: [property.id, property.updated_at])
+        return if performed?
+
         render json: property.as_json
       rescue ActiveRecord::RecordNotFound
         render json: { error: "Property not found" }, status: :not_found
@@ -36,22 +40,18 @@ module ApiPublic
         properties = Pwb::Current.website.listed_properties.properties_search(**args)
 
         # Filter by highlighted/featured if requested
-        if params[:highlighted] == 'true' || params[:featured] == 'true'
-          properties = properties.where(highlighted: true)
-        end
+        properties = properties.where(highlighted: true) if params[:highlighted] == 'true' || params[:featured] == 'true'
 
         # Sorting support for API clients
         properties = apply_sorting(properties, params[:sort_by] || params[:sort])
 
         # Apply limit if specified
-        if params[:limit].present?
-          properties = properties.limit(params[:limit].to_i)
-        end
+        properties = properties.limit(params[:limit].to_i) if params[:limit].present?
 
         # Pagination support
         page = (params[:page] || 1).to_i
         per_page = (params[:per_page] || 12).to_i
-        
+
         # Simple pagination using offset/limit
         total_count = properties.count
         total_pages = (total_count.to_f / per_page).ceil
@@ -60,6 +60,7 @@ module ApiPublic
         # Generate map markers
         map_markers = paginated_properties.map do |prop|
           next unless prop.latitude.present? && prop.longitude.present?
+
           {
             id: prop.id,
             slug: prop.slug,
@@ -72,6 +73,9 @@ module ApiPublic
           }
         end.compact
 
+        # Short cache for search results
+        set_short_cache(max_age: 2.minutes)
+
         render json: {
           data: paginated_properties.as_json,
           map_markers: map_markers,
@@ -82,6 +86,24 @@ module ApiPublic
             total_pages: total_pages
           }
         }
+      end
+
+      # GET /api_public/v1/properties/:id/schema
+      # Returns JSON-LD structured data for SEO
+      def schema
+        locale = params[:locale] || I18n.default_locale
+        I18n.locale = locale
+
+        scope = Pwb::Current.website.listed_properties
+        property = scope.find_by(slug: params[:id]) || scope.find_by(id: params[:id])
+        raise ActiveRecord::RecordNotFound unless property
+
+        set_long_cache(max_age: 1.hour, etag_data: [property.id, property.updated_at])
+        return if performed?
+
+        render json: build_json_ld(property)
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: "Property not found" }, status: :not_found
       end
 
       private
@@ -101,6 +123,75 @@ module ApiPublic
         else
           scope
         end
+      end
+
+      def build_json_ld(property)
+        website = Pwb::Current.website
+
+        {
+          '@context': "https://schema.org",
+          '@type': "RealEstateListing",
+          name: property.title,
+          description: strip_tags(property.description).to_s.truncate(500),
+          url: "#{request.protocol}#{request.host_with_port}/properties/#{property.slug}",
+          datePosted: property.created_at&.iso8601,
+          offers: {
+            '@type': "Offer",
+            price: property_price(property),
+            priceCurrency: property.respond_to?(:currency) ? property.currency : "EUR",
+            availability: "https://schema.org/InStock"
+          },
+          address: {
+            '@type': "PostalAddress",
+            streetAddress: property.respond_to?(:address) ? property.address : nil,
+            addressLocality: property.locality,
+            addressRegion: property.zone,
+            addressCountry: property.respond_to?(:country_code) ? property.country_code : nil
+          }.compact,
+          geo: if property.latitude.present?
+                 {
+                   '@type': "GeoCoordinates",
+                   latitude: property.latitude,
+                   longitude: property.longitude
+                 }
+               else
+                 nil
+               end,
+          image: property_images(property),
+          numberOfRooms: property.count_bedrooms,
+          numberOfBathroomsTotal: property.count_bathrooms,
+          floorSize: if property.respond_to?(:plot_area) && property.plot_area.present?
+                       {
+                         '@type': "QuantitativeValue",
+                         value: property.plot_area,
+                         unitCode: "MTK"
+                       }
+                     else
+                       nil
+                     end
+        }.compact
+      end
+
+      def property_price(property)
+        if property.respond_to?(:price_sale_current_cents) && property.price_sale_current_cents.present?
+          property.price_sale_current_cents / 100
+        elsif property.respond_to?(:price_rental_monthly_current_cents) && property.price_rental_monthly_current_cents.present?
+          property.price_rental_monthly_current_cents / 100
+        else
+          nil
+        end
+      end
+
+      def property_images(property)
+        return [] unless property.respond_to?(:photo_urls)
+
+        property.photo_urls.first(10)
+      rescue StandardError
+        []
+      end
+
+      def strip_tags(html)
+        ActionController::Base.helpers.strip_tags(html)
       end
     end
   end
