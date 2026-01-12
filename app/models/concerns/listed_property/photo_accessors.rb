@@ -14,10 +14,17 @@ module ListedProperty
     end
 
     # Returns the URL for the primary (first) image
+    # Supports both external URLs and Active Storage attachments
     # @return [String] the image URL or empty string if no image
     def primary_image_url
       first_photo = ordered_photo(1)
-      if prop_photos.any? && first_photo&.image&.attached?
+      return "" unless first_photo&.has_image?
+
+      if first_photo.external?
+        # Return external URL directly
+        first_photo.external_url
+      elsif first_photo.image.attached?
+        # Generate Active Storage URL
         Rails.application.routes.url_helpers.rails_blob_url(
           first_photo.image,
           host: resolve_asset_host

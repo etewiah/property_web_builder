@@ -242,15 +242,30 @@ module Pwb
     private
 
     def serialize_photo(photo)
-      return nil unless photo.image.attached?
+      # Support both external URLs and Active Storage attachments
+      return nil unless photo.has_image?
 
-      {
-        'id' => photo.id,
-        'url' => absolute_image_url(photo.image),
-        'alt' => photo.respond_to?(:caption) ? photo.caption.presence : nil,
-        'position' => photo.sort_order,
-        'variants' => generate_image_variants(photo.image)
-      }
+      if photo.external?
+        # Use external URL directly
+        {
+          'id' => photo.id,
+          'url' => photo.external_url,
+          'alt' => photo.respond_to?(:caption) ? photo.caption.presence : nil,
+          'position' => photo.sort_order,
+          'variants' => {}
+        }
+      elsif photo.image.attached?
+        # Use Active Storage
+        {
+          'id' => photo.id,
+          'url' => absolute_image_url(photo.image),
+          'alt' => photo.respond_to?(:caption) ? photo.caption.presence : nil,
+          'position' => photo.sort_order,
+          'variants' => generate_image_variants(photo.image)
+        }
+      else
+        nil
+      end
     end
 
     def absolute_image_url(image)
