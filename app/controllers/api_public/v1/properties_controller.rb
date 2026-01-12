@@ -36,7 +36,7 @@ module ApiPublic
         properties = Pwb::Current.website.listed_properties.properties_search(**args)
 
         # Filter by highlighted/featured if requested
-        if params[:highlighted] == 'true'
+        if params[:highlighted] == 'true' || params[:featured] == 'true'
           properties = properties.where(highlighted: true)
         end
 

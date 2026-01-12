@@ -92,7 +92,12 @@ module Pwb
       elsif link_path.present?
         # Generate a basic path from the route helper name
         path_name = link_path.gsub('_path', '')
-        "/#{I18n.locale}/#{path_name}"
+        # Use link_path_params if available (e.g., for show_page_path with a slug)
+        if link_path_params.present?
+          "/#{I18n.locale}/#{link_path_params}"
+        else
+          "/#{I18n.locale}/#{path_name}"
+        end
       elsif page_slug.present?
         "/#{I18n.locale}/#{page_slug}"
       else

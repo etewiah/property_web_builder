@@ -90,5 +90,13 @@ module ListedProperty
       ].reject { |p| p.nil? || p.cents < 1 }
       prices.min
     end
+
+    # Returns a formatted price string for display
+    # Automatically detects whether to show sale or rental price
+    # @return [String, nil] formatted price string with currency
+    def formatted_price
+      rent_or_sale = for_rent ? "for_rent" : "for_sale"
+      contextual_price_with_currency(rent_or_sale)
+    end
   end
 end
