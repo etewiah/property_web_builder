@@ -148,15 +148,57 @@ This section maps each frontend function to the available `api_public` endpoints
 ### Auth (public)
 - Firebase login helper: `POST /api_public/v1/auth/firebase` (token[, verification_token]) → [app/controllers/api_public/v1/auth_controller.rb](app/controllers/api_public/v1/auth_controller.rb). Grants membership if needed.
 
-## 16) Gaps & Suggested API Additions for JS Clients
-- Favorites (server): add CRUD endpoints for saved properties (`/api_public/v1/favorites`) mirroring `/my/favorites` flows, including manage/unsubscribe tokens and price-change flags. Needed to avoid scraping HTML modals.
-- Saved searches: add CRUD + verify/unsubscribe endpoints for saved search definitions (`/api_public/v1/saved_searches`) returning manage tokens and alert frequencies.
-- Page parts feed: extend Pages API to optionally include resolved page-part data (ordered, visible-only) plus rendered Liquid-safe JSON so headless clients can render page sections without duplicating composition logic. Consider `include_parts=true` flag.
-- Search facets: add lightweight `/api_public/v1/search/facets` (counts per type/zone/locality/features) to avoid heavy full-search calls when building filter UIs.
-- CDN/cache hints: include `Cache-Control/ETag` on static-ish endpoints (theme, site_details, links, search/config, translations) and return `last_modified` fields for client caching. Consider `If-None-Match` handling.
-- Map tiles/meta: expose map defaults (tile URL, attribution, default zoom, scroll setting) via theme or site details to keep client and SSR behavior aligned.
-- Language/locale list: add `/api_public/v1/locales` returning enabled locales and default locale per site, to avoid hardcoding language options in clients.
-- Media variants: for properties and testimonials, include explicit image variant URLs (thumb, medium, full) to let clients pick responsive sizes without guessing.
+## 16) Additional Public APIs for JS Clients
+
+The following APIs complete the headless client support:
+
+### Favorites API
+Full CRUD for server-persisted favorites with token-based access:
+- `POST /api_public/v1/favorites` - Create favorite (returns `manage_token`)
+- `GET /api_public/v1/favorites?token=XXX` - List all favorites for email
+- `GET /api_public/v1/favorites/:id?token=XXX` - Single favorite
+- `PATCH /api_public/v1/favorites/:id?token=XXX` - Update notes
+- `DELETE /api_public/v1/favorites/:id?token=XXX` - Remove favorite
+- `POST /api_public/v1/favorites/check` - Check which refs are already saved
+
+→ [favorites_controller.rb](app/controllers/api_public/v1/favorites_controller.rb)
+
+### Saved Searches API
+Full CRUD for saved search definitions with alert management:
+- `POST /api_public/v1/saved_searches` - Create search (returns `manage_token`)
+- `GET /api_public/v1/saved_searches?token=XXX` - List searches for email
+- `GET /api_public/v1/saved_searches/:id?token=XXX` - Single search with recent alerts
+- `PATCH /api_public/v1/saved_searches/:id?token=XXX` - Update frequency/name
+- `DELETE /api_public/v1/saved_searches/:id?token=XXX` - Remove search
+- `POST /api_public/v1/saved_searches/:id/unsubscribe?token=XXX` - Disable alerts
+- `GET /api_public/v1/saved_searches/verify?token=XXX` - Verify email
+
+→ [saved_searches_controller.rb](app/controllers/api_public/v1/saved_searches_controller.rb)
+
+### Locales API
+Available locales for language switcher and hreflang generation:
+- `GET /api_public/v1/locales` - Returns `default_locale`, `available_locales[]`, `current_locale`
+
+→ [locales_controller.rb](app/controllers/api_public/v1/locales_controller.rb)
+
+### Search Facets API
+Lightweight filter counts without full search:
+- `GET /api_public/v1/search/facets?sale_or_rental=sale` - Returns counts per type/zone/locality/beds/baths/price_range
+
+→ [search_facets_controller.rb](app/controllers/api_public/v1/search_facets_controller.rb)
+
+### JSON-LD Schema Endpoint
+Pre-built structured data for SEO:
+- `GET /api_public/v1/properties/:id/schema` - Returns `RealEstateListing` JSON-LD
+
+→ [properties_controller.rb](app/controllers/api_public/v1/properties_controller.rb)
+
+### Image Variants
+Responsive image URLs via query param:
+- `GET /api_public/v1/properties?include_images=variants` - Includes `images[]` with `thumbnail/small/medium/large/original` URLs
+
+### Caching
+All endpoints include appropriate `Cache-Control` and ETag headers via [cacheable.rb](app/controllers/concerns/api_public/cacheable.rb).
 
 ## 17) Performance & Caching Guidance for JS Clients
 - Use ETags / Cache-Control: theme, site_details, translations, links, search/config are good candidates for long-lived caching with revalidation; properties/search should set short TTL + ETag.

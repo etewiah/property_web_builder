@@ -784,7 +784,7 @@ end
 - [x] Add routes for both controllers
 - [x] Create request specs: `spec/requests/api_public/v1/favorites_spec.rb`
 - [x] Create request specs: `spec/requests/api_public/v1/saved_searches_spec.rb`
-- [ ] Update Swagger documentation
+- [x] Update Swagger documentation
 
 ### Phase 2 (P1 - Week 2-3)
 - [x] Create `app/controllers/api_public/v1/locales_controller.rb`
@@ -796,15 +796,15 @@ end
 ### Phase 3 (P2 - Week 3-4)
 - [x] Create `app/controllers/api_public/v1/search_facets_controller.rb`
 - [x] Add `#schema` action to properties controller
-- [ ] Create `app/controllers/concerns/api_public/image_variants.rb`
-- [ ] Update property JSON serialization with image variants
+- [x] Create `app/controllers/concerns/api_public/image_variants.rb`
+- [x] Update property JSON serialization with image variants
 - [x] Add request specs for search_facets
 
 ### Phase 4 (P3 - Week 4)
 - [x] Add `map_config` to theme response
 - [x] Add `analytics` to site_details response
-- [ ] Update E2E tests for new endpoints
-- [ ] Update public_frontend_functionality.md with finalized API docs
+- [x] Update E2E tests for new endpoints
+- [x] Update public_frontend_functionality.md with finalized API docs
 
 ---
 

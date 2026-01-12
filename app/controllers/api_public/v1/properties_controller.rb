@@ -2,6 +2,7 @@ module ApiPublic
   module V1
     class PropertiesController < BaseController
       include ApiPublic::Cacheable
+      include ApiPublic::ImageVariants
 
       def show
         locale = params[:locale] || I18n.default_locale
@@ -14,7 +15,7 @@ module ApiPublic
         set_short_cache(max_age: 5.minutes, etag_data: [property.id, property.updated_at])
         return if performed?
 
-        render json: property.as_json
+        render json: property_response(property)
       rescue ActiveRecord::RecordNotFound
         render json: { error: "Property not found" }, status: :not_found
       end
@@ -77,7 +78,7 @@ module ApiPublic
         set_short_cache(max_age: 2.minutes)
 
         render json: {
-          data: paginated_properties.as_json,
+          data: paginated_properties.map { |p| property_response(p, summary: true) },
           map_markers: map_markers,
           meta: {
             total: total_count,
@@ -192,6 +193,45 @@ module ApiPublic
 
       def strip_tags(html)
         ActionController::Base.helpers.strip_tags(html)
+      end
+
+      # Build property JSON response, optionally including image variants
+      # @param property [Object] The property record
+      # @param summary [Boolean] If true, returns abbreviated data for list views
+      # @return [Hash] Property JSON representation
+      def property_response(property, summary: false)
+        include_images = params[:include_images]
+
+        json = summary ? property_summary_json(property) : property.as_json
+
+        # Include image variants if requested
+        if include_images == "variants" && property.respond_to?(:prop_photos)
+          json[:images] = images_with_variants(property.prop_photos, limit: summary ? 3 : 10)
+        end
+
+        json
+      end
+
+      # Abbreviated property data for list views
+      def property_summary_json(property)
+        {
+          id: property.id,
+          slug: property.slug,
+          reference: property.reference,
+          title: property.title,
+          price_sale_current_cents: property.price_sale_current_cents,
+          price_rental_monthly_current_cents: property.price_rental_monthly_current_cents,
+          formatted_price: property.formatted_price,
+          currency: property.currency,
+          count_bedrooms: property.count_bedrooms,
+          count_bathrooms: property.count_bathrooms,
+          count_garages: property.count_garages,
+          highlighted: property.highlighted,
+          for_sale: property.for_sale?,
+          for_rent: property.for_rent?,
+          primary_image_url: property.primary_image_url,
+          prop_photos: property.try(:prop_photos)&.first(3)&.map { |p| { image: p.try(:image_url) || p.try(:url) } }
+        }.compact
       end
     end
   end
