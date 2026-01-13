@@ -39,29 +39,42 @@ module ApiPublic
         I18n.locale = locale if locale.present?
 
         website = Pwb::Current.website
+        palette_id = params[:palette_id].presence
 
         # Cache theme for 1 hour - changes infrequently
-        etag_data = [website.id, website.updated_at, website.style_variables]
+        etag_data = [website.id, website.updated_at, website.style_variables, palette_id]
         set_long_cache(max_age: 1.hour, etag_data: etag_data)
         return if performed?
 
         render json: {
-          theme: build_theme_response(website)
+          theme: build_theme_response(website, palette_id: palette_id)
         }
       end
 
       private
 
-      def build_theme_response(website)
+      def build_theme_response(website, palette_id: nil)
+        theme = website.current_theme
+        palette_override = palette_id.present? && theme&.valid_palette?(palette_id) ? palette_id : nil
+        base_vars = website.style_variables_for_theme&.dig("default") ||
+          Pwb::WebsiteStyleable::DEFAULT_STYLE_VARIABLES.dup
+        palette_colors = palette_override ? theme.palette_colors(palette_override) : nil
+        colors = palette_colors.present? ? base_vars.merge(palette_colors) : website.style_variables
+        css_variables = if palette_override && theme
+          website.palette_loader.generate_full_css(theme.name, palette_override)
+        else
+          website.css_variables_with_dark_mode
+        end
+
         {
           name: website.theme_name || "default",
-          palette_id: website.effective_palette_id,
+          palette_id: palette_override || website.effective_palette_id,
           palette_mode: website.respond_to?(:palette_mode) ? (website.palette_mode || "dynamic") : "dynamic",
-          colors: website.style_variables,
+          colors: colors,
           fonts: extract_fonts(website),
           border_radius: extract_border_radius(website),
           dark_mode: build_dark_mode_config(website),
-          css_variables: website.css_variables_with_dark_mode,
+          css_variables: css_variables,
           custom_css: website.respond_to?(:raw_css) ? website.raw_css : nil,
           map_config: build_map_config(website)
         }

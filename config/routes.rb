@@ -729,6 +729,8 @@ Rails.application.routes.draw do
       get "/site_details" => "site_details#index"
       get "/select_values" => "select_values#index"
       get "/theme" => "theme#index"
+      get "/themes/:theme_name/palettes" => "theme_palettes#index"
+      get "/themes/:theme_name/palettes/:palette_id" => "theme_palettes#show"
       get "/search/config" => "search_config#index"
       get "/search/facets" => "search_facets#index"
       get "/testimonials" => "testimonials#index"

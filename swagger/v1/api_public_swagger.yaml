@@ -918,6 +918,11 @@ paths:
         required: false
         schema:
           type: string
+      - name: palette_id
+        in: query
+        required: false
+        schema:
+          type: string
       responses:
         '200':
           description: theme found
@@ -974,6 +979,103 @@ paths:
                       custom_css:
                         type: string
                         nullable: true
+  "/api_public/v1/themes/{theme_name}/palettes":
+    get:
+      summary: Lists available palettes for a theme
+      tags:
+      - Theme Palettes
+      parameters:
+      - name: theme_name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: palette list found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  theme:
+                    type: string
+                  palettes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        description:
+                          type: string
+                          nullable: true
+                        preview_colors:
+                          type: array
+                          items:
+                            type: string
+                        is_default:
+                          type: boolean
+                        supports_dark_mode:
+                          type: boolean
+                        has_explicit_dark_mode:
+                          type: boolean
+  "/api_public/v1/themes/{theme_name}/palettes/{palette_id}":
+    get:
+      summary: Retrieves a single palette for a theme
+      tags:
+      - Theme Palettes
+      parameters:
+      - name: theme_name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: palette_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: palette found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  theme:
+                    type: string
+                  palette:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      description:
+                        type: string
+                        nullable: true
+                      preview_colors:
+                        type: array
+                        items:
+                          type: string
+                      is_default:
+                        type: boolean
+                      supports_dark_mode:
+                        type: boolean
+                      colors:
+                        type: object
+                        additionalProperties:
+                          type: string
+                      modes:
+                        type: object
+                        additionalProperties:
+                          type: object
+                      css_variables:
+                        type: string
   "/api_public/v1/search/config":
     get:
       summary: Retrieves search configuration
