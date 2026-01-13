@@ -2,6 +2,7 @@ module ApiPublic
   module V1
     class PagesController < BaseController
       include ApiPublic::Cacheable
+      include UrlLocalizationHelper
 
       def show
         unless website_provisioned?
@@ -69,10 +70,37 @@ module ApiPublic
       def page_json(page)
         json = page.as_json
 
-        # Include page parts if requested
+        # Include page parts if requested (legacy - metadata only)
         json["page_parts"] = build_page_parts(page) if params[:include_parts] == "true"
 
+        # Include rendered page contents with pre-rendered HTML
+        # This is the preferred approach for frontend clients that need to display content
+        json["page_contents"] = build_rendered_page_contents(page) if params[:include_rendered] == "true"
+
         json
+      end
+
+      # Build rendered page contents with pre-rendered HTML
+      # This matches how Pwb::PagesController#show_page works
+      # The HTML is already rendered via Liquid and stored in Content.raw
+      def build_rendered_page_contents(page)
+        return [] unless page.respond_to?(:ordered_visible_page_contents)
+
+        page.ordered_visible_page_contents.map do |page_content|
+          raw_html = page_content.is_rails_part ? nil : page_content.content&.raw
+          # Localize URLs in HTML content based on current locale
+          localized_html = raw_html.present? ? localize_html_urls(raw_html) : nil
+
+          {
+            page_part_key: page_content.page_part_key,
+            sort_order: page_content.sort_order,
+            visible: page_content.visible_on_page,
+            is_rails_part: page_content.is_rails_part || false,
+            rendered_html: localized_html,
+            # Include label for debugging/admin purposes
+            label: page_content.label
+          }
+        end
       end
 
       def build_page_parts(page)
