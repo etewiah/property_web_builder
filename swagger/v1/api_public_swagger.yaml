@@ -1,9 +1,440 @@
----
 openapi: 3.0.1
 info:
   title: API Public V1
   version: v1
 paths:
+  "/api_public/v1/favorites":
+    get:
+      summary: List all favorites for a user (token-based)
+      tags: [Favorites]
+      parameters:
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of favorites
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                  favorites:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Favorite'
+        '401':
+          description: Invalid token
+    post:
+      summary: Create a new favorite
+      tags: [Favorites]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                favorite:
+                  $ref: '#/components/schemas/FavoriteInput'
+      responses:
+        '201':
+          description: Favorite created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  favorite:
+                    $ref: '#/components/schemas/Favorite'
+                  manage_token:
+                    type: string
+                  manage_url:
+                    type: string
+        '422':
+          description: Validation error
+  "/api_public/v1/favorites/{id}":
+    get:
+      summary: Get a single favorite
+      tags: [Favorites]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Favorite found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Favorite'
+        '401':
+          description: Invalid token
+    patch:
+      summary: Update a favorite (notes)
+      tags: [Favorites]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                favorite:
+                  type: object
+                  properties:
+                    notes:
+                      type: string
+      responses:
+        '200':
+          description: Favorite updated
+        '401':
+          description: Invalid token
+    delete:
+      summary: Delete a favorite
+      tags: [Favorites]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Favorite deleted
+        '401':
+          description: Invalid token
+  "/api_public/v1/favorites/check":
+    post:
+      summary: Check which references are already saved for an email
+      tags: [Favorites]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                references:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Saved references
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  saved:
+                    type: array
+                    items:
+                      type: string
+
+  "/api_public/v1/saved_searches":
+    get:
+      summary: List all saved searches for a user (token-based)
+      tags: [Saved Searches]
+      parameters:
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of saved searches
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                  saved_searches:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SavedSearch'
+        '401':
+          description: Invalid token
+    post:
+      summary: Create a new saved search
+      tags: [Saved Searches]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                saved_search:
+                  $ref: '#/components/schemas/SavedSearchInput'
+      responses:
+        '201':
+          description: Saved search created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  saved_search:
+                    $ref: '#/components/schemas/SavedSearch'
+                  manage_token:
+                    type: string
+                  manage_url:
+                    type: string
+                  verification_required:
+                    type: boolean
+        '422':
+          description: Validation error
+  "/api_public/v1/saved_searches/{id}":
+    get:
+      summary: Get a single saved search
+      tags: [Saved Searches]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Saved search found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedSearch'
+        '401':
+          description: Invalid token
+    patch:
+      summary: Update a saved search
+      tags: [Saved Searches]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                saved_search:
+                  $ref: '#/components/schemas/SavedSearchInput'
+      responses:
+        '200':
+          description: Saved search updated
+        '401':
+          description: Invalid token
+    delete:
+      summary: Delete a saved search
+      tags: [Saved Searches]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Saved search deleted
+        '401':
+          description: Invalid token
+  "/api_public/v1/saved_searches/{id}/unsubscribe":
+    post:
+      summary: Unsubscribe from saved search alerts
+      tags: [Saved Searches]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Unsubscribed
+        '401':
+          description: Invalid token
+  "/api_public/v1/saved_searches/verify":
+    get:
+      summary: Verify saved search email
+      tags: [Saved Searches]
+      parameters:
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Email verified
+        '404':
+          description: Invalid verification token
+
+  "/api_public/v1/locales":
+    get:
+      summary: List available locales
+      tags: [Locales]
+      responses:
+        '200':
+          description: List of locales
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  default_locale:
+                    type: string
+                  available_locales:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                        name:
+                          type: string
+                        native_name:
+                          type: string
+                        flag_emoji:
+                          type: string
+                        url_prefix:
+                          type: string
+                          nullable: true
+                  current_locale:
+                    type: string
+
+  "/api_public/v1/search/facets":
+    get:
+      summary: Get search filter facet counts
+      tags: [Search Facets]
+      parameters:
+        - name: sale_or_rental
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Facet counts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_count:
+                    type: integer
+                  property_types:
+                    type: object
+                    additionalProperties:
+                      type: integer
+                  zones:
+                    type: object
+                    additionalProperties:
+                      type: integer
+                  localities:
+                    type: object
+                    additionalProperties:
+                      type: integer
+                  bedrooms:
+                    type: object
+                    additionalProperties:
+                      type: integer
+                  bathrooms:
+                    type: object
+                    additionalProperties:
+                      type: integer
+                  price_ranges:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        label:
+                          type: string
+                        count:
+                          type: integer
+                        min:
+                          type: integer
+                        max:
+                          type: integer
+
+  "/api_public/v1/properties/{id}/schema":
+    get:
+      summary: Get JSON-LD schema for a property
+      tags: [Properties]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: JSON-LD schema
+          content:
+            application/ld+json:
+              schema:
+                type: object
+        '404':
+          description: property not found
+
   "/api_public/v1/properties/{id}":
     get:
       summary: Retrieves a property
@@ -1057,6 +1488,115 @@ paths:
       responses:
         '200':
           description: click tracked
+components:
+  schemas:
+    Favorite:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        provider:
+          type: string
+        external_reference:
+          type: string
+        notes:
+          type: string
+        title:
+          type: string
+        price:
+          type: object
+        price_formatted:
+          type: string
+        image_url:
+          type: string
+        property_url:
+          type: string
+        original_price_cents:
+          type: integer
+        current_price_cents:
+          type: integer
+        price_changed:
+          type: boolean
+        price_changed_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        manage_token:
+          type: string
+    FavoriteInput:
+      type: object
+      properties:
+        email:
+          type: string
+        provider:
+          type: string
+        external_reference:
+          type: string
+        notes:
+          type: string
+        property_data:
+          type: object
+    SavedSearch:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        search_criteria:
+          type: object
+        alert_frequency:
+          type: string
+        enabled:
+          type: boolean
+        email_verified:
+          type: boolean
+        last_run_at:
+          type: string
+          format: date-time
+        last_result_count:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        manage_token:
+          type: string
+        unsubscribe_token:
+          type: string
+        recent_alerts:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              new_properties_count:
+                type: integer
+              sent_at:
+                type: string
+                format: date-time
+              created_at:
+                type: string
+                format: date-time
+    SavedSearchInput:
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        alert_frequency:
+          type: string
+        search_criteria:
+          type: object
+        enabled:
+          type: boolean
 servers:
 - url: https://{defaultHost}
   variables:
