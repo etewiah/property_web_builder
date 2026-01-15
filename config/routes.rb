@@ -755,6 +755,11 @@ Rails.application.routes.draw do
       post "/auth/firebase" => "auth#firebase"
       get "/all-themes" => "all_themes#index"
 
+      # Client Themes API (for Astro A themes)
+      get "/client-themes" => "client_themes#index"
+      get "/client-themes/:name" => "client_themes#show"
+      get "/client-config" => "website_client_config#show"
+
       # Favorites API (server-persisted)
       resources :favorites, only: [:index, :show, :create, :update, :destroy] do
         collection do

@@ -35,6 +35,7 @@ module TenantAdmin
       @website = Pwb::Website.new
       @themes = Pwb::Theme.enabled
       @all_themes = @themes
+      @client_themes = Pwb::ClientTheme.enabled
     end
 
     def create
@@ -117,6 +118,7 @@ module TenantAdmin
       # @website set by before_action
       @themes = Pwb::Theme.enabled
       @all_themes = @themes
+      @client_themes = Pwb::ClientTheme.enabled
     end
 
     def update
@@ -125,6 +127,7 @@ module TenantAdmin
       else
         @themes = Pwb::Theme.enabled
         @all_themes = @themes
+        @client_themes = Pwb::ClientTheme.enabled
         render :edit, status: :unprocessable_entity
       end
     end
@@ -222,6 +225,8 @@ module TenantAdmin
         :analytics_id,
         :analytics_id_type,
         :raw_css,
+        :rendering_mode,
+        :client_theme_name,
         :landing_hide_for_rent,
         :landing_hide_for_sale,
         :landing_hide_search_bar,
