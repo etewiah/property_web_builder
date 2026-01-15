@@ -38,8 +38,17 @@ module Pwb
         end
       end
       theme_name = theme_name.present? ? theme_name : "default"
-      # Use Rails.root for theme paths
-      prepend_view_path "#{Rails.root}/app/themes/#{theme_name}/views/"
+
+      # Use Theme model's view_paths for proper inheritance support
+      # This allows child themes to automatically inherit views from parent themes
+      theme = Theme.find_by(name: theme_name) || Theme.find_by(name: "default")
+      if theme
+        # Prepend in reverse order so theme-specific paths have highest priority
+        theme.view_paths.reverse_each { |path| prepend_view_path path }
+      else
+        # Fallback to hardcoded path if theme not found
+        prepend_view_path "#{Rails.root}/app/themes/#{theme_name}/views/"
+      end
 
       self.class.layout "layouts/pwb/application"
     end
