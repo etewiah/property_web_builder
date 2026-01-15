@@ -71,6 +71,9 @@ Rails.application.configure do
     config.action_mailer.delivery_method = :test
   end
 
+  # Allow setting log level via environment variable (default to :debug)
+  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "debug").to_sym
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
@@ -110,12 +113,13 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 
   config.after_initialize do
-    Bullet.enable        = true
-    Bullet.alert         = false
-    Bullet.bullet_logger = true
-    Bullet.console       = true
-    Bullet.rails_logger  = true
-    Bullet.add_footer    = true
+    # Bullet configuration with fine-grained control via environment variables
+    Bullet.enable        = ENV.fetch("BULLET_ENABLED", "true") == "true"
+    Bullet.alert         = ENV.fetch("BULLET_ALERT", "false") == "true"
+    Bullet.bullet_logger = ENV.fetch("BULLET_LOGGER", "true") == "true"
+    Bullet.console       = ENV.fetch("BULLET_CONSOLE", "true") == "true"
+    Bullet.rails_logger  = ENV.fetch("BULLET_RAILS_LOGGER", "true") == "true"
+    Bullet.add_footer    = ENV.fetch("BULLET_FOOTER", "true") == "true"
 
     # Safelist for known false positives:
     # PropPhoto => image_attachment is eagerly loaded for ActiveStorage images,

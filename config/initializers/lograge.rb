@@ -2,6 +2,10 @@
 
 # Lograge configuration for structured logging
 # Converts Rails logs from verbose multi-line format to single-line JSON
+#
+# Control via environment variables:
+# LOGRAGE_ENABLED=true      - Force enable lograge (e.g. in development)
+# LOGRAGE_KEEP_ORIGINAL=true - Keep original Rails logs alongside Lograge
 
 Rails.application.configure do
   # Enable lograge for all environments except development (optional)
@@ -78,7 +82,7 @@ Rails.application.configure do
   end
 
   # Keep original Rails logger for other logs
-  config.lograge.keep_original_rails_log = false
+  config.lograge.keep_original_rails_log = ENV['LOGRAGE_KEEP_ORIGINAL'] == 'true'
 
   # Ignore certain paths (health checks, assets)
   config.lograge.ignore_actions = [
