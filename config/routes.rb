@@ -738,6 +738,7 @@ Rails.application.routes.draw do
       post "/enquiries" => "enquiries#create"
       post "/contact" => "contact#create"
       post "/auth/firebase" => "auth#firebase"
+      get "/all-themes" => "all_themes#index"
 
       # Favorites API (server-persisted)
       resources :favorites, only: [:index, :show, :create, :update, :destroy] do
