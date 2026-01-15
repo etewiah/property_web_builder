@@ -1,0 +1,459 @@
+openapi: 3.1.0
+info:
+  title: PropertyWebBuilder Public API
+  description: |
+    Public API for PropertyWebBuilder headless frontends (Astro, React, etc.).
+    
+    ## Authentication
+    Most endpoints are public and do not require authentication.
+    Some endpoints may require tenant identification via subdomain or `X-Website-Slug` header.
+    
+    ## Caching
+    Responses include appropriate `Cache-Control` and `ETag` headers.
+    Clients should respect these for optimal performance.
+  version: 1.0.0
+  contact:
+    name: PropertyWebBuilder
+    url: https://propertywebbuilder.com
+
+servers:
+  - url: /api_public/v1
+    description: API v1 (relative to tenant subdomain)
+
+tags:
+  - name: Theme
+    description: Theme and styling configuration
+  - name: Configuration
+    description: Website configuration
+  - name: Properties
+    description: Property listings
+  - name: Pages
+    description: CMS page content
+
+paths:
+  /theme:
+    get:
+      summary: Get theme configuration
+      description: Returns complete theme data including colors, fonts, and CSS variables.
+      operationId: getTheme
+      tags: [Theme]
+      parameters:
+        - name: locale
+          in: query
+          description: Locale code for translations
+          schema:
+            type: string
+            example: en
+        - name: palette_id
+          in: query
+          description: Override palette for preview
+          schema:
+            type: string
+            example: ocean_blue
+      responses:
+        '200':
+          description: Theme configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThemeResponse'
+              example:
+                theme:
+                  name: brisbane
+                  palette_id: ocean_blue
+                  colors:
+                    primary_color: "#3B82F6"
+                    secondary_color: "#10B981"
+                  fonts:
+                    heading: "Playfair Display"
+                    body: "Inter"
+                  dark_mode:
+                    enabled: true
+                    setting: auto
+                  css_variables: ":root { --pwb-primary-color: #3B82F6; }"
+
+  /client-config:
+    get:
+      summary: Get client rendering configuration
+      description: Returns configuration for client-rendered (Astro) sites.
+      operationId: getClientConfig
+      tags: [Configuration]
+      responses:
+        '200':
+          description: Client configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientConfigResponse'
+        '404':
+          description: Client rendering not enabled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /site-details:
+    get:
+      summary: Get site metadata
+      description: Returns website metadata, locales, and analytics configuration.
+      operationId: getSiteDetails
+      tags: [Configuration]
+      parameters:
+        - name: locale
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Site details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteDetailsResponse'
+
+  /properties:
+    get:
+      summary: Search properties
+      description: Search and filter property listings with pagination.
+      operationId: searchProperties
+      tags: [Properties]
+      parameters:
+        - name: locale
+          in: query
+          schema:
+            type: string
+        - name: sale_or_rental
+          in: query
+          schema:
+            type: string
+            enum: [sale, rental]
+            default: sale
+        - name: property_type
+          in: query
+          schema:
+            type: string
+        - name: bedrooms_from
+          in: query
+          schema:
+            type: integer
+        - name: bathrooms_from
+          in: query
+          schema:
+            type: integer
+        - name: for_sale_price_from
+          in: query
+          schema:
+            type: integer
+        - name: for_sale_price_till
+          in: query
+          schema:
+            type: integer
+        - name: highlighted
+          in: query
+          description: Filter to featured properties only
+          schema:
+            type: boolean
+        - name: sort_by
+          in: query
+          schema:
+            type: string
+            enum: [price-asc, price-desc, newest, oldest]
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            default: 12
+      responses:
+        '200':
+          description: Property search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertiesResponse'
+
+  /properties/{slug}:
+    get:
+      summary: Get property by slug
+      description: Returns full property details by slug or ID.
+      operationId: getProperty
+      tags: [Properties]
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: locale
+          in: query
+          schema:
+            type: string
+        - name: include_images
+          in: query
+          description: Include image variants
+          schema:
+            type: string
+            enum: [variants]
+      responses:
+        '200':
+          description: Property details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+        '404':
+          description: Property not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /pages/{slug}:
+    get:
+      summary: Get page content
+      description: Returns CMS page content by slug.
+      operationId: getPage
+      tags: [Pages]
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+            example: about-us
+        - name: locale
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Page content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page'
+        '404':
+          description: Page not found
+
+components:
+  schemas:
+    ThemeResponse:
+      type: object
+      properties:
+        theme:
+          type: object
+          properties:
+            name:
+              type: string
+            palette_id:
+              type: string
+            colors:
+              type: object
+              additionalProperties:
+                type: string
+            fonts:
+              type: object
+              properties:
+                heading:
+                  type: string
+                body:
+                  type: string
+            dark_mode:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                setting:
+                  type: string
+                  enum: [auto, on, off]
+            css_variables:
+              type: string
+              description: CSS custom properties as a string
+
+    ClientConfigResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            rendering_mode:
+              type: string
+              enum: [rails, client]
+            theme:
+              type: object
+              properties:
+                name:
+                  type: string
+                friendly_name:
+                  type: string
+            config:
+              type: object
+            css_variables:
+              type: object
+            website:
+              type: object
+
+    SiteDetailsResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        company_display_name:
+          type: string
+        default_client_locale:
+          type: string
+        supported_locales:
+          type: array
+          items:
+            type: string
+        analytics:
+          type: object
+          properties:
+            ga4_id:
+              type: string
+            gtm_id:
+              type: string
+            posthog_key:
+              type: string
+
+    PropertiesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertySummary'
+        map_markers:
+          type: array
+          items:
+            $ref: '#/components/schemas/MapMarker'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    Property:
+      type: object
+      properties:
+        id:
+          type: integer
+        slug:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        price_sale_current_cents:
+          type: integer
+        price_rental_monthly_current_cents:
+          type: integer
+        currency:
+          type: string
+        count_bedrooms:
+          type: integer
+        count_bathrooms:
+          type: integer
+        count_garages:
+          type: integer
+        constructed_area:
+          type: number
+        area_unit:
+          type: string
+        for_sale:
+          type: boolean
+        for_rent:
+          type: boolean
+        highlighted:
+          type: boolean
+        latitude:
+          type: number
+        longitude:
+          type: number
+        prop_photos:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+              image:
+                type: string
+
+    PropertySummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        slug:
+          type: string
+        title:
+          type: string
+        price_sale_current_cents:
+          type: integer
+        formatted_price:
+          type: string
+        count_bedrooms:
+          type: integer
+        count_bathrooms:
+          type: integer
+        primary_image_url:
+          type: string
+
+    MapMarker:
+      type: object
+      properties:
+        id:
+          type: integer
+        slug:
+          type: string
+        lat:
+          type: number
+        lng:
+          type: number
+        title:
+          type: string
+        price:
+          type: string
+        image:
+          type: string
+        url:
+          type: string
+
+    PaginationMeta:
+      type: object
+      properties:
+        total:
+          type: integer
+        page:
+          type: integer
+        per_page:
+          type: integer
+        total_pages:
+          type: integer
+
+    Page:
+      type: object
+      properties:
+        id:
+          type: integer
+        slug:
+          type: string
+        title:
+          type: string
+        page_contents:
+          type: array
+          items:
+            type: object
+            properties:
+              content_page_part_key:
+                type: string
+              content:
+                type: object
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string

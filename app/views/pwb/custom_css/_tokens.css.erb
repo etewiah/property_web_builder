@@ -1,0 +1,85 @@
+<%# Auto-generated from config/design/tokens.json - DO NOT EDIT MANUALLY %>
+<%# Run: node scripts/build-tokens.js to regenerate %>
+
+<%
+  # Get style variables with dynamic overrides from website
+  vars = @current_website&.style_variables || {}
+%>
+
+:root {
+  /* ===== Pwb ===== */
+  --pwb-color-primary: <%= vars["color_primary"] || "#3b82f6" %>;
+  --pwb-color-secondary: <%= vars["color_secondary"] || "#64748b" %>;
+  --pwb-color-accent: <%= vars["color_accent"] || "#f59e0b" %>;
+  --pwb-color-success: <%= vars["color_success"] || "#28a745" %>;
+  --pwb-color-warning: <%= vars["color_warning"] || "#ffc107" %>;
+  --pwb-color-error: <%= vars["color_error"] || "#dc3545" %>;
+  --pwb-color-info: <%= vars["color_info"] || "#17a2b8" %>;
+  --pwb-color-background-light: <%= vars["color_background_light"] || "#f8f9fa" %>;
+  --pwb-color-background-dark: <%= vars["color_background_dark"] || "#1a1a2e" %>;
+  --pwb-color-background-body: <%= vars["color_background_body"] || "#ffffff" %>;
+  --pwb-color-background-surface: <%= vars["color_background_surface"] || "#ffffff" %>;
+  --pwb-color-background-muted: <%= vars["color_background_muted"] || "#f1f3f4" %>;
+  --pwb-color-text-primary: <%= vars["color_text_primary"] || "#212529" %>;
+  --pwb-color-text-secondary: <%= vars["color_text_secondary"] || "#6c757d" %>;
+  --pwb-color-text-muted: <%= vars["color_text_muted"] || "#9ca3af" %>;
+  --pwb-color-text-light: <%= vars["color_text_light"] || "#ffffff" %>;
+  --pwb-color-text-on-primary: <%= vars["color_text_on_primary"] || "#ffffff" %>;
+  --pwb-color-text-on-secondary: <%= vars["color_text_on_secondary"] || "#ffffff" %>;
+  --pwb-color-border-default: <%= vars["color_border_default"] || "#e5e7eb" %>;
+  --pwb-color-border-dark: <%= vars["color_border_dark"] || "#d1d5db" %>;
+  --pwb-color-footer-background: <%= vars["color_footer_background"] || "#2c3e50" %>;
+  --pwb-color-footer-text: <%= vars["color_footer_text"] || "#ffffff" %>;
+  --pwb-color-footer-link: <%= vars["color_footer_link"] || "#3498db" %>;
+  --pwb-typography-font-family-primary: <%= vars["typography_font_family_primary"] || "Inter, system-ui, sans-serif" %>;
+  --pwb-typography-font-family-secondary: <%= vars["typography_font_family_secondary"] || "Georgia, serif" %>;
+  --pwb-typography-font-family-mono: <%= vars["typography_font_family_mono"] || "ui-monospace, monospace" %>;
+  --pwb-typography-font-size-xs: <%= vars["typography_font_size_xs"] || "0.75rem" %>;
+  --pwb-typography-font-size-sm: <%= vars["typography_font_size_sm"] || "0.875rem" %>;
+  --pwb-typography-font-size-base: <%= vars["typography_font_size_base"] || "1rem" %>;
+  --pwb-typography-font-size-lg: <%= vars["typography_font_size_lg"] || "1.125rem" %>;
+  --pwb-typography-font-size-xl: <%= vars["typography_font_size_xl"] || "1.25rem" %>;
+  --pwb-typography-font-size-2xl: <%= vars["typography_font_size_2xl"] || "1.5rem" %>;
+  --pwb-typography-font-size-3xl: <%= vars["typography_font_size_3xl"] || "1.875rem" %>;
+  --pwb-typography-font-size-4xl: <%= vars["typography_font_size_4xl"] || "2.25rem" %>;
+  --pwb-typography-font-size-5xl: <%= vars["typography_font_size_5xl"] || "3rem" %>;
+  --pwb-typography-line-height-tight: <%= vars["typography_line_height_tight"] || "1.25" %>;
+  --pwb-typography-line-height-base: <%= vars["typography_line_height_base"] || "1.6" %>;
+  --pwb-typography-line-height-relaxed: <%= vars["typography_line_height_relaxed"] || "1.75" %>;
+  --pwb-typography-font-weight-normal: <%= vars["typography_font_weight_normal"] || "400" %>;
+  --pwb-typography-font-weight-medium: <%= vars["typography_font_weight_medium"] || "500" %>;
+  --pwb-typography-font-weight-semibold: <%= vars["typography_font_weight_semibold"] || "600" %>;
+  --pwb-typography-font-weight-bold: <%= vars["typography_font_weight_bold"] || "700" %>;
+  --pwb-spacing-unit: <%= vars["spacing_unit"] || "1rem" %>;
+  --pwb-spacing-xs: <%= vars["spacing_xs"] || "0.25rem" %>;
+  --pwb-spacing-sm: <%= vars["spacing_sm"] || "0.5rem" %>;
+  --pwb-spacing-md: <%= vars["spacing_md"] || "1rem" %>;
+  --pwb-spacing-lg: <%= vars["spacing_lg"] || "1.5rem" %>;
+  --pwb-spacing-xl: <%= vars["spacing_xl"] || "2rem" %>;
+  --pwb-spacing-2xl: <%= vars["spacing_2xl"] || "3rem" %>;
+  --pwb-spacing-3xl: <%= vars["spacing_3xl"] || "4rem" %>;
+  --pwb-layout-container-padding: <%= vars["layout_container_padding"] || "1rem" %>;
+  --pwb-layout-container-max-width: <%= vars["layout_container_max_width"] || "1200px" %>;
+  --pwb-layout-container-narrow: <%= vars["layout_container_narrow"] || "800px" %>;
+  --pwb-layout-container-wide: <%= vars["layout_container_wide"] || "1400px" %>;
+  --pwb-border-radius-sm: <%= vars["border_radius_sm"] || "0.25rem" %>;
+  --pwb-border-radius-default: <%= vars["border_radius_default"] || "0.5rem" %>;
+  --pwb-border-radius-lg: <%= vars["border_radius_lg"] || "1rem" %>;
+  --pwb-border-radius-full: <%= vars["border_radius_full"] || "9999px" %>;
+  --pwb-shadow-sm: <%= vars["shadow_sm"] || "0 1px 2px rgba(0,0,0,0.05)" %>;
+  --pwb-shadow-default: <%= vars["shadow_default"] || "0 4px 6px rgba(0,0,0,0.1)" %>;
+  --pwb-shadow-lg: <%= vars["shadow_lg"] || "0 10px 25px rgba(0,0,0,0.15)" %>;
+  --pwb-shadow-inner: <%= vars["shadow_inner"] || "inset 0 2px 4px rgba(0,0,0,0.06)" %>;
+  --pwb-transition-fast: <%= vars["transition_fast"] || "150ms" %>;
+  --pwb-transition-normal: <%= vars["transition_normal"] || "300ms" %>;
+  --pwb-transition-slow: <%= vars["transition_slow"] || "500ms" %>;
+  --pwb-transition-timing: <%= vars["transition_timing"] || "cubic-bezier(0.4, 0, 0.2, 1)" %>;
+  --pwb-z-index-dropdown: <%= vars["z_index_dropdown"] || "1000" %>;
+  --pwb-z-index-sticky: <%= vars["z_index_sticky"] || "1020" %>;
+  --pwb-z-index-fixed: <%= vars["z_index_fixed"] || "1030" %>;
+  --pwb-z-index-modal-backdrop: <%= vars["z_index_modal_backdrop"] || "1040" %>;
+  --pwb-z-index-modal: <%= vars["z_index_modal"] || "1050" %>;
+  --pwb-z-index-popover: <%= vars["z_index_popover"] || "1060" %>;
+  --pwb-z-index-tooltip: <%= vars["z_index_tooltip"] || "1070" %>;
+
+}
