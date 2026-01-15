@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_10_165317) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_15_140001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -164,6 +164,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_10_165317) do
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_pwb_authorizations_on_user_id"
+  end
+
+  create_table "pwb_client_themes", force: :cascade do |t|
+    t.jsonb "color_schema", default: {}
+    t.datetime "created_at", null: false
+    t.jsonb "default_config", default: {}
+    t.text "description"
+    t.boolean "enabled", default: true, null: false
+    t.jsonb "font_schema", default: {}
+    t.string "friendly_name", null: false
+    t.jsonb "layout_options", default: {}
+    t.string "name", null: false
+    t.string "preview_image_url"
+    t.datetime "updated_at", null: false
+    t.string "version", default: "1.0.0"
+    t.index ["enabled"], name: "index_pwb_client_themes_on_enabled"
+    t.index ["name"], name: "index_pwb_client_themes_on_name", unique: true
   end
 
   create_table "pwb_clients", id: :serial, force: :cascade do |t|
@@ -1086,6 +1103,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_10_165317) do
     t.integer "analytics_id_type"
     t.text "available_currencies", default: [], array: true
     t.text "available_themes", array: true
+    t.jsonb "client_theme_config", default: {}
+    t.string "client_theme_name"
     t.string "company_display_name"
     t.text "compiled_palette_css"
     t.json "configuration", default: {}
@@ -1141,6 +1160,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_10_165317) do
     t.text "raw_css"
     t.integer "realty_assets_count", default: 0, null: false
     t.string "recaptcha_key"
+    t.string "rendering_mode", default: "rails", null: false
     t.text "rent_price_options_from", default: ["", "250", "500", "750", "1,000", "1,500", "2,500", "5,000"], array: true
     t.text "rent_price_options_till", default: ["", "250", "500", "750", "1,000", "1,500", "2,500", "5,000"], array: true
     t.text "sale_price_options_from", default: ["", "25,000", "50,000", "75,000", "100,000", "150,000", "250,000", "500,000", "1,000,000", "2,000,000", "5,000,000", "10,000,000"], array: true
@@ -1172,11 +1192,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_10_165317) do
     t.index ["palette_mode"], name: "index_pwb_websites_on_palette_mode"
     t.index ["provisioning_state"], name: "index_pwb_websites_on_provisioning_state"
     t.index ["realty_assets_count"], name: "index_pwb_websites_on_realty_assets_count"
+    t.index ["rendering_mode"], name: "index_pwb_websites_on_rendering_mode"
     t.index ["search_config"], name: "index_pwb_websites_on_search_config", using: :gin
     t.index ["selected_palette"], name: "index_pwb_websites_on_selected_palette"
     t.index ["site_type"], name: "index_pwb_websites_on_site_type"
     t.index ["slug"], name: "index_pwb_websites_on_slug"
     t.index ["subdomain"], name: "index_pwb_websites_on_subdomain", unique: true
+    t.check_constraint "rendering_mode::text = ANY (ARRAY['rails'::character varying, 'client'::character varying]::text[])", name: "rendering_mode_valid"
   end
 
   create_table "pwb_widget_configs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

@@ -10,6 +10,8 @@
 #  analytics_id_type                   :integer
 #  available_currencies                :text             default([]), is an Array
 #  available_themes                    :text             is an Array
+#  client_theme_config                 :jsonb
+#  client_theme_name                   :string
 #  company_display_name                :string
 #  compiled_palette_css                :text
 #  configuration                       :json
@@ -63,6 +65,7 @@
 #  raw_css                             :text
 #  realty_assets_count                 :integer          default(0), not null
 #  recaptcha_key                       :string
+#  rendering_mode                      :string           default("rails"), not null
 #  rent_price_options_from             :text             default(["", "250", "500", "750", "1,000", "1,500", "2,500", "5,000"]), is an Array
 #  rent_price_options_till             :text             default(["", "250", "500", "750", "1,000", "1,500", "2,500", "5,000"]), is an Array
 #  sale_price_options_from             :text             default(["", "25,000", "50,000", "75,000", "100,000", "150,000", "250,000", "500,000", "1,000,000", "2,000,000", "5,000,000", "10,000,000"]), is an Array
@@ -100,6 +103,7 @@
 #  index_pwb_websites_on_palette_mode              (palette_mode)
 #  index_pwb_websites_on_provisioning_state        (provisioning_state)
 #  index_pwb_websites_on_realty_assets_count       (realty_assets_count)
+#  index_pwb_websites_on_rendering_mode            (rendering_mode)
 #  index_pwb_websites_on_search_config             (search_config) USING gin
 #  index_pwb_websites_on_selected_palette          (selected_palette)
 #  index_pwb_websites_on_site_type                 (site_type)
