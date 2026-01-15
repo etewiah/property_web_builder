@@ -17,8 +17,8 @@
       ]
     }
   template:
-    <section class="content-html-section about-us-page-main-section" >
-      <div class="content-container about-us-page-content">
+    <section class="pwb-section pwb-section--html content-html-section about-us-page-main-section" >
+      <div class="pwb-container content-container about-us-page-content">
         {{ page_part["main_content"]["content"] %> }}
       </div>
     </section>

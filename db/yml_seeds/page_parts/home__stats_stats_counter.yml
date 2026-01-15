@@ -36,39 +36,39 @@
       - - label: style
           isSingleLineText: "true"
   template: |
-    <section class="stats-counter py-16 bg-pwb-secondary-900 text-white">
-      <div class="max-w-6xl mx-auto px-4">
+    <section class="pwb-section pwb-section--stats stats-counter py-16 bg-pwb-secondary-900 text-white">
+      <div class="pwb-container max-w-6xl mx-auto px-4">
         {% if page_part["section_title"]["content"] %}
-          <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold mb-4">{{ page_part["section_title"]["content"] }}</h2>
+          <div class="pwb-section__header text-center mb-12">
+            <h2 class="pwb-section__title text-3xl font-bold mb-4">{{ page_part["section_title"]["content"] }}</h2>
             {% if page_part["section_subtitle"]["content"] %}
-              <p class="text-lg text-pwb-secondary-300">{{ page_part["section_subtitle"]["content"] }}</p>
+              <p class="pwb-section__subtitle text-lg text-pwb-secondary-300">{{ page_part["section_subtitle"]["content"] }}</p>
             {% endif %}
           </div>
         {% endif %}
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div class="pwb-grid grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {% if page_part["stat_1_value"]["content"] %}
-            <div class="stat-item">
-              <div class="text-4xl font-bold text-pwb-accent mb-2">{{ page_part["stat_1_prefix"]["content"] }}{{ page_part["stat_1_value"]["content"] }}{{ page_part["stat_1_suffix"]["content"] }}</div>
-              <div class="text-sm uppercase tracking-wide text-pwb-secondary-300">{{ page_part["stat_1_label"]["content"] }}</div>
+            <div class="pwb-stat stat-item">
+              <div class="pwb-stat__value text-4xl font-bold text-pwb-accent mb-2">{{ page_part["stat_1_prefix"]["content"] }}{{ page_part["stat_1_value"]["content"] }}{{ page_part["stat_1_suffix"]["content"] }}</div>
+              <div class="pwb-stat__label text-sm uppercase tracking-wide text-pwb-secondary-300">{{ page_part["stat_1_label"]["content"] }}</div>
             </div>
           {% endif %}
           {% if page_part["stat_2_value"]["content"] %}
-            <div class="stat-item">
-              <div class="text-4xl font-bold text-pwb-accent mb-2">{{ page_part["stat_2_value"]["content"] }}</div>
-              <div class="text-sm uppercase tracking-wide text-pwb-secondary-300">{{ page_part["stat_2_label"]["content"] }}</div>
+            <div class="pwb-stat stat-item">
+              <div class="pwb-stat__value text-4xl font-bold text-pwb-accent mb-2">{{ page_part["stat_2_value"]["content"] }}</div>
+              <div class="pwb-stat__label text-sm uppercase tracking-wide text-pwb-secondary-300">{{ page_part["stat_2_label"]["content"] }}</div>
             </div>
           {% endif %}
           {% if page_part["stat_3_value"]["content"] %}
-            <div class="stat-item">
-              <div class="text-4xl font-bold text-pwb-accent mb-2">{{ page_part["stat_3_value"]["content"] }}</div>
-              <div class="text-sm uppercase tracking-wide text-pwb-secondary-300">{{ page_part["stat_3_label"]["content"] }}</div>
+            <div class="pwb-stat stat-item">
+              <div class="pwb-stat__value text-4xl font-bold text-pwb-accent mb-2">{{ page_part["stat_3_value"]["content"] }}</div>
+              <div class="pwb-stat__label text-sm uppercase tracking-wide text-pwb-secondary-300">{{ page_part["stat_3_label"]["content"] }}</div>
             </div>
           {% endif %}
           {% if page_part["stat_4_value"]["content"] %}
-            <div class="stat-item">
-              <div class="text-4xl font-bold text-pwb-accent mb-2">{{ page_part["stat_4_value"]["content"] }}</div>
-              <div class="text-sm uppercase tracking-wide text-pwb-secondary-300">{{ page_part["stat_4_label"]["content"] }}</div>
+            <div class="pwb-stat stat-item">
+              <div class="pwb-stat__value text-4xl font-bold text-pwb-accent mb-2">{{ page_part["stat_4_value"]["content"] }}</div>
+              <div class="pwb-stat__label text-sm uppercase tracking-wide text-pwb-secondary-300">{{ page_part["stat_4_label"]["content"] }}</div>
             </div>
           {% endif %}
         </div>

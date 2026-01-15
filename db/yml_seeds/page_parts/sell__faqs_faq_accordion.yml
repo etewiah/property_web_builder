@@ -38,73 +38,73 @@
         - label: faq_6_answer
           isHtml: "true"
   template: |
-    <section class="faq-section py-16 bg-white">
-      <div class="max-w-4xl mx-auto px-4">
+    <section class="pwb-section pwb-section--faq faq-section py-16 bg-white">
+      <div class="pwb-container max-w-4xl mx-auto px-4">
         {% if page_part["section_title"]["content"] %}
-          <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-pwb-secondary-900 mb-4">{{ page_part["section_title"]["content"] }}</h2>
+          <div class="pwb-section__header text-center mb-12">
+            <h2 class="pwb-section__title text-3xl font-bold text-pwb-secondary-900 mb-4">{{ page_part["section_title"]["content"] }}</h2>
             {% if page_part["section_subtitle"]["content"] %}
-              <p class="text-lg text-pwb-secondary-600">{{ page_part["section_subtitle"]["content"] }}</p>
+              <p class="pwb-section__subtitle text-lg text-pwb-secondary-600">{{ page_part["section_subtitle"]["content"] }}</p>
             {% endif %}
           </div>
         {% endif %}
-        <div class="faq-accordion space-y-4">
+        <div class="pwb-faq-accordion space-y-4">
           {% if page_part["faq_1_question"]["content"] %}
-            <details class="faq-item bg-pwb-secondary-50 rounded-lg">
-              <summary class="faq-question p-4 font-semibold text-pwb-secondary-900 cursor-pointer hover:bg-pwb-secondary-100 rounded-lg">
+            <details class="pwb-faq-item bg-pwb-secondary-50 rounded-lg">
+              <summary class="pwb-faq-item__question p-4 font-semibold text-pwb-secondary-900 cursor-pointer hover:bg-pwb-secondary-100 rounded-lg">
                 {{ page_part["faq_1_question"]["content"] }}
               </summary>
-              <div class="faq-answer p-4 pt-0 text-pwb-secondary-600">
+              <div class="pwb-faq-item__answer p-4 pt-0 text-pwb-secondary-600">
                 {{ page_part["faq_1_answer"]["content"] }}
               </div>
             </details>
           {% endif %}
           {% if page_part["faq_2_question"]["content"] %}
-            <details class="faq-item bg-pwb-secondary-50 rounded-lg">
-              <summary class="faq-question p-4 font-semibold text-pwb-secondary-900 cursor-pointer hover:bg-pwb-secondary-100 rounded-lg">
+            <details class="pwb-faq-item bg-pwb-secondary-50 rounded-lg">
+              <summary class="pwb-faq-item__question p-4 font-semibold text-pwb-secondary-900 cursor-pointer hover:bg-pwb-secondary-100 rounded-lg">
                 {{ page_part["faq_2_question"]["content"] }}
               </summary>
-              <div class="faq-answer p-4 pt-0 text-pwb-secondary-600">
+              <div class="pwb-faq-item__answer p-4 pt-0 text-pwb-secondary-600">
                 {{ page_part["faq_2_answer"]["content"] }}
               </div>
             </details>
           {% endif %}
           {% if page_part["faq_3_question"]["content"] %}
-            <details class="faq-item bg-pwb-secondary-50 rounded-lg">
-              <summary class="faq-question p-4 font-semibold text-pwb-secondary-900 cursor-pointer hover:bg-pwb-secondary-100 rounded-lg">
+            <details class="pwb-faq-item bg-pwb-secondary-50 rounded-lg">
+              <summary class="pwb-faq-item__question p-4 font-semibold text-pwb-secondary-900 cursor-pointer hover:bg-pwb-secondary-100 rounded-lg">
                 {{ page_part["faq_3_question"]["content"] }}
               </summary>
-              <div class="faq-answer p-4 pt-0 text-pwb-secondary-600">
+              <div class="pwb-faq-item__answer p-4 pt-0 text-pwb-secondary-600">
                 {{ page_part["faq_3_answer"]["content"] }}
               </div>
             </details>
           {% endif %}
           {% if page_part["faq_4_question"]["content"] %}
-            <details class="faq-item bg-pwb-secondary-50 rounded-lg">
-              <summary class="faq-question p-4 font-semibold text-pwb-secondary-900 cursor-pointer hover:bg-pwb-secondary-100 rounded-lg">
+            <details class="pwb-faq-item bg-pwb-secondary-50 rounded-lg">
+              <summary class="pwb-faq-item__question p-4 font-semibold text-pwb-secondary-900 cursor-pointer hover:bg-pwb-secondary-100 rounded-lg">
                 {{ page_part["faq_4_question"]["content"] }}
               </summary>
-              <div class="faq-answer p-4 pt-0 text-pwb-secondary-600">
+              <div class="pwb-faq-item__answer p-4 pt-0 text-pwb-secondary-600">
                 {{ page_part["faq_4_answer"]["content"] }}
               </div>
             </details>
           {% endif %}
           {% if page_part["faq_5_question"]["content"] %}
-            <details class="faq-item bg-pwb-secondary-50 rounded-lg">
-              <summary class="faq-question p-4 font-semibold text-pwb-secondary-900 cursor-pointer hover:bg-pwb-secondary-100 rounded-lg">
+            <details class="pwb-faq-item bg-pwb-secondary-50 rounded-lg">
+              <summary class="pwb-faq-item__question p-4 font-semibold text-pwb-secondary-900 cursor-pointer hover:bg-pwb-secondary-100 rounded-lg">
                 {{ page_part["faq_5_question"]["content"] }}
               </summary>
-              <div class="faq-answer p-4 pt-0 text-pwb-secondary-600">
+              <div class="pwb-faq-item__answer p-4 pt-0 text-pwb-secondary-600">
                 {{ page_part["faq_5_answer"]["content"] }}
               </div>
             </details>
           {% endif %}
           {% if page_part["faq_6_question"]["content"] %}
-            <details class="faq-item bg-pwb-secondary-50 rounded-lg">
-              <summary class="faq-question p-4 font-semibold text-pwb-secondary-900 cursor-pointer hover:bg-pwb-secondary-100 rounded-lg">
+            <details class="pwb-faq-item bg-pwb-secondary-50 rounded-lg">
+              <summary class="pwb-faq-item__question p-4 font-semibold text-pwb-secondary-900 cursor-pointer hover:bg-pwb-secondary-100 rounded-lg">
                 {{ page_part["faq_6_question"]["content"] }}
               </summary>
-              <div class="faq-answer p-4 pt-0 text-pwb-secondary-600">
+              <div class="pwb-faq-item__answer p-4 pt-0 text-pwb-secondary-600">
                 {{ page_part["faq_6_answer"]["content"] }}
               </div>
             </details>

@@ -27,8 +27,8 @@
       ]
     }
   template: >
-    <div class="hero-section">
-      <div class="hero-bg-wrapper">
+    <div class="pwb-hero hero-section">
+      <div class="pwb-hero__bg-wrapper hero-bg-wrapper">
         {% if page_part["landing_img"]["content"] %}
           {% assign hero_img_url = page_part["landing_img"]["content"] %}
           {% assign webp_url = hero_img_url | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' %}
@@ -40,11 +40,11 @@
           <div class="hero-bg-placeholder"></div>
         {% endif %}
       </div>
-      <div class="hero-content-wrapper">
-        <h1 class="hero-title">
+      <div class="pwb-hero__content hero-content-wrapper">
+        <h1 class="pwb-hero__title hero-title">
           {{ page_part["landing_title_a"]["content"] }}
         </h1>
-        <div class="hero-subtitle">
+        <div class="pwb-hero__subtitle hero-subtitle">
           {{ page_part["landing_content_a"]["content"] }}
         </div>
       </div>

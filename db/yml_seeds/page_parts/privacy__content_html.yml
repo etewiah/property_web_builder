@@ -17,8 +17,8 @@
       ]
     }
   template:
-    <section class="content-html-section privacy-page-main-section" >
-      <div class="content-container privacy-page-content">
+    <section class="pwb-section pwb-section--html content-html-section privacy-page-main-section" >
+      <div class="pwb-container content-container privacy-page-content">
         {{ page_part["main_content"]["content"] %> }}
       </div>
     </section>

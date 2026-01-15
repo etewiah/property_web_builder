@@ -26,27 +26,26 @@
       ]
     }
   template: >
-    <section class="our-agency-section">
-      <div class="agency-container">
-        <div class="agency-content-wrapper">
-          <div class="agency-text-column">
-            <div class="agency-title-wrapper">
-              <h3 class="agency-title">
+    <section class="pwb-section pwb-section--agency our-agency-section">
+      <div class="pwb-container agency-container">
+        <div class="pwb-section__grid agency-content-wrapper">
+          <div class="pwb-section__col agency-text-column">
+            <div class="pwb-section__header agency-title-wrapper">
+              <h3 class="pwb-section__title agency-title">
                 <span>
                   {{ page_part["title_a"]["content"] }}
                 </span>
               </h3>
             </div>
-            <div class="agency-description">
+            <div class="pwb-section__text agency-description">
               <p>
                 {{  page_part["content_a"]["content"] }}
               </p>
             </div>
           </div>
-          <div class="agency-image-column">
-            <img alt="Agency Image" src="{{ page_part["our_agency_img"]["content"] }}" class="agency-image">
+          <div class="pwb-section__col agency-image-column">
+            <img alt="Agency Image" src="{{ page_part["our_agency_img"]["content"] }}" class="pwb-section__img agency-image">
           </div>
         </div>
       </div>
-    </section>
     </section>
