@@ -26,20 +26,20 @@
         - label: style
           isSingleLineText: "true"
   template: |
-    <section class="cta-banner py-16 bg-pwb-primary text-white">
-      <div class="max-w-4xl mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold mb-4">{{ page_part["title"]["content"] }}</h2>
+    <section class="pwb-section pwb-section--cta cta-banner py-16 bg-pwb-primary text-white">
+      <div class="pwb-section__content max-w-4xl mx-auto px-4 text-center">
+        <h2 class="pwb-section__title text-3xl font-bold mb-4">{{ page_part["title"]["content"] }}</h2>
         {% if page_part["subtitle"]["content"] %}
-          <p class="text-xl text-white/90 mb-8">{{ page_part["subtitle"]["content"] }}</p>
+          <p class="pwb-section__subtitle text-xl text-white/90 mb-8">{{ page_part["subtitle"]["content"] }}</p>
         {% endif %}
-        <div class="flex flex-wrap justify-center gap-4">
+        <div class="pwb-section__actions flex flex-wrap justify-center gap-4">
           {% if page_part["button_text"]["content"] %}
-            <a href="{{ page_part["button_link"]["content"] }}" class="px-8 py-3 bg-white text-pwb-primary-900 font-semibold rounded-lg hover:bg-pwb-primary-50 transition">
+            <a href="{{ page_part["button_link"]["content"] }}" class="pwb-btn pwb-btn--primary px-8 py-3 bg-white text-pwb-primary-900 font-semibold rounded-lg hover:bg-pwb-primary-50 transition">
               {{ page_part["button_text"]["content"] }}
             </a>
           {% endif %}
           {% if page_part["secondary_button_text"]["content"] %}
-            <a href="{{ page_part["secondary_button_link"]["content"] }}" class="px-8 py-3 border-2 border-white font-semibold rounded-lg hover:bg-white/10 transition">
+            <a href="{{ page_part["secondary_button_link"]["content"] }}" class="pwb-btn pwb-btn--outline px-8 py-3 border-2 border-white font-semibold rounded-lg hover:bg-white/10 transition">
               {{ page_part["secondary_button_text"]["content"] }}
             </a>
           {% endif %}

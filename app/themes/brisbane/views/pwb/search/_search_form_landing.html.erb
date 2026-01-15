@@ -6,7 +6,7 @@
   </div>
 
   <%= simple_form_for :search, url: "/#{I18n.locale}/buy", method: 'get',
-      html: { class: 'p-8' }, remote: false do |f| %>
+      html: { class: 'pwb-search-box__form p-8' }, remote: false do |f| %>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
       <div>
@@ -63,7 +63,7 @@
     </div>
 
     <div class="flex justify-center">
-      <%= f.button :button, class: "btn-luxury flex items-center justify-center",
+      <%= f.button :button, class: "pwb-search-box__submit btn-luxury flex items-center justify-center",
           id: "btn_buscar_inmuebles" do %>
         <%= icon(:search, size: :sm, class: "mr-3") %>
         <%= I18n.t("search") %>

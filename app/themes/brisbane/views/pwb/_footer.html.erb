@@ -1,12 +1,12 @@
 <!-- Brisbane Luxury Theme Footer - Uses semantic palette classes -->
 <!-- Refined elegance with accent highlights -->
-<footer class="bg-pwb-secondary-900 text-white/90">
+<footer class="pwb-footer bg-pwb-secondary-900 text-white/90">
   <!-- Main Footer Content -->
-  <div class="container mx-auto px-6 py-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+  <div class="pwb-container container mx-auto px-6 py-16">
+    <div class="pwb-footer__grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
 
       <!-- Brand Column -->
-      <div class="lg:col-span-1">
+      <div class="pwb-footer__company-info lg:col-span-1">
         <div class="mb-6">
           <% if @current_website.logo_url %>
             <img src="<%= @current_website.logo_url %>" alt="<%= company_display_name %>" class="h-12 brightness-0 invert opacity-90" loading="lazy" decoding="async">
@@ -19,7 +19,7 @@
         </p>
 
         <!-- Social Icons - Refined Style -->
-        <nav class="flex items-center space-x-4" aria-label="Social media links">
+        <nav class="pwb-footer__social-nav flex items-center space-x-4" aria-label="Social media links">
           <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
             <a href="<%= @current_website.social_media_facebook %>" target="_blank" rel="noopener noreferrer"
                class="w-10 h-10 flex items-center justify-center border border-pwb-accent/30 text-white/70 hover:text-pwb-accent hover:border-pwb-accent transition-all duration-300"
@@ -66,7 +66,7 @@
       </div>
 
       <!-- Contact Column -->
-      <div class="lg:col-span-1">
+      <div class="pwb-footer__contact-info lg:col-span-1">
         <h4 class="text-xs uppercase tracking-widest text-pwb-accent mb-6 font-medium">Contact</h4>
         <ul class="space-y-4">
           <% if @current_agency.phone_number_primary.present? %>
@@ -99,7 +99,7 @@
       </div>
 
       <!-- Quick Links Column -->
-      <div class="lg:col-span-1">
+      <div class="pwb-footer__links-col lg:col-span-1">
         <h4 class="text-xs uppercase tracking-widest text-pwb-accent mb-6 font-medium">Quick Links</h4>
         <ul class="space-y-3">
           <% @current_website.links.ordered_visible_footer.each do |page| %>
@@ -127,7 +127,7 @@
       </div>
 
       <!-- Newsletter / Extra Content Column -->
-      <div class="lg:col-span-1">
+      <div class="pwb-footer__newsletter lg:col-span-1">
         <% if @footer_content.present? && @footer_content.respond_to?(:raw) && @footer_content.raw.present? %>
           <h4 class="text-xs uppercase tracking-widest text-pwb-accent mb-6 font-medium">About Us</h4>
           <div class="text-sm text-white/70 leading-relaxed">
@@ -152,8 +152,8 @@
   </div>
 
   <!-- Elegant Divider -->
-  <div class="border-t border-pwb-accent/10">
-    <div class="container mx-auto px-6 py-6">
+  <div class="pwb-footer__divider border-t border-pwb-accent/10">
+    <div class="pwb-footer__bottom-bar container mx-auto px-6 py-6">
       <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
         <!-- Copyright -->
         <p class="text-xs text-white/50 tracking-wide">
@@ -161,7 +161,7 @@
         </p>
 
         <!-- Powered By -->
-        <p class="text-xs text-white/40">
+        <p class="pwb-footer__powered-by text-xs text-white/40">
           Powered by
           <a href="https://www.propertywebbuilder.com"
              class="text-pwb-accent/60 hover:text-pwb-accent transition-colors duration-300"

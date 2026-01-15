@@ -1,7 +1,7 @@
 <!-- Brussels Modern Theme - Property Search Form -->
 <div class="bg-white/95 backdrop-blur-sm shadow-elevated">
   <%= simple_form_for :search, url: "/#{I18n.locale}/buy", method: 'get',
-      html: { class: 'p-6' }, remote: false do |f| %>
+      html: { class: 'pwb-search-box__form p-6' }, remote: false do |f| %>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
       <!-- Property Type -->
@@ -62,7 +62,7 @@
     </div>
 
     <div class="flex justify-center">
-      <%= f.button :button, class: "bg-brussels-lime text-gray-900 font-medium px-8 py-3 hover:brightness-110 transition-all duration-200 flex items-center justify-center",
+      <%= f.button :button, class: "pwb-search-box__submit bg-brussels-lime text-gray-900 font-medium px-8 py-3 hover:brightness-110 transition-all duration-200 flex items-center justify-center",
           id: "btn_buscar_inmuebles" do %>
         <%= icon(:search, size: :sm, class: "mr-2") %>
         <%= I18n.t("search") %>

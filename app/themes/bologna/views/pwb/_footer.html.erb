@@ -11,14 +11,14 @@
   </svg>
 </div>
 
-<footer style="background-color: var(--footer-bg-color); color: var(--footer-text-color);">
+<footer class="pwb-footer" style="background-color: var(--footer-bg-color); color: var(--footer-text-color);">
 
   <!-- Main Footer Content -->
-  <div class="container mx-auto px-6 py-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
+  <div class="pwb-container container mx-auto px-6 py-16">
+    <div class="pwb-footer__grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
 
       <!-- Brand & Social Column -->
-      <div class="lg:col-span-4">
+      <div class="pwb-footer__company-info lg:col-span-4">
         <div class="mb-8">
           <% if @current_website.logo_url.present? %>
             <img src="<%= @current_website.logo_url %>"
@@ -42,40 +42,40 @@
         </p>
 
         <!-- Social Icons - Modern Rounded Style -->
-        <div class="flex items-center space-x-3">
+        <div class="pwb-footer__social-links flex items-center space-x-3">
           <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
             <a href="<%= @current_website.social_media_facebook %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
+               class="pwb-footer__social-link w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
               <%= brand_icon(:facebook, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
             <a href="<%= @current_website.social_media_twitter %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
+               class="pwb-footer__social-link w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
               <%= brand_icon(:x, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
             <a href="<%= @current_website.social_media_linkedin %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
+               class="pwb-footer__social-link w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
               <%= brand_icon(:linkedin, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present? %>
             <a href="<%= @current_website.social_media_instagram %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
+               class="pwb-footer__social-link w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
               <%= brand_icon(:instagram, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
             <a href="<%= @current_website.social_media_youtube %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
+               class="pwb-footer__social-link w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
               <%= brand_icon(:youtube, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_whatsapp) && @current_website.social_media_whatsapp.present? %>
             <a href="<%= @current_website.social_media_whatsapp %>" target="_blank"
-               class="w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
+               class="pwb-footer__social-link w-11 h-11 flex items-center justify-center bg-warm-gray-800 text-warm-gray-400 rounded-full hover:bg-pwb-primary hover:text-white transition-all duration-300">
               <%= brand_icon(:whatsapp, size: 20) %>
             </a>
           <% end %>
@@ -83,19 +83,19 @@
       </div>
 
       <!-- Quick Links Column -->
-      <div class="lg:col-span-2">
+      <div class="pwb-footer__links-col lg:col-span-2">
         <h4 class="font-display font-semibold text-white text-lg mb-6">
           <%= t('pwb.footer.explore', default: 'Explore') %>
         </h4>
-        <ul class="space-y-3">
+        <ul class="pwb-footer__links-list space-y-3">
           <li>
-            <a href="<%= localized_buy_path %>" class="text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 flex items-center group">
+            <a href="<%= localized_buy_path %>" class="pwb-footer__link text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 flex items-center group">
               <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
               <%= t('pwb.navbar.buy', default: 'Buy') %>
             </a>
           </li>
           <li>
-            <a href="<%= localized_rent_path %>" class="text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 flex items-center group">
+            <a href="<%= localized_rent_path %>" class="pwb-footer__link text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 flex items-center group">
               <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
               <%= t('pwb.navbar.rent', default: 'Rent') %>
             </a>
@@ -112,7 +112,7 @@
             <% end %>
             <% if target_path %>
               <li>
-                <%= link_to target_path, class: "text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 flex items-center group" do %>
+                <%= link_to target_path, class: "pwb-footer__link text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 flex items-center group" do %>
                   <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
                   <%= page.link_title %>
                 <% end %>
@@ -120,7 +120,7 @@
             <% end %>
           <% end %>
           <li>
-            <%= link_to "/pwb_login", class: "text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 flex items-center group" do %>
+            <%= link_to "/pwb_login", class: "pwb-footer__link text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 flex items-center group" do %>
               <%= icon(:chevron_right, size: :xs, class: "mr-2 opacity-0 group-hover:opacity-100 transition-opacity") %>
               <%= I18n.t("signIn") %>
             <% end %>
@@ -129,15 +129,15 @@
       </div>
 
       <!-- Contact Info Column -->
-      <div class="lg:col-span-3">
+      <div class="pwb-footer__contact-info lg:col-span-3">
         <h4 class="font-display font-semibold text-white text-lg mb-6">
           <%= t('pwb.footer.contact', default: 'Get in Touch') %>
         </h4>
-        <ul class="space-y-4">
+        <ul class="pwb-footer__contact-list space-y-4">
           <% if @current_agency&.phone_number_primary.present? %>
             <li>
               <a href="tel:<%= @current_agency.phone_number_primary %>"
-                 class="flex items-start text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 group">
+                 class="pwb-footer__contact-link flex items-start text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 group">
                 <span class="w-10 h-10 flex items-center justify-center bg-warm-gray-800 rounded-full mr-4 group-hover:bg-pwb-primary/20 transition-colors">
                   <%= icon(:phone, class: "text-pwb-primary-400") %>
                 </span>
@@ -148,7 +148,7 @@
           <% if @current_agency&.email_primary.present? %>
             <li>
               <a href="mailto:<%= @current_agency.email_primary %>"
-                 class="flex items-start text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 group">
+                 class="pwb-footer__contact-link flex items-start text-warm-gray-400 hover:text-pwb-primary-400 transition-colors duration-200 group">
                 <span class="w-10 h-10 flex items-center justify-center bg-warm-gray-800 rounded-full mr-4 group-hover:bg-pwb-primary/20 transition-colors">
                   <%= icon(:email, class: "text-pwb-primary-400") %>
                 </span>
@@ -157,7 +157,7 @@
             </li>
           <% end %>
           <% if @current_agency.respond_to?(:full_address) && @current_agency.full_address.present? %>
-            <li class="flex items-start text-warm-gray-400">
+            <li class="pwb-footer__contact-item flex items-start text-warm-gray-400">
               <span class="w-10 h-10 flex items-center justify-center bg-warm-gray-800 rounded-full mr-4 flex-shrink-0">
                 <%= icon(:location_on, class: "text-pwb-primary-400") %>
               </span>
@@ -168,7 +168,7 @@
       </div>
 
       <!-- Newsletter / Custom Content Column -->
-      <div class="lg:col-span-3">
+      <div class="pwb-footer__newsletter lg:col-span-3">
         <% if @footer_content.present? && @footer_content.respond_to?(:raw) && @footer_content.raw.present? %>
           <h4 class="font-display font-semibold text-white text-lg mb-6">
             <%= t('pwb.footer.about', default: 'About Us') %>
@@ -201,7 +201,7 @@
   </div>
 
   <!-- Bottom Bar -->
-  <div class="border-t border-warm-gray-800">
+  <div class="pwb-footer__bottom-bar border-t border-warm-gray-800">
     <div class="container mx-auto px-6 py-6">
       <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
         <!-- Copyright -->
@@ -211,10 +211,10 @@
         </p>
 
         <!-- Powered By -->
-        <p class="text-sm text-warm-gray-600 flex items-center">
+        <p class="pwb-footer__powered-by text-sm text-warm-gray-600 flex items-center">
           <span class="mr-2"><%= t('pwb.footer.powered_by', default: 'Powered by') %></span>
           <a href="https://www.propertywebbuilder.com"
-             class="text-pwb-primary-400 hover:text-pwb-primary-300 transition-colors duration-200 font-medium"
+             class="pwb-footer__link text-pwb-primary-400 hover:text-pwb-primary-300 transition-colors duration-200 font-medium"
              target="_blank">
             PropertyWebBuilder
           </a>

@@ -1,23 +1,23 @@
 <!-- Default Theme Footer - Uses semantic palette classes for theme customization -->
-<footer class="bg-pwb-secondary-800 text-white">
-  <div class="container mx-auto px-4 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<footer class="pwb-footer bg-pwb-secondary-800 text-white">
+  <div class="pwb-container container mx-auto px-4 py-12">
+    <div class="pwb-footer__grid grid grid-cols-1 md:grid-cols-3 gap-8">
       <!-- Company Info -->
-      <div>
-        <h4 class="text-lg font-semibold mb-4"><%= company_display_name %></h4>
-        <ul class="space-y-3">
+      <div class="pwb-footer__company-info">
+        <h4 class="pwb-footer__heading text-lg font-semibold mb-4"><%= company_display_name %></h4>
+        <ul class="pwb-footer__contact-list space-y-3">
           <% if @current_agency.phone_number_primary.present? %>
-            <li class="flex items-center">
-              <%= icon(:phone, size: :sm, class: "mr-3 text-pwb-primary-300") %>
-              <a href="tel:<%= @current_agency.phone_number_primary %>" class="hover:text-pwb-primary-300 transition-colors">
+            <li class="pwb-footer__contact-item flex items-center">
+              <%= icon(:phone, size: :sm, class: "pwb-footer__icon mr-3 text-pwb-primary-300") %>
+              <a href="tel:<%= @current_agency.phone_number_primary %>" class="pwb-footer__contact-link hover:text-pwb-primary-300 transition-colors">
                 <%= @current_agency.phone_number_primary %>
               </a>
             </li>
           <% end %>
           <% if @current_agency.email_primary.present? %>
-            <li class="flex items-center">
-              <%= icon(:email, size: :sm, class: "mr-3 text-pwb-primary-300") %>
-              <a href="mailto:<%= @current_agency.email_primary %>" class="hover:text-pwb-primary-300 transition-colors">
+            <li class="pwb-footer__contact-item flex items-center">
+              <%= icon(:email, size: :sm, class: "pwb-footer__icon mr-3 text-pwb-primary-300") %>
+              <a href="mailto:<%= @current_agency.email_primary %>" class="pwb-footer__contact-link hover:text-pwb-primary-300 transition-colors">
                 <%= @current_agency.email_primary %>
               </a>
             </li>
@@ -26,47 +26,47 @@
       </div>
 
       <!-- Social Media -->
-      <nav aria-label="Social media links">
-        <h4 class="text-lg font-semibold mb-4"><%= t('pwb.footer.follow_us', default: 'Follow Us') %></h4>
-        <div class="flex space-x-4">
+      <nav class="pwb-footer__social-nav" aria-label="Social media links">
+        <h4 class="pwb-footer__heading text-lg font-semibold mb-4"><%= t('pwb.footer.follow_us', default: 'Follow Us') %></h4>
+        <div class="pwb-footer__social-links flex space-x-4">
           <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
             <a href="<%= @current_website.social_media_facebook %>" target="_blank" rel="noopener noreferrer"
-               class="w-10 h-10 rounded-full bg-pwb-secondary-700 hover:bg-pwb-primary flex items-center justify-center transition-colors"
+               class="pwb-footer__social-link w-10 h-10 rounded-full bg-pwb-secondary-700 hover:bg-pwb-primary flex items-center justify-center transition-colors"
                aria-label="Follow us on Facebook">
               <%= brand_icon(:facebook, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_twitter) && @current_website.social_media_twitter.present? %>
             <a href="<%= @current_website.social_media_twitter %>" target="_blank" rel="noopener noreferrer"
-               class="w-10 h-10 rounded-full bg-pwb-secondary-700 hover:bg-pwb-primary flex items-center justify-center transition-colors"
+               class="pwb-footer__social-link w-10 h-10 rounded-full bg-pwb-secondary-700 hover:bg-pwb-primary flex items-center justify-center transition-colors"
                aria-label="Follow us on Twitter">
               <%= brand_icon(:x, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_instagram) && @current_website.social_media_instagram.present? %>
             <a href="<%= @current_website.social_media_instagram %>" target="_blank" rel="noopener noreferrer"
-               class="w-10 h-10 rounded-full bg-pwb-secondary-700 hover:bg-pwb-primary flex items-center justify-center transition-colors"
+               class="pwb-footer__social-link w-10 h-10 rounded-full bg-pwb-secondary-700 hover:bg-pwb-primary flex items-center justify-center transition-colors"
                aria-label="Follow us on Instagram">
               <%= brand_icon(:instagram, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_linkedin) && @current_website.social_media_linkedin.present? %>
             <a href="<%= @current_website.social_media_linkedin %>" target="_blank" rel="noopener noreferrer"
-               class="w-10 h-10 rounded-full bg-pwb-secondary-700 hover:bg-pwb-primary flex items-center justify-center transition-colors"
+               class="pwb-footer__social-link w-10 h-10 rounded-full bg-pwb-secondary-700 hover:bg-pwb-primary flex items-center justify-center transition-colors"
                aria-label="Connect with us on LinkedIn">
               <%= brand_icon(:linkedin, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_youtube) && @current_website.social_media_youtube.present? %>
             <a href="<%= @current_website.social_media_youtube %>" target="_blank" rel="noopener noreferrer"
-               class="w-10 h-10 rounded-full bg-pwb-secondary-700 hover:bg-pwb-primary flex items-center justify-center transition-colors"
+               class="pwb-footer__social-link w-10 h-10 rounded-full bg-pwb-secondary-700 hover:bg-pwb-primary flex items-center justify-center transition-colors"
                aria-label="Subscribe to our YouTube channel">
               <%= brand_icon(:youtube, size: 20) %>
             </a>
           <% end %>
           <% if @current_website.respond_to?(:social_media_whatsapp) && @current_website.social_media_whatsapp.present? %>
             <a href="<%= @current_website.social_media_whatsapp %>" target="_blank" rel="noopener noreferrer"
-               class="w-10 h-10 rounded-full bg-pwb-secondary-700 hover:bg-pwb-primary flex items-center justify-center transition-colors"
+               class="pwb-footer__social-link w-10 h-10 rounded-full bg-pwb-secondary-700 hover:bg-pwb-primary flex items-center justify-center transition-colors"
                aria-label="Contact us on WhatsApp">
               <%= brand_icon(:whatsapp, size: 20) %>
             </a>
@@ -75,7 +75,7 @@
       </nav>
 
       <!-- Extra Content -->
-      <div>
+      <div class="pwb-footer__extra-content">
         <% if @footer_content.present? %>
           <div class="prose prose-invert prose-sm max-w-none">
             <%== @footer_content.raw %>
@@ -85,11 +85,11 @@
     </div>
 
     <!-- Divider -->
-    <hr class="my-8 border-pwb-secondary-700">
+    <hr class="pwb-footer__divider my-8 border-pwb-secondary-700">
 
     <!-- Bottom Bar -->
-    <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
-      <nav class="flex flex-wrap justify-center gap-4 mb-4 md:mb-0" aria-label="Footer navigation">
+    <div class="pwb-footer__bottom-bar flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+      <nav class="pwb-footer__bottom-nav flex flex-wrap justify-center gap-4 mb-4 md:mb-0" aria-label="Footer navigation">
         <% @current_website.links.ordered_visible_footer.each do |page| %>
           <% target_path = nil %>
           <% begin %>
@@ -101,13 +101,13 @@
           <% rescue StandardError %>
           <% end %>
           <% if target_path %>
-            <%= link_to page.link_title, target_path, class: "hover:text-pwb-primary-300 transition-colors" %>
+            <%= link_to page.link_title, target_path, class: "pwb-footer__link hover:text-pwb-primary-300 transition-colors" %>
           <% end %>
         <% end %>
-        <%= link_to I18n.t("signIn"), "/pwb_login", class: "hover:text-pwb-primary-300 transition-colors" %>
+        <%= link_to I18n.t("signIn"), "/pwb_login", class: "pwb-footer__link hover:text-pwb-primary-300 transition-colors" %>
       </nav>
-      <p>
-        Powered by <a href="https://www.propertywebbuilder.com" class="text-pwb-primary-400 hover:text-pwb-primary-300 transition-colors">PropertyWebBuilder</a>
+      <p class="pwb-footer__powered-by">
+        Powered by <a href="https://www.propertywebbuilder.com" class="pwb-footer__link text-pwb-primary-400 hover:text-pwb-primary-300 transition-colors">PropertyWebBuilder</a>
       </p>
     </div>
   </div>

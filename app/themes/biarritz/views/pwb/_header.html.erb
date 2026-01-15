@@ -1,25 +1,25 @@
 <!-- Biarritz Theme Header - Elegant Coastal Design with Maximum Contrast -->
 <!-- Top Bar - Ocean Dark Background with White Text (21:1 contrast) -->
 <!-- Colors use CSS variables from _biarritz.css.erb for palette consistency -->
-<header class="text-white border-b" style="background-color: var(--header-bg); border-color: var(--header-border);">
-  <div class="container mx-auto px-4">
-    <div class="flex flex-wrap items-center justify-between py-2 text-sm">
+<header class="pwb-header text-white border-b" style="background-color: var(--header-bg); border-color: var(--header-border);">
+  <div class="pwb-container container mx-auto px-4">
+    <div class="pwb-header__top-bar flex flex-wrap items-center justify-between py-2 text-sm">
       <div class="flex items-center space-x-4">
         <% if @current_agency.phone_number_primary %>
-          <span class="biarritz-header-link flex items-center transition-colors">
+          <span class="pwb-header__contact-link biarritz-header-link flex items-center transition-colors">
             <%= icon(:phone, size: :sm, class: "mr-2") %>
             <span><%= @current_agency.phone_number_primary %></span>
           </span>
         <% end %>
         <% if @current_agency.email_primary %>
-          <span class="biarritz-header-link hidden md:flex items-center transition-colors">
+          <span class="pwb-header__contact-link biarritz-header-link hidden md:flex items-center transition-colors">
             <%= icon(:email, size: :sm, class: "mr-2") %>
             <span><%= @current_agency.email_primary %></span>
           </span>
         <% end %>
       </div>
       <% if @current_website.is_multilingual && not_devise %>
-        <nav aria-label="<%= t('pwb.accessibility.language_selector', default: 'Language selector') %>" class="flex items-center space-x-2">
+        <nav aria-label="<%= t('pwb.accessibility.language_selector', default: 'Language selector') %>" class="pwb-header__lang-nav flex items-center space-x-2">
           <% @current_website.supported_locales_with_variants.uniq { |l| l["locale"] }.each do |locale_with_var| %>
             <% is_selected = locale.to_s == locale_with_var["locale"] %>
             <% locale_name = t("languages.#{locale_with_var['locale']}", default: locale_with_var['locale'].upcase) %>
@@ -27,7 +27,7 @@
                 lang: locale_with_var["locale"],
                 hreflang: locale_with_var["locale"],
                 "aria-current": is_selected ? "page" : nil,
-                class: "biarritz-lang-link min-h-[44px] min-w-[44px] px-3 py-2 rounded-md uppercase font-semibold text-xs transition-all inline-flex items-center justify-center #{is_selected ? 'biarritz-lang-active' : ''}" do %>
+                class: "pwb-header__lang-link biarritz-lang-link min-h-[44px] min-w-[44px] px-3 py-2 rounded-md uppercase font-semibold text-xs transition-all inline-flex items-center justify-center #{is_selected ? 'biarritz-lang-active' : ''}" do %>
               <%= locale_name %>
             <% end %>
           <% end %>
@@ -38,18 +38,18 @@
 </header>
 
 <!-- Main Navigation - White Background with Dark Text (Maximum Contrast) -->
-<nav class="shadow-lg sticky top-0 z-50 border-b-4" style="background-color: var(--nav-bg); border-color: var(--nav-border-accent);" data-controller="toggle" role="navigation">
-  <div class="container mx-auto px-4">
+<nav class="pwb-nav shadow-lg sticky top-0 z-50 border-b-4" style="background-color: var(--nav-bg); border-color: var(--nav-border-accent);" data-controller="toggle" role="navigation">
+  <div class="pwb-container container mx-auto px-4">
     <div class="flex flex-wrap items-center justify-between py-4">
 
       <!-- Logo - Playfair Display Font -->
       <%= link_to main_app.root_path(locale: locale),
-          class: "flex items-center group transition-transform hover:scale-105",
+          class: "pwb-header__logo-link flex items-center group transition-transform hover:scale-105",
           "aria-label": "#{@current_agency.display_name} - Home" do %>
         <% if @current_website.logo_url %>
           <img src="<%= @current_website.logo_url %>"
                alt="<%= @current_agency.display_name %> Logo"
-               class="h-12 md:h-16"
+               class="pwb-header__logo-img h-12 md:h-16"
                loading="eager"
                fetchpriority="high">
         <% else %>
@@ -60,7 +60,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
               </svg>
             </div>
-            <span class="biarritz-logo-text text-2xl md:text-3xl font-bold transition-colors"
+            <span class="pwb-header__logo-text biarritz-logo-text text-2xl md:text-3xl font-bold transition-colors"
                   style="font-family: 'Playfair Display', Georgia, serif;">
               <%= @current_agency.display_name %>
             </span>
@@ -71,7 +71,7 @@
       <!-- Mobile Menu Button - High Contrast -->
       <button data-action="toggle#toggle"
               type="button"
-              class="biarritz-mobile-menu inline-flex items-center p-3 rounded-lg md:hidden transition-colors"
+              class="pwb-header__mobile-toggle biarritz-mobile-menu inline-flex items-center p-3 rounded-lg md:hidden transition-colors"
               aria-controls="navbar-main"
               aria-expanded="false"
               aria-label="Toggle navigation menu">
@@ -81,7 +81,7 @@
       </button>
 
       <!-- Desktop Navigation - High Contrast Links -->
-      <div class="hidden md:block w-full md:w-auto" id="navbar-main" data-toggle-target="content">
+      <div class="pwb-nav__content hidden md:block w-full md:w-auto" id="navbar-main" data-toggle-target="content">
         <ul class="flex flex-col mt-4 md:flex-row md:space-x-1 md:mt-0 md:items-center">
           <% @current_website.links.ordered_visible_top_nav.each do |page| %>
             <% next if page.slug == "top_nav_admin" %>
@@ -100,7 +100,7 @@
               <li>
                 <%= link_to page.link_title, target_path,
                     target: page.href_target,
-                    class: "biarritz-nav-link block px-4 py-3 md:py-2 rounded-lg font-medium transition-all #{is_active ? 'biarritz-nav-active font-semibold' : ''}",
+                    class: "pwb-nav__menu-link biarritz-nav-link block px-4 py-3 md:py-2 rounded-lg font-medium transition-all #{is_active ? 'biarritz-nav-active font-semibold' : ''}",
                     "aria-current": (is_active ? 'page' : nil) %>
               </li>
             <% end %>
@@ -110,7 +110,7 @@
           <% if current_user %>
             <li class="relative" data-controller="dropdown">
               <button type="button"
-                      class="biarritz-nav-link biarritz-dropdown-btn flex items-center px-4 py-3 md:py-2 rounded-lg font-medium transition-all"
+                      class="pwb-nav__user-menu biarritz-nav-link biarritz-dropdown-btn flex items-center px-4 py-3 md:py-2 rounded-lg font-medium transition-all"
                       data-action="dropdown#toggle"
                       aria-haspopup="true"
                       aria-expanded="false">

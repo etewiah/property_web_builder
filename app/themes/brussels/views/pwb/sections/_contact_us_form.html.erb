@@ -1,11 +1,11 @@
 <!-- Brussels Theme Contact Us Form -->
-<div class="bg-white shadow-card border border-gray-200 p-6">
+<div class="pwb-form-card bg-white shadow-card border border-gray-200 p-6">
   <p id="contact-us-prompt" class="text-gray-600 mb-6">
     <%= I18n.t("contactUsPrompt") %>
   </p>
 
   <%= form_for :contact, url: '/contact_us.js', method: 'post',
-      html: { class: 'space-y-4' }, remote: true do |f| %>
+      html: { class: 'pwb-form space-y-4' }, remote: true do |f| %>
 
     <%= f.hidden_field :locale, value: I18n.locale %>
 
@@ -23,7 +23,7 @@
     <div id="contact-us-result"></div>
 
     <button type="submit"
-            class="bg-brussels-lime text-gray-900 font-medium py-2 px-6 hover:brightness-110 transition-all flex items-center">
+            class="pwb-form__submit bg-brussels-lime text-gray-900 font-medium py-2 px-6 hover:brightness-110 transition-all flex items-center">
       <%= icon(:email, size: :sm, class: "mr-2") %>
       <%= I18n.t("send") %>
     </button>

@@ -1,13 +1,13 @@
 <%# Bologna Theme - Minimal Modern Header %>
-<header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-soft transition-all duration-300">
-  <nav class="container mx-auto px-6 py-4">
+<header class="pwb-header fixed top-0 left-0 right-0 z-50 bg-white shadow-soft transition-all duration-300">
+  <nav class="pwb-nav container mx-auto px-6 py-4">
     <div class="flex items-center justify-between">
 
       <%# Logo - Clean and Simple %>
-      <a href="<%= root_path %>" class="flex items-center space-x-3 group">
+      <a href="<%= root_path %>" class="pwb-header__logo-link flex items-center space-x-3 group">
         <% if @current_website.logo_url.present? %>
           <img src="<%= @current_website.logo_url %>"
-               class="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
+               class="pwb-header__logo-img h-10 w-auto transition-transform duration-300 group-hover:scale-105"
                alt="<%= company_display_name %>"
                loading="eager" fetchpriority="high">
         <% else %>
@@ -15,7 +15,7 @@
             <div class="w-10 h-10 bg-gradient-to-br from-pwb-primary-400 to-pwb-primary-600 rounded-soft flex items-center justify-center">
               <%= icon(:home, size: :md, class: "text-white") %>
             </div>
-            <span class="font-display font-semibold text-xl text-warm-gray-900 hidden sm:block">
+            <span class="pwb-header__logo-text font-display font-semibold text-xl text-warm-gray-900 hidden sm:block">
               <%= company_display_name %>
             </span>
           </div>
@@ -37,7 +37,7 @@
           <% end %>
           <% if target_path %>
             <a href="<%= target_path %>"
-               class="px-4 py-2 text-sm font-medium text-warm-gray-600 hover:text-pwb-primary hover:bg-pwb-primary-50 rounded-pill transition-all duration-200">
+               class="pwb-nav__menu-link px-4 py-2 text-sm font-medium text-warm-gray-600 hover:text-pwb-primary hover:bg-pwb-primary-50 rounded-pill transition-all duration-200">
               <%= page.link_title %>
             </a>
           <% end %>
@@ -99,7 +99,7 @@
 
         <%# Mobile Menu Button %>
         <button type="button"
-                class="lg:hidden min-w-[44px] min-h-[44px] w-10 h-10 bg-warm-gray-100 text-warm-gray-600 rounded-soft flex items-center justify-center hover:bg-warm-gray-200 focus-visible:ring-2 focus-visible:ring-pwb-primary transition-colors"
+                class="pwb-header__mobile-toggle lg:hidden min-w-[44px] min-h-[44px] w-10 h-10 bg-warm-gray-100 text-warm-gray-600 rounded-soft flex items-center justify-center hover:bg-warm-gray-200 focus-visible:ring-2 focus-visible:ring-pwb-primary transition-colors"
                 data-collapse-toggle="navbar-main"
                 aria-controls="navbar-main"
                 aria-expanded="false"
@@ -125,7 +125,7 @@
           <% end %>
           <% if target_path %>
             <a href="<%= target_path %>"
-               class="flex items-center px-5 py-3 text-warm-gray-600 hover:bg-pwb-primary-50 hover:text-pwb-primary border-b border-warm-gray-50 last:border-b-0 transition-colors">
+               class="pwb-nav__menu-link flex items-center px-5 py-3 text-warm-gray-600 hover:bg-pwb-primary-50 hover:text-pwb-primary border-b border-warm-gray-50 last:border-b-0 transition-colors">
               <%= page.link_title %>
             </a>
           <% end %>

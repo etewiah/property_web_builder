@@ -52,7 +52,7 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="<%= @current_website.style_variables["primary_color"] || "#0369A1" %>">
   </head>
-  <body class="tnt-body biarritz-theme <%= @current_website.body_style %> bg-warm-50 text-gray-900" data-controller="flowbite">
+  <body class="pwb-body tnt-body biarritz-theme <%= @current_website.body_style %> bg-warm-50 text-gray-900" data-controller="flowbite">
     <%= render 'shared/demo_banner' %>
     <%# Brand icons SVG sprite - must be early in body for <use> references %>
     <%= render partial: '/pwb/brand_icons_sprite' %>
@@ -60,10 +60,10 @@
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-white focus:text-sky-700">Skip to main content</a>
 
     <%# MAIN WRAPPER %>
-    <div id="main-vue" class="body-wrap sticky-wrap <%= @current_website.body_style %> flex flex-col min-h-screen">
+    <div id="main-vue" class="pwb-main-wrapper body-wrap sticky-wrap <%= @current_website.body_style %> flex flex-col min-h-screen">
       <%= render :partial => '/pwb/header', :locals => { not_devise: true }  %>
 
-      <main id="main-content" class="sticky-body flex-grow" role="main">
+      <main id="main-content" class="pwb-main sticky-body flex-grow" role="main">
         <%= render 'devise/shared/messages' %>
         <%= yield %>
       </main>

@@ -9,13 +9,13 @@
 </div>
 
 <!-- Main Footer - Dark Ocean Background with White Text -->
-<footer class="text-white" style="background-color: var(--footer-bg);" role="contentinfo">
-  <div class="container mx-auto px-4 py-12">
+<footer class="pwb-footer text-white" style="background-color: var(--footer-bg);" role="contentinfo">
+  <div class="pwb-container container mx-auto px-4 py-12">
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+    <div class="pwb-footer__grid grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
 
       <!-- Company Info Column -->
-      <div>
+      <div class="pwb-footer__company-info">
         <h4 class="text-2xl font-bold text-white mb-6" style="font-family: 'Playfair Display', Georgia, serif;">
           <%= company_display_name %>
         </h4>
@@ -47,7 +47,7 @@
       </div>
 
       <!-- Social Media Column -->
-      <nav class="flex flex-col items-center justify-center" aria-label="Social media links">
+      <nav class="pwb-footer__social-nav flex flex-col items-center justify-center" aria-label="Social media links">
         <h5 class="text-xl font-semibold text-white mb-6">Follow Us</h5>
         <div class="flex flex-wrap justify-center gap-3">
           <%
@@ -73,7 +73,7 @@
       </nav>
 
       <!-- Extra Content / Registration Info -->
-      <div class="text-white">
+      <div class="pwb-footer__extra-content text-white">
         <% if @footer_content.present? %>
           <div class="prose prose-invert max-w-none">
             <%== @footer_content.raw %>
@@ -91,7 +91,7 @@
     <div class="biarritz-footer-divider border-t-2 my-8"></div>
 
     <!-- Bottom Bar - Footer Links & Copyright -->
-    <div class="flex flex-col md:flex-row justify-between items-center text-sm">
+    <div class="pwb-footer__bottom-bar flex flex-col md:flex-row justify-between items-center text-sm">
 
       <!-- Footer Navigation Links -->
       <nav class="flex flex-wrap justify-center gap-6 mb-6 md:mb-0" aria-label="Footer navigation">

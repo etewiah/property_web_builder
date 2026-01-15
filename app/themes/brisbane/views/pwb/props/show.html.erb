@@ -3,11 +3,11 @@
 <%= render 'pwb/shared/leaflet_assets' %>
 <%= render '/pwb/props/breadcrumb_row' %>
 <!-- MAIN CONTENT -->
-<section class="property-detail-page bg-white border-b border-gray-200">
+<section class="pwb-prop-detail property-detail-page bg-white border-b border-gray-200">
   <div class="py-8">
-    <div class="property-detail-container">
-      <div class="property-detail-layout">
-        <div class="property-detail-main">
+    <div class="pwb-container property-detail-container">
+      <div class="pwb-prop-detail__layout property-detail-layout">
+        <div class="pwb-prop-detail__main property-detail-main">
           <%# Fragment cache for image carousel - invalidates when photos change %>
           <% cache property_detail_cache_key(@property_details, "carousel") do %>
             <div class="mb-6">
@@ -21,12 +21,12 @@
             </div>
             <!-- PROPERTY DESCRIPTION -->
             <div class="mb-6">
-              <h3 class="text-xl font-bold mb-4"><%= I18n.t("property.description") %></h3>
+              <h3 class="pwb-prop-detail__section-title text-xl font-bold mb-4"><%= I18n.t("property.description") %></h3>
               <%== @property_details.description %>
             </div>
             <% if @property_details.extras_for_display.present? %>
               <div class="mb-6">
-                <h3 class="text-xl font-bold mb-4"><%= I18n.t("property.extras") %></h3>
+                <h3 class="pwb-prop-detail__section-title text-xl font-bold mb-4"><%= I18n.t("property.extras") %></h3>
                 <%= render '/pwb/props/extras' %>
               </div>
             <% end %>
@@ -34,7 +34,7 @@
           <!-- Social Sharing -->
           <%= render 'pwb/shared/social_sharing', url: request.original_url, title: @property_details.title %>
         </div>
-        <div class="property-detail-sidebar">
+        <div class="pwb-prop-detail__sidebar property-detail-sidebar">
           <div class="space-y-6 lg:sticky lg:top-24">
             <%= render '/pwb/props/request_prop_info' %>
             <%= render '/pwb/props/prop_contact_info' %>
@@ -45,9 +45,9 @@
   </div>
 </section>
 <% if @property_details.show_map && @map_markers.present? %>
-  <section class="property-detail-map border-t border-gray-200">
-    <div class="property-detail-map-inner py-8">
-      <h3 class="text-xl font-bold mb-4"><%= I18n.t("property.location", default: "Location") %></h3>
+  <section class="pwb-prop-detail__map-section property-detail-map border-t border-gray-200">
+    <div class="pwb-prop-detail__map-container property-detail-map-inner py-8">
+      <h3 class="pwb-prop-detail__section-title text-xl font-bold mb-4"><%= I18n.t("property.location", default: "Location") %></h3>
       <div class="rounded-lg overflow-hidden shadow-sm" style="height: 400px;">
         <div id="property-map"
              class="w-full h-full"

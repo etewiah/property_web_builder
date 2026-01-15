@@ -1,11 +1,11 @@
 <%# Default Theme Property Card - Tailwind CSS Grid Card %>
 <% cache [property_card_cache_key(property, @operation_type), "default-v2"] do %>
-<div class="property-card relative bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full <%= 'ring-2 ring-blue-500' if property.highlighted %>"
+<div class="pwb-prop-card property-card relative bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full <%= 'ring-2 ring-blue-500' if property.highlighted %>"
      data-price="<%= property.contextual_price @operation_type %>">
 
   <%# Featured Badge %>
   <% if property.highlighted %>
-    <div class="absolute top-3 left-3 z-10">
+    <div class="pwb-prop-card__badge absolute top-3 left-3 z-10">
       <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-600 text-white">
         <%= I18n.t "property.highlightedProperty", default: "Featured" %>
       </span>
@@ -13,11 +13,11 @@
   <% end %>
 
   <%# Property Image %>
-  <div class="relative aspect-[4/3] overflow-hidden">
+  <div class="pwb-prop-card__img-wrapper relative aspect-[4/3] overflow-hidden">
     <%= link_to property.contextual_show_path(@operation_type), class: "block w-full h-full", "aria-label": t("property.view_details_for", title: property.title.presence || property.reference, default: "View details for %{title}") do %>
       <%= opt_image_tag((property.ordered_photo 1), quality: "auto",
           height: 280, crop: "fill",
-          class: "w-full h-full object-cover hover:scale-105 transition-transform duration-300",
+          class: "pwb-prop-card__img w-full h-full object-cover hover:scale-105 transition-transform duration-300",
           loading: "lazy",
           use_picture: true,
           alt: property.title.presence || "Property listing") %>
@@ -25,49 +25,49 @@
   </div>
 
   <%# Property Content %>
-  <div class="p-4 flex flex-col flex-grow">
+  <div class="pwb-prop-card__body p-4 flex flex-col flex-grow">
     <%# Title %>
-    <h3 class="text-lg font-semibold text-gray-900 mb-1 line-clamp-2">
+    <h3 class="pwb-prop-card__title text-lg font-semibold text-gray-900 mb-1 line-clamp-2">
       <%= link_to property.title, property.contextual_show_path(@operation_type),
           class: "hover:text-blue-600 transition-colors" %>
     </h3>
 
     <%# Reference %>
-    <p class="text-sm text-gray-500 mb-3"><%= property.reference %></p>
+    <p class="pwb-prop-card__reference text-sm text-gray-500 mb-3"><%= property.reference %></p>
 
     <%# Spacer to push footer to bottom %>
     <div class="flex-grow"></div>
 
     <%# Price with optional currency conversion %>
     <div class="mb-3">
-      <span class="text-xl font-bold text-blue-600 block truncate" title="<%= property_price(property, @operation_type) %>">
+      <span class="pwb-prop-card__price text-xl font-bold text-blue-600 block truncate" title="<%= property_price(property, @operation_type) %>">
         <%= property_price(property, @operation_type) %>
       </span>
     </div>
 
     <%# Features Row %>
-    <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+    <div class="pwb-prop-card__features flex items-center justify-between pt-3 border-t border-gray-100">
       <div class="flex items-center gap-4 text-sm text-gray-600">
         <% if property.count_bedrooms.present? && property.count_bedrooms > 0 %>
-          <span class="flex items-center" title="<%= I18n.t('amenities.bedrooms', default: 'Bedrooms') %>">
+          <span class="pwb-prop-card__feature-item flex items-center" title="<%= I18n.t('amenities.bedrooms', default: 'Bedrooms') %>">
             <%= icon(:bed, size: :sm, class: "text-gray-400 mr-1") %>
             <span><%= format_bedroom_count(property.count_bedrooms) %></span>
           </span>
         <% end %>
         <% if property.count_bathrooms.present? && property.count_bathrooms > 0 %>
-          <span class="flex items-center" title="<%= I18n.t('amenities.bathrooms', default: 'Bathrooms') %>">
+          <span class="pwb-prop-card__feature-item flex items-center" title="<%= I18n.t('amenities.bathrooms', default: 'Bathrooms') %>">
             <%= icon(:shower, size: :sm, class: "text-gray-400 mr-1") %>
             <span><%= format_bathroom_count(property.count_bathrooms) %></span>
           </span>
         <% end %>
         <% if property.constructed_area.present? && property.constructed_area > 0 %>
-          <span class="flex items-center" title="<%= I18n.t('amenities.area', default: 'Area') %>">
+          <span class="pwb-prop-card__feature-item flex items-center" title="<%= I18n.t('amenities.area', default: 'Area') %>">
             <%= icon(:fullscreen, size: :sm, class: "text-gray-400 mr-1") %>
             <span><%= property.constructed_area %><%= area_unit property %></span>
           </span>
         <% end %>
         <% if property.count_garages.present? && property.count_garages > 0 %>
-          <span class="flex items-center" title="<%= I18n.t('amenities.parking', default: 'Parking') %>">
+          <span class="pwb-prop-card__feature-item flex items-center" title="<%= I18n.t('amenities.parking', default: 'Parking') %>">
             <%= icon(:directions_car, size: :sm, class: "text-gray-400 mr-1") %>
             <span><%= property.count_garages %></span>
           </span>
@@ -76,7 +76,7 @@
 
       <%# View Property Link %>
       <%= link_to property.contextual_show_path(@operation_type),
-          class: "text-blue-600 hover:text-blue-700 text-sm font-medium inline-flex items-center whitespace-nowrap",
+          class: "pwb-prop-card__cta text-blue-600 hover:text-blue-700 text-sm font-medium inline-flex items-center whitespace-nowrap",
           title: I18n.t("property.goToProperty", default: "View Property") do %>
         <%= icon(:chevron_right, size: :sm) %>
         <span class="ml-1"><%= I18n.t "property.goToProperty", default: "View Property" %></span>

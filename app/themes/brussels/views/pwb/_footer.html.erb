@@ -1,11 +1,11 @@
 <!-- Brussels Modern Theme Footer - Gray background with lime green accents -->
-<footer class="bg-brussels-gray text-white">
+<footer class="pwb-footer bg-brussels-gray text-white">
   <!-- Main Footer Content -->
-  <div class="container mx-auto px-4 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <div class="pwb-container container mx-auto px-4 py-12">
+    <div class="pwb-footer__grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
       <!-- Brand Column -->
-      <div>
+      <div class="pwb-footer__company-info">
         <div class="mb-4">
           <% if @current_website.logo_url %>
             <img src="<%= @current_website.logo_url %>" alt="<%= company_display_name %>" class="h-10 brightness-0 invert opacity-90" loading="lazy" decoding="async">
@@ -18,7 +18,7 @@
         </p>
 
         <!-- Social Icons -->
-        <nav class="flex items-center space-x-3" aria-label="Social media links">
+        <nav class="pwb-footer__social-nav flex items-center space-x-3" aria-label="Social media links">
           <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
             <a href="<%= @current_website.social_media_facebook %>" target="_blank" rel="noopener noreferrer"
                class="w-9 h-9 flex items-center justify-center border border-white/30 text-white/70 hover:text-brussels-lime hover:border-brussels-lime transition-all duration-200"
@@ -65,7 +65,7 @@
       </div>
 
       <!-- Contact Column -->
-      <div>
+      <div class="pwb-footer__contact-info">
         <h4 class="text-sm font-semibold text-white mb-4">Contact</h4>
         <ul class="space-y-3">
           <% if @current_agency.phone_number_primary.present? %>
@@ -98,7 +98,7 @@
       </div>
 
       <!-- Quick Links Column -->
-      <div>
+      <div class="pwb-footer__links-col">
         <h4 class="text-sm font-semibold text-white mb-4">Quick Links</h4>
         <ul class="space-y-2">
           <% @current_website.links.ordered_visible_footer.each do |page| %>
@@ -128,7 +128,7 @@
   </div>
 
   <!-- Bottom Bar -->
-  <div class="border-t border-white/10">
+  <div class="pwb-footer__bottom-bar border-t border-white/10">
     <div class="container mx-auto px-4 py-4">
       <div class="flex flex-col md:flex-row items-center justify-between space-y-2 md:space-y-0">
         <!-- Copyright -->
@@ -137,7 +137,7 @@
         </p>
 
         <!-- Powered By -->
-        <p class="text-xs text-white/40">
+        <p class="pwb-footer__powered-by text-xs text-white/40">
           Powered by
           <a href="https://www.propertywebbuilder.com"
              class="text-brussels-lime/60 hover:text-brussels-lime transition-colors duration-200"

@@ -1,6 +1,6 @@
 <%# Brussels Theme - Property Detail Breadcrumb Row %>
-<div class="bg-brussels-light py-4 border-b border-gray-200">
-  <div class="container mx-auto px-4">
+<div class="pwb-breadcrumb bg-brussels-light py-4 border-b border-gray-200">
+  <div class="pwb-container container mx-auto px-4">
     <div class="flex flex-wrap items-center">
 
       <% if @is_subdomain_admin %>
@@ -16,13 +16,13 @@
 
       <div class="w-full flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <h1 class="text-xl md:text-2xl font-semibold text-brussels-dark">
+          <h1 class="pwb-breadcrumb__title text-xl md:text-2xl font-semibold text-brussels-dark">
             <%= @property_details.title %>
           </h1>
           <%# Favorite button %>
           <button type="button"
                   onclick="togglePropertyFavorite(event, '<%= @property_details.slug_or_id %>', '<%= j(@property_details.title) %>')"
-                  class="favorite-btn p-2 text-gray-400 hover:text-red-500 rounded-full hover:bg-white transition-colors duration-200"
+                  class="pwb-breadcrumb__fav-btn favorite-btn p-2 text-gray-400 hover:text-red-500 rounded-full hover:bg-white transition-colors duration-200"
                   data-reference="<%= @property_details.slug_or_id %>"
                   title="<%= t('favorites.save_to_favorites', default: 'Save to favorites') %>">
             <svg class="h-5 w-5 favorite-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,14 +32,14 @@
         </div>
 
         <%# Breadcrumb navigation %>
-        <nav class="hidden md:flex" aria-label="Breadcrumb">
-          <ol class="inline-flex items-center space-x-1 text-sm">
-            <li class="inline-flex items-center">
-              <a href="/" class="text-gray-500 hover:text-brussels-lime transition-colors duration-200">
+        <nav class="pwb-breadcrumb__nav hidden md:flex" aria-label="Breadcrumb">
+          <ol class="pwb-breadcrumb__list inline-flex items-center space-x-1 text-sm">
+            <li class="pwb-breadcrumb__item inline-flex items-center">
+              <a href="/" class="pwb-breadcrumb__link text-gray-500 hover:text-brussels-lime transition-colors duration-200">
                 <%= I18n.t("webContentSections.home") %>
               </a>
             </li>
-            <li>
+            <li class="pwb-breadcrumb__item">
               <div class="flex items-center">
                 <svg class="w-4 h-4 text-gray-400 mx-1" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>

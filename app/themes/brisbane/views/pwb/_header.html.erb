@@ -1,9 +1,9 @@
 <!-- Brisbane Luxury Theme Header - Uses semantic palette classes -->
 <!-- Sophisticated top bar with accent highlights -->
-<header class="bg-pwb-secondary-900 text-white border-b border-pwb-accent/20">
-  <div class="container mx-auto px-6">
-    <div class="flex flex-wrap items-center justify-between py-2.5 text-xs tracking-wider">
-      <div class="flex items-center space-x-6">
+<header class="pwb-header bg-pwb-secondary-900 text-white border-b border-pwb-accent/20">
+  <div class="pwb-container container mx-auto px-6">
+    <div class="pwb-header__top-bar flex flex-wrap items-center justify-between py-2.5 text-xs tracking-wider">
+      <div class="pwb-header__contact-info flex items-center space-x-6">
         <% if @current_agency.phone_number_primary %>
           <span class="flex items-center text-white/80 hover:text-pwb-accent transition-colors duration-300">
             <%= icon(:phone, size: :sm, class: "mr-2 text-pwb-accent") %>
@@ -18,7 +18,7 @@
         <% end %>
       </div>
       <% if @current_website.is_multilingual && not_devise %>
-        <nav aria-label="<%= t('pwb.accessibility.language_selector', default: 'Language selector') %>" class="flex items-center space-x-1">
+        <nav aria-label="<%= t('pwb.accessibility.language_selector', default: 'Language selector') %>" class="pwb-header__lang-nav flex items-center space-x-1">
           <% @current_website.supported_locales_with_variants.uniq { |l| l["locale"] }.each do |locale_with_var| %>
             <% is_selected = locale.to_s == locale_with_var["locale"] %>
             <% locale_name = t("languages.#{locale_with_var['locale']}", default: locale_with_var['locale'].upcase) %>
@@ -37,15 +37,15 @@
 </header>
 
 <!-- Elegant Main Navigation -->
-<nav class="bg-white border-b border-gray-100 sticky top-0 z-50 transition-all duration-300">
-  <div class="container mx-auto px-6">
-    <div class="flex flex-wrap items-center justify-between py-5">
+<nav class="pwb-nav bg-white border-b border-gray-100 sticky top-0 z-50 transition-all duration-300">
+  <div class="pwb-container container mx-auto px-6">
+    <div class="pwb-nav__bar flex flex-wrap items-center justify-between py-5">
       <!-- Logo with Luxury Styling -->
-      <%= link_to main_app.root_path(locale: locale), class: "flex items-center group" do %>
+      <%= link_to main_app.root_path(locale: locale), class: "pwb-header__logo-link flex items-center group" do %>
         <% if @current_website.logo_url %>
-          <img src="<%= @current_website.logo_url %>" alt="<%= company_display_name %>" class="h-10 md:h-14 transition-transform duration-300 group-hover:scale-105" loading="eager" fetchpriority="high">
+          <img src="<%= @current_website.logo_url %>" alt="<%= company_display_name %>" class="pwb-header__logo-img h-10 md:h-14 transition-transform duration-300 group-hover:scale-105" loading="eager" fetchpriority="high">
         <% else %>
-          <span class="font-serif text-2xl md:text-3xl text-pwb-secondary-800 tracking-wide"><%= company_display_name %></span>
+          <span class="pwb-header__logo-text font-serif text-2xl md:text-3xl text-pwb-secondary-800 tracking-wide"><%= company_display_name %></span>
         <% end %>
       <% end %>
 
@@ -53,7 +53,7 @@
       <button
         data-collapse-toggle="navbar-main"
         type="button"
-        class="inline-flex items-center justify-center min-h-[44px] min-w-[44px] p-2.5 text-pwb-secondary-800 md:hidden hover:text-pwb-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-pwb-accent transition-colors duration-300"
+        class="pwb-header__mobile-toggle inline-flex items-center justify-center min-h-[44px] min-w-[44px] p-2.5 text-pwb-secondary-800 md:hidden hover:text-pwb-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-pwb-accent transition-colors duration-300"
         aria-controls="navbar-main"
         aria-expanded="false"
         aria-label="<%= t('pwb.accessibility.open_main_menu', default: 'Open main navigation') %>">
@@ -63,8 +63,8 @@
       </button>
 
       <!-- Navigation Links with Luxury Typography -->
-      <div class="hidden w-full md:block md:w-auto" id="navbar-main">
-        <ul class="flex flex-col mt-6 md:flex-row md:items-center md:space-x-1 md:mt-0">
+      <div class="pwb-nav__content hidden w-full md:block md:w-auto" id="navbar-main">
+        <ul class="pwb-nav__menu-list flex flex-col mt-6 md:flex-row md:items-center md:space-x-1 md:mt-0">
           <% @current_website.links.ordered_visible_top_nav.each do |page| %>
             <% next if page.slug == "top_nav_admin" %>
             <% target_path = nil %>
@@ -79,16 +79,16 @@
 
             <% if target_path %>
               <% is_active = current_page?(target_path) || (current_page?("/") && page.link_path == "home_path") %>
-              <li>
+              <li class="pwb-nav__menu-item">
                 <%= link_to page.link_title, target_path,
                     target: page.href_target,
-                    class: "block py-3 px-5 text-xs font-medium uppercase tracking-widest transition-all duration-300 #{is_active ? 'text-pwb-accent' : 'text-pwb-secondary-800 hover:text-pwb-accent'}" %>
+                    class: "pwb-nav__menu-link block py-3 px-5 text-xs font-medium uppercase tracking-widest transition-all duration-300 #{is_active ? 'text-pwb-accent' : 'text-pwb-secondary-800 hover:text-pwb-accent'}" %>
               </li>
             <% end %>
           <% end %>
 
           <% if current_user %>
-            <li class="relative group md:ml-4">
+            <li class="pwb-nav__user-menu relative group md:ml-4">
               <button type="button" class="flex items-center py-2.5 px-5 text-xs font-medium uppercase tracking-widest text-pwb-secondary-800 hover:text-pwb-accent transition-all duration-300 border border-pwb-secondary-200 hover:border-pwb-accent" data-dropdown-toggle="user-dropdown">
                 <%= icon(:person, size: :sm, class: "mr-2") %>
                 <%= current_user.email.split('@').first %>

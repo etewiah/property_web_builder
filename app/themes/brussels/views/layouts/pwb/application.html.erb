@@ -53,7 +53,7 @@
     <meta name="theme-color" content="<%= @current_website.style_variables["primary_color"] || "#9ACD32" %>">
   </head>
 
-  <body class="tnt-body brussels-theme <%= @current_website.body_style %> font-sans antialiased bg-brussels-light text-brussels-dark" data-controller="flowbite">
+  <body class="pwb-body tnt-body brussels-theme <%= @current_website.body_style %> font-sans antialiased bg-brussels-light text-brussels-dark" data-controller="flowbite">
     <%= render 'shared/demo_banner' %>
     <%# Brand icons SVG sprite %>
     <%= render partial: '/pwb/brand_icons_sprite' %>
@@ -61,13 +61,13 @@
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-white focus:text-brussels-lime">Skip to main content</a>
 
     <%# MAIN WRAPPER %>
-    <div id="main-vue" class="body-wrap sticky-wrap <%= @current_website.body_style %> flex flex-col min-h-screen">
+    <div id="main-vue" class="pwb-main-wrapper body-wrap sticky-wrap <%= @current_website.body_style %> flex flex-col min-h-screen">
 
       <%# Header %>
       <%= render partial: '/pwb/header', locals: { not_devise: true } %>
 
       <%# Main Content %>
-      <main id="main-content" class="sticky-body flex-grow" role="main">
+      <main id="main-content" class="pwb-main sticky-body flex-grow" role="main">
         <%= render 'devise/shared/messages' %>
         <%= yield %>
       </main>

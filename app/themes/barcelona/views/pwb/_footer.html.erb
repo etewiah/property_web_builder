@@ -1,6 +1,6 @@
 <%# Barcelona Theme - Mediterranean Coastal Footer %>
 <%# Warm, inviting design with coastal blues and golden accents %>
-<footer class="bg-gradient-to-b from-pwb-secondary-800 to-pwb-secondary-900 text-warm-200">
+<footer class="pwb-footer bg-gradient-to-b from-pwb-secondary-800 to-pwb-secondary-900 text-warm-200">
   <!-- Wave Decoration - Mediterranean Coastal Wave -->
   <div class="relative -mb-1">
     <svg class="w-full h-16 text-warm-50 fill-current" viewBox="0 0 1440 64" preserveAspectRatio="none">
@@ -9,11 +9,11 @@
   </div>
 
   <!-- Main Footer Content -->
-  <div class="container mx-auto px-6 py-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
+  <div class="pwb-container container mx-auto px-6 py-16">
+    <div class="pwb-footer__grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
 
       <!-- Brand & Social Column -->
-      <div class="lg:col-span-4">
+      <div class="pwb-footer__company-info lg:col-span-4">
         <div class="mb-8">
           <% if @current_website.logo_url.present? %>
             <img src="<%= @current_website.logo_url %>"
@@ -37,7 +37,7 @@
         </p>
 
         <!-- Social Icons - Mediterranean Style -->
-        <div class="flex items-center space-x-3">
+        <div class="pwb-footer__social-links flex items-center space-x-3">
           <% if @current_website.respond_to?(:social_media_facebook) && @current_website.social_media_facebook.present? %>
             <a href="<%= @current_website.social_media_facebook %>" target="_blank"
                class="w-11 h-11 flex items-center justify-center bg-pwb-secondary-700 text-pwb-secondary-300 rounded-full hover:bg-pwb-accent hover:text-pwb-secondary-900 transition-all duration-300">
@@ -78,7 +78,7 @@
       </div>
 
       <!-- Quick Links Column -->
-      <div class="lg:col-span-2">
+      <div class="pwb-footer__links-col lg:col-span-2">
         <h4 class="font-display font-semibold text-white text-lg mb-6">
           <%= t('pwb.footer.explore', default: 'Explore') %>
         </h4>
@@ -124,7 +124,7 @@
       </div>
 
       <!-- Contact Info Column -->
-      <div class="lg:col-span-3">
+      <div class="pwb-footer__contact-info lg:col-span-3">
         <h4 class="font-display font-semibold text-white text-lg mb-6">
           <%= t('pwb.footer.contact', default: 'Get in Touch') %>
         </h4>
@@ -163,7 +163,7 @@
       </div>
 
       <!-- Newsletter / Custom Content Column -->
-      <div class="lg:col-span-3">
+      <div class="pwb-footer__newsletter lg:col-span-3">
         <% if @footer_content.present? && @footer_content.respond_to?(:raw) && @footer_content.raw.present? %>
           <h4 class="font-display font-semibold text-white text-lg mb-6">
             <%= t('pwb.footer.about', default: 'About Us') %>
@@ -196,7 +196,7 @@
   </div>
 
   <!-- Bottom Bar -->
-  <div class="border-t border-pwb-secondary-700">
+  <div class="pwb-footer__bottom-bar border-t border-pwb-secondary-700">
     <div class="container mx-auto px-6 py-6">
       <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
         <!-- Copyright -->
@@ -206,7 +206,7 @@
         </p>
 
         <!-- Powered By -->
-        <p class="text-sm text-pwb-secondary-500 flex items-center">
+        <p class="pwb-footer__powered-by text-sm text-pwb-secondary-500 flex items-center">
           <span class="mr-2"><%= t('pwb.footer.powered_by', default: 'Powered by') %></span>
           <a href="https://www.propertywebbuilder.com"
              class="text-pwb-accent-400 hover:text-pwb-accent-300 transition-colors duration-200 font-medium"

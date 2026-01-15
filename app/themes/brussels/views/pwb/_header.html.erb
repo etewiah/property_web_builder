@@ -1,13 +1,13 @@
 <!-- Brussels Modern Theme Header - Semi-transparent with lime green accents -->
-<header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background-color: rgba(19, 19, 19, 0.52);">
-  <div class="container mx-auto px-4">
+<header class="pwb-header fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background-color: rgba(19, 19, 19, 0.52);">
+  <div class="pwb-container container mx-auto px-4">
     <div class="flex flex-wrap items-center justify-between py-3">
       <!-- Logo -->
-      <%= link_to main_app.root_path(locale: locale), class: "flex items-center group" do %>
+      <%= link_to main_app.root_path(locale: locale), class: "pwb-header__logo-link flex items-center group" do %>
         <% if @current_website.logo_url %>
-          <img src="<%= @current_website.logo_url %>" alt="<%= company_display_name %>" class="h-8 md:h-10 transition-transform duration-200 group-hover:scale-105" loading="eager" fetchpriority="high">
+          <img src="<%= @current_website.logo_url %>" alt="<%= company_display_name %>" class="pwb-header__logo-img h-8 md:h-10 transition-transform duration-200 group-hover:scale-105" loading="eager" fetchpriority="high">
         <% else %>
-          <span class="text-lg md:text-xl font-semibold text-white"><%= company_display_name %></span>
+          <span class="pwb-header__logo-text text-lg md:text-xl font-semibold text-white"><%= company_display_name %></span>
         <% end %>
       <% end %>
 
@@ -15,7 +15,7 @@
       <button
         data-collapse-toggle="navbar-main"
         type="button"
-        class="inline-flex items-center justify-center min-h-[44px] min-w-[44px] p-2 text-white md:hidden hover:text-brussels-lime focus:outline-none focus-visible:ring-2 focus-visible:ring-brussels-lime transition-colors duration-200"
+        class="pwb-header__mobile-toggle inline-flex items-center justify-center min-h-[44px] min-w-[44px] p-2 text-white md:hidden hover:text-brussels-lime focus:outline-none focus-visible:ring-2 focus-visible:ring-brussels-lime transition-colors duration-200"
         aria-controls="navbar-main"
         aria-expanded="false"
         aria-label="<%= t('pwb.accessibility.open_main_menu', default: 'Open main navigation') %>">
@@ -25,7 +25,7 @@
       </button>
 
       <!-- Navigation Links -->
-      <div class="hidden w-full md:block md:w-auto" id="navbar-main">
+      <div class="pwb-nav__content hidden w-full md:block md:w-auto" id="navbar-main">
         <ul class="flex flex-col mt-4 md:flex-row md:items-center md:space-x-1 md:mt-0">
           <% @current_website.links.ordered_visible_top_nav.each do |page| %>
             <% next if page.slug == "top_nav_admin" %>
@@ -44,14 +44,14 @@
               <li>
                 <%= link_to page.link_title, target_path,
                     target: page.href_target,
-                    class: "block py-2 px-4 text-sm font-normal transition-colors duration-200 #{is_active ? 'text-brussels-lime' : 'text-white hover:text-brussels-lime'}" %>
+                    class: "pwb-nav__menu-link block py-2 px-4 text-sm font-normal transition-colors duration-200 #{is_active ? 'text-brussels-lime' : 'text-white hover:text-brussels-lime'}" %>
               </li>
             <% end %>
           <% end %>
 
           <% if current_user %>
             <li class="relative group md:ml-2">
-              <button type="button" class="flex items-center py-2 px-4 text-sm text-white hover:text-brussels-lime transition-colors duration-200" data-dropdown-toggle="user-dropdown">
+              <button type="button" class="pwb-nav__user-menu flex items-center py-2 px-4 text-sm text-white hover:text-brussels-lime transition-colors duration-200" data-dropdown-toggle="user-dropdown">
                 <%= icon(:person, size: :sm, class: "mr-1") %>
                 <%= current_user.email.split('@').first %>
                 <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
@@ -76,7 +76,7 @@
           <!-- Language selector -->
           <% if @current_website.is_multilingual && not_devise %>
             <li class="md:ml-2">
-              <nav aria-label="<%= t('pwb.accessibility.language_selector', default: 'Language selector') %>" class="flex items-center">
+              <nav aria-label="<%= t('pwb.accessibility.language_selector', default: 'Language selector') %>" class="pwb-header__lang-nav flex items-center">
                 <% @current_website.supported_locales_with_variants.uniq { |l| l["locale"] }.each do |locale_with_var| %>
                   <% is_selected = locale.to_s == locale_with_var["locale"] %>
                   <% locale_name = locale_with_var['locale'].upcase %>
@@ -84,7 +84,7 @@
                       lang: locale_with_var["locale"],
                       hreflang: locale_with_var["locale"],
                       "aria-current": is_selected ? "page" : nil,
-                      class: "min-h-[44px] min-w-[36px] px-2 py-2 text-xs font-medium inline-flex items-center justify-center transition-colors duration-200 #{is_selected ? 'text-brussels-lime' : 'text-white/70 hover:text-brussels-lime'}" do %>
+                      class: "pwb-header__lang-link min-h-[44px] min-w-[36px] px-2 py-2 text-xs font-medium inline-flex items-center justify-center transition-colors duration-200 #{is_selected ? 'text-brussels-lime' : 'text-white/70 hover:text-brussels-lime'}" do %>
                     <%= locale_name %>
                   <% end %>
                 <% end %>
@@ -96,7 +96,7 @@
           <li class="md:ml-4 mt-3 md:mt-0">
             <%= link_to I18n.t("contactUs", default: "Contact"),
                 main_app.contact_us_path(locale: locale),
-                class: "block py-2 px-4 text-sm font-medium bg-brussels-lime text-gray-900 hover:brightness-110 transition-all duration-200 text-center" %>
+                class: "pwb-header__cta-link block py-2 px-4 text-sm font-medium bg-brussels-lime text-gray-900 hover:brightness-110 transition-all duration-200 text-center" %>
           </li>
         </ul>
       </div>
