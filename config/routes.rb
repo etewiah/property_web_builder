@@ -19,6 +19,21 @@ Rails.application.routes.draw do
   # Reverse proxies (like Caddy) query this to verify domains before issuing certificates
   get '/tls/check', to: 'pwb/tls#check'
 
+  # ===================
+  # Client Proxy Routes (for Astro A themes)
+  # ===================
+  # These routes proxy requests to the Astro client for websites using client rendering mode.
+  # The constraint checks if the website uses client rendering and the path is not excluded.
+  constraints ClientRenderingConstraint.new do
+    # Admin routes require authentication
+    match '/client-admin/*path', to: 'pwb/client_proxy#admin_proxy', via: :all
+    match '/client-admin', to: 'pwb/client_proxy#admin_proxy', via: :all
+
+    # All other non-excluded paths go to public proxy
+    # This is a catch-all, so it should be last in the constraint block
+    match '*path', to: 'pwb/client_proxy#public_proxy', via: :all, as: :client_proxy_catchall
+  end
+
   # SEO: XML Sitemap and robots.txt (dynamic per-tenant)
   get '/sitemap.xml', to: 'sitemaps#index', defaults: { format: 'xml' }
   get '/robots.txt', to: 'robots#index', defaults: { format: 'text' }

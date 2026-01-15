@@ -164,6 +164,12 @@ gem "graphiql-rails", group: :development
 
 gem "faraday", "~> 2.3"
 
+# HTTP client for reverse proxy (client-rendered websites)
+gem "http", "~> 5.0"
+
+# JWT for proxy authentication tokens
+gem "jwt", "~> 2.7"
+
 # RETS gem removed - MLS/RETS integration deprecated (Dec 2024)
 # See docs/claude_thoughts/DEPRECATED_FEATURES.md for details
 
