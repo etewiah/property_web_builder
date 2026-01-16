@@ -93,6 +93,10 @@ group :development do
 
   # Preview emails in browser instead of sending
   gem "letter_opener"
+
+  # Component preview and documentation
+  gem "lookbook", ">= 2.0"
+  gem "view_component"
 end
 
 group :development, :test, :e2e do

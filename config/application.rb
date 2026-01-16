@@ -45,6 +45,7 @@ module StandalonePwb
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks pwb/version.rb signup_component])
     config.autoload_paths << Rails.root.join('app', 'middleware')
+    config.autoload_paths << Rails.root.join("spec/components/previews") if Rails.env.development?
     config.assets.css_compressor = nil
 
     # Configuration for the application, engines, and railties goes here.
