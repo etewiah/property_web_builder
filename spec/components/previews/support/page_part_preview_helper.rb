@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 # Helper module for Lookbook page part previews
-# Provides mock data and theme switching utilities
+# Provides mock data, YAML seed loading, and theme switching utilities
 module PagePartPreviewHelper
   extend ActiveSupport::Concern
+
+  SEED_DIR = Rails.root.join("db/yml_seeds/page_parts")
 
   # Theme palettes based on app/themes/config.json
   PALETTES = {
@@ -41,7 +43,7 @@ module PagePartPreviewHelper
     }
   }.freeze
 
-  # Sample content for page parts
+  # Sample content for page parts - used as fallback and for realistic previews
   SAMPLE_DATA = {
     "heroes/hero_centered" => {
       pretitle: "Welcome to",
@@ -88,7 +90,7 @@ module PagePartPreviewHelper
       feature_2_title: "Rentals",
       feature_2_description: "Find the perfect rental property or let us manage yours.",
       feature_2_link: "/rent",
-      feature_3_icon: "chart",
+      feature_3_icon: "chart-bar",
       feature_3_title: "Valuations",
       feature_3_description: "Accurate property valuations based on current market data.",
       feature_3_link: "/contact-us"
@@ -108,7 +110,7 @@ module PagePartPreviewHelper
       card_3_title: "Negotiation",
       card_3_text: "Expert negotiation to get the best deal",
       card_3_color: "#2ecc71",
-      card_4_icon: "document",
+      card_4_icon: "file-text",
       card_4_title: "Legal Support",
       card_4_text: "Guidance through all legal processes",
       card_4_color: "#9b59b6"
@@ -140,10 +142,10 @@ module PagePartPreviewHelper
       testimonial_1_name: "Sarah Johnson",
       testimonial_1_role: "Homeowner",
       testimonial_1_image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
-      testimonial_2_text: "Professional service from start to finish. I would highly recommend them to anyone looking to buy or sell.",
+      testimonial_2_text: "Professional service from start to finish. Highly recommend!",
       testimonial_2_name: "Michael Chen",
       testimonial_2_role: "Property Investor",
-      testimonial_3_text: "They made selling our house so easy. Got a great price and the process was smooth.",
+      testimonial_3_text: "They made selling our house so easy. Got a great price!",
       testimonial_3_name: "Emma Williams",
       testimonial_3_role: "Seller"
     },
@@ -168,20 +170,76 @@ module PagePartPreviewHelper
       section_title: "Frequently Asked Questions",
       section_subtitle: "Find answers to common questions",
       faq_1_question: "How do I start the buying process?",
-      faq_1_answer: "Contact us for a free consultation. We'll discuss your requirements, budget, and preferences to find the perfect property.",
+      faq_1_answer: "Contact us for a free consultation. We'll discuss your requirements and preferences.",
       faq_2_question: "What are your fees?",
-      faq_2_answer: "Our fees vary depending on the service. For buyers, our service is typically free as we're paid by the seller. Contact us for specific details.",
+      faq_2_answer: "For buyers, our service is typically free as we're paid by the seller.",
       faq_3_question: "How long does it take to sell a property?",
-      faq_3_answer: "On average, properties sell within 2-3 months, but this varies by location, price, and market conditions.",
+      faq_3_answer: "On average 2-3 months, varying by location and market conditions.",
       faq_4_question: "Do you offer property management?",
-      faq_4_answer: "Yes, we offer comprehensive property management services for landlords, including tenant finding, maintenance, and rent collection."
+      faq_4_answer: "Yes, comprehensive services including tenant finding and maintenance."
     }
   }.freeze
 
-  # Build a page_part hash structure that matches Liquid template expectations
+  # ============================================
+  # YAML SEED LOADING
+  # ============================================
+
+  # Load template from YAML seed file
+  # @param key [String] Page part key like "cta/cta_banner"
+  # @return [String, nil] The template content or nil if not found
+  def load_seed_template(key)
+    seed_data = load_seed_file(key)
+    seed_data&.dig("template")
+  end
+
+  # Load seed file data for a page part
+  # @param key [String] Page part key like "heroes/hero_centered"
+  # @return [Hash, nil] The parsed YAML data or nil
+  def load_seed_file(key)
+    # Convert key to seed file pattern: "cta/cta_banner" -> "*cta_cta_banner.yml"
+    pattern = key.gsub("/", "_")
+    seed_files = Dir.glob(SEED_DIR.join("*#{pattern}.yml"))
+
+    return nil if seed_files.empty?
+
+    yaml_data = YAML.load_file(seed_files.first)
+    yaml_data.is_a?(Array) ? yaml_data.first : yaml_data
+  rescue StandardError => e
+    Rails.logger.warn "Failed to load seed file for #{key}: #{e.message}"
+    nil
+  end
+
+  # Get field definitions from seed file
+  # @param key [String] Page part key
+  # @return [Array<String>] List of field names
+  def seed_field_names(key)
+    seed_data = load_seed_file(key)
+    return [] unless seed_data
+
+    editor_blocks = seed_data.dig("editor_setup", "editorBlocks") || []
+    editor_blocks.flatten.filter_map { |block| block["label"] if block.is_a?(Hash) }
+  end
+
+  # ============================================
+  # PAGE PART BUILDING
+  # ============================================
+
+  # Build a page_part hash structure for Liquid templates
+  # Uses static sample data with YAML seed field discovery
+  # @param key [String] Page part key like "cta/cta_banner"
+  # @param overrides [Hash] Optional field overrides
+  # @return [Hash] Page part data in Liquid-compatible format
   def build_page_part(key, overrides = {})
+    # Get sample data for this page part
     data = (SAMPLE_DATA[key] || {}).merge(overrides)
-    
+
+    # Also include any fields defined in seed that might be missing
+    seed_fields = seed_field_names(key)
+    seed_fields.each do |field|
+      field_sym = field.to_sym
+      data[field_sym] ||= "" # Ensure field exists even if empty
+    end
+
     # Convert to nested hash structure expected by Liquid templates
     # e.g., page_part["title"]["content"]
     # IMPORTANT: Liquid requires string keys, not symbols
@@ -192,11 +250,29 @@ module PagePartPreviewHelper
     result
   end
 
+  # Get template for rendering - prefers YAML seed template, falls back to views
+  # @param key [String] Page part key
+  # @return [String, nil] Template content
+  def get_template(key)
+    # First try seed file template (has Tailwind classes)
+    seed_template = load_seed_template(key)
+    return seed_template if seed_template.present?
+
+    # Fall back to views/pwb/page_parts/*.liquid
+    view_path = Rails.root.join("app/views/pwb/page_parts/#{key}.liquid")
+    return File.read(view_path) if File.exist?(view_path)
+
+    nil
+  end
+
+  # ============================================
+  # THEME UTILITIES
+  # ============================================
 
   # Generate CSS custom properties for a theme palette
   def palette_css_vars(theme)
     palette = PALETTES[theme.to_sym] || PALETTES[:default]
-    
+
     <<~CSS
       --pwb-primary: #{palette[:primary_color]};
       --pwb-secondary: #{palette[:secondary_color]};
@@ -208,10 +284,26 @@ module PagePartPreviewHelper
 
   # Wrap content with theme styles
   def with_theme(theme, &block)
-    content_tag(:div, 
+    content_tag(:div,
       style: palette_css_vars(theme),
       class: "pwb-preview pwb-theme-#{theme}",
       &block
     )
+  end
+
+  # ============================================
+  # DISCOVERY
+  # ============================================
+
+  # List all available page parts from seed files
+  # @return [Array<String>] Page part keys
+  def self.available_page_parts
+    Dir.glob(SEED_DIR.join("*.yml")).filter_map do |file|
+      yaml = YAML.load_file(file)
+      data = yaml.is_a?(Array) ? yaml.first : yaml
+      data["page_part_key"]
+    rescue StandardError
+      nil
+    end.uniq.sort
   end
 end
