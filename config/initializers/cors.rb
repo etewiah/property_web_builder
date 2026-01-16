@@ -8,6 +8,14 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
       methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
 
+  allow do
+    origins 'pwb-astrojs-client.etewiah.workers.dev',
+            'demo.propertywebbuilder.com',
+            /.*\.workers\.dev/,
+            /.*\.propertywebbuilder\.com/
+    resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options, :head]
+  end
+
   # Widget API - allow any origin for embeddable widgets
   # Security is handled at the application level via allowed_domains on each widget
   allow do
