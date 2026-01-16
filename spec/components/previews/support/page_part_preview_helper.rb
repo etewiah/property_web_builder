@@ -184,10 +184,14 @@ module PagePartPreviewHelper
     
     # Convert to nested hash structure expected by Liquid templates
     # e.g., page_part["title"]["content"]
-    data.transform_values do |value|
-      { "content" => value }
+    # IMPORTANT: Liquid requires string keys, not symbols
+    result = {}
+    data.each do |field_key, value|
+      result[field_key.to_s] = { "content" => value }
     end
+    result
   end
+
 
   # Generate CSS custom properties for a theme palette
   def palette_css_vars(theme)

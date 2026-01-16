@@ -1,1 +1,400 @@
-<%= html %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Part Preview</title>
+  
+  <style>
+    /* Preview container resets */
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      line-height: 1.5;
+      color: #333;
+    }
+    
+    /* CSS Custom Properties - will be overridden by inline styles */
+    :root {
+      --pwb-primary: #e91b23;
+      --pwb-secondary: #2c3e50;
+      --pwb-accent: #3498db;
+      --pwb-background: #ffffff;
+      --pwb-text: #333333;
+    }
+    
+    /* Container */
+    .pwb-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    
+    /* ========== CTA STYLES ========== */
+    .pwb-cta {
+      padding: 4rem 0;
+    }
+    
+    .pwb-cta--primary,
+    .pwb-cta--gradient {
+      background: linear-gradient(135deg, var(--pwb-primary), var(--pwb-secondary));
+      color: white;
+    }
+    
+    .pwb-cta__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+      .pwb-cta__content {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+    
+    .pwb-cta__title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem;
+    }
+    
+    .pwb-cta__subtitle {
+      font-size: 1.125rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+    
+    .pwb-cta__actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    /* ========== BUTTON STYLES ========== */
+    .pwb-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      border: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    
+    .pwb-btn--white {
+      background: white;
+      color: var(--pwb-primary);
+    }
+    
+    .pwb-btn--white:hover {
+      background: #f0f0f0;
+    }
+    
+    .pwb-btn--primary {
+      background: var(--pwb-primary);
+      color: white;
+    }
+    
+    .pwb-btn--primary:hover {
+      opacity: 0.9;
+    }
+    
+    .pwb-btn--outline {
+      background: transparent;
+      border: 2px solid var(--pwb-primary);
+      color: var(--pwb-primary);
+    }
+    
+    .pwb-btn--outline:hover {
+      background: var(--pwb-primary);
+      color: white;
+    }
+    
+    .pwb-btn--outline-white {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+    }
+    
+    .pwb-btn--outline-white:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .pwb-btn--lg {
+      padding: 1rem 2rem;
+      font-size: 1.125rem;
+    }
+    
+    /* ========== HERO STYLES ========== */
+    .pwb-hero {
+      position: relative;
+      min-height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      overflow: hidden;
+      background: var(--pwb-secondary);
+    }
+    
+    .pwb-hero--centered {
+      text-align: center;
+    }
+    
+    .pwb-hero__bg-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+    
+    .pwb-hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.4));
+      z-index: 1;
+    }
+    
+    .pwb-hero__content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      padding: 2rem;
+    }
+    
+    .pwb-hero__pretitle {
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      opacity: 0.9;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    
+    .pwb-hero__title {
+      font-size: 3rem;
+      font-weight: 700;
+      margin: 0 0 1rem;
+      line-height: 1.2;
+    }
+    
+    .pwb-hero__subtitle {
+      font-size: 1.25rem;
+      opacity: 0.9;
+      margin: 0 0 2rem;
+    }
+    
+    .pwb-hero__actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    /* ========== FEATURE STYLES ========== */
+    .pwb-features {
+      padding: 5rem 0;
+      background: var(--pwb-background);
+    }
+    
+    .pwb-features__header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .pwb-features__pretitle {
+      color: var(--pwb-primary);
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    
+    .pwb-features__title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--pwb-secondary);
+      margin: 0 0 0.5rem;
+    }
+    
+    .pwb-features__subtitle {
+      font-size: 1.125rem;
+      color: var(--pwb-text);
+      opacity: 0.7;
+      margin: 0;
+    }
+    
+    .pwb-features__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    
+    .pwb-feature-card {
+      text-align: center;
+      padding: 2rem;
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .pwb-feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .pwb-feature-card__icon {
+      width: 4rem;
+      height: 4rem;
+      margin: 0 auto 1.5rem;
+      background: var(--pwb-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+    }
+    
+    .pwb-feature-card__title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--pwb-secondary);
+      margin: 0 0 0.75rem;
+    }
+    
+    .pwb-feature-card__description {
+      color: var(--pwb-text);
+      opacity: 0.7;
+      line-height: 1.6;
+      margin: 0;
+    }
+    
+    /* ========== TESTIMONIAL STYLES ========== */
+    .pwb-testimonials {
+      padding: 5rem 0;
+      background: #f8f9fa;
+    }
+    
+    .pwb-testimonials__header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .pwb-testimonials__title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--pwb-secondary);
+      margin: 0 0 0.5rem;
+    }
+    
+    .pwb-testimonials__subtitle {
+      font-size: 1.125rem;
+      color: var(--pwb-text);
+      opacity: 0.7;
+    }
+    
+    /* ========== STATS STYLES ========== */
+    .pwb-stats {
+      padding: 4rem 0;
+      background: var(--pwb-secondary);
+      color: white;
+    }
+    
+    .pwb-stats__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 2rem;
+      text-align: center;
+    }
+    
+    .pwb-stat__value {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--pwb-primary);
+    }
+    
+    .pwb-stat__label {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    
+    /* ========== FAQ STYLES ========== */
+    .pwb-faqs {
+      padding: 5rem 0;
+      background: var(--pwb-background);
+    }
+    
+    .pwb-faqs__header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .pwb-faqs__title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--pwb-secondary);
+      margin: 0 0 0.5rem;
+    }
+    
+    .pwb-faqs__subtitle {
+      font-size: 1.125rem;
+      color: var(--pwb-text);
+      opacity: 0.7;
+    }
+    
+    .pwb-faq-item {
+      border: 1px solid #e0e0e0;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+    
+    .pwb-faq-item__question {
+      padding: 1.25rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: white;
+    }
+    
+    .pwb-faq-item__answer {
+      padding: 0 1.25rem 1.25rem;
+      background: white;
+      color: var(--pwb-text);
+      opacity: 0.8;
+    }
+    
+    /* Error display */
+    .error {
+      padding: 2rem;
+      background: #fee;
+      color: #c00;
+      border: 1px solid #fcc;
+      border-radius: 0.5rem;
+      text-align: center;
+      margin: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <%= html %>
+</body>
+</html>
