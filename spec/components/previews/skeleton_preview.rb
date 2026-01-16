@@ -6,6 +6,6 @@ class SkeletonPreview < Lookbook::Preview
   # Default skeleton loader
   # @label Default
   def default
-    render partial: "shared/skeleton"
+    render_with_template
   end
 end
