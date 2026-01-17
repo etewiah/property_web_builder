@@ -8,6 +8,9 @@ module ApiPublic
       # GET /api_public/v1/client-config
       # Returns client rendering configuration for the current website
       def show
+        # Set a strong cache header for 5 minutes (adjust as needed)
+        expires_in 5.minutes, public: true
+
         unless @current_website&.client_rendering?
           # Return default data with error info
           render json: {
@@ -17,30 +20,18 @@ module ApiPublic
               rendering_mode: @current_website&.rendering_mode || 'unknown'
             }
           }, status: :ok
-          def show
-            # Set a strong cache header for 5 minutes (adjust as needed)
-            expires_in 5.minutes, public: true
+          return
+        end
 
-            unless @current_website&.client_rendering?
-              render json: {
-                error: 'Client rendering not enabled for this website',
-                rendering_mode: @current_website&.rendering_mode || 'unknown'
-              }, status: :not_found
-              return
-            end
+        theme = @current_website.client_theme
 
-            theme = @current_website.client_theme
-
-            render json: {
-              data: {
-                rendering_mode: @current_website.rendering_mode,
-                theme: theme_data(theme),
-                config: @current_website.effective_client_theme_config,
-                css_variables: @current_website.client_theme_css_variables,
-                website: website_data
-              }
-            }
-          end
+        render json: {
+          data: {
+            rendering_mode: @current_website.rendering_mode,
+            theme: theme_data(theme),
+            config: @current_website.effective_client_theme_config,
+            css_variables: @current_website.client_theme_css_variables,
+            website: website_data
           }
         }, status: :ok
       end
