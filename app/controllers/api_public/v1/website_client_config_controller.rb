@@ -9,23 +9,50 @@ module ApiPublic
       # Returns client rendering configuration for the current website
       def show
         unless @current_website&.client_rendering?
+          # Return default data with error info
           render json: {
-            error: 'Client rendering not enabled for this website',
-            rendering_mode: @current_website&.rendering_mode || 'unknown'
-          }, status: :not_found
-          return
-        end
+            data: default_data,
+            error: {
+              message: 'Client rendering not enabled for this website',
+              rendering_mode: @current_website&.rendering_mode || 'unknown'
+            }
+          }, status: :ok
+          def show
+            # Set a strong cache header for 5 minutes (adjust as needed)
+            expires_in 5.minutes, public: true
 
-        theme = @current_website.client_theme
+            unless @current_website&.client_rendering?
+              render json: {
+                error: 'Client rendering not enabled for this website',
+                rendering_mode: @current_website&.rendering_mode || 'unknown'
+              }, status: :not_found
+              return
+            end
 
-        render json: {
-          data: {
-            rendering_mode: @current_website.rendering_mode,
-            theme: theme_data(theme),
-            config: @current_website.effective_client_theme_config,
-            css_variables: @current_website.client_theme_css_variables,
-            website: website_data
+            theme = @current_website.client_theme
+
+            render json: {
+              data: {
+                rendering_mode: @current_website.rendering_mode,
+                theme: theme_data(theme),
+                config: @current_website.effective_client_theme_config,
+                css_variables: @current_website.client_theme_css_variables,
+                website: website_data
+              }
+            }
+          end
           }
+        }, status: :ok
+      end
+
+      # Returns a valid default data structure for the client config response
+      def default_data
+        {
+          rendering_mode: @current_website&.rendering_mode || 'rails',
+          theme: nil,
+          config: {},
+          css_variables: {},
+          website: @current_website ? website_data : {}
         }
       end
 
