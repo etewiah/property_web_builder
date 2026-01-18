@@ -737,6 +737,45 @@ Rails.application.routes.draw do
 
   namespace :api_public do
     namespace :v1 do
+      # ==================================================
+      # Locale-prefixed routes (preferred for CDN caching)
+      # ==================================================
+      # These routes include locale in the path for better cache key generation
+      # Example: /api_public/v1/en/properties instead of /api_public/v1/properties?locale=en
+      scope "/:locale", locale: /[a-z]{2}(-[A-Z]{2})?/ do
+        # Properties
+        get "/properties/:id" => "properties#show"
+        get "/properties" => "properties#search"
+        get "/properties/:id/schema" => "properties#schema"
+
+        # Pages
+        get "/pages/:id" => "pages#show"
+        get "/pages/by_slug/:slug" => "pages#show_by_slug"
+
+        # Translations
+        get "/translations" => "translations#index"
+
+        # Testimonials
+        get "/testimonials" => "testimonials#index"
+
+        # Links
+        get "/links" => "links#index"
+
+        # Site details
+        get "/site_details" => "site_details#index"
+
+        # Client config with includes
+        get "/client-config" => "website_client_config#show"
+
+        # Search
+        get "/search/config" => "search_config#index"
+        get "/search/facets" => "search_facets#index"
+      end
+
+      # ==================================================
+      # Non-locale routes (backward compatible)
+      # ==================================================
+      # These routes still support ?locale= query parameter
       get "/properties/:id" => "properties#show"
       get "/properties" => "properties#search"
       get "/properties/:id/schema" => "properties#schema"
