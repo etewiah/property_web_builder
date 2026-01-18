@@ -100,7 +100,23 @@ export async function getSharedSiteDetails(Astro: AstroGlobal): Promise<SiteDeta
 
 ## Aggregated Data with `include=`
 
-### Reduce API Calls
+### Important: `/site_details` Already Includes Links
+
+The `/site_details` endpoint already includes navigation links:
+
+```json
+{
+  "company_display_name": "Demo Agency",
+  "top_nav_links": [...],
+  "footer_links": [...],
+  "contact_info": {...},
+  "social_links": {...}
+}
+```
+
+This means **you don't need a separate call to `/links`** in most cases!
+
+### Further Aggregation with `include=`
 
 Instead of 5+ separate calls, use the `include=` parameter:
 

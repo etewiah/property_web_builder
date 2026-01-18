@@ -38,6 +38,14 @@ RSpec.describe "ApiPublic::V1::ClientConfig with includes", type: :request do
       expect(json["data"]).not_to have_key("site_details")
     end
 
+    it "accepts locale-prefixed path with includes" do
+      host! 'client-config-test.example.com'
+      get "/api_public/v1/en/client-config", params: { include: "translations" }
+      expect(response).to have_http_status(200)
+      json = response.parsed_body
+      expect(json["data"]).to have_key("translations")
+    end
+
     context "with include=links" do
       it "includes links with placement" do
         host! 'client-config-test.example.com'

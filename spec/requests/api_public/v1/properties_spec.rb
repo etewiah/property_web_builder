@@ -98,6 +98,16 @@ RSpec.describe "ApiPublic::V1::Properties", type: :request do
       expect(response).to have_http_status(200)
     end
 
+    it "accepts locale-prefixed path" do
+      host! 'properties-test.example.com'
+      get "/api_public/v1/en/properties", params: { sale_or_rental: "sale" }
+      expect(response).to have_http_status(200)
+      json = response.parsed_body
+      expect(json).to have_key("data")
+      expect(response.headers["Vary"]).to include("Accept-Language")
+      expect(response.headers["Vary"]).to include("X-Website-Slug")
+    end
+
     it "supports sort_by price_asc" do
       host! 'properties-test.example.com'
       get "/api_public/v1/properties", params: { sale_or_rental: "sale", sort_by: "price_asc" }
