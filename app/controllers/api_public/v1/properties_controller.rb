@@ -24,6 +24,11 @@ module ApiPublic
         locale = params[:locale] || I18n.default_locale
         I18n.locale = locale
 
+        # Handle grouped response for landing page optimization
+        if params[:group_by] == 'sale_or_rental'
+          return render_grouped_properties
+        end
+
         # Default values matching GraphQL implementation
         args = {
           sale_or_rental: params[:sale_or_rental] || "sale",
@@ -124,6 +129,57 @@ module ApiPublic
         else
           scope
         end
+      end
+
+      # Render properties grouped by sale/rental type
+      # GET /api_public/v1/properties?group_by=sale_or_rental&per_group=3&featured=true
+      # Returns: { sale: { properties: [...], meta: {} }, rental: { properties: [...], meta: {} } }
+      def render_grouped_properties
+        per_group = (params[:per_group] || params[:per_page] || 3).to_i
+        featured_only = params[:featured] == 'true' || params[:highlighted] == 'true'
+
+        base_scope = Pwb::Current.website.listed_properties
+        base_scope = base_scope.where(highlighted: true) if featured_only
+
+        # Build common search args (without sale_or_rental)
+        common_args = {
+          currency: params[:currency] || "usd",
+          for_sale_price_from: params[:for_sale_price_from] || "none",
+          for_sale_price_till: params[:for_sale_price_till] || "none",
+          for_rent_price_from: params[:for_rent_price_from] || "none",
+          for_rent_price_till: params[:for_rent_price_till] || "none",
+          bedrooms_from: params[:bedrooms_from] || "none",
+          bathrooms_from: params[:bathrooms_from] || "none",
+          property_type: params[:property_type] || "none"
+        }
+
+        # Fetch sale properties
+        sale_args = common_args.merge(sale_or_rental: "sale")
+        sale_scope = base_scope.properties_search(**sale_args)
+        sale_scope = apply_sorting(sale_scope, params[:sort_by] || params[:sort])
+        sale_total = sale_scope.count
+        sale_properties = sale_scope.limit(per_group)
+
+        # Fetch rental properties
+        rental_args = common_args.merge(sale_or_rental: "rental")
+        rental_scope = base_scope.properties_search(**rental_args)
+        rental_scope = apply_sorting(rental_scope, params[:sort_by] || params[:sort])
+        rental_total = rental_scope.count
+        rental_properties = rental_scope.limit(per_group)
+
+        # Short cache for grouped results
+        set_short_cache(max_age: 2.minutes)
+
+        render json: {
+          sale: {
+            properties: sale_properties.map { |p| property_response(p, summary: true) },
+            meta: { total: sale_total, per_group: per_group }
+          },
+          rental: {
+            properties: rental_properties.map { |p| property_response(p, summary: true) },
+            meta: { total: rental_total, per_group: per_group }
+          }
+        }
       end
 
       def build_json_ld(property)

@@ -4,17 +4,40 @@ module ApiPublic
   module V1
     # Public API for website client configuration
     # Provides theme configuration and CSS variables for Astro client
+    # Supports aggregating additional data blocks via include= parameter
     class WebsiteClientConfigController < BaseController
+      include ApiPublic::ClientConfigIncludes
+
       # GET /api_public/v1/client-config
+      # GET /api_public/v1/client-config?include=links,site_details,translations,homepage,featured_properties
       # Returns client rendering configuration for the current website
       def show
         # Set a strong cache header for 5 minutes (adjust as needed)
         expires_in 5.minutes, public: true
 
         unless @current_website&.client_rendering?
-          # Return default data with error info
+          # Return default data with error info, but still process includes
+          response_data = default_data
+          
+          # Handle include parameter even for non-client-rendered sites
+          if params[:include].present?
+            included = build_included_data(params[:include])
+            response_data.merge!(included[:data])
+            
+            response_json = {
+              data: response_data,
+              error: {
+                message: 'Client rendering not enabled for this website',
+                rendering_mode: @current_website&.rendering_mode || 'unknown'
+              }
+            }
+            response_json[:_errors] = included[:errors] if included[:errors].any?
+            render json: response_json, status: :ok
+            return
+          end
+          
           render json: {
-            data: default_data,
+            data: response_data,
             error: {
               message: 'Client rendering not enabled for this website',
               rendering_mode: @current_website&.rendering_mode || 'unknown'
@@ -25,15 +48,23 @@ module ApiPublic
 
         theme = @current_website.client_theme
 
-        render json: {
-          data: {
-            rendering_mode: @current_website.rendering_mode,
-            theme: theme_data(theme),
-            config: @current_website.effective_client_theme_config,
-            css_variables: @current_website.client_theme_css_variables,
-            website: website_data
-          }
-        }, status: :ok
+        # Build base response
+        response_data = {
+          rendering_mode: @current_website.rendering_mode,
+          theme: theme_data(theme),
+          config: @current_website.effective_client_theme_config,
+          css_variables: @current_website.client_theme_css_variables,
+          website: website_data
+        }
+
+        # Handle include parameter for aggregated data
+        included = build_included_data(params[:include])
+        response_data.merge!(included[:data])
+
+        response_json = { data: response_data }
+        response_json[:_errors] = included[:errors] if included[:errors].any?
+
+        render json: response_json, status: :ok
       end
 
       # Returns a valid default data structure for the client config response

@@ -113,5 +113,47 @@ RSpec.describe "ApiPublic::V1::Properties", type: :request do
       ordered_ids = json["data"].map { |property| property["id"] }
       expect(ordered_ids.first).to eq(priciest_asset.id)
     end
+
+    context "with group_by=sale_or_rental" do
+      let!(:rental_asset) { FactoryBot.create(:pwb_realty_asset, website: website) }
+      let!(:rental_listing) { FactoryBot.create(:pwb_rental_listing, :visible, realty_asset: rental_asset) }
+
+      before do
+        Pwb::ListedProperty.refresh(concurrently: false)
+      end
+
+      it "returns properties grouped by sale and rental" do
+        host! 'properties-test.example.com'
+        get "/api_public/v1/properties", params: { group_by: "sale_or_rental" }
+        expect(response).to have_http_status(200)
+        json = response.parsed_body
+        expect(json).to have_key("sale")
+        expect(json).to have_key("rental")
+        expect(json["sale"]).to have_key("properties")
+        expect(json["sale"]).to have_key("meta")
+        expect(json["rental"]).to have_key("properties")
+        expect(json["rental"]).to have_key("meta")
+      end
+
+      it "respects per_group parameter" do
+        host! 'properties-test.example.com'
+        get "/api_public/v1/properties", params: { group_by: "sale_or_rental", per_group: 2 }
+        json = response.parsed_body
+        expect(json["sale"]["properties"].length).to be <= 2
+        expect(json["rental"]["properties"].length).to be <= 2
+        expect(json["sale"]["meta"]["per_group"]).to eq(2)
+      end
+
+      it "supports featured filter with grouped results" do
+        # Create a highlighted listing using the trait
+        highlighted_asset = FactoryBot.create(:pwb_realty_asset, website: website)
+        FactoryBot.create(:pwb_sale_listing, :visible, :highlighted, realty_asset: highlighted_asset)
+        Pwb::ListedProperty.refresh(concurrently: false)
+
+        host! 'properties-test.example.com'
+        get "/api_public/v1/properties", params: { group_by: "sale_or_rental", featured: "true" }
+        expect(response).to have_http_status(200)
+      end
+    end
   end
 end

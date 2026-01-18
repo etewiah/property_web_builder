@@ -12,6 +12,11 @@ module ApiPublic
 
       def set_api_public_cache_headers
         expires_in 5.hours, public: true
+
+        # Add Vary header for proper edge caching by tenant
+        # This ensures CDN caches different responses per tenant/locale
+        response.headers["Vary"] = "Accept-Language, X-Website-Slug"
+
         # Conditional GET: Use a generic last-modified time (can be overridden in child controllers)
         return unless respond_to?(:resource_last_modified, true)
 
