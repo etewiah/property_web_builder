@@ -11,6 +11,10 @@ info:
     ## Caching
     Responses include appropriate `Cache-Control` and `ETag` headers.
     Clients should respect these for optimal performance.
+    
+    ## Locale
+    Prefer locale-prefixed paths (e.g., `/api_public/v1/{locale}/properties`) for better CDN caching.
+    The `locale` query parameter is still supported but deprecated.
   version: 1.0.0
   contact:
     name: PropertyWebBuilder
@@ -18,7 +22,13 @@ info:
 
 servers:
   - url: /api_public/v1
-    description: API v1 (relative to tenant subdomain)
+    description: API v1 (legacy locale query param)
+  - url: /api_public/v1/{locale}
+    description: API v1 with locale in path (preferred)
+    variables:
+      locale:
+        default: en
+        description: Locale code (e.g., en, es, en-GB)
 
 tags:
   - name: Theme
@@ -40,7 +50,8 @@ paths:
       parameters:
         - name: locale
           in: query
-          description: Locale code for translations
+          description: Deprecated locale query parameter (use locale in path)
+          deprecated: true
           schema:
             type: string
             example: en
@@ -75,9 +86,35 @@ paths:
   /client-config:
     get:
       summary: Get client rendering configuration
-      description: Returns configuration for client-rendered (Astro) sites.
+      description: Returns configuration for client-rendered (Astro) sites. Supports include aggregation via `include=`.
       operationId: getClientConfig
       tags: [Configuration]
+      parameters:
+        - name: include
+          in: query
+          description: Comma-separated list of data blocks to include (links, site_details, translations, homepage, testimonials, featured_properties)
+          schema:
+            type: string
+            example: links,site_details,translations
+        - name: locale
+          in: query
+          description: Deprecated locale query parameter (use locale in path)
+          deprecated: true
+          schema:
+            type: string
+            example: en
+        - name: testimonials_limit
+          in: query
+          description: Limit testimonials when include=testimonials
+          schema:
+            type: integer
+            example: 6
+        - name: properties_per_group
+          in: query
+          description: Limit featured properties per group when include=featured_properties
+          schema:
+            type: integer
+            example: 3
       responses:
         '200':
           description: Client configuration
@@ -85,12 +122,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClientConfigResponse'
-        '404':
-          description: Client rendering not enabled
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
 
   /site-details:
     get:
@@ -101,6 +132,8 @@ paths:
       parameters:
         - name: locale
           in: query
+          description: Deprecated locale query parameter (use locale in path)
+          deprecated: true
           schema:
             type: string
       responses:
@@ -120,6 +153,8 @@ paths:
       parameters:
         - name: locale
           in: query
+          description: Deprecated locale query parameter (use locale in path)
+          deprecated: true
           schema:
             type: string
         - name: sale_or_rental
@@ -153,6 +188,23 @@ paths:
           description: Filter to featured properties only
           schema:
             type: boolean
+        - name: featured
+          in: query
+          description: Filter to featured properties only (alias of highlighted)
+          schema:
+            type: boolean
+        - name: group_by
+          in: query
+          description: Group results (use sale_or_rental for grouped response)
+          schema:
+            type: string
+            enum: [sale_or_rental]
+        - name: per_group
+          in: query
+          description: Results per group when using group_by
+          schema:
+            type: integer
+            default: 3
         - name: sort_by
           in: query
           schema:
@@ -174,7 +226,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PropertiesResponse'
+                oneOf:
+                  - $ref: '#/components/schemas/PropertiesResponse'
+                  - $ref: '#/components/schemas/GroupedPropertiesResponse'
 
   /properties/{slug}:
     get:
@@ -190,6 +244,8 @@ paths:
             type: string
         - name: locale
           in: query
+          description: Deprecated locale query parameter (use locale in path)
+          deprecated: true
           schema:
             type: string
         - name: include_images
@@ -227,6 +283,8 @@ paths:
             example: about-us
         - name: locale
           in: query
+          description: Deprecated locale query parameter (use locale in path)
+          deprecated: true
           schema:
             type: string
       responses:
@@ -296,6 +354,48 @@ components:
               type: object
             website:
               type: object
+            links:
+              type: array
+              items:
+                type: object
+            site_details:
+              type: object
+            translations:
+              type: object
+              additionalProperties: true
+            homepage:
+              type: object
+            testimonials:
+              type: array
+              items:
+                type: object
+            featured_properties:
+              type: object
+              properties:
+                sale:
+                  type: array
+                  items:
+                    type: object
+                rental:
+                  type: array
+                  items:
+                    type: object
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            rendering_mode:
+              type: string
+        _errors:
+          type: array
+          items:
+            type: object
+            properties:
+              section:
+                type: string
+              message:
+                type: string
 
     SiteDetailsResponse:
       type: object
@@ -333,6 +433,27 @@ components:
             $ref: '#/components/schemas/MapMarker'
         meta:
           $ref: '#/components/schemas/PaginationMeta'
+    GroupedPropertiesResponse:
+      type: object
+      properties:
+        sale:
+          $ref: '#/components/schemas/GroupedPropertiesBucket'
+        rental:
+          $ref: '#/components/schemas/GroupedPropertiesBucket'
+    GroupedPropertiesBucket:
+      type: object
+      properties:
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertySummary'
+        meta:
+          type: object
+          properties:
+            total:
+              type: integer
+            per_group:
+              type: integer
 
     Property:
       type: object

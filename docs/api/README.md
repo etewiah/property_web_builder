@@ -15,6 +15,16 @@ For local development:
 http://localhost:3000/api_public/v1/
 ```
 
+## Locale-Prefixed Paths (Preferred)
+
+For better CDN caching, locale can be placed in the URL path:
+
+```
+https://{tenant}.propertywebbuilder.com/api_public/v1/en/properties
+```
+
+The legacy `?locale=` query parameter still works but is deprecated.
+
 ## OpenAPI Specification
 
 The complete API specification is available at:
@@ -70,6 +80,14 @@ Returns complete theme data including colors, fonts, and CSS variables.
 
 Returns configuration for client-rendered (Astro) sites.
 
+**Query Parameters:**
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `include` | string | Comma-separated includes: `links`, `site_details`, `translations`, `homepage`, `testimonials`, `featured_properties` |
+| `locale` | string | Locale for translations (if not using locale-prefixed path) |
+| `testimonials_limit` | integer | Max testimonials when `include=testimonials` |
+| `properties_per_group` | integer | Max properties per group when `include=featured_properties` |
+
 **Response:**
 ```json
 {
@@ -92,11 +110,14 @@ Returns configuration for client-rendered (Astro) sites.
 }
 ```
 
-**Error (404):**
+**Error (200):**
 ```json
 {
-  "error": "Client rendering not enabled for this website",
-  "rendering_mode": "rails"
+  "data": { ... },
+  "error": {
+    "message": "Client rendering not enabled for this website",
+    "rendering_mode": "rails"
+  }
 }
 ```
 
@@ -143,9 +164,12 @@ Search and filter property listings with pagination.
 | `for_sale_price_from` | integer | - | Min sale price (cents) |
 | `for_sale_price_till` | integer | - | Max sale price (cents) |
 | `highlighted` | boolean | - | Featured properties only |
+| `featured` | boolean | - | Featured properties only (alias of `highlighted`) |
 | `sort_by` | string | - | "price-asc", "price-desc", "newest" |
 | `page` | integer | 1 | Page number |
 | `per_page` | integer | 12 | Results per page |
+| `group_by` | string | - | Use `sale_or_rental` to group results |
+| `per_group` | integer | 3 | Results per group when using `group_by` |
 
 **Response:**
 ```json
@@ -178,6 +202,23 @@ Search and filter property listings with pagination.
     "per_page": 12,
     "total_pages": 5
   }
+}
+```
+
+---
+
+#### Grouped Results
+
+Use `group_by=sale_or_rental` to fetch sale and rental listings in one request:
+
+```bash
+GET /api_public/v1/en/properties?group_by=sale_or_rental&per_group=3&featured=true
+```
+
+```json
+{
+  "sale": { "properties": [...], "meta": { "total": 5, "per_group": 3 } },
+  "rental": { "properties": [...], "meta": { "total": 3, "per_group": 3 } }
 }
 ```
 

@@ -148,6 +148,8 @@ The website endpoint is used to manage the website's configuration.
 ## Public API (Headless Frontend)
 
 The Public API (`/api_public/v1/`) is designed for headless JavaScript frontends (Astro.js, Next.js, etc.) and does not require authentication.
+For better CDN caching, locale can be placed in the path: `/api_public/v1/en/...` (preferred).
+The legacy `?locale=` query parameter still works but is deprecated.
 
 ### Properties
 
@@ -161,9 +163,12 @@ Query Parameters:
 - `bedrooms_from` - Minimum bedrooms
 - `bathrooms_from` - Minimum bathrooms
 - `highlighted` - "true" to filter featured properties
+- `featured` - "true" to filter featured properties (alias of `highlighted`)
 - `limit` - Limit results
 - `page` - Page number (default: 1)
 - `per_page` - Results per page (default: 12)
+- `group_by` - Use `sale_or_rental` for grouped response
+- `per_group` - Results per group when using `group_by` (default: 3)
 - `locale` - Locale code
 
 Response:
@@ -207,6 +212,12 @@ Response includes: `company_display_name`, `theme_name`, `contact_info`, `social
 
 Response: `theme_name`, `colors`, `css_variables`, `fonts`, `dark_mode`
 
+**`GET /api_public/v1/client-config`** - Get client rendering config (Astro)
+
+Optional `include=` parameter aggregates extra data blocks in one request:
+`links`, `site_details`, `translations`, `homepage`, `testimonials`, `featured_properties`.
+
+---
 ---
 
 ### Pages & Content
