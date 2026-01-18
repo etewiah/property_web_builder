@@ -1,7 +1,14 @@
+# frozen_string_literal: true
+
+require_dependency "api_public/errors"
+
 module ApiPublic
   module V1
     class BaseController < ActionController::Base
       include SubdomainTenant
+      include ApiPublic::ResponseEnvelope
+      include ApiPublic::ErrorHandler
+      include ApiPublic::SparseFieldsets
 
       skip_before_action :verify_authenticity_token
 
@@ -26,3 +33,4 @@ module ApiPublic
     end
   end
 end
+
