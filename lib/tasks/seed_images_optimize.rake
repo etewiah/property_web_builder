@@ -46,10 +46,15 @@ namespace :seed_images do
     puts "Step 2: Checking responsive image variants..."
 
     example_dir = Rails.root.join("db/example_images")
-    responsive_count = Dir.glob("#{example_dir}/*-{400,800}.{jpg,webp}").count
+    example_dir = Rails.root.join("db/example_images")
+    # Check for any numbered variant (e.g. -320.jpg, -640.webp)
+    responsive_count = Dir.glob("#{example_dir}/*-{#{Pwb::ResponsiveVariants::WIDTHS.join(',')}}.{jpg,webp}").count
     original_count = Dir.glob("#{example_dir}/*.{jpg,webp}").reject { |f| f.match?(/-\d+\.(jpg|webp)$/) }.count
 
-    expected_responsive = original_count * 4 # 2 sizes x 2 formats (jpg + webp)
+    # Expected: Original count * (Number of widths * 2 formats)
+    # Note: We don't generate the largest width if it matches original, but for estimation this is fine
+    expected_variants_per_image = Pwb::ResponsiveVariants::WIDTHS.count * 2
+    expected_responsive = original_count * expected_variants_per_image
 
     if responsive_count >= expected_responsive * 0.8 # Allow some tolerance
       puts "  Responsive variants: #{responsive_count} files (OK)"
@@ -209,11 +214,12 @@ namespace :seed_images do
   desc "Generate responsive image variants (400w, 800w) for srcset"
   task generate_responsive: :environment do
     check_dependencies!
+    require 'pwb/responsive_variants' # Ensure module is loaded
 
     puts "Generating responsive image variants..."
 
     example_dir = Rails.root.join("db/example_images")
-    sizes = [400, 800]
+    sizes = Pwb::ResponsiveVariants::WIDTHS
 
     Dir.glob("#{example_dir}/*.jpg").each do |file|
       # Skip already-generated responsive variants
@@ -348,8 +354,9 @@ namespace :seed_images do
 
     count = 0
     example_dir = Rails.root.join("db/example_images")
-
-    Dir.glob("#{example_dir}/*-{400,800}.{jpg,webp}").each do |file|
+    
+    # Match any file ending in -NUMBER.jpg or -NUMBER.webp
+    Dir.glob("#{example_dir}/*-[0-9]*.{jpg,webp}").each do |file|
       File.delete(file)
       count += 1
       puts "  Deleted: #{File.basename(file)}"

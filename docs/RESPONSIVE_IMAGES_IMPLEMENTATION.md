@@ -10,7 +10,8 @@ This document describes the implementation of responsive images for PropertyWebB
 
 1. **`Pwb::ResponsiveVariants`** (`lib/pwb/responsive_variants.rb`)
    - Centralized configuration for breakpoints, formats, and size presets
-   - Tailwind CSS-aligned widths: `[320, 640, 768, 1024, 1280, 1536, 1920]`
+   - Tailwind CSS-aligned widths: `[320, 640, 1024, 1280]`
+`
    - Formats: AVIF (if supported), WebP, JPEG
    - Named size presets: `:hero`, `:card`, `:thumbnail`, `:content`, etc.
 
@@ -204,7 +205,7 @@ This implementation aligns more closely with the `docs/images` architecture:
 | Feature | docs/images Spec | Current Implementation |
 |---------|------------------|----------------------|
 | Configuration | `Pwb::ResponsiveVariants` module | ✅ Implemented |
-| Breakpoints | Tailwind-aligned widths | ✅ `[320, 640, 768, 1024, 1280, 1536, 1920]` |
+| Breakpoints | Tailwind-aligned widths | ✅ `[320, 640, 1024, 1280]` |
 | Formats | AVIF, WebP, JPEG | ✅ All three (AVIF if supported) |
 | Size Presets | Named presets | ✅ `:hero`, `:card`, `:thumbnail`, etc. |
 | Background Generation | Job-based | ✅ `ImageVariantGeneratorJob` |

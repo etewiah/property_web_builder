@@ -16,7 +16,8 @@ module Pwb
   module ResponsiveVariants
     # Tailwind CSS-aligned breakpoints for responsive images
     # These widths cover common device sizes and DPR (device pixel ratio) combinations
-    WIDTHS = [320, 640, 768, 1024, 1280, 1536, 1920].freeze
+    # Unified standard: 320 (mobile), 640 (mobile 2x), 1024 (tablet), 1280 (desktop)
+    WIDTHS = [320, 640, 1024, 1280].freeze
 
     # Format configurations with quality settings
     # Order represents preference (best compression first)
