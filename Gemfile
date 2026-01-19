@@ -172,7 +172,7 @@ gem "faraday", "~> 2.3"
 gem "http", "~> 5.0"
 
 # JWT for proxy authentication tokens
-gem "jwt", "~> 2.7"
+gem "jwt", "~> 3.1"
 
 # RETS gem removed - MLS/RETS integration deprecated (Dec 2024)
 # See docs/claude_thoughts/DEPRECATED_FEATURES.md for details

@@ -66,6 +66,7 @@ module Pwb
       let(:user) { create(:pwb_user, website: website) }
 
       before do
+        @request.env['devise.mapping'] = ::Devise.mappings[:user]
         allow(controller).to receive(:current_website).and_return(website)
         controller.instance_variable_set(:@current_website, website)
       end
