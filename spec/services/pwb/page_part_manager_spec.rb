@@ -359,5 +359,41 @@ module Pwb
         expect(content.raw_es).to include("name=Carlos+Rodriguez")
       end
     end
+    
+    describe 'responsive image integration' do
+      let!(:current_website) { FactoryBot.create(:pwb_website) }
+      let!(:page_part) do
+        ActsAsTenant.with_tenant(current_website) do
+          FactoryBot.create(:pwb_page_part,
+            page_part_key: "hero",
+            page_slug: "website",
+            template: '<img src="{{ page_part[\'image\'][\'content\'] }}">',
+            editor_setup: { 
+              "editorBlocks" => [[{ "label" => "image", "isImage" => "true" }]] 
+            },
+            website: current_website)
+        end
+      end
+      let(:page_part_manager) { Pwb::PagePartManager.new("hero", current_website) }
+
+      before { ActsAsTenant.current_tenant = current_website }
+
+      it 'optimizes images when rebuilding page content' do
+        # Use a reliable test URL that the helper considers trusted
+        seed_image_url = "https://pwb-seed-images.s3.amazonaws.com/example.jpg"
+        
+        page_part_manager.seed_container_block_content("en", {
+          "image" => seed_image_url
+        })
+
+        content = current_website.contents.find_by(page_part_key: "hero")
+        
+        # Should be upgraded to picture tag
+        expect(content.raw).to include("<picture>")
+        expect(content.raw).to include("srcset")
+        expect(content.raw).to include('type="image/webp"')
+        expect(content.raw).to include(seed_image_url)
+      end
+    end
   end
 end
