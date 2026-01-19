@@ -27,6 +27,7 @@
 module Pwb
   class PropPhoto < ApplicationRecord
     include ExternalImageSupport
+    include ResponsiveVariantSupport
 
     has_one_attached :image, dependent: :purge_later
     # Both associations supported for backwards compatibility

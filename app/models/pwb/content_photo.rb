@@ -24,6 +24,7 @@
 module Pwb
   class ContentPhoto < ApplicationRecord
     include ExternalImageSupport
+    include ResponsiveVariantSupport
 
     has_one_attached :image, dependent: :purge_later
     belongs_to :content, optional: true

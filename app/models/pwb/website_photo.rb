@@ -33,6 +33,7 @@ module Pwb
 #
   class WebsitePhoto < ApplicationRecord
     include ExternalImageSupport
+    include ResponsiveVariantSupport
 
     belongs_to :website, optional: true
     has_one_attached :image, dependent: :purge_later

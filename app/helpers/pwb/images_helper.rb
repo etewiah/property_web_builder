@@ -113,8 +113,139 @@ module Pwb
       end
     end
 
-    # Responsive image breakpoints (width in pixels)
-    RESPONSIVE_SIZES = [320, 640, 768, 1024, 1280].freeze
+    # Generate a responsive <picture> element with multiple formats and sizes.
+    # This is the recommended method for rendering images with full responsive support.
+    #
+    # @param photo [Object] A photo model (PropPhoto, ContentPhoto, WebsitePhoto)
+    # @param sizes [Symbol, String] Size preset (:hero, :card, :thumbnail, :content) or custom sizes string
+    # @param options [Hash] HTML and behavior options
+    #   - :alt [String] Alt text (defaults to photo description)
+    #   - :class [String] CSS classes for the img element
+    #   - :picture_class [String] CSS classes for the picture element
+    #   - :eager [Boolean] Load eagerly for above-fold images (sets loading="eager", fetchpriority="high")
+    #   - :avif [Boolean] Include AVIF source if supported (default: true)
+    #   - :fallback_url [String] URL for placeholder if no image
+    # @return [String, nil] Picture element HTML or nil if no image
+    #
+    # @example Property card
+    #   <%= responsive_image_tag @property.primary_photo, sizes: :card, alt: @property.title %>
+    #
+    # @example Hero image (above fold)
+    #   <%= responsive_image_tag @property.primary_photo, sizes: :hero, eager: true %>
+    #
+    # @example Custom sizes
+    #   <%= responsive_image_tag @photo, sizes: "(min-width: 800px) 400px, 100vw" %>
+    #
+    def responsive_image_tag(photo, sizes: :card, **options)
+      return placeholder_image_tag(options) if photo.blank?
+
+      # Handle external URLs (no srcset generation possible)
+      if photo.respond_to?(:external?) && photo.external?
+        return external_responsive_image_tag(photo, sizes, options)
+      end
+
+      # Handle ActiveStorage attachments
+      return placeholder_image_tag(options) unless photo.respond_to?(:image) && photo.image.attached?
+      return placeholder_image_tag(options) unless photo.image.variable?
+
+      build_responsive_picture(photo.image, sizes, options)
+    end
+
+    private def build_responsive_picture(attachment, sizes, options)
+      sizes_value = ResponsiveVariants.sizes_for(sizes)
+      include_avif = options.fetch(:avif, true) && ResponsiveVariants.avif_supported?
+      original_width = attachment.blob.metadata[:width]
+
+      content_tag(:picture, class: options[:picture_class]) do
+        sources = []
+
+        # AVIF source (best compression, newest browsers)
+        if include_avif
+          avif_srcset = build_variant_srcset(attachment, :avif, original_width)
+          sources << tag.source(srcset: avif_srcset, sizes: sizes_value, type: "image/avif") if avif_srcset.present?
+        end
+
+        # WebP source (good compression, wide support)
+        webp_srcset = build_variant_srcset(attachment, :webp, original_width)
+        sources << tag.source(srcset: webp_srcset, sizes: sizes_value, type: "image/webp") if webp_srcset.present?
+
+        # Fallback img with JPEG srcset
+        jpeg_srcset = build_variant_srcset(attachment, :jpeg, original_width)
+        fallback_img = build_fallback_img(attachment, jpeg_srcset, sizes_value, options)
+
+        safe_join(sources + [fallback_img])
+      end
+    rescue StandardError => e
+      Rails.logger.warn("[responsive_image_tag] Failed to build picture: #{e.message}")
+      image_tag url_for(attachment), extract_img_options(options)
+    end
+
+    private def build_variant_srcset(attachment, format, original_width)
+      widths = ResponsiveVariants.widths_for(original_width)
+
+      entries = widths.map do |width|
+        transformations = ResponsiveVariants.transformations_for(width, format)
+        url = url_for(attachment.variant(transformations))
+        "#{url} #{width}w"
+      rescue StandardError => e
+        Rails.logger.debug("[build_variant_srcset] Skipping #{width}w #{format}: #{e.message}")
+        nil
+      end.compact
+
+      entries.join(", ")
+    end
+
+    private def build_fallback_img(attachment, srcset, sizes, options)
+      img_options = extract_img_options(options)
+      img_options[:srcset] = srcset if srcset.present?
+      img_options[:sizes] = sizes
+
+      # Default src is the original image
+      default_src = url_for(attachment)
+
+      tag.img(src: default_src, **img_options)
+    end
+
+    private def extract_img_options(options)
+      eager = options[:eager]
+
+      {
+        alt: options[:alt] || "",
+        class: options[:class],
+        loading: eager ? "eager" : "lazy",
+        decoding: "async",
+        fetchpriority: eager ? "high" : nil,
+        width: options[:width],
+        height: options[:height]
+      }.compact
+    end
+
+    private def external_responsive_image_tag(photo, sizes, options)
+      url = photo.external_url
+      sizes_value = ResponsiveVariants.sizes_for(sizes)
+
+      # For trusted sources with WebP versions, use picture element
+      if trusted_webp_source?(url) && url.to_s.match?(/\.jpe?g$/i)
+        pic_options = extract_img_options(options).merge(sizes: sizes_value, responsive: true)
+        external_image_picture(url, pic_options)
+      else
+        # Simple img tag for external URLs without WebP support
+        image_tag(url, extract_img_options(options))
+      end
+    end
+
+    private def placeholder_image_tag(options)
+      placeholder_url = options[:fallback_url] || "/assets/placeholder.jpg"
+
+      tag.img(
+        src: placeholder_url,
+        alt: options[:alt] || "Image not available",
+        class: options[:class],
+        loading: "lazy"
+      )
+    end
+
+    public
 
     # Generate a <picture> element with WebP source for external URLs
     # Only uses WebP optimization for known seed image URLs where WebP versions exist
@@ -192,14 +323,15 @@ module Pwb
     # @param photo [Object] A photo model with ActiveStorage image
     # @param variant_options [Hash] Options for image variant
     # @param html_options [Hash] HTML options for the img tag
-    #   - :sizes [String] Responsive sizes attribute (e.g., "(max-width: 768px) 100vw, 50vw")
+    #   - :sizes [String, Symbol] Responsive sizes attribute or preset name
     #   - :responsive [Boolean] Enable responsive srcset generation
     # @return [String] Picture element HTML
     def optimized_image_picture(photo, variant_options = {}, html_options = {})
       sizes = html_options.delete(:sizes)
       responsive = html_options.delete(:responsive)
+      sizes_value = sizes.is_a?(Symbol) ? ResponsiveVariants.sizes_for(sizes) : sizes
 
-      webp_options = variant_options.merge(format: :webp)
+      webp_options = variant_options.merge(format: :webp, saver: { quality: 80 })
       fallback_url = if variant_options.present?
                        url_for(photo.image.variant(variant_options))
                      else
@@ -209,15 +341,21 @@ module Pwb
       content_tag(:picture) do
         sources = []
 
-        if responsive && sizes
+        if responsive && sizes_value
+          # Include AVIF if supported
+          if ResponsiveVariants.avif_supported?
+            avif_srcset = generate_responsive_srcset(photo, format: :avif)
+            sources << tag.source(srcset: avif_srcset, sizes: sizes_value, type: "image/avif") if avif_srcset.present?
+          end
+
           # Generate responsive WebP srcset
           webp_srcset = generate_responsive_srcset(photo, format: :webp)
-          sources << tag.source(srcset: webp_srcset, sizes: sizes, type: "image/webp")
+          sources << tag.source(srcset: webp_srcset, sizes: sizes_value, type: "image/webp") if webp_srcset.present?
 
           # Generate responsive JPEG srcset for fallback
           jpeg_srcset = generate_responsive_srcset(photo, format: :jpeg)
-          html_options[:srcset] = jpeg_srcset
-          html_options[:sizes] = sizes
+          html_options[:srcset] = jpeg_srcset if jpeg_srcset.present?
+          html_options[:sizes] = sizes_value
         else
           # Single WebP source
           sources << tag.source(srcset: url_for(photo.image.variant(webp_options)),
@@ -236,13 +374,17 @@ module Pwb
 
     # Generate responsive srcset for ActiveStorage image
     # @param photo [Object] A photo model with ActiveStorage image
-    # @param format [Symbol] Image format (:webp, :jpeg)
+    # @param format [Symbol] Image format (:webp, :jpeg, :avif)
     # @return [String] srcset attribute value
     def generate_responsive_srcset(photo, format: :jpeg)
-      srcset_entries = RESPONSIVE_SIZES.map do |width|
-        variant_options = { resize_to_limit: [width, nil] }
-        variant_options[:format] = format if format
-        url = url_for(photo.image.variant(variant_options))
+      return "" unless photo.respond_to?(:image) && photo.image.attached? && photo.image.variable?
+
+      original_width = photo.image.blob.metadata[:width]
+      widths = ResponsiveVariants.widths_for(original_width)
+
+      srcset_entries = widths.map do |width|
+        transformations = ResponsiveVariants.transformations_for(width, format)
+        url = url_for(photo.image.variant(transformations))
         "#{url} #{width}w"
       end
       srcset_entries.join(", ")
@@ -354,12 +496,15 @@ module Pwb
     # where possible (e.g. for seed images).
     # Also ensures lazy loading is enabled.
     # @param html_content [String] HTML content to process
+    # @param options [Hash] Options for responsive behavior
+    #   - :sizes [Symbol, String] Size preset or custom sizes (default: :content)
     # @return [String] Processed HTML
-    def make_media_responsive(html_content, _options = {})
+    def make_media_responsive(html_content, options = {})
       return html_content if html_content.blank?
 
       doc = Nokogiri::HTML::DocumentFragment.parse(html_content)
-      
+      sizes = ResponsiveVariants.sizes_for(options[:sizes] || :content)
+
       doc.css('img').each do |img_node|
         # Skip if already inside a picture element
         next if img_node.parent&.name == 'picture'
@@ -369,28 +514,27 @@ module Pwb
 
         # Ensure lazy loading
         img_node['loading'] ||= 'lazy'
-        
-        # Check if we can upgrade to picture element
+        img_node['decoding'] ||= 'async'
+
+        # Check if we can upgrade to picture element with WebP support
         if trusted_webp_source?(src) && src.match?(/\.jpe?g$/i)
           # Create options for external_image_picture
           pic_options = {
             class: img_node['class'],
             alt: img_node['alt'],
             loading: img_node['loading'],
+            decoding: img_node['decoding'],
             style: img_node['style'],
             width: img_node['width'],
             height: img_node['height'],
+            sizes: sizes,
+            responsive: true,
             data: img_node.keys.select { |k| k.start_with?('data-') }.each_with_object({}) { |k, h| h[k] = img_node[k] }
           }
-          
-          # Add default responsive sizes if not present
-          # This assumes a typical content width logic
-          # pic_options[:sizes] ||= "(max-width: 768px) 100vw, 80vw"
-          # pic_options[:responsive] = true
-          
-          # Generates the picture tag string
+
+          # Generates the picture tag string with WebP source
           picture_html = external_image_picture(src, pic_options)
-          
+
           # Replace the original img node with the new picture node
           img_node.replace(picture_html)
         end
