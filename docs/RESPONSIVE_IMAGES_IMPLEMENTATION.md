@@ -138,7 +138,26 @@ bundle exec rake images:variants:single MODEL=Pwb::PropPhoto ID=123
 bundle exec rake images:variants:stats
 ```
 
-## Configuration
+### External vs Local Images
+
+**Important:** Variant generation only applies to **local ActiveStorage attachments** (uploaded files). 
+Images referenced via `external_url` (like default seed data pointing to `seed-assets.propertywebbuilder.com`) are **skipped** by the generator. 
+
+For external images:
+- The system assumes the external host provides optimized versions if configured (see `trusted_webp_source?` in `ImagesHelper`).
+- No local processing/resizing occurs.
+- If variants are missing on the external host, 404s may occur for `<source>` tags, falling back to the original `<img>`.
+
+## Maintenance Tasks
+
+### Repair Nested Picture Tags
+
+If content migration was run multiple times or on already-responsive content (prior to idempotency fixes), HTML might contain nested `<picture>` tags. Use this task to stripping outer wrappers and regenerate clean HTML:
+
+```bash
+bundle exec rake images:fix_nested_pictures
+```
+
 
 ### Format Support
 

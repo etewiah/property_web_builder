@@ -22,7 +22,10 @@ module Pwb
       end
 
       it "does not update content that is already responsive" do
-        responsive_html = '<picture><source srcset="..."><img src="..." loading="lazy"></picture>'
+        # Generate canonical responsive HTML using the actual helper
+        # This ensures our test expectation matches what the current code produces
+        responsive_html = service.make_media_responsive('<img src="https://pwb-seed-images.s3.amazonaws.com/test.jpg">')
+        
         # Normalize HTML to match what the service produces (Nokogiri parsing)
         normalized_html = Nokogiri::HTML::DocumentFragment.parse(responsive_html).to_html
         

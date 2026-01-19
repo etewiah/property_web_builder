@@ -507,7 +507,7 @@ module Pwb
 
       doc.css('img').each do |img_node|
         # Skip if already inside a picture element
-        next if img_node.parent&.name == 'picture'
+        next if img_node.ancestors('picture').any?
 
         src = img_node['src']
         next if src.blank?
