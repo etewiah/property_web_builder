@@ -146,3 +146,5 @@ db/seeds/site_import_packs/
 /config/credentials/*.key
 
 /pwb-frontend-clients
+lib/tasks/import_external_images.rake
+llm_prompting_scratchpat.txt

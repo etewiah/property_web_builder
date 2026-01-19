@@ -122,11 +122,27 @@ module Pwb
       def transformations_for(width, format)
         format_config = FORMATS[format.to_sym] || FORMATS[:jpeg]
 
-        {
-          resize_to_limit: [width, nil],
-          format: format_config[:format],
-          saver: format_config[:saver]
-        }
+        if Rails.application.config.active_storage.variant_processor == :vips
+          {
+            resize_to_limit: [width, nil],
+            format: format_config[:format],
+            saver: format_config[:saver]
+          }
+        else
+          # MiniMagick / ImageMagick options
+          # format and quality are top-level options
+          options = {
+            resize_to_limit: [width, nil],
+            format: format_config[:format]
+          }
+          
+          # Add quality if defined in saver config
+          if format_config[:saver] && format_config[:saver][:quality]
+            options[:quality] = format_config[:saver][:quality]
+          end
+          
+          options
+        end
       end
 
       # Get MIME type for a format.

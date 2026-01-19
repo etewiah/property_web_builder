@@ -819,6 +819,7 @@ DEPENDENCIES
   logstash-event
   logster (~> 2.11)
   lookbook (>= 2.0)
+  mini_magick (~> 5.3)
   mission_control-jobs (~> 1.0)
   mobility
   money-rails (~> 2.0)

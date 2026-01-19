@@ -9,6 +9,7 @@ module ApiPublic
       include ApiPublic::ResponseEnvelope
       include ApiPublic::ErrorHandler
       include ApiPublic::SparseFieldsets
+      include ActiveStorage::SetCurrent
 
       skip_before_action :verify_authenticity_token
 

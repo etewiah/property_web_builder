@@ -258,3 +258,5 @@ gem 'groupdate', '~> 6.0'     # Time-based grouping for analytics
 
 # JavaScript minification for production assets
 gem 'terser'
+
+gem "mini_magick", "~> 5.3"

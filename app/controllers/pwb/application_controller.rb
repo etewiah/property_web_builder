@@ -10,6 +10,7 @@ module Pwb
     ALLOWED_THEMES = %w[default brisbane bologna].freeze
 
     include DemoRestrictions
+    include ActiveStorage::SetCurrent
 
     around_action :connect_to_tenant_shard
 
