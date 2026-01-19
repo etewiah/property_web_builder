@@ -1,6 +1,12 @@
 module Pwb
   class PagePartManager
     attr_accessor :page_part_key, :page_part, :container
+    
+    include Pwb::ImagesHelper
+    include ActionView::Helpers::TagHelper
+    include ActionView::Helpers::AssetTagHelper
+    include ActionView::Helpers::UrlHelper
+    include ActionView::Context
 
     def initialize(page_part_key, container)
       raise "Please provide valid container" unless container.present?
@@ -195,6 +201,11 @@ module Pwb
         content_html_col = "raw_" + locale + "="
         # above is the col used by globalize gem to store localized data
         # page_fragment_content[content_html_col] = new_fragment_html
+        # page_fragment_content[content_html_col] = new_fragment_html
+        
+        # Apply responsive image optimization for seed images
+        new_fragment_html = make_media_responsive(new_fragment_html)
+        
         page_fragment_content.send content_html_col, new_fragment_html
         page_fragment_content.save!
 

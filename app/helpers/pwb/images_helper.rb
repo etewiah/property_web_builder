@@ -14,9 +14,7 @@ module Pwb
       return fallback unless photo
 
       # Use description if available (stored alt-text)
-      if photo.respond_to?(:description) && photo.description.present?
-        return photo.description
-      end
+      return photo.description if photo.respond_to?(:description) && photo.description.present?
 
       # For prop photos, try to get a descriptive fallback from the property
       if photo.respond_to?(:realty_asset) && photo.realty_asset.present?
@@ -29,9 +27,7 @@ module Pwb
       end
 
       # For content photos, use content title
-      if photo.respond_to?(:content) && photo.content&.respond_to?(:title) && photo.content.title.present?
-        return photo.content.title
-      end
+      return photo.content.title if photo.respond_to?(:content) && photo.content&.respond_to?(:title) && photo.content.title.present?
 
       fallback
     end
@@ -94,11 +90,10 @@ module Pwb
 
       # Handle external URLs first
       if photo.respond_to?(:external?) && photo.external?
-        if use_picture
-          return external_image_picture(photo.external_url, options)
-        else
-          return image_tag(photo.external_url, options)
-        end
+        return external_image_picture(photo.external_url, options) if use_picture
+
+        return image_tag(photo.external_url, options)
+
       end
 
       # Fall back to ActiveStorage
@@ -106,9 +101,7 @@ module Pwb
 
       # Build variant options if dimensions specified
       variant_options = {}
-      if width || height
-        variant_options[:resize_to_limit] = [width, height].compact
-      end
+      variant_options[:resize_to_limit] = [width, height].compact if width || height
 
       # Use picture element with WebP source for better performance
       if use_picture && photo.image.variable?
@@ -134,9 +127,7 @@ module Pwb
     def external_image_picture(url, html_options = {})
       # Only use picture element optimization for our own seed images
       # Third-party URLs won't have WebP versions available
-      unless url.to_s.match?(/\.jpe?g$/i) && trusted_webp_source?(url)
-        return image_tag(url, html_options)
-      end
+      return image_tag(url, html_options) unless url.to_s.match?(/\.jpe?g$/i) && trusted_webp_source?(url)
 
       sizes = html_options.delete(:sizes)
       responsive = html_options.delete(:responsive)
@@ -149,9 +140,9 @@ module Pwb
         # WebP source for modern browsers
         if responsive && sizes
           webp_srcset = generate_external_srcset(webp_url)
-          sources << tag(:source, srcset: webp_srcset, sizes: sizes, type: "image/webp")
+          sources << tag.source(srcset: webp_srcset, sizes: sizes, type: "image/webp")
         else
-          sources << tag(:source, srcset: webp_url, type: "image/webp")
+          sources << tag.source(srcset: webp_url, type: "image/webp")
         end
 
         # Fallback img tag with original JPEG (also with srcset if responsive)
@@ -221,7 +212,7 @@ module Pwb
         if responsive && sizes
           # Generate responsive WebP srcset
           webp_srcset = generate_responsive_srcset(photo, format: :webp)
-          sources << tag(:source, srcset: webp_srcset, sizes: sizes, type: "image/webp")
+          sources << tag.source(srcset: webp_srcset, sizes: sizes, type: "image/webp")
 
           # Generate responsive JPEG srcset for fallback
           jpeg_srcset = generate_responsive_srcset(photo, format: :jpeg)
@@ -229,9 +220,8 @@ module Pwb
           html_options[:sizes] = sizes
         else
           # Single WebP source
-          sources << tag(:source,
-                         srcset: url_for(photo.image.variant(webp_options)),
-                         type: "image/webp")
+          sources << tag.source(srcset: url_for(photo.image.variant(webp_options)),
+                                type: "image/webp")
         end
 
         # Fallback img tag
@@ -292,9 +282,7 @@ module Pwb
       end
 
       # Handle external URLs - variants not supported for external URLs
-      if photo.respond_to?(:external?) && photo.external?
-        return image_tag(photo.external_url, html_options)
-      end
+      return image_tag(photo.external_url, html_options) if photo.respond_to?(:external?) && photo.external?
 
       # Fall back to ActiveStorage
       return nil unless photo.respond_to?(:image) && photo.image.attached?
@@ -338,12 +326,11 @@ module Pwb
       as_type = options.delete(:as) || "image"
       fetchpriority = options.delete(:fetchpriority) || "high"
 
-      tag(:link,
-          rel: "preload",
-          href: url,
-          as: as_type,
-          fetchpriority: fetchpriority,
-          **options)
+      tag.link(rel: "preload",
+               href: url,
+               as: as_type,
+               fetchpriority: fetchpriority,
+               **options)
     end
 
     # Check if photo has an image (external or uploaded)
@@ -361,6 +348,55 @@ module Pwb
       else
         false
       end
+    end
+
+    # Scans HTML for image tags and replaces them with responsive versions
+    # where possible (e.g. for seed images).
+    # Also ensures lazy loading is enabled.
+    # @param html_content [String] HTML content to process
+    # @return [String] Processed HTML
+    def make_media_responsive(html_content, _options = {})
+      return html_content if html_content.blank?
+
+      doc = Nokogiri::HTML::DocumentFragment.parse(html_content)
+      
+      doc.css('img').each do |img_node|
+        # Skip if already inside a picture element
+        next if img_node.parent&.name == 'picture'
+
+        src = img_node['src']
+        next if src.blank?
+
+        # Ensure lazy loading
+        img_node['loading'] ||= 'lazy'
+        
+        # Check if we can upgrade to picture element
+        if trusted_webp_source?(src) && src.match?(/\.jpe?g$/i)
+          # Create options for external_image_picture
+          pic_options = {
+            class: img_node['class'],
+            alt: img_node['alt'],
+            loading: img_node['loading'],
+            style: img_node['style'],
+            width: img_node['width'],
+            height: img_node['height'],
+            data: img_node.keys.select { |k| k.start_with?('data-') }.each_with_object({}) { |k, h| h[k] = img_node[k] }
+          }
+          
+          # Add default responsive sizes if not present
+          # This assumes a typical content width logic
+          # pic_options[:sizes] ||= "(max-width: 768px) 100vw, 80vw"
+          # pic_options[:responsive] = true
+          
+          # Generates the picture tag string
+          picture_html = external_image_picture(src, pic_options)
+          
+          # Replace the original img node with the new picture node
+          img_node.replace(picture_html)
+        end
+      end
+
+      doc.to_html
     end
   end
 end
