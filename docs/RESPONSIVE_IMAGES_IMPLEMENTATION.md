@@ -218,3 +218,91 @@ This implementation aligns more closely with the `docs/images` architecture:
 3. **Above-fold Images**: Use `eager: true` for LCP images
 4. **Pre-generation**: Variants are generated in background on upload
 5. **Format Negotiation**: Browser automatically picks best supported format
+
+## Troubleshooting
+
+If you encounter issues with images not loading, 500 errors, or missing variants, follow these steps.
+
+### Automated Troubleshooting
+
+Run the included troubleshooting suite to check configuration, dependencies, and database content:
+
+```bash
+bundle exec rake images:troubleshoot:all
+```
+
+This will verify:
+1.  **Dependencies**: Checks if `vips` or `mini_magick` is correctly installed and matched with Rails config.
+2.  **Configuration**: Checks if `default_url_options` and `ActiveStorage::SetCurrent` are configured.
+3.  **HTML Structure**: Scans content for proper `<picture>` tags.
+4.  **URL Generation**: Attempts to generate a test variant URL.
+
+### Common Issues & Fixes
+
+#### 1. `LoadError: Could not open library 'libvips'`
+
+**Symptom**: 500 Error when loading pages with images; logs show `ActiveStorage::UnknownVariant` or `LoadError`.
+
+**Cause**: Rails 8 defaults to Vips, but it may not be installed on your system.
+
+**Fix**:
+Switch to MiniMagick (which uses ImageMagick) if Vips is not available.
+
+*config/application.rb* or *config/environments/development.rb*:
+```ruby
+config.active_storage.variant_processor = :mini_magick
+```
+Ensure `mini_magick` gem is in your Gemfile:
+```ruby
+gem "mini_magick"
+```
+
+#### 2. `ArgumentError: Cannot generate URL ... please set ActiveStorage::Current.url_options`
+
+**Symptom**: API requests or background jobs fail to generate image URLs.
+
+**Cause**: ActiveStorage needs to know the domain/host to generate absolute URLs, and this info is missing in API/non-browser contexts.
+
+**Fix**:
+1. Set default URL options in `config/environments/development.rb`:
+   ```ruby
+   Rails.application.routes.default_url_options = { host: "localhost", port: 3000 }
+   ```
+2. Include the setup module in your API base controller:
+   ```ruby
+   # app/controllers/api_public/v1/base_controller.rb
+   include ActiveStorage::SetCurrent
+   ```
+
+#### 3. `The provided transformation method is not supported: saver`
+
+**Symptom**: `images:variants:generate` fails with this error.
+
+**Cause**: You are using MiniMagick, but the code is trying to use Vips-specific options (like `saver: { quality: ... }`).
+
+**Fix**:
+Ensure `Pwb::ResponsiveVariants.transformations_for` handles the processor type correctly. (This is patched in the current codebase).
+
+#### 4. Corrupted/Nested Picture Tags
+
+**Symptom**: HTML shows `<picture><picture>...</picture></picture>`.
+
+**Cause**: Content migration ran multiple times on already-processed content.
+
+**Fix**:
+Run the cleanup task:
+```bash
+bundle exec rake images:fix_nested_pictures
+```
+
+#### 5. External Images Not Responsive
+
+**Symptom**: Images from external URLs (e.g. `seed-assets`) are still regular `<img>` tags.
+
+**Cause**: Variant generation only works for local ActiveStorage attachments.
+
+**Fix**:
+Import external images to local storage:
+```bash
+bundle exec rake images:import_external
+```
