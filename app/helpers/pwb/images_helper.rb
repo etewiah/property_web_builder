@@ -522,15 +522,26 @@ module Pwb
       sizes = ResponsiveVariants.sizes_for(options[:sizes] || :content)
 
       doc.css('img').each do |img_node|
-        # Skip if already inside a picture element
-        next if img_node.ancestors('picture').any?
-
+        # Handle images already inside picture tags (re-process them)
+        picture_ancestor = img_node.ancestors('picture').first
+        
         src = img_node['src']
         next if src.blank?
 
         # Ensure lazy loading
         img_node['loading'] ||= 'lazy'
         img_node['decoding'] ||= 'async'
+
+        # Determine sizes attribute based on context
+        current_sizes = sizes
+        
+        # Smart detection for hero sections if using default content sizes
+        if options[:sizes].blank? || options[:sizes] == :content
+          if img_node.ancestors('.hero-section').any? || img_node.ancestors('.pwb-hero').any?
+            current_sizes = ResponsiveVariants.sizes_for(:hero)
+          end
+        end
+
 
         # Check if we can upgrade to picture element with WebP support
         if trusted_webp_source?(src) && src.match?(/\.jpe?g$/i)
@@ -543,7 +554,7 @@ module Pwb
             style: img_node['style'],
             width: img_node['width'],
             height: img_node['height'],
-            sizes: sizes,
+            sizes: current_sizes,
             responsive: true,
             data: img_node.keys.select { |k| k.start_with?('data-') }.each_with_object({}) { |k, h| h[k] = img_node[k] }
           }
@@ -551,8 +562,18 @@ module Pwb
           # Generates the picture tag string with WebP source
           picture_html = external_image_picture(src, pic_options)
 
-          # Replace the original img node with the new picture node
-          img_node.replace(picture_html)
+          # Replace identifying node (the picture tag if it existed, otherwise the img tag)
+          if picture_ancestor
+            picture_ancestor.replace(picture_html)
+          else
+            img_node.replace(picture_html)
+          end
+        else
+          # Even if not upgrading to picture, ensure sizes attribute is set
+          # Only set if it was calculated/changed from default
+          if current_sizes.present?
+             img_node['sizes'] = current_sizes
+          end
         end
       end
 

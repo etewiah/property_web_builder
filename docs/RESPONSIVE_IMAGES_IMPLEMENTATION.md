@@ -307,3 +307,21 @@ Import external images to local storage:
 ```bash
 bundle exec rake images:import_external
 ```
+
+## Maintenance Tasks
+
+### Reprocessing Content
+
+If responsive image logic changes (e.g., new breakpoints or logic updates), you can reprocess all existing content blocks in the database using the provided rake task:
+
+```bash
+bundle exec rake pwb:content:reprocess_responsive
+```
+
+This task:
+1. Iterates through all `Pwb::Content` records.
+2. Checks all localized `raw_*` fields (e.g., `raw_en`, `raw_es`).
+3. Runs the content through `make_media_responsive`.
+4. Updates the record only if the HTML has changed (e.g., new `srcset`, updated `sizes`).
+5. Handles `Mobility` translations correctly.
+
