@@ -165,5 +165,23 @@ module Pwb
         expect(links.pluck(:slug)).to eq(["visible_admin"])
       end
     end
+
+    describe "#resolved_url" do
+      around do |example|
+        I18n.with_locale(:en) { example.run }
+      end
+
+      it "uses route helpers for contact_us_path" do
+        link = Link.new(link_path: "contact_us_path")
+
+        expect(link.resolved_url).to eq("/en/contact-us")
+      end
+
+      it "uses route helpers with params for show_page_path" do
+        link = Link.new(link_path: "show_page_path", link_path_params: "about-us")
+
+        expect(link.resolved_url).to eq("/en/p/about-us")
+      end
+    end
   end
 end

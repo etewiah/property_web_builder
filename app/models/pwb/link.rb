@@ -90,19 +90,54 @@ module Pwb
       if link_url.present?
         link_url
       elsif link_path.present?
-        # Generate a basic path from the route helper name
-        path_name = link_path.gsub('_path', '')
-        # Use link_path_params if available (e.g., for show_page_path with a slug)
-        if link_path_params.present?
-          "/#{I18n.locale}/#{link_path_params}"
-        else
-          "/#{I18n.locale}/#{path_name}"
+        helper = Rails.application.routes.url_helpers
+        path_params = parsed_link_path_params
+        begin
+          if path_params.is_a?(Hash)
+            helper.public_send(link_path, **path_params.symbolize_keys, locale: I18n.locale)
+          elsif path_params.present?
+            helper.public_send(link_path, path_params, locale: I18n.locale)
+          else
+            helper.public_send(link_path, locale: I18n.locale)
+          end
+        rescue NoMethodError, ArgumentError
+          # Fall back to a best-effort path if the helper isn't available.
+          path_name = link_path.gsub('_path', '')
+          "/#{I18n.locale}/#{path_params.presence || path_name}"
         end
       elsif page_slug.present?
         "/#{I18n.locale}/#{page_slug}"
       else
         "#"
       end
+    end
+
+    def parsed_link_path_params
+      return if link_path_params.blank?
+      return link_path_params if link_path_params.is_a?(Hash) || link_path_params.is_a?(Array)
+      return link_path_params unless link_path_params.is_a?(String)
+
+      begin
+        parsed = JSON.parse(link_path_params)
+        return parsed if parsed.is_a?(Hash) || parsed.is_a?(Array)
+      rescue JSON::ParserError
+      end
+
+      begin
+        parsed = YAML.safe_load(link_path_params, permitted_classes: [Symbol], aliases: true)
+        return parsed if parsed.is_a?(Hash) || parsed.is_a?(Array)
+      rescue Psych::SyntaxError
+      end
+
+      if link_path_params.include?('=>')
+        begin
+          parsed = JSON.parse(link_path_params.gsub('=>', ':'))
+          return parsed if parsed.is_a?(Hash) || parsed.is_a?(Array)
+        rescue JSON::ParserError
+        end
+      end
+
+      link_path_params
     end
 
     def admin_attribute_names
@@ -120,4 +155,3 @@ module Pwb
     end
   end
 end
-
