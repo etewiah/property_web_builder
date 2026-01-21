@@ -15,7 +15,7 @@
     "@fontsource/vollkorn": "^5.2.10",
     "@tailwindcss/cli": "^4.1.17",
     "flowbite": "^4.0.1",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "sharp": "^0.33.5",
     "tailwindcss": "^4.1.17"
   },
