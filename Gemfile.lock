@@ -389,11 +389,11 @@ GEM
     money (7.0.2)
       bigdecimal
       i18n (~> 1.9)
-    money-rails (2.0.0)
-      activesupport (>= 6.1)
+    money-rails (3.0.0)
+      activesupport (>= 7.0)
       monetize (~> 2.0)
       money (~> 7.0)
-      railties (>= 6.1)
+      railties (>= 7.0)
     multi_json (1.19.1)
     multi_xml (0.8.1)
       bigdecimal (>= 3.1, < 5)
@@ -824,7 +824,7 @@ DEPENDENCIES
   mini_magick (~> 5.3)
   mission_control-jobs (~> 1.0)
   mobility
-  money-rails (~> 2.0)
+  money-rails (~> 3.0)
   obscenity (~> 1.0)
   oj
   omniauth (~> 2.1)

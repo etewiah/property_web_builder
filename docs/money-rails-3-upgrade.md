@@ -1,7 +1,7 @@
 # Money-Rails 3.0.0 Upgrade Prep
 
 **Date:** January 22, 2026  
-**Status:** Planned
+**Status:** Completed
 
 ---
 
@@ -92,3 +92,11 @@ bundle exec rspec
 ## Rollback
 
 Revert `Gemfile` and `Gemfile.lock` to the previous versions if issues arise.
+
+---
+
+## Implementation Notes
+
+- Updated `Gemfile` to `gem "money-rails", "~> 3.0"`.
+- Ran `bundle update money-rails` (lockfile now resolves to 3.0.0).
+- Verified targeted specs from the Test Plan pass.

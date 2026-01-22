@@ -139,7 +139,7 @@ gem "i18n-active_record", "~> 1.1"
 # gem "globalize", "~> 6.2"
 # gem "globalize-accessors", "~> 0.3.0"
 
-gem "money-rails", "~> 2.0"
+gem "money-rails", "~> 3.0"
 gem "eu_central_bank", "~> 2.0"  # Free ECB exchange rates for currency conversion
 
 gem "simple_form", "~> 5.1"
