@@ -101,7 +101,7 @@ module Pwb
 
       # Build variant options if dimensions specified
       variant_options = {}
-      variant_options[:resize_to_limit] = [width, height].compact if width || height
+      variant_options[:resize_to_limit] = [width, height] if width || height
 
       # Use picture element with WebP source for better performance
       if use_picture && photo.image.variable?
