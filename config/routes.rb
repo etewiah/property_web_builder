@@ -787,7 +787,7 @@ Rails.application.routes.draw do
       # get "/pages/by_slug/:slug" => "pages#show_by_slug"
       get "/translations" => "translations#index"
       get "/links" => "links#index"
-      get "/site_details" => "site_details#index"
+      # get "/site_details" => "site_details#index"
       get "/select_values" => "select_values#index"
       get "/theme" => "theme#index"
       get "/themes/:theme_name/palettes" => "theme_palettes#index"

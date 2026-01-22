@@ -3,111 +3,93 @@
 require 'rails_helper'
 
 RSpec.describe "ApiPublic::V1::SiteDetails", type: :request do
-  let!(:website) { FactoryBot.create(:pwb_website) }
+  let!(:website) do
+    FactoryBot.create(:pwb_website,
+      company_display_name: "My Real Estate",
+      default_client_locale: "en",
+      supported_locales: %w[en es],
+      default_meta_description: "Best properties in town"
+    )
+  end
 
   before(:each) do
-    Pwb::Current.reset
+    allow(Pwb::Current).to receive(:website).and_return(website)
+    host! "example.com"
   end
 
-  describe "GET /api_public/v1/site_details" do
-    it "returns site details" do
-      get "/api_public/v1/site_details", params: { locale: "en" }
+  describe "GET /api_public/v1/:locale/site_details" do
+    it "returns site details with new structure" do
+      get "/api_public/v1/en/site_details"
+      
       expect(response).to have_http_status(200)
       json = response.parsed_body
-      expect(json).to be_present
+      
+      # Requester info
+      expect(json["requester_locale"]).to eq("en")
+      expect(json["requester_hostname"]).to include("example.com")
+      
+      # Caching
+      expect(json["cache_control"]).to eq("public, max-age=3600")
+      expect(json["etag"]).to be_present
+      expect(json["last_modified"]).to be_present
+      
+      # SEO Defaults
+      expect(json["title"]).to eq("My Real Estate") # Fallback to company name
+      expect(json["meta_description"]).to eq("Best properties in town")
+      expect(json).to have_key("meta_keywords")
     end
 
-    it "includes footer_data object" do
-      get "/api_public/v1/site_details", params: { locale: "en" }
+    it "includes Open Graph defaults" do
+      get "/api_public/v1/en/site_details"
       json = response.parsed_body
+      og = json["og"]
 
-      expect(json).to have_key("footer_data")
-      expect(json["footer_data"]).to have_key("page_parts")
-      expect(json["footer_data"]).to have_key("whitelabel")
-      expect(json["footer_data"]).to have_key("admin_url")
+      expect(og).to be_present
+      expect(og["og:title"]).to eq("My Real Estate")
+      expect(og["og:description"]).to eq("Best properties in town")
+      expect(og["og:type"]).to eq("website")
+      expect(og["og:site_name"]).to eq("My Real Estate")
+      expect(og["og:url"]).to eq("http://example.com/")
     end
-
-    it "returns whitelabel configuration with defaults in footer_data" do
-      get "/api_public/v1/site_details", params: { locale: "en" }
+    
+    it "includes Twitter Card defaults" do
+      get "/api_public/v1/en/site_details"
       json = response.parsed_body
+      twitter = json["twitter"]
 
-      expect(json["footer_data"]["whitelabel"]).to include(
-        "show_powered_by" => true,
-        "powered_by_url" => "https://www.propertywebbuilder.com"
-      )
+      expect(twitter["twitter:card"]).to eq("summary_large_image")
+      expect(twitter["twitter:title"]).to eq("My Real Estate")
     end
 
-    it "returns admin_url in footer_data" do
-      get "/api_public/v1/site_details", params: { locale: "en" }
+    it "includes JSON-LD WebSite schema" do
+      get "/api_public/v1/en/site_details"
       json = response.parsed_body
-
-      expect(json["footer_data"]["admin_url"]).to eq("/pwb_login")
+      json_ld = json["json_ld"]
+      
+      expect(json_ld["@type"]).to eq("WebSite")
+      expect(json_ld["name"]).to eq("My Real Estate")
+      expect(json_ld["url"]).to eq("http://example.com/")
+      expect(json_ld["inLanguage"]).to eq("en")
+      expect(json_ld["publisher"]["@type"]).to eq("Organization")
     end
 
-    it "returns empty page_parts in footer_data when none exist" do
-      get "/api_public/v1/site_details", params: { locale: "en" }
+    it "adjusts URLs for non-default locale" do
+      get "/api_public/v1/es/site_details"
       json = response.parsed_body
-
-      expect(json["footer_data"]["page_parts"]).to eq({})
-    end
-  end
-end
-
-RSpec.describe Pwb::Website, "footer data methods", type: :model do
-  let(:website) { FactoryBot.create(:pwb_website) }
-
-  describe "#footer_data" do
-    it "returns nested object with page_parts, whitelabel, and admin_url" do
-      expect(website.footer_data).to have_key("page_parts")
-      expect(website.footer_data).to have_key("whitelabel")
-      expect(website.footer_data).to have_key("admin_url")
-    end
-  end
-
-  describe "#whitelabel_for_api" do
-    it "returns default values when whitelabel_config is nil" do
-      expect(website.whitelabel_for_api).to eq({
-        "show_powered_by" => true,
-        "powered_by_url" => "https://www.propertywebbuilder.com"
-      })
+      
+      expect(json["requester_locale"]).to eq("es")
+      expect(json["og"]["og:url"]).to eq("http://example.com/es/")
+      expect(json["json_ld"]["url"]).to eq("http://example.com/es/")
+      expect(json["json_ld"]["inLanguage"]).to eq("es")
     end
 
-    it "respects custom whitelabel_config" do
-      website.update!(whitelabel_config: {
-        "show_powered_by" => false,
-        "powered_by_url" => "https://custom.com"
-      })
-
-      expect(website.whitelabel_for_api).to eq({
-        "show_powered_by" => false,
-        "powered_by_url" => "https://custom.com"
-      })
-    end
-  end
-
-  describe "#admin_url" do
-    it "returns /pwb_login" do
-      expect(website.admin_url).to eq("/pwb_login")
-    end
-  end
-
-  describe "#footer_page_parts" do
-    it "returns empty hash when no footer content exists" do
-      expect(website.footer_page_parts).to eq({})
-    end
-  end
-
-  describe "#full_agency_address" do
-    it "returns nil when no agency" do
-      expect(website.full_agency_address).to be_nil
-    end
-  end
-
-  describe "#contact_info" do
-    it "returns empty hash when no agency" do
-      website.agency&.destroy
-      website.reload
-      expect(website.contact_info).to eq({})
+    it "includes analytics keys" do
+      website.define_singleton_method(:ga4_measurement_id) { "G-123456" }
+      
+      get "/api_public/v1/en/site_details"
+      json = response.parsed_body
+      
+      expect(json["analytics"]["ga4_id"]).to eq("G-123456")
     end
   end
 end
