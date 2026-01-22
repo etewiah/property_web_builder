@@ -186,7 +186,7 @@ module Pwb
     def dark_mode_colors
       return {} unless dark_mode_enabled? && current_theme && effective_palette_id
 
-      palette_loader.get_dark_colors(theme_name, effective_palette_id)
+      palette_loader.get_dark_colors(current_theme.name, effective_palette_id)
     end
 
     # Get CSS variables with dark mode support
@@ -196,21 +196,21 @@ module Pwb
 
       return "" unless current_theme && effective_palette_id
 
-      palette_loader.generate_full_css(theme_name, effective_palette_id)
+      palette_loader.generate_full_css(current_theme.name, effective_palette_id)
     end
 
     # Get light mode only CSS variables
     def css_variables
       return "" unless current_theme && effective_palette_id
 
-      palette_loader.generate_css_variables(theme_name, effective_palette_id)
+      palette_loader.generate_css_variables(current_theme.name, effective_palette_id)
     end
 
     # Check if current palette has explicit dark mode colors
     def palette_has_explicit_dark_mode?
       return false unless current_theme && effective_palette_id
 
-      palette = palette_loader.get_palette(theme_name, effective_palette_id)
+      palette = palette_loader.get_palette(current_theme.name, effective_palette_id)
       palette_loader.has_explicit_dark_mode?(palette)
     end
 
