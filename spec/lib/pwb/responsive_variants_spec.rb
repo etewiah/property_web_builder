@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe Pwb::ResponsiveVariants do
   describe "::WIDTHS" do
     it "defines standard responsive widths" do
-      expect(described_class::WIDTHS).to eq([320, 640, 768, 1024, 1280, 1536, 1920])
+      expect(described_class::WIDTHS).to eq([320, 640, 1024, 1280])
     end
   end
 
@@ -42,7 +42,8 @@ RSpec.describe Pwb::ResponsiveVariants do
     end
 
     it "filters widths larger than original" do
-      expect(described_class.widths_for(800)).to eq([320, 640, 768])
+      expected = described_class::WIDTHS.select { |width| width <= 800 }
+      expect(described_class.widths_for(800)).to eq(expected)
     end
 
     it "handles nil original width" do
@@ -85,14 +86,24 @@ RSpec.describe Pwb::ResponsiveVariants do
 
       expect(result[:resize_to_limit]).to eq([640, nil])
       expect(result[:format]).to eq(:webp)
-      expect(result[:saver]).to eq({ quality: 80 })
+      if Rails.application.config.active_storage.variant_processor == :vips
+        expect(result[:saver]).to eq({ quality: 80 })
+      else
+        expect(result[:quality]).to eq(80)
+        expect(result[:saver]).to be_nil
+      end
     end
 
     it "uses jpeg defaults for unknown format" do
       result = described_class.transformations_for(640, :unknown)
 
       expect(result[:format]).to eq(:jpeg)
-      expect(result[:saver]).to eq({ quality: 85 })
+      if Rails.application.config.active_storage.variant_processor == :vips
+        expect(result[:saver]).to eq({ quality: 85 })
+      else
+        expect(result[:quality]).to eq(85)
+        expect(result[:saver]).to be_nil
+      end
     end
   end
 
