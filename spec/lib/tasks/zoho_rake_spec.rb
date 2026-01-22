@@ -5,7 +5,8 @@ require 'rake'
 
 RSpec.describe 'zoho rake tasks', type: :task do
   before(:all) do
-    Rails.application.load_tasks if Rake::Task.tasks.empty?
+    Rake.application.rake_require 'tasks/zoho'
+    Rake::Task.define_task(:environment)
   end
 
   before do

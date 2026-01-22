@@ -5,7 +5,8 @@ require 'rake'
 
 RSpec.describe 'pwb:content:reprocess_responsive', type: :task do
   before(:all) do
-    Rails.application.load_tasks if Rake::Task.tasks.empty?
+    Rake.application.rake_require 'tasks/content_responsive'
+    Rake::Task.define_task(:environment)
   end
 
   let(:task) { Rake::Task['pwb:content:reprocess_responsive'] }
