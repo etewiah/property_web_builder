@@ -68,6 +68,8 @@ module ApiPublic
         {
           id: page.id,
           slug: page.slug,
+          requester_locale: I18n.locale,
+          requester_hostname: request.host,
           # Mobility-translated fields - automatically return current locale's value
           title: page.seo_title.presence || page.page_title.presence || page.slug.titleize,
           meta_description: page.meta_description,
@@ -223,57 +225,21 @@ module ApiPublic
         # Page title element
         elements << {
           "element_class_id" => "page_title",
-          "element_label" => build_element_translations(:page_title, page)
+          "element_label" => page.page_title.presence || page.slug.titleize
         }
 
         # Common form elements (if page has forms)
         elements << {
           "element_class_id" => "submit_button",
-          "element_label" => build_i18n_translations("buttons.submit", "Submit")
+          "element_label" => I18n.t("buttons.submit", default: "Submit")
         }
 
         elements << {
           "element_class_id" => "back_button",
-          "element_label" => build_i18n_translations("buttons.back", "Back")
+          "element_label" => I18n.t("buttons.back", default: "Back")
         }
 
         elements
-      end
-
-      def build_element_translations(attribute, page)
-        translations = {}
-        supported_locales = website_supported_locales
-
-        supported_locales.each do |locale|
-          # Normalize locale for Mobility (e.g., "en-US" → "en")
-          mobility_locale = normalize_locale_for_mobility(locale)
-          next unless mobility_locale
-
-          Mobility.with_locale(mobility_locale) do
-            value = page.send(attribute)
-            translations[locale.to_s] = value if value.present?
-          end
-        end
-
-        # Fallback to slug if no translations
-        translations[I18n.default_locale.to_s] ||= page.slug.titleize if translations.empty?
-
-        translations
-      end
-
-      def build_i18n_translations(key, default)
-        translations = {}
-        supported_locales = website_supported_locales
-
-        supported_locales.each do |locale|
-          # Use the full locale for I18n if available, otherwise use normalized
-          i18n_locale = I18n.available_locales.map(&:to_s).include?(locale.to_s) ? locale : normalize_locale_for_mobility(locale)
-          next unless i18n_locale
-
-          translations[locale.to_s] = I18n.t(key, locale: i18n_locale, default: default)
-        end
-
-        translations
       end
 
       # Get website's supported locales

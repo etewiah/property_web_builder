@@ -37,6 +37,8 @@ Returns the privacy page metadata and content in Spanish.
 {
   "id": 8,
   "slug": "privacy",
+  "locale": "es",
+  "hostname": "example.com",
   "title": "Política de Privacidad",
   "meta_description": "Descripción para SEO y compartir en redes sociales.",
   "meta_keywords": "privacidad, política, inmobiliaria",
@@ -87,19 +89,11 @@ Returns the privacy page metadata and content in Spanish.
   "html_elements": [
     {
       "element_class_id": "page_title",
-      "element_label": {
-        "en": "Privacy Policy",
-        "es": "Política de Privacidad",
-        "fr": "Politique de Confidentialité"
-      }
+      "element_label": "Política de Privacidad"
     },
     {
       "element_class_id": "submit_button",
-      "element_label": {
-        "en": "Submit",
-        "es": "Enviar",
-        "fr": "Soumettre"
-      }
+      "element_label": "Enviar"
     }
   ],
   "sort_order_top_nav": 0,
@@ -130,6 +124,8 @@ Returns the privacy page metadata and content in Spanish.
 |-------|------|-------------|
 | `id` | integer | Page ID |
 | `slug` | string | URL-friendly page identifier |
+| `locale` | string | Requested locale |
+| `hostname` | string | Hostname of the request |
 | `title` | string | Localized page title (from `seo_title` or `page_title`) |
 | `meta_description` | string | Localized meta description for SEO |
 | `meta_keywords` | string | Localized meta keywords for SEO |
@@ -167,11 +163,11 @@ Returns the privacy page metadata and content in Spanish.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `html_elements` | array | Pre-translated UI labels for all supported locales |
+| `html_elements` | array | UI labels for the requested locale only |
 
 Each element contains:
 - `element_class_id`: Identifier for the UI element
-- `element_label`: Object mapping locale codes to translated strings
+- `element_label`: Translated string for the requested locale
 
 ### Content Fields
 

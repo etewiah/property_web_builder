@@ -63,6 +63,10 @@ RSpec.describe "ApiPublic::V1::LocalizedPages", type: :request do
         expect(json["title"]).to eq("About Us - Best Real Estate")
         expect(json["meta_description"]).to eq("Learn more about our real estate company and services.")
         expect(json["meta_keywords"]).to eq("real estate, about us, company")
+        
+        # New additions
+        expect(json["requester_locale"]).to eq("en")
+        expect(json["requester_hostname"]).to include("example.com")
       end
     end
 
@@ -273,9 +277,14 @@ RSpec.describe "ApiPublic::V1::LocalizedPages", type: :request do
 
         page_title_element = html_elements.find { |e| e["element_class_id"] == "page_title" }
         expect(page_title_element).to be_present
-        expect(page_title_element["element_label"]).to be_a(Hash)
-        expect(page_title_element["element_label"]["en"]).to eq("About Our Company")
-        expect(page_title_element["element_label"]["es"]).to eq("Sobre Nuestra Empresa")
+        expect(page_title_element["element_label"]).to eq("About Our Company")
+        
+        get "/api_public/v1/es/localized_page/by_slug/about-us"
+        json_es = response.parsed_body
+        html_elements_es = json_es["html_elements"]
+        page_title_es = html_elements_es.find { |e| e["element_class_id"] == "page_title" }
+        
+        expect(page_title_es["element_label"]).to eq("Sobre Nuestra Empresa")
       end
     end
 
