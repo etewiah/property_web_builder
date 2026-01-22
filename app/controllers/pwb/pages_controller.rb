@@ -13,9 +13,7 @@ module Pwb
       default_page_slug = "home"
       page_slug = params[:page_slug] || default_page_slug
       @page = @current_website.pages.find_by_slug page_slug
-      if @page.blank?
-        @page = @current_website.pages.find_by_slug default_page_slug
-      end
+      @page = @current_website.pages.find_by_slug default_page_slug if @page.blank?
       @content_to_show = []
       @page_contents_for_edit = []
       @has_rails_parts = false
@@ -85,7 +83,7 @@ module Pwb
       # lc_content = Content.where(tag: 'landing-carousel')[0]
       lc_photo = ContentPhoto.find_by_block_key "landing_img"
       # used for header background images
-      @header_image_url = lc_photo.present? ? lc_photo.optimized_image_url : nil
+      @header_image_url = lc_photo.presence&.optimized_image_url
     end
 
     # Extract LCP (Largest Contentful Paint) image from page content

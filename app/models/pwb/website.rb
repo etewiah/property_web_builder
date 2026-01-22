@@ -366,8 +366,17 @@ module Pwb
                 "style_variables", "css_variables",
                 "contact_info", "social_links",
                 "top_nav_links", "footer_links",
-                "agency"
+                "agency", "footer_data"
               ] }.merge(options || {}))
+    end
+
+    # API helper: Returns all footer-related data in a single object
+    def footer_data
+      {
+        "page_parts" => footer_page_parts,
+        "whitelabel" => whitelabel_for_api,
+        "admin_url" => admin_url
+      }
     end
 
     # API helper: Returns contact information from agency
@@ -378,8 +387,50 @@ module Pwb
         "phone" => agency.phone_number_primary,
         "phone_mobile" => agency.phone_number_mobile,
         "email" => agency.email_primary,
-        "address" => format_agency_address
+        "address" => format_agency_address,
+        "address_details" => full_agency_address
       }
+    end
+
+    # API helper: Returns full address details
+    def full_agency_address
+      return nil unless agency&.primary_address
+
+      addr = agency.primary_address
+      {
+        "street_number" => addr.street_number,
+        "street_address" => addr.street_address,
+        "city" => addr.city,
+        "region" => addr.region,
+        "postal_code" => addr.postal_code,
+        "country" => addr.country,
+        "latitude" => addr.latitude,
+        "longitude" => addr.longitude
+      }.compact
+    end
+
+    # API helper: Returns footer page parts (custom HTML content)
+    def footer_page_parts
+      footer_part = ordered_visible_page_contents&.find_by_page_part_key("footer_content_html")
+      return {} unless footer_part&.content
+
+      {
+        "footer_content_html" => footer_part.content.raw
+      }
+    end
+
+    # API helper: Returns whitelabel configuration for API
+    def whitelabel_for_api
+      config = whitelabel_config || {}
+      {
+        "show_powered_by" => config["show_powered_by"] != false,
+        "powered_by_url" => config["powered_by_url"] || "https://www.propertywebbuilder.com"
+      }
+    end
+
+    # API helper: Returns admin login URL
+    def admin_url
+      "/pwb_login"
     end
 
     # API helper: Returns structured social media links
