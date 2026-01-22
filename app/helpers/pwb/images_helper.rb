@@ -347,7 +347,15 @@ module Pwb
       responsive = html_options.delete(:responsive)
       sizes_value = sizes.is_a?(Symbol) ? ResponsiveVariants.sizes_for(sizes) : sizes
 
-      webp_options = variant_options.merge(format: :webp, saver: { quality: 80 })
+      webp_options = variant_options.merge(format: :webp)
+      webp_quality = ResponsiveVariants::FORMATS.dig(:webp, :saver, :quality)
+
+      if Rails.application.config.active_storage.variant_processor == :vips
+        webp_options[:saver] ||= { quality: webp_quality } if webp_quality
+      else
+        webp_options.delete(:saver)
+        webp_options[:quality] ||= webp_quality if webp_quality
+      end
       fallback_url = if variant_options.present?
                        url_for(photo.image.variant(variant_options))
                      else
