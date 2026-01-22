@@ -68,11 +68,15 @@ RSpec.describe "ApiPublic::V1::Pages", type: :request do
       ActsAsTenant.with_tenant(website) do
         page = FactoryBot.create(:pwb_page, slug: "home", website: website)
         # Create page content with rendered HTML
+        # Content.raw uses Mobility, so we need to set it with locale context
         content = Pwb::Content.create!(
           website: website,
-          page_part_key: "heroes/hero_centered",
-          raw: "<section class='hero'><h1>Welcome</h1></section>"
+          page_part_key: "heroes/hero_centered"
         )
+        Mobility.with_locale(:en) do
+          content.raw = "<section class='hero'><h1>Welcome</h1></section>"
+          content.save!
+        end
         Pwb::PageContent.create!(
           page: page,
           website: website,
@@ -126,9 +130,16 @@ RSpec.describe "ApiPublic::V1::Pages", type: :request do
     context "with non-default locale" do
       it "localizes URLs in rendered HTML" do
         # Create content with a link that should be localized
+        # Content.raw uses Mobility, so we need to set it with locale context
         ActsAsTenant.with_tenant(website) do
           content = page_with_content.page_contents.first.content
-          content.update!(raw: '<a href="/search/buy">Search</a>')
+          Mobility.with_locale(:en) do
+            content.raw = '<a href="/search/buy">Search</a>'
+          end
+          Mobility.with_locale(:es) do
+            content.raw = '<a href="/search/buy">Buscar</a>'
+          end
+          content.save!
         end
 
         I18n.with_locale(:es) do

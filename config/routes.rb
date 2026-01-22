@@ -752,6 +752,10 @@ Rails.application.routes.draw do
         get "/pages/:id" => "pages#show"
         get "/pages/by_slug/:slug" => "pages#show_by_slug"
 
+        # Localized page with comprehensive SEO metadata
+        # Returns full page data including OG tags, JSON-LD, translations, etc.
+        get "/localized_page/by_slug/:page_slug" => "localized_pages#show"
+
         # Translations
         get "/translations" => "translations#index"
 

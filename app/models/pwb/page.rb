@@ -47,7 +47,9 @@ module Pwb
     belongs_to :website, class_name: 'Pwb::Website', optional: true
 
     # Mobility translations with container backend (single JSONB column)
-    translates :raw_html, :page_title, :link_title
+    # SEO fields are localized for proper multilingual SEO support
+    translates :raw_html, :page_title, :link_title,
+               :seo_title, :meta_description, :meta_keywords
 
     has_many :links, class_name: 'Pwb::Link', foreign_key: 'page_slug', primary_key: 'slug'
     has_one :main_link, -> { where(placement: :top_nav) }, foreign_key: 'page_slug', primary_key: 'slug', class_name: 'Pwb::Link'
