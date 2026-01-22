@@ -24,7 +24,7 @@ module ApiPublic
           properties: serialize_properties(properties),
           total_count: properties.size,
           website: {
-            name: current_website.company_name,
+            name: current_website.company_display_name,
             currency: current_website.default_currency || 'EUR',
             area_unit: current_website.default_area_unit || 'sqmt'
           }

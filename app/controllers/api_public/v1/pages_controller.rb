@@ -17,11 +17,10 @@ module ApiPublic
 
         render json: page_json(page)
       rescue ActiveRecord::RecordNotFound
-        render json: {
-          error: "Page not found",
-          message: "No page exists with id '#{params[:id]}' for this website",
+        render_not_found_error(
+          "No page exists with id '#{params[:id]}' for this website",
           code: "PAGE_NOT_FOUND"
-        }, status: :not_found
+        )
       end
 
       def show_by_slug
@@ -41,11 +40,10 @@ module ApiPublic
 
           render json: page_json(page)
         else
-          render json: {
-            error: "Page not found",
-            message: "No page exists with slug '#{params[:slug]}' for this website. Available pages: #{available_page_slugs.join(', ')}",
+          render_not_found_error(
+            "No page exists with slug '#{params[:slug]}' for this website. Available pages: #{available_page_slugs.join(', ')}",
             code: "PAGE_NOT_FOUND"
-          }, status: :not_found
+          )
         end
       end
 
@@ -68,7 +66,7 @@ module ApiPublic
       end
 
       def page_json(page)
-        json = page.as_json
+        json = page.as_json(methods: [])
 
         # Include page parts if requested (legacy - metadata only)
         json["page_parts"] = build_page_parts(page) if params[:include_parts] == "true"

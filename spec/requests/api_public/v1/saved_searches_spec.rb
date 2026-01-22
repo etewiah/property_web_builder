@@ -9,7 +9,7 @@ RSpec.describe "ApiPublic::V1::SavedSearches", type: :request do
   before do
     # Set up tenant context
     allow(Pwb::Current).to receive(:website).and_return(website)
-    host! website.host
+    host! "#{website.subdomain}.localhost"
   end
 
   describe "POST /api_public/v1/saved_searches" do

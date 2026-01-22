@@ -117,6 +117,14 @@ module Pwb
       images.first
     end
 
+    def image_url
+      property_data_hash[:image_url] || main_image
+    end
+
+    def property_url
+      property_data_hash[:property_url]
+    end
+
     def listing_type
       property_data_hash[:listing_type] || :sale
     end

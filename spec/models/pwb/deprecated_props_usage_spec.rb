@@ -56,7 +56,7 @@ RSpec.describe "Deprecated props association usage", type: :model do
 
       patterns_to_check.each do |pattern|
         Rails.root.glob(pattern).each do |file_path|
-          relative_path = file_path.sub("#{Rails.root}/", '')
+          relative_path = file_path.to_s.sub("#{Rails.root}/", '')
 
           # Skip excluded files (known legacy write APIs)
           next if EXCLUDED_FILES.any? { |excluded| relative_path.include?(excluded) }

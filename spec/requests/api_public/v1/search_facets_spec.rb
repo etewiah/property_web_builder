@@ -7,7 +7,7 @@ RSpec.describe "ApiPublic::V1::SearchFacets", type: :request do
 
   before do
     allow(Pwb::Current).to receive(:website).and_return(website)
-    host! website.host
+    host! "#{website.subdomain}.localhost"
   end
 
   describe "GET /api_public/v1/search/facets" do
@@ -69,20 +69,16 @@ RSpec.describe "ApiPublic::V1::SearchFacets", type: :request do
   private
 
   def create_listed_property(attrs = {})
-    # This would create a property visible in listed_properties
-    # Adjust based on actual factory/model setup
-    website.listed_properties.create!(
-      title: "Test Property",
-      slug: "test-#{SecureRandom.hex(4)}",
-      prop_type_key: attrs[:prop_type_key] || "apartment",
-      zone: attrs[:zone] || "Centro",
-      locality: attrs[:locality] || "Madrid",
-      count_bedrooms: attrs[:count_bedrooms] || 2,
-      count_bathrooms: attrs[:count_bathrooms] || 1,
-      visible: true
-    )
-  rescue StandardError
-    # If listed_properties is a view, we might need to create via the underlying model
-    nil
+    asset = create(:pwb_realty_asset,
+                   website: website,
+                   prop_type_key: attrs[:prop_type_key] || "apartment",
+                   region: attrs[:zone] || "Centro",
+                   city: attrs[:locality] || "Madrid",
+                   count_bedrooms: attrs[:count_bedrooms] || 2,
+                   count_bathrooms: attrs[:count_bathrooms] || 1)
+
+    create(:pwb_sale_listing, :visible, realty_asset: asset)
+    Pwb::ListedProperty.refresh(concurrently: false)
+    asset
   end
 end

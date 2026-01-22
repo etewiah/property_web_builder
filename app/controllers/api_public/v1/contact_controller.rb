@@ -10,9 +10,17 @@ module ApiPublic
         locale = params[:locale] || I18n.default_locale
         I18n.locale = locale
         website = Pwb::Current.website
+        email = contact_params[:email].to_s.strip
+
+        if email.blank?
+          return render json: {
+            success: false,
+            errors: [I18n.t("contact.email_required", default: "Email is required.")]
+          }, status: :unprocessable_entity
+        end
 
         # Find or create contact
-        contact = website.contacts.find_or_initialize_by(primary_email: contact_params[:email])
+        contact = website.contacts.find_or_initialize_by(primary_email: email)
         contact.assign_attributes(
           first_name: contact_params[:name],
           primary_phone_number: contact_params[:phone]
@@ -28,9 +36,9 @@ module ApiPublic
           url: request.referer,
           host: request.host,
           origin_ip: request.ip,
-          origin_email: contact_params[:email],
+          origin_email: email,
           user_agent: request.user_agent,
-          delivery_email: website.agency&.email_for_contact_form.presence || website.agency&.email_primary
+          delivery_email: website.agency&.email_for_general_contact_form.presence || website.agency&.email_primary
         )
 
         # Validate and save
@@ -44,7 +52,7 @@ module ApiPublic
         message.save!
 
         # Send email notification asynchronously
-        delivery_email = website.agency&.email_for_contact_form.presence || website.agency&.email_primary
+        delivery_email = website.agency&.email_for_general_contact_form.presence || website.agency&.email_primary
         if delivery_email.present?
           begin
             ContactMailer.general_enquiry(contact, message).deliver_later if defined?(ContactMailer) && ContactMailer.respond_to?(:general_enquiry)

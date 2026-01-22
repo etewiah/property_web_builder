@@ -65,7 +65,7 @@ module ApiPublic
 
       def available_features(website)
         # Get features from FieldKeys if available
-        feature_keys = PwbTenant::FieldKey.where(website: website, field_key_group_tag: 'feature')
+        feature_keys = PwbTenant::FieldKey.where(website: website, tag: 'feature')
 
         if feature_keys.any?
           feature_keys.map do |fk|
@@ -75,12 +75,17 @@ module ApiPublic
             }
           end
         else
-          # Fallback: extract from properties
-          all_extras = website.listed_properties.visible.pluck(:extras).compact.flatten
-          all_extras.uniq.first(20).map do |extra|
+          # Fallback: extract unique feature keys from existing listings
+          feature_keys = PwbTenant::Feature.joins(:realty_asset)
+                                           .where(pwb_realty_assets: { website_id: website.id })
+                                           .distinct
+                                           .limit(50)
+                                           .pluck(:feature_key)
+
+          feature_keys.compact.uniq.first(20).map do |feature_key|
             {
-              key: extra.to_s.parameterize,
-              label: extra.to_s.titleize
+              key: feature_key.to_s,
+              label: feature_key.to_s.split('.').last&.titleize
             }
           end
         end

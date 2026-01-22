@@ -50,7 +50,8 @@ RSpec.describe 'Deprecated Icon Patterns', type: :view do
   ].freeze
 
   def excluded?(file)
-    EXCLUDED_PATHS.any? { |path| file.include?(path) }
+    file_path = file.to_s
+    EXCLUDED_PATHS.any? { |path| file_path.include?(path) }
   end
 
   describe 'ERB templates (public-facing)' do

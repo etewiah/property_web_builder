@@ -622,7 +622,12 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
                }
         let(:auth) { { token: 'valid_token' } }
         before do
-          user = Pwb::User.create!(email: 'swagger@example.com', password: 'Password123!', website: test_website)
+          user = Pwb::User.create!(
+            email: 'swagger@example.com',
+            password: 'Password123!',
+            website: test_website,
+            firebase_uid: 'firebase-uid-123'
+          )
           allow_any_instance_of(Pwb::FirebaseAuthService).to receive(:call).and_return(user)
         end
         run_test!

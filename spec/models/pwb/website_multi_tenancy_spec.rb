@@ -67,13 +67,13 @@ RSpec.describe Pwb::Website, type: :model do
     it 'finds website by case-insensitive subdomain' do
       website = FactoryBot.create(:pwb_website, subdomain: 'MyTenant')
 
-      expect(Pwb::Website.find_by(subdomain: 'mytenant')).to eq(website)
-      expect(Pwb::Website.find_by(subdomain: 'MYTENANT')).to eq(website)
-      expect(Pwb::Website.find_by(subdomain: 'MyTenant')).to eq(website)
+      expect(Pwb::Website.find_by_subdomain('mytenant')).to eq(website)
+      expect(Pwb::Website.find_by_subdomain('MYTENANT')).to eq(website)
+      expect(Pwb::Website.find_by_subdomain('MyTenant')).to eq(website)
     end
 
     it 'returns nil for non-existent subdomain' do
-      expect(Pwb::Website.find_by(subdomain: 'nonexistent')).to be_nil
+      expect(Pwb::Website.find_by_subdomain('nonexistent')).to be_nil
     end
   end
 end

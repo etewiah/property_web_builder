@@ -24,7 +24,7 @@ RSpec.describe 'API Public Multi-tenancy', type: :request do
 
       expect(response).to have_http_status(:success)
       json = response.parsed_body
-      slugs = json.pluck('slug')
+      slugs = json.fetch('data', []).pluck('slug')
       expect(slugs).to include('link1')
       expect(slugs).not_to include('link2')
     end
@@ -34,7 +34,7 @@ RSpec.describe 'API Public Multi-tenancy', type: :request do
 
       expect(response).to have_http_status(:success)
       json = response.parsed_body
-      slugs = json.pluck('slug')
+      slugs = json.fetch('data', []).pluck('slug')
       expect(slugs).to include('link2')
       expect(slugs).not_to include('link1')
     end
@@ -45,7 +45,7 @@ RSpec.describe 'API Public Multi-tenancy', type: :request do
 
       expect(response).to have_http_status(:success)
       json = response.parsed_body
-      slugs = json.pluck('slug')
+      slugs = json.fetch('data', []).pluck('slug')
       expect(slugs).to include('link2')
       expect(slugs).not_to include('link1')
     end
@@ -65,8 +65,8 @@ RSpec.describe 'API Public Multi-tenancy', type: :request do
       tenant2_response = response.parsed_body
 
       # Should return different links
-      tenant1_slugs = tenant1_response.pluck('slug')
-      tenant2_slugs = tenant2_response.pluck('slug')
+      tenant1_slugs = tenant1_response.fetch('data', []).pluck('slug')
+      tenant2_slugs = tenant2_response.fetch('data', []).pluck('slug')
 
       expect(tenant1_slugs).to include('link1')
       expect(tenant1_slugs).not_to include('link2')

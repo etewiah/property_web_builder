@@ -13,15 +13,15 @@ module Pwb
     # end
 
     let(:property_olr) do
-      JSON.parse(File.read(fixture_path + "/mls/property_olr_odata.json"))
+      JSON.parse(File.read(fixture_path.join("mls", "property_olr_odata.json")))
     end
 
     let(:property_mris) do
-      JSON.parse(File.read(fixture_path + "/mls/property_mris.json"))
+      JSON.parse(File.read(fixture_path.join("mls", "property_mris.json")))
     end
 
     let(:property_interealty) do
-      JSON.parse(File.read(fixture_path + "/mls/property_interealty.json"))
+      JSON.parse(File.read(fixture_path.join("mls", "property_interealty.json")))
     end
 
     # below is tested in import_properties_spec:

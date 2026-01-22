@@ -87,7 +87,7 @@ RSpec.describe Pwb::ExternalFeed::Providers::ResalesOnline do
     end
 
     before do
-      stub_request(:get, /webservice\.resales-online\.com/)
+      stub_request(:get, /webapi\.resales-online\.com/)
         .to_return(status: 200, body: api_response, headers: { "Content-Type" => "application/json" })
     end
 
@@ -110,18 +110,18 @@ RSpec.describe Pwb::ExternalFeed::Providers::ResalesOnline do
 
     it "uses V6 API for sales" do
       provider.search(listing_type: :sale)
-      expect(WebMock).to have_requested(:get, /SearchV6/)
+      expect(WebMock).to have_requested(:get, %r{WebApi/V6/SearchProperties\.php})
     end
 
     it "uses V5-2 API for rentals" do
       provider.search(listing_type: :rental)
-      expect(WebMock).to have_requested(:get, /SearchV5-2/)
+      expect(WebMock).to have_requested(:get, %r{WebApi/V5-2/SearchProperties\.php})
     end
 
     context "when API returns error status" do
       before do
         error_response = { "transaction" => { "status" => "error", "message" => "API Error" } }.to_json
-        stub_request(:get, /webservice\.resales-online\.com/)
+        stub_request(:get, /webapi\.resales-online\.com/)
           .to_return(status: 200, body: error_response, headers: { "Content-Type" => "application/json" })
       end
 
@@ -146,7 +146,7 @@ RSpec.describe Pwb::ExternalFeed::Providers::ResalesOnline do
       end
 
       before do
-        stub_request(:get, /webservice\.resales-online\.com/)
+        stub_request(:get, /webapi\.resales-online\.com/)
           .to_return(status: 200, body: single_property_response, headers: { "Content-Type" => "application/json" })
       end
 
@@ -179,7 +179,7 @@ RSpec.describe Pwb::ExternalFeed::Providers::ResalesOnline do
     end
 
     before do
-      stub_request(:get, /webservice\.resales-online\.com/)
+      stub_request(:get, /webapi\.resales-online\.com/)
         .to_return(status: 200, body: property_response, headers: { "Content-Type" => "application/json" })
     end
 
@@ -195,7 +195,7 @@ RSpec.describe Pwb::ExternalFeed::Providers::ResalesOnline do
       end
 
       before do
-        stub_request(:get, /webservice\.resales-online\.com/)
+        stub_request(:get, /webapi\.resales-online\.com/)
           .to_return(status: 200, body: empty_response, headers: { "Content-Type" => "application/json" })
       end
 
@@ -228,7 +228,7 @@ RSpec.describe Pwb::ExternalFeed::Providers::ResalesOnline do
     end
 
     before do
-      stub_request(:get, /webservice\.resales-online\.com/)
+      stub_request(:get, /webapi\.resales-online\.com/)
         .to_return(status: 200, body: similar_response, headers: { "Content-Type" => "application/json" })
     end
 
@@ -274,7 +274,7 @@ RSpec.describe Pwb::ExternalFeed::Providers::ResalesOnline do
   describe "#available?" do
     context "with valid credentials" do
       before do
-        stub_request(:get, /webservice\.resales-online\.com/)
+        stub_request(:get, /webapi\.resales-online\.com/)
           .to_return(status: 200, body: '{"transaction":{"status":"success"},"QueryInfo":{"PropertyCount":0}}', headers: { "Content-Type" => "application/json" })
       end
 
@@ -285,7 +285,7 @@ RSpec.describe Pwb::ExternalFeed::Providers::ResalesOnline do
 
     context "when API is unreachable" do
       before do
-        stub_request(:get, /webservice\.resales-online\.com/)
+        stub_request(:get, /webapi\.resales-online\.com/)
           .to_timeout
       end
 

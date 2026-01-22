@@ -67,7 +67,7 @@ RSpec.describe SiteAdmin::AnalyticsController, type: :controller do
 
       it 'sets flash alert' do
         get :show
-        expect(flash[:alert]).to include('Analytics is available on paid plans')
+        expect(flash[:alert]).to include('This feature is not included in your current plan')
       end
     end
 
@@ -76,9 +76,9 @@ RSpec.describe SiteAdmin::AnalyticsController, type: :controller do
         allow(website).to receive(:subscription).and_return(nil)
       end
 
-      it 'allows access (free mode)' do
+      it 'redirects to billing page' do
         get :show
-        expect(response).to have_http_status(:success)
+        expect(response).to redirect_to(site_admin_billing_path)
       end
     end
   end

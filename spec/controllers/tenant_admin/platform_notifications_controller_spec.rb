@@ -30,7 +30,9 @@ RSpec.describe TenantAdmin::PlatformNotificationsController, type: :controller d
       get :index
       expect(assigns(:config_status)).to be_present
       expect(assigns(:config_status)).to have_key(:enabled)
-      expect(assigns(:config_status)).to have_key(:channels)
+      expect(assigns(:config_status)).to have_key(:server_url)
+      expect(assigns(:config_status)).to have_key(:topic)
+      expect(assigns(:config_status)).to have_key(:has_access_token)
     end
   end
 

@@ -19,14 +19,14 @@ RSpec.describe ApiPublic::V1::WebsiteClientConfigController, type: :controller d
         controller.instance_variable_set(:@current_website, website)
       end
 
-      it 'returns 404 with error message' do
+      it 'returns ok with error message' do
         get :show
 
-        expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status(:ok)
         json = JSON.parse(response.body)
 
-        expect(json['error']).to eq('Client rendering not enabled for this website')
-        expect(json['rendering_mode']).to eq('rails')
+        expect(json.dig('error', 'message')).to eq('Client rendering not enabled for this website')
+        expect(json.dig('error', 'rendering_mode')).to eq('rails')
       end
     end
 
@@ -109,12 +109,12 @@ RSpec.describe ApiPublic::V1::WebsiteClientConfigController, type: :controller d
         controller.instance_variable_set(:@current_website, nil)
       end
 
-      it 'returns 404' do
+      it 'returns ok with error payload' do
         get :show
 
-        expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status(:ok)
         json = JSON.parse(response.body)
-        expect(json['rendering_mode']).to eq('unknown')
+        expect(json.dig('error', 'rendering_mode')).to eq('unknown')
       end
     end
   end

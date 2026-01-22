@@ -7,6 +7,9 @@ RSpec.describe "ApiPublic::V1 Error Handling", type: :request do
 
   before do
     host! "#{website.subdomain}.example.com"
+    ActsAsTenant.with_tenant(website) do
+      create(:pwb_page, website: website)
+    end
   end
 
   describe "standardized error responses" do

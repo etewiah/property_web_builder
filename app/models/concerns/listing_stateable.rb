@@ -111,7 +111,9 @@ module ListingStateable
   end
 
   def refresh_properties_view
-    Pwb::ListedProperty.refresh
+    connection = ActiveRecord::Base.connection
+    concurrently = connection.respond_to?(:open_transactions) ? connection.open_transactions.zero? : true
+    Pwb::ListedProperty.refresh(concurrently: concurrently)
   rescue StandardError => e
     Rails.logger.warn "Failed to refresh properties view: #{e.message}"
   end

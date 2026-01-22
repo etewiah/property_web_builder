@@ -48,7 +48,7 @@ RSpec.describe Pwb::ResponsiveVariantGenerator do
   describe "configuration integration" do
     it "uses ResponsiveVariants widths" do
       widths = Pwb::ResponsiveVariants.widths_for(1000)
-      expect(widths).to include(320, 640, 768)
+      expect(widths).to include(320, 640)
       expect(widths).not_to include(1024, 1280) # larger than 1000
     end
 

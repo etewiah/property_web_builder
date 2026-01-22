@@ -103,7 +103,7 @@ RSpec.describe "seed_images rake tasks" do
     it "follows the pattern {basename}-{width}.{ext}" do
       skip "Example images directory doesn't exist" unless example_images_dir.exist?
 
-      responsive_images = Dir.glob("#{example_images_dir}/*-{400,800}.{jpg,webp}")
+      responsive_images = Dir.glob("#{example_images_dir}/*-{320,640,1024,1280}.{jpg,webp}")
 
       responsive_images.each do |path|
         filename = File.basename(path)
@@ -124,12 +124,15 @@ RSpec.describe "seed_images rake tasks" do
         base = source.sub(/\.(jpg|webp)$/, "")
         ext = File.extname(source)
 
-        # Check for 400w and 800w variants
-        variant_400 = "#{base}-400#{ext}"
-        variant_800 = "#{base}-800#{ext}"
+        # Check for responsive variants
+        variant_320 = "#{base}-320#{ext}"
+        variant_640 = "#{base}-640#{ext}"
+        variant_1024 = "#{base}-1024#{ext}"
+        variant_1280 = "#{base}-1280#{ext}"
 
         # At least one variant should exist for each source
-        variants_exist = File.exist?(variant_400) || File.exist?(variant_800)
+        variants_exist = File.exist?(variant_320) || File.exist?(variant_640) ||
+                         File.exist?(variant_1024) || File.exist?(variant_1280)
         expect(variants_exist).to be(true),
           "No responsive variants found for #{File.basename(source)}"
       end
@@ -141,23 +144,23 @@ RSpec.describe "seed_images rake tasks" do
     let(:widths) do
       # Load the rake file to access constants
       {
-        hero: [400, 800, 1200],
-        split: [300, 600, 900],
-        property: [320, 640, 960],
-        content: [400, 800, 1200]
+        hero: [320, 640, 1024, 1280],
+        split: [320, 640, 1024, 1280],
+        property: [320, 640, 1024, 1280],
+        content: [320, 640, 1024, 1280]
       }
     end
 
     it "defines standard widths for hero images" do
-      expect(widths[:hero]).to eq([400, 800, 1200])
+      expect(widths[:hero]).to eq([320, 640, 1024, 1280])
     end
 
     it "defines standard widths for property cards" do
-      expect(widths[:property]).to eq([320, 640, 960])
+      expect(widths[:property]).to eq([320, 640, 1024, 1280])
     end
 
     it "includes mobile-friendly 400px width for heroes" do
-      expect(widths[:hero]).to include(400)
+      expect(widths[:hero]).to include(320)
     end
   end
 end

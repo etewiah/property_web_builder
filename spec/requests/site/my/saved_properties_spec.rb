@@ -150,8 +150,8 @@ RSpec.describe "Pwb::Site::My::SavedProperties", type: :request do
       it "generates correct View Property link for external properties" do
         get my_favorites_path(token: external_saved.manage_token)
 
-        # Should link to external_listing_path
-        expect(response.body).to include("/external_listings/EXT123")
+        # Should link to external_show_for_sale_path with the reference
+        expect(response.body).to include("/external/for-sale/EXT123")
       end
     end
 

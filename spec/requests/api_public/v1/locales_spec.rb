@@ -7,7 +7,7 @@ RSpec.describe "ApiPublic::V1::Locales", type: :request do
 
   before do
     allow(Pwb::Current).to receive(:website).and_return(website)
-    host! website.host
+    host! "#{website.subdomain}.localhost"
   end
 
   describe "GET /api_public/v1/locales" do
@@ -38,6 +38,7 @@ RSpec.describe "ApiPublic::V1::Locales", type: :request do
     context "when website has custom enabled locales" do
       before do
         allow(website).to receive(:enabled_locales).and_return(%w[en es fr])
+        allow(website).to receive(:respond_to?).and_call_original
         allow(website).to receive(:respond_to?).with(:enabled_locales).and_return(true)
       end
 

@@ -35,9 +35,9 @@ RSpec.describe "ApiPublic::V1::Pages", type: :request do
         get "/api_public/v1/pages/99999"
         expect(response).to have_http_status(404)
         json = response.parsed_body
-        expect(json["error"]).to eq("Page not found")
-        expect(json["message"]).to include("No page exists with id '99999'")
-        expect(json["code"]).to eq("PAGE_NOT_FOUND")
+        expect(json.dig("error", "code")).to eq("PAGE_NOT_FOUND")
+        expect(json.dig("error", "message")).to include("No page exists with id '99999'")
+        expect(json.dig("error", "status")).to eq(404)
       end
     end
   end
@@ -55,10 +55,10 @@ RSpec.describe "ApiPublic::V1::Pages", type: :request do
         get "/api_public/v1/pages/by_slug/nonexistent-page"
         expect(response).to have_http_status(404)
         json = response.parsed_body
-        expect(json["error"]).to eq("Page not found")
-        expect(json["message"]).to include("No page exists with slug 'nonexistent-page'")
-        expect(json["message"]).to include("about-us")
-        expect(json["code"]).to eq("PAGE_NOT_FOUND")
+        expect(json.dig("error", "code")).to eq("PAGE_NOT_FOUND")
+        expect(json.dig("error", "message")).to include("No page exists with slug 'nonexistent-page'")
+        expect(json.dig("error", "message")).to include("about-us")
+        expect(json.dig("error", "status")).to eq(404)
       end
     end
   end

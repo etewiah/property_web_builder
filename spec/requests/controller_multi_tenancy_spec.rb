@@ -306,7 +306,7 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
 
         expect(response).to have_http_status(:success)
         json = response.parsed_body
-        references = json.pluck("reference")
+        references = json.fetch("data", []).pluck("reference")
         expect(references).to include("PUB-T1-001")
         expect(references).not_to include("PUB-T2-001")
       end
@@ -322,7 +322,7 @@ RSpec.describe "Controller Multi-tenancy Data Isolation", type: :request do
 
         expect(response).to have_http_status(:success)
         json = response.parsed_body
-        slugs = json.pluck("slug")
+        slugs = json.fetch("data", []).pluck("slug")
         expect(slugs).to include("api-link-1")
         expect(slugs).not_to include("api-link-2")
       end

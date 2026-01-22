@@ -3,6 +3,13 @@
 require "rails_helper"
 
 RSpec.describe "External Listings Theme Support", type: :request do
+  let(:listing_path) do
+    external_show_for_sale_path(
+      reference: "THEME_TEST_123",
+      url_friendly_title: "beautiful-theme-test-property"
+    )
+  end
+
   let(:website) do
     w = create(:website)
     # Set available_themes to allow brisbane and bologna for testing
@@ -103,17 +110,17 @@ RSpec.describe "External Listings Theme Support", type: :request do
       before { website.update!(theme_name: "default") }
 
       it "renders the show page successfully" do
-        get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+        get listing_path
         expect(response).to have_http_status(:success)
       end
 
       it "renders the property title" do
-        get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+        get listing_path
         expect(response.body).to include("Beautiful Theme Test Property")
       end
 
       it "renders the property features" do
-        get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+        get listing_path
         expect(response.body).to include("Pool")
         expect(response.body).to include("Garage")
       end
@@ -123,24 +130,24 @@ RSpec.describe "External Listings Theme Support", type: :request do
       before { website.update!(theme_name: "brisbane") }
 
       it "renders the show page successfully" do
-        get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+        get listing_path
         expect(response).to have_http_status(:success)
       end
 
       it "uses brisbane theme CSS classes" do
-        get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+        get listing_path
         # Brisbane theme uses property-detail-* classes
         expect(response.body).to include("property-detail-page")
         expect(response.body).to include("property-detail-container")
       end
 
       it "renders the property title" do
-        get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+        get listing_path
         expect(response.body).to include("Beautiful Theme Test Property")
       end
 
       it "renders social sharing" do
-        get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+        get listing_path
         expect(response.body).to include("facebook.com/sharer")
       end
     end
@@ -149,28 +156,28 @@ RSpec.describe "External Listings Theme Support", type: :request do
       before { website.update!(theme_name: "bologna") }
 
       it "renders the show page successfully" do
-        get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+        get listing_path
         expect(response).to have_http_status(:success)
       end
 
       it "uses bologna theme CSS classes" do
-        get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+        get listing_path
         # Bologna theme uses warm-gray, terra, olive colors
         expect(response.body).to include("warm-gray")
       end
 
       it "renders the property title" do
-        get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+        get listing_path
         expect(response.body).to include("Beautiful Theme Test Property")
       end
 
       it "uses bologna rounded-softer class" do
-        get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+        get listing_path
         expect(response.body).to include("rounded-softer")
       end
 
       it "uses bologna shadow-soft class" do
-        get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+        get listing_path
         expect(response.body).to include("shadow-soft")
       end
     end
@@ -179,13 +186,13 @@ RSpec.describe "External Listings Theme Support", type: :request do
       before { website.update!(theme_name: "default") }
 
       it "allows switching to brisbane theme" do
-        get "/external_listings/THEME_TEST_123", params: { listing_type: "sale", theme: "brisbane" }
+        get listing_path, params: { theme: "brisbane" }
         expect(response).to have_http_status(:success)
         expect(response.body).to include("property-detail-page")
       end
 
       it "allows switching to bologna theme" do
-        get "/external_listings/THEME_TEST_123", params: { listing_type: "sale", theme: "bologna" }
+        get listing_path, params: { theme: "bologna" }
         expect(response).to have_http_status(:success)
         expect(response.body).to include("warm-gray")
       end
@@ -196,25 +203,25 @@ RSpec.describe "External Listings Theme Support", type: :request do
     before { website.update!(theme_name: "brisbane") }
 
     it "renders the meta_tags partial with Open Graph tags" do
-      get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+      get listing_path
       expect(response.body).to include("og:title")
       expect(response.body).to include("og:description")
     end
 
     it "renders the contact form partial" do
-      get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+      get listing_path
       expect(response.body).to include("contact-form")
       expect(response.body).to include("contact[name]")
     end
 
     it "renders the map with Stimulus controller" do
-      get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+      get listing_path
       expect(response.body).to include('data-controller="map"')
       expect(response.body).to include("data-map-markers-value")
     end
 
     it "renders JSON-LD structured data" do
-      get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+      get listing_path
       expect(response.body).to include("application/ld+json")
       expect(response.body).to include("RealEstateListing")
     end
@@ -224,7 +231,7 @@ RSpec.describe "External Listings Theme Support", type: :request do
     before { website.update!(theme_name: "brisbane") }
 
     it "generates tenant-scoped cache keys" do
-      get "/external_listings/THEME_TEST_123", params: { listing_type: "sale" }
+      get listing_path
       # The response should succeed, and caching should work
       expect(response).to have_http_status(:success)
     end

@@ -16,8 +16,8 @@ module ApiPublic
         render json: {
           total_count: base_scope.count,
           property_types: facet_counts(base_scope, :prop_type_key),
-          zones: facet_counts(base_scope, :zone),
-          localities: facet_counts(base_scope, :locality),
+          zones: facet_counts(base_scope, facet_field(base_scope, :zone, :region)),
+          localities: facet_counts(base_scope, facet_field(base_scope, :locality, :city)),
           bedrooms: facet_counts(base_scope, :count_bedrooms),
           bathrooms: facet_counts(base_scope, :count_bathrooms),
           price_ranges: price_range_facets(base_scope, params[:sale_or_rental])
@@ -38,12 +38,18 @@ module ApiPublic
       end
 
       def facet_counts(scope, field)
+        return {} unless scope.column_names.include?(field.to_s)
+
         scope.where.not(field => [nil, ""])
              .group(field)
              .count
              .transform_keys(&:to_s)
              .sort_by { |_k, v| -v }
              .to_h
+      end
+
+      def facet_field(scope, primary, fallback)
+        scope.column_names.include?(primary.to_s) ? primary : fallback
       end
 
       def price_range_facets(scope, sale_or_rental)

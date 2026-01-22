@@ -517,8 +517,9 @@ module Pwb
     end
 
     describe 'JSON serialization' do
-      let!(:asset) { create(:pwb_realty_asset, :with_photos, website: website) }
+      let!(:asset) { create(:pwb_realty_asset, website: website) }
       let!(:sale_listing) { create(:pwb_sale_listing, :visible, :with_translations, realty_asset: asset) }
+      let!(:photos) { create_list(:pwb_prop_photo, 2, :with_image, realty_asset_id: asset.id) }
 
       before { Pwb::ListedProperty.refresh }
 

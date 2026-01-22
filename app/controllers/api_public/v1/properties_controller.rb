@@ -17,7 +17,7 @@ module ApiPublic
 
         render json: property_response(property)
       rescue ActiveRecord::RecordNotFound
-        render json: { error: "Property not found" }, status: :not_found
+        render_not_found_error("Property not found", code: "PROPERTY_NOT_FOUND")
       end
 
       def search
@@ -109,7 +109,7 @@ module ApiPublic
 
         render json: build_json_ld(property)
       rescue ActiveRecord::RecordNotFound
-        render json: { error: "Property not found" }, status: :not_found
+        render_not_found_error("Property not found", code: "PROPERTY_NOT_FOUND")
       end
 
       private
