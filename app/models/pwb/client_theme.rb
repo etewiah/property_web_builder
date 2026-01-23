@@ -3,18 +3,19 @@
 # == Schema Information
 #
 # Table name: pwb_client_themes
+# Database name: primary
 #
 #  id                :bigint           not null, primary key
-#  name              :string           not null
-#  friendly_name     :string           not null
-#  version           :string           default("1.0.0")
+#  color_schema      :jsonb
+#  default_config    :jsonb
 #  description       :text
-#  preview_image_url :string
-#  default_config    :jsonb            not null, default({})
-#  color_schema      :jsonb            not null, default({})
-#  font_schema       :jsonb            not null, default({})
-#  layout_options    :jsonb            not null, default({})
 #  enabled           :boolean          default(TRUE), not null
+#  font_schema       :jsonb
+#  friendly_name     :string           not null
+#  layout_options    :jsonb
+#  name              :string           not null
+#  preview_image_url :string
+#  version           :string           default("1.0.0")
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #

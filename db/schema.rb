@@ -1198,7 +1198,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_15_140001) do
     t.index ["site_type"], name: "index_pwb_websites_on_site_type"
     t.index ["slug"], name: "index_pwb_websites_on_slug"
     t.index ["subdomain"], name: "index_pwb_websites_on_subdomain", unique: true
-    t.check_constraint "rendering_mode::text = ANY (ARRAY['rails'::character varying, 'client'::character varying]::text[])", name: "rendering_mode_valid"
+    t.check_constraint "rendering_mode::text = ANY (ARRAY['rails'::character varying::text, 'client'::character varying::text])", name: "rendering_mode_valid"
   end
 
   create_table "pwb_widget_configs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

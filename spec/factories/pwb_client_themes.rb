@@ -1,5 +1,29 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_client_themes
+# Database name: primary
+#
+#  id                :bigint           not null, primary key
+#  color_schema      :jsonb
+#  default_config    :jsonb
+#  description       :text
+#  enabled           :boolean          default(TRUE), not null
+#  font_schema       :jsonb
+#  friendly_name     :string           not null
+#  layout_options    :jsonb
+#  name              :string           not null
+#  preview_image_url :string
+#  version           :string           default("1.0.0")
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#
+# Indexes
+#
+#  index_pwb_client_themes_on_enabled  (enabled)
+#  index_pwb_client_themes_on_name     (name) UNIQUE
+#
 FactoryBot.define do
   factory :pwb_client_theme, class: 'Pwb::ClientTheme' do
     sequence(:name) { |n| "theme_#{n}" }
