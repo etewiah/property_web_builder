@@ -10,6 +10,16 @@
 module ExternalImageSupport
   extend ActiveSupport::Concern
 
+  # Variant name mappings for external URLs
+  # Maps API variant names to widths used in R2 storage
+  # Convention: {basename}-{width}.webp
+  EXTERNAL_VARIANT_WIDTHS = {
+    thumbnail: 320,
+    small: 640,
+    medium: 800,
+    large: 1280
+  }.freeze
+
   included do
     # Validate external_url format when present
     validates :external_url, format: {
@@ -61,6 +71,59 @@ module ExternalImageSupport
   # Check if this photo has any image (external or uploaded)
   def has_image?
     external? || image.attached?
+  end
+
+  # Build variant URLs for external images stored in R2
+  # Uses naming convention: {path}/{basename}-{width}.webp
+  # WebP is the default format (97%+ browser support, better compression)
+  #
+  # @return [Hash] Hash of variant URLs (WebP format), empty if not external
+  #
+  # Example:
+  #   photo.external_url = "https://seed-assets.example.com/seeds/villa_ocean.jpg"
+  #   photo.build_external_variants
+  #   # => {
+  #   #   thumbnail: "https://seed-assets.example.com/seeds/villa_ocean-320.webp",
+  #   #   small: "https://seed-assets.example.com/seeds/villa_ocean-640.webp",
+  #   #   medium: "https://seed-assets.example.com/seeds/villa_ocean-800.webp",
+  #   #   large: "https://seed-assets.example.com/seeds/villa_ocean-1280.webp"
+  #   # }
+  def build_external_variants
+    return {} unless external_url.present?
+
+    self.class.build_external_variants_for_url(external_url)
+  end
+
+  # Module-level method to build external variants from a URL
+  # This can be called directly on the module: ExternalImageSupport.build_external_variants_for_url(url)
+  # Also available as a class method on including classes
+  #
+  # @param url [String] The external URL of the original image
+  # @return [Hash] Hash of variant URLs (WebP format)
+  def self.build_external_variants_for_url(url)
+    return {} unless url.present?
+
+    uri = URI.parse(url)
+    ext = File.extname(uri.path)
+    basename = File.basename(uri.path, ext)
+    dir = File.dirname(uri.path)
+    base = "#{uri.scheme}://#{uri.host}#{dir}/#{basename}"
+
+    variants = {}
+    EXTERNAL_VARIANT_WIDTHS.each do |api_name, width|
+      variants[api_name] = "#{base}-#{width}.webp"
+    end
+
+    variants
+  rescue URI::InvalidURIError
+    {}
+  end
+
+  class_methods do
+    # Delegate to module-level method for classes that include this concern
+    def build_external_variants_for_url(url)
+      ExternalImageSupport.build_external_variants_for_url(url)
+    end
   end
 
   private

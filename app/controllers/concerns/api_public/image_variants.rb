@@ -15,15 +15,9 @@ module ApiPublic
       large: { resize_to_fill: [1200, 800] }
     }.freeze
 
-    # Variant name mappings for external URLs
-    # Maps API variant names to widths used in R2 storage
-    # Convention: {basename}-{width}.webp
-    EXTERNAL_VARIANT_WIDTHS = {
-      thumbnail: 320,
-      small: 640,
-      medium: 800,
-      large: 1280
-    }.freeze
+    # Delegate external variant widths to the shared concern
+    # @see ExternalImageSupport::EXTERNAL_VARIANT_WIDTHS
+    EXTERNAL_VARIANT_WIDTHS = ExternalImageSupport::EXTERNAL_VARIANT_WIDTHS
 
     private
 
@@ -105,40 +99,13 @@ module ApiPublic
     end
 
     # Build variant URLs for external images stored in R2
-    # Uses naming convention: {path}/{basename}-{width}.webp
-    # WebP is the default format (97%+ browser support, better compression)
+    # Delegates to ExternalImageSupport for the actual implementation
     #
     # @param external_url [String] The external URL of the original image
     # @return [Hash] Hash of variant URLs (WebP format)
-    #
-    # Example:
-    #   build_external_variants("https://seed-assets.example.com/seeds/villa_ocean.jpg")
-    #   # => {
-    #   #   thumbnail: "https://seed-assets.example.com/seeds/villa_ocean-320.webp",
-    #   #   small: "https://seed-assets.example.com/seeds/villa_ocean-640.webp",
-    #   #   medium: "https://seed-assets.example.com/seeds/villa_ocean-800.webp",
-    #   #   large: "https://seed-assets.example.com/seeds/villa_ocean-1280.webp"
-    #   # }
+    # @see ExternalImageSupport.build_external_variants_for_url
     def build_external_variants(external_url)
-      return {} unless external_url.present?
-
-      begin
-        uri = URI.parse(external_url)
-        ext = File.extname(uri.path)
-        basename = File.basename(uri.path, ext)
-        dir = File.dirname(uri.path)
-        base = "#{uri.scheme}://#{uri.host}#{dir}/#{basename}"
-
-        variants = {}
-
-        EXTERNAL_VARIANT_WIDTHS.each do |api_name, width|
-          variants[api_name] = "#{base}-#{width}.webp"
-        end
-
-        variants
-      rescue URI::InvalidURIError
-        {}
-      end
+      ExternalImageSupport.build_external_variants_for_url(external_url)
     end
   end
 end

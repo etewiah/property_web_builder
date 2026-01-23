@@ -246,13 +246,13 @@ module Pwb
       return nil unless photo.has_image?
 
       if photo.external?
-        # Use external URL directly
+        # Use external URL with R2 variants
         {
           'id' => photo.id,
           'url' => photo.external_url,
           'alt' => photo.respond_to?(:caption) ? photo.caption.presence : nil,
           'position' => photo.sort_order,
-          'variants' => {}
+          'variants' => photo.build_external_variants.transform_keys(&:to_s)
         }
       elsif photo.image.attached?
         # Use Active Storage
