@@ -265,7 +265,73 @@ module ApiPublic
           json[:images] = images_with_variants(property.prop_photos, limit: summary ? 3 : 10)
         end
 
+        # Include page_contents with similar properties for detail view (not summary)
+        unless summary
+          json[:page_contents] = build_page_contents(property)
+        end
+
         json
+      end
+
+      # Build page_contents array for property detail view
+      # Mirrors structure from LocalizedPagesController
+      def build_page_contents(property)
+        [
+          build_similar_properties_part(property)
+        ]
+      end
+
+      # Build similar properties page part
+      def build_similar_properties_part(property)
+        {
+          page_part_key: "summary_listings_part/similar_properties",
+          sort_order: 888,
+          visible: true,
+          is_rails_part: false,
+          rendered_html: nil,
+          label: I18n.t('similarProperties', default: 'Similar properties'),
+          summ_listings: fetch_similar_properties(property)
+        }
+      end
+
+      # Fetch properties similar to the given property
+      # Similarity criteria:
+      # - Same sale/rental type
+      # - Same city or region (if available)
+      # - Excludes the current property
+      def fetch_similar_properties(property, limit: 6)
+        base_scope = Pwb::Current.website.listed_properties.where.not(id: property.id)
+
+        # Determine sale or rental type
+        sale_or_rental = property.for_sale? ? "sale" : "rental"
+
+        # Start with same sale/rental type
+        scope = base_scope.properties_search(
+          sale_or_rental: sale_or_rental,
+          currency: property.currency || "usd",
+          for_sale_price_from: "none",
+          for_sale_price_till: "none",
+          for_rent_price_from: "none",
+          for_rent_price_till: "none",
+          bedrooms_from: "none",
+          bathrooms_from: "none",
+          property_type: "none"
+        )
+
+        # Prioritize same city
+        if property.city.present?
+          city_matches = scope.where(city: property.city).limit(limit)
+          return city_matches.map { |p| property_summary_json(p) } if city_matches.count >= 3
+        end
+
+        # Fall back to same region
+        if property.region.present?
+          region_matches = scope.where(region: property.region).limit(limit)
+          return region_matches.map { |p| property_summary_json(p) } if region_matches.count >= 3
+        end
+
+        # Fall back to any properties of same type
+        scope.limit(limit).map { |p| property_summary_json(p) }
       end
 
       # Abbreviated property data for list views

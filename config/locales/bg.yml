@@ -97,6 +97,7 @@ bg:
   propertyForRent: под наем
   propertyForSale: за продажба
   propertyNotFound: Този имот не е открит!
+  similarProperties: Подобни имоти
   pwb:
     copyright: "%{company_name} Inc. All rights reserved."
     createPrompt: Създайте своят web сайт

@@ -97,6 +97,7 @@ ro:
   propertyForRent: Imobil de inchiriat
   propertyForSale: Proprietate de vanzare
   propertyNotFound: Proprietatea nu a fost gasita
+  similarProperties: Proprietăți similare
   pwb:
     copyright: "%{company_name} Inc. Toate drepturile rezervate."
     createPrompt: Crea?i site-ul web al agen?iei imobiliare

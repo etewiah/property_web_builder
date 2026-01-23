@@ -97,6 +97,7 @@ nl:
   propertyForRent: Huur
   propertyForSale: Koop
   propertyNotFound: Object niet gevonden
+  similarProperties: Vergelijkbare woningen
   pwb:
     copyright: "%{company_name} Inc. All rights reserved."
     createPrompt: Maak uw eigen makelaardij website

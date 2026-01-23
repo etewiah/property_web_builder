@@ -97,6 +97,7 @@ it:
   propertyForRent: Proprietà in affitto
   propertyForSale: Propietà in vendita
   propertyNotFound: Proprietà non trovata
+  similarProperties: Proprietà simili
   pwb:
     copyright: "%{company_name}. Tutti i diritti riservati."
     createPrompt: Crea il sito della tua agenzia

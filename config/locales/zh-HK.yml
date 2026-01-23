@@ -95,6 +95,7 @@ zh:
   propertyForRent: 物业出租
   propertyForSale: 物业出售
   propertyNotFound: 找不到物业
+  similarProperties: 類似物業
   pwb:
     copyright: "%{company_name} Inc.保留所有权利。"
     createPrompt: 创建您的房地产代理网站

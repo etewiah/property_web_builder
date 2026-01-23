@@ -94,6 +94,7 @@ pt:
   propertyForRent: Imóvel para alugar
   propertyForSale: Propriedade à venda
   propertyNotFound: Propriedade não encontrada
+  similarProperties: Propriedades semelhantes
   pwb:
     copyright: "%{company_name} Inc. Todos os direitos reservados."
     createPrompt: Crie o seu site imobiliário

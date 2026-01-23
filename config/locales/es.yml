@@ -94,6 +94,7 @@ es:
   propertyForRent: Inmueble para arrendar
   propertyForSale: Inmueble a la venta
   propertyNotFound: Propiedad no encontrada
+  similarProperties: Propiedades similares
   pwb:
     copyright: "%{company_name} Inc. Todos los derechos reservados."
     createPrompt: Crear mi web de agencia inmobiliaria

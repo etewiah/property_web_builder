@@ -97,6 +97,7 @@ pl:
   propertyForRent: Nieruchomosc do wynajecia
   propertyForSale: Nieruchomosc na sprzedaz
   propertyNotFound: Nie znaleziono nieruchomosci
+  similarProperties: Podobne nieruchomości
   pwb:
     copyright: "%{company_name} Inc. Wszelkie prawa zastrzezone."
     createPrompt: StwÛrz strone internetowa agencji nieruchomosci

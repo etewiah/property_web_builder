@@ -99,6 +99,7 @@ vi:
   propertyForRent: Bất động sản cho thuê
   propertyForSale: Bất động sản để bán
   propertyNotFound: Không tìm thấy tài sản
+  similarProperties: Bất động sản tương tự
   pwb:
     copyright: "%{company_name} Inc. All rights reserved."
     createPrompt: Tạo mới website môi giới bất động sản của bạn

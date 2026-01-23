@@ -95,6 +95,7 @@ fr:
   propertyForRent: Immeuble en location
   propertyForSale: Immeuble à vendre
   propertyNotFound: Propriété non-trouvée
+  similarProperties: Propriétés similaires
   pwb:
     copyright: "%{company_name} Inc. Tous droits réservés."
     createPrompt: Créer ma page d'agence immobilière

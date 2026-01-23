@@ -95,6 +95,7 @@ de:
   propertyForRent: Immobilien zu vermieten
   propertyForSale: Eigentum zum verkauf
   propertyNotFound: Immobilie nicht gefunden
+  similarProperties: Ähnliche Immobilien
   pwb:
     copyright: "%{company_name} Inc. Alle Rechte vorbehalten."
     createPrompt: Erstellen deine Webseite Ihre Immobilienbüro

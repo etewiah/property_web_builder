@@ -97,6 +97,7 @@ en:
   propertyForRent: Property for rent
   propertyForSale: Property for sale
   propertyNotFound: Property not found
+  similarProperties: Similar properties
   pwb:
     copyright: "%{company_name} Inc. All rights reserved."
     createPrompt: Create your estate agency website

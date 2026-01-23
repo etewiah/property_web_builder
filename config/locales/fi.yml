@@ -97,6 +97,7 @@ fi:
   propertyForRent: Kiinteistö vuokrattavaksi
   propertyForSale: Kiinteistö myynnissä
   propertyNotFound: Kiinteistö ei löydy
+  similarProperties: Samankaltaiset kiinteistöt
   pwb:
     copyright: "%{company_name} Inc. Kaikki oikeudet pidätetään."
     createPrompt: Luo kiinteistönvälitystoimiston verkkosivusto

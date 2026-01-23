@@ -94,6 +94,7 @@ ru:
   propertyForRent: Аренда
   propertyForSale: Продажа
   propertyNotFound: Недвижимость не найдена
+  similarProperties: Похожие объекты
   pwb:
     copyright: "%{company_name} Inc. Все права защищены."
     createPrompt: Создать свой сайт для агенства недвижимости

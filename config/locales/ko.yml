@@ -97,6 +97,7 @@ ko:
   propertyForRent: 렌트용 건물
   propertyForSale: 매매용 건물
   propertyNotFound: 건물을 찾을 수 없습니다.
+  similarProperties: 비슷한 매물
   pwb:
     copyright: "%{company_name} Inc. All rights reserved."
     createPrompt: 부동산 회사 웹사이트 생성
