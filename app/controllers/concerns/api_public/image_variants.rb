@@ -16,12 +16,13 @@ module ApiPublic
     }.freeze
 
     # Variant name mappings for external URLs
-    # Maps API variant names to the suffix used in R2 storage
-    EXTERNAL_VARIANT_SUFFIXES = {
-      thumbnail: 'thumb',
-      small: 'small',
-      medium: 'medium',
-      large: 'large'
+    # Maps API variant names to widths used in R2 storage
+    # Convention: {basename}-{width}.webp
+    EXTERNAL_VARIANT_WIDTHS = {
+      thumbnail: 320,
+      small: 640,
+      medium: 800,
+      large: 1280
     }.freeze
 
     private
@@ -104,18 +105,19 @@ module ApiPublic
     end
 
     # Build variant URLs for external images stored in R2
-    # Uses naming convention: {path}/{basename}_{variant}.{ext}
+    # Uses naming convention: {path}/{basename}-{width}.webp
+    # WebP is the default format (97%+ browser support, better compression)
     #
     # @param external_url [String] The external URL of the original image
-    # @return [Hash] Hash of variant URLs (both JPEG and WebP)
+    # @return [Hash] Hash of variant URLs (WebP format)
     #
     # Example:
     #   build_external_variants("https://seed-assets.example.com/seeds/villa_ocean.jpg")
     #   # => {
-    #   #   thumbnail: "https://seed-assets.example.com/seeds/villa_ocean_thumb.jpg",
-    #   #   thumbnail_webp: "https://seed-assets.example.com/seeds/villa_ocean_thumb.webp",
-    #   #   small: "https://seed-assets.example.com/seeds/villa_ocean_small.jpg",
-    #   #   ...
+    #   #   thumbnail: "https://seed-assets.example.com/seeds/villa_ocean-320.webp",
+    #   #   small: "https://seed-assets.example.com/seeds/villa_ocean-640.webp",
+    #   #   medium: "https://seed-assets.example.com/seeds/villa_ocean-800.webp",
+    #   #   large: "https://seed-assets.example.com/seeds/villa_ocean-1280.webp"
     #   # }
     def build_external_variants(external_url)
       return {} unless external_url.present?
@@ -129,9 +131,8 @@ module ApiPublic
 
         variants = {}
 
-        EXTERNAL_VARIANT_SUFFIXES.each do |api_name, suffix|
-          variants[api_name] = "#{base}_#{suffix}.jpg"
-          variants[:"#{api_name}_webp"] = "#{base}_#{suffix}.webp"
+        EXTERNAL_VARIANT_WIDTHS.each do |api_name, width|
+          variants[api_name] = "#{base}-#{width}.webp"
         end
 
         variants

@@ -335,11 +335,11 @@ namespace :pwb do
       puts "Bucket:   #{bucket_name}"
       puts "Endpoint: #{endpoint}"
       puts ""
-      puts "Variant sizes:"
-      Pwb::SeedImageVariants::VARIANT_SIZES.each do |name, dims|
-        puts "  #{name}: #{dims[0]}x#{dims[1]}"
+      puts "Variant widths (naming: {basename}-{width}.webp):"
+      Pwb::SeedImageVariants::VARIANT_WIDTHS.each do |width, dims|
+        puts "  #{width}px: #{dims[0]}x#{dims[1]}"
       end
-      puts "Formats: #{Pwb::SeedImageVariants::FORMATS.join(', ')}"
+      puts "Format: #{Pwb::SeedImageVariants::DEFAULT_FORMAT}"
       puts ""
 
       # Initialize S3 client for R2
@@ -401,9 +401,9 @@ namespace :pwb do
           puts "  Generating variants..."
           variants = Pwb::SeedImageVariants.generate_from_file(file_path)
 
-          variants.each do |variant_name, formats|
+          variants.each do |width, formats|
             formats.each do |format, data|
-              variant_key = Pwb::SeedImageVariants.variant_key(key, variant_name, format)
+              variant_key = Pwb::SeedImageVariants.variant_key(key, width, format)
 
               # Check if variant already exists
               variant_exists = begin

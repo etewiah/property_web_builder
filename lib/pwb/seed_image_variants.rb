@@ -13,17 +13,27 @@ module Pwb
   #   # => { 'thumb' => <binary>, 'small' => <binary>, ... }
   #
   module SeedImageVariants
-    # Variant dimensions matching the API response format
-    # Uses resize_to_limit to maintain aspect ratio
-    VARIANT_SIZES = {
-      'thumb' => [150, 100],
-      'small' => [300, 200],
-      'medium' => [600, 400],
-      'large' => [1200, 800]
+    # Variant widths matching existing R2 uploads
+    # Uses width-based naming convention: {basename}-{width}.webp
+    # Heights are calculated to maintain 3:2 aspect ratio
+    VARIANT_WIDTHS = {
+      320 => [320, 213],
+      640 => [640, 427],
+      800 => [800, 533],
+      1280 => [1280, 853]
     }.freeze
 
-    # Supported output formats
-    FORMATS = %w[jpg webp].freeze
+    # Mapping from semantic names to widths for API responses
+    SEMANTIC_TO_WIDTH = {
+      'thumbnail' => 320,
+      'small' => 640,
+      'medium' => 800,
+      'large' => 1280
+    }.freeze
+
+    # Output format - WebP is the default (97%+ browser support)
+    DEFAULT_FORMAT = 'webp'.freeze
+    FORMATS = %w[webp].freeze
 
     class << self
       # Generate all variants from a local file
@@ -65,15 +75,15 @@ module Pwb
       # Generate all variants from binary image data
       #
       # @param image_data [String] Binary image data
-      # @return [Hash] Hash of variant_name => { format => binary_data }
+      # @return [Hash] Hash of width => { format => binary_data }
       def generate_variants(image_data)
         results = {}
 
-        VARIANT_SIZES.each do |name, dimensions|
-          results[name] = {}
+        VARIANT_WIDTHS.each do |width, dimensions|
+          results[width] = {}
 
           FORMATS.each do |format|
-            results[name][format] = resize_image(image_data, dimensions, format)
+            results[width][format] = resize_image(image_data, dimensions, format)
           end
         end
 
@@ -81,38 +91,46 @@ module Pwb
       end
 
       # Build variant key for R2 storage
-      # Follows naming convention: {path}/{basename}_{variant}.{ext}
+      # Follows naming convention: {path}/{basename}-{width}.webp
       #
       # @param original_key [String] Original R2 key (e.g., 'seeds/villa_ocean.jpg')
-      # @param variant_name [String] Variant name (e.g., 'thumb', 'small')
-      # @param format [String] Output format ('jpg' or 'webp')
-      # @return [String] Variant key (e.g., 'seeds/villa_ocean_thumb.jpg')
-      def variant_key(original_key, variant_name, format)
+      # @param width [Integer] Variant width (e.g., 320, 640, 800, 1280)
+      # @param format [String] Output format (default: 'webp')
+      # @return [String] Variant key (e.g., 'seeds/villa_ocean-640.webp')
+      def variant_key(original_key, width, format = DEFAULT_FORMAT)
         dir = File.dirname(original_key)
         ext = File.extname(original_key)
         basename = File.basename(original_key, ext)
 
-        "#{dir}/#{basename}_#{variant_name}.#{format}"
+        "#{dir}/#{basename}-#{width}.#{format}"
       end
 
       # Build all variant keys for a given original key
       #
       # @param original_key [String] Original R2 key
-      # @return [Array<Hash>] Array of { key:, variant:, format: }
+      # @return [Array<Hash>] Array of { key:, width:, format: }
       def all_variant_keys(original_key)
         keys = []
 
-        VARIANT_SIZES.keys.each do |variant_name|
+        VARIANT_WIDTHS.keys.each do |width|
           FORMATS.each do |format|
             keys << {
-              key: variant_key(original_key, variant_name, format),
-              variant: variant_name,
+              key: variant_key(original_key, width, format),
+              width: width,
               format: format
             }
           end
         end
 
         keys
+      end
+
+      # Get the width for a semantic variant name
+      #
+      # @param semantic_name [String] e.g., 'thumbnail', 'small', 'medium', 'large'
+      # @return [Integer] The corresponding width
+      def width_for(semantic_name)
+        SEMANTIC_TO_WIDTH[semantic_name.to_s]
       end
 
       private
