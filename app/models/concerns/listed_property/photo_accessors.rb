@@ -15,35 +15,22 @@ module ListedProperty
 
     # Returns the URL for the primary (first) image
     # Supports both external URLs and Active Storage attachments
+    # Uses direct CDN URLs when available via ActiveStorage's url method
     # @return [String] the image URL or empty string if no image
     def primary_image_url
       first_photo = ordered_photo(1)
       return "" unless first_photo&.has_image?
 
       if first_photo.external?
-        # Return external URL directly
         first_photo.external_url
       elsif first_photo.image.attached?
-        # Generate Active Storage URL
-        Rails.application.routes.url_helpers.rails_blob_url(
-          first_photo.image,
-          host: resolve_asset_host
-        )
+        first_photo.image.url
       else
         ""
       end
-    end
-
-    private
-
-    def resolve_asset_host
-      ENV.fetch('ASSET_HOST') do
-        ENV.fetch('APP_HOST') do
-          Rails.application.config.action_controller.asset_host ||
-            Rails.application.routes.default_url_options[:host] ||
-            'http://localhost:3000'
-        end
-      end
+    rescue StandardError => e
+      Rails.logger.warn("Failed to generate primary image URL: #{e.message}")
+      ""
     end
   end
 end

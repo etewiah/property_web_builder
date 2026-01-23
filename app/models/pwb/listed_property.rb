@@ -269,10 +269,9 @@ module Pwb
     end
 
     def absolute_image_url(image)
-      Rails.application.routes.url_helpers.rails_blob_url(
-        image,
-        host: resolve_asset_host
-      )
+      return nil unless image.attached?
+
+      image.url
     rescue StandardError => e
       Rails.logger.warn("Failed to generate absolute image URL: #{e.message}")
       nil
@@ -282,6 +281,7 @@ module Pwb
       return {} unless image.variable?
 
       {
+        'thumbnail' => variant_url(image, resize_to_limit: [150, 100]),
         'small' => variant_url(image, resize_to_limit: [300, 200]),
         'medium' => variant_url(image, resize_to_limit: [600, 400]),
         'large' => variant_url(image, resize_to_limit: [1200, 800])
@@ -292,22 +292,12 @@ module Pwb
     end
 
     def variant_url(image, transformations)
-      Rails.application.routes.url_helpers.rails_representation_url(
-        image.variant(transformations).processed,
-        host: resolve_asset_host
-      )
-    rescue StandardError
-      nil
-    end
+      return nil unless image.attached? && image.variable?
 
-    def resolve_asset_host
-      ENV.fetch('ASSET_HOST') do
-        ENV.fetch('APP_HOST') do
-          Rails.application.config.action_controller.asset_host ||
-            Rails.application.routes.default_url_options[:host] ||
-            'http://localhost:3000'
-        end
-      end
+      image.variant(transformations).processed.url
+    rescue StandardError => e
+      Rails.logger.warn("Failed to generate variant URL: #{e.message}")
+      nil
     end
 
     def generate_meta_title

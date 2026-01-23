@@ -40,5 +40,30 @@ FactoryBot.define do
         )
       end
     end
+
+    # Alias for clarity - same as :with_image
+    trait :with_real_image do
+      after(:build) do |photo|
+        # Use a real test image file if available, otherwise use fake data
+        test_image_path = Rails.root.join('spec/fixtures/files/test_image.jpg')
+        if File.exist?(test_image_path)
+          photo.image.attach(
+            io: File.open(test_image_path),
+            filename: 'test_property_image.jpg',
+            content_type: 'image/jpeg'
+          )
+        else
+          photo.image.attach(
+            io: StringIO.new('fake image data'),
+            filename: 'property_image.jpg',
+            content_type: 'image/jpeg'
+          )
+        end
+      end
+    end
+
+    trait :with_external_url do
+      external_url { 'https://external-cdn.example.com/property-image.jpg' }
+    end
   end
 end
