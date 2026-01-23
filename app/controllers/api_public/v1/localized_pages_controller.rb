@@ -258,20 +258,157 @@ module ApiPublic
       end
 
       def build_page_contents(page)
-        return [] unless page.respond_to?(:ordered_visible_page_contents)
+        contents = []
 
-        page.ordered_visible_page_contents.map do |page_content|
-          raw_html = page_content.is_rails_part ? nil : page_content.content&.raw
-          localized_html = raw_html.present? ? localize_html_urls(raw_html) : nil
+        if page.respond_to?(:ordered_visible_page_contents)
+          contents = page.ordered_visible_page_contents.map do |page_content|
+            raw_html = page_content.is_rails_part ? nil : page_content.content&.raw
+            localized_html = raw_html.present? ? localize_html_urls(raw_html) : nil
 
-          {
-            "page_part_key" => page_content.page_part_key,
-            "sort_order" => page_content.sort_order,
-            "visible" => page_content.visible_on_page,
-            "is_rails_part" => page_content.is_rails_part || false,
-            "rendered_html" => localized_html,
-            "label" => page_content.label
-          }
+            {
+              "page_part_key" => page_content.page_part_key,
+              "sort_order" => page_content.sort_order,
+              "visible" => page_content.visible_on_page,
+              "is_rails_part" => page_content.is_rails_part || false,
+              "rendered_html" => localized_html,
+              "label" => page_content.label
+            }
+          end
+        end
+
+        # Inject featured listings for home page
+        if page.slug == "home"
+          contents.concat(build_home_page_features)
+        end
+
+        contents
+      end
+
+      def build_home_page_features
+        [
+          build_featured_listing_part("sale"),
+          build_featured_listing_part("rental")
+        ]
+      end
+
+      def build_featured_listing_part(sale_or_rental)
+        is_sale = sale_or_rental == "sale"
+        label_key = is_sale ? "propertyForSale" : "propertyForRent"
+        part_key_suffix = is_sale ? "featured_sales" : "featured_rentals"
+        
+        {
+          "page_part_key" => "summary_listings_part/#{part_key_suffix}",
+          "sort_order" => 999, # Ensure it's at the end
+          "visible" => true,
+          "is_rails_part" => false,
+          "rendered_html" => nil,
+          "label" => I18n.t(label_key),
+          "summ_listings" => fetch_featured_properties(sale_or_rental)
+        }
+      end
+
+      def fetch_featured_properties(sale_or_rental)
+        base_scope = Pwb::Current.website.listed_properties.where(highlighted: true)
+        
+        args = {
+          sale_or_rental: sale_or_rental,
+          currency: "usd", # default
+          limit: 6 # User sample showed per_page=6
+        }
+
+        properties = base_scope.properties_search(**args)
+        properties = properties.limit(args[:limit])
+
+        properties.map { |p| serialize_property_summary(p) }
+      end
+
+      # Serializers copied from PropertiesController to ensure consistency
+      
+      def serialize_property_summary(property)
+        {
+          id: property.id,
+          slug: property.slug,
+          reference: property.reference,
+          title: property.title,
+          price_sale_current_cents: property.price_sale_current_cents,
+          price_rental_monthly_current_cents: property.price_rental_monthly_current_cents,
+          formatted_price: property.formatted_price,
+          currency: property.currency,
+          count_bedrooms: property.count_bedrooms,
+          count_bathrooms: property.count_bathrooms,
+          count_garages: property.count_garages,
+          highlighted: property.highlighted,
+          for_sale: property.for_sale?,
+          for_rent: property.for_rent?,
+          primary_image_url: property.primary_image_url,
+          prop_photos: serialize_prop_photos(property, limit: 3)
+        }.compact
+      end
+
+      def serialize_prop_photos(property, limit: 3)
+        return [] unless property.respond_to?(:prop_photos)
+
+        property.prop_photos.first(limit).filter_map do |photo|
+          next unless photo.has_image?
+
+          if photo.external?
+            {
+              id: photo.id,
+              url: photo.external_url,
+              alt: photo.respond_to?(:caption) ? photo.caption.presence : nil,
+              position: photo.sort_order,
+              variants: {}
+            }
+          elsif photo.image.attached?
+            {
+              id: photo.id,
+              url: photo_url(photo.image),
+              alt: photo.respond_to?(:caption) ? photo.caption.presence : nil,
+              position: photo.sort_order,
+              variants: generate_photo_variants(photo.image)
+            }
+          end
+        end
+      end
+
+      def photo_url(image)
+        Rails.application.routes.url_helpers.rails_blob_url(
+          image,
+          host: resolve_asset_host
+        )
+      rescue StandardError
+        nil
+      end
+
+      def generate_photo_variants(image)
+        return {} unless image.variable?
+
+        {
+          thumbnail: variant_url_for(image, resize_to_limit: [150, 100]),
+          small: variant_url_for(image, resize_to_limit: [300, 200]),
+          medium: variant_url_for(image, resize_to_limit: [600, 400]),
+          large: variant_url_for(image, resize_to_limit: [1200, 800])
+        }
+      rescue StandardError
+        {}
+      end
+
+      def variant_url_for(image, transformations)
+        Rails.application.routes.url_helpers.rails_representation_url(
+          image.variant(transformations).processed,
+          host: resolve_asset_host
+        )
+      rescue StandardError
+        nil
+      end
+
+      def resolve_asset_host
+        ENV.fetch('ASSET_HOST') do
+          ENV.fetch('APP_HOST') do
+            Rails.application.config.action_controller.asset_host ||
+              Rails.application.routes.default_url_options[:host] ||
+              request.protocol + request.host_with_port
+          end
         end
       end
 

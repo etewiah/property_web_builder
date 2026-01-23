@@ -183,7 +183,58 @@ Each content block contains:
 - `rendered_html`: Pre-rendered HTML with localized internal URLs
 - `label`: Optional label for admin purposes
 
----
+### Home Page Featured Listings
+
+For the **home page only** (`slug: "home"`), two additional page content items are automatically injected:
+
+| page_part_key | Description |
+|---------------|-------------|
+| `summary_listings_part/featured_sales` | Featured properties for sale |
+| `summary_listings_part/featured_rentals` | Featured properties for rent |
+
+These parts have the following structure:
+
+```json
+{
+  "page_part_key": "summary_listings_part/featured_sales",
+  "sort_order": 999,
+  "visible": true,
+  "is_rails_part": false,
+  "rendered_html": null,
+  "label": "Property For Sale",
+  "summ_listings": [
+    {
+      "id": "uuid",
+      "slug": "property-slug",
+      "title": "Property Title",
+      "formatted_price": "$500,000",
+      "for_sale": true,
+      "for_rent": false,
+      "prop_photos": [
+        {
+          "id": 1,
+          "url": "https://...",
+          "alt": null,
+          "position": 1,
+          "variants": {
+            "thumbnail": "https://...",
+            "small": "https://...",
+            "medium": "https://...",
+            "large": "https://..."
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+**Key details:**
+- `summ_listings` contains up to 6 featured (highlighted) properties
+- `featured_sales` only includes properties where `for_sale: true`
+- `featured_rentals` only includes properties where `for_rent: true`
+- `label` is localized using translation keys `propertyForSale` and `propertyForRent`
+- These parts are **not** added to other pages
 
 ## Localization Details
 

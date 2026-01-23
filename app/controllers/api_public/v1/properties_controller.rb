@@ -286,8 +286,77 @@ module ApiPublic
           for_sale: property.for_sale?,
           for_rent: property.for_rent?,
           primary_image_url: property.primary_image_url,
-          prop_photos: property.try(:prop_photos)&.first(3)&.map { |p| { image: p.try(:image_url) || p.try(:url) } }
+          prop_photos: serialize_prop_photos(property, limit: 3)
         }.compact
+      end
+
+      # Serialize prop_photos with variants for API responses
+      # Matches logic in ListedProperty#as_json for consistency
+      def serialize_prop_photos(property, limit: 3)
+        return [] unless property.respond_to?(:prop_photos)
+
+        property.prop_photos.first(limit).filter_map do |photo|
+          next unless photo.has_image?
+
+          if photo.external?
+            {
+              id: photo.id,
+              url: photo.external_url,
+              alt: photo.respond_to?(:caption) ? photo.caption.presence : nil,
+              position: photo.sort_order,
+              variants: {}
+            }
+          elsif photo.image.attached?
+            {
+              id: photo.id,
+              url: photo_url(photo.image),
+              alt: photo.respond_to?(:caption) ? photo.caption.presence : nil,
+              position: photo.sort_order,
+              variants: generate_photo_variants(photo.image)
+            }
+          end
+        end
+      end
+
+      def photo_url(image)
+        Rails.application.routes.url_helpers.rails_blob_url(
+          image,
+          host: resolve_asset_host
+        )
+      rescue StandardError
+        nil
+      end
+
+      def generate_photo_variants(image)
+        return {} unless image.variable?
+
+        {
+          thumbnail: variant_url_for(image, resize_to_limit: [150, 100]),
+          small: variant_url_for(image, resize_to_limit: [300, 200]),
+          medium: variant_url_for(image, resize_to_limit: [600, 400]),
+          large: variant_url_for(image, resize_to_limit: [1200, 800])
+        }
+      rescue StandardError
+        {}
+      end
+
+      def variant_url_for(image, transformations)
+        Rails.application.routes.url_helpers.rails_representation_url(
+          image.variant(transformations).processed,
+          host: resolve_asset_host
+        )
+      rescue StandardError
+        nil
+      end
+
+      def resolve_asset_host
+        ENV.fetch('ASSET_HOST') do
+          ENV.fetch('APP_HOST') do
+            Rails.application.config.action_controller.asset_host ||
+              Rails.application.routes.default_url_options[:host] ||
+              request.protocol + request.host_with_port
+          end
+        end
       end
     end
   end

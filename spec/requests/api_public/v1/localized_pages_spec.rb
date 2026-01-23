@@ -446,5 +446,146 @@ RSpec.describe "ApiPublic::V1::LocalizedPages", type: :request do
         expect(json["meta_description"]).to eq("Read our terms of service.")
       end
     end
+
+    describe "home page featured listings" do
+      let!(:home_page) do
+        ActsAsTenant.with_tenant(website) do
+          page = FactoryBot.create(:pwb_page, slug: "home", website: website, visible: true)
+          Mobility.with_locale(:en) { page.page_title = "Welcome Home" }
+          page.save!
+          page
+        end
+      end
+
+      let!(:featured_sale_property) do
+        ActsAsTenant.with_tenant(website) do
+          realty_asset = FactoryBot.create(:pwb_realty_asset, website: website, highlighted: true)
+          FactoryBot.create(:pwb_sale_listing, realty_asset: realty_asset, website: website)
+          Pwb::ListedProperty.refresh(concurrently: false)
+          Pwb::ListedProperty.find(realty_asset.id)
+        end
+      end
+
+      let!(:featured_rental_property) do
+        ActsAsTenant.with_tenant(website) do
+          realty_asset = FactoryBot.create(:pwb_realty_asset, website: website, highlighted: true)
+          FactoryBot.create(:pwb_rental_listing, realty_asset: realty_asset, website: website)
+          Pwb::ListedProperty.refresh(concurrently: false)
+          Pwb::ListedProperty.find(realty_asset.id)
+        end
+      end
+
+      it "includes featured_sales part for home page" do
+        get "/api_public/v1/en/localized_page/by_slug/home"
+
+        json = response.parsed_body
+        page_contents = json["page_contents"]
+
+        featured_sales = page_contents.find { |c| c["page_part_key"] == "summary_listings_part/featured_sales" }
+        expect(featured_sales).to be_present
+        expect(featured_sales["visible"]).to be true
+        expect(featured_sales["is_rails_part"]).to be false
+        expect(featured_sales["rendered_html"]).to be_nil
+        expect(featured_sales["sort_order"]).to eq(999)
+      end
+
+      it "includes featured_rentals part for home page" do
+        get "/api_public/v1/en/localized_page/by_slug/home"
+
+        json = response.parsed_body
+        page_contents = json["page_contents"]
+
+        featured_rentals = page_contents.find { |c| c["page_part_key"] == "summary_listings_part/featured_rentals" }
+        expect(featured_rentals).to be_present
+        expect(featured_rentals["visible"]).to be true
+        expect(featured_rentals["is_rails_part"]).to be false
+        expect(featured_rentals["rendered_html"]).to be_nil
+        expect(featured_rentals["sort_order"]).to eq(999)
+      end
+
+      it "includes summ_listings array in featured parts" do
+        get "/api_public/v1/en/localized_page/by_slug/home"
+
+        json = response.parsed_body
+        page_contents = json["page_contents"]
+
+        featured_sales = page_contents.find { |c| c["page_part_key"] == "summary_listings_part/featured_sales" }
+        expect(featured_sales["summ_listings"]).to be_an(Array)
+
+        featured_rentals = page_contents.find { |c| c["page_part_key"] == "summary_listings_part/featured_rentals" }
+        expect(featured_rentals["summ_listings"]).to be_an(Array)
+      end
+
+      it "includes property data with variants in summ_listings" do
+        get "/api_public/v1/en/localized_page/by_slug/home"
+
+        json = response.parsed_body
+        page_contents = json["page_contents"]
+
+        featured_sales = page_contents.find { |c| c["page_part_key"] == "summary_listings_part/featured_sales" }
+        
+        if featured_sales["summ_listings"].any?
+          property = featured_sales["summ_listings"].first
+          expect(property).to have_key("id")
+          expect(property).to have_key("slug")
+          expect(property).to have_key("title")
+          expect(property).to have_key("formatted_price")
+          expect(property).to have_key("for_sale")
+          expect(property).to have_key("prop_photos")
+        end
+      end
+
+      it "only includes sale properties in featured_sales" do
+        get "/api_public/v1/en/localized_page/by_slug/home"
+
+        json = response.parsed_body
+        page_contents = json["page_contents"]
+
+        featured_sales = page_contents.find { |c| c["page_part_key"] == "summary_listings_part/featured_sales" }
+        
+        featured_sales["summ_listings"].each do |property|
+          expect(property["for_sale"]).to be true
+        end
+      end
+
+      it "only includes rental properties in featured_rentals" do
+        get "/api_public/v1/en/localized_page/by_slug/home"
+
+        json = response.parsed_body
+        page_contents = json["page_contents"]
+
+        featured_rentals = page_contents.find { |c| c["page_part_key"] == "summary_listings_part/featured_rentals" }
+        
+        featured_rentals["summ_listings"].each do |property|
+          expect(property["for_rent"]).to be true
+        end
+      end
+
+      it "does not include featured listings for non-home pages" do
+        get "/api_public/v1/en/localized_page/by_slug/about-us"
+
+        json = response.parsed_body
+        page_contents = json["page_contents"]
+
+        featured_sales = page_contents.find { |c| c["page_part_key"] == "summary_listings_part/featured_sales" }
+        featured_rentals = page_contents.find { |c| c["page_part_key"] == "summary_listings_part/featured_rentals" }
+
+        expect(featured_sales).to be_nil
+        expect(featured_rentals).to be_nil
+      end
+
+      it "includes localized label for featured parts" do
+        get "/api_public/v1/en/localized_page/by_slug/home"
+
+        json = response.parsed_body
+        page_contents = json["page_contents"]
+
+        featured_sales = page_contents.find { |c| c["page_part_key"] == "summary_listings_part/featured_sales" }
+        featured_rentals = page_contents.find { |c| c["page_part_key"] == "summary_listings_part/featured_rentals" }
+
+        expect(featured_sales["label"]).to be_present
+        expect(featured_rentals["label"]).to be_present
+      end
+    end
   end
 end
