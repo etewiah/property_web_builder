@@ -401,3 +401,107 @@ def list_available_websites
     puts "     - slug: #{w.slug || 'nil'}, subdomain: #{w.subdomain || 'nil'}, id: #{w.id}"
   end
 end
+
+namespace :pwb do
+  namespace :website do
+    desc 'Show website rendering mode info. Usage: rake pwb:website:rendering_info'
+    task rendering_info: [:environment] do
+      website = Pwb::Website.first
+
+      if website.nil?
+        puts "❌ No website found"
+        exit 1
+      end
+
+      puts "Website Rendering Info"
+      puts "=" * 40
+      puts "ID:                  #{website.id}"
+      puts "Subdomain:           #{website.subdomain || 'nil'}"
+      puts "rendering_mode:      #{website.rendering_mode}"
+      puts "client_rendering?:   #{website.client_rendering?}"
+      puts "rails_rendering?:    #{website.rails_rendering?}"
+      puts "client_theme_name:   #{website.client_theme_name || 'nil'}"
+      puts ""
+      puts "Available client themes:"
+      Pwb::ClientTheme.enabled.each do |theme|
+        puts "  - #{theme.name} (#{theme.friendly_name})"
+      end
+    end
+
+    desc 'Set website to client rendering mode. Usage: rake pwb:website:set_client_rendering[theme_name]'
+    task :set_client_rendering, [:theme_name] => [:environment] do |t, args|
+      theme_name = args[:theme_name]
+      website = Pwb::Website.first
+
+      if website.nil?
+        puts "❌ No website found"
+        exit 1
+      end
+
+      if theme_name.blank?
+        puts "❌ Please provide a client theme name"
+        puts "   Usage: rake pwb:website:set_client_rendering[theme_name]"
+        puts ""
+        puts "   Available themes:"
+        Pwb::ClientTheme.enabled.each do |theme|
+          puts "     - #{theme.name}"
+        end
+        exit 1
+      end
+
+      theme = Pwb::ClientTheme.enabled.find_by(name: theme_name)
+      if theme.nil?
+        puts "❌ Client theme '#{theme_name}' not found or not enabled"
+        puts "   Available themes:"
+        Pwb::ClientTheme.enabled.each do |t|
+          puts "     - #{t.name}"
+        end
+        exit 1
+      end
+
+      puts "Setting website to client rendering mode with theme '#{theme_name}'..."
+
+      website.rendering_mode = 'client'
+      website.client_theme_name = theme_name
+
+      if website.save
+        puts "✅ Website updated successfully!"
+        puts "   rendering_mode:     #{website.rendering_mode}"
+        puts "   client_theme_name:  #{website.client_theme_name}"
+        puts "   client_rendering?:  #{website.client_rendering?}"
+      else
+        puts "❌ Failed to update website:"
+        website.errors.full_messages.each do |msg|
+          puts "   - #{msg}"
+        end
+        exit 1
+      end
+    end
+
+    desc 'Set website to Rails rendering mode. Usage: rake pwb:website:set_rails_rendering'
+    task set_rails_rendering: [:environment] do
+      website = Pwb::Website.first
+
+      if website.nil?
+        puts "❌ No website found"
+        exit 1
+      end
+
+      puts "Setting website to Rails rendering mode..."
+
+      website.rendering_mode = 'rails'
+
+      if website.save
+        puts "✅ Website updated successfully!"
+        puts "   rendering_mode:     #{website.rendering_mode}"
+        puts "   rails_rendering?:   #{website.rails_rendering?}"
+      else
+        puts "❌ Failed to update website:"
+        website.errors.full_messages.each do |msg|
+          puts "   - #{msg}"
+        end
+        exit 1
+      end
+    end
+  end
+end

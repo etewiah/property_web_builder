@@ -34,20 +34,41 @@ class ClientRenderingConstraint
     return false if excluded_path?(request.path)
 
     website = website_from_request(request)
+
+    if Rails.env.development?
+      Rails.logger.debug "[ClientRenderingConstraint] Path: #{request.path}"
+      Rails.logger.debug "[ClientRenderingConstraint] Website: #{website&.id}"
+      Rails.logger.debug "[ClientRenderingConstraint] rendering_mode: #{website&.rendering_mode}"
+      Rails.logger.debug "[ClientRenderingConstraint] client_rendering?: #{website&.client_rendering?}"
+    end
+
     website&.client_rendering? || false
   end
 
   private
 
-  # Find website from request (by custom domain or subdomain)
+  # Find website from request (by custom domain, subdomain, or fallback)
+  # Mirrors the logic in SubdomainTenant concern
   def website_from_request(request)
-    # Try custom domain first
-    website = Pwb::Website.find_by(custom_domain: request.host)
-    return website if website
+    host = request.host.to_s.downcase
+    website = nil
 
-    # Try subdomain
-    subdomain = extract_subdomain(request.host)
-    Pwb::Website.find_by(subdomain: subdomain) if subdomain
+    # Use the unified find_by_host method if available
+    if Pwb::Website.respond_to?(:find_by_host)
+      website = Pwb::Website.find_by_host(host)
+    else
+      # Fallback: Try custom domain first
+      website = Pwb::Website.find_by(custom_domain: host)
+
+      # Try subdomain if custom domain not found
+      if website.nil?
+        subdomain = extract_subdomain(host)
+        website = Pwb::Website.find_by(subdomain: subdomain) if subdomain
+      end
+    end
+
+    # Fallback to first website for localhost/development
+    website || (Rails.env.development? || Rails.env.test? ? Pwb::Website.first : nil)
   end
 
   # Extract subdomain from host

@@ -29,6 +29,9 @@ Rails.application.routes.draw do
     match '/client-admin/*path', to: 'pwb/client_proxy#admin_proxy', via: :all
     match '/client-admin', to: 'pwb/client_proxy#admin_proxy', via: :all
 
+    # Root path (/) must be explicitly defined as *path doesn't match empty path
+    root to: 'pwb/client_proxy#public_proxy', as: :client_proxy_root
+
     # All other non-excluded paths go to public proxy
     # This is a catch-all, so it should be last in the constraint block
     match '*path', to: 'pwb/client_proxy#public_proxy', via: :all, as: :client_proxy_catchall

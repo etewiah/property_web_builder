@@ -15,7 +15,7 @@ module ApiPublic
         # Set a strong cache header for 5 minutes (adjust as needed)
         expires_in 5.minutes, public: true
 
-        unless @current_website&.client_rendering?
+        unless current_website&.client_rendering?
           # Return default data with error info, but still process includes
           response_data = default_data
           
@@ -28,7 +28,7 @@ module ApiPublic
               data: response_data,
               error: {
                 message: 'Client rendering not enabled for this website',
-                rendering_mode: @current_website&.rendering_mode || 'unknown'
+                rendering_mode: current_website&.rendering_mode || 'unknown'
               }
             }
             response_json[:_errors] = included[:errors] if included[:errors].any?
@@ -40,20 +40,20 @@ module ApiPublic
             data: response_data,
             error: {
               message: 'Client rendering not enabled for this website',
-              rendering_mode: @current_website&.rendering_mode || 'unknown'
+              rendering_mode: current_website&.rendering_mode || 'unknown'
             }
           }, status: :ok
           return
         end
 
-        theme = @current_website.client_theme
+        theme = current_website.client_theme
 
         # Build base response
         response_data = {
-          rendering_mode: @current_website.rendering_mode,
+          rendering_mode: current_website.rendering_mode,
           theme: theme_data(theme),
-          config: @current_website.effective_client_theme_config,
-          css_variables: @current_website.client_theme_css_variables,
+          config: current_website.effective_client_theme_config,
+          css_variables: current_website.client_theme_css_variables,
           website: website_data
         }
 
@@ -70,11 +70,11 @@ module ApiPublic
       # Returns a valid default data structure for the client config response
       def default_data
         {
-          rendering_mode: @current_website&.rendering_mode || 'rails',
+          rendering_mode: current_website&.rendering_mode || 'rails',
           theme: nil,
           config: {},
           css_variables: {},
-          website: @current_website ? website_data : {}
+          website: current_website ? website_data : {}
         }
       end
 
@@ -95,11 +95,11 @@ module ApiPublic
 
       def website_data
         {
-          id: @current_website.id,
-          subdomain: @current_website.subdomain,
-          company_display_name: @current_website.company_display_name,
-          default_locale: @current_website.default_client_locale,
-          supported_locales: @current_website.supported_locales_with_variants
+          id: current_website.id,
+          subdomain: current_website.subdomain,
+          company_display_name: current_website.company_display_name,
+          default_locale: current_website.default_client_locale,
+          supported_locales: current_website.supported_locales_with_variants
         }
       end
     end
