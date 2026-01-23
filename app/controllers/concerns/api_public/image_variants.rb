@@ -15,6 +15,15 @@ module ApiPublic
       large: { resize_to_fill: [1200, 800] }
     }.freeze
 
+    # Variant name mappings for external URLs
+    # Maps API variant names to the suffix used in R2 storage
+    EXTERNAL_VARIANT_SUFFIXES = {
+      thumbnail: 'thumb',
+      small: 'small',
+      medium: 'medium',
+      large: 'large'
+    }.freeze
+
     private
 
     # Generate variant URLs for an ActiveStorage attachment
@@ -92,6 +101,43 @@ module ApiPublic
       )
     rescue StandardError
       nil
+    end
+
+    # Build variant URLs for external images stored in R2
+    # Uses naming convention: {path}/{basename}_{variant}.{ext}
+    #
+    # @param external_url [String] The external URL of the original image
+    # @return [Hash] Hash of variant URLs (both JPEG and WebP)
+    #
+    # Example:
+    #   build_external_variants("https://seed-assets.example.com/seeds/villa_ocean.jpg")
+    #   # => {
+    #   #   thumbnail: "https://seed-assets.example.com/seeds/villa_ocean_thumb.jpg",
+    #   #   thumbnail_webp: "https://seed-assets.example.com/seeds/villa_ocean_thumb.webp",
+    #   #   small: "https://seed-assets.example.com/seeds/villa_ocean_small.jpg",
+    #   #   ...
+    #   # }
+    def build_external_variants(external_url)
+      return {} unless external_url.present?
+
+      begin
+        uri = URI.parse(external_url)
+        ext = File.extname(uri.path)
+        basename = File.basename(uri.path, ext)
+        dir = File.dirname(uri.path)
+        base = "#{uri.scheme}://#{uri.host}#{dir}/#{basename}"
+
+        variants = {}
+
+        EXTERNAL_VARIANT_SUFFIXES.each do |api_name, suffix|
+          variants[api_name] = "#{base}_#{suffix}.jpg"
+          variants[:"#{api_name}_webp"] = "#{base}_#{suffix}.webp"
+        end
+
+        variants
+      rescue URI::InvalidURIError
+        {}
+      end
     end
   end
 end

@@ -304,7 +304,7 @@ module ApiPublic
               url: photo.external_url,
               alt: photo.respond_to?(:caption) ? photo.caption.presence : nil,
               position: photo.sort_order,
-              variants: {}
+              variants: build_external_variants(photo.external_url)
             }
           elsif photo.image.attached?
             {

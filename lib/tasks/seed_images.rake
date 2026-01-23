@@ -306,6 +306,159 @@ namespace :pwb do
       puts "Total: #{mappings.count} files, #{(total_size / 1024.0 / 1024.0).round(2)} MB"
     end
 
+    desc "Upload seed images with generated variants to R2 bucket"
+    task upload_with_variants: :environment do
+      require_relative '../pwb/seed_images'
+      require_relative '../pwb/seed_image_variants'
+      require 'aws-sdk-s3'
+
+      puts "\n=== Upload Seed Images with Variants to R2 ==="
+
+      # Validate required environment variables
+      missing_vars = []
+      missing_vars << 'R2_ACCESS_KEY_ID' unless Pwb::R2Credentials.access_key_id.present?
+      missing_vars << 'R2_SECRET_ACCESS_KEY' unless Pwb::R2Credentials.secret_access_key.present?
+      missing_vars << 'R2_ACCOUNT_ID' unless (Pwb::SeedImages.r2_account_id || Pwb::R2Credentials.account_id).present?
+      missing_vars << 'R2_SEED_IMAGES_BUCKET' unless Pwb::SeedImages.r2_bucket.present?
+
+      if missing_vars.any?
+        puts "ERROR: Missing required configuration:"
+        missing_vars.each { |var| puts "  - #{var}" }
+        puts ""
+        puts "Set these in your .env file or environment."
+        exit 1
+      end
+
+      bucket_name = Pwb::SeedImages.r2_bucket
+      endpoint = Pwb::SeedImages.r2_endpoint
+
+      puts "Bucket:   #{bucket_name}"
+      puts "Endpoint: #{endpoint}"
+      puts ""
+      puts "Variant sizes:"
+      Pwb::SeedImageVariants::VARIANT_SIZES.each do |name, dims|
+        puts "  #{name}: #{dims[0]}x#{dims[1]}"
+      end
+      puts "Formats: #{Pwb::SeedImageVariants::FORMATS.join(', ')}"
+      puts ""
+
+      # Initialize S3 client for R2
+      client = Aws::S3::Client.new(
+        access_key_id: Pwb::R2Credentials.access_key_id,
+        secret_access_key: Pwb::R2Credentials.secret_access_key,
+        endpoint: endpoint,
+        region: 'auto',
+        force_path_style: true
+      )
+
+      # Collect all image files with their R2 keys
+      image_mappings = collect_seed_image_files
+
+      if image_mappings.empty?
+        puts "No image files found"
+        exit 0
+      end
+
+      puts "Processing #{image_mappings.count} images..."
+      puts ""
+
+      uploaded_originals = 0
+      uploaded_variants = 0
+      skipped = 0
+      errors = 0
+
+      image_mappings.each do |file_path, key|
+        puts "Processing: #{key}"
+
+        begin
+          # Upload original if not exists
+          original_exists = begin
+            client.head_object(bucket: bucket_name, key: key)
+            true
+          rescue Aws::S3::Errors::NotFound
+            false
+          end
+
+          unless original_exists
+            content_type = content_type_for(file_path)
+            File.open(file_path, 'rb') do |file|
+              client.put_object(
+                bucket: bucket_name,
+                key: key,
+                body: file,
+                content_type: content_type,
+                cache_control: 'public, max-age=31536000'
+              )
+            end
+            puts "  UPLOAD: #{key} (original)"
+            uploaded_originals += 1
+          else
+            puts "  SKIP: #{key} (original exists)"
+            skipped += 1
+          end
+
+          # Generate and upload variants
+          puts "  Generating variants..."
+          variants = Pwb::SeedImageVariants.generate_from_file(file_path)
+
+          variants.each do |variant_name, formats|
+            formats.each do |format, data|
+              variant_key = Pwb::SeedImageVariants.variant_key(key, variant_name, format)
+
+              # Check if variant already exists
+              variant_exists = begin
+                client.head_object(bucket: bucket_name, key: variant_key)
+                true
+              rescue Aws::S3::Errors::NotFound
+                false
+              end
+
+              if variant_exists
+                puts "    SKIP: #{variant_key} (exists)"
+                skipped += 1
+                next
+              end
+
+              content_type = format == 'webp' ? 'image/webp' : 'image/jpeg'
+              client.put_object(
+                bucket: bucket_name,
+                key: variant_key,
+                body: data,
+                content_type: content_type,
+                cache_control: 'public, max-age=31536000'
+              )
+              puts "    UPLOAD: #{variant_key}"
+              uploaded_variants += 1
+            end
+          end
+
+        rescue StandardError => e
+          puts "  ERROR: #{e.message}"
+          errors += 1
+        end
+      end
+
+      puts ""
+      puts "=== Upload Complete ==="
+      puts "Original images: #{uploaded_originals}"
+      puts "Variant images:  #{uploaded_variants}"
+      puts "Skipped:         #{skipped}"
+      puts "Errors:          #{errors}"
+
+      if uploaded_originals > 0 || uploaded_variants > 0
+        puts ""
+        puts "Public URL: #{Pwb::SeedImages.base_url}"
+        puts ""
+        puts "Example variant URLs:"
+        first_key = image_mappings.values.first
+        if first_key
+          puts "  Original:  #{Pwb::SeedImages.base_url}/#{first_key}"
+          puts "  Thumbnail: #{Pwb::SeedImages.base_url}/#{Pwb::SeedImageVariants.variant_key(first_key, 'thumb', 'jpg')}"
+          puts "  WebP:      #{Pwb::SeedImages.base_url}/#{Pwb::SeedImageVariants.variant_key(first_key, 'thumb', 'webp')}"
+        end
+      end
+    end
+
     desc "Show configuration for seed images"
     task config: :environment do
       require_relative '../pwb/seed_images'
@@ -465,4 +618,17 @@ def collect_seed_image_files
   end
 
   mappings
+end
+
+# Get content type for an image file
+# @param file_path [String] Path to the file
+# @return [String] MIME type
+def content_type_for(file_path)
+  case File.extname(file_path).downcase
+  when '.jpg', '.jpeg' then 'image/jpeg'
+  when '.png' then 'image/png'
+  when '.gif' then 'image/gif'
+  when '.webp' then 'image/webp'
+  else 'application/octet-stream'
+  end
 end
