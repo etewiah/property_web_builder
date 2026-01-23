@@ -374,7 +374,7 @@ module ApiPublic
       def photo_url(image)
         Rails.application.routes.url_helpers.rails_blob_url(
           image,
-          host: resolve_asset_host
+          **asset_url_options
         )
       rescue StandardError
         nil
@@ -396,20 +396,38 @@ module ApiPublic
       def variant_url_for(image, transformations)
         Rails.application.routes.url_helpers.rails_representation_url(
           image.variant(transformations).processed,
-          host: resolve_asset_host
+          **asset_url_options
         )
       rescue StandardError
         nil
       end
 
-      def resolve_asset_host
-        ENV.fetch('ASSET_HOST') do
-          ENV.fetch('APP_HOST') do
-            Rails.application.config.action_controller.asset_host ||
-              Rails.application.routes.default_url_options[:host] ||
-              request.protocol + request.host_with_port
-          end
+      # Returns URL options for Active Storage URLs
+      # Handles CDN hosts properly by parsing and extracting host, port, and protocol
+      # Explicitly sets port to override Rails.application.routes.default_url_options
+      def asset_url_options
+        asset_host = ENV['ASSET_HOST'].presence ||
+                     ENV['APP_HOST'].presence ||
+                     Rails.application.config.action_controller.asset_host
+
+        if asset_host.present?
+          uri = URI.parse(asset_host)
+          scheme = uri.scheme || 'https'
+          # Explicitly set port to override default_url_options[:port]
+          # Use nil for default ports (443 for https, 80 for http) to omit port from URL
+          explicit_port = if uri.port && uri.port != uri.default_port
+                            uri.port
+                          end
+          {
+            host: uri.host || asset_host,
+            port: explicit_port,
+            protocol: scheme
+          }
+        else
+          { host: request.host_with_port }
         end
+      rescue URI::InvalidURIError
+        { host: asset_host }
       end
 
       # Helper methods for website data
