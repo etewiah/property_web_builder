@@ -29,7 +29,7 @@ module Pwb
 
     # Ensure this controller only handles client-rendered websites
     def ensure_client_rendering_mode
-      unless @current_website&.client_rendering?
+      unless current_website&.client_rendering?
         # Fall through to normal Rails rendering
         raise ActionController::RoutingError, 'Not Found'
       end
@@ -80,10 +80,10 @@ module Pwb
         'X-Forwarded-Host' => request.host,
         'X-Forwarded-Proto' => request.protocol.chomp('://'),
         'X-Forwarded-For' => request.remote_ip,
-        'X-Website-Slug' => @current_website&.subdomain,
-        'X-Website-Id' => @current_website&.id.to_s,
+        'X-Website-Slug' => current_website&.subdomain,
+        'X-Website-Id' => current_website&.id.to_s,
         'X-Rendering-Mode' => 'client',
-        'X-Client-Theme' => @current_website&.client_theme_name,
+        'X-Client-Theme' => current_website&.client_theme_name,
         'Accept' => request.headers['Accept'] || '*/*',
         'Accept-Language' => request.headers['Accept-Language'],
         'Content-Type' => request.content_type
@@ -104,7 +104,7 @@ module Pwb
     def current_user_role
       return 'guest' unless current_user
 
-      membership = current_user.user_memberships.find_by(website: @current_website)
+      membership = current_user.user_memberships.find_by(website: current_website)
       membership&.role || 'member'
     end
 
@@ -112,7 +112,7 @@ module Pwb
     def generate_proxy_auth_token
       payload = {
         user_id: current_user&.id,
-        website_id: @current_website&.id,
+        website_id: current_website&.id,
         exp: 5.minutes.from_now.to_i,
         iat: Time.current.to_i
       }
