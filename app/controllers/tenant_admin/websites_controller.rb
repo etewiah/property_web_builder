@@ -5,7 +5,7 @@ require 'pwb/contents_seeder'
 
 module TenantAdmin
   class WebsitesController < TenantAdminController
-    before_action :set_website, only: [:show, :edit, :update, :destroy, :seed, :seed_form, :retry_provisioning, :shard_form, :assign_shard, :shard_history]
+    before_action :set_website, only: [:show, :edit, :update, :destroy, :seed, :seed_form, :retry_provisioning, :shard_form, :assign_shard, :shard_history, :appearance_form, :update_appearance]
 
     def index
       websites = Pwb::Website.unscoped.order(created_at: :desc)
@@ -200,6 +200,43 @@ module TenantAdmin
       @pagy, @audit_logs = pagy(@audit_logs, limit: 20)
     end
 
+    # GET /tenant_admin/websites/:id/appearance
+    def appearance_form
+      @themes = Pwb::Theme.enabled
+      @all_theme_palettes = @themes.each_with_object({}) do |theme, hash|
+        hash[theme.name] = theme.palettes.transform_values do |p|
+          {
+            name: p['name'],
+            description: p['description'],
+            preview_colors: p['preview_colors'],
+            colors: p['colors'],
+            is_default: p['is_default']
+          }
+        end
+      end
+    end
+
+    # PATCH /tenant_admin/websites/:id/update_appearance
+    def update_appearance
+      if @website.update(appearance_params)
+        redirect_to tenant_admin_website_path(@website), notice: "Appearance settings updated successfully."
+      else
+        @themes = Pwb::Theme.enabled
+        @all_theme_palettes = @themes.each_with_object({}) do |theme, hash|
+          hash[theme.name] = theme.palettes.transform_values do |p|
+            {
+              name: p['name'],
+              description: p['description'],
+              preview_colors: p['preview_colors'],
+              colors: p['colors'],
+              is_default: p['is_default']
+            }
+          end
+        end
+        render :appearance_form, status: :unprocessable_entity
+      end
+    end
+
     private
 
     def set_website
@@ -234,6 +271,10 @@ module TenantAdmin
         supported_locales: [],
         available_themes: []
       )
+    end
+
+    def appearance_params
+      params.require(:website).permit(:theme_name, :selected_palette)
     end
   end
 end

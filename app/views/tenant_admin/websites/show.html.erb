@@ -28,6 +28,10 @@
     <div class="flex items-center space-x-2 sm:space-x-3">
       <%= link_to "Manage Admins", tenant_admin_website_admins_path(@website), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-blue-300" %>
       <%= link_to "Edit", edit_tenant_admin_website_path(@website), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-blue-300" %>
+      <%= link_to appearance_tenant_admin_website_path(@website), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-blue-300" do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+        Appearance
+      <% end %>
       <%= link_to seed_tenant_admin_website_path(@website), class: "inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-blue-300" do %>
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
         Seeding & Reset
@@ -59,6 +63,10 @@
       <div>
         <dt class="text-sm font-medium text-gray-500">Theme</dt>
         <dd class="mt-1 text-sm text-gray-900"><%= @website.theme_name || "default" %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Color Palette</dt>
+        <dd class="mt-1 text-sm text-gray-900"><%= @website.selected_palette || "default" %></dd>
       </div>
       <div>
         <dt class="text-sm font-medium text-gray-500">Default Currency</dt>
@@ -128,6 +136,7 @@
         <!-- <%= link_to "View Users", tenant_admin_website_users_path(@website), class: "block w-full px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-blue-300" %> -->
         <%= link_to "View Properties", tenant_admin_website_props_path(@website), class: "block w-full px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-blue-300" %>
         <%= link_to "View Pages", tenant_admin_website_pages_path(@website), class: "block w-full px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-blue-300" %>
+        <%= link_to "Manage Appearance", appearance_tenant_admin_website_path(@website), class: "block w-full px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-blue-300" %>
         <% if @website.subdomain.present? %>
           <%= link_to "Visit Public Site →", 
               root_url(subdomain: @website.subdomain), 

@@ -1,0 +1,137 @@
+<%
+  # Build palettes data for all themes (for dynamic switching)
+  all_theme_palettes = @all_theme_palettes
+%>
+
+<div class="max-w-4xl mx-auto">
+  <!-- Breadcrumbs -->
+  <nav class="text-sm mb-4">
+    <ol class="flex items-center space-x-2 text-gray-500">
+      <li><%= link_to "Websites", tenant_admin_websites_path, class: "hover:text-blue-600" %></li>
+      <li><span class="mx-2">/</span></li>
+      <li><%= link_to @website.subdomain || "(No subdomain)", tenant_admin_website_path(@website), class: "hover:text-blue-600" %></li>
+      <li><span class="mx-2">/</span></li>
+      <li class="text-gray-900 font-medium">Appearance</li>
+    </ol>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="mb-6">
+    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Appearance Settings</h1>
+    <p class="mt-1 text-sm text-gray-600"><%= @website.subdomain || "(No subdomain)" %></p>
+  </div>
+
+  <!-- Current Settings Info -->
+  <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+    <div class="flex items-start">
+      <svg class="h-5 w-5 text-blue-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+      </svg>
+      <div class="ml-3">
+        <p class="text-sm font-medium text-blue-800">
+          Current theme: <strong><%= @website.theme_name || "default" %></strong>
+        </p>
+        <p class="text-sm text-blue-700 mt-1">
+          Current palette: <strong><%= @website.selected_palette || "default" %></strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Appearance Form -->
+  <div class="bg-white rounded-lg shadow mb-6" data-controller="theme-palette"
+       data-theme-palette-palettes-value="<%= all_theme_palettes.to_json %>"
+       data-theme-palette-current-theme-value="<%= @website.theme_name %>">
+    <div class="px-4 md:px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Theme & Color Palette</h2>
+    </div>
+    <div class="p-4 md:p-6">
+      <%= form_with url: update_appearance_tenant_admin_website_path(@website),
+          method: :patch,
+          local: true,
+          class: "space-y-6" do |f| %>
+
+        <!-- Theme Selection -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-3">
+            Theme
+          </label>
+          <p class="text-sm text-gray-500 mb-4">Select a theme for the website. Different themes offer different layouts and styles.</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <% @themes.each do |theme| %>
+              <label class="relative cursor-pointer">
+                <input type="radio" name="website[theme_name]" value="<%= theme.name %>"
+                       <%= 'checked' if @website.theme_name == theme.name %>
+                       class="sr-only peer"
+                       data-theme-palette-target="themeRadio"
+                       data-action="change->theme-palette#selectTheme">
+                <div class="border-2 rounded-lg p-4 peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-400 transition-colors">
+                  <div class="h-24 bg-gray-100 rounded mb-3 flex items-center justify-center">
+                    <span class="text-gray-400 text-sm"><%= theme.friendly_name %></span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="font-medium text-gray-900"><%= theme.friendly_name %></span>
+                    <span class="hidden peer-checked:inline-block text-blue-600">
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </label>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Color Palette Selection -->
+        <div class="border-t border-gray-200 pt-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Color Palette</h3>
+          <p class="text-sm text-gray-600 mb-4">Choose a curated color palette for the theme. This will set harmonious colors for the entire site.</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" data-theme-palette-target="paletteContainer">
+            <% if @website.current_theme&.palettes&.any? %>
+              <% @website.current_theme.palettes.each do |palette_id, palette| %>
+                <label class="relative cursor-pointer group h-full">
+                  <input type="radio" name="website[selected_palette]" value="<%= palette_id %>"
+                         <%= 'checked' if @website.effective_palette_id == palette_id %>
+                         class="sr-only peer"
+                         data-palette-colors="<%= palette['colors'].to_json %>">
+                  <div class="border-2 rounded-lg p-4 peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-400 transition-all h-full flex flex-col">
+                    <!-- Color Preview Swatches -->
+                    <div class="flex h-12 rounded-lg overflow-hidden mb-3 shadow-sm">
+                      <% (palette['preview_colors'] || []).each_with_index do |color, i| %>
+                        <div class="flex-1 <%= 'rounded-l-lg' if i == 0 %> <%= 'rounded-r-lg' if i == (palette['preview_colors']&.length || 1) - 1 %>"
+                             style="background-color: <%= color %>"></div>
+                      <% end %>
+                    </div>
+                    <div class="flex items-center justify-between flex-grow">
+                      <div class="flex flex-col justify-center">
+                        <span class="font-medium text-gray-900 block"><%= palette['name'] %></span>
+                        <span class="text-xs text-gray-500 line-clamp-2"><%= palette['description'] %></span>
+                      </div>
+                      <span class="hidden peer-checked:inline-block text-blue-600">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </label>
+              <% end %>
+            <% else %>
+              <p class="text-gray-500 col-span-full">No palettes available for this theme.</p>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+          <%= link_to "Cancel",
+              tenant_admin_website_path(@website),
+              class: "px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50" %>
+          <%= f.submit "Save Appearance",
+              class: "px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

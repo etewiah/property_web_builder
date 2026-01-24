@@ -64,6 +64,8 @@ Rails.application.routes.draw do
         post :seed
         get :seed, action: :seed_form
         post :retry_provisioning
+        get :appearance, action: :appearance_form
+        patch :update_appearance
       end
       # Nested resources for tenant-specific data
       resources :users, only: %i[index show]
