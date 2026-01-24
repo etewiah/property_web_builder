@@ -155,4 +155,64 @@ RSpec.describe Pwb::PaletteLoader do
       expect(palettes).not_to be_empty
     end
   end
+
+  describe "#find_palette_globally" do
+    it "finds palette from default theme" do
+      result = loader.find_palette_globally("classic_red")
+
+      expect(result).not_to be_nil
+      expect(result[:theme_name]).to eq("default")
+      expect(result[:palette_id]).to eq("classic_red")
+      expect(result[:palette]["name"]).to eq("Classic Red")
+    end
+
+    it "finds palette from brisbane theme" do
+      result = loader.find_palette_globally("gold_navy")
+
+      expect(result).not_to be_nil
+      expect(result[:theme_name]).to eq("brisbane")
+      expect(result[:palette_id]).to eq("gold_navy")
+    end
+
+    it "finds palette from biarritz theme" do
+      result = loader.find_palette_globally("atlantic_blue")
+
+      expect(result).not_to be_nil
+      expect(result[:theme_name]).to eq("biarritz")
+    end
+
+    it "returns nil for non-existent palette" do
+      result = loader.find_palette_globally("nonexistent_palette")
+
+      expect(result).to be_nil
+    end
+  end
+
+  describe "#all_palettes_flat" do
+    it "returns hash of all palettes with theme info" do
+      result = loader.all_palettes_flat
+
+      expect(result).to be_a(Hash)
+      expect(result.keys).to include("classic_red", "gold_navy", "atlantic_blue")
+
+      # Each entry includes theme info
+      expect(result["classic_red"][:theme_name]).to eq("default")
+      expect(result["gold_navy"][:theme_name]).to eq("brisbane")
+    end
+  end
+
+  describe "#list_all_palettes" do
+    it "returns array of all palettes across themes" do
+      result = loader.list_all_palettes
+
+      expect(result).to be_an(Array)
+      expect(result.length).to be > 20 # Multiple themes with multiple palettes
+
+      # Each entry includes theme_name
+      classic_red = result.find { |p| p[:id] == "classic_red" }
+      expect(classic_red).not_to be_nil
+      expect(classic_red[:theme_name]).to eq("default")
+      expect(classic_red[:recommended_for_theme]).to eq("default")
+    end
+  end
 end

@@ -218,6 +218,60 @@ module Pwb
       themes
     end
 
+    # Find a palette by ID across all themes
+    # @param palette_id [String] The palette identifier to find
+    # @return [Hash, nil] Hash with :theme_name, :palette_id, :palette or nil if not found
+    def find_palette_globally(palette_id)
+      palette_id = palette_id.to_s
+      all_themes_palettes.each do |theme_name, palettes|
+        if palettes.key?(palette_id)
+          return {
+            theme_name: theme_name,
+            palette_id: palette_id,
+            palette: palettes[palette_id]
+          }
+        end
+      end
+      nil
+    end
+
+    # Get all palettes as a flat hash (palette_id => palette with theme info)
+    # @return [Hash] palette_id => { theme_name:, palette: }
+    def all_palettes_flat
+      result = {}
+      all_themes_palettes.each do |theme_name, palettes|
+        palettes.each do |palette_id, palette|
+          # First theme wins if there are duplicates
+          result[palette_id] ||= {
+            theme_name: theme_name,
+            palette_id: palette_id,
+            palette: palette
+          }
+        end
+      end
+      result
+    end
+
+    # List all available palettes across all themes
+    # @return [Array<Hash>] Array of palette summaries with theme info
+    def list_all_palettes
+      all_themes_palettes.flat_map do |theme_name, palettes|
+        palettes.map do |id, data|
+          {
+            id: id,
+            name: data["name"],
+            description: data["description"],
+            preview_colors: data["preview_colors"],
+            is_default: data["is_default"] || false,
+            supports_dark_mode: data["supports_dark_mode"] || false,
+            has_explicit_dark_mode: has_explicit_dark_mode?(data),
+            theme_name: theme_name,
+            recommended_for_theme: theme_name
+          }
+        end
+      end
+    end
+
     private
 
     # Extract light mode colors from a palette

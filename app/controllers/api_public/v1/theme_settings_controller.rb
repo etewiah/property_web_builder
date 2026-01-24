@@ -4,6 +4,7 @@ module ApiPublic
   module V1
     # Public API endpoint for updating theme settings
     # Allows clients to change palette selection for the current website
+    # Supports cross-theme palettes (any palette can be used with any theme)
     class ThemeSettingsController < BaseController
       # TODO: Consider adding authentication for production use
       # before_action :authenticate_request!, only: [:update_palette]
@@ -12,7 +13,6 @@ module ApiPublic
       #
       # Request body:
       # {
-      #   "theme_name": "brisbane",
       #   "palette_id": "ocean_blue"
       # }
       #
@@ -20,8 +20,11 @@ module ApiPublic
       # {
       #   "success": true,
       #   "data": {
-      #     "theme_name": "brisbane",
       #     "palette_id": "ocean_blue",
+      #     "palette_name": "Ocean Blue",
+      #     "source_theme": "default",
+      #     "website_theme": "brisbane",
+      #     "is_recommended": false,
       #     "updated_at": "2026-01-24T12:00:00Z"
       #   }
       # }
@@ -29,53 +32,46 @@ module ApiPublic
       # Response (error - 422):
       # {
       #   "success": false,
-      #   "error": "Invalid palette_id for theme"
+      #   "error": "Palette not found"
       # }
       def update_palette
-        theme_name = params[:theme_name].to_s.presence
         palette_id = params[:palette_id].to_s.presence
         website = Pwb::Current.website
+        palette_loader = Pwb::PaletteLoader.new
 
         # Validate required parameters
-        unless theme_name.present? && palette_id.present?
+        unless palette_id.present?
           return render json: {
             success: false,
-            error: "Missing required parameters: theme_name and palette_id"
+            error: "Missing required parameter: palette_id"
           }, status: :bad_request
         end
 
-        # Find and validate theme
-        theme = Pwb::Theme.find_by(name: theme_name)
-        unless theme
+        # Find palette globally (supports cross-theme palettes)
+        palette_info = palette_loader.find_palette_globally(palette_id)
+        unless palette_info
           return render json: {
             success: false,
-            error: "Theme '#{theme_name}' not found"
+            error: "Palette '#{palette_id}' not found"
           }, status: :not_found
         end
 
-        # Validate palette exists for the theme
-        unless theme.valid_palette?(palette_id)
-          return render json: {
-            success: false,
-            error: "Invalid palette_id '#{palette_id}' for theme '#{theme_name}'"
-          }, status: :unprocessable_content
-        end
+        source_theme = palette_info[:theme_name]
+        palette_data = palette_info[:palette]
 
-        # Optionally verify the website is using this theme
-        if website.theme_name != theme_name
-          return render json: {
-            success: false,
-            error: "Website is not using theme '#{theme_name}'. Current theme: '#{website.theme_name}'"
-          }, status: :unprocessable_content
-        end
-
-        # Apply the palette using existing model method
+        # Apply the palette using existing model method (now supports cross-theme)
         if website.apply_palette!(palette_id)
+          # Check if this palette is "recommended" for the website's current theme
+          is_recommended = website.theme_name == source_theme
+
           render json: {
             success: true,
             data: {
-              theme_name: theme_name,
               palette_id: palette_id,
+              palette_name: palette_data["name"],
+              source_theme: source_theme,
+              website_theme: website.theme_name,
+              is_recommended: is_recommended,
               updated_at: website.reload.updated_at.iso8601
             }
           }

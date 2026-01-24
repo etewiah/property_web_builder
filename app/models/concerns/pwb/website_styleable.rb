@@ -48,12 +48,13 @@ module Pwb
 
     # Get style variables for the current theme
     # If a palette is selected, merge palette colors into style variables
+    # Supports cross-theme palettes (palette from a different theme)
     def style_variables
       base_vars = style_variables_for_theme&.dig("default") || DEFAULT_STYLE_VARIABLES.dup
 
       # Apply palette colors if a palette is selected
-      if selected_palette.present? && current_theme
-        palette_colors = current_theme.palette_colors(selected_palette)
+      if selected_palette.present?
+        palette_colors = resolve_palette_colors(selected_palette)
         palette_colors.present? ? base_vars.merge(palette_colors) : base_vars
       else
         base_vars
@@ -70,18 +71,33 @@ module Pwb
     end
 
     # Get effective palette ID (selected or theme default)
+    # Supports cross-theme palettes - checks globally if not found in current theme
     def effective_palette_id
-      return selected_palette if selected_palette.present? && current_theme&.valid_palette?(selected_palette)
+      if selected_palette.present?
+        # Check current theme first, then globally
+        return selected_palette if current_theme&.valid_palette?(selected_palette)
+        return selected_palette if palette_loader.find_palette_globally(selected_palette)
+      end
 
       current_theme&.default_palette_id
     end
 
     # Apply a palette to the website
-    # This updates both the selected_palette and merges colors into style_variables
+    # Supports cross-theme palettes - can apply any palette from any theme
+    # @param palette_id [String] the palette ID to apply
+    # @return [Boolean] true if successful
     def apply_palette!(palette_id)
-      return false unless current_theme&.valid_palette?(palette_id)
+      # Check current theme first
+      if current_theme&.valid_palette?(palette_id)
+        return update(selected_palette: palette_id)
+      end
 
-      update(selected_palette: palette_id)
+      # Check globally (cross-theme palette)
+      if palette_loader.find_palette_globally(palette_id)
+        return update(selected_palette: palette_id)
+      end
+
+      false
     end
 
     # Get available palettes for the current theme
@@ -183,34 +199,50 @@ module Pwb
     end
 
     # Get dark mode colors for the current palette
+    # Supports cross-theme palettes
     def dark_mode_colors
-      return {} unless dark_mode_enabled? && current_theme && effective_palette_id
+      return {} unless dark_mode_enabled? && effective_palette_id
 
-      palette_loader.get_dark_colors(current_theme.name, effective_palette_id)
+      source_theme = palette_source_theme
+      return {} unless source_theme
+
+      palette_loader.get_dark_colors(source_theme, effective_palette_id)
     end
 
     # Get CSS variables with dark mode support
     # Returns full CSS with :root, @media (prefers-color-scheme: dark), and .dark class
+    # Supports cross-theme palettes
     def css_variables_with_dark_mode
       return css_variables unless dark_mode_enabled?
 
-      return "" unless current_theme && effective_palette_id
+      return "" unless effective_palette_id
 
-      palette_loader.generate_full_css(current_theme.name, effective_palette_id)
+      source_theme = palette_source_theme
+      return "" unless source_theme
+
+      palette_loader.generate_full_css(source_theme, effective_palette_id)
     end
 
     # Get light mode only CSS variables
+    # Supports cross-theme palettes
     def css_variables
-      return "" unless current_theme && effective_palette_id
+      return "" unless effective_palette_id
 
-      palette_loader.generate_css_variables(current_theme.name, effective_palette_id)
+      source_theme = palette_source_theme
+      return "" unless source_theme
+
+      palette_loader.generate_css_variables(source_theme, effective_palette_id)
     end
 
     # Check if current palette has explicit dark mode colors
+    # Supports cross-theme palettes
     def palette_has_explicit_dark_mode?
-      return false unless current_theme && effective_palette_id
+      return false unless effective_palette_id
 
-      palette = palette_loader.get_palette(current_theme.name, effective_palette_id)
+      source_theme = palette_source_theme
+      return false unless source_theme
+
+      palette = palette_loader.get_palette(source_theme, effective_palette_id)
       palette_loader.has_explicit_dark_mode?(palette)
     end
 
@@ -363,6 +395,44 @@ module Pwb
 
     def palette_loader
       @palette_loader ||= PaletteLoader.new
+    end
+
+    # Resolve palette colors, checking current theme first, then globally
+    # @param palette_id [String] the palette ID
+    # @return [Hash] the palette colors or empty hash
+    def resolve_palette_colors(palette_id)
+      # Try current theme first
+      if current_theme&.valid_palette?(palette_id)
+        return current_theme.palette_colors(palette_id)
+      end
+
+      # Try to find globally (cross-theme palette)
+      result = palette_loader.find_palette_globally(palette_id)
+      return {} unless result
+
+      colors = result[:palette]&.dig("colors") || {}
+      return {} if colors.empty?
+
+      # Derive action_color from primary_color if not explicitly set
+      colors = colors.dup
+      colors["action_color"] ||= colors["primary_color"]
+      colors
+    end
+
+    # Get the source theme name for the current palette
+    # Returns current theme if palette exists there, otherwise searches globally
+    # @return [String, nil] the theme name or nil
+    def palette_source_theme
+      return nil unless effective_palette_id
+
+      # Check current theme first
+      if current_theme&.valid_palette?(effective_palette_id)
+        return current_theme.name
+      end
+
+      # Search globally
+      result = palette_loader.find_palette_globally(effective_palette_id)
+      result&.dig(:theme_name)
     end
 
     # Check if we should set a default palette

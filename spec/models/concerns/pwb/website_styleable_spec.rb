@@ -192,9 +192,17 @@ RSpec.describe Pwb::WebsiteStyleable do
     end
 
     context "with no current theme" do
-      it "returns nil" do
-        website.update_column(:theme_name, "nonexistent")
+      it "returns selected palette if found globally (cross-theme support)" do
+        website.update_columns(theme_name: "nonexistent", selected_palette: "classic_red")
         # Get a fresh instance since reload doesn't clear memoized @current_theme
+        fresh_website = Pwb::Website.find(website.id)
+
+        # With cross-theme support, palette is found globally even without a valid theme
+        expect(fresh_website.effective_palette_id).to eq("classic_red")
+      end
+
+      it "returns nil when no selected palette and no theme" do
+        website.update_columns(theme_name: "nonexistent", selected_palette: nil)
         fresh_website = Pwb::Website.find(website.id)
 
         expect(fresh_website.effective_palette_id).to be_nil
@@ -234,14 +242,16 @@ RSpec.describe Pwb::WebsiteStyleable do
       expect(website.reload.selected_palette).to eq("classic_red")
     end
 
-    it "returns false when no theme" do
+    it "succeeds when no theme but palette exists globally (cross-theme support)" do
       website.update_column(:theme_name, "nonexistent")
       # Get a fresh instance since reload doesn't clear memoized @current_theme
       fresh_website = Pwb::Website.find(website.id)
 
+      # With cross-theme support, can apply any palette that exists globally
       result = fresh_website.apply_palette!("ocean_blue")
 
-      expect(result).to be false
+      expect(result).to be true
+      expect(fresh_website.reload.selected_palette).to eq("ocean_blue")
     end
   end
 
@@ -388,7 +398,7 @@ RSpec.describe Pwb::WebsiteStyleable do
       expect(new_theme.name).not_to eq(original_theme.name)
     end
 
-    it "validates selected_palette belongs to current theme" do
+    it "allows cross-theme palette selection" do
       website.theme_name = "default"
       website.selected_palette = "classic_red"
       website.save!
@@ -396,8 +406,9 @@ RSpec.describe Pwb::WebsiteStyleable do
       # Verify the palette is valid for this theme
       expect(website.apply_palette!("classic_red")).to be true
 
-      # Try to apply palette from different theme
-      expect(website.apply_palette!("gold_navy")).to be false
+      # Apply palette from different theme (cross-theme support)
+      expect(website.apply_palette!("gold_navy")).to be true
+      expect(website.reload.selected_palette).to eq("gold_navy")
     end
 
     it "resets to theme default palette when invalid palette selected" do
