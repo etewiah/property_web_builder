@@ -96,6 +96,13 @@ Rails.application.routes.draw do
     end
     resources :props, only: %i[index show]
     resources :pages, only: %i[index show]
+
+    # Themes & Palettes Dashboard
+    resources :themes, only: %i[index show] do
+      member do
+        get :websites
+      end
+    end
     resources :page_parts, only: %i[index show]
     resources :contents, only: %i[index show]
     resources :messages, only: %i[index show]

@@ -1,0 +1,126 @@
+<div class="max-w-6xl mx-auto">
+  <!-- Breadcrumbs -->
+  <nav class="text-sm mb-4">
+    <ol class="flex items-center space-x-2 text-gray-500">
+      <li><%= link_to "Dashboard", tenant_admin_root_path, class: "hover:text-blue-600" %></li>
+      <li><span class="mx-2">/</span></li>
+      <li><%= link_to "Themes", tenant_admin_themes_path, class: "hover:text-blue-600" %></li>
+      <li><span class="mx-2">/</span></li>
+      <li><%= link_to @theme.friendly_name, tenant_admin_theme_path(@theme.name), class: "hover:text-blue-600" %></li>
+      <li><span class="mx-2">/</span></li>
+      <li class="text-gray-900 font-medium">Websites</li>
+    </ol>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="mb-6">
+    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Websites Using <%= @theme.friendly_name %></h1>
+    <p class="mt-1 text-sm text-gray-600"><%= @pagy.count %> website<%= @pagy.count != 1 ? 's' : '' %> total</p>
+  </div>
+
+  <!-- Websites Table -->
+  <div class="bg-white rounded-lg shadow">
+    <% if @websites.any? %>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Website</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Palette</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @websites.each do |website| %>
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-4 whitespace-nowrap">
+                  <%= link_to tenant_admin_website_path(website), class: "text-sm font-medium text-blue-600 hover:text-blue-800" do %>
+                    <%= website.subdomain || "(No subdomain)" %>
+                  <% end %>
+                </td>
+                <td class="px-4 py-4 whitespace-nowrap">
+                  <span class="text-sm text-gray-600"><%= website.company_display_name || "N/A" %></span>
+                </td>
+                <td class="px-4 py-4 whitespace-nowrap">
+                  <% palette_id = website.selected_palette || @theme.default_palette_id %>
+                  <% palette = @theme.palette(palette_id) %>
+                  <% if palette %>
+                    <div class="flex items-center gap-2">
+                      <div class="flex h-5 rounded overflow-hidden shadow-sm" style="width: 40px;">
+                        <% (palette['preview_colors'] || []).each do |color| %>
+                          <div class="flex-1" style="background-color: <%= color %>"></div>
+                        <% end %>
+                      </div>
+                      <span class="text-xs text-gray-600"><%= palette['name'] %></span>
+                      <% unless website.selected_palette.present? %>
+                        <span class="text-xs text-gray-400">(default)</span>
+                      <% end %>
+                    </div>
+                  <% else %>
+                    <span class="text-xs text-gray-400">default</span>
+                  <% end %>
+                </td>
+                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <%= website.created_at.strftime("%b %d, %Y") %>
+                </td>
+                <td class="px-4 py-4 whitespace-nowrap">
+                  <% status_class = case website.provisioning_state
+                     when 'live' then 'bg-green-100 text-green-800'
+                     when 'ready' then 'bg-green-100 text-green-800'
+                     when 'failed' then 'bg-red-100 text-red-800'
+                     else 'bg-yellow-100 text-yellow-800'
+                     end %>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium <%= status_class %>">
+                    <%= website.provisioning_state&.humanize || 'Unknown' %>
+                  </span>
+                </td>
+                <td class="px-4 py-4 whitespace-nowrap text-right text-sm">
+                  <div class="flex items-center justify-end gap-2">
+                    <%= link_to "View", tenant_admin_website_path(website), class: "text-blue-600 hover:text-blue-800" %>
+                    <%= link_to "Appearance", appearance_tenant_admin_website_path(website), class: "text-purple-600 hover:text-purple-800" %>
+                    <% if website.subdomain.present? %>
+                      <%= link_to "Visit", root_url(subdomain: website.subdomain), target: "_blank", class: "text-green-600 hover:text-green-800" %>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <% if @pagy.pages > 1 %>
+        <div class="px-4 py-3 border-t border-gray-200 flex items-center justify-between">
+          <div class="text-sm text-gray-500">
+            Showing <%= @pagy.from %> to <%= @pagy.to %> of <%= @pagy.count %> websites
+          </div>
+          <nav class="flex gap-1">
+            <% if @pagy.prev %>
+              <%= link_to "Previous", websites_tenant_admin_theme_path(@theme.name, page: @pagy.prev), class: "px-3 py-1 text-sm text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-50" %>
+            <% end %>
+            <% if @pagy.next %>
+              <%= link_to "Next", websites_tenant_admin_theme_path(@theme.name, page: @pagy.next), class: "px-3 py-1 text-sm text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-50" %>
+            <% end %>
+          </nav>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="text-center py-12">
+        <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No websites</h3>
+        <p class="mt-1 text-sm text-gray-500">No websites are currently using the <%= @theme.friendly_name %> theme.</p>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Back Link -->
+  <div class="mt-4">
+    <%= link_to "&larr; Back to Theme Details".html_safe, tenant_admin_theme_path(@theme.name), class: "text-sm text-gray-600 hover:text-gray-900" %>
+  </div>
+</div>
