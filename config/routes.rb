@@ -795,6 +795,7 @@ Rails.application.routes.draw do
       get "/theme" => "theme#index"
       get "/themes/:theme_name/palettes" => "theme_palettes#index"
       get "/themes/:theme_name/palettes/:palette_id" => "theme_palettes#show"
+      patch "/theme_settings/palette" => "theme_settings#update_palette"
       get "/search/config" => "search_config#index"
       get "/search/facets" => "search_facets#index"
       get "/testimonials" => "testimonials#index"

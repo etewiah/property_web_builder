@@ -30,7 +30,7 @@ module Pwb
     DEFAULT_STYLE_VARIABLES = {
       "primary_color" => "#e91b23",
       "secondary_color" => "#3498db",
-      "action_color" => "#e91b23",  # Default to primary_color for CTA buttons
+      "action_color" => "#e91b23", # Default to primary_color for CTA buttons
       "body_style" => "siteLayout.wide",
       "theme" => "light",
       "font_primary" => "Open Sans",
@@ -121,9 +121,9 @@ module Pwb
     # Set styles from a preset configuration
     def style_settings_from_preset=(preset_style_name)
       preset_style = Pwb::PresetStyle.where(name: preset_style_name).first
-      if preset_style
-        style_variables_for_theme["default"] = preset_style.attributes.as_json
-      end
+      return unless preset_style
+
+      style_variables_for_theme["default"] = preset_style.attributes.as_json
     end
 
     # Get body style class
@@ -138,17 +138,17 @@ module Pwb
     # Get logo URL from content photos
     def logo_url
       logo_content = contents.find_by_key("logo")
-      if logo_content && !logo_content.content_photos.empty?
-        logo_content.content_photos.first.image_url
-      end
+      return unless logo_content && !logo_content.content_photos.empty?
+
+      logo_content.content_photos.first.image_url
     end
 
     # Set theme name with validation
     def theme_name=(theme_name_value)
       theme_with_name_exists = Pwb::Theme.where(name: theme_name_value).count > 0
-      if theme_with_name_exists
-        write_attribute(:theme_name, theme_name_value)
-      end
+      return unless theme_with_name_exists
+
+      write_attribute(:theme_name, theme_name_value)
     end
 
     # Check if Google Analytics should render
@@ -342,7 +342,7 @@ module Pwb
         value = vars[key]
         next unless value.present?
 
-        css_key = key.gsub("_", "-")
+        css_key = key.tr("_", "-")
         css_lines << "  --pwb-#{css_key}: #{value};"
         css_lines << "  --#{css_key}: #{value};"
       end
