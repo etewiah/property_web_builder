@@ -255,6 +255,87 @@ RSpec.describe Pwb::WebsiteStyleable do
     end
   end
 
+  describe "#apply_custom_palette!" do
+    before do
+      website.theme_name = "default"
+      website.save!
+    end
+
+    let(:custom_colors) do
+      {
+        "primary_color" => "#10B981",
+        "secondary_color" => "#1F2937",
+        "accent_color" => "#FBBF24",
+        "background_color" => "#F0FDF4",
+        "text_color" => "#1F2937"
+      }
+    end
+
+    it "applies custom palette colors to style_variables" do
+      result = website.apply_custom_palette!("eco_green", custom_colors)
+
+      expect(result).to be true
+      expect(website.reload.selected_palette).to eq("eco_green")
+      expect(website.style_variables["primary_color"]).to eq("#10B981")
+      expect(website.style_variables["secondary_color"]).to eq("#1F2937")
+    end
+
+    it "derives action_color from primary_color if not provided" do
+      result = website.apply_custom_palette!("eco_green", custom_colors)
+
+      expect(result).to be true
+      expect(website.reload.style_variables["action_color"]).to eq("#10B981")
+    end
+
+    it "returns false without primary_color" do
+      result = website.apply_custom_palette!("invalid", { "secondary_color" => "#123456" })
+
+      expect(result).to be false
+    end
+
+    it "returns false with empty colors" do
+      result = website.apply_custom_palette!("invalid", {})
+
+      expect(result).to be false
+    end
+
+    it "generates CSS for custom palette" do
+      website.apply_custom_palette!("eco_green", custom_colors)
+
+      # Use fresh instance to avoid memoization issues
+      fresh_website = Pwb::Website.find(website.id)
+
+      css = fresh_website.css_variables
+      expect(css).to include("--pwb-primary-color: #10B981")
+      expect(css).to include("--pwb-secondary-color: #1F2937")
+    end
+  end
+
+  describe "#custom_palette?" do
+    before do
+      website.theme_name = "default"
+      website.save!
+    end
+
+    it "returns false for standard palette" do
+      website.apply_palette!("classic_red")
+
+      expect(website.custom_palette?).to be false
+    end
+
+    it "returns true for custom palette" do
+      website.apply_custom_palette!("my_custom", { "primary_color" => "#FF0000" })
+
+      expect(website.custom_palette?).to be true
+    end
+
+    it "returns false when no palette selected" do
+      website.update!(selected_palette: nil)
+
+      expect(website.custom_palette?).to be false
+    end
+  end
+
   describe "#available_palettes" do
     it "returns current theme palettes" do
       website.theme_name = "default"

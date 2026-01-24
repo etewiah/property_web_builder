@@ -71,12 +71,15 @@ module Pwb
     end
 
     # Get effective palette ID (selected or theme default)
-    # Supports cross-theme palettes - checks globally if not found in current theme
+    # Supports cross-theme palettes and custom palettes
     def effective_palette_id
       if selected_palette.present?
-        # Check current theme first, then globally
+        # Check current theme first
         return selected_palette if current_theme&.valid_palette?(selected_palette)
+        # Check globally (cross-theme palette)
         return selected_palette if palette_loader.find_palette_globally(selected_palette)
+        # Check if this is a custom palette (has colors stored in style_variables_for_theme)
+        return selected_palette if custom_palette_stored?
       end
 
       current_theme&.default_palette_id
@@ -98,6 +101,59 @@ module Pwb
       end
 
       false
+    end
+
+    # Apply a custom palette with provided colors
+    # Stores colors directly in style_variables_for_theme for immediate use
+    # @param palette_id [String] identifier for this custom palette
+    # @param colors [Hash] color definitions (primary_color, secondary_color, etc.)
+    # @return [Boolean] true if successful
+    def apply_custom_palette!(palette_id, colors)
+      return false if colors.blank? || !colors["primary_color"].present?
+
+      # Merge custom colors with defaults to ensure all required colors exist
+      merged_colors = DEFAULT_STYLE_VARIABLES.dup.merge(colors)
+
+      # Derive action_color from primary_color if not explicitly provided in colors
+      merged_colors["action_color"] = colors["action_color"] || colors["primary_color"]
+
+      # Store the custom colors in style_variables_for_theme
+      current_vars = style_variables_for_theme || {}
+      current_vars["default"] = merged_colors
+
+      # Update with custom palette reference
+      # Setting selected_palette to the custom ID allows tracking which palette is "active"
+      # but resolve_palette_colors will fall back to style_variables when palette not found
+      update(
+        style_variables_for_theme: current_vars,
+        selected_palette: palette_id
+      )
+    end
+
+    # Check if the current palette is a custom (non-file-based) palette
+    # @return [Boolean]
+    def custom_palette?
+      return false if selected_palette.blank?
+
+      # Not in current theme and not found globally, but has stored colors = custom
+      !current_theme&.valid_palette?(selected_palette) &&
+        !palette_loader.find_palette_globally(selected_palette) &&
+        custom_palette_stored?
+    end
+
+    # Check if custom palette colors are stored in style_variables_for_theme
+    # This is how we distinguish a custom palette from an invalid/stale palette reference
+    # @return [Boolean]
+    def custom_palette_stored?
+      stored_vars = style_variables_for_theme&.dig("default")
+      return false if stored_vars.blank?
+
+      # Check if the stored variables differ significantly from defaults
+      # A custom palette will have different primary_color than the default
+      stored_primary = stored_vars["primary_color"]
+      default_primary = DEFAULT_STYLE_VARIABLES["primary_color"]
+
+      stored_primary.present? && stored_primary != default_primary
     end
 
     # Get available palettes for the current theme
@@ -211,27 +267,33 @@ module Pwb
 
     # Get CSS variables with dark mode support
     # Returns full CSS with :root, @media (prefers-color-scheme: dark), and .dark class
-    # Supports cross-theme palettes
+    # Supports cross-theme palettes and custom palettes
     def css_variables_with_dark_mode
       return css_variables unless dark_mode_enabled?
 
       return "" unless effective_palette_id
 
       source_theme = palette_source_theme
-      return "" unless source_theme
-
-      palette_loader.generate_full_css(source_theme, effective_palette_id)
+      if source_theme
+        palette_loader.generate_full_css(source_theme, effective_palette_id)
+      else
+        # Custom palette - generate from style_variables
+        generate_dynamic_palette_css
+      end
     end
 
     # Get light mode only CSS variables
-    # Supports cross-theme palettes
+    # Supports cross-theme palettes and custom palettes
     def css_variables
       return "" unless effective_palette_id
 
       source_theme = palette_source_theme
-      return "" unless source_theme
-
-      palette_loader.generate_css_variables(source_theme, effective_palette_id)
+      if source_theme
+        palette_loader.generate_css_variables(source_theme, effective_palette_id)
+      else
+        # Custom palette - generate from style_variables
+        generate_dynamic_palette_css
+      end
     end
 
     # Check if current palette has explicit dark mode colors
