@@ -29,17 +29,12 @@
     <%# Google Fonts - async loaded %>
     <%= google_fonts_preload_tag %>
 
-    <%# Main CSS - async loaded to not block rendering %>
-    <link rel="preload" href="<%= asset_path('tailwind-brisbane.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="<%= asset_path('brisbane_theme.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-      <%= stylesheet_link_tag "tailwind-brisbane", media: "all" %>
-      <%= stylesheet_link_tag "brisbane_theme", media: "all" %>
-    </noscript>
+    <%# Main CSS - standard loading (more reliable across CDN configurations) %>
+    <%= stylesheet_link_tag "tailwind-brisbane", media: "all" %>
+    <%= stylesheet_link_tag "brisbane_theme", media: "all" %>
 
-    <%# Flowbite CSS - deferred (JS loaded via importmap) %>
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.2/flowbite.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.2/flowbite.min.css" rel="stylesheet"></noscript>
+    <%# Flowbite CSS %>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.2/flowbite.min.css" rel="stylesheet">
 
     <%# Lucide Icons - inline SVG styles %>
     <%= stylesheet_link_tag "icons", media: "all" %>

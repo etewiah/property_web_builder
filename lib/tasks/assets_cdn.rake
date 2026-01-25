@@ -58,6 +58,17 @@ namespace :assets do
   end
 
   # Content type mapping for uploads
+  #
+  # IMPORTANT: Setting correct Content-Type is critical for CSS/JS files.
+  # If served with wrong MIME type (e.g., application/octet-stream),
+  # browsers may refuse to apply stylesheets or execute scripts.
+  #
+  # This caused a production issue where CSS preload pattern failed because
+  # Cloudflare R2/CDN served CSS with application/octet-stream.
+  # See: docs/theming/CSS_LOADING_STRATEGY.md
+  #
+  # @param ext [String] File extension including dot (e.g., ".css")
+  # @return [String] MIME type for the file
   def content_type_for(ext)
     {
       ".js" => "application/javascript",
@@ -206,6 +217,27 @@ namespace :assets do
     puts ""
   end
 
+  # Fix content-type metadata for existing assets on R2
+  #
+  # This task addresses a common issue where files were uploaded to R2 without
+  # proper Content-Type metadata, causing browsers to reject CSS/JS files.
+  #
+  # Symptoms of wrong Content-Type:
+  # - CSS preload pattern fails silently (page renders unstyled)
+  # - curl shows: content-type: application/octet-stream
+  # - Browser console may show MIME type warnings
+  #
+  # How it works:
+  # - Iterates through all assets in the R2 bucket
+  # - Checks if current Content-Type matches expected type for file extension
+  # - Uses S3 copy-to-self with REPLACE metadata directive to update
+  # - Does NOT re-upload file content, only updates metadata
+  #
+  # Usage:
+  #   rails assets:fix_content_types           # Fix all assets
+  #   VERBOSE=1 rails assets:fix_content_types # Show each file being processed
+  #
+  # See: docs/theming/CSS_LOADING_STRATEGY.md
   desc "Fix content-type metadata for existing assets on R2 (for files with wrong MIME type)"
   task fix_content_types: :environment do
     bucket = assets_bucket
@@ -266,6 +298,19 @@ namespace :assets do
     puts "Done! Checked: #{checked}, Fixed: #{fixed}"
   end
 
+  # Force re-sync all assets to R2, ignoring existing files
+  #
+  # Unlike sync_to_r2 which skips unchanged files, this task re-uploads everything.
+  # Use when you need to ensure all files have correct metadata (Content-Type, Cache-Control).
+  #
+  # When to use:
+  # - After changing cache policy
+  # - When fix_content_types can't update certain files
+  # - When R2 bucket state is unknown or corrupted
+  #
+  # Usage:
+  #   rails assets:force_sync_to_r2           # Re-upload all assets
+  #   VERBOSE=1 rails assets:force_sync_to_r2 # Show each file being uploaded
   desc "Force re-sync all assets to R2 (ignores size check, updates metadata)"
   task force_sync_to_r2: :environment do
     bucket = assets_bucket

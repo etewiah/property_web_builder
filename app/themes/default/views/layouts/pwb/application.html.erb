@@ -27,17 +27,29 @@
     <%# Google Fonts - async loaded %>
     <%= google_fonts_preload_tag %>
 
-    <%# Main CSS - async loaded to not block rendering %>
-    <link rel="preload" href="<%= asset_path('tailwind-default.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="<%= asset_path('pwb/themes/default.css') %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-      <%= stylesheet_link_tag "tailwind-default", media: "all" %>
-      <%= stylesheet_link_tag "pwb/themes/default", media: "all" %>
-    </noscript>
+    <%#
+      Main CSS - Standard Loading Strategy
+      =====================================
+      We use standard stylesheet loading instead of preload-to-stylesheet pattern.
 
-    <%# Flowbite CSS - deferred (JS loaded via importmap) %>
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.2/flowbite.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.2/flowbite.min.css" rel="stylesheet"></noscript>
+      Why not preload?
+      - The preload pattern (`rel="preload" as="style" onload="this.rel='stylesheet'"`)
+        is sensitive to MIME types. If CDN serves CSS with wrong Content-Type
+        (e.g., application/octet-stream instead of text/css), browsers won't apply styles.
+      - Cloudflare R2 and some CDN configurations may not preserve Content-Type headers.
+      - Standard loading is more reliable across different CDN configurations.
+
+      Trade-off:
+      - Slightly slower initial render (CSS blocks rendering)
+      - But critical CSS is already inlined above, so above-the-fold content renders fast
+
+      See: docs/theming/CSS_LOADING_STRATEGY.md for details
+    %>
+    <%= stylesheet_link_tag "tailwind-default", media: "all" %>
+    <%= stylesheet_link_tag "pwb/themes/default", media: "all" %>
+
+    <%# Flowbite CSS - UI component library %>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.2/flowbite.min.css" rel="stylesheet">
 
     <%# Lucide Icons - inline SVG styles %>
     <%= stylesheet_link_tag "icons", media: "all" %>
