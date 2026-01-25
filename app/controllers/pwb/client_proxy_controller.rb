@@ -52,13 +52,24 @@ module Pwb
       headers.merge!(auth_headers) if with_auth
 
       begin
-        response = HTTP
+        http_client = HTTP
           .timeout(connect: 5, read: 30)
           .headers(headers)
-          .request(request.method.downcase.to_sym, astro_url, body: request.body.read)
+
+        # Build request options, adding SSL context for HTTPS URLs
+        request_options = { body: request.body.read }
+        if astro_url.start_with?('https://')
+          request_options[:ssl_context] = relaxed_ssl_context
+        end
+
+        response = http_client.request(
+          request.method.downcase.to_sym,
+          astro_url,
+          **request_options
+        )
 
         render_proxy_response(response)
-      rescue HTTP::Error, HTTP::TimeoutError => e
+      rescue HTTP::Error, HTTP::TimeoutError, OpenSSL::SSL::SSLError => e
         Rails.logger.error "Astro proxy error: #{e.message}"
         render_proxy_error
       end
@@ -66,7 +77,8 @@ module Pwb
 
     # Build the full URL to the Astro client
     def build_astro_url(path)
-      "#{astro_client_url}#{path}"
+      base_url = astro_client_url.chomp('/')
+      "#{base_url}#{path}"
     end
 
     # Get Astro client URL - per-tenant config takes precedence
@@ -164,6 +176,20 @@ module Pwb
         render json: { error: 'Client application unavailable' },
                status: :service_unavailable
       end
+    end
+
+    # Create SSL context that skips CRL verification
+    # This is needed for Cloudflare Workers and some CDN endpoints
+    # that don't provide CRL distribution points
+    def relaxed_ssl_context
+      ctx = OpenSSL::SSL::SSLContext.new
+      ctx.verify_mode = OpenSSL::SSL::VERIFY_PEER
+      ctx.cert_store = OpenSSL::X509::Store.new.tap do |store|
+        store.set_default_paths
+        # Disable CRL checking which causes issues with Cloudflare Workers
+        store.flags = OpenSSL::X509::V_FLAG_NO_CHECK_TIME
+      end
+      ctx
     end
   end
 end

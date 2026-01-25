@@ -189,3 +189,31 @@ The `VuePublicController` is used to render the public-facing Vue.js application
 *   `show`: This action renders the layout for the public-facing Vue.js application.
 
 ---
+
+### ClientProxyController (`app/controllers/pwb/client_proxy_controller.rb`)
+
+The `ClientProxyController` proxies requests to the Astro.js client for websites using client-side rendering (A themes).
+
+**Purpose:**
+
+*   To forward requests from Rails to an external Astro client server while maintaining authentication and tenant context.
+*   To support client-rendered (A theme) websites alongside server-rendered (B theme) websites.
+*   To handle SSL certificate verification issues with CDN providers like Cloudflare Workers.
+
+**Actions:**
+
+*   `public_proxy`: Proxies public page requests to the Astro client. No authentication required.
+*   `admin_proxy`: Proxies admin/management page requests to the Astro client. Requires user authentication.
+
+**Key Features:**
+
+*   **Per-tenant Astro URLs**: Each tenant can configure a custom Astro client URL via `client_theme_config['astro_client_url']`.
+*   **Auth headers**: Admin routes include JWT tokens and user information headers.
+*   **Relaxed SSL context**: Handles certificates without CRL distribution points (common with Cloudflare Workers).
+*   **Hop-by-hop header filtering**: Properly filters headers that should not be forwarded.
+
+**Related Documentation:**
+
+*   [Client Proxy Controller Architecture](architecture/client_proxy_controller.md) - Detailed documentation including SSL handling, header forwarding, and configuration options.
+
+---
