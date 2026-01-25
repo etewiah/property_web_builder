@@ -8,6 +8,11 @@ This file contains instructions for Claude Code instances working on this projec
 
 **NEVER commit changes you did not make in this session.**
 
+**ALWAYS ask for user confirmation before committing.** Do not commit automatically. Show the user:
+1. The files that will be committed
+2. The proposed commit message
+3. Wait for explicit approval (e.g., "yes", "ok", "commit it") before running `git commit`
+
 Before committing:
 1. Run `git status` to see ALL modified and untracked files
 2. Identify which files YOU modified vs files that were already modified before your session
