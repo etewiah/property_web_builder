@@ -170,6 +170,27 @@
                 { include_blank: 'Select an A-theme' },
                 class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" %>
             <p class="mt-1 text-xs text-gray-500">Client-rendered themes using Astro.js</p>
+
+            <!-- Astro Client URL (Advanced) -->
+            <div class="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Astro Client URL
+                <span class="text-gray-400 font-normal">(Optional)</span>
+              </label>
+              <input type="text"
+                     name="website[astro_client_url]"
+                     value="<%= @website.client_theme_config&.dig('astro_client_url') %>"
+                     placeholder="https://custom-astro.example.com"
+                     class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+              <p class="mt-1 text-xs text-gray-500">
+                Custom Astro server URL for this tenant. Leave blank to use the default server.
+              </p>
+              <% if @website.client_theme_config&.dig('astro_client_url').present? %>
+                <p class="mt-2 text-xs text-blue-600">
+                  Currently routing to: <code class="bg-blue-50 px-1 rounded"><%= @website.client_theme_config['astro_client_url'] %></code>
+                </p>
+              <% end %>
+            </div>
           </div>
         </div>
 

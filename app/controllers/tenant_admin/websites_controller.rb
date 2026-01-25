@@ -248,6 +248,9 @@ module TenantAdmin
       @themes = Pwb::Theme.enabled
       @client_themes = Pwb::ClientTheme.enabled
 
+      # Handle astro_client_url separately (stored in client_theme_config JSONB)
+      handle_astro_client_url_param
+
       if @website.update(rendering_params)
         flash.now[:notice] = "Rendering settings updated successfully."
         render :rendering_form
@@ -298,6 +301,21 @@ module TenantAdmin
 
     def rendering_params
       params.require(:website).permit(:rendering_mode, :theme_name, :client_theme_name)
+    end
+
+    # Merge astro_client_url into client_theme_config JSONB field
+    def handle_astro_client_url_param
+      return unless params[:website]&.key?(:astro_client_url)
+
+      astro_url = params[:website][:astro_client_url].presence
+      current_config = @website.client_theme_config || {}
+
+      if astro_url.present?
+        @website.client_theme_config = current_config.merge('astro_client_url' => astro_url)
+      else
+        # Remove the key if URL is blank
+        @website.client_theme_config = current_config.except('astro_client_url')
+      end
     end
   end
 end

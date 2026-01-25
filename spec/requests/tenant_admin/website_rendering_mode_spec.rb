@@ -64,11 +64,71 @@ RSpec.describe 'TenantAdmin::Websites Rendering Mode', type: :request do
         patch "/tenant_admin/websites/#{locked_website.id}", params: {
           website: { company_display_name: 'New Name' }
         }
-        
+
         expect(response).to have_http_status(:redirect)
         locked_website.reload
         expect(locked_website.company_display_name).to eq('New Name')
         expect(locked_website.rendering_mode).to eq('rails')
+      end
+    end
+  end
+
+  describe 'PATCH /tenant_admin/websites/:id/update_rendering' do
+    let!(:client_website) do
+      create(:pwb_website,
+        subdomain: 'client-site',
+        rendering_mode: 'client',
+        client_theme_name: 'amsterdam',
+        client_theme_config: {}
+      )
+    end
+
+    context 'astro_client_url' do
+      it 'sets astro_client_url in client_theme_config' do
+        patch "/tenant_admin/websites/#{client_website.id}/update_rendering", params: {
+          website: {
+            rendering_mode: 'client',
+            client_theme_name: 'amsterdam',
+            astro_client_url: 'https://custom-astro.example.com'
+          }
+        }
+
+        expect(response).to have_http_status(:ok)
+        client_website.reload
+        expect(client_website.client_theme_config['astro_client_url']).to eq('https://custom-astro.example.com')
+      end
+
+      it 'removes astro_client_url when set to blank' do
+        client_website.update!(client_theme_config: { 'astro_client_url' => 'https://old-url.com' })
+
+        patch "/tenant_admin/websites/#{client_website.id}/update_rendering", params: {
+          website: {
+            rendering_mode: 'client',
+            client_theme_name: 'amsterdam',
+            astro_client_url: ''
+          }
+        }
+
+        expect(response).to have_http_status(:ok)
+        client_website.reload
+        expect(client_website.client_theme_config['astro_client_url']).to be_nil
+      end
+
+      it 'preserves other client_theme_config values when updating astro_client_url' do
+        client_website.update!(client_theme_config: { 'primary_color' => '#FF0000' })
+
+        patch "/tenant_admin/websites/#{client_website.id}/update_rendering", params: {
+          website: {
+            rendering_mode: 'client',
+            client_theme_name: 'amsterdam',
+            astro_client_url: 'https://new-astro.example.com'
+          }
+        }
+
+        expect(response).to have_http_status(:ok)
+        client_website.reload
+        expect(client_website.client_theme_config['astro_client_url']).to eq('https://new-astro.example.com')
+        expect(client_website.client_theme_config['primary_color']).to eq('#FF0000')
       end
     end
   end
