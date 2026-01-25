@@ -5,7 +5,7 @@ require 'pwb/contents_seeder'
 
 module TenantAdmin
   class WebsitesController < TenantAdminController
-    before_action :set_website, only: [:show, :edit, :update, :destroy, :seed, :seed_form, :retry_provisioning, :shard_form, :assign_shard, :shard_history, :appearance_form, :update_appearance]
+    before_action :set_website, only: [:show, :edit, :update, :destroy, :seed, :seed_form, :retry_provisioning, :shard_form, :assign_shard, :shard_history, :appearance_form, :update_appearance, :rendering_form, :update_rendering]
 
     def index
       websites = Pwb::Website.unscoped.order(created_at: :desc)
@@ -237,6 +237,25 @@ module TenantAdmin
       end
     end
 
+    # GET /tenant_admin/websites/:id/rendering
+    def rendering_form
+      @themes = Pwb::Theme.enabled
+      @client_themes = Pwb::ClientTheme.enabled
+    end
+
+    # PATCH /tenant_admin/websites/:id/update_rendering
+    def update_rendering
+      @themes = Pwb::Theme.enabled
+      @client_themes = Pwb::ClientTheme.enabled
+
+      if @website.update(rendering_params)
+        flash.now[:notice] = "Rendering settings updated successfully."
+        render :rendering_form
+      else
+        render :rendering_form, status: :unprocessable_entity
+      end
+    end
+
     private
 
     def set_website
@@ -275,6 +294,10 @@ module TenantAdmin
 
     def appearance_params
       params.require(:website).permit(:theme_name, :selected_palette)
+    end
+
+    def rendering_params
+      params.require(:website).permit(:rendering_mode, :theme_name, :client_theme_name)
     end
   end
 end
