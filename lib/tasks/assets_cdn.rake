@@ -91,13 +91,14 @@ namespace :assets do
       ext = File.extname(file_path)
       content_type = content_type_for(ext)
 
-      # Check if file already exists with same size
+      # Check if file already exists with same size AND correct content-type
       begin
         head = client.head_object(bucket: bucket, key: key)
-        if head.content_length == File.size(file_path)
+        if head.content_length == File.size(file_path) && head.content_type == content_type
           skipped += 1
           next
         end
+        # File exists but has wrong size or content-type, will re-upload
       rescue Aws::S3::Errors::NotFound
         # File doesn't exist, will upload
       end
@@ -203,6 +204,104 @@ namespace :assets do
     puts "4. Add header: Access-Control-Allow-Origin = *"
     puts "5. Add header: Access-Control-Allow-Methods = GET, HEAD, OPTIONS"
     puts ""
+  end
+
+  desc "Fix content-type metadata for existing assets on R2 (for files with wrong MIME type)"
+  task fix_content_types: :environment do
+    bucket = assets_bucket
+    client = assets_r2_client
+
+    puts "Checking and fixing content-types in R2 bucket: #{bucket}"
+
+    fixed = 0
+    checked = 0
+    continuation_token = nil
+
+    loop do
+      list_params = { bucket: bucket, prefix: "assets/", max_keys: 1000 }
+      list_params[:continuation_token] = continuation_token if continuation_token
+
+      response = client.list_objects_v2(list_params)
+
+      break if response.contents.empty?
+
+      response.contents.each do |obj|
+        checked += 1
+        key = obj.key
+        ext = File.extname(key)
+        expected_content_type = content_type_for(ext)
+
+        # Skip files that would get application/octet-stream anyway
+        next if expected_content_type == "application/octet-stream"
+
+        begin
+          head = client.head_object(bucket: bucket, key: key)
+          current_content_type = head.content_type
+
+          # Fix if content-type is wrong
+          if current_content_type != expected_content_type
+            puts "  Fixing: #{key} (#{current_content_type} -> #{expected_content_type})"
+
+            # Copy object to itself with correct content-type (R2/S3 way to update metadata)
+            client.copy_object(
+              bucket: bucket,
+              copy_source: "#{bucket}/#{key}",
+              key: key,
+              content_type: expected_content_type,
+              cache_control: "public, max-age=31536000, immutable",
+              metadata_directive: "REPLACE"
+            )
+            fixed += 1
+          end
+        rescue Aws::S3::Errors::ServiceError => e
+          puts "  Error processing #{key}: #{e.message}"
+        end
+      end
+
+      break unless response.is_truncated
+
+      continuation_token = response.next_continuation_token
+    end
+
+    puts "Done! Checked: #{checked}, Fixed: #{fixed}"
+  end
+
+  desc "Force re-sync all assets to R2 (ignores size check, updates metadata)"
+  task force_sync_to_r2: :environment do
+    bucket = assets_bucket
+    client = assets_r2_client
+    assets_path = Rails.root.join("public", "assets")
+
+    unless assets_path.exist?
+      puts "No assets directory found. Run 'rails assets:precompile' first."
+      exit 1
+    end
+
+    puts "Force syncing ALL assets to R2 bucket: #{bucket}"
+    uploaded = 0
+
+    Dir.glob("#{assets_path}/**/*").each do |file_path|
+      next if File.directory?(file_path)
+
+      key = "assets/#{file_path.sub("#{assets_path}/", "")}"
+      ext = File.extname(file_path)
+      content_type = content_type_for(ext)
+
+      File.open(file_path, "rb") do |file|
+        client.put_object(
+          bucket: bucket,
+          key: key,
+          body: file,
+          content_type: content_type,
+          cache_control: "public, max-age=31536000, immutable"
+        )
+      end
+
+      uploaded += 1
+      puts "  Uploaded: #{key} (#{content_type})" if ENV["VERBOSE"]
+    end
+
+    puts "Done! Uploaded: #{uploaded} files"
   end
 
   desc "Clear all objects from R2 assets bucket"
