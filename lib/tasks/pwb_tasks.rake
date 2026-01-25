@@ -503,5 +503,234 @@ namespace :pwb do
         exit 1
       end
     end
+
+    # =========================================================================
+    # Flexible Rendering Pipeline Tasks (with subdomain parameter)
+    # =========================================================================
+    #
+    # These tasks allow targeting a specific website by subdomain.
+    # Useful for multi-tenant environments where you need to update
+    # a specific website's rendering mode.
+    #
+    # Examples:
+    #   rake pwb:website:rendering[mysite]
+    #   rake pwb:website:set_rendering[mysite,client,amsterdam]
+    #   rake pwb:website:set_rendering[mysite,rails]
+    # =========================================================================
+
+    desc 'Show rendering info for a specific website. Usage: rake pwb:website:rendering[subdomain]'
+    task :rendering, [:subdomain] => [:environment] do |_t, args|
+      subdomain = args[:subdomain]
+
+      if subdomain.blank?
+        puts "Usage: rake pwb:website:rendering[subdomain]"
+        puts ""
+        puts "Available websites:"
+        Pwb::Website.unscoped.order(:subdomain).each do |w|
+          mode_indicator = w.client_rendering? ? "[CLIENT]" : "[RAILS]"
+          puts "  #{mode_indicator} #{w.subdomain || '(no subdomain)'} (ID: #{w.id})"
+        end
+        exit 0
+      end
+
+      website = Pwb::Website.unscoped.find_by(subdomain: subdomain)
+
+      if website.nil?
+        puts "❌ Website with subdomain '#{subdomain}' not found"
+        puts ""
+        puts "Available websites:"
+        Pwb::Website.unscoped.order(:subdomain).limit(10).each do |w|
+          puts "  - #{w.subdomain || '(no subdomain)'}"
+        end
+        exit 1
+      end
+
+      puts ""
+      puts "Rendering Pipeline Info"
+      puts "=" * 50
+      puts "Website:             #{website.subdomain} (ID: #{website.id})"
+      puts "Company:             #{website.company_display_name || 'N/A'}"
+      puts "-" * 50
+      puts "Rendering Mode:      #{website.rendering_mode.upcase}"
+      puts "Client Rendering?:   #{website.client_rendering?}"
+      puts "Rails Rendering?:    #{website.rails_rendering?}"
+      puts "-" * 50
+
+      if website.client_rendering?
+        puts "Client Theme:        #{website.client_theme_name || 'NOT SET'}"
+        if website.client_theme_config.present?
+          puts "Astro Client URL:    #{website.client_theme_config['astro_client_url'] || 'default'}"
+        end
+      else
+        puts "Rails Theme:         #{website.theme_name || 'default'}"
+        puts "Selected Palette:    #{website.selected_palette || 'default'}"
+      end
+
+      puts "-" * 50
+      puts "Mode Locked?:        #{website.rendering_mode_locked?}"
+      if website.rendering_mode_locked?
+        puts "  (Cannot change mode - website has content)"
+      end
+
+      puts ""
+      puts "Available Client Themes:"
+      Pwb::ClientTheme.enabled.each do |theme|
+        marker = theme.name == website.client_theme_name ? " ← current" : ""
+        puts "  - #{theme.name} (#{theme.friendly_name})#{marker}"
+      end
+
+      puts ""
+      puts "Available Rails Themes:"
+      Pwb::Theme.enabled.first(10).each do |theme|
+        marker = theme.name == website.theme_name ? " ← current" : ""
+        puts "  - #{theme.name} (#{theme.friendly_name})#{marker}"
+      end
+    end
+
+    desc 'Set rendering mode for a specific website. Usage: rake pwb:website:set_rendering[subdomain,mode,theme_name]'
+    task :set_rendering, [:subdomain, :mode, :theme_name] => [:environment] do |_t, args|
+      subdomain = args[:subdomain]
+      mode = args[:mode]
+      theme_name = args[:theme_name]
+
+      # Validate arguments
+      if subdomain.blank? || mode.blank?
+        puts "Usage: rake pwb:website:set_rendering[subdomain,mode,theme_name]"
+        puts ""
+        puts "Arguments:"
+        puts "  subdomain   - Website subdomain (required)"
+        puts "  mode        - 'client' or 'rails' (required)"
+        puts "  theme_name  - Theme name (required for client mode, optional for rails)"
+        puts ""
+        puts "Examples:"
+        puts "  rake pwb:website:set_rendering[mysite,client,amsterdam]"
+        puts "  rake pwb:website:set_rendering[mysite,rails]"
+        puts "  rake pwb:website:set_rendering[mysite,rails,starter]"
+        exit 1
+      end
+
+      # Find website
+      website = Pwb::Website.unscoped.find_by(subdomain: subdomain)
+      if website.nil?
+        puts "❌ Website with subdomain '#{subdomain}' not found"
+        exit 1
+      end
+
+      # Validate mode
+      unless %w[client rails].include?(mode)
+        puts "❌ Invalid mode '#{mode}'. Must be 'client' or 'rails'"
+        exit 1
+      end
+
+      # Check if mode is locked
+      if website.rendering_mode_locked? && website.rendering_mode != mode
+        puts "❌ Cannot change rendering mode for '#{subdomain}'"
+        puts "   Website has content and mode is locked to: #{website.rendering_mode}"
+        puts ""
+        puts "   To force change (may cause issues), use rails console:"
+        puts "   Pwb::Website.find_by(subdomain: '#{subdomain}').update_column(:rendering_mode, '#{mode}')"
+        exit 1
+      end
+
+      puts ""
+      puts "Updating Rendering Pipeline"
+      puts "=" * 50
+      puts "Website:         #{subdomain}"
+      puts "Current Mode:    #{website.rendering_mode}"
+      puts "New Mode:        #{mode}"
+
+      # Set mode and theme
+      website.rendering_mode = mode
+
+      if mode == 'client'
+        if theme_name.blank?
+          puts ""
+          puts "❌ Client mode requires a theme_name"
+          puts ""
+          puts "Available client themes:"
+          Pwb::ClientTheme.enabled.each do |t|
+            puts "  - #{t.name}"
+          end
+          exit 1
+        end
+
+        theme = Pwb::ClientTheme.enabled.find_by(name: theme_name)
+        if theme.nil?
+          puts ""
+          puts "❌ Client theme '#{theme_name}' not found"
+          puts ""
+          puts "Available client themes:"
+          Pwb::ClientTheme.enabled.each do |t|
+            puts "  - #{t.name}"
+          end
+          exit 1
+        end
+
+        website.client_theme_name = theme_name
+        puts "Client Theme:    #{theme_name}"
+      else
+        # Rails mode
+        if theme_name.present?
+          theme = Pwb::Theme.enabled.find { |t| t.name == theme_name }
+          if theme.nil?
+            puts ""
+            puts "⚠️  Warning: Rails theme '#{theme_name}' not found, using anyway"
+          end
+          website.theme_name = theme_name
+          puts "Rails Theme:     #{theme_name}"
+        end
+      end
+
+      puts "-" * 50
+
+      if website.save
+        puts "✅ Successfully updated!"
+        puts ""
+        puts "New settings:"
+        puts "  rendering_mode:      #{website.rendering_mode}"
+        if website.client_rendering?
+          puts "  client_theme_name:   #{website.client_theme_name}"
+        else
+          puts "  theme_name:          #{website.theme_name}"
+        end
+      else
+        puts "❌ Failed to update website:"
+        website.errors.full_messages.each do |msg|
+          puts "   - #{msg}"
+        end
+        exit 1
+      end
+    end
+
+    desc 'List all websites with their rendering modes. Usage: rake pwb:website:list_rendering'
+    task list_rendering: [:environment] do
+      websites = Pwb::Website.unscoped.order(:subdomain)
+
+      if websites.empty?
+        puts "No websites found"
+        exit 0
+      end
+
+      puts ""
+      puts "Website Rendering Modes"
+      puts "=" * 80
+      puts format("%-25s %-10s %-20s %-15s", "SUBDOMAIN", "MODE", "THEME", "LOCKED?")
+      puts "-" * 80
+
+      websites.each do |w|
+        subdomain = w.subdomain || "(no subdomain)"
+        mode = w.rendering_mode.upcase
+        theme = w.client_rendering? ? w.client_theme_name : w.theme_name
+        theme ||= "default"
+        locked = w.rendering_mode_locked? ? "YES" : "no"
+
+        puts format("%-25s %-10s %-20s %-15s", subdomain.truncate(24), mode, theme.truncate(19), locked)
+      end
+
+      puts "-" * 80
+      puts "Total: #{websites.count} websites"
+      puts ""
+      puts "Legend: MODE = RAILS (server-side) or CLIENT (Astro.js)"
+    end
   end
 end
