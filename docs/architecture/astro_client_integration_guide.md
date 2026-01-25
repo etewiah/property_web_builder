@@ -1,6 +1,6 @@
 # Astro Client Integration Guide
 
-**Last Updated**: 2026-01-15
+**Last Updated**: 2026-01-25
 **Audience**: Junior Developers
 **Estimated Time**: 4-6 hours
 
@@ -1984,3 +1984,15 @@ If you get stuck:
 1. Check the [Rails implementation status document](./client_rendering_implementation_status.md)
 2. Look at the Rails controller code for how headers are sent
 3. Ask your team lead for help with the `PROXY_AUTH_SECRET` value
+
+---
+
+## Advanced: Per-Tenant Astro URL Routing
+
+For multi-region deployments or enterprise tenants, each website can specify a custom Astro server URL. This allows:
+
+- Regional Astro deployments (US, EU, APAC)
+- Dedicated Astro instances for enterprise clients
+- Staging/development environments with isolated Astro builds
+
+See [Per-Tenant Astro URL Routing](./per_tenant_astro_url_routing.md) for configuration details.

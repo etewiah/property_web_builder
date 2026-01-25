@@ -69,8 +69,13 @@ module Pwb
       "#{astro_client_url}#{path}"
     end
 
-    # Get Astro client URL from environment
+    # Get Astro client URL - per-tenant config takes precedence
     def astro_client_url
+      # Per-tenant URL from client_theme_config takes precedence
+      tenant_url = current_website&.client_theme_config&.dig('astro_client_url')
+      return tenant_url if tenant_url.present?
+
+      # Fall back to environment variable or default
       ENV.fetch('ASTRO_CLIENT_URL', 'http://localhost:4321')
     end
 

@@ -1,6 +1,6 @@
 # Client Rendering Implementation Status
 
-**Last Updated**: 2026-01-15
+**Last Updated**: 2026-01-25
 **Status**: Core Implementation Complete
 
 ---
@@ -187,6 +187,9 @@ PATCH /tenant_admin/websites/:id
 ASTRO_CLIENT_URL=http://localhost:4321  # Default if not set
 ```
 
+**Per-tenant URL routing:**
+As of 2026-01-25, tenants can specify custom Astro URLs via `client_theme_config['astro_client_url']`. See [Per-Tenant Astro URL Routing](./per_tenant_astro_url_routing.md) for details.
+
 ---
 
 ### Phase 8: Tests ✅ Complete
@@ -283,4 +286,5 @@ rails console
 ## Related Documentation
 
 - [Astro Client Integration Guide](./astro_client_integration_guide.md) - Detailed guide for Astro updates
+- [Per-Tenant Astro URL Routing](./per_tenant_astro_url_routing.md) - Custom Astro URLs per tenant
 - [Theme Management Strategy](../claude_thoughts/astro_frontend_theme_management_strategy.md) - Architecture decision document

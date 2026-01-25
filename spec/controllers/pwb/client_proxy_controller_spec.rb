@@ -98,6 +98,116 @@ module Pwb
       end
     end
 
+    describe '#astro_client_url' do
+      context 'with tenant-specific URL in client_theme_config' do
+        let!(:website) do
+          create(:pwb_website,
+            subdomain: 'custom-astro',
+            rendering_mode: 'client',
+            client_theme_name: 'amsterdam',
+            client_theme_config: { 'astro_client_url' => 'https://tenant-astro.example.com' }
+          )
+        end
+
+        before do
+          allow(controller).to receive(:current_website).and_return(website)
+          controller.instance_variable_set(:@current_website, website)
+        end
+
+        it 'uses the tenant-specific Astro URL' do
+          stub_request(:get, %r{tenant-astro\.example\.com})
+            .to_return(status: 200, body: '<html>Tenant Astro</html>', headers: { 'Content-Type' => 'text/html' })
+
+          get :public_proxy, params: { path: 'test' }
+
+          expect(response).to have_http_status(:ok)
+          expect(a_request(:get, %r{tenant-astro\.example\.com})).to have_been_made
+        end
+
+        it 'returns the tenant URL from astro_client_url method' do
+          expect(controller.send(:astro_client_url)).to eq('https://tenant-astro.example.com')
+        end
+      end
+
+      context 'with empty astro_client_url in client_theme_config' do
+        let!(:website) do
+          create(:pwb_website,
+            subdomain: 'empty-url',
+            rendering_mode: 'client',
+            client_theme_name: 'amsterdam',
+            client_theme_config: { 'astro_client_url' => '' }
+          )
+        end
+
+        before do
+          allow(controller).to receive(:current_website).and_return(website)
+          controller.instance_variable_set(:@current_website, website)
+        end
+
+        it 'falls back to default when URL is blank' do
+          stub_request(:get, /localhost:4321/)
+            .to_return(status: 200, body: '<html>Default Astro</html>', headers: { 'Content-Type' => 'text/html' })
+
+          get :public_proxy, params: { path: 'test' }
+
+          expect(response).to have_http_status(:ok)
+          expect(a_request(:get, /localhost:4321/)).to have_been_made
+        end
+      end
+
+      context 'without tenant-specific URL (empty config)' do
+        let!(:website) do
+          create(:pwb_website,
+            subdomain: 'default-astro',
+            rendering_mode: 'client',
+            client_theme_name: 'amsterdam',
+            client_theme_config: {}
+          )
+        end
+
+        before do
+          allow(controller).to receive(:current_website).and_return(website)
+          controller.instance_variable_set(:@current_website, website)
+        end
+
+        it 'falls back to environment variable or default' do
+          stub_request(:get, /localhost:4321/)
+            .to_return(status: 200, body: '<html>Default Astro</html>', headers: { 'Content-Type' => 'text/html' })
+
+          get :public_proxy, params: { path: 'test' }
+
+          expect(response).to have_http_status(:ok)
+          expect(a_request(:get, /localhost:4321/)).to have_been_made
+        end
+      end
+
+      context 'with nil client_theme_config' do
+        let!(:website) do
+          create(:pwb_website,
+            subdomain: 'nil-config',
+            rendering_mode: 'client',
+            client_theme_name: 'amsterdam',
+            client_theme_config: nil
+          )
+        end
+
+        before do
+          allow(controller).to receive(:current_website).and_return(website)
+          controller.instance_variable_set(:@current_website, website)
+        end
+
+        it 'falls back to default when config is nil' do
+          stub_request(:get, /localhost:4321/)
+            .to_return(status: 200, body: '<html>Default Astro</html>', headers: { 'Content-Type' => 'text/html' })
+
+          get :public_proxy, params: { path: 'test' }
+
+          expect(response).to have_http_status(:ok)
+          expect(a_request(:get, /localhost:4321/)).to have_been_made
+        end
+      end
+    end
+
     describe 'JWT token generation' do
       let!(:website) do
         create(:pwb_website, subdomain: 'client-site', rendering_mode: 'client', client_theme_name: 'amsterdam')
