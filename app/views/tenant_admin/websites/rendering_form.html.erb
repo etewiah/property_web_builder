@@ -81,6 +81,7 @@
     <div class="p-4 md:p-6">
       <%= form_with url: update_rendering_tenant_admin_website_path(@website),
           method: :patch,
+          scope: :website,
           local: true,
           class: "space-y-6",
           data: { controller: "rendering-mode" } do |f| %>
