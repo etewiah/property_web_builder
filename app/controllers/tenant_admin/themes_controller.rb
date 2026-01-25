@@ -9,6 +9,7 @@ module TenantAdmin
     # GET /tenant_admin/themes
     def index
       @themes = build_theme_list
+      @client_themes = build_client_theme_list
       @distribution = theme_distribution
       @palette_usage = palette_usage_stats
     end
@@ -43,7 +44,7 @@ module TenantAdmin
 
     def build_theme_list
       Pwb::Theme.enabled.map do |theme|
-        website_count = Pwb::Website.unscoped.where(theme_name: theme.name).count
+        website_count = Pwb::Website.unscoped.where(theme_name: theme.name, rendering_mode: 'rails').count
 
         OpenStruct.new(
           name: theme.name,
@@ -55,6 +56,24 @@ module TenantAdmin
           palettes: theme.palettes,
           website_count: website_count,
           default_palette_id: theme.default_palette_id
+        )
+      end
+    end
+
+    def build_client_theme_list
+      Pwb::ClientTheme.enabled.map do |theme|
+        website_count = Pwb::Website.unscoped.where(client_theme_name: theme.name, rendering_mode: 'client').count
+
+        OpenStruct.new(
+          name: theme.name,
+          friendly_name: theme.friendly_name,
+          description: theme.description,
+          version: theme.version,
+          preview_image_url: theme.preview_image_url,
+          color_schema: theme.color_schema || {},
+          font_schema: theme.font_schema || {},
+          default_config: theme.default_config || {},
+          website_count: website_count
         )
       end
     end

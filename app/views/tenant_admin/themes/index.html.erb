@@ -8,21 +8,37 @@
   </div>
 
   <%# Statistics Cards %>
-  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-8">
-    <%# Total Themes %>
+  <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-6 mb-6 md:mb-8">
+    <%# Rails Themes (B) %>
     <div class="bg-white rounded-lg shadow p-4 md:p-6">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-xs md:text-sm font-medium text-gray-600">Total Themes</p>
-          <p class="text-2xl md:text-3xl font-bold text-gray-900 mt-1 md:mt-2"><%= @themes.count %></p>
+          <p class="text-xs md:text-sm font-medium text-gray-600">Rails Themes</p>
+          <p class="text-2xl md:text-3xl font-bold text-purple-600 mt-1 md:mt-2"><%= @themes.count %></p>
         </div>
         <div class="bg-purple-100 rounded-full p-2 md:p-3 hidden sm:block">
           <svg class="w-6 h-6 md:w-8 md:h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
           </svg>
         </div>
       </div>
-      <p class="text-xs text-gray-500 mt-2">enabled themes</p>
+      <p class="text-xs text-gray-500 mt-2">B themes (server)</p>
+    </div>
+
+    <%# Client Themes (A) %>
+    <div class="bg-white rounded-lg shadow p-4 md:p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-xs md:text-sm font-medium text-gray-600">Client Themes</p>
+          <p class="text-2xl md:text-3xl font-bold text-cyan-600 mt-1 md:mt-2"><%= @client_themes.count %></p>
+        </div>
+        <div class="bg-cyan-100 rounded-full p-2 md:p-3 hidden sm:block">
+          <svg class="w-6 h-6 md:w-8 md:h-8 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+      </div>
+      <p class="text-xs text-gray-500 mt-2">A themes (Astro)</p>
     </div>
 
     <%# Total Palettes %>
@@ -75,7 +91,18 @@
     </div>
   </div>
 
-  <%# Theme Cards Grid %>
+  <%# Rails Themes Section Header %>
+  <div class="flex items-center gap-2 mb-4">
+    <div class="bg-purple-100 rounded-full p-1.5">
+      <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+      </svg>
+    </div>
+    <h2 class="text-lg font-semibold text-gray-900">Rails Themes (B Themes)</h2>
+    <span class="text-sm text-gray-500">Server-side rendering with Liquid templates</span>
+  </div>
+
+  <%# Rails Theme Cards Grid %>
   <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
     <% @themes.each do |theme| %>
       <div class="bg-white rounded-lg shadow overflow-hidden border-l-4 border-purple-500">
@@ -171,6 +198,95 @@
       </div>
     <% end %>
   </div>
+
+  <%# Client Themes Section Header %>
+  <div class="flex items-center gap-2 mb-4">
+    <div class="bg-cyan-100 rounded-full p-1.5">
+      <svg class="w-5 h-5 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+      </svg>
+    </div>
+    <h2 class="text-lg font-semibold text-gray-900">Client Themes (A Themes)</h2>
+    <span class="text-sm text-gray-500">Client-side rendering with Astro.js</span>
+  </div>
+
+  <%# Client Theme Cards Grid %>
+  <% if @client_themes.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
+      <% @client_themes.each do |theme| %>
+        <div class="bg-white rounded-lg shadow overflow-hidden border-l-4 border-cyan-500">
+          <div class="p-4 md:p-6">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900"><%= theme.friendly_name %></h3>
+                <span class="text-xs text-gray-500 font-mono"><%= theme.name %></span>
+              </div>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">
+                v<%= theme.version %>
+              </span>
+            </div>
+
+            <% if theme.description.present? %>
+              <p class="text-sm text-gray-600 mb-4 line-clamp-2"><%= theme.description %></p>
+            <% end %>
+
+            <div class="grid grid-cols-1 gap-2 text-center mb-4">
+              <div class="bg-gray-50 rounded-lg p-3">
+                <div class="text-xl md:text-2xl font-bold text-cyan-600"><%= number_with_delimiter(theme.website_count) %></div>
+                <div class="text-xs text-gray-500">Websites using this theme</div>
+              </div>
+            </div>
+
+            <%# Color Schema Preview %>
+            <% if theme.color_schema.present? %>
+              <div class="mb-4">
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Color Schema</p>
+                <div class="flex flex-wrap gap-2">
+                  <% theme.default_config.select { |k, v| k.to_s.include?('color') && v.present? }.first(4).each do |key, color| %>
+                    <div class="flex items-center gap-1">
+                      <div class="w-5 h-5 rounded border border-gray-200 shadow-sm" style="background-color: <%= color %>"></div>
+                      <span class="text-xs text-gray-500"><%= key.to_s.humanize.gsub(' color', '') %></span>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
+            <%# Font Schema Preview %>
+            <% if theme.font_schema.present? %>
+              <div class="mb-4">
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Fonts</p>
+                <div class="flex flex-wrap gap-2">
+                  <% theme.default_config.select { |k, v| k.to_s.include?('font') && v.present? }.each do |key, font| %>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">
+                      <%= font %>
+                    </span>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
+            <div class="flex justify-end pt-4 border-t border-gray-200">
+              <span class="px-3 py-1.5 text-gray-500 text-sm flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Astro Theme
+              </span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="bg-gray-50 rounded-lg p-6 mb-6 md:mb-8 text-center">
+      <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+      </svg>
+      <p class="text-gray-500">No client themes available</p>
+      <p class="text-xs text-gray-400 mt-1">Run <code class="bg-gray-200 px-1 rounded">rails db:seed:client_themes</code> to create them</p>
+    </div>
+  <% end %>
 
   <%# Distribution & Palette Usage Grid %>
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
