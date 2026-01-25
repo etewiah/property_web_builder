@@ -29,7 +29,7 @@ module Pwb
         if info[:update_available]
           log_update_available(info)
         else
-          Rails.logger.info "[PWB Version] Running latest version (#{Pwb::VERSION})"
+          Rails.logger.info "[PWB Version] Running latest version (#{version_with_revision})"
         end
 
         info
@@ -67,10 +67,34 @@ module Pwb
         Pwb::VERSION
       end
 
+      # Get the current git revision (short SHA)
+      #
+      # Checks in order:
+      # 1. REVISION file in Rails root (created at deploy time)
+      # 2. Environment variables (GIT_REVISION, HEROKU_SLUG_COMMIT, SOURCE_VERSION, GIT_REV)
+      # 3. Git command (development only, may not work in production)
+      #
+      # @return [String, nil] the git revision or nil if unavailable
+      def git_revision
+        @git_revision ||= read_revision_file || read_env_revision || read_git_revision
+      end
+
+      # Get version with git revision for display
+      #
+      # @return [String] version string with optional revision suffix
+      # @example "2.2.0" or "2.2.0 (abc1234)"
+      def version_with_revision
+        rev = git_revision
+        rev.present? ? "#{current_version} (#{rev})" : current_version
+      end
+
       private
 
       def fetch_version_info
-        uri = URI("#{VERSION_CHECK_URL}?version=#{current_version}")
+        params = { version: current_version }
+        params[:revision] = git_revision if git_revision.present?
+
+        uri = URI("#{VERSION_CHECK_URL}?#{URI.encode_www_form(params)}")
 
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = true
@@ -84,13 +108,52 @@ module Pwb
 
         request = Net::HTTP::Get.new(uri)
         request['Accept'] = 'application/json'
-        request['User-Agent'] = "PropertyWebBuilder/#{current_version}"
+        request['User-Agent'] = user_agent_string
 
         response = http.request(request)
 
         return nil unless response.is_a?(Net::HTTPSuccess)
 
         response.body
+      end
+
+      def user_agent_string
+        rev = git_revision
+        base = "PropertyWebBuilder/#{current_version}"
+        rev.present? ? "#{base} (#{rev})" : base
+      end
+
+      def read_revision_file
+        revision_file = Rails.root.join('REVISION')
+        return nil unless File.exist?(revision_file)
+
+        File.read(revision_file).strip.presence&.slice(0, 7)
+      rescue StandardError
+        nil
+      end
+
+      # Check common CI/CD environment variables for git revision
+      def read_env_revision
+        # Common env vars set by various platforms:
+        # - GIT_REVISION: Custom/manual
+        # - HEROKU_SLUG_COMMIT: Heroku
+        # - SOURCE_VERSION: Heroku buildpacks
+        # - GIT_REV: Dokku
+        # - RENDER_GIT_COMMIT: Render
+        # - RAILWAY_GIT_COMMIT_SHA: Railway
+        %w[GIT_REVISION HEROKU_SLUG_COMMIT SOURCE_VERSION GIT_REV RENDER_GIT_COMMIT RAILWAY_GIT_COMMIT_SHA].each do |var|
+          value = ENV[var]
+          return value.strip.slice(0, 7) if value.present?
+        end
+        nil
+      end
+
+      def read_git_revision
+        return nil unless File.directory?(Rails.root.join('.git'))
+
+        `git rev-parse --short HEAD 2>/dev/null`.strip.presence
+      rescue StandardError
+        nil
       end
 
       def parse_response(json_string)
@@ -111,9 +174,10 @@ module Pwb
       end
 
       def log_update_available(info)
+        current_display = version_with_revision
         message = <<~MSG.squish
           [PWB Version] Update available!
-          Current: #{info[:incoming_version]},
+          Current: #{current_display},
           Latest: #{info[:latest_version]}
           (#{info[:versions_behind]} version(s) behind,
           released #{info[:latest_release_date]}).
