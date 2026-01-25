@@ -24,11 +24,10 @@ module TenantAdmin
 
     def show
       # @website set by before_action
-      # Users and Messages are not directly associated with Website in the schema
-      @users_count = 0 
+      @users_count = count_website_users(@website)
       @props_count = Pwb::RealtyAsset.unscoped.where(website_id: @website.id).count rescue 0
       @pages_count = Pwb::Page.unscoped.where(website_id: @website.id).count rescue 0
-      @messages_count = 0
+      @messages_count = Pwb::Message.unscoped.where(website_id: @website.id).count rescue 0
     end
 
     def new
@@ -316,6 +315,26 @@ module TenantAdmin
         # Remove the key if URL is blank
         @website.client_theme_config = current_config.except('astro_client_url')
       end
+    end
+
+    # Count users associated with a website
+    #
+    # Users can be associated with a website in two ways:
+    # 1. Direct association via `website_id` column on pwb_users table
+    # 2. Through `user_memberships` join table (for multi-website access)
+    #
+    # This method counts the union of both, using DISTINCT to avoid
+    # double-counting users who have both a direct association AND a membership.
+    #
+    # @param website [Pwb::Website] The website to count users for
+    # @return [Integer] Total unique users associated with the website
+    def count_website_users(website)
+      Pwb::User.unscoped.where(
+        "website_id = :id OR id IN (SELECT user_id FROM pwb_user_memberships WHERE website_id = :id)",
+        id: website.id
+      ).distinct.count
+    rescue StandardError
+      0
     end
   end
 end

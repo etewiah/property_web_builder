@@ -39,10 +39,19 @@ module TenantAdmin
     end
 
     # GET /tenant_admin/shards/:id/websites
+    #
+    # Lists all websites assigned to a specific shard with summary statistics.
     def websites
       @shard_name = params[:id]
       websites = Pwb::Website.unscoped.where(shard_name: @shard_name)
       @pagy, @websites = pagy(websites, limit: 20)
+
+      # Calculate totals for all websites in this shard
+      # Users are counted from both direct website_id association AND user_memberships
+      # See: TenantAdmin::WebsitesController#count_website_users for detailed explanation
+      website_ids = Pwb::Website.unscoped.where(shard_name: @shard_name).pluck(:id)
+      @total_users = count_users_for_websites(website_ids)
+      @total_properties = Pwb::RealtyAsset.unscoped.where(website_id: website_ids).count rescue 0
     end
 
     # GET /tenant_admin/shards/:id/statistics
@@ -86,6 +95,28 @@ module TenantAdmin
           database_size: health&.database_size
         )
       end
+    end
+
+    # Count users across multiple websites
+    #
+    # Users can be associated with websites in two ways:
+    # 1. Direct association via `website_id` column on pwb_users table
+    # 2. Through `user_memberships` join table (for multi-website access)
+    #
+    # This method counts distinct users who are associated with ANY of the
+    # given website IDs through either association type.
+    #
+    # @param website_ids [Array<Integer>] Array of website IDs to count users for
+    # @return [Integer] Total unique users associated with any of the websites
+    def count_users_for_websites(website_ids)
+      return 0 if website_ids.blank?
+
+      Pwb::User.unscoped.where(
+        "website_id IN (:ids) OR id IN (SELECT user_id FROM pwb_user_memberships WHERE website_id IN (:ids))",
+        ids: website_ids
+      ).distinct.count
+    rescue StandardError
+      0
     end
   end
 end

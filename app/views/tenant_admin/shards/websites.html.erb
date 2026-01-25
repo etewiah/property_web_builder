@@ -106,8 +106,19 @@
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <% @websites.each do |website| %>
-              <% 
-                users_count = Pwb::User.unscoped.where(pwb_website_id: website.id).count rescue 0
+              <%#
+                Count users via direct website_id OR through user_memberships.
+                Users can access a website in two ways:
+                1. Direct: User.website_id = website.id (primary website)
+                2. Membership: UserMembership(user_id, website_id) (multi-website access)
+                DISTINCT ensures users with both associations aren't double-counted.
+                See: TenantAdmin::WebsitesController#count_website_users
+              %>
+              <%
+                users_count = Pwb::User.unscoped.where(
+                  "website_id = :id OR id IN (SELECT user_id FROM pwb_user_memberships WHERE website_id = :id)",
+                  id: website.id
+                ).distinct.count rescue 0
                 props_count = Pwb::RealtyAsset.unscoped.where(website_id: website.id).count rescue 0
               %>
               <tr>

@@ -58,7 +58,12 @@
                   <%= format_date(website.created_at) %>
                 </td>
                 <td class="hidden md:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <% users_count = Pwb::User.unscoped.where(pwb_website_id: website.id).count rescue 0 %>
+                  <%# Count users via direct website_id OR through user_memberships (multi-website access) %>
+                  <%# See: TenantAdmin::WebsitesController#count_website_users for documentation %>
+                  <% users_count = Pwb::User.unscoped.where(
+                    "website_id = :id OR id IN (SELECT user_id FROM pwb_user_memberships WHERE website_id = :id)",
+                    id: website.id
+                  ).distinct.count rescue 0 %>
                   <%= users_count %>
                 </td>
                 <td class="hidden md:table-cell px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
