@@ -1,3 +1,31 @@
+<%#
+  Rendering Pipeline Configuration Form
+
+  This form allows tenant admins to configure how a website is rendered:
+  - Rails Mode (B Themes): Server-side rendering with Liquid templates
+  - Client Mode (A Themes): Client-side rendering with Astro.js
+
+  == IMPORTANT: Form Scope
+
+  The form_with MUST include `scope: :website` to ensure form fields are
+  nested under params[:website]. Without this, the controller receives:
+
+    params = { theme_name: 'default', rendering_mode: 'rails' }
+
+  Instead of the required:
+
+    params = { website: { theme_name: 'default', rendering_mode: 'rails' } }
+
+  This causes a 422 Unprocessable Entity error because the controller uses:
+
+    params.require(:website).permit(:rendering_mode, :theme_name, ...)
+
+  If you see 422 errors when submitting this form, verify that:
+  1. form_with includes `scope: :website`
+  2. The Rails logs show params nested under :website
+
+  See: TenantAdmin::WebsitesController#update_rendering for detailed logging
+%>
 <div class="max-w-4xl mx-auto">
   <!-- Breadcrumbs -->
   <nav class="text-sm mb-4">

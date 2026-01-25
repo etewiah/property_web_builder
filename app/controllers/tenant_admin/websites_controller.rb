@@ -237,25 +237,97 @@ module TenantAdmin
     end
 
     # GET /tenant_admin/websites/:id/rendering
+    #
+    # Displays the rendering pipeline configuration form for a website.
+    # Allows switching between Rails Mode (B Themes) and Client Mode (A Themes).
+    #
+    # @see #update_rendering for the form submission handler
+    # @see app/views/tenant_admin/websites/rendering_form.html.erb for the form view
     def rendering_form
+      Rails.logger.info("[TenantAdmin::Rendering] GET rendering_form for website #{@website.id} (#{@website.subdomain})")
       @themes = Pwb::Theme.enabled
       @client_themes = Pwb::ClientTheme.enabled
+      Rails.logger.debug("[TenantAdmin::Rendering] Current settings: rendering_mode=#{@website.rendering_mode}, theme_name=#{@website.theme_name}, client_theme_name=#{@website.client_theme_name}")
     end
 
     # PATCH /tenant_admin/websites/:id/update_rendering
+    #
+    # Updates the rendering pipeline settings for a website.
+    #
+    # == Parameter Structure (IMPORTANT)
+    #
+    # This action expects parameters nested under the `website` key:
+    #
+    #   params[:website][:rendering_mode]    # 'rails' or 'client'
+    #   params[:website][:theme_name]        # For Rails Mode (B Theme)
+    #   params[:website][:client_theme_name] # For Client Mode (A Theme)
+    #   params[:website][:astro_client_url]  # Optional custom Astro server URL
+    #
+    # The form MUST use `scope: :website` in form_with to ensure proper nesting:
+    #
+    #   <%= form_with url: update_rendering_tenant_admin_website_path(@website),
+    #       method: :patch,
+    #       scope: :website,  # <-- REQUIRED for proper param nesting
+    #       local: true do |f| %>
+    #
+    # Without scope: :website, form fields generate top-level params like:
+    #   params[:theme_name] instead of params[:website][:theme_name]
+    #
+    # This causes a 422 Unprocessable Entity because rendering_params requires:
+    #   params.require(:website).permit(...)
+    #
+    # == Troubleshooting 422 Errors
+    #
+    # If this action returns 422, check the Rails logs for:
+    # - "[TenantAdmin::Rendering] Raw params received:" shows actual param structure
+    # - "[TenantAdmin::Rendering] WARNING: params[:website] is nil" indicates missing scope
+    # - Look for theme_name/client_theme_name at the top level of params
+    #
+    # Fix: Ensure the form uses `scope: :website` parameter.
+    #
+    # @see #rendering_params for permitted parameters
+    # @see app/views/tenant_admin/websites/rendering_form.html.erb
     def update_rendering
+      Rails.logger.info("[TenantAdmin::Rendering] PATCH update_rendering for website #{@website.id} (#{@website.subdomain})")
+      Rails.logger.info("[TenantAdmin::Rendering] Raw params received: #{params.to_unsafe_h.except(:controller, :action, :id).inspect}")
+
+      # Validate param structure - helps diagnose form issues
+      if params[:website].nil?
+        Rails.logger.warn("[TenantAdmin::Rendering] WARNING: params[:website] is nil!")
+        Rails.logger.warn("[TenantAdmin::Rendering] This usually means the form is missing 'scope: :website'")
+        Rails.logger.warn("[TenantAdmin::Rendering] Top-level params present: #{params.keys.inspect}")
+
+        # Check if params are at top level (common form scope mistake)
+        if params[:rendering_mode].present? || params[:theme_name].present? || params[:client_theme_name].present?
+          Rails.logger.error("[TenantAdmin::Rendering] FORM SCOPE ERROR: Found rendering params at top level instead of nested under :website")
+          Rails.logger.error("[TenantAdmin::Rendering] rendering_mode=#{params[:rendering_mode]}, theme_name=#{params[:theme_name]}, client_theme_name=#{params[:client_theme_name]}")
+          Rails.logger.error("[TenantAdmin::Rendering] Fix: Add 'scope: :website' to form_with in rendering_form.html.erb")
+        end
+      else
+        Rails.logger.debug("[TenantAdmin::Rendering] Permitted params: #{rendering_params.to_h.inspect}")
+      end
+
       @themes = Pwb::Theme.enabled
       @client_themes = Pwb::ClientTheme.enabled
 
       # Handle astro_client_url separately (stored in client_theme_config JSONB)
       handle_astro_client_url_param
 
+      Rails.logger.info("[TenantAdmin::Rendering] Before update: rendering_mode=#{@website.rendering_mode}, theme_name=#{@website.theme_name}, client_theme_name=#{@website.client_theme_name}")
+
       if @website.update(rendering_params)
+        Rails.logger.info("[TenantAdmin::Rendering] SUCCESS: Updated website #{@website.id}")
+        Rails.logger.info("[TenantAdmin::Rendering] After update: rendering_mode=#{@website.rendering_mode}, theme_name=#{@website.theme_name}, client_theme_name=#{@website.client_theme_name}")
         flash.now[:notice] = "Rendering settings updated successfully."
         render :rendering_form
       else
+        Rails.logger.warn("[TenantAdmin::Rendering] FAILED: Could not update website #{@website.id}")
+        Rails.logger.warn("[TenantAdmin::Rendering] Validation errors: #{@website.errors.full_messages.inspect}")
         render :rendering_form, status: :unprocessable_entity
       end
+    # NOTE: ActionController::ParameterMissing is now handled by
+    # TenantAdminController#handle_parameter_missing which provides
+    # detailed logging and returns 422 with helpful error messages.
     end
 
     private
@@ -298,11 +370,39 @@ module TenantAdmin
       params.require(:website).permit(:theme_name, :selected_palette)
     end
 
+    # Strong parameters for rendering pipeline updates
+    #
+    # Requires params to be nested under :website key.
+    # If params[:website] is nil, this will raise ActionController::ParameterMissing
+    # and return a 422 response.
+    #
+    # == Expected param structure:
+    #   {
+    #     website: {
+    #       rendering_mode: 'rails' | 'client',
+    #       theme_name: 'theme_name',           # B Theme for Rails mode
+    #       client_theme_name: 'theme_name'     # A Theme for Client mode
+    #     }
+    #   }
+    #
+    # == Common error:
+    # If the form omits `scope: :website`, params will look like:
+    #   { rendering_mode: 'rails', theme_name: 'default' }
+    # This causes params.require(:website) to fail with 422.
+    #
+    # @return [ActionController::Parameters] permitted parameters
+    # @raise [ActionController::ParameterMissing] if params[:website] is missing
     def rendering_params
       params.require(:website).permit(:rendering_mode, :theme_name, :client_theme_name)
     end
 
     # Merge astro_client_url into client_theme_config JSONB field
+    #
+    # The astro_client_url is stored separately in the client_theme_config JSONB
+    # column rather than as a top-level attribute. This allows flexible storage
+    # of client-side rendering configuration.
+    #
+    # @note This is called before update to merge the URL into existing config
     def handle_astro_client_url_param
       return unless params[:website]&.key?(:astro_client_url)
 

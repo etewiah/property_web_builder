@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe TenantAdmin::ShardsController, type: :controller do
-  let(:website) { create(:pwb_website, subdomain: 'test-site') }
+  # Use a dedicated shard for the admin user's website to avoid
+  # interference with user counting tests on the 'default' shard
+  let(:website) { create(:pwb_website, subdomain: 'test-site', shard_name: 'admin_shard') }
   let(:admin_user) { create(:pwb_user, email: 'admin@example.com', website: website) }
 
   before do

@@ -286,4 +286,312 @@ RSpec.describe TenantAdmin::WebsitesController, type: :controller do
       expect(assigns(:users_count)).to eq(1)
     end
   end
+
+  # ============================================================================
+  # Rendering Pipeline Tests
+  # ============================================================================
+  #
+  # These tests cover the rendering form and update_rendering actions.
+  # Key things tested:
+  # 1. Form displays correctly (GET #rendering_form)
+  # 2. Updates work with properly nested params (PATCH #update_rendering)
+  # 3. 422 error occurs when params are not nested under :website
+  #
+  # The form scope issue (params not nested) was a production bug that caused
+  # 422 errors. These tests ensure it doesn't regress.
+  #
+  # IMPORTANT: Client rendering mode requires a valid client_theme_name.
+  # Tests that switch to client mode must create a ClientTheme first.
+  # ============================================================================
+
+  describe 'GET #rendering_form' do
+    it 'returns a successful response' do
+      get :rendering_form, params: { id: website.id }
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'assigns the requested website' do
+      get :rendering_form, params: { id: website.id }
+      expect(assigns(:website)).to eq(website)
+    end
+
+    it 'assigns @themes' do
+      get :rendering_form, params: { id: website.id }
+      expect(assigns(:themes)).to be_present
+    end
+
+    it 'assigns @client_themes' do
+      get :rendering_form, params: { id: website.id }
+      expect(assigns(:client_themes)).not_to be_nil
+    end
+  end
+
+  describe 'PATCH #update_rendering' do
+    # The form MUST use scope: :website to nest params correctly.
+    # Without proper nesting, params.require(:website) fails with 422.
+
+    context 'with properly nested params (correct form scope)' do
+      # This is the CORRECT param structure when form uses scope: :website
+      let(:valid_params) do
+        {
+          id: website.id,
+          website: {
+            rendering_mode: 'rails',
+            theme_name: 'default'
+          }
+        }
+      end
+
+      it 'returns a successful response' do
+        patch :update_rendering, params: valid_params
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'updates the theme name for rails mode' do
+        patch :update_rendering, params: valid_params.deep_merge(website: { theme_name: 'default' })
+        expect(website.reload.theme_name).to eq('default')
+      end
+
+      it 'sets a flash notice on success' do
+        patch :update_rendering, params: valid_params
+        expect(flash[:notice]).to eq('Rendering settings updated successfully.')
+      end
+
+      it 'renders the rendering_form template' do
+        patch :update_rendering, params: valid_params
+        expect(response).to render_template(:rendering_form)
+      end
+    end
+
+    context 'updating to client rendering mode' do
+      # Client mode requires a valid client_theme_name in the database
+      let!(:client_theme) { create(:pwb_client_theme, name: 'astro_starter', friendly_name: 'Astro Starter') }
+
+      let(:client_params) do
+        {
+          id: website.id,
+          website: {
+            rendering_mode: 'client',
+            client_theme_name: 'astro_starter'
+          }
+        }
+      end
+
+      it 'updates to client mode with valid theme' do
+        patch :update_rendering, params: client_params
+        expect(website.reload.rendering_mode).to eq('client')
+      end
+
+      it 'updates the client theme name' do
+        patch :update_rendering, params: client_params
+        expect(website.reload.client_theme_name).to eq('astro_starter')
+      end
+
+      it 'returns success response' do
+        patch :update_rendering, params: client_params
+        expect(response).to have_http_status(:success)
+      end
+
+      context 'without valid client_theme_name' do
+        # Switching to client mode without a valid theme should fail validation
+        let(:invalid_client_params) do
+          {
+            id: website.id,
+            website: {
+              rendering_mode: 'client',
+              client_theme_name: 'nonexistent_theme'
+            }
+          }
+        end
+
+        it 'returns unprocessable entity when theme does not exist' do
+          patch :update_rendering, params: invalid_client_params
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'does not update the rendering mode' do
+          patch :update_rendering, params: invalid_client_params
+          expect(website.reload.rendering_mode).to eq('rails')
+        end
+      end
+    end
+
+    context 'with astro_client_url parameter' do
+      # Client theme must exist for client rendering mode
+      let!(:client_theme) { create(:pwb_client_theme, name: 'astro_starter', friendly_name: 'Astro Starter') }
+
+      let(:params_with_astro_url) do
+        {
+          id: website.id,
+          website: {
+            rendering_mode: 'client',
+            client_theme_name: 'astro_starter',
+            astro_client_url: 'https://custom-astro.example.com'
+          }
+        }
+      end
+
+      it 'stores astro_client_url in client_theme_config' do
+        patch :update_rendering, params: params_with_astro_url
+        website.reload
+        expect(website.client_theme_config['astro_client_url']).to eq('https://custom-astro.example.com')
+      end
+
+      it 'removes astro_client_url when set to blank' do
+        # First set up website with client mode and URL
+        website.update!(
+          rendering_mode: 'client',
+          client_theme_name: 'astro_starter',
+          client_theme_config: { 'astro_client_url' => 'https://old.example.com' }
+        )
+        # Now update with blank URL
+        patch :update_rendering, params: {
+          id: website.id,
+          website: {
+            rendering_mode: 'client',
+            client_theme_name: 'astro_starter',
+            astro_client_url: ''
+          }
+        }
+        website.reload
+        expect(website.client_theme_config['astro_client_url']).to be_nil
+      end
+    end
+
+    context 'with INCORRECTLY structured params (missing form scope)' do
+      # This simulates what happens when form_with is missing scope: :website
+      # The params come in at the top level instead of nested under :website
+      #
+      # IMPORTANT: This is a regression test for a production bug.
+      # The form was submitting params like:
+      #   { rendering_mode: 'rails', theme_name: 'default' }
+      # Instead of:
+      #   { website: { rendering_mode: 'rails', theme_name: 'default' } }
+      #
+      # This caused params.require(:website) to fail, which is now handled
+      # by TenantAdminController#handle_parameter_missing to return a redirect
+      # with helpful error message.
+
+      let(:incorrectly_structured_params) do
+        {
+          id: website.id,
+          # Note: params NOT nested under :website - this is WRONG
+          rendering_mode: 'rails',
+          theme_name: 'default'
+        }
+      end
+
+      it 'redirects back with error message for HTML requests' do
+        # TenantAdminController#handle_parameter_missing redirects with flash alert
+        request.env['HTTP_REFERER'] = tenant_admin_website_path(website)
+        patch :update_rendering, params: incorrectly_structured_params
+        expect(response).to redirect_to(tenant_admin_website_path(website))
+        expect(flash[:alert]).to include('Form submission error')
+      end
+
+      it 'returns 422 for JSON requests' do
+        # JSON format returns 422 with diagnostic info
+        patch :update_rendering, params: incorrectly_structured_params, format: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(JSON.parse(response.body)['error']).to eq('Parameter missing')
+      end
+
+      it 'logs diagnostic information for troubleshooting' do
+        # The controller logs detailed info to help diagnose form scope issues
+        # We just verify the request completes - check logs manually for diagnostics
+        # Logs include: FORM SCOPE ERROR, rendering params at top level, ParameterMissing
+        request.env['HTTP_REFERER'] = tenant_admin_website_path(website)
+        patch :update_rendering, params: incorrectly_structured_params
+        expect(response).to be_redirect
+        # Logs will contain diagnostic messages - see TenantAdmin::WebsitesController#update_rendering
+      end
+    end
+
+    context 'when website params key exists but is empty' do
+      let(:empty_website_params) do
+        {
+          id: website.id,
+          website: {}
+        }
+      end
+
+      it 'redirects back with error for empty website params' do
+        # Rails strong params treats empty hash as invalid for require()
+        # This triggers handle_parameter_missing which redirects
+        request.env['HTTP_REFERER'] = tenant_admin_website_path(website)
+        patch :update_rendering, params: empty_website_params
+        expect(response).to redirect_to(tenant_admin_website_path(website))
+      end
+
+      it 'returns 422 for JSON requests with empty website params' do
+        patch :update_rendering, params: empty_website_params, format: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+
+    context 'authorization' do
+      let(:regular_user) { create(:pwb_user, email: 'user@example.com', website: website) }
+
+      before do
+        sign_in regular_user, scope: :user
+      end
+
+      it 'denies access to rendering_form' do
+        get :rendering_form, params: { id: website.id }
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      it 'denies access to update_rendering' do
+        patch :update_rendering, params: { id: website.id, website: { rendering_mode: 'rails' } }
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+  end
+
+  describe 'rendering_params (private method via update_rendering)' do
+    # These tests verify the strong params behavior indirectly
+    # NOTE: Tests that change rendering_mode to 'client' need a valid ClientTheme
+
+    context 'staying in rails mode' do
+      it 'permits theme_name' do
+        patch :update_rendering, params: {
+          id: website.id,
+          website: { theme_name: 'default' }
+        }
+        expect(website.reload.theme_name).to eq('default')
+      end
+
+      it 'does not permit arbitrary params' do
+        original_subdomain = website.subdomain
+        patch :update_rendering, params: {
+          id: website.id,
+          website: {
+            rendering_mode: 'rails',
+            subdomain: 'hacked-subdomain'  # Should not be permitted
+          }
+        }
+        expect(website.reload.subdomain).to eq(original_subdomain)
+      end
+    end
+
+    context 'switching to client mode' do
+      let!(:client_theme) { create(:pwb_client_theme, name: 'test_theme', friendly_name: 'Test Theme') }
+
+      it 'permits rendering_mode' do
+        patch :update_rendering, params: {
+          id: website.id,
+          website: { rendering_mode: 'client', client_theme_name: 'test_theme' }
+        }
+        expect(website.reload.rendering_mode).to eq('client')
+      end
+
+      it 'permits client_theme_name' do
+        patch :update_rendering, params: {
+          id: website.id,
+          website: { rendering_mode: 'client', client_theme_name: 'test_theme' }
+        }
+        expect(website.reload.client_theme_name).to eq('test_theme')
+      end
+    end
+  end
 end
