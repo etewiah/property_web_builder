@@ -57,21 +57,62 @@ module Pwb
     private
 
     def set_page_part
-      # Strictly require website_id to be set for multi-tenant isolation
-      # PageParts without website_id should not be editable
-      @page_part = PagePart.where(website_id: @current_website&.id)
-                           .where.not(website_id: nil)
-                           .find_by!(page_part_key: params[:id])
-    end
-    
-    def page_part_not_found
       page_part_key = params[:id]
+
+      # Strictly require website_id to be set for multi-tenant isolation
+      return page_part_not_found unless @current_website&.id
+
+      # Find existing or create new PagePart for this website
+      @page_part = PagePart.find_or_initialize_by(
+        website_id: @current_website.id,
+        page_part_key: page_part_key
+      )
+
+      # If new record, initialize with fields from PagePartLibrary
+      if @page_part.new_record?
+        initialize_page_part_from_library(page_part_key)
+        @page_part.save!
+        Rails.logger.info "[Editor] Auto-created PagePart '#{page_part_key}' for website #{@current_website.id}"
+      end
+    end
+
+    # Initialize a new PagePart with default block_contents from PagePartLibrary
+    def initialize_page_part_from_library(page_part_key)
+      definition = Pwb::PagePartLibrary.definition(page_part_key)
+
+      # Build empty block_contents structure with fields from definition
+      fields = definition&.dig(:fields) || []
+
+      blocks = {}
+      fields.each do |field_name|
+        blocks[field_name] = { 'content' => '' }
+      end
+
+      # Initialize for default locale
+      default_locale = I18n.default_locale.to_s
+      @page_part.block_contents = {
+        default_locale => { 'blocks' => blocks }
+      }
+
+      @page_part.show_in_editor = true
+    end
+
+    def page_part_not_found(exception = nil)
+      page_part_key = params[:id]
+
+      # Log the error for debugging
+      if exception
+        Rails.logger.warn "[Editor] PagePart error for '#{page_part_key}': #{exception.message}"
+      else
+        Rails.logger.warn "[Editor] PagePart not found: '#{page_part_key}' (no website context)"
+      end
+
       error_html = <<~HTML
         <div class="pwb-editor-error">
           <div class="pwb-error-icon"><i class="fas fa-exclamation-triangle"></i></div>
           <h4>Content Not Available</h4>
-          <p>The content block "<strong>#{ERB::Util.html_escape(page_part_key)}</strong>" is not configured for editing on this website.</p>
-          <p class="pwb-error-hint">This may happen if the content hasn't been set up yet. Please contact your administrator.</p>
+          <p>The content block "<strong>#{ERB::Util.html_escape(page_part_key)}</strong>" could not be loaded.</p>
+          <p class="pwb-error-hint">This may happen if the website context is not available. Please try refreshing the page.</p>
         </div>
         <style>
           .pwb-editor-error {

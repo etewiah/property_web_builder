@@ -228,6 +228,38 @@ GET /en/editor/page_parts/heroes/hero_centered?editing_locale=es
 
 **Response:** HTML form partial (see [Edit Mode Implementation](#edit-mode-implementation))
 
+#### Auto-Creation Behavior
+
+If a `PagePart` record doesn't exist for the requested `page_part_key` and website, one will be **automatically created** with:
+
+1. `website_id` set to the current website
+2. `block_contents` initialized with empty fields from `PagePartLibrary::DEFINITIONS`
+3. `show_in_editor` set to `true`
+
+This ensures the editor always has something to display, even for page parts that weren't explicitly seeded.
+
+**Example:** If `about_us_services` doesn't exist:
+```ruby
+# PagePartLibrary::DEFINITIONS['about_us_services'][:fields]
+# => ['title_a', 'content_a', 'title_b', 'content_b', 'title_c', 'content_c']
+
+# Auto-created block_contents:
+{
+  "en" => {
+    "blocks" => {
+      "title_a" => { "content" => "" },
+      "content_a" => { "content" => "" },
+      "title_b" => { "content" => "" },
+      "content_b" => { "content" => "" },
+      "title_c" => { "content" => "" },
+      "content_c" => { "content" => "" }
+    }
+  }
+}
+```
+
+For page parts **not** in the library, the record is created with empty `block_contents`.
+
 ### 3. Update Page Part Content
 
 **Endpoint:** `PATCH /:locale/editor/page_parts/:key`
