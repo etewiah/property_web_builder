@@ -85,13 +85,13 @@ module ApiPublic
         return [] unless page.respond_to?(:ordered_visible_page_contents)
 
         page.ordered_visible_page_contents.map do |page_content|
-          build_liquid_content_item(page_content, locale)
+          build_liquid_content_item(page_content, page.slug, locale)
         end
       end
 
-      def build_liquid_content_item(page_content, locale)
+      def build_liquid_content_item(page_content, page_slug, locale)
         page_part_key = page_content.page_part_key
-        page_part = find_or_create_page_part(page_part_key)
+        page_part = find_or_create_page_part(page_part_key, page_slug)
 
         # Get rendered HTML for fallback
         raw_html = page_content.is_rails_part ? nil : page_content.content&.raw
@@ -125,20 +125,34 @@ module ApiPublic
         }
       end
 
-      # Find existing PagePart or create one with defaults from library
-      def find_or_create_page_part(page_part_key)
+      # Find existing PagePart with page_slug priority, or create one with defaults from library
+      # Priority: 1) Page-specific (page_part_key + page_slug), 2) Website-wide (page_part_key only)
+      def find_or_create_page_part(page_part_key, page_slug)
         website = Pwb::Current.website
         return nil unless website
 
-        page_part = Pwb::PagePart.find_or_initialize_by(
+        # First try to find page-specific PagePart
+        page_part = Pwb::PagePart.find_by(
           website_id: website.id,
-          page_part_key: page_part_key
+          page_part_key: page_part_key,
+          page_slug: page_slug
         )
 
-        if page_part.new_record?
+        # Fall back to website-wide PagePart (page_slug nil or empty)
+        page_part ||= Pwb::PagePart.where(website_id: website.id, page_part_key: page_part_key)
+                                   .where(page_slug: [nil, ''])
+                                   .first
+
+        # Auto-create if nothing exists
+        if page_part.nil?
+          page_part = Pwb::PagePart.new(
+            website_id: website.id,
+            page_part_key: page_part_key,
+            page_slug: page_slug
+          )
           initialize_page_part_from_library(page_part, page_part_key)
           page_part.save
-          Rails.logger.info "[LiquidPages] Auto-created PagePart '#{page_part_key}' for website #{website.id}"
+          Rails.logger.info "[LiquidPages] Auto-created PagePart '#{page_part_key}' for page '#{page_slug}' website #{website.id}"
         end
 
         page_part

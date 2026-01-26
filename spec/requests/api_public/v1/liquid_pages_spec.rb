@@ -115,6 +115,68 @@ module ApiPublic
           expect(json['code']).to eq('PAGE_NOT_FOUND')
         end
 
+        context "when page-specific PagePart exists alongside website-wide PagePart" do
+          let!(:website_wide_page_part) do
+            ActsAsTenant.with_tenant(website) do
+              FactoryBot.create(:pwb_page_part,
+                                page_part_key: "content_html",
+                                page_slug: nil,
+                                website: website,
+                                block_contents: {
+                                  "en" => {
+                                    "blocks" => {
+                                      "main_content" => { "content" => "Website-wide content" }
+                                    }
+                                  }
+                                })
+            end
+          end
+
+          let!(:page_specific_page_part) do
+            ActsAsTenant.with_tenant(website) do
+              FactoryBot.create(:pwb_page_part,
+                                page_part_key: "content_html",
+                                page_slug: "about-us",
+                                website: website,
+                                block_contents: {
+                                  "en" => {
+                                    "blocks" => {
+                                      "main_content" => { "content" => "Page-specific about content" }
+                                    }
+                                  }
+                                })
+            end
+          end
+
+          let!(:content_html_page_content) do
+            ActsAsTenant.with_tenant(website) do
+              content = FactoryBot.create(:pwb_content,
+                                          page_part_key: "content_html",
+                                          key: "content_html_about_#{SecureRandom.hex(4)}",
+                                          website: website)
+              FactoryBot.create(:pwb_page_content,
+                                page: page,
+                                content: content,
+                                page_part_key: "content_html",
+                                visible_on_page: true,
+                                sort_order: 3,
+                                website: website)
+            end
+          end
+
+          it "uses page-specific PagePart over website-wide" do
+            get "/api_public/v1/en/liquid_page/by_slug/about-us"
+
+            expect(response).to have_http_status(:success)
+            json = JSON.parse(response.body)
+            page_content = json['page_contents'].find { |pc| pc['page_part_key'] == 'content_html' }
+
+            expect(page_content).to be_present
+            # Should use page-specific content, not website-wide
+            expect(page_content['block_contents']['blocks']['main_content']['content']).to eq('Page-specific about content')
+          end
+        end
+
         context "when PagePart doesn't exist" do
           let!(:orphan_page_content) do
             ActsAsTenant.with_tenant(website) do
