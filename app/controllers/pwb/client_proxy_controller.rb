@@ -21,9 +21,10 @@ module Pwb
       proxy_to_astro_client(request.fullpath)
     end
 
-    # Proxy admin/management pages to Astro client (requires auth)
+    # Proxy admin/management pages to Astro content management app (requires auth)
+    # Uses astro_content_management_url which can be different from the public client
     def admin_proxy
-      proxy_to_astro_client(request.fullpath, with_auth: true)
+      proxy_to_astro_client(request.fullpath, with_auth: true, base_url: astro_content_management_url)
     end
 
     private
@@ -45,8 +46,11 @@ module Pwb
     end
 
     # Main proxy method - forwards requests to Astro client
-    def proxy_to_astro_client(path, with_auth: false)
-      astro_url = build_astro_url(path)
+    # @param path [String] The request path to proxy
+    # @param with_auth [Boolean] Whether to include auth headers
+    # @param base_url [String, nil] Override base URL (defaults to astro_client_url)
+    def proxy_to_astro_client(path, with_auth: false, base_url: nil)
+      astro_url = build_astro_url(path, base_url: base_url)
 
       # Build request headers
       headers = proxy_headers
@@ -77,12 +81,14 @@ module Pwb
     end
 
     # Build the full URL to the Astro client
-    def build_astro_url(path)
-      base_url = astro_client_url.chomp('/')
-      "#{base_url}#{path}"
+    # @param path [String] The request path
+    # @param base_url [String, nil] Override base URL (defaults to astro_client_url)
+    def build_astro_url(path, base_url: nil)
+      url = (base_url || astro_client_url).chomp('/')
+      "#{url}#{path}"
     end
 
-    # Get Astro client URL - per-tenant config takes precedence
+    # Get Astro client URL for public pages - per-tenant config takes precedence
     def astro_client_url
       # Per-tenant URL from client_theme_config takes precedence
       tenant_url = current_website&.client_theme_config&.dig('astro_client_url')
@@ -90,6 +96,22 @@ module Pwb
 
       # Fall back to environment variable or default
       ENV.fetch('ASTRO_CLIENT_URL', 'http://localhost:4321')
+    end
+
+    # Get Astro content management URL - separate from public client
+    # Used for /manage-content/* routes
+    # Falls back to astro_client_url if not configured
+    def astro_content_management_url
+      # Per-tenant URL from client_theme_config takes precedence
+      tenant_url = current_website&.client_theme_config&.dig('astro_content_management_url')
+      return tenant_url if tenant_url.present?
+
+      # Fall back to environment variable
+      env_url = ENV['ASTRO_CONTENT_MANAGEMENT_URL']
+      return env_url if env_url.present?
+
+      # Fall back to the regular astro_client_url
+      astro_client_url
     end
 
     # Headers to forward to Astro client

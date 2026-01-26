@@ -310,8 +310,8 @@ module TenantAdmin
       @themes = Pwb::Theme.enabled
       @client_themes = Pwb::ClientTheme.enabled
 
-      # Handle astro_client_url separately (stored in client_theme_config JSONB)
-      handle_astro_client_url_param
+      # Handle astro URLs separately (stored in client_theme_config JSONB)
+      handle_astro_url_params
 
       Rails.logger.info("[TenantAdmin::Rendering] Before update: rendering_mode=#{@website.rendering_mode}, theme_name=#{@website.theme_name}, client_theme_name=#{@website.client_theme_name}")
 
@@ -396,25 +396,40 @@ module TenantAdmin
       params.require(:website).permit(:rendering_mode, :theme_name, :client_theme_name)
     end
 
-    # Merge astro_client_url into client_theme_config JSONB field
+    # Merge astro URLs into client_theme_config JSONB field
     #
-    # The astro_client_url is stored separately in the client_theme_config JSONB
-    # column rather than as a top-level attribute. This allows flexible storage
-    # of client-side rendering configuration.
+    # The astro_client_url and astro_content_management_url are stored in the
+    # client_theme_config JSONB column rather than as top-level attributes.
+    # This allows flexible storage of client-side rendering configuration.
     #
-    # @note This is called before update to merge the URL into existing config
-    def handle_astro_client_url_param
-      return unless params[:website]&.key?(:astro_client_url)
-
-      astro_url = params[:website][:astro_client_url].presence
+    # - astro_client_url: URL for public Astro client pages
+    # - astro_content_management_url: URL for /manage-content routes (admin)
+    #
+    # @note This is called before update to merge URLs into existing config
+    def handle_astro_url_params
       current_config = @website.client_theme_config || {}
 
-      if astro_url.present?
-        @website.client_theme_config = current_config.merge('astro_client_url' => astro_url)
-      else
-        # Remove the key if URL is blank
-        @website.client_theme_config = current_config.except('astro_client_url')
+      # Handle astro_client_url
+      if params[:website]&.key?(:astro_client_url)
+        astro_url = params[:website][:astro_client_url].presence
+        if astro_url.present?
+          current_config = current_config.merge('astro_client_url' => astro_url)
+        else
+          current_config = current_config.except('astro_client_url')
+        end
       end
+
+      # Handle astro_content_management_url
+      if params[:website]&.key?(:astro_content_management_url)
+        content_url = params[:website][:astro_content_management_url].presence
+        if content_url.present?
+          current_config = current_config.merge('astro_content_management_url' => content_url)
+        else
+          current_config = current_config.except('astro_content_management_url')
+        end
+      end
+
+      @website.client_theme_config = current_config
     end
 
     # Count users associated with a website
