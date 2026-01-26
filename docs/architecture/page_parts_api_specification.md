@@ -157,7 +157,119 @@ In Liquid templates, content is accessed via `page_part.BLOCK_KEY.content`:
 
 ## API Endpoints
 
-### 1. Get Page with Rendered Content
+### 1. Get Page with Liquid Templates (Recommended for Client-Side Rendering)
+
+**Endpoint:** `GET /api_public/v1/:locale/liquid_page/by_slug/:slug`
+
+Returns page data with Liquid templates and block_contents for each page part, enabling client-side rendering.
+
+**Path Parameters:**
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `locale` | string | Content locale (e.g., `en`, `es`) |
+| `slug` | string | Page slug (e.g., `about-us`, `home`) |
+
+**Example Request:**
+```
+GET /api_public/v1/es/liquid_page/by_slug/about-us
+```
+
+**Response:**
+```json
+{
+  "id": 1,
+  "slug": "about-us",
+  "locale": "es",
+  "title": "Sobre Nosotros",
+  "meta_description": "Conozca más sobre nuestra empresa...",
+  "meta_keywords": "inmobiliaria, propiedades",
+  "last_modified": "2024-01-15T10:30:00Z",
+  "page_contents": [
+    {
+      "page_part_key": "heroes/hero_centered",
+      "sort_order": 1,
+      "visible": true,
+      "is_rails_part": false,
+      "label": "Hero Section",
+      "rendered_html": "<section class=\"pwb-hero\">...</section>",
+      "liquid_part_template": "<section class=\"pwb-hero pwb-hero--centered\">\n  {% if page_part.background_image.content %}...",
+      "block_contents": {
+        "blocks": {
+          "title": { "content": "Bienvenido" },
+          "subtitle": { "content": "Tu viaje comienza aquí" },
+          "background_image": { "content": "https://example.com/hero.jpg" },
+          "cta_text": { "content": "Comenzar" },
+          "cta_link": { "content": "/contacto" }
+        }
+      },
+      "available_locales": ["en", "es", "fr"],
+      "field_definitions": [
+        { "name": "title", "type": "text", "label": "Title" },
+        { "name": "subtitle", "type": "textarea", "label": "Subtitle" },
+        { "name": "background_image", "type": "image", "label": "Background image" },
+        { "name": "cta_text", "type": "text", "label": "Cta text" },
+        { "name": "cta_link", "type": "url", "label": "Cta link" }
+      ]
+    },
+    {
+      "page_part_key": "about_us_services",
+      "sort_order": 2,
+      "visible": true,
+      "is_rails_part": false,
+      "label": "Services",
+      "rendered_html": "<section class=\"services\">...</section>",
+      "liquid_part_template": "<section class=\"services\">...",
+      "block_contents": {
+        "blocks": {
+          "title_a": { "content": "Búsqueda de Propiedades" },
+          "content_a": { "content": "Encuentre su propiedad ideal..." },
+          "title_b": { "content": "Agentes Expertos" },
+          "content_b": { "content": "Nuestro equipo le guiará..." },
+          "title_c": { "content": "Mejor Valor" },
+          "content_c": { "content": "Aseguramos el mejor valor..." }
+        }
+      },
+      "available_locales": ["en", "es"],
+      "field_definitions": [
+        { "name": "title_a", "type": "text", "label": "Title a" },
+        { "name": "content_a", "type": "textarea", "label": "Content a" },
+        { "name": "title_b", "type": "text", "label": "Title b" },
+        { "name": "content_b", "type": "textarea", "label": "Content b" },
+        { "name": "title_c", "type": "text", "label": "Title c" },
+        { "name": "content_c", "type": "textarea", "label": "Content c" }
+      ]
+    }
+  ]
+}
+```
+
+**Response Fields:**
+
+| Field | Description |
+|-------|-------------|
+| `rendered_html` | Pre-rendered HTML (fallback for direct use) |
+| `liquid_part_template` | Liquid template for client-side rendering |
+| `block_contents` | Variables for the requested locale |
+| `available_locales` | All locales with content for this page part |
+| `field_definitions` | Field metadata from PagePartLibrary (for editor UI) |
+
+**Field Types in `field_definitions`:**
+- `text` - Single-line text input
+- `textarea` - Multi-line text (for content, description, body)
+- `image` - Image URL (for image, photo, src, background fields)
+- `url` - URL input (for link, href fields)
+- `icon` - Icon selector
+- `color` - Color picker
+
+**Locale Fallback:**
+1. Requested locale (e.g., `es`)
+2. Base locale (e.g., `es` if `es-MX` requested)
+3. English (`en`)
+4. First available locale
+
+---
+
+### 2. Get Page with Rendered Content Only
 
 **Endpoint:** `GET /api_public/v1/pages/by_slug/:slug`
 
