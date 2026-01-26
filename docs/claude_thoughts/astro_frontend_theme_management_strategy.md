@@ -133,7 +133,7 @@ The reverse proxy approach allows:
 │                          ASTRO CLIENT SERVER                            │
 │                                                                          │
 │   - Renders A themes (Amsterdam, Athens, Austin)                        │
-│   - Serves theme management UI at /client-admin/*                       │
+│   - Serves theme management UI at /manage-content/*                       │
 │   - Fetches data from Rails API                                         │
 │                                                                          │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -647,7 +647,7 @@ Rails.application.routes.draw do
 
   constraints(->(request) { client_rendering_request?(request) }) do
     # Admin routes for client-rendered sites (require auth)
-    scope '/client-admin' do
+    scope '/manage-content' do
       match '*path', to: 'pwb/client_proxy#admin_proxy', via: :all
       root to: 'pwb/client_proxy#admin_proxy'
     end
@@ -1555,12 +1555,12 @@ RSpec.describe Pwb::ClientProxyController, type: :controller do
     end
 
     it 'includes auth headers in proxy request' do
-      stub_request(:get, "#{ENV['ASTRO_CLIENT_URL']}/client-admin/themes")
+      stub_request(:get, "#{ENV['ASTRO_CLIENT_URL']}/manage-content/themes")
         .to_return(status: 200, body: '<html>Admin</html>')
 
       get :admin_proxy, params: { path: 'themes' }
 
-      expect(WebMock).to have_requested(:get, "#{ENV['ASTRO_CLIENT_URL']}/client-admin/themes")
+      expect(WebMock).to have_requested(:get, "#{ENV['ASTRO_CLIENT_URL']}/manage-content/themes")
         .with(headers: { 'X-User-Id' => user.id.to_s })
     end
   end

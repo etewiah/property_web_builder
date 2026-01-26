@@ -296,7 +296,7 @@ function createUnauthenticatedUser(): UserInfo {
 
 Let's break down what this middleware does:
 
-1. **JWT Verification**: When Rails proxies a request to `/client-admin/*`, it includes an `X-Auth-Token` header containing a JWT (JSON Web Token). This token is signed with a secret key. We verify the signature to ensure the token wasn't tampered with.
+1. **JWT Verification**: When Rails proxies a request to `/manage-content/*`, it includes an `X-Auth-Token` header containing a JWT (JSON Web Token). This token is signed with a secret key. We verify the signature to ensure the token wasn't tampered with.
 
 2. **Header Extraction**: Rails adds several `X-*` headers to tell us about the website and user. We extract these and store them in `locals`.
 
@@ -1279,7 +1279,7 @@ Create `src/layouts/AdminLayout.astro`:
 // src/layouts/AdminLayout.astro
 
 /**
- * Layout for admin pages (under /client-admin/*)
+ * Layout for admin pages (under /manage-content/*)
  *
  * Features:
  * - Requires authentication
@@ -1309,9 +1309,9 @@ if (!user.authenticated) {
 
 <ThemeLayout title={`${title} | Admin`}>
   <nav slot="navigation" class="admin-nav">
-    <a href="/client-admin">Dashboard</a>
-    <a href="/client-admin/themes">Themes</a>
-    <a href="/client-admin/settings">Settings</a>
+    <a href="/manage-content">Dashboard</a>
+    <a href="/manage-content/themes">Themes</a>
+    <a href="/manage-content/settings">Settings</a>
   </nav>
 
   <div class="admin-container">
@@ -1405,11 +1405,11 @@ if (!user.authenticated) {
 
 ### 7.2 Create Admin Dashboard Page
 
-Create `src/pages/client-admin/index.astro`:
+Create `src/pages/manage-content/index.astro`:
 
 ```astro
 ---
-// src/pages/client-admin/index.astro
+// src/pages/manage-content/index.astro
 
 /**
  * Admin Dashboard
@@ -1453,8 +1453,8 @@ const { user, website } = Astro.locals;
       <div class="card">
         <h3>Quick Actions</h3>
         <ul>
-          <li><a href="/client-admin/themes">Customize Theme</a></li>
-          <li><a href="/client-admin/settings">Website Settings</a></li>
+          <li><a href="/manage-content/themes">Customize Theme</a></li>
+          <li><a href="/manage-content/settings">Website Settings</a></li>
         </ul>
       </div>
     </div>
@@ -1516,11 +1516,11 @@ const { user, website } = Astro.locals;
 
 ### 7.3 Create Theme Customization Page
 
-Create `src/pages/client-admin/themes.astro`:
+Create `src/pages/manage-content/themes.astro`:
 
 ```astro
 ---
-// src/pages/client-admin/themes.astro
+// src/pages/manage-content/themes.astro
 
 /**
  * Theme Customization Page
@@ -1834,7 +1834,7 @@ try {
 
 4. **Test the proxy** by visiting:
    - `http://testclient.localhost:3000/` - Should show Astro-rendered page
-   - `http://testclient.localhost:3000/client-admin/` - Should require login
+   - `http://testclient.localhost:3000/manage-content/` - Should require login
 
 5. **Verify headers** are being passed:
    - Add `console.log(Astro.locals)` to a page
@@ -1857,8 +1857,8 @@ curl -H "X-Website-Slug: testclient" http://localhost:3000/api_public/v1/client-
 | Scenario | Expected Result |
 |----------|-----------------|
 | Visit public page | Page renders with correct theme |
-| Visit `/client-admin` without login | Redirects to login |
-| Visit `/client-admin` after login | Shows admin dashboard |
+| Visit `/manage-content` without login | Redirects to login |
+| Visit `/manage-content` after login | Shows admin dashboard |
 | Change theme color | Live preview updates |
 | Invalid website slug | Falls back to default theme |
 
@@ -1900,7 +1900,7 @@ curl -H "X-Website-Slug: testclient" http://localhost:3000/api_public/v1/client-
 
 **Solution**:
 1. Verify accessing via Rails domain (not direct Astro)
-2. Check Rails routes: `/client-admin/*` should require auth
+2. Check Rails routes: `/manage-content/*` should require auth
 3. Review `ClientProxyController#authenticate_for_admin_routes!`
 
 ### Problem: Fonts not loading
@@ -1957,7 +1957,7 @@ src/
 ├── middleware/
 │   └── index.ts
 ├── pages/
-│   ├── client-admin/
+│   ├── manage-content/
 │   │   ├── index.astro
 │   │   └── themes.astro
 │   └── index.astro

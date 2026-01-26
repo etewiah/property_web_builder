@@ -26,8 +26,8 @@ Rails.application.routes.draw do
   # The constraint checks if the website uses client rendering and the path is not excluded.
   constraints ClientRenderingConstraint.new do
     # Admin routes require authentication
-    match '/client-admin/*path', to: 'pwb/client_proxy#admin_proxy', via: :all
-    match '/client-admin', to: 'pwb/client_proxy#admin_proxy', via: :all
+    match '/manage-content/*path', to: 'pwb/client_proxy#admin_proxy', via: :all
+    match '/manage-content', to: 'pwb/client_proxy#admin_proxy', via: :all
 
     # Root path (/) must be explicitly defined as *path doesn't match empty path
     root to: 'pwb/client_proxy#public_proxy', as: :client_proxy_root
