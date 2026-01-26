@@ -8,12 +8,13 @@ module Pwb
   # authentication and tenant context
   class ClientProxyController < ApplicationController
     include SubdomainTenant
+    include AdminAuthBypass
 
     # Skip standard Rails processing for proxied requests
     skip_before_action :verify_authenticity_token, only: [:public_proxy, :admin_proxy]
 
     before_action :ensure_client_rendering_mode
-    before_action :authenticate_for_admin_routes!, only: [:admin_proxy]
+    before_action :authenticate_for_admin_routes!, only: [:admin_proxy], unless: :bypass_admin_auth?
 
     # Proxy public pages to Astro client
     def public_proxy
