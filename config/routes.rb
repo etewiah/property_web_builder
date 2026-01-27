@@ -749,6 +749,19 @@ Rails.application.routes.draw do
     end
   end
 
+  # API Manage - Authenticated API for managing website content
+  # Used by external admin UIs (Astro.js, etc.)
+  # TODO: Add authentication (Firebase token / API key)
+  namespace :api_manage do
+    namespace :v1 do
+      resources :pages, only: %i[index show update] do
+        member do
+          patch :reorder_parts
+        end
+      end
+    end
+  end
+
   namespace :api_public do
     namespace :v1 do
       # ==================================================
