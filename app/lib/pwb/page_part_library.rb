@@ -165,7 +165,7 @@ module Pwb
         category: :faqs,
         label: 'FAQ Accordion',
         description: 'Expandable FAQ section',
-        fields: %w[section_title section_subtitle faq_1_question faq_1_answer faq_2_question faq_2_answer faq_3_question faq_3_answer faq_4_question faq_4_answer faq_5_question faq_5_answer faq_6_question faq_6_answer]
+        fields: %w[section_title section_subtitle faq_items]
       },
 
       # Legacy page parts (from original system)

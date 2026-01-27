@@ -220,6 +220,28 @@ module Pwb
       ).squish
     end
 
+    # Parse a JSON string into a Liquid-accessible object
+    #
+    # @param json_string [String] A JSON string to parse
+    # @return [Hash, Array, nil] The parsed JSON object, or nil if parsing fails
+    #
+    # Examples:
+    #   {% assign items = page_part.faq_items.content | parse_json %}
+    #   {% for item in items %}
+    #     {{ item.question }}
+    #   {% endfor %}
+    #
+    def parse_json(json_string)
+      return nil if json_string.blank?
+
+      begin
+        JSON.parse(json_string)
+      rescue JSON::ParserError => e
+        Rails.logger.warn "[LiquidFilters] parse_json failed: #{e.message}"
+        nil
+      end
+    end
+
     # Prepend the current locale to a URL path
     #
     # @param url [String] The URL path (e.g., "/search/buy", "/contact")

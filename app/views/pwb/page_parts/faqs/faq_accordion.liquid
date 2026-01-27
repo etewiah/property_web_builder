@@ -9,96 +9,25 @@
       </div>
     {% endif %}
 
-    <div class="pwb-accordion" data-pwb-accordion>
-      <!-- FAQ 1 -->
-      {% if page_part.faq_1_question.content %}
-        <div class="pwb-accordion__item">
-          <button class="pwb-accordion__header" aria-expanded="false">
-            <span>{{ page_part.faq_1_question.content }}</span>
-            {{ "expand_more" | material_icon: "sm" }}
-          </button>
-          <div class="pwb-accordion__content">
-            <div class="pwb-accordion__body">
-              {{ page_part.faq_1_answer.content }}
+    {% assign faq_items = page_part.faq_items.content | parse_json %}
+    {% if faq_items and faq_items.size > 0 %}
+      <div class="pwb-accordion" data-pwb-accordion>
+        {% for item in faq_items %}
+          {% if item.question %}
+            <div class="pwb-accordion__item">
+              <button class="pwb-accordion__header" aria-expanded="false">
+                <span>{{ item.question }}</span>
+                {{ "expand_more" | material_icon: "sm" }}
+              </button>
+              <div class="pwb-accordion__content">
+                <div class="pwb-accordion__body">
+                  {{ item.answer }}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      {% endif %}
-
-      <!-- FAQ 2 -->
-      {% if page_part.faq_2_question.content %}
-        <div class="pwb-accordion__item">
-          <button class="pwb-accordion__header" aria-expanded="false">
-            <span>{{ page_part.faq_2_question.content }}</span>
-            {{ "expand_more" | material_icon: "sm" }}
-          </button>
-          <div class="pwb-accordion__content">
-            <div class="pwb-accordion__body">
-              {{ page_part.faq_2_answer.content }}
-            </div>
-          </div>
-        </div>
-      {% endif %}
-
-      <!-- FAQ 3 -->
-      {% if page_part.faq_3_question.content %}
-        <div class="pwb-accordion__item">
-          <button class="pwb-accordion__header" aria-expanded="false">
-            <span>{{ page_part.faq_3_question.content }}</span>
-            {{ "expand_more" | material_icon: "sm" }}
-          </button>
-          <div class="pwb-accordion__content">
-            <div class="pwb-accordion__body">
-              {{ page_part.faq_3_answer.content }}
-            </div>
-          </div>
-        </div>
-      {% endif %}
-
-      <!-- FAQ 4 -->
-      {% if page_part.faq_4_question.content %}
-        <div class="pwb-accordion__item">
-          <button class="pwb-accordion__header" aria-expanded="false">
-            <span>{{ page_part.faq_4_question.content }}</span>
-            {{ "expand_more" | material_icon: "sm" }}
-          </button>
-          <div class="pwb-accordion__content">
-            <div class="pwb-accordion__body">
-              {{ page_part.faq_4_answer.content }}
-            </div>
-          </div>
-        </div>
-      {% endif %}
-
-      <!-- FAQ 5 -->
-      {% if page_part.faq_5_question.content %}
-        <div class="pwb-accordion__item">
-          <button class="pwb-accordion__header" aria-expanded="false">
-            <span>{{ page_part.faq_5_question.content }}</span>
-            {{ "expand_more" | material_icon: "sm" }}
-          </button>
-          <div class="pwb-accordion__content">
-            <div class="pwb-accordion__body">
-              {{ page_part.faq_5_answer.content }}
-            </div>
-          </div>
-        </div>
-      {% endif %}
-
-      <!-- FAQ 6 -->
-      {% if page_part.faq_6_question.content %}
-        <div class="pwb-accordion__item">
-          <button class="pwb-accordion__header" aria-expanded="false">
-            <span>{{ page_part.faq_6_question.content }}</span>
-            {{ "expand_more" | material_icon: "sm" }}
-          </button>
-          <div class="pwb-accordion__content">
-            <div class="pwb-accordion__body">
-              {{ page_part.faq_6_answer.content }}
-            </div>
-          </div>
-        </div>
-      {% endif %}
-    </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
 </section>

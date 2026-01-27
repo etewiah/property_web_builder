@@ -220,7 +220,9 @@ module ApiPublic
       def infer_field_type(field_name)
         name = field_name.to_s.downcase
 
-        if name.include?('image') || name.include?('photo') || name.include?('src') || name.include?('background')
+        if name == 'faq_items'
+          'faq_array'
+        elsif name.include?('image') || name.include?('photo') || name.include?('src') || name.include?('background')
           'image'
         elsif name.include?('content') || name.include?('description') || name.include?('body') || name.include?('text')
           'textarea'

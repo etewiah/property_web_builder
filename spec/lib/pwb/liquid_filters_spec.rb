@@ -291,6 +291,63 @@ RSpec.describe Pwb::LiquidFilters do
     end
   end
 
+  describe '#parse_json' do
+    context 'with valid JSON' do
+      it 'parses a JSON array' do
+        json_string = '[{"question":"Q1","answer":"A1"},{"question":"Q2","answer":"A2"}]'
+        result = filter.parse_json(json_string)
+        expect(result).to be_an(Array)
+        expect(result.size).to eq(2)
+        expect(result[0]['question']).to eq('Q1')
+        expect(result[1]['answer']).to eq('A2')
+      end
+
+      it 'parses a JSON object' do
+        json_string = '{"key":"value","nested":{"foo":"bar"}}'
+        result = filter.parse_json(json_string)
+        expect(result).to be_a(Hash)
+        expect(result['key']).to eq('value')
+        expect(result['nested']['foo']).to eq('bar')
+      end
+
+      it 'parses an empty array' do
+        result = filter.parse_json('[]')
+        expect(result).to eq([])
+      end
+
+      it 'parses an empty object' do
+        result = filter.parse_json('{}')
+        expect(result).to eq({})
+      end
+    end
+
+    context 'with invalid input' do
+      it 'returns nil for nil input' do
+        expect(filter.parse_json(nil)).to be_nil
+      end
+
+      it 'returns nil for empty string' do
+        expect(filter.parse_json('')).to be_nil
+      end
+
+      it 'returns nil for blank string' do
+        expect(filter.parse_json('   ')).to be_nil
+      end
+
+      it 'returns nil for invalid JSON and logs warning' do
+        expect(Rails.logger).to receive(:warn).with(/parse_json failed/)
+        result = filter.parse_json('not valid json')
+        expect(result).to be_nil
+      end
+
+      it 'returns nil for malformed JSON' do
+        expect(Rails.logger).to receive(:warn).with(/parse_json failed/)
+        result = filter.parse_json('{"key": "missing closing brace"')
+        expect(result).to be_nil
+      end
+    end
+  end
+
   describe 'integration with Liquid templates' do
     before do
       # Register filters with Liquid
@@ -320,6 +377,21 @@ RSpec.describe Pwb::LiquidFilters do
       template = Liquid::Template.parse('{{ missing_var | material_icon }}')
       result = template.render
       expect(result).to eq('')
+    end
+
+    it 'parses JSON in a Liquid template' do
+      template = Liquid::Template.parse('{% assign items = json_data | parse_json %}{{ items.size }}')
+      result = template.render('json_data' => '[{"q":"Q1"},{"q":"Q2"},{"q":"Q3"}]')
+      expect(result).to eq('3')
+    end
+
+    it 'allows iteration over parsed JSON array' do
+      template = Liquid::Template.parse(<<~LIQUID)
+        {% assign faqs = faq_json | parse_json %}
+        {% for item in faqs %}{{ item.question }};{% endfor %}
+      LIQUID
+      result = template.render('faq_json' => '[{"question":"Q1"},{"question":"Q2"}]')
+      expect(result.strip).to eq('Q1;Q2;')
     end
   end
 end
