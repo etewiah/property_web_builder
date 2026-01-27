@@ -1,4 +1,16 @@
+{% comment %}
+  Hero Centered - WYSIWYG Optimized
+
+  Z-index strategy (contained within .pwb-hero via CSS isolation):
+  - Background image: z-0 (via CSS)
+  - Overlay: z-1 (via CSS)
+  - Content: z-2 (via CSS)
+
+  All z-indexes are low and contained by the parent's isolation: isolate.
+{% endcomment %}
+
 <section class="pwb-hero pwb-hero--centered">
+  {%- comment -%} Background Image Layer {%- endcomment -%}
   {% if page_part.background_image.content %}
     <img src="{{ page_part.background_image.content }}"
          alt="{{ page_part.title.content | default: 'Hero background' }}"
@@ -7,23 +19,35 @@
          decoding="async"
          loading="eager">
   {% endif %}
+
+  {%- comment -%} Overlay Layer {%- endcomment -%}
   <div class="pwb-hero__overlay"></div>
+
+  {%- comment -%} Content Layer {%- endcomment -%}
   <div class="pwb-container">
     <div class="pwb-hero__content">
       {% if page_part.pretitle.content %}
         <span class="pwb-hero__pretitle">{{ page_part.pretitle.content }}</span>
       {% endif %}
-      <h1 class="pwb-hero__title">{{ page_part.title.content }}</h1>
+
+      <h1 class="pwb-hero__title">{{ page_part.title.content | default: "Your Title Here" }}</h1>
+
       {% if page_part.subtitle.content %}
         <p class="pwb-hero__subtitle">{{ page_part.subtitle.content }}</p>
       {% endif %}
+
+      {%- comment -%} CTA Buttons {%- endcomment -%}
       {% if page_part.cta_text.content %}
         <div class="pwb-hero__actions">
-          <a href="{{ page_part.cta_link.content | default: '#' | localize_url }}" class="pwb-btn pwb-btn--primary pwb-btn--lg">
+          <a href="{{ page_part.cta_link.content | default: '#' | localize_url }}"
+             class="pwb-btn pwb-btn--primary pwb-btn--lg"
+             data-pwb-link="true">
             {{ page_part.cta_text.content }}
           </a>
           {% if page_part.cta_secondary_text.content %}
-            <a href="{{ page_part.cta_secondary_link.content | default: '#' | localize_url }}" class="pwb-btn pwb-btn--outline pwb-btn--lg">
+            <a href="{{ page_part.cta_secondary_link.content | default: '#' | localize_url }}"
+               class="pwb-btn pwb-btn--outline pwb-btn--lg"
+               data-pwb-link="true">
               {{ page_part.cta_secondary_text.content }}
             </a>
           {% endif %}

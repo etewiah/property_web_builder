@@ -1,4 +1,16 @@
+{% comment %}
+  Hero with Search - WYSIWYG Optimized
+
+  Z-index strategy (contained within .pwb-hero via CSS isolation):
+  - Background image: z-0 (via CSS)
+  - Overlay: z-1 (via CSS)
+  - Content: z-2 (via CSS)
+
+  All z-indexes are low and contained by the parent's isolation: isolate.
+{% endcomment %}
+
 <section class="pwb-hero pwb-hero--search">
+  {%- comment -%} Background Image Layer {%- endcomment -%}
   {% if page_part.background_image.content %}
     <img src="{{ page_part.background_image.content }}"
          alt="{{ page_part.title.content | default: 'Hero background' }}"
@@ -7,14 +19,20 @@
          decoding="async"
          loading="eager">
   {% endif %}
+
+  {%- comment -%} Overlay Layer {%- endcomment -%}
   <div class="pwb-hero__overlay"></div>
+
+  {%- comment -%} Content Layer {%- endcomment -%}
   <div class="pwb-container">
     <div class="pwb-hero__content">
-      <h1 class="pwb-hero__title">{{ page_part.title.content }}</h1>
+      <h1 class="pwb-hero__title">{{ page_part.title.content | default: "Find Your Dream Home" }}</h1>
+
       {% if page_part.subtitle.content %}
         <p class="pwb-hero__subtitle">{{ page_part.subtitle.content }}</p>
       {% endif %}
 
+      {%- comment -%} Search Form {%- endcomment -%}
       <div class="pwb-hero__search-box">
         <form action="{{ page_part.search_action.content | default: '/search' }}" method="get" class="pwb-search-form">
           <div class="pwb-search-form__row">
@@ -25,7 +43,10 @@
               </select>
             </div>
             <div class="pwb-search-form__field pwb-search-form__field--location">
-              <input type="text" name="location" placeholder="{{ page_part.placeholder_location.content | default: 'Enter location...' }}" class="pwb-input">
+              <input type="text"
+                     name="location"
+                     placeholder="{{ page_part.placeholder_location.content | default: 'Enter location...' }}"
+                     class="pwb-input">
             </div>
             <div class="pwb-search-form__field pwb-search-form__field--property-type">
               <select name="property_type" class="pwb-select">

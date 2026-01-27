@@ -1,30 +1,54 @@
+{% comment %}
+  Hero Split Layout - WYSIWYG Optimized
+
+  This hero variant uses a two-column layout without background overlay.
+  No z-index complexity - simple DOM stacking order.
+
+  Structure:
+  - Left: Text content
+  - Right: Feature image
+{% endcomment %}
+
 <section class="pwb-hero pwb-hero--split">
   <div class="pwb-container">
     <div class="pwb-grid pwb-grid--2col pwb-grid--gap-lg pwb-items-center">
+
+      {%- comment -%} Text Content Column {%- endcomment -%}
       <div class="pwb-hero__content">
         {% if page_part.pretitle.content %}
           <span class="pwb-hero__pretitle">{{ page_part.pretitle.content }}</span>
         {% endif %}
-        <h1 class="pwb-hero__title">{{ page_part.title.content }}</h1>
+
+        <h1 class="pwb-hero__title">{{ page_part.title.content | default: "Your Title Here" }}</h1>
+
         {% if page_part.subtitle.content %}
           <p class="pwb-hero__subtitle">{{ page_part.subtitle.content }}</p>
         {% endif %}
+
         {% if page_part.description.content %}
           <div class="pwb-hero__description">{{ page_part.description.content }}</div>
         {% endif %}
+
+        {%- comment -%} CTA Buttons {%- endcomment -%}
         {% if page_part.cta_text.content %}
           <div class="pwb-hero__actions">
-            <a href="{{ page_part.cta_link.content | default: '#' | localize_url }}" class="pwb-btn pwb-btn--primary">
+            <a href="{{ page_part.cta_link.content | default: '#' | localize_url }}"
+               class="pwb-btn pwb-btn--primary"
+               data-pwb-link="true">
               {{ page_part.cta_text.content }}
             </a>
             {% if page_part.cta_secondary_text.content %}
-              <a href="{{ page_part.cta_secondary_link.content | default: '#' | localize_url }}" class="pwb-btn pwb-btn--secondary">
+              <a href="{{ page_part.cta_secondary_link.content | default: '#' | localize_url }}"
+                 class="pwb-btn pwb-btn--secondary"
+                 data-pwb-link="true">
                 {{ page_part.cta_secondary_text.content }}
               </a>
             {% endif %}
           </div>
         {% endif %}
       </div>
+
+      {%- comment -%} Image Column {%- endcomment -%}
       <div class="pwb-hero__media">
         {% if page_part.image.content %}
           <img src="{{ page_part.image.content }}"
@@ -35,6 +59,7 @@
                loading="eager">
         {% endif %}
       </div>
+
     </div>
   </div>
 </section>

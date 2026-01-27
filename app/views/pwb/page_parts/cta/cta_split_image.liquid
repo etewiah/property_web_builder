@@ -1,18 +1,35 @@
+{% comment %}
+  CTA Split with Image - WYSIWYG Optimized
+
+  Two-column CTA with image on one side and content on the other.
+
+  Z-index strategy (contained via CSS isolation on .pwb-cta):
+  - Image overlay: z-0
+  - All z-indexes are low and contained.
+{% endcomment %}
+
 <section class="pwb-cta pwb-cta--split">
   <div class="pwb-grid pwb-grid--2col">
+
+    {%- comment -%} Image Side {%- endcomment -%}
     <div class="pwb-cta__image-side" style="background-image: url('{{ page_part.image.content }}');">
       <div class="pwb-cta__image-overlay"></div>
     </div>
+
+    {%- comment -%} Content Side {%- endcomment -%}
     <div class="pwb-cta__content-side pwb-cta__content-side--{{ page_part.bg_style.content | default: 'primary' }}">
       <div class="pwb-cta__inner">
         {% if page_part.pretitle.content %}
           <span class="pwb-cta__pretitle">{{ page_part.pretitle.content }}</span>
         {% endif %}
-        <h2 class="pwb-cta__title">{{ page_part.title.content }}</h2>
+
+        <h2 class="pwb-cta__title">{{ page_part.title.content | default: "Your Title Here" }}</h2>
+
         {% if page_part.description.content %}
           <p class="pwb-cta__description">{{ page_part.description.content }}</p>
         {% endif %}
 
+        {%- comment -%} Feature List {%- endcomment -%}
         {% if page_part.features.content %}
           <ul class="pwb-cta__features">
             {% assign features = page_part.features.content | split: '|' %}
@@ -22,12 +39,16 @@
           </ul>
         {% endif %}
 
+        {%- comment -%} Action Button {%- endcomment -%}
         <div class="pwb-cta__actions">
-          <a href="{{ page_part.button_link.content | default: '#' | localize_url }}" class="pwb-btn pwb-btn--white pwb-btn--lg">
+          <a href="{{ page_part.button_link.content | default: '#' | localize_url }}"
+             class="pwb-btn pwb-btn--white pwb-btn--lg"
+             data-pwb-link="true">
             {{ page_part.button_text.content | default: 'Learn More' }}
           </a>
         </div>
       </div>
     </div>
+
   </div>
 </section>
