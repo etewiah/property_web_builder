@@ -40,7 +40,7 @@
       {% else %}
         <div class="absolute inset-0 bg-gradient-to-br from-pwb-primary to-pwb-secondary z-0"></div>
       {% endif %}
-      <div class="pwb-hero__content hero-content-wrapper relative z-10 text-center px-4 max-w-4xl mx-auto">
+      <div class="pwb-hero__content hero-content-wrapper relative z-[1] text-center px-4 max-w-4xl mx-auto">
         {% if page_part["pretitle"]["content"] %}
           <p class="pwb-hero__pretitle text-sm uppercase tracking-widest text-white/80 mb-4">{{ page_part["pretitle"]["content"] }}</p>
         {% endif %}

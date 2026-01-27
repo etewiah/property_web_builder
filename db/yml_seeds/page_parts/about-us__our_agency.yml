@@ -44,7 +44,7 @@
             </div>
           </div>
           <div class="pwb-section__col agency-image-column">
-            <img alt="Agency Image" src="{{ page_part["our_agency_img"]["content"] }}" class="pwb-section__img agency-image">
+            <img alt="{{ page_part["title_a"]["content"] | default: '' }}" src="{{ page_part["our_agency_img"]["content"] }}" class="pwb-section__img agency-image">
           </div>
         </div>
       </div>

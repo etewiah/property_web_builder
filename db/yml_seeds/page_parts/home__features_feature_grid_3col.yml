@@ -23,6 +23,8 @@
           isMultipleLineText: "true"
         - label: feature_1_link
           isSingleLineText: "true"
+        - label: feature_1_link_text
+          isSingleLineText: "true"
       - - label: feature_2_icon
           isIcon: "true"
         - label: feature_2_title
@@ -31,6 +33,8 @@
           isMultipleLineText: "true"
         - label: feature_2_link
           isSingleLineText: "true"
+        - label: feature_2_link_text
+          isSingleLineText: "true"
       - - label: feature_3_icon
           isIcon: "true"
         - label: feature_3_title
@@ -38,6 +42,8 @@
         - label: feature_3_description
           isMultipleLineText: "true"
         - label: feature_3_link
+          isSingleLineText: "true"
+        - label: feature_3_link_text
           isSingleLineText: "true"
   template: |
     <section class="pwb-section pwb-section--features services-section-wrapper py-16 bg-pwb-secondary-50" id="home-services">
@@ -62,7 +68,7 @@
               <h3 class="pwb-feature-card__title service-title text-xl font-semibold text-pwb-secondary-900 mb-3">{{ page_part["feature_1_title"]["content"] }}</h3>
               <p class="pwb-feature-card__desc service-content text-pwb-secondary-600">{{ page_part["feature_1_description"]["content"] }}</p>
               {% if page_part["feature_1_link"]["content"] != blank %}
-                <a href="{{ page_part["feature_1_link"]["content"] }}" class="pwb-feature-card__link inline-block mt-4 text-pwb-primary hover:text-pwb-primary-700 hover:underline">Learn more &rarr;</a>
+                <a href="{{ page_part["feature_1_link"]["content"] }}" class="pwb-feature-card__link inline-block mt-4 text-pwb-primary hover:text-pwb-primary-700 hover:underline">{{ page_part["feature_1_link_text"]["content"] | default: "Learn more" }} &rarr;</a>
               {% endif %}
             </div>
           {% endif %}
@@ -74,7 +80,7 @@
               <h3 class="pwb-feature-card__title service-title text-xl font-semibold text-pwb-secondary-900 mb-3">{{ page_part["feature_2_title"]["content"] }}</h3>
               <p class="pwb-feature-card__desc service-content text-pwb-secondary-600">{{ page_part["feature_2_description"]["content"] }}</p>
               {% if page_part["feature_2_link"]["content"] != blank %}
-                <a href="{{ page_part["feature_2_link"]["content"] }}" class="pwb-feature-card__link inline-block mt-4 text-pwb-primary hover:text-pwb-primary-700 hover:underline">Learn more &rarr;</a>
+                <a href="{{ page_part["feature_2_link"]["content"] }}" class="pwb-feature-card__link inline-block mt-4 text-pwb-primary hover:text-pwb-primary-700 hover:underline">{{ page_part["feature_2_link_text"]["content"] | default: "Learn more" }} &rarr;</a>
               {% endif %}
             </div>
           {% endif %}
@@ -86,7 +92,7 @@
               <h3 class="pwb-feature-card__title service-title text-xl font-semibold text-pwb-secondary-900 mb-3">{{ page_part["feature_3_title"]["content"] }}</h3>
               <p class="pwb-feature-card__desc service-content text-pwb-secondary-600">{{ page_part["feature_3_description"]["content"] }}</p>
               {% if page_part["feature_3_link"]["content"] != blank %}
-                <a href="{{ page_part["feature_3_link"]["content"] }}" class="pwb-feature-card__link inline-block mt-4 text-pwb-primary hover:text-pwb-primary-700 hover:underline">Learn more &rarr;</a>
+                <a href="{{ page_part["feature_3_link"]["content"] }}" class="pwb-feature-card__link inline-block mt-4 text-pwb-primary hover:text-pwb-primary-700 hover:underline">{{ page_part["feature_3_link_text"]["content"] | default: "Learn more" }} &rarr;</a>
               {% endif %}
             </div>
           {% endif %}
