@@ -755,6 +755,9 @@ Rails.application.routes.draw do
   namespace :api_manage do
     namespace :v1 do
       resources :pages, only: %i[index show update] do
+        collection do
+          get 'by_slug/:slug', action: :show_by_slug, as: :by_slug
+        end
         member do
           patch :reorder_parts
         end

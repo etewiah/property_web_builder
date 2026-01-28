@@ -5,9 +5,10 @@ module ApiManage
     # PagesController - Manage pages for the current website
     #
     # Endpoints:
-    #   GET    /api_manage/v1/pages          - List all pages
-    #   GET    /api_manage/v1/pages/:id      - Get page details
-    #   PATCH  /api_manage/v1/pages/:id      - Update page settings
+    #   GET    /api_manage/v1/pages                   - List all pages
+    #   GET    /api_manage/v1/pages/:id               - Get page details
+    #   GET    /api_manage/v1/pages/by_slug/:slug     - Get page details by slug
+    #   PATCH  /api_manage/v1/pages/:id               - Update page settings
     #   PATCH  /api_manage/v1/pages/:id/reorder_parts - Reorder page parts
     #
     class PagesController < BaseController
@@ -25,6 +26,14 @@ module ApiManage
 
       # GET /api_manage/v1/pages/:id
       def show
+        render json: {
+          page: page_details(@page)
+        }
+      end
+
+      # GET /api_manage/v1/pages/by_slug/:slug
+      def show_by_slug
+        @page = Pwb::Page.find_by!(website_id: current_website&.id, slug: params[:slug])
         render json: {
           page: page_details(@page)
         }
