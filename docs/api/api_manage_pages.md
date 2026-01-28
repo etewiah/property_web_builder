@@ -6,11 +6,13 @@ This document describes how to use the `api_manage/v1/pages` API to build a page
 
 The `api_manage` namespace provides authenticated CRUD operations for managing website content. These endpoints are designed for external admin UIs built with frameworks like Astro.js.
 
-**Base URL:** `/api_manage/v1`
+**Base URL:** `/api_manage/v1/:locale`
 
 **Authentication:** Currently bypassed for development. TODO: Firebase token or API key authentication.
 
 **Tenant Scoping:** Endpoints are scoped to the current website based on the subdomain.
+
+**Locale Prefix:** All endpoints require a locale prefix (e.g., `/en/`, `/es/`). This matches the api_public pattern for consistency.
 
 ---
 
@@ -19,8 +21,10 @@ The `api_manage` namespace provides authenticated CRUD operations for managing w
 ### List All Pages
 
 ```
-GET /api_manage/v1/pages
+GET /api_manage/v1/:locale/pages
 ```
+
+**Example:** `GET /api_manage/v1/en/pages`
 
 **Response:**
 ```json
@@ -57,8 +61,10 @@ GET /api_manage/v1/pages
 ### Get Page Details
 
 ```
-GET /api_manage/v1/pages/:id
+GET /api_manage/v1/:locale/pages/:id
 ```
+
+**Example:** `GET /api_manage/v1/en/pages/8`
 
 **Response:**
 ```json
@@ -97,12 +103,26 @@ GET /api_manage/v1/pages/:id
 
 ---
 
+### Get Page by Slug
+
+```
+GET /api_manage/v1/:locale/pages/by_slug/:slug
+```
+
+**Example:** `GET /api_manage/v1/en/pages/by_slug/about-us`
+
+**Response:** Same as Get Page Details above.
+
+---
+
 ### Update Page Settings
 
 ```
-PATCH /api_manage/v1/pages/:id
+PATCH /api_manage/v1/:locale/pages/:id
 Content-Type: application/json
 ```
+
+**Example:** `PATCH /api_manage/v1/en/pages/8`
 
 **Request Body:**
 ```json
@@ -156,9 +176,11 @@ Content-Type: application/json
 ### Reorder Page Parts
 
 ```
-PATCH /api_manage/v1/pages/:id/reorder_parts
+PATCH /api_manage/v1/:locale/pages/:id/reorder_parts
 Content-Type: application/json
 ```
+
+**Example:** `PATCH /api_manage/v1/en/pages/8/reorder_parts`
 
 **Request Body:**
 ```json
@@ -233,18 +255,23 @@ export async function apiClient<T>(
 
 // Typed API methods
 export const pagesApi = {
-  list: () => apiClient<{ pages: Page[] }>('/pages'),
+  list: (locale: string) =>
+    apiClient<{ pages: Page[] }>(`/${locale}/pages`),
 
-  get: (id: number) => apiClient<{ page: PageDetails }>(`/pages/${id}`),
+  get: (locale: string, id: number) =>
+    apiClient<{ page: PageDetails }>(`/${locale}/pages/${id}`),
 
-  update: (id: number, data: Partial<PageSettings>) =>
-    apiClient<{ page: PageDetails; message: string }>(`/pages/${id}`, {
+  getBySlug: (locale: string, slug: string) =>
+    apiClient<{ page: PageDetails }>(`/${locale}/pages/by_slug/${slug}`),
+
+  update: (locale: string, id: number, data: Partial<PageSettings>) =>
+    apiClient<{ page: PageDetails; message: string }>(`/${locale}/pages/${id}`, {
       method: 'PATCH',
       body: JSON.stringify({ page: data }),
     }),
 
-  reorderParts: (id: number, partIds: number[]) =>
-    apiClient<{ message: string }>(`/pages/${id}/reorder_parts`, {
+  reorderParts: (locale: string, id: number, partIds: number[]) =>
+    apiClient<{ message: string }>(`/${locale}/pages/${id}/reorder_parts`, {
       method: 'PATCH',
       body: JSON.stringify({ part_ids: partIds }),
     }),

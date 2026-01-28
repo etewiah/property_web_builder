@@ -15,9 +15,9 @@ RSpec.describe 'ApiManage::V1::Pages', type: :request do
     host! "#{website.subdomain}.example.com"
   end
 
-  describe 'GET /api_manage/v1/pages' do
+  describe 'GET /api_manage/v1/:locale/pages' do
     it 'returns list of pages' do
-      get '/api_manage/v1/pages'
+      get '/api_manage/v1/en/pages'
 
       expect(response).to have_http_status(:ok)
       json = JSON.parse(response.body)
@@ -26,9 +26,9 @@ RSpec.describe 'ApiManage::V1::Pages', type: :request do
     end
   end
 
-  describe 'GET /api_manage/v1/pages/:id' do
+  describe 'GET /api_manage/v1/:locale/pages/:id' do
     it 'returns page details' do
-      get "/api_manage/v1/pages/#{test_page.id}"
+      get "/api_manage/v1/en/pages/#{test_page.id}"
 
       expect(response).to have_http_status(:ok)
       json = JSON.parse(response.body)
@@ -44,15 +44,31 @@ RSpec.describe 'ApiManage::V1::Pages', type: :request do
     end
 
     it 'returns 404 for non-existent page' do
-      get '/api_manage/v1/pages/999999'
+      get '/api_manage/v1/en/pages/999999'
 
       expect(response).to have_http_status(:not_found)
     end
   end
 
-  describe 'PATCH /api_manage/v1/pages/:id' do
+  describe 'GET /api_manage/v1/:locale/pages/by_slug/:slug' do
+    it 'returns page by slug' do
+      get '/api_manage/v1/en/pages/by_slug/test-page'
+
+      expect(response).to have_http_status(:ok)
+      json = JSON.parse(response.body)
+      expect(json['page']['slug']).to eq('test-page')
+    end
+
+    it 'returns 404 for non-existent slug' do
+      get '/api_manage/v1/en/pages/by_slug/non-existent'
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  describe 'PATCH /api_manage/v1/:locale/pages/:id' do
     it 'updates page settings' do
-      patch "/api_manage/v1/pages/#{test_page.id}", params: {
+      patch "/api_manage/v1/en/pages/#{test_page.id}", params: {
         page: {
           seo_title: 'New SEO Title',
           meta_description: 'New meta description',
@@ -71,7 +87,7 @@ RSpec.describe 'ApiManage::V1::Pages', type: :request do
 
     it 'returns validation errors for invalid params' do
       # Assuming slug can't be blank
-      patch "/api_manage/v1/pages/#{test_page.id}", params: {
+      patch "/api_manage/v1/en/pages/#{test_page.id}", params: {
         page: { slug: '' }
       }
 
@@ -81,7 +97,7 @@ RSpec.describe 'ApiManage::V1::Pages', type: :request do
     end
   end
 
-  describe 'PATCH /api_manage/v1/pages/:id/reorder_parts' do
+  describe 'PATCH /api_manage/v1/:locale/pages/:id/reorder_parts' do
     let!(:page_part1) do
       ActsAsTenant.with_tenant(website) do
         create(:pwb_page_part, page: test_page, website: website, order_in_editor: 0, show_in_editor: true)
@@ -94,7 +110,7 @@ RSpec.describe 'ApiManage::V1::Pages', type: :request do
     end
 
     it 'reorders page parts' do
-      patch "/api_manage/v1/pages/#{test_page.id}/reorder_parts", params: {
+      patch "/api_manage/v1/en/pages/#{test_page.id}/reorder_parts", params: {
         part_ids: [page_part2.id, page_part1.id]
       }
 
