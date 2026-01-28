@@ -96,15 +96,99 @@ module ApiPublic
           expect(page_content['block_contents']['blocks']['title']['content']).to eq('Welcome')
         end
 
-        it "includes field_definitions from PagePartLibrary" do
+        it "includes field_schema from PagePartLibrary" do
           get "/api_public/v1/en/liquid_page/by_slug/about-us"
 
           json = JSON.parse(response.body)
           page_content = json['page_contents'].find { |pc| pc['page_part_key'] == 'heroes/hero_centered' }
 
-          expect(page_content['field_definitions']).to be_an(Array)
-          field_names = page_content['field_definitions'].map { |f| f['name'] }
+          expect(page_content['field_schema']).to be_a(Hash)
+          expect(page_content['field_schema']['fields']).to be_an(Array)
+          expect(page_content['field_schema']['groups']).to be_an(Array)
+
+          field_names = page_content['field_schema']['fields'].map { |f| f['name'] }
           expect(field_names).to include('title', 'subtitle')
+        end
+
+        it "includes field types in field_schema" do
+          get "/api_public/v1/en/liquid_page/by_slug/about-us"
+
+          json = JSON.parse(response.body)
+          page_content = json['page_contents'].find { |pc| pc['page_part_key'] == 'heroes/hero_centered' }
+
+          title_field = page_content['field_schema']['fields'].find { |f| f['name'] == 'title' }
+          expect(title_field['type']).to eq('text')
+          expect(title_field['component']).to eq('TextInput')
+        end
+
+        it "includes field metadata (hint, placeholder, required) in field_schema" do
+          get "/api_public/v1/en/liquid_page/by_slug/about-us"
+
+          json = JSON.parse(response.body)
+          page_content = json['page_contents'].find { |pc| pc['page_part_key'] == 'heroes/hero_centered' }
+
+          title_field = page_content['field_schema']['fields'].find { |f| f['name'] == 'title' }
+          expect(title_field['label']).to be_present
+          expect(title_field['hint']).to be_present
+          expect(title_field['required']).to be true
+        end
+
+        it "includes validation rules in field_schema" do
+          get "/api_public/v1/en/liquid_page/by_slug/about-us"
+
+          json = JSON.parse(response.body)
+          page_content = json['page_contents'].find { |pc| pc['page_part_key'] == 'heroes/hero_centered' }
+
+          title_field = page_content['field_schema']['fields'].find { |f| f['name'] == 'title' }
+          expect(title_field['validation']).to be_present
+          expect(title_field['validation']['max_length']).to eq(80)
+        end
+
+        it "includes content guidance in field_schema" do
+          get "/api_public/v1/en/liquid_page/by_slug/about-us"
+
+          json = JSON.parse(response.body)
+          page_content = json['page_contents'].find { |pc| pc['page_part_key'] == 'heroes/hero_centered' }
+
+          title_field = page_content['field_schema']['fields'].find { |f| f['name'] == 'title' }
+          expect(title_field['content_guidance']).to be_present
+          expect(title_field['content_guidance']['recommended_length']).to be_present
+        end
+
+        it "includes field groups in field_schema" do
+          get "/api_public/v1/en/liquid_page/by_slug/about-us"
+
+          json = JSON.parse(response.body)
+          page_content = json['page_contents'].find { |pc| pc['page_part_key'] == 'heroes/hero_centered' }
+
+          groups = page_content['field_schema']['groups']
+          expect(groups).to be_an(Array)
+          group_keys = groups.map { |g| g['key'] }
+          expect(group_keys).to include('titles', 'cta', 'media')
+        end
+
+        it "orders field groups correctly" do
+          get "/api_public/v1/en/liquid_page/by_slug/about-us"
+
+          json = JSON.parse(response.body)
+          page_content = json['page_contents'].find { |pc| pc['page_part_key'] == 'heroes/hero_centered' }
+
+          groups = page_content['field_schema']['groups']
+          orders = groups.map { |g| g['order'] }
+          expect(orders).to eq(orders.sort)
+        end
+
+        it "includes paired_with for related fields" do
+          get "/api_public/v1/en/liquid_page/by_slug/about-us"
+
+          json = JSON.parse(response.body)
+          page_content = json['page_contents'].find { |pc| pc['page_part_key'] == 'heroes/hero_centered' }
+
+          cta_text = page_content['field_schema']['fields'].find { |f| f['name'] == 'cta_text' }
+          cta_link = page_content['field_schema']['fields'].find { |f| f['name'] == 'cta_link' }
+
+          expect(cta_text['paired_with']).to eq('cta_link')
+          expect(cta_link['paired_with']).to eq('cta_text')
         end
 
         it "returns 404 for non-existent page" do
@@ -113,6 +197,62 @@ module ApiPublic
           expect(response).to have_http_status(:not_found)
           json = JSON.parse(response.body)
           expect(json['code']).to eq('PAGE_NOT_FOUND')
+        end
+
+        context "field type inference" do
+          let!(:content_html_page_part) do
+            ActsAsTenant.with_tenant(website) do
+              FactoryBot.create(:pwb_page_part,
+                                page_part_key: "content_html",
+                                page_slug: "about-us",
+                                website: website,
+                                block_contents: {
+                                  "en" => {
+                                    "blocks" => {
+                                      "content_html" => { "content" => "<p>Test content</p>" }
+                                    }
+                                  }
+                                })
+            end
+          end
+
+          let!(:content_html_page_content) do
+            ActsAsTenant.with_tenant(website) do
+              content = FactoryBot.create(:pwb_content,
+                                          page_part_key: "content_html",
+                                          key: "content_html_test_#{SecureRandom.hex(4)}",
+                                          website: website)
+              FactoryBot.create(:pwb_page_content,
+                                page: page,
+                                content: content,
+                                page_part_key: "content_html",
+                                visible_on_page: true,
+                                sort_order: 2,
+                                website: website)
+            end
+          end
+
+          it "returns html type for content_html field" do
+            get "/api_public/v1/en/liquid_page/by_slug/about-us"
+
+            json = JSON.parse(response.body)
+            page_content = json['page_contents'].find { |pc| pc['page_part_key'] == 'content_html' }
+
+            content_field = page_content['field_schema']['fields'].find { |f| f['name'] == 'content_html' }
+            expect(content_field['type']).to eq('html')
+            expect(content_field['component']).to eq('WysiwygEditor')
+          end
+
+          it "includes content guidance for html fields" do
+            get "/api_public/v1/en/liquid_page/by_slug/about-us"
+
+            json = JSON.parse(response.body)
+            page_content = json['page_contents'].find { |pc| pc['page_part_key'] == 'content_html' }
+
+            content_field = page_content['field_schema']['fields'].find { |f| f['name'] == 'content_html' }
+            expect(content_field['content_guidance']).to be_present
+            expect(content_field['content_guidance']['best_practice']).to be_present
+          end
         end
 
         context "when page-specific PagePart exists alongside website-wide PagePart" do

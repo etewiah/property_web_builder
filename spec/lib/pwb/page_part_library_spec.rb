@@ -279,4 +279,143 @@ RSpec.describe Pwb::PagePartLibrary do
       expect(legacy_part[:legacy]).to be true
     end
   end
+
+  describe "field definitions format" do
+    context "modern hash-based fields" do
+      let(:hero_centered) { described_class.definition("heroes/hero_centered") }
+      let(:cta_banner) { described_class.definition("cta/cta_banner") }
+      let(:faq_accordion) { described_class.definition("faqs/faq_accordion") }
+      let(:content_html) { described_class.definition("content_html") }
+
+      it "heroes/hero_centered uses hash-based field definitions" do
+        expect(hero_centered[:fields]).to be_a(Hash)
+      end
+
+      it "heroes/hero_centered has explicit field types" do
+        expect(hero_centered[:fields][:title][:type]).to eq(:text)
+        expect(hero_centered[:fields][:subtitle][:type]).to eq(:textarea)
+        expect(hero_centered[:fields][:background_image][:type]).to eq(:image)
+        expect(hero_centered[:fields][:cta_link][:type]).to eq(:url)
+      end
+
+      it "heroes/hero_centered has field metadata" do
+        title_field = hero_centered[:fields][:title]
+
+        expect(title_field[:label]).to eq("Main Title")
+        expect(title_field[:hint]).to be_present
+        expect(title_field[:required]).to be true
+        expect(title_field[:max_length]).to eq(80)
+        expect(title_field[:group]).to eq(:titles)
+      end
+
+      it "heroes/hero_centered has content guidance" do
+        title_field = hero_centered[:fields][:title]
+
+        expect(title_field[:content_guidance]).to be_present
+        expect(title_field[:content_guidance][:recommended_length]).to be_present
+        expect(title_field[:content_guidance][:seo_tip]).to be_present
+      end
+
+      it "heroes/hero_centered has field groups" do
+        expect(hero_centered[:field_groups]).to be_a(Hash)
+        expect(hero_centered[:field_groups][:titles]).to be_present
+        expect(hero_centered[:field_groups][:cta]).to be_present
+        expect(hero_centered[:field_groups][:media]).to be_present
+      end
+
+      it "heroes/hero_centered field groups have order" do
+        expect(hero_centered[:field_groups][:titles][:order]).to eq(1)
+        expect(hero_centered[:field_groups][:cta][:order]).to eq(2)
+        expect(hero_centered[:field_groups][:media][:order]).to eq(3)
+      end
+
+      it "heroes/hero_centered has paired fields" do
+        expect(hero_centered[:fields][:cta_text][:paired_with]).to eq(:cta_link)
+        expect(hero_centered[:fields][:cta_link][:paired_with]).to eq(:cta_text)
+      end
+
+      it "cta/cta_banner has select fields with choices" do
+        button_style = cta_banner[:fields][:button_style]
+
+        expect(button_style[:type]).to eq(:select)
+        expect(button_style[:choices]).to be_an(Array)
+        expect(button_style[:choices].first).to have_key(:value)
+        expect(button_style[:choices].first).to have_key(:label)
+        expect(button_style[:default]).to eq("primary")
+      end
+
+      it "faqs/faq_accordion has faq_array with item_schema" do
+        faq_items = faq_accordion[:fields][:faq_items]
+
+        expect(faq_items[:type]).to eq(:faq_array)
+        expect(faq_items[:item_schema]).to be_a(Hash)
+        expect(faq_items[:item_schema][:question]).to be_present
+        expect(faq_items[:item_schema][:answer]).to be_present
+        expect(faq_items[:min_items]).to eq(1)
+        expect(faq_items[:max_items]).to eq(20)
+      end
+
+      it "faqs/faq_accordion item_schema has nested field definitions" do
+        question_schema = faq_accordion[:fields][:faq_items][:item_schema][:question]
+
+        expect(question_schema[:type]).to eq(:text)
+        expect(question_schema[:label]).to eq("Question")
+        expect(question_schema[:required]).to be true
+      end
+
+      it "content_html has html type field" do
+        content_field = content_html[:fields][:content_html]
+
+        expect(content_field[:type]).to eq(:html)
+        expect(content_field[:required]).to be true
+        expect(content_field[:content_guidance]).to be_present
+      end
+    end
+
+    context "legacy array-based fields" do
+      let(:hero_split) { described_class.definition("heroes/hero_split") }
+      let(:our_agency) { described_class.definition("our_agency") }
+
+      it "heroes/hero_split uses array-based field definitions" do
+        expect(hero_split[:fields]).to be_an(Array)
+      end
+
+      it "heroes/hero_split has expected fields" do
+        expect(hero_split[:fields]).to include(
+          "title", "subtitle", "image", "cta_link"
+        )
+      end
+
+      it "our_agency uses array-based field definitions" do
+        expect(our_agency[:fields]).to be_an(Array)
+      end
+    end
+
+    context "mixed format support" do
+      it "supports both hash and array field formats" do
+        # Hash-based (modern)
+        hero_centered = described_class.definition("heroes/hero_centered")
+        expect(hero_centered[:fields]).to be_a(Hash)
+
+        # Array-based (legacy)
+        hero_split = described_class.definition("heroes/hero_split")
+        expect(hero_split[:fields]).to be_an(Array)
+      end
+
+      it "all definitions have fields key" do
+        described_class::DEFINITIONS.each do |key, definition|
+          expect(definition).to have_key(:fields),
+            "Definition #{key} missing :fields"
+        end
+      end
+
+      it "fields are either Hash or Array" do
+        described_class::DEFINITIONS.each do |key, definition|
+          fields = definition[:fields]
+          expect(fields.is_a?(Hash) || fields.is_a?(Array)).to be(true),
+            "Definition #{key} :fields should be Hash or Array, got #{fields.class}"
+        end
+      end
+    end
+  end
 end
