@@ -122,7 +122,7 @@ module ApiManage
             id: part.id,
             page_part_key: part.page_part_key,
             order_in_editor: part.order_in_editor,
-            visible: part.visible_on_page
+            show_in_editor: part.show_in_editor
           }
         end
       end

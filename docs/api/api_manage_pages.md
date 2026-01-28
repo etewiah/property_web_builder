@@ -80,13 +80,13 @@ GET /api_manage/v1/pages/:id
         "id": 15,
         "page_part_key": "heroes/hero_centered",
         "order_in_editor": 0,
-        "visible": true
+        "show_in_editor": true
       },
       {
         "id": 16,
         "page_part_key": "content/our_agency",
         "order_in_editor": 1,
-        "visible": true
+        "show_in_editor": true
       }
     ],
     "created_at": "2024-01-01T00:00:00Z",
@@ -272,7 +272,7 @@ export interface PagePart {
   id: number;
   page_part_key: string;
   order_in_editor: number;
-  visible: boolean;
+  show_in_editor: boolean;
 }
 
 export interface PageDetails extends Page {

@@ -37,6 +37,10 @@ RSpec.describe 'ApiManage::V1::Pages', type: :request do
       expect(json['page']).to have_key('seo_title')
       expect(json['page']).to have_key('meta_description')
       expect(json['page']).to have_key('page_parts')
+      # Page parts should have show_in_editor field
+      if json['page']['page_parts'].any?
+        expect(json['page']['page_parts'].first).to have_key('show_in_editor')
+      end
     end
 
     it 'returns 404 for non-existent page' do
