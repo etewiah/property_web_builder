@@ -767,7 +767,16 @@ Rails.application.routes.draw do
           member do
             patch :reorder_parts
           end
+          # Page contents (nested under pages for context)
+          resources :page_contents, only: %i[index create] do
+            collection do
+              patch :reorder
+            end
+          end
         end
+
+        # Page contents (standalone for show/update/destroy by ID)
+        resources :page_contents, only: %i[show update destroy]
       end
     end
   end

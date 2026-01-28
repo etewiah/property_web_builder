@@ -81,24 +81,96 @@ module ApiPublic
       # Build rendered page contents with pre-rendered HTML
       # This matches how Pwb::PagesController#show_page works
       # The HTML is already rendered via Liquid and stored in Content.raw
+      # For containers, we render dynamically to include children
       def build_rendered_page_contents(page)
         return [] unless page.respond_to?(:ordered_visible_page_contents)
 
-        page.ordered_visible_page_contents.map do |page_content|
-          raw_html = page_content.is_rails_part ? nil : page_content.content&.raw
-          # Localize URLs in HTML content based on current locale
-          localized_html = raw_html.present? ? localize_html_urls(raw_html) : nil
-
-          {
-            page_part_key: page_content.page_part_key,
-            sort_order: page_content.sort_order,
-            visible: page_content.visible_on_page,
-            is_rails_part: page_content.is_rails_part || false,
-            rendered_html: localized_html,
-            # Include label for debugging/admin purposes
-            label: page_content.label
-          }
+        # Only return root-level page contents (exclude children in slots)
+        page.ordered_visible_page_contents.root_level.map do |page_content|
+          build_page_content_json(page_content)
         end
+      end
+
+      # Build JSON for a single page content, handling containers specially
+      def build_page_content_json(page_content)
+        base_json = {
+          id: page_content.id,
+          page_part_key: page_content.page_part_key,
+          sort_order: page_content.sort_order,
+          visible: page_content.visible_on_page,
+          is_rails_part: page_content.is_rails_part || false,
+          is_container: page_content.container?,
+          label: page_content.label
+        }
+
+        if page_content.container?
+          # For containers, render dynamically and include slot structure
+          base_json[:rendered_html] = render_container_html(page_content)
+          base_json[:slots] = build_slots_json(page_content)
+        else
+          # For regular page parts, use pre-rendered content
+          raw_html = page_content.is_rails_part ? nil : page_content.content&.raw
+          base_json[:rendered_html] = raw_html.present? ? localize_html_urls(raw_html) : nil
+        end
+
+        base_json
+      end
+
+      # Render a container page part dynamically with its children
+      def render_container_html(page_content)
+        website = Pwb::Current.website
+        locale = I18n.locale.to_s
+        page_part_key = page_content.page_part_key
+
+        # Find the PagePart for template and block_contents
+        page_part_record = Pwb::PagePart.find_by(
+          website_id: website&.id,
+          page_part_key: page_part_key
+        )
+
+        # Get the template
+        template_content = page_part_record&.template_content
+        if template_content.blank?
+          template_path = Pwb::PagePartLibrary.template_path(page_part_key)
+          template_content = File.read(template_path) if template_path && File.exist?(template_path)
+        end
+        return nil if template_content.blank?
+
+        # Get block_contents
+        block_contents = page_part_record&.block_contents&.dig(locale, "blocks") || {}
+
+        # Parse and render the Liquid template
+        liquid_template = Liquid::Template.parse(template_content)
+
+        # Build context with registers for render_slot tag
+        context = Liquid::Context.new
+        context["page_part"] = block_contents
+        context.registers[:website] = website
+        context.registers[:locale] = locale
+        context.registers[:page_content] = page_content
+
+        rendered_html = liquid_template.render(context)
+        localize_html_urls(rendered_html)
+      rescue StandardError => e
+        Rails.logger.error("Container rendering error for #{page_part_key}: #{e.message}")
+        nil
+      end
+
+      # Build slot structure for container (useful for editors)
+      def build_slots_json(page_content)
+        slots = {}
+        page_content.available_slots.each do |slot_name|
+          children = page_content.children_in_slot(slot_name)
+          slots[slot_name] = children.map do |child|
+            {
+              id: child.id,
+              page_part_key: child.page_part_key,
+              sort_order: child.sort_order,
+              label: child.label
+            }
+          end
+        end
+        slots
       end
 
       def build_page_parts(page)
