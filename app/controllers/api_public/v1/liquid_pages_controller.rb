@@ -120,8 +120,8 @@ module ApiPublic
           "block_contents" => block_contents,
           # All locales available for this page part
           "available_locales" => page_part&.block_contents&.keys || [],
-          # Field definitions from library (for editor UI)
-          "field_definitions" => build_field_definitions(definition)
+          # Field schema with full metadata for editor UI
+          "field_schema" => build_field_schema(page_part_key)
         }
       end
 
@@ -161,11 +161,20 @@ module ApiPublic
       # Initialize a new PagePart with default block_contents from PagePartLibrary
       def initialize_page_part_from_library(page_part, page_part_key)
         definition = Pwb::PagePartLibrary.definition(page_part_key)
-        fields = definition&.dig(:fields) || []
+        fields_config = definition&.dig(:fields)
 
         blocks = {}
-        fields.each do |field_name|
-          blocks[field_name] = { 'content' => '' }
+
+        # Handle both array (legacy) and hash (modern) field definitions
+        if fields_config.is_a?(Array)
+          fields_config.each do |field_name|
+            blocks[field_name.to_s] = { 'content' => '' }
+          end
+        elsif fields_config.is_a?(Hash)
+          fields_config.each do |field_name, field_config|
+            default_value = field_config[:default] || ''
+            blocks[field_name.to_s] = { 'content' => default_value }
+          end
         end
 
         default_locale = I18n.default_locale.to_s
@@ -201,40 +210,108 @@ module ApiPublic
         block_contents.values.first
       end
 
-      # Build field definitions for editor UI
-      def build_field_definitions(definition)
+      # Build field schema for editor UI using FieldSchemaBuilder
+      # Returns full field metadata including types, validation, hints, and content guidance
+      def build_field_schema(page_part_key)
+        definition = Pwb::PagePartLibrary.definition(page_part_key)
         return nil unless definition
 
-        fields = definition[:fields] || []
+        fields_config = definition[:fields]
+        return nil unless fields_config
 
-        fields.map do |field_name|
+        # Handle both array (legacy) and hash (modern) field definitions
+        if fields_config.is_a?(Array)
+          # Legacy format: array of field names, types inferred
           {
-            "name" => field_name,
-            "type" => infer_field_type(field_name),
-            "label" => field_name.humanize
+            'fields' => fields_config.map do |field_name|
+              Pwb::FieldSchemaBuilder.build_field_definition(field_name, {})
+            end,
+            'groups' => []
+          }
+        else
+          # Modern format: hash with explicit field configurations
+          field_groups = definition[:field_groups] || {}
+          {
+            'fields' => fields_config.map do |field_name, field_config|
+              Pwb::FieldSchemaBuilder.build_field_definition(field_name, field_config || {})
+            end,
+            'groups' => field_groups.map do |key, config|
+              {
+                'key' => key.to_s,
+                'label' => config[:label] || key.to_s.humanize,
+                'order' => config[:order] || 999
+              }
+            end.sort_by { |g| g['order'] }
           }
         end
       end
 
-      # Infer field type from field name
+      # Infer field type from field name using pattern matching
+      # This is a fallback for legacy field definitions without explicit types
+      # @param field_name [String] the field name to analyze
+      # @return [String] the inferred field type
       def infer_field_type(field_name)
         name = field_name.to_s.downcase
 
-        if name == 'faq_items'
-          'faq_array'
-        elsif name.include?('image') || name.include?('photo') || name.include?('src') || name.include?('background')
-          'image'
-        elsif name.include?('content') || name.include?('description') || name.include?('body') || name.include?('text')
-          'textarea'
-        elsif name.include?('link') || name.include?('url') || name.include?('href')
-          'url'
-        elsif name.include?('icon')
-          'icon'
-        elsif name.include?('color')
-          'color'
-        else
-          'text'
-        end
+        # Special array types (check first - exact matches)
+        return 'faq_array' if name == 'faq_items'
+        return 'feature_list' if name.match?(/_(features|amenities)$/) && !name.include?('faq')
+
+        # Image/Media fields (check before generic patterns)
+        return 'image' if name.match?(/_(image|photo|img|avatar|logo|banner|thumbnail|src)$/) ||
+                          name.match?(/^(image|photo|background|avatar|logo|banner)(_|$)/) ||
+                          name.start_with?('image_', 'photo_')
+
+        # HTML/Rich text (check before textarea)
+        return 'html' if name.end_with?('_html') || name == 'content_html'
+
+        # Email fields
+        return 'email' if name.match?(/_(email|mail)$/) || name == 'email'
+
+        # Phone fields
+        return 'phone' if name.match?(/_(phone|tel|mobile|fax|telephone)$/) ||
+                          %w[phone tel mobile fax].include?(name)
+
+        # Currency/Price fields
+        return 'currency' if name.match?(/_(price|cost|amount|fee|rate|salary)$/)
+
+        # Number fields
+        return 'number' if name.match?(/_(count|number|value|qty|quantity|total|year|age|rating|score|order|index|columns|rows)$/)
+
+        # URL fields
+        return 'url' if name.match?(/_(url|link|href|website|linkedin|twitter|facebook|instagram|youtube)$/) ||
+                        %w[url website href].include?(name)
+
+        # Color fields
+        return 'color' if name.match?(/_(color|colour|bg_color|text_color|background_color)$/) ||
+                          name.end_with?('_color', '_colour')
+
+        # Icon fields
+        return 'icon' if name.match?(/_(icon)$/) || name == 'icon'
+
+        # Select/Choice fields (style, type, layout choices)
+        return 'select' if name.match?(/_(style|type|layout|position|alignment|size|theme|variant|format|mode)$/) ||
+                           %w[style layout position alignment size theme variant].include?(name)
+
+        # Boolean fields
+        return 'boolean' if name.match?(/^(is_|has_|show_|enable_|visible|active|featured|published)/) ||
+                            name.match?(/_(enabled|visible|active|featured|published)$/)
+
+        # Date fields
+        return 'date' if name.match?(/_(date|day)$/) || %w[date start_date end_date published_at].include?(name)
+
+        # Textarea/Long text (check after more specific patterns)
+        return 'textarea' if name.match?(/_(content|description|body|bio|text|summary|excerpt|intro|message|caption|quote|answer|details)$/) ||
+                             %w[content description body bio summary excerpt intro message].include?(name)
+
+        # Map embed
+        return 'map_embed' if name.match?(/_(map|embed|iframe)$/) || name == 'map_embed'
+
+        # Social links (specific platforms)
+        return 'social_link' if %w[facebook twitter instagram linkedin youtube tiktok pinterest].include?(name)
+
+        # Default to text for unmatched patterns
+        'text'
       end
     end
   end

@@ -65,13 +65,105 @@ module Pwb
     }.freeze
 
     # Page part definitions with metadata
+    # Fields can be either:
+    # - Array of field names (legacy format, types inferred from names)
+    # - Hash of field definitions (modern format, explicit types and metadata)
     DEFINITIONS = {
       # Heroes
       'heroes/hero_centered' => {
         category: :heroes,
         label: 'Centered Hero',
         description: 'Full-width hero with centered content and optional CTA buttons',
-        fields: %w[pretitle title subtitle cta_text cta_link cta_secondary_text cta_secondary_link background_image]
+        fields: {
+          pretitle: {
+            type: :text,
+            label: 'Pre-title',
+            hint: 'Small text displayed above the main title',
+            placeholder: 'e.g., Welcome to',
+            max_length: 50,
+            group: :titles
+          },
+          title: {
+            type: :text,
+            label: 'Main Title',
+            hint: 'The primary headline for this hero section',
+            required: true,
+            max_length: 80,
+            content_guidance: {
+              recommended_length: '40-60 characters',
+              seo_tip: 'Include your primary keyword naturally'
+            },
+            group: :titles
+          },
+          subtitle: {
+            type: :textarea,
+            label: 'Subtitle',
+            hint: 'Supporting text below the main title',
+            max_length: 200,
+            rows: 2,
+            content_guidance: {
+              recommended_length: '80-150 characters',
+              best_practice: 'Expand on the title with a clear value proposition'
+            },
+            group: :titles
+          },
+          cta_text: {
+            type: :text,
+            label: 'Primary Button Text',
+            hint: 'Text for the main call-to-action button',
+            placeholder: 'e.g., Get Started',
+            max_length: 30,
+            content_guidance: {
+              recommended_length: '2-4 words',
+              best_practice: 'Use action verbs like "Get", "Start", "Discover"'
+            },
+            group: :cta,
+            paired_with: :cta_link
+          },
+          cta_link: {
+            type: :url,
+            label: 'Primary Button Link',
+            hint: 'URL for the primary button',
+            placeholder: '/contact or https://...',
+            group: :cta,
+            paired_with: :cta_text
+          },
+          cta_secondary_text: {
+            type: :text,
+            label: 'Secondary Button Text',
+            hint: 'Text for the secondary button (optional)',
+            placeholder: 'e.g., Learn More',
+            max_length: 30,
+            group: :cta,
+            paired_with: :cta_secondary_link
+          },
+          cta_secondary_link: {
+            type: :url,
+            label: 'Secondary Button Link',
+            hint: 'URL for the secondary button',
+            placeholder: '/about or https://...',
+            group: :cta,
+            paired_with: :cta_secondary_text
+          },
+          background_image: {
+            type: :image,
+            label: 'Background Image',
+            hint: 'Full-width background image for the hero',
+            required: true,
+            aspect_ratio: '16:9',
+            recommended_size: '1920x1080',
+            content_guidance: {
+              best_practice: 'Use a high-quality image that complements your text',
+              seo_tip: 'Optimize image size for fast loading (under 500KB ideal)'
+            },
+            group: :media
+          }
+        },
+        field_groups: {
+          titles: { label: 'Titles & Text', order: 1 },
+          cta: { label: 'Call to Action Buttons', order: 2 },
+          media: { label: 'Media', order: 3 }
+        }
       },
       'heroes/hero_split' => {
         category: :heroes,
@@ -119,7 +211,86 @@ module Pwb
         category: :cta,
         label: 'CTA Banner',
         description: 'Full-width call-to-action banner',
-        fields: %w[title subtitle button_text button_link button_style secondary_button_text secondary_button_link style]
+        fields: {
+          title: {
+            type: :text,
+            label: 'Title',
+            hint: 'The main headline for this CTA',
+            required: true,
+            max_length: 80,
+            group: :content
+          },
+          subtitle: {
+            type: :textarea,
+            label: 'Subtitle',
+            hint: 'Supporting text below the title',
+            max_length: 200,
+            rows: 2,
+            group: :content
+          },
+          button_text: {
+            type: :text,
+            label: 'Primary Button Text',
+            hint: 'Text for the main action button',
+            placeholder: 'e.g., Get Started',
+            max_length: 30,
+            group: :buttons,
+            paired_with: :button_link
+          },
+          button_link: {
+            type: :url,
+            label: 'Primary Button Link',
+            hint: 'URL for the primary button',
+            group: :buttons,
+            paired_with: :button_text
+          },
+          button_style: {
+            type: :select,
+            label: 'Primary Button Style',
+            hint: 'Visual style for the primary button',
+            choices: [
+              { value: 'primary', label: 'Primary (Filled)' },
+              { value: 'secondary', label: 'Secondary (Outline)' },
+              { value: 'white', label: 'White' },
+              { value: 'dark', label: 'Dark' }
+            ],
+            default: 'primary',
+            group: :buttons
+          },
+          secondary_button_text: {
+            type: :text,
+            label: 'Secondary Button Text',
+            hint: 'Text for the secondary button (optional)',
+            max_length: 30,
+            group: :buttons,
+            paired_with: :secondary_button_link
+          },
+          secondary_button_link: {
+            type: :url,
+            label: 'Secondary Button Link',
+            hint: 'URL for the secondary button',
+            group: :buttons,
+            paired_with: :secondary_button_text
+          },
+          style: {
+            type: :select,
+            label: 'Banner Style',
+            hint: 'Visual style for the banner background',
+            choices: [
+              { value: 'light', label: 'Light Background' },
+              { value: 'dark', label: 'Dark Background' },
+              { value: 'primary', label: 'Primary Color' },
+              { value: 'gradient', label: 'Gradient' }
+            ],
+            default: 'primary',
+            group: :style
+          }
+        },
+        field_groups: {
+          content: { label: 'Content', order: 1 },
+          buttons: { label: 'Buttons', order: 2 },
+          style: { label: 'Appearance', order: 3 }
+        }
       },
       'cta/cta_split_image' => {
         category: :cta,
@@ -165,7 +336,63 @@ module Pwb
         category: :faqs,
         label: 'FAQ Accordion',
         description: 'Expandable FAQ section',
-        fields: %w[section_title section_subtitle faq_items]
+        fields: {
+          section_title: {
+            type: :text,
+            label: 'Section Title',
+            hint: 'Title displayed above the FAQ list',
+            placeholder: 'e.g., Frequently Asked Questions',
+            max_length: 80,
+            group: :header
+          },
+          section_subtitle: {
+            type: :textarea,
+            label: 'Section Subtitle',
+            hint: 'Optional description below the title',
+            max_length: 200,
+            rows: 2,
+            group: :header
+          },
+          faq_items: {
+            type: :faq_array,
+            label: 'FAQ Items',
+            hint: 'Add questions and answers',
+            required: true,
+            min_items: 1,
+            max_items: 20,
+            item_schema: {
+              question: {
+                type: :text,
+                label: 'Question',
+                required: true,
+                max_length: 200,
+                content_guidance: {
+                  best_practice: 'Start with "How", "What", "Why", "When", or "Can"'
+                }
+              },
+              answer: {
+                type: :textarea,
+                label: 'Answer',
+                required: true,
+                max_length: 2000,
+                rows: 4,
+                content_guidance: {
+                  recommended_length: '50-300 characters',
+                  best_practice: 'Be concise and direct. Use bullet points for complex answers.'
+                }
+              }
+            },
+            group: :faqs,
+            content_guidance: {
+              best_practice: 'Include 5-10 of your most commonly asked questions',
+              seo_tip: 'FAQ content can appear as rich snippets in search results'
+            }
+          }
+        },
+        field_groups: {
+          header: { label: 'Section Header', order: 1 },
+          faqs: { label: 'Questions & Answers', order: 2 }
+        }
       },
 
       # Legacy page parts (from original system)
@@ -187,7 +414,20 @@ module Pwb
         category: :content,
         label: 'HTML Content',
         description: 'Free-form HTML content section',
-        fields: %w[content_html],
+        fields: {
+          content_html: {
+            type: :html,
+            label: 'Content',
+            hint: 'The main HTML content for this section',
+            required: true,
+            max_length: 50_000,
+            content_guidance: {
+              recommended_length: '500-2000 characters',
+              best_practice: 'Use headings (H2, H3) to structure long content for better readability',
+              seo_tip: 'Break up text with subheadings and bullet points for better SEO'
+            }
+          }
+        },
         legacy: true
       },
       'footer_content_html' => {
