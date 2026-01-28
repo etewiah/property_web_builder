@@ -38,6 +38,8 @@
              <%= "data-pwb-page-part=#{page_content.page_part_key}".html_safe if params[:edit_mode] == 'true' %>>
           <% if page_content.is_rails_part %>
             <%= render partial: "pwb/components/#{page_content.page_part_key}", locals: {} rescue nil %>
+          <% elsif page_content.container? %>
+            <%= render_container_page_part(page_content, params[:edit_mode] == 'true') %>
           <% else %>
             <div class="prose prose-lg max-w-none prose-headings:text-med-800 prose-a:text-med-600 hover:prose-a:text-med-700">
               <%== @content_to_show[index] %>

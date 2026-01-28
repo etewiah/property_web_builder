@@ -186,7 +186,7 @@ module Pwb
     describe 'container functionality' do
       let(:container) do
         create(:pwb_page_content,
-               page_part_key: 'layout_two_column_equal',
+               page_part_key: 'layout/layout_two_column_equal',
                website: website,
                page: page)
       end
@@ -311,7 +311,7 @@ module Pwb
         describe 'no nested containers' do
           it 'prevents containers from being nested inside other containers' do
             nested_container = build(:pwb_page_content,
-                                     page_part_key: 'layout_sidebar_left',
+                                     page_part_key: 'layout/layout_sidebar_left',
                                      website: website,
                                      parent_page_content: container,
                                      slot_name: 'left')

@@ -21,12 +21,12 @@ module Pwb
       end
 
       def render(context)
-        view = context.registers[:view]
         website = context.registers[:website]
         locale = context.registers[:locale] || I18n.locale
         page_content = context.registers[:page_content]
 
-        return "" unless view && website && page_content
+        # Only require page_content - website and view may be optional in some contexts
+        return "" unless page_content
 
         # Verify this is a container
         return slot_error("Not a container") unless page_content.container?
@@ -57,28 +57,35 @@ module Pwb
         page_part_key = child_page_content.page_part_key
         return "" if page_part_key.blank?
 
-        # Find the content data
-        content = child_page_content.content
-        block_contents = if content&.raw.present?
-                           content.raw
-                         else
-                           {}
-                         end
+        website = context.registers[:website]
 
-        # Get the template
-        template_path = Pwb::PagePartLibrary.template_path(page_part_key)
-        return "" unless template_path && File.exist?(template_path)
+        # Find the PagePart to get block_contents and template
+        page_part = Pwb::PagePart.find_by(
+          website_id: website&.id,
+          page_part_key: page_part_key
+        )
 
-        template_content = File.read(template_path)
+        # Get block_contents from PagePart (the JSON data)
+        block_contents = page_part&.block_contents&.dig(locale.to_s, "blocks") || {}
+
+        # Get the template - prefer PagePart's template_content, fallback to file
+        template_content = page_part&.template_content
+        if template_content.blank?
+          template_path = Pwb::PagePartLibrary.template_path(page_part_key)
+          return "" unless template_path && File.exist?(template_path)
+          template_content = File.read(template_path)
+        end
+
         liquid_template = Liquid::Template.parse(template_content)
 
-        # Build child context with its own page_content
-        child_registers = context.registers.merge(page_content: child_page_content)
+        # Build child context - use Liquid::Context with registers set properly
+        child_context = Liquid::Context.new
+        child_context["page_part"] = block_contents
+        child_context.registers[:page_content] = child_page_content
+        child_context.registers[:website] = website
+        child_context.registers[:locale] = locale
 
-        liquid_template.render(
-          "page_part" => block_contents,
-          registers: child_registers
-        )
+        liquid_template.render(child_context)
       rescue StandardError => e
         Rails.logger.error("RenderSlotTag error for #{page_part_key}: #{e.message}")
         ""

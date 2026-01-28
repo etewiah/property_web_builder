@@ -16,7 +16,7 @@ namespace :pwb do
       container = Pwb::PageContent.create!(
         page: page,
         website: website,
-        page_part_key: "layout_two_column_equal",
+        page_part_key: "layout/layout_two_column_equal",
         sort_order: 50,
         visible_on_page: true
       )
@@ -100,7 +100,7 @@ namespace :pwb do
       raise "Contact page not found." unless page
 
       # Find the demo container
-      container = page.page_contents.find_by(page_part_key: "layout_two_column_equal")
+      container = page.page_contents.find_by(page_part_key: "layout/layout_two_column_equal")
 
       unless container
         puts "No demo container found on contact page."

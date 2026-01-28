@@ -423,21 +423,21 @@ RSpec.describe Pwb::PagePartLibrary do
     describe "DEFINITIONS for containers" do
       it "includes layout container page parts" do
         expect(described_class::DEFINITIONS.keys).to include(
-          "layout_two_column_equal",
-          "layout_two_column_wide_narrow",
-          "layout_sidebar_left",
-          "layout_sidebar_right",
-          "layout_three_column_equal"
+          "layout/layout_two_column_equal",
+          "layout/layout_two_column_wide_narrow",
+          "layout/layout_sidebar_left",
+          "layout/layout_sidebar_right",
+          "layout/layout_three_column_equal"
         )
       end
 
       it "container definitions have is_container flag" do
         container_keys = %w[
-          layout_two_column_equal
-          layout_two_column_wide_narrow
-          layout_sidebar_left
-          layout_sidebar_right
-          layout_three_column_equal
+          layout/layout_two_column_equal
+          layout/layout_two_column_wide_narrow
+          layout/layout_sidebar_left
+          layout/layout_sidebar_right
+          layout/layout_three_column_equal
         ]
 
         container_keys.each do |key|
@@ -449,11 +449,11 @@ RSpec.describe Pwb::PagePartLibrary do
 
       it "container definitions have slots" do
         container_keys = %w[
-          layout_two_column_equal
-          layout_two_column_wide_narrow
-          layout_sidebar_left
-          layout_sidebar_right
-          layout_three_column_equal
+          layout/layout_two_column_equal
+          layout/layout_two_column_wide_narrow
+          layout/layout_sidebar_left
+          layout/layout_sidebar_right
+          layout/layout_three_column_equal
         ]
 
         container_keys.each do |key|
@@ -466,7 +466,7 @@ RSpec.describe Pwb::PagePartLibrary do
       end
 
       it "two column containers have left and right slots" do
-        %w[layout_two_column_equal layout_two_column_wide_narrow].each do |key|
+        %w[layout/layout_two_column_equal layout/layout_two_column_wide_narrow].each do |key|
           definition = described_class.definition(key)
           expect(definition[:slots].keys).to contain_exactly(:left, :right),
             "Container #{key} should have left and right slots"
@@ -474,7 +474,7 @@ RSpec.describe Pwb::PagePartLibrary do
       end
 
       it "sidebar containers have main and sidebar slots" do
-        %w[layout_sidebar_left layout_sidebar_right].each do |key|
+        %w[layout/layout_sidebar_left layout/layout_sidebar_right].each do |key|
           definition = described_class.definition(key)
           expect(definition[:slots].keys).to contain_exactly(:main, :sidebar),
             "Container #{key} should have main and sidebar slots"
@@ -482,7 +482,7 @@ RSpec.describe Pwb::PagePartLibrary do
       end
 
       it "three column container has left, center, and right slots" do
-        definition = described_class.definition("layout_three_column_equal")
+        definition = described_class.definition("layout/layout_three_column_equal")
         expect(definition[:slots].keys).to contain_exactly(:left, :center, :right)
       end
 
@@ -512,8 +512,8 @@ RSpec.describe Pwb::PagePartLibrary do
         containers = described_class.container_parts
 
         expect(containers.keys).to include(
-          "layout_two_column_equal",
-          "layout_sidebar_left"
+          "layout/layout_two_column_equal",
+          "layout/layout_sidebar_left"
         )
       end
 
@@ -527,8 +527,8 @@ RSpec.describe Pwb::PagePartLibrary do
 
     describe ".container?" do
       it "returns true for container page parts" do
-        expect(described_class.container?("layout_two_column_equal")).to be true
-        expect(described_class.container?("layout_sidebar_right")).to be true
+        expect(described_class.container?("layout/layout_two_column_equal")).to be true
+        expect(described_class.container?("layout/layout_sidebar_right")).to be true
       end
 
       it "returns false for non-container page parts" do
@@ -544,7 +544,7 @@ RSpec.describe Pwb::PagePartLibrary do
 
     describe ".slots_for" do
       it "returns slots for container page parts" do
-        slots = described_class.slots_for("layout_two_column_equal")
+        slots = described_class.slots_for("layout/layout_two_column_equal")
 
         expect(slots).to be_a(Hash)
         expect(slots.keys).to contain_exactly(:left, :right)
@@ -561,7 +561,7 @@ RSpec.describe Pwb::PagePartLibrary do
 
     describe ".slot_names" do
       it "returns slot names as strings for container page parts" do
-        names = described_class.slot_names("layout_three_column_equal")
+        names = described_class.slot_names("layout/layout_three_column_equal")
 
         expect(names).to contain_exactly("left", "center", "right")
       end
@@ -590,7 +590,7 @@ RSpec.describe Pwb::PagePartLibrary do
       it "includes slots in schema for container page parts" do
         schema = described_class.to_json_schema
         layout_category = schema[:categories].find { |c| c[:key] == :layout }
-        two_col = layout_category[:parts].find { |p| p[:key] == "layout_two_column_equal" }
+        two_col = layout_category[:parts].find { |p| p[:key] == "layout/layout_two_column_equal" }
 
         expect(two_col[:slots]).to be_present
         expect(two_col[:slots].keys).to contain_exactly(:left, :right)

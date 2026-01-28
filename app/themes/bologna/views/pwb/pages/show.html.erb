@@ -35,6 +35,8 @@
     <div class="w-full mb-6" <%= "data-pwb-page-part=#{page_content.page_part_key}".html_safe if params[:edit_mode] == 'true' %>>
       <% if page_content.is_rails_part %>
         <%= render partial: "pwb/components/#{page_content.page_part_key}", locals: {} rescue nil %>
+      <% elsif page_content.container? %>
+        <%= render_container_page_part(page_content, params[:edit_mode] == 'true') %>
       <% else %>
         <%== @content_to_show[index] %>
       <% end %>

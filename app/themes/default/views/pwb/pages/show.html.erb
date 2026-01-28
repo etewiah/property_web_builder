@@ -43,6 +43,9 @@
       <% if page_content.is_rails_part %>
         <%# Rails parts are dynamic - never cache them %>
         <%= render partial: "pwb/components/#{page_content.page_part_key}", locals: {} rescue nil %>
+      <% elsif page_content.container? %>
+        <%# Containers need dynamic rendering to access children via render_slot %>
+        <%= render_container_page_part(page_content, edit_mode?) %>
       <% else %>
         <%# Liquid-rendered content - already stored in DB, output directly %>
         <%== @content_to_show[index] %>

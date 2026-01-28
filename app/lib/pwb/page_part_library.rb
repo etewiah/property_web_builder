@@ -662,7 +662,8 @@ module Pwb
 
       # Layout Containers - for composable side-by-side layouts
       # Containers have is_container: true and define named slots
-      'layout_two_column_equal' => {
+      # Keys use path format (layout/xxx) to match template location
+      'layout/layout_two_column_equal' => {
         category: :layout,
         label: 'Two Column (50/50)',
         description: 'Two equal-width columns for side-by-side content',
@@ -681,7 +682,7 @@ module Pwb
           }
         }
       },
-      'layout_two_column_wide_narrow' => {
+      'layout/layout_two_column_wide_narrow' => {
         category: :layout,
         label: 'Two Column (67/33)',
         description: 'Two columns with wider left column',
@@ -700,7 +701,7 @@ module Pwb
           }
         }
       },
-      'layout_sidebar_left' => {
+      'layout/layout_sidebar_left' => {
         category: :layout,
         label: 'Sidebar Left (25/75)',
         description: 'Sidebar on left with main content on right',
@@ -719,7 +720,7 @@ module Pwb
           }
         }
       },
-      'layout_sidebar_right' => {
+      'layout/layout_sidebar_right' => {
         category: :layout,
         label: 'Sidebar Right (75/25)',
         description: 'Main content on left with sidebar on right',
@@ -738,7 +739,7 @@ module Pwb
           }
         }
       },
-      'layout_three_column_equal' => {
+      'layout/layout_three_column_equal' => {
         category: :layout,
         label: 'Three Column (33/33/33)',
         description: 'Three equal-width columns',
