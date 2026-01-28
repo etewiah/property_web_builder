@@ -777,6 +777,18 @@ Rails.application.routes.draw do
 
         # Page contents (standalone for show/update/destroy by ID)
         resources :page_contents, only: %i[show update destroy]
+
+        # Page parts (content editing - block_contents)
+        resources :page_parts, only: %i[index show update] do
+          member do
+            post :regenerate
+          end
+          collection do
+            # Access by composite key: page_slug::page_part_key (URL-encoded)
+            get 'by_key/*key', action: :show_by_key, as: :by_key
+            patch 'by_key/*key', action: :update_by_key
+          end
+        end
       end
     end
   end
