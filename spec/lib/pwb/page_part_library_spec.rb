@@ -7,7 +7,7 @@ RSpec.describe Pwb::PagePartLibrary do
     it "defines expected categories" do
       expect(described_class::CATEGORIES.keys).to include(
         :heroes, :features, :testimonials, :cta, :stats,
-        :teams, :galleries, :pricing, :faqs, :content, :contact
+        :teams, :galleries, :pricing, :faqs, :content, :contact, :layout
       )
     end
 
@@ -416,6 +416,223 @@ RSpec.describe Pwb::PagePartLibrary do
             "Definition #{key} :fields should be Hash or Array, got #{fields.class}"
         end
       end
+    end
+  end
+
+  describe "container page parts" do
+    describe "DEFINITIONS for containers" do
+      it "includes layout container page parts" do
+        expect(described_class::DEFINITIONS.keys).to include(
+          "layout_two_column_equal",
+          "layout_two_column_wide_narrow",
+          "layout_sidebar_left",
+          "layout_sidebar_right",
+          "layout_three_column_equal"
+        )
+      end
+
+      it "container definitions have is_container flag" do
+        container_keys = %w[
+          layout_two_column_equal
+          layout_two_column_wide_narrow
+          layout_sidebar_left
+          layout_sidebar_right
+          layout_three_column_equal
+        ]
+
+        container_keys.each do |key|
+          definition = described_class.definition(key)
+          expect(definition[:is_container]).to be(true),
+            "Container #{key} missing is_container: true"
+        end
+      end
+
+      it "container definitions have slots" do
+        container_keys = %w[
+          layout_two_column_equal
+          layout_two_column_wide_narrow
+          layout_sidebar_left
+          layout_sidebar_right
+          layout_three_column_equal
+        ]
+
+        container_keys.each do |key|
+          definition = described_class.definition(key)
+          expect(definition[:slots]).to be_a(Hash),
+            "Container #{key} missing :slots"
+          expect(definition[:slots]).not_to be_empty,
+            "Container #{key} has empty :slots"
+        end
+      end
+
+      it "two column containers have left and right slots" do
+        %w[layout_two_column_equal layout_two_column_wide_narrow].each do |key|
+          definition = described_class.definition(key)
+          expect(definition[:slots].keys).to contain_exactly(:left, :right),
+            "Container #{key} should have left and right slots"
+        end
+      end
+
+      it "sidebar containers have main and sidebar slots" do
+        %w[layout_sidebar_left layout_sidebar_right].each do |key|
+          definition = described_class.definition(key)
+          expect(definition[:slots].keys).to contain_exactly(:main, :sidebar),
+            "Container #{key} should have main and sidebar slots"
+        end
+      end
+
+      it "three column container has left, center, and right slots" do
+        definition = described_class.definition("layout_three_column_equal")
+        expect(definition[:slots].keys).to contain_exactly(:left, :center, :right)
+      end
+
+      it "slots have required metadata" do
+        described_class.container_parts.each do |key, definition|
+          definition[:slots].each do |slot_name, slot_config|
+            expect(slot_config).to have_key(:label),
+              "Container #{key} slot #{slot_name} missing :label"
+            expect(slot_config).to have_key(:description),
+              "Container #{key} slot #{slot_name} missing :description"
+          end
+        end
+      end
+    end
+
+    describe ".container_parts" do
+      it "returns only container page parts" do
+        containers = described_class.container_parts
+
+        expect(containers).to be_a(Hash)
+        containers.each_value do |config|
+          expect(config[:is_container]).to be(true)
+        end
+      end
+
+      it "includes all layout containers" do
+        containers = described_class.container_parts
+
+        expect(containers.keys).to include(
+          "layout_two_column_equal",
+          "layout_sidebar_left"
+        )
+      end
+
+      it "does not include non-container page parts" do
+        containers = described_class.container_parts
+
+        expect(containers.keys).not_to include("heroes/hero_centered")
+        expect(containers.keys).not_to include("cta/cta_banner")
+      end
+    end
+
+    describe ".container?" do
+      it "returns true for container page parts" do
+        expect(described_class.container?("layout_two_column_equal")).to be true
+        expect(described_class.container?("layout_sidebar_right")).to be true
+      end
+
+      it "returns false for non-container page parts" do
+        expect(described_class.container?("heroes/hero_centered")).to be false
+        expect(described_class.container?("cta/cta_banner")).to be false
+        expect(described_class.container?("our_agency")).to be false
+      end
+
+      it "returns false for unknown page parts" do
+        expect(described_class.container?("nonexistent")).to be false
+      end
+    end
+
+    describe ".slots_for" do
+      it "returns slots for container page parts" do
+        slots = described_class.slots_for("layout_two_column_equal")
+
+        expect(slots).to be_a(Hash)
+        expect(slots.keys).to contain_exactly(:left, :right)
+      end
+
+      it "returns nil for non-container page parts" do
+        expect(described_class.slots_for("heroes/hero_centered")).to be_nil
+      end
+
+      it "returns nil for unknown page parts" do
+        expect(described_class.slots_for("nonexistent")).to be_nil
+      end
+    end
+
+    describe ".slot_names" do
+      it "returns slot names as strings for container page parts" do
+        names = described_class.slot_names("layout_three_column_equal")
+
+        expect(names).to contain_exactly("left", "center", "right")
+      end
+
+      it "returns empty array for non-container page parts" do
+        expect(described_class.slot_names("heroes/hero_centered")).to eq([])
+      end
+
+      it "returns empty array for unknown page parts" do
+        expect(described_class.slot_names("nonexistent")).to eq([])
+      end
+    end
+
+    describe ".to_json_schema with containers" do
+      it "includes is_container flag in schema" do
+        schema = described_class.to_json_schema
+        layout_category = schema[:categories].find { |c| c[:key] == :layout }
+
+        expect(layout_category).not_to be_nil
+
+        layout_category[:parts].each do |part|
+          expect(part[:is_container]).to be(true)
+        end
+      end
+
+      it "includes slots in schema for container page parts" do
+        schema = described_class.to_json_schema
+        layout_category = schema[:categories].find { |c| c[:key] == :layout }
+        two_col = layout_category[:parts].find { |p| p[:key] == "layout_two_column_equal" }
+
+        expect(two_col[:slots]).to be_present
+        expect(two_col[:slots].keys).to contain_exactly(:left, :right)
+      end
+    end
+  end
+
+  describe "contact form page parts" do
+    it "includes modern contact form definitions" do
+      expect(described_class::DEFINITIONS.keys).to include(
+        "contact_general_enquiry",
+        "contact_location_map"
+      )
+    end
+
+    it "contact forms use URL-safe naming (no slashes)" do
+      contact_keys = described_class.for_category(:contact).keys
+
+      contact_keys.each do |key|
+        next if key == "form_and_map" # Legacy key
+
+        expect(key).not_to include("/"),
+          "Contact form key '#{key}' should not contain slashes for URL safety"
+      end
+    end
+
+    it "contact_general_enquiry has expected fields" do
+      definition = described_class.definition("contact_general_enquiry")
+
+      expect(definition[:fields]).to be_a(Hash)
+      expect(definition[:fields].keys).to include(
+        :section_title, :section_subtitle, :show_phone_field,
+        :show_subject_field, :submit_button_text, :success_message
+      )
+    end
+
+    it "contact_location_map has map configuration fields" do
+      definition = described_class.definition("contact_location_map")
+
+      expect(definition[:fields].keys).to include(
+        :map_latitude, :map_longitude, :map_zoom, :marker_title
+      )
     end
   end
 end

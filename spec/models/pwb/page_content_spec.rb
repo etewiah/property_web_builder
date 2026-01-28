@@ -182,5 +182,193 @@ module Pwb
         expect(new_page_content.website_id).to eq(website.id)
       end
     end
+
+    describe 'container functionality' do
+      let(:container) do
+        create(:pwb_page_content,
+               page_part_key: 'layout_two_column_equal',
+               website: website,
+               page: page)
+      end
+
+      describe 'associations' do
+        it 'has many child_page_contents' do
+          assoc = PageContent.reflect_on_association(:child_page_contents)
+          expect(assoc.macro).to eq(:has_many)
+          expect(assoc.options[:foreign_key]).to eq(:parent_page_content_id)
+        end
+
+        it 'belongs to parent_page_content (optional)' do
+          assoc = PageContent.reflect_on_association(:parent_page_content)
+          expect(assoc.macro).to eq(:belongs_to)
+          expect(assoc.options[:optional]).to be true
+        end
+      end
+
+      describe '#container?' do
+        it 'returns true for container page parts' do
+          expect(container.container?).to be true
+        end
+
+        it 'returns false for non-container page parts' do
+          regular = create(:pwb_page_content, page_part_key: 'heroes/hero_centered', website: website)
+          expect(regular.container?).to be false
+        end
+      end
+
+      describe '#has_parent?' do
+        it 'returns false for root-level page contents' do
+          expect(container.has_parent?).to be false
+        end
+
+        it 'returns true for child page contents' do
+          child = create(:pwb_page_content,
+                         page_part_key: 'cta/cta_banner',
+                         website: website,
+                         parent_page_content: container,
+                         slot_name: 'left')
+          expect(child.has_parent?).to be true
+        end
+      end
+
+      describe '#available_slots' do
+        it 'returns slot names for container page parts' do
+          expect(container.available_slots).to contain_exactly('left', 'right')
+        end
+
+        it 'returns empty array for non-container page parts' do
+          regular = create(:pwb_page_content, page_part_key: 'heroes/hero_centered', website: website)
+          expect(regular.available_slots).to eq([])
+        end
+      end
+
+      describe '#children_in_slot' do
+        it 'returns children assigned to a specific slot ordered by sort_order' do
+          child1 = create(:pwb_page_content,
+                          page_part_key: 'content_html',
+                          website: website,
+                          parent_page_content: container,
+                          slot_name: 'left',
+                          sort_order: 2)
+          child2 = create(:pwb_page_content,
+                          page_part_key: 'cta/cta_banner',
+                          website: website,
+                          parent_page_content: container,
+                          slot_name: 'left',
+                          sort_order: 1)
+          child_right = create(:pwb_page_content,
+                               page_part_key: 'faqs/faq_accordion',
+                               website: website,
+                               parent_page_content: container,
+                               slot_name: 'right',
+                               sort_order: 1)
+
+          left_children = container.children_in_slot('left')
+          expect(left_children.map(&:id)).to eq([child2.id, child1.id])
+
+          right_children = container.children_in_slot('right')
+          expect(right_children.map(&:id)).to eq([child_right.id])
+        end
+      end
+
+      describe 'validations' do
+        describe 'slot_name presence for children' do
+          it 'requires slot_name when parent is set' do
+            child = build(:pwb_page_content,
+                          page_part_key: 'content_html',
+                          website: website,
+                          parent_page_content: container,
+                          slot_name: nil)
+            expect(child).not_to be_valid
+            expect(child.errors[:slot_name]).to be_present
+          end
+
+          it 'does not require slot_name for root-level page contents' do
+            root = build(:pwb_page_content,
+                         page_part_key: 'content_html',
+                         website: website,
+                         parent_page_content: nil,
+                         slot_name: nil)
+            expect(root).to be_valid
+          end
+        end
+
+        describe 'parent must be container' do
+          it 'allows children only in container page parts' do
+            non_container = create(:pwb_page_content,
+                                   page_part_key: 'heroes/hero_centered',
+                                   website: website)
+            child = build(:pwb_page_content,
+                          page_part_key: 'content_html',
+                          website: website,
+                          parent_page_content: non_container,
+                          slot_name: 'left')
+            expect(child).not_to be_valid
+            expect(child.errors[:parent_page_content]).to include('must be a container page part')
+          end
+        end
+
+        describe 'no nested containers' do
+          it 'prevents containers from being nested inside other containers' do
+            nested_container = build(:pwb_page_content,
+                                     page_part_key: 'layout_sidebar_left',
+                                     website: website,
+                                     parent_page_content: container,
+                                     slot_name: 'left')
+            expect(nested_container).not_to be_valid
+            expect(nested_container.errors[:base]).to include('Containers cannot be nested inside other containers')
+          end
+        end
+
+        describe 'slot exists in container' do
+          it 'validates that slot_name is valid for the parent container' do
+            child = build(:pwb_page_content,
+                          page_part_key: 'content_html',
+                          website: website,
+                          parent_page_content: container,
+                          slot_name: 'invalid_slot')
+            expect(child).not_to be_valid
+            expect(child.errors[:slot_name].first).to include('is not valid for this container')
+          end
+
+          it 'allows valid slot names' do
+            child = build(:pwb_page_content,
+                          page_part_key: 'content_html',
+                          website: website,
+                          parent_page_content: container,
+                          slot_name: 'left')
+            expect(child).to be_valid
+          end
+        end
+      end
+
+      describe 'scopes' do
+        before do
+          @root1 = create(:pwb_page_content, page_part_key: 'key1', website: website, parent_page_content: nil)
+          @root2 = create(:pwb_page_content, page_part_key: 'key2', website: website, parent_page_content: nil)
+          @child = create(:pwb_page_content,
+                          page_part_key: 'key3',
+                          website: website,
+                          parent_page_content: container,
+                          slot_name: 'left')
+        end
+
+        describe '.root_level' do
+          it 'returns only page contents without a parent' do
+            # Container is also root level
+            root_ids = PageContent.root_level.pluck(:id)
+            expect(root_ids).to include(@root1.id, @root2.id, container.id)
+            expect(root_ids).not_to include(@child.id)
+          end
+        end
+
+        describe '.in_slot' do
+          it 'returns page contents in the specified slot' do
+            expect(PageContent.in_slot('left').pluck(:id)).to include(@child.id)
+            expect(PageContent.in_slot('right').pluck(:id)).not_to include(@child.id)
+          end
+        end
+      end
+    end
   end
 end

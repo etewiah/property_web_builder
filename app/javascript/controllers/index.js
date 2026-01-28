@@ -27,6 +27,9 @@ application.register("contact-form", ContactFormController)
 import MapController from "controllers/map_controller"
 application.register("map", MapController)
 
+import LeafletMapController from "controllers/leaflet_map_controller"
+application.register("leaflet-map", LeafletMapController)
+
 import SearchFormController from "controllers/search_form_controller"
 application.register("search-form", SearchFormController)
 
