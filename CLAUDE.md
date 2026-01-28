@@ -4,6 +4,10 @@ This file contains instructions for Claude Code instances working on this projec
 
 ## Critical Rules
 
+> **🚨 STOP! BEFORE ANY GIT COMMIT 🚨**
+>
+> You MUST ask the user "Would you like me to commit these changes?" and wait for explicit confirmation BEFORE running `git commit`. This is NON-NEGOTIABLE. Never auto-commit.
+
 ### Git Commit Safety
 
 **NEVER commit changes you did not make in this session.**
@@ -12,6 +16,8 @@ This file contains instructions for Claude Code instances working on this projec
 1. The files that will be committed
 2. The proposed commit message
 3. Wait for explicit approval (e.g., "yes", "ok", "commit it") before running `git commit`
+
+**If you commit without asking first, you have violated the most important rule in this file.**
 
 Before committing:
 1. Run `git status` to see ALL modified and untracked files
