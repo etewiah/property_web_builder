@@ -754,6 +754,10 @@ Rails.application.routes.draw do
   # TODO: Add authentication (Firebase token / API key)
   namespace :api_manage do
     namespace :v1 do
+      # Site-level configuration
+      resource :site_details, only: %i[show update], controller: 'site_details'
+
+      # Page management
       resources :pages, only: %i[index show update] do
         collection do
           get 'by_slug/:slug', action: :show_by_slug, as: :by_slug
