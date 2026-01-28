@@ -1,7 +1,7 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   # Development origin (Angular/Vue apps during development)
   allow do
-    origins 'http://localhost:4200', 'http://localhost:4321'
+    origins 'http://localhost:4200', 'http://localhost:4321', 'http://localhost:4322'
 
     resource '*',
       headers: :any,
