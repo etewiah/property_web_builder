@@ -1,5 +1,26 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_subscription_events
+# Database name: primary
+#
+#  id              :bigint           not null, primary key
+#  event_type      :string           not null
+#  metadata        :jsonb            not null
+#  created_at      :datetime         not null
+#  subscription_id :bigint           not null
+#
+# Indexes
+#
+#  idx_on_subscription_id_created_at_3fabb76699      (subscription_id,created_at)
+#  index_pwb_subscription_events_on_event_type       (event_type)
+#  index_pwb_subscription_events_on_subscription_id  (subscription_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (subscription_id => pwb_subscriptions.id)
+#
 require 'rails_helper'
 
 module Pwb

@@ -61,6 +61,11 @@ module Pwb
         label: 'Contact',
         description: 'Contact forms and information',
         icon: 'mail'
+      },
+      layout: {
+        label: 'Layout Containers',
+        description: 'Containers for arranging page parts side-by-side',
+        icon: 'layout'
       }
     }.freeze
 
@@ -457,6 +462,305 @@ module Pwb
         description: 'Property search component',
         fields: [],
         legacy: true
+      },
+
+      # Contact Form Page Parts
+      # Modern configurable forms using URL-safe naming convention: {category}_{purpose}_{variant}
+      'contact_general_enquiry' => {
+        category: :contact,
+        label: 'General Contact Form',
+        description: 'Configurable contact form for general enquiries',
+        fields: {
+          section_title: {
+            type: :text,
+            label: 'Section Title',
+            hint: 'Title displayed above the form',
+            placeholder: 'Contact Us',
+            max_length: 80,
+            group: :header
+          },
+          section_subtitle: {
+            type: :textarea,
+            label: 'Section Description',
+            hint: 'Optional description below the title',
+            max_length: 200,
+            rows: 2,
+            group: :header
+          },
+          show_phone_field: {
+            type: :boolean,
+            label: 'Show Phone Field',
+            hint: 'Display phone number input',
+            default: true,
+            group: :form_config
+          },
+          show_subject_field: {
+            type: :boolean,
+            label: 'Show Subject Field',
+            hint: 'Display subject line input',
+            default: true,
+            group: :form_config
+          },
+          submit_button_text: {
+            type: :text,
+            label: 'Submit Button Text',
+            placeholder: 'Send Message',
+            max_length: 30,
+            group: :form_config
+          },
+          form_style: {
+            type: :select,
+            label: 'Form Style',
+            hint: 'Visual appearance of the form',
+            choices: [
+              { value: 'default', label: 'Default (Border)' },
+              { value: 'shadowed', label: 'Shadowed' },
+              { value: 'minimal', label: 'Minimal' }
+            ],
+            default: 'default',
+            group: :form_config
+          },
+          success_message: {
+            type: :textarea,
+            label: 'Success Message',
+            hint: 'Message shown after successful submission',
+            placeholder: 'Thank you! We will get back to you soon.',
+            max_length: 200,
+            group: :messages
+          }
+        },
+        field_groups: {
+          header: { label: 'Section Header', order: 1 },
+          form_config: { label: 'Form Settings', order: 2 },
+          messages: { label: 'Messages', order: 3 }
+        }
+      },
+      'contact_location_map' => {
+        category: :contact,
+        label: 'Contact Form with Map',
+        description: 'Two-column layout with contact form and location map',
+        fields: {
+          section_title: {
+            type: :text,
+            label: 'Section Title',
+            hint: 'Title displayed above the section',
+            placeholder: 'Get in Touch',
+            max_length: 80,
+            group: :header
+          },
+          section_subtitle: {
+            type: :textarea,
+            label: 'Section Description',
+            hint: 'Optional description below the title',
+            max_length: 200,
+            rows: 2,
+            group: :header
+          },
+          form_title: {
+            type: :text,
+            label: 'Form Column Title',
+            placeholder: 'Send us a message',
+            max_length: 60,
+            group: :form_config
+          },
+          show_phone_field: {
+            type: :boolean,
+            label: 'Show Phone Field',
+            default: true,
+            group: :form_config
+          },
+          show_subject_field: {
+            type: :boolean,
+            label: 'Show Subject Field',
+            default: false,
+            group: :form_config
+          },
+          submit_button_text: {
+            type: :text,
+            label: 'Submit Button Text',
+            placeholder: 'Send Message',
+            max_length: 30,
+            group: :form_config
+          },
+          success_message: {
+            type: :textarea,
+            label: 'Success Message',
+            placeholder: 'Thank you! We will get back to you soon.',
+            max_length: 200,
+            group: :form_config
+          },
+          map_title: {
+            type: :text,
+            label: 'Map Column Title',
+            placeholder: 'Our Location',
+            max_length: 60,
+            group: :map_config
+          },
+          map_latitude: {
+            type: :text,
+            label: 'Latitude',
+            hint: 'Map center latitude (e.g., 40.7128)',
+            placeholder: '40.7128',
+            group: :map_config
+          },
+          map_longitude: {
+            type: :text,
+            label: 'Longitude',
+            hint: 'Map center longitude (e.g., -74.0060)',
+            placeholder: '-74.0060',
+            group: :map_config
+          },
+          map_zoom: {
+            type: :number,
+            label: 'Map Zoom Level',
+            hint: 'Zoom level (1-18, default 14)',
+            default: 14,
+            min: 1,
+            max: 18,
+            group: :map_config
+          },
+          marker_title: {
+            type: :text,
+            label: 'Marker Title',
+            hint: 'Text shown when clicking the map marker',
+            placeholder: 'Our Office',
+            max_length: 60,
+            group: :map_config
+          },
+          show_contact_info: {
+            type: :boolean,
+            label: 'Show Contact Info',
+            hint: 'Display address, phone, email below map',
+            default: true,
+            group: :contact_info
+          },
+          address: {
+            type: :textarea,
+            label: 'Address',
+            hint: 'Physical address displayed below map',
+            rows: 2,
+            group: :contact_info
+          },
+          phone: {
+            type: :text,
+            label: 'Phone Number',
+            group: :contact_info
+          },
+          email: {
+            type: :email,
+            label: 'Email Address',
+            group: :contact_info
+          }
+        },
+        field_groups: {
+          header: { label: 'Section Header', order: 1 },
+          form_config: { label: 'Form Settings', order: 2 },
+          map_config: { label: 'Map Settings', order: 3 },
+          contact_info: { label: 'Contact Information', order: 4 }
+        }
+      },
+
+      # Layout Containers - for composable side-by-side layouts
+      # Containers have is_container: true and define named slots
+      'layout_two_column_equal' => {
+        category: :layout,
+        label: 'Two Column (50/50)',
+        description: 'Two equal-width columns for side-by-side content',
+        is_container: true,
+        fields: {},
+        slots: {
+          left: {
+            label: 'Left Column',
+            description: 'Content for the left column',
+            width: '50%'
+          },
+          right: {
+            label: 'Right Column',
+            description: 'Content for the right column',
+            width: '50%'
+          }
+        }
+      },
+      'layout_two_column_wide_narrow' => {
+        category: :layout,
+        label: 'Two Column (67/33)',
+        description: 'Two columns with wider left column',
+        is_container: true,
+        fields: {},
+        slots: {
+          left: {
+            label: 'Main Column',
+            description: 'Content for the wider left column',
+            width: '67%'
+          },
+          right: {
+            label: 'Side Column',
+            description: 'Content for the narrower right column',
+            width: '33%'
+          }
+        }
+      },
+      'layout_sidebar_left' => {
+        category: :layout,
+        label: 'Sidebar Left (25/75)',
+        description: 'Sidebar on left with main content on right',
+        is_container: true,
+        fields: {},
+        slots: {
+          sidebar: {
+            label: 'Sidebar',
+            description: 'Content for the left sidebar',
+            width: '25%'
+          },
+          main: {
+            label: 'Main Content',
+            description: 'Primary content area',
+            width: '75%'
+          }
+        }
+      },
+      'layout_sidebar_right' => {
+        category: :layout,
+        label: 'Sidebar Right (75/25)',
+        description: 'Main content on left with sidebar on right',
+        is_container: true,
+        fields: {},
+        slots: {
+          main: {
+            label: 'Main Content',
+            description: 'Primary content area',
+            width: '75%'
+          },
+          sidebar: {
+            label: 'Sidebar',
+            description: 'Content for the right sidebar',
+            width: '25%'
+          }
+        }
+      },
+      'layout_three_column_equal' => {
+        category: :layout,
+        label: 'Three Column (33/33/33)',
+        description: 'Three equal-width columns',
+        is_container: true,
+        fields: {},
+        slots: {
+          left: {
+            label: 'Left Column',
+            description: 'Content for the left column',
+            width: '33.33%'
+          },
+          center: {
+            label: 'Center Column',
+            description: 'Content for the center column',
+            width: '33.33%'
+          },
+          right: {
+            label: 'Right Column',
+            description: 'Content for the right column',
+            width: '33.33%'
+          }
+        }
       }
     }.freeze
 
@@ -544,6 +848,35 @@ module Pwb
         DEFINITIONS.select { |_key, config| config[:legacy] }
       end
 
+      # Get all container page parts
+      # @return [Hash]
+      def container_parts
+        DEFINITIONS.select { |_key, config| config[:is_container] }
+      end
+
+      # Check if a page part is a container
+      # @param key [String, Symbol]
+      # @return [Boolean]
+      def container?(key)
+        definition(key)&.dig(:is_container) == true
+      end
+
+      # Get slot definitions for a container page part
+      # @param key [String, Symbol]
+      # @return [Hash, nil]
+      def slots_for(key)
+        return nil unless container?(key)
+
+        definition(key)&.dig(:slots)
+      end
+
+      # Get slot names for a container page part
+      # @param key [String, Symbol]
+      # @return [Array<String>]
+      def slot_names(key)
+        slots_for(key)&.keys&.map(&:to_s) || []
+      end
+
       # Convert to JSON for API responses
       # @return [Hash]
       def to_json_schema
@@ -555,13 +888,19 @@ module Pwb
               description: info[:description],
               icon: info[:icon],
               parts: for_category(key).map do |part_key, part_config|
-                {
+                part_json = {
                   key: part_key,
                   label: part_config[:label],
                   description: part_config[:description],
                   fields: part_config[:fields],
                   legacy: part_config[:legacy] || false
                 }
+                # Include container-specific info
+                if part_config[:is_container]
+                  part_json[:is_container] = true
+                  part_json[:slots] = part_config[:slots]
+                end
+                part_json
               end
             }
           end

@@ -463,3 +463,116 @@ button:focus-visible,
 .pwb-items-center {
   align-items: center;
 }
+
+/* ==========================================================================
+   PWB Layout Containers (Composable Layouts)
+
+   Container page parts for side-by-side arrangements.
+   These provide the grid structure, child page parts fill the slots.
+
+   WYSIWYG Editor Compatibility:
+   - isolation: isolate creates a stacking context boundary
+   - Keep all internal z-indexes low
+   ========================================================================== */
+.pwb-layout {
+  position: relative;
+  isolation: isolate;
+  padding: 2rem 0;
+}
+
+.pwb-layout__grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Slot containers - ensure children don't overflow */
+.pwb-layout__slot {
+  min-width: 0; /* Prevent grid blowout */
+}
+
+/* Two Column Equal (50/50) */
+.pwb-layout__grid--2col-equal {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .pwb-layout__grid--2col-equal {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Two Column Wide/Narrow (67/33) */
+.pwb-layout__grid--2col-wide-narrow {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .pwb-layout__grid--2col-wide-narrow {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* Sidebar Left (25/75) */
+.pwb-layout__grid--sidebar-left {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .pwb-layout__grid--sidebar-left {
+    grid-template-columns: 1fr 3fr;
+  }
+}
+
+/* Sidebar Right (75/25) */
+.pwb-layout__grid--sidebar-right {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .pwb-layout__grid--sidebar-right {
+    grid-template-columns: 3fr 1fr;
+  }
+}
+
+/* Three Column Equal (33/33/33) */
+.pwb-layout__grid--3col-equal {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .pwb-layout__grid--3col-equal {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pwb-layout__grid--3col-equal {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+/* Layout gap variants */
+.pwb-layout__grid--gap-lg {
+  gap: 2.5rem;
+}
+
+.pwb-layout__grid--gap-sm {
+  gap: 1rem;
+}
+
+/* Remove padding from nested page parts within layouts */
+.pwb-layout__slot .pwb-section {
+  padding: 0;
+}
+
+/* Sidebar styling hint - sidebars may want sticky positioning */
+.pwb-layout__slot--sidebar {
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .pwb-layout__slot--sidebar > *:first-child {
+    position: sticky;
+    top: 1rem;
+  }
+}

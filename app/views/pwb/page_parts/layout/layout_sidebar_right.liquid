@@ -1,0 +1,29 @@
+{% comment %}
+  Sidebar Right (75/25) Container
+
+  A container layout with main content on the left and a narrow sidebar on the right.
+
+  Slots:
+  - main: Main content area (75%)
+  - sidebar: Sidebar content (25%)
+
+  Responsive:
+  - Mobile: Main content stacks above sidebar
+  - Desktop (md+): Side-by-side 75/25 layout
+{% endcomment %}
+
+<section class="pwb-layout pwb-layout--sidebar-right">
+  <div class="pwb-container">
+    <div class="pwb-layout__grid pwb-layout__grid--sidebar-right">
+      {%- comment -%} Main Content {%- endcomment -%}
+      <div class="pwb-layout__slot pwb-layout__slot--main">
+        {% render_slot "main" %}
+      </div>
+
+      {%- comment -%} Sidebar {%- endcomment -%}
+      <aside class="pwb-layout__slot pwb-layout__slot--sidebar">
+        {% render_slot "sidebar" %}
+      </aside>
+    </div>
+  </div>
+</section>

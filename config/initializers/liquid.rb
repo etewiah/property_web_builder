@@ -30,4 +30,5 @@ Rails.application.config.to_prepare do
   env.register_tag("property_card", Pwb::LiquidTags::PropertyCardTag)
   env.register_tag("featured_properties", Pwb::LiquidTags::FeaturedPropertiesTag)
   env.register_tag("page_part", Pwb::LiquidTags::PagePartTag)
+  env.register_tag("render_slot", Pwb::LiquidTags::RenderSlotTag)
 end

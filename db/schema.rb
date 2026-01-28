@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_15_140001) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_28_144713) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -441,12 +441,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_15_140001) do
     t.string "label"
     t.bigint "page_id"
     t.string "page_part_key"
+    t.bigint "parent_page_content_id"
+    t.string "slot_name"
     t.integer "sort_order"
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "visible_on_page", default: true
     t.bigint "website_id"
     t.index ["content_id"], name: "index_pwb_page_contents_on_content_id"
     t.index ["page_id"], name: "index_pwb_page_contents_on_page_id"
+    t.index ["parent_page_content_id", "slot_name", "sort_order"], name: "index_pwb_page_contents_on_parent_slot_order"
+    t.index ["parent_page_content_id", "slot_name"], name: "index_pwb_page_contents_on_parent_and_slot"
+    t.index ["parent_page_content_id"], name: "index_pwb_page_contents_on_parent_page_content_id"
     t.index ["website_id"], name: "index_pwb_page_contents_on_website_id"
   end
 
@@ -1380,6 +1385,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_15_140001) do
   add_foreign_key "pwb_media_folders", "pwb_media_folders", column: "parent_id"
   add_foreign_key "pwb_media_folders", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_messages", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_page_contents", "pwb_page_contents", column: "parent_page_content_id"
   add_foreign_key "pwb_price_guesses", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_prop_photos", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_prop_translations", "pwb_realty_assets", column: "realty_asset_id"

@@ -1,0 +1,215 @@
+{% comment %}
+  Contact Form with Location Map
+  ==============================
+  Two-column layout with contact form and interactive map.
+  Can be placed on any page via the page parts system.
+  Submits via AJAX to /api_public/v1/contact using contact_form_controller.js
+
+  Page Part Key: contact_location_map
+  Category: contact
+
+  Available fields:
+  - section_title: Section heading
+  - section_subtitle: Description text
+  - form_title: Form column title
+  - show_phone_field / show_subject_field: Field visibility
+  - submit_button_text / success_message: Form config
+  - map_title: Map column title
+  - map_latitude / map_longitude / map_zoom: Map settings
+  - marker_title: Map marker tooltip
+  - show_contact_info: Display contact details
+  - address / phone / email: Contact information
+{% endcomment %}
+
+{% assign show_phone = page_part.show_phone_field.content | default: 'true' %}
+{% assign show_subject = page_part.show_subject_field.content | default: 'false' %}
+{% assign submit_text = page_part.submit_button_text.content | default: 'Send Message' %}
+{% assign success_msg = page_part.success_message.content | default: 'Thank you! We will get back to you soon.' %}
+{% assign map_lat = page_part.map_latitude.content | default: '40.7128' %}
+{% assign map_lng = page_part.map_longitude.content | default: '-74.0060' %}
+{% assign map_zoom = page_part.map_zoom.content | default: '14' %}
+{% assign show_contact_info = page_part.show_contact_info.content | default: 'true' %}
+
+<section class="pwb-section pwb-contact-map py-12 md:py-16 bg-white">
+  <div class="pwb-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    {% comment %} Section Header {% endcomment %}
+    {% if page_part.section_title.content != blank or page_part.section_subtitle.content != blank %}
+      <div class="pwb-section__header text-center mb-10">
+        {% if page_part.section_title.content != blank %}
+          <h2 class="pwb-section__title text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+            {{ page_part.section_title.content }}
+          </h2>
+        {% endif %}
+        {% if page_part.section_subtitle.content != blank %}
+          <p class="pwb-section__subtitle text-gray-600 max-w-2xl mx-auto">
+            {{ page_part.section_subtitle.content }}
+          </p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %} Two Column Grid {% endcomment %}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+
+      {% comment %} Form Column {% endcomment %}
+      <div class="pwb-contact-map__form">
+        {% if page_part.form_title.content != blank %}
+          <h3 class="text-xl font-semibold text-gray-900 mb-6">
+            {{ page_part.form_title.content }}
+          </h3>
+        {% endif %}
+
+        <div class="pwb-contact-form__wrapper bg-gray-50 rounded-lg p-6"
+             data-controller="contact-form"
+             data-contact-form-submit-url-value="/api_public/v1/{{ current_locale }}/contact"
+             data-contact-form-success-message-value="{{ success_msg | escape }}">
+
+          <form class="pwb-form space-y-4"
+                data-contact-form-target="form"
+                data-action="submit->contact-form#submit">
+
+            <input type="hidden" name="contact[locale]" value="{{ current_locale }}">
+
+            {% comment %} Name Field {% endcomment %}
+            <div class="pwb-form__field">
+              <label for="contact_name_map" class="block text-sm font-medium text-gray-700 mb-1">
+                {{ 'name' | t }} <span class="text-red-500">*</span>
+              </label>
+              <input type="text"
+                     id="contact_name_map"
+                     name="contact[name]"
+                     class="pwb-form__input w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                     required
+                     autocomplete="name">
+            </div>
+
+            {% comment %} Email Field {% endcomment %}
+            <div class="pwb-form__field">
+              <label for="contact_email_map" class="block text-sm font-medium text-gray-700 mb-1">
+                {{ 'email' | t }} <span class="text-red-500">*</span>
+              </label>
+              <input type="email"
+                     id="contact_email_map"
+                     name="contact[email]"
+                     class="pwb-form__input w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                     required
+                     autocomplete="email">
+            </div>
+
+            {% comment %} Phone Field (configurable) {% endcomment %}
+            {% if show_phone == 'true' or show_phone == true %}
+              <div class="pwb-form__field">
+                <label for="contact_phone_map" class="block text-sm font-medium text-gray-700 mb-1">
+                  {{ 'tel' | t }}
+                </label>
+                <input type="tel"
+                       id="contact_phone_map"
+                       name="contact[phone]"
+                       class="pwb-form__input w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                       autocomplete="tel">
+              </div>
+            {% endif %}
+
+            {% comment %} Subject Field (configurable) {% endcomment %}
+            {% if show_subject == 'true' or show_subject == true %}
+              <div class="pwb-form__field">
+                <label for="contact_subject_map" class="block text-sm font-medium text-gray-700 mb-1">
+                  {{ 'subject' | t }}
+                </label>
+                <input type="text"
+                       id="contact_subject_map"
+                       name="contact[subject]"
+                       class="pwb-form__input w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+              </div>
+            {% endif %}
+
+            {% comment %} Message Field {% endcomment %}
+            <div class="pwb-form__field">
+              <label for="contact_message_map" class="block text-sm font-medium text-gray-700 mb-1">
+                {{ 'message' | t }} <span class="text-red-500">*</span>
+              </label>
+              <textarea id="contact_message_map"
+                        name="contact[message]"
+                        rows="4"
+                        class="pwb-form__textarea w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y"
+                        required></textarea>
+            </div>
+
+            {% comment %} Result Area {% endcomment %}
+            <div data-contact-form-target="result" class="pwb-form__result"></div>
+
+            {% comment %} Submit Button {% endcomment %}
+            <div class="pwb-form__actions pt-2">
+              <button type="submit"
+                      class="pwb-btn pwb-btn--primary w-full px-6 py-3 bg-pwb-primary hover:bg-pwb-primary-700 text-white font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-pwb-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      data-contact-form-target="submitButton">
+                {{ submit_text }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      {% comment %} Map Column {% endcomment %}
+      <div class="pwb-contact-map__location">
+        {% if page_part.map_title.content != blank %}
+          <h3 class="text-xl font-semibold text-gray-900 mb-6">
+            {{ page_part.map_title.content }}
+          </h3>
+        {% endif %}
+
+        {% comment %} Interactive Map with Stimulus Controller {% endcomment %}
+        <div class="pwb-map rounded-lg overflow-hidden shadow-sm"
+             data-controller="leaflet-map"
+             data-leaflet-map-latitude-value="{{ map_lat }}"
+             data-leaflet-map-longitude-value="{{ map_lng }}"
+             data-leaflet-map-zoom-value="{{ map_zoom }}"
+             data-leaflet-map-marker-title-value="{{ page_part.marker_title.content | default: 'Our Location' | escape }}"
+             style="height: 300px; min-height: 300px;">
+          {% comment %} Map will be rendered here by Stimulus controller {% endcomment %}
+          <div data-leaflet-map-target="container" class="w-full h-full bg-gray-200"></div>
+        </div>
+
+        {% comment %} Contact Information {% endcomment %}
+        {% if show_contact_info == 'true' or show_contact_info == true %}
+          <div class="pwb-contact-map__info mt-6 space-y-4">
+            {% if page_part.address.content != blank %}
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <div class="text-gray-600">
+                  {{ page_part.address.content | newline_to_br }}
+                </div>
+              </div>
+            {% endif %}
+
+            {% if page_part.phone.content != blank %}
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                </svg>
+                <a href="tel:{{ page_part.phone.content }}" class="text-gray-600 hover:text-pwb-primary transition-colors">
+                  {{ page_part.phone.content }}
+                </a>
+              </div>
+            {% endif %}
+
+            {% if page_part.email.content != blank %}
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                <a href="mailto:{{ page_part.email.content }}" class="text-gray-600 hover:text-pwb-primary transition-colors">
+                  {{ page_part.email.content }}
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

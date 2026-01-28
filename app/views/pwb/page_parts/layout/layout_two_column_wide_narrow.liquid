@@ -1,0 +1,30 @@
+{% comment %}
+  Two Column Wide/Narrow (67/33) Container
+
+  A container layout with a wider left column and narrower right column.
+  Useful for main content with a sidebar.
+
+  Slots:
+  - left: Main content area (67%)
+  - right: Side content area (33%)
+
+  Responsive:
+  - Mobile: Columns stack vertically
+  - Desktop (md+): Side-by-side 67/33 layout
+{% endcomment %}
+
+<section class="pwb-layout pwb-layout--two-col-wide-narrow">
+  <div class="pwb-container">
+    <div class="pwb-layout__grid pwb-layout__grid--2col-wide-narrow">
+      {%- comment -%} Main Column (Wide) {%- endcomment -%}
+      <div class="pwb-layout__slot pwb-layout__slot--left pwb-layout__slot--wide">
+        {% render_slot "left" %}
+      </div>
+
+      {%- comment -%} Side Column (Narrow) {%- endcomment -%}
+      <div class="pwb-layout__slot pwb-layout__slot--right pwb-layout__slot--narrow">
+        {% render_slot "right" %}
+      </div>
+    </div>
+  </div>
+</section>

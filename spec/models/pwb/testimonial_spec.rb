@@ -1,5 +1,35 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_testimonials
+# Database name: primary
+#
+#  id              :bigint           not null, primary key
+#  author_name     :string           not null
+#  author_role     :string
+#  featured        :boolean          default(FALSE), not null
+#  position        :integer          default(0), not null
+#  quote           :text             not null
+#  rating          :integer
+#  visible         :boolean          default(TRUE), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  author_photo_id :bigint
+#  website_id      :bigint           not null
+#
+# Indexes
+#
+#  index_pwb_testimonials_on_author_photo_id  (author_photo_id)
+#  index_pwb_testimonials_on_position         (position)
+#  index_pwb_testimonials_on_visible          (visible)
+#  index_pwb_testimonials_on_website_id       (website_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (author_photo_id => pwb_media.id)
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 require 'rails_helper'
 
 module Pwb

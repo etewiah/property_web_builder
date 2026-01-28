@@ -1,5 +1,46 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_widget_configs
+# Database name: primary
+#
+#  id                :uuid             not null, primary key
+#  active            :boolean          default(TRUE), not null
+#  allowed_domains   :string           default([]), is an Array
+#  clicks_count      :integer          default(0)
+#  columns           :integer          default(3)
+#  highlighted_only  :boolean          default(FALSE)
+#  impressions_count :integer          default(0)
+#  layout            :string           default("grid")
+#  listing_type      :string
+#  max_bedrooms      :integer
+#  max_price_cents   :integer
+#  max_properties    :integer          default(12)
+#  min_bedrooms      :integer
+#  min_price_cents   :integer
+#  name              :string           not null
+#  property_types    :string           default([]), is an Array
+#  show_filters      :boolean          default(FALSE)
+#  show_pagination   :boolean          default(TRUE)
+#  show_search       :boolean          default(FALSE)
+#  theme             :jsonb
+#  visible_fields    :jsonb
+#  widget_key        :string           not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  website_id        :bigint           not null
+#
+# Indexes
+#
+#  index_pwb_widget_configs_on_website_id             (website_id)
+#  index_pwb_widget_configs_on_website_id_and_active  (website_id,active)
+#  index_pwb_widget_configs_on_widget_key             (widget_key) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 require 'rails_helper'
 
 module Pwb

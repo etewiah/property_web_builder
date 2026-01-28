@@ -1,0 +1,30 @@
+{% comment %}
+  Two Column Equal (50/50) Container
+
+  A container layout with two equal-width columns.
+  Child page parts are assigned to "left" or "right" slots.
+
+  Slots:
+  - left: Content for the left column (50%)
+  - right: Content for the right column (50%)
+
+  Responsive:
+  - Mobile: Columns stack vertically
+  - Desktop (md+): Side-by-side 50/50 layout
+{% endcomment %}
+
+<section class="pwb-layout pwb-layout--two-col-equal">
+  <div class="pwb-container">
+    <div class="pwb-layout__grid pwb-layout__grid--2col-equal">
+      {%- comment -%} Left Column {%- endcomment -%}
+      <div class="pwb-layout__slot pwb-layout__slot--left">
+        {% render_slot "left" %}
+      </div>
+
+      {%- comment -%} Right Column {%- endcomment -%}
+      <div class="pwb-layout__slot pwb-layout__slot--right">
+        {% render_slot "right" %}
+      </div>
+    </div>
+  </div>
+</section>

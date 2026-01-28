@@ -1,0 +1,138 @@
+{% comment %}
+  Contact General Enquiry Form
+  ============================
+  A configurable contact form for general enquiries.
+  Can be placed on any page via the page parts system.
+  Submits via AJAX to /api_public/v1/contact using contact_form_controller.js
+
+  Page Part Key: contact_general_enquiry
+  Category: contact
+
+  Available fields:
+  - section_title: Section heading
+  - section_subtitle: Description text
+  - show_phone_field: Whether to show phone input
+  - show_subject_field: Whether to show subject input
+  - submit_button_text: Button label
+  - form_style: Visual style (default, minimal, shadowed)
+  - success_message: Message shown on success
+{% endcomment %}
+
+{% assign form_style = page_part.form_style.content | default: 'default' %}
+{% assign show_phone = page_part.show_phone_field.content | default: 'true' %}
+{% assign show_subject = page_part.show_subject_field.content | default: 'true' %}
+{% assign submit_text = page_part.submit_button_text.content | default: 'Send Message' %}
+{% assign success_msg = page_part.success_message.content | default: 'Thank you! We will get back to you soon.' %}
+
+<section class="pwb-section pwb-contact-form py-12 md:py-16 bg-gray-50">
+  <div class="pwb-container max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    {% comment %} Section Header {% endcomment %}
+    {% if page_part.section_title.content != blank or page_part.section_subtitle.content != blank %}
+      <div class="pwb-section__header text-center mb-8">
+        {% if page_part.section_title.content != blank %}
+          <h2 class="pwb-section__title text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+            {{ page_part.section_title.content }}
+          </h2>
+        {% endif %}
+        {% if page_part.section_subtitle.content != blank %}
+          <p class="pwb-section__subtitle text-gray-600 max-w-xl mx-auto">
+            {{ page_part.section_subtitle.content }}
+          </p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %} Form Container with Stimulus Controller {% endcomment %}
+    <div class="pwb-contact-form__wrapper {% if form_style == 'default' %}bg-white rounded-lg border border-gray-200 p-6 md:p-8{% elsif form_style == 'shadowed' %}bg-white rounded-lg shadow-lg p-6 md:p-8{% else %}p-4{% endif %}"
+         data-controller="contact-form"
+         data-contact-form-submit-url-value="/api_public/v1/{{ current_locale }}/contact"
+         data-contact-form-success-message-value="{{ success_msg | escape }}">
+
+      <form class="pwb-form space-y-5"
+            data-contact-form-target="form"
+            data-action="submit->contact-form#submit">
+
+        {% comment %} Hidden locale field {% endcomment %}
+        <input type="hidden" name="contact[locale]" value="{{ current_locale }}">
+
+        {% comment %} Name Field (always shown) {% endcomment %}
+        <div class="pwb-form__field">
+          <label for="contact_name" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ 'name' | t }} <span class="text-red-500">*</span>
+          </label>
+          <input type="text"
+                 id="contact_name"
+                 name="contact[name]"
+                 class="pwb-form__input w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                 required
+                 autocomplete="name">
+        </div>
+
+        {% comment %} Email Field (always shown) {% endcomment %}
+        <div class="pwb-form__field">
+          <label for="contact_email" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ 'email' | t }} <span class="text-red-500">*</span>
+          </label>
+          <input type="email"
+                 id="contact_email"
+                 name="contact[email]"
+                 class="pwb-form__input w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                 required
+                 autocomplete="email">
+        </div>
+
+        {% comment %} Phone Field (configurable) {% endcomment %}
+        {% if show_phone == 'true' or show_phone == true %}
+          <div class="pwb-form__field">
+            <label for="contact_phone" class="block text-sm font-medium text-gray-700 mb-1">
+              {{ 'tel' | t }}
+            </label>
+            <input type="tel"
+                   id="contact_phone"
+                   name="contact[phone]"
+                   class="pwb-form__input w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                   autocomplete="tel">
+          </div>
+        {% endif %}
+
+        {% comment %} Subject Field (configurable) {% endcomment %}
+        {% if show_subject == 'true' or show_subject == true %}
+          <div class="pwb-form__field">
+            <label for="contact_subject" class="block text-sm font-medium text-gray-700 mb-1">
+              {{ 'subject' | t }}
+            </label>
+            <input type="text"
+                   id="contact_subject"
+                   name="contact[subject]"
+                   class="pwb-form__input w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+          </div>
+        {% endif %}
+
+        {% comment %} Message Field (always shown) {% endcomment %}
+        <div class="pwb-form__field">
+          <label for="contact_message" class="block text-sm font-medium text-gray-700 mb-1">
+            {{ 'message' | t }} <span class="text-red-500">*</span>
+          </label>
+          <textarea id="contact_message"
+                    name="contact[message]"
+                    rows="4"
+                    class="pwb-form__textarea w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y"
+                    required></textarea>
+        </div>
+
+        {% comment %} Result Area for Success/Error Messages {% endcomment %}
+        <div data-contact-form-target="result" class="pwb-form__result"></div>
+
+        {% comment %} Submit Button {% endcomment %}
+        <div class="pwb-form__actions">
+          <button type="submit"
+                  class="pwb-btn pwb-btn--primary w-full sm:w-auto px-6 py-3 bg-pwb-primary hover:bg-pwb-primary-700 text-white font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-pwb-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  data-contact-form-target="submitButton">
+            {{ submit_text }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

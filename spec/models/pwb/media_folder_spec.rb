@@ -1,5 +1,31 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_media_folders
+# Database name: primary
+#
+#  id         :bigint           not null, primary key
+#  name       :string           not null
+#  slug       :string
+#  sort_order :integer          default(0)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  parent_id  :bigint
+#  website_id :bigint           not null
+#
+# Indexes
+#
+#  index_pwb_media_folders_on_parent_id                 (parent_id)
+#  index_pwb_media_folders_on_website_id                (website_id)
+#  index_pwb_media_folders_on_website_id_and_parent_id  (website_id,parent_id)
+#  index_pwb_media_folders_on_website_id_and_slug       (website_id,slug) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (parent_id => pwb_media_folders.id)
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 require 'rails_helper'
 
 module Pwb

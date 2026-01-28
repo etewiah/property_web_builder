@@ -1,5 +1,33 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_email_templates
+# Database name: primary
+#
+#  id           :bigint           not null, primary key
+#  active       :boolean          default(TRUE), not null
+#  body_html    :text             not null
+#  body_text    :text
+#  description  :text
+#  name         :string           not null
+#  subject      :string           not null
+#  template_key :string           not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  website_id   :bigint           not null
+#
+# Indexes
+#
+#  index_pwb_email_templates_on_active                       (active)
+#  index_pwb_email_templates_on_template_key                 (template_key)
+#  index_pwb_email_templates_on_website_id                   (website_id)
+#  index_pwb_email_templates_on_website_id_and_template_key  (website_id,template_key) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 require 'rails_helper'
 
 module Pwb

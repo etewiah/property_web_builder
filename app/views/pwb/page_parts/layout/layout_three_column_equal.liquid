@@ -1,0 +1,37 @@
+{% comment %}
+  Three Column Equal (33/33/33) Container
+
+  A container layout with three equal-width columns.
+  Useful for balanced multi-column layouts.
+
+  Slots:
+  - left: Left column content (33%)
+  - center: Center column content (33%)
+  - right: Right column content (33%)
+
+  Responsive:
+  - Mobile: Columns stack vertically
+  - Tablet (sm+): Two columns + one below
+  - Desktop (lg+): Three columns side-by-side
+{% endcomment %}
+
+<section class="pwb-layout pwb-layout--three-col-equal">
+  <div class="pwb-container">
+    <div class="pwb-layout__grid pwb-layout__grid--3col-equal">
+      {%- comment -%} Left Column {%- endcomment -%}
+      <div class="pwb-layout__slot pwb-layout__slot--left">
+        {% render_slot "left" %}
+      </div>
+
+      {%- comment -%} Center Column {%- endcomment -%}
+      <div class="pwb-layout__slot pwb-layout__slot--center">
+        {% render_slot "center" %}
+      </div>
+
+      {%- comment -%} Right Column {%- endcomment -%}
+      <div class="pwb-layout__slot pwb-layout__slot--right">
+        {% render_slot "right" %}
+      </div>
+    </div>
+  </div>
+</section>
