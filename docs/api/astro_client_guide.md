@@ -476,9 +476,97 @@ const blockContents: BlockContents = {
 
 ---
 
+## Content Types and Rendering Approach
+
+**Important:** Not all page parts should be rendered the same way. Understanding the content type determines which rendering strategy to use.
+
+### Content Categories
+
+| Category | Examples | Rendering Approach |
+|----------|----------|-------------------|
+| **Static Content** | Heroes, Features, Testimonials, CTAs, FAQs | Use `rendered_html` or Liquid templates |
+| **Interactive Forms** | Contact forms, Newsletter signup, Property inquiry | Build native Astro components |
+| **Containers** | Two-column layouts, Sidebars | Render container + recursively render children |
+| **Dynamic Data** | Property listings, Search results | Fetch data separately, render with Astro |
+
+### Why Forms Need Special Handling
+
+Pre-rendered HTML for forms **will not work** in a decoupled Astro frontend because:
+
+1. **No JavaScript** - Stimulus controllers from Rails won't be loaded
+2. **No CSRF tokens** - Rails-generated tokens won't be valid for a separate frontend
+3. **No form handling** - The form won't submit anywhere
+
+**The solution:** Use `block_contents` as **configuration** to build your own form component:
+
+```typescript
+// From liquid_page response for contact_general_enquiry:
+{
+  "page_part_key": "contact_general_enquiry",
+  "block_contents": {
+    "blocks": {
+      "section_title": { "content": "Send us a message" },
+      "section_subtitle": { "content": "We'll get back to you within 24 hours" },
+      "show_phone_field": { "content": "true" },      // Config: show phone input?
+      "show_subject_field": { "content": "false" },   // Config: show subject input?
+      "submit_button_text": { "content": "Send Message" },
+      "success_message": { "content": "Thank you! We'll be in touch soon." }
+    }
+  },
+  "field_schema": { ... }  // Use for building an editor UI
+}
+```
+
+The `block_contents` tells your Astro component:
+- What title/subtitle to display
+- Which optional fields to show (phone, subject)
+- What text to use for the button
+- What message to show on success
+
+Your Astro component then:
+- Renders its own `<form>` element
+- Handles validation with JavaScript
+- Submits to `/api_public/v1/contact` (no CSRF needed)
+- Shows success/error messages
+
+### Identifying Content Types
+
+Check `page_part_key` to determine rendering approach:
+
+```typescript
+// src/lib/contentTypes.ts
+const FORM_PAGE_PARTS = [
+  'contact_general_enquiry',
+  'contact_location_map',
+  'forms/contact_form',
+  'forms/newsletter_signup',
+  'forms/property_inquiry',
+];
+
+const CONTAINER_PAGE_PARTS = [
+  'layout/layout_two_column_equal',
+  'layout/layout_two_column_wide_narrow',
+  'layout/layout_sidebar_left',
+  'layout/layout_sidebar_right',
+  'layout/layout_three_column_equal',
+];
+
+export function getContentType(pagePartKey: string): 'form' | 'container' | 'static' {
+  if (FORM_PAGE_PARTS.includes(pagePartKey)) return 'form';
+  if (CONTAINER_PAGE_PARTS.includes(pagePartKey)) return 'container';
+  return 'static';
+}
+```
+
+---
+
 ## Rendering Strategies
 
 ### Strategy 1: Pre-rendered HTML (Simple)
+
+**Best for:** Static content only (heroes, features, testimonials)
+
+⚠️ **Warning:** This strategy does NOT work for forms or interactive components.
 
 Use `rendered_html` directly from the API:
 
@@ -502,6 +590,11 @@ const page = await response.json();
 ```
 
 ### Strategy 2: Client-Side Liquid Rendering
+
+**Best for:** Editor preview with live updates for static content.
+
+⚠️ **Warning:** This strategy does NOT work for forms. The rendered HTML will include
+form markup but without working JavaScript handlers. Use Strategy 3 for forms.
 
 For editor preview with live updates:
 
@@ -534,7 +627,9 @@ const page = await response.json();
 </Layout>
 ```
 
-### Strategy 3: Astro Components
+### Strategy 3: Astro Components (Recommended)
+
+**Best for:** All content types - provides full control and proper form handling.
 
 Map page_part_key to Astro components:
 
@@ -544,11 +639,14 @@ Map page_part_key to Astro components:
 import HeroCentered from '../components/heroes/HeroCentered.astro';
 import CtaBanner from '../components/cta/CtaBanner.astro';
 import ContactForm from '../components/forms/ContactForm.astro';
+import TwoColumnLayout from '../components/layouts/TwoColumnLayout.astro';
+import { getContentType } from '../lib/contentTypes';
 
 const componentMap = {
   'heroes/hero_centered': HeroCentered,
   'cta/cta_banner': CtaBanner,
   'contact_general_enquiry': ContactForm,
+  'layout/layout_two_column_equal': TwoColumnLayout,
 };
 
 const response = await fetch(`${API_PUBLIC}/${locale}/liquid_page/by_slug/${slug}`);
@@ -558,13 +656,30 @@ const page = await response.json();
 <Layout title={page.title}>
   {page.page_contents.map((content) => {
     const Component = componentMap[content.page_part_key];
+    const contentType = getContentType(content.page_part_key);
+
     if (Component) {
-      return <Component data={content.block_contents?.blocks || {}} />;
+      // Use Astro component with block_contents as config
+      return <Component
+        data={content.block_contents?.blocks || {}}
+        editKey={content.edit_key}
+        locale={locale}
+      />;
     }
-    return <Fragment set:html={content.rendered_html} />;
+
+    // Fallback to pre-rendered HTML only for static content
+    if (contentType === 'static' && content.rendered_html) {
+      return <Fragment set:html={content.rendered_html} />;
+    }
+
+    // Warn about unhandled content types
+    console.warn(`No component for ${content.page_part_key}`);
+    return null;
   })}
 </Layout>
 ```
+
+**Static content component (hero):**
 
 ```astro
 ---
@@ -594,6 +709,150 @@ const { data } = Astro.props;
     )}
   </div>
 </section>
+```
+
+**Form component (contact form):**
+
+```astro
+---
+// src/components/forms/ContactForm.astro
+interface Props {
+  data: {
+    section_title?: { content: string };
+    section_subtitle?: { content: string };
+    show_phone_field?: { content: string };
+    show_subject_field?: { content: string };
+    submit_button_text?: { content: string };
+    success_message?: { content: string };
+  };
+  locale: string;
+}
+
+const { data, locale } = Astro.props;
+
+// Parse boolean config values
+const showPhone = data.show_phone_field?.content === 'true';
+const showSubject = data.show_subject_field?.content === 'true';
+const submitText = data.submit_button_text?.content || 'Send Message';
+const successMessage = data.success_message?.content || 'Thank you!';
+
+// API endpoint for form submission
+const apiEndpoint = `${import.meta.env.PUBLIC_API_URL}/api_public/v1/contact`;
+---
+
+<section class="contact-form-section">
+  {data.section_title?.content && (
+    <h2>{data.section_title.content}</h2>
+  )}
+  {data.section_subtitle?.content && (
+    <p class="subtitle">{data.section_subtitle.content}</p>
+  )}
+
+  <form
+    id="contact-form"
+    class="contact-form"
+    data-api-endpoint={apiEndpoint}
+    data-success-message={successMessage}
+    data-locale={locale}
+  >
+    <div class="form-field">
+      <label for="name">Name *</label>
+      <input type="text" id="name" name="name" required />
+    </div>
+
+    <div class="form-field">
+      <label for="email">Email *</label>
+      <input type="email" id="email" name="email" required />
+    </div>
+
+    {showPhone && (
+      <div class="form-field">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone" />
+      </div>
+    )}
+
+    {showSubject && (
+      <div class="form-field">
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" />
+      </div>
+    )}
+
+    <div class="form-field">
+      <label for="message">Message *</label>
+      <textarea id="message" name="message" rows="4" required></textarea>
+    </div>
+
+    <div class="form-result" aria-live="polite"></div>
+
+    <button type="submit" class="btn btn-primary">
+      {submitText}
+    </button>
+  </form>
+</section>
+
+<script>
+  // Client-side form handling
+  document.querySelectorAll('#contact-form').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formEl = e.target as HTMLFormElement;
+      const apiEndpoint = formEl.dataset.apiEndpoint;
+      const successMessage = formEl.dataset.successMessage;
+      const locale = formEl.dataset.locale;
+      const resultDiv = formEl.querySelector('.form-result');
+      const submitBtn = formEl.querySelector('button[type="submit"]') as HTMLButtonElement;
+
+      // Disable button during submission
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      try {
+        const formData = new FormData(formEl);
+        const response = await fetch(apiEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contact: {
+              name: formData.get('name'),
+              email: formData.get('email'),
+              phone: formData.get('phone') || '',
+              subject: formData.get('subject') || '',
+              message: formData.get('message'),
+              locale: locale
+            }
+          })
+        });
+
+        if (response.ok) {
+          resultDiv.innerHTML = `<p class="success">${successMessage}</p>`;
+          formEl.reset();
+        } else {
+          const error = await response.json();
+          resultDiv.innerHTML = `<p class="error">${error.message || 'Failed to send message'}</p>`;
+        }
+      } catch (err) {
+        resultDiv.innerHTML = '<p class="error">Network error. Please try again.</p>';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = formEl.dataset.submitText || 'Send Message';
+      }
+    });
+  });
+</script>
+
+<style>
+  .contact-form-section { max-width: 600px; margin: 0 auto; padding: 2rem; }
+  .form-field { margin-bottom: 1rem; }
+  .form-field label { display: block; margin-bottom: 0.25rem; font-weight: 500; }
+  .form-field input, .form-field textarea { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
+  .form-result .success { color: green; }
+  .form-result .error { color: red; }
+  .btn { padding: 0.75rem 1.5rem; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer; }
+  .btn:disabled { background: #9ca3af; cursor: not-allowed; }
+</style>
 ```
 
 ---
