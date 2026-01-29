@@ -390,6 +390,87 @@ RSpec.describe "ApiPublic::V1::LocalizedPages", type: :request do
         # Internal links should be localized
         expect(content["rendered_html"]).to include('href="/es/contact"')
       end
+
+      it "returns rendered_html as a string (HTML) not a hash" do
+        get "/api_public/v1/en/localized_page/by_slug/services"
+
+        json = response.parsed_body
+        content = json["page_contents"].first
+
+        # rendered_html must be a string containing HTML, not a JSON object
+        expect(content["rendered_html"]).to be_a(String)
+        expect(content["rendered_html"]).to start_with("<")
+      end
+    end
+
+    describe "form page parts" do
+      let!(:contact_page) do
+        ActsAsTenant.with_tenant(website) do
+          page = FactoryBot.create(:pwb_page, slug: "contact-us", website: website, visible: true)
+
+          # Create PagePart with block_contents
+          page_part = Pwb::PagePart.create!(
+            website_id: website.id,
+            page_part_key: "contact_general_enquiry",
+            page_slug: "contact-us",
+            show_in_editor: true,
+            block_contents: {
+              "en" => {
+                "blocks" => {
+                  "section_title" => { "content" => "Contact Us" },
+                  "show_phone_field" => { "content" => "true" }
+                }
+              }
+            }
+          )
+
+          # Create Content with pre-rendered HTML
+          content = Pwb::Content.create!(
+            page_part_key: "contact_general_enquiry",
+            website_id: website.id
+          )
+          content.raw_en = "<section class=\"contact-form\"><h2>Contact Us</h2><form>...</form></section>"
+          content.save!
+
+          Pwb::PageContent.create!(
+            page: page,
+            website: website,
+            content: content,
+            page_part_key: "contact_general_enquiry",
+            sort_order: 1,
+            visible_on_page: true,
+            is_rails_part: false
+          )
+
+          page
+        end
+      end
+
+      it "returns rendered_html as HTML string for form page parts" do
+        get "/api_public/v1/en/localized_page/by_slug/contact-us"
+
+        json = response.parsed_body
+        content = json["page_contents"].find { |c| c["page_part_key"] == "contact_general_enquiry" }
+
+        expect(content).to be_present
+        # rendered_html must be a string, not a hash/object
+        # If this fails, it means Content.raw contains block_contents JSON instead of HTML
+        expect(content["rendered_html"]).to be_a(String)
+        expect(content["rendered_html"]).to include("<section")
+        expect(content["rendered_html"]).not_to be_a(Hash)
+      end
+
+      it "does not return block_contents JSON as rendered_html" do
+        get "/api_public/v1/en/localized_page/by_slug/contact-us"
+
+        json = response.parsed_body
+        content = json["page_contents"].find { |c| c["page_part_key"] == "contact_general_enquiry" }
+
+        # Ensure we're not accidentally returning block_contents as rendered_html
+        # This would indicate Content.raw was incorrectly populated
+        expect(content["rendered_html"]).not_to include('"content"')
+        expect(content["rendered_html"]).not_to include('"blocks"')
+      end
     end
 
     describe "error handling" do
