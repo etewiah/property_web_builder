@@ -374,9 +374,133 @@ This ensures the editor always has something to display, even for page parts tha
 
 For page parts **not** in the library, the record is created with empty `block_contents`.
 
-### 3. Update Page Part Content
+### 3. Update Page Part Content (Recommended)
+
+**Endpoint:** `PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/:page_part_key`
+
+This is the preferred endpoint for updating page part content. It uses semantic identifiers (`page_slug` and `page_part_key`) instead of internal IDs.
+
+**Headers:**
+```
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "block_contents": {
+    "title": { "content": "Updated Title" },
+    "subtitle": { "content": "Updated Subtitle" }
+  },
+  "rendered_html": "<section class=\"pwb-hero\">...</section>"
+}
+```
+
+**Important:** The `rendered_html` parameter is **required** unless `regenerate: true` is set. This allows the client to provide pre-rendered HTML (e.g., from a WYSIWYG editor) which is saved directly without server-side Liquid rendering.
+
+**Alternative with server-side rendering:**
+```json
+{
+  "block_contents": {
+    "title": { "content": "Updated Title" }
+  },
+  "regenerate": true
+}
+```
+
+**Success Response:**
+```json
+{
+  "page_slug": "about-us",
+  "page_part_key": "heroes/hero_centered",
+  "locale": "en",
+  "block_contents": {
+    "blocks": {
+      "title": { "content": "Updated Title" },
+      "subtitle": { "content": "Updated Subtitle" }
+    }
+  },
+  "message": "Page part content updated successfully"
+}
+```
+
+**Error Responses:**
+
+Missing rendered_html (400):
+```json
+{
+  "error": "Missing parameter",
+  "message": "Required parameter 'rendered_html' is missing. Provide rendered HTML or set 'regenerate': true to use server-side rendering."
+}
+```
+
+Page not found (404):
+```json
+{
+  "error": "Page not found",
+  "message": "No page found with slug 'invalid-slug'",
+  "code": "PAGE_NOT_FOUND"
+}
+```
+
+### 3b. Update Page Part Visibility
+
+**Endpoint:** `PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/:page_part_key/visibility`
+
+Toggle visibility of a page part on a specific page.
+
+**Request Body:**
+```json
+{
+  "visible": false
+}
+```
+
+**Success Response:**
+```json
+{
+  "page_slug": "about-us",
+  "page_part_key": "heroes/hero_centered",
+  "visible_on_page": false,
+  "message": "Page part visibility updated"
+}
+```
+
+### 3c. Reorder Page Parts
+
+**Endpoint:** `PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/reorder`
+
+Reorder page parts using an array of `page_part_key` strings.
+
+**Request Body:**
+```json
+{
+  "order": [
+    "cta/cta_banner",
+    "heroes/hero_centered",
+    "features/feature_grid_3col"
+  ]
+}
+```
+
+**Success Response:**
+```json
+{
+  "page_slug": "about-us",
+  "message": "Page parts reordered successfully",
+  "order": [
+    { "page_part_key": "cta/cta_banner", "sort_order": 0 },
+    { "page_part_key": "heroes/hero_centered", "sort_order": 1 },
+    { "page_part_key": "features/feature_grid_3col", "sort_order": 2 }
+  ]
+}
+```
+
+### 3d. Legacy Update Endpoint (Deprecated)
 
 **Endpoint:** `PATCH /:locale/editor/page_parts/:key`
+
+> **DEPRECATED:** Use `PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/:page_part_key` instead.
 
 **Headers:**
 ```
@@ -1308,6 +1432,14 @@ const members: TeamMember[] = blocks.members?.content
 - [ ] `GET /api_public/v1/pages/by_slug/:slug` returns page data
 - [ ] `include_rendered=true` includes pre-rendered HTML
 - [ ] Locale parameter affects content language
+
+### Page Part Content API (api_manage)
+- [ ] `PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/:page_part_key` updates content
+- [ ] `rendered_html` is required unless `regenerate: true`
+- [ ] Auto-creates PagePart if it doesn't exist
+- [ ] Returns 404 for non-existent page
+- [ ] `PATCH .../visibility` toggles `visible_on_page`
+- [ ] `PATCH .../reorder` updates sort_order by page_part_key array
 
 ### Edit Mode
 - [ ] `?edit_mode=true` activates edit mode styling

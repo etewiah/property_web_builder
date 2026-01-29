@@ -173,7 +173,9 @@ Content-Type: application/json
 
 ---
 
-### Reorder Page Parts
+### Reorder Page Parts (Deprecated)
+
+> **DEPRECATED:** Use semantic endpoint `PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/reorder` instead.
 
 ```
 PATCH /api_manage/v1/:locale/pages/:id/reorder_parts
@@ -195,6 +197,108 @@ The order of IDs in the array determines the new order (index 0 = first).
 ```json
 {
   "message": "Page parts reordered successfully"
+}
+```
+
+---
+
+### Reorder Page Parts (Semantic - Recommended)
+
+```
+PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/reorder
+Content-Type: application/json
+```
+
+**Example:** `PATCH /api_manage/v1/en/pages/about-us/page_parts/reorder`
+
+**Request Body:**
+```json
+{
+  "order": [
+    "cta/cta_banner",
+    "heroes/hero_centered",
+    "features/feature_grid_3col"
+  ]
+}
+```
+
+Uses `page_part_key` strings instead of internal IDs. The array order determines the new sort order.
+
+**Response:**
+```json
+{
+  "page_slug": "about-us",
+  "message": "Page parts reordered successfully",
+  "order": [
+    { "page_part_key": "cta/cta_banner", "sort_order": 0 },
+    { "page_part_key": "heroes/hero_centered", "sort_order": 1 },
+    { "page_part_key": "features/feature_grid_3col", "sort_order": 2 }
+  ]
+}
+```
+
+---
+
+### Update Page Part Content
+
+```
+PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/:page_part_key
+Content-Type: application/json
+```
+
+**Example:** `PATCH /api_manage/v1/en/pages/about-us/page_parts/heroes%2Fhero_centered`
+
+> Note: The `page_part_key` must be URL-encoded (e.g., `heroes/hero_centered` → `heroes%2Fhero_centered`)
+
+**Request Body:**
+```json
+{
+  "block_contents": {
+    "title": { "content": "Updated Title" },
+    "subtitle": { "content": "Updated Subtitle" }
+  },
+  "rendered_html": "<section class=\"pwb-hero\">...</section>"
+}
+```
+
+**Important:** The `rendered_html` parameter is **required** unless `regenerate: true` is set.
+
+**Success Response:**
+```json
+{
+  "page_slug": "about-us",
+  "page_part_key": "heroes/hero_centered",
+  "locale": "en",
+  "block_contents": { ... },
+  "message": "Page part content updated successfully"
+}
+```
+
+---
+
+### Toggle Page Part Visibility
+
+```
+PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/:page_part_key/visibility
+Content-Type: application/json
+```
+
+**Example:** `PATCH /api_manage/v1/en/pages/about-us/page_parts/heroes%2Fhero_centered/visibility`
+
+**Request Body:**
+```json
+{
+  "visible": false
+}
+```
+
+**Response:**
+```json
+{
+  "page_slug": "about-us",
+  "page_part_key": "heroes/hero_centered",
+  "visible_on_page": false,
+  "message": "Page part visibility updated"
 }
 ```
 
