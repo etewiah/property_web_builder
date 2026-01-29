@@ -163,6 +163,78 @@ module Pwb
         end
       end
 
+      context 'when page_part uses file-based template' do
+        # This tests the fix for the bug where file-based templates weren't being used,
+        # causing raw JSON block_contents to be stored instead of rendered HTML.
+        let!(:page_part_with_file_template) do
+          ActsAsTenant.with_tenant(current_website) do
+            # Create page part with nil database template but a page_part_key
+            # that has a file-based template
+            FactoryBot.create(:pwb_page_part,
+              page_part_key: "cta/cta_banner",
+              page_slug: "website",
+              template: nil, # No database template
+              editor_setup: {
+                "tabTitleKey" => "test.title",
+                "editorBlocks" => [
+                  [
+                    { "label" => "title", "isSingleLineText" => "true" },
+                    { "label" => "subtitle", "isMultipleLineText" => "true" }
+                  ],
+                  [
+                    { "label" => "button_text", "isSingleLineText" => "true" },
+                    { "label" => "button_link", "isSingleLineText" => "true" }
+                  ]
+                ]
+              },
+              website: current_website)
+          end
+        end
+
+        let(:page_part_manager) { Pwb::PagePartManager.new("cta/cta_banner", current_website) }
+
+        it 'uses file-based template when database template is nil' do
+          # Verify that template_content finds the file-based template
+          expect(page_part_with_file_template.template).to be_nil
+          expect(page_part_with_file_template.template_content).to be_present
+        end
+
+        it 'renders HTML using file-based template, not JSON block_contents' do
+          seed_content = {
+            "title" => "Need Help?",
+            "subtitle" => "Our team is here to help.",
+            "button_text" => "Contact Us",
+            "button_link" => "/contact"
+          }
+          page_part_manager.seed_container_block_content("en", seed_content)
+
+          content = current_website.contents.find_by(page_part_key: "cta/cta_banner")
+
+          # CRITICAL: Content.raw must be a String (HTML), never a Hash (JSON)
+          expect(content.raw).to be_a(String)
+          expect(content.raw).not_to be_a(Hash)
+
+          # Should contain rendered HTML elements
+          expect(content.raw).to include("Need Help?")
+          expect(content.raw).to match(/<[^>]+>/) # Contains HTML tags
+        end
+
+        it 'never stores block_contents JSON structure in Content.raw' do
+          seed_content = {
+            "title" => "Test Title",
+            "subtitle" => "Test Subtitle"
+          }
+          page_part_manager.seed_container_block_content("en", seed_content)
+
+          content = current_website.contents.find_by(page_part_key: "cta/cta_banner")
+
+          # Must not contain JSON structure patterns
+          expect(content.raw.to_s).not_to include('"content"=>')
+          expect(content.raw.to_s).not_to include("'content'=>")
+          expect(content.raw.to_s).not_to match(/\{"[^"]+"\s*=>\s*\{/)
+        end
+      end
+
       context 'when page_part has empty template' do
         let!(:page_part_empty_template) do
           ActsAsTenant.with_tenant(current_website) do
@@ -368,8 +440,8 @@ module Pwb
             page_part_key: "hero",
             page_slug: "website",
             template: '<img src="{{ page_part[\'image\'][\'content\'] }}">',
-            editor_setup: { 
-              "editorBlocks" => [[{ "label" => "image", "isImage" => "true" }]] 
+            editor_setup: {
+              "editorBlocks" => [[{ "label" => "image", "isImage" => "true" }]]
             },
             website: current_website)
         end
@@ -381,18 +453,109 @@ module Pwb
       it 'optimizes images when rebuilding page content' do
         # Use a reliable test URL that the helper considers trusted
         seed_image_url = "https://pwb-seed-images.s3.amazonaws.com/example.jpg"
-        
+
         page_part_manager.seed_container_block_content("en", {
           "image" => seed_image_url
         })
 
         content = current_website.contents.find_by(page_part_key: "hero")
-        
+
         # Should be upgraded to picture tag
         expect(content.raw).to include("<picture>")
         expect(content.raw).to include("srcset")
         expect(content.raw).to include('type="image/webp"')
         expect(content.raw).to include(seed_image_url)
+      end
+    end
+
+    describe 'Content.raw type safety' do
+      # These tests ensure Content.raw is ALWAYS a String (HTML), never a Hash (JSON).
+      # This guards against the bug where block_contents JSON was accidentally stored
+      # instead of rendered HTML.
+      let!(:current_website) { FactoryBot.create(:pwb_website) }
+
+      before { ActsAsTenant.current_tenant = current_website }
+
+      context 'after seeding with database template' do
+        let!(:page_part) do
+          ActsAsTenant.with_tenant(current_website) do
+            FactoryBot.create(:pwb_page_part,
+              page_part_key: "db_template_test",
+              page_slug: "website",
+              template: "<section>{{ page_part['title']['content'] }}</section>",
+              editor_setup: {
+                "editorBlocks" => [[{ "label" => "title", "isSingleLineText" => "true" }]]
+              },
+              website: current_website)
+          end
+        end
+
+        it 'stores String in Content.raw, not Hash' do
+          manager = Pwb::PagePartManager.new("db_template_test", current_website)
+          manager.seed_container_block_content("en", { "title" => "Test" })
+
+          content = current_website.contents.find_by(page_part_key: "db_template_test")
+          expect(content.raw_en).to be_a(String)
+          expect(content.raw_en).not_to be_a(Hash)
+        end
+      end
+
+      context 'after seeding with file-based template' do
+        let!(:page_part) do
+          ActsAsTenant.with_tenant(current_website) do
+            # Use a page_part_key that has a file-based template
+            FactoryBot.create(:pwb_page_part,
+              page_part_key: "heroes/hero_centered",
+              page_slug: "website",
+              template: nil, # Force file-based lookup
+              editor_setup: {
+                "editorBlocks" => [
+                  [{ "label" => "title", "isSingleLineText" => "true" }],
+                  [{ "label" => "subtitle", "isMultipleLineText" => "true" }]
+                ]
+              },
+              website: current_website)
+          end
+        end
+
+        it 'stores String in Content.raw, not Hash' do
+          # Skip if file-based template doesn't exist
+          skip "File-based template not found" unless page_part.template_content.present?
+
+          manager = Pwb::PagePartManager.new("heroes/hero_centered", current_website)
+          manager.seed_container_block_content("en", { "title" => "Welcome", "subtitle" => "Hello" })
+
+          content = current_website.contents.find_by(page_part_key: "heroes/hero_centered")
+          expect(content.raw_en).to be_a(String)
+          expect(content.raw_en).not_to be_a(Hash)
+        end
+      end
+
+      context 'after update_page_part_content' do
+        let!(:page_part) do
+          ActsAsTenant.with_tenant(current_website) do
+            FactoryBot.create(:pwb_page_part,
+              page_part_key: "update_type_test",
+              page_slug: "website",
+              template: "<div>{{ page_part['text']['content'] }}</div>",
+              editor_setup: {
+                "editorBlocks" => [[{ "label" => "text", "isSingleLineText" => "true" }]]
+              },
+              website: current_website)
+          end
+        end
+
+        it 'stores String in Content.raw after update, not Hash' do
+          manager = Pwb::PagePartManager.new("update_type_test", current_website)
+          fragment_block = { "blocks" => { "text" => { "content" => "Updated content" } } }
+
+          manager.update_page_part_content("en", fragment_block)
+
+          content = current_website.contents.find_by(page_part_key: "update_type_test")
+          expect(content.raw_en).to be_a(String)
+          expect(content.raw_en).not_to be_a(Hash)
+          expect(content.raw_en).to include("Updated content")
+        end
       end
     end
   end
