@@ -189,7 +189,10 @@ RSpec.describe "ApiManage::V1::PageContents", type: :request do
     end
   end
 
-  describe "PATCH /api_manage/v1/:locale/page_contents/:id" do
+  # DEPRECATED: update action removed from routes
+  # For visibility changes, use: PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/:page_part_key/visibility
+  # See page_part_visibility_spec.rb for tests
+  describe "PATCH /api_manage/v1/:locale/page_contents/:id", skip: "Deprecated: use page_part_visibility endpoint" do
     let!(:page_content) do
       ActsAsTenant.with_tenant(website) do
         FactoryBot.create(:pwb_page_content,

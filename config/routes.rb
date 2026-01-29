@@ -698,7 +698,7 @@ Rails.application.routes.draw do
         get "/infos" => "agency#infos"
 
         put "/pages" => "page#update"
-        put "/pages/page_part_visibility" => "page#update_page_part_visibility"
+        # put "/pages/page_part_visibility" => "page#update_page_part_visibility"  # Deprecated: use api_manage/v1/:locale/pages/:page_slug/page_parts/:page_part_key/visibility
         put "/pages/page_fragment" => "page#save_page_fragment"
         get "/pages/:page_name" => "page#show"
 
@@ -775,8 +775,12 @@ Rails.application.routes.draw do
           end
         end
 
-        # Page contents (standalone for show/update/destroy by ID)
-        resources :page_contents, only: %i[show update destroy]
+        # Page contents (standalone for show/destroy by ID)
+        # Note: update deprecated for visibility changes - use pages/:page_slug/page_parts/:page_part_key/visibility instead
+        resources :page_contents, only: %i[show destroy]
+
+        # Page part visibility toggle (preferred endpoint)
+        patch "/pages/:page_slug/page_parts/:page_part_key/visibility" => "page_part_visibility#update"
 
         # Liquid page with templates and block_contents for client-side rendering
         # Returns page data with Liquid templates and variables for each page part

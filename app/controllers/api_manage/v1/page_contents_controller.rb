@@ -65,19 +65,22 @@ module ApiManage
       end
 
       # PATCH /api_manage/v1/:locale/page_contents/:id
-      def update
-        if @page_content.update(page_content_update_params)
-          render json: {
-            page_content: page_content_json(@page_content, include_children: true),
-            message: 'Page content updated successfully'
-          }
-        else
-          render json: {
-            error: 'Validation failed',
-            errors: @page_content.errors.full_messages
-          }, status: :unprocessable_entity
-        end
-      end
+      # DEPRECATED: For visibility changes, use:
+      #   PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/:page_part_key/visibility
+      # This endpoint has been removed from routes. Keeping method for reference.
+      # def update
+      #   if @page_content.update(page_content_update_params)
+      #     render json: {
+      #       page_content: page_content_json(@page_content, include_children: true),
+      #       message: 'Page content updated successfully'
+      #     }
+      #   else
+      #     render json: {
+      #       error: 'Validation failed',
+      #       errors: @page_content.errors.full_messages
+      #     }, status: :unprocessable_entity
+      #   end
+      # end
 
       # DELETE /api_manage/v1/:locale/page_contents/:id
       def destroy
