@@ -455,7 +455,7 @@ module Pwb
     end
 
     describe 'theme and palette interaction' do
-      it 'switching theme clears invalid palette' do
+      it 'allows cross-theme palettes when switching themes' do
         website.theme_name = 'brisbane'
         website.selected_palette = 'gold_navy'
         website.save!
@@ -464,9 +464,21 @@ module Pwb
         website.theme_name = 'default'
         website.save!
 
-        # gold_navy is not valid for default theme
+        # gold_navy is not valid for the current theme (default)
         expect(website.current_theme.valid_palette?('gold_navy')).to be false
-        # effective_palette_id should fall back to default theme's default
+
+        # But effective_palette_id should still return gold_navy because
+        # cross-theme palettes are supported via find_palette_globally
+        # This allows websites to keep using palettes from other themes
+        expect(website.effective_palette_id).to eq('gold_navy')
+      end
+
+      it 'falls back to theme default when palette does not exist anywhere' do
+        website.theme_name = 'default'
+        website.selected_palette = 'nonexistent_palette_xyz'
+        website.save!
+
+        # nonexistent palette should fall back to theme's default
         expect(website.effective_palette_id).to eq('classic_red')
       end
     end

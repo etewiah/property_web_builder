@@ -69,11 +69,11 @@ RSpec.describe 'Theme Component Functionality', type: :view do
           content = read_template(theme, 'layouts/pwb/application.html.erb')
           next unless content
 
-          # Check for common ERB artifacts that might be rendered
-          # These patterns indicate broken ERB that will render as visible text
+          # Check for broken ERB that would render as visible text
+          # Note: Lone %> on a line is VALID when closing a multi-line ERB comment (<%# ... %>)
+          # We only flag %> that appears outside of proper ERB structures
           dangerous_patterns = [
-            /^\s*%>\s*$/m, # Lone %> on a line
-            /body[^>]*>[\s\n]*%>/m # %> immediately after body tag
+            /body[^>]*>[\s\n]*%>/m # %> immediately after body tag (indicates broken ERB)
           ]
 
           dangerous_patterns.each do |pattern|
@@ -81,6 +81,19 @@ RSpec.describe 'Theme Component Functionality', type: :view do
               "Potential ERB rendering issue in #{theme} layout.\n" \
               "This pattern may render as visible text in the browser."
           end
+
+          # Verify multi-line ERB comments are properly balanced
+          # Count opening <%# and ensure each has matching %>
+          erb_comment_opens = content.scan(/<%#/).count
+          erb_closes = content.scan(/%>/).count
+          erb_output_opens = content.scan(/<%=/).count
+          erb_code_opens = content.scan(/<%[^#=%]/).count
+
+          expected_closes = erb_comment_opens + erb_output_opens + erb_code_opens
+          # Allow for some variance due to regex overlap, but should be close
+          expect(erb_closes).to be >= expected_closes - 5,
+            "ERB open/close tag mismatch in #{theme} layout. " \
+            "Opens: #{expected_closes}, Closes: #{erb_closes}"
         end
       end
     end
@@ -192,9 +205,10 @@ RSpec.describe 'Theme Component Functionality', type: :view do
           content = read_template(theme, 'layouts/pwb/application.html.erb')
           next unless content
 
-          expect(content).to match(/tailwind.*\.css/i),
+          # Match stylesheet_link_tag with tailwind- prefix or tailwind.css references
+          expect(content).to match(/stylesheet_link_tag\s+["']tailwind-|tailwind.*\.css/i),
             "#{theme} layout should load Tailwind CSS.\n" \
-            "Expected: tailwind-#{theme}.css or similar"
+            "Expected: stylesheet_link_tag 'tailwind-#{theme}' or similar"
         end
 
         it 'layout loads Flowbite JS' do

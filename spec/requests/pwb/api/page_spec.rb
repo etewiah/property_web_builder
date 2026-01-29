@@ -56,7 +56,7 @@ module Pwb
       end
     end
 
-    describe 'PUT /api/v1/pages/page_part_visibility' do
+    describe 'PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/:page_part_key/visibility' do
       let!(:page) do
         ActsAsTenant.with_tenant(website) do
           create(:page_with_content_html_page_part, slug: 'home', website: website)
@@ -73,20 +73,16 @@ module Pwb
         target_page_content = page.page_contents.find_by(page_part_key: 'content_html')
         expect(target_page_content).to be_present
 
-        put '/api/v1/pages/page_part_visibility', params: {
-          page_slug: 'home',
-          cmd: 'setAsHidden',
-          page_part_key: 'content_html'
+        patch '/api_manage/v1/en/pages/home/page_parts/content_html/visibility', params: {
+          visible: false
         }
 
         expect(response).to have_http_status(:success)
         target_page_content.reload
         expect(target_page_content.visible_on_page).to eq(false)
 
-        put '/api/v1/pages/page_part_visibility', params: {
-          page_slug: 'home',
-          cmd: 'setAsVisible',
-          page_part_key: 'content_html'
+        patch '/api_manage/v1/en/pages/home/page_parts/content_html/visibility', params: {
+          visible: true
         }
 
         expect(response).to have_http_status(:success)
