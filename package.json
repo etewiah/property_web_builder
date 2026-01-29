@@ -1,10 +1,10 @@
 {
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
-    "@playwright/test": "^1.57.0",
+    "@playwright/test": "^1.58.0",
     "critical": "^7.2.1",
     "fontawesome-subset": "^4.6.0",
-    "lucide-static": "^0.562.0"
+    "lucide-static": "^0.563.0"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.2.8",
@@ -15,7 +15,7 @@
     "@fontsource/vollkorn": "^5.2.10",
     "@tailwindcss/cli": "^4.1.17",
     "flowbite": "^4.0.1",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.1.17"
   },
