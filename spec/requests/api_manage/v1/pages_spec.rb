@@ -50,7 +50,9 @@ RSpec.describe 'ApiManage::V1::Pages', type: :request do
     end
   end
 
-  describe 'GET /api_manage/v1/:locale/pages/by_slug/:slug' do
+  # DEPRECATED: by_slug endpoint replaced by liquid_page endpoint
+  # See liquid_pages_spec.rb for tests on the current endpoint
+  describe 'GET /api_manage/v1/:locale/pages/by_slug/:slug', skip: "Deprecated: use liquid_page endpoint instead" do
     it 'returns page by slug' do
       get '/api_manage/v1/en/pages/by_slug/test-page'
 

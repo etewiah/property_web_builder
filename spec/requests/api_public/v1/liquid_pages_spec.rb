@@ -2,9 +2,11 @@
 
 require 'rails_helper'
 
+# DEPRECATED: This endpoint has been moved to api_manage namespace
+# See spec/requests/api_manage/v1/liquid_pages_spec.rb for current tests
 module ApiPublic
   module V1
-    RSpec.describe "LiquidPages", type: :request do
+    RSpec.describe "LiquidPages", type: :request, skip: "Endpoint moved to api_manage namespace" do
       let(:website) { FactoryBot.create(:pwb_website, subdomain: 'liquid-test') }
       let!(:page) do
         ActsAsTenant.with_tenant(website) do

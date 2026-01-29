@@ -762,7 +762,7 @@ Rails.application.routes.draw do
         # Page management
         resources :pages, only: %i[index show update] do
           collection do
-            get 'by_slug/:slug', action: :show_by_slug, as: :by_slug
+            # get 'by_slug/:slug', action: :show_by_slug, as: :by_slug  # Deprecated: use liquid_page instead
           end
           member do
             patch :reorder_parts
@@ -777,6 +777,10 @@ Rails.application.routes.draw do
 
         # Page contents (standalone for show/update/destroy by ID)
         resources :page_contents, only: %i[show update destroy]
+
+        # Liquid page with templates and block_contents for client-side rendering
+        # Returns page data with Liquid templates and variables for each page part
+        get "/liquid_page/by_slug/:page_slug" => "liquid_pages#show"
 
         # Page parts (content editing - block_contents)
         resources :page_parts, only: %i[index show update] do
@@ -814,9 +818,8 @@ Rails.application.routes.draw do
         # Returns full page data including OG tags, JSON-LD, translations, etc.
         get "/localized_page/by_slug/:page_slug" => "localized_pages#show"
 
-        # Liquid page with templates and block_contents for client-side rendering
-        # Returns page data with Liquid templates and variables for each page part
-        get "/liquid_page/by_slug/:page_slug" => "liquid_pages#show"
+        # Liquid page moved to api_manage namespace (requires authentication)
+        # get "/liquid_page/by_slug/:page_slug" => "liquid_pages#show"
 
         # Translations
         get "/translations" => "translations#index"
