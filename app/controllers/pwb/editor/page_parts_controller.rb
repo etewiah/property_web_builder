@@ -79,13 +79,18 @@ module Pwb
     # Initialize a new PagePart with default block_contents from PagePartLibrary
     def initialize_page_part_from_library(page_part_key)
       definition = Pwb::PagePartLibrary.definition(page_part_key)
-
-      # Build empty block_contents structure with fields from definition
-      fields = definition&.dig(:fields) || []
+      fields_config = definition&.dig(:fields)
 
       blocks = {}
-      fields.each do |field_name|
-        blocks[field_name] = { 'content' => '' }
+
+      # Handle both array (legacy) and hash (modern) field definitions
+      if fields_config.is_a?(Array)
+        fields_config.each { |field_name| blocks[field_name.to_s] = { 'content' => '' } }
+      elsif fields_config.is_a?(Hash)
+        fields_config.each do |field_name, field_config|
+          default_value = field_config[:default] || ''
+          blocks[field_name.to_s] = { 'content' => default_value }
+        end
       end
 
       # Initialize for default locale
