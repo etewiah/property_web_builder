@@ -664,8 +664,8 @@ function CharacterCounter({ value, max, optimal }: { value: string; max: number;
 ## Related Endpoints
 
 For fetching page content to render:
-- `GET /api_public/v1/:locale/liquid_page/by_slug/:page_slug` - Get Liquid templates + block_contents
-- `GET /api_public/v1/:locale/localized_page/by_slug/:page_slug` - Get pre-rendered HTML + SEO metadata
+- `GET /api_manage/v1/:locale/liquid_page/by_slug/:page_slug` - Get Liquid templates + block_contents (for editors)
+- `GET /api_public/v1/:locale/localized_page/by_slug/:page_slug` - Get pre-rendered HTML + SEO metadata (for public display)
 
 ---
 

@@ -159,7 +159,9 @@ In Liquid templates, content is accessed via `page_part.BLOCK_KEY.content`:
 
 ### 1. Get Page with Liquid Templates (Recommended for Client-Side Rendering)
 
-**Endpoint:** `GET /api_public/v1/:locale/liquid_page/by_slug/:slug`
+**Endpoint:** `GET /api_manage/v1/:locale/liquid_page/by_slug/:slug`
+
+> **Note:** This endpoint is in the `api_manage` namespace (requires authentication in production).
 
 Returns page data with Liquid templates and block_contents for each page part, enabling client-side rendering.
 
@@ -171,7 +173,7 @@ Returns page data with Liquid templates and block_contents for each page part, e
 
 **Example Request:**
 ```
-GET /api_public/v1/es/liquid_page/by_slug/about-us
+GET /api_manage/v1/es/liquid_page/by_slug/about-us
 ```
 
 **Response:**

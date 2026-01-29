@@ -2,6 +2,9 @@
 
 **Date:** 2026-01-27
 
+> **Update (2026-01-29):** The `liquid_page` endpoint has been moved from `api_public` to `api_manage` namespace.
+> New path: `GET /api_manage/v1/:locale/liquid_page/by_slug/:page_slug`
+
 ## Overview
 
 This session addressed two main areas:

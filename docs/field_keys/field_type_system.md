@@ -20,7 +20,7 @@ This document provides a detailed analysis of the current field type inference s
 The current system infers field types from field names using pattern matching:
 
 ```ruby
-# app/controllers/api_public/v1/liquid_pages_controller.rb
+# app/controllers/api_manage/v1/liquid_pages_controller.rb
 def infer_field_type(field_name)
   name = field_name.to_s.downcase
 
@@ -654,7 +654,7 @@ end
 ### Step 3: Update API Response
 
 ```ruby
-# app/controllers/api_public/v1/liquid_pages_controller.rb
+# app/controllers/api_manage/v1/liquid_pages_controller.rb
 
 def build_field_definitions(definition, page_part)
   return nil unless definition

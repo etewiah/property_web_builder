@@ -107,10 +107,12 @@ interface SiteDetails {
 ### Get Page with Liquid Templates (Recommended for Editors)
 
 ```http
-GET /api_public/v1/:locale/liquid_page/by_slug/:page_slug
+GET /api_manage/v1/:locale/liquid_page/by_slug/:page_slug
 ```
 
 Returns page data with Liquid templates and block_contents for client-side rendering.
+
+> **Note:** This endpoint is in the `api_manage` namespace (requires authentication in production).
 
 **Response:**
 ```json

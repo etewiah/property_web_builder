@@ -62,7 +62,7 @@ Page part keys serve multiple purposes:
 Page part keys may appear in URLs such as:
 - `/editor/page_parts/:page_part_key/edit`
 - `/api/v1/page_parts/:page_part_key`
-- `/api_public/v1/liquid_page/:page_slug/parts/:page_part_key`
+- `/api_manage/v1/:locale/liquid_page/by_slug/:page_slug`
 
 **Avoid slashes** (`/`) in page part keys as they:
 - Break URL routing without special encoding
