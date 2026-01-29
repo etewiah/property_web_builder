@@ -101,7 +101,8 @@ pwb-frontend-quasar/
 # Keep keys out of git (config/master.key and config/credentials/*.key).
 !/config/credentials.yml.enc
 !/config/credentials/*.yml.enc
-# package-lock.json - removed from gitignore to ensure npm dependencies are locked
+# package-lock.json - tracked to ensure npm dependencies are locked
+pnpm-lock.yaml
 
 # Asset builds - ignore most but commit Tailwind CSS for reliable deploys
 /app/assets/builds/*
