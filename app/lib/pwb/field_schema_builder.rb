@@ -84,7 +84,7 @@ module Pwb
 
       # Media Types
       image: {
-        component: 'ImagePicker',
+        component: 'ImageInlinePicker',
         description: 'Image URL or upload',
         default_options: {
           accept: %w[image/jpeg image/png image/webp image/gif],
@@ -225,7 +225,7 @@ module Pwb
           name: field_name.to_s,
           type: type.to_s,
           label: config[:label] || humanize_field_name(field_name),
-          component: type_config[:component]
+          component: config[:component] || type_config[:component]
         }
 
         # Add optional fields only if present

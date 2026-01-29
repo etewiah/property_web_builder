@@ -152,6 +152,7 @@ module Pwb
           },
           background_image: {
             type: :image,
+            component: 'ImageBlockPicker',
             label: 'Background Image',
             hint: 'Full-width background image for the hero',
             required: true,
