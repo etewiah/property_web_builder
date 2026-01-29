@@ -98,7 +98,10 @@ RSpec.describe "ApiManage::V1::PageParts", type: :request do
     end
   end
 
-  describe "PATCH /api_manage/v1/:locale/page_parts/:id" do
+  # DEPRECATED: update action removed from routes
+  # Use instead: PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/:page_part_key
+  # See page_part_content_spec.rb for tests
+  describe "PATCH /api_manage/v1/:locale/page_parts/:id", skip: "Deprecated: use page_part_content endpoint" do
     it "updates block_contents" do
       patch "/api_manage/v1/en/page_parts/#{page_part.id}",
         params: {
@@ -141,7 +144,10 @@ RSpec.describe "ApiManage::V1::PageParts", type: :request do
     end
   end
 
-  describe "PATCH /api_manage/v1/:locale/page_parts/by_key/:key" do
+  # DEPRECATED: update_by_key action removed from routes
+  # Use instead: PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/:page_part_key
+  # See page_part_content_spec.rb for tests
+  describe "PATCH /api_manage/v1/:locale/page_parts/by_key/:key", skip: "Deprecated: use page_part_content endpoint" do
     it "updates page part by composite key" do
       key = "#{page.slug}::heroes/hero_centered"
       patch "/api_manage/v1/en/page_parts/by_key/#{CGI.escape(key)}",

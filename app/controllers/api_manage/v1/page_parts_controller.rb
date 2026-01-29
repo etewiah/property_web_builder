@@ -12,13 +12,15 @@ module ApiManage
     #   GET    /api_manage/v1/:locale/page_parts                    - List all page parts
     #   GET    /api_manage/v1/:locale/page_parts/:id                - Get page part by ID
     #   GET    /api_manage/v1/:locale/page_parts/by_key/:key        - Get page part by key
-    #   PATCH  /api_manage/v1/:locale/page_parts/:id                - Update page part content
-    #   PATCH  /api_manage/v1/:locale/page_parts/by_key/:key        - Update page part by key
     #   POST   /api_manage/v1/:locale/page_parts/:id/regenerate     - Re-render pre-rendered HTML
     #
+    # Deprecated (use /pages/:page_slug/page_parts/:page_part_key instead):
+    #   PATCH  /api_manage/v1/:locale/page_parts/:id                - Update page part content
+    #   PATCH  /api_manage/v1/:locale/page_parts/by_key/:key        - Update page part by key
+    #
     class PagePartsController < BaseController
-      before_action :set_page_part, only: %i[show update regenerate]
-      before_action :set_page_part_by_key, only: %i[show_by_key update_by_key]
+      before_action :set_page_part, only: %i[show regenerate]  # update removed (deprecated)
+      before_action :set_page_part_by_key, only: %i[show_by_key]  # update_by_key removed (deprecated)
 
       # GET /api_manage/v1/:locale/page_parts
       # List all page parts for the current website
@@ -54,6 +56,8 @@ module ApiManage
       end
 
       # PATCH /api_manage/v1/:locale/page_parts/:id
+      # DEPRECATED: Use PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/:page_part_key instead
+      # This endpoint has been removed from routes. Keeping method for reference.
       # Update block_contents for a specific locale
       def update
         locale = params[:locale] || I18n.locale.to_s
@@ -79,6 +83,8 @@ module ApiManage
       end
 
       # PATCH /api_manage/v1/:locale/page_parts/by_key/:key
+      # DEPRECATED: Use PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/:page_part_key instead
+      # This endpoint has been removed from routes. Keeping method for reference.
       def update_by_key
         locale = params[:locale] || I18n.locale.to_s
 

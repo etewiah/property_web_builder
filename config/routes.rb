@@ -785,19 +785,25 @@ Rails.application.routes.draw do
         # Page part reorder (preferred endpoint - replaces reorder_parts and page_contents/reorder)
         patch "/pages/:page_slug/page_parts/reorder" => "page_part_reorder#update"
 
+        # Page part content (preferred endpoint for updating content)
+        # Requires rendered_html unless regenerate: true is set
+        get "/pages/:page_slug/page_parts/:page_part_key" => "page_part_content#show"
+        patch "/pages/:page_slug/page_parts/:page_part_key" => "page_part_content#update"
+
         # Liquid page with templates and block_contents for client-side rendering
         # Returns page data with Liquid templates and variables for each page part
         get "/liquid_page/by_slug/:page_slug" => "liquid_pages#show"
 
         # Page parts (content editing - block_contents)
-        resources :page_parts, only: %i[index show update] do
+        # Note: update actions deprecated - use PATCH /pages/:page_slug/page_parts/:page_part_key instead
+        resources :page_parts, only: %i[index show] do  # update removed (deprecated)
           member do
             post :regenerate
           end
           collection do
             # Access by composite key: page_slug::page_part_key (URL-encoded)
             get 'by_key/*key', action: :show_by_key, as: :by_key
-            patch 'by_key/*key', action: :update_by_key
+            # patch 'by_key/*key', action: :update_by_key  # Deprecated: use PATCH /pages/:page_slug/page_parts/:page_part_key
           end
         end
       end
