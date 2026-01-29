@@ -78,9 +78,11 @@ module ApiManage
       end
 
       def build_liquid_page_contents(page, locale)
-        return [] unless page.respond_to?(:ordered_visible_page_contents)
+        return [] unless page.respond_to?(:page_contents)
 
-        page.ordered_visible_page_contents.map do |page_content|
+        # Use all page_contents (not just visible) for management API
+        # Admins need to see hidden content to toggle visibility and edit before publishing
+        page.page_contents.ordered.includes(:content).map do |page_content|
           build_liquid_content_item(page_content, page.slug, locale)
         end
       end
