@@ -185,13 +185,25 @@ module Pwb
     # Will retrieve saved page_part blocks and use that along with template
     # to rebuild page_content html
     def rebuild_page_content(locale)
-      unless page_part && page_part.template
-        raise "page_part with valid template not available"
+      # Check for template availability:
+      # 1. If database template exists (even empty string), use it
+      # 2. Otherwise, try template_content which includes file fallback
+      # 3. If nothing found, raise error
+      db_template = page_part&.template
+      if db_template.nil?
+        # No database template - try file-based template
+        template = page_part&.template_content
+        if template.blank?
+          raise "page_part with valid template not available"
+        end
+      else
+        # Database template exists (could be empty string)
+        template = db_template
       end
       # page_part = self.page_parts.find_by_page_part_key page_part_key
 
       if page_part.present?
-        l_template = Liquid::Template.parse(page_part.template)
+        l_template = Liquid::Template.parse(template)
         new_fragment_html = l_template.render("page_part" => page_part.block_contents[locale]["blocks"])
         # p "#{page_part_key} content for #{self.slug} page parsed."
         # save in content model associated with page
