@@ -77,6 +77,16 @@ module ApiPublic
           expect(page_content['available_locales']).to include('en', 'es')
         end
 
+        it "includes page_slug and edit_key for editing workflow" do
+          get "/api_public/v1/en/liquid_page/by_slug/about-us"
+
+          json = JSON.parse(response.body)
+          page_content = json['page_contents'].find { |pc| pc['page_part_key'] == 'heroes/hero_centered' }
+
+          expect(page_content['page_slug']).to eq('about-us')
+          expect(page_content['edit_key']).to eq('about-us::heroes/hero_centered')
+        end
+
         it "returns block_contents for the requested locale" do
           get "/api_public/v1/es/liquid_page/by_slug/about-us"
 

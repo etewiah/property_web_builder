@@ -123,6 +123,8 @@ Returns page data with Liquid templates and block_contents for client-side rende
   "page_contents": [
     {
       "page_part_key": "heroes/hero_centered",
+      "page_slug": "home",
+      "edit_key": "home::heroes/hero_centered",
       "sort_order": 1,
       "visible": true,
       "is_rails_part": false,
@@ -155,6 +157,11 @@ Returns page data with Liquid templates and block_contents for client-side rende
   ]
 }
 ```
+
+**Key fields for editing:**
+- `edit_key`: Use this with the `api_manage` endpoint to update content (URL-encode it)
+- `page_slug`: The page this content belongs to
+- `field_schema`: Metadata for building the editor UI (types, labels, validation)
 
 ### Get Page with Pre-rendered HTML
 
@@ -334,6 +341,17 @@ POST   /api_manage/v1/:locale/page_parts/:id/regenerate        # Re-render HTML
 **Key Format:** `page_slug::page_part_key` (e.g., `home::heroes/hero_centered`)
 - URL-encode the key: `home::heroes%2Fhero_centered`
 - For website-level parts, omit page_slug: `heroes/hero_centered`
+
+> **Tip:** The `liquid_page` endpoint returns an `edit_key` field for each page_content that is already
+> in the correct format. Use it directly:
+> ```typescript
+> // From liquid_page response
+> const pageContent = response.page_contents[0];
+> const editKey = encodeURIComponent(pageContent.edit_key); // "home::heroes/hero_centered"
+>
+> // Use for update
+> await fetch(`/api_manage/v1/en/page_parts/by_key/${editKey}`, { ... });
+> ```
 
 **Update Page Part Content:**
 ```typescript
@@ -588,6 +606,8 @@ const { data } = Astro.props;
 export interface PageContent {
   id: number;
   page_part_key: string;
+  page_slug: string;           // Page this content belongs to
+  edit_key: string;            // Composite key for editing: "page_slug::page_part_key"
   sort_order: number;
   visible: boolean;
   is_rails_part: boolean;

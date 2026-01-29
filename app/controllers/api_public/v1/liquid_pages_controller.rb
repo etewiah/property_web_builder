@@ -108,6 +108,8 @@ module ApiPublic
 
         {
           "page_part_key" => page_part_key,
+          "page_slug" => page_slug,
+          "edit_key" => "#{page_slug}::#{page_part_key}",
           "sort_order" => page_content.sort_order,
           "visible" => page_content.visible_on_page,
           "is_rails_part" => page_content.is_rails_part || false,
