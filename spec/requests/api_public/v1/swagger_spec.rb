@@ -203,24 +203,21 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
     end
   end
 
-  path '/api_public/v1/pages/by_slug/{slug}' do
-    get 'Retrieves a page by slug' do
+  # Updated to use locale-prefixed localized_page endpoint (pages/by_slug deprecated)
+  path '/api_public/v1/{locale}/localized_page/by_slug/{page_slug}' do
+    get 'Retrieves a localized page by slug' do
       tags 'Pages'
       produces 'application/json'
-      parameter name: :slug, in: :path, type: :string
-      parameter name: :locale, in: :query, type: :string, required: false
+      parameter name: :locale, in: :path, type: :string, description: 'Locale code (e.g., en, es)'
+      parameter name: :page_slug, in: :path, type: :string, description: 'Page slug'
 
       response '200', 'page found' do
         schema type: :object,
                properties: {
                  slug: { type: %i[string null] },
-                 link_path: { type: %i[string null] },
-                 visible: { type: :boolean },
-                 page_title: { type: %i[string null] },
-                 link_title: { type: %i[string null] },
-                 raw_html: { type: %i[string null] },
-                 show_in_top_nav: { type: :boolean },
-                 show_in_footer: { type: :boolean },
+                 locale: { type: :string },
+                 title: { type: %i[string null] },
+                 meta_description: { type: %i[string null] },
                  page_contents: {
                    type: :array,
                    items: { type: :object }
@@ -228,12 +225,14 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
                }
 
         let!(:page) { FactoryBot.create(:pwb_page, website: test_website, slug: 'another-page') }
-        let(:slug) { page.slug }
+        let(:locale) { 'en' }
+        let(:page_slug) { page.slug }
         run_test!
       end
 
       response '404', 'page not found' do
-        let(:slug) { 'invalid' }
+        let(:locale) { 'en' }
+        let(:page_slug) { 'invalid' }
         run_test!
       end
     end
@@ -291,11 +290,11 @@ RSpec.describe 'API Public V1', type: :request, openapi_spec: 'v1/api_public_swa
     end
   end
 
-  path '/api_public/v1/site_details' do
+  # Updated to use locale-prefixed path (non-locale route deprecated)
+  path '/api_public/v1/en/site_details' do
     get 'Retrieves site details' do
       tags 'Site Details'
       produces 'application/json'
-      parameter name: :locale, in: :query, type: :string, required: false
 
       response '200', 'site details found' do
         schema type: :object,

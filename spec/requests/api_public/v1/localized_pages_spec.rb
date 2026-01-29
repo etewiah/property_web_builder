@@ -540,8 +540,8 @@ RSpec.describe "ApiPublic::V1::LocalizedPages", type: :request do
 
       let!(:featured_sale_property) do
         ActsAsTenant.with_tenant(website) do
-          realty_asset = FactoryBot.create(:pwb_realty_asset, website: website, highlighted: true)
-          FactoryBot.create(:pwb_sale_listing, realty_asset: realty_asset, website: website)
+          realty_asset = FactoryBot.create(:pwb_realty_asset, website: website)
+          FactoryBot.create(:pwb_sale_listing, :highlighted, :with_translations, realty_asset: realty_asset)
           Pwb::ListedProperty.refresh(concurrently: false)
           Pwb::ListedProperty.find(realty_asset.id)
         end
@@ -549,8 +549,8 @@ RSpec.describe "ApiPublic::V1::LocalizedPages", type: :request do
 
       let!(:featured_rental_property) do
         ActsAsTenant.with_tenant(website) do
-          realty_asset = FactoryBot.create(:pwb_realty_asset, website: website, highlighted: true)
-          FactoryBot.create(:pwb_rental_listing, realty_asset: realty_asset, website: website)
+          realty_asset = FactoryBot.create(:pwb_realty_asset, website: website)
+          FactoryBot.create(:pwb_rental_listing, :highlighted, :with_translations, realty_asset: realty_asset)
           Pwb::ListedProperty.refresh(concurrently: false)
           Pwb::ListedProperty.find(realty_asset.id)
         end

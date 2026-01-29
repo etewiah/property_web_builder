@@ -42,7 +42,9 @@ RSpec.describe "ApiPublic::V1::Pages", type: :request do
     end
   end
 
-  describe "GET /api_public/v1/pages/by_slug/:slug" do
+  # DEPRECATED: This endpoint has been replaced by /localized_page/by_slug/:slug
+  # and /liquid_page/by_slug/:slug - see localized_pages_spec.rb and liquid_pages_spec.rb
+  describe "GET /api_public/v1/pages/by_slug/:slug", skip: "Deprecated: use localized_page or liquid_page endpoints instead" do
     it "returns the page by slug" do
       get "/api_public/v1/pages/by_slug/about-us"
       expect(response).to have_http_status(200)
@@ -63,7 +65,9 @@ RSpec.describe "ApiPublic::V1::Pages", type: :request do
     end
   end
 
-  describe "include_rendered parameter" do
+  # DEPRECATED: Tests for include_rendered on pages/by_slug endpoint
+  # See localized_pages_spec.rb for tests on the current endpoint
+  describe "include_rendered parameter", skip: "Deprecated: use localized_page endpoint instead" do
     let!(:page_with_content) do
       ActsAsTenant.with_tenant(website) do
         page = FactoryBot.create(:pwb_page, slug: "home", website: website)
@@ -171,7 +175,8 @@ RSpec.describe "ApiPublic::V1::Pages", type: :request do
         expect(json["code"]).to eq("WEBSITE_NOT_PROVISIONED")
       end
 
-      it "returns website not provisioned error for show_by_slug action" do
+      # DEPRECATED: by_slug endpoint replaced by localized_page
+      it "returns website not provisioned error for show_by_slug action", skip: "Deprecated endpoint" do
         get "/api_public/v1/pages/by_slug/home"
         expect(response).to have_http_status(404)
         json = response.parsed_body
