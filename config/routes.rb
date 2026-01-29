@@ -765,12 +765,12 @@ Rails.application.routes.draw do
             # get 'by_slug/:slug', action: :show_by_slug, as: :by_slug  # Deprecated: use liquid_page instead
           end
           member do
-            patch :reorder_parts
+            # patch :reorder_parts  # Deprecated: use PATCH /pages/:page_slug/page_parts/reorder instead
           end
           # Page contents (nested under pages for context)
           resources :page_contents, only: %i[index create] do
             collection do
-              patch :reorder
+              # patch :reorder  # Deprecated: use PATCH /pages/:page_slug/page_parts/reorder instead
             end
           end
         end
@@ -781,6 +781,9 @@ Rails.application.routes.draw do
 
         # Page part visibility toggle (preferred endpoint)
         patch "/pages/:page_slug/page_parts/:page_part_key/visibility" => "page_part_visibility#update"
+
+        # Page part reorder (preferred endpoint - replaces reorder_parts and page_contents/reorder)
+        patch "/pages/:page_slug/page_parts/reorder" => "page_part_reorder#update"
 
         # Liquid page with templates and block_contents for client-side rendering
         # Returns page data with Liquid templates and variables for each page part

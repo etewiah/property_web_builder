@@ -282,7 +282,10 @@ RSpec.describe "ApiManage::V1::PageContents", type: :request do
     end
   end
 
-  describe "PATCH /api_manage/v1/:locale/pages/:page_id/page_contents/reorder" do
+  # DEPRECATED: reorder action removed from routes
+  # Use instead: PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/reorder
+  # See page_part_reorder_spec.rb for tests
+  describe "PATCH /api_manage/v1/:locale/pages/:page_id/page_contents/reorder", skip: "Deprecated: use page_part_reorder endpoint" do
     let!(:pc1) do
       ActsAsTenant.with_tenant(website) do
         FactoryBot.create(:pwb_page_content, page: page, website: website,

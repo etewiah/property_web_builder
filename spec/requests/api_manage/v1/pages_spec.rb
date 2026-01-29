@@ -99,7 +99,10 @@ RSpec.describe 'ApiManage::V1::Pages', type: :request do
     end
   end
 
-  describe 'PATCH /api_manage/v1/:locale/pages/:id/reorder_parts' do
+  # DEPRECATED: reorder_parts action removed from routes
+  # Use instead: PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/reorder
+  # See page_part_reorder_spec.rb for tests
+  describe 'PATCH /api_manage/v1/:locale/pages/:id/reorder_parts', skip: "Deprecated: use page_part_reorder endpoint" do
     let!(:page_part1) do
       ActsAsTenant.with_tenant(website) do
         create(:pwb_page_part, page: test_page, website: website, order_in_editor: 0, show_in_editor: true)

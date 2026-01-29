@@ -12,7 +12,7 @@ module ApiManage
     #   PATCH  /api_manage/v1/pages/:id/reorder_parts - Reorder page parts
     #
     class PagesController < BaseController
-      before_action :set_page, only: %i[show update reorder_parts]
+      before_action :set_page, only: %i[show update]  # reorder_parts removed (deprecated)
 
       # GET /api_manage/v1/pages
       def index
@@ -55,6 +55,8 @@ module ApiManage
       end
 
       # PATCH /api_manage/v1/pages/:id/reorder_parts
+      # DEPRECATED: Use PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/reorder instead
+      # This endpoint has been removed from routes. Keeping method for reference.
       def reorder_parts
         part_ids = params[:part_ids] || []
 

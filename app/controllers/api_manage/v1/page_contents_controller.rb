@@ -8,13 +8,15 @@ module ApiManage
     #   GET    /api_manage/v1/:locale/pages/:page_id/page_contents     - List page contents
     #   POST   /api_manage/v1/:locale/pages/:page_id/page_contents     - Create page content
     #   GET    /api_manage/v1/:locale/page_contents/:id                - Get page content details
-    #   PATCH  /api_manage/v1/:locale/page_contents/:id                - Update page content
     #   DELETE /api_manage/v1/:locale/page_contents/:id                - Delete page content
-    #   PATCH  /api_manage/v1/:locale/pages/:page_id/page_contents/reorder - Reorder page contents
+    #
+    # Deprecated endpoints (use semantic alternatives):
+    #   PATCH  /api_manage/v1/:locale/page_contents/:id                - Use pages/:page_slug/page_parts/:key/visibility
+    #   PATCH  /api_manage/v1/:locale/pages/:page_id/page_contents/reorder - Use pages/:page_slug/page_parts/reorder
     #
     class PageContentsController < BaseController
-      before_action :set_page, only: %i[index create reorder]
-      before_action :set_page_content, only: %i[show update destroy]
+      before_action :set_page, only: %i[index create]  # reorder removed (deprecated)
+      before_action :set_page_content, only: %i[show destroy]  # update removed (deprecated)
 
       # GET /api_manage/v1/:locale/pages/:page_id/page_contents
       def index
@@ -98,6 +100,8 @@ module ApiManage
       end
 
       # PATCH /api_manage/v1/:locale/pages/:page_id/page_contents/reorder
+      # DEPRECATED: Use PATCH /api_manage/v1/:locale/pages/:page_slug/page_parts/reorder instead
+      # This endpoint has been removed from routes. Keeping method for reference.
       # Params:
       #   - order: Array of { id: page_content_id, sort_order: number }
       #   - slot_order: Hash of { slot_name: [array of page_content_ids] } (for container children)
