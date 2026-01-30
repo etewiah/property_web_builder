@@ -232,29 +232,29 @@ test.describe('Theme Rendering', () => {
       // Should have at least some navigation links
       expect(linkCount).toBeGreaterThan(0);
 
-      // Check that navigation links have readable text (not empty)
+      // Check that at least some navigation links are visible
+      let visibleCount = 0;
       for (let i = 0; i < Math.min(linkCount, 5); i++) {
         const link = navLinks.nth(i);
         const isVisible = await link.isVisible();
 
         if (isVisible) {
-          // Get computed color to check for reasonable contrast
-          const color = await link.evaluate((el) => {
-            const style = window.getComputedStyle(el);
-            return style.color;
-          });
+          visibleCount++;
+          // Verify link has some text or icon content
+          const textContent = await link.textContent();
+          const hasAriaLabel = await link.getAttribute('aria-label');
+          const hasIcon = await link.locator('svg, i, [class*="icon"]').count();
 
-          // Parse RGB values
-          const rgbMatch = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
-          if (rgbMatch) {
-            const [_, r, g, b] = rgbMatch.map(Number);
-            // Calculate relative luminance - links should not be too light (against white bg)
-            // A very light color would have R, G, B all > 200
-            const isTooLight = r > 200 && g > 200 && b > 200;
-            expect(isTooLight).toBeFalsy();
-          }
+          // Link should have some form of labeling
+          const hasContent = (textContent && textContent.trim().length > 0) ||
+                             hasAriaLabel ||
+                             hasIcon > 0;
+          expect(hasContent).toBeTruthy();
         }
       }
+
+      // At least one navigation link should be visible
+      expect(visibleCount).toBeGreaterThan(0);
     });
 
     test('navigation links have sufficient contrast', async ({ page }) => {

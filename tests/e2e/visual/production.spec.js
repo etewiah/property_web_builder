@@ -7,16 +7,23 @@ const { test, expect } = require('@playwright/test');
  * These tests capture and compare visual snapshots of the production site
  * at https://demo.propertywebbuilder.com to detect unintended visual changes.
  *
+ * IMPORTANT: These tests only run when VISUAL_TEST_PRODUCTION=true is set
+ * because they test an external production URL.
+ *
  * Usage:
- *   # Run tests (will fail if snapshots differ)
- *   npx playwright test tests/e2e/visual/production.spec.js
+ *   # Run tests against production (will fail if snapshots differ)
+ *   VISUAL_TEST_PRODUCTION=true npx playwright test tests/e2e/visual/production.spec.js
  *
  *   # Update snapshots after intentional changes
- *   npx playwright test tests/e2e/visual/production.spec.js --update-snapshots
+ *   VISUAL_TEST_PRODUCTION=true npx playwright test tests/e2e/visual/production.spec.js --update-snapshots
  *
  *   # Run with specific project (browser)
- *   npx playwright test tests/e2e/visual/production.spec.js --project=chromium
+ *   VISUAL_TEST_PRODUCTION=true npx playwright test tests/e2e/visual/production.spec.js --project=chromium
  */
+
+// Skip all tests in this file unless VISUAL_TEST_PRODUCTION is set
+const runProductionTests = process.env.VISUAL_TEST_PRODUCTION === 'true';
+test.skip(!runProductionTests, 'Production visual tests skipped - set VISUAL_TEST_PRODUCTION=true to run');
 
 const BASE_URL = 'https://demo.propertywebbuilder.com';
 

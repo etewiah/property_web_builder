@@ -7,16 +7,28 @@ const { TENANTS } = require('../fixtures/test-data');
  * Tests for new public API endpoints: favorites, saved searches, locales, search facets
  *
  * These tests verify the JSON API contracts required for headless JS clients.
+ *
+ * Note: Uses localhost with Host header to work around DNS resolution issues
+ * in Playwright's request fixture (doesn't resolve custom localhost domains).
  */
 
 const API_BASE = '/api_public/v1';
+const API_HOST = 'http://localhost:3001';
+
+// Helper to make requests with proper Host header for tenant resolution
+function apiUrl(path) {
+  return `${API_HOST}${path}`;
+}
 
 test.describe('Public API Endpoints', () => {
   const tenant = TENANTS.A;
+  const hostHeader = { 'Host': 'tenant-a.e2e.localhost:3001' };
 
   test.describe('Locales API', () => {
     test('GET /locales returns available locales', async ({ request }) => {
-      const response = await request.get(`${tenant.baseURL}${API_BASE}/locales`);
+      const response = await request.get(apiUrl(`${API_BASE}/locales`), {
+        headers: hostHeader
+      });
       expect(response.ok()).toBeTruthy();
 
       const data = await response.json();
@@ -37,7 +49,9 @@ test.describe('Public API Endpoints', () => {
 
   test.describe('Search Facets API', () => {
     test('GET /search/facets returns facet counts', async ({ request }) => {
-      const response = await request.get(`${tenant.baseURL}${API_BASE}/search/facets`);
+      const response = await request.get(apiUrl(`${API_BASE}/search/facets`), {
+        headers: hostHeader
+      });
       expect(response.ok()).toBeTruthy();
 
       const data = await response.json();
@@ -52,7 +66,8 @@ test.describe('Public API Endpoints', () => {
 
     test('GET /search/facets with sale_or_rental filter', async ({ request }) => {
       const response = await request.get(
-        `${tenant.baseURL}${API_BASE}/search/facets?sale_or_rental=sale`
+        apiUrl(`${API_BASE}/search/facets?sale_or_rental=sale`),
+        { headers: hostHeader }
       );
       expect(response.ok()).toBeTruthy();
 
@@ -63,7 +78,9 @@ test.describe('Public API Endpoints', () => {
 
   test.describe('Properties API', () => {
     test('GET /properties returns paginated results with map markers', async ({ request }) => {
-      const response = await request.get(`${tenant.baseURL}${API_BASE}/properties`);
+      const response = await request.get(apiUrl(`${API_BASE}/properties`), {
+        headers: hostHeader
+      });
       expect(response.ok()).toBeTruthy();
 
       const data = await response.json();
@@ -80,7 +97,8 @@ test.describe('Public API Endpoints', () => {
 
     test('GET /properties supports pagination', async ({ request }) => {
       const response = await request.get(
-        `${tenant.baseURL}${API_BASE}/properties?page=1&per_page=5`
+        apiUrl(`${API_BASE}/properties?page=1&per_page=5`),
+        { headers: hostHeader }
       );
       expect(response.ok()).toBeTruthy();
 
@@ -91,7 +109,8 @@ test.describe('Public API Endpoints', () => {
 
     test('GET /properties supports sorting', async ({ request }) => {
       const response = await request.get(
-        `${tenant.baseURL}${API_BASE}/properties?sort_by=price_desc`
+        apiUrl(`${API_BASE}/properties?sort_by=price_desc`),
+        { headers: hostHeader }
       );
       expect(response.ok()).toBeTruthy();
     });
@@ -99,14 +118,16 @@ test.describe('Public API Endpoints', () => {
     test('GET /properties/:id/schema returns JSON-LD', async ({ request }) => {
       // First get a property ID
       const listResponse = await request.get(
-        `${tenant.baseURL}${API_BASE}/properties?limit=1`
+        apiUrl(`${API_BASE}/properties?limit=1`),
+        { headers: hostHeader }
       );
       const listData = await listResponse.json();
 
       if (listData.data && listData.data.length > 0) {
         const propertyId = listData.data[0].slug || listData.data[0].id;
         const schemaResponse = await request.get(
-          `${tenant.baseURL}${API_BASE}/properties/${propertyId}/schema`
+          apiUrl(`${API_BASE}/properties/${propertyId}/schema`),
+          { headers: hostHeader }
         );
         expect(schemaResponse.ok()).toBeTruthy();
 
@@ -123,7 +144,8 @@ test.describe('Public API Endpoints', () => {
     let favoriteId;
 
     test('POST /favorites creates a new favorite', async ({ request }) => {
-      const response = await request.post(`${tenant.baseURL}${API_BASE}/favorites`, {
+      const response = await request.post(apiUrl(`${API_BASE}/favorites`), {
+        headers: hostHeader,
         data: {
           favorite: {
             email: testEmail,
@@ -156,7 +178,8 @@ test.describe('Public API Endpoints', () => {
       }
 
       const response = await request.get(
-        `${tenant.baseURL}${API_BASE}/favorites?token=${manageToken}`
+        apiUrl(`${API_BASE}/favorites?token=${manageToken}`),
+        { headers: hostHeader }
       );
       expect(response.ok()).toBeTruthy();
 
@@ -172,8 +195,9 @@ test.describe('Public API Endpoints', () => {
       }
 
       const response = await request.patch(
-        `${tenant.baseURL}${API_BASE}/favorites/${favoriteId}?token=${manageToken}`,
+        apiUrl(`${API_BASE}/favorites/${favoriteId}?token=${manageToken}`),
         {
+          headers: hostHeader,
           data: {
             favorite: { notes: 'Updated notes from E2E test' }
           }
@@ -192,7 +216,8 @@ test.describe('Public API Endpoints', () => {
       }
 
       const response = await request.delete(
-        `${tenant.baseURL}${API_BASE}/favorites/${favoriteId}?token=${manageToken}`
+        apiUrl(`${API_BASE}/favorites/${favoriteId}?token=${manageToken}`),
+        { headers: hostHeader }
       );
       expect(response.ok()).toBeTruthy();
 
@@ -202,7 +227,8 @@ test.describe('Public API Endpoints', () => {
 
     test('GET /favorites with invalid token returns 401', async ({ request }) => {
       const response = await request.get(
-        `${tenant.baseURL}${API_BASE}/favorites?token=invalid-token`
+        apiUrl(`${API_BASE}/favorites?token=invalid-token`),
+        { headers: hostHeader }
       );
       expect(response.status()).toBe(401);
     });
@@ -214,7 +240,8 @@ test.describe('Public API Endpoints', () => {
     let searchId;
 
     test('POST /saved_searches creates a new saved search', async ({ request }) => {
-      const response = await request.post(`${tenant.baseURL}${API_BASE}/saved_searches`, {
+      const response = await request.post(apiUrl(`${API_BASE}/saved_searches`), {
+        headers: hostHeader,
         data: {
           saved_search: {
             email: testEmail,
@@ -246,7 +273,8 @@ test.describe('Public API Endpoints', () => {
       }
 
       const response = await request.get(
-        `${tenant.baseURL}${API_BASE}/saved_searches?token=${manageToken}`
+        apiUrl(`${API_BASE}/saved_searches?token=${manageToken}`),
+        { headers: hostHeader }
       );
       expect(response.ok()).toBeTruthy();
 
@@ -262,7 +290,8 @@ test.describe('Public API Endpoints', () => {
       }
 
       const response = await request.delete(
-        `${tenant.baseURL}${API_BASE}/saved_searches/${searchId}?token=${manageToken}`
+        apiUrl(`${API_BASE}/saved_searches/${searchId}?token=${manageToken}`),
+        { headers: hostHeader }
       );
       expect(response.ok()).toBeTruthy();
 
@@ -273,7 +302,9 @@ test.describe('Public API Endpoints', () => {
 
   test.describe('Cache Headers', () => {
     test('Locales endpoint has appropriate cache headers', async ({ request }) => {
-      const response = await request.get(`${tenant.baseURL}${API_BASE}/locales`);
+      const response = await request.get(apiUrl(`${API_BASE}/locales`), {
+        headers: hostHeader
+      });
       const cacheControl = response.headers()['cache-control'];
 
       // Should have public caching enabled
@@ -283,7 +314,9 @@ test.describe('Public API Endpoints', () => {
     });
 
     test('Search facets endpoint has cache headers', async ({ request }) => {
-      const response = await request.get(`${tenant.baseURL}${API_BASE}/search/facets`);
+      const response = await request.get(apiUrl(`${API_BASE}/search/facets`), {
+        headers: hostHeader
+      });
       expect(response.ok()).toBeTruthy();
       // Cache headers are set by the Cacheable concern
     });

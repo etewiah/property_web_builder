@@ -201,8 +201,8 @@ module ApiPublic
           address: {
             '@type': "PostalAddress",
             streetAddress: property.respond_to?(:address) ? property.address : nil,
-            addressLocality: property.locality,
-            addressRegion: property.zone,
+            addressLocality: property.respond_to?(:locality) ? property.locality : nil,
+            addressRegion: property.respond_to?(:zone) ? property.zone : nil,
             addressCountry: property.respond_to?(:country_code) ? property.country_code : nil
           }.compact,
           geo: if property.latitude.present?
