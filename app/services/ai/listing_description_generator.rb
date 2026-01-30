@@ -51,10 +51,13 @@ module Ai
     # @return [Result] Result object with generated content or error
     #
     def generate
+      # Note: We don't save the prop association because properties can be
+      # RealtyAsset, ListedProperty, or Prop models. The property details
+      # are captured in input_data for audit purposes.
       request = create_generation_request(
         type: 'listing_description',
-        prop: @property,
-        input_data: property_context,
+        prop: nil,
+        input_data: property_context.merge(property_id: @property.id, property_class: @property.class.name),
         locale: @locale
       )
 
@@ -75,8 +78,9 @@ module Ai
             meta_description: parsed[:meta_description],
             compliance: compliance
           },
-          input_tokens: response.usage&.input_tokens,
-          output_tokens: response.usage&.output_tokens
+          # RubyLLM::Message has tokens directly, not nested under usage
+          input_tokens: response.respond_to?(:input_tokens) ? response.input_tokens : response.usage&.input_tokens,
+          output_tokens: response.respond_to?(:output_tokens) ? response.output_tokens : response.usage&.output_tokens
         )
 
         Result.new(
@@ -87,6 +91,9 @@ module Ai
           compliance: compliance,
           request_id: request.id
         )
+      rescue Ai::RateLimitError, Ai::ConfigurationError
+        # Let rate limit and configuration errors propagate to controller
+        raise
       rescue Ai::Error => e
         request.mark_failed!(e.message)
         Result.new(success: false, error: e.message, request_id: request.id)
@@ -189,7 +196,7 @@ module Ai
       # Additional details
       details << "Year Built: #{@property.year_construction}" if @property.year_construction.to_i > 0
       details << "Garages: #{@property.count_garages}" if @property.count_garages.to_i > 0
-      details << "Furnished: Yes" if @property.furnished?
+      details << "Furnished: Yes" if @property.respond_to?(:furnished?) && @property.furnished?
 
       # Existing description (for context)
       existing_desc = @property.description
@@ -223,7 +230,9 @@ module Ai
     def listing_type
       if @property.for_sale?
         'sale'
-      elsif @property.for_rent_long_term? || @property.for_rent_short_term?
+      elsif @property.respond_to?(:for_rent?) && @property.for_rent?
+        'rental'
+      elsif @property.respond_to?(:for_rent_long_term?) && (@property.for_rent_long_term? || @property.for_rent_short_term?)
         'rental'
       else
         'listing'
@@ -231,19 +240,21 @@ module Ai
     end
 
     def has_price?
-      @property.price_sale_current_cents.to_i > 0 ||
-        @property.price_rental_monthly_current_cents.to_i > 0
+      return false unless @property.respond_to?(:price_sale_current_cents) || @property.respond_to?(:price_rental_monthly_current_cents)
+
+      (@property.respond_to?(:price_sale_current_cents) && @property.price_sale_current_cents.to_i > 0) ||
+        (@property.respond_to?(:price_rental_monthly_current_cents) && @property.price_rental_monthly_current_cents.to_i > 0)
     end
 
     def format_price
-      if @property.for_sale? && @property.price_sale_current_cents.to_i > 0
-        currency = @property.price_sale_current_currency || 'EUR'
+      if @property.for_sale? && @property.respond_to?(:price_sale_current_cents) && @property.price_sale_current_cents.to_i > 0
+        currency = @property.respond_to?(:price_sale_current_currency) ? @property.price_sale_current_currency : 'EUR'
         amount = @property.price_sale_current_cents / 100.0
-        "#{currency} #{number_with_delimiter(amount.to_i)}"
-      elsif @property.price_rental_monthly_current_cents.to_i > 0
-        currency = @property.price_rental_monthly_current_currency || 'EUR'
+        "#{currency || 'EUR'} #{number_with_delimiter(amount.to_i)}"
+      elsif @property.respond_to?(:price_rental_monthly_current_cents) && @property.price_rental_monthly_current_cents.to_i > 0
+        currency = @property.respond_to?(:price_rental_monthly_current_currency) ? @property.price_rental_monthly_current_currency : 'EUR'
         amount = @property.price_rental_monthly_current_cents / 100.0
-        "#{currency} #{number_with_delimiter(amount.to_i)}/month"
+        "#{currency || 'EUR'} #{number_with_delimiter(amount.to_i)}/month"
       else
         nil
       end
@@ -252,7 +263,7 @@ module Ai
     def format_area(area)
       return nil if area.to_f <= 0
 
-      unit = @property.area_unit == 'sqft' ? 'sq ft' : 'm²'
+      unit = (@property.respond_to?(:area_unit) && @property.area_unit == 'sqft') ? 'sq ft' : 'm²'
       "#{number_with_delimiter(area.round)} #{unit}"
     end
 

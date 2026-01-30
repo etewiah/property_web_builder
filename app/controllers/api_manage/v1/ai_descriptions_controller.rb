@@ -58,10 +58,14 @@ module ApiManage
 
       # GET /api_manage/v1/:locale/properties/:property_id/ai_description/history
       def history
-        requests = @property.ai_generation_requests
-                            .where(request_type: 'listing_description')
-                            .order(created_at: :desc)
-                            .limit(10)
+        # Query by property_id stored in input_data since properties can be
+        # RealtyAsset, ListedProperty, or Prop models
+        requests = Pwb::AiGenerationRequest
+                     .where(website_id: current_website&.id)
+                     .where(request_type: 'listing_description')
+                     .where("input_data->>'property_id' = ?", @property.id.to_s)
+                     .order(created_at: :desc)
+                     .limit(10)
 
         render json: {
           requests: requests.map { |r| serialize_request(r) }
@@ -71,7 +75,9 @@ module ApiManage
       private
 
       def set_property
-        @property = current_website.props.find(params[:property_id])
+        # Use RealtyAsset (same as site_admin) - this is the main property model
+        # that stores bedrooms, bathrooms, location, etc.
+        @property = Pwb::RealtyAsset.where(website_id: current_website&.id).find(params[:property_id])
       end
 
       def generation_params

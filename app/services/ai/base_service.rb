@@ -28,21 +28,31 @@ module Ai
     end
 
     def chat(messages:, model: nil, **options)
+      ensure_configured!
       selected_model = model || DEFAULT_MODEL
 
       log_request(messages: messages, model: selected_model) do
-        response = RubyLLM.chat(
-          messages: messages,
-          model: selected_model,
-          **options
-        )
+        # Create a chat instance with the specified model
+        chat_instance = RubyLLM.chat(model: selected_model)
+
+        # Build the conversation from messages array
+        # Messages format: [{ role: 'user', content: '...' }, ...]
+        response = nil
+        messages.each do |msg|
+          if msg[:role] == 'system'
+            chat_instance.with_instructions(msg[:content])
+          elsif msg[:role] == 'user'
+            response = chat_instance.ask(msg[:content])
+          end
+        end
 
         log_response(response)
         response
       end
     rescue RubyLLM::RateLimitError => e
-      raise RateLimitError.new(e.message, retry_after: e.retry_after || 60)
-    rescue RubyLLM::ContentPolicyError => e
+      raise RateLimitError.new(e.message, retry_after: e.respond_to?(:retry_after) ? e.retry_after : 60)
+    rescue RubyLLM::ForbiddenError => e
+      # Content policy violations come as ForbiddenError
       raise ContentPolicyError, e.message
     rescue RubyLLM::Error => e
       raise ApiError, "AI API error: #{e.message}"
@@ -88,9 +98,12 @@ module Ai
     end
 
     def log_response(response)
-      if response.respond_to?(:usage)
-        Rails.logger.info "[AI] Tokens - Input: #{response.usage&.input_tokens}, Output: #{response.usage&.output_tokens}"
-      end
+      return unless response
+
+      # RubyLLM::Message has tokens directly on the object
+      input = response.respond_to?(:input_tokens) ? response.input_tokens : response.usage&.input_tokens
+      output = response.respond_to?(:output_tokens) ? response.output_tokens : response.usage&.output_tokens
+      Rails.logger.info "[AI] Tokens - Input: #{input}, Output: #{output}" if input || output
     end
   end
 end
