@@ -6,6 +6,47 @@ module Pwb
   # Each post is platform-specific (Instagram, Facebook, LinkedIn, Twitter, TikTok)
   # and includes captions, hashtags, and photo selections optimized for that platform.
   #
+# == Schema Information
+#
+# Table name: pwb_social_media_posts
+# Database name: primary
+#
+#  id                       :bigint           not null, primary key
+#  call_to_action           :string
+#  caption                  :text             not null
+#  comments_count           :integer          default(0)
+#  hashtags                 :text
+#  likes_count              :integer          default(0)
+#  link_url                 :string
+#  platform                 :string           not null
+#  post_type                :string           not null
+#  postable_type            :string
+#  reach_count              :integer          default(0)
+#  scheduled_at             :datetime
+#  selected_photos          :jsonb
+#  shares_count             :integer          default(0)
+#  status                   :string           default("draft")
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  ai_generation_request_id :bigint
+#  postable_id              :bigint
+#  website_id               :bigint           not null
+#
+# Indexes
+#
+#  index_pwb_social_media_posts_on_ai_generation_request_id       (ai_generation_request_id)
+#  index_pwb_social_media_posts_on_postable                       (postable_type,postable_id)
+#  index_pwb_social_media_posts_on_postable_type_and_postable_id  (postable_type,postable_id)
+#  index_pwb_social_media_posts_on_scheduled_at                   (scheduled_at)
+#  index_pwb_social_media_posts_on_status                         (status)
+#  index_pwb_social_media_posts_on_website_id                     (website_id)
+#  index_pwb_social_media_posts_on_website_id_and_platform        (website_id,platform)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (ai_generation_request_id => pwb_ai_generation_requests.id)
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
   # Multi-tenant: Scoped by website_id
   class SocialMediaPost < ApplicationRecord
     self.table_name = "pwb_social_media_posts"

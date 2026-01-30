@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_30_141610) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_30_152045) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -403,6 +403,44 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_30_141610) do
     t.index ["translations"], name: "index_pwb_links_on_translations", using: :gin
     t.index ["website_id", "slug"], name: "index_pwb_links_on_website_id_and_slug", unique: true
     t.index ["website_id"], name: "index_pwb_links_on_website_id"
+  end
+
+  create_table "pwb_market_reports", force: :cascade do |t|
+    t.bigint "ai_generation_request_id"
+    t.jsonb "ai_insights", default: {}
+    t.jsonb "branding", default: {}
+    t.string "city"
+    t.jsonb "comparable_properties", default: []
+    t.datetime "created_at", null: false
+    t.datetime "generated_at"
+    t.decimal "latitude", precision: 10, scale: 7
+    t.decimal "longitude", precision: 10, scale: 7
+    t.jsonb "market_statistics", default: {}
+    t.string "postal_code"
+    t.decimal "radius_km", precision: 5, scale: 2
+    t.string "reference_number"
+    t.string "region"
+    t.string "report_type", null: false
+    t.string "share_token"
+    t.datetime "shared_at"
+    t.string "status", default: "draft"
+    t.jsonb "subject_details", default: {}
+    t.uuid "subject_property_id"
+    t.string "suggested_price_currency", default: "USD"
+    t.integer "suggested_price_high_cents"
+    t.integer "suggested_price_low_cents"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.integer "view_count", default: 0
+    t.bigint "website_id", null: false
+    t.index ["ai_generation_request_id"], name: "index_pwb_market_reports_on_ai_generation_request_id"
+    t.index ["share_token"], name: "index_pwb_market_reports_on_share_token", unique: true, where: "(share_token IS NOT NULL)"
+    t.index ["status"], name: "index_pwb_market_reports_on_status"
+    t.index ["subject_property_id"], name: "index_pwb_market_reports_on_subject_property_id"
+    t.index ["user_id"], name: "index_pwb_market_reports_on_user_id"
+    t.index ["website_id", "report_type"], name: "index_pwb_market_reports_on_website_id_and_report_type"
+    t.index ["website_id"], name: "index_pwb_market_reports_on_website_id"
   end
 
   create_table "pwb_media", force: :cascade do |t|
@@ -942,7 +980,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_30_141610) do
     t.string "link_url"
     t.string "platform", null: false
     t.string "post_type", null: false
-    t.uuid "postable_id"
+    t.bigint "postable_id"
     t.string "postable_type"
     t.integer "reach_count", default: 0
     t.datetime "scheduled_at"
@@ -1486,6 +1524,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_30_141610) do
   add_foreign_key "pwb_email_templates", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_features", "pwb_realty_assets", column: "realty_asset_id"
   add_foreign_key "pwb_field_keys", "pwb_websites"
+  add_foreign_key "pwb_market_reports", "pwb_ai_generation_requests", column: "ai_generation_request_id"
+  add_foreign_key "pwb_market_reports", "pwb_realty_assets", column: "subject_property_id"
+  add_foreign_key "pwb_market_reports", "pwb_users", column: "user_id"
+  add_foreign_key "pwb_market_reports", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_media", "pwb_media_folders", column: "folder_id"
   add_foreign_key "pwb_media", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_media_folders", "pwb_media_folders", column: "parent_id"

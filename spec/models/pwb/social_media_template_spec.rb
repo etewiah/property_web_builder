@@ -1,5 +1,33 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_social_media_templates
+# Database name: primary
+#
+#  id                :bigint           not null, primary key
+#  active            :boolean          default(TRUE)
+#  caption_template  :text             not null
+#  category          :string
+#  hashtag_template  :text
+#  image_preferences :jsonb
+#  is_default        :boolean          default(FALSE)
+#  name              :string           not null
+#  platform          :string           not null
+#  post_type         :string           not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  website_id        :bigint           not null
+#
+# Indexes
+#
+#  idx_on_website_id_platform_category_c9f0f62b45  (website_id,platform,category)
+#  index_pwb_social_media_templates_on_website_id  (website_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 require 'rails_helper'
 
 RSpec.describe Pwb::SocialMediaTemplate, type: :model do

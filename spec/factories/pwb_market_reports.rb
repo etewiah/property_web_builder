@@ -1,5 +1,57 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_market_reports
+# Database name: primary
+#
+#  id                         :bigint           not null, primary key
+#  ai_insights                :jsonb
+#  branding                   :jsonb
+#  city                       :string
+#  comparable_properties      :jsonb
+#  generated_at               :datetime
+#  latitude                   :decimal(10, 7)
+#  longitude                  :decimal(10, 7)
+#  market_statistics          :jsonb
+#  postal_code                :string
+#  radius_km                  :decimal(5, 2)
+#  reference_number           :string
+#  region                     :string
+#  report_type                :string           not null
+#  share_token                :string
+#  shared_at                  :datetime
+#  status                     :string           default("draft")
+#  subject_details            :jsonb
+#  suggested_price_currency   :string           default("USD")
+#  suggested_price_high_cents :integer
+#  suggested_price_low_cents  :integer
+#  title                      :string           not null
+#  view_count                 :integer          default(0)
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  ai_generation_request_id   :bigint
+#  subject_property_id        :uuid
+#  user_id                    :bigint
+#  website_id                 :bigint           not null
+#
+# Indexes
+#
+#  index_pwb_market_reports_on_ai_generation_request_id    (ai_generation_request_id)
+#  index_pwb_market_reports_on_share_token                 (share_token) UNIQUE WHERE (share_token IS NOT NULL)
+#  index_pwb_market_reports_on_status                      (status)
+#  index_pwb_market_reports_on_subject_property_id         (subject_property_id)
+#  index_pwb_market_reports_on_user_id                     (user_id)
+#  index_pwb_market_reports_on_website_id                  (website_id)
+#  index_pwb_market_reports_on_website_id_and_report_type  (website_id,report_type)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (ai_generation_request_id => pwb_ai_generation_requests.id)
+#  fk_rails_...  (subject_property_id => pwb_realty_assets.id)
+#  fk_rails_...  (user_id => pwb_users.id)
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 FactoryBot.define do
   factory :pwb_market_report, class: 'Pwb::MarketReport' do
     association :website, factory: :pwb_website

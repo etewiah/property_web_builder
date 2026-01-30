@@ -1,5 +1,34 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: pwb_website_integrations
+# Database name: primary
+#
+#  id                 :bigint           not null, primary key
+#  category           :string           not null
+#  credentials        :text
+#  enabled            :boolean          default(TRUE)
+#  last_error_at      :datetime
+#  last_error_message :text
+#  last_used_at       :datetime
+#  provider           :string           not null
+#  settings           :jsonb
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  website_id         :bigint           not null
+#
+# Indexes
+#
+#  idx_website_integrations_unique_provider                   (website_id,category,provider) UNIQUE
+#  index_pwb_website_integrations_on_website_id               (website_id)
+#  index_pwb_website_integrations_on_website_id_and_category  (website_id,category)
+#  index_pwb_website_integrations_on_website_id_and_enabled   (website_id,enabled)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
 FactoryBot.define do
   factory :pwb_website_integration, class: 'Pwb::WebsiteIntegration' do
     website
