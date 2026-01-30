@@ -3,10 +3,14 @@
 require_relative 'error'
 
 module Ai
-  # Base class for AI services providing common functionality
+  # Base class for AI services providing common functionality.
+  #
+  # Uses the website's configured AI integration for credentials and settings.
+  # Falls back to environment variables if no integration is configured.
   #
   # Features:
-  # - Client initialization with provider configuration
+  # - Integration-based configuration (per-website API keys)
+  # - Fallback to ENV variables for backward compatibility
   # - Structured logging
   # - Error handling and retry logic
   # - Token usage tracking
@@ -18,18 +22,16 @@ module Ai
     def initialize(website: nil, user: nil)
       @website = website
       @user = user
+      @integration = website&.integration_for(:ai)
     end
 
     protected
 
-    def client
-      ensure_configured!
-      @client ||= RubyLLM.client
-    end
-
     def chat(messages:, model: nil, **options)
       ensure_configured!
-      selected_model = model || DEFAULT_MODEL
+      configure_ruby_llm!
+
+      selected_model = model || default_model
 
       log_request(messages: messages, model: selected_model) do
         # Create a chat instance with the specified model
@@ -46,28 +48,42 @@ module Ai
           end
         end
 
+        # Record usage on the integration
+        @integration&.record_usage!
+
         log_response(response)
         response
       end
     rescue RubyLLM::RateLimitError => e
+      @integration&.record_error!("Rate limit exceeded")
       raise RateLimitError.new(e.message, retry_after: e.respond_to?(:retry_after) ? e.retry_after : 60)
     rescue RubyLLM::ForbiddenError => e
-      # Content policy violations come as ForbiddenError
+      @integration&.record_error!(e.message)
       raise ContentPolicyError, e.message
+    rescue RubyLLM::UnauthorizedError => e
+      @integration&.record_error!("Invalid API key")
+      raise ConfigurationError, "Invalid API key. Please check your AI integration settings."
     rescue RubyLLM::Error => e
+      @integration&.record_error!(e.message)
       raise ApiError, "AI API error: #{e.message}"
     rescue Timeout::Error, Net::ReadTimeout => e
+      @integration&.record_error!(e.message)
       raise TimeoutError, "AI request timed out: #{e.message}"
     end
 
     def configured?
-      ENV['ANTHROPIC_API_KEY'].present? || ENV['OPENAI_API_KEY'].present?
+      # Check integration first, then fall back to ENV
+      if @integration&.credentials_present?
+        true
+      else
+        ENV['ANTHROPIC_API_KEY'].present? || ENV['OPENAI_API_KEY'].present?
+      end
     end
 
     def ensure_configured!
       return if configured?
 
-      raise ConfigurationError, "AI is not configured. Set ANTHROPIC_API_KEY or OPENAI_API_KEY environment variable."
+      raise ConfigurationError, "AI is not configured. Please configure an AI integration in Site Admin > Integrations, or set ANTHROPIC_API_KEY environment variable."
     end
 
     def create_generation_request(type:, prop: nil, input_data: {}, locale: 'en')
@@ -76,8 +92,8 @@ module Ai
         user: @user,
         prop: prop,
         request_type: type,
-        ai_provider: DEFAULT_PROVIDER,
-        ai_model: DEFAULT_MODEL,
+        ai_provider: current_provider,
+        ai_model: default_model,
         input_data: input_data,
         locale: locale,
         status: 'pending'
@@ -85,6 +101,35 @@ module Ai
     end
 
     private
+
+    # Configure RubyLLM with API keys from integration or ENV
+    def configure_ruby_llm!
+      RubyLLM.configure do |config|
+        if @integration&.credentials_present?
+          # Use integration credentials
+          case @integration.provider
+          when 'anthropic'
+            config.anthropic_api_key = @integration.credential(:api_key)
+          when 'openai'
+            config.openai_api_key = @integration.credential(:api_key)
+            org_id = @integration.credential(:organization_id)
+            config.openai_organization_id = org_id if org_id.present?
+          end
+        else
+          # Fall back to ENV variables
+          config.anthropic_api_key = ENV['ANTHROPIC_API_KEY'] if ENV['ANTHROPIC_API_KEY'].present?
+          config.openai_api_key = ENV['OPENAI_API_KEY'] if ENV['OPENAI_API_KEY'].present?
+        end
+      end
+    end
+
+    def default_model
+      @integration&.setting(:default_model) || DEFAULT_MODEL
+    end
+
+    def current_provider
+      @integration&.provider || DEFAULT_PROVIDER
+    end
 
     def log_request(messages:, model:, &block)
       Rails.logger.info "[AI] Request to #{model} with #{messages.length} messages"

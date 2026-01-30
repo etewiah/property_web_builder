@@ -174,6 +174,9 @@ module Pwb
     has_many :ai_generation_requests, class_name: 'Pwb::AiGenerationRequest', dependent: :destroy
     has_many :ai_writing_rules, class_name: 'Pwb::AiWritingRule', dependent: :destroy
 
+    # External Service Integrations
+    has_many :integrations, class_name: 'Pwb::WebsiteIntegration', dependent: :destroy
+
     # Multi-website support via memberships
     has_many :user_memberships, dependent: :destroy
     has_many :members, through: :user_memberships, source: :user
@@ -285,6 +288,34 @@ module Pwb
     # Clear external feed cache
     def clear_external_feed_cache
       external_feed.invalidate_cache if external_feed_enabled?
+    end
+
+    # ===================
+    # Service Integrations
+    # ===================
+
+    # Get the enabled integration for a category
+    # @param category [Symbol, String] Integration category (e.g., :ai, :crm)
+    # @param provider [Symbol, String, nil] Optional specific provider
+    # @return [Pwb::WebsiteIntegration, nil]
+    def integration_for(category, provider: nil)
+      scope = integrations.enabled.for_category(category)
+      scope = scope.by_provider(provider) if provider
+      scope.first
+    end
+
+    # Check if an integration is configured and enabled
+    # @param category [Symbol, String] Integration category
+    # @param provider [Symbol, String, nil] Optional specific provider
+    # @return [Boolean]
+    def integration_configured?(category, provider: nil)
+      integration_for(category, provider: provider).present?
+    end
+
+    # Get all integrations grouped by category
+    # @return [Hash<String, Array<Pwb::WebsiteIntegration>>]
+    def integrations_by_category
+      integrations.group_by(&:category)
     end
 
     # ===================

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_30_104301) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_30_134204) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -1126,6 +1126,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_30_104301) do
     t.index ["website_id"], name: "index_pwb_users_on_website_id"
   end
 
+  create_table "pwb_website_integrations", force: :cascade do |t|
+    t.string "category", null: false
+    t.datetime "created_at", null: false
+    t.text "credentials"
+    t.boolean "enabled", default: true
+    t.datetime "last_error_at"
+    t.text "last_error_message"
+    t.datetime "last_used_at"
+    t.string "provider", null: false
+    t.jsonb "settings", default: {}
+    t.datetime "updated_at", null: false
+    t.bigint "website_id", null: false
+    t.index ["website_id", "category", "provider"], name: "idx_website_integrations_unique_provider", unique: true
+    t.index ["website_id", "category"], name: "index_pwb_website_integrations_on_website_id_and_category"
+    t.index ["website_id", "enabled"], name: "index_pwb_website_integrations_on_website_id_and_enabled"
+    t.index ["website_id"], name: "index_pwb_website_integrations_on_website_id"
+  end
+
   create_table "pwb_website_photos", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.string "description"
@@ -1455,6 +1473,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_30_104301) do
   add_foreign_key "pwb_ticket_messages", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_user_memberships", "pwb_users", column: "user_id"
   add_foreign_key "pwb_user_memberships", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_website_integrations", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_website_photos", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_widget_configs", "pwb_websites", column: "website_id"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
