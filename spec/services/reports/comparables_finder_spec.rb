@@ -145,11 +145,17 @@ RSpec.describe Reports::ComparablesFinder, type: :service do
 
   describe 'adjustment calculations' do
     it 'adjusts for bedroom differences' do
-      subject = build(:pwb_realty_asset, count_bedrooms: 3)
-      comparable = { bedrooms: 2, price_cents: 300_000_00, constructed_area: 100 }
+      subject_prop = build(:pwb_realty_asset, count_bedrooms: 3, count_bathrooms: 2, constructed_area: 150, year_construction: 2010, count_garages: 1)
+      comparable = double(
+        count_bedrooms: 2,
+        count_bathrooms: 2,
+        constructed_area: 150,
+        year_construction: 2010,
+        count_garages: 1
+      )
 
-      finder = described_class.new(subject: subject, website: website)
-      adjustments = finder.send(:calculate_adjustments, comparable.with_indifferent_access)
+      finder = described_class.new(subject: subject_prop, website: website)
+      adjustments = finder.send(:calculate_adjustments, comparable)
 
       expect(adjustments[:bedrooms]).to be_present
       expect(adjustments[:bedrooms][:difference]).to eq(1)
@@ -157,11 +163,17 @@ RSpec.describe Reports::ComparablesFinder, type: :service do
     end
 
     it 'adjusts for size differences' do
-      subject = build(:pwb_realty_asset, constructed_area: 150)
-      comparable = { constructed_area: 100, price_cents: 300_000_00 }
+      subject_prop = build(:pwb_realty_asset, count_bedrooms: 3, count_bathrooms: 2, constructed_area: 150, year_construction: 2010, count_garages: 1)
+      comparable = double(
+        count_bedrooms: 3,
+        count_bathrooms: 2,
+        constructed_area: 100,
+        year_construction: 2010,
+        count_garages: 1
+      )
 
-      finder = described_class.new(subject: subject, website: website)
-      adjustments = finder.send(:calculate_adjustments, comparable.with_indifferent_access)
+      finder = described_class.new(subject: subject_prop, website: website)
+      adjustments = finder.send(:calculate_adjustments, comparable)
 
       expect(adjustments[:size]).to be_present
       expect(adjustments[:size][:difference]).to eq(50)
@@ -170,7 +182,7 @@ RSpec.describe Reports::ComparablesFinder, type: :service do
 
   describe 'similarity scoring' do
     it 'gives higher score to more similar properties' do
-      similar = {
+      similar = double(
         prop_type_key: 'apartment',
         count_bedrooms: 3,
         count_bathrooms: 2,
@@ -178,9 +190,9 @@ RSpec.describe Reports::ComparablesFinder, type: :service do
         year_construction: 2010,
         latitude: subject_property.latitude,
         longitude: subject_property.longitude
-      }.with_indifferent_access
+      )
 
-      different = {
+      different = double(
         prop_type_key: 'villa',
         count_bedrooms: 5,
         count_bathrooms: 4,
@@ -188,7 +200,7 @@ RSpec.describe Reports::ComparablesFinder, type: :service do
         year_construction: 2000,
         latitude: subject_property.latitude + 0.1,
         longitude: subject_property.longitude + 0.1
-      }.with_indifferent_access
+      )
 
       finder = described_class.new(subject: subject_property, website: website)
 

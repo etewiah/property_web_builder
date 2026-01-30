@@ -1,0 +1,247 @@
+<% content_for :page_title, @report.title %>
+
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+  <!-- Report Header -->
+  <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+    <div class="flex justify-between items-start mb-4">
+      <div>
+        <% if @report.company_logo_url.present? %>
+          <img src="<%= @report.company_logo_url %>" alt="<%= @report.company_name %>" class="h-12 mb-4">
+        <% end %>
+        <h1 class="text-2xl font-bold text-gray-800"><%= @report.title %></h1>
+        <p class="text-gray-500 text-sm mt-1">
+          Reference: <%= @report.reference_number %>
+          <span class="mx-2">|</span>
+          Generated: <%= @report.generated_at&.strftime('%B %d, %Y') %>
+        </p>
+      </div>
+      <div class="text-right">
+        <% if @report.pdf_ready? %>
+          <%= link_to public_cma_pdf_path(@report.share_token),
+                      class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" do %>
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            Download PDF
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subject Property -->
+  <% if @report.subject_property.present? %>
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Subject Property</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div>
+          <p class="text-sm text-gray-500">Address</p>
+          <p class="font-medium">
+            <%= [@report.subject_property.street_address, @report.subject_property.city].compact.join(', ') %>
+          </p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500">Bedrooms</p>
+          <p class="font-medium"><%= @report.subject_property.count_bedrooms || 'N/A' %></p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500">Bathrooms</p>
+          <p class="font-medium"><%= @report.subject_property.count_bathrooms || 'N/A' %></p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500">Size</p>
+          <p class="font-medium">
+            <% if @report.subject_property.constructed_area.present? %>
+              <%= number_with_delimiter(@report.subject_property.constructed_area.round) %> sqm
+            <% else %>
+              N/A
+            <% end %>
+          </p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Suggested Price Range -->
+  <% if @report.suggested_price_range.present? %>
+    <div class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg shadow-lg p-6 mb-6 text-white">
+      <h2 class="text-xl font-semibold mb-4">Suggested Price Range</h2>
+      <div class="flex items-center justify-center space-x-4">
+        <div class="text-center">
+          <p class="text-sm opacity-75">Low</p>
+          <p class="text-3xl font-bold"><%= @report.suggested_price_range[:formatted_low] %></p>
+        </div>
+        <div class="text-4xl opacity-50">-</div>
+        <div class="text-center">
+          <p class="text-sm opacity-75">High</p>
+          <p class="text-3xl font-bold"><%= @report.suggested_price_range[:formatted_high] %></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Executive Summary -->
+  <% if @report.executive_summary.present? %>
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Executive Summary</h2>
+      <p class="text-gray-700 leading-relaxed"><%= @report.executive_summary %></p>
+    </div>
+  <% end %>
+
+  <!-- Market Statistics -->
+  <% if @report.market_statistics.present? && @report.market_statistics.any? %>
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Market Statistics</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <% if @report.average_price.present? %>
+          <div class="text-center p-4 bg-gray-50 rounded">
+            <p class="text-2xl font-bold text-blue-600">$<%= number_with_delimiter(@report.average_price) %></p>
+            <p class="text-sm text-gray-500">Average Price</p>
+          </div>
+        <% end %>
+        <% if @report.median_price.present? %>
+          <div class="text-center p-4 bg-gray-50 rounded">
+            <p class="text-2xl font-bold text-blue-600">$<%= number_with_delimiter(@report.median_price) %></p>
+            <p class="text-sm text-gray-500">Median Price</p>
+          </div>
+        <% end %>
+        <% if @report.price_per_sqft.present? %>
+          <div class="text-center p-4 bg-gray-50 rounded">
+            <p class="text-2xl font-bold text-blue-600">$<%= number_with_delimiter(@report.price_per_sqft) %></p>
+            <p class="text-sm text-gray-500">Price per Sq Ft</p>
+          </div>
+        <% end %>
+        <% if @report.days_on_market.present? %>
+          <div class="text-center p-4 bg-gray-50 rounded">
+            <p class="text-2xl font-bold text-blue-600"><%= @report.days_on_market %></p>
+            <p class="text-sm text-gray-500">Avg Days on Market</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Comparable Properties -->
+  <% if @report.comparable_properties.present? && @report.comparable_properties.any? %>
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">
+        Comparable Properties (<%= @report.comparable_count %>)
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Beds</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Baths</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Size</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Similarity</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @report.comparable_properties.each do |comp| %>
+              <tr>
+                <td class="px-4 py-3 text-sm text-gray-900"><%= comp['address'] || comp[:address] %></td>
+                <td class="px-4 py-3 text-sm text-gray-500"><%= comp['bedrooms'] || comp[:bedrooms] %></td>
+                <td class="px-4 py-3 text-sm text-gray-500"><%= comp['bathrooms'] || comp[:bathrooms] %></td>
+                <td class="px-4 py-3 text-sm text-gray-500">
+                  <%= number_with_delimiter((comp['constructed_area'] || comp[:constructed_area] || 0).round) %> sqm
+                </td>
+                <td class="px-4 py-3 text-sm text-gray-900">
+                  <% price_cents = comp['price_cents'] || comp[:price_cents] || 0 %>
+                  $<%= number_with_delimiter((price_cents / 100.0).round) %>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <% score = comp['similarity_score'] || comp[:similarity_score] || 0 %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                    <%= score >= 80 ? 'bg-green-100 text-green-800' : score >= 60 ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800' %>">
+                    <%= score.round %>%
+                  </span>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Strengths and Considerations -->
+  <% if @report.strengths.any? || @report.considerations.any? %>
+    <div class="grid md:grid-cols-2 gap-6 mb-6">
+      <% if @report.strengths.any? %>
+        <div class="bg-white rounded-lg shadow-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+            <span class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-2">+</span>
+            Strengths
+          </h3>
+          <ul class="space-y-2">
+            <% @report.strengths.each do |strength| %>
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-green-500 mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-gray-700"><%= strength %></span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <% if @report.considerations.any? %>
+        <div class="bg-white rounded-lg shadow-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+            <span class="w-6 h-6 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center mr-2">!</span>
+            Considerations
+          </h3>
+          <ul class="space-y-2">
+            <% @report.considerations.each do |consideration| %>
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-yellow-500 mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-gray-700"><%= consideration %></span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- Recommendation -->
+  <% if @report.recommendation.present? %>
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6 border-l-4 border-blue-500">
+      <h2 class="text-xl font-semibold text-gray-800 mb-2">Recommendation</h2>
+      <p class="text-gray-700"><%= @report.recommendation %></p>
+      <% if @report.time_to_sell_estimate.present? %>
+        <p class="text-sm text-gray-500 mt-2">
+          <strong>Estimated Time to Sell:</strong> <%= @report.time_to_sell_estimate %>
+        </p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- Agent/Branding Footer -->
+  <div class="bg-gray-50 rounded-lg p-6 text-center">
+    <% if @report.company_name.present? %>
+      <p class="font-semibold text-gray-800"><%= @report.company_name %></p>
+    <% end %>
+    <% if @report.agent_name.present? %>
+      <p class="text-gray-600"><%= @report.agent_name %></p>
+    <% end %>
+    <div class="flex justify-center space-x-4 mt-2 text-sm text-gray-500">
+      <% if @report.agent_email.present? %>
+        <span><%= @report.agent_email %></span>
+      <% end %>
+      <% if @report.agent_phone.present? %>
+        <span><%= @report.agent_phone %></span>
+      <% end %>
+    </div>
+    <p class="text-xs text-gray-400 mt-4">
+      This report was generated on <%= @report.generated_at&.strftime('%B %d, %Y') %>
+      and has been viewed <%= pluralize(@report.view_count, 'time') %>.
+    </p>
+  </div>
+</div>

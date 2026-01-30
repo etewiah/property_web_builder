@@ -480,6 +480,10 @@ Rails.application.routes.draw do
     get "/signup/check_subdomain" => "signup#check_subdomain", as: "signup_check_subdomain"
     get "/signup/suggest_subdomain" => "signup#suggest_subdomain", as: "signup_suggest_subdomain"
 
+    # Public CMA report sharing (accessible without authentication)
+    get "/reports/shared/:share_token" => "reports/public_cma#show", as: "public_cma"
+    get "/reports/shared/:share_token/pdf" => "reports/public_cma#pdf", as: "public_cma_pdf"
+
     # Use same authorization as TenantAdminController for admin tools
     # Requires user email to be in TENANT_ADMIN_EMAILS env var
     require_relative '../lib/constraints/tenant_admin_constraint'

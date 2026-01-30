@@ -231,7 +231,7 @@ module Reports
       {
         company_name: agency&.display_name || @website.company_display_name,
         company_logo_url: @website.main_logo_url,
-        agent_name: @user&.full_name,
+        agent_name: @user&.display_name,
         agent_email: @user&.email,
         agent_phone: agency&.phone_number_primary
       }.compact
@@ -240,9 +240,9 @@ module Reports
     def determine_currency
       # Try to get currency from property listings or website default
       if @property.respond_to?(:sale_listings) && @property.sale_listings.any?
-        @property.sale_listings.first.price_current_currency
+        @property.sale_listings.first.price_sale_current_currency
       elsif @property.respond_to?(:rental_listings) && @property.rental_listings.any?
-        @property.rental_listings.first.price_current_currency
+        @property.rental_listings.first.price_rental_monthly_current_currency
       else
         @website.default_currency || 'USD'
       end

@@ -179,7 +179,7 @@ module ApiManage
           base = "#{protocol}#{host}"
           base += ":#{port}" if port
 
-          "#{base}/cma/#{report.share_token}"
+          "#{base}/reports/shared/#{report.share_token}"
         end
 
         def serialize_report(report, include_details: false)

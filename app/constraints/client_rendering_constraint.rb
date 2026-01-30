@@ -27,6 +27,7 @@ class ClientRenderingConstraint
     /graphiql
     /api-docs
     /.well-known
+    /reports
   ].freeze
 
   # Check if request should be handled by Astro proxy

@@ -135,8 +135,7 @@ RSpec.describe 'ApiManage::V1::Reports::Cmas', type: :request do
 
     context 'when AI is not configured' do
       before do
-        allow_any_instance_of(Ai::BaseService).to receive(:configured?).and_return(false)
-        allow_any_instance_of(Ai::BaseService).to receive(:ensure_configured!)
+        allow_any_instance_of(Reports::CmaGenerator).to receive(:generate)
           .and_raise(Ai::ConfigurationError, 'AI not configured')
       end
 
@@ -153,7 +152,7 @@ RSpec.describe 'ApiManage::V1::Reports::Cmas', type: :request do
 
     context 'when rate limited' do
       before do
-        allow_any_instance_of(Reports::CmaInsightsGenerator).to receive(:chat)
+        allow_any_instance_of(Reports::CmaGenerator).to receive(:generate)
           .and_raise(Ai::RateLimitError.new('Rate limit exceeded', retry_after: 60))
       end
 
