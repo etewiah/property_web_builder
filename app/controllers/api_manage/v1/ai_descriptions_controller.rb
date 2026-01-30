@@ -19,7 +19,7 @@ module ApiManage
 
       # POST /api_manage/v1/:locale/properties/:property_id/ai_description
       def create
-        generator = Ai::ListingDescriptionGenerator.new(
+        generator = ::Ai::ListingDescriptionGenerator.new(
           property: @property,
           locale: params[:locale] || I18n.locale.to_s,
           tone: generation_params[:tone] || 'professional',
@@ -43,12 +43,12 @@ module ApiManage
             error: result.error
           }, status: :unprocessable_entity
         end
-      rescue Ai::ConfigurationError => e
+      rescue ::Ai::ConfigurationError => e
         render json: {
           success: false,
           error: "AI is not configured: #{e.message}"
         }, status: :service_unavailable
-      rescue Ai::RateLimitError => e
+      rescue ::Ai::RateLimitError => e
         render json: {
           success: false,
           error: "Rate limit exceeded. Please try again later.",

@@ -34,7 +34,11 @@ RSpec.describe 'ApiManage::V1::AiDescriptions', type: :request do
   end
 
   before do
-    host! "#{website.subdomain}.example.com"
+    # Set subdomain for tenant resolution (using localhost which is a platform domain)
+    host! "#{website.subdomain}.localhost"
+
+    # Also set tenant directly for ActsAsTenant-scoped queries
+    ActsAsTenant.current_tenant = website
 
     # Configure AI
     allow(ENV).to receive(:[]).and_call_original
@@ -44,6 +48,10 @@ RSpec.describe 'ApiManage::V1::AiDescriptions', type: :request do
 
     # Mock RubyLLM.chat to return a chat instance
     allow(RubyLLM).to receive(:chat).and_return(mock_chat_instance)
+  end
+
+  after do
+    ActsAsTenant.current_tenant = nil
   end
 
   describe 'POST /api_manage/v1/:locale/properties/:property_id/ai_description' do
