@@ -40,13 +40,19 @@ export default class extends Controller {
   }
 
   connect() {
+    console.log('[AI Description] Controller connected', this.element)
+    console.log('[AI Description] Endpoint:', this.endpointValue)
     this.hideOutput()
   }
 
   async generate(event) {
+    console.log('[AI Description] Generate clicked')
     event.preventDefault()
 
-    if (this.generatingValue) return
+    if (this.generatingValue) {
+      console.log('[AI Description] Already generating, skipping')
+      return
+    }
 
     this.generatingValue = true
     this.showLoading()

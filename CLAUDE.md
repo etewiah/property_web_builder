@@ -99,6 +99,16 @@ The frontend uses server-rendered pages:
 - `app/graphql/` - GraphQL API (see `app/graphql/DEPRECATED.md`)
 - Bootstrap CSS (see `vendor/assets/stylesheets/bootstrap/DEPRECATED.md`)
 
+### Asset Cache Issues
+
+If Stimulus controllers aren't loading after changes to JavaScript files:
+
+1. Clear tmp cache: `rm -rf tmp/cache/assets`
+2. Restart Rails server
+3. Hard refresh browser (Cmd+Shift+R or Ctrl+Shift+R)
+
+**WARNING:** Do NOT use `rails assets:clobber` - it deletes the pre-built Tailwind CSS files in `app/assets/builds/` which are checked into git. If you accidentally run it, restore the files with `git restore app/assets/builds/`.
+
 ## Testing
 
 ### Browser/E2E Testing
