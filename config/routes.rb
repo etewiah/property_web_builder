@@ -794,6 +794,10 @@ Rails.application.routes.draw do
         # Returns page data with Liquid templates and variables for each page part
         get "/liquid_page/by_slug/:page_slug" => "liquid_pages#show"
 
+        # Editor resources
+        # Images available for the editor (content photos, property photos, etc.)
+        get "/editor/images" => "editor_images#index"
+
         # Page parts (content editing - block_contents)
         # Note: update actions deprecated - use PATCH /pages/:page_slug/page_parts/:page_part_key instead
         resources :page_parts, only: %i[index show] do  # update removed (deprecated)
