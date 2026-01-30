@@ -203,13 +203,13 @@ module Pwb
         category: :testimonials,
         label: 'Testimonial Carousel',
         description: 'Sliding carousel of customer testimonials',
-        fields: %w[section_title section_subtitle testimonial_1_text testimonial_1_name testimonial_1_role testimonial_1_image testimonial_2_text testimonial_2_name testimonial_2_role testimonial_3_text testimonial_3_name testimonial_3_role]
+        fields: %w[section_title section_subtitle testimonial_1_text testimonial_1_name testimonial_1_role testimonial_1_image testimonial_2_text testimonial_2_name testimonial_2_role testimonial_2_image testimonial_3_text testimonial_3_name testimonial_3_role testimonial_3_image]
       },
       'testimonials/testimonial_grid' => {
         category: :testimonials,
         label: 'Testimonial Grid',
         description: 'Grid of testimonial cards with ratings',
-        fields: %w[section_title section_subtitle testimonial_1_text testimonial_1_name testimonial_1_role testimonial_1_image testimonial_2_text testimonial_2_name testimonial_3_text testimonial_3_name]
+        fields: %w[section_title section_subtitle testimonial_1_text testimonial_1_name testimonial_1_role testimonial_1_image testimonial_2_text testimonial_2_name testimonial_2_role testimonial_2_image testimonial_3_text testimonial_3_name testimonial_3_role testimonial_3_image]
       },
 
       # CTA
