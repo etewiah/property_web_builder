@@ -797,6 +797,8 @@ Rails.application.routes.draw do
         # Editor resources
         # Images available for the editor (content photos, property photos, etc.)
         get "/editor/images" => "editor_images#index"
+        post "/editor/images" => "editor_images#create"
+        delete "/editor/images/:id" => "editor_images#destroy"
 
         # Page parts (content editing - block_contents)
         # Note: update actions deprecated - use PATCH /pages/:page_slug/page_parts/:page_part_key instead

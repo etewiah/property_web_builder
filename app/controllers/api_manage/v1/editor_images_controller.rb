@@ -2,24 +2,33 @@
 
 module ApiManage
   module V1
-    # Returns paginated images available for the editor
+    # Manages images for the editor
     #
     # GET /api_manage/v1/:locale/editor/images
+    #   Returns paginated images from content photos, property photos, etc.
     #
-    # Returns images from:
-    # - Content photos (page part images)
-    # - Property photos
-    # - Website photos (logo, etc.)
+    # POST /api_manage/v1/:locale/editor/images
+    #   Uploads a new image for use in the editor
     #
-    # Query params:
+    # DELETE /api_manage/v1/:locale/editor/images/:id
+    #   Deletes an image
+    #
+    # Query params (GET):
     # - page: Page number (default: 1)
     # - per_page: Items per page (default: 24, max: 100)
     # - source: Filter by source ('content', 'property', 'website', or 'all')
     # - search: Filter by filename or description
     #
+    # Body params (POST):
+    # - image[file]: The image file (multipart)
+    # - image[description]: Optional description
+    # - image[folder]: Optional folder name for organization
+    #
     class EditorImagesController < BaseController
       DEFAULT_PER_PAGE = 24
       MAX_PER_PAGE = 100
+      MAX_FILE_SIZE = 10.megabytes
+      ALLOWED_CONTENT_TYPES = %w[image/jpeg image/png image/gif image/webp].freeze
 
       def index
         page = (params[:page] || 1).to_i
@@ -50,7 +59,87 @@ module ApiManage
         }
       end
 
+      # POST /api_manage/v1/:locale/editor/images
+      def create
+        uploaded_file = image_params[:file]
+
+        unless uploaded_file
+          return render json: { error: 'No file provided', message: 'image[file] is required' }, status: :bad_request
+        end
+
+        # Validate file type
+        unless ALLOWED_CONTENT_TYPES.include?(uploaded_file.content_type)
+          return render json: {
+            error: 'Invalid file type',
+            message: "Allowed types: #{ALLOWED_CONTENT_TYPES.join(', ')}"
+          }, status: :unprocessable_entity
+        end
+
+        # Validate file size
+        if uploaded_file.size > MAX_FILE_SIZE
+          return render json: {
+            error: 'File too large',
+            message: "Maximum file size is #{MAX_FILE_SIZE / 1.megabyte}MB"
+          }, status: :unprocessable_entity
+        end
+
+        # Create a standalone content for editor uploads (not associated with a page part)
+        content = find_or_create_editor_content
+
+        # Create the photo record
+        photo = Pwb::ContentPhoto.new(
+          content: content,
+          description: image_params[:description],
+          folder: image_params[:folder] || 'editor_uploads',
+          file_size: uploaded_file.size
+        )
+
+        # Attach the image
+        photo.image.attach(uploaded_file)
+
+        if photo.save
+          render json: {
+            success: true,
+            image: serialize_content_photo(photo)
+          }, status: :created
+        else
+          render json: {
+            error: 'Upload failed',
+            errors: photo.errors.full_messages
+          }, status: :unprocessable_entity
+        end
+      end
+
+      # DELETE /api_manage/v1/:locale/editor/images/:id
+      def destroy
+        photo = Pwb::ContentPhoto.joins(:content)
+                                 .where(pwb_contents: { website_id: current_website.id })
+                                 .find(params[:id])
+
+        photo.destroy!
+
+        render json: { success: true, message: 'Image deleted' }
+      end
+
       private
+
+      def image_params
+        params.require(:image).permit(:file, :description, :folder)
+      rescue ActionController::ParameterMissing
+        # Allow empty params for validation in create action
+        {}
+      end
+
+      # Find or create a content record for editor uploads
+      # This keeps uploaded images organized separately from page part content
+      #
+      # Note: We can't use current_website.contents because that association goes
+      # through page_contents, which would try to create a PageContent record
+      def find_or_create_editor_content
+        Pwb::Content.find_or_create_by!(website: current_website, key: '_editor_uploads') do |c|
+          c.page_part_key = '_editor_uploads'
+        end
+      end
 
       def fetch_images(source:, search:)
         case source
