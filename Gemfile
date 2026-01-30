@@ -263,3 +263,7 @@ gem "mini_magick", "~> 5.3"
 
 # AI-powered content generation (listing descriptions, etc.)
 gem 'ruby_llm', '~> 1.0'
+
+# PDF generation for CMA reports
+gem 'prawn', '~> 2.5'
+gem 'prawn-table', '~> 0.2'

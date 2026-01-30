@@ -175,6 +175,7 @@ module Pwb
     has_many :ai_writing_rules, class_name: 'Pwb::AiWritingRule', dependent: :destroy
     has_many :social_media_posts, class_name: 'Pwb::SocialMediaPost', dependent: :destroy
     has_many :social_media_templates, class_name: 'Pwb::SocialMediaTemplate', dependent: :destroy
+    has_many :market_reports, class_name: 'Pwb::MarketReport', dependent: :destroy
 
     # External Service Integrations
     has_many :integrations, class_name: 'Pwb::WebsiteIntegration', dependent: :destroy

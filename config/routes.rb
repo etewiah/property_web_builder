@@ -824,6 +824,16 @@ Rails.application.routes.draw do
           end
         end
 
+        # CMA (Comparative Market Analysis) Reports
+        namespace :reports do
+          resources :cmas, only: [:index, :create, :show, :destroy] do
+            member do
+              get :pdf
+              post :share
+            end
+          end
+        end
+
         # Editor resources
         # Images available for the editor (content photos, property photos, etc.)
         get "/editor/images" => "editor_images#index"

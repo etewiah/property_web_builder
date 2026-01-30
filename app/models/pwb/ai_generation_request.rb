@@ -64,6 +64,7 @@ module Pwb
       social_post
       meta_description
       email_content
+      market_report
     ].freeze
 
     # Status values
