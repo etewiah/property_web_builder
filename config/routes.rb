@@ -810,6 +810,20 @@ Rails.application.routes.draw do
           end
         end
 
+        # AI-powered social media content generation
+        namespace :ai do
+          resources :social_posts, only: [:index, :show, :create, :update, :destroy] do
+            collection do
+              post :batch_generate
+            end
+            member do
+              post :duplicate
+              patch :schedule
+              get :download_images
+            end
+          end
+        end
+
         # Editor resources
         # Images available for the editor (content photos, property photos, etc.)
         get "/editor/images" => "editor_images#index"

@@ -220,6 +220,26 @@
         </div>
       <% end %>
 
+      <%# Social Media Content Generator - shown if any listing exists %>
+      <% if @sale_listing.present? || @rental_listing.present? %>
+        <div class="mt-8 pt-8 border-t border-gray-200">
+          <details class="group">
+            <summary class="flex items-center cursor-pointer list-none">
+              <svg class="w-5 h-5 mr-2 text-gray-500 group-open:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+              <h3 class="text-lg font-semibold text-gray-900">Social Media Content</h3>
+              <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-pink-100 text-pink-800">
+                AI Powered
+              </span>
+            </summary>
+            <div class="mt-4 ml-7">
+              <%= render 'social_media_generator', prop: @prop, locale: 'en' %>
+            </div>
+          </details>
+        </div>
+      <% end %>
+
       <% if @sale_listing.nil? && @rental_listing.nil? %>
         <div class="text-center py-12">
           <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">

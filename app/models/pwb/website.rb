@@ -173,6 +173,8 @@ module Pwb
     # AI Content Generation
     has_many :ai_generation_requests, class_name: 'Pwb::AiGenerationRequest', dependent: :destroy
     has_many :ai_writing_rules, class_name: 'Pwb::AiWritingRule', dependent: :destroy
+    has_many :social_media_posts, class_name: 'Pwb::SocialMediaPost', dependent: :destroy
+    has_many :social_media_templates, class_name: 'Pwb::SocialMediaTemplate', dependent: :destroy
 
     # External Service Integrations
     has_many :integrations, class_name: 'Pwb::WebsiteIntegration', dependent: :destroy

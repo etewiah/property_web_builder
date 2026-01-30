@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_30_134204) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_30_141610) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -931,6 +931,52 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_30_134204) do
     t.index ["website_id"], name: "index_pwb_shard_audit_logs_on_website_id"
   end
 
+  create_table "pwb_social_media_posts", force: :cascade do |t|
+    t.bigint "ai_generation_request_id"
+    t.string "call_to_action"
+    t.text "caption", null: false
+    t.integer "comments_count", default: 0
+    t.datetime "created_at", null: false
+    t.text "hashtags"
+    t.integer "likes_count", default: 0
+    t.string "link_url"
+    t.string "platform", null: false
+    t.string "post_type", null: false
+    t.uuid "postable_id"
+    t.string "postable_type"
+    t.integer "reach_count", default: 0
+    t.datetime "scheduled_at"
+    t.jsonb "selected_photos", default: []
+    t.integer "shares_count", default: 0
+    t.string "status", default: "draft"
+    t.datetime "updated_at", null: false
+    t.bigint "website_id", null: false
+    t.index ["ai_generation_request_id"], name: "index_pwb_social_media_posts_on_ai_generation_request_id"
+    t.index ["postable_type", "postable_id"], name: "index_pwb_social_media_posts_on_postable"
+    t.index ["postable_type", "postable_id"], name: "index_pwb_social_media_posts_on_postable_type_and_postable_id"
+    t.index ["scheduled_at"], name: "index_pwb_social_media_posts_on_scheduled_at"
+    t.index ["status"], name: "index_pwb_social_media_posts_on_status"
+    t.index ["website_id", "platform"], name: "index_pwb_social_media_posts_on_website_id_and_platform"
+    t.index ["website_id"], name: "index_pwb_social_media_posts_on_website_id"
+  end
+
+  create_table "pwb_social_media_templates", force: :cascade do |t|
+    t.boolean "active", default: true
+    t.text "caption_template", null: false
+    t.string "category"
+    t.datetime "created_at", null: false
+    t.text "hashtag_template"
+    t.jsonb "image_preferences", default: {}
+    t.boolean "is_default", default: false
+    t.string "name", null: false
+    t.string "platform", null: false
+    t.string "post_type", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "website_id", null: false
+    t.index ["website_id", "platform", "category"], name: "idx_on_website_id_platform_category_c9f0f62b45"
+    t.index ["website_id"], name: "index_pwb_social_media_templates_on_website_id"
+  end
+
   create_table "pwb_subdomains", force: :cascade do |t|
     t.string "aasm_state", default: "available", null: false
     t.datetime "created_at", null: false
@@ -1459,6 +1505,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_30_134204) do
   add_foreign_key "pwb_search_filter_options", "pwb_search_filter_options", column: "parent_id"
   add_foreign_key "pwb_search_filter_options", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_shard_audit_logs", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_social_media_posts", "pwb_ai_generation_requests", column: "ai_generation_request_id"
+  add_foreign_key "pwb_social_media_posts", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_social_media_templates", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_subdomains", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_subscription_events", "pwb_subscriptions", column: "subscription_id"
   add_foreign_key "pwb_subscriptions", "pwb_plans", column: "plan_id"

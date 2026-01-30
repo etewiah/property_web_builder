@@ -1,0 +1,123 @@
+<%# AI-powered social media content generator %>
+<%# Include this partial on the property edit page to generate social media posts %>
+<%#
+  Required locals:
+    - prop: The Pwb::RealtyAsset record
+    - locale: The target locale (e.g., 'en')
+%>
+
+<%
+  prop ||= @prop
+  locale ||= 'en'
+%>
+
+<div data-controller="social-media"
+     data-social-media-property-id-value="<%= prop.id %>"
+     data-social-media-locale-value="<%= locale %>"
+     class="mb-6 p-4 bg-gradient-to-r from-pink-50 to-orange-50 border border-pink-200 rounded-lg">
+
+  <div class="flex items-start justify-between mb-4">
+    <div class="flex items-center">
+      <div class="flex-shrink-0">
+        <svg class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+        </svg>
+      </div>
+      <div class="ml-3">
+        <h3 class="text-sm font-semibold text-gray-900">Social Media Generator</h3>
+        <p class="text-xs text-gray-500">Create platform-optimized posts for Instagram, Facebook, LinkedIn & more</p>
+      </div>
+    </div>
+
+    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-pink-100 text-pink-800">
+      AI Powered
+    </span>
+  </div>
+
+  <%# Platform Selection %>
+  <div class="mb-4">
+    <label class="block text-xs font-medium text-gray-600 mb-2">Platforms</label>
+    <div class="flex flex-wrap gap-3">
+      <label class="inline-flex items-center">
+        <input type="checkbox"
+               data-social-media-target="platform"
+               value="instagram"
+               checked
+               class="rounded border-gray-300 text-pink-600 focus:ring-pink-500">
+        <span class="ml-2 text-sm text-gray-700">Instagram</span>
+      </label>
+      <label class="inline-flex items-center">
+        <input type="checkbox"
+               data-social-media-target="platform"
+               value="facebook"
+               checked
+               class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+        <span class="ml-2 text-sm text-gray-700">Facebook</span>
+      </label>
+      <label class="inline-flex items-center">
+        <input type="checkbox"
+               data-social-media-target="platform"
+               value="linkedin"
+               class="rounded border-gray-300 text-blue-700 focus:ring-blue-700">
+        <span class="ml-2 text-sm text-gray-700">LinkedIn</span>
+      </label>
+      <label class="inline-flex items-center">
+        <input type="checkbox"
+               data-social-media-target="platform"
+               value="twitter"
+               class="rounded border-gray-300 text-gray-800 focus:ring-gray-800">
+        <span class="ml-2 text-sm text-gray-700">X (Twitter)</span>
+      </label>
+    </div>
+  </div>
+
+  <%# Post Category %>
+  <div class="flex flex-wrap gap-3 mb-4">
+    <div class="flex-1 min-w-[150px]">
+      <label for="social_category" class="block text-xs font-medium text-gray-600 mb-1">Post Type</label>
+      <select id="social_category"
+              data-social-media-target="category"
+              class="block w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500">
+        <option value="just_listed">Just Listed</option>
+        <option value="price_drop">Price Drop</option>
+        <option value="open_house">Open House</option>
+        <option value="sold">Just Sold</option>
+        <option value="general">General Promotion</option>
+      </select>
+    </div>
+
+    <div class="flex items-end">
+      <button type="button"
+              data-action="social-media#generate"
+              data-social-media-target="generateBtn"
+              class="inline-flex items-center px-4 py-1.5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+        <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+        </svg>
+        Generate Posts
+      </button>
+    </div>
+  </div>
+
+  <%# Loading indicator %>
+  <div data-social-media-target="loading" class="hidden py-8 text-center">
+    <svg class="animate-spin h-8 w-8 mx-auto text-pink-600" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+    <p class="mt-2 text-sm text-gray-600">Generating posts for selected platforms...</p>
+  </div>
+
+  <%# Error output %>
+  <div data-social-media-target="errorOutput" class="hidden"></div>
+
+  <%# Results section (hidden until generation) %>
+  <div data-social-media-target="results" class="hidden mt-4 space-y-4">
+    <%# Post cards will be inserted here by JavaScript %>
+  </div>
+
+  <p class="mt-4 text-xs text-gray-500">
+    <strong>Tip:</strong> Copy generated posts directly to your social media apps.
+    Images can be downloaded from the property photos section.
+  </p>
+</div>
