@@ -117,6 +117,9 @@
       <% end %>
 
       <% if @rental_listing.present? %>
+        <%# AI Description Generator for Rental Listing %>
+        <%= render 'ai_description_generator', prop: @prop, listing_type: 'rental', locale: 'en' %>
+
         <div class="mb-8">
           <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
             <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">FOR RENT</span>
