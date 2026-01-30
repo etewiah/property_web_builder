@@ -1,0 +1,45 @@
+<div class="max-w-7xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Integrations</h1>
+    <p class="mt-2 text-gray-600">
+      Connect your website to external services for AI-powered features, CRM sync, and more.
+    </p>
+  </div>
+
+  <% @available_providers.each do |category, data| %>
+    <div class="mb-8">
+      <div class="flex items-center mb-4">
+        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 mr-3">
+          <%= render_category_icon(data[:info][:icon]) %>
+        </div>
+        <div>
+          <h2 class="text-xl font-semibold text-gray-900"><%= data[:info][:name] %></h2>
+          <p class="text-sm text-gray-500"><%= data[:info][:description] %></p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <% data[:providers].each do |provider_data| %>
+          <%= render 'integration_card',
+                     category: category,
+                     provider_key: provider_data[:key],
+                     definition: provider_data[:definition],
+                     integration: provider_data[:integration] %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @available_providers.empty? %>
+    <div class="text-center py-12 bg-white rounded-lg shadow">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+      </svg>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">No integrations available</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        Integration providers will appear here once configured.
+      </p>
+    </div>
+  <% end %>
+</div>
+

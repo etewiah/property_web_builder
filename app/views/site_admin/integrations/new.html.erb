@@ -1,0 +1,22 @@
+<div class="max-w-2xl mx-auto">
+  <div class="mb-6">
+    <nav class="flex items-center text-sm text-gray-500 mb-4">
+      <%= link_to 'Integrations', site_admin_integrations_path, class: 'hover:text-gray-700' %>
+      <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+      </svg>
+      <span>Set Up <%= @provider_definition.display_name %></span>
+    </nav>
+
+    <h1 class="text-3xl font-bold text-gray-900">
+      Set Up <%= @provider_definition.display_name %>
+    </h1>
+    <p class="mt-2 text-gray-600">
+      <%= @provider_definition.description %>
+    </p>
+  </div>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <%= render 'form' %>
+  </div>
+</div>

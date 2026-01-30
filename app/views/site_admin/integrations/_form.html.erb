@@ -1,0 +1,160 @@
+<%# Shared form for creating/editing integrations %>
+
+<%= form_with model: @integration,
+              url: @integration.persisted? ? site_admin_integration_path(@integration) : site_admin_integrations_path,
+              method: @integration.persisted? ? :patch : :post,
+              local: true,
+              class: "divide-y divide-gray-200" do |f| %>
+
+  <%# Hidden fields for category and provider %>
+  <%= f.hidden_field :category, value: @category %>
+  <%= f.hidden_field :provider, value: @provider %>
+
+  <%# Credentials Section %>
+  <div class="p-6 space-y-6">
+    <div>
+      <h3 class="text-lg font-medium text-gray-900">Credentials</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        Enter your API credentials. These are encrypted and stored securely.
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      <% @provider_definition.credential_fields.each do |key, field| %>
+        <div>
+          <label for="credentials_<%= key %>" class="block text-sm font-medium text-gray-700 mb-1">
+            <%= field[:label] %>
+            <% if field[:required] %>
+              <span class="text-red-500">*</span>
+            <% end %>
+          </label>
+
+          <%# Use password field for API keys %>
+          <% if key.to_s.include?('key') || key.to_s.include?('secret') || key.to_s.include?('token') %>
+            <input type="password"
+                   name="credentials[<%= key %>]"
+                   id="credentials_<%= key %>"
+                   value="<%= @integration.persisted? && @integration.credential(key).present? ? @integration.masked_credential(key) : '' %>"
+                   placeholder="<%= field[:help] %>"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                   <%= 'required' if field[:required] && @integration.new_record? %>>
+          <% else %>
+            <input type="text"
+                   name="credentials[<%= key %>]"
+                   id="credentials_<%= key %>"
+                   value="<%= @integration.credential(key) %>"
+                   placeholder="<%= field[:help] %>"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                   <%= 'required' if field[:required] && @integration.new_record? %>>
+          <% end %>
+
+          <% if field[:help] %>
+            <p class="mt-1 text-sm text-gray-500"><%= field[:help] %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Settings Section %>
+  <% if @provider_definition.setting_fields.any? %>
+    <div class="p-6 space-y-6">
+      <div>
+        <h3 class="text-lg font-medium text-gray-900">Settings</h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Configure how <%= @provider_definition.display_name %> works with your website.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <% @provider_definition.setting_fields.each do |key, field| %>
+          <div>
+            <label for="settings_<%= key %>" class="block text-sm font-medium text-gray-700 mb-1">
+              <%= field[:label] %>
+            </label>
+
+            <% case field[:type] %>
+            <% when :select %>
+              <select name="settings[<%= key %>]"
+                      id="settings_<%= key %>"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <% field[:options].each do |option| %>
+                  <% label, value = option.is_a?(Array) ? option : [option, option] %>
+                  <option value="<%= value %>"
+                          <%= 'selected' if (@integration.setting(key) || field[:default]).to_s == value.to_s %>>
+                    <%= label %>
+                  </option>
+                <% end %>
+              </select>
+            <% when :number %>
+              <input type="number"
+                     name="settings[<%= key %>]"
+                     id="settings_<%= key %>"
+                     value="<%= @integration.setting(key) || field[:default] %>"
+                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <% when :boolean %>
+              <div class="flex items-center">
+                <input type="hidden" name="settings[<%= key %>]" value="false">
+                <input type="checkbox"
+                       name="settings[<%= key %>]"
+                       id="settings_<%= key %>"
+                       value="true"
+                       <%= 'checked' if @integration.setting(key).to_s == 'true' || (@integration.new_record? && field[:default]) %>
+                       class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                <span class="ml-2 text-sm text-gray-600">Enable</span>
+              </div>
+            <% else %>
+              <input type="text"
+                     name="settings[<%= key %>]"
+                     id="settings_<%= key %>"
+                     value="<%= @integration.setting(key) || field[:default] %>"
+                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <% end %>
+
+            <% if field[:help] %>
+              <p class="mt-1 text-sm text-gray-500"><%= field[:help] %></p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <%# Enable/Disable Toggle (for existing integrations) %>
+  <% if @integration.persisted? %>
+    <div class="p-6">
+      <div class="flex items-start">
+        <div class="flex items-center h-5">
+          <%= f.check_box :enabled,
+              class: "h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500",
+              id: "integration_enabled" %>
+        </div>
+        <div class="ml-3">
+          <label for="integration_enabled" class="text-sm font-medium text-gray-700">
+            Enable Integration
+          </label>
+          <p class="text-sm text-gray-500">
+            When disabled, this integration will not be used even if configured.
+          </p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%# Submit Button %>
+  <div class="px-6 py-4 bg-gray-50 flex items-center justify-between">
+    <%= link_to 'Cancel', site_admin_integrations_path,
+                class: "px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900" %>
+    <div class="flex space-x-3">
+      <% if @integration.persisted? && @integration.credentials_present? %>
+        <%= button_to 'Test Connection',
+                      test_connection_site_admin_integration_path(@integration),
+                      method: :post,
+                      class: "px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500",
+                      form: { data: { turbo: false } } %>
+      <% end %>
+      <%= f.submit @integration.persisted? ? 'Save Changes' : 'Set Up Integration',
+          class: "px-6 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
+    </div>
+  </div>
+<% end %>

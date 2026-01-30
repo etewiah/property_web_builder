@@ -238,6 +238,14 @@ Rails.application.routes.draw do
     # Activity logs
     resources :activity_logs, only: %i[index show]
 
+    # Integrations (AI, CRM, etc.)
+    resources :integrations, only: %i[index show new create edit update destroy] do
+      member do
+        post :test_connection
+        post :toggle
+      end
+    end
+
     # Image library API for page part editor
     resources :images, only: %i[index create]
 

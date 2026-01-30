@@ -1,0 +1,40 @@
+<div class="max-w-2xl mx-auto">
+  <div class="mb-6">
+    <nav class="flex items-center text-sm text-gray-500 mb-4">
+      <%= link_to 'Integrations', site_admin_integrations_path, class: 'hover:text-gray-700' %>
+      <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+      </svg>
+      <span>Configure <%= @provider_definition.display_name %></span>
+    </nav>
+
+    <h1 class="text-3xl font-bold text-gray-900">
+      Configure <%= @provider_definition.display_name %>
+    </h1>
+    <p class="mt-2 text-gray-600">
+      <%= @provider_definition.description %>
+    </p>
+  </div>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <%= render 'form' %>
+  </div>
+
+  <%# Danger zone %>
+  <div class="mt-8 bg-white rounded-lg shadow overflow-hidden border border-red-200">
+    <div class="p-6">
+      <h3 class="text-lg font-medium text-red-900">Danger Zone</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        Removing this integration will disconnect <%= @provider_definition.display_name %> from your website.
+        This action cannot be undone.
+      </p>
+      <div class="mt-4">
+        <%= button_to 'Remove Integration',
+                      site_admin_integration_path(@integration),
+                      method: :delete,
+                      data: { confirm: "Are you sure you want to remove the #{@provider_definition.display_name} integration? This cannot be undone." },
+                      class: "inline-flex items-center px-4 py-2 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" %>
+      </div>
+    </div>
+  </div>
+</div>

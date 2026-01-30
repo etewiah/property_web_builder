@@ -278,6 +278,13 @@
             <span>Storage</span>
           <% end %>
 
+          <%= link_to site_admin_integrations_path, id: "tour-integrations", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/integrations') ? 'bg-gray-700' : ''}" do %>
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+            </svg>
+            <span>Integrations</span>
+          <% end %>
+
           <%# Setup Wizard hidden for now
           link_to site_admin_onboarding_path, id: "tour-onboarding", class: "flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 #{request.path.start_with?('/site_admin/onboarding') ? 'bg-gray-700' : ''}" do
             <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">

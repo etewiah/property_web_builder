@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :pwb_website_integration, class: 'Pwb::WebsiteIntegration' do
-    association :website, factory: :pwb_website
+    website
 
     category { 'ai' }
     provider { 'anthropic' }
