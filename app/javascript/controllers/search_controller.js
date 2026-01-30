@@ -30,14 +30,22 @@ export default class extends Controller {
   connect() {
     this.debounceTimer = null
     this.abortController = null
-    
+
     // Listen for browser back/forward navigation
     window.addEventListener('popstate', this.handlePopState.bind(this))
-    
+
     // Listen for Turbo Frame load events
     document.addEventListener('turbo:frame-load', this.handleFrameLoad.bind(this))
     document.addEventListener('turbo:before-fetch-request', this.handleBeforeFetch.bind(this))
     document.addEventListener('turbo:frame-render', this.handleFrameRender.bind(this))
+
+    // Listen for keyboard shortcuts
+    this.boundHandleKeydown = this.handleKeydown.bind(this)
+    document.addEventListener('keydown', this.boundHandleKeydown)
+
+    // Listen for escape events from keyboard controller
+    this.boundHandleEscape = this.handleEscapeEvent.bind(this)
+    document.addEventListener('keyboard:escape', this.boundHandleEscape)
   }
 
   disconnect() {
@@ -45,13 +53,62 @@ export default class extends Controller {
     document.removeEventListener('turbo:frame-load', this.handleFrameLoad.bind(this))
     document.removeEventListener('turbo:before-fetch-request', this.handleBeforeFetch.bind(this))
     document.removeEventListener('turbo:frame-render', this.handleFrameRender.bind(this))
-    
+    document.removeEventListener('keydown', this.boundHandleKeydown)
+    document.removeEventListener('keyboard:escape', this.boundHandleEscape)
+
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer)
     }
     if (this.abortController) {
       this.abortController.abort()
     }
+  }
+
+  // ===================
+  // Keyboard Shortcuts
+  // ===================
+
+  /**
+   * Handle keyboard shortcuts
+   */
+  handleKeydown(event) {
+    // Don't handle if user is typing in an input (except for specific keys)
+    if (this.isTyping(event)) {
+      // Allow Escape to close mobile filter panel
+      if (event.key === 'Escape') {
+        this.closeFilters()
+      }
+      return
+    }
+
+    switch (event.key) {
+      case 'Escape':
+        // Close mobile filter panel if open
+        if (this.hasFilterPanelTarget && !this.filterPanelTarget.classList.contains('hidden')) {
+          event.preventDefault()
+          this.closeFilters()
+        }
+        break
+    }
+  }
+
+  /**
+   * Handle escape events from keyboard controller
+   */
+  handleEscapeEvent(event) {
+    this.closeFilters()
+  }
+
+  /**
+   * Check if user is typing in an input field
+   */
+  isTyping(event) {
+    const target = event.target
+    const tagName = target.tagName.toLowerCase()
+    return tagName === 'input' ||
+           tagName === 'textarea' ||
+           tagName === 'select' ||
+           target.isContentEditable
   }
 
   // ===================

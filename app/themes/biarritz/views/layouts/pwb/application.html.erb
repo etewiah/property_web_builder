@@ -47,7 +47,7 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="<%= @current_website.style_variables["primary_color"] || "#0369A1" %>">
   </head>
-  <body class="pwb-body tnt-body biarritz-theme <%= @current_website.body_style %> bg-warm-50 text-gray-900" data-controller="flowbite">
+  <body class="pwb-body tnt-body biarritz-theme <%= @current_website.body_style %> bg-warm-50 text-gray-900" data-controller="flowbite keyboard">
     <%= render 'shared/demo_banner' %>
     <%# Brand icons SVG sprite - must be early in body for <use> references %>
     <%= render partial: '/pwb/brand_icons_sprite' %>

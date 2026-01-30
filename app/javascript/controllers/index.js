@@ -64,3 +64,7 @@ application.register("local-searches", LocalSearchesController)
 // AI content generation
 import AiDescriptionController from "controllers/ai_description_controller"
 application.register("ai-description", AiDescriptionController)
+
+// Keyboard shortcuts
+import KeyboardController from "controllers/keyboard_controller"
+application.register("keyboard", KeyboardController)

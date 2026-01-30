@@ -50,7 +50,7 @@
     <meta name="theme-color" content="<%= @current_website.style_variables["primary_color"] || "#0B5394" %>">
   </head>
 
-  <body class="pwb-body tnt-body barcelona-theme <%= @current_website.body_style %> font-sans antialiased bg-warm-50 text-warm-900" data-controller="flowbite">
+  <body class="pwb-body tnt-body barcelona-theme <%= @current_website.body_style %> font-sans antialiased bg-warm-50 text-warm-900" data-controller="flowbite keyboard">
     <%= render 'shared/demo_banner' %>
     <%# Brand icons SVG sprite - must be early in body for <use> references %>
     <%= render partial: '/pwb/brand_icons_sprite' %>

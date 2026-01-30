@@ -14,9 +14,15 @@ import { Controller } from "@hotwired/stimulus"
 //     <div data-gallery-target="counter">1 / 2</div>
 //   </div>
 //
+// Keyboard shortcuts (when gallery is focused or hovered):
+//   ArrowLeft  - Previous slide
+//   ArrowRight - Next slide
+//   Home       - First slide
+//   End        - Last slide
+//
 export default class extends Controller {
   static targets = ["slide", "counter", "thumbnail"]
-  static values = { 
+  static values = {
     index: { type: Number, default: 0 },
     autoplay: { type: Boolean, default: false },
     interval: { type: Number, default: 5000 }
@@ -24,14 +30,106 @@ export default class extends Controller {
 
   connect() {
     this.showSlide(this.indexValue)
-    
+
     if (this.autoplayValue) {
       this.startAutoplay()
     }
+
+    // Bind keyboard handler
+    this.boundHandleKeydown = this.handleKeydown.bind(this)
+
+    // Make element focusable if not already
+    if (!this.element.hasAttribute("tabindex")) {
+      this.element.setAttribute("tabindex", "0")
+    }
+
+    // Listen for keyboard events when element is focused
+    this.element.addEventListener("keydown", this.boundHandleKeydown)
+
+    // Also listen when hovering (for better UX)
+    this.isHovered = false
+    this.boundHandleMouseEnter = () => { this.isHovered = true }
+    this.boundHandleMouseLeave = () => { this.isHovered = false }
+    this.element.addEventListener("mouseenter", this.boundHandleMouseEnter)
+    this.element.addEventListener("mouseleave", this.boundHandleMouseLeave)
+
+    // Global keydown for when hovered
+    this.boundGlobalKeydown = this.handleGlobalKeydown.bind(this)
+    document.addEventListener("keydown", this.boundGlobalKeydown)
   }
 
   disconnect() {
     this.stopAutoplay()
+    this.element.removeEventListener("keydown", this.boundHandleKeydown)
+    this.element.removeEventListener("mouseenter", this.boundHandleMouseEnter)
+    this.element.removeEventListener("mouseleave", this.boundHandleMouseLeave)
+    document.removeEventListener("keydown", this.boundGlobalKeydown)
+  }
+
+  /**
+   * Handle keyboard navigation when gallery is focused
+   */
+  handleKeydown(event) {
+    this.processKeydown(event)
+  }
+
+  /**
+   * Handle global keydown when gallery is hovered
+   */
+  handleGlobalKeydown(event) {
+    // Only process if hovering and not typing in an input
+    if (!this.isHovered || this.isTyping(event)) return
+    this.processKeydown(event)
+  }
+
+  /**
+   * Process keyboard events for gallery navigation
+   */
+  processKeydown(event) {
+    switch (event.key) {
+      case "ArrowLeft":
+        event.preventDefault()
+        this.previous()
+        break
+      case "ArrowRight":
+        event.preventDefault()
+        this.next()
+        break
+      case "Home":
+        event.preventDefault()
+        this.first()
+        break
+      case "End":
+        event.preventDefault()
+        this.last()
+        break
+    }
+  }
+
+  /**
+   * Check if user is typing in an input field
+   */
+  isTyping(event) {
+    const target = event.target
+    const tagName = target.tagName.toLowerCase()
+    return tagName === "input" ||
+           tagName === "textarea" ||
+           tagName === "select" ||
+           target.isContentEditable
+  }
+
+  /**
+   * Go to first slide
+   */
+  first() {
+    this.indexValue = 0
+  }
+
+  /**
+   * Go to last slide
+   */
+  last() {
+    this.indexValue = this.slideTargets.length - 1
   }
 
   next() {

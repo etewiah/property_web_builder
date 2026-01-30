@@ -271,6 +271,27 @@
         });
       }
 
+      // Keyboard shortcuts
+      document.addEventListener('keydown', (e) => {
+        // Ctrl+S / Cmd+S to save
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+          e.preventDefault();
+          const form = document.getElementById('pwb-editor-form');
+          if (form) {
+            // Trigger form submit
+            form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+            showNotification('Saving...', 'success');
+          }
+        }
+
+        // Escape to close modals
+        if (e.key === 'Escape') {
+          if (imagePickerModal?.classList.contains('pwb-modal-open')) {
+            imagePickerModal.classList.remove('pwb-modal-open');
+          }
+        }
+      });
+
       // Image Picker functionality
       const imagePickerModal = document.getElementById('pwb-image-picker-modal');
       const imageGrid = document.getElementById('pwb-image-grid');
