@@ -12,6 +12,30 @@ module Pwb
   # - "Avoid superlatives like 'best' or 'amazing'"
   #
   # Multi-tenant: Scoped by website_id
+# == Schema Information
+#
+# Table name: pwb_ai_writing_rules
+# Database name: primary
+#
+#  id           :bigint           not null, primary key
+#  active       :boolean          default(TRUE)
+#  description  :text
+#  name         :string           not null
+#  position     :integer          default(0)
+#  rule_content :text             not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  website_id   :bigint           not null
+#
+# Indexes
+#
+#  index_pwb_ai_writing_rules_on_website_id             (website_id)
+#  index_pwb_ai_writing_rules_on_website_id_and_active  (website_id,active)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (website_id => pwb_websites.id)
+#
   #
   class AiWritingRule < ApplicationRecord
     self.table_name = "pwb_ai_writing_rules"

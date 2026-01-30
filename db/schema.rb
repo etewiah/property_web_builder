@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_28_144713) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_30_104301) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -132,6 +132,44 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_28_144713) do
     t.string "url"
     t.integer "website_id"
     t.index ["website_id"], name: "index_pwb_agencies_on_website_id"
+  end
+
+  create_table "pwb_ai_generation_requests", force: :cascade do |t|
+    t.string "ai_model"
+    t.string "ai_provider", default: "anthropic"
+    t.integer "cost_cents"
+    t.datetime "created_at", null: false
+    t.text "error_message"
+    t.jsonb "input_data", default: {}
+    t.integer "input_tokens"
+    t.string "locale", default: "en"
+    t.jsonb "output_data", default: {}
+    t.integer "output_tokens"
+    t.bigint "prop_id"
+    t.string "request_type", null: false
+    t.string "status", default: "pending"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "website_id", null: false
+    t.index ["prop_id", "request_type"], name: "index_pwb_ai_generation_requests_on_prop_id_and_request_type"
+    t.index ["prop_id"], name: "index_pwb_ai_generation_requests_on_prop_id"
+    t.index ["user_id"], name: "index_pwb_ai_generation_requests_on_user_id"
+    t.index ["website_id", "request_type"], name: "idx_on_website_id_request_type_fcf3872c0b"
+    t.index ["website_id", "status"], name: "index_pwb_ai_generation_requests_on_website_id_and_status"
+    t.index ["website_id"], name: "index_pwb_ai_generation_requests_on_website_id"
+  end
+
+  create_table "pwb_ai_writing_rules", force: :cascade do |t|
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name", null: false
+    t.integer "position", default: 0
+    t.text "rule_content", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "website_id", null: false
+    t.index ["website_id", "active"], name: "index_pwb_ai_writing_rules_on_website_id_and_active"
+    t.index ["website_id"], name: "index_pwb_ai_writing_rules_on_website_id"
   end
 
   create_table "pwb_auth_audit_logs", force: :cascade do |t|
@@ -1374,6 +1412,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_28_144713) do
   add_foreign_key "ahoy_events", "pwb_websites", column: "website_id"
   add_foreign_key "ahoy_visits", "pwb_users", column: "user_id"
   add_foreign_key "ahoy_visits", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_ai_generation_requests", "pwb_props", column: "prop_id"
+  add_foreign_key "pwb_ai_generation_requests", "pwb_users", column: "user_id"
+  add_foreign_key "pwb_ai_generation_requests", "pwb_websites", column: "website_id"
+  add_foreign_key "pwb_ai_writing_rules", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_auth_audit_logs", "pwb_users", column: "user_id"
   add_foreign_key "pwb_auth_audit_logs", "pwb_websites", column: "website_id"
   add_foreign_key "pwb_contacts", "pwb_websites", column: "website_id"
