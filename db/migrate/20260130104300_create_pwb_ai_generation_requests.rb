@@ -4,7 +4,7 @@ class CreatePwbAiGenerationRequests < ActiveRecord::Migration[8.1]
   def change
     create_table :pwb_ai_generation_requests do |t|
       t.references :website, null: false, foreign_key: { to_table: :pwb_websites }
-      t.references :user, foreign_key: { to_table: :users }
+      t.references :user, foreign_key: { to_table: :pwb_users }
       t.references :prop, foreign_key: { to_table: :pwb_props }
 
       t.string :request_type, null: false  # 'listing_description', 'social_post', etc.

@@ -17,7 +17,7 @@ module Pwb
 
     # Associations
     belongs_to :website
-    belongs_to :user, class_name: "::User", optional: true
+    belongs_to :user, class_name: "Pwb::User", optional: true
     belongs_to :prop, optional: true
 
     # Request types
