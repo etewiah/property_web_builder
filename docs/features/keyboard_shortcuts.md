@@ -12,7 +12,7 @@ Keyboard shortcuts enhance usability for:
 
 ## Implementation Phases
 
-### Phase 1: High Priority (Core User Journeys)
+### Phase 1: High Priority (Core User Journeys) ✅ COMPLETE
 
 #### Property Gallery Navigation
 **Location:** `app/javascript/controllers/gallery_controller.js`
@@ -55,27 +55,33 @@ Keyboard shortcuts enhance usability for:
 - Must prevent default browser save dialog
 - Save shortcut should show visual feedback
 
-### Phase 2: Medium Priority
+### Phase 2: Medium Priority ✅ COMPLETE
 
 #### Favorites
-**Location:** `app/javascript/controllers/local_favorites_controller.js`
+**Location:** `app/javascript/controllers/keyboard_controller.js` (global handler)
 
 | Shortcut | Action |
 |----------|--------|
 | `F` | Toggle favorite on current property |
 
 **Implementation notes:**
-- Only active on property detail pages
-- Should show visual feedback (heart animation)
+- Triggered via keyboard controller, calls local_favorites controller
+- Only works on pages with a local-favorites controller present
+- Shows toast notification feedback
 
 #### Tab Navigation
 **Location:** `app/javascript/controllers/tabs_controller.js`
 
 | Shortcut | Action |
 |----------|--------|
-| `←` / `→` | Navigate tabs (when tab bar focused) |
+| `←` / `→` | Navigate tabs (when tab is focused) |
 | `Home` | First tab |
 | `End` | Last tab |
+
+**Implementation notes:**
+- Added ARIA roles for accessibility (role="tab", role="tabpanel")
+- Manages tabindex for proper keyboard navigation
+- Added `handleKeydown` action for keyboard events
 
 #### Dropdown Menus
 **Location:** `app/javascript/controllers/dropdown_controller.js`
@@ -83,11 +89,15 @@ Keyboard shortcuts enhance usability for:
 | Shortcut | Action |
 |----------|--------|
 | `↑` / `↓` | Navigate options |
-| `Enter` | Select highlighted option |
+| `Enter` / `Space` | Select highlighted option / Open menu |
 | `Escape` | Close dropdown |
+| `Home` / `End` | First / Last option |
 
 **Implementation notes:**
-- `closeOnEscape` already partially implemented
+- Added `item` target for menu options
+- Visual highlight with `bg-gray-100` class
+- Auto-scrolls highlighted item into view
+- Returns focus to button after selection
 
 ### Phase 3: Nice-to-Have
 

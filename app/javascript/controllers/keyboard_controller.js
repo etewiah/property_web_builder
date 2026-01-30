@@ -53,6 +53,32 @@ export default class extends Controller {
         // Close any open modals/dropdowns
         this.closeAll()
         break
+
+      case "f":
+      case "F":
+        // Toggle favorite (only on property pages)
+        this.toggleFavorite(event)
+        break
+    }
+  }
+
+  /**
+   * Toggle favorite for the current property
+   */
+  toggleFavorite(event) {
+    // Find the local-favorites controller on the page
+    const favoritesElement = document.querySelector('[data-controller*="local-favorites"]')
+    if (!favoritesElement) return
+
+    // Get the Stimulus controller instance
+    const controller = this.application.getControllerForElementAndIdentifier(
+      favoritesElement,
+      "local-favorites"
+    )
+
+    if (controller && typeof controller.toggle === "function") {
+      event.preventDefault()
+      controller.toggle()
     }
   }
 
@@ -175,6 +201,8 @@ export default class extends Controller {
                 <dd class="text-gray-600">Show this help</dd>
                 <dt><kbd class="px-2 py-0.5 bg-gray-100 rounded text-xs">Esc</kbd></dt>
                 <dd class="text-gray-600">Close dialogs</dd>
+                <dt><kbd class="px-2 py-0.5 bg-gray-100 rounded text-xs">F</kbd></dt>
+                <dd class="text-gray-600">Toggle favorite</dd>
               </dl>
             </section>
 
@@ -185,6 +213,24 @@ export default class extends Controller {
                 <dd class="text-gray-600">Previous / Next</dd>
                 <dt><kbd class="px-2 py-0.5 bg-gray-100 rounded text-xs">Home</kbd> / <kbd class="px-2 py-0.5 bg-gray-100 rounded text-xs">End</kbd></dt>
                 <dd class="text-gray-600">First / Last</dd>
+              </dl>
+            </section>
+
+            <section>
+              <h3 class="font-medium text-gray-700 mb-2">Tabs</h3>
+              <dl class="grid grid-cols-2 gap-x-4 gap-y-1">
+                <dt><kbd class="px-2 py-0.5 bg-gray-100 rounded text-xs">\u2190</kbd> / <kbd class="px-2 py-0.5 bg-gray-100 rounded text-xs">\u2192</kbd></dt>
+                <dd class="text-gray-600">Previous / Next tab</dd>
+              </dl>
+            </section>
+
+            <section>
+              <h3 class="font-medium text-gray-700 mb-2">Dropdowns</h3>
+              <dl class="grid grid-cols-2 gap-x-4 gap-y-1">
+                <dt><kbd class="px-2 py-0.5 bg-gray-100 rounded text-xs">\u2191</kbd> / <kbd class="px-2 py-0.5 bg-gray-100 rounded text-xs">\u2193</kbd></dt>
+                <dd class="text-gray-600">Navigate options</dd>
+                <dt><kbd class="px-2 py-0.5 bg-gray-100 rounded text-xs">Enter</kbd></dt>
+                <dd class="text-gray-600">Select option</dd>
               </dl>
             </section>
 
