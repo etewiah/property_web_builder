@@ -260,3 +260,6 @@ gem 'groupdate', '~> 6.0'     # Time-based grouping for analytics
 gem 'terser'
 
 gem "mini_magick", "~> 5.3"
+
+# AI-powered content generation (listing descriptions, etc.)
+gem 'ruby_llm', '~> 1.0'

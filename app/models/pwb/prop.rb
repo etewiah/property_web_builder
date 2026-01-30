@@ -126,6 +126,7 @@ module Pwb
     belongs_to :website, class_name: 'Pwb::Website', optional: true
     has_many :prop_photos, -> { order('sort_order asc') }, class_name: 'Pwb::PropPhoto'
     has_many :features, class_name: 'Pwb::Feature'
+    has_many :ai_generation_requests, class_name: 'Pwb::AiGenerationRequest', foreign_key: 'prop_id', dependent: :destroy
 
     # ===================
     # Callbacks

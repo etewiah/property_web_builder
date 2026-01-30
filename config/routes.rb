@@ -794,6 +794,14 @@ Rails.application.routes.draw do
         # Returns page data with Liquid templates and variables for each page part
         get "/liquid_page/by_slug/:page_slug" => "liquid_pages#show"
 
+        # AI-powered content generation
+        # Generate descriptions for properties
+        resources :properties, only: [] do
+          resource :ai_description, only: [:create], controller: 'ai_descriptions' do
+            get :history
+          end
+        end
+
         # Editor resources
         # Images available for the editor (content photos, property photos, etc.)
         get "/editor/images" => "editor_images#index"

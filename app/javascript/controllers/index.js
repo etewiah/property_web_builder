@@ -60,3 +60,7 @@ application.register("local-favorites", LocalFavoritesController)
 
 import LocalSearchesController from "controllers/local_searches_controller"
 application.register("local-searches", LocalSearchesController)
+
+// AI content generation
+import AiDescriptionController from "controllers/ai_description_controller"
+application.register("ai-description", AiDescriptionController)

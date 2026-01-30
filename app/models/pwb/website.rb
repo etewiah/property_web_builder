@@ -170,6 +170,10 @@ module Pwb
     # Embeddable Widgets
     has_many :widget_configs, class_name: 'Pwb::WidgetConfig', dependent: :destroy
 
+    # AI Content Generation
+    has_many :ai_generation_requests, class_name: 'Pwb::AiGenerationRequest', dependent: :destroy
+    has_many :ai_writing_rules, class_name: 'Pwb::AiWritingRule', dependent: :destroy
+
     # Multi-website support via memberships
     has_many :user_memberships, dependent: :destroy
     has_many :members, through: :user_memberships, source: :user
