@@ -48,7 +48,7 @@
 #  index_pwb_realty_assets_on_website_id_and_prop_type_key  (website_id,prop_type_key)
 #
 FactoryBot.define do
-  factory :pwb_realty_asset, class: 'Pwb::RealtyAsset' do
+  factory :pwb_realty_asset, class: 'Pwb::RealtyAsset', aliases: [:realty_asset] do
     sequence(:reference) { |n| "ASSET-#{n}" }
     association :website, factory: :pwb_website
 
