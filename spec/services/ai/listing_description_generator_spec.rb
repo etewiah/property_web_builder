@@ -270,4 +270,45 @@ RSpec.describe Ai::ListingDescriptionGenerator do
       # which verifies failures are captured and returned in the Result
     end
   end
+
+  describe 'integration model configuration' do
+    # This test prevents regression of the bug where AI services hardcoded
+    # model: DEFAULT_MODEL instead of using the integration's configured model.
+    # This caused failures when using OpenRouter/OpenAI integrations because
+    # RubyLLM would try to use Anthropic for the hardcoded Claude model.
+
+    let!(:open_router_integration) do
+      create(:pwb_website_integration, :open_router, website: website)
+    end
+
+    before do
+      # Clear ENV keys so integration is the only source
+      allow(ENV).to receive(:[]).and_call_original
+      allow(ENV).to receive(:[]).with('ANTHROPIC_API_KEY').and_return(nil)
+      allow(ENV).to receive(:[]).with('OPENAI_API_KEY').and_return(nil)
+    end
+
+    it 'uses the model from integration settings, not hardcoded default' do
+      generator = described_class.new(property: property)
+
+      # Capture which model is passed to RubyLLM.chat
+      expect(RubyLLM).to receive(:chat).with(
+        hash_including(model: 'anthropic/claude-3.5-sonnet')
+      ).and_return(mock_chat_instance)
+
+      generator.generate
+    end
+
+    it 'does not hardcode the Anthropic model when using OpenRouter' do
+      generator = described_class.new(property: property)
+
+      # Verify it does NOT use the DEFAULT_MODEL constant
+      expect(RubyLLM).not_to receive(:chat).with(
+        hash_including(model: 'claude-sonnet-4-20250514')
+      )
+
+      allow(RubyLLM).to receive(:chat).and_return(mock_chat_instance)
+      generator.generate
+    end
+  end
 end
