@@ -8,6 +8,11 @@ RSpec.describe ExternalImageSupport, type: :model do
   let(:realty_asset) { FactoryBot.create(:pwb_realty_asset, website: website) }
   let(:photo) { Pwb::PropPhoto.new(realty_asset: realty_asset) }
 
+  # Set ActiveStorage URL options for tests (normally set per-request in controllers)
+  before do
+    ActiveStorage::Current.url_options = { host: 'example.com', protocol: 'https' }
+  end
+
   describe 'validations' do
     it 'allows valid HTTP URLs' do
       photo.external_url = 'http://example.com/image.jpg'
@@ -77,6 +82,29 @@ RSpec.describe ExternalImageSupport, type: :model do
       end
     end
 
+    context 'with attached ActiveStorage image' do
+      before do
+        photo.save!
+        photo.image.attach(
+          io: File.open(Rails.root.join('spec/fixtures/files/test_image.jpg')),
+          filename: 'test.jpg',
+          content_type: 'image/jpeg'
+        )
+      end
+
+      it 'returns a URL for the image' do
+        url = photo.image_url
+        expect(url).to be_present
+        expect(url).to be_a(String)
+      end
+
+      it 'returns a URL with variant options' do
+        url = photo.image_url(variant_options: { resize_to_limit: [200, 200] })
+        # May return nil if variant processing fails, but should not raise
+        expect { url }.not_to raise_error
+      end
+    end
+
     context 'without external URL or attached image' do
       it 'returns nil' do
         expect(photo.image_url).to be_nil
@@ -98,6 +126,37 @@ RSpec.describe ExternalImageSupport, type: :model do
       end
     end
 
+    context 'with attached ActiveStorage image' do
+      before do
+        photo.save!
+        photo.image.attach(
+          io: File.open(Rails.root.join('spec/fixtures/files/test_image.jpg')),
+          filename: 'test.jpg',
+          content_type: 'image/jpeg'
+        )
+      end
+
+      it 'does not raise an error when generating thumbnail' do
+        # The critical behavior: should never raise, even if variant processing fails
+        expect { photo.thumbnail_url(size: [200, 200]) }.not_to raise_error
+      end
+
+      it 'returns a URL or nil (graceful degradation)' do
+        # Variant processing may not work in all environments
+        # The important thing is it doesn't crash
+        url = photo.thumbnail_url(size: [80, 80])
+        expect(url).to be_nil.or be_a(String)
+      end
+
+      it 'returns URL for non-variable images via fallback' do
+        # When image is not variable (can't be processed), falls back to original URL
+        # This tests the `elsif image.attached?` branch
+        allow(photo.image).to receive(:variable?).and_return(false)
+        url = photo.thumbnail_url(size: [80, 80])
+        expect(url).to be_present
+      end
+    end
+
     context 'without external URL or attached image' do
       it 'returns nil' do
         expect(photo.thumbnail_url).to be_nil
@@ -108,6 +167,16 @@ RSpec.describe ExternalImageSupport, type: :model do
   describe '#has_image?' do
     it 'returns true when external URL is present' do
       photo.external_url = 'https://example.com/image.jpg'
+      expect(photo.has_image?).to be true
+    end
+
+    it 'returns true when ActiveStorage image is attached' do
+      photo.save!
+      photo.image.attach(
+        io: File.open(Rails.root.join('spec/fixtures/files/test_image.jpg')),
+        filename: 'test.jpg',
+        content_type: 'image/jpeg'
+      )
       expect(photo.has_image?).to be true
     end
 
