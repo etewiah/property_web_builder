@@ -63,9 +63,13 @@ module ExternalImageSupport
       # Use direct CDN URL for original file
       image.url
     end
+  rescue ArgumentError => e
+    # ActiveStorage Disk service requires url_options - return nil if not set
+    Rails.logger.warn "Failed to generate thumbnail URL: #{e.message}"
+    nil
   rescue StandardError => e
     Rails.logger.warn "Failed to generate thumbnail URL: #{e.message}"
-    image.attached? ? image.url : nil
+    nil
   end
 
   # Check if this photo has any image (external or uploaded)

@@ -119,7 +119,7 @@ module Video
         company_name: agency&.display_name || website.company_display_name,
         agent_name: user&.display_name,
         agent_phone: agency&.phone_number_primary,
-        primary_color: website.primary_color || '#2563eb'
+        primary_color: '#2563eb'
       }.compact
     end
 
