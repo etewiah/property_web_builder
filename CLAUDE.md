@@ -46,38 +46,66 @@ Common mistakes to avoid:
 
 ### Bug Fixing and Test Coverage
 
-**After fixing any bug or error, ALWAYS analyze why it wasn't caught by tests and add appropriate test coverage.**
+> **🔴 MANDATORY: Every bug fix MUST include test coverage analysis**
 
-When you fix a bug:
+**After fixing any bug or error, you MUST:**
+1. Analyze why the bug wasn't caught by existing tests
+2. Add a test that would have caught it
+3. Search for similar issues elsewhere in the codebase
 
-1. **Analyze the gap**: Ask yourself "Why was this not caught in a test?" Common reasons include:
-   - No test exists for the affected code path
-   - Tests mock at too high a level and don't exercise the actual code
-   - Async jobs are enqueued but not executed in tests
-   - Autoloading behaves differently in test vs runtime
-   - Edge cases or error handling paths aren't covered
+This is NOT optional. Do not consider a bug "fixed" until you've completed all three steps.
 
-2. **Add a test**: Create a test that would have caught this bug. The test should:
-   - Fail without your fix (verify by mentally reviewing)
-   - Pass with your fix
-   - Be specific enough to catch regressions
+#### Step 1: Analyze the Gap
 
-3. **Check for similar issues**: Look for similar patterns in the codebase that might have the same problem:
-   - If you fixed a missing `super()` argument, check other subclasses
-   - If you fixed an autoloading issue, check similar module structures
-   - If you fixed a multi-tenant scope issue, check similar queries
+Ask yourself: **"Why was this not caught in a test?"** Common reasons:
+- No test exists for the affected code path
+- Tests mock at too high a level and don't exercise the actual code
+- Tests don't cover the specific configuration/integration being used
+- Hardcoded values bypass configurable settings
+- Async jobs are enqueued but not executed in tests
+- Autoloading behaves differently in test vs runtime
+- Edge cases or error handling paths aren't covered
 
-4. **Document the pattern**: If the bug reveals a common mistake pattern, consider:
-   - Adding a comment in the code to warn future developers
-   - Updating this file if it's a project-wide concern
+#### Step 2: Add a Test
 
-Example workflow:
+Create a test that would have caught this bug. The test should:
+- Fail without your fix (verify by mentally reviewing)
+- Pass with your fix
+- Be specific enough to catch regressions
+- Test the actual integration, not just mocked behavior
+
+#### Step 3: Check for Similar Issues
+
+**Use grep/search to find similar patterns** that might have the same problem:
+- If you fixed a missing `super()` argument, check other subclasses
+- If you fixed a hardcoded value ignoring settings, search for similar hardcoding
+- If you fixed an autoloading issue, check similar module structures
+- If you fixed a multi-tenant scope issue, check similar queries
+
+**Example: Search command**
+```bash
+# If you fixed "model: DEFAULT_MODEL" ignoring integration settings:
+grep -r "model: DEFAULT_MODEL" app/services/
+```
+
+#### Examples
+
+**Example 1: Missing parent initialization**
 ```
 1. User reports: "AI is not configured" error
 2. Fix: Pass `website` to parent class in ScriptGenerator
 3. Ask: "Why wasn't this caught?" → No tests for ScriptGenerator existed
 4. Add: spec/services/video/script_generator_spec.rb with 27 tests
-5. Check: Are there other services with the same issue? (VoiceoverGenerator, etc.)
+5. Check: grep for "super()" in other AI service subclasses
+```
+
+**Example 2: Hardcoded values ignoring configuration**
+```
+1. User reports: OpenRouter configured but still uses Anthropic
+2. Fix: Remove hardcoded `model: DEFAULT_MODEL` from call_llm methods
+3. Ask: "Why wasn't this caught?" → Tests mocked the chat() method
+4. Add: Test that verifies integration's model setting is respected
+5. Check: grep "model: DEFAULT_MODEL" found 2 more services with same issue
 ```
 
 ## Documentation Guidelines
