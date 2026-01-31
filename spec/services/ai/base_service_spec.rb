@@ -339,11 +339,11 @@ RSpec.describe Ai::BaseService do
       expect(service.test_configured?).to be true
     end
 
-    it 'configures RubyLLM with OpenRouter base URL' do
+    it 'provides OpenRouter credentials to RubyLLM' do
       service = test_service_class.new(website: website)
 
-      # We can't easily test the actual configuration without making a request,
-      # but we can verify the integration provides the right credentials
+      # Verify the integration provides the right credentials for RubyLLM's
+      # native OpenRouter support (openrouter_api_key config)
       expect(integration.credential(:api_key)).to eq('sk-or-test-key-12345')
       expect(integration.setting(:default_model)).to eq('anthropic/claude-3.5-sonnet')
     end
