@@ -114,6 +114,10 @@ module Ai
             config.openai_api_key = @integration.credential(:api_key)
             org_id = @integration.credential(:organization_id)
             config.openai_organization_id = org_id if org_id.present?
+          when 'open_router'
+            # OpenRouter uses OpenAI-compatible API with custom base URL
+            config.openai_api_key = @integration.credential(:api_key)
+            config.openai_api_base = Integrations::Providers::OpenRouter::API_BASE_URL
           end
         else
           # Fall back to ENV variables

@@ -76,9 +76,7 @@ RSpec.describe Integrations::Providers::OpenRouter do
 
   describe '#validate_connection' do
     let(:provider_instance) do
-      instance = described_class.new
-      instance.instance_variable_set(:@integration, integration)
-      instance
+      described_class.new(integration)
     end
 
     context 'with valid credentials' do
