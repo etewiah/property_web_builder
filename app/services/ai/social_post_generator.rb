@@ -124,9 +124,14 @@ module Ai
         request.mark_failed!(e.message)
         Result.new(success: false, error: e.message, request_id: request.id)
       rescue StandardError => e
-        Rails.logger.error "[AI Social] Unexpected error: #{e.message}\n#{e.backtrace.first(5).join("\n")}"
+        Rails.logger.error "[AI Social] Unexpected error (provider: #{current_provider}, model: #{default_model}): #{e.message}\n#{e.backtrace.first(5).join("\n")}"
         request.mark_failed!("Unexpected error: #{e.message}")
-        Result.new(success: false, error: "An unexpected error occurred", request_id: request.id)
+        error_msg = if Rails.env.production?
+                      "An unexpected error occurred (provider: #{current_provider}). Check request #{request.id} for details."
+                    else
+                      "Unexpected error (#{current_provider}/#{default_model}): #{e.message}"
+                    end
+        Result.new(success: false, error: error_msg, request_id: request.id)
       end
     end
 
