@@ -191,7 +191,7 @@ module Pwb
 
       minutes = duration_seconds / 60
       seconds = duration_seconds % 60
-      format("%d:%02d", minutes, seconds)
+      sprintf("%d:%02d", minutes, seconds)
     end
 
     # Cost helpers
@@ -244,7 +244,7 @@ module Pwb
         logo_url: website&.main_logo_url,
         company_name: website&.company_display_name,
         agent_name: user&.display_name,
-        primary_color: website&.primary_color || "#2563eb"
+        primary_color: "#2563eb"
       }.compact
     end
   end

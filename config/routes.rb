@@ -503,6 +503,9 @@ Rails.application.routes.draw do
     get "/reports/shared/:share_token" => "reports/public_cma#show", as: "public_cma"
     get "/reports/shared/:share_token/pdf" => "reports/public_cma#pdf", as: "public_cma_pdf"
 
+    # Public listing video sharing (accessible without authentication)
+    get "/videos/shared/:share_token" => "videos/public_listing_video#show", as: "public_listing_video"
+
     # Use same authorization as TenantAdminController for admin tools
     # Requires user email to be in TENANT_ADMIN_EMAILS env var
     require_relative '../lib/constraints/tenant_admin_constraint'

@@ -184,7 +184,6 @@ module SiteAdmin
     def available_properties
       current_website.realty_assets
                      .joins(:prop_photos)
-                     .where(visible: true)
                      .group('pwb_realty_assets.id')
                      .having('COUNT(pwb_prop_photos.id) >= 3')
                      .order(:street_address)

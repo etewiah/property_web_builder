@@ -37,8 +37,12 @@
                         <p class="font-medium text-gray-900"><%= property.street_address || 'No address' %></p>
                         <p class="text-sm text-gray-500"><%= property.city %>, <%= property.region %></p>
                       </div>
-                      <% if property.prop_photos.any? %>
-                        <img src="<%= url_for(property.prop_photos.first.image) %>" alt=""
+                      <% first_photo = property.prop_photos.first %>
+                      <% if first_photo&.image&.attached? %>
+                        <img src="<%= url_for(first_photo.image) %>" alt=""
+                             class="w-16 h-12 rounded object-cover ml-4">
+                      <% elsif first_photo&.external_url.present? %>
+                        <img src="<%= first_photo.external_url %>" alt=""
                              class="w-16 h-12 rounded object-cover ml-4">
                       <% end %>
                     </div>

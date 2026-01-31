@@ -3,18 +3,26 @@
 require 'rails_helper'
 
 RSpec.describe 'SiteAdmin::ListingVideos', type: :request do
-  let(:website) { create(:website) }
-  let(:user) { create(:user_with_membership, website: website, role: :admin) }
-  let(:property) { create(:realty_asset, website: website, visible: true) }
+  let(:website) { create(:pwb_website) }
+  let(:user) { create(:pwb_user, :admin, website: website) }
+  let(:property) do
+    create(:pwb_realty_asset,
+           website: website,
+           street_address: '123 Main St',
+           city: 'Test City')
+  end
 
   before do
-    # Set up tenant context
-    host! website.host
+    # Set up multi-tenant context
+    allow(Pwb::Current).to receive(:website).and_return(website)
+    host! "#{website.subdomain}.example.com"
+
+    # Sign in user
     sign_in user
 
-    # Create photos for the property
+    # Create photos for the property (need at least 3)
     3.times do
-      create(:prop_photo, realty_asset: property)
+      create(:pwb_prop_photo, :with_image, realty_asset: property)
     end
   end
 
@@ -111,14 +119,16 @@ RSpec.describe 'SiteAdmin::ListingVideos', type: :request do
       end
 
       it 'creates a video and redirects' do
+        new_video = create(:listing_video, website: website, realty_asset: property)
         allow(Video::Generator).to receive(:new).and_return(
-          double(generate: double(success?: true, video: create(:listing_video, website: website, realty_asset: property)))
+          double(generate: double(success?: true, video: new_video))
         )
 
         post site_admin_listing_videos_path, params: valid_params
 
         expect(response).to have_http_status(:redirect)
-        expect(flash[:notice]).to include('generation started')
+        follow_redirect!
+        expect(response.body).to include('generation started')
       end
     end
 
@@ -132,10 +142,12 @@ RSpec.describe 'SiteAdmin::ListingVideos', type: :request do
     end
 
     context 'with property with insufficient photos' do
-      let(:property_few_photos) { create(:realty_asset, website: website, visible: true) }
+      let(:property_few_photos) do
+        create(:pwb_realty_asset, website: website, street_address: '456 Oak Ave')
+      end
 
       before do
-        create(:prop_photo, realty_asset: property_few_photos)  # Only 1 photo
+        create(:pwb_prop_photo, :with_image, realty_asset: property_few_photos)  # Only 1 photo
       end
 
       it 'renders new with error' do
@@ -158,7 +170,8 @@ RSpec.describe 'SiteAdmin::ListingVideos', type: :request do
       }.to change(Pwb::ListingVideo, :count).by(-1)
 
       expect(response).to redirect_to(site_admin_listing_videos_path)
-      expect(flash[:notice]).to include('deleted')
+      follow_redirect!
+      expect(response.body).to include('deleted')
     end
   end
 
@@ -166,14 +179,16 @@ RSpec.describe 'SiteAdmin::ListingVideos', type: :request do
     let(:video) { create(:listing_video, :completed, website: website, realty_asset: property) }
 
     it 'regenerates the video' do
+      new_video = create(:listing_video, website: website, realty_asset: property)
       allow(Video::Generator).to receive(:new).and_return(
-        double(generate: double(success?: true, video: create(:listing_video, website: website, realty_asset: property)))
+        double(generate: double(success?: true, video: new_video))
       )
 
       post regenerate_site_admin_listing_video_path(video)
 
       expect(response).to have_http_status(:redirect)
-      expect(flash[:notice]).to include('regeneration started')
+      follow_redirect!
+      expect(response.body).to include('regeneration started')
     end
   end
 
@@ -185,7 +200,8 @@ RSpec.describe 'SiteAdmin::ListingVideos', type: :request do
         post share_site_admin_listing_video_path(video)
 
         expect(response).to redirect_to(site_admin_listing_video_path(video))
-        expect(flash[:notice]).to include('shared')
+        follow_redirect!
+        expect(response.body).to include('shared')
         expect(video.reload.share_token).to be_present
       end
     end
@@ -197,19 +213,20 @@ RSpec.describe 'SiteAdmin::ListingVideos', type: :request do
         post share_site_admin_listing_video_path(video)
 
         expect(response).to redirect_to(site_admin_listing_video_path(video))
-        expect(flash[:alert]).to include('must be completed')
+        follow_redirect!
+        expect(response.body).to include('must be completed')
       end
     end
   end
 
   describe 'GET /site_admin/listing_videos/:id/download' do
     context 'when video is ready' do
-      let(:video) { create(:listing_video, :completed, website: website, realty_asset: property, video_url: 'https://example.com/video.mp4') }
+      let(:video) { create(:listing_video, :completed, website: website, realty_asset: property) }
 
       it 'redirects to video URL' do
         get download_site_admin_listing_video_path(video)
 
-        expect(response).to redirect_to('https://example.com/video.mp4')
+        expect(response).to redirect_to(video.video_url)
       end
     end
 
@@ -220,14 +237,16 @@ RSpec.describe 'SiteAdmin::ListingVideos', type: :request do
         get download_site_admin_listing_video_path(video)
 
         expect(response).to redirect_to(site_admin_listing_video_path(video))
-        expect(flash[:alert]).to include('not ready')
+        follow_redirect!
+        expect(response.body).to include('not ready')
       end
     end
   end
 
   describe 'multi-tenant isolation' do
-    let(:other_website) { create(:website) }
-    let!(:other_video) { create(:listing_video, website: other_website, realty_asset: create(:realty_asset, website: other_website)) }
+    let(:other_website) { create(:pwb_website) }
+    let(:other_property) { create(:pwb_realty_asset, website: other_website) }
+    let!(:other_video) { create(:listing_video, website: other_website, realty_asset: other_property) }
 
     it 'does not show videos from other websites' do
       get site_admin_listing_videos_path
@@ -236,9 +255,20 @@ RSpec.describe 'SiteAdmin::ListingVideos', type: :request do
     end
 
     it 'cannot access videos from other websites' do
-      expect {
-        get site_admin_listing_video_path(other_video)
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      get site_admin_listing_video_path(other_video)
+      expect(response).to have_http_status(:not_found)
+    rescue ActiveRecord::RecordNotFound
+      # Expected behavior - exception is raised before rescue_from handles it
+    end
+  end
+
+  context 'when not authenticated' do
+    before { sign_out user }
+
+    it 'returns forbidden' do
+      get site_admin_listing_videos_path
+
+      expect(response).to have_http_status(:forbidden)
     end
   end
 end

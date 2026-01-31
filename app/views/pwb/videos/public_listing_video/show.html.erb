@@ -1,0 +1,119 @@
+<% content_for :page_title, @video.title %>
+
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+  <!-- Video Header -->
+  <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+    <div class="flex justify-between items-start mb-4">
+      <div>
+        <% if @video.logo_url.present? %>
+          <img src="<%= @video.logo_url %>" alt="<%= @video.company_name %>" class="h-12 mb-4">
+        <% end %>
+        <h1 class="text-2xl font-bold text-gray-800"><%= @video.title %></h1>
+        <p class="text-gray-500 text-sm mt-1">
+          Reference: <%= @video.reference_number %>
+          <span class="mx-2">|</span>
+          Generated: <%= @video.generated_at&.strftime('%B %d, %Y') %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video Player -->
+  <% if @video.video_ready? %>
+    <div class="bg-black rounded-lg shadow-lg overflow-hidden mb-6">
+      <div class="relative" style="padding-top: <%= @video.format == 'vertical_9_16' ? '177.78%' : @video.format == 'square_1_1' ? '100%' : '56.25%' %>">
+        <video
+          class="absolute inset-0 w-full h-full"
+          controls
+          poster="<%= @video.thumbnail_url %>"
+        >
+          <source src="<%= @video.video_url %>" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  <% else %>
+    <div class="bg-gray-100 rounded-lg shadow-lg p-12 text-center mb-6">
+      <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+      </svg>
+      <p class="text-gray-600">Video is being generated...</p>
+    </div>
+  <% end %>
+
+  <!-- Video Details -->
+  <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">Video Details</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div>
+        <p class="text-sm text-gray-500">Format</p>
+        <p class="font-medium"><%= @video.format_label %></p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Style</p>
+        <p class="font-medium"><%= @video.style&.titleize %></p>
+      </div>
+      <% if @video.duration_seconds.present? %>
+        <div>
+          <p class="text-sm text-gray-500">Duration</p>
+          <p class="font-medium"><%= @video.duration_formatted %></p>
+        </div>
+      <% end %>
+      <% if @video.resolution.present? %>
+        <div>
+          <p class="text-sm text-gray-500">Resolution</p>
+          <p class="font-medium"><%= @video.resolution %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Script (if available) -->
+  <% if @video.script.present? %>
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Voiceover Script</h2>
+      <p class="text-gray-700 leading-relaxed italic">"<%= @video.script %>"</p>
+    </div>
+  <% end %>
+
+  <!-- Property Info (if linked) -->
+  <% if @video.realty_asset.present? %>
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Property</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="col-span-2">
+          <p class="text-sm text-gray-500">Address</p>
+          <p class="font-medium">
+            <%= [@video.realty_asset.street_address, @video.realty_asset.city].compact.join(', ') %>
+          </p>
+        </div>
+        <% if @video.realty_asset.count_bedrooms.present? %>
+          <div>
+            <p class="text-sm text-gray-500">Bedrooms</p>
+            <p class="font-medium"><%= @video.realty_asset.count_bedrooms %></p>
+          </div>
+        <% end %>
+        <% if @video.realty_asset.count_bathrooms.present? %>
+          <div>
+            <p class="text-sm text-gray-500">Bathrooms</p>
+            <p class="font-medium"><%= @video.realty_asset.count_bathrooms %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Agent/Branding Footer -->
+  <div class="bg-gray-50 rounded-lg p-6 text-center">
+    <% if @video.company_name.present? %>
+      <p class="font-semibold text-gray-800"><%= @video.company_name %></p>
+    <% end %>
+    <% if @video.agent_name.present? %>
+      <p class="text-gray-600"><%= @video.agent_name %></p>
+    <% end %>
+    <p class="text-xs text-gray-400 mt-4">
+      This video was generated on <%= @video.generated_at&.strftime('%B %d, %Y') %>
+      and has been viewed <%= pluralize(@video.view_count, 'time') %>.
+    </p>
+  </div>
+</div>

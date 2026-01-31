@@ -181,7 +181,6 @@ module SiteAdmin
     def available_properties
       current_website.realty_assets
                      .includes(:sale_listings, :rental_listings)
-                     .where(visible: true)
                      .order(:street_address)
                      .limit(100)
     end

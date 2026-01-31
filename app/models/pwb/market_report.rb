@@ -79,7 +79,7 @@ module Pwb
     REPORT_TYPES = %w[cma market_report].freeze
 
     # Status values
-    STATUSES = %w[draft generating completed shared].freeze
+    STATUSES = %w[draft generating completed shared archived].freeze
 
     # Validations
     validates :report_type, presence: true, inclusion: { in: REPORT_TYPES }

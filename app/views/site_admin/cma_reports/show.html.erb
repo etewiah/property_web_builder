@@ -101,9 +101,10 @@
 
         <% if @subject_property %>
           <div class="flex items-start space-x-4">
-            <% if @subject_property.photos.attached? %>
+            <% first_photo = @subject_property.prop_photos.first %>
+            <% if first_photo&.image&.attached? %>
               <div class="flex-shrink-0 w-32 h-24 rounded-lg overflow-hidden bg-gray-100">
-                <%= image_tag @subject_property.photos.first.variant(resize_to_fill: [128, 96]), class: "w-full h-full object-cover" %>
+                <%= image_tag first_photo.image.variant(resize_to_fill: [128, 96]), class: "w-full h-full object-cover" %>
               </div>
             <% end %>
 

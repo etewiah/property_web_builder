@@ -12,8 +12,7 @@ RSpec.describe 'SiteAdmin::CmaReports', type: :request do
            count_bathrooms: 2,
            constructed_area: 150.0,
            city: 'Test City',
-           street_address: '123 Main St',
-           visible: true)
+           street_address: '123 Main St')
   end
 
   before do
@@ -209,7 +208,7 @@ RSpec.describe 'SiteAdmin::CmaReports', type: :request do
   end
 
   describe 'POST /site_admin/cma_reports/:id/regenerate' do
-    let(:report) { create(:pwb_market_report, :completed, :with_subject_property, website: website) }
+    let!(:report) { create(:pwb_market_report, :completed, :with_subject_property, website: website) }
 
     before do
       allow_any_instance_of(Ai::BaseService).to receive(:configured?).and_return(true)
