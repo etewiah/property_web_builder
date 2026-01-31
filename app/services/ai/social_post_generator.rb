@@ -149,10 +149,7 @@ module Ai
     private
 
     def call_llm
-      chat(
-        messages: build_messages,
-        model: DEFAULT_MODEL
-      )
+      chat(messages: build_messages)
     end
 
     def build_messages
